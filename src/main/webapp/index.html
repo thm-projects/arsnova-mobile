@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+	<html manifest="arsnova.manifest">
+	 <head>
+	     <meta charset="utf-8">
+	     
+	     <meta name="description" content="ARSnova ist das mobile H&ouml;rsaal-Abstimmungssystem der Technischen Hochschule Mittelhessen.">
+	     
+	     <!-- Schwarze Statusleiste im Fullscreen-Modus --> 
+	     <meta name="apple-mobile-web-app-status-bar-style" content="black">
+	     
+	     <title>ARSnova</title>
+		 <link rel="shortcut icon" href="favicon.png" type="image/png">
+		 
+ 		 <link rel="stylesheet" href="lib/sencha1.1.1/resources/css/sencha-touch.css" type="text/css">
+ 		 
+ 		 <!--  will be created by jenkins-->
+		 <link rel="stylesheet" href="resources/css/arsnova_min.css" type="text/css">
+		 
+		<!-- iPhone SPLASHSCREEN-->
+		<link href="resources/images/ARSnova_Grafiken/03_Launchimage_320x460px.png" media="(device-width: 320px)" rel="apple-touch-startup-image">
+		<!-- iPad (portrait) SPLASHSCREEN-->
+		<link href="resources/images/ARSnova_Grafiken/03_Launchimage_768x1004px.png" media="(device-width: 768px) and (orientation: portrait)" rel="apple-touch-startup-image">
+		<!-- iPad (landscape) SPLASHSCREEN-->
+		<link href="resources/images/ARSnova_Grafiken/03_Launchimage_748x1024px.png" media="(device-width: 768px) and (orientation: landscape)" rel="apple-touch-startup-image">
+	 </head>
+	 <body class="x-fullscreen">
+		 <!--[if IE]>
+			<div id="ie-message">Darstellungsfehler!</div>
+			<script type="text/javascript">
+				alert("Für eine korrekte Darstellung von ARSnova benutzen Sie bitte einen WebKit-Browser, z.B. Apple Safari oder Google Chrome!");
+			</script>
+		 <![endif]-->
+		 <!-- Piwik --> 
+		<script type="text/javascript">
+		var pkBaseURL = (("https:" == document.location.protocol) ? "https://statistics.mni.thm.de/" : "http://statistics.mni.thm.de/");
+		document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+		</script><script type="text/javascript">
+		try {
+			var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 8);
+			piwikTracker.trackPageView();
+			piwikTracker.enableLinkTracking();
+		} catch( err ) {}
+		</script><noscript><p><img src="http://statistics.mni.thm.de/piwik.php?idsite=8" style="border:0" alt="" /></p></noscript>
+		<!-- End Piwik Tracking Code -->
+		
+		<!--  will be created by jenkins-->
+		<script type="text/javascript" src="lib/sencha1.1.1/arsnovaCombined.js"></script>
+	 	<!-- touch-charts -->
+		<script type="text/javascript" src="lib/touch-charts-1.0/touch-charts.js"></script>
+	 </body>
+ </html>

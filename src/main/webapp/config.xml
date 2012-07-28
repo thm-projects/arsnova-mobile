@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+     <title>ARSnova</title>
+
+	<canteen>
+		<!-- If you change any menu, then you also have to change the day -->
+		<location>THM Mensa Gießen  </location>
+		<day>26.03.2012</day>
+	    <menu1>Makkaronipizza</menu1>
+	    <menu2>Gemüsemaultaschen</menu2>
+		<menu3>Rinderhacksteak</menu3>
+		<menu4>Pasta</menu4>
+		<menu5>Salat</menu5>
+	</canteen>     
+</config>
