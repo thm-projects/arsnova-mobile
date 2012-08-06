@@ -58,9 +58,9 @@ Ext.regController("auth", {
 				var url = window.location.href
 				var developerURL = url.indexOf("developer.html");
 				if(developerURL == -1)
-					return window.location = window.location.href + "app/webservices/doCasLogin.php";
+					return window.location = window.location.href + "doCasLogin";
 				else 
-					return window.location = url.substring(0, developerURL) + "app/webservices/doCasLogin.php";
+					return window.location = url.substring(0, developerURL) + "doCasLogin";
 				
 				break;
 			case ARSnova.LOGIN_TWITTER:
