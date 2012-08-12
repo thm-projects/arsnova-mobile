@@ -128,16 +128,46 @@ ARSnova.views.user.QuestionPanel = Ext.extend(Ext.Carousel, {
 				var questionIds = [];
 				
 				if (questions.length == 0){
-					//no questions found
-					userQuestionsPanel.questionCounter.hide();
-					userQuestionsPanel.add({
-						cls: 'centerText',
-						html: Messages.NO_QUESTIONS,
+					//no available questions found
+					
+					ARSnova.questionModel.countSkillQuestions(localStorage.getItem("sessionId"), {
+						success: function(response){
+							var parseValue = function(responseObj) {
+								var value = "";
+								if (responseObj.length > 0){
+									value = responseObj[0].value;
+								}
+								return value;
+							};
+							var questionsInCourse = parseValue(Ext.decode(response.responseText).rows);
+							
+							if (questionsInCourse > 0) {
+								userQuestionsPanel.questionCounter.hide();
+								userQuestionsPanel.add({
+									cls: 'centerText',
+									html: Messages.NO_UNLOCKED_QUESTIONS,
+								});
+								userQuestionsPanel.indicator.hide();
+								userQuestionsPanel.doLayout();
+								ARSnova.hideLoadMask();
+								
+							} else {
+								userQuestionsPanel.questionCounter.hide();
+								userQuestionsPanel.add({
+									cls: 'centerText',
+									html: Messages.NO_QUESTIONS,
+								});	
+								userQuestionsPanel.indicator.hide();
+								userQuestionsPanel.doLayout();
+								ARSnova.hideLoadMask();
+							}
+						},
+						failure: function() {
+			    			console.log('error');
+			    		}
 					});
-					userQuestionsPanel.indicator.hide();
-					userQuestionsPanel.doLayout();
-					ARSnova.hideLoadMask();
 					return;
+					
 				} else {
 					//update question counter in toolbar
 					var counterEl = userQuestionsPanel.questionCounter;
