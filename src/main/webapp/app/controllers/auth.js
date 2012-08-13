@@ -74,8 +74,7 @@ Ext.regController("auth", {
 				return;
 				break;
 			case ARSnova.LOGIN_GOOGLE:
-				Ext.Msg.alert("Hinweis", "Der Zugang über ein Google-Konto ist momentan gesperrt.<br>Bitte verwenden Sie den Gast-Zugang");
-				Ext.Msg.doComponentLayout();
+				document.getElementById('openidloginform').submit();
 				return;
 				break;
 			case ARSnova.LOGIN_OPENID:
