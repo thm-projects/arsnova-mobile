@@ -340,6 +340,7 @@
 				{"path": "../../app/views/about/", "name": "helpVideoPanel.js"},
                 {"path": "../../app/views/about/", "name": "helpCanteenPanel.js"},
                 {"path": "../../app/views/about/", "name": "impressumPanel.js"},
+                {"path": "../../app/views/about/", "name": "creditsPanel.js"},
                 {"path": "../../app/views/about/", "name": "infoPanel.js"},
                 {"path": "../../app/views/about/", "name": "socialSoftwarePanel.js"},
                 {"path": "../../app/views/about/", "name": "statisticPanel.js"},
