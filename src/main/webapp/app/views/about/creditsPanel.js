@@ -20,7 +20,7 @@
  +--------------------------------------------------------------------------*/
 Ext.namespace('ARSnova.views.about');
 
-ARSnova.views.about.AboutPanel = Ext.extend(Ext.Panel, {
+ARSnova.views.about.CreditsPanel = Ext.extend(Ext.Panel, {
 	scroll: 	'vertical',
 	
 	/* toolbar items */
@@ -71,20 +71,6 @@ ARSnova.views.about.AboutPanel = Ext.extend(Ext.Panel, {
 					me.setActiveItem(me.arsPanel, 'slide');
 				},
 			}, {
-				text	: Messages.ARS_IS_SOCIAL,
-				handler	: function() {
-					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.socialSoftwarePanel = new ARSnova.views.about.SocialSoftwarePanel();
-					me.setActiveItem(me.socialSoftwarePanel, 'slide');
-				},
-			}, {
-				text	: Messages.OPERATIONAL_AID,
-				handler	: function() {
-					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.helpMainPanel = new ARSnova.views.about.HelpMainPanel();
-					me.setActiveItem(me.helpMainPanel, 'slide');
-				},
-			}, {
 				text	: Messages.ARS_IN_LECTURE,
 				handler	: function() {
 					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
@@ -92,15 +78,15 @@ ARSnova.views.about.AboutPanel = Ext.extend(Ext.Panel, {
 					me.setActiveItem(me.ARSinLessonPanel, 'slide');
 				},
 			}],
-		});	
+		});
 		
 		this.dockedItems = [this.toolbar];
 		this.items 		 = [this.infoPanel];
 		
-		ARSnova.views.about.AboutPanel.superclass.constructor.call(this);
+		ARSnova.views.about.CreditsPanel.superclass.constructor.call(this);
 	},
 	
 	initComponent: function(){
-		ARSnova.views.about.AboutPanel.superclass.initComponent.call(this);
+		ARSnova.views.about.CreditsPanel.superclass.initComponent.call(this);
 	}
 });

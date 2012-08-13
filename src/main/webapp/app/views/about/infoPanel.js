@@ -92,8 +92,15 @@ ARSnova.views.about.InfoPanel = Ext.extend(Ext.Panel, {
 				text: Messages.DEVELOPMENT,
 				handler: function(){
 					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.developmentPanel = new ARSnova.views.about.DevelopmentPanel();
+					me.creditsPanel = new ARSnova.views.about.DevelopmentPanel();
 					me.setActiveItem(me.developmentPanel, 'slide');
+				},
+			}, {
+				text: Messages.CREDITS,
+				handler: function(){
+					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
+					me.creditsPanel = new ARSnova.views.about.CreditsPanel();
+					me.setActiveItem(me.creditsPanel, 'slide');
 				},
 			}, {
 				text: Messages.IMPRESSUM,
