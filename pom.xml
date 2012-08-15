@@ -79,6 +79,8 @@
 						gpl.txt,
 						index.html,
 						lib/sencha1.1.1/arsnovaCombined.js,
+						lib/sencha1.1.1/resources/css/**,
+						lib/sencha1.1.1/resources/themes/**,
 						lib/touch-charts-1.0/touch-charts.js,
 						README,
 						resources/**,
