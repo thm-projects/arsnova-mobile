@@ -64,18 +64,49 @@ ARSnova.views.about.CreditsPanel = Ext.extend(Ext.Panel, {
 			},
 		
 			items: [{
-				text	: Messages.WHAT_MEANS_ARS,
+				text	: Messages.HMWK,
 				handler	: function(){
-					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.arsPanel = new ARSnova.views.about.ARSPanel();
-					me.setActiveItem(me.arsPanel, 'slide');
+					window.open("http://www.hmwk.hessen.de");
 				},
 			}, {
-				text	: Messages.ARS_IN_LECTURE,
+				text	: Messages.HTTTC,
 				handler	: function() {
-					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.ARSinLessonPanel = new ARSnova.views.about.ARSinLessonPanel();
-					me.setActiveItem(me.ARSinLessonPanel, 'slide');
+					window.open("http://www.httc.de");
+				},
+			}, {
+				text	: Messages.AGQLS,
+				handler	: function() {
+					window.open("http://www.thm.de/site/serviceeinrichtungen/arbeitsgemeinschaft-qualitaet-in-lehre-und-studium-der-th-mittelhessen-agqls.html");
+				},
+			}, {
+				text	: Messages.SENCHA_TOUCH,
+				handler	: function() {
+					window.open("http://www.sencha.com");
+				},
+			}, {
+				text	: Messages.NGINX,
+				handler	: function() {
+					window.open("http://nginx.org");
+				},
+			}, {
+				text	: Messages.CAS,
+				handler	: function() {
+					window.open("http://www.jasig.org/cas/");
+				},
+			}, {
+				text	: Messages.COUCHDB,
+				handler	: function() {
+					window.open("http://couchdb.apache.org");
+				},
+			}, {
+				text	: Messages.XEN,
+				handler	: function() {
+					window.open("http://xen.org");
+				},
+			}, {
+				text	: Messages.DEBIAN,
+				handler	: function() {
+					window.open("http://www.debian.org");
 				},
 			}],
 		});

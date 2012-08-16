@@ -249,6 +249,17 @@ switch (lang) {
 			CREATE_A_QUESTION: "Pose a question",
 			MANAGE_QUESTIONS_AND_ANSWERS: "Manage Q&A",
 
+			/* credits */
+			HMWK: "HMWK",
+			HTTTC: "HTTTC",
+			AGQLS: "AG QLS",
+			SENCHA_TOUCH: "Sencha Touch 1.x",
+			NGINX: "nginx",
+			CAS: "CAS",
+			COUCHDB: "CouchDB",
+			XEN: "xen",
+			DEBIAN: "Debian",
+
 			/* misc */
 			BROWSER_NAVIGATION_TITLE: "Note on ARSnova",
 			BROWSER_NAVIGATION: "<center>ARSnova is an HTML5 app.<br>Only use the navigation buttons within the app. <b>Don't</b> use your browser's back or forward buttons.</center>",
@@ -465,6 +476,17 @@ switch (lang) {
 			CREATE_A_SESSION: "Neue Sitzung erstellen",
 			CREATE_A_QUESTION: "Neue Frage stellen",
 			MANAGE_QUESTIONS_AND_ANSWERS: "Abfragen verwalten",
+
+			/* credits */
+			HMWK: "HMWK",
+			HTTTC: "HTTTC",
+			AGQLS: "AG QLS",
+			SENCHA_TOUCH: "Sencha Touch 1.x",
+			NGINX: "nginx",
+			CAS: "CAS",
+			COUCHDB: "CouchDB",
+			XEN: "xen",
+			DEBIAN: "Debian",
 			
 			/* misc */
 			BROWSER_NAVIGATION_TITLE: "Hinweis zu ARSnova",
