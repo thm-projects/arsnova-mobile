@@ -48,13 +48,9 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 				cls		: 'login-buttons twitter-wide',
 				value	: ARSnova.LOGIN_TWITTER,
 			}, {
-				xtype	: 'panel',
 				text	: 'Google',
-				cls		: null,
-				html	: '<form action="j_spring_openid_security_check" method="post">' 
-					+ '<input name="openid_identifier" size="50" maxlength="100" type="hidden" value="http://www.google.com/accounts/o8/id"/>'
-					+ '<input class="login-buttons google-wide" id="proceed_google" type="submit" value="Google" />'
-					+ '</form>',
+				cls		: 'login-buttons google-wide',
+				value	: ARSnova.LOGIN_GOOGLE
 			}, {
 				text	: 'THM',
 				cls 	: 'login-buttons thm-login-wide',
@@ -132,6 +128,13 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 					duration: 500,
 				})
 			}
+		},{
+			xtype	: 'panel',
+			cls		: null,
+			html	: '<form style="display:none;" id="openidloginform" action="j_spring_openid_security_check" method="post">' 
+				+ '<input name="openid_identifier" size="50" maxlength="100" type="hidden" value="http://www.google.com/accounts/o8/id"/>'
+				+ '<input class="login-buttons google-wide" id="proceed_google" type="submit" value="Google" />'
+				+ '</form>'
 		}];
 		
 		ARSnova.views.LoginPanel.superclass.constructor.call(this);
