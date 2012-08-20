@@ -251,14 +251,14 @@ switch (lang) {
 
 			/* credits */
 			HMWK: "HMWK",
-			HTTTC: "HTTTC",
+			HTTC: "httc",
 			AGQLS: "AG QLS",
-			SENCHA_TOUCH: "Sencha Touch 1.x",
-			NGINX: "nginx",
-			CAS: "CAS",
-			COUCHDB: "CouchDB",
-			XEN: "xen",
-			DEBIAN: "Debian",
+			SENCHA_TOUCH: "UI Library: Sencha Touch",
+			NGINX: "Webserver: nginx",
+			CAS: "Single Sign-On: CAS",
+			COUCHDB: "NoSQL Database: CouchDB",
+			XEN: "Virtualization: Xen",
+			DEBIAN: "Operating System: Debian",
 
 			/* misc */
 			BROWSER_NAVIGATION_TITLE: "Note on ARSnova",
@@ -479,14 +479,14 @@ switch (lang) {
 
 			/* credits */
 			HMWK: "HMWK",
-			HTTTC: "HTTTC",
+			HTTC: "httc",
 			AGQLS: "AG QLS",
-			SENCHA_TOUCH: "Sencha Touch 1.x",
-			NGINX: "nginx",
-			CAS: "CAS",
-			COUCHDB: "CouchDB",
-			XEN: "xen",
-			DEBIAN: "Debian",
+			SENCHA_TOUCH: "UI Library: Sencha Touch",
+			NGINX: "Webserver: nginx",
+			CAS: "Single Sign-On: CAS",
+			COUCHDB: "NoSQL Datenbank: CouchDB",
+			XEN: "Virtualisierung: Xen",
+			DEBIAN: "Betriebssystem: Debian",
 			
 			/* misc */
 			BROWSER_NAVIGATION_TITLE: "Hinweis zu ARSnova",

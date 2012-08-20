@@ -29,7 +29,7 @@ ARSnova.views.about.CreditsPanel = Ext.extend(Ext.Panel, {
 	
 	constructor: function(){
 		this.backButton = new Ext.Button({
-			text	: Messages.INFO,
+			text	: Messages.BACK,
 			ui		: 'back',
 			handler	: function() {
 				me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
@@ -48,7 +48,7 @@ ARSnova.views.about.CreditsPanel = Ext.extend(Ext.Panel, {
 		});
 		
 		this.toolbar = new Ext.Toolbar({
-			title: Messages.ABOUT_ARSNOVA,
+			title: Messages.CREDITS,
 			items: [
 		        this.backButton,
 			]
@@ -69,7 +69,7 @@ ARSnova.views.about.CreditsPanel = Ext.extend(Ext.Panel, {
 					window.open("http://www.hmwk.hessen.de");
 				},
 			}, {
-				text	: Messages.HTTTC,
+				text	: Messages.HTTC,
 				handler	: function() {
 					window.open("http://www.httc.de");
 				},
@@ -84,24 +84,24 @@ ARSnova.views.about.CreditsPanel = Ext.extend(Ext.Panel, {
 					window.open("http://www.sencha.com");
 				},
 			}, {
-				text	: Messages.NGINX,
-				handler	: function() {
-					window.open("http://nginx.org");
-				},
-			}, {
-				text	: Messages.CAS,
-				handler	: function() {
-					window.open("http://www.jasig.org/cas/");
-				},
-			}, {
 				text	: Messages.COUCHDB,
 				handler	: function() {
 					window.open("http://couchdb.apache.org");
 				},
 			}, {
+				text	: Messages.NGINX,
+				handler	: function() {
+					window.open("http://nginx.org");
+				},
+			}, {
 				text	: Messages.XEN,
 				handler	: function() {
 					window.open("http://xen.org");
+				},
+			}, {
+				text	: Messages.CAS,
+				handler	: function() {
+					window.open("http://www.jasig.org/cas/");
 				},
 			}, {
 				text	: Messages.DEBIAN,
