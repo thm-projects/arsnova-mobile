@@ -2,8 +2,9 @@
  This file is part of ARSnova.
  app/home/tabPanel.js
  - Beschreibung: Panel "Über ARSnova".
- - Version:      1.0, 01/05/12
+ - Version:      1.1, 22/08/12
  - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
+ 				 Daniel Knapp <daniel.knapp@mni.thm.de>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -65,48 +66,93 @@ ARSnova.views.about.CreditsPanel = Ext.extend(Ext.Panel, {
 		
 			items: [{
 				text	: Messages.HMWK,
-				handler	: function(){
-					window.open("http://www.hmwk.hessen.de");
+				listeners: {
+					click: {
+						element: 'el',
+						fn: function() { 
+							window.open("http://www.hmwk.hessen.de");
+						}
+					}
 				},
 			}, {
 				text	: Messages.HTTC,
-				handler	: function() {
-					window.open("http://www.httc.de");
+				listeners: {
+					click: {
+						element: 'el',
+						fn: function() { 
+							window.open("http://www.httc.de");
+						}
+					}
 				},
 			}, {
 				text	: Messages.AGQLS,
-				handler	: function() {
-					window.open("http://www.thm.de/site/serviceeinrichtungen/arbeitsgemeinschaft-qualitaet-in-lehre-und-studium-der-th-mittelhessen-agqls.html");
+				listeners: {
+					click: {
+						element: 'el',
+						fn: function() { 
+							window.open("http://www.thm.de/site/serviceeinrichtungen/arbeitsgemeinschaft-qualitaet-in-lehre-und-studium-der-th-mittelhessen-agqls.html");
+						}
+					}
 				},
 			}, {
 				text	: Messages.SENCHA_TOUCH,
-				handler	: function() {
-					window.open("http://www.sencha.com");
+				listeners: {
+					click: {
+						element: 'el',
+						fn: function() { 
+							window.open("http://www.sencha.com");
+						}
+					}
 				},
 			}, {
 				text	: Messages.COUCHDB,
-				handler	: function() {
-					window.open("http://couchdb.apache.org");
+				listeners: {
+					click: {
+						element: 'el',
+						fn: function() { 
+							window.open("http://couchdb.apache.org");
+						}
+					}
 				},
 			}, {
 				text	: Messages.NGINX,
-				handler	: function() {
-					window.open("http://nginx.org");
+				listeners: {
+					click: {
+						element: 'el',
+						fn: function() { 
+							window.open("http://nginx.org");
+						}
+					}
 				},
 			}, {
 				text	: Messages.XEN,
-				handler	: function() {
-					window.open("http://xen.org");
+				listeners: {
+					click: {
+						element: 'el',
+						fn: function() { 
+							window.open("http://xen.org");
+						}
+					}
 				},
 			}, {
 				text	: Messages.CAS,
-				handler	: function() {
-					window.open("http://www.jasig.org/cas/");
+				listeners: {
+					click: {
+						element: 'el',
+						fn: function() { 
+							window.open("http://www.jasig.org/cas/");
+						}
+					}
 				},
 			}, {
 				text	: Messages.DEBIAN,
-				handler	: function() {
-					window.open("http://www.debian.org");
+				listeners: {
+					click: {
+						element: 'el',
+						fn: function() { 
+							window.open("http://www.debian.org");
+						}
+					}
 				},
 			}],
 		});
