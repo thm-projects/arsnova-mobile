@@ -800,8 +800,8 @@ ol.standardList li {
 	background: -webkit-linear-gradient(bottom, rgb(97, 120, 133) 0%,
 	rgb(97, 120, 133) 50%, rgb(115, 143, 158) 51%, rgb(115, 143, 158) 100%
 	);
-	width: 49%;
-	float: left;
+	width: 48.5%;
+	float: right;
 	margin-left: 2%;
 }
 .thm-login.x-button-pressed {
@@ -815,8 +815,8 @@ ol.standardList li {
 	background: -webkit-linear-gradient(bottom, rgb(97, 120, 133) 0%,
 	rgb(97, 120, 133) 50%, rgb(115, 143, 158) 51%, rgb(115, 143, 158) 100%
 	);
-	width: 49%;
-	float: left;
+	width: 48.5%;
+	float: right;
 	margin-left: 2%;
 }
 .thm-login-wide.x-button-pressed {
@@ -830,7 +830,7 @@ ol.standardList li {
 	background: url("../images/google.png") center no-repeat, -webkit-linear-gradient(bottom, rgb(97, 120, 133) 0%,
 		rgb(97, 120, 133) 50%, rgb(115, 143, 158) 51%, rgb(115, 143, 158) 100%
 		);
-	width: 49%; 
+	width: 48.5%; 
 	float: left;
 	margin-left: 2%;
 }
@@ -845,7 +845,7 @@ ol.standardList li {
 	background: url("../images/google_wide.png") center no-repeat, -webkit-linear-gradient(bottom, rgb(97, 120, 133) 0%,
 		rgb(97, 120, 133) 50%, rgb(115, 143, 158) 51%, rgb(115, 143, 158) 100%
 		);
-	width: 49%; 
+	width: 48.5%; 
 	float: left;
 }
 .google-wide.x-button-pressed {
