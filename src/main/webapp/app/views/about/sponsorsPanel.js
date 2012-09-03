@@ -22,12 +22,15 @@ Ext.namespace('ARSnova.views.about');
 
 ARSnova.views.about.SponsorsPanel = Ext.extend(Ext.Panel, {
 	scroll: 	'vertical',
+    monitorOrientation: true,
 	
 	/* toolbar items */
 	toolbar		: null,
 	backButton	: null,
 	
 	constructor: function(){
+
+		
 		this.backButton = new Ext.Button({
 			text	: Messages.BACK,
 			ui		: 'back',
@@ -46,10 +49,18 @@ ARSnova.views.about.SponsorsPanel = Ext.extend(Ext.Panel, {
 				})
 			},
 		});
-		
+
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.SPONSORS,
 			items: [this.backButton]
+		});
+		
+		Ext.Viewport.addListener('orientationchange',function(){
+			if(this.getOrientation() == 'portrait') {
+				alert('port');
+			} else {
+				this.toolbar.setTitle('asd');
+			}
 		});
 		
 		this.infoPanel = new Ext.form.FormPanel({
@@ -89,7 +100,6 @@ ARSnova.views.about.SponsorsPanel = Ext.extend(Ext.Panel, {
 		
 		ARSnova.views.about.SponsorsPanel.superclass.constructor.call(this);
 	},
-	
 	initComponent: function(){
 		ARSnova.views.about.SponsorsPanel.superclass.initComponent.call(this);
 	}
