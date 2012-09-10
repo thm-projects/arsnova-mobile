@@ -117,10 +117,7 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 		},{
 			xtype	: 'panel',
 			cls		: null,
-			html	: '<form style="display:none;" id="openidloginform" action="j_spring_openid_security_check" method="post">' 
-				+ '<input name="openid_identifier" size="50" maxlength="100" type="hidden" value="http://www.google.com/accounts/o8/id"/>'
-				+ '<input class="login-buttons google-wide" id="proceed_google" type="submit" value="Google" />'
-				+ '</form>'
+			html	: ''
 		}];
 		
 		ARSnova.views.LoginPanel.superclass.constructor.call(this);
