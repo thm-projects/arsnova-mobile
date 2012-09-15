@@ -47,7 +47,7 @@ Ext.regController("auth", {
 	login: function(options){
 		ARSnova.loginMode = options.mode;
 		localStorage.setItem('loginMode', options.mode);
-
+		var type = "";
 		switch(options.mode){
 			case ARSnova.LOGIN_GUEST:
 				if (localStorage.getItem('login') === null) {
@@ -55,27 +55,16 @@ Ext.regController("auth", {
 				}
 				break;
 			case ARSnova.LOGIN_THM:
-				var url = window.location.href
-				var developerURL = url.indexOf("developer.html");
-				if(developerURL == -1)
-					return window.location = window.location.href + "doCasLogin";
-				else 
-					return window.location = url.substring(0, developerURL) + "doCasLogin";
-				
+				type = "cas";
 				break;
 			case ARSnova.LOGIN_TWITTER:
-				Ext.Msg.alert("Hinweis", "Der Zugang über ein Twitter-Konto ist momentan gesperrt.<br>Bitte verwenden Sie den Gast-Zugang");
-				Ext.Msg.doComponentLayout();
-				return;
+				type = "twitter";
 				break;
 			case ARSnova.LOGIN_FACEBOOK:
-				Ext.Msg.alert("Hinweis", "Der Zugang über ein Facebook-Konto ist momentan gesperrt.<br>Bitte verwenden Sie den Gast-Zugang");
-				Ext.Msg.doComponentLayout();
-				return;
+				type = "facebook";
 				break;
 			case ARSnova.LOGIN_GOOGLE:
-				document.getElementById('openidloginform').submit();
-				return;
+				type= "google";
 				break;
 			case ARSnova.LOGIN_OPENID:
 				Ext.Msg.alert("Hinweis", "OpenID ist noch nicht freigeschaltet.");
@@ -88,15 +77,26 @@ Ext.regController("auth", {
 				return;
 				break;
 		}
+		if(type != "") {
+			return window.location = "/doLogin?type=" + type;
+		}
 		
 		ARSnova.afterLogin();
     },
     
-    checkCasLogin: function(params){
-    	ARSnova.loggedIn = true;
-    	localStorage.setItem('login', params.username);
-    	window.location = window.location.pathname + "#";
-    	ARSnova.checkPreviousLogin();
+    checkLogin: function(){
+    	Ext.Ajax.request({
+    		url: '/api/whoami',
+    		method: 'GET',    		
+    		success: function(response){
+    			var obj = Ext.decode(response.responseText);
+    			ARSnova.loggedIn = true;
+    			localStorage.setItem('login', obj.user.username);
+	    	    window.location = window.location.pathname + "#";
+	    	    ARSnova.checkPreviousLogin();
+    		},
+    	});
+    	
     },
     
     logout: function(){

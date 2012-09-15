@@ -800,8 +800,8 @@ ol.standardList li {
 	background: -webkit-linear-gradient(bottom, rgb(97, 120, 133) 0%,
 	rgb(97, 120, 133) 50%, rgb(115, 143, 158) 51%, rgb(115, 143, 158) 100%
 	);
-	width: 23.5%;
-	float: left;
+	width: 48.5%;
+	float: right;
 	margin-left: 2%;
 }
 .thm-login.x-button-pressed {
@@ -815,69 +815,12 @@ ol.standardList li {
 	background: -webkit-linear-gradient(bottom, rgb(97, 120, 133) 0%,
 	rgb(97, 120, 133) 50%, rgb(115, 143, 158) 51%, rgb(115, 143, 158) 100%
 	);
-	width: 23.5%;
-	float: left;
+	width: 48.5%;
+	float: right;
 	margin-left: 2%;
 }
 .thm-login-wide.x-button-pressed {
 	background: rgb(115, 143, 158);
-}
-
-.twitter {
-	color: white;
-	text-shadow: none;
-	border: 0.1em solid #263501;
-	background: url("../images/twitter_blue.png") center no-repeat, -webkit-linear-gradient(bottom, rgb(97, 120, 133) 0%,
-		rgb(97, 120, 133) 50%, rgb(115, 143, 158) 51%, rgb(115, 143, 158) 100%
-		);
-	width: 23.5%; 
-	float: left;
-	margin-left: 2%;
-}
-.twitter.x-button-pressed {
-	background: url("../images/twitter_blue.png") center no-repeat, rgb(115, 143, 158);
-}
-.twitter-wide {
-	color: white;
-	text-shadow: none;
-	border: 0.1em solid #263501;
-	background: url("../images/twitter_blue_wide.png") center no-repeat, -webkit-linear-gradient(bottom, rgb(97, 120, 133) 0%,
-		rgb(97, 120, 133) 50%, rgb(115, 143, 158) 51%, rgb(115, 143, 158) 100%
-		);
-	width: 23.5%; 
-	float: left;
-	margin-left: 2%;
-}
-.twitter-wide.x-button-pressed {
-	background: url("../images/twitter_blue_wide.png") center no-repeat, rgb(115, 143, 158);
-}
-
-.facebook {
-	color: white;
-	text-shadow: none;
-	border: 0.1em solid #263501;
-	background: url("../images/facebook.png") center no-repeat, -webkit-linear-gradient(bottom, rgb(97, 120, 133) 0%,
-		rgb(97, 120, 133) 50%, rgb(115, 143, 158) 51%, rgb(115, 143, 158) 100%
-		);
-	width: 23.5%; 
-	float: left;
-}
-.facebook.x-button-pressed {
-	background: url("../images/facebook.png") center no-repeat, rgb(115, 143, 158);
-}
-
-.facebook-wide {
-	color: white;
-	text-shadow: none;
-	border: 0.1em solid #263501;
-	background: url("../images/facebook_wide.png") center no-repeat, -webkit-linear-gradient(bottom, rgb(97, 120, 133) 0%,
-		rgb(97, 120, 133) 50%, rgb(115, 143, 158) 51%, rgb(115, 143, 158) 100%
-		);
-	width: 23.5%; 
-	float: left;
-}
-.facebook-wide.x-button-pressed {
-	background: url("../images/facebook_wide.png") center no-repeat, rgb(115, 143, 158);
 }
 
 .google {
@@ -887,7 +830,7 @@ ol.standardList li {
 	background: url("../images/google.png") center no-repeat, -webkit-linear-gradient(bottom, rgb(97, 120, 133) 0%,
 		rgb(97, 120, 133) 50%, rgb(115, 143, 158) 51%, rgb(115, 143, 158) 100%
 		);
-	width: 23.5%; 
+	width: 48.5%; 
 	float: left;
 	margin-left: 2%;
 }
@@ -902,9 +845,8 @@ ol.standardList li {
 	background: url("../images/google_wide.png") center no-repeat, -webkit-linear-gradient(bottom, rgb(97, 120, 133) 0%,
 		rgb(97, 120, 133) 50%, rgb(115, 143, 158) 51%, rgb(115, 143, 158) 100%
 		);
-	width: 23.5%; 
+	width: 48.5%; 
 	float: left;
-	margin-left: 2%;
 }
 .google-wide.x-button-pressed {
 	background: url("../images/google_wide.png") center no-repeat, rgb(115, 143, 158);

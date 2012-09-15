@@ -20,7 +20,7 @@
  +--------------------------------------------------------------------------*/
 
 Ext.Router.draw(function(map) {
-	 map.connect(':controller/:action/:username');
+	 map.connect(':controller/:action');
 	 
 	 map.connect('id/:sessionid', {controller: 'auth', action: 'qr'});
 	 map.connect('canteen', {controller: 'canteen', action: 'show'});

@@ -40,14 +40,6 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 		var threeButtons = [];
 		if (window.innerWidth > 1000) {
 			threeButtons = [{
-				text	: 'Facebook',
-				cls		: 'login-buttons facebook-wide',
-				value	: ARSnova.LOGIN_FACEBOOK,
-			}, {
-				text	: 'Twitter',
-				cls		: 'login-buttons twitter-wide',
-				value	: ARSnova.LOGIN_TWITTER,
-			}, {
 				text	: 'Google',
 				cls		: 'login-buttons google-wide',
 				value	: ARSnova.LOGIN_GOOGLE
@@ -63,12 +55,6 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 			}];
 		} else {
 			threeButtons = [{
-				cls		: 'login-buttons facebook',
-				value	: ARSnova.LOGIN_FACEBOOK,
-			}, {
-				cls		: 'login-buttons twitter',
-				value	: ARSnova.LOGIN_TWITTER,
-			}, {
 				cls		: 'login-buttons google',
 				value	: ARSnova.LOGIN_GOOGLE,
 			}, {
@@ -131,10 +117,7 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 		},{
 			xtype	: 'panel',
 			cls		: null,
-			html	: '<form style="display:none;" id="openidloginform" action="j_spring_openid_security_check" method="post">' 
-				+ '<input name="openid_identifier" size="50" maxlength="100" type="hidden" value="http://www.google.com/accounts/o8/id"/>'
-				+ '<input class="login-buttons google-wide" id="proceed_google" type="submit" value="Google" />'
-				+ '</form>'
+			html	: ''
 		}];
 		
 		ARSnova.views.LoginPanel.superclass.constructor.call(this);
