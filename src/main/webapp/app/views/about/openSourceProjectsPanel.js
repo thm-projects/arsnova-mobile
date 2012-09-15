@@ -48,7 +48,7 @@ ARSnova.views.about.OpenSourceProjectsPanel = Ext.extend(Ext.Panel, {
 		});
 		
 		this.toolbar = new Ext.Toolbar({
-			title: Messages.OPENSOURCEPROJECTS,
+			title: Messages.OPENSOURCEPROJECTS_SHORT,
 			items: [
 		        this.backButton,
 			]

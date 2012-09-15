@@ -90,11 +90,14 @@ ARSnova.views.about.InfoPanel = Ext.extend(Ext.Panel, {
 				}
 			}, {
 				text: Messages.DEVELOPMENT,
-				handler: function(){
-					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.developmentPanel = new ARSnova.views.about.DevelopmentPanel();
-					me.setActiveItem(me.developmentPanel, 'slide');
-				},
+				listeners: {
+					click: {
+						element: 'el',
+						fn: function() { 
+							window.open("http://www.ohloh.net/p/arsnova");
+						}
+					}
+				}
 			}, {
 				text: Messages.CREDITS,
 				handler: function(){
