@@ -86,7 +86,7 @@ Ext.regController("auth", {
     
     checkLogin: function(){
     	Ext.Ajax.request({
-    		url: '/api/whoami',
+    		url: '/whoami',
     		method: 'GET',    		
     		success: function(response){
     			var obj = Ext.decode(response.responseText);
