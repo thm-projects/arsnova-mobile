@@ -2,9 +2,8 @@
  This file is part of ARSnova.
  app/home/tabPanel.js
  - Beschreibung: Panel "Über ARSnova".
- - Version:      1.1, 22/08/12
- - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
- 				 Daniel Knapp <daniel.knapp@mni.thm.de>
+ - Version:      1.0, 24/08/12
+ - Autor(en):    Daniel Knapp <daniel.knapp@mni.thm.de>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -21,7 +20,7 @@
  +--------------------------------------------------------------------------*/
 Ext.namespace('ARSnova.views.about');
 
-ARSnova.views.about.CreditsPanel = Ext.extend(Ext.Panel, {
+ARSnova.views.about.OpenSourceProjectsPanel = Ext.extend(Ext.Panel, {
 	scroll: 	'vertical',
 	
 	/* toolbar items */
@@ -39,7 +38,7 @@ ARSnova.views.about.CreditsPanel = Ext.extend(Ext.Panel, {
 					panel.destroy();
 	    		}, this, {single:true});
 				
-				me.setActiveItem(me.infoPanel, {
+				me.setActiveItem(me.creditsPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700,
@@ -49,7 +48,7 @@ ARSnova.views.about.CreditsPanel = Ext.extend(Ext.Panel, {
 		});
 		
 		this.toolbar = new Ext.Toolbar({
-			title: Messages.CREDITS,
+			title: Messages.OPENSOURCEPROJECTS_SHORT,
 			items: [
 		        this.backButton,
 			]
@@ -65,18 +64,64 @@ ARSnova.views.about.CreditsPanel = Ext.extend(Ext.Panel, {
 			},
 		
 			items: [{
-				text	: Messages.SPONSORS,
-				handler	: function(){
-					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.sponsorsPanel = new ARSnova.views.about.SponsorsPanel();
-					me.setActiveItem(me.sponsorsPanel, 'slide');
+				text	: Messages.SENCHA_TOUCH,
+				listeners: {
+					click: {
+						element: 'el',
+						fn: function() { 
+							window.open("http://www.sencha.com");
+						}
+					}
 				},
 			}, {
-				text	: Messages.OPENSOURCEPROJECTS,
-				handler	: function(){
-					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.openSourceProjectsPanel = new ARSnova.views.about.OpenSourceProjectsPanel();
-					me.setActiveItem(me.openSourceProjectsPanel, 'slide');
+				text	: Messages.COUCHDB,
+				listeners: {
+					click: {
+						element: 'el',
+						fn: function() { 
+							window.open("http://couchdb.apache.org");
+						}
+					}
+				},
+			}, {
+				text	: Messages.NGINX,
+				listeners: {
+					click: {
+						element: 'el',
+						fn: function() { 
+							window.open("http://nginx.org");
+						}
+					}
+				},
+			}, {
+				text	: Messages.XEN,
+				listeners: {
+					click: {
+						element: 'el',
+						fn: function() { 
+							window.open("http://xen.org");
+						}
+					}
+				},
+			}, {
+				text	: Messages.CAS,
+				listeners: {
+					click: {
+						element: 'el',
+						fn: function() { 
+							window.open("http://www.jasig.org/cas/");
+						}
+					}
+				},
+			}, {
+				text	: Messages.DEBIAN,
+				listeners: {
+					click: {
+						element: 'el',
+						fn: function() { 
+							window.open("http://www.debian.org");
+						}
+					}
 				},
 			}],
 		});
@@ -84,10 +129,10 @@ ARSnova.views.about.CreditsPanel = Ext.extend(Ext.Panel, {
 		this.dockedItems = [this.toolbar];
 		this.items 		 = [this.infoPanel];
 		
-		ARSnova.views.about.CreditsPanel.superclass.constructor.call(this);
+		ARSnova.views.about.OpenSourceProjectsPanel.superclass.constructor.call(this);
 	},
 	
 	initComponent: function(){
-		ARSnova.views.about.CreditsPanel.superclass.initComponent.call(this);
+		ARSnova.views.about.OpenSourceProjectsPanel.superclass.initComponent.call(this);
 	}
 });
