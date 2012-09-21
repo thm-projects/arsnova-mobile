@@ -2,9 +2,8 @@
  This file is part of ARSnova.
  app/home/tabPanel.js
  - Beschreibung: Panel "Über ARSnova".
- - Version:      1.1, 22/08/12
- - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
- 				 Daniel Knapp <daniel.knapp@mni.thm.de>
+ - Version:      1.0, 24/08/12
+ - Autor(en):    Daniel Knapp <daniel.knapp@mni.thm.de>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -21,7 +20,7 @@
  +--------------------------------------------------------------------------*/
 Ext.namespace('ARSnova.views.about');
 
-ARSnova.views.about.CreditsPanel = Ext.extend(Ext.Panel, {
+ARSnova.views.about.SponsorsPanel = Ext.extend(Ext.Panel, {
 	scroll: 	'vertical',
 	
 	/* toolbar items */
@@ -39,7 +38,7 @@ ARSnova.views.about.CreditsPanel = Ext.extend(Ext.Panel, {
 					panel.destroy();
 	    		}, this, {single:true});
 				
-				me.setActiveItem(me.infoPanel, {
+				me.setActiveItem(me.creditsPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700,
@@ -49,7 +48,7 @@ ARSnova.views.about.CreditsPanel = Ext.extend(Ext.Panel, {
 		});
 		
 		this.toolbar = new Ext.Toolbar({
-			title: Messages.CREDITS,
+			title: Messages.SPONSORS_SHORT,
 			items: [
 		        this.backButton,
 			]
@@ -65,18 +64,24 @@ ARSnova.views.about.CreditsPanel = Ext.extend(Ext.Panel, {
 			},
 		
 			items: [{
-				text	: Messages.SPONSORS,
-				handler	: function(){
-					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.sponsorsPanel = new ARSnova.views.about.SponsorsPanel();
-					me.setActiveItem(me.sponsorsPanel, 'slide');
+				text	: Messages.ELEARNINGHESSEN,
+				listeners: {
+					click: {
+						element: 'el',
+						fn: function() { 
+							window.open("http://www.e-learning-hessen.de");
+						}
+					}
 				},
 			}, {
-				text	: Messages.OPENSOURCEPROJECTS,
-				handler	: function(){
-					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.openSourceProjectsPanel = new ARSnova.views.about.OpenSourceProjectsPanel();
-					me.setActiveItem(me.openSourceProjectsPanel, 'slide');
+				text	: Messages.AGQLS,
+				listeners: {
+					click: {
+						element: 'el',
+						fn: function() { 
+							window.open("http://www.thm.de/site/serviceeinrichtungen/arbeitsgemeinschaft-qualitaet-in-lehre-und-studium-der-th-mittelhessen-agqls.html");
+						}
+					}
 				},
 			}],
 		});
@@ -84,10 +89,10 @@ ARSnova.views.about.CreditsPanel = Ext.extend(Ext.Panel, {
 		this.dockedItems = [this.toolbar];
 		this.items 		 = [this.infoPanel];
 		
-		ARSnova.views.about.CreditsPanel.superclass.constructor.call(this);
+		ARSnova.views.about.SponsorsPanel.superclass.constructor.call(this);
 	},
 	
 	initComponent: function(){
-		ARSnova.views.about.CreditsPanel.superclass.initComponent.call(this);
+		ARSnova.views.about.SponsorsPanel.superclass.initComponent.call(this);
 	}
 });

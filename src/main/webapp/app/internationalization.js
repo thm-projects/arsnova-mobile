@@ -223,6 +223,10 @@ switch (lang) {
 			ARS_IS_SOCIAL: 'ARSnova is \u201esocial software\u201f',
 			DEVELOPMENT: "Development",
 			CREDITS: "Credits",
+			SPONSORS: "Sponsors of ARSnova",
+			SPONSORS_SHORT: "Sponsors",
+			OPENSOURCEPROJECTS: "Open Source Projects",
+			OPENSOURCEPROJECTS_SHORT: "OSP",
 			WIDGET_IS_LOADING: 'Widget is loading...',
 			HELP: "Help",
 			HELP_CANTEEN: "Help: Canteen",
@@ -251,14 +255,14 @@ switch (lang) {
 
 			/* credits */
 			HMWK: "HMWK",
-			HTTC: "httc",
+			ELEARNINGHESSEN: "Kompetenznetz E-Learning Hessen",
 			AGQLS: "AG QLS",
 			SENCHA_TOUCH: "UI Library: Sencha Touch",
 			NGINX: "Webserver: nginx",
 			CAS: "Single Sign-On: CAS",
 			COUCHDB: "NoSQL Database: CouchDB",
 			XEN: "Virtualization: Xen",
-			DEBIAN: "Operating System: Debian",
+			DEBIAN: "Operating System: Debian",	
 
 			/* misc */
 			BROWSER_NAVIGATION_TITLE: "Note on ARSnova",
@@ -451,6 +455,10 @@ switch (lang) {
 			ARS_IS_SOCIAL: 'ARSnova ist \u201eSocial Software\u201f',
 			DEVELOPMENT: "Entwicklung",
 			CREDITS: "Danksagung",
+			SPONSORS: "Sponsoren von ARSnova",
+			SPONSORS_SHORT: "Sponsoren",
+			OPENSOURCEPROJECTS: "Open-Source-Projekte",
+			OPENSOURCEPROJECTS_SHORT: "FOSS",
 			WIDGET_IS_LOADING: 'Widget wird geladen...',
 			HELP: "Hilfe",
 			HELP_CANTEEN: "Hilfe: Mensa",
@@ -479,7 +487,7 @@ switch (lang) {
 
 			/* credits */
 			HMWK: "HMWK",
-			HTTC: "httc",
+			ELEARNINGHESSEN: "Kompetenznetz E-Learning Hessen",
 			AGQLS: "AG QLS",
 			SENCHA_TOUCH: "UI Library: Sencha Touch",
 			NGINX: "Webserver: nginx",
