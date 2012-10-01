@@ -91,7 +91,7 @@ Ext.regController("auth", {
     		success: function(response){
     			var obj = Ext.decode(response.responseText);
     			ARSnova.loggedIn = true;
-    			localStorage.setItem('login', obj.user.username);
+    			localStorage.setItem('login', obj.username);
 	    	    window.location = window.location.pathname + "#";
 	    	    ARSnova.checkPreviousLogin();
     		},
