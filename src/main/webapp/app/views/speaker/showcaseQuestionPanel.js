@@ -26,23 +26,6 @@ ARSnova.views.speaker.ShowcaseQuestionPanel = Ext.extend(Ext.Carousel, {
 	questionCounter: 0,
 	
 	constructor: function(){
-		/*this.backButton = new Ext.Button({
-			text	: Messages.HOME,
-			ui		: 'back',
-			hidden	: true,
-			handler	: function() {
-				ARSnova.mainTabPanel.tabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.userTabPanel, {
-		    		type		: 'slide',
-		    		direction	: 'right',
-		    		duration	: 700,
-		    		scope		: this,
-		    		after: function() {
-		    			this.hide();
-		    		}
-		    	});
-			},
-		});*/
-		
 		this.listeners = {
 			cardswitch: function(panel, newCard, oldCard, index, animated){
 				//update toolbar with question number
@@ -82,11 +65,28 @@ ARSnova.views.speaker.ShowcaseQuestionPanel = Ext.extend(Ext.Carousel, {
 			},
 		});
 		
+		this.leaveShowcaseButton = new Ext.Button({
+			text	: "Leave",
+			scope	: this,
+			handler	: function() {
+				var sTP = ARSnova.mainTabPanel.tabPanel.speakerTabPanel;
+				sTP.setActiveItem(sTP.audienceQuestionPanel, {
+					type		: 'slide',
+					direction	: 'down',
+					duration	: 700,
+					scope		: this,
+					after: function() {
+						this.hide();
+					}
+				});
+			}
+		});
+		
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.QUESTION,
 			items: [
-		        //this.backButton,
 		        { xtype: 'spacer' },
+		        this.leaveShowcaseButton,
 		        this.statisticButton,
 		        this.questionCounter
 	        ]
@@ -109,6 +109,8 @@ ARSnova.views.speaker.ShowcaseQuestionPanel = Ext.extend(Ext.Carousel, {
 		this.removeAll();
 		this.indicator.show();
 		this.questionCounter.show();
+		this.toolbar.setTitle(Messages.QUESTION);
+		
 		ARSnova.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
 	},
 	

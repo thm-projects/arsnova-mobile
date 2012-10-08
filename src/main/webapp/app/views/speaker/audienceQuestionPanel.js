@@ -180,6 +180,9 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 	
 	showcaseHandler: function() {
 		var sTP = ARSnova.mainTabPanel.tabPanel.speakerTabPanel;
-		sTP.setActiveItem(sTP.showcaseQuestionPanel, 'slide');
+		sTP.setActiveItem(sTP.showcaseQuestionPanel, {
+			type		: 'slide',
+			direction	: 'up'
+		});
 	}
 });
