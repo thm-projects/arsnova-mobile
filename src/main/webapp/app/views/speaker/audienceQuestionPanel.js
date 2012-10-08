@@ -63,7 +63,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 		});
 		
 		this.showcaseButton = new Ext.Button({
-			text	: "Showcase",
+			text	: Messages.SHOWCASE,
 			hidden	: true,
 			scope	: this,
 			handler	: this.showcaseHandler

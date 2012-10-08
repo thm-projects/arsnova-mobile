@@ -66,7 +66,7 @@ ARSnova.views.speaker.ShowcaseQuestionPanel = Ext.extend(Ext.Carousel, {
 		});
 		
 		this.leaveShowcaseButton = new Ext.Button({
-			text	: "Leave",
+			text	: Messages.LEAVE,
 			scope	: this,
 			handler	: function() {
 				var sTP = ARSnova.mainTabPanel.tabPanel.speakerTabPanel;
