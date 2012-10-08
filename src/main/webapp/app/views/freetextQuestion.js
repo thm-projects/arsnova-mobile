@@ -21,8 +21,11 @@
 ARSnova.views.FreetextQuestion = Ext.extend(Ext.Panel, {
 	scroll: 'vertical',
 	
-	constructor: function(questionObj) {
+	viewOnly: false,
+	
+	constructor: function(questionObj, viewOnly) {
 		this.questionObj = questionObj;
+		this.viewOnly = typeof viewOnly === "undefined" ? false : viewOnly;
 		
 		this.answerSubject = new Ext.form.Text({
 			name: "answerSubject",
@@ -43,7 +46,7 @@ ARSnova.views.FreetextQuestion = Ext.extend(Ext.Panel, {
 			items: [{
 					cls: 'roundedBox',
 					html: '<p class="title">' + questionObj.subject + '<p/>' + '<p>' + questionObj.text + '</p>',
-				}, {
+				}, this.viewOnly ? {} : {
 					xtype: 'form',
 					submitOnAction: false,
 					items: [{

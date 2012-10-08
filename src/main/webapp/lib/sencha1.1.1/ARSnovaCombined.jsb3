@@ -368,6 +368,7 @@
                 {"path": "../../app/views/speaker/", "name": "newQuestionPanel.js"},
                 {"path": "../../app/views/speaker/", "name": "questionDetailsPanel.js"},
                 {"path": "../../app/views/speaker/", "name": "questionStatisticChart.js"},
+                {"path": "../../app/views/speaker/", "name": "showcaseQuestionPanel.js"},
                 {"path": "../../app/views/speaker/", "name": "tabPanel.js"},
                 {"path": "../../app/views/user/", "name": "inClass.js"},
                 {"path": "../../app/views/user/", "name": "questionPanel.js"},

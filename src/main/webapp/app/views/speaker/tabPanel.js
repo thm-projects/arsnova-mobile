@@ -30,6 +30,7 @@ ARSnova.views.speaker.TabPanel = Ext.extend(Ext.TabPanel, {
 		this.inClassPanel 			= new ARSnova.views.speaker.InClass();
 		this.audienceQuestionPanel 	= new ARSnova.views.speaker.AudienceQuestionPanel();
 		this.newQuestionPanel 		= new ARSnova.views.speaker.NewQuestionPanel();
+		this.showcaseQuestionPanel	= new ARSnova.views.speaker.ShowcaseQuestionPanel();
 		
 		this.items = [
 	        this.inClassPanel,

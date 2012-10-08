@@ -132,6 +132,8 @@ switch (lang) {
 			NO_ANSWERS: "No answers found.",
 			ANSWER_SAVED: 'Your answer has been saved.',
 			MISSING_INPUT: "Please fill out all required fields.",
+			SHOWCASE: "Showcase",
+			LEAVE: "Leave",
 			
 			/* user */
 			CHECK_ANSWERS: "Checking answers",
@@ -364,6 +366,8 @@ switch (lang) {
 			NO_ANSWERS: "Keine Antworten vorhanden.",
 			ANSWER_SAVED: 'Ihre Antwort wurde gespeichert.',
 			MISSING_INPUT: "Es müssen alle Felder ausgefüllt werden.",
+			SHOWCASE: "Vorstellen",
+			LEAVE: "Verlassen",
 			
 			/* user */
 			CHECK_ANSWERS: "Prüfe Antworten",
