@@ -87,10 +87,6 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 			handler	: function() {
 				taskManager.stop(this.renewChartDataTask);
 				taskManager.stop(this.countActiveUsersTask);
-				ARSnova.mainTabPanel.on('cardswitch', function(){
-					if(ARSnova.mainTabPanel.tabPanel.speakerTabPanel)
-						taskManager.start(ARSnova.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel.renewAnswerDataTask);
-				}, this, {single:true});
 				ARSnova.mainTabPanel.layout.activeItem.on('deactivate', function(){
 					this.destroy();					
 				}, this, {single:true});

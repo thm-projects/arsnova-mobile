@@ -204,10 +204,9 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 				cls		: 'statisticIcon',
 				scope	: this,
 				handler	: function(){
-//					ARSnova.mainTabPanel.tabPanel.tabBar.hide();
 					taskManager.stop(this.renewAnswerDataTask);
 					var sTP = ARSnova.mainTabPanel.tabPanel.speakerTabPanel;
-					sTP.questionStatisticChart = new ARSnova.views.QuestionStatisticChart(this.questionObj, this)
+					sTP.questionStatisticChart = new ARSnova.views.QuestionStatisticChart(this.questionObj, this);
 					ARSnova.mainTabPanel.setActiveItem(sTP.questionStatisticChart, 'slide');
 				},
 			}, {
@@ -544,6 +543,17 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 		ARSnova.views.speaker.QuestionDetailsPanel.superclass.initComponent.call(this);
 	},
 	
+	prevNewCard: null,
+	prevOldCard: null,
+	cardSwitchHandler: function(panel, newCard, oldCard, index, animated) {
+		if (this.prevNewCard === oldCard) {
+			taskManager.start(this.renewAnswerDataTask);
+			return;
+		}
+		this.prevNewCard = newCard;
+		this.prevOldCard = oldCard;
+	},
+	
 	onActivate: function(){
 		this.getPossibleAnswers();
 		
@@ -557,6 +567,11 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 			this.editButton.show();
 		else
 			taskManager.start(this.renewAnswerDataTask);
+		
+		ARSnova.mainTabPanel.on('cardswitch', this.cardSwitchHandler, this);
+		this.on('beforedestroy', function () {
+			ARSnova.mainTabPanel.removeListener('cardswitch', this.cardSwitchHandler, this);
+		}, this);
 	},
 	
 	getPossibleAnswers: function(){
