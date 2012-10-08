@@ -64,6 +64,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 		
 		this.showcaseButton = new Ext.Button({
 			text	: "Showcase",
+			hidden	: true,
 			scope	: this,
 			handler	: this.showcaseHandler
 		});
@@ -143,15 +144,17 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 					console.log("server-side error questionModel.countAnswersByQuestion")
 				}
 			});
-		}
+		};
 		
 		var questions = Ext.decode(response.responseText).rows;
 		var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.audienceQuestionPanel;
 		
 		if (questions.length == 0){
 			console.log('Keine Session-Fragen gefunden!');
+			panel.showcaseButton.hide();
 			if (panel.items.length == 0) panel.add(panel.newQuestionButton);
 		} else {
+			panel.showcaseButton.show();
 			var lastSubject = null;
 			var fieldset = null;
 			for(var i = 0; i < questions.length; i++){
