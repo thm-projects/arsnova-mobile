@@ -62,11 +62,18 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 			handler	: this.newQuestionHandler,
 		});
 		
+		this.showcaseButton = new Ext.Button({
+			text	: "Showcase",
+			scope	: this,
+			handler	: this.showcaseHandler
+		});
+		
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.QUESTIONS,
 			items: [
 		        this.backButton,
 		        {xtype: 'spacer'},
+		        this.showcaseButton,
 		        this.addButton,
 			]
 		});
@@ -169,5 +176,10 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 	newQuestionHandler: function(){
 		var sTP = ARSnova.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.setActiveItem(sTP.newQuestionPanel, 'slide');
+	},
+	
+	showcaseHandler: function() {
+		var sTP = ARSnova.mainTabPanel.tabPanel.speakerTabPanel;
+		sTP.setActiveItem(sTP.showcaseQuestionPanel, 'slide');
 	}
 });
