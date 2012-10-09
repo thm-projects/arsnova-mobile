@@ -68,6 +68,7 @@ switch (lang) {
 			
 			/* mySessionsPanel */
 			HOME: "Home",
+			SESSION: "Session",
 			CREATE_NEW_SESSION: "Create new session",
 			NEW_SESSIONS: "New session",
 			MY_SESSIONS: "My sessions",
