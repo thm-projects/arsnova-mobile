@@ -66,7 +66,7 @@ ARSnova.views.FreetextAnswerPanel = Ext.extend(Ext.Panel, {
 		});
 		
 		this.toolbar = new Ext.Toolbar({
-			title: Messages.QUESTION + (question.number? " " + question.number : ""),
+			title: Messages.QUESTION,
 			items: [this.backButton],
 		});
 		

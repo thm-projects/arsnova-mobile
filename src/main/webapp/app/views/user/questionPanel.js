@@ -48,12 +48,6 @@ ARSnova.views.user.QuestionPanel = Ext.extend(Ext.Carousel, {
 		
 		this.listeners = {
 			cardswitch: function(panel, newCard, oldCard, index, animated){
-				//update toolbar with question number
-				var questionNumber = Messages.QUESTION;
-				if(newCard.questionObj.number)
-					questionNumber += " " + newCard.questionObj.number;
-				panel.toolbar.setTitle(questionNumber);
-				
 				//update question counter in toolbar
 				var counterEl = panel.questionCounter;
 				var counter = counterEl.el.dom.innerHTML.split("/");
