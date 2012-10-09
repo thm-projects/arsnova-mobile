@@ -51,7 +51,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700,
-				})
+				});
 			},
 		});
 		
@@ -135,14 +135,14 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 								controller	: 'questions',
 								action		: 'details',
 								question	: button.questionObj,
-							})
+							});
 						}
 					});
 					
 					panel.doLayout();
 				},
 				failure: function(response) {
-					console.log("server-side error questionModel.countAnswersByQuestion")
+					console.log("server-side error questionModel.countAnswersByQuestion");
 				}
 			});
 		};
@@ -170,7 +170,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 					lastSubject = actSubject;
 				}
 				
-				createEntry(question, fieldset)
+				createEntry(question, fieldset);
 			}
 		}
 		panel.doLayout();
