@@ -38,7 +38,7 @@ Ext.regApplication({
 	USER_ROLE_SPEAKER: "1",
 	
 	CANTEEN_LOCATION: "THM Mensa Gießen",
-	CANTEEN_DAY		: "03.09.2012",
+	CANTEEN_DAY		: "10.10.2012",
     
     glossOnIcon: false,
     icon: 'resources/images/ARSnova_Grafiken/01_AppIcon_114x114px.png',
