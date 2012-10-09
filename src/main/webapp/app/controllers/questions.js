@@ -115,8 +115,9 @@ Ext.regController("questions", {
 
 	freetextDetailAnswer: function(options) {
 		var parentPanel;
+		var isFromFreetextAnswerPanel = ARSnova.mainTabPanel.getActiveItem().constructor === ARSnova.views.FreetextAnswerPanel;
 		// This gets called either by the speaker or by a student
-		if (ARSnova.isSessionOwner) {
+		if (ARSnova.isSessionOwner && !isFromFreetextAnswerPanel) {
 			parentPanel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel;
 			options.answer.deletable = true;
 		} else {
