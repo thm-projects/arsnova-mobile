@@ -303,6 +303,7 @@ switch (lang) {
 			
 			/* mySessionsPanel */
 			HOME: "Home",
+			SESSION: "Session",
 			CREATE_NEW_SESSION: "Neue Session anlegen",
 			NEW_SESSIONS: "Neue Session",
 			MY_SESSIONS: "Meine Sessions",
