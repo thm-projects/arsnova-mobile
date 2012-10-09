@@ -40,8 +40,13 @@ Ext.regController("auth", {
 		localStorage.setItem('role', options.mode);
 		
 		ARSnova.setWindowTitle();
-		
 		ARSnova.mainTabPanel.tabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.loginPanel, 'slide');
+		
+		if(ARSnova.userRole == ARSnova.USER_ROLE_SPEAKER) {
+			Ext.getCmp('ext-comp-1007').getEl().hide();	
+		} else {
+			Ext.getCmp('ext-comp-1007').getEl().show();
+		}
 	},
 
 	login: function(options){
