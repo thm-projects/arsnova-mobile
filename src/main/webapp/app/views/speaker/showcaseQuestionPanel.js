@@ -41,12 +41,6 @@ ARSnova.views.speaker.ShowcaseQuestionPanel = Ext.extend(Ext.Carousel, {
 				counterEl.update(counter.join("/"));
 				
 				newCard.fireEvent('preparestatisticsbutton', panel.statisticButton);
-				
-				//check for showStatistic flag
-				if(newCard.questionObj.showStatistic && newCard.questionObj.showStatistic == 1)
-					panel.statisticButton.show();
-				else
-					panel.statisticButton.hide();
 			}
 		};
 		
@@ -58,7 +52,6 @@ ARSnova.views.speaker.ShowcaseQuestionPanel = Ext.extend(Ext.Carousel, {
 		this.statisticButton = new Ext.Button({
 			text	: ' ',
 			cls		: 'statisticIconSmall',
-			hidden	: true,
 			handler	: function() {
 				var questionStatisticChart = new ARSnova.views.QuestionStatisticChart(ARSnova.mainTabPanel.tabPanel.speakerTabPanel.layout.activeItem.questionObj, this)
 				ARSnova.mainTabPanel.setActiveItem(questionStatisticChart, 'slide');
@@ -66,6 +59,7 @@ ARSnova.views.speaker.ShowcaseQuestionPanel = Ext.extend(Ext.Carousel, {
 		});
 		
 		this.leaveShowcaseButton = new Ext.Button({
+			cls		: "thm",
 			text	: Messages.LEAVE,
 			scope	: this,
 			handler	: function() {
@@ -166,11 +160,7 @@ ARSnova.views.speaker.ShowcaseQuestionPanel = Ext.extend(Ext.Carousel, {
 	
 	checkFirstQuestion: function() {
 		var firstQuestionView = this.items.items[0];
-		var firstQuestionObj = firstQuestionView.questionObj;
 		
 		firstQuestionView.fireEvent('preparestatisticsbutton', this.statisticButton);
-		if(firstQuestionObj.showStatistic && firstQuestionObj.showStatistic == 1) {
-			this.statisticButton.show();
-		}
 	}
 });
