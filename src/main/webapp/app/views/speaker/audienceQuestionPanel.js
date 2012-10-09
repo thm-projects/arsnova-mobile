@@ -29,6 +29,16 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 	
 	newQuestionButton: null,
 	
+	questionEntries: [],
+	
+	updateAnswerCount: {
+		name: 'refresh the number of answers inside the badges',
+		run: function() {
+			ARSnova.mainTabPanel.tabPanel.speakerTabPanel.audienceQuestionPanel.getQuestionAnswers();
+		},
+		interval: 10000, //10 seconds
+	},
+	
 	constructor: function(){
 		this.newQuestionButton = [{
 			xtype: 'form',
@@ -51,7 +61,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700,
-				})
+				});
 			},
 		});
 		
@@ -90,12 +100,15 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 	
 	initComponent: function() {
 		this.on('activate', this.onActivate);
+		this.on('deactivate', this.onDeactivate);
 		
 		ARSnova.views.speaker.AudienceQuestionPanel.superclass.initComponent.call(this);
 	},
 	
 	onActivate: function() {
+		taskManager.start(this.updateAnswerCount);
 		this.removeAll();
+		this.questionEntries = [];
 
 		ARSnova.questionModel.getSkillQuestionsSortBySubject(localStorage.getItem('sessionId'), {
     		success: this.questionsCallback,
@@ -103,6 +116,10 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
     			console.log('server-side error questionModel.getSkillQuestions');
     		},
 		});
+	},
+	
+	onDeactivate: function() {
+		taskManager.stop(this.updateAnswerCount);
 	},
 
 	/**
@@ -123,8 +140,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 					if(question.number)
 						questionNumber = question.number + ". ";
 					
-					fieldset.add({
-						xtype: 'button',
+					var questionEntry = new Ext.Button({
 						cls: 'forwardListButton' + status,
 						badgeCls: 'doublebadgeicon',
 						text: questionNumber + question.text,
@@ -135,14 +151,16 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 								controller	: 'questions',
 								action		: 'details',
 								question	: button.questionObj,
-							})
+							});
 						}
 					});
+					fieldset.add(questionEntry);
+					panel.questionEntries.push(questionEntry);
 					
 					panel.doLayout();
 				},
 				failure: function(response) {
-					console.log("server-side error questionModel.countAnswersByQuestion")
+					console.log("server-side error questionModel.countAnswersByQuestion");
 				}
 			});
 		};
@@ -170,7 +188,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 					lastSubject = actSubject;
 				}
 				
-				createEntry(question, fieldset)
+				createEntry(question, fieldset);
 			}
 		}
 		panel.doLayout();
@@ -187,6 +205,21 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 		sTP.setActiveItem(sTP.showcaseQuestionPanel, {
 			type		: 'slide',
 			direction	: 'up'
+		});
+	},
+	
+	getQuestionAnswers: function() {
+		this.questionEntries.forEach(function(q) {
+			ARSnova.questionModel.countAnswersByQuestion(q.questionObj._id, {
+				success: function(response) {
+					var answers = Ext.decode(response.responseText).rows;
+					var numAnswers = answers.length > 0 ? answers[0].value : "";
+					q.setBadge(numAnswers);
+				},
+				failure: function() {
+					console.log("Could not update answer count");
+				}
+			});
 		});
 	}
 });
