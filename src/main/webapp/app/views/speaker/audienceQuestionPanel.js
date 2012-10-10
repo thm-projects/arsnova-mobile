@@ -136,14 +136,10 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 					if (question.active && question.active == 1)
 						status = " isActive";
 					
-					var questionNumber = "";
-					if(question.number)
-						questionNumber = question.number + ". ";
-					
 					var questionEntry = new Ext.Button({
 						cls: 'forwardListButton' + status,
 						badgeCls: 'doublebadgeicon',
-						text: questionNumber + question.text,
+						text: question.text,
 						questionObj: question,
 						badgeText: numAnswers,
 						handler: function(button) {

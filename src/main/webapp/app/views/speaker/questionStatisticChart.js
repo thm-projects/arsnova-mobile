@@ -98,12 +98,6 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 			},
 		});
 		
-		var questionNumber = "";
-		if(this.questionObj.number)
-			questionNumber = Messages.QUESTION + " " + this.questionObj.number;
-		else
-			questionNumber = Messages.QUESTION;
-		
 		var title = this.questionObj.text;
 		if(window.innerWidth < 800 && title.length > (window.innerWidth / 10))
 			title = title.substring(0, (window.innerWidth) / 10) + "...";
@@ -114,7 +108,7 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 			}, {
 				xtype: 'container',
 				cls: "x-toolbar-title",
-				html: questionNumber,
+				html: Messages.QUESTION,
 			}, {
 				xtype: 'spacer',
 			}, {

@@ -174,13 +174,8 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 			}
 		});
 		
-		var questionNumber = Messages.QUESTION;
-		if(this.questionObj.number) {
-			questionNumber += " " + this.questionObj.number;  
-		}
-		
 		this.toolbar = new Ext.Toolbar({
-			title: questionNumber,
+			title: Messages.QUESTION,
 			items: [
 		        this.backButton,
 		        this.cancelButton,
