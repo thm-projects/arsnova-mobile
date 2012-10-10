@@ -1,9 +1,6 @@
 CACHE MANIFEST
-# This is a comment.
-# Date: 10.10.2012
-# If you change the version number in this comment,
-# the cache manifest is no longer byte-for-byte
-# identical.
+# This file gets updated automatically by the build server.
+# You do not need to bump the version of this file.
 
 lib/sencha1.1.1/arsnovaCombined.js
 lib/touch-charts-1.0/touch-charts.js
