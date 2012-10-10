@@ -23,6 +23,8 @@ Ext.namespace('ARSnova.views.speaker');
 ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 	scroll: 'vertical',
 	
+	monitorOrientation: true,
+	
 	/* toolbar items */
 	toolbar		: null,
 	backButton	: null,
@@ -101,6 +103,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 	initComponent: function() {
 		this.on('activate', this.onActivate);
 		this.on('deactivate', this.onDeactivate);
+		this.on('orientationchange', this.onOrientationChange);
 		
 		ARSnova.views.speaker.AudienceQuestionPanel.superclass.initComponent.call(this);
 	},
@@ -120,6 +123,21 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 	
 	onDeactivate: function() {
 		taskManager.stop(this.updateAnswerCount);
+	},
+	
+	onOrientationChange: function(panel, orientation, width, height) {
+		this.displayShowcaseButton();
+	},
+	
+	/**
+	 * Displays the showcase button if enough screen width is available
+	 */
+	displayShowcaseButton: function() {
+		if (window.innerWidth >= 480) {
+			this.showcaseButton.show();
+		} else {
+			this.showcaseButton.hide();
+		}
 	},
 
 	/**
@@ -169,7 +187,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 			panel.showcaseButton.hide();
 			if (panel.items.length == 0) panel.add(panel.newQuestionButton);
 		} else {
-			panel.showcaseButton.show();
+			panel.displayShowcaseButton();
 			var lastSubject = null;
 			var fieldset = null;
 			for(var i = 0; i < questions.length; i++){
