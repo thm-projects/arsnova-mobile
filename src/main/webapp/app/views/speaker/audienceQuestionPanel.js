@@ -144,37 +144,20 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 	 * Callback Function for database.getAudienceQuestions
 	 */
 	questionsCallback: function(response){
-		var createEntry = function(question, fieldset) {
-			ARSnova.questionModel.countAnswersByQuestion(question._id, {
-				success: function(response) {
-					var answers = Ext.decode(response.responseText).rows;
-					var numAnswers = answers.length > 0 ? answers[0].value : "";
-					
-					var status = "";
-					if (question.active && question.active == 1)
-						status = " isActive";
-					
-					var questionEntry = new Ext.Button({
-						cls: 'forwardListButton' + status,
-						badgeCls: 'doublebadgeicon',
-						text: question.text,
-						questionObj: question,
-						badgeText: numAnswers,
-						handler: function(button) {
-							Ext.dispatch({
-								controller	: 'questions',
-								action		: 'details',
-								question	: button.questionObj,
-							});
-						}
+		var createEntry = function(question) {
+			var status = (question.active && question.active == 1) ? " isActive" : "";
+			
+			return new Ext.Button({
+				cls: 'forwardListButton' + status,
+				badgeCls: 'doublebadgeicon',
+				text: question.text,
+				questionObj: question,
+				handler: function(button) {
+					Ext.dispatch({
+						controller	: 'questions',
+						action		: 'details',
+						question	: button.questionObj,
 					});
-					fieldset.add(questionEntry);
-					panel.questionEntries.push(questionEntry);
-					
-					panel.doLayout();
-				},
-				failure: function(response) {
-					console.log("server-side error questionModel.countAnswersByQuestion");
 				}
 			});
 		};
@@ -188,25 +171,36 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 			if (panel.items.length == 0) panel.add(panel.newQuestionButton);
 		} else {
 			panel.displayShowcaseButton();
-			var lastSubject = null;
-			var fieldset = null;
-			for(var i = 0; i < questions.length; i++){
-				var question = questions[i].value;
+			
+			var fieldsets = {};
+			
+			// Build up our question view...
+			for(var i = 0, question; questions[i]; i++) {
+				question = questions[i].value;
 				
-				var actSubject = question.subject;
-				if (lastSubject != actSubject) {
-					fieldset = panel.add({
+				// 1. Create unique fieldsets
+				if (typeof fieldsets[question.subject] === "undefined") {
+					fieldsets[question.subject] = panel.add({
 						xtype: 'fieldset',
-						title: actSubject,
+						title: question.subject,
 					});
-					lastSubject = actSubject;
 				}
 				
-				createEntry(question, fieldset);
+				// 2. Create question entries
+				var questionEntry = createEntry(question);
+				// store entries inside special array to allow for an updating answer count
+				panel.questionEntries.push(questionEntry);
+				
+				// 3. Wire up question entries to their fieldsets
+				fieldsets[question.subject].add(questionEntry);
 			}
 		}
-		panel.doLayout();
-		ARSnova.hideLoadMask();
+		
+		// ... and load the answer count for each question
+		panel.getQuestionAnswers(function() {
+			panel.doLayout();
+			ARSnova.hideLoadMask();
+		});
 	},
 	
 	newQuestionHandler: function(){
@@ -222,7 +216,11 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 		});
 	},
 	
-	getQuestionAnswers: function() {
+	getQuestionAnswers: function(continuation) {
+		// How many requests do we need to run?
+		var finishedRequests = 0;
+		var numRequests = this.questionEntries.length;
+		
 		this.questionEntries.forEach(function(q) {
 			ARSnova.questionModel.countAnswersByQuestion(q.questionObj._id, {
 				success: function(response) {
@@ -232,6 +230,12 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 				},
 				failure: function() {
 					console.log("Could not update answer count");
+				},
+				callback: function() {
+					// Run continuation (if provided) when all requests have finished
+					if (numRequests === ++finishedRequests && continuation) {
+						return continuation();
+					}
 				}
 			});
 		});
