@@ -31,10 +31,6 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 		this.questionObj = questionObj;
 		this.viewOnly = typeof viewOnly === "undefined" ? false : viewOnly;
 		
-		if (questionObj.questionType && questionObj.questionType == 'mc') {
-			questionObj.possibleAnswers.shuffle();
-		}
-		
 		answerStore.add(questionObj.possibleAnswers);
 		
 		var questionListener = viewOnly ? {} : {
@@ -197,15 +193,3 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 		button.setBadge(button.badgeText - 1);
 	}
 });
-
-
-function arrayShuffle(){
-  var tmp, rand;
-  for(var i =0; i < this.length; i++){
-    rand = Math.floor(Math.random() * this.length);
-    tmp = this[i]; 
-    this[i] = this[rand]; 
-    this[rand] =tmp;
-  }
-};
-Array.prototype.shuffle = arrayShuffle;

@@ -61,10 +61,6 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 			fields: ['text', 'value', 'percent'],
 		});
 		
-		/* shuffle the possible answers for multiple choice question because the correct answer is every time the first entry */
-		if (question.questionType && question.questionType == 'mc')
-			question.possibleAnswers.shuffle();
-		
 		for ( var i = 0; i < question.possibleAnswers.length; i++) {
 			var pA = question.possibleAnswers[i];
 			if(pA.data){
