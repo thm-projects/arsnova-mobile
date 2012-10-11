@@ -199,6 +199,19 @@ var restProxy = new Ext.data.RestProxy({
     	})
     },
     
+    getSkillQuestionsSortBySubjectAndText: function(sessionId, callbacks){
+    	Ext.Ajax.request({
+    		url: this.url + '/_design/skill_question/_view/by_session_sorted_by_subject_and_text',
+    		method: 'GET',
+    		params: {
+    			startkey: "[\"" + sessionId + "\"]",
+    			endkey	: "[\"" + sessionId + "\", {}]",
+    		},
+    		success: callbacks.success,
+    		failure: callbacks.failure,
+    	})
+    },
+    
     countSkillQuestions: function(sessionId, callbacks){
     	Ext.Ajax.request({
     		url: this.url + '/_design/skill_question/_view/count_by_session',
@@ -497,7 +510,8 @@ var restProxy = new Ext.data.RestProxy({
 			
 			success: callbacks.success,
 			failure: callbacks.failure,
-		})
+			callback: callbacks.callback || function() {}
+		});
 	},
 
 	getAnsweredFreetextQuestions: function(questionId, callbacks) {

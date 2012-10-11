@@ -113,7 +113,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 		this.removeAll();
 		this.questionEntries = [];
 
-		ARSnova.questionModel.getSkillQuestionsSortBySubject(localStorage.getItem('sessionId'), {
+		ARSnova.questionModel.getSkillQuestionsSortBySubjectAndText(localStorage.getItem('sessionId'), {
     		success: this.questionsCallback,
     		failure: function(response) {
     			console.log('server-side error questionModel.getSkillQuestions');
