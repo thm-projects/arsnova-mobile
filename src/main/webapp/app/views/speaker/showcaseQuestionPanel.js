@@ -107,7 +107,7 @@ ARSnova.views.speaker.ShowcaseQuestionPanel = Ext.extend(Ext.Carousel, {
 	},
 	
 	getAllSkillQuestions: function(){
-		ARSnova.questionModel.getSkillQuestionsSortBySubject(localStorage.getItem("sessionId"), {
+		ARSnova.questionModel.getSkillQuestionsSortBySubjectAndText(localStorage.getItem("sessionId"), {
 			success: function(response) {
 				var questions = Ext.decode(response.responseText).rows;
 				var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.showcaseQuestionPanel;
