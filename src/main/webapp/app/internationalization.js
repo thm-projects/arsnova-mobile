@@ -49,7 +49,7 @@ switch (lang) {
 			CHOOSE_LOGIN: "Login as:",
 			GUEST: "Guest",
 			CHANGE_ROLE: "Change role",
-			NO_GUEST_SPEAKER: "Tip: You have to log in to create a session.",
+			NO_GUEST_SPEAKER: "Note: You have to log in to create a session.",
 			/* homePanel */
 			LOGOUT: "Logout",
 			LOGOUT_REQUEST: "Do you really want to logout?",
