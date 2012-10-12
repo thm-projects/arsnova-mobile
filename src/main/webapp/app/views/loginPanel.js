@@ -118,6 +118,11 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 			xtype	: 'panel',
 			cls		: null,
 			html	: ''
+		}, {
+			xtype	: 'panel',
+			cls		: 'gravure',
+			style	: { marginTop: '0px'},
+			html	: Messages.NO_GUEST_SPEAKER,
 		}];
 		
 		ARSnova.views.LoginPanel.superclass.constructor.call(this);
