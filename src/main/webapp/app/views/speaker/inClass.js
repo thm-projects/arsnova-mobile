@@ -330,13 +330,21 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 		ARSnova.questionModel.countFeedbackQuestions(localStorage.getItem("sessionId"), {
 			success: function(response){
 				var responseObj = Ext.decode(response.responseText).rows;
+				var questions = 0;
 				
-				var value = 0;
 				if (responseObj.length > 0){
-					value = responseObj[0].value;
+					for (var i = 0; i < responseObj.length; i++){
+						var obj = responseObj[i];
+						
+						if (obj.key[1] == "unread") {
+							ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadge(obj.value);
+						}
+						
+						questions += obj.value;
+					}
 				}
-				ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge(value);
-				ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadge(value);
+				
+				ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge(questions);
 			}, 
 			failure: function(){
 				console.log('server-side error');

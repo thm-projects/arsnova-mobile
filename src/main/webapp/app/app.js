@@ -96,6 +96,17 @@ Ext.regApplication({
 		},
 		interval: 60000 //60 seconds
 	},
+	
+	/**
+	 * update every x seconds the owner of a session is logged in
+	 */
+	updateSessionActivityTask: {
+		name: 'save that owner of a session is logged in',
+		run: function(){
+			restProxy.updateSessionActivityTask();
+		},
+		interval: 180000 //180 seconds
+	},
     
     /**
      * This is called automatically when the page loads. Here we set up the main component on the page
@@ -294,29 +305,27 @@ Ext.regApplication({
      * make localStorage ready 
      */
     checkLocalStorage: function(){
-//    	try {
-    		if (localStorage.getItem('lastVisitedSessions') == null){
-    			localStorage.setItem('lastVisitedSessions', "[]");
-    		}
-    		if (localStorage.getItem('questionIds') == null){
-    			localStorage.setItem('questionIds', "[]");
-    		}
-    		if (localStorage.getItem('loggedIn') == null){
-    			localStorage.setItem('loggedIn', "[]");
-    		}
-    		localStorage.setItem('sessionId', "");
-    		
-    		if (localStorage.getItem('user has voted'))
-    			localStorage.removeItem('user has voted');
-//		} catch (e) {
-//			 if (e.name == "QUOTA_EXCEEDED_ERR") {
-//				 console.log("Quota_Exceeded_Error");
-//				 Ext.Msg.alert("Hinweis", "Ihr Browser meldet einen Fehler: <br>\"Quota_Exceeded_Error\"<br> ARSnova kann nicht ausgeführt werden.");
-//				 Ext.Msg.doComponentLayout();
-//				 return false;
-//			}
-//		}
+		if (localStorage.getItem('lastVisitedSessions') == null){
+			localStorage.setItem('lastVisitedSessions', "[]");
+		}
+		
+		if (localStorage.getItem('questionIds') == null){
+			localStorage.setItem('questionIds', "[]");
+		}
+		
+		if (localStorage.getItem('loggedIn') == null){
+			localStorage.setItem('loggedIn', "[]");
+		}
+		
+		if (localStorage.getItem('user has voted')) {
+			localStorage.removeItem('user has voted');
+		}
+		
+		if (localStorage.getItem('session')) {
+			localStorage.removeItem('session');
+		}
     	
+		localStorage.setItem('sessionId', "");
 		return true;
     },
     
@@ -361,30 +370,50 @@ Ext.regApplication({
 	},
 	
 	saveLastVisitedSession: function(sessionObj){
-		//save session as one of five lastVisitedSessions in localStorage
-		var sessions = Ext.decode(localStorage.getItem('lastVisitedSessions'));
-		var alreadyCreated = false;
-		for ( var i = 0; i < sessions.length; i++){
-			var session = sessions[i];
-			if (sessionObj._id == session._id){
-				alreadyCreated = i;
-				break;
+		restProxy.getUserLogin(localStorage.getItem("login"), {
+			success: function(response, operation){
+				var rows = Ext.decode(response.responseText).rows;
+				
+				if (rows.length ==  0) {
+					console.log('no user data found');
+				}
+				
+				var loggedIn = Ext.ModelMgr.create(rows[0].value, 'LoggedIn');
+				var alreadyCreated = false;
+				var sessions = loggedIn.get('visitedSessions');
+				
+				if (typeof sessions === 'undefined' || sessions.length == 0) {
+					sessions = [];
+				} else {
+					for ( var i = 0; i < sessions.length; i++){
+						var session = sessions[i];
+						
+						if (sessionObj._id == session._id){
+							alreadyCreated = i;
+							break;
+						}
+					}
+					
+					if (alreadyCreated !== false){
+						sessions.splice(alreadyCreated, 1);
+					}
+				}
+				
+				sessions.unshift({
+					_id: sessionObj._id,
+					name: sessionObj.name,
+					keyword: sessionObj.keyword
+				});
+				
+				loggedIn.set("visitedSessions", sessions);
+				loggedIn.set("sessionId", sessionObj._id);
+				loggedIn.set('timestamp', new Date().getTime());
+				loggedIn.save();
+			},
+			failure: function(){
+				console.log('server-side error loggedIn.save');
 			}
-		}
-		if (sessions.length == 5){
-			if (alreadyCreated !== false){
-				sessions.splice(alreadyCreated, 1);
-			} else {
-				sessions.pop();
-			}
-			sessions.unshift(sessionObj);
-		} else {
-			if (alreadyCreated !== false){
-				sessions.splice(alreadyCreated, 1);
-			}
-			sessions.unshift(sessionObj);
-		}
-		localStorage.setItem('lastVisitedSessions', Ext.encode(sessions));
+		});
 	},
 	
 	removeVisitedSession: function(sessionId){

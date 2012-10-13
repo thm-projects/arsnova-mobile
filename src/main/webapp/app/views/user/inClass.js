@@ -331,7 +331,7 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 				var res = Ext.decode(response.responseText).rows;
 				var value = 0;
 				
-				if (!res[0].value){
+				if (res.length > 0 && !res[0].value){
 					Ext.Msg.show({
 					  title: 'Hinweis:',
 					  msg: Messages.SESSION_CLOSED_NOTICE,

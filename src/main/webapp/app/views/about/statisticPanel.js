@@ -122,6 +122,59 @@ ARSnova.views.about.StatisticPanel = Ext.extend(Ext.Panel, {
 		})
 	},
 	
+	countActiveSessions: function(){
+		ARSnova.statisticModel.countActiveSessions({
+			success: function(response){
+				var res = Ext.decode(response.responseText).rows;
+				var value = 0;		
+				if (res.length > 0){
+					value = res[0].value;
+					
+					ARSnova.statisticModel.countActiveUsersWithSessionId({
+						success: function(response){
+							var results = Ext.decode(response.responseText).rows;
+							var sessionsArr = new Array();
+							var activeSessions = 0;
+							
+							if (results.length > 0){
+								for (var i = 0; i < results.length; i++) {
+									var el = results[i];
+									
+									if (sessionsArr[el.value] == undefined) {
+										sessionsArr[el.value] = 1;
+									} else {
+										sessionsArr[el.value]++;
+									}
+								}
+								
+								for (var i = 0; i < res.length; i++) {
+									var elem = res[i];
+									
+									if (sessionsArr[elem.id] > 1) {
+										activeSessions++;
+									}
+								}
+							}
+							
+							var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel.statisticPanel;
+							me.gridPanel.store.add({category: Messages.ACTIVE_SESSIONS, counter: activeSessions})
+							me.gridPanel.store.sort([{
+								property : 'category',
+								direction: 'DESC'
+							}]);
+						},
+						failure: function(response){
+							console.log('server-side error, countActiveUsers');
+						},
+					});
+				}
+			},
+			failure: function(response){
+				console.log('server-side error, countActiveSessions');
+			},
+		})
+	},
+	
 	countSessions: function(){
 		ARSnova.statisticModel.countSessions({
 			success: function(response){
@@ -173,6 +226,7 @@ ARSnova.views.about.StatisticPanel = Ext.extend(Ext.Panel, {
 		ARSnova.showLoadMask(Messages.LOAD_MASK);
 		this.gridPanel.store.clearData();
 		this.countActiveUsers();
+		this.countActiveSessions();
 		this.countSessions();
 	},
 });

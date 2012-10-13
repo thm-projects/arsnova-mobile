@@ -33,4 +33,12 @@ ARSnova.models.Statistic = Ext.regModel('Statistic', {
     countActiveUsers: function(callbacks){
     	return this.proxy.countActiveUsers(callbacks);
     },
+    
+    countActiveUsersWithSessionId: function(callbacks){
+    	return this.proxy.countActiveUsersWithSessionId(callbacks);
+    },
+    
+    countActiveSessions: function(callbacks){
+    	return this.proxy.countActiveSessions(callbacks);
+    },
 });
