@@ -79,16 +79,6 @@ ARSnova.views.about.InfoPanel = Ext.extend(Ext.Panel, {
 					me.setActiveItem(me.statisticPanel, 'slide');
 				},
 			}, {
-				text: Messages.PRAISE_AND_CRITICISM,
-				listeners: {
-					click: {
-						element: 'el',
-						fn: function() { 
-							window.open("https://scm.thm.de/redmine/projects/arsnova/boards/6");
-						}
-					}
-				}
-			}, {
 				text: Messages.DEVELOPMENT,
 				listeners: {
 					click: {

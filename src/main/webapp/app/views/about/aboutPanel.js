@@ -71,6 +71,16 @@ ARSnova.views.about.AboutPanel = Ext.extend(Ext.Panel, {
 					me.setActiveItem(me.arsPanel, 'slide');
 				},
 			}, {
+				text: Messages.PREZI_ABOUT_ARS,
+				listeners: {
+					click: {
+						element: 'el',
+						fn: function() { 
+							window.open("http://prezi.com/bkfz1utyaiiw/arsnova/");
+						}
+					}
+				}
+			}, {
 				text	: Messages.ARS_IS_SOCIAL,
 				handler	: function() {
 					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
@@ -84,14 +94,14 @@ ARSnova.views.about.AboutPanel = Ext.extend(Ext.Panel, {
 					me.helpMainPanel = new ARSnova.views.about.HelpMainPanel();
 					me.setActiveItem(me.helpMainPanel, 'slide');
 				},
-			}, {
+			}/*, {
 				text	: Messages.ARS_IN_LECTURE,
 				handler	: function() {
 					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
 					me.ARSinLessonPanel = new ARSnova.views.about.ARSinLessonPanel();
 					me.setActiveItem(me.ARSinLessonPanel, 'slide');
 				},
-			}],
+			}*/],
 		});	
 		
 		this.dockedItems = [this.toolbar];
