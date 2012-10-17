@@ -47,12 +47,12 @@ ARSnova.models.Question = Ext.regModel('Question', {
     	return this.proxy.getQuestionById(id, callbacks);
     },
     
-    getSkillQuestionsSortBySubject: function(sessionId, callbacks) {
-    	return this.proxy.getSkillQuestionsSortBySubject(sessionId, callbacks);
+    getSkillQuestionsSortBySubject: function(sessionKeyword, callbacks) {
+    	return this.proxy.getSkillQuestionsSortBySubject(sessionKeyword, callbacks);
     },
     
-    getSkillQuestionsSortBySubjectAndText: function(sessionId, callbacks) {
-    	return this.proxy.getSkillQuestionsSortBySubjectAndText(sessionId, callbacks);
+    getSkillQuestionsSortBySubjectAndText: function(sessionKeyword, callbacks) {
+    	return this.proxy.getSkillQuestionsSortBySubjectAndText(sessionKeyword, callbacks);
     },
     
     getSkillQuestionsForDelete: function(sessionId, callbacks) {
