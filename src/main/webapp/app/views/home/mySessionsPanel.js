@@ -174,7 +174,7 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 							});
 						},
 					});
-					me.updateBadges(session.id, sessionButton);
+					me.updateBadges(session._id, sessionButton);
 					panel.createdSessionsFieldset.add(sessionButton);
 				}
 				panel.sessionsForm.add(panel.createdSessionsFieldset);
