@@ -107,9 +107,9 @@ ARSnova.views.speaker.ShowcaseQuestionPanel = Ext.extend(Ext.Carousel, {
 	},
 	
 	getAllSkillQuestions: function(){
-		ARSnova.questionModel.getSkillQuestionsSortBySubjectAndText(localStorage.getItem("sessionId"), {
+		ARSnova.questionModel.getSkillQuestionsSortBySubjectAndText(localStorage.getItem("keyword"), {
 			success: function(response) {
-				var questions = Ext.decode(response.responseText).rows;
+				var questions = Ext.decode(response.responseText);
 				var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.showcaseQuestionPanel;
 				
 				//update question counter in toolbar
@@ -126,9 +126,8 @@ ARSnova.views.speaker.ShowcaseQuestionPanel = Ext.extend(Ext.Carousel, {
 				var questionsArr = [];
 				var questionIds = [];
 				questions.forEach(function(question){
-					questionsArr[question.id] = question.value;
-					questionsArr[question.id]._id = question.id;
-					questionIds.push(question.id);
+					questionsArr[question._id] = question;
+					questionIds.push(question._id);
 				});
 				questionIds.forEach(function(questionId){
 					panel.addQuestion(questionsArr[questionId]);
