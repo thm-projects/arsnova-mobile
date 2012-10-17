@@ -179,38 +179,30 @@ var restProxy = new Ext.data.RestProxy({
     	})
     },
     
-    /**
-     * Get skill questions for this session, sorted by subject
-     * @param sessionId
-     * @param object with success- and failure-callbacks
-     * @return session-objects, if found
-     * @return false, if nothing found 
-     */
-    getSkillQuestionsSortBySubject: function(sessionId, callbacks){
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/skill_question/_view/by_session',
-    		method: 'GET',
-    		params: {
-    			startkey: "[\"" + sessionId + "\"]",
-    			endkey	: "[\"" + sessionId + "\", {}]",
-    		},
-    		success: callbacks.success,
-    		failure: callbacks.failure,
-    	})
-    },
-    
-    getSkillQuestionsSortBySubjectAndText: function(sessionId, callbacks){
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/skill_question/_view/by_session_sorted_by_subject_and_text',
-    		method: 'GET',
-    		params: {
-    			startkey: "[\"" + sessionId + "\"]",
-    			endkey	: "[\"" + sessionId + "\", {}]",
-    		},
-    		success: callbacks.success,
-    		failure: callbacks.failure,
-    	})
-    },
+	/**
+	 * Get skill questions for this session, sorted by subject
+	 * @param sessionKeyword
+	 * @param object with success-, failure- and empty-callbacks
+	 * @return session-objects, if found
+	 * @return false, if nothing found 
+	 */
+	getSkillQuestionsSortBySubject: function(sessionKeyword, callbacks) {
+		this.getSkillQuestionsSortBySubjectAndText(sessionKeyword, callbacks);
+	},
+	
+	getSkillQuestionsSortBySubjectAndText: function(sessionKeyword, callbacks) {
+		Ext.Ajax.request({
+			url: "getSkillQuestions/" + sessionKeyword + "?sort=text",
+			success: callbacks.success,
+			failure: function (response) {
+				if (response.status === 404) {
+					callbacks.empty.apply(this, arguments);
+				} else {
+					callbacks.failure.apply(this, arguments);
+				}
+			}
+		});
+	},
     
     countSkillQuestions: function(sessionId, callbacks){
     	Ext.Ajax.request({
