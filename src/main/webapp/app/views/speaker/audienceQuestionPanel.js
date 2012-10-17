@@ -93,9 +93,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 		});
 		
 		this.dockedItems = [this.toolbar];
-		this.items = [
-          this.newQuestionButton
-        ];
+		this.items = [];
 		
 		ARSnova.views.speaker.AudienceQuestionPanel.superclass.constructor.call(this);
 	},
