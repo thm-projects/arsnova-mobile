@@ -142,30 +142,27 @@ var restProxy = new Ext.data.RestProxy({
     		},
     	})
     },
-    
-    /**
-     * Get the sessions where user is creator
-     * @param login from user
-     * @param object with success- and failure-callbacks
-     * @return session-objects, if found
-     * @return false, if nothing found 
-     */
-    getMySessions: function(login, callbacks){
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/session/_view/by_creator',
-    		method: 'GET',
-    		params: {
-    			startkey: "[\"" + login + "\"]",
-    			endkey	: "[\"" + login + "\", {}]",
-    		},
-    		success: function(response, opts) {
-    			callbacks.success.call(this, response, opts);    			
-    		},
-    		failure: function(response, opts) {
-    			callbacks.failure.call(this, response, opts);
-    		},
-    	})
-    },
+	
+	/**
+	 * Get the sessions where user is creator
+	 * @param login from user
+	 * @param object with success-, failure- and empty-callbacks
+	 * @return session-objects, if found
+	 * @return false, if nothing found 
+	 */
+	getMySessions: function(callbacks) {
+		Ext.Ajax.request({
+			url: "mySessions",
+			success: callbacks.success,
+			failure: function(response) {
+				if (response.status === 404) {
+					callbacks.empty.apply(this, arguments);
+				} else {
+					callbacks.failure.apply(this, arguments);
+				}
+			}
+		});
+	},
     
     getQuestionById: function(id, callbacks){
     	Ext.Ajax.request({

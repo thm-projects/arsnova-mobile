@@ -85,7 +85,13 @@ Ext.regController("auth", {
 				break;
 		}
 		if(type != "") {
-			return window.location = "/doLogin?type=" + type;
+			var developerRegex = /developer.html/;
+			var doLogin = "/doLogin?type=" + type;
+			
+			if (developerRegex.test(window.location.href)) {
+				return window.location.href = window.location.href.replace(developerRegex, doLogin);
+			}
+			return window.location = "/" + doLogin;
 		}
 		
 		ARSnova.afterLogin();
@@ -93,7 +99,7 @@ Ext.regController("auth", {
     
     checkLogin: function(){
     	Ext.Ajax.request({
-    		url: '/whoami.json',
+    		url: 'whoami.json',
     		method: 'GET',    		
     		success: function(response){
     			var obj = Ext.decode(response.responseText);
