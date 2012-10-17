@@ -85,13 +85,7 @@ Ext.regController("auth", {
 				break;
 		}
 		if(type != "") {
-			var developerRegex = /developer.html/;
-			var doLogin = "/doLogin?type=" + type;
-			
-			if (developerRegex.test(window.location.href)) {
-				return window.location.href = window.location.href.replace(developerRegex, doLogin);
-			}
-			return window.location = "/" + doLogin;
+			return window.location = "/doLogin?type=" + type;
 		}
 		
 		ARSnova.afterLogin();
