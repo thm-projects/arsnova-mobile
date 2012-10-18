@@ -123,7 +123,8 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 				this.gradients = [];
 				for ( var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
 					var question = this.questionObj.possibleAnswers[i];
-					if (!question.correct || question.correct == false){
+					
+					if ((question.data && !question.data.correct) || (!question.data && !question.correct)){
 						this.gradients.push({
 							'id': 'v' + (i+1),
 							'angle': 0,

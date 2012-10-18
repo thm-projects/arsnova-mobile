@@ -164,6 +164,25 @@ var restProxy = new Ext.data.RestProxy({
 		});
 	},
     
+    /**
+     * Get the sessions where user is visitor
+     * @param login from user
+     * @param object with success- and failure-callbacks
+     * @return session-objects, if found
+     * @return false, if nothing found 
+     */
+    getMyVisitedSessions: function(login, callbacks){
+    	Ext.Ajax.request({
+    		url: this.url + '/_design/logged_in/_view/visited_sessions_by_user',
+    		method: 'GET',
+    		params: {
+    			key: "\"" + login + "\"",
+    		},
+    		success: callbacks.success,
+    		failure: callbacks.failure,
+    	})
+    },
+    
     getQuestionById: function(id, callbacks){
     	Ext.Ajax.request({
     		url: this.url + '/_design/skill_question/_view/by_id',
@@ -248,11 +267,12 @@ var restProxy = new Ext.data.RestProxy({
     
     countFeedbackQuestions: function(sessionId, callbacks){
     	Ext.Ajax.request({
-    		url: this.url + '/_design/interposed_question/_view/count_by_session',
+    		url: this.url + '/_design/interposed_question/_view/count_by_session_reading?group=true',
     		method: 'GET',
     		
     		params: {
-    			key: "\"" + sessionId + "\""
+    			startkey: "[\"" + sessionId + "\"]",
+    			endkey	: "[\"" + sessionId + "\", {}]",
     		},
     		success: callbacks.success,
     		failure: callbacks.failure,
@@ -758,43 +778,67 @@ var restProxy = new Ext.data.RestProxy({
      * save every minute that i'm online
      */
     loggedInTask: function() {
-    	var loggedInLocal = JSON.parse(localStorage.getItem("loggedIn"));
-    	var ts = new Date().getTime();
-    	
-    	if(loggedInLocal.type == undefined){
-    		var loggedIn = Ext.ModelMgr.create({
-				type	 : 'logged_in',
-				user	 : localStorage.getItem("login"),
-				sessionId: localStorage.getItem("sessionId"),
-				timestamp: ts,
-			}, "LoggedIn");
-    	} else {
-    		var loggedIn = Ext.ModelMgr.create(loggedInLocal, "LoggedIn");
-			loggedIn.set('timestamp', ts);
-			loggedIn.set('sessionId', localStorage.getItem("sessionId"));
-    	}
-    	loggedIn.save({
-			success: function(response){
-				localStorage.setItem("loggedIn", JSON.stringify(loggedIn.data));
-			},
-			failure: function(operation){
-				switch(operation.exceptionReason){
-					case 409:
-						/* document update conflict:
-						 * fetch the new logged in data and save it in localStorage */
-						Ext.ModelMgr.getModel("LoggedIn").load(loggedIn.data._id, {
-							success: function(record, operation) {
-								var newLoggedIn = Ext.ModelMgr.create(Ext.decode(operation.response.responseText), 'LoggedIn');
-								localStorage.setItem("loggedIn", JSON.stringify(newLoggedIn.data));
-							}
-						})
-						break;
-					default:
-						break;
+		restProxy.getUserLogin(localStorage.getItem("login"), {
+			success: function(response, operation){
+				var rows = Ext.decode(response.responseText).rows;
+				
+				if (rows.length > 0) {
+					var loggedIn = Ext.ModelMgr.create(rows[0].value, 'LoggedIn');
+				} else {
+					var loggedIn = Ext.ModelMgr.create({
+						type	 : 'logged_in',
+						user	 : localStorage.getItem("login")
+					}, "LoggedIn");
 				}
+				
+				loggedIn.set('timestamp', new Date().getTime());
+				loggedIn.set('sessionId', localStorage.getItem("sessionId"));
+				loggedIn.save();
+			},
+			failure: function(){
 				console.log('server-side error loggedIn.save');
 			}
 		});
+    },
+    
+    /**
+     * if user is session owner update that owner of session is logged in
+     * every 3 minutes
+     */
+    updateSessionActivityTask: function() {
+    	if (ARSnova.isSessionOwner) {
+	    	restProxy.getSession(localStorage.getItem("sessionId"), {
+				success: function(response, operation){
+					var rows = Ext.decode(response.responseText).rows;
+					
+					if (rows.length > 0) {
+						var session = Ext.ModelMgr.create(rows[0].value, 'Session');
+					} else {
+						console.log('session with id ' + operation + ' not found.');
+						return;
+					}
+					
+					session.set('lastOwnerActivity', new Date().getTime());
+					session.save();
+				},
+				failure: function(){
+					console.log('server-side error loggedIn.save');
+				}
+			});
+    	}
+    },
+    
+    getUserLogin: function(login, callbacks) {
+    	Ext.Ajax.request({
+    		url: this.url + '/_design/logged_in/_view/all',
+    		method: 'GET',
+    		params: {
+    			key: "\"" + login + "\"",
+    		},
+
+    		success: callbacks.success,
+    		failure: callbacks.failure,
+    	})
     },
     
     countActiveUsersBySession: function(sessionId, callbacks) {
@@ -822,6 +866,34 @@ var restProxy = new Ext.data.RestProxy({
 	    			startkey: ts,
 	    		},
 	
+	    		success: callbacks.success,
+	    		failure: callbacks.failure,
+	    	})
+	    },
+	    
+	    countActiveUsersWithSessionId: function(callbacks) {
+	    	var ts = new Date().getTime() - (3 * 60 * 1000);
+	    	Ext.Ajax.request({
+	    		url: this.url + '/_design/statistic/_view/count_active_users_with_session?reduce=false',
+	    		method: 'GET',
+	    		params: {
+	    			startkey: ts,
+	    		},
+	
+	    		success: callbacks.success,
+	    		failure: callbacks.failure,
+	    	})
+	    },
+	    
+	    countActiveSessions: function(callbacks) {
+	    	var ts = new Date().getTime() - (3 * 60 * 1000);
+	    	Ext.Ajax.request({
+	    		url: this.url + '/_design/statistic/_view/count_active_sessions?reduce=false',
+	    		method: 'GET',
+	    		params: {
+	    			startkey: ts,
+	    		},
+	    		
 	    		success: callbacks.success,
 	    		failure: callbacks.failure,
 	    	})
