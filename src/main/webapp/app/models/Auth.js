@@ -31,5 +31,5 @@ ARSnova.models.Auth = (function() {
 			}
 			return randomstring;
 		}
-	}
+	};
 })();

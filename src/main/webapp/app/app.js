@@ -365,7 +365,7 @@ Ext.regApplication({
 				tmp.push(sessionID.substr(i - 1, 2));
 			}
 		}
-		if(tmp.length * 2 < sessionID.length) tmp.push(sessionID[tmp.length * 2])
+		if(tmp.length * 2 < sessionID.length) tmp.push(sessionID[tmp.length * 2]);
 		return tmp.join(" ");
 	},
 	
@@ -382,7 +382,7 @@ Ext.regApplication({
 				var alreadyCreated = false;
 				var sessions = loggedIn.get('visitedSessions');
 				
-				if (typeof sessions === 'undefined' || sessions.length == 0) {
+				if (typeof sessions === 'undefined' || sessions.length == 0) {
 					sessions = [];
 				} else {
 					for ( var i = 0; i < sessions.length; i++){

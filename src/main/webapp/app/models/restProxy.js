@@ -140,7 +140,7 @@ var restProxy = new Ext.data.RestProxy({
     		failure: function(response, opts) {
     			callbacks.failure.call(this, response, opts);
     		},
-    	})
+    	});
     },
 	
 	/**
@@ -180,7 +180,7 @@ var restProxy = new Ext.data.RestProxy({
     		},
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     getQuestionById: function(id, callbacks){
@@ -192,7 +192,7 @@ var restProxy = new Ext.data.RestProxy({
     		},
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
 	/**
@@ -230,7 +230,7 @@ var restProxy = new Ext.data.RestProxy({
     		},
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
 	
 	countTotalAnswers: function(sessionId, callbacks) {
@@ -262,7 +262,7 @@ var restProxy = new Ext.data.RestProxy({
     		},
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     countFeedbackQuestions: function(sessionId, callbacks){
@@ -276,7 +276,7 @@ var restProxy = new Ext.data.RestProxy({
     		},
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     delQuestion: function(queObj, callbacks){
@@ -303,7 +303,7 @@ var restProxy = new Ext.data.RestProxy({
 				}
     		},
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     delSession: function(sessionId, creator, callbacks){
@@ -328,9 +328,9 @@ var restProxy = new Ext.data.RestProxy({
 						}
 						restProxy.removeEntry(sessionObj.data._id, sessionObj.data._rev, callbacks);
 					}
-				})
+				});
     		},
-    		failure: function(){console.log('failure')},
+    		failure: function(){console.log('failure');},
     	});
     },
     
@@ -363,7 +363,7 @@ var restProxy = new Ext.data.RestProxy({
 
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     getAnswerByUserAndSession: function(userLogin, sessionId, callbacks){
@@ -376,7 +376,7 @@ var restProxy = new Ext.data.RestProxy({
 
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     getAnsweredSkillQuestions: function(sessionId, userLogin, callbacks){
@@ -412,7 +412,7 @@ var restProxy = new Ext.data.RestProxy({
     			callbacks.success(retQuestions);
     		},
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     /**
@@ -433,7 +433,7 @@ var restProxy = new Ext.data.RestProxy({
     			
     			resRows.forEach(function(question){
     				answered.push(question.value);
-    			})
+    			});
     			
     			restProxy.getSkillQuestionsOnlyId(sessionId, {
     				success: function(response){
@@ -450,7 +450,7 @@ var restProxy = new Ext.data.RestProxy({
     			});
     		},
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     getSkillQuestionsOnlyId: function(sessionId, callbacks){
@@ -492,7 +492,7 @@ var restProxy = new Ext.data.RestProxy({
 
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
 
     countAnswers: function(questionId, callbacks) {
@@ -506,7 +506,7 @@ var restProxy = new Ext.data.RestProxy({
 
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
 
 	countAnswersByQuestion: function(questionId, callbacks) {
@@ -547,7 +547,7 @@ var restProxy = new Ext.data.RestProxy({
 
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     /**
@@ -573,7 +573,7 @@ var restProxy = new Ext.data.RestProxy({
 						var el = responseObj[i];
 						restProxy.removeEntry(el.id, el.value, {
 							success: function(){},
-							failure: function(){console.log('error - clean session feedback')},
+							failure: function(){console.log('error - clean session feedback');},
 						});
 					}
     			}
@@ -581,7 +581,7 @@ var restProxy = new Ext.data.RestProxy({
     		failure: function(){
     			console.log('server-side error cleanSessionFeedback');
     		}
-    	})
+    	});
     },
     
 //    cleanLoggedIn: function() {
@@ -627,7 +627,7 @@ var restProxy = new Ext.data.RestProxy({
 
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     getAverageSessionFeedback: function(sessionId, callbacks) {
@@ -640,7 +640,7 @@ var restProxy = new Ext.data.RestProxy({
 
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     countFeedback: function(sessionId, callbacks) {
@@ -653,7 +653,7 @@ var restProxy = new Ext.data.RestProxy({
 
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     getUserRanking: function(sessionId, userLogin, callbacks) {
@@ -666,7 +666,7 @@ var restProxy = new Ext.data.RestProxy({
 
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     getUserRankingStatistic: function(sessionId, userLogin, callbacks) {
@@ -679,7 +679,7 @@ var restProxy = new Ext.data.RestProxy({
 
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     getSessionRankingStatistic: function(sessionId, callbacks) {
@@ -692,7 +692,7 @@ var restProxy = new Ext.data.RestProxy({
 
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     getSessionIds: function(callbacks) {
@@ -702,7 +702,7 @@ var restProxy = new Ext.data.RestProxy({
 
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
 
     getSession: function(sessionId, callbacks) {
@@ -716,7 +716,7 @@ var restProxy = new Ext.data.RestProxy({
 
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     isActive: function(sessionId, callbacks) {
@@ -730,7 +730,7 @@ var restProxy = new Ext.data.RestProxy({
 
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     getUserFoodVote: function(day, userLogin, callbacks) {
@@ -743,7 +743,7 @@ var restProxy = new Ext.data.RestProxy({
 
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     countFoodVote: function(day, callbacks) {
@@ -757,7 +757,7 @@ var restProxy = new Ext.data.RestProxy({
 
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     countFoodVoteGrouped: function(day, callbacks) {
@@ -771,7 +771,7 @@ var restProxy = new Ext.data.RestProxy({
 
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     /**
@@ -838,7 +838,7 @@ var restProxy = new Ext.data.RestProxy({
 
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     countActiveUsersBySession: function(sessionId, callbacks) {
@@ -853,7 +853,7 @@ var restProxy = new Ext.data.RestProxy({
 
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     /* STATISTICS */
@@ -868,7 +868,7 @@ var restProxy = new Ext.data.RestProxy({
 	
 	    		success: callbacks.success,
 	    		failure: callbacks.failure,
-	    	})
+	    	});
 	    },
 	    
 	    countActiveUsersWithSessionId: function(callbacks) {
@@ -882,7 +882,7 @@ var restProxy = new Ext.data.RestProxy({
 	
 	    		success: callbacks.success,
 	    		failure: callbacks.failure,
-	    	})
+	    	});
 	    },
 	    
 	    countActiveSessions: function(callbacks) {
@@ -896,7 +896,7 @@ var restProxy = new Ext.data.RestProxy({
 	    		
 	    		success: callbacks.success,
 	    		failure: callbacks.failure,
-	    	})
+	    	});
 	    },
 	    
 	    countSessions: function(callbacks) {
@@ -906,7 +906,7 @@ var restProxy = new Ext.data.RestProxy({
 	
 	    		success: callbacks.success,
 	    		failure: callbacks.failure,
-	    	})
+	    	});
 	    },
 	    
     getSkillQuestionsForUser: function(sessionId, callbacks){
@@ -931,7 +931,7 @@ var restProxy = new Ext.data.RestProxy({
 	    	},
 	    	success: callbacks.success,
 	    	failure: callbacks.failure,
-	    })     		
+	    });   		
     },
     
     maxNumberInSession: function(sessionId, callbacks){
@@ -943,7 +943,7 @@ var restProxy = new Ext.data.RestProxy({
     		},
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
     
     releasedByCourseId: function(courseId, callbacks){
@@ -955,6 +955,6 @@ var restProxy = new Ext.data.RestProxy({
     		},
     		success: callbacks.success,
     		failure: callbacks.failure,
-    	})
+    	});
     },
 });
