@@ -153,12 +153,18 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 			},
 			
 			itemCls: 'forwardListButton',
-		    itemTpl: [
-		    	'<div class="search-item">',
-		    	'<div class="action delete x-button">Delete</div>',
-		    	'<span style="color:gray">{formattedTime}</span><span style="padding-left:30px">{subject}</span>',
-		    	'</div>'
-		    	],
+	    	itemTpl: new Ext.XTemplate(
+  		    	'<div class="search-item">',
+  		    		'<div class="action delete x-button">Delete</div>',
+  			    	'<span style="color:gray;">{formattedTime}</span>',
+  			    	'<tpl if="obj.read == 1">',
+  				    	'<span style="padding-left:30px;">{subject}</span>',
+  			    	'</tpl>',
+  			    	'<tpl if="obj.read != 1">',
+				    	'<span style="padding-left:30px;font-weight:bold;color:red">{subject}</span>',
+			    	'</tpl>',
+  		    	'</div>'
+	    	),
 		    grouped: true,
 		    store: this.store,
 		    listeners: {
@@ -227,11 +233,11 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 	
 	getFeedbackQuestions: function(){
 		ARSnova.showLoadMask(Messages.LOADING_NEW_QUESTIONS);
-		ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.store.loadData({});
 		ARSnova.questionModel.getInterposedQuestions(localStorage.getItem('sessionId'),{
 			success: function(response){
 				var questions = Ext.decode(response.responseText).rows;
-    			var panel = ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel;
+				var fQP = ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel;
+    			var panel = fQP.questionsPanel;
     			ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadge(questions.length);
     			panel.questionsCounter = questions.length;
     			
@@ -240,9 +246,11 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 					panel.noQuestionsFound.show();
 					panel.editButton.hide();
 				} else {
+					panel.store.loadData({});
 					panel.list.show();
 					panel.noQuestionsFound.hide();
 					panel.editButton.show();
+					var unread = 0;
 					for(var i = 0; i < questions.length; i++){
 						var question = questions[i].value;
 						question.id = questions[i].id;
@@ -265,6 +273,11 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 						question.fullDate = fullDate;
 						if(!question.subject)
 							question.subject = Messages.NO_SUBJECT;
+						
+						if (question.read === undefined) {
+							unread += 1;
+						}
+						
 						panel.store.add({
 							formattedTime: formattedTime,
 							timestamp: question.timestamp,
@@ -274,6 +287,8 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 							obj: question
 						});
 					}
+					fQP.tab.setBadge(unread);
+					ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge(questions.length);
 					panel.store.sort([{
 						property : 'timestamp',
 						direction: 'DESC'
@@ -294,20 +309,32 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 				var feedbackQuestionsPanel = ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel;
 				var panel = feedbackQuestionsPanel.questionsPanel;
 				var responseObj = Ext.decode(response.responseText).rows;
+				var read = 0, unread = 0, sum = 0;
 				
-				var value = 0;
-				if (responseObj.length > 0){
+				for (var i = 0; i < responseObj.length; i++) {
+					var obj = responseObj[i];
+					
+					if (obj.key[1] == 'unread') {
+						unread += obj.value;
+					} else {
+						read += obj.value;
+					}
+				}
+				
+				sum = read + unread;
+				
+				if (sum > 0){
 					panel.editButton.show();
 					value = responseObj[0].value;
 				} else {
 					panel.editButton.hide();
 				}
 				
-				ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge(value);
-				feedbackQuestionsPanel.tab.setBadge(value);
+				ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge(sum);
+				feedbackQuestionsPanel.tab.setBadge(unread);
 				
-				if(panel.questionsCounter != value) {
-					panel.questionsCounter = value;
+				if(panel.questionsCounter != sum) {
+					panel.questionsCounter = sum;
 					panel.editButton.unsetActive();
 					panel.getFeedbackQuestions();
 				}
