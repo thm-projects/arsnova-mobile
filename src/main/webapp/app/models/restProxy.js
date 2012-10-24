@@ -150,7 +150,7 @@ var restProxy = new Ext.data.RestProxy({
 	 */
 	getMySessions: function(callbacks) {
 		Ext.Ajax.request({
-			url: "mySessions",
+			url: "session/mysessions",
 			success: callbacks.success,
 			failure: function(response) {
 				if (response.status === 404) {
@@ -779,32 +779,13 @@ var restProxy = new Ext.data.RestProxy({
 		});
 	},
 	
-    /**
-     * if user is session owner update that owner of session is logged in
-     * every 3 minutes
-     */
-    updateSessionActivityTask: function() {
-    	if (ARSnova.isSessionOwner) {
-	    	restProxy.getSession(localStorage.getItem("sessionId"), {
-				success: function(response, operation){
-					var rows = Ext.decode(response.responseText).rows;
-					
-					if (rows.length > 0) {
-						var session = Ext.ModelMgr.create(rows[0].value, 'Session');
-					} else {
-						console.log('session with id ' + operation + ' not found.');
-						return;
-					}
-					
-					session.set('lastOwnerActivity', new Date().getTime());
-					session.save();
-				},
-				failure: function(){
-					console.log('server-side error loggedIn.save');
-				}
-			});
-    	}
-    },
+	/**
+	 * if user is session owner update that owner of session is logged in
+	 * every 3 minutes
+	 */
+	updateSessionActivityTask: function() {
+		this.loggedInTask();
+	},
     
     getUserLogin: function(login, callbacks) {
     	Ext.Ajax.request({
