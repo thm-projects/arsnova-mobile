@@ -787,19 +787,6 @@ var restProxy = new Ext.data.RestProxy({
 		this.loggedInTask();
 	},
     
-    getUserLogin: function(login, callbacks) {
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/logged_in/_view/all',
-    		method: 'GET',
-    		params: {
-    			key: "\"" + login + "\"",
-    		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure,
-    	});
-    },
-    
     countActiveUsersBySession: function(sessionId, callbacks) {
     	var ts = new Date().getTime() - (3 * 60 * 1000);
     	Ext.Ajax.request({
