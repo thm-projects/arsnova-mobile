@@ -30,16 +30,7 @@ Ext.regController("sessions", {
     	/* do login stuff */
     	var res = ARSnova.sessionModel.checkSessionLogin(options.keyword, {
     		success: function(response){
-    			var responseObj = Ext.decode(response.responseText);
-    			
-    			//check if session exists
-    			if(responseObj.rows.length == 0){
-    				Ext.Msg.alert("Hinweis", "Diese Session existiert nicht.");
-    				Ext.Msg.doComponentLayout();
-    				return;
-    			}
-    			
-    			var obj = responseObj.rows[0].value;
+    			var obj = Ext.decode(response.responseText);
     			
     			//check if user is creator of this session
     			if (obj.creator == localStorage.getItem('login') && ARSnova.userRole == ARSnova.USER_ROLE_SPEAKER){
@@ -48,13 +39,12 @@ Ext.regController("sessions", {
     				taskManager.start(ARSnova.updateSessionActivityTask);
     			} else {
     				//check if session is open
-    				if(obj.active == 0){
+    				if(!obj.active){
     					Ext.Msg.alert("Hinweis", "Die Session \"" + obj.name +"\” ist momentan geschlossen.");
     					Ext.Msg.doComponentLayout();
     					return;
     				}
     				ARSnova.isSessionOwner = false;
-    				
     			}
     			
     			//set local variables
@@ -73,6 +63,10 @@ Ext.regController("sessions", {
 	    			controller	: 'sessions',
 	    			action		: 'reloadData',
 	    		});
+    		},
+    		notFound: function() {
+    			Ext.Msg.alert("Hinweis", "Diese Session existiert nicht.");
+				Ext.Msg.doComponentLayout();
     		},
     		failure: function(records, operation){
     			console.log(operation);

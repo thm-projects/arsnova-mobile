@@ -120,28 +120,26 @@ var restProxy = new Ext.data.RestProxy({
         return Ext.data.RestProxy.superclass.buildUrl.apply(this, arguments);
     },
     
-    /**
-     * Search for a session with specified keyword
-     * @param keyword of session
-     * @param object with success- and failure-callbacks
-     * @return session-object, if found
-     * @return false, if nothing found 
-     */
-    checkSessionLogin: function(keyword, callbacks){
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/session/_view/by_keyword',
-    		method: 'GET',
-    		params: {
-    			key: "\"" + keyword + "\""
-    		},
-    		success: function(response, opts) {
-    			callbacks.success.call(this, response, opts);    			
-    		},
-    		failure: function(response, opts) {
-    			callbacks.failure.call(this, response, opts);
-    		},
-    	});
-    },
+	/**
+	 * Search for a session with specified keyword
+	 * @param keyword of session
+	 * @param object with success- and failure-callbacks
+	 * @return session-object, if found
+	 * @return false, if nothing found 
+	 */
+	checkSessionLogin: function(keyword, callbacks){
+		Ext.Ajax.request({
+			url: "session/" + keyword,
+			success: callbacks.success,
+			failure: function(response) {
+				if (response.status === 404) {
+					callbacks.notFound.apply(this, arguments);
+				} else {
+					callbacks.failure.apply(this, arguments);
+				}
+			}
+		});
+	},
 	
 	/**
 	 * Get the sessions where user is creator
