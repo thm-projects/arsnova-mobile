@@ -369,53 +369,6 @@ Ext.regApplication({
 		return tmp.join(" ");
 	},
 	
-	saveLastVisitedSession: function(sessionObj){
-		restProxy.getUserLogin(localStorage.getItem("login"), {
-			success: function(response, operation){
-				var rows = Ext.decode(response.responseText).rows;
-				
-				if (rows.length ==  0) {
-					console.log('no user data found');
-				}
-				
-				var loggedIn = Ext.ModelMgr.create(rows[0].value, 'LoggedIn');
-				var alreadyCreated = false;
-				var sessions = loggedIn.get('visitedSessions');
-				
-				if (typeof sessions === 'undefined' || sessions.length == 0) {
-					sessions = [];
-				} else {
-					for ( var i = 0; i < sessions.length; i++){
-						var session = sessions[i];
-						
-						if (sessionObj._id == session._id){
-							alreadyCreated = i;
-							break;
-						}
-					}
-					
-					if (alreadyCreated !== false){
-						sessions.splice(alreadyCreated, 1);
-					}
-				}
-				
-				sessions.unshift({
-					_id: sessionObj._id,
-					name: sessionObj.name,
-					keyword: sessionObj.keyword
-				});
-				
-				loggedIn.set("visitedSessions", sessions);
-				loggedIn.set("sessionId", sessionObj._id);
-				loggedIn.set('timestamp', new Date().getTime());
-				loggedIn.save();
-			},
-			failure: function(){
-				console.log('server-side error loggedIn.save');
-			}
-		});
-	},
-	
 	removeVisitedSession: function(sessionId){
 		var sessions = Ext.decode(localStorage.getItem('lastVisitedSessions'));
 		for ( var i = 0; i < sessions.length; i++){

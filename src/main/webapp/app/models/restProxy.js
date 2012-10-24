@@ -120,28 +120,26 @@ var restProxy = new Ext.data.RestProxy({
         return Ext.data.RestProxy.superclass.buildUrl.apply(this, arguments);
     },
     
-    /**
-     * Search for a session with specified keyword
-     * @param keyword of session
-     * @param object with success- and failure-callbacks
-     * @return session-object, if found
-     * @return false, if nothing found 
-     */
-    checkSessionLogin: function(keyword, callbacks){
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/session/_view/by_keyword',
-    		method: 'GET',
-    		params: {
-    			key: "\"" + keyword + "\""
-    		},
-    		success: function(response, opts) {
-    			callbacks.success.call(this, response, opts);    			
-    		},
-    		failure: function(response, opts) {
-    			callbacks.failure.call(this, response, opts);
-    		},
-    	});
-    },
+	/**
+	 * Search for a session with specified keyword
+	 * @param keyword of session
+	 * @param object with success- and failure-callbacks
+	 * @return session-object, if found
+	 * @return false, if nothing found 
+	 */
+	checkSessionLogin: function(keyword, callbacks){
+		Ext.Ajax.request({
+			url: "session/" + keyword,
+			success: callbacks.success,
+			failure: function(response) {
+				if (response.status === 404) {
+					callbacks.notFound.apply(this, arguments);
+				} else {
+					callbacks.failure.apply(this, arguments);
+				}
+			}
+		});
+	},
 	
 	/**
 	 * Get the sessions where user is creator
@@ -152,7 +150,7 @@ var restProxy = new Ext.data.RestProxy({
 	 */
 	getMySessions: function(callbacks) {
 		Ext.Ajax.request({
-			url: "mySessions",
+			url: "session/mysessions",
 			success: callbacks.success,
 			failure: function(response) {
 				if (response.status === 404) {
@@ -781,45 +779,13 @@ var restProxy = new Ext.data.RestProxy({
 		});
 	},
 	
-    /**
-     * if user is session owner update that owner of session is logged in
-     * every 3 minutes
-     */
-    updateSessionActivityTask: function() {
-    	if (ARSnova.isSessionOwner) {
-	    	restProxy.getSession(localStorage.getItem("sessionId"), {
-				success: function(response, operation){
-					var rows = Ext.decode(response.responseText).rows;
-					
-					if (rows.length > 0) {
-						var session = Ext.ModelMgr.create(rows[0].value, 'Session');
-					} else {
-						console.log('session with id ' + operation + ' not found.');
-						return;
-					}
-					
-					session.set('lastOwnerActivity', new Date().getTime());
-					session.save();
-				},
-				failure: function(){
-					console.log('server-side error loggedIn.save');
-				}
-			});
-    	}
-    },
-    
-    getUserLogin: function(login, callbacks) {
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/logged_in/_view/all',
-    		method: 'GET',
-    		params: {
-    			key: "\"" + login + "\"",
-    		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure,
-    	});
-    },
+	/**
+	 * if user is session owner update that owner of session is logged in
+	 * every 3 minutes
+	 */
+	updateSessionActivityTask: function() {
+		this.loggedInTask();
+	},
     
     countActiveUsersBySession: function(sessionId, callbacks) {
     	var ts = new Date().getTime() - (3 * 60 * 1000);

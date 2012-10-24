@@ -30,16 +30,7 @@ Ext.regController("sessions", {
     	/* do login stuff */
     	var res = ARSnova.sessionModel.checkSessionLogin(options.keyword, {
     		success: function(response){
-    			var responseObj = Ext.decode(response.responseText);
-    			
-    			//check if session exists
-    			if(responseObj.rows.length == 0){
-    				Ext.Msg.alert("Hinweis", "Diese Session existiert nicht.");
-    				Ext.Msg.doComponentLayout();
-    				return;
-    			}
-    			
-    			var obj = responseObj.rows[0].value;
+    			var obj = Ext.decode(response.responseText);
     			
     			//check if user is creator of this session
     			if (obj.creator == localStorage.getItem('login') && ARSnova.userRole == ARSnova.USER_ROLE_SPEAKER){
@@ -48,24 +39,20 @@ Ext.regController("sessions", {
     				taskManager.start(ARSnova.updateSessionActivityTask);
     			} else {
     				//check if session is open
-    				if(obj.active == 0){
+    				if(!obj.active){
     					Ext.Msg.alert("Hinweis", "Die Session \"" + obj.name +"\” ist momentan geschlossen.");
     					Ext.Msg.doComponentLayout();
     					return;
     				}
     				ARSnova.isSessionOwner = false;
-    				
     			}
-    			
-    			//save session as one of five lastVisitedSessions in localStorage
-    			ARSnova.saveLastVisitedSession(obj);
     			
     			//set local variables
     			localStorage.setItem('sessionId', obj._id);
     	    	localStorage.setItem('name', obj.name);
     	    	localStorage.setItem('keyword', obj.keyword);
     	    	localStorage.setItem('shortName', obj.shortName);
-    	    	localStorage.setItem('active', obj.active);
+    	    	localStorage.setItem('active', obj.active ? 1 : 0);
     	    	
     	    	//start feedback-votes-cleaning-up-task
     	    	taskManager.start(ARSnova.cleanFeedbackVotes);
@@ -76,6 +63,10 @@ Ext.regController("sessions", {
 	    			controller	: 'sessions',
 	    			action		: 'reloadData',
 	    		});
+    		},
+    		notFound: function() {
+    			Ext.Msg.alert("Hinweis", "Diese Session existiert nicht.");
+				Ext.Msg.doComponentLayout();
     		},
     		failure: function(records, operation){
     			console.log(operation);
@@ -271,8 +262,6 @@ Ext.regController("sessions", {
     	    	taskManager.start(ARSnova.cleanFeedbackVotes);
     	    	//start task to update the feedback tab in tabBar
     	    	taskManager.start(ARSnova.mainTabPanel.tabPanel.updateFeedbackTask);
-    	    	
-    	    	ARSnova.saveLastVisitedSession(session.data);
     	    	
     	    	var panel = ARSnova.mainTabPanel.tabPanel.homeTabPanel;
     	    	panel.setActiveItem(panel.mySessionsPanel);
