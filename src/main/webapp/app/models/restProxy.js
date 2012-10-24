@@ -774,33 +774,19 @@ var restProxy = new Ext.data.RestProxy({
     	});
     },
     
-    /**
-     * save every minute that i'm online
-     */
-    loggedInTask: function() {
-		restProxy.getUserLogin(localStorage.getItem("login"), {
-			success: function(response, operation){
-				var rows = Ext.decode(response.responseText).rows;
-				
-				if (rows.length > 0) {
-					var loggedIn = Ext.ModelMgr.create(rows[0].value, 'LoggedIn');
-				} else {
-					var loggedIn = Ext.ModelMgr.create({
-						type	 : 'logged_in',
-						user	 : localStorage.getItem("login")
-					}, "LoggedIn");
-				}
-				
-				loggedIn.set('timestamp', new Date().getTime());
-				loggedIn.set('sessionId', localStorage.getItem("sessionId"));
-				loggedIn.save();
-			},
-			failure: function(){
+	/**
+	 * save every minute that i'm online
+	 */
+	loggedInTask: function() {
+		Ext.Ajax.request({
+			url: "session/" + localStorage.getItem("keyword") + "/online",
+			method: "POST",
+			failure: function() {
 				console.log('server-side error loggedIn.save');
 			}
 		});
-    },
-    
+	},
+	
     /**
      * if user is session owner update that owner of session is logged in
      * every 3 minutes
