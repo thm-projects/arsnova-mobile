@@ -52,7 +52,7 @@ Ext.regController("sessions", {
     	    	localStorage.setItem('name', obj.name);
     	    	localStorage.setItem('keyword', obj.keyword);
     	    	localStorage.setItem('shortName', obj.shortName);
-    	    	localStorage.setItem('active', obj.active);
+    	    	localStorage.setItem('active', obj.active ? 1 : 0);
     	    	
     	    	//start feedback-votes-cleaning-up-task
     	    	taskManager.start(ARSnova.cleanFeedbackVotes);
