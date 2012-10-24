@@ -57,9 +57,6 @@ Ext.regController("sessions", {
     				
     			}
     			
-    			//save session as one of five lastVisitedSessions in localStorage
-    			ARSnova.saveLastVisitedSession(obj);
-    			
     			//set local variables
     			localStorage.setItem('sessionId', obj._id);
     	    	localStorage.setItem('name', obj.name);
@@ -271,8 +268,6 @@ Ext.regController("sessions", {
     	    	taskManager.start(ARSnova.cleanFeedbackVotes);
     	    	//start task to update the feedback tab in tabBar
     	    	taskManager.start(ARSnova.mainTabPanel.tabPanel.updateFeedbackTask);
-    	    	
-    	    	ARSnova.saveLastVisitedSession(session.data);
     	    	
     	    	var panel = ARSnova.mainTabPanel.tabPanel.homeTabPanel;
     	    	panel.setActiveItem(panel.mySessionsPanel);
