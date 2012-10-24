@@ -208,7 +208,7 @@ var restProxy = new Ext.data.RestProxy({
 	
 	getSkillQuestionsSortBySubjectAndText: function(sessionKeyword, callbacks) {
 		Ext.Ajax.request({
-			url: "getSkillQuestions/" + sessionKeyword + "?sort=text",
+			url: "session/" + sessionKeyword + "/skillquestions",
 			success: callbacks.success,
 			failure: function (response) {
 				if (response.status === 404) {
