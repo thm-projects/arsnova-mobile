@@ -196,16 +196,10 @@ var restProxy = new Ext.data.RestProxy({
     },
     
 	/**
-	 * Get skill questions for this session, sorted by subject
+	 * Get skill questions for this session, sorted by subject and text
 	 * @param sessionKeyword
 	 * @param object with success-, failure- and empty-callbacks
-	 * @return session-objects, if found
-	 * @return false, if nothing found 
 	 */
-	getSkillQuestionsSortBySubject: function(sessionKeyword, callbacks) {
-		this.getSkillQuestionsSortBySubjectAndText(sessionKeyword, callbacks);
-	},
-	
 	getSkillQuestionsSortBySubjectAndText: function(sessionKeyword, callbacks) {
 		Ext.Ajax.request({
 			url: "session/" + sessionKeyword + "/skillquestions",
