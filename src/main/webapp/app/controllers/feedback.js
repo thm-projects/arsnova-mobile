@@ -37,69 +37,52 @@ Ext.regController("feedback", {
     		return;
     	}
     	
-    	ARSnova.feedbackModel.getUserFeedback(localStorage.getItem("sessionId"), localStorage.getItem("login"), {
-    		success: function(response){
-				var responseObj = Ext.decode(response.responseText).rows;
-				var ts = new Date().getTime();
-				if (responseObj.length == 0){
-					var feedback = Ext.ModelMgr.create({
-						type	 : 'understanding',
-						user	 : localStorage.getItem("login"),
-						sessionId: localStorage.getItem("sessionId"),
-						value	 : options.value,
-						timestamp: ts,
-					}, "Feedback");
-				} else {
-					var feedback = Ext.ModelMgr.create(responseObj[0].value, "Feedback");
-					feedback.set('value', options.value);
-					feedback.set('timestamp', ts);
-				}
-					
-				feedback.save({
-					success: function(){
-						localStorage.setItem('user has voted', 1);
-						var feedbackButton = ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel.feedbackButton;
-						
-						feedbackButton.badgeEl ? feedbackButton.badgeEl.remove() : '';
-						feedbackButton.badgeEl = null;
-						
-						switch (options.value){
-							case "Bitte schneller":
-								feedbackButton.badgeCls = "badgeicon feedbackGood";
-								break;
-							case "Kann folgen":
-								feedbackButton.badgeCls = "badgeicon feedbackMedium";
-								break;
-							case "Zu schnell":
-								feedbackButton.badgeCls = "badgeicon feedbackBad";
-								break;
-							case "Nicht mehr dabei":
-								feedbackButton.badgeCls = "badgeicon feedbackNone";
-								break;	
-							case "cancel":
-								break;
-							default:
-								break;
-						}
-						
-						feedbackButton.setBadge(".");
-						
-						var fP = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel;
-						fP.statisticPanel.renewChartData();
-						fP.setActiveItem(fP.statisticPanel, {
-							type		: 'slide',
-							direction	: 'up',
-						});
-					},
-					failure: function(){
-						console.log('server-side error feedbackModel save');
-					}
-				})
-    		},
-    		failure: function(){
-    			console.log('server-side error feedbackModel getUserFeedback');
-    		},
-    	});
+    	var feedbackValue;
+    	var feedbackCls;
+    	switch (options.value){
+			case "Bitte schneller":
+				feedbackCls = "Good";
+				feedbackValue = 0;
+				break;
+			case "Kann folgen":
+				feedbackCls = "Medium";
+				feedbackValue = 1;
+				break;
+			case "Zu schnell":
+				feedbackCls = "Bad";
+				feedbackValue = 2;
+				break;
+			case "Nicht mehr dabei":
+				feedbackCls = "None";
+				feedbackValue = 3;
+				break;	
+			case "cancel":
+				return;
+			default:
+				return;
+		}
+		
+		ARSnova.feedbackModel.postFeedback(localStorage.getItem("keyword"), feedbackValue, {
+			success: function(response) {
+				localStorage.setItem('user has voted', 1);
+				var feedbackButton = ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel.feedbackButton;
+				
+				feedbackButton.badgeEl ? feedbackButton.badgeEl.remove() : '';
+				feedbackButton.badgeEl = null;
+				feedbackButton.badgeCls = "badgeicon feedback" + feedbackCls;
+				feedbackButton.setBadge(".");
+				
+				var fP = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel;
+				fP.statisticPanel.renewChartData();
+				fP.setActiveItem(fP.statisticPanel, {
+					type		: 'slide',
+					direction	: 'up',
+				});
+			},
+			failure: function(){
+				console.log('server-side error feedback save');
+			}
+		});
     },
     
     showVotePanel: function(){

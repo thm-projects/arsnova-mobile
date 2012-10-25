@@ -278,21 +278,19 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 	
 	checkFeedbackRemoved: function() {
 		if (localStorage.getItem('user has voted')){
-			ARSnova.feedbackModel.getUserFeedback(localStorage.getItem("sessionId"), localStorage.getItem("login"), {
-	    		success: function(response){
-					var responseObj = Ext.decode(response.responseText).rows;
-					if (responseObj.length == 0){
-						Ext.Msg.alert(Messages.NOTICE, Messages.FEEDBACK_RESET);
-						Ext.Msg.doComponentLayout();
-						localStorage.removeItem('user has voted');
-						
-						var feedbackButton = ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel.feedbackButton;
-						feedbackButton.badgeEl.remove();
-						feedbackButton.badgeEl = null;
-						feedbackButton.badgeCls = "badgeicon feedbackARSnova";
-						feedbackButton.setBadge(".");
-					}
-	    		},
+			ARSnova.feedbackModel.getUserFeedback(localStorage.getItem("keyword"), {
+				empty: function(response){
+					Ext.Msg.alert(Messages.NOTICE, Messages.FEEDBACK_RESET);
+					Ext.Msg.doComponentLayout();
+					localStorage.removeItem('user has voted');
+					
+					var feedbackButton = ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel.feedbackButton;
+					feedbackButton.badgeEl ? feedbackButton.badgeEl.remove() : '';
+					feedbackButton.badgeEl = null;
+					feedbackButton.badgeCls = "badgeicon feedbackARSnova";
+					feedbackButton.setBadge(".");
+				},
+				success: function() {},
 				failure: function(){
 					console.log('server-side error feedbackModel save');
 				}

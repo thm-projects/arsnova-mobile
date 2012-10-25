@@ -609,18 +609,29 @@ var restProxy = new Ext.data.RestProxy({
     	});
     },
     
-    getUserFeedback: function(sessionId, userLogin, callbacks) {
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/understanding/_view/by_user',
-    		method: 'GET',
-    		params: {
-    			key: "[\"" + sessionId + "\", \"" + userLogin + "\"]",
-    		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure,
-    	});
-    },
+	getUserFeedback: function(sessionKeyword, callbacks) {
+		Ext.Ajax.request({
+			url: "session/" + sessionKeyword + "/myfeedback",
+			success: callbacks.success,
+			failure: function(response) {
+				if (response.status === 404) {
+					callbacks.empty.apply(this, arguments);
+				} else {
+					callbacks.failure.apply(this, arguments);
+				}
+			}
+		});
+	},
+	
+	postFeedback: function(sessionKeyword, feedbackValue, callbacks) {
+		Ext.Ajax.request({
+			url: "session/" + sessionKeyword + "/feedback",
+			method: "POST",
+			jsonData: feedbackValue + "", // A string ensures that even zero gets submitted to the server!
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
     
     getAverageSessionFeedback: function(sessionId, callbacks) {
     	Ext.Ajax.request({
