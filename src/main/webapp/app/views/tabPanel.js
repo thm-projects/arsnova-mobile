@@ -131,28 +131,27 @@ ARSnova.views.TabPanel = Ext.extend(Ext.TabPanel, {
 	},
 	
 	updateFeedbackIcon: function(){
-		ARSnova.feedbackModel.getAverageSessionFeedback(localStorage.getItem("sessionId"), {
+		ARSnova.feedbackModel.getAverageSessionFeedback(localStorage.getItem("keyword"), {
 			success: function(response){
 				var panel = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel;
+				var value = parseInt(response.responseText);
 				
-				var responseObj = Ext.decode(response.responseText).rows;
-				
-				if (responseObj.length > 0){
-					switch (responseObj[0].value){
-					case 4:
-						panel.tab.setIconClass("feedbackGood");
-						break;
-					case 3:
-						panel.tab.setIconClass("feedbackMedium");
-						break;
-					case 2:
-						panel.tab.setIconClass("feedbackBad");
-						break;
-					case 1:
-						panel.tab.setIconClass("feedbackNone");
-						break;	
-					default:
-						break;
+				if (value > 0) {
+					switch (value) {
+						case 4:
+							panel.tab.setIconClass("feedbackGood");
+							break;
+						case 3:
+							panel.tab.setIconClass("feedbackMedium");
+							break;
+						case 2:
+							panel.tab.setIconClass("feedbackBad");
+							break;
+						case 1:
+							panel.tab.setIconClass("feedbackNone");
+							break;	
+						default:
+							break;
 					}
 				} else {
 					panel.tab.setIconClass("feedbackARSnova");
@@ -161,7 +160,7 @@ ARSnova.views.TabPanel = Ext.extend(Ext.TabPanel, {
 			failure: function(){
 				console.log('server-side error');
 			}
-		})
+		});
 	},
 	
 	updateFeedbackBadge: function(){

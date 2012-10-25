@@ -632,19 +632,14 @@ var restProxy = new Ext.data.RestProxy({
 			failure: callbacks.failure
 		});
 	},
-    
-    getAverageSessionFeedback: function(sessionId, callbacks) {
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/understanding/_view/avg_by_session',
-    		method: 'GET',
-    		params: {
-    			key: "\"" + sessionId + "\"",
-    		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure,
-    	});
-    },
+	
+	getAverageSessionFeedback: function(sessionKeyword, callbacks) {
+		Ext.Ajax.request({
+			url: "session/" + sessionKeyword + "/averagefeedback",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
     
     countFeedback: function(sessionId, callbacks) {
     	Ext.Ajax.request({
