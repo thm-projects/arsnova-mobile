@@ -150,7 +150,7 @@ ARSnova.views.about.StatisticPanel = Ext.extend(Ext.Panel, {
 								for (var i = 0; i < res.length; i++) {
 									var elem = res[i];
 									
-									if (sessionsArr[elem.id] > 1) {
+									if (sessionsArr[elem.id] > 1) {
 										activeSessions++;
 									}
 								}

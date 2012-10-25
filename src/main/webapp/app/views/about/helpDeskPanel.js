@@ -53,18 +53,27 @@ ARSnova.views.about.HelpDeskPanel = Ext.extend(Ext.Panel, {
 		
 		this.dockedItems = [this.toolbar];
 		
+		var helpdesktext = ['<p>Der Helpdesk hilft bei allen Fragen zum Einsatz von ARSnova in der Lehre.</p>' +
+					'<p>Ihre Ansprechpartner sind Christoph Thelen und Paul-Christian Volkmer, beide Absolventen des Master-Studiengangs Informatik an der THM.</p>',
+					'<p>Das Büro des Helpdesks befindet sich im F-Gebäude des Campus Gießen im Raum F112a.</p>' +
+					'<p>Der Helpdesk ist auch telefonisch zu erreichen: +49 641 - 309 2381</p>',
+					'<p>montags: 13:00 Uhr - 15:00 Uhr<br/>',
+					'dienstags: 09:00 Uhr - 14:00 Uhr<br/>',
+					'mittwochs: 09:00 Uhr - 14:00 Uhr</p>']
+		
 		this.items = [{
 			cls: 'roundedBox fontNormal',
-			html: 	'<p>Der Helpdesk hilft bei allen Fragen zum Einsatz von ARSnova in der Lehre.</p>' +
-					'<p>Ihre Ansprechpartner sind Christoph Thelen und Paul-Christian Volkmer, beide Absolventen des Master-Studiengangs Informatik an der THM.</p>' +
-					'<br />' +
-					'<p>Das Büro des Helpdesks befindet sich im F-Gebäude des Campus Gießen im Raum F112a.</p>' +
-					'<p>Der Helpdesk ist auch telefonisch zu erreichen: +49 641 - 309 2381</p>' +
-					'<br />' +
-					'<p>montags: 13:00 Uhr - 15:00 Uhr</p>' +
-					'<p>dienstags: 09:00 Uhr - 14:00 Uhr</p>' +
-					'<p>mittwochs: 09:00 Uhr - 14:00 Uhr</p>'
-		}];
+			html: [].concat(!Ext.is.Desktop ? [helpdesktext.join("<br/>")] : ['<div id="helpdesk"><p id="helpdesk-start">Es war einmal vor kurzer Zeit in einer nicht weit entfernten Hochschule&hellip;</p>',
+				'<h1>ARS NOVA<sub>Helpdesk</sub></h1>',
+				'<div id="helpdesk-titles"><div id="helpdesk-titlecontent">',
+					'<p class="center">EPISODE IV<br />NEUE HOFFNUNG FÜR DIE LEHRE</p>',
+					'<p>Es herrscht Klarheit.</p>',
+					helpdesktext.join("\n"),
+				'</div></div></div>']).join("\n")
+		}].concat(!Ext.is.Desktop ? [] : [{
+			cls: 'gravure',
+			html: '<a href="http://www.sitepoint.com/css3-starwars-scrolling-text/" target="_blank">sitepoint.com/css3-starwars-scrolling-text/</a>',
+		}]);
 		
 		ARSnova.views.about.HelpDeskPanel.superclass.constructor.call(this);
 	},

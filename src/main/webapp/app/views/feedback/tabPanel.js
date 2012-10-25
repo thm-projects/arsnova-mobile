@@ -45,7 +45,7 @@ ARSnova.views.feedback.TabPanel = Ext.extend(Ext.TabPanel, {
 			taskManager.stop(ARSnova.mainTabPanel.tabPanel.updateFeedbackTask);
 			taskManager.start(ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.renewChartDataTask);
 			
-			if (ARSnova.userRole == ARSnova.USER_ROLE_SPEAKER && this.getActiveItem() == this.votePanel) {
+			if (ARSnova.userRole == ARSnova.USER_ROLE_SPEAKER && this.getActiveItem() == this.votePanel) {
 				this.setActiveItem(this.statisticPanel);
 			}
 		});
