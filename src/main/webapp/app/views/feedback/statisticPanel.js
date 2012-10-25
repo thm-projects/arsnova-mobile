@@ -285,16 +285,16 @@ ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
 				avg = Math.round(avg / sum);
 				var tab = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.tab;
 				switch (avg){
-					case 3:
+					case 0:
 						tab.setIconClass("feedbackGood");
 						break;
-					case 2:
+					case 1:
 						tab.setIconClass("feedbackMedium");
 						break;
-					case 1:
+					case 2:
 						tab.setIconClass("feedbackBad");
 						break;
-					case 0:
+					case 3:
 						tab.setIconClass("feedbackNone");
 						break;	
 					default:
