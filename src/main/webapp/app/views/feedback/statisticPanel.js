@@ -285,16 +285,16 @@ ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
 				avg = Math.round(avg / sum);
 				var tab = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.tab;
 				switch (avg){
-					case 0:
+					case 4:
 						tab.setIconClass("feedbackGood");
 						break;
-					case 1:
+					case 3:
 						tab.setIconClass("feedbackMedium");
 						break;
 					case 2:
 						tab.setIconClass("feedbackBad");
 						break;
-					case 3:
+					case 1:
 						tab.setIconClass("feedbackNone");
 						break;	
 					default:
@@ -304,8 +304,6 @@ ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
 			},
 			failure: function() {
 				console.log('server-side error feedbackModel.getSessionFeedback');
-				var tab = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.tab;
-				tab.setIconClass("feedbackARSnova");
 			},
 		});
 	},

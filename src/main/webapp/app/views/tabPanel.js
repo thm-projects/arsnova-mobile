@@ -136,29 +136,27 @@ ARSnova.views.TabPanel = Ext.extend(Ext.TabPanel, {
 				var panel = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel;
 				var value = parseInt(response.responseText);
 				
-				if (value > 0) {
-					switch (value) {
-						case 4:
-							panel.tab.setIconClass("feedbackGood");
-							break;
-						case 3:
-							panel.tab.setIconClass("feedbackMedium");
-							break;
-						case 2:
-							panel.tab.setIconClass("feedbackBad");
-							break;
-						case 1:
-							panel.tab.setIconClass("feedbackNone");
-							break;	
-						default:
-							break;
-					}
-				} else {
-					panel.tab.setIconClass("feedbackARSnova");
+				switch (value) {
+					case 0:
+						panel.tab.setIconClass("feedbackGood");
+						break;
+					case 1:
+						panel.tab.setIconClass("feedbackMedium");
+						break;
+					case 2:
+						panel.tab.setIconClass("feedbackBad");
+						break;
+					case 3:
+						panel.tab.setIconClass("feedbackNone");
+						break;	
+					default:
+						break;
 				}
 			}, 
 			failure: function(){
 				console.log('server-side error');
+				var tab = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.tab;
+				tab.setIconClass("feedbackARSnova");
 			}
 		});
 	},
