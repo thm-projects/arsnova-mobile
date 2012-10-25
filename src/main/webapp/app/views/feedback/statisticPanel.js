@@ -304,6 +304,7 @@ ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
 			},
 			failure: function() {
 				console.log('server-side error feedbackModel.getSessionFeedback');
+				var tab = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.tab;
 				tab.setIconClass("feedbackARSnova");
 			},
 		});
