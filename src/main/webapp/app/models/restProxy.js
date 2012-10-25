@@ -635,7 +635,7 @@ var restProxy = new Ext.data.RestProxy({
 	
 	getAverageSessionFeedback: function(sessionKeyword, callbacks) {
 		Ext.Ajax.request({
-			url: "session/" + sessionKeyword + "/averagefeedback",
+			url: "session/" + sessionKeyword + "/roundedaveragefeedback",
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
