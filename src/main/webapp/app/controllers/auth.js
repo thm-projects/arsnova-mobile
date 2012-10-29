@@ -59,8 +59,10 @@ Ext.regController("auth", {
 			case ARSnova.LOGIN_GUEST:
 				if (localStorage.getItem('login') === null) {
 					localStorage.setItem('login', ARSnova.models.Auth.generateGuestName());
+					type = "guest";
+				} else {
+					type = "guest&name=" + localStorage.getItem('login');
 				}
-				type = "guest";
 				break;
 			case ARSnova.LOGIN_THM:
 				type = "cas";
