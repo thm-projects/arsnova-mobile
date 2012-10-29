@@ -60,6 +60,7 @@ Ext.regController("auth", {
 				if (localStorage.getItem('login') === null) {
 					localStorage.setItem('login', ARSnova.models.Auth.generateGuestName());
 				}
+				type = "guest";
 				break;
 			case ARSnova.LOGIN_THM:
 				type = "cas";
