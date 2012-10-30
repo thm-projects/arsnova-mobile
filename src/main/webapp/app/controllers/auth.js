@@ -118,6 +118,10 @@ Ext.regController("auth", {
     	localStorage.removeItem('role');
     	localStorage.removeItem('loginMode');
     	
+    	/* check if new version available */
+    	var appCache = window.applicationCache;
+		appCache.update();
+    	
     	ARSnova.userRole = "";
 		ARSnova.setWindowTitle();
     	
@@ -126,13 +130,19 @@ Ext.regController("auth", {
 		 * b: to rolePanel if user was guest
 		 * */
     	if (ARSnova.loginMode == ARSnova.LOGIN_THM) {
+    		/* update will be done when returning from CAS */
     		localStorage.removeItem('login');
     		window.location = "https://cas.thm.de/cas/logout?url=http://" + window.location.hostname + window.location.pathname + "#auth/doLogout";
     	} else {
     		ARSnova.mainTabPanel.tabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.rolePanel, {
     			type: 'slide',
     			direction: 'right',
-    		})
+    		});
+    		/* update manifest cache of new version is loaded */
+    		if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+				window.applicationCache.swapCache();
+				window.location.reload();
+			}
     	}
     }
 });
