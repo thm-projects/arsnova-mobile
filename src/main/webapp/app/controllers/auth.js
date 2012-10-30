@@ -88,7 +88,7 @@ Ext.regController("auth", {
 				break;
 		}
 		if(type != "") {
-			return window.location = "/doLogin?type=" + type;
+			return window.location = "doLogin?type=" + type;
 		}
 		
 		ARSnova.afterLogin();
