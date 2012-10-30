@@ -112,6 +112,22 @@ Ext.regApplication({
      * This is called automatically when the page loads. Here we set up the main component on the page
      */
     launch: function(){
+    	// Use native application update depending on manifest file changes on startup
+		var appCache = window.applicationCache;
+		appCache.update();
+		
+		window.addEventListener('load', function(e) {
+			window.applicationCache.addEventListener('updateready', function(e) {
+				if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+					// New version of ARSnova detected, swap in new chache
+					window.applicationCache.swapCache();
+					if (confirm('A new version of ARSnova is available. Load it?')) {
+						window.location.reload();
+					}
+				}
+			}, false);
+		}, false);
+    	
 		if (!this.checkWebKit()) return;
 		if (!this.checkLocalStorage()) return;
 		this.checkEstudyURL();
