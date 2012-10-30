@@ -123,9 +123,12 @@ Ext.regApplication({
 				if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
 					// New version of ARSnova detected, swap in new chache
 					window.applicationCache.swapCache();
-					if (confirm('A new version of ARSnova is available. Load it?')) {
-						window.location.reload();
-					}
+					Ext.Msg.confirm(Messages.NEW_VERSION_TITLE, Messages.NEW_VERSION_AVAILABLE, function(answer) {
+						if (answer == 'yes') {
+							window.location.reload();
+						}
+					});
+					Ext.Msg.doComponentLayout();
 				}
 			}, false);
 		}, false);
