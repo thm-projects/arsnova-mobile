@@ -120,7 +120,9 @@ Ext.regController("auth", {
     	
     	/* check if new version available */
     	var appCache = window.applicationCache;
-		appCache.update();
+    	if (appCache.status !== appCache.UNCACHED) {
+    		appCache.update();
+    	}
     	
     	ARSnova.userRole = "";
 		ARSnova.setWindowTitle();

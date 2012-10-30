@@ -114,7 +114,9 @@ Ext.regApplication({
     launch: function(){
     	// Use native application update depending on manifest file changes on startup
 		var appCache = window.applicationCache;
-		appCache.update();
+		if (appCache.status !== appCache.UNCACHED) {
+			appCache.update();
+		}
 		
 		window.addEventListener('load', function(e) {
 			window.applicationCache.addEventListener('updateready', function(e) {
