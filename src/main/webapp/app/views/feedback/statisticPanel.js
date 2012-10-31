@@ -205,70 +205,28 @@ ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
 	 * 3. Adapt the feedback icon in tab bar depending on average of feedback
 	 */
 	renewChartData: function() {
-		ARSnova.feedbackModel.getSessionFeedback(localStorage.getItem("sessionId"), {
+		ARSnova.feedbackModel.getSessionFeedback(localStorage.getItem("keyword"), {
 			success: function(response){
 				var panel = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel;
 				var chart = panel.feedbackChart;
 				var store = chart.store;
 				
-				var responseObj = Ext.decode(response.responseText).rows;
+				var values = Ext.decode(response.responseText).values;
+				if (!Ext.isArray(values) || values.length != store.getCount()) return;
 				
-				var maxValue = 10;
-				var sum = 0;
-				var avg = 0;
+				var initialMaximum = 10;
+				var maximum = Math.max.apply(null, values.concat(initialMaximum));
 				
-				var fields = [
-				  "Bitte schneller",
-				  "Kann folgen",
-				  "Zu schnell",
-				  "Nicht mehr dabei"
-				];
-				for ( var i = 0; i < responseObj.length; i++) {
-					var el = responseObj[i];
-					var answerText = el.key[1];
-					var record = store.findRecord('name', answerText);
-					record.data.value = el.value;
-					
-					switch (answerText) {
-						case "Bitte schneller":
-							avg += el.value * 4;
-							break;
-						case "Kann folgen":
-							avg += el.value * 3;
-							break;
-						case "Zu schnell":
-							avg += el.value * 2;
-							break;
-						case "Nicht mehr dabei":
-							avg += el.value * 1;
-							break;
-						default:
-							break;
-					}
-					sum = sum + el.value;
-					
-					if (el.value > maxValue) {
-						maxValue = Math.ceil(el.value / 10) * 10;
-					}
-					
-					var idx = fields.indexOf(el.key[1]); // Find the index
-					if(idx!=-1) fields.splice(idx, 1); // Remove it if really found!
-				}
-				for ( var i = 0; i < fields.length; i++) {
-					var el = fields[i];
-					var record = store.findRecord('name', el);
-					record.data.value = 0;
-				}
-				
-				// Calculate percentages
-				var totalResults = store.sum('value');
-				store.each(function(record) {
-					record.data.percent = totalResults > 0 ? (record.data.value / totalResults) : 0.0;
+				// Set chart data
+				store.each(function(record, index) {
+					record.data.value = values[index];
 				});
-				
-				chart.axes.items[0].maximum = maxValue;
-				
-				// renew the chart-data
+				// Calculate percentages
+				var sum = store.sum('value');
+				store.each(function(record) {
+					record.data.percent = sum > 0 ? (record.data.value / sum) : 0.0;
+				});
+				chart.axes.items[0].maximum = maximum;
 				chart.redraw();
 				
 				//update feedback-badge in tab bar 
@@ -282,25 +240,32 @@ ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
 				counterEl.update(title);
 				
 				//change the feedback tab bar icon
-				avg = Math.round(avg / sum);
 				var tab = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.tab;
-				switch (avg){
-					case 4:
-						tab.setIconClass("feedbackGood");
-						break;
-					case 3:
-						tab.setIconClass("feedbackMedium");
-						break;
-					case 2:
-						tab.setIconClass("feedbackBad");
-						break;
-					case 1:
-						tab.setIconClass("feedbackNone");
-						break;	
-					default:
+				ARSnova.feedbackModel.getAverageSessionFeedback(localStorage.getItem("keyword"), {
+					success: function(response) {
+						var avg = parseInt(response.responseText);
+						switch (avg){
+							case 0:
+								tab.setIconClass("feedbackGood");
+								break;
+							case 1:
+								tab.setIconClass("feedbackMedium");
+								break;
+							case 2:
+								tab.setIconClass("feedbackBad");
+								break;
+							case 3:
+								tab.setIconClass("feedbackNone");
+								break;	
+							default:
+								tab.setIconClass("feedbackARSnova");
+								break;
+						}
+					},
+					failure: function() {
 						tab.setIconClass("feedbackARSnova");
-						break;
-				}
+					}
+				});
 			},
 			failure: function() {
 				console.log('server-side error feedbackModel.getSessionFeedback');

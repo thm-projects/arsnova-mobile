@@ -527,20 +527,14 @@ var restProxy = new Ext.data.RestProxy({
 			failure: callbacks.failure,
 		});
 	},
-    
-    getSessionFeedback: function(sessionId, callbacks) {
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/understanding/_view/by_session?group=true',
-    		method: 'GET',
-    		params: {
-    			startkey: "[\"" + sessionId + "\"]",
-    			endkey	: "[\"" + sessionId + "\", {}]",
-    		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure,
-    	});
-    },
+	
+	getSessionFeedback: function(sessionKeyword, callbacks) {
+		Ext.Ajax.request({
+			url: "session/" + sessionKeyword + "/feedback",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
     
     /**
      * Remove all feedback votes older than 'timeLimit'
