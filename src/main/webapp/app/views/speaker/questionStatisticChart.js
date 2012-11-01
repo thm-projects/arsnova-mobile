@@ -387,14 +387,9 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 	},
 	
 	countActiveUsers: function(){
-		ARSnova.loggedInModel.countActiveUsersBySession(localStorage.getItem("sessionId"), {
+		ARSnova.loggedInModel.countActiveUsersBySession(localStorage.getItem("keyword"), {
 			success: function(response){
-				var res = Ext.decode(response.responseText).rows;
-				var value = 0;
-				
-				if (res.length > 0){
-					value = res[0].value;
-				}
+				var value = parseInt(response.responseText);
 				
 				if(ARSnova.mainTabPanel.tabPanel.speakerTabPanel)
 					ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.toolbar.setTitle(localStorage.getItem("shortName") + " (" + value + ")");

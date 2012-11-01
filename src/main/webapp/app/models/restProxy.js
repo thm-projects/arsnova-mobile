@@ -786,21 +786,14 @@ var restProxy = new Ext.data.RestProxy({
 	updateSessionActivityTask: function() {
 		this.loggedInTask();
 	},
-    
-    countActiveUsersBySession: function(sessionId, callbacks) {
-    	var ts = new Date().getTime() - (3 * 60 * 1000);
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/logged_in/_view/count',
-    		method: 'GET',
-    		params: {
-    			startkey: "[\"" + sessionId + "\", " + ts + "]",
-    			endkey: "[\"" + sessionId + "\", {}]",
-    		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure,
-    	});
-    },
+	
+	countActiveUsersBySession: function(sessionKeyword, callbacks) {
+		Ext.Ajax.request({
+			url: "session/" + sessionKeyword + "/activeusercount",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
     
     /* STATISTICS */
 	    countActiveUsers: function(callbacks) {

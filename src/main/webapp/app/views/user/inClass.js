@@ -299,14 +299,10 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 	},
 	
 	countActiveUsers: function(){
-		ARSnova.loggedInModel.countActiveUsersBySession(localStorage.getItem("sessionId"), {
+		ARSnova.loggedInModel.countActiveUsersBySession(localStorage.getItem("keyword"), {
 			success: function(response){
-				var res = Ext.decode(response.responseText).rows;
-				var value = 0;
+				var value = parseInt(response.responseText);
 				
-				if (res.length > 0){
-					value = res[0].value;
-				}
 				ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel.toolbar.setTitle(localStorage.getItem("shortName") + " (" + value + ")");
 				
 				//update feedback counter

@@ -301,14 +301,12 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 	},
 	
 	countActiveUsers: function(){
-		ARSnova.loggedInModel.countActiveUsersBySession(localStorage.getItem("sessionId"), {
+		ARSnova.loggedInModel.countActiveUsersBySession(localStorage.getItem("keyword"), {
 			success: function(response){
-				var res = Ext.decode(response.responseText).rows;
-				
-				var value = 0;
-				
-				if (res.length > 0){
-					value = res[0].value - 1;
+				var value = parseInt(response.responseText);
+				if (value > 0) {
+					// Do not count myself ;-)
+					value--;
 				}
 				
 				ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.toolbar.setTitle(localStorage.getItem("shortName") + " (" + value + ")");
@@ -323,7 +321,7 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 			failure: function(){
 				console.log('server-side error');
 			}
-		})
+		});
 	},
 	
 	countFeedbackQuestions: function(){
