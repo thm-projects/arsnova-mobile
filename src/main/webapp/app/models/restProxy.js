@@ -637,7 +637,7 @@ var restProxy = new Ext.data.RestProxy({
     
     countFeedback: function(sessionId, callbacks) {
     	Ext.Ajax.request({
-    		url: this.url + '/_design/understanding/_view/count_by_session',
+    		url: "session/" + sessionKeyword + "/feedbackcount",
     		method: 'GET',
     		params: {
     			key: "\"" + sessionId + "\"",
