@@ -178,37 +178,13 @@ ARSnova.views.about.StatisticPanel = Ext.extend(Ext.Panel, {
 	countSessions: function(){
 		ARSnova.statisticModel.countSessions({
 			success: function(response){
-				var res = Ext.decode(response.responseText).rows;
+				var statistics = Ext.decode(response.responseText);
 				
-				var closed 		= 0,
-					open		= 0,
-					questions 	= 0,
-					answers		= 0;
-				
-				for (var i = 0; i < res.length; i++) {
-					var el = res[i];
-					switch (el.key) {
-						case "closedSessions":
-							closed = el.value;
-							break;
-						case "openSessions":
-							open = el.value;
-							break;
-						case "questions":
-							questions = el.value;
-							break;
-						case "answers":
-							answers = el.value;
-							break;
-						default:
-							break;
-					}
-				};
 				var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel.statisticPanel;
-				me.gridPanel.store.add({category: Messages.OPEN_SESSIONS, counter: open});
-				me.gridPanel.store.add({category: Messages.CLOSED_SESSIONS, counter: closed});
-				me.gridPanel.store.add({category: Messages.QUESTIONS, counter: questions});
-				me.gridPanel.store.add({category: Messages.ANSWERS, counter: answers});
+				me.gridPanel.store.add({category: Messages.OPEN_SESSIONS, counter: statistics.openSessions});
+				me.gridPanel.store.add({category: Messages.CLOSED_SESSIONS, counter: statistics.closedSessions});
+				me.gridPanel.store.add({category: Messages.QUESTIONS, counter: statistics.questions});
+				me.gridPanel.store.add({category: Messages.ANSWERS, counter: statistics.answers});
 				me.gridPanel.store.sort([{
 					property : 'category',
 					direction: 'DESC'
