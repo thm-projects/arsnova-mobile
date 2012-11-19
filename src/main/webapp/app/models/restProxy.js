@@ -634,19 +634,18 @@ var restProxy = new Ext.data.RestProxy({
 			failure: callbacks.failure
 		});
 	},
-    
-    countFeedback: function(sessionId, callbacks) {
-    	Ext.Ajax.request({
-    		url: "session/" + sessionKeyword + "/feedbackcount",
-    		method: 'GET',
-    		params: {
-    			key: "\"" + sessionId + "\""
-    		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
+	
+	countFeedback: function(sessionKeyword, callbacks) {
+		Ext.Ajax.request({
+			url: "session/" + sessionKeyword + "/feedbackcount",
+			method: 'GET',
+			params: {
+				key: "\"" + sessionKeyword + "\""
+			},
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
     
     getUserRanking: function(sessionId, userLogin, callbacks) {
     	Ext.Ajax.request({

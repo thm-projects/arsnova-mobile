@@ -162,7 +162,7 @@ ARSnova.views.TabPanel = Ext.extend(Ext.TabPanel, {
 	},
 	
 	updateFeedbackBadge: function(){
-		ARSnova.feedbackModel.countFeedback(localStorage.getItem("sessionId"), {
+		ARSnova.feedbackModel.countFeedback(localStorage.getItem("keyword"), {
 			success: function(response){
 				var value = parseInt(Ext.decode(response.responseText));
 				if (value > 0) {

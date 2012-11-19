@@ -37,7 +37,7 @@ ARSnova.models.Feedback = Ext.regModel('Feedback', {
 		return this.proxy.getAverageSessionFeedback(sessionKeyword, callbacks);
 	},
 	
-	countFeedback: function(sessionId, callbacks){
-		return this.proxy.countFeedback(sessionId, callbacks);
+	countFeedback: function(sessionKeyword, callbacks){
+		return this.proxy.countFeedback(sessionKeyword, callbacks);
 	}
 });
