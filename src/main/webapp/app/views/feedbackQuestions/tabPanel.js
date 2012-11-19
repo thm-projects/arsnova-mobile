@@ -24,14 +24,14 @@ ARSnova.views.feedbackQuestions.TabPanel = Ext.extend(Ext.TabPanel, {
 	scroll	: 'vertical',
 
 	tabBar: {
-    	hidden: true,
+    	hidden: true
     },
 	
 	constructor: function(){
 		this.questionsPanel = new ARSnova.views.feedbackQuestions.QuestionsPanel();
 		
 		this.items = [
-            this.questionsPanel,
+            this.questionsPanel
         ];
 		ARSnova.views.feedbackQuestions.TabPanel.superclass.constructor.call(this);
 	},

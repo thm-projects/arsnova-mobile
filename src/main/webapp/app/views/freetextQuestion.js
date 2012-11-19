@@ -31,7 +31,7 @@ ARSnova.views.FreetextQuestion = Ext.extend(Ext.Panel, {
 			name: "answerSubject",
 			placeHolder: Messages.QUESTION_SUBJECT_PLACEHOLDER,
 			label: Messages.QUESTION_SUBJECT,
-			maxLength: 20,
+			maxLength: 20
 		});
 		
 		this.answerText = new Ext.form.TextArea({
@@ -39,29 +39,29 @@ ARSnova.views.FreetextQuestion = Ext.extend(Ext.Panel, {
 			label: Messages.FREETEXT_ANSWER_TEXT,
 			name: 'text',
 			maxLength: 140,
-			maxRows: 7,
+			maxRows: 7
 		});
 
 		this.items = [new Ext.Panel({
 			items: [{
 					cls: 'roundedBox',
-					html: '<p class="title">' + questionObj.subject + '<p/>' + '<p>' + questionObj.text + '</p>',
+					html: '<p class="title">' + questionObj.subject + '<p/>' + '<p>' + questionObj.text + '</p>'
 				}, this.viewOnly ? {} : {
 					xtype: 'form',
 					submitOnAction: false,
 					items: [{
 						xtype: 'fieldset',
-						items: [this.answerSubject, this.answerText],
+						items: [this.answerSubject, this.answerText]
 					}, {
 						xtype	: 'button',
 						ui: 'confirm',
 						cls: 'login-button noMargin',
 						text: Messages.SAVE,
 						handler: this.saveHandler,
-						scope: this,
-					}],
-				},
-			],
+						scope: this
+					}]
+				}
+			]
 		})];
 		
 		ARSnova.views.FreetextQuestion.superclass.constructor.call(this);
@@ -74,7 +74,7 @@ ARSnova.views.FreetextQuestion = Ext.extend(Ext.Panel, {
 				var p = new ARSnova.views.FreetextAnswerPanel(this.questionObj, this);
 				ARSnova.mainTabPanel.setActiveItem(p, 'slide');
 			};
-		},
+		}
 	},
 	
 	saveHandler: function(button, event) {
@@ -112,7 +112,7 @@ ARSnova.views.FreetextQuestion = Ext.extend(Ext.Panel, {
 						answerSubject	: self.answerSubject.getValue(),
 						answerText		: self.answerText.getValue(),
 						timestamp		: Date.now(),
-						user			: localStorage.getItem("login"),
+						user			: localStorage.getItem("login")
 					}, 'Answer');
 				} else {
 					//update
@@ -169,7 +169,7 @@ ARSnova.views.FreetextQuestion = Ext.extend(Ext.Panel, {
 			},
 			failure: function(){
 				console.log('server-side error');
-			},
+			}
 		});
 	},
 	

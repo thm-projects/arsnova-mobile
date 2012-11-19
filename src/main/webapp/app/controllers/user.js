@@ -23,7 +23,7 @@ Ext.regController("user", {
 	index: function(options){
 		var hTP = ARSnova.mainTabPanel.tabPanel.homeTabPanel;
 		hTP.setActiveItem(hTP.mySessionsPanel, {
-			type: 'slide',
+			type: 'slide'
 		});
-    },
+	}
 });

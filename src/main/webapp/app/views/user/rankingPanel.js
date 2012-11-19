@@ -52,30 +52,30 @@ ARSnova.views.user.RankingPanel = Ext.extend(Ext.Panel, {
 					after: function() {
 						me.destroy();
 					}
-				})
-			},
+				});
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: 'Ranking',
 			items: [
-		        this.backButton,
+		        this.backButton
 			]
 		});
 		
 		this.dockedItems = [this.toolbar];
 		
 		this.myRankingPanel = new Ext.Panel({
-			cls: 'centerText',
+			cls: 'centerText'
 		});
 		
 		this.sessionStatisticPanel = new Ext.Panel({
-			cls: 'centerText',
+			cls: 'centerText'
 		});
 		
 		this.items = [{
 			cls: 'centerText',
-			html: 'Hier sehen Sie die Statistik der Session: <br><br>',
+			html: 'Hier sehen Sie die Statistik der Session: <br><br>'
 		}, this.myRankingPanel, this.sessionStatisticPanel];
 		
 		ARSnova.views.user.RankingPanel.superclass.constructor.call(this);
@@ -174,7 +174,7 @@ ARSnova.views.user.RankingPanel = Ext.extend(Ext.Panel, {
 		 
 		this.myRankingPanel.update(rankingText);
 		this.sessionStatisticPanel.update(sessionText);
-	},
+	}
 });
 
 

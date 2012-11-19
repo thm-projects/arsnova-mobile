@@ -38,7 +38,7 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 		run: function(){
 			ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel.checkNewSkillQuestions();
 		},
-		interval: 30000,
+		interval: 30000
 	},
 	
 	/**
@@ -49,7 +49,7 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 		run: function(){
 			ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel.checkFeedbackRemoved();
 		},
-		interval: 30000,
+		interval: 30000
 	},
 	
 	/**
@@ -60,7 +60,7 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 		run: function(){
 			ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel.countActiveUsers();
 		},
-		interval: 15000,
+		interval: 15000
 	},
 	
 	/**
@@ -71,7 +71,7 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 		run: function(){
 			ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel.checkSessionStatus();
 		},
-		interval: 20000,
+		interval: 20000
 	},
 	
 	constructor: function(){
@@ -87,15 +87,15 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 			handler	: function() {
 				Ext.dispatch({
 					controller	: 'sessions',
-					action		: 'logout',
+					action		: 'logout'
 				});
-			},			
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: localStorage.getItem("shortName"),
 			items: [
-		        this.sessionLogoutButton,
+		        this.sessionLogoutButton
 			]
 		});
 		
@@ -109,7 +109,7 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 			badgeCls	: 'badgeicon feedbackARSnova',
 			controller	: 'feedback',
 			action		: 'showVotePanel',
-			handler		: this.buttonClicked,
+			handler		: this.buttonClicked
 		});
 		
 		this.questionButton = new Ext.Button({
@@ -119,7 +119,7 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 			badgeCls	: 'badgeicon',
 			controller	: 'questions',
 			action		: 'index',
-			handler		: this.buttonClicked,
+			handler		: this.buttonClicked
 		});
 		
 		this.flashcardButton = new Ext.Button({
@@ -142,7 +142,7 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 			badgeCls	: 'rankingText',
 			controller	: 'ranking',
 			action		: 'index',
-			handler		: this.buttonClicked,
+			handler		: this.buttonClicked
 		});
 		
 		this.inClass = {
@@ -151,7 +151,7 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 			
 			items: [{
 				cls: 'gravure',
-				html: localStorage.getItem("name"),
+				html: localStorage.getItem("name")
 			}, {
 				xtype: 'fieldset',
 				cls	 : 'standardFieldset noMargin',
@@ -159,10 +159,10 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 				items: [					
 					this.feedbackButton,
 					this.questionButton,
-					this.flashcardButton,
+					this.flashcardButton
 				]
 			}
-	        ],
+			]
 		};
 		
 		
@@ -272,7 +272,7 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 	buttonClicked: function(button){
 		Ext.dispatch({
 			controller	: button.controller,
-			action		: button.action,
+			action		: button.action
 		});
 	},
 	
@@ -315,7 +315,7 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 			failure: function(){
 				console.log('server-side error');
 			}
-		})
+		});
 	},
 	
 	/* if the session was closed, show a notification window and stop this task */
@@ -331,7 +331,7 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 					  msg: Messages.SESSION_CLOSED_NOTICE,
 					  buttons: [{
 						  text:Messages.NOTICE_READ,
-						  ui: 'action',
+						  ui: 'action'
 					  }]
 					});
 					Ext.Msg.doComponentLayout();
@@ -342,6 +342,6 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 			failure: function(){
 				console.log('server-side error');
 			}
-		})
-	},
+		});
+	}
 });

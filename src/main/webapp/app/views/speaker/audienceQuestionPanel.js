@@ -38,7 +38,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 		run: function() {
 			ARSnova.mainTabPanel.tabPanel.speakerTabPanel.audienceQuestionPanel.getQuestionAnswers();
 		},
-		interval: 10000, //10 seconds
+		interval: 10000 //10 seconds
 	},
 	
 	constructor: function(){
@@ -49,8 +49,8 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 				xtype	: 'button',				
 				text	: Messages.NEW_QUESTION,
 				cls		: 'forwardListButton',
-				handler	: this.newQuestionHandler,
-			}],
+				handler	: this.newQuestionHandler
+			}]
 		}];
 		
 		this.backButton = new Ext.Button({
@@ -62,16 +62,16 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 				sTP.setActiveItem(sTP.inClassPanel, {
 					type		: 'slide',
 					direction	: 'right',
-					duration	: 700,
+					duration	: 700
 				});
-			},
+			}
 		});
 		
 		this.addButton = new Ext.Button({
 			text	: '+',
 			cls		: 'plusButton',
 			scope	: this,
-			handler	: this.newQuestionHandler,
+			handler	: this.newQuestionHandler
 		});
 		
 		this.showcaseButton = new Ext.Button({
@@ -88,7 +88,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 		        this.backButton,
 		        {xtype: 'spacer'},
 		        this.showcaseButton,
-		        this.addButton,
+		        this.addButton
 			]
 		});
 		
@@ -120,7 +120,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 			}, this),
 			failure: function(response) {
 				console.log('server-side error questionModel.getSkillQuestions');
-			},
+			}
 		});
 	},
 	
@@ -159,7 +159,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 					Ext.dispatch({
 						controller	: 'questions',
 						action		: 'details',
-						question	: button.questionObj,
+						question	: button.questionObj
 					});
 				}
 			});
@@ -178,7 +178,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 			if (typeof fieldsets[question.subject] === "undefined") {
 				fieldsets[question.subject] = panel.add({
 					xtype: 'fieldset',
-					title: question.subject,
+					title: question.subject
 				});
 			}
 			

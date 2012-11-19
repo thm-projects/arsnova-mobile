@@ -32,7 +32,7 @@ Ext.regController("feedback", {
     		var fP = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel;
     		fP.setActiveItem(fP.statisticPanel, {
     			type		: 'slide',
-    			direction	: 'right',
+    			direction	: 'right'
     		});
     		return;
     	}
@@ -76,7 +76,7 @@ Ext.regController("feedback", {
 				fP.statisticPanel.renewChartData();
 				fP.setActiveItem(fP.statisticPanel, {
 					type		: 'slide',
-					direction	: 'up',
+					direction	: 'up'
 				});
 			},
 			failure: function(){
@@ -106,5 +106,5 @@ Ext.regController("feedback", {
     	ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.addListener('deactivate', function(panel){
     		panel.statisticPanel.backButton.hide();
     	}, this, {single: true});
-    },
+    }
 });

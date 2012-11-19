@@ -42,15 +42,15 @@ ARSnova.views.about.OpenSourceProjectsPanel = Ext.extend(Ext.Panel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700,
-					scope		: this,
-				})
-			},
+					scope		: this
+				});
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.OPENSOURCEPROJECTS_SHORT,
 			items: [
-		        this.backButton,
+		        this.backButton
 			]
 		});
 		
@@ -60,7 +60,7 @@ ARSnova.views.about.OpenSourceProjectsPanel = Ext.extend(Ext.Panel, {
 			defaults: {
 				xtype		: 'button',
 				ui			: 'normal',
-				cls			: 'forwardListButton',
+				cls			: 'forwardListButton'
 			},
 		
 			items: [{
@@ -72,7 +72,7 @@ ARSnova.views.about.OpenSourceProjectsPanel = Ext.extend(Ext.Panel, {
 							window.open("http://www.sencha.com");
 						}
 					}
-				},
+				}
 			}, {
 				text	: Messages.COUCHDB,
 				listeners: {
@@ -82,7 +82,7 @@ ARSnova.views.about.OpenSourceProjectsPanel = Ext.extend(Ext.Panel, {
 							window.open("http://couchdb.apache.org");
 						}
 					}
-				},
+				}
 			}, {
 				text	: Messages.NGINX,
 				listeners: {
@@ -92,7 +92,7 @@ ARSnova.views.about.OpenSourceProjectsPanel = Ext.extend(Ext.Panel, {
 							window.open("http://nginx.org");
 						}
 					}
-				},
+				}
 			}, {
 				text	: Messages.XEN,
 				listeners: {
@@ -102,7 +102,7 @@ ARSnova.views.about.OpenSourceProjectsPanel = Ext.extend(Ext.Panel, {
 							window.open("http://xen.org");
 						}
 					}
-				},
+				}
 			}, {
 				text	: Messages.CAS,
 				listeners: {
@@ -112,7 +112,7 @@ ARSnova.views.about.OpenSourceProjectsPanel = Ext.extend(Ext.Panel, {
 							window.open("http://www.jasig.org/cas/");
 						}
 					}
-				},
+				}
 			}, {
 				text	: Messages.DEBIAN,
 				listeners: {
@@ -122,8 +122,8 @@ ARSnova.views.about.OpenSourceProjectsPanel = Ext.extend(Ext.Panel, {
 							window.open("http://www.debian.org");
 						}
 					}
-				},
-			}],
+				}
+			}]
 		});
 		
 		this.dockedItems = [this.toolbar];

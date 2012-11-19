@@ -23,7 +23,7 @@ ARSnova.views.archive.TabPanel = Ext.extend(Ext.TabPanel, {
 	iconCls	: 'time',
 	
 	tabBar: {
-    	hidden: true,
+    	hidden: true
     },
 	
 	constructor: function(){
@@ -32,7 +32,7 @@ ARSnova.views.archive.TabPanel = Ext.extend(Ext.TabPanel, {
 		
 		this.items = [
             this.coursePanel,
-            this.questionPanel,
+            this.questionPanel
         ];
 		ARSnova.views.archive.TabPanel.superclass.constructor.call(this);
 	},

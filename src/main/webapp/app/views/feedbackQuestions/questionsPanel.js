@@ -32,7 +32,7 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 	store: new Ext.data.JsonStore({
 	    model  : 'FeedbackQuestion',
 	    sorters: 'lastName',
-	    groupField: 'groupDate',
+	    groupField: 'groupDate'
 	}),
 	
 	/**
@@ -44,7 +44,7 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 		run: function(){
 			ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.checkFeedbackQuestions();
 		},
-		interval: 15000,
+		interval: 15000
 	},
 	
 	constructor: function(){
@@ -62,7 +62,7 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 		    			this.hide();
 		    		}
 		    	});
-			},
+			}
 		});
 		
 		this.editButton = new Ext.Button({
@@ -125,31 +125,31 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 					this.hide();
 					this.unsetActive();
 				} else {
-					this.show()
+					this.show();
 				}
-			},
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: 'Auditorium',
 			items: [
 		        this.backButton,
-		        { xtype: 'spacer', },
+		        { xtype: 'spacer' },
 		        this.editButton
-	        ],
+	        ]
 		});
 		
 		this.dockedItems = [this.toolbar];
 
 		this.noQuestionsFound = new Ext.Panel({
 			cls: 'centerText',
-			html: Messages.NO_QUESTIONS,
+			html: Messages.NO_QUESTIONS
 		});
 		
 		this.list = new Ext.List({
 			activeCls: 'search-item-active',
 			style: {
-				backgroundColor: 'transparent',
+				backgroundColor: 'transparent'
 			},
 			
 			itemCls: 'forwardListButton',
@@ -183,7 +183,7 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 		                var question = store.getAt(index).data.obj;
 		                ARSnova.questionModel.destroy({
 		                	_id: question.id,
-		                	_rev: question.rev,
+		                	_rev: question.rev
 		                },{
 		                	success: function(){
 		                		store.removeAt(index);
@@ -199,8 +199,8 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 				                	editButton.activateAll();
 				                }
 	                		},
-		                	failure: function(){console.log('fehler')},
-		                })
+		                	failure: function(){console.log('fehler');}
+		                });
 		            } else {
 		            	editButton.deactivateAll();
 		            	editButton.unsetActive();
@@ -208,8 +208,8 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 			    		Ext.dispatch({
 							controller	: 'questions',
 							action		: 'detailsFeedbackQuestion',
-							question	: list.store.getAt(index).data.obj,
-						})
+							question	: list.store.getAt(index).data.obj
+						});
 		            }
 		    	}
 		    }
@@ -226,7 +226,7 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 		this.on('deactivate', function(){
 			var selModel = this.list.getSelectionModel();
 			selModel.deselect(selModel.lastSelected, true);
-		})
+		});
 		
 		ARSnova.views.feedbackQuestions.QuestionsPanel.superclass.initComponent.call(this);
 	},
@@ -342,6 +342,6 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 			failure: function(){
 				console.log('server-side error');
 			}
-		})
-	},
+		});
+	}
 });

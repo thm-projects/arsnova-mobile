@@ -39,15 +39,15 @@ ARSnova.views.about.HelpCanteenPanel = Ext.extend(Ext.Panel, {
 				me.setActiveItem(me.helpMainPanel, {
 					type		: 'slide',
 					direction	: 'right',
-					duration	: 700,
-				})
-			},
+					duration	: 700
+				});
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.HELP_CANTEEN,
 			items: [
-		        this.backButton,
+		        this.backButton
 			]
 		});
 		
@@ -55,7 +55,7 @@ ARSnova.views.about.HelpCanteenPanel = Ext.extend(Ext.Panel, {
 		
 		this.items = [{
 			cls: 'roundedBox fontNormal',
-			html: 'Eine Hilfe zur Mensa kommt in Kürze...',
+			html: 'Eine Hilfe zur Mensa kommt in Kürze...'
 		}];
 		
 		ARSnova.views.about.HelpCanteenPanel.superclass.constructor.call(this);

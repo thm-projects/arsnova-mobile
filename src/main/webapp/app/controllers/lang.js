@@ -36,5 +36,5 @@ Ext.regController("lang", {
 		localStorage.setItem("language", lang);
 		
 		window.location = window.location.origin + window.location.pathname;
-	},
+	}
 });

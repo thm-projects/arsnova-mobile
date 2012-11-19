@@ -39,15 +39,15 @@ ARSnova.views.about.HelpQuestionsPanel = Ext.extend(Ext.Panel, {
 				me.setActiveItem(me.helpMainPanel, {
 					type		: 'slide',
 					direction	: 'right',
-					duration	: 700,
-				})
-			},
+					duration	: 700
+				});
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.HELP_QUESTIONS,
 			items: [
-		        this.backButton,
+		        this.backButton
 			]
 		});
 		
@@ -55,7 +55,7 @@ ARSnova.views.about.HelpQuestionsPanel = Ext.extend(Ext.Panel, {
 		
 		this.items = [{
 			cls: 'roundedBox fontNormal',
-			html: 'Eine Hilfe zu den Fragen kommt in Kürze...',
+			html: 'Eine Hilfe zu den Fragen kommt in Kürze...'
 		}];
 		
 		ARSnova.views.about.HelpQuestionsPanel.superclass.constructor.call(this);

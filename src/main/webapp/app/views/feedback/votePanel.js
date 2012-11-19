@@ -29,7 +29,7 @@ ARSnova.views.feedback.VotePanel = Ext.extend(Ext.Panel, {
 	constructor: function(){
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.MY_FEEDBACK,
-			cls: 'titlePaddingLeft',
+			cls: 'titlePaddingLeft'
 		});
 		
 		this.dockedItems = [this.toolbar];
@@ -41,26 +41,26 @@ ARSnova.views.feedback.VotePanel = Ext.extend(Ext.Panel, {
 				Ext.dispatch({
 					controller	: 'feedback',
 					action		: 'vote',
-					value		: button.value,
+					value		: button.value
 				});
-			},
+			}
 		};
 		this.items = [{
 			iconCls	: 'feedbackGood',
 			text	: Messages.FEEDBACK_GOOD,
-			value	: 'Bitte schneller',
+			value	: 'Bitte schneller'
 		}, {
 			iconCls	: 'feedbackMedium',
 			text	: Messages.FEEDBACK_OKAY,
-			value	: 'Kann folgen',
+			value	: 'Kann folgen'
 		}, {
 			iconCls	: 'feedbackBad',
 			text	: Messages.FEEDBACK_BAD,
-			value	: 'Zu schnell',
+			value	: 'Zu schnell'
 		}, {
 			iconCls	: 'feedbackNone',
 			text	: Messages.FEEDBACK_NONE,
-			value	: 'Nicht mehr dabei',
+			value	: 'Nicht mehr dabei'
 		}, {
 			text	: Messages.QUESTION_REQUEST,
 			iconCls	: 'tabBarIconQuestion',
@@ -75,11 +75,11 @@ ARSnova.views.feedback.VotePanel = Ext.extend(Ext.Panel, {
 					dockedItems: [{
 						xtype: 'toolbar',
 						dock: 'top',
-						title: Messages.QUESTION_TO_SPEAKER,
+						title: Messages.QUESTION_TO_SPEAKER
 					}],
 					items: [{
 						cls: 'gravure noMargin',
-						html: Messages.QUESTION_INSTRUCTION,
+						html: Messages.QUESTION_INSTRUCTION
 					}, {
 						xtype: 'form',
 						submitOnAction: false,
@@ -90,13 +90,13 @@ ARSnova.views.feedback.VotePanel = Ext.extend(Ext.Panel, {
 								label: Messages.QUESTION_SUBJECT,
 								name: 'subject',
 								maxLength: 20,
-								placeHolder: Messages.QUESTION_SUBJECT_PLACEHOLDER,
+								placeHolder: Messages.QUESTION_SUBJECT_PLACEHOLDER
 							}, {
 								xtype: 'textareafield',
 								label: Messages.QUESTION_TEXT,
 								name: 'text',
 								maxLength: 140,
-								placeHolder: Messages.QUESTION_TEXT_PLACEHOLDER,
+								placeHolder: Messages.QUESTION_TEXT_PLACEHOLDER
 							}]
 						}, {
 							xtype: 'button',
@@ -112,7 +112,7 @@ ARSnova.views.feedback.VotePanel = Ext.extend(Ext.Panel, {
 									sessionId	: localStorage.getItem('sessionId'),
 									subject		: values.subject.trim(),
 									text 		: values.text.trim(),
-									timestamp	: time,
+									timestamp	: time
 								}, 'Question');
 						    	
 						    	var validation = question.validate();
@@ -162,24 +162,24 @@ ARSnova.views.feedback.VotePanel = Ext.extend(Ext.Panel, {
 						    			Ext.Msg.alert(Messages.NOTIFICATION, Messages.TRANSMISSION_ERROR);
 						    			Ext.Msg.doComponentLayout();
 						    		}
-						    	})
+						    	});
 							}
 						}]
 					}],
 					
 					listeners: {
 						hide: function(){
-							this.destroy()
-						},
-					},
+							this.destroy();
+						}
+					}
 				}).show();
 			}
 		}, {
 			xtype: 'panel',
 			cls: 'gravure',
-			html: Messages.FEEDBACK_INSTRUCTION,
+			html: Messages.FEEDBACK_INSTRUCTION
 		}];
 		
 		ARSnova.views.feedback.VotePanel.superclass.constructor.call(this);
-	},
+	}
 });

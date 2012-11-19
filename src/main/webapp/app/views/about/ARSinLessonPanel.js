@@ -39,15 +39,15 @@ ARSnova.views.about.ARSinLessonPanel = Ext.extend(Ext.Panel, {
 				me.setActiveItem(me.aboutPanel, {
 					type		: 'slide',
 					direction	: 'right',
-					duration	: 700,
-				})
-			},
+					duration	: 700
+				});
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: 'ARS in der Lehre',
 			items: [
-		        this.backButton,
+		        this.backButton
 			]
 		});
 		
@@ -55,7 +55,7 @@ ARSnova.views.about.ARSinLessonPanel = Ext.extend(Ext.Panel, {
 		
 		this.items = [{
 			cls: 'roundedBox fontNormal',
-			html: 'Text folgt in Kürze...', 
+			html: 'Text folgt in Kürze...' 
 		}];
 		
 		ARSnova.views.about.ARSinLessonPanel.superclass.constructor.call(this);

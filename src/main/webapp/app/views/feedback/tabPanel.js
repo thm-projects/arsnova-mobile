@@ -23,7 +23,7 @@ ARSnova.views.feedback.TabPanel = Ext.extend(Ext.TabPanel, {
 	iconCls: 	'feedbackARSnova',
 	
 	tabBar: {
-    	hidden: true,
+    	hidden: true
     },
 	
 	constructor: function(){
@@ -32,7 +32,7 @@ ARSnova.views.feedback.TabPanel = Ext.extend(Ext.TabPanel, {
 		
 		this.items = [
             this.statisticPanel,
-            this.votePanel,
+            this.votePanel
         ];
 		ARSnova.views.feedback.TabPanel.superclass.constructor.call(this);
 	},

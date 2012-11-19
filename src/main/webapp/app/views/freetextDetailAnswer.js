@@ -46,8 +46,8 @@ ARSnova.views.FreetextDetailAnswer = Ext.extend(Ext.Panel, {
 								}
 							}
 						);
-					},
-				}),
+					}
+				})
 			]
 		})];
 		
@@ -60,23 +60,23 @@ ARSnova.views.FreetextDetailAnswer = Ext.extend(Ext.Panel, {
 						xtype: 'textfield',
 						label: Messages.QUESTION_DATE,
 						value: answer.formattedTime + " Uhr am " + answer.groupDate,
-						disabled: true,
+						disabled: true
 					},
 					{
 						xtype: 'textfield',
 						label: Messages.QUESTION_SUBJECT,
 						value: answer.subject,
-						disabled: true,
+						disabled: true
 					},
 					{
 						xtype: 'textareafield',
 						label: Messages.FREETEXT_DETAIL_ANSWER,
 						value: answer.text,
 						disabled: true,
-						maxRows: 8,
+						maxRows: 8
 					}
 				]
-			}],
+			}]
 		}, {
 			xtype: 'button',
 			ui	 : 'decline',
@@ -95,7 +95,7 @@ ARSnova.views.FreetextDetailAnswer = Ext.extend(Ext.Panel, {
 								ARSnova.questionModel.deleteFreetextAnswer(answer._id, answer._rev, {
 									failure: function() {
 										console.log('server-side error: deletion of freetext answer failed');
-									},
+									}
 								});
 								
 								sheet.destroy();
@@ -114,14 +114,14 @@ ARSnova.views.FreetextDetailAnswer = Ext.extend(Ext.Panel, {
 							text: Messages.CANCEL,
 							handler: function() {
 								sheet.hide();
-							},
+							}
 						}
-					],
+					]
 				});
 				sheet.show();
 			}
 		}];
 		
 		ARSnova.views.FreetextDetailAnswer.superclass.constructor.call(this);
-	},
+	}
 });

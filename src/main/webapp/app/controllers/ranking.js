@@ -22,5 +22,5 @@ Ext.regController("ranking", {
 
 	index: function(options){		
 		ARSnova.mainTabPanel.setActiveItem(new ARSnova.views.user.RankingPanel, 'slide');
-    },
+    }
 });

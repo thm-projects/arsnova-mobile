@@ -31,5 +31,5 @@ ARSnova.models.UserRanking = Ext.regModel('UserRanking', {
 	
 	getSessionRankingStatistic: function(sessionId, callbacks){
 		return this.proxy.getSessionRankingStatistic(sessionId, callbacks);
-	},
+	}
 });

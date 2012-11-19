@@ -26,14 +26,14 @@ ARSnova.views.CheckFullscreenPanel = Ext.extend(Ext.Panel, {
 	styleHtmlContent: true,
 	
 	items: [{
-		html: Messages.BROWSER_NAVIGATION,
+		html: Messages.BROWSER_NAVIGATION
 	}, {
 		xtype: 'button',
 		ui: 'confirm',
 		style: {
 			width: '50%',
 			margin: '0pt auto',
-			marginTop: '10px',
+			marginTop: '10px'
 		},
 		text: 'okay',
 		handler: function(){
@@ -45,7 +45,7 @@ ARSnova.views.CheckFullscreenPanel = Ext.extend(Ext.Panel, {
 		this.dockedItems = [{
 			xtype: 'toolbar',
 			dock: 'top',
-			title: Messages.BROWSER_NAVIGATION_TITLE,
+			title: Messages.BROWSER_NAVIGATION_TITLE
 		}];
 		
 		ARSnova.views.CheckFullscreenPanel.superclass.constructor.call(this);
@@ -58,5 +58,5 @@ ARSnova.views.CheckFullscreenPanel = Ext.extend(Ext.Panel, {
 		});
 		
 		ARSnova.views.CheckFullscreenPanel.superclass.initComponent.call(this);
-	},
+	}
 });

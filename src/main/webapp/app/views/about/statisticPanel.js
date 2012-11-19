@@ -34,13 +34,13 @@ ARSnova.views.about.StatisticPanel = Ext.extend(Ext.Panel, {
 		run: function(){
 			ARSnova.mainTabPanel.tabPanel.infoTabPanel.statisticPanel.updateData();
 		},
-		interval: 30000,
+		interval: 30000
 	},
 	
 	constructor: function(){
 		this.gridPanel = new Ext.DataView({
 	        store: new Ext.data.Store({
-	            model: 'Statistic',
+	            model: 'Statistic'
 	        }),
 	        tpl: new Ext.XTemplate(
         		'<table class="statistic">',
@@ -51,7 +51,7 @@ ARSnova.views.about.StatisticPanel = Ext.extend(Ext.Panel, {
 	            '<table></div>'
 	        ),
 	        itemSelector: 'div',
-	        scroll: false,
+	        scroll: false
 	    });
 		
 		this.backButton = new Ext.Button({
@@ -68,15 +68,15 @@ ARSnova.views.about.StatisticPanel = Ext.extend(Ext.Panel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700,
-					scope		: this,
-				})
-			},
+					scope		: this
+				});
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.STATISTIC,
 			items: [
-		        this.backButton,
+		        this.backButton
 			]
 		});
 		
@@ -121,13 +121,13 @@ ARSnova.views.about.StatisticPanel = Ext.extend(Ext.Panel, {
 			},
 			failure: function(response){
 				console.log('server-side error, countOpenSessions');
-			},
-		})
+			}
+		});
 	},
 	
 	updateData: function(){
 		ARSnova.showLoadMask(Messages.LOAD_MASK);
 		this.gridPanel.store.clearData();
 		this.getStatistics();
-	},
+	}
 });

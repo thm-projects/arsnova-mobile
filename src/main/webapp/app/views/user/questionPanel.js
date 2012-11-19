@@ -43,7 +43,7 @@ ARSnova.views.user.QuestionPanel = Ext.extend(Ext.Carousel, {
 		    			this.hide();
 		    		}
 		    	});
-			},
+			}
 		});
 		
 		this.listeners = {
@@ -66,7 +66,7 @@ ARSnova.views.user.QuestionPanel = Ext.extend(Ext.Carousel, {
 		
 		this.questionCounter = new Ext.Container({
 			cls: "x-toolbar-title alignRight",
-			html: '0/0',
+			html: '0/0'
 		});
 		
 		this.statisticButton = new Ext.Button({
@@ -74,9 +74,9 @@ ARSnova.views.user.QuestionPanel = Ext.extend(Ext.Carousel, {
 			cls		: 'statisticIconSmall',
 			hidden	: true,
 			handler	: function() {
-				var questionStatisticChart = new ARSnova.views.QuestionStatisticChart(ARSnova.mainTabPanel.tabPanel.userQuestionsPanel.layout.activeItem.questionObj, this)
+				var questionStatisticChart = new ARSnova.views.QuestionStatisticChart(ARSnova.mainTabPanel.tabPanel.userQuestionsPanel.layout.activeItem.questionObj, this);
 				ARSnova.mainTabPanel.setActiveItem(questionStatisticChart, 'slide');
-			},
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
@@ -139,7 +139,7 @@ ARSnova.views.user.QuestionPanel = Ext.extend(Ext.Carousel, {
 								userQuestionsPanel.questionCounter.hide();
 								userQuestionsPanel.add({
 									cls: 'centerText',
-									html: Messages.NO_UNLOCKED_QUESTIONS,
+									html: Messages.NO_UNLOCKED_QUESTIONS
 								});
 								userQuestionsPanel.indicator.hide();
 								userQuestionsPanel.doLayout();
@@ -149,7 +149,7 @@ ARSnova.views.user.QuestionPanel = Ext.extend(Ext.Carousel, {
 								userQuestionsPanel.questionCounter.hide();
 								userQuestionsPanel.add({
 									cls: 'centerText',
-									html: Messages.NO_QUESTIONS,
+									html: Messages.NO_QUESTIONS
 								});	
 								userQuestionsPanel.indicator.hide();
 								userQuestionsPanel.doLayout();

@@ -23,5 +23,5 @@ ARSnova.models.LoggedIn = Ext.regModel('LoggedIn', {
 	
 	countActiveUsersBySession: function(sessionKeyword, callbacks){
 		return this.proxy.countActiveUsersBySession(sessionKeyword, callbacks);
-	},
+	}
 });

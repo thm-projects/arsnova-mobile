@@ -24,7 +24,7 @@ ARSnova.views.canteen.TabPanel = Ext.extend(Ext.TabPanel, {
 	layout	: 'fit',
 	
 	tabBar: {
-    	hidden: true,
+    	hidden: true
     },
 	
 	constructor: function(){
@@ -33,7 +33,7 @@ ARSnova.views.canteen.TabPanel = Ext.extend(Ext.TabPanel, {
 		
 		this.items = [
             this.statisticPanel,
-            this.votePanel,
+            this.votePanel
         ];
 		ARSnova.views.canteen.TabPanel.superclass.constructor.call(this);
 	},

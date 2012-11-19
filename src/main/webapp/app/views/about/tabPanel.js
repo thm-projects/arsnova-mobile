@@ -23,14 +23,14 @@ ARSnova.views.about.TabPanel = Ext.extend(Ext.TabPanel, {
 	iconCls	: 'tabBarIconInfo',
 	
 	tabBar: {
-    	hidden: true,
+    	hidden: true
     },
 	
 	constructor: function(){
 		this.infoPanel = new ARSnova.views.about.InfoPanel();
 		
 		this.items = [
-		    this.infoPanel,
+		    this.infoPanel
         ];
 		ARSnova.views.about.TabPanel.superclass.constructor.call(this);
 	},
@@ -45,5 +45,5 @@ ARSnova.views.about.TabPanel = Ext.extend(Ext.TabPanel, {
 		});
 		
 		ARSnova.views.about.TabPanel.superclass.initComponent.call(this);
-	},
+	}
 });

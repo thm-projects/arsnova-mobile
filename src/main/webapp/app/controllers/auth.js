@@ -104,7 +104,7 @@ Ext.regController("auth", {
     			localStorage.setItem('login', obj.username);
 	    	    window.location = window.location.pathname + "#";
 	    	    ARSnova.checkPreviousLogin();
-    		},
+    		}
     	});
     	
     },
@@ -138,7 +138,7 @@ Ext.regController("auth", {
     	} else {
     		ARSnova.mainTabPanel.tabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.rolePanel, {
     			type: 'slide',
-    			direction: 'right',
+    			direction: 'right'
     		});
     		/* update manifest cache of new version is loaded */
     		if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {

@@ -54,9 +54,9 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 				hTP.setActiveItem(hTP.homePanel, {
 					type		: 'slide',
 					direction	: 'right',
-					duration	: 700,
-				})
-			},
+					duration	: 700
+				});
+			}
 		});
 		
 		this.createSessionButton = new Ext.Button({
@@ -68,8 +68,8 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 				hTP.setActiveItem(hTP.newSessionPanel, {
 					type		: 'slide',
 					direction	: 'left',
-					duration	: 700,
-				})
+					duration	: 700
+				});
 			}
 		});
 		
@@ -91,20 +91,20 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 				text	: Messages.CREATE_NEW_SESSION,
 				cls		: 'forwardListButton',
 				handler	: function(options){
-					var hTP = ARSnova.mainTabPanel.tabPanel.homeTabPanel
-					hTP.setActiveItem(hTP.newSessionPanel, 'slide')
-				},
-			}],
+					var hTP = ARSnova.mainTabPanel.tabPanel.homeTabPanel;
+					hTP.setActiveItem(hTP.newSessionPanel, 'slide');
+				}
+			}]
 		});
 		
 		this.sessionsForm = new Ext.form.FormPanel({
-			items: [],
+			items: []
 		});
 		
 		this.dockedItems = [this.toolbar],
 		this.items = [
 		    this.newSessionButtonForm,
-            this.sessionsForm,
+            this.sessionsForm
         ],
 		
 		ARSnova.views.home.MySessionsPanel.superclass.constructor.call(this);
@@ -148,7 +148,7 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 				
 				panel.createdSessionsFieldset = new Ext.form.FieldSet({
 					cls: 'standardFieldset',
-					title: Messages.MY_SESSIONS,
+					title: Messages.MY_SESSIONS
 				});
 				
 				for ( var i = 0, session; session = sessions[i]; i++) {
@@ -170,9 +170,9 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 							Ext.dispatch({
 								controller	: 'sessions',
 								action		: 'login',
-								keyword		: options.sessionObj.keyword,
+								keyword		: options.sessionObj.keyword
 							});
-						},
+						}
 					});
 					me.updateBadges(session._id, sessionButton);
 					panel.createdSessionsFieldset.add(sessionButton);
@@ -217,16 +217,16 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 								button.setBadge([
 									{badgeText: numFeedbackQuestions, badgeCls: "bluebadgeicon"},
 									{badgeText: numQuestions, badgeCls: "badgeicon"},
-									{badgeText: numAnswers, badgeCls: "redbadgeicon"},
+									{badgeText: numAnswers, badgeCls: "redbadgeicon"}
 								]);
 							},
-							failure: failureCallback,
+							failure: failureCallback
 						});
 					},
-					failure: failureCallback,
+					failure: failureCallback
 				});
 			},
-			failure: failureCallback,
+			failure: failureCallback
 		});
 	}
 });

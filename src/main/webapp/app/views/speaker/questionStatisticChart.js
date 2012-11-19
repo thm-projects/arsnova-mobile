@@ -39,7 +39,7 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 		run: function(){
 			ARSnova.mainTabPanel.layout.activeItem.getQuestionAnswers();
 		},
-		interval: 10000, //10 seconds
+		interval: 10000 //10 seconds
 	},
 	
 	/**
@@ -50,7 +50,7 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 		run: function(){
 			ARSnova.mainTabPanel.layout.activeItem.countActiveUsers();
 		},
-		interval: 15000,
+		interval: 15000
 	},
 	
 	constructor: function(question, lastPanel){
@@ -58,7 +58,7 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 		this.lastPanel = lastPanel;
 		
 		this.questionStore = new Ext.data.Store({
-			fields: ['text', 'value', 'percent'],
+			fields: ['text', 'value', 'percent']
 		});
 		
 		for ( var i = 0; i < question.possibleAnswers.length; i++) {
@@ -66,13 +66,13 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 			if(pA.data){
 				this.questionStore.add({
 					text: pA.data.text,
-					value: 0,
-				})
+					value: 0
+				});
 			} else {
 				this.questionStore.add({
 					text: pA.text,
-					value: 0,
-				})
+					value: 0
+				});
 			}
 		}
 		
@@ -89,9 +89,9 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 				ARSnova.mainTabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel, {
 					type		: 'slide',
 					direction	: 'right',
-					duration	: 700,
-				})
-			},
+					duration	: 700
+				});
+			}
 		});
 		
 		var title = this.questionObj.text;
@@ -100,13 +100,13 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 		
 		this.toolbar = new Ext.Toolbar({
 			items: [this.backButton, {
-				xtype: 'spacer',
+				xtype: 'spacer'
 			}, {
 				xtype: 'container',
 				cls: "x-toolbar-title",
-				html: Messages.QUESTION,
+				html: Messages.QUESTION
 			}, {
-				xtype: 'spacer',
+				xtype: 'spacer'
 			}, {
 				xtype: 'container',
 				cls: "x-toolbar-title",
@@ -141,7 +141,7 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 								0:   { color: 'rgb(43, 221, 115)' },
 								100: { color: 'rgb(14, 117, 56)' }
 							}
-						})	
+						});
 					}
 						
 				}
@@ -258,7 +258,7 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 		            renderer: function(v) {
 		                return v.toFixed(0);
 		            }
-		        },
+		        }
 		    },
 		    {
 		        type: 'Category',
@@ -266,7 +266,7 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 		        fields: ['text'],
 		        label: {
 		        	rotate: {
-		        		degrees: 315,
+		        		degrees: 315
 		        	}
 		        }
 		    }, {
@@ -292,11 +292,11 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 		          field: 'percent',
 		          renderer: function(v) {
 				return Math.round(v * 100) + "%";
-		          },
+		          }
 		        },
 		        xField: 'text',
 		        yField: 'value'
-		    }],
+		    }]
 		});
 		
 		this.dockedItems = [this.toolbar];
@@ -404,6 +404,6 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 			failure: function(){
 				console.log('server-side error');
 			}
-		})
-	},
+		});
+	}
 });

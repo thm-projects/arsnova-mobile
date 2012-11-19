@@ -42,16 +42,16 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 				sTP.setActiveItem(sTP.audienceQuestionPanel, {
 					type		: 'slide',
 					direction	: 'right',
-					duration	: 700,
-				})
-			},
+					duration	: 700
+				});
+			}
 		});
 		
 		this.textarea = new Ext.plugins.ResizableTextArea({
 			name	  	: 'text',
 	    	label	  	: Messages.QUESTION,
 	    	placeHolder	: Messages.QUESTION_PlACEHOLDER,
-	    	maxHeight	: 140,
+	    	maxHeight	: 140
 		});
 		
 		this.mainPart = new Ext.form.FormPanel({
@@ -62,8 +62,8 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 			        xtype	: 'textfield',
 			        name	: 'subject',
 			    	label	: Messages.CATEGORY,
-			    	placeHolder: Messages.CATEGORY_PLACEHOLDER,
-			    }],
+			    	placeHolder: Messages.CATEGORY_PLACEHOLDER
+			    }]
 			},{
 				xtype: 'fieldset',
 				items: [this.textarea]
@@ -71,20 +71,20 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 				//value of this field will be set by getMaxQuestionNumber()
 				xtype: 'numberfield',
 				hidden: true,
-				name: 'number',
+				name: 'number'
 			}]
 		});
 		
 		if(window.innerWidth < 600) {
 			this.releaseItems = [
                  { text	: Messages.ALL_SHORT, id: 'all', pressed: true}, 
-                 { text	: Messages.ONLY_THM_SHORT, id: 'thm',},
+                 { text	: Messages.ONLY_THM_SHORT, id: 'thm'}
 //                 { text	: "Kurse", id: 'courses', }
              ]
 		} else {
 			this.releaseItems = [
                  { text	: Messages.ALL_LONG, id: 'all', pressed: true}, 
-                 { text	: Messages.ONLY_THM_LONG, id: 'thm' },
+                 { text	: Messages.ONLY_THM_LONG, id: 'thm' }
 //                 { text	: "Kurse", id: 'courses', }
              ]
 		}
@@ -110,7 +110,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 	        		    				Ext.Ajax.request({
 	        		    					url: ARSnova.WEBSERVICE_URL + 'estudy/getTeacherCourses.php',
 	        		    					params: {
-	        		    						login: localStorage.getItem('login'),
+	        		    						login: localStorage.getItem('login')
 	        		    					},
 	        		    					success: function(response, opts){
 	        		    						var obj = Ext.decode(response.responseText).courselist;
@@ -122,7 +122,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 	        		    								xtype: 'checkboxfield',
 	        		    								name: course.name,
 	        		    								label: course.name,
-	        		    								value:	course.id,
+	        		    								value:	course.id
 	        		    							});
 	        		    						}
 	        		    						nQP.userCourses = obj;
@@ -134,7 +134,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 	        		    						console.log('getcourses server-side failure with status code ' + response.status);
 	        		    						Ext.Msg.alert(Messages.NOTICE, Messages.COULD_NOT_SEARCH);
 	        		    						Ext.Msg.doComponentLayout();
-	        		    					},
+	        		    					}
 	        		    				});
 	    		    				}
 	    		    				coursesFieldset.show();
@@ -149,9 +149,9 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 	            }, {
 	            	xtype: 'fieldset',
 	            	title: Messages.MY_COURSES,
-	            	hidden: true,
+	            	hidden: true
 	        	}]
-			}],
+			}]
     	});
 		
 		this.yesNoQuestion = new Ext.form.FormPanel({
@@ -167,9 +167,9 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
             		items: [
         		        { text	: Messages.YES, pressed: true }, 
         		        { text	: Messages.NO }
-            		],
-            	}],
-			}],
+            		]
+            	}]
+			}]
 		});
 		
 		this.multipleChoiceQuestion = new Ext.form.FormPanel({
@@ -221,37 +221,37 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 						xtype	: 'textfield',
 					    id		: 'correctAnswer',
 						label	: Messages.CORRECT,
-						placeHolder: Messages.CORRECT_PLACEHOLDER,
+						placeHolder: Messages.CORRECT_PLACEHOLDER
 					}, {
 						xtype	: 'textfield',
 					    id		: 'wrongAnswer1',
 						label	: Messages.WRONG,
-						placeHolder: Messages.WRONG_PLACEHOLDER,
+						placeHolder: Messages.WRONG_PLACEHOLDER
 					}, {
 						xtype	: 'textfield',
 					    id		: 'wrongAnswer2',
 					    label	: Messages.WRONG,
-					    placeHolder: Messages.WRONG_PLACEHOLDER,
+					    placeHolder: Messages.WRONG_PLACEHOLDER
 					}, {
 						xtype	: 'textfield',
 					    id		: 'wrongAnswer3',
 					    label	: Messages.WRONG,
-					    placeHolder: Messages.WRONG_PLACEHOLDER,
+					    placeHolder: Messages.WRONG_PLACEHOLDER
 					}, {
 						xtype	: 'textfield',
 					    id		: 'wrongAnswer4',
 					    label	: Messages.WRONG,
 					    placeHolder: Messages.WRONG_PLACEHOLDER,
-					    hidden	: true,
+					    hidden	: true
 					}, {
 						xtype	: 'textfield',
 					    id		: 'wrongAnswer5',
 					    label	: Messages.WRONG,
 					    placeHolder: Messages.WRONG_PLACEHOLDER,
-					    hidden	: true,
+					    hidden	: true
 					}
     	        ]
-			}],
+			}]
 		});
 
 		this.voteQuestion = new Ext.form.FormPanel({
@@ -265,30 +265,30 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 						xtype	: 'textfield',
 					    id		: 'voteAnswer1',
 					    label	: '1.',
-					    value	: Messages.EVALUATION_PLUSPLUS,
+					    value	: Messages.EVALUATION_PLUSPLUS
 					}, {
 						xtype	: 'textfield',
 					    id		: 'voteAnswer2',
 					    label	: '2.',
-					    value	: Messages.EVALUATION_PLUS,
+					    value	: Messages.EVALUATION_PLUS
 					}, {
 						xtype	: 'textfield',
 					    id		: 'voteAnswer3',
 					    label	: '3.',
-					    value	: Messages.EVALUATION_NEUTRAL,
+					    value	: Messages.EVALUATION_NEUTRAL
 					}, {
 						xtype	: 'textfield',
 					    id		: 'voteAnswer4',
 					    label	: '4.',
-					    value	: Messages.EVALUATION_MINUS,
+					    value	: Messages.EVALUATION_MINUS
 					}, {
 						xtype	: 'textfield',
 					    id		: 'voteAnswer5',
 					    label	: '5.',
-					    value	: Messages.EVALUATION_MINUSMINUS,
+					    value	: Messages.EVALUATION_MINUSMINUS
 					}
     	        ]
-			}],
+			}]
 		});
 		
 		this.schoolQuestion = new Ext.form.FormPanel({
@@ -302,35 +302,35 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 						xtype	: 'textfield',
 					    id		: 'schoolAnswer1',
 					    label	: '1.',
-					    value	: Messages.SCHOOL_A,
+					    value	: Messages.SCHOOL_A
 					}, {
 						xtype	: 'textfield',
 					    id		: 'schoolAnswer2',
 					    label	: '2.',
-					    value	: Messages.SCHOOL_B,
+					    value	: Messages.SCHOOL_B
 					}, {
 						xtype	: 'textfield',
 					    id		: 'schoolAnswer3',
 					    label	: '3.',
-					    value	: Messages.SCHOOL_C,
+					    value	: Messages.SCHOOL_C
 					}, {
 						xtype	: 'textfield',
 					    id		: 'schoolAnswer4',
 					    label	: '4.',
-					    value	: Messages.SCHOOL_D,
+					    value	: Messages.SCHOOL_D
 					}, {
 						xtype	: 'textfield',
 					    id		: 'schoolAnswer5',
 					    label	: '5.',
-					    value	: Messages.SCHOOL_E,
+					    value	: Messages.SCHOOL_E
 					}, {
 						xtype	: 'textfield',
 					    id		: 'schoolAnswer6',
 					    label	: '6.',
-					    value	: Messages.SCHOOL_NONE,
+					    value	: Messages.SCHOOL_NONE
 					}
     	        ]
-			}],
+			}]
 		});
 		
 		this.abcdQuestion = new Ext.form.FormPanel({
@@ -348,29 +348,29 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 									id: 'abcd_textA',
 									label: 'A',
 									placeHolder: Messages.BUZZWORD_A,
-									maxLength: 20,
+									maxLength: 20
 								},
 								{
 									xtype: 'textfield', 
 									id: 'abcd_textB',
 									label: 'B',
 									placeHolder: Messages.BUZZWORD_B,
-									maxLength: 20,
+									maxLength: 20
 								},
 								{
 									xtype: 'textfield', 
 									id: 'abcd_textC',
 									label: 'C',
 									placeHolder: Messages.BUZZWORD_C,
-									maxLength: 20,
+									maxLength: 20
 								},
 								{
 									xtype: 'textfield', 
 									id: 'abcd_textD',
 									label: 'D',
 									placeHolder: Messages.BUZZWORD_D,
-									maxLength: 20,
-								},
+									maxLength: 20
+								}
 							]
 				},
 				{
@@ -384,17 +384,17 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
         		        { text	: "A" }, 
         		        { text	: "B" },
         		        { text	: "C" },
-        		        { text	: "D" },
-            		],
+        		        { text	: "D" }
+            		]
             	}]
-			}],
+			}]
 		});
 
 		this.freetextQuestion = new Ext.form.FormPanel({
 			id: 'freetext',
 			hidden: true,
 			submitOnAction: false,
-			items: [],
+			items: []
 		});
 		
 		this.questionOptions = new Ext.SegmentedButton({
@@ -405,7 +405,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
                 { text: Messages.MC		}, 
                 { text: Messages.YESNO 	}, 
                 { text: Messages.ABCD	},
-				{ text: Messages.FREETEXT },
+				{ text: Messages.FREETEXT }
 	        ],
 	        listeners: {
 	        	toggle: function(container, button, pressed){
@@ -446,7 +446,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.QUESTION + " 1",
 			items: [
-		        this.backButton,
+		        this.backButton
 			]
 		});
 		
@@ -459,8 +459,8 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
                     {xtype: 'spacer'},
                     this.questionOptions,
                     {xtype: 'spacer'}
-                ],
-	        }),
+                ]
+	        })
         ];
 		
 		this.saveButton = new Ext.form.FormPanel({
@@ -470,9 +470,9 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 			        xtype	: 'button',
 			        ui: 'confirm',
 					text: Messages.SAVE,
-					handler: this.saveHandler,
-			    }],
-			}],
+					handler: this.saveHandler
+			    }]
+			}]
 		});
 		
 		this.items = [
@@ -486,7 +486,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
             this.abcdQuestion,
             
             this.releasePart,
-            this.saveButton,
+            this.saveButton
         ];
 		
 		ARSnova.views.speaker.NewQuestionPanel.superclass.constructor.call(this);
@@ -532,7 +532,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 							continue;
 						tmpArray.push({
 							name: name,
-							id: id,
+							id: id
 						});
 					}
 					if(tmpArray.length > 0){
@@ -556,7 +556,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 		          { text: tmpValues.voteAnswer2 },
 		          { text: tmpValues.voteAnswer3 },
 		          { text: tmpValues.voteAnswer4 },
-		          { text: tmpValues.voteAnswer5 },
+		          { text: tmpValues.voteAnswer5 }
 		    	];
 				break;
 			case Messages.SCHOOL:
@@ -569,7 +569,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 		          { text: tmpValues.schoolAnswer3 },
 		          { text: tmpValues.schoolAnswer4 },
 		          { text: tmpValues.schoolAnswer5 },
-		          { text: tmpValues.schoolAnswer6 },
+		          { text: tmpValues.schoolAnswer6 }
 		    	];
 				break;
 			case Messages.MC:
@@ -586,12 +586,12 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 		    	
 		    	values.possibleAnswers = [{
 		    		correct: 1,
-		    		text: tmpValues.correctAnswer,
+		    		text: tmpValues.correctAnswer
 		    	}];
 		    	
 		    	for ( var i = 1; i < tmpValues.countAnswers; i++){
 		    		values.possibleAnswers.push({
-						text: wrongAnswers[i - 1],
+						text: wrongAnswers[i - 1]
 					});	
 				}
 				break;
@@ -612,13 +612,13 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 					case "Ja":
 						values.possibleAnswers = [
 			              { text: "Ja", correct: 1 },
-			              { text: "Nein" },
+			              { text: "Nein" }
 			            ];
 						break;
 					case "Nein":
 						values.possibleAnswers = [
 			              { text: "Ja" },
-			              { text: "Nein", correct: 1 },
+			              { text: "Nein", correct: 1 }
 			            ];	
 						break;
 				}
@@ -702,8 +702,8 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 				Ext.dispatch({
 					controller	: 'questions',
 					action		: 'details',
-					question	: opts.request.jsonData,
-				})
+					question	: opts.request.jsonData
+				});
 			},
 			failureFunc	: function(response, opts){
     			console.log(response);
@@ -711,8 +711,8 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
     	  		console.log('server-side failure with status code ' + response.status);
     	  		Ext.Msg.alert(Messages.NOTICE, Messages.QUESTION_CREATION_ERROR);
     	  		Ext.Msg.doComponentLayout();
-    		},
-		})
+    		}
+		});
     },
     
     getMaxQuestionNumber: function(){
@@ -729,6 +729,6 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
     			panel.toolbar.setTitle(Messages.QUESTION + " " + value);
     			panel.mainPart.down('numberfield[name=number]').setValue(value);
     		}
-    	})
+    	});
     }
 });

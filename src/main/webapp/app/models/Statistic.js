@@ -23,7 +23,7 @@ ARSnova.models.Statistic = Ext.regModel('Statistic', {
 	
     fields: [
 	  'category', 
-	  'counter', 
+	  'counter'
     ],
     
     countSessions: function(callbacks){
@@ -40,5 +40,5 @@ ARSnova.models.Statistic = Ext.regModel('Statistic', {
     
     countActiveSessions: function(callbacks){
     	return this.proxy.countActiveSessions(callbacks);
-    },
+    }
 });

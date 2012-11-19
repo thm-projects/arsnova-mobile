@@ -61,7 +61,7 @@ Ext.regController("sessions", {
     	    	
     	    	Ext.dispatch({
 	    			controller	: 'sessions',
-	    			action		: 'reloadData',
+	    			action		: 'reloadData'
 	    		});
     		},
     		notFound: function() {
@@ -231,7 +231,7 @@ Ext.regController("sessions", {
 			shortName: options.shortName,
 			keyword	 : options.keyword,
 			creator	 : localStorage.getItem('login'),
-			active	 : 1,
+			active	 : 1
 		}, 'Session');
 		
 		var validation = session.validate();
@@ -276,7 +276,7 @@ Ext.regController("sessions", {
 				console.log(operation);
 				Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
 				Ext.Msg.doComponentLayout();
-			},
+			}
 		});
 	},
 	
@@ -313,14 +313,14 @@ Ext.regController("sessions", {
 						console.log(operation);
 		    	  		Ext.Msg.alert("Hinweis!", "Session speichern war nicht erfolgreich");
 		    	  		Ext.Msg.doComponentLayout();
-					},
+					}
 				});
 			},
 			failure: function(records, operation){
 				console.log(operation);
     	  		Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
     	  		Ext.Msg.doComponentLayout();
-			},
+			}
 		});
-    },
+    }
 });

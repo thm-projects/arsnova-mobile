@@ -40,13 +40,13 @@ ARSnova.views.FreetextAnswerPanel = Ext.extend(Ext.Panel, {
 			run: function() {
 				this.checkFreetextAnswers();
 			},
-			interval: 15000,
+			interval: 15000
 		},
 		
 		this.freetextAnswerStore = new Ext.data.JsonStore({
 			model		: 'FreetextAnswer',
 			sorters		: 'timestamp',
-			groupField	: 'groupDate',
+			groupField	: 'groupDate'
 		});
 		
 		this.backButton = new Ext.Button({
@@ -60,24 +60,24 @@ ARSnova.views.FreetextAnswerPanel = Ext.extend(Ext.Panel, {
 				ARSnova.mainTabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel, {
 					type		: 'slide',
 					direction	: 'right',
-					duration	: 700,
+					duration	: 700
 				});
-			},
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.QUESTION,
-			items: [this.backButton],
+			items: [this.backButton]
 		});
 		
 		this.noFreetextAnswers = new Ext.Panel({
 			cls: 'centerText',
-			html: Messages.NO_ANSWERS,
+			html: Messages.NO_ANSWERS
 		});
 		
 		this.items = [
 			this.noFreetextAnswers,
-			ARSnova.views.FreetextAnswerList(this.freetextAnswerStore),
+			ARSnova.views.FreetextAnswerList(this.freetextAnswerStore)
 		],
 		
 		this.dockedItems = [this.toolbar];
@@ -107,7 +107,7 @@ ARSnova.views.FreetextAnswerPanel = Ext.extend(Ext.Panel, {
 					var v = item.value;
 					return Ext.apply(item.value, {
 						formattedTime	: new Date(v.timestamp).format("H:i"),
-						groupDate		: new Date(v.timestamp).format("d.m.y"),
+						groupDate		: new Date(v.timestamp).format("d.m.y")
 					});
 				});
 				

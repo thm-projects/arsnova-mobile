@@ -33,7 +33,7 @@ var restProxy = new Ext.data.RestProxy({
 	listeners: {
 		exception: function(proxy, response, operation){
 			operation.exceptionReason = response.status;
-		},
+		}
 	},
 	
 	create: function(operation, callback, scope) {
@@ -174,10 +174,10 @@ var restProxy = new Ext.data.RestProxy({
     		url: this.url + '/_design/logged_in/_view/visited_sessions_by_user',
     		method: 'GET',
     		params: {
-    			key: "\"" + login + "\"",
+    			key: "\"" + login + "\""
     		},
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
     
@@ -189,7 +189,7 @@ var restProxy = new Ext.data.RestProxy({
     			key: "\"" + id + "\""
     		},
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
     
@@ -221,7 +221,7 @@ var restProxy = new Ext.data.RestProxy({
     			key: "\"" + sessionId + "\""
     		},
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
 	
@@ -234,7 +234,7 @@ var restProxy = new Ext.data.RestProxy({
 				key: "\"" + sessionId + "\""
 			},
 			success: callbacks.success,
-			failure: callbacks.failure,
+			failure: callbacks.failure
 		});
 	},
     
@@ -253,7 +253,7 @@ var restProxy = new Ext.data.RestProxy({
     			key: "\"" + sessionId + "\""
     		},
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
     
@@ -264,10 +264,10 @@ var restProxy = new Ext.data.RestProxy({
     		
     		params: {
     			startkey: "[\"" + sessionId + "\"]",
-    			endkey	: "[\"" + sessionId + "\", {}]",
+    			endkey	: "[\"" + sessionId + "\", {}]"
     		},
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
     
@@ -294,7 +294,7 @@ var restProxy = new Ext.data.RestProxy({
 					}
 				}
     		},
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
     
@@ -314,7 +314,7 @@ var restProxy = new Ext.data.RestProxy({
 								skillQuestion = skillQuestions[i];
 								restProxy.delQuestion(skillQuestion.value, {
 									success: function(){}, //nothing to do
-									failure: function(){}, //nothing to do
+									failure: function(){} //nothing to do
 								});
 							}
 						}
@@ -322,7 +322,7 @@ var restProxy = new Ext.data.RestProxy({
 					}
 				});
     		},
-    		failure: function(){console.log('failure');},
+    		failure: function(){console.log('failure');}
     	});
     },
     
@@ -350,11 +350,11 @@ var restProxy = new Ext.data.RestProxy({
     		method: 'GET',
     		
     		params: {
-    			key: "\"" + sessionId + "\"",
+    			key: "\"" + sessionId + "\""
     		},
 
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
     
@@ -363,11 +363,11 @@ var restProxy = new Ext.data.RestProxy({
     		url: this.url + '/_design/answer/_view/by_user_and_session',
     		method: 'GET',
     		params: {
-    			key: "[\"" + userLogin + "\", \"" + sessionId + "\"]",
+    			key: "[\"" + userLogin + "\", \"" + sessionId + "\"]"
     		},
 
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
     
@@ -376,7 +376,7 @@ var restProxy = new Ext.data.RestProxy({
     		url: this.url + '/_design/answer/_view/unanswered',
     		method: 'GET',
     		params: {
-    			key: "\"" + sessionId + "\"",
+    			key: "\"" + sessionId + "\""
     		},
 
     		success: function(response){
@@ -403,7 +403,7 @@ var restProxy = new Ext.data.RestProxy({
     			});
     			callbacks.success(retQuestions);
     		},
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
     
@@ -416,7 +416,7 @@ var restProxy = new Ext.data.RestProxy({
     		url: this.url + '/_design/answer/_view/by_user',
     		method: 'GET',
     		params: {
-    			key: "[\"" + userLogin + "\", \"" + sessionId + "\"]",
+    			key: "[\"" + userLogin + "\", \"" + sessionId + "\"]"
     		},
 
     		success: function(response){
@@ -438,10 +438,10 @@ var restProxy = new Ext.data.RestProxy({
     					});
     					callbacks.success(unanswered);
     				},
-    				failure: callbacks.failure,
+    				failure: callbacks.failure
     			});
     		},
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
     
@@ -464,11 +464,11 @@ var restProxy = new Ext.data.RestProxy({
     		url: requestUrl,
     		method: 'GET',
     		params: {
-    			key: "\"" + sessionId + "\"",
+    			key: "\"" + sessionId + "\""
     		},
     		
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
     
@@ -479,11 +479,11 @@ var restProxy = new Ext.data.RestProxy({
     		url: this.url + '/_design/answer/_view/by_question_and_user',
     		method: 'GET',
     		params: {
-    			key: "[\"" + questionId + "\", \"" + userLogin + "\"]",
+    			key: "[\"" + questionId + "\", \"" + userLogin + "\"]"
     		},
 
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
 
@@ -493,11 +493,11 @@ var restProxy = new Ext.data.RestProxy({
     		method: 'GET',
     		params: {
     			startkey: "[\"" + questionId + "\"]",
-    			endkey	: "[\"" + questionId + "\", {}]",
+    			endkey	: "[\"" + questionId + "\", {}]"
     		},
 
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
 
@@ -506,7 +506,7 @@ var restProxy = new Ext.data.RestProxy({
 			url: this.url + '/_design/skill_question/_view/count_answers_by_question',
 			method: 'GET',
 			params: {
-				key: "\"" + questionId + "\"",
+				key: "\"" + questionId + "\""
 			},
 			
 			success: callbacks.success,
@@ -520,11 +520,11 @@ var restProxy = new Ext.data.RestProxy({
 			url: this.url + '/_design/skill_question/_view/freetext_answers',
 			method: 'GET',
 			params: {
-				key: "\"" + questionId + "\"",
+				key: "\"" + questionId + "\""
 			},
 			
 			success: callbacks.success,
-			failure: callbacks.failure,
+			failure: callbacks.failure
 		});
 	},
 	
@@ -549,7 +549,7 @@ var restProxy = new Ext.data.RestProxy({
     		method: 'GET',
     		params: {
     			startkey: "null",
-    			endkey	: time,
+    			endkey	: time
     		},
 
     		success: function(response){
@@ -559,7 +559,7 @@ var restProxy = new Ext.data.RestProxy({
 						var el = responseObj[i];
 						restProxy.removeEntry(el.id, el.value, {
 							success: function(){},
-							failure: function(){console.log('error - clean session feedback');},
+							failure: function(){console.log('error - clean session feedback');}
 						});
 					}
     			}
@@ -599,7 +599,7 @@ var restProxy = new Ext.data.RestProxy({
     		method: 'DELETE',
     		
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
     
@@ -640,11 +640,11 @@ var restProxy = new Ext.data.RestProxy({
     		url: "session/" + sessionKeyword + "/feedbackcount",
     		method: 'GET',
     		params: {
-    			key: "\"" + sessionId + "\"",
+    			key: "\"" + sessionId + "\""
     		},
 
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
     
@@ -653,11 +653,11 @@ var restProxy = new Ext.data.RestProxy({
     		url: this.url + '/_design/user_ranking/_view/by_session_and_user',
     		method: 'GET',
     		params: {
-    			key: "[\"" + sessionId + "\", \"" + userLogin + "\"]",
+    			key: "[\"" + sessionId + "\", \"" + userLogin + "\"]"
     		},
 
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
     
@@ -666,11 +666,11 @@ var restProxy = new Ext.data.RestProxy({
     		url: this.url + '/_design/user_ranking/_view/count_by_session_and_user',
     		method: 'GET',
     		params: {
-    			key: "[\"" + sessionId + "\", \"" + userLogin + "\"]",
+    			key: "[\"" + sessionId + "\", \"" + userLogin + "\"]"
     		},
 
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
     
@@ -679,11 +679,11 @@ var restProxy = new Ext.data.RestProxy({
     		url: this.url + '/_design/user_ranking/_view/count_by_session',
     		method: 'GET',
     		params: {
-    			key: "\"" + sessionId + "\"",
+    			key: "\"" + sessionId + "\""
     		},
 
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
     
@@ -693,7 +693,7 @@ var restProxy = new Ext.data.RestProxy({
     		method: 'GET',
 
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
 
@@ -703,11 +703,11 @@ var restProxy = new Ext.data.RestProxy({
     		method: 'GET',
     		
     		params: {
-    			key: "\"" + sessionId + "\"",
+    			key: "\"" + sessionId + "\""
     		},
 
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
     
@@ -717,11 +717,11 @@ var restProxy = new Ext.data.RestProxy({
     		method: 'GET',
     		
     		params: {
-    			key: "\"" + sessionId + "\"",
+    			key: "\"" + sessionId + "\""
     		},
 
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
     
@@ -730,11 +730,11 @@ var restProxy = new Ext.data.RestProxy({
     		url: this.url + '/_design/food_vote/_view/get_user_vote',
     		method: 'GET',
     		params: {
-    			key: "[\"" + day + "\", \"" + userLogin + "\"]",
+    			key: "[\"" + day + "\", \"" + userLogin + "\"]"
     		},
 
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
     
@@ -744,11 +744,11 @@ var restProxy = new Ext.data.RestProxy({
     		method: 'GET',
     		params: {
     			startkey: "[\"" + day + "\"]",
-    			endkey	: "[\"" + day + "\", {}]",
+    			endkey	: "[\"" + day + "\", {}]"
     		},
 
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
     
@@ -758,11 +758,11 @@ var restProxy = new Ext.data.RestProxy({
     		method: 'GET',
     		params: {
     			startkey: "[\"" + day + "\"]",
-    			endkey	: "[\"" + day + "\", {}]",
+    			endkey	: "[\"" + day + "\", {}]"
     		},
 
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
     
@@ -802,11 +802,11 @@ var restProxy = new Ext.data.RestProxy({
 	    		url: this.url + '/_design/statistic/_view/count_active_users',
 	    		method: 'GET',
 	    		params: {
-	    			startkey: ts,
+	    			startkey: ts
 	    		},
 	
 	    		success: callbacks.success,
-	    		failure: callbacks.failure,
+	    		failure: callbacks.failure
 	    	});
 	    },
 	    
@@ -816,11 +816,11 @@ var restProxy = new Ext.data.RestProxy({
 	    		url: this.url + '/_design/statistic/_view/count_active_users_with_session?reduce=false',
 	    		method: 'GET',
 	    		params: {
-	    			startkey: ts,
+	    			startkey: ts
 	    		},
 	
 	    		success: callbacks.success,
-	    		failure: callbacks.failure,
+	    		failure: callbacks.failure
 	    	});
 	    },
 	    
@@ -830,11 +830,11 @@ var restProxy = new Ext.data.RestProxy({
 	    		url: this.url + '/_design/statistic/_view/count_active_sessions?reduce=false',
 	    		method: 'GET',
 	    		params: {
-	    			startkey: ts,
+	    			startkey: ts
 	    		},
 	    		
 	    		success: callbacks.success,
-	    		failure: callbacks.failure,
+	    		failure: callbacks.failure
 	    	});
 	    },
 	    
@@ -844,7 +844,7 @@ var restProxy = new Ext.data.RestProxy({
 	    		method: 'GET',
 	
 	    		success: callbacks.success,
-	    		failure: callbacks.failure,
+	    		failure: callbacks.failure
 	    	});
 	    },
 	    
@@ -869,7 +869,7 @@ var restProxy = new Ext.data.RestProxy({
 	    		key: "\"" + sessionId + "\""
 	    	},
 	    	success: callbacks.success,
-	    	failure: callbacks.failure,
+	    	failure: callbacks.failure
 	    });   		
     },
     
@@ -881,7 +881,7 @@ var restProxy = new Ext.data.RestProxy({
     			key: "\"" + sessionId + "\""
     		},
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
     },
     
@@ -893,7 +893,7 @@ var restProxy = new Ext.data.RestProxy({
     			key: "\"" + courseId + "\""
     		},
     		success: callbacks.success,
-    		failure: callbacks.failure,
+    		failure: callbacks.failure
     	});
-    },
+    }
 });

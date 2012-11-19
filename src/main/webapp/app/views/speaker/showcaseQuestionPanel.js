@@ -40,16 +40,16 @@ ARSnova.views.speaker.ShowcaseQuestionPanel = Ext.extend(Ext.Carousel, {
 		
 		this.questionCounter = new Ext.Container({
 			cls: "x-toolbar-title alignRight",
-			html: '0/0',
+			html: '0/0'
 		});
 		
 		this.statisticButton = new Ext.Button({
 			text	: ' ',
 			cls		: 'statisticIconSmall',
 			handler	: function() {
-				var questionStatisticChart = new ARSnova.views.QuestionStatisticChart(ARSnova.mainTabPanel.tabPanel.speakerTabPanel.layout.activeItem.questionObj, this)
+				var questionStatisticChart = new ARSnova.views.QuestionStatisticChart(ARSnova.mainTabPanel.tabPanel.speakerTabPanel.layout.activeItem.questionObj, this);
 				ARSnova.mainTabPanel.setActiveItem(questionStatisticChart, 'slide');
-			},
+			}
 		});
 		
 		this.leaveShowcaseButton = new Ext.Button({

@@ -42,15 +42,15 @@ ARSnova.views.about.SponsorsPanel = Ext.extend(Ext.Panel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700,
-					scope		: this,
-				})
-			},
+					scope		: this
+				});
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.SPONSORS_SHORT,
 			items: [
-		        this.backButton,
+		        this.backButton
 			]
 		});
 		
@@ -60,7 +60,7 @@ ARSnova.views.about.SponsorsPanel = Ext.extend(Ext.Panel, {
 			defaults: {
 				xtype		: 'button',
 				ui			: 'normal',
-				cls			: 'forwardListButton',
+				cls			: 'forwardListButton'
 			},
 		
 			items: [{
@@ -72,7 +72,7 @@ ARSnova.views.about.SponsorsPanel = Ext.extend(Ext.Panel, {
 							window.open("http://www.e-learning-hessen.de");
 						}
 					}
-				},
+				}
 			}, {
 				text	: Messages.AGQLS,
 				listeners: {
@@ -82,8 +82,8 @@ ARSnova.views.about.SponsorsPanel = Ext.extend(Ext.Panel, {
 							window.open("http://www.thm.de/site/serviceeinrichtungen/arbeitsgemeinschaft-qualitaet-in-lehre-und-studium-der-th-mittelhessen-agqls.html");
 						}
 					}
-				},
-			}],
+				}
+			}]
 		});
 		
 		this.dockedItems = [this.toolbar];

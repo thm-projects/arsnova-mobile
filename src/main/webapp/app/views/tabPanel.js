@@ -24,7 +24,7 @@ ARSnova.views.TabPanel = Ext.extend(Ext.TabPanel, {
     	dock: 'bottom',
 	    layout: {
 	    	pack: 'center'
-	    },
+	    }
     },
 	scroll: false,
 	
@@ -48,7 +48,7 @@ ARSnova.views.TabPanel = Ext.extend(Ext.TabPanel, {
 			ARSnova.mainTabPanel.tabPanel.updateFeedbackBadge();
 			ARSnova.mainTabPanel.tabPanel.updateFeedbackIcon();
 		},
-		interval: 15000, //15 seconds
+		interval: 15000 //15 seconds
 	},
 	
 	constructor: function(){
@@ -65,7 +65,7 @@ ARSnova.views.TabPanel = Ext.extend(Ext.TabPanel, {
 			this.homeTabPanel,
 			this.canteenTabPanel,
 			this.infoTabPanel,
-			this.helpMainPanel,
+			this.helpMainPanel
 		],
 		
 		ARSnova.views.TabPanel.superclass.constructor.call(this);
@@ -83,7 +83,7 @@ ARSnova.views.TabPanel = Ext.extend(Ext.TabPanel, {
 			animation = {
 				type: animation,
 				direction: 'left',
-				duration: ARSnova.cardSwitchDuration,
+				duration: ARSnova.cardSwitchDuration
 			};
 		}
 		ARSnova.views.TabPanel.superclass.setActiveItem.apply(this, arguments);
@@ -172,6 +172,6 @@ ARSnova.views.TabPanel = Ext.extend(Ext.TabPanel, {
 			failure: function(){
 				console.log('server-side error');
 			}
-		})
-	},
+		});
+	}
 });

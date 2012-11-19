@@ -25,14 +25,14 @@ ARSnova.models.Question = Ext.regModel('Question', {
       'type',
    	  'text',
    	  'subject',
-   	  'sessionId',  
+   	  'sessionId'
     ],
            
    	validations: [
       {type: 'presence', field: 'type'},
       {type: 'presence', field: 'text'},
       {type: 'presence', field: 'subject'},
-      {type: 'presence', field: 'sessionId'},
+      {type: 'presence', field: 'sessionId'}
     ],
     
     destroy: function(queObj, callbacks) {
@@ -109,5 +109,5 @@ ARSnova.models.Question = Ext.regModel('Question', {
     
     releasedByCourseId: function(courseId, callbacks) {
     	return this.proxy.releasedByCourseId(courseId, callbacks);
-    },
+    }
 });

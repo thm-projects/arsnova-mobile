@@ -23,7 +23,7 @@ ARSnova.views.FreetextAnswerList = function(store) {
 	return new Ext.List({
 		activeCls: 'search-item-active',
 		style: {
-			backgroundColor: 'transparent',
+			backgroundColor: 'transparent'
 		},
 		
 		itemCls: 'forwardListButton',
@@ -44,10 +44,10 @@ ARSnova.views.FreetextAnswerList = function(store) {
 					action		: 'freetextDetailAnswer',
 					answer		: Ext.apply(answer, {
 						deselectItem: function() { list.deselect(index); },
-						removeItem: function() { list.store.remove(list.store.getAt(index)); },
-					}),
+						removeItem: function() { list.store.remove(list.store.getAt(index)); }
+					})
 				});
-			},
+			}
 		}
 	});
-}
+};

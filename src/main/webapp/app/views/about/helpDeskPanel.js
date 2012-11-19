@@ -39,15 +39,15 @@ ARSnova.views.about.HelpDeskPanel = Ext.extend(Ext.Panel, {
 				me.setActiveItem(me.infoPanel, {
 					type		: 'slide',
 					direction	: 'right',
-					duration	: 700,
-				})
-			},
+					duration	: 700
+				});
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.HELPDESK,
 			items: [
-		        this.backButton,
+		        this.backButton
 			]
 		});
 		
@@ -59,7 +59,7 @@ ARSnova.views.about.HelpDeskPanel = Ext.extend(Ext.Panel, {
 					'<p>Der Helpdesk ist auch telefonisch zu erreichen: +49 641 - 309 2381</p>',
 					'<p>montags: 13:00 Uhr - 15:00 Uhr<br/>',
 					'dienstags: 09:00 Uhr - 14:00 Uhr<br/>',
-					'mittwochs: 09:00 Uhr - 14:00 Uhr</p>']
+					'mittwochs: 09:00 Uhr - 14:00 Uhr</p>'];
 		
 		this.items = [{
 			cls: 'roundedBox fontNormal',
@@ -72,9 +72,9 @@ ARSnova.views.about.HelpDeskPanel = Ext.extend(Ext.Panel, {
 				'</div></div></div>']).join("\n")
 		}].concat(!Ext.is.Desktop ? [] : [{
 			cls: 'gravure',
-			html: '<a href="http://www.sitepoint.com/css3-starwars-scrolling-text/" target="_blank">sitepoint.com/css3-starwars-scrolling-text/</a>',
+			html: '<a href="http://www.sitepoint.com/css3-starwars-scrolling-text/" target="_blank">sitepoint.com/css3-starwars-scrolling-text/</a>'
 		}]);
 		
 		ARSnova.views.about.HelpDeskPanel.superclass.constructor.call(this);
-	},
+	}
 });

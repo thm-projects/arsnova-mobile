@@ -31,24 +31,24 @@ ARSnova.views.SessionStatusButton = Ext.extend(Ext.Panel, {
 			cls		: 'closedSession',
 			handler	: function(){
 				ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
-			},
+			}
 		});
 		
 		this.sessionIsClosedText = new Ext.Panel({
 			cls	: 'centerTextSmall',
-			html: Messages.START_SESSION,
+			html: Messages.START_SESSION
 		});
 		
 		this.sessionIsOpenButton = new Ext.Button({
 			cls		: 'openSession',
 			handler	: function(){
 				ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
-			},
+			}
 		});
 		
 		this.sessionIsOpenText = new Ext.Panel({
 			cls	: 'centerTextSmall',
-			html: Messages.STOP_SESSION,
+			html: Messages.STOP_SESSION
 		});
 
 		this.items = [this.sessionIsClosedButton, this.sessionIsClosedText, this.sessionIsOpenButton, this.sessionIsOpenText];
@@ -74,7 +74,7 @@ ARSnova.views.SessionStatusButton = Ext.extend(Ext.Panel, {
 				action		: 'setActive',
 				active		: 0,
 				callback	: this.sessionClosedSuccessfully
-			})
+			});
 		} else {
 			/* open this session */
 			Ext.dispatch({
@@ -82,7 +82,7 @@ ARSnova.views.SessionStatusButton = Ext.extend(Ext.Panel, {
 				action		: 'setActive',
 				active		: 1,
 				callback	: this.sessionOpenedSuccessfully
-			})
+			});
 		}
 	},
 	
@@ -112,5 +112,5 @@ ARSnova.views.SessionStatusButton = Ext.extend(Ext.Panel, {
 		this.sessionIsOpenText.show();
 		this.sessionIsClosedButton.hide();
 		this.sessionIsClosedText.hide();
-	},
+	}
 }); 

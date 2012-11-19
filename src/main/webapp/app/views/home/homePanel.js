@@ -52,7 +52,7 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 		this.toolbar = new Ext.Toolbar({
 			title: 'ARSnova',
 			items: [
-		        this.logoutButton,
+		        this.logoutButton
 			]
 		});
 		
@@ -67,8 +67,8 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 				cls			: 'forwardListButton',
 				controller	: 'user',
 				action		: 'index',
-				handler		: this.buttonClicked,
-			}],
+				handler		: this.buttonClicked
+			}]
 		});
 		
 		this.sessionLoginForm = new Ext.Panel({
@@ -78,7 +78,7 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 				cls		: 'topPadding',
 				items	: [{
 					cls		: 'gravure',
-					html	: Messages.ENTER_SESSIONID,						
+					html	: Messages.ENTER_SESSIONID
 				}]
 			}, {
 				submitOnAction: false,
@@ -93,30 +93,30 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 						xtype		: 'numericKeypad',
 						name		: 'keyword',
 						placeHolder	: Messages.SESSIONID_PLACEHOLDER,
-						maxLength	: 11,
-					}],					
+						maxLength	: 11
+					}]
 				}, {
 					xtype	: 'button',
 					ui		: 'confirm',
 					text	: Messages.GO,
-					handler	: this.onSubmit,
-				}],
-			}],
+					handler	: this.onSubmit
+				}]
+			}]
 		});
 		
 		this.lastVisitedSessionsFieldset = new Ext.form.FieldSet({
 			cls: 'standardFieldset',
-			title: Messages.LAST_VISITED_SESSIONS,
+			title: Messages.LAST_VISITED_SESSIONS
 		});
 		
 		this.lastVisitedSessionsForm = new Ext.form.FormPanel({
-			items: [this.lastVisitedSessionsFieldset],
+			items: [this.lastVisitedSessionsFieldset]
 		});
 		
 		this.dockedItems = [this.toolbar];
 		this.items = [
             this.sessionLoginForm,
-            this.lastVisitedSessionsForm,
+            this.lastVisitedSessionsForm
         ];
 		
 		ARSnova.views.home.HomePanel.superclass.constructor.call(this);
@@ -143,7 +143,7 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 	buttonClicked: function(button) {
 		Ext.dispatch({
 			controller	: button.controller,
-			action		: button.action,
+			action		: button.action
 		});
 	},
 	
@@ -160,8 +160,8 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 			action	  : 'login',
 			keyword	  : values.keyword.replace(/ /g, ""),
 			destroy   : false,
-			panel	  : sessionLoginPanel,
-		})
+			panel	  : sessionLoginPanel
+		});
 	},
 	
 	loadVisitedSessions: function() {
@@ -197,9 +197,9 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 								Ext.dispatch({
 									controller	: 'sessions',
 									action		: 'login',
-									keyword		: options.sessionObj.keyword,
+									keyword		: options.sessionObj.keyword
 								});
-							},
+							}
 						});
 						panel.lastVisitedSessionsFieldset.add(sessionButton);
 						panel.updateBadge(session._id, sessionButton);
@@ -239,7 +239,7 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 			},
 			failure: function(response) {
 				console.log('error');
-			},
+			}
 		});
-	},
+	}
 });

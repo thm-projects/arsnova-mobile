@@ -34,7 +34,7 @@ ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
 		run: function(){
 			ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.renewChartData();
 		},
-		interval: 10000, //10 seconds
+		interval: 10000 //10 seconds
 	},
 	
 	constructor: function(){
@@ -52,7 +52,7 @@ ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
 		    			this.hide();
 		    		}
 		    	});
-			},
+			}
 		});
 		
 		this.feedbackVoteButton = new Ext.Button({
@@ -65,10 +65,10 @@ ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
 				fP.setActiveItem(fP.votePanel, {
 						type: 'slide',
 						direction: 'down',
-						duration: 700,
+						duration: 700
 					}
 				);
-			},
+			}
 		});
 		
 		this.feedbackCounter = new Ext.Container({
@@ -79,7 +79,7 @@ ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
 					return this.el.dom.innerHTML;
 				else
 					return this.html;
-			},
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
@@ -89,7 +89,7 @@ ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
 		        {xtype: 'spacer'},
 		        this.feedbackVoteButton,
 		        {xtype: 'spacer'},
-		        this.feedbackCounter,
+		        this.feedbackCounter
 			]
 		});
 		
@@ -102,7 +102,7 @@ ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
 		          {name: 'Bitte schneller',  displayName: Messages.FEEDBACK_GOOD,  value: 0, percent: 0.0},
 		          {name: 'Kann folgen', 	 displayName: Messages.FEEDBACK_OKAY, value: 0, percent: 0.0},
 		          {name: 'Zu schnell', 		 displayName: Messages.FEEDBACK_BAD, value: 0, percent: 0.0},
-		          {name: 'Nicht mehr dabei', displayName: Messages.FEEDBACK_NONE, value: 0, percent: 0.0},
+		          {name: 'Nicht mehr dabei', displayName: Messages.FEEDBACK_NONE, value: 0, percent: 0.0}
 		        ]
 		    }),
 
@@ -159,7 +159,7 @@ ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
 		            renderer: function(v) {
 		                return v.toFixed(0);
 		            }
-		        },
+		        }
 		    },
 		    {
 		        type: 'Category',
@@ -167,7 +167,7 @@ ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
 		        fields: ['displayName'],
 		        label: {
 		        	rotate: {
-		        		degrees: 315,
+		        		degrees: 315
 		        	}
 		        }
 		    }],
@@ -187,7 +187,7 @@ ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
 		        },
 		        xField: 'name',
 		        yField: 'value'
-		    }],
+		    }]
 		});
 		
 		this.dockedItems = [this.toolbar];
@@ -269,7 +269,7 @@ ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
 			},
 			failure: function() {
 				console.log('server-side error feedbackModel.getSessionFeedback');
-			},
+			}
 		});
 	},
 	

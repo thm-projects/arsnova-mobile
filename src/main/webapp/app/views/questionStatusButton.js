@@ -35,24 +35,24 @@ ARSnova.views.QuestionStatusButton = Ext.extend(Ext.Panel, {
 			cls			: 'closedSession',
 			handler		: function(){
 				ARSnova.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel.questionStatusButton.changeStatus();
-			},
+			}
 		});
 		
 		this.questionIsClosedText = new Ext.Panel({
 			cls	: 'centerTextSmall',
-			html: Messages.RELEASE_QUESTION,
+			html: Messages.RELEASE_QUESTION
 		});
 		
 		this.questionIsOpenButton = new Ext.Button({
 			cls			: 'openSession',
 			handler		: function(){
 				ARSnova.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel.questionStatusButton.changeStatus();
-			},
+			}
 		});
 		
 		this.questionIsOpenText = new Ext.Panel({
 			cls	: 'centerTextSmall',
-			html: Messages.STOP_QUESTION,
+			html: Messages.STOP_QUESTION
 		});
 
 		this.items = [this.questionIsClosedButton, this.questionIsClosedText, this.questionIsOpenButton, this.questionIsOpenText];
@@ -81,7 +81,7 @@ ARSnova.views.QuestionStatusButton = Ext.extend(Ext.Panel, {
 				questionId	: id, 
 				active		: 0,
 				callback	: this.questionClosedSuccessfully
-			})
+			});
 		} else {
 			/* open this question */
 			Ext.dispatch({
@@ -90,7 +90,7 @@ ARSnova.views.QuestionStatusButton = Ext.extend(Ext.Panel, {
 				questionId	: id,
 				active		: 1,
 				callback	: this.questionOpenedSuccessfully
-			})
+			});
 		}
 	},
 	
@@ -121,6 +121,6 @@ ARSnova.views.QuestionStatusButton = Ext.extend(Ext.Panel, {
 		this.questionIsOpenText.show();
 		this.questionIsClosedButton.hide();
 		this.questionIsClosedText.hide();
-		ARSnova.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel.editButton.hide()
-	},
+		ARSnova.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel.editButton.hide();
+	}
 }); 

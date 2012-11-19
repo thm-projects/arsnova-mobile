@@ -49,7 +49,7 @@ ARSnova.views.MultiBadgeButton = Ext.extend(Ext.Button, {
 				var aBadge = me.el.createChild({
 					tag: 'span',
 					cls: item.badgeCls || me.badgeCls,
-					html: item.badgeText,
+					html: item.badgeText
 				});
 				me.multiBadges.push(aBadge);
 			}
@@ -64,7 +64,7 @@ ARSnova.views.MultiBadgeButton = Ext.extend(Ext.Button, {
 		
 		me.el.addCls(me.hasBadgeCls);
 		return me;
-	},
+	}
 });
 
 Ext.reg('x-multibadgebutton', ARSnova.views.MultiBadgeButton);
