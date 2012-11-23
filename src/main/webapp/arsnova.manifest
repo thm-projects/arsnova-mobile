@@ -16,14 +16,5 @@ resources/images/ARSnova_Grafiken/03_Launchimage_320x460px.png
 resources/images/ARSnova_Grafiken/03_Launchimage_768x1004px.png
 resources/images/ARSnova_Grafiken/03_Launchimage_748x1024px.png
 
-# arsnova2 images
-img/
-
-# arsnova2 css
-css/
-
-# arsnova2 js
-js/
-
 NETWORK:
 *
