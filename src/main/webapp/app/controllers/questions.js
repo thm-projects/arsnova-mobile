@@ -128,20 +128,12 @@ Ext.regController("questions", {
 	},
     
     detailsFeedbackQuestion: function(options){
-    	var session = Ext.ModelMgr.getModel("Question").load(options.question.id, {
-    		success: function(records, operation){
-    			var question = Ext.ModelMgr.create(Ext.decode(operation.response.responseText), 'Question');
+    	options.question.getInterposed({
+    		success: function(response){
+    			var question = Ext.ModelMgr.create(Ext.decode(response.responseText), 'Question');
     			
-    			if(!question.get('read')) {
-	    			question.set('read', 1);
-	    			question.save();
-	    			var tab = ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab;
-            		tab.setBadge(tab.badgeText - 1);
-            		ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.questionsCounter--;
-    			}
-    			
-    			question.set('formattedTime', options.question.formattedTime);
-    			question.set('fullDate', options.question.fullDate);
+    			question.set('formattedTime', options.formattedTime);
+    			question.set('fullDate', options.fullDate);
     			
 				var newPanel = new ARSnova.views.feedbackQuestions.DetailsPanel(question.data);
 		    	ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.setActiveItem(newPanel, 'slide');

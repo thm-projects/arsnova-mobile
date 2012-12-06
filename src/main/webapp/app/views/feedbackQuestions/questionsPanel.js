@@ -157,10 +157,10 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
   		    	'<div class="search-item">',
   		    		'<div class="action delete x-button">Delete</div>',
   			    	'<span style="color:gray;">{formattedTime}</span>',
-  			    	'<tpl if="obj.read == 1">',
+  			    	'<tpl if="obj.get(\'read\')">',
   				    	'<span style="padding-left:30px;">{subject}</span>',
   			    	'</tpl>',
-  			    	'<tpl if="obj.read != 1">',
+  			    	'<tpl if="!obj.get(\'read\')">',
 				    	'<span style="padding-left:30px;font-weight:bold;color:red">{subject}</span>',
 			    	'</tpl>',
   		    	'</div>'
@@ -181,14 +181,13 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 		                var store    = this.store;
 		                
 		                var question = store.getAt(index).data.obj;
-		                ARSnova.questionModel.destroy({
-		                	_id: question.id,
-		                	_rev: question.rev
-		                },{
+		                ARSnova.questionModel.deleteInterposed(question.data, {
 		                	success: function(){
 		                		store.removeAt(index);
 		                		var tab = ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab;
-		                		tab.setBadge(tab.badgeText - 1);
+		                		if (parseInt(tab.badgeText) > 0) {
+		                			tab.setBadge(tab.badgeText - 1);
+		                		}
 		                		var panel = ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel;
 		                		panel.questionsCounter--;
 		                		if(panel.questionsCounter == 0)
@@ -199,16 +198,24 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 				                	editButton.activateAll();
 				                }
 	                		},
-		                	failure: function(){console.log('fehler');}
+		                	failure: function(){
+		                		console.log('fehler');
+		                	}
 		                });
 		            } else {
 		            	editButton.deactivateAll();
 		            	editButton.unsetActive();
 		                
+		            	var details = list.store.getAt(index).data;
+		            	details.obj.set('read', true);
+		            	list.refresh();
+		            	
 			    		Ext.dispatch({
-							controller	: 'questions',
-							action		: 'detailsFeedbackQuestion',
-							question	: list.store.getAt(index).data.obj
+							controller		: 'questions',
+							action			: 'detailsFeedbackQuestion',
+							question		: details.obj,
+							formattedTime	: details.formattedTime,
+							fullDate		: details.fullDate
 						});
 		            }
 		    	}
@@ -233,9 +240,9 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 	
 	getFeedbackQuestions: function(){
 		ARSnova.showLoadMask(Messages.LOADING_NEW_QUESTIONS);
-		ARSnova.questionModel.getInterposedQuestions(localStorage.getItem('sessionId'),{
+		ARSnova.questionModel.getInterposedQuestions(localStorage.getItem('keyword'),{
 			success: function(response){
-				var questions = Ext.decode(response.responseText).rows;
+				var questions = Ext.decode(response.responseText);
 				var fQP = ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel;
     			var panel = fQP.questionsPanel;
     			ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadge(questions.length);
@@ -251,9 +258,7 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 					panel.noQuestionsFound.hide();
 					panel.editButton.show();
 					var unread = 0;
-					for(var i = 0; i < questions.length; i++){
-						var question = questions[i].value;
-						question.id = questions[i].id;
+					for(var i = 0, question; question = questions[i]; i++){
 						var formattedTime = "", fullDate = "", groupDate = "";
 						if(question.timestamp){
 							var time = new Date(question.timestamp);
@@ -274,17 +279,18 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 						if(!question.subject)
 							question.subject = Messages.NO_SUBJECT;
 						
-						if (question.read === undefined) {
-							unread += 1;
+						if (!question.read) {
+							unread++;
 						}
 						
 						panel.store.add({
 							formattedTime: formattedTime,
+							fullDate: fullDate,
 							timestamp: question.timestamp,
 							groupDate: groupDate,
 							subject: question.subject,
 							type: question.type,
-							obj: question
+							obj: Ext.ModelMgr.create(question, 'Question')
 						});
 					}
 					fQP.tab.setBadge(unread);
@@ -304,20 +310,18 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 	},
 	
 	checkFeedbackQuestions: function(){
-		ARSnova.questionModel.countFeedbackQuestions(localStorage.getItem("sessionId"), {
+		ARSnova.questionModel.countFeedbackQuestions(localStorage.getItem("keyword"), {
 			success: function(response){
 				var feedbackQuestionsPanel = ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel;
 				var panel = feedbackQuestionsPanel.questionsPanel;
-				var responseObj = Ext.decode(response.responseText).rows;
+				var responseObj = Ext.decode(response.responseText);
 				var read = 0, unread = 0, sum = 0;
 				
-				for (var i = 0; i < responseObj.length; i++) {
-					var obj = responseObj[i];
-					
-					if (obj.key[1] == 'unread') {
-						unread += obj.value;
+				for (var i = 0, obj; obj = responseObj[i]; i++) {
+					if (!obj.read) {
+						unread++;
 					} else {
-						read += obj.value;
+						read++;
 					}
 				}
 				
@@ -325,7 +329,6 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 				
 				if (sum > 0){
 					panel.editButton.show();
-					value = responseObj[0].value;
 				} else {
 					panel.editButton.hide();
 				}

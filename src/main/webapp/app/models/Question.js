@@ -39,6 +39,10 @@ ARSnova.models.Question = Ext.regModel('Question', {
     	return this.proxy.delQuestion(queObj, callbacks);
     },
     
+    deleteInterposed: function(question, callbacks) {
+		return this.proxy.deleteInterposedQuestion(question, callbacks);
+    },
+    
     deleteAnswers: function(questionId, callbacks) {
     	return this.proxy.delAnswers(questionId, callbacks);
     },
@@ -71,12 +75,20 @@ ARSnova.models.Question = Ext.regModel('Question', {
 		return this.proxy.countTotalAnswers(sessionId, callbacks);
 	},
     
-    getInterposedQuestions: function(sessionId, callbacks) {
-    	return this.proxy.getInterposedQuestions(sessionId, callbacks);
+    getInterposedQuestions: function(sessionKeyword, callbacks) {
+    	return this.proxy.getInterposedQuestions(sessionKeyword, callbacks);
     },
     
-    countFeedbackQuestions: function(sessionId, callbacks) {
-    	return this.proxy.countFeedbackQuestions(sessionId, callbacks);
+    getInterposed: function(callbacks) {
+    	return this.proxy.getInterposedQuestion(this, callbacks);
+    },
+    
+    saveInterposed: function(callbacks) {
+    	return this.proxy.saveInterposedQuestion(this.data.subject, this.data.text, this.data.sessionKeyword, callbacks);
+    },
+    
+    countFeedbackQuestions: function(sessionKeyword, callbacks) {
+    	return this.proxy.countFeedbackQuestions(sessionKeyword, callbacks);
     },
     
     changeQuestionType: function(sessionId, callbacks) {

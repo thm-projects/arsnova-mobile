@@ -87,10 +87,8 @@ ARSnova.views.feedbackQuestions.DetailsPanel = Ext.extend(Ext.Panel, {
 			scope: this,
 			handler: function(){
 				var panel = ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel;
-				var tab = panel.tab;
-				tab.setBadge(tab.badgeText - 1);
 				
-				ARSnova.questionModel.destroy(this.questionObj, {
+				ARSnova.questionModel.deleteInterposed(this.questionObj, {
 					failure: function(response){
 						console.log('server-side error delete question');
 					}

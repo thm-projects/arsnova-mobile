@@ -237,39 +237,59 @@ var restProxy = new Ext.data.RestProxy({
 			failure: callbacks.failure
 		});
 	},
-    
-    /**
-     * Get interposed questions for this session
-     * @param sessionId
-     * @param object with success- and failure-callbacks
-     * @return session-objects, if found
-     * @return false, if nothing found 
-     */
-    getInterposedQuestions: function(sessionId, callbacks){
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/interposed_question/_view/by_session',
-    		method: 'GET',
-    		params: {
-    			key: "\"" + sessionId + "\""
-    		},
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
-    
-    countFeedbackQuestions: function(sessionId, callbacks){
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/interposed_question/_view/count_by_session_reading?group=true',
-    		method: 'GET',
-    		
-    		params: {
-    			startkey: "[\"" + sessionId + "\"]",
-    			endkey	: "[\"" + sessionId + "\", {}]"
-    		},
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
+	
+	/**
+	 * Get interposed questions for this session
+	 * @param sessionKeyword
+	 * @param object with success- and failure-callbacks
+	 * @return session-objects, if found
+	 * @return false, if nothing found 
+	 */
+	getInterposedQuestions: function(sessionKeyword, callbacks){
+		Ext.Ajax.request({
+			url: "session/" + sessionKeyword + "/interposed",
+			method: "GET",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	getInterposedQuestion: function(question, callbacks) {
+		Ext.Ajax.request({
+			url: "session/" + question.get('sessionId') + "/interposed/" + question.data._id,
+			method: "GET",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	saveInterposedQuestion: function(subject, text, sessionKeyword, callbacks) {
+		Ext.Ajax.request({
+			url: "session/" + sessionKeyword + "/interposed",
+			method: "POST",
+			jsonData: { subject: subject, text: text, sessionId: sessionKeyword },
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	deleteInterposedQuestion: function(question, callbacks) {
+		Ext.Ajax.request({
+			url: "session/" + question.sessionId + "/interposed/" + question._id,
+			method: "DELETE",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	countFeedbackQuestions: function(sessionKeyword, callbacks){
+		Ext.Ajax.request({
+			url: "session/" + sessionKeyword + "/interposed",
+			method: "GET",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
     
     delQuestion: function(queObj, callbacks){
     	restProxy.removeEntry(queObj._id, queObj._rev, callbacks); 	//delete Question

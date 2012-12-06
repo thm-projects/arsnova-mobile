@@ -83,7 +83,14 @@ Ext.regController("feedback", {
 				console.log('server-side error feedback save');
 			}
 		});
-    },
+	},
+	
+	ask: function(options) {
+		options.question.saveInterposed({
+			success: options.success,
+			failure: options.failure
+		});
+	},
     
     showVotePanel: function(){
     	tP = ARSnova.mainTabPanel.tabPanel;
