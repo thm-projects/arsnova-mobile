@@ -44,7 +44,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700,
-				})
+				});
 			},
 		});
 		
@@ -53,8 +53,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 			ui		: 'confirm',
 			handler	: this.saveHandler
 		});
-		
-		
+				
 		this.textarea = new Ext.plugins.ResizableTextArea({
 			name	  	: 'text',
 	    	label	  	: Messages.QUESTION,
@@ -713,7 +712,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 					controller	: 'questions',
 					action		: 'details',
 					question	: opts.request.jsonData,
-				})
+				});
 			},
 			failureFunc	: function(response, opts){
     			console.log(response);
@@ -722,7 +721,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
     	  		Ext.Msg.alert(Messages.NOTICE, Messages.QUESTION_CREATION_ERROR);
     	  		Ext.Msg.doComponentLayout();
     		},
-		})
+		});
     },
     
     getMaxQuestionNumber: function(){
