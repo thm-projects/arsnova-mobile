@@ -24,6 +24,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 	/* toolbar items */
 	toolbar		: null,
 	backButton	: null,
+	saveButton	: null,
 	
 	/* items */
 	text: null,
@@ -46,6 +47,13 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 				})
 			},
 		});
+		
+		this.saveButton = new Ext.Button({
+			text	: Messages.SAVE,
+			ui		: 'confirm',
+			handler	: this.saveHandler
+		});
+		
 		
 		this.textarea = new Ext.plugins.ResizableTextArea({
 			name	  	: 'text',
@@ -447,6 +455,8 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 			title: Messages.QUESTION + " 1",
 			items: [
 		        this.backButton,
+		        {xtype:'spacer'},
+		        this.saveButton,
 			]
 		});
 		
