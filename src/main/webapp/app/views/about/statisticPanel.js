@@ -34,13 +34,13 @@ ARSnova.views.about.StatisticPanel = Ext.extend(Ext.Panel, {
 		run: function(){
 			ARSnova.mainTabPanel.tabPanel.infoTabPanel.statisticPanel.updateData();
 		},
-		interval: 30000,
+		interval: 30000
 	},
 	
 	constructor: function(){
 		this.gridPanel = new Ext.DataView({
 	        store: new Ext.data.Store({
-	            model: 'Statistic',
+	            model: 'Statistic'
 	        }),
 	        tpl: new Ext.XTemplate(
         		'<table class="statistic">',
@@ -51,7 +51,7 @@ ARSnova.views.about.StatisticPanel = Ext.extend(Ext.Panel, {
 	            '<table></div>'
 	        ),
 	        itemSelector: 'div',
-	        scroll: false,
+	        scroll: false
 	    });
 		
 		this.backButton = new Ext.Button({
@@ -68,15 +68,15 @@ ARSnova.views.about.StatisticPanel = Ext.extend(Ext.Panel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700,
-					scope		: this,
-				})
-			},
+					scope		: this
+				});
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.STATISTIC,
 			items: [
-		        this.backButton,
+		        this.backButton
 			]
 		});
 		
@@ -101,61 +101,17 @@ ARSnova.views.about.StatisticPanel = Ext.extend(Ext.Panel, {
 		taskManager.stop(this.updateDataTask);
 	},
 	
-	countActiveUsers: function(){
-		ARSnova.statisticModel.countActiveUsers({
-			success: function(response){
-				var res = Ext.decode(response.responseText).rows;
-				var value = 0;		
-				if (res.length > 0){
-					value = res[0].value;
-				}
-				var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel.statisticPanel;
-				me.gridPanel.store.add({category: "Users online", counter: value})
-				me.gridPanel.store.sort([{
-					property : 'category',
-					direction: 'DESC'
-				}]);
-			},
-			failure: function(response){
-				console.log('server-side error, countActiveUsers');
-			},
-		})
-	},
-	
-	countSessions: function(){
+	getStatistics: function(){
 		ARSnova.statisticModel.countSessions({
 			success: function(response){
-				var res = Ext.decode(response.responseText).rows;
+				var statistics = Ext.decode(response.responseText);
 				
-				var closed 		= 0,
-					open		= 0,
-					questions 	= 0,
-					answers		= 0;
-				
-				for (var i = 0; i < res.length; i++) {
-					var el = res[i];
-					switch (el.key) {
-						case "closedSessions":
-							closed = el.value;
-							break;
-						case "openSessions":
-							open = el.value;
-							break;
-						case "questions":
-							questions = el.value;
-							break;
-						case "answers":
-							answers = el.value;
-							break;
-						default:
-							break;
-					}
-				};
 				var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel.statisticPanel;
-				me.gridPanel.store.add({category: Messages.OPEN_SESSIONS, counter: open});
-				me.gridPanel.store.add({category: Messages.CLOSED_SESSIONS, counter: closed});
-				me.gridPanel.store.add({category: Messages.QUESTIONS, counter: questions});
-				me.gridPanel.store.add({category: Messages.ANSWERS, counter: answers});
+				me.gridPanel.store.add({category: Messages.OPEN_SESSIONS, counter: statistics.openSessions});
+				me.gridPanel.store.add({category: Messages.CLOSED_SESSIONS, counter: statistics.closedSessions});
+				me.gridPanel.store.add({category: Messages.QUESTIONS, counter: statistics.questions});
+				me.gridPanel.store.add({category: Messages.ANSWERS, counter: statistics.answers});
+				me.gridPanel.store.add({category: "Users online", counter: statistics.activeUsers});
 				me.gridPanel.store.sort([{
 					property : 'category',
 					direction: 'DESC'
@@ -165,14 +121,13 @@ ARSnova.views.about.StatisticPanel = Ext.extend(Ext.Panel, {
 			},
 			failure: function(response){
 				console.log('server-side error, countOpenSessions');
-			},
-		})
+			}
+		});
 	},
 	
 	updateData: function(){
 		ARSnova.showLoadMask(Messages.LOAD_MASK);
 		this.gridPanel.store.clearData();
-		this.countActiveUsers();
-		this.countSessions();
-	},
+		this.getStatistics();
+	}
 });

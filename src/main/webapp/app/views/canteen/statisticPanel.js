@@ -41,7 +41,7 @@ ARSnova.views.canteen.StatisticPanel = Ext.extend(Ext.Panel, {
 		run: function(){
 			ARSnova.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.renewChartData();
 		},
-		interval: 10000,
+		interval: 10000
 	},
 	
 	updateCanteenBadgeIconTask: {
@@ -49,7 +49,7 @@ ARSnova.views.canteen.StatisticPanel = Ext.extend(Ext.Panel, {
 		run: function(){
 			ARSnova.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.updateCanteenBadgeIcon();
 		},
-		interval: 30000,
+		interval: 30000
 	},
 	
 	constructor: function(){
@@ -62,10 +62,10 @@ ARSnova.views.canteen.StatisticPanel = Ext.extend(Ext.Panel, {
 				ARSnova.mainTabPanel.tabPanel.canteenTabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.canteenTabPanel.votePanel, {
 						type: 'slide',
 						direction: 'down',
-						duration: 700,
+						duration: 700
 					}
 				);
-			},
+			}
 		});
 		
 		this.casLoginButton = new Ext.Button({
@@ -75,14 +75,14 @@ ARSnova.views.canteen.StatisticPanel = Ext.extend(Ext.Panel, {
 			hidden	: true,
 			handler	: function() {
 
-			},
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			items: [
 	            {xtype: 'spacer'},
 	            this.canteenVoteButton,
-	            {xtype: 'spacer'},
+	            {xtype: 'spacer'}
 			]
 		});
 		
@@ -154,7 +154,7 @@ ARSnova.views.canteen.StatisticPanel = Ext.extend(Ext.Panel, {
 		            renderer: function(v) {
 		                return v.toFixed(0);
 		            }
-		        },
+		        }
 		    },
 		    {
 		        type: 'Category',
@@ -162,7 +162,7 @@ ARSnova.views.canteen.StatisticPanel = Ext.extend(Ext.Panel, {
 		        fields: ['name'],
 		        label: {
 		        	rotate: {
-		        		degrees: 315,
+		        		degrees: 315
 		        	}
 		        }
 		    }, {
@@ -188,11 +188,11 @@ ARSnova.views.canteen.StatisticPanel = Ext.extend(Ext.Panel, {
 		          field: 'percent',
 		          renderer: function(v) {
 				return Math.round(v * 100) + "%";
-		          },
+		          }
 		        },
 		        xField: 'name',
 		        yField: 'value'
-		    }],
+		    }]
 		});
 		
 		this.dockedItems = [this.toolbar];
@@ -265,8 +265,8 @@ ARSnova.views.canteen.StatisticPanel = Ext.extend(Ext.Panel, {
 			},
 			failure: function() {
 				console.log('server-side error');
-			},
-		})
+			}
+		});
 	},
 	
 	updateCanteenBadgeIcon: function(){
@@ -285,5 +285,5 @@ ARSnova.views.canteen.StatisticPanel = Ext.extend(Ext.Panel, {
 				console.log('server-side error');
 			}
 		});
-	},
+	}
 });

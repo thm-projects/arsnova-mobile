@@ -32,9 +32,9 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 				Ext.dispatch({
 					controller	: 'auth',
 					action		: 'login',
-					mode		: b.value,
+					mode		: b.value
 				});
-			},
+			}
 		};
 		
 		var threeButtons = [];
@@ -46,25 +46,25 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 			}, {
 				text	: 'THM',
 				cls 	: 'login-buttons thm-login-wide',
-				value	: ARSnova.LOGIN_THM,
+				value	: ARSnova.LOGIN_THM
 			}, {
 				xtype: 'panel',
 				style: {
-					clear: 'both',
+					clear: 'both'
 				}
 			}];
 		} else {
 			threeButtons = [{
 				cls		: 'login-buttons google',
-				value	: ARSnova.LOGIN_GOOGLE,
+				value	: ARSnova.LOGIN_GOOGLE
 			}, {
 				text	: 'THM',
 				cls		: 'login-buttons thm-login',
-				value	: ARSnova.LOGIN_THM,
+				value	: ARSnova.LOGIN_THM
 			}, {
 				xtype: 'panel',
 				style: {
-					clear: 'both',
+					clear: 'both'
 				}
 			}];
 		}
@@ -73,21 +73,21 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 			xtype	: 'panel',
 			cls		: null,
 			style	: { marginTop: '20px'},
-			html	: "<div class='arsnova-logo' style=\"background: url('resources/images/arsnova.png') no-repeat center; height:55px\"></div>",
+			html	: "<div class='arsnova-logo' style=\"background: url('resources/images/arsnova.png') no-repeat center; height:55px\"></div>"
 		}, {
 			xtype	: 'panel',
 			cls		: 'gravure',
 			style	: { marginTop: '0px'},
-			html	: Messages.CHOOSE_LOGIN,
+			html	: Messages.CHOOSE_LOGIN
 		}, {
 			text	: Messages.GUEST,
 			style	: { marginTop: '10px'},
 			cls		: 'login-button login-label-guest',
-			value	: ARSnova.LOGIN_GUEST,
+			value	: ARSnova.LOGIN_GUEST
 		}, {
 			xtype: 'panel',
 			style: {
-				padding: '10px',
+				padding: '10px'
 			},
 			defaults : {
 				xtype	: 'button',
@@ -95,11 +95,11 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 					Ext.dispatch({
 						controller	: 'auth',
 						action		: 'login',
-						mode		: b.value,
+						mode		: b.value
 					});
-				},
+				}
 			},
-			items: threeButtons,
+			items: threeButtons
 		}, {
 			xtype: 'button',
 			text: Messages.CHANGE_ROLE, 
@@ -111,8 +111,8 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 				ARSnova.mainTabPanel.tabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.rolePanel, {
 					type: 'slide',
 					direction: 'right',
-					duration: 500,
-				})
+					duration: 500
+				});
 			}
 		},{
 			xtype	: 'panel',
@@ -122,9 +122,9 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 			xtype	: 'panel',
 			cls		: 'gravure',
 			style	: { marginTop: '0px'},
-			html	: Messages.NO_GUEST_SPEAKER,
+			html	: Messages.NO_GUEST_SPEAKER
 		}];
 		
 		ARSnova.views.LoginPanel.superclass.constructor.call(this);
-	},
+	}
 });

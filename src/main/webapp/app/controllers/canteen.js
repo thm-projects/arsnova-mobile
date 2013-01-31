@@ -31,7 +31,7 @@ Ext.regController("canteen", {
 						user : localStorage.getItem('login'), 
 						name : options.value,
 //						day	 : ARSnova.config.day,
-						day	 : ARSnova.CANTEEN_DAY,
+						day	 : ARSnova.CANTEEN_DAY
 					}, 'FoodVote');
 				} else {
 					//update
@@ -62,7 +62,7 @@ Ext.regController("canteen", {
 			},
 			failure: function(){
     			console.log('server-side error foodVote getUserFoodVote');
-    		},
+    		}
 		});
     	
     	return;
@@ -71,12 +71,12 @@ Ext.regController("canteen", {
     		success: function(){
     			ARSnova.mainTabPanel.layout.activeItem.switchBack();
     		}
-    	})    	
+    	});
     },
     
     show: function(){
 		ARSnova.mainTabPanel.tabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.canteenPanel, {
-			type: 'slide',
+			type: 'slide'
 		});
     },
     
@@ -86,8 +86,8 @@ Ext.regController("canteen", {
 		ARSnova.mainTabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel, {
 				type: 'slide',
 				direction: 'down',
-				duration: 700,
+				duration: 700
 			}
 		);
-    },
+    }
 });

@@ -78,7 +78,7 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 											sessionId	: localStorage.getItem("sessionId"),
 											questionId	: questionObj._id,
 											answerText	: answerObj.data.text,
-											user		: localStorage.getItem("login"),
+											user		: localStorage.getItem("login")
 										}, 'Answer');
 									} else {
 										//update
@@ -115,7 +115,7 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 															if(cmp.length > 0)
 																cmp[0].hide();
 															ARSnova.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
-														}
+														};
 														setTimeout("delayedFn()", 2000);
 													}
 												}
@@ -132,7 +132,7 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 								},
 								failure: function(){
 									console.log('server-side error');
-								},
+								}
 							});
 						} else {
 							answerObj.selModel.deselect(answerObj.selModel.selected.items[0]);
@@ -140,14 +140,14 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 					}
 				);
 				Ext.Msg.doComponentLayout();
-			},
+			}
 		};
 		
 		this.items = [{
 			cls: 'roundedBox',
 			html: 
 				'<p class="title">' + questionObj.subject + '<p/>' + 
-				'<p>' + questionObj.text + '</p>',
+				'<p>' + questionObj.text + '</p>'
 		}, {
 			xtype	: 'list',
 			store	: answerStore,
@@ -169,7 +169,7 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 				var questionStatisticChart = new ARSnova.views.QuestionStatisticChart(this.questionObj, this);
 				ARSnova.mainTabPanel.setActiveItem(questionStatisticChart, 'slide');
 			};
-		},
+		}
 	},
 	
 	initComponent: function(){

@@ -39,15 +39,15 @@ ARSnova.views.about.HelpFeedbackPanel = Ext.extend(Ext.Panel, {
 				me.setActiveItem(me.helpMainPanel, {
 					type		: 'slide',
 					direction	: 'right',
-					duration	: 700,
-				})
-			},
+					duration	: 700
+				});
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.HELP_FEEDBACK,
 			items: [
-		        this.backButton,
+		        this.backButton
 			]
 		});
 		
@@ -55,7 +55,7 @@ ARSnova.views.about.HelpFeedbackPanel = Ext.extend(Ext.Panel, {
 		
 		this.items = [{
 			cls: 'roundedBox fontNormal',
-			html: 'Eine Hilfe zum Feedback kommt in Kürze...',
+			html: 'Eine Hilfe zum Feedback kommt in Kürze...'
 		}];
 		
 		ARSnova.views.about.HelpFeedbackPanel.superclass.constructor.call(this);

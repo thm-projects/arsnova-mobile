@@ -42,16 +42,16 @@ ARSnova.views.feedbackQuestions.DetailsPanel = Ext.extend(Ext.Panel, {
 				sQP.setActiveItem(sQP.questionsPanel, {
 					type		: 'slide',
 					direction	: 'right',
-					duration	: 700,
+					duration	: 700
 				});
 //				ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.getFeedbackQuestions();
-			},
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.QUESTION_DETAILS,
 			items: [
-		        this.backButton,
+		        this.backButton
 			]
 		});
 		
@@ -65,18 +65,18 @@ ARSnova.views.feedbackQuestions.DetailsPanel = Ext.extend(Ext.Panel, {
 					xtype: 'textfield',
 					label: Messages.QUESTION_DATE,
 					value: this.questionObj.fullDate,
-					disabled: true,
+					disabled: true
 				}, {
 					xtype: 'textfield',
 					label: Messages.QUESTION_SUBJECT,
 					value: this.questionObj.subject,
-					disabled: true,
+					disabled: true
 				}, {
 					xtype: 'textareafield',
 					label: Messages.QUESTION_TEXT,
 					maxRows: 8,
 					value: this.questionObj.text,
-					disabled: true,
+					disabled: true
 				}]
 			}]
 		},{
@@ -87,19 +87,17 @@ ARSnova.views.feedbackQuestions.DetailsPanel = Ext.extend(Ext.Panel, {
 			scope: this,
 			handler: function(){
 				var panel = ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel;
-				var tab = panel.tab;
-				tab.setBadge(tab.badgeText - 1);
 				
-				ARSnova.questionModel.destroy(this.questionObj, {
+				ARSnova.questionModel.deleteInterposed(this.questionObj, {
 					failure: function(response){
 						console.log('server-side error delete question');
-					},
+					}
 				});
 				panel.setActiveItem(panel.questionsPanel, {
 					type		: 'slide',
 					direction	: 'right',
-					duration	: 700,
-				})
+					duration	: 700
+				});
 			}
 		}];
 		
@@ -115,5 +113,5 @@ ARSnova.views.feedbackQuestions.DetailsPanel = Ext.extend(Ext.Panel, {
 	onDeactivate: function(){
 		this.destroy();
 		ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.checkFeedbackQuestions();
-	},
+	}
 });

@@ -50,7 +50,7 @@ ARSnova.views.NumericKeypad = Ext.extend(Ext.form.Text, {
             maxLength 	: this.maxLength,
             minValue 	: this.minValue,
             stepValue 	: this.stepValue,
-            placeHolder	: this.placeHolder,
+            placeHolder	: this.placeHolder
         });
         
         ARSnova.views.NumericKeypad.superclass.onRender.apply(this, arguments);

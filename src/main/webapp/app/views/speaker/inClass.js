@@ -41,7 +41,7 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 		run: function(){
 			ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countActiveUsers();
 		},
-		interval: 15000,
+		interval: 15000
 	},
 	
 	/**
@@ -53,7 +53,7 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 		run: function(){
 			ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countFeedbackQuestions();
 		},
-		interval: 15000,
+		interval: 15000
 	},
 	
 	constructor: function(){
@@ -69,15 +69,15 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 			handler	: function() {
 				Ext.dispatch({
 					controller	: 'sessions',
-					action		: 'logout',
+					action		: 'logout'
 				});
-			},			
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: localStorage.getItem("shortName"),
 			items: [
-		        this.sessionLogoutButton,
+		        this.sessionLogoutButton
 			]
 		});
 		
@@ -91,7 +91,7 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 			doubleBadgeCls	: 'doublebadgeicon',
 			controller		: 'questions',
 			action			: 'listAudienceQuestions',
-			handler			: this.buttonClicked,
+			handler			: this.buttonClicked
 		});
 		
 		this.feedbackQuestionButton = new Ext.Button({
@@ -101,7 +101,7 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 			badgeCls	: 'bluebadgeicon',
 			controller	: 'questions',
 			action		: 'listFeedbackQuestions',
-			handler		: this.buttonClicked,
+			handler		: this.buttonClicked
 		});
 		
 		this.flashcardButton = new Ext.Button({
@@ -123,7 +123,7 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 				
 				items: [{
 					cls: 'gravure',
-					html: localStorage.getItem("name"),
+					html: localStorage.getItem("name")
 				}, {
 					xtype: 'fieldset',
 					cls	 : 'standardFieldset noMargin',
@@ -131,9 +131,9 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 					items: [
 						this.audienceQuestionButton,
 						this.feedbackQuestionButton,
-						this.flashcardButton,
+						this.flashcardButton
 					]
-				}],
+				}]
 		};
 		
 		this.createAdHocQuestionButton = new Ext.Panel({
@@ -145,10 +145,10 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 				cls			: 'questionMark',
 				controller	: 'questions',
 				action		: 'adHoc',
-				handler		: this.buttonClicked,
+				handler		: this.buttonClicked
 			}, {
 				html: Messages.AH_HOC_QUESTION,
-				cls	: 'centerTextSmall',
+				cls	: 'centerTextSmall'
 			}]
 		});
 		
@@ -177,20 +177,20 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 									}, this, {single:true});
 									Ext.dispatch({
 										controller	: 'sessions',
-										action		: 'logout',
+										action		: 'logout'
 									});
 								},
 								failure: function(response){
 									console.log('server-side error delete session');
-								},
-							})
+								}
+							});
 						}
 					});
 					Ext.Msg.doComponentLayout();
-				},
+				}
 			}, {
 				html: Messages.DELETE_SESSION,
-				cls	: 'centerTextSmall',
+				cls	: 'centerTextSmall'
 			}]
 		});
 		
@@ -201,7 +201,7 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 			    this.createAdHocQuestionButton,
 			    this.sessionStatusButton,
 			    this.deleteSessionButton
-	        ],
+	        ]
 				        
 		});
 		
@@ -223,7 +223,7 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 	buttonClicked: function(button){
 		Ext.dispatch({
 			controller	: button.controller,
-			action		: button.action,
+			action		: button.action
 		});
 	},
 	
@@ -274,7 +274,7 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 								audienceQuestionButton.doubleBadge = audienceQuestionButton.el.createChild({
 									tag: 'span',
 									cls: audienceQuestionButton.doubleBadgeCls,
-									html: numAnswers,
+									html: numAnswers
 								});
 								audienceQuestionButton.badgeEl.addCls("withdoublebadge");
 							} else if (audienceQuestionButton.doubleBadge) {
@@ -293,22 +293,20 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 							setAdditionalBadge();
 						}
 					},
-					failure: failureCallback,
+					failure: failureCallback
 				});
 			}, 
-			failure: failureCallback,
+			failure: failureCallback
 		});
 	},
 	
 	countActiveUsers: function(){
-		ARSnova.loggedInModel.countActiveUsersBySession(localStorage.getItem("sessionId"), {
+		ARSnova.loggedInModel.countActiveUsersBySession(localStorage.getItem("keyword"), {
 			success: function(response){
-				var res = Ext.decode(response.responseText).rows;
-				
-				var value = 0;
-				
-				if (res.length > 0){
-					value = res[0].value - 1;
+				var value = parseInt(response.responseText);
+				if (value > 0) {
+					// Do not count myself ;-)
+					value--;
 				}
 				
 				ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.toolbar.setTitle(localStorage.getItem("shortName") + " (" + value + ")");
@@ -323,24 +321,32 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 			failure: function(){
 				console.log('server-side error');
 			}
-		})
+		});
 	},
 	
 	countFeedbackQuestions: function(){
-		ARSnova.questionModel.countFeedbackQuestions(localStorage.getItem("sessionId"), {
+		ARSnova.questionModel.countFeedbackQuestions(localStorage.getItem("keyword"), {
 			success: function(response){
-				var responseObj = Ext.decode(response.responseText).rows;
+				var responseObj = Ext.decode(response.responseText);
+				var totalQuestions = 0;
+				var totalUnread = 0;
 				
-				var value = 0;
 				if (responseObj.length > 0){
-					value = responseObj[0].value;
+					for (var i = 0, obj; obj = responseObj[i]; i++){
+						if (!obj.read) {
+							totalUnread++;
+						}
+						
+						totalQuestions++;
+					}
 				}
-				ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge(value);
-				ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadge(value);
+				
+				ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadge(totalUnread);
+				ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge(totalQuestions);
 			}, 
 			failure: function(){
 				console.log('server-side error');
 			}
-		})
-	},	
+		});
+	}
 });

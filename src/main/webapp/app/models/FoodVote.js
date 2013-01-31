@@ -31,5 +31,5 @@ ARSnova.models.FoodVote = Ext.regModel('FoodVote', {
 	
 	countFoodVoteGrouped: function(day, callbacks){
 		return this.proxy.countFoodVoteGrouped(day, callbacks);
-	},
+	}
 });

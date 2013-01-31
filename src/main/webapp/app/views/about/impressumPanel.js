@@ -39,14 +39,14 @@ ARSnova.views.about.ImpressumPanel = Ext.extend(Ext.Panel, {
 					after		: function(){
 //						this.up('panel').destroy();
 					}
-				})
-			},
+				});
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.IMPRESSUM,
 			items: [
-		        this.backButton,
+		        this.backButton
 			]
 		});
 		
@@ -57,9 +57,9 @@ ARSnova.views.about.ImpressumPanel = Ext.extend(Ext.Panel, {
 			html: 	'<p>ARSnova ist ein Produkt der Fachgruppe WebMedia des Fachbereichs MNI der TH Mittelhessen.</p><br>' + 
 					'<p>Die erste Version entwickelte Christian Thomas Weber im Rahmen seiner Masterarbeit.</p><br>' + 
 					'<p>ARSnova ist Open Source unter der GNU General Public License v3.<br /><a href="https://scm.thm.de/redmine/projects/arsnova" class="external" target="_blank">Projekt-Site</a></p><br>' + 
-					'<p>Projektleiter: Prof. Dr. Klaus Quibeldey-Cirkel <br />THM, Wiesenstr. 14, D-35390 Gießen<br />Tel.: 0641 / 309 - 24 50<br /><a href="mailto:klaus.quibeldey-cirkel@mni.thm.de">E-Mail</a></p>', 
+					'<p>Projektleiter: Prof. Dr. Klaus Quibeldey-Cirkel <br />THM, Wiesenstr. 14, D-35390 Gießen<br />Tel.: 0641 / 309 - 24 50<br /><a href="mailto:klaus.quibeldey-cirkel@mni.thm.de">E-Mail</a></p>' 
 		}];
 		
 		ARSnova.views.about.ImpressumPanel.superclass.constructor.call(this);
-	},
+	}
 });

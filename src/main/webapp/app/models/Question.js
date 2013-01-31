@@ -25,18 +25,22 @@ ARSnova.models.Question = Ext.regModel('Question', {
       'type',
    	  'text',
    	  'subject',
-   	  'sessionId',  
+   	  'sessionId'
     ],
            
    	validations: [
       {type: 'presence', field: 'type'},
       {type: 'presence', field: 'text'},
       {type: 'presence', field: 'subject'},
-      {type: 'presence', field: 'sessionId'},
+      {type: 'presence', field: 'sessionId'}
     ],
     
     destroy: function(queObj, callbacks) {
     	return this.proxy.delQuestion(queObj, callbacks);
+    },
+    
+    deleteInterposed: function(question, callbacks) {
+		return this.proxy.deleteInterposedQuestion(question, callbacks);
     },
     
     deleteAnswers: function(questionId, callbacks) {
@@ -47,12 +51,8 @@ ARSnova.models.Question = Ext.regModel('Question', {
     	return this.proxy.getQuestionById(id, callbacks);
     },
     
-    getSkillQuestionsSortBySubject: function(sessionId, callbacks) {
-    	return this.proxy.getSkillQuestionsSortBySubject(sessionId, callbacks);
-    },
-    
-    getSkillQuestionsSortBySubjectAndText: function(sessionId, callbacks) {
-    	return this.proxy.getSkillQuestionsSortBySubjectAndText(sessionId, callbacks);
+    getSkillQuestionsSortBySubjectAndText: function(sessionKeyword, callbacks) {
+    	return this.proxy.getSkillQuestionsSortBySubjectAndText(sessionKeyword, callbacks);
     },
     
     getSkillQuestionsForDelete: function(sessionId, callbacks) {
@@ -75,12 +75,20 @@ ARSnova.models.Question = Ext.regModel('Question', {
 		return this.proxy.countTotalAnswers(sessionId, callbacks);
 	},
     
-    getInterposedQuestions: function(sessionId, callbacks) {
-    	return this.proxy.getInterposedQuestions(sessionId, callbacks);
+    getInterposedQuestions: function(sessionKeyword, callbacks) {
+    	return this.proxy.getInterposedQuestions(sessionKeyword, callbacks);
     },
     
-    countFeedbackQuestions: function(sessionId, callbacks) {
-    	return this.proxy.countFeedbackQuestions(sessionId, callbacks);
+    getInterposed: function(callbacks) {
+    	return this.proxy.getInterposedQuestion(this, callbacks);
+    },
+    
+    saveInterposed: function(callbacks) {
+    	return this.proxy.saveInterposedQuestion(this.data.subject, this.data.text, this.data.sessionKeyword, callbacks);
+    },
+    
+    countFeedbackQuestions: function(sessionKeyword, callbacks) {
+    	return this.proxy.countFeedbackQuestions(sessionKeyword, callbacks);
     },
     
     changeQuestionType: function(sessionId, callbacks) {
@@ -113,5 +121,5 @@ ARSnova.models.Question = Ext.regModel('Question', {
     
     releasedByCourseId: function(courseId, callbacks) {
     	return this.proxy.releasedByCourseId(courseId, callbacks);
-    },
+    }
 });

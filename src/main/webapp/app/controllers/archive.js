@@ -22,7 +22,7 @@ Ext.regController("archive", {
 
 	index: function(options){
 		ARSnova.mainTabPanel.tabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.archiveTabPanel, {
-			type: 'slide',
+			type: 'slide'
 		});
 	},
 	
@@ -30,7 +30,7 @@ Ext.regController("archive", {
 		var aTP = ARSnova.mainTabPanel.tabPanel.archiveTabPanel;
 		aTP.questionPanel.courseId = options.courseId;
 		aTP.setActiveItem(aTP.questionPanel, {
-			type: 'slide',
+			type: 'slide'
 		});
-	},
+	}
 });

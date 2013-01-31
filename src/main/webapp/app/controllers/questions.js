@@ -53,7 +53,7 @@ Ext.regController("questions", {
 			releasedFor	: options.releasedFor,
 			courses		: options.courses,
 			possibleAnswers: options.possibleAnswers,
-			noCorrect	: options.noCorrect,
+			noCorrect	: options.noCorrect
 		}, 'Question');
     	
     	var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
@@ -103,7 +103,7 @@ Ext.regController("questions", {
     	
 		question.save({
 			success: options.successFunc,
-			failure: options.failureFunc,
+			failure: options.failureFunc
 		});
     },
     
@@ -128,11 +128,12 @@ Ext.regController("questions", {
 	},
     
     detailsFeedbackQuestion: function(options){
-    	var session = Ext.ModelMgr.getModel("Question").load(options.question.id, {
-    		success: function(records, operation){
-    			var question = Ext.ModelMgr.create(Ext.decode(operation.response.responseText), 'Question');
-    			question.set('formattedTime', options.question.formattedTime);
-    			question.set('fullDate', options.question.fullDate);
+    	options.question.getInterposed({
+    		success: function(response){
+    			var question = Ext.ModelMgr.create(Ext.decode(response.responseText), 'Question');
+    			
+    			question.set('formattedTime', options.formattedTime);
+    			question.set('fullDate', options.fullDate);
     			
 				var newPanel = new ARSnova.views.feedbackQuestions.DetailsPanel(question.data);
 		    	ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.setActiveItem(newPanel, 'slide');
@@ -141,7 +142,7 @@ Ext.regController("questions", {
 				console.log(operation);
     	  		Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
     	  		Ext.Msg.doComponentLayout();
-			},
+			}
     	});
     },
     
@@ -170,14 +171,14 @@ Ext.regController("questions", {
 						console.log(operation);
 		    	  		Ext.Msg.alert("Hinweis!", "Session speichern war nicht erfolgreich");
 		    	  		Ext.Msg.doComponentLayout();
-					},
+					}
 				});
 			},
 			failure: function(records, operation){
 				console.log(operation);
     	  		Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
     	  		Ext.Msg.doComponentLayout();
-			},
+			}
 		});
     },
     
@@ -186,7 +187,7 @@ Ext.regController("questions", {
 		
 		sTP.setActiveItem(sTP.newQuestionPanel, {
 			type: 'slide',
-			duration: 700,
+			duration: 700
 		});
 		
 		/* change the backButton-redirection to inClassPanel,
@@ -197,7 +198,7 @@ Ext.regController("questions", {
 			sTP.setActiveItem(sTP.inClassPanel, {
 				type: 'slide',
 				direction: 'right',
-				duration: 700,
+				duration: 700
 			});
 		};
 		backButton.setText("Home");
@@ -207,12 +208,12 @@ Ext.regController("questions", {
 				sTP.setActiveItem(sTP.audienceQuestionPanel, {
 					type		: 'slide',
 					direction	: 'right',
-					duration	: 700,
-				})
+					duration	: 700
+				});
 			};
 			panel.backButton.setText("Fragen");
 		}, this, {single:true});
 		
     	ARSnova.hideLoadMask();
-    },
+    }
 });

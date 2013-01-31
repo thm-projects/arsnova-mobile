@@ -24,7 +24,7 @@ ARSnova.views.TabPanel = Ext.extend(Ext.TabPanel, {
     	dock: 'bottom',
 	    layout: {
 	    	pack: 'center'
-	    },
+	    }
     },
 	scroll: false,
 	
@@ -48,7 +48,7 @@ ARSnova.views.TabPanel = Ext.extend(Ext.TabPanel, {
 			ARSnova.mainTabPanel.tabPanel.updateFeedbackBadge();
 			ARSnova.mainTabPanel.tabPanel.updateFeedbackIcon();
 		},
-		interval: 15000, //15 seconds
+		interval: 15000 //15 seconds
 	},
 	
 	constructor: function(){
@@ -65,7 +65,7 @@ ARSnova.views.TabPanel = Ext.extend(Ext.TabPanel, {
 			this.homeTabPanel,
 			this.canteenTabPanel,
 			this.infoTabPanel,
-			this.helpMainPanel,
+			this.helpMainPanel
 		],
 		
 		ARSnova.views.TabPanel.superclass.constructor.call(this);
@@ -83,7 +83,7 @@ ARSnova.views.TabPanel = Ext.extend(Ext.TabPanel, {
 			animation = {
 				type: animation,
 				direction: 'left',
-				duration: ARSnova.cardSwitchDuration,
+				duration: ARSnova.cardSwitchDuration
 			};
 		}
 		ARSnova.views.TabPanel.superclass.setActiveItem.apply(this, arguments);
@@ -131,54 +131,47 @@ ARSnova.views.TabPanel = Ext.extend(Ext.TabPanel, {
 	},
 	
 	updateFeedbackIcon: function(){
-		ARSnova.feedbackModel.getAverageSessionFeedback(localStorage.getItem("sessionId"), {
+		ARSnova.feedbackModel.getAverageSessionFeedback(localStorage.getItem("keyword"), {
 			success: function(response){
 				var panel = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel;
+				var value = parseInt(response.responseText);
 				
-				var responseObj = Ext.decode(response.responseText).rows;
-				
-				if (responseObj.length > 0){
-					switch (responseObj[0].value){
-					case 4:
+				switch (value) {
+					case 0:
 						panel.tab.setIconClass("feedbackGood");
 						break;
-					case 3:
+					case 1:
 						panel.tab.setIconClass("feedbackMedium");
 						break;
 					case 2:
 						panel.tab.setIconClass("feedbackBad");
 						break;
-					case 1:
+					case 3:
 						panel.tab.setIconClass("feedbackNone");
 						break;	
 					default:
 						break;
-					}
-				} else {
-					panel.tab.setIconClass("feedbackARSnova");
 				}
 			}, 
 			failure: function(){
 				console.log('server-side error');
+				var tab = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.tab;
+				tab.setIconClass("feedbackARSnova");
 			}
-		})
+		});
 	},
 	
 	updateFeedbackBadge: function(){
-		ARSnova.feedbackModel.countFeedback(localStorage.getItem("sessionId"), {
+		ARSnova.feedbackModel.countFeedback(localStorage.getItem("keyword"), {
 			success: function(response){
-				var res = Ext.decode(response.responseText).rows;
-				var value = 0;
-				
-				if (res.length > 0){
-					value = res[0].value;
+				var value = parseInt(Ext.decode(response.responseText));
+				if (value > 0) {
+					ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.tab.setBadge(value);
 				}
-				
-				ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.tab.setBadge(value);
 			},
 			failure: function(){
 				console.log('server-side error');
 			}
-		})
-	},
+		});
+	}
 });

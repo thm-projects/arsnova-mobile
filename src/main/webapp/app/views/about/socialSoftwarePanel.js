@@ -39,15 +39,15 @@ ARSnova.views.about.SocialSoftwarePanel = Ext.extend(Ext.Panel, {
 				me.setActiveItem(me.aboutPanel, {
 					type		: 'slide',
 					direction	: 'right',
-					duration	: 700,
-				})
-			},
+					duration	: 700
+				});
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.SOCIAL_SOFTWARE,
 			items: [
-		        this.backButton,
+		        this.backButton
 			]
 		});
 		
@@ -66,7 +66,7 @@ ARSnova.views.about.SocialSoftwarePanel = Ext.extend(Ext.Panel, {
 								'<li>alle Mitglieder eines eCollab-Projekts: <a class="external" href="https://ecollab.thm.de" target="_blank">https://ecollab.thm.de</a></li>' +
 							'</ul>' +
 						'</li>' +
-					'</ul>', 
+					'</ul>'
 		}];
 		
 		ARSnova.views.about.SocialSoftwarePanel.superclass.constructor.call(this);

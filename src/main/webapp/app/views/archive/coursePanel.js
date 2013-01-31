@@ -29,13 +29,13 @@ ARSnova.views.archive.CoursePanel = Ext.extend(Ext.Panel, {
 	
 	constructor: function(){
 		this.toolbar = new Ext.Toolbar({
-			title: 'Archiv',
+			title: 'Archiv'
 		});
 		
 		this.dockedItems = [this.toolbar];
 		
 		this.courseForm = new Ext.form.FormPanel({
-			cls: 'standardForm',
+			cls: 'standardForm'
 		});
 		
 		this.normalForm = new Ext.form.FormPanel({
@@ -50,8 +50,8 @@ ARSnova.views.archive.CoursePanel = Ext.extend(Ext.Panel, {
 					Ext.dispatch({
 						controller: 'archive',
 						action: 'showArchive',
-						courseId: obj.courseId,
-					})
+						courseId: obj.courseId
+					});
 				}
 			}, {
 				xtype		: 'button',
@@ -63,18 +63,18 @@ ARSnova.views.archive.CoursePanel = Ext.extend(Ext.Panel, {
 					Ext.dispatch({
 						controller: 'archive',
 						action: 'showArchive',
-						courseId: obj.courseId,
-					})
+						courseId: obj.courseId
+					});
 				}
 			}]
 		});
 		
 		this.items = [{
 			cls: 'gravure',
-			html: 'Welche Fragen möchten Sie sehen:',
+			html: 'Welche Fragen möchten Sie sehen:'
 		}, this.normalForm, {
 			cls: 'gravure',
-			html: 'Fragen meiner eStudy-Kurse:',
+			html: 'Fragen meiner eStudy-Kurse:'
 		}, this.courseForm];
 		
 		ARSnova.views.archive.CoursePanel.superclass.constructor.call(this);
@@ -92,7 +92,7 @@ ARSnova.views.archive.CoursePanel = Ext.extend(Ext.Panel, {
 			Ext.Ajax.request({
 	    		url: ARSnova.WEBSERVICE_URL + 'estudy/getUserCourses.php',
 	    		params: {
-	    			login: localStorage.getItem('login'),
+	    			login: localStorage.getItem('login')
 	    		},
 	    		success: function(response, opts){
 	    	  		var obj = Ext.decode(response.responseText).courselist;
@@ -112,9 +112,9 @@ ARSnova.views.archive.CoursePanel = Ext.extend(Ext.Panel, {
 								Ext.dispatch({
 									controller: 'archive',
 									action: 'showArchive',
-									courseId: obj.courseId,
-								})
-							},
+									courseId: obj.courseId
+								});
+							}
 						});
 					}
 	    	  		panel.doComponentLayout();
@@ -124,7 +124,7 @@ ARSnova.views.archive.CoursePanel = Ext.extend(Ext.Panel, {
 	    	  		console.log('getcourses server-side failure with status code ' + response.status);
 	    	  		Ext.Msg.alert("Hinweis!", "Es konnten keine Kurse überprüft werden.");
 	    	  		Ext.Msg.doComponentLayout();
-	    		},
+	    		}
 	    	});
 		} else {
 			Ext.Ajax.request({
@@ -151,7 +151,7 @@ ARSnova.views.archive.CoursePanel = Ext.extend(Ext.Panel, {
 	    	  		console.log('getcourses server-side failure with status code ' + response.status);
 	    	  		Ext.Msg.alert("Hinweis!", "Es konnten keine Kurse überprüft werden.");
 	    	  		Ext.Msg.doComponentLayout();
-	    		},
+	    		}
 	    	});
 		}
 	},
@@ -159,5 +159,5 @@ ARSnova.views.archive.CoursePanel = Ext.extend(Ext.Panel, {
 	onActivate: function(){
 		this.courseForm.removeAll();
 		this.getCourses();
-	},
+	}
 });

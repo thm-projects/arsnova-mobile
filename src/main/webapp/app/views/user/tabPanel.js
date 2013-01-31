@@ -24,14 +24,14 @@ ARSnova.views.user.TabPanel = Ext.extend(Ext.TabPanel, {
 	scroll	: 'vertical',
 	
 	tabBar: {
-    	hidden: true,
+    	hidden: true
     },
 	
 	constructor: function(){
 		this.inClassPanel = new ARSnova.views.user.InClass();
 		
 		this.items = [
-	        this.inClassPanel,
+	        this.inClassPanel
         ];
 		ARSnova.views.user.TabPanel.superclass.constructor.call(this);
 	},

@@ -33,7 +33,7 @@ ARSnova.views.home.TabPanel = Ext.extend(Ext.Panel, {
 		this.items = [
 		    this.homePanel,
             this.mySessionsPanel,
-            this.newSessionPanel,
+            this.newSessionPanel
         ];
 		ARSnova.views.home.TabPanel.superclass.constructor.call(this);
 	},

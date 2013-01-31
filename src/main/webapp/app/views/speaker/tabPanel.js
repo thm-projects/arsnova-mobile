@@ -23,7 +23,7 @@ ARSnova.views.speaker.TabPanel = Ext.extend(Ext.TabPanel, {
 	iconCls	: 'tabBarIconHome',
 	
 	tabBar: {
-    	hidden: true,
+    	hidden: true
     },
 	
 	constructor: function(){
@@ -35,7 +35,7 @@ ARSnova.views.speaker.TabPanel = Ext.extend(Ext.TabPanel, {
 		this.items = [
 	        this.inClassPanel,
 	        this.audienceQuestionPanel,
-	        this.newQuestionPanel,
+	        this.newQuestionPanel
         ];
 		ARSnova.views.speaker.TabPanel.superclass.constructor.call(this);
 	},

@@ -8,7 +8,7 @@ lib/touch-charts-1.0/touch-charts.js
 resources/css/arsnova_min.css
 lib/sencha1.1.1/resources/css/sencha-touch.css
 
-#IMAGES
+# IMAGES
 resources/images/arsnova.png
 resources/images/thm.png
 resources/images/ARSnova_Grafiken/01_AppIcon_114x114px.png

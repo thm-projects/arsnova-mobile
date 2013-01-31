@@ -39,15 +39,15 @@ ARSnova.views.about.ARSPanel = Ext.extend(Ext.Panel, {
 				me.setActiveItem(me.aboutPanel, {
 					type		: 'slide',
 					direction	: 'right',
-					duration	: 700,
-				})
-			},
+					duration	: 700
+				});
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: '"ARS"',
 			items: [
-		        this.backButton,
+		        this.backButton
 			]
 		});
 		
@@ -57,7 +57,7 @@ ARSnova.views.about.ARSPanel = Ext.extend(Ext.Panel, {
 			cls: 'roundedBox fontNormal',
 			html: 	'<p>ARS steht für Audience Response System, siehe <a href="http://en.wikipedia.org/wiki/Audience_response" class="external" target="_blank">Wikipedia</a>.</p><br>' +
 					'<p>Die didaktischen Probleme von Großveranstaltungen sind hinlänglich bekannt: fehlende Interaktion zwischen Auditorium und Lehrperson, schwierige Aktivierung der Studierenden, ängstliche Studierende melden sich nicht zu Wort. Dennoch kann aus Kapazitätsgründen nicht auf große Vorlesungen verzichtet werden.</p><br>' +
-					'<p>Um das Verständnis der Zuhörer/innen einfach und schnell einzuholen, können Fragen anonym auf dem Smartphone oder Laptop beantwortet werden – ähnlich wie bei der Publikumsfrage in der Quizshow von Günther Jauch. Das Ergebnis wird als Balkendiagramm visualisiert und kann direkt von der Lehrperson kommentiert werden. Die Feedback-Funktion von ARSnova erlaubt es, das Tempo der Vorlesung vom Auditorium zeitnah bewerten zu lassen.</p>', 
+					'<p>Um das Verständnis der Zuhörer/innen einfach und schnell einzuholen, können Fragen anonym auf dem Smartphone oder Laptop beantwortet werden – ähnlich wie bei der Publikumsfrage in der Quizshow von Günther Jauch. Das Ergebnis wird als Balkendiagramm visualisiert und kann direkt von der Lehrperson kommentiert werden. Die Feedback-Funktion von ARSnova erlaubt es, das Tempo der Vorlesung vom Auditorium zeitnah bewerten zu lassen.</p>' 
 		}];
 		
 		ARSnova.views.about.ARSPanel.superclass.constructor.call(this);

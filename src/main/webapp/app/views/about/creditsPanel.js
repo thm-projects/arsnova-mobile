@@ -43,15 +43,15 @@ ARSnova.views.about.CreditsPanel = Ext.extend(Ext.Panel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700,
-					scope		: this,
-				})
-			},
+					scope		: this
+				});
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.CREDITS,
 			items: [
-		        this.backButton,
+		        this.backButton
 			]
 		});
 		
@@ -61,7 +61,7 @@ ARSnova.views.about.CreditsPanel = Ext.extend(Ext.Panel, {
 			defaults: {
 				xtype		: 'button',
 				ui			: 'normal',
-				cls			: 'forwardListButton',
+				cls			: 'forwardListButton'
 			},
 		
 			items: [{
@@ -70,15 +70,15 @@ ARSnova.views.about.CreditsPanel = Ext.extend(Ext.Panel, {
 					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
 					me.sponsorsPanel = new ARSnova.views.about.SponsorsPanel();
 					me.setActiveItem(me.sponsorsPanel, 'slide');
-				},
+				}
 			}, {
 				text	: Messages.OPENSOURCEPROJECTS,
 				handler	: function(){
 					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
 					me.openSourceProjectsPanel = new ARSnova.views.about.OpenSourceProjectsPanel();
 					me.setActiveItem(me.openSourceProjectsPanel, 'slide');
-				},
-			}],
+				}
+			}]
 		});
 		
 		this.dockedItems = [this.toolbar];

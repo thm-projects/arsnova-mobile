@@ -29,42 +29,42 @@ ARSnova.views.RolePanel = Ext.extend(Ext.Panel, {
 				Ext.dispatch({
 					controller	: 'auth',
 					action		: 'roleSelect',
-					mode		: b.value,
+					mode		: b.value
 				});
-			},
+			}
 		};
 		
 		this.items = [{
 			xtype	: 'panel',
 			cls		: null,
 			html	: "<div class='arsnova-logo' style=\"background: url('resources/images/arsnova.png') no-repeat center; height:55px\"></div>",
-			style	: { marginTop: '35px'},
+			style	: { marginTop: '35px'}
 		}, {
 			xtype	: 'panel',
 			cls		: 'gravure',
-			html	: Messages.CHOOSE_ROLE,
+			html	: Messages.CHOOSE_ROLE
 		}, {	
 			text	: Messages.STUDENT,
 			cls		: 'login-button role-label-student',
-			value	: ARSnova.USER_ROLE_STUDENT,
+			value	: ARSnova.USER_ROLE_STUDENT
 		}, {
 			text	: Messages.SPEAKER,
 			cls		: 'login-button role-label-speaker',
-			value	: ARSnova.USER_ROLE_SPEAKER,
+			value	: ARSnova.USER_ROLE_SPEAKER
 		}, {
 			text	: "ARSnova@YouTube",
 			ui		: 'small',
 			style	: { marginLeft: '30%', marginRight: "30%" },
 			handler	: function() {
 				ARSnova.mainTabPanel.tabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.helpMainPanel, 'slide');
-			},
+			}
 		}, {
 			xtype	: 'panel',
 			style	: { marginTop: '30px'},
 			html	: "<div class='thm-logo' style=\"background: url('resources/images/thm.png') no-repeat center; height:67px\"></div>",
-			cls		: null,
+			cls		: null
 		}];
 		
 		ARSnova.views.RolePanel.superclass.constructor.call(this);
-	},
+	}
 });

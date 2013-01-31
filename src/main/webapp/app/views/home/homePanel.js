@@ -52,7 +52,7 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 		this.toolbar = new Ext.Toolbar({
 			title: 'ARSnova',
 			items: [
-		        this.logoutButton,
+		        this.logoutButton
 			]
 		});
 		
@@ -67,8 +67,8 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 				cls			: 'forwardListButton',
 				controller	: 'user',
 				action		: 'index',
-				handler		: this.buttonClicked,
-			}],
+				handler		: this.buttonClicked
+			}]
 		});
 		
 		this.sessionLoginForm = new Ext.Panel({
@@ -78,7 +78,7 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 				cls		: 'topPadding',
 				items	: [{
 					cls		: 'gravure',
-					html	: Messages.ENTER_SESSIONID,						
+					html	: Messages.ENTER_SESSIONID
 				}]
 			}, {
 				submitOnAction: false,
@@ -93,30 +93,30 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 						xtype		: 'numericKeypad',
 						name		: 'keyword',
 						placeHolder	: Messages.SESSIONID_PLACEHOLDER,
-						maxLength	: 11,
-					}],					
+						maxLength	: 11
+					}]
 				}, {
 					xtype	: 'button',
 					ui		: 'confirm',
 					text	: Messages.GO,
-					handler	: this.onSubmit,
-				}],
-			}],
+					handler	: this.onSubmit
+				}]
+			}]
 		});
 		
 		this.lastVisitedSessionsFieldset = new Ext.form.FieldSet({
 			cls: 'standardFieldset',
-			title: Messages.LAST_VISITED_SESSIONS,
+			title: Messages.LAST_VISITED_SESSIONS
 		});
 		
 		this.lastVisitedSessionsForm = new Ext.form.FormPanel({
-			items: [this.lastVisitedSessionsFieldset],
+			items: [this.lastVisitedSessionsFieldset]
 		});
 		
 		this.dockedItems = [this.toolbar];
 		this.items = [
             this.sessionLoginForm,
-            this.lastVisitedSessionsForm,
+            this.lastVisitedSessionsForm
         ];
 		
 		ARSnova.views.home.HomePanel.superclass.constructor.call(this);
@@ -143,7 +143,7 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 	buttonClicked: function(button) {
 		Ext.dispatch({
 			controller	: button.controller,
-			action		: button.action,
+			action		: button.action
 		});
 	},
 	
@@ -160,8 +160,8 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 			action	  : 'login',
 			keyword	  : values.keyword.replace(/ /g, ""),
 			destroy   : false,
-			panel	  : sessionLoginPanel,
-		})
+			panel	  : sessionLoginPanel
+		});
 	},
 	
 	loadVisitedSessions: function() {
@@ -169,51 +169,67 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 		
 		ARSnova.showLoadMask(Messages.LOAD_MASK_SEARCH);
 		
-		var sessions = Ext.decode(localStorage.getItem('lastVisitedSessions'));
-		if (sessions.length > 0) {
-			this.lastVisitedSessionsFieldset.removeAll();
-			this.lastVisitedSessionsForm.show();
-			for ( var i = 0; i < sessions.length; i++) {
-				var session = sessions[i];
+		restProxy.getMyVisitedSessions(localStorage.getItem('login'), {
+			success: function(response, operation){
+				var rows = Ext.decode(response.responseText).rows;
+				var panel = ARSnova.mainTabPanel.tabPanel.homeTabPanel.homePanel;
 				
-				var sessionButton = new Ext.Button({
-					ui			: 'normal',
-					text		: session.name,
-					cls			: 'forwardListButton',
-					controller	: 'sessions',
-					action		: 'showDetails',
-					badgeCls	: 'badgeicon',
-					badgeText	: "",
-					sessionObj	: session,
-					handler		: function(options){
-						ARSnova.showLoadMask("Login...");
-						Ext.dispatch({
+				if (rows.length > 0 && rows[0].value != null) {
+					var sessions = rows[0].value;
+					panel.lastVisitedSessionsFieldset.removeAll();
+					panel.lastVisitedSessionsForm.show();
+					
+					for ( var i = 0; i < sessions.length; i++) {
+						var session = sessions[i];
+						
+						var sessionButton = new Ext.Button({
+							xtype		: 'button',
+							ui			: 'normal',
+							text		: session.name,
+							cls			: 'forwardListButton',
 							controller	: 'sessions',
-							action		: 'login',
-							keyword		: options.sessionObj.keyword,
+							action		: 'showDetails',
+							badgeCls	: 'badgeicon',
+							badgeText	: "",
+							sessionObj	: session,
+							handler		: function(options){
+								ARSnova.showLoadMask("Login...");
+								Ext.dispatch({
+									controller	: 'sessions',
+									action		: 'login',
+									keyword		: options.sessionObj.keyword
+								});
+							}
 						});
-					},
-				});
-				this.lastVisitedSessionsFieldset.add(sessionButton);
-				this.updateBadge(session._id, sessionButton);
-			}
-			
-			for ( var i = 0; i < sessions.length; i++) {
-				var session = sessions[i];
-				
-				Ext.ModelMgr.getModel("Session").load(session._id, {
-					success: function(records, operation){
-						var session = Ext.ModelMgr.create(Ext.decode(operation.response.responseText), 'Session');
-						if(session.data.active && session.data.active == 1){
-							var panel = ARSnova.mainTabPanel.tabPanel.homeTabPanel.homePanel;
-							panel.down('button[text=' + session.data.name + ']').addCls("isActive");
-						}
+						panel.lastVisitedSessionsFieldset.add(sessionButton);
+						panel.updateBadge(session._id, sessionButton);
 					}
-				});
-			}					
-		} else {
-			this.lastVisitedSessionsForm.hide();
-		}
+					
+					for ( var i = 0; i < sessions.length; i++) {
+						var session = sessions[i];
+						
+						Ext.ModelMgr.getModel("Session").load(session._id, {
+							success: function(records, operation){
+								var session = Ext.ModelMgr.create(Ext.decode(operation.response.responseText), 'Session');
+								
+								if (session.data.active && session.data.active == 1) {
+									var panel = ARSnova.mainTabPanel.tabPanel.homeTabPanel.homePanel;
+									panel.down('button[text=' + session.data.name + ']').addCls("isActive");
+								}
+							}
+						});
+					}
+				} else {
+					panel.lastVisitedSessionsForm.hide();
+				}
+				
+				panel.doComponentLayout();
+			},
+			failure: function(){
+				console.log('server-side error loggedIn.save');
+				ARSnova.mainTabPanel.tabPanel.homeTabPanel.homePanel.lastVisitedSessionsForm.hide();
+			}
+		});
 	},
 	
 	updateBadge: function(sessionId, button) {
@@ -223,7 +239,7 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 			},
 			failure: function(response) {
 				console.log('error');
-			},
+			}
 		});
-	},
+	}
 });

@@ -23,7 +23,7 @@ ARSnova.views.feedback.TabPanel = Ext.extend(Ext.TabPanel, {
 	iconCls: 	'feedbackARSnova',
 	
 	tabBar: {
-    	hidden: true,
+    	hidden: true
     },
 	
 	constructor: function(){
@@ -32,7 +32,7 @@ ARSnova.views.feedback.TabPanel = Ext.extend(Ext.TabPanel, {
 		
 		this.items = [
             this.statisticPanel,
-            this.votePanel,
+            this.votePanel
         ];
 		ARSnova.views.feedback.TabPanel.superclass.constructor.call(this);
 	},
@@ -44,6 +44,10 @@ ARSnova.views.feedback.TabPanel = Ext.extend(Ext.TabPanel, {
 			this.statisticPanel.checkTitle();
 			taskManager.stop(ARSnova.mainTabPanel.tabPanel.updateFeedbackTask);
 			taskManager.start(ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.renewChartDataTask);
+			
+			if (ARSnova.userRole == ARSnova.USER_ROLE_SPEAKER && this.getActiveItem() == this.votePanel) {
+				this.setActiveItem(this.statisticPanel);
+			}
 		});
 		
 		this.on('deactivate', function(){

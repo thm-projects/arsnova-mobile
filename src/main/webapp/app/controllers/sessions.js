@@ -30,43 +30,30 @@ Ext.regController("sessions", {
     	/* do login stuff */
     	var res = ARSnova.sessionModel.checkSessionLogin(options.keyword, {
     		success: function(response){
-    			var responseObj = Ext.decode(response.responseText);
-    			
-    			//check if session exists
-    			if(responseObj.rows.length == 0){
-    				Ext.Msg.alert("Hinweis", "Diese Session existiert nicht.");
-    				Ext.Msg.doComponentLayout();
-    				return;
-    			}
-    			
-    			var obj = responseObj.rows[0].value;
+    			var obj = Ext.decode(response.responseText);
     			
     			//check if user is creator of this session
     			if (obj.creator == localStorage.getItem('login') && ARSnova.userRole == ARSnova.USER_ROLE_SPEAKER){
     				ARSnova.isSessionOwner = true;
+    				//start task: update that session owner is logeed in
+    				taskManager.start(ARSnova.updateSessionActivityTask);
     			} else {
     				//check if session is open
-    				if(obj.active == 0){
+    				if(!obj.active){
     					Ext.Msg.alert("Hinweis", "Die Session \"" + obj.name +"\” ist momentan geschlossen.");
     					Ext.Msg.doComponentLayout();
     					return;
     				}
     				ARSnova.isSessionOwner = false;
-    				
     			}
-    			
-    			//save session as one of five lastVisitedSessions in localStorage
-    			ARSnova.saveLastVisitedSession(obj);
     			
     			//set local variables
     			localStorage.setItem('sessionId', obj._id);
     	    	localStorage.setItem('name', obj.name);
     	    	localStorage.setItem('keyword', obj.keyword);
     	    	localStorage.setItem('shortName', obj.shortName);
-    	    	localStorage.setItem('active', obj.active);
+    	    	localStorage.setItem('active', obj.active ? 1 : 0);
     	    	
-    	    	//save that i am logged in this session
-    	    	restProxy.loggedInTask();
     	    	//start feedback-votes-cleaning-up-task
     	    	taskManager.start(ARSnova.cleanFeedbackVotes);
     	    	//start task to update the feedback tab in tabBar
@@ -74,8 +61,12 @@ Ext.regController("sessions", {
     	    	
     	    	Ext.dispatch({
 	    			controller	: 'sessions',
-	    			action		: 'reloadData',
+	    			action		: 'reloadData'
 	    		});
+    		},
+    		notFound: function() {
+    			Ext.Msg.alert("Hinweis", "Diese Session existiert nicht.");
+				Ext.Msg.doComponentLayout();
     		},
     		failure: function(records, operation){
     			console.log(operation);
@@ -94,12 +85,16 @@ Ext.regController("sessions", {
     	taskManager.stop(ARSnova.cleanFeedbackVotes);
     	//stop task to update the feedback tab in tabBar
     	taskManager.stop(ARSnova.mainTabPanel.tabPanel.updateFeedbackTask);
+    	//stop task to update that session owner is logged-in
+    	taskManager.stop(ARSnova.updateSessionActivityTask);
     	
 		localStorage.removeItem("sessionId");
 		localStorage.removeItem("name");
 		localStorage.removeItem("keyword");
 		localStorage.removeItem("short_name");
 		localStorage.removeItem("active");
+		localStorage.removeItem("session");
+		ARSnova.isSessionOwner = false;
 		
 		//save that user is not in this session anymore
 		restProxy.loggedInTask();
@@ -113,13 +108,10 @@ Ext.regController("sessions", {
 			duration: 700
 		});
 
-		if(ARSnova.isSessionOwner){
+		if (ARSnova.userRole == ARSnova.USER_ROLE_SPEAKER) {
 			/* hide speaker tab panel and destroy listeners */
 			tabPanel.speakerTabPanel.tab.hide();
 			tabPanel.speakerTabPanel.inClassPanel.destroyListeners();
-			
-			/* hide feedback statistic panel */
-			tabPanel.feedbackTabPanel.tab.hide();
 			
 			/* hide feedback questions panel */
 			tabPanel.feedbackQuestionsPanel.tab.hide();
@@ -128,15 +120,13 @@ Ext.regController("sessions", {
 			tabPanel.homeTabPanel.mySessionsPanel.loadCreatedSessions();
 		} else {
 			/* hide user tab panel and destroy listeners */
+			tabPanel.userQuestionsPanel.tab.hide();
 			tabPanel.userTabPanel.tab.hide();
 			tabPanel.userTabPanel.inClassPanel.destroyListeners();
-			
-			/* hide feedback statistic panel */
-			tabPanel.feedbackTabPanel.tab.hide();
-			
-			/* hide feedback questions panel */
-			tabPanel.userQuestionsPanel.tab.hide();
 		}
+		
+		/* hide feedback statistic panel */
+		tabPanel.feedbackTabPanel.tab.hide();
 		
 		ARSnova.mainTabPanel.tabPanel.doComponentLayout();
 	},
@@ -241,7 +231,7 @@ Ext.regController("sessions", {
 			shortName: options.shortName,
 			keyword	 : options.keyword,
 			creator	 : localStorage.getItem('login'),
-			active	 : 1,
+			active	 : 1
 		}, 'Session');
 		
 		var validation = session.validate();
@@ -273,8 +263,6 @@ Ext.regController("sessions", {
     	    	//start task to update the feedback tab in tabBar
     	    	taskManager.start(ARSnova.mainTabPanel.tabPanel.updateFeedbackTask);
     	    	
-    	    	ARSnova.saveLastVisitedSession(session.data);
-    	    	
     	    	var panel = ARSnova.mainTabPanel.tabPanel.homeTabPanel;
     	    	panel.setActiveItem(panel.mySessionsPanel);
     	    	
@@ -288,7 +276,7 @@ Ext.regController("sessions", {
 				console.log(operation);
 				Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
 				Ext.Msg.doComponentLayout();
-			},
+			}
 		});
 	},
 	
@@ -325,14 +313,14 @@ Ext.regController("sessions", {
 						console.log(operation);
 		    	  		Ext.Msg.alert("Hinweis!", "Session speichern war nicht erfolgreich");
 		    	  		Ext.Msg.doComponentLayout();
-					},
+					}
 				});
 			},
 			failure: function(records, operation){
 				console.log(operation);
     	  		Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
     	  		Ext.Msg.doComponentLayout();
-			},
+			}
 		});
-    },
+    }
 });

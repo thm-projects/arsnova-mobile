@@ -63,15 +63,15 @@ ARSnova.views.about.HelpVideoPanel = Ext.extend(Ext.Panel, {
 				me.setActiveItem(me.helpMainPanel, {
 					type		: 'slide',
 					direction	: 'right',
-					duration	: 700,
-				})
-			},
+					duration	: 700
+				});
+			}
 		});
 
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.HELP,
 			items: [
-				this.backButton,
+				this.backButton
 			]
 		});
 
@@ -80,9 +80,9 @@ ARSnova.views.about.HelpVideoPanel = Ext.extend(Ext.Panel, {
 		var w = getVideoResolution().width;
 		var h = getVideoResolution().height;
 		this.items = [{
-			html:	'<iframe width="'+w+'" height="'+h+'" src="//www.youtube-nocookie.com/embed/'+videoid+'?rel=0&hd=1" frameborder="0" allowfullscreen></iframe>',
+			html:	'<iframe width="'+w+'" height="'+h+'" src="//www.youtube-nocookie.com/embed/'+videoid+'?rel=0&hd=1" frameborder="0" allowfullscreen></iframe>'
 		}];
 
 		ARSnova.views.about.HelpVideoPanel.superclass.constructor.call(this);
-	},
+	}
 });

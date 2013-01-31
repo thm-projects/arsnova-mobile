@@ -50,7 +50,7 @@ ARSnova.views.about.HelpMainPanel = Ext.extend(Ext.Panel, {
 					return ARSnova.mainTabPanel.tabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.rolePanel, {
 						type: 'slide',
 						direction: 'right',
-						duration: 500,
+						duration: 500
 					});
 				}
 				
@@ -64,15 +64,15 @@ ARSnova.views.about.HelpMainPanel = Ext.extend(Ext.Panel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700,
-					scope		: this,
-				})
-			},
+					scope		: this
+				});
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.HELP,
 			items: [
-		        this.backButton,
+		        this.backButton
 			]
 		});
 		
@@ -82,7 +82,7 @@ ARSnova.views.about.HelpMainPanel = Ext.extend(Ext.Panel, {
 			defaults: {
 				xtype	: 'button',
 				ui		: 'normal',
-				cls		: 'forwardListButton',
+				cls		: 'forwardListButton'
 			},
 		
 			items: [{
@@ -94,25 +94,25 @@ ARSnova.views.about.HelpMainPanel = Ext.extend(Ext.Panel, {
 				defaults: {
 					xtype	: 'button',
 					ui		: 'normal',
-					cls		: 'forwardListButton',
+					cls		: 'forwardListButton'
 				},
 				
 				items: [{
 					text: Messages.LOG_IN_AND_GIVE_INSTANT_FEEDBACK,
 					handler: function () {
 						showVideo("V71tsCoESNo");
-					},
+					}
 				}, {
 					text: Messages.ASK_A_QUESTION,
 					handler: function () {
 						showVideo("Ug96vMM19Bs");
-					},
+					}
 				}, {
 					text: Messages.ANSWER_A_QUESTION,
 					handler: function () {
 						showVideo("kq3mhWeXSXU");
-					},
-				}],
+					}
+				}]
 			}, {
 				xtype: 'fieldset',
 				title: Messages.TEACHERS_USE_CASES,
@@ -122,31 +122,31 @@ ARSnova.views.about.HelpMainPanel = Ext.extend(Ext.Panel, {
 				defaults: {
 					xtype	: 'button',
 					ui		: 'normal',
-					cls		: 'forwardListButton',
+					cls		: 'forwardListButton'
 				},
 				
 				items: [{
 					text: Messages.CREATE_A_SESSION,
 					handler: function () {
 						showVideo("_TYjesz_mb0");
-					},
+					}
 				}, {
 					text: Messages.CREATE_A_QUESTION,
 					handler: function () {
 						showVideo("8IYjIXu5Crw");
-					},
+					}
 				}, {
 					text: Messages.MANAGE_QUESTIONS_AND_ANSWERS,
 					handler: function () {
 						showVideo("hZkFspZI_w0");
-					},
-				}],
-			}],
+					}
+				}]
+			}]
 		});
 		
 		this.dockedItems = [this.toolbar];
 		this.items 		 = [this.helpPanel];
 		
 		ARSnova.views.about.HelpMainPanel.superclass.constructor.call(this);
-	},
+	}
 });

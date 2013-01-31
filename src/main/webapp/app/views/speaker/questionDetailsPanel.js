@@ -37,7 +37,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 	freetextAnswerStore: new Ext.data.JsonStore({
 		model		: 'FreetextAnswer',
 		sorters		: 'timestamp',
-		groupField	: 'groupDate',
+		groupField	: 'groupDate'
 	}),
 	
 	renewAnswerDataTask: {
@@ -46,7 +46,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 			
 			ARSnova.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel.getQuestionAnswers();
 		},
-		interval: 20000, //20 seconds
+		interval: 20000 //20 seconds
 	},
 	
 	constructor: function(question){
@@ -73,9 +73,9 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 				}, this, {single: true});
 				sTP.setActiveItem(sTP.audienceQuestionPanel, {
 					type		: 'slide',
-					direction	: 'right',
+					direction	: 'right'
 				});
-			},
+			}
 		});
 		
 		this.cancelButton = new Ext.Button({
@@ -91,7 +91,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 				this.hide();
 				panel.backButton.show();
 				panel.resetFields();
-			},
+			}
 		});
 		
 		this.editButton = new Ext.Button({
@@ -120,7 +120,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 						success: function(response){
 							//nothing to do
 						}
-					})
+					});
 					
 					this.setText(Messages.EDIT);
 					this.removeCls('x-button-action');
@@ -203,10 +203,10 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 					var sTP = ARSnova.mainTabPanel.tabPanel.speakerTabPanel;
 					sTP.questionStatisticChart = new ARSnova.views.QuestionStatisticChart(this.questionObj, this);
 					ARSnova.mainTabPanel.setActiveItem(sTP.questionStatisticChart, 'slide');
-				},
+				}
 			}, {
 				html: Messages.STATISTIC,
-				cls	: 'centerTextSmall',
+				cls	: 'centerTextSmall'
 			}]
 		});
 
@@ -238,13 +238,13 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 								panel.questionObj = question.data;
 								ARSnova.hideLoadMask();
 							},
-							failure: function(){ console.log('could not save showStatistic flag') },
+							failure: function(){ console.log('could not save showStatistic flag'); }
 						});
 					}
 				}
 			}, {
 				html: Messages.RELEASE_STATISTIC,
-				cls	: 'centerTextSmall',
+				cls	: 'centerTextSmall'
 			}]
 		});
 		
@@ -276,13 +276,13 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 								panel.questionObj = question.data;
 								ARSnova.hideLoadMask();
 							},
-							failure: function(){ console.log('could not save showAnswer flag') },
+							failure: function(){ console.log('could not save showAnswer flag'); }
 						});
 					}
 				}
 			}, {
 				html: Messages.MARK_CORRECT_ANSWER,
-				cls	: 'centerTextSmall',
+				cls	: 'centerTextSmall'
 			}]
 		});
 		
@@ -313,15 +313,15 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 								},
 								failure: function(response){
 									console.log('server-side error delete question');
-								},
-							})						
+								}
+							});
 						}
 					});
 					Ext.Msg.doComponentLayout();
-				},
+				}
 			}, {
 				html: Messages.DELETE_ANSWERS,
-				cls	: 'centerTextSmall',
+				cls	: 'centerTextSmall'
 			}]
 		});
 		
@@ -343,8 +343,8 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 							ARSnova.questionModel.destroy(sTP.questionDetailsPanel.questionObj, {
 								failure: function(response){
 									console.log('server-side error delete question');
-								},
-							})						
+								}
+							});
 							me = sTP.questionDetailsPanel;
 							sTP.setActiveItem(sTP.audienceQuestionPanel, {
 								type		: 'slide',
@@ -356,14 +356,14 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 								after: function(){
 									me.destroy();
 								}
-							})
+							});
 						}
 					});
 					Ext.Msg.doComponentLayout();
-				},
+				}
 			}, {
 				html: Messages.DELETE_QUESTION,
-				cls	: 'centerTextSmall',
+				cls	: 'centerTextSmall'
 			}]
 		});
 		
@@ -375,7 +375,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 				
 			items: [].concat(
 				this.questionObj.questionType !== "freetext" ? [this.statisticButton, this.releaseStatisticButton] : [this.releaseStatisticButton]
-			),
+			)
 		});
 		
 		this.secondRow = new Ext.form.FormPanel({
@@ -384,19 +384,19 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 			items: [
 			    this.questionStatusButton,
 			    this.deleteAnswersButton,
-			    this.deleteQuestionButton,
-			],
+			    this.deleteQuestionButton
+			]
 		});
 		
 		this.actionsPanel = new Ext.Panel({
 			items: [
 				{
 					cls: 'gravure',
-					html: '\u201e' + this.questionObj.text + '\u201f',
+					html: '\u201e' + this.questionObj.text + '\u201f'
 				},
 				this.firstRow,
 				this.secondRow
-			],
+			]
 		});
 		/* END ACTIONS PANEL */
 		
@@ -404,7 +404,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 			label: Messages.QUESTION,
 			name: 'questionText',
 			value: this.questionObj.text,
-			disabled: true,
+			disabled: true
 		});
 		
 		var allPressed = false;
@@ -422,13 +422,13 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 		if(window.innerWidth < 600) {
 			this.releaseItems = [
                  { text	: Messages.ALL_SHORT, 	  id: 'all', pressed: allPressed}, 
-                 { text	: Messages.ONLY_THM_SHORT, id: 'thm', pressed: thmPressed},
-             ]
+                 { text	: Messages.ONLY_THM_SHORT, id: 'thm', pressed: thmPressed}
+             ];
 		} else {
 			this.releaseItems = [
                  { text	: Messages.ALL_LONG, 	 id: 'all', pressed: allPressed }, 
-                 { text	: Messages.ONLY_THM_LONG, id: 'thm', pressed: thmPressed },
-             ]
+                 { text	: Messages.ONLY_THM_LONG, id: 'thm', pressed: thmPressed }
+             ];
 		}
 		
 		this.releasePart = new Ext.form.FormPanel({
@@ -459,13 +459,13 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 	    								panel.questionObj = question.data;
 	    								ARSnova.hideLoadMask();
 	    							},
-	    							failure: function(){ console.log('could not save releasedFor flag') },
-	    						});	    		    			
+	    							failure: function(){ console.log('could not save releasedFor flag'); }
+	    						});
 	    		    		}
 	    		    	}
 	        		}
 	        	}]
-			}],
+			}]
     	});
 		
 		/* BEGIN QUESTION DETAILS */
@@ -477,18 +477,18 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 				label: Messages.CATEGORY,
 				name: 'subject',
 				value: this.questionObj.subject,
-				disabled: true,
+				disabled: true
 			}, this.textarea, {
 				xtype: 'textfield',
 				label: Messages.TYPE,
 				value: this.getType(),
-				disabled: true,
+				disabled: true
 			}, {
 				xtype: 'textfield',
 				label: Messages.STATUS,
 				value: this.questionObj.active == "1" ? Messages.RELEASED : Messages.NOT_RELEASED,
-				disabled: true,
-			}],	
+				disabled: true
+			}]
 		});
 		
 		this.contentForm = new Ext.form.FormPanel({
@@ -499,14 +499,14 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 		
 		this.answerFormFieldset = new Ext.form.FieldSet({
 			title: Messages.ANSWERS,
-			cls	 : 'standardFieldset',
+			cls	 : 'standardFieldset'
 		});
 		
 		this.freetextAnswerList = ARSnova.views.FreetextAnswerList(this.freetextAnswerStore);
 		
 		this.noFreetextAnswers = new Ext.Panel({
 			cls: 'centerText',
-			html: Messages.NO_ANSWERS,
+			html: Messages.NO_ANSWERS
 		});
 		
 		if (this.questionObj.questionType === "freetext") {
@@ -517,14 +517,14 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 		this.answerForm = new Ext.form.FormPanel({
 			id 	 	: 'answerForm',
 			scroll	: false,
-			items	: [this.answerFormFieldset],
+			items	: [this.answerFormFieldset]
 		}),
 		/* END QUESTION DETAILS */
 		
 		this.items = [
           this.actionsPanel,
           this.contentForm,
-          this.answerForm,
+          this.answerForm
         ];
 		
 		ARSnova.views.speaker.QuestionDetailsPanel.superclass.constructor.call(this);
@@ -579,7 +579,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 				disabled	: true,
 				cls			: 'answerListButton',
 				badgeText	: '0',
-				badgeCls	: 'badgeicon',
+				badgeCls	: 'badgeicon'
 			});
 		}
 		
@@ -651,7 +651,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 							var v = item.value;
 							return Ext.apply(item.value, {
 								formattedTime	: new Date(v.timestamp).format("H:i"),
-								groupDate		: new Date(v.timestamp).format("d.m.y"),
+								groupDate		: new Date(v.timestamp).format("d.m.y")
 							});
 						});
 						

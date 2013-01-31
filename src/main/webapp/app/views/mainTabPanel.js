@@ -29,7 +29,7 @@ ARSnova.views.MainTabPanel = Ext.extend(Ext.Panel, {
 		this.tabPanel 	= new ARSnova.views.TabPanel();
 
 		this.items = [
-			this.tabPanel,
+			this.tabPanel
 		],
 		
 		ARSnova.views.MainTabPanel.superclass.constructor.call(this);
@@ -41,7 +41,7 @@ ARSnova.views.MainTabPanel = Ext.extend(Ext.Panel, {
 		else
 			animation = {
 				type: animation,
-				duration: ARSnova.cardSwitchDuration,
+				duration: ARSnova.cardSwitchDuration
 			};
 		
 		ARSnova.views.TabPanel.superclass.setActiveItem.apply(this, arguments);

@@ -45,16 +45,16 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 				hTP.setActiveItem(hTP.mySessionsPanel, {
 					type		: 'slide',
 					direction	: 'right',
-					duration	: 700,
-				})
-			},
+					duration	: 700
+				});
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.NEW_SESSION,
 			cls	 : 'titlePaddingLeft',
 			items: [
-		        this.backButton,
+		        this.backButton
 			]
 		});
 		
@@ -63,7 +63,7 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 		this.sessionIdField = new Ext.form.Text({
             name		: 'keyword',
             label		: 'Session-ID',
-            disabled	: true,
+            disabled	: true
         });
 		
 		this.items = [{
@@ -81,7 +81,7 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 	                placeHolder	: Messages.SESSION_NAME_PLACEHOLDER,
 	                maxLength	: 50,
 	                useClearIcon: true,
-	                value		: course.name,
+	                value		: course.name
 	            }, {
 	                xtype		: 'textfield',
 	                name		: 'shortName',
@@ -89,18 +89,18 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 	                placeHolder	: Messages.SESSION_SHORT_NAME_PLACEHOLDER,
 	                maxLength	: 8,
 	                useClearIcon: true,
-	                value		: course.shortName,
+	                value		: course.shortName
 	            }]
 			}, {
             	xtype		: 'textfield',
             	name		: 'keyword',
-            	hidden 		: true,
+            	hidden 		: true
             }, {
 				xtype: 'button',
 				cls  : 'centerButton',
 				ui: 'confirm',
 				text: Messages.SAVE,
-				handler: this.onSubmit,
+				handler: this.onSubmit
 			}]
 		}];
 		
@@ -122,8 +122,8 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 			action		: 'create',
 			name		: values.name,
 			shortName	: values.shortName,
-			keyword		: values.keyword,
-		})			
+			keyword		: values.keyword
+		});
 	},
 	
 	getSessionIds: function(){
@@ -158,5 +158,5 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 		}
 		this.down("textfield[name=keyword]").setValue(sessionId);
 		this.down('fieldset').setInstructions("Session-ID: " + ARSnova.formatSessionID(sessionId));
-	},
+	}
 });

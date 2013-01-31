@@ -59,6 +59,9 @@ Ext.regController("auth", {
 			case ARSnova.LOGIN_GUEST:
 				if (localStorage.getItem('login') === null) {
 					localStorage.setItem('login', ARSnova.models.Auth.generateGuestName());
+					type = "guest";
+				} else {
+					type = "guest&name=" + localStorage.getItem('login');
 				}
 				break;
 			case ARSnova.LOGIN_THM:
@@ -85,7 +88,7 @@ Ext.regController("auth", {
 				break;
 		}
 		if(type != "") {
-			return window.location = "/doLogin?type=" + type;
+			return window.location = "doLogin?type=" + type;
 		}
 		
 		ARSnova.afterLogin();
@@ -93,7 +96,7 @@ Ext.regController("auth", {
     
     checkLogin: function(){
     	Ext.Ajax.request({
-    		url: '/whoami.json',
+    		url: 'whoami.json',
     		method: 'GET',    		
     		success: function(response){
     			var obj = Ext.decode(response.responseText);
@@ -101,7 +104,7 @@ Ext.regController("auth", {
     			localStorage.setItem('login', obj.username);
 	    	    window.location = window.location.pathname + "#";
 	    	    ARSnova.checkPreviousLogin();
-    		},
+    		}
     	});
     	
     },
@@ -115,6 +118,12 @@ Ext.regController("auth", {
     	localStorage.removeItem('role');
     	localStorage.removeItem('loginMode');
     	
+    	/* check if new version available */
+    	var appCache = window.applicationCache;
+    	if (appCache.status !== appCache.UNCACHED) {
+    		appCache.update();
+    	}
+    	
     	ARSnova.userRole = "";
 		ARSnova.setWindowTitle();
     	
@@ -123,13 +132,19 @@ Ext.regController("auth", {
 		 * b: to rolePanel if user was guest
 		 * */
     	if (ARSnova.loginMode == ARSnova.LOGIN_THM) {
+    		/* update will be done when returning from CAS */
     		localStorage.removeItem('login');
     		window.location = "https://cas.thm.de/cas/logout?url=http://" + window.location.hostname + window.location.pathname + "#auth/doLogout";
     	} else {
     		ARSnova.mainTabPanel.tabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.rolePanel, {
     			type: 'slide',
-    			direction: 'right',
-    		})
+    			direction: 'right'
+    		});
+    		/* update manifest cache of new version is loaded */
+    		if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+				window.applicationCache.swapCache();
+				window.location.reload();
+			}
     	}
     }
 });

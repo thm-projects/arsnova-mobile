@@ -39,15 +39,15 @@ ARSnova.views.about.HelpHomePanel = Ext.extend(Ext.Panel, {
 				me.setActiveItem(me.helpMainPanel, {
 					type		: 'slide',
 					direction	: 'right',
-					duration	: 700,
-				})
-			},
+					duration	: 700
+				});
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.HELP_HOME,
 			items: [
-		        this.backButton,
+		        this.backButton
 			]
 		});
 		
@@ -61,7 +61,7 @@ ARSnova.views.about.HelpHomePanel = Ext.extend(Ext.Panel, {
 						'<li>man tippt auf den \u201eSessions\u201f-Button, um eine kürzlich besuchte Session ohne Eingabe der Session-ID erneut zu besuchen.</li>' +
 					'</ol><br>' +
 					'<p>Will man eine neue Session anlegen, tippt man auf den \u201eSessions\u201f-Button, um auf der folgenden Seite über das \u201ePlus\u201f-Icon oben rechts oder den gleichnamigen Button eine neue Session anzulegen. Eigene Sessions können dort direkt angesprungen werden.</p><br>' +
-					'<p>Eine Session in grüner Schrift ist geöffnet, sonst gesperrt.</p>',
+					'<p>Eine Session in grüner Schrift ist geöffnet, sonst gesperrt.</p>'
 		}];
 		
 		ARSnova.views.about.HelpHomePanel.superclass.constructor.call(this);

@@ -739,6 +739,6 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
     			panel.toolbar.setTitle(Messages.QUESTION + " " + value);
     			panel.mainPart.down('numberfield[name=number]').setValue(value);
     		}
-    	})
+    	});
     }
 });

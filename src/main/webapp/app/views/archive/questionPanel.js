@@ -35,9 +35,9 @@ ARSnova.views.archive.QuestionPanel = Ext.extend(Ext.Carousel, {
 				aTP.setActiveItem(aTP.coursePanel, {
 		    		type		: 'slide',
 		    		direction	: 'right',
-		    		duration	: 700,
+		    		duration	: 700
 		    	});
-			},
+			}
 		});
 		
 		this.listeners = {
@@ -58,7 +58,7 @@ ARSnova.views.archive.QuestionPanel = Ext.extend(Ext.Carousel, {
 		
 		this.questionCounter = new Ext.Container({
 			cls: "x-toolbar-title alignRight",
-			html: '0/0',
+			html: '0/0'
 		});
 		
 		this.toolbar = new Ext.Toolbar({
@@ -107,7 +107,7 @@ ARSnova.views.archive.QuestionPanel = Ext.extend(Ext.Carousel, {
 					questionPanel.questionCounter.hide();
 					questionPanel.add({
 						cls: 'centerText',
-						html: 'Es wurden noch keine Fragen freigegeben.',
+						html: 'Es wurden noch keine Fragen freigegeben.'
 					});
 					questionPanel.indicator.hide();
 					questionPanel.doLayout();
@@ -143,5 +143,5 @@ ARSnova.views.archive.QuestionPanel = Ext.extend(Ext.Carousel, {
 		
 	addQuestion: function(question){
 		this.add(new ARSnova.views.Question(question.value));
-	},
+	}
 });

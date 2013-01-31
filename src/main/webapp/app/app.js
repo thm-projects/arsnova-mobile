@@ -96,11 +96,43 @@ Ext.regApplication({
 		},
 		interval: 60000 //60 seconds
 	},
+	
+	/**
+	 * update every x seconds the owner of a session is logged in
+	 */
+	updateSessionActivityTask: {
+		name: 'save that owner of a session is logged in',
+		run: function(){
+			restProxy.updateSessionActivityTask();
+		},
+		interval: 180000 //180 seconds
+	},
     
     /**
      * This is called automatically when the page loads. Here we set up the main component on the page
      */
     launch: function(){
+    	// Use native application update depending on manifest file changes on startup
+		var appCache = window.applicationCache;
+		if (appCache.status !== appCache.UNCACHED) {
+			appCache.update();
+		}
+		
+		window.addEventListener('load', function(e) {
+			window.applicationCache.addEventListener('updateready', function(e) {
+				if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+					// New version of ARSnova detected, swap in new chache
+					window.applicationCache.swapCache();
+					Ext.Msg.confirm(Messages.NEW_VERSION_TITLE, Messages.NEW_VERSION_AVAILABLE, function(answer) {
+						if (answer == 'yes') {
+							window.location.reload();
+						}
+					});
+					Ext.Msg.doComponentLayout();
+				}
+			}, false);
+		}, false);
+    	
 		if (!this.checkWebKit()) return;
 		if (!this.checkLocalStorage()) return;
 		this.checkEstudyURL();
@@ -294,29 +326,27 @@ Ext.regApplication({
      * make localStorage ready 
      */
     checkLocalStorage: function(){
-//    	try {
-    		if (localStorage.getItem('lastVisitedSessions') == null){
-    			localStorage.setItem('lastVisitedSessions', "[]");
-    		}
-    		if (localStorage.getItem('questionIds') == null){
-    			localStorage.setItem('questionIds', "[]");
-    		}
-    		if (localStorage.getItem('loggedIn') == null){
-    			localStorage.setItem('loggedIn', "[]");
-    		}
-    		localStorage.setItem('sessionId', "");
-    		
-    		if (localStorage.getItem('user has voted'))
-    			localStorage.removeItem('user has voted');
-//		} catch (e) {
-//			 if (e.name == "QUOTA_EXCEEDED_ERR") {
-//				 console.log("Quota_Exceeded_Error");
-//				 Ext.Msg.alert("Hinweis", "Ihr Browser meldet einen Fehler: <br>\"Quota_Exceeded_Error\"<br> ARSnova kann nicht ausgeführt werden.");
-//				 Ext.Msg.doComponentLayout();
-//				 return false;
-//			}
-//		}
+		if (localStorage.getItem('lastVisitedSessions') == null){
+			localStorage.setItem('lastVisitedSessions', "[]");
+		}
+		
+		if (localStorage.getItem('questionIds') == null){
+			localStorage.setItem('questionIds', "[]");
+		}
+		
+		if (localStorage.getItem('loggedIn') == null){
+			localStorage.setItem('loggedIn', "[]");
+		}
+		
+		if (localStorage.getItem('user has voted')) {
+			localStorage.removeItem('user has voted');
+		}
+		
+		if (localStorage.getItem('session')) {
+			localStorage.removeItem('session');
+		}
     	
+		localStorage.setItem('sessionId', "");
 		return true;
     },
     
@@ -356,35 +386,8 @@ Ext.regApplication({
 				tmp.push(sessionID.substr(i - 1, 2));
 			}
 		}
-		if(tmp.length * 2 < sessionID.length) tmp.push(sessionID[tmp.length * 2])
+		if(tmp.length * 2 < sessionID.length) tmp.push(sessionID[tmp.length * 2]);
 		return tmp.join(" ");
-	},
-	
-	saveLastVisitedSession: function(sessionObj){
-		//save session as one of five lastVisitedSessions in localStorage
-		var sessions = Ext.decode(localStorage.getItem('lastVisitedSessions'));
-		var alreadyCreated = false;
-		for ( var i = 0; i < sessions.length; i++){
-			var session = sessions[i];
-			if (sessionObj._id == session._id){
-				alreadyCreated = i;
-				break;
-			}
-		}
-		if (sessions.length == 5){
-			if (alreadyCreated !== false){
-				sessions.splice(alreadyCreated, 1);
-			} else {
-				sessions.pop();
-			}
-			sessions.unshift(sessionObj);
-		} else {
-			if (alreadyCreated !== false){
-				sessions.splice(alreadyCreated, 1);
-			}
-			sessions.unshift(sessionObj);
-		}
-		localStorage.setItem('lastVisitedSessions', Ext.encode(sessions));
 	},
 	
 	removeVisitedSession: function(sessionId){

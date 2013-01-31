@@ -38,7 +38,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 		run: function() {
 			ARSnova.mainTabPanel.tabPanel.speakerTabPanel.audienceQuestionPanel.getQuestionAnswers();
 		},
-		interval: 10000, //10 seconds
+		interval: 10000 //10 seconds
 	},
 	
 	constructor: function(){
@@ -49,8 +49,8 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 				xtype	: 'button',				
 				text	: Messages.NEW_QUESTION,
 				cls		: 'forwardListButton',
-				handler	: this.newQuestionHandler,
-			}],
+				handler	: this.newQuestionHandler
+			}]
 		}];
 		
 		this.backButton = new Ext.Button({
@@ -62,16 +62,16 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 				sTP.setActiveItem(sTP.inClassPanel, {
 					type		: 'slide',
 					direction	: 'right',
-					duration	: 700,
+					duration	: 700
 				});
-			},
+			}
 		});
 		
 		this.addButton = new Ext.Button({
 			text	: '+',
 			cls		: 'plusButton',
 			scope	: this,
-			handler	: this.newQuestionHandler,
+			handler	: this.newQuestionHandler
 		});
 		
 		this.showcaseButton = new Ext.Button({
@@ -88,14 +88,12 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 		        this.backButton,
 		        {xtype: 'spacer'},
 		        this.showcaseButton,
-		        this.addButton,
+		        this.addButton
 			]
 		});
 		
 		this.dockedItems = [this.toolbar];
-		this.items = [
-          this.newQuestionButton
-        ];
+		this.items = [];
 		
 		ARSnova.views.speaker.AudienceQuestionPanel.superclass.constructor.call(this);
 	},
@@ -113,11 +111,16 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 		this.removeAll();
 		this.questionEntries = [];
 
-		ARSnova.questionModel.getSkillQuestionsSortBySubjectAndText(localStorage.getItem('sessionId'), {
-    		success: this.questionsCallback,
-    		failure: function(response) {
-    			console.log('server-side error questionModel.getSkillQuestions');
-    		},
+		ARSnova.questionModel.getSkillQuestionsSortBySubjectAndText(localStorage.getItem('keyword'), {
+			success: this.questionsCallback,
+			empty: Ext.createDelegate(function() {
+				this.showcaseButton.hide();
+				this.add(this.newQuestionButton);
+				this.doLayout();
+			}, this),
+			failure: function(response) {
+				console.log('server-side error questionModel.getSkillQuestions');
+			}
 		});
 	},
 	
@@ -156,44 +159,36 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 					Ext.dispatch({
 						controller	: 'questions',
 						action		: 'details',
-						question	: button.questionObj,
+						question	: button.questionObj
 					});
 				}
 			});
 		};
 		
-		var questions = Ext.decode(response.responseText).rows;
+		var questions = Ext.decode(response.responseText);
 		var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.audienceQuestionPanel;
 		
-		if (questions.length == 0){
-			console.log('Keine Session-Fragen gefunden!');
-			panel.showcaseButton.hide();
-			if (panel.items.length == 0) panel.add(panel.newQuestionButton);
-		} else {
-			panel.displayShowcaseButton();
-			
-			var fieldsets = {};
-			
-			// Build up our question view...
-			for(var i = 0, question; questions[i]; i++) {
-				question = questions[i].value;
-				
-				// 1. Create unique fieldsets
-				if (typeof fieldsets[question.subject] === "undefined") {
-					fieldsets[question.subject] = panel.add({
-						xtype: 'fieldset',
-						title: question.subject,
-					});
-				}
-				
-				// 2. Create question entries
-				var questionEntry = createEntry(question);
-				// store entries inside special array to allow for an updating answer count
-				panel.questionEntries.push(questionEntry);
-				
-				// 3. Wire up question entries to their fieldsets
-				fieldsets[question.subject].add(questionEntry);
+		panel.displayShowcaseButton();
+		
+		var fieldsets = {};
+		
+		// Build up our question view...
+		for(var i = 0, question; question = questions[i]; i++) {
+			// 1. Create unique fieldsets
+			if (typeof fieldsets[question.subject] === "undefined") {
+				fieldsets[question.subject] = panel.add({
+					xtype: 'fieldset',
+					title: question.subject
+				});
 			}
+			
+			// 2. Create question entries
+			var questionEntry = createEntry(question);
+			// store entries inside special array to allow for an updating answer count
+			panel.questionEntries.push(questionEntry);
+			
+			// 3. Wire up question entries to their fieldsets
+			fieldsets[question.subject].add(questionEntry);
 		}
 		
 		// ... and load the answer count for each question

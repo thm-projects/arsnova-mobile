@@ -54,9 +54,9 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 				hTP.setActiveItem(hTP.homePanel, {
 					type		: 'slide',
 					direction	: 'right',
-					duration	: 700,
-				})
-			},
+					duration	: 700
+				});
+			}
 		});
 		
 		this.createSessionButton = new Ext.Button({
@@ -68,8 +68,8 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 				hTP.setActiveItem(hTP.newSessionPanel, {
 					type		: 'slide',
 					direction	: 'left',
-					duration	: 700,
-				})
+					duration	: 700
+				});
 			}
 		});
 		
@@ -91,20 +91,20 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 				text	: Messages.CREATE_NEW_SESSION,
 				cls		: 'forwardListButton',
 				handler	: function(options){
-					var hTP = ARSnova.mainTabPanel.tabPanel.homeTabPanel
-					hTP.setActiveItem(hTP.newSessionPanel, 'slide')
-				},
-			}],
+					var hTP = ARSnova.mainTabPanel.tabPanel.homeTabPanel;
+					hTP.setActiveItem(hTP.newSessionPanel, 'slide');
+				}
+			}]
 		});
 		
 		this.sessionsForm = new Ext.form.FormPanel({
-			items: [],
+			items: []
 		});
 		
 		this.dockedItems = [this.toolbar],
 		this.items = [
 		    this.newSessionButtonForm,
-            this.sessionsForm,
+            this.sessionsForm
         ],
 		
 		ARSnova.views.home.MySessionsPanel.superclass.constructor.call(this);
@@ -138,64 +138,61 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 		var me = this;
 		
 		ARSnova.showLoadMask(Messages.LOAD_MASK_SEARCH);
-		var res = ARSnova.sessionModel.getMySessions(localStorage.getItem('login'), {
-    		success: function(response) {
-    			var sessions = Ext.decode(response.responseText).rows;
-    			var sessionsLength = sessions.length;
-    			var panel = ARSnova.mainTabPanel.tabPanel.homeTabPanel.mySessionsPanel;
-    			
-    			if(sessionsLength != 0) {
-    				panel.sessionsForm.removeAll();
-    				panel.sessionsForm.show();
-    				
-    				panel.createdSessionsFieldset = new Ext.form.FieldSet({
-						cls: 'standardFieldset',
-						title: Messages.MY_SESSIONS,
-					})
-    				
-    				for ( var i = 0; i < sessionsLength; i++) {
-    					var session = sessions[i];
-    					
-    					var status = "";
-    					if (session.value.active && session.value.active == 1) {
-    						status = " isActive";
+		ARSnova.sessionModel.getMySessions({
+			success: function(response) {
+				var sessions = Ext.decode(response.responseText);
+				var panel = ARSnova.mainTabPanel.tabPanel.homeTabPanel.mySessionsPanel;
+				
+				panel.sessionsForm.removeAll();
+				panel.sessionsForm.show();
+				
+				panel.createdSessionsFieldset = new Ext.form.FieldSet({
+					cls: 'standardFieldset',
+					title: Messages.MY_SESSIONS
+				});
+				
+				for ( var i = 0, session; session = sessions[i]; i++) {
+					var status = "";
+					if (session.active && session.active == 1) {
+						status = " isActive";
+					}
+					// Minimum width of 321px equals at least landscape view
+					var displaytext = window.innerWidth > 321 ? session.shortName : session.shortName; 
+					var sessionButton = new ARSnova.views.MultiBadgeButton({
+						ui			: 'normal',
+						text		: displaytext,
+						cls			: 'forwardListButton' + status,
+						sessionObj	: session,
+						badgeCls	: "badgeicon",
+						badgeText	: [],
+						handler		: function(options){
+							ARSnova.showLoadMask("Login...");
+							Ext.dispatch({
+								controller	: 'sessions',
+								action		: 'login',
+								keyword		: options.sessionObj.keyword
+							});
 						}
-						// Minimum width of 321px equals at least landscape view
-						var displaytext = window.innerWidth > 321 ? session.key[1] : session.value.shortName; 
-						var sessionButton = new ARSnova.views.MultiBadgeButton({
-							ui			: 'normal',
-							text		: displaytext,
-							cls			: 'forwardListButton' + status,
-							sessionObj	: session,
-							badgeCls	: "badgeicon",
-							badgeText	: [],
-							handler		: function(options){
-								ARSnova.showLoadMask("Login...");
-								Ext.dispatch({
-									controller	: 'sessions',
-									action		: 'login',
-									keyword		: options.sessionObj.value.keyword,
-								});
-							},
-						});
-						me.updateBadges(session.id, sessionButton);
-    					panel.createdSessionsFieldset.add(sessionButton);
-    				}
-    				panel.sessionsForm.add(panel.createdSessionsFieldset);
-    			} else {
-    				panel.sessionsForm.hide();
-    			}
+					});
+					me.updateBadges(session._id, session.keyword, sessionButton);
+					panel.createdSessionsFieldset.add(sessionButton);
+				}
+				panel.sessionsForm.add(panel.createdSessionsFieldset);
     			
     			panel.doLayout();
     			ARSnova.hideLoadMask();
     		},
+			empty: Ext.createDelegate(function() {
+				this.sessionsForm.hide();
+				ARSnova.hideLoadMask();
+			}, this),
     		failure: function() {
     			console.log("my sessions request failure");
     		}
     	});
 	},
 	
-	updateBadges: function(sessionId, button) {
+	updateBadges: function(sessionId, sessionKeyword, button) {
 		var parseValue = function(responseObj) {
 			var value = "";
 			if (responseObj.length > 0){
@@ -204,7 +201,7 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 			return value;
 		};
 		var failureCallback = function() {
-			console.log('server-side error');
+			console.log('server-side error: ', arguments);
 		};
 		
 		ARSnova.questionModel.countSkillQuestions(sessionId, {
@@ -213,23 +210,23 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 				ARSnova.questionModel.countTotalAnswers(sessionId, {
 					success: function(response) {
 						var numAnswers = parseValue(Ext.decode(response.responseText).rows);
-						ARSnova.questionModel.countFeedbackQuestions(sessionId, {
+						ARSnova.questionModel.countFeedbackQuestions(sessionKeyword, {
 							success: function(response) {
-								var numFeedbackQuestions = parseValue(Ext.decode(response.responseText).rows);
+								var numFeedbackQuestions = parseValue(Ext.decode(response.responseText));
 								
 								button.setBadge([
 									{badgeText: numFeedbackQuestions, badgeCls: "bluebadgeicon"},
 									{badgeText: numQuestions, badgeCls: "badgeicon"},
-									{badgeText: numAnswers, badgeCls: "redbadgeicon"},
+									{badgeText: numAnswers, badgeCls: "redbadgeicon"}
 								]);
 							},
-							failure: failureCallback,
+							failure: failureCallback
 						});
 					},
-					failure: failureCallback,
+					failure: failureCallback
 				});
 			},
-			failure: failureCallback,
+			failure: failureCallback
 		});
 	}
 });

@@ -42,13 +42,13 @@ ARSnova.views.canteen.VotePanel = Ext.extend(Ext.Panel, {
 		    			ARSnova.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.renewChartData();
 		    		}
 		    	});
-			},
+			}
 		});
 		
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.CANTEEN_MENU,
 			items: [
-		        this.backButton,
+		        this.backButton
 			]
 		});
 		
@@ -59,16 +59,16 @@ ARSnova.views.canteen.VotePanel = Ext.extend(Ext.Panel, {
 					controller	: 'canteen',
 					action		: 'vote',
 					value		: button.value,
-					panel		: this,
+					panel		: this
 				});
-			},
+			}
 		};
 		
 		this.dockedItems = [this.toolbar];
 		this.items = [{
 			xtype: 'panel',
 			cls: 'gravure',
-			html: Messages.I_RECOMMEND,
+			html: Messages.I_RECOMMEND
 		}];
 		
 		ARSnova.views.canteen.VotePanel.superclass.constructor.call(this);
@@ -77,7 +77,7 @@ ARSnova.views.canteen.VotePanel = Ext.extend(Ext.Panel, {
 	initComponent: function(){
 		this.on('activate', function(){
 			this.addFoodOptions();
-		})
+		});
 		
 		ARSnova.views.canteen.VotePanel.superclass.initComponent.call(this);
 	},
@@ -93,10 +93,10 @@ ARSnova.views.canteen.VotePanel = Ext.extend(Ext.Panel, {
 			this.add({
 				text	: el.data.name,
 				value	: el.data.name,
-				cls		: 'login-button menu' + i,
+				cls		: 'login-button menu' + i
 			});
 		}
 		this.foodOptions = true;
 		this.doLayout();
-	},
+	}
 });
