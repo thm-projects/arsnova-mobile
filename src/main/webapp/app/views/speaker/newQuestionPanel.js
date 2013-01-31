@@ -51,7 +51,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 		this.saveButton = new Ext.Button({
 			text	: Messages.SAVE,
 			ui		: 'confirm',
-			handler	: this.saveHandler
+			handler	: this.saveHandler,
 		});
 				
 		this.textarea = new Ext.plugins.ResizableTextArea({
