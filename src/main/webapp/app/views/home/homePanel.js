@@ -169,13 +169,12 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 		
 		ARSnova.showLoadMask(Messages.LOAD_MASK_SEARCH);
 		
-		restProxy.getMyVisitedSessions(localStorage.getItem('login'), {
+		restProxy.getMyVisitedSessions({
 			success: function(response, operation){
-				var rows = Ext.decode(response.responseText).rows;
+				var sessions = Ext.decode(response.responseText);
 				var panel = ARSnova.mainTabPanel.tabPanel.homeTabPanel.homePanel;
 				
-				if (rows.length > 0 && rows[0].value != null) {
-					var sessions = rows[0].value;
+				if (sessions && sessions.length !== 0) {
 					panel.lastVisitedSessionsFieldset.removeAll();
 					panel.lastVisitedSessionsForm.show();
 					
@@ -203,27 +202,23 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 						});
 						panel.lastVisitedSessionsFieldset.add(sessionButton);
 						panel.updateBadge(session._id, sessionButton);
-					}
-					
-					for ( var i = 0; i < sessions.length; i++) {
-						var session = sessions[i];
 						
-						Ext.ModelMgr.getModel("Session").load(session._id, {
-							success: function(records, operation){
-								var session = Ext.ModelMgr.create(Ext.decode(operation.response.responseText), 'Session');
-								
-								if (session.data.active && session.data.active == 1) {
-									var panel = ARSnova.mainTabPanel.tabPanel.homeTabPanel.homePanel;
-									panel.down('button[text=' + session.data.name + ']').addCls("isActive");
-								}
-							}
-						});
+						if (session.active && session.active == 1) {
+							panel.down('button[text=' + session.name + ']').addCls("isActive");
+						}
 					}
 				} else {
 					panel.lastVisitedSessionsForm.hide();
 				}
 				
 				panel.doComponentLayout();
+			},
+			unauthenticated: function() {
+				Ext.dispatch({
+					controller: "auth",
+					action: "login",
+					mode: ARSnova.loginMode
+				});
 			},
 			failure: function(){
 				console.log('server-side error loggedIn.save');

@@ -163,25 +163,27 @@ var restProxy = new Ext.data.RestProxy({
 			}
 		});
 	},
-    
-    /**
-     * Get the sessions where user is visitor
-     * @param login from user
-     * @param object with success- and failure-callbacks
-     * @return session-objects, if found
-     * @return false, if nothing found 
-     */
-    getMyVisitedSessions: function(login, callbacks){
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/logged_in/_view/visited_sessions_by_user',
-    		method: 'GET',
-    		params: {
-    			key: "\"" + login + "\""
-    		},
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
+	
+	/**
+	 * Get the sessions where user is visitor
+	 * @param login from user
+	 * @param object with success-, unauthenticated- and failure-callbacks
+	 * @return session-objects, if found
+	 * @return false, if nothing found 
+	 */
+	getMyVisitedSessions: function(callbacks){
+		Ext.Ajax.request({
+			url: "session/visitedsessions",
+			success: callbacks.success,
+			failure: function(response) {
+				if (response.status === 401) {
+					callbacks.unauthenticated.apply(this, arguments);
+				} else {
+					callbacks.failure.apply(this, arguments);
+				}
+			}
+		});
+	},
     
     getQuestionById: function(id, callbacks){
     	Ext.Ajax.request({
