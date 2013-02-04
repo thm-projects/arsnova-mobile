@@ -144,7 +144,7 @@ var restProxy = new Ext.data.RestProxy({
 	/**
 	 * Get the sessions where user is creator
 	 * @param login from user
-	 * @param object with success-, failure- and empty-callbacks
+	 * @param object with success-, failure-, unauthenticated and empty-callbacks
 	 * @return session-objects, if found
 	 * @return false, if nothing found 
 	 */
@@ -153,7 +153,9 @@ var restProxy = new Ext.data.RestProxy({
 			url: "session/mysessions",
 			success: callbacks.success,
 			failure: function(response) {
-				if (response.status === 404) {
+				if (response.status === 401) {
+					callbacks.unauthenticated.apply(this, arguments);
+				} else if (response.status === 404) {
 					callbacks.empty.apply(this, arguments);
 				} else {
 					callbacks.failure.apply(this, arguments);

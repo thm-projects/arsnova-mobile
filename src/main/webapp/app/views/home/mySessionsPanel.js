@@ -186,6 +186,13 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 				this.sessionsForm.hide();
 				ARSnova.hideLoadMask();
 			}, this),
+			unauthenticated: function() {
+				Ext.dispatch({
+					controller: "auth",
+					action: "login",
+					mode: ARSnova.loginMode
+				});
+			},
     		failure: function() {
     			console.log("my sessions request failure");
     		}

@@ -247,17 +247,20 @@ Ext.regApplication({
 			return HTTP_GET_VARS[variable];
     	}
     },
-    
-    checkPreviousLogin: function(){
-    	if (localStorage.getItem('role') == null || localStorage.getItem('loginMode') == null || localStorage.getItem('login') == null) return false;
-    	
-    	ARSnova.loggedIn = true;
-    	ARSnova.loginMode = localStorage.getItem('loginMode');
-    	ARSnova.userRole = localStorage.getItem('role');
-    	ARSnova.setWindowTitle();
-    	ARSnova.afterLogin();
-    },
-    
+	
+	checkPreviousLogin: function(){
+		var isLocalStorageUninitialized = localStorage.getItem('role') == null
+									   || localStorage.getItem('loginMode') == null
+									   || localStorage.getItem('login') == null;
+		if (isLocalStorageUninitialized) return false;
+		
+		ARSnova.loggedIn = true;
+		ARSnova.loginMode = localStorage.getItem('loginMode');
+		ARSnova.userRole = localStorage.getItem('role');
+		ARSnova.setWindowTitle();
+		ARSnova.afterLogin();
+	},
+
     setWindowTitle: function(){
 		switch (ARSnova.userRole) {
 			case ARSnova.USER_ROLE_SPEAKER:
