@@ -201,7 +201,7 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 							}
 						});
 						panel.lastVisitedSessionsFieldset.add(sessionButton);
-						panel.updateBadge(session._id, sessionButton);
+						panel.updateBadge(session.keyword, sessionButton);
 						
 						if (session.active && session.active == 1) {
 							panel.down('button[text=' + session.name + ']').addCls("isActive");
@@ -227,8 +227,8 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 		});
 	},
 	
-	updateBadge: function(sessionId, button) {
-		ARSnova.questionModel.getUnansweredSkillQuestions(sessionId, localStorage.getItem("login"), {
+	updateBadge: function(sessionKeyword, button) {
+		ARSnova.questionModel.getUnansweredSkillQuestions(sessionKeyword, {
 			success: function(newQuestions) {
 				button.setBadge(newQuestions.length);
 			},

@@ -201,14 +201,12 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 	 * if user don't want to answer this questions now, save this opinion in localStorage
 	 */
 	checkNewSkillQuestions: function(){
-		ARSnova.questionModel.getUnansweredSkillQuestions(localStorage.getItem("sessionId"), localStorage.getItem("login"), {
+		ARSnova.questionModel.getUnansweredSkillQuestions(localStorage.getItem("keyword"), {
 			success: function(newQuestions){
 				ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel.questionButton.setBadge(newQuestions.length);
 				ARSnova.mainTabPanel.tabPanel.userQuestionsPanel.tab.setBadge(newQuestions.length);
 				
 				if (newQuestions.length > 0) {
-					var userQuestionPanel = ARSnova.mainTabPanel.tabPanel.userQuestionsPanel;
-					
 					var showNotification = false;
     				var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
     				

@@ -419,45 +419,22 @@ var restProxy = new Ext.data.RestProxy({
     		failure: callbacks.failure
     	});
     },
-    
-    /**
-     * First fetch all answered skill_questions of this user.
-     * Then fetch all skill_questions for this session and check each question if it is active and not in the answered questions array.
-     */
-    getUnansweredSkillQuestions: function(sessionId, userLogin, callbacks){
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/answer/_view/by_user',
-    		method: 'GET',
-    		params: {
-    			key: "[\"" + userLogin + "\", \"" + sessionId + "\"]"
-    		},
-
-    		success: function(response){
-    			var resRows = Ext.decode(response.responseText).rows;
-    			var answered = [];
-    			
-    			resRows.forEach(function(question){
-    				answered.push(question.value);
-    			});
-    			
-    			restProxy.getSkillQuestionsOnlyId(sessionId, {
-    				success: function(response){
-    					var allQuestions = Ext.decode(response.responseText).rows;
-    					var unanswered = [];
-    					
-    					allQuestions.forEach(function(question){
-    						if(answered.indexOf(question.id) == -1)
-    							unanswered.push(question.id);
-    					});
-    					callbacks.success(unanswered);
-    				},
-    				failure: callbacks.failure
-    			});
-    		},
-    		failure: callbacks.failure
-    	});
-    },
-    
+	
+	getUnansweredSkillQuestions: function(sessionKeyword, callbacks){
+		Ext.Ajax.request({
+			url: "/session/" + sessionKeyword + "/questions/unanswered",
+			success: function(response) {
+				if (response.status === 204) {
+					callbacks.success.call(this, []);
+				} else {
+					var questionIds = Ext.decode(response.responseText);
+					callbacks.success.call(this, questionIds);
+				}
+			},
+			failure: callbacks.failure
+		});
+	},
+	
     getSkillQuestionsOnlyId: function(sessionId, callbacks){
     	var requestUrl = this.url;
     	
