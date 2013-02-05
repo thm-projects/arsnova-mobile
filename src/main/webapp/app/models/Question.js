@@ -67,12 +67,12 @@ ARSnova.models.Question = Ext.regModel('Question', {
     	return this.proxy.getUnansweredSkillQuestions(sessionId, userLogin, callbacks);
     },
     
-    countSkillQuestions: function(sessionId, callbacks) {
-    	return this.proxy.countSkillQuestions(sessionId, callbacks);
+    countSkillQuestions: function(sessionKeyword, callbacks) {
+    	return this.proxy.countSkillQuestions(sessionKeyword, callbacks);
     },
 	
-	countTotalAnswers: function(sessionId, callbacks) {
-		return this.proxy.countTotalAnswers(sessionId, callbacks);
+	countTotalAnswers: function(sessionKeyword, callbacks) {
+		return this.proxy.countTotalAnswers(sessionKeyword, callbacks);
 	},
     
     getInterposedQuestions: function(sessionKeyword, callbacks) {

@@ -314,30 +314,19 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 			success: function(response){
 				var feedbackQuestionsPanel = ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel;
 				var panel = feedbackQuestionsPanel.questionsPanel;
-				var responseObj = Ext.decode(response.responseText);
-				var read = 0, unread = 0, sum = 0;
+				var questionCount = Ext.decode(response.responseText);
 				
-				for (var i = 0, obj; obj = responseObj[i]; i++) {
-					if (!obj.read) {
-						unread++;
-					} else {
-						read++;
-					}
-				}
-				
-				sum = read + unread;
-				
-				if (sum > 0){
+				if (questionCount.total > 0){
 					panel.editButton.show();
 				} else {
 					panel.editButton.hide();
 				}
 				
-				ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge(sum);
-				feedbackQuestionsPanel.tab.setBadge(unread);
+				ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge(questionCount.total);
+				feedbackQuestionsPanel.tab.setBadge(questionCount.unread);
 				
-				if(panel.questionsCounter != sum) {
-					panel.questionsCounter = sum;
+				if(panel.questionsCounter != questionCount.total) {
+					panel.questionsCounter = questionCount.total;
 					panel.editButton.unsetActive();
 					panel.getFeedbackQuestions();
 				}

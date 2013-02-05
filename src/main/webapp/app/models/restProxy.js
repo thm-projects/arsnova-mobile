@@ -215,28 +215,18 @@ var restProxy = new Ext.data.RestProxy({
 			}
 		});
 	},
-    
-    countSkillQuestions: function(sessionId, callbacks){
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/skill_question/_view/count_by_session',
-    		method: 'GET',
-    		
-    		params: {
-    			key: "\"" + sessionId + "\""
-    		},
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
 	
-	countTotalAnswers: function(sessionId, callbacks) {
+	countSkillQuestions: function(sessionKeyword, callbacks){
 		Ext.Ajax.request({
-			url: this.url + '/_design/skill_question/_view/count_answers_by_session',
-			method: 'GET',
-			
-			params: {
-				key: "\"" + sessionId + "\""
-			},
+			url: "session/" + sessionKeyword + "/skillquestioncount",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	countTotalAnswers: function(sessionKeyword, callbacks) {
+		Ext.Ajax.request({
+			url: "session/" + sessionKeyword + "/answercount",
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -288,8 +278,7 @@ var restProxy = new Ext.data.RestProxy({
 	
 	countFeedbackQuestions: function(sessionKeyword, callbacks){
 		Ext.Ajax.request({
-			url: "session/" + sessionKeyword + "/interposed",
-			method: "GET",
+			url: "session/" + sessionKeyword + "/interposedreadingcount",
 			success: callbacks.success,
 			failure: callbacks.failure
 		});

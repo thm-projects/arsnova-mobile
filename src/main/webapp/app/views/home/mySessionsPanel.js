@@ -200,26 +200,19 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 	},
 	
 	updateBadges: function(sessionId, sessionKeyword, button) {
-		var parseValue = function(responseObj) {
-			var value = "";
-			if (responseObj.length > 0){
-				value = responseObj[0].value;
-			}
-			return value;
-		};
 		var failureCallback = function() {
 			console.log('server-side error: ', arguments);
 		};
 		
-		ARSnova.questionModel.countSkillQuestions(sessionId, {
+		ARSnova.questionModel.countSkillQuestions(sessionKeyword, {
 			success: function(response) {
-				var numQuestions = parseValue(Ext.decode(response.responseText).rows);
-				ARSnova.questionModel.countTotalAnswers(sessionId, {
+				var numQuestions = parseInt(response.responseText);
+				ARSnova.questionModel.countTotalAnswers(sessionKeyword, {
 					success: function(response) {
-						var numAnswers = parseValue(Ext.decode(response.responseText).rows);
+						var numAnswers = parseInt(response.responseText);
 						ARSnova.questionModel.countFeedbackQuestions(sessionKeyword, {
 							success: function(response) {
-								var numFeedbackQuestions = parseValue(Ext.decode(response.responseText));
+								var numFeedbackQuestions = Ext.decode(response.responseText).total;
 								
 								button.setBadge([
 									{badgeText: numFeedbackQuestions, badgeCls: "bluebadgeicon"},

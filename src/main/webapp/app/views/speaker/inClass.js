@@ -247,23 +247,16 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 	},
 	
 	updateAudienceQuestionBadge: function() {
-		var parseValue = function(responseObj) {
-			var value = "";
-			if (responseObj.length > 0){
-				value = responseObj[0].value;
-			}
-			return value;
-		};
 		var failureCallback = function() {
 			console.log('server-side error');
 		};
 		
-		ARSnova.questionModel.countSkillQuestions(localStorage.getItem("sessionId"), {
+		ARSnova.questionModel.countSkillQuestions(localStorage.getItem("keyword"), {
 			success: function(response) {
-				var numQuestions = parseValue(Ext.decode(response.responseText).rows);
-				ARSnova.questionModel.countTotalAnswers(localStorage.getItem("sessionId"), {
+				var numQuestions = parseInt(response.responseText);
+				ARSnova.questionModel.countTotalAnswers(localStorage.getItem("keyword"), {
 					success: function(response) {
-						var numAnswers = parseValue(Ext.decode(response.responseText).rows);
+						var numAnswers = parseInt(response.responseText);
 						
 						var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 						var audienceQuestionButton = panel.audienceQuestionButton;
@@ -327,22 +320,10 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 	countFeedbackQuestions: function(){
 		ARSnova.questionModel.countFeedbackQuestions(localStorage.getItem("keyword"), {
 			success: function(response){
-				var responseObj = Ext.decode(response.responseText);
-				var totalQuestions = 0;
-				var totalUnread = 0;
+				var questionCount = Ext.decode(response.responseText);
 				
-				if (responseObj.length > 0){
-					for (var i = 0, obj; obj = responseObj[i]; i++){
-						if (!obj.read) {
-							totalUnread++;
-						}
-						
-						totalQuestions++;
-					}
-				}
-				
-				ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadge(totalUnread);
-				ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge(totalQuestions);
+				ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadge(questionCount.unread);
+				ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge(questionCount.total);
 			}, 
 			failure: function(){
 				console.log('server-side error');

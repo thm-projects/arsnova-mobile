@@ -124,16 +124,9 @@ ARSnova.views.user.QuestionPanel = Ext.extend(Ext.Carousel, {
 				if (questions.length == 0){
 					//no available questions found
 					
-					ARSnova.questionModel.countSkillQuestions(localStorage.getItem("sessionId"), {
+					ARSnova.questionModel.countSkillQuestions(localStorage.getItem("keyword"), {
 						success: function(response){
-							var parseValue = function(responseObj) {
-								var value = "";
-								if (responseObj.length > 0){
-									value = responseObj[0].value;
-								}
-								return value;
-							};
-							var questionsInCourse = parseValue(Ext.decode(response.responseText).rows);
+							var questionsInCourse = Ext.decode(response.responseText);
 							
 							if (questionsInCourse > 0) {
 								userQuestionsPanel.questionCounter.hide();
