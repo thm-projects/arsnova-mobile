@@ -72,11 +72,9 @@ ARSnova.views.feedbackQuestions.DetailsPanel = Ext.extend(Ext.Panel, {
 					value: this.questionObj.subject,
 					disabled: true
 				}, {
-					xtype: 'textareafield',
+					xtype: "mathjaxfield",
 					label: Messages.QUESTION_TEXT,
-					maxRows: 8,
-					value: this.questionObj.text,
-					disabled: true
+					content: this.questionObj.text
 				}]
 			}]
 		},{
