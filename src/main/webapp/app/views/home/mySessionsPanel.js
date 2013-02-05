@@ -157,7 +157,7 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 						status = " isActive";
 					}
 					// Minimum width of 321px equals at least landscape view
-					var displaytext = window.innerWidth > 321 ? session.shortName : session.shortName; 
+					var displaytext = window.innerWidth > 321 ? session.name : session.shortName; 
 					var sessionButton = new ARSnova.views.MultiBadgeButton({
 						ui			: 'normal',
 						text		: displaytext,
