@@ -835,7 +835,7 @@ var restProxy = new Ext.data.RestProxy({
 	    
 	    countSessions: function(callbacks) {
 	    	Ext.Ajax.request({
-	    		url: "statistics",
+	    		url: "statistics/",
 	    		method: 'GET',
 	
 	    		success: callbacks.success,
