@@ -170,8 +170,7 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 		ARSnova.showLoadMask(Messages.LOAD_MASK_SEARCH);
 		
 		restProxy.getMyVisitedSessions({
-			success: function(response, operation){
-				var sessions = Ext.decode(response.responseText);
+			success: function(sessions){
 				var panel = ARSnova.mainTabPanel.tabPanel.homeTabPanel.homePanel;
 				
 				if (sessions && sessions.length !== 0) {

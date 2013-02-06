@@ -174,7 +174,13 @@ var restProxy = new Ext.data.RestProxy({
 	getMyVisitedSessions: function(callbacks){
 		Ext.Ajax.request({
 			url: "session/visitedsessions",
-			success: callbacks.success,
+			success: function(response) {
+				if (response.status === 204) {
+					callbacks.success.call(this, []);
+				} else {
+					callbacks.success.call(this, Ext.decode(response.responseText));
+				}
+			},
 			failure: function(response) {
 				if (response.status === 401) {
 					callbacks.unauthenticated.apply(this, arguments);
