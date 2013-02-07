@@ -19,9 +19,9 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
 
-ARSnova.views.FreetextAnswerList = function(store) {
+ARSnova.views.FreetextAnswerList = function(store, disableScrolling) {
 	return new Ext.List({
-		scroll: 'vertical',
+		scroll: !disableScrolling ? 'vertical' : false,
 		activeCls: 'search-item-active',
 		style: {
 			backgroundColor: 'transparent'

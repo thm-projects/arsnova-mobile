@@ -21,6 +21,7 @@
 
 ARSnova.views.FreetextAnswerPanel = Ext.extend(Ext.Panel, {
 	scroll: 'vertical',
+	layout: 'fit',
 	
 	/**
 	 * task for speakers in a session
@@ -76,8 +77,8 @@ ARSnova.views.FreetextAnswerPanel = Ext.extend(Ext.Panel, {
 		});
 		
 		this.items = [
-			this.noFreetextAnswers,
-			ARSnova.views.FreetextAnswerList(this.freetextAnswerStore)
+			ARSnova.views.FreetextAnswerList(this.freetextAnswerStore),
+			this.noFreetextAnswers
 		],
 		
 		this.dockedItems = [this.toolbar];

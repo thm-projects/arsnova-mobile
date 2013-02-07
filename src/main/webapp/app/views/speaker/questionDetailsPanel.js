@@ -502,7 +502,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 			cls	 : 'standardFieldset'
 		});
 		
-		this.freetextAnswerList = ARSnova.views.FreetextAnswerList(this.freetextAnswerStore);
+		this.freetextAnswerList = ARSnova.views.FreetextAnswerList(this.freetextAnswerStore, true);
 		
 		this.noFreetextAnswers = new Ext.Panel({
 			cls: 'centerText',
