@@ -21,6 +21,7 @@
 
 ARSnova.views.FreetextAnswerList = function(store) {
 	return new Ext.List({
+		scroll: 'vertical',
 		activeCls: 'search-item-active',
 		style: {
 			backgroundColor: 'transparent'

@@ -57,7 +57,7 @@ ARSnova.models.Session = Ext.regModel('Session', {
     	return this.proxy.getSession(sessionId, callbacks);
     },
     
-    isActive: function(sessionId, callbacks){
-    	return this.proxy.isActive(sessionId, callbacks);
+    isActive: function(sessionKeyword, callbacks){
+    	return this.proxy.isActive(sessionKeyword, callbacks);
     } 
 });

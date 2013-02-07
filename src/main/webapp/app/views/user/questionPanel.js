@@ -114,10 +114,10 @@ ARSnova.views.user.QuestionPanel = Ext.extend(Ext.Carousel, {
 	},
 	
 	getUnansweredSkillQuestions: function(){
-		ARSnova.questionModel.getSkillQuestionsForUser(localStorage.getItem("sessionId"), {
+		ARSnova.questionModel.getSkillQuestionsForUser(localStorage.getItem("keyword"), {
 			success: function(response){
 				var userQuestionsPanel = ARSnova.mainTabPanel.tabPanel.userQuestionsPanel;
-				var questions = Ext.decode(response.responseText).rows;
+				var questions = Ext.decode(response.responseText);
 				var questionsArr = [];
 				var questionIds = [];
 				
@@ -169,19 +169,18 @@ ARSnova.views.user.QuestionPanel = Ext.extend(Ext.Carousel, {
 				}
 				
 				questions.forEach(function(question){
-					questionsArr[question.id] = question.value;
-					questionsArr[question.id]._id = question.id;
-					questionIds.push(question.id);
+					questionsArr[question._id] = question;
+					questionIds.push(question._id);
 				});
 				
-				ARSnova.answerModel.getAnswerByUserAndSession(localStorage.getItem("login"), localStorage.getItem("sessionId"), {
+				ARSnova.answerModel.getAnswerByUserAndSession(localStorage.getItem("keyword"), {
 					success: function(response){
-						var answers = Ext.decode(response.responseText).rows;
+						var answers = Ext.decode(response.responseText);
 
 						answers.forEach(function(answer){
-							if(questionsArr[answer.value.questionId]) {
-								questionsArr[answer.value.questionId].userAnswered = answer.value.answerText;
-								questionsArr[answer.value.questionId].answerSubject = answer.value.answerSubject;
+							if(questionsArr[answer.questionId]) {
+								questionsArr[answer.questionId].userAnswered = answer.answerText;
+								questionsArr[answer.questionId].answerSubject = answer.answerSubject;
 							}
 						});
 						questionIds.forEach(function(questionId){
