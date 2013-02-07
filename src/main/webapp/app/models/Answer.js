@@ -25,7 +25,7 @@ ARSnova.models.Answer = Ext.regModel('Answer', {
 		return this.proxy.getUserAnswer(questionId, userLogin, callbacks);
 	},
 	
-	getAnswerByUserAndSession: function(sessionKeyword, callbacks){
-		return this.proxy.getAnswerByUserAndSession(sessionKeyword, callbacks);
+	getAnswerByUserAndSession: function(userLogin, sessionId, callbacks){
+		return this.proxy.getAnswerByUserAndSession(userLogin, sessionId, callbacks);
 	}
 });

@@ -103,16 +103,16 @@ ARSnova.models.Question = Ext.regModel('Question', {
 		return this.proxy.countAnswersByQuestion(questionId, callbacks);
 	},
 	
-	getAnsweredFreetextQuestions: function(sessionKeyword, questionId, callbacks) {
-		return this.proxy.getAnsweredFreetextQuestions(sessionKeyword, questionId, callbacks);
+	getAnsweredFreetextQuestions: function(questionId, callbacks) {
+		return this.proxy.getAnsweredFreetextQuestions(questionId, callbacks);
 	},
 	
 	deleteFreetextAnswer: function(id, rev, callbacks) {
 		return this.proxy.removeEntry(id, rev, callbacks);
 	},
     
-    getSkillQuestionsForUser: function(sessionKeyword, callbacks) {
-    	return this.proxy.getSkillQuestionsForUser(sessionKeyword, callbacks);
+    getSkillQuestionsForUser: function(sessionId, callbacks) {
+    	return this.proxy.getSkillQuestionsForUser(sessionId, callbacks);
     },
     
     maxNumberInSession: function(sessionId, callbacks) {

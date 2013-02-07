@@ -376,14 +376,19 @@ var restProxy = new Ext.data.RestProxy({
     		failure: callbacks.failure
     	});
     },
-	
-	getAnswerByUserAndSession: function(sessionKeyword, callbacks){
-		Ext.Ajax.request({
-			url: "session/" + sessionKeyword + "/myanswers",
-			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
+    
+    getAnswerByUserAndSession: function(userLogin, sessionId, callbacks){
+    	Ext.Ajax.request({
+    		url: this.url + '/_design/answer/_view/by_user_and_session',
+    		method: 'GET',
+    		params: {
+    			key: "[\"" + userLogin + "\", \"" + sessionId + "\"]"
+    		},
+
+    		success: callbacks.success,
+    		failure: callbacks.failure
+    	});
+    },
     
     getAnsweredSkillQuestions: function(sessionId, userLogin, callbacks){
     	Ext.Ajax.request({
@@ -423,7 +428,7 @@ var restProxy = new Ext.data.RestProxy({
 	
 	getUnansweredSkillQuestions: function(sessionKeyword, callbacks){
 		Ext.Ajax.request({
-			url: "session/" + sessionKeyword + "/questions/unanswered",
+			url: "/session/" + sessionKeyword + "/questions/unanswered",
 			success: function(response) {
 				if (response.status === 204) {
 					callbacks.success.call(this, []);
@@ -506,9 +511,14 @@ var restProxy = new Ext.data.RestProxy({
 		});
 	},
 
-	getAnsweredFreetextQuestions: function(sessionKeyword, questionId, callbacks) {
+	getAnsweredFreetextQuestions: function(questionId, callbacks) {
 		Ext.Ajax.request({
-			url: "session/" + sessionKeyword + "/question/" + questionId + "/freetextanswers",
+			url: this.url + '/_design/skill_question/_view/freetext_answers',
+			method: 'GET',
+			params: {
+				key: "\"" + questionId + "\""
+			},
+			
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -695,23 +705,20 @@ var restProxy = new Ext.data.RestProxy({
     		failure: callbacks.failure
     	});
     },
-	
-	isActive: function(sessionKeyword, callbacks) {
-		Ext.Ajax.request({
-			url: "session/" + sessionKeyword,
-			success: function(response) {
-				var session = Ext.decode(response.responseText);
-				callbacks.success(session.active);
-			},
-			failure: function(response) {
-				if (response.status === 403) {
-					callbacks.success(false);
-				} else {
-					callbacks.failure.apply(this, arguments);
-				}
-			}
-		});
-	},
+    
+    isActive: function(sessionId, callbacks) {
+    	Ext.Ajax.request({
+    		url: this.url + '/_design/session/_view/is_active',
+    		method: 'GET',
+    		
+    		params: {
+    			key: "\"" + sessionId + "\""
+    		},
+
+    		success: callbacks.success,
+    		failure: callbacks.failure
+    	});
+    },
     
     getUserFoodVote: function(day, userLogin, callbacks) {
     	Ext.Ajax.request({
@@ -836,16 +843,30 @@ var restProxy = new Ext.data.RestProxy({
 	    	});
 	    },
 	    
-	getSkillQuestionsForUser: function(sessionKeyword, callbacks){
-		Ext.Ajax.request({
-			url: "session/" + sessionKeyword + "/skillquestions",
-			success: function(response) {
-				var json = response.responseText || "[]";
-				callbacks.success(Ext.decode(json));
-			},
-			failure: callbacks.failure
-		});
-	},
+    getSkillQuestionsForUser: function(sessionId, callbacks){
+    	var requestUrl = this.url;
+    	
+    	switch(ARSnova.loginMode){
+    		case ARSnova.LOGIN_GUEST:
+    			requestUrl += '/_design/skill_question/_view/by_session_for_all';
+    			break;
+    		case ARSnova.LOGIN_THM:
+    			requestUrl += '/_design/skill_question/_view/by_session_for_thm';
+    			break;
+			default:
+				requestUrl += '/_design/skill_question/_view/by_session_for_all';
+				break;
+    	}
+	    Ext.Ajax.request({
+	    	url: requestUrl,
+	    	method: 'GET',
+	    	params: {
+	    		key: "\"" + sessionId + "\""
+	    	},
+	    	success: callbacks.success,
+	    	failure: callbacks.failure
+	    });   		
+    },
     
     maxNumberInSession: function(sessionId, callbacks){
     	Ext.Ajax.request({
