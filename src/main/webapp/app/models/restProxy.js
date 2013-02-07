@@ -839,7 +839,10 @@ var restProxy = new Ext.data.RestProxy({
 	getSkillQuestionsForUser: function(sessionKeyword, callbacks){
 		Ext.Ajax.request({
 			url: "session/" + sessionKeyword + "/skillquestions",
-			success: callbacks.success,
+			success: function(response) {
+				var json = response.responseText || "[]";
+				callbacks.success(Ext.decode(json));
+			},
 			failure: callbacks.failure
 		});
 	},

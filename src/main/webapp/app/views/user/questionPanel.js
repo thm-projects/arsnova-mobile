@@ -115,9 +115,8 @@ ARSnova.views.user.QuestionPanel = Ext.extend(Ext.Carousel, {
 	
 	getUnansweredSkillQuestions: function(){
 		ARSnova.questionModel.getSkillQuestionsForUser(localStorage.getItem("keyword"), {
-			success: function(response){
+			success: function(questions){
 				var userQuestionsPanel = ARSnova.mainTabPanel.tabPanel.userQuestionsPanel;
-				var questions = Ext.decode(response.responseText);
 				var questionsArr = [];
 				var questionIds = [];
 				
