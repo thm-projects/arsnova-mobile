@@ -37,8 +37,8 @@ ARSnova.views.TabPanel = Ext.extend(Ext.TabPanel, {
     userQuizPanel	  	: null,
     feedbackTabPanel	: null,
     
-    /**
-     * task for everyone in a session
+	/**
+	 * task for everyone in a session
 	 * count every 15 seconds the session feedback and adapt the icon
 	 * 
 	 */
@@ -48,7 +48,19 @@ ARSnova.views.TabPanel = Ext.extend(Ext.TabPanel, {
 			ARSnova.mainTabPanel.tabPanel.updateFeedbackBadge();
 			ARSnova.mainTabPanel.tabPanel.updateFeedbackIcon();
 		},
-		interval: 15000 //15 seconds
+		interval: 15000 // 15 seconds
+	},
+	
+	/**
+	 * task for everyone in a session
+	 * displays the number of online users
+	 */
+	updateHomeTask: {
+		name: 'update the home badge in tabbar',
+		run: function() {
+			ARSnova.mainTabPanel.tabPanel.updateHomeBadge();
+		},
+		interval: 15000 // 15 seconds
 	},
 	
 	constructor: function(){
@@ -118,15 +130,19 @@ ARSnova.views.TabPanel = Ext.extend(Ext.TabPanel, {
 		if(ARSnova.checkSessionLogin()){
 			/* only start task if user/speaker is not(!) on feedbackTabPanel/statisticPanel (feedback chart)
 			 * because there is a own function which will check for new feedbacks and update the tab bar icon */
-			if(ARSnova.mainTabPanel.tabPanel.layout.activeItem != ARSnova.mainTabPanel.tabPanel.feedbackTabPanel)
+			if(ARSnova.mainTabPanel.tabPanel.layout.activeItem != ARSnova.mainTabPanel.tabPanel.feedbackTabPanel) {
 				taskManager.start(ARSnova.mainTabPanel.tabPanel.updateFeedbackTask);
+			}
+			taskManager.start(ARSnova.mainTabPanel.tabPanel.updateHomeTask);
 		}
 	},
 
 	onDeactivate: function(){
 		if(ARSnova.checkSessionLogin()){
-			if(ARSnova.mainTabPanel.tabPanel.layout.activeItem != ARSnova.mainTabPanel.tabPanel.feedbackTabPanel)
+			if(ARSnova.mainTabPanel.tabPanel.layout.activeItem != ARSnova.mainTabPanel.tabPanel.feedbackTabPanel) {
 				taskManager.stop(ARSnova.mainTabPanel.tabPanel.updateFeedbackTask);
+			}
+			taskManager.stop(ARSnova.mainTabPanel.tabPanel.updateHomeTask);
 		}
 	},
 	
@@ -167,6 +183,24 @@ ARSnova.views.TabPanel = Ext.extend(Ext.TabPanel, {
 				var value = parseInt(Ext.decode(response.responseText));
 				if (value > 0) {
 					ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.tab.setBadge(value);
+				}
+			},
+			failure: function(){
+				console.log('server-side error');
+			}
+		});
+	},
+	
+	updateHomeBadge: function() {
+		ARSnova.loggedInModel.countActiveUsersBySession(localStorage.getItem("keyword"), {
+			success: function(response){
+				var speaker = ARSnova.mainTabPanel.tabPanel.speakerTabPanel;
+				var student = ARSnova.mainTabPanel.tabPanel.userTabPanel;
+				
+				var value = parseInt(response.responseText);
+				if (value > 0) {
+					speaker && speaker.tab.setBadge(value-1); // Do not count the speaker itself
+					student && student.tab.setBadge(value); // Students will see all online users
 				}
 			},
 			failure: function(){

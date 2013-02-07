@@ -58,6 +58,7 @@ Ext.regController("sessions", {
     	    	taskManager.start(ARSnova.cleanFeedbackVotes);
     	    	//start task to update the feedback tab in tabBar
     	    	taskManager.start(ARSnova.mainTabPanel.tabPanel.updateFeedbackTask);
+    	    	taskManager.start(ARSnova.mainTabPanel.tabPanel.updateHomeTask);
     	    	
     	    	Ext.dispatch({
 	    			controller	: 'sessions',
@@ -85,6 +86,8 @@ Ext.regController("sessions", {
     	taskManager.stop(ARSnova.cleanFeedbackVotes);
     	//stop task to update the feedback tab in tabBar
     	taskManager.stop(ARSnova.mainTabPanel.tabPanel.updateFeedbackTask);
+    	//online counter badge
+    	taskManager.stop(ARSnova.mainTabPanel.tabPanel.updateHomeTask);
     	//stop task to update that session owner is logged-in
     	taskManager.stop(ARSnova.updateSessionActivityTask);
     	
@@ -262,6 +265,7 @@ Ext.regController("sessions", {
     	    	taskManager.start(ARSnova.cleanFeedbackVotes);
     	    	//start task to update the feedback tab in tabBar
     	    	taskManager.start(ARSnova.mainTabPanel.tabPanel.updateFeedbackTask);
+    	    	taskManager.start(ARSnova.mainTabPanel.tabPanel.updateHomeTask);
     	    	
     	    	var panel = ARSnova.mainTabPanel.tabPanel.homeTabPanel;
     	    	panel.setActiveItem(panel.mySessionsPanel);
