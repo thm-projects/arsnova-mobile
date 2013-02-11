@@ -52,9 +52,9 @@ ARSnova.views.speaker.ShowcaseQuestionPanel = Ext.extend(Ext.Carousel, {
 			}
 		});
 		
-		this.leaveShowcaseButton = new Ext.Button({
-			cls		: "thm",
-			text	: Messages.LEAVE,
+		this.backButton = new Ext.Button({
+			ui		: 'back',
+			text	: Messages.BACK,
 			scope	: this,
 			handler	: function() {
 				var sTP = ARSnova.mainTabPanel.tabPanel.speakerTabPanel;
@@ -73,8 +73,8 @@ ARSnova.views.speaker.ShowcaseQuestionPanel = Ext.extend(Ext.Carousel, {
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.QUESTION,
 			items: [
+			    this.backButton,
 		        { xtype: 'spacer' },
-		        this.leaveShowcaseButton,
 		        this.statisticButton,
 		        this.questionCounter
 	        ]
