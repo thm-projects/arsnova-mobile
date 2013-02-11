@@ -100,7 +100,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 		});
 		
 		this.newQuestionButton = {
-			xtype	: 'button',				
+			xtype	: 'button',
 			text	: Messages.NEW_QUESTION,
 			cls		: 'forwardListButton',
 			handler	: this.newQuestionHandler
@@ -135,12 +135,12 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 			handler	: this.showcaseHandler
 		});
 		
-		this.showcaseFormButton = new Ext.Button({
-			cls: "forwardListButton",
+		this.showcaseFormButton = {
+			xtype: "button",
 			text: Messages.SHOWCASE_MODE,
-			scope: this,
+			cls: "forwardListButton",
 			handler: this.showcaseHandler
-		});
+		};
 		
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.QUESTIONS,
