@@ -20,6 +20,26 @@
  +--------------------------------------------------------------------------*/
 Ext.namespace('ARSnova.views.speaker');
 
+ARSnova.views.BadgeList = Ext.extend(Ext.List, {
+	initComponent : function() {
+		ARSnova.views.BadgeList.superclass.initComponent.call(this);
+		
+		this.tpl = ['<tpl for="."><div class="x-list-item ' + this.itemCls + '">',
+		            '<span class="x-button-label">' + this.itemTpl + '</span>',
+		            '<tpl if="numAnswers > 0"><span class="badgeicon">{numAnswers}</span></tpl>',
+		            '</div></tpl>'].join("");
+		if (this.grouped) {
+			this.listItemTpl = this.tpl;
+			if (Ext.isString(this.listItemTpl) || Ext.isArray(this.listItemTpl)) {
+				this.listItemTpl = new Ext.XTemplate(this.listItemTpl);
+			}
+			if (Ext.isString(this.groupTpl) || Ext.isArray(this.groupTpl)) {
+				this.tpl = new Ext.XTemplate(this.groupTpl);
+			}
+		}
+	}
+});
+
 ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 	scroll: 'vertical',
 	
@@ -39,7 +59,8 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 	updateAnswerCount: {
 		name: 'refresh the number of answers inside the badges',
 		run: function() {
-			ARSnova.mainTabPanel.tabPanel.speakerTabPanel.audienceQuestionPanel.getQuestionAnswers();
+			var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.audienceQuestionPanel;
+			panel.getQuestionAnswers.call(panel);
 		},
 		interval: 10000 //10 seconds
 	},
@@ -51,8 +72,10 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 				return record.get('subject');
 			}
 		});
-		this.questions = new Ext.List({
-			itemTpl: "{text}",
+		this.questions = new ARSnova.views.BadgeList({
+			scroll: false,
+			itemCls: 'forwardListButton x-hasbadge',
+			itemTpl: '{text}',
 			grouped: true,
 			store: this.questionStore,
 			
@@ -69,6 +92,11 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 		
 		this.controls = new Ext.form.FormPanel({
 			cls: 'standardForm topPadding'
+		});
+		this.questionsContainer = new Ext.form.FieldSet({
+			title: Messages.QUESTIONS,
+			hidden: true,
+			items: [this.questions]
 		});
 		
 		this.newQuestionButton = {
@@ -125,10 +153,9 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 		});
 		
 		this.dockedItems = [this.toolbar];
-		this.items = [
-			this.controls, {
+		this.items = [this.controls, {
 				xtype: 'form',
-				items: [this.questions]
+				items: [this.questionsContainer]
 			}
 		];
 		
@@ -145,7 +172,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 	
 	onActivate: function() {
 		taskManager.start(this.updateAnswerCount);
-		this.controls.removeAll(false);
+		this.controls.removeAll();
 		this.questionStore.removeAll();
 		
 		this.controls.add(this.newQuestionButton);
@@ -153,13 +180,19 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 		this.questionEntries = [];
 
 		ARSnova.questionModel.getSkillQuestionsSortBySubjectAndText(localStorage.getItem('keyword'), {
-			success: Ext.createDelegate(function() {
+			success: Ext.createDelegate(function(response) {
+				var questions = Ext.decode(response.responseText);
+				this.questionStore.add(questions);
+				this.getQuestionAnswers();
+				
 				this.controls.add(this.showcaseFormButton);
-				this.questionsCallback.apply(this, arguments);
+				this.displayShowcaseButton();
+				this.questionsContainer.show();
 				this.doLayout();
 			}, this),
 			empty: Ext.createDelegate(function() {
 				this.showcaseButton.hide();
+				this.questionsContainer.hide();
 				this.doLayout();
 			}, this),
 			failure: function(response) {
@@ -186,24 +219,6 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 			this.showcaseButton.hide();
 		}
 	},
-
-	/**
-	 * Callback Function for database.getAudienceQuestions
-	 */
-	questionsCallback: function(response){
-		var questions = Ext.decode(response.responseText);
-		var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.audienceQuestionPanel;
-		
-		panel.displayShowcaseButton();
-		
-		this.questionStore.add(questions);
-		
-		// ... and load the answer count for each question
-		panel.getQuestionAnswers(function() {
-			panel.doLayout();
-			ARSnova.hideLoadMask();
-		});
-	},
 	
 	newQuestionHandler: function(){
 		var sTP = ARSnova.mainTabPanel.tabPanel.speakerTabPanel;
@@ -218,28 +233,32 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 		});
 	},
 	
-	getQuestionAnswers: function(continuation) {
-		// How many requests do we need to run?
-		var finishedRequests = 0;
-		var numRequests = this.questionEntries.length;
-		
-		this.questionEntries.forEach(function(q) {
-			ARSnova.questionModel.countAnswersByQuestion(q.questionObj._id, {
+	getQuestionAnswers: function() {
+		var getAnswerCount = function(question) {
+			var promise = new RSVP.Promise();
+			ARSnova.questionModel.countAnswersByQuestion(question._id, {
 				success: function(response) {
 					var answers = Ext.decode(response.responseText).rows;
-					var numAnswers = answers.length > 0 ? answers[0].value : "";
-					q.setBadge(numAnswers);
+					question.numAnswers = answers.length > 0 ? answers[0].value : "";
+					promise.resolve();
 				},
 				failure: function() {
+					promise.reject();
 					console.log("Could not update answer count");
-				},
-				callback: function() {
-					// Run continuation (if provided) when all requests have finished
-					if (numRequests === ++finishedRequests && continuation) {
-						return continuation();
-					}
 				}
 			});
-		});
+			return promise;
+		};
+		
+		var answers = [];
+		this.questionStore.each(function(item) {
+			answers.push(getAnswerCount(item.data._id));
+		}, this);
+		
+		var allFinished = Ext.createSequence(function() {
+			this.questions.refresh();
+		}, this);
+		
+		RSVP.all(answers).then(allFinished, allFinished);
 	}
 });

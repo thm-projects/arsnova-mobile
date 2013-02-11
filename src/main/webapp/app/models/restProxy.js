@@ -211,14 +211,14 @@ var restProxy = new Ext.data.RestProxy({
 	getSkillQuestionsSortBySubjectAndText: function(sessionKeyword, callbacks) {
 		Ext.Ajax.request({
 			url: "session/" + sessionKeyword + "/skillquestions",
-			success: callbacks.success,
-			failure: function (response) {
-				if (response.status === 404) {
+			success: function(response) {
+				if (response.status === 204) {
 					callbacks.empty.apply(this, arguments);
 				} else {
-					callbacks.failure.apply(this, arguments);
+					callbacks.success.apply(this, arguments);
 				}
-			}
+			},
+			failure: callbacks.failure
 		});
 	},
 	
