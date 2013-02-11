@@ -19,6 +19,7 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
 ARSnova.models.Question = Ext.regModel('Question', {
+	idProperty: '_id',
     proxy: restProxy,
     
     fields: [
@@ -99,20 +100,20 @@ ARSnova.models.Question = Ext.regModel('Question', {
     	return this.proxy.countAnswers(questionId, callbacks);
     },
 
-	countAnswersByQuestion: function(questionId, callbacks) {
-		return this.proxy.countAnswersByQuestion(questionId, callbacks);
+	countAnswersByQuestion: function(sessionKeyword, questionId, callbacks) {
+		return this.proxy.countAnswersByQuestion(sessionKeyword, questionId, callbacks);
 	},
 	
-	getAnsweredFreetextQuestions: function(questionId, callbacks) {
-		return this.proxy.getAnsweredFreetextQuestions(questionId, callbacks);
+	getAnsweredFreetextQuestions: function(sessionKeyword, questionId, callbacks) {
+		return this.proxy.getAnsweredFreetextQuestions(sessionKeyword, questionId, callbacks);
 	},
 	
 	deleteFreetextAnswer: function(id, rev, callbacks) {
 		return this.proxy.removeEntry(id, rev, callbacks);
 	},
     
-    getSkillQuestionsForUser: function(sessionId, callbacks) {
-    	return this.proxy.getSkillQuestionsForUser(sessionId, callbacks);
+    getSkillQuestionsForUser: function(sessionKeyword, callbacks) {
+    	return this.proxy.getSkillQuestionsForUser(sessionKeyword, callbacks);
     },
     
     maxNumberInSession: function(sessionId, callbacks) {

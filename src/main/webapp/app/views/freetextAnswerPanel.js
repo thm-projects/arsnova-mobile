@@ -101,12 +101,12 @@ ARSnova.views.FreetextAnswerPanel = Ext.extend(Ext.Panel, {
 	checkFreetextAnswers: function() {
 		var self = this;
 		
-		ARSnova.questionModel.getAnsweredFreetextQuestions(this.questionObj._id, {
+		ARSnova.questionModel.getAnsweredFreetextQuestions(localStorage.getItem("keyword"), this.questionObj._id, {
 			success: function(response) {
-				var responseObj = Ext.decode(response.responseText).rows;
+				var responseObj = Ext.decode(response.responseText);
 				var listItems = responseObj.map(function (item) {
-					var v = item.value;
-					return Ext.apply(item.value, {
+					var v = item;
+					return Ext.apply(item, {
 						formattedTime	: new Date(v.timestamp).format("H:i"),
 						groupDate		: new Date(v.timestamp).format("d.m.y")
 					});

@@ -135,6 +135,7 @@ switch (lang) {
 			ANSWER_SAVED: 'Your answer has been saved.',
 			MISSING_INPUT: "Please fill out all required fields.",
 			SHOWCASE: "Showcase",
+			SHOWCASE_MODE: "Presentation Mode",
 			LEAVE: "Leave",
 			
 			/* user */
@@ -375,6 +376,7 @@ switch (lang) {
 			ANSWER_SAVED: 'Ihre Antwort wurde gespeichert.',
 			MISSING_INPUT: "Es müssen alle Felder ausgefüllt werden.",
 			SHOWCASE: "Vorstellen",
+			SHOWCASE_MODE: "Präsentationsmodus",
 			LEAVE: "Verlassen",
 			
 			/* user */

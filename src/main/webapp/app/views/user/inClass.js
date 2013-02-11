@@ -318,19 +318,16 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 	
 	/* if the session was closed, show a notification window and stop this task */
 	checkSessionStatus: function(){
-		ARSnova.sessionModel.isActive(localStorage.getItem("sessionId"), {
-			success: function(response){
-				var res = Ext.decode(response.responseText).rows;
-				var value = 0;
-				
-				if (res.length > 0 && !res[0].value){
+		ARSnova.sessionModel.isActive(localStorage.getItem("keyword"), {
+			success: function(isActive){
+				if (!isActive) {
 					Ext.Msg.show({
-					  title: 'Hinweis:',
-					  msg: Messages.SESSION_CLOSED_NOTICE,
-					  buttons: [{
-						  text:Messages.NOTICE_READ,
-						  ui: 'action'
-					  }]
+						title: 'Hinweis:',
+						msg: Messages.SESSION_CLOSE_NOTICE,
+						buttons: [{
+							text: Messages.NOTICE_READ,
+							ui: 'action'
+						}]
 					});
 					Ext.Msg.doComponentLayout();
 					
