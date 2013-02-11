@@ -497,17 +497,11 @@ var restProxy = new Ext.data.RestProxy({
     	});
     },
 
-	countAnswersByQuestion: function(questionId, callbacks) {
+	countAnswersByQuestion: function(sessionKeyword, questionId, callbacks) {
 		Ext.Ajax.request({
-			url: this.url + '/_design/skill_question/_view/count_answers_by_question',
-			method: 'GET',
-			params: {
-				key: "\"" + questionId + "\""
-			},
-			
+			url: "session/" + sessionKeyword + "/question/" + questionId + "/answercount",
 			success: callbacks.success,
-			failure: callbacks.failure,
-			callback: callbacks.callback || function() {}
+			failure: callbacks.failure
 		});
 	},
 

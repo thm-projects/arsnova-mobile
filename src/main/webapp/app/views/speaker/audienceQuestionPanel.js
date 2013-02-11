@@ -26,7 +26,7 @@ ARSnova.views.BadgeList = Ext.extend(Ext.List, {
 		
 		this.tpl = ['<tpl for="."><div class="x-list-item ' + this.itemCls + '">',
 		            '<span class="x-button-label">' + this.itemTpl + '</span>',
-		            '<tpl if="numAnswers > 0"><span class="badgeicon">{numAnswers}</span></tpl>',
+		            '<tpl if="numAnswers &gt; 0"><span class="redbadgeicon">{numAnswers}</span></tpl>',
 		            '</div></tpl>'].join("");
 		if (this.grouped) {
 			this.listItemTpl = this.tpl;
@@ -234,31 +234,19 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 	},
 	
 	getQuestionAnswers: function() {
-		var getAnswerCount = function(question) {
-			var promise = new RSVP.Promise();
-			ARSnova.questionModel.countAnswersByQuestion(question._id, {
+		var getAnswerCount = function(questionRecord) {
+			ARSnova.questionModel.countAnswersByQuestion(localStorage.getItem("keyword"), questionRecord.get('_id'), {
 				success: function(response) {
-					var answers = Ext.decode(response.responseText).rows;
-					question.numAnswers = answers.length > 0 ? answers[0].value : "";
-					promise.resolve();
+					questionRecord.set('numAnswers', Ext.decode(response.responseText));
 				},
 				failure: function() {
-					promise.reject();
 					console.log("Could not update answer count");
 				}
 			});
-			return promise;
 		};
 		
-		var answers = [];
-		this.questionStore.each(function(item) {
-			answers.push(getAnswerCount(item.data._id));
+		this.questionStore.each(function(questionRecord) {
+			getAnswerCount(questionRecord);
 		}, this);
-		
-		var allFinished = Ext.createSequence(function() {
-			this.questions.refresh();
-		}, this);
-		
-		RSVP.all(answers).then(allFinished, allFinished);
 	}
 });

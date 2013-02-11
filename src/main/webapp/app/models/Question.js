@@ -99,8 +99,8 @@ ARSnova.models.Question = Ext.regModel('Question', {
     	return this.proxy.countAnswers(questionId, callbacks);
     },
 
-	countAnswersByQuestion: function(questionId, callbacks) {
-		return this.proxy.countAnswersByQuestion(questionId, callbacks);
+	countAnswersByQuestion: function(sessionKeyword, questionId, callbacks) {
+		return this.proxy.countAnswersByQuestion(sessionKeyword, questionId, callbacks);
 	},
 	
 	getAnsweredFreetextQuestions: function(questionId, callbacks) {
