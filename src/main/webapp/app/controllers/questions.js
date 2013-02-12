@@ -45,7 +45,7 @@ Ext.regController("questions", {
     	var question = Ext.ModelMgr.create({
 			type	 	: options.type,
 			questionType: options.questionType,
-			sessionId	: options.sessionId,
+			session		: options.session,
 			subject		: options.subject.toUpperCase(),
 			text 		: options.text,
 			active		: options.active,
@@ -101,7 +101,7 @@ Ext.regController("questions", {
     		return;
     	}
     	
-		question.save({
+		question.saveSkillQuestion({
 			success: options.successFunc,
 			failure: options.failureFunc
 		});

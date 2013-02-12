@@ -510,9 +510,8 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
     	var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
     	var values = {};
     	
-    	/* get text, subject, number of question from mainPart */
+    	/* get text, subject of question from mainPart */
     	var mainPartValues = panel.mainPart.getValues();
-    	values.number = 0; // number will not be used anymore
     	values.text = mainPartValues.text;
     	values.subject = mainPartValues.subject;
     	
@@ -689,24 +688,23 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
     	Ext.dispatch({
 			controller	: 'questions',
 			action		: 'add',
-			sessionId	: localStorage.getItem('sessionId'),
+			session		: localStorage.getItem('keyword'),
 			text		: values.text,
 			subject		: values.subject,
 			type		: "skill_question",
 			questionType: values.questionType,
 			duration	: values.duration,
-			number		: parseFloat(values.number),
+			number		: 0, // unused
 			active		: 1,
 			possibleAnswers: values.possibleAnswers,
 			releasedFor	: values.releasedFor,
 			courses		: values.courses,
 			noCorrect	: values.noCorrect,
 			successFunc	: function(response, opts){
-				var sTP = ARSnova.mainTabPanel.tabPanel.speakerTabPanel;
 				Ext.dispatch({
 					controller	: 'questions',
 					action		: 'details',
-					question	: opts.request.jsonData,
+					question	: opts.jsonData,
 				});
 			},
 			failureFunc	: function(response, opts){

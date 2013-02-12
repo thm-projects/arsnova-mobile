@@ -289,6 +289,16 @@ var restProxy = new Ext.data.RestProxy({
 			failure: callbacks.failure
 		});
 	},
+	
+	saveSkillQuestion: function(question, callbacks) {
+		Ext.Ajax.request({
+			url: "session/" + question.get('session') + "/question",
+			method: "POST",
+			jsonData: question.data,
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
     
     delQuestion: function(queObj, callbacks){
     	restProxy.removeEntry(queObj._id, queObj._rev, callbacks); 	//delete Question
