@@ -116,10 +116,6 @@ ARSnova.models.Question = Ext.regModel('Question', {
     	return this.proxy.getSkillQuestionsForUser(sessionKeyword, callbacks);
     },
     
-    maxNumberInSession: function(sessionId, callbacks) {
-    	return this.proxy.maxNumberInSession(sessionId, callbacks);
-    },
-    
     releasedByCourseId: function(courseId, callbacks) {
     	return this.proxy.releasedByCourseId(courseId, callbacks);
     }

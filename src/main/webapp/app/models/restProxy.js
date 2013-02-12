@@ -841,18 +841,6 @@ var restProxy = new Ext.data.RestProxy({
 		});
 	},
     
-    maxNumberInSession: function(sessionId, callbacks){
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/skill_question/_view/max_number_in_session',
-    		method: 'GET',
-    		params: {
-    			key: "\"" + sessionId + "\""
-    		},
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
-    
     releasedByCourseId: function(courseId, callbacks){
     	Ext.Ajax.request({
     		url: this.url + '/_design/skill_question/_view/released_by_course_id',

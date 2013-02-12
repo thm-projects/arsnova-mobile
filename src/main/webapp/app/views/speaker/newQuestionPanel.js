@@ -74,11 +74,6 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 			},{
 				xtype: 'fieldset',
 				items: [this.textarea]
-			}, {
-				//value of this field will be set by getMaxQuestionNumber()
-				xtype: 'numberfield',
-				hidden: true,
-				name: 'number',
 			}]
 		});
 		
@@ -451,7 +446,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 	    });
 		
 		this.toolbar = new Ext.Toolbar({
-			title: Messages.QUESTION + " 1",
+			title: Messages.NEW_QUESTION_TITLE,
 			items: [
 		        this.backButton,
 		        {xtype:'spacer'},
@@ -508,7 +503,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 	},
 	
 	onActivate: function(){
-		this.getMaxQuestionNumber();
+		
 	},
 	
     saveHandler: function(){
@@ -517,7 +512,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
     	
     	/* get text, subject, number of question from mainPart */
     	var mainPartValues = panel.mainPart.getValues();
-    	values.number = mainPartValues.number;
+    	values.number = 0; // number will not be used anymore
     	values.text = mainPartValues.text;
     	values.subject = mainPartValues.subject;
     	
@@ -722,22 +717,5 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
     	  		Ext.Msg.doComponentLayout();
     		},
 		});
-    },
-    
-    getMaxQuestionNumber: function(){
-    	ARSnova.questionModel.maxNumberInSession(localStorage.getItem("sessionId"), {
-    		success: function(response){
-    			var rows = Ext.decode(response.responseText).rows;
-    			var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
-    			
-    			var value = 1;
-    			if(rows.length > 0){
-    				value = rows[0].value + 1;
-    			}
-    			
-    			panel.toolbar.setTitle(Messages.QUESTION + " " + value);
-    			panel.mainPart.down('numberfield[name=number]').setValue(value);
-    		}
-    	});
     }
 });

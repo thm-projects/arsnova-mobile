@@ -151,6 +151,7 @@ switch (lang) {
 
 			/* speaker */
 			NEW_QUESTION: "New question",
+			NEW_QUESTION_TITLE: "New question",
 			AH_HOC_QUESTION: "Instant question",
 			ARE_YOU_SURE: "Are you sure?",
 			DELETE_SESSION_NOTICE: "All questions and answers of this session will be deleted.",
@@ -392,6 +393,7 @@ switch (lang) {
 			
 			/* speaker */
 			NEW_QUESTION: "Neue Frage stellen",
+			NEW_QUESTION_TITLE: "Neue Frage",
 			AH_HOC_QUESTION: 'Sofort-Frage',
 			ARE_YOU_SURE: "Sind Sie sicher?",
 			DELETE_SESSION_NOTICE: "Es werden alle Fragen und Antworten der Session gelöscht.",
