@@ -24,7 +24,7 @@ ARSnova.views.BadgeList = Ext.extend(Ext.List, {
 	initComponent : function() {
 		ARSnova.views.BadgeList.superclass.initComponent.call(this);
 		
-		this.tpl = ['<tpl for="."><div class="x-list-item ' + this.itemCls + '">',
+		this.tpl = ['<tpl for="."><div class="x-list-item x-hasbadge ' + this.itemCls + '">',
 		            '<span class="x-button-label">' + this.itemTpl + '</span>',
 		            '<tpl if="numAnswers &gt; 0"><span class="redbadgeicon">{numAnswers}</span></tpl>',
 		            '</div></tpl>'].join("");
@@ -74,8 +74,8 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 		});
 		this.questions = new ARSnova.views.BadgeList({
 			scroll: false,
-			itemCls: 'forwardListButton x-hasbadge',
-			itemTpl: '{text}',
+			itemCls: 'forwardListButton',
+			itemTpl: '<tpl if="active"><span class="isActive">{text}</span></tpl><tpl if="!active">{text}</tpl>',
 			grouped: true,
 			store: this.questionStore,
 			
