@@ -472,35 +472,32 @@ var restProxy = new Ext.data.RestProxy({
     		failure: callbacks.failure
     	});
     },
-    
-    
-    
-    getUserAnswer: function(questionId, userLogin, callbacks){
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/answer/_view/by_question_and_user',
-    		method: 'GET',
-    		params: {
-    			key: "[\"" + questionId + "\", \"" + userLogin + "\"]"
-    		},
 
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
+	getUserAnswer: function(questionId, callbacks) {
+		Ext.Ajax.request({
+			url: "question/bylecturer/" + questionId + "/myanswer",
+			success: function(response) {
+				if (response.status === 204) {
+					callbacks.empty.apply(this, arguments);
+				} else {
+					callbacks.success.apply(this, arguments);
+				}
+			},
+			failure: callbacks.failure
+		});
+	},
+	
+	saveAnswer: function(answer, callbacks) {
+		
+	},
 
-    countAnswers: function(questionId, callbacks) {
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/skill_question/_view/count_answers?group=true',
-    		method: 'GET',
-    		params: {
-    			startkey: "[\"" + questionId + "\"]",
-    			endkey	: "[\"" + questionId + "\", {}]"
-    		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
+	countAnswers: function(sessionKeyword, questionId, callbacks) {
+		Ext.Ajax.request({
+			url: "question/bylecturer/" + questionId + "/answers",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
 
 	countAnswersByQuestion: function(sessionKeyword, questionId, callbacks) {
 		Ext.Ajax.request({

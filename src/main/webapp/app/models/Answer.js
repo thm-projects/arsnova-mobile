@@ -21,11 +21,15 @@
 ARSnova.models.Answer = Ext.regModel('Answer', {
 	proxy: restProxy,
 	
-	getUserAnswer: function(questionId, userLogin, callbacks){
-		return this.proxy.getUserAnswer(questionId, userLogin, callbacks);
+	getUserAnswer: function(questionId, callbacks){
+		return this.proxy.getUserAnswer(questionId, callbacks);
 	},
 	
 	getAnswerByUserAndSession: function(sessionKeyword, callbacks){
 		return this.proxy.getAnswerByUserAndSession(sessionKeyword, callbacks);
+	},
+	
+	saveAnswer: function(callbacks) {
+		return this.proxy.saveAnswer(this, callbacks);
 	}
 });

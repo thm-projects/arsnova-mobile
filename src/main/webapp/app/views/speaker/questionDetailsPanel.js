@@ -671,21 +671,19 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 					}
 				});
 			} else {
-				ARSnova.questionModel.countAnswers(this.questionObj._id, {
+				ARSnova.questionModel.countAnswers(localStorage.getItem('keyword'), this.questionObj._id, {
 					success: function(response){
 						var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
-						var responseObj = Ext.decode(response.responseText).rows;
-						
+						var answers = Ext.decode(response.responseText);
+						console.log(answers);
 						var tmp_possibleAnswers = [];
 						
-						for ( var i = 0; i < panel.questionObj.possibleAnswers.length; i++){
+						for (var i = 0; i < panel.questionObj.possibleAnswers.length; i++) {
 							var el = panel.questionObj.possibleAnswers[i];
 							tmp_possibleAnswers.push(el.text);
 						}
 						
-						for ( var i = 0; i < responseObj.length; i++){
-							var el = responseObj[i];
-							
+						for (var i = 0, el; el = answers[i]; i++) {
 							var field = "button[text=" + el.key[1] + "]";
 							panel.answerFormFieldset.down(field).setBadge(el.value);
 							

@@ -66,69 +66,72 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 								}
 							}
 							
-							ARSnova.answerModel.getUserAnswer(questionObj._id, localStorage.getItem("login"), {
-								success: function(response){
-									var answer = null;
-									var panel = ARSnova.mainTabPanel.layout.activeItem;
-									var responseObj = Ext.decode(response.responseText).rows;
-									if (responseObj.length == 0) {
-										//create
-										answer = Ext.ModelMgr.create({
-											type	 	: "skill_question_answer",
-											sessionId	: localStorage.getItem("sessionId"),
-											questionId	: questionObj._id,
-											answerText	: answerObj.data.text,
-											user		: localStorage.getItem("login")
-										}, 'Answer');
-									} else {
-										//update
-										answer = Ext.ModelMgr.create(responseObj[0].value, "Answer");
-										answer.set('answerText', answerObj.data.text);
-									}
-									
-									answer.save({
-										success: function() {
-											var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
-											if (questionsArr.indexOf(questionObj._id) == -1) {
-												questionsArr.push(questionObj._id);
-											}
-											localStorage.setItem('questionIds', Ext.encode(questionsArr));
-											
-											list.up("panel").disable();
-											new Ext.Panel({
-												cls: 'notificationBox',
-												name: 'notificationBox',
-												showAnimation: 'pop',
-												floating: true,
-												modal: true,
-												centered: true,
-												width: 300,
-												styleHtmlContent: true,
-												html: Messages.ANSWER_SAVED,
-												listeners: {
-													hide: function(){
-														this.destroy();
-													},
-													show: function(){
-														delayedFn = function(){
-															var cmp = Ext.ComponentQuery.query('panel[name=notificationBox]');
-															if(cmp.length > 0)
-																cmp[0].hide();
-															ARSnova.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
-														};
-														setTimeout("delayedFn()", 2000);
-													}
-												}
-											}).show();
-										},
-										failure: function(response, opts) {
-											console.log(response);
-											console.log(opts);
-											console.log('server-side error');
-											Ext.Msg.alert(Messages.NOTIFICATION, Messages.ANSWER_CREATION_ERROR);
-											Ext.Msg.doComponentLayout();
+							var saveAnswer = function(answer) {
+								answer.saveAnswer({
+									success: function() {
+										var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
+										if (questionsArr.indexOf(questionObj._id) == -1) {
+											questionsArr.push(questionObj._id);
 										}
-									});
+										localStorage.setItem('questionIds', Ext.encode(questionsArr));
+										
+										list.up("panel").disable();
+										new Ext.Panel({
+											cls: 'notificationBox',
+											name: 'notificationBox',
+											showAnimation: 'pop',
+											floating: true,
+											modal: true,
+											centered: true,
+											width: 300,
+											styleHtmlContent: true,
+											html: Messages.ANSWER_SAVED,
+											listeners: {
+												hide: function(){
+													this.destroy();
+												},
+												show: function(){
+													delayedFn = function(){
+														var cmp = Ext.ComponentQuery.query('panel[name=notificationBox]');
+														if(cmp.length > 0)
+															cmp[0].hide();
+														ARSnova.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
+													};
+													setTimeout("delayedFn()", 2000);
+												}
+											}
+										}).show();
+									},
+									failure: function(response, opts) {
+										console.log(response);
+										console.log(opts);
+										console.log('server-side error');
+										Ext.Msg.alert(Messages.NOTIFICATION, Messages.ANSWER_CREATION_ERROR);
+										Ext.Msg.doComponentLayout();
+									}
+								});
+							};
+							
+							ARSnova.answerModel.getUserAnswer(questionObj._id, {
+								empty: function() {
+									var answer = Ext.ModelMgr.create({
+										type	 	: "skill_question_answer",
+										sessionId	: localStorage.getItem("sessionId"),
+										questionId	: questionObj._id,
+										answerText	: answerObj.data.text,
+										user		: localStorage.getItem("login")
+									}, 'Answer');
+									
+									saveAnswer(answer);
+								},
+								success: function(response){
+									var theAnswer = Ext.decode(response.responseText);
+									
+									//update
+									var answer = Ext.ModelMgr.create(theAnswer, "Answer");
+									answer.set('answerText', answerObj.data.text);
+									
+									saveAnswer(answer);
 								},
 								failure: function(){
 									console.log('server-side error');

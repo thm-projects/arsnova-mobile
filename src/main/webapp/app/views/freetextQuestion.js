@@ -98,7 +98,7 @@ ARSnova.views.FreetextQuestion = Ext.extend(Ext.Panel, {
 	storeAnswer: function () {
 		var self = this;
 		
-		ARSnova.answerModel.getUserAnswer(this.questionObj._id, localStorage.getItem("login"), {
+		ARSnova.answerModel.getUserAnswer(this.questionObj._id, {
 			success: function(response) {
 				var answer = null;
 				var panel = ARSnova.mainTabPanel.layout.activeItem;
