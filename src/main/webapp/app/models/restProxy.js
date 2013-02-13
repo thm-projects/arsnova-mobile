@@ -300,7 +300,7 @@ var restProxy = new Ext.data.RestProxy({
 	
 	saveSkillQuestion: function(question, callbacks) {
 		Ext.Ajax.request({
-			url: "session/" + question.get('session') + "/question",
+			url: "session/" + question.get('sessionKeyword') + "/question",
 			method: "POST",
 			jsonData: question.data,
 			success: callbacks.success,

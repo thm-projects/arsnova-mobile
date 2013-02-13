@@ -688,7 +688,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
     	Ext.dispatch({
 			controller	: 'questions',
 			action		: 'add',
-			session		: localStorage.getItem('keyword'),
+			sessionKeyword: localStorage.getItem('keyword'),
 			text		: values.text,
 			subject		: values.subject,
 			type		: "skill_question",

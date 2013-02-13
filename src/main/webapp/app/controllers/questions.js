@@ -45,7 +45,7 @@ Ext.regController("questions", {
     	var question = Ext.ModelMgr.create({
 			type	 	: options.type,
 			questionType: options.questionType,
-			session		: options.session,
+			sessionKeyword: options.sessionKeyword,
 			subject		: options.subject.toUpperCase(),
 			text 		: options.text,
 			active		: options.active,

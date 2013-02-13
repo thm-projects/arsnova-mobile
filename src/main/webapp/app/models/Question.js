@@ -26,7 +26,7 @@ ARSnova.models.Question = Ext.regModel('Question', {
       'type',
    	  'text',
    	  'subject',
-   	  'session'
+   	  'sessionKeyword'
     ],
            
    	validations: [
