@@ -116,7 +116,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 					var question = Ext.ModelMgr.create(panel.questionObj, "Question");
 					question.set("subject", values.subject);
 					question.set("text", values.questionText);
-					question.save({
+					question.saveSkillQuestion({
 						success: function(response){
 							//nothing to do
 						}

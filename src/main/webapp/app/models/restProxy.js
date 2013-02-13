@@ -308,6 +308,16 @@ var restProxy = new Ext.data.RestProxy({
 		});
 	},
 	
+	updateSkillQuestion: function(question, callbacks) {
+		Ext.Ajax.request({
+			url: "question/bylecturer/" + question.get('_id'),
+			method: "PUT",
+			jsonData: question.data,
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
 	publishSkillQuestion: function(question, callbacks) {
 		Ext.Ajax.request({
 			url: "question/bylecturer/" + question.get('_id') + "/publish",
@@ -346,28 +356,15 @@ var restProxy = new Ext.data.RestProxy({
 			failure: callbacks.failure
 		});
 	},
-    
-    delAnswers: function(questionId, callbacks){
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/answer/_view/cleanup',
-    		method: 'GET',
-    		
-    		params: {
-    			key: "\"" + questionId + "\""
-    		},
-    		
-    		success: function(response){
-    			var resRows = Ext.decode(response.responseText).rows;
-    			if (resRows.length > 0) {
-					for ( var i = 0; i < resRows.length; i++) {
-						el = resRows[i];
-						restProxy.removeEntry(el.id, el.value, callbacks);
-					}
-				}
-    		},
-    		failure: callbacks.failure
-    	});
-    },
+	
+	delAnswers: function(questionId, callbacks){
+		Ext.Ajax.request({
+			url: "question/bylecturer/" + questionId + "/answers",
+			method: "DELETE",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
     
     delSession: function(sessionId, creator, callbacks){
     	Ext.ModelMgr.getModel("Session").load(sessionId, {
