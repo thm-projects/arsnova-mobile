@@ -527,7 +527,13 @@ var restProxy = new Ext.data.RestProxy({
 	},
 	
 	saveAnswer: function(answer, callbacks) {
-		
+		Ext.Ajax.request({
+			url: "question/bylecturer/" + answer.get('questionId') + "/answer",
+			method: "POST",
+			jsonData: answer.data,
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
 	},
 
 	countAnswers: function(sessionKeyword, questionId, callbacks) {
