@@ -675,7 +675,6 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 					success: function(response){
 						var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
 						var answers = Ext.decode(response.responseText);
-						console.log(answers);
 						var tmp_possibleAnswers = [];
 						
 						for (var i = 0; i < panel.questionObj.possibleAnswers.length; i++) {
@@ -684,10 +683,10 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 						}
 						
 						for (var i = 0, el; el = answers[i]; i++) {
-							var field = "button[text=" + el.key[1] + "]";
-							panel.answerFormFieldset.down(field).setBadge(el.value);
+							var field = "button[text=" + el.answerText + "]";
+							panel.answerFormFieldset.down(field).setBadge(el.answerCount);
 							
-							var idx = tmp_possibleAnswers.indexOf(el.key[1]); // Find the index
+							var idx = tmp_possibleAnswers.indexOf(el.answerText); // Find the index
 							if(idx!=-1) tmp_possibleAnswers.splice(idx, 1); // Remove it if really found!
 						}
 						

@@ -67,7 +67,6 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 							}
 							
 							var saveAnswer = function(answer) {
-								console.log(answer);
 								answer.saveAnswer({
 									success: function() {
 										var questionsArr = Ext.decode(localStorage.getItem('questionIds'));

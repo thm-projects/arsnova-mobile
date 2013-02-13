@@ -704,7 +704,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 				Ext.dispatch({
 					controller	: 'questions',
 					action		: 'details',
-					question	: opts.jsonData,
+					question	: Ext.decode(response.responseText)
 				});
 			},
 			failureFunc	: function(response, opts){
