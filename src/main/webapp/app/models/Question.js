@@ -52,6 +52,10 @@ ARSnova.models.Question = Ext.regModel('Question', {
     	return this.proxy.getQuestionById(id, callbacks);
     },
     
+    getSkillQuestion: function(id, callbacks) {
+    	return this.proxy.getSkillQuestion(id, callbacks);
+    },
+    
     saveSkillQuestion: function(callbacks) {
     	return this.proxy.saveSkillQuestion(this, callbacks);
     },

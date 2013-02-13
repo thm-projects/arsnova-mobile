@@ -190,19 +190,27 @@ var restProxy = new Ext.data.RestProxy({
 			}
 		});
 	},
-    
-    getQuestionById: function(id, callbacks){
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/skill_question/_view/by_id',
-    		method: 'GET',
-    		params: {
-    			key: "\"" + id + "\""
-    		},
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
-    
+	
+	getQuestionById: function(id, callbacks){
+		Ext.Ajax.request({
+			url: this.url + '/_design/skill_question/_view/by_id',
+			method: 'GET',
+			params: {
+				key: "\"" + id + "\""
+			},
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	getSkillQuestion: function(id, callbacks) {
+		Ext.Ajax.request({
+			url: "question/bylecturer/" + id,
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
 	/**
 	 * Get skill questions for this session, sorted by subject and text
 	 * @param sessionKeyword

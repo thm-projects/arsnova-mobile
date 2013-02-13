@@ -146,41 +146,39 @@ Ext.regController("questions", {
     	});
     },
     
-    setActive: function(options){
-    	var session = Ext.ModelMgr.getModel("Question").load(options.questionId, {
-			success: function(records, operation){
-				var question = Ext.ModelMgr.create(Ext.decode(operation.response.responseText), 'Question');
+	setActive: function(options){
+		ARSnova.questionModel.getSkillQuestion(options.questionId, {
+			success: function(response) {
+				var question = Ext.ModelMgr.create(Ext.decode(response.responseText), 'Question');
 				question.set('active', options.active);
 				
-				question.save({
+				question.saveSkillQuestion({
 					success: function(response){
 						var panel  = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
 						panel.questionObj._rev = response.rev;
 						
-		    	  		var questionStatus = panel.questionStatusButton;
-		    	  		
-		    	  		if(options.active == 1){
-		    	  			questionStatus.questionOpenedSuccessfully();
-		    	  			panel.down('textfield[label=Status]').setValue("Freigegeben");
-		    	  		} else {
-		    	  			questionStatus.questionClosedSuccessfully();
-		    	  			panel.down('textfield[label=Status]').setValue("Nicht Freigegeben");
-		    	  		}
+						var questionStatus = panel.questionStatusButton;
+						
+						if(options.active == 1){
+							questionStatus.questionOpenedSuccessfully();
+							panel.down('textfield[label=Status]').setValue("Freigegeben");
+						} else {
+							questionStatus.questionClosedSuccessfully();
+							panel.down('textfield[label=Status]').setValue("Nicht Freigegeben");
+						}
 					},
 					failure: function(records, operation){
-						console.log(operation);
-		    	  		Ext.Msg.alert("Hinweis!", "Session speichern war nicht erfolgreich");
-		    	  		Ext.Msg.doComponentLayout();
+						Ext.Msg.alert("Hinweis!", "Speichern der Frage war nicht erfolgreich");
+						Ext.Msg.doComponentLayout();
 					}
 				});
 			},
 			failure: function(records, operation){
-				console.log(operation);
-    	  		Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
-    	  		Ext.Msg.doComponentLayout();
+				Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
+				Ext.Msg.doComponentLayout();
 			}
 		});
-    },
+	},
     
     adHoc: function(){
     	var sTP = ARSnova.mainTabPanel.tabPanel.speakerTabPanel;
