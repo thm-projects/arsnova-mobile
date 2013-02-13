@@ -233,7 +233,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 								question.set('showStatistic', 1);
 								break;
 						};
-						question.save({
+						question.publishSkillQuestionStatistics({
 							success: function(response){
 								panel.questionObj = question.data;
 								ARSnova.hideLoadMask();

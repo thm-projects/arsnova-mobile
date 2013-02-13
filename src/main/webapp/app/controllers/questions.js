@@ -152,7 +152,7 @@ Ext.regController("questions", {
 				var question = Ext.ModelMgr.create(Ext.decode(response.responseText), 'Question');
 				question.set('active', options.active);
 				
-				question.saveSkillQuestion({
+				question.publishSkillQuestion({
 					success: function(response){
 						var panel  = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
 						panel.questionObj._rev = response.rev;

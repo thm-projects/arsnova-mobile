@@ -28,6 +28,8 @@ ARSnova.models.Question = Ext.regModel('Question', {
    	  'subject',
    	  'sessionKeyword'
     ],
+    
+    transientFields: ['numAnswers'],
            
    	validations: [
       {type: 'presence', field: 'type'},
@@ -35,6 +37,16 @@ ARSnova.models.Question = Ext.regModel('Question', {
       {type: 'presence', field: 'subject'},
       {type: 'presence', field: 'session'}
     ],
+    
+    constructor: function() {
+    	ARSnova.models.Question.superclass.constructor.apply(this, arguments);
+    	
+    	for (var i = 0; field = this.transientFields[i]; i++) {
+    		if (typeof this.get(field) !== "undefined") {
+    			delete this[this.persistanceProperty][field];
+    		}
+    	}
+    },
     
     destroy: function(queObj, callbacks) {
     	return this.proxy.delQuestion(queObj, callbacks);
@@ -58,6 +70,14 @@ ARSnova.models.Question = Ext.regModel('Question', {
     
     saveSkillQuestion: function(callbacks) {
     	return this.proxy.saveSkillQuestion(this, callbacks);
+    },
+    
+    publishSkillQuestion: function(callbacks) {
+    	return this.proxy.publishSkillQuestion(this, callbacks);
+    },
+    
+    publishSkillQuestionStatistics: function(callbacks) {
+    	return this.proxy.publishSkillQuestionStatistics(this, callbacks);
     },
     
     getSkillQuestionsSortBySubjectAndText: function(sessionKeyword, callbacks) {
