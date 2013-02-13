@@ -271,7 +271,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 								question.set('showAnswer', 1);
 								break;
 						};
-						question.save({
+						question.publishCorrectSkillQuestionAnswer({
 							success: function(response){
 								panel.questionObj = question.data;
 								ARSnova.hideLoadMask();

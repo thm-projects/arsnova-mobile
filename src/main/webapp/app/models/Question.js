@@ -80,6 +80,10 @@ ARSnova.models.Question = Ext.regModel('Question', {
     	return this.proxy.publishSkillQuestionStatistics(this, callbacks);
     },
     
+    publishCorrectSkillQuestionAnswer: function(callbacks) {
+    	return this.proxy.publishCorrectSkillQuestionAnswer(this, callbacks);
+    },
+    
     getSkillQuestionsSortBySubjectAndText: function(sessionKeyword, callbacks) {
     	return this.proxy.getSkillQuestionsSortBySubjectAndText(sessionKeyword, callbacks);
     },

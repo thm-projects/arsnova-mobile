@@ -327,11 +327,25 @@ var restProxy = new Ext.data.RestProxy({
 			failure: callbacks.failure
 		});
 	},
-    
-    delQuestion: function(queObj, callbacks){
-    	restProxy.removeEntry(queObj._id, queObj._rev, callbacks); 	//delete Question
-    	restProxy.delAnswers(queObj._id, callbacks);				//delete Answers
-    },
+	
+	publishCorrectSkillQuestionAnswer: function(question, callbacks) {
+		Ext.Ajax.request({
+			url: "question/bylecturer/" + question.get('_id') + "/publishcorrectanswer",
+			method: "POST",
+			jsonData: question.data,
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	delQuestion: function(queObj, callbacks){
+		Ext.Ajax.request({
+			url: "question/bylecturer/" + queObj._id,
+			method: "DELETE",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
     
     delAnswers: function(questionId, callbacks){
     	Ext.Ajax.request({
