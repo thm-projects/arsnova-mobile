@@ -20,7 +20,7 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
 Ext.regModel('FreetextAnswer', {
-	fields: ['subject', 'timestamp', 'formattedTime', 'groupDate']
+	fields: ['answerSubject', 'timestamp', 'formattedTime', 'groupDate']
 });
 
 ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {

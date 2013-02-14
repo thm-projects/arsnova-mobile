@@ -30,6 +30,9 @@ ARSnova.models.Answer = Ext.regModel('Answer', {
 	},
 	
 	saveAnswer: function(callbacks) {
+		if (this.get('_id') && this.get('_rev')) {
+			return this.proxy.updateAnswer(this, callbacks);
+		}
 		return this.proxy.saveAnswer(this, callbacks);
 	}
 });

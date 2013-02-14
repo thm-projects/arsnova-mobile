@@ -103,8 +103,6 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 										}).show();
 									},
 									failure: function(response, opts) {
-										console.log(response);
-										console.log(opts);
 										console.log('server-side error');
 										Ext.Msg.alert(Messages.NOTIFICATION, Messages.ANSWER_CREATION_ERROR);
 										Ext.Msg.doComponentLayout();

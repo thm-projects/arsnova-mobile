@@ -65,13 +65,13 @@ ARSnova.views.FreetextDetailAnswer = Ext.extend(Ext.Panel, {
 					{
 						xtype: 'textfield',
 						label: Messages.QUESTION_SUBJECT,
-						value: answer.subject,
+						value: answer.answerSubject,
 						disabled: true
 					},
 					{
 						xtype: 'textareafield',
 						label: Messages.FREETEXT_DETAIL_ANSWER,
-						value: answer.text,
+						value: answer.answerText,
 						disabled: true,
 						maxRows: 8
 					}
