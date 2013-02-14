@@ -545,6 +545,15 @@ var restProxy = new Ext.data.RestProxy({
 			failure: callbacks.failure
 		});
 	},
+	
+	deleteAnswer: function(questionId, answerId, callbacks) {
+		Ext.Ajax.request({
+			url: "question/bylecturer/" + questionId + "/answer/" + answerId,
+			method: "DELETE",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
 
 	countAnswers: function(sessionKeyword, questionId, callbacks) {
 		Ext.Ajax.request({

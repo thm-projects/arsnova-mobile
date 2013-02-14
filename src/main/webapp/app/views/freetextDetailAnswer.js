@@ -92,7 +92,7 @@ ARSnova.views.FreetextDetailAnswer = Ext.extend(Ext.Panel, {
 							text: Messages.DELETE,
 							ui: 'decline',
 							handler: function () {
-								ARSnova.questionModel.deleteFreetextAnswer(answer._id, answer._rev, {
+								ARSnova.questionModel.deleteAnswer(answer.questionId, answer._id, {
 									failure: function() {
 										console.log('server-side error: deletion of freetext answer failed');
 									}

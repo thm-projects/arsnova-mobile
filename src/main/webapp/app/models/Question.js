@@ -143,8 +143,8 @@ ARSnova.models.Question = Ext.regModel('Question', {
 		return this.proxy.getAnsweredFreetextQuestions(sessionKeyword, questionId, callbacks);
 	},
 	
-	deleteFreetextAnswer: function(id, rev, callbacks) {
-		return this.proxy.removeEntry(id, rev, callbacks);
+	deleteAnswer: function(questionId, answerId, callbacks) {
+		return this.proxy.deleteAnswer(questionId, answerId, callbacks);
 	},
     
     getSkillQuestionsForUser: function(sessionKeyword, callbacks) {
