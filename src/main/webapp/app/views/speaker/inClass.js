@@ -302,8 +302,6 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 					value--;
 				}
 				
-				ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.toolbar.setTitle(localStorage.getItem("shortName") + " (" + value + ")");
-				
 				//update feedback counter
 				var counterEl = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.feedbackCounter;
 				var title = counterEl.getText().split("/");

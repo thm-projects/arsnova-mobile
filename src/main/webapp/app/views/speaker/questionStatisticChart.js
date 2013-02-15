@@ -390,9 +390,6 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 			success: function(response){
 				var value = parseInt(response.responseText);
 				
-				if(ARSnova.mainTabPanel.tabPanel.speakerTabPanel)
-					ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.toolbar.setTitle(localStorage.getItem("shortName") + " (" + value + ")");
-				
 				//update quote in toolbar
 				var quote = ARSnova.mainTabPanel.layout.activeItem.toolbar.items.items[4];
 				var users = quote.el.dom.innerHTML.split("/");

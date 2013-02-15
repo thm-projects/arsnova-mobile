@@ -301,8 +301,6 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 			success: function(response){
 				var value = parseInt(response.responseText);
 				
-				ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel.toolbar.setTitle(localStorage.getItem("shortName") + " (" + value + ")");
-				
 				//update feedback counter
 				var counterEl = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.feedbackCounter;
 				var title = counterEl.getText().split("/");
