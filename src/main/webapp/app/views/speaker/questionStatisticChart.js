@@ -314,13 +314,13 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 	},
 	
 	getQuestionAnswers: function() {
-		ARSnova.questionModel.countAnswers(this.questionObj._id, {
+		ARSnova.questionModel.countAnswers(localStorage.getItem('keyword'), this.questionObj._id, {
 			success: function(response) {
 				var panel = ARSnova.mainTabPanel.layout.activeItem;
 				var chart = panel.questionChart;
 				var store = chart.store;
 				
-				var responseObj = Ext.decode(response.responseText).rows;
+				var answers = Ext.decode(response.responseText);
 				
 				var sum = 0;
 				var maxValue = 10;
@@ -335,17 +335,16 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 						tmp_possibleAnswers.push(el.text);
 				}
 				
-				for ( var i = 0; i < responseObj.length; i++) {
-					var el = responseObj[i];
-					var record = store.findRecord('text', el.key[1], 0, false, true, true); //exact match
-					record.data.value = el.value;
-					sum += el.value;
+				for ( var i = 0, el; el = answers[i]; i++) {
+					var record = store.findRecord('text', el.answerText, 0, false, true, true); //exact match
+					record.data.value = el.answerCount;
+					sum += el.answerCount;
 					
 					if (el.value > maxValue) {
 						maxValue = Math.ceil(el.value / 10) * 10;
 					}
 					
-					var idx = tmp_possibleAnswers.indexOf(el.key[1]); // Find the index
+					var idx = tmp_possibleAnswers.indexOf(el.answerText); // Find the index
 					if(idx!=-1) tmp_possibleAnswers.splice(idx, 1); // Remove it if really found!
 				}
 				for ( var i = 0; i < tmp_possibleAnswers.length; i++) {

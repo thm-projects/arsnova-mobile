@@ -26,8 +26,10 @@ ARSnova.models.Question = Ext.regModel('Question', {
       'type',
    	  'text',
    	  'subject',
-   	  'session'
+   	  'sessionKeyword'
     ],
+    
+    transientFields: ['numAnswers'],
            
    	validations: [
       {type: 'presence', field: 'type'},
@@ -35,6 +37,16 @@ ARSnova.models.Question = Ext.regModel('Question', {
       {type: 'presence', field: 'subject'},
       {type: 'presence', field: 'session'}
     ],
+    
+    constructor: function() {
+    	ARSnova.models.Question.superclass.constructor.apply(this, arguments);
+    	
+    	for (var i = 0; field = this.transientFields[i]; i++) {
+    		if (typeof this.get(field) !== "undefined") {
+    			delete this[this.persistanceProperty][field];
+    		}
+    	}
+    },
     
     destroy: function(queObj, callbacks) {
     	return this.proxy.delQuestion(queObj, callbacks);
@@ -52,8 +64,27 @@ ARSnova.models.Question = Ext.regModel('Question', {
     	return this.proxy.getQuestionById(id, callbacks);
     },
     
+    getSkillQuestion: function(id, callbacks) {
+    	return this.proxy.getSkillQuestion(id, callbacks);
+    },
+    
     saveSkillQuestion: function(callbacks) {
+    	if (this.get('_id') && this.get('_rev')) {
+    		return this.proxy.updateSkillQuestion(this, callbacks);
+    	}
     	return this.proxy.saveSkillQuestion(this, callbacks);
+    },
+    
+    publishSkillQuestion: function(callbacks) {
+    	return this.proxy.publishSkillQuestion(this, callbacks);
+    },
+    
+    publishSkillQuestionStatistics: function(callbacks) {
+    	return this.proxy.publishSkillQuestionStatistics(this, callbacks);
+    },
+    
+    publishCorrectSkillQuestionAnswer: function(callbacks) {
+    	return this.proxy.publishCorrectSkillQuestionAnswer(this, callbacks);
     },
     
     getSkillQuestionsSortBySubjectAndText: function(sessionKeyword, callbacks) {
@@ -100,8 +131,8 @@ ARSnova.models.Question = Ext.regModel('Question', {
     	return this.proxy.changeQuestionType(sessionId, callbacks);
     },
     
-    countAnswers: function(questionId, callbacks) {
-    	return this.proxy.countAnswers(questionId, callbacks);
+    countAnswers: function(sessionKeyword, questionId, callbacks) {
+    	return this.proxy.countAnswers(sessionKeyword, questionId, callbacks);
     },
 
 	countAnswersByQuestion: function(sessionKeyword, questionId, callbacks) {
@@ -112,8 +143,8 @@ ARSnova.models.Question = Ext.regModel('Question', {
 		return this.proxy.getAnsweredFreetextQuestions(sessionKeyword, questionId, callbacks);
 	},
 	
-	deleteFreetextAnswer: function(id, rev, callbacks) {
-		return this.proxy.removeEntry(id, rev, callbacks);
+	deleteAnswer: function(questionId, answerId, callbacks) {
+		return this.proxy.deleteAnswer(questionId, answerId, callbacks);
 	},
     
     getSkillQuestionsForUser: function(sessionKeyword, callbacks) {

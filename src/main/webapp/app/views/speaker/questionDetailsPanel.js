@@ -20,7 +20,7 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
 Ext.regModel('FreetextAnswer', {
-	fields: ['subject', 'timestamp', 'formattedTime', 'groupDate']
+	fields: ['answerSubject', 'timestamp', 'formattedTime', 'groupDate']
 });
 
 ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
@@ -50,6 +50,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 	},
 	
 	constructor: function(question){
+		var me = this;
 		this.questionObj = question;
 		
 		if( this.questionObj.questionType == "yesno" 	|| 
@@ -116,9 +117,9 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 					var question = Ext.ModelMgr.create(panel.questionObj, "Question");
 					question.set("subject", values.subject);
 					question.set("text", values.questionText);
-					question.save({
+					question.saveSkillQuestion({
 						success: function(response){
-							//nothing to do
+							panel.questionObj = question.data;
 						}
 					});
 					
@@ -221,10 +222,9 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 				value 	: this.questionObj.showStatistic? this.questionObj.showStatistic : 0,
 				listeners: {
 					change: function(toggleEl, something, value){
-						var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
-						if (value == 0 && panel.questionObj.showStatistic == undefined || value == panel.questionObj.showStatistic) return;
+						if (value == 0 && me.questionObj.showStatistic == undefined || value == me.questionObj.showStatistic) return;
 						ARSnova.showLoadMask(Messages.LOAD_MASK_ACTIVATION);
-						var question = Ext.ModelMgr.create(panel.questionObj, "Question");
+						var question = Ext.ModelMgr.create(me.questionObj, "Question");
 						switch (value) {
 							case 0:
 								delete question.data.showStatistic;
@@ -233,9 +233,9 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 								question.set('showStatistic', 1);
 								break;
 						};
-						question.save({
+						question.publishSkillQuestionStatistics({
 							success: function(response){
-								panel.questionObj = question.data;
+								me.questionObj = question.data;
 								ARSnova.hideLoadMask();
 							},
 							failure: function(){ console.log('could not save showStatistic flag'); }
@@ -271,7 +271,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 								question.set('showAnswer', 1);
 								break;
 						};
-						question.save({
+						question.publishCorrectSkillQuestionAnswer({
 							success: function(response){
 								panel.questionObj = question.data;
 								ARSnova.hideLoadMask();
@@ -671,25 +671,22 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 					}
 				});
 			} else {
-				ARSnova.questionModel.countAnswers(this.questionObj._id, {
+				ARSnova.questionModel.countAnswers(localStorage.getItem('keyword'), this.questionObj._id, {
 					success: function(response){
 						var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
-						var responseObj = Ext.decode(response.responseText).rows;
-						
+						var answers = Ext.decode(response.responseText);
 						var tmp_possibleAnswers = [];
 						
-						for ( var i = 0; i < panel.questionObj.possibleAnswers.length; i++){
+						for (var i = 0; i < panel.questionObj.possibleAnswers.length; i++) {
 							var el = panel.questionObj.possibleAnswers[i];
 							tmp_possibleAnswers.push(el.text);
 						}
 						
-						for ( var i = 0; i < responseObj.length; i++){
-							var el = responseObj[i];
+						for (var i = 0, el; el = answers[i]; i++) {
+							var field = "button[text=" + el.answerText + "]";
+							panel.answerFormFieldset.down(field).setBadge(el.answerCount);
 							
-							var field = "button[text=" + el.key[1] + "]";
-							panel.answerFormFieldset.down(field).setBadge(el.value);
-							
-							var idx = tmp_possibleAnswers.indexOf(el.key[1]); // Find the index
+							var idx = tmp_possibleAnswers.indexOf(el.answerText); // Find the index
 							if(idx!=-1) tmp_possibleAnswers.splice(idx, 1); // Remove it if really found!
 						}
 						

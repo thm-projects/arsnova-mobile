@@ -45,7 +45,7 @@ Ext.regController("questions", {
     	var question = Ext.ModelMgr.create({
 			type	 	: options.type,
 			questionType: options.questionType,
-			session		: options.session,
+			sessionKeyword: options.sessionKeyword,
 			subject		: options.subject.toUpperCase(),
 			text 		: options.text,
 			active		: options.active,
@@ -146,41 +146,37 @@ Ext.regController("questions", {
     	});
     },
     
-    setActive: function(options){
-    	var session = Ext.ModelMgr.getModel("Question").load(options.questionId, {
-			success: function(records, operation){
-				var question = Ext.ModelMgr.create(Ext.decode(operation.response.responseText), 'Question');
+	setActive: function(options){
+		ARSnova.questionModel.getSkillQuestion(options.questionId, {
+			success: function(response) {
+				var question = Ext.ModelMgr.create(Ext.decode(response.responseText), 'Question');
 				question.set('active', options.active);
 				
-				question.save({
+				question.publishSkillQuestion({
 					success: function(response){
-						var panel  = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
-						panel.questionObj._rev = response.rev;
+						var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
+						var questionStatus = panel.questionStatusButton;
 						
-		    	  		var questionStatus = panel.questionStatusButton;
-		    	  		
-		    	  		if(options.active == 1){
-		    	  			questionStatus.questionOpenedSuccessfully();
-		    	  			panel.down('textfield[label=Status]').setValue("Freigegeben");
-		    	  		} else {
-		    	  			questionStatus.questionClosedSuccessfully();
-		    	  			panel.down('textfield[label=Status]').setValue("Nicht Freigegeben");
-		    	  		}
+						if(options.active == 1){
+							questionStatus.questionOpenedSuccessfully();
+							panel.down('textfield[label=Status]').setValue("Freigegeben");
+						} else {
+							questionStatus.questionClosedSuccessfully();
+							panel.down('textfield[label=Status]').setValue("Nicht Freigegeben");
+						}
 					},
 					failure: function(records, operation){
-						console.log(operation);
-		    	  		Ext.Msg.alert("Hinweis!", "Session speichern war nicht erfolgreich");
-		    	  		Ext.Msg.doComponentLayout();
+						Ext.Msg.alert("Hinweis!", "Speichern der Frage war nicht erfolgreich");
+						Ext.Msg.doComponentLayout();
 					}
 				});
 			},
 			failure: function(records, operation){
-				console.log(operation);
-    	  		Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
-    	  		Ext.Msg.doComponentLayout();
+				Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
+				Ext.Msg.doComponentLayout();
 			}
 		});
-    },
+	},
     
     adHoc: function(){
     	var sTP = ARSnova.mainTabPanel.tabPanel.speakerTabPanel;

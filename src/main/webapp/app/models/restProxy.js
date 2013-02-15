@@ -190,19 +190,27 @@ var restProxy = new Ext.data.RestProxy({
 			}
 		});
 	},
-    
-    getQuestionById: function(id, callbacks){
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/skill_question/_view/by_id',
-    		method: 'GET',
-    		params: {
-    			key: "\"" + id + "\""
-    		},
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
-    
+	
+	getQuestionById: function(id, callbacks){
+		Ext.Ajax.request({
+			url: this.url + '/_design/skill_question/_view/by_id',
+			method: 'GET',
+			params: {
+				key: "\"" + id + "\""
+			},
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	getSkillQuestion: function(id, callbacks) {
+		Ext.Ajax.request({
+			url: "question/bylecturer/" + id,
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
 	/**
 	 * Get skill questions for this session, sorted by subject and text
 	 * @param sessionKeyword
@@ -292,40 +300,71 @@ var restProxy = new Ext.data.RestProxy({
 	
 	saveSkillQuestion: function(question, callbacks) {
 		Ext.Ajax.request({
-			url: "session/" + question.get('session') + "/question",
+			url: "session/" + question.get('sessionKeyword') + "/question",
 			method: "POST",
 			jsonData: question.data,
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
 	},
-    
-    delQuestion: function(queObj, callbacks){
-    	restProxy.removeEntry(queObj._id, queObj._rev, callbacks); 	//delete Question
-    	restProxy.delAnswers(queObj._id, callbacks);				//delete Answers
-    },
-    
-    delAnswers: function(questionId, callbacks){
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/answer/_view/cleanup',
-    		method: 'GET',
-    		
-    		params: {
-    			key: "\"" + questionId + "\""
-    		},
-    		
-    		success: function(response){
-    			var resRows = Ext.decode(response.responseText).rows;
-    			if (resRows.length > 0) {
-					for ( var i = 0; i < resRows.length; i++) {
-						el = resRows[i];
-						restProxy.removeEntry(el.id, el.value, callbacks);
-					}
-				}
-    		},
-    		failure: callbacks.failure
-    	});
-    },
+	
+	updateSkillQuestion: function(question, callbacks) {
+		Ext.Ajax.request({
+			url: "question/bylecturer/" + question.get('_id'),
+			method: "PUT",
+			jsonData: question.data,
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	publishSkillQuestion: function(question, callbacks) {
+		Ext.Ajax.request({
+			url: "question/bylecturer/" + question.get('_id') + "/publish",
+			method: "POST",
+			jsonData: question.data,
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	publishSkillQuestionStatistics: function(question, callbacks) {
+		Ext.Ajax.request({
+			url: "question/bylecturer/" + question.get('_id') + "/publishstatistics",
+			method: "POST",
+			jsonData: question.data,
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	publishCorrectSkillQuestionAnswer: function(question, callbacks) {
+		Ext.Ajax.request({
+			url: "question/bylecturer/" + question.get('_id') + "/publishcorrectanswer",
+			method: "POST",
+			jsonData: question.data,
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	delQuestion: function(queObj, callbacks){
+		Ext.Ajax.request({
+			url: "question/bylecturer/" + queObj._id,
+			method: "DELETE",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	delAnswers: function(questionId, callbacks){
+		Ext.Ajax.request({
+			url: "question/bylecturer/" + questionId + "/answers",
+			method: "DELETE",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
     
     delSession: function(sessionId, creator, callbacks){
     	Ext.ModelMgr.getModel("Session").load(sessionId, {
@@ -472,35 +511,57 @@ var restProxy = new Ext.data.RestProxy({
     		failure: callbacks.failure
     	});
     },
-    
-    
-    
-    getUserAnswer: function(questionId, userLogin, callbacks){
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/answer/_view/by_question_and_user',
-    		method: 'GET',
-    		params: {
-    			key: "[\"" + questionId + "\", \"" + userLogin + "\"]"
-    		},
 
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
+	getUserAnswer: function(questionId, callbacks) {
+		Ext.Ajax.request({
+			url: "question/bylecturer/" + questionId + "/myanswer",
+			success: function(response) {
+				if (response.status === 204) {
+					callbacks.empty.apply(this, arguments);
+				} else {
+					callbacks.success.apply(this, arguments);
+				}
+			},
+			failure: callbacks.failure
+		});
+	},
+	
+	saveAnswer: function(answer, callbacks) {
+		Ext.Ajax.request({
+			url: "question/bylecturer/" + answer.get('questionId') + "/answer",
+			method: "POST",
+			jsonData: answer.data,
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	updateAnswer: function(answer, callbacks) {
+		Ext.Ajax.request({
+			url: "question/bylecturer/" + answer.get('questionId') + "/answer/" + answer.get('_id'),
+			method: "PUT",
+			jsonData: answer.data,
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	deleteAnswer: function(questionId, answerId, callbacks) {
+		Ext.Ajax.request({
+			url: "question/bylecturer/" + questionId + "/answer/" + answerId,
+			method: "DELETE",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
 
-    countAnswers: function(questionId, callbacks) {
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/skill_question/_view/count_answers?group=true',
-    		method: 'GET',
-    		params: {
-    			startkey: "[\"" + questionId + "\"]",
-    			endkey	: "[\"" + questionId + "\", {}]"
-    		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
+	countAnswers: function(sessionKeyword, questionId, callbacks) {
+		Ext.Ajax.request({
+			url: "question/bylecturer/" + questionId + "/answers",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
 
 	countAnswersByQuestion: function(sessionKeyword, questionId, callbacks) {
 		Ext.Ajax.request({

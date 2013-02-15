@@ -30,7 +30,7 @@ ARSnova.views.FreetextAnswerList = function(store, disableScrolling) {
 		itemCls: 'forwardListButton',
 		itemTpl: [
 			'<div class="search-item">',
-			'<span style="color:gray">{formattedTime}</span><span style="padding-left:30px">{subject}</span>',
+			'<span style="color:gray">{formattedTime}</span><span style="padding-left:30px">{answerSubject}</span>',
 			'</div>'
 		],
 		grouped: true,
