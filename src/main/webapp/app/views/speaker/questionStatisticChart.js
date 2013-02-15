@@ -340,8 +340,8 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 					record.data.value = el.answerCount;
 					sum += el.answerCount;
 					
-					if (el.value > maxValue) {
-						maxValue = Math.ceil(el.value / 10) * 10;
+					if (el.answerCount > maxValue) {
+						maxValue = Math.ceil(el.answerCount / 10) * 10;
 					}
 					
 					var idx = tmp_possibleAnswers.indexOf(el.answerText); // Find the index
