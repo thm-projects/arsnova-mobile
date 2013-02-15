@@ -185,7 +185,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 				this.questionStore.add(questions);
 				this.getQuestionAnswers();
 				
-				this.controls.add(this.showcaseFormButton);
+				this.controls.insert(0, this.showcaseFormButton);
 				this.displayShowcaseButton();
 				this.questionsContainer.show();
 				this.doLayout();
