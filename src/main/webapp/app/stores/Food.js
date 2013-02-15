@@ -22,7 +22,7 @@ Ext.regStore('Food', {
 	fields: ['name', 'value', 'percent'],
 	
 	data: [
-	    {name: "Schweizer Sahnehacksteak", value: 0, percent: 0.0},
+	    {name: "Sahnehacksteak", value: 0, percent: 0.0},
 		{name: "Kartoffelfrittata", value: 0, percent: 0.0},
 		{name: "Speckbohnen", value: 0, percent: 0.0},
 		{name: "Pasta", value: 0, percent: 0.0},
