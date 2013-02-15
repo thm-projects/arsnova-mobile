@@ -50,6 +50,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 	},
 	
 	constructor: function(question){
+		var me = this;
 		this.questionObj = question;
 		
 		if( this.questionObj.questionType == "yesno" 	|| 
@@ -118,7 +119,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 					question.set("text", values.questionText);
 					question.saveSkillQuestion({
 						success: function(response){
-							//nothing to do
+							panel.questionObj = question.data;
 						}
 					});
 					
@@ -221,10 +222,9 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 				value 	: this.questionObj.showStatistic? this.questionObj.showStatistic : 0,
 				listeners: {
 					change: function(toggleEl, something, value){
-						var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
-						if (value == 0 && panel.questionObj.showStatistic == undefined || value == panel.questionObj.showStatistic) return;
+						if (value == 0 && me.questionObj.showStatistic == undefined || value == me.questionObj.showStatistic) return;
 						ARSnova.showLoadMask(Messages.LOAD_MASK_ACTIVATION);
-						var question = Ext.ModelMgr.create(panel.questionObj, "Question");
+						var question = Ext.ModelMgr.create(me.questionObj, "Question");
 						switch (value) {
 							case 0:
 								delete question.data.showStatistic;
@@ -235,7 +235,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 						};
 						question.publishSkillQuestionStatistics({
 							success: function(response){
-								panel.questionObj = question.data;
+								me.questionObj = question.data;
 								ARSnova.hideLoadMask();
 							},
 							failure: function(){ console.log('could not save showStatistic flag'); }

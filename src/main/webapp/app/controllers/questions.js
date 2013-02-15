@@ -154,9 +154,7 @@ Ext.regController("questions", {
 				
 				question.publishSkillQuestion({
 					success: function(response){
-						var panel  = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
-						panel.questionObj._rev = response.rev;
-						
+						var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
 						var questionStatus = panel.questionStatusButton;
 						
 						if(options.active == 1){
