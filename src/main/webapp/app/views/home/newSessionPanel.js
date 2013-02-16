@@ -109,6 +109,7 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 	
 	initComponent: function() {
 		this.on('beforeactivate', this.getSessionIds);
+		this.on('beforeactivate', this.getMyCourses);
 		this.on('activate', this.generateNewSessionId);
 		
 		ARSnova.views.home.NewSessionPanel.superclass.initComponent.call(this);
@@ -158,5 +159,28 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 		}
 		this.down("textfield[name=keyword]").setValue(sessionId);
 		this.down('fieldset').setInstructions("Session-ID: " + ARSnova.formatSessionID(sessionId));
+	},
+
+	getMyCourses: function() {
+		ARSnova.showLoadMask(Messages.LOAD_MASK_SEARCH);
+		ARSnova.courseModel.getMyCourses({
+			success: function(response) {
+				// TODO Add courses to course list
+			},
+			empty: Ext.createDelegate(function() {
+				this.sessionsForm.hide();
+				ARSnova.hideLoadMask();
+			}, this),
+			unauthenticated: function() {
+				Ext.dispatch({
+					controller: "auth",
+					action: "login",
+					mode: ARSnova.loginMode
+				});
+			},
+			failure: function() {
+				console.log("my courses request failure");
+			}
+    	});
 	}
 });
