@@ -26,7 +26,9 @@ ARSnova.models.Session = Ext.regModel('Session', {
 	  'name', 
 	  'shortName',  
 	  'creator',
-	  'keyword'
+	  'keyword',
+	  'courseId',
+	  'courseType'
     ],
     
 	validations: [

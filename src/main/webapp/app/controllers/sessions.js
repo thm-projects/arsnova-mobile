@@ -234,7 +234,9 @@ Ext.regController("sessions", {
 			shortName: options.shortName,
 			keyword	 : options.keyword,
 			creator	 : localStorage.getItem('login'),
-			active	 : 1
+			active	 : 1,
+			courseId : options.courseId,
+			courseType:options.courseType 
 		}, 'Session');
 		
 		var validation = session.validate();
@@ -259,6 +261,8 @@ Ext.regController("sessions", {
     	    	localStorage.setItem('keyword', session.data.keyword);
     	    	localStorage.setItem('shortName', session.data.shortName);
     	    	localStorage.setItem('active', session.data.active);
+    	    	localStorage.setItem('courseId', session.data.courseId);
+    	    	localStorage.setItem('courseType', session.data.courseType);
 				ARSnova.isSessionOwner = true;
     	    	
     	    	//start feedback-votes-cleaning-up-task
