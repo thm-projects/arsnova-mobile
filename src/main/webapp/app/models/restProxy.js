@@ -191,6 +191,29 @@ var restProxy = new Ext.data.RestProxy({
 		});
 	},
 	
+	/**
+	 * Get the courses where user is enlisted in
+	 * @param login from user
+	 * @param object with success-, failure-, unauthenticated and empty-callbacks
+	 * @return session-objects, if found
+	 * @return false, if nothing found
+	 */
+	getMyCourses: function(callbacks) {
+		Ext.Ajax.request({
+			url: "mycourses",
+			success: callbacks.success,
+			failure: function(response) {
+				if (response.status === 401) {
+					callbacks.unauthenticated.apply(this, arguments);
+				} else if (response.status === 404) {
+					callbacks.empty.apply(this, arguments);
+				} else {
+					callbacks.failure.apply(this, arguments);
+				}
+			}
+		});
+	},
+
 	getQuestionById: function(id, callbacks){
 		Ext.Ajax.request({
 			url: this.url + '/_design/skill_question/_view/by_id',
