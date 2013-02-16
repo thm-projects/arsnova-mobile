@@ -144,13 +144,13 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 			}
 		};
 		
-		this.items = [{
+		this.questionTitle = new Ext.Component({
 			cls: 'roundedBox',
 			html: 
-				'<p class="title">' + questionObj.subject + '<p/>' + 
+				'<p class="title">' + questionObj.subject + '<p/>' +
 				'<p>' + questionObj.text + '</p>'
-		}, {
-			xtype	: 'list',
+		});
+		this.answerList = new Ext.List({
 			store	: answerStore,
 			
 			cls: 'roundedBox',
@@ -158,7 +158,9 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 			
 			itemTpl	: '{text}',
 			listeners: questionListener
-		}];
+		});
+		
+		this.items = [this.questionTitle, this.answerList];
 		
 		ARSnova.views.Question.superclass.constructor.call(this);
 	},
@@ -192,5 +194,18 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 		// Update badge on the user's home view
 		var button = ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel.questionButton;
 		button.setBadge(button.badgeText - 1);
+	},
+	
+	doTypeset: function(parent) {
+		if (typeof this.questionTitle.getEl() !== "undefined") {
+			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.questionTitle.id]);
+			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.answerList.id]);
+			MathJax.Hub.Queue(Ext.createDelegate(function() {
+				this.questionTitle.doComponentLayout();
+			}, this));
+		} else {
+			// If the element has not been drawn yet, we need to retry later
+			Ext.defer(Ext.createDelegate(this.doTypeset, this), 100);
+		}
 	}
 });
