@@ -42,7 +42,7 @@ Ext.regController("auth", {
 		ARSnova.setWindowTitle();
 		ARSnova.mainTabPanel.tabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.loginPanel, 'slide');
 		
-		if(ARSnova.userRole == ARSnova.USER_ROLE_SPEAKER && !window.location.href.match(/developer\.html$/)) {
+		if(ARSnova.userRole == ARSnova.USER_ROLE_SPEAKER && !window.location.href.match(/developer\.html#?$/)) {
 			Ext.getCmp('ext-comp-1007').getEl().hide();
 			Ext.getCmp('ext-comp-1014').getEl().show();
 		} else {
