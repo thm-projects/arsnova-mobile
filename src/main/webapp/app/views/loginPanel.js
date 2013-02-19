@@ -79,7 +79,8 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 			text	: Messages.GUEST,
 			style	: { marginTop: '10px'},
 			cls		: 'login-button login-label-guest',
-			value	: ARSnova.LOGIN_GUEST
+			value	: ARSnova.LOGIN_GUEST,
+			hidden	: true
 		});
 		
 		this.items = [{
@@ -130,14 +131,20 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 			html	: ''
 		}, this.noGuestSpeaker];
 		
-		if(ARSnova.userRole == ARSnova.USER_ROLE_SPEAKER && !window.location.href.match(/developer\.html#?$/)) {
-			this.guestLoginButton.hide();
-			this.noGuestSpeaker.show();
-		} else {
-			this.guestLoginButton.show();
-			this.noGuestSpeaker.hide();
-		}
-		
 		ARSnova.views.LoginPanel.superclass.constructor.call(this);
+	},
+	
+	initComponent: function() {
+		this.on('activate', Ext.createDelegate(function() {
+			if(ARSnova.userRole == ARSnova.USER_ROLE_SPEAKER && !window.location.href.match(/developer\.html#?$/)) {
+				this.guestLoginButton.hide();
+				this.noGuestSpeaker.show();
+			} else {
+				this.guestLoginButton.show();
+				this.noGuestSpeaker.hide();
+			}
+		}, this));
+		
+		ARSnova.views.LoginPanel.superclass.initComponent.call(this);
 	}
 });

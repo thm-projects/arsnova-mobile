@@ -193,18 +193,18 @@ Ext.regApplication({
     		this.popup.show('fade');
     	}
     },
-    
-    /**
-     * after user has logged in
-     * start some tasks and show the correct homepage to user
-     */
-    afterLogin: function(){
-    	taskManager.start(ARSnova.loggedInTask);
-    	taskManager.start(ARSnova.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.updateCanteenBadgeIconTask);
-    	
-    	ARSnova.mainTabPanel.tabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.homeTabPanel, 'slide');
-    	var hTP = ARSnova.mainTabPanel.tabPanel.homeTabPanel;
-    	switch (ARSnova.userRole) {
+	
+	/**
+	 * after user has logged in
+	 * start some tasks and show the correct homepage to user
+	 */
+	afterLogin: function(){
+		taskManager.start(ARSnova.loggedInTask);
+		taskManager.start(ARSnova.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.updateCanteenBadgeIconTask);
+		
+		ARSnova.mainTabPanel.tabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.homeTabPanel, 'slide');
+		var hTP = ARSnova.mainTabPanel.tabPanel.homeTabPanel;
+		switch (ARSnova.userRole) {
 			case ARSnova.USER_ROLE_STUDENT:
 				hTP.homePanel.checkLogin();
 				hTP.setActiveItem(hTP.homePanel);
