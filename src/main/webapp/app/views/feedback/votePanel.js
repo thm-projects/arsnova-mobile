@@ -89,13 +89,13 @@ ARSnova.views.feedback.VotePanel = Ext.extend(Ext.Panel, {
 								xtype: 'textfield',
 								label: Messages.QUESTION_SUBJECT,
 								name: 'subject',
-								maxLength: 20,
+								maxLength: 140,
 								placeHolder: Messages.QUESTION_SUBJECT_PLACEHOLDER
 							}, {
 								xtype: 'textareafield',
 								label: Messages.QUESTION_TEXT,
 								name: 'text',
-								maxLength: 140,
+								maxLength: 2500,
 								placeHolder: Messages.QUESTION_TEXT_PLACEHOLDER
 							}]
 						}, {

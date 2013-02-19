@@ -37,6 +37,19 @@ ARSnova.views.BadgeList = Ext.extend(Ext.List, {
 				this.tpl = new Ext.XTemplate(this.groupTpl);
 			}
 		}
+		
+		this.on('update', function(list) {
+			var allJax = MathJax.Hub.getAllJax(list.id);
+			if (allJax.length === 0) {
+				MathJax.Hub.Queue(["Typeset", MathJax.Hub, list.id]);
+			} else {
+				for (var i=0, jax; jax = allJax[i]; i++) {
+					MathJax.Hub.Queue(["needsUpdate", jax], function() {
+						console.log(arguments);
+					});
+				}
+			}
+		});
 	}
 });
 

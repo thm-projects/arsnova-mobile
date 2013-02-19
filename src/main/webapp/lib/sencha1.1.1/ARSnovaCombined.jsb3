@@ -322,6 +322,7 @@
                 {"path": "../../app/views/", "name": "loginPanel.js"},
                 {"path": "../../app/views/", "name": "mainTabPanel.js"},
                 {"path": "../../app/views/", "name": "mathjaxfield.js"},
+                {"path": "../../app/views/", "name": "mathjaxMessageBox.js"},
                 {"path": "../../app/views/", "name": "multiBadgeButton.js"},
                 {"path": "../../app/views/", "name": "numericKeypad.js"},
                 {"path": "../../app/views/", "name": "question.js"},

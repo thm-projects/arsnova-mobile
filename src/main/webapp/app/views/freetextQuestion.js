@@ -31,22 +31,24 @@ ARSnova.views.FreetextQuestion = Ext.extend(Ext.Panel, {
 			name: "answerSubject",
 			placeHolder: Messages.QUESTION_SUBJECT_PLACEHOLDER,
 			label: Messages.QUESTION_SUBJECT,
-			maxLength: 20
+			maxLength: 140
 		});
 		
 		this.answerText = new Ext.form.TextArea({
 			placeHolder	: Messages.QUESTION_TEXT_PLACEHOLDER,
 			label: Messages.FREETEXT_ANSWER_TEXT,
 			name: 'text',
-			maxLength: 140,
+			maxLength: 2500,
 			maxRows: 7
 		});
 
+		this.questionTitle = new Ext.Component({
+			cls: 'roundedBox',
+			html: '<p class="title">' + questionObj.subject + '<p/>' + '<p>' + questionObj.text + '</p>'
+		});
+		
 		this.items = [new Ext.Panel({
-			items: [{
-					cls: 'roundedBox',
-					html: '<p class="title">' + questionObj.subject + '<p/>' + '<p>' + questionObj.text + '</p>'
-				}, this.viewOnly ? {} : {
+			items: [this.questionTitle, this.viewOnly ? {} : {
 					xtype: 'form',
 					submitOnAction: false,
 					items: [{
@@ -197,5 +199,17 @@ ARSnova.views.FreetextQuestion = Ext.extend(Ext.Panel, {
 	setAnswerText: function(subject, answer) {
 		this.answerSubject.setValue(subject);
 		this.answerText.setValue(answer);
+	},
+	
+	doTypeset: function(parent) {
+		if (typeof this.questionTitle.getEl() !== "undefined") {
+			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.questionTitle.id]);
+			MathJax.Hub.Queue(Ext.createDelegate(function() {
+				this.questionTitle.doComponentLayout();
+			}, this));
+		} else {
+			// If the element has not been drawn yet, we need to retry later
+			Ext.defer(Ext.createDelegate(this.doTypeset, this), 100);
+		}
 	}
 });
