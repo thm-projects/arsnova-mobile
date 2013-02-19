@@ -29,10 +29,12 @@ ARSnova.views.feedback.TabPanel = Ext.extend(Ext.TabPanel, {
 	constructor: function(){
 		this.statisticPanel = new ARSnova.views.feedback.StatisticPanel();
 		this.votePanel = new ARSnova.views.feedback.VotePanel();
+		this.askPanel = new ARSnova.views.feedback.AskPanel();
 		
 		this.items = [
             this.statisticPanel,
-            this.votePanel
+            this.votePanel,
+            this.askPanel
         ];
 		ARSnova.views.feedback.TabPanel.superclass.constructor.call(this);
 	},
