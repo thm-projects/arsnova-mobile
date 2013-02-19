@@ -209,6 +209,7 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 		ARSnova.showLoadMask(Messages.LOAD_MASK_SEARCH_COURSES);
 		ARSnova.courseModel.getMyCourses({
 			success: Ext.createDelegate(function(response) {
+				this.mycoursesStore.removeAll();
 				this.mycoursesStore.add(Ext.decode(response.responseText));
 			}, this),
 			empty: Ext.createDelegate(function() {
