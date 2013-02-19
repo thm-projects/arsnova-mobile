@@ -144,14 +144,26 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 			keyword		: values.keyword
 		});
 	},
-	
+
 	onCourseSubmit: function(list, index, element, e) {
 		var course = list.store.getAt(index).data;
+		
+		var shortName = course.shortname;
+		
+		if (course.shortname.length > 8) {
+			shortName = course.type.charAt(0) + 'C-'
+			  + this.sessionKey.charAt(0)
+			  + this.sessionKey.charAt(1)
+			  + this.sessionKey.charAt(2)
+			  + this.sessionKey.charAt(4)
+			  + this.sessionKey.charAt(6);
+		}
+
 		Ext.dispatch({
 			controller	: 'sessions',
 			action		: 'create',
 			name		: course.fullname,
-			shortName	: course.shortname,
+			shortName	: shortName,
 			courseId	: course.id,
 			courseType	: course.type,
 			keyword		: this.sessionKey
