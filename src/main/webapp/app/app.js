@@ -215,7 +215,15 @@ Ext.regApplication({
 				break;
 			default:
 				break;
-		};
+		}
+		
+		if (localStorage.getItem("keyword") !== null && localStorage.getItem("keyword") !== "") {
+			return Ext.dispatch({
+				controller: "sessions",
+				action: "login",
+				keyword: localStorage.getItem("keyword")
+			});
+		}
     },
     
     /**

@@ -137,11 +137,11 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 	initComponent: function() {
 		this.on('activate', Ext.createDelegate(function() {
 			if(ARSnova.userRole == ARSnova.USER_ROLE_SPEAKER && !window.location.href.match(/developer\.html#?$/)) {
-				this.guestLoginButton.hide();
-				this.noGuestSpeaker.show();
+				this.guestLoginButton.hide('fade');
+				this.noGuestSpeaker.show('fade');
 			} else {
-				this.guestLoginButton.show();
-				this.noGuestSpeaker.hide();
+				this.guestLoginButton.show('fade');
+				this.noGuestSpeaker.hide('fade');
 			}
 		}, this));
 		
