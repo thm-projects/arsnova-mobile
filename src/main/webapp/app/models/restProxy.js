@@ -228,7 +228,7 @@ var restProxy = new Ext.data.RestProxy({
 	
 	getSkillQuestion: function(id, callbacks) {
 		Ext.Ajax.request({
-			url: "question/bylecturer/" + id,
+			url: "lecturerquestion/" + id,
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -333,7 +333,7 @@ var restProxy = new Ext.data.RestProxy({
 	
 	updateSkillQuestion: function(question, callbacks) {
 		Ext.Ajax.request({
-			url: "question/bylecturer/" + question.get('_id'),
+			url: "lecturerquestion/" + question.get('_id'),
 			method: "PUT",
 			jsonData: question.data,
 			success: callbacks.success,
@@ -343,7 +343,7 @@ var restProxy = new Ext.data.RestProxy({
 	
 	publishSkillQuestion: function(question, callbacks) {
 		Ext.Ajax.request({
-			url: "question/bylecturer/" + question.get('_id') + "/publish",
+			url: "lecturerquestion/" + question.get('_id') + "/publish",
 			method: "POST",
 			jsonData: question.data,
 			success: callbacks.success,
@@ -353,7 +353,7 @@ var restProxy = new Ext.data.RestProxy({
 	
 	publishSkillQuestionStatistics: function(question, callbacks) {
 		Ext.Ajax.request({
-			url: "question/bylecturer/" + question.get('_id') + "/publishstatistics",
+			url: "lecturerquestion/" + question.get('_id') + "/publishstatistics",
 			method: "POST",
 			jsonData: question.data,
 			success: callbacks.success,
@@ -363,7 +363,7 @@ var restProxy = new Ext.data.RestProxy({
 	
 	publishCorrectSkillQuestionAnswer: function(question, callbacks) {
 		Ext.Ajax.request({
-			url: "question/bylecturer/" + question.get('_id') + "/publishcorrectanswer",
+			url: "lecturerquestion/" + question.get('_id') + "/publishcorrectanswer",
 			method: "POST",
 			jsonData: question.data,
 			success: callbacks.success,
@@ -373,7 +373,7 @@ var restProxy = new Ext.data.RestProxy({
 	
 	delQuestion: function(queObj, callbacks){
 		Ext.Ajax.request({
-			url: "question/bylecturer/" + queObj._id,
+			url: "lecturerquestion/" + queObj._id,
 			method: "DELETE",
 			success: callbacks.success,
 			failure: callbacks.failure
@@ -382,7 +382,7 @@ var restProxy = new Ext.data.RestProxy({
 	
 	delAnswers: function(questionId, callbacks){
 		Ext.Ajax.request({
-			url: "question/bylecturer/" + questionId + "/answers",
+			url: "lecturerquestion/" + questionId + "/answers",
 			method: "DELETE",
 			success: callbacks.success,
 			failure: callbacks.failure
@@ -537,7 +537,7 @@ var restProxy = new Ext.data.RestProxy({
 
 	getUserAnswer: function(questionId, callbacks) {
 		Ext.Ajax.request({
-			url: "question/bylecturer/" + questionId + "/myanswer",
+			url: "lecturerquestion/" + questionId + "/myanswer",
 			success: function(response) {
 				if (response.status === 204) {
 					callbacks.empty.apply(this, arguments);
@@ -551,7 +551,7 @@ var restProxy = new Ext.data.RestProxy({
 	
 	saveAnswer: function(answer, callbacks) {
 		Ext.Ajax.request({
-			url: "question/bylecturer/" + answer.get('questionId') + "/answer",
+			url: "lecturerquestion/" + answer.get('questionId') + "/answer",
 			method: "POST",
 			jsonData: answer.data,
 			success: callbacks.success,
@@ -561,7 +561,7 @@ var restProxy = new Ext.data.RestProxy({
 	
 	updateAnswer: function(answer, callbacks) {
 		Ext.Ajax.request({
-			url: "question/bylecturer/" + answer.get('questionId') + "/answer/" + answer.get('_id'),
+			url: "lecturerquestion/" + answer.get('questionId') + "/answer/" + answer.get('_id'),
 			method: "PUT",
 			jsonData: answer.data,
 			success: callbacks.success,
@@ -571,7 +571,7 @@ var restProxy = new Ext.data.RestProxy({
 	
 	deleteAnswer: function(questionId, answerId, callbacks) {
 		Ext.Ajax.request({
-			url: "question/bylecturer/" + questionId + "/answer/" + answerId,
+			url: "lecturerquestion/" + questionId + "/answer/" + answerId,
 			method: "DELETE",
 			success: callbacks.success,
 			failure: callbacks.failure
@@ -580,7 +580,7 @@ var restProxy = new Ext.data.RestProxy({
 
 	countAnswers: function(sessionKeyword, questionId, callbacks) {
 		Ext.Ajax.request({
-			url: "question/bylecturer/" + questionId + "/answers",
+			url: "lecturerquestion/" + questionId + "/answers",
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
