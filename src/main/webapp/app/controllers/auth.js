@@ -84,23 +84,23 @@ Ext.regController("auth", {
 		}
 		
 		ARSnova.afterLogin();
-    },
-    
-    checkLogin: function(){
-    	Ext.Ajax.request({
-    		url: 'whoami.json',
-    		method: 'GET',    		
-    		success: function(response){
-    			var obj = Ext.decode(response.responseText);
-    			ARSnova.loggedIn = true;
-    			localStorage.setItem('login', obj.username);
-	    	    window.location = window.location.pathname + "#";
-	    	    ARSnova.checkPreviousLogin();
-    		}
-    	});
-    	
-    },
-    
+	},
+	
+	checkLogin: function(){
+		Ext.Ajax.request({
+			url: 'whoami.json',
+			method: 'GET',    		
+			success: function(response){
+				var obj = Ext.decode(response.responseText);
+				ARSnova.loggedIn = true;
+				localStorage.setItem('login', obj.username);
+				window.location = window.location.pathname + "#";
+				ARSnova.checkPreviousLogin();
+			}
+		});
+		
+	},
+
     logout: function(){
     	/* stop task to save user is logged in */
     	taskManager.stop(ARSnova.loggedInTask);
