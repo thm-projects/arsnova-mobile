@@ -21,6 +21,8 @@
 ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 	scroll		: 'vertical',
 	
+	sessionKey: null,
+	
 	/* toolbar items */
 	toolbar		: null,
 	backButton	: null,
@@ -29,8 +31,21 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 	sessionIdField: null,
 	
 	unavailableSessionIds: [],
+	mycourses: [],
+	mycoursesStore: null,
 	
 	constructor: function(responseText){
+		this.mycoursesStore = new Ext.data.JsonStore({
+			model: ARSnova.models.Course
+		});
+		this.mycourses = new Ext.List({
+			store: this.mycoursesStore,
+			itemTpl: '{shortname}',
+			listeners: {
+				itemTap: Ext.createDelegate(this.onCourseSubmit,this)
+			}
+		});
+		
 		if(responseText == null){
 			var course = new Array();
 		} else {
@@ -101,6 +116,9 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 				ui: 'confirm',
 				text: Messages.SAVE,
 				handler: this.onSubmit
+			}, {
+				xtype: 'fieldset',
+				items: [this.mycourses]
 			}]
 		}];
 		
@@ -117,13 +135,26 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 	
 	onSubmit: function() {
 		var values = this.up('panel').getValues();
-
+		
 		Ext.dispatch({
 			controller	: 'sessions',
 			action		: 'create',
 			name		: values.name,
 			shortName	: values.shortName,
 			keyword		: values.keyword
+		});
+	},
+	
+	onCourseSubmit: function(list, index, element, e) {
+		var course = list.store.getAt(index).data;
+		Ext.dispatch({
+			controller	: 'sessions',
+			action		: 'create',
+			name		: course.fullname,
+			shortName	: course.shortname,
+			courseId	: course.id,
+			courseType	: course.type,
+			keyword		: this.sessionKey
 		});
 	},
 	
@@ -157,16 +188,17 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 				sessionIdInUse = true; // accept only 8-digits sessionIds
 			}
 		}
+		this.sessionKey = sessionId;
 		this.down("textfield[name=keyword]").setValue(sessionId);
 		this.down('fieldset').setInstructions("Session-ID: " + ARSnova.formatSessionID(sessionId));
 	},
 
 	getMyCourses: function() {
-		ARSnova.showLoadMask(Messages.LOAD_MASK_SEARCH);
+		ARSnova.showLoadMask(Messages.LOAD_MASK_SEARCH_COURSES);
 		ARSnova.courseModel.getMyCourses({
-			success: function(response) {
-				// TODO Add courses to course list
-			},
+			success: Ext.createDelegate(function(response) {
+				this.mycoursesStore.add(Ext.decode(response.responseText));
+			}, this),
 			empty: Ext.createDelegate(function() {
 				this.sessionsForm.hide();
 				ARSnova.hideLoadMask();
