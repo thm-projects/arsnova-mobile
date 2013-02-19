@@ -69,6 +69,19 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 			}];
 		}
 		
+		this.noGuestSpeaker = new Ext.Panel({
+			cls		: 'gravure',
+			style	: { marginTop: '0px'},
+			html	: Messages.NO_GUEST_SPEAKER
+		});
+		
+		this.guestLoginButton = new Ext.Button({
+			text	: Messages.GUEST,
+			style	: { marginTop: '10px'},
+			cls		: 'login-button login-label-guest',
+			value	: ARSnova.LOGIN_GUEST
+		});
+		
 		this.items = [{
 			xtype	: 'panel',
 			cls		: null,
@@ -79,12 +92,9 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 			cls		: 'gravure',
 			style	: { marginTop: '0px'},
 			html	: Messages.CHOOSE_LOGIN
-		}, {
-			text	: Messages.GUEST,
-			style	: { marginTop: '10px'},
-			cls		: 'login-button login-label-guest',
-			value	: ARSnova.LOGIN_GUEST
-		}, {
+		},
+		this.guestLoginButton,
+		{
 			xtype: 'panel',
 			style: {
 				padding: '10px'
@@ -118,12 +128,15 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 			xtype	: 'panel',
 			cls		: null,
 			html	: ''
-		}, {
-			xtype	: 'panel',
-			cls		: 'gravure',
-			style	: { marginTop: '0px'},
-			html	: Messages.NO_GUEST_SPEAKER
-		}];
+		}, this.noGuestSpeaker];
+		
+		if(ARSnova.userRole == ARSnova.USER_ROLE_SPEAKER && !window.location.href.match(/developer\.html#?$/)) {
+			this.guestLoginButton.hide();
+			this.noGuestSpeaker.show();
+		} else {
+			this.guestLoginButton.show();
+			this.noGuestSpeaker.hide();
+		}
 		
 		ARSnova.views.LoginPanel.superclass.constructor.call(this);
 	}
