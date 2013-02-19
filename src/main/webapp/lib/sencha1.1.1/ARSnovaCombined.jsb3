@@ -356,6 +356,7 @@
                 {"path": "../../app/views/canteen/", "name": "statisticPanel.js"},
                 {"path": "../../app/views/canteen/", "name": "tabPanel.js"},
                 {"path": "../../app/views/canteen/", "name": "votePanel.js"},
+                {"path": "../../app/views/feedback/", "name": "askPanel.js"},
                 {"path": "../../app/views/feedback/", "name": "statisticPanel.js"},
                 {"path": "../../app/views/feedback/", "name": "tabPanel.js"},
                 {"path": "../../app/views/feedback/", "name": "votePanel.js"},

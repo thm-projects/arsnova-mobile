@@ -694,6 +694,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 							var el = tmp_possibleAnswers[i];
 							
 							var field = "button[text=" + el + "]";
+							console.log(field);
 							panel.answerFormFieldset.down(field).setBadge(0);
 						}
 						
