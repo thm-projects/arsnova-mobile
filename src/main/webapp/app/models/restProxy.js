@@ -382,7 +382,7 @@ var restProxy = new Ext.data.RestProxy({
 	
 	delAnswers: function(questionId, callbacks){
 		Ext.Ajax.request({
-			url: "lecturerquestion/" + questionId + "/answers",
+			url: "lecturerquestion/" + questionId + "/answer/",
 			method: "DELETE",
 			success: callbacks.success,
 			failure: callbacks.failure
@@ -551,7 +551,7 @@ var restProxy = new Ext.data.RestProxy({
 	
 	saveAnswer: function(answer, callbacks) {
 		Ext.Ajax.request({
-			url: "lecturerquestion/" + answer.get('questionId') + "/answer",
+			url: "lecturerquestion/" + answer.get('questionId') + "/answer/",
 			method: "POST",
 			jsonData: answer.data,
 			success: callbacks.success,
@@ -578,6 +578,7 @@ var restProxy = new Ext.data.RestProxy({
 		});
 	},
 
+	/* FIXME: This function seems to be unsed. The used API path does not exist. */
 	countAnswers: function(sessionKeyword, questionId, callbacks) {
 		Ext.Ajax.request({
 			url: "lecturerquestion/" + questionId + "/answers",

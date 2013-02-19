@@ -131,6 +131,7 @@ ARSnova.models.Question = Ext.regModel('Question', {
     	return this.proxy.changeQuestionType(sessionId, callbacks);
     },
     
+    /* TODO: This function seems to be unused. */
     countAnswers: function(sessionKeyword, questionId, callbacks) {
     	return this.proxy.countAnswers(sessionKeyword, questionId, callbacks);
     },
