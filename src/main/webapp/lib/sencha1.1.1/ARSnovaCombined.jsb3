@@ -310,6 +310,7 @@
                 {"path": "../../app/models/", "name": "Session.js"},
                 {"path": "../../app/models/", "name": "Statistic.js"},
                 {"path": "../../app/models/", "name": "UserRanking.js"},
+                {"path": "../../app/models/", "name": "Course.js"},
                 
                 {"path": "../../app/stores/", "name": "Food.js"},
                 
