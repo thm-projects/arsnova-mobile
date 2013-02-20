@@ -246,13 +246,13 @@ body {
 	text-align: left;
 }
 
-.forwardListButton.coursesession>span {
+.forwardListButton.coursesession>span.x-button-label {
 	background-image: url(../images/icons/30x30/isCourse.png);
 	background-repeat: no-repeat;
 	padding: 5px 42px;
 }
 
-.forwardListButton.defaultsession>span {
+.forwardListButton.defaultsession>span.x-button-label {
 	background-image: url(../images/ARSnova_Grafiken/05_Toolbar_40x40px.png);
 	background-repeat: no-repeat;
 	padding: 5px 42px;
