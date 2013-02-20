@@ -596,7 +596,7 @@ var restProxy = new Ext.data.RestProxy({
 
 	getAnsweredFreetextQuestions: function(sessionKeyword, questionId, callbacks) {
 		Ext.Ajax.request({
-			url: "session/" + sessionKeyword + "/question/" + questionId + "/freetextanswers",
+			url: "lecturerquestion/" + questionId + "/freetextanswer/",
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
