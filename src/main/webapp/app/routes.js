@@ -20,9 +20,11 @@
  +--------------------------------------------------------------------------*/
 
 Ext.Router.draw(function(map) {
+	 map.connect('id/:sessionid', {controller: 'auth', action: 'qr'});
+	 // The most general route has to appear after specialized routes
 	 map.connect(':controller/:action');
 	 
-	 map.connect('id/:sessionid', {controller: 'auth', action: 'qr'});
+	 // TODO: Are these routes even used?
 	 map.connect('canteen', {controller: 'canteen', action: 'show'});
 	 map.connect('canteenVote', {controller: 'canteen', action: 'showVotePanel'});
 	 
