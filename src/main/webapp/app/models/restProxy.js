@@ -578,10 +578,9 @@ var restProxy = new Ext.data.RestProxy({
 		});
 	},
 
-	/* FIXME: This function seems to be unsed. The used API path does not exist. */
 	countAnswers: function(sessionKeyword, questionId, callbacks) {
 		Ext.Ajax.request({
-			url: "lecturerquestion/" + questionId + "/answers",
+			url: "lecturerquestion/" + questionId + "/answer/",
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
