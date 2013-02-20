@@ -159,7 +159,7 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 						status = " isActive";
 					}
 
-					if (session.courseId.length > 0) {
+					if (session.courseId && session.courseId.length > 0) {
 						course = " coursesession";
 					}
 
