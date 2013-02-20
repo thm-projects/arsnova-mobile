@@ -145,23 +145,30 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 				
 				panel.sessionsForm.removeAll();
 				panel.sessionsForm.show();
-				
+
 				panel.createdSessionsFieldset = new Ext.form.FieldSet({
 					cls: 'standardFieldset',
 					title: Messages.MY_SESSIONS
 				});
-				
+
 				for ( var i = 0, session; session = sessions[i]; i++) {
 					var status = "";
+					var course = "";
+
 					if (session.active && session.active == 1) {
 						status = " isActive";
 					}
+
+					if (session.courseId.length > 0) {
+						course = " coursesession";
+					}
+
 					// Minimum width of 321px equals at least landscape view
 					var displaytext = window.innerWidth > 321 ? session.name : session.shortName; 
 					var sessionButton = new ARSnova.views.MultiBadgeButton({
-						ui			: 'normal',
+						ui		: 'normal',
 						text		: displaytext,
-						cls			: 'forwardListButton' + status,
+						cls		: 'forwardListButton' + status + course,
 						sessionObj	: session,
 						badgeCls	: "badgeicon",
 						badgeText	: [],
