@@ -34,7 +34,7 @@ ARSnova.models.Session = Ext.regModel('Session', {
 	validations: [
       {type: 'presence', field: 'type'},
       {type: 'presence', field: 'name', min: 1, max: 50},
-      {type: 'length', field: 'shortName', min: 1, max: 8},
+      {type: 'length', field: 'shortName', min: 1, max: 12},
       {type: 'presence', field: 'creator'},
       {type: 'length', field: 'keyword', min: 8, max: 8}
     ],

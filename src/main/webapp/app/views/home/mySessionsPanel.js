@@ -136,7 +136,7 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 	
 	loadCreatedSessions: function() {
 		var me = this;
-		
+
 		ARSnova.showLoadMask(Messages.LOAD_MASK_SEARCH);
 		ARSnova.sessionModel.getMySessions({
 			success: function(response) {
@@ -153,7 +153,7 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 
 				for ( var i = 0, session; session = sessions[i]; i++) {
 					var status = "";
-					var course = "";
+					var course = " defaultsession";
 
 					if (session.active && session.active == 1) {
 						status = " isActive";

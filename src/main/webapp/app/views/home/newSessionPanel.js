@@ -150,13 +150,8 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 		
 		var shortName = course.shortname;
 		
-		if (course.shortname.length > 8) {
-			shortName = course.type.charAt(0).toUpperCase() + 'C-'
-			  + course.shortname.charAt(0)
-			  + course.shortname.charAt(1)
-			  + course.shortname.charAt(2)
-			  + course.shortname.charAt(4)
-			  + course.shortname.charAt(6);
+		if (course.shortname.length > 12) {
+			shortName = course.shortname.cut(11,shortName.length-1);
 		}
 
 		Ext.dispatch({

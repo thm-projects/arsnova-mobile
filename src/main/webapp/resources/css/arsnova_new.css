@@ -246,6 +246,18 @@ body {
 	text-align: left;
 }
 
+.forwardListButton.coursesession>span {
+	background-image: url(../images/icons/30x30/isCourse.png);
+	background-repeat: no-repeat;
+	padding: 5px 42px;
+}
+
+.forwardListButton.defaultsession>span {
+	background-image: url(../images/ARSnova_Grafiken/05_Toolbar_40x40px.png);
+	background-repeat: no-repeat;
+	padding: 5px 42px;
+}
+
 /* SessionLoginForm BEGIN */
 .sessionLogin {
 	width: 100% !important;

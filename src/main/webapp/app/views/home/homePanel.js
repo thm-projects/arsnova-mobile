@@ -172,19 +172,24 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 		restProxy.getMyVisitedSessions({
 			success: function(sessions){
 				var panel = ARSnova.mainTabPanel.tabPanel.homeTabPanel.homePanel;
-				
+
 				if (sessions && sessions.length !== 0) {
 					panel.lastVisitedSessionsFieldset.removeAll();
 					panel.lastVisitedSessionsForm.show();
-					
+
 					for ( var i = 0; i < sessions.length; i++) {
 						var session = sessions[i];
-						
+						var course = " defaultsession";
+
+						if (session.courseId && session.courseId.length > 0) {
+							course = " coursesession";
+						}
+
 						var sessionButton = new Ext.Button({
 							xtype		: 'button',
-							ui			: 'normal',
+							ui		: 'normal',
 							text		: session.name,
-							cls			: 'forwardListButton',
+							cls		: 'forwardListButton' + course,
 							controller	: 'sessions',
 							action		: 'showDetails',
 							badgeCls	: 'badgeicon',
