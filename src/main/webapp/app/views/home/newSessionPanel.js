@@ -43,7 +43,6 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 
 		if (window.innerWidth > 321) {
 			itemTemplate = '{fullname}';
-			this.mycoursesStore.setDefaultSort('fullname', 'desc');
 		}
 
 		this.mycourses = new Ext.List({
