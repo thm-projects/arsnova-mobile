@@ -213,6 +213,11 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 			success: Ext.createDelegate(function(response) {
 				this.mycoursesStore.removeAll();
 				this.mycoursesStore.add(Ext.decode(response.responseText));
+				if (window.innerWidth > 321) {
+					this.mycoursesStore.sort('fullname');
+				} else {
+					this.mycoursesStore.sort('shortname');
+				}
 			}, this),
 			empty: Ext.createDelegate(function() {
 				this.sessionsForm.hide();
