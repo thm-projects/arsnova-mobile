@@ -38,9 +38,17 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 		this.mycoursesStore = new Ext.data.JsonStore({
 			model: ARSnova.models.Course
 		});
+
+		var itemTemplate = '{shortname}';
+
+		if (window.innerWidth > 321) {
+			itemTemplate = '{fullname}';
+			this.mycoursesStore.setDefaultSort('fullname', 'desc');
+		}
+
 		this.mycourses = new Ext.List({
 			store: this.mycoursesStore,
-			itemTpl: '{shortname}',
+			itemTpl: itemTemplate,
 			listeners: {
 				itemTap: Ext.createDelegate(this.onCourseSubmit,this)
 			}
