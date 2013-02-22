@@ -156,6 +156,16 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 			}],
     	});
 		
+		if (
+		  localStorage.getItem('courseId') != null
+		  && localStorage.getItem('courseId').length > 0
+		) {
+		    this.releasePart = new Ext.form.FormPanel({
+		      id: 'coursememberlabel',
+		      label: 'Teilnehmer des Kurses'
+		    });
+		}
+		
 		this.yesNoQuestion = new Ext.form.FormPanel({
 			id: 'yesno',
 			hidden: true,
