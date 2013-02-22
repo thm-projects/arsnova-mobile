@@ -52,6 +52,8 @@ Ext.regController("sessions", {
     	    	localStorage.setItem('name', obj.name);
     	    	localStorage.setItem('keyword', obj.keyword);
     	    	localStorage.setItem('shortName', obj.shortName);
+		localStorage.setItem('courseId', obj.courseId);
+		localStorage.setItem('courseType', obj.courseType);
     	    	localStorage.setItem('active', obj.active ? 1 : 0);
     	    	
     	    	//start feedback-votes-cleaning-up-task
