@@ -151,6 +151,7 @@ var restProxy = new Ext.data.RestProxy({
 	getMySessions: function(callbacks, sortby) {
 		Ext.Ajax.request({
 			url: "session/mysessions",
+			method: "GET",
 			params: {
 				sortby: sortby
 			},
@@ -177,6 +178,7 @@ var restProxy = new Ext.data.RestProxy({
 	getMyVisitedSessions: function(callbacks, sortby){
 		Ext.Ajax.request({
 			url: "session/visitedsessions",
+			method: "GET",
 			params: {
 				sortby: sortby
 			},
@@ -207,6 +209,7 @@ var restProxy = new Ext.data.RestProxy({
 	getMyCourses: function(callbacks, sortby) {
 		Ext.Ajax.request({
 			url: "mycourses",
+			method: "GET",
 			params: {
 				sortby: sortby
 			},
