@@ -228,7 +228,7 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 				console.log('server-side error loggedIn.save');
 				ARSnova.mainTabPanel.tabPanel.homeTabPanel.homePanel.lastVisitedSessionsForm.hide();
 			}
-		});
+		}, (window.innerWidth > 321 ? 'name' : 'shortname'));
 	},
 	
 	updateBadge: function(sessionKeyword, button) {

@@ -47,8 +47,8 @@ ARSnova.models.Session = Ext.regModel('Session', {
     	return this.proxy.checkSessionLogin(keyword, callbacks);
     },
     
-    getMySessions: function(callbacks){
-    	return this.proxy.getMySessions(callbacks);
+    getMySessions: function(callbacks, sortby){
+    	return this.proxy.getMySessions(callbacks, sortby);
     },
     
     getSessionIds: function(callbacks){

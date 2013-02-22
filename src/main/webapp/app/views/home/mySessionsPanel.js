@@ -203,7 +203,7 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
     		failure: function() {
     			console.log("my sessions request failure");
     		}
-    	});
+    	}, (window.innerWidth > 321 ? 'name' : 'shortname'));
 	},
 	
 	updateBadges: function(sessionId, sessionKeyword, button) {

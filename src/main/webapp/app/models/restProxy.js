@@ -148,9 +148,12 @@ var restProxy = new Ext.data.RestProxy({
 	 * @return session-objects, if found
 	 * @return false, if nothing found 
 	 */
-	getMySessions: function(callbacks) {
+	getMySessions: function(callbacks, sortby) {
 		Ext.Ajax.request({
 			url: "session/mysessions",
+			params: {
+				sortby: sortby
+			},
 			success: callbacks.success,
 			failure: function(response) {
 				if (response.status === 401) {
@@ -171,9 +174,12 @@ var restProxy = new Ext.data.RestProxy({
 	 * @return session-objects, if found
 	 * @return false, if nothing found 
 	 */
-	getMyVisitedSessions: function(callbacks){
+	getMyVisitedSessions: function(callbacks, sortby){
 		Ext.Ajax.request({
 			url: "session/visitedsessions",
+			params: {
+				sortby: sortby
+			},
 			success: function(response) {
 				if (response.status === 204) {
 					callbacks.success.call(this, []);
@@ -193,14 +199,17 @@ var restProxy = new Ext.data.RestProxy({
 	
 	/**
 	 * Get the courses where user is enlisted in
-	 * @param login from user
-	 * @param object with success-, failure-, unauthenticated and empty-callbacks
+	 * @param sortby sortby
+	 * @param callbacks with success-, failure-, unauthenticated and empty-callbacks
 	 * @return session-objects, if found
 	 * @return false, if nothing found
 	 */
-	getMyCourses: function(callbacks) {
+	getMyCourses: function(callbacks, sortby) {
 		Ext.Ajax.request({
 			url: "mycourses",
+			params: {
+				sortby: sortby
+			},
 			success: callbacks.success,
 			failure: function(response) {
 				if (response.status === 401) {

@@ -27,7 +27,7 @@ ARSnova.models.Course = Ext.regModel('Course', {
 	  'type'
     ],
     
-    getMyCourses: function(callbacks){
-    	return this.proxy.getMyCourses(callbacks);
+    getMyCourses: function(callbacks, sortby){
+    	return this.proxy.getMyCourses(callbacks, sortby);
     },
 });
