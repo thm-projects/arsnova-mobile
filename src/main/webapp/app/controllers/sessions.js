@@ -99,8 +99,8 @@ Ext.regController("sessions", {
 		localStorage.removeItem("short_name");
 		localStorage.removeItem("active");
 		localStorage.removeItem("session");
-		localStorage.removeItem('courseId', obj.courseId);
-		localStorage.removeItem('courseType', obj.courseType);
+		localStorage.removeItem("courseId");
+		localStorage.removeItem("courseType");
 		ARSnova.isSessionOwner = false;
 		
 		//save that user is not in this session anymore
