@@ -1170,12 +1170,15 @@ ol.standardList li {
 }
 
 /* Course marks */
+.coursemembersonlymessage,
+.course {
+	background-image: url(../images/icons/30x30/isCourse.png);
+	background-repeat: no-repeat;
+	padding: 4px 48px;
+}
 .coursemembersonlymessage {
-  background-image: url(../images/icons/30x30/isCourse.png);
-  background-repeat: no-repeat;
-  padding: 4px 48px;
-  color: #800;
-  font-weight: bold;
+	color: #800;
+	font-weight: bold;
 }
 
 /* animation */

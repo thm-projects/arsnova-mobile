@@ -39,10 +39,10 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 			model: ARSnova.models.Course
 		});
 
-		var itemTemplate = '{shortname}';
+		var itemTemplate = '<span class="course">{shortname}<span>';
 
 		if (window.innerWidth > 321) {
-			itemTemplate = '{fullname}';
+			itemTemplate = '<span class="course">{fullname}<span>';
 		}
 
 		this.mycourses = new Ext.List({

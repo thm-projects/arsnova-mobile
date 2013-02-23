@@ -106,7 +106,7 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 		
 		this.lastVisitedSessionsFieldset = new Ext.form.FieldSet({
 			cls: 'standardFieldset',
-			title: Messages.LAST_VISITED_SESSIONS
+			title: Messages.MY_SESSIONS
 		});
 		
 		this.lastVisitedSessionsForm = new Ext.form.FormPanel({
