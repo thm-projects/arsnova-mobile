@@ -527,7 +527,14 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
     	
     	/* check if release question button is clicked */
     	var releasePart = panel.releasePart;
-    	var button = releasePart.down('segmentedbutton').pressedButton;
+	if (
+		  localStorage.getItem('courseId') != null
+		  && localStorage.getItem('courseId').length > 0
+	) {
+		var button = releasePart.down('segmentedbutton').pressedButton;
+		values.releasedFor = 'courses';
+		values.courses = [localStorage.getItem('courseId')];
+	}
     	if(button){
     		switch (button.id) {
 				case 'all':
