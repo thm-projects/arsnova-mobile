@@ -99,6 +99,8 @@ Ext.regController("sessions", {
 		localStorage.removeItem("short_name");
 		localStorage.removeItem("active");
 		localStorage.removeItem("session");
+		localStorage.removeItem('courseId', obj.courseId);
+		localStorage.removeItem('courseType', obj.courseType);
 		ARSnova.isSessionOwner = false;
 		
 		//save that user is not in this session anymore
@@ -265,7 +267,7 @@ Ext.regController("sessions", {
     	    	localStorage.setItem('active', session.data.active);
     	    	localStorage.setItem('courseId', session.data.courseId);
     	    	localStorage.setItem('courseType', session.data.courseType);
-				ARSnova.isSessionOwner = true;
+		ARSnova.isSessionOwner = true;
     	    	
     	    	//start feedback-votes-cleaning-up-task
     	    	taskManager.start(ARSnova.cleanFeedbackVotes);
