@@ -431,42 +431,48 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
              ];
 		}
 		
-		this.releasePart = new Ext.form.FormPanel({
-			items: [{
-				xtype: 'fieldset',
-				title: Messages.RELEASE_FOR,
-	            items: [{
-	            	xtype: 'segmentedbutton',
-	        		cls: 'releaseOptions',
-	        		allowDepress: false,
-	        		allowMultiple: false,
-	        		items: this.releaseItems,
-	        		listeners: {
-	    		    	toggle: function(container, button, pressed){
-    		    			if(pressed){
-    		    				ARSnova.showLoadMask(Messages.CHANGE_RELEASE);
-	    		    			var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
-	    		    			var question = Ext.ModelMgr.create(panel.questionObj, "Question");
-	    		    			
-	    		    			/* button was already pressed */
-	    		    			if(question.get('releasedFor') == button.id){
-	    		    				ARSnova.hideLoadMask();
-	    		    				return;
-	    		    			}
-								question.set('releasedFor', button.id);
-	    						question.save({
-	    							success: function(response){
-	    								panel.questionObj = question.data;
-	    								ARSnova.hideLoadMask();
-	    							},
-	    							failure: function(){ console.log('could not save releasedFor flag'); }
-	    						});
-	    		    		}
-	    		    	}
-	        		}
-	        	}]
-			}]
-    	});
+		if (
+		  localStorage.getItem('courseId') != null
+		  && localStorage.getItem('courseId').length > 0
+		) {
+		
+			this.releasePart = new Ext.form.FormPanel({
+				items: [{
+					xtype: 'fieldset',
+					title: Messages.RELEASE_FOR,
+			    items: [{
+				xtype: 'segmentedbutton',
+					cls: 'releaseOptions',
+					allowDepress: false,
+					allowMultiple: false,
+					items: this.releaseItems,
+					listeners: {
+					toggle: function(container, button, pressed){
+						if(pressed){
+							ARSnova.showLoadMask(Messages.CHANGE_RELEASE);
+							var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
+							var question = Ext.ModelMgr.create(panel.questionObj, "Question");
+							
+							/* button was already pressed */
+							if(question.get('releasedFor') == button.id){
+								ARSnova.hideLoadMask();
+								return;
+							}
+									question.set('releasedFor', button.id);
+								question.save({
+									success: function(response){
+										panel.questionObj = question.data;
+										ARSnova.hideLoadMask();
+									},
+									failure: function(){ console.log('could not save releasedFor flag'); }
+								});
+						}
+					}
+					}
+				}]
+				}]
+			});
+		}
 		
 		/* BEGIN QUESTION DETAILS */
 		this.contentFieldset = new Ext.form.FieldSet({
