@@ -1169,6 +1169,14 @@ ol.standardList li {
 	animation: scroll 100s linear 4s infinite;
 }
 
+/* Course marks */
+.coursemembersonlymessage {
+  background-image: url(resources/images/icons/30x30/isCourse.png);
+  background-repeat: no-repeat;
+  padding: 4px 48px;
+  color: #800;
+}
+
 /* animation */
 @-webkit-keyframes scroll {
 	0% { top: 100%; }

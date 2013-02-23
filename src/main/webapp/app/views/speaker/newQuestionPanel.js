@@ -164,7 +164,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 				items: [
 					{
 						cls: 'gravure',
-						html: '\u201e' + Messages.MEMBERS_ONLY + '\u201f'
+						html: '<span class="coursemembersonlymessage">'+Messages.MEMBERS_ONLY+'</span>'
 					}
 				]
 			});

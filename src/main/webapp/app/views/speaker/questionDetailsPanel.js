@@ -438,8 +438,8 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 			this.releasePart = new Ext.Panel({
 				items: [
 					{
-						cls: 'gravure',
-						html: '\u201e' + Messages.MEMBERS_ONLY + '\u201f'
+						cls: 'gravure icon',
+						html: '<span class="coursemembersonlymessage">'+Messages.MEMBERS_ONLY+'</span>'
 					}
 				]
 			});
