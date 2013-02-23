@@ -137,6 +137,7 @@ switch (lang) {
 			SHOWCASE: "Showcase",
 			SHOWCASE_MODE: "Presentation Mode",
 			LEAVE: "Leave",
+			MEMBERS_ONLY: "This question is visible to all course members",
 			
 			/* user */
 			CHECK_ANSWERS: "Checking answers",
@@ -379,6 +380,7 @@ switch (lang) {
 			SHOWCASE: "Vorstellen",
 			SHOWCASE_MODE: "Präsentationsmodus",
 			LEAVE: "Verlassen",
+			MEMBERS_ONLY: "Diese Frage ist nur für Mitglieder des Kurses freigegeben",
 			
 			/* user */
 			CHECK_ANSWERS: "Prüfe Antworten",

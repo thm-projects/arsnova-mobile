@@ -435,7 +435,15 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 		  localStorage.getItem('courseId') != null
 		  && localStorage.getItem('courseId').length > 0
 		) {
-		
+			this.actionsPanel = new Ext.Panel({
+				items: [
+					{
+						cls: 'gravure',
+						html: '\u201e' + Messages.MEMBERS_ONLY + '\u201f'
+					}
+				]
+			});
+		} else {
 			this.releasePart = new Ext.form.FormPanel({
 				items: [{
 					xtype: 'fieldset',
