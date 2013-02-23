@@ -380,7 +380,7 @@ switch (lang) {
 			SHOWCASE: "Vorstellen",
 			SHOWCASE_MODE: "Präsentationsmodus",
 			LEAVE: "Verlassen",
-			MEMBERS_ONLY: "Diese Frage ist nur für Mitglieder des Kurses freigegeben.",
+			MEMBERS_ONLY: "Diese Frage ist nur für Kursmitglieder sichtbar.",
 			
 			/* user */
 			CHECK_ANSWERS: "Prüfe Antworten",
