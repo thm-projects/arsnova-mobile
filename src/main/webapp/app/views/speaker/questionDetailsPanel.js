@@ -435,7 +435,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 		  localStorage.getItem('courseId') != null
 		  && localStorage.getItem('courseId').length > 0
 		) {
-			this.actionsPanel = new Ext.Panel({
+			this.releasePart = new Ext.Panel({
 				items: [
 					{
 						cls: 'gravure',
