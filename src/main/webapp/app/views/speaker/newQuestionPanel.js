@@ -531,9 +531,11 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 		  localStorage.getItem('courseId') != null
 		  && localStorage.getItem('courseId').length > 0
 	) {
-		var button = releasePart.down('segmentedbutton').pressedButton;
+		var button = null;
 		values.releasedFor = 'courses';
 		values.courses = [localStorage.getItem('courseId')];
+	} else {
+		var button = releasePart.down('segmentedbutton').pressedButton;
 	}
     	if(button){
     		switch (button.id) {
