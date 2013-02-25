@@ -355,11 +355,14 @@ body {
 .bluebadgeicon, .badgeicon {
 	font-weight: bold;
 	background: rgba(0, 0, 0, .50);
+	background: -webkit-linear-gradient(top, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .70) 100%);
 	color: rgb(238, 238, 238);
-	-webkit-border-radius: 11px;
+	-webkit-border-radius: 20px;
 	border-radius: 11px;
 	padding: 4px 12px 5px 10px;
 	margin-right: 20px;
+	border: 2px solid white;
+	box-shadow: 0 0 3px gray;
 }
 
 .withdoublebadge {
@@ -369,15 +372,19 @@ body {
 .redbadgeicon, .doublebadgeicon {
 	font-weight: bold;
 	background: rgba(128, 0, 50, 1);
+	background: -webkit-linear-gradient(top, rgba(128, 0, 50, .7) 0%, rgba(128, 0, 50, 1) 100%);
 	color: rgb(238, 238, 238);
-	-webkit-border-radius: 11px;
+	-webkit-border-radius: 20px;
 	border-radius: 11px;
 	padding: 4px 12px 5px 10px;
 	margin-right: 20px;
+	border: 2px solid white;
+	box-shadow: 0 0 3px gray;
 }
 
 .bluebadgeicon {
 	background: rgb(23, 35, 128);
+	background: -webkit-linear-gradient(top, rgba(23, 35, 128, .7) 0%, rgba(23, 35, 128, 1) 100%);
 }
 
 .rankingText {
