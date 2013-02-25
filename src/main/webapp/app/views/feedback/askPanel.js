@@ -109,11 +109,32 @@ ARSnova.views.feedback.AskPanel = Ext.extend(Ext.Panel, {
 			action: 'ask',
 			question: question,
 			success: function() {
-				Ext.Msg.alert('', Messages.QUESTION_SAVED, function() {
-					me.closePanel();
-					me.subject.setValue('');
-					me.text.setValue('');
+				var theNotificationBox = {};
+				theNotificationBox = new Ext.Panel({
+					cls: 'notificationBox',
+					name: 'notificationBox',
+					showAnimation: 'pop',
+					floating: true,
+					modal: true,
+					centered: true,
+					width: 300,
+					styleHtmlContent: true,
+					html: Messages.QUESTION_SAVED,
+					listeners: {
+						hide: function() {
+							this.destroy();
+						},
+						show: function() {
+							Ext.defer(function(){
+								theNotificationBox.hide();
+								me.closePanel();
+								me.subject.setValue('');
+								me.text.setValue('');
+							}, 2000);
+						}
+					}
 				});
+				theNotificationBox.show();
 			},
 			failure: function(records, operation) {
 				Ext.Msg.alert(Messages.NOTIFICATION, Messages.TRANSMISSION_ERROR);
