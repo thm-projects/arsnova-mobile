@@ -99,7 +99,7 @@ ARSnova.views.user.QuestionPanel = Ext.extend(Ext.Carousel, {
 		this.on('beforeactivate', this.beforeActivate);
 		this.on('activate', this.onActivate);
 		this.on('add', function(panel, component, index) {
-			component.doTypeset(panel);
+			component.doTypeset && component.doTypeset(panel);
 		});
 		
 		ARSnova.views.user.QuestionPanel.superclass.initComponent.call(this);
