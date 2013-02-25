@@ -96,7 +96,7 @@ Ext.regController("sessions", {
 		localStorage.removeItem("sessionId");
 		localStorage.removeItem("name");
 		localStorage.removeItem("keyword");
-		localStorage.removeItem("short_name");
+		localStorage.removeItem("shortName");
 		localStorage.removeItem("active");
 		localStorage.removeItem("session");
 		localStorage.removeItem("courseId");
