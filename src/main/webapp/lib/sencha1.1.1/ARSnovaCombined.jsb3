@@ -315,6 +315,7 @@
                 {"path": "../../app/stores/", "name": "Food.js"},
                 
                 {"path": "../../app/views/", "name": "archivePanel.js"},
+                {"path": "../../app/views/", "name": "caption.js"},
                 {"path": "../../app/views/", "name": "checkFullscreenPanel.js"},
 				{"path": "../../app/views/", "name": "freetextAnswerList.js"},
 				{"path": "../../app/views/", "name": "freetextAnswerPanel.js"},

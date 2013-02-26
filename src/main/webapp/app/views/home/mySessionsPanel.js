@@ -142,6 +142,7 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 			success: function(response) {
 				var sessions = Ext.decode(response.responseText);
 				var panel = ARSnova.mainTabPanel.tabPanel.homeTabPanel.mySessionsPanel;
+				var caption = new ARSnova.views.Caption();
 				
 				panel.sessionsForm.removeAll();
 				panel.sessionsForm.show();
@@ -150,7 +151,9 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 					cls: 'standardFieldset',
 					title: Messages.MY_SESSIONS
 				});
-
+				
+				var badgePromises = [];
+				
 				for ( var i = 0, session; session = sessions[i]; i++) {
 					var status = "";
 					var course = " defaultsession";
@@ -181,9 +184,13 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 							});
 						}
 					});
-					me.updateBadges(session._id, session.keyword, sessionButton);
+					badgePromises.push(me.updateBadges(session._id, session.keyword, sessionButton));
 					panel.createdSessionsFieldset.add(sessionButton);
 				}
+				RSVP.all(badgePromises).then(Ext.createDelegate(caption.explainBadges, caption));
+				caption.explainSessionStatus(sessions);
+				
+				panel.createdSessionsFieldset.add(caption);
 				panel.sessionsForm.add(panel.createdSessionsFieldset);
     			
     			panel.doLayout();
@@ -207,8 +214,11 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 	},
 	
 	updateBadges: function(sessionId, sessionKeyword, button) {
+		var promise = new RSVP.Promise();
+		
 		var failureCallback = function() {
 			console.log('server-side error: ', arguments);
+			promise.reject();
 		};
 		
 		ARSnova.questionModel.countSkillQuestions(sessionKeyword, {
@@ -226,6 +236,12 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 									{badgeText: numQuestions, badgeCls: "badgeicon"},
 									{badgeText: numAnswers, badgeCls: "redbadgeicon"}
 								]);
+								
+								promise.resolve({
+									hasFeedbackQuestions: numFeedbackQuestions > 0,
+									hasQuestions: numQuestions > 0,
+									hasAnswers: numAnswers > 0
+								});
 							},
 							failure: failureCallback
 						});
@@ -235,5 +251,7 @@ ARSnova.views.home.MySessionsPanel = Ext.extend(Ext.Panel, {
 			},
 			failure: failureCallback
 		});
+		
+		return promise;
 	}
 });

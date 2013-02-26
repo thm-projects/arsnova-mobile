@@ -213,6 +213,15 @@ body {
 	border-width: thin;
 }
 
+.caption {
+	height: 40px;
+	background: white;
+}
+
+.caption .bluebadgeicon, .caption .redbadgeicon, .caption .badgeicon {
+	font-size: 0.6em;
+}
+
 .forwardListButton>span {
 	text-align: left;
 }

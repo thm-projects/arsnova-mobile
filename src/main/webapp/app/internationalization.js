@@ -57,6 +57,9 @@ switch (lang) {
 			ENTER_SESSIONID: "Insert Session ID:",
 			GO: "Go!",
 			LAST_VISITED_SESSIONS: "Sessions you recently visited:",
+			LEGEND: "Legend",
+			OPEN: "Open",
+			CLOSED: "Closed",
 			
 			/* LOAD MASK */
 			LOAD_MASK: "Loading...",
@@ -300,6 +303,9 @@ switch (lang) {
 			ENTER_SESSIONID: "Bitte Session-ID eingeben",
 			GO: "Los!",
 			LAST_VISITED_SESSIONS: "Kürzlich besuchte Sessions",
+			LEGEND: "Legende",
+			OPEN: "Offen",
+			CLOSED: "Geschlossen",
 			
 			/* LOAD MASK */
 			LOAD_MASK: "Lade Daten...",
