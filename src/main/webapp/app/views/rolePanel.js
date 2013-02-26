@@ -56,8 +56,13 @@ ARSnova.views.RolePanel = Ext.extend(Ext.Panel, {
 			text	: "Was ist ARSnova?",
 			ui		: 'small',
 			style	: { marginLeft: '30%', marginRight: "30%" },
-			handler	: function() {
-				ARSnova.mainTabPanel.tabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.helpMainPanel, 'slide');
+			listeners: {
+				click: {
+					element: 'el',
+					fn: function() { 
+						window.open("http://blog.mni.thm.de/arsnova/", "_blank");
+					}
+				}
 			}
 		}, {
 			xtype	: 'panel',
