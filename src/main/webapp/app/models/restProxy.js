@@ -177,7 +177,7 @@ var restProxy = new Ext.data.RestProxy({
 	 */
 	getMyVisitedSessions: function(callbacks, sortby){
 		Ext.Ajax.request({
-			url: "session/visitedsessions",
+			url: "session/?visitedonly=true",
 			method: "GET",
 			params: {
 				sortby: sortby
