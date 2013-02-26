@@ -52,9 +52,9 @@ ARSnova.views.RolePanel = Ext.extend(Ext.Panel, {
 			cls		: 'login-button role-label-speaker',
 			value	: ARSnova.USER_ROLE_SPEAKER
 		}, {
-			text	: "ARSnova@YouTube",
-			ui		: 'small',
-			style	: { marginLeft: '30%', marginRight: "30%" },
+			/* TODO: i18n */
+			text	: "Was ist ARSnova?",
+			cls		: 'login-button help-label',
 			handler	: function() {
 				ARSnova.mainTabPanel.tabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.helpMainPanel, 'slide');
 			}

@@ -922,6 +922,23 @@ ol.standardList li {
 		50%, rgb(97, 120, 133) 51%, rgb(97, 120, 133) 100% );
 }
 
+.help-label {
+	margin-top: 25px;
+	background: 
+		-webkit-linear-gradient(bottom, rgb(97, 120, 133) 0%,
+		rgb(97, 120, 133) 50%, rgb(115, 143, 158) 51%, rgb(115, 143, 158) 100%
+		);
+	color: white;
+	text-shadow: none;
+	border: 0.1em solid #263501;
+}
+
+.help-label.x-button-pressed {
+	background: rgb(115, 143, 158); //
+	background-image: -webkit-linear-gradient(bottom, 0%, rgb(115, 143, 158)
+		50%, rgb(97, 120, 133) 51%, rgb(97, 120, 133) 100% );
+}
+
 .invisibleToolbar {
 	background: transparent;
 	border: none !important;
