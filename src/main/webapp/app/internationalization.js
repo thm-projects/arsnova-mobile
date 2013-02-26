@@ -342,7 +342,7 @@ switch (lang) {
 			FEEDBACK_GOOD: "Bitte schneller",
 			FEEDBACK_OKAY: "Kann folgen",
 			FEEDBACK_BAD: "Zu schnell",
-			FEEDBACK_NONE: "Nicht mehr dabei",
+			FEEDBACK_NONE: "Abgehängt",
 			FEEDBACK_INSTRUCTION: "Ihr Feedback wird nach zehn Minuten zurückgesetzt.<br><br>Sie können jederzeit ein neues Feedback geben.",
 			FEEDBACK_VOTE: "Feedback geben",
 			FEEDBACK_RESET: 'Ihr Feedback wurde zurückgesetzt',
