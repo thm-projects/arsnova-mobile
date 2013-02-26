@@ -50,11 +50,11 @@ ARSnova.views.Caption = Ext.extend(Ext.Container, {
 		
 		var activeText = "";
 		if (hasActiveSessions) {
-			activeText = "<span class='isActive'>" + Messages.OPEN + "</span>";
+			activeText = "<span class='isActive'>" + Messages.OPEN_SESSION + "</span>";
 		}
 		var inactiveText = "";
 		if (hasInactiveSessions) {
-			inactiveText = Messages.CLOSED;
+			inactiveText = Messages.CLOSED_SESSION;
 		}
 		if (hasActiveSessions && hasInactiveSessions) {
 			this.listButton.setText(inactiveText + " / " + activeText);

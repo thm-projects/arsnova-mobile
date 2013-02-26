@@ -58,8 +58,8 @@ switch (lang) {
 			GO: "Go!",
 			LAST_VISITED_SESSIONS: "Sessions you recently visited:",
 			LEGEND: "Legend",
-			OPEN: "Open",
-			CLOSED: "Closed",
+			OPEN_SESSION: "Open Session",
+			CLOSED_SESSION: "Closed Session",
 			
 			/* LOAD MASK */
 			LOAD_MASK: "Loading...",
@@ -304,8 +304,8 @@ switch (lang) {
 			GO: "Los!",
 			LAST_VISITED_SESSIONS: "Kürzlich besuchte Sessions",
 			LEGEND: "Legende",
-			OPEN: "Offen",
-			CLOSED: "Geschlossen",
+			OPEN_SESSION: "Offene Session",
+			CLOSED_SESSION: "Gesperrte Session",
 			
 			/* LOAD MASK */
 			LOAD_MASK: "Lade Daten...",
