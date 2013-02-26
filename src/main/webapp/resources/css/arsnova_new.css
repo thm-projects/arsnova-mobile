@@ -860,7 +860,8 @@ ol.standardList li {
 	color: white;
 	text-shadow: none;
 	border: 0.1em solid #263501;
-	background: url("../images/google.png") center no-repeat, -webkit-linear-gradient(bottom, rgb(97, 120, 133) 0%,
+	/* Google icon: url("../images/google.png") center no-repeat */
+	background: -webkit-linear-gradient(bottom, rgb(97, 120, 133) 0%,
 		rgb(97, 120, 133) 50%, rgb(115, 143, 158) 51%, rgb(115, 143, 158) 100%
 		);
 	width: 47%; 
@@ -868,21 +869,24 @@ ol.standardList li {
 	margin-left: 2%;
 }
 .google.x-button-pressed {
-	background: url("../images/google.png") center no-repeat, rgb(115, 143, 158);
+	/* Google icon: url("../images/google.png") center no-repeat */
+	background: rgb(115, 143, 158);
 }
 
 .google-wide {
 	color: white;
 	text-shadow: none;
 	border: 0.1em solid #263501;
-	background: url("../images/google_wide.png") center no-repeat, -webkit-linear-gradient(bottom, rgb(97, 120, 133) 0%,
+	/* Google icon: url("../images/google_wide.png") center no-repeat */
+	background: -webkit-linear-gradient(bottom, rgb(97, 120, 133) 0%,
 		rgb(97, 120, 133) 50%, rgb(115, 143, 158) 51%, rgb(115, 143, 158) 100%
 		);
 	width: 47%; 
 	float: left;
 }
 .google-wide.x-button-pressed {
-	background: url("../images/google_wide.png") center no-repeat, rgb(115, 143, 158);
+	/* Google icon: url("../images/google_wide.png") center no-repeat */
+	background: rgb(115, 143, 158);
 }
 
 .role-label-student {
