@@ -47,12 +47,12 @@ ARSnova.views.feedback.VotePanel = Ext.extend(Ext.Panel, {
 		};
 		this.items = [{
 			iconCls	: 'feedbackGood',
-			text	: Messages.FEEDBACK_GOOD,
-			value	: 'Bitte schneller'
-		}, {
-			iconCls	: 'feedbackMedium',
 			text	: Messages.FEEDBACK_OKAY,
 			value	: 'Kann folgen'
+		}, {
+			iconCls	: 'feedbackMedium',
+			text	: Messages.FEEDBACK_GOOD,
+			value	: 'Bitte schneller'
 		}, {
 			iconCls	: 'feedbackBad',
 			text	: Messages.FEEDBACK_BAD,

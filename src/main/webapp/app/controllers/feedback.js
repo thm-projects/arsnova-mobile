@@ -40,13 +40,13 @@ Ext.regController("feedback", {
     	var feedbackValue;
     	var feedbackCls;
     	switch (options.value){
-			case "Bitte schneller":
-				feedbackCls = "Good";
-				feedbackValue = 0;
-				break;
 			case "Kann folgen":
-				feedbackCls = "Medium";
+				feedbackCls = "Good";
 				feedbackValue = 1;
+				break;
+			case "Bitte schneller":
+				feedbackCls = "Medium";
+				feedbackValue = 0;
 				break;
 			case "Zu schnell":
 				feedbackCls = "Bad";

@@ -97,8 +97,8 @@ ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
 		    store: new Ext.data.JsonStore({
 		    	fields: ['name', 'value', 'percent'],
 		    	data: [
+				  {name: 'Kann folgen', 	 displayName: Messages.FEEDBACK_OKAY, value: 0, percent: 0.0},
 		          {name: 'Bitte schneller',  displayName: Messages.FEEDBACK_GOOD,  value: 0, percent: 0.0},
-		          {name: 'Kann folgen', 	 displayName: Messages.FEEDBACK_OKAY, value: 0, percent: 0.0},
 		          {name: 'Zu schnell', 		 displayName: Messages.FEEDBACK_BAD, value: 0, percent: 0.0},
 		          {name: 'Nicht mehr dabei', displayName: Messages.FEEDBACK_NONE, value: 0, percent: 0.0}
 		        ]
@@ -210,6 +210,11 @@ ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
 				var store = chart.store;
 				
 				var values = Ext.decode(response.responseText).values;
+				/* Swap values for "can follow" and "faster, please" feedback
+				 * TODO: improve implementation, this is a quick hack for MoodleMoot 2013 */
+				tmpValue = values[0];
+				values[0] = values[1];
+				values[1] = tmpValue;
 				if (!Ext.isArray(values) || values.length != store.getCount()) return;
 				
 				var initialMaximum = 10;
@@ -244,10 +249,10 @@ ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
 						var avg = parseInt(response.responseText);
 						switch (avg){
 							case 0:
-								tab.setIconClass("feedbackGood");
+								tab.setIconClass("feedbackMedium");
 								break;
 							case 1:
-								tab.setIconClass("feedbackMedium");
+								tab.setIconClass("feedbackGood");
 								break;
 							case 2:
 								tab.setIconClass("feedbackBad");
