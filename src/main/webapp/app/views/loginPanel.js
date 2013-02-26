@@ -55,6 +55,7 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 			}];
 		} else {
 			threeButtons = [{
+				text	: 'Google',
 				cls		: 'login-buttons google',
 				value	: ARSnova.LOGIN_GOOGLE
 			}, {
