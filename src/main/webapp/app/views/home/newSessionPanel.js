@@ -53,6 +53,8 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 			}
 		});
 		
+		this.mycourses.setScrollable(false);
+
 		if(responseText == null){
 			var course = new Array();
 		} else {
