@@ -346,7 +346,7 @@ switch (lang) {
 			FEEDBACK_INSTRUCTION: "Ihr Feedback wird nach zehn Minuten zurückgesetzt.<br><br>Sie können jederzeit ein neues Feedback geben.",
 			FEEDBACK_VOTE: "Feedback geben",
 			FEEDBACK_RESET: 'Ihr Feedback wurde zurückgesetzt',
-			QUESTION_REQUEST: 'Ich hab da mal ne Frage!',
+			QUESTION_REQUEST: 'Ich habe eine Frage...',
 			QUESTION_TO_SPEAKER: 'Frage an den Dozenten',
 			QUESTION_INSTRUCTION: 'Sie stellen diese Frage anonym.<br>Der Dozent entscheidet, wann sie beantwortet wird.',
 			QUESTION_TEXT: "Frage",
