@@ -153,11 +153,12 @@ ARSnova.views.TabPanel = Ext.extend(Ext.TabPanel, {
 				var value = parseInt(response.responseText);
 				
 				switch (value) {
+					/* 0: faster, please!; 1: can follow; 2: to fast!; 3: you have lost me */
 					case 0:
-						panel.tab.setIconClass("feedbackGood");
+						panel.tab.setIconClass("feedbackMedium");
 						break;
 					case 1:
-						panel.tab.setIconClass("feedbackMedium");
+						panel.tab.setIconClass("feedbackGood");
 						break;
 					case 2:
 						panel.tab.setIconClass("feedbackBad");
