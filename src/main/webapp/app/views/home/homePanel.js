@@ -127,7 +127,7 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 			this.loadVisitedSessions();
 		});
 		this.on('activate', function(){
-			this.doLayout();
+			this.doComponentLayout();
 			ARSnova.hideLoadMask();
 		});
 		
