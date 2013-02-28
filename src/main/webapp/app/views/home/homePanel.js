@@ -172,6 +172,8 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 		restProxy.getMyVisitedSessions({
 			success: function(sessions){
 				var panel = ARSnova.mainTabPanel.tabPanel.homeTabPanel.homePanel;
+				var caption = new ARSnova.views.Caption();
+				var badgePromises = [];
 
 				if (sessions && sessions.length !== 0) {
 					panel.lastVisitedSessionsFieldset.removeAll();
@@ -205,12 +207,15 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 							}
 						});
 						panel.lastVisitedSessionsFieldset.add(sessionButton);
-						panel.updateBadge(session.keyword, sessionButton);
+						badgePromises.push(panel.updateBadge(session.keyword, sessionButton));
 						
 						if (session.active && session.active == 1) {
 							panel.down('button[text=' + session.name + ']').addCls("isActive");
 						}
 					}
+					RSVP.all(badgePromises).then(Ext.createDelegate(caption.explainBadges, caption));
+					caption.explainSessionStatus(sessions);
+					panel.lastVisitedSessionsFieldset.add(caption);
 				} else {
 					panel.lastVisitedSessionsForm.hide();
 				}
@@ -232,13 +237,17 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 	},
 	
 	updateBadge: function(sessionKeyword, button) {
+		var promise = new RSVP.Promise();
 		ARSnova.questionModel.getUnansweredSkillQuestions(sessionKeyword, {
 			success: function(newQuestions) {
 				button.setBadge(newQuestions.length);
+				promise.resolve(newQuestions.length);
 			},
 			failure: function(response) {
 				console.log('error');
+				promise.reject();
 			}
 		});
+		return promise;
 	}
 });

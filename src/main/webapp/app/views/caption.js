@@ -68,9 +68,13 @@ ARSnova.views.Caption = Ext.extend(Ext.Container, {
 		var hasQuestions = false;
 		var hasAnswers = false;
 		badges.forEach(function(item) {
-			hasFeedbackQuestions = hasFeedbackQuestions || item.hasFeedbackQuestions;
-			hasQuestions = hasQuestions || item.hasQuestions;
-			hasAnswers = hasAnswers || item.hasAnswers;
+			if (Ext.isNumber(item)) {
+				hasQuestions = hasQuestions || item > 0;
+			} else {
+				hasFeedbackQuestions = hasFeedbackQuestions || item.hasFeedbackQuestions;
+				hasQuestions = hasQuestions || item.hasQuestions;
+				hasAnswers = hasAnswers || item.hasAnswers;
+			}
 		});
 		this.listButton.setBadge([{
 				badgeText: hasFeedbackQuestions ? Messages.QUESTIONS_FROM_STUDENTS : "", badgeCls: "bluebadgeicon"
