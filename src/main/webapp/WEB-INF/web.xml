@@ -5,6 +5,6 @@
 	id="WebApp_ID" version="3.0">
 	<display-name>arsnova-st2-js</display-name>
 	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
+		<welcome-file>st2-index.html</welcome-file>
 	</welcome-file-list>
 </web-app>
