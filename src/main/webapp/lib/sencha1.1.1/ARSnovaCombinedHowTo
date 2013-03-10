@@ -1,0 +1,2 @@
+In den Ordner jsbuilder wechseln und folgenden Befehl ausführen:
+./JSBuilder.sh -p ../ARSnovaCombined.jsb3 -d ../ -v

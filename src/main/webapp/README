@@ -1,0 +1,15 @@
+Instruktionen für ARSnova
+
+1.	CouchDB installieren.
+	
+2. 	In der Apache-Konfiguration einen ProxyPass einrichten:
+	ProxyPass /couchdb http://localhost:5984
+
+3. 	Die Datenbank inkl. aller Views für ARSnova anlegen lassen:
+	http://localhost/arsnova/couchdb_views/update.php
+	
+4.  ARSnova über localhost/arsnova/developer.html aufrufen
+
+5.  Für die Produktion (ars.thm.de macht dies automatisch):
+    - arsnova_min.css (minifiziert) erzeugen.
+    - arsnovaCombined.js erzeugen. Beachte hierzu: lib/sencha1.1.1/ARSnovaCombinedHowTo

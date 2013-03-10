@@ -1,0 +1,22 @@
+<project name="ARSnova" default="run">
+	<property name="main.dir" value="src/main/webapp" />
+	<property name="lib.dir" value="${main.dir}/lib" />
+	<property name="sencha.dir" value="${lib.dir}/sencha1.1.1" />
+	
+	<target name="min:js">
+		<chmod file="${sencha.dir}/jsbuilder/jsdb/linux/jsdb" perm="+x" />
+		<exec executable="sh" dir="${sencha.dir}/jsbuilder" failonerror="true">
+			<arg value="JSBuilder.sh" />
+			<arg value="-p ../ARSnovaCombined.jsb3" />
+			<arg value="-d ../" />
+			<arg value="-v" />
+		</exec>
+	</target>
+	
+	<target name="min:css">
+		<java jar="${sencha.dir}/jsbuilder/ycompressor/ycompressor.jar" fork="true" failonerror="true" output="${main.dir}/resources/css/arsnova_min.css">
+			<arg value="${main.dir}/resources/css/arsnova_new.css" />
+		</java> 
+	</target>
+
+</project>
