@@ -2,6 +2,7 @@
 .classpath
 .settings/*
 target/*
+.sonar
 
 # Output files
 src/main/webapp/lib/sencha1.1.1/arsnovaCombined.js
