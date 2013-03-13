@@ -1,9 +1,9 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/models/Auth.js
- - Beschreibung: Auth-Model
- - Version:      1.0, 04/06/12
- - Autor(en):    Christoph Thelen <christoph.thelen@mni.thm.de>
+ app/model/Statistic.js
+ - Beschreibung: Statistic-Model
+ - Version:      1.0, 01/05/12
+ - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -18,18 +18,30 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-
-ARSnova.models.Auth = (function() {
-	return {
-		generateGuestName: function() {
-			var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
-			var string_length = 5;
-			var randomstring = 'Guest';
-			for (var i=0; i<string_length; i++){
-				var rnum = Math.floor(Math.random() * chars.length);
-				randomstring += chars.substring(rnum,rnum+1);
-			}
-			return randomstring;
-		}
-	};
-})();
+Ext.define('ARSnova.model.Statistic', {
+	extend: 'Ext.data.Model',
+	
+	config: {
+		proxy: restProxy,
+		fields: [
+		   	  'category', 
+		   	  'counter'
+		       ],
+	},
+    
+    countSessions: function(callbacks){
+    	return this.proxy.countSessions(callbacks);
+    },
+    
+    countActiveUsers: function(callbacks){
+    	return this.proxy.countActiveUsers(callbacks);
+    },
+    
+    countActiveUsersWithSessionId: function(callbacks){
+    	return this.proxy.countActiveUsersWithSessionId(callbacks);
+    },
+    
+    countActiveSessions: function(callbacks){
+    	return this.proxy.countActiveSessions(callbacks);
+    }
+});

@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/models/LoggedIn.js
+ app/model/LoggedIn.js
  - Beschreibung: LoggedIn-Model
  - Version:      1.0, 01/05/12
  - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
@@ -18,8 +18,12 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.models.LoggedIn = Ext.regModel('LoggedIn', {
-	proxy: restProxy,
+Ext.define('ARSnova.model.LoggedIn', {
+	extend: 'Ext.data.Model',
+	
+	config: {
+		proxy: restProxy,
+	},
 	
 	countActiveUsersBySession: function(sessionKeyword, callbacks){
 		return this.proxy.countActiveUsersBySession(sessionKeyword, callbacks);

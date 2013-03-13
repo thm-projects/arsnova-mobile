@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/models/Config.js
+ app/model/Config.js
  - Beschreibung: Config-Model
  - Version:      1.0, 01/05/12
  - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
@@ -18,15 +18,19 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.models.Config = Ext.regModel('Config', {
-	fields: [
-         'title', 
-         'day',
-         'location',
-         'menu1', 
-         'menu2', 
-         'menu3', 
-         'menu4',
-         'menu5'
-     ]
+Ext.define('ARSnova.model.Config', {
+	extend: 'Ext.data.Model',
+	
+	config: {
+		fields: [
+		         'title', 
+		         'day',
+		         'location',
+		         'menu1', 
+		         'menu2', 
+		         'menu3', 
+		         'menu4',
+		         'menu5'
+		     ]
+	}
 });

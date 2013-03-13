@@ -1,7 +1,7 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/models/FoodVote.js
- - Beschreibung: FoodVote-Model
+ app/model/Feedback.js
+ - Beschreibung: Feedback-Model
  - Version:      1.0, 01/05/12
  - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
  +---------------------------------------------------------------------------+
@@ -18,18 +18,30 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.models.FoodVote = Ext.regModel('FoodVote', {
-	proxy: restProxy,
+Ext.define('ARSnova.model.Feedback', {
+	extend: 'Ext.data.Model',
 	
-	getUserFoodVote: function(day, userLogin, callbacks){
-		return this.proxy.getUserFoodVote(day, userLogin, callbacks);
+	config: {
+		proxy: restProxy,
 	},
 	
-	countFoodVote: function(day, callbacks){
-		return this.proxy.countFoodVote(day, callbacks);
+	getSessionFeedback: function(sessionKeyword, callbacks){
+		return this.proxy.getSessionFeedback(sessionKeyword, callbacks);
 	},
 	
-	countFoodVoteGrouped: function(day, callbacks){
-		return this.proxy.countFoodVoteGrouped(day, callbacks);
+	getUserFeedback: function(sessionKeyword, callbacks){
+		return this.proxy.getUserFeedback(sessionKeyword, callbacks);
+	},
+	
+	postFeedback: function(sessionKeyword, feedbackValue, callbacks) {
+		return this.proxy.postFeedback(sessionKeyword, feedbackValue, callbacks);
+	},
+	
+	getAverageSessionFeedback: function(sessionKeyword, callbacks){
+		return this.proxy.getAverageSessionFeedback(sessionKeyword, callbacks);
+	},
+	
+	countFeedback: function(sessionKeyword, callbacks){
+		return this.proxy.countFeedback(sessionKeyword, callbacks);
 	}
 });

@@ -1,7 +1,7 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/models/Statistic.js
- - Beschreibung: Statistic-Model
+ app/model/FoodVote.js
+ - Beschreibung: FoodVote-Model
  - Version:      1.0, 01/05/12
  - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
  +---------------------------------------------------------------------------+
@@ -18,27 +18,22 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.models.Statistic = Ext.regModel('Statistic', {
-	proxy: restProxy,
+Ext.define('ARSnova.model.FoodVote', {
+	extend: 'Ext.data.Model',
 	
-    fields: [
-	  'category', 
-	  'counter'
-    ],
-    
-    countSessions: function(callbacks){
-    	return this.proxy.countSessions(callbacks);
-    },
-    
-    countActiveUsers: function(callbacks){
-    	return this.proxy.countActiveUsers(callbacks);
-    },
-    
-    countActiveUsersWithSessionId: function(callbacks){
-    	return this.proxy.countActiveUsersWithSessionId(callbacks);
-    },
-    
-    countActiveSessions: function(callbacks){
-    	return this.proxy.countActiveSessions(callbacks);
-    }
+	config: {
+		proxy: restProxy,
+	},
+	
+	getUserFoodVote: function(day, userLogin, callbacks){
+		return this.proxy.getUserFoodVote(day, userLogin, callbacks);
+	},
+	
+	countFoodVote: function(day, callbacks){
+		return this.proxy.countFoodVote(day, callbacks);
+	},
+	
+	countFoodVoteGrouped: function(day, callbacks){
+		return this.proxy.countFoodVoteGrouped(day, callbacks);
+	}
 });

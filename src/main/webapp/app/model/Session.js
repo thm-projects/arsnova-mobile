@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/models/Session.js
+ app/model/Session.js
  - Beschreibung: Session-Model
  - Version:      1.0, 01/05/12
  - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
@@ -18,27 +18,31 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.models.Session = Ext.regModel('Session', {
-	proxy: restProxy,
+Ext.define('ARSnova.model.Session', {
+	extend: 'Ext.data.Model',
 	
-    fields: [
-	  'type', 
-	  'name', 
-	  'shortName',  
-	  'creator',
-	  'keyword',
-	  'courseId',
-	  'courseType'
-    ],
-    
-	validations: [
-      {type: 'presence', field: 'type'},
-      {type: 'presence', field: 'name', min: 1, max: 50},
-      {type: 'length', field: 'shortName', min: 1, max: 12},
-      {type: 'presence', field: 'creator'},
-      {type: 'length', field: 'keyword', min: 8, max: 8}
-    ],
-    
+	config: {
+		proxy: restProxy,
+		
+		fields: [
+		   	  'type', 
+		   	  'name', 
+		   	  'shortName',  
+		   	  'creator',
+		   	  'keyword',
+		   	  'courseId',
+		   	  'courseType'
+		       ],
+		
+		validations: [
+		                     {type: 'presence', field: 'type'},
+		                     {type: 'presence', field: 'name', min: 1, max: 50},
+		                     {type: 'length', field: 'shortName', min: 1, max: 12},
+		                     {type: 'presence', field: 'creator'},
+		                     {type: 'length', field: 'keyword', min: 8, max: 8}
+		                   ],
+	},
+	
     destroy: function(sessionId, creator, callbacks) {
     	return this.proxy.delSession(sessionId, creator, callbacks);
     },

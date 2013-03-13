@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/models/Question.js
+ app/model/Question.js
  - Beschreibung: Question-Model
  - Version:      1.0, 01/05/12
  - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
@@ -18,35 +18,39 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.models.Question = Ext.regModel('Question', {
-	idProperty: '_id',
-    proxy: restProxy,
-    
-    fields: [
-      'type',
-   	  'text',
-   	  'subject',
-   	  'sessionKeyword'
-    ],
-    
-    transientFields: ['numAnswers'],
-           
-   	validations: [
-      {type: 'presence', field: 'type'},
-      {type: 'presence', field: 'text'},
-      {type: 'presence', field: 'subject'},
-      {type: 'presence', field: 'session'}
-    ],
-    
-    constructor: function() {
-    	ARSnova.models.Question.superclass.constructor.apply(this, arguments);
-    	
-    	for (var i = 0; field = this.transientFields[i]; i++) {
-    		if (typeof this.get(field) !== "undefined") {
-    			delete this[this.persistanceProperty][field];
-    		}
-    	}
-    },
+Ext.define('ARSnova.model.Question', {
+	extend: 'Ext.data.Model',
+	
+	config: {
+		idProperty: '_id',
+		proxy: restProxy,
+		
+		fields: [
+		         'type',
+		      	  'text',
+		      	  'subject',
+		      	  'sessionKeyword'
+		],
+		
+		transientFields: ['numAnswers'],
+		
+		validations: [
+		         {type: 'presence', field: 'type'},
+		         {type: 'presence', field: 'text'},
+		         {type: 'presence', field: 'subject'},
+		         {type: 'presence', field: 'session'}
+		],
+	},
+	
+	initialize: function() {
+		this.callParent(arguments);
+		
+		for (var i = 0; field = this.transientFields[i]; i++) {
+			if (typeof this.get(field) !== "undefined") {
+				delete this[this.persistanceProperty][field];
+			}
+		}
+	},
     
     destroy: function(queObj, callbacks) {
     	return this.proxy.delQuestion(queObj, callbacks);

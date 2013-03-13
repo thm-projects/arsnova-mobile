@@ -1,8 +1,9 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/models/Course.js
- - Beschreibung: Course-Model
- - Autor(en):    Paul-Christian Volkmer <paul-christian.volkmer@mni.thm.de>
+ app/model/Answer.js
+ - Beschreibung: Answer-Model
+ - Version:      1.0, 01/05/12
+ - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -17,17 +18,25 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.models.Course = Ext.regModel('Course', {
-	proxy: restProxy,
+Ext.define('ARSnova.model.Answer', {
+	extend: 'Ext.data.Model',
 	
-    fields: [
-	  'id',
-	  'fullname',
-	  'shortname',
-	  'type'
-    ],
-    
-    getMyCourses: function(callbacks, sortby){
-    	return this.proxy.getMyCourses(callbacks, sortby);
-    },
+	config: {
+		proxy: restProxy,
+	},
+	
+	getUserAnswer: function(questionId, callbacks){
+		return this.proxy.getUserAnswer(questionId, callbacks);
+	},
+	
+	getAnswerByUserAndSession: function(sessionKeyword, callbacks){
+		return this.proxy.getAnswerByUserAndSession(sessionKeyword, callbacks);
+	},
+	
+	saveAnswer: function(callbacks) {
+		if (this.get('_id') && this.get('_rev')) {
+			return this.proxy.updateAnswer(this, callbacks);
+		}
+		return this.proxy.saveAnswer(this, callbacks);
+	}
 });

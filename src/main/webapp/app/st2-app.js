@@ -19,7 +19,7 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
 
-Ext.regApplication({
+Ext.application({
     name: "ARSnova",
     /* const */
     WEBAPP			: 'webapp',
@@ -42,7 +42,9 @@ Ext.regApplication({
     
     glossOnIcon: false,
     icon: 'resources/images/ARSnova_Grafiken/01_AppIcon_114x114px.png',
-
+    
+    models: ['Answer', 'Config', 'Feedback', 'FoodVote', 'LoggedIn', 'Question', 'Session', 'Statistic', 'Course', 'Auth'],
+    
     /* items */
     mainTabPanel: null,
     tabPanel	: null,
@@ -141,8 +143,6 @@ Ext.regApplication({
 
 		taskManager = new Ext.util.TaskRunner();
 		
-		this.initModels();
-		
 		this.mainTabPanel = new ARSnova.views.MainTabPanel();
 		this.checkPreviousLogin();
 		this.checkFullscreen();
@@ -151,22 +151,7 @@ Ext.regApplication({
 	setupAppStatus: function() {
 		this.appStatus = (navigator.device == null) ? this.WEBAPP : this.NATIVE;
 	},
-    
-    /**
-     * initialize models
-     */
-    initModels: function(){
-    	this.answerModel 		= new ARSnova.models.Answer();
-    	this.feedbackModel 		= new ARSnova.models.Feedback();
-    	this.foodVoteModel 		= new ARSnova.models.FoodVote();
-    	this.loggedInModel 		= new ARSnova.models.LoggedIn();
-    	this.questionModel		= new ARSnova.models.Question();
-    	this.sessionModel 		= new ARSnova.models.Session();
-    	this.statisticModel 	= new ARSnova.models.Statistic();
-    	this.userRankingModel 	= new ARSnova.models.UserRanking();
-    	this.courseModel		= new ARSnova.models.Course();
-    },
-    
+
     /**
      * check browser-engine
      */

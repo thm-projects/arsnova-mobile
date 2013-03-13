@@ -1,9 +1,9 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/models/Feedback.js
- - Beschreibung: Feedback-Model
- - Version:      1.0, 01/05/12
- - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
+ app/model/Auth.js
+ - Beschreibung: Auth-Model
+ - Version:      1.0, 04/06/12
+ - Autor(en):    Christoph Thelen <christoph.thelen@mni.thm.de>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -18,26 +18,18 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.models.Feedback = Ext.regModel('Feedback', {
-	proxy: restProxy,
+
+Ext.define('ARSnova.model.Auth', {
+	extend: 'Ext.data.Model',
 	
-	getSessionFeedback: function(sessionKeyword, callbacks){
-		return this.proxy.getSessionFeedback(sessionKeyword, callbacks);
-	},
-	
-	getUserFeedback: function(sessionKeyword, callbacks){
-		return this.proxy.getUserFeedback(sessionKeyword, callbacks);
-	},
-	
-	postFeedback: function(sessionKeyword, feedbackValue, callbacks) {
-		return this.proxy.postFeedback(sessionKeyword, feedbackValue, callbacks);
-	},
-	
-	getAverageSessionFeedback: function(sessionKeyword, callbacks){
-		return this.proxy.getAverageSessionFeedback(sessionKeyword, callbacks);
-	},
-	
-	countFeedback: function(sessionKeyword, callbacks){
-		return this.proxy.countFeedback(sessionKeyword, callbacks);
+	generateGuestName: function() {
+		var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+		var string_length = 5;
+		var randomstring = 'Guest';
+		for (var i=0; i<string_length; i++){
+			var rnum = Math.floor(Math.random() * chars.length);
+			randomstring += chars.substring(rnum,rnum+1);
+		}
+		return randomstring;
 	}
 });
