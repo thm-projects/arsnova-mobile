@@ -17,9 +17,14 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
 
-ARSnova.views.MultiBadgeButton = Ext.extend(Ext.Button, {
+Ext.define('ARSnova.view.MultiBadgeButton', {
+	extend: 'Ext.Button',
+	alias: 'x-multibadgebutton',
 	
-	multiBadges: [],
+	config: {
+		multiBadges: [],
+	},
+	
 	
 	/**
 	 * Creates a badge overlay on the button for displaying notifications. (with code borrowed from Ext.Button)
@@ -66,5 +71,3 @@ ARSnova.views.MultiBadgeButton = Ext.extend(Ext.Button, {
 		return me;
 	}
 });
-
-Ext.reg('x-multibadgebutton', ARSnova.views.MultiBadgeButton);

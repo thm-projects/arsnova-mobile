@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/sessionStatusButton.js
+ app/view/SessionStatusButton.js
  - Beschreibung: Button zum Starten/Stoppen einer Session.
  - Version:      1.0, 01/05/12
  - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
@@ -18,15 +18,21 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.views.SessionStatusButton = Ext.extend(Ext.Panel, {
-	cls	: 'threeButtons left',
-	handler: null,
-	isOpen: false,
+Ext.define('ARSnova.view.SessionStatusButton', {
+	extend: 'Ext.Panel',
 	
-	sessionIsOpenButton: null,
-	sessionIsClosedButton: null,
+	config: {
+		cls	: 'threeButtons left',
+		handler: null,
+		isOpen: false,
+		
+		sessionIsOpenButton: null,
+		sessionIsClosedButton: null,
+	},
 	
-	constructor: function(){
+	initialize: function() {
+		this.callParent();
+		
 		this.sessionIsClosedButton = new Ext.Button({
 			cls		: 'closedSession',
 			handler	: function(){
@@ -62,8 +68,6 @@ ARSnova.views.SessionStatusButton = Ext.extend(Ext.Panel, {
 			this.sessionIsOpenButton.hide();
 			this.sessionIsOpenText.hide();
 		}
-
-		ARSnova.views.SessionStatusButton.superclass.constructor.call(this);
 	},
 	
 	changeStatus: function(){

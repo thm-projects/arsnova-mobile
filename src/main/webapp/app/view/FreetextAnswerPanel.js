@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/views/freetextAnswerPanel.js
+ app/view/FreetextAnswerPanel.js
  - Beschreibung: Zeigt Freitext-Antworten an
  - Version:      1.0, 11/06/12
  - Autor(en):    Christoph Thelen <christoph.thelen@mni.thm.de>
@@ -19,19 +19,25 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
 
-ARSnova.views.FreetextAnswerPanel = Ext.extend(Ext.Panel, {
-	scroll: 'vertical',
-	layout: 'fit',
+Ext.define('ARSnova.view.FreetextAnswerPanel', {
+	extend: 'Ext.Panel',
 	
-	/**
-	 * task for speakers in a session
-	 * check every x seconds new feedback questions
-	 */
-	checkFreetextAnswersTask: null,
+	config: {
+		scroll: 'vertical',
+		layout: 'fit',
+		
+		/**
+		 * task for speakers in a session
+		 * check every x seconds new feedback questions
+		 */
+		checkFreetextAnswersTask: null,
+		
+		freetextAnswerStore: null,
+	},
 	
-	freetextAnswerStore: null,
-	
-	constructor: function(question, lastPanel) {
+	initialize: function(question, lastPanel) {
+		this.callParent();
+		
 		this.questionObj = question;
 		this.lastPanel = lastPanel;
 		
@@ -82,8 +88,6 @@ ARSnova.views.FreetextAnswerPanel = Ext.extend(Ext.Panel, {
 		],
 		
 		this.dockedItems = [this.toolbar];
-		
-		ARSnova.views.FreetextAnswerPanel.superclass.constructor.call(this);
 	},
 	
 	initComponent: function() {

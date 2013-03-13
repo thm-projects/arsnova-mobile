@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/views/freetextDetailAnswer.js
+ app/view/FreetextDetailAnswer.js
  - Beschreibung: Darstellung von Freitext-Antworten
  - Version:      1.0, 11/06/12
  - Autor(en):    Christoph Thelen <christoph.thelen@mni.thm.de>
@@ -19,10 +19,16 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
 
-ARSnova.views.FreetextDetailAnswer = Ext.extend(Ext.Panel, {
-	scroll: 'vertical',
+Ext.define('ARSnova.view.FreetextDetailAnswer', {
+	extend: 'Ext.Panel',
 	
-	constructor: function(sTP, answer) {
+	config: {
+		scroll: 'vertical',
+	},
+	
+	initialize: function(sTP, answer) {
+		this.callParent();
+		
 		this.sTP = sTP;
 		
 		this.dockedItems = [new Ext.Toolbar({
@@ -121,7 +127,5 @@ ARSnova.views.FreetextDetailAnswer = Ext.extend(Ext.Panel, {
 				sheet.show();
 			}
 		}];
-		
-		ARSnova.views.FreetextDetailAnswer.superclass.constructor.call(this);
 	}
 });

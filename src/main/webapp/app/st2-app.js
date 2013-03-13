@@ -44,6 +44,10 @@ Ext.application({
     icon: 'resources/images/ARSnova_Grafiken/01_AppIcon_114x114px.png',
     
     models: ['Answer', 'Config', 'Feedback', 'FoodVote', 'LoggedIn', 'Question', 'Session', 'Statistic', 'Course', 'Auth'],
+    views: [].concat(['Caption', 'CheckFullscreenPanel', 'LoginPanel', 'MainTabPanel'], 
+    		['MathJaxField', 'MathJaxMessageBox', 'MultiBadgeButton', 'NumericKeypad', 'FreetextAnswerList'],
+    		['FreetextAnswerPanel', 'FreetextDetailAnswer', 'FreetextQuestion', 'QuestionStatusButton', 'SessionStatusButton'],
+    		['TabPanel', 'RolePanel']),
     
     /* items */
     mainTabPanel: null,
@@ -143,7 +147,8 @@ Ext.application({
 
 		taskManager = new Ext.util.TaskRunner();
 		
-		this.mainTabPanel = new ARSnova.views.MainTabPanel();
+		this.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
+		
 		this.checkPreviousLogin();
 		this.checkFullscreen();
 	},
@@ -152,32 +157,32 @@ Ext.application({
 		this.appStatus = (navigator.device == null) ? this.WEBAPP : this.NATIVE;
 	},
 
-    /**
-     * check browser-engine
-     */
-    checkWebKit: function() {
-        var result = /AppleWebKit\/([\d.]+)/.exec(navigator.userAgent);
-        if (!result) {
-        	alert(Messages.SUPPORTED_BROWSERES);
-        	return false;
-        } else {
-        	return true;
-        }
-    },
-    
-    /**
+	/**
+	 * check browser-engine
+	 */
+	checkWebKit: function() {
+		var result = /AppleWebKit\/([\d.]+)/.exec(navigator.userAgent);
+		if (!result) {
+			alert(Messages.SUPPORTED_BROWSERES);
+			return false;
+		} else {
+			return true;
+		}
+	},
+	
+	/**
 	 * Detect: If the application is not run in full screen mode on an apple
 	 * device, notify user how to add app to home screen for full screen mode.
 	 */ 
-    checkFullscreen: function(){
+	checkFullscreen: function(){
 		if (localStorage.getItem('html5 info read') == null){
-    		if (!this.popup){
-    			this.popup = new ARSnova.views.CheckFullscreenPanel();
-    		}
-    		
-    		this.popup.show('fade');
-    	}
-    },
+			if (!this.popup){
+				this.popup = Ext.create('ARSnova.view.CheckFullscreenPanel');
+			}
+			
+			this.popup.show('fade');
+		}
+	},
 	
 	/**
 	 * after user has logged in

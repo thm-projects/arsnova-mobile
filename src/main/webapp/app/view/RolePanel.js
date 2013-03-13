@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/rolePanel.js
+ app/view/RolePanel.js
  - Beschreibung: Panel zum Auswählen einer Rolle.
  - Version:      1.0, 01/05/12
  - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
@@ -18,12 +18,16 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.views.RolePanel = Ext.extend(Ext.Panel, {
-	fullscreen: true,
-	scroll: 'vertical',
+Ext.define('ARSnova.view.RolePanel', {
+	extend: 'Ext.Container',
 	
-	constructor: function(){
-		this.defaults = {
+	config: {
+		fullscreen: true,
+		scroll: 'vertical',
+		
+		title: 'RolePanel',
+		
+		defaults: {
 			xtype	: 'button',
 			handler	: function(b) {
 				Ext.dispatch({
@@ -32,9 +36,13 @@ ARSnova.views.RolePanel = Ext.extend(Ext.Panel, {
 					mode		: b.value
 				});
 			}
-		};
+		}
+	},
+	
+	initialize: function() {
+		this.callParent(arguments);
 		
-		this.items = [{
+		this.add([{
 			xtype	: 'panel',
 			cls		: null,
 			html	: "<div class='arsnova-logo' style=\"background: url('resources/images/arsnova.png') no-repeat center; height:55px\"></div>",
@@ -43,7 +51,7 @@ ARSnova.views.RolePanel = Ext.extend(Ext.Panel, {
 			xtype	: 'panel',
 			cls		: 'gravure',
 			html	: Messages.CHOOSE_ROLE
-		}, {	
+		}, {
 			text	: Messages.STUDENT,
 			cls		: 'login-button role-label-student',
 			value	: ARSnova.USER_ROLE_STUDENT
@@ -58,7 +66,7 @@ ARSnova.views.RolePanel = Ext.extend(Ext.Panel, {
 			style	: { marginLeft: '30%', marginRight: "30%" },
 			listeners: {
 				click: {
-					element: 'el',
+					element: 'element',
 					fn: function() { 
 						window.open("http://blog.mni.thm.de/arsnova/", "_blank");
 					}
@@ -69,8 +77,6 @@ ARSnova.views.RolePanel = Ext.extend(Ext.Panel, {
 			style	: { marginTop: '30px'},
 			html	: "<div class='thm-logo' style=\"background: url('resources/images/thm.png') no-repeat center; height:67px\"></div>",
 			cls		: null
-		}];
-		
-		ARSnova.views.RolePanel.superclass.constructor.call(this);
+		}]);
 	}
 });

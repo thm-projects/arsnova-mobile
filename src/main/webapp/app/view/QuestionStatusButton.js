@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/questionStatusButton.js
+ app/view/QuestionStatusButton.js
  - Beschreibung: Button zum Starten/Stoppen einer Frage.
  - Version:      1.0, 01/05/12
  - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
@@ -18,17 +18,23 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.views.QuestionStatusButton = Ext.extend(Ext.Panel, {
-	cls	: 'threeButtons left',
-	handler: null,
-	isOpen: false,
+Ext.define('ARSnova.view.QuestionStatusButton', {
+	extend: 'Ext.Panel',
 	
-	questionObj: null,
+	config: {
+		cls	: 'threeButtons left',
+		handler: null,
+		isOpen: false,
+		
+		questionObj: null,
+		
+		questionIsOpenButton: null,
+		questionIsClosedButton: null
+	},
 	
-	questionIsOpenButton: null,
-	questionIsClosedButton: null,
-	
-	constructor: function(questionObj){
+	initialize: function(questionObj) {
+		this.callParent();
+		
 		this.questionObj = questionObj;
 		
 		this.questionIsClosedButton = new Ext.Button({
@@ -66,8 +72,6 @@ ARSnova.views.QuestionStatusButton = Ext.extend(Ext.Panel, {
 			this.questionIsOpenButton.hide();
 			this.questionIsOpenText.hide();
 		}
-
-		ARSnova.views.QuestionStatusButton.superclass.constructor.call(this);
 	},
 	
 	changeStatus: function(){

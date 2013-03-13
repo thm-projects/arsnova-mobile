@@ -16,25 +16,29 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.views.MathJaxField = Ext.extend(Ext.form.Field, {
+Ext.define('ARSnova.view.MathJaxField', {
+	extend: 'Ext.form.Field',
+	alias: 'mathjaxfield',
 	
-	/**
-     * @cfg {Object} layoutObject The object to layout after MathJax finished typesetting.
-     */
-	layoutObject: null,
-	
-	content: "",
-	
-	renderTpl: [
-            '<tpl if="label">',
-                '<div class="x-form-label"><span>{label}</span></div>',
-            '</tpl>',
-            '<tpl if="fieldEl">',
-                '<div class="x-form-field-container"><div id="{inputId}" class="{fieldCls} x-field-slider"',
-                    '<tpl if="style">style="{style}" </tpl> >{content}</div>',
-                '</div>',
-            '</tpl>'
-        ],
+	config: {
+		/**
+		 * @cfg {Object} layoutObject The object to layout after MathJax finished typesetting.
+		 */
+		layoutObject: null,
+		
+		content: "",
+		
+		renderTpl: [
+	            '<tpl if="label">',
+	                '<div class="x-form-label"><span>{label}</span></div>',
+	            '</tpl>',
+	            '<tpl if="fieldEl">',
+	                '<div class="x-form-field-container"><div id="{inputId}" class="{fieldCls} x-field-slider"',
+	                    '<tpl if="style">style="{style}" </tpl> >{content}</div>',
+	                '</div>',
+	            '</tpl>'
+	        ],
+	},
 	
 	initRenderData: function() {
 		ARSnova.views.MathJaxField.superclass.initRenderData.apply(this, arguments);
@@ -55,5 +59,3 @@ ARSnova.views.MathJaxField = Ext.extend(Ext.form.Field, {
 		}, this));
 	}
 });
-
-Ext.reg('mathjaxfield', ARSnova.views.MathJaxField);

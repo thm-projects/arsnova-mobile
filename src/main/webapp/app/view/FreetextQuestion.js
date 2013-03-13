@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/views/freetextQuestion.js
+ app/view/FreetextQuestion.js
  - Beschreibung: Template für Freitext-Fragen.
  - Version:      1.0, 22/05/12
  - Autor(en):    Christoph Thelen <christoph.thelen@mni.thm.de>
@@ -18,12 +18,28 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.views.FreetextQuestion = Ext.extend(Ext.Panel, {
-	scroll: 'vertical',
+Ext.define('ARSnova.view.FreetextQuestion', {
+	extend: 'Ext.Panel',
 	
-	viewOnly: false,
+	config: {
+		scroll: 'vertical',
+		
+		viewOnly: false,
+		
+		listeners: {
+			preparestatisticsbutton: function(button) {
+				button.scope = this;
+				button.handler = function() {
+					var p = new ARSnova.views.FreetextAnswerPanel(this.questionObj, this);
+					ARSnova.mainTabPanel.setActiveItem(p, 'slide');
+				};
+			}
+		},
+	},
 	
-	constructor: function(questionObj, viewOnly) {
+	initialize: function(questionObj, viewOnly) {
+		this.callParent();
+		
 		this.questionObj = questionObj;
 		this.viewOnly = typeof viewOnly === "undefined" ? false : viewOnly;
 		
@@ -65,8 +81,6 @@ ARSnova.views.FreetextQuestion = Ext.extend(Ext.Panel, {
 				}
 			]
 		})];
-		
-		ARSnova.views.FreetextQuestion.superclass.constructor.call(this);
 	},
 	
 	initComponent: function(){
@@ -79,16 +93,6 @@ ARSnova.views.FreetextQuestion = Ext.extend(Ext.Panel, {
 		});
 		
 		ARSnova.views.FreetextQuestion.superclass.initComponent.call(this);
-	},
-	
-	listeners: {
-		preparestatisticsbutton: function(button) {
-			button.scope = this;
-			button.handler = function() {
-				var p = new ARSnova.views.FreetextAnswerPanel(this.questionObj, this);
-				ARSnova.mainTabPanel.setActiveItem(p, 'slide');
-			};
-		}
 	},
 	
 	saveHandler: function(button, event) {

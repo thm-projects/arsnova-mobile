@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/loginPanel.js
+ app/view/LoginPanel.js
  - Beschreibung: Panel zum Auswählen eines Logins.
  - Version:      1.0, 01/05/12
  - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
@@ -18,14 +18,22 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
-	fullscreen: true,
-	scroll: 'vertical',
+Ext.define('ARSnova.view.LoginPanel', {
+	extend: 'Ext.Container',
 	
-	layoutOnOrientationChange: false,
-    monitorOrientation: false,
+	config: {
+		fullscreen: true,
+		scroll: 'vertical',
+		
+		layoutOnOrientationChange: false,
+		monitorOrientation: false,
+		
+		title: 'LoginPanel'
+	},
 	
-	constructor: function(){
+	initialize: function() {
+		this.callParent(arguments);
+		
 		this.defaults = {
 			xtype	: 'button',
 			handler	: function(b) {
@@ -70,13 +78,13 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 			}];
 		}
 		
-		this.noGuestSpeaker = new Ext.Panel({
+		this.noGuestSpeaker = Ext.create('Ext.Panel', {
 			cls		: 'gravure',
 			style	: { marginTop: '0px'},
 			html	: Messages.NO_GUEST_SPEAKER
 		});
 		
-		this.guestLoginButton = new Ext.Button({
+		this.guestLoginButton = Ext.create('Ext.Button', {
 			text	: Messages.GUEST,
 			style	: { marginTop: '10px'},
 			cls		: 'login-button login-label-guest',
@@ -84,7 +92,7 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 			hidden	: true
 		});
 		
-		this.items = [{
+		this.add([{
 			xtype	: 'panel',
 			cls		: null,
 			style	: { marginTop: '20px'},
@@ -130,14 +138,10 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 			xtype	: 'panel',
 			cls		: null,
 			html	: ''
-		}, this.noGuestSpeaker];
+		}, this.noGuestSpeaker]);
 		
-		ARSnova.views.LoginPanel.superclass.constructor.call(this);
-	},
-	
-	initComponent: function() {
 		this.on('activate', Ext.bind(function() {
-			if(ARSnova.userRole == ARSnova.USER_ROLE_SPEAKER && !window.location.href.match(/developer\.html#?$/)) {
+			if(Ext.app.Application.appInstance.userRole == Ext.app.Application.appInstance.USER_ROLE_SPEAKER && !window.location.href.match(/developer\.html#?$/)) {
 				this.guestLoginButton.hide('fade');
 				this.noGuestSpeaker.show('fade');
 			} else {
@@ -145,7 +149,5 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 				this.noGuestSpeaker.hide('fade');
 			}
 		}, this));
-		
-		ARSnova.views.LoginPanel.superclass.initComponent.call(this);
 	}
 });

@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/questionl.js
+ app/view/Question.js
  - Beschreibung: Template für einzelne Fragen.
  - Version:      1.0, 01/05/12
  - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
@@ -18,13 +18,19 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.views.Question = Ext.extend(Ext.Panel, {
-	scroll: 'vertical',
-	questionObj: null,
+Ext.define('ARSnova.view.Question', {
+	extend: 'Ext.Panel',
 	
-	viewOnly: false,
+	config: {
+		scroll: 'vertical',
+		questionObj: null,
+		
+		viewOnly: false,
+	},
 	
-	constructor: function(questionObj, viewOnly) {
+	initialize: function(questionObj, viewOnly) {
+		this.callParent(arguments);
+		
 		var self = this; // for use inside callbacks
 		
 		var answerStore = new Ext.data.Store({model: 'Answer'});
@@ -161,8 +167,6 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 		});
 		
 		this.items = [this.questionTitle, this.answerList];
-		
-		ARSnova.views.Question.superclass.constructor.call(this);
 	},
 	
 	listeners: {

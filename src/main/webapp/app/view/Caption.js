@@ -16,9 +16,12 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.views.Caption = Ext.extend(Ext.Container, {
+Ext.define('ARSnova.view.Caption', {
+	extend: 'Ext.Container',
 	
-	constructor: function() {
+	initialize: function() {
+		this.callParent(arguments);
+		
 		this.listButton = new ARSnova.views.MultiBadgeButton({
 			ui			: 'small',
 			text		: "",
@@ -34,8 +37,6 @@ ARSnova.views.Caption = Ext.extend(Ext.Container, {
 			},
 			html: Messages.LEGEND
 		}, this.listButton] : []);
-		
-		ARSnova.views.Caption.superclass.constructor.call(this, arguments);
 	},
 	
 	explainSessionStatus: function(sessions) {
