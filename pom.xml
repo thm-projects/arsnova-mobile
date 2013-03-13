@@ -30,6 +30,7 @@
 				<configuration>
 					<warSourceIncludes>
 						st2-index.html,
+						st2-developer.html,
 						lib/touch-2.1.1/sencha-touch-all-compat.js,
 						lib/touch-2.1.1/resources/css/**,
 						lib/touch-2.1.1/resources/themes/**
