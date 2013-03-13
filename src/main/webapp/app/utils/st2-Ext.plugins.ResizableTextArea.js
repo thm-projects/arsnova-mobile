@@ -23,27 +23,21 @@
  * @extends Ext.form.TextArea
  *
  */
-
-Ext.plugins.ResizableTextArea = Ext.extend(Ext.form.TextArea, {
-
-	/**
-	 * @cfg {Integer} maxHeight
-	 * Maximum height of TextArea.
-	 */
-	maxHeight: -1,
+Ext.define('Ext.plugins.ResizableTextArea', {
+	extend: 'Ext.form.TextArea',
 	
-	constructor: function (config) {
-		Ext.plugins.ResizableTextArea.superclass.constructor.call(this, config);
+	config: {
+		maxHeight: -1
+	},
+	
+	initialize: function(config) {
+		this.callParent(arguments);
 		this.on('afterrender', function () {
 			this.onKeyUp(null, Ext.DomQuery.select('textarea', this.el.dom)[0]);
 		});
 	},
 	
-	/**
-	 * Resizes the textArea whenever the content is larger than than it's height
-	 */
 	onKeyUp: function(event, textarea) {
-		//console.log('keyup', arguments);
 		/* Default max height */
 		/* Don't let it grow over the max height */
 		if ((this.maxHeight > -1) && (textarea.scrollHeight > this.maxHeight)) {
@@ -53,8 +47,7 @@ Ext.plugins.ResizableTextArea = Ext.extend(Ext.form.TextArea, {
 			}
 			return;
 		}
-		/* Make sure element does not have scroll bar to 
-		prevent jumpy-ness */
+		/* Make sure element does not have scroll bar to prevent jumpy-ness */
 		if (textarea.style.overflowY != 'hidden') {
 			textarea.style.overflowY = 'hidden';
 		}
@@ -67,5 +60,4 @@ Ext.plugins.ResizableTextArea = Ext.extend(Ext.form.TextArea, {
 			textarea.style.height = scrollH+'px';
 		}
 	}
-
 });

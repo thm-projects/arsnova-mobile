@@ -136,7 +136,7 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 	},
 	
 	initComponent: function() {
-		this.on('activate', Ext.createDelegate(function() {
+		this.on('activate', Ext.bind(function() {
 			if(ARSnova.userRole == ARSnova.USER_ROLE_SPEAKER && !window.location.href.match(/developer\.html#?$/)) {
 				this.guestLoginButton.hide('fade');
 				this.noGuestSpeaker.show('fade');

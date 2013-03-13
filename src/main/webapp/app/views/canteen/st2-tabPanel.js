@@ -21,7 +21,7 @@
 ARSnova.views.canteen.TabPanel = Ext.extend(Ext.TabPanel, {
 	title	: Messages.CANTEEN,
 	iconCls	: 'tabBarIconCanteen',
-	layout	: 'fit',
+	//layout	: 'fit',
 	
 	tabBar: {
     	hidden: true

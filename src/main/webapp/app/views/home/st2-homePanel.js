@@ -71,7 +71,7 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 			}]
 		});
 		
-		this.sessionLoginForm = new Ext.Panel({
+		this.sessionLoginForm = Ext.create('Ext.Panel', {
 			cls: 'beside',
 			items: [{
 				xtype	: 'panel',
@@ -82,7 +82,7 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 				}]
 			}, {
 				submitOnAction: false,
-				xtype: 'form',
+				xtype: 'formpanel',
 				items: [{
 					xtype		: 'fieldset',
 					defaults	: {
@@ -90,7 +90,7 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 					},
 					cls: 'bottomMargin',
 					items: [{
-						xtype		: 'numericKeypad',
+						xtype		: 'numberfield',
 						name		: 'keyword',
 						placeHolder	: Messages.SESSIONID_PLACEHOLDER,
 						maxLength	: 11

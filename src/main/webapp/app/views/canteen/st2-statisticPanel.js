@@ -198,8 +198,6 @@ ARSnova.views.canteen.StatisticPanel = Ext.extend(Ext.Panel, {
 		this.dockedItems = [this.toolbar];
 		this.items = [this.canteenChart];
 		
-		this.doLayout();
-		
 		ARSnova.views.canteen.StatisticPanel.superclass.constructor.call(this);
 	},
 	

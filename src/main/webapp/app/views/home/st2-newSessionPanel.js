@@ -49,7 +49,7 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 			store: this.mycoursesStore,
 			itemTpl: itemTemplate,
 			listeners: {
-				itemTap: Ext.createDelegate(this.onCourseSubmit,this)
+				itemTap: Ext.bind(this.onCourseSubmit, this)
 			}
 		});
 		
