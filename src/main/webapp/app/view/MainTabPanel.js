@@ -38,11 +38,11 @@ Ext.define('ARSnova.view.MainTabPanel', {
 		this.callParent(arguments);
 		
 		if (typeof(animation) == 'object') {
-			animation.duration = Ext.app.Application.appInstance.cardSwitchDuration;
+			animation.duration = ARSnova.app.cardSwitchDuration;
 		} else {
 			animation = {
 				type: animation,
-				duration: Ext.app.Application.appInstance.cardSwitchDuration
+				duration: ARSnova.app.cardSwitchDuration
 			};
 		}
 	}
