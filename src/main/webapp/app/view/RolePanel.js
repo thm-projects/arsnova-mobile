@@ -30,10 +30,8 @@ Ext.define('ARSnova.view.RolePanel', {
 		defaults: {
 			xtype	: 'button',
 			handler	: function(b) {
-				Ext.dispatch({
-					controller	: 'auth',
-					action		: 'roleSelect',
-					mode		: b.value
+				ARSnova.app.getController('Auth').roleSelect({
+					mode: b.value
 				});
 			}
 		}
