@@ -50,11 +50,11 @@ Ext.define('ARSnova.view.LoginPanel', {
 			threeButtons = [{
 				text	: 'Google',
 				cls		: 'login-buttons google-wide',
-				value	: ARSnova.LOGIN_GOOGLE
+				value	: ARSnova.app.LOGIN_GOOGLE
 			}, {
 				text	: 'THM',
 				cls 	: 'login-buttons thm-login-wide',
-				value	: ARSnova.LOGIN_THM
+				value	: ARSnova.app.LOGIN_THM
 			}, {
 				xtype: 'panel',
 				style: {
@@ -65,11 +65,11 @@ Ext.define('ARSnova.view.LoginPanel', {
 			threeButtons = [{
 				text	: 'Google',
 				cls		: 'login-buttons google',
-				value	: ARSnova.LOGIN_GOOGLE
+				value	: ARSnova.app.LOGIN_GOOGLE
 			}, {
 				text	: 'THM',
 				cls		: 'login-buttons thm-login',
-				value	: ARSnova.LOGIN_THM
+				value	: ARSnova.app.LOGIN_THM
 			}, {
 				xtype: 'panel',
 				style: {
@@ -88,7 +88,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 			text	: Messages.GUEST,
 			style	: { marginTop: '10px'},
 			cls		: 'login-button login-label-guest',
-			value	: ARSnova.LOGIN_GUEST,
+			value	: ARSnova.app.LOGIN_GUEST,
 			hidden	: true
 		});
 		
@@ -125,10 +125,10 @@ Ext.define('ARSnova.view.LoginPanel', {
 			text: Messages.CHANGE_ROLE, 
 			cls: 'backToRole',
 			handler: function(){
-				ARSnova.userRole = "";
-				ARSnova.setWindowTitle();
+				ARSnova.app.userRole = "";
+				ARSnova.app.setWindowTitle();
 				
-				ARSnova.mainTabPanel.tabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.rolePanel, {
+				ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
 					type: 'slide',
 					direction: 'right',
 					duration: 500
