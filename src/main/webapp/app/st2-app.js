@@ -48,6 +48,7 @@ Ext.application({
     		['MathJaxField', 'MathJaxMessageBox', 'MultiBadgeButton', 'NumericKeypad', 'FreetextAnswerList'],
     		['FreetextAnswerPanel', 'FreetextDetailAnswer', 'FreetextQuestion', 'QuestionStatusButton', 'SessionStatusButton'],
     		['TabPanel', 'RolePanel']),
+    controllers: ["Auth"],
     
     /* items */
     mainTabPanel: null,
