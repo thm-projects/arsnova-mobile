@@ -228,6 +228,13 @@ Ext.regController("sessions", {
 				type: 'slide',
 				duration: 700
 			});
+			if (localStorage.getItem("ARSnovaCon") === "true") {
+				localStorage.removeItem("ARSnovaCon");
+				tabPanel.setActiveItem(tabPanel.userQuestionsPanel, {
+					type: 'slide',
+					duration: 700
+				});
+			}
 		}
 	},
 	

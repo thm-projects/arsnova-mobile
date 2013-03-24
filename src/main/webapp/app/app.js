@@ -144,7 +144,9 @@ Ext.regApplication({
 		this.initModels();
 		
 		this.mainTabPanel = new ARSnova.views.MainTabPanel();
-		this.checkPreviousLogin();
+		if (localStorage.getItem("ARSnovaCon") !== "true") {
+			this.checkPreviousLogin();
+		}
 		this.checkFullscreen();
 	},
 

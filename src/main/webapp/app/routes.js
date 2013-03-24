@@ -21,6 +21,7 @@
 
 Ext.Router.draw(function(map) {
 	 map.connect('id/:sessionid', {controller: 'auth', action: 'qr'});
+	 map.connect('con/:sessionid', {controller: 'auth', action: 'con'});
 	 // The most general route has to appear after specialized routes
 	 map.connect(':controller/:action');
 	 

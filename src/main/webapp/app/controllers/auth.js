@@ -35,6 +35,23 @@ Ext.regController("auth", {
 		Ext.dispatch({controller:'sessions', action:'login', keyword: options.sessionid});
 	},
 	
+	con: function(options) {
+		ARSnova.loggedIn = true;
+		ARSnova.loginMode = ARSnova.LOGIN_GUEST;
+		ARSnova.userRole = ARSnova.USER_ROLE_STUDENT;
+
+		localStorage.setItem('html5 info read', true);
+		if (localStorage.getItem('login') === null) {
+			localStorage.setItem('login', ARSnova.models.Auth.generateGuestName());
+		}
+		localStorage.setItem('loginMode', ARSnova.loginMode);
+		localStorage.setItem('role', ARSnova.userRole);
+		localStorage.setItem('ARSnovaCon', true);
+		localStorage.setItem('keyword', options.sessionid);
+		
+		ARSnova.afterLogin();
+	},
+	
 	roleSelect: function(options){
 		ARSnova.userRole = options.mode;
 		localStorage.setItem('role', options.mode);
