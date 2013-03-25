@@ -25,6 +25,7 @@ Ext.regController("auth", {
 		if (localStorage.getItem('login') === null) {
 			localStorage.setItem('login', ARSnova.models.Auth.generateGuestName());
 		}
+		localStorage.setItem('html5 info read', '');
 		ARSnova.userRole = ARSnova.USER_ROLE_STUDENT;
 		localStorage.setItem('role', ARSnova.userRole);
 		ARSnova.loginMode = ARSnova.LOGIN_GUEST;
