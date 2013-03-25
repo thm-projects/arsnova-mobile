@@ -24,7 +24,7 @@ Ext.define("ARSnova.controller.Auth", {
 	qr: function(options) {
 		ARSnova.app.app.loggedIn = true;
 		if (localStorage.getItem('login') === null) {
-			localStorage.setItem('login', ARSnova.app.app.models.Auth.generateGuestName());
+			localStorage.setItem('login', ARSnova.app.models.Auth.generateGuestName());
 		}
 		ARSnova.app.app.userRole = ARSnova.app.USER_ROLE_STUDENT;
 		localStorage.setItem('role', ARSnova.app.userRole);
@@ -33,7 +33,9 @@ Ext.define("ARSnova.controller.Auth", {
 		ARSnova.app.afterLogin();
 
 		window.location = window.location.pathname + "#";
-		Ext.dispatch({controller:'sessions', action:'login', keyword: options.sessionid});
+		ARSnova.app.getController('Sessions').login({
+			keyword: options.sessionid
+		});
 	},
 	
 	roleSelect: function(options){
