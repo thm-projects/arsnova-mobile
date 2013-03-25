@@ -37,10 +37,8 @@ Ext.define('ARSnova.view.LoginPanel', {
 		this.defaults = {
 			xtype	: 'button',
 			handler	: function(b) {
-				Ext.dispatch({
-					controller	: 'auth',
-					action		: 'login',
-					mode		: b.value
+				ARSnova.app.getController('Auth').login({
+					mode: b.value
 				});
 			}
 		};
@@ -112,10 +110,8 @@ Ext.define('ARSnova.view.LoginPanel', {
 			defaults : {
 				xtype	: 'button',
 				handler	: function(b) {
-					Ext.dispatch({
-						controller	: 'auth',
-						action		: 'login',
-						mode		: b.value
+					ARSnova.app.getController('Auth').login({
+						mode: b.value
 					});
 				}
 			},
