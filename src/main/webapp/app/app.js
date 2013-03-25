@@ -187,7 +187,7 @@ Ext.regApplication({
 	 * device, notify user how to add app to home screen for full screen mode.
 	 */ 
     checkFullscreen: function(){
-		if (localStorage.getItem('html5 info read') == null){
+		if (localStorage.getItem('html5 info read') == null && !location.hash){
     		if (!this.popup){
     			this.popup = new ARSnova.views.CheckFullscreenPanel();
     		}
