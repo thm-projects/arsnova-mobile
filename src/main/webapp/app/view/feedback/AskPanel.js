@@ -17,10 +17,12 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-Ext.namespace('ARSnova.views.feedback');
-
-ARSnova.views.feedback.AskPanel = Ext.extend(Ext.Panel, {
-	scroll: 'vertical',
+Ext.define('ARSnove.view.feedback.AskPanel', {
+	extend: 'Ext.Panel',
+	
+	config: {
+		scroll: 'vertical'	
+	},
 	
 	constructor: function() {
 		this.backButton = new Ext.Button({
@@ -78,7 +80,7 @@ ARSnova.views.feedback.AskPanel = Ext.extend(Ext.Panel, {
 			}]
 		}];
 		
-		ARSnova.views.feedback.AskPanel.superclass.constructor.call(this, arguments);
+		ARSnova.view.feedback.AskPanel.superclass.constructor.call(this, arguments);
 	},
 	
 	askQuestion: function() {
@@ -104,9 +106,7 @@ ARSnova.views.feedback.AskPanel = Ext.extend(Ext.Panel, {
 			return;
 		}
 		
-		Ext.dispatch({
-			controller: 'feedback',
-			action: 'ask',
+		ARSnova.app.getController('Feedback').ask({
 			question: question,
 			success: function() {
 				var theNotificationBox = {};
