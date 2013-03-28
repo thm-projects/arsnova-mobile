@@ -18,17 +18,18 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-Ext.namespace('ARSnova.views.feedbackQuestions');
-
-ARSnova.views.feedbackQuestions.DetailsPanel = Ext.extend(Ext.Panel, {
-	scroll: 'vertical',
-	isRendered: false,
+Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
+	extend: 'Ext.Panel',
 	
-	/* toolbar items */
-	toolbar		: null,
-	backButton	: null,
-	
-	questionObj : null,
+	config: {
+		scroll: 'vertical',
+		isRendered: false,
+		
+		/* toolbar items */
+		toolbar		: null,
+		backButton	: null,
+		questionObj : null
+	},
 	
 	constructor: function(question){
 		this.questionObj = question;
@@ -99,13 +100,13 @@ ARSnova.views.feedbackQuestions.DetailsPanel = Ext.extend(Ext.Panel, {
 			}
 		}];
 		
-		ARSnova.views.feedbackQuestions.DetailsPanel.superclass.constructor.call(this);
+		ARSnova.view.feedbackQuestions.DetailsPanel.superclass.constructor.call(this);
 	},
 	
-	initComponent: function(){
+	initialize: function(){
 		this.on('deactivate', this.onDeactivate);
 		
-		ARSnova.views.feedbackQuestions.DetailsPanel.superclass.initComponent.call(this);
+		ARSnova.view.feedbackQuestions.DetailsPanel.superclass.initialize.call(this);
 	},
 	
 	onDeactivate: function(){
