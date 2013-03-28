@@ -18,14 +18,19 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.views.user.TabPanel = Ext.extend(Ext.TabPanel, {
-	title	: Messages.SESSION,
-	iconCls	: 'tabBarIconHome',
-	scroll	: 'vertical',
+Ext.define('ARSnove.view.user.TabPanel', {
+	extend: 'Ext.tab.Panel',
 	
-	tabBar: {
-    	hidden: true
-    },
+	config: {
+		title	: Messages.SESSION,
+	
+		iconCls	: 'tabBarIconHome',
+		scroll	: 'vertical',
+		
+		tabBar: {
+	    	hidden: true
+	    }
+	},
 	
 	constructor: function(){
 		this.inClassPanel = new ARSnova.views.user.InClass();
@@ -33,15 +38,15 @@ ARSnova.views.user.TabPanel = Ext.extend(Ext.TabPanel, {
 		this.items = [
 	        this.inClassPanel
         ];
-		ARSnova.views.user.TabPanel.superclass.constructor.call(this);
+		ARSnova.view.user.TabPanel.superclass.constructor.call(this);
 	},
 	
-	initComponent: function(){
+	initialize: function(){
 		this.on('afterlayout', function(){
 			setTimeout("ARSnova.hideLoadMask()", 1000); // timeout to compensate the cardswitch animation
 		});
 		
-		ARSnova.views.user.TabPanel.superclass.initComponent.call(this);
+		ARSnova.view.user.TabPanel.superclass.initialize.call(this);
 	},
 	
 	renew: function(){
