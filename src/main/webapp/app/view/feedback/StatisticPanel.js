@@ -20,12 +20,16 @@
  +--------------------------------------------------------------------------*/
 feedbackChartColors = ['url(#v-3)', 'url(#v-2)', 'url(#v-1)', 'url(#v-4)'],
 
-ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
-	layout: 'fit',
-	feedbackChart: null,
+Ext.define('ARSnove.view.feedback.StatisticPanel', {
+	extend: 'Ext.Panel',
 	
-	/* toolbar items */
-	toolbar: null,
+	config: {
+		layout: 'fit',
+		feedbackChart: null,
+		
+		/* toolbar items */
+		toolbar: null
+	},
 	
 	renewChartDataTask: {
 		name: 'renew chart data at feedback panel',
@@ -193,7 +197,7 @@ ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
 		
 		this.doLayout();
 		
-		ARSnova.views.feedback.StatisticPanel.superclass.constructor.call(this);
+		ARSnova.view.feedback.StatisticPanel.superclass.constructor.call(this);
 	},
 	
 	/**
