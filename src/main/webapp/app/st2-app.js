@@ -44,10 +44,27 @@ Ext.application({
     icon: 'resources/images/ARSnova_Grafiken/01_AppIcon_114x114px.png',
     
     models: ['Answer', 'Config', 'Feedback', 'FoodVote', 'LoggedIn', 'Question', 'Session', 'Statistic', 'Course', 'Auth'],
-    views: [].concat(['Caption', 'CheckFullscreenPanel', 'LoginPanel', 'MainTabPanel'], 
-    		['MathJaxField', 'MathJaxMessageBox', 'MultiBadgeButton', 'NumericKeypad', 'FreetextAnswerList'],
-    		['FreetextAnswerPanel', 'FreetextDetailAnswer', 'FreetextQuestion', 'QuestionStatusButton', 'SessionStatusButton'],
-    		['TabPanel', 'RolePanel']),
+    
+    views: [].concat(
+    		
+    		/* app/view */
+    		['Caption', 'CheckFullscreenPanel', 'LoginPanel', 'MainTabPanel', 'TabPanel', 'RolePanel', 'MathJaxField'], 
+    		['MathJaxMessageBox', 'MultiBadgeButton', 'NumericKeypad', 'FreetextAnswerList', 'FreetextAnswerPanel'],
+    		['FreetextDetailAnswer', 'FreetextQuestion', 'QuestionStatusButton', 'SessionStatusButton'],
+    		
+    		/* app/view/home */  
+    		['home.HomePanel', 'home.HomeTabPanel', 'home.MySessionsPanel', 'home.NewSessionPanel'],
+    		
+    		/* app/view/about */
+    		['about.AboutPanel', 'about.ARSinLessonPanel', 'about.ARSPanel', 'about.CreditsPanel', 'about.HelpCanteenPanel'],
+    		['about.HelpDeskPanel', 'about.HelpFeedbackPanel', 'about.HelpHomePanel', 'about.HelpMainPanel'],
+    		['about.HelpQuestionsPanel', 'about.HelpVideoPanel', 'about.ImpressumPanel', 'about.InfoPanel'],
+    		['about.OpenSourceProjectsPanel', 'about.SocialSoftwarePanel', 'about.SponsorsPanel', 'about.StatisticPanel'],
+    		['about.TabPanel'],
+    		
+    		/* app/view/user */
+    		['user.InClass', 'user.QuestionPanel', 'user.RankingPanel', 'user.TabPanel']),
+    		
     controllers: ['Archive', 'Auth', 'Canteen', 'Feedback', 'Lang', 'Questions', 'Ranking', 'Sessions', 'User'],
     
     /* items */
@@ -191,7 +208,8 @@ Ext.application({
 	 */
 	afterLogin: function(){
 		taskManager.start(ARSnova.app.loggedInTask);
-		taskManager.start(ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.updateCanteenBadgeIconTask);
+		// TODO: canteen ...
+		//taskManager.start(ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.updateCanteenBadgeIconTask);
 		
 		ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.homeTabPanel, 'slide');
 		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
