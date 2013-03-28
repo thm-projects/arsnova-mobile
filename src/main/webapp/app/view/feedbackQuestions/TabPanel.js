@@ -18,14 +18,18 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.views.feedbackQuestions.TabPanel = Ext.extend(Ext.TabPanel, {
-	title	: Messages.QUESTIONS,
-	iconCls	: 'tabBarIconQuestion',
-	scroll	: 'vertical',
-
-	tabBar: {
-    	hidden: true
-    },
+Ext.define('ARSnova.view.feedbackQuestions.TabPanel', {
+	extend: 'Ext.tab.Panel',
+	
+	config: {
+		title	: Messages.QUESTIONS,
+		iconCls	: 'tabBarIconQuestion',
+		scroll	: 'vertical',
+	
+		tabBar: {
+	    	hidden: true
+	    }
+	},
 	
 	constructor: function(){
 		this.questionsPanel = new ARSnova.views.feedbackQuestions.QuestionsPanel();
@@ -33,10 +37,10 @@ ARSnova.views.feedbackQuestions.TabPanel = Ext.extend(Ext.TabPanel, {
 		this.items = [
             this.questionsPanel
         ];
-		ARSnova.views.feedbackQuestions.TabPanel.superclass.constructor.call(this);
+		ARSnova.view.feedbackQuestions.TabPanel.superclass.constructor.call(this);
 	},
 	
-	initComponent: function(){
+	initialize: function(){
 		this.on('activate', function(){
 			taskManager.start(ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.checkFeedbackQuestionsTask);
 			taskManager.stop(ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countFeedbackQuestionsTask);
@@ -47,6 +51,6 @@ ARSnova.views.feedbackQuestions.TabPanel = Ext.extend(Ext.TabPanel, {
 			taskManager.start(ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countFeedbackQuestionsTask);
 		});
 		
-		ARSnova.views.feedbackQuestions.TabPanel.superclass.initComponent.call(this);
+		ARSnova.view.feedbackQuestions.TabPanel.superclass.initialize.call(this);
 	}
 });
