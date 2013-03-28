@@ -27,7 +27,7 @@ Ext.define('ARSnova.view.about.HelpMainPanel', {
 		/* toolbar items */
 		toolbar		: null,
 		backButton	: null
-	}
+	},
 
 	constructor: function(standalone) {
 		var showVideo = function(videoid) {
