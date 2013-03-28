@@ -18,25 +18,29 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.views.user.RankingPanel = Ext.extend(Ext.Panel, {
-	myRanking 	 : null,
-	myRankingPos : 0,
-	betterCounter: 0,
-	worseCounter : 0,
-	equalCounter : -1, //have to start at -1 because the result of this user will be also in the resultSet of getSessionRankingStatistic
-	overallCounter: 0,
+Ext.define('ARSnove.view.user.RankingPanel', {
+	extend: 'Ext.Panel',
 	
-	high	: 75,
-	medium	: 50,
-	low		: 25,
-	highCounter	  : 0,
-	mediumCounter : 0,
-	lowCounter	  : 0,
-	veryLowCounter: 0,
-	
-	/* toolbar items */
-	toolbar		: null,
-	backButton	: null,
+	config: {
+		myRanking 	 : null,
+		myRankingPos : 0,
+		betterCounter: 0,
+		worseCounter : 0,
+		equalCounter : -1, //have to start at -1 because the result of this user will be also in the resultSet of getSessionRankingStatistic
+		overallCounter: 0,
+		
+		high	: 75,
+		medium	: 50,
+		low		: 25,
+		highCounter	  : 0,
+		mediumCounter : 0,
+		lowCounter	  : 0,
+		veryLowCounter: 0,
+		
+		/* toolbar items */
+		toolbar		: null,
+		backButton	: null,	
+	},
 	
 	constructor: function(){
 		this.backButton = new Ext.Button({
@@ -78,10 +82,10 @@ ARSnova.views.user.RankingPanel = Ext.extend(Ext.Panel, {
 			html: 'Hier sehen Sie die Statistik der Session: <br><br>'
 		}, this.myRankingPanel, this.sessionStatisticPanel];
 		
-		ARSnova.views.user.RankingPanel.superclass.constructor.call(this);
+		ARSnova.view.user.RankingPanel.superclass.constructor.call(this);
 	},
 	
-	initComponent: function(){
+	initialize: function(){
 		ARSnova.userRankingModel.getUserRankingStatistic(localStorage.getItem("sessionId"), localStorage.getItem("login"), {
 			success: function(response){
 				var responseObj = Ext.decode(response.responseText).rows;
@@ -120,7 +124,7 @@ ARSnova.views.user.RankingPanel = Ext.extend(Ext.Panel, {
 		
 		this.on('activate', this.onActivate);
 		
-		ARSnova.views.user.RankingPanel.superclass.initComponent.call(this);
+		ARSnova.view.user.RankingPanel.superclass.initialize.call(this);
 	},
 	
 	onActivate: function(){
