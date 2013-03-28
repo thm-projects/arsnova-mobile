@@ -18,13 +18,17 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.views.feedback.VotePanel = Ext.extend(Ext.Panel, {
-	scroll: 'vertical',
+Ext.define('ARSnove.view.feedback.VotePanel', {
+	extend: 'Ext.Panel',
 	
-	/* toolbar items */
-	toolbar			: null,
-	backButton		: null,
-	questionButton	: null,
+	config: {
+		scroll: 'vertical',
+		
+		/* toolbar items */
+		toolbar			: null,
+		backButton		: null,
+		questionButton	: null
+	},
 	
 	constructor: function(){
 		this.toolbar = new Ext.Toolbar({
@@ -38,9 +42,7 @@ ARSnova.views.feedback.VotePanel = Ext.extend(Ext.Panel, {
 			xtype	: 'button',
 			cls		: 'option-button',
 			handler	: function(button) {
-				Ext.dispatch({
-					controller	: 'feedback',
-					action		: 'vote',
+				ARSnova.app.getController('Feedback').vote({
 					value		: button.value
 				});
 			}
@@ -75,6 +77,6 @@ ARSnova.views.feedback.VotePanel = Ext.extend(Ext.Panel, {
 			html: Messages.FEEDBACK_INSTRUCTION
 		}];
 		
-		ARSnova.views.feedback.VotePanel.superclass.constructor.call(this);
+		ARSnova.view.feedback.VotePanel.superclass.constructor.call(this);
 	}
 });
