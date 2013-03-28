@@ -18,17 +18,17 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-
-Ext.namespace('ARSnova.views.user');
-
-ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
+Ext.define('ARSnova.view.user.InClass', {
+	extend: 'Ext.Panel',
 	
-	inClass			: null,
-	feedbackButton	: null,
-	questionsButton	: null,
-	flashcardButton	: null,
-	rankingButton	: null,
-	quizButton		: null,
+	config: {
+		inClass			: null,
+		feedbackButton	: null,
+		questionsButton	: null,
+		flashcardButton	: null,
+		rankingButton	: null,
+		quizButton		: null
+	},
 	
 	/**
 	 * If user logged in a session, check for new skill questions
@@ -85,10 +85,7 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 			ui		: 'back',
 			cls		: loggedInCls,
 			handler	: function() {
-				Ext.dispatch({
-					controller	: 'sessions',
-					action		: 'logout'
-				});
+				ARSnova.app.getController('Sessions').logout();
 			}
 		});
 		
@@ -169,13 +166,13 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 		
 		this.items = [this.inClass];
 		
-		ARSnova.views.user.InClass.superclass.constructor.call(this);
+		ARSnova.view.user.InClass.superclass.constructor.call(this);
 	},
 	
-	initComponent: function(){
+	initialize: function(){
 		this.on('destroy', this.destroyListeners);
 		
-		ARSnova.views.user.InClass.superclass.initComponent.call(this);
+		ARSnova.view.user.InClass.superclass.initialize.call(this);
 	},
 	
 	/* will be called on session login */
@@ -231,10 +228,7 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 									'"' + question.text + '"<br>' + Messages.WANNA_ANSWER, 
 									function(answer){
 										if (answer == 'yes'){ //show the question to the user
-											Ext.dispatch({
-												controller	: 'questions',
-												action		: 'index'
-											});
+											ARSnova.app.getController('Questions').index();
 										}
 									}
 								);
@@ -250,10 +244,7 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 							Messages.THERE_ARE + ' ' + newQuestions.length + ' ' + Messages.NEW_QUESTIONS , Messages.WANNA_ANSWER, 
 							function(answer){
 								if (answer == 'yes'){ //show the question to the user
-									Ext.dispatch({
-										controller	: 'questions',
-										action		: 'index'
-									});
+									ARSnova.app.getController('Questions').index();
 								}
 							}
 						);
@@ -268,10 +259,7 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 	},
 	
 	buttonClicked: function(button){
-		Ext.dispatch({
-			controller	: button.controller,
-			action		: button.action
-		});
+		ARSnova.app.getController('button.controller')[button.action];
 	},
 	
 	checkFeedbackRemoved: function() {
