@@ -63,7 +63,15 @@ Ext.application({
     		['about.TabPanel'],
     		
     		/* app/view/user */
-    		['user.InClass', 'user.QuestionPanel', 'user.RankingPanel', 'user.TabPanel']),
+    		['user.InClass', 'user.QuestionPanel', 'user.RankingPanel', 'user.TabPanel'],
+    		
+    		/* app/view/feedback */
+    		['feedback.AskPanel', 'feedback.StatisticPanel', 'feedback.TabPanel', 'feedback.VotePanel'],
+    		
+    		/* app/view/feedbackQuestions */
+    		['feedbackQuestions.DetailsPanel', 'feedbackQuestions.QuestionsPanel', 'feedbackQuestions.TabPanel']),
+    		
+    		
     		
     controllers: ['Archive', 'Auth', 'Canteen', 'Feedback', 'Lang', 'Questions', 'Ranking', 'Sessions', 'User'],
     
