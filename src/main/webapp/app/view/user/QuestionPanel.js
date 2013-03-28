@@ -18,15 +18,19 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.views.user.QuestionPanel = Ext.extend(Ext.Carousel, {
-	title	: Messages.QUESTIONS,
-	iconCls	: 'tabBarIconQuestion',
+Ext.define('ARSnova.view.user.QuestionPanel', {
+	extend: 'Ext.Carousel',
 	
-	/* toolbar items */
-	toolbar		: null,
-	backButton	: null,
+	config: {
+		title	: Messages.QUESTIONS,
+		iconCls	: 'tabBarIconQuestion',
+		
+		/* toolbar items */
+		toolbar		: null,
+		backButton	: null,
 	
-	questionCounter: 0,
+		questionCounter: 0
+	},
 	
 	constructor: function(){
 		this.backButton = new Ext.Button({
@@ -92,17 +96,17 @@ ARSnova.views.user.QuestionPanel = Ext.extend(Ext.Carousel, {
 		this.dockedItems = [this.toolbar];
 		this.items = [];
 		
-		ARSnova.views.user.QuestionPanel.superclass.constructor.call(this);
+		ARSnova.view.user.QuestionPanel.superclass.constructor.call(this);
 	},
 	
-	initComponent: function(){
+	initialize: function(){
 		this.on('beforeactivate', this.beforeActivate);
 		this.on('activate', this.onActivate);
 		this.on('add', function(panel, component, index) {
 			component.doTypeset && component.doTypeset(panel);
 		});
 		
-		ARSnova.views.user.QuestionPanel.superclass.initComponent.call(this);
+		ARSnova.view.user.QuestionPanel.superclass.initialize.call(this);
 	},
 	
 	beforeActivate: function(){
