@@ -18,16 +18,20 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-Ext.regModel('FeedbackQuestion', {
-    fields: ['fullDate', 'formattedTime', 'timestamp', 'subject', 'type', 'groupDate']
+Ext.define('FeedbackQuestion', {
+	extend: 'Ext.data.Model',
+	fields: ['fullDate', 'formattedTime', 'timestamp', 'subject', 'type', 'groupDate']
 });
 
-ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
-	/* toolbar items */
-	toolbar		: null,
-	backButton	: null,
-	layout		: 'fit',
-	questionsCounter: 0,
+Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
+	extend: 'Ext.Panel',
+	
+	config: {
+		toolbar		: null,
+		backButton	: null,
+		layout		: 'fit',
+		questionsCounter: 0
+	},
 	
 	store: new Ext.data.JsonStore({
 	    model  : 'FeedbackQuestion',
@@ -226,16 +230,16 @@ ARSnova.views.feedbackQuestions.QuestionsPanel = Ext.extend(Ext.Panel, {
 			this.noQuestionsFound
         ];
 		
-		ARSnova.views.feedbackQuestions.QuestionsPanel.superclass.constructor.call(this);
+		ARSnova.view.feedbackQuestions.QuestionsPanel.superclass.constructor.call(this);
 	},
 	
-	initComponent: function(){
+	initialize: function(){
 		this.on('deactivate', function(){
 			var selModel = this.list.getSelectionModel();
 			selModel.deselect(selModel.lastSelected, true);
 		});
 		
-		ARSnova.views.feedbackQuestions.QuestionsPanel.superclass.initComponent.call(this);
+		ARSnova.view.feedbackQuestions.QuestionsPanel.superclass.initialize.call(this);
 	},
 	
 	getFeedbackQuestions: function(){
