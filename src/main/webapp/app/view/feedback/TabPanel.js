@@ -18,13 +18,17 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.views.feedback.TabPanel = Ext.extend(Ext.TabPanel, {
-	title: 		Messages.FEEDBACK,
-	iconCls: 	'feedbackARSnova',
+Ext.define('ARSnova.view.feedback.TabPanel', {
+	extend: 'Ext.tab.Panel',
 	
-	tabBar: {
-    	hidden: true
-    },
+	config: {
+		title: 		Messages.FEEDBACK,
+		iconCls: 	'feedbackARSnova',
+		
+		tabBar: {
+	    	hidden: true
+		}
+	},
 	
 	constructor: function(){
 		this.statisticPanel = new ARSnova.views.feedback.StatisticPanel();
@@ -36,10 +40,10 @@ ARSnova.views.feedback.TabPanel = Ext.extend(Ext.TabPanel, {
             this.votePanel,
             this.askPanel
         ];
-		ARSnova.views.feedback.TabPanel.superclass.constructor.call(this);
+		ARSnova.view.feedback.TabPanel.superclass.constructor.call(this);
 	},
 	
-	initComponent: function(){
+	initialize: function(){
 		this.on('activate', function(){
 			ARSnova.hideLoadMask();
 			this.statisticPanel.checkVoteButton();
@@ -57,7 +61,7 @@ ARSnova.views.feedback.TabPanel = Ext.extend(Ext.TabPanel, {
 			taskManager.start(ARSnova.mainTabPanel.tabPanel.updateFeedbackTask);
 		});
 		
-		ARSnova.views.feedback.TabPanel.superclass.initComponent.call(this);
+		ARSnova.view.feedback.TabPanel.superclass.initialize.call(this);
 	},
 	
 	renew: function(){
