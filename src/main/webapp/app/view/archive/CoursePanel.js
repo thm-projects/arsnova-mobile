@@ -18,14 +18,16 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-Ext.ns('ARSnova.views.archive');
-
-ARSnova.views.archive.CoursePanel = Ext.extend(Ext.Panel, {
-	selectField: null,
+Ext.define('ARSnova.view.archive.CoursePanel', {
+	extend: 'Ext.Panel',
 	
-	/* toolbar items */
-	toolbar				: null,
-	backButton			: null,
+	config: {
+		selectField: null,
+
+		/* toolbar items */
+		toolbar				: null,
+		backButton			: null
+	},
 	
 	constructor: function(){
 		this.toolbar = new Ext.Toolbar({
@@ -77,13 +79,13 @@ ARSnova.views.archive.CoursePanel = Ext.extend(Ext.Panel, {
 			html: 'Fragen meiner eStudy-Kurse:'
 		}, this.courseForm];
 		
-		ARSnova.views.archive.CoursePanel.superclass.constructor.call(this);
+		ARSnova.view.archive.CoursePanel.superclass.constructor.call(this);
 	},
 	
-	initComponent: function(){
+	initialize: function(){
 		this.on('activate', this.onActivate);
 
-		ARSnova.views.archive.CoursePanel.superclass.initComponent.call(this);
+		ARSnova.view.archive.CoursePanel.superclass.initialize.call(this);
 	},
 	
 	getCourses: function(){

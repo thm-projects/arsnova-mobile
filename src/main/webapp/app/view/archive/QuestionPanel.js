@@ -18,13 +18,17 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.views.archive.QuestionPanel = Ext.extend(Ext.Carousel, {
-	/* toolbar items */
-	toolbar		: null,
-	backButton	: null,
-	
-	courseId: null,
-	questionCounter: 0,
+Ext.define('ARSnova.view.archive.QuestionPanel', {
+	extend: 'Ext.Carousel',
+
+	config: {
+		/* toolbar items */
+		toolbar		: null,
+		backButton	: null,
+		
+		courseId: null,
+		questionCounter: 0	
+	},
 	
 	constructor: function(){
 		this.backButton = new Ext.Button({
@@ -73,14 +77,14 @@ ARSnova.views.archive.QuestionPanel = Ext.extend(Ext.Carousel, {
 		this.dockedItems = [this.toolbar];
 		this.items = [];
 		
-		ARSnova.views.archive.QuestionPanel.superclass.constructor.call(this);
+		ARSnova.view.archive.QuestionPanel.superclass.constructor.call(this);
 	},
 	
-	initComponent: function(){
+	initialize: function(){
 		this.on('beforeactivate', this.beforeActivate);
 		this.on('activate', this.onActivate);
 		
-		ARSnova.views.archive.QuestionPanel.superclass.initComponent.call(this);
+		ARSnova.view.archive.QuestionPanel.superclass.initialize.call(this);
 	},
 	
 	beforeActivate: function(){
@@ -142,6 +146,6 @@ ARSnova.views.archive.QuestionPanel = Ext.extend(Ext.Carousel, {
 	},
 		
 	addQuestion: function(question){
-		this.add(new ARSnova.views.Question(question.value));
+		this.add(new ARSnova.view.Question(question.value));
 	}
 });

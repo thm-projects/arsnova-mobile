@@ -18,13 +18,17 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.views.archive.TabPanel = Ext.extend(Ext.TabPanel, {
-	title	: 'Archiv',
-	iconCls	: 'time',
-	
-	tabBar: {
-    	hidden: true
-    },
+Ext.define('ARSnova.view.archive.TabPanel', {
+	extend: 'Ext.tab.Panel',
+
+	config: {
+		title	: 'Archiv',
+		iconCls	: 'time',
+		
+		tabBar: {
+	    	hidden: true
+	    }
+	},
 	
 	constructor: function(){
 		this.coursePanel = new ARSnova.views.archive.CoursePanel();
@@ -34,11 +38,10 @@ ARSnova.views.archive.TabPanel = Ext.extend(Ext.TabPanel, {
             this.coursePanel,
             this.questionPanel
         ];
-		ARSnova.views.archive.TabPanel.superclass.constructor.call(this);
+		ARSnova.view.archive.TabPanel.superclass.constructor.call(this);
 	},
 	
-	initComponent: function(){		
-		
-		ARSnova.views.archive.TabPanel.superclass.initComponent.call(this);
+	initialize: function(){		
+		ARSnova.view.archive.TabPanel.superclass.initialize.call(this);
 	}
 });
