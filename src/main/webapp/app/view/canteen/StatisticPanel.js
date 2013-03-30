@@ -18,23 +18,26 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-Ext.namespace('ARSnova.views.canteen');
-
 canteenChartColors = ['url(#v1)', 'url(#v2)', 'url(#v3)', 'url(#v4)', 'url(#v5)'],
 
-ARSnova.views.canteen.StatisticPanel = Ext.extend(Ext.Panel, {
-	title	: Messages.CANTEEN,
-	iconCls	: 'tabBarIconCanteen',
-	layout	: 'fit',
+Ext.define('ARSnova.view.canteen.StatisticPanel', {
+	extend: 'Ext.Panel',
 	
-	location: ARSnova.CANTEEN_LOCATION,
-	day: ARSnova.CANTEEN_DAY,
-	
-	canteenChart: null,
-	
-	/* toolbar items */
-	toolbar				: null,
-	canteenVoteButton	: null,
+	config: {
+		title	: Messages.CANTEEN,
+
+		iconCls	: 'tabBarIconCanteen',
+		layout	: 'fit',
+		
+		location: ARSnova.CANTEEN_LOCATION,
+		day: ARSnova.CANTEEN_DAY,
+		
+		canteenChart: null,
+		
+		/* toolbar items */
+		toolbar				: null,
+		canteenVoteButton	: null
+	},
 	
 	renewChartDataTask: {
 		name: 'renew chart data at canteen panel',
@@ -198,13 +201,13 @@ ARSnova.views.canteen.StatisticPanel = Ext.extend(Ext.Panel, {
 		this.dockedItems = [this.toolbar];
 		this.items = [this.canteenChart];
 		
-		ARSnova.views.canteen.StatisticPanel.superclass.constructor.call(this);
+		ARSnova.view.canteen.StatisticPanel.superclass.constructor.call(this);
 	},
 	
-	initComponent: function() {
+	initialize: function() {
 		this.on('activate', this.onActivate);
 		
-		ARSnova.views.canteen.StatisticPanel.superclass.initComponent.call(this);
+		ARSnova.view.canteen.StatisticPanel.superclass.initialize.call(this);
 	},
 	
 	onActivate: function() {

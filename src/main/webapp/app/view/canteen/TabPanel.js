@@ -18,14 +18,19 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.views.canteen.TabPanel = Ext.extend(Ext.TabPanel, {
-	title	: Messages.CANTEEN,
-	iconCls	: 'tabBarIconCanteen',
-	//layout	: 'fit',
+Ext.define('ARSnova.view.canteen.TabPanel', {
+	extend: 'Ext.tab.Panel',
 	
-	tabBar: {
-    	hidden: true
-    },
+	config: {
+		title	: Messages.CANTEEN,
+		
+		iconCls	: 'tabBarIconCanteen',
+		//layout	: 'fit',
+		
+		tabBar: {
+	    	hidden: true
+	    }
+	},
 	
 	constructor: function(){
 		this.statisticPanel = new ARSnova.views.canteen.StatisticPanel();
@@ -35,10 +40,10 @@ ARSnova.views.canteen.TabPanel = Ext.extend(Ext.TabPanel, {
             this.statisticPanel,
             this.votePanel
         ];
-		ARSnova.views.canteen.TabPanel.superclass.constructor.call(this);
+		ARSnova.view.canteen.TabPanel.superclass.constructor.call(this);
 	},
 	
-	initComponent: function(){
+	initialize: function(){
 		this.on('activate', function(){
 			taskManager.start(this.statisticPanel.renewChartDataTask);
 		});
@@ -48,6 +53,6 @@ ARSnova.views.canteen.TabPanel = Ext.extend(Ext.TabPanel, {
 			taskManager.stop(this.statisticPanel.renewChartDataTask);
 		});
 		
-		ARSnova.views.canteen.TabPanel.superclass.initComponent.call(this);
+		ARSnova.view.canteen.TabPanel.superclass.initialize.call(this);
 	}
 });

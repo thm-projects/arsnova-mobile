@@ -18,16 +18,20 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.views.canteen.VotePanel = Ext.extend(Ext.Panel, {
-	VOTE_1: null,
-	VOTE_2: null,
-	VOTE_3: null,
-	VOTE_4: null,
+Ext.define('ARSnova.view.canteen.VotePanel', {
+	extend: 'Ext.Panel',
 	
-	/* toolbar items */
-	toolbar		: null,
-	backButton	: null,
-	foodOptions	: false,
+	config: {
+		VOTE_1: null,
+		VOTE_2: null,
+		VOTE_3: null,
+		VOTE_4: null,
+		
+		/* toolbar items */
+		toolbar		: null,
+		backButton	: null,
+		foodOptions	: false
+	},
 	
 	constructor: function(){
 		this.backButton = new Ext.Button({
@@ -71,15 +75,15 @@ ARSnova.views.canteen.VotePanel = Ext.extend(Ext.Panel, {
 			html: Messages.I_RECOMMEND
 		}];
 		
-		ARSnova.views.canteen.VotePanel.superclass.constructor.call(this);
+		ARSnova.view.canteen.VotePanel.superclass.constructor.call(this);
 	},
 	
-	initComponent: function(){
+	initialize: function(){
 		this.on('activate', function(){
 			this.addFoodOptions();
 		});
 		
-		ARSnova.views.canteen.VotePanel.superclass.initComponent.call(this);
+		ARSnova.view.canteen.VotePanel.superclass.initialize.call(this);
 	},
 	
 	addFoodOptions: function() {
