@@ -18,56 +18,25 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-Ext.namespace('ARSnova.views.speaker');
+Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
+	extend: 'Ext.Panel',
 
-ARSnova.views.BadgeList = Ext.extend(Ext.List, {
-	initComponent : function() {
-		ARSnova.views.BadgeList.superclass.initComponent.call(this);
+	config: {
+		scroll: 'vertical',
 		
-		this.tpl = ['<tpl for="."><div class="x-list-item x-hasbadge ' + this.itemCls + '">',
-		            '<span class="x-button-label">' + this.itemTpl + '</span>',
-		            '<tpl if="numAnswers &gt; 0"><span class="redbadgeicon">{numAnswers}</span></tpl>',
-		            '</div></tpl>'].join("");
-		if (this.grouped) {
-			this.listItemTpl = this.tpl;
-			if (Ext.isString(this.listItemTpl) || Ext.isArray(this.listItemTpl)) {
-				this.listItemTpl = new Ext.XTemplate(this.listItemTpl);
-			}
-			if (Ext.isString(this.groupTpl) || Ext.isArray(this.groupTpl)) {
-				this.tpl = new Ext.XTemplate(this.groupTpl);
-			}
-		}
+		monitorOrientation: true,
 		
-		this.on('update', function(list) {
-			var allJax = MathJax.Hub.getAllJax(list.id);
-			if (allJax.length === 0) {
-				MathJax.Hub.Queue(["Typeset", MathJax.Hub, list.id]);
-			} else {
-				for (var i=0, jax; jax = allJax[i]; i++) {
-					MathJax.Hub.Queue(["needsUpdate", jax], function() {
-						console.log(arguments);
-					});
-				}
-			}
-		});
-	}
-});
-
-ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
-	scroll: 'vertical',
-	
-	monitorOrientation: true,
-	
-	/* toolbar items */
-	toolbar		: null,
-	backButton	: null,
-	
-	controls: null,
-	questions: null,
-	newQuestionButton: null,
-	
-	questionStore: null,
-	questionEntries: [],
+		/* toolbar items */
+		toolbar		: null,
+		backButton	: null,
+		
+		controls: null,
+		questions: null,
+		newQuestionButton: null,
+		
+		questionStore: null,
+		questionEntries: []
+	},
 	
 	updateAnswerCount: {
 		name: 'refresh the number of answers inside the badges',
@@ -94,9 +63,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 			
 			listeners: {
 				itemtap: function(list, index, element) {
-					Ext.dispatch({
-						controller	: 'questions',
-						action		: 'details',
+					ARSnova.app.getController('Questions').details({
 						question	: list.store.getAt(index).data
 					});
 				}
@@ -172,15 +139,15 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 			}
 		];
 		
-		ARSnova.views.speaker.AudienceQuestionPanel.superclass.constructor.call(this);
+		ARSnova.view.speaker.AudienceQuestionPanel.superclass.constructor.call(this);
 	},
 	
-	initComponent: function() {
+	initialize: function() {
 		this.on('activate', this.onActivate);
 		this.on('deactivate', this.onDeactivate);
 		this.on('orientationchange', this.onOrientationChange);
 		
-		ARSnova.views.speaker.AudienceQuestionPanel.superclass.initComponent.call(this);
+		ARSnova.view.speaker.AudienceQuestionPanel.superclass.initialize.call(this);
 	},
 	
 	onActivate: function() {
