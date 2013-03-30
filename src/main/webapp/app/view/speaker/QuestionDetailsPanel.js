@@ -19,21 +19,30 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-Ext.regModel('FreetextAnswer', {
-	fields: ['answerSubject', 'timestamp', 'formattedTime', 'groupDate']
+Ext.define('ARSnova.view.speaker.FreetextAnswer', {
+    extend: 'Ext.data.Model',
+ 
+    config: {
+    	fields: ['answerSubject', 'timestamp', 'formattedTime', 'groupDate']
+    }
 });
 
-ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
-	scroll: 'vertical',
+Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
+	extend: 'Ext.Panel',
 	
-	/* toolbar items */
-	toolbar		: null,
-	backButton	: null,
-	cancelButton: null,
-	editButton	: null,
+	config: {
+		scroll: 'vertical',
+		
+		
+		/* toolbar items */
+		toolbar		: null,
+		backButton	: null,
+		cancelButton: null,
+		editButton	: null,
+		
+		questionObj : null,
+	},
 	
-	questionObj : null,
-
 	freetextAnswerStore: new Ext.data.JsonStore({
 		model		: 'FreetextAnswer',
 		sorters		: 'timestamp',
@@ -202,7 +211,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 				handler	: function(){
 					taskManager.stop(this.renewAnswerDataTask);
 					var sTP = ARSnova.mainTabPanel.tabPanel.speakerTabPanel;
-					sTP.questionStatisticChart = new ARSnova.views.QuestionStatisticChart(this.questionObj, this);
+					sTP.questionStatisticChart = new ARSnova.view.QuestionStatisticChart(this.questionObj, this);
 					ARSnova.mainTabPanel.setActiveItem(sTP.questionStatisticChart, 'slide');
 				}
 			}, {
@@ -286,7 +295,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 			}]
 		});
 		
-		this.questionStatusButton = new ARSnova.views.QuestionStatusButton(this.questionObj);
+		this.questionStatusButton = new ARSnova.view.QuestionStatusButton(this.questionObj);
 		
 		this.deleteAnswersButton = new Ext.Panel({
 			cls: 'threeButtons left',
@@ -516,7 +525,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 			cls	 : 'standardFieldset'
 		});
 		
-		this.freetextAnswerList = ARSnova.views.FreetextAnswerList(this.freetextAnswerStore, true);
+		this.freetextAnswerList = ARSnova.view.FreetextAnswerList(this.freetextAnswerStore, true);
 		
 		this.noFreetextAnswers = new Ext.Panel({
 			cls: 'centerText',
@@ -541,15 +550,15 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
           this.answerForm
         ];
 		
-		ARSnova.views.speaker.QuestionDetailsPanel.superclass.constructor.call(this);
+		ARSnova.view.speaker.QuestionDetailsPanel.superclass.constructor.call(this);
 	},
 	
-	initComponent: function(){
+	initialize: function(){
 		this.on('activate', this.onActivate);
 		/* show a loading screen to hide the showCorrectAnswerButton-Animation*/
 		ARSnova.showLoadMask(Messages.LOAD_MASK);
 		
-		ARSnova.views.speaker.QuestionDetailsPanel.superclass.initComponent.call(this);
+		ARSnova.view.speaker.QuestionDetailsPanel.superclass.initialize.call(this);
 	},
 	
 	prevNewCard: null,

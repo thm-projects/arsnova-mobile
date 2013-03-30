@@ -18,21 +18,25 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
-	scroll: 'vertical',
+Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
+	extend: 'Ext.Panel',
 	
-	/* toolbar items */
-	toolbar		: null,
-	backButton	: null,
-	saveButton	: null,
-	
-	/* items */
-	text: null,
-	subject: null,
-	duration: null,
-	
-	/* for estudy */
-	userCourses: [],
+	config: {
+		scroll: 'vertical',
+		
+		/* toolbar items */
+		toolbar		: null,
+		backButton	: null,
+		saveButton	: null,
+		
+		/* items */
+		text: null,
+		subject: null,
+		duration: null,
+		
+		/* for estudy */
+		userCourses: []
+	},
 	
 	constructor: function(){
 		this.backButton = new Ext.Button({
@@ -507,13 +511,13 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
             this.saveButton,
         ];
 		
-		ARSnova.views.speaker.NewQuestionPanel.superclass.constructor.call(this);
+		ARSnova.view.speaker.NewQuestionPanel.superclass.constructor.call(this);
 	},
 	
-	initComponent: function(){
+	initialize: function(){
 		this.on('activate', this.onActivate);
 		
-		ARSnova.views.speaker.NewQuestionPanel.superclass.initComponent.call(this);
+		ARSnova.view.speaker.NewQuestionPanel.superclass.initialize.call(this);
 	},
 	
 	onActivate: function(){
@@ -708,9 +712,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
     },
     
     dispatch: function(values){
-    	Ext.dispatch({
-			controller	: 'questions',
-			action		: 'add',
+    	ARSnova.app.getController('Questions').add({
 			sessionKeyword: localStorage.getItem('keyword'),
 			text		: values.text,
 			subject		: values.subject,
@@ -724,9 +726,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 			courses		: values.courses,
 			noCorrect	: values.noCorrect,
 			successFunc	: function(response, opts){
-				Ext.dispatch({
-					controller	: 'questions',
-					action		: 'details',
+				ARSnova.app.getController('Questions').details({
 					question	: Ext.decode(response.responseText)
 				});
 			},

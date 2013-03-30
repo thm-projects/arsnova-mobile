@@ -20,19 +20,22 @@
  +--------------------------------------------------------------------------*/
 questionChartColors = ['url(#v1)', 'url(#v2)', 'url(#v3)', 'url(#v4)', 'url(#v5)', 'url(#v6)'],
 
-ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
-	title	: Messages.STATISTIC,
-	iconCls	: 'tabBarIconCanteen',
-	layout	: 'fit',
-	
-	questionObj: null,
-	questionChart: null,
-	questionStore: null,
-	lastPanel: null,
-	
-	/* toolbar items */
-	toolbar				: null,
-	canteenVoteButton	: null,
+Ext.define('ARSnova.view.QuestionStatisticChart', {
+	extend: 'Ext.Panel',
+	config: {
+		title	: Messages.STATISTIC,
+		iconCls	: 'tabBarIconCanteen',
+		layout	: 'fit',
+		
+		questionObj: null,
+		questionChart: null,
+		questionStore: null,
+		lastPanel: null,
+		
+		/* toolbar items */
+		toolbar				: null,
+		canteenVoteButton	: null
+	},
 	
 	renewChartDataTask: {
 		name: 'renew the chart data at question statistics charts',
@@ -304,13 +307,13 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 		
 		this.doLayout();
 		
-		ARSnova.views.QuestionStatisticChart.superclass.constructor.call(this);
+		ARSnova.view.QuestionStatisticChart.superclass.constructor.call(this);
 	},
 	
-	initComponent: function() {
+	initialize: function() {
 		this.on('activate', this.onActivate);
 		
-		ARSnova.views.QuestionStatisticChart.superclass.initComponent.call(this);
+		ARSnova.view.QuestionStatisticChart.superclass.initialize.call(this);
 	},
 	
 	getQuestionAnswers: function() {

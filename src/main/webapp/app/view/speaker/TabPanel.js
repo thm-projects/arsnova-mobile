@@ -18,37 +18,41 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.views.speaker.TabPanel = Ext.extend(Ext.TabPanel, {
-	title	: Messages.SESSION,
-	iconCls	: 'tabBarIconHome',
+Ext.define('ARSnova.view.speaker.TabPanel', {
+	extend: 'Ext.tab.Panel',
 	
-	tabBar: {
-    	hidden: true
-    },
-	
+	config: {
+		title	: Messages.SESSION,
+		iconCls	: 'tabBarIconHome',
+		
+		tabBar: {
+	    	hidden: true
+		}  
+	},
+	    
 	constructor: function(){
-		this.inClassPanel 			= new ARSnova.views.speaker.InClass();
-		this.audienceQuestionPanel 	= new ARSnova.views.speaker.AudienceQuestionPanel();
-		this.newQuestionPanel 		= new ARSnova.views.speaker.NewQuestionPanel();
-		this.showcaseQuestionPanel	= new ARSnova.views.speaker.ShowcaseQuestionPanel();
+		this.inClassPanel 			= new ARSnova.view.speaker.InClass();
+		this.audienceQuestionPanel 	= new ARSnova.view.speaker.AudienceQuestionPanel();
+		this.newQuestionPanel 		= new ARSnova.view.speaker.NewQuestionPanel();
+		this.showcaseQuestionPanel	= new ARSnova.view.speaker.ShowcaseQuestionPanel();
 		
 		this.items = [
 	        this.inClassPanel,
 	        this.audienceQuestionPanel,
 	        this.newQuestionPanel
         ];
-		ARSnova.views.speaker.TabPanel.superclass.constructor.call(this);
+		ARSnova.view.speaker.TabPanel.superclass.constructor.call(this);
 	},
 	
-	initComponent: function(){
+	initialize: function(){
 		setTimeout("ARSnova.hideLoadMask();", 1000);
 		
-		ARSnova.views.speaker.TabPanel.superclass.initComponent.call(this);
+		ARSnova.view.speaker.TabPanel.superclass.initialize.call(this);
 	},
 	
 	renew: function(){
 		this.remove(this.inClassPanel);
-		this.inClassPanel = new ARSnova.views.speaker.InClass();
+		this.inClassPanel = new ARSnova.view.speaker.InClass();
 		this.insert(0, this.inClassPanel);
 		this.setActiveItem(this.inClassPanel);
 		this.inClassPanel.registerListeners();

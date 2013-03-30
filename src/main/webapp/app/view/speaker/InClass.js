@@ -18,21 +18,25 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
-	title	: Messages.FEEDBACK,
-	iconCls	: 'feedbackMedium',
-	scroll  : 'vertical',
+Ext.define('ARSnova.view.speaker.InClass', {
+	extend: 'Ext.Panel',
 	
-	inClassItems			: null,
-	audienceQuestionButton	: null,
-	questionsFromUserButton	: null,
-	flashcardButton			: null,
-	quizButton			 	: null,
+	config: {
+		title	: Messages.FEEDBACK,
+		iconCls	: 'feedbackMedium',
+		scroll  : 'vertical',
 		
-	inClassActions: null,
-	sessionStatusButton			: null,
-	createAdHocQuestionButton	: null,
-		
+		inClassItems			: null,
+		audienceQuestionButton	: null,
+		questionsFromUserButton	: null,
+		flashcardButton			: null,
+		quizButton			 	: null,
+			
+		inClassActions: null,
+		sessionStatusButton			: null,
+		createAdHocQuestionButton	: null
+	},
+	
 	/**
 	 * count every x seconds all actually logged-in users for this sessions
 	 */
@@ -67,10 +71,7 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 			ui		: 'back',
 			cls		: loggedInCls,
 			handler	: function() {
-				Ext.dispatch({
-					controller	: 'sessions',
-					action		: 'logout'
-				});
+				ARSnova.app.getController('Sessions').logout();
 			}
 		});
 		
@@ -152,7 +153,7 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 			}]
 		});
 		
-		this.sessionStatusButton = new ARSnova.views.SessionStatusButton();
+		this.sessionStatusButton = new ARSnova.view.SessionStatusButton();
 		
 		this.deleteSessionButton = new Ext.Panel({
 			cls: 'threeButtons left',
@@ -175,10 +176,7 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 										ARSnova.mainTabPanel.tabPanel.homeTabPanel.mySessionsPanel.loadCreatedSessions();
 										setTimeout("ARSnova.hideLoadMask()", 1000);
 									}, this, {single:true});
-									Ext.dispatch({
-										controller	: 'sessions',
-										action		: 'logout'
-									});
+									ARSnova.app.getController('Sessions').logout();
 								},
 								failure: function(response){
 									console.log('server-side error delete session');
@@ -207,24 +205,21 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 		
 		this.items = [this.inClassItems, this.inClassActions];
 		
-		ARSnova.views.speaker.InClass.superclass.constructor.call(this);
+		ARSnova.view.speaker.InClass.superclass.constructor.call(this);
 	},
 	
-	initComponent: function(){
+	initialize: function(){
 		this.on('destroy', this.destroyListeners);
 		
 		this.on('activate', function(){
 			this.updateBadges();
 		});
 		
-		ARSnova.views.speaker.InClass.superclass.initComponent.call(this);
+		ARSnova.view.speaker.InClass.superclass.initialize.call(this);
 	},
 	
 	buttonClicked: function(button){
-		Ext.dispatch({
-			controller	: button.controller,
-			action		: button.action
-		});
+		ARSnova.app.getController('button.controller')[button.action];
 	},
 	
 	/* will be called on session login */

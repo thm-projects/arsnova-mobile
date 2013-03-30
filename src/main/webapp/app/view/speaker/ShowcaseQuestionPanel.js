@@ -15,15 +15,20 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-ARSnova.views.speaker.ShowcaseQuestionPanel = Ext.extend(Ext.Carousel, {
-	title	: Messages.QUESTIONS,
-	iconCls	: 'tabBarIconQuestion',
+Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
+	extend: 'Ext.Carousel',
 	
-	/* toolbar items */
-	toolbar		: null,
-	backButton	: null,
-	
-	questionCounter: 0,
+	config: {
+		title	: Messages.QUESTIONS,
+		
+		iconCls	: 'tabBarIconQuestion',
+		
+		/* toolbar items */
+		toolbar		: null,
+		backButton	: null,
+		
+		questionCounter: 0
+	},
 	
 	constructor: function(){
 		this.listeners = {
@@ -47,7 +52,7 @@ ARSnova.views.speaker.ShowcaseQuestionPanel = Ext.extend(Ext.Carousel, {
 			text	: ' ',
 			cls		: 'statisticIconSmall',
 			handler	: function() {
-				var questionStatisticChart = new ARSnova.views.QuestionStatisticChart(ARSnova.mainTabPanel.tabPanel.speakerTabPanel.layout.activeItem.questionObj, this);
+				var questionStatisticChart = new ARSnova.view.QuestionStatisticChart(ARSnova.mainTabPanel.tabPanel.speakerTabPanel.layout.activeItem.questionObj, this);
 				ARSnova.mainTabPanel.setActiveItem(questionStatisticChart, 'slide');
 			}
 		});
@@ -83,14 +88,14 @@ ARSnova.views.speaker.ShowcaseQuestionPanel = Ext.extend(Ext.Carousel, {
 		this.dockedItems = [this.toolbar];
 		this.items = [];
 		
-		ARSnova.views.speaker.ShowcaseQuestionPanel.superclass.constructor.call(this);
+		ARSnova.view.speaker.ShowcaseQuestionPanel.superclass.constructor.call(this);
 	},
 	
-	initComponent: function(){
+	initialize: function(){
 		this.on('beforeactivate', this.beforeActivate);
 		this.on('activate', this.onActivate);
 		
-		ARSnova.views.speaker.ShowcaseQuestionPanel.superclass.initComponent.call(this);
+		ARSnova.view.speaker.ShowcaseQuestionPanel.superclass.initialize.call(this);
 	},
 	
 	beforeActivate: function(){
@@ -145,9 +150,9 @@ ARSnova.views.speaker.ShowcaseQuestionPanel = Ext.extend(Ext.Carousel, {
 	
 	addQuestion: function(question){
 		if (question.questionType === 'freetext') {
-			this.add(new ARSnova.views.FreetextQuestion(question, true));
+			this.add(new ARSnova.view.FreetextQuestion(question, true));
 		} else {
-			this.add(new ARSnova.views.Question(question, true));
+			this.add(new ARSnova.view.Question(question, true));
 		}
 	},
 	
