@@ -52,9 +52,6 @@ Ext.application({
     		['MathJaxMessageBox', 'MultiBadgeButton', 'NumericKeypad', 'FreetextAnswerList', 'FreetextAnswerPanel'],
     		['FreetextDetailAnswer', 'FreetextQuestion', 'QuestionStatusButton', 'SessionStatusButton'],
     		
-    		/* app/view/home */  
-    		['home.HomePanel', 'home.HomeTabPanel', 'home.MySessionsPanel', 'home.NewSessionPanel'],
-    		
     		/* app/view/about */
     		['about.AboutPanel', 'about.ARSinLessonPanel', 'about.ARSPanel', 'about.CreditsPanel', 'about.HelpCanteenPanel'],
     		['about.HelpDeskPanel', 'about.HelpFeedbackPanel', 'about.HelpHomePanel', 'about.HelpMainPanel'],
@@ -62,17 +59,28 @@ Ext.application({
     		['about.OpenSourceProjectsPanel', 'about.SocialSoftwarePanel', 'about.SponsorsPanel', 'about.StatisticPanel'],
     		['about.TabPanel'],
     		
-    		/* app/view/user */
-    		['user.InClass', 'user.QuestionPanel', 'user.RankingPanel', 'user.TabPanel'],
+    		/* app/view/archive */
+    		['archive.CoursePanel', 'archive.QuestionPanel', 'archive.TabPanel'],
+    		
+    		/* app/view/canteen */
+    		['canteen.StatisticPanel', 'canteen.TabPanel', 'canteen.VotePanel'],
     		
     		/* app/view/feedback */
     		['feedback.AskPanel', 'feedback.StatisticPanel', 'feedback.TabPanel', 'feedback.VotePanel'],
     		
     		/* app/view/feedbackQuestions */
-    		['feedbackQuestions.DetailsPanel', 'feedbackQuestions.QuestionsPanel', 'feedbackQuestions.TabPanel']),
+    		['feedbackQuestions.DetailsPanel', 'feedbackQuestions.QuestionsPanel', 'feedbackQuestions.TabPanel'],
     		
+    		/* app/view/home */  
+    		['home.HomePanel', 'home.MySessionsPanel', 'home.NewSessionPanel', 'home.TabPanel'],
     		
+    		/* app/view/speaker */
+    		['speaker.AudienceQuestionPanel', 'speaker.InClass', 'speaker.NewQuestionPanel', 'speaker.QuestionDetailsPanel'],
+    		['speaker.QuestionStatisticChart', 'speaker.ShowcaseQuestionPanel', 'speaker.TabPanel'],
     		
+    		/* app/view/user */
+    		['user.InClass', 'user.QuestionPanel', 'user.RankingPanel', 'user.TabPanel']),
+	
     controllers: ['Archive', 'Auth', 'Canteen', 'Feedback', 'Lang', 'Questions', 'Ranking', 'Sessions', 'User'],
     
     /* items */
@@ -103,17 +111,21 @@ Ext.application({
     userRankingModel: null,
     courseModel     : null,
     
+    /* proxy */
+    restProxy		: null,
+    
     /* other*/
     cardSwitchDuration: 500,
     
     /* tasks */
+    
     /**
      * delete feedbacks that can be removed
      */
     cleanFeedbackVotes: {
     	name: 'looking for feedbacks that have to be remove',
 		run: function(){
-			restProxy.cleanSessionFeedback();
+			ARSnova.app.restProxy.cleanSessionFeedback();
 		},
 		interval: 60000 //60 seconds
 	},
@@ -125,7 +137,7 @@ Ext.application({
 	loggedInTask: {
 		name: 'save that user is logged in',
 		run: function(){
-			restProxy.loggedInTask();
+			ARSnova.app.restProxy.loggedInTask();
 		},
 		interval: 60000 //60 seconds
 	},
@@ -136,7 +148,7 @@ Ext.application({
 	updateSessionActivityTask: {
 		name: 'save that owner of a session is logged in',
 		run: function(){
-			restProxy.updateSessionActivityTask();
+			ARSnova.app.restProxy.updateSessionActivityTask();
 		},
 		interval: 180000 //180 seconds
 	},
@@ -161,7 +173,7 @@ Ext.application({
 							window.location.reload();
 						}
 					});
-					Ext.Msg.doComponentLayout();
+					//Ext.Msg.doComponentLayout();
 				}
 			}, false);
 		}, false);
@@ -170,11 +182,12 @@ Ext.application({
 		if (!this.checkLocalStorage()) return;
 		this.checkEstudyURL();
 		this.setupAppStatus();
-
+		
 		taskManager = new Ext.util.TaskRunner();
 		
+		this.restProxy = Ext.create('ARSnova.proxy.RestProxy'); 
 		this.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
-		
+
 		this.checkPreviousLogin();
 		this.checkFullscreen();
 	},
@@ -216,8 +229,7 @@ Ext.application({
 	 */
 	afterLogin: function(){
 		taskManager.start(ARSnova.app.loggedInTask);
-		// TODO: canteen ...
-		//taskManager.start(ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.updateCanteenBadgeIconTask);
+		//TODO: taskManager.start(ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.updateCanteenBadgeIconTask);
 		
 		ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.homeTabPanel, 'slide');
 		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
@@ -248,7 +260,7 @@ Ext.application({
     	if(localStorage.getItem('sessionId') == undefined || localStorage.getItem('sessionId') == "")
     		return false;
     	else
-    		return true;
+    		return true;		// TODO: canteen ...
     },
     
     getGetVariable: function(variable){
