@@ -48,8 +48,8 @@ Ext.define('ARSnova.view.TabPanel', {
 		updateFeedbackTask: {
 			name: 'update the feedback icon and badge in tabbar',
 			run: function(){
-				ARSnova.mainTabPanel.tabPanel.updateFeedbackBadge();
-				ARSnova.mainTabPanel.tabPanel.updateFeedbackIcon();
+				ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge();
+				ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon();
 			},
 			interval: 15000 // 15 seconds
 		},
@@ -61,7 +61,7 @@ Ext.define('ARSnova.view.TabPanel', {
 		updateHomeTask: {
 			name: 'update the home badge in tabbar',
 			run: function() {
-				ARSnova.mainTabPanel.tabPanel.updateHomeBadge();
+				ARSnova.app.mainTabPanel.tabPanel.updateHomeBadge();
 			},
 			interval: 15000 // 15 seconds
 		},
@@ -72,24 +72,22 @@ Ext.define('ARSnova.view.TabPanel', {
 		
 		this.loginPanel		= Ext.create('ARSnova.view.LoginPanel');
 		this.rolePanel 		= Ext.create('ARSnova.view.RolePanel');
-		// TODO: Migrate!
-		/*this.homeTabPanel 	= new ARSnova.views.home.TabPanel();
-		this.canteenTabPanel= new ARSnova.views.canteen.TabPanel();
-		this.infoTabPanel 	= new ARSnova.views.about.TabPanel();
-		this.helpMainPanel = new ARSnova.views.about.HelpMainPanel(true);*/
+		this.homeTabPanel 	= Ext.create('ARSnova.view.home.TabPanel');
+		this.canteenTabPanel= Ext.create('ARSnova.view.canteen.TabPanel');
+		this.infoTabPanel 	= Ext.create('ARSnova.view.about.TabPanel');
+		this.helpMainPanel  = Ext.create('ARSnova.view.about.HelpMainPanel');
 		
 		this.add([
 			this.rolePanel,
 			this.loginPanel,
-			// TODO: Migrate!
-			/*this.homeTabPanel,
+			this.homeTabPanel,
 			this.canteenTabPanel,
 			this.infoTabPanel,
-			this.helpMainPanel*/
+			this.helpMainPanel
 		]);
 		
 		this.on('beforecardswitch', function(panel, newCard, oldCard){
-			ARSnova.lastActivePanel = oldCard;
+			ARSnova.app.lastActivePanel = oldCard;
 			if(newCard === panel.homeTabPanel) {
 				panel.homeTabPanel.tab.show();
 				panel.canteenTabPanel.tab.show();
@@ -102,10 +100,9 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.on('painted', function(){
 			this.rolePanel.tab.hide();
 			this.loginPanel.tab.hide();
-			// TODO: Migrate!
-			//this.homeTabPanel.tab.hide();
-			//this.canteenTabPanel.tab.hide();
-			//this.helpMainPanel.tab.hide();
+			this.homeTabPanel.tab.hide();
+			this.canteenTabPanel.tab.hide();
+			this.helpMainPanel.tab.hide();
 		});
 		this.on('activate', this.onActivate);
 		this.on('deactivate', this.onDeactivate);
@@ -120,12 +117,12 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.getTabBar().activeTab = card.tab; //for correct animation direction
 		
 		if (typeof(animation) == 'object')
-			animation.duration = ARSnova.cardSwitchDuration;
+			animation.duration = ARSnova.app.cardSwitchDuration;
 		else {
 			animation = {
 				type: animation,
 				direction: 'left',
-				duration: ARSnova.cardSwitchDuration
+				duration: ARSnova.app.cardSwitchDuration
 			};
 		}
 	},
@@ -134,26 +131,26 @@ Ext.define('ARSnova.view.TabPanel', {
 		if (Ext.app.Application.appInstance.checkSessionLogin()) {
 			/* only start task if user/speaker is not(!) on feedbackTabPanel/statisticPanel (feedback chart)
 			 * because there is a own function which will check for new feedbacks and update the tab bar icon */
-			if(ARSnova.mainTabPanel.tabPanel.layout.activeItem != ARSnova.mainTabPanel.tabPanel.feedbackTabPanel) {
-				taskManager.start(ARSnova.mainTabPanel.tabPanel.updateFeedbackTask);
+			if(ARSnova.app.mainTabPanel.tabPanel.layout.activeItem != ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel) {
+				taskManager.start(ARSnova.app.mainTabPanel.tabPanel.updateFeedbackTask);
 			}
-			taskManager.start(ARSnova.mainTabPanel.tabPanel.updateHomeTask);
+			taskManager.start(ARSnova.app.mainTabPanel.tabPanel.updateHomeTask);
 		}
 	},
 
 	onDeactivate: function(){
 		if(Ext.app.Application.appInstance.checkSessionLogin()){
-			if(ARSnova.mainTabPanel.tabPanel.layout.activeItem != ARSnova.mainTabPanel.tabPanel.feedbackTabPanel) {
-				taskManager.stop(ARSnova.mainTabPanel.tabPanel.updateFeedbackTask);
+			if(ARSnova.app.mainTabPanel.tabPanel.layout.activeItem != ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel) {
+				taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.updateFeedbackTask);
 			}
-			taskManager.stop(ARSnova.mainTabPanel.tabPanel.updateHomeTask);
+			taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.updateHomeTask);
 		}
 	},
 	
 	updateFeedbackIcon: function(){
-		ARSnova.feedbackModel.getAverageSessionFeedback(localStorage.getItem("keyword"), {
+		ARSnova.app.feedbackModel.getAverageSessionFeedback(localStorage.getItem("keyword"), {
 			success: function(response){
-				var panel = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel;
+				var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 				var value = parseInt(response.responseText);
 				
 				switch (value) {
@@ -176,18 +173,18 @@ Ext.define('ARSnova.view.TabPanel', {
 			}, 
 			failure: function(){
 				console.log('server-side error');
-				var tab = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.tab;
+				var tab = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab;
 				tab.setIconClass("feedbackARSnova");
 			}
 		});
 	},
 	
 	updateFeedbackBadge: function(){
-		ARSnova.feedbackModel.countFeedback(localStorage.getItem("keyword"), {
+		ARSnova.app.feedbackModel.countFeedback(localStorage.getItem("keyword"), {
 			success: function(response){
 				var value = parseInt(Ext.decode(response.responseText));
 				if (value > 0) {
-					ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.tab.setBadge(value);
+					ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab.setBadge(value);
 				}
 			},
 			failure: function(){
@@ -197,10 +194,10 @@ Ext.define('ARSnova.view.TabPanel', {
 	},
 	
 	updateHomeBadge: function() {
-		ARSnova.loggedInModel.countActiveUsersBySession(localStorage.getItem("keyword"), {
+		ARSnova.app.loggedInModel.countActiveUsersBySession(localStorage.getItem("keyword"), {
 			success: function(response){
-				var speaker = ARSnova.mainTabPanel.tabPanel.speakerTabPanel;
-				var student = ARSnova.mainTabPanel.tabPanel.userTabPanel;
+				var speaker = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+				var student = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
 				
 				var value = parseInt(response.responseText);
 				if (value > 0) {

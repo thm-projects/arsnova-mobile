@@ -34,15 +34,6 @@ Ext.define('ARSnova.view.LoginPanel', {
 	initialize: function() {
 		this.callParent(arguments);
 		
-		this.defaults = {
-			xtype	: 'button',
-			handler	: function(b) {
-				ARSnova.app.getController('Auth').login({
-					mode: b.value
-				});
-			}
-		};
-		
 		var threeButtons = [];
 		if (window.innerWidth > 1000) {
 			threeButtons = [{
@@ -87,7 +78,12 @@ Ext.define('ARSnova.view.LoginPanel', {
 			style	: { marginTop: '10px'},
 			cls		: 'login-button login-label-guest',
 			value	: ARSnova.app.LOGIN_GUEST,
-			hidden	: true
+			hidden	: true,
+			handler	: function(b) {
+				ARSnova.app.getController('Auth').login({
+					mode: b.value
+				});
+			}
 		});
 		
 		this.add([{
@@ -116,7 +112,8 @@ Ext.define('ARSnova.view.LoginPanel', {
 				}
 			},
 			items: threeButtons
-		}, {
+		}, 
+		{
 			xtype: 'button',
 			text: Messages.CHANGE_ROLE, 
 			cls: 'backToRole',
@@ -128,7 +125,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 					type: 'slide',
 					direction: 'right',
 					duration: 500
-				});
+				});	
 			}
 		},{
 			xtype	: 'panel',
@@ -137,7 +134,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 		}, this.noGuestSpeaker]);
 		
 		this.on('activate', Ext.bind(function() {
-			if(Ext.app.Application.appInstance.userRole == Ext.app.Application.appInstance.USER_ROLE_SPEAKER && !window.location.href.match(/developer\.html#?$/)) {
+			if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER && !window.location.href.match(/developer\.html#?$/)) {
 				this.guestLoginButton.hide('fade');
 				this.noGuestSpeaker.show('fade');
 			} else {

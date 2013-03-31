@@ -29,8 +29,8 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 		iconCls	: 'tabBarIconCanteen',
 		layout	: 'fit',
 		
-		location: ARSnova.CANTEEN_LOCATION,
-		day: ARSnova.CANTEEN_DAY,
+		location: ARSnova.app.CANTEEN_LOCATION,
+		day: ARSnova.app.CANTEEN_DAY,
 		
 		canteenChart: null,
 		
@@ -42,7 +42,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 	renewChartDataTask: {
 		name: 'renew chart data at canteen panel',
 		run: function(){
-			ARSnova.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.renewChartData();
+			ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.renewChartData();
 		},
 		interval: 10000
 	},
@@ -50,7 +50,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 	updateCanteenBadgeIconTask: {
 		name: 'update the badge of the canteen tab',
 		run: function(){
-			ARSnova.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.updateCanteenBadgeIcon();
+			ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.updateCanteenBadgeIcon();
 		},
 		interval: 30000
 	},
@@ -62,7 +62,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 			scope	: this,
 			handler	: function() {
 				taskManager.stop(this.renewChartDataTask);
-				ARSnova.mainTabPanel.tabPanel.canteenTabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.canteenTabPanel.votePanel, {
+				ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.votePanel, {
 						type: 'slide',
 						direction: 'down',
 						duration: 700
@@ -216,10 +216,10 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 	},
 	
 	renewChartData: function() {
-		ARSnova.foodVoteModel.countFoodVoteGrouped(this.day, {
+		ARSnova.app.foodVoteModel.countFoodVoteGrouped(this.day, {
 			success: function(response){
 				var responseObj = Ext.decode(response.responseText).rows;
-				var panel = ARSnova.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel;
+				var panel = ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel;
 				var chart = panel.canteenChart;
 				var store = chart.store;
 				
@@ -257,7 +257,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 					record.data.percent = totalResults > 0 ? (record.data.value / totalResults) : 0.0;
 				});
 				
-				ARSnova.mainTabPanel.tabPanel.canteenTabPanel.tab.setBadge(sum);
+				ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.tab.setBadge(sum);
 				
 				chart.axes.items[0].maximum = maxValue;
 				
@@ -271,7 +271,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 	},
 	
 	updateCanteenBadgeIcon: function(){
-		ARSnova.foodVoteModel.countFoodVote(this.day, {
+		ARSnova.app.foodVoteModel.countFoodVote(this.day, {
 			success: function(response){
 				var res = Ext.decode(response.responseText).rows;
 				var value = 0;
@@ -280,7 +280,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 					value = res[0].value;
 				}
 				
-				ARSnova.mainTabPanel.tabPanel.canteenTabPanel.tab.setBadge(value);
+				ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.tab.setBadge(value);
 			},
 			failure: function(){
 				console.log('server-side error');

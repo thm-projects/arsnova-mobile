@@ -37,7 +37,7 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 	updateDataTask: {
 		name: 'update the statistic table',
 		run: function(){
-			ARSnova.mainTabPanel.tabPanel.infoTabPanel.statisticPanel.updateData();
+			ARSnova.app.mainTabPanel.tabPanel.infoTabPanel.statisticPanel.updateData();
 		},
 		interval: 30000
 	},
@@ -63,7 +63,7 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 			text	: Messages.INFO,
 			ui		: 'back',
 			handler	: function() {
-				me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
+				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 				
 				me.statisticPanel.on('deactivate', function(panel){
 					panel.destroy();
@@ -107,11 +107,11 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 	},
 	
 	getStatistics: function(){
-		ARSnova.statisticModel.countSessions({
+		ARSnova.app.statisticModel.countSessions({
 			success: function(response){
 				var statistics = Ext.decode(response.responseText);
 				
-				var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel.statisticPanel;
+				var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel.statisticPanel;
 				me.gridPanel.store.add({category: Messages.OPEN_SESSIONS, counter: statistics.openSessions});
 				me.gridPanel.store.add({category: Messages.CLOSED_SESSIONS, counter: statistics.closedSessions});
 				me.gridPanel.store.add({category: Messages.QUESTIONS, counter: statistics.questions});
@@ -122,7 +122,7 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 					direction: 'DESC'
 				}]);
 				me.doComponentLayout();
-				setTimeout("ARSnova.hideLoadMask()", 500);
+				setTimeout("ARSnova.app.hideLoadMask()", 500);
 			},
 			failure: function(response){
 				console.log('server-side error, countOpenSessions');
@@ -131,7 +131,7 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 	},
 	
 	updateData: function(){
-		ARSnova.showLoadMask(Messages.LOAD_MASK);
+		ARSnova.app.showLoadMask(Messages.LOAD_MASK);
 		this.gridPanel.store.clearData();
 		this.getStatistics();
 	}

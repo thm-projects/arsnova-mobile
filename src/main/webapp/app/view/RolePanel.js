@@ -52,11 +52,11 @@ Ext.define('ARSnova.view.RolePanel', {
 		}, {
 			text	: Messages.STUDENT,
 			cls		: 'login-button role-label-student',
-			value	: ARSnova.USER_ROLE_STUDENT
+			value	: ARSnova.app.USER_ROLE_STUDENT
 		}, {
 			text	: Messages.SPEAKER,
 			cls		: 'login-button role-label-speaker',
-			value	: ARSnova.USER_ROLE_SPEAKER
+			value	: ARSnova.app.USER_ROLE_SPEAKER
 		}, {
 			/* TODO: i18n */
 			text	: "Was ist ARSnova?",
