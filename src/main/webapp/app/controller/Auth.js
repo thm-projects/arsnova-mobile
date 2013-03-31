@@ -22,11 +22,12 @@ Ext.define("ARSnova.controller.Auth", {
 	extend: 'Ext.app.Controller',
 	
 	qr: function(options) {
-		ARSnova.app.app.loggedIn = true;
+		ARSnova.app.loggedIn = true;
 		if (localStorage.getItem('login') === null) {
-			localStorage.setItem('login', ARSnova.app.models.Auth.generateGuestName());
+			var authModel = Ext.create('ARSnova.model.Auth');
+			localStorage.setItem('login', authModel.generateGuestName());
 		}
-		ARSnova.app.app.userRole = ARSnova.app.USER_ROLE_STUDENT;
+		ARSnova.app.userRole = ARSnova.app.USER_ROLE_STUDENT;
 		localStorage.setItem('role', ARSnova.app.userRole);
 		ARSnova.app.loginMode = ARSnova.app.LOGIN_GUEST;
 		localStorage.setItem('loginMode', ARSnova.app.loginMode);
@@ -53,7 +54,8 @@ Ext.define("ARSnova.controller.Auth", {
 		switch(options.mode){
 			case ARSnova.app.LOGIN_GUEST:
 				if (localStorage.getItem('login') === null) {
-					localStorage.setItem('login', ARSnova.app.models.Auth.generateGuestName());
+					var authModel = Ext.create('ARSnova.model.Auth');
+					localStorage.setItem('login', authModel.generateGuestName());
 					type = "guest";
 				} else {
 					type = "guest&name=" + localStorage.getItem('login');
@@ -73,16 +75,15 @@ Ext.define("ARSnova.controller.Auth", {
 				break;
 			case ARSnova.app.LOGIN_OPENID:
 				Ext.Msg.alert("Hinweis", "OpenID ist noch nicht freigeschaltet.");
-				Ext.Msg.doComponentLayout();
 				return;
 				break;
 			default:
 				Ext.Msg.alert("Hinweis", options.mode + " wurde nicht gefunden.");
-				Ext.Msg.doComponentLayout();
 				return;
 				break;
 		}
 		if(type != "") {
+			console.log(type);
 			return window.location = "doLogin?type=" + type;
 		}
 		
