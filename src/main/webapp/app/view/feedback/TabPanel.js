@@ -31,9 +31,9 @@ Ext.define('ARSnova.view.feedback.TabPanel', {
 	},
 	
 	constructor: function(){
-		this.statisticPanel = new ARSnova.views.feedback.StatisticPanel();
-		this.votePanel = new ARSnova.views.feedback.VotePanel();
-		this.askPanel = new ARSnova.views.feedback.AskPanel();
+		this.statisticPanel = new ARSnova.view.feedback.StatisticPanel();
+		this.votePanel = new ARSnova.view.feedback.VotePanel();
+		this.askPanel = new ARSnova.view.feedback.AskPanel();
 		
 		this.items = [
             this.statisticPanel,

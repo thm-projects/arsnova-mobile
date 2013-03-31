@@ -30,7 +30,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			preparestatisticsbutton: function(button) {
 				button.scope = this;
 				button.handler = function() {
-					var p = new ARSnova.views.FreetextAnswerPanel(this.questionObj, this);
+					var p = new ARSnova.view.FreetextAnswerPanel(this.questionObj, this);
 					ARSnova.mainTabPanel.setActiveItem(p, 'slide');
 				};
 			}
@@ -92,7 +92,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			if(this.isDisabled()) this.disable();
 		});
 		
-		ARSnova.views.FreetextQuestion.superclass.initComponent.call(this);
+		ARSnova.view.FreetextQuestion.superclass.initComponent.call(this);
 	},
 	
 	saveHandler: function(button, event) {

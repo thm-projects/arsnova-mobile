@@ -68,10 +68,10 @@ Ext.define('ARSnova.view.about.HelpHomePanel', {
 					'<p>Eine Session in grüner Schrift ist geöffnet, sonst gesperrt.</p>'
 		}];
 		
-		ARSnova.views.about.HelpHomePanel.superclass.constructor.call(this);
+		ARSnova.view.about.HelpHomePanel.superclass.constructor.call(this);
 	},
 	
 	initialize: function(){
-		ARSnova.views.about.HelpHomePanel.superclass.initialize.call(this);
+		ARSnova.view.about.HelpHomePanel.superclass.initialize.call(this);
 	}
 });

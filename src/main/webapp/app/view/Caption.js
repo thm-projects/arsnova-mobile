@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.Caption', {
 	initialize: function() {
 		this.callParent(arguments);
 		
-		this.listButton = new ARSnova.views.MultiBadgeButton({
+		this.listButton = new ARSnova.view.MultiBadgeButton({
 			ui			: 'small',
 			text		: "",
 			cls			: 'forwardListButton caption',

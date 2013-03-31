@@ -20,7 +20,7 @@
  +--------------------------------------------------------------------------*/
 feedbackChartColors = ['url(#v-3)', 'url(#v-2)', 'url(#v-1)', 'url(#v-4)'],
 
-Ext.define('ARSnove.view.feedback.StatisticPanel', {
+Ext.define('ARSnova.view.feedback.StatisticPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {

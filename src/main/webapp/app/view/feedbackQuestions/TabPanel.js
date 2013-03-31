@@ -32,7 +32,7 @@ Ext.define('ARSnova.view.feedbackQuestions.TabPanel', {
 	},
 	
 	constructor: function(){
-		this.questionsPanel = new ARSnova.views.feedbackQuestions.QuestionsPanel();
+		this.questionsPanel = new ARSnova.view.feedbackQuestions.QuestionsPanel();
 		
 		this.items = [
             this.questionsPanel

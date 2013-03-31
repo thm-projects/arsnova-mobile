@@ -31,7 +31,7 @@ Ext.define('ARSnova.view.about.TabPanel', {
 	},
 
 	constructor: function(){
-		this.infoPanel = new ARSnova.views.about.InfoPanel();
+		this.infoPanel = new ARSnova.view.about.InfoPanel();
 		
 		this.items = [
 		    this.infoPanel

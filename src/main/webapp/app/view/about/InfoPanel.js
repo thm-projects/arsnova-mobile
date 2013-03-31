@@ -65,21 +65,21 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 				text	: Messages.ABOUT_ARSNOVA,
 				handler	: function(){
 					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.aboutPanel = new ARSnova.views.about.AboutPanel();
+					me.aboutPanel = new ARSnova.view.about.AboutPanel();
 					me.setActiveItem(me.aboutPanel, 'slide');
 				}
 			}, {
 				text	: Messages.HELPDESK,
 				handler	: function(){
 					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.helpdeskPanel = new ARSnova.views.about.HelpDeskPanel();
+					me.helpdeskPanel = new ARSnova.view.about.HelpDeskPanel();
 					me.setActiveItem(me.helpdeskPanel, 'slide');
 				}
 			}, {
 				text	: Messages.STATISTIC,
 				handler	: function() {
 					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.statisticPanel = new ARSnova.views.about.StatisticPanel();
+					me.statisticPanel = new ARSnova.view.about.StatisticPanel();
 					me.setActiveItem(me.statisticPanel, 'slide');
 				}
 			}, {
@@ -96,14 +96,14 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 				text: Messages.CREDITS,
 				handler: function(){
 					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.creditsPanel = new ARSnova.views.about.CreditsPanel();
+					me.creditsPanel = new ARSnova.view.about.CreditsPanel();
 					me.setActiveItem(me.creditsPanel, 'slide');
 				}
 			}, {
 				text: Messages.IMPRESSUM,
 				handler: function(){
 					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.impressumPanel = new ARSnova.views.about.ImpressumPanel();
+					me.impressumPanel = new ARSnova.view.about.ImpressumPanel();
 					me.setActiveItem(me.impressumPanel, 'slide');
 				}
 			}]
@@ -115,7 +115,7 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 			html: '<a href="http://www.ohloh.net/p/arsnova?ref=WidgetProjectPartnerBadge" target="_blank"><img alt="Ohloh project report for ARSnova" border="0" height="33" src="http://www.ohloh.net/p/arsnova/widgets/project_partner_badge.gif" width="193" /></a>'
 		}];
 		
-		ARSnova.views.about.InfoPanel.superclass.constructor.call(this);
+		ARSnova.view.about.InfoPanel.superclass.constructor.call(this);
 	},
 	
 	initialize: function(){
@@ -126,6 +126,6 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 				this.backButton.show();
 		});
 		
-		ARSnova.views.about.InfoPanel.superclass.initialize.call(this);
+		ARSnova.view.about.InfoPanel.superclass.initialize.call(this);
 	}
 });

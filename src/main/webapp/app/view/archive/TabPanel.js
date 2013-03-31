@@ -31,8 +31,8 @@ Ext.define('ARSnova.view.archive.TabPanel', {
 	},
 	
 	constructor: function(){
-		this.coursePanel = new ARSnova.views.archive.CoursePanel();
-		this.questionPanel = new ARSnova.views.archive.QuestionPanel();
+		this.coursePanel = new ARSnova.view.archive.CoursePanel();
+		this.questionPanel = new ARSnova.view.archive.QuestionPanel();
 		
 		this.items = [
             this.coursePanel,

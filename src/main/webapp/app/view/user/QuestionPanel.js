@@ -78,7 +78,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			cls		: 'statisticIconSmall',
 			hidden	: true,
 			handler	: function() {
-				var questionStatisticChart = new ARSnova.views.QuestionStatisticChart(ARSnova.mainTabPanel.tabPanel.userQuestionsPanel.layout.activeItem.questionObj, this);
+				var questionStatisticChart = new ARSnova.view.QuestionStatisticChart(ARSnova.mainTabPanel.tabPanel.userQuestionsPanel.layout.activeItem.questionObj, this);
 				ARSnova.mainTabPanel.setActiveItem(questionStatisticChart, 'slide');
 			}
 		});
@@ -211,9 +211,9 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	
 	addQuestion: function(question){
 		if (question.questionType === 'freetext') {
-			this.add(new ARSnova.views.FreetextQuestion(question));
+			this.add(new ARSnova.view.FreetextQuestion(question));
 		} else {
-			this.add(new ARSnova.views.Question(question));
+			this.add(new ARSnova.view.Question(question));
 		}
 	},
 	

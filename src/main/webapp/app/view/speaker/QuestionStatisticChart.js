@@ -20,7 +20,7 @@
  +--------------------------------------------------------------------------*/
 questionChartColors = ['url(#v1)', 'url(#v2)', 'url(#v3)', 'url(#v4)', 'url(#v5)', 'url(#v6)'],
 
-Ext.define('ARSnova.view.QuestionStatisticChart', {
+Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	extend: 'Ext.Panel',
 	config: {
 		title	: Messages.STATISTIC,

@@ -31,13 +31,13 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 	 * @param {Array} badges The array of badge configurations. If you pass null or undefined the badges will be removed.
 	 * Objects inside this array need the following parameter: "badgeText"; "badgeCls" is optional and defaults to
 	 * this objects badgeCls.
-	 * @return {ARSnova.views.MultiBadgeButton} this
+	 * @return {ARSnova.view.MultiBadgeButton} this
 	 */
 	setBadge: function(badges) {
 		var me = this;
 		
 		if (badges && !Ext.isArray(badges)) {
-			return ARSnova.views.MultiBadgeButton.superclass.setBadge.call(this, badges);
+			return ARSnova.view.MultiBadgeButton.superclass.setBadge.call(this, badges);
 		}
 		me.badgeText = badges;
 		

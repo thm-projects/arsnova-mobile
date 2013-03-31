@@ -54,7 +54,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				return record.get('subject');
 			}
 		});
-		this.questions = new ARSnova.views.BadgeList({
+		this.questions = new ARSnova.view.BadgeList({
 			scroll: false,
 			itemCls: 'forwardListButton',
 			itemTpl: '<tpl if="active"><span class="isActive">{text}</span></tpl><tpl if="!active">{text}</tpl>',

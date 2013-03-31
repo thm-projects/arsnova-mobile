@@ -20,7 +20,7 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.NumericKeypad', {
 	extend: 'Ext.form.Text',
-	alias: 'numericKeypad',
+	alias: 'widget.numericKeypad',
 	
 	config: {
 		ui: 'number',
@@ -50,7 +50,7 @@ Ext.define('ARSnova.view.NumericKeypad', {
 	},
 
     // @private
-    onRender : function() {
+    initialize : function() {
         Ext.apply(this.renderData, {
             maxValue 	: this.maxValue,
             maxLength 	: this.maxLength,
@@ -59,6 +59,6 @@ Ext.define('ARSnova.view.NumericKeypad', {
             placeHolder	: this.placeHolder
         });
         
-        ARSnova.views.NumericKeypad.superclass.onRender.apply(this, arguments);
+        ARSnova.view.NumericKeypad.superclass.onRender.apply(this, arguments);
     }
 });

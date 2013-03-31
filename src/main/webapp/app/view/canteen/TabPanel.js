@@ -33,8 +33,8 @@ Ext.define('ARSnova.view.canteen.TabPanel', {
 	},
 	
 	constructor: function(){
-		this.statisticPanel = new ARSnova.views.canteen.StatisticPanel();
-		this.votePanel = new ARSnova.views.canteen.VotePanel();
+		this.statisticPanel = new ARSnova.view.canteen.StatisticPanel();
+		this.votePanel = new ARSnova.view.canteen.VotePanel();
 		
 		this.items = [
             this.statisticPanel,

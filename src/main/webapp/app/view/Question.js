@@ -173,13 +173,13 @@ Ext.define('ARSnova.view.Question', {
 		preparestatisticsbutton: function(button) {
 			button.scope = this;
 			button.handler = function() {
-				var questionStatisticChart = new ARSnova.views.QuestionStatisticChart(this.questionObj, this);
+				var questionStatisticChart = new ARSnova.view.QuestionStatisticChart(this.questionObj, this);
 				ARSnova.mainTabPanel.setActiveItem(questionStatisticChart, 'slide');
 			};
 		}
 	},
 	
-	initComponent: function(){
+	initialize: function(){
 		this.on('activate', function(){
 			/*
 			 * Bugfix, because panel is normally disabled (isDisabled == true),
@@ -188,7 +188,7 @@ Ext.define('ARSnova.view.Question', {
 			if(this.isDisabled()) this.disable();
 		});
 		
-		ARSnova.views.Question.superclass.initComponent.call(this);
+		ARSnova.view.Question.superclass.initialize.call(this);
 	},
 	
 	decrementQuestionBadges: function() {

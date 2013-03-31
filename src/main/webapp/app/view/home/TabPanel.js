@@ -19,7 +19,7 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
 
-Ext.define('ARSnova.view.home.HomeTabPanel', {
+Ext.define('ARSnova.view.home.TabPanel', {
 	extend: 'Ext.tab.Panel',
 
 	config: {
@@ -39,7 +39,7 @@ Ext.define('ARSnova.view.home.HomeTabPanel', {
             this.mySessionsPanel,
             this.newSessionPanel
         ];
-		ARSnova.view.home.HomeTabPanel.superclass.constructor.call(this);
+		ARSnova.view.home.TabPanel.superclass.constructor.call(this);
 	},
 	
 	initialize: function(){
@@ -47,6 +47,6 @@ Ext.define('ARSnova.view.home.HomeTabPanel', {
 			ARSnova.app.mainTabPanel.tabPanel.doLayout();
 		});
 		
-		ARSnova.view.home.HomeTabPanel.superclass.initialize.call(this);
+		ARSnova.view.home.TabPanel.superclass.initialize.call(this);
 	}
 });

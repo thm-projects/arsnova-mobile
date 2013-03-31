@@ -83,7 +83,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		});
 		
 		this.items = [
-			ARSnova.views.FreetextAnswerList(this.freetextAnswerStore),
+			ARSnova.view.FreetextAnswerList(this.freetextAnswerStore),
 			this.noFreetextAnswers
 		],
 		
@@ -99,7 +99,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			taskManager.stop(this.checkFreetextAnswersTask);
 		}, this);
 		
-		ARSnova.views.FreetextAnswerPanel.superclass.initComponent.call(this);
+		ARSnova.view.FreetextAnswerPanel.superclass.initComponent.call(this);
 	},
 	
 	checkFreetextAnswers: function() {

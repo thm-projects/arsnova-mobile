@@ -70,14 +70,14 @@ Ext.define('ARSnova.view.about.CreditsPanel', {
 				text	: Messages.SPONSORS,
 				handler	: function(){
 					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.sponsorsPanel = new ARSnova.views.about.SponsorsPanel();
+					me.sponsorsPanel = Ext.create('ARSnova.view.about.SponsorsPanel');
 					me.setActiveItem(me.sponsorsPanel, 'slide');
 				}
 			}, {
 				text	: Messages.OPENSOURCEPROJECTS,
 				handler	: function(){
 					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.openSourceProjectsPanel = new ARSnova.views.about.OpenSourceProjectsPanel();
+					me.openSourceProjectsPanel = Ext.create('ARSnova.view.about.OpenSourceProjectsPanel');
 					me.setActiveItem(me.openSourceProjectsPanel, 'slide');
 				}
 			}]
