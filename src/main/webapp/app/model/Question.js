@@ -23,7 +23,7 @@ Ext.define('ARSnova.model.Question', {
 	
 	config: {
 		idProperty: '_id',
-		proxy: restProxy,
+		proxy: ARSnova.app.restProxy,
 		
 		fields: [
 		         'type',

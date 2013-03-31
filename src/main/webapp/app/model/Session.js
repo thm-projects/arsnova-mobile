@@ -22,7 +22,7 @@ Ext.define('ARSnova.model.Session', {
 	extend: 'Ext.data.Model',
 	
 	config: {
-		proxy: restProxy,
+		proxy: ARSnova.app.restProxy,
 		
 		fields: [
 		   	  'type', 

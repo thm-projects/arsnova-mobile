@@ -22,7 +22,7 @@ Ext.define('ARSnova.model.Feedback', {
 	extend: 'Ext.data.Model',
 	
 	config: {
-		proxy: restProxy,
+		proxy: ARSnova.app.restProxy,
 	},
 	
 	getSessionFeedback: function(sessionKeyword, callbacks){

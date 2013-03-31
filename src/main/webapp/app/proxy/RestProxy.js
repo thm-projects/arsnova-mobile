@@ -18,10 +18,14 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-var restProxy = new Ext.data.RestProxy({
-	url : '/couchdb/arsnova',
-	appendId: true,
-	noCache: false,
+Ext.define('ARSnova.proxy.RestProxy', {
+	extend: 'Ext.data.proxy.Rest',
+
+	config: {
+		url : '/couchdb/arsnova',
+		appendId: true,
+		noCache: false
+	},
 	
 	writer: {
 		writeRecords: function(request, data){

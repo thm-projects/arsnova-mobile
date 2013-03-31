@@ -22,7 +22,7 @@ Ext.define('ARSnova.model.Statistic', {
 	extend: 'Ext.data.Model',
 	
 	config: {
-		proxy: restProxy,
+		proxy: ARSnova.app.restProxy,
 		fields: [
 		   	  'category', 
 		   	  'counter'

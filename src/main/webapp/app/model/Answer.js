@@ -22,7 +22,7 @@ Ext.define('ARSnova.model.Answer', {
 	extend: 'Ext.data.Model',
 	
 	config: {
-		proxy: restProxy,
+		proxy: ARSnova.app.restProxy,
 	},
 	
 	getUserAnswer: function(questionId, callbacks){

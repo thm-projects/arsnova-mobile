@@ -21,7 +21,7 @@ Ext.define('ARSnova.model.Course', {
 	extend: 'Ext.data.Model',
 	
 	config: {
-		proxy: restProxy,
+		proxy: ARSnova.app.restProxy,
 		fields: [
 		   	  'id',
 		   	  'fullname',

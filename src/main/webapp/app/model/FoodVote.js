@@ -22,7 +22,7 @@ Ext.define('ARSnova.model.FoodVote', {
 	extend: 'Ext.data.Model',
 	
 	config: {
-		proxy: restProxy,
+		proxy: ARSnova.app.restProxy,
 	},
 	
 	getUserFoodVote: function(day, userLogin, callbacks){

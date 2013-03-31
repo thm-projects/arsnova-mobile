@@ -22,7 +22,7 @@ Ext.define('ARSnova.model.LoggedIn', {
 	extend: 'Ext.data.Model',
 	
 	config: {
-		proxy: restProxy,
+		proxy: ARSnova.app.restProxy,
 	},
 	
 	countActiveUsersBySession: function(sessionKeyword, callbacks){
