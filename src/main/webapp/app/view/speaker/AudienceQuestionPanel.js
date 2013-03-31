@@ -160,7 +160,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		this.questionEntries = [];
 
 		ARSnova.questionModel.getSkillQuestionsSortBySubjectAndText(localStorage.getItem('keyword'), {
-			success: Ext.createDelegate(function(response) {
+			success: Ext.bind(function(response) {
 				var questions = Ext.decode(response.responseText);
 				this.questionStore.add(questions);
 				this.getQuestionAnswers();
@@ -170,7 +170,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.questionsContainer.show();
 				this.doLayout();
 			}, this),
-			empty: Ext.createDelegate(function() {
+			empty: Ext.bind(function() {
 				this.showcaseButton.hide();
 				this.questionsContainer.hide();
 				this.doLayout();

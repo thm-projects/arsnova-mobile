@@ -204,12 +204,12 @@ Ext.define('ARSnova.view.Question', {
 		if (typeof this.questionTitle.getEl() !== "undefined") {
 			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.questionTitle.id]);
 			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.answerList.id]);
-			MathJax.Hub.Queue(Ext.createDelegate(function() {
+			MathJax.Hub.Queue(Ext.bind(function() {
 				this.questionTitle.doComponentLayout();
 			}, this));
 		} else {
 			// If the element has not been drawn yet, we need to retry later
-			Ext.defer(Ext.createDelegate(this.doTypeset, this), 100);
+			Ext.defer(Ext.bind(this.doTypeset, this), 100);
 		}
 	}
 });
