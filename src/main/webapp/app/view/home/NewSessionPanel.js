@@ -212,7 +212,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		if (ARSnova.app.loginMode != ARSnova.app.LOGIN_THM) return;
 		//ARSnova.showLoadMask(Messages.LOAD_MASK_SEARCH_COURSES);
 		ARSnova.app.courseModel.getMyCourses({
-			success: Ext.createDelegate(function(response) {
+			success: Ext.bind(function(response) {
 				this.mycoursesStore.removeAll();
 				this.mycoursesStore.add(Ext.decode(response.responseText));
 				if (window.innerWidth > 321) {
@@ -221,7 +221,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 					this.mycoursesStore.sort('shortname');
 				}
 			}, this),
-			empty: Ext.createDelegate(function() {
+			empty: Ext.bind(function() {
 				this.sessionsForm.hide();
 				ARSnova.app.hideLoadMask();
 			}, this),

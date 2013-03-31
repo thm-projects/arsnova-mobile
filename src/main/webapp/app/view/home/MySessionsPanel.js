@@ -43,7 +43,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						ARSnova.app.getController('Auth').logout();
 					}
 				});
-				Ext.Msg.doComponentLayout();
+				//Ext.Msg.doComponentLayout();
 			}
 		});
 		
@@ -186,16 +186,16 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					badgePromises.push(me.updateBadges(session._id, session.keyword, sessionButton));
 					panel.createdSessionsFieldset.add(sessionButton);
 				}
-				RSVP.all(badgePromises).then(Ext.createDelegate(caption.explainBadges, caption));
+				RSVP.all(badgePromises).then(Ext.bind(caption.explainBadges, caption));
 				caption.explainSessionStatus(sessions);
 				
 				panel.createdSessionsFieldset.add(caption);
 				panel.sessionsForm.add(panel.createdSessionsFieldset);
     			
-    			panel.doLayout();
+    			//panel.doLayout();
     			ARSnova.app.hideLoadMask();
     		},
-			empty: Ext.createDelegate(function() {
+			empty: Ext.bind(function() {
 				this.sessionsForm.hide();
 				ARSnova.app.hideLoadMask();
 			}, this),

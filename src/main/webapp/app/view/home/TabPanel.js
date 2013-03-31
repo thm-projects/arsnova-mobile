@@ -20,7 +20,7 @@
  +--------------------------------------------------------------------------*/
 
 Ext.define('ARSnova.view.home.TabPanel', {
-	extend: 'Ext.tab.Panel',
+	extend: 'Ext.Panel',
 
 	config: {
 		title	: Messages.SESSION,
@@ -44,7 +44,7 @@ Ext.define('ARSnova.view.home.TabPanel', {
 	
 	initialize: function(){
 		this.on('activate', function(){
-			ARSnova.app.mainTabPanel.tabPanel.doLayout();
+			//ARSnova.app.mainTabPanel.tabPanel.doLayout();
 		});
 		
 		ARSnova.view.home.TabPanel.superclass.initialize.call(this);

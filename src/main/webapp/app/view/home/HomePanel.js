@@ -126,8 +126,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			this.loadVisitedSessions();
 		});
 		this.on('activate', function(){
-			this.doComponentLayout();
-			ARSnova.hideLoadMask();
+			ARSnova.app.hideLoadMask();
 		});
 		
 		ARSnova.view.home.HomePanel.superclass.initialize.call(this);
@@ -206,7 +205,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 							panel.down('button[text=' + session.name + ']').addCls("isActive");
 						}
 					}
-					RSVP.all(badgePromises).then(Ext.createDelegate(caption.explainBadges, caption));
+					RSVP.all(badgePromises).then(Ext.bind(caption.explainBadges, caption));
 					caption.explainSessionStatus(sessions);
 					panel.lastVisitedSessionsFieldset.add(caption);
 				} else {
@@ -217,7 +216,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			},
 			unauthenticated: function() {
 				ARSnova.app.getController('Auth').login({
-					mode: ARSnova.loginMode
+					mode: ARSnova.app.loginMode
 				});
 			},
 			failure: function(){
