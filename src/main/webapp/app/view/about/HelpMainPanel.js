@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.about.HelpMainPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		title: 'HelpMainPanel',
 		scroll: 	'vertical',
 		
 		/* toolbar items */
@@ -29,16 +30,17 @@ Ext.define('ARSnova.view.about.HelpMainPanel', {
 		backButton	: null
 	},
 
-	constructor: function(standalone) {
+	constructor: function() {
+		var standalone = true;
 		var showVideo = function(videoid) {
 			if (standalone) {
 				var tabPanel = ARSnova.mainTabPanel.tabPanel;
-				var videoPanel = new ARSnova.views.about.HelpVideoPanel(videoid);
+				var videoPanel = new ARSnova.view.about.HelpVideoPanel(videoid);
 				tabPanel.on('beforecardswitch', function() { videoPanel.tab.hide(); });
 				return tabPanel.setActiveItem(videoPanel, 'slide');
 			}
 			var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-			me.helpVideoPanel = new ARSnova.views.about.HelpVideoPanel(videoid);
+			me.helpVideoPanel = new ARSnova.view.about.HelpVideoPanel(videoid);
 			me.setActiveItem(me.helpVideoPanel, 'slide');
 		};
 		
