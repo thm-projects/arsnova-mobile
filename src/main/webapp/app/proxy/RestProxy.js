@@ -24,17 +24,13 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	config: {
 		url : '/couchdb/arsnova',
 		appendId: true,
-		noCache: false
-	},
+		noCache: false,
 	
-	writer: {
 		writeRecords: function(request, data){
 			request.jsonData = data[0];
 			return request;
-		}
-	},
-	
-	listeners: {
+		},
+
 		exception: function(proxy, response, operation){
 			operation.exceptionReason = response.status;
 		}
