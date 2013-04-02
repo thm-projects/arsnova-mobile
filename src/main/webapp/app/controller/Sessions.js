@@ -101,7 +101,7 @@ Ext.define("ARSnova.controller.Sessions", {
 		ARSnova.app.isSessionOwner = false;
 		
 		//save that user is not in this session anymore
-		restProxy.loggedInTask();
+		ARSnova.app.restProxy.loggedInTask();
 		
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 		/* show home Panel */

@@ -162,7 +162,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		
 		ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
 		
-		restProxy.getMyVisitedSessions({
+		ARSnova.app.restProxy.getMyVisitedSessions({
 			success: function(sessions){
 				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.homePanel;
 				var caption = Ext.create('ARSnova.view.Caption');
