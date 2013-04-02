@@ -32,7 +32,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		createdSessions: null,
 	},
 	
-	constructor: function(){
+	initialize: function() {
+		this.callParent(arguments);
+		
 		this.logoutButton = new Ext.Button({
 			text	: Messages.LOGOUT,
 			ui		: 'back',
@@ -43,7 +45,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						ARSnova.app.getController('Auth').logout();
 					}
 				});
-				//Ext.Msg.doComponentLayout();
 			}
 		});
 		
@@ -103,23 +104,21 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		});
 		
 		this.dockedItems = [this.toolbar],
-		this.items = [
+		
+		this.add([
 		    this.newSessionButtonForm,
             this.sessionsForm
-        ],
+        ]),
 		
-		ARSnova.view.home.MySessionsPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function() {
+
 		this.on('activate', function(){
-			this.doComponentLayout();	
+			// this.doComponentLayout();	
 		});
+		
 		this.on('beforeactivate', function(){
 			switch (ARSnova.app.userRole) {
 				case ARSnova.app.USER_ROLE_SPEAKER:
 					this.loadCreatedSessions();
-					
 					this.backButton.hide();
 					this.logoutButton.show();
 					this.createSessionButton.show();
@@ -127,12 +126,11 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				default:
 					break;
 			}
+			
 			if (ARSnova.app.loginMode == ARSnova.app.LOGIN_THM) {
 				this.logoutButton.addCls('thm');
 			}
 		});
-		
-		ARSnova.view.home.MySessionsPanel.superclass.initialize.call(this);
 	},
 	
 	loadCreatedSessions: function() {

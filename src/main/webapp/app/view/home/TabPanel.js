@@ -28,25 +28,20 @@ Ext.define('ARSnova.view.home.TabPanel', {
 		layout: 'card'
 	},
 	
-	constructor: function(){
+	initialize: function() {
+		this.callParent(arguments);
+		
 		/* out of class */
 		this.homePanel 		 = Ext.create('ARSnova.view.home.HomePanel');
 		this.mySessionsPanel = Ext.create('ARSnova.view.home.MySessionsPanel');
 		this.newSessionPanel = Ext.create('ARSnova.view.home.NewSessionPanel');
-		
-		this.items = [
+
+		this.add([
 		    this.homePanel,
             this.mySessionsPanel,
             this.newSessionPanel
-        ];
-		ARSnova.view.home.TabPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
-		this.on('activate', function(){
-			//ARSnova.app.mainTabPanel.tabPanel.doLayout();
-		});
+        ]);
 		
-		ARSnova.view.home.TabPanel.superclass.initialize.call(this);
+		this.on('activate', function() {});
 	}
 });

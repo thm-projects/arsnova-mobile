@@ -34,7 +34,9 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		sessionLogoutButton	: null
 	},
 	
-	constructor: function(){
+	initialize: function() {
+		this.callParent(arguments);
+		
 		this.logoutButton = new Ext.Button({
 			text	: Messages.LOGOUT,
 			ui		: 'back',
@@ -44,7 +46,6 @@ Ext.define('ARSnova.view.home.HomePanel', {
 						ARSnova.app.getController('Auth').logout();
 					}
 				});
-				Ext.Msg.doComponentLayout();
 			}
 		});
 		
@@ -113,23 +114,19 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		});
 		
 		this.dockedItems = [this.toolbar];
-		this.items = [
+		
+		this.add([
             this.sessionLoginForm,
             this.lastVisitedSessionsForm
-        ];
+        ]);
 		
-		ARSnova.view.home.HomePanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
 		this.on('beforeactivate', function(){
 			this.loadVisitedSessions();
 		});
+		
 		this.on('activate', function(){
 			ARSnova.app.hideLoadMask();
 		});
-		
-		ARSnova.view.home.HomePanel.superclass.initialize.call(this);
 	},
 	
 	checkLogin: function(){
@@ -211,8 +208,6 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				} else {
 					panel.lastVisitedSessionsForm.hide();
 				}
-				
-				panel.doComponentLayout();
 			},
 			unauthenticated: function() {
 				ARSnova.app.getController('Auth').login({

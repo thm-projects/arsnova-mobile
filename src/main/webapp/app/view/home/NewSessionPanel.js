@@ -37,7 +37,10 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		mycoursesStore: null
 	},
 	
-	constructor: function(responseText){
+	initialize: function(responseText){
+		this.callParent(arguments);
+		// TODO: is responseText used?
+		
 		this.mycoursesStore = new Ext.data.JsonStore({
 			model: ARSnova.model.Course
 		});
@@ -57,7 +60,8 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		});
 		
 		this.mycourses.setScrollable(false);
-
+		
+		/* TODO responseText? */
 		if(responseText == null){
 			var course = new Array();
 		} else {
@@ -93,9 +97,9 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
             disabled	: true
         });
 		
-		this.items = [{
+		this.add([{
 			title: 'createSession',
-			xtype: 'form',
+			xtype: 'formpanel',
 			id: 'createSession',
 			submitOnAction: false,
 			items: [{
@@ -132,17 +136,11 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				xtype: 'fieldset',
 				items: [this.mycourses]
 			}]
-		}];
-		
-		ARSnova.view.home.NewSessionPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function() {
+		}]);
+
 		this.on('beforeactivate', this.getSessionIds);
 		this.on('beforeactivate', this.getMyCourses);
 		this.on('activate', this.generateNewSessionId);
-		
-		ARSnova.view.home.NewSessionPanel.superclass.initialize.call(this);
 	},
 	
 	onSubmit: function() {
