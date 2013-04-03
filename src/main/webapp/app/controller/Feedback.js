@@ -29,7 +29,6 @@ Ext.define("ARSnova.controller.Feedback", {
     vote: function(options){
     	if (!ARSnova.app.checkSessionLogin()){
     		Ext.Msg.alert('Hinweis', 'Bitte loggen Sie sich erst in einen Kurs ein, bevor Sie diese Funktion nutzen!');
-    		Ext.Msg.doComponentLayout();
     		var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
     		fP.setActiveItem(fP.statisticPanel, {
     			type		: 'slide',

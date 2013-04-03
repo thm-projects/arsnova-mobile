@@ -24,6 +24,7 @@ Ext.define("ARSnova.controller.Auth", {
 	qr: function(options) {
 		ARSnova.app.loggedIn = true;
 		if (localStorage.getItem('login') === null) {
+			// TODO: create models in tabpanel or st2-app
 			var authModel = Ext.create('ARSnova.model.Auth');
 			localStorage.setItem('login', authModel.generateGuestName());
 		}

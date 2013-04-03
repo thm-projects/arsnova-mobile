@@ -24,7 +24,6 @@ Ext.define("ARSnova.controller.Sessions", {
     login: function(options){
     	if(options.keyword.length != 8){
     		Ext.Msg.alert("Hinweis", "Die Session-ID muss 8-stellig sein.");
-    		Ext.Msg.doComponentLayout();
     		return;
     	}
     	/* do login stuff */
@@ -41,7 +40,6 @@ Ext.define("ARSnova.controller.Sessions", {
     				//check if session is open
     				if(!obj.active){
     					Ext.Msg.alert("Hinweis", "Die Session \"" + obj.name +"\” ist momentan geschlossen.");
-    					Ext.Msg.doComponentLayout();
     					return;
     				}
     				ARSnova.app.isSessionOwner = false;
@@ -52,8 +50,8 @@ Ext.define("ARSnova.controller.Sessions", {
     	    	localStorage.setItem('name', obj.name);
     	    	localStorage.setItem('keyword', obj.keyword);
     	    	localStorage.setItem('shortName', obj.shortName);
-		localStorage.setItem('courseId', obj.courseId);
-		localStorage.setItem('courseType', obj.courseType);
+    	    	localStorage.setItem('courseId', obj.courseId);
+    	    	localStorage.setItem('courseType', obj.courseType);
     	    	localStorage.setItem('active', obj.active ? 1 : 0);
     	    	
     	    	//start feedback-votes-cleaning-up-task
@@ -66,12 +64,10 @@ Ext.define("ARSnova.controller.Sessions", {
     		},
     		notFound: function() {
     			Ext.Msg.alert("Hinweis", "Diese Session existiert nicht.");
-				Ext.Msg.doComponentLayout();
     		},
     		failure: function(records, operation){
     			console.log(operation);
     			Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
-    			Ext.Msg.doComponentLayout();
     		}
     	});
     },

@@ -57,7 +57,6 @@ Ext.define("ARSnova.controller.Canteen", {
 		    			console.log(opts);
 		    	  		console.log('server-side error, foodVote save');
 		    	  		Ext.Msg.alert("Hinweis!", "Die Antwort konnte leider nicht gespeichert werden");
-		    	  		Ext.Msg.doComponentLayout();
 					}
 				});
 			},

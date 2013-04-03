@@ -21,7 +21,7 @@
 Ext.define("ARSnova.controller.Archive", {
 	extend: 'Ext.app.Controller',
 
-	index: function(options){
+	index: function(options) {
 		ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.archiveTabPanel, {
 			type: 'slide'
 		});
