@@ -50,6 +50,7 @@ Ext.define('ARSnova.view.about.OpenSourceProjectsPanel', {
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.OPENSOURCEPROJECTS_SHORT,
+			docked: 'top',
 			items: [this.backButton]
 		});
 		

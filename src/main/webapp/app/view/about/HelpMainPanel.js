@@ -83,6 +83,7 @@ Ext.define('ARSnova.view.about.HelpMainPanel', {
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.HELP,
+			docked: 'top',
 			items: [this.backButton]
 		});
 		

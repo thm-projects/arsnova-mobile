@@ -49,6 +49,7 @@ Ext.define('ARSnova.view.about.SocialSoftwarePanel', {
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.SOCIAL_SOFTWARE,
+			docked: 'top',
 			items: [this.backButton]
 		});
 		

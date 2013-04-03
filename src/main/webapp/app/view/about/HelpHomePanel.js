@@ -49,6 +49,7 @@ Ext.define('ARSnova.view.about.HelpHomePanel', {
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.HELP_HOME,
+			docked: 'top',
 			items: [ this.backButton]
 		});
 		

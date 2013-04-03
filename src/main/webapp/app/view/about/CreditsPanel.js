@@ -51,6 +51,7 @@ Ext.define('ARSnova.view.about.CreditsPanel', {
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.CREDITS,
+			docked: 'top',
 			items: [ this.backButton]
 		});
 		

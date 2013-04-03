@@ -49,6 +49,7 @@ Ext.define('ARSnova.view.about.HelpCanteenPanel', {
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.HELP_CANTEEN,
+			docked: 'top',
 			items: [this.backButton]
 		});
 		

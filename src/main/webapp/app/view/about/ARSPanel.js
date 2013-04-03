@@ -49,6 +49,7 @@ Ext.define('ARSnova.view.about.ARSPanel', {
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: '"ARS"',
+			docked: 'top',
 			items: [this.backButton]
 		});
 		

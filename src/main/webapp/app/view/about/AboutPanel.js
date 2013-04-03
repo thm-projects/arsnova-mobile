@@ -50,6 +50,7 @@ Ext.define('ARSnova.view.about.AboutPanel', {
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.ABOUT_ARSNOVA,
+			docked: 'top',
 			items: [this.backButton]
 		});
 		

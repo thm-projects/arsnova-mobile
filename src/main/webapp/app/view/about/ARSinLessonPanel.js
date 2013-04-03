@@ -49,6 +49,7 @@ Ext.define('ARSnova.view.about.ARSinLessonPanel', {
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: 'ARS in der Lehre',
+			docked: 'top',
 			items: [this.backButton]
 		});
 		

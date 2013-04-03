@@ -33,7 +33,7 @@ Ext.define('ARSnova.view.about.HelpQuestionsPanel', {
 	initialize: function() {
 		this.callParent(arguments);
 		
-		this.backButton = new Ext.Button({
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.BACK,
 			ui		: 'back',
 			handler	: function() {
@@ -47,8 +47,9 @@ Ext.define('ARSnova.view.about.HelpQuestionsPanel', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.HELP_QUESTIONS,
+			docked: 'top',
 			items: [this.backButton]
 		});
 

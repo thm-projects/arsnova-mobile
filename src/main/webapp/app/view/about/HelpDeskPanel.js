@@ -49,6 +49,7 @@ Ext.define('ARSnova.view.about.HelpDeskPanel', {
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.HELPDESK,
+			docked: 'top',
 			items: [this.backButton]
 		});
 		
@@ -62,14 +63,14 @@ Ext.define('ARSnova.view.about.HelpDeskPanel', {
 		
 		this.add([this.toolbar, {
 			cls: 'roundedBox fontNormal',
-			html: [].concat(!Ext.is.Desktop ? [helpdesktext.join("<br/>")] : ['<div id="helpdesk"><p id="helpdesk-start">Es war einmal vor kurzer Zeit in einer nicht weit entfernten Hochschule&hellip;</p>',
+			html: [].concat(!Ext.os.is.Desktop ? [helpdesktext.join("<br/>")] : ['<div id="helpdesk"><p id="helpdesk-start">Es war einmal vor kurzer Zeit in einer nicht weit entfernten Hochschule&hellip;</p>',
 				'<h1>ARS NOVA<sub>Helpdesk</sub></h1>',
 				'<div id="helpdesk-titles"><div id="helpdesk-titlecontent">',
 					'<p class="center">EPISODE IV<br />NEUE HOFFNUNG FÜR DIE LEHRE</p>',
 					'<p>Es herrscht Klarheit.</p>',
 					helpdesktext.join("\n"),
 				'</div></div></div>']).join("\n")
-		}].concat(!Ext.is.Desktop ? [] : [{
+		}].concat(!Ext.os.is.Desktop ? [] : [{
 			cls: 'gravure',
 			html: '<a href="http://www.sitepoint.com/css3-starwars-scrolling-text/" target="_blank">sitepoint.com/css3-starwars-scrolling-text/</a>'
 		}]));

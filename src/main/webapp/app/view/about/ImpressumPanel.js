@@ -52,6 +52,7 @@ Ext.define('ARSnova.view.about.ImpressumPanel', {
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.IMPRESSUM,
+			docked: 'top',
 			items: [this.backButton]
 		});
 		

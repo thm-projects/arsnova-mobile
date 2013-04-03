@@ -50,6 +50,7 @@ Ext.define('ARSnova.view.about.SponsorsPanel', {
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.SPONSORS_SHORT,
+			docked: 'top',
 			items: [this.backButton]
 		});
 		

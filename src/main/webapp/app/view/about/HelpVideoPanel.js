@@ -26,31 +26,7 @@ Ext.define('ARSnova.view.about.HelpVideoPanel', {
 		/* toolbar items */
 		toolbar		: null,
 		backButton	: null,
-		
-		items: [{
-			xtype: 'toolbar',
-				title: Messages.HELP,
-				docked: 'top',
-				items: [{ 
-					xtype	:'button',
-					text	: Messages.BACK,
-					ui		: 'back',
-					handler	: function() {
-						me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
-						
-						if(this.standalone) {
-							me = ARSnova.app.mainTabPanel.tabPanel;
-						}
-						
-						me.setActiveItem(me.helpMainPanel, {
-							type		: 'slide',
-							direction	: 'right',
-							duration	: 700
-						});
-					}}
-				]
-			}],
-		
+	
 		layout: {
 			type: 'hbox',
 			align: 'center',
@@ -83,10 +59,34 @@ Ext.define('ARSnova.view.about.HelpVideoPanel', {
 			return { width: 1280, height: 720 };
 		};
 		
+		this.backButton = Ext.create('Ext.Button', {
+			text	: Messages.BACK,
+			ui		: 'back',
+			handler	: function() {
+				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
+				
+				if(this.standalone) {
+					me = ARSnova.app.mainTabPanel.tabPanel;
+				}
+				
+				me.setActiveItem(me.helpMainPanel, {
+					type		: 'slide',
+					direction	: 'right',
+					duration	: 700
+				});
+			}
+		});
+		
 		var w = getVideoResolution().width;
 		var h = getVideoResolution().height;
 		
-		this.add([{
+		this.toolbar = Ext.create('Ext.Toolbar', {
+			title: Messages.HELP,
+			docked: 'top',
+			items: [this.backButton]
+		});
+		
+		this.add([this.toolbar, {
 			html:	'<iframe style="display:block" width="'+w+'" height="'+h+'" src="//www.youtube-nocookie.com/embed/'+arguments.videoid+'?rel=0&hd=1" frameborder="0" allowfullscreen></iframe>'
 		}]);
 	}
