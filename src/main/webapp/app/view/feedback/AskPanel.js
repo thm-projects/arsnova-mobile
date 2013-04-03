@@ -41,7 +41,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		
 		this.dockedItems = [{
 			xtype: 'toolbar',
-			dock: 'top',
+			docked: 'top',
 			title: Messages.QUESTION_TO_SPEAKER,
 			items: [this.backButton, {xtype: 'spacer'}, this.saveButton]
 		}],

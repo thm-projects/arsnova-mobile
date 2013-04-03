@@ -476,7 +476,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
             this.toolbar,
             new Ext.Toolbar({
 	            ui: 'light',
-	            dock: 'top',
+	            docked: 'top',
 	            items: [
                     {xtype: 'spacer'},
                     this.questionOptions,
