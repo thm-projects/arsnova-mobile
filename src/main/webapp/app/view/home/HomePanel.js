@@ -34,7 +34,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		sessionLogoutButton	: null
 	},
 	
-	initialize: function() {
+	constructor: function() {
 		this.callParent(arguments);
 		
 		this.logoutButton = Ext.create('Ext.Button', {
@@ -123,7 +123,10 @@ Ext.define('ARSnova.view.home.HomePanel', {
             this.sessionLoginForm,
             this.lastVisitedSessionsForm
         ]);
+	},
 		
+	
+	initialize: function() {	
 		this.on('activate', function() {
 			this.loadVisitedSessions();
 		}, this, null, 'before');
@@ -164,7 +167,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
 		
 		ARSnova.app.restProxy.getMyVisitedSessions({
-			success: function(sessions){
+			success: function(sessions) {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.homePanel;
 				var caption = Ext.create('ARSnova.view.Caption');
 
@@ -184,9 +187,9 @@ Ext.define('ARSnova.view.home.HomePanel', {
 
 						var sessionButton = Ext.create('Ext.Button', {
 							xtype		: 'button',
-							ui		: 'normal',
+							ui			: 'normal',
 							text		: session.name,
-							cls		: 'forwardListButton' + course,
+							cls			: 'forwardListButton' + course,
 							controller	: 'sessions',
 							action		: 'showDetails',
 							badgeCls	: 'badgeicon',

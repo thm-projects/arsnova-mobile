@@ -136,7 +136,9 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				items: [this.mycourses]
 			}]
 		}]);
-
+	},
+	
+	initialize: function() {
 		this.on('activate', function() {
 			this.getSessionIds;
 			this.getMyCourses;
