@@ -45,7 +45,7 @@ Ext.define('ARSnova.view.NumericKeypad', {
 		        '/>',
 		        '<tpl if="useMask"><div class="x-field-mask"></div></tpl>',
 		        '</div></tpl>',
-		    '<tpl if="useClearIcon"><div class="x-field-clear-container"><div class="x-field-clear x-hidden-visibility">&#215;</div><div></tpl>'
+		    '<tpl if="clearIcon"><div class="x-field-clear-container"><div class="x-field-clear x-hidden-visibility">&#215;</div><div></tpl>'
 		],
 	},
 
