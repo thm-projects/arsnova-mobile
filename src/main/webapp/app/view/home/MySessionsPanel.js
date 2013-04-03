@@ -35,7 +35,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	initialize: function() {
 		this.callParent(arguments);
 		
-		this.logoutButton = new Ext.Button({
+		this.logoutButton = Ext.create('Ext.Button', {
 			text	: Messages.LOGOUT,
 			ui		: 'back',
 			hidden	: true,
@@ -48,7 +48,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			}
 		});
 		
-		this.backButton = new Ext.Button({
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.HOME,
 			ui		: 'back',
 			handler	: function() {
@@ -61,7 +61,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			}
 		});
 		
-		this.createSessionButton = new Ext.Button({
+		this.createSessionButton = Ext.create('Ext.Button', {
 			text	: '+',
 			cls		: 'plusButton',
 			scope	: this,
@@ -75,8 +75,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.SESSIONS,
+			docked: 'top',
 			items: [
 		        this.backButton,
 		        this.logoutButton,
@@ -85,8 +86,10 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			]
 		});
 		
-		this.newSessionButtonForm = new Ext.form.FormPanel({
+		this.newSessionButtonForm = Ext.create('Ext.form.FormPanel', {
 			cls: 'topPadding standardForm',
+			scrollable: null,
+			
 			items: [{
 				xtype	: 'button',
 				ui		: 'normal',
@@ -99,23 +102,19 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			}]
 		});
 		
-		this.sessionsForm = new Ext.form.FormPanel({
+		this.sessionsForm = Ext.create('Ext.form.FormPanel', {
+			scrollable: null,
 			items: []
 		});
 		
-		this.dockedItems = [this.toolbar],
-		
 		this.add([
+		    this.toolbar,
 		    this.newSessionButtonForm,
             this.sessionsForm
         ]),
 		
 
-		this.on('activate', function(){
-			// this.doComponentLayout();	
-		});
-		
-		this.on('beforeactivate', function(){
+		this.on('activate', function() {
 			switch (ARSnova.app.userRole) {
 				case ARSnova.app.USER_ROLE_SPEAKER:
 					this.loadCreatedSessions();
@@ -124,13 +123,13 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					this.createSessionButton.show();
 					break;
 				default:
-					break;
+				break;
 			}
 			
 			if (ARSnova.app.loginMode == ARSnova.app.LOGIN_THM) {
 				this.logoutButton.addCls('thm');
 			}
-		});
+		}, this, null, 'before');
 	},
 	
 	loadCreatedSessions: function() {
@@ -146,7 +145,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				panel.sessionsForm.removeAll();
 				panel.sessionsForm.show();
 
-				panel.createdSessionsFieldset = new Ext.form.FieldSet({
+				panel.createdSessionsFieldset = Ext.create('Ext.form.FieldSet', {
 					cls: 'standardFieldset',
 					title: Messages.MY_SESSIONS
 				});
@@ -167,7 +166,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 					// Minimum width of 321px equals at least landscape view
 					var displaytext = window.innerWidth > 321 ? session.name : session.shortName; 
-					var sessionButton = new ARSnova.view.MultiBadgeButton({
+					var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 						ui		: 'normal',
 						text		: displaytext,
 						cls		: 'forwardListButton' + status + course,
@@ -189,8 +188,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				
 				panel.createdSessionsFieldset.add(caption);
 				panel.sessionsForm.add(panel.createdSessionsFieldset);
-    			
-    			//panel.doLayout();
+
     			ARSnova.app.hideLoadMask();
     		},
 			empty: Ext.bind(function() {

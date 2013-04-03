@@ -37,9 +37,8 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		mycoursesStore: null
 	},
 	
-	initialize: function(responseText){
+	constructor: function(responseText) {
 		this.callParent(arguments);
-		// TODO: is responseText used?
 		
 		this.mycoursesStore = new Ext.data.JsonStore({
 			model: ARSnova.model.Course
@@ -51,7 +50,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			itemTemplate = '<span class="course">{fullname}<span>';
 		}
 
-		this.mycourses = new Ext.List({
+		this.mycourses = Ext.create('Ext.List', {
 			store: this.mycoursesStore,
 			itemTpl: itemTemplate,
 			listeners: {
@@ -61,14 +60,14 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		
 		this.mycourses.setScrollable(false);
 		
-		/* TODO responseText? */
-		if(responseText == null){
+		// check responseText
+		if(typeof arguments.responseText === 'undefined') {
 			var course = new Array();
 		} else {
-			var course = Ext.decode(responseText);
+			var course = Ext.decode(arguments.responseText);
 		}
 		
-		this.backButton = new Ext.Button({
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.SESSIONS,
 			ui		: 'back',
 			handler	: function() {
@@ -81,25 +80,25 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.NEW_SESSION,
 			cls	 : 'titlePaddingLeft',
+			docked: 'top',
 			items: [
 		        this.backButton
 			]
 		});
 		
-		this.dockedItems = [this.toolbar];
-		
-		this.sessionIdField = new Ext.form.Text({
+		this.sessionIdField = Ext.create('Ext.form.Text', {
             name		: 'keyword',
             label		: 'Session-ID',
             disabled	: true
         });
 		
-		this.add([{
+		this.add([this.toolbar, {
 			title: 'createSession',
 			xtype: 'formpanel',
+			scrollable: null,
 			id: 'createSession',
 			submitOnAction: false,
 			items: [{
@@ -138,8 +137,11 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			}]
 		}]);
 
-		this.on('beforeactivate', this.getSessionIds);
-		this.on('beforeactivate', this.getMyCourses);
+		this.on('activate', function() {
+			this.getSessionIds;
+			this.getMyCourses;
+		}, this, null, 'before');
+		
 		this.on('activate', this.generateNewSessionId);
 	},
 	

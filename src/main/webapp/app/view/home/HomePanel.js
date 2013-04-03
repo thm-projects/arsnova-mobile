@@ -37,7 +37,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	initialize: function() {
 		this.callParent(arguments);
 		
-		this.logoutButton = new Ext.Button({
+		this.logoutButton = Ext.create('Ext.Button', {
 			text	: Messages.LOGOUT,
 			ui		: 'back',
 			handler	: function() {
@@ -49,16 +49,18 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: 'ARSnova',
+			docked: 'top',
 			items: [
 		        this.logoutButton
 			]
 		});
 		
-		this.outOfClass = new Ext.form.FormPanel({
+		this.outOfClass = Ext.create('Ext.form.FormPanel', {
 			title: 'Out of class',
 			cls  : 'standardForm',
+			scrollable: null,
 				
 			items: [{
 				xtype		: 'button',
@@ -83,6 +85,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			}, {
 				submitOnAction: false,
 				xtype: 'formpanel',
+				scrollable: null,
 				items: [{
 					xtype		: 'fieldset',
 					defaults	: {
@@ -104,25 +107,26 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			}]
 		});
 		
-		this.lastVisitedSessionsFieldset = new Ext.form.FieldSet({
+		this.lastVisitedSessionsFieldset = Ext.create('Ext.form.FieldSet', {
 			cls: 'standardFieldset',
 			title: Messages.MY_SESSIONS
 		});
 		
-		this.lastVisitedSessionsForm = new Ext.form.FormPanel({
+		this.lastVisitedSessionsForm = Ext.create('Ext.form.FormPanel', {
+			scrollable: null,
 			items: [this.lastVisitedSessionsFieldset]
 		});
 		
-		this.dockedItems = [this.toolbar];
 		
 		this.add([
+		    this.toolbar,
             this.sessionLoginForm,
             this.lastVisitedSessionsForm
         ]);
 		
-		this.on('beforeactivate', function(){
+		this.on('activate', function() {
 			this.loadVisitedSessions();
-		});
+		}, this, null, 'before');
 		
 		this.on('activate', function(){
 			ARSnova.app.hideLoadMask();
@@ -142,7 +146,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	onSubmit: function() {
 		ARSnova.app.showLoadMask(Messages.LOGIN_LOAD_MASK);
 		var sessionLoginPanel = this;
-		var values = this.up('form').getValues();
+		var values = this.up('formpanel').getValues();
 		
 		//delete the textfield-focus, to hide the numeric keypad on phones
 		this.up('panel').down('textfield').blur();
@@ -178,7 +182,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 							course = " coursesession";
 						}
 
-						var sessionButton = new Ext.Button({
+						var sessionButton = Ext.create('Ext.Button', {
 							xtype		: 'button',
 							ui		: 'normal',
 							text		: session.name,

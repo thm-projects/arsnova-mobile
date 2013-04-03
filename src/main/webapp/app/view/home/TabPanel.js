@@ -41,7 +41,5 @@ Ext.define('ARSnova.view.home.TabPanel', {
             this.mySessionsPanel,
             this.newSessionPanel
         ]);
-		
-		this.on('activate', function() {});
 	}
 });
