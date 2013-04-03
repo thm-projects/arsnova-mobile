@@ -22,23 +22,22 @@ Ext.define('ARSnova.view.about.OpenSourceProjectsPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		title:		'OpenSourceProjectsPanel',
 		scroll: 	'vertical',
 		
 		/* toolbar items */
 		toolbar		: null,
-		backButton	: null
+		backButton	: null,
 	},
 	
-	constructor: function(){
-		this.backButton = new Ext.Button({
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.BACK,
 			ui		: 'back',
 			handler	: function() {
-				me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-				
-				me.layout.activeItem.on('deactivate', function(panel){
-					panel.destroy();
-	    		}, this, {single:true});
+				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 				
 				me.setActiveItem(me.creditsPanel, {
 					type		: 'slide',
@@ -49,15 +48,14 @@ Ext.define('ARSnova.view.about.OpenSourceProjectsPanel', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.OPENSOURCEPROJECTS_SHORT,
-			items: [
-		        this.backButton
-			]
+			items: [this.backButton]
 		});
 		
-		this.infoPanel = new Ext.form.FormPanel({
+		this.infoPanel = Ext.create('Ext.form.FormPanel', {
 			cls  : 'standardForm topPadding',
+			scrollable: null,
 			
 			defaults: {
 				xtype		: 'button',
@@ -69,7 +67,7 @@ Ext.define('ARSnova.view.about.OpenSourceProjectsPanel', {
 				text	: Messages.SENCHA_TOUCH,
 				listeners: {
 					click: {
-						element: 'el',
+						element: 'element',
 						fn: function() { 
 							window.open("http://www.sencha.com");
 						}
@@ -79,7 +77,7 @@ Ext.define('ARSnova.view.about.OpenSourceProjectsPanel', {
 				text	: Messages.COUCHDB,
 				listeners: {
 					click: {
-						element: 'el',
+						element: 'element',
 						fn: function() { 
 							window.open("http://couchdb.apache.org");
 						}
@@ -89,7 +87,7 @@ Ext.define('ARSnova.view.about.OpenSourceProjectsPanel', {
 				text	: Messages.NGINX,
 				listeners: {
 					click: {
-						element: 'el',
+						element: 'element',
 						fn: function() { 
 							window.open("http://nginx.org");
 						}
@@ -99,7 +97,7 @@ Ext.define('ARSnova.view.about.OpenSourceProjectsPanel', {
 				text	: Messages.XEN,
 				listeners: {
 					click: {
-						element: 'el',
+						element: 'element',
 						fn: function() { 
 							window.open("http://xen.org");
 						}
@@ -109,7 +107,7 @@ Ext.define('ARSnova.view.about.OpenSourceProjectsPanel', {
 				text	: Messages.CAS,
 				listeners: {
 					click: {
-						element: 'el',
+						element: 'element',
 						fn: function() { 
 							window.open("http://www.jasig.org/cas/");
 						}
@@ -119,7 +117,7 @@ Ext.define('ARSnova.view.about.OpenSourceProjectsPanel', {
 				text	: Messages.DEBIAN,
 				listeners: {
 					click: {
-						element: 'el',
+						element: 'element',
 						fn: function() { 
 							window.open("http://www.debian.org");
 						}
@@ -127,14 +125,7 @@ Ext.define('ARSnova.view.about.OpenSourceProjectsPanel', {
 				}
 			}]
 		});
-		
-		this.dockedItems = [this.toolbar];
-		this.items 		 = [this.infoPanel];
-		
-		ARSnova.view.about.OpenSourceProjectsPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
-		ARSnova.view.about.OpenSourceProjectsPanel.superclass.initialize.call(this);
+
+		this.add([this.toolbar, this.infoPanel]);
 	}
 });

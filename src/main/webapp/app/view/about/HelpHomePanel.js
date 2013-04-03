@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.about.HelpHomePanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		title:		'HelpHomePanel',
 		scroll: 	'vertical',
 		
 		/* toolbar items */
@@ -29,16 +30,14 @@ Ext.define('ARSnova.view.about.HelpHomePanel', {
 		backButton	: null
 	},
 	
-	constructor: function(){
-		this.backButton = new Ext.Button({
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.BACK,
 			ui		: 'back',
 			handler	: function() {
-				me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-				
-				me.layout.activeItem.on('deactivate', function(panel){
-					panel.destroy();
-	    		}, this, {single:true});
+				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 				
 				me.setActiveItem(me.helpMainPanel, {
 					type		: 'slide',
@@ -48,16 +47,12 @@ Ext.define('ARSnova.view.about.HelpHomePanel', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.HELP_HOME,
-			items: [
-		        this.backButton
-			]
+			items: [ this.backButton]
 		});
 		
-		this.dockedItems = [this.toolbar];
-		
-		this.items = [{
+		this.add([this.toolbar, {
 			cls: 'roundedBox fontNormal',
 			html: 	'<p>Nach der Anmeldung als Gast oder Mitglied der THM wird die Startseite von ARSnova angezeigt. Hier gibt es zwei Möglichkeiten, eine Session zu besuchen:</p><br>' +
 					'<ol class="standardList">' +
@@ -66,12 +61,6 @@ Ext.define('ARSnova.view.about.HelpHomePanel', {
 					'</ol><br>' +
 					'<p>Will man eine neue Session anlegen, tippt man auf den \u201eSessions\u201f-Button, um auf der folgenden Seite über das \u201ePlus\u201f-Icon oben rechts oder den gleichnamigen Button eine neue Session anzulegen. Eigene Sessions können dort direkt angesprungen werden.</p><br>' +
 					'<p>Eine Session in grüner Schrift ist geöffnet, sonst gesperrt.</p>'
-		}];
-		
-		ARSnova.view.about.HelpHomePanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
-		ARSnova.view.about.HelpHomePanel.superclass.initialize.call(this);
+		}]);
 	}
 });

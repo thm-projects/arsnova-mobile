@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.about.HelpDeskPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		title:		'HelpDeskPanel',
 		scroll: 	'vertical',
 
 		/* toolbar items */
@@ -29,16 +30,14 @@ Ext.define('ARSnova.view.about.HelpDeskPanel', {
 		backButton	: null
 	},
 	
-	constructor: function(){
-		this.backButton = new Ext.Button({
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.INFO,
 			ui		: 'back',
 			handler	: function() {
-				me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-				
-				me.helpdeskPanel.on('deactivate', function(panel){
-					panel.destroy();
-	    		}, this, {single:true});
+				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 				
 				me.setActiveItem(me.infoPanel, {
 					type		: 'slide',
@@ -48,14 +47,10 @@ Ext.define('ARSnova.view.about.HelpDeskPanel', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.HELPDESK,
-			items: [
-		        this.backButton
-			]
+			items: [this.backButton]
 		});
-		
-		this.dockedItems = [this.toolbar];
 		
 		var helpdesktext = ['<p>Der Helpdesk hilft bei allen Fragen zum Einsatz von ARSnova in der Lehre.</p>' +
 					'<p>Ihre Ansprechpartner sind Christoph Thelen und Paul-Christian Volkmer, beide Absolventen des Master-Studiengangs Informatik an der THM.</p>',
@@ -65,7 +60,7 @@ Ext.define('ARSnova.view.about.HelpDeskPanel', {
 					'dienstags: 09:00 Uhr - 14:00 Uhr<br/>',
 					'mittwochs: 09:00 Uhr - 14:00 Uhr</p>'];
 		
-		this.items = [{
+		this.add([this.toolbar, {
 			cls: 'roundedBox fontNormal',
 			html: [].concat(!Ext.is.Desktop ? [helpdesktext.join("<br/>")] : ['<div id="helpdesk"><p id="helpdesk-start">Es war einmal vor kurzer Zeit in einer nicht weit entfernten Hochschule&hellip;</p>',
 				'<h1>ARS NOVA<sub>Helpdesk</sub></h1>',
@@ -77,8 +72,6 @@ Ext.define('ARSnova.view.about.HelpDeskPanel', {
 		}].concat(!Ext.is.Desktop ? [] : [{
 			cls: 'gravure',
 			html: '<a href="http://www.sitepoint.com/css3-starwars-scrolling-text/" target="_blank">sitepoint.com/css3-starwars-scrolling-text/</a>'
-		}]);
-		
-		ARSnova.view.about.HelpDeskPanel.superclass.constructor.call(this);
+		}]));
 	}
 });

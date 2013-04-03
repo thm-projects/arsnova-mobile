@@ -20,11 +20,36 @@ Ext.define('ARSnova.view.about.HelpVideoPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		title:		'HelpVideoPanel',
 		scroll: 	'vertical',
 		
 		/* toolbar items */
 		toolbar		: null,
 		backButton	: null,
+		
+		items: [{
+			xtype: 'toolbar',
+				title: Messages.HELP,
+				docked: 'top',
+				items: [{ 
+					xtype	:'button',
+					text	: Messages.BACK,
+					ui		: 'back',
+					handler	: function() {
+						me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
+						
+						if(this.standalone) {
+							me = ARSnova.app.mainTabPanel.tabPanel;
+						}
+						
+						me.setActiveItem(me.helpMainPanel, {
+							type		: 'slide',
+							direction	: 'right',
+							duration	: 700
+						});
+					}}
+				]
+			}],
 		
 		layout: {
 			type: 'hbox',
@@ -33,7 +58,16 @@ Ext.define('ARSnova.view.about.HelpVideoPanel', {
 		}
 	},
 	
-	constructor: function(videoid) {
+	constructor: function(arguments) {
+		this.callParent(arguments);
+		
+		this.standalone = false;
+		
+		// check arguments for standalone
+		if(typeof arguments.standalone !== 'undefined') {
+			this.standalone = arguments.standalone;
+		}
+		
 		// Find the best video resolution for the available screen size
 		var getVideoResolution = function() {
 			var width = window.innerWidth;
@@ -49,44 +83,11 @@ Ext.define('ARSnova.view.about.HelpVideoPanel', {
 			return { width: 1280, height: 720 };
 		};
 		
-		this.backButton = new Ext.Button({
-			text	: Messages.BACK,
-			ui		: 'back',
-			handler	: function() {
-				me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-				
-				if ((!me.layout.activeItem) || (!me.layout.activeItem.isVisible())) {
-					// We're not coming from infoTabPanel, use mainTabPanel directly
-					me = ARSnova.mainTabPanel.tabPanel;
-				}
-				
-				me.layout.activeItem.on('deactivate', function(panel){
-					panel.destroy();
-				}, this, {single:true});
-
-				me.setActiveItem(me.helpMainPanel, {
-					type		: 'slide',
-					direction	: 'right',
-					duration	: 700
-				});
-			}
-		});
-
-		this.toolbar = new Ext.Toolbar({
-			title: Messages.HELP,
-			items: [
-				this.backButton
-			]
-		});
-
-		this.dockedItems = [this.toolbar];
-		
 		var w = getVideoResolution().width;
 		var h = getVideoResolution().height;
-		this.items = [{
-			html:	'<iframe width="'+w+'" height="'+h+'" src="//www.youtube-nocookie.com/embed/'+videoid+'?rel=0&hd=1" frameborder="0" allowfullscreen></iframe>'
-		}];
-
-		ARSnova.view.about.HelpVideoPanel.superclass.constructor.call(this);
+		
+		this.add([{
+			html:	'<iframe style="display:block" width="'+w+'" height="'+h+'" src="//www.youtube-nocookie.com/embed/'+arguments.videoid+'?rel=0&hd=1" frameborder="0" allowfullscreen></iframe>'
+		}]);
 	}
 });

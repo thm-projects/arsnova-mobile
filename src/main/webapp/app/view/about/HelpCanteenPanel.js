@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.about.HelpCanteenPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		title: 'HelpCanteenPanel',
 		scroll: 	'vertical',
 		
 		/* toolbar items */
@@ -29,17 +30,15 @@ Ext.define('ARSnova.view.about.HelpCanteenPanel', {
 		backButton	: null
 	},
 	
-	constructor: function(){
-		this.backButton = new Ext.Button({
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.BACK,
 			ui		: 'back',
 			handler	: function() {
-				me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-				
-				me.layout.activeItem.on('deactivate', function(panel){
-					panel.destroy();
-	    		}, this, {single:true});
-				
+				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
+
 				me.setActiveItem(me.helpMainPanel, {
 					type		: 'slide',
 					direction	: 'right',
@@ -48,24 +47,14 @@ Ext.define('ARSnova.view.about.HelpCanteenPanel', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.HELP_CANTEEN,
-			items: [
-		        this.backButton
-			]
+			items: [this.backButton]
 		});
 		
-		this.dockedItems = [this.toolbar];
-		
-		this.items = [{
+		this.add([this.toolbar, {
 			cls: 'roundedBox fontNormal',
 			html: 'Eine Hilfe zur Mensa kommt in Kürze...'
-		}];
-		
-		ARSnova.view.about.HelpCanteenPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
-		ARSnova.view.about.HelpCanteenPanel.superclass.initialize.call(this);
+		}]);
 	}
 });

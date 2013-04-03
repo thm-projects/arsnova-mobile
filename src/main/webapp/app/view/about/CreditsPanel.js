@@ -23,6 +23,7 @@ Ext.define('ARSnova.view.about.CreditsPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		title: 		'CreditsPanel',
 		scroll: 	'vertical',
 		
 		/* toolbar items */
@@ -30,16 +31,14 @@ Ext.define('ARSnova.view.about.CreditsPanel', {
 		backButton	: null,
 	},
 	
-	constructor: function(){
-		this.backButton = new Ext.Button({
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.BACK,
 			ui		: 'back',
 			handler	: function() {
-				me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-				
-				me.layout.activeItem.on('deactivate', function(panel){
-					panel.destroy();
-	    		}, this, {single:true});
+				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 				
 				me.setActiveItem(me.infoPanel, {
 					type		: 'slide',
@@ -50,15 +49,14 @@ Ext.define('ARSnova.view.about.CreditsPanel', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.CREDITS,
-			items: [
-		        this.backButton
-			]
+			items: [ this.backButton]
 		});
 		
-		this.infoPanel = new Ext.form.FormPanel({
+		this.infoPanel = Ext.create('Ext.form.FormPanel', {
 			cls  : 'standardForm topPadding',
+			scrollable: null,
 			
 			defaults: {
 				xtype		: 'button',
@@ -68,28 +66,21 @@ Ext.define('ARSnova.view.about.CreditsPanel', {
 		
 			items: [{
 				text	: Messages.SPONSORS,
-				handler	: function(){
-					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
+				handler	: function() {
+					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 					me.sponsorsPanel = Ext.create('ARSnova.view.about.SponsorsPanel');
 					me.setActiveItem(me.sponsorsPanel, 'slide');
 				}
 			}, {
 				text	: Messages.OPENSOURCEPROJECTS,
-				handler	: function(){
-					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
+				handler	: function() {
+					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 					me.openSourceProjectsPanel = Ext.create('ARSnova.view.about.OpenSourceProjectsPanel');
 					me.setActiveItem(me.openSourceProjectsPanel, 'slide');
 				}
 			}]
 		});
 		
-		this.dockedItems = [this.toolbar];
-		this.items 		 = [this.infoPanel];
-		
-		ARSnova.view.about.CreditsPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
-		ARSnova.view.about.CreditsPanel.superclass.initialize.call(this);
+		this.add([this.toolbar, this.infoPanel]);
 	}
 });

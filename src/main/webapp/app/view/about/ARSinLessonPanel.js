@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.about.ARSinLessonPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		title: 'ARSinLessonPanel',
 		scroll: 	'vertical',
 
 		/* toolbar items */
@@ -29,16 +30,14 @@ Ext.define('ARSnova.view.about.ARSinLessonPanel', {
 		backButton	: null
 	},
 	
-	constructor: function(){
-		this.backButton = new Ext.Button({
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.ABOUT,
 			ui		: 'back',
 			handler	: function() {
-				me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-				
-				me.layout.activeItem.on('deactivate', function(panel){
-					panel.destroy();
-	    		}, this, {single:true});
+				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 				
 				me.setActiveItem(me.aboutPanel, {
 					type		: 'slide',
@@ -48,24 +47,14 @@ Ext.define('ARSnova.view.about.ARSinLessonPanel', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: 'ARS in der Lehre',
-			items: [
-		        this.backButton
-			]
+			items: [this.backButton]
 		});
 		
-		this.dockedItems = [this.toolbar];
-		
-		this.items = [{
+		this.add([ this.toolbar, {
 			cls: 'roundedBox fontNormal',
 			html: 'Text folgt in Kürze...' 
-		}];
-		
-		ARSnova.view.about.ARSinLessonPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
-		ARSnova.view.about.ARSinLessonPanel.superclass.initialize.call(this);
+		}]);
 	}
 });

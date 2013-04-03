@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.about.HelpQuestionsPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		title:		'HelpQUestionsPanel',
 		scroll: 	'vertical',
 		
 		/* toolbar items */
@@ -29,16 +30,14 @@ Ext.define('ARSnova.view.about.HelpQuestionsPanel', {
 		backButton	: null
 	},
 	
-	constructor: function(){
+	initialize: function() {
+		this.callParent(arguments);
+		
 		this.backButton = new Ext.Button({
 			text	: Messages.BACK,
 			ui		: 'back',
 			handler	: function() {
 				me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-				
-				me.layout.activeItem.on('deactivate', function(panel){
-					panel.destroy();
-	    		}, this, {single:true});
 				
 				me.setActiveItem(me.helpMainPanel, {
 					type		: 'slide',
@@ -50,22 +49,12 @@ Ext.define('ARSnova.view.about.HelpQuestionsPanel', {
 		
 		this.toolbar = new Ext.Toolbar({
 			title: Messages.HELP_QUESTIONS,
-			items: [
-		        this.backButton
-			]
+			items: [this.backButton]
 		});
-		
-		this.dockedItems = [this.toolbar];
-		
-		this.items = [{
+
+		this.add([this.toolbar, {
 			cls: 'roundedBox fontNormal',
 			html: 'Eine Hilfe zu den Fragen kommt in Kürze...'
-		}];
-		
-		ARSnova.view.about.HelpQuestionsPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
-		ARSnova.view.about.HelpQuestionsPanel.superclass.initialize.call(this);
+		}]);
 	}
 });

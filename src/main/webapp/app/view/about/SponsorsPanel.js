@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.about.SponsorsPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		title:		'SponsorsPanel',
 		scroll: 	'vertical',
 
 		/* toolbar items */
@@ -29,17 +30,15 @@ Ext.define('ARSnova.view.about.SponsorsPanel', {
 		backButton	: null
 	},
 	
-	constructor: function(){
+	initialize: function() {
+		this.callParent(arguments);
+		
 		this.backButton = new Ext.Button({
 			text	: Messages.BACK,
 			ui		: 'back',
 			handler	: function() {
-				me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-				
-				me.layout.activeItem.on('deactivate', function(panel){
-					panel.destroy();
-	    		}, this, {single:true});
-				
+				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
+
 				me.setActiveItem(me.creditsPanel, {
 					type		: 'slide',
 					direction	: 'right',
@@ -49,15 +48,14 @@ Ext.define('ARSnova.view.about.SponsorsPanel', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.SPONSORS_SHORT,
-			items: [
-		        this.backButton
-			]
+			items: [this.backButton]
 		});
 		
-		this.infoPanel = new Ext.form.FormPanel({
+		this.infoPanel = Ext.create('Ext.form.FormPanel', {
 			cls  : 'standardForm topPadding',
+			scrollable: null,
 			
 			defaults: {
 				xtype		: 'button',
@@ -69,7 +67,7 @@ Ext.define('ARSnova.view.about.SponsorsPanel', {
 				text	: Messages.ELEARNINGHESSEN,
 				listeners: {
 					click: {
-						element: 'el',
+						element: 'element',
 						fn: function() { 
 							window.open("http://www.e-learning-hessen.de");
 						}
@@ -79,7 +77,7 @@ Ext.define('ARSnova.view.about.SponsorsPanel', {
 				text	: Messages.AGQLS,
 				listeners: {
 					click: {
-						element: 'el',
+						element: 'element',
 						fn: function() { 
 							window.open("http://www.thm.de/site/serviceeinrichtungen/arbeitsgemeinschaft-qualitaet-in-lehre-und-studium-der-th-mittelhessen-agqls.html");
 						}
@@ -87,14 +85,7 @@ Ext.define('ARSnova.view.about.SponsorsPanel', {
 				}
 			}]
 		});
-		
-		this.dockedItems = [this.toolbar];
-		this.items 		 = [this.infoPanel];
-		
-		ARSnova.view.about.SponsorsPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
-		ARSnova.view.about.SponsorsPanel.superclass.initialize.call(this);
+
+		this.add([this.toolbar, this.infoPanel]);
 	}
 });

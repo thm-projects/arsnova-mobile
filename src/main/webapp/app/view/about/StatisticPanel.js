@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		title:	'StatisticPanel',
 		scroll: 'vertical',
 
 		gridPanel: null,
@@ -42,12 +43,14 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 		interval: 30000
 	},
 	
-	constructor: function(){
-		this.gridPanel = new Ext.DataView({
-	        store: new Ext.data.Store({
-	            model: 'Statistic'
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.gridPanel = Ext.create('Ext.DataView', {
+	        store: Ext.create('Ext.data.Store', {
+	            model: ARSnova.model.Statistic
 	        }),
-	        tpl: new Ext.XTemplate(
+	        tpl: Ext.create('Ext.XTemplate', 
         		'<table class="statistic">',
 	        		'<tr><thead><th>' + Messages.CATEGORY + '</th><th>' + Messages.COUNT + '</th></thead></tr>',
 	        	    '<tpl for=".">',
@@ -59,15 +62,11 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 	        scroll: false
 	    });
 		
-		this.backButton = new Ext.Button({
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.INFO,
 			ui		: 'back',
 			handler	: function() {
 				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
-				
-				me.statisticPanel.on('deactivate', function(panel){
-					panel.destroy();
-				}, this, {single:true});
 				
 				me.setActiveItem(me.infoPanel, {
 					type		: 'slide',
@@ -78,24 +77,15 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Toolbar', {
 			title: Messages.STATISTIC,
-			items: [
-		        this.backButton
-			]
+			items: [this.backButton]
 		});
-		
-		this.dockedItems = [this.toolbar];
-		this.items = [this.gridPanel];
-		
-		ARSnova.view.about.StatisticPanel.superclass.constructor.call(this);
-	},
+
+		this.add([this.gridPanel]);
 	
-	initialize: function(){
 		this.on('activate', this.onActivate);
 		this.on('deactivate', this.onDeactivate);
-		
-		ARSnova.view.about.StatisticPanel.superclass.initialize.call(this);
 	},
 	
 	onActivate: function(){
@@ -121,7 +111,6 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 					property : 'category',
 					direction: 'DESC'
 				}]);
-				me.doComponentLayout();
 				setTimeout("ARSnova.app.hideLoadMask()", 500);
 			},
 			failure: function(response){

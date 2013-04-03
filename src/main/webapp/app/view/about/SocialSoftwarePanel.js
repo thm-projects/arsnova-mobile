@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.about.SocialSoftwarePanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		title:		'SocialSoftwarePanel',
 		scroll: 	'vertical',
 		
 		/* toolbar items */
@@ -29,16 +30,14 @@ Ext.define('ARSnova.view.about.SocialSoftwarePanel', {
 		backButton	: null
 	},
 	
-	constructor: function(){
-		this.backButton = new Ext.Button({
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.ABOUT,
 			ui		: 'back',
 			handler	: function() {
-				me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-				
-				me.layout.activeItem.on('deactivate', function(panel){
-					panel.destroy();
-	    		}, this, {single:true});
+				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 				
 				me.setActiveItem(me.aboutPanel, {
 					type		: 'slide',
@@ -48,16 +47,12 @@ Ext.define('ARSnova.view.about.SocialSoftwarePanel', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.SOCIAL_SOFTWARE,
-			items: [
-		        this.backButton
-			]
+			items: [this.backButton]
 		});
 		
-		this.dockedItems = [this.toolbar];
-		
-		this.items = [{
+		this.add([this.toolbar, {
 			cls: 'roundedBox fontNormal',
 			html: 	'<p>Das Neue an ARSnova ist seine Konzeption als \u201eSocial Software\u201f:</p><br>' +
 					'<ul class="standardList">' +
@@ -71,12 +66,6 @@ Ext.define('ARSnova.view.about.SocialSoftwarePanel', {
 							'</ul>' +
 						'</li>' +
 					'</ul>'
-		}];
-		
-		ARSnova.view.about.SocialSoftwarePanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
-		ARSnova.view.about.SocialSoftwarePanel.superclass.initialize.call(this);
+		}]);
 	}
 });

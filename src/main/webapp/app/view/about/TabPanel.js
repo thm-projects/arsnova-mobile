@@ -30,24 +30,13 @@ Ext.define('ARSnova.view.about.TabPanel', {
 	    }
 	},
 
-	constructor: function(){
-		this.infoPanel = new ARSnova.view.about.InfoPanel();
+	initialize: function() {
+		this.callParent(arguments);
 		
-		this.items = [
+		this.infoPanel = Ext.create('ARSnova.view.about.InfoPanel');
+		
+		this.add([
 		    this.infoPanel
-        ];
-		ARSnova.view.about.TabPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
-		this.on('deactivate', function(){
-			this.layout.activeItem.fireEvent('deactivate');
-		});
-		
-		this.on('activate', function(){
-			this.layout.activeItem.fireEvent('activate');
-		});
-		
-		ARSnova.view.about.TabPanel.superclass.initialize.call(this);
+        ]);
 	}
 });

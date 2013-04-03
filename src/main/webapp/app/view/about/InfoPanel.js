@@ -19,19 +19,22 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.about.InfoPanel', {
-	extend: 'Ext.Panel',
+	extend: 'Ext.Container',
 	
 	config: {
+		title	: Messages.INFO,
 		scroll: 'vertical'
 	},
 	
-	constructor: function(){
-		this.backButton = new Ext.Button({
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.BACK,
 			ui		: 'back',
 			hidden	: true,
 			handler	: function() {
-				ARSnova.mainTabPanel.tabPanel.setActiveItem(ARSnova.lastActivePanel, {
+				ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.lastActivePanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700
@@ -39,21 +42,21 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.INFO,
 			items: [this.backButton]
 		});
 		
-		this.dockedItems = [this.toolbar];
-		
-		this.items = [{
+		this.add([this.toolbar, {
 			xtype	: 'panel',
 			cls		: null,
 			html	: "<div class='arsnova-logo' style=\"background: url('resources/images/arsnova.png') no-repeat center; height:55px\"></div>",
 			style	: { marginTop: '10px'}
-		}, {
-			xtype: 'form',
+		}, 
+		{
+			xtype: 'formpanel',
 			cls  : 'standardForm topPadding',
+			scrollable : null,
 			
 			defaults: {
 				xtype	: 'button',
@@ -64,29 +67,29 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 			items: [{
 				text	: Messages.ABOUT_ARSNOVA,
 				handler	: function(){
-					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.aboutPanel = new ARSnova.view.about.AboutPanel();
+					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
+					me.aboutPanel = Ext.create('ARSnova.view.about.AboutPanel');
 					me.setActiveItem(me.aboutPanel, 'slide');
 				}
 			}, {
 				text	: Messages.HELPDESK,
 				handler	: function(){
-					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.helpdeskPanel = new ARSnova.view.about.HelpDeskPanel();
+					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
+					me.helpdeskPanel = Ext.create('ARSnova.view.about.HelpDeskPanel');
 					me.setActiveItem(me.helpdeskPanel, 'slide');
 				}
 			}, {
 				text	: Messages.STATISTIC,
 				handler	: function() {
-					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.statisticPanel = new ARSnova.view.about.StatisticPanel();
+					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
+					me.statisticPanel = Ext.create('ARSnova.view.about.StatisticPanel');
 					me.setActiveItem(me.statisticPanel, 'slide');
 				}
 			}, {
 				text: Messages.DEVELOPMENT,
 				listeners: {
 					click: {
-						element: 'el',
+						element: 'element',
 						fn: function() { 
 							window.open("http://www.ohloh.net/p/arsnova");
 						}
@@ -95,37 +98,29 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 			}, {
 				text: Messages.CREDITS,
 				handler: function(){
-					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.creditsPanel = new ARSnova.view.about.CreditsPanel();
+					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
+					me.creditsPanel = Ext.create('ARSnova.view.about.CreditsPanel');
 					me.setActiveItem(me.creditsPanel, 'slide');
 				}
 			}, {
 				text: Messages.IMPRESSUM,
 				handler: function(){
-					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.impressumPanel = new ARSnova.view.about.ImpressumPanel();
+					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
+					me.impressumPanel = Ext.create('ARSnova.view.about.ImpressumPanel');
 					me.setActiveItem(me.impressumPanel, 'slide');
 				}
 			}]
-		}, {
+		},
+		{
 			style: {
 				textAlign: 'center',
 				marginTop: '10px'
 			},
 			html: '<a href="http://www.ohloh.net/p/arsnova?ref=WidgetProjectPartnerBadge" target="_blank"><img alt="Ohloh project report for ARSnova" border="0" height="33" src="http://www.ohloh.net/p/arsnova/widgets/project_partner_badge.gif" width="193" /></a>'
-		}];
+		}]);
 		
-		ARSnova.view.about.InfoPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
 		this.on('activate', function(){
-			if(ARSnova.mainTabPanel.tabPanel.homeTabPanel.tab.isVisible() == true)
-				this.backButton.hide();
-			else
-				this.backButton.show();
+			this.backButton.show();
 		});
-		
-		ARSnova.view.about.InfoPanel.superclass.initialize.call(this);
 	}
 });

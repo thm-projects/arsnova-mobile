@@ -30,38 +30,47 @@ Ext.define('ARSnova.view.about.HelpMainPanel', {
 		backButton	: null
 	},
 
-	constructor: function() {
-		var standalone = true;
+	constructor: function(arguments) {
+		this.callParent(arguments);
+		
+		var standalone = false;
+		
+		/* check arguments for standalone */
+		if(typeof arguments !== 'undefined') {
+			if(typeof arguments.standalone !== 'undefined') {
+				standalone = arguments.standalone;
+			}			
+		}
+		
 		var showVideo = function(videoid) {
 			if (standalone) {
-				var tabPanel = ARSnova.mainTabPanel.tabPanel;
-				var videoPanel = new ARSnova.view.about.HelpVideoPanel(videoid);
-				tabPanel.on('beforecardswitch', function() { videoPanel.tab.hide(); });
+				var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+				var videoPanel = Ext.create('ARSnova.view.about.HelpVideoPanel', { 
+					videoid : videoid, 
+					standalone : standalone
+				});
+				tabPanel.on('activeitemchange', function() { videoPanel.tab.hide(); });
 				return tabPanel.setActiveItem(videoPanel, 'slide');
 			}
-			var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-			me.helpVideoPanel = new ARSnova.view.about.HelpVideoPanel(videoid);
+			var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
+			me.helpVideoPanel = Ext.create('ARSnova.view.about.HelpVideoPanel', { videoid : videoid });
 			me.setActiveItem(me.helpVideoPanel, 'slide');
 		};
 		
-		this.backButton = new Ext.Button({
+		this.backButton = Ext.create('Ext.Button', {
 			text	: standalone? Messages.BACK : Messages.ABOUT,
 			ui		: 'back',
 			handler	: function() {
 				if (standalone) {
 					// our usual parent (infoTabPanel) is not active, go to rolePanel instead
-					return ARSnova.mainTabPanel.tabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.rolePanel, {
+					return ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
 						type: 'slide',
 						direction: 'right',
 						duration: 500
 					});
 				}
 				
-				me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-				
-				me.layout.activeItem.on('deactivate', function(panel){
-					panel.destroy();
-	    		}, this, {single:true});
+				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 				
 				me.setActiveItem(me.aboutPanel, {
 					type		: 'slide',
@@ -72,15 +81,14 @@ Ext.define('ARSnova.view.about.HelpMainPanel', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.HELP,
-			items: [
-		        this.backButton
-			]
+			items: [this.backButton]
 		});
 		
-		this.helpPanel = new Ext.form.FormPanel({
+		this.helpPanel = Ext.create('Ext.form.FormPanel', {
 			cls  : 'standardForm',
+			scrollable: null,
 			
 			defaults: {
 				xtype	: 'button',
@@ -147,9 +155,6 @@ Ext.define('ARSnova.view.about.HelpMainPanel', {
 			}]
 		});
 		
-		this.dockedItems = [this.toolbar];
-		this.items 		 = [this.helpPanel];
-		
-		ARSnova.view.about.HelpMainPanel.superclass.constructor.call(this);
+		this.add([this.toolbar, this.helpPanel]);
 	}
 });

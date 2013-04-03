@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.about.AboutPanel', {
 	extend: 'Ext.Panel',
 
 	config: {
+		title: 'AboutPanel',
 		scroll: 	'vertical',
 		
 		/* toolbar items */
@@ -29,16 +30,14 @@ Ext.define('ARSnova.view.about.AboutPanel', {
 		backButton	: null
 	},
 	
-	constructor: function(){
-		this.backButton = new Ext.Button({
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.INFO,
 			ui		: 'back',
 			handler	: function() {
-				me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-				
-				me.layout.activeItem.on('deactivate', function(panel){
-					panel.destroy();
-	    		}, this, {single:true});
+				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 				
 				me.setActiveItem(me.infoPanel, {
 					type		: 'slide',
@@ -49,15 +48,14 @@ Ext.define('ARSnova.view.about.AboutPanel', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.ABOUT_ARSNOVA,
-			items: [
-		        this.backButton
-			]
+			items: [this.backButton]
 		});
 		
-		this.infoPanel = new Ext.form.FormPanel({
+		this.infoPanel = Ext.create('Ext.form.FormPanel', {
 			cls  : 'standardForm topPadding',
+			scrollable: null,
 			
 			defaults: {
 				xtype		: 'button',
@@ -65,18 +63,19 @@ Ext.define('ARSnova.view.about.AboutPanel', {
 				cls			: 'forwardListButton'
 			},
 		
-			items: [{
+			items: [
+			{
 				text	: Messages.WHAT_MEANS_ARS,
 				handler	: function(){
-					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
-					me.arsPanel = new ARSnova.view.about.ARSPanel();
+					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
+					me.arsPanel = Ext.create('ARSnova.view.about.ARSPanel');
 					me.setActiveItem(me.arsPanel, 'slide');
 				}
 			}, {
 				text: Messages.PREZI_ABOUT_ARS,
 				listeners: {
 					click: {
-						element: 'el',
+						element: 'element',
 						fn: function() { 
 							window.open("http://prezi.com/bkfz1utyaiiw/arsnova/");
 						}
@@ -85,14 +84,14 @@ Ext.define('ARSnova.view.about.AboutPanel', {
 			}, {
 				text	: Messages.ARS_IS_SOCIAL,
 				handler	: function() {
-					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
+					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 					me.socialSoftwarePanel = Ext.create('ARSnova.view.about.SocialSoftwarePanel');
 					me.setActiveItem(me.socialSoftwarePanel, 'slide');
 				}
 			}, {
 				text	: Messages.OPERATIONAL_AID,
 				handler	: function() {
-					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
+					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 					me.helpMainPanel = Ext.create('ARSnova.view.about.HelpMainPanel');
 					me.setActiveItem(me.helpMainPanel, 'slide');
 				}
@@ -105,14 +104,7 @@ Ext.define('ARSnova.view.about.AboutPanel', {
 				},
 			}*/]
 		});	
-		
-		this.dockedItems = [this.toolbar];
-		this.items 		 = [this.infoPanel];
-		
-		ARSnova.view.about.AboutPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
-		ARSnova.view.about.AboutPanel.superclass.initialize.call(this);
+
+		this.add([this.toolbar, this.infoPanel]);
 	}
 });

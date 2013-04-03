@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.about.ImpressumPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		title:		'ImpressumPanel',
 		scroll: 	'vertical',
 
 		/* toolbar items */
@@ -29,12 +30,14 @@ Ext.define('ARSnova.view.about.ImpressumPanel', {
 		backButton	: null
 	},
 	
-	constructor: function(){
-		this.backButton = new Ext.Button({
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.INFO,
 			ui		: 'back',
 			handler	: function() {
-				me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
+				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 				me.setActiveItem(me.infoPanel, {
 					type		: 'slide',
 					direction	: 'right',
@@ -47,23 +50,17 @@ Ext.define('ARSnova.view.about.ImpressumPanel', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.IMPRESSUM,
-			items: [
-		        this.backButton
-			]
+			items: [this.backButton]
 		});
 		
-		this.dockedItems = [this.toolbar];
-		
-		this.items = [{
+		this.add([this.toolbar, {
 			cls: 'roundedBox fontNormal',
 			html: 	'<p>ARSnova ist ein Produkt der Fachgruppe WebMedia des Fachbereichs MNI der TH Mittelhessen.</p><br>' + 
 					'<p>Die erste Version entwickelte Christian Thomas Weber im Rahmen seiner Masterarbeit.</p><br>' + 
 					'<p>ARSnova ist Open Source unter der GNU General Public License v3.<br /><a href="https://scm.thm.de/redmine/projects/arsnova" class="external" target="_blank">Projekt-Site</a></p><br>' + 
 					'<p>Projektleiter: Prof. Dr. Klaus Quibeldey-Cirkel <br />THM, Wiesenstr. 14, D-35390 Gießen<br />Tel.: 0641 / 309 - 24 50<br /><a href="mailto:klaus.quibeldey-cirkel@mni.thm.de">E-Mail</a></p>' 
-		}];
-		
-		ARSnova.view.about.ImpressumPanel.superclass.constructor.call(this);
+		}]);
 	}
 });
