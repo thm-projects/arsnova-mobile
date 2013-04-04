@@ -20,6 +20,7 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.proxy.RestProxy', {
 	extend: 'Ext.data.proxy.Rest',
+	alias: 'proxy.restProxy',
 
 	config: {
 		url : '/couchdb/arsnova',
