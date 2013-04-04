@@ -22,18 +22,18 @@ Ext.define('ARSnova.model.FoodVote', {
 	extend: 'Ext.data.Model',
 	
 	config: {
-		proxy: ARSnova.app.restProxy,
+		proxy: { type: 'restProxy' }
 	},
 	
 	getUserFoodVote: function(day, userLogin, callbacks){
-		return this.proxy.getUserFoodVote(day, userLogin, callbacks);
+		return this.getProxy().getUserFoodVote(day, userLogin, callbacks);
 	},
 	
 	countFoodVote: function(day, callbacks){
-		return this.proxy.countFoodVote(day, callbacks);
+		return this.getProxy().countFoodVote(day, callbacks);
 	},
 	
 	countFoodVoteGrouped: function(day, callbacks){
-		return this.proxy.countFoodVoteGrouped(day, callbacks);
+		return this.getProxy().countFoodVoteGrouped(day, callbacks);
 	}
 });

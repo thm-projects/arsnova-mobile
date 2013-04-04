@@ -22,7 +22,7 @@ Ext.define('ARSnova.model.Session', {
 	extend: 'Ext.data.Model',
 	
 	config: {
-		proxy: ARSnova.app.restProxy,
+		proxy: { type: 'restProxy' },
 		
 		fields: [
 		   	  'type', 
@@ -44,26 +44,26 @@ Ext.define('ARSnova.model.Session', {
 	},
 	
     destroy: function(sessionId, creator, callbacks) {
-    	return this.proxy.delSession(sessionId, creator, callbacks);
+    	return this.getProxy().delSession(sessionId, creator, callbacks);
     },
     
-    checkSessionLogin: function(keyword, callbacks){
-    	return this.proxy.checkSessionLogin(keyword, callbacks);
+    checkSessionLogin: function(keyword, callbacks) {
+    	return this.getProxy().checkSessionLogin(keyword, callbacks);
     },
     
-    getMySessions: function(callbacks, sortby){
-    	return this.proxy.getMySessions(callbacks, sortby);
+    getMySessions: function(callbacks, sortby) {
+    	return this.getProxy().getMySessions(callbacks, sortby);
     },
     
-    getSessionIds: function(callbacks){
-    	return this.proxy.getSessionIds(callbacks);
+    getSessionIds: function(callbacks) {
+    	return this.getProxy().getSessionIds(callbacks);
     },
     
-    getSession: function(sessionId, callbacks){
-    	return this.proxy.getSession(sessionId, callbacks);
+    getSession: function(sessionId, callbacks) {
+    	return this.getProxy().getSession(sessionId, callbacks);
     },
     
-    isActive: function(sessionKeyword, callbacks){
-    	return this.proxy.isActive(sessionKeyword, callbacks);
+    isActive: function(sessionKeyword, callbacks) {
+    	return this.getProxy().isActive(sessionKeyword, callbacks);
     } 
 });
