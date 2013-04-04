@@ -48,7 +48,7 @@ Ext.define("ARSnova.controller.Auth", {
 		ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.loginPanel, 'slide');
 	},
 
-	login: function(options){
+	login: function(options) {
 		ARSnova.app.loginMode = options.mode;
 		localStorage.setItem('loginMode', options.mode);
 		var type = "";

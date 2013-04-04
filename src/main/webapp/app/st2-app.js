@@ -114,6 +114,9 @@ Ext.application({
     userRankingModel: null,
     courseModel     : null,
     
+    /* proxy */
+	proxy			: null,
+	
     /* other*/
     cardSwitchDuration: 500,
     
@@ -125,7 +128,7 @@ Ext.application({
     cleanFeedbackVotes: {
     	name: 'looking for feedbacks that have to be remove',
 		run: function(){
-			this.getProxy().cleanSessionFeedback();
+			this.restProxy.cleanSessionFeedback();
 		},
 		interval: 60000 //60 seconds
 	},
@@ -137,7 +140,7 @@ Ext.application({
 	loggedInTask: {
 		name: 'save that user is logged in',
 		run: function(){
-			this.getProxy().loggedInTask();
+			this.restProxy.loggedInTask();
 		},
 		interval: 60000 //60 seconds
 	},
@@ -148,7 +151,7 @@ Ext.application({
 	updateSessionActivityTask: {
 		name: 'save that owner of a session is logged in',
 		run: function(){
-			this.getProxy().updateSessionActivityTask();
+			this.restProxy.updateSessionActivityTask();
 		},
 		interval: 180000 //180 seconds
 	},
@@ -201,6 +204,7 @@ Ext.application({
 		taskManager = new Ext.util.TaskRunner();
 		
 		this.initModels();
+		this.restProxy = Ext.create('ARSnova.proxy.RestProxy'); 
 		this.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
 		
 		this.checkPreviousLogin();

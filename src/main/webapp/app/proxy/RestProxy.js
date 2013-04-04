@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/models/restProxy.js
+ app/proxy/RestProxy.js
  - Beschreibung: Proxy für die Verbindung zur CouchDB
  - Version:      1.0, 01/05/12
  - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
