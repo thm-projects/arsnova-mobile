@@ -20,6 +20,9 @@
  +--------------------------------------------------------------------------*/
 
 Ext.application({
+	
+	requires: ['ARSnova.proxy.RestProxy'], 
+
     name: "ARSnova",
     /* const */
     WEBAPP			: 'webapp',
@@ -111,9 +114,6 @@ Ext.application({
     userRankingModel: null,
     courseModel     : null,
     
-    /* proxy */
-    restProxy		: null,
-    
     /* other*/
     cardSwitchDuration: 500,
     
@@ -125,7 +125,7 @@ Ext.application({
     cleanFeedbackVotes: {
     	name: 'looking for feedbacks that have to be remove',
 		run: function(){
-			ARSnova.app.restProxy.cleanSessionFeedback();
+			this.getProxy().cleanSessionFeedback();
 		},
 		interval: 60000 //60 seconds
 	},
@@ -137,7 +137,7 @@ Ext.application({
 	loggedInTask: {
 		name: 'save that user is logged in',
 		run: function(){
-			ARSnova.app.restProxy.loggedInTask();
+			this.getProxy().loggedInTask();
 		},
 		interval: 60000 //60 seconds
 	},
@@ -148,10 +148,25 @@ Ext.application({
 	updateSessionActivityTask: {
 		name: 'save that owner of a session is logged in',
 		run: function(){
-			ARSnova.app.restProxy.updateSessionActivityTask();
+			this.getProxy().updateSessionActivityTask();
 		},
 		interval: 180000 //180 seconds
 	},
+	
+    /**
+     * initialize models
+     */
+    initModels: function() {
+    	//this.answerModel 		= Ext.create('ARSnova.model.Answer');
+    	//this.feedbackModel 	= Ext.create('ARSnova.model.Feedback');
+    	//this.foodVoteModel 	= Ext.create('ARSnova.model.FoodVote');
+    	//this.loggedInModel 	= Ext.create('ARSnova.model.LoggedIn');
+    	//this.questionModel	= Ext.create('ARSnova.model.Question');
+    	//this.sessionModel 	= Ext.create('ARSnova.model.Session');
+    	this.statisticModel 	= Ext.create('ARSnova.model.Statistic');
+    	//this.userRankingModel = Ext.create('ARSnova.model.UserRanking');
+    	//this.courseModel		= Ext.create('ARSnova.model.Course');
+    },
     
     /**
      * This is called automatically when the page loads. Here we set up the main component on the page
@@ -185,9 +200,9 @@ Ext.application({
 		
 		taskManager = new Ext.util.TaskRunner();
 		
-		this.restProxy = Ext.create('ARSnova.proxy.RestProxy'); 
+		this.initModels();
 		this.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
-
+		
 		this.checkPreviousLogin();
 		this.checkFullscreen();
 	},
@@ -317,7 +332,7 @@ Ext.application({
      */
     showLoadMask: function(message){
     	this.loadingMask = new Ext.LoadMask(Ext.getBody(), {
-    		msg: message || ""
+    		message: message || ""
     	});
     	this.loadingMask.show();
     	setTimeout("ARSnova.app.hideLoadMask()", 5000); // hide this mask after 5 seconds automatically
