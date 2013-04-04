@@ -32,13 +32,15 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		questionCounter: 0
 	},
 	
-	constructor: function(){
-		this.backButton = new Ext.Button({
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.HOME,
 			ui		: 'back',
 			hidden	: true,
 			handler	: function() {
-				ARSnova.mainTabPanel.tabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.userTabPanel, {
+				ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
 		    		type		: 'slide',
 		    		direction	: 'right',
 		    		duration	: 700,
@@ -51,7 +53,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		});
 		
 		this.listeners = {
-			cardswitch: function(panel, newCard, oldCard, index, animated){
+			activeitemchange: function(panel, newCard, oldCard, index, animated){
 				//update question counter in toolbar
 				var counterEl = panel.questionCounter;
 				var counter = counterEl.el.dom.innerHTML.split("/");
@@ -68,23 +70,24 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			}
 		};
 		
-		this.questionCounter = new Ext.Container({
+		this.questionCounter = Ext.create('Ext.Container', {
 			cls: "x-toolbar-title alignRight",
 			html: '0/0'
 		});
 		
-		this.statisticButton = new Ext.Button({
+		this.statisticButton = Ext.create('Ext.Button', {
 			text	: ' ',
 			cls		: 'statisticIconSmall',
 			hidden	: true,
 			handler	: function() {
-				var questionStatisticChart = new ARSnova.view.QuestionStatisticChart(ARSnova.mainTabPanel.tabPanel.userQuestionsPanel.layout.activeItem.questionObj, this);
-				ARSnova.mainTabPanel.setActiveItem(questionStatisticChart, 'slide');
+				var questionStatisticChart = new ARSnova.app.view.QuestionStatisticChart(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.layout.activeItem.questionObj, this);
+				ARSnova.app.mainTabPanel.setActiveItem(questionStatisticChart, 'slide');
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.QUESTION,
+			docked: 'top',
 			items: [
 		        this.backButton,
 		        { xtype: 'spacer' },
@@ -93,27 +96,20 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	        ]
 		});
 		
-		this.dockedItems = [this.toolbar];
-		this.items = [];
+		this.items = [this.toolbar];
 		
-		ARSnova.view.user.QuestionPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
 		this.on('beforeactivate', this.beforeActivate);
 		this.on('activate', this.onActivate);
 		this.on('add', function(panel, component, index) {
 			component.doTypeset && component.doTypeset(panel);
 		});
-		
-		ARSnova.view.user.QuestionPanel.superclass.initialize.call(this);
 	},
 	
 	beforeActivate: function(){
 		this.removeAll();
 		this.indicator.show();
 		this.questionCounter.show();
-		ARSnova.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
+		ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
 	},
 	
 	onActivate: function(){
@@ -121,16 +117,16 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	},
 	
 	getUnansweredSkillQuestions: function(){
-		ARSnova.questionModel.getSkillQuestionsForUser(localStorage.getItem("keyword"), {
+		ARSnova.app.questionModel.getSkillQuestionsForUser(localStorage.getItem("keyword"), {
 			success: function(questions){
-				var userQuestionsPanel = ARSnova.mainTabPanel.tabPanel.userQuestionsPanel;
+				var userQuestionsPanel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel;
 				var questionsArr = [];
 				var questionIds = [];
 				
 				if (questions.length == 0){
 					//no available questions found
 					
-					ARSnova.questionModel.countSkillQuestions(localStorage.getItem("keyword"), {
+					ARSnova.app.questionModel.countSkillQuestions(localStorage.getItem("keyword"), {
 						success: function(response){
 							var questionsInCourse = Ext.decode(response.responseText);
 							
@@ -142,7 +138,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 								});
 								userQuestionsPanel.indicator.hide();
 								userQuestionsPanel.doLayout();
-								ARSnova.hideLoadMask();
+								ARSnova.app.hideLoadMask();
 								
 							} else {
 								userQuestionsPanel.questionCounter.hide();
@@ -152,7 +148,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 								});	
 								userQuestionsPanel.indicator.hide();
 								userQuestionsPanel.doLayout();
-								ARSnova.hideLoadMask();
+								ARSnova.app.hideLoadMask();
 							}
 						},
 						failure: function() {
@@ -179,7 +175,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 					questionIds.push(question._id);
 				});
 				
-				ARSnova.answerModel.getAnswerByUserAndSession(localStorage.getItem("keyword"), {
+				ARSnova.app.answerModel.getAnswerByUserAndSession(localStorage.getItem("keyword"), {
 					success: function(response){
 						var answers = Ext.decode(response.responseText);
 
@@ -191,7 +187,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 						});
 						questionIds.forEach(function(questionId){
 							userQuestionsPanel.addQuestion(questionsArr[questionId]);
-							userQuestionsPanel.doLayout();
 						});
 						userQuestionsPanel.checkAnswer();
 						userQuestionsPanel.checkFirstQuestion();
@@ -201,7 +196,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 						console.log('error');
 					}
 				});
-				ARSnova.hideLoadMask();
+				ARSnova.app.hideLoadMask();
 			},
 			failure: function(response){
 				console.log('error');
@@ -211,14 +206,14 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	
 	addQuestion: function(question){
 		if (question.questionType === 'freetext') {
-			this.add(new ARSnova.view.FreetextQuestion(question));
+			this.add(new ARSnova.app.view.FreetextQuestion(question));
 		} else {
-			this.add(new ARSnova.view.Question(question));
+			this.add(new ARSnova.app.view.Question(question));
 		}
 	},
 	
 	checkAnswer: function(){
-		ARSnova.showLoadMask(Messages.CHECK_ANSWERS);
+		ARSnova.app.showLoadMask(Messages.CHECK_ANSWERS);
 		this.items.items.forEach(function(questionPanel) {
 			var questionObj = questionPanel.questionObj;
 			if (!questionObj.userAnswered) return;
@@ -253,7 +248,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			}
 		});
 		
-		setTimeout("ARSnova.hideLoadMask()", 1000);
+		setTimeout("ARSnova.app.hideLoadMask()", 1000);
 	},
 	
 	checkFirstQuestion: function() {

@@ -32,26 +32,23 @@ Ext.define('ARSnova.view.user.TabPanel', {
 	    }
 	},
 	
-	constructor: function(){
-		this.inClassPanel = new ARSnova.view.user.InClass();
+	constructor: function() {
+		this.callParent(arguments);
 		
-		this.items = [
+		this.inClassPanel = new ARSnova.app.view.user.InClass();
+		
+		this.add([
 	        this.inClassPanel
-        ];
-		ARSnova.view.user.TabPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
-		this.on('afterlayout', function(){
-			setTimeout("ARSnova.hideLoadMask()", 1000); // timeout to compensate the cardswitch animation
+        ]);
+
+		this.on('painted', function(){
+			setTimeout("ARSnova.app.hideLoadMask()", 1000); // timeout to compensate the cardswitch animation
 		});
-		
-		ARSnova.view.user.TabPanel.superclass.initialize.call(this);
 	},
 	
 	renew: function(){
 		this.remove(this.inClassPanel);
-		this.inClassPanel = new ARSnova.view.user.InClass();
+		this.inClassPanel = Ext.create('ARSnova.app.view.user.InClass');
 		this.insert(0, this.inClassPanel);
 		this.setActiveItem(0);
 		this.inClassPanel.registerListeners();

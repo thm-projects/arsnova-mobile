@@ -42,14 +42,16 @@ Ext.define('ARSnova.view.user.RankingPanel', {
 		backButton	: null,	
 	},
 	
-	constructor: function(){
-		this.backButton = new Ext.Button({
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.HOME,
 			ui		: 'back',
 			scope	: this,
 			handler	: function() {
 				me = this;
-				ARSnova.mainTabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel, {
+				ARSnova.app.mainTabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700,
@@ -60,46 +62,41 @@ Ext.define('ARSnova.view.user.RankingPanel', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: 'Ranking',
+			docked: 'top',
 			items: [
 		        this.backButton
 			]
 		});
 		
-		this.dockedItems = [this.toolbar];
-		
-		this.myRankingPanel = new Ext.Panel({
+		this.myRankingPanel = Ext.create('Ext.Panel', {
 			cls: 'centerText'
 		});
 		
-		this.sessionStatisticPanel = new Ext.Panel({
+		this.sessionStatisticPanel = Ext.create('Ext.Panel', {
 			cls: 'centerText'
 		});
 		
-		this.items = [{
+		this.add([this.toolbar, {
 			cls: 'centerText',
 			html: 'Hier sehen Sie die Statistik der Session: <br><br>'
-		}, this.myRankingPanel, this.sessionStatisticPanel];
+		}, this.myRankingPanel, this.sessionStatisticPanel]);
 		
-		ARSnova.view.user.RankingPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
-		ARSnova.userRankingModel.getUserRankingStatistic(localStorage.getItem("sessionId"), localStorage.getItem("login"), {
+		ARSnova.app.userRankingModel.getUserRankingStatistic(localStorage.getItem("sessionId"), localStorage.getItem("login"), {
 			success: function(response){
 				var responseObj = Ext.decode(response.responseText).rows;
 				if (responseObj.length == 0) return;
-				ARSnova.mainTabPanel.layout.activeItem.myRanking = responseObj[0].value;
+				ARSnova.app.mainTabPanel.layout.activeItem.myRanking = responseObj[0].value;
 			},
 			failure: function() {
 				console.log('server-side error');
 			}
 		});
 		
-		ARSnova.userRankingModel.getSessionRankingStatistic(localStorage.getItem("sessionId"), {
+		ARSnova.app.userRankingModel.getSessionRankingStatistic(localStorage.getItem("sessionId"), {
 			success: function(response){
-				var panel = ARSnova.mainTabPanel.layout.activeItem;
+				var panel = ARSnova.app.mainTabPanel.layout.activeItem;
 				var responseObj = Ext.decode(response.responseText).rows;
 				
 				for(var i = 0; i < responseObj.length; i++){
@@ -123,8 +120,6 @@ Ext.define('ARSnova.view.user.RankingPanel', {
 		});
 		
 		this.on('activate', this.onActivate);
-		
-		ARSnova.view.user.RankingPanel.superclass.initialize.call(this);
 	},
 	
 	onActivate: function(){
@@ -174,7 +169,6 @@ Ext.define('ARSnova.view.user.RankingPanel', {
 			
 			sessionText += "</table>";
 		}
-		
 		 
 		this.myRankingPanel.update(rankingText);
 		this.sessionStatisticPanel.update(sessionText);

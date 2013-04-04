@@ -36,7 +36,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	checkNewSkillQuestionsTask: {
 		name: 'check for new skill questions',
 		run: function(){
-			ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel.checkNewSkillQuestions();
+			ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.checkNewSkillQuestions();
 		},
 		interval: 30000
 	},
@@ -47,7 +47,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	checkFeedbackRemovedTask: {
 		name: 'check if my feedback was deleted',
 		run: function(){
-			ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel.checkFeedbackRemoved();
+			ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.checkFeedbackRemoved();
 		},
 		interval: 30000
 	},
@@ -58,7 +58,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	countActiveUsersTask: {
 		name: 'count the actually logged in users',
 		run: function(){
-			ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel.countActiveUsers();
+			ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.countActiveUsers();
 		},
 		interval: 15000
 	},
@@ -69,18 +69,20 @@ Ext.define('ARSnova.view.user.InClass', {
 	checkSessionStatusTask: {
 		name: 'check if this session was closed',
 		run: function(){
-			ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel.checkSessionStatus();
+			ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.checkSessionStatus();
 		},
 		interval: 20000
 	},
 	
-	constructor: function(){
+	initialize: function() {
+		this.callParent(arguments);
+		
 		var loggedInCls = '';
-		if (ARSnova.loginMode == ARSnova.LOGIN_THM) {
+		if (ARSnova.app.loginMode == ARSnova.app.LOGIN_THM) {
 			loggedInCls = 'thm';
 		}
 		
-		this.sessionLogoutButton = new Ext.Button({
+		this.sessionLogoutButton = Ext.create('Ext.Button', {
 			text	: Messages.SESSIONS,
 			ui		: 'back',
 			cls		: loggedInCls,
@@ -89,16 +91,15 @@ Ext.define('ARSnova.view.user.InClass', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: localStorage.getItem("shortName"),
+			docked: 'top',
 			items: [
 		        this.sessionLogoutButton
 			]
 		});
 		
-		this.dockedItems = [this.toolbar];
-		
-		this.feedbackButton = new Ext.Button({
+		this.feedbackButton = Ext.create('Ext.Button', {
 			ui			: 'normal',
 			text		: Messages.MY_FEEDBACK,
 			cls			: 'forwardListButton',
@@ -109,7 +110,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			handler		: this.buttonClicked
 		});
 		
-		this.questionButton = new Ext.Button({
+		this.questionButton = Ext.create('Ext.Button', {
 			ui			: 'normal',
 			text		: Messages.QUESTIONS_TO_STUDENTS,
 			cls			: 'forwardListButton',
@@ -119,12 +120,12 @@ Ext.define('ARSnova.view.user.InClass', {
 			handler		: this.buttonClicked
 		});
 		
-		this.flashcardButton = new Ext.Button({
+		this.flashcardButton = Ext.create('Ext.Button', {
 			ui			: 'normal',
 			text		: Messages.FLASHCARDS,
 			listeners: {
 				click: {
-					element: 'el',
+					element: 'element',
 					fn: function (e) {
 						window.open("http://www.cobocards.com/");
 					}
@@ -132,7 +133,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			}
 		});
 		
-		this.rankingButton = new Ext.Button({
+		this.rankingButton = Ext.create('Ext.Button', {
 			ui			: 'normal',
 			text		: Messages.MY_RANKING,
 			cls			: 'forwardListButton',
@@ -152,7 +153,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			}, {
 				xtype: 'fieldset',
 				cls	 : 'standardFieldset noMargin',
-				instructions: "Session-ID: " + ARSnova.formatSessionID(localStorage.getItem("keyword")),
+				instructions: "Session-ID: " + ARSnova.app.formatSessionID(localStorage.getItem("keyword")),
 				items: [					
 					this.feedbackButton,
 					this.questionButton,
@@ -162,22 +163,12 @@ Ext.define('ARSnova.view.user.InClass', {
 			]
 		};
 		
-		
-		
-		this.items = [this.inClass];
-		
-		ARSnova.view.user.InClass.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
-		this.on('destroy', this.destroyListeners);
-		
-		ARSnova.view.user.InClass.superclass.initialize.call(this);
+		this.items = [this.toolbar, this.inClass];
 	},
 	
 	/* will be called on session login */
 	registerListeners: function(){
-		var panel = ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
+		var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
 		taskManager.start(panel.checkNewSkillQuestionsTask);
 		taskManager.start(panel.checkFeedbackRemovedTask);
 		taskManager.start(panel.countActiveUsersTask);
@@ -186,7 +177,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	
 	/* will be called on session logout */
 	destroyListeners: function(){
-		var panel = ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
+		var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
 		taskManager.stop(panel.checkNewSkillQuestionsTask);
 		taskManager.stop(panel.checkFeedbackRemovedTask);
 		taskManager.stop(panel.countActiveUsersTask);
@@ -200,8 +191,8 @@ Ext.define('ARSnova.view.user.InClass', {
 	checkNewSkillQuestions: function(){
 		ARSnova.questionModel.getUnansweredSkillQuestions(localStorage.getItem("keyword"), {
 			success: function(newQuestions){
-				ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel.questionButton.setBadge(newQuestions.length);
-				ARSnova.mainTabPanel.tabPanel.userQuestionsPanel.tab.setBadge(newQuestions.length);
+				ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.questionButton.setBadge(newQuestions.length);
+				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.tab.setBadge(newQuestions.length);
 				
 				if (newQuestions.length > 0) {
 					var showNotification = false;
@@ -232,7 +223,6 @@ Ext.define('ARSnova.view.user.InClass', {
 										}
 									}
 								);
-								Ext.Msg.doComponentLayout();
 							},
 							failure: function() {
 				    			console.log("my sessions request failure");
@@ -248,7 +238,6 @@ Ext.define('ARSnova.view.user.InClass', {
 								}
 							}
 						);
-						Ext.Msg.doComponentLayout();
 					}					
 				}
 			},
@@ -264,13 +253,12 @@ Ext.define('ARSnova.view.user.InClass', {
 	
 	checkFeedbackRemoved: function() {
 		if (localStorage.getItem('user has voted')){
-			ARSnova.feedbackModel.getUserFeedback(localStorage.getItem("keyword"), {
+			ARSnova.app.feedbackModel.getUserFeedback(localStorage.getItem("keyword"), {
 				empty: function(response){
 					Ext.Msg.alert(Messages.NOTICE, Messages.FEEDBACK_RESET);
-					Ext.Msg.doComponentLayout();
 					localStorage.removeItem('user has voted');
 					
-					var feedbackButton = ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel.feedbackButton;
+					var feedbackButton = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.feedbackButton;
 					feedbackButton.badgeEl ? feedbackButton.badgeEl.remove() : '';
 					feedbackButton.badgeEl = null;
 					feedbackButton.badgeCls = "badgeicon feedbackARSnova";
@@ -285,12 +273,12 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 	
 	countActiveUsers: function(){
-		ARSnova.loggedInModel.countActiveUsersBySession(localStorage.getItem("keyword"), {
+		ARSnova.app.loggedInModel.countActiveUsersBySession(localStorage.getItem("keyword"), {
 			success: function(response){
 				var value = parseInt(response.responseText);
 				
 				//update feedback counter
-				var counterEl = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.feedbackCounter;
+				var counterEl = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.feedbackCounter;
 				var title = counterEl.getText().split("/");
 				title[1] = value;
 				title = title.join("/");
@@ -315,9 +303,8 @@ Ext.define('ARSnova.view.user.InClass', {
 							ui: 'action'
 						}]
 					});
-					Ext.Msg.doComponentLayout();
 					
-					taskManager.stop(ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel.checkSessionStatusTask);
+					taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.checkSessionStatusTask);
 				}
 			},
 			failure: function(){
