@@ -21,6 +21,13 @@
 Ext.define("ARSnova.controller.Canteen", {
 	extend: 'Ext.app.Controller',
 	
+	config: {
+		routes: {
+			'canteen': 'show',
+			'canteenVote': 'showVotePanel'
+		}
+	},
+	
     vote: function(options){
 		ARSnova.app.foodVoteModel.getUserFoodVote(ARSnova.app.CANTEEN_DAY, localStorage.getItem("login"), {
 			success: function(response){

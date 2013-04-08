@@ -160,7 +160,7 @@ Ext.define("ARSnova.controller.Sessions", {
 
 			/* add feedback statistic panel*/
 				if(!tabPanel.feedbackTabPanel){
-					tabPanel.feedbackTabPanel = new ARSnova.views.feedback.TabPanel();
+					tabPanel.feedbackTabPanel = Ext.create('ARSnova.views.feedback.TabPanel');
 					tabPanel.insert(2, tabPanel.feedbackTabPanel);
 				} else {
 					tabPanel.feedbackTabPanel.tab.show();
@@ -169,7 +169,7 @@ Ext.define("ARSnova.controller.Sessions", {
 			
 			/* add feedback questions panel*/
 				if(!tabPanel.feedbackQuestionsPanel){
-					tabPanel.feedbackQuestionsPanel = new ARSnova.views.feedbackQuestions.TabPanel();
+					tabPanel.feedbackQuestionsPanel = Ext.create('ARSnova.views.feedbackQuestions.TabPanel');
 					if(!tabPanel.userTabPanel)
 						tabPanel.insert(3, tabPanel.feedbackQuestionsPanel);
 					else
@@ -180,7 +180,7 @@ Ext.define("ARSnova.controller.Sessions", {
 		} else {
 			/* add user in class panel */
 				if(!tabPanel.userTabPanel){
-					tabPanel.userTabPanel = new ARSnova.views.user.TabPanel();
+					tabPanel.userTabPanel = Ext.create('ARSnova.views.user.TabPanel');
 					tabPanel.insert(0, tabPanel.userTabPanel);
 				} else {
 					ARSnova.app.showLoadMask("Login...");
@@ -198,7 +198,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				
 			/* add feedback statistic panel*/
 				if(!tabPanel.feedbackTabPanel){
-					tabPanel.feedbackTabPanel = new ARSnova.views.feedback.TabPanel();
+					tabPanel.feedbackTabPanel = Ext.create('ARSnova.views.feedback.TabPanel');
 					tabPanel.insert(1, tabPanel.feedbackTabPanel);
 				} else {
 					tabPanel.feedbackTabPanel.tab.show();
@@ -206,7 +206,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				}
 				
 			/* add skill questions panel*/
-				var questionsPanel = new ARSnova.views.user.QuestionPanel();
+				var questionsPanel = Ext.create('ARSnova.views.user.QuestionPanel');
 				tabPanel.userQuestionsPanel = questionsPanel;
 				if(!tabPanel.speakerTabPanel)
 					tabPanel.insert(3, questionsPanel);

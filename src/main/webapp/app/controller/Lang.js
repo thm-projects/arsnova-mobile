@@ -21,6 +21,13 @@
 Ext.define("ARSnova.controller.Lang", {
 	extend: 'Ext.app.Controller',
 	
+	config: {
+		routes: {
+			 'en': 'switchTo',
+			 'de': 'switchTo'
+		}
+	},
+	
 	switchTo: function(options){
 		var lang = "";
 		switch (options.historyUrl) {
@@ -34,8 +41,8 @@ Ext.define("ARSnova.controller.Lang", {
 				lang = "de";
 				break;
 		}
-		localStorage.setItem("language", lang);
 		
+		localStorage.setItem("language", lang);
 		window.location = window.location.origin + window.location.pathname;
 	}
 });

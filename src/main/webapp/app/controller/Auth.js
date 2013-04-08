@@ -21,12 +21,16 @@
 Ext.define("ARSnova.controller.Auth", {
 	extend: 'Ext.app.Controller',
 	
+	config: {
+		routes: {
+			'id/:sessionid': 'qr'
+		}
+	},
+	
 	qr: function(options) {
 		ARSnova.app.loggedIn = true;
 		if (localStorage.getItem('login') === null) {
-			// TODO: create models in tabpanel or st2-app
-			var authModel = Ext.create('ARSnova.model.Auth');
-			localStorage.setItem('login', authModel.generateGuestName());
+			localStorage.setItem('login', ARSnova.app.authModel.generateGuestName());
 		}
 		ARSnova.app.userRole = ARSnova.app.USER_ROLE_STUDENT;
 		localStorage.setItem('role', ARSnova.app.userRole);
@@ -49,14 +53,14 @@ Ext.define("ARSnova.controller.Auth", {
 	},
 
 	login: function(options) {
+		console.log(localStorage);
 		ARSnova.app.loginMode = options.mode;
 		localStorage.setItem('loginMode', options.mode);
 		var type = "";
 		switch(options.mode){
 			case ARSnova.app.LOGIN_GUEST:
 				if (localStorage.getItem('login') === null) {
-					var authModel = Ext.create('ARSnova.model.Auth');
-					localStorage.setItem('login', authModel.generateGuestName());
+					localStorage.setItem('login', ARSnova.app.authModel.generateGuestName());
 					type = "guest";
 				} else {
 					type = "guest&name=" + localStorage.getItem('login');
@@ -72,7 +76,7 @@ Ext.define("ARSnova.controller.Auth", {
 				type = "facebook";
 				break;
 			case ARSnova.app.LOGIN_GOOGLE:
-				type= "google";
+				type = "google";
 				break;
 			case ARSnova.app.LOGIN_OPENID:
 				Ext.Msg.alert("Hinweis", "OpenID ist noch nicht freigeschaltet.");
@@ -140,6 +144,7 @@ Ext.define("ARSnova.controller.Auth", {
     		/* update manifest cache of new version is loaded */
     		if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
 				window.applicationCache.swapCache();
+				Console.log('reload');
 				window.location.reload();
 			}
     	}
