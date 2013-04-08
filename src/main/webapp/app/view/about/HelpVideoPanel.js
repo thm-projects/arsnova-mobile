@@ -34,14 +34,16 @@ Ext.define('ARSnova.view.about.HelpVideoPanel', {
 	toolbar		: null,
 	backButton	: null,
 	
-	initialize: function(arguments) {
+	constructor: function(arguments) {
 		this.callParent(arguments);
 		
 		this.standalone = false;
 		
 		// check arguments for standalone
-		if(typeof arguments.standalone !== 'undefined') {
-			this.standalone = arguments.standalone;
+		if(typeof arguments !== 'undefined') {
+			if(typeof arguments.standalone !== 'undefined') {
+				this.standalone = arguments.standalone;
+			}
 		}
 		
 		// Find the best video resolution for the available screen size
