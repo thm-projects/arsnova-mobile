@@ -23,16 +23,17 @@ Ext.define('ARSnova.view.TabPanel', {
 	
 	config: {
 		fullscreen: true,
+		scroll: false,
+		
 		tabBar: {
 			layout: {
 				pack: 'center'
 			}
 		},
+		
 		tabBarPosition: 'bottom',
-		scroll: false,
 		
 		/* items */
-		homeTabPanel 	: null,
 		settingsPanel 	: null,
 		canteenTabPanel : null,
 		
@@ -64,7 +65,7 @@ Ext.define('ARSnova.view.TabPanel', {
 				ARSnova.app.mainTabPanel.tabPanel.updateHomeBadge();
 			},
 			interval: 15000 // 15 seconds
-		},
+		}
 	},
 	
 	initialize: function() {
@@ -73,27 +74,27 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.loginPanel		= Ext.create('ARSnova.view.LoginPanel');
 		this.rolePanel 		= Ext.create('ARSnova.view.RolePanel');
 		this.homeTabPanel 	= Ext.create('ARSnova.view.home.TabPanel');
-		this.canteenTabPanel= Ext.create('ARSnova.view.canteen.TabPanel');
+		//this.canteenTabPanel= Ext.create('ARSnova.view.canteen.TabPanel');
 		this.infoTabPanel 	= Ext.create('ARSnova.view.about.TabPanel');
-		this.helpMainPanel  = Ext.create('ARSnova.view.about.HelpMainPanel');
+		this.helpMainPanel  = Ext.create('ARSnova.view.about.HelpMainPanel', { standalone : true});
 		
 		this.add([
 			this.rolePanel,
 			this.loginPanel,
 			this.homeTabPanel,
-			this.canteenTabPanel,
+			//this.canteenTabPanel,
 			this.infoTabPanel,
 			this.helpMainPanel
 		]);
 		
-		this.on('beforecardswitch', function(panel, newCard, oldCard){
+		this.on('activeitemchange', function(panel, newCard, oldCard){
 			ARSnova.app.lastActivePanel = oldCard;
 			if(newCard === panel.homeTabPanel) {
 				panel.homeTabPanel.tab.show();
-				panel.canteenTabPanel.tab.show();
+				// panel.canteenTabPanel.tab.show();
 			} else if(newCard === panel.rolePanel || newCard === panel.loginPanel) {
 				panel.homeTabPanel.tab.hide();
-				panel.canteenTabPanel.tab.hide();
+				// panel.canteenTabPanel.tab.hide();
 			}
 		});
 		
@@ -101,7 +102,7 @@ Ext.define('ARSnova.view.TabPanel', {
 			this.rolePanel.tab.hide();
 			this.loginPanel.tab.hide();
 			this.homeTabPanel.tab.hide();
-			this.canteenTabPanel.tab.hide();
+			//this.canteenTabPanel.tab.hide();
 			this.helpMainPanel.tab.hide();
 		});
 		this.on('activate', this.onActivate);

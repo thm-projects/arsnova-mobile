@@ -37,7 +37,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		mycoursesStore: null
 	},
 	
-	constructor: function(responseText) {
+	initialize: function(responseText) {
 		this.callParent(arguments);
 		
 		this.mycoursesStore = new Ext.data.JsonStore({
@@ -136,9 +136,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				items: [this.mycourses]
 			}]
 		}]);
-	},
-	
-	initialize: function() {
+		
 		this.on('activate', function() {
 			this.getSessionIds;
 			this.getMyCourses;
@@ -146,7 +144,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		
 		this.on('activate', this.generateNewSessionId);
 	},
-	
+
 	onSubmit: function() {
 		var values = this.up('panel').getValues();
 		

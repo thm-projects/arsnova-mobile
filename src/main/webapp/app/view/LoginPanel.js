@@ -97,6 +97,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 			style	: { marginTop: '0px'},
 			html	: Messages.CHOOSE_LOGIN
 		},
+		
 		this.guestLoginButton,
 		{
 			xtype: 'panel',

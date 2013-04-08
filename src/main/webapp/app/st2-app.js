@@ -45,7 +45,7 @@ Ext.application({
     
     isIconPrecomposed: true,
     icon: 'resources/images/ARSnova_Grafiken/01_AppIcon_114x114px.png',
-    
+
     models: ['Answer', 'Config', 'Feedback', 'FoodVote', 'LoggedIn', 'Question', 'Session', 'Statistic', 'Course', 'Auth'],
     
     views: [].concat(
@@ -115,7 +115,7 @@ Ext.application({
     courseModel     : null,
     
     /* proxy */
-	proxy			: null,
+	restProxy		: null,
 	
     /* other*/
     cardSwitchDuration: 500,
@@ -128,7 +128,7 @@ Ext.application({
     cleanFeedbackVotes: {
     	name: 'looking for feedbacks that have to be remove',
 		run: function(){
-			this.restProxy.cleanSessionFeedback();
+			ARSnova.app.restProxy.cleanSessionFeedback();
 		},
 		interval: 60000 //60 seconds
 	},
@@ -140,7 +140,7 @@ Ext.application({
 	loggedInTask: {
 		name: 'save that user is logged in',
 		run: function(){
-			this.restProxy.loggedInTask();
+			ARSnova.app.restProxy.loggedInTask();
 		},
 		interval: 60000 //60 seconds
 	},
@@ -151,7 +151,7 @@ Ext.application({
 	updateSessionActivityTask: {
 		name: 'save that owner of a session is logged in',
 		run: function(){
-			this.restProxy.updateSessionActivityTask();
+			ARSnova.app.restProxy.updateSessionActivityTask();
 		},
 		interval: 180000 //180 seconds
 	},
@@ -160,15 +160,16 @@ Ext.application({
      * initialize models
      */
     initModels: function() {
-    	//this.answerModel 		= Ext.create('ARSnova.model.Answer');
-    	//this.feedbackModel 	= Ext.create('ARSnova.model.Feedback');
-    	//this.foodVoteModel 	= Ext.create('ARSnova.model.FoodVote');
-    	//this.loggedInModel 	= Ext.create('ARSnova.model.LoggedIn');
-    	//this.questionModel	= Ext.create('ARSnova.model.Question');
-    	//this.sessionModel 	= Ext.create('ARSnova.model.Session');
+    	this.answerModel 		= Ext.create('ARSnova.model.Answer');
+    	this.authModel			= Ext.create('ARSnova.model.Auth');
+    	this.feedbackModel		= Ext.create('ARSnova.model.Feedback');
+    	this.foodVoteModel		= Ext.create('ARSnova.model.FoodVote');
+    	this.loggedInModel		= Ext.create('ARSnova.model.LoggedIn');
+    	this.questionModel		= Ext.create('ARSnova.model.Question');
+    	this.sessionModel		= Ext.create('ARSnova.model.Session');
     	this.statisticModel 	= Ext.create('ARSnova.model.Statistic');
-    	//this.userRankingModel = Ext.create('ARSnova.model.UserRanking');
-    	//this.courseModel		= Ext.create('ARSnova.model.Course');
+    	this.userRankingModel	= Ext.create('ARSnova.model.UserRanking');
+    	this.courseModel		= Ext.create('ARSnova.model.Course');
     },
     
     /**
@@ -191,7 +192,6 @@ Ext.application({
 							window.location.reload();
 						}
 					});
-					//Ext.Msg.doComponentLayout();
 				}
 			}, false);
 		}, false);
@@ -236,6 +236,7 @@ Ext.application({
 		if (localStorage.getItem('html5 info read') == null){
 			if (!this.popup){
 				this.popup = Ext.create('ARSnova.view.CheckFullscreenPanel');
+				Ext.Viewport.add(this.popup);
 			}
 			
 			this.popup.show('fade');
@@ -259,7 +260,6 @@ Ext.application({
 				break;
 			case ARSnova.app.USER_ROLE_SPEAKER:
 				hTP.setActiveItem(hTP.mySessionsPanel);
-				hTP.mySessionsPanel.fireEvent('activate');
 				break;
 			default:
 				break;
@@ -335,9 +335,10 @@ Ext.application({
      * Wrapper for an invidivudal LoadMask
      */
     showLoadMask: function(message){
-    	this.loadingMask = new Ext.LoadMask(Ext.getBody(), {
+    	this.loadingMask = new Ext.LoadMask({
     		message: message || ""
     	});
+    	Ext.Viewport.add(this.loadingMask);
     	this.loadingMask.show();
     	setTimeout("ARSnova.app.hideLoadMask()", 5000); // hide this mask after 5 seconds automatically
     },

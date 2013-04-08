@@ -32,7 +32,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		createdSessions: null,
 	},
 	
-	constructor: function() {
+	initialize: function() {
 		this.callParent(arguments);
 		
 		this.logoutButton = Ext.create('Ext.Button', {
@@ -112,9 +112,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		    this.newSessionButtonForm,
             this.sessionsForm
         ]);
-	},
-	
-	initialize: function() {
+		
 		this.on('activate', function() {
 			switch (ARSnova.app.userRole) {
 				case ARSnova.app.USER_ROLE_SPEAKER:
