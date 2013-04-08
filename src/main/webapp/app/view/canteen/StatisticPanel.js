@@ -92,7 +92,8 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 		this.canteenChart = Ext.create('Ext.chart.Chart', {
 			cls: 'column1',
 		    theme: 'Demo',
-		    store: 'Food',
+		    
+		    store: Ext.getStore('Food'),
 
 		    animate: {
 		        easing: 'bounceOut',
@@ -190,7 +191,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 		        label: {
 		          field: 'percent',
 		          renderer: function(v) {
-				return Math.round(v * 100) + "%";
+		        	  return Math.round(v * 100) + "%";
 		          }
 		        },
 		        xField: 'name',
@@ -204,7 +205,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 	},
 	
 	onActivate: function() {
-		this.canteenChart.axes.items[2].axis.attr.stroke = "#0E0E0E";
+		this.canteenChart.getAxes().items[2].style.stroke = "#0E0E0E";
 		this.canteenChart.redraw();
 	},
 	

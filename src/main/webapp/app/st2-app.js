@@ -86,6 +86,8 @@ Ext.application({
 	
     controllers: ['Archive', 'Auth', 'Canteen', 'Feedback', 'Lang', 'Questions', 'Ranking', 'Sessions', 'User'],
     
+    stores: ['Food'],
+    
     /* items */
     mainTabPanel: null,
     tabPanel	: null,

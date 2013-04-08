@@ -22,11 +22,13 @@ Ext.define('ARSnova.view.canteen.VotePanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
-		VOTE_1: null,
-		VOTE_2: null,
-		VOTE_3: null,
-		VOTE_4: null,
+		title: 'VotePanel'
 	},
+	
+	VOTE_1: null,
+	VOTE_2: null,
+	VOTE_3: null,
+	VOTE_4: null,
 	
 	/* toolbar items */
 	toolbar		: null,
