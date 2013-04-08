@@ -20,7 +20,10 @@
  +--------------------------------------------------------------------------*/
 Ext.define('FeedbackQuestion', {
 	extend: 'Ext.data.Model',
-	fields: ['fullDate', 'formattedTime', 'timestamp', 'subject', 'type', 'groupDate']
+	
+	config: {
+		fields: ['fullDate', 'formattedTime', 'timestamp', 'subject', 'type', 'groupDate']
+	}
 });
 
 Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
