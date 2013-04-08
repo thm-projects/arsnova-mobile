@@ -31,26 +31,23 @@ Ext.define('ARSnova.view.feedbackQuestions.TabPanel', {
 	    }
 	},
 	
-	constructor: function(){
-		this.questionsPanel = new ARSnova.view.feedbackQuestions.QuestionsPanel();
-		
-		this.items = [
-            this.questionsPanel
-        ];
-		ARSnova.view.feedbackQuestions.TabPanel.superclass.constructor.call(this);
-	},
-	
 	initialize: function(){
+		this.callParent(arguments);
+		
+		this.questionsPanel = Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel');
+		
+		this.add([
+            this.questionsPanel
+        ]);
+		
 		this.on('activate', function(){
-			taskManager.start(ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.checkFeedbackQuestionsTask);
-			taskManager.stop(ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countFeedbackQuestionsTask);
+			taskManager.start(ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.checkFeedbackQuestionsTask);
+			taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countFeedbackQuestionsTask);
 		});
 		
 		this.on('deactivate', function(){
-			taskManager.stop(ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.checkFeedbackQuestionsTask);
-			taskManager.start(ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countFeedbackQuestionsTask);
+			taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.checkFeedbackQuestionsTask);
+			taskManager.start(ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countFeedbackQuestionsTask);
 		});
-		
-		ARSnova.view.feedbackQuestions.TabPanel.superclass.initialize.call(this);
 	}
 });

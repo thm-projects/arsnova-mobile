@@ -24,11 +24,11 @@ Ext.define('ARSnova.view.about.HelpMainPanel', {
 	config: {
 		title: 'HelpMainPanel',
 		scroll: 	'vertical',
-		
-		/* toolbar items */
-		toolbar		: null,
-		backButton	: null
 	},
+	
+	/* toolbar items */
+	toolbar		: null,
+	backButton	: null,
 
 	constructor: function(arguments) {
 		this.callParent(arguments);

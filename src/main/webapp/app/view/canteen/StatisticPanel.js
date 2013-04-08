@@ -28,16 +28,16 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 
 		iconCls	: 'tabBarIconCanteen',
 		layout	: 'fit',
-		
-		location: ARSnova.app.CANTEEN_LOCATION,
-		day: ARSnova.app.CANTEEN_DAY,
-		
-		canteenChart: null,
-		
-		/* toolbar items */
-		toolbar				: null,
-		canteenVoteButton	: null
 	},
+	
+	location: ARSnova.app.CANTEEN_LOCATION,
+	day: ARSnova.app.CANTEEN_DAY,
+	
+	canteenChart: null,
+	
+	/* toolbar items */
+	toolbar				: null,
+	canteenVoteButton	: null,
 	
 	renewChartDataTask: {
 		name: 'renew chart data at canteen panel',
@@ -55,8 +55,10 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 		interval: 30000
 	},
 	
-	constructor: function(){
-		this.canteenVoteButton = new Ext.Button({
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.canteenVoteButton = Ext.create('Ext.Button', {
 			text	: Messages.I_RECOMMEND,
 			ui		: 'confirm',
 			scope	: this,
@@ -71,17 +73,15 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 			}
 		});
 		
-		this.casLoginButton = new Ext.Button({
+		this.casLoginButton = Ext.create('Ext.Button', {
 			text	: Messages.LOGIN,
 			ui		: 'action',
 			scope	: this,
 			hidden	: true,
-			handler	: function() {
-
-			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
+			docked: 'top',
 			items: [
 	            {xtype: 'spacer'},
 	            this.canteenVoteButton,
@@ -89,7 +89,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 			]
 		});
 		
-		this.canteenChart = new Ext.chart.Chart({
+		this.canteenChart = Ext.create('Ext.chart.Chart', {
 			cls: 'column1',
 		    theme: 'Demo',
 		    store: 'Food',
@@ -198,16 +198,9 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 		    }]
 		});
 		
-		this.dockedItems = [this.toolbar];
-		this.items = [this.canteenChart];
-		
-		ARSnova.view.canteen.StatisticPanel.superclass.constructor.call(this);
-	},
+		this.add([this.toolbar, this.canteenChart]);
 	
-	initialize: function() {
 		this.on('activate', this.onActivate);
-		
-		ARSnova.view.canteen.StatisticPanel.superclass.initialize.call(this);
 	},
 	
 	onActivate: function() {

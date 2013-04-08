@@ -25,11 +25,11 @@ Ext.define('ARSnova.view.about.CreditsPanel', {
 	config: {
 		title: 		'CreditsPanel',
 		scroll: 	'vertical',
-		
-		/* toolbar items */
-		toolbar		: null,
-		backButton	: null,
 	},
+	
+	/* toolbar items */
+	toolbar		: null,
+	backButton	: null,
 	
 	initialize: function() {
 		this.callParent(arguments);

@@ -24,17 +24,17 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 	config: {
 		title:	'StatisticPanel',
 		scroll: 'vertical',
-		
-		/* panels */
-		tablePanel: null,
-		
-		/* statistics */
-		statistics: null,
-		
-		/* toolbar items */
-		toolbar		: null,
-		backButton	: null
 	},
+	
+	/* panels */
+	tablePanel: null,
+	
+	/* statistics */
+	statistics: null,
+	
+	/* toolbar items */
+	toolbar		: null,
+	backButton	: null,
 	
 	/**
 	 * update the statistics table

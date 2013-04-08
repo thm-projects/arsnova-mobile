@@ -21,14 +21,12 @@
 Ext.define('ARSnova.view.user.InClass', {
 	extend: 'Ext.Panel',
 	
-	config: {
-		inClass			: null,
-		feedbackButton	: null,
-		questionsButton	: null,
-		flashcardButton	: null,
-		rankingButton	: null,
-		quizButton		: null
-	},
+	inClass			: null,
+	feedbackButton	: null,
+	questionsButton	: null,
+	flashcardButton	: null,
+	rankingButton	: null,
+	quizButton		: null,
 	
 	/**
 	 * If user logged in a session, check for new skill questions
@@ -163,7 +161,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			]
 		};
 		
-		this.items = [this.toolbar, this.inClass];
+		this.add([this.toolbar, this.inClass]);
 	},
 	
 	/* will be called on session login */
@@ -189,7 +187,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	 * if user don't want to answer this questions now, save this opinion in localStorage
 	 */
 	checkNewSkillQuestions: function(){
-		ARSnova.questionModel.getUnansweredSkillQuestions(localStorage.getItem("keyword"), {
+		ARSnova.app.questionModel.getUnansweredSkillQuestions(localStorage.getItem("keyword"), {
 			success: function(newQuestions){
 				ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.questionButton.setBadge(newQuestions.length);
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.tab.setBadge(newQuestions.length);
@@ -210,7 +208,7 @@ Ext.define('ARSnova.view.user.InClass', {
 					if (!showNotification) return;
 					
 					if(newQuestions.length == 1){
-						ARSnova.questionModel.getQuestionById(newQuestions[0], {
+						ARSnova.app.questionModel.getQuestionById(newQuestions[0], {
 							success: function(response){
 								var question = Ext.decode(response.responseText).rows[0].value;
 								
@@ -292,7 +290,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	
 	/* if the session was closed, show a notification window and stop this task */
 	checkSessionStatus: function(){
-		ARSnova.sessionModel.isActive(localStorage.getItem("keyword"), {
+		ARSnova.app.sessionModel.isActive(localStorage.getItem("keyword"), {
 			success: function(isActive){
 				if (!isActive) {
 					Ext.Msg.show({

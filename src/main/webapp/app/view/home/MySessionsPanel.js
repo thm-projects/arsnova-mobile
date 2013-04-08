@@ -23,14 +23,14 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 	config: {
 		scroll: 'vertical',
-		
-		/* toolbar items */
-		toolbar		: null,
-		backButton	: null,
-		
-		/* items */
-		createdSessions: null,
 	},
+	
+	/* toolbar items */
+	toolbar		: null,
+	backButton	: null,
+	
+	/* items */
+	createdSessions: null,
 	
 	initialize: function() {
 		this.callParent(arguments);

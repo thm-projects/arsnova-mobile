@@ -25,17 +25,17 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		title	: Messages.FEEDBACK,
 		iconCls	: 'feedbackMedium',
 		scroll  : 'vertical',
-		
-		inClassItems			: null,
-		audienceQuestionButton	: null,
-		questionsFromUserButton	: null,
-		flashcardButton			: null,
-		quizButton			 	: null,
-			
-		inClassActions: null,
-		sessionStatusButton			: null,
-		createAdHocQuestionButton	: null
 	},
+	
+	inClassItems			: null,
+	audienceQuestionButton	: null,
+	questionsFromUserButton	: null,
+	flashcardButton			: null,
+	quizButton			 	: null,
+		
+	inClassActions: null,
+	sessionStatusButton			: null,
+	createAdHocQuestionButton	: null,
 	
 	/**
 	 * count every x seconds all actually logged-in users for this sessions
@@ -43,7 +43,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	countActiveUsersTask: {
 		name: 'count the actually logged in users',
 		run: function(){
-			ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countActiveUsers();
+			ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countActiveUsers();
 		},
 		interval: 15000
 	},
@@ -55,18 +55,20 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	countFeedbackQuestionsTask: {
 		name: 'count feedback questions',
 		run: function(){
-			ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countFeedbackQuestions();
+			ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countFeedbackQuestions();
 		},
 		interval: 15000
 	},
 	
-	constructor: function(){
+	initialize: function(){
+		this.callParent(arguments);
+		
 		var loggedInCls = '';
-		if (ARSnova.loginMode == ARSnova.LOGIN_THM) {
+		if (ARSnova.app.loginMode == ARSnova.app.LOGIN_THM) {
 			loggedInCls = 'thm';
 		}
 		
-		this.sessionLogoutButton = new Ext.Button({
+		this.sessionLogoutButton = Ext.create('Ext.Button', {
 			text	: Messages.SESSIONS,
 			ui		: 'back',
 			cls		: loggedInCls,
@@ -75,16 +77,15 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: localStorage.getItem("shortName"),
+			docked: 'top',
 			items: [
 		        this.sessionLogoutButton
 			]
 		});
 		
-		this.dockedItems = [this.toolbar];
-		
-		this.audienceQuestionButton = new Ext.Button({
+		this.audienceQuestionButton = Ext.create('Ext.Button', {
 			ui				: 'normal',
 			text			: Messages.QUESTIONS_TO_STUDENTS,
 			cls				: 'forwardListButton',
@@ -95,7 +96,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			handler			: this.buttonClicked
 		});
 		
-		this.feedbackQuestionButton = new Ext.Button({
+		this.feedbackQuestionButton = Ext.create('Ext.Button', {
 			ui			: 'normal',
 			text		: Messages.QUESTIONS_FROM_STUDENTS,
 			cls			: 'forwardListButton',
@@ -105,12 +106,12 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			handler		: this.buttonClicked
 		});
 		
-		this.flashcardButton = new Ext.Button({
+		this.flashcardButton = Ext.create('Ext.Button', {
 			ui			: 'normal',
 			text		: Messages.FLASHCARDS,
 			listeners: {
 				click: {
-					element: 'el',
+					element: 'element',
 					fn: function (e) {
 						window.open("http://www.cobocards.com/");
 					}
@@ -119,7 +120,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		});
 		
 		this.inClassItems = {
-				xtype: 'form',
+				xtype: 'formpanel',
 				cls	 : 'standardForm topPadding',
 				
 				items: [{
@@ -128,7 +129,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				}, {
 					xtype: 'fieldset',
 					cls	 : 'standardFieldset noMargin',
-					instructions: "Session-ID: " + ARSnova.formatSessionID(localStorage.getItem("keyword")),
+					instructions: "Session-ID: " + ARSnova.app.formatSessionID(localStorage.getItem("keyword")),
 					items: [
 						this.audienceQuestionButton,
 						this.feedbackQuestionButton,
@@ -137,7 +138,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				}]
 		};
 		
-		this.createAdHocQuestionButton = new Ext.Panel({
+		this.createAdHocQuestionButton = Ext.create('Ext.Panel', {
 			cls: 'threeButtons left',
 			
 			items: [{
@@ -153,9 +154,9 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			}]
 		});
 		
-		this.sessionStatusButton = new ARSnova.view.SessionStatusButton();
+		this.sessionStatusButton = Ext.create('ARSnova.view.SessionStatusButton');
 		
-		this.deleteSessionButton = new Ext.Panel({
+		this.deleteSessionButton = Ext.create('Ext.Panel', {
 			cls: 'threeButtons left',
 			
 			items: [{
@@ -168,13 +169,13 @@ Ext.define('ARSnova.view.speaker.InClass', {
 							"<br>" + Messages.DELETE_SESSION_NOTICE;
 					Ext.Msg.confirm(Messages.DELETE_SESSION, msg, function(answer){
 						if (answer == 'yes') {
-							ARSnova.showLoadMask(Messages.LOAD_MASK_SESSION_DELETE);
-							ARSnova.sessionModel.destroy(localStorage.getItem('sessionId'), localStorage.getItem('login'), {
+							ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_DELETE);
+							ARSnova.app.sessionModel.destroy(localStorage.getItem('sessionId'), localStorage.getItem('login'), {
 								success: function(){
-									ARSnova.removeVisitedSession(localStorage.getItem('sessionId'));
-									ARSnova.mainTabPanel.tabPanel.on('cardswitch', function(){
-										ARSnova.mainTabPanel.tabPanel.homeTabPanel.mySessionsPanel.loadCreatedSessions();
-										setTimeout("ARSnova.hideLoadMask()", 1000);
+									ARSnova.app.removeVisitedSession(localStorage.getItem('sessionId'));
+									ARSnova.app.mainTabPanel.tabPanel.on('cardswitch', function(){
+										ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.mySessionsPanel.loadCreatedSessions();
+										setTimeout("ARSnova.app.hideLoadMask()", 1000);
 									}, this, {single:true});
 									ARSnova.app.getController('Sessions').logout();
 								},
@@ -192,7 +193,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			}]
 		});
 		
-		this.inClassActions = new Ext.form.FormPanel({
+		this.inClassActions = Ext.create('Ext.form.FormPanel', {
 			cls	 : 'actionsForm',
 				
 			items: [
@@ -203,19 +204,13 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				        
 		});
 		
-		this.items = [this.inClassItems, this.inClassActions];
+		this.add([this.toolbar, this.inClassItems, this.inClassActions]);
 		
-		ARSnova.view.speaker.InClass.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
 		this.on('destroy', this.destroyListeners);
 		
 		this.on('activate', function(){
 			this.updateBadges();
 		});
-		
-		ARSnova.view.speaker.InClass.superclass.initialize.call(this);
 	},
 	
 	buttonClicked: function(button){
@@ -224,20 +219,20 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	
 	/* will be called on session login */
 	registerListeners: function(){
-		var inClassPanel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
+		var inClassPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 		taskManager.start(inClassPanel.countActiveUsersTask);
 		taskManager.start(inClassPanel.countFeedbackQuestionsTask);
 	},
 
 	/* will be called on session logout */
 	destroyListeners: function(){
-		var inClassPanel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
+		var inClassPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 		taskManager.stop(inClassPanel.countActiveUsersTask);
 		taskManager.stop(inClassPanel.countFeedbackQuestionsTask);
 	},
 	
 	updateBadges: function(){
-		var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 		panel.updateAudienceQuestionBadge();
 	},
 	
@@ -246,14 +241,14 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			console.log('server-side error');
 		};
 		
-		ARSnova.questionModel.countSkillQuestions(localStorage.getItem("keyword"), {
+		ARSnova.app.questionModel.countSkillQuestions(localStorage.getItem("keyword"), {
 			success: function(response) {
 				var numQuestions = parseInt(response.responseText);
-				ARSnova.questionModel.countTotalAnswers(localStorage.getItem("keyword"), {
+				ARSnova.app.questionModel.countTotalAnswers(localStorage.getItem("keyword"), {
 					success: function(response) {
 						var numAnswers = parseInt(response.responseText);
 						
-						var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
+						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 						var audienceQuestionButton = panel.audienceQuestionButton;
 						
 						audienceQuestionButton.setBadge(numQuestions);
@@ -289,7 +284,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	},
 	
 	countActiveUsers: function(){
-		ARSnova.loggedInModel.countActiveUsersBySession(localStorage.getItem("keyword"), {
+		ARSnova.app.loggedInModel.countActiveUsersBySession(localStorage.getItem("keyword"), {
 			success: function(response){
 				var value = parseInt(response.responseText);
 				if (value > 0) {
@@ -298,7 +293,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				}
 				
 				//update feedback counter
-				var counterEl = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.feedbackCounter;
+				var counterEl = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.feedbackCounter;
 				var title = counterEl.getText().split("/");
 				title[1] = value;
 				title = title.join("/");
@@ -311,12 +306,12 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	},
 	
 	countFeedbackQuestions: function(){
-		ARSnova.questionModel.countFeedbackQuestions(localStorage.getItem("keyword"), {
+		ARSnova.app.questionModel.countFeedbackQuestions(localStorage.getItem("keyword"), {
 			success: function(response){
 				var questionCount = Ext.decode(response.responseText);
 				
-				ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadge(questionCount.unread);
-				ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge(questionCount.total);
+				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadge(questionCount.unread);
+				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge(questionCount.total);
 			}, 
 			failure: function(){
 				console.log('server-side error');

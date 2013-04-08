@@ -30,38 +30,35 @@ Ext.define('ARSnova.view.feedback.TabPanel', {
 		}
 	},
 	
-	constructor: function(){
-		this.statisticPanel = new ARSnova.view.feedback.StatisticPanel();
-		this.votePanel = new ARSnova.view.feedback.VotePanel();
-		this.askPanel = new ARSnova.view.feedback.AskPanel();
+	initialize: function() {
+		this.callParent(arguments);
 		
-		this.items = [
+		this.statisticPanel = Ext.create('ARSnova.view.feedback.StatisticPanel');
+		this.votePanel = Ext.create('ARSnova.view.feedback.VotePanel');
+		this.askPanel = Ext.create('ARSnova.view.feedback.AskPanel');
+		
+		this.add([
             this.statisticPanel,
             this.votePanel,
             this.askPanel
-        ];
-		ARSnova.view.feedback.TabPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
+        ]);
+		
 		this.on('activate', function(){
-			ARSnova.hideLoadMask();
+			ARSnova.app.hideLoadMask();
 			this.statisticPanel.checkVoteButton();
 			this.statisticPanel.checkTitle();
-			taskManager.stop(ARSnova.mainTabPanel.tabPanel.updateFeedbackTask);
-			taskManager.start(ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.renewChartDataTask);
+			taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.updateFeedbackTask);
+			taskManager.start(ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.renewChartDataTask);
 			
-			if (ARSnova.userRole == ARSnova.USER_ROLE_SPEAKER && this.getActiveItem() == this.votePanel) {
+			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER && this.getActiveItem() == this.votePanel) {
 				this.setActiveItem(this.statisticPanel);
 			}
 		});
 		
 		this.on('deactivate', function(){
-			taskManager.stop(ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.renewChartDataTask);
-			taskManager.start(ARSnova.mainTabPanel.tabPanel.updateFeedbackTask);
+			taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.renewChartDataTask);
+			taskManager.start(ARSnova.app.mainTabPanel.tabPanel.updateFeedbackTask);
 		});
-		
-		ARSnova.view.feedback.TabPanel.superclass.initialize.call(this);
 	},
 	
 	renew: function(){

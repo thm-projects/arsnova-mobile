@@ -26,31 +26,34 @@ Ext.define('ARSnova.view.canteen.VotePanel', {
 		VOTE_2: null,
 		VOTE_3: null,
 		VOTE_4: null,
-		
-		/* toolbar items */
-		toolbar		: null,
-		backButton	: null,
-		foodOptions	: false
 	},
 	
-	constructor: function(){
-		this.backButton = new Ext.Button({
+	/* toolbar items */
+	toolbar		: null,
+	backButton	: null,
+	foodOptions	: false,
+	
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.CANTEEN,
 			handler : function(){
-				ARSnova.mainTabPanel.tabPanel.canteenTabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel, {
+				ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel, {
 		    		type		: 'slide',
 		    		direction	: 'up',
 		    		duration	: 700,
 		    		scope		: this,
 		    		after: function() {
-		    			ARSnova.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.renewChartData();
+		    			ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.renewChartData();
 		    		}
 		    	});
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.CANTEEN_MENU,
+			docked: 'top',
 			items: [
 		        this.backButton
 			]
@@ -59,31 +62,22 @@ Ext.define('ARSnova.view.canteen.VotePanel', {
 		this.defaults = {
 			xtype	: 'button',
 			handler	: function(button) {
-				Ext.dispatch({
-					controller	: 'canteen',
-					action		: 'vote',
+				ARSnova.app.getController('Canteen').vote({
 					value		: button.value,
 					panel		: this
 				});
 			}
 		};
-		
-		this.dockedItems = [this.toolbar];
-		this.items = [{
+
+		this.add([this.toolbar, {
 			xtype: 'panel',
 			cls: 'gravure',
 			html: Messages.I_RECOMMEND
-		}];
+		}]);
 		
-		ARSnova.view.canteen.VotePanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
 		this.on('activate', function(){
 			this.addFoodOptions();
 		});
-		
-		ARSnova.view.canteen.VotePanel.superclass.initialize.call(this);
 	},
 	
 	addFoodOptions: function() {

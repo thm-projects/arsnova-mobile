@@ -21,26 +21,25 @@
 Ext.define('ARSnova.view.archive.CoursePanel', {
 	extend: 'Ext.Panel',
 	
-	config: {
-		selectField: null,
-
-		/* toolbar items */
-		toolbar				: null,
-		backButton			: null
-	},
+	selectField: null,
 	
-	constructor: function(){
-		this.toolbar = new Ext.Toolbar({
-			title: 'Archiv'
+	/* toolbar items */
+	toolbar				: null,
+	backButton			: null,
+	
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.toolbar = Ext.create('Ext.Toolbar', {
+			title: 'Archiv',
+			docked: 'top'
 		});
 		
-		this.dockedItems = [this.toolbar];
-		
-		this.courseForm = new Ext.form.FormPanel({
+		this.courseForm = Ext.create('Ext.form.FormPanel', {
 			cls: 'standardForm'
 		});
 		
-		this.normalForm = new Ext.form.FormPanel({
+		this.normalForm = Ext.create('Ext.form.FormPanel', {
 			cls: 'standardForm',
 			items: [{
 				xtype		: 'button',
@@ -49,9 +48,7 @@ Ext.define('ARSnova.view.archive.CoursePanel', {
 				cls			: 'forwardListButton',
 				courseId	: 'all',
 				handler		: function(obj){
-					Ext.dispatch({
-						controller: 'archive',
-						action: 'showArchive',
+					ARSnova.app.getController('Archive').showArchive({
 						courseId: obj.courseId
 					});
 				}
@@ -62,43 +59,35 @@ Ext.define('ARSnova.view.archive.CoursePanel', {
 				cls			: 'forwardListButton',
 				courseId	: 'thm',
 				handler		: function(obj){
-					Ext.dispatch({
-						controller: 'archive',
-						action: 'showArchive',
+					ARSnova.app.getController('Archive').showArchive({
 						courseId: obj.courseId
 					});
 				}
 			}]
 		});
 		
-		this.items = [{
+		this.add([this.toolbar, {
 			cls: 'gravure',
 			html: 'Welche Fragen möchten Sie sehen:'
 		}, this.normalForm, {
 			cls: 'gravure',
 			html: 'Fragen meiner eStudy-Kurse:'
-		}, this.courseForm];
+		}, this.courseForm]);
 		
-		ARSnova.view.archive.CoursePanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
 		this.on('activate', this.onActivate);
-
-		ARSnova.view.archive.CoursePanel.superclass.initialize.call(this);
 	},
 	
 	getCourses: function(){
-		ARSnova.showLoadMask("Suche Ihre Kurse...");
-		if (ARSnova.loggedIn){
+		ARSnova.app.showLoadMask("Suche Ihre Kurse...");
+		if (ARSnova.app.loggedIn){
 			Ext.Ajax.request({
-	    		url: ARSnova.WEBSERVICE_URL + 'estudy/getUserCourses.php',
+	    		url: ARSnova.app.WEBSERVICE_URL + 'estudy/getUserCourses.php',
 	    		params: {
 	    			login: localStorage.getItem('login')
 	    		},
 	    		success: function(response, opts){
 	    	  		var obj = Ext.decode(response.responseText).courselist;
-	    	  		var panel = ARSnova.mainTabPanel.tabPanel.archiveTabPanel.coursePanel;
+	    	  		var panel = ARSnova.app.mainTabPanel.tabPanel.archiveTabPanel.coursePanel;
 	    	  		
 	    	  		/* Build new options array */
 	    	  		var coursesObj = new Array();
@@ -120,7 +109,7 @@ Ext.define('ARSnova.view.archive.CoursePanel', {
 						});
 					}
 	    	  		panel.doComponentLayout();
-	    	  		ARSnova.hideLoadMask();
+	    	  		ARSnova.app.hideLoadMask();
 	    		},
 	    		failure: function(response, opts){
 	    	  		console.log('getcourses server-side failure with status code ' + response.status);
@@ -130,7 +119,7 @@ Ext.define('ARSnova.view.archive.CoursePanel', {
 	    	});
 		} else {
 			Ext.Ajax.request({
-	    		url: ARSnova.WEBSERVICE_URL + 'estudy/getAllCourses.php',
+	    		url: ARSnova.app.WEBSERVICE_URL + 'estudy/getAllCourses.php',
 	    		success: function(response, opts){
 	    	  		var obj = Ext.decode(response.responseText).courselist;
 	    	  		
@@ -145,7 +134,7 @@ Ext.define('ARSnova.view.archive.CoursePanel', {
 						});
 					}
 	    	  		/* get archivePanel and append (!) new options */
-	    	  		var archivePanel = ARSnova.mainTabPanel.tabPanel.archiveTabPanel.archivePanel;
+	    	  		var archivePanel = ARSnova.app.mainTabPanel.tabPanel.archiveTabPanel.archivePanel;
 	    	  		archivePanel.selectField.setOptions(coursesObj, true);
 	    	  		archivePanel.setLoading(false);
 	    		},

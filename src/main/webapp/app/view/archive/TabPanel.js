@@ -30,18 +30,15 @@ Ext.define('ARSnova.view.archive.TabPanel', {
 	    }
 	},
 	
-	constructor: function(){
-		this.coursePanel = new ARSnova.view.archive.CoursePanel();
-		this.questionPanel = new ARSnova.view.archive.QuestionPanel();
+	initialize: function() {
+		this.callParent(arguments);
 		
-		this.items = [
+		this.coursePanel = Ext.create('ARSnova.view.archive.CoursePanel');
+		this.questionPanel = Ext.create('ARSnova.view.archive.QuestionPanel');
+		
+		this.add([
             this.coursePanel,
             this.questionPanel
-        ];
-		ARSnova.view.archive.TabPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){		
-		ARSnova.view.archive.TabPanel.superclass.initialize.call(this);
+        ]);
 	}
 });

@@ -32,18 +32,17 @@ Ext.define('ARSnova.view.canteen.TabPanel', {
 	    }
 	},
 	
-	constructor: function(){
-		this.statisticPanel = new ARSnova.view.canteen.StatisticPanel();
-		this.votePanel = new ARSnova.view.canteen.VotePanel();
+	initialize: function() {
+		this.callParent(arguments);
 		
-		this.items = [
+		this.statisticPanel = Ext.create('ARSnova.view.canteen.StatisticPanel');
+		this.votePanel = Ext.create('ARSnova.view.canteen.VotePanel');
+		
+		this.add([
             this.statisticPanel,
             this.votePanel
-        ];
-		ARSnova.view.canteen.TabPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
+        ]);
+		
 		this.on('activate', function(){
 			taskManager.start(this.statisticPanel.renewChartDataTask);
 		});
@@ -52,7 +51,5 @@ Ext.define('ARSnova.view.canteen.TabPanel', {
 			this.setActiveItem(this.statisticPanel);
 			taskManager.stop(this.statisticPanel.renewChartDataTask);
 		});
-		
-		ARSnova.view.canteen.TabPanel.superclass.initialize.call(this);
 	}
 });

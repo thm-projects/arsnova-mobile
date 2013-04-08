@@ -23,27 +23,29 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	
 	config: {
 		scroll: 'vertical',
-		
-		/* toolbar items */
-		toolbar		: null,
-		backButton	: null,
-		saveButton	: null,
-		
-		/* items */
-		text: null,
-		subject: null,
-		duration: null,
-		
-		/* for estudy */
-		userCourses: []
 	},
 	
-	constructor: function(){
-		this.backButton = new Ext.Button({
+	/* toolbar items */
+	toolbar		: null,
+	backButton	: null,
+	saveButton	: null,
+	
+	/* items */
+	text: null,
+	subject: null,
+	duration: null,
+	
+	/* for estudy */
+	userCourses: [],
+	
+	initialize: function(){
+		this.callParent(arguments);
+		
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.QUESTIONS,
 			ui		: 'back',
 			handler	: function(){
-				var sTP = ARSnova.mainTabPanel.tabPanel.speakerTabPanel;
+				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				sTP.setActiveItem(sTP.audienceQuestionPanel, {
 					type		: 'slide',
 					direction	: 'right',
@@ -52,20 +54,20 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			},
 		});
 		
-		this.saveButton = new Ext.Button({
+		this.saveButton = Ext.create('Ext.Button', {
 			text	: Messages.SAVE,
 			ui		: 'confirm',
 			handler	: this.saveHandler,
 		});
 				
-		this.textarea = new Ext.plugins.ResizableTextArea({
+		this.textarea = Ext.create('Ext.plugins.ResizableTextArea', {
 			name	  	: 'text',
 	    	label	  	: Messages.QUESTION,
 	    	placeHolder	: Messages.QUESTION_PlACEHOLDER,
 	    	maxHeight	: 140,
 		});
 		
-		this.mainPart = new Ext.form.FormPanel({
+		this.mainPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
 			items: [{
 				xtype: 'fieldset',
@@ -95,7 +97,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
              ]
 		}
 		
-		this.releasePart = new Ext.form.FormPanel({
+		this.releasePart = Ext.create('Ext.form.FormPanel', {
 			items: [{
 				xtype: 'fieldset',
 				title: Messages.RELEASE_FOR,
@@ -107,14 +109,14 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	        		items: this.releaseItems,
 	    		    listeners: {
 	    		    	toggle: function(container, button, pressed){
-	    		    		var nQP = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
+	    		    		var nQP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
 	    		    		var coursesFieldset = nQP.down('fieldset[title='+Messages.MY_COURSES+']');
 	    		    		if(button.id == "course"){
 	    		    			if(pressed){
 	    		    				if(nQP.userCourses.length == 0){
-	        		    				ARSnova.showLoadMask(Messages.LOAD_MASK_SEARCH_COURSES);
+	        		    				ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_COURSES);
 	        		    				Ext.Ajax.request({
-	        		    					url: ARSnova.WEBSERVICE_URL + 'estudy/getTeacherCourses.php',
+	        		    					url: ARSnova.app.WEBSERVICE_URL + 'estudy/getTeacherCourses.php',
 	        		    					params: {
 	        		    						login: localStorage.getItem('login'),
 	        		    					},
@@ -134,7 +136,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	        		    						nQP.userCourses = obj;
 	        		    						nQP.doLayout();
 	        		    						coursesFieldset.show();
-	        		    						ARSnova.hideLoadMask();
+	        		    						ARSnova.app.hideLoadMask();
 	        		    					},
 	        		    					failure: function(response, opts){
 	        		    						console.log('getcourses server-side failure with status code ' + response.status);
@@ -164,7 +166,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		  localStorage.getItem('courseId') != null
 		  && localStorage.getItem('courseId').length > 0
 		) {
-			this.releasePart = new Ext.Panel({
+			this.releasePart = Ext.create('Ext.Panel', {
 				items: [
 					{
 						cls: 'gravure',
@@ -174,7 +176,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			});
 		}
 		
-		this.yesNoQuestion = new Ext.form.FormPanel({
+		this.yesNoQuestion = Ext.create('Ext.form.FormPanel', {
 			id: 'yesno',
 			hidden: true,
 			submitOnAction: false,
@@ -192,7 +194,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			}],
 		});
 		
-		this.multipleChoiceQuestion = new Ext.form.FormPanel({
+		this.multipleChoiceQuestion = Ext.create('Ext.form.FormPanel', {
 			id: 'mc',
 			hidden: true,
 			submitOnAction: false,
@@ -234,7 +236,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	    							default:
 	    								break;
 	    						}
-	                			ARSnova.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel.doLayout();
+	                			ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel.doLayout();
 	                		}
 	                	}
 	                }, {
@@ -274,7 +276,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			}],
 		});
 
-		this.voteQuestion = new Ext.form.FormPanel({
+		this.voteQuestion = Ext.create('Ext.form.FormPanel', {
 			id: 'vote',
 			hidden: false,
 			submitOnAction: false,
@@ -311,7 +313,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			}],
 		});
 		
-		this.schoolQuestion = new Ext.form.FormPanel({
+		this.schoolQuestion = Ext.create('Ext.form.FormPanel', {
 			id: 'school',
 			hidden: true,
 			submitOnAction: false,
@@ -353,7 +355,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			}],
 		});
 		
-		this.abcdQuestion = new Ext.form.FormPanel({
+		this.abcdQuestion = Ext.create('Ext.form.FormPanel', {
 			id: 'abcd',
 			hidden: true,
 			submitOnAction: false,
@@ -410,14 +412,14 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			}],
 		});
 
-		this.freetextQuestion = new Ext.form.FormPanel({
+		this.freetextQuestion = Ext.create('Ext.form.FormPanel', {
 			id: 'freetext',
 			hidden: true,
 			submitOnAction: false,
 			items: [],
 		});
 		
-		this.questionOptions = new Ext.SegmentedButton({
+		this.questionOptions = Ext.create('Ext.SegmentedButton', {
 	        allowDepress: false,
 	        items: [
                 { text: Messages.EVALUATION, pressed: true }, 
@@ -463,8 +465,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	        }
 	    });
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.NEW_QUESTION_TITLE,
+			docked: 'top',
 			items: [
 		        this.backButton,
 		        {xtype:'spacer'},
@@ -472,20 +475,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			]
 		});
 		
-		this.dockedItems = [
-            this.toolbar,
-            new Ext.Toolbar({
-	            ui: 'light',
-	            docked: 'top',
-	            items: [
-                    {xtype: 'spacer'},
-                    this.questionOptions,
-                    {xtype: 'spacer'}
-                ],
-	        }),
-        ];
-		
-		this.saveButton = new Ext.form.FormPanel({
+		this.saveButton = Ext.create('Ext.form.FormPanel', {
 			items: [{
 				xtype: 'fieldset',
 				items: [{
@@ -497,7 +487,16 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			}],
 		});
 		
-		this.items = [
+		this.items = [this.toolbar,
+            Ext.create('Ext.Toolbar', {
+  	            ui: 'light',
+  	            docked: 'top',
+  	            items: [
+                      {xtype: 'spacer'},
+                      this.questionOptions,
+                      {xtype: 'spacer'}
+                  ],
+  	        }),
             this.mainPart,
             
             /* only one of the question types will be shown at the same time */
@@ -511,13 +510,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
             this.saveButton,
         ];
 		
-		ARSnova.view.speaker.NewQuestionPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
 		this.on('activate', this.onActivate);
-		
-		ARSnova.view.speaker.NewQuestionPanel.superclass.initialize.call(this);
 	},
 	
 	onActivate: function(){
@@ -525,7 +518,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	},
 	
     saveHandler: function(){
-    	var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
+    	var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
     	var values = {};
     	
     	/* get text, subject of question from mainPart */
@@ -708,7 +701,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				break;
 		}
     	
-    	ARSnova.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel.dispatch(values);
+    	ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel.dispatch(values);
     },
     
     dispatch: function(values){

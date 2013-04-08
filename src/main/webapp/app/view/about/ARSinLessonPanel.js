@@ -24,11 +24,11 @@ Ext.define('ARSnova.view.about.ARSinLessonPanel', {
 	config: {
 		title: 'ARSinLessonPanel',
 		scroll: 	'vertical',
-
-		/* toolbar items */
-		toolbar		: null,
-		backButton	: null
 	},
+	
+	/* toolbar items */
+	toolbar		: null,
+	backButton	: null,
 	
 	initialize: function() {
 		this.callParent(arguments);

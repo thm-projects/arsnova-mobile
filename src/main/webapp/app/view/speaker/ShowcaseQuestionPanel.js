@@ -20,17 +20,18 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	
 	config: {
 		title	: Messages.QUESTIONS,
-		
 		iconCls	: 'tabBarIconQuestion',
-		
-		/* toolbar items */
-		toolbar		: null,
-		backButton	: null,
-		
-		questionCounter: 0
 	},
 	
-	constructor: function(){
+	/* toolbar items */
+	toolbar		: null,
+	backButton	: null,
+	
+	questionCounter: 0,
+	
+	initialize: function(){
+		this.callParent(agruments);
+		
 		this.listeners = {
 			cardswitch: function(panel, newCard, oldCard, index, animated){
 				//update question counter in toolbar
@@ -43,26 +44,26 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			}
 		};
 		
-		this.questionCounter = new Ext.Container({
+		this.questionCounter = Ext.create('Ext.Container', {
 			cls: "x-toolbar-title alignRight",
 			html: '0/0'
 		});
 		
-		this.statisticButton = new Ext.Button({
+		this.statisticButton = Ext.create('Ext.Button', {
 			text	: ' ',
 			cls		: 'statisticIconSmall',
 			handler	: function() {
-				var questionStatisticChart = new ARSnova.view.QuestionStatisticChart(ARSnova.mainTabPanel.tabPanel.speakerTabPanel.layout.activeItem.questionObj, this);
-				ARSnova.mainTabPanel.setActiveItem(questionStatisticChart, 'slide');
+				var questionStatisticChart = new ARSnova.app.view.QuestionStatisticChart(ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.layout.activeItem.questionObj, this);
+				ARSnova.app.mainTabPanel.setActiveItem(questionStatisticChart, 'slide');
 			}
 		});
 		
-		this.backButton = new Ext.Button({
+		this.backButton = Ext.create('Ext.Button', {
 			ui		: 'back',
 			text	: Messages.BACK,
 			scope	: this,
 			handler	: function() {
-				var sTP = ARSnova.mainTabPanel.tabPanel.speakerTabPanel;
+				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				sTP.setActiveItem(sTP.audienceQuestionPanel, {
 					type		: 'slide',
 					direction	: 'down',
@@ -75,8 +76,9 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.QUESTION,
+			docked: 'top',
 			items: [
 			    this.backButton,
 		        { xtype: 'spacer' },
@@ -84,18 +86,11 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		        this.questionCounter
 	        ]
 		});
+
+		this.add([this.toolbar]);
 		
-		this.dockedItems = [this.toolbar];
-		this.items = [];
-		
-		ARSnova.view.speaker.ShowcaseQuestionPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
-		this.on('beforeactivate', this.beforeActivate);
+		this.on('activate', this.beforeActivate, this, null, 'before');
 		this.on('activate', this.onActivate);
-		
-		ARSnova.view.speaker.ShowcaseQuestionPanel.superclass.initialize.call(this);
 	},
 	
 	beforeActivate: function(){
@@ -104,7 +99,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		this.questionCounter.show();
 		this.toolbar.setTitle(Messages.QUESTION);
 		
-		ARSnova.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
+		ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
 	},
 	
 	onActivate: function(){
@@ -112,10 +107,10 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	},
 	
 	getAllSkillQuestions: function(){
-		ARSnova.questionModel.getSkillQuestionsSortBySubjectAndText(localStorage.getItem("keyword"), {
+		ARSnova.app.questionModel.getSkillQuestionsSortBySubjectAndText(localStorage.getItem("keyword"), {
 			success: function(response) {
 				var questions = Ext.decode(response.responseText);
-				var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.showcaseQuestionPanel;
+				var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.showcaseQuestionPanel;
 				
 				//update question counter in toolbar
 				var counterEl = panel.questionCounter;
@@ -140,7 +135,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				panel.checkFirstQuestion();
 				
 				panel.doLayout();
-				ARSnova.hideLoadMask();
+				ARSnova.app.hideLoadMask();
 			},
 			failure: function(response){
 				console.log('error');
@@ -150,9 +145,15 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	
 	addQuestion: function(question){
 		if (question.questionType === 'freetext') {
-			this.add(new ARSnova.view.FreetextQuestion(question, true));
+			this.add(Ext.create('ARSnova.view.FreetextQuestion', {
+				questionObj: question, 
+				viewOnly: true
+			}));
 		} else {
-			this.add(new ARSnova.view.Question(question, true));
+			this.add(Ext.create('ARSnova.view.Question', {
+				questionObj: question, 
+				viewOnly: true
+			}));
 		}
 	},
 	

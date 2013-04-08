@@ -23,10 +23,6 @@ Ext.define('ARSnova.view.about.HelpVideoPanel', {
 		title:		'HelpVideoPanel',
 		scroll: 	'vertical',
 		
-		/* toolbar items */
-		toolbar		: null,
-		backButton	: null,
-	
 		layout: {
 			type: 'hbox',
 			align: 'center',
@@ -34,7 +30,11 @@ Ext.define('ARSnova.view.about.HelpVideoPanel', {
 		}
 	},
 	
-	constructor: function(arguments) {
+	/* toolbar items */
+	toolbar		: null,
+	backButton	: null,
+	
+	initialize: function(arguments) {
 		this.callParent(arguments);
 		
 		this.standalone = false;

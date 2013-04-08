@@ -25,27 +25,30 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 	
 	config: {
 		layout: 'fit',
-		feedbackChart: null,
-		
-		/* toolbar items */
-		toolbar: null
 	},
+	
+	feedbackChart: null,
+	
+	/* toolbar items */
+	toolbar: null,
 	
 	renewChartDataTask: {
 		name: 'renew chart data at feedback panel',
 		run: function(){
-			ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.renewChartData();
+			ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.renewChartData();
 		},
 		interval: 10000 //10 seconds
 	},
 	
-	constructor: function(){
-		this.backButton = new Ext.Button({
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.HOME,
 			ui		: 'back',
 			hidden	: true,
 			handler : function(){
-				ARSnova.mainTabPanel.tabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.userTabPanel, {
+				ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
 		    		type		: 'slide',
 		    		direction	: 'right',
 		    		duration	: 700,
@@ -57,13 +60,13 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			}
 		});
 		
-		this.feedbackVoteButton = new Ext.Button({
+		this.feedbackVoteButton = Ext.create('Ext.Button', {
 			text	: Messages.FEEDBACK_VOTE,
 			ui		: 'confirm',
 			scope	: this,
 			hidden	: true,
 			handler	: function() {
-				var fP = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel;
+				var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 				fP.setActiveItem(fP.votePanel, {
 						type: 'slide',
 						direction: 'down',
@@ -73,7 +76,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			}
 		});
 		
-		this.feedbackCounter = new Ext.Container({
+		this.feedbackCounter = Ext.create('Ext.Container', {
 			cls: "x-toolbar-title alignRight",
 			html: '0/0',
 			getText: function(){
@@ -84,8 +87,9 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: '0/0',
+			docked: 'top',
 			items: [
 		        this.backButton,
 		        {xtype: 'spacer'},
@@ -95,10 +99,10 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			]
 		});
 		
-		this.feedbackChart = new Ext.chart.Chart({
+		this.feedbackChart = Ext.create('Ext.chart.Chart', {
 			cls: 'column1',
 		    theme: 'Demo',
-		    store: new Ext.data.JsonStore({
+		    store: Ext.create('Ext.data.JsonStore', {
 		    	fields: ['name', 'value', 'percent'],
 		    	data: [
 				  {name: 'Kann folgen', 	 displayName: Messages.FEEDBACK_OKAY, value: 0, percent: 0.0},
@@ -192,12 +196,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		    }]
 		});
 		
-		this.dockedItems = [this.toolbar];
-		this.items = [this.feedbackChart];
-		
-		this.doLayout();
-		
-		ARSnova.view.feedback.StatisticPanel.superclass.constructor.call(this);
+		this.add([this.toolbar, this.feedbackChart]);
 	},
 	
 	/**
@@ -207,9 +206,9 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 	 * 3. Adapt the feedback icon in tab bar depending on average of feedback
 	 */
 	renewChartData: function() {
-		ARSnova.feedbackModel.getSessionFeedback(localStorage.getItem("keyword"), {
+		ARSnova.app.feedbackModel.getSessionFeedback(localStorage.getItem("keyword"), {
 			success: function(response){
-				var panel = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel;
+				var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel;
 				var chart = panel.feedbackChart;
 				var store = chart.store;
 				
@@ -237,18 +236,18 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				chart.redraw();
 				
 				//update feedback-badge in tab bar 
-				ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.tab.setBadge(sum);
+				ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab.setBadge(sum);
 				
 				//update feedback counter
-				var counterEl = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.feedbackCounter;
+				var counterEl = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.feedbackCounter;
 				var title = counterEl.getText().split("/");
 				title[0] = sum;
 				title = title.join("/");
 				counterEl.update(title);
 				
 				//change the feedback tab bar icon
-				var tab = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.tab;
-				ARSnova.feedbackModel.getAverageSessionFeedback(localStorage.getItem("keyword"), {
+				var tab = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab;
+				ARSnova.app.feedbackModel.getAverageSessionFeedback(localStorage.getItem("keyword"), {
 					success: function(response) {
 						var avg = parseInt(response.responseText);
 						switch (avg){
@@ -281,13 +280,13 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 	},
 	
 	checkVoteButton: function(){
-		if (!ARSnova.isSessionOwner) this.feedbackVoteButton.show();
+		if (!ARSnova.app.isSessionOwner) this.feedbackVoteButton.show();
 		else this.feedbackVoteButton.hide();
 	},
 	
 	checkTitle: function(){
 		var title = "";
-		if (ARSnova.isSessionOwner) title = localStorage.getItem('shortName');
+		if (ARSnova.app.isSessionOwner) title = localStorage.getItem('shortName');
 		this.toolbar.setTitle(title);
 	}
 });

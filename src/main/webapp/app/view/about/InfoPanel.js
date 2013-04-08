@@ -26,9 +26,16 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 		scroll: 'vertical'
 	},
 	
+	/* toolbar items */
+	toolbar		: null,
+	backButton	: null,
+	
 	initialize: function() {
 		this.callParent(arguments);
-		
+
+		/* toolbar items */
+		toolbar		: null,
+		backButton	: null
 		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.BACK,
 			ui		: 'back',

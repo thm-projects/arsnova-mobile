@@ -21,21 +21,21 @@
 Ext.define('ARSnova.view.archive.QuestionPanel', {
 	extend: 'Ext.Carousel',
 
-	config: {
-		/* toolbar items */
-		toolbar		: null,
-		backButton	: null,
-		
-		courseId: null,
-		questionCounter: 0	
-	},
+	/* toolbar items */
+	toolbar		: null,
+	backButton	: null,
 	
-	constructor: function(){
-		this.backButton = new Ext.Button({
+	courseId: null,
+	questionCounter: 0,
+	
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.backButton = Ext.create('Ext.Button', {
 			text	: 'Home',
 			ui		: 'back',
 			handler	: function() {
-				var aTP = ARSnova.mainTabPanel.tabPanel.archiveTabPanel;
+				var aTP = ARSnova.app.mainTabPanel.tabPanel.archiveTabPanel;
 				aTP.setActiveItem(aTP.coursePanel, {
 		    		type		: 'slide',
 		    		direction	: 'right',
@@ -60,13 +60,14 @@ Ext.define('ARSnova.view.archive.QuestionPanel', {
 			}				
 		};
 		
-		this.questionCounter = new Ext.Container({
+		this.questionCounter = Ext.create('Ext.Container', {
 			cls: "x-toolbar-title alignRight",
 			html: '0/0'
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: 'Archiv-Frage',
+			docked: 'top',
 			items: [
 		        this.backButton,
 		        { xtype: 'spacer' },
@@ -74,17 +75,10 @@ Ext.define('ARSnova.view.archive.QuestionPanel', {
 	        ]
 		});
 		
-		this.dockedItems = [this.toolbar];
-		this.items = [];
+		this.add([this.toolbar]);
 		
-		ARSnova.view.archive.QuestionPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
-		this.on('beforeactivate', this.beforeActivate);
+		this.on('activate', this.beforeActivate, this, null, 'before');
 		this.on('activate', this.onActivate);
-		
-		ARSnova.view.archive.QuestionPanel.superclass.initialize.call(this);
 	},
 	
 	beforeActivate: function(){
@@ -94,14 +88,14 @@ Ext.define('ARSnova.view.archive.QuestionPanel', {
 	},
 	
 	onActivate: function(){
-		ARSnova.showLoadMask("Suche Fragen...");
+		ARSnova.app.showLoadMask("Suche Fragen...");
 		this.getCourseQuestions();
 	},
 	
 	getCourseQuestions: function(){
-		ARSnova.questionModel.releasedByCourseId(this.courseId, {
+		ARSnova.app.questionModel.releasedByCourseId(this.courseId, {
 			success: function(response){
-				var questionPanel = ARSnova.mainTabPanel.tabPanel.archiveTabPanel.questionPanel;
+				var questionPanel = ARSnova.app.mainTabPanel.tabPanel.archiveTabPanel.questionPanel;
 				var questions = Ext.decode(response.responseText).rows;
 				var questionsArr = [];
 				var questionIds = [];
@@ -115,7 +109,7 @@ Ext.define('ARSnova.view.archive.QuestionPanel', {
 					});
 					questionPanel.indicator.hide();
 					questionPanel.doLayout();
-					ARSnova.hideLoadMask();
+					ARSnova.app.hideLoadMask();
 					return;
 				} else {
 					//update question counter in toolbar
@@ -137,7 +131,7 @@ Ext.define('ARSnova.view.archive.QuestionPanel', {
 					questionPanel.addQuestion(question);
 				});
 				questionPanel.doComponentLayout();
-				ARSnova.hideLoadMask();
+				ARSnova.app.hideLoadMask();
 			},
 			failure: function(response){
 				console.log('error');
@@ -146,6 +140,6 @@ Ext.define('ARSnova.view.archive.QuestionPanel', {
 	},
 		
 	addQuestion: function(question){
-		this.add(new ARSnova.view.Question(question.value));
+		this.add(Ext.create('ARSnova.view.Question', { questionObj: question.value }));
 	}
 });

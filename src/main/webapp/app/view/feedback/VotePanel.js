@@ -23,20 +23,21 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 	
 	config: {
 		scroll: 'vertical',
-		
-		/* toolbar items */
-		toolbar			: null,
-		backButton		: null,
-		questionButton	: null
 	},
 	
-	constructor: function(){
-		this.toolbar = new Ext.Toolbar({
+	/* toolbar items */
+	toolbar			: null,
+	backButton		: null,
+	questionButton	: null,
+	
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.MY_FEEDBACK,
+			docked: 'top',
 			cls: 'titlePaddingLeft'
 		});
-		
-		this.dockedItems = [this.toolbar];
 		
 		this.defaults = {
 			xtype	: 'button',
@@ -47,7 +48,8 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 				});
 			}
 		};
-		this.items = [{
+		
+		this.add([this.toolbar, {
 			iconCls	: 'feedbackGood',
 			text	: Messages.FEEDBACK_OKAY,
 			value	: 'Kann folgen'
@@ -68,15 +70,13 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 			iconCls	: 'tabBarIconQuestion',
 			ui		: 'action',
 			handler : function() {
-				var panel = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel;
+				var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 				panel.setActiveItem(panel.askPanel, 'slide');
 			}
 		}, {
 			xtype: 'panel',
 			cls: 'gravure',
 			html: Messages.FEEDBACK_INSTRUCTION
-		}];
-		
-		ARSnova.view.feedback.VotePanel.superclass.constructor.call(this);
+		}]);
 	}
 });

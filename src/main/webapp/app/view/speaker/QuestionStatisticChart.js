@@ -25,22 +25,22 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	config: {
 		title	: Messages.STATISTIC,
 		iconCls	: 'tabBarIconCanteen',
-		layout	: 'fit',
-		
-		questionObj: null,
-		questionChart: null,
-		questionStore: null,
-		lastPanel: null,
-		
-		/* toolbar items */
-		toolbar				: null,
-		canteenVoteButton	: null
+		layout	: 'fit'
 	},
+	
+	questionObj: null,
+	questionChart: null,
+	questionStore: null,
+	lastPanel: null,
+	
+	/* toolbar items */
+	toolbar				: null,
+	canteenVoteButton	: null,
 	
 	renewChartDataTask: {
 		name: 'renew the chart data at question statistics charts',
 		run: function(){
-			ARSnova.mainTabPanel.layout.activeItem.getQuestionAnswers();
+			ARSnova.app.mainTabPanel.layout.activeItem.getQuestionAnswers();
 		},
 		interval: 10000 //10 seconds
 	},
@@ -51,16 +51,18 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	countActiveUsersTask: {
 		name: 'count the actually logged in users',
 		run: function(){
-			ARSnova.mainTabPanel.layout.activeItem.countActiveUsers();
+			ARSnova.app.mainTabPanel.layout.activeItem.countActiveUsers();
 		},
 		interval: 15000
 	},
 	
-	constructor: function(question, lastPanel){
+	initialize: function(question, lastPanel){
+		this.callParent(arguments);
+		
 		this.questionObj = question;
 		this.lastPanel = lastPanel;
 		
-		this.questionStore = new Ext.data.Store({
+		this.questionStore = Ext.create('Ext.data.Store', {
 			fields: ['text', 'value', 'percent']
 		});
 		
@@ -79,17 +81,17 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			}
 		}
 		
-		this.backButton = new Ext.Button({
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.BACK,
 			ui		: 'back',
 			scope	: this,
 			handler	: function() {
 				taskManager.stop(this.renewChartDataTask);
 				taskManager.stop(this.countActiveUsersTask);
-				ARSnova.mainTabPanel.layout.activeItem.on('deactivate', function(){
+				ARSnova.app.mainTabPanel.layout.activeItem.on('deactivate', function(){
 					this.destroy();					
 				}, this, {single:true});
-				ARSnova.mainTabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel, {
+				ARSnova.app.mainTabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700
@@ -101,7 +103,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		if(window.innerWidth < 800 && title.length > (window.innerWidth / 10))
 			title = title.substring(0, (window.innerWidth) / 10) + "...";
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			items: [this.backButton, {
 				xtype: 'spacer'
 			}, {
@@ -239,7 +241,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			}];
 		}
 		
-		this.questionChart = new Ext.chart.Chart({
+		this.questionChart = Ext.create('Ext.chart.Chart', {
 			cls: 'column1',
 		    theme: 'Demo',
 		    store: this.questionStore,
@@ -302,24 +304,15 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		    }]
 		});
 		
-		this.dockedItems = [this.toolbar];
-		this.items = [this.questionChart];
-		
-		this.doLayout();
-		
-		ARSnova.view.QuestionStatisticChart.superclass.constructor.call(this);
-	},
-	
-	initialize: function() {
+		this.add([this.toolbar, this.questionChart]);
+
 		this.on('activate', this.onActivate);
-		
-		ARSnova.view.QuestionStatisticChart.superclass.initialize.call(this);
 	},
 	
 	getQuestionAnswers: function() {
-		ARSnova.questionModel.countAnswers(localStorage.getItem('keyword'), this.questionObj._id, {
+		ARSnova.app.questionModel.countAnswers(localStorage.getItem('keyword'), this.questionObj._id, {
 			success: function(response) {
-				var panel = ARSnova.mainTabPanel.layout.activeItem;
+				var panel = ARSnova.app.mainTabPanel.layout.activeItem;
 				var chart = panel.questionChart;
 				var store = chart.store;
 				
@@ -389,12 +382,12 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	},
 	
 	countActiveUsers: function(){
-		ARSnova.loggedInModel.countActiveUsersBySession(localStorage.getItem("keyword"), {
+		ARSnova.app.loggedInModel.countActiveUsersBySession(localStorage.getItem("keyword"), {
 			success: function(response){
 				var value = parseInt(response.responseText);
 				
 				//update quote in toolbar
-				var quote = ARSnova.mainTabPanel.layout.activeItem.toolbar.items.items[4];
+				var quote = ARSnova.app.mainTabPanel.layout.activeItem.toolbar.items.items[4];
 				var users = quote.el.dom.innerHTML.split("/");
 				users[1] = value;
 				users = users.join("/");

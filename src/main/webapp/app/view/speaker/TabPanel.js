@@ -30,29 +30,26 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 		}  
 	},
 	    
-	constructor: function(){
-		this.inClassPanel 			= new ARSnova.view.speaker.InClass();
-		this.audienceQuestionPanel 	= new ARSnova.view.speaker.AudienceQuestionPanel();
-		this.newQuestionPanel 		= new ARSnova.view.speaker.NewQuestionPanel();
-		this.showcaseQuestionPanel	= new ARSnova.view.speaker.ShowcaseQuestionPanel();
+	initialize: function() {
+		this.callParent(arguments);
 		
-		this.items = [
+		this.inClassPanel 			= Ext.create('ARSnova.view.speaker.InClass');
+		this.audienceQuestionPanel 	= Ext.create('ARSnova.view.speaker.AudienceQuestionPanel');
+		this.newQuestionPanel 		= Ext.create('ARSnova.view.speaker.NewQuestionPanel');
+		this.showcaseQuestionPanel	= Ext.create('ARSnova.view.speaker.ShowcaseQuestionPanel');
+		
+		this.add([
 	        this.inClassPanel,
 	        this.audienceQuestionPanel,
 	        this.newQuestionPanel
-        ];
-		ARSnova.view.speaker.TabPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
-		setTimeout("ARSnova.hideLoadMask();", 1000);
+        ]);
 		
-		ARSnova.view.speaker.TabPanel.superclass.initialize.call(this);
+		setTimeout("ARSnova.hideLoadMask();", 1000);
 	},
 	
 	renew: function(){
 		this.remove(this.inClassPanel);
-		this.inClassPanel = new ARSnova.view.speaker.InClass();
+		this.inClassPanel = Ext.create('ARSnova.view.speaker.InClass');
 		this.insert(0, this.inClassPanel);
 		this.setActiveItem(this.inClassPanel);
 		this.inClassPanel.registerListeners();

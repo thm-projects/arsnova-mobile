@@ -21,26 +21,24 @@
 Ext.define('ARSnova.view.user.RankingPanel', {
 	extend: 'Ext.Panel',
 	
-	config: {
-		myRanking 	 : null,
-		myRankingPos : 0,
-		betterCounter: 0,
-		worseCounter : 0,
-		equalCounter : -1, //have to start at -1 because the result of this user will be also in the resultSet of getSessionRankingStatistic
-		overallCounter: 0,
-		
-		high	: 75,
-		medium	: 50,
-		low		: 25,
-		highCounter	  : 0,
-		mediumCounter : 0,
-		lowCounter	  : 0,
-		veryLowCounter: 0,
-		
-		/* toolbar items */
-		toolbar		: null,
-		backButton	: null,	
-	},
+	myRanking 	 : null,
+	myRankingPos : 0,
+	betterCounter: 0,
+	worseCounter : 0,
+	equalCounter : -1, //have to start at -1 because the result of this user will be also in the resultSet of getSessionRankingStatistic
+	overallCounter: 0,
+	
+	high	: 75,
+	medium	: 50,
+	low		: 25,
+	highCounter	  : 0,
+	mediumCounter : 0,
+	lowCounter	  : 0,
+	veryLowCounter: 0,
+	
+	/* toolbar items */
+	toolbar		: null,
+	backButton	: null,	
 	
 	initialize: function() {
 		this.callParent(arguments);

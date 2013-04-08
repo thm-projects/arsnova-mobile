@@ -24,36 +24,42 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		scroll: 'vertical'	
 	},
 	
-	constructor: function() {
-		this.backButton = new Ext.Button({
+	/* toolbar items */
+	toolbar		: null,
+	saveButton	: null,
+	backButton	: null,
+	
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.BACK,
 			ui		: 'back',
 			handler : this.closePanel,
 			scope	: this
 		});
 		
-		this.saveButton = new Ext.Button({
+		this.saveButton = Ext.create('Ext.Button', {
 			text	: Messages.SAVE,
 			ui		: 'confirm',
 			handler	: this.askQuestion,
 			scope	: this
 		});
 		
-		this.dockedItems = [{
-			xtype: 'toolbar',
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			title: Messages.QUESTION_TO_SPEAKER,
 			items: [this.backButton, {xtype: 'spacer'}, this.saveButton]
-		}],
+		}),
 		
-		this.subject = new Ext.form.Text({
+		this.subject = Ext.create('Ext.form.Text', {
 			label: Messages.QUESTION_SUBJECT,
 			name: 'subject',
 			maxLength: 140,
 			placeHolder: Messages.QUESTION_SUBJECT_PLACEHOLDER
 		});
 		
-		this.text = new Ext.form.TextArea({
+		this.text = Ext.create('Ext.form.TextArea', {
 			xtype: 'textareafield',
 			label: Messages.QUESTION_TEXT,
 			name: 'text',
@@ -61,7 +67,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			placeHolder: Messages.QUESTION_TEXT_PLACEHOLDER
 		});
 		
-		this.items = [{
+		this.add([this.toolbar, {
 			cls: 'gravure',
 			html: Messages.QUESTION_INSTRUCTION
 		}, {
@@ -78,21 +84,19 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 				handler: this.askQuestion,
 				scope: this
 			}]
-		}];
-		
-		ARSnova.view.feedback.AskPanel.superclass.constructor.call(this, arguments);
+		}]);
 	},
 	
 	askQuestion: function() {
 		var me = this;
-		var question = Ext.ModelMgr.create({
+		var question = Ext.create('ARSnova.model.Question', {
 			type			: "interposed_question",
 			sessionId		: localStorage.getItem("sessionId"),
 			sessionKeyword	: localStorage.getItem("keyword"),
 			subject			: this.subject.getValue().trim(),
 			text 			: this.text.getValue().trim(),
 			timestamp		: new Date().getTime()
-		}, 'Question');
+		});
 		
 		var validation = question.validate();
 		if (!validation.isValid()) {
@@ -101,7 +105,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 					el.removeCls("required");
 			});
 			validation.items.forEach(function(el) {
-				me.down('textfield[name=' + el.field + ']').addCls("required");
+				me.down('textfield[name=' + el.getField() + ']').addCls("required");
 			});
 			return;
 		}
@@ -110,7 +114,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			question: question,
 			success: function() {
 				var theNotificationBox = {};
-				theNotificationBox = new Ext.Panel({
+				theNotificationBox = Ext.create('Ext.Panel', {
 					cls: 'notificationBox',
 					name: 'notificationBox',
 					showAnimation: 'pop',
@@ -144,8 +148,8 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 	},
 	
 	closePanel: function() {
-		var panel = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel;
-		panel.setActiveItem(ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.votePanel, {
+		var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
+		panel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.votePanel, {
 			type		: 'slide',
 			direction	: 'right',
 			duration	: 700

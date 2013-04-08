@@ -24,13 +24,13 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	config: {
 		title	: Messages.QUESTIONS,
 		iconCls	: 'tabBarIconQuestion',
-		
-		/* toolbar items */
-		toolbar		: null,
-		backButton	: null,
-	
-		questionCounter: 0
 	},
+	
+	/* toolbar items */
+	toolbar		: null,
+	backButton	: null,
+
+	questionCounter: 0,
 	
 	initialize: function() {
 		this.callParent(arguments);
@@ -96,9 +96,9 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	        ]
 		});
 		
-		this.items = [this.toolbar];
+		this.add([this.toolbar]);
 		
-		this.on('beforeactivate', this.beforeActivate);
+		this.on('activate', this.beforeActivate, this, null, 'before');
 		this.on('activate', this.onActivate);
 		this.on('add', function(panel, component, index) {
 			component.doTypeset && component.doTypeset(panel);

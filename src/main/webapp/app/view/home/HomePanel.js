@@ -23,16 +23,17 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	
 	config: {
 		scroll			: 'vertical',
-		inClassRendered	: false,
-		userInClass		: null,
-		speakerInClass	: null,
-		outOfClass		: null,
-		
-		/* toolbar items */
-		toolbar				: null,
-		logoutButton		: null,
-		sessionLogoutButton	: null
 	},
+	
+	inClassRendered	: false,
+	userInClass		: null,
+	speakerInClass	: null,
+	outOfClass		: null,
+	
+	/* toolbar items */
+	toolbar				: null,
+	logoutButton		: null,
+	sessionLogoutButton	: null,
 	
 	initialize: function() {
 		this.callParent(arguments);

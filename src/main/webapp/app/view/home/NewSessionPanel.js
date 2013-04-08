@@ -20,21 +20,22 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.home.NewSessionPanel', {
 	extend: 'Ext.Panel',
-
+	
+	config: {
+		scroll		: 'vertical'
+	},
+	
+	sessionKey	: null,
+	
 	/* items */
 	sessionIdField: null,
 	unavailableSessionIds: [],
 	mycourses	: [],
 	mycoursesStore: null,
 	
-	config: {
-		scroll		: 'vertical',
-		sessionKey	: null,
-		
-		/* toolbar items */
-		toolbar		: null,
-		backButton	: null
-	},
+	/* toolbar items */
+	toolbar		: null,
+	backButton	: null,
 	
 	initialize: function(responseText) {
 		this.callParent(arguments);
@@ -141,7 +142,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			this.getMyCourses();
 		}, this, null, 'before');
 		
-		this.on('activate', function() { this.generateNewSessionId() });
+		this.on('activate', function() { this.generateNewSessionId(); });
 	},
 
 	onSubmit: function() {

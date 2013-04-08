@@ -23,42 +23,44 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 	
 	config: {
 		scroll: 'vertical',
-		isRendered: false,
-		
-		/* toolbar items */
-		toolbar		: null,
-		backButton	: null,
-		questionObj : null
 	},
 	
-	constructor: function(question){
+	isRendered: false,
+	
+	/* toolbar items */
+	toolbar		: null,
+	backButton	: null,
+	questionObj : null,
+	
+	initialize: function(question){
+		this.callParent(arguments);
+		
 		this.questionObj = question;
 		
-		this.backButton = new Ext.Button({
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.QUESTIONS,
 			ui		: 'back',
 			scope	: this,
 			handler	: function(){
-				var sQP = ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel; 
+				var sQP = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel; 
 				sQP.setActiveItem(sQP.questionsPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700
 				});
-//				ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.getFeedbackQuestions();
+//				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.getFeedbackQuestions();
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.QUESTION_DETAILS,
+			docked: 'top',
 			items: [
 		        this.backButton
 			]
 		});
 		
-		this.dockedItems = [this.toolbar];
-		
-		this.items = [{
+		this.add([this.toolbar, {
 			xtype: 'form',
 			items: [{
 				xtype: 'fieldset',
@@ -85,32 +87,27 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 			text : Messages.DELETE,
 			scope: this,
 			handler: function(){
-				var panel = ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel;
+				var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
 				
-				ARSnova.questionModel.deleteInterposed(this.questionObj, {
+				ARSnova.app.questionModel.deleteInterposed(this.questionObj, {
 					failure: function(response){
 						console.log('server-side error delete question');
 					}
 				});
+				
 				panel.setActiveItem(panel.questionsPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700
 				});
 			}
-		}];
-		
-		ARSnova.view.feedbackQuestions.DetailsPanel.superclass.constructor.call(this);
-	},
-	
-	initialize: function(){
+		}]);
+
 		this.on('deactivate', this.onDeactivate);
-		
-		ARSnova.view.feedbackQuestions.DetailsPanel.superclass.initialize.call(this);
 	},
 	
 	onDeactivate: function(){
 		this.destroy();
-		ARSnova.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.checkFeedbackQuestions();
+		ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.checkFeedbackQuestions();
 	}
 });

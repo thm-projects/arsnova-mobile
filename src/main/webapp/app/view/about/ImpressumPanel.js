@@ -24,11 +24,11 @@ Ext.define('ARSnova.view.about.ImpressumPanel', {
 	config: {
 		title:		'ImpressumPanel',
 		scroll: 	'vertical',
-
-		/* toolbar items */
-		toolbar		: null,
-		backButton	: null
 	},
+	
+	/* toolbar items */
+	toolbar		: null,
+	backButton	: null,
 	
 	initialize: function() {
 		this.callParent(arguments);
