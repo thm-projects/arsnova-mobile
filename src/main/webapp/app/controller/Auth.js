@@ -23,7 +23,8 @@ Ext.define("ARSnova.controller.Auth", {
 	
 	config: {
 		routes: {
-			'id/:sessionid': 'qr'
+			'id/:sessionid': 'qr',
+			'auth/checkLogin': 'checkLogin'
 		}
 	},
 	
@@ -53,7 +54,6 @@ Ext.define("ARSnova.controller.Auth", {
 	},
 
 	login: function(options) {
-		console.log(localStorage);
 		ARSnova.app.loginMode = options.mode;
 		localStorage.setItem('loginMode', options.mode);
 		var type = "";

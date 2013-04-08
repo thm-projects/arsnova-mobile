@@ -21,20 +21,19 @@
 Ext.define('ARSnova.view.home.NewSessionPanel', {
 	extend: 'Ext.Panel',
 
+	/* items */
+	sessionIdField: null,
+	unavailableSessionIds: [],
+	mycourses	: [],
+	mycoursesStore: null,
+	
 	config: {
 		scroll		: 'vertical',
 		sessionKey	: null,
 		
 		/* toolbar items */
 		toolbar		: null,
-		backButton	: null,
-		
-		/* items */
-		sessionIdField: null,
-		
-		unavailableSessionIds: [],
-		mycourses	: [],
-		mycoursesStore: null
+		backButton	: null
 	},
 	
 	initialize: function(responseText) {
@@ -110,7 +109,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 	                label		: Messages.SESSION_NAME,
 	                placeHolder	: Messages.SESSION_NAME_PLACEHOLDER,
 	                maxLength	: 50,
-	                clearIcon: true,
+	                clearIcon	: true,
 	                value		: course.name
 	            }, {
 	                xtype		: 'textfield',
@@ -118,7 +117,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 	                label		: Messages.SESSION_SHORT_NAME,
 	                placeHolder	: Messages.SESSION_SHORT_NAME_PLACEHOLDER,
 	                maxLength	: 8,
-	                clearIcon: true,
+	                clearIcon	: true,
 	                value		: course.shortName
 	            }]
 			}, {
@@ -138,11 +137,11 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		}]);
 		
 		this.on('activate', function() {
-			this.getSessionIds;
-			this.getMyCourses;
+			this.getSessionIds();
+			this.getMyCourses();
 		}, this, null, 'before');
 		
-		this.on('activate', this.generateNewSessionId);
+		this.on('activate', function() { this.generateNewSessionId() });
 	},
 
 	onSubmit: function() {

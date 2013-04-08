@@ -217,6 +217,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				type: 'slide',
 				duration: 700
 			});
+			
 			tabPanel.feedbackTabPanel.setActiveItem(tabPanel.feedbackTabPanel.votePanel, {
 				type: 'slide',
 				duration: 700
@@ -225,7 +226,7 @@ Ext.define("ARSnova.controller.Sessions", {
 	},
 	
 	create: function(options){
-		var session = Ext.ModelMgr.create({
+		var session = Ext.create('ARSnova.model.Session', {
 			type	 : 'session',
 			name	 : options.name, 
 			shortName: options.shortName,
@@ -234,19 +235,18 @@ Ext.define("ARSnova.controller.Sessions", {
 			active	 : 1,
 			courseId : options.courseId,
 			courseType:options.courseType 
-		}, 'Session');
+		});
 		
 		var validation = session.validate();
 		if (!validation.isValid()) {
 			Ext.Msg.alert('Hinweis', 'Bitte alle markierten Felder ausfüllen.');
-			Ext.Msg.doComponentLayout();
 			var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel;
 			panel.down('fieldset').items.items.forEach(function(el){
 				if(el.xtype == 'textfield')
 					el.removeCls("required");
 			});
 			validation.items.forEach(function(el){
-				panel.down('textfield[name=' + el.field + ']').addCls("required")
+				panel.down('textfield[name=' + el.getField() + ']').addCls("required")
 			});
 			return;
 		}
@@ -314,14 +314,12 @@ Ext.define("ARSnova.controller.Sessions", {
 					failure: function(records, operation){
 						console.log(operation);
 		    	  		Ext.Msg.alert("Hinweis!", "Session speichern war nicht erfolgreich");
-		    	  		Ext.Msg.doComponentLayout();
 					}
 				});
 			},
 			failure: function(records, operation){
 				console.log(operation);
     	  		Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
-    	  		Ext.Msg.doComponentLayout();
 			}
 		});
     }
