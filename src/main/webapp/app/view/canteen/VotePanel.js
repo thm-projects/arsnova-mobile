@@ -19,7 +19,7 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.canteen.VotePanel', {
-	extend: 'Ext.Panel',
+	extend: 'Ext.Container',
 	
 	config: {
 		title: 'VotePanel'
@@ -61,16 +61,6 @@ Ext.define('ARSnova.view.canteen.VotePanel', {
 			]
 		});
 		
-		this.defaults = {
-			xtype	: 'button',
-			handler	: function(button) {
-				ARSnova.app.getController('Canteen').vote({
-					value		: button.value,
-					panel		: this
-				});
-			}
-		};
-
 		this.add([this.toolbar, {
 			xtype: 'panel',
 			cls: 'gravure',
@@ -84,21 +74,26 @@ Ext.define('ARSnova.view.canteen.VotePanel', {
 	
 	addFoodOptions: function() {
 		if(this.foodOptions) return;
-		
+		console.log(this);
 		/* Get the store with the meals */
 		var meals = Ext.getStore("Food").data.items;
 
 		for ( var i = 0; i < meals.length; i++) {
 			var el = meals[i];
-			console.log(el.data.name);
+
 			this.add({
+				xtype	: 'button',
+				handler	: function(button) {
+					ARSnova.app.getController('Canteen').vote({
+						value		: button.value,
+						panel		: this
+					});
+				},
 				text	: el.data.name,
 				value	: el.data.name,
 				cls		: 'login-button menu' + i
 			});
 		}
 		this.foodOptions = true;
-		console.log(this);
-		this.doLayout();
 	}
 });
