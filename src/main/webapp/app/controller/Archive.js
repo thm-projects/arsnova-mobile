@@ -22,7 +22,7 @@ Ext.define("ARSnova.controller.Archive", {
 	extend: 'Ext.app.Controller',
 
 	index: function(options) {
-		ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.archiveTabPanel, {
+		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.archiveTabPanel, {
 			type: 'slide'
 		});
 	},
@@ -30,7 +30,7 @@ Ext.define("ARSnova.controller.Archive", {
 	showArchive: function(options){
 		var aTP = ARSnova.app.mainTabPanel.tabPanel.archiveTabPanel;
 		aTP.questionPanel.courseId = options.courseId;
-		aTP.setActiveItem(aTP.questionPanel, {
+		aTP.animateActiveItem(aTP.questionPanel, {
 			type: 'slide'
 		});
 	}

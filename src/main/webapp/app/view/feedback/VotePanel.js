@@ -71,7 +71,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 			ui		: 'action',
 			handler : function() {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
-				panel.setActiveItem(panel.askPanel, 'slide');
+				panel.animateActiveItem(panel.askPanel, 'slide');
 			}
 		}, {
 			xtype: 'panel',

@@ -43,7 +43,7 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 			scope	: this,
 			handler	: function(){
 				var sQP = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel; 
-				sQP.setActiveItem(sQP.questionsPanel, {
+				sQP.animateActiveItem(sQP.questionsPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700
@@ -95,7 +95,7 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 					}
 				});
 				
-				panel.setActiveItem(panel.questionsPanel, {
+				panel.animateActiveItem(panel.questionsPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700

@@ -39,7 +39,7 @@ Ext.define('ARSnova.view.about.OpenSourceProjectsPanel', {
 			handler	: function() {
 				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 				
-				me.setActiveItem(me.creditsPanel, {
+				me.animateActiveItem(me.creditsPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700,

@@ -50,7 +50,7 @@ Ext.define("ARSnova.controller.Auth", {
 		localStorage.setItem('role', options.mode);
 		
 		ARSnova.app.setWindowTitle();
-		ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.loginPanel, 'slide');
+		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.loginPanel, 'slide');
 	},
 
 	login: function(options) {
@@ -137,7 +137,7 @@ Ext.define("ARSnova.controller.Auth", {
     		localStorage.removeItem('login');
     		window.location = "https://cas.thm.de/cas/logout?url=http://" + window.location.hostname + window.location.pathname + "#auth/doLogout";
     	} else {
-    		ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
+    		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
     			type: 'slide',
     			direction: 'right'
     		});

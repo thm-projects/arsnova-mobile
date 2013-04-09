@@ -53,7 +53,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			ui		: 'back',
 			handler	: function() {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				hTP.setActiveItem(hTP.homePanel, {
+				hTP.animateActiveItem(hTP.homePanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700
@@ -67,7 +67,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			scope	: this,
 			handler	: function() {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				hTP.setActiveItem(hTP.newSessionPanel, {
+				hTP.animateActiveItem(hTP.newSessionPanel, {
 					type		: 'slide',
 					direction	: 'left',
 					duration	: 700
@@ -97,7 +97,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				cls		: 'forwardListButton',
 				handler	: function(options){
 					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-					hTP.setActiveItem(hTP.newSessionPanel, 'slide');
+					hTP.animateActiveItem(hTP.newSessionPanel, 'slide');
 				}
 			}]
 		});

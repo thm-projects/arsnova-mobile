@@ -174,7 +174,7 @@ Ext.define('ARSnova.view.Question', {
 			button.scope = this;
 			button.handler = function() {
 				var questionStatisticChart = new ARSnova.view.QuestionStatisticChart(this.questionObj, this);
-				ARSnova.mainTabPanel.setActiveItem(questionStatisticChart, 'slide');
+				ARSnova.mainTabPanel.animateActiveItem(questionStatisticChart, 'slide');
 			};
 		}
 	},

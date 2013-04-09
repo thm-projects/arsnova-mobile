@@ -36,7 +36,7 @@ Ext.define('ARSnova.view.archive.QuestionPanel', {
 			ui		: 'back',
 			handler	: function() {
 				var aTP = ARSnova.app.mainTabPanel.tabPanel.archiveTabPanel;
-				aTP.setActiveItem(aTP.coursePanel, {
+				aTP.animateActiveItem(aTP.coursePanel, {
 		    		type		: 'slide',
 		    		direction	: 'right',
 		    		duration	: 700

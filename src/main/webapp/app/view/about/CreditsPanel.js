@@ -40,7 +40,7 @@ Ext.define('ARSnova.view.about.CreditsPanel', {
 			handler	: function() {
 				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 				
-				me.setActiveItem(me.infoPanel, {
+				me.animateActiveItem(me.infoPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700,
@@ -70,14 +70,14 @@ Ext.define('ARSnova.view.about.CreditsPanel', {
 				handler	: function() {
 					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 					me.sponsorsPanel = Ext.create('ARSnova.view.about.SponsorsPanel');
-					me.setActiveItem(me.sponsorsPanel, 'slide');
+					me.animateActiveItem(me.sponsorsPanel, 'slide');
 				}
 			}, {
 				text	: Messages.OPENSOURCEPROJECTS,
 				handler	: function() {
 					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 					me.openSourceProjectsPanel = Ext.create('ARSnova.view.about.OpenSourceProjectsPanel');
-					me.setActiveItem(me.openSourceProjectsPanel, 'slide');
+					me.animateActiveItem(me.openSourceProjectsPanel, 'slide');
 				}
 			}]
 		});

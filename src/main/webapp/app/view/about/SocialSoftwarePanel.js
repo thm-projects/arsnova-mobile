@@ -39,7 +39,7 @@ Ext.define('ARSnova.view.about.SocialSoftwarePanel', {
 			handler	: function() {
 				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 				
-				me.setActiveItem(me.aboutPanel, {
+				me.animateActiveItem(me.aboutPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700

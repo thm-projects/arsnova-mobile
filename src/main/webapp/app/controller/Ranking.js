@@ -22,6 +22,6 @@ Ext.define("ARSnova.controller.Ranking", {
 	extend: 'Ext.app.Controller',
 
 	index: function(options){		
-		ARSnova.app.mainTabPanel.setActiveItem(new ARSnova.views.user.RankingPanel, 'slide');
+		ARSnova.app.mainTabPanel.animateActiveItem(new ARSnova.views.user.RankingPanel, 'slide');
     }
 });

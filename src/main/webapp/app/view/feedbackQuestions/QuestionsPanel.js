@@ -63,7 +63,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			ui		: 'back',
 			hidden	: true,
 			handler : function(){
-				ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel, {
+				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel, {
 		    		type		: 'slide',
 		    		direction	: 'right',
 		    		duration	: 700,

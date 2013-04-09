@@ -49,7 +49,7 @@ Ext.define('ARSnova.view.user.RankingPanel', {
 			scope	: this,
 			handler	: function() {
 				me = this;
-				ARSnova.app.mainTabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel, {
+				ARSnova.app.mainTabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700,

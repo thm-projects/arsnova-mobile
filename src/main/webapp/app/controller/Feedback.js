@@ -23,14 +23,14 @@ Ext.define("ARSnova.controller.Feedback", {
 
 	index: function(options){
 		var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
-		fP.setActiveItem(fP.votePanel, 'slide');
+		fP.animateActiveItem(fP.votePanel, 'slide');
     },
     
     vote: function(options){
     	if (!ARSnova.app.checkSessionLogin()){
     		Ext.Msg.alert('Hinweis', 'Bitte loggen Sie sich erst in einen Kurs ein, bevor Sie diese Funktion nutzen!');
     		var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
-    		fP.setActiveItem(fP.statisticPanel, {
+    		fP.animateActiveItem(fP.statisticPanel, {
     			type		: 'slide',
     			direction	: 'right'
     		});
@@ -74,7 +74,7 @@ Ext.define("ARSnova.controller.Feedback", {
 				
 				var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 				fP.statisticPanel.renewChartData();
-				fP.setActiveItem(fP.statisticPanel, {
+				fP.animateActiveItem(fP.statisticPanel, {
 					type		: 'slide',
 					direction	: 'up'
 				});

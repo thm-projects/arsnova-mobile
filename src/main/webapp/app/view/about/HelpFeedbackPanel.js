@@ -39,7 +39,7 @@ Ext.define('ARSnova.view.about.HelpFeedbackPanel', {
 			handler	: function() {
 				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 				
-				me.setActiveItem(me.helpMainPanel, {
+				me.animateActiveItem(me.helpMainPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700

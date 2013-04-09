@@ -45,7 +45,7 @@ Ext.define('ARSnova.model.Question', {
 	initialize: function() {
 		this.callParent(arguments);
 		
-		for (var i = 0; field = this.transientFields[i]; i++) {
+		for (var i = 0; field = this.config.transientFields[i]; i++) {
 			if (typeof this.get(field) !== "undefined") {
 				delete this[this.persistanceProperty][field];
 			}

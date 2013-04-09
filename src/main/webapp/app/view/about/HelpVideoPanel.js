@@ -71,7 +71,7 @@ Ext.define('ARSnova.view.about.HelpVideoPanel', {
 					me = ARSnova.app.mainTabPanel.tabPanel;
 				}
 				
-				me.setActiveItem(me.helpMainPanel, {
+				me.animateActiveItem(me.helpMainPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700

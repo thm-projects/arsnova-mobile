@@ -96,7 +96,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			handler	: function() {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				sTP.inClassPanel.updateAudienceQuestionBadge();
-				sTP.setActiveItem(sTP.inClassPanel, {
+				sTP.animateActiveItem(sTP.inClassPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700
@@ -200,12 +200,12 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	
 	newQuestionHandler: function(){
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-		sTP.setActiveItem(sTP.newQuestionPanel, 'slide');
+		sTP.animateActiveItem(sTP.newQuestionPanel, 'slide');
 	},
 	
 	showcaseHandler: function() {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-		sTP.setActiveItem(sTP.showcaseQuestionPanel, {
+		sTP.animateActiveItem(sTP.showcaseQuestionPanel, {
 			type		: 'slide',
 			direction	: 'up'
 		});

@@ -50,7 +50,7 @@ Ext.define("ARSnova.controller.Canteen", {
 				foodVote.save({
 					success: function() {
 						var cP = ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel;
-						cP.setActiveItem(cP.statisticPanel, {
+						cP.animateActiveItem(cP.statisticPanel, {
 				    		type		: 'slide',
 				    		direction	: 'up',
 				    		duration	: 700,
@@ -82,15 +82,15 @@ Ext.define("ARSnova.controller.Canteen", {
     },
     
     show: function(){
-		ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.canteenPanel, {
+		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.canteenPanel, {
 			type: 'slide'
 		});
     },
     
     showVotePanel: function(){
-    	ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.canteenPanel);
+    	ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.canteenPanel);
     	ARSnova.app.previousActiveItem = ARSnova.app.mainTabPanel.tabPanel;
-		ARSnova.app.mainTabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel, {
+		ARSnova.app.mainTabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel, {
 				type: 'slide',
 				direction: 'down',
 				duration: 700

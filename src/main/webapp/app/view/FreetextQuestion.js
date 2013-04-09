@@ -31,7 +31,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				button.scope = this;
 				button.handler = function() {
 					var p = new ARSnova.view.FreetextAnswerPanel(this.questionObj, this);
-					ARSnova.mainTabPanel.setActiveItem(p, 'slide');
+					ARSnova.mainTabPanel.animateActiveItem(p, 'slide');
 				};
 			}
 		},

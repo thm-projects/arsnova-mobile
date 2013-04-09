@@ -64,7 +64,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 			scope	: this,
 			handler	: function() {
 				taskManager.stop(this.renewChartDataTask);
-				ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.votePanel, {
+				ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.votePanel, {
 						type: 'slide',
 						direction: 'down',
 						duration: 700

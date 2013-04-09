@@ -39,7 +39,7 @@ Ext.define('ARSnova.view.about.AboutPanel', {
 			handler	: function() {
 				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 				
-				me.setActiveItem(me.infoPanel, {
+				me.animateActiveItem(me.infoPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700,
@@ -70,7 +70,7 @@ Ext.define('ARSnova.view.about.AboutPanel', {
 				handler	: function(){
 					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 					me.arsPanel = Ext.create('ARSnova.view.about.ARSPanel');
-					me.setActiveItem(me.arsPanel, 'slide');
+					me.animateActiveItem(me.arsPanel, 'slide');
 				}
 			}, {
 				text: Messages.PREZI_ABOUT_ARS,
@@ -87,21 +87,21 @@ Ext.define('ARSnova.view.about.AboutPanel', {
 				handler	: function() {
 					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 					me.socialSoftwarePanel = Ext.create('ARSnova.view.about.SocialSoftwarePanel');
-					me.setActiveItem(me.socialSoftwarePanel, 'slide');
+					me.animateActiveItem(me.socialSoftwarePanel, 'slide');
 				}
 			}, {
 				text	: Messages.OPERATIONAL_AID,
 				handler	: function() {
 					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 					me.helpMainPanel = Ext.create('ARSnova.view.about.HelpMainPanel');
-					me.setActiveItem(me.helpMainPanel, 'slide');
+					me.animateActiveItem(me.helpMainPanel, 'slide');
 				}
 			}/*, {
 				text	: Messages.ARS_IN_LECTURE,
 				handler	: function() {
 					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
 					me.ARSinLessonPanel = new ARSnova.view.about.ARSinLessonPanel();
-					me.setActiveItem(me.ARSinLessonPanel, 'slide');
+					me.animateActiveItem(me.ARSinLessonPanel, 'slide');
 				},
 			}*/]
 		});	

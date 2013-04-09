@@ -64,7 +64,7 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 			handler	: function() {
 				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 				
-				me.setActiveItem(me.infoPanel, {
+				me.animateActiveItem(me.infoPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700,

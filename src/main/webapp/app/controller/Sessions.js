@@ -102,7 +102,7 @@ Ext.define("ARSnova.controller.Sessions", {
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 		/* show home Panel */
 		tabPanel.homeTabPanel.tab.show();
-		tabPanel.setActiveItem(tabPanel.homeTabPanel, {
+		tabPanel.animateActiveItem(tabPanel.homeTabPanel, {
 			type: 'slide',
 			direction: 'right',
 			duration: 700
@@ -152,7 +152,7 @@ Ext.define("ARSnova.controller.Sessions", {
 					setTimeout("ARSnova.app.mainTabPanel.tabPanel.layout.layout();", 2000);
 					setTimeout("ARSnova.app.hideLoadMask();", 3000);
 				}
-				tabPanel.setActiveItem(tabPanel.speakerTabPanel, {
+				tabPanel.animateActiveItem(tabPanel.speakerTabPanel, {
 					type: 'slide',
 					duration: 700
 				});
@@ -189,7 +189,7 @@ Ext.define("ARSnova.controller.Sessions", {
 					setTimeout("ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.doComponentLayout()", 1000);
 					setTimeout("ARSnova.app.hideLoadMask();", 1500);
 				}
-//				tabPanel.setActiveItem(tabPanel.userTabPanel, {
+//				tabPanel.animateActiveItem(tabPanel.userTabPanel, {
 //					type: 'slide',
 //					duration: 700
 //				});
@@ -213,12 +213,12 @@ Ext.define("ARSnova.controller.Sessions", {
 				else
 					tabPanel.insert(4, questionsPanel);
 				
-			tabPanel.setActiveItem(tabPanel.feedbackTabPanel, {
+			tabPanel.animateActiveItem(tabPanel.feedbackTabPanel, {
 				type: 'slide',
 				duration: 700
 			});
 			
-			tabPanel.feedbackTabPanel.setActiveItem(tabPanel.feedbackTabPanel.votePanel, {
+			tabPanel.feedbackTabPanel.animateActiveItem(tabPanel.feedbackTabPanel.votePanel, {
 				type: 'slide',
 				duration: 700
 			});
@@ -246,7 +246,7 @@ Ext.define("ARSnova.controller.Sessions", {
 					el.removeCls("required");
 			});
 			validation.items.forEach(function(el){
-				panel.down('textfield[name=' + el.getField() + ']').addCls("required")
+				panel.down('textfield[name=' + el.getField() + ']').addCls("required");
 			});
 			return;
 		}
@@ -269,15 +269,13 @@ Ext.define("ARSnova.controller.Sessions", {
     	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.updateHomeTask);
     	    	
     	    	var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-    	    	panel.setActiveItem(panel.mySessionsPanel);
+    	    	panel.animateActiveItem(panel.mySessionsPanel);
     	    	
     	    	ARSnova.app.showLoadMask("Login");
 				ARSnova.app.getController('Sessions').reloadData();
 			},
 			failure: function(records, operation){
-				console.log(operation);
 				Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
-				Ext.Msg.doComponentLayout();
 			}
 		});
 	},

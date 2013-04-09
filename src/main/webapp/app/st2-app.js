@@ -253,7 +253,7 @@ Ext.application({
 		taskManager.start(ARSnova.app.loggedInTask);
 		//TODO: taskManager.start(ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.updateCanteenBadgeIconTask);
 		
-		ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.homeTabPanel, 'slide');
+		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.homeTabPanel, 'slide');
 		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 		switch (ARSnova.app.userRole) {
 			case ARSnova.app.USER_ROLE_STUDENT:

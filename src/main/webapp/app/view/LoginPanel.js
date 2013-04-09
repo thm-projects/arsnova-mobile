@@ -122,7 +122,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 				ARSnova.app.userRole = "";
 				ARSnova.app.setWindowTitle();
 				
-				ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
+				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
 					type: 'slide',
 					direction: 'right',
 					duration: 500
@@ -135,7 +135,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 		}, this.noGuestSpeaker]);
 		
 		this.on('activate', Ext.bind(function() {
-			if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER && !window.location.href.match(/developer\.html#?$/)) {
+			if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
 				this.guestLoginButton.hide('fade');
 				this.noGuestSpeaker.show('fade');
 			} else {

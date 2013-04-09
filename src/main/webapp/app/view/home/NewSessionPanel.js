@@ -72,7 +72,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			ui		: 'back',
 			handler	: function() {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				hTP.setActiveItem(hTP.mySessionsPanel, {
+				hTP.animateActiveItem(hTP.mySessionsPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700

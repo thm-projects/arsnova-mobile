@@ -91,7 +91,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				ARSnova.app.mainTabPanel.layout.activeItem.on('deactivate', function(){
 					this.destroy();					
 				}, this, {single:true});
-				ARSnova.app.mainTabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel, {
+				ARSnova.app.mainTabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700

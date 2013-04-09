@@ -40,7 +40,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			ui		: 'back',
 			hidden	: true,
 			handler	: function() {
-				ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
+				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
 		    		type		: 'slide',
 		    		direction	: 'right',
 		    		duration	: 700,
@@ -81,7 +81,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			hidden	: true,
 			handler	: function() {
 				var questionStatisticChart = new ARSnova.app.view.QuestionStatisticChart(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.layout.activeItem.questionObj, this);
-				ARSnova.app.mainTabPanel.setActiveItem(questionStatisticChart, 'slide');
+				ARSnova.app.mainTabPanel.animateActiveItem(questionStatisticChart, 'slide');
 			}
 		});
 		
@@ -276,7 +276,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			}
 			if(questionPanel.disabled) continue;
 			
-			this.setActiveItem(questionPanel, {
+			this.animateActiveItem(questionPanel, {
 				type: 'slide',
 				direction: animDirection
 			});

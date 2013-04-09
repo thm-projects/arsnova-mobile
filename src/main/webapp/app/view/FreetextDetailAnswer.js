@@ -39,7 +39,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 					ui		: 'back',
 					handler	: function() {
 						sTP.items.items.pop(); // Remove this panel from view stack
-						sTP.setActiveItem(
+						sTP.animateActiveItem(
 							sTP.items.items[sTP.items.items.length-1], // Switch back to top of view stack
 							{
 								type		: 'slide',
@@ -105,7 +105,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 								});
 								
 								sheet.destroy();
-								sTP.setActiveItem(sTP.questionDetailsPanel, {
+								sTP.animateActiveItem(sTP.questionDetailsPanel, {
 									type		: 'slide',
 									direction	: 'right',
 									duration	: 700,

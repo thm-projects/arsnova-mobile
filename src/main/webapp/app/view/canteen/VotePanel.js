@@ -41,7 +41,7 @@ Ext.define('ARSnova.view.canteen.VotePanel', {
 		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.CANTEEN,
 			handler : function(){
-				ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel, {
+				ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel, {
 		    		type		: 'slide',
 		    		direction	: 'up',
 		    		duration	: 700,
@@ -97,6 +97,6 @@ Ext.define('ARSnova.view.canteen.VotePanel', {
 			});
 		}
 		this.foodOptions = true;
-		this.doLayout();
+		//this.doLayout();
 	}
 });

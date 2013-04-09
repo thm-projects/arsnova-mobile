@@ -48,7 +48,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			ui		: 'back',
 			hidden	: true,
 			handler : function(){
-				ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
+				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
 		    		type		: 'slide',
 		    		direction	: 'right',
 		    		duration	: 700,
@@ -67,7 +67,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			hidden	: true,
 			handler	: function() {
 				var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
-				fP.setActiveItem(fP.votePanel, {
+				fP.animateActiveItem(fP.votePanel, {
 						type: 'slide',
 						direction: 'down',
 						duration: 700

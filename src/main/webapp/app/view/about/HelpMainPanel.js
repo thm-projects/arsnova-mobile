@@ -50,11 +50,11 @@ Ext.define('ARSnova.view.about.HelpMainPanel', {
 					standalone : standalone
 				});
 				tabPanel.on('activeitemchange', function() { videoPanel.tab.hide(); });
-				return tabPanel.setActiveItem(videoPanel, 'slide');
+				return tabPanel.animateActiveItem(videoPanel, 'slide');
 			}
 			var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 			me.helpVideoPanel = Ext.create('ARSnova.view.about.HelpVideoPanel', { videoid : videoid });
-			me.setActiveItem(me.helpVideoPanel, 'slide');
+			me.animateActiveItem(me.helpVideoPanel, 'slide');
 		};
 		
 		this.backButton = Ext.create('Ext.Button', {
@@ -63,7 +63,7 @@ Ext.define('ARSnova.view.about.HelpMainPanel', {
 			handler	: function() {
 				if (standalone) {
 					// our usual parent (infoTabPanel) is not active, go to rolePanel instead
-					return ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
+					return ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
 						type: 'slide',
 						direction: 'right',
 						duration: 500
@@ -72,7 +72,7 @@ Ext.define('ARSnova.view.about.HelpMainPanel', {
 				
 				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 				
-				me.setActiveItem(me.aboutPanel, {
+				me.animateActiveItem(me.aboutPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700,

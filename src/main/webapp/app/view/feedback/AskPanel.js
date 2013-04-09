@@ -149,7 +149,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 	
 	closePanel: function() {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
-		panel.setActiveItem(ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.votePanel, {
+		panel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.votePanel, {
 			type		: 'slide',
 			direction	: 'right',
 			duration	: 700

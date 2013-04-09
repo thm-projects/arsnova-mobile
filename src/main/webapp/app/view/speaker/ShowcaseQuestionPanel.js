@@ -54,7 +54,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			cls		: 'statisticIconSmall',
 			handler	: function() {
 				var questionStatisticChart = new ARSnova.app.view.QuestionStatisticChart(ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.layout.activeItem.questionObj, this);
-				ARSnova.app.mainTabPanel.setActiveItem(questionStatisticChart, 'slide');
+				ARSnova.app.mainTabPanel.animateActiveItem(questionStatisticChart, 'slide');
 			}
 		});
 		
@@ -64,7 +64,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			scope	: this,
 			handler	: function() {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-				sTP.setActiveItem(sTP.audienceQuestionPanel, {
+				sTP.animateActiveItem(sTP.audienceQuestionPanel, {
 					type		: 'slide',
 					direction	: 'down',
 					duration	: 700,

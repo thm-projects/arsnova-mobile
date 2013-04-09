@@ -23,7 +23,7 @@ Ext.define("ARSnova.controller.User", {
 
 	index: function(options){
 		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-		hTP.setActiveItem(hTP.mySessionsPanel, {
+		hTP.animateActiveItem(hTP.mySessionsPanel, {
 			type: 'slide'
 		});
 	}

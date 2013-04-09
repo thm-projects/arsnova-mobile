@@ -38,7 +38,7 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 			ui		: 'back',
 			hidden	: true,
 			handler	: function() {
-				ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.lastActivePanel, {
+				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.lastActivePanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700
@@ -74,21 +74,21 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 				handler	: function(){
 					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 					me.aboutPanel = Ext.create('ARSnova.view.about.AboutPanel');
-					me.setActiveItem(me.aboutPanel, 'slide');
+					me.animateActiveItem(me.aboutPanel, 'slide');
 				}
 			}, {
 				text	: Messages.HELPDESK,
 				handler	: function(){
 					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 					me.helpdeskPanel = Ext.create('ARSnova.view.about.HelpDeskPanel');
-					me.setActiveItem(me.helpdeskPanel, 'slide');
+					me.animateActiveItem(me.helpdeskPanel, 'slide');
 				}
 			}, {
 				text	: Messages.STATISTIC,
 				handler	: function() {
 					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 					me.statisticPanel = Ext.create('ARSnova.view.about.StatisticPanel');
-					me.setActiveItem(me.statisticPanel, 'slide');
+					me.animateActiveItem(me.statisticPanel, 'slide');
 				}
 			}, {
 				text: Messages.DEVELOPMENT,
@@ -105,14 +105,14 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 				handler: function(){
 					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 					me.creditsPanel = Ext.create('ARSnova.view.about.CreditsPanel');
-					me.setActiveItem(me.creditsPanel, 'slide');
+					me.animateActiveItem(me.creditsPanel, 'slide');
 				}
 			}, {
 				text: Messages.IMPRESSUM,
 				handler: function(){
 					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 					me.impressumPanel = Ext.create('ARSnova.view.about.ImpressumPanel');
-					me.setActiveItem(me.impressumPanel, 'slide');
+					me.animateActiveItem(me.impressumPanel, 'slide');
 				}
 			}]
 		},
