@@ -22,7 +22,9 @@ questionChartColors = ['url(#v1)', 'url(#v2)', 'url(#v3)', 'url(#v4)', 'url(#v5)
 
 Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	extend: 'Ext.Panel',
+	
 	config: {
+		fullscreen: true,
 		title	: Messages.STATISTIC,
 		iconCls	: 'tabBarIconCanteen',
 		layout	: 'fit'

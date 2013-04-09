@@ -19,6 +19,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	extend: 'Ext.Carousel',
 	
 	config: {
+		fullscreen: true,
 		title	: Messages.QUESTIONS,
 		iconCls	: 'tabBarIconQuestion',
 	},

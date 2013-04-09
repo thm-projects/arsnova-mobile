@@ -21,6 +21,10 @@
 Ext.define('ARSnova.view.user.RankingPanel', {
 	extend: 'Ext.Panel',
 	
+	config: {
+		fullscreen: true,
+	},
+	
 	myRanking 	 : null,
 	myRankingPos : 0,
 	betterCounter: 0,

@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		fullscreen: true,
 		title	: Messages.FEEDBACK,
 		iconCls	: 'feedbackMedium',
 		scroll  : 'vertical',

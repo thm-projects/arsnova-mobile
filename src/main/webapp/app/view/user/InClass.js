@@ -21,6 +21,10 @@
 Ext.define('ARSnova.view.user.InClass', {
 	extend: 'Ext.Panel',
 	
+	config: {
+		fullscreen: true,
+	},
+	
 	inClass			: null,
 	feedbackButton	: null,
 	questionsButton	: null,
