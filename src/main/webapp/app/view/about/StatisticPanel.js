@@ -23,6 +23,7 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 	
 	config: {
 		fullscreen: true,
+		scrollable: true,
 		title:	'StatisticPanel',
 		scroll: 'vertical',
 	},

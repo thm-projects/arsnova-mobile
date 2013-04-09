@@ -24,6 +24,7 @@ Ext.define('ARSnova.view.about.CreditsPanel', {
 	
 	config: {
 		fullscreen: true,
+		scrollable: true,
 		title: 		'CreditsPanel',
 		scroll: 	'vertical',
 	},
@@ -59,6 +60,7 @@ Ext.define('ARSnova.view.about.CreditsPanel', {
 		this.infoPanel = Ext.create('Ext.form.FormPanel', {
 			cls  : 'standardForm topPadding',
 			scrollable: null,
+			style	: { margin: '20px'},
 			
 			defaults: {
 				xtype		: 'button',

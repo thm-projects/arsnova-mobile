@@ -23,6 +23,7 @@ Ext.define('ARSnova.view.about.HelpCanteenPanel', {
 	
 	config: {
 		fullscreen: true,
+		scrollable: true,
 		title: 'HelpCanteenPanel',
 		scroll: 	'vertical',
 	},

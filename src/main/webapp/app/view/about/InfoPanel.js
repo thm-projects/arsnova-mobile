@@ -23,6 +23,7 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 	
 	config: {
 		fullscreen: true,
+		scrollable: true,
 		title	: Messages.INFO,
 		scroll: 'vertical'
 	},
@@ -63,6 +64,7 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 			xtype: 'formpanel',
 			cls  : 'standardForm topPadding',
 			scrollable : null,
+			style	: { margin: '20px'},
 			
 			defaults: {
 				xtype	: 'button',

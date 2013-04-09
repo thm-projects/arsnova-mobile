@@ -23,6 +23,7 @@ Ext.define('ARSnova.view.about.ARSinLessonPanel', {
 	
 	config: {
 		fullscreen: true,
+		scrollable: true,
 		title: 'ARSinLessonPanel',
 		scroll: 	'vertical',
 	},

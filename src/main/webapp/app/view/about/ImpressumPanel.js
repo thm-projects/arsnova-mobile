@@ -23,6 +23,7 @@ Ext.define('ARSnova.view.about.ImpressumPanel', {
 	
 	config: {
 		fullscreen: true,
+		scrollable: true,
 		title:		'ImpressumPanel',
 		scroll: 	'vertical',
 	},

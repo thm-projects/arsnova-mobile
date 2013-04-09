@@ -23,6 +23,7 @@ Ext.define('ARSnova.view.about.HelpMainPanel', {
 	
 	config: {
 		fullscreen: true,
+		scrollable: true,
 		title: 'HelpMainPanel',
 		scroll: 	'vertical',
 	},
@@ -91,6 +92,7 @@ Ext.define('ARSnova.view.about.HelpMainPanel', {
 		this.helpPanel = Ext.create('Ext.form.FormPanel', {
 			cls  : 'standardForm',
 			scrollable: null,
+			style	: { margin: '20px'},
 			
 			defaults: {
 				xtype	: 'button',

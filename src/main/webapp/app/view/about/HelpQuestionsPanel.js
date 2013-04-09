@@ -23,6 +23,7 @@ Ext.define('ARSnova.view.about.HelpQuestionsPanel', {
 	
 	config: {
 		fullscreen: true,
+		scrollable: true,
 		title:		'HelpQUestionsPanel',
 		scroll: 	'vertical',
 	},

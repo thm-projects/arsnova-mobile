@@ -23,6 +23,7 @@ Ext.define('ARSnova.view.about.SponsorsPanel', {
 	
 	config: {
 		fullscreen: true,
+		scrollable: true,
 		title:		'SponsorsPanel',
 		scroll: 	'vertical',
 	},
@@ -58,6 +59,7 @@ Ext.define('ARSnova.view.about.SponsorsPanel', {
 		this.infoPanel = Ext.create('Ext.form.FormPanel', {
 			cls  : 'standardForm topPadding',
 			scrollable: null,
+			style	: { margin: '20px'},
 			
 			defaults: {
 				xtype		: 'button',

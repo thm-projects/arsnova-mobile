@@ -23,6 +23,7 @@ Ext.define('ARSnova.view.about.HelpHomePanel', {
 	
 	config: {
 		fullscreen: true,
+		scrollable: true,
 		title:		'HelpHomePanel',
 		scroll: 	'vertical',
 	},
