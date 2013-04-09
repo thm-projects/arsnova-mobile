@@ -31,7 +31,7 @@ Ext.define('ARSnova.view.MainTabPanel', {
 		
 		this.tabPanel = Ext.create('ARSnova.view.TabPanel');
 
-		this.add(this.tabPanel);
+		this.add([this.tabPanel]);
 	},
 	
 	setActiveItem: function(card, animation) {

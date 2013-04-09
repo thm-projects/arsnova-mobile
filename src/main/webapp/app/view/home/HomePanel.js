@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
-		scroll			: 'vertical',
+		scroll	: 'vertical',
 	},
 	
 	inClassRendered	: false,

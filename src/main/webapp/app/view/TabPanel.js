@@ -74,7 +74,7 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.loginPanel		= Ext.create('ARSnova.view.LoginPanel');
 		this.rolePanel 		= Ext.create('ARSnova.view.RolePanel');
 		this.homeTabPanel 	= Ext.create('ARSnova.view.home.TabPanel');
-		//this.canteenTabPanel= Ext.create('ARSnova.view.canteen.TabPanel');
+		this.canteenTabPanel= Ext.create('ARSnova.view.canteen.TabPanel');
 		this.infoTabPanel 	= Ext.create('ARSnova.view.about.TabPanel');
 		this.helpMainPanel  = Ext.create('ARSnova.view.about.HelpMainPanel', { standalone : true});
 		
@@ -82,7 +82,7 @@ Ext.define('ARSnova.view.TabPanel', {
 			this.rolePanel,
 			this.loginPanel,
 			this.homeTabPanel,
-			//this.canteenTabPanel,
+			this.canteenTabPanel,
 			this.infoTabPanel,
 			this.helpMainPanel
 		]);
@@ -91,18 +91,18 @@ Ext.define('ARSnova.view.TabPanel', {
 			ARSnova.app.lastActivePanel = oldCard;
 			if(newCard === panel.homeTabPanel) {
 				panel.homeTabPanel.tab.show();
-				// panel.canteenTabPanel.tab.show();
+				panel.canteenTabPanel.tab.show();
 			} else if(newCard === panel.rolePanel || newCard === panel.loginPanel) {
 				panel.homeTabPanel.tab.hide();
-				// panel.canteenTabPanel.tab.hide();
+				panel.canteenTabPanel.tab.hide();
 			}
 		});
 		
-		this.on('painted', function(){
+		this.on('initialize', function(){
 			this.rolePanel.tab.hide();
 			this.loginPanel.tab.hide();
 			this.homeTabPanel.tab.hide();
-			//this.canteenTabPanel.tab.hide();
+			this.canteenTabPanel.tab.hide();
 			this.helpMainPanel.tab.hide();
 		});
 		this.on('activate', this.onActivate);

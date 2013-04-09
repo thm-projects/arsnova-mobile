@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
-		scroll		: 'vertical'
+		scroll	: 'vertical'
 	},
 	
 	sessionKey	: null,
