@@ -69,7 +69,7 @@ Ext.define('ARSnova.view.TabPanel', {
 	},
 	
 	initialize: function() {
-		this.callParent();
+		this.callParent(arguments);
 		
 		this.loginPanel		= Ext.create('ARSnova.view.LoginPanel');
 		this.rolePanel 		= Ext.create('ARSnova.view.RolePanel');
