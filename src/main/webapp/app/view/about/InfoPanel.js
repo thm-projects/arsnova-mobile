@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 	extend: 'Ext.Container',
 	
 	config: {
+		fullscreen: true,
 		title	: Messages.INFO,
 		scroll: 'vertical'
 	},

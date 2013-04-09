@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.about.HelpMainPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		fullscreen: true,
 		title: 'HelpMainPanel',
 		scroll: 	'vertical',
 	},

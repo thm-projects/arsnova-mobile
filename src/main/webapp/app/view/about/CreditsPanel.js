@@ -23,6 +23,7 @@ Ext.define('ARSnova.view.about.CreditsPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		fullscreen: true,
 		title: 		'CreditsPanel',
 		scroll: 	'vertical',
 	},

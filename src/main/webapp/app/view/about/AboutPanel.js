@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.about.AboutPanel', {
 	extend: 'Ext.Panel',
 
 	config: {
+		fullscreen: true,
 		title: 'AboutPanel',
 		scroll: 	'vertical',
 	},

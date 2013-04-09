@@ -20,6 +20,7 @@ Ext.define('ARSnova.view.about.HelpVideoPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		fullscreen: true,
 		title:		'HelpVideoPanel',
 		scroll: 	'vertical',
 		

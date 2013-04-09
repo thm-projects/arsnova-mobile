@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.about.OpenSourceProjectsPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		fullscreen: true,
 		title:		'OpenSourceProjectsPanel',
 		scroll: 	'vertical',
 	},
