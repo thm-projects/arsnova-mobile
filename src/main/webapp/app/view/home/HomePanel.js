@@ -19,7 +19,7 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.home.HomePanel', {
-	extend: 'Ext.Panel',
+	extend: 'Ext.Container',
 	
 	config: {
 		fullscreen: true,
@@ -76,7 +76,13 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		});
 		
 		this.sessionLoginForm = Ext.create('Ext.Panel', {
-			cls: 'beside',
+
+			layout : {
+			    type : 'vbox',
+			    pack : 'center',
+			    align: 'center'
+			},
+
 			items: [{
 				xtype	: 'panel',
 				cls		: 'topPadding',
@@ -88,12 +94,14 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				submitOnAction: false,
 				xtype: 'formpanel',
 				scrollable: null,
+				width: '50%',
+				minWidth: '280px',
+				margin: '0 auto',
+				
 				items: [{
-					xtype		: 'fieldset',
-					defaults	: {
-						labelWidth: '50%'
-					},
+					xtype : 'fieldset',
 					cls: 'bottomMargin',
+					
 					items: [{
 						xtype		: 'numericKeypad',
 						name		: 'keyword',
@@ -102,6 +110,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					}]
 				}, {
 					xtype	: 'button',
+					height	: '45px',
 					ui		: 'confirm',
 					text	: Messages.GO,
 					handler	: this.onSubmit

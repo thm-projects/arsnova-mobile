@@ -89,6 +89,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		
 		this.newSessionButtonForm = Ext.create('Ext.form.FormPanel', {
 			cls: 'topPadding standardForm',
+			style: { margin: '15px' },
 			scrollable: null,
 			
 			items: [{
@@ -114,7 +115,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
             this.sessionsForm
         ]);
 		
-		this.on('activate', function() {
+		this.on('painted', function() {
 			switch (ARSnova.app.userRole) {
 				case ARSnova.app.USER_ROLE_SPEAKER:
 					this.loadCreatedSessions();
@@ -129,7 +130,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			if (ARSnova.app.loginMode == ARSnova.app.LOGIN_THM) {
 				this.logoutButton.addCls('thm');
 			}
-		}, this, null, 'before');
+		});
 	},
 	
 	loadCreatedSessions: function() {
