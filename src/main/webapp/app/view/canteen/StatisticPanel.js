@@ -201,7 +201,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 		
 		this.add([this.toolbar, this.canteenChart]);
 	
-		this.on('activate', this.onActivate);
+		this.on('painted', this.onActivate);
 	},
 	
 	onActivate: function() {

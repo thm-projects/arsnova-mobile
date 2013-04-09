@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		fullscreen: true,
 		scroll	: 'vertical'
 	},
 	
@@ -58,7 +59,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			}
 		});
 		
-		this.mycourses.setScrollable(false);
+		this.mycourses.setScrollable(null);
 		
 		// check responseText
 		if(typeof arguments.responseText === 'undefined') {

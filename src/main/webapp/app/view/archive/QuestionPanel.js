@@ -20,6 +20,10 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.archive.QuestionPanel', {
 	extend: 'Ext.Carousel',
+	
+	config: {
+		fullscreen: true,
+	},
 
 	/* toolbar items */
 	toolbar		: null,

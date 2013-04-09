@@ -21,6 +21,10 @@
 Ext.define('ARSnova.view.archive.CoursePanel', {
 	extend: 'Ext.Panel',
 	
+	config: {
+		fullscreen: true,
+	},
+	
 	selectField: null,
 	
 	/* toolbar items */

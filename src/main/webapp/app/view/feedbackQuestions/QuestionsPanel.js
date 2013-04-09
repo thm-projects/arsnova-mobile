@@ -30,6 +30,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		fullscreen: true,
 		layout	: 'fit',
 	},
 	

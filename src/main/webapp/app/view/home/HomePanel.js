@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		fullscreen: true,
 		scroll	: 'vertical',
 	},
 	
@@ -118,18 +119,14 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			items: [this.lastVisitedSessionsFieldset]
 		});
 		
-		
 		this.add([
 		    this.toolbar,
             this.sessionLoginForm,
             this.lastVisitedSessionsForm
         ]);
 		
-		this.on('activate', function() {
+		this.on('painted', function(){
 			this.loadVisitedSessions();
-		}, this, null, 'before');
-		
-		this.on('activate', function(){
 			ARSnova.app.hideLoadMask();
 		});
 	},

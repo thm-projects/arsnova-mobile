@@ -24,6 +24,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		fullscreen: true,
 		layout: 'fit',
 	},
 	

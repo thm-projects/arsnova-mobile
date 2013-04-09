@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	extend: 'Ext.Panel',
 
 	config: {
+		fullscreen: true,
 		scroll: 'vertical',
 	},
 	

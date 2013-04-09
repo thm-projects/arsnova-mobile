@@ -87,9 +87,10 @@ Ext.define('ARSnova.view.canteen.VotePanel', {
 		
 		/* Get the store with the meals */
 		var meals = Ext.getStore("Food").data.items;
-		
+
 		for ( var i = 0; i < meals.length; i++) {
 			var el = meals[i];
+			console.log(el.data.name);
 			this.add({
 				text	: el.data.name,
 				value	: el.data.name,
@@ -97,6 +98,7 @@ Ext.define('ARSnova.view.canteen.VotePanel', {
 			});
 		}
 		this.foodOptions = true;
-		//this.doLayout();
+		console.log(this);
+		this.doLayout();
 	}
 });

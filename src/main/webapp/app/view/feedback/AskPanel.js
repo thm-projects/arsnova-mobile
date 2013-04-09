@@ -21,6 +21,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		fullscreen: true,
 		scroll: 'vertical'	
 	},
 	
