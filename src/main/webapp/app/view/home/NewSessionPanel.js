@@ -98,10 +98,12 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		
 		this.add([this.toolbar, {
 			title: 'createSession',
+			style: { margin: '15px' },
 			xtype: 'formpanel',
 			scrollable: null,
 			id: 'createSession',
 			submitOnAction: false,
+			
 			items: [{
 	            xtype: 'fieldset',
 	            instructions: Messages.SESSIONID_WILL_BE_CREATED,
