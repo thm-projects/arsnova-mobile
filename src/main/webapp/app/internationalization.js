@@ -411,7 +411,7 @@ switch (lang) {
 			ALL_SHORT: 'Alle',
 			ONLY_THM_SHORT: 'Nur THM',
 			ALL_LONG: 'Alle (auch Gäste)',
-			ONLY_THM_LONG: 'Nur THM Mitglieder',
+			ONLY_THM_LONG: 'Nur THM-Mitglieder',
 			RELEASE_FOR: 'Freigeben für:',
 			MY_COURSES: "Meine Kurse:",
 			NO_COURSES_FOUND: "Es konnten keine Kurse gesucht werden.",

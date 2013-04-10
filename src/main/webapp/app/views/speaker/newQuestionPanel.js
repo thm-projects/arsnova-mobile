@@ -79,15 +79,13 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 		
 		if(window.innerWidth < 600) {
 			this.releaseItems = [
-                 { text	: Messages.ALL_SHORT, id: 'all', pressed: true}, 
-                 { text	: Messages.ONLY_THM_SHORT, id: 'thm',},
-//                 { text	: "Kurse", id: 'courses', }
+                 { text	: Messages.ALL_SHORT, id: 'all', pressed: true},
+                 { text	: Messages.ONLY_THM_SHORT, id: 'thm',}
              ]
 		} else {
 			this.releaseItems = [
-                 { text	: Messages.ALL_LONG, id: 'all', pressed: true}, 
-                 { text	: Messages.ONLY_THM_LONG, id: 'thm' },
-//                 { text	: "Kurse", id: 'courses', }
+                 { text	: Messages.ALL_LONG, id: 'all', pressed: true},
+                 { text	: Messages.ONLY_THM_LONG, id: 'thm' }
              ]
 		}
 		
