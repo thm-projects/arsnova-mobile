@@ -110,13 +110,14 @@ Ext.define("ARSnova.controller.Questions", {
     
     details: function(options){
     	var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-    	sTP.questionDetailsPanel = new ARSnova.views.speaker.QuestionDetailsPanel(options.question);
+    	// TODO: arguments {(options.question)}
+    	sTP.questionDetailsPanel = Ext.create('ARSnova.view.speaker.QuestionDetailsPanel');
 		sTP.animateActiveItem(sTP.questionDetailsPanel, 'slide');
     },
 
 	freetextDetailAnswer: function(options) {
 		var parentPanel;
-		var isFromFreetextAnswerPanel = ARSnova.app.mainTabPanel.getActiveItem().constructor === ARSnova.views.FreetextAnswerPanel;
+		var isFromFreetextAnswerPanel = ARSnova.app.mainTabPanel.getActiveItem().constructor === ARSnova.view.FreetextAnswerPanel;
 		// This gets called either by the speaker or by a student
 		if (ARSnova.app.isSessionOwner && !isFromFreetextAnswerPanel) {
 			parentPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
@@ -125,7 +126,8 @@ Ext.define("ARSnova.controller.Questions", {
 			parentPanel = ARSnova.app.mainTabPanel;
 			options.answer.deletable = false;
 		}
-		parentPanel.animateActiveItem(new ARSnova.views.FreetextDetailAnswer(parentPanel, options.answer), 'slide');
+		// TODO: arguments { todo: parentPanel, todo: options.answer}
+		parentPanel.animateActiveItem(Ext.create('ARSnova.view.FreetextDetailAnswer'), 'slide');
 	},
     
     detailsFeedbackQuestion: function(options){
@@ -136,7 +138,8 @@ Ext.define("ARSnova.controller.Questions", {
     			question.set('formattedTime', options.formattedTime);
     			question.set('fullDate', options.fullDate);
     			
-				var newPanel = new ARSnova.views.feedbackQuestions.DetailsPanel(question.data);
+    			// TODO: arguments {(question.data)}
+				var newPanel = Ext.create('ARSnova.view.feedbackQuestions.DetailsPanel');
 		    	ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.animateActiveItem(newPanel, 'slide');
     		},
     		failure: function(records, operation){

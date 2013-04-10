@@ -22,7 +22,9 @@ Ext.define('ARSnova.view.user.InClass', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		title: 'InClass',
 		fullscreen: true,
+		scrollable: true,
 	},
 	
 	inClass			: null,
@@ -146,8 +148,9 @@ Ext.define('ARSnova.view.user.InClass', {
 		});
 		
 		this.inClass = {
-			xtype: 'form',
+			xtype: 'formpanel',
 			cls	 : 'standardForm topPadding',
+			scrollable: null,
 			
 			items: [{
 				cls: 'gravure',

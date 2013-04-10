@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.Caption', {
 	initialize: function() {
 		this.callParent(arguments);
 		
-		this.listButton = new ARSnova.view.MultiBadgeButton({
+		this.listButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			ui			: 'small',
 			text		: "",
 			cls			: 'forwardListButton caption',
@@ -30,13 +30,13 @@ Ext.define('ARSnova.view.Caption', {
 			badgeText	: []
 		});
 		
-		this.items = [].concat(window.innerWidth > 320 ? [{
+		this.add([].concat(window.innerWidth > 320 ? [{
 			cls: 'gravure',
 			style: {
 				fontSize: "0.6em"
 			},
 			html: Messages.LEGEND
-		}, this.listButton] : []);
+		}, this.listButton] : []));
 	},
 	
 	explainSessionStatus: function(sessions) {
