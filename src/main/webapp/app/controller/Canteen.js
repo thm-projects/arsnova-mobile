@@ -34,17 +34,19 @@ Ext.define("ARSnova.controller.Canteen", {
 				var responseObj = Ext.decode(response.responseText).rows;
 				if (responseObj.length == 0) {
 					//create
-					var foodVote = Ext.ModelMgr.create({
+					var foodVote = Ext.create('ARSnova.model.FoodVote', {
 						type : 'food_vote',
 						user : localStorage.getItem('login'), 
 						name : options.value,
 //						day	 : ARSnova.app.config.day,
 						day	 : ARSnova.app.CANTEEN_DAY
-					}, 'FoodVote');
+					});
+					foodVote.set('_id', undefined);
 				} else {
 					//update
-					var foodVote = Ext.ModelMgr.create(responseObj[0].value, "FoodVote");
+					var foodVote = Ext.create('ARSnova.model.FoodVote', responseObj[0].value);
 					foodVote.set('name', options.value);
+					foodVote.phantom = true;
 				}
 				
 				foodVote.save({

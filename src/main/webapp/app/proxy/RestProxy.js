@@ -38,16 +38,16 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	},
 	
 	create: function(operation, callback, scope) {
-		var callbackFn = operation.callback,
-	        successFn  = operation.success,
-	        failureFn  = operation.failure;
-		
-		callback = function(operation){			
+		var callbackFn = operation.getCallback(),
+	        successFn  = operation.config.success,
+	        failureFn  = operation.config.failure;
+
+		callback = function(operation){
             if (operation.wasSuccessful()) {
-            	record = Ext.decode(operation.response.responseText);
+            	record = Ext.decode(operation.getResponse().responseText);
             	this.set('_id', record.id);
             	this.set('_rev', record.rev);
-            	
+
 	            if (typeof successFn == 'function') {
 	                successFn.call(scope, record, operation);
 		        }
@@ -56,21 +56,20 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	                failureFn.call(scope, operation);
 	            }
 	        }
-	            
 	        if (typeof callbackFn == 'function') {
 	            callbackFn.call(scope, record, operation);
 	        } 
 		};
 		
 		request = this.buildRequest(operation, callback, scope);
-		
+
 		this.doRequest(operation, callback, scope, request);	                
 	},
 	
 	read: function(operation, callback, scope) {
-	 	var callbackFn = operation.callback,
-            successFn  = operation.success,
-            failureFn  = operation.failure;
+	 	var callbackFn = operation.getCallback(),
+            successFn  = operation.config.success,
+            failureFn  = operation.config.failure;
 		
 		callback = function(operation) {
 	        if (operation.wasSuccessful()) {
@@ -93,14 +92,14 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	},
 	
 	buildUrl: function(request) {
-        var records = request.operation.records || [],
+        var records = request.config.operation.config.records || [],
             record  = records[0],
             format  = this.format,
-            url     = request.url || this.url;
-        	id      = record ? record.getId() : request.operation.id; // FIX
+            url     = request.config.url || this.config.url;
+        	id      = record ? record.getId() : request.config.operation.id; // FIX
         
         
-        	if (this.appendId && id) { // FIX
+        	if (this.config.appendId && id) { // FIX
         		if (!url.match(/\/$/)) {
                 url += '/';
             }
@@ -229,7 +228,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 
 	getQuestionById: function(id, callbacks){
 		Ext.Ajax.request({
-			url: this.url + '/_design/skill_question/_view/by_id',
+			url: this.config.url + '/_design/skill_question/_view/by_id',
 			method: 'GET',
 			params: {
 				key: "\"" + id + "\""
@@ -432,7 +431,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
     
 //    delLoggedIn: function(callbacks){
 //    	Ext.Ajax.request({
-//    		url: this.url + '/_design/logged_in/_view/all',
+//    		url: this.config.url + '/_design/logged_in/_view/all',
 //    		method: 'GET',
 //    		
 //    		success: function(response){
@@ -450,7 +449,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
     
     getSkillQuestionsForDelete: function(sessionId, callbacks){
     	Ext.Ajax.request({
-    		url: this.url + '/_design/skill_question/_view/for_delete',
+    		url: this.config.url + '/_design/skill_question/_view/for_delete',
     		method: 'GET',
     		
     		params: {
@@ -472,7 +471,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
     
     getAnsweredSkillQuestions: function(sessionId, userLogin, callbacks){
     	Ext.Ajax.request({
-    		url: this.url + '/_design/answer/_view/unanswered',
+    		url: this.config.url + '/_design/answer/_view/unanswered',
     		method: 'GET',
     		params: {
     			key: "\"" + sessionId + "\""
@@ -522,7 +521,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	},
 	
     getSkillQuestionsOnlyId: function(sessionId, callbacks){
-    	var requestUrl = this.url;
+    	var requestUrl = this.config.url;
     	
     	switch(ARSnova.loginMode){
     		case ARSnova.LOGIN_GUEST:
@@ -632,7 +631,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
     	var time = new Date().getTime() - (timeLimit * 60 * 1000);
     	
     	Ext.Ajax.request({
-    		url: this.url + '/_design/understanding/_view/cleanup',
+    		url: this.config.url + '/_design/understanding/_view/cleanup',
     		method: 'GET',
     		params: {
     			startkey: "null",
@@ -659,7 +658,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
     
 //    cleanLoggedIn: function() {
 //    	Ext.Ajax.request({
-//    		url: this.url + '/_design/logged_in/_view/cleanup',
+//    		url: this.config.url + '/_design/logged_in/_view/cleanup',
 //    		method: 'GET',
 //
 //    		success: function(response){
@@ -682,7 +681,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
     
     removeEntry: function(id, rev, callbacks){
     	Ext.Ajax.request({
-    		url: this.url + '/' + id + '?rev=' + rev,
+    		url: this.config.url + '/' + id + '?rev=' + rev,
     		method: 'DELETE',
     		
     		success: callbacks.success,
@@ -736,7 +735,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
     
     getUserRanking: function(sessionId, userLogin, callbacks) {
     	Ext.Ajax.request({
-    		url: this.url + '/_design/user_ranking/_view/by_session_and_user',
+    		url: this.config.url + '/_design/user_ranking/_view/by_session_and_user',
     		method: 'GET',
     		params: {
     			key: "[\"" + sessionId + "\", \"" + userLogin + "\"]"
@@ -749,7 +748,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
     
     getUserRankingStatistic: function(sessionId, userLogin, callbacks) {
     	Ext.Ajax.request({
-    		url: this.url + '/_design/user_ranking/_view/count_by_session_and_user',
+    		url: this.config.url + '/_design/user_ranking/_view/count_by_session_and_user',
     		method: 'GET',
     		params: {
     			key: "[\"" + sessionId + "\", \"" + userLogin + "\"]"
@@ -762,7 +761,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
     
     getSessionRankingStatistic: function(sessionId, callbacks) {
     	Ext.Ajax.request({
-    		url: this.url + '/_design/user_ranking/_view/count_by_session',
+    		url: this.config.url + '/_design/user_ranking/_view/count_by_session',
     		method: 'GET',
     		params: {
     			key: "\"" + sessionId + "\""
@@ -775,7 +774,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
     
     getSessionIds: function(callbacks) {
     	Ext.Ajax.request({
-    		url: this.url + '/_design/session/_view/getIds',
+    		url: this.config.url + '/_design/session/_view/getIds',
     		method: 'GET',
 
     		success: callbacks.success,
@@ -785,7 +784,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 
     getSession: function(sessionId, callbacks) {
     	Ext.Ajax.request({
-    		url: this.url + '/_design/session/_view/by_id',
+    		url: this.config.url + '/_design/session/_view/by_id',
     		method: 'GET',
     		
     		params: {
@@ -816,7 +815,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
     
     getUserFoodVote: function(day, userLogin, callbacks) {
     	Ext.Ajax.request({
-    		url: this.url + '/_design/food_vote/_view/get_user_vote',
+    		url: this.config.url + '/_design/food_vote/_view/get_user_vote',
     		method: 'GET',
     		params: {
     			key: "[\"" + day + "\", \"" + userLogin + "\"]"
@@ -829,7 +828,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
     
     countFoodVote: function(day, callbacks) {
     	Ext.Ajax.request({
-    		url: this.url + '/_design/food_vote/_view/count_by_day?group=false',
+    		url: this.config.url + '/_design/food_vote/_view/count_by_day?group=false',
     		method: 'GET',
     		params: {
     			startkey: "[\"" + day + "\"]",
@@ -843,7 +842,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
     
     countFoodVoteGrouped: function(day, callbacks) {
     	Ext.Ajax.request({
-    		url: this.url + '/_design/food_vote/_view/count_by_day?group=true',
+    		url: this.config.url + '/_design/food_vote/_view/count_by_day?group=true',
     		method: 'GET',
     		params: {
     			startkey: "[\"" + day + "\"]",
@@ -888,7 +887,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	    countActiveUsers: function(callbacks) {
 	    	var ts = new Date().getTime() - (3 * 60 * 1000);
 	    	Ext.Ajax.request({
-	    		url: this.url + '/_design/statistic/_view/count_active_users',
+	    		url: this.config.url + '/_design/statistic/_view/count_active_users',
 	    		method: 'GET',
 	    		params: {
 	    			startkey: ts
@@ -902,7 +901,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	    countActiveUsersWithSessionId: function(callbacks) {
 	    	var ts = new Date().getTime() - (3 * 60 * 1000);
 	    	Ext.Ajax.request({
-	    		url: this.url + '/_design/statistic/_view/count_active_users_with_session?reduce=false',
+	    		url: this.config.url + '/_design/statistic/_view/count_active_users_with_session?reduce=false',
 	    		method: 'GET',
 	    		params: {
 	    			startkey: ts
@@ -916,7 +915,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	    countActiveSessions: function(callbacks) {
 	    	var ts = new Date().getTime() - (3 * 60 * 1000);
 	    	Ext.Ajax.request({
-	    		url: this.url + '/_design/statistic/_view/count_active_sessions?reduce=false',
+	    		url: this.config.url + '/_design/statistic/_view/count_active_sessions?reduce=false',
 	    		method: 'GET',
 	    		params: {
 	    			startkey: ts
@@ -950,7 +949,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
     
     releasedByCourseId: function(courseId, callbacks){
     	Ext.Ajax.request({
-    		url: this.url + '/_design/skill_question/_view/released_by_course_id',
+    		url: this.config.url + '/_design/skill_question/_view/released_by_course_id',
     		method: 'GET',
     		params: {
     			key: "\"" + courseId + "\""

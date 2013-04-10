@@ -215,7 +215,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 				var responseObj = Ext.decode(response.responseText).rows;
 				var panel = ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel;
 				var chart = panel.canteenChart;
-				var store = chart.store;
+				var store = chart.getStore();
 				
 				var maxValue = 10;
 				var tmp = [];
@@ -253,7 +253,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 				
 				ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.tab.setBadge(sum);
 				
-				chart.axes.items[0].maximum = maxValue;
+				chart.getAxes().items[0].maximum = maxValue;
 				
 				// renew the chart-data
 				chart.redraw();
