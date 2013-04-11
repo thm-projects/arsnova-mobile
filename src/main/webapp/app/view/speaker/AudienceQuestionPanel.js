@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	extend: 'Ext.Panel',
 
 	config: {
+		title: 'AudienceQuestionPanel',
 		fullscreen: true,
 		scroll: 'vertical',
 	},

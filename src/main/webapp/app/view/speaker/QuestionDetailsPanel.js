@@ -320,7 +320,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 										panel.freetextAnswerStore.removeAll();
 									} else {
 										panel.answerFormFieldset.items.each(function(button){
-											button.setBadge("0");
+											button.setBadgeText("0");
 										});
 									}
 								},
@@ -362,12 +362,16 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								type		: 'slide',
 								direction	: 'right',
 								duration	: 700,
-								before: function(){
-									taskManager.stop(me.renewAnswerDataTask);
-								},
-								after: function(){
-									me.destroy();
-								}
+					    		listeners: { 
+					    			animationstart: function() { 
+					    				taskManager.stop(me.renewAnswerDataTask);
+					    			},
+					    			
+					    			animationend: function() { 
+					    				me.destroy();
+					    			}, 
+					    			scope: this
+					    		}
 							});
 						}
 					});
@@ -704,7 +708,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						
 						for (var i = 0, el; el = answers[i]; i++) {
 							var field = "button[text=" + el.answerText + "]";
-							panel.answerFormFieldset.down(field).setBadge(el.answerCount);
+							panel.answerFormFieldset.down(field).setBadgeText(el.answerCount);
 							
 							var idx = tmp_possibleAnswers.indexOf(el.answerText); // Find the index
 							if(idx!=-1) tmp_possibleAnswers.splice(idx, 1); // Remove it if really found!
@@ -715,7 +719,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							
 							var field = "button[text=" + el + "]";
 							console.log(field);
-							panel.answerFormFieldset.down(field).setBadge(0);
+							panel.answerFormFieldset.down(field).setBadgeText(0);
 						}
 						
 					},

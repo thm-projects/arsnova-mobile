@@ -196,6 +196,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		
 		this.inClassActions = Ext.create('Ext.form.FormPanel', {
 			cls	 : 'actionsForm',
+			scrollable: null,
 				
 			items: [
 			    this.createAdHocQuestionButton,
@@ -209,7 +210,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		
 		this.on('destroy', this.destroyListeners);
 		
-		this.on('activate', function(){
+		this.on('painted', function(){
 			this.updateBadges();
 		});
 	},
@@ -233,6 +234,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	},
 	
 	updateBadges: function(){
+		console.log(ARSnova.app);
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 		panel.updateAudienceQuestionBadge();
 	},
@@ -252,7 +254,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 						var audienceQuestionButton = panel.audienceQuestionButton;
 						
-						audienceQuestionButton.setBadge(numQuestions);
+						audienceQuestionButton.setBadgeText(numQuestions);
 						var setAdditionalBadge = function() {
 							if (!audienceQuestionButton.doubleBadge && numAnswers) {
 								audienceQuestionButton.doubleBadge = audienceQuestionButton.el.createChild({
@@ -311,8 +313,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			success: function(response){
 				var questionCount = Ext.decode(response.responseText);
 				
-				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadge(questionCount.unread);
-				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge(questionCount.total);
+				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadgeText(questionCount.unread);
+				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadgeText(questionCount.total);
 			}, 
 			failure: function(){
 				console.log('server-side error');

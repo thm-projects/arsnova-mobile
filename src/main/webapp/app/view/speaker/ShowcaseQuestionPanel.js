@@ -31,7 +31,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	questionCounter: 0,
 	
 	initialize: function(){
-		this.callParent(agruments);
+		this.callParent(arguments);
 		
 		this.listeners = {
 			cardswitch: function(panel, newCard, oldCard, index, animated){
@@ -70,9 +70,9 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 					direction	: 'down',
 					duration	: 700,
 					scope		: this,
-					after: function() {
+		    		listeners: { animationend: function() { 
 						this.hide();
-					}
+		    		}, scope: this }
 				});
 			}
 		});

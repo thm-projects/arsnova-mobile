@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		title: 'NewQuestionPanel',
 		fullscreen: true,
 		scroll: 'vertical',
 	},
@@ -70,6 +71,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		
 		this.mainPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
+			scrollable: null,
 			items: [{
 				xtype: 'fieldset',
 				items: [{
@@ -99,6 +101,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		}
 		
 		this.releasePart = Ext.create('Ext.form.FormPanel', {
+			scrollable: null,
 			items: [{
 				xtype: 'fieldset',
 				title: Messages.RELEASE_FOR,
@@ -180,6 +183,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.yesNoQuestion = Ext.create('Ext.form.FormPanel', {
 			id: 'yesno',
 			hidden: true,
+			scrollable: null,
 			submitOnAction: false,
 			items: [{
 				xtype: 'fieldset',
@@ -198,6 +202,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.multipleChoiceQuestion = Ext.create('Ext.form.FormPanel', {
 			id: 'mc',
 			hidden: true,
+			scrollable: null,
 			submitOnAction: false,
 			items: [{
             	xtype: 'fieldset',
@@ -280,6 +285,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.voteQuestion = Ext.create('Ext.form.FormPanel', {
 			id: 'vote',
 			hidden: false,
+			scrollable: null,
 			submitOnAction: false,
 			items: [{
             	xtype: 'fieldset',
@@ -317,6 +323,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.schoolQuestion = Ext.create('Ext.form.FormPanel', {
 			id: 'school',
 			hidden: true,
+			scrollable: null,
 			submitOnAction: false,
 			items: [{
             	xtype: 'fieldset',
@@ -359,6 +366,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.abcdQuestion = Ext.create('Ext.form.FormPanel', {
 			id: 'abcd',
 			hidden: true,
+			scrollable: null,
 			submitOnAction: false,
 			items: [
 				{
@@ -416,6 +424,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.freetextQuestion = Ext.create('Ext.form.FormPanel', {
 			id: 'freetext',
 			hidden: true,
+			scrollable: null,
 			submitOnAction: false,
 			items: [],
 		});
@@ -477,6 +486,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		});
 		
 		this.saveButton = Ext.create('Ext.form.FormPanel', {
+			scrollable: null,
 			items: [{
 				xtype: 'fieldset',
 				items: [{
@@ -488,7 +498,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			}],
 		});
 		
-		this.items = [this.toolbar,
+		this.add([this.toolbar,
             Ext.create('Ext.Toolbar', {
   	            ui: 'light',
   	            docked: 'top',
@@ -509,7 +519,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
             
             this.releasePart,
             this.saveButton,
-        ];
+        ]);
 		
 		this.on('activate', this.onActivate);
 	},
