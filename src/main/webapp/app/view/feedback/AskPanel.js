@@ -21,6 +21,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		title: 'AskPanel',
 		fullscreen: true,
 		scroll: 'vertical'	
 	},
@@ -72,8 +73,10 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			cls: 'gravure',
 			html: Messages.QUESTION_INSTRUCTION
 		}, {
-			xtype: 'form',
+			xtype: 'formpanel',
 			submitOnAction: false,
+			scrollable: null,
+			
 			items: [{
 				xtype: 'fieldset',
 				items: [this.subject, this.text]

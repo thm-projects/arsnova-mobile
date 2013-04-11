@@ -24,6 +24,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		title: 'StatisticPanel',
 		fullscreen: true,
 		layout: 'fit',
 	},
@@ -211,7 +212,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			success: function(response){
 				var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel;
 				var chart = panel.feedbackChart;
-				var store = chart.store;
+				var store = chart.getStore();
 				
 				var values = Ext.decode(response.responseText).values;
 				/* Swap values for "can follow" and "faster, please" feedback
@@ -233,7 +234,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				store.each(function(record) {
 					record.data.percent = sum > 0 ? (record.data.value / sum) : 0.0;
 				});
-				chart.axes.items[0].maximum = maximum;
+				chart.getAxes().items[0].maximum = maximum;
 				chart.redraw();
 				
 				//update feedback-badge in tab bar 

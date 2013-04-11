@@ -47,7 +47,7 @@ Ext.define('ARSnova.view.feedback.TabPanel', {
 			ARSnova.app.hideLoadMask();
 			this.statisticPanel.checkVoteButton();
 			this.statisticPanel.checkTitle();
-			taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.updateFeedbackTask);
+			taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateFeedbackTask);
 			taskManager.start(ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.renewChartDataTask);
 			
 			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER && this.getActiveItem() == this.votePanel) {
@@ -57,7 +57,7 @@ Ext.define('ARSnova.view.feedback.TabPanel', {
 		
 		this.on('deactivate', function(){
 			taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.renewChartDataTask);
-			taskManager.start(ARSnova.app.mainTabPanel.tabPanel.updateFeedbackTask);
+			taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateFeedbackTask);
 		});
 	},
 	
