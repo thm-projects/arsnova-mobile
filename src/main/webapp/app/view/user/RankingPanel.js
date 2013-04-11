@@ -57,9 +57,9 @@ Ext.define('ARSnova.view.user.RankingPanel', {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700,
-					after: function() {
+		    		listeners: { animationend: function() {
 						me.destroy();
-					}
+		    		}, scope: this }
 				});
 			}
 		});

@@ -196,8 +196,8 @@ Ext.define('ARSnova.view.user.InClass', {
 	checkNewSkillQuestions: function(){
 		ARSnova.app.questionModel.getUnansweredSkillQuestions(localStorage.getItem("keyword"), {
 			success: function(newQuestions){
-				ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.questionButton.setBadge(newQuestions.length);
-				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.tab.setBadge(newQuestions.length);
+				ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.questionButton.setBadgeText(newQuestions.length);
+				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.tab.setBadgeText(newQuestions.length);
 				
 				if (newQuestions.length > 0) {
 					var showNotification = false;
@@ -267,7 +267,7 @@ Ext.define('ARSnova.view.user.InClass', {
 					feedbackButton.badgeEl ? feedbackButton.badgeEl.remove() : '';
 					feedbackButton.badgeEl = null;
 					feedbackButton.badgeCls = "badgeicon feedbackARSnova";
-					feedbackButton.setBadge(".");
+					feedbackButton.setBadgeText(".");
 				},
 				success: function() {},
 				failure: function(){

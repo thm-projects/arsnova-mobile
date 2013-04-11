@@ -46,9 +46,9 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		    		direction	: 'right',
 		    		duration	: 700,
 		    		scope		: this,
-		    		after: function() {
-		    			this.hide();
-		    		}
+		    		listeners: { animationend: function() { 
+						this.hide();
+		    		}, scope: this }
 		    	});
 			}
 		});
