@@ -25,19 +25,18 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 		multiBadges: [],
 	},
 	
-	
 	/**
 	 * Creates a badge overlay on the button for displaying notifications. (with code borrowed from Ext.Button)
 	 * @param {Array} badges The array of badge configurations. If you pass null or undefined the badges will be removed.
 	 * Objects inside this array need the following parameter: "badgeText"; "badgeCls" is optional and defaults to
 	 * this objects badgeCls.
-	 * @return {ARSnova.view.MultiBadgeButton} this
+	 * @return {ARSnova.app.view.MultiBadgeButton} this
 	 */
 	setBadge: function(badges) {
 		var me = this;
 		
 		if (badges && !Ext.isArray(badges)) {
-			return ARSnova.view.MultiBadgeButton.superclass.setBadge.call(this, badges);
+			return ARSnova.app.view.MultiBadgeButton.superclass.setBadge.call(this, badges);
 		}
 		me.badgeText = badges;
 		

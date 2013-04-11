@@ -23,17 +23,17 @@ Ext.define('ARSnova.view.Question', {
 	
 	config: {
 		scroll: 'vertical',
-		questionObj: null,
-		
-		viewOnly: false,
 	},
+	
+	questionObj: null,
+	viewOnly: false,
 	
 	initialize: function(questionObj, viewOnly) {
 		this.callParent(arguments);
 		
 		var self = this; // for use inside callbacks
 		
-		var answerStore = new Ext.data.Store({model: 'Answer'});
+		var answerStore = Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
 		this.questionObj = questionObj;
 		this.viewOnly = typeof viewOnly === "undefined" ? false : viewOnly;
 		
@@ -82,7 +82,7 @@ Ext.define('ARSnova.view.Question', {
 										localStorage.setItem('questionIds', Ext.encode(questionsArr));
 										
 										list.up("panel").disable();
-										new Ext.Panel({
+										Ext.create('Ext.Panel', {
 											cls: 'notificationBox',
 											name: 'notificationBox',
 											showAnimation: 'pop',
@@ -101,7 +101,7 @@ Ext.define('ARSnova.view.Question', {
 														var cmp = Ext.ComponentQuery.query('panel[name=notificationBox]');
 														if(cmp.length > 0)
 															cmp[0].hide();
-														ARSnova.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
+														ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
 													};
 													setTimeout("delayedFn()", 2000);
 												}
@@ -116,15 +116,15 @@ Ext.define('ARSnova.view.Question', {
 								});
 							};
 							
-							ARSnova.answerModel.getUserAnswer(questionObj._id, {
+							ARSnova.app.answerModel.getUserAnswer(questionObj._id, {
 								empty: function() {
-									var answer = Ext.ModelMgr.create({
+									var answer = Ext.create('ARSnova.model.Answer', {
 										type	 	: "skill_question_answer",
 										sessionId	: localStorage.getItem("sessionId"),
 										questionId	: questionObj._id,
 										answerText	: answerObj.data.text,
 										user		: localStorage.getItem("login")
-									}, 'Answer');
+									});
 									
 									saveAnswer(answer);
 								},
@@ -132,7 +132,7 @@ Ext.define('ARSnova.view.Question', {
 									var theAnswer = Ext.decode(response.responseText);
 									
 									//update
-									var answer = Ext.ModelMgr.create(theAnswer, "Answer");
+									var answer = Ext.create('ARSnova.model.Answer', theAnswer);
 									answer.set('answerText', answerObj.data.text);
 									
 									saveAnswer(answer);
@@ -146,17 +146,16 @@ Ext.define('ARSnova.view.Question', {
 						}
 					}
 				);
-				Ext.Msg.doComponentLayout();
 			}
 		};
 		
-		this.questionTitle = new Ext.Component({
+		this.questionTitle = Ext.create('Ext.Component', {
 			cls: 'roundedBox',
 			html: 
 				'<p class="title">' + questionObj.subject + '<p/>' +
 				'<p>' + questionObj.text + '</p>'
 		});
-		this.answerList = new Ext.List({
+		this.answerList = Ext.create('Ext.List', {
 			store	: answerStore,
 			
 			cls: 'roundedBox',
@@ -166,20 +165,8 @@ Ext.define('ARSnova.view.Question', {
 			listeners: questionListener
 		});
 		
-		this.items = [this.questionTitle, this.answerList];
-	},
-	
-	listeners: {
-		preparestatisticsbutton: function(button) {
-			button.scope = this;
-			button.handler = function() {
-				var questionStatisticChart = new ARSnova.view.QuestionStatisticChart(this.questionObj, this);
-				ARSnova.mainTabPanel.animateActiveItem(questionStatisticChart, 'slide');
-			};
-		}
-	},
-	
-	initialize: function(){
+		this.add([this.questionTitle, this.answerList]);
+		
 		this.on('activate', function(){
 			/*
 			 * Bugfix, because panel is normally disabled (isDisabled == true),
@@ -187,17 +174,26 @@ Ext.define('ARSnova.view.Question', {
 			 */
 			if(this.isDisabled()) this.disable();
 		});
-		
-		ARSnova.view.Question.superclass.initialize.call(this);
+	},
+	
+	listeners: {
+		preparestatisticsbutton: function(button) {
+			button.scope = this;
+			button.handler = function() {
+				//TODO: arguments {this.questionObj, this}
+				var questionStatisticChart = Ext.create('ARSnova.view.QuestionStatisticChart');
+				ARSnova.app.mainTabPanel.animateActiveItem(questionStatisticChart, 'slide');
+			};
+		}
 	},
 	
 	decrementQuestionBadges: function() {
 		// Update badge inside the tab panel at the bottom of the screen
-		var tab = ARSnova.mainTabPanel.tabPanel.userQuestionsPanel.tab;
-		tab.setBadge(tab.badgeText - 1);
+		var tab = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.tab;
+		tab.setBadgeText(tab.badgeText - 1);
 		// Update badge on the user's home view
-		var button = ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel.questionButton;
-		button.setBadge(button.badgeText - 1);
+		var button = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.questionButton;
+		button.setBadgeText(button.badgeText - 1);
 	},
 	
 	doTypeset: function(parent) {

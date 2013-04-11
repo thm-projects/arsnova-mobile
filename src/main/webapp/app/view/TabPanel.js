@@ -33,14 +33,6 @@ Ext.define('ARSnova.view.TabPanel', {
 		
 		tabBarPosition: 'bottom',
 		
-		/* items */
-		settingsPanel 	: null,
-		canteenTabPanel : null,
-		
-		/* panels will be created in  sessions/reloadData */
-		userQuizPanel	  	: null,
-		feedbackTabPanel	: null,
-		
 		/**
 		 * task for everyone in a session
 		 * count every 15 seconds the session feedback and adapt the icon
@@ -67,6 +59,14 @@ Ext.define('ARSnova.view.TabPanel', {
 			interval: 15000 // 15 seconds
 		}
 	},
+	
+	/* items */
+	settingsPanel 	: null,
+	canteenTabPanel : null,
+	
+	/* panels will be created in  sessions/reloadData */
+	userQuizPanel	  	: null,
+	feedbackTabPanel	: null,
 	
 	initialize: function() {
 		this.callParent(arguments);
@@ -129,7 +129,7 @@ Ext.define('ARSnova.view.TabPanel', {
 	},
 	
 	onActivate: function(){
-		if (Ext.app.Application.appInstance.checkSessionLogin()) {
+		if (ARSnova.app.checkSessionLogin()) {
 			/* only start task if user/speaker is not(!) on feedbackTabPanel/statisticPanel (feedback chart)
 			 * because there is a own function which will check for new feedbacks and update the tab bar icon */
 			if(ARSnova.app.mainTabPanel.tabPanel.layout.activeItem != ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel) {
@@ -140,7 +140,7 @@ Ext.define('ARSnova.view.TabPanel', {
 	},
 
 	onDeactivate: function(){
-		if(Ext.app.Application.appInstance.checkSessionLogin()){
+		if(ARSnova.app.checkSessionLogin()){
 			if(ARSnova.app.mainTabPanel.tabPanel.layout.activeItem != ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel) {
 				taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.updateFeedbackTask);
 			}
@@ -185,7 +185,7 @@ Ext.define('ARSnova.view.TabPanel', {
 			success: function(response){
 				var value = parseInt(Ext.decode(response.responseText));
 				if (value > 0) {
-					ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab.setBadge(value);
+					ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab.setBadgeText(value);
 				}
 			},
 			failure: function(){
@@ -202,8 +202,8 @@ Ext.define('ARSnova.view.TabPanel', {
 				
 				var value = parseInt(response.responseText);
 				if (value > 0) {
-					speaker && speaker.tab.setBadge(value-1); // Do not count the speaker itself
-					student && student.tab.setBadge(value); // Students will see all online users
+					speaker && speaker.tab.setBadgeText(value-1); // Do not count the speaker itself
+					student && student.tab.setBadgeText(value); // Students will see all online users
 				}
 			},
 			failure: function(){

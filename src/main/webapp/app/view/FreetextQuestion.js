@@ -30,27 +30,28 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			preparestatisticsbutton: function(button) {
 				button.scope = this;
 				button.handler = function() {
-					var p = new ARSnova.view.FreetextAnswerPanel(this.questionObj, this);
-					ARSnova.mainTabPanel.animateActiveItem(p, 'slide');
+					// TODO: arguments {this.questionObj, this}
+					var p = Ext.create('ARSnova.view.FreetextAnswerPanel');
+					ARSnova.app.mainTabPanel.animateActiveItem(p, 'slide');
 				};
 			}
 		},
 	},
 	
 	initialize: function(questionObj, viewOnly) {
-		this.callParent();
+		this.callParent(arguments);
 		
 		this.questionObj = questionObj;
 		this.viewOnly = typeof viewOnly === "undefined" ? false : viewOnly;
 		
-		this.answerSubject = new Ext.form.Text({
+		this.answerSubject = Ext.create('Ext.form.Text', {
 			name: "answerSubject",
 			placeHolder: Messages.QUESTION_SUBJECT_PLACEHOLDER,
 			label: Messages.QUESTION_SUBJECT,
 			maxLength: 140
 		});
 		
-		this.answerText = new Ext.form.TextArea({
+		this.answerText = Ext.create('Ext.form.TextArea', {
 			placeHolder	: Messages.QUESTION_TEXT_PLACEHOLDER,
 			label: Messages.FREETEXT_ANSWER_TEXT,
 			name: 'text',
@@ -58,14 +59,15 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			maxRows: 7
 		});
 
-		this.questionTitle = new Ext.Component({
+		this.questionTitle = Ext.create('Ext.Component', {
 			cls: 'roundedBox',
 			html: '<p class="title">' + questionObj.subject + '<p/>' + '<p>' + questionObj.text + '</p>'
 		});
 		
-		this.items = [new Ext.Panel({
+		this.add([Ext.create('Ext.Panel', {
 			items: [this.questionTitle, this.viewOnly ? {} : {
-					xtype: 'form',
+					xtype: 'formpanel',
+					scrollable: null,
 					submitOnAction: false,
 					items: [{
 						xtype: 'fieldset',
@@ -80,10 +82,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					}]
 				}
 			]
-		})];
-	},
-	
-	initComponent: function(){
+		})]);
+		
 		this.on('activate', function(){
 			/*
 			 * Bugfix, because panel is normally disabled (isDisabled == true),
@@ -91,8 +91,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			 */
 			if(this.isDisabled()) this.disable();
 		});
-		
-		ARSnova.view.FreetextQuestion.superclass.initComponent.call(this);
 	},
 	
 	saveHandler: function(button, event) {
@@ -127,7 +125,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 					self.decrementQuestionBadges();
 					self.disable();
-					new Ext.Panel({
+					Ext.create('Ext.Panel', {
 						cls: 'notificationBox',
 						name: 'notificationBox',
 						showAnimation: 'pop',
@@ -146,7 +144,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 									var cmp = Ext.ComponentQuery.query('panel[name=notificationBox]');
 									if(cmp.length > 0)
 										cmp[0].hide();
-									ARSnova.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
+									ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
 								};
 								setTimeout("delayedFn()", 2000);
 							}
@@ -161,9 +159,9 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			});
 		};
 		
-		ARSnova.answerModel.getUserAnswer(this.questionObj._id, {
+		ARSnova.app.answerModel.getUserAnswer(this.questionObj._id, {
 			empty: function() {
-				var answer = Ext.ModelMgr.create({
+				var answer = Ext.create('ARSnova.model.Answer', {
 					type	 		: "skill_question_answer",
 					sessionId		: localStorage.getItem("sessionId"),
 					questionId		: self.questionObj._id,
@@ -171,14 +169,14 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					answerText		: self.answerText.getValue(),
 					timestamp		: Date.now(),
 					user			: localStorage.getItem("login")
-				}, 'Answer');
+				});
 				
 				saveAnswer(answer);
 			},
 			success: function(response) {
 				var theAnswer = Ext.decode(response.responseText);
 				
-				var answer = Ext.ModelMgr.create(theAnswer, "Answer");
+				var answer = Ext.create('ARSnova.model.Answer', theAnswer);
 				answer.set('answerSubject', self.answerSubject.getValue());
 				answer.set('answerText', self.answerText.getValue());
 				answer.set('timestamp', Date.now());
@@ -193,11 +191,11 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	
 	decrementQuestionBadges: function() {
 		// Update badge inside the tab panel at the bottom of the screen
-		var tab = ARSnova.mainTabPanel.tabPanel.userQuestionsPanel.tab;
-		tab.setBadge(tab.badgeText - 1);
+		var tab = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.tab;
+		tab.setBadgeText(tab.badgeText - 1);
 		// Update badge on the user's home view
-		var button = ARSnova.mainTabPanel.tabPanel.userTabPanel.inClassPanel.questionButton;
-		button.setBadge(button.badgeText - 1);
+		var button = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.questionButton;
+		button.setBadgeText(button.badgeText - 1);
 	},
 	
 	setAnswerText: function(subject, answer) {

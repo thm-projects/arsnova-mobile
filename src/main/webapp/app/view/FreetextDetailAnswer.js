@@ -27,14 +27,14 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 	},
 	
 	initialize: function(sTP, answer) {
-		this.callParent();
+		this.callParent(arguments);
 		
 		this.sTP = sTP;
 		
-		this.dockedItems = [new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.FREETEXT_DETAIL_HEADER,
 			items: [
-				new Ext.Button({
+				Ext.create('Ext.Button', {
 					text	: Messages.BACK,
 					ui		: 'back',
 					handler	: function() {
@@ -46,19 +46,20 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 								direction	: 'right',
 								duration	: 700,
 								scope		: this,
-								after: function() {
+					    		listeners: { animationend: function() { 
 									answer.deselectItem();
 									this.hide();
-								}
+					    		}, scope: this }
 							}
 						);
 					}
 				})
 			]
-		})];
+		});
 		
-		this.items = [{
-			xtype: 'form',
+		this.add([this.toolbar, {
+			xtype: 'formpanel',
+			scrollable: null,
 			items: [{
 				xtype: 'fieldset',
 				items: [
@@ -92,13 +93,13 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			hidden: !answer.deletable,
 			handler: function() {
 				var me = this;
-				var sheet = new Ext.ActionSheet({
+				var sheet = Ext.create('Ext.ActionSheet', {
 					items: [
 						{
 							text: Messages.DELETE,
 							ui: 'decline',
 							handler: function () {
-								ARSnova.questionModel.deleteAnswer(answer.questionId, answer._id, {
+								ARSnova.app.questionModel.deleteAnswer(answer.questionId, answer._id, {
 									failure: function() {
 										console.log('server-side error: deletion of freetext answer failed');
 									}
@@ -109,10 +110,10 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 									type		: 'slide',
 									direction	: 'right',
 									duration	: 700,
-									after: function() {
+						    		listeners: { animationend: function() { 
 										answer.removeItem();
 										me.destroy();
-									}
+						    		}, scope: this }
 								});
 							}
 						},
@@ -126,6 +127,6 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 				});
 				sheet.show();
 			}
-		}];
+		}]);
 	}
 });

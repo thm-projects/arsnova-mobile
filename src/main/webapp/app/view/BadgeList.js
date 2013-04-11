@@ -21,7 +21,7 @@ Ext.define('ARSnova.view.BadgeList', {
 	extend: 'Ext.List',
 
 	initialize : function() {
-		ARSnova.view.BadgeList.superclass.initialize.call(this);
+		this.callParent(arguments);
 		
 		this.tpl = ['<tpl for="."><div class="x-list-item x-hasbadge ' + this.itemCls + '">',
 		            '<span class="x-button-label">' + this.itemTpl + '</span>',

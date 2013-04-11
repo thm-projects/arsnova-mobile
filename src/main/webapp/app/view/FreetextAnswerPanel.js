@@ -36,7 +36,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 	},
 	
 	initialize: function(question, lastPanel) {
-		this.callParent();
+		this.callParent(arguments);
 		
 		this.questionObj = question;
 		this.lastPanel = lastPanel;
@@ -50,21 +50,21 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			interval: 15000
 		},
 		
-		this.freetextAnswerStore = new Ext.data.JsonStore({
+		this.freetextAnswerStore = Ext.create('Ext.data.JsonStore', {
 			model		: 'FreetextAnswer',
 			sorters		: 'timestamp',
 			groupField	: 'groupDate'
 		});
 		
-		this.backButton = new Ext.Button({
+		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.BACK,
 			ui		: 'back',
 			scope	: this,
 			handler	: function() {
-				ARSnova.mainTabPanel.layout.activeItem.on('deactivate', function() {
+				ARSnova.app.mainTabPanel.layout.activeItem.on('deactivate', function() {
 					this.destroy();
 				}, this, {single:true});
-				ARSnova.mainTabPanel.animateActiveItem(ARSnova.mainTabPanel.tabPanel, {
+				ARSnova.app.mainTabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700
@@ -72,25 +72,22 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			}
 		});
 		
-		this.toolbar = new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.QUESTION,
+			docked: 'top',
 			items: [this.backButton]
 		});
 		
-		this.noFreetextAnswers = new Ext.Panel({
+		this.noFreetextAnswers = Ext.create('Ext.Panel', {
 			cls: 'centerText',
 			html: Messages.NO_ANSWERS
 		});
 		
-		this.items = [
+		this.add([this.toolbar,
 			ARSnova.view.FreetextAnswerList(this.freetextAnswerStore),
 			this.noFreetextAnswers
-		],
+		]);
 		
-		this.dockedItems = [this.toolbar];
-	},
-	
-	initComponent: function() {
 		this.on('activate', function() {
 			taskManager.start(this.checkFreetextAnswersTask);
 		}, this);
@@ -98,14 +95,12 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		this.on('deactivate', function() {
 			taskManager.stop(this.checkFreetextAnswersTask);
 		}, this);
-		
-		ARSnova.view.FreetextAnswerPanel.superclass.initComponent.call(this);
 	},
 	
 	checkFreetextAnswers: function() {
 		var self = this;
 		
-		ARSnova.questionModel.getAnsweredFreetextQuestions(localStorage.getItem("keyword"), this.questionObj._id, {
+		ARSnova.app.questionModel.getAnsweredFreetextQuestions(localStorage.getItem("keyword"), this.questionObj._id, {
 			success: function(response) {
 				var responseObj = Ext.decode(response.responseText);
 				var listItems = responseObj.map(function (item) {

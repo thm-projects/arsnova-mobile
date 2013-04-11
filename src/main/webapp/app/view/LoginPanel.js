@@ -135,7 +135,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 		}, this.noGuestSpeaker]);
 		
 		this.on('activate', Ext.bind(function() {
-			if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
+			if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER && !window.location.href.match(/st2-developer\.html#?$/)) {
 				this.guestLoginButton.hide('fade');
 				this.noGuestSpeaker.show('fade');
 			} else {
