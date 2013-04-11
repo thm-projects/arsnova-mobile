@@ -27,7 +27,6 @@ Ext.define('ARSnova.model.FoodVote', {
 		idProperty: "_id",
         
 		fields: [
-		         '_id',
 		         '_rev',
 		         'type',
 		         'user',

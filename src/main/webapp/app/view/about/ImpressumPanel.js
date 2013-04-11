@@ -45,9 +45,9 @@ Ext.define('ARSnova.view.about.ImpressumPanel', {
 					direction	: 'right',
 					duration	: 700,
 					scope		: this,
-					after		: function(){
-//						this.up('panel').destroy();
-					}
+		    		listeners: { animationend: function() { 
+		    			this.up('panel').destroy();
+		    		}, scope: this }
 				});
 			}
 		});

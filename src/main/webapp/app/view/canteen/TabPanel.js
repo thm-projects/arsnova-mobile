@@ -43,7 +43,7 @@ Ext.define('ARSnova.view.canteen.TabPanel', {
             this.votePanel
         ]);
 		
-		this.on('activate', function(){
+		this.on('painted', function(){
 			taskManager.start(this.statisticPanel.renewChartDataTask);
 		});
 		

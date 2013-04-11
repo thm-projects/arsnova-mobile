@@ -60,7 +60,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	            callbackFn.call(scope, record, operation);
 	        } 
 		};
-		
+
 		request = this.buildRequest(operation, callback, scope);
 
 		this.doRequest(operation, callback, scope, request);	                
@@ -93,31 +93,31 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	
 	buildUrl: function(request) {
         var records = request.config.operation.config.records || [],
-            record  = records[0],
-            format  = this.format,
-            url     = request.config.url || this.config.url;
-        	id      = record ? record.getId() : request.config.operation.id; // FIX
-        
-        
-        	if (this.config.appendId && id) { // FIX
-        		if (!url.match(/\/$/)) {
-                url += '/';
-            }
-            
-            url += id; // FIX
+        record  = records[0],
+        format  = this.format,
+        url     = request.url || this.config.url;
+    	id      = record ? record.getId() : request.operation.id; // FIX
+    
+    
+    	if (this.appendId && id) { // FIX
+    		if (!url.match(/\/$/)) {
+            url += '/';
         }
         
-        if (format) {
-            if (!url.match(/\.$/)) {
-                url += '.';
-            }
-            
-            url += format;
+        url += id; // FIX
+    }
+    
+    if (format) {
+        if (!url.match(/\.$/)) {
+            url += '.';
         }
         
-        request.url = url;
-        
-        return Ext.data.RestProxy.superclass.buildUrl.apply(this, arguments);
+        url += format;
+    }
+    
+    request.url = url;
+    
+    return Ext.data.RestProxy.superclass.buildUrl.apply(this, arguments);
     },
     
 	/**

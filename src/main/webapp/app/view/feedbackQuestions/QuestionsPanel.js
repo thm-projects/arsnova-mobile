@@ -69,9 +69,9 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		    		direction	: 'right',
 		    		duration	: 700,
 		    		scope		: this,
-		    		after: function() {
-		    			this.hide();
-		    		}
+		    		listeners: { animationend: function() { 
+						this.hide();
+		    		}, scope: this }
 		    	});
 			}
 		});
@@ -196,7 +196,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		                		store.removeAt(index);
 		                		var tab = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab;
 		                		if (parseInt(tab.badgeText) > 0) {
-		                			tab.setBadge(tab.badgeText - 1);
+		                			tab.setBadgeText(tab.badgeText - 1);
 		                		}
 		                		var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel;
 		                		panel.questionsCounter--;
@@ -249,7 +249,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				var questions = Ext.decode(response.responseText);
 				var fQP = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
     			var panel = fQP.questionsPanel;
-    			ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadge(questions.length);
+    			ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadgeText(questions.length);
     			panel.questionsCounter = questions.length;
     			
 				if(panel.questionsCounter == 0){
@@ -297,8 +297,8 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 							obj: Ext.ModelMgr.create(question, 'Question')
 						});
 					}
-					fQP.tab.setBadge(unread);
-					ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge(questions.length);
+					fQP.tab.setBadgeText(unread);
+					ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadgeText(questions.length);
 					panel.store.sort([{
 						property : 'timestamp',
 						direction: 'DESC'
@@ -326,8 +326,8 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					panel.editButton.hide();
 				}
 				
-				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge(questionCount.total);
-				feedbackQuestionsPanel.tab.setBadge(questionCount.unread);
+				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadgeText(questionCount.total);
+				feedbackQuestionsPanel.tab.setBadgeText(questionCount.unread);
 				
 				if(panel.questionsCounter != questionCount.total) {
 					panel.questionsCounter = questionCount.total;

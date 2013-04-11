@@ -265,8 +265,8 @@ Ext.define("ARSnova.controller.Sessions", {
     	    	//start feedback-votes-cleaning-up-task
     	    	taskManager.start(ARSnova.app.cleanFeedbackVotes);
     	    	//start task to update the feedback tab in tabBar
-    	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.updateFeedbackTask);
-    	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.updateHomeTask);
+    	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateFeedbackTask);
+    	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
     	    	
     	    	var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
     	    	panel.animateActiveItem(panel.mySessionsPanel);

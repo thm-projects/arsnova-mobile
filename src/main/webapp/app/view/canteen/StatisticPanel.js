@@ -251,7 +251,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 					record.data.percent = totalResults > 0 ? (record.data.value / totalResults) : 0.0;
 				});
 				
-				ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.tab.setBadge(sum);
+				ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.tab.setBadgeText(sum);
 				
 				chart.getAxes().items[0].maximum = maxValue;
 				
@@ -274,7 +274,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 					value = res[0].value;
 				}
 				
-				ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.tab.setBadge(value);
+				ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.tab.setBadgeText(value);
 			},
 			failure: function(){
 				console.log('server-side error');

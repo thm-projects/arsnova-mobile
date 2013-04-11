@@ -70,7 +70,7 @@ Ext.define("ARSnova.controller.Feedback", {
 				feedbackButton.badgeEl ? feedbackButton.badgeEl.remove() : '';
 				feedbackButton.badgeEl = null;
 				feedbackButton.badgeCls = "badgeicon feedback" + feedbackCls;
-				feedbackButton.setBadge(".");
+				feedbackButton.setBadgeText(".");
 				
 				var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 				fP.statisticPanel.renewChartData();

@@ -46,9 +46,9 @@ Ext.define('ARSnova.view.canteen.VotePanel', {
 		    		direction	: 'up',
 		    		duration	: 700,
 		    		scope		: this,
-		    		after: function() {
-		    			ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.renewChartData();
-		    		}
+		    		listeners: { animationend: function() { 
+						ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.renewChartData();
+		    		}, scope: this }
 		    	});
 			}
 		});
@@ -74,7 +74,7 @@ Ext.define('ARSnova.view.canteen.VotePanel', {
 	
 	addFoodOptions: function() {
 		if(this.foodOptions) return;
-		console.log(this);
+
 		/* Get the store with the meals */
 		var meals = Ext.getStore("Food").data.items;
 

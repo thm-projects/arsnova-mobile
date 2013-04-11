@@ -225,7 +225,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							success: function(response) {
 								var numFeedbackQuestions = Ext.decode(response.responseText).total;
 								
-								button.setBadge([
+								button.setBadgeText([
 									{badgeText: numFeedbackQuestions, badgeCls: "bluebadgeicon"},
 									{badgeText: numQuestions, badgeCls: "badgeicon"},
 									{badgeText: numAnswers, badgeCls: "redbadgeicon"}

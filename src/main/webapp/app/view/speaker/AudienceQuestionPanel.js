@@ -52,10 +52,12 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		this.callParent(arguments);
 		
 		this.questionStore = Ext.create('Ext.data.JsonStore', {
-			model: ARSnova.models.Question,
-			getGroupString: function(record) {
-				return record.get('subject');
-			}
+			model: 'ARSnova.model.Question',
+			grouper: {
+		         groupFn: function(record) {
+		        	 return record.get('subject');;
+		         }
+		     },
 		});
 		
 		this.questions = Ext.create('ARSnova.view.BadgeList', {
@@ -75,7 +77,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		});
 		
 		this.controls = Ext.create('Ext.form.FormPanel', {
-			cls: 'standardForm topPadding'
+			cls: 'standardForm topPadding',
+			scrollable: null,
 		});
 		
 		this.questionsContainer = Ext.create('Ext.form.FieldSet', {
@@ -139,7 +142,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		});
 		
 		this.add([this.toolbar, this.controls, {
-				xtype: 'form',
+				xtype: 'formpanel',
+				scrollable: null,
 				items: [this.questionsContainer]
 			}
 		]);

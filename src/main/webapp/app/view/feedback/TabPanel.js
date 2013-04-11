@@ -62,6 +62,6 @@ Ext.define('ARSnova.view.feedback.TabPanel', {
 	},
 	
 	renew: function(){
-		this.tab.setBadge("");
+		this.tab.setBadgeText("");
 	}
 });

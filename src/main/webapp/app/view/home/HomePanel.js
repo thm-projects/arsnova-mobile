@@ -236,7 +236,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		var promise = new RSVP.Promise();
 		ARSnova.app.questionModel.getUnansweredSkillQuestions(sessionKeyword, {
 			success: function(newQuestions) {
-				button.setBadge(newQuestions.length);
+				button.setBadgeText(newQuestions.length);
 				promise.resolve(newQuestions.length);
 			},
 			failure: function(response) {

@@ -55,9 +55,9 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		    		direction	: 'right',
 		    		duration	: 700,
 		    		scope		: this,
-		    		after: function() {
-		    			this.hide();
-		    		}
+		    		listeners: { animationend: function() { 
+						this.hide();
+		    		}, scope: this }
 		    	});
 			}
 		});
@@ -238,7 +238,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				chart.redraw();
 				
 				//update feedback-badge in tab bar 
-				ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab.setBadge(sum);
+				ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab.setBadgeText(sum);
 				
 				//update feedback counter
 				var counterEl = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.feedbackCounter;

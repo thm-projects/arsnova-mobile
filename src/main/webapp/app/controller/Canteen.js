@@ -56,14 +56,12 @@ Ext.define("ARSnova.controller.Canteen", {
 				    		type		: 'slide',
 				    		direction	: 'up',
 				    		duration	: 700,
-				    		after		: function(){
-				    			ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.renewChartData();
-				    		}
+				    		listeners: { animationend: function() { 
+				    			ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.renewChartData(); 
+				    		}, scope: this }
 						});
 					},
 					failure: function(response, opts) {
-						console.log(response);
-		    			console.log(opts);
 		    	  		console.log('server-side error, foodVote save');
 		    	  		Ext.Msg.alert("Hinweis!", "Die Antwort konnte leider nicht gespeichert werden");
 					}
