@@ -58,8 +58,8 @@ Ext.define('ARSnova.view.about.SponsorsPanel', {
 		
 		this.infoPanel = Ext.create('Ext.form.FormPanel', {
 			cls  : 'standardForm topPadding',
-			scrollable: null,
 			style	: { margin: '20px'},
+			scrollable: null,
 			
 			defaults: {
 				xtype		: 'button',

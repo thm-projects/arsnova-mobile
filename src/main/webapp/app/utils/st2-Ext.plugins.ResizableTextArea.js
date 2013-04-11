@@ -33,7 +33,7 @@ Ext.define('Ext.plugins.ResizableTextArea', {
 	initialize: function(config) {
 		this.callParent(arguments);
 		this.on('afterrender', function () {
-			this.onKeyUp(null, Ext.DomQuery.select('textarea', this.el.dom)[0]);
+			this.onKeyUp(null, Ext.DomQuery.select('textarea', this.element.dom)[0]);
 		});
 	},
 	

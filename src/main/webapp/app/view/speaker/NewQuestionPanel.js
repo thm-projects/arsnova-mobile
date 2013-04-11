@@ -214,7 +214,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	                	label	: Messages.COUNT,
 	            		minValue: 3,
 	            		maxValue: 6,
-	            		incrementValue: 1,
+	            		stepValue: 1,
 	            		value: 4,
 	            		listeners: {
 	                		spin: function(selectField, value){

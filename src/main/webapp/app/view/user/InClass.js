@@ -287,7 +287,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				var title = counterEl.getText().split("/");
 				title[1] = value;
 				title = title.join("/");
-				counterEl.update(title);
+				counterEl.setHtml(title);
 			},
 			failure: function(){
 				console.log('server-side error');

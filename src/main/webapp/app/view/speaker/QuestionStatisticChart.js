@@ -316,7 +316,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			success: function(response) {
 				var panel = ARSnova.app.mainTabPanel.layout.activeItem;
 				var chart = panel.questionChart;
-				var store = chart.store;
+				var store = chart.getStore();
 				
 				var answers = Ext.decode(response.responseText);
 				
@@ -357,17 +357,17 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					record.data.percent = totalResults > 0 ? (record.data.value / totalResults) : 0.0;
 				});
 				
-				chart.axes.items[0].maximum = maxValue;
+				chart.getAxes().items[0].maximum = maxValue;
 				
 				// renew the chart-data
 				chart.redraw();
 				
 				//update quote in toolbar
 				var quote = panel.toolbar.items.items[4];
-				var users = quote.el.dom.innerHTML.split("/");
+				var users = quote.element.dom.innerHTML.split("/");
 				users[0] = sum;
 				users = users.join("/");
-				quote.update(users);
+				quote.setHtml(users);
 			},
 			failure: function() {
 				console.log('server-side error');
@@ -390,10 +390,10 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				
 				//update quote in toolbar
 				var quote = ARSnova.app.mainTabPanel.layout.activeItem.toolbar.items.items[4];
-				var users = quote.el.dom.innerHTML.split("/");
+				var users = quote.element.dom.innerHTML.split("/");
 				users[1] = value;
 				users = users.join("/");
-				quote.update(users);
+				quote.setHtml(users);
 			},
 			failure: function(){
 				console.log('server-side error');

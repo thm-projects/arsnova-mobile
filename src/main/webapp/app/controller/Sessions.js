@@ -136,7 +136,7 @@ Ext.define("ARSnova.controller.Sessions", {
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 		tabPanel.homeTabPanel.tab.hide();
 //		tabPanel.archiveTabPanel.tab.hide();
-		
+
 		if(ARSnova.app.isSessionOwner){
 			/* add speaker in class panel */
 				if(!tabPanel.speakerTabPanel){
@@ -269,7 +269,7 @@ Ext.define("ARSnova.controller.Sessions", {
     	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
     	    	
     	    	var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-    	    	panel.animateActiveItem(panel.mySessionsPanel);
+    	    	panel.setActiveItem(panel.mySessionsPanel);
     	    	
     	    	ARSnova.app.showLoadMask("Login");
 				ARSnova.app.getController('Sessions').reloadData();

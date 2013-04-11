@@ -34,7 +34,7 @@ Ext.define('ARSnova.view.feedbackQuestions.TabPanel', {
 	initialize: function(){
 		this.callParent(arguments);
 		
-		this.questionsPanel = Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel');
+		this.questionsPanel = Ext.create('ARSnova.view.feedbackQuestions.QuestionsPanel');
 		
 		this.add([
             this.questionsPanel

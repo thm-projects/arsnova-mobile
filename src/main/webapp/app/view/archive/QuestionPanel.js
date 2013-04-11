@@ -58,9 +58,9 @@ Ext.define('ARSnova.view.archive.QuestionPanel', {
 				
 				//update question counter in toolbar
 				var counterEl = panel.questionCounter;
-				var counter = counterEl.el.dom.innerHTML.split("/");
+				var counter = counterEl.element.dom.innerHTML.split("/");
 				counter[0] = index + 1;
-				counterEl.update(counter.join("/"));
+				counterEl.setHtml(counter.join("/"));
 			}				
 		};
 		
@@ -118,10 +118,10 @@ Ext.define('ARSnova.view.archive.QuestionPanel', {
 				} else {
 					//update question counter in toolbar
 					var counterEl = questionPanel.questionCounter;
-					var counter = counterEl.el.dom.innerHTML.split("/");
+					var counter = counterEl.element.dom.innerHTML.split("/");
 					counter[0] = "1";
 					counter[1] = questions.length;
-					counterEl.update(counter.join("/"));
+					counterEl.setHtml(counter.join("/"));
 				}
 				
 				if (questions.length == 1){

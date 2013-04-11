@@ -18,43 +18,36 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-Ext.define('FeedbackQuestion', {
-	extend: 'Ext.data.Model',
-	
-	config: {
-		fields: ['fullDate', 'formattedTime', 'timestamp', 'subject', 'type', 'groupDate']
-	}
-});
-
 Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		title: 'QuestionsPanel',
 		fullscreen: true,
 		layout	: 'fit',
+		
+		store: Ext.create('Ext.data.JsonStore', {
+		    model  : 'ARSnova.model.FeedbackQuestion',
+		    sorters: 'lastName',
+		    groupField: 'groupDate'
+		}),
+		
+		/**
+		 * task for speakers in a session
+		 * check every x seconds new feedback questions
+		 */
+		checkFeedbackQuestionsTask: {
+			name: 'check for new feedback questions',
+			run: function(){
+				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.checkFeedbackQuestions();
+			},
+			interval: 15000
+		},
 	},
 	
 	toolbar		: null,
 	backButton	: null,
 	questionsCounter: 0,
-	
-	store: Ext.create('Ext.data.JsonStore', {
-	    model  : 'FeedbackQuestion',
-	    sorters: 'lastName',
-	    groupField: 'groupDate'
-	}),
-	
-	/**
-	 * task for speakers in a session
-	 * check every x seconds new feedback questions
-	 */
-	checkFeedbackQuestionsTask: {
-		name: 'check for new feedback questions',
-		run: function(){
-			ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.checkFeedbackQuestions();
-		},
-		interval: 15000
-	},
 	
 	initialize: function(){
 		this.callParent(arguments);
@@ -176,7 +169,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
   		    	'</div>'
 	    	),
 		    grouped: true,
-		    store: this.store,
+		    store: this.getStore(),
 		    listeners: {
 		    	itemswipe: function(list, index, node){
 		            var el        = Ext.get(node),

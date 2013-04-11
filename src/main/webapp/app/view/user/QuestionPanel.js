@@ -57,9 +57,9 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			activeitemchange: function(panel, newCard, oldCard, index, animated){
 				//update question counter in toolbar
 				var counterEl = panel.questionCounter;
-				var counter = counterEl.el.dom.innerHTML.split("/");
+				var counter = counterEl.element.dom.innerHTML.split("/");
 				counter[0] = index + 1;
-				counterEl.update(counter.join("/"));
+				counterEl.setHtml(counter.join("/"));
 				
 				newCard.fireEvent('preparestatisticsbutton', panel.statisticButton);
 				
@@ -81,7 +81,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			cls		: 'statisticIconSmall',
 			hidden	: true,
 			handler	: function() {
-				var questionStatisticChart = new ARSnova.app.view.QuestionStatisticChart(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.layout.activeItem.questionObj, this);
+				// TODO: arguments (ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.layout.activeItem.questionObj, this)
+				var questionStatisticChart = Ext.create('ARSnova.view.QuestionStatisticChart');
 				ARSnova.app.mainTabPanel.animateActiveItem(questionStatisticChart, 'slide');
 			}
 		});
@@ -161,10 +162,10 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				} else {
 					//update question counter in toolbar
 					var counterEl = userQuestionsPanel.questionCounter;
-					var counter = counterEl.el.dom.innerHTML.split("/");
+					var counter = counterEl.element.dom.innerHTML.split("/");
 					counter[0] = "1";
 					counter[1] = questions.length;
-					counterEl.update(counter.join("/"));
+					counterEl.setHtml(counter.join("/"));
 				}
 				
 				if (questions.length == 1){
@@ -207,9 +208,11 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	
 	addQuestion: function(question){
 		if (question.questionType === 'freetext') {
-			this.add(new ARSnova.app.view.FreetextQuestion(question));
+			// TODO: arguments (question)
+			this.add(Ext.create('ARSnova.app.view.FreetextQuestion'));
 		} else {
-			this.add(new ARSnova.app.view.Question(question));
+			// TODO: arguments (question)
+			this.add(Ext.create('ARSnova.app.view.Question'));
 		}
 	},
 	
@@ -242,7 +245,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				for ( var i = 0; i < questionObj.possibleAnswers.length; i++) {
 					var answer = questionObj.possibleAnswers[i].data;
 					if(answer.correct && (answer.correct == 1 || answer.correct == true)){
-						list.el.dom.childNodes[i].className = "x-list-item x-list-item-correct";
+						list.element.dom.childNodes[i].className = "x-list-item x-list-item-correct";
 						break;
 					}
 				}

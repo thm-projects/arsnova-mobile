@@ -83,7 +83,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			html: '0/0',
 			getText: function(){
 				if(this.rendered)
-					return this.el.dom.innerHTML;
+					return this.element.dom.innerHTML;
 				else
 					return this.html;
 			}
@@ -245,7 +245,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				var title = counterEl.getText().split("/");
 				title[0] = sum;
 				title = title.join("/");
-				counterEl.update(title);
+				counterEl.setHtml(title);
 				
 				//change the feedback tab bar icon
 				var tab = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab;

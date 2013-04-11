@@ -37,9 +37,9 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			cardswitch: function(panel, newCard, oldCard, index, animated){
 				//update question counter in toolbar
 				var counterEl = panel.questionCounter;
-				var counter = counterEl.el.dom.innerHTML.split("/");
+				var counter = counterEl.element.dom.innerHTML.split("/");
 				counter[0] = index + 1;
-				counterEl.update(counter.join("/"));
+				counterEl.setHtml(counter.join("/"));
 				
 				newCard.fireEvent('preparestatisticsbutton', panel.statisticButton);
 			}
@@ -115,10 +115,10 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				
 				//update question counter in toolbar
 				var counterEl = panel.questionCounter;
-				var counter = counterEl.el.dom.innerHTML.split("/");
+				var counter = counterEl.element.dom.innerHTML.split("/");
 				counter[0] = "1";
 				counter[1] = questions.length;
-				counterEl.update(counter.join("/"));
+				counterEl.setHtml(counter.join("/"));
 				
 				if (questions.length == 1){
 					panel.indicator.hide();

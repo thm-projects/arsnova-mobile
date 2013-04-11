@@ -172,8 +172,8 @@ Ext.define('ARSnova.view.user.RankingPanel', {
 			sessionText += "</table>";
 		}
 		 
-		this.myRankingPanel.update(rankingText);
-		this.sessionStatisticPanel.update(sessionText);
+		this.myRankingPanel.setHtml(rankingText);
+		this.sessionStatisticPanel.setHtml(sessionText);
 	}
 });
 

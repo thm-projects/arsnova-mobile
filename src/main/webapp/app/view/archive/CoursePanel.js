@@ -40,11 +40,13 @@ Ext.define('ARSnova.view.archive.CoursePanel', {
 		});
 		
 		this.courseForm = Ext.create('Ext.form.FormPanel', {
+			scrollable: null,
 			cls: 'standardForm'
 		});
 		
 		this.normalForm = Ext.create('Ext.form.FormPanel', {
 			cls: 'standardForm',
+			scrollable: null,
 			items: [{
 				xtype		: 'button',
 				ui			: 'normal',

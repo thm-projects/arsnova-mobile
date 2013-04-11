@@ -384,6 +384,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		
 		this.firstRow = Ext.create('Ext.form.FormPanel', {
 			cls	 : 'actionsForm',
+			scrollable: null,
+			
 			style: {
 				marginTop: '15px'
 			},
@@ -395,7 +397,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		
 		this.secondRow = Ext.create('Ext.form.FormPanel', {
 			cls	 : 'actionsForm',
-				
+			scrollable: null,
+			
 			items: [
 			    this.questionStatusButton,
 			    this.deleteAnswersButton,
@@ -460,6 +463,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			});
 		} else {
 			this.releasePart = Ext.create('Ext.form.FormPanel', {
+				scrollable: null,
+				
 				items: [{
 					xtype: 'fieldset',
 					title: Messages.RELEASE_FOR,
@@ -521,6 +526,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 		
 		this.contentForm = Ext.create('Ext.form.FormPanel', {
+			scrollable: null,
 			id 	 : 'contentForm',
 			style: { marginTop: '15px' },
 			items: [this.contentFieldset, this.releasePart]
@@ -546,6 +552,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.answerForm = Ext.create('Ext.form.FormPanel', {
 			id 	 	: 'answerForm',
 			scroll	: false,
+			scrollable: null,
 			items	: [this.answerFormFieldset]
 		}),
 		/* END QUESTION DETAILS */
