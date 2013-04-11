@@ -45,12 +45,12 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 		me.multiBadges.forEach(function(item) {
 			item.remove();
 		});
-		me.el.removeCls(me.hasBadgeCls);
+		me.element.removeCls(me.hasBadgeCls);
 		me.multiBadges = [];
 		
 		badges.forEach(function(item) {
 			if (!!item.badgeText) {
-				var aBadge = me.el.createChild({
+				var aBadge = me.element.createChild({
 					tag: 'span',
 					cls: item.badgeCls || me.badgeCls,
 					html: item.badgeText
@@ -66,7 +66,7 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 			});
 		}
 		
-		me.el.addCls(me.hasBadgeCls);
+		me.element.addCls(me.hasBadgeCls);
 		return me;
 	}
 });

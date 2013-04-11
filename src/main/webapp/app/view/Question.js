@@ -66,7 +66,7 @@ Ext.define('ARSnova.view.Question', {
 									for (var i = 0; i < questionObj.possibleAnswers.length; i++) {
 										var answer = questionObj.possibleAnswers[i].data;
 										if (answer.correct === 1 || answer.correct === true) {
-											list.el.dom.childNodes[i].className = "x-list-item x-list-item-correct";
+											list.element.dom.childNodes[i].className = "x-list-item x-list-item-correct";
 										}
 									}
 								}
