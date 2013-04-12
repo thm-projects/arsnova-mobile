@@ -24,6 +24,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	config: {
 		title: 'NewQuestionPanel',
 		fullscreen: true,
+		scrollable: true,
 		scroll: 'vertical',
 	},
 	
@@ -72,6 +73,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.mainPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
 			scrollable: null,
+			style: { marginLeft: '15px', marginRight: '15px'},
+			
 			items: [{
 				xtype: 'fieldset',
 				items: [{
@@ -102,12 +105,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		
 		this.releasePart = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
+			cls: 'releaseOptions',
 			items: [{
 				xtype: 'fieldset',
 				title: Messages.RELEASE_FOR,
 	            items: [{
 	            	xtype: 'segmentedbutton',
-	        		cls: 'releaseOptions',
 	        		allowDepress: false,
 	        		allowMultiple: false,
 	        		items: this.releaseItems,
@@ -138,22 +141,18 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	        		    							});
 	        		    						}
 	        		    						nQP.userCourses = obj;
-	        		    						nQP.doLayout();
 	        		    						coursesFieldset.show();
 	        		    						ARSnova.app.hideLoadMask();
 	        		    					},
 	        		    					failure: function(response, opts){
 	        		    						console.log('getcourses server-side failure with status code ' + response.status);
 	        		    						Ext.Msg.alert(Messages.NOTICE, Messages.COULD_NOT_SEARCH);
-	        		    						Ext.Msg.doComponentLayout();
 	        		    					},
 	        		    				});
 	    		    				}
 	    		    				coursesFieldset.show();
-	    		    				nQP.doLayout();
 	    		    			} else {
 	    		    				coursesFieldset.hide();
-	    		    				nQP.doLayout();
 	    		    			}
 	    		    		}
 	    		    	}
@@ -185,6 +184,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true,
 			scrollable: null,
 			submitOnAction: false,
+			style: { marginLeft: '15px', marginRight: '15px'},
+			
 			items: [{
 				xtype: 'fieldset',
 				title: Messages.CORRECT_ANSWER,
@@ -204,6 +205,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true,
 			scrollable: null,
 			submitOnAction: false,
+			style: { marginLeft: '15px', marginRight: '15px'},
+			
 			items: [{
             	xtype: 'fieldset',
             	title: Messages.ANSWERS,
@@ -242,7 +245,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	    							default:
 	    								break;
 	    						}
-	                			ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel.doLayout();
 	                		}
 	                	}
 	                }, {
@@ -287,6 +289,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: false,
 			scrollable: null,
 			submitOnAction: false,
+			style: { marginLeft: '15px', marginRight: '15px'},
+			
 			items: [{
             	xtype: 'fieldset',
             	title: Messages.ANSWERS,
@@ -325,6 +329,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true,
 			scrollable: null,
 			submitOnAction: false,
+			style: { marginLeft: '15px', marginRight: '15px'},
+			
 			items: [{
             	xtype: 'fieldset',
             	title: Messages.ANSWERS,
@@ -368,6 +374,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true,
 			scrollable: null,
 			submitOnAction: false,
+			style: { marginLeft: '15px', marginRight: '15px'},
+			
 			items: [
 				{
 					id: 'abcd_tags',
@@ -426,6 +434,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true,
 			scrollable: null,
 			submitOnAction: false,
+			style: { marginLeft: '15px', marginRight: '15px'},
 			items: [],
 		});
 		
@@ -442,7 +451,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	        listeners: {
 	        	toggle: function(container, button, pressed){
 	        		var panel = this.up('panel');
-	        		switch (button.text) {
+	        		switch (button.config.text) {
 						case Messages.EVALUATION:
 							if(pressed) panel.voteQuestion.show();
 							else panel.voteQuestion.hide();
@@ -470,7 +479,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 						default:
 							break;
 					}
-	        		panel.doLayout();
 	        	}
 	        }
 	    });
@@ -487,6 +495,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		
 		this.saveButton = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
+			style: { marginLeft: '15px', marginRight: '15px'},
+			
 			items: [{
 				xtype: 'fieldset',
 				items: [{
@@ -516,6 +526,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
             this.yesNoQuestion,
             this.schoolQuestion,
             this.abcdQuestion,
+            this.freetextQuestion,
             
             this.releasePart,
             this.saveButton,
@@ -739,7 +750,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
     			console.log(opts);
     	  		console.log('server-side failure with status code ' + response.status);
     	  		Ext.Msg.alert(Messages.NOTICE, Messages.QUESTION_CREATION_ERROR);
-    	  		Ext.Msg.doComponentLayout();
     		},
 		});
     }
