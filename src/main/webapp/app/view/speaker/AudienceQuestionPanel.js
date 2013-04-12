@@ -56,7 +56,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			model: 'ARSnova.model.Question',
 			grouper: {
 		         groupFn: function(record) {
-		        	 return record.get('subject');;
+		        	 return record.get('subject');
 		         }
 		     },
 		});
@@ -71,7 +71,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			listeners: {
 				itemtap: function(list, index, element) {
 					ARSnova.app.getController('Questions').details({
-						question	: list.store.getAt(index).data
+						question	: list.getStore().getAt(index).data
 					});
 				}
 			}
@@ -79,6 +79,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		
 		this.controls = Ext.create('Ext.form.FormPanel', {
 			cls: 'standardForm topPadding',
+			
+			style: { marginLeft: '15px', marginRight: '15px'},
+			
 			scrollable: null,
 		});
 		
@@ -145,6 +148,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		this.add([this.toolbar, this.controls, {
 				xtype: 'formpanel',
 				scrollable: null,
+				
+				style: { marginLeft: '15px', marginRight: '15px'},
+				
 				items: [this.questionsContainer]
 			}
 		]);
@@ -172,12 +178,10 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.controls.insert(0, this.showcaseFormButton);
 				this.displayShowcaseButton();
 				this.questionsContainer.show();
-				this.doLayout();
 			}, this),
 			empty: Ext.bind(function() {
 				this.showcaseButton.hide();
 				this.questionsContainer.hide();
-				this.doLayout();
 			}, this),
 			failure: function(response) {
 				console.log('server-side error questionModel.getSkillQuestions');

@@ -81,8 +81,10 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			cls		: 'statisticIconSmall',
 			hidden	: true,
 			handler	: function() {
-				// TODO: arguments (ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.layout.activeItem.questionObj, this)
-				var questionStatisticChart = Ext.create('ARSnova.view.QuestionStatisticChart');
+				var questionStatisticChart = Ext.create('ARSnova.view.QuestionStatisticChart', {
+					question: ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.layout.activeItem.questionObj,
+					lastPanel: this
+				});
 				ARSnova.app.mainTabPanel.animateActiveItem(questionStatisticChart, 'slide');
 			}
 		});
@@ -208,11 +210,13 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	
 	addQuestion: function(question){
 		if (question.questionType === 'freetext') {
-			// TODO: arguments (question)
-			this.add(Ext.create('ARSnova.app.view.FreetextQuestion'));
+			this.add(Ext.create('ARSnova.view.FreetextQuestion', {
+				questionObj: question
+			}));
 		} else {
-			// TODO: arguments (question)
-			this.add(Ext.create('ARSnova.app.view.Question'));
+			this.add(Ext.create('ARSnova.view.Question'), {
+				questionObj: question
+			});
 		}
 	},
 	

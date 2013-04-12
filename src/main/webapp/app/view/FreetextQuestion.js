@@ -30,19 +30,21 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			preparestatisticsbutton: function(button) {
 				button.scope = this;
 				button.handler = function() {
-					// TODO: arguments {this.questionObj, this}
-					var p = Ext.create('ARSnova.view.FreetextAnswerPanel');
+					var p = Ext.create('ARSnova.view.FreetextAnswerPanel', {
+						question: this.questionObj,
+						lastPanel: this
+					});
 					ARSnova.app.mainTabPanel.animateActiveItem(p, 'slide');
 				};
 			}
 		},
 	},
 	
-	initialize: function(questionObj, viewOnly) {
+	constructor: function(arguments) {
 		this.callParent(arguments);
 		
-		this.questionObj = questionObj;
-		this.viewOnly = typeof viewOnly === "undefined" ? false : viewOnly;
+		this.questionObj = arguments.questionObj;
+		this.viewOnly = typeof arguments.viewOnly === "undefined" ? false : arguments.viewOnly;
 		
 		this.answerSubject = Ext.create('Ext.form.Text', {
 			name: "answerSubject",

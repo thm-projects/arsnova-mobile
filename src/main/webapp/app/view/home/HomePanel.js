@@ -147,7 +147,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	},
 	
 	buttonClicked: function(button) {
-		ARSnova.app.getController('button.controller')[button.action]();
+		ARSnova.app.getController(button.controller)[button.action]();
 	},
 	
 	onSubmit: function() {

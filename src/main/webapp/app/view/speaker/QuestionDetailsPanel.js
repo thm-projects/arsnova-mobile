@@ -58,11 +58,11 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		interval: 20000 //20 seconds
 	},
 	
-	initialize: function(question){
+	constructor: function(arguments){
 		this.callParent(arguments);
 		
 		var me = this;
-		this.questionObj = question;
+		this.questionObj = arguments.question;
 		
 		if( this.questionObj.questionType == "yesno" 	|| 
 			this.questionObj.questionType == "mc" 		||
@@ -237,7 +237,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					change: function(toggleEl, something, value){
 						if (value == 0 && me.questionObj.showStatistic == undefined || value == me.questionObj.showStatistic) return;
 						ARSnova.app.showLoadMask(Messages.LOAD_MASK_ACTIVATION);
-						var question = Ext.ModelMgr.create(me.questionObj, "Question");
+						var question = Ext.create('ARSnova.model.Question', me.questionObj);
 						switch (value) {
 							case 0:
 								delete question.data.showStatistic;
@@ -275,7 +275,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
 						if (value == 0 && panel.questionObj.showAnswer == undefined || value == panel.questionObj.showAnswer) return;
 						ARSnova.app.showLoadMask(Messages.LOAD_MASK_ACTIVATION);
-						var question = Ext.ModelMgr.create(panel.questionObj, "Question");
+						var question = Ext.create('Question', panel.questionObj);
 						switch (value) {
 							case 0:
 								delete question.data.showAnswer;

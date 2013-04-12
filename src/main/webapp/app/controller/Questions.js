@@ -110,8 +110,9 @@ Ext.define("ARSnova.controller.Questions", {
     
     details: function(options){
     	var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-    	// TODO: arguments {(options.question)}
-    	sTP.questionDetailsPanel = Ext.create('ARSnova.view.speaker.QuestionDetailsPanel');
+    	sTP.questionDetailsPanel = Ext.create('ARSnova.view.speaker.QuestionDetailsPanel', {
+    		question: options.question
+    	});
 		sTP.animateActiveItem(sTP.questionDetailsPanel, 'slide');
     },
 
@@ -126,8 +127,11 @@ Ext.define("ARSnova.controller.Questions", {
 			parentPanel = ARSnova.app.mainTabPanel;
 			options.answer.deletable = false;
 		}
-		// TODO: arguments { todo: parentPanel, todo: options.answer}
-		parentPanel.animateActiveItem(Ext.create('ARSnova.view.FreetextDetailAnswer'), 'slide');
+
+		parentPanel.animateActiveItem(Ext.create('ARSnova.view.FreetextDetailAnswer', {
+			sTP		: parentPanel,
+			answer	: options.answer
+		}), 'slide');
 	},
     
     detailsFeedbackQuestion: function(options){

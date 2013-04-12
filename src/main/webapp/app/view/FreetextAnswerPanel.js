@@ -35,11 +35,11 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		freetextAnswerStore: null,
 	},
 	
-	initialize: function(question, lastPanel) {
+	constructor: function(arguments) {
 		this.callParent(arguments);
 		
-		this.questionObj = question;
-		this.lastPanel = lastPanel;
+		this.questionObj = arguments.question;
+		this.lastPanel = arguments.lastPanel;
 		
 		this.checkFreetextAnswersTask = {
 			name: 'check for new freetext answers',

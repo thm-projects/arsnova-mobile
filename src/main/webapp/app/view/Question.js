@@ -28,20 +28,20 @@ Ext.define('ARSnova.view.Question', {
 	questionObj: null,
 	viewOnly: false,
 	
-	initialize: function(questionObj, viewOnly) {
+	constructor: function(arguments) {
 		this.callParent(arguments);
 		
 		var self = this; // for use inside callbacks
 		
 		var answerStore = Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
-		this.questionObj = questionObj;
-		this.viewOnly = typeof viewOnly === "undefined" ? false : viewOnly;
+		this.questionObj = arguments.questionObj;
+		this.viewOnly = typeof arguments.viewOnly === "undefined" ? false : arguments.viewOnly;
 		
-		answerStore.add(questionObj.possibleAnswers);
+		answerStore.add(this.questionObj.possibleAnswers);
 		
-		var questionListener = viewOnly ? {} : {
+		var questionListener = this.viewOnly ? {} : {
 			'itemtap': function(list, index, element, e) {
-				var answerObj 	= questionObj.possibleAnswers[index];
+				var answerObj 	= this.questionObj.possibleAnswers[index];
 				
 				/* for use in Ext.Msg.confirm */
 				answerObj.selModel = list.selModel;
@@ -59,12 +59,12 @@ Ext.define('ARSnova.view.Question', {
 								answerObj.target = answerObj.target.parentElement;
 							}
 							
-							if (questionObj.showAnswer) {
+							if (this.questionObj.showAnswer) {
 								if (answerObj.data.correct === 1 || answerObj.data.correct === true) {
 									answerObj.target.className = "x-list-item x-list-item-correct";
 								} else {
-									for (var i = 0; i < questionObj.possibleAnswers.length; i++) {
-										var answer = questionObj.possibleAnswers[i].data;
+									for (var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
+										var answer = this.questionObj.possibleAnswers[i].data;
 										if (answer.correct === 1 || answer.correct === true) {
 											list.element.dom.childNodes[i].className = "x-list-item x-list-item-correct";
 										}
@@ -76,8 +76,8 @@ Ext.define('ARSnova.view.Question', {
 								answer.saveAnswer({
 									success: function() {
 										var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
-										if (questionsArr.indexOf(questionObj._id) == -1) {
-											questionsArr.push(questionObj._id);
+										if (questionsArr.indexOf(this.questionObj._id) == -1) {
+											questionsArr.push(this.questionObj._id);
 										}
 										localStorage.setItem('questionIds', Ext.encode(questionsArr));
 										
@@ -116,12 +116,12 @@ Ext.define('ARSnova.view.Question', {
 								});
 							};
 							
-							ARSnova.app.answerModel.getUserAnswer(questionObj._id, {
+							ARSnova.app.answerModel.getUserAnswer(this.questionObj._id, {
 								empty: function() {
 									var answer = Ext.create('ARSnova.model.Answer', {
 										type	 	: "skill_question_answer",
 										sessionId	: localStorage.getItem("sessionId"),
-										questionId	: questionObj._id,
+										questionId	: this.questionObj._id,
 										answerText	: answerObj.data.text,
 										user		: localStorage.getItem("login")
 									});
@@ -152,8 +152,8 @@ Ext.define('ARSnova.view.Question', {
 		this.questionTitle = Ext.create('Ext.Component', {
 			cls: 'roundedBox',
 			html: 
-				'<p class="title">' + questionObj.subject + '<p/>' +
-				'<p>' + questionObj.text + '</p>'
+				'<p class="title">' + this.questionObj.subject + '<p/>' +
+				'<p>' + this.questionObj.text + '</p>'
 		});
 		this.answerList = Ext.create('Ext.List', {
 			store	: answerStore,
@@ -180,8 +180,10 @@ Ext.define('ARSnova.view.Question', {
 		preparestatisticsbutton: function(button) {
 			button.scope = this;
 			button.handler = function() {
-				//TODO: arguments {this.questionObj, this}
-				var questionStatisticChart = Ext.create('ARSnova.view.QuestionStatisticChart');
+				var questionStatisticChart = Ext.create('ARSnova.view.QuestionStatisticChart', {
+					question	: this.questionObj,
+					lastPanel	: this
+				});
 				ARSnova.app.mainTabPanel.animateActiveItem(questionStatisticChart, 'slide');
 			};
 		}

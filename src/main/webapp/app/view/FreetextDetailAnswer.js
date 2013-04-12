@@ -26,10 +26,10 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 		scroll: 'vertical',
 	},
 	
-	initialize: function(sTP, answer) {
+	constructor: function(arguments) {
 		this.callParent(arguments);
 		
-		this.sTP = sTP;
+		this.sTP = arguments.sTP;
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.FREETEXT_DETAIL_HEADER,
@@ -38,16 +38,16 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 					text	: Messages.BACK,
 					ui		: 'back',
 					handler	: function() {
-						sTP.items.items.pop(); // Remove this panel from view stack
-						sTP.animateActiveItem(
-							sTP.items.items[sTP.items.items.length-1], // Switch back to top of view stack
+						this.sTP.items.items.pop(); // Remove this panel from view stack
+						this.sTP.animateActiveItem(
+							this.sTP.items.items[this.sTP.items.items.length-1], // Switch back to top of view stack
 							{
 								type		: 'slide',
 								direction	: 'right',
 								duration	: 700,
 								scope		: this,
 					    		listeners: { animationend: function() { 
-									answer.deselectItem();
+									this.answer.deselectItem();
 									this.hide();
 					    		}, scope: this }
 							}
@@ -66,19 +66,19 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 					{
 						xtype: 'textfield',
 						label: Messages.QUESTION_DATE,
-						value: answer.formattedTime + " Uhr am " + answer.groupDate,
+						value: this.answer.formattedTime + " Uhr am " + this.answer.groupDate,
 						disabled: true
 					},
 					{
 						xtype: 'textfield',
 						label: Messages.QUESTION_SUBJECT,
-						value: answer.answerSubject,
+						value: this.answer.answerSubject,
 						disabled: true
 					},
 					{
 						xtype: 'textareafield',
 						label: Messages.FREETEXT_DETAIL_ANSWER,
-						value: answer.answerText,
+						value: this.answer.answerText,
 						disabled: true,
 						maxRows: 8
 					}
@@ -90,7 +90,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			cls  : 'centerButton',
 			text : Messages.DELETE,
 			scope: this,
-			hidden: !answer.deletable,
+			hidden: !this.answer.deletable,
 			handler: function() {
 				var me = this;
 				var sheet = Ext.create('Ext.ActionSheet', {
@@ -99,19 +99,19 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 							text: Messages.DELETE,
 							ui: 'decline',
 							handler: function () {
-								ARSnova.app.questionModel.deleteAnswer(answer.questionId, answer._id, {
+								ARSnova.app.questionModel.deleteAnswer(this.answer.questionId, this.answer._id, {
 									failure: function() {
 										console.log('server-side error: deletion of freetext answer failed');
 									}
 								});
 								
 								sheet.destroy();
-								sTP.animateActiveItem(sTP.questionDetailsPanel, {
+								this.sTP.animateActiveItem(this.sTP.questionDetailsPanel, {
 									type		: 'slide',
 									direction	: 'right',
 									duration	: 700,
 						    		listeners: { animationend: function() { 
-										answer.removeItem();
+										this.answer.removeItem();
 										me.destroy();
 						    		}, scope: this }
 								});

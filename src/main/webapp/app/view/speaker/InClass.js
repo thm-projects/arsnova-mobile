@@ -151,7 +151,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				xtype		: 'button',
 				text		: ' ',
 				cls			: 'questionMark',
-				controller	: 'questions',
+				controller	: 'Questions',
 				action		: 'adHoc',
 				handler		: this.buttonClicked
 			}, {
@@ -221,7 +221,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	},
 	
 	buttonClicked: function(button){
-		ARSnova.app.getController('button.controller')[button.action];
+		ARSnova.app.getController(button.controller)[button.action]();
 	},
 	
 	/* will be called on session login */

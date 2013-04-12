@@ -253,7 +253,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 	
 	buttonClicked: function(button){
-		ARSnova.app.getController('button.controller')[button.action];
+		ARSnova.app.getController(button.controller)[button.action]();
 	},
 	
 	checkFeedbackRemoved: function() {

@@ -58,11 +58,11 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		interval: 15000
 	},
 	
-	initialize: function(question, lastPanel){
+	constructor: function(arguments){
 		this.callParent(arguments);
 		
-		this.questionObj = question;
-		this.lastPanel = lastPanel;
+		this.questionObj = arguments.question;
+		this.lastPanel = arguments.lastPanel;
 		
 		this.questionStore = Ext.create('Ext.data.Store', {
 			fields: ['text', 'value', 'percent']
