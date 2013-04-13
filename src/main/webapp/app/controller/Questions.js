@@ -98,7 +98,6 @@ Ext.define("ARSnova.controller.Questions", {
 		}
     	if(error){
     		Ext.Msg.alert('Hinweis', 'Ihre Eingaben sind unvollständig');
-    		Ext.Msg.doComponentLayout();
     		return;
     	}
     	
@@ -149,7 +148,6 @@ Ext.define("ARSnova.controller.Questions", {
     		failure: function(records, operation){
 				console.log(operation);
     	  		Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
-    	  		Ext.Msg.doComponentLayout();
 			}
     	});
     },
@@ -175,13 +173,11 @@ Ext.define("ARSnova.controller.Questions", {
 					},
 					failure: function(records, operation){
 						Ext.Msg.alert("Hinweis!", "Speichern der Frage war nicht erfolgreich");
-						Ext.Msg.doComponentLayout();
 					}
 				});
 			},
 			failure: function(records, operation){
 				Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
-				Ext.Msg.doComponentLayout();
 			}
 		});
 	},

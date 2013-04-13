@@ -114,13 +114,11 @@ Ext.define('ARSnova.view.archive.CoursePanel', {
 							}
 						});
 					}
-	    	  		panel.doComponentLayout();
 	    	  		ARSnova.app.hideLoadMask();
 	    		},
 	    		failure: function(response, opts){
 	    	  		console.log('getcourses server-side failure with status code ' + response.status);
 	    	  		Ext.Msg.alert("Hinweis!", "Es konnten keine Kurse überprüft werden.");
-	    	  		Ext.Msg.doComponentLayout();
 	    		}
 	    	});
 		} else {
@@ -147,7 +145,6 @@ Ext.define('ARSnova.view.archive.CoursePanel', {
 	    		failure: function(response, opts){
 	    	  		console.log('getcourses server-side failure with status code ' + response.status);
 	    	  		Ext.Msg.alert("Hinweis!", "Es konnten keine Kurse überprüft werden.");
-	    	  		Ext.Msg.doComponentLayout();
 	    		}
 	    	});
 		}

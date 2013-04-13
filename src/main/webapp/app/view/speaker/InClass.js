@@ -191,7 +191,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 							});
 						}
 					});
-					Ext.Msg.doComponentLayout();
 				}
 			}, {
 				html: Messages.DELETE_SESSION,

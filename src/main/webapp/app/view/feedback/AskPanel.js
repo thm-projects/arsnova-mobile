@@ -146,7 +146,6 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			},
 			failure: function(records, operation) {
 				Ext.Msg.alert(Messages.NOTIFICATION, Messages.TRANSMISSION_ERROR);
-				Ext.Msg.doComponentLayout();
 			}
 		});
 	},

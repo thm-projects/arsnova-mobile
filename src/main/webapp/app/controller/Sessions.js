@@ -127,8 +127,6 @@ Ext.define("ARSnova.controller.Sessions", {
 		
 		/* hide feedback statistic panel */
 		tabPanel.feedbackTabPanel.tab.hide();
-		
-		ARSnova.app.mainTabPanel.tabPanel.doComponentLayout();
 	},
 	
 	reloadData: function(){
@@ -148,7 +146,6 @@ Ext.define("ARSnova.controller.Sessions", {
 					tabPanel.speakerTabPanel.renew();
 					
 					/* don't know what's going on here, try to fix it */
-					setTimeout("ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.doComponentLayout();", 1000);
 					setTimeout("ARSnova.app.mainTabPanel.tabPanel.layout.layout();", 2000);
 					setTimeout("ARSnova.app.hideLoadMask();", 3000);
 				}
@@ -186,7 +183,6 @@ Ext.define("ARSnova.controller.Sessions", {
 					ARSnova.app.showLoadMask("Login...");
 					tabPanel.userTabPanel.tab.show();
 					tabPanel.userTabPanel.renew();
-					setTimeout("ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.doComponentLayout()", 1000);
 					setTimeout("ARSnova.app.hideLoadMask();", 1500);
 				}
 //				tabPanel.animateActiveItem(tabPanel.userTabPanel, {

@@ -134,7 +134,6 @@ Ext.define('ARSnova.view.archive.QuestionPanel', {
 					questionIds.push(question.id);
 					questionPanel.addQuestion(question);
 				});
-				questionPanel.doComponentLayout();
 				ARSnova.app.hideLoadMask();
 			},
 			failure: function(response){

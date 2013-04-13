@@ -98,7 +98,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	saveHandler: function(button, event) {
 		if (this.isEmptyAnswer()) {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.MISSING_INPUT);
-			Ext.Msg.doComponentLayout();
 			return;
 		}
 		
@@ -156,7 +155,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				failure: function(response, opts) {
 					console.log('server-side error');
 					Ext.Msg.alert(Messages.NOTIFICATION, Messages.ANSWER_CREATION_ERROR);
-					Ext.Msg.doComponentLayout();
 				}
 			});
 		};
