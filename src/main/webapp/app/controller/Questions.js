@@ -141,8 +141,9 @@ Ext.define("ARSnova.controller.Questions", {
     			question.set('formattedTime', options.formattedTime);
     			question.set('fullDate', options.fullDate);
     			
-    			// TODO: arguments {(question.data)}
-				var newPanel = Ext.create('ARSnova.view.feedbackQuestions.DetailsPanel');
+				var newPanel = Ext.create('ARSnova.view.feedbackQuestions.DetailsPanel', {
+					question: question.data
+				});
 		    	ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.animateActiveItem(newPanel, 'slide');
     		},
     		failure: function(records, operation){

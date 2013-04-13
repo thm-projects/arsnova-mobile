@@ -88,7 +88,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
             }
        	};
 		
-		Ext.data.RestProxy.superclass.read.apply(this, arguments);
+		this.callParent(arguments);
 	},
 	
 	buildUrl: function(request) {
@@ -96,28 +96,28 @@ Ext.define('ARSnova.proxy.RestProxy', {
         record  = records[0],
         format  = this.format,
         url     = request.url || this.config.url;
-    	id      = record ? record.getId() : request.operation.id; // FIX
+    	id      = record ? record.getId() : request.config.operation.id; // FIX
     
     
     	if (this.appendId && id) { // FIX
     		if (!url.match(/\/$/)) {
             url += '/';
-        }
+    		}
         
-        url += id; // FIX
-    }
+    		url += id; // FIX
+    	}
     
-    if (format) {
-        if (!url.match(/\.$/)) {
-            url += '.';
-        }
-        
-        url += format;
-    }
+	    if (format) {
+	        if (!url.match(/\.$/)) {
+	            url += '.';
+	        }
+	        
+	        url += format;
+	    }
     
-    request.url = url;
+	    request.url = url;
     
-    return Ext.data.RestProxy.superclass.buildUrl.apply(this, arguments);
+	    this.callParent(arguments);
     },
     
 	/**
@@ -402,26 +402,26 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	},
     
     delSession: function(sessionId, creator, callbacks){
-    	Ext.ModelMgr.getModel("Session").load(sessionId, {
+    	Ext.ModelMgr.getModel("ARSnova.model.Session").load(sessionId, {
     		success: function(record, operation) {
-    			var sessionObj = Ext.ModelMgr.create(Ext.decode(operation.response.responseText), 'Session');
+    			var sessionObj = Ext.create('ARSnova.model.Session', Ext.decode(operation.getResponse().responseText));
     			if(sessionObj.data.creator != creator){
     				console.log('unauthorized');
     				return;
     			}
-		    	restProxy.getSkillQuestionsForDelete(sessionId, {
+		    	ARSnova.app.restProxy.getSkillQuestionsForDelete(sessionId, {
 		    		success: function(response){
 		    			var skillQuestions = Ext.decode(response.responseText).rows;
 		    			if (skillQuestions.length > 0) {
 							for ( var i = 0; i < skillQuestions.length; i++) {
 								skillQuestion = skillQuestions[i];
-								restProxy.delQuestion(skillQuestion.value, {
+								ARSnova.app.restProxy.delQuestion(skillQuestion.value, {
 									success: function(){}, //nothing to do
 									failure: function(){} //nothing to do
 								});
 							}
 						}
-						restProxy.removeEntry(sessionObj.data._id, sessionObj.data._rev, callbacks);
+						ARSnova.app.restProxy.removeEntry(sessionObj.data._id, sessionObj.data._rev, callbacks);
 					}
 				});
     		},
@@ -440,7 +440,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 //					for ( var i = 0; i < resRows.length; i++) {
 //						el = resRows[i];
 //						console.log(el.value);
-//						restProxy.removeEntry(el.id, el.value._rev, callbacks);
+//						ARSnova.app.restProxy.removeEntry(el.id, el.value._rev, callbacks);
 //					}
 //				}
 //    		},
@@ -643,7 +643,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
     			if (responseObj.length > 0){
     				for ( var i = 0; i < responseObj.length; i++) {
 						var el = responseObj[i];
-						restProxy.removeEntry(el.id, el.value, {
+						ARSnova.app.restProxy.removeEntry(el.id, el.value, {
 							success: function(){},
 							failure: function(){console.log('error - clean session feedback');}
 						});
@@ -666,7 +666,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 //    			if (responseObj.length > 0){
 //    				for ( var i = 0; i < responseObj.length; i++) {
 //						var el = responseObj[i];
-//						restProxy.removeEntry(el.id, el.value, {
+//						ARSnova.app.restProxy.removeEntry(el.id, el.value, {
 //							success: function(){},
 //							failure: function(){console.log('error - clean logged in')},
 //						});

@@ -179,9 +179,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 							ARSnova.app.sessionModel.destroy(localStorage.getItem('sessionId'), localStorage.getItem('login'), {
 								success: function(){
 									ARSnova.app.removeVisitedSession(localStorage.getItem('sessionId'));
-									ARSnova.app.mainTabPanel.tabPanel.on('cardswitch', function(){
+									ARSnova.app.mainTabPanel.tabPanel.on('activeitemchange', function(){
 										ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.mySessionsPanel.loadCreatedSessions();
-										setTimeout("ARSnova.app.hideLoadMask()", 1000);
 									}, this, {single:true});
 									ARSnova.app.getController('Sessions').logout();
 								},

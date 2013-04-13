@@ -133,18 +133,18 @@ Ext.define('ARSnova.view.TabPanel', {
 			/* only start task if user/speaker is not(!) on feedbackTabPanel/statisticPanel (feedback chart)
 			 * because there is a own function which will check for new feedbacks and update the tab bar icon */
 			if(ARSnova.app.mainTabPanel.tabPanel.layout.activeItem != ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel) {
-				taskManager.start(ARSnova.app.mainTabPanel.tabPanel.updateFeedbackTask);
+				taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateFeedbackTask);
 			}
-			taskManager.start(ARSnova.app.mainTabPanel.tabPanel.updateHomeTask);
+			taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
 		}
 	},
 
 	onDeactivate: function(){
 		if(ARSnova.app.checkSessionLogin()){
 			if(ARSnova.app.mainTabPanel.tabPanel.layout.activeItem != ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel) {
-				taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.updateFeedbackTask);
+				taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateFeedbackTask);
 			}
-			taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.updateHomeTask);
+			taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
 		}
 	},
 	

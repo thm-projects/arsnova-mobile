@@ -33,10 +33,10 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 	backButton	: null,
 	questionObj : null,
 	
-	initialize: function(question){
+	constructor: function(arguments){
 		this.callParent(arguments);
 		
-		this.questionObj = question;
+		this.questionObj = arguments.question;
 		
 		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.QUESTIONS,

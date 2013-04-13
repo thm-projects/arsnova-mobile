@@ -80,9 +80,9 @@ Ext.define("ARSnova.controller.Sessions", {
 		//stop feedback-votes-cleaning-up-task
     	taskManager.stop(ARSnova.app.cleanFeedbackVotes);
     	//stop task to update the feedback tab in tabBar
-    	taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.updateFeedbackTask);
+    	taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateFeedbackTask);
     	//online counter badge
-    	taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.updateHomeTask);
+    	taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
     	//stop task to update that session owner is logged-in
     	taskManager.stop(ARSnova.app.updateSessionActivityTask);
     	
@@ -98,6 +98,7 @@ Ext.define("ARSnova.controller.Sessions", {
 		
 		//save that user is not in this session anymore
 		ARSnova.app.restProxy.loggedInTask();
+		ARSnova.app.hideLoadMask();
 		
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 		/* show home Panel */
@@ -144,9 +145,8 @@ Ext.define("ARSnova.controller.Sessions", {
 					ARSnova.app.showLoadMask("Login...");
 					tabPanel.speakerTabPanel.tab.show();
 					tabPanel.speakerTabPanel.renew();
-					
+
 					/* don't know what's going on here, try to fix it */
-					setTimeout("ARSnova.app.mainTabPanel.tabPanel.layout.layout();", 2000);
 					setTimeout("ARSnova.app.hideLoadMask();", 3000);
 				}
 				tabPanel.animateActiveItem(tabPanel.speakerTabPanel, {
@@ -276,14 +276,13 @@ Ext.define("ARSnova.controller.Sessions", {
 	},
 	
 	setActive: function(options){
-		var session = Ext.ModelMgr.getModel("Session").load(localStorage.getItem("sessionId"), {
+		var session = Ext.ModelMgr.getModel('ARSnova.model.Session').load(localStorage.getItem("sessionId"), {
 			success: function(records, operation){
-				var session = Ext.ModelMgr.create(Ext.decode(operation.response.responseText), 'Session');
+				var session = Ext.create('ARSnova.model.Session', Ext.decode(operation.getResponse().responseText));
 				session.set('active', options.active);
 				var validation = session.validate();
 				if (!validation.isValid()){
 					Ext.Msg.alert('Hinweis', 'Leider konnte die Session nicht gespeichert werden');
-					Ext.Msg.doComponentLayout();					
 				}
 				
 				session.save({
@@ -305,13 +304,11 @@ Ext.define("ARSnova.controller.Sessions", {
 		    	  		}
 					},
 					failure: function(records, operation){
-						console.log(operation);
 		    	  		Ext.Msg.alert("Hinweis!", "Session speichern war nicht erfolgreich");
 					}
 				});
 			},
 			failure: function(records, operation){
-				console.log(operation);
     	  		Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
 			}
 		});

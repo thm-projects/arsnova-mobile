@@ -115,7 +115,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
             this.sessionsForm
         ]);
 		
-		this.on('painted', function() {
+		this.on('activate', function() {
 			switch (ARSnova.app.userRole) {
 				case ARSnova.app.USER_ROLE_SPEAKER:
 					this.loadCreatedSessions();
@@ -189,12 +189,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				
 				panel.createdSessionsFieldset.add(caption);
 				panel.sessionsForm.add(panel.createdSessionsFieldset);
-
-    			ARSnova.app.hideLoadMask();
     		},
 			empty: Ext.bind(function() {
 				this.sessionsForm.hide();
-				ARSnova.app.hideLoadMask();
 			}, this),
 			unauthenticated: function() {
 				ARSnova.app.getController('Auth').login({
@@ -205,6 +202,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
     			console.log("my sessions request failure");
     		}
     	}, (window.innerWidth > 321 ? 'name' : 'shortname'));
+		ARSnova.app.hideLoadMask();
 	},
 	
 	updateBadges: function(sessionId, sessionKeyword, button) {
