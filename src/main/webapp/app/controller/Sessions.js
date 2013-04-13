@@ -271,7 +271,6 @@ Ext.define("ARSnova.controller.Sessions", {
     	    	var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
     	    	panel.setActiveItem(panel.mySessionsPanel);
     	    	
-    	    	ARSnova.app.showLoadMask("Login");
 				ARSnova.app.getController('Sessions').reloadData();
 			},
 			failure: function(records, operation){

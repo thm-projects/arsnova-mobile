@@ -38,11 +38,11 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 	toolbar		: null,
 	backButton	: null,
 	
-	initialize: function(responseText) {
+	constructor: function(arguments) {
 		this.callParent(arguments);
 		
 		this.mycoursesStore = new Ext.data.JsonStore({
-			model: ARSnova.model.Course
+			model: 'ARSnova.model.Course'
 		});
 
 		var itemTemplate = '<span class="course">{shortname}<span>';
@@ -62,10 +62,12 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		this.mycourses.setScrollable(null);
 		
 		// check responseText
-		if(typeof arguments.responseText === 'undefined') {
-			var course = new Array();
+		if(typeof arguments !== 'undefined') {
+			if(typeof arguments.responseText !== 'undefined') {
+				var course = Ext.decode(arguments.responseText);
+			}
 		} else {
-			var course = Ext.decode(arguments.responseText);
+			var course = new Array();
 		}
 		
 		this.backButton = Ext.create('Ext.Button', {
@@ -230,7 +232,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			}, this),
 			unauthenticated: function() {
 				ARSnova.app.getController('Auth').login({
-					mode: ARSnova.loginMode
+					mode: ARSnova.app.loginMode
 				});
 			},
 			failure: function() {

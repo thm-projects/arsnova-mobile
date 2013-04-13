@@ -102,7 +102,7 @@ Ext.define('ARSnova.view.about.AboutPanel', {
 			}/*, {
 				text	: Messages.ARS_IN_LECTURE,
 				handler	: function() {
-					var me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
+					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 					me.ARSinLessonPanel = new ARSnova.view.about.ARSinLessonPanel();
 					me.animateActiveItem(me.ARSinLessonPanel, 'slide');
 				},

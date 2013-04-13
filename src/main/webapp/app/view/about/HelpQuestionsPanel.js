@@ -39,7 +39,7 @@ Ext.define('ARSnova.view.about.HelpQuestionsPanel', {
 			text	: Messages.BACK,
 			ui		: 'back',
 			handler	: function() {
-				me = ARSnova.mainTabPanel.tabPanel.infoTabPanel;
+				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 				
 				me.animateActiveItem(me.helpMainPanel, {
 					type		: 'slide',

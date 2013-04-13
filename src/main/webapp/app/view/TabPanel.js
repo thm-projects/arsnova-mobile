@@ -157,16 +157,16 @@ Ext.define('ARSnova.view.TabPanel', {
 				switch (value) {
 					/* 0: faster, please!; 1: can follow; 2: to fast!; 3: you have lost me */
 					case 0:
-						panel.tab.setIconClass("feedbackMedium");
+						panel.tab.setIconCls("feedbackMedium");
 						break;
 					case 1:
-						panel.tab.setIconClass("feedbackGood");
+						panel.tab.setIconCls("feedbackGood");
 						break;
 					case 2:
-						panel.tab.setIconClass("feedbackBad");
+						panel.tab.setIconCls("feedbackBad");
 						break;
 					case 3:
-						panel.tab.setIconClass("feedbackNone");
+						panel.tab.setIconCls("feedbackNone");
 						break;	
 					default:
 						break;
@@ -175,7 +175,7 @@ Ext.define('ARSnova.view.TabPanel', {
 			failure: function(){
 				console.log('server-side error');
 				var tab = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab;
-				tab.setIconClass("feedbackARSnova");
+				tab.setIconCls("feedbackARSnova");
 			}
 		});
 	},

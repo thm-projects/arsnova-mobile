@@ -254,24 +254,24 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 						var avg = parseInt(response.responseText);
 						switch (avg){
 							case 0:
-								tab.setIconClass("feedbackMedium");
+								tab.setIconCls("feedbackMedium");
 								break;
 							case 1:
-								tab.setIconClass("feedbackGood");
+								tab.setIconCls("feedbackGood");
 								break;
 							case 2:
-								tab.setIconClass("feedbackBad");
+								tab.setIconCls("feedbackBad");
 								break;
 							case 3:
-								tab.setIconClass("feedbackNone");
+								tab.setIconCls("feedbackNone");
 								break;	
 							default:
-								tab.setIconClass("feedbackARSnova");
+								tab.setIconCls("feedbackARSnova");
 								break;
 						}
 					},
 					failure: function() {
-						tab.setIconClass("feedbackARSnova");
+						tab.setIconCls("feedbackARSnova");
 					}
 				});
 			},

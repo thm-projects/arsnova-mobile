@@ -523,11 +523,11 @@ Ext.define('ARSnova.proxy.RestProxy', {
     getSkillQuestionsOnlyId: function(sessionId, callbacks){
     	var requestUrl = this.config.url;
     	
-    	switch(ARSnova.loginMode){
-    		case ARSnova.LOGIN_GUEST:
+    	switch(ARSnova.app.loginMode){
+    		case ARSnova.app.LOGIN_GUEST:
     			requestUrl += '/_design/skill_question/_view/by_session_only_id_for_all';
     			break;
-    		case ARSnova.LOGIN_THM:
+    		case ARSnova.app.LOGIN_THM:
     			requestUrl += '/_design/skill_question/_view/by_session_only_id_for_thm';
     			break;
 			default:

@@ -46,7 +46,9 @@ Ext.application({
     isIconPrecomposed: true,
     icon: 'resources/images/ARSnova_Grafiken/01_AppIcon_114x114px.png',
 
-    models: ['Answer', 'Config', 'Feedback', 'FoodVote', 'LoggedIn', 'Question', 'Session', 'Statistic', 'Course', 'Auth'],
+    models: [].concat(
+    		['Answer', 'Config', 'Feedback', 'FoodVote', 'LoggedIn', 'Question', 'Session', 'Statistic', 'Course'],
+    		['Auth', 'FeedbackQuestion']),
     
     views: [].concat(
     		
@@ -97,11 +99,11 @@ Ext.application({
     previousActiveItem: null,
     
     /* infos */
-    loginMode		: null,  /* ARSnova.LOGIN_GUEST, ... */
-    appStatus		: null,	 /* ARSnova.WEBAPP || ARSnova.NATIVE */
+    loginMode		: null,  /* ARSnova.app.LOGIN_GUEST, ... */
+    appStatus		: null,	 /* ARSnova.app.WEBAPP || ARSnova.app.NATIVE */
     isSessionOwner	: false, /* boolean */
     loggedIn		: false, /* boolean */
-    userRole		: null,  /* ARSnova.USER_ROLE_STUDENT || ARSnova.USER_ROLE_SPEAKER */
+    userRole		: null,  /* ARSnova.app.USER_ROLE_STUDENT || ARSnova.app.USER_ROLE_SPEAKER */
     isNative		: function () { return this.appStatus === this.NATIVE; },
     isWebApp		: function () { return this.appStatus === this.WEBAPP; },
     
@@ -170,7 +172,7 @@ Ext.application({
     	this.questionModel		= Ext.create('ARSnova.model.Question');
     	this.sessionModel		= Ext.create('ARSnova.model.Session');
     	this.statisticModel 	= Ext.create('ARSnova.model.Statistic');
-    	this.userRankingModel	= Ext.create('ARSnova.model.UserRanking');
+    	// this.userRankingModel	= Ext.create('ARSnova.model.UserRanking');
     	this.courseModel		= Ext.create('ARSnova.model.Course');
     },
     
@@ -251,7 +253,7 @@ Ext.application({
 	 */
 	afterLogin: function(){
 		taskManager.start(ARSnova.app.loggedInTask);
-		//TODO: taskManager.start(ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.updateCanteenBadgeIconTask);
+		taskManager.start(ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.updateCanteenBadgeIconTask);
 		
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.homeTabPanel, 'slide');
 		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;

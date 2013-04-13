@@ -198,7 +198,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			}, this),
 			unauthenticated: function() {
 				ARSnova.app.getController('Auth').login({
-					mode: ARSnova.loginMode
+					mode: ARSnova.app.loginMode
 				});
 			},
     		failure: function() {
