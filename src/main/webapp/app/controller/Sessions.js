@@ -231,6 +231,7 @@ Ext.define("ARSnova.controller.Sessions", {
 			courseId : options.courseId,
 			courseType:options.courseType 
 		});
+		session.set('_id', undefined);
 		
 		var validation = session.validate();
 		if (!validation.isValid()) {
@@ -279,6 +280,7 @@ Ext.define("ARSnova.controller.Sessions", {
 			success: function(records, operation){
 				var session = Ext.create('ARSnova.model.Session', Ext.decode(operation.getResponse().responseText));
 				session.set('active', options.active);
+				console.log(session);
 				var validation = session.validate();
 				if (!validation.isValid()){
 					Ext.Msg.alert('Hinweis', 'Leider konnte die Session nicht gespeichert werden');
@@ -289,6 +291,7 @@ Ext.define("ARSnova.controller.Sessions", {
 						//update this session in localStorage
 						var sessions = Ext.decode(localStorage.getItem('lastVisitedSessions'));
 						sessions.forEach(function(el){
+							console.log(el);
 							if(el._id == session.data._id)
 								el.active = session.data.active;
 						});

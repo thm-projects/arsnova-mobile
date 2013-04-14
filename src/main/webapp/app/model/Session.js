@@ -23,10 +23,13 @@ Ext.define('ARSnova.model.Session', {
 	
 	config: {
 		proxy: { type: 'restProxy' },
-		
+		idProperty: "_id",
+        
 		fields: [
+		      '_rev',
 		   	  'type', 
 		   	  'name', 
+		   	  'active',
 		   	  'shortName',  
 		   	  'creator',
 		   	  'keyword',
