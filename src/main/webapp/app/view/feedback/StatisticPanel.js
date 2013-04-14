@@ -25,7 +25,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 	
 	config: {
 		title: 'StatisticPanel',
-		fullscreen: true,
+		style: 'background-color: black',
 		layout: 'fit',
 	},
 	
@@ -83,7 +83,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			html: '0/0',
 			getText: function(){
 				if(this.rendered)
-					return this.element.dom.innerHTML;
+					return this.element.dom.innerText;
 				else
 					return this.html;
 			}
@@ -102,10 +102,10 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		});
 		
 		this.feedbackChart = Ext.create('Ext.chart.Chart', {
-			cls: 'column1',
 		    theme: 'Demo',
+			themeCls: 'column1',
 		    store: Ext.create('Ext.data.JsonStore', {
-		    	fields: ['name', 'value', 'percent'],
+		    	fields: ['name', 'displayName', 'value', 'percent'],
 		    	data: [
 				  {name: 'Kann folgen', 	 displayName: Messages.FEEDBACK_OKAY, value: 0, percent: 0.0},
 		          {name: 'Bitte schneller',  displayName: Messages.FEEDBACK_GOOD,  value: 0, percent: 0.0},
@@ -188,9 +188,9 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		            return barAttr;
 		        },
 		        label: {
-		          field: 'percent',
+		          field: ['percent'],
 		          renderer: function(v) {
-				return Math.round(v * 100) + "%";
+		        	  return Math.round(v * 100) + "%";
 		          }
 		        },
 		        xField: 'name',
@@ -224,7 +224,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				
 				var initialMaximum = 10;
 				var maximum = Math.max.apply(null, values.concat(initialMaximum));
-				
+
 				// Set chart data
 				store.each(function(record, index) {
 					record.data.value = values[index];
@@ -234,7 +234,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				store.each(function(record) {
 					record.data.percent = sum > 0 ? (record.data.value / sum) : 0.0;
 				});
-				chart.getAxes().items[0].maximum = maximum;
+				chart._axes.items[0]._maximum = maximum;
 				chart.redraw();
 				
 				//update feedback-badge in tab bar 

@@ -134,8 +134,6 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 					panel.addQuestion(questionsArr[questionId]);
 				});
 				panel.checkFirstQuestion();
-				
-				panel.doLayout();
 				ARSnova.app.hideLoadMask();
 			},
 			failure: function(response){

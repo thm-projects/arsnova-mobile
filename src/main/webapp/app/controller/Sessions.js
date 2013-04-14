@@ -280,7 +280,7 @@ Ext.define("ARSnova.controller.Sessions", {
 			success: function(records, operation){
 				var session = Ext.create('ARSnova.model.Session', Ext.decode(operation.getResponse().responseText));
 				session.set('active', options.active);
-				console.log(session);
+				
 				var validation = session.validate();
 				if (!validation.isValid()){
 					Ext.Msg.alert('Hinweis', 'Leider konnte die Session nicht gespeichert werden');

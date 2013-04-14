@@ -166,7 +166,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 		        }
 		    },
 		    {
-		        type: 'category',
+		        type: 'Category',
 		        position: 'bottom',
 		        fields: ['name'],
 		        label: {
@@ -175,7 +175,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 		        	}
 		        }
 		    }, {
-	            type    : 'category',
+	            type    : 'Category',
 	            position: 'top',
 	            label   : {
 	            	renderer: function(){
