@@ -32,7 +32,7 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 	sessionIsClosedButton: null,
 	
 	initialize: function() {
-		this.callParent();
+		this.callParent(arguments);
 		
 		this.sessionIsClosedButton = Ext.create('Ext.Button', {
 			cls		: 'closedSession',

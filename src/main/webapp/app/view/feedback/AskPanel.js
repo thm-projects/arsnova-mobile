@@ -101,13 +101,15 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			text 			: this.text.getValue().trim(),
 			timestamp		: new Date().getTime()
 		});
+		question.set('_id', undefined);
 		
 		var validation = question.validate();
 		if (!validation.isValid()) {
-			me.down('form').items.items.forEach(function(el) {
+			me.down('fieldset').items.items.forEach(function(el) {
 				if(el.xtype == 'textfield')
 					el.removeCls("required");
 			});
+			console.log(validation);
 			validation.items.forEach(function(el) {
 				me.down('textfield[name=' + el.getField() + ']').addCls("required");
 			});

@@ -109,7 +109,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			cls			: 'forwardListButton',
 			badgeText	: '.',
 			badgeCls	: 'badgeicon feedbackARSnova',
-			controller	: 'feedback',
+			controller	: 'Feedback',
 			action		: 'showVotePanel',
 			handler		: this.buttonClicked
 		});
@@ -119,7 +119,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			text		: Messages.QUESTIONS_TO_STUDENTS,
 			cls			: 'forwardListButton',
 			badgeCls	: 'badgeicon',
-			controller	: 'questions',
+			controller	: 'Questions',
 			action		: 'index',
 			handler		: this.buttonClicked
 		});
@@ -142,7 +142,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			text		: Messages.MY_RANKING,
 			cls			: 'forwardListButton',
 			badgeCls	: 'rankingText',
-			controller	: 'ranking',
+			controller	: 'Ranking',
 			action		: 'index',
 			handler		: this.buttonClicked
 		});

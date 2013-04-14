@@ -25,6 +25,16 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 		title: 'VotePanel',
 		fullscreen: true,
 		scroll: 'vertical',
+		
+		defaults: {
+			xtype	: 'button',
+			cls		: 'option-button',
+			handler	: function(button) {
+				ARSnova.app.getController('Feedback').vote({
+					value		: button.value
+				});
+			}
+		}
 	},
 	
 	/* toolbar items */
@@ -40,16 +50,6 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 			docked: 'top',
 			cls: 'titlePaddingLeft'
 		});
-		
-		this.defaults = {
-			xtype	: 'button',
-			cls		: 'option-button',
-			handler	: function(button) {
-				ARSnova.app.getController('Feedback').vote({
-					value		: button.value
-				});
-			}
-		};
 		
 		this.add([this.toolbar, {
 			iconCls	: 'feedbackGood',

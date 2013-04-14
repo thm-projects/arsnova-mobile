@@ -111,8 +111,7 @@ Ext.define('ARSnova.view.archive.QuestionPanel', {
 						cls: 'centerText',
 						html: 'Es wurden noch keine Fragen freigegeben.'
 					});
-					questionPanel.indicator.hide();
-					questionPanel.doLayout();
+					questionPanel._indicator.hide();
 					ARSnova.app.hideLoadMask();
 					return;
 				} else {
@@ -125,7 +124,7 @@ Ext.define('ARSnova.view.archive.QuestionPanel', {
 				}
 				
 				if (questions.length == 1){
-					questionPanel.indicator.hide();
+					questionPanel._indicator.hide();
 				}
 				
 				questions.forEach(function(question){

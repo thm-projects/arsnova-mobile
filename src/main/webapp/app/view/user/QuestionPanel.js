@@ -111,7 +111,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	
 	beforeActivate: function(){
 		this.removeAll();
-		this.indicator.show();
+		this._indicator.show();
 		this.questionCounter.show();
 		ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
 	},
@@ -140,8 +140,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 									cls: 'centerText',
 									html: Messages.NO_UNLOCKED_QUESTIONS
 								});
-								userQuestionsPanel.indicator.hide();
-								userQuestionsPanel.doLayout();
+								userQuestionsPanel._indicator.hide();
 								ARSnova.app.hideLoadMask();
 								
 							} else {
@@ -150,8 +149,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 									cls: 'centerText',
 									html: Messages.NO_QUESTIONS
 								});	
-								userQuestionsPanel.indicator.hide();
-								userQuestionsPanel.doLayout();
+								userQuestionsPanel._indicator.hide();
 								ARSnova.app.hideLoadMask();
 							}
 						},
@@ -171,7 +169,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				}
 				
 				if (questions.length == 1){
-					userQuestionsPanel.indicator.hide();
+					userQuestionsPanel._indicator.hide();
 				}
 				
 				questions.forEach(function(question){

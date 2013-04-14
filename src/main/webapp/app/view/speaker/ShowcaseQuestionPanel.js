@@ -96,7 +96,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	
 	beforeActivate: function(){
 		this.removeAll();
-		this.indicator.show();
+		this._indicator.show();
 		this.questionCounter.show();
 		this.toolbar.setTitle(Messages.QUESTION);
 		
@@ -121,7 +121,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				counterEl.setHtml(counter.join("/"));
 				
 				if (questions.length == 1){
-					panel.indicator.hide();
+					panel._indicator.hide();
 				}
 				
 				var questionsArr = [];

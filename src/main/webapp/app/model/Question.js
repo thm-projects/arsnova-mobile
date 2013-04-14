@@ -29,6 +29,7 @@ Ext.define('ARSnova.model.Question', {
 		         'type',
 		      	  'text',
 		      	  'subject',
+		      	  'sessionId',
 		      	  'sessionKeyword'
 		],
 		
@@ -37,8 +38,7 @@ Ext.define('ARSnova.model.Question', {
 		validations: [
 		         {type: 'presence', field: 'type'},
 		         {type: 'presence', field: 'text'},
-		         {type: 'presence', field: 'subject'},
-		         {type: 'presence', field: 'session'}
+		         {type: 'presence', field: 'subject'}
 		],
 	},
 	
