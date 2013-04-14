@@ -25,7 +25,8 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 	
 	config: {
 		title	: Messages.CANTEEN,
-
+		
+		style: 'background-color: black',
 		iconCls	: 'tabBarIconCanteen',
 		layout	: 'fit',
 	},
@@ -90,8 +91,8 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 		});
 		
 		this.canteenChart = Ext.create('Ext.chart.Chart', {
-			cls: 'column1',
-		    theme: 'Demo',
+			theme: 'Demo',
+			themeCls: 'column1',
 		    
 		    store: Ext.getStore('Food'),
 
@@ -100,6 +101,10 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 		        duration: 1000
 		    },
 		    
+		    label: {
+		    	color: '#fff',
+		    },
+
 		    interactions: [{
 		        type: 'reset'
 		    }, {
@@ -161,7 +166,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 		        }
 		    },
 		    {
-		        type: 'Category',
+		        type: 'category',
 		        position: 'bottom',
 		        fields: ['name'],
 		        label: {
@@ -170,7 +175,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 		        	}
 		        }
 		    }, {
-	            type    : 'Category',
+	            type    : 'category',
 	            position: 'top',
 	            label   : {
 	            	renderer: function(){
@@ -181,7 +186,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 	            dashSize: 0
 	        }],
 		    series: [{
-		        type: 'column',
+		        type: 'Column',
 		        axis: 'left',
 		        highlight: true,
 		        renderer: function(sprite, storeItem, barAttr, i, store) {
@@ -189,11 +194,11 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 		            return barAttr;
 		        },
 		        label: {
-		          field: 'percent',
-		          renderer: function(v) {
-		        	  return Math.round(v * 100) + "%";
-		          }
-		        },
+	                field: ['percent'],
+	                renderer: function(v) {
+			        	  return Math.round(v * 100) + "%";
+			        },
+	            },
 		        xField: 'name',
 		        yField: 'value'
 		    }]
@@ -220,7 +225,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 				var maxValue = 10;
 				var tmp = [];
 				var sum = 0;
-				
+
 				for (var i = 0; i < store.data.items.length; i++) {
 					var el = store.data.items[i];
 					tmp.push(el.data.name);
@@ -253,8 +258,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 				
 				ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.tab.setBadgeText(sum);
 				
-				chart.getAxes().items[0].maximum = maxValue;
-				
+				chart._axes.items[0]._maximum = maxValue;
 				// renew the chart-data
 				chart.redraw();
 			},

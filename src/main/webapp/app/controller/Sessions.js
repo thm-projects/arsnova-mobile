@@ -146,7 +146,6 @@ Ext.define("ARSnova.controller.Sessions", {
 					tabPanel.speakerTabPanel.tab.show();
 					tabPanel.speakerTabPanel.renew();
 
-					/* don't know what's going on here, try to fix it */
 					setTimeout("ARSnova.app.hideLoadMask();", 3000);
 				}
 				tabPanel.animateActiveItem(tabPanel.speakerTabPanel, {
