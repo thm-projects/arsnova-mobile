@@ -305,7 +305,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				if (!isActive) {
 					Ext.Msg.show({
 						title: 'Hinweis:',
-						msg: Messages.SESSION_CLOSE_NOTICE,
+						message: Messages.SESSION_CLOSE_NOTICE,
 						buttons: [{
 							text: Messages.NOTICE_READ,
 							ui: 'action'

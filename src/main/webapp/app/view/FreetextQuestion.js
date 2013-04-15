@@ -204,7 +204,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	},
 	
 	doTypeset: function(parent) {
-		if (typeof this.questionTitle.getEl() !== "undefined") {
+		if (typeof this.questionTitle.element !== "undefined") {
 			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.questionTitle.id]);
 			MathJax.Hub.Queue(Ext.bind(function() {
 				this.questionTitle.doComponentLayout();

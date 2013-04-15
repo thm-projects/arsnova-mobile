@@ -23,6 +23,19 @@ Ext.define('ARSnova.view.Question', {
 	
 	config: {
 		scroll: 'vertical',
+		
+		listeners: {
+			preparestatisticsbutton: function(button) {
+				button.scope = this;
+				button.handler = function() {
+					var questionStatisticChart = Ext.create('ARSnova.view.QuestionStatisticChart', {
+						question	: this.questionObj,
+						lastPanel	: this
+					});
+					ARSnova.app.mainTabPanel.animateActiveItem(questionStatisticChart, 'slide');
+				};
+			}
+		},
 	},
 	
 	questionObj: null,
@@ -174,19 +187,6 @@ Ext.define('ARSnova.view.Question', {
 		});
 	},
 	
-	listeners: {
-		preparestatisticsbutton: function(button) {
-			button.scope = this;
-			button.handler = function() {
-				var questionStatisticChart = Ext.create('ARSnova.view.QuestionStatisticChart', {
-					question	: this.questionObj,
-					lastPanel	: this
-				});
-				ARSnova.app.mainTabPanel.animateActiveItem(questionStatisticChart, 'slide');
-			};
-		}
-	},
-	
 	decrementQuestionBadges: function() {
 		// Update badge inside the tab panel at the bottom of the screen
 		var tab = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.tab;
@@ -197,11 +197,10 @@ Ext.define('ARSnova.view.Question', {
 	},
 	
 	doTypeset: function(parent) {
-		if (typeof this.questionTitle.getEl() !== "undefined") {
+		if (typeof this.questionTitle.element !== "undefined") {
 			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.questionTitle.id]);
 			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.answerList.id]);
 			MathJax.Hub.Queue(Ext.bind(function() {
-				this.questionTitle.doComponentLayout();
 			}, this));
 		} else {
 			// If the element has not been drawn yet, we need to retry later

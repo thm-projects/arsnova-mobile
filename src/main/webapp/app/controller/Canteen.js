@@ -76,7 +76,7 @@ Ext.define("ARSnova.controller.Canteen", {
     	
     	canteenVote.save({
     		success: function(){
-    			ARSnova.app.mainTabPanel.layout.activeItem.switchBack();
+    			ARSnova.app.mainTabPanel._activeItem.switchBack();
     		}
     	});
     },

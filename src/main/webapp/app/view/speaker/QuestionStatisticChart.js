@@ -24,8 +24,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	extend: 'Ext.Panel',
 	
 	config: {
-		fullscreen: true,
 		title	: Messages.STATISTIC,
+		style: 'background-color: black',
 		iconCls	: 'tabBarIconCanteen',
 		layout	: 'fit'
 	},
@@ -42,7 +42,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	renewChartDataTask: {
 		name: 'renew the chart data at question statistics charts',
 		run: function(){
-			ARSnova.app.mainTabPanel.layout.activeItem.getQuestionAnswers();
+			ARSnova.app.mainTabPanel._activeItem.getQuestionAnswers();
 		},
 		interval: 10000 //10 seconds
 	},
@@ -53,23 +53,23 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	countActiveUsersTask: {
 		name: 'count the actually logged in users',
 		run: function(){
-			ARSnova.app.mainTabPanel.layout.activeItem.countActiveUsers();
+			ARSnova.app.mainTabPanel._activeItem.countActiveUsers();
 		},
 		interval: 15000
 	},
 	
 	constructor: function(arguments){
 		this.callParent(arguments);
-		
+
 		this.questionObj = arguments.question;
 		this.lastPanel = arguments.lastPanel;
 		
 		this.questionStore = Ext.create('Ext.data.Store', {
 			fields: ['text', 'value', 'percent']
 		});
-		
-		for ( var i = 0; i < question.possibleAnswers.length; i++) {
-			var pA = question.possibleAnswers[i];
+	
+		for ( var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
+			var pA = this.questionObj.possibleAnswers[i];
 			if(pA.data){
 				this.questionStore.add({
 					text: pA.data.text,
@@ -90,9 +90,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			handler	: function() {
 				taskManager.stop(this.renewChartDataTask);
 				taskManager.stop(this.countActiveUsersTask);
-				ARSnova.app.mainTabPanel.layout.activeItem.on('deactivate', function(){
-					this.destroy();					
-				}, this, {single:true});
 				ARSnova.app.mainTabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel, {
 					type		: 'slide',
 					direction	: 'right',
@@ -106,6 +103,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			title = title.substring(0, (window.innerWidth) / 10) + "...";
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
+			docked: 'top',
 			items: [this.backButton, {
 				xtype: 'spacer'
 			}, {
@@ -244,8 +242,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		}
 		
 		this.questionChart = Ext.create('Ext.chart.Chart', {
-			cls: 'column1',
 		    theme: 'Demo',
+			themeCls: 'column1',
+
 		    store: this.questionStore,
 
 		    animate: {
@@ -296,7 +295,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		            return barAttr;
 		        },
 		        label: {
-		          field: 'percent',
+		          field: '[percent]',
 		          renderer: function(v) {
 				return Math.round(v * 100) + "%";
 		          }
@@ -314,7 +313,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	getQuestionAnswers: function() {
 		ARSnova.app.questionModel.countAnswers(localStorage.getItem('keyword'), this.questionObj._id, {
 			success: function(response) {
-				var panel = ARSnova.app.mainTabPanel.layout.activeItem;
+				var panel = ARSnova.app.mainTabPanel._activeItem;
 				var chart = panel.questionChart;
 				var store = chart.getStore();
 				
@@ -357,14 +356,14 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					record.data.percent = totalResults > 0 ? (record.data.value / totalResults) : 0.0;
 				});
 				
-				chart.getAxes().items[0].maximum = maxValue;
+				chart._axes.items[0]._maximum = maxValue;
 				
 				// renew the chart-data
 				chart.redraw();
 				
 				//update quote in toolbar
 				var quote = panel.toolbar.items.items[4];
-				var users = quote.element.dom.innerHTML.split("/");
+				var users = quote.element.dom.innerText.split("/");
 				users[0] = sum;
 				users = users.join("/");
 				quote.setHtml(users);
@@ -379,7 +378,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		taskManager.start(this.renewChartDataTask);
 		taskManager.start(this.countActiveUsersTask);
 		
-		this.questionChart.axes.items[2].axis.attr.stroke = "#0E0E0E";
+		this.questionChart.getAxes().items[2].style.stroke = "#0E0E0E";
 		this.questionChart.redraw();
 	},
 	
@@ -389,8 +388,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				var value = parseInt(response.responseText);
 				
 				//update quote in toolbar
-				var quote = ARSnova.app.mainTabPanel.layout.activeItem.toolbar.items.items[4];
-				var users = quote.element.dom.innerHTML.split("/");
+				var quote = ARSnova.app.mainTabPanel._activeItem.toolbar.items.items[4];
+				var users = quote.element.dom.innerText.split("/");
 				users[1] = value;
 				users = users.join("/");
 				quote.setHtml(users);

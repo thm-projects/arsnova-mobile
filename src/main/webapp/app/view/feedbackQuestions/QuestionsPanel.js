@@ -230,8 +230,8 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		
 		this.add([
 		    this.toolbar,
-			this.list,
-			this.noQuestionsFound
+		    this.noQuestionsFound,
+			this.list
         ]);
 		
 		this.on('deactivate', function(){

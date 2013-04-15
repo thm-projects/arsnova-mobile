@@ -89,7 +89,7 @@ Ext.define('ARSnova.view.user.RankingPanel', {
 			success: function(response){
 				var responseObj = Ext.decode(response.responseText).rows;
 				if (responseObj.length == 0) return;
-				ARSnova.app.mainTabPanel.layout.activeItem.myRanking = responseObj[0].value;
+				ARSnova.app.mainTabPanel._activeItem.myRanking = responseObj[0].value;
 			},
 			failure: function() {
 				console.log('server-side error');
@@ -98,7 +98,7 @@ Ext.define('ARSnova.view.user.RankingPanel', {
 		
 		ARSnova.app.userRankingModel.getSessionRankingStatistic(localStorage.getItem("sessionId"), {
 			success: function(response){
-				var panel = ARSnova.app.mainTabPanel.layout.activeItem;
+				var panel = ARSnova.app.mainTabPanel._activeItem;
 				var responseObj = Ext.decode(response.responseText).rows;
 				
 				for(var i = 0; i < responseObj.length; i++){

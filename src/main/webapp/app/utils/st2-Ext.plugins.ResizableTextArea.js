@@ -32,12 +32,11 @@ Ext.define('Ext.plugins.ResizableTextArea', {
 	
 	initialize: function(config) {
 		this.callParent(arguments);
-		this.on('afterrender', function () {
-			this.onKeyUp(null, Ext.DomQuery.select('textarea', this.element.dom)[0]);
-		});
 	},
 	
-	onKeyUp: function(event, textarea) {
+	onKeyUp: function() {
+		textarea = Ext.DomQuery.select('textarea', this.element.dom)[0];
+		
 		/* Default max height */
 		/* Don't let it grow over the max height */
 		if ((this.maxHeight > -1) && (textarea.scrollHeight > this.maxHeight)) {

@@ -53,11 +53,11 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			}
 		});
 		
-		this.listeners = {
+		this.config.listeners = {
 			activeitemchange: function(panel, newCard, oldCard, index, animated){
 				//update question counter in toolbar
 				var counterEl = panel.questionCounter;
-				var counter = counterEl.element.dom.innerHTML.split("/");
+				var counter = counterEl.element.dom.innerText.split("/");
 				counter[0] = index + 1;
 				counterEl.setHtml(counter.join("/"));
 				
@@ -82,7 +82,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			hidden	: true,
 			handler	: function() {
 				var questionStatisticChart = Ext.create('ARSnova.view.QuestionStatisticChart', {
-					question: ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.layout.activeItem.questionObj,
+					question: ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel._activeItem.questionObj,
 					lastPanel: this
 				});
 				ARSnova.app.mainTabPanel.animateActiveItem(questionStatisticChart, 'slide');
@@ -162,7 +162,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				} else {
 					//update question counter in toolbar
 					var counterEl = userQuestionsPanel.questionCounter;
-					var counter = counterEl.element.dom.innerHTML.split("/");
+					var counter = counterEl.element.dom.innerText.split("/");
 					counter[0] = "1";
 					counter[1] = questions.length;
 					counterEl.setHtml(counter.join("/"));
@@ -212,9 +212,9 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				questionObj: question
 			}));
 		} else {
-			this.add(Ext.create('ARSnova.view.Question'), {
+			this.add(Ext.create('ARSnova.view.Question', {
 				questionObj: question
-			});
+			}));
 		}
 	},
 	
@@ -222,6 +222,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		ARSnova.app.showLoadMask(Messages.CHECK_ANSWERS);
 		this.items.items.forEach(function(questionPanel) {
 			var questionObj = questionPanel.questionObj;
+			
+			if (typeof questionObj === 'undefined') return;
 			if (!questionObj.userAnswered) return;
 			
 			var isQuestionAnswered = !!questionObj.userAnswered;
@@ -258,9 +260,10 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	},
 	
 	checkFirstQuestion: function() {
-		var firstQuestionView = this.items.items[0];
+		// items index has to be 2, because index 0 and 1 are occupied by toolbar and panel
+		var firstQuestionView = this.items.items[2];
 		var firstQuestionObj = firstQuestionView.questionObj;
-		
+
 		firstQuestionView.fireEvent('preparestatisticsbutton', this.statisticButton);
 		if(firstQuestionObj.showStatistic && firstQuestionObj.showStatistic == 1) {
 			this.statisticButton.show();
@@ -269,7 +272,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	
 	showNextUnanswered: function(){
 		var questionPanels = this.items.items;
-		var activeQuestion = this.layout.activeItem;
+		var activeQuestion = this._activeItem;
 		if(!activeQuestion.disabled) return;
 		
 		var animDirection = 'right';

@@ -33,17 +33,18 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	initialize: function(){
 		this.callParent(arguments);
 		
-		this.listeners = {
-			cardswitch: function(panel, newCard, oldCard, index, animated){
+		this.on('activeitemchange', function(panel, newCard, oldCard){
 				//update question counter in toolbar
 				var counterEl = panel.questionCounter;
-				var counter = counterEl.element.dom.innerHTML.split("/");
-				counter[0] = index + 1;
+				var counter = counterEl.element.dom.innerText.split("/");
+				
+				// TODO: where to get index from? 
+				//cardswitch is deprecated and the replacement activeitemchange don't deliver a index
+				//counter[0] = index + 1;
 				counterEl.setHtml(counter.join("/"));
 				
 				newCard.fireEvent('preparestatisticsbutton', panel.statisticButton);
-			}
-		};
+			});
 		
 		this.questionCounter = Ext.create('Ext.Container', {
 			cls: "x-toolbar-title alignRight",
@@ -54,7 +55,10 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			text	: ' ',
 			cls		: 'statisticIconSmall',
 			handler	: function() {
-				var questionStatisticChart = new ARSnova.app.view.QuestionStatisticChart(ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.layout.activeItem.questionObj, this);
+				var questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
+					question: ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel._activeItem._activeItem.questionObj, 
+					lastPanel: this
+				});
 				ARSnova.app.mainTabPanel.animateActiveItem(questionStatisticChart, 'slide');
 			}
 		});
@@ -115,7 +119,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				
 				//update question counter in toolbar
 				var counterEl = panel.questionCounter;
-				var counter = counterEl.element.dom.innerHTML.split("/");
+				var counter = counterEl.element.dom.innerText.split("/");
 				counter[0] = "1";
 				counter[1] = questions.length;
 				counterEl.setHtml(counter.join("/"));

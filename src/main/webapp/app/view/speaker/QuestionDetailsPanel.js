@@ -31,7 +31,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		title: 'FreetextAnswer',
 		fullscreen: true,
+		scrollable: true,
 		scroll: 'vertical',
 	},
 	
@@ -125,7 +127,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					panel.backButton.show();
 					
 					var values = this.up('panel').down('#contentForm').getValues();
-					var question = Ext.ModelMgr.create(panel.questionObj, "Question");
+					var question = Ext.create('ARSnova.model.Question', panel.questionObj);
 					question.set("subject", values.subject);
 					question.set("text", values.questionText);
 					question.saveSkillQuestion({
@@ -212,7 +214,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				handler	: function(){
 					taskManager.stop(this.renewAnswerDataTask);
 					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-					sTP.questionStatisticChart = Ext.create('ARSnova.view.QuestionStatisticChart', {
+					sTP.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
 						question: this.questionObj,
 						lastPanel: this
 					}),
@@ -320,7 +322,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 										panel.freetextAnswerStore.removeAll();
 									} else {
 										panel.answerFormFieldset.items.each(function(button){
-											button.setBadgeText("0");
+											if(button.xtype == 'button')
+												button.setBadgeText("0");
 										});
 									}
 								},
@@ -479,7 +482,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						if(pressed){
 							ARSnova.app.showLoadMask(Messages.CHANGE_RELEASE);
 							var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
-							var question = Ext.ModelMgr.create(panel.questionObj, "Question");
+							var question = Ext.create('ARSnova.model.Question', panel.questionObj);
 							
 							/* button was already pressed */
 							if(question.get('releasedFor') == button.id){
@@ -537,7 +540,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			cls	 : 'standardFieldset'
 		});
 		
-		this.freetextAnswerList = ARSnova.app.view.FreetextAnswerList(this.freetextAnswerStore, true);
+		this.freetextAnswerList = Ext.create('ARSnova.view.FreetextAnswerList', {
+			store: this.freetextAnswerStore, 
+			disableScrolling: true
+		});
 		
 		this.noFreetextAnswers = Ext.create('Ext.Panel', {
 			cls: 'centerText',
@@ -616,7 +622,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		
 		// Prevent the view from scrolling to the top after returning from a free text answer detail view
 		if (this.questionObj.questionType !== "freetext") {
-			this.doComponentLayout();
+			// TODO: how to migrate that?
+			//this.doComponentLayout();
 		}
 	},
 	
@@ -643,6 +650,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			 * only for older questions:
 			 * try to define the question type
 			 */
+			console.log(this.questionObj);
 			if(this.questionObj.possibleAnswers.length == 2)
 				return Messages.YESNO;
 			else if(this.questionObj.possibleAnswers[0].correct)

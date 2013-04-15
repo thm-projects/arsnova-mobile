@@ -48,8 +48,8 @@ Ext.define('ARSnova.view.archive.QuestionPanel', {
 			}
 		});
 		
-		this.listeners = {
-			cardswitch: function(panel, newCard, oldCard, index, animated){
+		this.config.listeners = {
+			activeitemchange: function(panel, newCard, oldCard){
 				//update toolbar with question number
 				var questionNumber = "Archiv-Frage";
 				if(newCard.questionObj.number)
@@ -58,8 +58,11 @@ Ext.define('ARSnova.view.archive.QuestionPanel', {
 				
 				//update question counter in toolbar
 				var counterEl = panel.questionCounter;
-				var counter = counterEl.element.dom.innerHTML.split("/");
-				counter[0] = index + 1;
+				var counter = counterEl.element.dom.innerText.split("/");
+				
+				// TODO: where to get index from? 
+				//cardswitch is deprecated and the replacement activeitemchange don't deliver a index
+				//counter[0] = index + 1;
 				counterEl.setHtml(counter.join("/"));
 			}				
 		};
@@ -117,7 +120,7 @@ Ext.define('ARSnova.view.archive.QuestionPanel', {
 				} else {
 					//update question counter in toolbar
 					var counterEl = questionPanel.questionCounter;
-					var counter = counterEl.element.dom.innerHTML.split("/");
+					var counter = counterEl.element.dom.innerText.split("/");
 					counter[0] = "1";
 					counter[1] = questions.length;
 					counterEl.setHtml(counter.join("/"));

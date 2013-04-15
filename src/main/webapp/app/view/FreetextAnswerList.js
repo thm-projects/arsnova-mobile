@@ -39,9 +39,7 @@ Ext.define('ARSnova.view.FreetextAnswerList', {
 		listeners: {
 			itemtap: function (list, index, element) {
 				var answer = list.store.getAt(index).data;
-				Ext.dispatch({
-					controller	: 'questions',
-					action		: 'freetextDetailAnswer',
+				ARSnova.app.getController('Questions').freetextDetailAnswer({
 					answer		: Ext.apply(answer, {
 						deselectItem: function() { list.deselect(index); },
 						removeItem: function() { list.store.remove(list.store.getAt(index)); }
@@ -51,8 +49,8 @@ Ext.define('ARSnova.view.FreetextAnswerList', {
 		}
 	},
 	
-	initialize: function(store, disableScrolling) {
-		this.scroll = !disableScrolling ? 'vertical' : false;
-		this.store = store;
+	constructor: function(store, disableScrolling) {
+		this.scroll = !arguments.disableScrolling ? 'vertical' : false;
+		this.store = arguments.store;
 	},
 });

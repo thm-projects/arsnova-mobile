@@ -23,21 +23,22 @@ Ext.define('ARSnova.view.BadgeList', {
 	initialize : function() {
 		this.callParent(arguments);
 		
-		this.tpl = ['<tpl for="."><div class="x-list-item x-hasbadge ' + this.itemCls + '">',
-		            '<span class="x-button-label">' + this.itemTpl + '</span>',
+		this.config.tpl = ['<tpl for="."><div class="x-list-item x-hasbadge ' + this.config.itemCls + '">',
+		            '<span class="x-button-label">' + this.config.itemTpl + '</span>',
 		            '<tpl if="numAnswers &gt; 0"><span class="redbadgeicon">{numAnswers}</span></tpl>',
 		            '</div></tpl>'].join("");
-		if (this.grouped) {
-			this.listItemTpl = this.tpl;
-			if (Ext.isString(this.listItemTpl) || Ext.isArray(this.listItemTpl)) {
-				this.listItemTpl = new Ext.XTemplate(this.listItemTpl);
+
+		if (this.config.grouped) {
+			this.config.listItemTpl = this.config.tpl;
+			if (Ext.isString(this.config.listItemTpl) || Ext.isArray(this.config.listItemTpl)) {
+				this.config.listItemTpl = Ext.create('Ext.XTemplate', this.config.listItemTpl);
 			}
-			if (Ext.isString(this.groupTpl) || Ext.isArray(this.groupTpl)) {
-				this.tpl = new Ext.XTemplate(this.groupTpl);
+			if (Ext.isString(this.config.groupTpl) || Ext.isArray(this.config.groupTpl)) {
+				this.config.tpl = Ext.create('Ext.XTemplate', this.config.groupTpl);
 			}
 		}
-		
-		this.on('update', function(list) {
+
+		this.on('updatedata', function(list, newData ) {
 			var allJax = MathJax.Hub.getAllJax(list.id);
 			if (allJax.length === 0) {
 				MathJax.Hub.Queue(["Typeset", MathJax.Hub, list.id]);

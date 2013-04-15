@@ -27,10 +27,17 @@ Ext.define('ARSnova.model.Question', {
 		
 		fields: [
 		         'type',
-		      	  'text',
-		      	  'subject',
-		      	  'sessionId',
-		      	  'sessionKeyword'
+		         'courses',
+		         'noCorrect',
+		         'number',
+		         'possibleAnswers',
+		         'questionType',
+		         'releasedFor',
+		         'active',
+		      	 'text',
+		      	 'subject',
+		      	 'sessionId',
+		      	 'sessionKeyword'
 		],
 		
 		transientFields: ['numAnswers'],

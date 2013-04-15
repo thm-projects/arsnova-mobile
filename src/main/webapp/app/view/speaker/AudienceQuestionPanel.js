@@ -61,9 +61,18 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		     },
 		});
 		
+		// TODO: migration of BadgeList - list is not working and not shown
 		this.questions = Ext.create('ARSnova.view.BadgeList', {
+			activeCls: 'search-item-active',
+			layout: 'fit',
+			flex: 1,
+			
+			style: {
+				backgroundColor: 'transparent'
+			},
+			
 			scroll: false,
-			itemCls: 'forwardListButton',
+			itemCls: 'forwardGroupedListButton',
 			itemTpl: '<tpl if="active"><span class="isActive">{text}</span></tpl><tpl if="!active">{text}</tpl>',
 			grouped: true,
 			store: this.questionStore,

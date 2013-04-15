@@ -43,7 +43,7 @@ Ext.define("ARSnova.controller.Questions", {
     },
     
     add: function(options){
-    	var question = Ext.ModelMgr.create({
+    	var question = Ext.create('ARSnova.model.Question', {
 			type	 	: options.type,
 			questionType: options.questionType,
 			sessionKeyword: options.sessionKeyword,
@@ -55,8 +55,8 @@ Ext.define("ARSnova.controller.Questions", {
 			courses		: options.courses,
 			possibleAnswers: options.possibleAnswers,
 			noCorrect	: options.noCorrect
-		}, 'Question');
-    	
+		});
+    	question.set('_id', undefined);
     	var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
     	panel.query('textfield').forEach(function(el){
     		el.removeCls("required");
@@ -156,7 +156,7 @@ Ext.define("ARSnova.controller.Questions", {
 	setActive: function(options){
 		ARSnova.app.questionModel.getSkillQuestion(options.questionId, {
 			success: function(response) {
-				var question = Ext.ModelMgr.create(Ext.decode(response.responseText), 'Question');
+				var question = Ext.create('ARSnova.model.Question', Ext.decode(response.responseText));
 				question.set('active', options.active);
 				
 				question.publishSkillQuestion({

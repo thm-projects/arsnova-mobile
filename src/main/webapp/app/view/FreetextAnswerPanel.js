@@ -61,7 +61,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			ui		: 'back',
 			scope	: this,
 			handler	: function() {
-				ARSnova.app.mainTabPanel.layout.activeItem.on('deactivate', function() {
+				ARSnova.app.mainTabPanel._activeItem.on('deactivate', function() {
 					this.destroy();
 				}, this, {single:true});
 				ARSnova.app.mainTabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel, {
