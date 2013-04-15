@@ -112,7 +112,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 				if(el.xtype == 'textfield')
 					el.removeCls("required");
 			});
-			console.log(validation);
+			
 			validation.items.forEach(function(el) {
 				me.down('textfield[name=' + el.getField() + ']').addCls("required");
 			});

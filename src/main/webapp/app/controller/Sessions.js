@@ -289,7 +289,6 @@ Ext.define("ARSnova.controller.Sessions", {
 						//update this session in localStorage
 						var sessions = Ext.decode(localStorage.getItem('lastVisitedSessions'));
 						sessions.forEach(function(el){
-							console.log(el);
 							if(el._id == session.data._id)
 								el.active = session.data.active;
 						});

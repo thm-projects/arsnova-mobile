@@ -746,8 +746,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				});
 			},
 			failureFunc	: function(response, opts){
-    			console.log(response);
-    			console.log(opts);
     	  		console.log('server-side failure with status code ' + response.status);
     	  		Ext.Msg.alert(Messages.NOTICE, Messages.QUESTION_CREATION_ERROR);
     		},
