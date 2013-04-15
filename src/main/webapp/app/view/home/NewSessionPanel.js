@@ -23,6 +23,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 	
 	config: {
 		fullscreen: true,
+		scrollable: true,
 		scroll	: 'vertical'
 	},
 	

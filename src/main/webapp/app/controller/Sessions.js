@@ -145,7 +145,6 @@ Ext.define("ARSnova.controller.Sessions", {
 					ARSnova.app.showLoadMask("Login...");
 					tabPanel.speakerTabPanel.tab.show();
 					tabPanel.speakerTabPanel.renew();
-
 					setTimeout("ARSnova.app.hideLoadMask();", 3000);
 				}
 				tabPanel.animateActiveItem(tabPanel.speakerTabPanel, {
@@ -179,16 +178,15 @@ Ext.define("ARSnova.controller.Sessions", {
 					tabPanel.userTabPanel = Ext.create('ARSnova.view.user.TabPanel');
 					tabPanel.insert(0, tabPanel.userTabPanel);
 				} else {
-					ARSnova.app.showLoadMask("Login...");
 					tabPanel.userTabPanel.tab.show();
 					tabPanel.userTabPanel.renew();
-					setTimeout("ARSnova.app.hideLoadMask();", 1500);
 				}
 //				tabPanel.animateActiveItem(tabPanel.userTabPanel, {
 //					type: 'slide',
 //					duration: 700
 //				});
-
+				
+				ARSnova.app.hideLoadMask();
 				tabPanel.userTabPanel.inClassPanel.registerListeners();
 				
 			/* add feedback statistic panel*/
