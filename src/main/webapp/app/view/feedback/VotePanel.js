@@ -24,6 +24,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 	config: {
 		title: 'VotePanel',
 		fullscreen: true,
+		scrollable: true,
 		scroll: 'vertical',
 		
 		defaults: {

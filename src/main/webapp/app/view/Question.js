@@ -86,7 +86,6 @@ Ext.define('ARSnova.view.Question', {
 											cls: 'notificationBox',
 											name: 'notificationBox',
 											showAnimation: 'pop',
-											floating: true,
 											modal: true,
 											centered: true,
 											width: 300,

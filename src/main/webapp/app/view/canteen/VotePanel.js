@@ -22,7 +22,9 @@ Ext.define('ARSnova.view.canteen.VotePanel', {
 	extend: 'Ext.Container',
 	
 	config: {
-		title: 'VotePanel'
+		title: 'VotePanel',
+		fullscreen: true,
+		scrollable: true,
 	},
 	
 	VOTE_1: null,

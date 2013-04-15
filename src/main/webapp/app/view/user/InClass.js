@@ -147,26 +147,29 @@ Ext.define('ARSnova.view.user.InClass', {
 			handler		: this.buttonClicked
 		});
 		
-		this.inClass = {
-			xtype: 'formpanel',
-			cls	 : 'standardForm topPadding',
+		this.inClass = Ext.create('Ext.form.FormPanel', {
+			style: { marginLeft: '15px', marginRight: '15px'},
 			scrollable: null,
 			
 			items: [{
 				cls: 'gravure',
 				html: localStorage.getItem("name")
 			}, {
+				xtype: 'formpanel',
+				cls	 : 'standardForm topPadding',
+				scrollable: null,
+				
+				items: [					
+						this.feedbackButton,
+						this.questionButton,
+						this.flashcardButton
+					]
+			}, {
 				xtype: 'fieldset',
 				cls	 : 'standardFieldset noMargin',
 				instructions: "Session-ID: " + ARSnova.app.formatSessionID(localStorage.getItem("keyword")),
-				items: [					
-					this.feedbackButton,
-					this.questionButton,
-					this.flashcardButton
-				]
-			}
-			]
-		};
+			}]
+		});
 		
 		this.add([this.toolbar, this.inClass]);
 	},

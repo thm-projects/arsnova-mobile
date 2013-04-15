@@ -22,11 +22,14 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		title: 'DetailsPanel',
 		fullscreen: true,
+		scrollable: true,
 		scroll: 'vertical',
+		isRendered: false
 	},
 	
-	isRendered: false,
+
 	
 	/* toolbar items */
 	toolbar		: null,
@@ -62,7 +65,10 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 		});
 		
 		this.add([this.toolbar, {
-			xtype: 'form',
+			xtype: 'formpanel',
+			scrollable: null,
+			style: { margin: '20px'},
+			
 			items: [{
 				xtype: 'fieldset',
 				items: [{
@@ -76,9 +82,11 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 					value: this.questionObj.subject,
 					disabled: true
 				}, {
-					xtype: "mathjaxfield",
+					// TODO: migration of mathjaxfield
+					xtype: "textareafield",
 					label: Messages.QUESTION_TEXT,
-					content: this.questionObj.text
+					value: this.questionObj.text,
+					disabled: true
 				}]
 			}]
 		},{
@@ -108,7 +116,6 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 	},
 	
 	onDeactivate: function(){
-		this.destroy();
-		ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.checkFeedbackQuestions();
+		setTimeout("ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.checkFeedbackQuestions();", 500);
 	}
 });

@@ -22,6 +22,6 @@ Ext.define('ARSnova.model.FeedbackQuestion', {
 	extend: 'Ext.data.Model',
 	
 	config: {
-		fields: ['fullDate', 'formattedTime', 'timestamp', 'subject', 'type', 'groupDate']
+		fields: ['fullDate', 'formattedTime', 'timestamp', 'subject', 'type', 'groupDate', 'obj']
 	}
 });

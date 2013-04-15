@@ -23,6 +23,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 	config: {
 		title: 'AskPanel',
 		fullscreen: true,
+		scrollable: true,
 		scroll: 'vertical'	
 	},
 	
@@ -77,6 +78,8 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			submitOnAction: false,
 			scrollable: null,
 			
+			style: { margin: '20px' },
+			
 			items: [{
 				xtype: 'fieldset',
 				items: [this.subject, this.text]
@@ -124,11 +127,11 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 					cls: 'notificationBox',
 					name: 'notificationBox',
 					showAnimation: 'pop',
-					floating: true,
 					modal: true,
 					centered: true,
 					width: 300,
 					styleHtmlContent: true,
+					styleHtmlCls: 'notificationBoxText',
 					html: Messages.QUESTION_SAVED,
 					listeners: {
 						hide: function() {
@@ -140,10 +143,11 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 								me.closePanel();
 								me.subject.setValue('');
 								me.text.setValue('');
-							}, 2000);
+							}, 3000);
 						}
 					}
 				});
+				Ext.Viewport.add(theNotificationBox);
 				theNotificationBox.show();
 			},
 			failure: function(records, operation) {

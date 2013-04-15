@@ -225,6 +225,18 @@ body {
 	border-width: thin;
 }
 
+/* edited forwardListButton for grouped lists */
+.forwardGroupedListButton { /* apple-like forward arrow*/
+	background: white
+		url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IArs4c6QAAAAZiS0dEALgAuAC41wNsvAAAAAlwSFlzAAALEgAACxIB0t1+/AAAAAd0SU1FB9sGEQk7MbF1V5sAAAENSURBVCjPY2CgNigtLS0pKyubSEgdMxqfsbS0tJuRkbGBgYHB3NLS8s+xY8cO49LMhC7AyMgoA5dkYmopLS1NIVbz//v378f///9/D5LYjLKysgCibF69evWvr1+/Bv7///8M1CXMDAwMy0tLS20xXInLSbm5uaIcHBxHGRkZVaFCH//9+2fX09NzCafNMDB58uTXjIyM6UhC/ExMTPPwOhvZ5v///89EEvr479+/JIKas7KyeDg4OLYhOfnH////fZGdjFVzaGgoGw8PzzpGRkYTBgYGhv////9lYGCI7O7uPkwotBkVFRUXMjAwuCKJZXR1dW0gKqr+////BMb+9+9fTXd39xyapG2KAAAvqFz8khrpYwAAAABJRU5ErkJggg==")
+		no-repeat;
+	background-position: 99%;
+	border-radius: 0;
+	border-style: solid;
+	border-color: lightgray;
+	border-width: thin;
+}
+
 .caption {
 	height: 40px;
 	background: white;
@@ -974,12 +986,13 @@ ol.standardList li {
 }
 
 .notificationBox {
+	background-color: black !important;
 	border-radius: 0.3em;
 	border: 0.15em solid #354F6E;
 }
 
-.notificationBox .x-panel-body {
-	background-color: transparent;
+.notificationBoxText {
+	background-color: black !important;
 	text-align: center;
 	color: rgba(186, 202, 222, 0.9);
 	font-size: .9em;

@@ -134,10 +134,10 @@ Ext.define("ARSnova.controller.Questions", {
 	},
     
     detailsFeedbackQuestion: function(options){
-    	options.question.getInterposed({
+    	var questionModel = Ext.create('ARSnova.model.Question', options.question.data);
+    	questionModel.getInterposed({
     		success: function(response){
-    			var question = Ext.ModelMgr.create(Ext.decode(response.responseText), 'Question');
-    			
+    			var question = Ext.create('ARSnova.model.Question', Ext.decode(response.responseText));
     			question.set('formattedTime', options.formattedTime);
     			question.set('fullDate', options.fullDate);
     			
