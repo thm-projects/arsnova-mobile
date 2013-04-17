@@ -76,31 +76,7 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 										localStorage.setItem('questionIds', Ext.encode(questionsArr));
 										
 										list.up("panel").disable();
-										new Ext.Panel({
-											cls: 'notificationBox',
-											name: 'notificationBox',
-											showAnimation: 'pop',
-											floating: true,
-											modal: true,
-											centered: true,
-											width: 300,
-											styleHtmlContent: true,
-											html: Messages.ANSWER_SAVED,
-											listeners: {
-												hide: function(){
-													this.destroy();
-												},
-												show: function(){
-													delayedFn = function(){
-														var cmp = Ext.ComponentQuery.query('panel[name=notificationBox]');
-														if(cmp.length > 0)
-															cmp[0].hide();
-														ARSnova.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
-													};
-													setTimeout("delayedFn()", 2000);
-												}
-											}
-										}).show();
+										ARSnova.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
 									},
 									failure: function(response, opts) {
 										console.log('server-side error');

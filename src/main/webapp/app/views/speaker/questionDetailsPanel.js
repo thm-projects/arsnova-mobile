@@ -305,6 +305,7 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 									if (panel.questionObj.questionType === "freetext") {
 										panel.noFreetextAnswers.show();
 										panel.freetextAnswerStore.removeAll();
+										panel.freetextAbstentions.hide();
 									} else {
 										panel.answerFormFieldset.items.each(function(button){
 											button.setBadge("0");
@@ -523,9 +524,20 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 			html: Messages.NO_ANSWERS
 		});
 		
+		this.freetextAbstentions = new Ext.Button({
+			hidden		: true,
+			ui			: 'normal',
+			text		: Messages.ABSTENTION,
+			disabled	: true,
+			cls			: 'answerListButton',
+			badgeText	: '0',
+			badgeCls	: 'badgeicon'
+		});
+		
 		if (this.questionObj.questionType === "freetext") {
 			this.answerFormFieldset.add(this.noFreetextAnswers);
 			this.answerFormFieldset.add(this.freetextAnswerList);
+			this.answerFormFieldset.add(this.freetextAbstentions);
 		}
 		
 		this.answerForm = new Ext.form.FormPanel({
@@ -669,16 +681,24 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 							});
 						});
 						
+						var abstentions = listItems.filter(function(item) {
+							return item.abstention;
+						});
+						var answers = listItems.filter(function(item) {
+							return !item.abstention;
+						});
 						// Have the first answers arrived? Then remove the "no answers" message. 
 						if (self.noFreetextAnswers.isVisible() && listItems.length > 0) {
 							self.noFreetextAnswers.hide();
-						} else if (!self.noFreetextAnswers.isVisible() && listItems.length === 0) {
+						} else if (self.noFreetextAnswers.isHidden() && listItems.length === 0) {
 							// The last remaining answer has been deleted. Display message again.
 							self.noFreetextAnswers.show();
 						}
 						
 						self.freetextAnswerStore.removeAll();
-						self.freetextAnswerStore.add(listItems);
+						self.freetextAnswerStore.add(answers);
+						self.freetextAbstentions.setBadge(abstentions.length);
+						self.freetextAbstentions.setVisible(abstentions.length > 0);
 					},
 					failure: function() {
 						console.log('server-side error');

@@ -55,12 +55,32 @@ ARSnova.views.FreetextQuestion = Ext.extend(Ext.Panel, {
 						xtype: 'fieldset',
 						items: [this.answerSubject, this.answerText]
 					}, {
-						xtype	: 'button',
-						ui: 'confirm',
-						cls: 'login-button noMargin',
-						text: Messages.SAVE,
-						handler: this.saveHandler,
-						scope: this
+						xtype: 'container',
+						layout: {
+							type: 'hbox',
+							align: 'stretch'
+						},
+						defaults: {
+							style: {
+								margin: '10px'
+							}
+						},
+						items: [{
+							flex: 1,
+							xtype	: 'button',
+							ui: 'confirm',
+							cls: 'login-button noMargin',
+							text: Messages.SAVE,
+							handler: this.saveHandler,
+							scope: this
+						}, !!!this.questionObj.abstention ? { hidden: true } : {
+							flex: 1,
+							xtype: 'button',
+							cls: 'login-button noMargin',
+							text: Messages.ABSTENTION,
+							handler: this.abstentionHandler,
+							scope: this
+						}]
 					}]
 				}
 			]
@@ -105,57 +125,43 @@ ARSnova.views.FreetextQuestion = Ext.extend(Ext.Panel, {
 		}, this);
 	},
 	
+	abstentionHandler: function(button, event) {
+		Ext.Msg.confirm('', Messages.ARE_YOU_SURE, function (button) {
+			if (button === "yes") {
+				this.storeAbstention();
+			}
+		}, this);
+	},
+	
 	isEmptyAnswer: function() {
 		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "";
 	},
-		
-	storeAnswer: function () {
+	
+	saveAnswer: function(answer) {
 		var self = this;
 		
-		var saveAnswer = function(answer) {
-			answer.saveAnswer({
-				success: function() {
-					var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
-					if (questionsArr.indexOf(self.questionObj._id) == -1) {
-						questionsArr.push(self.questionObj._id);
-					}
-					localStorage.setItem('questionIds', Ext.encode(questionsArr));
-
-					self.decrementQuestionBadges();
-					self.disable();
-					new Ext.Panel({
-						cls: 'notificationBox',
-						name: 'notificationBox',
-						showAnimation: 'pop',
-						floating: true,
-						modal: true,
-						centered: true,
-						width: 300,
-						styleHtmlContent: true,
-						html: Messages.ANSWER_SAVED,
-						listeners: {
-							hide: function(){
-								this.destroy();
-							},
-							show: function(){
-								delayedFn = function(){
-									var cmp = Ext.ComponentQuery.query('panel[name=notificationBox]');
-									if(cmp.length > 0)
-										cmp[0].hide();
-									ARSnova.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
-								};
-								setTimeout("delayedFn()", 2000);
-							}
-						}
-					}).show();
-				},
-				failure: function(response, opts) {
-					console.log('server-side error');
-					Ext.Msg.alert(Messages.NOTIFICATION, Messages.ANSWER_CREATION_ERROR);
-					Ext.Msg.doComponentLayout();
+		answer.saveAnswer({
+			success: function() {
+				var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
+				if (questionsArr.indexOf(self.questionObj._id) == -1) {
+					questionsArr.push(self.questionObj._id);
 				}
-			});
-		};
+				localStorage.setItem('questionIds', Ext.encode(questionsArr));
+
+				self.decrementQuestionBadges();
+				self.disable();
+				ARSnova.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
+			},
+			failure: function(response, opts) {
+				console.log('server-side error');
+				Ext.Msg.alert(Messages.NOTIFICATION, Messages.ANSWER_CREATION_ERROR);
+				Ext.Msg.doComponentLayout();
+			}
+		});
+	},
+	
+	storeAnswer: function () {
+		var self = this;
 		
 		ARSnova.answerModel.getUserAnswer(this.questionObj._id, {
 			empty: function() {
@@ -169,7 +175,7 @@ ARSnova.views.FreetextQuestion = Ext.extend(Ext.Panel, {
 					user			: localStorage.getItem("login")
 				}, 'Answer');
 				
-				saveAnswer(answer);
+				self.saveAnswer(answer);
 			},
 			success: function(response) {
 				var theAnswer = Ext.decode(response.responseText);
@@ -178,8 +184,40 @@ ARSnova.views.FreetextQuestion = Ext.extend(Ext.Panel, {
 				answer.set('answerSubject', self.answerSubject.getValue());
 				answer.set('answerText', self.answerText.getValue());
 				answer.set('timestamp', Date.now());
+				answer.set('abstention', false);
 				
-				saveAnswer(answer);
+				self.saveAnswer(answer);
+			},
+			failure: function(){
+				console.log('server-side error');
+			}
+		});
+	},
+	
+	storeAbstention: function() {
+		var self = this;
+		
+		ARSnova.answerModel.getUserAnswer(this.questionObj._id, {
+			empty: function() {
+				var answer = Ext.ModelMgr.create({
+					type	 		: "skill_question_answer",
+					sessionId		: localStorage.getItem("sessionId"),
+					questionId		: self.questionObj._id,
+					timestamp		: Date.now(),
+					user			: localStorage.getItem("login"),
+					abstention		: true,
+				}, 'Answer');
+				
+				self.saveAnswer(answer);
+			},
+			success: function(response) {
+				var theAnswer = Ext.decode(response.responseText);
+				
+				var answer = Ext.ModelMgr.create(theAnswer, "Answer");
+				answer.set('timestamp', Date.now());
+				answer.set('abstention', true);
+				
+				self.saveAnswer(answer);
 			},
 			failure: function(){
 				console.log('server-side error');

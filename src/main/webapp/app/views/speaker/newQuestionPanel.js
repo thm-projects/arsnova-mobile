@@ -89,6 +89,22 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
              ]
 		}
 		
+		this.abstentionPart = new Ext.form.FormPanel({
+			items: [{
+				xtype: 'fieldset',
+				title: Messages.ABSTENTION_POSSIBLE,
+				items: [{
+					xtype: 'segmentedbutton',
+					cls: 'yesnoOptions',
+					items: [{
+						text: Messages.YES, id: 'withAbstention', pressed: true
+					}, {
+						text: Messages.NO, id: 'withoutAbstention'
+					}],
+				}]
+			}]
+		});
+		
 		this.releasePart = new Ext.form.FormPanel({
 			items: [{
 				xtype: 'fieldset',
@@ -186,87 +202,48 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 			}],
 		});
 		
+		var mcNumAnswersMaxValue = 6;
+		var mcNumAnswersStartValue = 4;
 		this.multipleChoiceQuestion = new Ext.form.FormPanel({
 			id: 'mc',
 			hidden: true,
 			submitOnAction: false,
 			items: [{
             	xtype: 'fieldset',
+            	id: 'mcAnswerFieldset',
             	title: Messages.ANSWERS,
             	items: [
         	        {
 	            		xtype	: "spinnerfield",
 	            		name	: 'countAnswers',
 	                	label	: Messages.COUNT,
-	            		minValue: 3,
-	            		maxValue: 6,
+	            		minValue: 2,
+	            		maxValue: mcNumAnswersMaxValue,
 	            		incrementValue: 1,
-	            		value: 4,
+	            		value: mcNumAnswersStartValue,
 	            		listeners: {
-	                		spin: function(selectField, value){
-	                			switch (value){
-	    							case 3:
-	    								Ext.getCmp("wrongAnswer3").hide();
-	    								Ext.getCmp("wrongAnswer4").hide();
-	    								Ext.getCmp("wrongAnswer5").hide();
-	    								break;
-	    							case 4:
-	    								Ext.getCmp("wrongAnswer3").show();
-	    								Ext.getCmp("wrongAnswer4").hide();
-	    								Ext.getCmp("wrongAnswer5").hide();
-	    								break;
-	    							case 5:
-	    								Ext.getCmp("wrongAnswer3").show();
-	    								Ext.getCmp("wrongAnswer4").show();
-	    								Ext.getCmp("wrongAnswer5").hide();
-	    								break;
-	    							case 6:
-	    								Ext.getCmp("wrongAnswer3").show();
-	    								Ext.getCmp("wrongAnswer4").show();
-	    								Ext.getCmp("wrongAnswer5").show();
-	    								break;
-	    							default:
-	    								break;
-	    						}
+	                		spin: function(selectField, value) {
+	                			var answerOption;
+	                			for (var i=1; i <= mcNumAnswersMaxValue; i++) {
+	                				answerOption = Ext.getCmp("answerOption" + i);
+	                				answerOption.setVisible(i <= value);
+	                			}
 	                			ARSnova.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel.doLayout();
 	                		}
 	                	}
-	                }, {
-						xtype	: 'textfield',
-					    id		: 'correctAnswer',
-						label	: Messages.CORRECT,
-						placeHolder: Messages.CORRECT_PLACEHOLDER,
-					}, {
-						xtype	: 'textfield',
-					    id		: 'wrongAnswer1',
-						label	: Messages.WRONG,
-						placeHolder: Messages.WRONG_PLACEHOLDER,
-					}, {
-						xtype	: 'textfield',
-					    id		: 'wrongAnswer2',
-					    label	: Messages.WRONG,
-					    placeHolder: Messages.WRONG_PLACEHOLDER,
-					}, {
-						xtype	: 'textfield',
-					    id		: 'wrongAnswer3',
-					    label	: Messages.WRONG,
-					    placeHolder: Messages.WRONG_PLACEHOLDER,
-					}, {
-						xtype	: 'textfield',
-					    id		: 'wrongAnswer4',
-					    label	: Messages.WRONG,
-					    placeHolder: Messages.WRONG_PLACEHOLDER,
-					    hidden	: true,
-					}, {
-						xtype	: 'textfield',
-					    id		: 'wrongAnswer5',
-					    label	: Messages.WRONG,
-					    placeHolder: Messages.WRONG_PLACEHOLDER,
-					    hidden	: true,
-					}
+	                }
     	        ]
 			}],
 		});
+		for (var i=1; i <= mcNumAnswersMaxValue; i++) {
+			Ext.getCmp('mcAnswerFieldset').add({
+				xtype:			'textfield',
+				id:				'answerOption' + i,
+				placeHolder:	Messages.OPTION_PLACEHOLDER + " " + i,
+				hidden:			mcNumAnswersStartValue < i,
+				label:			Messages.ANSWER
+			});
+		}
 
 		this.voteQuestion = new Ext.form.FormPanel({
 			id: 'vote',
@@ -341,7 +318,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 						xtype	: 'textfield',
 					    id		: 'schoolAnswer6',
 					    label	: '6.',
-					    value	: Messages.SCHOOL_NONE,
+					    value	: Messages.SCHOOL_F,
 					}
     	        ]
 			}],
@@ -501,6 +478,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
             this.schoolQuestion,
             this.abcdQuestion,
             
+            this.abstentionPart,
             this.releasePart,
             this.saveButton,
         ];
@@ -518,29 +496,30 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 		
 	},
 	
-    saveHandler: function(){
-    	var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
-    	var values = {};
-    	
-    	/* get text, subject of question from mainPart */
-    	var mainPartValues = panel.mainPart.getValues();
-    	values.text = mainPartValues.text;
-    	values.subject = mainPartValues.subject;
-    	
-    	/* check if release question button is clicked */
-    	var releasePart = panel.releasePart;
-	if (
-		  localStorage.getItem('courseId') != null
-		  && localStorage.getItem('courseId').length > 0
-	) {
-		var button = null;
-		values.releasedFor = 'courses';
-		//values.courses = [localStorage.getItem('courseId')];
-	} else {
-		var button = releasePart.down('segmentedbutton').pressedButton;
-	}
-    	if(button){
-    		switch (button.id) {
+	saveHandler: function(){
+		var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
+		var values = {};
+		
+		/* get text, subject of question from mainPart */
+		var mainPartValues = panel.mainPart.getValues();
+		values.text = mainPartValues.text;
+		values.subject = mainPartValues.subject;
+		values.abstention = panel.abstentionPart.down('segmentedbutton').pressedButton.id === 'withAbstention';
+		
+		/* check if release question button is clicked */
+		var releasePart = panel.releasePart;
+		
+		var button;
+		if (localStorage.getItem('courseId') != null && localStorage.getItem('courseId').length > 0) {
+			button = null;
+			values.releasedFor = 'courses';
+			//values.courses = [localStorage.getItem('courseId')];
+		} else {
+			button = releasePart.down('segmentedbutton').pressedButton;
+		}
+		
+		if(button){
+			switch (button.id) {
 				case 'all':
 					values.releasedFor = 'all';
 					break;
@@ -601,23 +580,14 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 				
 				var tmpValues = panel.down("#mc").getValues();
 				
-		    	wrongAnswers = [];
-		    	wrongAnswers.push(tmpValues.wrongAnswer1);
-		    	wrongAnswers.push(tmpValues.wrongAnswer2);
-		    	wrongAnswers.push(tmpValues.wrongAnswer3);
-		    	wrongAnswers.push(tmpValues.wrongAnswer4);
-		    	wrongAnswers.push(tmpValues.wrongAnswer5);
-		    	
-		    	values.possibleAnswers = [{
-		    		correct: 1,
-		    		text: tmpValues.correctAnswer,
-		    	}];
-		    	
-		    	for ( var i = 1; i < tmpValues.countAnswers; i++){
-		    		values.possibleAnswers.push({
-						text: wrongAnswers[i - 1],
-					});	
+				values.possibleAnswers = [];
+				for (var i=1; i <= tmpValues.countAnswers; i++) {
+					values.possibleAnswers.push({
+						text: tmpValues['answerOption' + i]
+					});
 				}
+				values.possibleAnswers[0].correct = 1;
+				
 				break;
 			case Messages.YESNO:
 				values.questionType = "yesno";
@@ -701,12 +671,18 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 			default:
 				break;
 		}
-    	
-    	ARSnova.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel.dispatch(values);
-    },
-    
-    dispatch: function(values){
-    	Ext.dispatch({
+		
+		if (values.abstention) {
+			values.possibleAnswers.push({
+				text: Messages.ABSTENTION
+			});
+		}
+		
+		ARSnova.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel.dispatch(values);
+	},
+	
+	dispatch: function(values){
+		Ext.dispatch({
 			controller	: 'questions',
 			action		: 'add',
 			sessionKeyword: localStorage.getItem('keyword'),
@@ -721,6 +697,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 			releasedFor	: values.releasedFor,
 			courses		: values.courses,
 			noCorrect	: values.noCorrect,
+			abstention	: values.abstention,
 			successFunc	: function(response, opts){
 				Ext.dispatch({
 					controller	: 'questions',

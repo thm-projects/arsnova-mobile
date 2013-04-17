@@ -53,7 +53,8 @@ Ext.regController("questions", {
 			releasedFor	: options.releasedFor,
 			courses		: options.courses,
 			possibleAnswers: options.possibleAnswers,
-			noCorrect	: options.noCorrect
+			noCorrect	: options.noCorrect,
+			abstention	: options.abstention
 		}, 'Question');
     	
     	var panel = ARSnova.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;

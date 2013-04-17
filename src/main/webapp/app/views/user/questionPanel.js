@@ -183,6 +183,7 @@ ARSnova.views.user.QuestionPanel = Ext.extend(Ext.Carousel, {
 							if(questionsArr[answer.questionId]) {
 								questionsArr[answer.questionId].userAnswered = answer.answerText;
 								questionsArr[answer.questionId].answerSubject = answer.answerSubject;
+								questionsArr[answer.questionId].isAbstentionAnswer = answer.abstention;
 							}
 						});
 						questionIds.forEach(function(questionId){
@@ -217,10 +218,12 @@ ARSnova.views.user.QuestionPanel = Ext.extend(Ext.Carousel, {
 		ARSnova.showLoadMask(Messages.CHECK_ANSWERS);
 		this.items.items.forEach(function(questionPanel) {
 			var questionObj = questionPanel.questionObj;
-			if (!questionObj.userAnswered) return;
+			if (!questionObj.userAnswered && !questionObj.isAbstentionAnswer) return;
 			
-			var isQuestionAnswered = !!questionObj.userAnswered;
-			if (!isQuestionAnswered) return;
+			if (questionObj.isAbstentionAnswer) {
+				questionPanel.disable();
+				return;
+			}
 			
 			if (questionObj.questionType === "freetext") {
 				questionPanel.setAnswerText(questionObj.answerSubject, questionObj.userAnswered);
@@ -265,21 +268,22 @@ ARSnova.views.user.QuestionPanel = Ext.extend(Ext.Carousel, {
 	showNextUnanswered: function(){
 		var questionPanels = this.items.items;
 		var activeQuestion = this.layout.activeItem;
-		if(!activeQuestion.disabled) return;
+		if (!activeQuestion.disabled) return;
 		
-		var animDirection = 'right';
-		for ( var i = 0; i < questionPanels.length; i++) {
-			var questionPanel = questionPanels[i];
-			
-			if(questionPanel == activeQuestion) {
-				animDirection = 'left';
-				continue;
+		var currentPosition = 0;
+		for (var i = 0, questionPanel; questionPanel = questionPanels[i]; i++) {
+			if (questionPanel == activeQuestion) {
+				currentPosition = i;
+				break;
 			}
-			if(questionPanel.disabled) continue;
+		}
+		
+		for (var i = currentPosition, questionPanel; questionPanel = questionPanels[i]; i++) {
+			if (questionPanel.disabled) continue;
 			
 			this.setActiveItem(questionPanel, {
 				type: 'slide',
-				direction: animDirection
+				direction: 'left'
 			});
 			break;
 		}
