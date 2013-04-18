@@ -6,6 +6,10 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 
+	<scm>
+	    <url>scm:git:git://scm.thm.de/arsnova/arsnova-legacy.js.git</url>
+	</scm>
+
 	<build>
 		<pluginManagement>
 			<plugins>
