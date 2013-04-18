@@ -231,10 +231,12 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 	            		value: mcNumAnswersStartValue,
 	            		listeners: {
 	                		spin: function(selectField, value) {
-	                			var answerOption;
+	                			var answerOption, answerOptionCorrect;
 	                			for (var i=1; i <= mcNumAnswersMaxValue; i++) {
 	                				answerOption = Ext.getCmp("answerOption" + i);
+	                				answerOptionCorrect = Ext.getCmp("answerOptionCorrect" + i);
 	                				answerOption.setVisible(i <= value);
+	                				answerOptionCorrect.setVisible(i <= value);
 	                			}
 	                			ARSnova.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel.doLayout();
 	                		}
@@ -243,6 +245,17 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
     	        ]
 			}],
 		});
+		this.multipleChoiceCorrectQuestions = new Ext.form.FormPanel({
+			id: 'mcCorrect',
+			hidden: true,
+			submitOnAction: false,
+			items: [{
+				xtype: 'fieldset',
+				id: 'mcAnswerCorrectFieldset',
+				title: Messages.CORRECT_ANSWER
+			}]
+		});
+		
 		for (var i=1; i <= mcNumAnswersMaxValue; i++) {
 			Ext.getCmp('mcAnswerFieldset').add({
 				xtype:			'textfield',
@@ -250,6 +263,12 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 				placeHolder:	Messages.OPTION_PLACEHOLDER + " " + i,
 				hidden:			mcNumAnswersStartValue < i,
 				label:			Messages.ANSWER
+			});
+			Ext.getCmp('mcAnswerCorrectFieldset').add({
+				xtype: 'togglefield',
+				id: 'answerOptionCorrect' + i,
+				hidden: mcNumAnswersStartValue < i,
+				label: Messages.OPTION_PLACEHOLDER + " " + i
 			});
 		}
 
@@ -420,8 +439,13 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 							else panel.schoolQuestion.hide();
 							break;
 						case Messages.MC:
-							if(pressed) panel.multipleChoiceQuestion.show();
-							else panel.multipleChoiceQuestion.hide();
+							if(pressed) {
+								panel.multipleChoiceQuestion.show();
+								panel.multipleChoiceCorrectQuestions.show();
+							} else {
+								panel.multipleChoiceQuestion.hide();
+								panel.multipleChoiceCorrectQuestions.hide();
+							}
 							break;
 						case Messages.YESNO:
 							if(pressed) panel.yesNoQuestion.show();
@@ -482,7 +506,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
             
             /* only one of the question types will be shown at the same time */
 		    this.voteQuestion,
-            this.multipleChoiceQuestion,
+            this.multipleChoiceQuestion,this.multipleChoiceCorrectQuestions,
             this.yesNoQuestion,
             this.schoolQuestion,
             this.abcdQuestion,
@@ -588,14 +612,29 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 				values.questionType = "mc";
 				
 				var tmpValues = panel.down("#mc").getValues();
+				var tmpCorrectValues = panel.down('#mcCorrect').getValues();
+				var obj;
+				
+				var noCorrect = true;
+				for (isCorrect in tmpCorrectValues) {
+					if (tmpCorrectValues.hasOwnProperty(isCorrect)) {
+						noCorrect = noCorrect && !!isCorrect;
+					}
+				}
 				
 				values.possibleAnswers = [];
 				for (var i=1; i <= tmpValues.countAnswers; i++) {
-					values.possibleAnswers.push({
+					obj = {
 						text: tmpValues['answerOption' + i]
-					});
+					};
+					if (tmpCorrectValues['answerOptionCorrect' + i]) {
+						obj.correct = 1;
+					}
+					values.possibleAnswers.push(obj);
 				}
-				values.possibleAnswers[0].correct = 1;
+				if (noCorrect) {
+					values.noCorrect = 1;
+				}
 				
 				break;
 			case Messages.YESNO:
