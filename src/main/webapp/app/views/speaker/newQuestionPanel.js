@@ -384,6 +384,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
         		        { text	: "B" },
         		        { text	: "C" },
         		        { text	: "D" },
+        		        { text  : Messages.NONE, id: 'abcdNoneCorrect', pressed: true }
             		],
             	}]
 			}],
@@ -633,7 +634,7 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 		    	var segmentedButton = form.down('segmentedbutton');
 				
 		    	var correct = "";
-		    	if (segmentedButton.pressedButton) {
+		    	if (segmentedButton.pressedButton && segmentedButton.pressedButton.id !== "abcdNoneCorrect") {
 		    		correct = segmentedButton.pressedButton.text;
 		    	} else {
 		    		values.noCorrect = 1;
