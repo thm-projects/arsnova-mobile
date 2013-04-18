@@ -193,10 +193,18 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 				title: Messages.CORRECT_ANSWER,
 	            items: [{
             		xtype: 'segmentedbutton',
-            		cls: 'yesnoOptions',
+            		style: {
+            			maxWidth: '500px',
+            			width: '80%',
+            			margin: 'auto'
+            		},
+            		defaults: {
+            			style: 'width: 33%'
+            		},
             		items: [
-        		        { text	: Messages.YES, pressed: true }, 
-        		        { text	: Messages.NO }
+        		        { text	: Messages.YES, id: "yesnoYesCorrect", pressed: true }, 
+        		        { text	: Messages.NO, id: "yesnoNoCorrect", },
+        		        { text	: Messages.NONE, id: "yesnoNoneCorrect" }
             		],
             	}],
 			}],
@@ -593,29 +601,30 @@ ARSnova.views.speaker.NewQuestionPanel = Ext.extend(Ext.Panel, {
 				values.questionType = "yesno";
 				
 				var form = panel.down("#yesno");
-		    	var yesNoOption = form.down('segmentedbutton');
-		    	
-		    	var correct = "";
-		    	if (yesNoOption.pressedButton)
-		    		correct = yesNoOption.pressedButton.text;
-		    	else {
-		    		return;
-		    	}
-		    	
-		    	switch (correct) {
-					case "Ja":
-						values.possibleAnswers = [
-			              { text: "Ja", correct: 1 },
-			              { text: "Nein" },
-			            ];
+				var yesNoOption = form.down('segmentedbutton');
+				
+				var correct = "";
+				if (yesNoOption.pressedButton) {
+					correct = yesNoOption.pressedButton.id;
+				} else {
+					return;
+				}
+				
+				var yesAnswer = { text: Messages.YES };
+				var noAnswer = { text: Messages.NO };
+								
+				switch (correct) {
+					case "yesnoYesCorrect":
+						yesAnswer.correct = 1;
 						break;
-					case "Nein":
-						values.possibleAnswers = [
-			              { text: "Ja" },
-			              { text: "Nein", correct: 1 },
-			            ];	
+					case "yesnoNoCorrect":
+						noAnswer.correct = 1;
+						break;
+					default:
+						values.noCorrect = 1;
 						break;
 				}
+				values.possibleAnswers = [yesAnswer, noAnswer];
 				break;
 			case Messages.ABCD:
 				values.questionType = "abcd";
