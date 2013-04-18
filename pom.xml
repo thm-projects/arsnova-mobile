@@ -7,10 +7,17 @@
 	<packaging>war</packaging>
 
 	<scm>
-	    <url>scm:git:git://scm.thm.de/arsnova/arsnova-legacy.js.git</url>
+	    <connection>scm:git:git://scm.thm.de/arsnova/arsnova-legacy.js.git</connection>
+		<developerConnection>scm:git:ssh://gitorious@scm.thm.de/arsnova/arsnova-legacy.js.git</developerConnection>
+	    <url>http://scm.thm.de/arsnova/arsnova-legacy.js.git</url>
 	</scm>
 
+	<properties>
+		<sonar.language>js</sonar.language>
+	</properties>
+
 	<build>
+	    <sourceDirectory>src/main/webapp/app</sourceDirectory>
 		<pluginManagement>
 			<plugins>
 				<!--This plugin's configuration is used to store Eclipse m2e settings 
@@ -38,6 +45,10 @@
 							</pluginExecutions>
 						</lifecycleMappingMetadata>
 					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
 				</plugin>
 			</plugins>
 		</pluginManagement>
