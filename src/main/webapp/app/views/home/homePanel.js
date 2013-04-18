@@ -37,15 +37,10 @@ ARSnova.views.home.HomePanel = Ext.extend(Ext.Panel, {
 			text	: Messages.LOGOUT,
 			ui		: 'back',
 			handler	: function() {
-				Ext.Msg.confirm(Messages.LOGOUT, Messages.LOGOUT_REQUEST, function(answer) {
-					if (answer == 'yes') {
-						Ext.dispatch({
-							controller	: 'auth',
-							action		: 'logout'
-						});
-					}
+				Ext.dispatch({
+					controller	: 'auth',
+					action		: 'logout'
 				});
-				Ext.Msg.doComponentLayout();
 			}
 		});
 		
