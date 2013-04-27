@@ -51,6 +51,9 @@ Ext.regController("auth", {
 		localStorage.setItem('keyword', options.sessionid);
 		
 		ARSnova.afterLogin();
+
+		window.location = window.location.pathname + "#";
+		Ext.dispatch({controller:'sessions', action:'login', keyword: options.sessionid});
 	},
 	
 	roleSelect: function(options){
