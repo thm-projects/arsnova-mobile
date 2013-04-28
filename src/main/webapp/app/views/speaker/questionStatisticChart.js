@@ -326,6 +326,11 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 				var maxValue = 10;
 				
 				var tmp_possibleAnswers = [];
+				for ( var i = 0; i < tmp_possibleAnswers.length; i++) {
+					var el = tmp_possibleAnswers[i];
+					var record = store.findRecord('text', el, 0, false, true, true);
+					record.data.value = 0;
+				}
 				
 				for ( var i = 0; i < panel.questionObj.possibleAnswers.length; i++) {
 					var el = panel.questionObj.possibleAnswers[i];
@@ -336,8 +341,19 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 				}
 				
 				for ( var i = 0, el; el = answers[i]; i++) {
-					var record = store.findRecord('text', el.answerText, 0, false, true, true); //exact match
-					record.data.value = el.answerCount;
+					if (panel.questionObj.questionType === "mc") {
+						var values = el.answerText.split(",");
+						if (values.length !== panel.questionObj.possibleAnswers.length) {
+							return;
+						}
+						store.each(function(record, index) {
+							var count = record.get("value");
+							// TODO: count answer results
+						});
+					} else {
+						var record = store.findRecord('text', el.answerText, 0, false, true, true); //exact match
+						record.data.value = el.answerCount;
+					}
 					sum += el.answerCount;
 					
 					if (el.answerCount > maxValue) {
@@ -346,11 +362,6 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 					
 					var idx = tmp_possibleAnswers.indexOf(el.answerText); // Find the index
 					if(idx!=-1) tmp_possibleAnswers.splice(idx, 1); // Remove it if really found!
-				}
-				for ( var i = 0; i < tmp_possibleAnswers.length; i++) {
-					var el = tmp_possibleAnswers[i];
-					var record = store.findRecord('text', el, 0, false, true, true);
-					record.data.value = 0;
 				}
 				
 				// Calculate percentages

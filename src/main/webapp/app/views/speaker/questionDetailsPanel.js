@@ -716,22 +716,33 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 							tmp_possibleAnswers.push(el.text);
 						}
 						
-						for (var i = 0, el; el = answers[i]; i++) {
-							var field = "button[text=" + el.answerText + "]";
-							panel.answerFormFieldset.down(field).setBadge(el.answerCount);
+						if (panel.questionObj.questionType === "mc") {
+							for (var i = 0, el; el = answers[i]; i++) {
+								var values = el.answerText.split(",");
+								if (values.length !== panel.questionObj.possibleAnswers.length) {
+									return;
+								}
+								panel.answerFormFieldset.query('button').forEach(function(item, index) {
+									// TODO: count answer results
+								});
+							}
+						} else {
+							for (var i = 0, el; el = answers[i]; i++) {
+								var field = "button[text=" + el.answerText + "]";
+								panel.answerFormFieldset.down(field).setBadge(el.answerCount);
+								
+								var idx = tmp_possibleAnswers.indexOf(el.answerText); // Find the index
+								if(idx!=-1) tmp_possibleAnswers.splice(idx, 1); // Remove it if really found!
+							}
 							
-							var idx = tmp_possibleAnswers.indexOf(el.answerText); // Find the index
-							if(idx!=-1) tmp_possibleAnswers.splice(idx, 1); // Remove it if really found!
-						}
-						
-						for ( var i = 0; i < tmp_possibleAnswers.length; i++){
-							var el = tmp_possibleAnswers[i];
+							for ( var i = 0; i < tmp_possibleAnswers.length; i++){
+								var el = tmp_possibleAnswers[i];
+								
+								var field = "button[text=" + el + "]";
+								panel.answerFormFieldset.down(field).setBadge(0);
+							}
 							
-							var field = "button[text=" + el + "]";
-							console.log(field);
-							panel.answerFormFieldset.down(field).setBadge(0);
 						}
-						
 					},
 					failure: function(){
 						console.log('server-side error');

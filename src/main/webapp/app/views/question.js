@@ -33,6 +33,73 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 		
 		answerStore.add(questionObj.possibleAnswers);
 		
+		var saveAnswer = function(answer) {
+			answer.saveAnswer({
+				success: function() {
+					var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
+					if (questionsArr.indexOf(questionObj._id) == -1) {
+						questionsArr.push(questionObj._id);
+					}
+					localStorage.setItem('questionIds', Ext.encode(questionsArr));
+					
+					self.disable();
+					ARSnova.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
+				},
+				failure: function(response, opts) {
+					console.log('server-side error');
+					Ext.Msg.alert(Messages.NOTIFICATION, Messages.ANSWER_CREATION_ERROR);
+					Ext.Msg.doComponentLayout();
+				}
+			});
+		};
+		
+		this.saveMcQuestionHandler = function() {
+			Ext.Msg.confirm('', Messages.ARE_YOU_SURE, function(button) {
+				if (button !== 'yes') {
+					return;
+				}
+				if (questionObj.showAnswer) {
+					this.mcAnswerToggles.forEach(function(toggle) {
+						var parentListItem = toggle.component.getEl().parent(".x-list-item");
+						if (toggle.data.get("correct")) {
+							parentListItem.addCls('x-list-item-correct');
+						}
+					});
+				}
+				
+				var answerValues = [];
+				this.mcAnswerToggles.forEach(function(toggle) {
+					answerValues.push(toggle.component.getValue());
+				});
+				ARSnova.answerModel.getUserAnswer(questionObj._id, {
+					empty: function() {
+						var answer = Ext.ModelMgr.create({
+							type	 	: "skill_question_answer",
+							sessionId	: localStorage.getItem("sessionId"),
+							questionId	: questionObj._id,
+							 // convert to string: the server requires this data type
+							answerText	: answerValues.join(","),
+							user		: localStorage.getItem("login")
+						}, 'Answer');
+						
+						saveAnswer(answer);
+					},
+					success: function(response){
+						var theAnswer = Ext.decode(response.responseText);
+						
+						//update
+						var answer = Ext.ModelMgr.create(theAnswer, "Answer");
+						answer.set('answerText', answerValues.join(","));
+						
+						saveAnswer(answer);
+					},
+					failure: function(){
+						console.log('server-side error');
+					}
+				});
+			}, this);
+		};
+		
 		var questionListener = viewOnly ? {} : {
 			'itemtap': function(list, index, element, e) {
 				var answerObj 	= questionObj.possibleAnswers[index];
@@ -65,26 +132,6 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 									}
 								}
 							}
-							
-							var saveAnswer = function(answer) {
-								answer.saveAnswer({
-									success: function() {
-										var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
-										if (questionsArr.indexOf(questionObj._id) == -1) {
-											questionsArr.push(questionObj._id);
-										}
-										localStorage.setItem('questionIds', Ext.encode(questionsArr));
-										
-										list.up("panel").disable();
-										ARSnova.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
-									},
-									failure: function(response, opts) {
-										console.log('server-side error');
-										Ext.Msg.alert(Messages.NOTIFICATION, Messages.ANSWER_CREATION_ERROR);
-										Ext.Msg.doComponentLayout();
-									}
-								});
-							};
 							
 							ARSnova.answerModel.getUserAnswer(questionObj._id, {
 								empty: function() {
@@ -136,7 +183,43 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 			listeners: questionListener
 		});
 		
-		this.items = [this.questionTitle, this.answerList];
+		this.mcAnswers = [];
+		this.mcAnswerToggles = [];
+		if (questionObj.questionType === "mc") {
+			answerStore.each(function(answer) {
+				var toggle = new Ext.form.Toggle({
+					flex: 2,
+					style: { backgroundColor: "transparent" }
+				});
+				this.mcAnswers.push(new Ext.Container({
+					cls: 'x-list-item',
+					layout: {
+						type: 'hbox',
+						align: 'stretch'
+					},
+					items: [{
+						flex: 1,
+						html: answer.get("text")
+					}, toggle]
+				}));
+				this.mcAnswerToggles.push({ component: toggle, data: answer });
+			}, this);
+			this.items = [this.questionTitle, {
+				xtype: "container",
+				cls: 'roundedBox x-list',
+				items: this.mcAnswers
+			}, {
+				xtype: 'button',
+				ui: 'confirm',
+				cls: 'login-button noMargin',
+				text: Messages.SAVE,
+				handler: this.saveMcQuestionHandler,
+				scope: this,
+				style: { margin: "10px" }
+			}];
+		} else {
+			this.items = [this.questionTitle, this.answerList];
+		}
 		
 		ARSnova.views.Question.superclass.constructor.call(this);
 	},

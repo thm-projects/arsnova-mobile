@@ -231,8 +231,20 @@ ARSnova.views.user.QuestionPanel = Ext.extend(Ext.Carousel, {
 				return;
 			}
 			
+			if (questionObj.questionType === 'mc') {
+				var answers = questionObj.userAnswered.split(",");
+				// sanity check: is it a correct answer array?
+				if (questionObj.possibleAnswers.length === answers.length) {
+					var toggles = questionPanel.query('togglefield');
+					toggles.forEach(function(toggle, index) {
+						toggle.setValue(answers[index]);
+					});
+					questionPanel.disable();
+					return;
+				}
+			}
 			var list = questionPanel.down('list');
-			var data = list.store.data;
+			var data = list ? list.store.data : [];
 			for (var i = 0; i < data.length; i++) {
 				if (data.items[i].data.text == questionObj.userAnswered){
 					list.getSelectionModel().select(data.items[i]);
@@ -240,16 +252,15 @@ ARSnova.views.user.QuestionPanel = Ext.extend(Ext.Carousel, {
 					break;
 				}
 			}
-			
 			if(questionObj.showAnswer){
 				for ( var i = 0; i < questionObj.possibleAnswers.length; i++) {
 					var answer = questionObj.possibleAnswers[i].data;
-					if(answer.correct && (answer.correct == 1 || answer.correct == true)){
+					if (list && answer.correct && (answer.correct == 1 || answer.correct == true)){
 						list.el.dom.childNodes[i].className = "x-list-item x-list-item-correct";
 						break;
 					}
 				}
-			}
+				}
 		});
 		
 		setTimeout("ARSnova.hideLoadMask()", 1000);
