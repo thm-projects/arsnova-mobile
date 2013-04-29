@@ -58,19 +58,26 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 				if (button !== 'yes') {
 					return;
 				}
+				
+				var selectedIndexes = [];
+				this.answerList.getSelectedNodes().forEach(function(node) {
+					selectedIndexes.push(this.answerList.indexOf(node));
+				}, this);
+				
 				if (questionObj.showAnswer) {
-					this.mcAnswerToggles.forEach(function(toggle) {
-						var parentListItem = toggle.component.getEl().parent(".x-list-item");
-						if (toggle.data.get("correct")) {
-							parentListItem.addCls('x-list-item-correct');
+					this.answerList.getNodes().forEach(function(node) {
+						var record = this.answerList.getRecord(node);
+						if (record.get("correct")) {
+							new Ext.Element(node).addCls("x-list-item-correct");
 						}
-					});
+					}, this);
 				}
 				
 				var answerValues = [];
-				this.mcAnswerToggles.forEach(function(toggle) {
-					answerValues.push(toggle.component.isChecked() ? "1" : "0");
-				});
+				for (var i=0; i < this.answerList.getNodes().length; i++) {
+					answerValues.push(selectedIndexes.indexOf(i) !== -1 ? "1" : "0");
+				}
+				
 				ARSnova.answerModel.getUserAnswer(questionObj._id, {
 					empty: function() {
 						var answer = Ext.ModelMgr.create({
@@ -100,7 +107,7 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 			}, this);
 		};
 		
-		var questionListener = viewOnly ? {} : {
+		var questionListener = viewOnly || questionObj.questionType === "mc" ? {} : {
 			'itemtap': function(list, index, element, e) {
 				var answerObj 	= questionObj.possibleAnswers[index];
 				
@@ -180,43 +187,15 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 			scroll: false,
 			
 			itemTpl	: '{text}',
-			listeners: questionListener
+			listeners: questionListener,
+			
+			singleSelect: questionObj.questionType !== "mc",
+			multiSelect: questionObj.questionType === "mc",
+			simpleSelect: true
 		});
 		
-		this.mcAnswers = [];
-		this.mcAnswerToggles = [];
-		if (questionObj.questionType === "mc") {
-			answerStore.each(function(answer) {
-				var toggle = new Ext.form.Checkbox({
-					flex: 1,
-					style: { backgroundColor: "transparent" }
-				});
-				this.mcAnswers.push(new Ext.Container({
-					cls: 'x-list-item',
-					layout: {
-						type: 'hbox',
-						align: 'stretch'
-					},
-					items: [{
-						flex: 2,
-						html: answer.get("text"),
-						listeners: {
-							click: {
-								element: 'body',
-								fn: function() {
-									toggle.setChecked(!toggle.isChecked());
-								}
-							}
-						}
-					}, toggle]
-				}));
-				this.mcAnswerToggles.push({ component: toggle, data: answer });
-			}, this);
-			this.items = [this.questionTitle, {
-				xtype: "container",
-				cls: 'roundedBox x-list',
-				items: this.mcAnswers
-			}, {
+		this.items = [this.questionTitle, this.answerList].concat(
+			questionObj.questionType === "mc" ? {
 				xtype: 'button',
 				ui: 'confirm',
 				cls: 'login-button noMargin',
@@ -224,10 +203,7 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 				handler: !viewOnly ? this.saveMcQuestionHandler : function() {},
 				scope: this,
 				style: { margin: "10px" }
-			}];
-		} else {
-			this.items = [this.questionTitle, this.answerList];
-		}
+			} : {});
 		
 		ARSnova.views.Question.superclass.constructor.call(this);
 	},

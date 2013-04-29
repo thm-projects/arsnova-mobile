@@ -231,32 +231,36 @@ ARSnova.views.user.QuestionPanel = Ext.extend(Ext.Carousel, {
 				return;
 			}
 			
+			var list = questionPanel.down('list');
+			var data = list ? list.store.data : [];
+			
 			if (questionObj.questionType === 'mc') {
 				var answers = questionObj.userAnswered.split(",");
 				// sanity check: is it a correct answer array?
-				if (questionObj.possibleAnswers.length === answers.length) {
-					var toggles = questionPanel.query('checkboxfield');
-					toggles.forEach(function(toggle, index) {
-						toggle.setChecked(answers[index] === "1");
-					});
-					questionPanel.disable();
+				if (questionObj.possibleAnswers.length !== answers.length) {
 					return;
 				}
-			}
-			var list = questionPanel.down('list');
-			var data = list ? list.store.data : [];
-			for (var i = 0; i < data.length; i++) {
-				if (data.items[i].data.text == questionObj.userAnswered){
-					list.getSelectionModel().select(data.items[i]);
-					questionPanel.disable();
-					break;
+				var selectedIndexes = answers.map(function(isSelected, index) {
+					return isSelected === "1" ? index : -1;
+				}).filter(function(index) {
+					return index > -1;
+				});
+				list.getSelectionModel().select(selectedIndexes, true);
+				questionPanel.disable();
+			} else {
+				for (var i = 0; i < data.length; i++) {
+					if (data.items[i].data.text == questionObj.userAnswered){
+						list.getSelectionModel().select(data.items[i]);
+						questionPanel.disable();
+						break;
+					}
 				}
 			}
 			if(questionObj.showAnswer){
 				for ( var i = 0; i < questionObj.possibleAnswers.length; i++) {
 					var answer = questionObj.possibleAnswers[i].data;
 					if (list && answer.correct && (answer.correct == 1 || answer.correct == true)){
-						list.el.dom.childNodes[i].className = "x-list-item x-list-item-correct";
+						new Ext.Element(list.el.dom.childNodes[i]).addCls("x-list-item-correct");
 						break;
 					}
 				}
