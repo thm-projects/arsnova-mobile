@@ -340,15 +340,28 @@ ARSnova.views.QuestionStatisticChart = Ext.extend(Ext.Panel, {
 						tmp_possibleAnswers.push(el.text);
 				}
 				
+				var mcAnswerCount = [];
 				for ( var i = 0, el; el = answers[i]; i++) {
 					if (panel.questionObj.questionType === "mc") {
-						var values = el.answerText.split(",");
+						var values = el.answerText.split(",").map(function(answered) {
+							return parseInt(answered, 10);
+						});
 						if (values.length !== panel.questionObj.possibleAnswers.length) {
 							return;
 						}
+						
+						for (var j=0; j < el.answerCount; j++) {
+							values.forEach(function(selected, index) {
+								if (typeof mcAnswerCount[index] === "undefined") {
+									mcAnswerCount[index] = 0;
+								}
+								if (selected === 1) {
+									mcAnswerCount[index] += 1;
+								}
+							});
+						}
 						store.each(function(record, index) {
-							var count = record.get("value");
-							// TODO: count answer results
+							record.set("value", mcAnswerCount[index]);
 						});
 					} else {
 						var record = store.findRecord('text', el.answerText, 0, false, true, true); //exact match

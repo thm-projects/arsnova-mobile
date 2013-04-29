@@ -717,13 +717,27 @@ ARSnova.views.speaker.QuestionDetailsPanel = Ext.extend(Ext.Panel, {
 						}
 						
 						if (panel.questionObj.questionType === "mc") {
+							var mcAnswerCount = [];
 							for (var i = 0, el; el = answers[i]; i++) {
-								var values = el.answerText.split(",");
+								var values = el.answerText.split(",").map(function(answered) {
+									return parseInt(answered, 10);
+								});
 								if (values.length !== panel.questionObj.possibleAnswers.length) {
 									return;
 								}
-								panel.answerFormFieldset.query('button').forEach(function(item, index) {
-									// TODO: count answer results
+								
+								for (var j=0; j < el.answerCount; j++) {
+									values.forEach(function(selected, index) {
+										if (typeof mcAnswerCount[index] === "undefined") {
+											mcAnswerCount[index] = 0;
+										}
+										if (selected === 1) {
+											mcAnswerCount[index] += 1;
+										}
+									});
+								}
+								panel.answerFormFieldset.query('button').forEach(function(button, index) {
+									button.setBadge(mcAnswerCount[index]);
 								});
 							}
 						} else {
