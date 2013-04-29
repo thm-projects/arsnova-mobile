@@ -69,7 +69,7 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 				
 				var answerValues = [];
 				this.mcAnswerToggles.forEach(function(toggle) {
-					answerValues.push(toggle.component.getValue());
+					answerValues.push(toggle.component.isChecked() ? "1" : "0");
 				});
 				ARSnova.answerModel.getUserAnswer(questionObj._id, {
 					empty: function() {
@@ -187,8 +187,8 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 		this.mcAnswerToggles = [];
 		if (questionObj.questionType === "mc") {
 			answerStore.each(function(answer) {
-				var toggle = new Ext.form.Toggle({
-					flex: 2,
+				var toggle = new Ext.form.Checkbox({
+					flex: 1,
 					style: { backgroundColor: "transparent" }
 				});
 				this.mcAnswers.push(new Ext.Container({
@@ -198,8 +198,16 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 						align: 'stretch'
 					},
 					items: [{
-						flex: 1,
-						html: answer.get("text")
+						flex: 2,
+						html: answer.get("text"),
+						listeners: {
+							click: {
+								element: 'body',
+								fn: function() {
+									toggle.setChecked(!toggle.isChecked());
+								}
+							}
+						}
 					}, toggle]
 				}));
 				this.mcAnswerToggles.push({ component: toggle, data: answer });
@@ -213,7 +221,7 @@ ARSnova.views.Question = Ext.extend(Ext.Panel, {
 				ui: 'confirm',
 				cls: 'login-button noMargin',
 				text: Messages.SAVE,
-				handler: this.saveMcQuestionHandler,
+				handler: !viewOnly ? this.saveMcQuestionHandler : function() {},
 				scope: this,
 				style: { margin: "10px" }
 			}];

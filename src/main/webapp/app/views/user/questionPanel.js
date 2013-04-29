@@ -235,9 +235,9 @@ ARSnova.views.user.QuestionPanel = Ext.extend(Ext.Carousel, {
 				var answers = questionObj.userAnswered.split(",");
 				// sanity check: is it a correct answer array?
 				if (questionObj.possibleAnswers.length === answers.length) {
-					var toggles = questionPanel.query('togglefield');
+					var toggles = questionPanel.query('checkboxfield');
 					toggles.forEach(function(toggle, index) {
-						toggle.setValue(answers[index]);
+						toggle.setChecked(answers[index] === "1");
 					});
 					questionPanel.disable();
 					return;
