@@ -52,7 +52,18 @@ ARSnova.views.RolePanel = Ext.extend(Ext.Panel, {
 			cls		: 'login-button role-label-speaker',
 			value	: ARSnova.USER_ROLE_SPEAKER
 		}, {
-			/* TODO: i18n */
+			xtype	: 'component',
+			style	: { textAlign: 'center' },
+			html	: '<iframe width="200" height="113" src="https://www.youtube.com/embed/KLQUOeq7ai0?rel=0" frameborder="0" allowfullscreen></iframe>'
+		}, {
+			text	: 'Deine Stimme für ARSnova!',
+			ui		: 'confirm',
+			style	: { maxWidth: '200px', margin: 'auto', fontSize: '74%' },
+			handler: function() {
+				window.open("http://blog.mni.thm.de/arsnova/", "_blank");
+			}
+		}/*{
+			// TODO: i18n
 			text	: "Was ist ARSnova?",
 			ui		: 'small',
 			style	: { marginLeft: '30%', marginRight: "30%" },
@@ -64,7 +75,7 @@ ARSnova.views.RolePanel = Ext.extend(Ext.Panel, {
 					}
 				}
 			}
-		}, {
+		}*/, {
 			xtype	: 'panel',
 			style	: { marginTop: '30px'},
 			html	: "<div class='thm-logo' style=\"background: url('resources/images/thm.png') no-repeat center; height:67px\"></div>",
