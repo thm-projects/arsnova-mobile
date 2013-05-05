@@ -84,6 +84,21 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 			hidden	: true
 		});
 		
+		this.presenterButton = new Ext.Button({
+			text	: 'Presenter',
+			ui		: 'confirm',
+			cls		: 'login-button',
+			hidden	: true,
+			listeners: {
+				click: {
+					element: 'el',
+					fn: function(event) {
+						window.open("/presenter/", "_self");
+					}
+				}
+			}
+		});
+		
 		this.items = [{
 			xtype	: 'panel',
 			cls		: null,
@@ -95,6 +110,7 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 			style	: { marginTop: '0px'},
 			html	: Messages.CHOOSE_LOGIN
 		},
+		this.presenterButton,
 		this.guestLoginButton,
 		{
 			xtype: 'panel',
@@ -137,10 +153,19 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 	
 	initComponent: function() {
 		this.on('activate', Ext.createDelegate(function() {
-			if(ARSnova.userRole == ARSnova.USER_ROLE_SPEAKER && !window.location.href.match(/developer\.html#?$/)) {
-				this.guestLoginButton.hide('fade');
-				this.noGuestSpeaker.show('fade');
+			var isDevEnv = window.location.href.match(/developer\.html#?$/);
+			if(ARSnova.userRole == ARSnova.USER_ROLE_SPEAKER) {
+				this.presenterButton.show('fade');
+				if(!isDevEnv) {
+					this.guestLoginButton.hide('fade');
+					this.noGuestSpeaker.show('fade');
+				}
 			} else {
+				this.presenterButton.hide('fade');
+				this.guestLoginButton.show('fade');
+				this.noGuestSpeaker.hide('fade');
+			}
+			if(isDevEnv) {
 				this.guestLoginButton.show('fade');
 				this.noGuestSpeaker.hide('fade');
 			}
