@@ -59,9 +59,15 @@ ARSnova.views.RolePanel = Ext.extend(Ext.Panel, {
 			text	: 'Deine Stimme für ARSnova!',
 			ui		: 'confirm',
 			style	: { maxWidth: '200px', margin: 'auto', fontSize: '74%' },
-			handler: function() {
-				window.open("http://blog.mni.thm.de/arsnova/");
-			}
+			listeners: {
+				click: {
+					element: 'el',
+					fn: function() {
+						window.open("http://blog.mni.thm.de/arsnova/");
+					}
+				}
+			},
+			handler: function() { /* NOP */ }
 		}/*{
 			// TODO: i18n
 			text	: "Was ist ARSnova?",
