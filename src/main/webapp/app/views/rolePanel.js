@@ -52,10 +52,6 @@ ARSnova.views.RolePanel = Ext.extend(Ext.Panel, {
 			cls		: 'login-button role-label-speaker',
 			value	: ARSnova.USER_ROLE_SPEAKER
 		}, {
-			xtype	: 'component',
-			style	: { textAlign: 'center' },
-			html	: '<iframe width="200" height="113" src="https://www.youtube.com/embed/KLQUOeq7ai0?rel=0" frameborder="0" allowfullscreen></iframe>'
-		}, {
 			text	: 'Deine Stimme für ARSnova!',
 			ui		: 'confirm',
 			style	: { maxWidth: '200px', margin: 'auto', fontSize: '74%' },
@@ -68,6 +64,10 @@ ARSnova.views.RolePanel = Ext.extend(Ext.Panel, {
 				}
 			},
 			handler: function() { /* NOP */ }
+		}, {
+			xtype	: 'component',
+			style	: { textAlign: 'center' },
+			html	: '<iframe width="200" height="113" src="https://www.youtube.com/embed/KLQUOeq7ai0?rel=0" frameborder="0" allowfullscreen></iframe>'
 		}/*{
 			// TODO: i18n
 			text	: "Was ist ARSnova?",
