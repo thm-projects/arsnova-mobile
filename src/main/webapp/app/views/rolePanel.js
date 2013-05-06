@@ -60,7 +60,7 @@ ARSnova.views.RolePanel = Ext.extend(Ext.Panel, {
 			ui		: 'confirm',
 			style	: { maxWidth: '200px', margin: 'auto', fontSize: '74%' },
 			handler: function() {
-				window.open("http://blog.mni.thm.de/arsnova/", "_blank");
+				window.open("http://blog.mni.thm.de/arsnova/");
 			}
 		}/*{
 			// TODO: i18n
