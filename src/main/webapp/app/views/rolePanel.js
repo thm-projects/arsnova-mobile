@@ -83,7 +83,7 @@ ARSnova.views.RolePanel = Ext.extend(Ext.Panel, {
 			}
 		}*/, {
 			xtype	: 'panel',
-			style	: { marginTop: '30px'},
+			style	: { marginBottom: '30px'},
 			html	: "<div class='thm-logo' style=\"background: url('resources/images/thm.png') no-repeat center; height:67px\"></div>",
 			cls		: null
 		}];
