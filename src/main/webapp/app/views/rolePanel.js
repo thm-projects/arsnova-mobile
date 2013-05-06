@@ -54,7 +54,7 @@ ARSnova.views.RolePanel = Ext.extend(Ext.Panel, {
 		}, {
 			text	: 'Deine Stimme für ARSnova!',
 			ui		: 'confirm',
-			style	: { maxWidth: '200px', margin: 'auto', fontSize: '74%' },
+			style	: { maxWidth: '200px', margin: 'auto', fontSize: '74%', marginBottom: '4px' },
 			listeners: {
 				click: {
 					element: 'el',
@@ -83,7 +83,7 @@ ARSnova.views.RolePanel = Ext.extend(Ext.Panel, {
 			}
 		}*/, {
 			xtype	: 'panel',
-			style	: { marginBottom: '30px'},
+			style	: { marginTop: '30px'},
 			html	: "<div class='thm-logo' style=\"background: url('resources/images/thm.png') no-repeat center; height:67px\"></div>",
 			cls		: null
 		}];
