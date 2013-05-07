@@ -425,24 +425,6 @@ var restProxy = new Ext.data.RestProxy({
     	});
     },
     
-//    delLoggedIn: function(callbacks){
-//    	Ext.Ajax.request({
-//    		url: this.url + '/_design/logged_in/_view/all',
-//    		method: 'GET',
-//    		
-//    		success: function(response){
-//    			var resRows = Ext.decode(response.responseText).rows;
-//    			if (resRows.length > 0) {
-//					for ( var i = 0; i < resRows.length; i++) {
-//						el = resRows[i];
-//						console.log(el.value);
-//						restProxy.removeEntry(el.id, el.value._rev, callbacks);
-//					}
-//				}
-//    		},
-//    	})
-//    },
-    
     getSkillQuestionsForDelete: function(sessionId, callbacks){
     	Ext.Ajax.request({
     		url: this.url + '/_design/skill_question/_view/for_delete',
@@ -624,29 +606,6 @@ var restProxy = new Ext.data.RestProxy({
     		}
     	});
     },
-    
-//    cleanLoggedIn: function() {
-//    	Ext.Ajax.request({
-//    		url: this.url + '/_design/logged_in/_view/cleanup',
-//    		method: 'GET',
-//
-//    		success: function(response){
-//    			var responseObj = Ext.decode(response.responseText).rows;
-//    			if (responseObj.length > 0){
-//    				for ( var i = 0; i < responseObj.length; i++) {
-//						var el = responseObj[i];
-//						restProxy.removeEntry(el.id, el.value, {
-//							success: function(){},
-//							failure: function(){console.log('error - clean logged in')},
-//						});
-//					}
-//    			}
-//    		},
-//    		failure: function(){
-//    			console.log('server-side error cleanLoggedIn');
-//    		}
-//    	})
-//    },
     
     removeEntry: function(id, rev, callbacks){
     	Ext.Ajax.request({
