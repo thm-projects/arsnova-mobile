@@ -290,7 +290,6 @@
                 {"path": "../../app/models/", "name": "Config.js"},
                 {"path": "../../app/stores/", "name": "Config.js"},
             	
-                {"path": "../../app/controllers/", "name": "archive.js"},
                 {"path": "../../app/controllers/", "name": "auth.js"},
                 {"path": "../../app/controllers/", "name": "canteen.js"},
                 {"path": "../../app/controllers/", "name": "feedback.js"},
@@ -314,7 +313,6 @@
                 
                 {"path": "../../app/stores/", "name": "Food.js"},
                 
-                {"path": "../../app/views/", "name": "archivePanel.js"},
                 {"path": "../../app/views/", "name": "caption.js"},
                 {"path": "../../app/views/", "name": "checkFullscreenPanel.js"},
 				{"path": "../../app/views/", "name": "freetextAnswerList.js"},
@@ -351,9 +349,6 @@
                 {"path": "../../app/views/about/", "name": "socialSoftwarePanel.js"},
                 {"path": "../../app/views/about/", "name": "statisticPanel.js"},
                 {"path": "../../app/views/about/", "name": "tabPanel.js"},
-                {"path": "../../app/views/archive/", "name": "coursePanel.js"},
-                {"path": "../../app/views/archive/", "name": "questionPanel.js"},
-                {"path": "../../app/views/archive/", "name": "tabPanel.js"},
                 {"path": "../../app/views/canteen/", "name": "statisticPanel.js"},
                 {"path": "../../app/views/canteen/", "name": "tabPanel.js"},
                 {"path": "../../app/views/canteen/", "name": "votePanel.js"},

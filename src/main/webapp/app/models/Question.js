@@ -146,9 +146,5 @@ ARSnova.models.Question = Ext.regModel('Question', {
     
     getSkillQuestionsForUser: function(sessionKeyword, callbacks) {
     	return this.proxy.getSkillQuestionsForUser(sessionKeyword, callbacks);
-    },
-    
-    releasedByCourseId: function(courseId, callbacks) {
-    	return this.proxy.releasedByCourseId(courseId, callbacks);
     }
 });

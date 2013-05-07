@@ -900,17 +900,5 @@ var restProxy = new Ext.data.RestProxy({
 			},
 			failure: callbacks.failure
 		});
-	},
-    
-    releasedByCourseId: function(courseId, callbacks){
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/skill_question/_view/released_by_course_id',
-    		method: 'GET',
-    		params: {
-    			key: "\"" + courseId + "\""
-    		},
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    }
+	}
 });
