@@ -515,33 +515,6 @@ var restProxy = new Ext.data.RestProxy({
 			failure: callbacks.failure
 		});
 	},
-	
-    getSkillQuestionsOnlyId: function(sessionId, callbacks){
-    	var requestUrl = this.url;
-    	
-    	switch(ARSnova.loginMode){
-    		case ARSnova.LOGIN_GUEST:
-    			requestUrl += '/_design/skill_question/_view/by_session_only_id_for_all';
-    			break;
-    		case ARSnova.LOGIN_THM:
-    			requestUrl += '/_design/skill_question/_view/by_session_only_id_for_thm';
-    			break;
-			default:
-				requestUrl += '/_design/skill_question/_view/by_session_only_id_for_all';
-				break;
-    	}
-    	
-    	Ext.Ajax.request({
-    		url: requestUrl,
-    		method: 'GET',
-    		params: {
-    			key: "\"" + sessionId + "\""
-    		},
-    		
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
 
 	getUserAnswer: function(questionId, callbacks) {
 		Ext.Ajax.request({
