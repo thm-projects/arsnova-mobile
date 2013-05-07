@@ -87,7 +87,7 @@ Ext.define('ARSnova.view.canteen.VotePanel', {
 				xtype	: 'button',
 				handler	: function(button) {
 					ARSnova.app.getController('Canteen').vote({
-						value		: button.value,
+						value		: button.config.value,
 						panel		: this
 					});
 				},
