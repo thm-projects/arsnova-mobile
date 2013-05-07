@@ -750,20 +750,6 @@ var restProxy = new Ext.data.RestProxy({
     		failure: callbacks.failure
     	});
     },
-
-    getSession: function(sessionId, callbacks) {
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/session/_view/by_id',
-    		method: 'GET',
-    		
-    		params: {
-    			key: "\"" + sessionId + "\""
-    		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
 	
 	isActive: function(sessionKeyword, callbacks) {
 		Ext.Ajax.request({
