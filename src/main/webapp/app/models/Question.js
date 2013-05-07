@@ -91,10 +91,6 @@ ARSnova.models.Question = Ext.regModel('Question', {
     	return this.proxy.getSkillQuestionsSortBySubjectAndText(sessionKeyword, callbacks);
     },
     
-    getSkillQuestionsForDelete: function(sessionId, callbacks) {
-    	return this.proxy.getSkillQuestionsForDelete(sessionId, callbacks);
-    },
-    
     getAnsweredSkillQuestions: function(sessionId, userLogin, callbacks){
     	return this.proxy.getAnsweredSkillQuestions(sessionId, userLogin, callbacks);
     },
