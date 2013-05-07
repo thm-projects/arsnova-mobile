@@ -224,7 +224,7 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 					if(newQuestions.length == 1){
 						ARSnova.questionModel.getQuestionById(newQuestions[0], {
 							success: function(response){
-								var question = Ext.decode(response.responseText).rows[0].value;
+								var question = Ext.decode(response.responseText);
 								
 								Ext.Msg.confirm(
 									Messages.ONE_NEW_QUESTION, 

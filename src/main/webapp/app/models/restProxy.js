@@ -226,13 +226,9 @@ var restProxy = new Ext.data.RestProxy({
 		});
 	},
 
-	getQuestionById: function(id, callbacks){
+	getQuestionById: function(id, callbacks) {
 		Ext.Ajax.request({
-			url: this.url + '/_design/skill_question/_view/by_id',
-			method: 'GET',
-			params: {
-				key: "\"" + id + "\""
-			},
+			url: "lecturerquestion/" + id,
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
