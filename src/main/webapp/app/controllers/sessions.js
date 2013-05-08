@@ -88,6 +88,8 @@ Ext.regController("sessions", {
     	taskManager.stop(ARSnova.mainTabPanel.tabPanel.updateHomeTask);
     	//stop task to update that session owner is logged-in
     	taskManager.stop(ARSnova.updateSessionActivityTask);
+    	//stop task to save user is logged in
+    	taskManager.stop(ARSnova.loggedInTask);
     	
 		localStorage.removeItem("sessionId");
 		localStorage.removeItem("name");
@@ -98,9 +100,6 @@ Ext.regController("sessions", {
 		localStorage.removeItem("courseId");
 		localStorage.removeItem("courseType");
 		ARSnova.isSessionOwner = false;
-		
-		//save that user is not in this session anymore
-		restProxy.loggedInTask();
 		
 		var tabPanel = ARSnova.mainTabPanel.tabPanel;
 		/* show home Panel */

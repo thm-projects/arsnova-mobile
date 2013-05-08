@@ -81,8 +81,10 @@ Ext.regApplication({
 	 */
 	loggedInTask: {
 		name: 'save that user is logged in',
-		run: function(){
-			restProxy.loggedInTask();
+		run: function() {
+			if (localStorage.getItem('keyword')) {
+				restProxy.loggedInTask();
+			}
 		},
 		interval: 60000 //60 seconds
 	},
