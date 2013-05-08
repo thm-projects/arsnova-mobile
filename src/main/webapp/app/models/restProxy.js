@@ -540,40 +540,6 @@ var restProxy = new Ext.data.RestProxy({
 		});
 	},
     
-    /**
-     * Remove all feedback votes older than 'timeLimit'
-     * default: 10 minutes
-     */
-    cleanSessionFeedback: function() {
-    	var timeLimit = 10; //min
-    	var time = new Date().getTime() - (timeLimit * 60 * 1000);
-    	
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/understanding/_view/cleanup',
-    		method: 'GET',
-    		params: {
-    			startkey: "null",
-    			endkey	: time
-    		},
-
-    		success: function(response){
-    			var responseObj = Ext.decode(response.responseText).rows;
-    			if (responseObj.length > 0){
-    				for ( var i = 0; i < responseObj.length; i++) {
-						var el = responseObj[i];
-						restProxy.removeEntry(el.id, el.value, {
-							success: function(){},
-							failure: function(){console.log('error - clean session feedback');}
-						});
-					}
-    			}
-    		},
-    		failure: function(){
-    			console.log('server-side error cleanSessionFeedback');
-    		}
-    	});
-    },
-    
     removeEntry: function(id, rev, callbacks){
     	Ext.Ajax.request({
     		url: this.url + '/' + id + '?rev=' + rev,

@@ -75,17 +75,6 @@ Ext.regApplication({
     cardSwitchDuration: 500,
     
     /* tasks */
-    /**
-     * delete feedbacks that can be removed
-     */
-    cleanFeedbackVotes: {
-    	name: 'looking for feedbacks that have to be remove',
-		run: function(){
-			restProxy.cleanSessionFeedback();
-		},
-		interval: 60000 //60 seconds
-	},
-	
 	/**
 	 * update every x seconds the user timestamp
 	 * important for all "who is online"-requests

@@ -56,8 +56,6 @@ Ext.regController("sessions", {
 		localStorage.setItem('courseType', obj.courseType);
     	    	localStorage.setItem('active', obj.active ? 1 : 0);
     	    	
-    	    	//start feedback-votes-cleaning-up-task
-    	    	taskManager.start(ARSnova.cleanFeedbackVotes);
     	    	//start task to update the feedback tab in tabBar
     	    	taskManager.start(ARSnova.mainTabPanel.tabPanel.updateFeedbackTask);
     	    	taskManager.start(ARSnova.mainTabPanel.tabPanel.updateHomeTask);
@@ -84,8 +82,6 @@ Ext.regController("sessions", {
 		if (localStorage.getItem('user has voted'))
 			localStorage.removeItem('user has voted');
 		
-		//stop feedback-votes-cleaning-up-task
-    	taskManager.stop(ARSnova.cleanFeedbackVotes);
     	//stop task to update the feedback tab in tabBar
     	taskManager.stop(ARSnova.mainTabPanel.tabPanel.updateFeedbackTask);
     	//online counter badge
@@ -276,8 +272,6 @@ Ext.regController("sessions", {
     	    	localStorage.setItem('courseType', session.data.courseType);
 		ARSnova.isSessionOwner = true;
     	    	
-    	    	//start feedback-votes-cleaning-up-task
-    	    	taskManager.start(ARSnova.cleanFeedbackVotes);
     	    	//start task to update the feedback tab in tabBar
     	    	taskManager.start(ARSnova.mainTabPanel.tabPanel.updateFeedbackTask);
     	    	taskManager.start(ARSnova.mainTabPanel.tabPanel.updateHomeTask);
