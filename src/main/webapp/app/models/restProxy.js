@@ -539,17 +539,7 @@ var restProxy = new Ext.data.RestProxy({
 			failure: callbacks.failure
 		});
 	},
-    
-    removeEntry: function(id, rev, callbacks){
-    	Ext.Ajax.request({
-    		url: this.url + '/' + id + '?rev=' + rev,
-    		method: 'DELETE',
-    		
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
-    
+	
 	getUserFeedback: function(sessionKeyword, callbacks) {
 		Ext.Ajax.request({
 			url: "session/" + sessionKeyword + "/myfeedback",
