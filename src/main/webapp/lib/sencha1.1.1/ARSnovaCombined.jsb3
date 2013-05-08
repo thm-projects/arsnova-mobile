@@ -295,7 +295,6 @@
                 {"path": "../../app/controllers/", "name": "feedback.js"},
                 {"path": "../../app/controllers/", "name": "lang.js"},
                 {"path": "../../app/controllers/", "name": "questions.js"},
-                {"path": "../../app/controllers/", "name": "ranking.js"},
                 {"path": "../../app/controllers/", "name": "sessions.js"},
                 {"path": "../../app/controllers/", "name": "user.js"},
                 
@@ -308,7 +307,6 @@
                 {"path": "../../app/models/", "name": "Question.js"},
                 {"path": "../../app/models/", "name": "Session.js"},
                 {"path": "../../app/models/", "name": "Statistic.js"},
-                {"path": "../../app/models/", "name": "UserRanking.js"},
                 {"path": "../../app/models/", "name": "Course.js"},
                 
                 {"path": "../../app/stores/", "name": "Food.js"},
@@ -372,7 +370,6 @@
                 {"path": "../../app/views/speaker/", "name": "tabPanel.js"},
                 {"path": "../../app/views/user/", "name": "inClass.js"},
                 {"path": "../../app/views/user/", "name": "questionPanel.js"},
-                {"path": "../../app/views/user/", "name": "rankingPanel.js"},
                 {"path": "../../app/views/user/", "name": "tabPanel.js"},
             ]
         }

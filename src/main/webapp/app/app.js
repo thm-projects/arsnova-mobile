@@ -68,7 +68,6 @@ Ext.regApplication({
     questionModel	: null,
     sessionModel 	: null,
     statisticModel 	: null,
-    userRankingModel: null,
     courseModel     : null,
     
     /* other*/
@@ -156,7 +155,6 @@ Ext.regApplication({
     	this.questionModel		= new ARSnova.models.Question();
     	this.sessionModel 		= new ARSnova.models.Session();
     	this.statisticModel 	= new ARSnova.models.Statistic();
-    	this.userRankingModel 	= new ARSnova.models.UserRanking();
     	this.courseModel		= new ARSnova.models.Course();
     },
     

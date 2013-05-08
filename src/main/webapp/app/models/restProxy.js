@@ -593,45 +593,6 @@ var restProxy = new Ext.data.RestProxy({
 			failure: callbacks.failure
 		});
 	},
-    
-    getUserRanking: function(sessionId, userLogin, callbacks) {
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/user_ranking/_view/by_session_and_user',
-    		method: 'GET',
-    		params: {
-    			key: "[\"" + sessionId + "\", \"" + userLogin + "\"]"
-    		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
-    
-    getUserRankingStatistic: function(sessionId, userLogin, callbacks) {
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/user_ranking/_view/count_by_session_and_user',
-    		method: 'GET',
-    		params: {
-    			key: "[\"" + sessionId + "\", \"" + userLogin + "\"]"
-    		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
-    
-    getSessionRankingStatistic: function(sessionId, callbacks) {
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/user_ranking/_view/count_by_session',
-    		method: 'GET',
-    		params: {
-    			key: "\"" + sessionId + "\""
-    		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
 	
 	isActive: function(sessionKeyword, callbacks) {
 		Ext.Ajax.request({

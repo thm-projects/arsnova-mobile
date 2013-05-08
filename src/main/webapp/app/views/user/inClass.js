@@ -27,7 +27,6 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 	feedbackButton	: null,
 	questionsButton	: null,
 	flashcardButton	: null,
-	rankingButton	: null,
 	quizButton		: null,
 	
 	/**
@@ -133,16 +132,6 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 					}
 				}
 			}
-		});
-		
-		this.rankingButton = new Ext.Button({
-			ui			: 'normal',
-			text		: Messages.MY_RANKING,
-			cls			: 'forwardListButton',
-			badgeCls	: 'rankingText',
-			controller	: 'ranking',
-			action		: 'index',
-			handler		: this.buttonClicked
 		});
 		
 		this.inClass = {
