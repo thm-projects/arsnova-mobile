@@ -239,7 +239,6 @@ Ext.regController("sessions", {
 			name	 : options.name, 
 			shortName: options.shortName,
 			creator	 : localStorage.getItem('login'),
-			active	 : 1,
 			courseId : options.courseId,
 			courseType:options.courseType 
 		}, 'Session');
