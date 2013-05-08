@@ -383,7 +383,12 @@ var restProxy = new Ext.data.RestProxy({
 		Ext.Ajax.request({
 			url: "session/",
 			method: "POST",
-			jsonData: session.data,
+			jsonData: {
+				"name": session.get("name"),
+				"shortName": session.get("shortName"),
+				"courseId":  session.get("courseType") ? session.get("courseType") : null,
+				"courseType": session.get("courseId") ? session.get("courseId") : null
+			},
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
