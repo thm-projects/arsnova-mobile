@@ -386,8 +386,8 @@ var restProxy = new Ext.data.RestProxy({
 			jsonData: {
 				"name": session.get("name"),
 				"shortName": session.get("shortName"),
-				"courseId":  session.get("courseType") ? session.get("courseType") : null,
-				"courseType": session.get("courseId") ? session.get("courseId") : null
+				"courseId":  session.get("courseId") ? session.get("courseId") : null,
+				"courseType": session.get("courseType") ? session.get("courseType") : null
 			},
 			success: callbacks.success,
 			failure: callbacks.failure
