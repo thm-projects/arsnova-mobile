@@ -21,16 +21,10 @@
 ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 	scroll		: 'vertical',
 	
-	sessionKey: null,
-	
 	/* toolbar items */
 	toolbar		: null,
 	backButton	: null,
 	
-	/* items */
-	sessionIdField: null,
-	
-	unavailableSessionIds: [],
 	mycourses: [],
 	mycoursesStore: null,
 	
@@ -39,15 +33,11 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 			model: ARSnova.models.Course
 		});
 
-		var itemTemplate = '<span class="course">{shortname}<span>';
-
-		if (window.innerWidth > 321) {
-			itemTemplate = '<span class="course">{fullname}<span>';
-		}
-
 		this.mycourses = new Ext.List({
 			store: this.mycoursesStore,
-			itemTpl: itemTemplate,
+			itemTpl: window.innerWidth > 321
+						? '<span class="course">{fullname}<span>'
+						: '<span class="course">{shortname}<span>',
 			listeners: {
 				itemTap: Ext.createDelegate(this.onCourseSubmit,this)
 			}
@@ -55,12 +45,6 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 		
 		this.mycourses.setScrollable(false);
 
-		if(responseText == null){
-			var course = new Array();
-		} else {
-			var course = Ext.decode(responseText);
-		}
-		
 		this.backButton = new Ext.Button({
 			text	: Messages.SESSIONS,
 			ui		: 'back',
@@ -84,12 +68,6 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 		
 		this.dockedItems = [this.toolbar];
 		
-		this.sessionIdField = new Ext.form.Text({
-            name		: 'keyword',
-            label		: 'Session-ID',
-            disabled	: true
-        });
-		
 		this.items = [{
 			title: 'createSession',
 			xtype: 'form',
@@ -97,29 +75,22 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 			submitOnAction: false,
 			items: [{
 	            xtype: 'fieldset',
-	            instructions: Messages.SESSIONID_WILL_BE_CREATED,
 	            items: [{
 	                xtype		: 'textfield',
 	                name		: 'name',
 	                label		: Messages.SESSION_NAME,
 	                placeHolder	: Messages.SESSION_NAME_PLACEHOLDER,
 	                maxLength	: 50,
-	                useClearIcon: true,
-	                value		: course.name
+	                useClearIcon: true
 	            }, {
 	                xtype		: 'textfield',
 	                name		: 'shortName',
 	                label		: Messages.SESSION_SHORT_NAME,
 	                placeHolder	: Messages.SESSION_SHORT_NAME_PLACEHOLDER,
 	                maxLength	: 8,
-	                useClearIcon: true,
-	                value		: course.shortName
+	                useClearIcon: true
 	            }]
 			}, {
-            	xtype		: 'textfield',
-            	name		: 'keyword',
-            	hidden 		: true
-            }, {
 				xtype: 'button',
 				cls  : 'centerButton',
 				ui: 'confirm',
@@ -135,9 +106,7 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 	},
 	
 	initComponent: function() {
-		this.on('beforeactivate', this.getSessionIds);
 		this.on('beforeactivate', this.getMyCourses);
-		this.on('activate', this.generateNewSessionId);
 		
 		ARSnova.views.home.NewSessionPanel.superclass.initComponent.call(this);
 	},
@@ -149,8 +118,7 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 			controller	: 'sessions',
 			action		: 'create',
 			name		: values.name,
-			shortName	: values.shortName,
-			keyword		: values.keyword
+			shortName	: values.shortName
 		});
 	},
 
@@ -169,44 +137,8 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 			name		: course.fullname,
 			shortName	: shortName,
 			courseId	: course.id,
-			courseType	: course.type,
-			keyword		: this.sessionKey
+			courseType	: course.type
 		});
-	},
-	
-	getSessionIds: function(){
-		if(this.unavailableSessionIds.length == 0){
-			ARSnova.sessionModel.getSessionIds({
-				success: function(response){
-					var panel = ARSnova.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel;
-					var res = Ext.decode(response.responseText).rows;
-					res.forEach(function(el){
-						panel.unavailableSessionIds.push(el.key);
-					});
-				},
-				failure: function(){
-					console.log('server-side error');
-				}
-			});
-		}
-	},
-	
-	generateNewSessionId: function(){
-		var sessionIdInUse = false;
-		/* don't use do-while-loop because of the risk of an endless loop */
-		for ( var i = 0; i < 10000; i++) {
-			var sessionId = Math.floor(Math.random()*100000001) + "";
-			if (sessionId.length == 8) {
-				var idx = this.unavailableSessionIds.indexOf(sessionId); // Find the index
-				if(idx != -1) sessionIdInUse = true;
-				else break;
-			} else {
-				sessionIdInUse = true; // accept only 8-digits sessionIds
-			}
-		}
-		this.sessionKey = sessionId;
-		this.down("textfield[name=keyword]").setValue(sessionId);
-		this.down('fieldset').setInstructions("Session-ID: " + ARSnova.formatSessionID(sessionId));
 	},
 
 	getMyCourses: function() {
@@ -223,7 +155,6 @@ ARSnova.views.home.NewSessionPanel = Ext.extend(Ext.Panel, {
 				}
 			}, this),
 			empty: Ext.createDelegate(function() {
-				this.sessionsForm.hide();
 				ARSnova.hideLoadMask();
 			}, this),
 			unauthenticated: function() {

@@ -239,7 +239,6 @@ Ext.regController("sessions", {
 			type	 : 'session',
 			name	 : options.name, 
 			shortName: options.shortName,
-			keyword	 : options.keyword,
 			creator	 : localStorage.getItem('login'),
 			active	 : 1,
 			courseId : options.courseId,
@@ -261,16 +260,17 @@ Ext.regController("sessions", {
 			return;
 		}
 		
-		session.save({
-			success: function(response){
-    	  		localStorage.setItem('sessionId', response.id);
-    	    	localStorage.setItem('name', session.data.name);
-    	    	localStorage.setItem('keyword', session.data.keyword);
-    	    	localStorage.setItem('shortName', session.data.shortName);
-    	    	localStorage.setItem('active', session.data.active);
-    	    	localStorage.setItem('courseId', session.data.courseId);
-    	    	localStorage.setItem('courseType', session.data.courseType);
-		ARSnova.isSessionOwner = true;
+		session.create({
+			success: function(response) {
+				var fullSession = Ext.decode(response.responseText);
+				localStorage.setItem('sessionId', fullSession._id);
+				localStorage.setItem('name', fullSession.name);
+				localStorage.setItem('keyword', fullSession.keyword);
+				localStorage.setItem('shortName', fullSession.shortName);
+				localStorage.setItem('active', fullSession.active ? 1 : 0);
+				localStorage.setItem('courseId', fullSession.courseId);
+				localStorage.setItem('courseType', fullSession.courseType);
+				ARSnova.isSessionOwner = true;
     	    	
     	    	//start task to update the feedback tab in tabBar
     	    	taskManager.start(ARSnova.mainTabPanel.tabPanel.updateFeedbackTask);

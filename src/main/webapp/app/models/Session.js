@@ -35,12 +35,15 @@ ARSnova.models.Session = Ext.regModel('Session', {
       {type: 'presence', field: 'type'},
       {type: 'presence', field: 'name', min: 1, max: 50},
       {type: 'length', field: 'shortName', min: 1, max: 12},
-      {type: 'presence', field: 'creator'},
-      {type: 'length', field: 'keyword', min: 8, max: 8}
+      {type: 'presence', field: 'creator'}
     ],
     
     destroy: function(sessionKeyword, callbacks) {
     	return this.proxy.delSession(sessionKeyword, callbacks);
+    },
+    
+    create: function(callbacks) {
+    	return this.proxy.createSession(this, callbacks);
     },
     
     checkSessionLogin: function(keyword, callbacks){
@@ -49,10 +52,6 @@ ARSnova.models.Session = Ext.regModel('Session', {
     
     getMySessions: function(callbacks, sortby){
     	return this.proxy.getMySessions(callbacks, sortby);
-    },
-    
-    getSessionIds: function(callbacks){
-    	return this.proxy.getSessionIds(callbacks);
     },
     
     getSession: function(sessionId, callbacks){

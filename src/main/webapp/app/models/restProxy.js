@@ -379,6 +379,16 @@ var restProxy = new Ext.data.RestProxy({
 		});
 	},
 	
+	createSession: function(session, callbacks) {
+		Ext.Ajax.request({
+			url: "session/",
+			method: "POST",
+			jsonData: session.data,
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
 	delQuestion: function(queObj, callbacks){
 		Ext.Ajax.request({
 			url: "lecturerquestion/" + queObj._id,
@@ -617,16 +627,6 @@ var restProxy = new Ext.data.RestProxy({
     		params: {
     			key: "\"" + sessionId + "\""
     		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
-    
-    getSessionIds: function(callbacks) {
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/session/_view/getIds',
-    		method: 'GET',
 
     		success: callbacks.success,
     		failure: callbacks.failure
