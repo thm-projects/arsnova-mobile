@@ -168,7 +168,7 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 					Ext.Msg.confirm(Messages.DELETE_SESSION, msg, function(answer){
 						if (answer == 'yes') {
 							ARSnova.showLoadMask(Messages.LOAD_MASK_SESSION_DELETE);
-							ARSnova.sessionModel.destroy(localStorage.getItem('sessionId'), localStorage.getItem('login'), {
+							ARSnova.sessionModel.destroy(localStorage.getItem('keyword'), {
 								success: function(){
 									ARSnova.removeVisitedSession(localStorage.getItem('sessionId'));
 									ARSnova.mainTabPanel.tabPanel.on('cardswitch', function(){

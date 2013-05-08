@@ -39,8 +39,8 @@ ARSnova.models.Session = Ext.regModel('Session', {
       {type: 'length', field: 'keyword', min: 8, max: 8}
     ],
     
-    destroy: function(sessionId, creator, callbacks) {
-    	return this.proxy.delSession(sessionId, creator, callbacks);
+    destroy: function(sessionKeyword, callbacks) {
+    	return this.proxy.delSession(sessionKeyword, callbacks);
     },
     
     checkSessionLogin: function(keyword, callbacks){

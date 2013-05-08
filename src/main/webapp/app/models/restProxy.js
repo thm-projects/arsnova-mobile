@@ -396,48 +396,15 @@ var restProxy = new Ext.data.RestProxy({
 			failure: callbacks.failure
 		});
 	},
-    
-    delSession: function(sessionId, creator, callbacks){
-    	Ext.ModelMgr.getModel("Session").load(sessionId, {
-    		success: function(record, operation) {
-    			var sessionObj = Ext.ModelMgr.create(Ext.decode(operation.response.responseText), 'Session');
-    			if(sessionObj.data.creator != creator){
-    				console.log('unauthorized');
-    				return;
-    			}
-		    	restProxy.getSkillQuestionsForDelete(sessionId, {
-		    		success: function(response){
-		    			var skillQuestions = Ext.decode(response.responseText).rows;
-		    			if (skillQuestions.length > 0) {
-							for ( var i = 0; i < skillQuestions.length; i++) {
-								skillQuestion = skillQuestions[i];
-								restProxy.delQuestion(skillQuestion.value, {
-									success: function(){}, //nothing to do
-									failure: function(){} //nothing to do
-								});
-							}
-						}
-						restProxy.removeEntry(sessionObj.data._id, sessionObj.data._rev, callbacks);
-					}
-				});
-    		},
-    		failure: function(){console.log('failure');}
-    	});
-    },
-    
-    getSkillQuestionsForDelete: function(sessionId, callbacks){
-    	Ext.Ajax.request({
-    		url: this.url + '/_design/skill_question/_view/for_delete',
-    		method: 'GET',
-    		
-    		params: {
-    			key: "\"" + sessionId + "\""
-    		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
+	
+	delSession: function(sessionKeyword, callbacks){
+		Ext.Ajax.request({
+			url: "session/" + sessionKeyword,
+			method: "DELETE",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
 	
 	getAnswerByUserAndSession: function(sessionKeyword, callbacks){
 		Ext.Ajax.request({
