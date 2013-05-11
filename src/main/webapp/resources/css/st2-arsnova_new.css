@@ -242,7 +242,7 @@ body {
 	background: white;
 }
 
-.caption .bluebadgeicon, .caption .redbadgeicon, .caption .badgeicon {
+.caption .bluebadgeicon, .caption .redbadgeicon, .caption .badgeicon, .caption .greybadgeicon {
 	font-size: 0.6em;
 }
 
@@ -353,6 +353,11 @@ body {
 	padding-top: 1em;
 }
 
+.standardForm {
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
 .standardForm>div>div:first-child {
 	-webkit-border-top-left-radius: 15px;
 	-webkit-border-top-right-radius: 15px;
@@ -367,25 +372,54 @@ body {
 	border-bottom-right-radius: 15px;
 }
 
-.standardFieldset .x-panel-body  {
+.standardFieldset .x-form-fieldset-inner {
 	border: none;
+	background-color: transparent;
 }
 
-.standardFieldset>div>div:first-child {
+.standardFieldset>div>div>div>div:first-child {
 	-webkit-border-top-left-radius: 15px;
 	-webkit-border-top-right-radius: 15px;
 	border-top-left-radius: 15px;
 	border-top-right-radius: 15px;
 }
 
-.standardFieldset>div>div:last-child {
+.standardFieldset>div>div>div>div:last-child {
 	-webkit-border-bottom-left-radius: 15px;
 	-webkit-border-bottom-right-radius: 15px;
 	border-bottom-left-radius: 15px;
 	border-bottom-right-radius: 15px;
 }
 
-.bluebadgeicon, .badgeicon {
+.badgeicon {
+	position:absolute;
+	font-weight: bold;
+	background: rgba(0, 0, 0, .50);
+	background: -webkit-linear-gradient(top, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .70) 100%);
+	color: rgb(238, 238, 238);
+	-webkit-border-radius: 20px;
+	border-radius: 11px;
+	padding: 4px 12px 5px 10px;
+	right: 20px;
+	margin-right: 20px;
+	border: 2px solid white;
+	box-shadow: 0 0 3px gray;
+}
+
+.greybadgeicon {
+	font-weight: bold;
+	background: rgba(0, 0, 0, .50);
+	background: -webkit-linear-gradient(top, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .70) 100%);
+	color: rgb(238, 238, 238);
+	-webkit-border-radius: 20px;
+	border-radius: 11px;
+	padding: 4px 12px 5px 10px;
+	margin-right: 20px;
+	border: 2px solid white;
+	box-shadow: 0 0 3px gray;
+}
+
+.bluebadgeicon {
 	font-weight: bold;
 	background: rgba(0, 0, 0, .50);
 	background: -webkit-linear-gradient(top, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .70) 100%);
