@@ -26,6 +26,7 @@ Ext.regApplication({
     NATIVE			: 'native',
     APP_URL			: window.location.origin + window.location.pathname,
     WEBSERVICE_URL	: "app/webservices/",
+    PRESENTER_URL	: "/presenter/",
     
 	LOGIN_GUEST		: "0",
 	LOGIN_THM		: "1",

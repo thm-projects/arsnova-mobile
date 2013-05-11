@@ -85,7 +85,7 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 		});
 		
 		this.presenterButton = new Ext.Button({
-			text	: 'Presenter',
+			text	: Messages.PRESENTER,
 			ui		: 'confirm',
 			cls		: 'login-button',
 			hidden	: true,
@@ -93,7 +93,7 @@ ARSnova.views.LoginPanel = Ext.extend(Ext.Panel, {
 				click: {
 					element: 'el',
 					fn: function(event) {
-						window.open("/presenter/", "_self");
+						window.open(ARSnova.PRESENTER_URL, "_self");
 					}
 				}
 			}
