@@ -254,7 +254,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 	},
 	
 	presenterHandler: function() {
-		window.open(ARSnova.PRESENTER_URL + "#/" + localStorage.getItem('keyword'), "_self");
+		window.open(ARSnova.PRESENTER_URL + "#!/" + localStorage.getItem('keyword'), "_self");
 	},
 	
 	showcaseHandler: function() {
