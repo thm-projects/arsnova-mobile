@@ -36,17 +36,17 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 		var me = this;
 		
 		if (badges && !Ext.isArray(badges)) {
-			return ARSnova.app.view.MultiBadgeButton.superclass.setBadge.call(this, badges);
+			return ARSnova.view.MultiBadgeButton.superclass.setBadge.call(this, badges);
 		}
-		me.badgeText = badges;
+		me.config.badgeText = badges;
 		
 		if (!me.rendered) return me;
 		
-		me.multiBadges.forEach(function(item) {
+		me.config.multiBadges.forEach(function(item) {
 			item.remove();
 		});
 		me.element.removeCls(me.hasBadgeCls);
-		me.multiBadges = [];
+		me.config.multiBadges = [];
 		
 		badges.forEach(function(item) {
 			if (!!item.badgeText) {
@@ -55,13 +55,13 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 					cls: item.badgeCls || me.badgeCls,
 					html: item.badgeText
 				});
-				me.multiBadges.push(aBadge);
+				me.config.multiBadges.push(aBadge);
 			}
 		});
-		if (me.multiBadges.length > 1) {
+		if (me.config.multiBadges.length > 1) {
 			// Use special badge class on all but the last badge. The class sticks the badges together but leaves
 			// enough space for the last (right most) badge.
-			me.multiBadges.splice(0, me.multiBadges.length-1).forEach(function(item) {
+			me.config.multiBadges.splice(0, me.config.multiBadges.length-1).forEach(function(item) {
 				item.addCls("withdoublebadge");
 			});
 		}

@@ -80,9 +80,14 @@ Ext.define('ARSnova.view.Caption', {
 		this.listButton.setBadge([{
 				badgeText: hasFeedbackQuestions ? Messages.QUESTIONS_FROM_STUDENTS : "", badgeCls: "bluebadgeicon"
 			}, {
-				badgeText: hasQuestions ? Messages.QUESTIONS : "", badgeCls: "badgeicon"
+				badgeText: hasQuestions ? Messages.QUESTIONS : "", badgeCls: "greybadgeicon"
 			}, {
 				badgeText: hasAnswers ? Messages.ANSWERS : "", badgeCls: "redbadgeicon"
 		}]);
+		
+		// If badges are enabled a empty badge will always be rendered. In order to prevent this behaviour
+		// you have to use the function "setBadgeText()" and pass null.
+		
+		this.listButton.setBadgeText(null);
 	}
 });

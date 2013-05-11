@@ -126,6 +126,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		
 		this.lastVisitedSessionsForm = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
+			cls: 'standardForm',
 			items: [this.lastVisitedSessionsFieldset]
 		});
 		
@@ -203,7 +204,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 							handler		: function(options){
 								ARSnova.app.showLoadMask("Login...");
 								ARSnova.app.getController('Sessions').login({
-									keyword		: options.sessionObj.keyword
+									keyword		: options.config.sessionObj.keyword
 								});
 							}
 						});
