@@ -141,7 +141,7 @@ ARSnova.views.speaker.AudienceQuestionPanel = Ext.extend(Ext.Panel, {
 		});
 		
 		this.presenterButton = new Ext.Button({
-			ui		: "confirm",
+			cls		: "thm",
 			text	: Messages.PRESENTER,
 			hidden	: true,
 			scope	: this,
