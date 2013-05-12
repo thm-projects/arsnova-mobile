@@ -12,9 +12,25 @@
 	margin: 0.2em;
 }
 
-.x-list-header {
+.x-list-normal .x-list-header {
 	color: white !important;
 	text-shadow: none;
+}
+
+.x-list-normal .x-list-header {
+	background-color: #4d80bc;
+	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #bccfe6), color-stop(2%, #6792c5), color-stop(100%, #3f6ea6));
+	background-image: -webkit-linear-gradient(#bccfe6,#6792c5 2%,#3f6ea6);
+	background-image: linear-gradient(#bccfe6,#6792c5 2%,#3f6ea6);
+	color: #1f3651;
+	text-shadow: rgba(255, 255, 255, 0.25) 0 0.08em 0;
+	border-top: 1px solid #4d80bc;
+	border-bottom: 1px solid #2d4e76;
+	font-weight: bold;
+	font-size: 0.8em;
+	padding: 0.2em 1.02em;
+	text-shadow: rgba(255, 255, 255, 0.25) 0 0.08em 0;
+	-webkit-box-shadow: 0px 0.1em 0.3em rgba(0, 0, 0, 0.3);
 }
 
 /* Background by iWebKit5 */
@@ -52,6 +68,45 @@
 	background-image: linear-gradient(#A2EB00, #7FB700 50%, #6D9E00 51%, #5B8400);
 }
 
+.x-toolbar-dark {
+	background-color: #24364c;
+	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #5a81af), color-stop(2%, #304864), color-stop(100%, #192533));
+	background-image: -webkit-linear-gradient(#5a81af,#304864 2%,#192533);
+	background-image: linear-gradient(#5a81af,#304864 2%,#192533);
+	border-color: black;
+}
+
+.x-toolbar-light {
+	background-color: #354f6e;
+	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #7c9bc0), color-stop(2%, #416086), color-stop(100%, #293e56));
+	background-image: -webkit-linear-gradient(#7c9bc0,#416086 2%,#293e56);
+	background-image: linear-gradient(#7c9bc0,#416086 2%,#293e56);
+	border-color: black;
+}
+
+.x-tabbar-dark {
+	background-color: #141e29;
+	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #466890), color-stop(2%, #1f2f41), color-stop(100%, #080c11));
+	background-image: -webkit-linear-gradient(#466890,#1f2f41 2%,#080c11);
+	background-image: linear-gradient(#466890,#1f2f41 2%,#080c11);
+	border-color: #0c1118;
+}
+
+.x-toolbar-light .x-button, .x-toolbar-light .x-button.x-button-back:after, .x-toolbar-light .x-button.x-button-forward:after, .x-toolbar .x-toolbar-light .x-button, .x-toolbar .x-toolbar-light .x-button.x-button-back:after, .x-toolbar .x-toolbar-light .x-button.x-button-forward:after, .x-toolbar-light .x-field-select .x-input-text, .x-toolbar-light .x-field-select .x-input-text.x-button-back:after, .x-toolbar-light .x-field-select .x-input-text.x-button-forward:after, .x-toolbar .x-toolbar-light .x-field-select .x-input-text, .x-toolbar .x-toolbar-light .x-field-select .x-input-text.x-button-back:after, .x-toolbar .x-toolbar-light .x-field-select .x-input-text.x-button-forward:after, .x-toolbar-light .x-field-select:before, .x-toolbar-light .x-field-select:before.x-button-back:after, .x-toolbar-light .x-field-select:before.x-button-forward:after, .x-toolbar .x-toolbar-light .x-field-select:before, .x-toolbar .x-toolbar-light .x-field-select:before.x-button-back:after, .x-toolbar .x-toolbar-light .x-field-select:before.x-button-forward:after {
+	background-color: #24364c;
+	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #5a81af), color-stop(2%, #304864), color-stop(100%, #192533));
+	background-image: -webkit-linear-gradient(#5a81af,#304864 2%,#192533);
+	background-image: linear-gradient(#5a81af,#304864 2%,#192533);
+}
+
+.x-toolbar-light .x-button, .x-toolbar .x-toolbar-light .x-button, .x-toolbar-light .x-field-select .x-input-text, .x-toolbar .x-toolbar-light .x-field-select .x-input-text, .x-toolbar-light .x-field-select:before, .x-toolbar .x-toolbar-light .x-field-select:before {
+	border: 0.1em solid #030507;
+	border-top-color: #0c1118;
+	color: white;
+	text-shadow: rgba(0, 0, 0, 0.5) 0 -0.08em 0;
+	-webkit-box-shadow: rgba(255, 255, 255, 0.1) 0 0.1em 0;
+}
+
 html,body {
 	width: 100%;
 	/* Needed to avoid a redrawing bug in Firefox when resizing windows */
@@ -78,7 +133,7 @@ body {
 	margin: 0 auto;
 }
 
-.x-form .x-panel-body {
+.x-form .x-form-inner .x-container .x-dock .x-dock-body .x-form-fieldset-inner {
 	background-color: transparent;
 	border: none;
 	padding-top: 0px;
@@ -86,7 +141,7 @@ body {
 	-webkit-box-shadow: none;
 }
 
-.x-form-field-container {
+.x-form-fieldset .x-field {
 	background-color: white;
 }
 
@@ -237,12 +292,16 @@ body {
 	border-width: thin;
 }
 
+.forwardGroupedListButton.x-list-item-first {
+	background-position: 99% 40px;
+}
+
 .caption {
 	height: 40px;
 	background: white;
 }
 
-.caption .bluebadgeicon, .caption .redbadgeicon, .caption .badgeicon, .caption .greybadgeicon {
+.caption .bluebadgeicon, .caption .redbadgeicon, .caption .badgeicon, .caption .greybadgeicon, .caption .bluebadgeiconfixed {
 	font-size: 0.6em;
 }
 
@@ -358,6 +417,14 @@ body {
 	margin-right: 20px;
 }
 
+.roundedCorners .forwardGroupedListButton.x-list-item-first,
+.roundedCorners .forwardGroupedListButton.x-list-item-first .x-list-header {
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
 .standardForm>div>div:first-child {
 	-webkit-border-top-left-radius: 15px;
 	-webkit-border-top-right-radius: 15px;
@@ -432,6 +499,21 @@ body {
 	box-shadow: 0 0 3px gray;
 }
 
+.bluebadgeiconfixed {
+	position:absolute;
+	font-weight: bold;
+	background: rgba(0, 0, 0, .50);
+	background: -webkit-linear-gradient(top, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .70) 100%);
+	color: rgb(238, 238, 238);
+	-webkit-border-radius: 20px;
+	border-radius: 11px;
+	padding: 4px 12px 5px 10px;
+	right: 20px;
+	margin-right: 20px;
+	border: 2px solid white;
+	box-shadow: 0 0 3px gray;
+}
+
 .withdoublebadge {
 	margin-right: 5px;
 }
@@ -449,7 +531,7 @@ body {
 	box-shadow: 0 0 3px gray;
 }
 
-.bluebadgeicon {
+.bluebadgeicon, .bluebadgeiconfixed {
 	background: rgb(23, 35, 128);
 	background: -webkit-linear-gradient(top, rgba(23, 35, 128, .7) 0%, rgba(23, 35, 128, 1) 100%);
 }
@@ -859,15 +941,21 @@ ol.standardList li {
 	width: 50%;
 }
 
-.releaseOptions {
+.releaseOptions .x-segmentedbutton {
 	width: 90%;
 	max-width: 700px;
 	margin: 0 auto;
 }
 
-.releaseOptions .x-button {
+.releaseOptions .x-button, abstentionOptions .x-button {
 	/*width: 33%;*/
 	width: 50%;
+}
+
+.releaseOptions .x-form-fieldset-title, .abstentionOptions .x-form-fieldset-title {
+	width: 96%;
+	margin: 0 auto;
+	margin-top: 30px;
 }
 
 .login-label-openid {
@@ -1005,6 +1093,16 @@ ol.standardList li {
 		-webkit-transition:opacity 0.3s linear;
 	}
 /* END for feedback questions */
+
+.standardLabel {
+	text-shadow: #fff 0 1px 1px;
+	color: #333333;
+	margin: 1em 0.7em 0.3em;
+	color: #333333;
+	font-weight: bold;	
+	margin-left: 30px;
+	margin-right: 30px;
+}
 
 .backToRole {
 	font-size: smaller;
