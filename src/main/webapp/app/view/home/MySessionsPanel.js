@@ -90,7 +90,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		
 		this.newSessionButtonForm = Ext.create('Ext.form.FormPanel', {
 			cls: 'topPadding standardForm',
-			style: { margin: '15px' },
+			style: 'margin: 20px',
 			scrollable: null,
 			
 			items: [{
@@ -106,6 +106,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		});
 		
 		this.sessionsForm = Ext.create('Ext.form.FormPanel', {
+			cls: 'standardForm',
 			scrollable: null,
 			items: []
 		});
@@ -169,16 +170,16 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					// Minimum width of 321px equals at least landscape view
 					var displaytext = window.innerWidth > 321 ? session.name : session.shortName; 
 					var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-						ui		: 'normal',
+						ui			: 'normal',
 						text		: displaytext,
-						cls		: 'forwardListButton' + status + course,
+						cls			: 'forwardListButton' + status + course,
 						sessionObj	: session,
 						badgeCls	: "badgeicon",
 						badgeText	: [],
 						handler		: function(options){
 							ARSnova.app.showLoadMask("Login...");
 							ARSnova.app.getController('Sessions').login({
-								keyword		: options.sessionObj.keyword
+								keyword		: options.config.sessionObj.keyword
 							});
 						}
 					});
@@ -224,11 +225,16 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							success: function(response) {
 								var numFeedbackQuestions = Ext.decode(response.responseText).total;
 								
-								button.setBadgeText([
+								button.setBadge([
 									{badgeText: numFeedbackQuestions, badgeCls: "bluebadgeicon"},
-									{badgeText: numQuestions, badgeCls: "badgeicon"},
+									{badgeText: numQuestions, badgeCls: "greybadgeicon"},
 									{badgeText: numAnswers, badgeCls: "redbadgeicon"}
 								]);
+								
+								// If badges are enabled a empty badge will always be rendered. In order to prevent this behaviour
+								// you have to use the function "setBadgeText()" and pass null.
+								button.setBadgeText("");
+								button.setBadgeText(null);
 								
 								promise.resolve({
 									hasFeedbackQuestions: numFeedbackQuestions > 0,
