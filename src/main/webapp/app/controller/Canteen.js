@@ -37,7 +37,7 @@ Ext.define("ARSnova.controller.Canteen", {
 					var foodVote = Ext.create('ARSnova.model.FoodVote', {
 						type : 'food_vote',
 						user : localStorage.getItem('login'), 
-						name : options.value,
+						name : options.config.value,
 //						day	 : ARSnova.app.config.day,
 						day	 : ARSnova.app.CANTEEN_DAY
 					});

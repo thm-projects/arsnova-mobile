@@ -102,7 +102,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			ui			: 'normal',
 			text		: Messages.QUESTIONS_FROM_STUDENTS,
 			cls			: 'forwardListButton',
-			badgeCls	: 'bluebadgeicon',
+			badgeCls	: 'bluebadgeiconfixed',
 			controller	: 'Questions',
 			action		: 'listFeedbackQuestions',
 			handler		: this.buttonClicked
@@ -122,7 +122,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		});
 		
 		this.inClassItems = Ext.create('Ext.form.FormPanel', {
-			style: { marginLeft: '15px', marginRight: '15px'},
 			scrollable: null,
 			
 			items: [{
@@ -220,7 +219,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	},
 	
 	buttonClicked: function(button){
-		ARSnova.app.getController(button.controller)[button.action]();
+		ARSnova.app.getController(button.config.controller)[button.config.action]();
 	},
 	
 	/* will be called on session login */
@@ -300,7 +299,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				
 				//update feedback counter
 				var counterEl = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.feedbackCounter;
-				var title = counterEl.getText().split("/");
+				var title = counterEl.config.getText().split("/");
 				title[1] = value;
 				title = title.join("/");
 				counterEl.setHtml(title);

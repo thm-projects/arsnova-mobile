@@ -64,7 +64,7 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 			xtype: 'formpanel',
 			cls  : 'standardForm topPadding',
 			scrollable : null,
-			style	: { margin: '20px'},
+			//style	: { margin: '20px'},
 			
 			defaults: {
 				xtype	: 'button',

@@ -37,7 +37,7 @@ Ext.define('ARSnova.view.BadgeList', {
 				this.config.tpl = Ext.create('Ext.XTemplate', this.config.groupTpl);
 			}
 		}
-
+		
 		this.on('updatedata', function(list, newData ) {
 			var allJax = MathJax.Hub.getAllJax(list.id);
 			if (allJax.length === 0) {

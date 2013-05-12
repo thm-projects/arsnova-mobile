@@ -110,7 +110,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	},
 	
 	beforeActivate: function(){
-		this.removeAll();
+		this.removeAll(false);
 		this._indicator.show();
 		this.questionCounter.show();
 		ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);

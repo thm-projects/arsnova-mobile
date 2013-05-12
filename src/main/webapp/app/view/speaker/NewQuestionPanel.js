@@ -73,10 +73,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.mainPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
 			scrollable: null,
-			style: { marginLeft: '15px', marginRight: '15px'},
 			
 			items: [{
 				xtype: 'fieldset',
+				style: { marginLeft: '20px', marginRight: '20px'},
 				items: [{
 			        xtype	: 'textfield',
 			        name	: 'subject',
@@ -85,6 +85,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			    }],
 			},{
 				xtype: 'fieldset',
+				style: { marginLeft: '20px', marginRight: '20px'},
 				items: [this.textarea]
 			}]
 		});
@@ -103,11 +104,29 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
              ]
 		}
 		
-		this.releasePart = Ext.create('Ext.form.FormPanel', {
+		this.abstentionPart = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
-			cls: 'releaseOptions',
+			cls: 'abstentionOptions',
 			items: [{
 				xtype: 'fieldset',
+				title: Messages.ABSTENTION_POSSIBLE,
+				items: [{
+					xtype: 'segmentedbutton',
+					cls: 'yesnoOptions',
+					items: [{
+						text: Messages.YES, id: 'withAbstention', pressed: true
+					}, {
+						text: Messages.NO, id: 'withoutAbstention'
+					}],
+				}]
+			}]
+		});
+		
+		this.releasePart = Ext.create('Ext.form.FormPanel', {
+			scrollable: null,
+			items: [{
+				xtype: 'fieldset',
+				cls: 'releaseOptions',
 				title: Messages.RELEASE_FOR,
 	            items: [{
 	            	xtype: 'segmentedbutton',
@@ -184,7 +203,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true,
 			scrollable: null,
 			submitOnAction: false,
-			style: { marginLeft: '15px', marginRight: '15px'},
+			style: { marginLeft: '20px', marginRight: '20px'},
 			
 			items: [{
 				xtype: 'fieldset',
@@ -205,7 +224,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true,
 			scrollable: null,
 			submitOnAction: false,
-			style: { marginLeft: '15px', marginRight: '15px'},
+			style: { marginLeft: '20px', marginRight: '20px'},
 			
 			items: [{
             	xtype: 'fieldset',
@@ -289,7 +308,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: false,
 			scrollable: null,
 			submitOnAction: false,
-			style: { marginLeft: '15px', marginRight: '15px'},
+			style: { marginLeft: '20px', marginRight: '20px'},
 			
 			items: [{
             	xtype: 'fieldset',
@@ -329,7 +348,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true,
 			scrollable: null,
 			submitOnAction: false,
-			style: { marginLeft: '15px', marginRight: '15px'},
+			style: { marginLeft: '20px', marginRight: '20px'},
 			
 			items: [{
             	xtype: 'fieldset',
@@ -374,7 +393,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true,
 			scrollable: null,
 			submitOnAction: false,
-			style: { marginLeft: '15px', marginRight: '15px'},
+			style: { marginLeft: '20px', marginRight: '20px'},
 			
 			items: [
 				{
@@ -434,7 +453,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true,
 			scrollable: null,
 			submitOnAction: false,
-			style: { marginLeft: '15px', marginRight: '15px'},
+			style: { marginLeft: '20px', marginRight: '20px'},
 			items: [],
 		});
 		
@@ -495,8 +514,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		
 		this.saveButton = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
-			style: { marginLeft: '15px', marginRight: '15px'},
-			
+			style: { margin: '20px', marginTop: '30px' },
 			items: [{
 				xtype: 'fieldset',
 				items: [{
@@ -528,6 +546,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
             this.abcdQuestion,
             this.freetextQuestion,
             
+            this.abstentionPart,
             this.releasePart,
             this.saveButton,
         ]);

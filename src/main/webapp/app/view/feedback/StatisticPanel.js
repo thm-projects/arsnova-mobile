@@ -242,7 +242,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				
 				//update feedback counter
 				var counterEl = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.feedbackCounter;
-				var title = counterEl.getText().split("/");
+				var title = counterEl.config.getText().split("/");
 				title[0] = sum;
 				title = title.join("/");
 				counterEl.setHtml(title);

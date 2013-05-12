@@ -24,6 +24,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 
 	config: {
 		url : '/couchdb/arsnova',
+		
 		appendId: true,
 		noCache: false,
 	
@@ -98,7 +99,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
         url     = request.url || this.config.url;
     	id      = record ? record.getId() : request.config.operation.id; // FIX
     
-    
     	if (this.appendId && id) { // FIX
     		if (!url.match(/\/$/)) {
             url += '/';
@@ -114,9 +114,9 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	        
 	        url += format;
 	    }
-    
+	    
 	    request.url = url;
-    
+
 	    this.callParent(arguments);
     },
     

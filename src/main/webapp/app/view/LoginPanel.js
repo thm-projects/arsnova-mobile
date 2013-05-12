@@ -81,7 +81,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 			hidden	: true,
 			handler	: function(b) {
 				ARSnova.app.getController('Auth').login({
-					mode: b.value
+					mode: b.config.value
 				});
 			}
 		});
@@ -108,7 +108,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 				xtype	: 'button',
 				handler	: function(b) {
 					ARSnova.app.getController('Auth').login({
-						mode: b.value
+						mode: b.config.value
 					});
 				}
 			},

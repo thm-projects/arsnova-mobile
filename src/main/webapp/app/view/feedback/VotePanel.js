@@ -32,7 +32,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 			cls		: 'option-button',
 			handler	: function(button) {
 				ARSnova.app.getController('Feedback').vote({
-					value		: button.value
+					value		: button.config.value
 				});
 			}
 		}

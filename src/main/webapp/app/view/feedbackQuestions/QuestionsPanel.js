@@ -71,7 +71,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			}
 		});
 		
-		this.editButton = Ext.create('Ext.Button', {
+		this.editButton = new Ext.Button({
 			text: Messages.EDIT,
 			hidden: true,
 			editMode: false,

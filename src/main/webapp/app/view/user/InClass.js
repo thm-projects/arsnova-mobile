@@ -148,7 +148,6 @@ Ext.define('ARSnova.view.user.InClass', {
 		});
 		
 		this.inClass = Ext.create('Ext.form.FormPanel', {
-			style: { marginLeft: '15px', marginRight: '15px'},
 			scrollable: null,
 			
 			items: [{
@@ -256,7 +255,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 	
 	buttonClicked: function(button){
-		ARSnova.app.getController(button.controller)[button.action]();
+		ARSnova.app.getController(button.config.controller)[button.config.action]();
 	},
 	
 	checkFeedbackRemoved: function() {
@@ -287,7 +286,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				
 				//update feedback counter
 				var counterEl = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.feedbackCounter;
-				var title = counterEl.getText().split("/");
+				var title = counterEl.config.getText().split("/");
 				title[1] = value;
 				title = title.join("/");
 				counterEl.setHtml(title);

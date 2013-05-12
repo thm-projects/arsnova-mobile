@@ -24,7 +24,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	config: {
 		title: 'AudienceQuestionPanel',
 		fullscreen: true,
+		scrollable: true,
 		scroll: 'vertical',
+		layout: 'vbox',
 	},
 	
 	monitorOrientation: true,
@@ -60,18 +62,22 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		         }
 		     },
 		});
-		
-		// TODO: migration of BadgeList - list is not working and not shown
-		this.questions = Ext.create('ARSnova.view.BadgeList', {
+
+		this.questionList = Ext.create('ARSnova.view.BadgeList', {
 			activeCls: 'search-item-active',
-			layout: 'fit',
+			cls: 'roundedCorners',
+			
 			flex: 1,
+			layout: 'fit',
+			scrollable: false,
+			hidden: true,
 			
 			style: {
+				marginLeft:  '20px',
+				marginRight: '20px',
 				backgroundColor: 'transparent'
 			},
-			
-			scroll: false,
+
 			itemCls: 'forwardGroupedListButton',
 			itemTpl: '<tpl if="active"><span class="isActive">{text}</span></tpl><tpl if="!active">{text}</tpl>',
 			grouped: true,
@@ -87,17 +93,14 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		});
 		
 		this.controls = Ext.create('Ext.form.FormPanel', {
-			cls: 'standardForm topPadding',
-			
-			style: { marginLeft: '15px', marginRight: '15px'},
-			
+			cls: 'standardForm topPadding',			
 			scrollable: null,
 		});
 		
-		this.questionsContainer = Ext.create('Ext.form.FieldSet', {
-			title: Messages.QUESTIONS,
-			hidden: true,
-			items: [this.questions]
+		this.questionTitle = Ext.create('Ext.Label', {
+			html: Messages.QUESTIONS,
+			cls: 'standardLabel',
+			hidden: true
 		});
 		
 		this.newQuestionButton = {
@@ -154,14 +157,11 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			]
 		});
 		
-		this.add([this.toolbar, this.controls, {
-				xtype: 'formpanel',
-				scrollable: null,
-				
-				style: { marginLeft: '15px', marginRight: '15px'},
-				
-				items: [this.questionsContainer]
-			}
+		this.add([
+		    this.toolbar, 
+		    this.controls,
+			this.questionTitle,
+			this.questionList
 		]);
 		
 		this.on('activate', this.onActivate);
@@ -170,6 +170,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	},
 	
 	onActivate: function() {
+		console.log(this.questions);	
 		taskManager.start(this.updateAnswerCount);
 		this.controls.removeAll();
 		this.questionStore.removeAll();
@@ -186,11 +187,13 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				
 				this.controls.insert(0, this.showcaseFormButton);
 				this.displayShowcaseButton();
-				this.questionsContainer.show();
+				this.questionTitle.show();
+				this.questionList.show();
 			}, this),
 			empty: Ext.bind(function() {
 				this.showcaseButton.hide();
-				this.questionsContainer.hide();
+				this.questionTitle.hide();
+				this.questionList.show();
 			}, this),
 			failure: function(response) {
 				console.log('server-side error questionModel.getSkillQuestions');

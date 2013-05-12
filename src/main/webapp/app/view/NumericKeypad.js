@@ -60,6 +60,6 @@ Ext.define('ARSnova.view.NumericKeypad', {
             placeHolder	: this.placeHolder
         });
         
-        ARSnova.view.NumericKeypad.superclass.onRender.apply(this, arguments);
+        this.callParent(arguments);
     }
 });

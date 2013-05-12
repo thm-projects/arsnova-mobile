@@ -60,6 +60,7 @@ Ext.define("ARSnova.controller.Sessions", {
     	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateFeedbackTask);
     	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
     	    	
+    	    	ARSnova.app.hideLoadMask();
 				ARSnova.app.getController('Sessions').reloadData();
     		},
     		notFound: function() {
