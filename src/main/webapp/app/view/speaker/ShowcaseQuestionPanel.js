@@ -37,10 +37,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				//update question counter in toolbar
 				var counterEl = panel.questionCounter;
 				var counter = counterEl.element.dom.innerText.split("/");
-				
-				// TODO: where to get index from? 
-				//cardswitch is deprecated and the replacement activeitemchange don't deliver a index
-				//counter[0] = index + 1;
+
+				counter[0] = panel.activeIndex + 1;
 				counterEl.setHtml(counter.join("/"));
 				
 				newCard.fireEvent('preparestatisticsbutton', panel.statisticButton);
@@ -99,7 +97,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	},
 	
 	beforeActivate: function(){
-		this.removeAll();
+		this.removeAll(false);
 		this._indicator.show();
 		this.questionCounter.show();
 		this.toolbar.setTitle(Messages.QUESTION);
