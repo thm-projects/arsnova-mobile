@@ -52,8 +52,8 @@ Ext.regController("sessions", {
     	    	localStorage.setItem('name', obj.name);
     	    	localStorage.setItem('keyword', obj.keyword);
     	    	localStorage.setItem('shortName', obj.shortName);
-		localStorage.setItem('courseId', obj.courseId);
-		localStorage.setItem('courseType', obj.courseType);
+    	    	localStorage.setItem('courseId', obj.courseId === null ? "" : obj.courseId);
+    	    	localStorage.setItem('courseType', obj.courseType === null ? "" : obj.courseType);
     	    	localStorage.setItem('active', obj.active ? 1 : 0);
     	    	
     	    	//start task to update the feedback tab in tabBar
@@ -240,7 +240,7 @@ Ext.regController("sessions", {
 			shortName: options.shortName,
 			creator	 : localStorage.getItem('login'),
 			courseId : options.courseId,
-			courseType:options.courseType 
+			courseType:options.courseType
 		}, 'Session');
 		
 		var validation = session.validate();
@@ -266,8 +266,8 @@ Ext.regController("sessions", {
 				localStorage.setItem('keyword', fullSession.keyword);
 				localStorage.setItem('shortName', fullSession.shortName);
 				localStorage.setItem('active', fullSession.active ? 1 : 0);
-				localStorage.setItem('courseId', fullSession.courseId);
-				localStorage.setItem('courseType', fullSession.courseType);
+				localStorage.setItem('courseId', fullSession.courseId === null ? "" : fullSession.courseId);
+				localStorage.setItem('courseType', fullSession.courseType === null ? "" : fullSession.courseType);
 				ARSnova.isSessionOwner = true;
     	    	
     	    	//start task to update the feedback tab in tabBar
