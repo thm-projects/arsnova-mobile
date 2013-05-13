@@ -26,7 +26,6 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 	inClassItems			: null,
 	audienceQuestionButton	: null,
 	questionsFromUserButton	: null,
-	flashcardButton			: null,
 	quizButton			 	: null,
 		
 	inClassActions: null,
@@ -104,19 +103,6 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 			handler		: this.buttonClicked
 		});
 		
-		this.flashcardButton = new Ext.Button({
-			ui			: 'normal',
-			text		: Messages.FLASHCARDS,
-			listeners: {
-				click: {
-					element: 'el',
-					fn: function (e) {
-						window.open("http://www.cobocards.com/");
-					}
-				}
-			}
-		});
-		
 		this.inClassItems = {
 				xtype: 'form',
 				cls	 : 'standardForm topPadding',
@@ -130,8 +116,7 @@ ARSnova.views.speaker.InClass = Ext.extend(Ext.Panel, {
 					instructions: "Session-ID: " + ARSnova.formatSessionID(localStorage.getItem("keyword")),
 					items: [
 						this.audienceQuestionButton,
-						this.feedbackQuestionButton,
-						this.flashcardButton
+						this.feedbackQuestionButton
 					]
 				}]
 		};

@@ -26,7 +26,6 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 	inClass			: null,
 	feedbackButton	: null,
 	questionsButton	: null,
-	flashcardButton	: null,
 	quizButton		: null,
 	
 	/**
@@ -121,19 +120,6 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 			handler		: this.buttonClicked
 		});
 		
-		this.flashcardButton = new Ext.Button({
-			ui			: 'normal',
-			text		: Messages.FLASHCARDS,
-			listeners: {
-				click: {
-					element: 'el',
-					fn: function (e) {
-						window.open("http://www.cobocards.com/");
-					}
-				}
-			}
-		});
-		
 		this.inClass = {
 			xtype: 'form',
 			cls	 : 'standardForm topPadding',
@@ -147,8 +133,7 @@ ARSnova.views.user.InClass = Ext.extend(Ext.Panel, {
 				instructions: "Session-ID: " + ARSnova.formatSessionID(localStorage.getItem("keyword")),
 				items: [					
 					this.feedbackButton,
-					this.questionButton,
-					this.flashcardButton
+					this.questionButton
 				]
 			}
 			]
