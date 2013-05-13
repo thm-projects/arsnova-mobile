@@ -66,10 +66,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		this.questionList = Ext.create('ARSnova.view.BadgeList', {
 			activeCls: 'search-item-active',
 			cls: 'roundedCorners',
-			
-			flex: 1,
-			layout: 'fit',
-			scrollable: false,
+
+			scrollable: { disabled: true },
 			hidden: true,
 			
 			style: {
@@ -88,7 +86,15 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 					ARSnova.app.getController('Questions').details({
 						question	: list.getStore().getAt(index).data
 					});
-				}
+				},
+		        initialize: function (list, eOpts){
+		            var me = this;
+		            if (typeof me.getItemMap == 'function'){
+		                me.getScrollable().getScroller().on('refresh',function(scroller,eOpts){
+		                    me.setHeight(me.getItemMap().getTotalHeight()+20);
+		                });
+		            }
+		        }
 			}
 		});
 		
@@ -170,7 +176,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	},
 	
 	onActivate: function() {
-		console.log(this.questions);	
 		taskManager.start(this.updateAnswerCount);
 		this.controls.removeAll();
 		this.questionStore.removeAll();
