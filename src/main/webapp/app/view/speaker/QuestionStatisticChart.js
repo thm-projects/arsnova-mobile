@@ -42,7 +42,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	renewChartDataTask: {
 		name: 'renew the chart data at question statistics charts',
 		run: function(){
-			ARSnova.app.mainTabPanel._activeItem.getQuestionAnswers();
+			ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart.getQuestionAnswers();
 		},
 		interval: 10000 //10 seconds
 	},
@@ -53,7 +53,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	countActiveUsersTask: {
 		name: 'count the actually logged in users',
 		run: function(){
-			ARSnova.app.mainTabPanel._activeItem.countActiveUsers();
+			ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart.countActiveUsers();
 		},
 		interval: 15000
 	},
@@ -104,17 +104,12 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
+			title: Messages.QUESTION,
 			items: [this.backButton, {
 				xtype: 'spacer'
 			}, {
 				xtype: 'container',
-				cls: "x-toolbar-title",
-				html: Messages.QUESTION
-			}, {
-				xtype: 'spacer'
-			}, {
-				xtype: 'container',
-				cls: "x-toolbar-title",
+				cls: "x-toolbar-title counterText",
 				html: "0/0",
 				style: {paddingRight: '10px'}
 			}]
@@ -355,14 +350,13 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				store.each(function(record) {
 					record.data.percent = totalResults > 0 ? (record.data.value / totalResults) : 0.0;
 				});
-				
 				chart._axes.items[0]._maximum = maxValue;
 				
 				// renew the chart-data
 				chart.redraw();
 				
 				//update quote in toolbar
-				var quote = panel.toolbar.items.items[4];
+				var quote = panel.toolbar.items.items[2];
 				var users = quote.element.dom.innerText.split("/");
 				users[0] = sum;
 				users = users.join("/");
@@ -388,7 +382,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				var value = parseInt(response.responseText);
 				
 				//update quote in toolbar
-				var quote = ARSnova.app.mainTabPanel._activeItem.toolbar.items.items[4];
+				var quote = ARSnova.app.mainTabPanel._activeItem.toolbar.items.items[2];
 				var users = quote.element.dom.innerText.split("/");
 				users[1] = value;
 				users = users.join("/");

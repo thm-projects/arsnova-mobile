@@ -53,11 +53,12 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			text	: ' ',
 			cls		: 'statisticIconSmall',
 			handler	: function() {
-				var questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
+				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+				sTP.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
 					question: ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel._activeItem._activeItem.questionObj, 
 					lastPanel: this
 				});
-				ARSnova.app.mainTabPanel.animateActiveItem(questionStatisticChart, 'slide');
+				ARSnova.app.mainTabPanel.animateActiveItem(sTP.questionStatisticChart, 'slide');
 			}
 		});
 		
@@ -73,7 +74,11 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 					duration	: 700,
 					scope		: this,
 		    		listeners: { animationend: function() { 
-						this.hide();
+		    			// Destroy and recreate showcaseQuestionPanel to ensure that first element will be
+		    			// shown correctly. If this is not done a cached panel is shown on reloading this 
+		    			// carousel.
+						sTP.showcaseQuestionPanel.destroy();
+						sTP.showcaseQuestionPanel = Ext.create('ARSnova.view.speaker.ShowcaseQuestionPanel');
 		    		}, scope: this }
 				});
 			}
@@ -97,7 +102,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	},
 	
 	beforeActivate: function(){
-		this.removeAll(false);
+		this.removeAll();
 		this._indicator.show();
 		this.questionCounter.show();
 		this.toolbar.setTitle(Messages.QUESTION);

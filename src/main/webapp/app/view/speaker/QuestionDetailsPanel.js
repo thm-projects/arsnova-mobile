@@ -221,7 +221,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					sTP.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
 						question: this.questionObj,
 						lastPanel: this
-					}),
+					});
 					ARSnova.app.mainTabPanel.animateActiveItem(sTP.questionStatisticChart, 'slide');
 				}
 			}, {
@@ -468,6 +468,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				items: [
 					{
 						cls: 'gravure icon',
+						style: { margin: '20px' },
 						html: '<span class="coursemembersonlymessage">'+Messages.MEMBERS_ONLY+'</span>'
 					}
 				]

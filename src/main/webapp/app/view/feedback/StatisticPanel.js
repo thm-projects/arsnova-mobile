@@ -79,7 +79,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		});
 		
 		this.feedbackCounter = Ext.create('Ext.Container', {
-			cls: "x-toolbar-title alignRight",
+			cls: "x-toolbar-title alignRight counterText",
 			html: '0/0',
 			getText: function(){
 				if(this.rendered)

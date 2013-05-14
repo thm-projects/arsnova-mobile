@@ -47,7 +47,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		    		duration	: 700,
 		    		scope		: this,
 		    		listeners: { animationend: function() { 
-						this.hide();
+		    			this.hide();
 		    		}, scope: this }
 		    	});
 			}
@@ -72,7 +72,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		};
 		
 		this.questionCounter = Ext.create('Ext.Container', {
-			cls: "x-toolbar-title alignRight",
+			cls: "x-toolbar-title alignRight counterText",
 			html: '0/0'
 		});
 		
