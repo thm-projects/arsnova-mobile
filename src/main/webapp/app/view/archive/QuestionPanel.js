@@ -45,11 +45,6 @@ Ext.define('ARSnova.view.archive.QuestionPanel', {
 		    		direction	: 'right',
 		    		duration	: 700,
 		    		listeners: { animationend: function() { 
-		    			// Destroy and recreate showcaseQuestionPanel to ensure that first element will be
-		    			// shown correctly. If this is not done a cached panel is shown on reloading this 
-		    			// carousel.
-						aTP.questionPanel.destroy();
-						aTP.questionPanel = Ext.create('ARSnova.view.archive.QuestionPanel');
 		    		}, scope: this }
 		    	});
 			}
