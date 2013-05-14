@@ -23,6 +23,7 @@ Ext.define('ARSnova.view.Question', {
 	
 	config: {
 		scroll: 'vertical',
+		scrollable: true,
 		
 		listeners: {
 			preparestatisticsbutton: function(button) {
@@ -51,7 +52,7 @@ Ext.define('ARSnova.view.Question', {
 		this.viewOnly = typeof arguments.viewOnly === "undefined" ? false : arguments.viewOnly;
 		
 		answerStore.add(this.questionObj.possibleAnswers);
-		
+
 		var questionListener = this.viewOnly ? {} : {
 			'itemtap': function(list, index, element, e) {
 				var answerObj 	= this.questionObj.possibleAnswers[index];
@@ -166,14 +167,26 @@ Ext.define('ARSnova.view.Question', {
 				'<p class="title">' + this.questionObj.subject + '<p/>' +
 				'<p>' + this.questionObj.text + '</p>'
 		});
+		
 		this.answerList = Ext.create('Ext.List', {
 			store	: answerStore,
 			
 			cls: 'roundedBox',
-			scroll: false,
+			
+			scrollable: { disabled: true },
 			
 			itemTpl	: '{text}',
-			listeners: questionListener
+		    listeners: {
+		    	questionListener: questionListener,
+		        initialize: function (list, eOpts){
+		            var me = this;
+		            if (typeof me.getItemMap == 'function'){
+		                me.getScrollable().getScroller().on('refresh',function(scroller,eOpts){
+		                    me.setHeight(me.getItemMap().getTotalHeight()+20);
+		                });
+		            }
+		        }
+		    }
 		});
 		
 		this.add([this.questionTitle, this.answerList]);

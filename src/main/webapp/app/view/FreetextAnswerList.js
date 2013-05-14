@@ -18,7 +18,6 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-
 Ext.define('ARSnova.view.FreetextAnswerList', {
 	extend: 'Ext.List',
 	
@@ -49,8 +48,10 @@ Ext.define('ARSnova.view.FreetextAnswerList', {
 		}
 	},
 	
-	constructor: function(store, disableScrolling) {
-		this.scroll = !arguments.disableScrolling ? 'vertical' : false;
-		this.store = arguments.store;
+	constructor: function(arguments) {
+		this.callParent(arguments);
+		
+		this.config.scroll = !arguments.disableScrolling ? 'vertical' : false;
+		this.config.store = arguments.store;
 	},
 });

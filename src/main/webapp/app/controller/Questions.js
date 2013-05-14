@@ -66,7 +66,7 @@ Ext.define("ARSnova.controller.Questions", {
     	var validation = question.validate();
     	if (!validation.isValid()){
 			validation.items.forEach(function(el){
-				panel.down('textfield[name=' + el.field + ']').addCls("required");
+				panel.down('textfield[name=' + el.getField() + ']').addCls("required");
 				error = true;
 			});
     	}
@@ -89,7 +89,8 @@ Ext.define("ARSnova.controller.Questions", {
 				break;
 			case 'mc':
 				panel.multipleChoiceQuestion.query('textfield').forEach(function(el){
-					if(!el.hidden && el.getValue().trim() == "") {
+					if(!el.getHidden() && el.getValue().toString().trim() == "") {
+						console.log(el.getValue());
 						el.addCls("required");
 						error = true;
 					}
@@ -158,7 +159,7 @@ Ext.define("ARSnova.controller.Questions", {
 			success: function(response) {
 				var question = Ext.create('ARSnova.model.Question', Ext.decode(response.responseText));
 				question.set('active', options.active);
-				
+
 				question.publishSkillQuestion({
 					success: function(response){
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
@@ -194,14 +195,14 @@ Ext.define("ARSnova.controller.Questions", {
 		/* change the backButton-redirection to inClassPanel,
 		 * but only for one function call */
 		var backButton = sTP.newQuestionPanel.down('button[ui=back]');
-		backButton.handler = function(){
+		backButton.setHandler(function(){
 			var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 			sTP.animateActiveItem(sTP.inClassPanel, {
 				type: 'slide',
 				direction: 'right',
 				duration: 700
 			});
-		};
+		});
 		backButton.setText("Home");
 		sTP.newQuestionPanel.on('deactivate', function(panel){
 			panel.backButton.handler = function(){

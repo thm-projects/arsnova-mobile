@@ -63,7 +63,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 		this.questionTitle = Ext.create('Ext.Component', {
 			cls: 'roundedBox',
-			html: '<p class="title">' + questionObj.subject + '<p/>' + '<p>' + questionObj.text + '</p>'
+			html: '<p class="title">' + this.questionObj.subject + '<p/>' + '<p>' + this.questionObj.text + '</p>'
 		});
 		
 		this.add([Ext.create('Ext.Panel', {

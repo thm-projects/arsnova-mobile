@@ -45,7 +45,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			});
 		
 		this.questionCounter = Ext.create('Ext.Container', {
-			cls: "x-toolbar-title alignRight",
+			cls: "x-toolbar-title alignRight counterText",
 			html: '0/0'
 		});
 		

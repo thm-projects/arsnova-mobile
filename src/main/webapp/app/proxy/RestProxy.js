@@ -337,7 +337,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		Ext.Ajax.request({
 			url: "session/" + question.get('sessionKeyword') + "/question",
 			method: "POST",
-			jsonData: question.data,
+			jsonData: question.raw,
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -347,7 +347,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		Ext.Ajax.request({
 			url: "lecturerquestion/" + question.get('_id'),
 			method: "PUT",
-			jsonData: question.data,
+			jsonData: question.raw,
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -357,7 +357,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		Ext.Ajax.request({
 			url: "lecturerquestion/" + question.get('_id') + "/publish",
 			method: "POST",
-			jsonData: question.data,
+			jsonData: question.raw,
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -367,7 +367,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		Ext.Ajax.request({
 			url: "lecturerquestion/" + question.get('_id') + "/publishstatistics",
 			method: "POST",
-			jsonData: question.data,
+			jsonData: question.raw,
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -377,7 +377,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		Ext.Ajax.request({
 			url: "lecturerquestion/" + question.get('_id') + "/publishcorrectanswer",
 			method: "POST",
-			jsonData: question.data,
+			jsonData: question.raw,
 			success: callbacks.success,
 			failure: callbacks.failure
 		});

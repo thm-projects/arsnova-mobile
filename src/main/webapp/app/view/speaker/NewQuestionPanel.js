@@ -268,33 +268,39 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	                	}
 	                }, {
 						xtype	: 'textfield',
-					    id		: 'correctAnswer',
+						id		: 'correctAnswer',
+					    name	: 'correctAnswer',
 						label	: Messages.CORRECT,
 						placeHolder: Messages.CORRECT_PLACEHOLDER,
 					}, {
 						xtype	: 'textfield',
-					    id		: 'wrongAnswer1',
+						id		: 'wrongAnswer1',
+						name	: 'wrongAnswer1',
 						label	: Messages.WRONG,
 						placeHolder: Messages.WRONG_PLACEHOLDER,
 					}, {
 						xtype	: 'textfield',
-					    id		: 'wrongAnswer2',
+						id		: 'wrongAnswer2',
+						name	: 'wrongAnswer2',
 					    label	: Messages.WRONG,
 					    placeHolder: Messages.WRONG_PLACEHOLDER,
 					}, {
 						xtype	: 'textfield',
-					    id		: 'wrongAnswer3',
+						id		: 'wrongAnswer3',
+						name	: 'wrongAnswer3',
 					    label	: Messages.WRONG,
 					    placeHolder: Messages.WRONG_PLACEHOLDER,
 					}, {
 						xtype	: 'textfield',
-					    id		: 'wrongAnswer4',
+						id		: 'wrongAnswer4',
+						name	: 'wrongAnswer4',
 					    label	: Messages.WRONG,
 					    placeHolder: Messages.WRONG_PLACEHOLDER,
 					    hidden	: true,
 					}, {
 						xtype	: 'textfield',
-					    id		: 'wrongAnswer5',
+						id		: 'wrongAnswer5',
+						name	: 'wrongAnswer5',
 					    label	: Messages.WRONG,
 					    placeHolder: Messages.WRONG_PLACEHOLDER,
 					    hidden	: true,
@@ -315,27 +321,27 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
             	title: Messages.ANSWERS,
             	items: [{
 						xtype	: 'textfield',
-					    id		: 'voteAnswer1',
+						name	: 'voteAnswer1',
 					    label	: '1.',
 					    value	: Messages.EVALUATION_PLUSPLUS,
 					}, {
 						xtype	: 'textfield',
-					    id		: 'voteAnswer2',
+						name	: 'voteAnswer2',
 					    label	: '2.',
 					    value	: Messages.EVALUATION_PLUS,
 					}, {
 						xtype	: 'textfield',
-					    id		: 'voteAnswer3',
+						name	: 'voteAnswer3',
 					    label	: '3.',
 					    value	: Messages.EVALUATION_NEUTRAL,
 					}, {
 						xtype	: 'textfield',
-					    id		: 'voteAnswer4',
+						name	: 'voteAnswer4',
 					    label	: '4.',
 					    value	: Messages.EVALUATION_MINUS,
 					}, {
 						xtype	: 'textfield',
-					    id		: 'voteAnswer5',
+						name	: 'voteAnswer5',
 					    label	: '5.',
 					    value	: Messages.EVALUATION_MINUSMINUS,
 					}
@@ -355,32 +361,32 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
             	title: Messages.ANSWERS,
             	items: [{
 						xtype	: 'textfield',
-					    id		: 'schoolAnswer1',
+						name	: 'schoolAnswer1',
 					    label	: '1.',
 					    value	: Messages.SCHOOL_A,
 					}, {
 						xtype	: 'textfield',
-					    id		: 'schoolAnswer2',
+						name	: 'schoolAnswer2',
 					    label	: '2.',
 					    value	: Messages.SCHOOL_B,
 					}, {
 						xtype	: 'textfield',
-					    id		: 'schoolAnswer3',
+						name	: 'schoolAnswer3',
 					    label	: '3.',
 					    value	: Messages.SCHOOL_C,
 					}, {
 						xtype	: 'textfield',
-					    id		: 'schoolAnswer4',
+						name	: 'schoolAnswer4',
 					    label	: '4.',
 					    value	: Messages.SCHOOL_D,
 					}, {
 						xtype	: 'textfield',
-					    id		: 'schoolAnswer5',
+						name	: 'schoolAnswer5',
 					    label	: '5.',
 					    value	: Messages.SCHOOL_E,
 					}, {
 						xtype	: 'textfield',
-					    id		: 'schoolAnswer6',
+						name	: 'schoolAnswer6',
 					    label	: '6.',
 					    value	: Messages.SCHOOL_NONE,
 					}
@@ -569,16 +575,16 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
     	
     	/* check if release question button is clicked */
     	var releasePart = panel.releasePart;
-	if (
-		  localStorage.getItem('courseId') != null
+    	if (
+    		 localStorage.getItem('courseId') != null
 		  && localStorage.getItem('courseId').length > 0
-	) {
-		var button = null;
-		values.releasedFor = 'courses';
-		//values.courses = [localStorage.getItem('courseId')];
-	} else {
-		var button = releasePart.down('segmentedbutton').pressedButton;
-	}
+    	) {
+			var button = null;
+			values.releasedFor = 'courses';
+			//values.courses = [localStorage.getItem('courseId')];
+    	} else {
+    		var button = releasePart.down('segmentedbutton').getActiveItem();
+    	}
     	if(button){
     		switch (button.id) {
 				case 'all':
@@ -666,9 +672,11 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		    	var yesNoOption = form.down('segmentedbutton');
 		    	
 		    	var correct = "";
-		    	if (yesNoOption.pressedButton)
-		    		correct = yesNoOption.pressedButton.text;
+		    	if (yesNoOption.getActiveItem().getText()) {
+		    		correct = yesNoOption.getActiveItem().getText();
+		    	}
 		    	else {
+		    		console.log('no');
 		    		return;
 		    	}
 		    	
@@ -694,8 +702,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		    	var segmentedButton = form.down('segmentedbutton');
 				
 		    	var correct = "";
-		    	if (segmentedButton.pressedButton) {
-		    		correct = segmentedButton.pressedButton.text;
+		    	if (segmentedButton.getActiveItem()) {
+		    		correct = segmentedButton.getActiveItem().getText();
 		    	} else {
 		    		values.noCorrect = 1;
 		    	}

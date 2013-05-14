@@ -292,7 +292,7 @@ body {
 	border-width: thin;
 }
 
-.forwardGroupedListButton.x-list-item-first {
+.forwardGroupedListButton.x-list-header-wrap {
 	background-position: 99% 40px;
 }
 
@@ -881,6 +881,11 @@ ol.standardList li {
 .alignRight {
 	text-align: right;
 	padding-right: 10px;
+}
+
+.counterText {
+	color: white;
+	text-shadow: rgba(0, 0, 0, 0.5) 0 -0.08em 0;
 }
 
 .actionsForm {

@@ -31,7 +31,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
-		title: 'FreetextAnswer',
+		title: 'QuestionDetailsPanel',
 		fullscreen: true,
 		scrollable: true,
 		scroll: 'vertical',
@@ -114,13 +114,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			handler	: function(){
 				var panel = this.up('panel');
 				
-				if(this.text == Messages.EDIT){
+				if(this.getText() == Messages.EDIT){
 					panel.cancelButton.show();
 					panel.backButton.hide();
 					
 					this.setText(Messages.SAVE);
 					this.addCls('x-button-action');
-					
+
 					this.enableFields();
 				} else {
 					panel.cancelButton.hide();
@@ -128,8 +128,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					
 					var values = this.up('panel').down('#contentForm').getValues();
 					var question = Ext.create('ARSnova.model.Question', panel.questionObj);
+
 					question.set("subject", values.subject);
 					question.set("text", values.questionText);
+					question.raw.subject = values.subject;
+					question.raw.text = values.questionText;
+					
 					question.saveSkillQuestion({
 						success: function(response){
 							panel.questionObj = question.data;
@@ -146,10 +150,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			enableFields: function(){
 				var fields = this.up('panel').down('#contentFieldset').items.items;
 				var fieldsLength = fields.length;
-				
+
 				for(var i = 0; i < fieldsLength; i++){
 					var field = fields[i];
-					switch (field.label){
+					switch (field.config.label){
 						case Messages.CATEGORY:
 							field.setDisabled(false);
 							break;
@@ -171,7 +175,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				
 				for ( var i = 0; i < fieldsLength; i++){
 					var field = fields[i];
-					switch (field.label){
+					switch (field.config.label){
 						case Messages.CATEGORY:
 							field.setDisabled(true);
 							break;
@@ -246,6 +250,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								break;
 							case 1:
 								question.set('showStatistic', 1);
+								question.raw.showStatistic = 1;
 								break;
 						};
 						question.publishSkillQuestionStatistics({
@@ -277,13 +282,14 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
 						if (value == 0 && panel.questionObj.showAnswer == undefined || value == panel.questionObj.showAnswer) return;
 						ARSnova.app.showLoadMask(Messages.LOAD_MASK_ACTIVATION);
-						var question = Ext.create('Question', panel.questionObj);
+						var question = Ext.create('ARSnova.model.Question', panel.questionObj);
 						switch (value) {
 							case 0:
 								delete question.data.showAnswer;
 								break;
 							case 1:
 								question.set('showAnswer', 1);
+								question.raw.showAnswer = 1;
 								break;
 						};
 						question.publishCorrectSkillQuestionAnswer({
@@ -301,7 +307,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			}]
 		});
 		
-		this.questionStatusButton = Ext.create('ARSnova.view.QuestionStatusButton' , { questionObj: this.questionObj });
+		this.questionStatusButton = Ext.create('ARSnova.view.QuestionStatusButton' , { 
+			questionObj: this.questionObj 
+		});
 		
 		this.deleteAnswersButton = Ext.create('Ext.Panel', {
 			cls: 'threeButtons left',
@@ -356,26 +364,26 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						if (answer == 'yes') {
 							var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 							ARSnova.app.questionModel.destroy(sTP.questionDetailsPanel.questionObj, {
+								success: function() {
+									me = sTP.questionDetailsPanel;
+									
+									sTP.animateActiveItem(sTP.audienceQuestionPanel, {
+										type		: 'slide',
+										direction	: 'right',
+										duration	: 700,
+									    listeners: {
+									        animationend: function() {
+									        	taskManager.stop(me.renewAnswerDataTask);
+									        	me.destroy();
+									        }
+									    }
+									});
+								},
 								failure: function(response){
 									console.log('server-side error delete question');
 								}
 							});
-							me = sTP.questionDetailsPanel;
-							sTP.animateActiveItem(sTP.audienceQuestionPanel, {
-								type		: 'slide',
-								direction	: 'right',
-								duration	: 700,
-					    		listeners: { 
-					    			animationstart: function() { 
-					    				taskManager.stop(me.renewAnswerDataTask);
-					    			},
-					    			
-					    			animationend: function() { 
-					    				me.destroy();
-					    			}, 
-					    			scope: this
-					    		}
-							});
+
 						}
 					});
 				}
@@ -442,13 +450,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		
 		if(window.innerWidth < 600) {
 			this.releaseItems = [
-                 { text	: Messages.ALL_SHORT, 	  id: 'all', pressed: allPressed}, 
-                 { text	: Messages.ONLY_THM_SHORT, id: 'thm', pressed: thmPressed}
+                 { text	: Messages.ALL_SHORT, 	  itemId: 'all', pressed: allPressed}, 
+                 { text	: Messages.ONLY_THM_SHORT, itemId: 'thm', pressed: thmPressed}
              ];
 		} else {
 			this.releaseItems = [
-                 { text	: Messages.ALL_LONG, 	 id: 'all', pressed: allPressed }, 
-                 { text	: Messages.ONLY_THM_LONG, id: 'thm', pressed: thmPressed }
+                 { text	: Messages.ALL_LONG, 	 itemId: 'all', pressed: allPressed }, 
+                 { text	: Messages.ONLY_THM_LONG, itemId: 'thm', pressed: thmPressed }
              ];
 		}
 		
@@ -470,10 +478,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				
 				items: [{
 					xtype: 'fieldset',
+					cls: 'releaseOptions',
 					title: Messages.RELEASE_FOR,
 			    items: [{
 				xtype: 'segmentedbutton',
-					cls: 'releaseOptions',
 					allowDepress: false,
 					allowMultiple: false,
 					items: this.releaseItems,
@@ -489,14 +497,15 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								ARSnova.app.hideLoadMask();
 								return;
 							}
-									question.set('releasedFor', button.id);
-								question.save({
-									success: function(response){
-										panel.questionObj = question.data;
-										ARSnova.app.hideLoadMask();
-									},
-									failure: function(){ console.log('could not save releasedFor flag'); }
-								});
+							question.set('releasedFor', button.id);
+							question.raw.releasedFor = button.id;
+							question.save({
+								success: function(response){
+									panel.questionObj = question.data;
+									ARSnova.app.hideLoadMask();
+								},
+								failure: function(){ console.log('could not save releasedFor flag'); }
+							});
 						}
 					}
 					}
@@ -508,7 +517,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		/* BEGIN QUESTION DETAILS */
 		this.contentFieldset = Ext.create('Ext.form.FieldSet', {
 			cls	 : 'standardFieldset',
-			id	 : 'contentFieldset',
+			itemId	 : 'contentFieldset',
 			items: [{
 				xtype: 'textfield',
 				label: Messages.CATEGORY,
@@ -530,9 +539,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		
 		this.contentForm = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
-			id 	 : 'contentForm',
-			style: { marginTop: '15px' },
-			items: [this.contentFieldset, this.releasePart]
+			itemId 	 : 'contentForm',
+			style: { marginTop: '15px', marginLeft: '20px', marginRight: '20px' },
+			items: [this.releasePart, this.contentFieldset]
 		});
 		
 		this.answerFormFieldset = Ext.create('Ext.form.FieldSet', {
@@ -556,7 +565,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		}
 		
 		this.answerForm = Ext.create('Ext.form.FormPanel', {
-			id 	 	: 'answerForm',
+			itemId 	 	: 'answerForm',
+			style: { marginLeft: '20px', marginRight: '20px' },
 			scroll	: false,
 			scrollable: null,
 			items	: [this.answerFormFieldset]
@@ -571,8 +581,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
         ]);
 		
 		this.on('activate', this.onActivate);
+		this.on('deactivate', this.onDeactivate);
 		/* show a loading screen to hide the showCorrectAnswerButton-Animation*/
-		ARSnova.app.showLoadMask(Messages.LOAD_MASK);
 	},
 	
 	prevNewCard: null,
@@ -587,11 +597,11 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	},
 	
 	onActivate: function(){
+		ARSnova.app.showLoadMask(Messages.LOAD_MASK);
 		this.getPossibleAnswers();
 		
 		if(this.hasOneCorrectAnswer){
 			this.firstRow.add(this.showCorrectAnswerButton);
-			this.doLayout();
 		}
 		setTimeout("ARSnova.app.hideLoadMask()", 1000);
 		
@@ -604,6 +614,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.on('beforedestroy', function () {
 			ARSnova.app.mainTabPanel.removeListener('cardswitch', this.cardSwitchHandler, this);
 		}, this);
+		ARSnova.app.hideLoadMask(Messages.LOAD_MASK);
+	},
+	
+	onDeactivate: function() {
 	},
 	
 	getPossibleAnswers: function(){

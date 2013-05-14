@@ -26,7 +26,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		fullscreen: true,
 		scrollable: true,
 		scroll: 'vertical',
-		layout: 'vbox',
 	},
 	
 	monitorOrientation: true,
