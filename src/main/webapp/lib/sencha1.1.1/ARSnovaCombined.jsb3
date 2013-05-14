@@ -282,6 +282,7 @@
             	{"path": "../../app/", "name": "app.js"},
             	{"path": "../../app/", "name": "routes.js"},
             	{"path": "../../app/", "name": "internationalization.js"},
+            	{"path": "../../app/", "name": "socket.js"},
             	
             	{"path": "../../app/utils/", "name": "Ext.util.TaskRunner.js"},
             	{"path": "../../app/utils/", "name": "Ext.plugins.ResizableTextArea.js"},

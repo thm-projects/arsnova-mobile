@@ -204,14 +204,14 @@ ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
 	 */
 	renewChartData: function() {
 		ARSnova.feedbackModel.getSessionFeedback(localStorage.getItem("keyword"), {
-			success: function(response){
+			success: function(feedbackValues) {
 				var panel = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel;
 				var chart = panel.feedbackChart;
 				var store = chart.store;
 				
-				var values = Ext.decode(response.responseText).values;
 				/* Swap values for "can follow" and "faster, please" feedback
 				 * TODO: improve implementation, this is a quick hack for MoodleMoot 2013 */
+				values = feedbackValues.slice();
 				tmpValue = values[0];
 				values[0] = values[1];
 				values[1] = tmpValue;
@@ -245,8 +245,7 @@ ARSnova.views.feedback.StatisticPanel = Ext.extend(Ext.Panel, {
 				//change the feedback tab bar icon
 				var tab = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel.tab;
 				ARSnova.feedbackModel.getAverageSessionFeedback(localStorage.getItem("keyword"), {
-					success: function(response) {
-						var avg = parseInt(response.responseText);
+					success: function(avg) {
 						switch (avg){
 							case 0:
 								tab.setIconClass("feedbackMedium");

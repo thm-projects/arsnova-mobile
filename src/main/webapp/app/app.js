@@ -73,6 +73,7 @@ Ext.regApplication({
     
     /* other*/
     cardSwitchDuration: 500,
+    socket: null,
     
     /* tasks */
 	/**
@@ -132,6 +133,7 @@ Ext.regApplication({
 
 		taskManager = new Ext.util.TaskRunner();
 		
+		this.initSocket();
 		this.initModels();
 		
 		this.mainTabPanel = new ARSnova.views.MainTabPanel();
@@ -157,6 +159,10 @@ Ext.regApplication({
     	this.sessionModel 		= new ARSnova.models.Session();
     	this.statisticModel 	= new ARSnova.models.Statistic();
     	this.courseModel		= new ARSnova.models.Course();
+    },
+    
+    initSocket: function() {
+    	this.socket = new ARSnova.Socket();
     },
     
     /**

@@ -148,9 +148,8 @@ ARSnova.views.TabPanel = Ext.extend(Ext.TabPanel, {
 	
 	updateFeedbackIcon: function(){
 		ARSnova.feedbackModel.getAverageSessionFeedback(localStorage.getItem("keyword"), {
-			success: function(response){
+			success: function(value) {
 				var panel = ARSnova.mainTabPanel.tabPanel.feedbackTabPanel;
-				var value = parseInt(response.responseText);
 				
 				switch (value) {
 					/* 0: faster, please!; 1: can follow; 2: to fast!; 3: you have lost me */

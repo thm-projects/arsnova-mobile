@@ -21,8 +21,23 @@
 ARSnova.models.Feedback = Ext.regModel('Feedback', {
 	proxy: restProxy,
 	
-	getSessionFeedback: function(sessionKeyword, callbacks){
-		return this.proxy.getSessionFeedback(sessionKeyword, callbacks);
+	currentValues: [0, 0, 0, 0],
+	currentAverage: null,
+	
+	constructor: function() {
+		ARSnova.models.Feedback.superclass.constructor.apply(this, arguments);
+		
+		ARSnova.socket.addListener("arsnova/session/feedback/update", function(values) {
+			this.currentValues = values;
+		}, this);
+		
+		ARSnova.socket.addListener("arsnova/session/feedback/average", function(average) {
+			this.currentAverage = average;
+		}, this);
+	},
+	
+	getSessionFeedback: function(sessionKeyword, callbacks) {
+		return callbacks.success(this.currentValues);
 	},
 	
 	getUserFeedback: function(sessionKeyword, callbacks){
@@ -34,7 +49,7 @@ ARSnova.models.Feedback = Ext.regModel('Feedback', {
 	},
 	
 	getAverageSessionFeedback: function(sessionKeyword, callbacks){
-		return this.proxy.getAverageSessionFeedback(sessionKeyword, callbacks);
+		return callbacks.success(this.currentAverage);
 	},
 	
 	countFeedback: function(sessionKeyword, callbacks){
