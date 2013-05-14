@@ -21,7 +21,9 @@
 
 Ext.application({
 	
-	requires: ['ARSnova.proxy.RestProxy'], 
+	requires: ['ARSnova.proxy.RestProxy',
+	           'ARSnova.view.Question',
+	           'ARSnova.view.BadgeList' ], 
 
     name: "ARSnova",
     /* const */
