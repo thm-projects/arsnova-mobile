@@ -159,7 +159,8 @@ Ext.define("ARSnova.controller.Questions", {
 			success: function(response) {
 				var question = Ext.create('ARSnova.model.Question', Ext.decode(response.responseText));
 				question.set('active', options.active);
-
+				question.raw.active = options.active;
+				
 				question.publishSkillQuestion({
 					success: function(response){
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;

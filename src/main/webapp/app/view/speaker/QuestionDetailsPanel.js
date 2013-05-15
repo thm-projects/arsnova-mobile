@@ -240,26 +240,30 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				scope	: this,
 				value 	: this.questionObj.showStatistic? this.questionObj.showStatistic : 0,
 				listeners: {
-					change: function(toggleEl, something, value){
+					change: function(toggleEl, something, something2, value){
 						if (value == 0 && me.questionObj.showStatistic == undefined || value == me.questionObj.showStatistic) return;
 						ARSnova.app.showLoadMask(Messages.LOAD_MASK_ACTIVATION);
 						var question = Ext.create('ARSnova.model.Question', me.questionObj);
+
 						switch (value) {
 							case 0:
 								delete question.data.showStatistic;
+								delete question.raw.showStatistic;
 								break;
 							case 1:
-								question.set('showStatistic', 1);
-								question.raw.showStatistic = 1;
+								question.set('showStatistic', true);
+								question.raw.showStatistic = true;
 								break;
 						};
 						question.publishSkillQuestionStatistics({
 							success: function(response){
 								me.questionObj = question.data;
-								ARSnova.app.hideLoadMask();
 							},
-							failure: function(){ console.log('could not save showStatistic flag'); }
+							failure: function(){ 
+								console.log('could not save showStatistic flag'); 
+							}
 						});
+						ARSnova.app.hideLoadMask();
 					}
 				}
 			}, {
@@ -278,7 +282,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				scope	: this,
 				value 	: this.questionObj.showAnswer? this.questionObj.showAnswer : 0,
 				listeners: {
-					change: function(toggleEl, something, value){
+					change: function(toggleEl, something, something2, value){
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
 						if (value == 0 && panel.questionObj.showAnswer == undefined || value == panel.questionObj.showAnswer) return;
 						ARSnova.app.showLoadMask(Messages.LOAD_MASK_ACTIVATION);
@@ -286,6 +290,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						switch (value) {
 							case 0:
 								delete question.data.showAnswer;
+								delete question.raw.showAnswer;
 								break;
 							case 1:
 								question.set('showAnswer', 1);
@@ -295,10 +300,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						question.publishCorrectSkillQuestionAnswer({
 							success: function(response){
 								panel.questionObj = question.data;
-								ARSnova.app.hideLoadMask();
 							},
-							failure: function(){ console.log('could not save showAnswer flag'); }
+							failure: function(){
+								console.log('could not save showAnswer flag');
+							}
 						});
+						ARSnova.app.hideLoadMask();
 					}
 				}
 			}, {
@@ -584,6 +591,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.on('activate', this.onActivate);
 		this.on('deactivate', this.onDeactivate);
 		/* show a loading screen to hide the showCorrectAnswerButton-Animation*/
+		ARSnova.app.showLoadMask(Messages.LOAD_MASK);
 	},
 	
 	prevNewCard: null,
@@ -598,7 +606,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	},
 	
 	onActivate: function(){
-		ARSnova.app.showLoadMask(Messages.LOAD_MASK);
 		this.getPossibleAnswers();
 		
 		if(this.hasOneCorrectAnswer){
