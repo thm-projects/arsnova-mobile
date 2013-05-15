@@ -30,8 +30,14 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		
 		store: Ext.create('Ext.data.JsonStore', {
 		    model  : 'ARSnova.model.FeedbackQuestion',
-		    sorters: 'lastName',
-		    groupField: 'groupDate'
+		    sorters: [{
+		    	property : "timestamp",
+                direction: "DESC"
+		    }],
+		    groupField: 'groupDate',
+	        grouper: {
+	        	direction: 'DESC'
+	        }
 		}),
 		
 		/**
@@ -166,7 +172,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
   		    		'<div class="action delete x-button">Delete</div>',
   			    	'<span style="color:gray;">{formattedTime}</span>',
   			    	'<tpl if="obj.get(\'read\')">',
-  				    	'<span style="padding-left:30px;">{subloadDataject}</span>',
+  				    	'<span style="padding-left:30px;">{subject}</span>',
   			    	'</tpl>',
   			    	'<tpl if="!obj.get(\'read\')">',
 				    	'<span style="padding-left:30px;font-weight:bold;color:red">{subject}</span>',
@@ -283,7 +289,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 						if (!question.read) {
 							unread++;
 						}
-						
+
 						panel.getStore().add({
 							formattedTime: formattedTime,
 							fullDate: fullDate,
@@ -291,11 +297,13 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 							groupDate: groupDate,
 							subject: question.subject,
 							type: question.type,
+							read: question.read,
 							obj: Ext.create('ARSnova.model.Question', question)
 						});
 					}
 					fQP.tab.setBadgeText(unread);
 					ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadgeText(questions.length);
+
 					panel.getStore().sort([{
 						property : 'timestamp',
 						direction: 'DESC'
