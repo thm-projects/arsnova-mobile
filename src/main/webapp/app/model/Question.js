@@ -38,6 +38,7 @@ Ext.define('ARSnova.model.Question', {
 		         'possibleAnswers',
 		         'questionType',
 		         'releasedFor',
+		         'read',
 		         'session',
 		         'sessionId',
 		         'sessionKeyword',
