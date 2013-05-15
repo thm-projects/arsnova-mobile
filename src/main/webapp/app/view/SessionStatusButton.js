@@ -95,7 +95,6 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 		} else {
 			this.isOpen = false;
 		}
-		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.inClassActions.doLayout();
 		this.isRendered = true;
 	},
 	

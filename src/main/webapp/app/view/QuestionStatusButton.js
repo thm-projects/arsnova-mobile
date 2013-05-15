@@ -63,7 +63,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		});
 
 		this.add([this.questionIsClosedButton, this.questionIsClosedText, this.questionIsOpenButton, this.questionIsOpenText]);
-		
+
 		if(this.questionObj.active == 1){
 			this.isOpen = true;
 			this.questionIsClosedButton.hide();
@@ -103,7 +103,6 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		} else {
 			this.isOpen = false;
 		}
-		ARSnova.app.mainTabPanel._activeItem.doLayout();
 		this.isRendered = true;
 	},
 	
