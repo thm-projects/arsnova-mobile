@@ -34,15 +34,15 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		this.callParent(arguments);
 		
 		this.on('activeitemchange', function(panel, newCard, oldCard){
-				//update question counter in toolbar
-				var counterEl = panel.questionCounter;
-				var counter = counterEl.element.dom.innerText.split("/");
+			//update question counter in toolbar
+			var counterEl = panel.questionCounter;
+			var counter = counterEl.element.dom.innerText.split("/");
 
-				counter[0] = panel.activeIndex + 1;
-				counterEl.setHtml(counter.join("/"));
-				
-				newCard.fireEvent('preparestatisticsbutton', panel.statisticButton);
-			});
+			counter[0] = panel.activeIndex + 1;
+			counterEl.setHtml(counter.join("/"));
+
+			newCard.fireEvent('preparestatisticsbutton', panel.statisticButton);
+		});
 		
 		this.questionCounter = Ext.create('Ext.Container', {
 			cls: "x-toolbar-title alignRight counterText",

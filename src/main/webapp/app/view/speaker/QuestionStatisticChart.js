@@ -42,7 +42,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	renewChartDataTask: {
 		name: 'renew the chart data at question statistics charts',
 		run: function(){
-			ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart.getQuestionAnswers();
+			ARSnova.app.mainTabPanel._activeItem.getQuestionAnswers();
+			
 		},
 		interval: 10000 //10 seconds
 	},
@@ -53,7 +54,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	countActiveUsersTask: {
 		name: 'count the actually logged in users',
 		run: function(){
-			ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart.countActiveUsers();
+			ARSnova.app.mainTabPanel._activeItem.countActiveUsers();
 		},
 		interval: 15000
 	},
@@ -292,7 +293,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		        label: {
 		          field: 'percent',
 		          renderer: function(v) {
-				return Math.round(v * 100) + "%";
+		        	  return Math.round(v * 100) + "%";
 		          }
 		        },
 		        xField: 'text',
@@ -329,6 +330,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				
 				for ( var i = 0, el; el = answers[i]; i++) {
 					var record = store.findRecord('text', el.answerText, 0, false, true, true); //exact match
+
 					record.data.value = el.answerCount;
 					sum += el.answerCount;
 					

@@ -63,7 +63,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		     },
 		});
 
-		this.questionList = Ext.create('ARSnova.view.BadgeList', {
+		this.questionList = Ext.create('Ext.List', {
 			activeCls: 'search-item-active',
 			cls: 'roundedCorners',
 
@@ -77,7 +77,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			},
 
 			itemCls: 'forwardGroupedListButton',
-			itemTpl: '<tpl if="active"><span class="isActive">{text}</span></tpl><tpl if="!active">{text}</tpl>',
+			itemTpl: '<div class="x-list-item x-hasbadge">' +
+					 '<tpl if="numAnswers &gt; 0"><span class="redbadgeicon badgefixed">{numAnswers}</span></div></tpl>' +
+					 '<tpl if="active"><span class="isActive">{text}</span></tpl><tpl if="!active">{text}</tpl>',
 			grouped: true,
 			store: this.questionStore,
 			
@@ -86,6 +88,18 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 					ARSnova.app.getController('Questions').details({
 						question	: list.getStore().getAt(index).data
 					});
+				},
+				updatedata: function(list, newData ) {
+					var allJax = MathJax.Hub.getAllJax(list.id);
+					if (allJax.length === 0) {
+						MathJax.Hub.Queue(["Typeset", MathJax.Hub, list.id]);
+					} else {
+						for (var i=0, jax; jax = allJax[i]; i++) {
+							MathJax.Hub.Queue(["needsUpdate", jax], function() {
+								console.log(arguments);
+							});
+						}
+					}
 				},
 		        initialize: function (list, eOpts){
 		            var me = this;

@@ -23,7 +23,20 @@ Ext.define('FreetextAnswer', {
     extend: 'Ext.data.Model',
  
     config: {
-    	fields: ['answerSubject', 'timestamp', 'formattedTime', 'groupDate']
+    	idProperty: "_id",
+    	
+    	fields: [ 'answerSubject', 
+    	          'timestamp', 
+    	          'formattedTime', 
+    	          'groupDate', 
+    	          'questionId',
+    	          'abstention',
+    	          'answerText',
+    	          'piRound',
+    	          'sessionId',
+    	          'type',
+    	          '_rev'
+    	        ]
     }
 });
 
@@ -554,12 +567,40 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		
 		this.answerFormFieldset = Ext.create('Ext.form.FieldSet', {
 			title: Messages.ANSWERS,
-			cls	 : 'standardFieldset'
 		});
 		
-		this.freetextAnswerList = Ext.create('ARSnova.view.FreetextAnswerList', {
+		this.freetextAnswerList = Ext.create('Ext.List', {
+			activeCls: 'search-item-active',
 			store: this.freetextAnswerStore, 
-			disableScrolling: true
+			
+			itemCls: 'forwardGroupedListButton',
+			itemTpl: [
+				'<div class="search-item">',
+				'<span style="color:gray">{formattedTime}</span><span style="padding-left:30px">{answerSubject}</span>',
+				'</div>'
+			],
+			grouped: true,
+			scrollable: { disabled: true },
+			
+			listeners: {
+				itemtap: function (list, index, element) {
+					var answer = list.getStore().getAt(index).data;
+					ARSnova.app.getController('Questions').freetextDetailAnswer({
+						answer		: Ext.apply(answer, {
+							deselectItem: function() { list.deselect(index); },
+							removeItem: function() { list.getStore().remove(list.getStore().getAt(index)); }
+						})
+					});
+				},
+		        initialize: function (list, eOpts){
+		            var me = this;
+		            if (typeof me.getItemMap == 'function'){
+		                me.getScrollable().getScroller().on('refresh',function(scroller,eOpts){
+		                    me.setHeight(me.getItemMap().getTotalHeight());
+		                });
+		            }
+		        }
+			}
 		});
 		
 		this.noFreetextAnswers = Ext.create('Ext.Panel', {
@@ -574,7 +615,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		
 		this.answerForm = Ext.create('Ext.form.FormPanel', {
 			itemId 	 	: 'answerForm',
-			style: { marginLeft: '20px', marginRight: '20px' },
+			style: { marginLeft: '20px', marginRight: '20px', backgroundColor: 'transparent' },
 			scroll	: false,
 			scrollable: null,
 			items	: [this.answerFormFieldset]
@@ -710,16 +751,17 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						var responseObj = Ext.decode(response.responseText);
 						var listItems = responseObj.map(function (item) {
 							var v = item;
+							var date = new Date(v.timestamp);
 							return Ext.apply(item, {
-								formattedTime	: new Date(v.timestamp).format("H:i"),
-								groupDate		: new Date(v.timestamp).format("d.m.y")
+								formattedTime	: Ext.Date.format(date, "H:i"),
+								groupDate		: Ext.Date.format(date, "d.m.y")
 							});
 						});
 						
 						// Have the first answers arrived? Then remove the "no answers" message. 
-						if (self.noFreetextAnswers.isVisible() && listItems.length > 0) {
+						if (!self.noFreetextAnswers.isHidden() && listItems.length > 0) {
 							self.noFreetextAnswers.hide();
-						} else if (!self.noFreetextAnswers.isVisible() && listItems.length === 0) {
+						} else if (self.noFreetextAnswers.isHidden() && listItems.length === 0) {
 							// The last remaining answer has been deleted. Display message again.
 							self.noFreetextAnswers.show();
 						}
@@ -755,8 +797,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							var el = tmp_possibleAnswers[i];
 							
 							var field = "button[text=" + el + "]";
-							console.log(field);
-							panel.answerFormFieldset.down(field).setBadgeText(0);
+							panel.answerFormFieldset.down(field).setBadgeText('0');
 						}
 						
 					},
