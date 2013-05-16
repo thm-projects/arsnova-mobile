@@ -118,7 +118,8 @@ Ext.define("ARSnova.controller.Questions", {
 
 	freetextDetailAnswer: function(options) {
 		var parentPanel;
-		var isFromFreetextAnswerPanel = ARSnova.app.mainTabPanel.getActiveItem().constructor === ARSnova.view.FreetextAnswerPanel;
+		var isFromFreetextAnswerPanel = ARSnova.app.mainTabPanel.getActiveItem().constructor === options.panel.constructor;
+
 		// This gets called either by the speaker or by a student
 		if (ARSnova.app.isSessionOwner && !isFromFreetextAnswerPanel) {
 			parentPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
@@ -128,10 +129,16 @@ Ext.define("ARSnova.controller.Questions", {
 			options.answer.deletable = false;
 		}
 
-		parentPanel.animateActiveItem(Ext.create('ARSnova.view.FreetextDetailAnswer', {
+		var freetextDetailAnswerPanel = Ext.create('ARSnova.view.FreetextDetailAnswer', {
 			sTP		: parentPanel,
 			answer	: options.answer
-		}), 'slide');
+		});
+	
+		parentPanel.animateActiveItem(freetextDetailAnswerPanel, {
+			type		: 'slide',
+			direction	: 'left',
+			duration	: 700
+		}, 'slide');
 	},
     
     detailsFeedbackQuestion: function(options){
