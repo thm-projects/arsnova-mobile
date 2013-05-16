@@ -565,7 +565,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		Ext.Ajax.request({
 			url: "lecturerquestion/" + answer.get('questionId') + "/answer/",
 			method: "POST",
-			jsonData: answer.data,
+			jsonData: answer.raw,
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -575,7 +575,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		Ext.Ajax.request({
 			url: "lecturerquestion/" + answer.get('questionId') + "/answer/" + answer.get('_id'),
 			method: "PUT",
-			jsonData: answer.data,
+			jsonData: answer.raw,
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
