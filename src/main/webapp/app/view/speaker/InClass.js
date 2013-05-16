@@ -87,22 +87,23 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			]
 		});
 		
-		this.audienceQuestionButton = Ext.create('Ext.Button', {
-			ui				: 'normal',
-			text			: Messages.QUESTIONS_TO_STUDENTS,
-			cls				: 'forwardListButton',
-			badgeCls		: 'badgeicon',
-			doubleBadgeCls	: 'doublebadgeicon',
-			controller		: 'Questions',
-			action			: 'listAudienceQuestions',
-			handler			: this.buttonClicked
+		this.audienceQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+			ui			: 'normal',
+			text		: Messages.QUESTIONS_TO_STUDENTS,
+			cls			: 'forwardListButton',
+			badgeCls	: "badgeicon",
+			badgeText	: [],
+			controller	: 'Questions',
+			action		: 'listAudienceQuestions',
+			handler		: this.buttonClicked
 		});
 		
-		this.feedbackQuestionButton = Ext.create('Ext.Button', {
+		this.feedbackQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			ui			: 'normal',
 			text		: Messages.QUESTIONS_FROM_STUDENTS,
 			cls			: 'forwardListButton',
-			badgeCls	: 'bluebadgeiconfixed',
+			badgeCls	: "badgeicon",
+			badgeText	: [],
 			controller	: 'Questions',
 			action		: 'listFeedbackQuestions',
 			handler		: this.buttonClicked
@@ -256,30 +257,15 @@ Ext.define('ARSnova.view.speaker.InClass', {
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 						var audienceQuestionButton = panel.audienceQuestionButton;
 						
-						audienceQuestionButton.setBadgeText(numQuestions);
-						var setAdditionalBadge = function() {
-							if (!audienceQuestionButton.doubleBadge && numAnswers) {
-								audienceQuestionButton.doubleBadge = audienceQuestionButton.element.createChild({
-									tag: 'span',
-									cls: audienceQuestionButton.doubleBadgeCls,
-									html: numAnswers
-								});
-								audienceQuestionButton.badgeEl.addCls("withdoublebadge");
-							} else if (audienceQuestionButton.doubleBadge) {
-								if (numAnswers) {
-									audienceQuestionButton.doubleBadge.setHTML(numAnswers);
-								} else {
-									audienceQuestionButton.doubleBadge.remove();
-									audienceQuestionButton.doubleBadge = null;
-									audienceQuestionButton.badgeEl.removeCls("withdoublebadge");
-								}
-							}
-						};
-						if (!audienceQuestionButton.rendered) {
-							audienceQuestionButton.on('afterrender', setAdditionalBadge);
-						} else {
-							setAdditionalBadge();
-						}
+						audienceQuestionButton.setBadge([
+											{badgeText: numQuestions, badgeCls: "greybadgeicon"},
+											{badgeText: numAnswers, badgeCls: "redbadgeicon"}
+										]);
+										
+						// If badges are enabled a empty badge will always be rendered. In order to prevent this behaviour
+						// you have to use the function "setBadgeText()" and pass null.
+						audienceQuestionButton.setBadgeText("");
+						audienceQuestionButton.setBadgeText(null);
 					},
 					failure: failureCallback
 				});
@@ -314,9 +300,15 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		ARSnova.app.questionModel.countFeedbackQuestions(localStorage.getItem("keyword"), {
 			success: function(response){
 				var questionCount = Ext.decode(response.responseText);
-				
 				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadgeText(questionCount.unread);
-				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadgeText(questionCount.total);
+				
+				var feedbackQButton = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton;
+				feedbackQButton.setBadge([{badgeText: questionCount.total, badgeCls: "bluebadgeicon"}]);
+												
+				// If badges are enabled a empty badge will always be rendered. In order to prevent this behaviour
+				// you have to use the function "setBadgeText()" and pass null.
+				feedbackQButton.setBadgeText("");
+				feedbackQButton.setBadgeText(null);
 			}, 
 			failure: function(){
 				console.log('server-side error');
