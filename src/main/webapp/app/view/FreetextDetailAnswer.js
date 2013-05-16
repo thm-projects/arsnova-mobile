@@ -18,18 +18,23 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-
 Ext.define('ARSnova.view.FreetextDetailAnswer', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		title : 'FreetextDetailAnswer',
+		fullscreen: true,
+		scrollable: true,
 		scroll: 'vertical',
 	},
 	
 	constructor: function(arguments) {
 		this.callParent(arguments);
 		
+		this.answer = arguments.answer;
 		this.sTP = arguments.sTP;
+
+		var self = this;
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.FREETEXT_DETAIL_HEADER,
@@ -38,17 +43,17 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 					text	: Messages.BACK,
 					ui		: 'back',
 					handler	: function() {
-						this.sTP.items.items.pop(); // Remove this panel from view stack
-						this.sTP.animateActiveItem(
-							this.sTP.items.items[this.sTP.items.items.length-1], // Switch back to top of view stack
+						self.sTP.items.items.pop(); // Remove this panel from view stack
+						self.sTP.animateActiveItem(
+							self.sTP.items.items[self.sTP.items.items.length-1], // Switch back to top of view stack
 							{
 								type		: 'slide',
 								direction	: 'right',
 								duration	: 700,
 								scope		: this,
 					    		listeners: { animationend: function() { 
-									this.answer.deselectItem();
-									this.hide();
+									self.answer.deselectItem();
+									self.hide();
 					    		}, scope: this }
 							}
 						);
@@ -56,10 +61,11 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 				})
 			]
 		});
-		
+
 		this.add([this.toolbar, {
 			xtype: 'formpanel',
 			scrollable: null,
+			style: "margin: 20px",
 			items: [{
 				xtype: 'fieldset',
 				items: [
@@ -99,20 +105,21 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 							text: Messages.DELETE,
 							ui: 'decline',
 							handler: function () {
-								ARSnova.app.questionModel.deleteAnswer(this.answer.questionId, this.answer._id, {
+								ARSnova.app.questionModel.deleteAnswer(self.answer.questionId, self.answer._id, {
 									failure: function() {
 										console.log('server-side error: deletion of freetext answer failed');
 									}
 								});
 								
 								sheet.destroy();
-								this.sTP.animateActiveItem(this.sTP.questionDetailsPanel, {
+								self.sTP.animateActiveItem(self.sTP.questionDetailsPanel, {
 									type		: 'slide',
 									direction	: 'right',
 									duration	: 700,
-						    		listeners: { animationend: function() { 
-										this.answer.removeItem();
-										me.destroy();
+						    		listeners: { 
+						    			animationend: function() { 
+											self.answer.removeItem();
+											me.destroy();
 						    		}, scope: this }
 								});
 							}
@@ -125,6 +132,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 						}
 					]
 				});
+				Ext.Viewport.add(sheet);
 				sheet.show();
 			}
 		}]);

@@ -17,22 +17,6 @@
 	text-shadow: none;
 }
 
-.x-list-normal .x-list-header {
-	background-color: #4d80bc;
-	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #bccfe6), color-stop(2%, #6792c5), color-stop(100%, #3f6ea6));
-	background-image: -webkit-linear-gradient(#bccfe6,#6792c5 2%,#3f6ea6);
-	background-image: linear-gradient(#bccfe6,#6792c5 2%,#3f6ea6);
-	color: #1f3651;
-	text-shadow: rgba(255, 255, 255, 0.25) 0 0.08em 0;
-	border-top: 1px solid #4d80bc;
-	border-bottom: 1px solid #2d4e76;
-	font-weight: bold;
-	font-size: 0.8em;
-	padding: 0.2em 1.02em;
-	text-shadow: rgba(255, 255, 255, 0.25) 0 0.08em 0;
-	-webkit-box-shadow: 0px 0.1em 0.3em rgba(0, 0, 0, 0.3);
-}
-
 /* Background by iWebKit5 */
 .x-fullscreen {
 	background: -webkit-gradient(linear, left top, right top, from(#C5CCD4),
@@ -42,9 +26,38 @@
 
 .x-item-disabled .x-form-label span,.x-item-disabled input,.x-item-disabled .x-spinner-body,.x-item-disabled select,.x-item-disabled textarea,.x-item-disabled .x-field-clear-container {
 	color: black !important;
+	-webkit-text-fill-color: black !important;
 }
 
-.x-item-selected {
+.x-mask {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 8000; !important;
+	display: -webkit-box;
+	display: box;
+	-webkit-box-align: center;
+	box-align: center;
+	-webkit-box-pack: center;
+	box-pack: center;
+	background: rgba(0, 0, 0, 0.3) center center no-repeat;
+}
+
+.opaquemask {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 8000;
+	display: -webkit-box;
+	display: box;
+	-webkit-box-align: center;
+	box-align: center;
+	-webkit-box-pack: center;
+	box-pack: center;
+	background: rgba(0, 0, 0, 0.3) center center no-repeat;
+}
+
+.x-item-selected .x-dock {
 	border-radius: 10px;
 }
 
@@ -66,6 +79,27 @@
 		color-stop(100%, #5B8400) );
 	background-image: -webkit-linear-gradient(#A2EB00, #7FB700 50%, #6D9E00 51%, #5B8400);
 	background-image: linear-gradient(#A2EB00, #7FB700 50%, #6D9E00 51%, #5B8400);
+}
+
+/* 
+ * The following selectors and styles has beed added to emulate the style of toolbar  
+ * and buttons from Sencha Touch 1.1 and arsnova-legacy
+ */
+ 
+ .x-list-normal .x-list-header {
+	background-color: #4d80bc;
+	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #bccfe6), color-stop(2%, #6792c5), color-stop(100%, #3f6ea6));
+	background-image: -webkit-linear-gradient(#bccfe6,#6792c5 2%,#3f6ea6);
+	background-image: linear-gradient(#bccfe6,#6792c5 2%,#3f6ea6);
+	color: #1f3651;
+	text-shadow: rgba(255, 255, 255, 0.25) 0 0.08em 0;
+	border-top: 1px solid #4d80bc;
+	border-bottom: 1px solid #2d4e76;
+	font-weight: bold;
+	font-size: 0.8em;
+	padding: 0.2em 1.02em;
+	text-shadow: rgba(255, 255, 255, 0.25) 0 0.08em 0;
+	-webkit-box-shadow: 0px 0.1em 0.3em rgba(0, 0, 0, 0.3);
 }
 
 .x-toolbar-dark {
@@ -106,6 +140,7 @@
 	text-shadow: rgba(0, 0, 0, 0.5) 0 -0.08em 0;
 	-webkit-box-shadow: rgba(255, 255, 255, 0.1) 0 0.1em 0;
 }
+/* end */
 
 html,body {
 	width: 100%;
@@ -292,8 +327,16 @@ body {
 	border-width: thin;
 }
 
+.forwardGroupedListButton .x-hasbadge {
+	margin-top: 6px;
+}
+
 .forwardGroupedListButton.x-list-header-wrap {
 	background-position: 99% 40px;
+}
+
+.forwardGroupedListButton.x-list-header-wrap .x-hasbadge {
+	margin-top: 32px;
 }
 
 .caption {
@@ -499,21 +542,6 @@ body {
 	box-shadow: 0 0 3px gray;
 }
 
-.bluebadgeiconfixed {
-	position:absolute;
-	font-weight: bold;
-	background: rgba(0, 0, 0, .50);
-	background: -webkit-linear-gradient(top, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .70) 100%);
-	color: rgb(238, 238, 238);
-	-webkit-border-radius: 20px;
-	border-radius: 11px;
-	padding: 4px 12px 5px 10px;
-	right: 20px;
-	margin-right: 20px;
-	border: 2px solid white;
-	box-shadow: 0 0 3px gray;
-}
-
 .withdoublebadge {
 	margin-right: 5px;
 }
@@ -531,7 +559,17 @@ body {
 	box-shadow: 0 0 3px gray;
 }
 
-.bluebadgeicon, .bluebadgeiconfixed {
+.badgefixed {
+	position:absolute;
+	right: 20px;
+}
+
+.badgeformatted {
+	float: right;
+	margin-bottom: 5px;
+}
+
+.bluebadgeicon {
 	background: rgb(23, 35, 128);
 	background: -webkit-linear-gradient(top, rgba(23, 35, 128, .7) 0%, rgba(23, 35, 128, 1) 100%);
 }

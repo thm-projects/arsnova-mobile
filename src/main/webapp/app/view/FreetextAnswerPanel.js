@@ -25,6 +25,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 	config: {
 		scroll: 'vertical',
 		layout: 'fit',
+		fullscreen: true,
 		
 		/**
 		 * task for speakers in a session
@@ -40,6 +41,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		
 		this.questionObj = arguments.question;
 		this.lastPanel = arguments.lastPanel;
+		var self = this;
 		
 		this.checkFreetextAnswersTask = {
 			name: 'check for new freetext answers',
@@ -83,8 +85,42 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			html: Messages.NO_ANSWERS
 		});
 		
+		this.freetextAnswerList = Ext.create('Ext.List', {
+			activeCls: 'search-item-active',
+			store: this.freetextAnswerStore, 
+			
+			itemCls: 'forwardGroupedListButton',
+			itemTpl: [
+				'<div class="search-item">',
+				'<span style="color:gray">{formattedTime}</span><span style="padding-left:30px">{answerSubject}</span>',
+				'</div>'
+			],
+			grouped: true,
+			scrollable: { disabled: true },
+			
+			listeners: {
+				itemtap: function (list, index, element) {
+					var answer = list.getStore().getAt(index).data;
+					ARSnova.app.getController('Questions').freetextDetailAnswer({
+						answer		: Ext.apply(answer, {
+							deselectItem: function() { list.deselect(index); },
+							removeItem: function() { list.getStore().remove(list.getStore().getAt(index)); }
+						}), panel : self
+					});
+				},
+		        initialize: function (list, eOpts){
+		            var me = this;
+		            if (typeof me.getItemMap == 'function'){
+		                me.getScrollable().getScroller().on('refresh',function(scroller,eOpts){
+		                    me.setHeight(me.getItemMap().getTotalHeight());
+		                });
+		            }
+		        }
+			}
+		});
+		
 		this.add([this.toolbar,
-			ARSnova.view.FreetextAnswerList(this.freetextAnswerStore),
+		    this.freetextAnswerList,
 			this.noFreetextAnswers
 		]);
 		
@@ -97,24 +133,25 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		}, this);
 	},
 	
-	checkFreetextAnswers: function() {
-		var self = this;
-		
+	checkFreetextAnswers: function() {	
 		ARSnova.app.questionModel.getAnsweredFreetextQuestions(localStorage.getItem("keyword"), this.questionObj._id, {
 			success: function(response) {
 				var responseObj = Ext.decode(response.responseText);
 				var listItems = responseObj.map(function (item) {
 					var v = item;
+					var date = new Date(v.timestamp);
 					return Ext.apply(item, {
-						formattedTime	: new Date(v.timestamp).format("H:i"),
-						groupDate		: new Date(v.timestamp).format("d.m.y")
+						formattedTime	: Ext.Date.format(date, "H:i"),
+						groupDate		: Ext.Date.format(date, "d.m.y")
 					});
 				});
 				
+				var self = ARSnova.app.mainTabPanel._activeItem;
+
 				// Have the first answers arrived? Then remove the "no answers" message. 
-				if (self.noFreetextAnswers.isVisible() && listItems.length > 0) {
+				if (!self.noFreetextAnswers.isHidden() && listItems.length > 0) {
 					self.noFreetextAnswers.hide();
-				} else if (!self.noFreetextAnswers.isVisible() && listItems.length === 0) {
+				} else if (self.noFreetextAnswers.isHidden() && listItems.length === 0) {
 					// The last remaining answer has been deleted. Display message again.
 					self.noFreetextAnswers.show();
 				}

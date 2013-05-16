@@ -23,28 +23,28 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	
 	config: {
 		scroll: 'vertical',
-		
+		scrollable: true,
 		viewOnly: false,
-		
-		listeners: {
-			preparestatisticsbutton: function(button) {
-				button.scope = this;
-				button.handler = function() {
-					var p = Ext.create('ARSnova.view.FreetextAnswerPanel', {
-						question: this.questionObj,
-						lastPanel: this
-					});
-					ARSnova.app.mainTabPanel.animateActiveItem(p, 'slide');
-				};
-			}
-		},
 	},
 	
 	constructor: function(arguments) {
 		this.callParent(arguments);
 		
+		var self = this;
 		this.questionObj = arguments.questionObj;
 		this.viewOnly = typeof arguments.viewOnly === "undefined" ? false : arguments.viewOnly;
+		
+		this.on('preparestatisticsbutton', function(button) {
+			button.scope = this;
+			button.setHandler(function() {
+				var p = Ext.create('ARSnova.view.FreetextAnswerPanel', {
+					question: self.questionObj,
+					lastPanel: self
+				});
+				ARSnova.app.mainTabPanel.animateActiveItem(p, 'slide');
+			});
+			console.log(button);
+		});
 		
 		this.answerSubject = Ext.create('Ext.form.Text', {
 			name: "answerSubject",
@@ -69,6 +69,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		this.add([Ext.create('Ext.Panel', {
 			items: [this.questionTitle, this.viewOnly ? {} : {
 					xtype: 'formpanel',
+					style: 'margin: 10px',
 					scrollable: null,
 					submitOnAction: false,
 					items: [{
@@ -126,31 +127,32 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 					self.decrementQuestionBadges();
 					self.disable();
-					Ext.create('Ext.Panel', {
+					
+					var pnl = Ext.create('Ext.Panel', {
 						cls: 'notificationBox',
 						name: 'notificationBox',
 						showAnimation: 'pop',
-						floating: true,
 						modal: true,
 						centered: true,
 						width: 300,
 						styleHtmlContent: true,
+						styleHtmlCls: 'notificationBoxText',
 						html: Messages.ANSWER_SAVED,
 						listeners: {
 							hide: function(){
 								this.destroy();
 							},
 							show: function(){
-								delayedFn = function(){
-									var cmp = Ext.ComponentQuery.query('panel[name=notificationBox]');
-									if(cmp.length > 0)
-										cmp[0].hide();
-									ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
-								};
-								setTimeout("delayedFn()", 2000);
+								Ext.defer(function(){
+									pnl.hide();
+									var tP = ARSnova.app.mainTabPanel.tabPanel;
+									tP.userQuestionsPanel.showNextUnanswered();
+								}, 2000);
 							}
 						}
-					}).show();
+					});
+					Ext.Viewport.add(pnl);
+					pnl.show();
 				},
 				failure: function(response, opts) {
 					console.log('server-side error');
@@ -207,7 +209,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		if (typeof this.questionTitle.element !== "undefined") {
 			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.questionTitle.id]);
 			MathJax.Hub.Queue(Ext.bind(function() {
-				this.questionTitle.doComponentLayout();
 			}, this));
 		} else {
 			// If the element has not been drawn yet, we need to retry later
