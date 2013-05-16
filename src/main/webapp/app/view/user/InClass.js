@@ -266,7 +266,7 @@ Ext.define('ARSnova.view.user.InClass', {
 					localStorage.removeItem('user has voted');
 					
 					var feedbackButton = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.feedbackButton;
-					feedbackButton.badgeEl ? feedbackButton.badgeEl.remove() : '';
+					feedbackButton.badgeEl ? feedbackButton.badgeEl.destroy() : '';
 					feedbackButton.badgeEl = null;
 					feedbackButton.badgeCls = "badgeicon feedbackARSnova";
 					feedbackButton.setBadgeText(".");
