@@ -33,6 +33,7 @@ Ext.define('ARSnova.model.Question', {
 		         'noCorrect',
 		         'type',
 		         'number',
+		         'numAnswers',
 		         'courses',
 		         'piRound',
 		         'possibleAnswers',
