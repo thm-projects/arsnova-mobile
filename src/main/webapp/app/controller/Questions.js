@@ -118,7 +118,11 @@ Ext.define("ARSnova.controller.Questions", {
 
 	freetextDetailAnswer: function(options) {
 		var parentPanel;
-		var isFromFreetextAnswerPanel = ARSnova.app.mainTabPanel.getActiveItem().constructor === options.panel.constructor;
+		
+		var isFromFreetextAnswerPanel = false;
+		if(typeof options.panel !== 'undefined') {
+			isFromFreetextAnswerPanel = ARSnova.app.mainTabPanel.getActiveItem().constructor === options.panel.constructor;
+		}
 
 		// This gets called either by the speaker or by a student
 		if (ARSnova.app.isSessionOwner && !isFromFreetextAnswerPanel) {

@@ -118,6 +118,8 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 									duration	: 700,
 						    		listeners: { 
 						    			animationend: function() { 
+						    				self.sTP.questionDetailsPanel.freetextAnswerList.hide();
+						    				self.sTP.questionDetailsPanel.noFreetextAnswers.show();
 											self.answer.removeItem();
 											me.destroy();
 						    		}, scope: this }

@@ -347,6 +347,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								success: function() {
 									if (panel.questionObj.questionType === "freetext") {
 										panel.noFreetextAnswers.show();
+										panel.freetextAnswerList.hide();
 										panel.freetextAnswerStore.removeAll();
 									} else {
 										panel.answerFormFieldset.items.each(function(button){
@@ -761,9 +762,11 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						// Have the first answers arrived? Then remove the "no answers" message. 
 						if (!self.noFreetextAnswers.isHidden() && listItems.length > 0) {
 							self.noFreetextAnswers.hide();
+							self.freetextAnswerList.show();
 						} else if (self.noFreetextAnswers.isHidden() && listItems.length === 0) {
 							// The last remaining answer has been deleted. Display message again.
 							self.noFreetextAnswers.show();
+							self.freetextAnswerList.hide();
 						}
 						
 						self.freetextAnswerStore.removeAll();

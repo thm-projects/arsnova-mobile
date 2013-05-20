@@ -43,20 +43,6 @@
 	background: rgba(0, 0, 0, 0.3) center center no-repeat;
 }
 
-.opaquemask {
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 8000;
-	display: -webkit-box;
-	display: box;
-	-webkit-box-align: center;
-	box-align: center;
-	-webkit-box-pack: center;
-	box-pack: center;
-	background: rgba(0, 0, 0, 0.3) center center no-repeat;
-}
-
 .x-item-selected .x-dock {
 	border-radius: 10px;
 }
@@ -871,6 +857,10 @@ span.bold {
 
 .isActive {
 	color: #00CD00;
+}
+
+.buttontext {
+	margin-left: 15px;
 }
 
 /* menu */

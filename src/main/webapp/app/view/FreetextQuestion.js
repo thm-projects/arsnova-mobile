@@ -43,7 +43,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				});
 				ARSnova.app.mainTabPanel.animateActiveItem(p, 'slide');
 			});
-			console.log(button);
 		});
 		
 		this.answerSubject = Ext.create('Ext.form.Text', {
