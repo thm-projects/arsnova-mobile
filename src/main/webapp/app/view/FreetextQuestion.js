@@ -91,7 +91,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			 * Bugfix, because panel is normally disabled (isDisabled == true),
 			 * but is not rendered as 'disabled'
 			 */
-			if(this.isDisabled()) this.disable();
+			if(this.isDisabled()) this.setDisabled(true);
 		});
 	},
 	
@@ -188,6 +188,11 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				console.log('server-side error');
 			}
 		});
+	},
+	
+	disableQuestion: function() {
+		this.setDisabled(true);
+		//this.setMasked(true);
 	},
 	
 	decrementQuestionBadges: function() {

@@ -95,7 +95,7 @@ Ext.define('ARSnova.view.Question', {
 										}
 										localStorage.setItem('questionIds', Ext.encode(questionsArr));
 										
-										list.up("panel").disable();
+										list.up("panel").setDisabled(true);
 										
 										var pnl = Ext.create('Ext.Panel', {
 											cls: 'notificationBox',
@@ -131,7 +131,7 @@ Ext.define('ARSnova.view.Question', {
 							};
 							
 							ARSnova.app.answerModel.getUserAnswer(me.questionObj._id, {
-								empty: function() {
+								empty: function() {		
 									var answer = Ext.create('ARSnova.model.Answer', {
 										type	 	: "skill_question_answer",
 										sessionId	: localStorage.getItem("sessionId"),
@@ -146,9 +146,8 @@ Ext.define('ARSnova.view.Question', {
 									var theAnswer = Ext.decode(response.responseText);
 									
 									//update
-									var answer = Ext.create('ARSnova.model.Answer', theAnswer);
+									var answer = Ext.create('ARSnova.model.Answer', theAnswer);		
 									answer.set('answerText', answerObj.text);
-									
 									saveAnswer(answer);
 								},
 								failure: function(){
@@ -198,16 +197,14 @@ Ext.define('ARSnova.view.Question', {
 			 * Bugfix, because panel is normally disabled (isDisabled == true),
 			 * but is not rendered as 'disabled'
 			 */
-			if(this.isDisabled()) this.disable();
+			if(this.isDisabled()) this.setDisabled(true);
 		});
 	},
 	
-	//disable: function() {
-		//console.log(this);
+	disableQuestion: function() {
+		this.setDisabled(true);
 		//this.setMasked(true);
-		//console.log(this.activeItem);
-		//this.setScrollable(true);
-	//},
+	},
 	
 	decrementQuestionBadges: function() {
 		// Update badge inside the tab panel at the bottom of the screen

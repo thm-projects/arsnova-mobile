@@ -28,6 +28,10 @@ Ext.define('ARSnova.model.Answer', {
 			     'correct',
 			     'id',
 			     'text',
+			     'user',
+			     'answerText',
+			     'questionId',
+			     'sessionId'
 		         ]
 	},
 	

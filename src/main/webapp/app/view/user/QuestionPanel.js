@@ -36,6 +36,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	initialize: function() {
 		this.callParent(arguments);
 		
+		var self = this;
+		
 		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.HOME,
 			ui		: 'back',
@@ -122,6 +124,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	},
 	
 	getUnansweredSkillQuestions: function(){
+		var self = this;
+		
 		ARSnova.app.questionModel.getSkillQuestionsForUser(localStorage.getItem("keyword"), {
 			success: function(questions){
 				var userQuestionsPanel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel;
@@ -191,6 +195,12 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 						questionIds.forEach(function(questionId){
 							userQuestionsPanel.addQuestion(questionsArr[questionId]);
 						});
+						
+						// bugfix (workaround): after removing all items from carousel the active index
+						// is set to -1. To fix that you have manually  set the activeItem on the first
+						// question.
+						self.setActiveItem(0);
+						
 						userQuestionsPanel.checkAnswer();
 						userQuestionsPanel.checkFirstQuestion();
 						userQuestionsPanel.showNextUnanswered();
@@ -233,7 +243,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			
 			if (questionObj.questionType === "freetext") {
 				questionPanel.setAnswerText(questionObj.answerSubject, questionObj.userAnswered);
-				questionPanel.disable();
+				questionPanel.disableQuestion();
 				return;
 			}
 			
@@ -242,14 +252,14 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			for (var i = 0; i < data.length; i++) {
 				if (data.items[i].data.text == questionObj.userAnswered){
 					list.select(data.items[i]);
-					questionPanel.disable();
+					questionPanel.disableQuestion();
 					break;
 				}
 			}
 			
 			if(questionObj.showAnswer){
 				for ( var i = 0; i < questionObj.possibleAnswers.length; i++) {
-					var answer = questionObj.possibleAnswers[i].data;
+					var answer = questionObj.possibleAnswers[i];
 					if(answer.correct && (answer.correct == 1 || answer.correct == true)){
 						list.element.dom.childNodes[i].className = "x-list-item x-list-item-correct";
 						break;
@@ -273,7 +283,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	},
 	
 	showNextUnanswered: function(){
-		var questionPanels = this.items.items;
+		var questionPanels = this.items.items;		
 		var activeQuestion = this._activeItem;
 
 		if(!activeQuestion.isDisabled()) return;
@@ -288,7 +298,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				continue;
 			}
 			if(questionPanel.isDisabled()) continue;
-			
 			this.setActiveItem(i-2, {
 				type: 'slide',
 				direction: animDirection

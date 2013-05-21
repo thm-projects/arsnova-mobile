@@ -74,11 +74,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 					duration	: 700,
 					scope		: this,
 		    		listeners: { animationend: function() { 
-		    			// Destroy and recreate showcaseQuestionPanel to ensure that first element will be
-		    			// shown correctly. If this is not done a cached panel is shown on reloading this 
-		    			// carousel.
-						sTP.showcaseQuestionPanel.destroy();
-						sTP.showcaseQuestionPanel = Ext.create('ARSnova.view.speaker.ShowcaseQuestionPanel');
+		    			this.hide();
 		    		}, scope: this }
 				});
 			}
@@ -102,7 +98,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	},
 	
 	beforeActivate: function(){
-		this.removeAll();
+		this.removeAll(true);
 		this._indicator.show();
 		this.questionCounter.show();
 		this.toolbar.setTitle(Messages.QUESTION);
@@ -140,6 +136,11 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				questionIds.forEach(function(questionId){
 					panel.addQuestion(questionsArr[questionId]);
 				});
+				
+				// bugfix (workaround): after removing all items from carousel the active index
+				// is set to -1. To fix that you have manually  set the activeItem on the first
+				// question.
+				panel.setActiveItem(0);
 				panel.checkFirstQuestion();
 				ARSnova.app.hideLoadMask();
 			},
