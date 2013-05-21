@@ -95,7 +95,7 @@ Ext.define('ARSnova.view.Question', {
 										}
 										localStorage.setItem('questionIds', Ext.encode(questionsArr));
 										
-										list.up("panel").setDisabled(true);
+										list.up("panel").disableQuestion();
 										
 										var pnl = Ext.create('Ext.Panel', {
 											cls: 'notificationBox',
@@ -197,13 +197,13 @@ Ext.define('ARSnova.view.Question', {
 			 * Bugfix, because panel is normally disabled (isDisabled == true),
 			 * but is not rendered as 'disabled'
 			 */
-			if(this.isDisabled()) this.setDisabled(true);
+			if(this.isDisabled()) this.disableQuestion();
 		});
 	},
 	
-	disableQuestion: function() {
+	disableQuestion: function() {		
 		this.setDisabled(true);
-		//this.setMasked(true);
+		this.mask(new ARSnova.view.CustomMask);
 	},
 	
 	decrementQuestionBadges: function() {

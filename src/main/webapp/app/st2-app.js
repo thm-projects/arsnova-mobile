@@ -21,8 +21,7 @@
 
 Ext.application({
 	
-	requires: ['ARSnova.proxy.RestProxy',
-	           'ARSnova.view.Question'], 
+	requires: ['ARSnova.proxy.RestProxy'],
 
     name: "ARSnova",
     /* const */
@@ -56,7 +55,7 @@ Ext.application({
     		/* app/view */
     		['Caption', 'CheckFullscreenPanel', 'LoginPanel', 'MainTabPanel', 'TabPanel', 'RolePanel', 'MathJaxField'], 
     		['MathJaxMessageBox', 'MultiBadgeButton', 'NumericKeypad', 'FreetextAnswerPanel', 'FreetextDetailAnswer'],
-    		['FreetextQuestion', 'QuestionStatusButton', 'SessionStatusButton'],
+    		['FreetextQuestion', 'Question', 'QuestionStatusButton', 'SessionStatusButton', 'CustomMask'],
     		
     		/* app/view/about */
     		['about.AboutPanel', 'about.ARSinLessonPanel', 'about.ARSPanel', 'about.CreditsPanel', 'about.HelpCanteenPanel'],
