@@ -281,8 +281,6 @@ switch (lang) {
 			DEBIAN: "Operating System: Debian",	
 
 			/* misc */
-			BROWSER_NAVIGATION_TITLE: "Note on ARSnova",
-			BROWSER_NAVIGATION: "<center>ARSnova is an HTML5 app.<br>Only use the navigation buttons within the app. <b>Don't</b> use your browser's back or forward buttons.</center>",
 			SUPPORTED_BROWSERES: "ARSnova is best-viewed in a WebKit browser, e.g. Apple Safari or Google Chrome!",
 			NEW_VERSION_TITLE: "New Version",
 			NEW_VERSION_AVAILABLE: "A new version of ARSnova is available. Do you want to update?",
@@ -532,8 +530,6 @@ switch (lang) {
 			DEBIAN: "Betriebssystem: Debian",
 			
 			/* misc */
-			BROWSER_NAVIGATION_TITLE: "Hinweis zu ARSnova",
-			BROWSER_NAVIGATION: "<center>ARSnova ist eine HTML5-App.<br>Bitte benutzen Sie nur die Navigationslemente in der App und <b>nicht</b> die Vor- oder Zurück-Buttons Ihres Browsers.</center>",
 			SUPPORTED_BROWSERES: "Für eine korrekte Darstellung von ARSnova benutzen Sie bitte einen WebKit-Browser, z.B. Apple Safari oder Google Chrome!",
 			NEW_VERSION_TITLE: "Neue Version",
 			NEW_VERSION_AVAILABLE: "Eine neue Version von ARSnova ist verfügbar. Möchten Sie aktualisieren?",

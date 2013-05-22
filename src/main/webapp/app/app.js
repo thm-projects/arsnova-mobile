@@ -140,7 +140,6 @@ Ext.regApplication({
 		if (localStorage.getItem("ARSnovaCon") !== "true") {
 			this.checkPreviousLogin();
 		}
-		this.checkFullscreen();
 	},
 
 	setupAppStatus: function() {
@@ -176,20 +175,6 @@ Ext.regApplication({
         } else {
         	return true;
         }
-    },
-    
-    /**
-	 * Detect: If the application is not run in full screen mode on an apple
-	 * device, notify user how to add app to home screen for full screen mode.
-	 */ 
-    checkFullscreen: function(){
-		if (localStorage.getItem('html5 info read') == null && !location.hash){
-    		if (!this.popup){
-    			this.popup = new ARSnova.views.CheckFullscreenPanel();
-    		}
-    		
-    		this.popup.show('fade');
-    	}
     },
 	
 	/**
