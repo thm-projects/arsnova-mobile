@@ -7,9 +7,9 @@
 	<packaging>war</packaging>
 
 	<scm>
-	    <connection>scm:git:git://scm.thm.de/arsnova/arsnova-legacy.js.git</connection>
-		<developerConnection>scm:git:ssh://gitorious@scm.thm.de/arsnova/arsnova-legacy.js.git</developerConnection>
-	    <url>http://scm.thm.de/arsnova/arsnova-legacy.js.git</url>
+		<connection>scm:git:git://scm.thm.de/arsnova/arsnova-legacy-js.git</connection>
+		<developerConnection>scm:git:ssh://gitorious@scm.thm.de/arsnova/arsnova-legacy-js.git</developerConnection>
+		<url>http://scm.thm.de/arsnova/arsnova-legacy-js.git</url>
 	</scm>
 
 	<properties>
@@ -17,7 +17,7 @@
 	</properties>
 
 	<build>
-	    <sourceDirectory>src/main/webapp/app</sourceDirectory>
+		<sourceDirectory>src/main/webapp/app</sourceDirectory>
 		<pluginManagement>
 			<plugins>
 				<!--This plugin's configuration is used to store Eclipse m2e settings 
@@ -88,7 +88,7 @@
 				<version>2.2</version>
 				<configuration>
 					<warSourceIncludes>
-					    app/**,
+						app/**,
 						arsnova.manifest,
 						config.xml,
 						favicon.png,
