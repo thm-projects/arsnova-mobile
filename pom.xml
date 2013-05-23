@@ -8,11 +8,19 @@
 
 	<name>arsnova-st2-js</name>
 
+	<scm>
+		<connection>scm:git:git://scm.thm.de/arsnova/arsnova-st2-js.git</connection>
+		<developerConnection>scm:git:ssh://gitorious@scm.thm.de/arsnova/arsnova-st2-js.git</developerConnection>
+		<url>http://scm.thm.de/arsnova/arsnova-st2-js.git</url>
+	</scm>
+
 	<properties>
+		<sonar.language>js</sonar.language>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<build>
+		<sourceDirectory>src/main/webapp/app</sourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
