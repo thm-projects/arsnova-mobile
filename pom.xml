@@ -39,9 +39,14 @@
 					<warSourceIncludes>
 						st2-index.html,
 						st2-developer.html,
+						resources/**,
+						screenshots/**,
+						app/**
 						lib/touch-2.1.1/sencha-touch-all-compat.js,
 						lib/touch-2.1.1/resources/css/**,
-						lib/touch-2.1.1/resources/themes/**
+						lib/touch-2.1.1/resources/themes/**,
+						lib/touch-charts-2.0/touch-charts-debug.js,
+						lib/touch-charts-2.0/touch-charts.js
 					</warSourceIncludes>
 					<webXml>
 						src/main/webapp/WEB-INF/web.xml
