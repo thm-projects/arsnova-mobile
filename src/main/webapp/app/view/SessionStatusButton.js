@@ -23,41 +23,42 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 	
 	config: {
 		cls	: 'threeButtons left',
-		handler: null,
-		isOpen: false,
-		
-		sessionIsOpenButton: null,
-		sessionIsClosedButton: null,
 	},
 	
+	handler: null,
+	isOpen: false,
+	
+	sessionIsOpenButton: null,
+	sessionIsClosedButton: null,
+	
 	initialize: function() {
-		this.callParent();
+		this.callParent(arguments);
 		
-		this.sessionIsClosedButton = new Ext.Button({
+		this.sessionIsClosedButton = Ext.create('Ext.Button', {
 			cls		: 'closedSession',
 			handler	: function(){
-				ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
+				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
 			}
 		});
 		
-		this.sessionIsClosedText = new Ext.Panel({
+		this.sessionIsClosedText = Ext.create('Ext.Panel', {
 			cls	: 'centerTextSmall',
 			html: Messages.START_SESSION
 		});
 		
-		this.sessionIsOpenButton = new Ext.Button({
+		this.sessionIsOpenButton = Ext.create('Ext.Button', {
 			cls		: 'openSession',
 			handler	: function(){
-				ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
+				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
 			}
 		});
 		
-		this.sessionIsOpenText = new Ext.Panel({
+		this.sessionIsOpenText = Ext.create('Ext.Panel', {
 			cls	: 'centerTextSmall',
 			html: Messages.STOP_SESSION
 		});
 
-		this.items = [this.sessionIsClosedButton, this.sessionIsClosedText, this.sessionIsOpenButton, this.sessionIsOpenText];
+		this.add([this.sessionIsClosedButton, this.sessionIsClosedText, this.sessionIsOpenButton, this.sessionIsOpenText]);
 		
 		if(localStorage.getItem('active') == 1){
 			this.isOpen = true;
@@ -73,17 +74,13 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 	changeStatus: function(){
 		if(this.isOpen){
 			/* close this session */
-			Ext.dispatch({
-				controller	: 'sessions',
-				action		: 'setActive',
+			ARSnova.app.getController('Sessions').setActive({
 				active		: 0,
 				callback	: this.sessionClosedSuccessfully
 			});
 		} else {
 			/* open this session */
-			Ext.dispatch({
-				controller	: 'sessions',
-				action		: 'setActive',
+			ARSnova.app.getController('Sessions').setActive({
 				active		: 1,
 				callback	: this.sessionOpenedSuccessfully
 			});
@@ -98,7 +95,6 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 		} else {
 			this.isOpen = false;
 		}
-		ARSnova.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.inClassActions.doLayout();
 		this.isRendered = true;
 	},
 	

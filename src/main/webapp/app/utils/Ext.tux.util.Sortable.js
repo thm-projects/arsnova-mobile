@@ -76,7 +76,7 @@ Ext.tux.util.Sortable = Ext.extend(Ext.util.Sortable, {
 		}
 
 		// Getting the index of the dragging element before it will be moved
-		this.oldIndex = this.el.select(this.itemSelector, false).indexOf(draggable.el.dom);
+		this.oldIndex = this.element.select(this.itemSelector, false).indexOf(draggable.element.dom);
 
 		// Rising the sortstart event returning the element original index
 		this.fireEvent('sortstart', this, e, this.oldIndex);
@@ -97,19 +97,19 @@ Ext.tux.util.Sortable = Ext.extend(Ext.util.Sortable, {
 
 					if (this.vertical && Math.abs(intersect.top - intersect.bottom) > (region.bottom - region.top) / 2) {
 						if (region.bottom > item.top && item.top > region.top) {
-							draggable.el.insertAfter(item.el);
+							draggable.element.insertAfter(item.el);
 						}
 						else {
-							draggable.el.insertBefore(item.el);
+							draggable.element.insertBefore(item.el);
 						}
 						sortChange = true;
 					}
 					else if (this.horizontal && Math.abs(intersect.left - intersect.right) > (region.right - region.left) / 2) {
 						if (region.right > item.left && item.left > region.left) {
-							draggable.el.insertAfter(item.el);
+							draggable.element.insertAfter(item.el);
 						}
 						else {
-							draggable.el.insertBefore(item.el);
+							draggable.element.insertBefore(item.el);
 						}
 						sortChange = true;
 					}
@@ -126,7 +126,7 @@ Ext.tux.util.Sortable = Ext.extend(Ext.util.Sortable, {
 						this.calculateBoxes();
 
 						// Saving the new element index
-						this.newIndex = this.el.select(this.itemSelector, false).indexOf(draggable.el.dom);
+						this.newIndex = this.element.select(this.itemSelector, false).indexOf(draggable.element.dom);
 
 						// Rising the sortchange event with the old and new index
 						this.fireEvent('sortchange', this, draggable.el, this.oldIndex, this.newIndex);

@@ -18,30 +18,28 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.MathJaxField', {
 	extend: 'Ext.form.Field',
-	alias: 'mathjaxfield',
+	alias: 'widget.mathjaxfield',
 	
-	config: {
-		/**
-		 * @cfg {Object} layoutObject The object to layout after MathJax finished typesetting.
-		 */
-		layoutObject: null,
-		
-		content: "",
-		
-		renderTpl: [
-	            '<tpl if="label">',
-	                '<div class="x-form-label"><span>{label}</span></div>',
-	            '</tpl>',
-	            '<tpl if="fieldEl">',
-	                '<div class="x-form-field-container"><div id="{inputId}" class="{fieldCls} x-field-slider"',
-	                    '<tpl if="style">style="{style}" </tpl> >{content}</div>',
-	                '</div>',
-	            '</tpl>'
-	        ],
-	},
+	/**
+     * @cfg {Object} layoutObject The object to layout after MathJax finished typesetting.
+     */
+	layoutObject: null,
+	
+	content: "",
+	
+	renderTpl: [
+            '<tpl if="label">',
+                '<div class="x-form-label"><span>{label}</span></div>',
+            '</tpl>',
+            '<tpl if="fieldEl">',
+                '<div class="x-form-field-container"><div id="{inputId}" class="{fieldCls} x-field-slider"',
+                    '<tpl if="style">style="{style}" </tpl> >{content}</div>',
+                '</div>',
+            '</tpl>'
+        ],
 	
 	initRenderData: function() {
-		ARSnova.views.MathJaxField.superclass.initRenderData.apply(this, arguments);
+		ARSnova.view.MathJaxField.superclass.initRenderData.apply(this, arguments);
 		
 		Ext.applyIf(this.renderData, {
 			content: this.content
@@ -51,7 +49,7 @@ Ext.define('ARSnova.view.MathJaxField', {
 	},
 	
 	afterRender: function() {
-		ARSnova.views.MathJaxField.superclass.afterRender.apply(this, arguments);
+		ARSnova.view.MathJaxField.superclass.afterRender.apply(this, arguments);
 		
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.renderData.inputId], Ext.createDelegate(function() {
 			var containerObject = this.layoutObject || this.up("form");

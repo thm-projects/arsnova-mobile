@@ -22,21 +22,31 @@ Ext.define('ARSnova.model.Answer', {
 	extend: 'Ext.data.Model',
 	
 	config: {
-		proxy: restProxy,
+		proxy: { type: 'restProxy' },
+		
+		fields: [
+			     'correct',
+			     'id',
+			     'text',
+			     'user',
+			     'answerText',
+			     'questionId',
+			     'sessionId'
+		         ]
 	},
 	
 	getUserAnswer: function(questionId, callbacks){
-		return this.proxy.getUserAnswer(questionId, callbacks);
+		return this.getProxy().getUserAnswer(questionId, callbacks);
 	},
 	
 	getAnswerByUserAndSession: function(sessionKeyword, callbacks){
-		return this.proxy.getAnswerByUserAndSession(sessionKeyword, callbacks);
+		return this.getProxy().getAnswerByUserAndSession(sessionKeyword, callbacks);
 	},
 	
 	saveAnswer: function(callbacks) {
 		if (this.get('_id') && this.get('_rev')) {
-			return this.proxy.updateAnswer(this, callbacks);
+			return this.getProxy().updateAnswer(this, callbacks);
 		}
-		return this.proxy.saveAnswer(this, callbacks);
+		return this.getProxy().saveAnswer(this, callbacks);
 	}
 });

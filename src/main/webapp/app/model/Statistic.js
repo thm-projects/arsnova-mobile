@@ -22,26 +22,27 @@ Ext.define('ARSnova.model.Statistic', {
 	extend: 'Ext.data.Model',
 	
 	config: {
-		proxy: restProxy,
+		proxy: { type: 'restProxy' },
+
 		fields: [
 		   	  'category', 
 		   	  'counter'
-		       ],
+		       ]
 	},
     
-    countSessions: function(callbacks){
-    	return this.proxy.countSessions(callbacks);
+    countSessions: function(callbacks) {
+    	return this.getProxy().countSessions(callbacks);
     },
     
-    countActiveUsers: function(callbacks){
-    	return this.proxy.countActiveUsers(callbacks);
+    countActiveUsers: function(callbacks) {
+    	return this.getProxy().countActiveUsers(callbacks);
     },
     
-    countActiveUsersWithSessionId: function(callbacks){
-    	return this.proxy.countActiveUsersWithSessionId(callbacks);
+    countActiveUsersWithSessionId: function(callbacks) {
+    	return this.getProxy().countActiveUsersWithSessionId(callbacks);
     },
     
-    countActiveSessions: function(callbacks){
-    	return this.proxy.countActiveSessions(callbacks);
+    countActiveSessions: function(callbacks) {
+    	return this.getProxy().countActiveSessions(callbacks);
     }
 });

@@ -413,6 +413,8 @@ switch (lang) {
 			ALL_LONG: 'Alle (auch Gäste)',
 			ONLY_THM_LONG: 'Nur THM Mitglieder',
 			RELEASE_FOR: 'Freigeben für:',
+			ABSTENTION: 'Enthaltung',
+			ABSTENTION_POSSIBLE: 'Enthaltung möglich',
 			MY_COURSES: "Meine Kurse:",
 			NO_COURSES_FOUND: "Es konnten keine Kurse gesucht werden.",
 			CORRECT_ANSWER: 'Richtige Antwort',

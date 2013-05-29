@@ -18,66 +18,73 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-
 Ext.define('ARSnova.view.FreetextDetailAnswer', {
 	extend: 'Ext.Panel',
 	
 	config: {
+		title : 'FreetextDetailAnswer',
+		fullscreen: true,
+		scrollable: true,
 		scroll: 'vertical',
 	},
 	
-	initialize: function(sTP, answer) {
-		this.callParent();
+	constructor: function(arguments) {
+		this.callParent(arguments);
 		
-		this.sTP = sTP;
+		this.answer = arguments.answer;
+		this.sTP = arguments.sTP;
+
+		var self = this;
 		
-		this.dockedItems = [new Ext.Toolbar({
+		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.FREETEXT_DETAIL_HEADER,
 			items: [
-				new Ext.Button({
+				Ext.create('Ext.Button', {
 					text	: Messages.BACK,
 					ui		: 'back',
 					handler	: function() {
-						sTP.items.items.pop(); // Remove this panel from view stack
-						sTP.setActiveItem(
-							sTP.items.items[sTP.items.items.length-1], // Switch back to top of view stack
+						self.sTP.items.items.pop(); // Remove this panel from view stack
+						self.sTP.animateActiveItem(
+							self.sTP.items.items[self.sTP.items.items.length-1], // Switch back to top of view stack
 							{
 								type		: 'slide',
 								direction	: 'right',
 								duration	: 700,
 								scope		: this,
-								after: function() {
-									answer.deselectItem();
-									this.hide();
-								}
+					    		listeners: { animationend: function() { 
+									self.answer.deselectItem();
+									self.hide();
+					    		}, scope: this }
 							}
 						);
 					}
 				})
 			]
-		})];
-		
-		this.items = [{
-			xtype: 'form',
+		});
+
+		this.add([this.toolbar, {
+			xtype: 'formpanel',
+			scrollable: null,
+			style: "margin: 20px",
 			items: [{
 				xtype: 'fieldset',
 				items: [
 					{
 						xtype: 'textfield',
 						label: Messages.QUESTION_DATE,
-						value: answer.formattedTime + " Uhr am " + answer.groupDate,
+						value: this.answer.formattedTime + " Uhr am " + this.answer.groupDate,
 						disabled: true
 					},
 					{
 						xtype: 'textfield',
 						label: Messages.QUESTION_SUBJECT,
-						value: answer.answerSubject,
+						value: this.answer.answerSubject,
 						disabled: true
 					},
 					{
 						xtype: 'textareafield',
 						label: Messages.FREETEXT_DETAIL_ANSWER,
-						value: answer.answerText,
+						value: this.answer.answerText,
 						disabled: true,
 						maxRows: 8
 					}
@@ -89,30 +96,33 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			cls  : 'centerButton',
 			text : Messages.DELETE,
 			scope: this,
-			hidden: !answer.deletable,
+			hidden: !this.answer.deletable,
 			handler: function() {
 				var me = this;
-				var sheet = new Ext.ActionSheet({
+				var sheet = Ext.create('Ext.ActionSheet', {
 					items: [
 						{
 							text: Messages.DELETE,
 							ui: 'decline',
 							handler: function () {
-								ARSnova.questionModel.deleteAnswer(answer.questionId, answer._id, {
+								ARSnova.app.questionModel.deleteAnswer(self.answer.questionId, self.answer._id, {
 									failure: function() {
 										console.log('server-side error: deletion of freetext answer failed');
 									}
 								});
 								
 								sheet.destroy();
-								sTP.setActiveItem(sTP.questionDetailsPanel, {
+								self.sTP.animateActiveItem(self.sTP.questionDetailsPanel, {
 									type		: 'slide',
 									direction	: 'right',
 									duration	: 700,
-									after: function() {
-										answer.removeItem();
-										me.destroy();
-									}
+						    		listeners: { 
+						    			animationend: function() { 
+						    				self.sTP.questionDetailsPanel.freetextAnswerList.hide();
+						    				self.sTP.questionDetailsPanel.noFreetextAnswers.show();
+											self.answer.removeItem();
+											me.destroy();
+						    		}, scope: this }
 								});
 							}
 						},
@@ -124,8 +134,9 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 						}
 					]
 				});
+				Ext.Viewport.add(sheet);
 				sheet.show();
 			}
-		}];
+		}]);
 	}
 });

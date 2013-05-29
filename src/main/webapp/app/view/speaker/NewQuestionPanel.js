@@ -1,0 +1,781 @@
+/*--------------------------------------------------------------------------+
+ This file is part of ARSnova.
+ app/speaker/newQuestionPanel.js
+ - Beschreibung: Panel zum Erzeugen einer Publikumsfragen.
+ - Version:      1.0, 01/05/12
+ - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
+ +---------------------------------------------------------------------------+
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or any later version.
+ +---------------------------------------------------------------------------+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ +--------------------------------------------------------------------------*/
+Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
+	extend: 'Ext.Panel',
+	
+	config: {
+		title: 'NewQuestionPanel',
+		fullscreen: true,
+		scrollable: true,
+		scroll: 'vertical',
+	},
+	
+	/* toolbar items */
+	toolbar		: null,
+	backButton	: null,
+	saveButton	: null,
+	
+	/* items */
+	text: null,
+	subject: null,
+	duration: null,
+	
+	/* for estudy */
+	userCourses: [],
+	
+	initialize: function(){
+		this.callParent(arguments);
+		
+		this.backButton = Ext.create('Ext.Button', {
+			text	: Messages.QUESTIONS,
+			ui		: 'back',
+			handler	: function(){
+				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+				sTP.animateActiveItem(sTP.audienceQuestionPanel, {
+					type		: 'slide',
+					direction	: 'right',
+					duration	: 700,
+				});
+			},
+		});
+		
+		this.saveButton = Ext.create('Ext.Button', {
+			text	: Messages.SAVE,
+			ui		: 'confirm',
+			handler	: this.saveHandler,
+		});
+				
+		this.textarea = Ext.create('Ext.plugins.ResizableTextArea', {
+			name	  	: 'text',
+	    	label	  	: Messages.QUESTION,
+	    	placeHolder	: Messages.QUESTION_PlACEHOLDER,
+	    	maxHeight	: 140,
+		});
+		
+		this.mainPart = Ext.create('Ext.form.FormPanel', {
+			cls: 'newQuestion',
+			scrollable: null,
+			
+			items: [{
+				xtype: 'fieldset',
+				style: { marginLeft: '20px', marginRight: '20px'},
+				items: [{
+			        xtype	: 'textfield',
+			        name	: 'subject',
+			    	label	: Messages.CATEGORY,
+			    	placeHolder: Messages.CATEGORY_PLACEHOLDER,
+			    }],
+			},{
+				xtype: 'fieldset',
+				style: { marginLeft: '20px', marginRight: '20px'},
+				items: [this.textarea]
+			}]
+		});
+		
+		if(window.innerWidth < 600) {
+			this.releaseItems = [
+                 { text	: Messages.ALL_SHORT, id: 'all', pressed: true}, 
+                 { text	: Messages.ONLY_THM_SHORT, id: 'thm',},
+//                 { text	: "Kurse", id: 'courses', }
+             ]
+		} else {
+			this.releaseItems = [
+                 { text	: Messages.ALL_LONG, id: 'all', pressed: true}, 
+                 { text	: Messages.ONLY_THM_LONG, id: 'thm' },
+//                 { text	: "Kurse", id: 'courses', }
+             ]
+		}
+		
+		this.abstentionPart = Ext.create('Ext.form.FormPanel', {
+			scrollable: null,
+			cls: 'abstentionOptions',
+			items: [{
+				xtype: 'fieldset',
+				title: Messages.ABSTENTION_POSSIBLE,
+				items: [{
+					xtype: 'segmentedbutton',
+					cls: 'yesnoOptions',
+					items: [{
+						text: Messages.YES, id: 'withAbstention', pressed: true
+					}, {
+						text: Messages.NO, id: 'withoutAbstention'
+					}],
+				}]
+			}]
+		});
+		
+		this.releasePart = Ext.create('Ext.form.FormPanel', {
+			scrollable: null,
+			items: [{
+				xtype: 'fieldset',
+				cls: 'releaseOptions',
+				title: Messages.RELEASE_FOR,
+	            items: [{
+	            	xtype: 'segmentedbutton',
+	        		allowDepress: false,
+	        		allowMultiple: false,
+	        		items: this.releaseItems,
+	    		    listeners: {
+	    		    	toggle: function(container, button, pressed){
+	    		    		var nQP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
+	    		    		var coursesFieldset = nQP.down('fieldset[title='+Messages.MY_COURSES+']');
+	    		    		if(button.id == "course"){
+	    		    			if(pressed){
+	    		    				if(nQP.userCourses.length == 0){
+	        		    				ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_COURSES);
+	        		    				Ext.Ajax.request({
+	        		    					url: ARSnova.app.WEBSERVICE_URL + 'estudy/getTeacherCourses.php',
+	        		    					params: {
+	        		    						login: localStorage.getItem('login'),
+	        		    					},
+	        		    					success: function(response, opts){
+	        		    						var obj = Ext.decode(response.responseText).courselist;
+	        		    						
+	        		    						/* Build new options array */
+	        		    						for ( var i = 0; i < obj.count; i++){
+	        		    							var course = obj.course[i];
+	        		    							coursesFieldset.add({
+	        		    								xtype: 'checkboxfield',
+	        		    								name: course.name,
+	        		    								label: course.name,
+	        		    								value:	course.id,
+	        		    							});
+	        		    						}
+	        		    						nQP.userCourses = obj;
+	        		    						coursesFieldset.show();
+	        		    						ARSnova.app.hideLoadMask();
+	        		    					},
+	        		    					failure: function(response, opts){
+	        		    						console.log('getcourses server-side failure with status code ' + response.status);
+	        		    						Ext.Msg.alert(Messages.NOTICE, Messages.COULD_NOT_SEARCH);
+	        		    					},
+	        		    				});
+	    		    				}
+	    		    				coursesFieldset.show();
+	    		    			} else {
+	    		    				coursesFieldset.hide();
+	    		    			}
+	    		    		}
+	    		    	}
+	    		    }
+	            }, {
+	            	xtype: 'fieldset',
+	            	title: Messages.MY_COURSES,
+	            	hidden: true,
+	        	}]
+			}],
+    	});
+		
+		if (
+		  localStorage.getItem('courseId') != null
+		  && localStorage.getItem('courseId').length > 0
+		) {
+			this.releasePart = Ext.create('Ext.Panel', {
+				items: [
+					{
+						cls: 'gravure',
+						html: '<span class="coursemembersonlymessage">'+Messages.MEMBERS_ONLY+'</span>'
+					}
+				]
+			});
+		}
+		
+		this.yesNoQuestion = Ext.create('Ext.form.FormPanel', {
+			id: 'yesno',
+			hidden: true,
+			scrollable: null,
+			submitOnAction: false,
+			style: { marginLeft: '20px', marginRight: '20px'},
+			
+			items: [{
+				xtype: 'fieldset',
+				title: Messages.CORRECT_ANSWER,
+	            items: [{
+            		xtype: 'segmentedbutton',
+            		cls: 'yesnoOptions',
+            		items: [
+        		        { text	: Messages.YES, pressed: true }, 
+        		        { text	: Messages.NO }
+            		],
+            	}],
+			}],
+		});
+		
+		this.multipleChoiceQuestion = Ext.create('Ext.form.FormPanel', {
+			id: 'mc',
+			hidden: true,
+			scrollable: null,
+			submitOnAction: false,
+			style: { marginLeft: '20px', marginRight: '20px'},
+			
+			items: [{
+            	xtype: 'fieldset',
+            	title: Messages.ANSWERS,
+            	items: [
+        	        {
+	            		xtype	: "spinnerfield",
+	            		name	: 'countAnswers',
+	                	label	: Messages.COUNT,
+	            		minValue: 3,
+	            		maxValue: 6,
+	            		stepValue: 1,
+	            		value: 4,
+	            		listeners: {
+	                		spin: function(selectField, value){
+	                			switch (value){
+	    							case 3:
+	    								Ext.getCmp("wrongAnswer3").hide();
+	    								Ext.getCmp("wrongAnswer4").hide();
+	    								Ext.getCmp("wrongAnswer5").hide();
+	    								break;
+	    							case 4:
+	    								Ext.getCmp("wrongAnswer3").show();
+	    								Ext.getCmp("wrongAnswer4").hide();
+	    								Ext.getCmp("wrongAnswer5").hide();
+	    								break;
+	    							case 5:
+	    								Ext.getCmp("wrongAnswer3").show();
+	    								Ext.getCmp("wrongAnswer4").show();
+	    								Ext.getCmp("wrongAnswer5").hide();
+	    								break;
+	    							case 6:
+	    								Ext.getCmp("wrongAnswer3").show();
+	    								Ext.getCmp("wrongAnswer4").show();
+	    								Ext.getCmp("wrongAnswer5").show();
+	    								break;
+	    							default:
+	    								break;
+	    						}
+	                		}
+	                	}
+	                }, {
+						xtype	: 'textfield',
+						id		: 'correctAnswer',
+					    name	: 'correctAnswer',
+						label	: Messages.CORRECT,
+						placeHolder: Messages.CORRECT_PLACEHOLDER,
+					}, {
+						xtype	: 'textfield',
+						id		: 'wrongAnswer1',
+						name	: 'wrongAnswer1',
+						label	: Messages.WRONG,
+						placeHolder: Messages.WRONG_PLACEHOLDER,
+					}, {
+						xtype	: 'textfield',
+						id		: 'wrongAnswer2',
+						name	: 'wrongAnswer2',
+					    label	: Messages.WRONG,
+					    placeHolder: Messages.WRONG_PLACEHOLDER,
+					}, {
+						xtype	: 'textfield',
+						id		: 'wrongAnswer3',
+						name	: 'wrongAnswer3',
+					    label	: Messages.WRONG,
+					    placeHolder: Messages.WRONG_PLACEHOLDER,
+					}, {
+						xtype	: 'textfield',
+						id		: 'wrongAnswer4',
+						name	: 'wrongAnswer4',
+					    label	: Messages.WRONG,
+					    placeHolder: Messages.WRONG_PLACEHOLDER,
+					    hidden	: true,
+					}, {
+						xtype	: 'textfield',
+						id		: 'wrongAnswer5',
+						name	: 'wrongAnswer5',
+					    label	: Messages.WRONG,
+					    placeHolder: Messages.WRONG_PLACEHOLDER,
+					    hidden	: true,
+					}
+    	        ]
+			}],
+		});
+
+		this.voteQuestion = Ext.create('Ext.form.FormPanel', {
+			id: 'vote',
+			hidden: false,
+			scrollable: null,
+			submitOnAction: false,
+			style: { marginLeft: '20px', marginRight: '20px'},
+			
+			items: [{
+            	xtype: 'fieldset',
+            	title: Messages.ANSWERS,
+            	items: [{
+						xtype	: 'textfield',
+						name	: 'voteAnswer1',
+					    label	: '1.',
+					    value	: Messages.EVALUATION_PLUSPLUS,
+					}, {
+						xtype	: 'textfield',
+						name	: 'voteAnswer2',
+					    label	: '2.',
+					    value	: Messages.EVALUATION_PLUS,
+					}, {
+						xtype	: 'textfield',
+						name	: 'voteAnswer3',
+					    label	: '3.',
+					    value	: Messages.EVALUATION_NEUTRAL,
+					}, {
+						xtype	: 'textfield',
+						name	: 'voteAnswer4',
+					    label	: '4.',
+					    value	: Messages.EVALUATION_MINUS,
+					}, {
+						xtype	: 'textfield',
+						name	: 'voteAnswer5',
+					    label	: '5.',
+					    value	: Messages.EVALUATION_MINUSMINUS,
+					}
+    	        ]
+			}],
+		});
+		
+		this.schoolQuestion = Ext.create('Ext.form.FormPanel', {
+			id: 'school',
+			hidden: true,
+			scrollable: null,
+			submitOnAction: false,
+			style: { marginLeft: '20px', marginRight: '20px'},
+			
+			items: [{
+            	xtype: 'fieldset',
+            	title: Messages.ANSWERS,
+            	items: [{
+						xtype	: 'textfield',
+						name	: 'schoolAnswer1',
+					    label	: '1.',
+					    value	: Messages.SCHOOL_A,
+					}, {
+						xtype	: 'textfield',
+						name	: 'schoolAnswer2',
+					    label	: '2.',
+					    value	: Messages.SCHOOL_B,
+					}, {
+						xtype	: 'textfield',
+						name	: 'schoolAnswer3',
+					    label	: '3.',
+					    value	: Messages.SCHOOL_C,
+					}, {
+						xtype	: 'textfield',
+						name	: 'schoolAnswer4',
+					    label	: '4.',
+					    value	: Messages.SCHOOL_D,
+					}, {
+						xtype	: 'textfield',
+						name	: 'schoolAnswer5',
+					    label	: '5.',
+					    value	: Messages.SCHOOL_E,
+					}, {
+						xtype	: 'textfield',
+						name	: 'schoolAnswer6',
+					    label	: '6.',
+					    value	: Messages.SCHOOL_NONE,
+					}
+    	        ]
+			}],
+		});
+		
+		this.abcdQuestion = Ext.create('Ext.form.FormPanel', {
+			id: 'abcd',
+			hidden: true,
+			scrollable: null,
+			submitOnAction: false,
+			style: { marginLeft: '20px', marginRight: '20px'},
+			
+			items: [
+				{
+					id: 'abcd_tags',
+					xtype: 'fieldset',
+					title: Messages.ANSWERS,
+					items: [
+								{
+									xtype: 'textfield', 
+									id: 'abcd_textA',
+									label: 'A',
+									placeHolder: Messages.BUZZWORD_A,
+									maxLength: 20,
+								},
+								{
+									xtype: 'textfield', 
+									id: 'abcd_textB',
+									label: 'B',
+									placeHolder: Messages.BUZZWORD_B,
+									maxLength: 20,
+								},
+								{
+									xtype: 'textfield', 
+									id: 'abcd_textC',
+									label: 'C',
+									placeHolder: Messages.BUZZWORD_C,
+									maxLength: 20,
+								},
+								{
+									xtype: 'textfield', 
+									id: 'abcd_textD',
+									label: 'D',
+									placeHolder: Messages.BUZZWORD_D,
+									maxLength: 20,
+								},
+							]
+				},
+				{
+            	xtype: 'fieldset',
+            	title: Messages.CORRECT_ANSWER,
+            	items: [{
+            		xtype: 'segmentedbutton',
+            		allowDepress: true,
+            		cls: 'abcdOptions',
+            		items: [
+        		        { text	: "A" }, 
+        		        { text	: "B" },
+        		        { text	: "C" },
+        		        { text	: "D" },
+            		],
+            	}]
+			}],
+		});
+
+		this.freetextQuestion = Ext.create('Ext.form.FormPanel', {
+			id: 'freetext',
+			hidden: true,
+			scrollable: null,
+			submitOnAction: false,
+			style: { marginLeft: '20px', marginRight: '20px'},
+			items: [],
+		});
+		
+		this.questionOptions = Ext.create('Ext.SegmentedButton', {
+	        allowDepress: false,
+	        items: [
+                { text: Messages.EVALUATION, pressed: true }, 
+                { text: Messages.SCHOOL }, 
+                { text: Messages.MC		}, 
+                { text: Messages.YESNO 	}, 
+                { text: Messages.ABCD	},
+				{ text: Messages.FREETEXT },
+	        ],
+	        listeners: {
+	        	toggle: function(container, button, pressed){
+	        		var panel = this.up('panel');
+	        		switch (button.config.text) {
+						case Messages.EVALUATION:
+							if(pressed) panel.voteQuestion.show();
+							else panel.voteQuestion.hide();
+							break;
+						case Messages.SCHOOL:
+							if(pressed) panel.schoolQuestion.show();
+							else panel.schoolQuestion.hide();
+							break;
+						case Messages.MC:
+							if(pressed) panel.multipleChoiceQuestion.show();
+							else panel.multipleChoiceQuestion.hide();
+							break;
+						case Messages.YESNO:
+							if(pressed) panel.yesNoQuestion.show();
+							else panel.yesNoQuestion.hide();
+							break;
+						case Messages.ABCD:
+							if(pressed) panel.abcdQuestion.show();
+							else panel.abcdQuestion.hide();
+							break;
+						case Messages.FREETEXT:
+							if(pressed) panel.freetextQuestion.show();
+							else panel.freetextQuestion.hide();
+							break;
+						default:
+							break;
+					}
+	        	}
+	        }
+	    });
+		
+		this.toolbar = Ext.create('Ext.Toolbar', {
+			title: Messages.NEW_QUESTION_TITLE,
+			docked: 'top',
+			items: [
+		        this.backButton,
+		        {xtype:'spacer'},
+		        this.saveButton,
+			]
+		});
+		
+		this.saveButton = Ext.create('Ext.form.FormPanel', {
+			scrollable: null,
+			style: { margin: '20px', marginTop: '30px' },
+			items: [{
+				xtype: 'fieldset',
+				items: [{
+			        xtype	: 'button',
+			        ui: 'confirm',
+					text: Messages.SAVE,
+					handler: this.saveHandler,
+			    }],
+			}],
+		});
+		
+		this.add([this.toolbar,
+            Ext.create('Ext.Toolbar', {
+  	            ui: 'light',
+  	            docked: 'top',
+  	            items: [
+                      {xtype: 'spacer'},
+                      this.questionOptions,
+                      {xtype: 'spacer'}
+                  ],
+  	        }),
+            this.mainPart,
+            
+            /* only one of the question types will be shown at the same time */
+		    this.voteQuestion,
+            this.multipleChoiceQuestion,
+            this.yesNoQuestion,
+            this.schoolQuestion,
+            this.abcdQuestion,
+            this.freetextQuestion,
+            
+            this.abstentionPart,
+            this.releasePart,
+            this.saveButton,
+        ]);
+		
+		this.on('activate', this.onActivate);
+	},
+	
+	onActivate: function(){
+		
+	},
+	
+    saveHandler: function(){
+    	var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
+    	var values = {};
+    	
+    	/* get text, subject of question from mainPart */
+    	var mainPartValues = panel.mainPart.getValues();
+    	values.text = mainPartValues.text;
+    	values.subject = mainPartValues.subject;
+    	
+    	/* check if release question button is clicked */
+    	var releasePart = panel.releasePart;
+    	if (
+    		 localStorage.getItem('courseId') != null
+		  && localStorage.getItem('courseId').length > 0
+    	) {
+			var button = null;
+			values.releasedFor = 'courses';
+			//values.courses = [localStorage.getItem('courseId')];
+    	} else {
+    		var button = releasePart.down('segmentedbutton').getActiveItem();
+    	}
+    	if(button){
+    		switch (button.id) {
+				case 'all':
+					values.releasedFor = 'all';
+					break;
+				case 'thm':
+					values.releasedFor = 'thm';
+					break;
+				case 'courses':
+					var releasedForValues = releasePart.getValues();
+					var tmpArray = [];
+					for (name in releasedForValues) {
+						var id = releasedForValues[name];
+						if(id === null)
+							continue;
+						tmpArray.push({
+							name: name,
+							id: id,
+						});
+					}
+					if(tmpArray.length > 0){
+						values.releasedFor = 'courses';
+						values.courses = tmpArray;
+					}
+					break;	
+				default:
+					break;
+			}
+    	}
+    	
+    	/* fetch the values */
+    	switch (panel.questionOptions.getPressedButtons()[0]._text) {
+			case Messages.EVALUATION:
+				values.questionType = "vote";
+				var tmpValues = panel.down("#vote").getValues();
+
+				values.possibleAnswers = [
+		          { text: tmpValues.voteAnswer1 },
+		          { text: tmpValues.voteAnswer2 },
+		          { text: tmpValues.voteAnswer3 },
+		          { text: tmpValues.voteAnswer4 },
+		          { text: tmpValues.voteAnswer5 },
+		    	];
+				break;
+			case Messages.SCHOOL:
+				values.questionType = "school";
+				var tmpValues = panel.down("#school").getValues();
+				
+		    	values.possibleAnswers = [
+		          { text: tmpValues.schoolAnswer1 },
+		          { text: tmpValues.schoolAnswer2 },
+		          { text: tmpValues.schoolAnswer3 },
+		          { text: tmpValues.schoolAnswer4 },
+		          { text: tmpValues.schoolAnswer5 },
+		          { text: tmpValues.schoolAnswer6 },
+		    	];
+				break;
+			case Messages.MC:
+				values.questionType = "mc";
+				
+				var tmpValues = panel.down("#mc").getValues();
+				
+		    	wrongAnswers = [];
+		    	wrongAnswers.push(tmpValues.wrongAnswer1);
+		    	wrongAnswers.push(tmpValues.wrongAnswer2);
+		    	wrongAnswers.push(tmpValues.wrongAnswer3);
+		    	wrongAnswers.push(tmpValues.wrongAnswer4);
+		    	wrongAnswers.push(tmpValues.wrongAnswer5);
+		    	
+		    	values.possibleAnswers = [{
+		    		correct: 1,
+		    		text: tmpValues.correctAnswer,
+		    	}];
+		    	
+		    	for ( var i = 1; i < tmpValues.countAnswers; i++){
+		    		values.possibleAnswers.push({
+						text: wrongAnswers[i - 1],
+					});	
+				}
+				break;
+			case Messages.YESNO:
+				values.questionType = "yesno";
+				
+				var form = panel.down("#yesno");
+		    	var yesNoOption = form.down('segmentedbutton');
+		    	
+		    	var correct = "";
+		    	if (yesNoOption.getActiveItem().getText()) {
+		    		correct = yesNoOption.getActiveItem().getText();
+		    	}
+		    	else {
+		    		console.log('no');
+		    		return;
+		    	}
+		    	
+		    	switch (correct) {
+					case "Ja":
+						values.possibleAnswers = [
+			              { text: "Ja", correct: 1 },
+			              { text: "Nein" },
+			            ];
+						break;
+					case "Nein":
+						values.possibleAnswers = [
+			              { text: "Ja" },
+			              { text: "Nein", correct: 1 },
+			            ];	
+						break;
+				}
+				break;
+			case Messages.ABCD:
+				values.questionType = "abcd";
+				
+				var form = panel.down("#abcd");
+		    	var segmentedButton = form.down('segmentedbutton');
+				
+		    	var correct = "";
+		    	if (segmentedButton.getActiveItem()) {
+		    		correct = segmentedButton.getActiveItem().getText();
+		    	} else {
+		    		values.noCorrect = 1;
+		    	}
+		    	
+		    	/**
+		    	 * This helper returns an array like this one:
+		    	 * [{id: 'A', text: 'A: short answer'},{id: 'B', text: 'B: ..'},...]
+		    	 */
+		    	var getAnswerDescriptions = function() {
+		    		var basetagid = "#abcd_text";
+		    		var answers = ["A", "B", "C", "D"];
+		    		var result = [];
+		    		answers.forEach(function(answer) {
+		    			var tag = form.down(basetagid + answer);
+		    			var text = answer;
+		    			if (tag && tag.getValue().trim().length !== 0) {
+		    				text += ": " + tag.getValue().trim();
+		    			}
+		    			result.push({ id: answer, text: text });
+		    		});
+		    		return result;
+		    	};
+		    	
+		    	var markCorrectAnswer = function(answers, correctAnswer) {
+		    		var result = [];
+		    		answers.forEach(function(answer) {
+		    			if (correctAnswer === answer.id) {
+		    				answer.correct = 1;
+		    			}
+		    			result.push(answer);
+		    		});
+		    		return result;
+		    	};
+		    	
+		    	values.possibleAnswers = markCorrectAnswer(getAnswerDescriptions(), correct);
+				break;
+			
+			case Messages.FREETEXT:
+				values.questionType = "freetext";
+				values.possibleAnswers = [];
+				break;
+			
+			default:
+				break;
+		}
+    	
+    	ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel.dispatch(values);
+    },
+    
+    dispatch: function(values){
+    	ARSnova.app.getController('Questions').add({
+			sessionKeyword: localStorage.getItem('keyword'),
+			text		: values.text,
+			subject		: values.subject,
+			type		: "skill_question",
+			questionType: values.questionType,
+			duration	: values.duration,
+			number		: 0, // unused
+			active		: 1,
+			possibleAnswers: values.possibleAnswers,
+			releasedFor	: values.releasedFor,
+			courses		: values.courses,
+			noCorrect	: values.noCorrect,
+			successFunc	: function(response, opts){
+				ARSnova.app.getController('Questions').details({
+					question	: Ext.decode(response.responseText)
+				});
+			},
+			failureFunc	: function(response, opts){
+    	  		console.log('server-side failure with status code ' + response.status);
+    	  		Ext.Msg.alert(Messages.NOTICE, Messages.QUESTION_CREATION_ERROR);
+    		},
+		});
+    }
+});

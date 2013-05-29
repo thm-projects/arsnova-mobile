@@ -20,6 +20,9 @@
  +--------------------------------------------------------------------------*/
 
 Ext.application({
+	
+	requires: ['ARSnova.proxy.RestProxy'],
+
     name: "ARSnova",
     /* const */
     WEBAPP			: 'webapp',
@@ -40,14 +43,52 @@ Ext.application({
 	CANTEEN_LOCATION: "THM Mensa Gießen",
 	CANTEEN_DAY		: "01.03.2013",
     
-    glossOnIcon: false,
+    isIconPrecomposed: true,
     icon: 'resources/images/ARSnova_Grafiken/01_AppIcon_114x114px.png',
+
+    models: [].concat(
+    		['Answer', 'Config', 'Feedback', 'FoodVote', 'LoggedIn', 'Question', 'Session', 'Statistic', 'Course'],
+    		['Auth', 'FeedbackQuestion']),
     
-    models: ['Answer', 'Config', 'Feedback', 'FoodVote', 'LoggedIn', 'Question', 'Session', 'Statistic', 'Course', 'Auth'],
-    views: [].concat(['Caption', 'CheckFullscreenPanel', 'LoginPanel', 'MainTabPanel'], 
-    		['MathJaxField', 'MathJaxMessageBox', 'MultiBadgeButton', 'NumericKeypad', 'FreetextAnswerList'],
-    		['FreetextAnswerPanel', 'FreetextDetailAnswer', 'FreetextQuestion', 'QuestionStatusButton', 'SessionStatusButton'],
-    		['TabPanel', 'RolePanel']),
+    views: [].concat(
+    		
+    		/* app/view */
+    		['Caption', 'CheckFullscreenPanel', 'LoginPanel', 'MainTabPanel', 'TabPanel', 'RolePanel', 'MathJaxField'], 
+    		['MathJaxMessageBox', 'MultiBadgeButton', 'NumericKeypad', 'FreetextAnswerPanel', 'FreetextDetailAnswer'],
+    		['FreetextQuestion', 'Question', 'QuestionStatusButton', 'SessionStatusButton', 'CustomMask'],
+    		
+    		/* app/view/about */
+    		['about.AboutPanel', 'about.ARSinLessonPanel', 'about.ARSPanel', 'about.CreditsPanel', 'about.HelpCanteenPanel'],
+    		['about.HelpDeskPanel', 'about.HelpFeedbackPanel', 'about.HelpHomePanel', 'about.HelpMainPanel'],
+    		['about.HelpQuestionsPanel', 'about.HelpVideoPanel', 'about.ImpressumPanel', 'about.InfoPanel'],
+    		['about.OpenSourceProjectsPanel', 'about.SocialSoftwarePanel', 'about.SponsorsPanel', 'about.StatisticPanel'],
+    		['about.TabPanel'],
+    		
+    		/* app/view/archive */
+    		['archive.CoursePanel', 'archive.QuestionPanel', 'archive.TabPanel'],
+    		
+    		/* app/view/canteen */
+    		['canteen.StatisticPanel', 'canteen.TabPanel', 'canteen.VotePanel'],
+    		
+    		/* app/view/feedback */
+    		['feedback.AskPanel', 'feedback.StatisticPanel', 'feedback.TabPanel', 'feedback.VotePanel'],
+    		
+    		/* app/view/feedbackQuestions */
+    		['feedbackQuestions.DetailsPanel', 'feedbackQuestions.QuestionsPanel', 'feedbackQuestions.TabPanel'],
+    		
+    		/* app/view/home */  
+    		['home.HomePanel', 'home.MySessionsPanel', 'home.NewSessionPanel', 'home.TabPanel'],
+    		
+    		/* app/view/speaker */
+    		['speaker.AudienceQuestionPanel', 'speaker.InClass', 'speaker.NewQuestionPanel', 'speaker.QuestionDetailsPanel'],
+    		['speaker.QuestionStatisticChart', 'speaker.ShowcaseQuestionPanel', 'speaker.TabPanel'],
+    		
+    		/* app/view/user */
+    		['user.InClass', 'user.QuestionPanel', 'user.RankingPanel', 'user.TabPanel']),
+	
+    controllers: ['Archive', 'Auth', 'Canteen', 'Feedback', 'Lang', 'Questions', 'Ranking', 'Sessions', 'User'],
+    
+    stores: ['Food'],
     
     /* items */
     mainTabPanel: null,
@@ -58,11 +99,11 @@ Ext.application({
     previousActiveItem: null,
     
     /* infos */
-    loginMode		: null,  /* ARSnova.LOGIN_GUEST, ... */
-    appStatus		: null,	 /* ARSnova.WEBAPP || ARSnova.NATIVE */
+    loginMode		: null,  /* ARSnova.app.LOGIN_GUEST, ... */
+    appStatus		: null,	 /* ARSnova.app.WEBAPP || ARSnova.app.NATIVE */
     isSessionOwner	: false, /* boolean */
     loggedIn		: false, /* boolean */
-    userRole		: null,  /* ARSnova.USER_ROLE_STUDENT || ARSnova.USER_ROLE_SPEAKER */
+    userRole		: null,  /* ARSnova.app.USER_ROLE_STUDENT || ARSnova.app.USER_ROLE_SPEAKER */
     isNative		: function () { return this.appStatus === this.NATIVE; },
     isWebApp		: function () { return this.appStatus === this.WEBAPP; },
     
@@ -77,17 +118,21 @@ Ext.application({
     userRankingModel: null,
     courseModel     : null,
     
+    /* proxy */
+	restProxy		: null,
+	
     /* other*/
     cardSwitchDuration: 500,
     
     /* tasks */
+    
     /**
      * delete feedbacks that can be removed
      */
     cleanFeedbackVotes: {
     	name: 'looking for feedbacks that have to be remove',
 		run: function(){
-			restProxy.cleanSessionFeedback();
+			ARSnova.app.restProxy.cleanSessionFeedback();
 		},
 		interval: 60000 //60 seconds
 	},
@@ -99,7 +144,7 @@ Ext.application({
 	loggedInTask: {
 		name: 'save that user is logged in',
 		run: function(){
-			restProxy.loggedInTask();
+			ARSnova.app.restProxy.loggedInTask();
 		},
 		interval: 60000 //60 seconds
 	},
@@ -110,10 +155,26 @@ Ext.application({
 	updateSessionActivityTask: {
 		name: 'save that owner of a session is logged in',
 		run: function(){
-			restProxy.updateSessionActivityTask();
+			ARSnova.app.restProxy.updateSessionActivityTask();
 		},
 		interval: 180000 //180 seconds
 	},
+	
+    /**
+     * initialize models
+     */
+    initModels: function() {
+    	this.answerModel 		= Ext.create('ARSnova.model.Answer');
+    	this.authModel			= Ext.create('ARSnova.model.Auth');
+    	this.feedbackModel		= Ext.create('ARSnova.model.Feedback');
+    	this.foodVoteModel		= Ext.create('ARSnova.model.FoodVote');
+    	this.loggedInModel		= Ext.create('ARSnova.model.LoggedIn');
+    	this.questionModel		= Ext.create('ARSnova.model.Question');
+    	this.sessionModel		= Ext.create('ARSnova.model.Session');
+    	this.statisticModel 	= Ext.create('ARSnova.model.Statistic');
+    	// this.userRankingModel	= Ext.create('ARSnova.model.UserRanking');
+    	this.courseModel		= Ext.create('ARSnova.model.Course');
+    },
     
     /**
      * This is called automatically when the page loads. Here we set up the main component on the page
@@ -135,7 +196,6 @@ Ext.application({
 							window.location.reload();
 						}
 					});
-					Ext.Msg.doComponentLayout();
 				}
 			}, false);
 		}, false);
@@ -144,9 +204,11 @@ Ext.application({
 		if (!this.checkLocalStorage()) return;
 		this.checkEstudyURL();
 		this.setupAppStatus();
-
+		
 		taskManager = new Ext.util.TaskRunner();
 		
+		this.initModels();
+		this.restProxy = Ext.create('ARSnova.proxy.RestProxy'); 
 		this.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
 		
 		this.checkPreviousLogin();
@@ -178,6 +240,7 @@ Ext.application({
 		if (localStorage.getItem('html5 info read') == null){
 			if (!this.popup){
 				this.popup = Ext.create('ARSnova.view.CheckFullscreenPanel');
+				Ext.Viewport.add(this.popup);
 			}
 			
 			this.popup.show('fade');
@@ -189,28 +252,25 @@ Ext.application({
 	 * start some tasks and show the correct homepage to user
 	 */
 	afterLogin: function(){
-		taskManager.start(ARSnova.loggedInTask);
-		taskManager.start(ARSnova.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.updateCanteenBadgeIconTask);
+		taskManager.start(ARSnova.app.loggedInTask);
+		taskManager.start(ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.updateCanteenBadgeIconTask);
 		
-		ARSnova.mainTabPanel.tabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.homeTabPanel, 'slide');
-		var hTP = ARSnova.mainTabPanel.tabPanel.homeTabPanel;
-		switch (ARSnova.userRole) {
-			case ARSnova.USER_ROLE_STUDENT:
+		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.homeTabPanel, 'slide');
+		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+		switch (ARSnova.app.userRole) {
+			case ARSnova.app.USER_ROLE_STUDENT:
 				hTP.homePanel.checkLogin();
 				hTP.setActiveItem(hTP.homePanel);
 				break;
-			case ARSnova.USER_ROLE_SPEAKER:
+			case ARSnova.app.USER_ROLE_SPEAKER:
 				hTP.setActiveItem(hTP.mySessionsPanel);
-				hTP.mySessionsPanel.fireEvent('activate');
 				break;
 			default:
 				break;
 		}
 		
 		if (localStorage.getItem("keyword") !== null && localStorage.getItem("keyword") !== "") {
-			return Ext.dispatch({
-				controller: "sessions",
-				action: "login",
+			return ARSnova.app.getController('Sessions').login({
 				keyword: localStorage.getItem("keyword")
 			});
 		}
@@ -223,7 +283,7 @@ Ext.application({
     	if(localStorage.getItem('sessionId') == undefined || localStorage.getItem('sessionId') == "")
     		return false;
     	else
-    		return true;
+    		return true;		// TODO: canteen ...
     },
     
     getGetVariable: function(variable){
@@ -254,19 +314,19 @@ Ext.application({
 									   || localStorage.getItem('login') == null;
 		if (isLocalStorageUninitialized) return false;
 		
-		ARSnova.loggedIn = true;
-		ARSnova.loginMode = localStorage.getItem('loginMode');
-		ARSnova.userRole = localStorage.getItem('role');
-		ARSnova.setWindowTitle();
-		ARSnova.afterLogin();
+		ARSnova.app.loggedIn = true;
+		ARSnova.app.loginMode = localStorage.getItem('loginMode');
+		ARSnova.app.userRole = localStorage.getItem('role');
+		ARSnova.app.setWindowTitle();
+		ARSnova.app.afterLogin();
 	},
 
     setWindowTitle: function(){
-		switch (ARSnova.userRole) {
-			case ARSnova.USER_ROLE_SPEAKER:
+		switch (ARSnova.app.userRole) {
+			case ARSnova.app.USER_ROLE_SPEAKER:
 				window.document.title = "ARSnova: Dozent/in";
 				break;
-			case ARSnova.USER_ROLE_STUDENT:
+			case ARSnova.app.USER_ROLE_STUDENT:
 				window.document.title = "ARSnova: Zuhörer/in";
 				break;
 			default:
@@ -279,11 +339,12 @@ Ext.application({
      * Wrapper for an invidivudal LoadMask
      */
     showLoadMask: function(message){
-    	this.loadingMask = new Ext.LoadMask(Ext.getBody(), {
-    		msg: message || ""
+    	this.loadingMask = new Ext.LoadMask({
+    		message: message || ""
     	});
+    	Ext.Viewport.add(this.loadingMask);
     	this.loadingMask.show();
-    	setTimeout("ARSnova.hideLoadMask()", 5000); // hide this mask after 5 seconds automatically
+    	setTimeout("ARSnova.app.hideLoadMask()", 5000); // hide this mask after 5 seconds automatically
     },
     
     /**
@@ -291,7 +352,7 @@ Ext.application({
      */
     hideLoadMask: function(){
     	if(this.loadingMask){
-    		clearTimeout("ARSnova.hideLoadMask()", 5000);
+    		clearTimeout("ARSnova.app.hideLoadMask()", 5000);
     		this.loadingMask.hide();
 	    	this.loadingMask.destroy();
     	}
@@ -355,29 +416,29 @@ Ext.application({
     
     initFoodStore: function(){
     	var foodStore = Ext.getStore("Food");
-    	if(ARSnova.config.menu1 != null && ARSnova.config.menu1 != "")
+    	if(ARSnova.app.config.menu1 != null && ARSnova.app.config.menu1 != "")
     		foodStore.add({
-    			name: ARSnova.config.menu1,
+    			name: ARSnova.app.config.menu1,
     			value: 0
     		});
-    	if(ARSnova.config.menu2 != null && ARSnova.config.menu2 != "")
+    	if(ARSnova.app.config.menu2 != null && ARSnova.app.config.menu2 != "")
     		foodStore.add({
-    			name: ARSnova.config.menu2,
+    			name: ARSnova.app.config.menu2,
     			value: 0
     		});
-    	if(ARSnova.config.menu3 != null && ARSnova.config.menu3 != "")
+    	if(ARSnova.app.config.menu3 != null && ARSnova.app.config.menu3 != "")
     		foodStore.add({
-    			name: ARSnova.config.menu3,
+    			name: ARSnova.app.config.menu3,
     			value: 0
     		});
-    	if(ARSnova.config.menu4 != null && ARSnova.config.menu4 != "")
+    	if(ARSnova.app.config.menu4 != null && ARSnova.app.config.menu4 != "")
     		foodStore.add({
-    			name: ARSnova.config.menu4,
+    			name: ARSnova.app.config.menu4,
     			value: 0
     		});
-    	if(ARSnova.config.menu5 != null && ARSnova.config.menu5 != "")
+    	if(ARSnova.app.config.menu5 != null && ARSnova.app.config.menu5 != "")
     		foodStore.add({
-    			name: ARSnova.config.menu5,
+    			name: ARSnova.app.config.menu5,
     			value: 0
     		});
     },

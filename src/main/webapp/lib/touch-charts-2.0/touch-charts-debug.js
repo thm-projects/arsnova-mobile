@@ -5748,7 +5748,7 @@ Ext.define('Ext.draw.Component', {
     enginePriority: ['Canvas'],
 
     config: {
-        
+        cls: 'x-draw-component',
         baseCls: 'ext-surface',
 
         componentLayout: 'draw',
@@ -5820,8 +5820,6 @@ Ext.define('Ext.draw.Component', {
          */
         gradients: []
     },
-
-    cls: 'x-draw-component',
 
     initialize: function() {
         var me = this,
@@ -9865,9 +9863,9 @@ Ext.define('Ext.chart.Chart', {
         // Workaround for [cls=xxx] ComponentQueries to work.
         // In Component.initCls method, this.cls will be deleted,
         // we need to revert it to make CQ function which is used in theme system.
-        var cls = this.cls,
+        var cls = this.config.cls,
             result = this.callParent();
-        this.cls = cls;
+        this.config.cls = cls;
         return result;
     },
 

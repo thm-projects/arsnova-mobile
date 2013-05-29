@@ -30,7 +30,7 @@ Ext.define('ARSnova.view.CheckFullscreenPanel', {
 		
 		items: [{
 				xtype: 'toolbar',
-				dock: 'top',
+				docked: 'top',
 				title: Messages.BROWSER_NAVIGATION_TITLE
 			}, {
 			html: Messages.BROWSER_NAVIGATION

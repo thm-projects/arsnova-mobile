@@ -22,26 +22,26 @@ Ext.define('ARSnova.model.Feedback', {
 	extend: 'Ext.data.Model',
 	
 	config: {
-		proxy: restProxy,
+		proxy: { type: 'restProxy' }
 	},
 	
 	getSessionFeedback: function(sessionKeyword, callbacks){
-		return this.proxy.getSessionFeedback(sessionKeyword, callbacks);
+		return this.getProxy().getSessionFeedback(sessionKeyword, callbacks);
 	},
 	
 	getUserFeedback: function(sessionKeyword, callbacks){
-		return this.proxy.getUserFeedback(sessionKeyword, callbacks);
+		return this.getProxy().getUserFeedback(sessionKeyword, callbacks);
 	},
 	
 	postFeedback: function(sessionKeyword, feedbackValue, callbacks) {
-		return this.proxy.postFeedback(sessionKeyword, feedbackValue, callbacks);
+		return this.getProxy().postFeedback(sessionKeyword, feedbackValue, callbacks);
 	},
 	
 	getAverageSessionFeedback: function(sessionKeyword, callbacks){
-		return this.proxy.getAverageSessionFeedback(sessionKeyword, callbacks);
+		return this.getProxy().getAverageSessionFeedback(sessionKeyword, callbacks);
 	},
 	
 	countFeedback: function(sessionKeyword, callbacks){
-		return this.proxy.countFeedback(sessionKeyword, callbacks);
+		return this.getProxy().countFeedback(sessionKeyword, callbacks);
 	}
 });

@@ -11,8 +11,8 @@
 	     <title>ARSnova</title>
 		 <link rel="shortcut icon" href="favicon.png" type="image/png">
 		 
- 		 <link rel="stylesheet" href="lib/touch-2.1.1/resources/css/sencha-touch.css" type="text/css">
-		 <link rel="stylesheet" href="resources/css/arsnova_new.css" type="text/css">
+ 		<link rel="stylesheet" href="lib/touch-2.1.1/resources/css/sencha-touch.css" type="text/css">
+		<link rel="stylesheet" href="resources/css/st2-arsnova_new.css" type="text/css"> 
 		 
 		<!-- iPhone SPLASHSCREEN-->
         <link href="resources/images/ARSnova_Grafiken/03_Launchimage_320x460px.png" media="(device-width: 320px)" rel="apple-touch-startup-image">
@@ -20,84 +20,20 @@
         <link href="resources/images/ARSnova_Grafiken/03_Launchimage_768x1004px.png" media="(device-width: 768px) and (orientation: portrait)" rel="apple-touch-startup-image">
         <!-- iPad (landscape) SPLASHSCREEN-->
         <link href="resources/images/ARSnova_Grafiken/03_Launchimage_748x1024px.png" media="(device-width: 768px) and (orientation: landscape)" rel="apple-touch-startup-image">
-	  </head>
+	 </head>
 	 <body class="x-fullscreen">
+  
 		 <script type="text/javascript" src="lib/touch-2.1.1/sencha-touch-all-compat.js"></script>
 		 
-		 <script type="text/javascript" src="app/st2-app.js"></script>
-		 <script type="text/javascript" src="app/routes.js"></script>
+		 <script type="text/javascript" src="app/st2-app.js"></script>  
 		 <script type="text/javascript" src="app/internationalization.js"></script>
-		 
 		 <script type="text/javascript" src="app/utils/Ext.util.TaskRunner.js"></script>
 		 <script type="text/javascript" src="app/utils/st2-Ext.plugins.ResizableTextArea.js"></script>
 		 <script type="text/javascript" src="app/utils/Ext.Array.js"></script>
-		 
-		 
-		 <script type="text/javascript" src="app/views/about/aboutPanel.js"></script>
-		 <script type="text/javascript" src="app/views/about/ARSPanel.js"></script>
-		 <script type="text/javascript" src="app/views/about/ARSinLessonPanel.js"></script>
-		 <script type="text/javascript" src="app/views/about/helpCanteenPanel.js"></script>
-		 <script type="text/javascript" src="app/views/about/helpDeskPanel.js"></script>
-		 <script type="text/javascript" src="app/views/about/helpHomePanel.js"></script>
-		 <script type="text/javascript" src="app/views/about/helpFeedbackPanel.js"></script>
-		 <script type="text/javascript" src="app/views/about/helpMainPanel.js"></script>
-		 <script type="text/javascript" src="app/views/about/helpQuestionsPanel.js"></script>
-		 <script type="text/javascript" src="app/views/about/helpVideoPanel.js"></script>
-		 <script type="text/javascript" src="app/views/about/impressumPanel.js"></script>
-		 <script type="text/javascript" src="app/views/about/infoPanel.js"></script>
-		 <script type="text/javascript" src="app/views/about/creditsPanel.js"></script>
-		 <script type="text/javascript" src="app/views/about/sponsorsPanel.js"></script>
-		 <script type="text/javascript" src="app/views/about/openSourceProjectsPanel.js"></script>
-		 <script type="text/javascript" src="app/views/about/socialSoftwarePanel.js"></script>
-		 <script type="text/javascript" src="app/views/about/statisticPanel.js"></script>
-		 <script type="text/javascript" src="app/views/about/tabPanel.js"></script>
-		 <script type="text/javascript" src="app/views/canteen/st2-statisticPanel.js"></script>
-		 <script type="text/javascript" src="app/views/canteen/st2-tabPanel.js"></script>
-		 <script type="text/javascript" src="app/views/canteen/votePanel.js"></script>
-		 <script type="text/javascript" src="app/views/feedback/askPanel.js"></script>
-		 <script type="text/javascript" src="app/views/feedback/statisticPanel.js"></script>
-		 <script type="text/javascript" src="app/views/feedback/tabPanel.js"></script>
-		 <script type="text/javascript" src="app/views/feedback/votePanel.js"></script>
-		 <script type="text/javascript" src="app/views/feedbackQuestions/detailsPanel.js"></script>
-		 <script type="text/javascript" src="app/views/feedbackQuestions/questionsPanel.js"></script>
-		 <script type="text/javascript" src="app/views/feedbackQuestions/tabPanel.js"></script>
-		 <script type="text/javascript" src="app/views/home/st2-homePanel.js"></script>
-		 <script type="text/javascript" src="app/views/home/mySessionsPanel.js"></script>
-		 <script type="text/javascript" src="app/views/home/st2-newSessionPanel.js"></script>
-		 <script type="text/javascript" src="app/views/home/tabPanel.js"></script>
-		 <script type="text/javascript" src="app/views/speaker/audienceQuestionPanel.js"></script>
-		 <script type="text/javascript" src="app/views/speaker/inClass.js"></script>
-		 <script type="text/javascript" src="app/views/speaker/newQuestionPanel.js"></script>
-		 <script type="text/javascript" src="app/views/speaker/questionDetailsPanel.js"></script>
-		 <script type="text/javascript" src="app/views/speaker/questionStatisticChart.js"></script>
-		 <script type="text/javascript" src="app/views/speaker/showcaseQuestionPanel.js"></script>
-		 <script type="text/javascript" src="app/views/speaker/tabPanel.js"></script>
-		 <script type="text/javascript" src="app/views/user/inClass.js"></script>
-		 <script type="text/javascript" src="app/views/user/questionPanel.js"></script>
-		 <script type="text/javascript" src="app/views/user/rankingPanel.js"></script>
-		 <script type="text/javascript" src="app/views/user/tabPanel.js"></script>
-		 
-		 <script type="text/javascript" src="app/views/archive/coursePanel.js"></script>
-		 <script type="text/javascript" src="app/views/archive/questionPanel.js"></script>
-		 <script type="text/javascript" src="app/views/archive/tabPanel.js"></script>
-		 
-		 <script type="text/javascript" src="app/controllers/archive.js"></script>
-		 <script type="text/javascript" src="app/controllers/auth.js"></script>
-		 <script type="text/javascript" src="app/controllers/canteen.js"></script>
-		 <script type="text/javascript" src="app/controllers/lang.js"></script>
-		 <script type="text/javascript" src="app/controllers/questions.js"></script>
-		 <script type="text/javascript" src="app/controllers/ranking.js"></script>
-		 <script type="text/javascript" src="app/controllers/sessions.js"></script>
-		 <script type="text/javascript" src="app/controllers/feedback.js"></script>
-		 <script type="text/javascript" src="app/controllers/user.js"></script>		 
-		 
-		 <script type="text/javascript" src="app/models/restProxy.js"></script>
-		 
-		 <script type="text/javascript" src="app/stores/Food.js"></script>
-	 	 
-	 	 <!-- touch-charts -->
+           
+	 	 <!-- touch-chwhitearts -->
 		 <script type="text/javascript" src="lib/touch-charts-2.0/touch-charts-debug.js"></script>
-		 
+
 		 <script type="text/javascript" src="lib/rsvp.min.js"></script>
 		 <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 		 <!--[if IE]>

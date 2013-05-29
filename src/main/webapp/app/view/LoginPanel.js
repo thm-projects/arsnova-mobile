@@ -34,27 +34,16 @@ Ext.define('ARSnova.view.LoginPanel', {
 	initialize: function() {
 		this.callParent(arguments);
 		
-		this.defaults = {
-			xtype	: 'button',
-			handler	: function(b) {
-				Ext.dispatch({
-					controller	: 'auth',
-					action		: 'login',
-					mode		: b.value
-				});
-			}
-		};
-		
 		var threeButtons = [];
 		if (window.innerWidth > 1000) {
 			threeButtons = [{
 				text	: 'Google',
 				cls		: 'login-buttons google-wide',
-				value	: ARSnova.LOGIN_GOOGLE
+				value	: ARSnova.app.LOGIN_GOOGLE
 			}, {
 				text	: 'THM',
 				cls 	: 'login-buttons thm-login-wide',
-				value	: ARSnova.LOGIN_THM
+				value	: ARSnova.app.LOGIN_THM
 			}, {
 				xtype: 'panel',
 				style: {
@@ -65,11 +54,11 @@ Ext.define('ARSnova.view.LoginPanel', {
 			threeButtons = [{
 				text	: 'Google',
 				cls		: 'login-buttons google',
-				value	: ARSnova.LOGIN_GOOGLE
+				value	: ARSnova.app.LOGIN_GOOGLE
 			}, {
 				text	: 'THM',
 				cls		: 'login-buttons thm-login',
-				value	: ARSnova.LOGIN_THM
+				value	: ARSnova.app.LOGIN_THM
 			}, {
 				xtype: 'panel',
 				style: {
@@ -88,8 +77,13 @@ Ext.define('ARSnova.view.LoginPanel', {
 			text	: Messages.GUEST,
 			style	: { marginTop: '10px'},
 			cls		: 'login-button login-label-guest',
-			value	: ARSnova.LOGIN_GUEST,
-			hidden	: true
+			value	: ARSnova.app.LOGIN_GUEST,
+			hidden	: true,
+			handler	: function(b) {
+				ARSnova.app.getController('Auth').login({
+					mode: b.config.value
+				});
+			}
 		});
 		
 		this.add([{
@@ -103,6 +97,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 			style	: { marginTop: '0px'},
 			html	: Messages.CHOOSE_LOGIN
 		},
+		
 		this.guestLoginButton,
 		{
 			xtype: 'panel',
@@ -112,27 +107,26 @@ Ext.define('ARSnova.view.LoginPanel', {
 			defaults : {
 				xtype	: 'button',
 				handler	: function(b) {
-					Ext.dispatch({
-						controller	: 'auth',
-						action		: 'login',
-						mode		: b.value
+					ARSnova.app.getController('Auth').login({
+						mode: b.config.value
 					});
 				}
 			},
 			items: threeButtons
-		}, {
+		}, 
+		{
 			xtype: 'button',
 			text: Messages.CHANGE_ROLE, 
 			cls: 'backToRole',
 			handler: function(){
-				ARSnova.userRole = "";
-				ARSnova.setWindowTitle();
+				ARSnova.app.userRole = "";
+				ARSnova.app.setWindowTitle();
 				
-				ARSnova.mainTabPanel.tabPanel.setActiveItem(ARSnova.mainTabPanel.tabPanel.rolePanel, {
+				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
 					type: 'slide',
 					direction: 'right',
 					duration: 500
-				});
+				});	
 			}
 		},{
 			xtype	: 'panel',
@@ -141,7 +135,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 		}, this.noGuestSpeaker]);
 		
 		this.on('activate', Ext.bind(function() {
-			if(Ext.app.Application.appInstance.userRole == Ext.app.Application.appInstance.USER_ROLE_SPEAKER && !window.location.href.match(/developer\.html#?$/)) {
+			if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER && !window.location.href.match(/st2-developer\.html#?$/)) {
 				this.guestLoginButton.hide('fade');
 				this.noGuestSpeaker.show('fade');
 			} else {

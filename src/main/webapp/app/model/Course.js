@@ -21,7 +21,8 @@ Ext.define('ARSnova.model.Course', {
 	extend: 'Ext.data.Model',
 	
 	config: {
-		proxy: restProxy,
+		proxy: { type: 'restProxy' },
+		
 		fields: [
 		   	  'id',
 		   	  'fullname',
@@ -31,6 +32,6 @@ Ext.define('ARSnova.model.Course', {
 	},
 	
     getMyCourses: function(callbacks, sortby){
-    	return this.proxy.getMyCourses(callbacks, sortby);
+    	return this.getProxy().getMyCourses(callbacks, sortby);
     },
 });

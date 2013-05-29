@@ -20,7 +20,7 @@ Ext.define('ARSnova.view.MathJaxMessageBox', {
 	extend: 'Ext.MessageBox',
 
 	show: function(config) {
-		ARSnova.views.MathjaxMessageBox.superclass.show.apply(this, arguments);
+		ARSnova.view.MathjaxMessageBox.superclass.show.apply(this, arguments);
 		
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.titleBar.id]);
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.msgEl.id]);
