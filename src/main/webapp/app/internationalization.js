@@ -147,7 +147,6 @@ switch (lang) {
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
 			QUESTIONS_FROM_STUDENTS: "Students' questions",
 			FLASHCARDS: "Flashcards",
-			MY_RANKING: "My ranking",
 			ONE_NEW_QUESTION: 'There is one new question.',
 			WANNA_ANSWER: 'Would you like to answer now?',
 			THERE_ARE: "There are",
@@ -167,11 +166,14 @@ switch (lang) {
 			ALL_LONG: 'All (incl. guest)',
 			ONLY_THM_LONG: 'THM only',
 			RELEASE_FOR: 'Release for:',
+			ABSTENTION: 'Abstention',
+			ABSTENTION_POSSIBLE: 'Abstention possible',
 			MY_COURSES: "My courses:",
 			COULD_NOT_SEARCH: "Could not search courses.",
 			CORRECT_ANSWER: 'Correct answer',
 			YES: "Yes",
 			NO:	"No",
+			NONE: "None",
 			ANSWERS: "Answers",
 			ANSWER: "Answer",
 			COUNT: "Count",
@@ -179,6 +181,7 @@ switch (lang) {
 			CORRECT_PLACEHOLDER: "Correct answer",
 			WRONG: "Wrong",
 			WRONG_PLACEHOLDER: "Wrong answer",
+			OPTION_PLACEHOLDER: "Option",
 			STATISTIC: "Statistics",
 			RELEASE_STATISTIC: "Release statistics",
 			RELEASE_QUESTION: "Release question",
@@ -216,6 +219,7 @@ switch (lang) {
 			SCHOOL_C: "average",
 			SCHOOL_D: "poor",
 			SCHOOL_E: "very poor",
+			SCHOOL_F: "inadequate",
 			SCHOOL_NONE: "abstention",
 			EVALUATION_PLUSPLUS: 	"strongly agree",
 			EVALUATION_PLUS: 		"agree",
@@ -277,11 +281,10 @@ switch (lang) {
 			DEBIAN: "Operating System: Debian",	
 
 			/* misc */
-			BROWSER_NAVIGATION_TITLE: "Note on ARSnova",
-			BROWSER_NAVIGATION: "<center>ARSnova is an HTML5 app.<br>Only use the navigation buttons within the app. <b>Don't</b> use your browser's back or forward buttons.</center>",
 			SUPPORTED_BROWSERES: "ARSnova is best-viewed in a WebKit browser, e.g. Apple Safari or Google Chrome!",
 			NEW_VERSION_TITLE: "New Version",
-			NEW_VERSION_AVAILABLE: "A new version of ARSnova is available. Do you want to update?"
+			NEW_VERSION_AVAILABLE: "A new version of ARSnova is available. Do you want to update?",
+			PRESENTER: "Presenter"
 		};
 	
 		break;
@@ -393,7 +396,6 @@ switch (lang) {
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
 			QUESTIONS_FROM_STUDENTS: "Zwischenfragen",
 			FLASHCARDS: "Lernkartei",
-			MY_RANKING: "Mein Ranking",
 			ONE_NEW_QUESTION: 'Es gibt 1 neue Frage.',
 			WANNA_ANSWER: 'Möchten Sie jetzt antworten?',
 			THERE_ARE: "Es gibt",
@@ -411,7 +413,7 @@ switch (lang) {
 			ALL_SHORT: 'Alle',
 			ONLY_THM_SHORT: 'Nur THM',
 			ALL_LONG: 'Alle (auch Gäste)',
-			ONLY_THM_LONG: 'Nur THM Mitglieder',
+			ONLY_THM_LONG: 'Nur THM-Mitglieder',
 			RELEASE_FOR: 'Freigeben für:',
 			ABSTENTION: 'Enthaltung',
 			ABSTENTION_POSSIBLE: 'Enthaltung möglich',
@@ -420,6 +422,7 @@ switch (lang) {
 			CORRECT_ANSWER: 'Richtige Antwort',
 			YES: "Ja",
 			NO:	"Nein",
+			NONE: "Keines",
 			ANSWERS: "Antworten",
 			ANSWER: "Antwort",
 			COUNT: "Anzahl",
@@ -427,6 +430,7 @@ switch (lang) {
 			CORRECT_PLACEHOLDER: "Richtige Antwort",
 			WRONG: "Falsch",
 			WRONG_PLACEHOLDER: "Falsche Antwort",
+			OPTION_PLACEHOLDER: "Option",
 			STATISTIC: "Statistik",
 			RELEASE_STATISTIC: "Statistik freigeben",
 			RELEASE_QUESTION: "Frage freigeben",
@@ -464,6 +468,7 @@ switch (lang) {
 			SCHOOL_C: "befriedigend",
 			SCHOOL_D: "ausreichend",
 			SCHOOL_E: "mangelhaft",
+			SCHOOL_F: "ungenügend",
 			SCHOOL_NONE: "Enthaltung",
 			EVALUATION_PLUSPLUS: 	"trifft voll zu",
 			EVALUATION_PLUS: 		"trifft eher zu",
@@ -525,11 +530,10 @@ switch (lang) {
 			DEBIAN: "Betriebssystem: Debian",
 			
 			/* misc */
-			BROWSER_NAVIGATION_TITLE: "Hinweis zu ARSnova",
-			BROWSER_NAVIGATION: "<center>ARSnova ist eine HTML5-App.<br>Bitte benutzen Sie nur die Navigationslemente in der App und <b>nicht</b> die Vor- oder Zurück-Buttons Ihres Browsers.</center>",
 			SUPPORTED_BROWSERES: "Für eine korrekte Darstellung von ARSnova benutzen Sie bitte einen WebKit-Browser, z.B. Apple Safari oder Google Chrome!",
 			NEW_VERSION_TITLE: "Neue Version",
-			NEW_VERSION_AVAILABLE: "Eine neue Version von ARSnova ist verfügbar. Möchten Sie aktualisieren?"
+			NEW_VERSION_AVAILABLE: "Eine neue Version von ARSnova ist verfügbar. Möchten Sie aktualisieren?",
+			PRESENTER: "Presenter"
 	};
 	break;
 }

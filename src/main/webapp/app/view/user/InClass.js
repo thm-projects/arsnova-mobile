@@ -30,8 +30,6 @@ Ext.define('ARSnova.view.user.InClass', {
 	inClass			: null,
 	feedbackButton	: null,
 	questionsButton	: null,
-	flashcardButton	: null,
-	rankingButton	: null,
 	quizButton		: null,
 	
 	/**
@@ -124,32 +122,8 @@ Ext.define('ARSnova.view.user.InClass', {
 			handler		: this.buttonClicked
 		});
 		
-		this.flashcardButton = Ext.create('Ext.Button', {
-			ui			: 'normal',
-			text		: Messages.FLASHCARDS,
-			listeners: {
-				click: {
-					element: 'element',
-					fn: function (e) {
-						window.open("http://www.cobocards.com/");
-					}
-				}
-			}
-		});
-		
-		this.rankingButton = Ext.create('Ext.Button', {
-			ui			: 'normal',
-			text		: Messages.MY_RANKING,
-			cls			: 'forwardListButton',
-			badgeCls	: 'rankingText',
-			controller	: 'Ranking',
-			action		: 'index',
-			handler		: this.buttonClicked
-		});
-		
 		this.inClass = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
-			
 			items: [{
 				cls: 'gravure',
 				html: localStorage.getItem("name")
@@ -158,10 +132,9 @@ Ext.define('ARSnova.view.user.InClass', {
 				cls	 : 'standardForm topPadding',
 				scrollable: null,
 				
-				items: [					
+				items: [
 						this.feedbackButton,
-						this.questionButton,
-						this.flashcardButton
+						this.questionButton
 					]
 			}, {
 				xtype: 'fieldset',
@@ -219,7 +192,7 @@ Ext.define('ARSnova.view.user.InClass', {
 					if(newQuestions.length == 1){
 						ARSnova.app.questionModel.getQuestionById(newQuestions[0], {
 							success: function(response){
-								var question = Ext.decode(response.responseText).rows[0].value;
+								var question = Ext.decode(response.responseText);
 								
 								Ext.Msg.confirm(
 									Messages.ONE_NEW_QUESTION, 

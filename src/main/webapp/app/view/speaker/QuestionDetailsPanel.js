@@ -349,6 +349,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 										panel.noFreetextAnswers.show();
 										panel.freetextAnswerList.hide();
 										panel.freetextAnswerStore.removeAll();
+										panel.freetextAbstentions.hide();
 									} else {
 										panel.answerFormFieldset.items.each(function(button){
 											if(button.xtype == 'button')
@@ -609,9 +610,20 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			html: Messages.NO_ANSWERS
 		});
 		
+		this.freetextAbstentions = new Ext.Button({
+			hidden		: true,
+			ui			: 'normal',
+			text		: Messages.ABSTENTION,
+			disabled	: true,
+			cls			: 'answerListButton',
+			badgeText	: '0',
+			badgeCls	: 'badgeicon'
+		});
+		
 		if (this.questionObj.questionType === "freetext") {
 			this.answerFormFieldset.add(this.noFreetextAnswers);
 			this.answerFormFieldset.add(this.freetextAnswerList);
+			this.answerFormFieldset.add(this.freetextAbstentions);
 		}
 		
 		this.answerForm = Ext.create('Ext.form.FormPanel', {
@@ -759,6 +771,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							});
 						});
 						
+						var abstentions = listItems.filter(function(item) {
+							return item.abstention;
+						});
+						var answers = listItems.filter(function(item) {
+							return !item.abstention;
+						});
 						// Have the first answers arrived? Then remove the "no answers" message. 
 						if (!self.noFreetextAnswers.isHidden() && listItems.length > 0) {
 							self.noFreetextAnswers.hide();
@@ -770,7 +788,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						}
 						
 						self.freetextAnswerStore.removeAll();
-						self.freetextAnswerStore.add(listItems);
+						self.freetextAnswerStore.add(answers);
+						self.freetextAbstentions.setBadgeText(abstentions.length);
+						self.freetextAbstentions.setVisible(abstentions.length > 0);
 					},
 					failure: function() {
 						console.log('server-side error');
@@ -788,21 +808,46 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							tmp_possibleAnswers.push(el.text);
 						}
 						
-						for (var i = 0, el; el = answers[i]; i++) {
-							var field = "button[text=" + el.answerText + "]";
-							panel.answerFormFieldset.down(field).setBadgeText(el.answerCount);
+						if (panel.questionObj.questionType === "mc") {
+							var mcAnswerCount = [];
+							for (var i = 0, el; el = answers[i]; i++) {
+								var values = el.answerText.split(",").map(function(answered) {
+									return parseInt(answered, 10);
+								});
+								if (values.length !== panel.questionObj.possibleAnswers.length) {
+									return;
+								}
+								
+								for (var j=0; j < el.answerCount; j++) {
+									values.forEach(function(selected, index) {
+										if (typeof mcAnswerCount[index] === "undefined") {
+											mcAnswerCount[index] = 0;
+										}
+										if (selected === 1) {
+											mcAnswerCount[index] += 1;
+										}
+									});
+								}
+								panel.answerFormFieldset.query('button').forEach(function(button, index) {
+									button.setBadgeText(mcAnswerCount[index]+'');
+								});
+							}
+						} else {
+							for (var i = 0, el; el = answers[i]; i++) {
+								var field = "button[text=" + el.answerText + "]";
+								panel.answerFormFieldset.down(field).setBadgeText(el.answerCount);
+								
+								var idx = tmp_possibleAnswers.indexOf(el.answerText); // Find the index
+								if(idx!=-1) tmp_possibleAnswers.splice(idx, 1); // Remove it if really found!
+							}
 							
-							var idx = tmp_possibleAnswers.indexOf(el.answerText); // Find the index
-							if(idx!=-1) tmp_possibleAnswers.splice(idx, 1); // Remove it if really found!
+							for ( var i = 0; i < tmp_possibleAnswers.length; i++){
+								var el = tmp_possibleAnswers[i];
+								
+								var field = "button[text=" + el + "]";
+								panel.answerFormFieldset.down(field).setBadgeText('0');
+							}
 						}
-						
-						for ( var i = 0; i < tmp_possibleAnswers.length; i++){
-							var el = tmp_possibleAnswers[i];
-							
-							var field = "button[text=" + el + "]";
-							panel.answerFormFieldset.down(field).setBadgeText('0');
-						}
-						
 					},
 					failure: function(){
 						console.log('server-side error');

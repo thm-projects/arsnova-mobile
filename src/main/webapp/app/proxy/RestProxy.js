@@ -226,13 +226,9 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	getQuestionById: function(id, callbacks){
+	getQuestionById: function(id, callbacks) {
 		Ext.Ajax.request({
-			url: this.config.url + '/_design/skill_question/_view/by_id',
-			method: 'GET',
-			params: {
-				key: "\"" + id + "\""
-			},
+			url: "lecturerquestion/" + id,
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -383,6 +379,21 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 	
+	createSession: function(session, callbacks) {
+		Ext.Ajax.request({
+			url: "session/",
+			method: "POST",
+			jsonData: {
+				"name": session.get("name"),
+				"shortName": session.get("shortName"),
+				"courseId":  session.get("courseId") ? session.get("courseId") : null,
+				"courseType": session.get("courseType") ? session.get("courseType") : null
+			},
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
 	delQuestion: function(queObj, callbacks){
 		Ext.Ajax.request({
 			url: "lecturerquestion/" + queObj._id,
@@ -400,66 +411,15 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-    
-    delSession: function(sessionId, creator, callbacks){
-    	Ext.ModelMgr.getModel("ARSnova.model.Session").load(sessionId, {
-    		success: function(record, operation) {
-    			var sessionObj = Ext.create('ARSnova.model.Session', Ext.decode(operation.getResponse().responseText));
-    			if(sessionObj.data.creator != creator){
-    				console.log('unauthorized');
-    				return;
-    			}
-		    	ARSnova.app.restProxy.getSkillQuestionsForDelete(sessionId, {
-		    		success: function(response){
-		    			var skillQuestions = Ext.decode(response.responseText).rows;
-		    			if (skillQuestions.length > 0) {
-							for ( var i = 0; i < skillQuestions.length; i++) {
-								skillQuestion = skillQuestions[i];
-								ARSnova.app.restProxy.delQuestion(skillQuestion.value, {
-									success: function(){}, //nothing to do
-									failure: function(){} //nothing to do
-								});
-							}
-						}
-						ARSnova.app.restProxy.removeEntry(sessionObj.data._id, sessionObj.data._rev, callbacks);
-					}
-				});
-    		},
-    		failure: function(){console.log('failure');}
-    	});
-    },
-    
-//    delLoggedIn: function(callbacks){
-//    	Ext.Ajax.request({
-//    		url: this.config.url + '/_design/logged_in/_view/all',
-//    		method: 'GET',
-//    		
-//    		success: function(response){
-//    			var resRows = Ext.decode(response.responseText).rows;
-//    			if (resRows.length > 0) {
-//					for ( var i = 0; i < resRows.length; i++) {
-//						el = resRows[i];
-//						console.log(el.value);
-//						ARSnova.app.restProxy.removeEntry(el.id, el.value._rev, callbacks);
-//					}
-//				}
-//    		},
-//    	})
-//    },
-    
-    getSkillQuestionsForDelete: function(sessionId, callbacks){
-    	Ext.Ajax.request({
-    		url: this.config.url + '/_design/skill_question/_view/for_delete',
-    		method: 'GET',
-    		
-    		params: {
-    			key: "\"" + sessionId + "\""
-    		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
+	
+	delSession: function(sessionKeyword, callbacks){
+		Ext.Ajax.request({
+			url: "session/" + sessionKeyword,
+			method: "DELETE",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
 	
 	getAnswerByUserAndSession: function(sessionKeyword, callbacks){
 		Ext.Ajax.request({
@@ -519,33 +479,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-	
-    getSkillQuestionsOnlyId: function(sessionId, callbacks){
-    	var requestUrl = this.config.url;
-    	
-    	switch(ARSnova.app.loginMode){
-    		case ARSnova.app.LOGIN_GUEST:
-    			requestUrl += '/_design/skill_question/_view/by_session_only_id_for_all';
-    			break;
-    		case ARSnova.app.LOGIN_THM:
-    			requestUrl += '/_design/skill_question/_view/by_session_only_id_for_thm';
-    			break;
-			default:
-				requestUrl += '/_design/skill_question/_view/by_session_only_id_for_all';
-				break;
-    	}
-    	
-    	Ext.Ajax.request({
-    		url: requestUrl,
-    		method: 'GET',
-    		params: {
-    			key: "\"" + sessionId + "\""
-    		},
-    		
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
 
 	getUserAnswer: function(questionId, callbacks) {
 		Ext.Ajax.request({
@@ -621,74 +554,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-    
-    /**
-     * Remove all feedback votes older than 'timeLimit'
-     * default: 10 minutes
-     */
-    cleanSessionFeedback: function() {
-    	var timeLimit = 10; //min
-    	var time = new Date().getTime() - (timeLimit * 60 * 1000);
-    	
-    	Ext.Ajax.request({
-    		url: this.config.url + '/_design/understanding/_view/cleanup',
-    		method: 'GET',
-    		params: {
-    			startkey: "null",
-    			endkey	: time
-    		},
 
-    		success: function(response){
-    			var responseObj = Ext.decode(response.responseText).rows;
-    			if (responseObj.length > 0){
-    				for ( var i = 0; i < responseObj.length; i++) {
-						var el = responseObj[i];
-						ARSnova.app.restProxy.removeEntry(el.id, el.value, {
-							success: function(){},
-							failure: function(){console.log('error - clean session feedback');}
-						});
-					}
-    			}
-    		},
-    		failure: function(){
-    			console.log('server-side error cleanSessionFeedback');
-    		}
-    	});
-    },
-    
-//    cleanLoggedIn: function() {
-//    	Ext.Ajax.request({
-//    		url: this.config.url + '/_design/logged_in/_view/cleanup',
-//    		method: 'GET',
-//
-//    		success: function(response){
-//    			var responseObj = Ext.decode(response.responseText).rows;
-//    			if (responseObj.length > 0){
-//    				for ( var i = 0; i < responseObj.length; i++) {
-//						var el = responseObj[i];
-//						ARSnova.app.restProxy.removeEntry(el.id, el.value, {
-//							success: function(){},
-//							failure: function(){console.log('error - clean logged in')},
-//						});
-//					}
-//    			}
-//    		},
-//    		failure: function(){
-//    			console.log('server-side error cleanLoggedIn');
-//    		}
-//    	})
-//    },
-    
-    removeEntry: function(id, rev, callbacks){
-    	Ext.Ajax.request({
-    		url: this.config.url + '/' + id + '?rev=' + rev,
-    		method: 'DELETE',
-    		
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
-    
 	getUserFeedback: function(sessionKeyword, callbacks) {
 		Ext.Ajax.request({
 			url: "session/" + sessionKeyword + "/myfeedback",
@@ -732,69 +598,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-    
-    getUserRanking: function(sessionId, userLogin, callbacks) {
-    	Ext.Ajax.request({
-    		url: this.config.url + '/_design/user_ranking/_view/by_session_and_user',
-    		method: 'GET',
-    		params: {
-    			key: "[\"" + sessionId + "\", \"" + userLogin + "\"]"
-    		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
-    
-    getUserRankingStatistic: function(sessionId, userLogin, callbacks) {
-    	Ext.Ajax.request({
-    		url: this.config.url + '/_design/user_ranking/_view/count_by_session_and_user',
-    		method: 'GET',
-    		params: {
-    			key: "[\"" + sessionId + "\", \"" + userLogin + "\"]"
-    		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
-    
-    getSessionRankingStatistic: function(sessionId, callbacks) {
-    	Ext.Ajax.request({
-    		url: this.config.url + '/_design/user_ranking/_view/count_by_session',
-    		method: 'GET',
-    		params: {
-    			key: "\"" + sessionId + "\""
-    		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
-    
-    getSessionIds: function(callbacks) {
-    	Ext.Ajax.request({
-    		url: this.config.url + '/_design/session/_view/getIds',
-    		method: 'GET',
-
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
-
-    getSession: function(sessionId, callbacks) {
-    	Ext.Ajax.request({
-    		url: this.config.url + '/_design/session/_view/by_id',
-    		method: 'GET',
-    		
-    		params: {
-    			key: "\"" + sessionId + "\""
-    		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
 	
 	isActive: function(sessionKeyword, callbacks) {
 		Ext.Ajax.request({
@@ -945,17 +748,5 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			},
 			failure: callbacks.failure
 		});
-	},
-    
-    releasedByCourseId: function(courseId, callbacks){
-    	Ext.Ajax.request({
-    		url: this.config.url + '/_design/skill_question/_view/released_by_course_id',
-    		method: 'GET',
-    		params: {
-    			key: "\"" + courseId + "\""
-    		},
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    }
+	}
 });

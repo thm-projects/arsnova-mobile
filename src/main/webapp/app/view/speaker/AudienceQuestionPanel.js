@@ -152,6 +152,14 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			handler	: this.newQuestionHandler
 		});
 		
+		this.presenterButton = Ext.create('Ext.Button', {
+			cls		: "thm",
+			text	: Messages.PRESENTER,
+			hidden	: true,
+			scope	: this,
+			handler	: this.presenterHandler
+		});
+		
 		this.showcaseButton = Ext.create('Ext.Button', {
 			cls		: "thm",
 			text	: Messages.SHOWCASE,
@@ -173,6 +181,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			items: [
 		        this.backButton,
 		        {xtype: 'spacer'},
+		        this.presenterButton,
 		        this.showcaseButton,
 		        this.addButton
 			]
@@ -233,16 +242,26 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	 * Displays the showcase button if enough screen width is available
 	 */
 	displayShowcaseButton: function() {
-		if (window.innerWidth >= 480) {
+		/* iPad does not swap screen width and height values in landscape orientation */
+		if (screen.availWidth >= 980 || screen.availHeight >= 980) {
+			this.showcaseButton.hide();
+			this.presenterButton.show();
+		} else if (window.innerWidth >= 480) {
 			this.showcaseButton.show();
+			this.presenterButton.hide();
 		} else {
 			this.showcaseButton.hide();
+			this.presenterButton.hide();
 		}
 	},
 	
 	newQuestionHandler: function(){
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.animateActiveItem(sTP.newQuestionPanel, 'slide');
+	},
+	
+	presenterHandler: function() {
+		window.open(ARSnova.PRESENTER_URL + "#!/" + localStorage.getItem('keyword'), "_self");
 	},
 	
 	showcaseHandler: function() {

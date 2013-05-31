@@ -119,6 +119,16 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			}
 		});
 		
+		this.freetextAbstentions = new Ext.Button({
+			hidden		: true,
+			ui			: 'normal',
+			text		: Messages.ABSTENTION,
+			disabled	: true,
+			cls			: 'answerListButton',
+			badgeText	: '0',
+			badgeCls	: 'badgeicon'
+		});
+		
 		this.add([this.toolbar,
 		    this.freetextAnswerList,
 			this.noFreetextAnswers
@@ -147,7 +157,12 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				});
 				
 				var self = ARSnova.app.mainTabPanel._activeItem;
-
+				var abstentions = listItems.filter(function(item) {
+					return item.abstention;
+				});
+				var answers = listItems.filter(function(item) {
+					return !item.abstention;
+				});
 				// Have the first answers arrived? Then remove the "no answers" message. 
 				if (!self.noFreetextAnswers.isHidden() && listItems.length > 0) {
 					self.noFreetextAnswers.hide();
@@ -157,7 +172,9 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				}
 				
 				self.freetextAnswerStore.removeAll();
-				self.freetextAnswerStore.add(listItems);
+				self.freetextAnswerStore.add(answers);
+				self.freetextAbstentions.setBadge(abstentions.length);
+				self.freetextAbstentions.setVisible(abstentions.length > 0);
 			},
 			failure: function() {
 				console.log('server-side error');

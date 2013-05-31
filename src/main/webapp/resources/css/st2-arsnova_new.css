@@ -560,12 +560,6 @@ body {
 	background: -webkit-linear-gradient(top, rgba(23, 35, 128, .7) 0%, rgba(23, 35, 128, 1) 100%);
 }
 
-.rankingText {
-	font-size: 17px;
-	color: rgb(77, 83, 119);
-	margin-right: 25px;
-}
-
 .inOutClassLabel {
 	padding: 0.5em 1em 0 1em;
 }
@@ -738,40 +732,6 @@ body {
 .logoutButton {
 	width: 300px;
 	margin: 1em auto;
-}
-
-/* rankingPanel */
-table.ranking {
-	margin: 0pt auto;
-	width: 200px;
-}
-
-table.ranking caption {
-	background-color: #6688AA;
-	text-align: center;
-	font-family: Arial, Verdana, sans-serif;
-	font-weight: normal;
-	font-size: 0.7em; /* Textformatierung */
-	color: #FFFFFF;
-	padding: 3px 0 3px 0;
-}
-
-table.ranking thead th {
-	font: bold 0.7em Arial, Verdana, sans-serif;
-	padding: 3px 10px;
-	background-color: #DDEEFF;
-	border: 1px solid #FFFFFF;
-	text-align: center;
-	color: #4E6C8D;
-}
-
-table.ranking td {
-	font: normal 0.7em Arial, Verdana, sans-serif;
-	padding: 5px 5px;
-	background-color: #CCDDEE;
-	border: 1px solid #FFFFFF;
-	line-height: 130%;
-	text-align: center;
 }
 
 /* statisticPanel */
@@ -961,7 +921,7 @@ ol.standardList li {
 }
 
 .abcdOptions .x-button {
-	width: 25%;
+	width: 20%;
 }
 
 .yesnoOptions {

@@ -32,7 +32,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	inClassItems			: null,
 	audienceQuestionButton	: null,
 	questionsFromUserButton	: null,
-	flashcardButton			: null,
 	quizButton			 	: null,
 		
 	inClassActions: null,
@@ -109,19 +108,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			handler		: this.buttonClicked
 		});
 		
-		this.flashcardButton = Ext.create('Ext.Button', {
-			ui			: 'normal',
-			text		: Messages.FLASHCARDS,
-			listeners: {
-				click: {
-					element: 'element',
-					fn: function (e) {
-						window.open("http://www.cobocards.com/");
-					}
-				}
-			}
-		});
-		
 		this.inClassItems = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			
@@ -135,8 +121,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				
 				items: [
 					this.audienceQuestionButton,
-					this.feedbackQuestionButton,
-					this.flashcardButton
+					this.feedbackQuestionButton
 				]
 			}, {
 				xtype: 'fieldset',
@@ -177,7 +162,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 					Ext.Msg.confirm(Messages.DELETE_SESSION, msg, function(answer){
 						if (answer == 'yes') {
 							ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_DELETE);
-							ARSnova.app.sessionModel.destroy(localStorage.getItem('sessionId'), localStorage.getItem('login'), {
+							ARSnova.app.sessionModel.destroy(localStorage.getItem('keyword'), {
 								success: function(){
 									ARSnova.app.removeVisitedSession(localStorage.getItem('sessionId'));
 									ARSnova.app.mainTabPanel.tabPanel.on('activeitemchange', function(){

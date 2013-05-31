@@ -58,7 +58,7 @@ Ext.define('ARSnova.view.RolePanel', {
 			cls		: 'login-button role-label-speaker',
 			value	: ARSnova.app.USER_ROLE_SPEAKER
 		}, {
-			/* TODO: i18n */
+			// TODO: i18n
 			text	: "Was ist ARSnova?",
 			ui		: 'small',
 			style	: { marginLeft: '30%', marginRight: "30%" },
@@ -69,7 +69,8 @@ Ext.define('ARSnova.view.RolePanel', {
 						window.open("http://blog.mni.thm.de/arsnova/", "_blank");
 					}
 				}
-			}
+			},
+			handler: function() { /* NOP */ }
 		}, {
 			xtype	: 'panel',
 			style	: { marginTop: '30px'},

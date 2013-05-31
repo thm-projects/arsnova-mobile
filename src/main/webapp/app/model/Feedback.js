@@ -25,8 +25,23 @@ Ext.define('ARSnova.model.Feedback', {
 		proxy: { type: 'restProxy' }
 	},
 	
-	getSessionFeedback: function(sessionKeyword, callbacks){
-		return this.getProxy().getSessionFeedback(sessionKeyword, callbacks);
+	currentValues: [0, 0, 0, 0],
+	currentAverage: null,
+	
+	constructor: function() {
+		this.callParent(arguments);
+		
+		ARSnova.app.socket.addListener("arsnova/session/feedback/update", function(values) {
+			this.currentValues = values;
+		}, this);
+		
+		ARSnova.app.socket.addListener("arsnova/session/feedback/average", function(average) {
+			this.currentAverage = average;
+		}, this);
+	},
+	
+	getSessionFeedback: function(sessionKeyword, callbacks) {
+		return callbacks.success(this.currentValues);
 	},
 	
 	getUserFeedback: function(sessionKeyword, callbacks){
@@ -38,7 +53,7 @@ Ext.define('ARSnova.model.Feedback', {
 	},
 	
 	getAverageSessionFeedback: function(sessionKeyword, callbacks){
-		return this.getProxy().getAverageSessionFeedback(sessionKeyword, callbacks);
+		return callbacks.success(this.currentAverage);
 	},
 	
 	countFeedback: function(sessionKeyword, callbacks){

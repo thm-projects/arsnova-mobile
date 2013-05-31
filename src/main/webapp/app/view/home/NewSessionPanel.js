@@ -46,30 +46,17 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			model: 'ARSnova.model.Course'
 		});
 
-		var itemTemplate = '<span class="course">{shortname}<span>';
-
-		if (window.innerWidth > 321) {
-			itemTemplate = '<span class="course">{fullname}<span>';
-		}
-
 		this.mycourses = Ext.create('Ext.List', {
 			store: this.mycoursesStore,
-			itemTpl: itemTemplate,
+			itemTpl: window.innerWidth > 321
+						? '<span class="course">{fullname}<span>'
+						: '<span class="course">{shortname}<span>',
 			listeners: {
 				itemTap: Ext.bind(this.onCourseSubmit, this)
 			}
 		});
 		
 		this.mycourses.setScrollable(null);
-		
-		// check responseText
-		if(typeof arguments !== 'undefined') {
-			if(typeof arguments.responseText !== 'undefined') {
-				var course = Ext.decode(arguments.responseText);
-			}
-		} else {
-			var course = new Array();
-		}
 		
 		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.SESSIONS,
@@ -93,12 +80,6 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			]
 		});
 		
-		this.sessionIdField = Ext.create('Ext.form.Text', {
-            name		: 'keyword',
-            label		: 'Session-ID',
-            disabled	: true
-        });
-		
 		this.add([this.toolbar, {
 			title: 'createSession',
 			style: { margin: '15px' },
@@ -109,7 +90,6 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			
 			items: [{
 	            xtype: 'fieldset',
-	            instructions: Messages.SESSIONID_WILL_BE_CREATED,
 	            items: [{
 	                xtype		: 'textfield',
 	                name		: 'name',
@@ -117,7 +97,6 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 	                placeHolder	: Messages.SESSION_NAME_PLACEHOLDER,
 	                maxLength	: 50,
 	                clearIcon	: true,
-	                value		: course.name
 	            }, {
 	                xtype		: 'textfield',
 	                name		: 'shortName',
@@ -125,13 +104,8 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 	                placeHolder	: Messages.SESSION_SHORT_NAME_PLACEHOLDER,
 	                maxLength	: 8,
 	                clearIcon	: true,
-	                value		: course.shortName
 	            }]
 			}, {
-            	xtype		: 'textfield',
-            	name		: 'keyword',
-            	hidden 		: true
-            }, {
 				xtype: 'button',
 				cls  : 'centerButton',
 				ui: 'confirm',
@@ -147,8 +121,6 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			this.getSessionIds();
 			this.getMyCourses();
 		}, this, null, 'before');
-		
-		this.on('activate', function() { this.generateNewSessionId(); });
 	},
 
 	onSubmit: function() {
@@ -156,8 +128,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		
 		ARSnova.app.getController('Sessions').create({
 			name		: values.name,
-			shortName	: values.shortName,
-			keyword		: values.keyword
+			shortName	: values.shortName
 		});
 	},
 
@@ -174,44 +145,8 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			name		: course.fullname,
 			shortName	: shortName,
 			courseId	: course.id,
-			courseType	: course.type,
-			keyword		: this.sessionKey
+			courseType	: course.type
 		});
-	},
-	
-	getSessionIds: function(){
-		if(this.unavailableSessionIds.length == 0){
-			ARSnova.app.sessionModel.getSessionIds({
-				success: function(response){
-					var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel;
-					var res = Ext.decode(response.responseText).rows;
-					res.forEach(function(el){
-						panel.unavailableSessionIds.push(el.key);
-					});
-				},
-				failure: function(){
-					console.log('server-side error');
-				}
-			});
-		}
-	},
-	
-	generateNewSessionId: function(){
-		var sessionIdInUse = false;
-		/* don't use do-while-loop because of the risk of an endless loop */
-		for ( var i = 0; i < 10000; i++) {
-			var sessionId = Math.floor(Math.random()*100000001) + "";
-			if (sessionId.length == 8) {
-				var idx = this.unavailableSessionIds.indexOf(sessionId); // Find the index
-				if(idx != -1) sessionIdInUse = true;
-				else break;
-			} else {
-				sessionIdInUse = true; // accept only 8-digits sessionIds
-			}
-		}
-		this.sessionKey = sessionId;
-		this.down("textfield[name=keyword]").setValue(sessionId);
-		this.down('fieldset').setInstructions("Session-ID: " + ARSnova.app.formatSessionID(sessionId));
 	},
 
 	getMyCourses: function() {
@@ -228,7 +163,6 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				}
 			}, this),
 			empty: Ext.bind(function() {
-				this.sessionsForm.hide();
 				ARSnova.app.hideLoadMask();
 			}, this),
 			unauthenticated: function() {

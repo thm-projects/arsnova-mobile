@@ -319,6 +319,11 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				var maxValue = 10;
 				
 				var tmp_possibleAnswers = [];
+				for ( var i = 0; i < tmp_possibleAnswers.length; i++) {
+					var el = tmp_possibleAnswers[i];
+					var record = store.findRecord('text', el, 0, false, true, true);
+					record.data.value = 0;
+				}
 				
 				for ( var i = 0; i < panel.questionObj.possibleAnswers.length; i++) {
 					var el = panel.questionObj.possibleAnswers[i];
@@ -328,10 +333,33 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 						tmp_possibleAnswers.push(el.text);
 				}
 				
+				var mcAnswerCount = [];
 				for ( var i = 0, el; el = answers[i]; i++) {
-					var record = store.findRecord('text', el.answerText, 0, false, true, true); //exact match
-
-					record.data.value = el.answerCount;
+					if (panel.questionObj.questionType === "mc") {
+						var values = el.answerText.split(",").map(function(answered) {
+							return parseInt(answered, 10);
+						});
+						if (values.length !== panel.questionObj.possibleAnswers.length) {
+							return;
+						}
+						
+						for (var j=0; j < el.answerCount; j++) {
+							values.forEach(function(selected, index) {
+								if (typeof mcAnswerCount[index] === "undefined") {
+									mcAnswerCount[index] = 0;
+								}
+								if (selected === 1) {
+									mcAnswerCount[index] += 1;
+								}
+							});
+						}
+						store.each(function(record, index) {
+							record.set("value", mcAnswerCount[index]);
+						});
+					} else {
+						var record = store.findRecord('text', el.answerText, 0, false, true, true); //exact match
+						record.data.value = el.answerCount;
+					}
 					sum += el.answerCount;
 					
 					if (el.answerCount > maxValue) {
@@ -340,11 +368,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					
 					var idx = tmp_possibleAnswers.indexOf(el.answerText); // Find the index
 					if(idx!=-1) tmp_possibleAnswers.splice(idx, 1); // Remove it if really found!
-				}
-				for ( var i = 0; i < tmp_possibleAnswers.length; i++) {
-					var el = tmp_possibleAnswers[i];
-					var record = store.findRecord('text', el, 0, false, true, true);
-					record.data.value = 0;
 				}
 				
 				// Calculate percentages

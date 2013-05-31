@@ -50,12 +50,10 @@ Ext.define("ARSnova.controller.Sessions", {
     	    	localStorage.setItem('name', obj.name);
     	    	localStorage.setItem('keyword', obj.keyword);
     	    	localStorage.setItem('shortName', obj.shortName);
-    	    	localStorage.setItem('courseId', obj.courseId);
-    	    	localStorage.setItem('courseType', obj.courseType);
-    	    	localStorage.setItem('active', obj.active ? 1 : 0);
+				localStorage.setItem('courseId', obj.courseId === null ? "" : obj.courseId);
+				localStorage.setItem('courseType', obj.courseType === null ? "" : obj.courseType);
+				localStorage.setItem('active', obj.active ? 1 : 0);
     	    	
-    	    	//start feedback-votes-cleaning-up-task
-    	    	taskManager.start(ARSnova.app.cleanFeedbackVotes);
     	    	//start task to update the feedback tab in tabBar
     	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateFeedbackTask);
     	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
@@ -78,8 +76,6 @@ Ext.define("ARSnova.controller.Sessions", {
 		if (localStorage.getItem('user has voted'))
 			localStorage.removeItem('user has voted');
 		
-		//stop feedback-votes-cleaning-up-task
-    	taskManager.stop(ARSnova.app.cleanFeedbackVotes);
     	//stop task to update the feedback tab in tabBar
     	taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateFeedbackTask);
     	//online counter badge
@@ -132,10 +128,8 @@ Ext.define("ARSnova.controller.Sessions", {
 	},
 	
 	reloadData: function(){
-		/* hide homeTabPanel and archivePanel */
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 		tabPanel.homeTabPanel.tab.hide();
-//		tabPanel.archiveTabPanel.tab.hide();
 
 		if(ARSnova.app.isSessionOwner){
 			/* add speaker in class panel */
@@ -216,6 +210,13 @@ Ext.define("ARSnova.controller.Sessions", {
 				type: 'slide',
 				duration: 700
 			});
+			if (localStorage.getItem("ARSnovaCon") === "true") {
+				localStorage.removeItem("ARSnovaCon");
+				tabPanel.setActiveItem(tabPanel.userQuestionsPanel, {
+					type: 'slide',
+					duration: 700
+				});
+			}
 		}
 	},
 	
@@ -224,9 +225,7 @@ Ext.define("ARSnova.controller.Sessions", {
 			type	 : 'session',
 			name	 : options.name, 
 			shortName: options.shortName,
-			keyword	 : options.keyword,
 			creator	 : localStorage.getItem('login'),
-			active	 : 1,
 			courseId : options.courseId,
 			courseType:options.courseType 
 		});
@@ -248,14 +247,15 @@ Ext.define("ARSnova.controller.Sessions", {
 		
 		session.save({
 			success: function(response){
-    	  		localStorage.setItem('sessionId', response.id);
-    	    	localStorage.setItem('name', session.data.name);
-    	    	localStorage.setItem('keyword', session.data.keyword);
-    	    	localStorage.setItem('shortName', session.data.shortName);
-    	    	localStorage.setItem('active', session.data.active);
-    	    	localStorage.setItem('courseId', session.data.courseId);
-    	    	localStorage.setItem('courseType', session.data.courseType);
-    	    	ARSnova.app.isSessionOwner = true;
+				var fullSession = Ext.decode(response.responseText);
+				localStorage.setItem('sessionId', fullSession._id);
+				localStorage.setItem('name', fullSession.name);
+				localStorage.setItem('keyword', fullSession.keyword);
+				localStorage.setItem('shortName', fullSession.shortName);
+				localStorage.setItem('active', fullSession.active ? 1 : 0);
+				localStorage.setItem('courseId', fullSession.courseId === null ? "" : fullSession.courseId);
+				localStorage.setItem('courseType', fullSession.courseType === null ? "" : fullSession.courseType);
+				ARSnova.isSessionOwner = true;
     	    	
     	    	//start feedback-votes-cleaning-up-task
     	    	taskManager.start(ARSnova.app.cleanFeedbackVotes);

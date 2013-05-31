@@ -92,15 +92,13 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		
 		if(window.innerWidth < 600) {
 			this.releaseItems = [
-                 { text	: Messages.ALL_SHORT, id: 'all', pressed: true}, 
-                 { text	: Messages.ONLY_THM_SHORT, id: 'thm',},
-//                 { text	: "Kurse", id: 'courses', }
+                 { text	: Messages.ALL_SHORT, id: 'all', pressed: true},
+                 { text	: Messages.ONLY_THM_SHORT, id: 'thm',}
              ]
 		} else {
 			this.releaseItems = [
-                 { text	: Messages.ALL_LONG, id: 'all', pressed: true}, 
-                 { text	: Messages.ONLY_THM_LONG, id: 'thm' },
-//                 { text	: "Kurse", id: 'courses', }
+                 { text	: Messages.ALL_LONG, id: 'all', pressed: true},
+                 { text	: Messages.ONLY_THM_LONG, id: 'thm' }
              ]
 		}
 		
@@ -210,15 +208,25 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				title: Messages.CORRECT_ANSWER,
 	            items: [{
             		xtype: 'segmentedbutton',
-            		cls: 'yesnoOptions',
+            		style: {
+            			maxWidth: '500px',
+            			width: '80%',
+            			margin: 'auto'
+            		},
+            		defaults: {
+            			style: 'width: 33%'
+            		},
             		items: [
-        		        { text	: Messages.YES, pressed: true }, 
-        		        { text	: Messages.NO }
+        		        { text	: Messages.YES, id: "yesnoYesCorrect", pressed: true }, 
+        		        { text	: Messages.NO, id: "yesnoNoCorrect", },
+        		        { text	: Messages.NONE, id: "yesnoNoneCorrect" }
             		],
             	}],
 			}],
 		});
 		
+		var mcNumAnswersMaxValue = 6;
+		var mcNumAnswersStartValue = 4;
 		this.multipleChoiceQuestion = Ext.create('Ext.form.FormPanel', {
 			id: 'mc',
 			hidden: true,
@@ -228,86 +236,61 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			
 			items: [{
             	xtype: 'fieldset',
+            	id: 'mcAnswerFieldset',
             	title: Messages.ANSWERS,
             	items: [
         	        {
 	            		xtype	: "spinnerfield",
 	            		name	: 'countAnswers',
 	                	label	: Messages.COUNT,
-	            		minValue: 3,
-	            		maxValue: 6,
+	            		minValue: 2,
+	            		maxValue: mcNumAnswersMaxValue,
 	            		stepValue: 1,
-	            		value: 4,
+	            		value: mcNumAnswersStartValue,
 	            		listeners: {
-	                		spin: function(selectField, value){
-	                			switch (value){
-	    							case 3:
-	    								Ext.getCmp("wrongAnswer3").hide();
-	    								Ext.getCmp("wrongAnswer4").hide();
-	    								Ext.getCmp("wrongAnswer5").hide();
-	    								break;
-	    							case 4:
-	    								Ext.getCmp("wrongAnswer3").show();
-	    								Ext.getCmp("wrongAnswer4").hide();
-	    								Ext.getCmp("wrongAnswer5").hide();
-	    								break;
-	    							case 5:
-	    								Ext.getCmp("wrongAnswer3").show();
-	    								Ext.getCmp("wrongAnswer4").show();
-	    								Ext.getCmp("wrongAnswer5").hide();
-	    								break;
-	    							case 6:
-	    								Ext.getCmp("wrongAnswer3").show();
-	    								Ext.getCmp("wrongAnswer4").show();
-	    								Ext.getCmp("wrongAnswer5").show();
-	    								break;
-	    							default:
-	    								break;
-	    						}
+	                		spin: function(selectField, value) {
+	                			var answerOption, answerOptionCorrect;
+	                			for (var i=1; i <= mcNumAnswersMaxValue; i++) {
+	                				answerOption = Ext.getCmp("answerOption" + i);
+	                				answerOptionCorrect = Ext.getCmp("answerOptionCorrect" + i);
+	                				answerOption.setHidden(i > value);
+	                				answerOptionCorrect.setHidden(i > value);
+	                			}
 	                		}
 	                	}
-	                }, {
-						xtype	: 'textfield',
-						id		: 'correctAnswer',
-					    name	: 'correctAnswer',
-						label	: Messages.CORRECT,
-						placeHolder: Messages.CORRECT_PLACEHOLDER,
-					}, {
-						xtype	: 'textfield',
-						id		: 'wrongAnswer1',
-						name	: 'wrongAnswer1',
-						label	: Messages.WRONG,
-						placeHolder: Messages.WRONG_PLACEHOLDER,
-					}, {
-						xtype	: 'textfield',
-						id		: 'wrongAnswer2',
-						name	: 'wrongAnswer2',
-					    label	: Messages.WRONG,
-					    placeHolder: Messages.WRONG_PLACEHOLDER,
-					}, {
-						xtype	: 'textfield',
-						id		: 'wrongAnswer3',
-						name	: 'wrongAnswer3',
-					    label	: Messages.WRONG,
-					    placeHolder: Messages.WRONG_PLACEHOLDER,
-					}, {
-						xtype	: 'textfield',
-						id		: 'wrongAnswer4',
-						name	: 'wrongAnswer4',
-					    label	: Messages.WRONG,
-					    placeHolder: Messages.WRONG_PLACEHOLDER,
-					    hidden	: true,
-					}, {
-						xtype	: 'textfield',
-						id		: 'wrongAnswer5',
-						name	: 'wrongAnswer5',
-					    label	: Messages.WRONG,
-					    placeHolder: Messages.WRONG_PLACEHOLDER,
-					    hidden	: true,
-					}
+	                }
     	        ]
 			}],
 		});
+		this.multipleChoiceCorrectQuestions = Ext.create('Ext.form.FormPanel', {
+			id: 'mcCorrect',
+			hidden: true,
+			scrollable: null,
+			submitOnAction: false,
+			style: { marginLeft: '20px', marginRight: '20px'},
+			items: [{
+				xtype: 'fieldset',
+				id: 'mcAnswerCorrectFieldset',
+				title: Messages.CORRECT_ANSWER
+			}]
+		});
+		
+		for (var i=1; i <= mcNumAnswersMaxValue; i++) {
+			console.log(mcNumAnswersStartValue < i);
+			Ext.getCmp('mcAnswerFieldset').add({
+				xtype:			'textfield',
+				id:				'answerOption' + i,
+				placeHolder:	Messages.OPTION_PLACEHOLDER + " " + i,
+				hidden:			mcNumAnswersStartValue < i,
+				label:			Messages.ANSWER
+			});
+			Ext.getCmp('mcAnswerCorrectFieldset').add({
+				xtype: 'togglefield',
+				id: 'answerOptionCorrect' + i,
+				hidden: mcNumAnswersStartValue < i,
+				label: Messages.OPTION_PLACEHOLDER + " " + i
+			});
+		}
 
 		this.voteQuestion = Ext.create('Ext.form.FormPanel', {
 			id: 'vote',
@@ -388,7 +371,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 						xtype	: 'textfield',
 						name	: 'schoolAnswer6',
 					    label	: '6.',
-					    value	: Messages.SCHOOL_NONE,
+					    value	: Messages.SCHOOL_F,
 					}
     	        ]
 			}],
@@ -449,6 +432,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
         		        { text	: "B" },
         		        { text	: "C" },
         		        { text	: "D" },
+        		        { text  : Messages.NONE, id: 'abcdNoneCorrect', pressed: true }
             		],
             	}]
 			}],
@@ -486,8 +470,14 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							else panel.schoolQuestion.hide();
 							break;
 						case Messages.MC:
-							if(pressed) panel.multipleChoiceQuestion.show();
-							else panel.multipleChoiceQuestion.hide();
+							if(pressed) {
+								panel.multipleChoiceQuestion.show();
+								panel.multipleChoiceCorrectQuestions.show();
+								console.log(panel.multipleChoiceCorrectQuestions);
+							} else {
+								panel.multipleChoiceQuestion.hide();
+								panel.multipleChoiceCorrectQuestions.hide();
+							}
 							break;
 						case Messages.YESNO:
 							if(pressed) panel.yesNoQuestion.show();
@@ -546,7 +536,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
             
             /* only one of the question types will be shown at the same time */
 		    this.voteQuestion,
-            this.multipleChoiceQuestion,
+            this.multipleChoiceQuestion,this.multipleChoiceCorrectQuestions,
             this.yesNoQuestion,
             this.schoolQuestion,
             this.abcdQuestion,
@@ -564,29 +554,29 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		
 	},
 	
-    saveHandler: function(){
+	saveHandler: function(){
     	var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
     	var values = {};
-    	
-    	/* get text, subject of question from mainPart */
-    	var mainPartValues = panel.mainPart.getValues();
-    	values.text = mainPartValues.text;
-    	values.subject = mainPartValues.subject;
-    	
-    	/* check if release question button is clicked */
-    	var releasePart = panel.releasePart;
-    	if (
-    		 localStorage.getItem('courseId') != null
-		  && localStorage.getItem('courseId').length > 0
-    	) {
-			var button = null;
+		
+		/* get text, subject of question from mainPart */
+		var mainPartValues = panel.mainPart.getValues();
+		values.text = mainPartValues.text;
+		values.subject = mainPartValues.subject;
+		values.abstention = panel.abstentionPart.down('segmentedbutton').getPressedButtons()[0].id === 'withAbstention';
+		
+		/* check if release question button is clicked */
+		var releasePart = panel.releasePart;
+		
+		var button;
+		if (localStorage.getItem('courseId') != null && localStorage.getItem('courseId').length > 0) {
+			button = null;
 			values.releasedFor = 'courses';
-			//values.courses = [localStorage.getItem('courseId')];
-    	} else {
-    		var button = releasePart.down('segmentedbutton').getActiveItem();
-    	}
-    	if(button){
-    		switch (button.id) {
+		} else {
+			button = releasePart.down('segmentedbutton').getPressedButtons()[0];
+		}
+		
+		if(button){
+			switch (button.id) {
 				case 'all':
 					values.releasedFor = 'all';
 					break;
@@ -646,54 +636,59 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				values.questionType = "mc";
 				
 				var tmpValues = panel.down("#mc").getValues();
+				var tmpCorrectValues = panel.down('#mcCorrect').getValues();
+				var obj;
 				
-		    	wrongAnswers = [];
-		    	wrongAnswers.push(tmpValues.wrongAnswer1);
-		    	wrongAnswers.push(tmpValues.wrongAnswer2);
-		    	wrongAnswers.push(tmpValues.wrongAnswer3);
-		    	wrongAnswers.push(tmpValues.wrongAnswer4);
-		    	wrongAnswers.push(tmpValues.wrongAnswer5);
-		    	
-		    	values.possibleAnswers = [{
-		    		correct: 1,
-		    		text: tmpValues.correctAnswer,
-		    	}];
-		    	
-		    	for ( var i = 1; i < tmpValues.countAnswers; i++){
-		    		values.possibleAnswers.push({
-						text: wrongAnswers[i - 1],
-					});	
+				var noCorrect = true;
+				for (isCorrect in tmpCorrectValues) {
+					if (tmpCorrectValues.hasOwnProperty(isCorrect)) {
+						noCorrect = noCorrect && !!isCorrect;
+					}
 				}
+				
+				values.possibleAnswers = [];
+				for (var i=1; i <= tmpValues.countAnswers; i++) {
+					obj = {
+						text: tmpValues['answerOption' + i]
+					};
+					if (tmpCorrectValues['answerOptionCorrect' + i]) {
+						obj.correct = 1;
+					}
+					values.possibleAnswers.push(obj);
+				}
+				if (noCorrect) {
+					values.noCorrect = 1;
+				}
+				
 				break;
 			case Messages.YESNO:
 				values.questionType = "yesno";
 				
 				var form = panel.down("#yesno");
-		    	var yesNoOption = form.down('segmentedbutton');
-		    	
-		    	var correct = "";
-		    	if (yesNoOption.getActiveItem().getText()) {
-		    		correct = yesNoOption.getActiveItem().getText();
-		    	}
-		    	else {
-		    		console.log('no');
-		    		return;
-		    	}
-		    	
-		    	switch (correct) {
-					case "Ja":
-						values.possibleAnswers = [
-			              { text: "Ja", correct: 1 },
-			              { text: "Nein" },
-			            ];
+				var yesNoOption = form.down('segmentedbutton');
+				
+				var correct = "";
+				if (yesNoOption.getPressedButtons()[0].id) {
+					correct = yesNoOption.getPressedButtons()[0].id;
+				} else {
+					return;
+				}
+				
+				var yesAnswer = { text: Messages.YES };
+				var noAnswer = { text: Messages.NO };
+								
+				switch (correct) {
+					case "yesnoYesCorrect":
+						yesAnswer.correct = 1;
 						break;
-					case "Nein":
-						values.possibleAnswers = [
-			              { text: "Ja" },
-			              { text: "Nein", correct: 1 },
-			            ];	
+					case "yesnoNoCorrect":
+						noAnswer.correct = 1;
+						break;
+					default:
+						values.noCorrect = 1;
 						break;
 				}
+				values.possibleAnswers = [yesAnswer, noAnswer];
 				break;
 			case Messages.ABCD:
 				values.questionType = "abcd";
@@ -702,8 +697,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		    	var segmentedButton = form.down('segmentedbutton');
 				
 		    	var correct = "";
-		    	if (segmentedButton.getActiveItem()) {
-		    		correct = segmentedButton.getActiveItem().getText();
+		    	if (segmentedButton.getPressedButtons().length && segmentedButton.getPressedButtons()[0].id !== "abcdNoneCorrect") {
+		    		correct = segmentedButton.getPressedButtons()[0].getText();
 		    	} else {
 		    		values.noCorrect = 1;
 		    	}
@@ -749,12 +744,18 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			default:
 				break;
 		}
-    	
-    	ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel.dispatch(values);
-    },
-    
-    dispatch: function(values){
-    	ARSnova.app.getController('Questions').add({
+		
+		if (values.abstention) {
+			values.possibleAnswers.push({
+				text: Messages.ABSTENTION
+			});
+		}
+		
+	ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel.dispatch(values);
+	},
+	
+	dispatch: function(values){
+		ARSnova.app.getController('Questions').add({
 			sessionKeyword: localStorage.getItem('keyword'),
 			text		: values.text,
 			subject		: values.subject,
@@ -767,6 +768,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			releasedFor	: values.releasedFor,
 			courses		: values.courses,
 			noCorrect	: values.noCorrect,
+			abstention	: values.abstention,
 			successFunc	: function(response, opts){
 				ARSnova.app.getController('Questions').details({
 					question	: Ext.decode(response.responseText)

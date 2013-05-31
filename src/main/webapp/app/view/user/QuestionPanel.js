@@ -105,8 +105,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		
 		this.add([this.toolbar]);
 		
-		this.on('activate', this.beforeActivate, this, null, 'before');
-		this.on('activate', this.onActivate);
+		this.onBefore('activate', this.beforeActivate, this);
+		this.onAfter('activate', this.onActivate, this);
 		this.on('add', function(panel, component, index) {
 			component.doTypeset && component.doTypeset(panel);
 		});
@@ -190,6 +190,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 							if(questionsArr[answer.questionId]) {
 								questionsArr[answer.questionId].userAnswered = answer.answerText;
 								questionsArr[answer.questionId].answerSubject = answer.answerSubject;
+								questionsArr[answer.questionId].isAbstentionAnswer = answer.abstention;
 							}
 						});
 						questionIds.forEach(function(questionId){
@@ -231,15 +232,15 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	
 	checkAnswer: function(){
 		ARSnova.app.showLoadMask(Messages.CHECK_ANSWERS);
-
-		this.items.items.forEach(function(questionPanel) {
+		
+		this.getInnerItems().forEach(function(questionPanel) {
 			var questionObj = questionPanel.questionObj;
+			if (!questionObj.userAnswered && !questionObj.isAbstentionAnswer) return;
 			
-			if (typeof questionObj === 'undefined') return;
-			if (!questionObj.userAnswered) return;
-			
-			var isQuestionAnswered = !!questionObj.userAnswered;
-			if (!isQuestionAnswered) return;
+			if (questionObj.isAbstentionAnswer) {
+				questionPanel.disable();
+				return;
+			}
 			
 			if (questionObj.questionType === "freetext") {
 				questionPanel.setAnswerText(questionObj.answerSubject, questionObj.userAnswered);
@@ -248,25 +249,36 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			}
 			
 			var list = questionPanel.down('list');
-			var data = list.getStore().data;
-			for (var i = 0; i < data.length; i++) {
-				if (data.items[i].data.text == questionObj.userAnswered){
-					list.select(data.items[i]);
-					questionPanel.disableQuestion();
-					break;
-				}
-			}
+			var data = list ? list.getStore().data : [];
 			
-			if(questionObj.showAnswer){
-				for ( var i = 0; i < questionObj.possibleAnswers.length; i++) {
-					var answer = questionObj.possibleAnswers[i];
-					if(answer.correct && (answer.correct == 1 || answer.correct == true)){
-						list.element.dom.childNodes[i].className = "x-list-item x-list-item-correct";
+			if (questionObj.questionType === 'mc') {
+				var answers = questionObj.userAnswered.split(",");
+				// sanity check: is it a correct answer array?
+				if (questionObj.possibleAnswers.length !== answers.length) {
+					return;
+				}
+				var selectedIndexes = answers.map(function(isSelected, index) {
+					return isSelected === "1" ? list.getStore().getAt(index) : -1;
+				}).filter(function(index) {
+					return index !== -1;
+				});
+				list.select(selectedIndexes, true);
+				questionPanel.disable();
+			} else {
+				for (var i = 0; i < data.length; i++) {
+					if (data.items[i].data.text == questionObj.userAnswered){
+						list.select(data.items[i]);
+						questionPanel.disableQuestion();
 						break;
 					}
 				}
 			}
-		});
+			if (questionObj.showAnswer) {
+				list.getStore().each(function(item) {
+					item.set('wasAnswered', true);
+				});
+			}
+		}, this);
 		
 		setTimeout("ARSnova.app.hideLoadMask()", 1000);
 	},
@@ -283,24 +295,24 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	},
 	
 	showNextUnanswered: function(){
-		var questionPanels = this.items.items;		
+		var questionPanels = this.items.items;
 		var activeQuestion = this._activeItem;
-
 		if(!activeQuestion.isDisabled()) return;
 		
-		var animDirection = 'right';
-		// first item is carousel indicator and second toolbar
-		for ( var i = 2; i < questionPanels.length; i++) {
-			var questionPanel = questionPanels[i];
-
-			if(questionPanel == activeQuestion) {
-				animDirection = 'left';
-				continue;
+		var currentPosition = 0;
+		for (var i = 0, questionPanel; questionPanel = questionPanels[i]; i++) {
+			if (questionPanel == activeQuestion) {
+				currentPosition = i;
+				break;
 			}
-			if(questionPanel.isDisabled()) continue;
+		}
+		
+		for (var i = currentPosition, questionPanel; questionPanel = questionPanels[i]; i++) {
+			if (questionPanel.disabled) continue;
+			
 			this.setActiveItem(i-2, {
 				type: 'slide',
-				direction: animDirection
+				direction: 'left'
 			});
 			break;
 		}

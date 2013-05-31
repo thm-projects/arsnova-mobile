@@ -44,11 +44,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			text	: Messages.LOGOUT,
 			ui		: 'back',
 			handler	: function() {
-				Ext.Msg.confirm(Messages.LOGOUT, Messages.LOGOUT_REQUEST, function(answer) {
-					if (answer == 'yes') {
-						ARSnova.app.getController('Auth').logout();
-					}
-				});
+				ARSnova.app.getController('Auth').logout();
 			}
 		});
 		

@@ -21,7 +21,7 @@
 
 Ext.application({
 	
-	requires: ['ARSnova.proxy.RestProxy'],
+	requires: ['ARSnova.proxy.RestProxy', 'ARSnova.WebSocket'],
 
     name: "ARSnova",
     /* const */
@@ -29,6 +29,7 @@ Ext.application({
     NATIVE			: 'native',
     APP_URL			: window.location.origin + window.location.pathname,
     WEBSERVICE_URL	: "app/webservices/",
+    PRESENTER_URL	: "/presenter/",
     
 	LOGIN_GUEST		: "0",
 	LOGIN_THM		: "1",
@@ -53,7 +54,7 @@ Ext.application({
     views: [].concat(
     		
     		/* app/view */
-    		['Caption', 'CheckFullscreenPanel', 'LoginPanel', 'MainTabPanel', 'TabPanel', 'RolePanel', 'MathJaxField'], 
+    		['Caption', 'LoginPanel', 'MainTabPanel', 'TabPanel', 'RolePanel', 'MathJaxField'], 
     		['MathJaxMessageBox', 'MultiBadgeButton', 'NumericKeypad', 'FreetextAnswerPanel', 'FreetextDetailAnswer'],
     		['FreetextQuestion', 'Question', 'QuestionStatusButton', 'SessionStatusButton', 'CustomMask'],
     		
@@ -63,9 +64,6 @@ Ext.application({
     		['about.HelpQuestionsPanel', 'about.HelpVideoPanel', 'about.ImpressumPanel', 'about.InfoPanel'],
     		['about.OpenSourceProjectsPanel', 'about.SocialSoftwarePanel', 'about.SponsorsPanel', 'about.StatisticPanel'],
     		['about.TabPanel'],
-    		
-    		/* app/view/archive */
-    		['archive.CoursePanel', 'archive.QuestionPanel', 'archive.TabPanel'],
     		
     		/* app/view/canteen */
     		['canteen.StatisticPanel', 'canteen.TabPanel', 'canteen.VotePanel'],
@@ -84,9 +82,9 @@ Ext.application({
     		['speaker.QuestionStatisticChart', 'speaker.ShowcaseQuestionPanel', 'speaker.TabPanel'],
     		
     		/* app/view/user */
-    		['user.InClass', 'user.QuestionPanel', 'user.RankingPanel', 'user.TabPanel']),
+    		['user.InClass', 'user.QuestionPanel', 'user.TabPanel']),
 	
-    controllers: ['Archive', 'Auth', 'Canteen', 'Feedback', 'Lang', 'Questions', 'Ranking', 'Sessions', 'User'],
+    controllers: ['Auth', 'Canteen', 'Feedback', 'Lang', 'Questions', 'Sessions', 'User'],
     
     stores: ['Food'],
     
@@ -115,7 +113,6 @@ Ext.application({
     questionModel	: null,
     sessionModel 	: null,
     statisticModel 	: null,
-    userRankingModel: null,
     courseModel     : null,
     
     /* proxy */
@@ -123,28 +120,19 @@ Ext.application({
 	
     /* other*/
     cardSwitchDuration: 500,
+    socket: null,
     
     /* tasks */
-    
-    /**
-     * delete feedbacks that can be removed
-     */
-    cleanFeedbackVotes: {
-    	name: 'looking for feedbacks that have to be remove',
-		run: function(){
-			ARSnova.app.restProxy.cleanSessionFeedback();
-		},
-		interval: 60000 //60 seconds
-	},
-	
 	/**
 	 * update every x seconds the user timestamp
 	 * important for all "who is online"-requests
 	 */
 	loggedInTask: {
 		name: 'save that user is logged in',
-		run: function(){
-			ARSnova.app.restProxy.loggedInTask();
+		run: function() {
+			if (localStorage.getItem('keyword')) {
+				ARSnova.app.restProxy.loggedInTask();
+			}
 		},
 		interval: 60000 //60 seconds
 	},
@@ -172,7 +160,6 @@ Ext.application({
     	this.questionModel		= Ext.create('ARSnova.model.Question');
     	this.sessionModel		= Ext.create('ARSnova.model.Session');
     	this.statisticModel 	= Ext.create('ARSnova.model.Statistic');
-    	// this.userRankingModel	= Ext.create('ARSnova.model.UserRanking');
     	this.courseModel		= Ext.create('ARSnova.model.Course');
     },
     
@@ -207,45 +194,36 @@ Ext.application({
 		
 		taskManager = new Ext.util.TaskRunner();
 		
+		this.initSocket();
 		this.initModels();
 		this.restProxy = Ext.create('ARSnova.proxy.RestProxy'); 
 		this.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
 		
-		this.checkPreviousLogin();
-		this.checkFullscreen();
+		if (localStorage.getItem("ARSnovaCon") !== "true") {
+			this.checkPreviousLogin();
+		}
 	},
 
 	setupAppStatus: function() {
 		this.appStatus = (navigator.device == null) ? this.WEBAPP : this.NATIVE;
 	},
-
-	/**
-	 * check browser-engine
-	 */
-	checkWebKit: function() {
-		var result = /AppleWebKit\/([\d.]+)/.exec(navigator.userAgent);
-		if (!result) {
-			alert(Messages.SUPPORTED_BROWSERES);
-			return false;
-		} else {
-			return true;
-		}
-	},
-	
-	/**
-	 * Detect: If the application is not run in full screen mode on an apple
-	 * device, notify user how to add app to home screen for full screen mode.
-	 */ 
-	checkFullscreen: function(){
-		if (localStorage.getItem('html5 info read') == null){
-			if (!this.popup){
-				this.popup = Ext.create('ARSnova.view.CheckFullscreenPanel');
-				Ext.Viewport.add(this.popup);
-			}
-			
-			this.popup.show('fade');
-		}
-	},
+    
+    initSocket: function() {
+    	this.socket = Ext.create('ARSnova.WebSocket');
+    },
+    
+    /**
+     * check browser-engine
+     */
+    checkWebKit: function() {
+        var result = /AppleWebKit\/([\d.]+)/.exec(navigator.userAgent);
+        if (!result) {
+        	alert(Messages.SUPPORTED_BROWSERES);
+        	return false;
+        } else {
+        	return true;
+        }
+    },
 	
 	/**
 	 * after user has logged in
