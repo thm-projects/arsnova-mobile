@@ -49,7 +49,7 @@ Ext.define('ARSnova.model.Question', {
 		         'subject',
 		      	 'text',
 		      	 'timestamp',
-		      	 'type',
+		      	 'type'
 		],
 		
 		transientFields: ['numAnswers'],
@@ -58,7 +58,7 @@ Ext.define('ARSnova.model.Question', {
 		         {type: 'presence', field: 'type'},
 		         {type: 'presence', field: 'text'},
 		         {type: 'presence', field: 'subject'}
-		],
+		]
 	},
 	
 	initialize: function() {

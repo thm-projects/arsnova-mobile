@@ -25,7 +25,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		title: 'AudienceQuestionPanel',
 		fullscreen: true,
 		scrollable: true,
-		scroll: 'vertical',
+		scroll: 'vertical'
 	},
 	
 	monitorOrientation: true,
@@ -60,7 +60,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		         groupFn: function(record) {
 		        	 return record.get('subject');
 		         }
-		     },
+		     }
 		});
 
 		this.questionList = Ext.create('Ext.List', {
@@ -115,7 +115,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		
 		this.controls = Ext.create('Ext.form.FormPanel', {
 			cls: 'standardForm topPadding',			
-			scrollable: null,
+			scrollable: null
 		});
 		
 		this.questionTitle = Ext.create('Ext.Label', {

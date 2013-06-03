@@ -25,7 +25,7 @@ Ext.define('ARSnova.view.about.HelpMainPanel', {
 		fullscreen: true,
 		scrollable: true,
 		title: 'HelpMainPanel',
-		scroll: 	'vertical',
+		scroll: 	'vertical'
 	},
 	
 	/* toolbar items */

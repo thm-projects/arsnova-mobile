@@ -28,10 +28,10 @@ Ext.define('ARSnova.model.Course', {
 		   	  'fullname',
 		   	  'shortname',
 		   	  'type'
-		       ],
+		       ]
 	},
 	
     getMyCourses: function(callbacks, sortby){
     	return this.getProxy().getMyCourses(callbacks, sortby);
-    },
+    }
 });

@@ -25,7 +25,7 @@ Ext.define('ARSnova.view.about.SocialSoftwarePanel', {
 		fullscreen: true,
 		scrollable: true,
 		title:		'SocialSoftwarePanel',
-		scroll: 	'vertical',
+		scroll: 	'vertical'
 	},
 	
 	/* toolbar items */

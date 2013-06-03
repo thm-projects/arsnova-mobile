@@ -26,7 +26,7 @@ Ext.define('ARSnova.view.about.CreditsPanel', {
 		fullscreen: true,
 		scrollable: true,
 		title: 		'CreditsPanel',
-		scroll: 	'vertical',
+		scroll: 	'vertical'
 	},
 	
 	/* toolbar items */

@@ -25,7 +25,7 @@ Ext.define('ARSnova.view.about.AboutPanel', {
 		fullscreen: true,
 		scrollable: true,
 		title: 'AboutPanel',
-		scroll: 	'vertical',
+		scroll: 	'vertical'
 	},
 	
 	/* toolbar items */

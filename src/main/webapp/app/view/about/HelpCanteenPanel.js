@@ -25,7 +25,7 @@ Ext.define('ARSnova.view.about.HelpCanteenPanel', {
 		fullscreen: true,
 		scrollable: true,
 		title: 'HelpCanteenPanel',
-		scroll: 	'vertical',
+		scroll: 	'vertical'
 	},
 	
 	/* toolbar items */

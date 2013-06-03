@@ -25,7 +25,7 @@ Ext.define('ARSnova.view.about.ARSinLessonPanel', {
 		fullscreen: true,
 		scrollable: true,
 		title: 'ARSinLessonPanel',
-		scroll: 	'vertical',
+		scroll: 	'vertical'
 	},
 	
 	/* toolbar items */

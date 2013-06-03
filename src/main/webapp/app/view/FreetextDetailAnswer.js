@@ -25,7 +25,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 		title : 'FreetextDetailAnswer',
 		fullscreen: true,
 		scrollable: true,
-		scroll: 'vertical',
+		scroll: 'vertical'
 	},
 	
 	constructor: function(arguments) {

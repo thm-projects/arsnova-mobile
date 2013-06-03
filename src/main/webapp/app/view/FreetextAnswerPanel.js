@@ -33,7 +33,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		 */
 		checkFreetextAnswersTask: null,
 		
-		freetextAnswerStore: null,
+		freetextAnswerStore: null
 	},
 	
 	constructor: function(arguments) {

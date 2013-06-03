@@ -26,7 +26,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 	config: {
 		title: 'StatisticPanel',
 		style: 'background-color: black',
-		layout: 'fit',
+		layout: 'fit'
 	},
 	
 	feedbackChart: null,

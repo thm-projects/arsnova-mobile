@@ -50,7 +50,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.checkFeedbackQuestions();
 			},
 			interval: 15000
-		},
+		}
 	},
 	
 	toolbar		: null,

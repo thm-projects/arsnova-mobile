@@ -43,7 +43,7 @@ Ext.define('ARSnova.model.Session', {
              {type: 'length', field: 'shortName', min: 1, max: 12},
              {type: 'presence', field: 'creator'},
              {type: 'length', field: 'keyword', min: 8, max: 8}
-           ],
+           ]
 	},
 	
     destroy: function(sessionId, creator, callbacks) {

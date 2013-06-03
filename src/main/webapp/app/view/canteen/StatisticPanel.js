@@ -28,7 +28,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 		
 		style: 'background-color: black',
 		iconCls	: 'tabBarIconCanteen',
-		layout	: 'fit',
+		layout	: 'fit'
 	},
 	
 	location: ARSnova.app.CANTEEN_LOCATION,
@@ -78,7 +78,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 			text	: Messages.LOGIN,
 			ui		: 'action',
 			scope	: this,
-			hidden	: true,
+			hidden	: true
 		});
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
@@ -102,7 +102,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 		    },
 		    
 		    label: {
-		    	color: '#fff',
+		    	color: '#fff'
 		    },
 
 		    interactions: [{
@@ -197,7 +197,7 @@ Ext.define('ARSnova.view.canteen.StatisticPanel', {
 	                field: ['percent'],
 	                renderer: function(v) {
 			        	  return Math.round(v * 100) + "%";
-			        },
+			        }
 	            },
 		        xField: 'name',
 		        yField: 'value'

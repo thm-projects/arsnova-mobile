@@ -24,7 +24,7 @@ Ext.define('ARSnova.view.canteen.VotePanel', {
 	config: {
 		title: 'VotePanel',
 		fullscreen: true,
-		scrollable: true,
+		scrollable: true
 	},
 	
 	VOTE_1: null,

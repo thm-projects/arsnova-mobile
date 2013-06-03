@@ -24,7 +24,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	config: {
 		scroll: 'vertical',
 		scrollable: true,
-		viewOnly: false,
+		viewOnly: false
 	},
 	
 	constructor: function(arguments) {
@@ -208,7 +208,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					questionId		: self.questionObj._id,
 					timestamp		: Date.now(),
 					user			: localStorage.getItem("login"),
-					abstention		: true,
+					abstention		: true
 				}, 'Answer');
 				
 				self.saveAnswer(answer);

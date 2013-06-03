@@ -25,7 +25,7 @@ Ext.define('ARSnova.view.about.HelpQuestionsPanel', {
 		fullscreen: true,
 		scrollable: true,
 		title:		'HelpQUestionsPanel',
-		scroll: 	'vertical',
+		scroll: 	'vertical'
 	},
 	
 	/* toolbar items */

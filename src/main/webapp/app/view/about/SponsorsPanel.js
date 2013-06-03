@@ -25,7 +25,7 @@ Ext.define('ARSnova.view.about.SponsorsPanel', {
 		fullscreen: true,
 		scrollable: true,
 		title:		'SponsorsPanel',
-		scroll: 	'vertical',
+		scroll: 	'vertical'
 	},
 	
 	/* toolbar items */

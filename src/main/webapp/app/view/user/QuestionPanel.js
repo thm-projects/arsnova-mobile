@@ -24,7 +24,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	config: {
 		fullscreen: true,
 		title	: Messages.QUESTIONS,
-		iconCls	: 'tabBarIconQuestion',
+		iconCls	: 'tabBarIconQuestion'
 	},
 	
 	/* toolbar items */

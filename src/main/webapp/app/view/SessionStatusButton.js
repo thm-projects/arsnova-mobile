@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 	extend: 'Ext.Panel',
 	
 	config: {
-		cls	: 'threeButtons left',
+		cls	: 'threeButtons left'
 	},
 	
 	handler: null,

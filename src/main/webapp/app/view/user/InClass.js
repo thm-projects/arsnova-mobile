@@ -24,7 +24,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	config: {
 		title: 'InClass',
 		fullscreen: true,
-		scrollable: true,
+		scrollable: true
 	},
 	
 	inClass			: null,
@@ -139,7 +139,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			}, {
 				xtype: 'fieldset',
 				cls	 : 'standardFieldset noMargin',
-				instructions: "Session-ID: " + ARSnova.app.formatSessionID(localStorage.getItem("keyword")),
+				instructions: "Session-ID: " + ARSnova.app.formatSessionID(localStorage.getItem("keyword"))
 			}]
 		});
 		

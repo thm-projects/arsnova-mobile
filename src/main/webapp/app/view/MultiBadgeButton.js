@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 	alias: 'x-multibadgebutton',
 	
 	config: {
-		multiBadges: new Array(),
+		multiBadges: new Array()
 	},
 	
 	/**

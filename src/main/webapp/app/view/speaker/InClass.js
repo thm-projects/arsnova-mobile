@@ -26,7 +26,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		title	: Messages.FEEDBACK,
 		iconCls	: 'feedbackMedium',
 		scrollable: true,
-		scroll  : 'vertical',
+		scroll  : 'vertical'
 	},
 	
 	inClassItems			: null,
@@ -126,7 +126,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			}, {
 				xtype: 'fieldset',
 				cls	 : 'standardFieldset noMargin',
-				instructions: "Session-ID: " + ARSnova.app.formatSessionID(localStorage.getItem("keyword")),
+				instructions: "Session-ID: " + ARSnova.app.formatSessionID(localStorage.getItem("keyword"))
 			}]
 		});
 		

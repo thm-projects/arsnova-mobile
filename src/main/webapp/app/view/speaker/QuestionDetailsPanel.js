@@ -47,7 +47,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		title: 'QuestionDetailsPanel',
 		fullscreen: true,
 		scrollable: true,
-		scroll: 'vertical',
+		scroll: 'vertical'
 	},
 	
 	/* toolbar items */
@@ -568,7 +568,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 		
 		this.answerFormFieldset = Ext.create('Ext.form.FieldSet', {
-			title: Messages.ANSWERS,
+			title: Messages.ANSWERS
 		});
 		
 		this.freetextAnswerList = Ext.create('Ext.List', {

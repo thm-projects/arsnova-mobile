@@ -23,7 +23,7 @@ Ext.define('ARSnova.view.MainTabPanel', {
 	
 	config: {
 		fullscreen: true,
-		layout: 'card',
+		layout: 'card'
 	},
 
 	initialize: function() {

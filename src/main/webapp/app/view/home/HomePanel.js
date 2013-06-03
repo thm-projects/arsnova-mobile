@@ -24,7 +24,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	config: {
 		fullscreen: true,
 		scrollable: true,
-		scroll	: 'vertical',
+		scroll	: 'vertical'
 	},
 	
 	inClassRendered	: false,

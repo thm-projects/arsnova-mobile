@@ -96,14 +96,14 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 	                label		: Messages.SESSION_NAME,
 	                placeHolder	: Messages.SESSION_NAME_PLACEHOLDER,
 	                maxLength	: 50,
-	                clearIcon	: true,
+	                clearIcon	: true
 	            }, {
 	                xtype		: 'textfield',
 	                name		: 'shortName',
 	                label		: Messages.SESSION_SHORT_NAME,
 	                placeHolder	: Messages.SESSION_SHORT_NAME_PLACEHOLDER,
 	                maxLength	: 8,
-	                clearIcon	: true,
+	                clearIcon	: true
 	            }]
 			}, {
 				xtype: 'button',

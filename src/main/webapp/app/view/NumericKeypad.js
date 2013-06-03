@@ -23,7 +23,7 @@ Ext.define('ARSnova.view.NumericKeypad', {
 	alias: 'widget.numericKeypad',
 	
 	config: {
-		ui: 'number',
+		ui: 'number'
 	},
 
 	inputType: 'text',

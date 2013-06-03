@@ -23,7 +23,7 @@ Ext.define('ARSnova.view.Question', {
 	
 	config: {
 		scroll: 'vertical',
-		scrollable: true,
+		scrollable: true
 	},
 	
 	questionObj: null,
