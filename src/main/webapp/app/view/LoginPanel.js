@@ -67,12 +67,6 @@ Ext.define('ARSnova.view.LoginPanel', {
 			}];
 		}
 		
-		this.noGuestSpeaker = Ext.create('Ext.Panel', {
-			cls		: 'gravure',
-			style	: { marginTop: '0px'},
-			html	: Messages.NO_GUEST_SPEAKER
-		});
-		
 		this.guestLoginButton = Ext.create('Ext.Button', {
 			text	: Messages.GUEST,
 			style	: { marginTop: '10px'},
@@ -102,15 +96,31 @@ Ext.define('ARSnova.view.LoginPanel', {
 		});
 		
 		this.add([{
+			xtype	: 'toolbar',
+			dock	: 'top',
+			ui		: 'light',
+			title	: 'Login',
+			cls		: null,
+			items: [{
+			   text: 'Back',
+			   ui: 'back',
+			   handler: function(){
+					ARSnova.app.userRole = "";
+					ARSnova.app.setWindowTitle();
+					
+					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
+						type: 'slide',
+						direction: 'right',
+						duration: 500
+					});	
+				}
+			}]
+		}, {
 			xtype	: 'panel',
 			cls		: null,
 			style	: { marginTop: '20px'},
-			html	: "<div class='arsnova-logo' style=\"background: url('resources/images/arsnova.png') no-repeat center; height:55px\"></div>"
-		}, {
-			xtype	: 'panel',
-			cls		: 'gravure',
-			style	: { marginTop: '0px'},
-			html	: Messages.CHOOSE_LOGIN
+			html	: "<div class='arsnova-logo'></div>",
+			style	: { marginTop: '35px', marginBottom: '35px' }
 		},
 		this.presenterButton,
 		this.guestLoginButton,
@@ -128,41 +138,19 @@ Ext.define('ARSnova.view.LoginPanel', {
 				}
 			},
 			items: threeButtons
-		}, 
-		{
-			xtype: 'button',
-			text: Messages.CHANGE_ROLE, 
-			cls: 'backToRole',
-			handler: function(){
-				ARSnova.app.userRole = "";
-				ARSnova.app.setWindowTitle();
-				
-				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
-					type: 'slide',
-					direction: 'right',
-					duration: 500
-				});	
-			}
-		},{
-			xtype	: 'panel',
-			cls		: null,
-			html	: ''
-		}, this.noGuestSpeaker]);
+		}]);
 		
 		this.on('activate', Ext.bind(function() {
 			var isDevelopmentEnvironment = window.location.href.match(/developer\.html#?$/);
 			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
 				this.presenterButton.show('fade');
 				this.guestLoginButton.hide('fade');
-				this.noGuestSpeaker.show('fade');
 			} else {
 				this.presenterButton.hide('fade');
 				this.guestLoginButton.show('fade');
-				this.noGuestSpeaker.hide('fade');
 			}
 			if (isDevelopmentEnvironment) {
 				this.guestLoginButton.show('fade');
-				this.noGuestSpeaker.hide('fade');
 			}
 		}, this));
 	}
