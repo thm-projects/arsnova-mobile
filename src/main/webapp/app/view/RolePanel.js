@@ -41,14 +41,16 @@ Ext.define('ARSnova.view.RolePanel', {
 		this.callParent(arguments);
 		
 		this.add([{
-			xtype	: 'panel',
-			cls		: null,
-			html	: "<div class='arsnova-logo' style=\"background: url('resources/images/arsnova.png') no-repeat center; height:55px\"></div>",
-			style	: { marginTop: '35px'}
+			xtype	: 'toolbar',
+			dock	: 'top',
+			ui		: 'light',
+			title	: 'Audience Response System',
+			cls		: null
 		}, {
 			xtype	: 'panel',
-			cls		: 'gravure',
-			html	: Messages.CHOOSE_ROLE
+			cls		: null,
+			html	: "<div class='arsnova-logo'></div>",
+			style	: { marginTop: '35px', marginBottom: '35px' }
 		}, {
 			text	: Messages.STUDENT,
 			cls		: 'login-button role-label-student',
@@ -57,7 +59,7 @@ Ext.define('ARSnova.view.RolePanel', {
 			text	: Messages.SPEAKER,
 			cls		: 'login-button role-label-speaker',
 			value	: ARSnova.app.USER_ROLE_SPEAKER
-		}, {
+		}, /*{
 			// TODO: i18n
 			text	: "Was ist ARSnova?",
 			ui		: 'small',
@@ -70,11 +72,11 @@ Ext.define('ARSnova.view.RolePanel', {
 					}
 				}
 			},
-			handler: function() { /* NOP */ }
-		}, {
+			handler: function() {  }
+		},*/ {
 			xtype	: 'panel',
 			style	: { marginTop: '30px'},
-			html	: "<div class='thm-logo' style=\"background: url('resources/images/thm.png') no-repeat center; height:67px\"></div>",
+			html	: "<div class='gravure'><a href='http://www.thm.de/' class='thmlink' target='_blank'>Powered by <span style='color:#699824; font-weight:bold;'>THM</span></a></div>",
 			cls		: null
 		}]);
 	}
