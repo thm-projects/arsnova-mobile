@@ -2,11 +2,11 @@ CACHE MANIFEST
 # This file gets updated automatically by the build server.
 # You do not need to bump the version of this file.
 
-lib/sencha1.1.1/arsnovaCombined.js
+lib/touch-2.1.1/sencha-touch-all-compat.js
 lib/touch-charts-1.0/touch-charts.js
 
-resources/css/arsnova_min.css
-lib/sencha1.1.1/resources/css/sencha-touch.css
+resources/css/st2-arsnova_new.css
+lib/touch-2.1.1/resources/css/sencha-touch.css
 
 # IMAGES
 resources/images/arsnova.png
