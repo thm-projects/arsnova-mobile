@@ -279,6 +279,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			Ext.getCmp('mcAnswerFieldset').add({
 				xtype:			'textfield',
 				id:				'answerOption' + i,
+				name:			'answerOption' + i,
 				placeHolder:	Messages.OPTION_PLACEHOLDER + " " + i,
 				hidden:			mcNumAnswersStartValue < i,
 				label:			Messages.ANSWER
@@ -286,6 +287,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			Ext.getCmp('mcAnswerCorrectFieldset').add({
 				xtype: 'togglefield',
 				id: 'answerOptionCorrect' + i,
+				name: 'answerOptionCorrect' + i,
 				hidden: mcNumAnswersStartValue < i,
 				label: Messages.OPTION_PLACEHOLDER + " " + i
 			});
@@ -472,7 +474,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							if(pressed) {
 								panel.multipleChoiceQuestion.show();
 								panel.multipleChoiceCorrectQuestions.show();
-								console.log(panel.multipleChoiceCorrectQuestions);
 							} else {
 								panel.multipleChoiceQuestion.hide();
 								panel.multipleChoiceCorrectQuestions.hide();
