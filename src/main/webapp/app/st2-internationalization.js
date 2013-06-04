@@ -83,6 +83,7 @@ switch (lang) {
 			SESSION_NAME_PLACEHOLDER: "max. 50 digits",
 			SESSION_SHORT_NAME: "Short name",
 			SESSION_SHORT_NAME_PLACEHOLDER: "max. 8 digits",
+			SESSION_SAVE: "Create Session",
 			SAVE: 'Save',
 			
 			/* canteen */
@@ -305,6 +306,7 @@ switch (lang) {
 			SESSION_NAME_PLACEHOLDER: "max. 50 Zeichen",
 			SESSION_SHORT_NAME: "Kürzel",
 			SESSION_SHORT_NAME_PLACEHOLDER: "max. 8 Zeichen",
+			SESSION_SAVE: "Session anlegen",
 			SAVE: 'Speichern',
 			
 			/* canteen */

@@ -109,7 +109,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				xtype: 'button',
 				cls  : 'centerButton',
 				ui: 'confirm',
-				text: Messages.SAVE,
+				text: Messages.SESSION_SAVE,
 				handler: this.onSubmit
 			}, {
 				xtype: 'fieldset',
