@@ -49,7 +49,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		});
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: 'ARSnova',
+			title: 'Session',
 			docked: 'top',
 			items: [
 		        this.logoutButton
@@ -81,13 +81,11 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			},
 
 			items: [{
-				xtype	: 'panel',
-				cls		: 'topPadding',
-				items	: [{
-					cls		: 'gravure',
-					html	: Messages.ENTER_SESSIONID
-				}]
-			}, {
+					xtype	: 'panel',
+					cls		: null,
+					html	: "<div class='arsnova-logo'></div>",
+					style	: { marginTop: '35px', marginBottom: '35px' }
+				}, {
 				submitOnAction: false,
 				xtype: 'formpanel',
 				scrollable: null,
