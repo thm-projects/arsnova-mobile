@@ -73,18 +73,14 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 			},
 			
 			items: [{
-				text	: Messages.ABOUT_ARSNOVA,
-				handler	: function(){
-					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
-					me.aboutPanel = Ext.create('ARSnova.view.about.AboutPanel');
-					me.animateActiveItem(me.aboutPanel, 'slide');
-				}
-			}, {
-				text	: Messages.HELPDESK,
-				handler	: function(){
-					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
-					me.helpdeskPanel = Ext.create('ARSnova.view.about.HelpDeskPanel');
-					me.animateActiveItem(me.helpdeskPanel, 'slide');
+				text	: Messages.ARSNOVA_BLOG,
+				listeners: {
+					click: {
+						element: 'element',
+						fn: function() { 
+							window.open("http://blog.mni.thm.de/arsnova/");
+						}
+					}
 				}
 			}, {
 				text	: Messages.STATISTIC,
@@ -94,38 +90,22 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 					me.animateActiveItem(me.statisticPanel, 'slide');
 				}
 			}, {
-				text: Messages.DEVELOPMENT,
+				text: Messages.IMPRESSUM,
 				listeners: {
 					click: {
 						element: 'element',
 						fn: function() { 
-							window.open("http://www.ohloh.net/p/arsnova");
+							window.open("http://blog.mni.thm.de/arsnova/impressum/");
 						}
 					}
-				}
-			}, {
-				text: Messages.CREDITS,
-				handler: function(){
-					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
-					me.creditsPanel = Ext.create('ARSnova.view.about.CreditsPanel');
-					me.animateActiveItem(me.creditsPanel, 'slide');
-				}
-			}, {
-				text: Messages.IMPRESSUM,
-				handler: function(){
-					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
-					me.impressumPanel = Ext.create('ARSnova.view.about.ImpressumPanel');
-					me.animateActiveItem(me.impressumPanel, 'slide');
 				}
 			}]
 		},
 		{
-			style: {
-				textAlign: 'center',
-				marginTop: '10px'
-			},
-			html: '<a href="http://www.ohloh.net/p/arsnova?ref=WidgetProjectPartnerBadge" target="_blank"><img alt="Ohloh project report for ARSnova" border="0" height="33" src="http://www.ohloh.net/p/arsnova/widgets/project_partner_badge.gif" width="193" /></a>'
-		}]);
+			xtype	: 'panel',
+			style	: { marginTop: '30px'},
+			html	: "<div class='gravure'><a href='http://www.thm.de/' class='thmlink' target='_blank'>Powered by <span style='color:#699824; font-weight:bold;'>THM</span></a></div>",
+			cls		: null		}]);
 		
 		this.on('activate', function(){
 			this.backButton.show();

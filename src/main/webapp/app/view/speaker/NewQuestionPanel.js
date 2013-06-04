@@ -276,7 +276,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		});
 		
 		for (var i=1; i <= mcNumAnswersMaxValue; i++) {
-			console.log(mcNumAnswersStartValue < i);
 			Ext.getCmp('mcAnswerFieldset').add({
 				xtype:			'textfield',
 				id:				'answerOption' + i,
