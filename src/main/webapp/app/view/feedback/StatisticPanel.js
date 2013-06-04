@@ -78,28 +78,11 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			}
 		});
 		
-		this.feedbackCounter = Ext.create('Ext.Container', {
-			cls: "x-toolbar-title alignRight counterText",
-			html: '0/0',
-			getText: function(){
-				if(this.rendered)
-					return this.element.dom.innerText;
-				else
-					return this.html;
-			}
-		});
-		
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: '0/0',
 			docked: 'top',
-			items: [
-		        this.backButton,
-		        {xtype: 'spacer'},
-		        this.feedbackVoteButton,
-		        {xtype: 'spacer'},
-		        this.feedbackCounter
-			]
-		});
+			title: localStorage.getItem("shortName"),
+			items: [this.backButton, {xtype: 'spacer'}, this.feedbackVoteButton]
+		}),
 		
 		this.feedbackChart = Ext.create('Ext.chart.Chart', {
 		    theme: 'Demo',
@@ -239,13 +222,6 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				
 				//update feedback-badge in tab bar 
 				ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab.setBadgeText(sum);
-				
-				//update feedback counter
-				var counterEl = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.feedbackCounter;
-				var title = counterEl.config.getText().split("/");
-				title[0] = sum;
-				title = title.join("/");
-				counterEl.setHtml(title);
 				
 				//change the feedback tab bar icon
 				var tab = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab;
