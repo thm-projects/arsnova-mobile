@@ -86,7 +86,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		
 		this.newSessionButtonForm = Ext.create('Ext.form.FormPanel', {
 			cls: 'topPadding standardForm',
-			style: 'margin: 20px',
+			style: 'margin: 5px 20px',
 			scrollable: null,
 			
 			items: [{
