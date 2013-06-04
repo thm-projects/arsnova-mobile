@@ -112,6 +112,7 @@ switch (lang) {
 			TRANSMISSION_ERROR: "The question's transmission was unsuccessful.",
 			QUESTION_CREATION_ERROR: "Failed creating the question.",
 			ANSWER_CREATION_ERROR: "Your answer could not be saved.",
+			SEND: "Send",
 			
 			/* questions */
 			QUESTION: "Question",
@@ -332,6 +333,7 @@ switch (lang) {
 			TRANSMISSION_ERROR: "Die Übermittlung der Frage war leider nicht erfolgreich",
 			QUESTION_CREATION_ERROR: "Das Erstellen der Frage war leider nicht erfolgreich",
 			ANSWER_CREATION_ERROR: "Die Antwort konnte nicht gespeichert werden",
+			SEND: "Abschicken",
 			
 			/* questions */
 			QUESTION: "Frage",

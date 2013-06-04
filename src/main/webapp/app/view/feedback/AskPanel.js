@@ -43,7 +43,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		});
 		
 		this.saveButton = Ext.create('Ext.Button', {
-			text	: Messages.SAVE,
+			text	: Messages.SEND,
 			ui		: 'confirm',
 			handler	: this.askQuestion,
 			scope	: this
@@ -87,7 +87,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 				xtype: 'button',
 				ui: 'confirm',
 				cls: 'login-button noMargin',
-				text: Messages.SAVE,
+				text: Messages.SEND,
 				handler: this.askQuestion,
 				scope: this
 			}]
