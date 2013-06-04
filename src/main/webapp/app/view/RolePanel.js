@@ -42,7 +42,7 @@ Ext.define('ARSnova.view.RolePanel', {
 		
 		this.add([{
 			xtype	: 'toolbar',
-			dock	: 'top',
+			docked	: 'top',
 			ui		: 'light',
 			title	: 'Audience Response System',
 			cls		: null

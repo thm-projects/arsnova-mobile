@@ -199,7 +199,7 @@ Ext.application({
 			}, false);
 		}, false);
     	
-		if (!this.checkWebKit()) return;
+		// if (!this.checkWebKit()) return;
 		if (!this.checkLocalStorage()) return;
 		this.checkEstudyURL();
 		this.setupAppStatus();

@@ -326,14 +326,6 @@ body {
 	margin-top: 6px;
 }
 
-.forwardGroupedListButton.x-list-header-wrap {
-	background-position: 99% 40px;
-}
-
-.forwardGroupedListButton.x-list-header-wrap .x-hasbadge {
-	margin-top: 32px;
-}
-
 .caption {
 	height: 40px;
 	background: white;
@@ -455,8 +447,7 @@ body {
 	margin-right: 20px;
 }
 
-.roundedCorners .forwardGroupedListButton.x-list-item-first,
-.roundedCorners .forwardGroupedListButton.x-list-item-first .x-list-header {
+.roundedCorners .x-list-item-first.x-list-header {
 	-webkit-border-top-left-radius: 5px;
 	-webkit-border-top-right-radius: 5px;
 	border-top-left-radius: 5px;

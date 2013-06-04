@@ -74,13 +74,8 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 			
 			items: [{
 				text	: Messages.ARSNOVA_BLOG,
-				listeners: {
-					click: {
-						element: 'element',
-						fn: function() { 
-							window.open("http://blog.mni.thm.de/arsnova/");
-						}
-					}
+				handler	: function(b) {
+					window.open("http://blog.mni.thm.de/arsnova/");
 				}
 			}, {
 				text	: Messages.STATISTIC,
@@ -91,13 +86,8 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 				}
 			}, {
 				text: Messages.IMPRESSUM,
-				listeners: {
-					click: {
-						element: 'element',
-						fn: function() { 
-							window.open("http://blog.mni.thm.de/arsnova/impressum/");
-						}
-					}
+				handler	: function(b) {
+					window.open("http://blog.mni.thm.de/arsnova/impressum/");
 				}
 			}]
 		},
