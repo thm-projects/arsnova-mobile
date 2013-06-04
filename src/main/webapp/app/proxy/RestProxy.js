@@ -92,32 +92,36 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		this.callParent(arguments);
 	},
 	
-	buildUrl: function(request) {
-        var records = request.config.operation.config.records || [],
-        record  = records[0],
-        format  = this.format,
-        url     = request.url || this.config.url;
-    	id      = record ? record.getId() : request.config.operation.id; // FIX
-    
-    	if (this.appendId && id) { // FIX
-    		if (!url.match(/\/$/)) {
-            url += '/';
-    		}
-        
-    		url += id; // FIX
-    	}
-    
-	    if (format) {
-	        if (!url.match(/\.$/)) {
-	            url += '.';
-	        }
-	        
-	        url += format;
-	    }
-	    
-	    request.url = url;
+    buildUrl: function(request) {
+        var me        = this,
+            operation = request.getOperation(),
+            records   = operation.getRecords() || [],
+            record    = records[0],
+            model     = me.getModel(),
+            idProperty= model.getIdProperty(),
+            format    = this.format,
+            url       = me.getUrl(request) || this.config.url,
+            params    = request.getParams() || {},
+            id        = record ? record.getId() : request.config.operation.id;;
 
-	    this.callParent(arguments);
+        if (me.getAppendId() && id) {
+            if (!url.match(/\/$/)) {
+                url += '/';
+            }
+            url += id;
+        }
+
+        if (format) {
+            if (!url.match(/\.$/)) {
+                url += '.';
+            }
+
+            url += format;
+        }
+
+        request.setUrl(url);
+
+        return me.callParent([request]);
     },
     
 	/**

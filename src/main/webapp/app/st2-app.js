@@ -23,6 +23,18 @@ Ext.application({
 	
 	requires: ['ARSnova.proxy.RestProxy', 'ARSnova.WebSocket'],
 
+	startupImage: {
+		'320x460': 'resources/images/ARSnova_Grafiken/03_Launchimage_320x460px.png', // iPhone
+		'768x1004' : 'resources/images/ARSnova_Grafiken/03_Launchimage_768x1004px.png', // iPad (portrait)
+		'748x1024' : 'resources/images/ARSnova_Grafiken/03_Launchimage_748x1024px.png' // iPad (landscape)
+	},
+	
+	icon: {
+		57: 'resources/images/ARSnova_Grafiken/01_AppIcon_57x57.png',
+		72: 'resources/images/ARSnova_Grafiken/01_AppIcon_72x72.png',
+		114: 'resources/images/ARSnova_Grafiken/01_AppIcon_114x114.png'
+	},
+	
     name: "ARSnova",
     /* const */
     WEBAPP			: 'webapp',
@@ -187,7 +199,7 @@ Ext.application({
 			}, false);
 		}, false);
     	
-		if (!this.checkWebKit()) return;
+		// if (!this.checkWebKit()) return;
 		if (!this.checkLocalStorage()) return;
 		this.checkEstudyURL();
 		this.setupAppStatus();
