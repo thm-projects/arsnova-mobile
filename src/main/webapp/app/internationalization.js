@@ -53,9 +53,9 @@ switch (lang) {
 			/* homePanel */
 			LOGOUT: "Logout",
 			LOGOUT_REQUEST: "Do you really want to logout?",
-			SESSIONID_PLACEHOLDER: "Session-ID  (8-digits)",
+			SESSIONID_PLACEHOLDER: "Enter Session ID (8 digits)",
 			ENTER_SESSIONID: "Insert Session ID:",
-			GO: "Go!",
+			GO: "Enter Session",
 			LAST_VISITED_SESSIONS: "Sessions you recently visited:",
 			LEGEND: "Legend",
 			OPEN_SESSION: "Open Session",
@@ -302,9 +302,9 @@ switch (lang) {
 			/* homePanel */
 			LOGOUT: "Abmelden",
 			LOGOUT_REQUEST: "Möchten Sie sich wirklich von ARSnova abmelden?",
-			SESSIONID_PLACEHOLDER: "Session-ID  (8-stellig)",
+			SESSIONID_PLACEHOLDER: "Zugangsschlüssel (8 Ziffern)",
 			ENTER_SESSIONID: "Bitte Session-ID eingeben",
-			GO: "Los!",
+			GO: "Session betreten",
 			LAST_VISITED_SESSIONS: "Kürzlich besuchte Sessions",
 			LEGEND: "Legende",
 			OPEN_SESSION: "Offene Session",
