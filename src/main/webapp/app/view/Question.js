@@ -35,9 +35,6 @@ Ext.define('ARSnova.view.Question', {
 		var self = this; // for use inside callbacks
 		
 		var answerStore = Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
-		for (var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
-			this.questionObj.possibleAnswers[i].wasAnswered = false;
-		}
 		answerStore.add(this.questionObj.possibleAnswers);
 		
 		this.on('preparestatisticsbutton', function(button) {
@@ -79,7 +76,7 @@ Ext.define('ARSnova.view.Question', {
 				
 				var selectedIndexes = [];
 				this.answerList.getSelection().forEach(function(node) {
-					selectedIndexes.push(this.answerList.indexOf(node));
+					selectedIndexes.push(this.answerList.getStore().indexOf(node));
 				}, this);
 				
 				if (this.questionObj.showAnswer) {
@@ -90,12 +87,10 @@ Ext.define('ARSnova.view.Question', {
 						}
 					}, this);
 				}
-				
 				var answerValues = [];
-				for (var i=0; i < this.answerList.getInnerItems().length; i++) {
+				for (var i=0; i < this.answerList.getStore().getCount(); i++) {
 					answerValues.push(selectedIndexes.indexOf(i) !== -1 ? "1" : "0");
 				}
-				
 				ARSnova.app.answerModel.getUserAnswer(this.questionObj._id, {
 					empty: function() {
 						var answer = Ext.create('ARSnova.model.Answer', {
@@ -205,14 +200,7 @@ Ext.define('ARSnova.view.Question', {
 			
 			scrollable: { disabled: true },
 			
-			itemTpl	: new Ext.XTemplate(
-					'<tpl if="correct == 1 && wasAnswered == true">',
-					'{text} <span class="x-list-item-correct">&#10003;</span>', // UTF-8 check mark
-					'</tpl>',
-					'<tpl if="correct != 1">',
-					'{text}',
-					'</tpl>'
-			),
+			itemTpl	: '{text}',
 			listeners: {
 		        initialize: function (list, eOpts){
 		            var me = this;
