@@ -84,7 +84,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					xtype	: 'panel',
 					cls		: null,
 					html	: "<div class='arsnova-logo'></div>",
-					style	: { marginTop: '35px', marginBottom: '35px' }
+					style	: { marginTop: '35px', marginBottom: '30px' }
 				}, {
 				submitOnAction: false,
 				xtype: 'formpanel',
@@ -106,6 +106,8 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				}, {
 					xtype	: 'button',
 					height	: '45px',
+					width	: '700px',
+					margin	: '-10px 10px 0',
 					ui		: 'confirm',
 					text	: Messages.GO,
 					handler	: this.onSubmit
