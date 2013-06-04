@@ -598,7 +598,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		            var me = this;
 		            if (typeof me.getItemMap == 'function'){
 		                me.getScrollable().getScroller().on('refresh',function(scroller,eOpts){
-		                    me.setHeight(me.getItemMap().getTotalHeight());
+		                	var itemsHeight = me.getItemHeight() * me.itemsCount;
+		                	if(me.getGrouped()) {
+		                		var groupHeight = typeof me.headerHeight !== 'undefined' ? me.headerHeight : 26;
+		                		itemsHeight += me.groups.length * groupHeight;
+		                	}
+		                	me.setHeight(itemsHeight + 20);
 		                });
 		            }
 		        }
