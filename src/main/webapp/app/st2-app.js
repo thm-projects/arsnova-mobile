@@ -52,9 +52,6 @@ Ext.application({
 	
 	USER_ROLE_STUDENT: "0",
 	USER_ROLE_SPEAKER: "1",
-	
-	CANTEEN_LOCATION: "THM Mensa Gießen",
-	CANTEEN_DAY		: "01.03.2013",
     
     isIconPrecomposed: true,
     icon: 'resources/images/ARSnova_Grafiken/01_AppIcon_114x114px.png',
@@ -77,9 +74,6 @@ Ext.application({
     		['about.OpenSourceProjectsPanel', 'about.SocialSoftwarePanel', 'about.SponsorsPanel', 'about.StatisticPanel'],
     		['about.TabPanel'],
     		
-    		/* app/view/canteen */
-    		['canteen.StatisticPanel', 'canteen.TabPanel', 'canteen.VotePanel'],
-    		
     		/* app/view/feedback */
     		['feedback.AskPanel', 'feedback.StatisticPanel', 'feedback.TabPanel', 'feedback.VotePanel'],
     		
@@ -96,7 +90,7 @@ Ext.application({
     		/* app/view/user */
     		['user.InClass', 'user.QuestionPanel', 'user.TabPanel']),
 	
-    controllers: ['Auth', 'Canteen', 'Feedback', 'Lang', 'Questions', 'Sessions', 'User'],
+    controllers: ['Auth', 'Feedback', 'Lang', 'Questions', 'Sessions', 'User'],
     
     stores: ['Food'],
     
@@ -243,7 +237,6 @@ Ext.application({
 	 */
 	afterLogin: function(){
 		taskManager.start(ARSnova.app.loggedInTask);
-		taskManager.start(ARSnova.app.mainTabPanel.tabPanel.canteenTabPanel.statisticPanel.updateCanteenBadgeIconTask);
 		
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.homeTabPanel, 'slide');
 		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
@@ -273,7 +266,7 @@ Ext.application({
     	if(localStorage.getItem('sessionId') == undefined || localStorage.getItem('sessionId') == "")
     		return false;
     	else
-    		return true;		// TODO: canteen ...
+    		return true;
     },
     
     getGetVariable: function(variable){
