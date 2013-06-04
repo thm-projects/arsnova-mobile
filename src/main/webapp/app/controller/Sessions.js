@@ -245,7 +245,7 @@ Ext.define("ARSnova.controller.Sessions", {
 			return;
 		}
 		
-		session.save({
+		session.create({
 			success: function(response){
 				var fullSession = Ext.decode(response.responseText);
 				localStorage.setItem('sessionId', fullSession._id);
@@ -255,10 +255,8 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('active', fullSession.active ? 1 : 0);
 				localStorage.setItem('courseId', fullSession.courseId === null ? "" : fullSession.courseId);
 				localStorage.setItem('courseType', fullSession.courseType === null ? "" : fullSession.courseType);
-				ARSnova.isSessionOwner = true;
+				ARSnova.app.isSessionOwner = true;
     	    	
-    	    	//start feedback-votes-cleaning-up-task
-    	    	taskManager.start(ARSnova.app.cleanFeedbackVotes);
     	    	//start task to update the feedback tab in tabBar
     	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateFeedbackTask);
     	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
