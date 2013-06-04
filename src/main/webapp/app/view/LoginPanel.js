@@ -97,7 +97,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 		
 		this.add([{
 			xtype	: 'toolbar',
-			dock	: 'top',
+			docked	: 'top',
 			title	: 'Login',
 			cls		: null,
 			items: [{
