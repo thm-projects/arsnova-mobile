@@ -36,6 +36,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		    }],
 		    groupField: 'groupDate',
 	        grouper: {
+	        	property : "timestamp",
 	        	direction: 'DESC'
 	        }
 		}),
