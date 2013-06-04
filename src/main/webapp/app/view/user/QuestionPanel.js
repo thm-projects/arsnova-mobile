@@ -263,7 +263,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 					return index !== -1;
 				});
 				list.select(selectedIndexes, true);
-				questionPanel.disable();
+				questionPanel.disableQuestion();
 			} else {
 				for (var i = 0; i < data.length; i++) {
 					if (data.items[i].data.text == questionObj.userAnswered){
@@ -306,10 +306,13 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				break;
 			}
 		}
-		
+
 		for (var i = currentPosition, questionPanel; questionPanel = questionPanels[i]; i++) {
-			if (questionPanel.disabled) continue;
-			
+			if (questionPanel.isDisabled()) {
+				if(i == questionPanels.length-1) this.setActiveItem(0);
+				else continue;
+			} 
+
 			this.setActiveItem(i-2, {
 				type: 'slide',
 				direction: 'left'
