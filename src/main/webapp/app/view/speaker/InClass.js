@@ -113,7 +113,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			
 			items: [{
 				cls: 'gravure',
-				html: localStorage.getItem("name")
+				html: "Session-ID: " + ARSnova.app.formatSessionID(localStorage.getItem("keyword"))
 			}, {
 				xtype: 'formpanel',
 				cls	 : 'standardForm topPadding',
@@ -123,10 +123,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 					this.audienceQuestionButton,
 					this.feedbackQuestionButton
 				]
-			}, {
-				xtype: 'fieldset',
-				cls	 : 'standardFieldset noMargin',
-				instructions: "Session-ID: " + ARSnova.app.formatSessionID(localStorage.getItem("keyword"))
 			}]
 		});
 		
