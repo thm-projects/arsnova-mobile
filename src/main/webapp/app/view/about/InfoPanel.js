@@ -57,8 +57,9 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 		this.add([this.toolbar, {
 			xtype	: 'panel',
 			cls		: null,
-			html	: "<div class='arsnova-logo' style=\"background: url('resources/images/arsnova.png') no-repeat center; height:55px\"></div>",
-			style	: { marginTop: '10px'}
+			style	: { marginTop: '20px'},
+			html	: "<div class='arsnova-logo'></div>",
+			style	: { marginTop: '35px', marginBottom: '35px' }
 		}, 
 		{
 			xtype: 'formpanel',
