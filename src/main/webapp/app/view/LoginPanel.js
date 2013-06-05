@@ -74,8 +74,12 @@ Ext.define('ARSnova.view.LoginPanel', {
 			value	: ARSnova.app.LOGIN_GUEST,
 			hidden	: true,
 			handler	: function(b) {
-				ARSnova.app.getController('Auth').login({
-					mode: b.config.value
+				Ext.Msg.confirm(Messages.GUEST_LOGIN, Messages.CONFIRM_GUEST_SPEAKER, function(answer) {
+					if ('yes' === answer) {
+						ARSnova.app.getController('Auth').login({
+							mode: b.config.value
+						});
+					}
 				});
 			}
 		});

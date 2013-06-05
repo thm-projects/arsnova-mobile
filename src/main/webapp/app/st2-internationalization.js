@@ -51,6 +51,9 @@ switch (lang) {
 			GUEST: "Guest",
 			CHANGE_ROLE: "Change role",
 			NO_GUEST_SPEAKER: "Note: You have to log in to create a session.",
+			CONFIRM_GUEST_SPEAKER: "If you login as guest, you can manage newly created ARSnova sessions only from this device. Still login as guest?",
+			GUEST_LOGIN: "Guest login",
+			
 			/* homePanel */
 			LOGOUT: "Logout",
 			LOGOUT_REQUEST: "Do you really want to logout?",
@@ -274,6 +277,9 @@ switch (lang) {
 			GUEST: "Gast",
 			CHANGE_ROLE: "Rolle wechseln",
 			NO_GUEST_SPEAKER: "Hinweis: Um eine Session anzulegen, müssen Sie sich anmelden.",
+			CONFIRM_GUEST_SPEAKER: "Wenn Sie sich als Gast anmelden, ist die ARSnova-Session nur auf dem aktuellen Gerät verwaltbar. Dennoch als Gast anmelden?",
+			GUEST_LOGIN: "Gast-Anmeldung",
+			
 			/* homePanel */
 			LOGOUT: "Abmelden",
 			LOGOUT_REQUEST: "Möchten Sie sich wirklich von ARSnova abmelden?",
