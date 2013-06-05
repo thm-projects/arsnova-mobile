@@ -308,10 +308,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		}
 
 		for (var i = currentPosition, questionPanel; questionPanel = questionPanels[i]; i++) {
-			if (questionPanel.isDisabled()) {
-				if(i == questionPanels.length-1) this.setActiveItem(0);
-				else continue;
-			} 
+			if (questionPanel.isDisabled()) continue;
 
 			this.setActiveItem(i-2, {
 				type: 'slide',

@@ -57,7 +57,7 @@ Ext.define('ARSnova.view.Question', {
 					}
 					localStorage.setItem('questionIds', Ext.encode(questionsArr));
 					
-					self.disable();
+					self.disableQuestion();
 					ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
 				},
 				failure: function(response, opts) {
@@ -242,7 +242,7 @@ Ext.define('ARSnova.view.Question', {
 	
 	disableQuestion: function() {		
 		this.setDisabled(true);
-		this.mask(new ARSnova.view.CustomMask);
+		this.mask(Ext.create('ARSnova.view.CustomMask'));
 	},
 	
 	decrementQuestionBadges: function() {
