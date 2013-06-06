@@ -59,6 +59,7 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.QUESTION_DETAILS,
 			docked: 'top',
+			ui: 'light',
 			items: [
 		        this.backButton
 			]

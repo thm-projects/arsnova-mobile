@@ -75,6 +75,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			title: Messages.NEW_SESSION,
 			cls	 : 'titlePaddingLeft',
 			docked: 'top',
+			ui: 'light',
 			items: [
 		        this.backButton
 			]

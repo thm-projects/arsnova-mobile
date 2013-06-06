@@ -96,6 +96,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: localStorage.getItem("shortName"),
 			docked: 'top',
+			ui: 'light',
 			items: [
 		        this.sessionLogoutButton
 			]

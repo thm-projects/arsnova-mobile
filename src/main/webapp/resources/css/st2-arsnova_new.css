@@ -94,26 +94,52 @@
 }
 
 .x-toolbar-light {
-	background-color: #354f6e;
-	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #7c9bc0), color-stop(2%, #416086), color-stop(100%, #293e56));
-	background-image: -webkit-linear-gradient(#7c9bc0,#416086 2%,#293e56);
-	background-image: linear-gradient(#7c9bc0,#416086 2%,#293e56);
+	background: #b0bccd;
+	background: -moz-linear-gradient(top,  #b0bccd 0%, #889bb3 50%, #8195af 50%, #6d84a2 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b0bccd), color-stop(50%,#889bb3), color-stop(50%,#8195af), color-stop(100%,#6d84a2));
+	background: -webkit-linear-gradient(top,  #b0bccd 0%,#889bb3 50%,#8195af 50%,#6d84a2 100%);
+	background: -o-linear-gradient(top,  #b0bccd 0%,#889bb3 50%,#8195af 50%,#6d84a2 100%);
+	background: -ms-linear-gradient(top,  #b0bccd 0%,#889bb3 50%,#8195af 50%,#6d84a2 100%);
+	background: linear-gradient(to bottom,  #b0bccd 0%,#889bb3 50%,#8195af 50%,#6d84a2 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b0bccd', endColorstr='#6d84a2',GradientType=0 );
 	border-color: black;
+	border-bottom: 1px solid #2D3642;
+    border-top: 1px solid #CDD5DF;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.6);
 }
 
 .x-tabbar-dark {
-	background-color: #141e29;
-	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #466890), color-stop(2%, #1f2f41), color-stop(100%, #080c11));
-	background-image: -webkit-linear-gradient(#466890,#1f2f41 2%,#080c11);
-	background-image: linear-gradient(#466890,#1f2f41 2%,#080c11);
-	border-color: #0c1118;
+	background: #2d2d2d;
+	background: -moz-linear-gradient(top,  #2d2d2d 0%, #000000 100%, #141414 50%, #000000 50%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2d2d2d), color-stop(100%,#000000), color-stop(50%,#141414), color-stop(50%,#000000));
+	background: -webkit-linear-gradient(top,  #2d2d2d 0%,#000000 100%,#141414 50%,#000000 50%);
+	background: -o-linear-gradient(top,  #2d2d2d 0%,#000000 100%,#141414 50%,#000000 50%);
+	background: -ms-linear-gradient(top,  #2d2d2d 0%,#000000 100%,#141414 50%,#000000 50%);
+	background: linear-gradient(to bottom,  #2d2d2d 0%,#000000 100%,#141414 50%,#000000 50%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2d2d2d', endColorstr='#000000',GradientType=0 );
 }
 
 .x-toolbar-light .x-button, .x-toolbar-light .x-button.x-button-back:after, .x-toolbar-light .x-button.x-button-forward:after, .x-toolbar .x-toolbar-light .x-button, .x-toolbar .x-toolbar-light .x-button.x-button-back:after, .x-toolbar .x-toolbar-light .x-button.x-button-forward:after, .x-toolbar-light .x-field-select .x-input-text, .x-toolbar-light .x-field-select .x-input-text.x-button-back:after, .x-toolbar-light .x-field-select .x-input-text.x-button-forward:after, .x-toolbar .x-toolbar-light .x-field-select .x-input-text, .x-toolbar .x-toolbar-light .x-field-select .x-input-text.x-button-back:after, .x-toolbar .x-toolbar-light .x-field-select .x-input-text.x-button-forward:after, .x-toolbar-light .x-field-select:before, .x-toolbar-light .x-field-select:before.x-button-back:after, .x-toolbar-light .x-field-select:before.x-button-forward:after, .x-toolbar .x-toolbar-light .x-field-select:before, .x-toolbar .x-toolbar-light .x-field-select:before.x-button-back:after, .x-toolbar .x-toolbar-light .x-field-select:before.x-button-forward:after {
 	background-color: #24364c;
-	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #5a81af), color-stop(2%, #304864), color-stop(100%, #192533));
-	background-image: -webkit-linear-gradient(#5a81af,#304864 2%,#192533);
-	background-image: linear-gradient(#5a81af,#304864 2%,#192533);
+	background: #222222;
+	background: -moz-linear-gradient(top,  #222222 0%, #8ea4c1 2%, #5877a2 50%, #476999 50%, #4a6c9b 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#222222), color-stop(2%,#8ea4c1), color-stop(50%,#5877a2), color-stop(50%,#476999), color-stop(100%,#4a6c9b));
+	background: -webkit-linear-gradient(top,  #222222 0%,#8ea4c1 2%,#5877a2 50%,#476999 50%,#4a6c9b 100%);
+	background: -o-linear-gradient(top,  #222222 0%,#8ea4c1 2%,#5877a2 50%,#476999 50%,#4a6c9b 100%);
+	background: -ms-linear-gradient(top,  #222222 0%,#8ea4c1 2%,#5877a2 50%,#476999 50%,#4a6c9b 100%);
+	background: linear-gradient(to bottom,  #222222 0%,#8ea4c1 2%,#5877a2 50%,#476999 50%,#4a6c9b 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#222222', endColorstr='#4a6c9b',GradientType=0 );
+}
+
+.x-toolbar-light .x-button.x-button-pressing, .x-toolbar-light .x-button.x-button-pressing:after, .x-toolbar-light .x-button.x-button-pressed, .x-toolbar-light .x-button.x-button-pressed:after, .x-toolbar-light .x-button.x-button-active, .x-toolbar-light .x-button.x-button-active:after, .x-toolbar-light .x-toolbar .x-button.x-button-pressing, .x-toolbar-light .x-toolbar .x-button.x-button-pressing:after, .x-toolbar-light .x-toolbar .x-button.x-button-pressed, .x-toolbar-light .x-toolbar .x-button.x-button-pressed:after, .x-toolbar-light .x-toolbar .x-button.x-button-active, .x-toolbar-light .x-toolbar .x-button.x-button-active:after {
+	background: #7c87a4;
+	background: -moz-linear-gradient(top,  #7c87a4 0%, #394d77 50%, #243b69 50%, #263e6c 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#7c87a4), color-stop(50%,#394d77), color-stop(50%,#243b69), color-stop(100%,#263e6c));
+	background: -webkit-linear-gradient(top,  #7c87a4 0%,#394d77 50%,#243b69 50%,#263e6c 100%);
+	background: -o-linear-gradient(top,  #7c87a4 0%,#394d77 50%,#243b69 50%,#263e6c 100%);
+	background: -ms-linear-gradient(top,  #7c87a4 0%,#394d77 50%,#243b69 50%,#263e6c 100%);
+	background: linear-gradient(to bottom,  #7c87a4 0%,#394d77 50%,#243b69 50%,#263e6c 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7c87a4', endColorstr='#263e6c',GradientType=0 );
 }
 
 .x-toolbar-light .x-button, .x-toolbar .x-toolbar-light .x-button, .x-toolbar-light .x-field-select .x-input-text, .x-toolbar .x-toolbar-light .x-field-select .x-input-text, .x-toolbar-light .x-field-select:before, .x-toolbar .x-toolbar-light .x-field-select:before {

@@ -80,6 +80,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
+			ui: 'light',
 			items: [this.backButton, {xtype: 'spacer'}, this.feedbackVoteButton]
 		}),
 		

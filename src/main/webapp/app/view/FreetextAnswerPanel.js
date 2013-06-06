@@ -77,6 +77,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.QUESTION,
 			docked: 'top',
+			ui: 'light',
 			items: [this.backButton]
 		});
 		

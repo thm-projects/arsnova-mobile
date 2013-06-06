@@ -51,6 +51,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: 'Session',
 			docked: 'top',
+			ui: 'light',
 			items: [
 		        this.logoutButton
 			]
@@ -98,7 +99,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					cls: 'bottomMargin',
 					
 					items: [{
-						xtype		: 'numericKeypad',
+						xtype		: 'numberfield',
 						name		: 'keyword',
 						placeHolder	: Messages.SESSIONID_PLACEHOLDER,
 						maxLength	: 11

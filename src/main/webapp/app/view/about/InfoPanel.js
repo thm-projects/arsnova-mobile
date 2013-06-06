@@ -51,6 +51,7 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.INFO,
 			docked: 'top',
+			ui: 'light',
 			items: [this.backButton]
 		});
 		
