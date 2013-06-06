@@ -146,6 +146,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: 'Auditorium',
 			docked: 'top',
+			ui: 'light',
 			items: [
 		        this.backButton,
 		        { xtype: 'spacer' },

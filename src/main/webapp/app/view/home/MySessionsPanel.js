@@ -76,6 +76,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.SESSIONS,
 			docked: 'top',
+			ui: 'light',
 			items: [
 		        this.backButton,
 		        this.logoutButton,

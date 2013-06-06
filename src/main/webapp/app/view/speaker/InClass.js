@@ -80,6 +80,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: localStorage.getItem("shortName"),
+			ui: 'light',
 			docked: 'top',
 			items: [
 		        this.sessionLogoutButton

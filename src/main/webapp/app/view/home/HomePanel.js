@@ -51,6 +51,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: 'Session',
 			docked: 'top',
+			ui: 'light',
 			items: [
 		        this.logoutButton
 			]

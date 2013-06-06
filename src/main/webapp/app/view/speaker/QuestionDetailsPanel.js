@@ -208,6 +208,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.QUESTION,
 			docked: 'top',
+			ui: 'light',
 			items: [
 		        this.backButton,
 		        this.cancelButton,

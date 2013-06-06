@@ -76,6 +76,7 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.STATISTIC,
 			docked: 'top',
+			ui: 'light',
 			items: [this.backButton]
 		});
 		

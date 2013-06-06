@@ -66,6 +66,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.MY_FEEDBACK,
 			docked: 'top',
+			ui: 'light',
 			cls: 'titlePaddingLeft',
 			items: [
 		        this.backButton
