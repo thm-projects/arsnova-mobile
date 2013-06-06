@@ -68,10 +68,8 @@ Ext.application({
     		['FreetextQuestion', 'Question', 'QuestionStatusButton', 'SessionStatusButton', 'CustomMask'],
     		
     		/* app/view/about */
-    		['about.AboutPanel', 'about.ARSinLessonPanel', 'about.ARSPanel', 'about.CreditsPanel', 'about.HelpCanteenPanel'],
-    		['about.HelpDeskPanel', 'about.HelpFeedbackPanel', 'about.HelpHomePanel', 'about.HelpMainPanel'],
-    		['about.HelpQuestionsPanel', 'about.HelpVideoPanel', 'about.ImpressumPanel', 'about.InfoPanel'],
-    		['about.OpenSourceProjectsPanel', 'about.SocialSoftwarePanel', 'about.SponsorsPanel', 'about.StatisticPanel'],
+    		['about.InfoPanel'],
+    		['about.StatisticPanel'],
     		['about.TabPanel'],
     		
     		/* app/view/feedback */
