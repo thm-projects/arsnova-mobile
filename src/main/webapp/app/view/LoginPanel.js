@@ -91,7 +91,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 			title	: 'Login',
 			cls		: null,
 			items: [{
-			   text: 'Back',
+			   text: Messages.BACK_TO_ROLEPANEL,
 			   ui: 'back',
 			   handler: function(){
 					ARSnova.app.userRole = "";
