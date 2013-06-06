@@ -99,7 +99,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					cls: 'bottomMargin',
 					
 					items: [{
-						xtype		: 'numberfield',
+						xtype		: 'numericKeypad',
 						name		: 'keyword',
 						placeHolder	: Messages.SESSIONID_PLACEHOLDER,
 						maxLength	: 11
