@@ -211,7 +211,7 @@ switch (lang) {
 			BACK: "Back",
 			
 			/* question types */
-			EVALUATION: "Eval",
+			EVALUATION: "Rating",
 			SCHOOL: "Grades",
 			MC: "MC",
 			YESNO: "Y/N",
@@ -439,7 +439,7 @@ switch (lang) {
 			BACK: "Zurück",
 			
 			/* question types */
-			EVALUATION: "Abfrage",
+			EVALUATION: "Rating",
 			SCHOOL: "Note",
 			MC: "MC",
 			YESNO: "J/N",
