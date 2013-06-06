@@ -52,28 +52,37 @@ Ext.define('ARSnova.view.RolePanel', {
 			html	: "<div class='arsnova-logo'></div>",
 			style	: { marginTop: '35px', marginBottom: '35px' }
 		}, {
-			text	: Messages.STUDENT,
-			cls		: 'login-button role-label-student',
-			value	: ARSnova.app.USER_ROLE_STUDENT
-		}, {
-			text	: Messages.SPEAKER,
-			cls		: 'login-button role-label-speaker',
-			value	: ARSnova.app.USER_ROLE_SPEAKER
-		}, /*{
-			// TODO: i18n
-			text	: "Was ist ARSnova?",
-			ui		: 'small',
-			style	: { marginLeft: '30%', marginRight: "30%" },
-			listeners: {
-				click: {
-					element: 'element',
-					fn: function() { 
-						window.open("http://blog.mni.thm.de/arsnova/", "_blank");
-					}
-				}
+			xtype	: 'container',
+			layout	: {
+				type: 'hbox',
+				pack: 'center'
 			},
-			handler: function() {  }
-		},*/ {
+			items	: [
+				{
+					xtype	: 'matrixbutton',
+					text: Messages.STUDENT,
+					value: ARSnova.app.USER_ROLE_STUDENT,
+					image: "login_student",
+					handler	: function(b) {
+						ARSnova.app.getController('Auth').roleSelect({
+							mode: b.config.value
+						});
+					}
+				},
+				{
+					xtype	: 'matrixbutton',
+					text: Messages.SPEAKER,
+					value: ARSnova.app.USER_ROLE_SPEAKER,
+					image: "ars_logo",
+					handler	: function(b) {
+						ARSnova.app.getController('Auth').roleSelect({
+							mode: b.config.value
+						});
+					},
+					style: "margin-left:20px"
+				}
+			]
+		}, {
 			xtype	: 'panel',
 			style	: { marginTop: '30px'},
 			html	: "<div class='gravure'><a href='http://www.thm.de/' class='thmlink' target='_blank'>Powered by <span style='color:#699824; font-weight:bold;'>THM</span></a></div>",

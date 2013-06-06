@@ -64,7 +64,7 @@ Ext.application({
     		
     		/* app/view */
     		['Caption', 'LoginPanel', 'MainTabPanel', 'TabPanel', 'RolePanel', 'MathJaxField'], 
-    		['MathJaxMessageBox', 'MultiBadgeButton', 'NumericKeypad', 'FreetextAnswerPanel', 'FreetextDetailAnswer'],
+    		['MathJaxMessageBox', 'MultiBadgeButton', 'MatrixButton', 'NumericKeypad', 'FreetextAnswerPanel', 'FreetextDetailAnswer'],
     		['FreetextQuestion', 'Question', 'QuestionStatusButton', 'SessionStatusButton', 'CustomMask'],
     		
     		/* app/view/about */
