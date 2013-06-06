@@ -74,14 +74,12 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.rolePanel 		= Ext.create('ARSnova.view.RolePanel');
 		this.homeTabPanel 	= Ext.create('ARSnova.view.home.TabPanel');
 		this.infoTabPanel 	= Ext.create('ARSnova.view.about.TabPanel');
-		this.helpMainPanel  = Ext.create('ARSnova.view.about.HelpMainPanel', { standalone : true});
 		
 		this.add([
 			this.rolePanel,
 			this.loginPanel,
 			this.homeTabPanel,
-			this.infoTabPanel,
-			this.helpMainPanel
+			this.infoTabPanel
 		]);
 		
 		this.on('activeitemchange', function(panel, newCard, oldCard){
@@ -97,7 +95,6 @@ Ext.define('ARSnova.view.TabPanel', {
 			this.rolePanel.tab.hide();
 			this.loginPanel.tab.hide();
 			this.homeTabPanel.tab.hide();
-			this.helpMainPanel.tab.hide();
 		});
 		this.on('activate', this.onActivate);
 		this.on('deactivate', this.onDeactivate);
