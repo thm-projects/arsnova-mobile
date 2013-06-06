@@ -34,55 +34,93 @@ Ext.define('ARSnova.view.LoginPanel', {
 	initialize: function() {
 		this.callParent(arguments);
 		
-		var threeButtons = [];
-		if (window.innerWidth > 1000) {
-			threeButtons = [{
-				text	: 'Google',
-				cls		: 'login-buttons google-wide',
-				value	: ARSnova.app.LOGIN_GOOGLE
-			}, {
-				text	: 'THM',
-				cls 	: 'login-buttons thm-login-wide',
-				value	: ARSnova.app.LOGIN_THM
-			}, {
-				xtype: 'panel',
-				style: {
-					clear: 'both'
-				}
-			}];
-		} else {
-			threeButtons = [{
-				text	: 'Google',
-				cls		: 'login-buttons google',
-				value	: ARSnova.app.LOGIN_GOOGLE
-			}, {
-				text	: 'THM',
-				cls		: 'login-buttons thm-login',
-				value	: ARSnova.app.LOGIN_THM
-			}, {
-				xtype: 'panel',
-				style: {
-					clear: 'both'
-				}
-			}];
+		
+		this.arsLogo = {
+				xtype	: 'panel',
+				cls		: null,
+				style	: { marginTop: '20px'},
+				html	: "<div class='arsnova-logo'></div>",
+				style	: { marginTop: '35px', marginBottom: '35px' }
+			};
+		
+		if (Ext.os.is.Phone) {
+			this.arsLogo = {
+					xtype	: 'panel',
+					style	: { marginTop: '35px' }
+				};
 		}
 		
-		this.guestLoginButton = Ext.create('Ext.Button', {
-			text	: Messages.GUEST,
-			style	: { marginTop: '10px'},
-			cls		: 'login-button login-label-guest',
-			value	: ARSnova.app.LOGIN_GUEST,
-			hidden	: true,
-			handler	: function(b) {
-				Ext.Msg.confirm(Messages.GUEST_LOGIN, Messages.CONFIRM_GUEST_SPEAKER, function(answer) {
-					if ('yes' === answer) {
+		this.buttonPanelTop = Ext.create('Ext.Panel', {
+			xtype	: 'container',
+			layout	: {
+				type: 'hbox',
+				pack: 'center'
+			},
+			items	: [
+				{
+					xtype	: 'matrixbutton',
+					text: Messages.GUEST,
+					value: ARSnova.app.LOGIN_GUEST,
+					image: "btn_guest",
+					handler	: function(b) {
+						Ext.Msg.confirm(Messages.GUEST_LOGIN, Messages.CONFIRM_GUEST_SPEAKER, function(answer) {
+							if ('yes' === answer) {
+								ARSnova.app.getController('Auth').login({
+									mode: b.config.value
+								});
+							}
+						});
+					}
+				},
+				{
+					xtype	: 'matrixbutton',
+					text: Messages.UNI,
+					value: ARSnova.app.LOGIN_THM,
+					image: "btn_thm",
+					handler	: function(b) {
+						ARSnova.app.getController('Auth').login({
+							mode: b.config.value
+						});
+					},
+					style: "margin-left:20px"
+				}
+			]
+		});
+		
+		this.buttonPanelBottom = Ext.create('Ext.Panel', {
+			xtype	: 'container',
+			layout	: {
+				type: 'hbox',
+				pack: 'center'
+			},
+			items	: [
+				{
+					xtype	: 'matrixbutton',
+					text: 'Google',
+					value: ARSnova.app.LOGIN_GOOGLE,
+					image: "btn_google",
+					handler	: function(b) {
 						ARSnova.app.getController('Auth').login({
 							mode: b.config.value
 						});
 					}
-				});
-			}
+				},
+				{
+					xtype	: 'matrixbutton',
+					text: 'Facebook',
+					value	: ARSnova.app.LOGIN_FACEBOOK,
+					image: "btn_facebook",
+					handler	: function(b) {
+						ARSnova.app.getController('Auth').login({
+							mode: b.config.value
+						});
+					},
+					style: "margin-left:20px"
+				}
+			]
 		});
+		
+		
 		
 		this.add([{
 			xtype	: 'toolbar',
@@ -104,31 +142,13 @@ Ext.define('ARSnova.view.LoginPanel', {
 					});	
 				}
 			}]
-		}, {
-			xtype	: 'panel',
-			cls		: null,
-			style	: { marginTop: '20px'},
-			html	: "<div class='arsnova-logo'></div>",
-			style	: { marginTop: '35px', marginBottom: '35px' }
 		},
-		this.guestLoginButton,
-		{
-			xtype: 'panel',
-			style: {
-				padding: '10px'
-			},
-			defaults : {
-				xtype	: 'button',
-				handler	: function(b) {
-					ARSnova.app.getController('Auth').login({
-						mode: b.config.value
-					});
-				}
-			},
-			items: threeButtons
-		}]);
+		this.arsLogo, 
+		this.buttonPanelTop,
+		this.buttonPanelBottom
+		]);
 		
-		this.on('activate', Ext.bind(function() {
+		/*this.on('activate', Ext.bind(function() {
 			var isDevelopmentEnvironment = window.location.href.match(/developer\.html#?$/);
 			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
 				this.guestLoginButton.hide('fade');
@@ -138,6 +158,6 @@ Ext.define('ARSnova.view.LoginPanel', {
 			if (isDevelopmentEnvironment) {
 				this.guestLoginButton.show('fade');
 			}
-		}, this));
+		}, this));*/
 	}
 });

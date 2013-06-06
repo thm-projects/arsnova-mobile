@@ -262,7 +262,8 @@ switch (lang) {
 			SUPPORTED_BROWSERES: "ARSnova is best-viewed in a WebKit browser, e.g. Apple Safari or Google Chrome!",
 			NEW_VERSION_TITLE: "New Version",
 			NEW_VERSION_AVAILABLE: "A new version of ARSnova is available. Do you want to update?",
-			PRESENTER: "Presenter"
+			PRESENTER: "Presenter",
+			UNI: "Uni"
 		};
 	
 		break;
@@ -489,7 +490,8 @@ switch (lang) {
 			SUPPORTED_BROWSERES: "Für eine korrekte Darstellung von ARSnova benutzen Sie bitte einen WebKit-Browser, z.B. Apple Safari oder Google Chrome!",
 			NEW_VERSION_TITLE: "Neue Version",
 			NEW_VERSION_AVAILABLE: "Eine neue Version von ARSnova ist verfügbar. Möchten Sie aktualisieren?",
-			PRESENTER: "Presenter"
+			PRESENTER: "Presenter",
+			UNI: "Uni"
 	};
 	break;
 }
