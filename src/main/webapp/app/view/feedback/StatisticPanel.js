@@ -80,7 +80,6 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
-			title: localStorage.getItem("shortName"),
 			items: [this.backButton, {xtype: 'spacer'}, this.feedbackVoteButton]
 		}),
 		
@@ -262,8 +261,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 	},
 	
 	checkTitle: function(){
-		var title = "";
-		if (ARSnova.app.isSessionOwner) title = localStorage.getItem('shortName');
+		var title = localStorage.getItem('shortName');
 		this.toolbar.setTitle(title);
 	}
 });

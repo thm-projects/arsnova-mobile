@@ -266,7 +266,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	},
 	
 	presenterHandler: function() {
-		window.open(ARSnova.PRESENTER_URL + "#!/" + localStorage.getItem('keyword'), "_self");
+		window.open(ARSnova.app.PRESENTER_URL + "#!/" + localStorage.getItem('keyword'), "_self");
 	},
 	
 	showcaseHandler: function() {

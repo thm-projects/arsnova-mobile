@@ -65,7 +65,6 @@ Ext.define("ARSnova.controller.Sessions", {
     			Ext.Msg.alert("Hinweis", "Diese Session existiert nicht.");
     		},
     		failure: function(records, operation){
-    			console.log(operation);
     			Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
     		}
     	});

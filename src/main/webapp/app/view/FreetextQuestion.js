@@ -152,8 +152,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				localStorage.setItem('questionIds', Ext.encode(questionsArr));
 
 				self.decrementQuestionBadges();
-				self.disable();
-				ARSnova.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
+				self.disableQuestion();
+				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
 			},
 			failure: function(response, opts) {
 				console.log('server-side error');

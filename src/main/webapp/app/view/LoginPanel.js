@@ -74,30 +74,19 @@ Ext.define('ARSnova.view.LoginPanel', {
 			value	: ARSnova.app.LOGIN_GUEST,
 			hidden	: true,
 			handler	: function(b) {
-				ARSnova.app.getController('Auth').login({
-					mode: b.config.value
-				});
-			}
-		});
-		
-		this.presenterButton = Ext.create('Ext.Button', {
-			text	: Messages.PRESENTER,
-			ui		: 'confirm',
-			cls		: 'login-button',
-			hidden	: true,
-			listeners: {
-				click: {
-					element: 'element',
-					fn: function(event) {
-						window.open(ARSnova.PRESENTER_URL, "_self");
+				Ext.Msg.confirm(Messages.GUEST_LOGIN, Messages.CONFIRM_GUEST_SPEAKER, function(answer) {
+					if ('yes' === answer) {
+						ARSnova.app.getController('Auth').login({
+							mode: b.config.value
+						});
 					}
-				}
+				});
 			}
 		});
 		
 		this.add([{
 			xtype	: 'toolbar',
-			dock	: 'top',
+			docked	: 'top',
 			title	: 'Login',
 			cls		: null,
 			items: [{
@@ -121,7 +110,6 @@ Ext.define('ARSnova.view.LoginPanel', {
 			html	: "<div class='arsnova-logo'></div>",
 			style	: { marginTop: '35px', marginBottom: '35px' }
 		},
-		this.presenterButton,
 		this.guestLoginButton,
 		{
 			xtype: 'panel',
@@ -142,10 +130,8 @@ Ext.define('ARSnova.view.LoginPanel', {
 		this.on('activate', Ext.bind(function() {
 			var isDevelopmentEnvironment = window.location.href.match(/developer\.html#?$/);
 			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
-				this.presenterButton.show('fade');
 				this.guestLoginButton.hide('fade');
 			} else {
-				this.presenterButton.hide('fade');
 				this.guestLoginButton.show('fade');
 			}
 			if (isDevelopmentEnvironment) {
