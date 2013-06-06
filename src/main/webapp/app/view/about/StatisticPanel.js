@@ -20,6 +20,7 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.about.StatisticPanel', {
 	extend: 'Ext.Container',
+	requires: ['Ext.form.Panel', 'Ext.form.FieldSet'],
 	
 	config: {
 		fullscreen: true,
@@ -30,6 +31,7 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 	
 	/* panels */
 	tablePanel: null,
+	testy: null,
 	
 	/* statistics */
 	statistics: null,
@@ -55,10 +57,6 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 	    this.statisticsStore = Ext.create('Ext.data.Store', {
 	    	model: 'ARSnova.model.Statistic'
 	    }),
-		
-	    this.tablePanel = Ext.create('Ext.Panel', {
-	    	html: ''
-	    }),
 	    
 		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.INFO,
@@ -80,11 +78,43 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 			docked: 'top',
 			items: [this.backButton]
 		});
-
-		this.add([this.toolbar, this.tablePanel]);	
+		
+		this.add([this.toolbar,{
+			xtype: 'formpanel',
+			cls  : 'standardForm topPadding',
+			scrollable : null,
+			//style	: { margin: '20px'},
+			
+			defaults: {
+				xtype	: 'button',
+				ui		: 'normal',
+				cls		: 'standardListButton'
+			},
+			
+			items: [{
+					id : 'statisticUsersOnline',
+					text	: 'Users online'
+				},{
+					id : 'statisticOpenSessions',
+					text	: Messages.OPEN_SESSIONS
+				},{
+					id : 'statisticClosedSessions',
+					text	: Messages.CLOSED_SESSIONS
+				},{
+					id : 'statisticQuestions',
+					text	: Messages.QUESTIONS
+				},{
+					id : 'statisticAnswers',
+					text	: Messages.ANSWERS
+				},]
+		},]);	
 	
 		this.on('activate', this.onActivate);
 		this.on('deactivate', this.onDeactivate);
+	},
+	
+	beforeActivate: function(){
+		getStatistics();
 	},
 	
 	onActivate: function(){
@@ -94,39 +124,15 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 	onDeactivate: function(){
 		taskManager.stop(this.updateDataTask);
 	},
-	
-	buildTable: function() {
-	    if (this.statisticsStore != null) {
-	    	var htmlTemplate = '<div><table class="statistic"><tr><thead><th>' + Messages.CATEGORY + '</th>' +
-				'<th>' + Messages.COUNT + '</th></thead></tr>';
-	    	
-	    	this.statisticsStore.data.each(function(item) {
-	    		htmlTemplate += '<tr><td>' + item.data.category + '</td><td>' + item.data.counter + '</td></tr>';
-	        });
-	    	
-	        htmlTemplate += '</table></div>';
-	        this.tablePanel.setHtml(htmlTemplate);
+	setNumbers: function() {
+	    if (this.statistics != null) {
+			Ext.getCmp('statisticUsersOnline').setText('Users online <div style="float:right">' + this.statistics.activeUsers + '</div>');
+			Ext.getCmp('statisticOpenSessions').setText(Messages.OPEN_SESSIONS + '<div style="float:right">' + this.statistics.openSessions + '</div>');
+			Ext.getCmp('statisticClosedSessions').setText(Messages.CLOSED_SESSIONS + '<div style="float:right">' + this.statistics.closedSessions + '</div>');
+			Ext.getCmp('statisticQuestions').setText(Messages.QUESTIONS + '<div style="float:right">' + this.statistics.questions + '</div>');
+			Ext.getCmp('statisticAnswers').setText(Messages.ANSWERS + '<div style="float:right">' + this.statistics.answers + '</div>');
 	    }
 	},
-	
-	/**
-	 * add statistics to store 'statisticsStore'
-	 */
-	addStatistics: function() {
-		if(this.statistics != null) {
-			this.statisticsStore.add({category: Messages.OPEN_SESSIONS, counter: this.statistics.openSessions});
-			this.statisticsStore.add({category: Messages.CLOSED_SESSIONS, counter: this.statistics.closedSessions});
-			this.statisticsStore.add({category: Messages.QUESTIONS, counter: this.statistics.questions});
-			this.statisticsStore.add({category: Messages.ANSWERS, counter: this.statistics.answers});
-			this.statisticsStore.add({category: "Users online", counter: this.statistics.activeUsers});
-	
-			this.statisticsStore.sort([{
-				property : 'category',
-				direction: 'DESC'
-			}]);
-		}
-	},
-	
 	/**
 	 * get statistics from proxy
 	 */
@@ -134,12 +140,12 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 		ARSnova.app.statisticModel.countSessions({
 			success: function(response){
 				var statistics = Ext.decode(response.responseText);
+				console.log(statistics);
 				
 				if(statistics != null) {
 					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel.statisticPanel;
 					me.statistics = statistics;
-					me.addStatistics();
-					me.buildTable();
+					me.setNumbers();
 				}
 				
 				setTimeout("ARSnova.app.hideLoadMask()", 500);
@@ -149,7 +155,6 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 			}
 		});
 	},
-	
 	updateData: function(){
 		ARSnova.app.showLoadMask(Messages.LOAD_MASK);
 		this.statisticsStore.clearData();
