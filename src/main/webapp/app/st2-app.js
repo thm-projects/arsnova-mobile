@@ -28,7 +28,9 @@ Ext.application({
 		'768x1004' : 'resources/images/ARSnova_Grafiken/03_Launchimage_768x1004px.png', // iPad (portrait)
 		'748x1024' : 'resources/images/ARSnova_Grafiken/03_Launchimage_748x1024px.png' // iPad (landscape)
 	},
-	
+	viewport: {
+        autoMaximize: Ext.os.is.iOS && Ext.browser.version.isGreaterThan(3)
+    },
 	icon: {
 		57: 'resources/images/ARSnova_Grafiken/01_AppIcon_57x57.png',
 		72: 'resources/images/ARSnova_Grafiken/01_AppIcon_72x72.png',
