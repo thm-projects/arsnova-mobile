@@ -63,13 +63,19 @@ Ext.define('ARSnova.view.LoginPanel', {
 					value: ARSnova.app.LOGIN_GUEST,
 					image: "btn_guest",
 					handler	: function(b) {
-						Ext.Msg.confirm(Messages.GUEST_LOGIN, Messages.CONFIRM_GUEST_SPEAKER, function(answer) {
-							if ('yes' === answer) {
-								ARSnova.app.getController('Auth').login({
-									mode: b.config.value
-								});
-							}
-						});
+						if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+							Ext.Msg.confirm(Messages.GUEST_LOGIN, Messages.CONFIRM_GUEST_SPEAKER, function(answer) {
+								if ('yes' === answer) {
+									ARSnova.app.getController('Auth').login({
+										mode: b.config.value
+									});
+								}
+							});
+						} else {
+							ARSnova.app.getController('Auth').login({
+								mode: b.config.value
+							});
+						}
 					}
 				},
 				{
