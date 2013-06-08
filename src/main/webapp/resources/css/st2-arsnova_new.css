@@ -383,7 +383,7 @@ body {
 		no-repeat;
 	background-position: 99%;
 	border-radius: 0;
-	height: 45px;
+	height: 45px !important;
 	border-style: solid;
 	border-color: lightgray;
 	border-width: thin;
