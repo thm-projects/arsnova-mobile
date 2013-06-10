@@ -131,27 +131,26 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			cls: 'threeButtons left',
 			
 			items: [{
-				xtype		: 'button',
-				text		: ' ',
-				cls			: 'questionMark',
+				xtype		: 'matrixbutton',
+				text		: Messages.AH_HOC_QUESTION,
+				width		: '',
+				height		: '',
+				image		: 'question',
 				controller	: 'Questions',
 				action		: 'adHoc',
 				handler		: this.buttonClicked
-			}, {
-				html: Messages.AH_HOC_QUESTION,
-				cls	: 'centerTextSmall'
 			}]
 		});
 		
 		this.sessionStatusButton = Ext.create('ARSnova.view.SessionStatusButton');
 		
-		this.deleteSessionButton = Ext.create('Ext.Panel', {
-			cls: 'threeButtons left',
-			
+		this.deleteSessionButton = Ext.create('Ext.Panel', {		
 			items: [{
-				xtype	: 'button',
-				text	: ' ',
-				cls		: 'deleteIcon',
+					xtype	: 'matrixbutton',
+					text: Messages.DELETE_SESSION,
+					image: 'delete_session',
+					width: '',
+					height: '',
 				scope	: this,
 				handler	: function(){
 					var msg = Messages.ARE_YOU_SURE +
@@ -174,9 +173,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 						}
 					});
 				}
-			}, {
-				html: Messages.DELETE_SESSION,
-				cls	: 'centerTextSmall'
 			}]
 		});
 		

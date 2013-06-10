@@ -34,40 +34,38 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 	initialize: function() {
 		this.callParent(arguments);
 		
-		this.sessionIsClosedButton = Ext.create('Ext.Button', {
-			cls		: 'closedSession',
-			handler	: function(){
-				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
+		this.sessionIsClosed = Ext.create('Ext.Panel', {			
+			items: [{
+				xtype		: 'matrixbutton',
+				text		: Messages.START_SESSION,
+				width		: '',
+				image		: 'unlock_session',
+				handler	: function(){
+					ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
 			}
+			}]
 		});
 		
-		this.sessionIsClosedText = Ext.create('Ext.Panel', {
-			cls	: 'centerTextSmall',
-			html: Messages.START_SESSION
-		});
-		
-		this.sessionIsOpenButton = Ext.create('Ext.Button', {
-			cls		: 'openSession',
-			handler	: function(){
-				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
+		this.sessionIsOpen = Ext.create('Ext.Panel', {			
+			items: [{
+				xtype		: 'matrixbutton',
+				text		: Messages.STOP_SESSION,
+				width		: '',
+				image		: 'lock_session',
+				handler	: function(){
+					ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
 			}
-		});
-		
-		this.sessionIsOpenText = Ext.create('Ext.Panel', {
-			cls	: 'centerTextSmall',
-			html: Messages.STOP_SESSION
+			}]
 		});
 
-		this.add([this.sessionIsClosedButton, this.sessionIsClosedText, this.sessionIsOpenButton, this.sessionIsOpenText]);
+		this.add([this.sessionIsClosed, this.sessionIsOpen]);
 		
 		if(localStorage.getItem('active') == 1){
 			this.isOpen = true;
-			this.sessionIsClosedButton.hide();
-			this.sessionIsClosedText.hide();
+			this.sessionIsClosed.hide();
 		} else {
 			this.isOpen = false;
-			this.sessionIsOpenButton.hide();
-			this.sessionIsOpenText.hide();
+			this.sessionIsOpen.hide();
 		}
 	},
 	
@@ -100,17 +98,13 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 	
 	sessionClosedSuccessfully: function(){
 		this.isOpen = false;
-		this.sessionIsClosedButton.show();
-		this.sessionIsClosedText.show();
-		this.sessionIsOpenButton.hide();
-		this.sessionIsOpenText.hide();
+		this.sessionIsClosed.show();
+		this.sessionIsOpen.hide();
 	},
 	
 	sessionOpenedSuccessfully: function(){
 		this.isOpen = true;
-		this.sessionIsOpenButton.show();
-		this.sessionIsOpenText.show();
-		this.sessionIsClosedButton.hide();
-		this.sessionIsClosedText.hide();
+		this.sessionIsOpen.show();
+		this.sessionIsClosed.hide();
 	}
 }); 
