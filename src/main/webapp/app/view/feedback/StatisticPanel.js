@@ -248,7 +248,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		    }]
 		});
 		
-		this.feedbackChart.on('redraw', function() {
+		this.feedbackChart.onBefore('redraw', function() {
 			this.getAxes().items[0].axis.hide();
 			this.getAxes().items[1].labelGroup.hide();
 		});

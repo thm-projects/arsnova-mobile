@@ -111,11 +111,12 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 		},]);	
 	
 		this.on('activate', this.onActivate);
+		this.on('activate', this.beforeActivate, this, null, 'before');
 		this.on('deactivate', this.onDeactivate);
 	},
 	
 	beforeActivate: function(){
-		getStatistics();
+		this.getStatistics();
 	},
 	
 	onActivate: function(){
@@ -141,7 +142,6 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 		ARSnova.app.statisticModel.countSessions({
 			success: function(response){
 				var statistics = Ext.decode(response.responseText);
-				console.log(statistics);
 				
 				if(statistics != null) {
 					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel.statisticPanel;
