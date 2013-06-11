@@ -381,6 +381,13 @@ body {
 	min-height: 120px;
 }
 
+.matrixButton.feedbackGoodBackground,
+.matrixButton.feedbackOkBackground,
+.matrixButton.feedbackBadBackground,
+.matrixButton.feedbackNoneBackground {
+	width: 120px !important;
+}
+
 .buttonText {
 	font-size: 1em !important;
 	padding: 5px 0 0 !important;
