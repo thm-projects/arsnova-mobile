@@ -24,9 +24,7 @@ Ext.define('ARSnova.view.MatrixButton', {
 	
 	config: {
 		image: '',
-		cls: 'noBackground noBorder',
-		width: '120px',
-		height: '120px',
+		cls: 'noBackground noBorder matrixButton',
 		html: [
 		          '<span class="iconBtn"></span><span class="gravure buttonText" style="display:block"></span>'
 		         ],

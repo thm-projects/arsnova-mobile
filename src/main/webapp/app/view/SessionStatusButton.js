@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 	extend: 'Ext.Panel',
 	
 	config: {
-		cls	: 'threeButtons left'
+		cls	: ''
 	},
 	
 	handler: null,
@@ -34,28 +34,20 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 	initialize: function() {
 		this.callParent(arguments);
 		
-		this.sessionIsClosed = Ext.create('Ext.Panel', {			
-			items: [{
-				xtype		: 'matrixbutton',
-				text		: Messages.START_SESSION,
-				width		: '',
-				image		: 'unlock_session',
-				handler	: function(){
-					ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
+		this.sessionIsClosed = Ext.create('ARSnova.view.MatrixButton', {
+			text		: Messages.START_SESSION,
+			image		: 'unlock_session',
+			handler	: function(){
+				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
 			}
-			}]
 		});
 		
-		this.sessionIsOpen = Ext.create('Ext.Panel', {			
-			items: [{
-				xtype		: 'matrixbutton',
-				text		: Messages.STOP_SESSION,
-				width		: '',
-				image		: 'lock_session',
-				handler	: function(){
-					ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
+		this.sessionIsOpen = Ext.create('ARSnova.view.MatrixButton', {
+			text		: Messages.STOP_SESSION,
+			image		: 'lock_session',
+			handler	: function(){
+				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
 			}
-			}]
 		});
 
 		this.add([this.sessionIsClosed, this.sessionIsOpen]);

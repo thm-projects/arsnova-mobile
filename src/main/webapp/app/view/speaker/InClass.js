@@ -127,14 +127,49 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			}]
 		});
 		
+		this.sessionStatusButton = Ext.create('ARSnova.view.SessionStatusButton');
+		
+		this.instantQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
+			text		: Messages.AH_HOC_QUESTION,
+			image		: 'question',
+			controller	: 'Questions',
+			action		: 'adHoc',
+			handler		: this.buttonClicked
+		});
+		
+		this.deleteSessionButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: Messages.DELETE_SESSION,
+			image: 'delete_session',
+			scope	: this,
+			handler	: function(){
+				var msg = Messages.ARE_YOU_SURE +
+						"<br>" + Messages.DELETE_SESSION_NOTICE;
+				Ext.Msg.confirm(Messages.DELETE_SESSION, msg, function(answer){
+					if (answer == 'yes') {
+						ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_DELETE);
+						ARSnova.app.sessionModel.destroy(localStorage.getItem('keyword'), {
+							success: function(){
+								ARSnova.app.removeVisitedSession(localStorage.getItem('sessionId'));
+								ARSnova.app.mainTabPanel.tabPanel.on('activeitemchange', function(){
+									ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.mySessionsPanel.loadCreatedSessions();
+								}, this, {single:true});
+								ARSnova.app.getController('Sessions').logout();
+							},
+							failure: function(response){
+								console.log('server-side error delete session');
+							}
+						});
+					}
+				});
+			}
+		});
+		
 		this.createAdHocQuestionButton = Ext.create('Ext.Panel', {
-			cls: 'threeButtons left',
+			cls: 'left',
 			
 			items: [{
 				xtype		: 'matrixbutton',
 				text		: Messages.AH_HOC_QUESTION,
-				width		: '',
-				height		: '',
 				image		: 'question',
 				controller	: 'Questions',
 				action		: 'adHoc',
@@ -142,15 +177,13 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			}]
 		});
 		
-		this.sessionStatusButton = Ext.create('ARSnova.view.SessionStatusButton');
+		
 		
 		this.deleteSessionButton = Ext.create('Ext.Panel', {		
 			items: [{
 					xtype	: 'matrixbutton',
 					text: Messages.DELETE_SESSION,
 					image: 'delete_session',
-					width: '',
-					height: '',
 				scope	: this,
 				handler	: function(){
 					var msg = Messages.ARE_YOU_SURE +
@@ -176,9 +209,12 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			}]
 		});
 		
-		this.inClassActions = Ext.create('Ext.form.FormPanel', {
-			cls	 : 'actionsForm',
-			scrollable: null,
+		this.inClassActions = Ext.create('Ext.Panel', {
+			xtype	: 'container',
+			layout	: {
+				type: 'hbox',
+				pack: 'center'
+			},
 				
 			items: [
 			    this.createAdHocQuestionButton,
