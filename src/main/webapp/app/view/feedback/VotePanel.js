@@ -26,16 +26,6 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 		fullscreen: true,
 		scrollable: true,
 		scroll: 'vertical',
-		
-		defaults: {
-			xtype	: 'button',
-			cls		: 'option-button',
-			handler	: function(button) {
-				ARSnova.app.getController('Feedback').vote({
-					value		: button.config.value
-				});
-			}
-		}
 	},
 	
 	/* toolbar items */
@@ -73,34 +63,105 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 	        ]
 		});
 		
-		this.add([this.toolbar, {
-			iconCls	: 'feedbackGood',
-			text	: Messages.FEEDBACK_OKAY,
-			value	: 'Kann folgen'
-		}, {
-			iconCls	: 'feedbackMedium',
-			text	: Messages.FEEDBACK_GOOD,
-			value	: 'Bitte schneller'
-		}, {
-			iconCls	: 'feedbackBad',
-			text	: Messages.FEEDBACK_BAD,
-			value	: 'Zu schnell'
-		}, {
-			iconCls	: 'feedbackNone',
-			text	: Messages.FEEDBACK_NONE,
-			value	: 'Nicht mehr dabei'
-		}, {
-			text	: Messages.QUESTION_REQUEST,
-			iconCls	: 'tabBarIconQuestion',
-			ui		: 'action',
-			handler : function() {
-				var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
-				panel.animateActiveItem(panel.askPanel, 'slide');
+		if (Ext.os.is.Phone) {
+			this.arsLogo = {
+					xtype	: 'panel',
+					style	: { marginTop: '35px' }
+				};
+		}
+		
+		this.buttonPanelTop = Ext.create('Ext.Panel', {
+			xtype	: 'container',
+			style	: 'margin-top:20px',
+			layout	: {
+				type: 'hbox',
+				pack: 'center'
+			},
+			items	: [
+				{
+					xtype	: 'matrixbutton',
+					text	: Messages.FEEDBACK_OKAY,
+					cls		: 'noPadding noBackground noBorder feedbackOkBackground',
+					value	: 'Kann folgen',
+					image	: "icons/48x48/smiley_happy",
+					handler	: function(button) {
+						ARSnova.app.getController('Feedback').vote({
+							value		: button.config.value
+						});
+					}
+				},
+				{
+					xtype	: 'matrixbutton',
+					text	: Messages.FEEDBACK_GOOD,
+					cls		: 'noPadding noBackground noBorder feedbackGoodBackground',
+					value	: 'Bitte schneller',
+					image	: "icons/48x48/smiley_wink",
+					handler	: function(button) {
+						ARSnova.app.getController('Feedback').vote({
+							value		: button.config.value
+						});
+					},
+					style: "margin-left:20px"
+				}
+			]
+		});
+		
+		this.buttonPanelBottom = Ext.create('Ext.Panel', {
+			xtype	: 'container',
+			layout	: {
+				type: 'hbox',
+				pack: 'center'
+			},
+			items	: [
+				{
+					xtype	: 'matrixbutton',
+					text	: Messages.FEEDBACK_BAD,
+					cls		: 'noPadding noBackground noBorder feedbackBadBackground',
+					value	: 'Zu schnell',
+					image	: "icons/48x48/smiley_frown",
+					handler	: function(button) {
+						ARSnova.app.getController('Feedback').vote({
+							value		: button.config.value
+						});
+					}
+				},
+				{
+					xtype	: 'matrixbutton',
+					text	: Messages.FEEDBACK_NONE,
+					cls		: 'noPadding noBackground noBorder feedbackNoneBackground', 
+					value	: 'Nicht mehr dabei',
+					image	: "icons/48x48/smiley_angry",
+					handler	: function(button) {
+						ARSnova.app.getController('Feedback').vote({
+							value		: button.config.value
+						});
+					},
+					style: "margin-left:20px"
+				}
+			]
+		});
+		
+		this.add([
+		    this.toolbar,
+		    this.buttonPanelTop,
+		    this.buttonPanelBottom, 
+			{
+		    	xtype	: 'button',
+				text	: Messages.QUESTION_REQUEST,
+				iconCls	: 'tabBarIconQuestion',
+				cls		: 'questionRequestButton',
+				ui		: 'action',
+				width	: '235px',
+				handler : function() {
+					var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
+					panel.animateActiveItem(panel.askPanel, 'slide');
+				}
+			}, {
+				xtype: 'panel',
+				cls: 'gravure',
+				style: { 'font-size':'1.0em' },
+				html: Messages.FEEDBACK_INSTRUCTION
 			}
-		}, {
-			xtype: 'panel',
-			cls: 'gravure',
-			html: Messages.FEEDBACK_INSTRUCTION
-		}]);
+		]);
 	}
 });
