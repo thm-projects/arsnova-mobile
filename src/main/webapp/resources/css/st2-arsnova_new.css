@@ -153,6 +153,48 @@
 .x-tabbar-dark .x-tab {
 	color: #fff;	
 }
+
+.x-hasbadge .x-badge {
+	-webkit-border-radius: 1em;
+	border-radius: 1em;
+	-webkit-background-clip: padding;
+	background-clip: padding-box;
+	padding: .15em .25em !important;
+	z-index: 30;
+	text-shadow: rgba(0, 0, 0, 0.5) 0 -0.08em 0;
+	-webkit-box-shadow: #000 0 .1em .2em;
+	overflow: hidden;
+	color: #fff;
+	border: 2px solid #fff;
+	position: absolute;
+	width: auto;
+	min-width: 2em;
+	height: 2em;
+	line-height: 1.2em !important;
+	font-size: .6em !important;
+	top: -0.15em;
+	right: 0px;
+	max-width: 100%;
+	background-color: #990000;
+	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e60000), color-stop(50%, #b30000), color-stop(51%, #990000), color-stop(100%, #800000));
+	background-image: -webkit-linear-gradient(#e60000,#b30000 50%,#990000 51%,#800000);
+	background-image: linear-gradient(#e60000,#b30000 50%,#990000 51%,#800000);
+	display: inline-block;
+}
+
+.x-button-label, .x-hasbadge .x-badge {
+	-webkit-box-flex: 1;
+	box-flex: 1;
+	-webkit-box-align: center;
+	box-align: center;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	text-align: center;
+	font-weight: bold;
+	line-height: 1.2em;
+	display: block;
+	overflow: hidden;
+}
 /* end */
 
 html,body {
