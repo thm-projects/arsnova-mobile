@@ -41,7 +41,11 @@ if(prefLang != undefined){
 	lang = prefLang;
 }
 
-switch (lang.toLowerCase()) {
+if(lang != null) {
+	lang = lang.toLowerCase();
+}
+
+switch (lang) {
 	case 'en':case 'en-en':case 'en-us':case 'en-gb':
 		Messages = {
 			/* rolePanel */
