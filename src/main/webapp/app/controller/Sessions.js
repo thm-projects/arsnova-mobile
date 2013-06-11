@@ -130,75 +130,71 @@ Ext.define("ARSnova.controller.Sessions", {
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 		tabPanel.homeTabPanel.tab.hide();
 
-		if(ARSnova.app.isSessionOwner){
+		if (ARSnova.app.isSessionOwner) {
 			/* add speaker in class panel */
-				if(!tabPanel.speakerTabPanel){
-					tabPanel.speakerTabPanel = Ext.create('ARSnova.view.speaker.TabPanel');
-					tabPanel.insert(1, tabPanel.speakerTabPanel);
-				} else {
-					ARSnova.app.showLoadMask("Login...");
-					tabPanel.speakerTabPanel.tab.show();
-					tabPanel.speakerTabPanel.renew();
-					setTimeout("ARSnova.app.hideLoadMask();", 3000);
-				}
-				tabPanel.animateActiveItem(tabPanel.speakerTabPanel, {
-					type: 'slide',
-					duration: 700
-				});
-				tabPanel.speakerTabPanel.inClassPanel.registerListeners();
+			if(!tabPanel.speakerTabPanel) {
+				tabPanel.speakerTabPanel = Ext.create('ARSnova.view.speaker.TabPanel');
+				tabPanel.insert(1, tabPanel.speakerTabPanel);
+			} else {
+				ARSnova.app.showLoadMask("Login...");
+				tabPanel.speakerTabPanel.tab.show();
+				tabPanel.speakerTabPanel.renew();
+				setTimeout("ARSnova.app.hideLoadMask();", 3000);
+			}
+			tabPanel.animateActiveItem(tabPanel.speakerTabPanel, {
+				type: 'slide',
+				duration: 700
+			});
+			tabPanel.speakerTabPanel.inClassPanel.registerListeners();
 
 			/* add feedback statistic panel*/
-				if(!tabPanel.feedbackTabPanel){
-					tabPanel.feedbackTabPanel = Ext.create('ARSnova.view.feedback.TabPanel');
-					tabPanel.insert(2, tabPanel.feedbackTabPanel);
-				} else {
-					tabPanel.feedbackTabPanel.tab.show();
-					tabPanel.feedbackTabPanel.renew();
-				}
+			if (!tabPanel.feedbackTabPanel) {
+				tabPanel.feedbackTabPanel = Ext.create('ARSnova.view.feedback.TabPanel');
+				tabPanel.insert(2, tabPanel.feedbackTabPanel);
+			} else {
+				tabPanel.feedbackTabPanel.tab.show();
+				tabPanel.feedbackTabPanel.renew();
+			}
 			
 			/* add feedback questions panel*/
-				if(!tabPanel.feedbackQuestionsPanel){
-					tabPanel.feedbackQuestionsPanel = Ext.create('ARSnova.view.feedbackQuestions.TabPanel');
-					if(!tabPanel.userTabPanel)
-						tabPanel.insert(3, tabPanel.feedbackQuestionsPanel);
-					else
-						tabPanel.insert(4, tabPanel.feedbackQuestionsPanel);
-				} else {
-					tabPanel.feedbackQuestionsPanel.tab.show();
-				}
+			if (!tabPanel.feedbackQuestionsPanel) {
+				tabPanel.feedbackQuestionsPanel = Ext.create('ARSnova.view.feedbackQuestions.TabPanel');
+				if(!tabPanel.userTabPanel)
+					tabPanel.insert(3, tabPanel.feedbackQuestionsPanel);
+				else
+					tabPanel.insert(4, tabPanel.feedbackQuestionsPanel);
+			} else {
+				tabPanel.feedbackQuestionsPanel.tab.show();
+			}
 		} else {
 			/* add user in class panel */
-				if(!tabPanel.userTabPanel){
-					tabPanel.userTabPanel = Ext.create('ARSnova.view.user.TabPanel');
-					tabPanel.insert(0, tabPanel.userTabPanel);
-				} else {
-					tabPanel.userTabPanel.tab.show();
-					tabPanel.userTabPanel.renew();
-				}
-//				tabPanel.animateActiveItem(tabPanel.userTabPanel, {
-//					type: 'slide',
-//					duration: 700
-//				});
+			if (!tabPanel.userTabPanel) {
+				tabPanel.userTabPanel = Ext.create('ARSnova.view.user.TabPanel');
+				tabPanel.insert(0, tabPanel.userTabPanel);
+			} else {
+				tabPanel.userTabPanel.tab.show();
+				tabPanel.userTabPanel.renew();
+			}
 				
-				ARSnova.app.hideLoadMask();
+			ARSnova.app.hideLoadMask();
 				tabPanel.userTabPanel.inClassPanel.registerListeners();
 				
 			/* add feedback statistic panel*/
-				if(!tabPanel.feedbackTabPanel){
-					tabPanel.feedbackTabPanel = Ext.create('ARSnova.view.feedback.TabPanel');
-					tabPanel.insert(1, tabPanel.feedbackTabPanel);
-				} else {
-					tabPanel.feedbackTabPanel.tab.show();
-					tabPanel.feedbackTabPanel.renew();
-				}
+			if (!tabPanel.feedbackTabPanel) {
+				tabPanel.feedbackTabPanel = Ext.create('ARSnova.view.feedback.TabPanel');
+				tabPanel.insert(1, tabPanel.feedbackTabPanel);
+			} else {
+				tabPanel.feedbackTabPanel.tab.show();
+				tabPanel.feedbackTabPanel.renew();
+			}
 				
 			/* add skill questions panel*/
-				var questionsPanel = Ext.create('ARSnova.view.user.QuestionPanel');
-				tabPanel.userQuestionsPanel = questionsPanel;
-				if(!tabPanel.speakerTabPanel)
-					tabPanel.insert(3, questionsPanel);
-				else
-					tabPanel.insert(4, questionsPanel);
+			if (!tabPanel.userQuestionsPanel) {
+				tabPanel.userQuestionsPanel = Ext.create('ARSnova.view.user.QuestionPanel');
+				tabPanel.insert(2, tabPanel.userQuestionsPanel);
+			} else {
+				tabPanel.userQuestionsPanel.tab.show();
+			}
 				
 			tabPanel.animateActiveItem(tabPanel.feedbackTabPanel, {
 				type: 'slide',
