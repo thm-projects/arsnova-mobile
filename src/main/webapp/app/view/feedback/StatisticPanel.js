@@ -175,19 +175,20 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		        type: 'numeric',
 		        position: 'left',
 		        fields: ['value'],
+		        hidden: true,
 		        minimum: 0,
 		        grid: {
 			        opacity: 0
-		        },
+		        }
+		    }, {
+		        type: 'category',
+		        position: 'bottom',
+		        fields : ['displayName'],
 		        label: {
 		            renderer: function(v) {
 		                return '';
 		            }
 		        }
-		    }, {
-		        type: 'category',
-		        position: 'bottom',
-		        fields : ['displayName']
 		    }],
 		    
 		    gradients: [{
@@ -246,11 +247,6 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		            fill: 'blue'
 		        },
 		    }]
-		});
-		
-		this.feedbackChart.onBefore('redraw', function() {
-			this.getAxes().items[0].axis.hide();
-			this.getAxes().items[1].labelGroup.hide();
 		});
 		
 		this.add([this.toolbar, this.feedbackButtons, this.feedbackChart]);
