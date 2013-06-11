@@ -59,7 +59,7 @@ Ext.application({
     icon: 'resources/images/ARSnova_Grafiken/01_AppIcon_114x114px.png',
 
     models: [].concat(
-    		['Answer', 'Config', 'Feedback', 'FoodVote', 'LoggedIn', 'Question', 'Session', 'Statistic', 'Course'],
+    		['Answer', 'Config', 'Feedback', 'LoggedIn', 'Question', 'Session', 'Statistic', 'Course'],
     		['Auth', 'FeedbackQuestion']),
     
     views: [].concat(
@@ -92,8 +92,6 @@ Ext.application({
 	
     controllers: ['Auth', 'Feedback', 'Lang', 'Questions', 'Sessions', 'User'],
     
-    stores: ['Food'],
-    
     /* items */
     mainTabPanel: null,
     tabPanel	: null,
@@ -114,7 +112,6 @@ Ext.application({
     /* models */
     answerModel 	: null,
     feedbackModel	: null,
-    foodVoteModel	: null,
     loggedInModel	: null,
     questionModel	: null,
     sessionModel 	: null,
@@ -161,7 +158,6 @@ Ext.application({
     	this.answerModel 		= Ext.create('ARSnova.model.Answer');
     	this.authModel			= Ext.create('ARSnova.model.Auth');
     	this.feedbackModel		= Ext.create('ARSnova.model.Feedback');
-    	this.foodVoteModel		= Ext.create('ARSnova.model.FoodVote');
     	this.loggedInModel		= Ext.create('ARSnova.model.LoggedIn');
     	this.questionModel		= Ext.create('ARSnova.model.Question');
     	this.sessionModel		= Ext.create('ARSnova.model.Session');
@@ -395,35 +391,6 @@ Ext.application({
     	
 		localStorage.setItem('sessionId', "");
 		return true;
-    },
-    
-    initFoodStore: function(){
-    	var foodStore = Ext.getStore("Food");
-    	if(ARSnova.app.config.menu1 != null && ARSnova.app.config.menu1 != "")
-    		foodStore.add({
-    			name: ARSnova.app.config.menu1,
-    			value: 0
-    		});
-    	if(ARSnova.app.config.menu2 != null && ARSnova.app.config.menu2 != "")
-    		foodStore.add({
-    			name: ARSnova.app.config.menu2,
-    			value: 0
-    		});
-    	if(ARSnova.app.config.menu3 != null && ARSnova.app.config.menu3 != "")
-    		foodStore.add({
-    			name: ARSnova.app.config.menu3,
-    			value: 0
-    		});
-    	if(ARSnova.app.config.menu4 != null && ARSnova.app.config.menu4 != "")
-    		foodStore.add({
-    			name: ARSnova.app.config.menu4,
-    			value: 0
-    		});
-    	if(ARSnova.app.config.menu5 != null && ARSnova.app.config.menu5 != "")
-    		foodStore.add({
-    			name: ARSnova.app.config.menu5,
-    			value: 0
-    		});
     },
     
     formatSessionID: function(sessionID){
