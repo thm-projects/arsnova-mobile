@@ -383,7 +383,7 @@ body {
 
 .buttonText {
 	font-size: 1em !important;
-	padding-top: 5px !important;
+	padding: 5px 0 0 !important;
 	font-weight: normal !important;
 	white-space: normal !important;
 	line-height: 1.1em !important;
