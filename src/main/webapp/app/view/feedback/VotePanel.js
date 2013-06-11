@@ -112,6 +112,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 				type: 'hbox',
 				pack: 'center'
 			},
+			style: "margin-top:10px",
 			items	: [
 				{
 					xtype	: 'matrixbutton',
