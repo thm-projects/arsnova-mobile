@@ -194,8 +194,9 @@ Ext.define("ARSnova.controller.Sessions", {
 				tabPanel.insert(2, tabPanel.userQuestionsPanel);
 			} else {
 				tabPanel.userQuestionsPanel.tab.show();
+				tabPanel.userQuestionsPanel.renew();
 			}
-				
+			
 			tabPanel.animateActiveItem(tabPanel.feedbackTabPanel, {
 				type: 'slide',
 				duration: 700
