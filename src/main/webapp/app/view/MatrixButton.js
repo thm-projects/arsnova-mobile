@@ -42,10 +42,5 @@ Ext.define('ARSnova.view.MatrixButton', {
 	    	    	});    
 	    	    }
 	     }
-	     
-	}, 
-	construnctor: function(config) {
-		this.initConfig(config);
-		return this;
-	},
+	}
 });
