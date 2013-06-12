@@ -558,11 +558,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				label: Messages.TYPE,
 				value: this.getType(),
 				disabled: true
-			}, {
-				xtype: 'textfield',
-				label: Messages.STATUS,
-				value: this.questionObj.active == "1" ? Messages.RELEASED : Messages.NOT_RELEASED,
-				disabled: true
 			}]
 		});
 		
