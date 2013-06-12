@@ -23,6 +23,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 	
 	config: {
 		fullscreen: true,
+		scrollable: true,
 		scroll: 'vertical',
 		
 		layoutOnOrientationChange: false,

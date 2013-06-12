@@ -36,8 +36,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	initialize: function() {
 		this.callParent(arguments);
 		
-		var self = this;
-		
 		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.HOME,
 			ui		: 'back',
@@ -146,6 +144,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 									cls: 'centerText',
 									html: Messages.NO_UNLOCKED_QUESTIONS
 								});
+								userQuestionsPanel.next();
 								userQuestionsPanel._indicator.hide();
 								ARSnova.app.hideLoadMask();
 								
@@ -154,7 +153,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 								userQuestionsPanel.add({
 									cls: 'centerText',
 									html: Messages.NO_QUESTIONS
-								});	
+								});
+								userQuestionsPanel.next();
 								userQuestionsPanel._indicator.hide();
 								ARSnova.app.hideLoadMask();
 							}
@@ -276,7 +276,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			}
 			if (questionObj.showAnswer) {
 				list.getStore().each(function(item) {
-					item.set('wasAnswered', true);
+					item.set('questionAnswered', true);
 				});
 			}
 		}, this);
@@ -317,5 +317,10 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			});
 			break;
 		}
+	},
+	
+	renew: function() {
+		this.removeAll();
+		this.getUnansweredSkillQuestions();
 	}
 });

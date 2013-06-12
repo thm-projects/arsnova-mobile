@@ -80,11 +80,9 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 			items: [this.backButton]
 		});
 		
-		this.add([this.toolbar,{
-			xtype: 'formpanel',
+		this.formpanel = Ext.create('Ext.form.Panel', {
 			cls  : 'standardForm topPadding',
 			scrollable : null,
-			//style	: { margin: '20px'},
 			
 			defaults: {
 				xtype	: 'button',
@@ -93,29 +91,32 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 			},
 			
 			items: [{
-					id : 'statisticUsersOnline',
+					itemId : 'statisticUsersOnline',
 					text	: 'Users online'
 				},{
-					id : 'statisticOpenSessions',
+					itemId : 'statisticOpenSessions',
 					text	: Messages.OPEN_SESSIONS
 				},{
-					id : 'statisticClosedSessions',
+					itemId : 'statisticClosedSessions',
 					text	: Messages.CLOSED_SESSIONS
 				},{
-					id : 'statisticQuestions',
+					itemId : 'statisticQuestions',
 					text	: Messages.QUESTIONS
 				},{
-					id : 'statisticAnswers',
+					itemId : 'statisticAnswers',
 					text	: Messages.ANSWERS
-				},]
-		},]);	
+				}]
+		});
+		
+		this.add([this.toolbar, this.formpanel]);	
 	
 		this.on('activate', this.onActivate);
+		this.on('activate', this.beforeActivate, this, null, 'before');
 		this.on('deactivate', this.onDeactivate);
 	},
 	
 	beforeActivate: function(){
-		getStatistics();
+		this.getStatistics();
 	},
 	
 	onActivate: function(){
@@ -125,15 +126,17 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 	onDeactivate: function(){
 		taskManager.stop(this.updateDataTask);
 	},
+	
 	setNumbers: function() {
 	    if (this.statistics != null) {
-			Ext.getCmp('statisticUsersOnline').setText('Users online <div style="float:right">' + this.statistics.activeUsers + '</div>');
-			Ext.getCmp('statisticOpenSessions').setText(Messages.OPEN_SESSIONS + '<div style="float:right">' + this.statistics.openSessions + '</div>');
-			Ext.getCmp('statisticClosedSessions').setText(Messages.CLOSED_SESSIONS + '<div style="float:right">' + this.statistics.closedSessions + '</div>');
-			Ext.getCmp('statisticQuestions').setText(Messages.QUESTIONS + '<div style="float:right">' + this.statistics.questions + '</div>');
-			Ext.getCmp('statisticAnswers').setText(Messages.ANSWERS + '<div style="float:right">' + this.statistics.answers + '</div>');
+			this.formpanel.getComponent('statisticUsersOnline').setText('Users online <div style="float:right">' + this.statistics.activeUsers + '</div>');
+			this.formpanel.getComponent('statisticOpenSessions').setText(Messages.OPEN_SESSIONS + '<div style="float:right">' + this.statistics.openSessions + '</div>');
+			this.formpanel.getComponent('statisticClosedSessions').setText(Messages.CLOSED_SESSIONS + '<div style="float:right">' + this.statistics.closedSessions + '</div>');
+			this.formpanel.getComponent('statisticQuestions').setText(Messages.QUESTIONS + '<div style="float:right">' + this.statistics.questions + '</div>');
+			this.formpanel.getComponent('statisticAnswers').setText(Messages.ANSWERS + '<div style="float:right">' + this.statistics.answers + '</div>');
 	    }
 	},
+	
 	/**
 	 * get statistics from proxy
 	 */
@@ -141,7 +144,6 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 		ARSnova.app.statisticModel.countSessions({
 			success: function(response){
 				var statistics = Ext.decode(response.responseText);
-				console.log(statistics);
 				
 				if(statistics != null) {
 					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel.statisticPanel;

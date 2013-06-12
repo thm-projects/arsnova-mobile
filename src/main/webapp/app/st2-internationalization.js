@@ -25,10 +25,13 @@
 
 var ua = navigator.userAgent.toLowerCase();
 var isAndroid = ua.indexOf("android") > -1;
+var isChrome = ua.indexOf("chrome") > -1;
 var lang;
-if(isAndroid) {
-    var lang_long = navigator.userAgent.match(/Android \d+(?:\.\d+){1,2}; [a-z]{2}-[a-z]{2}/).toString().match(/[a-z]{2}-[a-z]{2}/).toString();
-    lang = lang_long.substring(0,2);
+
+if(isAndroid && !isChrome) {
+	if ( navigator && navigator.userAgent && (lang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {
+	        lang = lang[1];
+	}
 } else {
     lang = navigator.language;
 }
@@ -38,8 +41,12 @@ if(prefLang != undefined){
 	lang = prefLang;
 }
 
+if(lang != null) {
+	lang = lang.toLowerCase();
+}
+
 switch (lang) {
-	case 'en':case 'en-en':case 'en-us':
+	case 'en':case 'en-en':case 'en-us':case 'en-gb':
 		Messages = {
 			/* rolePanel */
 			CHOOSE_ROLE: "Choose your role:",

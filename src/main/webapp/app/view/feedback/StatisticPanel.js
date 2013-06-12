@@ -26,9 +26,10 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 	config: {
 		title: 'StatisticPanel',
 		style: 'background-color: black',
-		layout: 'fit'
+		layout: 'vbox'
 	},
 	
+	buttonClicked: null,
 	feedbackChart: null,
 	
 	/* toolbar items */
@@ -78,34 +79,116 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			}
 		});
 		
+		if(ARSnova.app.userRole != ARSnova.app.USER_ROLE_SPEAKER) {
+			this.buttonClicked = function(button) {
+				ARSnova.app.getController('Feedback').vote({
+					value : button.config.value
+				});
+			}
+		}
+		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			ui: 'light',
 			items: [this.backButton, {xtype: 'spacer'}, this.feedbackVoteButton]
-		}),
+		});
+
+		this.feedbackOkButton = Ext.create('Ext.Panel', {
+			cls: 'voteButtons left',
+
+			items: [{
+				xtype		: 'button',
+				value		: 'Kann folgen',
+				cls			: 'feedbackOkIcon',
+				handler		: this.buttonClicked
+			}]
+		});
+
+		this.feedbackGoodButton = Ext.create('Ext.Panel', {
+			cls: 'voteButtons left',
+			
+			items: [{
+				xtype		: 'button',
+				value		: 'Bitte schneller',
+				cls			: 'feedbackGoodIcon',
+				handler		: this.buttonClicked
+			}]
+		});
 		
+		this.feedbackBadButton = Ext.create('Ext.Panel', {
+			cls: 'voteButtons left',
+			
+			items: [{
+				xtype		: 'button',
+				value		: 'Zu schnell',
+				cls			: 'feedbackBadIcon',
+				handler		: this.buttonClicked
+			}]
+		});
+		
+		this.feedbackNoneButton = Ext.create('Ext.Panel', {
+			cls: 'voteButtons left',
+			
+			items: [{
+				xtype		: 'button',
+				value		: 'Nicht mehr dabei',
+				cls			: 'feedbackNoneIcon',
+				handler		: this.buttonClicked
+			}]
+		});
+
+		this.feedbackButtons = Ext.create('Ext.form.FormPanel', {
+			cls	 : 'actionsForm voteButtonsPanel',
+			scrollable: null,
+			layout: 'hbox',
+			flex: 1,
+			
+			items: [
+			    this.feedbackOkButton, {xtype: 'spacer'},
+			    this.feedbackGoodButton, {xtype: 'spacer'},
+			    this.feedbackBadButton, {xtype: 'spacer'},
+			    this.feedbackNoneButton
+		    ]
+		});
+
 		this.feedbackChart = Ext.create('Ext.chart.Chart', {
-		    theme: 'Demo',
+			theme: 'Demo',
 			themeCls: 'column1',
+			flex: 20,
+			style: { marginTop: '40px' },
 		    store: Ext.create('Ext.data.JsonStore', {
-		    	fields: ['name', 'displayName', 'value', 'percent'],
-		    	data: [
-				  {name: 'Kann folgen', 	 displayName: Messages.FEEDBACK_OKAY, value: 0, percent: 0.0},
-		          {name: 'Bitte schneller',  displayName: Messages.FEEDBACK_GOOD,  value: 0, percent: 0.0},
-		          {name: 'Zu schnell', 		 displayName: Messages.FEEDBACK_BAD, value: 0, percent: 0.0},
-		          {name: 'Nicht mehr dabei', displayName: Messages.FEEDBACK_NONE, value: 0, percent: 0.0}
+			    fields: ['name', 'displayName', 'value', 'percent'],
+			    data: [
+				  {'name': 'Kann folgen', 	 'displayName': Messages.FEEDBACK_OKAY, 'value': 0, 'percent': 0.0},
+		          {'name': 'Bitte schneller',  'displayName': Messages.FEEDBACK_GOOD,  'value': 0, 'percent': 0.0},
+		          {'name': 'Zu schnell', 		 'displayName': Messages.FEEDBACK_BAD, 'value': 0, 'percent': 0.0},
+		          {'name': 'Nicht mehr dabei', 'displayName': Messages.FEEDBACK_NONE, 'value': 0, 'percent': 0.0}
 		        ]
-		    }),
+			}),
 
 		    animate: {
 		        easing: 'bounceOut',
 		        duration: 750
 		    },
-		    
-		    interactions: [{
-		        type: 'reset'
+
+		    axes: [{
+		        type: 'numeric',
+		        position: 'left',
+		        fields: ['value'],
+		        hidden: true,
+		        minimum: 0,
+		        grid: {
+			        opacity: 0
+		        }
 		    }, {
-		        type: 'panzoom'
+		        type: 'category',
+		        position: 'bottom',
+		        fields : ['displayName'],
+		        label: {
+		            renderer: function(v) {
+		                return '';
+		            }
+		        }
 		    }],
 		    
 		    gradients: [{
@@ -140,48 +223,33 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		            100: { color: 'rgb(195,195,195)' }
 		        }
 		    }],
-		    
-		    axes: [{
-		        type: 'Numeric',
-		        position: 'left',
-		        fields: ['value'],
-		        minimum: 0,
-		        label: {
-		            renderer: function(v) {
-		                return v.toFixed(0);
-		            }
-		        }
-		    },
-		    {
-		        type: 'Category',
-		        position: 'bottom',
-		        fields: ['displayName'],
-		        label: {
-		        	rotate: {
-		        		degrees: 315
-		        	}
-		        }
-		    }],
+
 		    series: [{
 		        type: 'column',
 		        axis: 'left',
+		        xField: 'name',
+		        yField: 'value',
 		        highlight: true,
 		        renderer: function(sprite, storeItem, barAttr, i, store) {
 		            barAttr.fill = feedbackChartColors[i % feedbackChartColors.length];
 		            return barAttr;
 		        },
 		        label: {
-		          field: ['percent'],
-		          renderer: function(v) {
-		        	  return Math.round(v * 100) + "%";
-		          }
+		        	display: 'outside',
+		        	field: 'value',
+		        	orientation: 'horizontal',
+		        	color: '#000',
+		        	'text-anchor': 'middle'
 		        },
-		        xField: 'name',
-		        yField: 'value'
+		        style: {
+		            color:0x6238A7, 
+		            size:8,
+		            fill: 'blue'
+		        },
 		    }]
 		});
 		
-		this.add([this.toolbar, this.feedbackChart]);
+		this.add([this.toolbar, this.feedbackButtons, this.feedbackChart]);
 	},
 	
 	/**
@@ -204,20 +272,17 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				values[0] = values[1];
 				values[1] = tmpValue;
 				if (!Ext.isArray(values) || values.length != store.getCount()) return;
-				
-				var initialMaximum = 10;
-				var maximum = Math.max.apply(null, values.concat(initialMaximum));
 
 				// Set chart data
 				store.each(function(record, index) {
 					record.data.value = values[index];
 				});
+
 				// Calculate percentages
 				var sum = store.sum('value');
 				store.each(function(record) {
 					record.data.percent = sum > 0 ? (record.data.value / sum) : 0.0;
 				});
-				chart._axes.items[0]._maximum = maximum;
 				chart.redraw();
 				
 				//update feedback-badge in tab bar 
