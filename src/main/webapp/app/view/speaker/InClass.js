@@ -296,13 +296,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 					// Do not count myself ;-)
 					value--;
 				}
-				
-				//update feedback counter
-				var counterEl = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.feedbackCounter;
-				var title = counterEl.config.getText().split("/");
-				title[1] = value;
-				title = title.join("/");
-				counterEl.setHtml(title);
 			},
 			failure: function(){
 				console.log('server-side error');
