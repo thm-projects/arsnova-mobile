@@ -199,7 +199,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true,
 			scrollable: null,
 			submitOnAction: false,
-			style: { marginLeft: '20px', marginRight: '20px'},
 			
 			items: [{
 				xtype: 'fieldset',
@@ -230,7 +229,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true,
 			scrollable: null,
 			submitOnAction: false,
-			style: { marginLeft: '20px', marginRight: '20px'},
 			
 			items: [{
             	xtype: 'fieldset',
@@ -265,7 +263,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true,
 			scrollable: null,
 			submitOnAction: false,
-			style: { marginLeft: '20px', marginRight: '20px'},
 			items: [{
 				xtype: 'fieldset',
 				id: 'mcAnswerCorrectFieldset',
@@ -296,7 +293,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: false,
 			scrollable: null,
 			submitOnAction: false,
-			style: { marginLeft: '20px', marginRight: '20px'},
 			
 			items: [{
             	xtype: 'fieldset',
@@ -336,7 +332,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true,
 			scrollable: null,
 			submitOnAction: false,
-			style: { marginLeft: '20px', marginRight: '20px'},
 			
 			items: [{
             	xtype: 'fieldset',
@@ -381,7 +376,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true,
 			scrollable: null,
 			submitOnAction: false,
-			style: { marginLeft: '20px', marginRight: '20px'},
 			
 			items: [
 				{
@@ -442,7 +436,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true,
 			scrollable: null,
 			submitOnAction: false,
-			style: { marginLeft: '20px', marginRight: '20px'},
 			items: []
 		});
 		
@@ -509,7 +502,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		
 		this.saveButton = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
-			style: { margin: '20px', marginTop: '30px' },
+			style: { marginTop: '30px' },
 			items: [{
 				xtype: 'fieldset',
 				items: [{
