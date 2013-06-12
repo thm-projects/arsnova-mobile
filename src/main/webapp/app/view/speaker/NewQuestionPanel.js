@@ -500,19 +500,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			]
 		});
 		
-		this.saveButton = Ext.create('Ext.form.FormPanel', {
-			scrollable: null,
-			style: { marginTop: '30px' },
-			items: [{
-				xtype: 'fieldset',
-				items: [{
-			        xtype	: 'button',
-			        ui: 'confirm',
-					text: Messages.SAVE,
-					handler: this.saveHandler
-			    }]
-			}]
-		});
+		this.saveButton = Ext.create('Ext.Button', {
+	        ui: 'confirm',
+	        cls: 'saveQuestionButton',
+			text: Messages.SAVE,
+			handler: this.saveHandler
+	    });
 		
 		this.add([this.toolbar,
             Ext.create('Ext.Toolbar', {
