@@ -29,7 +29,7 @@ Ext.define('ARSnova.view.MatrixButton', {
 		          '<span class="iconBtn"></span><span class="gravure buttonText" style="display:block"></span>'
 		         ],
 	     listeners: {
-	    	    painted: function (element, options) {
+	    	    initialize: function (element, options) {
 	    	    	var parent = Ext.get(element.id);
 	    	      
 	    	    	var buttonText = parent.select(".buttonText").elements;

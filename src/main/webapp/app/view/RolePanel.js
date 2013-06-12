@@ -23,6 +23,7 @@ Ext.define('ARSnova.view.RolePanel', {
 	
 	config: {
 		fullscreen: true,
+		scrollable: true,
 		scroll: 'vertical',
 		
 		title: 'RolePanel',
