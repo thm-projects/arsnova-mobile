@@ -31,9 +31,8 @@ Ext.define('ARSnova.view.MatrixButton', {
 	     listeners: {
 	    	    initialize: function (element, options) {
 	    	    	var parent = Ext.get(element.id);
-	    	      
 	    	    	var buttonText = parent.select(".buttonText").elements;
-	    	    	buttonText[0].innerText = Ext.getCmp(element.id).get("text");
+	    	    	buttonText[0].innerHTML = Ext.getCmp(element.id).get("text");
 	    	      
 		    	    Ext.create('Ext.Img', {
 	    	    		src: "/resources/images/" + Ext.getCmp(element.id).get("image") + ".png",
