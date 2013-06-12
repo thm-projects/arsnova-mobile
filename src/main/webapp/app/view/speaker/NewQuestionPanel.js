@@ -73,7 +73,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.mainPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
 			scrollable: null,
-			style: { marginLeft: '20px', marginRight: '20px'},
 			
 			items: [{
 				xtype: 'fieldset',
