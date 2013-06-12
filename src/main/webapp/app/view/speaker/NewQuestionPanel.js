@@ -301,26 +301,31 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 						xtype	: 'textfield',
 						name	: 'voteAnswer1',
 					    label	: '1.',
+						labelWidth: '15%',
 					    value	: Messages.EVALUATION_PLUSPLUS
 					}, {
 						xtype	: 'textfield',
 						name	: 'voteAnswer2',
 					    label	: '2.',
+						labelWidth: '15%',
 					    value	: Messages.EVALUATION_PLUS
 					}, {
 						xtype	: 'textfield',
 						name	: 'voteAnswer3',
 					    label	: '3.',
+						labelWidth: '15%',
 					    value	: Messages.EVALUATION_NEUTRAL
 					}, {
 						xtype	: 'textfield',
 						name	: 'voteAnswer4',
 					    label	: '4.',
+						labelWidth: '15%',
 					    value	: Messages.EVALUATION_MINUS
 					}, {
 						xtype	: 'textfield',
 						name	: 'voteAnswer5',
 					    label	: '5.',
+						labelWidth: '15%',
 					    value	: Messages.EVALUATION_MINUSMINUS
 					}
     	        ]
@@ -340,31 +345,37 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 						xtype	: 'textfield',
 						name	: 'schoolAnswer1',
 					    label	: '1.',
+						labelWidth: '15%',
 					    value	: Messages.SCHOOL_A
 					}, {
 						xtype	: 'textfield',
 						name	: 'schoolAnswer2',
 					    label	: '2.',
+						labelWidth: '15%',
 					    value	: Messages.SCHOOL_B
 					}, {
 						xtype	: 'textfield',
 						name	: 'schoolAnswer3',
 					    label	: '3.',
+						labelWidth: '15%',
 					    value	: Messages.SCHOOL_C
 					}, {
 						xtype	: 'textfield',
 						name	: 'schoolAnswer4',
 					    label	: '4.',
+						labelWidth: '15%',
 					    value	: Messages.SCHOOL_D
 					}, {
 						xtype	: 'textfield',
 						name	: 'schoolAnswer5',
 					    label	: '5.',
+						labelWidth: '15%',
 					    value	: Messages.SCHOOL_E
 					}, {
 						xtype	: 'textfield',
 						name	: 'schoolAnswer6',
 					    label	: '6.',
+						labelWidth: '15%',
 					    value	: Messages.SCHOOL_F
 					}
     	        ]
@@ -387,6 +398,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 									xtype: 'textfield', 
 									id: 'abcd_textA',
 									label: 'A',
+									labelWidth: '15%',
 									placeHolder: Messages.BUZZWORD_A,
 									maxLength: 20
 								},
@@ -394,6 +406,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 									xtype: 'textfield', 
 									id: 'abcd_textB',
 									label: 'B',
+									labelWidth: '15%',
 									placeHolder: Messages.BUZZWORD_B,
 									maxLength: 20
 								},
@@ -401,6 +414,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 									xtype: 'textfield', 
 									id: 'abcd_textC',
 									label: 'C',
+									labelWidth: '15%',
 									placeHolder: Messages.BUZZWORD_C,
 									maxLength: 20
 								},
@@ -408,6 +422,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 									xtype: 'textfield', 
 									id: 'abcd_textD',
 									label: 'D',
+									labelWidth: '15%',
 									placeHolder: Messages.BUZZWORD_D,
 									maxLength: 20
 								}
