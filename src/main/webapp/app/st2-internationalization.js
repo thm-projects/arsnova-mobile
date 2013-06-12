@@ -129,6 +129,7 @@ switch (lang) {
 			/* questions */
 			QUESTION: "Question",
 			QUESTION_PLACEHOLDER: "Enter question",
+			QUESTIONTEXT_PlACEHOLDER: "Enter question",
 			QUESTIONS: "Questions",
 			QUESTION_DETAILS: "Details",
 			QUESTION_DATE: "Details",
@@ -356,6 +357,7 @@ switch (lang) {
 			/* questions */
 			QUESTION: "Frage",
 			QUESTION_PLACEHOLDER: "Frage eingeben",
+			QUESTIONTEXT_PlACEHOLDER: "Frage eingeben",
 			QUESTIONS: "Fragen",
 			QUESTION_DETAILS: "Details",
 			QUESTION_DATE: "Details",
