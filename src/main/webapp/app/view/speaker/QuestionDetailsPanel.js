@@ -296,11 +296,16 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				scope	: this,
 				value 	: this.questionObj.showAnswer? this.questionObj.showAnswer : 0,
 				listeners: {
-					change: function(toggleEl, something, something2, value){
-						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
-						if (value == 0 && panel.questionObj.showAnswer == undefined || value == panel.questionObj.showAnswer) return;
+					scope: this,
+					change: function(toggle, slider, thumb, value) {
+						var panel = this;
+						
+						if (value == 0 && typeof this.questionObj.showAnswer === "undefined" || value == this.questionObj.showAnswer) {
+							return;
+						}
+						
 						ARSnova.app.showLoadMask(Messages.LOAD_MASK_ACTIVATION);
-						var question = Ext.create('ARSnova.model.Question', panel.questionObj);
+						var question = Ext.create('ARSnova.model.Question', this.questionObj);
 						switch (value) {
 							case 0:
 								delete question.data.showAnswer;
