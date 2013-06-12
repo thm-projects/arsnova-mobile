@@ -276,7 +276,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			}
 			if (questionObj.showAnswer) {
 				list.getStore().each(function(item) {
-					item.set('wasAnswered', true);
+					item.set('questionAnswered', true);
 				});
 			}
 		}, this);

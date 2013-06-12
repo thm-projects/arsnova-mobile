@@ -68,6 +68,15 @@ Ext.define('ARSnova.view.Question', {
 			});
 		};
 		
+		this.markCorrectAnswers = function() {
+			if (this.questionObj.showAnswer) {
+				// Mark all possible answers as 'answered'. This will highlight all correct answers.
+				this.answerList.getStore().each(function(item) {
+					item.set("questionAnswered", true);
+				});
+			}
+		}
+		
 		this.saveMcQuestionHandler = function() {
 			Ext.Msg.confirm('', Messages.ARE_YOU_SURE, function(button) {
 				if (button !== 'yes') {
@@ -78,15 +87,8 @@ Ext.define('ARSnova.view.Question', {
 				this.answerList.getSelection().forEach(function(node) {
 					selectedIndexes.push(this.answerList.getStore().indexOf(node));
 				}, this);
+				this.markCorrectAnswers();
 				
-				if (this.questionObj.showAnswer) {
-					this.answerList.getInnerItems().forEach(function(node) {
-						var record = this.answerList.getRecord(node);
-						if (record.get("correct")) {
-							new Ext.Element(node).addCls("x-list-item-correct");
-						}
-					}, this);
-				}
 				var answerValues = [];
 				for (var i=0; i < this.answerList.getStore().getCount(); i++) {
 					answerValues.push(selectedIndexes.indexOf(i) !== -1 ? "1" : "0");
@@ -137,22 +139,7 @@ Ext.define('ARSnova.view.Question', {
 						if(button == 'yes') {
 							self.decrementQuestionBadges();
 							
-							if (answerObj.target.className == "x-list-item-body") {
-								answerObj.target = answerObj.target.parentElement;
-							}
-							
-							if (self.questionObj.showAnswer) {
-								if (answerObj.correct === 1 || answerObj.correct === true) {
-									answerObj.target.className = "x-list-item x-list-item-correct";
-								} else {
-									for (var i = 0; i < self.questionObj.possibleAnswers.length; i++) {
-										var answer = self.questionObj.possibleAnswers[i];
-										if (answer.correct === 1 || answer.correct === true) {
-											list.element.dom.childNodes[i].className = "x-list-item x-list-item-correct";
-										}
-									}
-								}
-							}
+							self.markCorrectAnswers();
 							
 							ARSnova.app.answerModel.getUserAnswer(self.questionObj._id, {
 								empty: function() {
@@ -200,7 +187,16 @@ Ext.define('ARSnova.view.Question', {
 			
 			scrollable: { disabled: true },
 			
-			itemTpl	: '{text}',
+			itemTpl: new Ext.XTemplate(
+						'{text}',
+						'<tpl if="correct === true && this.isQuestionAnswered(values)">',
+							'&nbsp;<span style="padding: 0 0.2em 0 0.2em" class="x-list-item-correct">&#10003; </span>',
+						'</tpl>',
+						{
+							isQuestionAnswered: function(values) {
+								return values.questionAnswered === true;
+							}
+						}),
 			listeners: {
 		        initialize: function (list, eOpts){
 		            var me = this;
