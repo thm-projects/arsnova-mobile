@@ -68,7 +68,6 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 		this.add([this.toolbar, {
 			xtype: 'formpanel',
 			scrollable: null,
-			style: { margin: '20px'},
 			
 			items: [{
 				xtype: 'fieldset',
@@ -83,7 +82,6 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 					value: this.questionObj.subject,
 					disabled: true
 				}, {
-					// TODO: migration of mathjaxfield
 					xtype: "textareafield",
 					label: Messages.QUESTION_TEXT,
 					value: this.questionObj.text,

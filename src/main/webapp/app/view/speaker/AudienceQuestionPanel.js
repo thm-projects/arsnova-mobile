@@ -125,6 +125,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		
 		this.questionTitle = Ext.create('Ext.Label', {
 			html: Messages.QUESTIONS,
+			style: { marginTop: '30px' },
 			cls: 'standardLabel',
 			hidden: true
 		});

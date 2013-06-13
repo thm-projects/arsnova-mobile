@@ -208,6 +208,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		
 		this.inClassActions = Ext.create('Ext.Panel', {
 			xtype	: 'container',
+			style	: { marginTop: '50px' },
 			layout	: {
 				type: 'hbox',
 				pack: 'center'
