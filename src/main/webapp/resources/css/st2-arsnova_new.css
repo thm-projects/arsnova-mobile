@@ -385,7 +385,7 @@ body {
 .matrixButton.feedbackOkBackground,
 .matrixButton.feedbackBadBackground,
 .matrixButton.feedbackNoneBackground {
-	width: 120px !important;
+	width: 130px !important;
 }
 
 .buttonText {
