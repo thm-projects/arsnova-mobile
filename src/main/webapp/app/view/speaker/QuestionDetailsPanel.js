@@ -576,7 +576,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			activeCls: 'search-item-active',
 			store: this.freetextAnswerStore, 
 			
-			itemCls: 'forwardGroupedListButton',
+			itemCls: 'forwardListButton',
 			itemTpl: [
 				'<div class="search-item">',
 				'<span style="color:gray">{formattedTime}</span><span style="padding-left:30px">{answerSubject}</span>',
