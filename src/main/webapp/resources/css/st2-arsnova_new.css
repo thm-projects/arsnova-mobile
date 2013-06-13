@@ -442,7 +442,7 @@ body {
 	background: white
 		url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IArs4c6QAAAAZiS0dEALgAuAC41wNsvAAAAAlwSFlzAAALEgAACxIB0t1+/AAAAAd0SU1FB9sGEQk7MbF1V5sAAAENSURBVCjPY2CgNigtLS0pKyubSEgdMxqfsbS0tJuRkbGBgYHB3NLS8s+xY8cO49LMhC7AyMgoA5dkYmopLS1NIVbz//v378f///9/D5LYjLKysgCibF69evWvr1+/Bv7///8M1CXMDAwMy0tLS20xXInLSbm5uaIcHBxHGRkZVaFCH//9+2fX09NzCafNMDB58uTXjIyM6UhC/ExMTPPwOhvZ5v///89EEvr479+/JIKas7KyeDg4OLYhOfnH////fZGdjFVzaGgoGw8PzzpGRkYTBgYGhv////9lYGCI7O7uPkwotBkVFRUXMjAwuCKJZXR1dW0gKqr+////BMb+9+9fTXd39xyapG2KAAAvqFz8khrpYwAAAABJRU5ErkJggg==")
 		no-repeat;
-	background-position: 99%;
+	background-position: 100%;
 	border-radius: 0;
 	height: 45px !important;
 	border-style: solid;
@@ -450,19 +450,7 @@ body {
 	border-width: thin;
 }
 
-/* edited forwardListButton for grouped lists */
-.forwardGroupedListButton { /* apple-like forward arrow*/
-	background: white
-		url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IArs4c6QAAAAZiS0dEALgAuAC41wNsvAAAAAlwSFlzAAALEgAACxIB0t1+/AAAAAd0SU1FB9sGEQk7MbF1V5sAAAENSURBVCjPY2CgNigtLS0pKyubSEgdMxqfsbS0tJuRkbGBgYHB3NLS8s+xY8cO49LMhC7AyMgoA5dkYmopLS1NIVbz//v378f///9/D5LYjLKysgCibF69evWvr1+/Bv7///8M1CXMDAwMy0tLS20xXInLSbm5uaIcHBxHGRkZVaFCH//9+2fX09NzCafNMDB58uTXjIyM6UhC/ExMTPPwOhvZ5v///89EEvr479+/JIKas7KyeDg4OLYhOfnH////fZGdjFVzaGgoGw8PzzpGRkYTBgYGhv////9lYGCI7O7uPkwotBkVFRUXMjAwuCKJZXR1dW0gKqr+////BMb+9+9fTXd39xyapG2KAAAvqFz8khrpYwAAAABJRU5ErkJggg==")
-		no-repeat;
-	background-position: 99%;
-	border-radius: 0;
-	border-style: solid;
-	border-color: lightgray;
-	border-width: thin;
-}
-
-.forwardGroupedListButton .x-hasbadge {
+.forwardListButton .x-hasbadge {
 	margin-top: 6px;
 }
 
@@ -495,7 +483,7 @@ body {
 
 .answerListButton {
 	background: white no-repeat;
-	background-position: 99%;
+	background-position: 100%;
 	border-radius: 0;
 	height: 45px;
 	border-style: solid;
@@ -583,8 +571,8 @@ body {
 }
 
 .standardForm {
-	margin-left: 20px;
-	margin-right: 20px;
+	margin-left: 12px;
+	margin-right: 12px;
 }
 
 .roundedCorners .x-list-item-first.x-list-header {
@@ -627,78 +615,37 @@ body {
 	border-bottom-right-radius: 15px;
 }
 
-.badgeicon {
-	position:absolute;
+.badgeicon, .greybadgeicon, .bluebadgeicon, .redbadgeicon {
 	font-weight: bold;
 	background: rgba(0, 0, 0, .50);
 	background: -webkit-linear-gradient(top, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .70) 100%);
 	color: rgb(238, 238, 238);
 	-webkit-border-radius: 20px;
 	border-radius: 11px;
-	padding: 3px 9px;
-	right: 20px;
-	top: 5px;
-	margin-right: 20px;
+	padding: 4px 9px 4px 9px;
 	border: 2px solid white;
 	box-shadow: 0 0 3px gray;
+	margin-right: 12px;
 }
 
-.greybadgeicon {
-	font-weight: bold;
-	background: rgba(0, 0, 0, .50);
-	background: -webkit-linear-gradient(top, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .70) 100%);
-	color: rgb(238, 238, 238);
-	-webkit-border-radius: 20px;
-	border-radius: 11px;
-	padding: 4px 12px 5px 10px;
-	margin-right: 20px;
-	border: 2px solid white;
-	box-shadow: 0 0 3px gray;
+.redbadgeicon {
+	background: rgba(128, 0, 50, 1);
+	background: -webkit-linear-gradient(top, rgba(128, 0, 50, .7) 0%, rgba(128, 0, 50, 1) 100%);
 }
 
 .bluebadgeicon {
-	font-weight: bold;
-	background: rgba(0, 0, 0, .50);
-	background: -webkit-linear-gradient(top, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .70) 100%);
-	color: rgb(238, 238, 238);
-	-webkit-border-radius: 20px;
-	border-radius: 11px;
-	padding: 4px 12px 5px 10px;
-	margin-right: 20px;
-	border: 2px solid white;
-	box-shadow: 0 0 3px gray;
+	background: rgb(23, 35, 128);
+	background: -webkit-linear-gradient(top, rgba(23, 35, 128, .7) 0%, rgba(23, 35, 128, 1) 100%);
 }
 
 .withdoublebadge {
 	margin-right: 5px;
 }
 
-.redbadgeicon, .doublebadgeicon {
-	font-weight: bold;
-	background: rgba(128, 0, 50, 1);
-	background: -webkit-linear-gradient(top, rgba(128, 0, 50, .7) 0%, rgba(128, 0, 50, 1) 100%);
-	color: rgb(238, 238, 238);
-	-webkit-border-radius: 20px;
-	border-radius: 11px;
-	padding: 4px 12px 5px 10px;
-	margin-right: 20px;
-	border: 2px solid white;
-	box-shadow: 0 0 3px gray;
-}
-
 .badgefixed {
-	position:absolute;
-	right: 20px;
-}
-
-.badgeformatted {
-	float: right;
-	margin-bottom: 5px;
-}
-
-.bluebadgeicon {
-	background: rgb(23, 35, 128);
-	background: -webkit-linear-gradient(top, rgba(23, 35, 128, .7) 0%, rgba(23, 35, 128, 1) 100%);
+	right: 12px;
+	position: absolute;
+	margin-right: 5px;
 }
 
 .inOutClassLabel {

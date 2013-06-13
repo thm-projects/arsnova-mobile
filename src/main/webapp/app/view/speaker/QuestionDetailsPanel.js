@@ -623,7 +623,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			disabled	: true,
 			cls			: 'answerListButton',
 			badgeText	: '0',
-			badgeCls	: 'badgeicon'
+			badgeCls	: 'badgeicon badgefixed'
 		});
 		
 		if (this.questionObj.questionType === "freetext") {
@@ -698,7 +698,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				disabled	: true,
 				cls			: 'answerListButton',
 				badgeText	: '0',
-				badgeCls	: 'badgeicon'
+				badgeCls	: 'badgeicon badgefixed'
 			});
 		}
 		

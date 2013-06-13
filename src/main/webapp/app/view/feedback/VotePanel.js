@@ -101,7 +101,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 							value		: button.config.value
 						});
 					},
-					style: "margin-left:10px"
+					style: "margin-left:15px"
 				}
 			]
 		});
