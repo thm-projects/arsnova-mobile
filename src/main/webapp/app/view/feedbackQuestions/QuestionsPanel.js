@@ -168,7 +168,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				backgroundColor: 'transparent'
 			},
 			
-			itemCls: 'forwardGroupedListButton',
+			itemCls: 'forwardListButton',
 	    	itemTpl: Ext.create('Ext.XTemplate',
   		    	'<div class="search-item">',
   		    		'<div class="action delete x-button">Delete</div>',
@@ -303,8 +303,11 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 							obj: Ext.create('ARSnova.model.Question', question)
 						});
 					}
+					
 					fQP.tab.setBadgeText(unread);
-					ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadgeText(questions.length);
+					ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge([{
+						badgeText: questions.length, badgeCls: "bluebadgeicon"
+					}]);
 
 					panel.getStore().sort([{
 						property : 'timestamp',
@@ -332,8 +335,10 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					panel.editButton.hide();
 				}
 				
-				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadgeText(questionCount.total);
 				feedbackQuestionsPanel.tab.setBadgeText(questionCount.unread);
+				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge([{
+					badgeText: questionCount.total, badgeCls: "bluebadgeicon"
+				}]);
 
 				if(panel.questionsCounter != questionCount.total) {
 					panel.questionsCounter = questionCount.total;
