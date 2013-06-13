@@ -67,7 +67,7 @@ Ext.define("ARSnova.controller.Feedback", {
 				localStorage.setItem('user has voted', 1);
 				var feedbackButton = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.feedbackButton;
 				
-				feedbackButton.setBadgeCls("badgeicon feedback" + feedbackCls);
+				feedbackButton.setBadgeCls("badgeicon badgefixed feedback" + feedbackCls);
 				feedbackButton.setBadgeText(".");
 				
 				var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
