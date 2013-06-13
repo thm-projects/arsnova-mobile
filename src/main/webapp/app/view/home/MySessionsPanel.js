@@ -114,10 +114,15 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
             this.sessionsForm
         ]);
 		
+		this.onBefore('painted', function() {
+			if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
+				this.loadCreatedSessions();
+			}
+		});
+		
 		this.on('activate', function() {
 			switch (ARSnova.app.userRole) {
 				case ARSnova.app.USER_ROLE_SPEAKER:
-					this.loadCreatedSessions();
 					this.backButton.hide();
 					this.logoutButton.show();
 					this.createSessionButton.show();
@@ -171,8 +176,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						text		: displaytext,
 						cls			: 'forwardListButton' + status + course,
 						sessionObj	: session,
-						badgeCls	: "badgeicon",
-						badgeText	: [],
 						handler		: function(options){
 							ARSnova.app.showLoadMask("Login...");
 							ARSnova.app.getController('Sessions').login({
@@ -227,11 +230,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 									{badgeText: numQuestions, badgeCls: "greybadgeicon"},
 									{badgeText: numAnswers, badgeCls: "redbadgeicon"}
 								]);
-								
-								// If badges are enabled a empty badge will always be rendered. In order to prevent this behaviour
-								// you have to use the function "setBadgeText()" and pass null.
-								button.setBadgeText("");
-								button.setBadgeText(null);
 								
 								promise.resolve({
 									hasFeedbackQuestions: numFeedbackQuestions > 0,

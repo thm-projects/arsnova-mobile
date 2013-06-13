@@ -91,8 +91,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			ui			: 'normal',
 			text		: Messages.QUESTIONS_TO_STUDENTS,
 			cls			: 'forwardListButton',
-			badgeCls	: "badgeicon",
-			badgeText	: [],
 			controller	: 'Questions',
 			action		: 'listAudienceQuestions',
 			handler		: this.buttonClicked
@@ -102,8 +100,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			ui			: 'normal',
 			text		: Messages.QUESTIONS_FROM_STUDENTS,
 			cls			: 'forwardListButton',
-			badgeCls	: "badgeicon",
-			badgeText	: [],
 			controller	: 'Questions',
 			action		: 'listFeedbackQuestions',
 			handler		: this.buttonClicked
@@ -229,7 +225,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		
 		this.on('destroy', this.destroyListeners);
 		
-		this.on('painted', function(){
+		this.onBefore('painted', function(){
 			this.updateBadges();
 		});
 	},
@@ -276,11 +272,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 											{badgeText: numQuestions, badgeCls: "greybadgeicon"},
 											{badgeText: numAnswers, badgeCls: "redbadgeicon"}
 										]);
-										
-						// If badges are enabled a empty badge will always be rendered. In order to prevent this behaviour
-						// you have to use the function "setBadgeText()" and pass null.
-						audienceQuestionButton.setBadgeText("");
-						audienceQuestionButton.setBadgeText(null);
 					},
 					failure: failureCallback
 				});
@@ -312,11 +303,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				
 				var feedbackQButton = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton;
 				feedbackQButton.setBadge([{badgeText: questionCount.total, badgeCls: "bluebadgeicon"}]);
-												
-				// If badges are enabled a empty badge will always be rendered. In order to prevent this behaviour
-				// you have to use the function "setBadgeText()" and pass null.
-				feedbackQButton.setBadgeText("");
-				feedbackQButton.setBadgeText(null);
 			}, 
 			failure: function(){
 				console.log('server-side error');

@@ -26,8 +26,6 @@ Ext.define('ARSnova.view.Caption', {
 			ui			: 'small',
 			text		: "",
 			cls			: 'forwardListButton caption',
-			badgeCls	: "badgeicon",
-			badgeText	: []
 		});
 		
 		this.add([].concat(window.innerWidth > 320 ? [{
@@ -84,10 +82,5 @@ Ext.define('ARSnova.view.Caption', {
 			}, {
 				badgeText: hasAnswers ? Messages.ANSWERS : "", badgeCls: "redbadgeicon"
 		}]);
-		
-		// If badges are enabled a empty badge will always be rendered. In order to prevent this behaviour
-		// you have to use the function "setBadgeText()" and pass null.
-		
-		this.listButton.setBadgeText(null);
 	}
 });
