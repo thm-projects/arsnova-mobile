@@ -149,7 +149,6 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 			{
 		    	xtype	: 'button',
 				text	: Messages.QUESTION_REQUEST,
-				iconCls	: 'tabBarIconQuestion',
 				cls		: 'questionRequestButton',
 				ui		: 'action',
 				width	: '235px',
