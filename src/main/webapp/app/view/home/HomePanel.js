@@ -194,7 +194,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 							cls			: 'forwardListButton' + course,
 							controller	: 'sessions',
 							action		: 'showDetails',
-							badgeCls	: 'badgeicon',
+							badgeCls	: 'badgeicon badgefixed',
 							badgeText	: "",
 							sessionObj	: session,
 							handler		: function(options){
