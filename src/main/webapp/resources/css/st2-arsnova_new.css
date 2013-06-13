@@ -1065,20 +1065,18 @@ ol.standardList li {
 	width: 20%;
 }
 
-.yesnoOptions {
+.yesnoOptions, .releaseOptions .x-segmentedbutton, .saveQuestionButton {
 	width: 80%;
 	max-width: 500px;
-	margin: 0 auto;
+	margin: 20px auto;
+}
+
+.saveQuestionButton {
+	margin: 0 auto 30px;
 }
 
 .yesnoOptions .x-button {
 	width: 50%;
-}
-
-.releaseOptions .x-segmentedbutton {
-	width: 90%;
-	max-width: 700px;
-	margin: 0 auto;
 }
 
 .releaseOptions .x-button, abstentionOptions .x-button {

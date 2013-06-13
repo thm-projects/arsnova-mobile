@@ -156,11 +156,6 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 					var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 					panel.animateActiveItem(panel.askPanel, 'slide');
 				}
-			}, {
-				xtype: 'panel',
-				cls: 'gravure',
-				style: { 'font-size':'1.0em' },
-				html: Messages.FEEDBACK_INSTRUCTION
 			}
 		]);
 	}

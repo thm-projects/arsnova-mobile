@@ -60,7 +60,7 @@ switch (lang) {
 			NO_GUEST_SPEAKER: "Note: You have to log in to create a session.",
 			CONFIRM_GUEST_SPEAKER: "If you login as guest, you can manage newly created ARSnova sessions only from this device. Still login as guest?",
 			GUEST_LOGIN: "Guest login",
-			BACK_TO_ROLEPANEL: "Role Change",
+			BACK_TO_ROLEPANEL: "Role",
 			
 			/* homePanel */
 			LOGOUT: "Logout",
@@ -110,7 +110,6 @@ switch (lang) {
 			FEEDBACK_OKAY: "I can follow you.",
 			FEEDBACK_BAD: "Slower, please!",
 			FEEDBACK_NONE: "You've lost me.",
-			FEEDBACK_INSTRUCTION: "Your feedback will be reset after ten minutes.<br><br>You can always give a new feedback.",
 			FEEDBACK_VOTE: "vote",
 			FEEDBACK_RESET: 'Your feedback has been reset',
 			QUESTION_REQUEST: "I've got a question!",
@@ -130,6 +129,7 @@ switch (lang) {
 			/* questions */
 			QUESTION: "Question",
 			QUESTION_PLACEHOLDER: "Enter question",
+			QUESTIONTEXT_PlACEHOLDER: "Enter question",
 			QUESTIONS: "Questions",
 			QUESTION_DETAILS: "Details",
 			QUESTION_DATE: "Details",
@@ -168,7 +168,7 @@ switch (lang) {
 
 			/* speaker */
 			NEW_QUESTION: "New question",
-			NEW_QUESTION_TITLE: "New question",
+			NEW_QUESTION_TITLE: "Question",
 			AH_HOC_QUESTION: "Instant question",
 			ARE_YOU_SURE: "Are you sure?",
 			DELETE_SESSION_NOTICE: "All questions and answers of this session will be deleted.",
@@ -179,7 +179,7 @@ switch (lang) {
 			ONLY_THM_SHORT: 'THM only',
 			ALL_LONG: 'All (incl. guest)',
 			ONLY_THM_LONG: 'THM only',
-			RELEASE_FOR: 'Release for:',
+			RELEASE_FOR: 'Release for',
 			ABSTENTION: 'Abstention',
 			ABSTENTION_POSSIBLE: 'Abstention possible',
 			MY_COURSES: "My courses:",
@@ -199,7 +199,7 @@ switch (lang) {
 			STATISTIC: "Statistics",
 			RELEASE_STATISTIC: "Release statistics",
 			RELEASE_QUESTION: "Release question",
-			STOP_QUESTION: "Stop question",
+			STOP_QUESTION: "Lock question",
 			START_SESSION: "Open session",
 			STOP_SESSION: "Lock session",
 			MARK_CORRECT_ANSWER: "Mark correct answer",
@@ -288,7 +288,7 @@ switch (lang) {
 			NO_GUEST_SPEAKER: "Hinweis: Um eine Session anzulegen, müssen Sie sich anmelden.",
 			CONFIRM_GUEST_SPEAKER: "Wenn Sie sich als Gast anmelden, ist die ARSnova-Session nur auf dem aktuellen Gerät verwaltbar. Dennoch als Gast anmelden?",
 			GUEST_LOGIN: "Gast-Anmeldung",
-			BACK_TO_ROLEPANEL: "Rollenwechsel",
+			BACK_TO_ROLEPANEL: "Rollen",
 			
 			/* homePanel */
 			LOGOUT: "Abmelden",
@@ -338,7 +338,6 @@ switch (lang) {
 			FEEDBACK_OKAY: "Kann folgen",
 			FEEDBACK_BAD: "Zu schnell",
 			FEEDBACK_NONE: "Abgehängt",
-			FEEDBACK_INSTRUCTION: "Ihr Feedback wird nach zehn Minuten zurückgesetzt.<br><br>Sie können jederzeit ein neues Feedback geben.",
 			FEEDBACK_VOTE: "Feedback geben",
 			FEEDBACK_RESET: 'Ihr Feedback wurde zurückgesetzt',
 			QUESTION_REQUEST: 'Ich habe eine Frage...',
@@ -358,6 +357,7 @@ switch (lang) {
 			/* questions */
 			QUESTION: "Frage",
 			QUESTION_PLACEHOLDER: "Frage eingeben",
+			QUESTIONTEXT_PlACEHOLDER: "Frage eingeben",
 			QUESTIONS: "Fragen",
 			QUESTION_DETAILS: "Details",
 			QUESTION_DATE: "Details",
@@ -396,8 +396,8 @@ switch (lang) {
 			
 			/* speaker */
 			NEW_QUESTION: "Neue Frage stellen",
-			NEW_QUESTION_TITLE: "Neue Frage",
-			AH_HOC_QUESTION: 'Sofort-Frage',
+			NEW_QUESTION_TITLE: "Frage",
+			AH_HOC_QUESTION: 'Frage stellen',
 			ARE_YOU_SURE: "Sind Sie sicher?",
 			DELETE_SESSION_NOTICE: "Es werden alle Fragen und Antworten der Session gelöscht.",
 			DELETE_SESSION: "Session löschen",
@@ -407,7 +407,7 @@ switch (lang) {
 			ONLY_THM_SHORT: 'Nur THM',
 			ALL_LONG: 'Alle (auch Gäste)',
 			ONLY_THM_LONG: 'Nur THM-Mitglieder',
-			RELEASE_FOR: 'Freigeben für:',
+			RELEASE_FOR: 'Freigeben für',
 			ABSTENTION: 'Enthaltung',
 			ABSTENTION_POSSIBLE: 'Enthaltung möglich',
 			MY_COURSES: "Meine Kurse:",
@@ -428,8 +428,8 @@ switch (lang) {
 			RELEASE_STATISTIC: "Statistik freigeben",
 			RELEASE_QUESTION: "Frage freigeben",
 			STOP_QUESTION: "Frage sperren",
-			START_SESSION: "Freigeben",
-			STOP_SESSION: "Sperren",
+			START_SESSION: "Session freigeben",
+			STOP_SESSION: "Session sperren",
 			MARK_CORRECT_ANSWER: "Richtig markieren",
 			DELETE_QUESTION: "Frage löschen",
 			DELETE_ANSWERS: "Antworten löschen",
