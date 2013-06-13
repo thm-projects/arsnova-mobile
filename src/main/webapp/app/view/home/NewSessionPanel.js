@@ -48,15 +48,32 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 
 		this.mycourses = Ext.create('Ext.List', {
 			store: this.mycoursesStore,
+			style: {
+				marginLeft:  '12px',
+				marginRight: '12px',
+				backgroundColor: 'transparent'
+			},
 			itemTpl: window.innerWidth > 321
 						? '<span class="course">{fullname}<span>'
 						: '<span class="course">{shortname}<span>',
 			listeners: {
-				itemTap: Ext.bind(this.onCourseSubmit, this)
+				itemTap: Ext.bind(this.onCourseSubmit, this),
+				
+		        initialize: function (list, eOpts){
+		            var me = this;
+		            if (typeof me.getItemMap == 'function'){
+		                me.getScrollable().getScroller().on('refresh',function(scroller,eOpts){
+		                	var itemsHeight = me.getItemHeight() * me.itemsCount;
+		                	if(me.getGrouped()) {
+		                		var groupHeight = typeof me.headerHeight !== 'undefined' ? me.headerHeight : 26;
+		                		itemsHeight += me.groups.length * groupHeight;
+		                	}
+		                	me.setHeight(itemsHeight + 20);
+		                });
+		            }
+		        }
 			}
 		});
-		
-		this.mycourses.setScrollable(null);
 		
 		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.SESSIONS,
@@ -83,7 +100,9 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		
 		this.add([this.toolbar, {
 			title: 'createSession',
-			style: { margin: '15px' },
+			style: { 
+				marginTop: '15px',
+			},
 			xtype: 'formpanel',
 			scrollable: null,
 			id: 'createSession',
@@ -112,10 +131,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				ui: 'confirm',
 				text: Messages.SESSION_SAVE,
 				handler: this.onSubmit
-			}, {
-				xtype: 'fieldset',
-				items: [this.mycourses]
-			}]
+			}, this.mycourses]
 		}]);
 		
 		this.onBefore('activate', function() {
@@ -154,6 +170,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		//ARSnova.showLoadMask(Messages.LOAD_MASK_SEARCH_COURSES);
 		ARSnova.app.courseModel.getMyCourses({
 			success: Ext.bind(function(response) {
+				ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel.setScrollable(true);
 				this.mycoursesStore.removeAll();
 				this.mycoursesStore.add(Ext.decode(response.responseText));
 				if (window.innerWidth > 321) {
@@ -163,6 +180,8 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				}
 			}, this),
 			empty: Ext.bind(function() {
+				this.mycourses.hide();
+				ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel.setScrollable(false);
 				ARSnova.app.hideLoadMask();
 			}, this),
 			unauthenticated: function() {
