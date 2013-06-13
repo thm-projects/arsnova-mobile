@@ -1,3 +1,15 @@
+/* workaround for sencha touch 2.2.1 formpanel bug: */
+/* a hidden submit button creates a big margin under formpanels. See the following link: */
+/* http://www.sencha.com/forum/showthread.php?265027-2.2.1-Floating-form-panel-styled-wrong-because-of-submit-input */
+.x-form > input {
+	visibility: hidden;
+	position: absolute;
+	height: 0;
+	bottom: 0;
+	right: 0;
+	width: 0;
+}
+
 /* Overwriting css classes*/
 .x-input-text,.x-input-password {
 	text-align: center;
