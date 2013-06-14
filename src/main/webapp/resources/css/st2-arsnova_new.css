@@ -337,7 +337,7 @@ body {
 
 /* loginPanel */
 .centerButton {
-	width: 280px;
+	width: 300px;
 	margin: 0 auto;
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -462,10 +462,6 @@ body {
 	border-width: thin;
 }
 
-.forwardListButton .x-hasbadge {
-	margin-top: 6px;
-}
-
 .caption {
 	height: 40px;
 	background: white;
@@ -475,32 +471,25 @@ body {
 	font-size: 0.6em;
 }
 
-.forwardListButton>span {
-	text-align: left;
-}
-
-.standardListButton {
-	background: white no-repeat;
-	background-position: 99%;
-	border-radius: 0;
-	height: 45px;
-	border-style: solid;
-	border-color: lightgray;
-	border-width: thin;
-}
-
-.standardListButton>span {
-	text-align: left;
-}
-
-.answerListButton {
+.standardListButton, .answerListButton {
 	background: white no-repeat;
 	background-position: 100%;
 	border-radius: 0;
-	height: 45px;
+	height: 45px !important;
 	border-style: solid;
 	border-color: lightgray;
 	border-width: thin;
+}
+
+.standardListButton .x-hasbadge, 
+.forwardListButton .x-hasbadge, 
+.answerListButton .x-hasbadge {
+	margin-top: 6px;
+}
+
+.standardListButton>span,
+.forwardListButton>span {
+	text-align: left;
 }
 
 .answerListButton>span {

@@ -52,7 +52,7 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 			if (!!item.badgeText) {
 				var aBadge = me.element.createChild({
 					tag: 'span',
-					cls: item.badgeCls || me.badgeCls,
+					cls: item.badgeCls || me.config.badgeCls,
 					html: item.badgeText
 				});
 				me.config.multiBadges.push(aBadge);

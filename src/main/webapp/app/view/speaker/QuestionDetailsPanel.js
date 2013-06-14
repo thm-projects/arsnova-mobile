@@ -359,7 +359,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 									} else {
 										panel.answerFormFieldset.items.each(function(button){
 											if(button.xtype == 'button')
-												button.setBadgeText("0");
+												button.setBadge([{ badgeText: "0" }]);
 										});
 									}
 								},
@@ -564,11 +564,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.contentForm = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			itemId 	 : 'contentForm',
-			style: { marginTop: '15px', marginLeft: '20px', marginRight: '20px' },
+			style: { marginTop: '15px', marginLeft: '12px', marginRight: '12px' },
 			items: [this.releasePart, this.contentFieldset]
 		});
 		
 		this.answerFormFieldset = Ext.create('Ext.form.FieldSet', {
+			cls: 'standardFieldset',
 			title: Messages.ANSWERS
 		});
 		
@@ -634,7 +635,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		
 		this.answerForm = Ext.create('Ext.form.FormPanel', {
 			itemId 	 	: 'answerForm',
-			style: { marginLeft: '20px', marginRight: '20px', backgroundColor: 'transparent' },
+			style: { marginLeft: '12px', marginRight: '12px', backgroundColor: 'transparent' },
 			scroll	: false,
 			scrollable: null,
 			items	: [this.answerFormFieldset]
@@ -691,15 +692,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	getPossibleAnswers: function(){
 		for ( var i = 0; i < this.questionObj.possibleAnswers.length; i++){
 			var pA = this.questionObj.possibleAnswers[i];
-			this.answerFormFieldset.add({
-				xtype		: 'button',
+			this.answerFormFieldset.add(Ext.create('ARSnova.view.MultiBadgeButton', {
 				ui			: 'normal',
 				text		: pA.text,
 				disabled	: true,
 				cls			: 'answerListButton',
-				badgeText	: '0',
-				badgeCls	: 'badgeicon badgefixed'
-			});
+				badgeCls	: 'badgeicon'
+			}));
 		}
 		
 		// Prevent the view from scrolling to the top after returning from a free text answer detail view
@@ -795,7 +794,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						
 						self.freetextAnswerStore.removeAll();
 						self.freetextAnswerStore.add(answers);
-						self.freetextAbstentions.setBadgeText(abstentions.length);
+						self.freetextAbstentions.setBadge([{ badgeText: abstentions.length }]);
 						self.freetextAbstentions.setVisible(abstentions.length > 0);
 					},
 					failure: function() {
@@ -835,13 +834,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 									});
 								}
 								panel.answerFormFieldset.query('button').forEach(function(button, index) {
-									button.setBadgeText(mcAnswerCount[index]+'');
+									button.setBadge([{ badgeText: mcAnswerCount[index]+''}]);
 								});
 							}
 						} else {
 							for (var i = 0, el; el = answers[i]; i++) {
 								var field = "button[text=" + el.answerText + "]";
-								panel.answerFormFieldset.down(field).setBadgeText(el.answerCount);
+								panel.answerFormFieldset.down(field).setBadge([{ badgeText: el.answerCount}]);
 								
 								var idx = tmp_possibleAnswers.indexOf(el.answerText); // Find the index
 								if(idx!=-1) tmp_possibleAnswers.splice(idx, 1); // Remove it if really found!
@@ -851,7 +850,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								var el = tmp_possibleAnswers[i];
 								
 								var field = "button[text=" + el + "]";
-								panel.answerFormFieldset.down(field).setBadgeText('0');
+								panel.answerFormFieldset.down(field).setBadge([{ badgeText: '0' }]);
 							}
 						}
 					},
