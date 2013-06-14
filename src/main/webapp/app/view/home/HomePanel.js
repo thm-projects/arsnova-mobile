@@ -187,15 +187,14 @@ Ext.define('ARSnova.view.home.HomePanel', {
 							course = " coursesession";
 						}
 
-						var sessionButton = Ext.create('Ext.Button', {
+						var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 							xtype		: 'button',
 							ui			: 'normal',
 							text		: session.name,
 							cls			: 'forwardListButton' + course,
 							controller	: 'sessions',
 							action		: 'showDetails',
-							badgeCls	: 'badgeicon badgefixed',
-							badgeText	: "",
+							badgeCls	: 'badgeicon',
 							sessionObj	: session,
 							handler		: function(options){
 								ARSnova.app.showLoadMask("Login...");
@@ -234,7 +233,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		var promise = new RSVP.Promise();
 		ARSnova.app.questionModel.getUnansweredSkillQuestions(sessionKeyword, {
 			success: function(newQuestions) {
-				button.setBadgeText(newQuestions.length);
+				button.setBadge([{ badgeText: newQuestions.length }]);
 				promise.resolve(newQuestions.length);
 			},
 			failure: function(response) {

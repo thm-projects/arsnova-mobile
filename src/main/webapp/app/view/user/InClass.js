@@ -102,22 +102,21 @@ Ext.define('ARSnova.view.user.InClass', {
 			]
 		});
 		
-		this.feedbackButton = Ext.create('Ext.Button', {
+		this.feedbackButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			ui			: 'normal',
 			text		: Messages.MY_FEEDBACK,
 			cls			: 'forwardListButton',
-			badgeText	: '.',
-			badgeCls	: 'badgeicon feedbackARSnova badgefixed',
+			badgeCls	: 'badgeicon feedbackARSnova',
 			controller	: 'Feedback',
 			action		: 'showVotePanel',
 			handler		: this.buttonClicked
 		});
 		
-		this.questionButton = Ext.create('Ext.Button', {
+		this.questionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			ui			: 'normal',
 			text		: Messages.QUESTIONS_TO_STUDENTS,
 			cls			: 'forwardListButton',
-			badgeCls	: 'badgeicon badgefixed',
+			badgeCls	: 'badgeicon',
 			controller	: 'Questions',
 			action		: 'index',
 			handler		: this.buttonClicked
@@ -141,6 +140,10 @@ Ext.define('ARSnova.view.user.InClass', {
 		});
 		
 		this.add([this.toolbar, this.inClass]);
+		
+		this.on('initialize', function() {
+			this.feedbackButton.setBadge([{ badgeText: '0' }]);
+		});
 	},
 	
 	/* will be called on session login */
@@ -168,7 +171,9 @@ Ext.define('ARSnova.view.user.InClass', {
 	checkNewSkillQuestions: function(){
 		ARSnova.app.questionModel.getUnansweredSkillQuestions(localStorage.getItem("keyword"), {
 			success: function(newQuestions){
-				ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.questionButton.setBadgeText(newQuestions.length);
+				ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.questionButton.setBadge([{
+					badgeText: newQuestions.length
+				}]);
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.tab.setBadgeText(newQuestions.length);
 				
 				if (newQuestions.length > 0) {
@@ -238,8 +243,8 @@ Ext.define('ARSnova.view.user.InClass', {
 					var feedbackButton = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.feedbackButton;
 					feedbackButton.badgeEl ? feedbackButton.badgeEl.destroy() : '';
 					feedbackButton.badgeEl = null;
-					feedbackButton.badgeCls = "badgeicon feedbackARSnova badgefixed";
-					feedbackButton.setBadgeText(".");
+					feedbackButton.badgeCls = "badgeicon feedbackARSnova";
+					feedbackButton.setBadge([{ badgeText: "0" }]);
 				},
 				success: function() {},
 				failure: function(){
