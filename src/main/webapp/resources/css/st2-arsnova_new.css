@@ -388,24 +388,26 @@ body {
 }
 
 .matrixButton {
-	overflow-y: visible !important;
-	width: 105px;
-	min-height: 120px;
-}
-
-.matrixButton.feedbackGoodBackground,
-.matrixButton.feedbackOkBackground,
-.matrixButton.feedbackBadBackground,
-.matrixButton.feedbackNoneBackground {
-	width: 130px !important;
+	min-height: 130px;
+	padding-left: 3px;
+	padding-right: 3px;
 }
 
 .buttonText {
+	overflow: hidden;
+	width: 100px !important;
 	font-size: 1em !important;
 	padding: 5px 0 0 !important;
 	font-weight: normal !important;
 	white-space: normal !important;
 	line-height: 1.1em !important;
+}
+
+.matrixButton.feedbackGoodBackground .buttonText,
+.matrixButton.feedbackOkBackground .buttonText,
+.matrixButton.feedbackBadBackground .buttonText,
+.matrixButton.feedbackNoneBackground .buttonText {
+	width: 130px !important;	
 }
 
 .noBackground {
