@@ -22,9 +22,11 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	extend: 'Ext.Panel',
 	
 	config: {
-		scroll: 'vertical',
-		scrollable: true,
-		viewOnly: false
+		viewOnly: false,
+		scrollable: {
+			direction: 'vertical',
+			directionLock: true
+		}
 	},
 	
 	constructor: function(arguments) {

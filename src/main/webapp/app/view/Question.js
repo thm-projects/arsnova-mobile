@@ -22,8 +22,10 @@ Ext.define('ARSnova.view.Question', {
 	extend: 'Ext.Panel',
 	
 	config: {
-		scroll: 'vertical',
-		scrollable: true
+		scrollable: {
+			direction: 'vertical',
+			directionLock: true
+		}
 	},
 	
 	questionObj: null,
