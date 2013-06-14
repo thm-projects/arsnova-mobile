@@ -244,7 +244,8 @@ switch (lang) {
 			/* about */
 			INFO: "Info",
 			ABOUT: "About",
-			ARSNOVA_BLOG: "ARSnova Blog",
+			ARSNOVA_FAQ: "FAQ | Helpdesk",
+			OPINION: "Your opinion matters",
 			WIDGET_IS_LOADING: 'Widget is loading...',
 			IMPRESSUM: "Imprint",
 			OPEN_SESSIONS: "Sessions: open",
@@ -472,7 +473,8 @@ switch (lang) {
 			/* about */
 			INFO: "Info",
 			ABOUT: "Über",
-			ARSNOVA_BLOG: "ARSnova Blog",
+			ARSNOVA_FAQ: "FAQ | Helpdesk",
+			OPINION: "Deine Meinung ist gefragt",
 			WIDGET_IS_LOADING: 'Widget wird geladen...',
 			IMPRESSUM: "Impressum",
 			OPEN_SESSIONS: "Sessions: offen",
