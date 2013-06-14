@@ -75,9 +75,9 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 			},
 			
 			items: [{
-				text	: Messages.ARSNOVA_BLOG,
+				text	: Messages.ARSNOVA_FAQ,
 				handler	: function(b) {
-					window.open("http://blog.mni.thm.de/arsnova/");
+					window.open("http://blog.mni.thm.de/arsnova/faq-2/");
 				}
 			}, {
 				text	: Messages.STATISTIC,
@@ -85,6 +85,11 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
 					me.statisticPanel = Ext.create('ARSnova.view.about.StatisticPanel');
 					me.animateActiveItem(me.statisticPanel, 'slide');
+				}
+			}, {
+				text	: Messages.OPINION,
+				handler	: function(b) {
+					window.open("https://arsnova.thm.de/#id/10940464");
 				}
 			}, {
 				text: Messages.IMPRESSUM,
