@@ -64,7 +64,7 @@
 }
 
 .x-form-label {
-	background-color: #dbdbdb !important;
+	background-color: #dbdbdb;
 }
 
 .x-button.x-button-confirm {
@@ -1307,10 +1307,37 @@ ol.standardList li {
 	margin: 30px auto;
 }
 
-
 .newQuestion .x-form-fieldset {
 	margin-top: 10px;
 	margin-bottom: 0;
+}
+
+.x-spinner .x-input-number {
+	text-align: center !important;
+}
+
+.checkItem {
+	font-family: 'Pictos';
+	font-size: 1.6em;
+	text-align: right;
+	line-height: 1.6em;
+	margin-right: 10px;
+	background: none !important;
+	padding: 0px !important;
+}
+
+.checkItem.checked {
+	color: #006bb6;
+}
+
+.checkItem.unchecked {
+	color: #ddd;
+}
+
+.checkItem > span {
+	font-weight: normal;
+	font-size: 1em;
+	text-align: center;
 }
 
 .notificationBox {
