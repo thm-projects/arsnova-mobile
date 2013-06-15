@@ -522,7 +522,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		
 		this.add([this.toolbar,
             Ext.create('Ext.Toolbar', {
-  	            ui: 'light',
+            	cls: 'noBackground noBorder',
   	            docked: 'top',
   	            items: [
                       {xtype: 'spacer'},
