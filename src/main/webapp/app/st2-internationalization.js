@@ -155,6 +155,20 @@ switch (lang) {
 			SHOWCASE_MODE: "Presentation Mode",
 			LEAVE: "Leave",
 			MEMBERS_ONLY: "This question is visible to course members only.",
+			QUESTION_RATING: "Rating",
+			QUESTION_RATING_SHORT: "Rating",
+			QUESTION_GRADE: "Grade",
+			QUESTION_GRADE_SHORT: "Grade",
+			QUESTION_MC: "Multiple Choice",
+			QUESTION_MC_SHORT: "MC",
+			QUESTION_YESNO: "Yes | No",
+			QUESTION_YESNO_SHORT: "Yes | No",
+			QUESTION_SINGLE_CHOICE: "Single Choice",
+			QUESTION_SINGLE_CHOICE_SHORT: "ABCD",
+			QUESTION_FREETEXT: "Free text",
+			QUESTION_FREETEXT_SHORT: "Text",
+			
+			
 			
 			/* user */
 			CHECK_ANSWERS: "Checking answers",
@@ -384,6 +398,18 @@ switch (lang) {
 			SHOWCASE_MODE: "Präsentationsmodus",
 			LEAVE: "Verlassen",
 			MEMBERS_ONLY: "Diese Frage ist nur für Kursmitglieder sichtbar.",
+			QUESTION_RATING: "Rating",
+			QUESTION_RATING_SHORT: "Rating",
+			QUESTION_GRADE: "Schulnote",
+			QUESTION_GRADE_SHORT: "Note",
+			QUESTION_MC: "Mehrfachauswahl",
+			QUESTION_MC_SHORT: "Mehrfachausw.",
+			QUESTION_YESNO: "Ja | Nein",
+			QUESTION_YESNO_SHORT: "Ja | Nein",
+			QUESTION_SINGLE_CHOICE: "Einfachauswahl",
+			QUESTION_SINGLE_CHOICE_SHORT: "Einfachausw.",
+			QUESTION_FREETEXT: "Freitext",
+			QUESTION_FREETEXT_SHORT: "Text",
 			
 			/* user */
 			CHECK_ANSWERS: "Prüfe Antworten",
