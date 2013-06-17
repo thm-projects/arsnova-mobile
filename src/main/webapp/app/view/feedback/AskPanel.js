@@ -23,8 +23,10 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 	config: {
 		title: 'AskPanel',
 		fullscreen: true,
-		scrollable: true,
-		scroll: 'vertical'	
+		scrollable: {
+			direction: 'vertical',
+			directionLock: true
+		}
 	},
 	
 	/* toolbar items */

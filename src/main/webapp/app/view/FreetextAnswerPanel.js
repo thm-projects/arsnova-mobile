@@ -23,7 +23,10 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
-		scroll: 'vertical',
+		scrollable: {
+			direction: 'vertical',
+			directionLock: true
+		},
 		layout: 'fit',
 		fullscreen: true,
 		

@@ -23,8 +23,10 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 	config: {
 		fullscreen: true,
-		scrollable: true,
-		scroll: 'vertical'
+		scrollable: {
+			direction: 'vertical',
+			directionLock: true
+		}
 	},
 	
 	/* toolbar items */
