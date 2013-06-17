@@ -23,7 +23,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 	
 	config: {
 		fullscreen: true,
-		scrollable: true,
+		scrollable: null,
 		scroll	: 'vertical'
 	},
 	
@@ -48,6 +48,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 
 		this.mycourses = Ext.create('Ext.List', {
 			store: this.mycoursesStore,
+			hidden: true,
 			style: {
 				marginLeft:  '12px',
 				marginRight: '12px',
@@ -167,10 +168,12 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 
 	getMyCourses: function() {
 		if (ARSnova.app.loginMode != ARSnova.app.LOGIN_THM) return;
+		var newSessionPanel = this;
 		//ARSnova.showLoadMask(Messages.LOAD_MASK_SEARCH_COURSES);
 		ARSnova.app.courseModel.getMyCourses({
 			success: Ext.bind(function(response) {
-				ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel.setScrollable(true);
+				newSessionPanel.mycourses.show();
+				newSessionPanel.setScrollable(true);
 				this.mycoursesStore.removeAll();
 				this.mycoursesStore.add(Ext.decode(response.responseText));
 				if (window.innerWidth > 321) {
@@ -180,8 +183,9 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				}
 			}, this),
 			empty: Ext.bind(function() {
-				this.mycourses.hide();
-				ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel.setScrollable(false);
+				
+				newSessionPanel.mycourses.hide();
+				newSessionPanel.setScrollable(null);
 				ARSnova.app.hideLoadMask();
 			}, this),
 			unauthenticated: function() {
