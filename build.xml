@@ -2,21 +2,39 @@
 	<property name="main.dir" value="src/main/webapp" />
 	<property name="lib.dir" value="${main.dir}/lib" />
 	<property name="sencha.dir" value="${lib.dir}/sencha1.1.1" />
+	<property name="build.dir" value="src/main/build" />
 	
-	<target name="min:js">
-		<chmod file="${sencha.dir}/jsbuilder/jsdb/linux/jsdb" perm="+x" />
-		<exec executable="sh" dir="${sencha.dir}/jsbuilder" failonerror="true">
-			<arg value="JSBuilder.sh" />
-			<arg value="-p ../ARSnovaCombined.jsb3" />
-			<arg value="-d ../" />
-			<arg value="-v" />
-		</exec>
+	<target name="-min:js:minify">
+		<apply executable="java" dest="${main.dir}/app">
+			<arg value="-jar"/>
+			<arg value="${lib.dir}/compiler.jar"/>
+			<arg value="--js"/>
+			<srcfile/>
+			<arg value="--js_output_file"/>
+			<targetfile/>
+			
+			<fileset dir="${main.dir}/app" includes="**/*.js" />
+			<mapper type="glob" from="*.js" to="*.js.min"/>
+		</apply>
 	</target>
+	
+	<target name="-min:js:move" depends="-min:js:minify">
+		<move todir="${build.dir}" verbose="true">
+			<fileset dir="${main.dir}/app">
+				<include name="**/*.js.min"/>
+			</fileset>
+			<mapper type="glob" from="*.min" to="*"/>
+		</move>
+	</target>
+	
+	<target name="min:js" depends="-min:js:move" />
 	
 	<target name="min:css">
 		<java jar="${sencha.dir}/jsbuilder/ycompressor/ycompressor.jar" fork="true" failonerror="true" output="${main.dir}/resources/css/arsnova_min.css">
 			<arg value="${main.dir}/resources/css/arsnova_new.css" />
 		</java> 
 	</target>
+	
+	<target name="run" depends="min:css,min:js" />
 
 </project>
