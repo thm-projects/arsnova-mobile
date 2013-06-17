@@ -179,15 +179,19 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		//ARSnova.showLoadMask(Messages.LOAD_MASK_SEARCH_COURSES);
 		ARSnova.app.courseModel.getMyCourses({
 			success: Ext.bind(function(response) {
-				console.log(response);
-				newSessionPanel.mycourses.show();
-				newSessionPanel.setScrollable(true);
-				this.mycoursesStore.removeAll();
-				this.mycoursesStore.add(Ext.decode(response.responseText));
-				if (window.innerWidth > 321) {
-					this.mycoursesStore.sort('fullname');
+				if(response.responseText == "[]") {
+					newSessionPanel.mycourses.hide();
+					newSessionPanel.setScrollable(null);
 				} else {
-					this.mycoursesStore.sort('shortname');
+					newSessionPanel.mycourses.show();
+					newSessionPanel.setScrollable(true);
+					this.mycoursesStore.removeAll();
+					this.mycoursesStore.add(Ext.decode(response.responseText));
+					if (window.innerWidth > 321) {
+						this.mycoursesStore.sort('fullname');
+					} else {
+						this.mycoursesStore.sort('shortname');
+					}
 				}
 			}, this),
 			empty: Ext.bind(function() {
