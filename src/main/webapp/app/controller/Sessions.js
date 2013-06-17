@@ -202,7 +202,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				duration: 700
 			});
 			
-			tabPanel.feedbackTabPanel.animateActiveItem(tabPanel.feedbackTabPanel.votePanel, {
+			tabPanel.feedbackTabPanel.animateActiveItem(tabPanel.feedbackTabPanel.statisticPanel, {
 				type: 'slide',
 				duration: 700
 			});

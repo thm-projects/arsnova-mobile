@@ -179,6 +179,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		//ARSnova.showLoadMask(Messages.LOAD_MASK_SEARCH_COURSES);
 		ARSnova.app.courseModel.getMyCourses({
 			success: Ext.bind(function(response) {
+				console.log(response);
 				newSessionPanel.mycourses.show();
 				newSessionPanel.setScrollable(true);
 				this.mycoursesStore.removeAll();
@@ -190,7 +191,6 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				}
 			}, this),
 			empty: Ext.bind(function() {
-				
 				newSessionPanel.mycourses.hide();
 				newSessionPanel.setScrollable(null);
 				ARSnova.app.hideLoadMask();
