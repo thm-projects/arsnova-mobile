@@ -235,11 +235,9 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		            return barAttr;
 		        },
 		        label: {
-		        	display: 'outside',
-		        	field: 'value',
-		        	orientation: 'horizontal',
-		        	color: '#000',
-		        	'text-anchor': 'middle'
+		            renderer: function(v) {
+		                return '';
+		            }
 		        },
 		        style: {
 		            color:0x6238A7, 
@@ -268,6 +266,8 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				/* Swap values for "can follow" and "faster, please" feedback
 				 * TODO: improve implementation, this is a quick hack for MoodleMoot 2013 */
 				values = feedbackValues.slice();
+				var maximum = Math.max.apply(null, values);
+				
 				tmpValue = values[0];
 				values[0] = values[1];
 				values[1] = tmpValue;
@@ -283,6 +283,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				store.each(function(record) {
 					record.data.percent = sum > 0 ? (record.data.value / sum) : 0.0;
 				});
+				chart._axes.items[0]._maximum = maximum;
 				chart.redraw();
 				
 				//update feedback-badge in tab bar 
