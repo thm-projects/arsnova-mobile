@@ -24,8 +24,6 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 	config: {
 		title: 'QuestionsPanel',
 		fullscreen: true,
-		scrollable: true,
-		scroll: 'vertical',
 		layout: 'vbox',
 		
 		store: Ext.create('Ext.data.JsonStore', {
@@ -256,7 +254,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
     			var panel = fQP.questionsPanel;
     			ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadgeText(questions.length);
     			panel.questionsCounter = questions.length;
-    			
+
 				if(panel.questionsCounter == 0){
 					panel.list.hide();
 					panel.noQuestionsFound.show();
