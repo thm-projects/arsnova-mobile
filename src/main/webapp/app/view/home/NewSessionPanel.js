@@ -47,7 +47,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		});
 
 		this.mycourses = Ext.create('Ext.List', {
-			store: this.mycoursesStore,
+			store: mycoursesStore,
 			style: {
 				marginLeft:  '12px',
 				marginRight: '12px',
@@ -57,7 +57,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 						? '<span class="course">{fullname}<span>'
 						: '<span class="course">{shortname}<span>',
 			listeners: {
-				itemTap: Ext.bind(this.onCourseSubmit, this),
+				itemtap: Ext.bind(this.onCourseSubmit, this),
 				
 		        initialize: function (list, eOpts){
 		            var me = this;
@@ -149,6 +149,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 	},
 
 	onCourseSubmit: function(list, index, element, e) {
+		alert(list.store);
 		var course = list.store.getAt(index).data;
 		
 		var shortName = course.shortname;
