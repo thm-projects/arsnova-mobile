@@ -25,9 +25,9 @@ Ext.define('ARSnova.view.TextCheckfield', {
 	xtype: 'textcheckfield',
 	
 	config: {
-		checked: 		false,
+		checked:		null,
 		checkedCls:		'checked',
-		uncheckedCls: 	'unchecked',
+		uncheckedCls:	'unchecked',
 		
 		/**
 		 * Overwriting label of textfield in order to place a checkbox instead of the label.
@@ -35,7 +35,7 @@ Ext.define('ARSnova.view.TextCheckfield', {
 		 */
 		label:			'3',	
 		labelAlign:		'right',
-		labelWidth:		'1.0em',
+		labelWidth:		'2.0em',
 		labelCls:		'checkItem',
 		
 		listeners: {			
@@ -43,9 +43,9 @@ Ext.define('ARSnova.view.TextCheckfield', {
 			 *  Adding listener for tap event on label element (toggleChecked())
 			 */
 			'tap': {
-	        	element: 'label',
-	            fn: function () {
-	            	this.toggleChecked();
+				element: 'label',
+	        	fn: function () {
+	        		this.toggleChecked();
 	            }
 	        }
 		}
@@ -61,6 +61,16 @@ Ext.define('ARSnova.view.TextCheckfield', {
 		this.label.addCls(
 			(this.isChecked() ? this.config.checkedCls : this.config.uncheckedCls)
 		);
+		
+		/**
+		 * initialize checked as false by default. If this step is not done, the framework
+		 * don't initialize 'checked' and let it undefined.
+		 */
+		this.onAfter('initialize', function() {
+			if(this.config.checked == null) {
+				this.config.checked = false;
+			}
+		});
 	},
 	
 	/**
@@ -71,19 +81,19 @@ Ext.define('ARSnova.view.TextCheckfield', {
 		return this.config.checked;
 	},
 	
-    /**
+	/**
      * Toggles labelCls between this.config.uncheckedCls and this.config.checkedCls and
      * the this.config.checked attribute between true and false.
-     */
-    toggleChecked: function() {
-        if (this.isChecked()) {
-        	this.label.replaceCls(this.config.checkedCls, this.config.uncheckedCls);
-        }
+	*/
+	toggleChecked: function() {
+		if (this.isChecked()) {
+			this.label.replaceCls(this.config.checkedCls, this.config.uncheckedCls);
+		}
 
-        else {
-        	this.label.replaceCls(this.config.uncheckedCls, this.config.checkedCls);
-        }
+		else {
+			this.label.replaceCls(this.config.uncheckedCls, this.config.checkedCls);
+		}
         
-       this.config.checked = !this.config.checked;
-    }
+		this.config.checked = !this.config.checked;
+	}
 });
