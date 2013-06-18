@@ -581,7 +581,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			
 			itemCls: 'forwardListButton',
 			itemTpl: [
-				'<div class="search-item">',
+				'<div class="search-item noOverflow">',
 				'<span style="color:gray">{formattedTime}</span><span style="padding-left:30px">{answerSubject}</span>',
 				'</div>'
 			],
@@ -607,7 +607,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		                		var groupHeight = typeof me.headerHeight !== 'undefined' ? me.headerHeight : 26;
 		                		itemsHeight += me.groups.length * groupHeight;
 		                	}
-		                	me.setHeight(itemsHeight + 20);
+		                	me.setHeight(itemsHeight);
 		                });
 		            }
 		        }

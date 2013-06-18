@@ -11,7 +11,7 @@
 }
 
 /* Overwriting css classes*/
-.x-input-text,.x-input-password {
+.x-input-text, .x-input-password {
 	text-align: center;
 }
 
@@ -31,6 +31,13 @@
 
 .x-fullscreen {
 	background-color: #c5ccd3;
+}
+
+.noOverflow {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	padding-right: 40px;
 }
 
 .x-item-disabled .x-form-label span,.x-item-disabled input,.x-item-disabled .x-spinner-body,.x-item-disabled select,.x-item-disabled textarea,.x-item-disabled .x-field-clear-container {

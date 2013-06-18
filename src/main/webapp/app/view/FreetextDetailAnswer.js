@@ -67,7 +67,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 		this.add([this.toolbar, {
 			xtype: 'formpanel',
 			scrollable: null,
-			style: "margin: 20px",
+			
 			items: [{
 				xtype: 'fieldset',
 				items: [
@@ -140,5 +140,10 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 				sheet.show();
 			}
 		}]);
+	
+		this.on('painted', function() {
+			var textarea = this.element.down('textarea');
+			textarea.setHeight(textarea.dom.scrollHeight);
+		});
 	}
 });

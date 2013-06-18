@@ -23,11 +23,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
-		scrollable: {
-			direction: 'vertical',
-			directionLock: true
-		},
-		layout: 'fit',
+		layout: 'vbox',
 		fullscreen: true,
 		
 		/**
@@ -92,15 +88,16 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		this.freetextAnswerList = Ext.create('Ext.List', {
 			activeCls: 'search-item-active',
 			store: this.freetextAnswerStore, 
+			layout: 'fit',
+			flex: 1,
 			
 			itemCls: 'forwardListButton',
 			itemTpl: [
-				'<div class="search-item">',
+				'<div class="search-item noOverflow">',
 				'<span style="color:gray">{formattedTime}</span><span style="padding-left:30px">{answerSubject}</span>',
 				'</div>'
 			],
 			grouped: true,
-			scrollable: { disabled: true },
 			
 			listeners: {
 				itemtap: function (list, index, element) {
@@ -111,20 +108,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 							removeItem: function() { list.getStore().remove(list.getStore().getAt(index)); }
 						}), panel : self
 					});
-				},
-		        initialize: function (list, eOpts){
-		            var me = this;
-		            if (typeof me.getItemMap == 'function'){
-		                me.getScrollable().getScroller().on('refresh',function(scroller,eOpts){
-		                	var itemsHeight = me.getItemHeight() * me.itemsCount;
-		                	if(me.getGrouped()) {
-		                		var groupHeight = typeof me.headerHeight !== 'undefined' ? me.headerHeight : 26;
-		                		itemsHeight += me.groups.length * groupHeight;
-		                	}
-		                	me.setHeight(itemsHeight + 20);
-		                });
-		            }
-		        }
+				}
 			}
 		});
 		

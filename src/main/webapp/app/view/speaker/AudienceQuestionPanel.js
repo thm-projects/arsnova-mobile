@@ -77,8 +77,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			},
 
 			itemCls: 'forwardListButton',
-			itemTpl: '<tpl if="active"><span class="isActive buttontext">{text}</span></tpl>' +
-					 '<tpl if="!active"><span class="buttontext">{text}</span></tpl>' +
+			itemTpl: '<tpl if="active"><div class="isActive buttontext noOverflow">{text}</div></tpl>' +
+					 '<tpl if="!active"><div class="buttontext noOverflow">{text}</div></tpl>' +
 					 '<div class="x-list-item x-hasbadge">' +
 					 '<tpl if="numAnswers &gt; 0"><span class="redbadgeicon badgefixed">{numAnswers}</span></tpl></div>',
 			grouped: true,
