@@ -29,12 +29,12 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		}
 	},
 	
-	constructor: function(arguments) {
-		this.callParent(arguments);
+	constructor: function(args) {
+		this.callParent(args);
 		
 		var self = this;
-		this.questionObj = arguments.questionObj;
-		this.viewOnly = typeof arguments.viewOnly === "undefined" ? false : arguments.viewOnly;
+		this.questionObj = args.questionObj;
+		this.viewOnly = typeof args.viewOnly === "undefined" ? false : args.viewOnly;
 		
 		this.on('preparestatisticsbutton', function(button) {
 			button.scope = this;

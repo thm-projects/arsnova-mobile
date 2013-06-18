@@ -4,8 +4,12 @@
 	<property name="sencha.dir" value="${lib.dir}/sencha1.1.1" />
 	<property name="build.dir" value="src/main/build" />
 	
+	<target name="-build:init">
+		<mkdir dir="${build.dir}" />
+	</target>
+	
 	<target name="-min:js:minify">
-		<apply executable="java" dest="${main.dir}/app">
+		<apply executable="java" dest="${main.dir}" failonerror="true">
 			<arg value="-jar"/>
 			<arg value="${lib.dir}/compiler.jar"/>
 			<arg value="--js"/>
@@ -13,21 +17,40 @@
 			<arg value="--js_output_file"/>
 			<targetfile/>
 			
-			<fileset dir="${main.dir}/app" includes="**/*.js" />
+			<fileset dir="${main.dir}">
+				<include name="**/*.js"/>
+				<!-- do not process Touch Charts - it throws errors! -->
+				<exclude name="**/*touch-charts-debug.js"/>
+				<exclude name="**/*touch-charts.js"/>
+			</fileset>
 			<mapper type="glob" from="*.js" to="*.js.min"/>
 		</apply>
 	</target>
 	
 	<target name="-min:js:move" depends="-min:js:minify">
 		<move todir="${build.dir}" verbose="true">
-			<fileset dir="${main.dir}/app">
+			<fileset dir="${main.dir}">
 				<include name="**/*.js.min"/>
 			</fileset>
 			<mapper type="glob" from="*.min" to="*"/>
 		</move>
 	</target>
 	
-	<target name="min:js" depends="-min:js:move" />
+	<target name="-assets:copy"  depends="-build:init">
+		<copy todir="${build.dir}/resources">
+			<fileset dir="${main.dir}/resources" />
+		</copy>
+		<copy todir="${build.dir}">
+			<fileset dir="${main.dir}">
+				<include name="st2-index.html" />
+				<include name="st2-arsnova.manifest" />
+				<include name="favicon.png" />
+				<include name="WEB-INF/**" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="min:js" depends="-build:init,-assets:copy,-min:js:move" />
 	
 	<target name="min:css">
 		<java jar="${sencha.dir}/jsbuilder/ycompressor/ycompressor.jar" fork="true" failonerror="true" output="${main.dir}/resources/css/arsnova_min.css">
