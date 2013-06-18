@@ -25,6 +25,12 @@
 			</fileset>
 			<mapper type="glob" from="*.js" to="*.js.min"/>
 		</apply>
+		<!-- copy Touch Charts manually -->
+		<copy todir="${build.dir}/lib/touch-charts-2.0">
+			<fileset dir="${main.dir}/lib/touch-charts-2.0">
+				<include name="touch-charts.js"/>
+			</fileset>
+		</copy>
 	</target>
 	
 	<target name="-min:js:move" depends="-min:js:minify">
@@ -52,9 +58,13 @@
 	
 	<target name="min:js" depends="-build:init,-assets:copy,-min:js:move" />
 	
-	<target name="min:css">
-		<java jar="${sencha.dir}/jsbuilder/ycompressor/ycompressor.jar" fork="true" failonerror="true" output="${main.dir}/resources/css/arsnova_min.css">
-			<arg value="${main.dir}/resources/css/arsnova_new.css" />
+	<target name="min:css" depends="-build:init,-assets:copy">
+		<java jar="${lib.dir}/stylesheets.jar" fork="true" failonerror="true">
+			<arg line="--allowed-non-standard-function color-stop" />
+			<arg line="--allowed-non-standard-function progid:DXImageTransform.Microsoft.gradient" />
+			<arg value="--output-file" />
+			<arg value="${build.dir}/resources/css/st2-arsnova_min.css" />
+			<arg value="${main.dir}/resources/css/st2-arsnova_new.css" />
 		</java> 
 	</target>
 	

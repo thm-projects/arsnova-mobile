@@ -63,8 +63,7 @@
 						<phase>compile</phase>
 						<configuration>
 							<target>
-								<!-- ant target="min:css" /-->
-								<ant target="min:js" />
+								<ant target="run" />
 							</target>
 						</configuration>
 						<goals>
