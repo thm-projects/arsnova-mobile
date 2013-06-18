@@ -114,6 +114,11 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 		}]);
 
 		this.on('deactivate', this.onDeactivate);
+		
+		this.on('painted', function() {
+			var textarea = this.element.down('textarea');
+			textarea.setHeight(textarea.dom.scrollHeight);
+		});
 	},
 	
 	onDeactivate: function(){
