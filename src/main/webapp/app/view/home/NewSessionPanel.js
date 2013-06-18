@@ -39,15 +39,13 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 	toolbar		: null,
 	backButton	: null,
 	
-	constructor: function(arguments) {
-		this.callParent(arguments);
+	constructor: function(args) {
+		this.callParent(args);
 		
 		this.mycoursesStore = new Ext.data.JsonStore({
 			model: 'ARSnova.model.Course'
 		});
 
-		var mycoursesStore = this.mycoursesStore;
-		
 		this.mycourses = Ext.create('Ext.List', {
 			store: this.mycoursesStore,
 			hidden: true,
@@ -104,7 +102,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		this.add([this.toolbar, {
 			title: 'createSession',
 			style: { 
-				marginTop: '15px',
+				marginTop: '15px'
 			},
 			xtype: 'formpanel',
 			scrollable: null,

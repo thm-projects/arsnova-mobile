@@ -226,7 +226,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		            color:0x6238A7, 
 		            size:8,
 		            fill: 'blue'
-		        },
+		        }
 		    }]
 		});
 		

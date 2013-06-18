@@ -30,11 +30,11 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 		}
 	},
 	
-	constructor: function(arguments) {
-		this.callParent(arguments);
+	constructor: function(args) {
+		this.callParent(args);
 		
-		this.answer = arguments.answer;
-		this.sTP = arguments.sTP;
+		this.answer = args.answer;
+		this.sTP = args.sTP;
 
 		var self = this;
 		

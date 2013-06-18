@@ -85,5 +85,5 @@ Ext.define('ARSnova.view.TextCheckfield', {
         }
         
        this.config.checked = !this.config.checked;
-    },
+    }
 });
