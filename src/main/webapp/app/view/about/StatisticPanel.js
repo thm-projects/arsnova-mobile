@@ -89,7 +89,8 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 			defaults: {
 				xtype	: 'button',
 				ui		: 'normal',
-				cls		: 'standardListButton'
+				cls		: 'standardListButton',
+				disabled: true
 			},
 			
 			items: [{
