@@ -82,7 +82,9 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			
 			//check for showStatistic flag
 			if(typeof newCard.questionObj !== 'undefined') {
-				if(newCard.questionObj.showStatistic && newCard.questionObj.showStatistic == 1)
+				if(	newCard.questionObj.showStatistic 
+					&& newCard.questionObj.showStatistic == 1
+					&& newCard.isDisabled())
 					panel.statisticButton.show();
 				else
 					panel.statisticButton.hide();
@@ -221,7 +223,10 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 						self.setActiveItem(0);
 						
 						userQuestionsPanel.checkAnswer();
-						userQuestionsPanel.checkFirstQuestion();
+						
+						// Check first question. 		
+						// index has to be 2, because index 0 and 1 are occupied by toolbar and panel
+						userQuestionsPanel.checkQuestion(2);
 						userQuestionsPanel.showNextUnanswered();
 					},
 					failure: function(response){
@@ -256,7 +261,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			if (!questionObj.userAnswered && !questionObj.isAbstentionAnswer) return;
 			
 			if (questionObj.isAbstentionAnswer) {
-				questionPanel.disable();
+				questionPanel.disableQuestion();
 				return;
 			}
 			
@@ -301,13 +306,14 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		setTimeout("ARSnova.app.hideLoadMask()", 1000);
 	},
 	
-	checkFirstQuestion: function() {
-		// items index has to be 2, because index 0 and 1 are occupied by toolbar and panel
-		var firstQuestionView = this.items.items[2];
-		var firstQuestionObj = firstQuestionView.questionObj;
+	checkQuestion: function(index) {
+		var questionView = this.items.items[index];
+		var questionObj = questionView.questionObj;
 
-		firstQuestionView.fireEvent('preparestatisticsbutton', this.statisticButton);
-		if(firstQuestionObj.showStatistic && firstQuestionObj.showStatistic == 1) {
+		questionView.fireEvent('preparestatisticsbutton', this.statisticButton);
+		if( questionObj.showStatistic 
+			&& questionObj.showStatistic == 1
+			&& questionView.isDisabled()) {
 			this.statisticButton.show();
 		}
 	},
@@ -326,8 +332,11 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		}
 
 		for (var i = currentPosition, questionPanel; questionPanel = questionPanels[i]; i++) {
-			if (questionPanel.isDisabled()) continue;
-
+			if (questionPanel.isDisabled()) {
+				this.checkQuestion(i);
+				continue;
+			}
+			
 			this.setActiveItem(i-2, {
 				type: 'slide',
 				direction: 'left'
