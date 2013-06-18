@@ -37,7 +37,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	
 	/* toolbar items */
 	toolbar				: null,
-	canteenVoteButton	: null,
 	
 	renewChartDataTask: {
 		name: 'renew the chart data at question statistics charts',

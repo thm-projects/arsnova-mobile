@@ -90,7 +90,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		/* BEGIN TOOLBAR OBJECTS */
 		
 		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.QUESTION,
+			text	: Messages.QUESTIONS,
 			ui		: 'back',
 			scope	: this,
 			handler	: function(){
