@@ -202,23 +202,23 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	storeAbstention: function() {
 		var self = this;
 		
-		ARSnova.answerModel.getUserAnswer(this.questionObj._id, {
+		ARSnova.app.answerModel.getUserAnswer(this.questionObj._id, {
 			empty: function() {
-				var answer = Ext.ModelMgr.create({
+				var answer = Ext.create('ARSnova.model.Answer', {
 					type	 		: "skill_question_answer",
 					sessionId		: localStorage.getItem("sessionId"),
 					questionId		: self.questionObj._id,
 					timestamp		: Date.now(),
 					user			: localStorage.getItem("login"),
 					abstention		: true
-				}, 'Answer');
+				});
 				
 				self.saveAnswer(answer);
 			},
 			success: function(response) {
 				var theAnswer = Ext.decode(response.responseText);
 				
-				var answer = Ext.ModelMgr.create(theAnswer, "Answer");
+				var answer = Ext.create('ARSnova.model.Answer', theAnswer);
 				answer.set('timestamp', Date.now());
 				answer.set('abstention', true);
 				
