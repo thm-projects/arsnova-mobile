@@ -499,10 +499,14 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	},
 	
 	saveAnswer: function(answer, callbacks) {
+		var data = answer.getData();
+		// drop sencha touch internal record id
+		delete data.id;
+		
 		Ext.Ajax.request({
 			url: "lecturerquestion/" + answer.get('questionId') + "/answer/",
 			method: "POST",
-			jsonData: answer.raw,
+			jsonData: data,
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
