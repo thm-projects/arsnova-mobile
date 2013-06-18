@@ -23,9 +23,11 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 	
 	config: {
 		fullscreen: true,
-		scrollable: true,
 		title	: Messages.INFO,
-		scroll: 'vertical'
+		scrollable: {
+			direction: 'vertical',
+			directionLock: true
+		}
 	},
 	
 	/* toolbar items */

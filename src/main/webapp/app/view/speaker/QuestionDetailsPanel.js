@@ -46,8 +46,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	config: {
 		title: 'QuestionDetailsPanel',
 		fullscreen: true,
-		scrollable: true,
-		scroll: 'vertical'
+		scrollable: {
+			direction: 'vertical',
+			directionLock: true
+		}
 	},
 	
 	/* toolbar items */

@@ -23,7 +23,10 @@ Ext.define('ARSnova.view.TabPanel', {
 	
 	config: {
 		fullscreen: true,
-		scroll: false,
+		scrollable: {
+			direction: 'vertical',
+			directionLock: true
+		},
 		
 		tabBar: {
 			layout: {

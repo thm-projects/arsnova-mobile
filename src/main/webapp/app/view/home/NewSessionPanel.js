@@ -23,7 +23,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 	
 	config: {
 		fullscreen: true,
-		scrollable: true,
+		scrollable: null,
 		scroll	: 'vertical'
 	},
 	
@@ -46,8 +46,11 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			model: 'ARSnova.model.Course'
 		});
 
+		var mycoursesStore = this.mycoursesStore;
+		
 		this.mycourses = Ext.create('Ext.List', {
 			store: this.mycoursesStore,
+			hidden: true,
 			style: {
 				marginLeft:  '12px',
 				marginRight: '12px',
@@ -57,7 +60,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 						? '<span class="course">{fullname}<span>'
 						: '<span class="course">{shortname}<span>',
 			listeners: {
-				itemTap: Ext.bind(this.onCourseSubmit, this),
+				itemtap: Ext.bind(this.onCourseSubmit, this),
 				
 		        initialize: function (list, eOpts){
 		            var me = this;
@@ -149,28 +152,36 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 	},
 
 	onCourseSubmit: function(list, index, element, e) {
-		var course = list.store.getAt(index).data;
+		var course = list.getStore().getAt(index);
 		
-		var shortName = course.shortname;
+		console.log(course);
 		
-		if (course.shortname.length > 12) {
-			shortName = course.shortname.cut(11,shortName.length-1);
+		var shortName = course.get('shortname');
+		
+		console.log(shortName);
+		
+		if (course.get('shortname').length > 12) {
+			shortName = course.get('shortname');
+			shortName = shortName.substr(0,7);
 		}
 
 		ARSnova.app.getController('Sessions').create({
-			name		: course.fullname,
+			name		: course.get('fullname'),
 			shortName	: shortName,
-			courseId	: course.id,
-			courseType	: course.type
+			courseId	: course.get('id'),
+			courseType	: course.get('type')
 		});
 	},
 
 	getMyCourses: function() {
 		if (ARSnova.app.loginMode != ARSnova.app.LOGIN_THM) return;
+		var newSessionPanel = this;
 		//ARSnova.showLoadMask(Messages.LOAD_MASK_SEARCH_COURSES);
 		ARSnova.app.courseModel.getMyCourses({
 			success: Ext.bind(function(response) {
-				ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel.setScrollable(true);
+				console.log(response);
+				newSessionPanel.mycourses.show();
+				newSessionPanel.setScrollable(true);
 				this.mycoursesStore.removeAll();
 				this.mycoursesStore.add(Ext.decode(response.responseText));
 				if (window.innerWidth > 321) {
@@ -180,8 +191,8 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				}
 			}, this),
 			empty: Ext.bind(function() {
-				this.mycourses.hide();
-				ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel.setScrollable(false);
+				newSessionPanel.mycourses.hide();
+				newSessionPanel.setScrollable(null);
 				ARSnova.app.hideLoadMask();
 			}, this),
 			unauthenticated: function() {

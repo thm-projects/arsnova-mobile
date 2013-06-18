@@ -46,26 +46,9 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 	initialize: function() {
 		this.callParent(arguments);
 		
-		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.HOME,
-			ui		: 'back',
-			hidden	: true,
-			handler : function(){
-				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
-		    		type		: 'slide',
-		    		direction	: 'right',
-		    		duration	: 700,
-		    		scope		: this,
-		    		listeners: { animationend: function() { 
-						this.hide();
-		    		}, scope: this }
-		    	});
-			}
-		});
-		
 		this.feedbackVoteButton = Ext.create('Ext.Button', {
 			text	: Messages.FEEDBACK_VOTE,
-			ui		: 'confirm',
+			ui		: 'back',
 			scope	: this,
 			hidden	: true,
 			handler	: function() {
@@ -90,7 +73,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			ui: 'light',
-			items: [this.backButton, {xtype: 'spacer'}, this.feedbackVoteButton]
+			items: [this.feedbackVoteButton]
 		});
 
 		this.feedbackOkButton = Ext.create('Ext.Panel', {
@@ -235,11 +218,9 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		            return barAttr;
 		        },
 		        label: {
-		        	display: 'outside',
-		        	field: 'value',
-		        	orientation: 'horizontal',
-		        	color: '#000',
-		        	'text-anchor': 'middle'
+		            renderer: function(v) {
+		                return '';
+		            }
 		        },
 		        style: {
 		            color:0x6238A7, 
@@ -268,6 +249,8 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				/* Swap values for "can follow" and "faster, please" feedback
 				 * TODO: improve implementation, this is a quick hack for MoodleMoot 2013 */
 				values = feedbackValues.slice();
+				var maximum = Math.max.apply(null, values);
+				
 				tmpValue = values[0];
 				values[0] = values[1];
 				values[1] = tmpValue;
@@ -283,6 +266,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				store.each(function(record) {
 					record.data.percent = sum > 0 ? (record.data.value / sum) : 0.0;
 				});
+				chart._axes.items[0]._maximum = maximum;
 				chart.redraw();
 				
 				//update feedback-badge in tab bar 
