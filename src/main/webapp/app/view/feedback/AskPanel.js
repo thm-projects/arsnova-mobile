@@ -80,8 +80,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			xtype: 'formpanel',
 			submitOnAction: false,
 			scrollable: null,
-			
-			style: { margin: '20px' },
+			cls: 'standardForm',
 			
 			items: [{
 				xtype: 'fieldset',
@@ -89,7 +88,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			}, {
 				xtype: 'button',
 				ui: 'confirm',
-				cls: 'login-button noMargin',
+				cls: 'login-button',
 				text: Messages.SEND,
 				handler: this.askQuestion,
 				scope: this
