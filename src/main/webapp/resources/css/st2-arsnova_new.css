@@ -1014,7 +1014,7 @@ ol.standardList li {
 	width: 20%;
 }
 
-.yesnoOptions, .releaseOptions .x-segmentedbutton, .saveQuestionButton {
+.yesnoOptions, .newQuestionOptions .x-segmentedbutton, .saveQuestionButton {
 	width: 80%;
 	max-width: 500px;
 	margin: 20px auto;
@@ -1028,13 +1028,13 @@ ol.standardList li {
 	width: 50%;
 }
 
-.releaseOptions .x-button, abstentionOptions .x-button {
+.newQuestionOptions .x-button {	
 	/*width: 33%;*/
 	width: 50%;
 }
 
-.releaseOptions .x-form-fieldset-title, .abstentionOptions .x-form-fieldset-title {
-	width: 96%;
+.newQuestionOptions .x-form-fieldset-title {
+	width: 98%;
 	margin: 0 auto;
 }
 

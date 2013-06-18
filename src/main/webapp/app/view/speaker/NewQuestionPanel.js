@@ -100,12 +100,13 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		
 		this.abstentionPart = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
-			cls: 'abstentionOptions',
+			cls: 'newQuestionOptions',
 			items: [{
 				xtype: 'fieldset',
 				title: Messages.ABSTENTION_POSSIBLE,
 				items: [{
 					xtype: 'segmentedbutton',
+					style: 'margin: auto',
 					cls: 'yesnoOptions',
 					items: [{
 						text: Messages.YES, id: 'withAbstention', pressed: true
@@ -118,12 +119,13 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		
 		this.releasePart = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
+			cls: 'newQuestionOptions',
 			items: [{
 				xtype: 'fieldset',
-				cls: 'releaseOptions',
 				title: Messages.RELEASE_FOR,
 	            items: [{
 	            	xtype: 'segmentedbutton',
+	            	style: 'margin: auto',
 	        		allowDepress: false,
 	        		allowMultiple: false,
 	        		items: this.releaseItems,
@@ -194,6 +196,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		
 		this.yesNoQuestion = Ext.create('Ext.form.FormPanel', {
 			id: 'yesno',
+			cls: 'newQuestionOptions',
 			hidden: true,
 			scrollable: null,
 			submitOnAction: false,
@@ -212,9 +215,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
             			style: 'width: 33%'
             		},
             		items: [
-        		        { text	: Messages.YES, id: "yesnoYesCorrect", pressed: true }, 
+        		        { text	: Messages.YES, id: "yesnoYesCorrect" }, 
         		        { text	: Messages.NO, id: "yesnoNoCorrect" },
-        		        { text	: Messages.NONE, id: "yesnoNoneCorrect" }
+        		        { text	: Messages.NONE, id: "yesnoNoneCorrect", pressed: true }
             		]
             	}]
 			}]
@@ -516,6 +519,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.saveButton = Ext.create('Ext.Button', {
 	        ui: 'confirm',
 	        cls: 'saveQuestionButton',
+	        style: 'margin-top: 30px',
 			text: Messages.SAVE,
 			handler: this.saveHandler
 	    });
@@ -630,6 +634,40 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		          { text: tmpValues.schoolAnswer6 }
 		    	];
 				break;
+				
+			/**
+			 *  Don't delete this! It's a prototype handle for the new TextCheckfields.
+			 *
+			 *
+			 	case Messages.MC:
+				values.questionType = "mc";
+				
+				var formPanel = panel.down("#mc");
+				var tmpValues = formPanel.getFieldsAsArray();
+				
+				var obj;
+				noChecked = true;
+				values.possibleAnswers = [];
+				
+				for(var i = 0, field; field = tmpValues[i], i < tmpValues.length; i++) {
+					if(!field.isHidden() && field.config.hasOwnProperty('checked')) {
+						obj = {
+							text: field.getValue()
+						};
+						
+						if(field.isChecked()) { obj.correct = 1; }
+						values.possibleAnswers.push(obj);
+						
+						// noChecked will be set to false if at least one field is checked
+						noChecked = noChecked && !field.isChecked();
+					}
+				}
+
+				if (noChecked) {
+					values.noCorrect = 1;
+				}
+				break;
+			*/
 			case Messages.MC:
 				values.questionType = "mc";
 				
