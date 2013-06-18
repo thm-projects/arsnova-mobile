@@ -106,7 +106,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 							maxLength: 8
 						},
 						name		: 'keyword',
-						placeHolder	: Messages.SESSIONID_PLACEHOLDER,
+						placeHolder	: Messages.SESSIONID_PLACEHOLDER
 					}]
 				}, {
 					xtype	: 'button',

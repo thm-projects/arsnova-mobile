@@ -1,8 +1,11 @@
 <project name="ARSnova" default="run">
 	<property name="main.dir" value="src/main/webapp" />
-	<property name="lib.dir" value="${main.dir}/lib" />
-	<property name="sencha.dir" value="${lib.dir}/sencha1.1.1" />
+	<property name="main.lib.dir" value="${main.dir}/lib" />
+	<property name="main.sencha.dir" value="${main.lib.dir}/sencha-touch-2.2.1" />
+	
 	<property name="build.dir" value="src/main/build" />
+	<property name="build.lib.dir" value="${build.dir}/lib" />
+	<property name="build.sencha.dir" value="${build.lib.dir}/sencha-touch-2.2.1" />
 	
 	<target name="-build:init">
 		<mkdir dir="${build.dir}" />
@@ -11,7 +14,7 @@
 	<target name="-min:js:minify">
 		<apply executable="java" dest="${main.dir}" failonerror="true">
 			<arg value="-jar"/>
-			<arg value="${lib.dir}/compiler.jar"/>
+			<arg value="${main.lib.dir}/compiler.jar"/>
 			<arg value="--js"/>
 			<srcfile/>
 			<arg value="--js_output_file"/>
@@ -26,8 +29,8 @@
 			<mapper type="glob" from="*.js" to="*.js.min"/>
 		</apply>
 		<!-- copy Touch Charts manually -->
-		<copy todir="${build.dir}/lib/touch-charts-2.0">
-			<fileset dir="${main.dir}/lib/touch-charts-2.0">
+		<copy todir="${build.lib.dir}/touch-charts-2.0">
+			<fileset dir="${main.lib.dir}/touch-charts-2.0">
 				<include name="touch-charts.js"/>
 			</fileset>
 		</copy>
@@ -54,12 +57,16 @@
 				<include name="WEB-INF/**" />
 			</fileset>
 		</copy>
+		<!-- copy required Sencha Touch resources -->
+		<copy todir="${build.sencha.dir}/resources">
+			<fileset dir="${main.sencha.dir}/resources" />
+		</copy>
 	</target>
 	
 	<target name="min:js" depends="-build:init,-assets:copy,-min:js:move" />
 	
 	<target name="min:css" depends="-build:init,-assets:copy">
-		<java jar="${lib.dir}/stylesheets.jar" fork="true" failonerror="true">
+		<java jar="${main.lib.dir}/stylesheets.jar" fork="true" failonerror="true">
 			<arg line="--allowed-non-standard-function color-stop" />
 			<arg line="--allowed-non-standard-function progid:DXImageTransform.Microsoft.gradient" />
 			<arg value="--output-file" />
