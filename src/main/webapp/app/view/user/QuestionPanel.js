@@ -59,11 +59,11 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			
 			if(newCard.questionObj.questionType === 'abcd') {
 				(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_SINGLE_CHOICE) : this.toolbar.setTitle(Messages.QUESTION_SINGLE_CHOICE_SHORT);
-			} else if(newCard.questionObj.questionType === 'text') {
+			} else if(newCard.questionObj.questionType === 'freetext') {
 				(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_FREETEXT) : this.toolbar.setTitle(Messages.QUESTION_FREETEXT_SHORT);
 			} else if(newCard.questionObj.questionType === 'mc') {
 				(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_MC) : this.toolbar.setTitle(Messages.QUESTION_MC_SHORT);
-			} else if(newCard.questionObj.questionType === 'eval') {
+			} else if(newCard.questionObj.questionType === 'vote') {
 				(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_RATING) : this.toolbar.setTitle(Messages.QUESTION_RATING_SHORT);
 			} else if(newCard.questionObj.questionType === 'yesno') {
 				(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_YESNO) : this.toolbar.setTitle(Messages.QUESTION_YESNO);
