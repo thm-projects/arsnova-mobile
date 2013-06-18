@@ -90,8 +90,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				submitOnAction: false,
 				xtype: 'formpanel',
 				scrollable: null,
-				width: '50%',
-				minWidth: '280px',
+				width: '310px',
 				margin: '0 auto',
 				
 				items: [{
