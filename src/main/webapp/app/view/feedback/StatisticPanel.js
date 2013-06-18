@@ -46,26 +46,9 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 	initialize: function() {
 		this.callParent(arguments);
 		
-		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.HOME,
-			ui		: 'back',
-			hidden	: true,
-			handler : function(){
-				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
-		    		type		: 'slide',
-		    		direction	: 'right',
-		    		duration	: 700,
-		    		scope		: this,
-		    		listeners: { animationend: function() { 
-						this.hide();
-		    		}, scope: this }
-		    	});
-			}
-		});
-		
 		this.feedbackVoteButton = Ext.create('Ext.Button', {
 			text	: Messages.FEEDBACK_VOTE,
-			ui		: 'confirm',
+			ui		: 'back',
 			scope	: this,
 			hidden	: true,
 			handler	: function() {
@@ -90,7 +73,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			ui: 'light',
-			items: [this.backButton, {xtype: 'spacer'}, this.feedbackVoteButton]
+			items: [this.feedbackVoteButton]
 		});
 
 		this.feedbackOkButton = Ext.create('Ext.Panel', {
