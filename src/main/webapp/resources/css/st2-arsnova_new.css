@@ -1611,3 +1611,7 @@ ol.standardList li {
 	text-decoration: none;
 	color: #333 !important;
 }
+
+.joinSessionInput {
+	text-align: center;
+}

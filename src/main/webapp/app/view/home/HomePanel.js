@@ -99,10 +99,15 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					cls: 'bottomMargin',
 					
 					items: [{
-						xtype		: 'numericKeypad',
+						xtype		: 'textfield',
+						component: {
+							xtype: 'input',
+							cls: 'joinSessionInput',
+							type: 'tel',
+							maxLength: 8
+						},
 						name		: 'keyword',
 						placeHolder	: Messages.SESSIONID_PLACEHOLDER,
-						maxLength	: 11
 					}]
 				}, {
 					xtype	: 'button',
