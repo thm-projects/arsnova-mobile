@@ -32,9 +32,9 @@ Ext.application({
         autoMaximize: Ext.os.is.iOS && Ext.browser.version.isGreaterThan(3)
     },
 	icon: {
-		57: 'resources/images/ARSnova_Grafiken/01_AppIcon_57x57.png',
-		72: 'resources/images/ARSnova_Grafiken/01_AppIcon_72x72.png',
-		114: 'resources/images/ARSnova_Grafiken/01_AppIcon_114x114.png'
+		57: 'resources/images/ARSnova_Grafiken/01_AppIcon_57x57px.png',
+		72: 'resources/images/ARSnova_Grafiken/01_AppIcon_72x72px.png',
+		114: 'resources/images/ARSnova_Grafiken/01_AppIcon_114x114px.png'
 	},
 	
     name: "ARSnova",
