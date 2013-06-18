@@ -2,21 +2,72 @@
 	<property name="main.dir" value="src/main/webapp" />
 	<property name="lib.dir" value="${main.dir}/lib" />
 	<property name="sencha.dir" value="${lib.dir}/sencha1.1.1" />
+	<property name="build.dir" value="src/main/build" />
 	
-	<target name="min:js">
-		<chmod file="${sencha.dir}/jsbuilder/jsdb/linux/jsdb" perm="+x" />
-		<exec executable="sh" dir="${sencha.dir}/jsbuilder" failonerror="true">
-			<arg value="JSBuilder.sh" />
-			<arg value="-p ../ARSnovaCombined.jsb3" />
-			<arg value="-d ../" />
-			<arg value="-v" />
-		</exec>
+	<target name="-build:init">
+		<mkdir dir="${build.dir}" />
 	</target>
 	
-	<target name="min:css">
-		<java jar="${sencha.dir}/jsbuilder/ycompressor/ycompressor.jar" fork="true" failonerror="true" output="${main.dir}/resources/css/arsnova_min.css">
-			<arg value="${main.dir}/resources/css/arsnova_new.css" />
+	<target name="-min:js:minify">
+		<apply executable="java" dest="${main.dir}" failonerror="true">
+			<arg value="-jar"/>
+			<arg value="${lib.dir}/compiler.jar"/>
+			<arg value="--js"/>
+			<srcfile/>
+			<arg value="--js_output_file"/>
+			<targetfile/>
+			
+			<fileset dir="${main.dir}">
+				<include name="**/*.js"/>
+				<!-- do not process Touch Charts - it throws errors! -->
+				<exclude name="**/*touch-charts-debug.js"/>
+				<exclude name="**/*touch-charts.js"/>
+			</fileset>
+			<mapper type="glob" from="*.js" to="*.js.min"/>
+		</apply>
+		<!-- copy Touch Charts manually -->
+		<copy todir="${build.dir}/lib/touch-charts-2.0">
+			<fileset dir="${main.dir}/lib/touch-charts-2.0">
+				<include name="touch-charts.js"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="-min:js:move" depends="-min:js:minify">
+		<move todir="${build.dir}" verbose="true">
+			<fileset dir="${main.dir}">
+				<include name="**/*.js.min"/>
+			</fileset>
+			<mapper type="glob" from="*.min" to="*"/>
+		</move>
+	</target>
+	
+	<target name="-assets:copy"  depends="-build:init">
+		<copy todir="${build.dir}/resources">
+			<fileset dir="${main.dir}/resources" />
+		</copy>
+		<copy todir="${build.dir}">
+			<fileset dir="${main.dir}">
+				<include name="st2-index.html" />
+				<include name="st2-arsnova.manifest" />
+				<include name="favicon.png" />
+				<include name="WEB-INF/**" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="min:js" depends="-build:init,-assets:copy,-min:js:move" />
+	
+	<target name="min:css" depends="-build:init,-assets:copy">
+		<java jar="${lib.dir}/stylesheets.jar" fork="true" failonerror="true">
+			<arg line="--allowed-non-standard-function color-stop" />
+			<arg line="--allowed-non-standard-function progid:DXImageTransform.Microsoft.gradient" />
+			<arg value="--output-file" />
+			<arg value="${build.dir}/resources/css/st2-arsnova_min.css" />
+			<arg value="${main.dir}/resources/css/st2-arsnova_new.css" />
 		</java> 
 	</target>
+	
+	<target name="run" depends="min:css,min:js" />
 
 </project>

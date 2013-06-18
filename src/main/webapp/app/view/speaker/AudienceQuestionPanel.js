@@ -138,7 +138,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		};
 		
 		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.HOME,
+			text	: Messages.BACK,
 			ui		: 'back',
 			handler	: function() {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;

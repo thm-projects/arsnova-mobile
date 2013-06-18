@@ -37,7 +37,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	
 	/* toolbar items */
 	toolbar				: null,
-	canteenVoteButton	: null,
 	
 	renewChartDataTask: {
 		name: 'renew the chart data at question statistics charts',
@@ -59,11 +58,11 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		interval: 15000
 	},
 	
-	constructor: function(arguments){
-		this.callParent(arguments);
+	constructor: function(args){
+		this.callParent(args);
 
-		this.questionObj = arguments.question;
-		this.lastPanel = arguments.lastPanel;
+		this.questionObj = args.question;
+		this.lastPanel = args.lastPanel;
 		
 		this.questionStore = Ext.create('Ext.data.Store', {
 			fields: ['text', 'value', 'percent']

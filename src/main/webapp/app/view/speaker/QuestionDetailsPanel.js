@@ -75,11 +75,11 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		interval: 20000 //20 seconds
 	},
 	
-	constructor: function(arguments){
-		this.callParent(arguments);
+	constructor: function(args){
+		this.callParent(args);
 		
 		var me = this;
-		this.questionObj = arguments.question;
+		this.questionObj = args.question;
 		
 		if( this.questionObj.questionType == "yesno" 	|| 
 			this.questionObj.questionType == "mc" 		||
@@ -90,7 +90,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		/* BEGIN TOOLBAR OBJECTS */
 		
 		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.QUESTION,
+			text	: Messages.QUESTIONS,
 			ui		: 'back',
 			scope	: this,
 			handler	: function(){

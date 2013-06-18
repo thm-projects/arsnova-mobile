@@ -90,8 +90,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				submitOnAction: false,
 				xtype: 'formpanel',
 				scrollable: null,
-				width: '50%',
-				minWidth: '280px',
+				width: '310px',
 				margin: '0 auto',
 				
 				items: [{
@@ -99,10 +98,15 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					cls: 'bottomMargin',
 					
 					items: [{
-						xtype		: 'numericKeypad',
+						xtype		: 'textfield',
+						component: {
+							xtype: 'input',
+							cls: 'joinSessionInput',
+							type: 'tel',
+							maxLength: 8
+						},
 						name		: 'keyword',
 						placeHolder	: Messages.SESSIONID_PLACEHOLDER,
-						maxLength	: 11
 					}]
 				}, {
 					xtype	: 'button',

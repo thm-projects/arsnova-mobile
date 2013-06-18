@@ -165,7 +165,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			style	: { marginTop: '50px' },
 			layout  : {
 				type: 'hbox',
-				pack: 'center',
+				pack: 'center'
 			},
 				
 			items: [

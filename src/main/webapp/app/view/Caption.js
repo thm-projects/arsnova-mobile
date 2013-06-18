@@ -25,7 +25,7 @@ Ext.define('ARSnova.view.Caption', {
 		this.listButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			ui			: 'small',
 			text		: "",
-			cls			: 'forwardListButton caption',
+			cls			: 'forwardListButton caption'
 		});
 		
 		this.add([].concat(window.innerWidth > 320 ? [{
