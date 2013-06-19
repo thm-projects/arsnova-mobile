@@ -277,7 +277,7 @@ Ext.define('ARSnova.view.Question', {
 					sessionId	: localStorage.getItem("sessionId"),
 					questionId	: self.questionObj._id,
 					user		: localStorage.getItem("login"),
-					timestamp	: Date.now(),
+					timestamp	: Date.now()
 				});
 				promise.resolve(answer);
 			},
