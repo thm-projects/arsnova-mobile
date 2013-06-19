@@ -28,12 +28,22 @@
 			</fileset>
 			<mapper type="glob" from="*.js" to="*.js.min"/>
 		</apply>
-		<!-- copy Touch Charts manually -->
-		<copy todir="${build.lib.dir}/touch-charts-2.0">
-			<fileset dir="${main.lib.dir}/touch-charts-2.0">
-				<include name="touch-charts.js"/>
+		<!-- Handle Touch Charts without throwing IE8 errors -->
+		<apply executable="java" dest="${main.dir}" failonerror="true">
+			<arg value="-jar"/>
+			<arg value="${main.lib.dir}/compiler.jar"/>
+			<arg line="--jscomp_warning internetExplorerChecks"/>
+			<arg value="--js"/>
+			<srcfile/>
+			<arg value="--js_output_file"/>
+			<targetfile/>
+			
+			<fileset dir="${main.dir}">
+				<include name="**/*touch-charts-debug.js"/>
+				<include name="**/*touch-charts.js"/>
 			</fileset>
-		</copy>
+			<mapper type="glob" from="*.js" to="*.js.min"/>
+		</apply>
 	</target>
 	
 	<target name="-min:js:move" depends="-min:js:minify">
