@@ -51,7 +51,7 @@
 		</copy>
 		<copy todir="${build.dir}">
 			<fileset dir="${main.dir}">
-				<include name="st2-index.html" />
+				<include name="index.html" />
 				<include name="st2-arsnova.manifest" />
 				<include name="favicon.png" />
 				<include name="WEB-INF/**" />
