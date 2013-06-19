@@ -181,10 +181,8 @@ Ext.define("ARSnova.controller.Questions", {
 						
 						if(options.active == 1){
 							questionStatus.questionOpenedSuccessfully();
-							panel.down('textfield[label=Status]').setValue("Freigegeben");
 						} else {
 							questionStatus.questionClosedSuccessfully();
-							panel.down('textfield[label=Status]').setValue("Nicht Freigegeben");
 						}
 					},
 					failure: function(records, operation){
