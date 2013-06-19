@@ -509,7 +509,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				
 				items: [{
 					xtype: 'fieldset',
-					cls: 'releaseOptions',
+					cls: 'newQuestionOptions',
 					title: Messages.RELEASE_FOR,
 			    items: [{
 				xtype: 'segmentedbutton',
@@ -521,21 +521,33 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						if(pressed){
 							ARSnova.app.showLoadMask(Messages.CHANGE_RELEASE);
 							var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
-							var question = Ext.create('ARSnova.model.Question', panel.questionObj);
 							
-							/* button was already pressed */
-							if(question.get('releasedFor') == button.id){
-								ARSnova.app.hideLoadMask();
-								return;
-							}
-							question.set('releasedFor', button.id);
-							question.raw.releasedFor = button.id;
-							question.save({
-								success: function(response){
-									panel.questionObj = question.data;
-									ARSnova.app.hideLoadMask();
+							var question = Ext.ModelManager.getModel('ARSnova.model.Session').load(
+									panel.questionObj._id, 
+							{
+								success: function(records, operation) {
+									var question = Ext.create('ARSnova.model.Question',  
+											Ext.decode(operation.getResponse().responseText));
+									
+									// button was already pressed 
+									if(question.get('releasedFor') == button.getItemId()){
+										ARSnova.app.hideLoadMask();
+										return;
+									}
+									
+									question.set('releasedFor', button.getItemId());
+
+									question.save({
+										success: function(response){
+											panel.questionObj = question.getData();
+											ARSnova.app.hideLoadMask();
+										},
+										failure: function(){ console.log('could not save releasedFor flag'); }
+									});
 								},
-								failure: function(){ console.log('could not save releasedFor flag'); }
+								failure: function(records, operation){
+					    	  		Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
+								}
 							});
 						}
 					}

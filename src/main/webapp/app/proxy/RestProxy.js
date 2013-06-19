@@ -61,17 +61,17 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	            callbackFn.call(scope, record, operation);
 	        } 
 		};
-
+		
 		request = this.buildRequest(operation, callback, scope);
-
-		this.doRequest(operation, callback, scope, request);	                
+		
+		this.doRequest(operation, callback, scope, request);            
 	},
-	
+    
 	read: function(operation, callback, scope) {
 	 	var callbackFn = operation.getCallback(),
             successFn  = operation.config.success,
             failureFn  = operation.config.failure;
-		
+
 		callback = function(operation) {
 	        if (operation.wasSuccessful()) {
             	record = operation.getRecords()[0];
@@ -102,14 +102,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
             format    = this.format,
             url       = me.getUrl(request) || this.config.url,
             params    = request.getParams() || {},
-            id        = record ? record.getId() : request.config.operation.id;;
-
-        if (me.getAppendId() && id) {
-            if (!url.match(/\/$/)) {
-                url += '/';
-            }
-            url += id;
-        }
+            id        = record ? record.getId() : request.config.operation.id;
 
         if (format) {
             if (!url.match(/\.$/)) {

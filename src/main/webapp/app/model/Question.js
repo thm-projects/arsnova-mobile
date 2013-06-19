@@ -27,7 +27,6 @@ Ext.define('ARSnova.model.Question', {
 		
 		fields: [
 		         '_rev',
-		         'id',
 		         'abstention',
 		         'active',
 		         'duration',
@@ -35,12 +34,10 @@ Ext.define('ARSnova.model.Question', {
 		         'type',
 		         'number',
 		         'numAnswers',
-		         'courses',
 		         'piRound',
 		         'possibleAnswers',
 		         'questionType',
 		         'releasedFor',
-		         'read',
 		         'session',
 		         'sessionId',
 		         'sessionKeyword',

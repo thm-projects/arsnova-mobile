@@ -269,7 +269,7 @@ Ext.define("ARSnova.controller.Sessions", {
 	},
 	
 	setActive: function(options){
-		var session = Ext.ModelMgr.getModel('ARSnova.model.Session').load(localStorage.getItem("sessionId"), {
+		var session = Ext.ModelManager.getModel('ARSnova.model.Session').load(localStorage.getItem("sessionId"), {
 			success: function(records, operation){
 				var session = Ext.create('ARSnova.model.Session', Ext.decode(operation.getResponse().responseText));
 				session.set('active', options.active);
