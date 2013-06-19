@@ -208,7 +208,7 @@ Ext.define('ARSnova.view.Question', {
 		});
 		
 		this.add([this.questionTitle, this.answerList].concat(
-			this.questionObj.questionType === "mc" ? {
+			this.questionObj.questionType === "mc" && !this.viewOnly ? {
 				xtype: 'container',
 				layout: {
 					type: 'hbox',
