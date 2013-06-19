@@ -23,12 +23,12 @@ Ext.define("ARSnova.controller.Auth", {
 	
 	config: {
 		routes: {
-			'id/:sessionid': 'qr',
+			'id/:sessionkey': 'qr',
 			'auth/checkLogin': 'checkLogin'
 		}
 	},
 	
-	qr: function(options) {
+	qr: function(sessionkey) {
 		ARSnova.app.loggedIn = true;
 		if (localStorage.getItem('login') === null) {
 			localStorage.setItem('login', ARSnova.app.authModel.generateGuestName());
@@ -37,11 +37,12 @@ Ext.define("ARSnova.controller.Auth", {
 		localStorage.setItem('role', ARSnova.app.userRole);
 		ARSnova.app.loginMode = ARSnova.app.LOGIN_GUEST;
 		localStorage.setItem('loginMode', ARSnova.app.loginMode);
+		localStorage.setItem('keyword', sessionkey);
 		ARSnova.app.afterLogin();
 
 		window.location = window.location.pathname + "#";
 		ARSnova.app.getController('Sessions').login({
-			keyword: options.sessionid
+			keyword: sessionkey
 		});
 	},
 	
