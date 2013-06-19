@@ -619,14 +619,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			html: Messages.NO_ANSWERS
 		});
 		
-		this.freetextAbstentions = new Ext.Button({
+		this.freetextAbstentions = Ext.create('ARSnova.view.MultiBadgeButton', {
 			hidden		: true,
 			ui			: 'normal',
 			text		: Messages.ABSTENTION,
 			disabled	: true,
 			cls			: 'answerListButton',
-			badgeText	: '0',
-			badgeCls	: 'badgeicon badgefixed'
+			badgeCls	: 'badgeicon'
 		});
 		
 		if (this.questionObj.questionType === "freetext") {
