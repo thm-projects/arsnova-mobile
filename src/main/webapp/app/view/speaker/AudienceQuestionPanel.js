@@ -151,13 +151,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			}
 		});
 		
-		this.addButton = Ext.create('Ext.Button', {
-			text	: '+',
-			cls		: 'plusButton',
-			scope	: this,
-			handler	: this.newQuestionHandler
-		});
-		
 		this.presenterButton = Ext.create('Ext.Button', {
 			cls		: "thm",
 			text	: Messages.PRESENTER,
@@ -189,8 +182,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		        this.backButton,
 		        {xtype: 'spacer'},
 		        this.presenterButton,
-		        this.showcaseButton,
-		        this.addButton
+		        this.showcaseButton
 			]
 		});
 		

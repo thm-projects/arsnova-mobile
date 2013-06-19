@@ -61,29 +61,13 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			}
 		});
 		
-		this.createSessionButton = Ext.create('Ext.Button', {
-			text	: '+',
-			cls		: 'plusButton',
-			scope	: this,
-			handler	: function() {
-				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				hTP.animateActiveItem(hTP.newSessionPanel, {
-					type		: 'slide',
-					direction	: 'left',
-					duration	: 700
-				});
-			}
-		});
-		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.SESSIONS,
 			docked: 'top',
 			ui: 'light',
 			items: [
 		        this.backButton,
-		        this.logoutButton,
-		        {xtype: 'spacer'},
-	            this.createSessionButton
+		        this.logoutButton
 			]
 		});
 		
@@ -127,7 +111,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				case ARSnova.app.USER_ROLE_SPEAKER:
 					this.backButton.hide();
 					this.logoutButton.show();
-					this.createSessionButton.show();
 					break;
 				default:
 				break;
