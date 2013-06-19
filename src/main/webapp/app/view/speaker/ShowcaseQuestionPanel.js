@@ -33,7 +33,30 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	initialize: function(){
 		this.callParent(arguments);
 		
-		this.on('activeitemchange', function(panel, newCard, oldCard){
+		this.on('activeitemchange', function(panel, newCard, oldCard) {
+			var label = Ext.bind(function(long, short) {
+				var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+				return (screenWidth > 320 || this.backButton.isHidden()) ? long : short;
+				
+			}, this);
+			var questionType = newCard.questionObj.questionType;
+			var title = "";
+			
+			if (questionType === 'abcd') {
+				title = label(Messages.QUESTION_SINGLE_CHOICE, Messages.QUESTION_SINGLE_CHOICE_SHORT);
+			} else if (questionType === 'freetext') {
+				title = label(Messages.QUESTION_FREETEXT, Messages.QUESTION_FREETEXT_SHORT);
+			} else if (questionType === 'mc') {
+				title = label(Messages.QUESTION_MC, Messages.QUESTION_MC_SHORT);
+			} else if (questionType === 'vote') {
+				title = label(Messages.QUESTION_RATING, Messages.QUESTION_RATING_SHORT);
+			} else if (questionType === 'yesno') {
+				title = label(Messages.QUESTION_YESNO, Messages.QUESTION_YESNO);
+			} else if (questionType === 'school') {
+				title = label(Messages.QUESTION_GRADE, Messages.QUESTION_GRADE_SHORT);
+			}
+			this.toolbar.setTitle(title);
+			
 			//update question counter in toolbar
 			var counterEl = panel.questionCounter;
 			var counter = counterEl.element.dom.innerText.split("/");
