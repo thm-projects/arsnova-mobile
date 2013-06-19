@@ -155,7 +155,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					}
 
 					// Minimum width of 321px equals at least landscape view
-					var displaytext = window.innerWidth > 321 ? session.name : session.shortName; 
+					var displaytext = window.innerWidth > 481 ? session.name : session.shortName; 
 					var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 						ui			: 'normal',
 						text		: displaytext,
@@ -188,7 +188,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
     		failure: function() {
     			console.log("my sessions request failure");
     		}
-    	}, (window.innerWidth > 321 ? 'name' : 'shortname'));
+    	}, (window.innerWidth > 481 ? 'name' : 'shortname'));
 		ARSnova.app.hideLoadMask();
 	},
 	
