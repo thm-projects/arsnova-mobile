@@ -805,6 +805,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			courses		: values.courses,
 			noCorrect	: values.noCorrect,
 			abstention	: values.abstention,
+			showStatistic: 1,
 			successFunc	: function(response, opts){
 				ARSnova.app.getController('Questions').details({
 					question	: Ext.decode(response.responseText)

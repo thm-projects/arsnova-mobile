@@ -55,7 +55,8 @@ Ext.define("ARSnova.controller.Questions", {
 			courses		: options.courses,
 			possibleAnswers: options.possibleAnswers,
 			noCorrect	: options.noCorrect,
-			abstention	: options.abstention
+			abstention	: options.abstention,
+			showStatistic: 1
 		});
     	question.set('_id', undefined);
     	var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
