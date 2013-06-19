@@ -29,9 +29,12 @@ Ext.define('ARSnova.model.Answer', {
 			     'id',
 			     'text',
 			     'user',
+			     'answerSubject',
 			     'answerText',
 			     'questionId',
-			     'sessionId'
+			     'sessionId',
+			     'abstention',
+			     'timestamp'
 		         ]
 	},
 	

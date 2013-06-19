@@ -154,7 +154,6 @@ Ext.define('ARSnova.model.Question', {
     	return this.getProxy().changeQuestionType(sessionId, callbacks);
     },
     
-    /* TODO: This function seems to be unused. */
     countAnswers: function(sessionKeyword, questionId, callbacks) {
     	return this.getProxy().countAnswers(sessionKeyword, questionId, callbacks);
     },

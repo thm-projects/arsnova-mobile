@@ -65,7 +65,6 @@ Ext.define('ARSnova.view.Question', {
 				failure: function(response, opts) {
 					console.log('server-side error');
 					Ext.Msg.alert(Messages.NOTIFICATION, Messages.ANSWER_CREATION_ERROR);
-					Ext.Msg.doComponentLayout();
 				}
 			});
 		};
@@ -77,7 +76,7 @@ Ext.define('ARSnova.view.Question', {
 					item.set("questionAnswered", true);
 				});
 			}
-		}
+		};
 		
 		this.saveMcQuestionHandler = function() {
 			Ext.Msg.confirm('', Messages.ARE_YOU_SURE, function(button) {
@@ -95,31 +94,23 @@ Ext.define('ARSnova.view.Question', {
 				for (var i=0; i < this.answerList.getStore().getCount(); i++) {
 					answerValues.push(selectedIndexes.indexOf(i) !== -1 ? "1" : "0");
 				}
-				ARSnova.app.answerModel.getUserAnswer(this.questionObj._id, {
-					empty: function() {
-						var answer = Ext.create('ARSnova.model.Answer', {
-							type	 	: "skill_question_answer",
-							sessionId	: localStorage.getItem("sessionId"),
-							questionId	: self.questionObj._id,
-							 // convert to string: the server requires this data type
-							answerText	: answerValues.join(","),
-							user		: localStorage.getItem("login")
-						});
-						
-						saveAnswer(answer);
-					},
-					success: function(response){
-						var theAnswer = Ext.decode(response.responseText);
-						
-						//update
-						var answer = Ext.ModelMgr.create(theAnswer, "Answer");
-						answer.set('answerText', answerValues.join(","));
-						
-						saveAnswer(answer);
-					},
-					failure: function(){
-						console.log('server-side error');
-					}
+				
+				self.getUserAnswer().then(function(answer) {
+					answer.set('answerText', answerValues.join(","));
+					saveAnswer(answer);
+				});
+			}, this);
+		};
+		
+		this.mcAbstentionHandler = function() {
+			Ext.Msg.confirm('', Messages.ARE_YOU_SURE, function(button) {
+				if (button !== 'yes') {
+					return;
+				}
+				
+				self.getUserAnswer().then(function(answer) {
+					answer.set('abstention', true);
+					saveAnswer(answer);
 				});
 			}, this);
 		};
@@ -143,29 +134,9 @@ Ext.define('ARSnova.view.Question', {
 							
 							self.markCorrectAnswers();
 							
-							ARSnova.app.answerModel.getUserAnswer(self.questionObj._id, {
-								empty: function() {
-									var answer = Ext.create('ARSnova.model.Answer', {
-										type	 	: "skill_question_answer",
-										sessionId	: localStorage.getItem("sessionId"),
-										questionId	: self.questionObj._id,
-										answerText	: answerObj.text,
-										user		: localStorage.getItem("login")
-									});
-									
-									saveAnswer(answer);
-								},
-								success: function(response){
-									var theAnswer = Ext.decode(response.responseText);
-									
-									//update
-									var answer = Ext.create('ARSnova.model.Answer', theAnswer);		
-									answer.set('answerText', answerObj.text);
-									saveAnswer(answer);
-								},
-								failure: function(){
-									console.log('server-side error');
-								}
+							self.getUserAnswer().then(function(answer) {
+								answer.set('answerText', answerObj.text);
+								saveAnswer(answer);
 							});
 						} else {
 							answerObj.selModel.deselect(answerObj.selModel.selected.items[0]);
@@ -183,33 +154,42 @@ Ext.define('ARSnova.view.Question', {
 		});
 		
 		this.answerList = Ext.create('Ext.List', {
-			store	: answerStore,
-
+			store: answerStore,
+			
 			cls: 'roundedBox',
 			
 			scrollable: { disabled: true },
 			
 			itemTpl: new Ext.XTemplate(
-						'{text}',
-						'<tpl if="correct === true && this.isQuestionAnswered(values)">',
-							'&nbsp;<span style="padding: 0 0.2em 0 0.2em" class="x-list-item-correct">&#10003; </span>',
-						'</tpl>',
-						{
-							isQuestionAnswered: function(values) {
-								return values.questionAnswered === true;
-							}
-						}),
+				'{text}',
+				'<tpl if="correct === true && this.isQuestionAnswered(values)">',
+					'&nbsp;<span style="padding: 0 0.2em 0 0.2em" class="x-list-item-correct">&#10003; </span>',
+				'</tpl>',
+				{
+					isQuestionAnswered: function(values) {
+						return values.questionAnswered === true;
+					}
+				}
+			),
+			
 			listeners: {
+				scope: this,
+				selectionchange: function(list, records, eOpts) {
+					if (list.getSelectionCount() > 0) {
+						this.mcSaveButton.enable();
+					} else {
+						this.mcSaveButton.disable();
+					}
+				},
 		        initialize: function (list, eOpts){
-		            var me = this;
-		            if (typeof me.getItemMap == 'function'){
-		                me.getScrollable().getScroller().on('refresh',function(scroller,eOpts){
-		                	var itemsHeight = me.getItemHeight() * me.itemsCount;
-		                	if(me.getGrouped()) {
-		                		var groupHeight = typeof me.headerHeight !== 'undefined' ? me.headerHeight : 26;
-		                		itemsHeight += me.groups.length * groupHeight;
+		            if (typeof list.getItemMap == 'function'){
+		                list.getScrollable().getScroller().on('refresh',function(scroller,eOpts){
+		                	var itemsHeight = list.getItemHeight() * list.itemsCount;
+		                	if(list.getGrouped()) {
+		                		var groupHeight = typeof list.headerHeight !== 'undefined' ? list.headerHeight : 26;
+		                		itemsHeight += list.groups.length * groupHeight;
 		                	}
-		                	me.setHeight(itemsHeight + 20);
+		                	list.setHeight(itemsHeight + 20);
 		                });
 		            }
 		        }
@@ -217,16 +197,38 @@ Ext.define('ARSnova.view.Question', {
 			mode: this.questionObj.questionType === "mc" ? 'MULTI' : 'SINGLE'
 		});
 		
+		this.mcSaveButton = Ext.create('Ext.Button', {
+			flex: 1,
+			ui: 'confirm',
+			cls: 'login-button noMargin',
+			text: Messages.SAVE,
+			handler: !this.viewOnly ? this.saveMcQuestionHandler : function() {},
+			scope: this,
+			disabled: true
+		});
+		
 		this.add([this.questionTitle, this.answerList].concat(
 			this.questionObj.questionType === "mc" ? {
-				xtype: 'button',
-				ui: 'confirm',
-				cls: 'login-button noMargin',
-				text: Messages.SAVE,
-				handler: !this.viewOnly ? this.saveMcQuestionHandler : function() {},
-				scope: this,
-				style: { margin: "10px" }
-			} : {}));
+				xtype: 'container',
+				layout: {
+					type: 'hbox',
+					align: 'stretch'
+				},
+				defaults: {
+					style: {
+						margin: '10px'
+					}
+				},
+				items: [this.mcSaveButton, !!!this.questionObj.abstention ? { hidden: true } : {
+					flex: 1,
+					xtype: 'button',
+					cls: 'login-button noMargin',
+					text: Messages.ABSTENTION,
+					handler: this.mcAbstentionHandler,
+					scope: this
+				}]
+			} : {}
+		));
 		
 		this.on('activate', function(){
 			this.answerList.addListener('itemtap', questionListener.itemtap);
@@ -238,7 +240,7 @@ Ext.define('ARSnova.view.Question', {
 		});
 	},
 	
-	disableQuestion: function() {		
+	disableQuestion: function() {
 		this.setDisabled(true);
 		this.mask(Ext.create('ARSnova.view.CustomMask'));
 	},
@@ -262,5 +264,35 @@ Ext.define('ARSnova.view.Question', {
 			// If the element has not been drawn yet, we need to retry later
 			Ext.defer(Ext.bind(this.doTypeset, this), 100);
 		}
+	},
+	
+	getUserAnswer: function() {
+		var self = this;
+		var promise = new RSVP.Promise();
+		
+		ARSnova.app.answerModel.getUserAnswer(self.questionObj._id, {
+			empty: function() {
+				var answer = Ext.create('ARSnova.model.Answer', {
+					type	 	: "skill_question_answer",
+					sessionId	: localStorage.getItem("sessionId"),
+					questionId	: self.questionObj._id,
+					user		: localStorage.getItem("login"),
+					timestamp	: Date.now()
+				});
+				promise.resolve(answer);
+			},
+			success: function(response){
+				var theAnswer = Ext.decode(response.responseText);
+				
+				//update
+				var answer = Ext.create('ARSnova.model.Answer', theAnswer);
+				promise.resolve(answer);
+			},
+			failure: function(){
+				console.log('server-side error');
+				promise.reject();
+			}
+		});
+		return promise;
 	}
 });
