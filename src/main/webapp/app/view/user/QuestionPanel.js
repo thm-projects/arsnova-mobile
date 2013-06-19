@@ -30,7 +30,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	/* toolbar items */
 	toolbar		: null,
 	backButton	: null,
-
 	questionCounter: 0,
 	
 	initialize: function() {
@@ -164,6 +163,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 									html: Messages.NO_UNLOCKED_QUESTIONS
 								});
 								userQuestionsPanel.next();
+								userQuestionsPanel.statisticButton.hide();
 								userQuestionsPanel._indicator.hide();
 								ARSnova.app.hideLoadMask();
 								
@@ -223,10 +223,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 						self.setActiveItem(0);
 						
 						userQuestionsPanel.checkAnswer();
-						
-						// Check first question. 		
-						// index has to be 2, because index 0 and 1 are occupied by toolbar and panel
-						userQuestionsPanel.checkQuestion(2);
 						userQuestionsPanel.showNextUnanswered();
 					},
 					failure: function(response){
@@ -306,8 +302,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		setTimeout("ARSnova.app.hideLoadMask()", 1000);
 	},
 	
-	checkQuestion: function(index) {
-		var questionView = this.items.items[index];
+	checkStatisticRelease: function() {
+		var questionView = this.getActiveItem();
 		var questionObj = questionView.questionObj;
 
 		questionView.fireEvent('preparestatisticsbutton', this.statisticButton);
@@ -315,13 +311,17 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			&& questionObj.showStatistic == 1
 			&& questionView.isDisabled()) {
 			this.statisticButton.show();
-		}
+		} 	
+		else
+			this.statisticButton.hide();
 	},
 	
 	showNextUnanswered: function(){
 		var questionPanels = this.items.items;
 		var activeQuestion = this._activeItem;
 		if(!activeQuestion.isDisabled()) return;
+		
+		this.checkStatisticRelease();
 		
 		var currentPosition = 0;
 		for (var i = 0, questionPanel; questionPanel = questionPanels[i]; i++) {
@@ -333,10 +333,9 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 		for (var i = currentPosition, questionPanel; questionPanel = questionPanels[i]; i++) {
 			if (questionPanel.isDisabled()) {
-				this.checkQuestion(i);
 				continue;
 			}
-			
+;
 			this.setActiveItem(i-2, {
 				type: 'slide',
 				direction: 'left'
