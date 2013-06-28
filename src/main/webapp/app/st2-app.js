@@ -52,6 +52,9 @@ Ext.application({
 	LOGIN_FACEBOOK	: "4",
 	LOGIN_GOOGLE	: "5",
 	
+	// Customized LDAP login
+	LOGIN_CUSTOM	: "100",
+	
 	USER_ROLE_STUDENT: "0",
 	USER_ROLE_SPEAKER: "1",
     
