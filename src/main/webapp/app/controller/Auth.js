@@ -102,7 +102,7 @@ Ext.define("ARSnova.controller.Auth", {
 				Ext.Msg.alert("Hinweis", "OpenID ist noch nicht freigeschaltet.");
 				return;
 				break;
-			case ARSnova.LOGIN_CUSTOM:
+			case ARSnova.app.LOGIN_CUSTOM:
 				return window.location = "login.html";
 				break;
 			default:
