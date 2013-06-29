@@ -188,11 +188,8 @@ Ext.application({
 				}
 			}, false);
 		}, false);
-    	
-		// if (!this.checkWebKit()) return;
-		if (!this.checkLocalStorage()) return;
-		this.checkEstudyURL();
-		this.setupAppStatus();
+		
+		this.checkLocalStorage();
 		
 		taskManager = new Ext.util.TaskRunner();
 		
@@ -206,26 +203,10 @@ Ext.application({
 		}
 	},
 
-	setupAppStatus: function() {
-		this.appStatus = (navigator.device == null) ? this.WEBAPP : this.NATIVE;
+	
+	initSocket: function() {
+		this.socket = Ext.create('ARSnova.WebSocket');
 	},
-    
-    initSocket: function() {
-    	this.socket = Ext.create('ARSnova.WebSocket');
-    },
-    
-    /**
-     * check browser-engine
-     */
-    checkWebKit: function() {
-        var result = /AppleWebKit\/([\d.]+)/.exec(navigator.userAgent);
-        if (!result) {
-        	alert(Messages.SUPPORTED_BROWSERES);
-        	return false;
-        } else {
-        	return true;
-        }
-    },
 	
 	/**
 	 * after user has logged in
@@ -263,28 +244,6 @@ Ext.application({
     		return false;
     	else
     		return true;
-    },
-    
-    getGetVariable: function(variable){
-    	HTTP_GET_VARS = new Array();
-    	strGET = document.location.search.substr(1,document.location.search.length);
-    	if(strGET != ''){
-    	    gArr = strGET.split('&');
-    	    for(i = 0; i < gArr.length; ++i){
-    	        v = '';
-    	        vArr = gArr[i].split('=');
-    	        if(vArr.length > 1){
-    	        	v = vArr[1];
-    	        }
-    	        HTTP_GET_VARS[unescape(vArr[0])] = unescape(v);
-	        }
-	    }
-    	
-    	if(!HTTP_GET_VARS[variable]){
-    		return 'undefined';
-    	} else {
-			return HTTP_GET_VARS[variable];
-    	}
     },
 	
 	checkPreviousLogin: function(){
@@ -354,15 +313,6 @@ Ext.application({
             return false;
         }
         return true;
-    },
-    
-    /**
-     * for correct protocol, if arsnova is called inside estudy
-     */
-    checkEstudyURL: function(){
-    	if (window.location.host.indexOf("estudy") != -1 && window.location.protocol == "http:"){
-    		window.location = "https://" + window.location.hostname + "/arsnova";
-    	}
     },
     
     /**
