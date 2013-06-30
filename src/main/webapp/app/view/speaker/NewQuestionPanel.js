@@ -223,71 +223,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			}]
 		});
 		
-		var mcNumAnswersMaxValue = 6;
-		var mcNumAnswersStartValue = 4;
-		this.multipleChoiceQuestion = Ext.create('Ext.form.FormPanel', {
+		this.multipleChoiceQuestion = Ext.create('ARSnova.view.ExpandingAnswerForm', {
 			id: 'mc',
-			hidden: true,
-			scrollable: null,
-			submitOnAction: false,
-			
-			items: [{
-            	xtype: 'fieldset',
-            	id: 'mcAnswerFieldset',
-            	title: Messages.ANSWERS,
-            	items: [
-        	        {
-	            		xtype	: "spinnerfield",
-	            		name	: 'countAnswers',
-	                	label	: Messages.COUNT,
-	            		minValue: 2,
-	            		maxValue: mcNumAnswersMaxValue,
-	            		stepValue: 1,
-	            		value: mcNumAnswersStartValue,
-	            		listeners: {
-	                		spin: function(selectField, value) {
-	                			var answerOption, answerOptionCorrect;
-	                			for (var i=1; i <= mcNumAnswersMaxValue; i++) {
-	                				answerOption = Ext.getCmp("answerOption" + i);
-	                				answerOptionCorrect = Ext.getCmp("answerOptionCorrect" + i);
-	                				answerOption.setHidden(i > value);
-	                				answerOptionCorrect.setHidden(i > value);
-	                			}
-	                		}
-	                	}
-	                }
-    	        ]
-			}]
+			hidden: true
 		});
-		this.multipleChoiceCorrectQuestions = Ext.create('Ext.form.FormPanel', {
-			id: 'mcCorrect',
-			hidden: true,
-			scrollable: null,
-			submitOnAction: false,
-			items: [{
-				xtype: 'fieldset',
-				id: 'mcAnswerCorrectFieldset',
-				title: Messages.CORRECT_ANSWER
-			}]
-		});
-		
-		for (var i=1; i <= mcNumAnswersMaxValue; i++) {
-			Ext.getCmp('mcAnswerFieldset').add({
-				xtype:			'textfield',
-				id:				'answerOption' + i,
-				name:			'answerOption' + i,
-				placeHolder:	Messages.OPTION_PLACEHOLDER + " " + i,
-				hidden:			mcNumAnswersStartValue < i,
-				label:			Messages.ANSWER
-			});
-			Ext.getCmp('mcAnswerCorrectFieldset').add({
-				xtype: 'togglefield',
-				id: 'answerOptionCorrect' + i,
-				name: 'answerOptionCorrect' + i,
-				hidden: mcNumAnswersStartValue < i,
-				label: Messages.OPTION_PLACEHOLDER + " " + i
-			});
-		}
 
 		this.voteQuestion = Ext.create('Ext.form.FormPanel', {
 			id: 'vote',
@@ -480,10 +419,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 						case Messages.MC:
 							if(pressed) {
 								panel.multipleChoiceQuestion.show();
-								panel.multipleChoiceCorrectQuestions.show();
 							} else {
 								panel.multipleChoiceQuestion.hide();
-								panel.multipleChoiceCorrectQuestions.hide();
 							}
 							break;
 						case Messages.YESNO:
@@ -538,7 +475,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
             
             /* only one of the question types will be shown at the same time */
 		    this.voteQuestion,
-            this.multipleChoiceQuestion,this.multipleChoiceCorrectQuestions,
+		    this.multipleChoiceQuestion,
             this.yesNoQuestion,
             this.schoolQuestion,
             this.abcdQuestion,
@@ -670,29 +607,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			*/
 			case Messages.MC:
 				values.questionType = "mc";
+				values.possibleAnswers = panel.down("#mc").getValues();
 				
-				var tmpValues = panel.down("#mc").getValues();
-				var tmpCorrectValues = panel.down('#mcCorrect').getValues();
-				var obj;
-				
-				var noCorrect = true;
-				for (isCorrect in tmpCorrectValues) {
-					if (tmpCorrectValues.hasOwnProperty(isCorrect)) {
-						noCorrect = noCorrect && !!isCorrect;
-					}
-				}
-				
-				values.possibleAnswers = [];
-				for (var i=1; i <= tmpValues.countAnswers; i++) {
-					obj = {
-						text: tmpValues['answerOption' + i]
-					};
-					if (tmpCorrectValues['answerOptionCorrect' + i]) {
-						obj.correct = 1;
-					}
-					values.possibleAnswers.push(obj);
-				}
-				if (noCorrect) {
+				if (!panel.down("#mc").hasCorrectOptions()) {
 					values.noCorrect = 1;
 				}
 				
