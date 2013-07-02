@@ -322,70 +322,15 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			}]
 		});
 		
-		this.abcdQuestion = Ext.create('Ext.form.FormPanel', {
+		this.abcdQuestion = Ext.create('ARSnova.view.ExpandingAnswerForm', {
 			id: 'abcd',
 			hidden: true,
-			scrollable: null,
-			submitOnAction: false,
-			
-			items: [
-				{
-					id: 'abcd_tags',
-					xtype: 'fieldset',
-					title: Messages.ANSWERS,
-					items: [
-								{
-									xtype: 'textfield', 
-									id: 'abcd_textA',
-									label: 'A',
-									labelWidth: '15%',
-									placeHolder: Messages.BUZZWORD_A,
-									maxLength: 20
-								},
-								{
-									xtype: 'textfield', 
-									id: 'abcd_textB',
-									label: 'B',
-									labelWidth: '15%',
-									placeHolder: Messages.BUZZWORD_B,
-									maxLength: 20
-								},
-								{
-									xtype: 'textfield', 
-									id: 'abcd_textC',
-									label: 'C',
-									labelWidth: '15%',
-									placeHolder: Messages.BUZZWORD_C,
-									maxLength: 20
-								},
-								{
-									xtype: 'textfield', 
-									id: 'abcd_textD',
-									label: 'D',
-									labelWidth: '15%',
-									placeHolder: Messages.BUZZWORD_D,
-									maxLength: 20
-								}
-							]
-				},
-				{
-            	xtype: 'fieldset',
-            	title: Messages.CORRECT_ANSWER,
-            	items: [{
-            		xtype: 'segmentedbutton',
-            		allowDepress: true,
-            		cls: 'abcdOptions',
-            		items: [
-        		        { text	: "A" }, 
-        		        { text	: "B" },
-        		        { text	: "C" },
-        		        { text	: "D" },
-        		        { text  : Messages.NONE, id: 'abcdNoneCorrect', pressed: true }
-            		]
-            	}]
-			}]
+			wording: {
+				placeHolder: Messages.BUZZWORD,
+				enumeration: 'alphabet'
+			}
 		});
-
+		
 		this.freetextQuestion = Ext.create('Ext.form.FormPanel', {
 			id: 'freetext',
 			hidden: true,
@@ -647,46 +592,11 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				values.questionType = "abcd";
 				
 				var form = panel.down("#abcd");
-		    	var segmentedButton = form.down('segmentedbutton');
+				values.possibleAnswers = form.getValuesWithIndex();
 				
-		    	var correct = "";
-		    	if (segmentedButton.getPressedButtons().length && segmentedButton.getPressedButtons()[0].id !== "abcdNoneCorrect") {
-		    		correct = segmentedButton.getPressedButtons()[0].getText();
-		    	} else {
-		    		values.noCorrect = 1;
-		    	}
-		    	
-		    	/**
-		    	 * This helper returns an array like this one:
-		    	 * [{id: 'A', text: 'A: short answer'},{id: 'B', text: 'B: ..'},...]
-		    	 */
-		    	var getAnswerDescriptions = function() {
-		    		var basetagid = "#abcd_text";
-		    		var answers = ["A", "B", "C", "D"];
-		    		var result = [];
-		    		answers.forEach(function(answer) {
-		    			var tag = form.down(basetagid + answer);
-		    			var text = answer;
-		    			if (tag && tag.getValue().trim().length !== 0) {
-		    				text += ": " + tag.getValue().trim();
-		    			}
-		    			result.push({ id: answer, text: text });
-		    		});
-		    		return result;
-		    	};
-		    	
-		    	var markCorrectAnswer = function(answers, correctAnswer) {
-		    		var result = [];
-		    		answers.forEach(function(answer) {
-		    			if (correctAnswer === answer.id) {
-		    				answer.correct = 1;
-		    			}
-		    			result.push(answer);
-		    		});
-		    		return result;
-		    	};
-		    	
-		    	values.possibleAnswers = markCorrectAnswer(getAnswerDescriptions(), correct);
+				if (!form.hasCorrectOptions()) {
+					values.noCorrect = 1;
+				}
 				break;
 			
 			case Messages.FREETEXT:

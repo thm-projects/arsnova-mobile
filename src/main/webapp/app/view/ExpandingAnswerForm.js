@@ -23,7 +23,12 @@ Ext.define('ARSnova.view.ExpandingAnswerForm', {
 		minAnswers: 2,
 		maxAnswers: 8,
 		start: 4,
-		step: 1
+		step: 1,
+		wording: {
+			placeHolder: Messages.OPTION_PLACEHOLDER,
+			/** 'arabic' or 'alphabet' **/
+			enumeration: 'arabic'
+		}
 	},
 
 	constructor: function() {
@@ -41,9 +46,9 @@ Ext.define('ARSnova.view.ExpandingAnswerForm', {
 			listeners: {
 				scope: this,
 				spin: function(selectField, value) {
-					for (var i=1; i <= this.getMaxAnswers(); i++) {
-						this.answerComponents[i].setHidden(i > value);
-						this.correctComponents[i].setHidden(i > value);
+					for (var i=0; i < this.getMaxAnswers(); i++) {
+						this.answerComponents[i].setHidden(i >= value);
+						this.correctComponents[i].setHidden(i >= value);
 					}
 				}
 			}
@@ -75,25 +80,26 @@ Ext.define('ARSnova.view.ExpandingAnswerForm', {
 		var answerOptionEntryId = Ext.id();
 		var answerCorrectOptionEntryId = Ext.id();
 		var theComponentId;
+		var labelGenerator = this.getEnumeration();
 		
-		for (var i=1; i <= this.getMaxAnswers(); i++) {
+		for (var i=0; i < this.getMaxAnswers(); i++) {
 			theComponentId = answerOptionEntryId + "-" + i;
 			this.answerComponents[i] = Ext.create('Ext.field.Text', {
 				id:				theComponentId,
 				name:			theComponentId,
-				placeHolder:	Messages.OPTION_PLACEHOLDER + " " + i,
-				hidden:			this.getStart() < i,
+				placeHolder:	this.getWording().placeHolder + " " + labelGenerator(i),
+				hidden:			this.getStart() <= i,
 				label:			Messages.ANSWER
 			});
 			answerFieldset.add(this.answerComponents[i]);
 		}
-		for (var i=1; i <= this.getMaxAnswers(); i++) {
+		for (var i=0; i < this.getMaxAnswers(); i++) {
 			theComponentId = answerCorrectOptionEntryId + "-" + i;
 			this.correctComponents[i] = Ext.create('Ext.field.Toggle', {
 				id:		theComponentId,
 				name:	theComponentId,
-				hidden:	this.getStart() < i,
-				label:	Messages.OPTION_PLACEHOLDER + " " + i
+				hidden:	this.getStart() <= i,
+				label:	this.getWording().placeHolder + " " + labelGenerator(i)
 			});
 			correctAnswerFieldset.add(this.correctComponents[i]);
 		}
@@ -101,9 +107,24 @@ Ext.define('ARSnova.view.ExpandingAnswerForm', {
 		this.add([answerOptions, correctAnswer]);
 	},
 	
+	getEnumeration: function() {
+		switch (this.getWording().enumeration.toLowerCase()) {
+			case 'alphabet':
+				var alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+				return function(index) {
+					return alphabet[index];
+				};
+			case 'arabic':
+			default:
+				return function(index) {
+					return index+1;
+				};
+		}
+	},
+	
 	getValues: function() {
 		var values = [], obj;
-		for (var i=1; i <= this.selectAnswerCount.getValue(); i++) {
+		for (var i=0; i < this.selectAnswerCount.getValue(); i++) {
 			obj = {
 				text: this.answerComponents[i].getValue()
 			};
@@ -115,9 +136,19 @@ Ext.define('ARSnova.view.ExpandingAnswerForm', {
 		return values;
 	},
 	
+	getValuesWithIndex: function() {
+		var values = this.getValues();
+		var labelGenerator = this.getEnumeration();
+		values.forEach(function(item, index) {
+			item.text = labelGenerator(index) + ": " + item.text;
+			item.id = labelGenerator(index);
+		});
+		return values;
+	},
+	
 	hasCorrectOptions: function() {
 		var hasCorrectOptions = false;
-		for (var i=1; i <= this.selectAnswerCount.getValue(); i++) {
+		for (var i=0; i < this.selectAnswerCount.getValue(); i++) {
 			hasCorrectOptions = hasCorrectOptions || !!this.correctComponents[i].getValue();
 		}
 		return hasCorrectOptions;
