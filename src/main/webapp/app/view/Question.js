@@ -61,6 +61,7 @@ Ext.define('ARSnova.view.Question', {
 					
 					self.disableQuestion();
 					ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
+					ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
 				},
 				failure: function(response, opts) {
 					console.log('server-side error');
