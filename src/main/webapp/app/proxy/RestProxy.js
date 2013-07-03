@@ -548,14 +548,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 	
-	getSessionFeedback: function(sessionKeyword, callbacks) {
-		Ext.Ajax.request({
-			url: "session/" + sessionKeyword + "/feedback",
-			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-
 	getUserFeedback: function(sessionKeyword, callbacks) {
 		Ext.Ajax.request({
 			url: "session/" + sessionKeyword + "/myfeedback",
