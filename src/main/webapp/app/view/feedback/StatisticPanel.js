@@ -35,14 +35,6 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 	/* toolbar items */
 	toolbar: null,
 	
-	renewChartDataTask: {
-		name: 'renew chart data at feedback panel',
-		run: function(){
-			ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.renewChartData();
-		},
-		interval: 10000 //10 seconds
-	},
-	
 	initialize: function() {
 		this.callParent(arguments);
 		
@@ -233,76 +225,56 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		this.add([this.toolbar, this.feedbackButtons, this.feedbackChart]);
 	},
 	
-	/**
-	 * this function does three things
-	 * 1. Adapt the chart data
-	 * 2. Adapt the feedback-badge in tab bar
-	 * 3. Adapt the feedback icon in tab bar depending on average of feedback
-	 */
-	renewChartData: function() {
-		ARSnova.app.feedbackModel.getSessionFeedback(localStorage.getItem("keyword"), {
-			success: function(feedbackValues) {
-				var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel;
-				var chart = panel.feedbackChart;
-				var store = chart.getStore();
-				
-				/* Swap values for "can follow" and "faster, please" feedback
-				 * TODO: improve implementation, this is a quick hack for MoodleMoot 2013 */
-				values = feedbackValues.slice();
-				var maximum = Math.max.apply(null, values);
-				
-				tmpValue = values[0];
-				values[0] = values[1];
-				values[1] = tmpValue;
-				if (!Ext.isArray(values) || values.length != store.getCount()) return;
-
-				// Set chart data
-				store.each(function(record, index) {
-					record.data.value = values[index];
-				});
-
-				// Calculate percentages
-				var sum = store.sum('value');
-				store.each(function(record) {
-					record.data.percent = sum > 0 ? (record.data.value / sum) : 0.0;
-				});
-				chart._axes.items[0]._maximum = maximum;
-				chart.redraw();
-				
-				//update feedback-badge in tab bar 
-				ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab.setBadgeText(sum);
-				
-				//change the feedback tab bar icon
-				var tab = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab;
-				ARSnova.app.feedbackModel.getAverageSessionFeedback(localStorage.getItem("keyword"), {
-					success: function(avg) {
-						switch (avg){
-							case 0:
-								tab.setIconCls("feedbackMedium");
-								break;
-							case 1:
-								tab.setIconCls("feedbackGood");
-								break;
-							case 2:
-								tab.setIconCls("feedbackBad");
-								break;
-							case 3:
-								tab.setIconCls("feedbackNone");
-								break;	
-							default:
-								tab.setIconCls("feedbackARSnova");
-								break;
-						}
-					},
-					failure: function() {
-						tab.setIconCls("feedbackARSnova");
-					}
-				});
-			},
-			failure: function() {
-				console.log('server-side error feedbackModel.getSessionFeedback');
-			}
+	updateChart: function(feedbackValues) {
+		var chart = this.feedbackChart;
+		var store = chart.getStore();
+		
+		/* Swap values for "can follow" and "faster, please" feedback
+		 * TODO: improve implementation, this is a quick hack for MoodleMoot 2013 */
+		var values = feedbackValues.slice();
+		var tmpValue = values[0];
+		values[0] = values[1];
+		values[1] = tmpValue;
+		if (!Ext.isArray(values) || values.length != store.getCount()) return;
+		
+		// Set chart data
+		store.each(function(record, index) {
+			record.set('value', values[index]);
 		});
+		
+		// Calculate percentages
+		var sum = store.sum('value');
+		store.each(function(record) {
+			record.set('percent', sum > 0 ? (record.data.value / sum) : 0.0);
+		});
+		
+		chart._axes.items[0]._maximum = Math.max.apply(null, values);
+		chart.redraw();
+	},
+	
+	updateTabBar: function(averageFeedback) {
+		//update feedback-badge in tab bar 
+		ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab.setBadgeText(this.feedbackChart.getStore().sum('value'));
+		
+		//change the feedback tab bar icon
+		var tab = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab;
+		switch (averageFeedback) {
+			case 0:
+				tab.setIconCls("feedbackMedium");
+				break;
+			case 1:
+				tab.setIconCls("feedbackGood");
+				break;
+			case 2:
+				tab.setIconCls("feedbackBad");
+				break;
+			case 3:
+				tab.setIconCls("feedbackNone");
+				break;	
+			default:
+				tab.setIconCls("feedbackARSnova");
+				break;
+		}
 	},
 	
 	checkVoteButton: function(){
