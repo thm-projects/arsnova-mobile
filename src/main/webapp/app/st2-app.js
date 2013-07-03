@@ -21,7 +21,7 @@
 
 Ext.application({
 	
-	requires: ['ARSnova.proxy.RestProxy', 'ARSnova.WebSocket'],
+	requires: ['ARSnova.BrowserDetect', 'ARSnova.proxy.RestProxy', 'ARSnova.WebSocket'],
 
 	startupImage: {
 		'320x460': 'resources/images/ARSnova_Grafiken/03_Launchimage_320x460px.png', // iPhone
@@ -190,6 +190,10 @@ Ext.application({
 		}, false);
 		
 		this.checkLocalStorage();
+		if (!this.checkBrowser()) {
+			alert("Für eine korrekte Darstellung von ARSnova benutzen Sie bitte einen WebKit-Browser, z.B. Apple Safari oder Google Chrome!");
+			return;
+		}
 		
 		taskManager = new Ext.util.TaskRunner();
 		
@@ -202,7 +206,6 @@ Ext.application({
 			this.checkPreviousLogin();
 		}
 	},
-
 	
 	initSocket: function() {
 		this.socket = Ext.create('ARSnova.WebSocket');
@@ -314,11 +317,11 @@ Ext.application({
         }
         return true;
     },
-    
-    /**
-     * make localStorage ready 
-     */
-    checkLocalStorage: function(){
+	
+	/**
+	 * make localStorage ready 
+	 */
+	checkLocalStorage: function(){
 		if (localStorage.getItem('lastVisitedSessions') == null){
 			localStorage.setItem('lastVisitedSessions', "[]");
 		}
@@ -338,11 +341,26 @@ Ext.application({
 		if (localStorage.getItem('session')) {
 			localStorage.removeItem('session');
 		}
-    	
+		
 		localStorage.setItem('sessionId', "");
 		return true;
-    },
-    
+	},
+	
+	checkBrowser: function() {
+		var detect = Ext.create('ARSnova.BrowserDetect');
+		console.log(detect);
+		if (detect.browser === "Firefox" && detect.version < 22) {
+			return false;
+		}
+		if (detect.browser === "Opera" && detect.version < 15) {
+			return false;
+		}
+		if (detect.browser === "Explorer" && detect.version < 10) {
+			return false;
+		}
+		return true;
+	},
+
     formatSessionID: function(sessionID){
 		var tmp = [];
 		for(var i = 0; i < sessionID.length; i++){
