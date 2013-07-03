@@ -72,7 +72,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			
 			//update question counter in toolbar
 			var counterEl = panel.questionCounter;
-			var counter = counterEl.element.dom.innerText.split("/");
+			var counter = counterEl.getHtml().split("/");
 
 			counter[0] = panel.activeIndex + 1;
 			counterEl.setHtml(counter.join("/"));
@@ -187,7 +187,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				} else {
 					//update question counter in toolbar
 					var counterEl = userQuestionsPanel.questionCounter;
-					var counter = counterEl.element.dom.innerText.split("/");
+					var counter = counterEl.getHtml().split("/");
 					counter[0] = "1";
 					counter[1] = questions.length;
 					counterEl.setHtml(counter.join("/"));
