@@ -548,14 +548,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 	
-	getSessionFeedback: function(sessionKeyword, callbacks) {
-		Ext.Ajax.request({
-			url: "session/" + sessionKeyword + "/feedback",
-			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-
 	getUserFeedback: function(sessionKeyword, callbacks) {
 		Ext.Ajax.request({
 			url: "session/" + sessionKeyword + "/myfeedback",
@@ -575,26 +567,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			url: "session/" + sessionKeyword + "/feedback",
 			method: "POST",
 			jsonData: feedbackValue + "", // A string ensures that even zero gets submitted to the server!
-			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-	
-	getAverageSessionFeedback: function(sessionKeyword, callbacks) {
-		Ext.Ajax.request({
-			url: "session/" + sessionKeyword + "/roundedaveragefeedback",
-			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-	
-	countFeedback: function(sessionKeyword, callbacks) {
-		Ext.Ajax.request({
-			url: "session/" + sessionKeyword + "/feedbackcount",
-			method: 'GET',
-			params: {
-				key: "\"" + sessionKeyword + "\""
-			},
 			success: callbacks.success,
 			failure: callbacks.failure
 		});

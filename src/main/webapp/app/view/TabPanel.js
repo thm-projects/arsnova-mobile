@@ -38,20 +38,6 @@ Ext.define('ARSnova.view.TabPanel', {
 		
 		/**
 		 * task for everyone in a session
-		 * count every 15 seconds the session feedback and adapt the icon
-		 * 
-		 */
-		updateFeedbackTask: {
-			name: 'update the feedback icon and badge in tabbar',
-			run: function(){
-				ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge();
-				ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon();
-			},
-			interval: 15000 // 15 seconds
-		},
-		
-		/**
-		 * task for everyone in a session
 		 * displays the number of online users
 		 */
 		updateHomeTask: {
@@ -127,7 +113,8 @@ Ext.define('ARSnova.view.TabPanel', {
 			/* only start task if user/speaker is not(!) on feedbackTabPanel/statisticPanel (feedback chart)
 			 * because there is a own function which will check for new feedbacks and update the tab bar icon */
 			if(ARSnova.app.mainTabPanel.tabPanel._activeItem != ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel) {
-				taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateFeedbackTask);
+				ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", this.updateFeedbackIcon, this);
+				ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", this.updateFeedbackBadge, this);
 			}
 			taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
 		}
@@ -136,55 +123,39 @@ Ext.define('ARSnova.view.TabPanel', {
 	onDeactivate: function(){
 		if(ARSnova.app.checkSessionLogin()){
 			if(ARSnova.app.mainTabPanel.tabPanel._activeItem != ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel) {
-				taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateFeedbackTask);
+				ARSnova.app.feedbackModel.un("arsnova/session/feedback/average", this.updateFeedbackIcon);
+				ARSnova.app.feedbackModel.un("arsnova/session/feedback/count", this.updateFeedbackBadge);
 			}
 			taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
 		}
 	},
 	
-	updateFeedbackIcon: function(){
-		ARSnova.app.feedbackModel.getAverageSessionFeedback(localStorage.getItem("keyword"), {
-			success: function(value){
-				var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
-				
-				switch (value) {
-					/* 0: faster, please!; 1: can follow; 2: to fast!; 3: you have lost me */
-					case 0:
-						panel.tab.setIconCls("feedbackMedium");
-						break;
-					case 1:
-						panel.tab.setIconCls("feedbackGood");
-						break;
-					case 2:
-						panel.tab.setIconCls("feedbackBad");
-						break;
-					case 3:
-						panel.tab.setIconCls("feedbackNone");
-						break;	
-					default:
-						break;
-				}
-			}, 
-			failure: function(){
-				console.log('server-side error');
-				var tab = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab;
-				tab.setIconCls("feedbackARSnova");
-			}
-		});
+	updateFeedbackIcon: function(averageFeedback) {
+		var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
+		
+		switch (averageFeedback) {
+			/* 0: faster, please!; 1: can follow; 2: to fast!; 3: you have lost me */
+			case 0:
+				panel.tab.setIconCls("feedbackMedium");
+				break;
+			case 1:
+				panel.tab.setIconCls("feedbackGood");
+				break;
+			case 2:
+				panel.tab.setIconCls("feedbackBad");
+				break;
+			case 3:
+				panel.tab.setIconCls("feedbackNone");
+				break;	
+			default:
+				break;
+		}
 	},
 	
-	updateFeedbackBadge: function(){
-		ARSnova.app.feedbackModel.countFeedback(localStorage.getItem("keyword"), {
-			success: function(response){
-				var value = parseInt(Ext.decode(response.responseText));
-				if (value > 0) {
-					ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab.setBadgeText(value);
-				}
-			},
-			failure: function(){
-				console.log('server-side error');
-			}
-		});
+	updateFeedbackBadge: function(feedbackCount) {
+		if (feedbackCount > 0) {
+			ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab.setBadgeText(feedbackCount);
+		}
 	},
 	
 	updateHomeBadge: function() {

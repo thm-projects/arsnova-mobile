@@ -55,7 +55,8 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('active', obj.active ? 1 : 0);
     	    	
     	    	//start task to update the feedback tab in tabBar
-    	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateFeedbackTask);
+				ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge, ARSnova.app.mainTabPanel.tabPanel);
+				ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon, ARSnova.app.mainTabPanel.tabPanel);
     	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
     	    	
     	    	ARSnova.app.hideLoadMask();
@@ -76,7 +77,8 @@ Ext.define("ARSnova.controller.Sessions", {
 			localStorage.removeItem('user has voted');
 		
     	//stop task to update the feedback tab in tabBar
-    	taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateFeedbackTask);
+		ARSnova.app.feedbackModel.un("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge);
+		ARSnova.app.feedbackModel.un("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon);
     	//online counter badge
     	taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
     	//stop task to update that session owner is logged-in
@@ -254,7 +256,8 @@ Ext.define("ARSnova.controller.Sessions", {
 				ARSnova.app.isSessionOwner = true;
     	    	
     	    	//start task to update the feedback tab in tabBar
-    	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateFeedbackTask);
+				ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge, ARSnova.app.mainTabPanel.tabPanel);
+				ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon, ARSnova.app.mainTabPanel.tabPanel);
     	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
     	    	
     	    	var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;

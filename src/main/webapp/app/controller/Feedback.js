@@ -73,7 +73,6 @@ Ext.define("ARSnova.controller.Feedback", {
 				}]);
 				
 				var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
-				fP.statisticPanel.renewChartData();
 				fP.animateActiveItem(fP.statisticPanel, {
 					type		: 'slide',
 					direction	: 'up'
