@@ -182,8 +182,8 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		    grouped: true,
 		    store: this.getStore(),
 		    listeners: {
-		    	itemswipe: function(list, index, node){
-		            var el        = Ext.get(node),
+		    	itemswipe: function(list, index, target) {
+		            var el        = target.element,
 		                hasClass  = el.hasCls(this.activeCls);
 		            
 		            if (hasClass) { el.removeCls(this.activeCls); } 
