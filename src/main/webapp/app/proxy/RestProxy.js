@@ -572,26 +572,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 	
-	getAverageSessionFeedback: function(sessionKeyword, callbacks) {
-		Ext.Ajax.request({
-			url: "session/" + sessionKeyword + "/roundedaveragefeedback",
-			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-	
-	countFeedback: function(sessionKeyword, callbacks) {
-		Ext.Ajax.request({
-			url: "session/" + sessionKeyword + "/feedbackcount",
-			method: 'GET',
-			params: {
-				key: "\"" + sessionKeyword + "\""
-			},
-			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-	
 	isActive: function(sessionKeyword, callbacks) {
 		Ext.Ajax.request({
 			url: "session/" + sessionKeyword,

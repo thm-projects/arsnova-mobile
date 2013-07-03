@@ -53,13 +53,5 @@ Ext.define('ARSnova.model.Feedback', {
 	
 	postFeedback: function(sessionKeyword, feedbackValue, callbacks) {
 		return this.getProxy().postFeedback(sessionKeyword, feedbackValue, callbacks);
-	},
-	
-	getAverageSessionFeedback: function(sessionKeyword, callbacks){
-		return callbacks.success(this.currentAverage);
-	},
-	
-	countFeedback: function(sessionKeyword, callbacks){
-		return this.getProxy().countFeedback(sessionKeyword, callbacks);
 	}
 });
