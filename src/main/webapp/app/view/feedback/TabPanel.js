@@ -47,7 +47,8 @@ Ext.define('ARSnova.view.feedback.TabPanel', {
 			ARSnova.app.hideLoadMask();
 			this.statisticPanel.checkVoteButton();
 			this.statisticPanel.checkTitle();
-			taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateFeedbackTask);
+			ARSnova.app.feedbackModel.un("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge);
+			ARSnova.app.feedbackModel.un("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon);
 			ARSnova.app.feedbackModel.on('arsnova/session/feedback/update', this.statisticPanel.updateChart, this.statisticPanel);
 			ARSnova.app.feedbackModel.on('arsnova/session/feedback/average', this.statisticPanel.updateTabBar, this.statisticPanel);
 			
@@ -59,7 +60,8 @@ Ext.define('ARSnova.view.feedback.TabPanel', {
 		this.on('deactivate', function(){
 			ARSnova.app.feedbackModel.un('arsnova/session/feedback/update', this.statisticPanel.updateChart);
 			ARSnova.app.feedbackModel.un('arsnova/session/feedback/average', this.statisticPanel.updateTabBar);
-			taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateFeedbackTask);
+			ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge, ARSnova.app.mainTabPanel.tabPanel);
+			ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon, ARSnova.app.mainTabPanel.tabPanel);
 		});
 	},
 	
