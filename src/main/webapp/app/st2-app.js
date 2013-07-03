@@ -348,7 +348,6 @@ Ext.application({
 	
 	checkBrowser: function() {
 		var detect = Ext.create('ARSnova.BrowserDetect');
-		console.log(detect);
 		if (detect.browser === "Firefox" && detect.version < 22) {
 			return false;
 		}
