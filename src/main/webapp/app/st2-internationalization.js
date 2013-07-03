@@ -47,6 +47,7 @@ if(lang != null) {
 
 switch (lang) {
 	case 'en':case 'en-en':case 'en-us':case 'en-gb':
+		moment.lang('en');
 		Messages = {
 			/* rolePanel */
 			CHOOSE_ROLE: "Choose your role:",
@@ -291,6 +292,7 @@ switch (lang) {
 	
 		break;
 	default:
+		moment.lang('de');
 		Messages = {
 			/* rolePanel */
 			CHOOSE_ROLE: "Wählen Sie Ihre Rolle:",
