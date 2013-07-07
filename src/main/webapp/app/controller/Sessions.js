@@ -271,42 +271,27 @@ Ext.define("ARSnova.controller.Sessions", {
 		});
 	},
 	
-	setActive: function(options){
-		var session = Ext.ModelManager.getModel('ARSnova.model.Session').load(localStorage.getItem("sessionId"), {
-			success: function(records, operation){
-				var session = Ext.create('ARSnova.model.Session', Ext.decode(operation.getResponse().responseText));
-				session.set('active', options.active);
-				
-				var validation = session.validate();
-				if (!validation.isValid()){
-					Ext.Msg.alert('Hinweis', 'Leider konnte die Session nicht gespeichert werden');
-				}
-				
-				session.save({
-					success: function(){
-						//update this session in localStorage
-						var sessions = Ext.decode(localStorage.getItem('lastVisitedSessions'));
-						sessions.forEach(function(el){
-							if(el._id == session.data._id)
-								el.active = session.data.active;
-						});
-						localStorage.setItem('lastVisitedSessions', Ext.encode(sessions));
-						
-		    	  		var sessionStatus = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton;
-		    	  		
-		    	  		if(options.active == 1){
-		    	  			sessionStatus.sessionOpenedSuccessfully();
-		    	  		} else {
-		    	  			sessionStatus.sessionClosedSuccessfully();
-		    	  		}
-					},
-					failure: function(records, operation){
-		    	  		Ext.Msg.alert("Hinweis!", "Session speichern war nicht erfolgreich");
-					}
+	setActive: function(options) {
+		ARSnova.app.sessionModel.lock(localStorage.getItem("keyword"), options.active, {
+			success: function() {
+				//update this session in localStorage
+				var sessions = Ext.decode(localStorage.getItem('lastVisitedSessions'));
+				sessions.forEach(function(el){
+					if(el._id == session.data._id)
+						el.active = session.data.active;
 				});
+				localStorage.setItem('lastVisitedSessions', Ext.encode(sessions));
+				
+				var sessionStatus = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton;
+				
+				if (options.active == 1){
+					sessionStatus.sessionOpenedSuccessfully();
+				} else {
+					sessionStatus.sessionClosedSuccessfully();
+				}
 			},
-			failure: function(records, operation){
-    	  		Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
+			failure: function(records, operation) {
+				Ext.Msg.alert("Hinweis!", "Session speichern war nicht erfolgreich");
 			}
 		});
     }

@@ -588,6 +588,15 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			}
 		});
 	},
+	
+	lock: function(sessionKeyword, theLock, callbacks) {
+		Ext.Ajax.request({
+			url: "session/" + sessionKeyword + "/lock?lock=" + !!theLock,
+			method: "POST",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
     
     getUserFoodVote: function(day, userLogin, callbacks) {
     	Ext.Ajax.request({
