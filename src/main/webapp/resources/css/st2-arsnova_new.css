@@ -916,6 +916,10 @@ span.bold {
 	color: #00CD00;
 }
 
+.isInactive {
+	color: #800032;
+}
+
 .buttontext {
 	margin-left: 15px;
 }

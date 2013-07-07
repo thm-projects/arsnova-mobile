@@ -49,11 +49,11 @@ Ext.define('ARSnova.view.Caption', {
 		
 		var activeText = "";
 		if (hasActiveSessions) {
-			activeText = "<span class='isActive'>" + Messages.OPEN_SESSION + "</span>";
+			activeText = Messages.OPEN_SESSION;
 		}
 		var inactiveText = "";
 		if (hasInactiveSessions) {
-			inactiveText = Messages.CLOSED_SESSION;
+			inactiveText = "<span class='isInactive'>" + Messages.CLOSED_SESSION + "</span>";
 		}
 		if (hasActiveSessions && hasInactiveSessions) {
 			this.listButton.setText(inactiveText + " / " + activeText);

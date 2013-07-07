@@ -146,8 +146,8 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					var status = "";
 					var course = " defaultsession";
 
-					if (session.active && session.active == 1) {
-						status = " isActive";
+					if (!session.active) {
+						status = " isInactive";
 					}
 
 					if (session.courseId && session.courseId.length > 0) {
