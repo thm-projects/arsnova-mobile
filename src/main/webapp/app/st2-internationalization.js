@@ -49,6 +49,9 @@ switch (lang) {
 	case 'en':case 'en-en':case 'en-us':case 'en-gb':
 		moment.lang('en');
 		Messages = {
+			BROWSER_NOT_SUPPORTED_MESSAGE: "Please use one of the following officially supported browsers: ###.",
+			UPDATE_BROWSER_MESSAGE: "Please update your ### browser in order to use ARSnova.",
+			
 			/* rolePanel */
 			CHOOSE_ROLE: "Choose your role:",
 			STUDENT: "Student",
@@ -296,6 +299,9 @@ switch (lang) {
 	default:
 		moment.lang('de');
 		Messages = {
+			BROWSER_NOT_SUPPORTED_MESSAGE: "Bitte verwenden Sie einen der folgenden Browser für ARSnova: ###.",
+			UPDATE_BROWSER_MESSAGE: "Bitte aktualisieren Sie Ihren ###-Browser, um ARSnova verwenden zu können.",
+			
 			/* rolePanel */
 			CHOOSE_ROLE: "Wählen Sie Ihre Rolle:",
 			STUDENT: "Zuhörer/in",
