@@ -73,6 +73,8 @@ switch (lang) {
 			LEGEND: "Legend",
 			OPEN_SESSION: "Open Session",
 			CLOSED_SESSION: "Closed Session",
+			CONFIRM_CLOSE_SESSION: "Are you sure to close the session?",
+			CONFIRM_CLOSE_SESSION_MESSAGE: "If you close this session, only students currently online will be able to participate.",
 			
 			/* LOAD MASK */
 			LOAD_MASK: "Loading...",
@@ -318,6 +320,8 @@ switch (lang) {
 			LEGEND: "Legende",
 			OPEN_SESSION: "Offene Session",
 			CLOSED_SESSION: "Gesperrte Session",
+			CONFIRM_CLOSE_SESSION: "Session wirklich sperren?",
+			CONFIRM_CLOSE_SESSION_MESSAGE: "Wenn Sie die Session sperren, können nur noch aktuell angemeldete Zuhörer/innen teilnehmen.",
 			
 			/* LOAD MASK */
 			LOAD_MASK: "Lade Daten...",
