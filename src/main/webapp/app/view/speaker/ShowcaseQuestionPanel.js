@@ -93,7 +93,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				sTP.animateActiveItem(sTP.audienceQuestionPanel, {
 					type		: 'slide',
-					direction	: 'down',
+					direction	: 'right',
 					duration	: 700,
 					scope		: this,
 		    		listeners: { animationend: function() { 
