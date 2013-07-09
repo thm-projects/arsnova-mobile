@@ -126,7 +126,7 @@ switch (lang) {
 			QUESTION_SUBJECT: "Subject",
 			QUESTION_SUBJECT_PLACEHOLDER: "max. 140 characters",
 			QUESTION_SAVED: 'Your question has been saved.',
-			NOTIFICATION: "Notice!",
+			NOTIFICATION: "Notice",
 			TRANSMISSION_ERROR: "The question's transmission was unsuccessful.",
 			QUESTION_CREATION_ERROR: "Failed creating the question.",
 			ANSWER_CREATION_ERROR: "Your answer could not be saved.",
@@ -288,7 +288,12 @@ switch (lang) {
 			CAS: "Single Sign-On: CAS",
 			COUCHDB: "NoSQL Database: CouchDB",
 			XEN: "Virtualization: Xen",
-			DEBIAN: "Operating System: Debian",	
+			DEBIAN: "Operating System: Debian",
+			
+			/* errors */
+			SESSION_NOT_FOUND: "This session does not seem to exist.",
+			SESSION_LOCKED: "This session is currently locked.",
+			CONNECTION_PROBLEM: "The connection to the server has failed.",
 
 			/* misc */
 			SUPPORTED_BROWSERES: "ARSnova is best-viewed in a WebKit browser, e.g. Apple Safari or Google Chrome!",
@@ -380,7 +385,7 @@ switch (lang) {
 			QUESTION_SUBJECT: "Betreff",
 			QUESTION_SUBJECT_PLACEHOLDER: "max. 140 Zeichen",
 			QUESTION_SAVED: 'Ihre Frage wurde gespeichert',
-			NOTIFICATION: "Hinweis!",
+			NOTIFICATION: "Hinweis",
 			TRANSMISSION_ERROR: "Die Übermittlung der Frage war leider nicht erfolgreich",
 			QUESTION_CREATION_ERROR: "Das Erstellen der Frage war leider nicht erfolgreich",
 			ANSWER_CREATION_ERROR: "Die Antwort konnte nicht gespeichert werden",
@@ -542,6 +547,11 @@ switch (lang) {
 			COUCHDB: "NoSQL Datenbank: CouchDB",
 			XEN: "Virtualisierung: Xen",
 			DEBIAN: "Betriebssystem: Debian",
+			
+			/* errors */
+			SESSION_NOT_FOUND: "Diese Session existiert nicht.",
+			SESSION_LOCKED: "Die Session ist derzeit gesperrt.",
+			CONNECTION_PROBLEM: "Die Verbindung zum Server konnte nicht hergestellt werden",
 			
 			/* misc */
 			SUPPORTED_BROWSERES: "Für eine korrekte Darstellung von ARSnova benutzen Sie bitte einen WebKit-Browser, z.B. Apple Safari oder Google Chrome!",

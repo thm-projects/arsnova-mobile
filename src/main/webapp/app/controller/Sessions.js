@@ -62,12 +62,15 @@ Ext.define("ARSnova.controller.Sessions", {
     	    	ARSnova.app.hideLoadMask();
 				ARSnova.app.getController('Sessions').reloadData();
     		},
-    		notFound: function() {
-    			Ext.Msg.alert("Hinweis", "Diese Session existiert nicht.");
-    		},
-    		failure: function(records, operation){
-    			Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
-    		}
+			notFound: function() {
+				Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_NOT_FOUND);
+			},
+			forbidden: function() {
+				Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_LOCKED);
+			},
+			failure: function() {
+				Ext.Msg.alert(Messages.NOTIFICATION, Messages.CONNECTION_PROBLEM);
+			}
     	});
     },
 

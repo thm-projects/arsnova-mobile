@@ -131,6 +131,8 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: function(response) {
 				if (response.status === 404) {
 					callbacks.notFound.apply(this, arguments);
+				} else if (response.status = 403) {
+					callbacks.forbidden.apply(this, arguments);
 				} else {
 					callbacks.failure.apply(this, arguments);
 				}
