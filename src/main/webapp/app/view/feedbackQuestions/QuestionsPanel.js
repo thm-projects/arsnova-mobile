@@ -292,7 +292,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 							subject: question.subject,
 							type: question.type,
 							read: question.read,
-							obj: Ext.create('ARSnova.model.Question', question)
+							obj: Ext.create('ARSnova.model.FeedbackQuestion', question)
 						});
 					}
 					
