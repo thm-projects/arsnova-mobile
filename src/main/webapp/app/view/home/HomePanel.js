@@ -219,7 +219,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 						}
 					}
 					RSVP.all(badgePromises).then(Ext.bind(caption.explainBadges, caption));
-					caption.explainSessionStatus(sessions);
+					caption.explainStatus(sessions);
 					panel.lastVisitedSessionsFieldset.add(caption);
 				} else {
 					panel.lastVisitedSessionsForm.hide();

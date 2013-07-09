@@ -173,7 +173,8 @@ switch (lang) {
 			QUESTION_SINGLE_CHOICE_SHORT: "ABCD",
 			QUESTION_FREETEXT: "Free text",
 			QUESTION_FREETEXT_SHORT: "Text",
-			
+			OPEN_QUESTION: "Open Question",
+			CLOSED_QUESTION: "Closed Question",
 			
 			
 			/* user */
@@ -423,6 +424,8 @@ switch (lang) {
 			QUESTION_SINGLE_CHOICE_SHORT: "Einfachausw.",
 			QUESTION_FREETEXT: "Freitext",
 			QUESTION_FREETEXT_SHORT: "Text",
+			OPEN_QUESTION: "Offene Frage",
+			CLOSED_QUESTION: "Gesperrte Frage",
 			
 			/* user */
 			CHECK_ANSWERS: "Prüfe Antworten",

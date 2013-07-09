@@ -62,6 +62,12 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		         }
 		     }
 		});
+		
+		var styling = {
+			marginLeft:  '12px',
+			marginRight: '12px',
+			backgroundColor: 'transparent'
+		};
 
 		this.questionList = Ext.create('Ext.List', {
 			activeCls: 'search-item-active',
@@ -70,11 +76,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			scrollable: { disabled: true },
 			hidden: true,
 			
-			style: {
-				marginLeft:  '12px',
-				marginRight: '12px',
-				backgroundColor: 'transparent'
-			},
+			style: styling,
 
 			itemCls: 'forwardListButton',
 			itemTpl: '<tpl if="active"><div class="buttontext noOverflow">{text}</div></tpl>' +
@@ -174,6 +176,15 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			handler: this.showcaseHandler
 		};
 		
+		this.caption = Ext.create('ARSnova.view.Caption', {
+			translation: {
+				active: Messages.OPEN_QUESTION,
+				inactive: Messages.CLOSED_QUESTION
+			},
+			style: styling,
+			hidden: true
+		});
+		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.QUESTIONS,
 			ui: 'light',
@@ -190,7 +201,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		    this.toolbar, 
 		    this.controls,
 			this.questionTitle,
-			this.questionList
+			this.questionList,
+			this.caption
 		]);
 		
 		this.on('activate', this.onActivate);
@@ -211,7 +223,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			success: Ext.bind(function(response) {
 				var questions = Ext.decode(response.responseText);
 				this.questionStore.add(questions);
-				this.getQuestionAnswers();
+				this.caption.show();
+				this.caption.explainStatus(questions);
+				RSVP.all(this.getQuestionAnswers()).then(Ext.bind(this.caption.explainBadges, this.caption));
 				
 				this.controls.insert(0, this.showcaseFormButton);
 				this.displayShowcaseButton();
@@ -222,6 +236,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.showcaseButton.hide();
 				this.questionTitle.hide();
 				this.questionList.show();
+				this.caption.hide();
 			}, this),
 			failure: function(response) {
 				console.log('server-side error questionModel.getSkillQuestions');
@@ -272,19 +287,29 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	},
 	
 	getQuestionAnswers: function() {
-		var getAnswerCount = function(questionRecord) {
+		var getAnswerCount = function(questionRecord, promise) {
 			ARSnova.app.questionModel.countAnswersByQuestion(localStorage.getItem("keyword"), questionRecord.get('_id'), {
 				success: function(response) {
-					questionRecord.set('numAnswers', Ext.decode(response.responseText));
+					var numAnswers = Ext.decode(response.responseText);
+					questionRecord.set('numAnswers', numAnswers);
+					promise.resolve({
+						hasAnswers: numAnswers > 0
+					});
 				},
 				failure: function() {
 					console.log("Could not update answer count");
+					promise.reject();
 				}
 			});
 		};
 		
+		var promises = [];
 		this.questionStore.each(function(questionRecord) {
-			getAnswerCount(questionRecord);
+			var promise = new RSVP.Promise();
+			getAnswerCount(questionRecord, promise);
+			promises.push(promise);
 		}, this);
+		
+		return promises;
 	}
 });

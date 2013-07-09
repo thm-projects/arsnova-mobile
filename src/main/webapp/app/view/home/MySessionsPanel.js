@@ -172,7 +172,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					panel.createdSessionsFieldset.add(sessionButton);
 				}
 				RSVP.all(badgePromises).then(Ext.bind(caption.explainBadges, caption));
-				caption.explainSessionStatus(sessions);
+				caption.explainStatus(sessions);
 				
 				panel.createdSessionsFieldset.add(caption);
 				panel.sessionsForm.add(panel.createdSessionsFieldset);
