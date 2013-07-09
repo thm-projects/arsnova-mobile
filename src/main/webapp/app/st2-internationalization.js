@@ -175,6 +175,8 @@ switch (lang) {
 			QUESTION_FREETEXT_SHORT: "Text",
 			OPEN_QUESTION: "Open Question",
 			CLOSED_QUESTION: "Closed Question",
+			CONFIRM_CLOSE_QUESTION: "Are you sure to close this question?",
+			CONFIRM_CLOSE_QUESTION_MESSAGE: "If you close this question, students will not be able to view or answer this question.",
 			
 			
 			/* user */
@@ -426,6 +428,8 @@ switch (lang) {
 			QUESTION_FREETEXT_SHORT: "Text",
 			OPEN_QUESTION: "Offene Frage",
 			CLOSED_QUESTION: "Gesperrte Frage",
+			CONFIRM_CLOSE_QUESTION: "Frage wirklich sperren?",
+			CONFIRM_CLOSE_QUESTION_MESSAGE: "Wenn Sie die Frage sperren, können Zuhörer/innen die Frage weder sehen noch beantworten.",
 			
 			/* user */
 			CHECK_ANSWERS: "Prüfe Antworten",

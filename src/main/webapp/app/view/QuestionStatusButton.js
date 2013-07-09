@@ -78,13 +78,17 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 	changeStatus: function(){
 		var id = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel.questionObj._id;
 		
-		if(this.isOpen){
-			/* close this question */
-			ARSnova.app.getController('Questions').setActive({
-				questionId	: id, 
-				active		: 0,
-				callback	: this.questionClosedSuccessfully
-			});
+		if (this.isOpen) {
+			Ext.Msg.confirm(Messages.CONFIRM_CLOSE_QUESTION, Messages.CONFIRM_CLOSE_QUESTION_MESSAGE, function (buttonId) {
+				if (buttonId != "no") {
+					/* close this question */
+					ARSnova.app.getController('Questions').setActive({
+						questionId	: id, 
+						active		: 0,
+						callback	: this.questionClosedSuccessfully
+					});
+				}
+			}, this);
 		} else {
 			/* open this question */
 			ARSnova.app.getController('Questions').setActive({
