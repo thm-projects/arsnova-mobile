@@ -59,18 +59,20 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			var backButtonHidden = this.backButton.isHidden();
 			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 			
-			if(newCard.questionObj.questionType === 'abcd') {
-				(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_SINGLE_CHOICE) : this.toolbar.setTitle(Messages.QUESTION_SINGLE_CHOICE_SHORT);
-			} else if(newCard.questionObj.questionType === 'freetext') {
-				(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_FREETEXT) : this.toolbar.setTitle(Messages.QUESTION_FREETEXT_SHORT);
-			} else if(newCard.questionObj.questionType === 'mc') {
-				(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_MC) : this.toolbar.setTitle(Messages.QUESTION_MC_SHORT);
-			} else if(newCard.questionObj.questionType === 'vote') {
-				(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_RATING) : this.toolbar.setTitle(Messages.QUESTION_RATING_SHORT);
-			} else if(newCard.questionObj.questionType === 'yesno') {
-				(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_YESNO) : this.toolbar.setTitle(Messages.QUESTION_YESNO);
-			} else if(newCard.questionObj.questionType === 'school') {
-				(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_GRADE) : this.toolbar.setTitle(Messages.QUESTION_GRADE_SHORT);
+			if (newCard.questionObj) {
+				if(newCard.questionObj.questionType === 'abcd') {
+					(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_SINGLE_CHOICE) : this.toolbar.setTitle(Messages.QUESTION_SINGLE_CHOICE_SHORT);
+				} else if(newCard.questionObj.questionType === 'freetext') {
+					(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_FREETEXT) : this.toolbar.setTitle(Messages.QUESTION_FREETEXT_SHORT);
+				} else if(newCard.questionObj.questionType === 'mc') {
+					(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_MC) : this.toolbar.setTitle(Messages.QUESTION_MC_SHORT);
+				} else if(newCard.questionObj.questionType === 'vote') {
+					(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_RATING) : this.toolbar.setTitle(Messages.QUESTION_RATING_SHORT);
+				} else if(newCard.questionObj.questionType === 'yesno') {
+					(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_YESNO) : this.toolbar.setTitle(Messages.QUESTION_YESNO);
+				} else if(newCard.questionObj.questionType === 'school') {
+					(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_GRADE) : this.toolbar.setTitle(Messages.QUESTION_GRADE_SHORT);
+				}
 			}
 			
 			//update question counter in toolbar
