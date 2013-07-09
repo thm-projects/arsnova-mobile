@@ -126,7 +126,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			scrollable: null,
 			items: [{
 				cls: 'gravure',
-				html: "Session-ID: " + ARSnova.app.formatSessionID(localStorage.getItem("keyword"))
+				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(localStorage.getItem("keyword"))
 			}, {
 				xtype: 'formpanel',
 				cls	 : 'standardForm topPadding',

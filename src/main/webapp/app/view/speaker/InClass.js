@@ -111,7 +111,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			items: [{
 				cls: 'gravure',
 				style: 'padding:15px 0 0',
-				html: "Session-ID: " + ARSnova.app.formatSessionID(localStorage.getItem("keyword"))
+				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(localStorage.getItem("keyword"))
 			}, {
 				xtype: 'formpanel',
 				cls	 : 'standardForm topPadding',

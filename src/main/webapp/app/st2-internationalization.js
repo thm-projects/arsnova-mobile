@@ -295,7 +295,8 @@ switch (lang) {
 			NEW_VERSION_TITLE: "New Version",
 			NEW_VERSION_AVAILABLE: "A new version of ARSnova is available. Do you want to update?",
 			PRESENTER: "Presenter",
-			UNI: "Uni"
+			UNI: "Uni",
+			SESSION_ID: "Session ID"
 		};
 	
 		break;
@@ -547,7 +548,8 @@ switch (lang) {
 			NEW_VERSION_TITLE: "Neue Version",
 			NEW_VERSION_AVAILABLE: "Eine neue Version von ARSnova ist verfügbar. Möchten Sie aktualisieren?",
 			PRESENTER: "Presenter",
-			UNI: "Uni"
+			UNI: "Uni",
+			SESSION_ID: "Session-ID"
 	};
 	break;
 }

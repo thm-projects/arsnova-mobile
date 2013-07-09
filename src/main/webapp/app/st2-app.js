@@ -259,13 +259,13 @@ Ext.application({
 		ARSnova.app.afterLogin();
 	},
 
-    setWindowTitle: function(){
+	setWindowTitle: function() {
 		switch (ARSnova.app.userRole) {
 			case ARSnova.app.USER_ROLE_SPEAKER:
-				window.document.title = "ARSnova: Dozent/in";
+				window.document.title = "ARSnova: " + Messages.SPEAKER;
 				break;
 			case ARSnova.app.USER_ROLE_STUDENT:
-				window.document.title = "ARSnova: Zuhörer/in";
+				window.document.title = "ARSnova: " + Messages.STUDENT;
 				break;
 			default:
 				window.document.title = "ARSnova";
