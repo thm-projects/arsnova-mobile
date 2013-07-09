@@ -382,7 +382,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				
 				//update quote in toolbar
 				var quote = panel.toolbar.items.items[2];
-				var users = quote.element.dom.innerText.split("/");
+				var users = quote.getHtml().split("/");
 				users[0] = sum;
 				users = users.join("/");
 				quote.setHtml(users);
@@ -408,7 +408,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				
 				//update quote in toolbar
 				var quote = ARSnova.app.mainTabPanel._activeItem.toolbar.items.items[2];
-				var users = quote.element.dom.innerText.split("/");
+				var users = quote.getHtml().split("/");
 				users[1] = value;
 				users = users.join("/");
 				quote.setHtml(users);

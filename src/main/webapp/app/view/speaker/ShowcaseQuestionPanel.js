@@ -30,17 +30,17 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	
 	questionCounter: 0,
 	
-	initialize: function(){
+	initialize: function() {
 		this.callParent(arguments);
 		
 		this.on('activeitemchange', function(panel, newCard, oldCard) {
-			var label = Ext.bind(function(long, short) {
+			var label = Ext.bind(function(longv, shortv) {
 				var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-				return (screenWidth > 320 || this.backButton.isHidden()) ? long : short;
+				return (screenWidth > 320 || this.backButton.isHidden()) ? longv : shortv;
 				
 			}, this);
 			var questionType = newCard.questionObj.questionType;
-			var title = "";
+			var title = '';
 			
 			if (questionType === 'abcd') {
 				title = label(Messages.QUESTION_SINGLE_CHOICE, Messages.QUESTION_SINGLE_CHOICE_SHORT);
@@ -59,7 +59,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			
 			//update question counter in toolbar
 			var counterEl = panel.questionCounter;
-			var counter = counterEl.element.dom.innerText.split("/");
+			var counter = counterEl.getHtml().split("/");
 
 			counter[0] = panel.activeIndex + 1;
 			counterEl.setHtml(counter.join("/"));
@@ -142,7 +142,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				
 				//update question counter in toolbar
 				var counterEl = panel.questionCounter;
-				var counter = counterEl.element.dom.innerText.split("/");
+				var counter = counterEl.getHtml().split("/");
 				counter[0] = "1";
 				counter[1] = questions.length;
 				counterEl.setHtml(counter.join("/"));

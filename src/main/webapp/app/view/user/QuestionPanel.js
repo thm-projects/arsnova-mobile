@@ -32,6 +32,9 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	backButton	: null,
 	questionCounter: 0,
 	
+	/* item index 0 and 1 are occupied by the carousel and toolbar. */
+	carouselOffset:	2,
+	
 	initialize: function() {
 		this.callParent(arguments);
 		
@@ -72,7 +75,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			
 			//update question counter in toolbar
 			var counterEl = panel.questionCounter;
-			var counter = counterEl.element.dom.innerText.split("/");
+			var counter = counterEl.getHtml().split("/");
 
 			counter[0] = panel.activeIndex + 1;
 			counterEl.setHtml(counter.join("/"));
@@ -187,7 +190,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				} else {
 					//update question counter in toolbar
 					var counterEl = userQuestionsPanel.questionCounter;
-					var counter = counterEl.element.dom.innerText.split("/");
+					var counter = counterEl.getHtml().split("/");
 					counter[0] = "1";
 					counter[1] = questions.length;
 					counterEl.setHtml(counter.join("/"));
@@ -302,6 +305,11 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		setTimeout("ARSnova.app.hideLoadMask()", 1000);
 	},
 	
+	/**
+	 * Checks if statistic button for the active question should be shown.
+	 * The button will only become visible if showStatistic is enabled in
+	 * speaker.questionDetailsPanel and the active question is already answered.
+	 */
 	checkStatisticRelease: function() {
 		var questionView = this.getActiveItem();
 		var questionObj = questionView.questionObj;
@@ -316,11 +324,44 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			this.statisticButton.hide();
 	},
 	
-	showNextUnanswered: function(){
-		var questionPanels = this.items.items;
-		var activeQuestion = this._activeItem;
-		if(!activeQuestion.isDisabled()) return;
+	/**
+	 * Check if last answered Question was last unanswered question in carousel.
+	 * If it was the last one, the application moves back to user.InClass panel.
+	 */
+	checkIfLastAnswer: function(){
+		var questionPanels	= this.items.items;
+		var allAnswered = true;
 		
+		for (var i = this.carouselOffset, questionPanel; questionPanel = questionPanels[i]; i++) {
+			if(questionPanel.isDisabled()) {
+				continue;
+			}
+			
+			allAnswered = false;
+			break;
+		}
+		
+		if(allAnswered) {
+			ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
+	    		type		: 'slide',
+	    		direction	: 'right',
+	    		duration	: 700,
+	    		scope		: this
+	    	});
+		}
+	},
+	
+	/**
+	 * Determines the current index in the carousel and iterates the following items
+	 * to find the next unanswered question. If the last index of the carousel is reached
+	 * the items before the current position will be checked also.
+	 */
+	showNextUnanswered: function(){
+		var questionPanels	= this.items.items;
+		var activeQuestion	= this.getActiveItem();
+		var lastQuestion	= questionPanels[questionPanels.length-1];
+		
+		if(!activeQuestion.isDisabled()) return;
 		this.checkStatisticRelease();
 		
 		var currentPosition = 0;
@@ -330,16 +371,22 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				break;
 			}
 		}
-
+		
+		var spin = false;
 		for (var i = currentPosition, questionPanel; questionPanel = questionPanels[i]; i++) {
-			if (questionPanel.isDisabled()) {
-				continue;
+			if(spin && i == currentPosition) {
+				break;
 			}
-;
-			this.setActiveItem(i-2, {
-				type: 'slide',
-				direction: 'left'
-			});
+			
+			if(questionPanel.isDisabled()) {
+				if(questionPanel == lastQuestion) {
+					i = this.carouselOffset;
+					spin = true;
+				} 
+				else continue;
+			}
+			
+			this.setActiveItem(i - this.carouselOffset);
 			break;
 		}
 	},

@@ -214,8 +214,8 @@ Ext.define('ARSnova.view.home.HomePanel', {
 						panel.lastVisitedSessionsFieldset.add(sessionButton);
 						badgePromises.push(panel.updateBadge(session.keyword, sessionButton));
 						
-						if (session.active && session.active == 1) {
-							panel.down('button[text=' + session.name + ']').addCls("isActive");
+						if (!session.active) {
+							panel.down('button[text=' + session.name + ']').addCls("isInactive");
 						}
 					}
 					RSVP.all(badgePromises).then(Ext.bind(caption.explainBadges, caption));

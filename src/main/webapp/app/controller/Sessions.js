@@ -55,7 +55,8 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('active', obj.active ? 1 : 0);
     	    	
     	    	//start task to update the feedback tab in tabBar
-    	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateFeedbackTask);
+				ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge, ARSnova.app.mainTabPanel.tabPanel);
+				ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon, ARSnova.app.mainTabPanel.tabPanel);
     	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
     	    	
     	    	ARSnova.app.hideLoadMask();
@@ -76,7 +77,8 @@ Ext.define("ARSnova.controller.Sessions", {
 			localStorage.removeItem('user has voted');
 		
     	//stop task to update the feedback tab in tabBar
-    	taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateFeedbackTask);
+		ARSnova.app.feedbackModel.un("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge);
+		ARSnova.app.feedbackModel.un("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon);
     	//online counter badge
     	taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
     	//stop task to update that session owner is logged-in
@@ -254,7 +256,8 @@ Ext.define("ARSnova.controller.Sessions", {
 				ARSnova.app.isSessionOwner = true;
     	    	
     	    	//start task to update the feedback tab in tabBar
-    	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateFeedbackTask);
+				ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge, ARSnova.app.mainTabPanel.tabPanel);
+				ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon, ARSnova.app.mainTabPanel.tabPanel);
     	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
     	    	
     	    	var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
@@ -268,42 +271,27 @@ Ext.define("ARSnova.controller.Sessions", {
 		});
 	},
 	
-	setActive: function(options){
-		var session = Ext.ModelManager.getModel('ARSnova.model.Session').load(localStorage.getItem("sessionId"), {
-			success: function(records, operation){
-				var session = Ext.create('ARSnova.model.Session', Ext.decode(operation.getResponse().responseText));
-				session.set('active', options.active);
-				
-				var validation = session.validate();
-				if (!validation.isValid()){
-					Ext.Msg.alert('Hinweis', 'Leider konnte die Session nicht gespeichert werden');
-				}
-				
-				session.save({
-					success: function(){
-						//update this session in localStorage
-						var sessions = Ext.decode(localStorage.getItem('lastVisitedSessions'));
-						sessions.forEach(function(el){
-							if(el._id == session.data._id)
-								el.active = session.data.active;
-						});
-						localStorage.setItem('lastVisitedSessions', Ext.encode(sessions));
-						
-		    	  		var sessionStatus = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton;
-		    	  		
-		    	  		if(options.active == 1){
-		    	  			sessionStatus.sessionOpenedSuccessfully();
-		    	  		} else {
-		    	  			sessionStatus.sessionClosedSuccessfully();
-		    	  		}
-					},
-					failure: function(records, operation){
-		    	  		Ext.Msg.alert("Hinweis!", "Session speichern war nicht erfolgreich");
-					}
+	setActive: function(options) {
+		ARSnova.app.sessionModel.lock(localStorage.getItem("keyword"), options.active, {
+			success: function() {
+				//update this session in localStorage
+				var sessions = Ext.decode(localStorage.getItem('lastVisitedSessions'));
+				sessions.forEach(function(el){
+					if(el._id == session.data._id)
+						el.active = session.data.active;
 				});
+				localStorage.setItem('lastVisitedSessions', Ext.encode(sessions));
+				
+				var sessionStatus = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton;
+				
+				if (options.active == 1){
+					sessionStatus.sessionOpenedSuccessfully();
+				} else {
+					sessionStatus.sessionClosedSuccessfully();
+				}
 			},
-			failure: function(records, operation){
-    	  		Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
+			failure: function(records, operation) {
+				Ext.Msg.alert("Hinweis!", "Session speichern war nicht erfolgreich");
 			}
 		});
     }

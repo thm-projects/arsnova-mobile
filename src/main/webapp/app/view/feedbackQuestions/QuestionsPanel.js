@@ -182,8 +182,8 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		    grouped: true,
 		    store: this.getStore(),
 		    listeners: {
-		    	itemswipe: function(list, index, node){
-		            var el        = Ext.get(node),
+		    	itemswipe: function(list, index, target) {
+		            var el        = target.element,
 		                hasClass  = el.hasCls(this.activeCls);
 		            
 		            if (hasClass) { el.removeCls(this.activeCls); } 
@@ -267,17 +267,11 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					var unread = 0;
 					for(var i = 0, question; question = questions[i]; i++){
 						var formattedTime = "", fullDate = "", groupDate = "";
-						if(question.timestamp){
+						if (question.timestamp) {
 							var time = new Date(question.timestamp);
-							var minutes, hours, day, month, year;
-							minutes = time.getMinutes();
-							hours 	= time.getHours();
-							day   	= time.getDate();
-							month 	= time.getMonth() + 1;
-							year  	= time.getYear() - 100;
-							formattedTime = (hours < 10 ? '0' + hours : hours) + ":" + (minutes < 10 ? '0' + minutes : minutes); 
-							groupDate 	  = (day < 10 ? '0' + day : day) + "." + (month < 10 ? '0' + month : month) + "." + year;
-							fullDate 	  = formattedTime + " Uhr am " + groupDate;
+							formattedTime = moment(time).format('LT');
+							groupDate 	  = moment(time).format('L');
+							fullDate 	  = moment(time).format('LLL');
 						} else {
 							groupDate = Messages.NO_DATE;
 						}

@@ -61,15 +61,11 @@ Ext.define('ARSnova.model.Session', {
     	return this.getProxy().getMySessions(callbacks, sortby);
     },
     
-    getSessionIds: function(callbacks) {
-    	return this.getProxy().getSessionIds(callbacks);
-    },
-    
-    getSession: function(sessionId, callbacks) {
-    	return this.getProxy().getSession(sessionId, callbacks);
-    },
-    
     isActive: function(sessionKeyword, callbacks) {
     	return this.getProxy().isActive(sessionKeyword, callbacks);
-    } 
+    },
+    
+    lock: function(sessionKeyword, theLock, callbacks) {
+    	return this.getProxy().lock(sessionKeyword, theLock, callbacks);
+    }
 });

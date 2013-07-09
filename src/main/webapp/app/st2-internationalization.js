@@ -47,7 +47,11 @@ if(lang != null) {
 
 switch (lang) {
 	case 'en':case 'en-en':case 'en-us':case 'en-gb':
+		moment.lang('en');
 		Messages = {
+			BROWSER_NOT_SUPPORTED_MESSAGE: "Please use one of the following officially supported browsers: ###.",
+			UPDATE_BROWSER_MESSAGE: "Please update your ### browser in order to use ARSnova.",
+			
 			/* rolePanel */
 			CHOOSE_ROLE: "Choose your role:",
 			STUDENT: "Student",
@@ -72,6 +76,8 @@ switch (lang) {
 			LEGEND: "Legend",
 			OPEN_SESSION: "Open Session",
 			CLOSED_SESSION: "Closed Session",
+			CONFIRM_CLOSE_SESSION: "Are you sure to close the session?",
+			CONFIRM_CLOSE_SESSION_MESSAGE: "If you close this session, only students currently online will be able to participate.",
 			
 			/* LOAD MASK */
 			LOAD_MASK: "Loading...",
@@ -238,6 +244,7 @@ switch (lang) {
 			YESNO: "Y/N",
 			ABCD: "ABCD",
 			FREETEXT: "Text",
+			BUZZWORD: "Buzzword for",
 			BUZZWORD_A: "Buzzword for A",
 			BUZZWORD_B: "Buzzword for B",
 			BUZZWORD_C: "Buzzword for C",
@@ -290,7 +297,11 @@ switch (lang) {
 	
 		break;
 	default:
+		moment.lang('de');
 		Messages = {
+			BROWSER_NOT_SUPPORTED_MESSAGE: "Bitte verwenden Sie einen der folgenden Browser für ARSnova: ###.",
+			UPDATE_BROWSER_MESSAGE: "Bitte aktualisieren Sie Ihren ###-Browser, um ARSnova verwenden zu können.",
+			
 			/* rolePanel */
 			CHOOSE_ROLE: "Wählen Sie Ihre Rolle:",
 			STUDENT: "Zuhörer/in",
@@ -315,6 +326,8 @@ switch (lang) {
 			LEGEND: "Legende",
 			OPEN_SESSION: "Offene Session",
 			CLOSED_SESSION: "Gesperrte Session",
+			CONFIRM_CLOSE_SESSION: "Session wirklich sperren?",
+			CONFIRM_CLOSE_SESSION_MESSAGE: "Wenn Sie die Session sperren, können nur noch aktuell angemeldete Zuhörer/innen teilnehmen.",
 			
 			/* LOAD MASK */
 			LOAD_MASK: "Lade Daten...",
@@ -479,6 +492,7 @@ switch (lang) {
 			YESNO: "J/N",
 			ABCD: "ABCD",
 			FREETEXT: "Text",
+			BUZZWORD: "Schlagwort für",
 			BUZZWORD_A: "Schlagwort für A",
 			BUZZWORD_B: "Schlagwort für B",
 			BUZZWORD_C: "Schlagwort für C",
