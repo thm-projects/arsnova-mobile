@@ -41,7 +41,6 @@ Ext.define('ARSnova.view.LoginPanel', {
 		this.arsLogo = {
 				xtype	: 'panel',
 				cls		: null,
-				style	: { marginTop: '20px'},
 				html	: "<div class='arsnova-logo'></div>",
 				style	: { marginTop: '35px', marginBottom: '35px' }
 			};
