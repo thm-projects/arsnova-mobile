@@ -25,7 +25,10 @@ Ext.define('ARSnova.BrowserDetect', {
 	
 	searchVersion: function (dataString) {
 		var index = dataString.indexOf(this.versionSearchString);
-		if (index == -1) return;
+		if (index == -1) {
+			// iOS WebView Fallback
+			return parseFloat(dataString);
+		}
 		return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
 	},
 	
