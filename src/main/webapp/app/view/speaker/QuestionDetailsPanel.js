@@ -353,11 +353,11 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
 							ARSnova.app.questionModel.deleteAnswers(panel.questionObj._id, {
 								success: function() {
+									panel.abstentions.hide();
 									if (panel.questionObj.questionType === "freetext") {
 										panel.noFreetextAnswers.show();
 										panel.freetextAnswerList.hide();
 										panel.freetextAnswerStore.removeAll();
-										panel.freetextAbstentions.hide();
 									} else {
 										panel.answerFormFieldset.items.each(function(button){
 											if(button.xtype == 'button')
@@ -631,7 +631,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			html: Messages.NO_ANSWERS
 		});
 		
-		this.freetextAbstentions = Ext.create('ARSnova.view.MultiBadgeButton', {
+		this.abstentions = Ext.create('ARSnova.view.MultiBadgeButton', {
 			hidden		: true,
 			ui			: 'normal',
 			text		: Messages.ABSTENTION,
@@ -643,8 +643,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		if (this.questionObj.questionType === "freetext") {
 			this.answerFormFieldset.add(this.noFreetextAnswers);
 			this.answerFormFieldset.add(this.freetextAnswerList);
-			this.answerFormFieldset.add(this.freetextAbstentions);
 		}
+		this.answerFormFieldset.add(this.abstentions);
 		
 		this.answerForm = Ext.create('Ext.form.FormPanel', {
 			itemId 	 	: 'answerForm',
@@ -807,8 +807,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						
 						self.freetextAnswerStore.removeAll();
 						self.freetextAnswerStore.add(answers);
-						self.freetextAbstentions.setBadge([{ badgeText: abstentions.length }]);
-						self.freetextAbstentions.setVisible(abstentions.length > 0);
+						self.abstentions.setBadge([{ badgeText: abstentions.length }]);
+						self.abstentions.setVisible(abstentions.length > 0);
 					},
 					failure: function() {
 						console.log('server-side error');
@@ -828,14 +828,18 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						
 						if (panel.questionObj.questionType === "mc") {
 							var mcAnswerCount = [];
+							var abstentionCount = 0;
 							for (var i = 0, el; el = answers[i]; i++) {
+								if (!el.answerText) {
+									abstentionCount = el.abstentionCount;
+									continue;
+								}
 								var values = el.answerText.split(",").map(function(answered) {
 									return parseInt(answered, 10);
 								});
 								if (values.length !== panel.questionObj.possibleAnswers.length) {
 									return;
 								}
-								
 								for (var j=0; j < el.answerCount; j++) {
 									values.forEach(function(selected, index) {
 										if (typeof mcAnswerCount[index] === "undefined") {
@@ -846,10 +850,16 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 										}
 									});
 								}
-								panel.answerFormFieldset.query('button').forEach(function(button, index) {
-									button.setBadge([{ badgeText: mcAnswerCount[index]+''}]);
-								});
 							}
+							if (abstentionCount) {
+								panel.abstentions.setBadge([{badgeText: abstentionCount}]);
+								panel.abstentions.show();
+							}
+							panel.answerFormFieldset.query('button').filter(function(button) {
+								return button !== panel.abstentions;
+							}).forEach(function(button, index) {
+								button.setBadge([{ badgeText: mcAnswerCount[index] ? mcAnswerCount[index]+'' : '0'}]);
+							});
 						} else {
 							for (var i = 0, el; el = answers[i]; i++) {
 								var field = "button[text=" + el.answerText + "]";
