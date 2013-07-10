@@ -111,6 +111,7 @@ Ext.define('ARSnova.view.Question', {
 				
 				self.getUserAnswer().then(function(answer) {
 					answer.set('abstention', true);
+					self.answerList.deselectAll();
 					saveAnswer(answer);
 				});
 			}, this);
