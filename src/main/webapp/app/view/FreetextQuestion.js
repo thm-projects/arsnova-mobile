@@ -252,9 +252,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	
 	doTypeset: function(parent) {
 		if (typeof this.questionTitle.element !== "undefined") {
-			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.questionTitle.id]);
-			MathJax.Hub.Queue(Ext.bind(function() {
-			}, this));
+			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.questionTitle.element.dom]);
 		} else {
 			// If the element has not been drawn yet, we need to retry later
 			Ext.defer(Ext.bind(this.doTypeset, this), 100);
