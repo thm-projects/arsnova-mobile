@@ -705,19 +705,15 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	getPossibleAnswers: function(){
 		for ( var i = 0; i < this.questionObj.possibleAnswers.length; i++){
 			var pA = this.questionObj.possibleAnswers[i];
-			this.answerFormFieldset.add(Ext.create('ARSnova.view.MultiBadgeButton', {
+			var element = Ext.create('ARSnova.view.MultiBadgeButton', {
 				ui			: 'normal',
 				text		: pA.text,
 				disabled	: true,
 				cls			: 'answerListButton',
 				badgeCls	: 'badgeicon'
-			}));
-		}
-		
-		// Prevent the view from scrolling to the top after returning from a free text answer detail view
-		if (this.questionObj.questionType !== "freetext") {
-			// TODO: how to migrate that?
-			//this.doComponentLayout();
+			});
+			pA.elementId = element.getId();
+			this.answerFormFieldset.add(element);
 		}
 	},
 	
@@ -819,11 +815,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					success: function(response){
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
 						var answers = Ext.decode(response.responseText);
-						var tmp_possibleAnswers = [];
+						var answerTextToElementId = {};
 						
 						for (var i = 0; i < panel.questionObj.possibleAnswers.length; i++) {
 							var el = panel.questionObj.possibleAnswers[i];
-							tmp_possibleAnswers.push(el.text);
+							answerTextToElementId[el.text] = el.elementId;
+							panel.down('#' + el.elementId).setBadge([{ badgeText: '0' }]);
 						}
 						
 						if (panel.questionObj.questionType === "mc") {
@@ -862,18 +859,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							});
 						} else {
 							for (var i = 0, el; el = answers[i]; i++) {
-								var field = "button[text=" + el.answerText + "]";
-								panel.answerFormFieldset.down(field).setBadge([{ badgeText: el.answerCount}]);
-								
-								var idx = tmp_possibleAnswers.indexOf(el.answerText); // Find the index
-								if(idx!=-1) tmp_possibleAnswers.splice(idx, 1); // Remove it if really found!
-							}
-							
-							for ( var i = 0; i < tmp_possibleAnswers.length; i++){
-								var el = tmp_possibleAnswers[i];
-								
-								var field = "button[text=" + el + "]";
-								panel.answerFormFieldset.down(field).setBadge([{ badgeText: '0' }]);
+								var elementId = '#' + answerTextToElementId[el.answerText];
+								panel.answerFormFieldset.down(elementId).setBadge([{ badgeText: el.answerCount}]);
 							}
 						}
 					},
