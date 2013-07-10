@@ -49,10 +49,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionListItem', {
 				MathJax.Hub.Queue(["Typeset", MathJax.Hub, body.dom]);
 			}
 		}
-		
-		if (!me.currentText) {
-			me.currentText = data.text;
-		}
 
 		if (disclosure && record && dataview.getOnItemDisclosure()) {
 			var disclosureProperty = dataview.getDisclosureProperty();

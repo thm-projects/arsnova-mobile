@@ -91,6 +91,11 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			layout: 'fit',
 			flex: 1,
 			
+			itemConfig: {
+				importantFields: ['answerSubject']
+			},
+			defaultType: 'audiencequestionlistitem',
+			
 			itemCls: 'forwardListButton',
 			itemTpl: [
 				'<div class="search-item noOverflow">',
@@ -112,7 +117,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			}
 		});
 		
-		this.freetextAbstentions = new Ext.Button({
+		this.freetextAbstentions = Ext.create('Ext.Button', {
 			hidden		: true,
 			ui			: 'normal',
 			text		: Messages.ABSTENTION,
@@ -166,8 +171,8 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				
 				self.freetextAnswerStore.removeAll();
 				self.freetextAnswerStore.add(answers);
-				self.freetextAbstentions.setBadge(abstentions.length);
-				self.freetextAbstentions.setVisible(abstentions.length > 0);
+				self.freetextAbstentions.setBadgeText(abstentions.length);
+				self.freetextAbstentions.setHidden(abstentions.length === 0);
 			},
 			failure: function() {
 				console.log('server-side error');
