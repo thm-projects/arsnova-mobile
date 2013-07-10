@@ -697,6 +697,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			ARSnova.app.mainTabPanel.removeListener('cardswitch', this.cardSwitchHandler, this);
 		}, this);
 		ARSnova.app.hideLoadMask(Messages.LOAD_MASK);
+		MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.actionsPanel.getId()]);
 	},
 	
 	onDeactivate: function() {
