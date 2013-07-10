@@ -714,6 +714,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			});
 			pA.elementId = element.getId();
 			this.answerFormFieldset.add(element);
+			
+			MathJax.Hub.Queue(["Typeset", MathJax.Hub, element.dom]);
 		}
 	},
 	
