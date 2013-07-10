@@ -20,6 +20,8 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	extend: 'Ext.Panel',
+	
+	requires: ['ARSnova.view.speaker.AudienceQuestionListItem'],
 
 	config: {
 		title: 'AudienceQuestionPanel',
@@ -45,7 +47,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		name: 'refresh the number of answers inside the badges',
 		run: function() {
 			var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.audienceQuestionPanel;
-			panel.getQuestionAnswers.call(panel);
+			RSVP.all(panel.getQuestionAnswers.call(panel))
+				.then(Ext.bind(panel.caption.explainBadges, panel.caption));
 		},
 		interval: 10000 //10 seconds
 	},
@@ -77,6 +80,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			hidden: true,
 			
 			style: styling,
+			
+			useSimpleItems: false,
+			defaultType: 'audiencequestionlistitem',
 
 			itemCls: 'forwardListButton',
 			itemTpl: '<tpl if="active"><div class="buttontext noOverflow">{text}</div></tpl>' +
@@ -92,20 +98,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 						question	: list.getStore().getAt(index).data
 					});
 				},
-				updatedata: function(list, newData ) {
-					var allJax = MathJax.Hub.getAllJax(list.id);
-					if (allJax.length === 0) {
-						MathJax.Hub.Queue(["Typeset", MathJax.Hub, list.id]);
-					} else {
-						for (var i=0, jax; jax = allJax[i]; i++) {
-							MathJax.Hub.Queue(["needsUpdate", jax], function() {
-								console.log(arguments);
-							});
-						}
-					}
-				},
 		        initialize: function (list, eOpts){
-		            var me = this;
+		            var me = list;
 		            if (typeof me.getItemMap == 'function'){
 		                me.getScrollable().getScroller().on('refresh',function(scroller,eOpts){
 		                	var itemsHeight = me.getItemHeight() * me.itemsCount;
