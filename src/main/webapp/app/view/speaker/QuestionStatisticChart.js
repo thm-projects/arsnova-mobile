@@ -293,7 +293,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		        label: {
 		          field: 'percent',
 		          renderer: function(v) {
-		        	  return Math.round(v * 100) + "%";
+		        	  return "";
 		          }
 		        },
 		        xField: 'text',
@@ -334,8 +334,13 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				}
 				
 				var mcAnswerCount = [];
+				var mcAbstentionCount = 0;
 				for ( var i = 0, el; el = answers[i]; i++) {
 					if (panel.questionObj.questionType === "mc") {
+						if (!el.answerText) {
+							mcAbstentionCount = el.abstentionCount;
+							continue;
+						}
 						var values = el.answerText.split(",").map(function(answered) {
 							return parseInt(answered, 10);
 						});
@@ -368,6 +373,14 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					
 					var idx = tmp_possibleAnswers.indexOf(el.answerText); // Find the index
 					if(idx!=-1) tmp_possibleAnswers.splice(idx, 1); // Remove it if really found!
+				}
+				if (mcAbstentionCount) {
+					var record = store.findRecord('text', Messages.ABSTENTION, 0, false, true, true); //exact match
+					if (!record) {
+						store.add({ text: Messages.ABSTENTION, value: mcAbstentionCount});
+					} else if (record.get('value') != mcAbstentionCount) {
+						record.set('value', mcAbstentionCount);
+					}
 				}
 				
 				// Calculate percentages
