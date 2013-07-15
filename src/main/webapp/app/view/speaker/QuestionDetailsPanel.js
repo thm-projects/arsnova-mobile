@@ -807,7 +807,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						self.freetextAnswerStore.removeAll();
 						self.freetextAnswerStore.add(answers);
 						self.abstentions.setBadge([{ badgeText: abstentions.length }]);
-						self.abstentions.setVisible(abstentions.length > 0);
+						self.abstentions.setHidden(abstentions.length === 0);
+						
+						MathJax.Hub.Queue(["Typeset", MathJax.Hub, self.freetextAnswerList.dom]);
 					},
 					failure: function() {
 						console.log('server-side error');
