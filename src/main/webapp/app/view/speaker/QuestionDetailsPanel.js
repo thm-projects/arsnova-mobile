@@ -715,7 +715,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								'{text}',
 								'<tpl if="correct === true">',
 									'&nbsp;<span style="padding: 0 0.2em 0 0.2em" class="x-list-item-correct">&#10003; </span>',
-								'</tpl>').apply(pA),
+								'</tpl>').apply(pA)
 			});
 			pA.elementId = element.getId();
 			this.answerFormFieldset.add(element);
