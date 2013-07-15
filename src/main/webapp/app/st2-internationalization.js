@@ -239,6 +239,7 @@ switch (lang) {
 			MINUTE: "Minute",
 			MINUTES: "Minutes",
 			BACK: "Back",
+			SAVE_AND_CONTINUE: "Save and Continue",
 			
 			/* question types */
 			EVALUATION: "Rating",
@@ -436,6 +437,7 @@ switch (lang) {
 			CLOSED_QUESTION: "Gesperrte Frage",
 			CONFIRM_CLOSE_QUESTION: "Frage wirklich sperren?",
 			CONFIRM_CLOSE_QUESTION_MESSAGE: "Wenn Sie die Frage sperren, können Zuhörer/innen die Frage weder sehen noch beantworten.",
+			SAVE_AND_CONTINUE: 'Speichern und weiter',
 			
 			/* user */
 			CHECK_ANSWERS: "Prüfe Antworten",

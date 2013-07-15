@@ -400,37 +400,87 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		});
 		
 		this.saveButton = Ext.create('Ext.Button', {
-	        ui: 'confirm',
-	        cls: 'saveQuestionButton',
-	        style: 'margin-top: 30px',
+			ui: 'confirm',
+			cls: 'saveQuestionButton',
+			style: 'margin-top: 30px',
 			text: Messages.SAVE,
-			handler: this.saveHandler
-	    });
+			handler: function() {
+				this.saveHandler().then(function(response) {
+					ARSnova.app.getController('Questions').details({
+						question: Ext.decode(response.responseText)
+					});
+				});
+			},
+			scope: this
+		});
+		
+		this.saveAndContinueButton = Ext.create('Ext.Button', {
+			ui: 'confirm',
+			cls: 'saveQuestionButton',
+			style: 'margin-top: 30px',
+			text: Messages.SAVE_AND_CONTINUE,
+			handler: function() {
+				this.saveHandler().then(function() {
+					var theNotificationBox = {};
+					theNotificationBox = Ext.create('Ext.Panel', {
+						cls: 'notificationBox',
+						name: 'notificationBox',
+						showAnimation: 'pop',
+						modal: true,
+						centered: true,
+						width: 300,
+						styleHtmlContent: true,
+						styleHtmlCls: 'notificationBoxText',
+						html: Messages.QUESTION_SAVED,
+						listeners: {
+							hide: function() {
+								this.destroy();
+							},
+							show: function() {
+								Ext.defer(function(){
+									theNotificationBox.hide();
+								}, 3000);
+							}
+						}
+					});
+					Ext.Viewport.add(theNotificationBox);
+					theNotificationBox.show();
+				}).then(Ext.bind(function(response) {
+					this.getScrollable().getScroller().scrollTo(0, 0, true);
+				}, this));
+			},
+			scope: this
+		});
 		
 		this.add([this.toolbar,
-            Ext.create('Ext.Toolbar', {
-            	cls: 'noBackground noBorder',
-  	            docked: 'top',
-  	            items: [
-                      {xtype: 'spacer'},
-                      this.questionOptions,
-                      {xtype: 'spacer'}
-                  ]
-  	        }),
-            this.mainPart,
-            
-            /* only one of the question types will be shown at the same time */
-		    this.voteQuestion,
-		    this.multipleChoiceQuestion,
-            this.yesNoQuestion,
-            this.schoolQuestion,
-            this.abcdQuestion,
-            this.freetextQuestion,
-            
-            this.abstentionPart,
-            this.releasePart,
-            this.saveButton
-        ]);
+			Ext.create('Ext.Toolbar', {
+				cls: 'noBackground noBorder',
+				docked: 'top',
+				items: [{
+						xtype: 'spacer'
+					},
+					this.questionOptions,
+					{
+						xtype: 'spacer'
+					}
+				]
+			}),
+			this.mainPart,
+			
+			/* only one of the question types will be shown at the same time */
+			this.voteQuestion,
+			this.multipleChoiceQuestion,
+			this.yesNoQuestion,
+			this.schoolQuestion,
+			this.abcdQuestion,
+			this.freetextQuestion,
+			
+			this.abstentionPart,
+			this.releasePart,
+			
+			this.saveButton,
+			this.saveAndContinueButton
+		]);
 		
 		this.on('activate', this.onActivate);
 	},
@@ -615,12 +665,16 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			});
 		}
 		
-		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel.dispatch(values);
-		panel.subject.reset();
-		panel.textarea.reset();
+		var promise = panel.dispatch(values);
+		promise.then(function() {
+			panel.subject.reset();
+			panel.textarea.reset();
+		});
+		return promise;
 	},
 	
-	dispatch: function(values){
+	dispatch: function(values) {
+		var promise = new RSVP.Promise();
 		ARSnova.app.getController('Questions').add({
 			sessionKeyword: localStorage.getItem('keyword'),
 			text		: values.text,
@@ -637,14 +691,13 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			abstention	: values.abstention,
 			showStatistic: 1,
 			successFunc	: function(response, opts){
-				ARSnova.app.getController('Questions').details({
-					question	: Ext.decode(response.responseText)
-				});
+				promise.resolve(response);
 			},
 			failureFunc	: function(response, opts){
-    	  		console.log('server-side failure with status code ' + response.status);
-    	  		Ext.Msg.alert(Messages.NOTICE, Messages.QUESTION_CREATION_ERROR);
-    		}
+				Ext.Msg.alert(Messages.NOTICE, Messages.QUESTION_CREATION_ERROR);
+				promise.reject(response);
+			}
 		});
-    }
+		return promise;
+	}
 });
