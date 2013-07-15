@@ -62,7 +62,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			ui		: 'confirm',
 			handler	: this.saveHandler
 		});
-				
+		
+		this.subject = Ext.create('Ext.field.Text', {
+			name: 'subject',
+			placeHolder: Messages.CATEGORY_PLACEHOLDER
+		});
+		
 		this.textarea = Ext.create('Ext.plugins.ResizableTextArea', {
 			name	  	: 'text',
 	    	placeHolder	: Messages.QUESTIONTEXT_PlACEHOLDER,
@@ -75,11 +80,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			
 			items: [{
 				xtype: 'fieldset',
-				items: [{
-			        xtype	: 'textfield',
-			        name	: 'subject',
-			    	placeHolder: Messages.CATEGORY_PLACEHOLDER
-			    }]
+				items: [this.subject]
 			},{
 				xtype: 'fieldset',
 				items: [this.textarea]
@@ -614,7 +615,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			});
 		}
 		
-	ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel.dispatch(values);
+		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel.dispatch(values);
+		panel.subject.reset();
+		panel.textarea.reset();
 	},
 	
 	dispatch: function(values){
