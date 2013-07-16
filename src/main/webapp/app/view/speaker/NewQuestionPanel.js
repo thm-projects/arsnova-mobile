@@ -659,7 +659,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				break;
 		}
 		
-		if (values.abstention && values.questionType !== "mc") {
+		if (values.abstention && values.questionType !== "mc" && values.questionType !== "freetext") {
 			values.possibleAnswers.push({
 				text: Messages.ABSTENTION
 			});

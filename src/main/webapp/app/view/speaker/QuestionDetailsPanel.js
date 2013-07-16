@@ -355,8 +355,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								success: function() {
 									panel.abstentions.hide();
 									if (panel.questionObj.questionType === "freetext") {
-										panel.noFreetextAnswers.show();
-										panel.freetextAnswerList.hide();
 										panel.freetextAnswerStore.removeAll();
 									} else {
 										panel.answerFormFieldset.items.each(function(button){
@@ -597,6 +595,11 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				'<span style="color:gray">{formattedTime}</span><span style="padding-left:30px">{answerSubject}</span>',
 				'</div>'
 			],
+			deferEmptyText: false,
+			emptyText: ['<div style="background-color: white; border-left: 1px solid lightgray; border-right: 1px solid lightgray;">',
+			            Messages.NO_ANSWERS,
+			            '</div>'].join(''),
+			
 			grouped: true,
 			scrollable: { disabled: true },
 			
@@ -610,25 +613,23 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						})
 					});
 				},
-		        initialize: function (list, eOpts){
-		            var me = this;
-		            if (typeof me.getItemMap == 'function'){
-		                me.getScrollable().getScroller().on('refresh',function(scroller,eOpts){
-		                	var itemsHeight = me.getItemHeight() * me.itemsCount;
-		                	if(me.getGrouped()) {
-		                		var groupHeight = typeof me.headerHeight !== 'undefined' ? me.headerHeight : 26;
-		                		itemsHeight += me.groups.length * groupHeight;
-		                	}
-		                	me.setHeight(itemsHeight);
-		                });
-		            }
-		        }
+				initialize: function (list, eOpts){
+					if (typeof list.getItemMap == 'function') {
+						list.getScrollable().getScroller().on('refresh', function(scroller,eOpts) {
+							if (list.itemsCount === 0) {
+								list.setHeight(null);
+								return;
+							}
+							var itemsHeight = list.getItemHeight() * list.itemsCount;
+							if(list.getGrouped()) {
+								var groupHeight = typeof list.headerHeight !== 'undefined' ? list.headerHeight : 26;
+								itemsHeight += list.groups.length * groupHeight;
+							}
+							list.setHeight(itemsHeight);
+						});
+					}
+				}
 			}
-		});
-		
-		this.noFreetextAnswers = Ext.create('Ext.Panel', {
-			cls: 'centerText',
-			html: Messages.NO_ANSWERS
 		});
 		
 		this.abstentions = Ext.create('ARSnova.view.MultiBadgeButton', {
@@ -640,11 +641,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			badgeCls	: 'badgeicon'
 		});
 		
+		this.answerFormFieldset.add(this.abstentions);
 		if (this.questionObj.questionType === "freetext") {
-			this.answerFormFieldset.add(this.noFreetextAnswers);
 			this.answerFormFieldset.add(this.freetextAnswerList);
 		}
-		this.answerFormFieldset.add(this.abstentions);
 		
 		this.answerForm = Ext.create('Ext.form.FormPanel', {
 			itemId 	 	: 'answerForm',
@@ -798,19 +798,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						var answers = listItems.filter(function(item) {
 							return !item.abstention;
 						});
-						// Have the first answers arrived? Then remove the "no answers" message. 
-						if (!self.noFreetextAnswers.isHidden() && listItems.length > 0) {
-							self.noFreetextAnswers.hide();
-							self.freetextAnswerList.show();
-						} else if (self.noFreetextAnswers.isHidden() && listItems.length === 0) {
-							// The last remaining answer has been deleted. Display message again.
-							self.noFreetextAnswers.show();
-							self.freetextAnswerList.hide();
-						}
 						
 						self.freetextAnswerStore.removeAll();
-						self.freetextAnswerStore.add(answers);
-						self.abstentions.setBadge([{ badgeText: abstentions.length }]);
+						if (answers.length > 0) {
+							self.freetextAnswerStore.add(answers);
+						}
+						self.abstentions.setBadge([{badgeText: abstentions.length}]);
 						self.abstentions.setHidden(abstentions.length === 0);
 						
 						MathJax.Hub.Queue(["Typeset", MathJax.Hub, self.freetextAnswerList.dom]);
