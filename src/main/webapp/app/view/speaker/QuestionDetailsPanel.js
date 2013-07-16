@@ -653,6 +653,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			scrollable: null,
 			items	: [this.answerFormFieldset]
 		}),
+		
+		this.possibleAnswers = {};
+		
 		/* END QUESTION DETAILS */
 		
 		this.add([
@@ -717,7 +720,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 									'&nbsp;<span style="padding: 0 0.2em 0 0.2em" class="x-list-item-correct">&#10003; </span>',
 								'</tpl>').apply(pA)
 			});
-			pA.elementId = element.getId();
+			this.possibleAnswers[pA.text] = element.getId();
 			this.answerFormFieldset.add(element);
 			
 			MathJax.Hub.Queue(["Typeset", MathJax.Hub, element.dom]);
@@ -817,12 +820,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					success: function(response){
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
 						var answers = Ext.decode(response.responseText);
-						var answerTextToElementId = {};
 						
 						for (var i = 0; i < panel.questionObj.possibleAnswers.length; i++) {
 							var el = panel.questionObj.possibleAnswers[i];
-							answerTextToElementId[el.text] = el.elementId;
-							panel.down('#' + el.elementId).setBadge([{ badgeText: '0' }]);
+							panel.down('#' + panel.possibleAnswers[el.text]).setBadge([{ badgeText: '0' }]);
 						}
 						
 						if (panel.questionObj.questionType === "mc") {
@@ -861,7 +862,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							});
 						} else {
 							for (var i = 0, el; el = answers[i]; i++) {
-								var elementId = '#' + answerTextToElementId[el.answerText];
+								var elementId = '#' + panel.possibleAnswers[el.answerText];
 								panel.answerFormFieldset.down(elementId).setBadge([{ badgeText: el.answerCount}]);
 							}
 						}
