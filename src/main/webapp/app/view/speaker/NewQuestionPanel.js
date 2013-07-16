@@ -21,6 +21,8 @@
 Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	extend: 'Ext.Panel',
 	
+	requires: ['ARSnova.view.speaker.form.YesNoQuestion'],
+	
 	config: {
 		title: 'NewQuestionPanel',
 		fullscreen: true,
@@ -195,33 +197,11 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			});
 		}
 		
-		this.yesNoQuestion = Ext.create('Ext.form.FormPanel', {
+		this.yesNoQuestion = Ext.create('ARSnova.view.speaker.form.YesNoQuestion', {
 			id: 'yesno',
 			cls: 'newQuestionOptions',
 			hidden: true,
 			scrollable: null,
-			submitOnAction: false,
-			
-			items: [{
-				xtype: 'fieldset',
-				title: Messages.CORRECT_ANSWER,
-	            items: [{
-            		xtype: 'segmentedbutton',
-            		style: {
-            			maxWidth: '500px',
-            			width: '80%',
-            			margin: 'auto'
-            		},
-            		defaults: {
-            			style: 'width: 33%'
-            		},
-            		items: [
-        		        { text	: Messages.YES, id: "yesnoYesCorrect" }, 
-        		        { text	: Messages.NO, id: "yesnoNoCorrect" },
-        		        { text	: Messages.NONE, id: "yesnoNoneCorrect", pressed: true }
-            		]
-            	}]
-			}]
 		});
 		
 		this.multipleChoiceQuestion = Ext.create('ARSnova.view.ExpandingAnswerForm', {
@@ -613,31 +593,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			case Messages.YESNO:
 				values.questionType = "yesno";
 				
-				var form = panel.down("#yesno");
-				var yesNoOption = form.down('segmentedbutton');
-				
-				var correct = "";
-				if (yesNoOption.getPressedButtons()[0].id) {
-					correct = yesNoOption.getPressedButtons()[0].id;
-				} else {
-					return;
-				}
-				
-				var yesAnswer = { text: Messages.YES };
-				var noAnswer = { text: Messages.NO };
-								
-				switch (correct) {
-					case "yesnoYesCorrect":
-						yesAnswer.correct = 1;
-						break;
-					case "yesnoNoCorrect":
-						noAnswer.correct = 1;
-						break;
-					default:
-						values.noCorrect = 1;
-						break;
-				}
-				values.possibleAnswers = [yesAnswer, noAnswer];
+				Ext.apply(values, panel.yesNoQuestion.getQuestionValues());
 				break;
 			case Messages.ABCD:
 				values.questionType = "abcd";

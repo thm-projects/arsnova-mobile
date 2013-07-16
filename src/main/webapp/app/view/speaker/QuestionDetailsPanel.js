@@ -21,6 +21,8 @@
  +--------------------------------------------------------------------------*/
 Ext.define('FreetextAnswer', {
     extend: 'Ext.data.Model',
+    
+    require: ['ARSnova.view.speaker.form.YesNoQuestion'],
  
     config: {
     	idProperty: "_id",
@@ -120,6 +122,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				this.hide();
 				panel.backButton.show();
 				panel.resetFields();
+				panel.editButton.setEnableAnswerEdit(false);
 			}
 		});
 		
@@ -137,6 +140,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					this.addCls('x-button-action');
 
 					this.enableFields();
+					this.setEnableAnswerEdit(true);
 				} else {
 					panel.cancelButton.hide();
 					panel.backButton.show();
@@ -148,10 +152,21 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					question.set("text", values.questionText);
 					question.raw.subject = values.subject;
 					question.raw.text = values.questionText;
+					if (question.get('questionType') === 'yesno') {
+						var questionValues = panel.yesNoQuestion.getQuestionValues();
+						if (question.get('possibleAnswers').length === 3) {
+							questionValues.possibleAnswers.push(question.get('possibleAnswers')[2]);
+						}
+						question.set("possibleAnswers", questionValues.possibleAnswers);
+						question.set("noCorrect", !!questionValues.noCorrect);
+						Ext.apply(question.raw, questionValues);
+					}
 					
 					question.saveSkillQuestion({
 						success: function(response){
 							panel.questionObj = question.data;
+							panel.answerFormFieldset.removeAll();
+							panel.getPossibleAnswers();
 						}
 					});
 					
@@ -159,6 +174,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					this.removeCls('x-button-action');
 					
 					this.disableFields();
+					this.setEnableAnswerEdit(false);
 				}
 			},
 			
@@ -203,6 +219,26 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						default:
 							break;
 					}
+				}
+			},
+			
+			setEnableAnswerEdit: function(enable) {
+				var panel = this.up('panel');
+				
+				if (enable) {
+					panel.answerForm.hide(true);
+				} else {
+					panel.answerForm.show(true);
+				}
+				
+				switch (panel.questionObj.questionType) {
+					case 'yesno':
+						if (enable) {
+							panel.yesNoQuestion.show(true);
+						} else {
+							panel.yesNoQuestion.hide(true);
+						}
+						break;
 				}
 			}
 		});
@@ -654,6 +690,11 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			items	: [this.answerFormFieldset]
 		}),
 		
+		this.yesNoQuestion = Ext.create('ARSnova.view.speaker.form.YesNoQuestion', {
+			hidden: true
+		});
+		this.yesNoQuestion.initWithPossibleAnswers(this.questionObj.possibleAnswers);
+		
 		this.possibleAnswers = {};
 		
 		/* END QUESTION DETAILS */
@@ -662,7 +703,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		  this.toolbar,
           this.actionsPanel,
           this.contentForm,
-          this.answerForm
+          this.answerForm,
+          this.yesNoQuestion
         ]);
 		
 		this.on('activate', this.onActivate);

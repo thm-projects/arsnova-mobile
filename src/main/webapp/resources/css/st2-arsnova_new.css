@@ -241,6 +241,7 @@ body {
 	margin: 0 auto;
 }
 
+.x-container .x-dock .x-dock-body .x-form-fieldset-inner,
 .x-form .x-form-inner .x-container .x-dock .x-dock-body .x-form-fieldset-inner {
 	background-color: transparent;
 	border: none;
