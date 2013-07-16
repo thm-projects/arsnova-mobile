@@ -80,11 +80,6 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			items: [this.backButton]
 		});
 		
-		this.noFreetextAnswers = Ext.create('Ext.Panel', {
-			cls: 'centerText',
-			html: Messages.NO_ANSWERS
-		});
-		
 		this.freetextAnswerList = Ext.create('Ext.List', {
 			activeCls: 'search-item-active',
 			store: this.freetextAnswerStore, 
@@ -103,6 +98,9 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				'</div>'
 			],
 			grouped: true,
+			
+			deferEmptyText: false,
+			emptyText: Messages.NO_ANSWERS,
 			
 			listeners: {
 				itemtap: function (list, index, element) {
@@ -127,10 +125,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			badgeCls	: 'badgeicon'
 		});
 		
-		this.add([this.toolbar,
-		    this.freetextAnswerList,
-			this.noFreetextAnswers
-		]);
+		this.add([this.toolbar, this.freetextAnswerList]);
 		
 		this.on('activate', function() {
 			taskManager.start(this.checkFreetextAnswersTask);
@@ -161,13 +156,6 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				var answers = listItems.filter(function(item) {
 					return !item.abstention;
 				});
-				// Have the first answers arrived? Then remove the "no answers" message. 
-				if (!self.noFreetextAnswers.isHidden() && listItems.length > 0) {
-					self.noFreetextAnswers.hide();
-				} else if (self.noFreetextAnswers.isHidden() && listItems.length === 0) {
-					// The last remaining answer has been deleted. Display message again.
-					self.noFreetextAnswers.show();
-				}
 				
 				self.freetextAnswerStore.removeAll();
 				self.freetextAnswerStore.add(answers);
