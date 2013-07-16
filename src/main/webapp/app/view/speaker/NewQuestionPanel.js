@@ -201,7 +201,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			id: 'yesno',
 			cls: 'newQuestionOptions',
 			hidden: true,
-			scrollable: null,
+			scrollable: null
 		});
 		
 		this.multipleChoiceQuestion = Ext.create('ARSnova.view.ExpandingAnswerForm', {
