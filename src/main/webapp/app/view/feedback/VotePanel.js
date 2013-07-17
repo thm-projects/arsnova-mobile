@@ -103,7 +103,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 							value		: button.config.value
 						});
 					},
-					style: "margin-left:15px"
+					style: "margin-left:10px"
 				}
 			]
 		});
@@ -139,7 +139,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 							value		: button.config.value
 						});
 					},
-					style: "margin-left:15px"
+					style: "margin-left:10px"
 				}
 			]
 		});
