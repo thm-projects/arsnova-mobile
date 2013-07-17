@@ -16,8 +16,8 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-Ext.define('ARSnova.view.ExpandingAnswerForm', {
-	extend: 'Ext.Panel',
+Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
+	extend: 'Ext.Container',
 	
 	config: {
 		minAnswers: 2,
@@ -129,7 +129,9 @@ Ext.define('ARSnova.view.ExpandingAnswerForm', {
 				text: this.answerComponents[i].getValue()
 			};
 			if (this.correctComponents[i].getValue()) {
-				obj.correct = 1;
+				obj.correct = true;
+			} else {
+				obj.correct = false;
 			}
 			values.push(obj);
 		}
@@ -152,5 +154,33 @@ Ext.define('ARSnova.view.ExpandingAnswerForm', {
 			hasCorrectOptions = hasCorrectOptions || !!this.correctComponents[i].getValue();
 		}
 		return hasCorrectOptions;
+	},
+	
+	initWithPossibleAnswers: function(possibleAnswers) {
+		if (possibleAnswers.length < this.getMinAnswers() || possibleAnswers.length > this.getMaxAnswers()) {
+			return;
+		}
+		
+		this.setStart(possibleAnswers.length);
+		this.selectAnswerCount.disable();
+		this.selectAnswerCount.setValue(possibleAnswers.length);
+		this.selectAnswerCount.fireEvent('spin', this.selectAnswerCount, this.getStart());
+		
+		possibleAnswers.forEach(function(answer, index) {
+			this.answerComponents[index].setValue(answer.text);
+			this.answerComponents[index].disable();
+			this.correctComponents[index].setValue(answer.correct);
+		}, this);
+	},
+	
+	getQuestionValues: function() {
+		var result = {};
+		
+		result.possibleAnswers = this.getValues();
+		
+		if (!this.hasCorrectOptions()) {
+			result.noCorrect = 1;
+		}
+		return result;
 	}
 });

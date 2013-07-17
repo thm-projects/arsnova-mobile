@@ -21,7 +21,7 @@
 Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	extend: 'Ext.Panel',
 	
-	requires: ['ARSnova.view.speaker.form.YesNoQuestion'],
+	requires: ['ARSnova.view.speaker.form.ExpandingAnswerForm', 'ARSnova.view.speaker.form.YesNoQuestion'],
 	
 	config: {
 		title: 'NewQuestionPanel',
@@ -204,7 +204,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			scrollable: null
 		});
 		
-		this.multipleChoiceQuestion = Ext.create('ARSnova.view.ExpandingAnswerForm', {
+		this.multipleChoiceQuestion = Ext.create('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			id: 'mc',
 			hidden: true
 		});
@@ -303,7 +303,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			}]
 		});
 		
-		this.abcdQuestion = Ext.create('ARSnova.view.ExpandingAnswerForm', {
+		this.abcdQuestion = Ext.create('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			id: 'abcd',
 			hidden: true,
 			wording: {
@@ -583,12 +583,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			*/
 			case Messages.MC:
 				values.questionType = "mc";
-				values.possibleAnswers = panel.down("#mc").getValues();
 				
-				if (!panel.down("#mc").hasCorrectOptions()) {
-					values.noCorrect = 1;
-				}
-				
+				Ext.apply(values, panel.multipleChoiceQuestion.getQuestionValues());
 				break;
 			case Messages.YESNO:
 				values.questionType = "yesno";
