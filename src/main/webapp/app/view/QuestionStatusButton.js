@@ -116,7 +116,6 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		this.questionIsClosedText.show();
 		this.questionIsOpenButton.hide();
 		this.questionIsOpenText.hide();
-		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel.editButton.show();
 	},
 	
 	questionOpenedSuccessfully: function(){
@@ -125,6 +124,5 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		this.questionIsOpenText.show();
 		this.questionIsClosedButton.hide();
 		this.questionIsClosedText.hide();
-		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel.editButton.hide();
 	}
 }); 

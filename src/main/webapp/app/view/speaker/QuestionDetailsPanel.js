@@ -128,7 +128,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		
 		this.editButton = Ext.create('Ext.Button', {
 			text	: Messages.EDIT,
-			hidden	: true,
 			handler	: function(){
 				var panel = this.up('panel');
 				
