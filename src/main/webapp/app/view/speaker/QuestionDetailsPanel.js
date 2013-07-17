@@ -151,6 +151,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					question.set("text", values.questionText);
 					question.raw.subject = values.subject;
 					question.raw.text = values.questionText;
+					
+					panel.subject.resetOriginalValue();
+					panel.textarea.resetOriginalValue();
+					
 					if (question.get('questionType') === 'yesno') {
 						var questionValues = panel.yesNoQuestion.getQuestionValues();
 						if (question.get('possibleAnswers').length === 3) {
@@ -492,6 +496,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 		/* END ACTIONS PANEL */
 		
+		this.subject = Ext.create('Ext.field.Text', {
+			label: Messages.CATEGORY,
+			name: 'subject',
+			value: this.questionObj.subject,
+			disabled: true
+		});
+		
 		this.textarea = Ext.create('Ext.plugins.ResizableTextArea', {
 			label: Messages.QUESTION,
 			name: 'questionText',
@@ -594,13 +605,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.contentFieldset = Ext.create('Ext.form.FieldSet', {
 			cls	 : 'standardFieldset',
 			itemId	 : 'contentFieldset',
-			items: [{
-				xtype: 'textfield',
-				label: Messages.CATEGORY,
-				name: 'subject',
-				value: this.questionObj.subject,
-				disabled: true
-			}, this.textarea, {
+			items: [this.subject, this.textarea, {
 				xtype: 'textfield',
 				label: Messages.TYPE,
 				value: this.getType(),
@@ -918,24 +923,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	
 	resetFields: function(){
 		var fields = this.down('#contentFieldset').items.items;
-		var fieldsLength = fields.length;
-		
-		for ( var i = 0; i < fieldsLength; i++){
-			var field = fields[i];
-			switch (field.label){
-				case Messages.CATEGORY:
-					field.setValue(this.questionObj.subject);
-					break;
-				case Messages.QUESTION:
-					field.setValue(this.questionObj.text);
-					break;
-				case Messages.DURATION:
-					field.setValue(this.getDuration());
-					break;
-				default:
-					break;
-			}
+		fields.forEach(function(field) {
+			field.reset();
 			field.setDisabled(true);
-		}
+		});
 	}
 });
