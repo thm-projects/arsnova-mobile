@@ -105,7 +105,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 							xtype: 'input',
 							cls: 'joinSessionInput',
 							type: 'tel',
-							maxLength: 8
+							maxLength: 16
 						},
 						name		: 'keyword',
 						placeHolder	: Messages.SESSIONID_PLACEHOLDER

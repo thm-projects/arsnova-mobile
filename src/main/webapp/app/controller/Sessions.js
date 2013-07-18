@@ -23,7 +23,11 @@ Ext.define("ARSnova.controller.Sessions", {
     
     login: function(options){
     	if(options.keyword.length != 8){
-    		Ext.Msg.alert("Hinweis", "Die Session-ID muss 8-stellig sein.");
+    		Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_ID_INVALID_LENGTH);
+    		return;
+    	}
+    	if (options.keyword.match(/[^0-9]/)) {
+    		Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_ID_INVALID);
     		return;
     	}
     	/* do login stuff */

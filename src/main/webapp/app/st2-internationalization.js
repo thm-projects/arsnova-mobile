@@ -295,6 +295,8 @@ switch (lang) {
 			SESSION_NOT_FOUND: "This session does not seem to exist.",
 			SESSION_LOCKED: "This session is currently locked.",
 			CONNECTION_PROBLEM: "The connection to the server has failed.",
+			SESSION_ID_INVALID_LENGTH: "The Session ID has to be exactly 8 digits.",
+			SESSION_ID_INVALID: "The Session ID may only consist of 8 digits.",
 
 			/* misc */
 			SUPPORTED_BROWSERES: "ARSnova is best-viewed in a WebKit browser, e.g. Apple Safari or Google Chrome!",
@@ -554,6 +556,8 @@ switch (lang) {
 			SESSION_NOT_FOUND: "Diese Session existiert nicht.",
 			SESSION_LOCKED: "Die Session ist derzeit gesperrt.",
 			CONNECTION_PROBLEM: "Die Verbindung zum Server konnte nicht hergestellt werden",
+			SESSION_ID_INVALID_LENGTH: "Die Session-ID muss 8-stellig sein.",
+			SESSION_ID_INVALID: "Die Session-ID muss aus acht Ziffern bestehen.",
 			
 			/* misc */
 			SUPPORTED_BROWSERES: "Für eine korrekte Darstellung von ARSnova benutzen Sie bitte einen WebKit-Browser, z.B. Apple Safari oder Google Chrome!",
