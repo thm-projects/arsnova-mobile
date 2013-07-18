@@ -153,7 +153,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				}
 				localStorage.setItem('questionIds', Ext.encode(questionsArr));
 
-				self.decrementQuestionBadges();
 				self.disableQuestion();
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
@@ -234,15 +233,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	disableQuestion: function() {		
 		this.setDisabled(true);
 		this.mask(Ext.create('ARSnova.view.CustomMask'));
-	},
-	
-	decrementQuestionBadges: function() {
-		// Update badge inside the tab panel at the bottom of the screen
-		var tab = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.tab;
-		tab.setBadgeText(tab.badgeText - 1);
-		// Update badge on the user's home view
-		var button = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.questionButton;
-		button.setBadgeText(button.badgeText - 1);
 	},
 	
 	setAnswerText: function(subject, answer) {

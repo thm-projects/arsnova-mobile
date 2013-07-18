@@ -132,8 +132,6 @@ Ext.define('ARSnova.view.Question', {
 					Messages.ARE_YOU_SURE, 
 					function(button) {
 						if(button == 'yes') {
-							self.decrementQuestionBadges();
-							
 							self.markCorrectAnswers();
 							
 							self.getUserAnswer().then(function(answer) {
@@ -245,15 +243,6 @@ Ext.define('ARSnova.view.Question', {
 	disableQuestion: function() {
 		this.setDisabled(true);
 		this.mask(Ext.create('ARSnova.view.CustomMask'));
-	},
-	
-	decrementQuestionBadges: function() {
-		// Update badge inside the tab panel at the bottom of the screen
-		var tab = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.tab;
-		tab.setBadgeText(tab.badgeText - 1);
-		// Update badge on the user's home view
-		var button = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.questionButton;
-		button.setBadgeText(button.badgeText - 1);
 	},
 	
 	doTypeset: function(parent) {
