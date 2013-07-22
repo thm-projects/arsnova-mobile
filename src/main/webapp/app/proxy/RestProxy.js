@@ -149,12 +149,19 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	 */
 	getMySessions: function(callbacks, sortby) {
 		Ext.Ajax.request({
-			url: "session/mysessions",
+			url: "session/",
 			method: "GET",
 			params: {
+				ownedonly: true,
 				sortby: sortby
 			},
-			success: callbacks.success,
+			success: function(response) {
+				if (response.status === 204) {
+					callbacks.empty.apply(this, arguments);
+				} else {
+					callbacks.success.apply(this, arguments);
+				} 
+			},
 			failure: function(response) {
 				if (response.status === 401) {
 					callbacks.unauthenticated.apply(this, arguments);
