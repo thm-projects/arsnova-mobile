@@ -62,7 +62,14 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.saveButton = Ext.create('Ext.Button', {
 			text	: Messages.SAVE,
 			ui		: 'confirm',
-			handler	: this.saveHandler
+			handler: function() {
+				this.saveHandler().then(function(response) {
+					ARSnova.app.getController('Questions').details({
+						question: Ext.decode(response.responseText)
+					});
+				});
+			},
+			scope: this
 		});
 		
 		this.subject = Ext.create('Ext.field.Text', {
