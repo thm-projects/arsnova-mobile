@@ -142,7 +142,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		var values = this.getValues();
 		var labelGenerator = this.getEnumeration();
 		values.forEach(function(item, index) {
-			item.text = labelGenerator(index) + ": " + item.text;
+			item.text = item.text ? (labelGenerator(index) + ": " + item.text) : labelGenerator(index);
 			item.id = labelGenerator(index);
 		});
 		return values;
