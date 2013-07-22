@@ -293,7 +293,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		        label: {
 		          field: 'percent',
 		          renderer: function(v) {
-		        	  return "";
+		        	  return Math.round(v * 100) + "%";
 		          }
 		        },
 		        xField: 'text',
