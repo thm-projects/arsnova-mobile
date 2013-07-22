@@ -146,7 +146,8 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		return hasCorrectOptions;
 	},
 	
-	initWithPossibleAnswers: function(possibleAnswers) {
+	initWithQuestion: function(question) {
+		var possibleAnswers = question.possibleAnswers;
 		if (possibleAnswers.length < this.getMinAnswers() || possibleAnswers.length > this.getMaxAnswers()) {
 			return;
 		}

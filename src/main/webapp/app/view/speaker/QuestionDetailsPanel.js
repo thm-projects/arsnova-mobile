@@ -23,7 +23,7 @@ Ext.define('FreetextAnswer', {
     extend: 'Ext.data.Model',
     
     require: ['ARSnova.view.speaker.form.ExpandingAnswerForm', 'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
-              'ARSnova.view.speaker.form.YesNoQuestion'],
+              'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.YesNoQuestion'],
  
     config: {
     	idProperty: "_id",
@@ -155,21 +155,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					panel.subject.resetOriginalValue();
 					panel.textarea.resetOriginalValue();
 					
-					if (question.get('questionType') === 'yesno') {
-						var questionValues = panel.yesNoQuestion.getQuestionValues();
-						if (question.get('possibleAnswers').length === 3) {
-							questionValues.possibleAnswers.push(question.get('possibleAnswers')[2]);
-						}
-						question.set("possibleAnswers", questionValues.possibleAnswers);
-						question.set("noCorrect", !!questionValues.noCorrect);
-						Ext.apply(question.raw, questionValues);
-					} else if (question.get('questionType') === 'mc') {
-						var questionValues = panel.mcQuestion.getQuestionValues();
-						question.set("possibleAnswers", questionValues.possibleAnswers);
-						question.set("noCorrect", !!questionValues.noCorrect);
-						Ext.apply(question.raw, questionValues);
-					} else if (question.get('questionType') === 'abcd') {
-						var questionValues = panel.abcdQuestion.getQuestionValues();
+					if (!panel.answerEditForm.isHidden()) {
+						var questionValues = panel.answerEditForm.getQuestionValues();
 						question.set("possibleAnswers", questionValues.possibleAnswers);
 						question.set("noCorrect", !!questionValues.noCorrect);
 						Ext.apply(question.raw, questionValues);
@@ -239,27 +226,14 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			},
 			
 			setEnableAnswerEdit: function(enable) {
-				var panel = this.up('panel'), question;
+				var panel = this.up('panel');
 				
 				if (enable) {
 					panel.answerForm.hide(true);
 				} else {
 					panel.answerForm.show(true);
 				}
-				
-				switch (panel.questionObj.questionType) {
-					case 'yesno':
-						question = panel.yesNoQuestion;
-						break;
-					case 'abcd':
-						question = panel.abcdQuestion;
-						break;
-					case 'mc':
-					default:
-						question = panel.mcQuestion;
-						break;
-				}
-				question.setHidden(!enable);
+				panel.answerEditForm.setHidden(!enable);
 			}
 		});
 		
@@ -710,20 +684,21 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			scroll	: false,
 			scrollable: null,
 			items	: [this.answerFormFieldset]
-		}),
+		});
 		
-		this.yesNoQuestion = Ext.create('ARSnova.view.speaker.form.YesNoQuestion', {
+		var answerEditFormClass = 'ARSnova.view.speaker.form.NullQuestion';
+		if (this.questionObj.questionType === 'mc') {
+			answerEditFormClass = 'ARSnova.view.speaker.form.ExpandingAnswerForm';
+		} else if (this.questionObj.questionType === 'abcd') {
+			answerEditFormClass = 'ARSnova.view.speaker.form.IndexedExpandingAnswerForm';
+		} else if (this.questionObj.questionType === 'yesno') {
+			answerEditFormClass = 'ARSnova.view.speaker.form.YesNoQuestion';
+		}
+		
+		this.answerEditForm = Ext.create(answerEditFormClass, {
 			hidden: true
 		});
-		this.yesNoQuestion.initWithPossibleAnswers(this.questionObj.possibleAnswers);
-		this.mcQuestion = Ext.create('ARSnova.view.speaker.form.ExpandingAnswerForm', {
-			hidden: true
-		});
-		this.mcQuestion.initWithPossibleAnswers(this.questionObj.possibleAnswers);
-		this.abcdQuestion = Ext.create('ARSnova.view.speaker.form.IndexedExpandingAnswerForm', {
-			hidden: true
-		});
-		this.abcdQuestion.initWithPossibleAnswers(this.questionObj.possibleAnswers);
+		this.answerEditForm.initWithQuestion(Ext.clone(this.questionObj));
 		
 		this.possibleAnswers = {};
 		
@@ -734,7 +709,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
           this.actionsPanel,
           this.contentForm,
           this.answerForm,
-          this.yesNoQuestion,this.mcQuestion,this.abcdQuestion
+          this.answerEditForm
         ]);
 		
 		this.on('activate', this.onActivate);

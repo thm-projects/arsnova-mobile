@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	extend: 'Ext.Panel',
 	
 	requires: ['ARSnova.view.speaker.form.ExpandingAnswerForm', 'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
-	           'ARSnova.view.speaker.form.YesNoQuestion'],
+	           'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.YesNoQuestion'],
 	
 	config: {
 		title: 'NewQuestionPanel',

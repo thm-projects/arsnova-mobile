@@ -29,6 +29,8 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 		pressed: 'none'
 	},
 	
+	abstentionAnswer: null,
+	
 	constructor: function() {
 		this.callParent(arguments);
 		
@@ -81,7 +83,8 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 		}]);
 	},
 	
-	initWithPossibleAnswers: function(possibleAnswers) {
+	initWithQuestion: function(question) {
+		var possibleAnswers = question.possibleAnswers;
 		// We will have 2 or 3 answers, depending on an 'abstention' value
 		if (possibleAnswers.length !== 2 && possibleAnswers.length !== 3) {
 			return;
@@ -98,6 +101,10 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 		// Still no button pressed? Select the 'none' button...
 		if (this.segmentedButton.getPressedButtons().length === 0) {
 			this.segmentedButton.setPressedButtons([2]);
+		}
+		// Is an abstention answer present?
+		if (possibleAnswers.length === 3) {
+			this.abstentionAnswer = possibleAnswers[2];
 		}
 	},
 	
@@ -119,6 +126,9 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 				break;
 		}
 		result.possibleAnswers = [yesAnswer, noAnswer];
+		if (this.abstentionAnswer) {
+			result.possibleAnswers.push(this.abstentionAnswer);
+		}
 		
 		return result;
 	}
