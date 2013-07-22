@@ -83,10 +83,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		var me = this;
 		this.questionObj = args.question;
 		
-		if( this.questionObj.questionType == "yesno" 	|| 
-			this.questionObj.questionType == "mc" 		||
-			( this.questionObj.questionType == "abcd" && !this.questionObj.noCorrect ) ) {
-			this.hasOneCorrectAnswer = true;			
+		this.hasCorrectAnswers = true;
+		if (['vote', 'school', 'freetext'].indexOf(this.questionObj.questionType) !== -1) {
+			this.hasCorrectAnswers = false;
 		}
 		
 		/* BEGIN TOOLBAR OBJECTS */
@@ -272,7 +271,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		/* BEGIN ACTIONS PANEL */
 		
 		this.statisticButton = Ext.create('Ext.Panel', {
-			cls: this.hasOneCorrectAnswer? 'threeButtons left' : 'twoButtons left',
+			cls: this.hasCorrectAnswers? 'threeButtons left' : 'twoButtons left',
 			
 			items: [{
 				xtype	: 'button',
@@ -295,7 +294,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 
 		this.releaseStatisticButton = Ext.create('Ext.Panel', {
-			cls: this.hasOneCorrectAnswer? 'threeButtons left' : 'twoButtons left',
+			cls: this.hasCorrectAnswers? 'threeButtons left' : 'twoButtons left',
 			
 			items: [{
 				xtype	: 'togglefield',
@@ -745,7 +744,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	onActivate: function(){
 		this.getPossibleAnswers();
 		
-		if(this.hasOneCorrectAnswer){
+		if(this.hasCorrectAnswers){
 			this.firstRow.add(this.showCorrectAnswerButton);
 		}
 		setTimeout("ARSnova.app.hideLoadMask()", 1000);
