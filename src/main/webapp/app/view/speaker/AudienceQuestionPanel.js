@@ -179,6 +179,45 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			hidden: true
 		});
 		
+		this.deleteAnswersButton = Ext.create('Ext.Panel', {
+			items: [{
+				xtype	: 'button',
+				text	: ' ',
+				cls		: 'deleteIcon',
+				style	: {
+					marginTop: '30px'
+				},
+				scope	: this,
+				handler	: function() {
+					var panel = this;
+					Ext.Msg.confirm(Messages.DELETE_ALL_ANSWERS_REQUEST, Messages.ALL_QUESTIONS_REMAIN, function(answer) {
+						if (answer == 'yes') {
+							var promises = [];
+							this.questionList.getStore().each(function(item) {
+								var promise = new RSVP.Promise();
+								ARSnova.app.questionModel.deleteAnswers(item.getId(), {
+									success: function() {
+										promise.resolve();
+									},
+									failure: function(response) {
+										promise.reject();
+									}
+								});
+								promises.push(promise);
+							});
+							RSVP.all(promises).then(function() {
+								RSVP.all(panel.getQuestionAnswers.call(panel))
+								.then(Ext.bind(panel.caption.explainBadges, panel.caption));
+							});
+						}
+					}, this);
+				}
+			}, {
+				html: Messages.DELETE_ANSWERS,
+				cls	: 'centerTextSmall'
+			}]
+		});
+		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.QUESTIONS,
 			ui: 'light',
@@ -196,7 +235,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		    this.controls,
 			this.questionTitle,
 			this.questionList,
-			this.caption
+			this.caption,
+			this.deleteAnswersButton
 		]);
 		
 		this.on('activate', this.onActivate);
