@@ -681,8 +681,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			}
 		});
 		
+		var hasBuiltinAbstention = ['abcd', 'school', 'vote', 'yesno'].indexOf(this.questionObj.questionType) !== -1;
 		this.abstentions = Ext.create('ARSnova.view.MultiBadgeButton', {
-			hidden		: this.questionObj.abstention === false,
+			hidden		: this.questionObj.abstention === false || hasBuiltinAbstention,
 			ui			: 'normal',
 			text		: Messages.ABSTENTION,
 			disabled	: true,
