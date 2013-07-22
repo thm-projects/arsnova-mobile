@@ -83,7 +83,7 @@ Ext.define("ARSnova.controller.Auth", {
 					localStorage.setItem('login', ARSnova.app.authModel.generateGuestName());
 					type = "guest";
 				} else {
-					type = "guest&name=" + localStorage.getItem('login');
+					type = "guest&user=" + localStorage.getItem('login');
 				}
 				break;
 			case ARSnova.app.LOGIN_THM:
