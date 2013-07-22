@@ -138,16 +138,6 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		return values;
 	},
 	
-	getValuesWithIndex: function() {
-		var values = this.getValues();
-		var labelGenerator = this.getEnumeration();
-		values.forEach(function(item, index) {
-			item.text = item.text ? (labelGenerator(index) + ": " + item.text) : labelGenerator(index);
-			item.id = labelGenerator(index);
-		});
-		return values;
-	},
-	
 	hasCorrectOptions: function() {
 		var hasCorrectOptions = false;
 		for (var i=0; i < this.selectAnswerCount.getValue(); i++) {
@@ -160,12 +150,18 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		if (possibleAnswers.length < this.getMinAnswers() || possibleAnswers.length > this.getMaxAnswers()) {
 			return;
 		}
-		
-		this.setStart(possibleAnswers.length);
+		this.initSpinnerField(possibleAnswers.length);
+		this.initAnswerComponents(possibleAnswers);
+	},
+	
+	initSpinnerField: function(startValue) {
+		this.setStart(startValue);
 		this.selectAnswerCount.disable();
-		this.selectAnswerCount.setValue(possibleAnswers.length);
+		this.selectAnswerCount.setValue(startValue);
 		this.selectAnswerCount.fireEvent('spin', this.selectAnswerCount, this.getStart());
-		
+	},
+	
+	initAnswerComponents: function(possibleAnswers) {
 		possibleAnswers.forEach(function(answer, index) {
 			this.answerComponents[index].setValue(answer.text);
 			this.answerComponents[index].disable();

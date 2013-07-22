@@ -21,7 +21,8 @@
 Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	extend: 'Ext.Panel',
 	
-	requires: ['ARSnova.view.speaker.form.ExpandingAnswerForm', 'ARSnova.view.speaker.form.YesNoQuestion'],
+	requires: ['ARSnova.view.speaker.form.ExpandingAnswerForm', 'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
+	           'ARSnova.view.speaker.form.YesNoQuestion'],
 	
 	config: {
 		title: 'NewQuestionPanel',
@@ -310,13 +311,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			}]
 		});
 		
-		this.abcdQuestion = Ext.create('ARSnova.view.speaker.form.ExpandingAnswerForm', {
+		this.abcdQuestion = Ext.create('ARSnova.view.speaker.form.IndexedExpandingAnswerForm', {
 			id: 'abcd',
-			hidden: true,
-			wording: {
-				placeHolder: Messages.BUZZWORD,
-				enumeration: 'alphabet'
-			}
+			hidden: true
 		});
 		
 		this.freetextQuestion = Ext.create('Ext.form.FormPanel', {
@@ -601,12 +598,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			case Messages.ABCD:
 				values.questionType = "abcd";
 				
-				var form = panel.down("#abcd");
-				values.possibleAnswers = form.getValuesWithIndex();
-				
-				if (!form.hasCorrectOptions()) {
-					values.noCorrect = 1;
-				}
+				Ext.apply(values, panel.abcdQuestion.getQuestionValues());
 				break;
 			
 			case Messages.FREETEXT:

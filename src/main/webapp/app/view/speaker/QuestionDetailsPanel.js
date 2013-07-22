@@ -22,7 +22,8 @@
 Ext.define('FreetextAnswer', {
     extend: 'Ext.data.Model',
     
-    require: ['ARSnova.view.speaker.form.ExpandingAnswerForm', 'ARSnova.view.speaker.form.YesNoQuestion'],
+    require: ['ARSnova.view.speaker.form.ExpandingAnswerForm', 'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
+              'ARSnova.view.speaker.form.YesNoQuestion'],
  
     config: {
     	idProperty: "_id",
@@ -167,6 +168,11 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						question.set("possibleAnswers", questionValues.possibleAnswers);
 						question.set("noCorrect", !!questionValues.noCorrect);
 						Ext.apply(question.raw, questionValues);
+					} else if (question.get('questionType') === 'abcd') {
+						var questionValues = panel.abcdQuestion.getQuestionValues();
+						question.set("possibleAnswers", questionValues.possibleAnswers);
+						question.set("noCorrect", !!questionValues.noCorrect);
+						Ext.apply(question.raw, questionValues);
 					}
 					
 					question.saveSkillQuestion({
@@ -244,6 +250,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				switch (panel.questionObj.questionType) {
 					case 'yesno':
 						question = panel.yesNoQuestion;
+						break;
+					case 'abcd':
+						question = panel.abcdQuestion;
 						break;
 					case 'mc':
 					default:
@@ -711,6 +720,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			hidden: true
 		});
 		this.mcQuestion.initWithPossibleAnswers(this.questionObj.possibleAnswers);
+		this.abcdQuestion = Ext.create('ARSnova.view.speaker.form.IndexedExpandingAnswerForm', {
+			hidden: true
+		});
+		this.abcdQuestion.initWithPossibleAnswers(this.questionObj.possibleAnswers);
 		
 		this.possibleAnswers = {};
 		
@@ -721,7 +734,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
           this.actionsPanel,
           this.contentForm,
           this.answerForm,
-          this.yesNoQuestion,this.mcQuestion
+          this.yesNoQuestion,this.mcQuestion,this.abcdQuestion
         ]);
 		
 		this.on('activate', this.onActivate);
