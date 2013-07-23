@@ -89,5 +89,6 @@ Ext.define('ARSnova.view.Caption', {
 			}, {
 				badgeText: hasAnswers ? Messages.ANSWERS : "", badgeCls: "redbadgeicon"
 		}]);
+		return badges;
 	}
 });
