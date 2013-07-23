@@ -23,7 +23,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	
 	requires: ['ARSnova.view.speaker.form.ExpandingAnswerForm', 'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
 	           'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.SchoolQuestion',
-	           'ARSnova.view.speaker.form.YesNoQuestion'],
+	           'ARSnova.view.speaker.form.VoteQuestion', 'ARSnova.view.speaker.form.YesNoQuestion'],
 	
 	config: {
 		title: 'NewQuestionPanel',
@@ -218,48 +218,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true
 		});
 
-		this.voteQuestion = Ext.create('Ext.form.FormPanel', {
+		this.voteQuestion = Ext.create('ARSnova.view.speaker.form.VoteQuestion', {
 			id: 'vote',
-			hidden: false,
-			scrollable: null,
-			submitOnAction: false,
-			
-			items: [{
-            	xtype: 'fieldset',
-            	title: Messages.ANSWERS,
-            	items: [{
-						xtype	: 'textfield',
-						name	: 'voteAnswer1',
-					    label	: '1.',
-						labelWidth: '15%',
-					    value	: Messages.EVALUATION_PLUSPLUS
-					}, {
-						xtype	: 'textfield',
-						name	: 'voteAnswer2',
-					    label	: '2.',
-						labelWidth: '15%',
-					    value	: Messages.EVALUATION_PLUS
-					}, {
-						xtype	: 'textfield',
-						name	: 'voteAnswer3',
-					    label	: '3.',
-						labelWidth: '15%',
-					    value	: Messages.EVALUATION_NEUTRAL
-					}, {
-						xtype	: 'textfield',
-						name	: 'voteAnswer4',
-					    label	: '4.',
-						labelWidth: '15%',
-					    value	: Messages.EVALUATION_MINUS
-					}, {
-						xtype	: 'textfield',
-						name	: 'voteAnswer5',
-					    label	: '5.',
-						labelWidth: '15%',
-					    value	: Messages.EVALUATION_MINUSMINUS
-					}
-    	        ]
-			}]
+			hidden: false
 		});
 		
 		this.schoolQuestion = Ext.create('ARSnova.view.speaker.form.SchoolQuestion', {
@@ -484,15 +445,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
     	switch (panel.questionOptions.getPressedButtons()[0]._text) {
 			case Messages.EVALUATION:
 				values.questionType = "vote";
-				var tmpValues = panel.down("#vote").getValues();
-
-				values.possibleAnswers = [
-		          { text: tmpValues.voteAnswer1 },
-		          { text: tmpValues.voteAnswer2 },
-		          { text: tmpValues.voteAnswer3 },
-		          { text: tmpValues.voteAnswer4 },
-		          { text: tmpValues.voteAnswer5 }
-		    	];
+				
+				Ext.apply(values, panel.voteQuestion.getQuestionValues());
 				break;
 			case Messages.SCHOOL:
 				values.questionType = "school";

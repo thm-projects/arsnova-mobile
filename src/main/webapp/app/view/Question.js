@@ -209,7 +209,8 @@ Ext.define('ARSnova.view.Question', {
 			},
 			mode: this.questionObj.questionType === "mc" ? 'MULTI' : 'SINGLE'
 		});
-		if (this.questionObj.abstention && this.questionObj.questionType === 'school') {
+		if (this.questionObj.abstention
+				&& (this.questionObj.questionType === 'school' || this.questionObj.questionType === 'vote')) {
 			this.abstentionAnswer = this.answerList.getStore().add({
 				id: this.abstentionInternalId,
 				text: Messages.ABSTENTION,

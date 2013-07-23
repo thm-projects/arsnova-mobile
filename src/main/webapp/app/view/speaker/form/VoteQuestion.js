@@ -15,52 +15,12 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
-	extend: 'Ext.Container',
+Ext.define('ARSnova.view.speaker.form.VoteQuestion', {
+	extend: 'ARSnova.view.speaker.form.SchoolQuestion',
 	
 	config: {
-		maxAnswers: 6,
-		wording: [Messages.SCHOOL_A, Messages.SCHOOL_B, Messages.SCHOOL_C,
-		          Messages.SCHOOL_D, Messages.SCHOOL_E, Messages.SCHOOL_F]
-	},
-	
-	constructor: function() {
-		this.callParent(arguments);
-		
-		this.fields = [];
-		for (var i=0; i < this.getMaxAnswers(); i++) {
-			this.fields.push(Ext.create('Ext.field.Text', {
-				label: (i+1) + '. ',
-				labelWidth: '15%',
-				value: this.getWording()[i]
-			}));
-		}
-		
-		this.add([{
-			xtype: 'fieldset',
-			title: Messages.ANSWERS,
-			items: this.fields
-		}]);
-	},
-	
-	initWithQuestion: function(question) {
-		var possibleAnswers = question.possibleAnswers;
-		
-		this.setMaxAnswers(possibleAnswers.length);
-		for (var i=0; i < this.getMaxAnswers(); i++) {
-			this.fields[i].setValue(possibleAnswers[i].text);
-		}
-	},
-	
-	getQuestionValues: function() {
-		var result = {};
-		
-		result.possibleAnswers = this.fields.map(function(item) {
-			return {
-				text: item.getValue(),
-				correct: false
-			};
-		});
-		return result;
+		maxAnswers: 5,
+		wording: [Messages.EVALUATION_PLUSPLUS, Messages.EVALUATION_PLUS, Messages.EVALUATION_NEUTRAL,
+		          Messages.EVALUATION_MINUS, Messages.EVALUATION_MINUSMINUS]
 	}
 });

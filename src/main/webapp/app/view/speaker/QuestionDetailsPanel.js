@@ -24,7 +24,7 @@ Ext.define('FreetextAnswer', {
     
     require: ['ARSnova.view.speaker.form.ExpandingAnswerForm', 'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
               'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.SchoolQuestion',
-              'ARSnova.view.speaker.form.YesNoQuestion'],
+              'ARSnova.view.speaker.form.VoteQuestion', 'ARSnova.view.speaker.form.YesNoQuestion'],
  
     config: {
     	idProperty: "_id",
@@ -664,7 +664,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			}
 		});
 		
-		var hasBuiltinAbstention = ['abcd', 'vote', 'yesno'].indexOf(this.questionObj.questionType) !== -1;
+		var hasBuiltinAbstention = ['abcd', 'yesno'].indexOf(this.questionObj.questionType) !== -1;
 		this.abstentions = Ext.create('ARSnova.view.MultiBadgeButton', {
 			hidden		: this.questionObj.abstention === false || hasBuiltinAbstention,
 			ui			: 'normal',
@@ -696,6 +696,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			answerEditFormClass = 'ARSnova.view.speaker.form.YesNoQuestion';
 		} else if (this.questionObj.questionType === 'school') {
 			answerEditFormClass = 'ARSnova.view.speaker.form.SchoolQuestion';
+		} else if (this.questionObj.questionType === 'vote') {
+			answerEditFormClass = 'ARSnova.view.speaker.form.VoteQuestion';
 		}
 		
 		this.answerEditForm = Ext.create(answerEditFormClass, {
@@ -916,7 +918,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 									continue;
 								}
 								var elementId = '#' + panel.possibleAnswers[el.answerText];
-								panel.answerFormFieldset.down(elementId).setBadge([{ badgeText: el.answerCount}]);
+								var theElement = panel.answerFormFieldset.down(elementId);
+								if (theElement) {
+									theElement.setBadge([{ badgeText: el.answerCount}]);
+								}
 							}
 							panel.abstentions.setBadge([{badgeText: abstentionCount+''}]);
 						}
