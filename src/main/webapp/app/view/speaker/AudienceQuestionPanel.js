@@ -47,8 +47,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		name: 'refresh the number of answers inside the badges',
 		run: function() {
 			var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.audienceQuestionPanel;
-			RSVP.all(panel.getQuestionAnswers.call(panel))
-				.then(Ext.bind(panel.caption.explainBadges, panel.caption));
+			panel.handleAnswerCount();
 		},
 		interval: 10000 //10 seconds
 	},
@@ -180,6 +179,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		});
 		
 		this.deleteAnswersButton = Ext.create('Ext.Panel', {
+			hidden: true,
 			items: [{
 				xtype	: 'button',
 				text	: ' ',
@@ -205,10 +205,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 								});
 								promises.push(promise);
 							});
-							RSVP.all(promises).then(function() {
-								RSVP.all(panel.getQuestionAnswers.call(panel))
-								.then(Ext.bind(panel.caption.explainBadges, panel.caption));
-							});
+							RSVP.all(promises).then(Ext.bind(this.handleAnswerCount, this));
 						}
 					}, this);
 				}
@@ -259,7 +256,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.questionStore.add(questions);
 				this.caption.show();
 				this.caption.explainStatus(questions);
-				RSVP.all(this.getQuestionAnswers()).then(Ext.bind(this.caption.explainBadges, this.caption));
+				this.handleAnswerCount();
 				
 				this.controls.insert(0, this.showcaseFormButton);
 				this.displayShowcaseButton();
@@ -344,5 +341,16 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		}, this);
 		
 		return promises;
+	},
+	
+	handleAnswerCount: function() {
+		RSVP.all(this.getQuestionAnswers())
+		.then(Ext.bind(this.caption.explainBadges, this.caption))
+		.then(Ext.bind(function(badgeInfos) {
+			var hasAnswers = badgeInfos.filter(function(item) {
+				return item.hasAnswers;
+			}, this);
+			this.deleteAnswersButton.setHidden(hasAnswers.length === 0);
+		}, this));
 	}
 });
