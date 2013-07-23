@@ -22,7 +22,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	extend: 'Ext.Panel',
 	
 	requires: ['ARSnova.view.speaker.form.ExpandingAnswerForm', 'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
-	           'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.YesNoQuestion'],
+	           'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.SchoolQuestion',
+	           'ARSnova.view.speaker.form.YesNoQuestion'],
 	
 	config: {
 		title: 'NewQuestionPanel',
@@ -261,54 +262,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			}]
 		});
 		
-		this.schoolQuestion = Ext.create('Ext.form.FormPanel', {
+		this.schoolQuestion = Ext.create('ARSnova.view.speaker.form.SchoolQuestion', {
 			id: 'school',
-			hidden: true,
-			scrollable: null,
-			submitOnAction: false,
-			
-			items: [{
-            	xtype: 'fieldset',
-            	title: Messages.ANSWERS,
-            	items: [{
-						xtype	: 'textfield',
-						name	: 'schoolAnswer1',
-					    label	: '1.',
-						labelWidth: '15%',
-					    value	: Messages.SCHOOL_A
-					}, {
-						xtype	: 'textfield',
-						name	: 'schoolAnswer2',
-					    label	: '2.',
-						labelWidth: '15%',
-					    value	: Messages.SCHOOL_B
-					}, {
-						xtype	: 'textfield',
-						name	: 'schoolAnswer3',
-					    label	: '3.',
-						labelWidth: '15%',
-					    value	: Messages.SCHOOL_C
-					}, {
-						xtype	: 'textfield',
-						name	: 'schoolAnswer4',
-					    label	: '4.',
-						labelWidth: '15%',
-					    value	: Messages.SCHOOL_D
-					}, {
-						xtype	: 'textfield',
-						name	: 'schoolAnswer5',
-					    label	: '5.',
-						labelWidth: '15%',
-					    value	: Messages.SCHOOL_E
-					}, {
-						xtype	: 'textfield',
-						name	: 'schoolAnswer6',
-					    label	: '6.',
-						labelWidth: '15%',
-					    value	: Messages.SCHOOL_F
-					}
-    	        ]
-			}]
+			hidden: true
 		});
 		
 		this.abcdQuestion = Ext.create('ARSnova.view.speaker.form.IndexedExpandingAnswerForm', {
@@ -540,16 +496,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				break;
 			case Messages.SCHOOL:
 				values.questionType = "school";
-				var tmpValues = panel.down("#school").getValues();
 				
-		    	values.possibleAnswers = [
-		          { text: tmpValues.schoolAnswer1 },
-		          { text: tmpValues.schoolAnswer2 },
-		          { text: tmpValues.schoolAnswer3 },
-		          { text: tmpValues.schoolAnswer4 },
-		          { text: tmpValues.schoolAnswer5 },
-		          { text: tmpValues.schoolAnswer6 }
-		    	];
+				Ext.apply(values, panel.schoolQuestion.getQuestionValues());
 				break;
 				
 			/**
@@ -608,12 +556,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			
 			default:
 				break;
-		}
-		
-		if (values.abstention && values.questionType !== "mc" && values.questionType !== "freetext") {
-			values.possibleAnswers.push({
-				text: Messages.ABSTENTION
-			});
 		}
 		
 		var promise = panel.dispatch(values);

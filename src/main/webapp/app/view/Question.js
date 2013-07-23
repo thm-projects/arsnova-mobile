@@ -31,6 +31,9 @@ Ext.define('ARSnova.view.Question', {
 	questionObj: null,
 	viewOnly: false,
 	
+	abstentionInternalId: 'ARSnova_Abstention',
+	abstentionAnswer: null,
+	
 	constructor: function() {
 		this.callParent(arguments);
 		
@@ -118,7 +121,21 @@ Ext.define('ARSnova.view.Question', {
 		};
 		
 		var questionListener = this.viewOnly || this.questionObj.questionType === "mc" ? {} : {
-			'itemtap': function(list, index, target) {
+			'itemtap': function(list, index, target, record) {
+				var confirm = function(answer, handler) {
+					Ext.Msg.confirm(Messages.ANSWER + ' "' + answer + '"', Messages.ARE_YOU_SURE, handler);
+				};
+				if (record.internalId === self.abstentionInternalId) {
+					return confirm(Messages.ABSTENTION, function(button) {
+						if (button !== 'yes') {
+							return;
+						}
+						self.getUserAnswer().then(function(answer) {
+							answer.set('abstention', true);
+							saveAnswer(answer);
+						});
+					});
+				}
 				var answerObj = self.questionObj.possibleAnswers[index];
 				
 				/* for use in Ext.Msg.confirm */
@@ -127,22 +144,18 @@ Ext.define('ARSnova.view.Question', {
 
 				var theAnswer = answerObj.id || answerObj.text;
 				
-				Ext.Msg.confirm(
-					Messages.ANSWER + ' "' + theAnswer + '"', 
-					Messages.ARE_YOU_SURE, 
-					function(button) {
-						if(button == 'yes') {
-							self.markCorrectAnswers();
-							
-							self.getUserAnswer().then(function(answer) {
-								answer.set('answerText', answerObj.text);
-								saveAnswer(answer);
-							});
-						} else {
-							answerObj.selModel.deselect(answerObj.selModel.selected.items[0]);
-						}
+				confirm(theAnswer, function(button) {
+					if (button == 'yes') {
+						self.markCorrectAnswers();
+						
+						self.getUserAnswer().then(function(answer) {
+							answer.set('answerText', answerObj.text);
+							saveAnswer(answer);
+						});
+					} else {
+						answerObj.selModel.deselect(answerObj.selModel.selected.items[0]);
 					}
-				);
+				});
 			}
 		};
 		
@@ -196,6 +209,13 @@ Ext.define('ARSnova.view.Question', {
 			},
 			mode: this.questionObj.questionType === "mc" ? 'MULTI' : 'SINGLE'
 		});
+		if (this.questionObj.abstention && this.questionObj.questionType === 'school') {
+			this.abstentionAnswer = this.answerList.getStore().add({
+				id: this.abstentionInternalId,
+				text: Messages.ABSTENTION,
+				correct: false
+			})[0];
+		}
 		
 		this.mcSaveButton = Ext.create('Ext.Button', {
 			flex: 1,
@@ -243,6 +263,13 @@ Ext.define('ARSnova.view.Question', {
 	disableQuestion: function() {
 		this.setDisabled(true);
 		this.mask(Ext.create('ARSnova.view.CustomMask'));
+	},
+	
+	selectAbstentionAnswer: function() {
+		var index = this.answerList.getStore().indexOf(this.abstentionAnswer);
+		if (index !== -1) {
+			this.answerList.select(this.abstentionAnswer);
+		}
 	},
 	
 	doTypeset: function(parent) {

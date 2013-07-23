@@ -23,7 +23,8 @@ Ext.define('FreetextAnswer', {
     extend: 'Ext.data.Model',
     
     require: ['ARSnova.view.speaker.form.ExpandingAnswerForm', 'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
-              'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.YesNoQuestion'],
+              'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.SchoolQuestion',
+              'ARSnova.view.speaker.form.YesNoQuestion'],
  
     config: {
     	idProperty: "_id",
@@ -663,7 +664,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			}
 		});
 		
-		var hasBuiltinAbstention = ['abcd', 'school', 'vote', 'yesno'].indexOf(this.questionObj.questionType) !== -1;
+		var hasBuiltinAbstention = ['abcd', 'vote', 'yesno'].indexOf(this.questionObj.questionType) !== -1;
 		this.abstentions = Ext.create('ARSnova.view.MultiBadgeButton', {
 			hidden		: this.questionObj.abstention === false || hasBuiltinAbstention,
 			ui			: 'normal',
@@ -693,6 +694,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			answerEditFormClass = 'ARSnova.view.speaker.form.IndexedExpandingAnswerForm';
 		} else if (this.questionObj.questionType === 'yesno') {
 			answerEditFormClass = 'ARSnova.view.speaker.form.YesNoQuestion';
+		} else if (this.questionObj.questionType === 'school') {
+			answerEditFormClass = 'ARSnova.view.speaker.form.SchoolQuestion';
 		}
 		
 		this.answerEditForm = Ext.create(answerEditFormClass, {
@@ -906,10 +909,16 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								button.setBadge([{ badgeText: mcAnswerCount[index] ? mcAnswerCount[index]+'' : '0'}]);
 							});
 						} else {
+							var abstentionCount = 0;
 							for (var i = 0, el; el = answers[i]; i++) {
+								if (!el.answerText) {
+									abstentionCount = el.abstentionCount;
+									continue;
+								}
 								var elementId = '#' + panel.possibleAnswers[el.answerText];
 								panel.answerFormFieldset.down(elementId).setBadge([{ badgeText: el.answerCount}]);
 							}
+							panel.abstentions.setBadge([{badgeText: abstentionCount+''}]);
 						}
 					},
 					failure: function(){

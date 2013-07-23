@@ -262,6 +262,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			if (!questionObj.userAnswered && !questionObj.isAbstentionAnswer) return;
 			
 			if (questionObj.isAbstentionAnswer) {
+				questionPanel.selectAbstentionAnswer();
 				questionPanel.disableQuestion();
 				return;
 			}

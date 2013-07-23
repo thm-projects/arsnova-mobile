@@ -334,11 +334,11 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				}
 				
 				var mcAnswerCount = [];
-				var mcAbstentionCount = 0;
+				var abstentionCount = 0;
 				for ( var i = 0, el; el = answers[i]; i++) {
 					if (panel.questionObj.questionType === "mc") {
 						if (!el.answerText) {
-							mcAbstentionCount = el.abstentionCount;
+							abstentionCount = el.abstentionCount;
 							continue;
 						}
 						var values = el.answerText.split(",").map(function(answered) {
@@ -362,6 +362,10 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 							record.set("value", mcAnswerCount[index]);
 						});
 					} else {
+						if (!el.answerText) {
+							abstentionCount = el.abstentionCount;
+							continue;
+						}
 						var record = store.findRecord('text', el.answerText, 0, false, true, true); //exact match
 						record.data.value = el.answerCount;
 					}
@@ -374,12 +378,12 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					var idx = tmp_possibleAnswers.indexOf(el.answerText); // Find the index
 					if(idx!=-1) tmp_possibleAnswers.splice(idx, 1); // Remove it if really found!
 				}
-				if (mcAbstentionCount) {
+				if (abstentionCount) {
 					var record = store.findRecord('text', Messages.ABSTENTION, 0, false, true, true); //exact match
 					if (!record) {
-						store.add({ text: Messages.ABSTENTION, value: mcAbstentionCount});
-					} else if (record.get('value') != mcAbstentionCount) {
-						record.set('value', mcAbstentionCount);
+						store.add({ text: Messages.ABSTENTION, value: abstentionCount});
+					} else if (record.get('value') != abstentionCount) {
+						record.set('value', abstentionCount);
 					}
 				}
 				
