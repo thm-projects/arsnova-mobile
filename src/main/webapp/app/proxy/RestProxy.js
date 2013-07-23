@@ -434,42 +434,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-    
-    getAnsweredSkillQuestions: function(sessionId, userLogin, callbacks){
-    	Ext.Ajax.request({
-    		url: this.config.url + '/_design/answer/_view/unanswered',
-    		method: 'GET',
-    		params: {
-    			key: "\"" + sessionId + "\""
-    		},
-
-    		success: function(response){
-    			var resRows = Ext.decode(response.responseText).rows;
-    			var questions = [];
-    			var answeredQuestions = [];
-    			var retQuestions = [];
-    			
-    			resRows.forEach(function(element){
-    				if (element.value.type == 'skill_question') {
-						questions.push(element);
-					} else {
-						if (element.value.user == userLogin)
-							answeredQuestions.push(element.value.questionId);
-					}
-    			});
-    			
-    			questions.forEach(function(element){
-    				if (element.value.active && element.value.active == 1) {
-						if (answeredQuestions.indexOf(element.id) != -1) {
-							unansweredQuestions.push(element.value);
-						}
-    				}
-    			});
-    			callbacks.success(retQuestions);
-    		},
-    		failure: callbacks.failure
-    	});
-    },
 	
 	getUnansweredSkillQuestions: function(sessionKeyword, callbacks){
 		Ext.Ajax.request({
@@ -606,48 +570,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-    
-    getUserFoodVote: function(day, userLogin, callbacks) {
-    	Ext.Ajax.request({
-    		url: this.config.url + '/_design/food_vote/_view/get_user_vote',
-    		method: 'GET',
-    		params: {
-    			key: "[\"" + day + "\", \"" + userLogin + "\"]"
-    		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
-    
-    countFoodVote: function(day, callbacks) {
-    	Ext.Ajax.request({
-    		url: this.config.url + '/_design/food_vote/_view/count_by_day?group=false',
-    		method: 'GET',
-    		params: {
-    			startkey: "[\"" + day + "\"]",
-    			endkey	: "[\"" + day + "\", {}]"
-    		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
-    
-    countFoodVoteGrouped: function(day, callbacks) {
-    	Ext.Ajax.request({
-    		url: this.config.url + '/_design/food_vote/_view/count_by_day?group=true',
-    		method: 'GET',
-    		params: {
-    			startkey: "[\"" + day + "\"]",
-    			endkey	: "[\"" + day + "\", {}]"
-    		},
-
-    		success: callbacks.success,
-    		failure: callbacks.failure
-    	});
-    },
-    
+	
 	/**
 	 * save every minute that i'm online
 	 */
@@ -676,60 +599,17 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-    
-    /* STATISTICS */
-	    countActiveUsers: function(callbacks) {
-	    	var ts = new Date().getTime() - (3 * 60 * 1000);
-	    	Ext.Ajax.request({
-	    		url: this.config.url + '/_design/statistic/_view/count_active_users',
-	    		method: 'GET',
-	    		params: {
-	    			startkey: ts
-	    		},
 	
-	    		success: callbacks.success,
-	    		failure: callbacks.failure
-	    	});
-	    },
-	    
-	    countActiveUsersWithSessionId: function(callbacks) {
-	    	var ts = new Date().getTime() - (3 * 60 * 1000);
-	    	Ext.Ajax.request({
-	    		url: this.config.url + '/_design/statistic/_view/count_active_users_with_session?reduce=false',
-	    		method: 'GET',
-	    		params: {
-	    			startkey: ts
-	    		},
+	getStatistics: function(callbacks) {
+		Ext.Ajax.request({
+			url: "statistics/",
+			method: 'GET',
 	
-	    		success: callbacks.success,
-	    		failure: callbacks.failure
-	    	});
-	    },
-	    
-	    countActiveSessions: function(callbacks) {
-	    	var ts = new Date().getTime() - (3 * 60 * 1000);
-	    	Ext.Ajax.request({
-	    		url: this.config.url + '/_design/statistic/_view/count_active_sessions?reduce=false',
-	    		method: 'GET',
-	    		params: {
-	    			startkey: ts
-	    		},
-	    		
-	    		success: callbacks.success,
-	    		failure: callbacks.failure
-	    	});
-	    },
-	    
-	    countSessions: function(callbacks) {
-	    	Ext.Ajax.request({
-	    		url: "statistics/",
-	    		method: 'GET',
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
 	
-	    		success: callbacks.success,
-	    		failure: callbacks.failure
-	    	});
-	    },
-	    
 	getSkillQuestionsForUser: function(sessionKeyword, callbacks){
 		Ext.Ajax.request({
 			url: "session/" + sessionKeyword + "/skillquestions",

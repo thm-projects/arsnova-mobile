@@ -144,7 +144,7 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 	 * get statistics from proxy
 	 */
 	getStatistics: function() {
-		ARSnova.app.statisticModel.countSessions({
+		ARSnova.app.statisticModel.getStatistics({
 			success: function(response){
 				var statistics = Ext.decode(response.responseText);
 				

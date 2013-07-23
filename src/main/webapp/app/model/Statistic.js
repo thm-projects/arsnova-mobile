@@ -29,20 +29,8 @@ Ext.define('ARSnova.model.Statistic', {
 		   	  'counter'
 		       ]
 	},
-    
-    countSessions: function(callbacks) {
-    	return this.getProxy().countSessions(callbacks);
-    },
-    
-    countActiveUsers: function(callbacks) {
-    	return this.getProxy().countActiveUsers(callbacks);
-    },
-    
-    countActiveUsersWithSessionId: function(callbacks) {
-    	return this.getProxy().countActiveUsersWithSessionId(callbacks);
-    },
-    
-    countActiveSessions: function(callbacks) {
-    	return this.getProxy().countActiveSessions(callbacks);
-    }
+	
+	getStatistics: function(callbacks) {
+		return this.getProxy().getStatistics(callbacks);
+	}
 });

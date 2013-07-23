@@ -147,8 +147,10 @@ Ext.application({
 	 */
 	updateSessionActivityTask: {
 		name: 'save that owner of a session is logged in',
-		run: function(){
-			ARSnova.app.restProxy.updateSessionActivityTask();
+		run: function() {
+			if (localStorage.getItem('keyword')) {
+				ARSnova.app.restProxy.updateSessionActivityTask();
+			}
 		},
 		interval: 180000 //180 seconds
 	},

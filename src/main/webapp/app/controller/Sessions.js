@@ -101,8 +101,6 @@ Ext.define("ARSnova.controller.Sessions", {
 		localStorage.removeItem("courseType");
 		ARSnova.app.isSessionOwner = false;
 		
-		//save that user is not in this session anymore
-		ARSnova.app.restProxy.loggedInTask();
 		ARSnova.app.hideLoadMask();
 		
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
