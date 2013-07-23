@@ -4,6 +4,8 @@ CACHE MANIFEST
 
 lib/touch-2.2.1/sencha-touch-all-compat.js
 lib/touch-charts-2.0/touch-charts.js
+lib/socket.io/socket.io.min.js
+lib/rsvp.min.js
 
 resources/css/st2-arsnova_new.css
 lib/touch-2.2.1/resources/css/sencha-touch.css
@@ -12,6 +14,8 @@ lib/touch-2.2.1/resources/css/sencha-touch.css
 resources/images/arsnova.png
 resources/images/thm.png
 resources/images/ARSnova_Grafiken/03_Launchimage_320x460px.png
+resources/images/ARSnova_Grafiken/03_Launchimage_640x920px.png
+resources/images/ARSnova_Grafiken/03_Launchimage_640x1096px.png
 resources/images/ARSnova_Grafiken/03_Launchimage_768x1004px.png
 resources/images/ARSnova_Grafiken/03_Launchimage_748x1024px.png
 resources/images/ARSnova_Grafiken/01_AppIcon_57x57px.png
