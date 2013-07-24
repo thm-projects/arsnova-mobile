@@ -23,26 +23,22 @@ Ext.define("ARSnova.controller.Lang", {
 	
 	config: {
 		routes: {
-			 'en': 'switchTo',
-			 'de': 'switchTo'
+			 'en': 'switchToEnglish',
+			 'de': 'switchToGerman'
 		}
 	},
 	
-	switchTo: function(options){
-		var lang = "";
-		switch (options.historyUrl) {
-			case 'de':
-				lang = "de";
-				break;
-			case 'en':
-				lang = "en";
-				break;
-			default:
-				lang = "de";
-				break;
-		}
-		
+	switchToEnglish: function() {
+		this.switchTo('en');
+	},
+	
+	switchToGerman: function() {
+		this.switchTo('de');
+	},
+	
+	switchTo: function(lang) {
 		localStorage.setItem("language", lang);
+		// remove hash from URL and reload language changes
 		window.location = window.location.origin + window.location.pathname;
 	}
 });
