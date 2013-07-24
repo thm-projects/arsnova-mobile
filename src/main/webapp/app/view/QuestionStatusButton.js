@@ -22,7 +22,13 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 	extend: 'Ext.Panel',
 	
 	config: {
-		cls	: 'threeButtons left'
+		cls	: 'threeButtons left',
+		wording: {
+			stop: Messages.STOP_QUESTION,
+			release: Messages.RELEASE_QUESTION,
+			confirm: Messages.CONFIRM_CLOSE_QUESTION,
+			confirmMessage: Messages.CONFIRM_CLOSE_QUESTION_MESSAGE
+		}
 	},
 	
 	handler: null,
@@ -34,32 +40,34 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 	questionIsClosedButton: null,
 	
 	constructor: function(args) {
-		this.callParent(args);
+		this.callParent(arguments);
 		
 		this.questionObj = args.questionObj;
 		
 		this.questionIsClosedButton = Ext.create('Ext.Button', {
-			cls			: 'closedSession',
-			handler		: function(){
-				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel.questionStatusButton.changeStatus();
+			cls		: 'closedSession',
+			scope	: this,
+			handler	: function() {
+				this.changeStatus();
 			}
 		});
 		
 		this.questionIsClosedText = Ext.create('Ext.Panel', {
 			cls	: 'centerTextSmall',
-			html: Messages.RELEASE_QUESTION
+			html: this.getWording().release
 		});
 		
 		this.questionIsOpenButton = Ext.create('Ext.Button', {
-			cls			: 'openSession',
-			handler		: function(){
-				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel.questionStatusButton.changeStatus();
+			cls		: 'openSession',
+			scope	: this,
+			handler	: function() {
+				this.changeStatus();
 			}
 		});
 		
 		this.questionIsOpenText = Ext.create('Ext.Panel', {
 			cls	: 'centerTextSmall',
-			html: Messages.STOP_QUESTION
+			html: this.getWording().stop
 		});
 
 		this.add([this.questionIsClosedButton, this.questionIsClosedText, this.questionIsOpenButton, this.questionIsOpenText]);
@@ -76,10 +84,10 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 	},
 	
 	changeStatus: function(){
-		var id = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel.questionObj._id;
+		var id = this.questionObj._id;
 		
 		if (this.isOpen) {
-			Ext.Msg.confirm(Messages.CONFIRM_CLOSE_QUESTION, Messages.CONFIRM_CLOSE_QUESTION_MESSAGE, function (buttonId) {
+			Ext.Msg.confirm(this.getWording().confirm, this.getWording().confirmMessage, function (buttonId) {
 				if (buttonId != "no") {
 					/* close this question */
 					ARSnova.app.getController('Questions').setActive({

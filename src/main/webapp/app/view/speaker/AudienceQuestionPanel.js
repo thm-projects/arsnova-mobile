@@ -178,18 +178,26 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			hidden: true
 		});
 		
+		this.questionStatusButton = Ext.create('ARSnova.view.QuestionStatusButton', {
+			hidden: true,
+			questionObj: { active: true, _id: "123" },
+			wording: {
+				stop: Messages.STOP_ALL_QUESTIONS,
+				release: Messages.RELEASE_ALL_QUESTIONS,
+				confirm: Messages.CONFIRM_CLOSE_ALL_QUESTIONS,
+				confirmMessage: Messages.CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE
+			}
+		});
+		
 		this.deleteAnswersButton = Ext.create('Ext.Panel', {
+			cls: 'threeButtons left',
 			hidden: true,
 			items: [{
 				xtype	: 'button',
 				text	: ' ',
-				cls		: 'deleteIcon',
-				style	: {
-					marginTop: '30px'
-				},
+				cls		: 'recycleIcon',
 				scope	: this,
 				handler	: function() {
-					var panel = this;
 					Ext.Msg.confirm(Messages.DELETE_ALL_ANSWERS_REQUEST, Messages.ALL_QUESTIONS_REMAIN, function(answer) {
 						if (answer == 'yes') {
 							var promises = [];
@@ -215,6 +223,42 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			}]
 		});
 		
+		this.deleteQuestionsButton = Ext.create('Ext.Panel', {
+			cls: 'threeButtons left',
+			hidden: true,
+			items: [{
+				xtype	: 'button',
+				text	: ' ',
+				cls		: 'deleteIcon',
+				scope	: this,
+				handler	: function() {
+					var msg = Messages.ARE_YOU_SURE;
+						msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
+					Ext.Msg.confirm(Messages.DELETE_ALL_QUESTIONS, msg, function(answer) {
+						if (answer == 'yes') {
+							var promises = [];
+							this.questionList.getStore().each(function(item) {
+								var promise = new RSVP.Promise();
+								ARSnova.app.questionModel.destroy(item.data, {
+									success: function() {
+										promise.resolve();
+									},
+									failure: function(response) {
+										promise.reject();
+									}
+								});
+								promises.push(promise);
+							});
+							RSVP.all(promises).then(Ext.bind(this.onActivate, this));
+						}
+					}, this);
+				}
+			}, {
+				html: Messages.DELETE_ALL_QUESTIONS,
+				cls	: 'centerTextSmall'
+			}]
+		});
+		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.QUESTIONS,
 			ui: 'light',
@@ -233,7 +277,13 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			this.questionTitle,
 			this.questionList,
 			this.caption,
-			this.deleteAnswersButton
+			Ext.create('Ext.Panel', {
+				scrollable: null,
+				style	: {
+					marginTop: '30px'
+				},
+				items: [this.questionStatusButton, this.deleteAnswersButton, this.deleteQuestionsButton]
+			})
 		]);
 		
 		this.on('activate', this.onActivate);
@@ -262,12 +312,16 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.displayShowcaseButton();
 				this.questionTitle.show();
 				this.questionList.show();
+				this.questionStatusButton.show();
+				this.deleteQuestionsButton.show();
 			}, this),
 			empty: Ext.bind(function() {
 				this.showcaseButton.hide();
 				this.questionTitle.hide();
 				this.questionList.show();
 				this.caption.hide();
+				this.questionStatusButton.hide();
+				this.deleteQuestionsButton.hide();
 			}, this),
 			failure: function(response) {
 				console.log('server-side error questionModel.getSkillQuestions');
