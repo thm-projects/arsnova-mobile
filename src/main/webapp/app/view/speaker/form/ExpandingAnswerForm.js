@@ -157,7 +157,6 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 	
 	initSpinnerField: function(startValue) {
 		this.setStart(startValue);
-		this.selectAnswerCount.disable();
 		this.selectAnswerCount.setValue(startValue);
 		this.selectAnswerCount.fireEvent('spin', this.selectAnswerCount, this.getStart());
 	},
@@ -165,7 +164,6 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 	initAnswerComponents: function(possibleAnswers) {
 		possibleAnswers.forEach(function(answer, index) {
 			this.answerComponents[index].setValue(answer.text);
-			this.answerComponents[index].disable();
 			this.correctComponents[index].setValue(answer.correct);
 		}, this);
 	},
