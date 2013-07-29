@@ -21,7 +21,7 @@
 Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	extend: 'Ext.Panel',
 	
-	requires: ['ARSnova.view.speaker.AudienceQuestionListItem'],
+	requires: ['ARSnova.view.speaker.AudienceQuestionListItem', 'ARSnova.view.speaker.MultiQuestionStatusButton'],
 
 	config: {
 		title: 'AudienceQuestionPanel',
@@ -177,16 +177,11 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			style: styling,
 			hidden: true
 		});
+		this.caption.connectToStore(this.questionStore);
 		
-		this.questionStatusButton = Ext.create('ARSnova.view.QuestionStatusButton', {
+		this.questionStatusButton = Ext.create('ARSnova.view.speaker.MultiQuestionStatusButton', {
 			hidden: true,
-			questionObj: { active: true, _id: "123" },
-			wording: {
-				stop: Messages.STOP_ALL_QUESTIONS,
-				release: Messages.RELEASE_ALL_QUESTIONS,
-				confirm: Messages.CONFIRM_CLOSE_ALL_QUESTIONS,
-				confirmMessage: Messages.CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE
-			}
+			questionStore: this.questionList.getStore()
 		});
 		
 		this.deleteAnswersButton = Ext.create('Ext.Panel', {
@@ -312,6 +307,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.displayShowcaseButton();
 				this.questionTitle.show();
 				this.questionList.show();
+				this.questionStatusButton.checkInitialStatus();
 				this.questionStatusButton.show();
 				this.deleteQuestionsButton.show();
 			}, this),

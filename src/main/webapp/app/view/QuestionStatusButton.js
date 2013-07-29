@@ -72,7 +72,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 
 		this.add([this.questionIsClosedButton, this.questionIsClosedText, this.questionIsOpenButton, this.questionIsOpenText]);
 
-		if(this.questionObj.active == 1){
+		if (this.questionObj && this.questionObj.active == 1) {
 			this.isOpen = true;
 			this.questionIsClosedButton.hide();
 			this.questionIsClosedText.hide();

@@ -306,6 +306,7 @@ switch (lang) {
 			SESSION_ID_INVALID: "The Session ID may only consist of 8 digits.",
 			BROWSER_SESSION_EXPIRED: "Browser Session Expired",
 			BROWSER_SESSION_EXPIRED_MSG: "Your current browser session is expired. Do you want to restart ARSnova?",
+			QUESTION_COULD_NOT_BE_SAVED: "Could not save question",
 
 			/* misc */
 			SUPPORTED_BROWSERES: "ARSnova is best-viewed in a WebKit browser, e.g. Apple Safari or Google Chrome!",
@@ -576,6 +577,7 @@ switch (lang) {
 			SESSION_ID_INVALID: "Die Session-ID muss aus acht Ziffern bestehen.",
 			BROWSER_SESSION_EXPIRED: "Browsersitzung abgelaufen",
 			BROWSER_SESSION_EXPIRED_MSG: "Ihre Browsersitzung ist abgelaufen. Möchten Sie ARSnova neustarten?",
+			QUESTION_COULD_NOT_BE_SAVED: "Speichern der Frage war nicht erfolgreich",
 			
 			/* misc */
 			SUPPORTED_BROWSERES: "Für eine korrekte Darstellung von ARSnova benutzen Sie bitte einen WebKit-Browser, z.B. Apple Safari oder Google Chrome!",

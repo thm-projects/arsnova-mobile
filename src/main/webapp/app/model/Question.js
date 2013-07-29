@@ -99,6 +99,23 @@ Ext.define('ARSnova.model.Question', {
     	return this.getProxy().publishSkillQuestion(this, callbacks);
     },
     
+    publishAllSkillQuestions: function(questions, active, callbacks) {
+		 questions.forEach(function(q) {
+			q.set("active", active);
+			q.raw.active = active;
+		});
+		var promises = [];
+		questions.forEach(function(q) {
+			var promise = new RSVP.Promise();
+			q.publishSkillQuestion({
+				success: function() { promise.resolve(); },
+				failure: function() { promose.reject(); }
+			});
+			promises.push(promise);
+		});
+		RSVP.all(promises).then(callbacks.success, callbacks.failure);
+    },
+    
     publishSkillQuestionStatistics: function(callbacks) {
     	return this.getProxy().publishSkillQuestionStatistics(this, callbacks);
     },

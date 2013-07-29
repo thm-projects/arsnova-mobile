@@ -24,7 +24,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionListItem', {
 		/**
 		 * Whenever these fields change in value, allow refresh of body element
 		 */
-		importantFields: ['text', 'numAnswers']
+		importantFields: ['text', 'numAnswers', 'active']
 	},
 	
 	valueStore: {},

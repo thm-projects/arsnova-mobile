@@ -162,7 +162,7 @@ Ext.define("ARSnova.controller.Questions", {
     		},
     		failure: function(records, operation){
 				console.log(operation);
-    	  		Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
+    	  		Ext.Msg.alert(Messages.NOTIFICATION, Messages.CONNECTION_PROBLEM);
 			}
     	});
     },
@@ -186,12 +186,23 @@ Ext.define("ARSnova.controller.Questions", {
 						}
 					},
 					failure: function(records, operation){
-						Ext.Msg.alert("Hinweis!", "Speichern der Frage war nicht erfolgreich");
+						Ext.Msg.alert(Messages.NOTIFICATION, Messags.QUESTION_COULD_NOT_BE_SAVED);
 					}
 				});
 			},
 			failure: function(records, operation){
-				Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
+				Ext.Msg.alert(Messages.NOTIFICATION, Messages.CONNECTION_PROBLEM);
+			}
+		});
+	},
+	
+	setAllActive: function(options) {
+		ARSnova.app.questionModel.publishAllSkillQuestions(options.questions, options.active, {
+			success: function() {
+				options.callback.apply(options.scope);
+			},
+			failure: function() {
+				Ext.Msg.alert(Messages.NOTIFICATION, Messages.QUESTION_COULD_NOT_BE_SAVED);
 			}
 		});
 	},

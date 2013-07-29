@@ -90,5 +90,15 @@ Ext.define('ARSnova.view.Caption', {
 				badgeText: hasAnswers ? Messages.ANSWERS : "", badgeCls: "redbadgeicon"
 		}]);
 		return badges;
+	},
+	
+	connectToStore: function(store) {
+		store.on('updaterecord', function(theStore, record) {
+			var records = [];
+			store.each(function(r) {
+				records.push(r.data);
+			});
+			this.explainStatus(records);
+		}, this);
 	}
 });
