@@ -144,6 +144,7 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 	 * get statistics from proxy
 	 */
 	getStatistics: function() {
+		var promise = new RSVP.Promise();
 		ARSnova.app.statisticModel.getStatistics({
 			success: function(response){
 				var statistics = Ext.decode(response.responseText);
@@ -153,17 +154,18 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 					me.statistics = statistics;
 					me.setNumbers();
 				}
-				
-				setTimeout("ARSnova.app.hideLoadMask()", 500);
+				promise.resolve(statistics);
 			},
 			failure: function(response){
 				console.log('server-side error, countOpenSessions');
+				promise.reject();
 			}
 		});
+		return promise;
 	},
-	updateData: function(){
-		ARSnova.app.showLoadMask(Messages.LOAD_MASK);
+	updateData: function() {
+		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK);
 		this.statisticsStore.clearData();
-		this.getStatistics();
+		this.getStatistics().then(hideLoadMask, hideLoadMask); // hide mask on success and on error
 	}
 });

@@ -44,7 +44,6 @@ Ext.define('ARSnova.view.feedback.TabPanel', {
         ]);
 		
 		this.on('activate', function(){
-			ARSnova.app.hideLoadMask();
 			this.statisticPanel.checkVoteButton();
 			this.statisticPanel.checkTitle();
 			ARSnova.app.feedbackModel.un("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge);

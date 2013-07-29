@@ -227,7 +227,5 @@ Ext.define("ARSnova.controller.Questions", {
 			};
 			panel.backButton.setText("Fragen");
 		}, this, {single:true});
-		
-    	ARSnova.app.hideLoadMask();
     }
 });

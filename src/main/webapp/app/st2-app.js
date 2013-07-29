@@ -98,7 +98,6 @@ Ext.application({
     mainTabPanel: null,
     tabPanel	: null,
     loginPanel	: null,
-    loadingMask : null,
     taskManager	: null,
     previousActiveItem: null,
     
@@ -275,30 +274,25 @@ Ext.application({
 				window.document.title = "ARSnova";
 				break;
 		}
-    },
-    
-    /**
-     * Wrapper for an invidivudal LoadMask
-     */
-    showLoadMask: function(message){
-    	this.loadingMask = new Ext.LoadMask({
-    		message: message || ""
-    	});
-    	Ext.Viewport.add(this.loadingMask);
-    	this.loadingMask.show();
-    	setTimeout("ARSnova.app.hideLoadMask()", 5000); // hide this mask after 5 seconds automatically
-    },
-    
-    /**
-     * Wrapper for an invidivudal LoadMask
-     */
-    hideLoadMask: function(){
-    	if(this.loadingMask){
-    		clearTimeout("ARSnova.app.hideLoadMask()", 5000);
-    		this.loadingMask.hide();
-	    	this.loadingMask.destroy();
-    	}
-    },
+	},
+	
+	/**
+	 * Wrapper for an invidivudal LoadMask
+	 */
+	showLoadMask: function(message, duration) {
+		var minimumDuration = 500;
+		var loadingMask = new Ext.LoadMask({
+			message: message || ""
+		});
+		Ext.Viewport.add(loadingMask);
+		loadingMask.show();
+		var hideLoadMask = Ext.Function.createDelayed(function() {
+			loadingMask.hide();
+			loadingMask.destroy();
+		}, minimumDuration);
+		Ext.defer(hideLoadMask, (duration || 5000) - minimumDuration);
+		return hideLoadMask;
+	},
     
     /**
      * clear local storage

@@ -144,7 +144,6 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		
 		this.on('painted', function(){
 			this.loadVisitedSessions();
-			ARSnova.app.hideLoadMask();
 		});
 	},
 	
@@ -174,7 +173,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	loadVisitedSessions: function() {
 		if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) return;
 		
-		ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
+		var hideLoadingMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
 
 		ARSnova.app.restProxy.getMyVisitedSessions({
 			success: function(sessions) {
@@ -207,10 +206,11 @@ Ext.define('ARSnova.view.home.HomePanel', {
 							badgeCls	: 'badgeicon',
 							sessionObj	: session,
 							handler		: function(options){
-								ARSnova.app.showLoadMask("Login...");
+								var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
 								ARSnova.app.getController('Sessions').login({
 									keyword		: options.config.sessionObj.keyword
 								});
+								hideLoadMask();
 							}
 						});
 						panel.lastVisitedSessionsFieldset.add(sessionButton);
@@ -226,13 +226,16 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				} else {
 					panel.lastVisitedSessionsForm.hide();
 				}
+				hideLoadingMask();
 			},
 			unauthenticated: function() {
+				hideLoadingMask();
 				ARSnova.app.getController('Auth').login({
 					mode: ARSnova.app.loginMode
 				});
 			},
-			failure: function(){
+			failure: function() {
+				hideLoadingMask();
 				console.log('server-side error loggedIn.save');
 				ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.homePanel.lastVisitedSessionsForm.hide();
 			}

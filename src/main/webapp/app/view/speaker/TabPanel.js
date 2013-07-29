@@ -43,8 +43,6 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 	        this.audienceQuestionPanel,
 	        this.newQuestionPanel
         ]);
-		
-		setTimeout("ARSnova.app.hideLoadMask();", 1000);
 	},
 	
 	renew: function(){

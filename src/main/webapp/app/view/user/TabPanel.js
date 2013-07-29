@@ -40,10 +40,6 @@ Ext.define('ARSnova.view.user.TabPanel', {
 		this.add([
 	        this.inClassPanel
         ]);
-
-		this.on('painted', function(){
-			setTimeout("ARSnova.app.hideLoadMask()", 1000); // timeout to compensate the cardswitch animation
-		});
 	},
 	
 	renew: function(){

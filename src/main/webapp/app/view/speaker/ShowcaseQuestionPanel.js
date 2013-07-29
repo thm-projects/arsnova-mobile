@@ -166,7 +166,6 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				// question.
 				panel.setActiveItem(0);
 				panel.checkFirstQuestion();
-				ARSnova.app.hideLoadMask();
 			},
 			failure: function(response){
 				console.log('error');

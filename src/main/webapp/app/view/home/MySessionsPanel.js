@@ -125,7 +125,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	loadCreatedSessions: function() {
 		var me = this;
 
-		ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
+		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
 		ARSnova.app.sessionModel.getMySessions({
 			success: function(response) {
 				var sessions = Ext.decode(response.responseText);
@@ -162,10 +162,11 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						cls			: 'forwardListButton' + status + course,
 						sessionObj	: session,
 						handler		: function(options){
-							ARSnova.app.showLoadMask("Login...");
+							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
 							ARSnova.app.getController('Sessions').login({
 								keyword		: options.config.sessionObj.keyword
 							});
+							hideLoadMask();
 						}
 					});
 					badgePromises.push(me.updateBadges(session._id, session.keyword, sessionButton));
@@ -176,20 +177,23 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				
 				panel.createdSessionsFieldset.add(caption);
 				panel.sessionsForm.add(panel.createdSessionsFieldset);
+				hideLoadMask();
     		},
 			empty: Ext.bind(function() {
+				hideLoadMask();
 				this.sessionsForm.hide();
 			}, this),
 			unauthenticated: function() {
+				hideLoadMask();
 				ARSnova.app.getController('Auth').login({
 					mode: ARSnova.app.loginMode
 				});
 			},
     		failure: function() {
+    			hideLoadMask();
     			console.log("my sessions request failure");
     		}
     	}, (window.innerWidth > 481 ? 'name' : 'shortname'));
-		ARSnova.app.hideLoadMask();
 	},
 	
 	updateBadges: function(sessionId, sessionKeyword, button) {

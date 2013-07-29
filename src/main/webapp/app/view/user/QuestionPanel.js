@@ -138,7 +138,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		this.removeAll(false);
 		this._indicator.show();
 		this.questionCounter.show();
-		ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
 	},
 	
 	onActivate: function(){
@@ -148,6 +147,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	getUnansweredSkillQuestions: function(){
 		var self = this;
 		
+		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
 		ARSnova.app.questionModel.getSkillQuestionsForUser(localStorage.getItem("keyword"), {
 			success: function(questions){
 				var userQuestionsPanel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel;
@@ -170,8 +170,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 								userQuestionsPanel.next();
 								userQuestionsPanel.statisticButton.hide();
 								userQuestionsPanel._indicator.hide();
-								ARSnova.app.hideLoadMask();
-								
 							} else {
 								userQuestionsPanel.questionCounter.hide();
 								userQuestionsPanel.add({
@@ -180,10 +178,11 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 								});
 								userQuestionsPanel.next();
 								userQuestionsPanel._indicator.hide();
-								ARSnova.app.hideLoadMask();
 							}
+							hideLoadMask();
 						},
 						failure: function() {
+							hideLoadMask();
 			    			console.log('error');
 			    		}
 					});
@@ -234,9 +233,10 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 						console.log('error');
 					}
 				});
-				ARSnova.app.hideLoadMask();
+				hideLoadMask();
 			},
-			failure: function(response){
+			failure: function(response) {
+				hideLoadMask();
 				console.log('error');
 			}
 		});
@@ -255,7 +255,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	},
 	
 	checkAnswer: function(){
-		ARSnova.app.showLoadMask(Messages.CHECK_ANSWERS);
+		var hideLoadMask = ARSnova.app.showLoadMask(Messages.CHECK_ANSWERS);
 		
 		this.getInnerItems().forEach(function(questionPanel) {
 			var questionObj = questionPanel.questionObj;
@@ -304,8 +304,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				});
 			}
 		}, this);
-		
-		setTimeout("ARSnova.app.hideLoadMask()", 1000);
+		hideLoadMask();
 	},
 	
 	/**

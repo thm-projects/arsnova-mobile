@@ -63,7 +63,6 @@ Ext.define("ARSnova.controller.Sessions", {
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon, ARSnova.app.mainTabPanel.tabPanel);
     	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
     	    	
-    	    	ARSnova.app.hideLoadMask();
 				ARSnova.app.getController('Sessions').reloadData();
     		},
 			notFound: function() {
@@ -101,8 +100,6 @@ Ext.define("ARSnova.controller.Sessions", {
 		localStorage.removeItem("courseType");
 		ARSnova.app.isSessionOwner = false;
 		
-		ARSnova.app.hideLoadMask();
-		
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 		/* show home Panel */
 		tabPanel.homeTabPanel.tab.show();
@@ -136,6 +133,7 @@ Ext.define("ARSnova.controller.Sessions", {
 	reloadData: function(){
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 		tabPanel.homeTabPanel.tab.hide();
+		var hideLoadMask = Ext.emptyFn;
 
 		if (ARSnova.app.isSessionOwner) {
 			/* add speaker in class panel */
@@ -143,10 +141,9 @@ Ext.define("ARSnova.controller.Sessions", {
 				tabPanel.speakerTabPanel = Ext.create('ARSnova.view.speaker.TabPanel');
 				tabPanel.insert(1, tabPanel.speakerTabPanel);
 			} else {
-				ARSnova.app.showLoadMask("Login...");
+				hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN, 3000);
 				tabPanel.speakerTabPanel.tab.show();
 				tabPanel.speakerTabPanel.renew();
-				setTimeout("ARSnova.app.hideLoadMask();", 3000);
 			}
 			tabPanel.animateActiveItem(tabPanel.speakerTabPanel, {
 				type: 'slide',
@@ -183,8 +180,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				tabPanel.userTabPanel.renew();
 			}
 				
-			ARSnova.app.hideLoadMask();
-				tabPanel.userTabPanel.inClassPanel.registerListeners();
+			tabPanel.userTabPanel.inClassPanel.registerListeners();
 				
 			/* add feedback statistic panel*/
 			if (!tabPanel.feedbackTabPanel) {
@@ -221,6 +217,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				});
 			}
 		}
+		hideLoadMask();
 	},
 	
 	create: function(options){

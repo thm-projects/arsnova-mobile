@@ -148,7 +148,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	    		    		if(button.id == "course"){
 	    		    			if(pressed){
 	    		    				if(nQP.userCourses.length == 0){
-	        		    				ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_COURSES);
+	        		    				var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_COURSES);
 	        		    				Ext.Ajax.request({
 	        		    					url: ARSnova.app.WEBSERVICE_URL + 'estudy/getTeacherCourses.php',
 	        		    					params: {
@@ -169,9 +169,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	        		    						}
 	        		    						nQP.userCourses = obj;
 	        		    						coursesFieldset.show();
-	        		    						ARSnova.app.hideLoadMask();
+	        		    						hideLoadMask();
 	        		    					},
 	        		    					failure: function(response, opts){
+	        		    						hideLoadMask();
 	        		    						console.log('getcourses server-side failure with status code ' + response.status);
 	        		    						Ext.Msg.alert(Messages.NOTICE, Messages.COULD_NOT_SEARCH);
 	        		    					}

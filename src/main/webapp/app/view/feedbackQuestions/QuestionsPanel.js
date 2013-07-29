@@ -246,7 +246,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 	},
 	
 	getFeedbackQuestions: function(){
-		ARSnova.app.showLoadMask(Messages.LOADING_NEW_QUESTIONS);
+		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOADING_NEW_QUESTIONS);
 		ARSnova.app.questionModel.getInterposedQuestions(localStorage.getItem('keyword'),{
 			success: function(response){
 				var questions = Ext.decode(response.responseText);
@@ -306,7 +306,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 						direction: 'DESC'
 					}]);
 				}
-				setTimeout("ARSnova.app.hideLoadMask()", 500);
+				hideLoadMask();
 			},
 			failure: function(records, operation){
 				console.log('server side error');

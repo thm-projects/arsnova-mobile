@@ -289,7 +289,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				listeners: {
 					change: function(toggleEl, something, something2, value){
 						if (value == 0 && me.questionObj.showStatistic == undefined || value == me.questionObj.showStatistic) return;
-						ARSnova.app.showLoadMask(Messages.LOAD_MASK_ACTIVATION);
+						var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_ACTIVATION);
 						var question = Ext.create('ARSnova.model.Question', me.questionObj);
 
 						switch (value) {
@@ -303,14 +303,15 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								break;
 						};
 						question.publishSkillQuestionStatistics({
-							success: function(response){
+							success: function(response) {
+								hideLoadMask();
 								me.questionObj = question.data;
 							},
-							failure: function(){ 
+							failure: function() {
+								hideLoadMask();
 								console.log('could not save showStatistic flag'); 
 							}
 						});
-						ARSnova.app.hideLoadMask();
 					}
 				}
 			}, {
@@ -337,7 +338,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							return;
 						}
 						
-						ARSnova.app.showLoadMask(Messages.LOAD_MASK_ACTIVATION);
+						var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_ACTIVATION);
 						var question = Ext.create('ARSnova.model.Question', this.questionObj);
 						switch (value) {
 							case 0:
@@ -350,14 +351,15 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								break;
 						};
 						question.publishCorrectSkillQuestionAnswer({
-							success: function(response){
+							success: function(response) {
+								hideLoadMask();
 								panel.questionObj = question.data;
 							},
-							failure: function(){
+							failure: function() {
+								hideLoadMask();
 								console.log('could not save showAnswer flag');
 							}
 						});
-						ARSnova.app.hideLoadMask();
 					}
 				}
 			}, {
@@ -555,7 +557,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					listeners: {
 					toggle: function(container, button, pressed){
 						if(pressed){
-							ARSnova.app.showLoadMask(Messages.CHANGE_RELEASE);
+							var hideLoadMask = ARSnova.app.showLoadMask(Messages.CHANGE_RELEASE);
 							var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
 							
 							var question = Ext.ModelManager.getModel('ARSnova.model.Session').load(
@@ -567,7 +569,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 									
 									// button was already pressed 
 									if(question.get('releasedFor') == button.getItemId()){
-										ARSnova.app.hideLoadMask();
+										hideLoadMask();
 										return;
 									}
 									
@@ -576,9 +578,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 									question.save({
 										success: function(response){
 											panel.questionObj = question.getData();
-											ARSnova.app.hideLoadMask();
+											hideLoadMask()
 										},
-										failure: function(){ console.log('could not save releasedFor flag'); }
+										failure: function() {
+											hideLoadMask();
+											console.log('could not save releasedFor flag');
+										}
 									});
 								},
 								failure: function(records, operation){
@@ -740,8 +745,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		if(this.hasCorrectAnswers){
 			this.firstRow.add(this.showCorrectAnswerButton);
 		}
-		setTimeout("ARSnova.app.hideLoadMask()", 1000);
-		
 		if (this.questionObj.active) {
 			taskManager.start(this.renewAnswerDataTask);
 		}
@@ -750,7 +753,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.on('beforedestroy', function () {
 			ARSnova.app.mainTabPanel.removeListener('cardswitch', this.cardSwitchHandler, this);
 		}, this);
-		ARSnova.app.hideLoadMask(Messages.LOAD_MASK);
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.actionsPanel.getId()]);
 	},
 	
