@@ -72,6 +72,10 @@ Ext.define('ARSnova.model.Question', {
     	return this.getProxy().delQuestion(queObj, callbacks);
     },
     
+    destroyAll: function(sessionKeyword, callbacks) {
+    	return this.getProxy().delAllQuestions(sessionKeyword, callbacks);
+    },
+    
     deleteInterposed: function(question, callbacks) {
 		return this.getProxy().deleteInterposedQuestion(question, callbacks);
     },

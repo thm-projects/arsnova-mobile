@@ -331,6 +331,15 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 	
+	delAllQuestions: function(sessionKeyword, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/?sessionkey=" + sessionKeyword,
+			method: "DELETE",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
 	delAnswers: function(questionId, callbacks){
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/answer/",

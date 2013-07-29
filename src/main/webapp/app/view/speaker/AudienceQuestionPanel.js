@@ -231,20 +231,12 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 						msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
 					Ext.Msg.confirm(Messages.DELETE_ALL_QUESTIONS, msg, function(answer) {
 						if (answer == 'yes') {
-							var promises = [];
-							this.questionList.getStore().each(function(item) {
-								var promise = new RSVP.Promise();
-								ARSnova.app.questionModel.destroy(item.data, {
-									success: function() {
-										promise.resolve();
-									},
-									failure: function(response) {
-										promise.reject();
-									}
-								});
-								promises.push(promise);
+							ARSnova.app.questionModel.destroyAll(localStorage.getItem("keyword"), {
+								success: Ext.bind(this.onActivate, this),
+								failure: function() {
+									console.log("could not delete the questions.");
+								}
 							});
-							RSVP.all(promises).then(Ext.bind(this.onActivate, this));
 						}
 					}, this);
 				}
