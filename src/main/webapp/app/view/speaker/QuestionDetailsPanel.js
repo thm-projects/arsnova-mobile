@@ -578,7 +578,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 									question.save({
 										success: function(response){
 											panel.questionObj = question.getData();
-											hideLoadMask()
+											hideLoadMask();
 										},
 										failure: function() {
 											hideLoadMask();
@@ -724,8 +724,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		
 		this.on('activate', this.onActivate);
 		this.on('deactivate', this.onDeactivate);
-		/* show a loading screen to hide the showCorrectAnswerButton-Animation*/
-		ARSnova.app.showLoadMask(Messages.LOAD_MASK);
 	},
 	
 	prevNewCard: null,
