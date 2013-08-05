@@ -190,6 +190,9 @@ switch (lang) {
 			WANNA_ANSWER: 'Would you like to answer now?',
 			THERE_ARE: "There are",
 			NEW_QUESTIONS: "new questions.",
+			MY_QUESTIONS: "My Questions",
+			MY_LEARNING_PROGRESS: "My Progress",
+			LEARN: "Learn",
 
 			/* speaker */
 			NEW_QUESTION: "New question",
@@ -462,6 +465,9 @@ switch (lang) {
 			WANNA_ANSWER: 'Möchten Sie jetzt antworten?',
 			THERE_ARE: "Es gibt",
 			NEW_QUESTIONS: "neue Fragen.",
+			MY_QUESTIONS: "Meine Fragen",
+			MY_LEARNING_PROGRESS: "Mein Lernstand",
+			LEARN: "Lernen",
 			
 			/* speaker */
 			NEW_QUESTION: "Neue Frage stellen",

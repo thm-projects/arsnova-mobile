@@ -122,6 +122,36 @@ Ext.define('ARSnova.view.user.InClass', {
 			handler		: this.buttonClicked
 		});
 		
+		this.myQuestionsButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+			ui			: 'normal',
+			text		: Messages.MY_QUESTIONS,
+			cls			: 'forwardListButton',
+			badgeCls	: 'badgeicon',
+			controller	: 'Questions',
+			action		: 'index',
+			handler		: this.buttonClicked
+		});
+		
+		this.myLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+			ui			: 'normal',
+			text		: Messages.MY_LEARNING_PROGRESS,
+			cls			: 'forwardListButton',
+			badgeCls	: 'badgeicon',
+			controller	: 'Questions',
+			action		: 'index',
+			handler		: this.buttonClicked
+		});
+		
+		this.learnButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+			ui			: 'normal',
+			text		: Messages.LEARN,
+			cls			: 'forwardListButton',
+			badgeCls	: 'badgeicon',
+			controller	: 'Questions',
+			action		: 'index',
+			handler		: this.buttonClicked
+		});
+		
 		this.inClass = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			items: [{
@@ -134,7 +164,10 @@ Ext.define('ARSnova.view.user.InClass', {
 				
 				items: [
 						this.feedbackButton,
-						this.questionButton
+						this.questionButton,
+						this.myQuestionsButton,
+						this.myLearningProgressButton,
+						this.learnButton
 					]
 			}]
 		});
