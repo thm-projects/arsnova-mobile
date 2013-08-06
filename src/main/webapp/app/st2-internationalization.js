@@ -51,6 +51,7 @@ switch (lang) {
 		Messages = {
 			BROWSER_NOT_SUPPORTED_MESSAGE: "Please use one of the following officially supported browsers: ###.",
 			UPDATE_BROWSER_MESSAGE: "Please update your ### browser in order to use ARSnova.",
+			FEATURE_COMING_SOON: "This feature will soon be available.",
 			
 			/* rolePanel */
 			CHOOSE_ROLE: "Choose your role:",
@@ -112,6 +113,7 @@ switch (lang) {
 			/* feedback */
 			FEEDBACK: "Feedback",
 			MY_FEEDBACK: "My feedback",
+			GIVE_FEEDBACK: "Give feedback",
 			FEEDBACK_GOOD: "Faster, please!",
 			FEEDBACK_OKAY: "I can follow you.",
 			FEEDBACK_BAD: "Slower, please!",
@@ -185,6 +187,8 @@ switch (lang) {
 			CHECK_ANSWERS: "Checking answers",
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
 			QUESTIONS_FROM_STUDENTS: "Students' questions",
+			PREPARATION_QUESTIONS: "Preparation questions",
+			LECTURE_QUESTIONS: "Lecture questions",
 			FLASHCARDS: "Flashcards",
 			ONE_NEW_QUESTION: 'There is one new question.',
 			WANNA_ANSWER: 'Would you like to answer now?',
@@ -326,6 +330,7 @@ switch (lang) {
 		Messages = {
 			BROWSER_NOT_SUPPORTED_MESSAGE: "Bitte verwenden Sie einen der folgenden Browser für ARSnova: ###.",
 			UPDATE_BROWSER_MESSAGE: "Bitte aktualisieren Sie Ihren ###-Browser, um ARSnova verwenden zu können.",
+			FEATURE_COMING_SOON: "Dieses Feature wird in Kürze freigeschaltet.",
 			
 			/* rolePanel */
 			CHOOSE_ROLE: "Wählen Sie Ihre Rolle:",
@@ -387,6 +392,7 @@ switch (lang) {
 			/* feedback */
 			FEEDBACK: "Feedback",
 			MY_FEEDBACK: "Mein Feedback",
+			GIVE_FEEDBACK: "Feedback geben",
 			FEEDBACK_GOOD: "Bitte schneller",
 			FEEDBACK_OKAY: "Kann folgen",
 			FEEDBACK_BAD: "Zu schnell",
@@ -460,6 +466,8 @@ switch (lang) {
 			CHECK_ANSWERS: "Prüfe Antworten",
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
 			QUESTIONS_FROM_STUDENTS: "Zwischenfragen",
+			PREPARATION_QUESTIONS: "Vorbereitungsfragen",
+			LECTURE_QUESTIONS: "Vorlesungsfragen",
 			FLASHCARDS: "Lernkartei",
 			ONE_NEW_QUESTION: 'Es gibt 1 neue Frage.',
 			WANNA_ANSWER: 'Möchten Sie jetzt antworten?',
