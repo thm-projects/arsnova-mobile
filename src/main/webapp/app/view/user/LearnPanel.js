@@ -1,9 +1,7 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/user/tabPanel.js
- - Beschreibung: TabPanel für Session-Teilnehmer.
- - Version:      1.0, 01/05/12
- - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
+ - Beschreibung: Zum Anzeigen der Lernoptionen
+ - Autor(en):    Christoph Thelen <christoph.thelen@mni.thm.de>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -18,39 +16,36 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-Ext.define('ARSnova.view.user.TabPanel', {
-	extend: 'Ext.tab.Panel',
-	
-	requires: ['ARSnova.view.user.InClass', 'ARSnova.view.user.LearnPanel'],
+Ext.define('ARSnova.view.user.LearnPanel', {
+	extend: 'Ext.Container',
 	
 	config: {
-		title	: Messages.SESSION,
-	
-		iconCls	: 'tabBarIconHome',
-		scroll	: 'vertical',
-		
-		tabBar: {
-	    	hidden: true
-	    }
+		title: 'Learn',
+		fullscreen: true,
+		scrollable: true
 	},
 	
 	constructor: function() {
 		this.callParent(arguments);
 		
-		this.inClassPanel = Ext.create('ARSnova.view.user.InClass');
-		this.learnPanel = Ext.create('ARSnova.view.user.LearnPanel');
+		var toolbar = Ext.create('Ext.Toolbar', {
+			docked: 'top',
+			ui: 'light',
+			title: "Learn",
+			items: [{
+				ui: 'back',
+				text: Messages.BACK,
+				handler: function() {
+					var uTP = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
+					uTP.animateActiveItem(uTP.inClassPanel, {
+						type: 'slide',
+						direction: 'right'
+					});
+				}
+			}]
+		});
 		
-		this.add([
-	        this.inClassPanel,
-	        this.learnPanel
-        ]);
-	},
-	
-	renew: function(){
-		this.remove(this.inClassPanel);
-		this.inClassPanel = Ext.create('ARSnova.view.user.InClass');
-		this.insert(0, this.inClassPanel);
-		this.setActiveItem(0);
-		this.inClassPanel.registerListeners();
+		this.add([toolbar]);
 	}
+	
 });

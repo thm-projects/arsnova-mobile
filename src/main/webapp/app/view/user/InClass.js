@@ -169,7 +169,10 @@ Ext.define('ARSnova.view.user.InClass', {
 			badgeCls	: 'badgeicon',
 			controller	: 'Questions',
 			action		: 'index',
-			handler		: comingSoon
+			handler		: function() {
+				var uTP = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
+				uTP.animateActiveItem(uTP.learnPanel, 'slide');
+			}
 		});
 		
 		this.inClass = Ext.create('Ext.form.FormPanel', {
