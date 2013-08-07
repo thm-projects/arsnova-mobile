@@ -197,6 +197,10 @@ switch (lang) {
 			MY_QUESTIONS: "My Questions",
 			MY_LEARNING_PROGRESS: "My Progress",
 			LEARN: "Learn",
+			UNANSWERED_QUESTIONS: "Unanswered Questions",
+			PREPARATION: "Preparation",
+			LECTURE: "Lecture",
+			RESET_ALL_ANSWERS: "Reset all answers",
 
 			/* speaker */
 			NEW_QUESTION: "New question",
@@ -468,7 +472,7 @@ switch (lang) {
 			QUESTIONS_FROM_STUDENTS: "Zwischenfragen",
 			PREPARATION_QUESTIONS: "Vorbereitungsfragen",
 			LECTURE_QUESTIONS: "Vorlesungsfragen",
-			FLASHCARDS: "Lernkartei",
+			FLASHCARDS: "Lernkarten",
 			ONE_NEW_QUESTION: 'Es gibt 1 neue Frage.',
 			WANNA_ANSWER: 'Möchten Sie jetzt antworten?',
 			THERE_ARE: "Es gibt",
@@ -476,6 +480,10 @@ switch (lang) {
 			MY_QUESTIONS: "Meine Fragen",
 			MY_LEARNING_PROGRESS: "Mein Lernstand",
 			LEARN: "Lernen",
+			UNANSWERED_QUESTIONS: "Unbeantwortete Fragen",
+			PREPARATION: "Vorbereitung",
+			LECTURE: "Vorlesung",
+			RESET_ALL_ANSWERS: "Alle Antworten zurücksetzen",
 			
 			/* speaker */
 			NEW_QUESTION: "Neue Frage stellen",

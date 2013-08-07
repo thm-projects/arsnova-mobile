@@ -28,10 +28,21 @@ Ext.define('ARSnova.view.user.LearnPanel', {
 	constructor: function() {
 		this.callParent(arguments);
 		
-		var toolbar = Ext.create('Ext.Toolbar', {
+		var comingSoon = function(component) {
+			var comingSoonPanel = Ext.create('Ext.Panel', {
+				html: "<div style='padding: 0.5em'>"+Messages.FEATURE_COMING_SOON+"</div>"
+			});
+			comingSoonPanel.showBy(component, 'tc-bc');
+			Ext.defer(function() {
+				comingSoonPanel.destroy();
+			}, 2000);
+		};
+		
+		var titlebar = {
 			docked: 'top',
+			xtype: 'titlebar',
 			ui: 'light',
-			title: "Learn",
+			title: Messages.LEARN,
 			items: [{
 				ui: 'back',
 				text: Messages.BACK,
@@ -43,9 +54,93 @@ Ext.define('ARSnova.view.user.LearnPanel', {
 					});
 				}
 			}]
+		};
+		
+		var lectureToggle = Ext.create('Ext.field.Toggle', {
+			cls: 'questionDetailsToggle',
+			value: 1
+		});
+		var lecture = Ext.create('Ext.Container', {
+			cls: 'twoButtons left',
+			items: [lectureToggle, {
+				html: Messages.LECTURE,
+				cls: 'centerTextSmall'
+			}]
+		});
+		var preparationToggle = Ext.create('Ext.field.Toggle', {
+			cls: 'questionDetailsToggle',
+			value: 1
+		});
+		var preparation = Ext.create('Ext.Container', {
+			items: [preparationToggle, {
+				html: Messages.PREPARATION,
+				cls: 'centerTextSmall'
+			}]
+		});
+		var firstRow = Ext.create('Ext.form.FormPanel', {
+			cls	 : 'actionsForm',
+			scrollable: null,
+			
+			style: {
+				marginTop: '15px'
+			},
+			items: [lecture, preparation]
 		});
 		
-		this.add([toolbar]);
+		var flashcardsToggle = Ext.create('Ext.field.Toggle', {
+			cls: 'questionDetailsToggle',
+			value: 1
+		});
+		var flashcards = Ext.create('Ext.Container', {
+			cls: 'twoButtons left',
+			style: {
+				marginTop: '15px'
+			},
+			items: [flashcardsToggle, {
+				html: Messages.FLASHCARDS,
+				cls: 'centerTextSmall'
+			}]
+		});
+		var unansweredQuestionsToggle = Ext.create('Ext.field.Toggle', {
+			cls: 'questionDetailsToggle',
+			value: 1
+		});
+		var unansweredQuestions = Ext.create('Ext.Container', {
+			items: [unansweredQuestionsToggle, {
+				html: Messages.UNANSWERED_QUESTIONS,
+				cls: 'centerTextSmall'
+			}]
+		});
+		var secondRow = Ext.create('Ext.form.FormPanel', {
+			cls	 : 'actionsForm',
+			scrollable: null,
+			
+			style: {
+				marginTop: '15px'
+			},
+			items: [flashcards, unansweredQuestions]
+		});
+		
+		var learnButton = Ext.create('Ext.Button', {
+			text: Messages.LEARN,
+			cls: "forwardListButton",
+			handler: comingSoon
+		});
+		var learn = Ext.create('Ext.Container', {
+			cls : 'standardForm topPadding',
+			items: [learnButton]
+		});
+		var resetButton = Ext.create('Ext.Button', {
+			ui: 'decline',
+			text: Messages.RESET_ALL_ANSWERS,
+			handler: comingSoon
+		});
+		var reset = Ext.create('Ext.Container', {
+			cls : 'standardForm topPadding',
+			items: [resetButton]
+		});
+		
+		this.add([titlebar, firstRow, secondRow, learn, reset]);
 	}
 	
 });
