@@ -64,6 +64,16 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	initialize: function(){
 		this.callParent(arguments);
 		
+		var comingSoon = function(component) {
+			var comingSoonPanel = Ext.create('Ext.Panel', {
+				html: "<div style='padding: 0.5em'>"+Messages.FEATURE_COMING_SOON+"</div>"
+			});
+			comingSoonPanel.showBy(component, 'tc-bc');
+			Ext.defer(function() {
+				comingSoonPanel.destroy();
+			}, 2000);
+		};
+		
 		var loggedInCls = '';
 		if (ARSnova.app.loginMode == ARSnova.app.LOGIN_THM) {
 			loggedInCls = 'thm';
@@ -87,13 +97,25 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			]
 		});
 		
-		this.audienceQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			ui			: 'normal',
-			text		: Messages.QUESTIONS_TO_STUDENTS,
+		this.feedbackButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+			text		: Messages.LIVE_FEEDBACK,
+			cls			: 'forwardListButton',
+			badgeCls	: 'badgeicon feedbackARSnova',
+			handler		: comingSoon
+		});
+		
+		this.preparationQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+			text		: Messages.PREPARATION_QUESTIONS,
 			cls			: 'forwardListButton',
 			controller	: 'Questions',
 			action		: 'listAudienceQuestions',
 			handler		: this.buttonClicked
+		});
+		
+		this.lectureQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+			text		: Messages.LECTURE_QUESTIONS,
+			cls			: 'forwardListButton',
+			handler		: comingSoon
 		});
 		
 		this.feedbackQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
@@ -103,6 +125,18 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			controller	: 'Questions',
 			action		: 'listFeedbackQuestions',
 			handler		: this.buttonClicked
+		});
+		
+		this.flashcardsButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+			text		: Messages.FLASHCARDS,
+			cls			: 'forwardListButton',
+			handler		: comingSoon
+		});
+		
+		this.courseLearningProgress = Ext.create('ARSnova.view.MultiBadgeButton', {
+			text		: Messages.COURSES_LEARNING_PROGRESS,
+			cls			: 'forwardListButton',
+			handler		: comingSoon
 		});
 		
 		this.inClassItems = Ext.create('Ext.form.FormPanel', {
@@ -118,8 +152,12 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				scrollable: null,
 				
 				items: [
-					this.audienceQuestionButton,
-					this.feedbackQuestionButton
+					this.feedbackButton,
+					this.feedbackQuestionButton,
+					this.preparationQuestionButton,
+					this.lectureQuestionButton,
+					this.flashcardsButton,
+					this.courseLearningProgress
 				]
 			}]
 		});

@@ -203,6 +203,8 @@ switch (lang) {
 			RESET_ALL_ANSWERS: "Reset all answers",
 
 			/* speaker */
+			LIVE_FEEDBACK: "Live feedback",
+			COURSES_LEARNING_PROGRESS: "Course's progress",
 			NEW_QUESTION: "New question",
 			NEW_QUESTION_TITLE: "Question",
 			AH_HOC_QUESTION: "Instant question",
@@ -486,6 +488,8 @@ switch (lang) {
 			RESET_ALL_ANSWERS: "Alle Antworten zurücksetzen",
 			
 			/* speaker */
+			LIVE_FEEDBACK: "Live-Feedback",
+			COURSES_LEARNING_PROGRESS: "Lernstand des Kurses",
 			NEW_QUESTION: "Neue Frage stellen",
 			NEW_QUESTION_TITLE: "Frage",
 			AH_HOC_QUESTION: 'Frage<br>stellen',
