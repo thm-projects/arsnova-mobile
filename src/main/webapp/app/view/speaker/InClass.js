@@ -30,10 +30,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	},
 	
 	inClassItems			: null,
-	audienceQuestionButton	: null,
-	questionsFromUserButton	: null,
-	quizButton			 	: null,
-		
+	
 	inClassActions: null,
 	sessionStatusButton			: null,
 	createAdHocQuestionButton	: null,
@@ -259,7 +256,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 						var numAnswers = parseInt(response.responseText);
 						
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
-						var audienceQuestionButton = panel.audienceQuestionButton;
+						var audienceQuestionButton = panel.preparationQuestionButton;
 						
 						audienceQuestionButton.setBadge([
 											{badgeText: numQuestions, badgeCls: "greybadgeicon"},
