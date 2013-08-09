@@ -98,7 +98,10 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			text		: Messages.LIVE_FEEDBACK,
 			cls			: 'forwardListButton',
 			badgeCls	: 'badgeicon feedbackARSnova',
-			handler		: comingSoon
+			handler		: function() {
+				var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+				tabPanel.setActiveItem(tabPanel.feedbackTabPanel, "slide");
+			}
 		});
 		
 		this.preparationQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
