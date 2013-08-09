@@ -22,8 +22,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	extend: 'Ext.Panel',
 	
 	requires: ['ARSnova.view.speaker.form.ExpandingAnswerForm', 'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
-	           'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.SchoolQuestion',
-	           'ARSnova.view.speaker.form.VoteQuestion', 'ARSnova.view.speaker.form.YesNoQuestion'],
+	           'ARSnova.view.speaker.form.FlashcardQuestion', 'ARSnova.view.speaker.form.SchoolQuestion',
+	           'ARSnova.view.speaker.form.VoteQuestion', 'ARSnova.view.speaker.form.YesNoQuestion',
+	           'ARSnova.view.speaker.form.NullQuestion'],
 	
 	config: {
 		title: 'NewQuestionPanel',
@@ -242,6 +243,11 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			items: []
 		});
 		
+		this.flashcardQuestion = Ext.create('ARSnova.view.speaker.form.FlashcardQuestion', {
+			id: 'flashcard',
+			hidden: true
+		});
+		
 		this.questionOptions = Ext.create('Ext.SegmentedButton', {
 	        allowDepress: false,
 	        items: [
@@ -250,7 +256,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
                 { text: Messages.MC		}, 
                 { text: Messages.YESNO 	}, 
                 { text: Messages.ABCD	},
-				{ text: Messages.FREETEXT }
+				{ text: Messages.FREETEXT },
+				{ text: Messages.FLASHCARD_SHORT }
 	        ],
 	        listeners: {
 	        	toggle: function(container, button, pressed){
@@ -283,6 +290,14 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							if(pressed) panel.freetextQuestion.show();
 							else panel.freetextQuestion.hide();
 							break;
+						case Messages.FLASHCARD_SHORT:
+							if (pressed) {
+								panel.flashcardQuestion.show();
+								panel.abstentionPart.hide();
+							} else {
+								panel.flashcardQuestion.hide();
+								panel.abstentionPart.show();
+							}
 						default:
 							break;
 					}
@@ -376,6 +391,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			this.schoolQuestion,
 			this.abcdQuestion,
 			this.freetextQuestion,
+			this.flashcardQuestion,
 			
 			this.abstentionPart,
 			this.releasePart,
@@ -399,7 +415,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		var mainPartValues = panel.mainPart.getValues();
 		values.text = mainPartValues.text;
 		values.subject = mainPartValues.subject;
-		values.abstention = panel.abstentionPart.down('segmentedbutton').getPressedButtons()[0].id === 'withAbstention';
+		values.abstention = !panel.abstentionPart.isHidden() && panel.abstentionPart.down('segmentedbutton').getPressedButtons()[0].id === 'withAbstention';
 		
 		/* check if release question button is clicked */
 		var releasePart = panel.releasePart;
@@ -507,6 +523,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			case Messages.FREETEXT:
 				values.questionType = "freetext";
 				values.possibleAnswers = [];
+				break;
+			
+			case Messages.FLASHCARD_SHORT:
+				values.questionType = "flashcard";
+				
+				Ext.apply(values, panel.flashcardQuestion.getQuestionValues());
 				break;
 			
 			default:

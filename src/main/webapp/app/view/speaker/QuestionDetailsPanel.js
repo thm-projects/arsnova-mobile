@@ -24,7 +24,8 @@ Ext.define('FreetextAnswer', {
     
     require: ['ARSnova.view.speaker.form.ExpandingAnswerForm', 'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
               'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.SchoolQuestion',
-              'ARSnova.view.speaker.form.VoteQuestion', 'ARSnova.view.speaker.form.YesNoQuestion'],
+              'ARSnova.view.speaker.form.VoteQuestion', 'ARSnova.view.speaker.form.YesNoQuestion',
+              'ARSnova.view.speaker.form.FlashcardQuestion'],
  
     config: {
     	idProperty: "_id",
