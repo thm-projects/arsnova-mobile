@@ -107,15 +107,15 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		this.preparationQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			text		: Messages.PREPARATION_QUESTIONS,
 			cls			: 'forwardListButton',
-			controller	: 'Questions',
-			action		: 'listAudienceQuestions',
-			handler		: this.buttonClicked
+			handler		: comingSoon
 		});
 		
 		this.lectureQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			text		: Messages.LECTURE_QUESTIONS,
 			cls			: 'forwardListButton',
-			handler		: comingSoon
+			controller	: 'Questions',
+			action		: 'listAudienceQuestions',
+			handler		: this.buttonClicked
 		});
 		
 		this.feedbackQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
@@ -296,7 +296,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 						var numAnswers = parseInt(response.responseText);
 						
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
-						var audienceQuestionButton = panel.preparationQuestionButton;
+						var audienceQuestionButton = panel.lectureQuestionButton;
 						
 						audienceQuestionButton.setBadge([
 											{badgeText: numQuestions, badgeCls: "greybadgeicon"},

@@ -138,6 +138,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		}, this);
 	},
 	
+	selectAbstentionAnswer: function() {},
+	
 	isEmptyAnswer: function() {
 		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "";
 	},
