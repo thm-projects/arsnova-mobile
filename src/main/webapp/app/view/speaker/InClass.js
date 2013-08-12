@@ -216,11 +216,48 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		
 		this.add([this.toolbar, this.inClassItems, this.inClassActions]);
 		
+		this.on('initialize', function() {
+			this.feedbackButton.setBadge([{ badgeText: '0' }]);
+		});
+		
+		this.on('activate', function() {
+			ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", this.updateFeedback, this);
+		});
+		this.on('deactivate', function() {
+			ARSnova.app.feedbackModel.un("arsnova/session/feedback/average", this.updateFeedback);
+		});
+		
 		this.on('destroy', this.destroyListeners);
 		
 		this.onBefore('painted', function(){
 			this.updateBadges();
 		});
+	},
+	
+	updateFeedback: function(averageFeedback) {
+		var feedbackCls;
+		switch (averageFeedback) {
+			/* 0: faster, please!; 1: can follow; 2: to fast!; 3: you have lost me */
+			case 0:
+				feedbackCls = "Medium";
+				break;
+			case 1:
+				feedbackCls = "Good";
+				break;
+			case 2:
+				feedbackCls = "Bad";
+				break;
+			case 3:
+				feedbackCls = "None";
+				break;	
+			default:
+				feedbackCls = "ARSnova";
+				break;
+		}
+		this.feedbackButton.setBadge([{ 
+			badgeText: "0", 
+			badgeCls: 'badgeicon feedback' + feedbackCls 
+		}]);
 	},
 	
 	buttonClicked: function(button){
