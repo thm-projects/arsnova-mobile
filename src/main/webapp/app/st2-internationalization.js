@@ -51,7 +51,7 @@ switch (lang) {
 		Messages = {
 			BROWSER_NOT_SUPPORTED_MESSAGE: "Please use one of the following officially supported browsers: ###.",
 			UPDATE_BROWSER_MESSAGE: "Please update your ### browser in order to use ARSnova.",
-			FEATURE_COMING_SOON: "This feature will soon be available.",
+			FEATURE_COMING_SOON: "This feature will be available soon.",
 			
 			/* rolePanel */
 			CHOOSE_ROLE: "Choose your role:",
@@ -199,7 +199,8 @@ switch (lang) {
 			MY_QUESTIONS: "My Questions",
 			MY_LEARNING_PROGRESS: "My Progress",
 			LEARN: "Learn",
-			UNANSWERED_QUESTIONS: "Unanswered Questions",
+			LEARN_WITH_SELECTION: "Learn with selection",
+			UNANSWERED_QUESTIONS: "Open Questions",
 			PREPARATION: "Preparation",
 			LECTURE: "Lecture",
 			RESET_ALL_ANSWERS: "Reset all answers",
@@ -340,7 +341,7 @@ switch (lang) {
 		Messages = {
 			BROWSER_NOT_SUPPORTED_MESSAGE: "Bitte verwenden Sie einen der folgenden Browser für ARSnova: ###.",
 			UPDATE_BROWSER_MESSAGE: "Bitte aktualisieren Sie Ihren ###-Browser, um ARSnova verwenden zu können.",
-			FEATURE_COMING_SOON: "Dieses Feature wird in Kürze freigeschaltet.",
+			FEATURE_COMING_SOON: "Feature kommt in Kürze.",
 			
 			/* rolePanel */
 			CHOOSE_ROLE: "Wählen Sie Ihre Rolle:",
@@ -488,7 +489,8 @@ switch (lang) {
 			MY_QUESTIONS: "Meine Fragen",
 			MY_LEARNING_PROGRESS: "Mein Lernstand",
 			LEARN: "Lernen",
-			UNANSWERED_QUESTIONS: "Unbeantwortete Fragen",
+			LEARN_WITH_SELECTION: "Mit Auswahl lernen",
+			UNANSWERED_QUESTIONS: "Offene Fragen",
 			PREPARATION: "Vorbereitung",
 			LECTURE: "Vorlesung",
 			RESET_ALL_ANSWERS: "Alle Antworten zurücksetzen",

@@ -93,9 +93,6 @@ Ext.define('ARSnova.view.user.LearnPanel', {
 		});
 		var flashcards = Ext.create('Ext.Container', {
 			cls: 'twoButtons left',
-			style: {
-				marginTop: '15px'
-			},
 			items: [flashcardsToggle, {
 				html: Messages.FLASHCARDS,
 				cls: 'centerTextSmall'
@@ -122,7 +119,7 @@ Ext.define('ARSnova.view.user.LearnPanel', {
 		});
 		
 		var learnButton = Ext.create('Ext.Button', {
-			text: Messages.LEARN,
+			text: Messages.LEARN_WITH_SELECTION,
 			cls: "forwardListButton",
 			handler: comingSoon
 		});
