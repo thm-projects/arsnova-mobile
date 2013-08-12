@@ -1,9 +1,6 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/user/tabPanel.js
- - Beschreibung: TabPanel für Session-Teilnehmer.
- - Version:      1.0, 01/05/12
- - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
+ - Autor(en):    Christoph Thelen <christoph.thelen@mni.thm.de>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -18,39 +15,36 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-Ext.define('ARSnova.view.user.TabPanel', {
-	extend: 'Ext.tab.Panel',
-	
-	requires: ['ARSnova.view.user.InClass', 'ARSnova.view.user.LearnPanel'],
-	
-	config: {
-		title	: Messages.SESSION,
-	
-		iconCls	: 'tabBarIconHome',
-		scroll	: 'vertical',
-		
-		tabBar: {
-	    	hidden: true
-	    }
-	},
+Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
+	extend: 'Ext.Container',
 	
 	constructor: function() {
 		this.callParent(arguments);
 		
-		this.inClassPanel = Ext.create('ARSnova.view.user.InClass');
-		this.learnPanel = Ext.create('ARSnova.view.user.LearnPanel');
+		this.answer = Ext.create('Ext.plugins.ResizableTextArea', {
+			placeHolder: Messages.ANSWER
+		});
 		
-		this.add([
-	        this.inClassPanel,
-	        this.learnPanel
-        ]);
+		this.add([{
+			xtype: 'fieldset',
+			title: Messages.ANSWER,
+			items: this.answer
+		}]);
 	},
 	
-	renew: function(){
-		this.remove(this.inClassPanel);
-		this.inClassPanel = Ext.create('ARSnova.view.user.InClass');
-		this.insert(0, this.inClassPanel);
-		this.setActiveItem(0);
-		this.inClassPanel.registerListeners();
+	initWithQuestion: function(question) {
+		var possibleAnswers = question.possibleAnswers;
+		if (possibleAnswers.length === 0) {
+			return;
+		}
+		this.answer.setValue(possibleAnswers[0].text);
+	},
+	
+	getQuestionValues: function() {
+		var result = {};
+		
+		result.possibleAnswers = [{text: this.answer.getValue(), correct: true}];
+		
+		return result;
 	}
 });

@@ -87,9 +87,9 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			this.answerComponents[i] = Ext.create('Ext.field.Text', {
 				id:				theComponentId,
 				name:			theComponentId,
-				placeHolder:	this.getWording().placeHolder + " " + labelGenerator(i),
+				placeHolder:	Messages.ANSWER,
 				hidden:			this.getStart() <= i,
-				label:			Messages.ANSWER
+				label:			this.getWording().placeHolder + " " + labelGenerator(i)
 			});
 			answerFieldset.add(this.answerComponents[i]);
 		}

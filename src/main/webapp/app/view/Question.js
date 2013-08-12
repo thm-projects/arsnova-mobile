@@ -228,27 +228,53 @@ Ext.define('ARSnova.view.Question', {
 			disabled: true
 		});
 		
-		this.add([this.questionTitle, this.answerList].concat(
-			this.questionObj.questionType === "mc" && !this.viewOnly ? {
-				xtype: 'container',
-				layout: {
-					type: 'hbox',
-					align: 'stretch'
-				},
-				defaults: {
-					style: {
-						margin: '10px'
-					}
-				},
-				items: [this.mcSaveButton, !!!this.questionObj.abstention ? { hidden: true } : {
-					flex: 1,
-					xtype: 'button',
-					cls: 'login-button noMargin',
-					text: Messages.ABSTENTION,
-					handler: this.mcAbstentionHandler,
-					scope: this
-				}]
-			} : {}
+		var mcContainer = {
+			xtype: 'container',
+			layout: {
+				type: 'hbox',
+				align: 'stretch'
+			},
+			defaults: {
+				style: {
+					margin: '10px'
+				}
+			},
+			items: [this.mcSaveButton, !!!this.questionObj.abstention ? { hidden: true } : {
+				flex: 1,
+				xtype: 'button',
+				cls: 'login-button noMargin',
+				text: Messages.ABSTENTION,
+				handler: this.mcAbstentionHandler,
+				scope: this
+			}]
+		};
+		
+		var flashcardContainer = {
+			xtype: 'button',
+			cls: 'login-button',
+			ui: 'confirm',
+			text: Messages.SHOW_FLASHCARD_ANSWER,
+			handler: function(button) {
+				if (this.answerList.isHidden()) {
+					this.answerList.show(true);
+					button.setText(Messages.HIDE_FLASHCARD_ANSWER);
+				} else {
+					this.answerList.hide(true);
+					button.setText(Messages.SHOW_FLASHCARD_ANSWER);
+				}
+			},
+			scope: this
+		};
+		
+		this.add([this.questionTitle]);
+		if (this.questionObj.questionType === "flashcard") {
+			this.add([flashcardContainer]);
+			this.answerList.setHidden(true);
+		} else {
+			this.answerList.setHidden(false);
+		}
+		this.add([this.answerList].concat(
+			this.questionObj.questionType === "mc" && !this.viewOnly ? mcContainer : {}
 		));
 		
 		this.on('activate', function(){
