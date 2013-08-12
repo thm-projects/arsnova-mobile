@@ -112,8 +112,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			items: [
 			    this.backButton,
 		        { xtype: 'spacer' },
-		        this.statisticButton,
-		        this.questionCounter
+		        this.questionCounter,
+		        this.statisticButton
 	        ]
 		});
 
