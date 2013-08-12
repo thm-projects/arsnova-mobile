@@ -267,12 +267,12 @@ switch (lang) {
 			SAVE_AND_CONTINUE: "Save and Continue",
 			
 			/* question types */
-			EVALUATION: "Rating",
-			SCHOOL: "Grades",
+			EVALUATION: "Likert",
+			SCHOOL: "Grade",
 			MC: "MC",
-			YESNO: "Y/N",
-			ABCD: "ABCD",
-			FREETEXT: "Text",
+			YESNO: "YN",
+			ABCD: "SC",
+			FREETEXT: "Txt",
 			BUZZWORD: "Buzzword for",
 			BUZZWORD_A: "Buzzword for A",
 			BUZZWORD_B: "Buzzword for B",
@@ -556,12 +556,12 @@ switch (lang) {
 			BACK: "Zurück",
 			
 			/* question types */
-			EVALUATION: "Rating",
+			EVALUATION: "Likert",
 			SCHOOL: "Note",
 			MC: "MC",
 			YESNO: "J/N",
-			ABCD: "ABCD",
-			FREETEXT: "Text",
+			ABCD: "SC",
+			FREETEXT: "Txt",
 			BUZZWORD: "Schlagwort für",
 			BUZZWORD_A: "Schlagwort für A",
 			BUZZWORD_B: "Schlagwort für B",

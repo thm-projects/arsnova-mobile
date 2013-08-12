@@ -217,12 +217,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		
 		this.multipleChoiceQuestion = Ext.create('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			id: 'mc',
-			hidden: true
+			hidden: false
 		});
 
 		this.voteQuestion = Ext.create('ARSnova.view.speaker.form.VoteQuestion', {
 			id: 'vote',
-			hidden: false
+			hidden: true
 		});
 		
 		this.schoolQuestion = Ext.create('ARSnova.view.speaker.form.SchoolQuestion', {
@@ -251,13 +251,13 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.questionOptions = Ext.create('Ext.SegmentedButton', {
 	        allowDepress: false,
 	        items: [
-                { text: Messages.EVALUATION, pressed: true }, 
-                { text: Messages.SCHOOL }, 
-                { text: Messages.MC		}, 
-                { text: Messages.YESNO 	}, 
-                { text: Messages.ABCD	},
-				{ text: Messages.FREETEXT },
-				{ text: Messages.FLASHCARD_SHORT }
+	                { text: Messages.MC, pressed: true },
+	                { text: Messages.ABCD	},
+	                { text: Messages.YESNO 	},
+	                { text: Messages.FREETEXT },
+	                { text: Messages.EVALUATION },
+	                { text: Messages.SCHOOL },
+	                { text: Messages.FLASHCARD_SHORT }
 	        ],
 	        listeners: {
 	        	toggle: function(container, button, pressed){
