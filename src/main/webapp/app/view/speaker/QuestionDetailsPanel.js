@@ -620,7 +620,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		
 		this.answerFormFieldset = Ext.create('Ext.form.FieldSet', {
 			cls: 'standardFieldset',
-			title: Messages.ANSWERS
+			title: this.questionObj.questionType !== "flashcard" ? Messages.ANSWERS : Messages.ANSWER
 		});
 		
 		this.freetextAnswerList = Ext.create('Ext.List', {
@@ -704,6 +704,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			answerEditFormClass = 'ARSnova.view.speaker.form.SchoolQuestion';
 		} else if (this.questionObj.questionType === 'vote') {
 			answerEditFormClass = 'ARSnova.view.speaker.form.VoteQuestion';
+		} else if (this.questionObj.questionType === 'flashcard') {
+			answerEditFormClass = 'ARSnova.view.speaker.form.FlashcardQuestion';
 		}
 		
 		this.answerEditForm = Ext.create(answerEditFormClass, {
@@ -758,7 +760,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	onDeactivate: function() {
 	},
 	
-	getPossibleAnswers: function(){
+	getPossibleAnswers: function() {
+		var me = this;
 		for ( var i = 0; i < this.questionObj.possibleAnswers.length; i++){
 			var pA = this.questionObj.possibleAnswers[i];
 			var element = Ext.create('ARSnova.view.MultiBadgeButton', {
@@ -769,9 +772,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				badgeText	: [{badgeText: '0'}],
 				html		: new Ext.XTemplate(
 								'{text}',
-								'<tpl if="correct === true">',
+								'<tpl if="correct === true && this.isFlashcard() === false">',
 									'&nbsp;<span style="padding: 0 0.2em 0 0.2em" class="x-list-item-correct">&#10003; </span>',
-								'</tpl>').apply(pA)
+								'</tpl>', {
+									isFlashcard: function() {
+										return me.questionObj.questionType === 'flashcard';
+									}
+								}).apply(pA)
 			});
 			this.possibleAnswers[pA.text] = element.getId();
 			this.answerFormFieldset.add(element);
@@ -795,6 +802,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					return Messages.YESNO;
 				case "freetext":
 					return Messages.FREETEXT;
+				case "flashcard":
+					return Messages.FLASHCARD;
 				default:
 					return this.questionObj.questionType;
 			}

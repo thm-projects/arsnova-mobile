@@ -21,7 +21,9 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 	constructor: function() {
 		this.callParent(arguments);
 		
-		this.answer = Ext.create('Ext.plugins.ResizableTextArea');
+		this.answer = Ext.create('Ext.plugins.ResizableTextArea', {
+			placeHolder: Messages.ANSWER
+		});
 		
 		this.add([{
 			xtype: 'fieldset',
