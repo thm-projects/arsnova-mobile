@@ -21,7 +21,7 @@ Ext.define('ARSnova.view.speaker.form.IndexedExpandingAnswerForm', {
 	
 	config: {
 		wording: {
-			placeHolder: Messages.BUZZWORD,
+			placeHolder: "",
 			/** 'arabic' or 'alphabet' **/
 			enumeration: 'alphabet'
 		}
