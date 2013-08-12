@@ -203,6 +203,8 @@ switch (lang) {
 			PREPARATION: "Preparation",
 			LECTURE: "Lecture",
 			RESET_ALL_ANSWERS: "Reset all answers",
+			SHOW_FLASHCARD_ANSWER: "Show answer",
+			HIDE_FLASHCARD_ANSWER: "Hide answer",
 
 			/* speaker */
 			LIVE_FEEDBACK: "Live feedback",
@@ -490,6 +492,8 @@ switch (lang) {
 			PREPARATION: "Vorbereitung",
 			LECTURE: "Vorlesung",
 			RESET_ALL_ANSWERS: "Alle Antworten zurücksetzen",
+			SHOW_FLASHCARD_ANSWER: "Antwort anzeigen",
+			HIDE_FLASHCARD_ANSWER: "Antwort ausblenden",
 			
 			/* speaker */
 			LIVE_FEEDBACK: "Live-Feedback",
