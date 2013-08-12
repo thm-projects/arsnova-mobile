@@ -54,6 +54,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				title = label(Messages.QUESTION_YESNO, Messages.QUESTION_YESNO);
 			} else if (questionType === 'school') {
 				title = label(Messages.QUESTION_GRADE, Messages.QUESTION_GRADE_SHORT);
+			} else if (questionType === 'flashcard') {
+				title = label(Messages.FLASHCARD, Messages.FLASHCARD);
 			}
 			this.toolbar.setTitle(title);
 			
@@ -126,15 +128,15 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		this._indicator.show();
 		this.questionCounter.show();
 		this.toolbar.setTitle(Messages.QUESTION);
-		
-		ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
 	},
 	
 	onActivate: function(){
 		this.getAllSkillQuestions();
 	},
 	
-	getAllSkillQuestions: function(){
+	getAllSkillQuestions: function() {
+		var hideIndicator = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
+		
 		ARSnova.app.questionModel.getSkillQuestionsSortBySubjectAndText(localStorage.getItem("keyword"), {
 			success: function(response) {
 				var questions = Ext.decode(response.responseText);
@@ -166,9 +168,11 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				// question.
 				panel.setActiveItem(0);
 				panel.checkFirstQuestion();
+				hideIndicator();
 			},
-			failure: function(response){
+			failure: function(response) {
 				console.log('error');
+				hideIndicator();
 			}
 		});
 	},
