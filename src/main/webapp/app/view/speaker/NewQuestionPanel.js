@@ -260,47 +260,79 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	                { text: Messages.FLASHCARD_SHORT }
 	        ],
 	        listeners: {
-	        	toggle: function(container, button, pressed){
-	        		var panel = this.up('panel');
-	        		switch (button.config.text) {
+				scope: this,
+				toggle: function(container, button, pressed) {
+					var label = Ext.bind(function(longv, shortv) {
+						var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+						return (screenWidth > 320 || this.backButton.isHidden()) ? longv : shortv;
+					}, this);
+					
+					var title = '';
+					
+					switch (button.getText()) {
 						case Messages.EVALUATION:
-							if(pressed) panel.voteQuestion.show();
-							else panel.voteQuestion.hide();
+							if (pressed) {
+								this.voteQuestion.show();
+								title = label(Messages.QUESTION_RATING, Messages.QUESTION_RATING_SHORT);
+							} else {
+								this.voteQuestion.hide();
+							}
 							break;
 						case Messages.SCHOOL:
-							if(pressed) panel.schoolQuestion.show();
-							else panel.schoolQuestion.hide();
+							if (pressed) {
+								this.schoolQuestion.show();
+								title = label(Messages.QUESTION_GRADE, Messages.QUESTION_GRADE_SHORT);
+							} else {
+								this.schoolQuestion.hide();
+							}
 							break;
 						case Messages.MC:
-							if(pressed) {
-								panel.multipleChoiceQuestion.show();
+							if (pressed) {
+								this.multipleChoiceQuestion.show();
+								title = label(Messages.QUESTION_MC, Messages.QUESTION_MC_SHORT);
 							} else {
-								panel.multipleChoiceQuestion.hide();
+								this.multipleChoiceQuestion.hide();
 							}
 							break;
 						case Messages.YESNO:
-							if(pressed) panel.yesNoQuestion.show();
-							else panel.yesNoQuestion.hide();
+							if (pressed) {
+								this.yesNoQuestion.show();
+								title = label(Messages.QUESTION_YESNO, Messages.QUESTION_YESNO);
+							} else {
+								this.yesNoQuestion.hide();
+							}
 							break;
 						case Messages.ABCD:
-							if(pressed) panel.abcdQuestion.show();
-							else panel.abcdQuestion.hide();
+							if (pressed) {
+								this.abcdQuestion.show();
+								title = label(Messages.QUESTION_SINGLE_CHOICE, Messages.QUESTION_SINGLE_CHOICE_SHORT);
+							} else {
+								this.abcdQuestion.hide();
+							}
 							break;
 						case Messages.FREETEXT:
-							if(pressed) panel.freetextQuestion.show();
-							else panel.freetextQuestion.hide();
+							if (pressed) {
+								this.freetextQuestion.show();
+								title = label(Messages.QUESTION_FREETEXT, Messages.QUESTION_FREETEXT_SHORT);
+							} else {
+								this.freetextQuestion.hide();
+							}
 							break;
 						case Messages.FLASHCARD_SHORT:
 							if (pressed) {
-								panel.flashcardQuestion.show();
-								panel.abstentionPart.hide();
+								this.flashcardQuestion.show();
+								this.abstentionPart.hide();
+								title = Messages.FLASHCARD;
 							} else {
-								panel.flashcardQuestion.hide();
-								panel.abstentionPart.show();
+								this.flashcardQuestion.hide();
+								this.abstentionPart.show();
 							}
+							break;
 						default:
+							title = Messages.NEW_QUESTION_TITLE;
 							break;
 					}
+					this.toolbar.setTitle(title);
 	        	}
 	        }
 	    });
@@ -403,8 +435,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.on('activate', this.onActivate);
 	},
 	
-	onActivate: function(){
-		
+	onActivate: function() {
+		// The toggle handler has some logic we need to invoke in order to set things up correctly.
+		this.questionOptions.fireEvent("toggle", this.questionOptions, Ext.create('Ext.Button', { text: Messages.MC }), true);
 	},
 	
 	saveHandler: function(){
