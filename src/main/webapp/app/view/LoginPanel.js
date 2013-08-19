@@ -84,7 +84,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 					xtype	: 'matrixbutton',
 					text: Messages.UNI,
 					value: ARSnova.app.LOGIN_THM,
-					image: "btn_thm",
+					image: "btn_uni",
 					handler	: function(b) {
 						ARSnova.app.getController('Auth').login({
 							mode: b.config.value
