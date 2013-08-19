@@ -102,7 +102,7 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 		{
 			xtype	: 'panel',
 			style	: { marginTop: '30px'},
-			html	: "<div class='gravure'><a href='http://www.thm.de/' class='thmlink' target='_blank'>Powered by <span style='color:#699824; font-weight:bold;'>THM</span></a></div>",
+			html	: "<div class='gravure'><a href='http://www.thm.de/' class='thmlink' target='_blank'>A <span style='color:#699824; font-weight:bold;'>THM</span> Product</a></div>",
 			cls		: null		}]);
 		
 		this.on('activate', function(){
