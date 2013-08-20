@@ -10,6 +10,10 @@
 	width: 0;
 }
 
+.x-msgbox a, .x-msgbox a:visited {
+	color: rgba(190,224,247,0.9);
+}
+
 /* Overwriting css classes*/
 .x-input-text, .x-input-password {
 	text-align: center;
