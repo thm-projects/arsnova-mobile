@@ -279,9 +279,9 @@ body {
  */
 /* line 5, /Users/jamieavins/git/SDK/touch/resources/themes/stylesheets/sencha-touch/base/src/layout/_Box.scss */
 .x-layout-box {
+  display: flex;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
 }
 /* line 8, /Users/jamieavins/git/SDK/touch/resources/themes/stylesheets/sencha-touch/base/src/layout/_Box.scss */
 .x-layout-box.x-horizontal {
@@ -305,9 +305,9 @@ body {
 }
 /* line 24, /Users/jamieavins/git/SDK/touch/resources/themes/stylesheets/sencha-touch/base/src/layout/_Box.scss */
 .x-layout-box > .x-layout-box-item {
+  display: flex !important;
   display: -webkit-box !important;
   display: -ms-flexbox !important;
-  display: flex !important;
 }
 /* line 28, /Users/jamieavins/git/SDK/touch/resources/themes/stylesheets/sencha-touch/base/src/layout/_Box.scss */
 .x-layout-box.x-align-start {
@@ -441,9 +441,9 @@ body {
  */
 /* line 5, /Users/jamieavins/git/SDK/touch/resources/themes/stylesheets/sencha-touch/base/src/layout/_Dock.scss */
 .x-dock {
+  display: flex;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
 }
 /* line 8, /Users/jamieavins/git/SDK/touch/resources/themes/stylesheets/sencha-touch/base/src/layout/_Dock.scss */
 .x-dock > .x-dock-body {
@@ -462,9 +462,9 @@ body {
 /* line 17, /Users/jamieavins/git/SDK/touch/resources/themes/stylesheets/sencha-touch/base/src/layout/_Dock.scss */
 .x-dock.x-sized > .x-dock-body {
   position: relative;
+  display: flex;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
   -webkit-box-flex: 1;
   -ms-flex: 1 0 auto;
   flex: 1 0 auto;
@@ -478,9 +478,9 @@ body {
 /* line 29, /Users/jamieavins/git/SDK/touch/resources/themes/stylesheets/sencha-touch/base/src/layout/_Dock.scss */
 .x-dock.x-unsized > .x-dock-body, .x-dock.x-stretched > .x-dock-body {
   position: relative;
+  display: flex;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
   -webkit-box-flex: 1;
   -ms-flex: 1 0 auto;
   flex: 1 0 auto;
@@ -512,9 +512,9 @@ body {
 }
 /* line 52, /Users/jamieavins/git/SDK/touch/resources/themes/stylesheets/sencha-touch/base/src/layout/_Dock.scss */
 .x-dock.x-dock-horizontal > .x-dock-item {
+  display: flex;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
 }
 /* line 56, /Users/jamieavins/git/SDK/touch/resources/themes/stylesheets/sencha-touch/base/src/layout/_Dock.scss */
 .x-dock.x-dock-horizontal > .x-dock-item.x-sized > .x-inner, .x-dock.x-dock-horizontal > .x-dock-item.x-sized > .x-body {
@@ -563,9 +563,9 @@ body {
  */
 /* line 5, /Users/jamieavins/git/SDK/touch/resources/themes/stylesheets/sencha-touch/base/src/layout/_Fit.scss */
 .x-stretched.x-container {
+  display: flex;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
   -webkit-box-orient: vertical;
   -ms-flex-direction: column;
   flex-direction: column;
@@ -573,9 +573,9 @@ body {
 /* line 10, /Users/jamieavins/git/SDK/touch/resources/themes/stylesheets/sencha-touch/base/src/layout/_Fit.scss */
 .x-stretched.x-container > .x-inner, .x-stretched.x-container > .x-body,
 .x-stretched.x-container > .x-body > .x-inner {
+  display: flex;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
   -webkit-box-flex: 1;
   -ms-flex: 1 0 auto;
   flex: 1 0 auto;
@@ -587,9 +587,9 @@ body {
 
 /* line 18, /Users/jamieavins/git/SDK/touch/resources/themes/stylesheets/sencha-touch/base/src/layout/_Fit.scss */
 .x-layout-fit.x-stretched > .x-layout-fit-item {
+  display: flex;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
   -webkit-box-flex: 1;
   -ms-flex: 1 0 auto;
   flex: 1 0 auto;
@@ -633,9 +633,9 @@ body {
   right: 0;
   bottom: 0;
   left: 0;
+  display: flex;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
@@ -858,9 +858,9 @@ body {
  */
 /* line 5, /Users/jamieavins/git/SDK/touch/resources/themes/stylesheets/sencha-touch/base/src/_Button.scss */
 .x-button {
+  display: flex;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
@@ -1607,9 +1607,9 @@ input, textarea {
   right: 0;
   height: 100%;
   z-index: 10;
+  display: flex;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
@@ -1638,9 +1638,9 @@ input, textarea {
 }
 /* line 40, /Users/jamieavins/git/SDK/touch/resources/themes/stylesheets/sencha-touch/base/src/_Mask.scss */
 .x-mask .x-loading-spinner-outer {
+  display: flex;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
   -webkit-box-orient: vertical;
   -ms-flex-direction: column;
   flex-direction: column;
@@ -1898,9 +1898,9 @@ audio {
   -webkit-box-flex: 1;
   -ms-flex: 1 0 auto;
   flex: 1 0 auto;
+  display: flex;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
@@ -2208,9 +2208,9 @@ audio {
   text-align: center;
   pointer-events: none;
   font-size: #333333;
+  display: flex;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
   -webkit-box-orient: vertical;
   -ms-flex-direction: column;
   flex-direction: column;
@@ -2349,9 +2349,9 @@ audio {
 
 /* line 15, /Users/jamieavins/git/SDK/touch/resources/themes/stylesheets/sencha-touch/base/src/form/_Panel.scss */
 .x-field {
+  display: flex;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
 }
 /* line 18, /Users/jamieavins/git/SDK/touch/resources/themes/stylesheets/sencha-touch/base/src/form/_Panel.scss */
 .x-field .x-field-input {
@@ -2438,9 +2438,9 @@ audio {
 
 /* line 92, /Users/jamieavins/git/SDK/touch/resources/themes/stylesheets/sencha-touch/base/src/form/_Panel.scss */
 .x-spinner .x-component-outer {
+  display: flex;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
 }
 /* line 95, /Users/jamieavins/git/SDK/touch/resources/themes/stylesheets/sencha-touch/base/src/form/_Panel.scss */
 .x-spinner .x-component-outer > * {
@@ -2604,9 +2604,9 @@ input[type="search"]::-webkit-search-cancel-button {
   right: 0;
   bottom: 0;
   z-index: 3;
+  display: flex;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
   -webkit-box-align: stretch;
   -ms-flex-align: stretch;
   align-items: stretch;
@@ -2709,9 +2709,9 @@ input[type="search"]::-webkit-search-cancel-button {
  */
 /* line 5, /Users/jamieavins/git/SDK/touch/resources/themes/stylesheets/sencha-touch/base/src/plugin/_PullRefresh.scss */
 .x-list-pullrefresh {
+  display: flex;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
   -webkit-box-orient: horizontal;
   -ms-flex-direction: row;
   flex-direction: row;
