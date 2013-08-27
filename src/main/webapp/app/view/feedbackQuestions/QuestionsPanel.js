@@ -172,10 +172,10 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
   		    		'<div class="action delete x-button">Delete</div>',
   			    	'<span style="color:gray;">{formattedTime}</span>',
   			    	'<tpl if="obj.get(\'read\')">',
-  				    	'<span style="padding-left:30px;">{subject}</span>',
+  				    	'<span style="padding-left:30px;">{subject:htmlEncode}</span>',
   			    	'</tpl>',
   			    	'<tpl if="!obj.get(\'read\')">',
-				    	'<span style="padding-left:30px;font-weight:bold;color:red">{subject}</span>',
+				    	'<span style="padding-left:30px;font-weight:bold;color:red">{subject:htmlEncode}</span>',
 			    	'</tpl>',
   		    	'</div>'
 	    	),

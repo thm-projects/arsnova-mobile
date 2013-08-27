@@ -94,7 +94,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			itemCls: 'forwardListButton',
 			itemTpl: [
 				'<div class="search-item noOverflow">',
-				'<span style="color:gray">{formattedTime}</span><span style="padding-left:30px">{answerSubject}</span>',
+				'<span style="color:gray">{formattedTime}</span><span style="padding-left:30px">{answerSubject:htmlEncode}</span>',
 				'</div>'
 			],
 			grouped: true,

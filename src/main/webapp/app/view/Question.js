@@ -174,7 +174,7 @@ Ext.define('ARSnova.view.Question', {
 			scrollable: { disabled: true },
 			
 			itemTpl: new Ext.XTemplate(
-				'{text}',
+				'{text:htmlEncode}',
 				'<tpl if="correct === true && this.isQuestionAnswered(values)">',
 					'&nbsp;<span style="padding: 0 0.2em 0 0.2em" class="x-list-item-correct">&#10003; </span>',
 				'</tpl>',
