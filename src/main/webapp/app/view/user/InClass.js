@@ -104,7 +104,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		});
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: localStorage.getItem("shortName"),
+			title: Ext.util.Format.htmlEncode(localStorage.getItem("shortName")),
 			docked: 'top',
 			ui: 'light',
 			items: [

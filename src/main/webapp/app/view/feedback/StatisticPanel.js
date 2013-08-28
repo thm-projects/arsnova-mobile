@@ -283,7 +283,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 	},
 	
 	checkTitle: function(){
-		var title = localStorage.getItem('shortName');
+		var title = Ext.util.Format.htmlEncode(localStorage.getItem('shortName'));
 		this.toolbar.setTitle(title);
 	}
 });
