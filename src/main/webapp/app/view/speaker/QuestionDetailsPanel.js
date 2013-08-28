@@ -483,7 +483,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			items: [
 				{
 					cls: 'gravure',
-					html: '\u201e' + this.questionObj.text + '\u201f'
+					html: '\u201e' + Ext.util.Format.htmlEncode(this.questionObj.text) + '\u201f'
 				},
 				this.firstRow,
 				this.secondRow

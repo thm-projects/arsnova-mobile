@@ -162,8 +162,8 @@ Ext.define('ARSnova.view.Question', {
 		this.questionTitle = Ext.create('Ext.Panel', {
 			cls: 'roundedBox',
 			html: 
-				'<p class="title">' + this.questionObj.subject + '<p/>' +
-				'<p>' + this.questionObj.text + '</p>'
+				'<p class="title">' + Ext.util.Format.htmlEncode(this.questionObj.subject) + '<p/>' +
+				'<p>' + Ext.util.Format.htmlEncode(this.questionObj.text) + '</p>'
 		});
 		
 		this.answerList = Ext.create('Ext.List', {
