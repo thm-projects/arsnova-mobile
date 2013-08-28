@@ -60,7 +60,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			sorters: 'text',
 			grouper: {
 		         groupFn: function(record) {
-		        	 return record.get('subject');
+		        	 return Ext.util.Format.htmlEncode(record.get('subject'));
 		         }
 		     }
 		});
