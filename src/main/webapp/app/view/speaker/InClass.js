@@ -139,7 +139,9 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		this.flashcardsButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			text		: Messages.FLASHCARDS,
 			cls			: 'forwardListButton',
-			handler		: comingSoon
+			controller	: 'Questions',
+			action		: 'listFlashcards',
+			handler		: this.buttonClicked
 		});
 		
 		this.courseLearningProgress = Ext.create('ARSnova.view.MultiBadgeButton', {

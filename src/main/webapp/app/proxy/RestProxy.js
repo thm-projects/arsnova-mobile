@@ -189,6 +189,16 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 	
+	getFlashcards: function(sessionKeyword, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/?sessionkey=" + encodeURIComponent(sessionKeyword) + "&flashcardsonly=true",
+			success: callbacks.success,
+			204: callbacks.empty,
+			
+			failure: callbacks.failure
+		});
+	},
+	
 	countSkillQuestions: function(sessionKeyword, callbacks){
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/skillquestioncount",

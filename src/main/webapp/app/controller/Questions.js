@@ -20,7 +20,7 @@
  +--------------------------------------------------------------------------*/
 Ext.define("ARSnova.controller.Questions", {
 	extend: 'Ext.app.Controller',
-
+	
 	index: function(options){
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.backButton.show();
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');
@@ -32,6 +32,11 @@ Ext.define("ARSnova.controller.Questions", {
     listAudienceQuestions: function(){
     	var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.animateActiveItem(sTP.audienceQuestionPanel, 'slide');
+    },
+    
+    listFlashcards: function() {
+    	var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		sTP.animateActiveItem(sTP.flashcardPanel, 'slide');
     },
     
     listFeedbackQuestions: function(){
