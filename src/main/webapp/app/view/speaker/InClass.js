@@ -305,7 +305,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		ARSnova.app.questionModel.countLectureQuestions(localStorage.getItem("keyword"), {
 			success: function(response) {
 				var numQuestions = parseInt(response.responseText);
-				ARSnova.app.questionModel.countTotalAnswers(localStorage.getItem("keyword"), {
+				ARSnova.app.questionModel.countLectureQuestionAnswers(localStorage.getItem("keyword"), {
 					success: function(response) {
 						var numAnswers = parseInt(response.responseText);
 						
@@ -324,7 +324,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		ARSnova.app.questionModel.countPreparationQuestions(localStorage.getItem("keyword"), {
 			success: function(response) {
 				var numQuestions = parseInt(response.responseText);
-				ARSnova.app.questionModel.countTotalAnswers(localStorage.getItem("keyword"), {
+				ARSnova.app.questionModel.countPreparationQuestionAnswers(localStorage.getItem("keyword"), {
 					success: function(response) {
 						var numAnswers = parseInt(response.responseText);
 						

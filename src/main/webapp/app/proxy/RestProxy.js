@@ -245,6 +245,22 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 	
+	countPreparationQuestionAnswers: function(sessionKeyword, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/answercount?preparationquestionsonly=true&sessionkey=" + encodeURIComponent(sessionKeyword),
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	countLectureQuestionAnswers: function(sessionKeyword, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/answercount?lecturequestionsonly=true&sessionkey=" + encodeURIComponent(sessionKeyword),
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
 	/**
 	 * Get interposed questions for this session
 	 * @param sessionKeyword
