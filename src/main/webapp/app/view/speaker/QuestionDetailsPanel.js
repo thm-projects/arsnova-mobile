@@ -483,7 +483,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			items: [
 				{
 					cls: 'gravure',
-					html: '\u201e' + this.questionObj.text + '\u201f'
+					html: '\u201e' + Ext.util.Format.htmlEncode(this.questionObj.text) + '\u201f'
 				},
 				this.firstRow,
 				this.secondRow
@@ -630,7 +630,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			itemCls: 'forwardListButton',
 			itemTpl: [
 				'<div class="search-item noOverflow">',
-				'<span style="color:gray">{formattedTime}</span><span style="padding-left:30px">{answerSubject}</span>',
+				'<span style="color:gray">{formattedTime}</span><span style="padding-left:30px">{answerSubject:htmlEncode}</span>',
 				'</div>'
 			],
 			deferEmptyText: false,

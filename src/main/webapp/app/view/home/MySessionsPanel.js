@@ -158,7 +158,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					var displaytext = window.innerWidth > 481 ? session.name : session.shortName; 
 					var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 						ui			: 'normal',
-						text		: displaytext,
+						text		: Ext.util.Format.htmlEncode(displaytext),
 						cls			: 'forwardListButton' + status + course,
 						sessionObj	: session,
 						handler		: function(options){

@@ -60,7 +60,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			sorters: 'text',
 			grouper: {
 		         groupFn: function(record) {
-		        	 return record.get('subject');
+		        	 return Ext.util.Format.htmlEncode(record.get('subject'));
 		         }
 		     }
 		});
@@ -84,8 +84,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			defaultType: 'audiencequestionlistitem',
 
 			itemCls: 'forwardListButton',
-			itemTpl: '<tpl if="active"><div class="buttontext noOverflow">{text}</div></tpl>' +
-					 '<tpl if="!active"><div class="isInactive buttontext noOverflow">{text}</div></tpl>' +
+			itemTpl: '<tpl if="active"><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
+					 '<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
 					 '<div class="x-list-item x-hasbadge">' +
 					 '<tpl if="numAnswers &gt; 0"><span class="redbadgeicon badgefixed">{numAnswers}</span></tpl></div>',
 			grouped: true,
@@ -144,14 +144,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 					duration	: 700
 				});
 			}
-		});
-		
-		this.presenterButton = Ext.create('Ext.Button', {
-			cls		: "thm",
-			text	: Messages.PRESENTER,
-			hidden	: true,
-			scope	: this,
-			handler	: this.presenterHandler
 		});
 		
 		this.showcaseButton = Ext.create('Ext.Button', {
@@ -253,7 +245,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			items: [
 		        this.backButton,
 		        {xtype: 'spacer'},
-		        this.presenterButton,
 		        this.showcaseButton
 			]
 		});
@@ -332,23 +323,16 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		/* iPad does not swap screen width and height values in landscape orientation */
 		if (screen.availWidth >= 980 || screen.availHeight >= 980) {
 			this.showcaseButton.hide();
-			this.presenterButton.show();
 		} else if (window.innerWidth >= 480) {
 			this.showcaseButton.show();
-			this.presenterButton.hide();
 		} else {
 			this.showcaseButton.hide();
-			this.presenterButton.hide();
 		}
 	},
 	
 	newQuestionHandler: function(){
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.animateActiveItem(sTP.newQuestionPanel, 'slide');
-	},
-	
-	presenterHandler: function() {
-		window.open(ARSnova.app.PRESENTER_URL + "#!/" + localStorage.getItem('keyword'), "_self");
 	},
 	
 	showcaseHandler: function() {

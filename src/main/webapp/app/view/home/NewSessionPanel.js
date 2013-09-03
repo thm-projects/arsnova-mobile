@@ -55,8 +55,8 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				backgroundColor: 'transparent'
 			},
 			itemTpl: window.innerWidth > 321
-						? '<span class="course">{fullname}<span>'
-						: '<span class="course">{shortname}<span>',
+						? '<span class="course">{fullname:htmlEncode}<span>'
+						: '<span class="course">{shortname:htmlEncode}<span>',
 			listeners: {
 				itemtap: Ext.bind(this.onCourseSubmit, this),
 				

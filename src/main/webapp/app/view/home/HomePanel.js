@@ -199,7 +199,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 						var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 							xtype		: 'button',
 							ui			: 'normal',
-							text		: displaytext,
+							text		: Ext.util.Format.htmlEncode(displaytext),
 							cls			: 'forwardListButton' + course,
 							controller	: 'sessions',
 							action		: 'showDetails',

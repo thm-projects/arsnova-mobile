@@ -84,12 +84,22 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			}
 		});
 		
+		this.presenterButton = Ext.create('Ext.Button', {
+			cls		: "thm",
+			text	: Messages.PRESENTER,
+			hidden	: true,
+			scope	: this,
+			handler	: this.presenterHandler
+		});
+		
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: localStorage.getItem("shortName"),
+			title: Ext.util.Format.htmlEncode(localStorage.getItem("shortName")),
 			ui: 'light',
 			docked: 'top',
 			items: [
-		        this.sessionLogoutButton
+		        this.sessionLogoutButton,
+		        {xtype: 'spacer'},
+		        this.presenterButton
 			]
 		});
 		
@@ -221,6 +231,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		
 		this.on('activate', function() {
 			ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", this.updateFeedback, this);
+			this.displayPresenterButton();
 		});
 		this.on('deactivate', function() {
 			ARSnova.app.feedbackModel.un("arsnova/session/feedback/average", this.updateFeedback);
@@ -337,5 +348,27 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				console.log('server-side error');
 			}
 		});
+	},
+	
+	presenterHandler: function() {
+		window.open(ARSnova.app.PRESENTER_URL + "#!/" + localStorage.getItem('keyword'), "_self");
+	},
+	
+	/**
+	 * Displays the showcase button if enough screen width is available
+	 */
+	displayPresenterButton: function() {
+		/* iPad does not swap screen width and height values in landscape orientation */
+		if (screen.availWidth >= 980 || screen.availHeight >= 980) {
+			this.presenterButton.show();
+		} else if (window.innerWidth >= 480) {
+			this.presenterButton.hide();
+		} else {
+			this.presenterButton.hide();
+		}
+	},
+	
+	onOrientationChange: function(panel, orientation, width, height) {
+		this.displayPresenterButton();
 	}
 });
