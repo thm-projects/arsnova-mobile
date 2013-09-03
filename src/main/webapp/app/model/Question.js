@@ -136,6 +136,10 @@ Ext.define('ARSnova.model.Question', {
     	return this.getProxy().getFlashcards(sessionKeyword, callbacks);
     },
     
+    getPreparationQuestions: function(sessionKeyword, callbacks) {
+    	return this.getProxy().getPreparationQuestions(sessionKeyword, callbacks);
+    },
+    
     getSkillQuestionsForDelete: function(sessionId, callbacks) {
     	return this.getProxy().getSkillQuestionsForDelete(sessionId, callbacks);
     },

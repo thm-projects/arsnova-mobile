@@ -276,7 +276,7 @@ Ext.define('ARSnova.view.speaker.PreparationQuestionPanel', {
 		
 		this.questionEntries = [];
 
-		ARSnova.app.questionModel.getFlashcards(localStorage.getItem('keyword'), {
+		ARSnova.app.questionModel.getPreparationQuestions(localStorage.getItem('keyword'), {
 			success: Ext.bind(function(response) {
 				var questions = Ext.decode(response.responseText);
 				this.questionStore.add(questions);
