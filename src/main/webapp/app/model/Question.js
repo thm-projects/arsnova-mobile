@@ -128,8 +128,8 @@ Ext.define('ARSnova.model.Question', {
     	return this.getProxy().publishCorrectSkillQuestionAnswer(this, callbacks);
     },
     
-    getSkillQuestionsSortBySubjectAndText: function(sessionKeyword, callbacks) {
-    	return this.getProxy().getSkillQuestionsSortBySubjectAndText(sessionKeyword, callbacks);
+    getLectureQuestions: function(sessionKeyword, callbacks) {
+    	return this.getProxy().getLectureQuestions(sessionKeyword, callbacks);
     },
     
     getFlashcards: function(sessionKeyword, callbacks) {
@@ -150,6 +150,18 @@ Ext.define('ARSnova.model.Question', {
     
     countSkillQuestions: function(sessionKeyword, callbacks) {
     	return this.getProxy().countSkillQuestions(sessionKeyword, callbacks);
+    },
+    
+    countPreparationQuestions: function(sessionKeyword, callbacks) {
+    	return this.getProxy().countPreparationQuestions(sessionKeyword, callbacks);
+    },
+    
+    countFlashcards: function(sessionKeyword, callbacks) {
+    	return this.getProxy().countFlashcards(sessionKeyword, callbacks);
+    },
+    
+    countLectureQuestions: function(sessionKeyword, callbacks) {
+    	return this.getProxy().countLectureQuestions(sessionKeyword, callbacks);
     },
 	
 	countTotalAnswers: function(sessionKeyword, callbacks) {

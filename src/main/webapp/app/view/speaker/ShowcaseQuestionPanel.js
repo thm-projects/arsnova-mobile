@@ -137,7 +137,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	getAllSkillQuestions: function() {
 		var hideIndicator = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
 		
-		ARSnova.app.questionModel.getSkillQuestionsSortBySubjectAndText(localStorage.getItem("keyword"), {
+		ARSnova.app.questionModel.getLectureQuestions(localStorage.getItem("keyword"), {
 			success: function(response) {
 				var questions = Ext.decode(response.responseText);
 				var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.showcaseQuestionPanel;

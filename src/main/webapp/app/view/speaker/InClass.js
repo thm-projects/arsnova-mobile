@@ -302,7 +302,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			console.log('server-side error');
 		};
 		
-		ARSnova.app.questionModel.countSkillQuestions(localStorage.getItem("keyword"), {
+		ARSnova.app.questionModel.countLectureQuestions(localStorage.getItem("keyword"), {
 			success: function(response) {
 				var numQuestions = parseInt(response.responseText);
 				ARSnova.app.questionModel.countTotalAnswers(localStorage.getItem("keyword"), {
@@ -310,15 +310,41 @@ Ext.define('ARSnova.view.speaker.InClass', {
 						var numAnswers = parseInt(response.responseText);
 						
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
-						var audienceQuestionButton = panel.lectureQuestionButton;
 						
-						audienceQuestionButton.setBadge([
+						panel.lectureQuestionButton.setBadge([
 											{badgeText: numQuestions, badgeCls: "greybadgeicon"},
 											{badgeText: numAnswers, badgeCls: "redbadgeicon"}
 										]);
 					},
 					failure: failureCallback
 				});
+			}, 
+			failure: failureCallback
+		});
+		ARSnova.app.questionModel.countPreparationQuestions(localStorage.getItem("keyword"), {
+			success: function(response) {
+				var numQuestions = parseInt(response.responseText);
+				ARSnova.app.questionModel.countTotalAnswers(localStorage.getItem("keyword"), {
+					success: function(response) {
+						var numAnswers = parseInt(response.responseText);
+						
+						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
+						
+						panel.preparationQuestionButton.setBadge([
+											{badgeText: numQuestions, badgeCls: "greybadgeicon"},
+											{badgeText: numAnswers, badgeCls: "redbadgeicon"}
+										]);
+					},
+					failure: failureCallback
+				});
+			}, 
+			failure: failureCallback
+		});
+		ARSnova.app.questionModel.countFlashcards(localStorage.getItem("keyword"), {
+			success: function(response) {
+				var numQuestions = parseInt(response.responseText);
+				var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
+				panel.flashcardsButton.setBadge([{badgeText: numQuestions, badgeCls: "greybadgeicon"}]);
 			}, 
 			failure: failureCallback
 		});
