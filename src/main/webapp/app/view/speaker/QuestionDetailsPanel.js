@@ -771,7 +771,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				badgeCls	: 'badgeicon',
 				badgeText	: [{badgeText: '0'}],
 				html		: new Ext.XTemplate(
-								'{text}',
+								'{text:htmlEncode}',
 								'<tpl if="correct === true && this.isFlashcard() === false">',
 									'&nbsp;<span style="padding: 0 0.2em 0 0.2em" class="x-list-item-correct">&#10003; </span>',
 								'</tpl>', {
