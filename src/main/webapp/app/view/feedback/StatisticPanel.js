@@ -18,15 +18,13 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-feedbackChartColors = ['url(#v-3)', 'url(#v-2)', 'url(#v-1)', 'url(#v-4)'],
-
 Ext.define('ARSnova.view.feedback.StatisticPanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
 		title: 'StatisticPanel',
 		style: 'background-color: black',
-		layout: 'vbox'
+		layout: 'fit'
 	},
 	
 	buttonClicked: null,
@@ -59,7 +57,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				ARSnova.app.getController('Feedback').vote({
 					value : button.config.value
 				});
-			}
+			};
 		}
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
@@ -69,7 +67,8 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		});
 
 		this.feedbackOkButton = Ext.create('Ext.Panel', {
-			cls: 'voteButtons left',
+			cls: 'voteButtons',
+			flex: 1,
 
 			items: [{
 				xtype		: 'button',
@@ -80,7 +79,8 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		});
 
 		this.feedbackGoodButton = Ext.create('Ext.Panel', {
-			cls: 'voteButtons left',
+			cls: 'voteButtons',
+			flex: 1,
 			
 			items: [{
 				xtype		: 'button',
@@ -91,7 +91,8 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		});
 		
 		this.feedbackBadButton = Ext.create('Ext.Panel', {
-			cls: 'voteButtons left',
+			cls: 'voteButtons',
+			flex: 1,
 			
 			items: [{
 				xtype		: 'button',
@@ -102,7 +103,8 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		});
 		
 		this.feedbackNoneButton = Ext.create('Ext.Panel', {
-			cls: 'voteButtons left',
+			cls: 'voteButtons',
+			flex: 1,
 			
 			items: [{
 				xtype		: 'button',
@@ -112,123 +114,110 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			}]
 		});
 
-		this.feedbackButtons = Ext.create('Ext.form.FormPanel', {
-			cls	 : 'actionsForm voteButtonsPanel',
-			scrollable: null,
-			layout: 'hbox',
-			flex: 1,
+		this.feedbackButtons = Ext.create('Ext.Toolbar', {
+			cls	 : 'voteButtonsPanel',
+			docked: 'top',
 			
 			items: [
-			    this.feedbackOkButton, {xtype: 'spacer'},
-			    this.feedbackGoodButton, {xtype: 'spacer'},
-			    this.feedbackBadButton, {xtype: 'spacer'},
+			    this.feedbackOkButton,
+			    this.feedbackGoodButton,
+			    this.feedbackBadButton,
 			    this.feedbackNoneButton
 		    ]
 		});
-
-		this.feedbackChart = Ext.create('Ext.chart.Chart', {
-			theme: 'Demo',
-			themeCls: 'column1',
-			flex: 20,
-			style: { marginTop: '40px' },
-		    store: Ext.create('Ext.data.JsonStore', {
-			    fields: ['name', 'displayName', 'value', 'percent'],
-			    data: [
-				  {'name': 'Kann folgen', 	 'displayName': Messages.FEEDBACK_OKAY, 'value': 0, 'percent': 0.0},
-		          {'name': 'Bitte schneller',  'displayName': Messages.FEEDBACK_GOOD,  'value': 0, 'percent': 0.0},
-		          {'name': 'Zu schnell', 		 'displayName': Messages.FEEDBACK_BAD, 'value': 0, 'percent': 0.0},
-		          {'name': 'Nicht mehr dabei', 'displayName': Messages.FEEDBACK_NONE, 'value': 0, 'percent': 0.0}
+		
+    	this.feedbackChartColors = [
+    	    Ext.create('Ext.draw.gradient.Linear', {
+    	    	degrees: 90,
+    	    	stops: [{ offset: 0,	color: 'rgb(122, 184, 68)' },
+    	    	        { offset: 100,	color: 'rgb(82, 144, 28)' }
+    	    	]
+    	    }),
+		
+    	    Ext.create('Ext.draw.gradient.Linear', {
+    	    	degrees: 90,
+		        stops: [{ offset: 0, 	color: 'rgb(254, 201, 41)' },
+		                { offset: 100,	color: 'rgb(214, 161, 0)' }
 		        ]
 			}),
-
+			
+			Ext.create('Ext.draw.gradient.Linear', {
+				degrees: 90,
+		        stops: [{offset: 0,		color: 'rgb(237, 96, 28)' },
+		                {offset: 100,	color: 'rgb(197, 56, 0)' }
+		        ]
+			}),
+			
+			Ext.create('Ext.draw.gradient.Linear', {
+				degrees: 90,
+		    	stops: [{ offset: 0,	color: 'rgb(235, 235, 235)' },
+		    	        { offset: 100, 	color: 'rgb(195,195,195)' }
+		        ]
+			})
+		];
+    	
+		this.feedbackChart = Ext.create('Ext.chart.CartesianChart', {
+	    	store:  Ext.create('Ext.data.Store', {
+	    		fields: ['name', 'displayName', 'value', 'percent'],
+	    		data: [
+	    		       {'name': 'Kann folgen',		'displayName': Messages.FEEDBACK_OKAY,	'value': 0, 'percent': 0.0},
+	    		       {'name': 'Bitte schneller',	'displayName': Messages.FEEDBACK_GOOD,	'value': 0, 'percent': 0.0},
+	    		       {'name': 'Zu schnell',		'displayName': Messages.FEEDBACK_BAD,	'value': 0, 'percent': 0.0},
+	    		       {'name': 'Nicht mehr dabei',	'displayName': Messages.FEEDBACK_NONE,	'value': 0, 'percent': 0.0}
+	    		]
+	    	}),
+	    	
 		    animate: {
 		        easing: 'bounceOut',
 		        duration: 750
 		    },
-
+		    
 		    axes: [{
 		        type: 'numeric',
 		        position: 'left',
 		        fields: ['value'],
-		        hidden: true,
-		        minimum: 0,
-		        grid: {
-			        opacity: 0
-		        }
+		        hidden: true
 		    }, {
 		        type: 'category',
 		        position: 'bottom',
-		        fields : ['displayName'],
-		        label: {
-		            renderer: function(v) {
-		                return '';
-		            }
+		        fields : ['name'],
+		        style: { stroke : 'white' },
+		        renderer: function(label, layout, lastLabel) {
+		        	// remove x-axis ticks and labels on refresh or update
+		        	layout.attr.majorTicks = false;
 		        }
 		    }],
 		    
-		    gradients: [{
-		    	'id': 'v-1',
-		        'angle': 0,
-		        stops: {
-		            0:   { color: 'rgb(237, 96, 28)' },
-		            100: { color: 'rgb(197, 56, 0)' }
-		        }
-		    },
-		    {
-		        'id': 'v-2',
-		        'angle': 0,
-		        stops: {
-		            0:   { color: 'rgb(254, 201, 41)'},
-		            100: { color: 'rgb(214, 161, 0)' }
-		        }
-		    },
-		    {
-		        'id': 'v-3',
-		        'angle': 0,
-		        stops: {
-		            0:   { color: 'rgb(122, 184, 68)' },
-		            100: { color: 'rgb(82, 144, 28)' }
-		        }
-		    },
-		    {
-		        'id': 'v-4',
-		        'angle': 0,
-		        stops: {
-		            0:   { color: 'rgb(235, 235, 235)' },
-		            100: { color: 'rgb(195,195,195)' }
-		        }
-		    }],
-
 		    series: [{
-		        type: 'column',
-		        axis: 'left',
+		        type: 'bar',
 		        xField: 'name',
 		        yField: 'value',
-		        highlight: true,
-		        renderer: function(sprite, storeItem, barAttr, i, store) {
-		            barAttr.fill = feedbackChartColors[i % feedbackChartColors.length];
-		            return barAttr;
-		        },
-		        label: {
-		            renderer: function(v) {
-		                return '';
-		            }
-		        },
 		        style: {
-		            color:0x6238A7, 
-		            size:8,
-		            fill: 'blue'
-		        }
-		    }]
+		        	minGapWidth: 25,
+		        	maxBarWidth: 200
+		        },
+		        renderer: function (sprite, config, rendererData, i) {		 
+		        	var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel;
+
+		        	return rendererData = { 
+		        			fill : panel.feedbackChartColors[i % panel.feedbackChartColors.length] 
+		        	};
+		        },
+		    }],
 		});
-		
+
 		this.add([this.toolbar, this.feedbackButtons, this.feedbackChart]);
+		
+		this.onBefore('activate', function() {
+			// remove x-axis ticks and labels at initialization
+			this.feedbackChart.getAxes()[1].sprites[0].attr.majorTicks = false;
+		});
 	},
 	
 	updateChart: function(feedbackValues) {
 		var chart = this.feedbackChart;
 		var store = chart.getStore();
-		
+
 		/* Swap values for "can follow" and "faster, please" feedback
 		 * TODO: improve implementation, this is a quick hack for MoodleMoot 2013 */
 		var values = feedbackValues.slice();
@@ -245,10 +234,10 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		// Calculate percentages
 		var sum = store.sum('value');
 		store.each(function(record) {
-			record.set('percent', sum > 0 ? (record.data.value / sum) : 0.0);
+			record.set('percent', sum > 0 ? (record.get('value') / sum) : 0.0);
 		});
 		
-		chart._axes.items[0]._maximum = Math.max.apply(null, values);
+		chart.getAxes()[0].setMaximum(Math.max.apply(null, values));
 		chart.redraw();
 	},
 	

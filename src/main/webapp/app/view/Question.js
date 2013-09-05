@@ -45,11 +45,12 @@ Ext.define('ARSnova.view.Question', {
 		this.on('preparestatisticsbutton', function(button) {
 			button.scope = this;
 			button.setHandler(function() {
-				var questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
+				var panel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel;
+				panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
 					question	: self.questionObj,
 					lastPanel	: self
 				});
-				ARSnova.app.mainTabPanel.animateActiveItem(questionStatisticChart, 'slide');
+				ARSnova.app.mainTabPanel.animateActiveItem(panel.questionStatisticChart, 'slide');
 			});
 		});
 		

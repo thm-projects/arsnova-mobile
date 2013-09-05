@@ -10,6 +10,11 @@
 	width: 0;
 }
 
+/* remove "Sencha Touch GPL3" watermark from charts */
+.x-chart-watermark {
+	opacity: 0
+}
+
 /* Overwriting css classes*/
 .x-input-text, .x-input-password {
 	text-align: center;
@@ -1187,17 +1192,21 @@ ol.standardList li {
 /* END for feedback questions */
 
 /* BEGIN of feedback vote */
-.voteButtons {
-	width: 19.3%;
-}
-
 .voteButtons > div {
 	padding: 0 !important;
 }
 
 .voteButtonsPanel {
-	margin: 20px;
-	margin-bottom: 0px;
+	background: black;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-top: 15px;
+	margin-bottom: 5px;
+}
+
+.questionStatisticTitle {
+	background: black;
+	font-size: 80% !important;
 }
 
 .feedbackOkIcon {
@@ -1206,9 +1215,9 @@ ol.standardList li {
 		no-repeat !important;
 	width: 48px !important;
 	min-height: 48px !important;
-	border: none;
+	border: none !important;
 	background-position: center;
-	margin: 0pt auto;
+	margin: 0pt auto !important;
 }
 
 .feedbackGoodIcon {
@@ -1217,9 +1226,9 @@ ol.standardList li {
 		no-repeat !important;
 	width: 48px !important;
 	min-height: 48px !important;
-	border: none;
+	border: none !important;
 	background-position: center;
-	margin: 0pt auto;
+	margin: 0pt auto !important;
 }
 
 .feedbackBadIcon {
@@ -1228,9 +1237,9 @@ ol.standardList li {
 		no-repeat !important;
 	width: 48px !important;
 	min-height: 48px !important;
-	border: none;
+	border: none !important;
 	background-position: center;
-	margin: 0pt auto;
+	margin: 0pt auto !important;
 }
 
 .feedbackNoneIcon {
@@ -1239,9 +1248,9 @@ ol.standardList li {
 		no-repeat !important;
 	width: 48px !important;
 	min-height: 48px !important;
-	border: none;
+	border: none !important;
 	background-position: center;
-	margin: 0pt auto;
+	margin: 0pt auto !important;
 }
 
 .feedbackOkBackground .iconBtn {

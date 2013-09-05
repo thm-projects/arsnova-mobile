@@ -30,6 +30,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	/* toolbar items */
 	toolbar		: null,
 	backButton	: null,
+	chartPanel	: null,
 	questionCounter: 0,
 	
 	/* item index 0 and 1 are occupied by the carousel and toolbar. */
@@ -105,14 +106,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		this.statisticButton = Ext.create('Ext.Button', {
 			text	: ' ',
 			cls		: 'statisticIconSmall',
-			hidden	: true,
-			handler	: function() {
-				var questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
-					question: ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel._activeItem.questionObj,
-					lastPanel: this
-				});
-				ARSnova.app.mainTabPanel.animateActiveItem(questionStatisticChart, 'slide');
-			}
+			hidden	: true
 		});
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
