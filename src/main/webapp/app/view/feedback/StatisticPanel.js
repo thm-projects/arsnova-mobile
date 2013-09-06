@@ -202,8 +202,8 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		        	return rendererData = { 
 		        			fill : panel.feedbackChartColors[i % panel.feedbackChartColors.length] 
 		        	};
-		        },
-		    }],
+		        }
+		    }]
 		});
 
 		this.add([this.toolbar, this.feedbackButtons, this.feedbackChart]);

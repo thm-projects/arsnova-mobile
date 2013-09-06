@@ -227,7 +227,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					stops: [{ offset: 0,	color: 'rgb(128, 64, 22)' },
 					        { offset: 100,	color: 'rgb(88, 24, 0)' }
 					]
-				}),
+				})
 			];
 		}
 		
