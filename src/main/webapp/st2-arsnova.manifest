@@ -3,7 +3,6 @@ CACHE MANIFEST
 # You do not need to bump the version of this file.
 
 lib/touch-2.2.1/sencha-touch-all-compat.js
-lib/touch-charts-2.0/touch-charts.js
 lib/socket.io/socket.io.min.js
 lib/rsvp.min.js
 
