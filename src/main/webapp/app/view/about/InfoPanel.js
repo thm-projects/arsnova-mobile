@@ -78,7 +78,7 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 			items: [{
 				text	: Messages.ARSNOVA_FAQ,
 				handler	: function(b) {
-					window.open("https://arsnova.ecollab.eu/blog/faq-2/");
+					window.open("https://arsnova.thm.de/blog/faq-2/");
 				}
 			}, {
 				text	: Messages.STATISTIC,
@@ -90,12 +90,12 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 			}, {
 				text	: Messages.OPINION,
 				handler	: function(b) {
-					window.open("https://arsnova.ecollab.eu/#id/10940464");
+					window.open("https://arsnova.eu/blog/users/");
 				}
 			}, {
 				text: Messages.IMPRESSUM,
 				handler	: function(b) {
-					window.open("https://arsnova.ecollab.eu/blog/impressum/");
+					window.open("https://arsnova.thm.de/blog/impressum/");
 				}
 			}]
 		},
