@@ -90,7 +90,7 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 			}, {
 				text	: Messages.OPINION,
 				handler	: function(b) {
-					window.open("https://arsnova.eu/blog/users/");
+					window.open("https://arsnova.thm.de/blog/users/");
 				}
 			}, {
 				text: Messages.IMPRESSUM,
