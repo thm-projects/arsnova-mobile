@@ -121,6 +121,9 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		
 		this.on('activate', this.beforeActivate, this, null, 'before');
 		this.on('activate', this.onActivate);
+		this.on('add', function(panel, component, index) {
+			component.doTypeset && component.doTypeset(panel);
+		});
 	},
 	
 	beforeActivate: function(){
