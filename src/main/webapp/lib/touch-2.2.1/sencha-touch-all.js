@@ -16,7 +16,7 @@ requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 If you are unsure which license is appropriate for your use, please contact the sales department
 at http://www.sencha.com/contact.
 
-Build date: 2013-08-21 14:04:09 (1f09e4bd47b5edd4d592cf902e06917a8086f28c)
+Build date: 2013-09-11 14:24:30 (a15cd1b756c28fa262dc2454887be23d587c21c8)
 */
 //@tag foundation,core
 //@define Ext
@@ -61174,6 +61174,2760 @@ Ext.define('Ext.util.Collection', {
 });
 
 /**
+ * @author Ed Spencer
+ *
+ * Simple wrapper class that represents a set of records returned by a Proxy.
+ */
+Ext.define('Ext.data.ResultSet', {
+    config: {
+        /**
+         * @cfg {Boolean} loaded
+         * True if the records have already been loaded. This is only meaningful when dealing with
+         * SQL-backed proxies.
+         */
+        loaded: true,
+
+        /**
+         * @cfg {Number} count
+         * The number of records in this ResultSet. Note that total may differ from this number.
+         */
+        count: null,
+
+        /**
+         * @cfg {Number} total
+         * The total number of records reported by the data source. This ResultSet may form a subset of
+         * those records (see {@link #count}).
+         */
+        total: null,
+
+        /**
+         * @cfg {Boolean} success
+         * True if the ResultSet loaded successfully, false if any errors were encountered.
+         */
+        success: false,
+
+        /**
+         * @cfg {Ext.data.Model[]} records (required)
+         * The array of record instances.
+         */
+        records: null,
+
+        /**
+         * @cfg {String} message
+         * The message that was read in from the data
+         */
+        message: null
+    },
+
+    /**
+     * Creates the resultSet
+     * @param {Object} [config] Config object.
+     */
+    constructor: function(config) {
+        this.initConfig(config);
+    },
+
+    applyCount: function(count) {
+        if (!count && count !== 0) {
+            return this.getRecords().length;
+        }
+        return count;
+    },
+    
+    /**
+     * @private
+     * Make sure we set the right count when new records have been sent in
+     */
+    updateRecords: function(records) {
+        this.setCount(records.length);
+    }
+});
+
+/**
+ * @author Ed Spencer
+ *
+ * Readers are used to interpret data to be loaded into a {@link Ext.data.Model Model} instance or a {@link
+ * Ext.data.Store Store} - often in response to an AJAX request. In general there is usually no need to create
+ * a Reader instance directly, since a Reader is almost always used together with a {@link Ext.data.proxy.Proxy Proxy},
+ * and is configured using the Proxy's {@link Ext.data.proxy.Proxy#cfg-reader reader} configuration property:
+ *
+ *     Ext.define("User", {
+ *         extend: "Ext.data.Model",
+ *         config: {
+ *             fields: [
+ *                 "id",
+ *                 "name"
+ *             ]
+ *         }
+ *     });
+ *
+ *     Ext.create("Ext.data.Store", {
+ *         model: "User",
+ *         autoLoad: true,
+ *         storeId: "usersStore",
+ *         proxy: {
+ *             type: "ajax",
+ *             url : "users.json",
+ *             reader: {
+ *                 type: "json",
+ *                 rootProperty: "users"
+ *             }
+ *         }
+ *     });
+ *
+ *     Ext.create("Ext.List", {
+ *         fullscreen: true,
+ *         itemTpl: "{name} (id: '{id}')",
+ *         store: "usersStore"
+ *     });
+ *
+ * The above reader is configured to consume a JSON string that looks something like this:
+ *
+ *     {
+ *         "success": true,
+ *         "users": [
+ *             { "name": "User 1" },
+ *             { "name": "User 2" }
+ *         ]
+ *     }
+ *
+ *
+ * # Loading Nested Data
+ *
+ * Readers have the ability to automatically load deeply-nested data objects based on the {@link Ext.data.association.Association
+ * associations} configured on each Model. Below is an example demonstrating the flexibility of these associations in a
+ * fictional CRM system which manages a User, their Orders, OrderItems and Products. First we'll define the models:
+ *
+ *     Ext.define("User", {
+ *         extend: "Ext.data.Model",
+ *         config: {
+ *             fields: [
+ *                 "id",
+ *                 "name"
+ *             ],
+ *             hasMany: {
+ *                 model: "Order",
+ *                 name: "orders"
+ *             },
+ *             proxy: {
+ *                 type: "rest",
+ *                 url : "users.json",
+ *                 reader: {
+ *                     type: "json",
+ *                     rootProperty: "users"
+ *                 }
+ *             }
+ *         }
+ *     });
+ *
+ *     Ext.define("Order", {
+ *         extend: "Ext.data.Model",
+ *         config: {
+ *             fields: [
+ *                 "id", "total"
+ *             ],
+ *             hasMany: {
+ *                 model: "OrderItem",
+ *                 name: "orderItems",
+ *                 associationKey: "order_items"
+ *             },
+ *             belongsTo: "User"
+ *         }
+ *     });
+ *
+ *     Ext.define("OrderItem", {
+ *         extend: "Ext.data.Model",
+ *         config: {
+ *             fields: [
+ *                 "id",
+ *                 "price",
+ *                 "quantity",
+ *                 "order_id",
+ *                 "product_id"
+ *             ],
+ *             belongsTo: [
+ *                 "Order", {
+ *                     model: "Product",
+ *                     associationKey: "product"
+ *                 }
+ *             ]
+ *         }
+ *     });
+ *
+ *     Ext.define("Product", {
+ *         extend: "Ext.data.Model",
+ *         config: {
+ *             fields: [
+ *                 "id",
+ *                 "name"
+ *             ]
+ *         },
+ *         hasMany: "OrderItem"
+ *     });
+ *
+ *     var store = Ext.create('Ext.data.Store', {
+ *         model: "User"
+ *     });
+ *
+ *     store.load({
+ *         callback: function() {
+ *             var output = [];
+ *
+ *             // the user that was loaded
+ *             var user = store.first();
+ *
+ *             output.push("Orders for " + user.get('name') + ":");
+ *
+ *             // iterate over the Orders for each User
+ *             user.orders().each(function(order) {
+ *                 output.push("Order ID: " + order.get('id') + ", which contains items:");
+ *
+ *                 // iterate over the OrderItems for each Order
+ *                 order.orderItems().each(function(orderItem) {
+ *                     // We know that the Product data is already loaded, so we can use the
+ *                     // synchronous getProduct() method. Usually, we would use the 
+ *                     // asynchronous version (see Ext.data.association.BelongsTo).
+ *                     var product = orderItem.getProduct();
+ *                     output.push(orderItem.get("quantity") + " orders of " + product.get("name"));
+ *                 });
+ *             });
+ *             Ext.Msg.alert('Output:', output.join("<br/>"));
+ *         }
+ *     });
+ *
+ * This may be a lot to take in - basically a User has many Orders, each of which is composed of several OrderItems.
+ * Finally, each OrderItem has a single Product. This allows us to consume data like this (_users.json_):
+ *
+ *     {
+ *         "users": [
+ *             {
+ *                 "id": 123,
+ *                 "name": "Ed",
+ *                 "orders": [
+ *                     {
+ *                         "id": 50,
+ *                         "total": 100,
+ *                         "order_items": [
+ *                             {
+ *                                 "id"      : 20,
+ *                                 "price"   : 40,
+ *                                 "quantity": 2,
+ *                                 "product" : {
+ *                                     "id": 1000,
+ *                                     "name": "MacBook Pro"
+ *                                 }
+ *                             },
+ *                             {
+ *                                 "id"      : 21,
+ *                                 "price"   : 20,
+ *                                 "quantity": 3,
+ *                                 "product" : {
+ *                                     "id": 1001,
+ *                                     "name": "iPhone"
+ *                                 }
+ *                             }
+ *                         ]
+ *                     }
+ *                 ]
+ *             }
+ *         ]
+ *     }
+ *
+ * The JSON response is deeply nested - it returns all Users (in this case just 1 for simplicity's sake), all of the
+ * Orders for each User (again just 1 in this case), all of the OrderItems for each Order (2 order items in this case),
+ * and finally the Product associated with each OrderItem.
+ *
+ * Running the code above results in the following:
+ *
+ *     Orders for Ed:
+ *     Order ID: 50, which contains items:
+ *     2 orders of MacBook Pro
+ *     3 orders of iPhone
+ */
+Ext.define('Ext.data.reader.Reader', {
+               
+                            
+      
+    alternateClassName: ['Ext.data.Reader', 'Ext.data.DataReader'],
+
+    mixins: [ Ext.mixin.Observable ],
+
+    // @private
+    isReader: true,
+
+    config: {
+        /**
+         * @cfg {String} idProperty
+         * Name of the property within a raw object that contains a record identifier value. Defaults to The id of the
+         * model. If an `idProperty` is explicitly specified it will override that of the one specified on the model
+         */
+        idProperty: undefined,
+
+        /**
+         * @cfg {String} clientIdProperty
+         * The name of the property with a response that contains the existing client side id for a record that we are reading.
+         */
+        clientIdProperty: 'clientId',
+
+        /**
+         * @cfg {String} totalProperty
+         * Name of the property from which to retrieve the total number of records in the dataset. This is only needed if
+         * the whole dataset is not passed in one go, but is being paged from the remote server.
+         */
+        totalProperty: 'total',
+
+        /**
+         * @cfg {String} successProperty
+         * Name of the property from which to retrieve the success attribute. See
+         * {@link Ext.data.proxy.Server}.{@link Ext.data.proxy.Server#exception exception} for additional information.
+         */
+        successProperty: 'success',
+
+        /**
+         * @cfg {String} messageProperty (optional)
+         * The name of the property which contains a response message. This property is optional.
+         */
+        messageProperty: null,
+
+        /**
+         * @cfg {String} rootProperty
+         * The name of the property which contains the Array of row objects.  For JSON reader it's dot-separated list
+         * of property names.  For XML reader it's a CSS selector.  For array reader it's not applicable.
+         *
+         * By default the natural root of the data will be used.  The root JSON array, the root XML element, or the array.
+         *
+         * The data packet value for this property should be an empty array to clear the data or show no data.
+         */
+        rootProperty: '',
+
+        /**
+         * @cfg {Boolean} implicitIncludes
+         * `true` to automatically parse models nested within other models in a response object. See the
+         * {@link Ext.data.reader.Reader} intro docs for full explanation.
+         */
+        implicitIncludes: true,
+
+        model: undefined
+    },
+
+    constructor: function(config) {
+        this.initConfig(config);
+    },
+
+    /**
+     * @property {Object} metaData
+     * The raw meta data that was most recently read, if any. Meta data can include existing
+     * Reader config options like {@link #idProperty}, {@link #totalProperty}, etc. that get
+     * automatically applied to the Reader, and those can still be accessed directly from the Reader
+     * if needed. However, meta data is also often used to pass other custom data to be processed
+     * by application code. For example, it is common when reconfiguring the data model of a grid to
+     * also pass a corresponding column model config to be applied to the grid. Any such data will
+     * not get applied to the Reader directly (it just gets passed through and is ignored by Ext).
+     * This `metaData` property gives you access to all meta data that was passed, including any such
+     * custom data ignored by the reader.
+     *
+     * This is a read-only property, and it will get replaced each time a new meta data object is
+     * passed to the reader.
+     * @readonly
+     */
+
+    fieldCount: 0,
+
+    applyModel: function(model) {
+        if (typeof model == 'string') {
+            model = Ext.data.ModelManager.getModel(model);
+
+            if (!model) {
+                Ext.Logger.error('Model with name ' + arguments[0] + ' doesnt exist.');
+            }
+        }
+
+        if (model && !model.prototype.isModel && Ext.isObject(model)) {
+            model = Ext.data.ModelManager.registerType(model.storeId || model.id || Ext.id(), model);
+        }
+
+        return model;
+    },
+
+    applyIdProperty: function(idProperty) {
+        if (!idProperty && this.getModel()) {
+            idProperty = this.getModel().getIdProperty();
+        }
+        return idProperty;
+    },
+
+    updateModel: function(model) {
+        if (model) {
+            if (!this.getIdProperty()) {
+                this.setIdProperty(model.getIdProperty());
+            }
+            this.buildExtractors();
+        }
+    },
+
+    createAccessor: Ext.emptyFn,
+
+    createFieldAccessExpression: function() {
+        return 'undefined';
+    },
+
+    /**
+     * @private
+     * This builds optimized functions for retrieving record data and meta data from an object.
+     * Subclasses may need to implement their own getRoot function.
+     */
+    buildExtractors: function() {
+        if (!this.getModel()) {
+            return;
+        }
+
+        var me = this,
+            totalProp = me.getTotalProperty(),
+            successProp = me.getSuccessProperty(),
+            messageProp = me.getMessageProperty();
+
+        //build the extractors for all the meta data
+        if (totalProp) {
+            me.getTotal = me.createAccessor(totalProp);
+        }
+
+        if (successProp) {
+            me.getSuccess = me.createAccessor(successProp);
+        }
+
+        if (messageProp) {
+            me.getMessage = me.createAccessor(messageProp);
+        }
+
+        me.extractRecordData = me.buildRecordDataExtractor();
+    },
+
+    /**
+     * @private
+     * Return a function which will read a raw row object in the format this Reader accepts, and populates
+     * a record's data object with converted data values.
+     *
+     * The returned function must be passed the following parameters:
+     *
+     * - `dest` - A record's empty data object into which the new field value properties are injected.
+     * - `source` - A raw row data object of whatever type this Reader consumes
+     * - `record - The record which is being populated.
+     */
+    buildRecordDataExtractor: function() {
+        var me = this,
+            model = me.getModel(),
+            fields = model.getFields(),
+            ln = fields.length,
+            fieldVarName = [],
+            clientIdProp = me.getModel().getClientIdProperty(),
+            prefix = '__field',
+            code = [
+                'var me = this,\n',
+                '    fields = me.getModel().getFields(),\n',
+                '    idProperty = me.getIdProperty(),\n',
+                '    idPropertyIsFn = (typeof idProperty == "function"),',
+                '    value,\n',
+                '    internalId'
+            ], i, field, varName, fieldName;
+
+        fields = fields.items;
+
+        for (i = 0; i < ln; i++) {
+            field = fields[i];
+            fieldName = field.getName();
+            if (fieldName === model.getIdProperty()) {
+                fieldVarName[i] = 'idField';
+            } else {
+                fieldVarName[i] = prefix + i;
+            }
+            code.push(',\n    ', fieldVarName[i], ' = fields.get("', field.getName(), '")');
+        }
+
+        code.push(';\n\n    return function(source) {\n        var dest = {};\n');
+
+        code.push('        if (idPropertyIsFn) {\n');
+        code.push('            idField.setMapping(idProperty);\n');
+        code.push('        }\n');
+
+        for (i = 0; i < ln; i++) {
+            field = fields[i];
+            varName = fieldVarName[i];
+            fieldName = field.getName();
+            if (fieldName === model.getIdProperty() && field.getMapping() === null && model.getIdProperty() !== this.getIdProperty()) {
+                field.setMapping(this.getIdProperty());
+            }
+            // createFieldAccessExpression must be implemented in subclasses to extract data from the source object in the correct way.
+            code.push('        try {\n');
+            code.push('            value = ', me.createFieldAccessExpression(field, varName, 'source'), ';\n');
+            code.push('            if (value !== undefined) {\n');
+            code.push('                dest["' + field.getName() + '"] = value;\n');
+            code.push('            }\n');
+            code.push('        } catch(e){}\n');
+        }
+
+        // set the client id as the internalId of the record.
+        // clientId handles the case where a client side record did not previously exist on the server,
+        // so the server is passing back a client id that can be used to pair the server side record up with the client record
+        if (clientIdProp) {
+            code.push('        internalId = ' + me.createFieldAccessExpression(Ext.create('Ext.data.Field', {name: clientIdProp}), null, 'source') + ';\n');
+            code.push('        if (internalId !== undefined) {\n');
+            code.push('            dest["_clientId"] = internalId;\n        }\n');
+        }
+
+        code.push('        return dest;\n');
+        code.push('    };');
+
+        // Here we are creating a new Function and invoking it immediately in the scope of this Reader
+        // It declares several vars capturing the configured context of this Reader, and returns a function
+        // which, when passed a record data object, a raw data row in the format this Reader is configured to read,
+        // and the record which is being created, will populate the record's data object from the raw row data.
+        return Ext.functionFactory(code.join('')).call(me);
+    },
+
+    getFields: function() {
+        return this.getModel().getFields().items;
+    },
+
+    /**
+     * @private
+     * By default this function just returns what is passed to it. It can be overridden in a subclass
+     * to return something else. See XmlReader for an example.
+     * @param {Object} data The data object
+     * @return {Object} The normalized data object
+     */
+    getData: function(data) {
+        return data;
+    },
+
+    /**
+     * Takes a raw response object (as passed to this.read) and returns the useful data segment of it.
+     * This must be implemented by each subclass
+     * @param {Object} response The response object
+     * @return {Object} The useful data from the response
+     */
+    getResponseData: function(response) {
+        return response;
+    },
+
+    /**
+     * @private
+     * This will usually need to be implemented in a subclass. Given a generic data object (the type depends on the type
+     * of data we are reading), this function should return the object as configured by the Reader's 'rootProperty' meta data config.
+     * See XmlReader's getRoot implementation for an example. By default the same data object will simply be returned.
+     * @param {Object} data The data object
+     * @return {Object} The same data object
+     */
+    getRoot: function(data) {
+        return data;
+    },
+
+    /**
+     * Reads the given response object. This method normalizes the different types of response object that may be passed
+     * to it, before handing off the reading of records to the {@link #readRecords} function.
+     * @param {Object} response The response object. This may be either an XMLHttpRequest object or a plain JS object
+     * @return {Ext.data.ResultSet} The parsed ResultSet object
+     */
+    read: function(response) {
+        var data = response,
+            Model = this.getModel(),
+            resultSet, records, i, ln, record;
+
+        if (response) {
+            data = this.getResponseData(response);
+        }
+
+        if (data) {
+            resultSet = this.readRecords(data);
+            records = resultSet.getRecords();
+            for (i = 0, ln = records.length; i < ln; i++) {
+                record = records[i];
+                records[i] = new Model(record.data, record.id, record.node);
+            }
+            return resultSet;
+        } else {
+            return this.nullResultSet;
+        }
+    },
+
+    process: function(response) {
+        var data = response;
+
+        if (response) {
+            data = this.getResponseData(response);
+        }
+
+        if (data) {
+            return this.readRecords(data);
+        } else {
+            return this.nullResultSet;
+        }
+    },
+
+    /**
+     * Abstracts common functionality used by all Reader subclasses. Each subclass is expected to call this function
+     * before running its own logic and returning the Ext.data.ResultSet instance. For most Readers additional
+     * processing should not be needed.
+     * @param {Object} data The raw data object
+     * @return {Ext.data.ResultSet} A ResultSet object
+     */
+    readRecords: function(data) {
+        var me  = this;
+
+        /**
+         * @property {Object} rawData
+         * The raw data object that was last passed to readRecords. Stored for further processing if needed
+         */
+        me.rawData = data;
+
+        data = me.getData(data);
+
+        if (data.metaData) {
+            me.onMetaChange(data.metaData);
+        }
+
+
+        // If we pass an array as the data, we don't use getRoot on the data.
+        // Instead the root equals to the data.
+        var isArray = Ext.isArray(data),
+            root = isArray ? data : me.getRoot(data),
+            success = true,
+            recordCount = 0,
+            total, value, records, message;
+
+        if (isArray && !data.length) {
+            return me.nullResultSet;
+        }
+
+        // buildExtractors should have put getTotal, getSuccess, or getMessage methods on the instance.
+        // So we can check them directly
+        if (me.getTotal) {
+            value = parseInt(me.getTotal(data), 10);
+            if (!isNaN(value)) {
+                total = value;
+            }
+        }
+
+        if (me.getSuccess) {
+            value = me.getSuccess(data);
+            if (value === false || value === 'false') {
+                success = false;
+            }
+        }
+
+        if (me.getMessage) {
+            message = me.getMessage(data);
+        }
+
+        if (root) {
+            records = me.extractData(root);
+            recordCount = records.length;
+        } else {
+            recordCount = 0;
+            records = [];
+        }
+
+        return new Ext.data.ResultSet({
+            total  : total,
+            count  : recordCount,
+            records: records,
+            success: success,
+            message: message
+        });
+    },
+
+    /**
+     * Returns extracted, type-cast rows of data.
+     * @param {Object[]/Object} root from server response
+     * @private
+     */
+    extractData : function(root) {
+        var me = this,
+            records = [],
+            length  = root.length,
+            model = me.getModel(),
+            idProperty = model.getIdProperty(),
+            fieldsCollection = model.getFields(),
+            node, i, data, id, clientId;
+
+        /*
+         * We check here whether the fields are dirty since the last read.
+         * This works around an issue when a Model is used for both a Tree and another
+         * source, because the tree decorates the model with extra fields and it causes
+         * issues because the readers aren't notified.
+         */
+        if (fieldsCollection.isDirty) {
+            me.buildExtractors(true);
+            delete fieldsCollection.isDirty;
+        }
+
+        if (!root.length && Ext.isObject(root)) {
+            root = [root];
+            length = 1;
+        }
+
+        for (i = 0; i < length; i++) {
+            clientId = null;
+            id = null;
+
+            node = root[i];
+
+            // When you use a Memory proxy, and you set data: [] to contain record instances
+            // this node will already be a record. In this case we should not try to extract
+            // the record data from the object, but just use the record data attribute.
+            if (node.isModel) {
+                data = node.data;
+            } else {
+                data = me.extractRecordData(node);
+            }
+
+            if (data._clientId !== undefined) {
+                clientId = data._clientId;
+                delete data._clientId;
+            }
+
+            if (data[idProperty] !== undefined) {
+                id = data[idProperty];
+            }
+
+            if (me.getImplicitIncludes()) {
+                 me.readAssociated(data, node);
+            }
+
+            records.push({
+                clientId: clientId,
+                id: id,
+                data: data,
+                node: node
+            });
+        }
+
+        return records;
+    },
+
+    /**
+     * @private
+     * Loads a record's associations from the data object. This pre-populates `hasMany` and `belongsTo` associations
+     * on the record provided.
+     * @param {Ext.data.Model} record The record to load associations for
+     * @param {Object} data The data object
+     */
+    readAssociated: function(record, data) {
+        var associations = this.getModel().associations.items,
+            length = associations.length,
+            i = 0,
+            association, associationData, associationKey;
+
+        for (; i < length; i++) {
+            association = associations[i];
+            associationKey = association.getAssociationKey();
+            associationData = this.getAssociatedDataRoot(data, associationKey);
+
+            if (associationData) {
+                record[associationKey] = associationData;
+            }
+        }
+    },
+
+    /**
+     * @private
+     * Used internally by `readAssociated`. Given a data object (which could be json, xml etc) for a specific
+     * record, this should return the relevant part of that data for the given association name. If a complex
+     * mapping, this will traverse arrays and objects to resolve the data.
+     * @param {Object} data The raw data object
+     * @param {String} associationName The name of the association to get data for (uses associationKey if present)
+     * @return {Object} The root
+     */
+    getAssociatedDataRoot: function(data, associationName) {
+        var re = /[\[\.]/,
+            i  = String(associationName).search(re);
+
+        if (i >= 0) {
+            return Ext.functionFactory('obj', 'return obj' + (i > 0 ? '.' : '') + associationName)(data);
+        }
+
+        return data[associationName];
+    },
+
+    /**
+     * @private
+     * Reconfigures the meta data tied to this Reader
+     */
+    onMetaChange : function(meta) {
+        var fields = meta.fields,
+            me = this,
+            newModel, config, idProperty;
+
+        // save off the raw meta data
+        me.metaData = meta;
+
+        // set any reader-specific configs from meta if available
+        if (meta.rootProperty !== undefined) {
+            me.setRootProperty(meta.rootProperty);
+        }
+        else if (meta.root !== undefined) {
+            me.setRootProperty(meta.root);
+        }
+
+        if (meta.idProperty !== undefined) {
+            me.setIdProperty(meta.idProperty);
+        }
+        if (meta.totalProperty !== undefined) {
+            me.setTotalProperty(meta.totalProperty);
+        }
+        if (meta.successProperty !== undefined) {
+            me.setSuccessProperty(meta.successProperty);
+        }
+        if (meta.messageProperty !== undefined) {
+            me.setMessageProperty(meta.messageProperty);
+        }
+
+        if (fields) {
+            if (me.getModel()) {
+                me.getModel().setFields(fields);
+                me.buildExtractors();
+            }
+            else {
+                idProperty = me.getIdProperty();
+                config = {fields: fields};
+
+                if (idProperty) {
+                    config.idProperty = idProperty;
+                }
+
+                newModel = Ext.define("Ext.data.reader.MetaModel" + Ext.id(), {
+                    extend: 'Ext.data.Model',
+                    config: config
+                });
+
+                me.setModel(newModel);
+            }
+        }
+        else {
+            me.buildExtractors();
+        }
+    }
+
+
+    // Convert old properties in data into a config object
+}, function() {
+    Ext.apply(this.prototype, {
+        // @private
+        // Empty ResultSet to return when response is falsy (null|undefined|empty string)
+        nullResultSet: new Ext.data.ResultSet({
+            total  : 0,
+            count  : 0,
+            records: [],
+            success: false
+        })
+    });
+
+});
+
+/**
+ * The JSON Reader is used by a Proxy to read a server response that is sent back in JSON format. This usually happens
+ * as a result of loading a Store - for example we might create something like this:
+ *
+ *     Ext.define('User', {
+ *         extend: 'Ext.data.Model',
+ *         config: {
+ *             fields: ['id', 'name', 'email']
+ *         }
+ *     });
+ *
+ *     var store = Ext.create('Ext.data.Store', {
+ *         model: 'User',
+ *         proxy: {
+ *             type: 'ajax',
+ *             url : 'users.json',
+ *             reader: {
+ *                 type: 'json'
+ *             }
+ *         }
+ *     });
+ *
+ * The example above creates a 'User' model. Models are explained in the {@link Ext.data.Model Model} docs if you're not
+ * already familiar with them.
+ *
+ * We created the simplest type of JSON Reader possible by simply telling our {@link Ext.data.Store Store}'s {@link
+ * Ext.data.proxy.Proxy Proxy} that we want a JSON Reader. The Store automatically passes the configured model to the
+ * Store, so it is as if we passed this instead:
+ *
+ *     reader: {
+ *         type : 'json',
+ *         model: 'User'
+ *     }
+ *
+ * The reader we set up is ready to read data from our server - at the moment it will accept a response like this:
+ *
+ *     [
+ *         {
+ *             "id": 1,
+ *             "name": "Ed Spencer",
+ *             "email": "ed@sencha.com"
+ *         },
+ *         {
+ *             "id": 2,
+ *             "name": "Abe Elias",
+ *             "email": "abe@sencha.com"
+ *         }
+ *     ]
+ *
+ * ## Reading other JSON formats
+ *
+ * If you already have your JSON format defined and it doesn't look quite like what we have above, you can usually pass
+ * JsonReader a couple of configuration options to make it parse your format. For example, we can use the
+ * {@link #rootProperty} configuration to parse data that comes back like this:
+ *
+ *     {
+ *         "users": [
+ *            {
+ *                "id": 1,
+ *                "name": "Ed Spencer",
+ *                "email": "ed@sencha.com"
+ *            },
+ *            {
+ *                "id": 2,
+ *                "name": "Abe Elias",
+ *                "email": "abe@sencha.com"
+ *            }
+ *         ]
+ *     }
+ *
+ * To parse this we just pass in a {@link #rootProperty} configuration that matches the 'users' above:
+ *
+ *     reader: {
+ *         type: 'json',
+ *         rootProperty: 'users'
+ *     }
+ *
+ * Sometimes the JSON structure is even more complicated. Document databases like CouchDB often provide metadata around
+ * each record inside a nested structure like this:
+ *
+ *     {
+ *         "total": 122,
+ *         "offset": 0,
+ *         "users": [
+ *             {
+ *                 "id": "ed-spencer-1",
+ *                 "value": 1,
+ *                 "user": {
+ *                     "id": 1,
+ *                     "name": "Ed Spencer",
+ *                     "email": "ed@sencha.com"
+ *                 }
+ *             }
+ *         ]
+ *     }
+ *
+ * In the case above the record data is nested an additional level inside the "users" array as each "user" item has
+ * additional metadata surrounding it ('id' and 'value' in this case). To parse data out of each "user" item in the JSON
+ * above we need to specify the {@link #record} configuration like this:
+ *
+ *     reader: {
+ *         type: 'json',
+ *         record: 'user',
+ *         rootProperty: 'users'
+ *     }
+ *
+ * ## Response MetaData
+ *
+ * The server can return metadata in its response, in addition to the record data, that describe attributes
+ * of the data set itself or are used to reconfigure the Reader. To pass metadata in the response you simply
+ * add a `metaData` attribute to the root of the response data. The metaData attribute can contain anything,
+ * but supports a specific set of properties that are handled by the Reader if they are present:
+ *
+ * - {@link #idProperty}: property name for the primary key field of the data
+ * - {@link #rootProperty}: the property name of the root response node containing the record data
+ * - {@link #totalProperty}: property name for the total number of records in the data
+ * - {@link #successProperty}: property name for the success status of the response
+ * - {@link #messageProperty}: property name for an optional response message
+ * - {@link Ext.data.Model#cfg-fields fields}: Config used to reconfigure the Model's fields before converting the
+ *   response data into records
+ *
+ * An initial Reader configuration containing all of these properties might look like this ("fields" would be
+ * included in the Model definition, not shown):
+ *
+ *     reader: {
+ *         type: 'json',
+ *         idProperty: 'id',
+ *         rootProperty: 'root',
+ *         totalProperty: 'total',
+ *         successProperty: 'success',
+ *         messageProperty: 'message'
+ *     }
+ *
+ * If you were to pass a response object containing attributes different from those initially defined above, you could
+ * use the `metaData` attribute to reconfigure the Reader on the fly. For example:
+ *
+ *     {
+ *         "count": 1,
+ *         "ok": true,
+ *         "msg": "Users found",
+ *         "users": [{
+ *             "userId": 123,
+ *             "name": "Ed Spencer",
+ *             "email": "ed@sencha.com"
+ *         }],
+ *         "metaData": {
+ *             "idProperty": 'userId',
+ *             "rootProperty": "users",
+ *             "totalProperty": 'count',
+ *             "successProperty": 'ok',
+ *             "messageProperty": 'msg'
+ *         }
+ *     }
+ *
+ * You can also place any other arbitrary data you need into the `metaData` attribute which will be ignored by the Reader,
+ * but will be accessible via the Reader's {@link #metaData} property. Application code can then process the passed
+ * metadata in any way it chooses.
+ *
+ * A simple example for how this can be used would be customizing the fields for a Model that is bound to a grid. By passing
+ * the `fields` property the Model will be automatically updated by the Reader internally, but that change will not be
+ * reflected automatically in the grid unless you also update the column configuration. You could do this manually, or you
+ * could simply pass a standard grid column config object as part of the `metaData` attribute
+ * and then pass that along to the grid. Here's a very simple example for how that could be accomplished:
+ *
+ *     // response format:
+ *     {
+ *         ...
+ *         "metaData": {
+ *             "fields": [
+ *                 { "name": "userId", "type": "int" },
+ *                 { "name": "name", "type": "string" },
+ *                 { "name": "birthday", "type": "date", "dateFormat": "Y-j-m" },
+ *             ],
+ *             "columns": [
+ *                 { "text": "User ID", "dataIndex": "userId", "width": 40 },
+ *                 { "text": "User Name", "dataIndex": "name", "flex": 1 },
+ *                 { "text": "Birthday", "dataIndex": "birthday", "flex": 1, "format": 'Y-j-m', "xtype": "datecolumn" }
+ *             ]
+ *         }
+ *     }
+ */
+Ext.define('Ext.data.reader.Json', {
+    extend:  Ext.data.reader.Reader ,
+    alternateClassName: 'Ext.data.JsonReader',
+    alias : 'reader.json',
+
+    config: {
+        /**
+         * @cfg {String} [record=null]
+         * The optional location within the JSON response that the record data itself can be found at. See the
+         * JsonReader intro docs for more details. This is not often needed.
+         */
+        record: null,
+
+        /**
+         * @cfg {Boolean} [useSimpleAccessors=false]
+         * `true` to ensure that field names/mappings are treated as literals when reading values. For
+         * example, by default, using the mapping "foo.bar.baz" will try and read a property foo from the root, then a
+         * property bar from foo, then a property baz from bar. Setting the simple accessors to `true` will read the
+         * property with the name "foo.bar.baz" direct from the root object.
+         */
+        useSimpleAccessors: false
+    },
+
+    objectRe: /[\[\.]/,
+
+    // @inheritdoc
+    getResponseData: function(response) {
+        var responseText = response;
+
+        // Handle an XMLHttpRequest object
+        if (response && response.responseText) {
+            responseText = response.responseText;
+        }
+
+        // Handle the case where data has already been decoded
+        if (typeof responseText !== 'string') {
+            return responseText;
+        }
+
+        var data;
+        try {
+            data = Ext.decode(responseText);
+        }
+        catch (ex) {
+            /**
+             * @event exception Fires whenever the reader is unable to parse a response.
+             * @param {Ext.data.reader.Xml} reader A reference to this reader.
+             * @param {XMLHttpRequest} response The XMLHttpRequest response object.
+             * @param {String} error The error message.
+             */
+            this.fireEvent('exception', this, response, 'Unable to parse the JSON returned by the server: ' + ex.toString());
+            Ext.Logger.warn('Unable to parse the JSON returned by the server: ' + ex.toString());
+        }
+
+        return data;
+    },
+
+    // @inheritdoc
+    buildExtractors: function() {
+        var me = this,
+            root = me.getRootProperty();
+
+        me.callParent(arguments);
+
+        if (root) {
+            me.rootAccessor = me.createAccessor(root);
+        } else {
+            delete me.rootAccessor;
+        }
+    },
+
+    /**
+     * We create this method because `root` is now a config so `getRoot` is already defined, but in the old
+     * data package `getRoot` was passed a data argument and it would return the data inside of the `root`
+     * property. This method handles both cases.
+     * @param data (Optional)
+     * @return {String/Object} Returns the config root value if this method was called without passing
+     * data. Else it returns the object in the data bound to the root.
+     * @private
+     */
+    getRoot: function(data) {
+        var fieldsCollection = this.getModel().getFields();
+
+        /*
+         * We check here whether the fields are dirty since the last read.
+         * This works around an issue when a Model is used for both a Tree and another
+         * source, because the tree decorates the model with extra fields and it causes
+         * issues because the readers aren't notified.
+         */
+        if (fieldsCollection.isDirty) {
+            this.buildExtractors(true);
+            delete fieldsCollection.isDirty;
+        }
+
+        if (this.rootAccessor) {
+            return this.rootAccessor.call(this, data);
+        } else {
+            return data;
+        }
+    },
+
+    /**
+     * @private
+     * We're just preparing the data for the superclass by pulling out the record objects we want. If a {@link #record}
+     * was specified we have to pull those out of the larger JSON object, which is most of what this function is doing
+     * @param {Object} root The JSON root node
+     * @return {Ext.data.Model[]} The records
+     */
+    extractData: function(root) {
+        var recordName = this.getRecord(),
+            data = [],
+            length, i;
+
+        if (recordName) {
+            length = root.length;
+
+            if (!length && Ext.isObject(root)) {
+                length = 1;
+                root = [root];
+            }
+
+            for (i = 0; i < length; i++) {
+                data[i] = root[i][recordName];
+            }
+        } else {
+            data = root;
+        }
+        return this.callParent([data]);
+    },
+
+    /**
+     * @private
+     * Returns an accessor function for the given property string. Gives support for properties such as the following:
+     * 'someProperty'
+     * 'some.property'
+     * 'some["property"]'
+     * This is used by buildExtractors to create optimized extractor functions when casting raw data into model instances.
+     */
+    createAccessor: function() {
+        var re = /[\[\.]/;
+
+        return function(expr) {
+            if (Ext.isEmpty(expr)) {
+                return Ext.emptyFn;
+            }
+            if (Ext.isFunction(expr)) {
+                return expr;
+            }
+            if (this.getUseSimpleAccessors() !== true) {
+                var i = String(expr).search(re);
+                if (i >= 0) {
+                    return Ext.functionFactory('obj', 'var value; try {value = obj' + (i > 0 ? '.' : '') + expr + '} catch(e) {}; return value;');
+                }
+            }
+            return function(obj) {
+                return obj[expr];
+            };
+        };
+    }(),
+
+    /**
+     * @private
+     * Returns an accessor expression for the passed Field. Gives support for properties such as the following:
+     * 'someProperty'
+     * 'some.property'
+     * 'some["property"]'
+     * This is used by buildExtractors to create optimized on extractor function which converts raw data into model instances.
+     */
+    createFieldAccessExpression: function(field, fieldVarName, dataName) {
+        var me     = this,
+            re     = me.objectRe,
+            hasMap = (field.getMapping() !== null),
+            map    = hasMap ? field.getMapping() : field.getName(),
+            result, operatorSearch;
+
+        if (typeof map === 'function') {
+            result = fieldVarName + '.getMapping()(' + dataName + ', this)';
+        }
+        else if (me.getUseSimpleAccessors() === true || ((operatorSearch = String(map).search(re)) < 0)) {
+            if (!hasMap || isNaN(map)) {
+                // If we don't provide a mapping, we may have a field name that is numeric
+                map = '"' + map + '"';
+            }
+            result = dataName + "[" + map + "]";
+        }
+        else {
+            result = dataName + (operatorSearch > 0 ? '.' : '') + map;
+        }
+
+        return result;
+    }
+});
+
+/**
+ * @author Ed Spencer
+ *
+ * Base Writer class used by most subclasses of {@link Ext.data.proxy.Server}. This class is
+ * responsible for taking a set of {@link Ext.data.Operation} objects and a {@link Ext.data.Request}
+ * object and modifying that request based on the Operations.
+ *
+ * For example a Ext.data.writer.Json would format the Operations and their {@link Ext.data.Model}
+ * instances based on the config options passed to the JsonWriter's constructor.
+ *
+ * Writers are not needed for any kind of local storage - whether via a
+ * {@link Ext.data.proxy.WebStorage Web Storage proxy} (see {@link Ext.data.proxy.LocalStorage localStorage})
+ * or just in memory via a {@link Ext.data.proxy.Memory MemoryProxy}.
+ */
+Ext.define('Ext.data.writer.Writer', {
+    alias: 'writer.base',
+    alternateClassName: ['Ext.data.DataWriter', 'Ext.data.Writer'],
+
+    config: {
+        /**
+         * @cfg {Boolean} writeAllFields `true` to write all fields from the record to the server. If set to `false` it
+         * will only send the fields that were modified. Note that any fields that have
+         * {@link Ext.data.Field#persist} set to false will still be ignored.
+         */
+        writeAllFields: true,
+
+        /**
+         * @cfg {String} nameProperty This property is used to read the key for each value that will be sent to the server.
+         * For example:
+         *
+         *     Ext.define('Person', {
+         *         extend: 'Ext.data.Model',
+         *         fields: [{
+         *             name: 'first',
+         *             mapping: 'firstName'
+         *         }, {
+         *             name: 'last',
+         *             mapping: 'lastName'
+         *         }, {
+         *             name: 'age'
+         *         }]
+         *     });
+         *
+         *     new Ext.data.writer.Writer({
+         *         writeAllFields: true,
+         *         nameProperty: 'mapping'
+         *     });
+         *
+         * The following data will be sent to the server:
+         *
+         *     {
+         *         firstName: 'first name value',
+         *         lastName: 'last name value',
+         *         age: 1
+         *     }
+         *
+         * If the value is not present, the field name will always be used.
+         */
+        nameProperty: 'name'
+    },
+
+    /**
+     * Creates new Writer.
+     * @param {Object} config (optional) Config object.
+     */
+    constructor: function(config) {
+        this.initConfig(config);
+    },
+
+    /**
+     * Prepares a Proxy's Ext.data.Request object.
+     * @param {Ext.data.Request} request The request object.
+     * @return {Ext.data.Request} The modified request object.
+     */
+    write: function(request) {
+        var operation = request.getOperation(),
+            records   = operation.getRecords() || [],
+            len       = records.length,
+            i         = 0,
+            data      = [];
+
+        for (; i < len; i++) {
+            data.push(this.getRecordData(records[i]));
+        }
+        return this.writeRecords(request, data);
+    },
+
+    writeDate: function(field, date) {
+        if (!date) {
+            return null;
+        }
+
+        var dateFormat = field.getDateFormat() || 'timestamp';
+        switch (dateFormat) {
+            case 'timestamp':
+                return date.getTime()/1000;
+            case 'time':
+                return date.getTime();
+            default:
+                return Ext.Date.format(date, dateFormat);
+        }
+    },
+
+    /**
+     * Formats the data for each record before sending it to the server. This
+     * method should be overridden to format the data in a way that differs from the default.
+     * @param {Object} record The record that we are writing to the server.
+     * @return {Object} An object literal of name/value keys to be written to the server.
+     * By default this method returns the data property on the record.
+     */
+    getRecordData: function(record) {
+        var isPhantom = record.phantom === true,
+            writeAll = this.getWriteAllFields() || isPhantom,
+            nameProperty = this.getNameProperty(),
+            fields = record.getFields(),
+            data = {},
+            changes, name, field, key, value;
+
+        if (writeAll) {
+            fields.each(function(field) {
+                if (field.getPersist()) {
+                    name = field.config[nameProperty] || field.getName();
+                    value = record.get(field.getName());
+                    if (field.getType().type == 'date') {
+                        value = this.writeDate(field, value);
+                    }
+                    data[name] = value;
+                }
+            }, this);
+        } else {
+            // Only write the changes
+            changes = record.getChanges();
+            for (key in changes) {
+                if (changes.hasOwnProperty(key)) {
+                    field = fields.get(key);
+                    if (field.getPersist()) {
+                        name = field.config[nameProperty] || field.getName();
+                        value = changes[key];
+                        if (field.getType().type == 'date') {
+                            value = this.writeDate(field, value);
+                        }
+                        data[name] = value;
+                    }
+                }
+            }
+            if (!isPhantom) {
+                // always include the id for non phantoms
+                data[record.getIdProperty()] = record.getId();
+            }
+        }
+        return data;
+    }
+
+    // Convert old properties in data into a config object
+});
+
+/**
+ * This class is used to write {@link Ext.data.Model} data to the server in a JSON format.
+ * The {@link #allowSingle} configuration can be set to false to force the records to always be
+ * encoded in an array, even if there is only a single record being sent.
+ */
+Ext.define('Ext.data.writer.Json', {
+    extend:  Ext.data.writer.Writer ,
+    alternateClassName: 'Ext.data.JsonWriter',
+    alias: 'writer.json',
+
+    config: {
+        /**
+         * @cfg {String} rootProperty
+         * The key under which the records in this Writer will be placed. If you specify {@link #encode} to be true,
+         * we default this to 'records'.
+         *
+         * Example generated request, using root: 'records':
+         *
+         *     {'records': [{name: 'my record'}, {name: 'another record'}]}
+         *
+         */
+        rootProperty: undefined,
+
+        /**
+         * @cfg {Boolean} encode
+         * True to use Ext.encode() on the data before sending. The encode option should only be set to true when a
+         * {@link #root} is defined, because the values will be sent as part of the request parameters as opposed to
+         * a raw post. The root will be the name of the parameter sent to the server.
+         */
+        encode: false,
+
+        /**
+         * @cfg {Boolean} allowSingle
+         * False to ensure that records are always wrapped in an array, even if there is only one record being sent.
+         * When there is more than one record, they will always be encoded into an array.
+         *
+         * Example:
+         *
+         *     // with allowSingle: true
+         *     "root": {
+         *         "first": "Mark",
+         *         "last": "Corrigan"
+         *     }
+         *
+         *     // with allowSingle: false
+         *     "root": [{
+         *         "first": "Mark",
+         *         "last": "Corrigan"
+         *     }]
+         */
+        allowSingle: true,
+
+        encodeRequest: false
+    },
+
+    applyRootProperty: function(root) {
+        if (!root && (this.getEncode() || this.getEncodeRequest())) {
+            root = 'data';
+        }
+        return root;
+    },
+
+    //inherit docs
+    writeRecords: function(request, data) {
+        var root = this.getRootProperty(),
+            params = request.getParams(),
+            allowSingle = this.getAllowSingle(),
+            jsonData;
+
+        if (this.getAllowSingle() && data && data.length == 1) {
+            // convert to single object format
+            data = data[0];
+        }
+
+        if (this.getEncodeRequest()) {
+            jsonData = request.getJsonData() || {};
+            if (data && (data.length || (allowSingle && Ext.isObject(data)))) {
+                jsonData[root] = data;
+            }
+            request.setJsonData(Ext.apply(jsonData, params || {}));
+            request.setParams(null);
+            request.setMethod('POST');
+            return request;
+        }
+
+        if (!data || !(data.length || (allowSingle && Ext.isObject(data)))) {
+            return request;
+        }
+
+        if (this.getEncode()) {
+            if (root) {
+                // sending as a param, need to encode
+                params[root] = Ext.encode(data);
+            } else {
+            }
+        } else {
+            // send as jsonData
+            jsonData = request.getJsonData() || {};
+            if (root) {
+                jsonData[root] = data;
+            } else {
+                jsonData = data;
+            }
+            request.setJsonData(jsonData);
+        }
+        return request;
+    }
+
+});
+
+
+/*
+ * @allowSingle: true
+ * @encodeRequest: false
+ * Url: update.json?param1=test
+ * {'field1': 'test': 'field2': 'test'}
+ *
+ * @allowSingle: false
+ * @encodeRequest: false
+ * Url: update.json?param1=test
+ * [{'field1': 'test', 'field2': 'test'}]
+ *
+ * @allowSingle: true
+ * @root: 'data'
+ * @encodeRequest: true
+ * Url: update.json
+ * {
+ *    'param1': 'test',
+ *    'data': {'field1': 'test', 'field2': 'test'}
+ * }
+ *
+ * @allowSingle: false
+ * @root: 'data'
+ * @encodeRequest: true
+ * Url: update.json
+ * {
+ *     'param1': 'test',
+ *     'data': [{'field1': 'test', 'field2': 'test'}]
+ * }
+ *
+ * @allowSingle: true
+ * @root: data
+ * @encodeRequest: false
+ * Url: update.json
+ * param1=test&data={'field1': 'test', 'field2': 'test'}
+ *
+ * @allowSingle: false
+ * @root: data
+ * @encodeRequest: false
+ * @ncode: true
+ * Url: update.json
+ * param1=test&data=[{'field1': 'test', 'field2': 'test'}]
+ *
+ * @allowSingle: true
+ * @root: data
+ * @encodeRequest: false
+ * Url: update.json?param1=test&data={'field1': 'test', 'field2': 'test'}
+ *
+ * @allowSingle: false
+ * @root: data
+ * @encodeRequest: false
+ * Url: update.json?param1=test&data=[{'field1': 'test', 'field2': 'test'}]
+ */
+
+/**
+ * @author Ed Spencer
+ * @class Ext.data.Batch
+ *
+ * Provides a mechanism to run one or more {@link Ext.data.Operation operations} in a given order. Fires the `operationcomplete` event
+ * after the completion of each Operation, and the `complete` event when all Operations have been successfully executed. Fires an `exception`
+ * event if any of the Operations encounter an exception.
+ *
+ * Usually these are only used internally by {@link Ext.data.proxy.Proxy} classes.
+ */
+Ext.define('Ext.data.Batch', {
+    mixins: {
+        observable:  Ext.mixin.Observable 
+    },
+
+    config: {
+        /**
+         * @cfg {Boolean} autoStart `true` to immediately start processing the batch as soon as it is constructed.
+         */
+        autoStart: false,
+
+        /**
+         * @cfg {Boolean} pauseOnException `true` to automatically pause the execution of the batch if any operation encounters an exception.
+         */
+        pauseOnException: true,
+
+        /**
+         * @cfg {Ext.data.Proxy} proxy The proxy this Batch belongs to. Used to make the requests for each operation in the Batch.
+         */
+        proxy: null
+    },
+
+    /**
+     * The index of the current operation being executed.
+     * @property current
+     * @type Number
+     */
+    current: -1,
+
+    /**
+     * The total number of operations in this batch.
+     * @property total
+     * @type Number
+     * @readonly
+     */
+    total: 0,
+
+    /**
+     * `true` if the batch is currently running.
+     * @property isRunning
+     * @type Boolean
+     */
+    isRunning: false,
+
+    /**
+     * `true` if this batch has been executed completely.
+     * @property isComplete
+     * @type Boolean
+     */
+    isComplete: false,
+
+    /**
+     * `true` if this batch has encountered an exception. This is cleared at the start of each operation.
+     * @property hasException
+     * @type Boolean
+     */
+    hasException: false,
+
+    /**
+     * @event complete
+     * Fired when all operations of this batch have been completed.
+     * @param {Ext.data.Batch} batch The batch object.
+     * @param {Object} operation The last operation that was executed.
+     */
+
+    /**
+     * @event exception
+     * Fired when a operation encountered an exception.
+     * @param {Ext.data.Batch} batch The batch object.
+     * @param {Object} operation The operation that encountered the exception.
+     */
+
+    /**
+     * @event operationcomplete
+     * Fired when each operation of the batch completes.
+     * @param {Ext.data.Batch} batch The batch object.
+     * @param {Object} operation The operation that just completed.
+     */
+
+    /**
+     * Creates new Batch object.
+     * @param {Object} config (optional) Config object.
+     */
+    constructor: function(config) {
+        var me = this;
+
+        me.initConfig(config);
+
+        /**
+         * Ordered array of operations that will be executed by this batch
+         * @property {Ext.data.Operation[]} operations
+         */
+        me.operations = [];
+    },
+
+    /**
+     * Adds a new operation to this batch.
+     * @param {Object} operation The {@link Ext.data.Operation Operation} object.
+     */
+    add: function(operation) {
+        this.total++;
+
+        operation.setBatch(this);
+
+        this.operations.push(operation);
+    },
+
+    /**
+     * Kicks off the execution of the batch, continuing from the next operation if the previous
+     * operation encountered an exception, or if execution was paused.
+     */
+    start: function() {
+        this.hasException = false;
+        this.isRunning = true;
+
+        this.runNextOperation();
+    },
+
+    /**
+     * @private
+     * Runs the next operation, relative to `this.current`.
+     */
+    runNextOperation: function() {
+        this.runOperation(this.current + 1);
+    },
+
+    /**
+     * Pauses execution of the batch, but does not cancel the current operation.
+     */
+    pause: function() {
+        this.isRunning = false;
+    },
+
+    /**
+     * Executes a operation by its numeric index.
+     * @param {Number} index The operation index to run.
+     */
+    runOperation: function(index) {
+        var me = this,
+            operations = me.operations,
+            operation = operations[index],
+            onProxyReturn;
+
+        if (operation === undefined) {
+            me.isRunning = false;
+            me.isComplete = true;
+            me.fireEvent('complete', me, operations[operations.length - 1]);
+        } else {
+            me.current = index;
+
+            onProxyReturn = function(operation) {
+                var hasException = operation.hasException();
+
+                if (hasException) {
+                    me.hasException = true;
+                    me.fireEvent('exception', me, operation);
+                } else {
+                    me.fireEvent('operationcomplete', me, operation);
+                }
+
+                if (hasException && me.getPauseOnException()) {
+                    me.pause();
+                } else {
+                    operation.setCompleted();
+                    me.runNextOperation();
+                }
+            };
+
+            operation.setStarted();
+
+
+            me.getProxy()[operation.getAction()](operation, onProxyReturn, me);
+        }
+    }
+});
+
+/**
+ * @author Ed Spencer
+ *
+ * Represents a single read or write operation performed by a {@link Ext.data.proxy.Proxy Proxy}. Operation objects are
+ * used to enable communication between Stores and Proxies. Application developers should rarely need to interact with
+ * Operation objects directly.
+ *
+ * Note that when you define an Operation directly, you need to specify at least the {@link #model} configuration.
+ *
+ * Several Operations can be batched together in a {@link Ext.data.Batch batch}.
+ */
+Ext.define('Ext.data.Operation', {
+    config: {
+        /**
+         * @cfg {Boolean} synchronous
+         * True if this Operation is to be executed synchronously. This property is inspected by a
+         * {@link Ext.data.Batch Batch} to see if a series of Operations can be executed in parallel or not.
+         * @accessor
+         */
+        synchronous: true,
+
+        /**
+         * @cfg {String} action
+         * The action being performed by this Operation. Should be one of 'create', 'read', 'update' or 'destroy'.
+         * @accessor
+         */
+        action: null,
+
+        /**
+         * @cfg {Ext.util.Filter[]} filters
+         * Optional array of filter objects. Only applies to 'read' actions.
+         * @accessor
+         */
+        filters: null,
+
+        /**
+         * @cfg {Ext.util.Sorter[]} sorters
+         * Optional array of sorter objects. Only applies to 'read' actions.
+         * @accessor
+         */
+        sorters: null,
+
+        /**
+         * @cfg {Ext.util.Grouper} grouper
+         * Optional grouping configuration. Only applies to 'read' actions where grouping is desired.
+         * @accessor
+         */
+        grouper: null,
+
+        /**
+         * @cfg {Number} start
+         * The start index (offset), used in paging when running a 'read' action.
+         * @accessor
+         */
+        start: null,
+
+        /**
+         * @cfg {Number} limit
+         * The number of records to load. Used on 'read' actions when paging is being used.
+         * @accessor
+         */
+        limit: null,
+
+        /**
+         * @cfg {Ext.data.Batch} batch
+         * The batch that this Operation is a part of.
+         * @accessor
+         */
+        batch: null,
+
+        /**
+         * @cfg {Function} callback
+         * Function to execute when operation completed.
+         * @cfg {Ext.data.Model[]} callback.records Array of records.
+         * @cfg {Ext.data.Operation} callback.operation The Operation itself.
+         * @accessor
+         */
+        callback: null,
+
+        /**
+         * @cfg {Object} scope
+         * Scope for the {@link #callback} function.
+         * @accessor
+         */
+        scope: null,
+
+        /**
+         * @cfg {Ext.data.ResultSet} resultSet
+         * The ResultSet for this operation.
+         * @accessor
+         */
+        resultSet: null,
+
+        /**
+         * @cfg {Array} records
+         * The records associated to this operation. Before an operation starts, these
+         * are the records you are updating, creating, or destroying. After an operation
+         * is completed, a Proxy usually sets these records on the Operation to become
+         * the processed records. If you don't set these records on your operation in
+         * your proxy, then the getter will return the ones defined on the {@link #resultSet}
+         * @accessor
+         */
+        records: null,
+
+        /**
+         * @cfg {Ext.data.Request} request
+         * The request used for this Operation. Operations don't usually care about Request and Response data, but in the
+         * ServerProxy and any of its subclasses they may be useful for further processing.
+         * @accessor
+         */
+        request: null,
+
+        /**
+         * @cfg {Object} response
+         * The response that was gotten from the server if there was one.
+         * @accessor
+         */
+        response: null,
+
+        /**
+         * @cfg {Boolean} withCredentials
+         * This field is necessary when using cross-origin resource sharing.
+         * @accessor
+         */
+        withCredentials: null,
+
+        /**
+         * @cfg {Object} params
+         * The params send along with this operation. These usually apply to a Server proxy if you are
+         * creating your own custom proxy,
+         * @accessor
+         */
+        params: null,
+        url: null,
+        page: null,
+        node: null,
+
+        /**
+         * @cfg {Ext.data.Model} model
+         * The Model that this Operation will be dealing with. This configuration is required when defining any Operation.
+         * Since Operations take care of creating, updating, destroying and reading records, it needs access to the Model.
+         * @accessor
+         */
+        model: undefined,
+
+        addRecords: false
+    },
+
+    /**
+     * @property {Boolean} started
+     * Property tracking the start status of this Operation. Use {@link #isStarted}.
+     * @private
+     * @readonly
+     */
+    started: false,
+
+    /**
+     * @property {Boolean} running
+     * Property tracking the run status of this Operation. Use {@link #isRunning}.
+     * @private
+     * @readonly
+     */
+    running: false,
+
+    /**
+     * @property {Boolean} complete
+     * Property tracking the completion status of this Operation. Use {@link #isComplete}.
+     * @private
+     * @readonly
+     */
+    complete: false,
+
+    /**
+     * @property {Boolean} success
+     * Property tracking whether the Operation was successful or not. This starts as undefined and is set to `true`
+     * or `false` by the Proxy that is executing the Operation. It is also set to false by {@link #setException}. Use
+     * {@link #wasSuccessful} to query success status.
+     * @private
+     * @readonly
+     */
+    success: undefined,
+
+    /**
+     * @property {Boolean} exception
+     * Property tracking the exception status of this Operation. Use {@link #hasException} and see {@link #getError}.
+     * @private
+     * @readonly
+     */
+    exception: false,
+
+    /**
+     * @property {String/Object} error
+     * The error object passed when {@link #setException} was called. This could be any object or primitive.
+     * @private
+     */
+    error: undefined,
+
+    /**
+     * Creates new Operation object.
+     * @param {Object} config (optional) Config object.
+     */
+    constructor: function(config) {
+        this.initConfig(config);
+    },
+
+    applyModel: function(model) {
+        if (typeof model == 'string') {
+            model = Ext.data.ModelManager.getModel(model);
+
+            if (!model) {
+                Ext.Logger.error('Model with name ' + arguments[0] + ' doesnt exist.');
+            }
+        }
+
+        if (model && !model.prototype.isModel && Ext.isObject(model)) {
+            model = Ext.data.ModelManager.registerType(model.storeId || model.id || Ext.id(), model);
+        }
+
+
+        return model;
+    },
+
+    getRecords: function() {
+        var resultSet = this.getResultSet();
+        return this._records || (resultSet ? resultSet.getRecords() : []);
+    },
+
+    /**
+     * Marks the Operation as started.
+     */
+    setStarted: function() {
+        this.started = true;
+        this.running = true;
+    },
+
+    /**
+     * Marks the Operation as completed.
+     */
+    setCompleted: function() {
+        this.complete = true;
+        this.running  = false;
+    },
+
+    /**
+     * Marks the Operation as successful.
+     */
+    setSuccessful: function() {
+        this.success = true;
+    },
+
+    /**
+     * Marks the Operation as having experienced an exception. Can be supplied with an option error message/object.
+     * @param {String/Object} error (optional) error string/object
+     */
+    setException: function(error) {
+        this.exception = true;
+        this.success = false;
+        this.running = false;
+        this.error = error;
+    },
+
+    /**
+     * Returns `true` if this Operation encountered an exception (see also {@link #getError}).
+     * @return {Boolean} `true` if there was an exception.
+     */
+    hasException: function() {
+        return this.exception === true;
+    },
+
+    /**
+     * Returns the error string or object that was set using {@link #setException}.
+     * @return {String/Object} The error object.
+     */
+    getError: function() {
+        return this.error;
+    },
+
+    /**
+     * Returns `true` if the Operation has been started. Note that the Operation may have started AND completed, see
+     * {@link #isRunning} to test if the Operation is currently running.
+     * @return {Boolean} `true` if the Operation has started
+     */
+    isStarted: function() {
+        return this.started === true;
+    },
+
+    /**
+     * Returns `true` if the Operation has been started but has not yet completed.
+     * @return {Boolean} `true` if the Operation is currently running
+     */
+    isRunning: function() {
+        return this.running === true;
+    },
+
+    /**
+     * Returns `true` if the Operation has been completed
+     * @return {Boolean} `true` if the Operation is complete
+     */
+    isComplete: function() {
+        return this.complete === true;
+    },
+
+    /**
+     * Returns `true` if the Operation has completed and was successful
+     * @return {Boolean} `true` if successful
+     */
+    wasSuccessful: function() {
+        return this.isComplete() && this.success === true;
+    },
+
+    /**
+     * Checks whether this operation should cause writing to occur.
+     * @return {Boolean} Whether the operation should cause a write to occur.
+     */
+    allowWrite: function() {
+        return this.getAction() != 'read';
+    },
+
+    process: function(action, resultSet, request, response) {
+        if (resultSet.getSuccess() !== false) {
+            this.setResponse(response);
+            this.setResultSet(resultSet);
+            this.setCompleted();
+            this.setSuccessful();
+        } else {
+            return false;
+        }
+
+        return this['process' + Ext.String.capitalize(action)].call(this, resultSet, request, response);
+    },
+
+    processRead: function(resultSet) {
+        var records = resultSet.getRecords(),
+            processedRecords = [],
+            Model = this.getModel(),
+            ln = records.length,
+            i, record;
+
+        for (i = 0; i < ln; i++) {
+            record = records[i];
+            processedRecords.push(new Model(record.data, record.id, record.node));
+        }
+
+        this.setRecords(processedRecords);
+        resultSet.setRecords(processedRecords);
+        return true;
+    },
+
+    processCreate: function(resultSet) {
+        var updatedRecords = resultSet.getRecords(),
+            currentRecords = this.getRecords(),
+            ln = updatedRecords.length,
+            i, currentRecord, updatedRecord;
+
+        for (i = 0; i < ln; i++) {
+            updatedRecord = updatedRecords[i];
+
+            if (updatedRecord.clientId === null && currentRecords.length == 1 && updatedRecords.length == 1) {
+                currentRecord = currentRecords[i];
+            } else {
+                currentRecord = this.findCurrentRecord(updatedRecord.clientId);
+            }
+
+            if (currentRecord) {
+                this.updateRecord(currentRecord, updatedRecord);
+            }
+        }
+
+        return true;
+    },
+
+    processUpdate: function(resultSet) {
+        var updatedRecords = resultSet.getRecords(),
+            currentRecords = this.getRecords(),
+            ln = updatedRecords.length,
+            i, currentRecord, updatedRecord;
+
+        for (i = 0; i < ln; i++) {
+            updatedRecord = updatedRecords[i];
+            currentRecord = currentRecords[i];
+
+            if (currentRecord) {
+                this.updateRecord(currentRecord, updatedRecord);
+            }
+        }
+
+        return true;
+    },
+
+    processDestroy: function(resultSet) {
+        var updatedRecords = resultSet.getRecords(),
+            ln = updatedRecords.length,
+            i, currentRecord, updatedRecord;
+
+        for (i = 0; i < ln; i++) {
+            updatedRecord = updatedRecords[i];
+            currentRecord = this.findCurrentRecord(updatedRecord.id);
+
+            if (currentRecord) {
+                currentRecord.setIsErased(true);
+                currentRecord.notifyStores('afterErase', currentRecord);
+            }
+        }
+    },
+
+    findCurrentRecord: function(clientId) {
+        var currentRecords = this.getRecords(),
+            ln = currentRecords.length,
+            i, currentRecord;
+
+        for (i = 0; i < ln; i++) {
+            currentRecord = currentRecords[i];
+            if (currentRecord.getId() === clientId) {
+                return currentRecord;
+            }
+        }
+    },
+
+    updateRecord: function(currentRecord, updatedRecord) {
+        var recordData = updatedRecord.data,
+            recordId = updatedRecord.id;
+
+        currentRecord.beginEdit();
+
+        currentRecord.set(recordData);
+        if (recordId !== null) {
+            currentRecord.setId(recordId);
+        }
+
+        // We call endEdit with silent: true because the commit below already makes
+        // sure any store is notified of the record being updated.
+        currentRecord.endEdit(true);
+
+        currentRecord.commit();
+    }
+});
+
+/**
+ * @author Ed Spencer
+ * @aside guide proxies
+ *
+ * Proxies are used by {@link Ext.data.Store Stores} to handle the loading and saving of {@link Ext.data.Model Model}
+ * data. Usually developers will not need to create or interact with proxies directly.
+ *
+ * # Types of Proxy
+ *
+ * There are two main types of Proxy - {@link Ext.data.proxy.Client Client} and {@link Ext.data.proxy.Server Server}.
+ * The Client proxies save their data locally and include the following subclasses:
+ *
+ * - {@link Ext.data.proxy.LocalStorage LocalStorageProxy} - saves its data to localStorage if the browser supports it
+ * - {@link Ext.data.proxy.Memory MemoryProxy} - holds data in memory only, any data is lost when the page is refreshed
+ *
+ * The Server proxies save their data by sending requests to some remote server. These proxies include:
+ *
+ * - {@link Ext.data.proxy.Ajax Ajax} - sends requests to a server on the same domain
+ * - {@link Ext.data.proxy.JsonP JsonP} - uses JSON-P to send requests to a server on a different domain
+ *
+ * Proxies operate on the principle that all operations performed are either Create, Read, Update or Delete. These four
+ * operations are mapped to the methods {@link #create}, {@link #read}, {@link #update} and {@link #destroy}
+ * respectively. Each Proxy subclass implements these functions.
+ *
+ * The CRUD methods each expect an {@link Ext.data.Operation Operation} object as the sole argument. The Operation
+ * encapsulates information about the action the Store wishes to perform, the {@link Ext.data.Model model} instances
+ * that are to be modified, etc. See the {@link Ext.data.Operation Operation} documentation for more details. Each CRUD
+ * method also accepts a callback function to be called asynchronously on completion.
+ *
+ * Proxies also support batching of Operations via a {@link Ext.data.Batch batch} object, invoked by the {@link #batch}
+ * method.
+ */
+Ext.define('Ext.data.proxy.Proxy', {
+    extend:  Ext.Evented ,
+
+    alias: 'proxy.proxy',
+
+    alternateClassName: ['Ext.data.DataProxy', 'Ext.data.Proxy'],
+
+               
+                               
+                               
+                         
+                            
+      
+
+    config: {
+        /**
+         * @cfg {String} batchOrder
+         * Comma-separated ordering 'create', 'update' and 'destroy' actions when batching. Override this to set a different
+         * order for the batched CRUD actions to be executed in.
+         * @accessor
+         */
+        batchOrder: 'create,update,destroy',
+
+        /**
+         * @cfg {Boolean} batchActions
+         * True to batch actions of a particular type when synchronizing the store.
+         * @accessor
+         */
+        batchActions: true,
+
+        /**
+         * @cfg {String/Ext.data.Model} model (required)
+         * The name of the Model to tie to this Proxy. Can be either the string name of the Model, or a reference to the
+         * Model constructor.
+         * @accessor
+         */
+        model: null,
+
+        /**
+         * @cfg {Object/String/Ext.data.reader.Reader} reader
+         * The Ext.data.reader.Reader to use to decode the server's response or data read from client. This can either be a
+         * Reader instance, a config object or just a valid Reader type name (e.g. 'json', 'xml').
+         * @accessor
+         */
+        reader: {
+            type: 'json'
+        },
+
+        /**
+         * @cfg {Object/String/Ext.data.writer.Writer} writer
+         * The Ext.data.writer.Writer to use to encode any request sent to the server or saved to client. This can either be
+         * a Writer instance, a config object or just a valid Writer type name (e.g. 'json', 'xml').
+         * @accessor
+         */
+        writer: {
+            type: 'json'
+        }
+    },
+
+    isProxy: true,
+
+    applyModel: function(model) {
+        if (typeof model == 'string') {
+            model = Ext.data.ModelManager.getModel(model);
+
+            if (!model) {
+                Ext.Logger.error('Model with name ' + arguments[0] + ' doesnt exist.');
+            }
+        }
+
+        if (model && !model.prototype.isModel && Ext.isObject(model)) {
+            model = Ext.data.ModelManager.registerType(model.storeId || model.id || Ext.id(), model);
+        }
+
+        return model;
+    },
+
+    updateModel: function(model) {
+        if (model) {
+            var reader = this.getReader();
+            if (reader && !reader.getModel()) {
+                reader.setModel(model);
+            }
+        }
+    },
+
+    applyReader: function(reader, currentReader) {
+        return Ext.factory(reader, Ext.data.Reader, currentReader, 'reader');
+    },
+
+    updateReader: function(reader) {
+        if (reader) {
+            var model = this.getModel();
+            if (!model) {
+                model = reader.getModel();
+                if (model) {
+                    this.setModel(model);
+                }
+            } else {
+                reader.setModel(model);
+            }
+
+            if (reader.onMetaChange) {
+                 reader.onMetaChange = Ext.Function.createSequence(reader.onMetaChange, this.onMetaChange, this);
+            }
+        }
+    },
+
+    onMetaChange: function(data) {
+        var model = this.getReader().getModel();
+        if (!this.getModel() && model) {
+            this.setModel(model);
+        }
+
+        /**
+         * @event metachange
+         * Fires whenever the server has sent back new metadata to reconfigure the Reader.
+         * @param {Ext.data.Proxy} this
+         * @param {Object} data The metadata sent back from the server
+         */
+        this.fireEvent('metachange', this, data);
+    },
+
+    applyWriter: function(writer, currentWriter) {
+        return Ext.factory(writer, Ext.data.Writer, currentWriter, 'writer');
+    },
+
+    /**
+     * Performs the given create operation. If you override this method in a custom Proxy, remember to always call the provided
+     * callback method when you are done with your operation.
+     * @param {Ext.data.Operation} operation The Operation to perform
+     * @param {Function} callback Callback function to be called when the Operation has completed (whether successful or not)
+     * @param {Object} scope Scope to execute the callback function in
+     * @method
+     */
+    create: Ext.emptyFn,
+
+    /**
+     * Performs the given read operation. If you override this method in a custom Proxy, remember to always call the provided
+     * callback method when you are done with your operation.
+     * @param {Ext.data.Operation} operation The Operation to perform
+     * @param {Function} callback Callback function to be called when the Operation has completed (whether successful or not)
+     * @param {Object} scope Scope to execute the callback function in
+     * @method
+     */
+    read: Ext.emptyFn,
+
+    /**
+     * Performs the given update operation. If you override this method in a custom Proxy, remember to always call the provided
+     * callback method when you are done with your operation.
+     * @param {Ext.data.Operation} operation The Operation to perform
+     * @param {Function} callback Callback function to be called when the Operation has completed (whether successful or not)
+     * @param {Object} scope Scope to execute the callback function in
+     * @method
+     */
+    update: Ext.emptyFn,
+
+    /**
+     * Performs the given destroy operation. If you override this method in a custom Proxy, remember to always call the provided
+     * callback method when you are done with your operation.
+     * @param {Ext.data.Operation} operation The Operation to perform
+     * @param {Function} callback Callback function to be called when the Operation has completed (whether successful or not)
+     * @param {Object} scope Scope to execute the callback function in
+     * @method
+     */
+    destroy: Ext.emptyFn,
+
+    onDestroy: function() {
+        Ext.destroy(this.getReader(), this.getWriter());
+        Ext.Evented.prototype.destroy.apply(this, arguments);
+    },
+
+    /**
+     * Performs a batch of {@link Ext.data.Operation Operations}, in the order specified by {@link #batchOrder}. Used
+     * internally by {@link Ext.data.Store}'s {@link Ext.data.Store#sync sync} method. Example usage:
+     *
+     *     myProxy.batch({
+     *         create : [myModel1, myModel2],
+     *         update : [myModel3],
+     *         destroy: [myModel4, myModel5]
+     *     });
+     *
+     * Where the myModel* above are {@link Ext.data.Model Model} instances - in this case 1 and 2 are new instances and
+     * have not been saved before, 3 has been saved previously but needs to be updated, and 4 and 5 have already been
+     * saved but should now be destroyed.
+     *
+     * @param {Object} options Object containing one or more properties supported by the batch method:
+     *
+     * @param {Object} options.operations Object containing the Model instances to act upon, keyed by action name
+     *
+     * @param {Object} [options.listeners] Event listeners object passed straight through to the Batch -
+     * see {@link Ext.data.Batch} for details
+     *
+     * @param {Ext.data.Batch/Object} [options.batch] A {@link Ext.data.Batch} object (or batch config to apply
+     * to the created batch). If unspecified a default batch will be auto-created.
+     *
+     * @param {Function} [options.callback] The function to be called upon completion of processing the batch.
+     * The callback is called regardless of success or failure and is passed the following parameters:
+     * @param {Ext.data.Batch} options.callback.batch The {@link Ext.data.Batch batch} that was processed,
+     * containing all operations in their current state after processing
+     * @param {Object} options.callback.options The options argument that was originally passed into batch
+     *
+     * @param {Function} [options.success] The function to be called upon successful completion of the batch. The
+     * success function is called only if no exceptions were reported in any operations. If one or more exceptions
+     * occurred then the `failure` function will be called instead. The success function is called
+     * with the following parameters:
+     * @param {Ext.data.Batch} options.success.batch The {@link Ext.data.Batch batch} that was processed,
+     * containing all operations in their current state after processing
+     * @param {Object} options.success.options The options argument that was originally passed into batch
+     *
+     * @param {Function} [options.failure] The function to be called upon unsuccessful completion of the batch. The
+     * failure function is called when one or more operations returns an exception during processing (even if some
+     * operations were also successful). The failure function is called with the following parameters:
+     * @param {Ext.data.Batch} options.failure.batch The {@link Ext.data.Batch batch} that was processed,
+     * containing all operations in their current state after processing
+     * @param {Object} options.failure.options The options argument that was originally passed into batch
+     *
+     * @param {Object} [options.scope] The scope in which to execute any callbacks (i.e. the `this` object inside
+     * the callback, success and/or failure functions). Defaults to the proxy.
+     *
+     * @return {Ext.data.Batch} The newly created Batch
+     */
+    batch: function(options, /* deprecated */listeners) {
+        var me = this,
+            useBatch = me.getBatchActions(),
+            model = me.getModel(),
+            batch,
+            records;
+
+        if (options.operations === undefined) {
+            // the old-style (operations, listeners) signature was called
+            // so convert to the single options argument syntax
+            options = {
+                operations: options,
+                listeners: listeners
+            };
+
+        }
+
+        if (options.batch && options.batch.isBatch) {
+            batch = options.batch;
+        } else {
+            batch = new Ext.data.Batch(options.batch || {});
+        }
+
+        batch.setProxy(me);
+
+        batch.on('complete', Ext.bind(me.onBatchComplete, me, [options], 0));
+        if (options.listeners) {
+            batch.on(options.listeners);
+        }
+
+        Ext.each(me.getBatchOrder().split(','), function(action) {
+             records = options.operations[action];
+             if (records) {
+                 if (useBatch) {
+                     batch.add(new Ext.data.Operation({
+                         action: action,
+                         records: records,
+                         model: model
+                     }));
+                 } else {
+                     Ext.each(records, function(record) {
+                         batch.add(new Ext.data.Operation({
+                             action : action,
+                             records: [record],
+                             model: model
+                         }));
+                     });
+                 }
+             }
+        }, me);
+
+        batch.start();
+        return batch;
+    },
+
+    /**
+      * @private
+      * The internal callback that the proxy uses to call any specified user callbacks after completion of a batch
+      */
+    onBatchComplete: function(batchOptions, batch) {
+         var scope = batchOptions.scope || this;
+
+         if (batch.hasException) {
+             if (Ext.isFunction(batchOptions.failure)) {
+                 Ext.callback(batchOptions.failure, scope, [batch, batchOptions]);
+             }
+         } else if (Ext.isFunction(batchOptions.success)) {
+             Ext.callback(batchOptions.success, scope, [batch, batchOptions]);
+         }
+
+         if (Ext.isFunction(batchOptions.callback)) {
+             Ext.callback(batchOptions.callback, scope, [batch, batchOptions]);
+         }
+
+         Ext.destroy(batch);
+    }
+
+}, function() {
+    // Ext.data2.proxy.ProxyMgr.registerType('proxy', this);
+
+    //backwards compatibility
+    // Ext.data.DataProxy = this;
+    // Ext.deprecate('platform', '2.0', function() {
+    //     Ext.data2.DataProxy = this;
+    // }, this);
+});
+
+/**
+ * @author Ed Spencer
+ *
+ * Base class for any client-side storage. Used as a superclass for {@link Ext.data.proxy.Memory Memory} and
+ * {@link Ext.data.proxy.WebStorage Web Storage} proxies. Do not use directly, use one of the subclasses instead.
+ * @private
+ */
+Ext.define('Ext.data.proxy.Client', {
+    extend:  Ext.data.proxy.Proxy ,
+    alternateClassName: 'Ext.proxy.ClientProxy',
+
+    /**
+     * Abstract function that must be implemented by each ClientProxy subclass. This should purge all record data
+     * from the client side storage, as well as removing any supporting data (such as lists of record IDs)
+     */
+    clear: function() {
+    }
+});
+
+/**
+ * @author Ed Spencer
+ * @aside guide proxies
+ *
+ * In-memory proxy. This proxy simply uses a local variable for data storage/retrieval, so its contents are lost on
+ * every page refresh.
+ *
+ * Usually this Proxy isn't used directly, serving instead as a helper to a {@link Ext.data.Store Store} where a reader
+ * is required to load data. For example, say we have a Store for a User model and have some inline data we want to
+ * load, but this data isn't in quite the right format: we can use a MemoryProxy with a JsonReader to read it into our
+ * Store:
+ *
+ *     //this is the model we will be using in the store
+ *     Ext.define('User', {
+ *         extend: 'Ext.data.Model',
+ *         config: {
+ *             fields: [
+ *                 {name: 'id',    type: 'int'},
+ *                 {name: 'name',  type: 'string'},
+ *                 {name: 'phone', type: 'string', mapping: 'phoneNumber'}
+ *             ]
+ *         }
+ *     });
+ *
+ *     //this data does not line up to our model fields - the phone field is called phoneNumber
+ *     var data = {
+ *         users: [
+ *             {
+ *                 id: 1,
+ *                 name: 'Ed Spencer',
+ *                 phoneNumber: '555 1234'
+ *             },
+ *             {
+ *                 id: 2,
+ *                 name: 'Abe Elias',
+ *                 phoneNumber: '666 1234'
+ *             }
+ *         ]
+ *     };
+ *
+ *     //note how we set the 'root' in the reader to match the data structure above
+ *     var store = Ext.create('Ext.data.Store', {
+ *         autoLoad: true,
+ *         model: 'User',
+ *         data : data,
+ *         proxy: {
+ *             type: 'memory',
+ *             reader: {
+ *                 type: 'json',
+ *                 root: 'users'
+ *             }
+ *         }
+ *     });
+ */
+Ext.define('Ext.data.proxy.Memory', {
+    extend:  Ext.data.proxy.Client ,
+    alias: 'proxy.memory',
+    alternateClassName: 'Ext.data.MemoryProxy',
+
+    isMemoryProxy: true,
+
+    config: {
+        /**
+         * @cfg {Object} data
+         * Optional data to pass to configured Reader.
+         */
+        data: []
+    },
+
+    /**
+     * @private
+     * Fake processing function to commit the records, set the current operation
+     * to successful and call the callback if provided. This function is shared
+     * by the create, update and destroy methods to perform the bare minimum
+     * processing required for the proxy to register a result from the action.
+     */
+    finishOperation: function(operation, callback, scope) {
+        if (operation) {
+            var i = 0,
+                recs = operation.getRecords(),
+                len = recs.length;
+
+            for (i; i < len; i++) {
+                recs[i].commit();
+            }
+
+            operation.setCompleted();
+            operation.setSuccessful();
+
+            Ext.callback(callback, scope || this, [operation]);
+        }
+    },
+
+    /**
+     * Currently this is a hard-coded method that simply commits any records and sets the operation to successful,
+     * then calls the callback function, if provided. It is essentially mocking a server call in memory, but since
+     * there is no real back end in this case there's not much else to do. This method can be easily overridden to
+     * implement more complex logic if needed.
+     * @param {Ext.data.Operation} operation The Operation to perform
+     * @param {Function} callback Callback function to be called when the Operation has completed (whether
+     * successful or not)
+     * @param {Object} scope Scope to execute the callback function in
+     * @method
+     */
+    create: function() {
+        this.finishOperation.apply(this, arguments);
+    },
+
+    /**
+     * Currently this is a hard-coded method that simply commits any records and sets the operation to successful,
+     * then calls the callback function, if provided. It is essentially mocking a server call in memory, but since
+     * there is no real back end in this case there's not much else to do. This method can be easily overridden to
+     * implement more complex logic if needed.
+     * @param {Ext.data.Operation} operation The Operation to perform
+     * @param {Function} callback Callback function to be called when the Operation has completed (whether
+     * successful or not)
+     * @param {Object} scope Scope to execute the callback function in
+     * @method
+     */
+    update: function() {
+        this.finishOperation.apply(this, arguments);
+    },
+
+    /**
+     * Currently this is a hard-coded method that simply commits any records and sets the operation to successful,
+     * then calls the callback function, if provided. It is essentially mocking a server call in memory, but since
+     * there is no real back end in this case there's not much else to do. This method can be easily overridden to
+     * implement more complex logic if needed.
+     * @param {Ext.data.Operation} operation The Operation to perform
+     * @param {Function} callback Callback function to be called when the Operation has completed (whether
+     * successful or not)
+     * @param {Object} scope Scope to execute the callback function in
+     * @method
+     */
+    destroy: function() {
+        this.finishOperation.apply(this, arguments);
+    },
+
+    /**
+     * Reads data from the configured {@link #data} object. Uses the Proxy's {@link #reader}, if present.
+     * @param {Ext.data.Operation} operation The read Operation
+     * @param {Function} callback The callback to call when reading has completed
+     * @param {Object} scope The scope to call the callback function in
+     */
+    read: function(operation, callback, scope) {
+        var me     = this,
+            reader = me.getReader();
+
+        if (operation.process('read', reader.process(me.getData())) === false) {
+            this.fireEvent('exception', this, null, operation);
+        }
+
+        Ext.callback(callback, scope || me, [operation]);
+    },
+
+    clear: Ext.emptyFn
+});
+
+/**
+ * @author Ed Spencer
+ * @class Ext.data.reader.Array
+ *
+ * Data reader class to create an Array of {@link Ext.data.Model} objects from an Array.
+ * Each element of that Array represents a row of data fields. The
+ * fields are pulled into a Record object using as a subscript, the `mapping` property
+ * of the field definition if it exists, or the field's ordinal position in the definition.
+ *
+ * Example code:
+ *
+ *     Employee = Ext.define('Employee', {
+ *         extend: 'Ext.data.Model',
+ *         config: {
+ *             fields: [
+ *                 'id',
+ *                 {name: 'name', mapping: 1}, // "mapping" only needed if an "id" field is present which
+ *                 {name: 'occupation', mapping: 2} // precludes using the ordinal position as the index.
+ *             ]
+ *         }
+ *     });
+ *
+ *     var myReader = new Ext.data.reader.Array({
+ *         model: 'Employee'
+ *     }, Employee);
+ *
+ * This would consume an Array like this:
+ *
+ *     [ [1, 'Bill', 'Gardener'], [2, 'Ben', 'Horticulturalist'] ]
+ *
+ * @constructor
+ * Create a new ArrayReader
+ * @param {Object} meta Metadata configuration options.
+ */
+Ext.define('Ext.data.reader.Array', {
+    extend:  Ext.data.reader.Json ,
+    alternateClassName: 'Ext.data.ArrayReader',
+    alias : 'reader.array',
+
+    // For Array Reader, methods in the base which use these properties must not see the defaults
+    config: {
+        totalProperty: undefined,
+        successProperty: undefined
+    },
+
+    /**
+     * @private
+     * Returns an accessor expression for the passed Field from an Array using either the Field's mapping, or
+     * its ordinal position in the fields collection as the index.
+     * This is used by buildExtractors to create optimized on extractor function which converts raw data into model instances.
+     */
+    createFieldAccessExpression: function(field, fieldVarName, dataName) {
+        var me     = this,
+            mapping = field.getMapping(),
+            index  = (mapping == null) ? me.getModel().getFields().indexOf(field) : mapping,
+            result;
+
+        if (typeof index === 'function') {
+            result = fieldVarName + '.getMapping()(' + dataName + ', this)';
+        } else {
+            if (isNaN(index)) {
+                index = '"' + index + '"';
+            }
+            result = dataName + "[" + index + "]";
+        }
+        return result;
+    }
+});
+
+/**
  * @docauthor Evan Trimboli <evan@sencha.com>
  * @aside guide stores
  *
@@ -63858,2691 +66612,6 @@ Ext.define("Ext.chart.Legend", {
             record.commit();
         }
     }
-});
-
-/**
- * @author Ed Spencer
- *
- * Represents a single read or write operation performed by a {@link Ext.data.proxy.Proxy Proxy}. Operation objects are
- * used to enable communication between Stores and Proxies. Application developers should rarely need to interact with
- * Operation objects directly.
- *
- * Note that when you define an Operation directly, you need to specify at least the {@link #model} configuration.
- *
- * Several Operations can be batched together in a {@link Ext.data.Batch batch}.
- */
-Ext.define('Ext.data.Operation', {
-    config: {
-        /**
-         * @cfg {Boolean} synchronous
-         * True if this Operation is to be executed synchronously. This property is inspected by a
-         * {@link Ext.data.Batch Batch} to see if a series of Operations can be executed in parallel or not.
-         * @accessor
-         */
-        synchronous: true,
-
-        /**
-         * @cfg {String} action
-         * The action being performed by this Operation. Should be one of 'create', 'read', 'update' or 'destroy'.
-         * @accessor
-         */
-        action: null,
-
-        /**
-         * @cfg {Ext.util.Filter[]} filters
-         * Optional array of filter objects. Only applies to 'read' actions.
-         * @accessor
-         */
-        filters: null,
-
-        /**
-         * @cfg {Ext.util.Sorter[]} sorters
-         * Optional array of sorter objects. Only applies to 'read' actions.
-         * @accessor
-         */
-        sorters: null,
-
-        /**
-         * @cfg {Ext.util.Grouper} grouper
-         * Optional grouping configuration. Only applies to 'read' actions where grouping is desired.
-         * @accessor
-         */
-        grouper: null,
-
-        /**
-         * @cfg {Number} start
-         * The start index (offset), used in paging when running a 'read' action.
-         * @accessor
-         */
-        start: null,
-
-        /**
-         * @cfg {Number} limit
-         * The number of records to load. Used on 'read' actions when paging is being used.
-         * @accessor
-         */
-        limit: null,
-
-        /**
-         * @cfg {Ext.data.Batch} batch
-         * The batch that this Operation is a part of.
-         * @accessor
-         */
-        batch: null,
-
-        /**
-         * @cfg {Function} callback
-         * Function to execute when operation completed.
-         * @cfg {Ext.data.Model[]} callback.records Array of records.
-         * @cfg {Ext.data.Operation} callback.operation The Operation itself.
-         * @accessor
-         */
-        callback: null,
-
-        /**
-         * @cfg {Object} scope
-         * Scope for the {@link #callback} function.
-         * @accessor
-         */
-        scope: null,
-
-        /**
-         * @cfg {Ext.data.ResultSet} resultSet
-         * The ResultSet for this operation.
-         * @accessor
-         */
-        resultSet: null,
-
-        /**
-         * @cfg {Array} records
-         * The records associated to this operation. Before an operation starts, these
-         * are the records you are updating, creating, or destroying. After an operation
-         * is completed, a Proxy usually sets these records on the Operation to become
-         * the processed records. If you don't set these records on your operation in
-         * your proxy, then the getter will return the ones defined on the {@link #resultSet}
-         * @accessor
-         */
-        records: null,
-
-        /**
-         * @cfg {Ext.data.Request} request
-         * The request used for this Operation. Operations don't usually care about Request and Response data, but in the
-         * ServerProxy and any of its subclasses they may be useful for further processing.
-         * @accessor
-         */
-        request: null,
-
-        /**
-         * @cfg {Object} response
-         * The response that was gotten from the server if there was one.
-         * @accessor
-         */
-        response: null,
-
-        /**
-         * @cfg {Boolean} withCredentials
-         * This field is necessary when using cross-origin resource sharing.
-         * @accessor
-         */
-        withCredentials: null,
-
-        /**
-         * @cfg {Object} params
-         * The params send along with this operation. These usually apply to a Server proxy if you are
-         * creating your own custom proxy,
-         * @accessor
-         */
-        params: null,
-        url: null,
-        page: null,
-        node: null,
-
-        /**
-         * @cfg {Ext.data.Model} model
-         * The Model that this Operation will be dealing with. This configuration is required when defining any Operation.
-         * Since Operations take care of creating, updating, destroying and reading records, it needs access to the Model.
-         * @accessor
-         */
-        model: undefined,
-
-        addRecords: false
-    },
-
-    /**
-     * @property {Boolean} started
-     * Property tracking the start status of this Operation. Use {@link #isStarted}.
-     * @private
-     * @readonly
-     */
-    started: false,
-
-    /**
-     * @property {Boolean} running
-     * Property tracking the run status of this Operation. Use {@link #isRunning}.
-     * @private
-     * @readonly
-     */
-    running: false,
-
-    /**
-     * @property {Boolean} complete
-     * Property tracking the completion status of this Operation. Use {@link #isComplete}.
-     * @private
-     * @readonly
-     */
-    complete: false,
-
-    /**
-     * @property {Boolean} success
-     * Property tracking whether the Operation was successful or not. This starts as undefined and is set to `true`
-     * or `false` by the Proxy that is executing the Operation. It is also set to false by {@link #setException}. Use
-     * {@link #wasSuccessful} to query success status.
-     * @private
-     * @readonly
-     */
-    success: undefined,
-
-    /**
-     * @property {Boolean} exception
-     * Property tracking the exception status of this Operation. Use {@link #hasException} and see {@link #getError}.
-     * @private
-     * @readonly
-     */
-    exception: false,
-
-    /**
-     * @property {String/Object} error
-     * The error object passed when {@link #setException} was called. This could be any object or primitive.
-     * @private
-     */
-    error: undefined,
-
-    /**
-     * Creates new Operation object.
-     * @param {Object} config (optional) Config object.
-     */
-    constructor: function(config) {
-        this.initConfig(config);
-    },
-
-    applyModel: function(model) {
-        if (typeof model == 'string') {
-            model = Ext.data.ModelManager.getModel(model);
-
-            if (!model) {
-                Ext.Logger.error('Model with name ' + arguments[0] + ' doesnt exist.');
-            }
-        }
-
-        if (model && !model.prototype.isModel && Ext.isObject(model)) {
-            model = Ext.data.ModelManager.registerType(model.storeId || model.id || Ext.id(), model);
-        }
-
-
-        return model;
-    },
-
-    getRecords: function() {
-        var resultSet = this.getResultSet();
-        return this._records || (resultSet ? resultSet.getRecords() : []);
-    },
-
-    /**
-     * Marks the Operation as started.
-     */
-    setStarted: function() {
-        this.started = true;
-        this.running = true;
-    },
-
-    /**
-     * Marks the Operation as completed.
-     */
-    setCompleted: function() {
-        this.complete = true;
-        this.running  = false;
-    },
-
-    /**
-     * Marks the Operation as successful.
-     */
-    setSuccessful: function() {
-        this.success = true;
-    },
-
-    /**
-     * Marks the Operation as having experienced an exception. Can be supplied with an option error message/object.
-     * @param {String/Object} error (optional) error string/object
-     */
-    setException: function(error) {
-        this.exception = true;
-        this.success = false;
-        this.running = false;
-        this.error = error;
-    },
-
-    /**
-     * Returns `true` if this Operation encountered an exception (see also {@link #getError}).
-     * @return {Boolean} `true` if there was an exception.
-     */
-    hasException: function() {
-        return this.exception === true;
-    },
-
-    /**
-     * Returns the error string or object that was set using {@link #setException}.
-     * @return {String/Object} The error object.
-     */
-    getError: function() {
-        return this.error;
-    },
-
-    /**
-     * Returns `true` if the Operation has been started. Note that the Operation may have started AND completed, see
-     * {@link #isRunning} to test if the Operation is currently running.
-     * @return {Boolean} `true` if the Operation has started
-     */
-    isStarted: function() {
-        return this.started === true;
-    },
-
-    /**
-     * Returns `true` if the Operation has been started but has not yet completed.
-     * @return {Boolean} `true` if the Operation is currently running
-     */
-    isRunning: function() {
-        return this.running === true;
-    },
-
-    /**
-     * Returns `true` if the Operation has been completed
-     * @return {Boolean} `true` if the Operation is complete
-     */
-    isComplete: function() {
-        return this.complete === true;
-    },
-
-    /**
-     * Returns `true` if the Operation has completed and was successful
-     * @return {Boolean} `true` if successful
-     */
-    wasSuccessful: function() {
-        return this.isComplete() && this.success === true;
-    },
-
-    /**
-     * Checks whether this operation should cause writing to occur.
-     * @return {Boolean} Whether the operation should cause a write to occur.
-     */
-    allowWrite: function() {
-        return this.getAction() != 'read';
-    },
-
-    process: function(action, resultSet, request, response) {
-        if (resultSet.getSuccess() !== false) {
-            this.setResponse(response);
-            this.setResultSet(resultSet);
-            this.setCompleted();
-            this.setSuccessful();
-        } else {
-            return false;
-        }
-
-        return this['process' + Ext.String.capitalize(action)].call(this, resultSet, request, response);
-    },
-
-    processRead: function(resultSet) {
-        var records = resultSet.getRecords(),
-            processedRecords = [],
-            Model = this.getModel(),
-            ln = records.length,
-            i, record;
-
-        for (i = 0; i < ln; i++) {
-            record = records[i];
-            processedRecords.push(new Model(record.data, record.id, record.node));
-        }
-
-        this.setRecords(processedRecords);
-        resultSet.setRecords(processedRecords);
-        return true;
-    },
-
-    processCreate: function(resultSet) {
-        var updatedRecords = resultSet.getRecords(),
-            currentRecords = this.getRecords(),
-            ln = updatedRecords.length,
-            i, currentRecord, updatedRecord;
-
-        for (i = 0; i < ln; i++) {
-            updatedRecord = updatedRecords[i];
-
-            if (updatedRecord.clientId === null && currentRecords.length == 1 && updatedRecords.length == 1) {
-                currentRecord = currentRecords[i];
-            } else {
-                currentRecord = this.findCurrentRecord(updatedRecord.clientId);
-            }
-
-            if (currentRecord) {
-                this.updateRecord(currentRecord, updatedRecord);
-            }
-        }
-
-        return true;
-    },
-
-    processUpdate: function(resultSet) {
-        var updatedRecords = resultSet.getRecords(),
-            currentRecords = this.getRecords(),
-            ln = updatedRecords.length,
-            i, currentRecord, updatedRecord;
-
-        for (i = 0; i < ln; i++) {
-            updatedRecord = updatedRecords[i];
-            currentRecord = currentRecords[i];
-
-            if (currentRecord) {
-                this.updateRecord(currentRecord, updatedRecord);
-            }
-        }
-
-        return true;
-    },
-
-    processDestroy: function(resultSet) {
-        var updatedRecords = resultSet.getRecords(),
-            ln = updatedRecords.length,
-            i, currentRecord, updatedRecord;
-
-        for (i = 0; i < ln; i++) {
-            updatedRecord = updatedRecords[i];
-            currentRecord = this.findCurrentRecord(updatedRecord.id);
-
-            if (currentRecord) {
-                currentRecord.setIsErased(true);
-                currentRecord.notifyStores('afterErase', currentRecord);
-            }
-        }
-    },
-
-    findCurrentRecord: function(clientId) {
-        var currentRecords = this.getRecords(),
-            ln = currentRecords.length,
-            i, currentRecord;
-
-        for (i = 0; i < ln; i++) {
-            currentRecord = currentRecords[i];
-            if (currentRecord.getId() === clientId) {
-                return currentRecord;
-            }
-        }
-    },
-
-    updateRecord: function(currentRecord, updatedRecord) {
-        var recordData = updatedRecord.data,
-            recordId = updatedRecord.id;
-
-        currentRecord.beginEdit();
-
-        currentRecord.set(recordData);
-        if (recordId !== null) {
-            currentRecord.setId(recordId);
-        }
-
-        // We call endEdit with silent: true because the commit below already makes
-        // sure any store is notified of the record being updated.
-        currentRecord.endEdit(true);
-
-        currentRecord.commit();
-    }
-});
-
-/**
- * @author Ed Spencer
- *
- * Simple wrapper class that represents a set of records returned by a Proxy.
- */
-Ext.define('Ext.data.ResultSet', {
-    config: {
-        /**
-         * @cfg {Boolean} loaded
-         * True if the records have already been loaded. This is only meaningful when dealing with
-         * SQL-backed proxies.
-         */
-        loaded: true,
-
-        /**
-         * @cfg {Number} count
-         * The number of records in this ResultSet. Note that total may differ from this number.
-         */
-        count: null,
-
-        /**
-         * @cfg {Number} total
-         * The total number of records reported by the data source. This ResultSet may form a subset of
-         * those records (see {@link #count}).
-         */
-        total: null,
-
-        /**
-         * @cfg {Boolean} success
-         * True if the ResultSet loaded successfully, false if any errors were encountered.
-         */
-        success: false,
-
-        /**
-         * @cfg {Ext.data.Model[]} records (required)
-         * The array of record instances.
-         */
-        records: null,
-
-        /**
-         * @cfg {String} message
-         * The message that was read in from the data
-         */
-        message: null
-    },
-
-    /**
-     * Creates the resultSet
-     * @param {Object} [config] Config object.
-     */
-    constructor: function(config) {
-        this.initConfig(config);
-    },
-
-    applyCount: function(count) {
-        if (!count && count !== 0) {
-            return this.getRecords().length;
-        }
-        return count;
-    },
-    
-    /**
-     * @private
-     * Make sure we set the right count when new records have been sent in
-     */
-    updateRecords: function(records) {
-        this.setCount(records.length);
-    }
-});
-
-/**
- * @author Ed Spencer
- *
- * Readers are used to interpret data to be loaded into a {@link Ext.data.Model Model} instance or a {@link
- * Ext.data.Store Store} - often in response to an AJAX request. In general there is usually no need to create
- * a Reader instance directly, since a Reader is almost always used together with a {@link Ext.data.proxy.Proxy Proxy},
- * and is configured using the Proxy's {@link Ext.data.proxy.Proxy#cfg-reader reader} configuration property:
- *
- *     Ext.define("User", {
- *         extend: "Ext.data.Model",
- *         config: {
- *             fields: [
- *                 "id",
- *                 "name"
- *             ]
- *         }
- *     });
- *
- *     Ext.create("Ext.data.Store", {
- *         model: "User",
- *         autoLoad: true,
- *         storeId: "usersStore",
- *         proxy: {
- *             type: "ajax",
- *             url : "users.json",
- *             reader: {
- *                 type: "json",
- *                 rootProperty: "users"
- *             }
- *         }
- *     });
- *
- *     Ext.create("Ext.List", {
- *         fullscreen: true,
- *         itemTpl: "{name} (id: '{id}')",
- *         store: "usersStore"
- *     });
- *
- * The above reader is configured to consume a JSON string that looks something like this:
- *
- *     {
- *         "success": true,
- *         "users": [
- *             { "name": "User 1" },
- *             { "name": "User 2" }
- *         ]
- *     }
- *
- *
- * # Loading Nested Data
- *
- * Readers have the ability to automatically load deeply-nested data objects based on the {@link Ext.data.association.Association
- * associations} configured on each Model. Below is an example demonstrating the flexibility of these associations in a
- * fictional CRM system which manages a User, their Orders, OrderItems and Products. First we'll define the models:
- *
- *     Ext.define("User", {
- *         extend: "Ext.data.Model",
- *         config: {
- *             fields: [
- *                 "id",
- *                 "name"
- *             ],
- *             hasMany: {
- *                 model: "Order",
- *                 name: "orders"
- *             },
- *             proxy: {
- *                 type: "rest",
- *                 url : "users.json",
- *                 reader: {
- *                     type: "json",
- *                     rootProperty: "users"
- *                 }
- *             }
- *         }
- *     });
- *
- *     Ext.define("Order", {
- *         extend: "Ext.data.Model",
- *         config: {
- *             fields: [
- *                 "id", "total"
- *             ],
- *             hasMany: {
- *                 model: "OrderItem",
- *                 name: "orderItems",
- *                 associationKey: "order_items"
- *             },
- *             belongsTo: "User"
- *         }
- *     });
- *
- *     Ext.define("OrderItem", {
- *         extend: "Ext.data.Model",
- *         config: {
- *             fields: [
- *                 "id",
- *                 "price",
- *                 "quantity",
- *                 "order_id",
- *                 "product_id"
- *             ],
- *             belongsTo: [
- *                 "Order", {
- *                     model: "Product",
- *                     associationKey: "product"
- *                 }
- *             ]
- *         }
- *     });
- *
- *     Ext.define("Product", {
- *         extend: "Ext.data.Model",
- *         config: {
- *             fields: [
- *                 "id",
- *                 "name"
- *             ]
- *         },
- *         hasMany: "OrderItem"
- *     });
- *
- *     var store = Ext.create('Ext.data.Store', {
- *         model: "User"
- *     });
- *
- *     store.load({
- *         callback: function() {
- *             var output = [];
- *
- *             // the user that was loaded
- *             var user = store.first();
- *
- *             output.push("Orders for " + user.get('name') + ":");
- *
- *             // iterate over the Orders for each User
- *             user.orders().each(function(order) {
- *                 output.push("Order ID: " + order.get('id') + ", which contains items:");
- *
- *                 // iterate over the OrderItems for each Order
- *                 order.orderItems().each(function(orderItem) {
- *                     // We know that the Product data is already loaded, so we can use the
- *                     // synchronous getProduct() method. Usually, we would use the 
- *                     // asynchronous version (see Ext.data.association.BelongsTo).
- *                     var product = orderItem.getProduct();
- *                     output.push(orderItem.get("quantity") + " orders of " + product.get("name"));
- *                 });
- *             });
- *             Ext.Msg.alert('Output:', output.join("<br/>"));
- *         }
- *     });
- *
- * This may be a lot to take in - basically a User has many Orders, each of which is composed of several OrderItems.
- * Finally, each OrderItem has a single Product. This allows us to consume data like this (_users.json_):
- *
- *     {
- *         "users": [
- *             {
- *                 "id": 123,
- *                 "name": "Ed",
- *                 "orders": [
- *                     {
- *                         "id": 50,
- *                         "total": 100,
- *                         "order_items": [
- *                             {
- *                                 "id"      : 20,
- *                                 "price"   : 40,
- *                                 "quantity": 2,
- *                                 "product" : {
- *                                     "id": 1000,
- *                                     "name": "MacBook Pro"
- *                                 }
- *                             },
- *                             {
- *                                 "id"      : 21,
- *                                 "price"   : 20,
- *                                 "quantity": 3,
- *                                 "product" : {
- *                                     "id": 1001,
- *                                     "name": "iPhone"
- *                                 }
- *                             }
- *                         ]
- *                     }
- *                 ]
- *             }
- *         ]
- *     }
- *
- * The JSON response is deeply nested - it returns all Users (in this case just 1 for simplicity's sake), all of the
- * Orders for each User (again just 1 in this case), all of the OrderItems for each Order (2 order items in this case),
- * and finally the Product associated with each OrderItem.
- *
- * Running the code above results in the following:
- *
- *     Orders for Ed:
- *     Order ID: 50, which contains items:
- *     2 orders of MacBook Pro
- *     3 orders of iPhone
- */
-Ext.define('Ext.data.reader.Reader', {
-               
-                            
-      
-    alternateClassName: ['Ext.data.Reader', 'Ext.data.DataReader'],
-
-    mixins: [ Ext.mixin.Observable ],
-
-    // @private
-    isReader: true,
-
-    config: {
-        /**
-         * @cfg {String} idProperty
-         * Name of the property within a raw object that contains a record identifier value. Defaults to The id of the
-         * model. If an `idProperty` is explicitly specified it will override that of the one specified on the model
-         */
-        idProperty: undefined,
-
-        /**
-         * @cfg {String} clientIdProperty
-         * The name of the property with a response that contains the existing client side id for a record that we are reading.
-         */
-        clientIdProperty: 'clientId',
-
-        /**
-         * @cfg {String} totalProperty
-         * Name of the property from which to retrieve the total number of records in the dataset. This is only needed if
-         * the whole dataset is not passed in one go, but is being paged from the remote server.
-         */
-        totalProperty: 'total',
-
-        /**
-         * @cfg {String} successProperty
-         * Name of the property from which to retrieve the success attribute. See
-         * {@link Ext.data.proxy.Server}.{@link Ext.data.proxy.Server#exception exception} for additional information.
-         */
-        successProperty: 'success',
-
-        /**
-         * @cfg {String} messageProperty (optional)
-         * The name of the property which contains a response message. This property is optional.
-         */
-        messageProperty: null,
-
-        /**
-         * @cfg {String} rootProperty
-         * The name of the property which contains the Array of row objects.  For JSON reader it's dot-separated list
-         * of property names.  For XML reader it's a CSS selector.  For array reader it's not applicable.
-         *
-         * By default the natural root of the data will be used.  The root JSON array, the root XML element, or the array.
-         *
-         * The data packet value for this property should be an empty array to clear the data or show no data.
-         */
-        rootProperty: '',
-
-        /**
-         * @cfg {Boolean} implicitIncludes
-         * `true` to automatically parse models nested within other models in a response object. See the
-         * {@link Ext.data.reader.Reader} intro docs for full explanation.
-         */
-        implicitIncludes: true,
-
-        model: undefined
-    },
-
-    constructor: function(config) {
-        this.initConfig(config);
-    },
-
-    /**
-     * @property {Object} metaData
-     * The raw meta data that was most recently read, if any. Meta data can include existing
-     * Reader config options like {@link #idProperty}, {@link #totalProperty}, etc. that get
-     * automatically applied to the Reader, and those can still be accessed directly from the Reader
-     * if needed. However, meta data is also often used to pass other custom data to be processed
-     * by application code. For example, it is common when reconfiguring the data model of a grid to
-     * also pass a corresponding column model config to be applied to the grid. Any such data will
-     * not get applied to the Reader directly (it just gets passed through and is ignored by Ext).
-     * This `metaData` property gives you access to all meta data that was passed, including any such
-     * custom data ignored by the reader.
-     *
-     * This is a read-only property, and it will get replaced each time a new meta data object is
-     * passed to the reader.
-     * @readonly
-     */
-
-    fieldCount: 0,
-
-    applyModel: function(model) {
-        if (typeof model == 'string') {
-            model = Ext.data.ModelManager.getModel(model);
-
-            if (!model) {
-                Ext.Logger.error('Model with name ' + arguments[0] + ' doesnt exist.');
-            }
-        }
-
-        if (model && !model.prototype.isModel && Ext.isObject(model)) {
-            model = Ext.data.ModelManager.registerType(model.storeId || model.id || Ext.id(), model);
-        }
-
-        return model;
-    },
-
-    applyIdProperty: function(idProperty) {
-        if (!idProperty && this.getModel()) {
-            idProperty = this.getModel().getIdProperty();
-        }
-        return idProperty;
-    },
-
-    updateModel: function(model) {
-        if (model) {
-            if (!this.getIdProperty()) {
-                this.setIdProperty(model.getIdProperty());
-            }
-            this.buildExtractors();
-        }
-    },
-
-    createAccessor: Ext.emptyFn,
-
-    createFieldAccessExpression: function() {
-        return 'undefined';
-    },
-
-    /**
-     * @private
-     * This builds optimized functions for retrieving record data and meta data from an object.
-     * Subclasses may need to implement their own getRoot function.
-     */
-    buildExtractors: function() {
-        if (!this.getModel()) {
-            return;
-        }
-
-        var me = this,
-            totalProp = me.getTotalProperty(),
-            successProp = me.getSuccessProperty(),
-            messageProp = me.getMessageProperty();
-
-        //build the extractors for all the meta data
-        if (totalProp) {
-            me.getTotal = me.createAccessor(totalProp);
-        }
-
-        if (successProp) {
-            me.getSuccess = me.createAccessor(successProp);
-        }
-
-        if (messageProp) {
-            me.getMessage = me.createAccessor(messageProp);
-        }
-
-        me.extractRecordData = me.buildRecordDataExtractor();
-    },
-
-    /**
-     * @private
-     * Return a function which will read a raw row object in the format this Reader accepts, and populates
-     * a record's data object with converted data values.
-     *
-     * The returned function must be passed the following parameters:
-     *
-     * - `dest` - A record's empty data object into which the new field value properties are injected.
-     * - `source` - A raw row data object of whatever type this Reader consumes
-     * - `record - The record which is being populated.
-     */
-    buildRecordDataExtractor: function() {
-        var me = this,
-            model = me.getModel(),
-            fields = model.getFields(),
-            ln = fields.length,
-            fieldVarName = [],
-            clientIdProp = me.getModel().getClientIdProperty(),
-            prefix = '__field',
-            code = [
-                'var me = this,\n',
-                '    fields = me.getModel().getFields(),\n',
-                '    idProperty = me.getIdProperty(),\n',
-                '    idPropertyIsFn = (typeof idProperty == "function"),',
-                '    value,\n',
-                '    internalId'
-            ], i, field, varName, fieldName;
-
-        fields = fields.items;
-
-        for (i = 0; i < ln; i++) {
-            field = fields[i];
-            fieldName = field.getName();
-            if (fieldName === model.getIdProperty()) {
-                fieldVarName[i] = 'idField';
-            } else {
-                fieldVarName[i] = prefix + i;
-            }
-            code.push(',\n    ', fieldVarName[i], ' = fields.get("', field.getName(), '")');
-        }
-
-        code.push(';\n\n    return function(source) {\n        var dest = {};\n');
-
-        code.push('        if (idPropertyIsFn) {\n');
-        code.push('            idField.setMapping(idProperty);\n');
-        code.push('        }\n');
-
-        for (i = 0; i < ln; i++) {
-            field = fields[i];
-            varName = fieldVarName[i];
-            fieldName = field.getName();
-            if (fieldName === model.getIdProperty() && field.getMapping() === null && model.getIdProperty() !== this.getIdProperty()) {
-                field.setMapping(this.getIdProperty());
-            }
-            // createFieldAccessExpression must be implemented in subclasses to extract data from the source object in the correct way.
-            code.push('        try {\n');
-            code.push('            value = ', me.createFieldAccessExpression(field, varName, 'source'), ';\n');
-            code.push('            if (value !== undefined) {\n');
-            code.push('                dest["' + field.getName() + '"] = value;\n');
-            code.push('            }\n');
-            code.push('        } catch(e){}\n');
-        }
-
-        // set the client id as the internalId of the record.
-        // clientId handles the case where a client side record did not previously exist on the server,
-        // so the server is passing back a client id that can be used to pair the server side record up with the client record
-        if (clientIdProp) {
-            code.push('        internalId = ' + me.createFieldAccessExpression(Ext.create('Ext.data.Field', {name: clientIdProp}), null, 'source') + ';\n');
-            code.push('        if (internalId !== undefined) {\n');
-            code.push('            dest["_clientId"] = internalId;\n        }\n');
-        }
-
-        code.push('        return dest;\n');
-        code.push('    };');
-
-        // Here we are creating a new Function and invoking it immediately in the scope of this Reader
-        // It declares several vars capturing the configured context of this Reader, and returns a function
-        // which, when passed a record data object, a raw data row in the format this Reader is configured to read,
-        // and the record which is being created, will populate the record's data object from the raw row data.
-        return Ext.functionFactory(code.join('')).call(me);
-    },
-
-    getFields: function() {
-        return this.getModel().getFields().items;
-    },
-
-    /**
-     * @private
-     * By default this function just returns what is passed to it. It can be overridden in a subclass
-     * to return something else. See XmlReader for an example.
-     * @param {Object} data The data object
-     * @return {Object} The normalized data object
-     */
-    getData: function(data) {
-        return data;
-    },
-
-    /**
-     * Takes a raw response object (as passed to this.read) and returns the useful data segment of it.
-     * This must be implemented by each subclass
-     * @param {Object} response The response object
-     * @return {Object} The useful data from the response
-     */
-    getResponseData: function(response) {
-        return response;
-    },
-
-    /**
-     * @private
-     * This will usually need to be implemented in a subclass. Given a generic data object (the type depends on the type
-     * of data we are reading), this function should return the object as configured by the Reader's 'rootProperty' meta data config.
-     * See XmlReader's getRoot implementation for an example. By default the same data object will simply be returned.
-     * @param {Object} data The data object
-     * @return {Object} The same data object
-     */
-    getRoot: function(data) {
-        return data;
-    },
-
-    /**
-     * Reads the given response object. This method normalizes the different types of response object that may be passed
-     * to it, before handing off the reading of records to the {@link #readRecords} function.
-     * @param {Object} response The response object. This may be either an XMLHttpRequest object or a plain JS object
-     * @return {Ext.data.ResultSet} The parsed ResultSet object
-     */
-    read: function(response) {
-        var data = response,
-            Model = this.getModel(),
-            resultSet, records, i, ln, record;
-
-        if (response) {
-            data = this.getResponseData(response);
-        }
-
-        if (data) {
-            resultSet = this.readRecords(data);
-            records = resultSet.getRecords();
-            for (i = 0, ln = records.length; i < ln; i++) {
-                record = records[i];
-                records[i] = new Model(record.data, record.id, record.node);
-            }
-            return resultSet;
-        } else {
-            return this.nullResultSet;
-        }
-    },
-
-    process: function(response) {
-        var data = response;
-
-        if (response) {
-            data = this.getResponseData(response);
-        }
-
-        if (data) {
-            return this.readRecords(data);
-        } else {
-            return this.nullResultSet;
-        }
-    },
-
-    /**
-     * Abstracts common functionality used by all Reader subclasses. Each subclass is expected to call this function
-     * before running its own logic and returning the Ext.data.ResultSet instance. For most Readers additional
-     * processing should not be needed.
-     * @param {Object} data The raw data object
-     * @return {Ext.data.ResultSet} A ResultSet object
-     */
-    readRecords: function(data) {
-        var me  = this;
-
-        /**
-         * @property {Object} rawData
-         * The raw data object that was last passed to readRecords. Stored for further processing if needed
-         */
-        me.rawData = data;
-
-        data = me.getData(data);
-
-        if (data.metaData) {
-            me.onMetaChange(data.metaData);
-        }
-
-
-        // If we pass an array as the data, we don't use getRoot on the data.
-        // Instead the root equals to the data.
-        var isArray = Ext.isArray(data),
-            root = isArray ? data : me.getRoot(data),
-            success = true,
-            recordCount = 0,
-            total, value, records, message;
-
-        if (isArray && !data.length) {
-            return me.nullResultSet;
-        }
-
-        // buildExtractors should have put getTotal, getSuccess, or getMessage methods on the instance.
-        // So we can check them directly
-        if (me.getTotal) {
-            value = parseInt(me.getTotal(data), 10);
-            if (!isNaN(value)) {
-                total = value;
-            }
-        }
-
-        if (me.getSuccess) {
-            value = me.getSuccess(data);
-            if (value === false || value === 'false') {
-                success = false;
-            }
-        }
-
-        if (me.getMessage) {
-            message = me.getMessage(data);
-        }
-
-        if (root) {
-            records = me.extractData(root);
-            recordCount = records.length;
-        } else {
-            recordCount = 0;
-            records = [];
-        }
-
-        return new Ext.data.ResultSet({
-            total  : total,
-            count  : recordCount,
-            records: records,
-            success: success,
-            message: message
-        });
-    },
-
-    /**
-     * Returns extracted, type-cast rows of data.
-     * @param {Object[]/Object} root from server response
-     * @private
-     */
-    extractData : function(root) {
-        var me = this,
-            records = [],
-            length  = root.length,
-            model = me.getModel(),
-            idProperty = model.getIdProperty(),
-            fieldsCollection = model.getFields(),
-            node, i, data, id, clientId;
-
-        /*
-         * We check here whether the fields are dirty since the last read.
-         * This works around an issue when a Model is used for both a Tree and another
-         * source, because the tree decorates the model with extra fields and it causes
-         * issues because the readers aren't notified.
-         */
-        if (fieldsCollection.isDirty) {
-            me.buildExtractors(true);
-            delete fieldsCollection.isDirty;
-        }
-
-        if (!root.length && Ext.isObject(root)) {
-            root = [root];
-            length = 1;
-        }
-
-        for (i = 0; i < length; i++) {
-            clientId = null;
-            id = null;
-
-            node = root[i];
-
-            // When you use a Memory proxy, and you set data: [] to contain record instances
-            // this node will already be a record. In this case we should not try to extract
-            // the record data from the object, but just use the record data attribute.
-            if (node.isModel) {
-                data = node.data;
-            } else {
-                data = me.extractRecordData(node);
-            }
-
-            if (data._clientId !== undefined) {
-                clientId = data._clientId;
-                delete data._clientId;
-            }
-
-            if (data[idProperty] !== undefined) {
-                id = data[idProperty];
-            }
-
-            if (me.getImplicitIncludes()) {
-                 me.readAssociated(data, node);
-            }
-
-            records.push({
-                clientId: clientId,
-                id: id,
-                data: data,
-                node: node
-            });
-        }
-
-        return records;
-    },
-
-    /**
-     * @private
-     * Loads a record's associations from the data object. This pre-populates `hasMany` and `belongsTo` associations
-     * on the record provided.
-     * @param {Ext.data.Model} record The record to load associations for
-     * @param {Object} data The data object
-     */
-    readAssociated: function(record, data) {
-        var associations = this.getModel().associations.items,
-            length = associations.length,
-            i = 0,
-            association, associationData, associationKey;
-
-        for (; i < length; i++) {
-            association = associations[i];
-            associationKey = association.getAssociationKey();
-            associationData = this.getAssociatedDataRoot(data, associationKey);
-
-            if (associationData) {
-                record[associationKey] = associationData;
-            }
-        }
-    },
-
-    /**
-     * @private
-     * Used internally by `readAssociated`. Given a data object (which could be json, xml etc) for a specific
-     * record, this should return the relevant part of that data for the given association name. If a complex
-     * mapping, this will traverse arrays and objects to resolve the data.
-     * @param {Object} data The raw data object
-     * @param {String} associationName The name of the association to get data for (uses associationKey if present)
-     * @return {Object} The root
-     */
-    getAssociatedDataRoot: function(data, associationName) {
-        var re = /[\[\.]/,
-            i  = String(associationName).search(re);
-
-        if (i >= 0) {
-            return Ext.functionFactory('obj', 'return obj' + (i > 0 ? '.' : '') + associationName)(data);
-        }
-
-        return data[associationName];
-    },
-
-    /**
-     * @private
-     * Reconfigures the meta data tied to this Reader
-     */
-    onMetaChange : function(meta) {
-        var fields = meta.fields,
-            me = this,
-            newModel, config, idProperty;
-
-        // save off the raw meta data
-        me.metaData = meta;
-
-        // set any reader-specific configs from meta if available
-        if (meta.rootProperty !== undefined) {
-            me.setRootProperty(meta.rootProperty);
-        }
-        else if (meta.root !== undefined) {
-            me.setRootProperty(meta.root);
-        }
-
-        if (meta.idProperty !== undefined) {
-            me.setIdProperty(meta.idProperty);
-        }
-        if (meta.totalProperty !== undefined) {
-            me.setTotalProperty(meta.totalProperty);
-        }
-        if (meta.successProperty !== undefined) {
-            me.setSuccessProperty(meta.successProperty);
-        }
-        if (meta.messageProperty !== undefined) {
-            me.setMessageProperty(meta.messageProperty);
-        }
-
-        if (fields) {
-            if (me.getModel()) {
-                me.getModel().setFields(fields);
-                me.buildExtractors();
-            }
-            else {
-                idProperty = me.getIdProperty();
-                config = {fields: fields};
-
-                if (idProperty) {
-                    config.idProperty = idProperty;
-                }
-
-                newModel = Ext.define("Ext.data.reader.MetaModel" + Ext.id(), {
-                    extend: 'Ext.data.Model',
-                    config: config
-                });
-
-                me.setModel(newModel);
-            }
-        }
-        else {
-            me.buildExtractors();
-        }
-    }
-
-
-    // Convert old properties in data into a config object
-}, function() {
-    Ext.apply(this.prototype, {
-        // @private
-        // Empty ResultSet to return when response is falsy (null|undefined|empty string)
-        nullResultSet: new Ext.data.ResultSet({
-            total  : 0,
-            count  : 0,
-            records: [],
-            success: false
-        })
-    });
-
-});
-
-/**
- * The JSON Reader is used by a Proxy to read a server response that is sent back in JSON format. This usually happens
- * as a result of loading a Store - for example we might create something like this:
- *
- *     Ext.define('User', {
- *         extend: 'Ext.data.Model',
- *         config: {
- *             fields: ['id', 'name', 'email']
- *         }
- *     });
- *
- *     var store = Ext.create('Ext.data.Store', {
- *         model: 'User',
- *         proxy: {
- *             type: 'ajax',
- *             url : 'users.json',
- *             reader: {
- *                 type: 'json'
- *             }
- *         }
- *     });
- *
- * The example above creates a 'User' model. Models are explained in the {@link Ext.data.Model Model} docs if you're not
- * already familiar with them.
- *
- * We created the simplest type of JSON Reader possible by simply telling our {@link Ext.data.Store Store}'s {@link
- * Ext.data.proxy.Proxy Proxy} that we want a JSON Reader. The Store automatically passes the configured model to the
- * Store, so it is as if we passed this instead:
- *
- *     reader: {
- *         type : 'json',
- *         model: 'User'
- *     }
- *
- * The reader we set up is ready to read data from our server - at the moment it will accept a response like this:
- *
- *     [
- *         {
- *             "id": 1,
- *             "name": "Ed Spencer",
- *             "email": "ed@sencha.com"
- *         },
- *         {
- *             "id": 2,
- *             "name": "Abe Elias",
- *             "email": "abe@sencha.com"
- *         }
- *     ]
- *
- * ## Reading other JSON formats
- *
- * If you already have your JSON format defined and it doesn't look quite like what we have above, you can usually pass
- * JsonReader a couple of configuration options to make it parse your format. For example, we can use the
- * {@link #rootProperty} configuration to parse data that comes back like this:
- *
- *     {
- *         "users": [
- *            {
- *                "id": 1,
- *                "name": "Ed Spencer",
- *                "email": "ed@sencha.com"
- *            },
- *            {
- *                "id": 2,
- *                "name": "Abe Elias",
- *                "email": "abe@sencha.com"
- *            }
- *         ]
- *     }
- *
- * To parse this we just pass in a {@link #rootProperty} configuration that matches the 'users' above:
- *
- *     reader: {
- *         type: 'json',
- *         rootProperty: 'users'
- *     }
- *
- * Sometimes the JSON structure is even more complicated. Document databases like CouchDB often provide metadata around
- * each record inside a nested structure like this:
- *
- *     {
- *         "total": 122,
- *         "offset": 0,
- *         "users": [
- *             {
- *                 "id": "ed-spencer-1",
- *                 "value": 1,
- *                 "user": {
- *                     "id": 1,
- *                     "name": "Ed Spencer",
- *                     "email": "ed@sencha.com"
- *                 }
- *             }
- *         ]
- *     }
- *
- * In the case above the record data is nested an additional level inside the "users" array as each "user" item has
- * additional metadata surrounding it ('id' and 'value' in this case). To parse data out of each "user" item in the JSON
- * above we need to specify the {@link #record} configuration like this:
- *
- *     reader: {
- *         type: 'json',
- *         record: 'user',
- *         rootProperty: 'users'
- *     }
- *
- * ## Response MetaData
- *
- * The server can return metadata in its response, in addition to the record data, that describe attributes
- * of the data set itself or are used to reconfigure the Reader. To pass metadata in the response you simply
- * add a `metaData` attribute to the root of the response data. The metaData attribute can contain anything,
- * but supports a specific set of properties that are handled by the Reader if they are present:
- *
- * - {@link #idProperty}: property name for the primary key field of the data
- * - {@link #rootProperty}: the property name of the root response node containing the record data
- * - {@link #totalProperty}: property name for the total number of records in the data
- * - {@link #successProperty}: property name for the success status of the response
- * - {@link #messageProperty}: property name for an optional response message
- * - {@link Ext.data.Model#cfg-fields fields}: Config used to reconfigure the Model's fields before converting the
- *   response data into records
- *
- * An initial Reader configuration containing all of these properties might look like this ("fields" would be
- * included in the Model definition, not shown):
- *
- *     reader: {
- *         type: 'json',
- *         idProperty: 'id',
- *         rootProperty: 'root',
- *         totalProperty: 'total',
- *         successProperty: 'success',
- *         messageProperty: 'message'
- *     }
- *
- * If you were to pass a response object containing attributes different from those initially defined above, you could
- * use the `metaData` attribute to reconfigure the Reader on the fly. For example:
- *
- *     {
- *         "count": 1,
- *         "ok": true,
- *         "msg": "Users found",
- *         "users": [{
- *             "userId": 123,
- *             "name": "Ed Spencer",
- *             "email": "ed@sencha.com"
- *         }],
- *         "metaData": {
- *             "idProperty": 'userId',
- *             "rootProperty": "users",
- *             "totalProperty": 'count',
- *             "successProperty": 'ok',
- *             "messageProperty": 'msg'
- *         }
- *     }
- *
- * You can also place any other arbitrary data you need into the `metaData` attribute which will be ignored by the Reader,
- * but will be accessible via the Reader's {@link #metaData} property. Application code can then process the passed
- * metadata in any way it chooses.
- *
- * A simple example for how this can be used would be customizing the fields for a Model that is bound to a grid. By passing
- * the `fields` property the Model will be automatically updated by the Reader internally, but that change will not be
- * reflected automatically in the grid unless you also update the column configuration. You could do this manually, or you
- * could simply pass a standard grid column config object as part of the `metaData` attribute
- * and then pass that along to the grid. Here's a very simple example for how that could be accomplished:
- *
- *     // response format:
- *     {
- *         ...
- *         "metaData": {
- *             "fields": [
- *                 { "name": "userId", "type": "int" },
- *                 { "name": "name", "type": "string" },
- *                 { "name": "birthday", "type": "date", "dateFormat": "Y-j-m" },
- *             ],
- *             "columns": [
- *                 { "text": "User ID", "dataIndex": "userId", "width": 40 },
- *                 { "text": "User Name", "dataIndex": "name", "flex": 1 },
- *                 { "text": "Birthday", "dataIndex": "birthday", "flex": 1, "format": 'Y-j-m', "xtype": "datecolumn" }
- *             ]
- *         }
- *     }
- */
-Ext.define('Ext.data.reader.Json', {
-    extend:  Ext.data.reader.Reader ,
-    alternateClassName: 'Ext.data.JsonReader',
-    alias : 'reader.json',
-
-    config: {
-        /**
-         * @cfg {String} [record=null]
-         * The optional location within the JSON response that the record data itself can be found at. See the
-         * JsonReader intro docs for more details. This is not often needed.
-         */
-        record: null,
-
-        /**
-         * @cfg {Boolean} [useSimpleAccessors=false]
-         * `true` to ensure that field names/mappings are treated as literals when reading values. For
-         * example, by default, using the mapping "foo.bar.baz" will try and read a property foo from the root, then a
-         * property bar from foo, then a property baz from bar. Setting the simple accessors to `true` will read the
-         * property with the name "foo.bar.baz" direct from the root object.
-         */
-        useSimpleAccessors: false
-    },
-
-    objectRe: /[\[\.]/,
-
-    // @inheritdoc
-    getResponseData: function(response) {
-        var responseText = response;
-
-        // Handle an XMLHttpRequest object
-        if (response && response.responseText) {
-            responseText = response.responseText;
-        }
-
-        // Handle the case where data has already been decoded
-        if (typeof responseText !== 'string') {
-            return responseText;
-        }
-
-        var data;
-        try {
-            data = Ext.decode(responseText);
-        }
-        catch (ex) {
-            /**
-             * @event exception Fires whenever the reader is unable to parse a response.
-             * @param {Ext.data.reader.Xml} reader A reference to this reader.
-             * @param {XMLHttpRequest} response The XMLHttpRequest response object.
-             * @param {String} error The error message.
-             */
-            this.fireEvent('exception', this, response, 'Unable to parse the JSON returned by the server: ' + ex.toString());
-            Ext.Logger.warn('Unable to parse the JSON returned by the server: ' + ex.toString());
-        }
-
-        return data;
-    },
-
-    // @inheritdoc
-    buildExtractors: function() {
-        var me = this,
-            root = me.getRootProperty();
-
-        me.callParent(arguments);
-
-        if (root) {
-            me.rootAccessor = me.createAccessor(root);
-        } else {
-            delete me.rootAccessor;
-        }
-    },
-
-    /**
-     * We create this method because `root` is now a config so `getRoot` is already defined, but in the old
-     * data package `getRoot` was passed a data argument and it would return the data inside of the `root`
-     * property. This method handles both cases.
-     * @param data (Optional)
-     * @return {String/Object} Returns the config root value if this method was called without passing
-     * data. Else it returns the object in the data bound to the root.
-     * @private
-     */
-    getRoot: function(data) {
-        var fieldsCollection = this.getModel().getFields();
-
-        /*
-         * We check here whether the fields are dirty since the last read.
-         * This works around an issue when a Model is used for both a Tree and another
-         * source, because the tree decorates the model with extra fields and it causes
-         * issues because the readers aren't notified.
-         */
-        if (fieldsCollection.isDirty) {
-            this.buildExtractors(true);
-            delete fieldsCollection.isDirty;
-        }
-
-        if (this.rootAccessor) {
-            return this.rootAccessor.call(this, data);
-        } else {
-            return data;
-        }
-    },
-
-    /**
-     * @private
-     * We're just preparing the data for the superclass by pulling out the record objects we want. If a {@link #record}
-     * was specified we have to pull those out of the larger JSON object, which is most of what this function is doing
-     * @param {Object} root The JSON root node
-     * @return {Ext.data.Model[]} The records
-     */
-    extractData: function(root) {
-        var recordName = this.getRecord(),
-            data = [],
-            length, i;
-
-        if (recordName) {
-            length = root.length;
-
-            if (!length && Ext.isObject(root)) {
-                length = 1;
-                root = [root];
-            }
-
-            for (i = 0; i < length; i++) {
-                data[i] = root[i][recordName];
-            }
-        } else {
-            data = root;
-        }
-        return this.callParent([data]);
-    },
-
-    /**
-     * @private
-     * Returns an accessor function for the given property string. Gives support for properties such as the following:
-     * 'someProperty'
-     * 'some.property'
-     * 'some["property"]'
-     * This is used by buildExtractors to create optimized extractor functions when casting raw data into model instances.
-     */
-    createAccessor: function() {
-        var re = /[\[\.]/;
-
-        return function(expr) {
-            if (Ext.isEmpty(expr)) {
-                return Ext.emptyFn;
-            }
-            if (Ext.isFunction(expr)) {
-                return expr;
-            }
-            if (this.getUseSimpleAccessors() !== true) {
-                var i = String(expr).search(re);
-                if (i >= 0) {
-                    return Ext.functionFactory('obj', 'var value; try {value = obj' + (i > 0 ? '.' : '') + expr + '} catch(e) {}; return value;');
-                }
-            }
-            return function(obj) {
-                return obj[expr];
-            };
-        };
-    }(),
-
-    /**
-     * @private
-     * Returns an accessor expression for the passed Field. Gives support for properties such as the following:
-     * 'someProperty'
-     * 'some.property'
-     * 'some["property"]'
-     * This is used by buildExtractors to create optimized on extractor function which converts raw data into model instances.
-     */
-    createFieldAccessExpression: function(field, fieldVarName, dataName) {
-        var me     = this,
-            re     = me.objectRe,
-            hasMap = (field.getMapping() !== null),
-            map    = hasMap ? field.getMapping() : field.getName(),
-            result, operatorSearch;
-
-        if (typeof map === 'function') {
-            result = fieldVarName + '.getMapping()(' + dataName + ', this)';
-        }
-        else if (me.getUseSimpleAccessors() === true || ((operatorSearch = String(map).search(re)) < 0)) {
-            if (!hasMap || isNaN(map)) {
-                // If we don't provide a mapping, we may have a field name that is numeric
-                map = '"' + map + '"';
-            }
-            result = dataName + "[" + map + "]";
-        }
-        else {
-            result = dataName + (operatorSearch > 0 ? '.' : '') + map;
-        }
-
-        return result;
-    }
-});
-
-/**
- * @author Ed Spencer
- *
- * Base Writer class used by most subclasses of {@link Ext.data.proxy.Server}. This class is
- * responsible for taking a set of {@link Ext.data.Operation} objects and a {@link Ext.data.Request}
- * object and modifying that request based on the Operations.
- *
- * For example a Ext.data.writer.Json would format the Operations and their {@link Ext.data.Model}
- * instances based on the config options passed to the JsonWriter's constructor.
- *
- * Writers are not needed for any kind of local storage - whether via a
- * {@link Ext.data.proxy.WebStorage Web Storage proxy} (see {@link Ext.data.proxy.LocalStorage localStorage})
- * or just in memory via a {@link Ext.data.proxy.Memory MemoryProxy}.
- */
-Ext.define('Ext.data.writer.Writer', {
-    alias: 'writer.base',
-    alternateClassName: ['Ext.data.DataWriter', 'Ext.data.Writer'],
-
-    config: {
-        /**
-         * @cfg {Boolean} writeAllFields `true` to write all fields from the record to the server. If set to `false` it
-         * will only send the fields that were modified. Note that any fields that have
-         * {@link Ext.data.Field#persist} set to false will still be ignored.
-         */
-        writeAllFields: true,
-
-        /**
-         * @cfg {String} nameProperty This property is used to read the key for each value that will be sent to the server.
-         * For example:
-         *
-         *     Ext.define('Person', {
-         *         extend: 'Ext.data.Model',
-         *         fields: [{
-         *             name: 'first',
-         *             mapping: 'firstName'
-         *         }, {
-         *             name: 'last',
-         *             mapping: 'lastName'
-         *         }, {
-         *             name: 'age'
-         *         }]
-         *     });
-         *
-         *     new Ext.data.writer.Writer({
-         *         writeAllFields: true,
-         *         nameProperty: 'mapping'
-         *     });
-         *
-         * The following data will be sent to the server:
-         *
-         *     {
-         *         firstName: 'first name value',
-         *         lastName: 'last name value',
-         *         age: 1
-         *     }
-         *
-         * If the value is not present, the field name will always be used.
-         */
-        nameProperty: 'name'
-    },
-
-    /**
-     * Creates new Writer.
-     * @param {Object} config (optional) Config object.
-     */
-    constructor: function(config) {
-        this.initConfig(config);
-    },
-
-    /**
-     * Prepares a Proxy's Ext.data.Request object.
-     * @param {Ext.data.Request} request The request object.
-     * @return {Ext.data.Request} The modified request object.
-     */
-    write: function(request) {
-        var operation = request.getOperation(),
-            records   = operation.getRecords() || [],
-            len       = records.length,
-            i         = 0,
-            data      = [];
-
-        for (; i < len; i++) {
-            data.push(this.getRecordData(records[i]));
-        }
-        return this.writeRecords(request, data);
-    },
-
-    writeDate: function(field, date) {
-        if (!date) {
-            return null;
-        }
-
-        var dateFormat = field.getDateFormat() || 'timestamp';
-        switch (dateFormat) {
-            case 'timestamp':
-                return date.getTime()/1000;
-            case 'time':
-                return date.getTime();
-            default:
-                return Ext.Date.format(date, dateFormat);
-        }
-    },
-
-    /**
-     * Formats the data for each record before sending it to the server. This
-     * method should be overridden to format the data in a way that differs from the default.
-     * @param {Object} record The record that we are writing to the server.
-     * @return {Object} An object literal of name/value keys to be written to the server.
-     * By default this method returns the data property on the record.
-     */
-    getRecordData: function(record) {
-        var isPhantom = record.phantom === true,
-            writeAll = this.getWriteAllFields() || isPhantom,
-            nameProperty = this.getNameProperty(),
-            fields = record.getFields(),
-            data = {},
-            changes, name, field, key, value;
-
-        if (writeAll) {
-            fields.each(function(field) {
-                if (field.getPersist()) {
-                    name = field.config[nameProperty] || field.getName();
-                    value = record.get(field.getName());
-                    if (field.getType().type == 'date') {
-                        value = this.writeDate(field, value);
-                    }
-                    data[name] = value;
-                }
-            }, this);
-        } else {
-            // Only write the changes
-            changes = record.getChanges();
-            for (key in changes) {
-                if (changes.hasOwnProperty(key)) {
-                    field = fields.get(key);
-                    if (field.getPersist()) {
-                        name = field.config[nameProperty] || field.getName();
-                        value = changes[key];
-                        if (field.getType().type == 'date') {
-                            value = this.writeDate(field, value);
-                        }
-                        data[name] = value;
-                    }
-                }
-            }
-            if (!isPhantom) {
-                // always include the id for non phantoms
-                data[record.getIdProperty()] = record.getId();
-            }
-        }
-        return data;
-    }
-
-    // Convert old properties in data into a config object
-});
-
-/**
- * This class is used to write {@link Ext.data.Model} data to the server in a JSON format.
- * The {@link #allowSingle} configuration can be set to false to force the records to always be
- * encoded in an array, even if there is only a single record being sent.
- */
-Ext.define('Ext.data.writer.Json', {
-    extend:  Ext.data.writer.Writer ,
-    alternateClassName: 'Ext.data.JsonWriter',
-    alias: 'writer.json',
-
-    config: {
-        /**
-         * @cfg {String} rootProperty
-         * The key under which the records in this Writer will be placed. If you specify {@link #encode} to be true,
-         * we default this to 'records'.
-         *
-         * Example generated request, using root: 'records':
-         *
-         *     {'records': [{name: 'my record'}, {name: 'another record'}]}
-         *
-         */
-        rootProperty: undefined,
-
-        /**
-         * @cfg {Boolean} encode
-         * True to use Ext.encode() on the data before sending. The encode option should only be set to true when a
-         * {@link #root} is defined, because the values will be sent as part of the request parameters as opposed to
-         * a raw post. The root will be the name of the parameter sent to the server.
-         */
-        encode: false,
-
-        /**
-         * @cfg {Boolean} allowSingle
-         * False to ensure that records are always wrapped in an array, even if there is only one record being sent.
-         * When there is more than one record, they will always be encoded into an array.
-         *
-         * Example:
-         *
-         *     // with allowSingle: true
-         *     "root": {
-         *         "first": "Mark",
-         *         "last": "Corrigan"
-         *     }
-         *
-         *     // with allowSingle: false
-         *     "root": [{
-         *         "first": "Mark",
-         *         "last": "Corrigan"
-         *     }]
-         */
-        allowSingle: true,
-
-        encodeRequest: false
-    },
-
-    applyRootProperty: function(root) {
-        if (!root && (this.getEncode() || this.getEncodeRequest())) {
-            root = 'data';
-        }
-        return root;
-    },
-
-    //inherit docs
-    writeRecords: function(request, data) {
-        var root = this.getRootProperty(),
-            params = request.getParams(),
-            allowSingle = this.getAllowSingle(),
-            jsonData;
-
-        if (this.getAllowSingle() && data && data.length == 1) {
-            // convert to single object format
-            data = data[0];
-        }
-
-        if (this.getEncodeRequest()) {
-            jsonData = request.getJsonData() || {};
-            if (data && (data.length || (allowSingle && Ext.isObject(data)))) {
-                jsonData[root] = data;
-            }
-            request.setJsonData(Ext.apply(jsonData, params || {}));
-            request.setParams(null);
-            request.setMethod('POST');
-            return request;
-        }
-
-        if (!data || !(data.length || (allowSingle && Ext.isObject(data)))) {
-            return request;
-        }
-
-        if (this.getEncode()) {
-            if (root) {
-                // sending as a param, need to encode
-                params[root] = Ext.encode(data);
-            } else {
-            }
-        } else {
-            // send as jsonData
-            jsonData = request.getJsonData() || {};
-            if (root) {
-                jsonData[root] = data;
-            } else {
-                jsonData = data;
-            }
-            request.setJsonData(jsonData);
-        }
-        return request;
-    }
-
-});
-
-
-/*
- * @allowSingle: true
- * @encodeRequest: false
- * Url: update.json?param1=test
- * {'field1': 'test': 'field2': 'test'}
- *
- * @allowSingle: false
- * @encodeRequest: false
- * Url: update.json?param1=test
- * [{'field1': 'test', 'field2': 'test'}]
- *
- * @allowSingle: true
- * @root: 'data'
- * @encodeRequest: true
- * Url: update.json
- * {
- *    'param1': 'test',
- *    'data': {'field1': 'test', 'field2': 'test'}
- * }
- *
- * @allowSingle: false
- * @root: 'data'
- * @encodeRequest: true
- * Url: update.json
- * {
- *     'param1': 'test',
- *     'data': [{'field1': 'test', 'field2': 'test'}]
- * }
- *
- * @allowSingle: true
- * @root: data
- * @encodeRequest: false
- * Url: update.json
- * param1=test&data={'field1': 'test', 'field2': 'test'}
- *
- * @allowSingle: false
- * @root: data
- * @encodeRequest: false
- * @ncode: true
- * Url: update.json
- * param1=test&data=[{'field1': 'test', 'field2': 'test'}]
- *
- * @allowSingle: true
- * @root: data
- * @encodeRequest: false
- * Url: update.json?param1=test&data={'field1': 'test', 'field2': 'test'}
- *
- * @allowSingle: false
- * @root: data
- * @encodeRequest: false
- * Url: update.json?param1=test&data=[{'field1': 'test', 'field2': 'test'}]
- */
-
-/**
- * @author Ed Spencer
- * @class Ext.data.Batch
- *
- * Provides a mechanism to run one or more {@link Ext.data.Operation operations} in a given order. Fires the `operationcomplete` event
- * after the completion of each Operation, and the `complete` event when all Operations have been successfully executed. Fires an `exception`
- * event if any of the Operations encounter an exception.
- *
- * Usually these are only used internally by {@link Ext.data.proxy.Proxy} classes.
- */
-Ext.define('Ext.data.Batch', {
-    mixins: {
-        observable:  Ext.mixin.Observable 
-    },
-
-    config: {
-        /**
-         * @cfg {Boolean} autoStart `true` to immediately start processing the batch as soon as it is constructed.
-         */
-        autoStart: false,
-
-        /**
-         * @cfg {Boolean} pauseOnException `true` to automatically pause the execution of the batch if any operation encounters an exception.
-         */
-        pauseOnException: true,
-
-        /**
-         * @cfg {Ext.data.Proxy} proxy The proxy this Batch belongs to. Used to make the requests for each operation in the Batch.
-         */
-        proxy: null
-    },
-
-    /**
-     * The index of the current operation being executed.
-     * @property current
-     * @type Number
-     */
-    current: -1,
-
-    /**
-     * The total number of operations in this batch.
-     * @property total
-     * @type Number
-     * @readonly
-     */
-    total: 0,
-
-    /**
-     * `true` if the batch is currently running.
-     * @property isRunning
-     * @type Boolean
-     */
-    isRunning: false,
-
-    /**
-     * `true` if this batch has been executed completely.
-     * @property isComplete
-     * @type Boolean
-     */
-    isComplete: false,
-
-    /**
-     * `true` if this batch has encountered an exception. This is cleared at the start of each operation.
-     * @property hasException
-     * @type Boolean
-     */
-    hasException: false,
-
-    /**
-     * @event complete
-     * Fired when all operations of this batch have been completed.
-     * @param {Ext.data.Batch} batch The batch object.
-     * @param {Object} operation The last operation that was executed.
-     */
-
-    /**
-     * @event exception
-     * Fired when a operation encountered an exception.
-     * @param {Ext.data.Batch} batch The batch object.
-     * @param {Object} operation The operation that encountered the exception.
-     */
-
-    /**
-     * @event operationcomplete
-     * Fired when each operation of the batch completes.
-     * @param {Ext.data.Batch} batch The batch object.
-     * @param {Object} operation The operation that just completed.
-     */
-
-    /**
-     * Creates new Batch object.
-     * @param {Object} config (optional) Config object.
-     */
-    constructor: function(config) {
-        var me = this;
-
-        me.initConfig(config);
-
-        /**
-         * Ordered array of operations that will be executed by this batch
-         * @property {Ext.data.Operation[]} operations
-         */
-        me.operations = [];
-    },
-
-    /**
-     * Adds a new operation to this batch.
-     * @param {Object} operation The {@link Ext.data.Operation Operation} object.
-     */
-    add: function(operation) {
-        this.total++;
-
-        operation.setBatch(this);
-
-        this.operations.push(operation);
-    },
-
-    /**
-     * Kicks off the execution of the batch, continuing from the next operation if the previous
-     * operation encountered an exception, or if execution was paused.
-     */
-    start: function() {
-        this.hasException = false;
-        this.isRunning = true;
-
-        this.runNextOperation();
-    },
-
-    /**
-     * @private
-     * Runs the next operation, relative to `this.current`.
-     */
-    runNextOperation: function() {
-        this.runOperation(this.current + 1);
-    },
-
-    /**
-     * Pauses execution of the batch, but does not cancel the current operation.
-     */
-    pause: function() {
-        this.isRunning = false;
-    },
-
-    /**
-     * Executes a operation by its numeric index.
-     * @param {Number} index The operation index to run.
-     */
-    runOperation: function(index) {
-        var me = this,
-            operations = me.operations,
-            operation = operations[index],
-            onProxyReturn;
-
-        if (operation === undefined) {
-            me.isRunning = false;
-            me.isComplete = true;
-            me.fireEvent('complete', me, operations[operations.length - 1]);
-        } else {
-            me.current = index;
-
-            onProxyReturn = function(operation) {
-                var hasException = operation.hasException();
-
-                if (hasException) {
-                    me.hasException = true;
-                    me.fireEvent('exception', me, operation);
-                } else {
-                    me.fireEvent('operationcomplete', me, operation);
-                }
-
-                if (hasException && me.getPauseOnException()) {
-                    me.pause();
-                } else {
-                    operation.setCompleted();
-                    me.runNextOperation();
-                }
-            };
-
-            operation.setStarted();
-
-
-            me.getProxy()[operation.getAction()](operation, onProxyReturn, me);
-        }
-    }
-});
-
-/**
- * @author Ed Spencer
- * @aside guide proxies
- *
- * Proxies are used by {@link Ext.data.Store Stores} to handle the loading and saving of {@link Ext.data.Model Model}
- * data. Usually developers will not need to create or interact with proxies directly.
- *
- * # Types of Proxy
- *
- * There are two main types of Proxy - {@link Ext.data.proxy.Client Client} and {@link Ext.data.proxy.Server Server}.
- * The Client proxies save their data locally and include the following subclasses:
- *
- * - {@link Ext.data.proxy.LocalStorage LocalStorageProxy} - saves its data to localStorage if the browser supports it
- * - {@link Ext.data.proxy.Memory MemoryProxy} - holds data in memory only, any data is lost when the page is refreshed
- *
- * The Server proxies save their data by sending requests to some remote server. These proxies include:
- *
- * - {@link Ext.data.proxy.Ajax Ajax} - sends requests to a server on the same domain
- * - {@link Ext.data.proxy.JsonP JsonP} - uses JSON-P to send requests to a server on a different domain
- *
- * Proxies operate on the principle that all operations performed are either Create, Read, Update or Delete. These four
- * operations are mapped to the methods {@link #create}, {@link #read}, {@link #update} and {@link #destroy}
- * respectively. Each Proxy subclass implements these functions.
- *
- * The CRUD methods each expect an {@link Ext.data.Operation Operation} object as the sole argument. The Operation
- * encapsulates information about the action the Store wishes to perform, the {@link Ext.data.Model model} instances
- * that are to be modified, etc. See the {@link Ext.data.Operation Operation} documentation for more details. Each CRUD
- * method also accepts a callback function to be called asynchronously on completion.
- *
- * Proxies also support batching of Operations via a {@link Ext.data.Batch batch} object, invoked by the {@link #batch}
- * method.
- */
-Ext.define('Ext.data.proxy.Proxy', {
-    extend:  Ext.Evented ,
-
-    alias: 'proxy.proxy',
-
-    alternateClassName: ['Ext.data.DataProxy', 'Ext.data.Proxy'],
-
-               
-                               
-                               
-                         
-                            
-      
-
-    config: {
-        /**
-         * @cfg {String} batchOrder
-         * Comma-separated ordering 'create', 'update' and 'destroy' actions when batching. Override this to set a different
-         * order for the batched CRUD actions to be executed in.
-         * @accessor
-         */
-        batchOrder: 'create,update,destroy',
-
-        /**
-         * @cfg {Boolean} batchActions
-         * True to batch actions of a particular type when synchronizing the store.
-         * @accessor
-         */
-        batchActions: true,
-
-        /**
-         * @cfg {String/Ext.data.Model} model (required)
-         * The name of the Model to tie to this Proxy. Can be either the string name of the Model, or a reference to the
-         * Model constructor.
-         * @accessor
-         */
-        model: null,
-
-        /**
-         * @cfg {Object/String/Ext.data.reader.Reader} reader
-         * The Ext.data.reader.Reader to use to decode the server's response or data read from client. This can either be a
-         * Reader instance, a config object or just a valid Reader type name (e.g. 'json', 'xml').
-         * @accessor
-         */
-        reader: {
-            type: 'json'
-        },
-
-        /**
-         * @cfg {Object/String/Ext.data.writer.Writer} writer
-         * The Ext.data.writer.Writer to use to encode any request sent to the server or saved to client. This can either be
-         * a Writer instance, a config object or just a valid Writer type name (e.g. 'json', 'xml').
-         * @accessor
-         */
-        writer: {
-            type: 'json'
-        }
-    },
-
-    isProxy: true,
-
-    applyModel: function(model) {
-        if (typeof model == 'string') {
-            model = Ext.data.ModelManager.getModel(model);
-
-            if (!model) {
-                Ext.Logger.error('Model with name ' + arguments[0] + ' doesnt exist.');
-            }
-        }
-
-        if (model && !model.prototype.isModel && Ext.isObject(model)) {
-            model = Ext.data.ModelManager.registerType(model.storeId || model.id || Ext.id(), model);
-        }
-
-        return model;
-    },
-
-    updateModel: function(model) {
-        if (model) {
-            var reader = this.getReader();
-            if (reader && !reader.getModel()) {
-                reader.setModel(model);
-            }
-        }
-    },
-
-    applyReader: function(reader, currentReader) {
-        return Ext.factory(reader, Ext.data.Reader, currentReader, 'reader');
-    },
-
-    updateReader: function(reader) {
-        if (reader) {
-            var model = this.getModel();
-            if (!model) {
-                model = reader.getModel();
-                if (model) {
-                    this.setModel(model);
-                }
-            } else {
-                reader.setModel(model);
-            }
-
-            if (reader.onMetaChange) {
-                 reader.onMetaChange = Ext.Function.createSequence(reader.onMetaChange, this.onMetaChange, this);
-            }
-        }
-    },
-
-    onMetaChange: function(data) {
-        var model = this.getReader().getModel();
-        if (!this.getModel() && model) {
-            this.setModel(model);
-        }
-
-        /**
-         * @event metachange
-         * Fires whenever the server has sent back new metadata to reconfigure the Reader.
-         * @param {Ext.data.Proxy} this
-         * @param {Object} data The metadata sent back from the server
-         */
-        this.fireEvent('metachange', this, data);
-    },
-
-    applyWriter: function(writer, currentWriter) {
-        return Ext.factory(writer, Ext.data.Writer, currentWriter, 'writer');
-    },
-
-    /**
-     * Performs the given create operation. If you override this method in a custom Proxy, remember to always call the provided
-     * callback method when you are done with your operation.
-     * @param {Ext.data.Operation} operation The Operation to perform
-     * @param {Function} callback Callback function to be called when the Operation has completed (whether successful or not)
-     * @param {Object} scope Scope to execute the callback function in
-     * @method
-     */
-    create: Ext.emptyFn,
-
-    /**
-     * Performs the given read operation. If you override this method in a custom Proxy, remember to always call the provided
-     * callback method when you are done with your operation.
-     * @param {Ext.data.Operation} operation The Operation to perform
-     * @param {Function} callback Callback function to be called when the Operation has completed (whether successful or not)
-     * @param {Object} scope Scope to execute the callback function in
-     * @method
-     */
-    read: Ext.emptyFn,
-
-    /**
-     * Performs the given update operation. If you override this method in a custom Proxy, remember to always call the provided
-     * callback method when you are done with your operation.
-     * @param {Ext.data.Operation} operation The Operation to perform
-     * @param {Function} callback Callback function to be called when the Operation has completed (whether successful or not)
-     * @param {Object} scope Scope to execute the callback function in
-     * @method
-     */
-    update: Ext.emptyFn,
-
-    /**
-     * Performs the given destroy operation. If you override this method in a custom Proxy, remember to always call the provided
-     * callback method when you are done with your operation.
-     * @param {Ext.data.Operation} operation The Operation to perform
-     * @param {Function} callback Callback function to be called when the Operation has completed (whether successful or not)
-     * @param {Object} scope Scope to execute the callback function in
-     * @method
-     */
-    destroy: Ext.emptyFn,
-
-    onDestroy: function() {
-        Ext.destroy(this.getReader(), this.getWriter());
-        Ext.Evented.prototype.destroy.apply(this, arguments);
-    },
-
-    /**
-     * Performs a batch of {@link Ext.data.Operation Operations}, in the order specified by {@link #batchOrder}. Used
-     * internally by {@link Ext.data.Store}'s {@link Ext.data.Store#sync sync} method. Example usage:
-     *
-     *     myProxy.batch({
-     *         create : [myModel1, myModel2],
-     *         update : [myModel3],
-     *         destroy: [myModel4, myModel5]
-     *     });
-     *
-     * Where the myModel* above are {@link Ext.data.Model Model} instances - in this case 1 and 2 are new instances and
-     * have not been saved before, 3 has been saved previously but needs to be updated, and 4 and 5 have already been
-     * saved but should now be destroyed.
-     *
-     * @param {Object} options Object containing one or more properties supported by the batch method:
-     *
-     * @param {Object} options.operations Object containing the Model instances to act upon, keyed by action name
-     *
-     * @param {Object} [options.listeners] Event listeners object passed straight through to the Batch -
-     * see {@link Ext.data.Batch} for details
-     *
-     * @param {Ext.data.Batch/Object} [options.batch] A {@link Ext.data.Batch} object (or batch config to apply
-     * to the created batch). If unspecified a default batch will be auto-created.
-     *
-     * @param {Function} [options.callback] The function to be called upon completion of processing the batch.
-     * The callback is called regardless of success or failure and is passed the following parameters:
-     * @param {Ext.data.Batch} options.callback.batch The {@link Ext.data.Batch batch} that was processed,
-     * containing all operations in their current state after processing
-     * @param {Object} options.callback.options The options argument that was originally passed into batch
-     *
-     * @param {Function} [options.success] The function to be called upon successful completion of the batch. The
-     * success function is called only if no exceptions were reported in any operations. If one or more exceptions
-     * occurred then the `failure` function will be called instead. The success function is called
-     * with the following parameters:
-     * @param {Ext.data.Batch} options.success.batch The {@link Ext.data.Batch batch} that was processed,
-     * containing all operations in their current state after processing
-     * @param {Object} options.success.options The options argument that was originally passed into batch
-     *
-     * @param {Function} [options.failure] The function to be called upon unsuccessful completion of the batch. The
-     * failure function is called when one or more operations returns an exception during processing (even if some
-     * operations were also successful). The failure function is called with the following parameters:
-     * @param {Ext.data.Batch} options.failure.batch The {@link Ext.data.Batch batch} that was processed,
-     * containing all operations in their current state after processing
-     * @param {Object} options.failure.options The options argument that was originally passed into batch
-     *
-     * @param {Object} [options.scope] The scope in which to execute any callbacks (i.e. the `this` object inside
-     * the callback, success and/or failure functions). Defaults to the proxy.
-     *
-     * @return {Ext.data.Batch} The newly created Batch
-     */
-    batch: function(options, /* deprecated */listeners) {
-        var me = this,
-            useBatch = me.getBatchActions(),
-            model = me.getModel(),
-            batch,
-            records;
-
-        if (options.operations === undefined) {
-            // the old-style (operations, listeners) signature was called
-            // so convert to the single options argument syntax
-            options = {
-                operations: options,
-                listeners: listeners
-            };
-
-        }
-
-        if (options.batch && options.batch.isBatch) {
-            batch = options.batch;
-        } else {
-            batch = new Ext.data.Batch(options.batch || {});
-        }
-
-        batch.setProxy(me);
-
-        batch.on('complete', Ext.bind(me.onBatchComplete, me, [options], 0));
-        if (options.listeners) {
-            batch.on(options.listeners);
-        }
-
-        Ext.each(me.getBatchOrder().split(','), function(action) {
-             records = options.operations[action];
-             if (records) {
-                 if (useBatch) {
-                     batch.add(new Ext.data.Operation({
-                         action: action,
-                         records: records,
-                         model: model
-                     }));
-                 } else {
-                     Ext.each(records, function(record) {
-                         batch.add(new Ext.data.Operation({
-                             action : action,
-                             records: [record],
-                             model: model
-                         }));
-                     });
-                 }
-             }
-        }, me);
-
-        batch.start();
-        return batch;
-    },
-
-    /**
-      * @private
-      * The internal callback that the proxy uses to call any specified user callbacks after completion of a batch
-      */
-    onBatchComplete: function(batchOptions, batch) {
-         var scope = batchOptions.scope || this;
-
-         if (batch.hasException) {
-             if (Ext.isFunction(batchOptions.failure)) {
-                 Ext.callback(batchOptions.failure, scope, [batch, batchOptions]);
-             }
-         } else if (Ext.isFunction(batchOptions.success)) {
-             Ext.callback(batchOptions.success, scope, [batch, batchOptions]);
-         }
-
-         if (Ext.isFunction(batchOptions.callback)) {
-             Ext.callback(batchOptions.callback, scope, [batch, batchOptions]);
-         }
-
-         Ext.destroy(batch);
-    }
-
-}, function() {
-    // Ext.data2.proxy.ProxyMgr.registerType('proxy', this);
-
-    //backwards compatibility
-    // Ext.data.DataProxy = this;
-    // Ext.deprecate('platform', '2.0', function() {
-    //     Ext.data2.DataProxy = this;
-    // }, this);
-});
-
-/**
- * @author Ed Spencer
- *
- * Base class for any client-side storage. Used as a superclass for {@link Ext.data.proxy.Memory Memory} and
- * {@link Ext.data.proxy.WebStorage Web Storage} proxies. Do not use directly, use one of the subclasses instead.
- * @private
- */
-Ext.define('Ext.data.proxy.Client', {
-    extend:  Ext.data.proxy.Proxy ,
-    alternateClassName: 'Ext.proxy.ClientProxy',
-
-    /**
-     * Abstract function that must be implemented by each ClientProxy subclass. This should purge all record data
-     * from the client side storage, as well as removing any supporting data (such as lists of record IDs)
-     */
-    clear: function() {
-    }
-});
-
-/**
- * @author Ed Spencer
- * @aside guide proxies
- *
- * In-memory proxy. This proxy simply uses a local variable for data storage/retrieval, so its contents are lost on
- * every page refresh.
- *
- * Usually this Proxy isn't used directly, serving instead as a helper to a {@link Ext.data.Store Store} where a reader
- * is required to load data. For example, say we have a Store for a User model and have some inline data we want to
- * load, but this data isn't in quite the right format: we can use a MemoryProxy with a JsonReader to read it into our
- * Store:
- *
- *     //this is the model we will be using in the store
- *     Ext.define('User', {
- *         extend: 'Ext.data.Model',
- *         config: {
- *             fields: [
- *                 {name: 'id',    type: 'int'},
- *                 {name: 'name',  type: 'string'},
- *                 {name: 'phone', type: 'string', mapping: 'phoneNumber'}
- *             ]
- *         }
- *     });
- *
- *     //this data does not line up to our model fields - the phone field is called phoneNumber
- *     var data = {
- *         users: [
- *             {
- *                 id: 1,
- *                 name: 'Ed Spencer',
- *                 phoneNumber: '555 1234'
- *             },
- *             {
- *                 id: 2,
- *                 name: 'Abe Elias',
- *                 phoneNumber: '666 1234'
- *             }
- *         ]
- *     };
- *
- *     //note how we set the 'root' in the reader to match the data structure above
- *     var store = Ext.create('Ext.data.Store', {
- *         autoLoad: true,
- *         model: 'User',
- *         data : data,
- *         proxy: {
- *             type: 'memory',
- *             reader: {
- *                 type: 'json',
- *                 root: 'users'
- *             }
- *         }
- *     });
- */
-Ext.define('Ext.data.proxy.Memory', {
-    extend:  Ext.data.proxy.Client ,
-    alias: 'proxy.memory',
-    alternateClassName: 'Ext.data.MemoryProxy',
-
-    isMemoryProxy: true,
-
-    config: {
-        /**
-         * @cfg {Object} data
-         * Optional data to pass to configured Reader.
-         */
-        data: []
-    },
-
-    /**
-     * @private
-     * Fake processing function to commit the records, set the current operation
-     * to successful and call the callback if provided. This function is shared
-     * by the create, update and destroy methods to perform the bare minimum
-     * processing required for the proxy to register a result from the action.
-     */
-    finishOperation: function(operation, callback, scope) {
-        if (operation) {
-            var i = 0,
-                recs = operation.getRecords(),
-                len = recs.length;
-
-            for (i; i < len; i++) {
-                recs[i].commit();
-            }
-
-            operation.setCompleted();
-            operation.setSuccessful();
-
-            Ext.callback(callback, scope || this, [operation]);
-        }
-    },
-
-    /**
-     * Currently this is a hard-coded method that simply commits any records and sets the operation to successful,
-     * then calls the callback function, if provided. It is essentially mocking a server call in memory, but since
-     * there is no real back end in this case there's not much else to do. This method can be easily overridden to
-     * implement more complex logic if needed.
-     * @param {Ext.data.Operation} operation The Operation to perform
-     * @param {Function} callback Callback function to be called when the Operation has completed (whether
-     * successful or not)
-     * @param {Object} scope Scope to execute the callback function in
-     * @method
-     */
-    create: function() {
-        this.finishOperation.apply(this, arguments);
-    },
-
-    /**
-     * Currently this is a hard-coded method that simply commits any records and sets the operation to successful,
-     * then calls the callback function, if provided. It is essentially mocking a server call in memory, but since
-     * there is no real back end in this case there's not much else to do. This method can be easily overridden to
-     * implement more complex logic if needed.
-     * @param {Ext.data.Operation} operation The Operation to perform
-     * @param {Function} callback Callback function to be called when the Operation has completed (whether
-     * successful or not)
-     * @param {Object} scope Scope to execute the callback function in
-     * @method
-     */
-    update: function() {
-        this.finishOperation.apply(this, arguments);
-    },
-
-    /**
-     * Currently this is a hard-coded method that simply commits any records and sets the operation to successful,
-     * then calls the callback function, if provided. It is essentially mocking a server call in memory, but since
-     * there is no real back end in this case there's not much else to do. This method can be easily overridden to
-     * implement more complex logic if needed.
-     * @param {Ext.data.Operation} operation The Operation to perform
-     * @param {Function} callback Callback function to be called when the Operation has completed (whether
-     * successful or not)
-     * @param {Object} scope Scope to execute the callback function in
-     * @method
-     */
-    destroy: function() {
-        this.finishOperation.apply(this, arguments);
-    },
-
-    /**
-     * Reads data from the configured {@link #data} object. Uses the Proxy's {@link #reader}, if present.
-     * @param {Ext.data.Operation} operation The read Operation
-     * @param {Function} callback The callback to call when reading has completed
-     * @param {Object} scope The scope to call the callback function in
-     */
-    read: function(operation, callback, scope) {
-        var me     = this,
-            reader = me.getReader();
-
-        if (operation.process('read', reader.process(me.getData())) === false) {
-            this.fireEvent('exception', this, null, operation);
-        }
-
-        Ext.callback(callback, scope || me, [operation]);
-    },
-
-    clear: Ext.emptyFn
 });
 
 /**
@@ -70290,6 +70359,179 @@ Ext.define('Ext.data.Errors', {
         }
         
         return this.callParent([obj]);
+    }
+});
+
+/**
+ * @author Ed Spencer
+ * @aside guide models
+ *
+ * This singleton contains a set of validation functions that can be used to validate any type of data. They are most
+ * often used in {@link Ext.data.Model Models}, where they are automatically set up and executed.
+ */
+Ext.define('Ext.data.Validations', {
+    alternateClassName: 'Ext.data.validations',
+
+    singleton: true,
+
+    config: {
+        /**
+         * @property {String} presenceMessage
+         * The default error message used when a presence validation fails.
+         */
+        presenceMessage: 'must be present',
+
+        /**
+         * @property {String} lengthMessage
+         * The default error message used when a length validation fails.
+         */
+        lengthMessage: 'is the wrong length',
+
+        /**
+         * @property {Boolean} formatMessage
+         * The default error message used when a format validation fails.
+         */
+        formatMessage: 'is the wrong format',
+
+        /**
+         * @property {String} inclusionMessage
+         * The default error message used when an inclusion validation fails.
+         */
+        inclusionMessage: 'is not included in the list of acceptable values',
+
+        /**
+         * @property {String} exclusionMessage
+         * The default error message used when an exclusion validation fails.
+         */
+        exclusionMessage: 'is not an acceptable value',
+
+        /**
+         * @property {String} emailMessage
+         * The default error message used when an email validation fails
+         */
+        emailMessage: 'is not a valid email address'
+    },
+
+    constructor: function(config) {
+        this.initConfig(config);
+    },
+
+    /**
+     * Returns the configured error message for any of the validation types.
+     * @param {String} type The type of validation you want to get the error message for.
+     * @return {Object}
+     */
+    getMessage: function(type) {
+        var getterFn = this['get' + type[0].toUpperCase() + type.slice(1) + 'Message'];
+        if (getterFn) {
+            return getterFn.call(this);
+        }
+        return '';
+    },
+
+    /**
+     * The regular expression used to validate email addresses
+     * @property emailRe
+     * @type RegExp
+     */
+    emailRe: /^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/,
+
+    /**
+     * Validates that the given value is present.
+     * For example:
+     *
+     *     validations: [{type: 'presence', field: 'age'}]
+     *
+     * @param {Object} config Config object.
+     * @param {Object} value The value to validate.
+     * @return {Boolean} `true` if validation passed.
+     */
+    presence: function(config, value) {
+        if (arguments.length === 1) {
+            value = config;
+        }
+        return !!value || value === 0;
+    },
+
+    /**
+     * Returns `true` if the given value is between the configured min and max values.
+     * For example:
+     *
+     *     validations: [{type: 'length', field: 'name', min: 2}]
+     *
+     * @param {Object} config Config object.
+     * @param {String} value The value to validate.
+     * @return {Boolean} `true` if the value passes validation.
+     */
+    length: function(config, value) {
+        if (value === undefined || value === null) {
+            return false;
+        }
+
+        var length = value.length,
+            min    = config.min,
+            max    = config.max;
+
+        if ((min && length < min) || (max && length > max)) {
+            return false;
+        } else {
+            return true;
+        }
+    },
+
+    /**
+     * Validates that an email string is in the correct format.
+     * @param {Object} config Config object.
+     * @param {String} email The email address.
+     * @return {Boolean} `true` if the value passes validation.
+     */
+    email: function(config, email) {
+        return Ext.data.validations.emailRe.test(email);
+    },
+
+    /**
+     * Returns `true` if the given value passes validation against the configured `matcher` regex.
+     * For example:
+     *
+     *     validations: [{type: 'format', field: 'username', matcher: /([a-z]+)[0-9]{2,3}/}]
+     *
+     * @param {Object} config Config object.
+     * @param {String} value The value to validate.
+     * @return {Boolean} `true` if the value passes the format validation.
+     */
+    format: function(config, value) {
+        if (value === undefined || value === null) {
+            value = '';
+        }
+        return !!(config.matcher && config.matcher.test(value));
+    },
+
+    /**
+     * Validates that the given value is present in the configured `list`.
+     * For example:
+     *
+     *     validations: [{type: 'inclusion', field: 'gender', list: ['Male', 'Female']}]
+     *
+     * @param {Object} config Config object.
+     * @param {String} value The value to validate.
+     * @return {Boolean} `true` if the value is present in the list.
+     */
+    inclusion: function(config, value) {
+        return config.list && Ext.Array.indexOf(config.list,value) != -1;
+    },
+
+    /**
+     * Validates that the given value is present in the configured `list`.
+     * For example:
+     *
+     *     validations: [{type: 'exclusion', field: 'username', list: ['Admin', 'Operator']}]
+     *
+     * @param {Object} config Config object.
+     * @param {String} value The value to validate.
+     * @return {Boolean} `true` if the value is not present in the list.
+     */
+    exclusion: function(config, value) {
+        return config.list && Ext.Array.indexOf(config.list,value) == -1;
     }
 });
 
@@ -85899,179 +86141,6 @@ Ext.define('Ext.data.TreeStore', {
 });
 
 /**
- * @author Ed Spencer
- * @aside guide models
- *
- * This singleton contains a set of validation functions that can be used to validate any type of data. They are most
- * often used in {@link Ext.data.Model Models}, where they are automatically set up and executed.
- */
-Ext.define('Ext.data.Validations', {
-    alternateClassName: 'Ext.data.validations',
-
-    singleton: true,
-
-    config: {
-        /**
-         * @property {String} presenceMessage
-         * The default error message used when a presence validation fails.
-         */
-        presenceMessage: 'must be present',
-
-        /**
-         * @property {String} lengthMessage
-         * The default error message used when a length validation fails.
-         */
-        lengthMessage: 'is the wrong length',
-
-        /**
-         * @property {Boolean} formatMessage
-         * The default error message used when a format validation fails.
-         */
-        formatMessage: 'is the wrong format',
-
-        /**
-         * @property {String} inclusionMessage
-         * The default error message used when an inclusion validation fails.
-         */
-        inclusionMessage: 'is not included in the list of acceptable values',
-
-        /**
-         * @property {String} exclusionMessage
-         * The default error message used when an exclusion validation fails.
-         */
-        exclusionMessage: 'is not an acceptable value',
-
-        /**
-         * @property {String} emailMessage
-         * The default error message used when an email validation fails
-         */
-        emailMessage: 'is not a valid email address'
-    },
-
-    constructor: function(config) {
-        this.initConfig(config);
-    },
-
-    /**
-     * Returns the configured error message for any of the validation types.
-     * @param {String} type The type of validation you want to get the error message for.
-     * @return {Object}
-     */
-    getMessage: function(type) {
-        var getterFn = this['get' + type[0].toUpperCase() + type.slice(1) + 'Message'];
-        if (getterFn) {
-            return getterFn.call(this);
-        }
-        return '';
-    },
-
-    /**
-     * The regular expression used to validate email addresses
-     * @property emailRe
-     * @type RegExp
-     */
-    emailRe: /^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/,
-
-    /**
-     * Validates that the given value is present.
-     * For example:
-     *
-     *     validations: [{type: 'presence', field: 'age'}]
-     *
-     * @param {Object} config Config object.
-     * @param {Object} value The value to validate.
-     * @return {Boolean} `true` if validation passed.
-     */
-    presence: function(config, value) {
-        if (arguments.length === 1) {
-            value = config;
-        }
-        return !!value || value === 0;
-    },
-
-    /**
-     * Returns `true` if the given value is between the configured min and max values.
-     * For example:
-     *
-     *     validations: [{type: 'length', field: 'name', min: 2}]
-     *
-     * @param {Object} config Config object.
-     * @param {String} value The value to validate.
-     * @return {Boolean} `true` if the value passes validation.
-     */
-    length: function(config, value) {
-        if (value === undefined || value === null) {
-            return false;
-        }
-
-        var length = value.length,
-            min    = config.min,
-            max    = config.max;
-
-        if ((min && length < min) || (max && length > max)) {
-            return false;
-        } else {
-            return true;
-        }
-    },
-
-    /**
-     * Validates that an email string is in the correct format.
-     * @param {Object} config Config object.
-     * @param {String} email The email address.
-     * @return {Boolean} `true` if the value passes validation.
-     */
-    email: function(config, email) {
-        return Ext.data.validations.emailRe.test(email);
-    },
-
-    /**
-     * Returns `true` if the given value passes validation against the configured `matcher` regex.
-     * For example:
-     *
-     *     validations: [{type: 'format', field: 'username', matcher: /([a-z]+)[0-9]{2,3}/}]
-     *
-     * @param {Object} config Config object.
-     * @param {String} value The value to validate.
-     * @return {Boolean} `true` if the value passes the format validation.
-     */
-    format: function(config, value) {
-        if (value === undefined || value === null) {
-            value = '';
-        }
-        return !!(config.matcher && config.matcher.test(value));
-    },
-
-    /**
-     * Validates that the given value is present in the configured `list`.
-     * For example:
-     *
-     *     validations: [{type: 'inclusion', field: 'gender', list: ['Male', 'Female']}]
-     *
-     * @param {Object} config Config object.
-     * @param {String} value The value to validate.
-     * @return {Boolean} `true` if the value is present in the list.
-     */
-    inclusion: function(config, value) {
-        return config.list && Ext.Array.indexOf(config.list,value) != -1;
-    },
-
-    /**
-     * Validates that the given value is present in the configured `list`.
-     * For example:
-     *
-     *     validations: [{type: 'exclusion', field: 'username', list: ['Admin', 'Operator']}]
-     *
-     * @param {Object} config Config object.
-     * @param {String} value The value to validate.
-     * @return {Boolean} `true` if the value is not present in the list.
-     */
-    exclusion: function(config, value) {
-        return config.list && Ext.Array.indexOf(config.list,value) == -1;
-    }
-});
-
-/**
  * @author Tommy Maintz
  *
  * This class is a sequential id generator. A simple use of this class would be like so:
@@ -88064,75 +88133,6 @@ Ext.define('Ext.data.proxy.Sql', {
 
     getDatabaseObject: function() {
         return openDatabase(this.getDatabase(), '1.0', 'Sencha Database', 5 * 1024 * 1024);
-    }
-});
-
-/**
- * @author Ed Spencer
- * @class Ext.data.reader.Array
- *
- * Data reader class to create an Array of {@link Ext.data.Model} objects from an Array.
- * Each element of that Array represents a row of data fields. The
- * fields are pulled into a Record object using as a subscript, the `mapping` property
- * of the field definition if it exists, or the field's ordinal position in the definition.
- *
- * Example code:
- *
- *     Employee = Ext.define('Employee', {
- *         extend: 'Ext.data.Model',
- *         config: {
- *             fields: [
- *                 'id',
- *                 {name: 'name', mapping: 1}, // "mapping" only needed if an "id" field is present which
- *                 {name: 'occupation', mapping: 2} // precludes using the ordinal position as the index.
- *             ]
- *         }
- *     });
- *
- *     var myReader = new Ext.data.reader.Array({
- *         model: 'Employee'
- *     }, Employee);
- *
- * This would consume an Array like this:
- *
- *     [ [1, 'Bill', 'Gardener'], [2, 'Ben', 'Horticulturalist'] ]
- *
- * @constructor
- * Create a new ArrayReader
- * @param {Object} meta Metadata configuration options.
- */
-Ext.define('Ext.data.reader.Array', {
-    extend:  Ext.data.reader.Json ,
-    alternateClassName: 'Ext.data.ArrayReader',
-    alias : 'reader.array',
-
-    // For Array Reader, methods in the base which use these properties must not see the defaults
-    config: {
-        totalProperty: undefined,
-        successProperty: undefined
-    },
-
-    /**
-     * @private
-     * Returns an accessor expression for the passed Field from an Array using either the Field's mapping, or
-     * its ordinal position in the fields collection as the index.
-     * This is used by buildExtractors to create optimized on extractor function which converts raw data into model instances.
-     */
-    createFieldAccessExpression: function(field, fieldVarName, dataName) {
-        var me     = this,
-            mapping = field.getMapping(),
-            index  = (mapping == null) ? me.getModel().getFields().indexOf(field) : mapping,
-            result;
-
-        if (typeof index === 'function') {
-            result = fieldVarName + '.getMapping()(' + dataName + ', this)';
-        } else {
-            if (isNaN(index)) {
-                index = '"' + index + '"';
-            }
-            result = dataName + "[" + index + "]";
-        }
-        return result;
     }
 });
 
