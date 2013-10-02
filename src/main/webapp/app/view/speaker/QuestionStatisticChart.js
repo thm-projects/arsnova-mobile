@@ -118,7 +118,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		this.titlebar = Ext.create('Ext.Toolbar', {
 			cls		: 'questionStatisticTitle',
 			docked	: 'top',
-			title: title
+			title	: title
 		});
 		
 		if( this.questionObj.questionType == "yesno" 	|| 
@@ -230,7 +230,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				})
 			];
 		}
-		
+
 		this.questionChart = Ext.create('Ext.chart.CartesianChart', {
 		    store: this.questionStore,
 
@@ -400,8 +400,23 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	onActivate: function() {
 		taskManager.start(this.renewChartDataTask);
 		taskManager.start(this.countActiveUsersTask);
+		this.doTypeset();
 		
 		this.questionChart.redraw();
+	},
+	
+	doTypeset: function(parent) {		
+		if (typeof this.titlebar.element !== "undefined") {
+			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.titlebar.element.dom]);
+			
+			// get the computed height of MathJax and set it as new height for question titlebar
+			var mjaxDom		= this.titlebar.element.dom.childNodes[0].childNodes[0].childNodes[0];
+			var mjaxHeight	= window.getComputedStyle(mjaxDom, "").getPropertyValue("height");	
+			this.titlebar.setHeight(mjaxHeight);
+		} else {
+			// If the element has not been drawn yet, we need to retry later
+			Ext.defer(Ext.bind(this.doTypeset, this), 100);
+		}
 	},
 	
 	countActiveUsers: function(){
