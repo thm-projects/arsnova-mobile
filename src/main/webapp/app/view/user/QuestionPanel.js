@@ -269,8 +269,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				return;
 			}
 			
-			var list = questionPanel.down('list');
-			var data = list ? list.getStore().data : [];
+			var list = questionPanel.answerList;
+			var data = list ? list.getStore() : Ext.create('Ext.data.Store', {model:'ARSnova.model.Answer'});
 			
 			if (questionObj.questionType === 'mc') {
 				var answers = questionObj.userAnswered.split(",");
@@ -286,12 +286,10 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				list.select(selectedIndexes, true);
 				questionPanel.disableQuestion();
 			} else {
-				for (var i = 0; i < data.length; i++) {
-					if (data.items[i].data.text == questionObj.userAnswered){
-						list.select(data.items[i]);
-						questionPanel.disableQuestion();
-						break;
-					}
+				var index = data.find('text', questionObj.userAnswered);
+				if (index !== -1) {
+					list.select(data.getAt(index));
+					questionPanel.disableQuestion();
 				}
 			}
 			if (questionObj.showAnswer) {
