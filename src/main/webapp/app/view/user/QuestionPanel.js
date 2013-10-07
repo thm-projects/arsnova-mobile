@@ -250,9 +250,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		}
 	},
 	
-	checkAnswer: function(){
-		var hideLoadMask = ARSnova.app.showLoadMask(Messages.CHECK_ANSWERS);
-		
+	checkAnswer: function(){		
 		this.getInnerItems().forEach(function(questionPanel) {
 			var questionObj = questionPanel.questionObj;
 			if (!questionObj.userAnswered && !questionObj.isAbstentionAnswer) return;
@@ -298,7 +296,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				});
 			}
 		}, this);
-		hideLoadMask();
 	},
 	
 	/**

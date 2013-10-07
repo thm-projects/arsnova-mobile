@@ -187,7 +187,6 @@ switch (lang) {
 			
 			
 			/* user */
-			CHECK_ANSWERS: "Checking answers",
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
 			QUESTIONS_FROM_STUDENTS: "Students' questions",
 			PREPARATION_QUESTIONS: "Preparation questions",
@@ -480,7 +479,6 @@ switch (lang) {
 			SAVE_AND_CONTINUE: 'Speichern und weiter',
 			
 			/* user */
-			CHECK_ANSWERS: "Prüfe Antworten",
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
 			QUESTIONS_FROM_STUDENTS: "Zwischenfragen",
 			PREPARATION_QUESTIONS: "Vorbereitungsfragen",
