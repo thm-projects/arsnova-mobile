@@ -84,7 +84,7 @@ Ext.define('ARSnova.view.Question', {
 		};
 		
 		this.saveMcQuestionHandler = function() {
-			Ext.Msg.confirm('', Messages.ARE_YOU_SURE, function(button) {
+			Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function(button) {
 				if (button !== 'yes') {
 					return;
 				}
@@ -108,7 +108,7 @@ Ext.define('ARSnova.view.Question', {
 		};
 		
 		this.mcAbstentionHandler = function() {
-			Ext.Msg.confirm('', Messages.ARE_YOU_SURE, function(button) {
+			Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function(button) {
 				if (button !== 'yes') {
 					return;
 				}
@@ -124,7 +124,7 @@ Ext.define('ARSnova.view.Question', {
 		var questionListener = this.viewOnly || this.questionObj.questionType === "mc" ? {} : {
 			'itemtap': function(list, index, target, record) {
 				var confirm = function(answer, handler) {
-					Ext.Msg.confirm(Messages.ANSWER + ' "' + answer + '"', Messages.ARE_YOU_SURE, handler);
+					Ext.Msg.confirm(Messages.ANSWER + ' "' + answer + '"', Messages.SUBMIT_ANSWER, handler);
 				};
 				if (record.internalId === self.abstentionInternalId) {
 					return confirm(Messages.ABSTENTION, function(button) {

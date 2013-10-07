@@ -125,7 +125,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			return;
 		}
 		
-		Ext.Msg.confirm('', Messages.ARE_YOU_SURE, function (button) {
+		Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
 			if (button === "yes") {
 				this.storeAnswer();
 			}
@@ -133,7 +133,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	},
 	
 	abstentionHandler: function(button, event) {
-		Ext.Msg.confirm('', Messages.ARE_YOU_SURE, function (button) {
+		Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
 			if (button === "yes") {
 				this.storeAbstention();
 			}
