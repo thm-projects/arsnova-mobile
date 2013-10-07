@@ -376,7 +376,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				// Calculate percentages
 				var totalResults = store.sum('value');
 				store.each(function(record) {
-					var percent = (Math.round(record.get('value')) / totalResults) * 100;
+					var percent = Math.round((record.get('value') / totalResults) * 100);
 					record.set('percent', totalResults > 0 && percent > 0 ? percent + ' %' : 0.0);
 				});
 				chart.getAxes()[0].setMaximum(maxValue);
