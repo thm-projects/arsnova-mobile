@@ -92,6 +92,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			store: this.questionStore,
 			
 			listeners: {
+				scope: this,
 				itemtap: function(list, index, element) {
 					ARSnova.app.getController('Questions').details({
 						question	: list.getStore().getAt(index).data
@@ -103,7 +104,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				 * it is also necessary to get the properties "padding-top" and "padding-bottom" and 
 				 * add them to the height of the list DataView.
 				 */
-		        resize: function (list, eOpts) {
+		        painted: function (list, eOpts) {
 		        	var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
 		        	
 		        	this.questionList.setHeight(
