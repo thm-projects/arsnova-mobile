@@ -285,6 +285,19 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		        type: 'bar',
 		        xField: 'text',
 		        yField: 'value',
+		        style: {
+		        	minGapWidth: 25,
+		        	maxBarWidth: 200
+		        },
+		        label: {
+		        	display	: 'insideEnd',
+		        	field	: 'percent',
+		        	color	: '#fff',
+		        	orientation: 'horizontal',
+		        	renderer: function(text) {
+		        		return text + " %";
+		        	}
+		        },
 		        renderer: function (sprite, config, rendererData, i) {		 
 		        	var panel;
 		        	
@@ -296,17 +309,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		    			panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 		    		}
 
-		        	return rendererData = {
-		        			fill : panel.gradients[i % panel.gradients.length]
-		        	};
-		        },
-		        style: {
-		        	minGapWidth: 25,
-		        	maxBarWidth: 200
-		        },
-		        labelField: ['percent'],
-		        label: {
-		        	strokeStyle: 'white'
+		        	return { fill : panel.gradients[i % panel.gradients.length] };
 		        }
 		    }]
 		});
@@ -401,7 +404,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				var totalResults = store.sum('value');
 				store.each(function(record) {
 					var percent = Math.round((record.get('value') / totalResults) * 100);
-					record.set('percent', totalResults > 0 && percent > 0 ? percent + ' %' : 0.0);
+					record.set('percent', percent);
 				});
 				chart.getAxes()[0].setMaximum(maxValue);
 				
