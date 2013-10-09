@@ -658,9 +658,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				 * add them to the height of the list DataView.
 				 */
 		        painted: function (list, eOpts) {
-		        	var listItemsDom = list.dom.firstChild.firstChild.firstChild.lastChild.firstChild;
+		        	var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
 		        	
-		        	this.answerList.setHeight(
+		        	this.freetextAnswerList.setHeight(
 		        		parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height"))	+ 
 		        		parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top"))	+
 		        		parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))

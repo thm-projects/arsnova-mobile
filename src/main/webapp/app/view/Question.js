@@ -171,9 +171,7 @@ Ext.define('ARSnova.view.Question', {
 			store: answerStore,
 			
 			cls: 'roundedBox',
-			
-			variableHeights: true,
-			
+			variableHeights: true,	
 			scrollable: { disabled: true },
 			
 			itemTpl: new Ext.XTemplate(
