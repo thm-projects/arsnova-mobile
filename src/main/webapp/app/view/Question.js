@@ -172,6 +172,8 @@ Ext.define('ARSnova.view.Question', {
 			
 			cls: 'roundedBox',
 			
+			variableHeights: true,
+			
 			scrollable: { disabled: true },
 			
 			itemTpl: new Ext.XTemplate(
@@ -195,17 +197,23 @@ Ext.define('ARSnova.view.Question', {
 						this.mcSaveButton.disable();
 					}
 				},
-		        initialize: function (list, eOpts){
-		            if (typeof list.getItemMap == 'function'){
-		                list.getScrollable().getScroller().on('refresh',function(scroller,eOpts){
-		                	var itemsHeight = list.getItemHeight() * list.itemsCount;
-		                	if(list.getGrouped()) {
-		                		var groupHeight = typeof list.headerHeight !== 'undefined' ? list.headerHeight : 26;
-		                		itemsHeight += list.groups.length * groupHeight;
-		                	}
-		                	list.setHeight(itemsHeight + 20);
-		                });
-		            }
+				/**
+				 * The following events are used to get the computed height of all list items and 
+				 * finally to set this value to the list DataView. In order to ensure correct rendering
+				 * it is also necessary to get the properties "padding-top" and "padding-bottom" and 
+				 * add them to the height of the list DataView.
+				 */
+		        painted: function (list, eOpts) {
+		        	this.answerList.fireEvent("resizeList", list);
+		        },
+		        resizeList: function(list) {
+		        	var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
+		        	
+		        	this.answerList.setHeight(
+		        		parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height"))	+ 
+		        		parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top"))	+
+		        		parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
+		        	);
 		        }
 			},
 			mode: this.questionObj.questionType === "mc" ? 'MULTI' : 'SINGLE'
@@ -302,8 +310,15 @@ Ext.define('ARSnova.view.Question', {
 	
 	doTypeset: function(parent) {
 		if (typeof this.questionTitle.element !== "undefined") {
+			var panel = this;
 			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.questionTitle.element.dom]);
 			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.answerList.element.dom]);
+			
+			MathJax.Hub.Queue(
+				["Delay", MathJax.Callback, 700], function() {
+					panel.answerList.fireEvent("resizeList", panel.answerList.element);
+				}
+			);
 		} else {
 			// If the element has not been drawn yet, we need to retry later
 			Ext.defer(Ext.bind(this.doTypeset, this), 100);
