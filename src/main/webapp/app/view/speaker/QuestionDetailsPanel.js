@@ -651,22 +651,21 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						})
 					});
 				},
-				initialize: function (list, eOpts){
-					if (typeof list.getItemMap == 'function') {
-						list.getScrollable().getScroller().on('refresh', function(scroller,eOpts) {
-							if (list.itemsCount === 0) {
-								list.setHeight(null);
-								return;
-							}
-							var itemsHeight = list.getItemHeight() * list.itemsCount;
-							if(list.getGrouped()) {
-								var groupHeight = typeof list.headerHeight !== 'undefined' ? list.headerHeight : 26;
-								itemsHeight += list.groups.length * groupHeight;
-							}
-							list.setHeight(itemsHeight);
-						});
-					}
-				}
+				/**
+				 * The following event is used to get the computed height of all list items and 
+				 * finally to set this value to the list DataView. In order to ensure correct rendering
+				 * it is also necessary to get the properties "padding-top" and "padding-bottom" and 
+				 * add them to the height of the list DataView.
+				 */
+		        painted: function (list, eOpts) {
+		        	var listItemsDom = list.dom.firstChild.firstChild.firstChild.lastChild.firstChild;
+		        	
+		        	this.answerList.setHeight(
+		        		parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height"))	+ 
+		        		parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top"))	+
+		        		parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
+		        	);
+		        }
 			}
 		});
 		
