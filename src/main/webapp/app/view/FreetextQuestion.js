@@ -72,7 +72,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		this.add([Ext.create('Ext.Panel', {
 			items: [this.questionTitle, this.viewOnly ? {} : {
 					xtype: 'formpanel',
-					style: 'margin: 10px',
 					scrollable: null,
 					submitOnAction: false,
 					items: [{
