@@ -99,12 +99,15 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 					});
 				},
 				/**
-				 * The following event is used to get the computed height of all list items and 
+				 * The following events are used to get the computed height of all list items and 
 				 * finally to set this value to the list DataView. In order to ensure correct rendering
 				 * it is also necessary to get the properties "padding-top" and "padding-bottom" and 
 				 * add them to the height of the list DataView.
 				 */
 		        painted: function (list, eOpts) {
+		        	this.questionList.fireEvent("resizeList", list);
+		        },
+		        resizeList: function(list) {
 		        	var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
 		        	
 		        	this.questionList.setHeight(
