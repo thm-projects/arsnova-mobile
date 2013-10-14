@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- - Beschreibung: Erklärt die Farbgebung der Badges uns Sessions
+ - Beschreibung: Erklärt die Farbgebung der Badges und Fragen/Sessions
  - Autor(en):    Christoph Thelen <christoph.thelen@mni.thm.de>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
@@ -19,7 +19,14 @@
 Ext.define('ARSnova.view.Caption', {
 	extend: 'Ext.Container',
 	
-	initialize: function() {
+	config: {
+		translation: {
+			active: Messages.OPEN_SESSION,
+			inactive: Messages.CLOSED_SESSION
+		}
+	},
+	
+	constructor: function() {
 		this.callParent(arguments);
 		
 		this.listButton = Ext.create('ARSnova.view.MultiBadgeButton', {
@@ -37,25 +44,25 @@ Ext.define('ARSnova.view.Caption', {
 		}, this.listButton] : []));
 	},
 	
-	explainSessionStatus: function(sessions) {
-		var hasActiveSessions = false;
-		sessions.forEach(function(session) {
-			hasActiveSessions = hasActiveSessions || !!session.active;
+	explainStatus: function(items) {
+		var hasActiveItems = false;
+		items.forEach(function(item) {
+			hasActiveItems = hasActiveItems || !!item.active;
 		});
-		var hasInactiveSessions = false;
-		sessions.forEach(function(session) {
-			hasInactiveSessions = hasInactiveSessions || !!!session.active;
+		var hasInactiveItems = false;
+		items.forEach(function(item) {
+			hasInactiveItems = hasInactiveItems || !!!item.active;
 		});
 		
 		var activeText = "";
-		if (hasActiveSessions) {
-			activeText = "<span class='isActive'>" + Messages.OPEN_SESSION + "</span>";
+		if (hasActiveItems) {
+			activeText = this.getTranslation().active;
 		}
 		var inactiveText = "";
-		if (hasInactiveSessions) {
-			inactiveText = Messages.CLOSED_SESSION;
+		if (hasInactiveItems) {
+			inactiveText = "<span class='isInactive'>" + this.getTranslation().inactive + "</span>";
 		}
-		if (hasActiveSessions && hasInactiveSessions) {
+		if (hasActiveItems && hasInactiveItems) {
 			this.listButton.setText(inactiveText + " / " + activeText);
 		} else {
 			this.listButton.setText(activeText || inactiveText);
@@ -82,5 +89,16 @@ Ext.define('ARSnova.view.Caption', {
 			}, {
 				badgeText: hasAnswers ? Messages.ANSWERS : "", badgeCls: "redbadgeicon"
 		}]);
+		return badges;
+	},
+	
+	connectToStore: function(store) {
+		store.on('updaterecord', function(theStore, record) {
+			var records = [];
+			store.each(function(r) {
+				records.push(r.data);
+			});
+			this.explainStatus(records);
+		}, this);
 	}
 });

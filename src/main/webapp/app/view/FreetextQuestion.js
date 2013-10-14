@@ -64,7 +64,9 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 		this.questionTitle = Ext.create('Ext.Component', {
 			cls: 'roundedBox',
-			html: '<p class="title">' + this.questionObj.subject + '<p/>' + '<p>' + this.questionObj.text + '</p>'
+			html:
+				'<p class="title">' + Ext.util.Format.htmlEncode(this.questionObj.subject) + '<p/>' +
+				'<p>' + Ext.util.Format.htmlEncode(this.questionObj.text) + '</p>'
 		});
 		
 		this.add([Ext.create('Ext.Panel', {
@@ -138,6 +140,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		}, this);
 	},
 	
+	selectAbstentionAnswer: function() {},
+	
 	isEmptyAnswer: function() {
 		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "";
 	},
@@ -153,9 +157,9 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				}
 				localStorage.setItem('questionIds', Ext.encode(questionsArr));
 
-				self.decrementQuestionBadges();
 				self.disableQuestion();
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
+				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
 			},
 			failure: function(response, opts) {
 				console.log('server-side error');
@@ -235,15 +239,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		this.mask(Ext.create('ARSnova.view.CustomMask'));
 	},
 	
-	decrementQuestionBadges: function() {
-		// Update badge inside the tab panel at the bottom of the screen
-		var tab = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.tab;
-		tab.setBadgeText(tab.badgeText - 1);
-		// Update badge on the user's home view
-		var button = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.questionButton;
-		button.setBadgeText(button.badgeText - 1);
-	},
-	
 	setAnswerText: function(subject, answer) {
 		this.answerSubject.setValue(subject);
 		this.answerText.setValue(answer);
@@ -251,9 +246,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	
 	doTypeset: function(parent) {
 		if (typeof this.questionTitle.element !== "undefined") {
-			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.questionTitle.id]);
-			MathJax.Hub.Queue(Ext.bind(function() {
-			}, this));
+			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.questionTitle.element.dom]);
 		} else {
 			// If the element has not been drawn yet, we need to retry later
 			Ext.defer(Ext.bind(this.doTypeset, this), 100);

@@ -76,48 +76,52 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		});
 		
 		this.sessionLoginForm = Ext.create('Ext.Panel', {
-
 			layout : {
-			    type : 'vbox',
-			    pack : 'center',
-			    align: 'center'
+				type : 'vbox',
+				pack : 'center',
+				align: 'center'
 			},
-
+			
 			items: [{
 					xtype	: 'panel',
 					cls		: null,
 					html	: "<div class='arsnova-logo'></div>",
 					style	: { marginTop: '35px', marginBottom: '30px' }
 				}, {
-				submitOnAction: false,
-				xtype: 'formpanel',
-				scrollable: null,
-				width: '310px',
-				margin: '0 auto',
-				
-				items: [{
-					xtype : 'fieldset',
-					cls: 'bottomMargin',
+					submitOnAction: false,
+					xtype: 'formpanel',
+					scrollable: null,
+					width: '310px',
+					margin: '0 auto',
 					
 					items: [{
-						xtype		: 'textfield',
-						component: {
-							xtype: 'input',
-							cls: 'joinSessionInput',
-							type: 'tel',
-							maxLength: 8
-						},
-						name		: 'keyword',
-						placeHolder	: Messages.SESSIONID_PLACEHOLDER
-					}]
-				}, {
-					xtype	: 'button',
-					height	: '45px',
-					margin	: '-10px 10px 0',
-					ui		: 'confirm',
-					text	: Messages.GO,
-					handler	: this.onSubmit
-				}]
+							xtype : 'fieldset',
+							cls: 'bottomMargin',
+							
+							items: [{
+								xtype		: 'textfield',
+								component: {
+									xtype: 'input',
+									cls: 'joinSessionInput',
+									type: 'tel',
+									maxLength: 16
+								},
+								name		: 'keyword',
+								placeHolder	: Messages.SESSIONID_PLACEHOLDER,
+								listeners: {
+									scope: this,
+									action: this.onSubmit
+								}
+							}]
+						}, {
+							xtype	: 'button',
+							height	: '45px',
+							margin	: '-10px 10px 0',
+							ui		: 'confirm',
+							text	: Messages.GO,
+							handler	: this.onSubmit,
+							scope	: this
+						}]
 			}]
 		});
 		
@@ -140,7 +144,6 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		
 		this.on('painted', function(){
 			this.loadVisitedSessions();
-			ARSnova.app.hideLoadMask();
 		});
 	},
 	
@@ -156,23 +159,21 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	
 	onSubmit: function() {
 		ARSnova.app.showLoadMask(Messages.LOGIN_LOAD_MASK);
-		var sessionLoginPanel = this;
-		var values = this.up('formpanel').getValues();
 		
 		//delete the textfield-focus, to hide the numeric keypad on phones
-		this.up('panel').down('textfield').blur();
+		this.down('textfield').blur();
 		
 		ARSnova.app.getController('Sessions').login({
-			keyword	  : values.keyword.replace(/ /g, ""),
+			keyword	  : this.down('textfield').getValue().replace(/ /g, ""),
 			destroy   : false,
-			panel	  : sessionLoginPanel
+			panel	  : this
 		});
 	},
 	
 	loadVisitedSessions: function() {
 		if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) return;
 		
-		ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
+		var hideLoadingMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
 
 		ARSnova.app.restProxy.getMyVisitedSessions({
 			success: function(sessions) {
@@ -198,39 +199,43 @@ Ext.define('ARSnova.view.home.HomePanel', {
 						var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 							xtype		: 'button',
 							ui			: 'normal',
-							text		: displaytext,
+							text		: Ext.util.Format.htmlEncode(displaytext),
 							cls			: 'forwardListButton' + course,
 							controller	: 'sessions',
 							action		: 'showDetails',
 							badgeCls	: 'badgeicon',
 							sessionObj	: session,
 							handler		: function(options){
-								ARSnova.app.showLoadMask("Login...");
+								var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
 								ARSnova.app.getController('Sessions').login({
 									keyword		: options.config.sessionObj.keyword
 								});
+								hideLoadMask();
 							}
 						});
 						panel.lastVisitedSessionsFieldset.add(sessionButton);
 						badgePromises.push(panel.updateBadge(session.keyword, sessionButton));
 						
-						if (session.active && session.active == 1) {
-							panel.down('button[text=' + session.name + ']').addCls("isActive");
+						if (!session.active) {
+							panel.down('button[text=' + displaytext + ']').addCls("isInactive");
 						}
 					}
 					RSVP.all(badgePromises).then(Ext.bind(caption.explainBadges, caption));
-					caption.explainSessionStatus(sessions);
+					caption.explainStatus(sessions);
 					panel.lastVisitedSessionsFieldset.add(caption);
 				} else {
 					panel.lastVisitedSessionsForm.hide();
 				}
+				hideLoadingMask();
 			},
 			unauthenticated: function() {
+				hideLoadingMask();
 				ARSnova.app.getController('Auth').login({
 					mode: ARSnova.app.loginMode
 				});
 			},
-			failure: function(){
+			failure: function() {
+				hideLoadingMask();
 				console.log('server-side error loggedIn.save');
 				ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.homePanel.lastVisitedSessionsForm.hide();
 			}

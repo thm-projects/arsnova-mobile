@@ -79,6 +79,16 @@ Ext.define('ARSnova.view.user.InClass', {
 	initialize: function() {
 		this.callParent(arguments);
 		
+		var comingSoon = function(component) {
+			var comingSoonPanel = Ext.create('Ext.Panel', {
+				html: "<div style='padding: 0.5em'>"+Messages.FEATURE_COMING_SOON+"</div>"
+			});
+			comingSoonPanel.showBy(component, 'tc-bc');
+			Ext.defer(function() {
+				comingSoonPanel.destroy();
+			}, 2000);
+		};
+		
 		var loggedInCls = '';
 		if (ARSnova.app.loginMode == ARSnova.app.LOGIN_THM) {
 			loggedInCls = 'thm';
@@ -94,7 +104,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		});
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: localStorage.getItem("shortName"),
+			title: Ext.util.Format.htmlEncode(localStorage.getItem("shortName")),
 			docked: 'top',
 			ui: 'light',
 			items: [
@@ -104,7 +114,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		
 		this.feedbackButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			ui			: 'normal',
-			text		: Messages.MY_FEEDBACK,
+			text		: Messages.GIVE_FEEDBACK,
 			cls			: 'forwardListButton',
 			badgeCls	: 'badgeicon feedbackARSnova',
 			controller	: 'Feedback',
@@ -112,9 +122,9 @@ Ext.define('ARSnova.view.user.InClass', {
 			handler		: this.buttonClicked
 		});
 		
-		this.questionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+		this.lectureQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			ui			: 'normal',
-			text		: Messages.QUESTIONS_TO_STUDENTS,
+			text		: Messages.LECTURE_QUESTIONS,
 			cls			: 'forwardListButton',
 			badgeCls	: 'badgeicon',
 			controller	: 'Questions',
@@ -122,11 +132,54 @@ Ext.define('ARSnova.view.user.InClass', {
 			handler		: this.buttonClicked
 		});
 		
+		this.preparationQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+			ui			: 'normal',
+			text		: Messages.PREPARATION_QUESTIONS,
+			cls			: 'forwardListButton',
+			badgeCls	: 'badgeicon',
+			controller	: 'Questions',
+			action		: 'index',
+			handler		: comingSoon
+		});
+		
+		this.myQuestionsButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+			ui			: 'normal',
+			text		: Messages.MY_QUESTIONS,
+			cls			: 'forwardListButton',
+			badgeCls	: 'badgeicon',
+			controller	: 'Questions',
+			action		: 'index',
+			handler		: comingSoon
+		});
+		
+		this.myLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+			ui			: 'normal',
+			text		: Messages.MY_LEARNING_PROGRESS,
+			cls			: 'forwardListButton',
+			badgeCls	: 'badgeicon',
+			controller	: 'Questions',
+			action		: 'index',
+			handler		: comingSoon
+		});
+		
+		this.learnButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+			ui			: 'normal',
+			text		: Messages.LEARN,
+			cls			: 'forwardListButton',
+			badgeCls	: 'badgeicon',
+			controller	: 'Questions',
+			action		: 'index',
+			handler		: function() {
+				var uTP = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
+				uTP.animateActiveItem(uTP.learnPanel, 'slide');
+			}
+		});
+		
 		this.inClass = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			items: [{
 				cls: 'gravure',
-				html: "Session-ID: " + ARSnova.app.formatSessionID(localStorage.getItem("keyword"))
+				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(localStorage.getItem("keyword"))
 			}, {
 				xtype: 'formpanel',
 				cls	 : 'standardForm topPadding',
@@ -134,7 +187,11 @@ Ext.define('ARSnova.view.user.InClass', {
 				
 				items: [
 						this.feedbackButton,
-						this.questionButton
+						this.preparationQuestionButton,
+						this.lectureQuestionButton,
+						this.myQuestionsButton,
+						this.myLearningProgressButton,
+						this.learnButton
 					]
 			}]
 		});
@@ -171,7 +228,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	checkNewSkillQuestions: function(){
 		ARSnova.app.questionModel.getUnansweredSkillQuestions(localStorage.getItem("keyword"), {
 			success: function(newQuestions){
-				ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.questionButton.setBadge([{
+				ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.lectureQuestionButton.setBadge([{
 					badgeText: newQuestions.length
 				}]);
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.tab.setBadgeText(newQuestions.length);

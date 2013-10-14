@@ -80,24 +80,27 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			items: [this.backButton]
 		});
 		
-		this.noFreetextAnswers = Ext.create('Ext.Panel', {
-			cls: 'centerText',
-			html: Messages.NO_ANSWERS
-		});
-		
 		this.freetextAnswerList = Ext.create('Ext.List', {
 			activeCls: 'search-item-active',
 			store: this.freetextAnswerStore, 
 			layout: 'fit',
 			flex: 1,
 			
+			itemConfig: {
+				importantFields: ['answerSubject']
+			},
+			defaultType: 'audiencequestionlistitem',
+			
 			itemCls: 'forwardListButton',
 			itemTpl: [
 				'<div class="search-item noOverflow">',
-				'<span style="color:gray">{formattedTime}</span><span style="padding-left:30px">{answerSubject}</span>',
+				'<span style="color:gray">{formattedTime}</span><span style="padding-left:30px">{answerSubject:htmlEncode}</span>',
 				'</div>'
 			],
 			grouped: true,
+			
+			deferEmptyText: false,
+			emptyText: Messages.NO_ANSWERS,
 			
 			listeners: {
 				itemtap: function (list, index, element) {
@@ -112,7 +115,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			}
 		});
 		
-		this.freetextAbstentions = new Ext.Button({
+		this.freetextAbstentions = Ext.create('Ext.Button', {
 			hidden		: true,
 			ui			: 'normal',
 			text		: Messages.ABSTENTION,
@@ -122,10 +125,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			badgeCls	: 'badgeicon'
 		});
 		
-		this.add([this.toolbar,
-		    this.freetextAnswerList,
-			this.noFreetextAnswers
-		]);
+		this.add([this.toolbar, this.freetextAnswerList]);
 		
 		this.on('activate', function() {
 			taskManager.start(this.checkFreetextAnswersTask);
@@ -156,18 +156,11 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				var answers = listItems.filter(function(item) {
 					return !item.abstention;
 				});
-				// Have the first answers arrived? Then remove the "no answers" message. 
-				if (!self.noFreetextAnswers.isHidden() && listItems.length > 0) {
-					self.noFreetextAnswers.hide();
-				} else if (self.noFreetextAnswers.isHidden() && listItems.length === 0) {
-					// The last remaining answer has been deleted. Display message again.
-					self.noFreetextAnswers.show();
-				}
 				
 				self.freetextAnswerStore.removeAll();
 				self.freetextAnswerStore.add(answers);
-				self.freetextAbstentions.setBadge(abstentions.length);
-				self.freetextAbstentions.setVisible(abstentions.length > 0);
+				self.freetextAbstentions.setBadgeText(abstentions.length);
+				self.freetextAbstentions.setHidden(abstentions.length === 0);
 			},
 			failure: function() {
 				console.log('server-side error');

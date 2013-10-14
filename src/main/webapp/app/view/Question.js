@@ -31,6 +31,9 @@ Ext.define('ARSnova.view.Question', {
 	questionObj: null,
 	viewOnly: false,
 	
+	abstentionInternalId: 'ARSnova_Abstention',
+	abstentionAnswer: null,
+	
 	constructor: function() {
 		this.callParent(arguments);
 		
@@ -42,11 +45,12 @@ Ext.define('ARSnova.view.Question', {
 		this.on('preparestatisticsbutton', function(button) {
 			button.scope = this;
 			button.setHandler(function() {
-				var questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
+				var panel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel;
+				panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
 					question	: self.questionObj,
 					lastPanel	: self
 				});
-				ARSnova.app.mainTabPanel.animateActiveItem(questionStatisticChart, 'slide');
+				ARSnova.app.mainTabPanel.animateActiveItem(panel.questionStatisticChart, 'slide');
 			});
 		});
 		
@@ -61,6 +65,7 @@ Ext.define('ARSnova.view.Question', {
 					
 					self.disableQuestion();
 					ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
+					ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
 				},
 				failure: function(response, opts) {
 					console.log('server-side error');
@@ -110,13 +115,28 @@ Ext.define('ARSnova.view.Question', {
 				
 				self.getUserAnswer().then(function(answer) {
 					answer.set('abstention', true);
+					self.answerList.deselectAll();
 					saveAnswer(answer);
 				});
 			}, this);
 		};
 		
 		var questionListener = this.viewOnly || this.questionObj.questionType === "mc" ? {} : {
-			'itemtap': function(list, index, target) {
+			'itemtap': function(list, index, target, record) {
+				var confirm = function(answer, handler) {
+					Ext.Msg.confirm(Messages.ANSWER + ' "' + answer + '"', Messages.ARE_YOU_SURE, handler);
+				};
+				if (record.internalId === self.abstentionInternalId) {
+					return confirm(Messages.ABSTENTION, function(button) {
+						if (button !== 'yes') {
+							return;
+						}
+						self.getUserAnswer().then(function(answer) {
+							answer.set('abstention', true);
+							saveAnswer(answer);
+						});
+					});
+				}
 				var answerObj = self.questionObj.possibleAnswers[index];
 				
 				/* for use in Ext.Msg.confirm */
@@ -125,32 +145,26 @@ Ext.define('ARSnova.view.Question', {
 
 				var theAnswer = answerObj.id || answerObj.text;
 				
-				Ext.Msg.confirm(
-					Messages.ANSWER + ' "' + theAnswer + '"', 
-					Messages.ARE_YOU_SURE, 
-					function(button) {
-						if(button == 'yes') {
-							self.decrementQuestionBadges();
-							
-							self.markCorrectAnswers();
-							
-							self.getUserAnswer().then(function(answer) {
-								answer.set('answerText', answerObj.text);
-								saveAnswer(answer);
-							});
-						} else {
-							answerObj.selModel.deselect(answerObj.selModel.selected.items[0]);
-						}
+				confirm(theAnswer, function(button) {
+					if (button == 'yes') {
+						self.markCorrectAnswers();
+						
+						self.getUserAnswer().then(function(answer) {
+							answer.set('answerText', answerObj.text);
+							saveAnswer(answer);
+						});
+					} else {
+						answerObj.selModel.deselect(answerObj.selModel.selected.items[0]);
 					}
-				);
+				});
 			}
 		};
 		
 		this.questionTitle = Ext.create('Ext.Panel', {
 			cls: 'roundedBox',
 			html: 
-				'<p class="title">' + this.questionObj.subject + '<p/>' +
-				'<p>' + this.questionObj.text + '</p>'
+				'<p class="title">' + Ext.util.Format.htmlEncode(this.questionObj.subject) + '<p/>' +
+				'<p>' + Ext.util.Format.htmlEncode(this.questionObj.text) + '</p>'
 		});
 		
 		this.answerList = Ext.create('Ext.List', {
@@ -161,7 +175,7 @@ Ext.define('ARSnova.view.Question', {
 			scrollable: { disabled: true },
 			
 			itemTpl: new Ext.XTemplate(
-				'{text}',
+				'{text:htmlEncode}',
 				'<tpl if="correct === true && this.isQuestionAnswered(values)">',
 					'&nbsp;<span style="padding: 0 0.2em 0 0.2em" class="x-list-item-correct">&#10003; </span>',
 				'</tpl>',
@@ -196,6 +210,14 @@ Ext.define('ARSnova.view.Question', {
 			},
 			mode: this.questionObj.questionType === "mc" ? 'MULTI' : 'SINGLE'
 		});
+		if (this.questionObj.abstention
+				&& (this.questionObj.questionType === 'school' || this.questionObj.questionType === 'vote')) {
+			this.abstentionAnswer = this.answerList.getStore().add({
+				id: this.abstentionInternalId,
+				text: Messages.ABSTENTION,
+				correct: false
+			})[0];
+		}
 		
 		this.mcSaveButton = Ext.create('Ext.Button', {
 			flex: 1,
@@ -207,27 +229,53 @@ Ext.define('ARSnova.view.Question', {
 			disabled: true
 		});
 		
-		this.add([this.questionTitle, this.answerList].concat(
-			this.questionObj.questionType === "mc" && !this.viewOnly ? {
-				xtype: 'container',
-				layout: {
-					type: 'hbox',
-					align: 'stretch'
-				},
-				defaults: {
-					style: {
-						margin: '10px'
-					}
-				},
-				items: [this.mcSaveButton, !!!this.questionObj.abstention ? { hidden: true } : {
-					flex: 1,
-					xtype: 'button',
-					cls: 'login-button noMargin',
-					text: Messages.ABSTENTION,
-					handler: this.mcAbstentionHandler,
-					scope: this
-				}]
-			} : {}
+		var mcContainer = {
+			xtype: 'container',
+			layout: {
+				type: 'hbox',
+				align: 'stretch'
+			},
+			defaults: {
+				style: {
+					margin: '10px'
+				}
+			},
+			items: [this.mcSaveButton, !!!this.questionObj.abstention ? { hidden: true } : {
+				flex: 1,
+				xtype: 'button',
+				cls: 'login-button noMargin',
+				text: Messages.ABSTENTION,
+				handler: this.mcAbstentionHandler,
+				scope: this
+			}]
+		};
+		
+		var flashcardContainer = {
+			xtype: 'button',
+			cls: 'login-button',
+			ui: 'confirm',
+			text: Messages.SHOW_FLASHCARD_ANSWER,
+			handler: function(button) {
+				if (this.answerList.isHidden()) {
+					this.answerList.show(true);
+					button.setText(Messages.HIDE_FLASHCARD_ANSWER);
+				} else {
+					this.answerList.hide(true);
+					button.setText(Messages.SHOW_FLASHCARD_ANSWER);
+				}
+			},
+			scope: this
+		};
+		
+		this.add([this.questionTitle]);
+		if (this.questionObj.questionType === "flashcard") {
+			this.add([flashcardContainer]);
+			this.answerList.setHidden(true);
+		} else {
+			this.answerList.setHidden(false);
+		}
+		this.add([this.answerList].concat(
+			this.questionObj.questionType === "mc" && !this.viewOnly ? mcContainer : {}
 		));
 		
 		this.on('activate', function(){
@@ -245,21 +293,17 @@ Ext.define('ARSnova.view.Question', {
 		this.mask(Ext.create('ARSnova.view.CustomMask'));
 	},
 	
-	decrementQuestionBadges: function() {
-		// Update badge inside the tab panel at the bottom of the screen
-		var tab = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.tab;
-		tab.setBadgeText(tab.badgeText - 1);
-		// Update badge on the user's home view
-		var button = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.questionButton;
-		button.setBadgeText(button.badgeText - 1);
+	selectAbstentionAnswer: function() {
+		var index = this.answerList.getStore().indexOf(this.abstentionAnswer);
+		if (index !== -1) {
+			this.answerList.select(this.abstentionAnswer);
+		}
 	},
 	
 	doTypeset: function(parent) {
 		if (typeof this.questionTitle.element !== "undefined") {
-			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.questionTitle.id]);
-			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.answerList.id]);
-			MathJax.Hub.Queue(Ext.bind(function() {
-			}, this));
+			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.questionTitle.element.dom]);
+			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.answerList.element.dom]);
 		} else {
 			// If the element has not been drawn yet, we need to retry later
 			Ext.defer(Ext.bind(this.doTypeset, this), 100);

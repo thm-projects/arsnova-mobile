@@ -55,8 +55,8 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				backgroundColor: 'transparent'
 			},
 			itemTpl: window.innerWidth > 321
-						? '<span class="course">{fullname}<span>'
-						: '<span class="course">{shortname}<span>',
+						? '<span class="course">{fullname:htmlEncode}<span>'
+						: '<span class="course">{shortname:htmlEncode}<span>',
 			listeners: {
 				itemtap: Ext.bind(this.onCourseSubmit, this),
 				
@@ -174,7 +174,6 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 	getMyCourses: function() {
 		if (ARSnova.app.loginMode != ARSnova.app.LOGIN_THM) return;
 		var newSessionPanel = this;
-		//ARSnova.showLoadMask(Messages.LOAD_MASK_SEARCH_COURSES);
 		ARSnova.app.courseModel.getMyCourses({
 			success: Ext.bind(function(response) {
 				if(response.responseText == "[]") {
@@ -195,7 +194,6 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			empty: Ext.bind(function() {
 				newSessionPanel.mycourses.hide();
 				newSessionPanel.setScrollable(null);
-				ARSnova.app.hideLoadMask();
 			}, this),
 			unauthenticated: function() {
 				ARSnova.app.getController('Auth').login({

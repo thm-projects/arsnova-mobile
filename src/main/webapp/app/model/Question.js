@@ -72,6 +72,10 @@ Ext.define('ARSnova.model.Question', {
     	return this.getProxy().delQuestion(queObj, callbacks);
     },
     
+    destroyAll: function(sessionKeyword, callbacks) {
+    	return this.getProxy().delAllQuestions(sessionKeyword, callbacks);
+    },
+    
     deleteInterposed: function(question, callbacks) {
 		return this.getProxy().deleteInterposedQuestion(question, callbacks);
     },
@@ -99,6 +103,23 @@ Ext.define('ARSnova.model.Question', {
     	return this.getProxy().publishSkillQuestion(this, callbacks);
     },
     
+    publishAllSkillQuestions: function(questions, active, callbacks) {
+		 questions.forEach(function(q) {
+			q.set("active", active);
+			q.raw.active = active;
+		});
+		var promises = [];
+		questions.forEach(function(q) {
+			var promise = new RSVP.Promise();
+			q.publishSkillQuestion({
+				success: function() { promise.resolve(); },
+				failure: function() { promose.reject(); }
+			});
+			promises.push(promise);
+		});
+		RSVP.all(promises).then(callbacks.success, callbacks.failure);
+    },
+    
     publishSkillQuestionStatistics: function(callbacks) {
     	return this.getProxy().publishSkillQuestionStatistics(this, callbacks);
     },
@@ -113,10 +134,6 @@ Ext.define('ARSnova.model.Question', {
     
     getSkillQuestionsForDelete: function(sessionId, callbacks) {
     	return this.getProxy().getSkillQuestionsForDelete(sessionId, callbacks);
-    },
-    
-    getAnsweredSkillQuestions: function(sessionId, userLogin, callbacks){
-    	return this.getProxy().getAnsweredSkillQuestions(sessionId, userLogin, callbacks);
     },
     
     getUnansweredSkillQuestions: function(sessionKeyword, callbacks){

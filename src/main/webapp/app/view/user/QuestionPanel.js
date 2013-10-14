@@ -30,7 +30,11 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	/* toolbar items */
 	toolbar		: null,
 	backButton	: null,
+	chartPanel	: null,
 	questionCounter: 0,
+	
+	/* item index 0 and 1 are occupied by the carousel and toolbar. */
+	carouselOffset:	2,
 	
 	initialize: function() {
 		this.callParent(arguments);
@@ -56,23 +60,27 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			var backButtonHidden = this.backButton.isHidden();
 			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 			
-			if(newCard.questionObj.questionType === 'abcd') {
-				(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_SINGLE_CHOICE) : this.toolbar.setTitle(Messages.QUESTION_SINGLE_CHOICE_SHORT);
-			} else if(newCard.questionObj.questionType === 'freetext') {
-				(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_FREETEXT) : this.toolbar.setTitle(Messages.QUESTION_FREETEXT_SHORT);
-			} else if(newCard.questionObj.questionType === 'mc') {
-				(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_MC) : this.toolbar.setTitle(Messages.QUESTION_MC_SHORT);
-			} else if(newCard.questionObj.questionType === 'vote') {
-				(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_RATING) : this.toolbar.setTitle(Messages.QUESTION_RATING_SHORT);
-			} else if(newCard.questionObj.questionType === 'yesno') {
-				(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_YESNO) : this.toolbar.setTitle(Messages.QUESTION_YESNO);
-			} else if(newCard.questionObj.questionType === 'school') {
-				(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_GRADE) : this.toolbar.setTitle(Messages.QUESTION_GRADE_SHORT);
+			if (newCard.questionObj) {
+				if(newCard.questionObj.questionType === 'abcd') {
+					(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_SINGLE_CHOICE) : this.toolbar.setTitle(Messages.QUESTION_SINGLE_CHOICE_SHORT);
+				} else if(newCard.questionObj.questionType === 'freetext') {
+					(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_FREETEXT) : this.toolbar.setTitle(Messages.QUESTION_FREETEXT_SHORT);
+				} else if(newCard.questionObj.questionType === 'mc') {
+					(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_MC) : this.toolbar.setTitle(Messages.QUESTION_MC_SHORT);
+				} else if(newCard.questionObj.questionType === 'vote') {
+					(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_RATING) : this.toolbar.setTitle(Messages.QUESTION_RATING_SHORT);
+				} else if(newCard.questionObj.questionType === 'yesno') {
+					(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_YESNO) : this.toolbar.setTitle(Messages.QUESTION_YESNO);
+				} else if(newCard.questionObj.questionType === 'school') {
+					(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_GRADE) : this.toolbar.setTitle(Messages.QUESTION_GRADE_SHORT);
+				} else if(newCard.questionObj.questionType === 'flashcard') {
+					(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.FLASHCARD) : this.toolbar.setTitle(Messages.QUESTION_FLASHCARD);
+				}
 			}
 			
 			//update question counter in toolbar
 			var counterEl = panel.questionCounter;
-			var counter = counterEl.element.dom.innerText.split("/");
+			var counter = counterEl.getHtml().split("/");
 
 			counter[0] = panel.activeIndex + 1;
 			counterEl.setHtml(counter.join("/"));
@@ -98,14 +106,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		this.statisticButton = Ext.create('Ext.Button', {
 			text	: ' ',
 			cls		: 'statisticIconSmall',
-			hidden	: true,
-			handler	: function() {
-				var questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
-					question: ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel._activeItem.questionObj,
-					lastPanel: this
-				});
-				ARSnova.app.mainTabPanel.animateActiveItem(questionStatisticChart, 'slide');
-			}
+			hidden	: true
 		});
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
@@ -133,7 +134,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		this.removeAll(false);
 		this._indicator.show();
 		this.questionCounter.show();
-		ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
 	},
 	
 	onActivate: function(){
@@ -143,6 +143,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	getUnansweredSkillQuestions: function(){
 		var self = this;
 		
+		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
 		ARSnova.app.questionModel.getSkillQuestionsForUser(localStorage.getItem("keyword"), {
 			success: function(questions){
 				var userQuestionsPanel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel;
@@ -165,8 +166,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 								userQuestionsPanel.next();
 								userQuestionsPanel.statisticButton.hide();
 								userQuestionsPanel._indicator.hide();
-								ARSnova.app.hideLoadMask();
-								
 							} else {
 								userQuestionsPanel.questionCounter.hide();
 								userQuestionsPanel.add({
@@ -175,10 +174,11 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 								});
 								userQuestionsPanel.next();
 								userQuestionsPanel._indicator.hide();
-								ARSnova.app.hideLoadMask();
 							}
+							hideLoadMask();
 						},
 						failure: function() {
+							hideLoadMask();
 			    			console.log('error');
 			    		}
 					});
@@ -187,7 +187,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				} else {
 					//update question counter in toolbar
 					var counterEl = userQuestionsPanel.questionCounter;
-					var counter = counterEl.element.dom.innerText.split("/");
+					var counter = counterEl.getHtml().split("/");
 					counter[0] = "1";
 					counter[1] = questions.length;
 					counterEl.setHtml(counter.join("/"));
@@ -229,9 +229,10 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 						console.log('error');
 					}
 				});
-				ARSnova.app.hideLoadMask();
+				hideLoadMask();
 			},
-			failure: function(response){
+			failure: function(response) {
+				hideLoadMask();
 				console.log('error');
 			}
 		});
@@ -250,13 +251,14 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	},
 	
 	checkAnswer: function(){
-		ARSnova.app.showLoadMask(Messages.CHECK_ANSWERS);
+		var hideLoadMask = ARSnova.app.showLoadMask(Messages.CHECK_ANSWERS);
 		
 		this.getInnerItems().forEach(function(questionPanel) {
 			var questionObj = questionPanel.questionObj;
 			if (!questionObj.userAnswered && !questionObj.isAbstentionAnswer) return;
 			
 			if (questionObj.isAbstentionAnswer) {
+				questionPanel.selectAbstentionAnswer();
 				questionPanel.disableQuestion();
 				return;
 			}
@@ -298,10 +300,14 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				});
 			}
 		}, this);
-		
-		setTimeout("ARSnova.app.hideLoadMask()", 1000);
+		hideLoadMask();
 	},
 	
+	/**
+	 * Checks if statistic button for the active question should be shown.
+	 * The button will only become visible if showStatistic is enabled in
+	 * speaker.questionDetailsPanel and the active question is already answered.
+	 */
 	checkStatisticRelease: function() {
 		var questionView = this.getActiveItem();
 		var questionObj = questionView.questionObj;
@@ -316,11 +322,44 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			this.statisticButton.hide();
 	},
 	
-	showNextUnanswered: function(){
-		var questionPanels = this.items.items;
-		var activeQuestion = this._activeItem;
-		if(!activeQuestion.isDisabled()) return;
+	/**
+	 * Check if last answered Question was last unanswered question in carousel.
+	 * If it was the last one, the application moves back to user.InClass panel.
+	 */
+	checkIfLastAnswer: function(){
+		var questionPanels	= this.items.items;
+		var allAnswered = true;
 		
+		for (var i = this.carouselOffset, questionPanel; questionPanel = questionPanels[i]; i++) {
+			if(questionPanel.isDisabled()) {
+				continue;
+			}
+			
+			allAnswered = false;
+			break;
+		}
+		
+		if(allAnswered) {
+			ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
+	    		type		: 'slide',
+	    		direction	: 'right',
+	    		duration	: 700,
+	    		scope		: this
+	    	});
+		}
+	},
+	
+	/**
+	 * Determines the current index in the carousel and iterates the following items
+	 * to find the next unanswered question. If the last index of the carousel is reached
+	 * the items before the current position will be checked also.
+	 */
+	showNextUnanswered: function(){
+		var questionPanels	= this.items.items;
+		var activeQuestion	= this.getActiveItem();
+		var lastQuestion	= questionPanels[questionPanels.length-1];
+		
+		if(!activeQuestion.isDisabled()) return;
 		this.checkStatisticRelease();
 		
 		var currentPosition = 0;
@@ -330,16 +369,22 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				break;
 			}
 		}
-
+		
+		var spin = false;
 		for (var i = currentPosition, questionPanel; questionPanel = questionPanels[i]; i++) {
-			if (questionPanel.isDisabled()) {
-				continue;
+			if(spin && i == currentPosition) {
+				break;
 			}
-;
-			this.setActiveItem(i-2, {
-				type: 'slide',
-				direction: 'left'
-			});
+			
+			if(questionPanel.isDisabled()) {
+				if(questionPanel == lastQuestion) {
+					i = this.carouselOffset;
+					spin = true;
+				} 
+				else continue;
+			}
+			
+			this.setActiveItem(i - this.carouselOffset);
 			break;
 		}
 	},

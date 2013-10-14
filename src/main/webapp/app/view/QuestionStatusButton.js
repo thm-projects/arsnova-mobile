@@ -22,7 +22,13 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 	extend: 'Ext.Panel',
 	
 	config: {
-		cls	: 'threeButtons left'
+		cls	: 'threeButtons left',
+		wording: {
+			stop: Messages.STOP_QUESTION,
+			release: Messages.RELEASE_QUESTION,
+			confirm: Messages.CONFIRM_CLOSE_QUESTION,
+			confirmMessage: Messages.CONFIRM_CLOSE_QUESTION_MESSAGE
+		}
 	},
 	
 	handler: null,
@@ -34,37 +40,39 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 	questionIsClosedButton: null,
 	
 	constructor: function(args) {
-		this.callParent(args);
+		this.callParent(arguments);
 		
 		this.questionObj = args.questionObj;
 		
 		this.questionIsClosedButton = Ext.create('Ext.Button', {
-			cls			: 'closedSession',
-			handler		: function(){
-				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel.questionStatusButton.changeStatus();
+			cls		: 'closedSession',
+			scope	: this,
+			handler	: function() {
+				this.changeStatus();
 			}
 		});
 		
 		this.questionIsClosedText = Ext.create('Ext.Panel', {
 			cls	: 'centerTextSmall',
-			html: Messages.RELEASE_QUESTION
+			html: this.getWording().release
 		});
 		
 		this.questionIsOpenButton = Ext.create('Ext.Button', {
-			cls			: 'openSession',
-			handler		: function(){
-				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel.questionStatusButton.changeStatus();
+			cls		: 'openSession',
+			scope	: this,
+			handler	: function() {
+				this.changeStatus();
 			}
 		});
 		
 		this.questionIsOpenText = Ext.create('Ext.Panel', {
 			cls	: 'centerTextSmall',
-			html: Messages.STOP_QUESTION
+			html: this.getWording().stop
 		});
 
 		this.add([this.questionIsClosedButton, this.questionIsClosedText, this.questionIsOpenButton, this.questionIsOpenText]);
 
-		if(this.questionObj.active == 1){
+		if (this.questionObj && this.questionObj.active == 1) {
 			this.isOpen = true;
 			this.questionIsClosedButton.hide();
 			this.questionIsClosedText.hide();
@@ -76,15 +84,19 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 	},
 	
 	changeStatus: function(){
-		var id = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel.questionObj._id;
+		var id = this.questionObj._id;
 		
-		if(this.isOpen){
-			/* close this question */
-			ARSnova.app.getController('Questions').setActive({
-				questionId	: id, 
-				active		: 0,
-				callback	: this.questionClosedSuccessfully
-			});
+		if (this.isOpen) {
+			Ext.Msg.confirm(this.getWording().confirm, this.getWording().confirmMessage, function (buttonId) {
+				if (buttonId != "no") {
+					/* close this question */
+					ARSnova.app.getController('Questions').setActive({
+						questionId	: id, 
+						active		: 0,
+						callback	: this.questionClosedSuccessfully
+					});
+				}
+			}, this);
 		} else {
 			/* open this question */
 			ARSnova.app.getController('Questions').setActive({
@@ -112,7 +124,6 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		this.questionIsClosedText.show();
 		this.questionIsOpenButton.hide();
 		this.questionIsOpenText.hide();
-		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel.editButton.show();
 	},
 	
 	questionOpenedSuccessfully: function(){
@@ -121,6 +132,5 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		this.questionIsOpenText.show();
 		this.questionIsClosedButton.hide();
 		this.questionIsClosedText.hide();
-		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel.editButton.hide();
 	}
 }); 

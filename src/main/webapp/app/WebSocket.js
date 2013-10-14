@@ -15,6 +15,18 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
+/**
+ * This class serves as an interface to ARSnova Web Socket implementation.
+ * 
+ * The only purpose of this class is to translate raw Web Socket events into
+ * events handled by the Model classes. This means that users of Web Socket data
+ * should not listen to any of the events listed here. Instead, they should connect
+ * their listeners to the events provided by the Model classes.
+ * 
+ * When assigning new events, please adapt the following format:
+ * "arsnova/socket/[type-of-data]/[type-of-event]", eg. "arsnova/socket/feedback/update"
+ * 
+ */
 Ext.define('ARSnova.WebSocket', {
 	extend: 'Ext.util.Observable',
 	
@@ -43,18 +55,15 @@ Ext.define('ARSnova.WebSocket', {
 			});
 			
 			socket.on('feedbackData', Ext.bind(function(data) {
-				this.fireEvent("arsnova/session/feedback/update", data);
-				this.fireEvent("arsnova/session/feedback/count", data.reduce(function(a, b){
-					return a + b;
-				}, 0));
+				this.fireEvent("arsnova/socket/feedback/update", data);
 			}, this));
 			
 			socket.on('feedbackReset', Ext.bind(function(affectedSessions) {
-				//topic.publish("arsnova/session/feedback/remove", affectedSessions);
+				//topic.publish("arsnova/socket/feedback/remove", affectedSessions);
 			}, this));
 			
 			socket.on('feedbackDataRoundedAverage', Ext.bind(function(average) {
-				this.fireEvent("arsnova/session/feedback/average", average);
+				this.fireEvent("arsnova/socket/feedback/average", average);
 			}, this));
 		}, this));
 	},

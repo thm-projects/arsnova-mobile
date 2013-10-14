@@ -172,18 +172,18 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
   		    		'<div class="action delete x-button">Delete</div>',
   			    	'<span style="color:gray;">{formattedTime}</span>',
   			    	'<tpl if="obj.get(\'read\')">',
-  				    	'<span style="padding-left:30px;">{subject}</span>',
+  				    	'<span style="padding-left:30px;">{subject:htmlEncode}</span>',
   			    	'</tpl>',
   			    	'<tpl if="!obj.get(\'read\')">',
-				    	'<span style="padding-left:30px;font-weight:bold;color:red">{subject}</span>',
+				    	'<span style="padding-left:30px;font-weight:bold;color:red">{subject:htmlEncode}</span>',
 			    	'</tpl>',
   		    	'</div>'
 	    	),
 		    grouped: true,
 		    store: this.getStore(),
 		    listeners: {
-		    	itemswipe: function(list, index, node){
-		            var el        = Ext.get(node),
+		    	itemswipe: function(list, index, target) {
+		            var el        = target.element,
 		                hasClass  = el.hasCls(this.activeCls);
 		            
 		            if (hasClass) { el.removeCls(this.activeCls); } 
@@ -246,7 +246,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 	},
 	
 	getFeedbackQuestions: function(){
-		ARSnova.app.showLoadMask(Messages.LOADING_NEW_QUESTIONS);
+		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOADING_NEW_QUESTIONS);
 		ARSnova.app.questionModel.getInterposedQuestions(localStorage.getItem('keyword'),{
 			success: function(response){
 				var questions = Ext.decode(response.responseText);
@@ -267,17 +267,11 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					var unread = 0;
 					for(var i = 0, question; question = questions[i]; i++){
 						var formattedTime = "", fullDate = "", groupDate = "";
-						if(question.timestamp){
+						if (question.timestamp) {
 							var time = new Date(question.timestamp);
-							var minutes, hours, day, month, year;
-							minutes = time.getMinutes();
-							hours 	= time.getHours();
-							day   	= time.getDate();
-							month 	= time.getMonth() + 1;
-							year  	= time.getYear() - 100;
-							formattedTime = (hours < 10 ? '0' + hours : hours) + ":" + (minutes < 10 ? '0' + minutes : minutes); 
-							groupDate 	  = (day < 10 ? '0' + day : day) + "." + (month < 10 ? '0' + month : month) + "." + year;
-							fullDate 	  = formattedTime + " Uhr am " + groupDate;
+							formattedTime = moment(time).format('LT');
+							groupDate 	  = moment(time).format('L');
+							fullDate 	  = moment(time).format('LLL');
 						} else {
 							groupDate = Messages.NO_DATE;
 						}
@@ -298,7 +292,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 							subject: question.subject,
 							type: question.type,
 							read: question.read,
-							obj: Ext.create('ARSnova.model.Question', question)
+							obj: Ext.create('ARSnova.model.FeedbackQuestion', question)
 						});
 					}
 					
@@ -312,7 +306,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 						direction: 'DESC'
 					}]);
 				}
-				setTimeout("ARSnova.app.hideLoadMask()", 500);
+				hideLoadMask();
 			},
 			failure: function(records, operation){
 				console.log('server side error');

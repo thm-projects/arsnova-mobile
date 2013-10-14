@@ -17,14 +17,15 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.MathJaxMessageBox', {
-	extend: 'Ext.MessageBox',
+	override: 'Ext.MessageBox',
 
 	show: function(config) {
-		ARSnova.view.MathjaxMessageBox.superclass.show.apply(this, arguments);
+		this.callParent(arguments);
 		
-		MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.titleBar.id]);
-		MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.msgEl.id]);
+		if (this.getTitle()) {
+			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.getTitle().element.dom]);
+		}
+		MathJax.Hub.Queue(["Typeset", MathJax.Hub, this._message.element.dom]);
+		return this;
 	}
 });
-
-Ext.Msg = Ext.create('ARSnova.view.MathJaxMessageBox');

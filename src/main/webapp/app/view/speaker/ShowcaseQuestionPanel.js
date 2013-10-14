@@ -54,12 +54,14 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				title = label(Messages.QUESTION_YESNO, Messages.QUESTION_YESNO);
 			} else if (questionType === 'school') {
 				title = label(Messages.QUESTION_GRADE, Messages.QUESTION_GRADE_SHORT);
+			} else if (questionType === 'flashcard') {
+				title = label(Messages.FLASHCARD, Messages.FLASHCARD);
 			}
 			this.toolbar.setTitle(title);
 			
 			//update question counter in toolbar
 			var counterEl = panel.questionCounter;
-			var counter = counterEl.element.dom.innerText.split("/");
+			var counter = counterEl.getHtml().split("/");
 
 			counter[0] = panel.activeIndex + 1;
 			counterEl.setHtml(counter.join("/"));
@@ -93,7 +95,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				sTP.animateActiveItem(sTP.audienceQuestionPanel, {
 					type		: 'slide',
-					direction	: 'down',
+					direction	: 'right',
 					duration	: 700,
 					scope		: this,
 		    		listeners: { animationend: function() { 
@@ -110,8 +112,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			items: [
 			    this.backButton,
 		        { xtype: 'spacer' },
-		        this.statisticButton,
-		        this.questionCounter
+		        this.questionCounter,
+		        this.statisticButton
 	        ]
 		});
 
@@ -119,6 +121,9 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		
 		this.on('activate', this.beforeActivate, this, null, 'before');
 		this.on('activate', this.onActivate);
+		this.on('add', function(panel, component, index) {
+			component.doTypeset && component.doTypeset(panel);
+		});
 	},
 	
 	beforeActivate: function(){
@@ -126,15 +131,15 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		this._indicator.show();
 		this.questionCounter.show();
 		this.toolbar.setTitle(Messages.QUESTION);
-		
-		ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
 	},
 	
 	onActivate: function(){
 		this.getAllSkillQuestions();
 	},
 	
-	getAllSkillQuestions: function(){
+	getAllSkillQuestions: function() {
+		var hideIndicator = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
+		
 		ARSnova.app.questionModel.getSkillQuestionsSortBySubjectAndText(localStorage.getItem("keyword"), {
 			success: function(response) {
 				var questions = Ext.decode(response.responseText);
@@ -142,7 +147,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				
 				//update question counter in toolbar
 				var counterEl = panel.questionCounter;
-				var counter = counterEl.element.dom.innerText.split("/");
+				var counter = counterEl.getHtml().split("/");
 				counter[0] = "1";
 				counter[1] = questions.length;
 				counterEl.setHtml(counter.join("/"));
@@ -166,10 +171,11 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				// question.
 				panel.setActiveItem(0);
 				panel.checkFirstQuestion();
-				ARSnova.app.hideLoadMask();
+				hideIndicator();
 			},
-			failure: function(response){
+			failure: function(response) {
 				console.log('error');
+				hideIndicator();
 			}
 		});
 	},

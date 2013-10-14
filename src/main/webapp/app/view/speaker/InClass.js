@@ -25,15 +25,11 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		fullscreen: true,
 		title	: Messages.FEEDBACK,
 		iconCls	: 'feedbackMedium',
-		scrollable: true,
-		scroll  : 'vertical'
+		scrollable: 'vertical'
 	},
 	
 	inClassItems			: null,
-	audienceQuestionButton	: null,
-	questionsFromUserButton	: null,
-	quizButton			 	: null,
-		
+	
 	inClassActions: null,
 	sessionStatusButton			: null,
 	createAdHocQuestionButton	: null,
@@ -64,6 +60,16 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	initialize: function(){
 		this.callParent(arguments);
 		
+		var comingSoon = function(component) {
+			var comingSoonPanel = Ext.create('Ext.Panel', {
+				html: "<div style='padding: 0.5em'>"+Messages.FEATURE_COMING_SOON+"</div>"
+			});
+			comingSoonPanel.showBy(component, 'tc-bc');
+			Ext.defer(function() {
+				comingSoonPanel.destroy();
+			}, 2000);
+		};
+		
 		var loggedInCls = '';
 		if (ARSnova.app.loginMode == ARSnova.app.LOGIN_THM) {
 			loggedInCls = 'thm';
@@ -78,18 +84,43 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			}
 		});
 		
+		this.presenterButton = Ext.create('Ext.Button', {
+			cls		: "thm",
+			text	: Messages.PRESENTER,
+			hidden	: true,
+			scope	: this,
+			handler	: this.presenterHandler
+		});
+		
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: localStorage.getItem("shortName"),
+			title: Ext.util.Format.htmlEncode(localStorage.getItem("shortName")),
 			ui: 'light',
 			docked: 'top',
 			items: [
-		        this.sessionLogoutButton
+		        this.sessionLogoutButton,
+		        {xtype: 'spacer'},
+		        this.presenterButton
 			]
 		});
 		
-		this.audienceQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			ui			: 'normal',
-			text		: Messages.QUESTIONS_TO_STUDENTS,
+		this.feedbackButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+			text		: Messages.LIVE_FEEDBACK,
+			cls			: 'forwardListButton',
+			badgeCls	: 'badgeicon feedbackARSnova',
+			handler		: function() {
+				var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+				tabPanel.setActiveItem(tabPanel.feedbackTabPanel, "slide");
+			}
+		});
+		
+		this.preparationQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+			text		: Messages.PREPARATION_QUESTIONS,
+			cls			: 'forwardListButton',
+			handler		: comingSoon
+		});
+		
+		this.lectureQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+			text		: Messages.LECTURE_QUESTIONS,
 			cls			: 'forwardListButton',
 			controller	: 'Questions',
 			action		: 'listAudienceQuestions',
@@ -105,21 +136,37 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			handler		: this.buttonClicked
 		});
 		
+		this.flashcardsButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+			text		: Messages.FLASHCARDS,
+			cls			: 'forwardListButton',
+			handler		: comingSoon
+		});
+		
+		this.courseLearningProgress = Ext.create('ARSnova.view.MultiBadgeButton', {
+			text		: Messages.COURSES_LEARNING_PROGRESS,
+			cls			: 'forwardListButton',
+			handler		: comingSoon
+		});
+		
 		this.inClassItems = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			
 			items: [{
 				cls: 'gravure',
 				style: 'padding:15px 0 0',
-				html: "Session-ID: " + ARSnova.app.formatSessionID(localStorage.getItem("keyword"))
+				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(localStorage.getItem("keyword"))
 			}, {
 				xtype: 'formpanel',
 				cls	 : 'standardForm topPadding',
 				scrollable: null,
 				
 				items: [
-					this.audienceQuestionButton,
-					this.feedbackQuestionButton
+					this.feedbackButton,
+					this.feedbackQuestionButton,
+					this.preparationQuestionButton,
+					this.lectureQuestionButton,
+					this.flashcardsButton,
+					this.courseLearningProgress
 				]
 			}]
 		});
@@ -178,11 +225,49 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		
 		this.add([this.toolbar, this.inClassItems, this.inClassActions]);
 		
+		this.on('initialize', function() {
+			this.feedbackButton.setBadge([{ badgeText: '0' }]);
+		});
+		
+		this.on('activate', function() {
+			ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", this.updateFeedback, this);
+			this.displayPresenterButton();
+		});
+		this.on('deactivate', function() {
+			ARSnova.app.feedbackModel.un("arsnova/session/feedback/average", this.updateFeedback);
+		});
+		
 		this.on('destroy', this.destroyListeners);
 		
 		this.onBefore('painted', function(){
 			this.updateBadges();
 		});
+	},
+	
+	updateFeedback: function(averageFeedback) {
+		var feedbackCls;
+		switch (averageFeedback) {
+			/* 0: faster, please!; 1: can follow; 2: to fast!; 3: you have lost me */
+			case 0:
+				feedbackCls = "Medium";
+				break;
+			case 1:
+				feedbackCls = "Good";
+				break;
+			case 2:
+				feedbackCls = "Bad";
+				break;
+			case 3:
+				feedbackCls = "None";
+				break;	
+			default:
+				feedbackCls = "ARSnova";
+				break;
+		}
+		this.feedbackButton.setBadge([{ 
+			badgeText: "0", 
+			badgeCls: 'badgeicon feedback' + feedbackCls 
+		}]);
 	},
 	
 	buttonClicked: function(button){
@@ -221,7 +306,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 						var numAnswers = parseInt(response.responseText);
 						
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
-						var audienceQuestionButton = panel.audienceQuestionButton;
+						var audienceQuestionButton = panel.lectureQuestionButton;
 						
 						audienceQuestionButton.setBadge([
 											{badgeText: numQuestions, badgeCls: "greybadgeicon"},
@@ -263,5 +348,27 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				console.log('server-side error');
 			}
 		});
+	},
+	
+	presenterHandler: function() {
+		window.open(ARSnova.app.PRESENTER_URL + "#!/" + localStorage.getItem('keyword'), "_self");
+	},
+	
+	/**
+	 * Displays the showcase button if enough screen width is available
+	 */
+	displayPresenterButton: function() {
+		/* iPad does not swap screen width and height values in landscape orientation */
+		if (screen.availWidth >= 980 || screen.availHeight >= 980) {
+			this.presenterButton.show();
+		} else if (window.innerWidth >= 480) {
+			this.presenterButton.hide();
+		} else {
+			this.presenterButton.hide();
+		}
+	},
+	
+	onOrientationChange: function(panel, orientation, width, height) {
+		this.displayPresenterButton();
 	}
 });

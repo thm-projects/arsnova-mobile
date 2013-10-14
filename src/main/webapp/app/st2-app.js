@@ -21,15 +21,17 @@
 
 Ext.application({
 	
-	requires: ['ARSnova.proxy.RestProxy', 'ARSnova.WebSocket'],
+	requires: ['ARSnova.BrowserSupport', 'ARSnova.proxy.RestProxy', 'ARSnova.WebSocket'],
 
 	startupImage: {
-		'320x460': 'resources/images/ARSnova_Grafiken/03_Launchimage_320x460px.png', // iPhone
-		'768x1004' : 'resources/images/ARSnova_Grafiken/03_Launchimage_768x1004px.png', // iPad (portrait)
-		'748x1024' : 'resources/images/ARSnova_Grafiken/03_Launchimage_748x1024px.png' // iPad (landscape)
+		'320x460' : 'resources/images/ARSnova_Grafiken/03_Launchimage_320x460px.png', // iPhone (3.5" non-retina)
+		'640x920' : 'resources/images/ARSnova_Grafiken/03_Launchimage_640x920px.png', // iPhone (3.5" retina)
+		'640x1096': 'resources/images/ARSnova_Grafiken/03_Launchimage_640x1096px.png', // iPhone (4" retina)
+		'768x1004': 'resources/images/ARSnova_Grafiken/03_Launchimage_768x1004px.png', // iPad (portrait)
+		'748x1024': 'resources/images/ARSnova_Grafiken/03_Launchimage_748x1024px.png' // iPad (landscape)
 	},
 	viewport: {
-        autoMaximize: Ext.os.is.iOS && Ext.browser.version.isGreaterThan(3)
+        autoMaximize: Ext.os.is.iOS && !Ext.browser.is.webview && Ext.browser.version.isGreaterThan(3) && Ext.browser.version.isLessThan(7)
     },
 	icon: {
 		57: 'resources/images/ARSnova_Grafiken/01_AppIcon_57x57px.png',
@@ -99,7 +101,6 @@ Ext.application({
     mainTabPanel: null,
     tabPanel	: null,
     loginPanel	: null,
-    loadingMask : null,
     taskManager	: null,
     previousActiveItem: null,
     
@@ -148,8 +149,10 @@ Ext.application({
 	 */
 	updateSessionActivityTask: {
 		name: 'save that owner of a session is logged in',
-		run: function(){
-			ARSnova.app.restProxy.updateSessionActivityTask();
+		run: function() {
+			if (localStorage.getItem('keyword')) {
+				ARSnova.app.restProxy.updateSessionActivityTask();
+			}
 		},
 		interval: 180000 //180 seconds
 	},
@@ -191,11 +194,9 @@ Ext.application({
 				}
 			}, false);
 		}, false);
-    	
-		// if (!this.checkWebKit()) return;
-		if (!this.checkLocalStorage()) return;
-		this.checkEstudyURL();
-		this.setupAppStatus();
+		
+		this.checkLocalStorage();
+		this.checkBrowser();
 		
 		taskManager = new Ext.util.TaskRunner();
 		
@@ -208,27 +209,10 @@ Ext.application({
 			this.checkPreviousLogin();
 		}
 	},
-
-	setupAppStatus: function() {
-		this.appStatus = (navigator.device == null) ? this.WEBAPP : this.NATIVE;
+	
+	initSocket: function() {
+		this.socket = Ext.create('ARSnova.WebSocket');
 	},
-    
-    initSocket: function() {
-    	this.socket = Ext.create('ARSnova.WebSocket');
-    },
-    
-    /**
-     * check browser-engine
-     */
-    checkWebKit: function() {
-        var result = /AppleWebKit\/([\d.]+)/.exec(navigator.userAgent);
-        if (!result) {
-        	alert(Messages.SUPPORTED_BROWSERES);
-        	return false;
-        } else {
-        	return true;
-        }
-    },
 	
 	/**
 	 * after user has logged in
@@ -267,28 +251,6 @@ Ext.application({
     	else
     		return true;
     },
-    
-    getGetVariable: function(variable){
-    	HTTP_GET_VARS = new Array();
-    	strGET = document.location.search.substr(1,document.location.search.length);
-    	if(strGET != ''){
-    	    gArr = strGET.split('&');
-    	    for(i = 0; i < gArr.length; ++i){
-    	        v = '';
-    	        vArr = gArr[i].split('=');
-    	        if(vArr.length > 1){
-    	        	v = vArr[1];
-    	        }
-    	        HTTP_GET_VARS[unescape(vArr[0])] = unescape(v);
-	        }
-	    }
-    	
-    	if(!HTTP_GET_VARS[variable]){
-    		return 'undefined';
-    	} else {
-			return HTTP_GET_VARS[variable];
-    	}
-    },
 	
 	checkPreviousLogin: function(){
 		var isLocalStorageUninitialized = localStorage.getItem('role') == null
@@ -303,42 +265,37 @@ Ext.application({
 		ARSnova.app.afterLogin();
 	},
 
-    setWindowTitle: function(){
+	setWindowTitle: function() {
 		switch (ARSnova.app.userRole) {
 			case ARSnova.app.USER_ROLE_SPEAKER:
-				window.document.title = "ARSnova: Dozent/in";
+				window.document.title = "ARSnova: " + Messages.SPEAKER;
 				break;
 			case ARSnova.app.USER_ROLE_STUDENT:
-				window.document.title = "ARSnova: Zuhörer/in";
+				window.document.title = "ARSnova: " + Messages.STUDENT;
 				break;
 			default:
 				window.document.title = "ARSnova";
 				break;
 		}
-    },
-    
-    /**
-     * Wrapper for an invidivudal LoadMask
-     */
-    showLoadMask: function(message){
-    	this.loadingMask = new Ext.LoadMask({
-    		message: message || ""
-    	});
-    	Ext.Viewport.add(this.loadingMask);
-    	this.loadingMask.show();
-    	setTimeout("ARSnova.app.hideLoadMask()", 5000); // hide this mask after 5 seconds automatically
-    },
-    
-    /**
-     * Wrapper for an invidivudal LoadMask
-     */
-    hideLoadMask: function(){
-    	if(this.loadingMask){
-    		clearTimeout("ARSnova.app.hideLoadMask()", 5000);
-    		this.loadingMask.hide();
-	    	this.loadingMask.destroy();
-    	}
-    },
+	},
+	
+	/**
+	 * Wrapper for an invidivudal LoadMask
+	 */
+	showLoadMask: function(message, duration) {
+		var minimumDuration = 500;
+		var loadingMask = new Ext.LoadMask({
+			message: message || ""
+		});
+		Ext.Viewport.add(loadingMask);
+		loadingMask.show();
+		var hideLoadMask = Ext.Function.createDelayed(function() {
+			loadingMask.hide();
+			loadingMask.destroy();
+		}, minimumDuration);
+		Ext.defer(hideLoadMask, (duration || 5000) - minimumDuration);
+		return hideLoadMask;
+	},
     
     /**
      * clear local storage
@@ -358,20 +315,11 @@ Ext.application({
         }
         return true;
     },
-    
-    /**
-     * for correct protocol, if arsnova is called inside estudy
-     */
-    checkEstudyURL: function(){
-    	if (window.location.host.indexOf("estudy") != -1 && window.location.protocol == "http:"){
-    		window.location = "https://" + window.location.hostname + "/arsnova";
-    	}
-    },
-    
-    /**
-     * make localStorage ready 
-     */
-    checkLocalStorage: function(){
+	
+	/**
+	 * make localStorage ready 
+	 */
+	checkLocalStorage: function(){
 		if (localStorage.getItem('lastVisitedSessions') == null){
 			localStorage.setItem('lastVisitedSessions', "[]");
 		}
@@ -391,11 +339,20 @@ Ext.application({
 		if (localStorage.getItem('session')) {
 			localStorage.removeItem('session');
 		}
-    	
+		
 		localStorage.setItem('sessionId', "");
 		return true;
-    },
-    
+	},
+	
+	checkBrowser: function() {
+		var support = Ext.create('ARSnova.BrowserSupport');
+		support.isBrowserSupported(function updateRequired(browserName, requiredVersion) {
+			alert(Messages.UPDATE_BROWSER_MESSAGE.replace(/###/, browserName));
+		}, function browserUnsupported(requiredBrowsers) {
+			alert(Messages.BROWSER_NOT_SUPPORTED_MESSAGE.replace(/###/, requiredBrowsers.join(", ")));
+		});
+	},
+
     formatSessionID: function(sessionID){
 		var tmp = [];
 		for(var i = 0; i < sessionID.length; i++){

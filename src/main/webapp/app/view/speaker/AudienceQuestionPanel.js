@@ -20,6 +20,8 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	extend: 'Ext.Panel',
+	
+	requires: ['ARSnova.view.speaker.AudienceQuestionListItem', 'ARSnova.view.speaker.MultiQuestionStatusButton'],
 
 	config: {
 		title: 'AudienceQuestionPanel',
@@ -45,7 +47,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		name: 'refresh the number of answers inside the badges',
 		run: function() {
 			var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.audienceQuestionPanel;
-			panel.getQuestionAnswers.call(panel);
+			panel.handleAnswerCount();
 		},
 		interval: 10000 //10 seconds
 	},
@@ -58,10 +60,16 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			sorters: 'text',
 			grouper: {
 		         groupFn: function(record) {
-		        	 return record.get('subject');
+		        	 return Ext.util.Format.htmlEncode(record.get('subject'));
 		         }
 		     }
 		});
+		
+		var styling = {
+			marginLeft:  '12px',
+			marginRight: '12px',
+			backgroundColor: 'transparent'
+		};
 
 		this.questionList = Ext.create('Ext.List', {
 			activeCls: 'search-item-active',
@@ -70,15 +78,14 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			scrollable: { disabled: true },
 			hidden: true,
 			
-			style: {
-				marginLeft:  '12px',
-				marginRight: '12px',
-				backgroundColor: 'transparent'
-			},
+			style: styling,
+			
+			useSimpleItems: false,
+			defaultType: 'audiencequestionlistitem',
 
 			itemCls: 'forwardListButton',
-			itemTpl: '<tpl if="active"><div class="isActive buttontext noOverflow">{text}</div></tpl>' +
-					 '<tpl if="!active"><div class="buttontext noOverflow">{text}</div></tpl>' +
+			itemTpl: '<tpl if="active"><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
+					 '<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
 					 '<div class="x-list-item x-hasbadge">' +
 					 '<tpl if="numAnswers &gt; 0"><span class="redbadgeicon badgefixed">{numAnswers}</span></tpl></div>',
 			grouped: true,
@@ -90,20 +97,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 						question	: list.getStore().getAt(index).data
 					});
 				},
-				updatedata: function(list, newData ) {
-					var allJax = MathJax.Hub.getAllJax(list.id);
-					if (allJax.length === 0) {
-						MathJax.Hub.Queue(["Typeset", MathJax.Hub, list.id]);
-					} else {
-						for (var i=0, jax; jax = allJax[i]; i++) {
-							MathJax.Hub.Queue(["needsUpdate", jax], function() {
-								console.log(arguments);
-							});
-						}
-					}
-				},
 		        initialize: function (list, eOpts){
-		            var me = this;
+		            var me = list;
 		            if (typeof me.getItemMap == 'function'){
 		                me.getScrollable().getScroller().on('refresh',function(scroller,eOpts){
 		                	var itemsHeight = me.getItemHeight() * me.itemsCount;
@@ -151,14 +146,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			}
 		});
 		
-		this.presenterButton = Ext.create('Ext.Button', {
-			cls		: "thm",
-			text	: Messages.PRESENTER,
-			hidden	: true,
-			scope	: this,
-			handler	: this.presenterHandler
-		});
-		
 		this.showcaseButton = Ext.create('Ext.Button', {
 			cls		: "thm",
 			text	: Messages.SHOWCASE,
@@ -174,6 +161,83 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			handler: this.showcaseHandler
 		};
 		
+		this.caption = Ext.create('ARSnova.view.Caption', {
+			translation: {
+				active: Messages.OPEN_QUESTION,
+				inactive: Messages.CLOSED_QUESTION
+			},
+			style: styling,
+			hidden: true
+		});
+		this.caption.connectToStore(this.questionStore);
+		
+		this.questionStatusButton = Ext.create('ARSnova.view.speaker.MultiQuestionStatusButton', {
+			hidden: true,
+			questionStore: this.questionList.getStore()
+		});
+		
+		this.deleteAnswersButton = Ext.create('Ext.Panel', {
+			cls: 'threeButtons left',
+			hidden: true,
+			items: [{
+				xtype	: 'button',
+				text	: ' ',
+				cls		: 'recycleIcon',
+				scope	: this,
+				handler	: function() {
+					Ext.Msg.confirm(Messages.DELETE_ALL_ANSWERS_REQUEST, Messages.ALL_QUESTIONS_REMAIN, function(answer) {
+						if (answer == 'yes') {
+							var promises = [];
+							this.questionList.getStore().each(function(item) {
+								var promise = new RSVP.Promise();
+								ARSnova.app.questionModel.deleteAnswers(item.getId(), {
+									success: function() {
+										promise.resolve();
+									},
+									failure: function(response) {
+										promise.reject();
+									}
+								});
+								promises.push(promise);
+							});
+							RSVP.all(promises).then(Ext.bind(this.handleAnswerCount, this));
+						}
+					}, this);
+				}
+			}, {
+				html: Messages.DELETE_ANSWERS,
+				cls	: 'centerTextSmall'
+			}]
+		});
+		
+		this.deleteQuestionsButton = Ext.create('Ext.Panel', {
+			cls: 'threeButtons left',
+			hidden: true,
+			items: [{
+				xtype	: 'button',
+				text	: ' ',
+				cls		: 'deleteIcon',
+				scope	: this,
+				handler	: function() {
+					var msg = Messages.ARE_YOU_SURE;
+						msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
+					Ext.Msg.confirm(Messages.DELETE_ALL_QUESTIONS, msg, function(answer) {
+						if (answer == 'yes') {
+							ARSnova.app.questionModel.destroyAll(localStorage.getItem("keyword"), {
+								success: Ext.bind(this.onActivate, this),
+								failure: function() {
+									console.log("could not delete the questions.");
+								}
+							});
+						}
+					}, this);
+				}
+			}, {
+				html: Messages.DELETE_ALL_QUESTIONS,
+				cls	: 'centerTextSmall'
+			}]
+		});
+		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.QUESTIONS,
 			ui: 'light',
@@ -181,7 +245,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			items: [
 		        this.backButton,
 		        {xtype: 'spacer'},
-		        this.presenterButton,
 		        this.showcaseButton
 			]
 		});
@@ -190,7 +253,15 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		    this.toolbar, 
 		    this.controls,
 			this.questionTitle,
-			this.questionList
+			this.questionList,
+			this.caption,
+			Ext.create('Ext.Panel', {
+				scrollable: null,
+				style	: {
+					marginTop: '30px'
+				},
+				items: [this.questionStatusButton, this.deleteAnswersButton, this.deleteQuestionsButton]
+			})
 		]);
 		
 		this.on('activate', this.onActivate);
@@ -211,17 +282,25 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			success: Ext.bind(function(response) {
 				var questions = Ext.decode(response.responseText);
 				this.questionStore.add(questions);
-				this.getQuestionAnswers();
+				this.caption.show();
+				this.caption.explainStatus(questions);
+				this.handleAnswerCount();
 				
 				this.controls.insert(0, this.showcaseFormButton);
 				this.displayShowcaseButton();
 				this.questionTitle.show();
 				this.questionList.show();
+				this.questionStatusButton.checkInitialStatus();
+				this.questionStatusButton.show();
+				this.deleteQuestionsButton.show();
 			}, this),
 			empty: Ext.bind(function() {
 				this.showcaseButton.hide();
 				this.questionTitle.hide();
 				this.questionList.show();
+				this.caption.hide();
+				this.questionStatusButton.hide();
+				this.deleteQuestionsButton.hide();
 			}, this),
 			failure: function(response) {
 				console.log('server-side error questionModel.getSkillQuestions');
@@ -244,13 +323,10 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		/* iPad does not swap screen width and height values in landscape orientation */
 		if (screen.availWidth >= 980 || screen.availHeight >= 980) {
 			this.showcaseButton.hide();
-			this.presenterButton.show();
 		} else if (window.innerWidth >= 480) {
 			this.showcaseButton.show();
-			this.presenterButton.hide();
 		} else {
 			this.showcaseButton.hide();
-			this.presenterButton.hide();
 		}
 	},
 	
@@ -259,32 +335,48 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		sTP.animateActiveItem(sTP.newQuestionPanel, 'slide');
 	},
 	
-	presenterHandler: function() {
-		window.open(ARSnova.app.PRESENTER_URL + "#!/" + localStorage.getItem('keyword'), "_self");
-	},
-	
 	showcaseHandler: function() {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.animateActiveItem(sTP.showcaseQuestionPanel, {
-			type		: 'slide',
-			direction	: 'up'
+			type		: 'slide'
 		});
 	},
 	
 	getQuestionAnswers: function() {
-		var getAnswerCount = function(questionRecord) {
+		var getAnswerCount = function(questionRecord, promise) {
 			ARSnova.app.questionModel.countAnswersByQuestion(localStorage.getItem("keyword"), questionRecord.get('_id'), {
 				success: function(response) {
-					questionRecord.set('numAnswers', Ext.decode(response.responseText));
+					var numAnswers = Ext.decode(response.responseText);
+					questionRecord.set('numAnswers', numAnswers);
+					promise.resolve({
+						hasAnswers: numAnswers > 0
+					});
 				},
 				failure: function() {
 					console.log("Could not update answer count");
+					promise.reject();
 				}
 			});
 		};
 		
+		var promises = [];
 		this.questionStore.each(function(questionRecord) {
-			getAnswerCount(questionRecord);
+			var promise = new RSVP.Promise();
+			getAnswerCount(questionRecord, promise);
+			promises.push(promise);
 		}, this);
+		
+		return promises;
+	},
+	
+	handleAnswerCount: function() {
+		RSVP.all(this.getQuestionAnswers())
+		.then(Ext.bind(this.caption.explainBadges, this.caption))
+		.then(Ext.bind(function(badgeInfos) {
+			var hasAnswers = badgeInfos.filter(function(item) {
+				return item.hasAnswers;
+			}, this);
+			this.deleteAnswersButton.setHidden(hasAnswers.length === 0);
+		}, this));
 	}
 });

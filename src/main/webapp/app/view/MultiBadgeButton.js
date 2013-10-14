@@ -21,8 +21,36 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 	extend: 'Ext.Button',
 	alias: 'x-multibadgebutton',
 	
-	config: {
-		multiBadges: new Array()
+	multiBadges: [],
+	
+	updateBadgeText: function(badges) {
+		if (badges && !Ext.isArray(badges)) {
+			return this.callParent(arguments);
+		}
+		this.setBadge(badges);
+	},
+	
+	/**
+	 * This is copied from Ext.Component, and it is needed whenever this button is recreated based on its config.
+	 * The 'innerHtmlElement', however, causes the button's text to disappear. That's why we simply hide the
+	 * element.
+	 */
+	getInnerHtmlElement: function() {
+		var innerHtmlElement = this.innerHtmlElement,
+		styleHtmlCls = this.getStyleHtmlCls();
+		
+		if (!innerHtmlElement || !innerHtmlElement.dom || !innerHtmlElement.dom.parentNode) {
+			this.innerHtmlElement = innerHtmlElement = this.innerElement.createChild({
+				cls: 'x-innerhtml ',
+				style: { display:'none' }
+			});
+			
+			if (this.getStyleHtmlContent()) {
+				this.innerHtmlElement.addCls(styleHtmlCls);
+				this.innerElement.removeCls(styleHtmlCls);
+			}
+		}
+		return innerHtmlElement;
 	},
 	
 	/**
@@ -40,13 +68,11 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 		}
 		me.config.badgeText = badges;
 		
-		if (!me.rendered) return me;
-		
-		me.config.multiBadges.forEach(function(item) {
+		me.multiBadges.forEach(function(item) {
 			item.destroy();
 		});
 		me.element.removeCls(me._hasBadgeCls);
-		me.config.multiBadges = [];
+		me.multiBadges = [];
 		
 		badges.forEach(function(item) {
 			if (!!item.badgeText) {
@@ -55,18 +81,18 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 					cls: item.badgeCls || me.config.badgeCls,
 					html: item.badgeText
 				});
-				me.config.multiBadges.push(aBadge);
+				me.multiBadges.push(aBadge);
 			}
 		});
 
-		if (me.config.multiBadges.length > 1) {
+		if (me.multiBadges.length > 1) {
 			// Use special badge class on all but the last badge. The class sticks the badges together but leaves
 			// enough space for the last (right most) badge.
 			var index = 1;
-			var sp = me.config.multiBadges.splice(0, me.config.multiBadges.length-1);
+			var sp = me.multiBadges.splice(0, me.multiBadges.length-1);
 			sp.forEach(function(item) {
 				item.addCls("withdoublebadge");
-				me.config.multiBadges.splice(index++, 1, item);
+				me.multiBadges.splice(index++, 1, item);
 			});
 		}
 		me.element.addCls(me._hasBadgeCls);

@@ -76,14 +76,14 @@ Ext.define("ARSnova.controller.Auth", {
 	login: function(options) {
 		ARSnova.app.loginMode = options.mode;
 		localStorage.setItem('loginMode', options.mode);
-		var type = "";
+		var type = "", role = "STUDENT";
 		switch(options.mode){
 			case ARSnova.app.LOGIN_GUEST:
 				if (localStorage.getItem('login') === null) {
 					localStorage.setItem('login', ARSnova.app.authModel.generateGuestName());
 					type = "guest";
 				} else {
-					type = "guest&name=" + localStorage.getItem('login');
+					type = "guest&user=" + localStorage.getItem('login');
 				}
 				break;
 			case ARSnova.app.LOGIN_THM:
@@ -110,8 +110,11 @@ Ext.define("ARSnova.controller.Auth", {
 				return;
 				break;
 		}
-		if(type != "") {
-			return window.location = "doLogin?type=" + type;
+		if (type != "") {
+			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
+				role = "SPEAKER";
+			}
+			return window.location = "auth/login?type=" + type + "&role=" + role;
 		}
 		
 		ARSnova.app.afterLogin();
@@ -129,7 +132,6 @@ Ext.define("ARSnova.controller.Auth", {
 				ARSnova.app.checkPreviousLogin();
 			}
 		});
-		
 	},
 
     logout: function(){
@@ -159,6 +161,11 @@ Ext.define("ARSnova.controller.Auth", {
     		localStorage.removeItem('login');
     		window.location = "https://cas.thm.de/cas/logout?url=http://" + window.location.hostname + window.location.pathname + "#auth/doLogout";
     	} else {
+    		Ext.Ajax.request({
+    			url: 'auth/logout',
+    			method: 'GET',
+    			success: function(response){}
+    		});
     		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
     			type: 'slide',
     			direction: 'right'

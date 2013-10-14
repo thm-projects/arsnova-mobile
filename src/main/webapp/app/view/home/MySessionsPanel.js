@@ -125,7 +125,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	loadCreatedSessions: function() {
 		var me = this;
 
-		ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
+		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
 		ARSnova.app.sessionModel.getMySessions({
 			success: function(response) {
 				var sessions = Ext.decode(response.responseText);
@@ -146,8 +146,8 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					var status = "";
 					var course = " defaultsession";
 
-					if (session.active && session.active == 1) {
-						status = " isActive";
+					if (!session.active) {
+						status = " isInactive";
 					}
 
 					if (session.courseId && session.courseId.length > 0) {
@@ -158,38 +158,42 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					var displaytext = window.innerWidth > 481 ? session.name : session.shortName; 
 					var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 						ui			: 'normal',
-						text		: displaytext,
+						text		: Ext.util.Format.htmlEncode(displaytext),
 						cls			: 'forwardListButton' + status + course,
 						sessionObj	: session,
 						handler		: function(options){
-							ARSnova.app.showLoadMask("Login...");
+							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
 							ARSnova.app.getController('Sessions').login({
 								keyword		: options.config.sessionObj.keyword
 							});
+							hideLoadMask();
 						}
 					});
 					badgePromises.push(me.updateBadges(session._id, session.keyword, sessionButton));
 					panel.createdSessionsFieldset.add(sessionButton);
 				}
 				RSVP.all(badgePromises).then(Ext.bind(caption.explainBadges, caption));
-				caption.explainSessionStatus(sessions);
+				caption.explainStatus(sessions);
 				
 				panel.createdSessionsFieldset.add(caption);
 				panel.sessionsForm.add(panel.createdSessionsFieldset);
+				hideLoadMask();
     		},
 			empty: Ext.bind(function() {
+				hideLoadMask();
 				this.sessionsForm.hide();
 			}, this),
 			unauthenticated: function() {
+				hideLoadMask();
 				ARSnova.app.getController('Auth').login({
 					mode: ARSnova.app.loginMode
 				});
 			},
     		failure: function() {
+    			hideLoadMask();
     			console.log("my sessions request failure");
     		}
     	}, (window.innerWidth > 481 ? 'name' : 'shortname'));
-		ARSnova.app.hideLoadMask();
 	},
 	
 	updateBadges: function(sessionId, sessionKeyword, button) {

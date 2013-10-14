@@ -47,7 +47,12 @@ if(lang != null) {
 
 switch (lang) {
 	case 'en':case 'en-en':case 'en-us':case 'en-gb':
+		moment.lang('en');
 		Messages = {
+			BROWSER_NOT_SUPPORTED_MESSAGE: "Please use one of the following officially supported browsers: ###.",
+			UPDATE_BROWSER_MESSAGE: "Please update your ### browser in order to use ARSnova.",
+			FEATURE_COMING_SOON: "This feature will be available soon.",
+			
 			/* rolePanel */
 			CHOOSE_ROLE: "Choose your role:",
 			STUDENT: "Student",
@@ -72,6 +77,8 @@ switch (lang) {
 			LEGEND: "Legend",
 			OPEN_SESSION: "Open Session",
 			CLOSED_SESSION: "Closed Session",
+			CONFIRM_CLOSE_SESSION: "Are you sure to close the session?",
+			CONFIRM_CLOSE_SESSION_MESSAGE: "If you close this session, only students currently online will be able to participate.",
 			
 			/* LOAD MASK */
 			LOAD_MASK: "Loading...",
@@ -106,6 +113,7 @@ switch (lang) {
 			/* feedback */
 			FEEDBACK: "Feedback",
 			MY_FEEDBACK: "My feedback",
+			GIVE_FEEDBACK: "Give feedback",
 			FEEDBACK_GOOD: "Faster, please!",
 			FEEDBACK_OKAY: "I can follow you.",
 			FEEDBACK_BAD: "Slower, please!",
@@ -120,7 +128,7 @@ switch (lang) {
 			QUESTION_SUBJECT: "Subject",
 			QUESTION_SUBJECT_PLACEHOLDER: "max. 140 characters",
 			QUESTION_SAVED: 'Your question has been saved.',
-			NOTIFICATION: "Notice!",
+			NOTIFICATION: "Notice",
 			TRANSMISSION_ERROR: "The question's transmission was unsuccessful.",
 			QUESTION_CREATION_ERROR: "Failed creating the question.",
 			ANSWER_CREATION_ERROR: "Your answer could not be saved.",
@@ -167,20 +175,41 @@ switch (lang) {
 			QUESTION_SINGLE_CHOICE_SHORT: "ABCD",
 			QUESTION_FREETEXT: "Free text",
 			QUESTION_FREETEXT_SHORT: "Text",
-			
+			OPEN_QUESTION: "Open Question",
+			CLOSED_QUESTION: "Closed Question",
+			CONFIRM_CLOSE_QUESTION: "Are you sure to close this question?",
+			CONFIRM_CLOSE_ALL_QUESTIONS: "Are you sure to close all questions?",
+			CONFIRM_CLOSE_QUESTION_MESSAGE: "If you close this question, students will not be able to view or answer this question.",
+			CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE: "If you close all questions, students will not be able to view or answer any question.",
 			
 			
 			/* user */
 			CHECK_ANSWERS: "Checking answers",
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
 			QUESTIONS_FROM_STUDENTS: "Students' questions",
+			PREPARATION_QUESTIONS: "Preparation questions",
+			LECTURE_QUESTIONS: "Lecture questions",
+			FLASHCARD_SHORT: "FC",
 			FLASHCARDS: "Flashcards",
+			FLASHCARD: "Flashcard",
 			ONE_NEW_QUESTION: 'There is one new question.',
 			WANNA_ANSWER: 'Would you like to answer now?',
 			THERE_ARE: "There are",
 			NEW_QUESTIONS: "new questions.",
+			MY_QUESTIONS: "My Questions",
+			MY_LEARNING_PROGRESS: "My Progress",
+			LEARN: "Learn",
+			LEARN_WITH_SELECTION: "Learn with selection",
+			UNANSWERED_QUESTIONS: "Open Questions",
+			PREPARATION: "Preparation",
+			LECTURE: "Lecture",
+			RESET_ALL_ANSWERS: "Reset all answers",
+			SHOW_FLASHCARD_ANSWER: "Show answer",
+			HIDE_FLASHCARD_ANSWER: "Hide answer",
 
 			/* speaker */
+			LIVE_FEEDBACK: "Live feedback",
+			COURSES_LEARNING_PROGRESS: "Course's progress",
 			NEW_QUESTION: "New question",
 			NEW_QUESTION_TITLE: "Question",
 			AH_HOC_QUESTION: "Instant question",
@@ -213,14 +242,19 @@ switch (lang) {
 			STATISTIC: "Statistics",
 			RELEASE_STATISTIC: "Release statistics",
 			RELEASE_QUESTION: "Release question",
+			RELEASE_ALL_QUESTIONS: "Release questions",
 			STOP_QUESTION: "Lock question",
+			STOP_ALL_QUESTIONS: "Lock questions",
 			START_SESSION: "Open session",
 			STOP_SESSION: "Lock session",
 			MARK_CORRECT_ANSWER: "Mark correct answer",
 			DELETE_QUESTION: "Delete question",
+			DELETE_ALL_QUESTIONS: "Delete questions",
 			DELETE_ANSWERS: "Delete answers",
 			DELETE_ANSWERS_REQUEST: "Delete answers?",
+			DELETE_ALL_ANSWERS_REQUEST: "Delete all answers?",
 			QUESTION_REMAINS: "The question itself stays unaffected.",
+			ALL_QUESTIONS_REMAIN: "The questions themselves stay unaffected.",
 			DELETE_ALL_ANSWERS_INFO: "This will also delete all previously given answers.",
 			CHANGE_RELEASE: "Changing the release...",
 			TYPE: 'Type',
@@ -230,14 +264,16 @@ switch (lang) {
 			MINUTE: "Minute",
 			MINUTES: "Minutes",
 			BACK: "Back",
+			SAVE_AND_CONTINUE: "Save and Continue",
 			
 			/* question types */
-			EVALUATION: "Rating",
-			SCHOOL: "Grades",
+			EVALUATION: "Likert",
+			SCHOOL: "Grade",
 			MC: "MC",
-			YESNO: "Y/N",
-			ABCD: "ABCD",
-			FREETEXT: "Text",
+			YESNO: "YN",
+			ABCD: "SC",
+			FREETEXT: "Txt",
+			BUZZWORD: "Buzzword for",
 			BUZZWORD_A: "Buzzword for A",
 			BUZZWORD_B: "Buzzword for B",
 			BUZZWORD_C: "Buzzword for C",
@@ -278,19 +314,35 @@ switch (lang) {
 			CAS: "Single Sign-On: CAS",
 			COUCHDB: "NoSQL Database: CouchDB",
 			XEN: "Virtualization: Xen",
-			DEBIAN: "Operating System: Debian",	
+			DEBIAN: "Operating System: Debian",
+			
+			/* errors */
+			SESSION_NOT_FOUND: "This session does not seem to exist.",
+			SESSION_LOCKED: "This session is currently locked.",
+			CONNECTION_PROBLEM: "The connection to the server has failed.",
+			SESSION_ID_INVALID_LENGTH: "The Session ID has to be exactly 8 digits.",
+			SESSION_ID_INVALID: "The Session ID may only consist of 8 digits.",
+			BROWSER_SESSION_EXPIRED: "Browser Session Expired",
+			BROWSER_SESSION_EXPIRED_MSG: "Your current browser session is expired. Do you want to restart ARSnova?",
+			QUESTION_COULD_NOT_BE_SAVED: "Could not save question",
 
 			/* misc */
 			SUPPORTED_BROWSERES: "ARSnova is best-viewed in a WebKit browser, e.g. Apple Safari or Google Chrome!",
 			NEW_VERSION_TITLE: "New Version",
 			NEW_VERSION_AVAILABLE: "A new version of ARSnova is available. Do you want to update?",
 			PRESENTER: "Presenter",
-			UNI: "Uni"
+			UNI: "Uni",
+			SESSION_ID: "Session ID"
 		};
 	
 		break;
 	default:
+		moment.lang('de');
 		Messages = {
+			BROWSER_NOT_SUPPORTED_MESSAGE: "Bitte verwenden Sie einen der folgenden Browser für ARSnova: ###.",
+			UPDATE_BROWSER_MESSAGE: "Bitte aktualisieren Sie Ihren ###-Browser, um ARSnova verwenden zu können.",
+			FEATURE_COMING_SOON: "Feature kommt in Kürze.",
+			
 			/* rolePanel */
 			CHOOSE_ROLE: "Wählen Sie Ihre Rolle:",
 			STUDENT: "Zuhörer/in",
@@ -315,6 +367,8 @@ switch (lang) {
 			LEGEND: "Legende",
 			OPEN_SESSION: "Offene Session",
 			CLOSED_SESSION: "Gesperrte Session",
+			CONFIRM_CLOSE_SESSION: "Session wirklich sperren?",
+			CONFIRM_CLOSE_SESSION_MESSAGE: "Wenn Sie die Session sperren, können nur noch aktuell angemeldete Zuhörer/innen teilnehmen.",
 			
 			/* LOAD MASK */
 			LOAD_MASK: "Lade Daten...",
@@ -349,6 +403,7 @@ switch (lang) {
 			/* feedback */
 			FEEDBACK: "Feedback",
 			MY_FEEDBACK: "Mein Feedback",
+			GIVE_FEEDBACK: "Feedback geben",
 			FEEDBACK_GOOD: "Bitte schneller",
 			FEEDBACK_OKAY: "Kann folgen",
 			FEEDBACK_BAD: "Zu schnell",
@@ -363,7 +418,7 @@ switch (lang) {
 			QUESTION_SUBJECT: "Betreff",
 			QUESTION_SUBJECT_PLACEHOLDER: "max. 140 Zeichen",
 			QUESTION_SAVED: 'Ihre Frage wurde gespeichert',
-			NOTIFICATION: "Hinweis!",
+			NOTIFICATION: "Hinweis",
 			TRANSMISSION_ERROR: "Die Übermittlung der Frage war leider nicht erfolgreich",
 			QUESTION_CREATION_ERROR: "Das Erstellen der Frage war leider nicht erfolgreich",
 			ANSWER_CREATION_ERROR: "Die Antwort konnte nicht gespeichert werden",
@@ -403,25 +458,48 @@ switch (lang) {
 			QUESTION_GRADE: "Schulnote",
 			QUESTION_GRADE_SHORT: "Note",
 			QUESTION_MC: "Mehrfachauswahl",
-			QUESTION_MC_SHORT: "Mehrfachausw.",
+			QUESTION_MC_SHORT: "MC",
 			QUESTION_YESNO: "Ja | Nein",
 			QUESTION_YESNO_SHORT: "Ja | Nein",
 			QUESTION_SINGLE_CHOICE: "Einfachauswahl",
-			QUESTION_SINGLE_CHOICE_SHORT: "Einfachausw.",
+			QUESTION_SINGLE_CHOICE_SHORT: "Einfach",
 			QUESTION_FREETEXT: "Freitext",
 			QUESTION_FREETEXT_SHORT: "Text",
+			OPEN_QUESTION: "Offene Frage",
+			CLOSED_QUESTION: "Gesperrte Frage",
+			CONFIRM_CLOSE_QUESTION: "Frage wirklich sperren?",
+			CONFIRM_CLOSE_ALL_QUESTIONS: "Fragen wirklich sperren?",
+			CONFIRM_CLOSE_QUESTION_MESSAGE: "Wenn Sie die Frage sperren, können Zuhörer/innen die Frage weder sehen noch beantworten.",
+			CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE: "Wenn Sie die Fragen sperren, können Zuhörer/innen die Fragen weder sehen noch beantworten.",
+			SAVE_AND_CONTINUE: 'Speichern und weiter',
 			
 			/* user */
 			CHECK_ANSWERS: "Prüfe Antworten",
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
 			QUESTIONS_FROM_STUDENTS: "Zwischenfragen",
-			FLASHCARDS: "Lernkartei",
+			PREPARATION_QUESTIONS: "Vorbereitungsfragen",
+			LECTURE_QUESTIONS: "Vorlesungsfragen",
+			FLASHCARD_SHORT: "LK",
+			FLASHCARDS: "Lernkarten",
+			FLASHCARD: "Lernkarte",
 			ONE_NEW_QUESTION: 'Es gibt 1 neue Frage.',
 			WANNA_ANSWER: 'Möchten Sie jetzt antworten?',
 			THERE_ARE: "Es gibt",
 			NEW_QUESTIONS: "neue Fragen.",
+			MY_QUESTIONS: "Meine Fragen",
+			MY_LEARNING_PROGRESS: "Mein Lernstand",
+			LEARN: "Lernen",
+			LEARN_WITH_SELECTION: "Mit Auswahl lernen",
+			UNANSWERED_QUESTIONS: "Offene Fragen",
+			PREPARATION: "Vorbereitung",
+			LECTURE: "Vorlesung",
+			RESET_ALL_ANSWERS: "Alle Antworten zurücksetzen",
+			SHOW_FLASHCARD_ANSWER: "Antwort anzeigen",
+			HIDE_FLASHCARD_ANSWER: "Antwort ausblenden",
 			
 			/* speaker */
+			LIVE_FEEDBACK: "Live-Feedback",
+			COURSES_LEARNING_PROGRESS: "Lernstand des Kurses",
 			NEW_QUESTION: "Neue Frage stellen",
 			NEW_QUESTION_TITLE: "Frage",
 			AH_HOC_QUESTION: 'Frage<br>stellen',
@@ -454,13 +532,18 @@ switch (lang) {
 			STATISTIC: "Statistik",
 			RELEASE_STATISTIC: "Statistik freigeben",
 			RELEASE_QUESTION: "Frage freigeben",
+			RELEASE_ALL_QUESTIONS: "Fragen freigeben",
 			STOP_QUESTION: "Frage sperren",
+			STOP_ALL_QUESTIONS: "Fragen sperren",
 			START_SESSION: "Session freigeben",
 			STOP_SESSION: "Session<br>sperren",
 			MARK_CORRECT_ANSWER: "Richtig markieren",
 			DELETE_QUESTION: "Frage löschen",
+			DELETE_ALL_QUESTIONS: "Fragen löschen",
 			DELETE_ANSWERS: "Antworten löschen",
 			DELETE_ANSWERS_REQUEST: "Antworten löschen?",
+			DELETE_ALL_ANSWERS_REQUEST: "Alle Antworten löschen?",
+			ALL_QUESTIONS_REMAIN: "Alle Fragen bleiben erhalten.",
 			QUESTION_REMAINS: "Die Frage bleibt erhalten.",
 			DELETE_ALL_ANSWERS_INFO: "Es werden auch alle bisher gegebenen Antworten gelöscht.",
 			CHANGE_RELEASE: "Ändere die Freigabe...",
@@ -473,12 +556,13 @@ switch (lang) {
 			BACK: "Zurück",
 			
 			/* question types */
-			EVALUATION: "Rating",
+			EVALUATION: "Likert",
 			SCHOOL: "Note",
 			MC: "MC",
 			YESNO: "J/N",
-			ABCD: "ABCD",
-			FREETEXT: "Text",
+			ABCD: "SC",
+			FREETEXT: "Txt",
+			BUZZWORD: "Schlagwort für",
 			BUZZWORD_A: "Schlagwort für A",
 			BUZZWORD_B: "Schlagwort für B",
 			BUZZWORD_C: "Schlagwort für C",
@@ -521,12 +605,23 @@ switch (lang) {
 			XEN: "Virtualisierung: Xen",
 			DEBIAN: "Betriebssystem: Debian",
 			
+			/* errors */
+			SESSION_NOT_FOUND: "Diese Session existiert nicht.",
+			SESSION_LOCKED: "Die Session ist derzeit gesperrt.",
+			CONNECTION_PROBLEM: "Die Verbindung zum Server konnte nicht hergestellt werden",
+			SESSION_ID_INVALID_LENGTH: "Die Session-ID muss 8-stellig sein.",
+			SESSION_ID_INVALID: "Die Session-ID muss aus acht Ziffern bestehen.",
+			BROWSER_SESSION_EXPIRED: "Browsersitzung abgelaufen",
+			BROWSER_SESSION_EXPIRED_MSG: "Ihre Browsersitzung ist abgelaufen. Möchten Sie ARSnova neustarten?",
+			QUESTION_COULD_NOT_BE_SAVED: "Speichern der Frage war nicht erfolgreich",
+			
 			/* misc */
 			SUPPORTED_BROWSERES: "Für eine korrekte Darstellung von ARSnova benutzen Sie bitte einen WebKit-Browser, z.B. Apple Safari oder Google Chrome!",
 			NEW_VERSION_TITLE: "Neue Version",
 			NEW_VERSION_AVAILABLE: "Eine neue Version von ARSnova ist verfügbar. Möchten Sie aktualisieren?",
 			PRESENTER: "Presenter",
-			UNI: "Uni"
+			UNI: "Uni",
+			SESSION_ID: "Session-ID"
 	};
 	break;
 }

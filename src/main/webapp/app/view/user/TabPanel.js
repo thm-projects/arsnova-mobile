@@ -21,6 +21,8 @@
 Ext.define('ARSnova.view.user.TabPanel', {
 	extend: 'Ext.tab.Panel',
 	
+	requires: ['ARSnova.view.user.InClass', 'ARSnova.view.user.LearnPanel'],
+	
 	config: {
 		title	: Messages.SESSION,
 	
@@ -36,14 +38,12 @@ Ext.define('ARSnova.view.user.TabPanel', {
 		this.callParent(arguments);
 		
 		this.inClassPanel = Ext.create('ARSnova.view.user.InClass');
+		this.learnPanel = Ext.create('ARSnova.view.user.LearnPanel');
 		
 		this.add([
-	        this.inClassPanel
+	        this.inClassPanel,
+	        this.learnPanel
         ]);
-
-		this.on('painted', function(){
-			setTimeout("ARSnova.app.hideLoadMask()", 1000); // timeout to compensate the cardswitch animation
-		});
 	},
 	
 	renew: function(){

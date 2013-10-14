@@ -62,12 +62,16 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 	},
 	
 	changeStatus: function(){
-		if(this.isOpen){
-			/* close this session */
-			ARSnova.app.getController('Sessions').setActive({
-				active		: 0,
-				callback	: this.sessionClosedSuccessfully
-			});
+		if (this.isOpen) {
+			Ext.Msg.confirm(Messages.CONFIRM_CLOSE_SESSION, Messages.CONFIRM_CLOSE_SESSION_MESSAGE, function (buttonId) {
+				if (buttonId != "no") {
+					/* close this session */
+					ARSnova.app.getController('Sessions').setActive({
+						active		: 0,
+						callback	: this.sessionClosedSuccessfully
+					});
+				}
+			}, this);
 		} else {
 			/* open this session */
 			ARSnova.app.getController('Sessions').setActive({
