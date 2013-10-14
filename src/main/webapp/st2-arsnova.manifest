@@ -2,12 +2,12 @@ CACHE MANIFEST
 # This file gets updated automatically by the build server.
 # You do not need to bump the version of this file.
 
-lib/touch-2.2.1/sencha-touch-all-compat.js
+lib/touch-2.3.0/sencha-touch-all.js
 lib/socket.io/socket.io.min.js
 lib/rsvp.min.js
 
 resources/css/st2-arsnova_new.css
-lib/touch-2.2.1/resources/css/sencha-touch.css
+lib/touch-2.3.0/resources/css/sencha-touch.css
 
 # IMAGES
 resources/images/arsnova.png
