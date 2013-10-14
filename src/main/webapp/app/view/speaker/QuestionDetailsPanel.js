@@ -124,7 +124,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				this.hide();
 				panel.backButton.show();
 				panel.resetFields();
-				panel.editButton.setEnableAnswerEdit(false);
+				panel.editButton.config.setEnableAnswerEdit(panel, false);
 			}
 		});
 		
@@ -140,8 +140,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					this.setText(Messages.SAVE);
 					this.addCls('x-button-action');
 
-					this.enableFields();
-					this.setEnableAnswerEdit(true);
+					this.config.enableFields(panel);
+					this.config.setEnableAnswerEdit(panel, true);
 				} else {
 					panel.cancelButton.hide();
 					panel.backButton.show();
@@ -178,13 +178,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					this.setText(Messages.EDIT);
 					this.removeCls('x-button-action');
 					
-					this.disableFields();
-					this.setEnableAnswerEdit(false);
+					this.config.disableFields(panel);
+					this.config.setEnableAnswerEdit(panel, false);
 				}
 			},
 			
-			enableFields: function(){
-				var fields = this.up('panel').down('#contentFieldset').items.items;
+			enableFields: function(panel){
+				var fields = panel.getItems().items;
 				var fieldsLength = fields.length;
 
 				for(var i = 0; i < fieldsLength; i++){
@@ -205,8 +205,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				}
 			},
 			
-			disableFields: function(){
-				var fields = this.up('panel').down('#contentFieldset').items.items;
+			disableFields: function(panel){
+				var fields = panel.getItems().items;
 				var fieldsLength = fields.length;
 				
 				for ( var i = 0; i < fieldsLength; i++){
@@ -227,9 +227,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				}
 			},
 			
-			setEnableAnswerEdit: function(enable) {
-				var panel = this.up('panel');
-				
+			setEnableAnswerEdit: function(panel, enable) {
 				if (enable) {
 					panel.answerForm.hide(true);
 				} else {
