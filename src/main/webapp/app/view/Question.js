@@ -28,16 +28,15 @@ Ext.define('ARSnova.view.Question', {
 		}
 	},
 	
-	questionObj: null,
-	viewOnly: false,
-	
 	abstentionInternalId: 'ARSnova_Abstention',
 	abstentionAnswer: null,
 	
-	constructor: function() {
-		this.callParent(arguments);
+	constructor: function(args) {
+		this.callParent(args);
 		
 		var self = this; // for use inside callbacks
+		this.viewOnly = args.viewOnly;
+		this.questionObj = args.questionObj;
 		
 		var answerStore = Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
 		answerStore.add(this.questionObj.possibleAnswers);
