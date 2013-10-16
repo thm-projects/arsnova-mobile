@@ -184,11 +184,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			},
 			
 			enableFields: function(panel){
-				var fields = panel.getItems().items;
+				var fields = panel.contentFieldset.getItems().items;
 				var fieldsLength = fields.length;
 
 				for(var i = 0; i < fieldsLength; i++){
 					var field = fields[i];
+					
 					switch (field.config.label){
 						case Messages.CATEGORY:
 							field.setDisabled(false);
@@ -206,7 +207,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			},
 			
 			disableFields: function(panel){
-				var fields = panel.getItems().items;
+				var fields = panel.contentFieldset.getItems().items;
 				var fieldsLength = fields.length;
 				
 				for ( var i = 0; i < fieldsLength; i++){
