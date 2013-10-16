@@ -52,6 +52,8 @@ switch (lang) {
 			BROWSER_NOT_SUPPORTED_MESSAGE: "Please use one of the following officially supported browsers: ###.",
 			UPDATE_BROWSER_MESSAGE: "Please update your ### browser in order to use ARSnova.",
 			FEATURE_COMING_SOON: "This feature will be available soon.",
+			UNI_LOGIN_MSG: "Your University here?",
+			UNI_LOGIN_MSG_TEXT: "Would you like to use your university's account? Contact us @ <a href='http://www.transmit.de/zentren/tz.cfm?N=189' target='_blank'>transmit.de</a>.",
 			
 			/* rolePanel */
 			CHOOSE_ROLE: "Choose your role:",
@@ -145,6 +147,7 @@ switch (lang) {
 			EDIT: "Edit",
 			CANCEL: "Cancel",
 			DURATION: "Duration",
+			SUBMIT_ANSWER: "Submit answer?",
 			NO_QUESTIONS: "No questions found.",
 			NO_UNLOCKED_QUESTIONS: "There are prepared questions, but these are currently not unlocked by your teacher.",
 			LOADING_NEW_QUESTIONS: "Loading new questions.",
@@ -184,7 +187,6 @@ switch (lang) {
 			
 			
 			/* user */
-			CHECK_ANSWERS: "Checking answers",
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
 			QUESTIONS_FROM_STUDENTS: "Students' questions",
 			PREPARATION_QUESTIONS: "Preparation questions",
@@ -342,6 +344,8 @@ switch (lang) {
 			BROWSER_NOT_SUPPORTED_MESSAGE: "Bitte verwenden Sie einen der folgenden Browser für ARSnova: ###.",
 			UPDATE_BROWSER_MESSAGE: "Bitte aktualisieren Sie Ihren ###-Browser, um ARSnova verwenden zu können.",
 			FEATURE_COMING_SOON: "Feature kommt in Kürze.",
+			UNI_LOGIN_MSG: "Ihr Uni-Login an dieser Stelle?",
+			UNI_LOGIN_MSG_TEXT: "Möchten Sie Ihren hochschuleigenen Zugang verwenden? Sprechen Sie mit uns unter <a href='http://www.transmit.de/zentren/tz.cfm?N=189' target='_blank'>transmit.de</a>.",
 			
 			/* rolePanel */
 			CHOOSE_ROLE: "Wählen Sie Ihre Rolle:",
@@ -435,6 +439,7 @@ switch (lang) {
 			EDIT: "Bearbeiten",
 			CANCEL: "Abbrechen",
 			DURATION: "Dauer",
+			SUBMIT_ANSWER: "Antwort abschicken?",
 			NO_QUESTIONS: "Keine Fragen vorhanden.",
 			NO_UNLOCKED_QUESTIONS: "Es gibt vorbereitete Fragen, diese sind aber noch nicht freigeschaltet.",
 			LOADING_NEW_QUESTIONS: "Lade neue Fragen",
@@ -474,7 +479,6 @@ switch (lang) {
 			SAVE_AND_CONTINUE: 'Speichern und weiter',
 			
 			/* user */
-			CHECK_ANSWERS: "Prüfe Antworten",
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
 			QUESTIONS_FROM_STUDENTS: "Zwischenfragen",
 			PREPARATION_QUESTIONS: "Vorbereitungsfragen",

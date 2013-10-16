@@ -30,6 +30,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	/* toolbar items */
 	toolbar		: null,
 	backButton	: null,
+	chartPanel	: null,
 	questionCounter: 0,
 	
 	/* item index 0 and 1 are occupied by the carousel and toolbar. */
@@ -105,14 +106,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		this.statisticButton = Ext.create('Ext.Button', {
 			text	: ' ',
 			cls		: 'statisticIconSmall',
-			hidden	: true,
-			handler	: function() {
-				var questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
-					question: ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel._activeItem.questionObj,
-					lastPanel: this
-				});
-				ARSnova.app.mainTabPanel.animateActiveItem(questionStatisticChart, 'slide');
-			}
+			hidden	: true
 		});
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
@@ -256,9 +250,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		}
 	},
 	
-	checkAnswer: function(){
-		var hideLoadMask = ARSnova.app.showLoadMask(Messages.CHECK_ANSWERS);
-		
+	checkAnswer: function(){		
 		this.getInnerItems().forEach(function(questionPanel) {
 			var questionObj = questionPanel.questionObj;
 			if (!questionObj.userAnswered && !questionObj.isAbstentionAnswer) return;
@@ -275,8 +267,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				return;
 			}
 			
-			var list = questionPanel.down('list');
-			var data = list ? list.getStore().data : [];
+			var list = questionPanel.answerList;
+			var data = list ? list.getStore() : Ext.create('Ext.data.Store', {model:'ARSnova.model.Answer'});
 			
 			if (questionObj.questionType === 'mc') {
 				var answers = questionObj.userAnswered.split(",");
@@ -292,12 +284,10 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				list.select(selectedIndexes, true);
 				questionPanel.disableQuestion();
 			} else {
-				for (var i = 0; i < data.length; i++) {
-					if (data.items[i].data.text == questionObj.userAnswered){
-						list.select(data.items[i]);
-						questionPanel.disableQuestion();
-						break;
-					}
+				var index = data.find('text', questionObj.userAnswered);
+				if (index !== -1) {
+					list.select(data.getAt(index));
+					questionPanel.disableQuestion();
 				}
 			}
 			if (questionObj.showAnswer) {
@@ -306,7 +296,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				});
 			}
 		}, this);
-		hideLoadMask();
 	},
 	
 	/**

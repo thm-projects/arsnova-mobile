@@ -28,16 +28,15 @@ Ext.define('ARSnova.view.Question', {
 		}
 	},
 	
-	questionObj: null,
-	viewOnly: false,
-	
 	abstentionInternalId: 'ARSnova_Abstention',
 	abstentionAnswer: null,
 	
-	constructor: function() {
-		this.callParent(arguments);
+	constructor: function(args) {
+		this.callParent(args);
 		
 		var self = this; // for use inside callbacks
+		this.viewOnly = args.viewOnly;
+		this.questionObj = args.questionObj;
 		
 		var answerStore = Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
 		answerStore.add(this.questionObj.possibleAnswers);
@@ -45,11 +44,12 @@ Ext.define('ARSnova.view.Question', {
 		this.on('preparestatisticsbutton', function(button) {
 			button.scope = this;
 			button.setHandler(function() {
-				var questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
+				var panel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel || ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+				panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
 					question	: self.questionObj,
 					lastPanel	: self
 				});
-				ARSnova.app.mainTabPanel.animateActiveItem(questionStatisticChart, 'slide');
+				ARSnova.app.mainTabPanel.animateActiveItem(panel.questionStatisticChart, 'slide');
 			});
 		});
 		
@@ -83,7 +83,7 @@ Ext.define('ARSnova.view.Question', {
 		};
 		
 		this.saveMcQuestionHandler = function() {
-			Ext.Msg.confirm('', Messages.ARE_YOU_SURE, function(button) {
+			Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function(button) {
 				if (button !== 'yes') {
 					return;
 				}
@@ -107,7 +107,7 @@ Ext.define('ARSnova.view.Question', {
 		};
 		
 		this.mcAbstentionHandler = function() {
-			Ext.Msg.confirm('', Messages.ARE_YOU_SURE, function(button) {
+			Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function(button) {
 				if (button !== 'yes') {
 					return;
 				}
@@ -123,7 +123,7 @@ Ext.define('ARSnova.view.Question', {
 		var questionListener = this.viewOnly || this.questionObj.questionType === "mc" ? {} : {
 			'itemtap': function(list, index, target, record) {
 				var confirm = function(answer, handler) {
-					Ext.Msg.confirm(Messages.ANSWER + ' "' + answer + '"', Messages.ARE_YOU_SURE, handler);
+					Ext.Msg.confirm(Messages.ANSWER + ' "' + answer + '"', Messages.SUBMIT_ANSWER, handler);
 				};
 				if (record.internalId === self.abstentionInternalId) {
 					return confirm(Messages.ABSTENTION, function(button) {
@@ -170,7 +170,7 @@ Ext.define('ARSnova.view.Question', {
 			store: answerStore,
 			
 			cls: 'roundedBox',
-			
+			variableHeights: true,	
 			scrollable: { disabled: true },
 			
 			itemTpl: new Ext.XTemplate(
@@ -194,17 +194,23 @@ Ext.define('ARSnova.view.Question', {
 						this.mcSaveButton.disable();
 					}
 				},
-		        initialize: function (list, eOpts){
-		            if (typeof list.getItemMap == 'function'){
-		                list.getScrollable().getScroller().on('refresh',function(scroller,eOpts){
-		                	var itemsHeight = list.getItemHeight() * list.itemsCount;
-		                	if(list.getGrouped()) {
-		                		var groupHeight = typeof list.headerHeight !== 'undefined' ? list.headerHeight : 26;
-		                		itemsHeight += list.groups.length * groupHeight;
-		                	}
-		                	list.setHeight(itemsHeight + 20);
-		                });
-		            }
+				/**
+				 * The following events are used to get the computed height of all list items and 
+				 * finally to set this value to the list DataView. In order to ensure correct rendering
+				 * it is also necessary to get the properties "padding-top" and "padding-bottom" and 
+				 * add them to the height of the list DataView.
+				 */
+		        painted: function (list, eOpts) {
+		        	this.answerList.fireEvent("resizeList", list);
+		        },
+		        resizeList: function(list) {
+		        	var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
+		        	
+		        	this.answerList.setHeight(
+		        		parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height"))	+ 
+		        		parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top"))	+
+		        		parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
+		        	);
 		        }
 			},
 			mode: this.questionObj.questionType === "mc" ? 'MULTI' : 'SINGLE'
@@ -301,8 +307,15 @@ Ext.define('ARSnova.view.Question', {
 	
 	doTypeset: function(parent) {
 		if (typeof this.questionTitle.element !== "undefined") {
+			var panel = this;
 			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.questionTitle.element.dom]);
 			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.answerList.element.dom]);
+			
+			MathJax.Hub.Queue(
+				["Delay", MathJax.Callback, 700], function() {
+					panel.answerList.fireEvent("resizeList", panel.answerList.element);
+				}
+			);
 		} else {
 			// If the element has not been drawn yet, we need to retry later
 			Ext.defer(Ext.bind(this.doTypeset, this), 100);

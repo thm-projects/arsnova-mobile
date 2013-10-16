@@ -86,8 +86,10 @@ Ext.define('ARSnova.view.LoginPanel', {
 					value: ARSnova.app.LOGIN_THM,
 					image: "btn_uni",
 					handler	: function(b) {
-						ARSnova.app.getController('Auth').login({
-							mode: b.config.value
+						Ext.Msg.alert(Messages.UNI_LOGIN_MSG, Messages.UNI_LOGIN_MSG_TEXT, function() {
+							ARSnova.app.getController('Auth').login({
+								mode: b.config.value
+							});
 						});
 					},
 					style: "margin-left:20px"
