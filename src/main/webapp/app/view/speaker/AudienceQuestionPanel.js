@@ -338,6 +338,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	
 	newQuestionHandler: function(){
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		sTP.newQuestionPanel = Ext.create('ARSnova.view.speaker.NewQuestionPanel', {
+			variant: 'lecture'
+		});
 		sTP.animateActiveItem(sTP.newQuestionPanel, 'slide');
 	},
 	

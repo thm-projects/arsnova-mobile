@@ -56,6 +56,7 @@ Ext.define("ARSnova.controller.Questions", {
     	var question = Ext.create('ARSnova.model.Question', {
 			type	 	: options.type,
 			questionType: options.questionType,
+			questionVariant: options.questionVariant,
 			sessionKeyword: options.sessionKeyword,
 			subject		: options.subject.toUpperCase(),
 			text 		: options.text,
@@ -219,7 +220,9 @@ Ext.define("ARSnova.controller.Questions", {
     
     adHoc: function(){
     	var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-		
+    	sTP.newQuestionPanel = Ext.create('ARSnova.view.speaker.NewQuestionPanel', {
+			variant: 'lecture'
+		});
 		sTP.animateActiveItem(sTP.newQuestionPanel, {
 			type: 'slide',
 			duration: 700

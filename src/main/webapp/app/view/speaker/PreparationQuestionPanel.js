@@ -127,7 +127,8 @@ Ext.define('ARSnova.view.speaker.PreparationQuestionPanel', {
 			xtype	: 'button',
 			text	: Messages.NEW_QUESTION,
 			cls		: 'forwardListButton',
-			handler	: this.newQuestionHandler
+			handler	: this.newQuestionHandler,
+			scope	: this
 		};
 		
 		this.backButton = Ext.create('Ext.Button', {
@@ -330,6 +331,9 @@ Ext.define('ARSnova.view.speaker.PreparationQuestionPanel', {
 	
 	newQuestionHandler: function(){
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		sTP.newQuestionPanel = Ext.create('ARSnova.view.speaker.NewQuestionPanel', {
+			variant: 'preparation'
+		});
 		sTP.animateActiveItem(sTP.newQuestionPanel, 'slide');
 	},
 	
