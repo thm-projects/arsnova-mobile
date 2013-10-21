@@ -1,9 +1,9 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/about/infoPanel.js
- - Beschreibung: Panel "Info".
- - Version:      1.0, 01/05/12
- - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
+ app/about/DiagnosisPanel.js
+ - Beschreibung: Panel "Diagnosis".
+ - Version:      1.0, 21/10/13
+ - Autor(en):    Andreas Gärtner <andreas.gaertner@mni.thm.de>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -18,13 +18,13 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-Ext.define('ARSnova.view.about.InfoPanel', {
+Ext.define('ARSnova.view.about.DiagnosisPanel', {
 	extend: 'Ext.Container',
 	
 	config: {
-		fullscreen: true,
-		title	: Messages.INFO,
-		scrollable: {
+		fullscreen	: true,
+		title		: Messages.DIAGNOSIS,
+		scrollable	: {
 			direction: 'vertical',
 			directionLock: true
 		}
@@ -36,13 +36,14 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 	
 	initialize: function() {
 		this.callParent(arguments);
-		
+
 		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.BACK,
+			text	: Messages.INFO,
 			ui		: 'back',
 			hidden	: true,
 			handler	: function() {
-				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.lastActivePanel, {
+				var infoTabPanel = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
+				infoTabPanel.animateActiveItem(infoTabPanel.infoPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700
@@ -51,7 +52,7 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 		});
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: Messages.INFO,
+			title: Messages.DIAGNOSIS,
 			docked: 'top',
 			ui: 'light',
 			items: [this.backButton]
@@ -75,33 +76,24 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 			},
 			
 			items: [{
-				text	: Messages.ARSNOVA_FAQ,
+				text	: Messages.BROWSER_INFO,
 				handler	: function(b) {
-					window.open("https://arsnova.eu/blog/faq-2/");
+					var browserInfo = new String(
+						"<b>Name:</b> "   + Ext.browser.name 		+ "<br>" +
+						"<b>Engine:</b> " + Ext.browser.engineName 	+ 
+						" " 			  + Ext.browser.engineVersion.version + "<br>" +
+						"<b>UA:</b> " 	  + Ext.browser.userAgent 	+ "<br>"
+					);
+					Ext.Msg.alert('Browser', browserInfo, Ext.emptyFn);
 				}
 			}, {
-				text	: Messages.STATISTIC,
-				handler	: function() {
-					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
-					me.statisticPanel = Ext.create('ARSnova.view.about.StatisticPanel');
-					me.animateActiveItem(me.statisticPanel, 'slide');
-				}
-			}, {
-				text	: Messages.OPINION,
+				text	: Messages.ARSNOVA_RELOAD,
 				handler	: function(b) {
-					window.open("https://arsnova.eu/blog/users/");
-				}
-			}, {
-				text	: Messages.DIAGNOSIS,
-				handler	: function(b) {
-					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
-					me.diagnosisPanel = Ext.create('ARSnova.view.about.DiagnosisPanel');
-					me.animateActiveItem(me.diagnosisPanel, 'slide');
-				}
-			}, {
-				text: Messages.IMPRESSUM,
-				handler	: function(b) {
-					window.open("https://arsnova.eu/blog/impressum/");
+					Ext.Msg.confirm(Messages.ARSNOVA_RELOAD, Messages.RELOAD_SURE, function(b) {
+						if(b == "yes") {
+							window.location.reload(true);
+						}
+					});
 				}
 			}]
 		},
@@ -109,7 +101,8 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 			xtype	: 'panel',
 			style	: { marginTop: '30px'},
 			html	: "<div class='gravure'><a href='http://www.thm.de/' class='thmlink' target='_blank'>A <span style='color:#699824; font-weight:bold;'>THM</span> Product</a></div>",
-			cls		: null		}]);
+			cls		: null		
+		}]);
 		
 		this.on('activate', function(){
 			this.backButton.show();
