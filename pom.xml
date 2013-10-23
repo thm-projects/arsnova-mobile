@@ -7,9 +7,9 @@
 	<packaging>war</packaging>
 
 	<scm>
+		<url>https://scm.thm.de/arsnova/arsnova-mobile</url>
 		<connection>scm:git:git://scm.thm.de/arsnova/arsnova-mobile.git</connection>
 		<developerConnection>scm:git:ssh://gitorious@scm.thm.de/arsnova/arsnova-mobile.git</developerConnection>
-		<url>http://scm.thm.de/arsnova/arsnova-mobile.git</url>
 	</scm>
 
 	<properties>
