@@ -76,6 +76,18 @@ Ext.define('ARSnova.model.Question', {
     	return this.getProxy().delAllQuestions(sessionKeyword, callbacks);
     },
     
+    deleteAllPreparationQuestions: function(sessionKeyword, callbacks) {
+    	return this.getProxy().delAllPreparationQuestions(sessionKeyword, callbacks);
+    },
+    
+    deleteAllFlashcards: function(sessionKeyword, callbacks) {
+    	return this.getProxy().delAllFlashcards(sessionKeyword, callbacks);
+    },
+    
+    deleteAllLectureQuestions: function(sessionKeyword, callbacks) {
+    	return this.getProxy().delAllLectureQuestions(sessionKeyword, callbacks);
+    },
+    
     deleteInterposed: function(question, callbacks) {
 		return this.getProxy().deleteInterposedQuestion(question, callbacks);
     },

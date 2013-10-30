@@ -31,12 +31,9 @@ Ext.define("ARSnova.controller.PreparationQuestions", {
 		sTP.animateActiveItem(sTP.audienceQuestionPanel, 'slide');
 	},
 	
-	deleteAnswers: function() {
-		throw "not implemented";
-	},
-	
 	destroyAll: function() {
-		throw "not implemented";
+		var question = Ext.create('ARSnova.model.Question');
+		question.deleteAllPreparationQuestions.apply(question, arguments);
 	},
 	
 	getQuestions: function() {

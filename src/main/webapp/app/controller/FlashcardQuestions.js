@@ -31,12 +31,9 @@ Ext.define("ARSnova.controller.FlashcardQuestions", {
 		sTP.animateActiveItem(sTP.audienceQuestionPanel, 'slide');
 	},
 	
-	deleteAnswers: function() {
-		throw "not implemented";
-	},
-	
 	destroyAll: function() {
-		throw "not implemented";
+		var question = Ext.create('ARSnova.model.Question');
+		question.deleteAllFlashcards.apply(question, arguments);
 	},
 	
 	getQuestions: function() {

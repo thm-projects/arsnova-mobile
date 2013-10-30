@@ -396,6 +396,33 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 	
+	delAllPreparationQuestions: function(sessionKeyword, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/?sessionkey=" + sessionKeyword + "&preparationquestionsonly=true",
+			method: "DELETE",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	delAllFlashcards: function(sessionKeyword, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/?sessionkey=" + sessionKeyword + "&flashcardsonly=true",
+			method: "DELETE",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	delAllLectureQuestions: function(sessionKeyword, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/?sessionkey=" + sessionKeyword + "&lecturequestionsonly=true",
+			method: "DELETE",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
 	delAnswers: function(questionId, callbacks){
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/answer/",

@@ -61,11 +61,13 @@ Ext.define("ARSnova.controller.Questions", {
 	},
 	
 	deleteAnswers: function() {
-		throw "not implemented";
+		var question = Ext.create('ARSnova.model.Question');
+		question.deleteAnswers.apply(question, arguments);
 	},
 	
 	destroyAll: function() {
-		throw "not implemented";
+		var question = Ext.create('ARSnova.model.Question');
+		question.deleteAllLectureQuestions.apply(question, arguments);
 	},
 	
 	countAnswersByQuestion: function() {
