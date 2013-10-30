@@ -45,22 +45,33 @@ Ext.define("ARSnova.controller.Questions", {
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.addListener('deactivate', function(panel){
 			panel.backButton.hide();
 		}, this, {single: true});
-    },
-    
-    listAudienceQuestions: function(){
-    	var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+	},
+	
+	listQuestions: function(){
+		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		sTP.newQuestionPanel.setVariant('lecture');
+		sTP.audienceQuestionPanel.setController(this);
+		sTP.showcaseQuestionPanel.setController(this);
 		sTP.animateActiveItem(sTP.audienceQuestionPanel, 'slide');
-    },
-    
-    listFlashcards: function() {
-    	var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-		sTP.animateActiveItem(sTP.flashcardPanel, 'slide');
-    },
-    
-    listPreparationQuestions: function() {
-    	var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-		sTP.animateActiveItem(sTP.preparationQuestionPanel, 'slide');
-    },
+	},
+	
+	getQuestions: function() {
+		var question = Ext.create('ARSnova.model.Question');
+		question.getLectureQuestions.apply(question, arguments);
+	},
+	
+	deleteAnswers: function() {
+		throw "not implemented";
+	},
+	
+	destroyAll: function() {
+		throw "not implemented";
+	},
+	
+	countAnswersByQuestion: function() {
+		var question = Ext.create('ARSnova.model.Question');
+		question.countAnswersByQuestion.apply(question, arguments);
+	},
     
     listFeedbackQuestions: function(){
     	ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.backButton.show();
@@ -238,9 +249,9 @@ Ext.define("ARSnova.controller.Questions", {
     
     adHoc: function(){
     	var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-    	sTP.newQuestionPanel = Ext.create('ARSnova.view.speaker.NewQuestionPanel', {
-			variant: 'lecture'
-		});
+    	sTP.audienceQuestionPanel.setController(this);
+		sTP.showcaseQuestionPanel.setController(this);
+    	sTP.newQuestionPanel.setVariant('lecture');
 		sTP.animateActiveItem(sTP.newQuestionPanel, {
 			type: 'slide',
 			duration: 700

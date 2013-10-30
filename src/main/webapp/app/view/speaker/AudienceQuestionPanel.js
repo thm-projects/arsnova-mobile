@@ -27,7 +27,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		title: 'AudienceQuestionPanel',
 		fullscreen: true,
 		scrollable: true,
-		scroll: 'vertical'
+		scroll: 'vertical',
+		
+		controller: null
 	},
 	
 	monitorOrientation: true,
@@ -94,7 +96,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			listeners: {
 				scope: this,
 				itemtap: function(list, index, element) {
-					ARSnova.app.getController('Questions').details({
+					this.getController().details({
 						question	: list.getStore().getAt(index).data
 					});
 				},
@@ -191,12 +193,13 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				cls		: 'recycleIcon',
 				scope	: this,
 				handler	: function() {
+					var me = this;
 					Ext.Msg.confirm(Messages.DELETE_ALL_ANSWERS_REQUEST, Messages.ALL_QUESTIONS_REMAIN, function(answer) {
 						if (answer == 'yes') {
 							var promises = [];
 							this.questionList.getStore().each(function(item) {
 								var promise = new RSVP.Promise();
-								ARSnova.app.questionModel.deleteAnswers(item.getId(), {
+								me.getController().deleteAnswers(item.getId(), {
 									success: function() {
 										promise.resolve();
 									},
@@ -229,7 +232,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 						msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
 					Ext.Msg.confirm(Messages.DELETE_ALL_QUESTIONS, msg, function(answer) {
 						if (answer == 'yes') {
-							ARSnova.app.questionModel.destroyAll(localStorage.getItem("keyword"), {
+							this.getController().destroyAll(localStorage.getItem("keyword"), {
 								success: Ext.bind(this.onActivate, this),
 								failure: function() {
 									console.log("could not delete the questions.");
@@ -284,7 +287,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		
 		this.questionEntries = [];
 
-		ARSnova.app.questionModel.getLectureQuestions(localStorage.getItem('keyword'), {
+		this.getController().getQuestions(localStorage.getItem('keyword'), {
 			success: Ext.bind(function(response) {
 				var questions = Ext.decode(response.responseText);
 				this.questionStore.add(questions);
@@ -338,9 +341,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	
 	newQuestionHandler: function(){
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-		sTP.newQuestionPanel = Ext.create('ARSnova.view.speaker.NewQuestionPanel', {
-			variant: 'lecture'
-		});
 		sTP.animateActiveItem(sTP.newQuestionPanel, 'slide');
 	},
 	
@@ -352,8 +352,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	},
 	
 	getQuestionAnswers: function() {
+		var me = this;
 		var getAnswerCount = function(questionRecord, promise) {
-			ARSnova.app.questionModel.countAnswersByQuestion(localStorage.getItem("keyword"), questionRecord.get('_id'), {
+			me.getController().countAnswersByQuestion(localStorage.getItem("keyword"), questionRecord.get('_id'), {
 				success: function(response) {
 					var numAnswers = Ext.decode(response.responseText);
 					questionRecord.set('numAnswers', numAnswers);
