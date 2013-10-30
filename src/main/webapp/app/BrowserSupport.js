@@ -5,11 +5,12 @@ Ext.define('ARSnova.BrowserSupport', {
 	
 	config: {
 		supported: {
-			"Chrome": 0,
-			"Safari": 0,
-			"Firefox": 22,
-			"Opera": 15,
-			"Explorer": 10
+			"Chrome" : 0,
+			"Safari" : 0,
+			"Firefox" : 22,
+			"Opera" : 15,
+			"Explorer" : 10,
+			"Android" : 2
 		}
 	},
 	
