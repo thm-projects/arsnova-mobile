@@ -18,7 +18,9 @@ Ext.define('ARSnova.BrowserDetect', {
 
 	extractAndroidVersion: function() {
 		// Should match 'Android x.y'
-		return navigator.userAgent.match(/Android [1-9]+[0-9]*\.[0-9]+/).toString();
+		var version = navigator.userAgent.match(/Android [1-9]+[0-9]*\.[0-9]+/);
+		if (version == null) return null;
+		return version.toString();
 	},
 	
 	searchString: function (data) {
