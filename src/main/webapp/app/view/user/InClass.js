@@ -128,7 +128,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			cls			: 'forwardListButton',
 			badgeCls	: 'badgeicon',
 			controller	: 'Questions',
-			action		: 'index',
+			action		: 'lectureIndex',
 			handler		: this.buttonClicked
 		});
 		
@@ -138,8 +138,8 @@ Ext.define('ARSnova.view.user.InClass', {
 			cls			: 'forwardListButton',
 			badgeCls	: 'badgeicon',
 			controller	: 'Questions',
-			action		: 'index',
-			handler		: comingSoon
+			action		: 'preparationIndex',
+			handler		: this.buttonClicked
 		});
 		
 		this.myQuestionsButton = Ext.create('ARSnova.view.MultiBadgeButton', {

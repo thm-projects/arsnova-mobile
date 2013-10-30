@@ -211,10 +211,18 @@ Ext.define('ARSnova.model.Question', {
 	deleteAnswer: function(questionId, answerId, callbacks) {
 		return this.getProxy().deleteAnswer(questionId, answerId, callbacks);
 	},
-    
-    getSkillQuestionsForUser: function(sessionKeyword, callbacks) {
-    	return this.getProxy().getSkillQuestionsForUser(sessionKeyword, callbacks);
-    },
+	
+	getSkillQuestionsForUser: function(sessionKeyword, callbacks) {
+		return this.getProxy().getSkillQuestionsForUser(sessionKeyword, callbacks);
+	},
+	
+	getLectureQuestionsForUser: function(sessionKeyword, callbacks) {
+		return this.getProxy().getLectureQuestionsForUser(sessionKeyword, callbacks);
+	},
+	
+	getPreparationQuestionsForUser: function(sessionKeyword, callbacks) {
+		return this.getProxy().getPreparationQuestionsForUser(sessionKeyword, callbacks);
+	},
     
     releasedByCourseId: function(courseId, callbacks) {
     	return this.getProxy().releasedByCourseId(courseId, callbacks);

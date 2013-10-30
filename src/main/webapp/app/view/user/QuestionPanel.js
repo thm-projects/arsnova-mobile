@@ -24,7 +24,9 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	config: {
 		fullscreen: true,
 		title	: Messages.QUESTIONS,
-		iconCls	: 'tabBarIconQuestion'
+		iconCls	: 'tabBarIconQuestion',
+		
+		questionLoader: null
 	},
 	
 	/* toolbar items */
@@ -38,6 +40,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	
 	initialize: function() {
 		this.callParent(arguments);
+		
+		this.setLectureMode();
 		
 		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.HOME,
@@ -140,11 +144,19 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		this.getUnansweredSkillQuestions();
 	},
 	
+	setPreparationMode: function() {
+		this.setQuestionLoader(Ext.bind(ARSnova.app.questionModel.getPreparationQuestionsForUser, ARSnova.app.questionModel));
+	},
+	
+	setLectureMode: function() {
+		this.setQuestionLoader(Ext.bind(ARSnova.app.questionModel.getLectureQuestionsForUser, ARSnova.app.questionModel));
+	},
+	
 	getUnansweredSkillQuestions: function(){
 		var self = this;
 		
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
-		ARSnova.app.questionModel.getSkillQuestionsForUser(localStorage.getItem("keyword"), {
+		this.getQuestionLoader()(localStorage.getItem("keyword"), {
 			success: function(questions){
 				var userQuestionsPanel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel;
 				var questionsArr = [];

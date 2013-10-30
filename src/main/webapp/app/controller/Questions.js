@@ -25,8 +25,26 @@ Ext.define("ARSnova.controller.Questions", {
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.backButton.show();
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.addListener('deactivate', function(panel){
-    		panel.backButton.hide();
-    	}, this, {single: true});
+			panel.backButton.hide();
+		}, this, {single: true});
+	},
+	
+	lectureIndex: function(options){
+		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.setLectureMode();
+		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.backButton.show();
+		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');
+		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.addListener('deactivate', function(panel){
+			panel.backButton.hide();
+		}, this, {single: true});
+	},
+	
+	preparationIndex: function(options){
+		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.setPreparationMode();
+		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.backButton.show();
+		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');
+		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.addListener('deactivate', function(panel){
+			panel.backButton.hide();
+		}, this, {single: true});
     },
     
     listAudienceQuestions: function(){

@@ -606,5 +606,37 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			},
 			failure: callbacks.failure
 		});
+	},
+	
+	getLectureQuestionsForUser: function(sessionKeyword, callbacks){
+		this.arsjax.request({
+			url: "lecturerquestion/",
+			method: "GET",
+			params: {
+				sessionkey: sessionKeyword,
+				lecturequestionsonly: true
+			},
+			success: function(response) {
+				var json = response.responseText || "[]";
+				callbacks.success(Ext.decode(json));
+			},
+			failure: callbacks.failure
+		});
+	},
+	
+	getPreparationQuestionsForUser: function(sessionKeyword, callbacks){
+		this.arsjax.request({
+			url: "lecturerquestion/",
+			method: "GET",
+			params: {
+				sessionkey: sessionKeyword,
+				preparationquestionsonly: true
+			},
+			success: function(response) {
+				var json = response.responseText || "[]";
+				callbacks.success(Ext.decode(json));
+			},
+			failure: callbacks.failure
+		});
 	}
 });
