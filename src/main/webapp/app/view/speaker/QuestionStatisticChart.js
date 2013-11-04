@@ -97,7 +97,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			}
 		});
 		
-		var title = this.questionObj.text;
+		var title = Ext.util.Format.htmlEncode(this.questionObj.text);
 		if(window.innerWidth < 800 && title.length > (window.innerWidth / 10))
 			title = title.substring(0, (window.innerWidth) / 10) + "...";
 		
