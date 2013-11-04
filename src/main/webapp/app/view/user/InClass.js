@@ -255,7 +255,7 @@ Ext.define('ARSnova.view.user.InClass', {
 								
 								Ext.Msg.confirm(
 									Messages.ONE_NEW_QUESTION, 
-									'"' + question.text + '"<br>' + Messages.WANNA_ANSWER, 
+									'"' + Ext.util.Format.htmlEncode(question.text) + '"<br>' + Messages.WANNA_ANSWER, 
 									function(answer){
 										if (answer == 'yes'){ //show the question to the user
 											ARSnova.app.getController('Questions').index();
