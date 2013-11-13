@@ -450,15 +450,25 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	},
 	
 	getUnansweredSkillQuestions: function(sessionKeyword, callbacks){
+		this.getUnansweredQuestions(sessionKeyword, "", callbacks);
+	},
+
+	getUnansweredLectureQuestions: function(sessionKeyword, callbacks){
+		this.getUnansweredQuestions(sessionKeyword, "&lecturequestionsonly=true", callbacks);
+	},
+
+	getUnansweredPreparationQuestions: function(sessionKeyword, callbacks){
+		this.getUnansweredQuestions(sessionKeyword, "&preparationquestionsonly=true", callbacks);
+	},
+
+	getUnansweredQuestions: function(sessionKeyword, query, callbacks) {
 		this.arsjax.request({
-			url: "session/" + sessionKeyword + "/questions/unanswered",
+			url: "lecturerquestion/unanswered?sessionkey=" + sessionKeyword + query,
+			204: function() {
+				callbacks.success.call(this, []);
+			},
 			success: function(response) {
-				if (response.status === 204) {
-					callbacks.success.call(this, []);
-				} else {
-					var questionIds = Ext.decode(response.responseText);
-					callbacks.success.call(this, questionIds);
-				}
+				callbacks.success.call(this, Ext.decode(response.responseText));
 			},
 			failure: callbacks.failure
 		});

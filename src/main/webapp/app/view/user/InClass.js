@@ -226,7 +226,15 @@ Ext.define('ARSnova.view.user.InClass', {
 	 * if user don't want to answer this questions now, save this opinion in localStorage
 	 */
 	checkNewSkillQuestions: function(){
-		ARSnova.app.questionModel.getUnansweredSkillQuestions(localStorage.getItem("keyword"), {
+		ARSnova.app.questionModel.getUnansweredPreparationQuestions(localStorage.getItem("keyword"), {
+			success: function(newQuestions){
+				ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.preparationQuestionButton.setBadge([{
+					badgeText: newQuestions.length
+				}]);
+			},
+			failure: Ext.emptyFn
+		});
+		ARSnova.app.questionModel.getUnansweredLectureQuestions(localStorage.getItem("keyword"), {
 			success: function(newQuestions){
 				ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.lectureQuestionButton.setBadge([{
 					badgeText: newQuestions.length
