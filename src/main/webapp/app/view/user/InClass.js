@@ -188,10 +188,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				items: [
 						this.feedbackButton,
 						this.lectureQuestionButton,
-						this.preparationQuestionButton,
-						this.myQuestionsButton,
-						this.myLearningProgressButton,
-						this.learnButton
+						this.preparationQuestionButton
 					]
 			}]
 		});
