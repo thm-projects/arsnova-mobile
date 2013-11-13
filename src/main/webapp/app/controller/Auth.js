@@ -36,6 +36,7 @@ Ext.define("ARSnova.controller.Auth", {
 		}
 		ARSnova.app.userRole = "lecturer" === role ? ARSnova.app.USER_ROLE_SPEAKER : ARSnova.app.USER_ROLE_STUDENT;
 		localStorage.setItem('role', ARSnova.app.userRole);
+		ARSnova.app.setWindowTitle();
 		ARSnova.app.loginMode = ARSnova.app.LOGIN_GUEST;
 		localStorage.setItem('loginMode', ARSnova.app.loginMode);
 		localStorage.setItem('keyword', sessionkey);
