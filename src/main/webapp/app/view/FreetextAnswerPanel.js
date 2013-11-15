@@ -53,7 +53,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		
 		this.freetextAnswerStore = Ext.create('Ext.data.JsonStore', {
 			model		: 'FreetextAnswer',
-			sorters		: 'timestamp',
+			sorters		: [{property: 'timestamp', direction: 'DESC'}],
 			groupField	: 'groupDate'
 		});
 		

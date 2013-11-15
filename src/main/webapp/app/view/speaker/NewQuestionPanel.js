@@ -217,7 +217,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		
 		this.multipleChoiceQuestion = Ext.create('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			id: 'mc',
-			hidden: false
+			hidden: true
 		});
 
 		this.voteQuestion = Ext.create('ARSnova.view.speaker.form.VoteQuestion', {
@@ -251,7 +251,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.questionOptions = Ext.create('Ext.SegmentedButton', {
 	        allowDepress: false,
 	        items: [
-	                { text: Messages.MC, pressed: true },
+	                { text: Messages.MC },
 	                { text: Messages.ABCD	},
 	                { text: Messages.YESNO 	},
 	                { text: Messages.FREETEXT },
@@ -436,8 +436,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	},
 	
 	onActivate: function() {
-		// The toggle handler has some logic we need to invoke in order to set things up correctly.
-		this.questionOptions.fireEvent("toggle", this.questionOptions, Ext.create('Ext.Button', { text: Messages.MC }), true);
+		this.questionOptions.setPressedButtons([0]);
 	},
 	
 	saveHandler: function(){

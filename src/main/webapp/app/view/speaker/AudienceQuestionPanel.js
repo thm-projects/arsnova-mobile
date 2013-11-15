@@ -92,6 +92,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			store: this.questionStore,
 			
 			listeners: {
+				scope: this,
 				itemtap: function(list, index, element) {
 					ARSnova.app.getController('Questions').details({
 						question	: list.getStore().getAt(index).data

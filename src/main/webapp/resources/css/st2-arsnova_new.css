@@ -10,9 +10,13 @@
 	width: 0;
 }
 
+.x-msgbox a, .x-msgbox a:visited {
+	color: rgba(190,224,247,0.9);
+}
+
 /* remove "Sencha Touch GPL3" watermark from charts */
 .x-chart-watermark {
-	opacity: 0
+	opacity: 0;
 }
 
 /* Overwriting css classes*/
@@ -1207,6 +1211,10 @@ ol.standardList li {
 .questionStatisticTitle {
 	background: black;
 	font-size: 80% !important;
+}
+
+.questionStatisticTitle .x-innerhtml {
+	font-weight: normal !important;
 }
 
 .feedbackOkIcon {

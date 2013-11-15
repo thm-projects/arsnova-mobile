@@ -163,10 +163,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				items: [
 					this.feedbackButton,
 					this.feedbackQuestionButton,
-					this.preparationQuestionButton,
 					this.lectureQuestionButton,
-					this.flashcardsButton,
-					this.courseLearningProgress
+					this.preparationQuestionButton
 				]
 			}]
 		});

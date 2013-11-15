@@ -72,7 +72,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		this.add([Ext.create('Ext.Panel', {
 			items: [this.questionTitle, this.viewOnly ? {} : {
 					xtype: 'formpanel',
-					style: 'margin: 10px',
 					scrollable: null,
 					submitOnAction: false,
 					items: [{
@@ -125,7 +124,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			return;
 		}
 		
-		Ext.Msg.confirm('', Messages.ARE_YOU_SURE, function (button) {
+		Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
 			if (button === "yes") {
 				this.storeAnswer();
 			}
@@ -133,7 +132,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	},
 	
 	abstentionHandler: function(button, event) {
-		Ext.Msg.confirm('', Messages.ARE_YOU_SURE, function (button) {
+		Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
 			if (button === "yes") {
 				this.storeAbstention();
 			}

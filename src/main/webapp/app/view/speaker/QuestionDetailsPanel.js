@@ -67,7 +67,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	
 	freetextAnswerStore: Ext.create('Ext.data.JsonStore', {
 		model		: 'FreetextAnswer',
-		sorters		: 'timestamp',
+		sorters		: [{property: 'timestamp', direction: 'DESC'}],
 		groupField	: 'groupDate'
 	}),
 	
@@ -124,7 +124,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				this.hide();
 				panel.backButton.show();
 				panel.resetFields();
-				panel.editButton.setEnableAnswerEdit(false);
+				panel.editButton.config.setEnableAnswerEdit(panel, false);
 			}
 		});
 		
@@ -140,8 +140,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					this.setText(Messages.SAVE);
 					this.addCls('x-button-action');
 
-					this.enableFields();
-					this.setEnableAnswerEdit(true);
+					this.config.enableFields(panel);
+					this.config.setEnableAnswerEdit(panel, true);
 				} else {
 					panel.cancelButton.hide();
 					panel.backButton.show();
@@ -178,17 +178,18 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					this.setText(Messages.EDIT);
 					this.removeCls('x-button-action');
 					
-					this.disableFields();
-					this.setEnableAnswerEdit(false);
+					this.config.disableFields(panel);
+					this.config.setEnableAnswerEdit(panel, false);
 				}
 			},
 			
-			enableFields: function(){
-				var fields = this.up('panel').down('#contentFieldset').items.items;
+			enableFields: function(panel){
+				var fields = panel.contentFieldset.getItems().items;
 				var fieldsLength = fields.length;
 
 				for(var i = 0; i < fieldsLength; i++){
 					var field = fields[i];
+					
 					switch (field.config.label){
 						case Messages.CATEGORY:
 							field.setDisabled(false);
@@ -205,8 +206,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				}
 			},
 			
-			disableFields: function(){
-				var fields = this.up('panel').down('#contentFieldset').items.items;
+			disableFields: function(panel){
+				var fields = panel.contentFieldset.getItems().items;
 				var fieldsLength = fields.length;
 				
 				for ( var i = 0; i < fieldsLength; i++){
@@ -227,9 +228,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				}
 			},
 			
-			setEnableAnswerEdit: function(enable) {
-				var panel = this.up('panel');
-				
+			setEnableAnswerEdit: function(panel, enable) {
 				if (enable) {
 					panel.answerForm.hide(true);
 				} else {
@@ -642,6 +641,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			scrollable: { disabled: true },
 			
 			listeners: {
+				scope: this,
 				itemtap: function (list, index, element) {
 					var answer = list.getStore().getAt(index).data;
 					ARSnova.app.getController('Questions').freetextDetailAnswer({
@@ -651,22 +651,24 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						})
 					});
 				},
-				initialize: function (list, eOpts){
-					if (typeof list.getItemMap == 'function') {
-						list.getScrollable().getScroller().on('refresh', function(scroller,eOpts) {
-							if (list.itemsCount === 0) {
-								list.setHeight(null);
-								return;
-							}
-							var itemsHeight = list.getItemHeight() * list.itemsCount;
-							if(list.getGrouped()) {
-								var groupHeight = typeof list.headerHeight !== 'undefined' ? list.headerHeight : 26;
-								itemsHeight += list.groups.length * groupHeight;
-							}
-							list.setHeight(itemsHeight);
-						});
-					}
-				}
+				/**
+				 * The following events are used to get the computed height of all list items and 
+				 * finally to set this value to the list DataView. In order to ensure correct rendering
+				 * it is also necessary to get the properties "padding-top" and "padding-bottom" and 
+				 * add them to the height of the list DataView.
+				 */
+		        painted: function (list, eOpts) {
+		        	this.freetextAnswerList.fireEvent("resizeList", list);
+		        },
+		        resizeList: function(list) {
+		        	var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
+		        	
+		        	this.freetextAnswerList.setHeight(
+		        		parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height"))	+ 
+		        		parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top"))	+
+		        		parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
+		        	);
+		        }
 			}
 		});
 		
@@ -741,6 +743,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	},
 	
 	onActivate: function(){
+		var panel = this;
 		this.getPossibleAnswers();
 		
 		if(this.hasCorrectAnswers){
@@ -755,6 +758,11 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			ARSnova.app.mainTabPanel.removeListener('cardswitch', this.cardSwitchHandler, this);
 		}, this);
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.actionsPanel.getId()]);
+		MathJax.Hub.Queue(
+			["Delay", MathJax.Callback, 700], function() {
+				panel.freetextAnswerList.fireEvent("resizeList", panel.freetextAnswerList.element);
+			}
+		);
 	},
 	
 	onDeactivate: function() {

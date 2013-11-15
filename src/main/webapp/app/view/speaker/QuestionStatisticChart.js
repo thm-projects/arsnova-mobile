@@ -97,7 +97,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			}
 		});
 		
-		var title = this.questionObj.text;
+		var title = Ext.util.Format.htmlEncode(this.questionObj.text);
 		if(window.innerWidth < 800 && title.length > (window.innerWidth / 10))
 			title = title.substring(0, (window.innerWidth) / 10) + "...";
 		
@@ -187,6 +187,18 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 						stops: [{ offset: 0,	color: 'rgb(128, 64, 22)' },
 						        { offset: 100,	color: 'rgb(88, 24, 0)' }
 						]
+					}),
+					Ext.create('Ext.draw.gradient.Linear', {
+						degrees: 90,
+						stops: [{ offset: 0,	color: 'rgb(64, 0, 128)' },
+						        { offset: 100,	color: 'rgb(40, 2, 79)' }
+						]
+					}),
+					Ext.create('Ext.draw.gradient.Linear', {
+						degrees: 90,
+						stops: [{ offset: 0,	color: 'rgb(4, 88, 34)' },
+						        { offset: 100,	color: 'rgb(2, 62, 31)' }
+						]
 					})
 				];
 			}
@@ -227,6 +239,18 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					stops: [{ offset: 0,	color: 'rgb(128, 64, 22)' },
 					        { offset: 100,	color: 'rgb(88, 24, 0)' }
 					]
+				}),
+				Ext.create('Ext.draw.gradient.Linear', {
+					degrees: 90,
+					stops: [{ offset: 0,	color: 'rgb(64, 0, 128)' },
+					        { offset: 100,	color: 'rgb(40, 2, 79)' }
+					]
+				}),
+				Ext.create('Ext.draw.gradient.Linear', {
+					degrees: 90,
+					stops: [{ offset: 0,	color: 'rgb(4, 88, 34)' },
+					        { offset: 100,	color: 'rgb(2, 62, 31)' }
+					]
 				})
 			];
 		}
@@ -245,15 +269,17 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		        fields	: ['value'],
 		        minimum: 0,
 		        style: { stroke: 'white' },
-		        label: { strokeStyle: 'white' }
+		        label: {
+		        	color: 'white'
+		        }
 		    }, {
 		        type	: 'category',
 		        position: 'bottom',
 		        fields	: ['text'],
 		        style: { stroke: 'white' },
 		        label: {
-		        	strokeStyle: 'white',
-		        	rotate: { degrees: 315}
+		        	color: 'white',
+		        	rotate: { degrees: 315 }
 		        }
 		    }],
 	        
@@ -261,6 +287,19 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		        type: 'bar',
 		        xField: 'text',
 		        yField: 'value',
+		        style: {
+		        	minGapWidth: 25,
+		        	maxBarWidth: 200
+		        },
+		        label: {
+		        	display	: 'insideEnd',
+		        	field	: 'percent',
+		        	color	: '#fff',
+		        	orientation: 'horizontal',
+		        	renderer: function(text) {
+		        		return text + " %";
+		        	}
+		        },
 		        renderer: function (sprite, config, rendererData, i) {		 
 		        	var panel;
 		        	
@@ -272,17 +311,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		    			panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 		    		}
 
-		        	return rendererData = {
-		        			fill : panel.gradients[i % panel.gradients.length]
-		        	};
-		        },
-		        style: {
-		        	minGapWidth: 25,
-		        	maxBarWidth: 200
-		        },
-		        labelField: ['percent'],
-		        label: {
-		        	strokeStyle: 'white'
+		        	return { fill : panel.gradients[i % panel.gradients.length] };
 		        }
 		    }]
 		});
@@ -376,8 +405,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				// Calculate percentages
 				var totalResults = store.sum('value');
 				store.each(function(record) {
-					var percent = Math.round(record.get('value') / totalResults) * 100;
-					record.set('percent', totalResults > 0 && percent > 0 ? percent + ' %' : 0.0);
+					var percent = Math.round((record.get('value') / totalResults) * 100);
+					record.set('percent', percent);
 				});
 				chart.getAxes()[0].setMaximum(maxValue);
 				

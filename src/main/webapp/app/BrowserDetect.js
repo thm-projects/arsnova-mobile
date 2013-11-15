@@ -7,6 +7,20 @@ Ext.define('ARSnova.BrowserDetect', {
 			|| this.searchVersion(navigator.appVersion)
 			|| "an unknown version";
 		this.OS = this.searchString(this.dataOS) || "an unknown OS";
+
+		if ( this.extractAndroidVersion() != null) {
+			this.browser = 'Android';
+			this.version = this.searchVersion(
+					this.extractAndroidVersion().match(/[1-9]+[0-9]*\.[0-9]+/)
+			);
+		}
+	},
+
+	extractAndroidVersion: function() {
+		// Should match 'Android x.y'
+		var version = navigator.userAgent.match(/Android [1-9]+[0-9]*\.[0-9]+/);
+		if (version == null) return null;
+		return version.toString();
 	},
 	
 	searchString: function (data) {

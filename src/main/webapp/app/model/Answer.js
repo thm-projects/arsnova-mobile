@@ -35,7 +35,9 @@ Ext.define('ARSnova.model.Answer', {
 			     'sessionId',
 			     'abstention',
 			     'timestamp'
-		         ]
+		         ],
+
+		idProperty: '_id'
 	},
 	
 	getUserAnswer: function(questionId, callbacks){

@@ -1,11 +1,11 @@
 <project name="ARSnova" default="run">
 	<property name="main.dir" value="src/main/webapp" />
 	<property name="main.lib.dir" value="${main.dir}/lib" />
-	<property name="main.sencha.dir" value="${main.lib.dir}/touch-2.2.1" />
+	<property name="main.sencha.dir" value="${main.lib.dir}/touch-2.3.0" />
 	
 	<property name="build.dir" value="src/main/build" />
 	<property name="build.lib.dir" value="${build.dir}/lib" />
-	<property name="build.sencha.dir" value="${build.lib.dir}/touch-2.2.1" />
+	<property name="build.sencha.dir" value="${build.lib.dir}/touch-2.3.0" />
 	
 	<target name="-build:init">
 		<mkdir dir="${build.dir}" />
@@ -22,25 +22,6 @@
 			
 			<fileset dir="${main.dir}">
 				<include name="**/*.js"/>
-				<!-- do not process Touch Charts - it throws errors! -->
-				<exclude name="**/*touch-charts-debug.js"/>
-				<exclude name="**/*touch-charts.js"/>
-			</fileset>
-			<mapper type="glob" from="*.js" to="*.js.min"/>
-		</apply>
-		<!-- Handle Touch Charts without throwing IE8 errors -->
-		<apply executable="java" dest="${main.dir}" failonerror="true">
-			<arg value="-jar"/>
-			<arg value="${main.lib.dir}/compiler.jar"/>
-			<arg line="--jscomp_warning internetExplorerChecks"/>
-			<arg value="--js"/>
-			<srcfile/>
-			<arg value="--js_output_file"/>
-			<targetfile/>
-			
-			<fileset dir="${main.dir}">
-				<include name="**/*touch-charts-debug.js"/>
-				<include name="**/*touch-charts.js"/>
 			</fileset>
 			<mapper type="glob" from="*.js" to="*.js.min"/>
 		</apply>

@@ -36,7 +36,7 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 	
 	initialize: function() {
 		this.callParent(arguments);
-
+		
 		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.BACK,
 			ui		: 'back',
@@ -67,7 +67,6 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 			xtype: 'formpanel',
 			cls  : 'standardForm topPadding',
 			scrollable : null,
-			//style	: { margin: '20px'},
 			
 			defaults: {
 				xtype	: 'button',
@@ -78,7 +77,7 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 			items: [{
 				text	: Messages.ARSNOVA_FAQ,
 				handler	: function(b) {
-					window.open("http://blog.mni.thm.de/arsnova/faq-2/");
+					window.open("https://arsnova.eu/blog/faq-2/");
 				}
 			}, {
 				text	: Messages.STATISTIC,
@@ -90,12 +89,19 @@ Ext.define('ARSnova.view.about.InfoPanel', {
 			}, {
 				text	: Messages.OPINION,
 				handler	: function(b) {
-					window.open("https://arsnova.thm.de/#id/10940464");
+					window.open("https://arsnova.eu/blog/users/");
+				}
+			}, {
+				text	: Messages.DIAGNOSIS,
+				handler	: function(b) {
+					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
+					me.diagnosisPanel = Ext.create('ARSnova.view.about.DiagnosisPanel');
+					me.animateActiveItem(me.diagnosisPanel, 'slide');
 				}
 			}, {
 				text: Messages.IMPRESSUM,
 				handler	: function(b) {
-					window.open("http://blog.mni.thm.de/arsnova/impressum/");
+					window.open("https://arsnova.eu/blog/impressum/");
 				}
 			}]
 		},
