@@ -274,6 +274,13 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	},
 	
 	onActivate: function() {
+		if (!this.getController()) {
+			/*
+			 * Somewhere, in ARSnova's endless depths, this method gets called before this panel is ready.
+			 * This happens for a returning user who was logged in previously, and is redirected into his session.
+			 */
+			return;
+		}
 		taskManager.start(this.updateAnswerCount);
 		this.controls.removeAll();
 		this.questionStore.removeAll();
