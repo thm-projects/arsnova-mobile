@@ -6,7 +6,7 @@ lib/touch-2.3.0/sencha-touch-all.js
 lib/socket.io/socket.io.min.js
 lib/rsvp.min.js
 
-resources/css/st2-arsnova_new.css
+resources/css/st2-arsnova_min.css
 lib/touch-2.3.0/resources/css/sencha-touch.css
 
 # IMAGES

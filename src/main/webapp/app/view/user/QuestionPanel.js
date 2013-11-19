@@ -267,7 +267,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			var questionObj = questionPanel.questionObj;
 			if (!questionObj.userAnswered && !questionObj.isAbstentionAnswer) return;
 			
-			if (questionObj.isAbstentionAnswer) {
+			if (questionObj.isAbstentionAnswer && "mc" !== questionObj.questionType) {
 				questionPanel.selectAbstentionAnswer();
 				questionPanel.disableQuestion();
 				return;
@@ -283,17 +283,19 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			var data = list ? list.getStore() : Ext.create('Ext.data.Store', {model:'ARSnova.model.Answer'});
 			
 			if (questionObj.questionType === 'mc') {
-				var answers = questionObj.userAnswered.split(",");
-				// sanity check: is it a correct answer array?
-				if (questionObj.possibleAnswers.length !== answers.length) {
-					return;
+				if (!questionObj.isAbstentionAnswer) {
+					var answers = questionObj.userAnswered.split(",");
+					// sanity check: is it a correct answer array?
+					if (questionObj.possibleAnswers.length !== answers.length) {
+						return;
+					}
+					var selectedIndexes = answers.map(function(isSelected, index) {
+						return isSelected === "1" ? list.getStore().getAt(index) : -1;
+					}).filter(function(index) {
+						return index !== -1;
+					});
+					list.select(selectedIndexes, true);
 				}
-				var selectedIndexes = answers.map(function(isSelected, index) {
-					return isSelected === "1" ? list.getStore().getAt(index) : -1;
-				}).filter(function(index) {
-					return index !== -1;
-				});
-				list.select(selectedIndexes, true);
 				questionPanel.disableQuestion();
 			} else {
 				var index = data.find('text', questionObj.userAnswered);

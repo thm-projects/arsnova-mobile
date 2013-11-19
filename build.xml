@@ -22,25 +22,6 @@
 			
 			<fileset dir="${main.dir}">
 				<include name="**/*.js"/>
-				<!-- do not process Touch Charts - it throws errors! -->
-				<exclude name="**/*touch-charts-debug.js"/>
-				<exclude name="**/*touch-charts.js"/>
-			</fileset>
-			<mapper type="glob" from="*.js" to="*.js.min"/>
-		</apply>
-		<!-- Handle Touch Charts without throwing IE8 errors -->
-		<apply executable="java" dest="${main.dir}" failonerror="true">
-			<arg value="-jar"/>
-			<arg value="${main.lib.dir}/compiler.jar"/>
-			<arg line="--jscomp_warning internetExplorerChecks"/>
-			<arg value="--js"/>
-			<srcfile/>
-			<arg value="--js_output_file"/>
-			<targetfile/>
-			
-			<fileset dir="${main.dir}">
-				<include name="**/*touch-charts-debug.js"/>
-				<include name="**/*touch-charts.js"/>
 			</fileset>
 			<mapper type="glob" from="*.js" to="*.js.min"/>
 		</apply>

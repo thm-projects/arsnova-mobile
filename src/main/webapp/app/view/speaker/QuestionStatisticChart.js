@@ -97,7 +97,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			}
 		});
 		
-		var title = this.questionObj.text;
+		var title = Ext.util.Format.htmlEncode(this.questionObj.text);
 		if(window.innerWidth < 800 && title.length > (window.innerWidth / 10))
 			title = title.substring(0, (window.innerWidth) / 10) + "...";
 		
@@ -269,15 +269,17 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		        fields	: ['value'],
 		        minimum: 0,
 		        style: { stroke: 'white' },
-		        label: { strokeStyle: 'white' }
+		        label: {
+		        	color: 'white'
+		        }
 		    }, {
 		        type	: 'category',
 		        position: 'bottom',
 		        fields	: ['text'],
 		        style: { stroke: 'white' },
 		        label: {
-		        	strokeStyle: 'white',
-		        	rotate: { degrees: 315}
+		        	color: 'white',
+		        	rotate: { degrees: 315 }
 		        }
 		    }],
 	        

@@ -24,19 +24,23 @@ Ext.define("ARSnova.controller.Auth", {
 	config: {
 		routes: {
 			'id/:sessionkey': 'qr',
+			'id/:sessionkey/:role': 'qr',
 			'auth/checkLogin': 'checkLogin'
 		}
 	},
 	
-	qr: function(sessionkey) {
+	qr: function(sessionkey, role) {
 		ARSnova.app.loggedIn = true;
 		if (localStorage.getItem('login') === null) {
 			localStorage.setItem('login', ARSnova.app.authModel.generateGuestName());
 		}
-		ARSnova.app.userRole = ARSnova.app.USER_ROLE_STUDENT;
+		ARSnova.app.userRole = "lecturer" === role ? ARSnova.app.USER_ROLE_SPEAKER : ARSnova.app.USER_ROLE_STUDENT;
 		localStorage.setItem('role', ARSnova.app.userRole);
-		ARSnova.app.loginMode = ARSnova.app.LOGIN_GUEST;
-		localStorage.setItem('loginMode', ARSnova.app.loginMode);
+		ARSnova.app.setWindowTitle();
+		if (!ARSnova.app.loginMode) {
+			ARSnova.app.loginMode = ARSnova.app.LOGIN_GUEST;
+			localStorage.setItem('loginMode', ARSnova.app.loginMode);
+		}
 		localStorage.setItem('keyword', sessionkey);
 		ARSnova.app.afterLogin();
 

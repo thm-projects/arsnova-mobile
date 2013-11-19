@@ -74,6 +74,7 @@ Ext.application({
     		/* app/view/about */
     		['about.InfoPanel'],
     		['about.StatisticPanel'],
+    		['about.DiagnosisPanel'],
     		['about.TabPanel'],
     		
     		/* app/view/feedback */
