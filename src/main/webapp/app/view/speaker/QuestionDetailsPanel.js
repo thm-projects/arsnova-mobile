@@ -68,7 +68,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	freetextAnswerStore: Ext.create('Ext.data.JsonStore', {
 		model		: 'FreetextAnswer',
 		sorters		: [{property: 'timestamp', direction: 'DESC'}],
-		groupField	: 'groupDate'
+		groupField	: 'groupDate',
+		grouper		: {property: 'timestamp', direction: 'DESC'}
 	}),
 	
 	renewAnswerDataTask: {
@@ -875,6 +876,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						self.freetextAnswerStore.removeAll();
 						if (answers.length > 0) {
 							self.freetextAnswerStore.add(answers);
+							self.freetextAnswerStore.sort([{
+								property : 'timestamp',
+								direction: 'DESC'
+							}]);
 						}
 						self.abstentions.setBadge([{badgeText: abstentions.length}]);
 						
