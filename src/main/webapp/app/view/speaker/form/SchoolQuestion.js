@@ -47,7 +47,7 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 		var possibleAnswers = question.possibleAnswers;
 		
 		this.setMaxAnswers(possibleAnswers.length);
-		for (var i=0; i < fields.length; i++) {
+		for (var i=0; i < this.fields.length; i++) {
 			this.fields[i].setValue(possibleAnswers[i].text);
 		}
 	},
