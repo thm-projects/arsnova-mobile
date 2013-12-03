@@ -142,6 +142,7 @@ Ext.define("ARSnova.controller.Auth", {
     	/* clear local storage */
     	localStorage.removeItem('sessions');
     	localStorage.removeItem('role');
+    	localStorage.removeItem('login');
     	localStorage.removeItem('loginMode');
     	
     	/* check if new version available */

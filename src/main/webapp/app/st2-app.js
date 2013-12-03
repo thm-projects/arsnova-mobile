@@ -204,7 +204,7 @@ Ext.application({
 		this.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
 		
 		console.log(localStorage);
-		if (localStorage.getItem("ARSnovaCon") !== "true" && this.checkStoredSessionKeyword()) {
+		if (localStorage.getItem("ARSnovaCon") !== "true" && this.checkLogin()) {
 			this.checkPreviousLogin();
 		}
 	},
@@ -252,10 +252,10 @@ Ext.application({
     },
     
     /**
-     * returns true of session keyword is stored
+     * returns true if login is stored in localStorage
      */
-	checkStoredSessionKeyword: function() {
-		if(localStorage.getItem('keyword') == undefined || localStorage.getItem('keyword') == "")
+	checkLogin: function() {
+		if(localStorage.getItem('login') == undefined || localStorage.getItem('login') == "")
 			return false;
 		else 
 			return true;
