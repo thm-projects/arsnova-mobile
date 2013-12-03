@@ -203,7 +203,8 @@ Ext.application({
 		this.restProxy = Ext.create('ARSnova.proxy.RestProxy'); 
 		this.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
 		
-		if (localStorage.getItem("ARSnovaCon") !== "true") {
+		console.log(localStorage);
+		if (localStorage.getItem("ARSnovaCon") !== "true" && this.checkStoredSessionKeyword()) {
 			this.checkPreviousLogin();
 		}
 	},
@@ -249,7 +250,17 @@ Ext.application({
     	else
     		return true;
     },
-	
+    
+    /**
+     * returns true of session keyword is stored
+     */
+	checkStoredSessionKeyword: function() {
+		if(localStorage.getItem('keyword') == undefined || localStorage.getItem('keyword') == "")
+			return false;
+		else 
+			return true;
+	},
+    
 	checkPreviousLogin: function(){
 		var isLocalStorageUninitialized = localStorage.getItem('role') == null
 									   || localStorage.getItem('loginMode') == null
