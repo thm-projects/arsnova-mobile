@@ -203,7 +203,6 @@ Ext.application({
 		this.restProxy = Ext.create('ARSnova.proxy.RestProxy'); 
 		this.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
 		
-		console.log(localStorage);
 		if (localStorage.getItem("ARSnovaCon") !== "true" && this.checkLogin()) {
 			this.checkPreviousLogin();
 		}
