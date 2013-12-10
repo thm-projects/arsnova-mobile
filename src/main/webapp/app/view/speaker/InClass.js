@@ -62,6 +62,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		
 		var comingSoon = function(component) {
 			var comingSoonPanel = Ext.create('Ext.Panel', {
+				top: -1000,
 				html: "<div style='padding: 0.5em'>"+Messages.FEATURE_COMING_SOON+"</div>"
 			});
 			comingSoonPanel.showBy(component, 'tc-bc');
