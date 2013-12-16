@@ -186,7 +186,7 @@ Ext.define("ARSnova.controller.Questions", {
 						}
 					},
 					failure: function(records, operation){
-						Ext.Msg.alert(Messages.NOTIFICATION, Messags.QUESTION_COULD_NOT_BE_SAVED);
+						Ext.Msg.alert(Messages.NOTIFICATION, Messages.QUESTION_COULD_NOT_BE_SAVED);
 					}
 				});
 			},
