@@ -92,6 +92,11 @@ Ext.define('ARSnova.BrowserDetect', {
 			versionSearch: "MSIE"
 		}, {
 			string: navigator.userAgent,
+			subString: "Trident",
+			identity: "Explorer",
+			versionSearch: "rv"
+		}, {
+			string: navigator.userAgent,
 			subString: "Gecko",
 			identity: "Mozilla",
 			versionSearch: "rv"
