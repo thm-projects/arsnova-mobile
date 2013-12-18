@@ -238,5 +238,9 @@ Ext.define("ARSnova.controller.Questions", {
 			};
 			panel.backButton.setText("Fragen");
 		}, this, {single:true});
-    }
+    },
+	
+	deleteAllInterposedQuestions: function(callbacks) {
+		ARSnova.app.questionModel.deleteAllInterposedQuestions(localStorage.getItem('keyword'), callbacks);
+	}
 });

@@ -59,6 +59,8 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 	initialize: function(){
 		this.callParent(arguments);
 		
+		var panel = this;
+		
 		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.HOME,
 			ui		: 'back',
@@ -76,12 +78,34 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			}
 		});
 		
+		this.deleteAllButton = Ext.create('Ext.Button', {
+			text: Messages.DELETE_ALL_QUESTIONS,
+			ui: 'decline',
+			handler: function() {
+				Ext.Msg.confirm(Messages.DELETE_ALL_QUESTIONS, Messages.ARE_YOU_SURE, function(answer) {
+					if (answer === 'yes') {
+						ARSnova.app.getController('Questions').deleteAllInterposedQuestions({
+							success: function() {
+								panel.list.hide();
+								panel.noQuestionsFound.show();
+							},
+							failure: function() {
+								console.log("Could not delete all interposed questions.");
+							}
+						});
+					}
+				});
+			}
+		});
+		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: 'Auditorium',
 			docked: 'top',
 			ui: 'light',
 			items: [
-		        this.backButton
+		        this.backButton,
+		        {xtype: 'spacer'},
+		        this.deleteAllButton
 	        ]
 		});
 
