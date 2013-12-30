@@ -1,11 +1,11 @@
 <project name="ARSnova" default="run">
 	<property name="main.dir" value="src/main/webapp" />
 	<property name="main.lib.dir" value="${main.dir}/lib" />
-	<property name="main.sencha.dir" value="${main.lib.dir}/touch-2.3.0" />
+	<property name="main.sencha.dir" value="${main.lib.dir}/touch-2.3.1" />
 	
 	<property name="build.dir" value="src/main/build" />
 	<property name="build.lib.dir" value="${build.dir}/lib" />
-	<property name="build.sencha.dir" value="${build.lib.dir}/touch-2.3.0" />
+	<property name="build.sencha.dir" value="${build.lib.dir}/touch-2.3.1" />
 	
 	<target name="-build:init">
 		<mkdir dir="${build.dir}" />
@@ -43,7 +43,7 @@
 		<copy todir="${build.dir}">
 			<fileset dir="${main.dir}">
 				<include name="index.html" />
-				<include name="st2-arsnova.manifest" />
+				<include name="arsnova.manifest" />
 				<include name="favicon.png" />
 				<include name="WEB-INF/**" />
 			</fileset>

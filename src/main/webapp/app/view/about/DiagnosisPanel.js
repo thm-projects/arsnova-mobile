@@ -91,6 +91,10 @@ Ext.define('ARSnova.view.about.DiagnosisPanel', {
 				handler	: function(b) {
 					Ext.Msg.confirm(Messages.ARSNOVA_RELOAD, Messages.RELOAD_SURE, function(b) {
 						if(b == "yes") {
+					    	if(ARSnova.app.checkSessionLogin()) {
+					    		ARSnova.app.getController('Sessions').logout();
+					    	}
+							ARSnova.app.getController('Auth').logout();
 							window.location.reload(true);
 						}
 					});

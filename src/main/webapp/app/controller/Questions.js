@@ -228,7 +228,7 @@ Ext.define("ARSnova.controller.Questions", {
 						}
 					},
 					failure: function(records, operation){
-						Ext.Msg.alert(Messages.NOTIFICATION, Messags.QUESTION_COULD_NOT_BE_SAVED);
+						Ext.Msg.alert(Messages.NOTIFICATION, Messages.QUESTION_COULD_NOT_BE_SAVED);
 					}
 				});
 			},
@@ -282,5 +282,9 @@ Ext.define("ARSnova.controller.Questions", {
 			};
 			panel.backButton.setText("Fragen");
 		}, this, {single:true});
-    }
+    },
+	
+	deleteAllInterposedQuestions: function(callbacks) {
+		ARSnova.app.questionModel.deleteAllInterposedQuestions(localStorage.getItem('keyword'), callbacks);
+	}
 });

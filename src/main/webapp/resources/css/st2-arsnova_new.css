@@ -19,11 +19,6 @@
 	opacity: 0;
 }
 
-/* Overwriting css classes*/
-.x-input-text, .x-input-password {
-	text-align: center;
-}
-
 .x-carousel-indicator span {
 	display: block;
 	width: 0.7em;

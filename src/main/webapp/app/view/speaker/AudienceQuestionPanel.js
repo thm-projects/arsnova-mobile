@@ -100,19 +100,21 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 						question	: list.getStore().getAt(index).data
 					});
 				},
-		        initialize: function (list, eOpts){
-		            var me = list;
-		            if (typeof me.getItemMap == 'function'){
-		                me.getScrollable().getScroller().on('refresh',function(scroller,eOpts){
-		                	var itemsHeight = me.getItemHeight() * me.itemsCount;
-		                	if(me.getGrouped()) {
-		                		var groupHeight = typeof me.headerHeight !== 'undefined' ? me.headerHeight : 26;
-		                		itemsHeight += me.groups.length * groupHeight;
-		                	}
-		                	me.setHeight(itemsHeight + 20);
-		                });
-		            }
-		        }
+				/**
+				 * The following event is used to get the computed height of all list items and 
+				 * finally to set this value to the list DataView. In order to ensure correct rendering
+				 * it is also necessary to get the properties "padding-top" and "padding-bottom" and 
+				 * add them to the height of the list DataView.
+				 */
+				painted: function(list, eOpts) {
+		        	var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
+	        		
+		        	this.questionList.setHeight(
+		        		parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height"))	+ 
+		        	    parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top"))	+
+		        	    parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
+		        	);
+				}
 			}
 		});
 		
@@ -320,6 +322,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	},
 	
 	onDeactivate: function() {
+		this.questionList.hide();
 		taskManager.stop(this.updateAnswerCount);
 	},
 	
@@ -348,9 +351,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	
 	showcaseHandler: function() {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-		sTP.animateActiveItem(sTP.showcaseQuestionPanel, {
-			type		: 'slide'
-		});
+		sTP.animateActiveItem(sTP.showcaseQuestionPanel, 'slide');
 	},
 	
 	getQuestionAnswers: function() {

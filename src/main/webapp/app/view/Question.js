@@ -125,7 +125,7 @@ Ext.define('ARSnova.view.Question', {
 				var confirm = function(answer, handler) {
 					Ext.Msg.confirm(Messages.ANSWER + ' "' + answer + '"', Messages.SUBMIT_ANSWER, handler);
 				};
-				if (record.internalId === self.abstentionInternalId) {
+				if (record.get('id') === self.abstentionInternalId) {
 					return confirm(Messages.ABSTENTION, function(button) {
 						if (button !== 'yes') {
 							return;

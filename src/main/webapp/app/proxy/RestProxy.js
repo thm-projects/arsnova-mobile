@@ -305,6 +305,15 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 	
+	deleteAllInterposedQuestions: function(sessionKeyword, callbacks) {
+		this.arsjax.request({
+			url: "session/" + encodeURIComponent(sessionKeyword) + "/interposed/",
+			method: "DELETE",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
 	countFeedbackQuestions: function(sessionKeyword, callbacks){
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/interposedreadingcount",

@@ -246,5 +246,9 @@ Ext.define('ARSnova.model.Question', {
     
     releasedByCourseId: function(courseId, callbacks) {
     	return this.getProxy().releasedByCourseId(courseId, callbacks);
+    },
+    
+    deleteAllInterposedQuestions: function(sessionKeyword, callbacks) {
+    	return this.getProxy().deleteAllInterposedQuestions(sessionKeyword, callbacks);
     }
 });
