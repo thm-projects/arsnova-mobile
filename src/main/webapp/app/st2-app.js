@@ -72,10 +72,12 @@ Ext.application({
     		['FreetextQuestion', 'Question', 'QuestionStatusButton', 'SessionStatusButton', 'TextCheckfield'],
     		
     		/* app/view/about */
-    		['about.InfoPanel'],
-    		['about.StatisticPanel'],
-    		['about.DiagnosisPanel'],
     		['about.TabPanel'],
+    		
+    		/* app/view/diagnosis */
+    		['diagnosis.DiagnosisPanel'],
+    		['diagnosis.StatisticsPanel'],
+    		['diagnosis.TabPanel'],
     		
     		/* app/view/feedback */
     		['feedback.AskPanel', 'feedback.StatisticPanel', 'feedback.TabPanel', 'feedback.VotePanel'],

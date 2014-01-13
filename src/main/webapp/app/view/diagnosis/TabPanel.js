@@ -1,8 +1,7 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/about/tabPanel.js
- - Beschreibung: TabPanel für den Info-Tab (Zuhörer und Dozenten).
- - Version:      1.0, 01/05/12
+ app/diagnosis/tabPanel.js
+ - Beschreibung: TabPanel für Diagnose-Werkzeuge
  - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
@@ -18,12 +17,12 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-Ext.define('ARSnova.view.about.TabPanel', {
+Ext.define('ARSnova.view.diagnosis.TabPanel', {
 	extend: 'Ext.tab.Panel',
 	
 	config: {
-		title	: Messages.INFO,
-		iconCls	: 'tabBarIconInfo',
+		title	: Messages.DIAGNOSIS,
+		iconCls	: 'tabBarIconDiagnosis',
 		
 		tabBar: {
 	    	hidden: true
@@ -33,8 +32,10 @@ Ext.define('ARSnova.view.about.TabPanel', {
 	initialize: function() {
 		this.callParent(arguments);
 		
-		this.on("activate", function() {
-			window.open("https://arsnova.eu/manual/index.php/"+encodeURIComponent(moment.lang())+"/");
-		});
+		this.diagnosisPanel = Ext.create('ARSnova.view.diagnosis.DiagnosisPanel');
+		
+		this.add([
+		    this.diagnosisPanel
+        ]);
 	}
 });

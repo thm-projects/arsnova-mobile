@@ -102,7 +102,6 @@ Ext.define("ARSnova.controller.Sessions", {
 		
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 		/* show home Panel */
-		tabPanel.homeTabPanel.tab.show();
 		tabPanel.animateActiveItem(tabPanel.homeTabPanel, {
 			type: 'slide',
 			direction: 'right',
@@ -132,7 +131,6 @@ Ext.define("ARSnova.controller.Sessions", {
 	
 	reloadData: function(){
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
-		tabPanel.homeTabPanel.tab.hide();
 		var hideLoadMask = Ext.emptyFn;
 
 		if (ARSnova.app.isSessionOwner) {
