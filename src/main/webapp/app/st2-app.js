@@ -21,7 +21,20 @@
 
 Ext.application({
 	
-	//requires: ['ARSnova.BrowserSupport', 'ARSnova.proxy.RestProxy', 'ARSnova.WebSocket'],
+	requires: [].concat(
+			/* custom arsnova requires */
+			['ARSnova.BrowserSupport', 'ARSnova.proxy.RestProxy', 'ARSnova.WebSocket'],
+			
+			/* 
+			 * sencha touch library requires 
+			 */
+			['Ext.Img', 'Ext.Label', 'Ext.TitleBar', 'Ext.data.JsonStore', 'Ext.dataview.List', 'Ext.MessageBox' ],
+			['Ext.SegmentedButton', 'Ext.field.Spinner', 'Ext.field.Toggle'],
+			
+			/* chart requires */
+			['Ext.chart.CartesianChart', 'Ext.chart.series.Bar', 'Ext.chart.axis.Numeric', 'Ext.chart.axis.Category'],
+			['Ext.draw.gradient.Linear']
+	),
 
 	startupImage: {
 		'320x460' : 'resources/images/ARSnova_Grafiken/03_Launchimage_320x460px.png', // iPhone (3.5" non-retina)

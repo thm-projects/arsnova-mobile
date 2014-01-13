@@ -45,13 +45,13 @@ Ext.ClassManager.addNameAlternateMappings({
   "ARSnova.proxy.RestProxy": [],
   "ARSnova.view.Caption": [],
   "ARSnova.view.CustomMask": [],
+  "ARSnova.view.CustomMessageBox": [],
   "ARSnova.view.FreetextAnswerPanel": [],
   "ARSnova.view.FreetextDetailAnswer": [],
   "ARSnova.view.FreetextQuestion": [],
   "ARSnova.view.LoginPanel": [],
   "ARSnova.view.MainTabPanel": [],
   "ARSnova.view.MathJaxField": [],
-  "ARSnova.view.MathJaxMessageBox": [],
   "ARSnova.view.MatrixButton": [],
   "ARSnova.view.MultiBadgeButton": [],
   "ARSnova.view.NumericKeypad": [],
@@ -850,6 +850,7 @@ Ext.ClassManager.addNameAliasMappings({
   "ARSnova.view.CustomMask": [
     "widget.custom-mask"
   ],
+  "ARSnova.view.CustomMessageBox": [],
   "ARSnova.view.FreetextAnswerPanel": [],
   "ARSnova.view.FreetextDetailAnswer": [],
   "ARSnova.view.FreetextQuestion": [],
@@ -858,7 +859,6 @@ Ext.ClassManager.addNameAliasMappings({
   "ARSnova.view.MathJaxField": [
     "widget.mathjaxfield"
   ],
-  "ARSnova.view.MathJaxMessageBox": [],
   "ARSnova.view.MatrixButton": [
     "widget.matrixbutton",
     "x-matrixbutton"
