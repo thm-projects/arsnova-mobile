@@ -124,7 +124,7 @@ Ext.define("ARSnova.controller.Auth", {
 	checkLogin: function(){
 		Ext.Ajax.request({
 			url: 'whoami.json',
-			method: 'GET',    		
+			method: 'GET',
 			success: function(response){
 				var obj = Ext.decode(response.responseText);
 				ARSnova.app.loggedIn = true;
@@ -142,7 +142,6 @@ Ext.define("ARSnova.controller.Auth", {
     	/* clear local storage */
     	localStorage.removeItem('sessions');
     	localStorage.removeItem('role');
-    	localStorage.removeItem('login');
     	localStorage.removeItem('loginMode');
     	
     	/* check if new version available */
