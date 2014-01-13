@@ -84,11 +84,11 @@
         	"update": "full"
         },
         {
-        	"path": "app/internationalization.js",
+        	"path": "app/st2-internationalization.js",
         	"update": "full"
         },
         {
-            "path": "app.js",
+            "path": "app/st2-app.js",
             "bundle": true,  /* Indicates that all class dependencies are concatenated into this file when build */
             "update": "delta"
         }
