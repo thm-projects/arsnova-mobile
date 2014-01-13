@@ -1,7 +1,8 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
  - Beschreibung: MessageBox mit Mathjax-Unterstützung
- - Autor(en):    Christoph Thelen <christoph.thelen@mni.thm.de>
+ - Autor(en):    Christoph Thelen <christoph.thelen@mni.thm.de>,
+ 				 Andreas Gärtner <andreas.gaertner@mni.thm.de>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -16,7 +17,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-Ext.define('ARSnova.view.MathJaxMessageBox', {
+Ext.define('ARSnova.view.CustomMessageBox', {
 	override: 'Ext.MessageBox',
 
 	show: function(config) {
@@ -27,5 +28,25 @@ Ext.define('ARSnova.view.MathJaxMessageBox', {
 		}
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, this._message.element.dom]);
 		return this;
+	},
+	
+	confirm: function(title, message, fn, scope) {
+		this.callParent(arguments);
+		
+		return this.show({
+	        title       : title || null,
+	        message     : message || null,
+	        buttons     : [
+	 			{text: Messages.NO,  itemId: 'no'},
+				{text: Messages.YES, itemId: 'yes', ui: 'action'}
+			],
+	        promptConfig: false,
+	        scope       : scope,
+	        fn: function() {
+	            if (fn) {
+	                fn.apply(scope, arguments);
+	            }
+	        }
+		});
 	}
 });
