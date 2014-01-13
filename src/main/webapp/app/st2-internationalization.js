@@ -92,7 +92,7 @@ switch (lang) {
 			LOAD_MASK_ACTIVATION: "Releasing question...",
 			
 			/* mySessionsPanel */
-			HOME: "Session",
+			HOME: "Start",
 			SESSION: "Session",
 			CREATE_NEW_SESSION: "Create new session",
 			NEW_SESSIONS: "New session",
@@ -388,7 +388,7 @@ switch (lang) {
 			LOAD_MASK_ACTIVATION: "Aktiviere die Freigabe...",
 			
 			/* mySessionsPanel */
-			HOME: "Session",
+			HOME: "Start",
 			SESSION: "Session",
 			CREATE_NEW_SESSION: "Neue Session anlegen",
 			NEW_SESSIONS: "Neue Session",

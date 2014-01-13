@@ -67,9 +67,9 @@ Ext.application({
     views: [].concat(
     		
     		/* app/view */
-    		['Caption', 'LoginPanel', 'MainTabPanel', 'TabPanel', 'RolePanel', 'MathJaxField'], 
-    		['MathJaxMessageBox', 'MultiBadgeButton', 'MatrixButton', 'NumericKeypad', 'FreetextAnswerPanel', 'FreetextDetailAnswer'],
-    		['FreetextQuestion', 'Question', 'QuestionStatusButton', 'SessionStatusButton', 'CustomMask', 'TextCheckfield'],
+    		['Caption', 'LoginPanel', 'MainTabPanel', 'TabPanel', 'RolePanel', 'MathJaxField', 'CustomMask'], 
+    		['CustomMessageBox', 'MultiBadgeButton', 'MatrixButton', 'NumericKeypad', 'FreetextAnswerPanel', 'FreetextDetailAnswer'],
+    		['FreetextQuestion', 'Question', 'QuestionStatusButton', 'SessionStatusButton', 'TextCheckfield'],
     		
     		/* app/view/about */
     		['about.InfoPanel'],
@@ -206,9 +206,8 @@ Ext.application({
 		this.restProxy = Ext.create('ARSnova.proxy.RestProxy'); 
 		this.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
 		
-		if (localStorage.getItem("ARSnovaCon") !== "true" && this.checkLogin()) {
-			this.checkPreviousLogin();
-		}
+		/* check previous login */
+		ARSnova.app.getController('Auth').checkLogin();
 	},
 
     onUpdated: function() {
@@ -264,16 +263,6 @@ Ext.application({
     	else
     		return true;
     },
-    
-    /**
-     * returns true if login is stored in localStorage
-     */
-	checkLogin: function() {
-		if(localStorage.getItem('login') == undefined || localStorage.getItem('login') == "")
-			return false;
-		else 
-			return true;
-	},
     
 	checkPreviousLogin: function(){
 		var isLocalStorageUninitialized = localStorage.getItem('role') == null

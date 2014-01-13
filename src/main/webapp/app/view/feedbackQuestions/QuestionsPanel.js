@@ -62,7 +62,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		var panel = this;
 		
 		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.HOME,
+			text	: Messages.BACK,
 			ui		: 'back',
 			hidden	: true,
 			handler : function(){
