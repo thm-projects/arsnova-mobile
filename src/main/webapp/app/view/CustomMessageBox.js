@@ -37,8 +37,8 @@ Ext.define('ARSnova.view.CustomMessageBox', {
 	        title       : title || null,
 	        message     : message || null,
 	        buttons     : [
-	 			{text: Messages.NO,  itemId: 'no'},
-				{text: Messages.YES, itemId: 'yes', ui: 'action'}
+	            {text: Messages.YES, itemId: 'yes', ui: 'action'},
+	 			{text: Messages.NO,  itemId: 'no'}
 			],
 	        promptConfig: false,
 	        scope       : scope,
