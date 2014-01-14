@@ -1,9 +1,7 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/controllers/user.js
- - Beschreibung: User-Controller
- - Version:      1.0, 01/05/12
- - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
+ - Beschreibung: Questions-Controller
+ - Autor(en):    Christoph Thelen <christoph.thelen@mni.thm.de>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -18,13 +16,28 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-Ext.define("ARSnova.controller.User", {
-	extend: 'Ext.app.Controller',
-
-	index: function(options){
-		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-		hTP.animateActiveItem(hTP.mySessionsPanel, {
-			type: 'slide'
-		});
+Ext.define("ARSnova.controller.PreparationQuestions", {
+	extend: 'ARSnova.controller.Questions',
+	
+	config: {
+		models: ['ARSnova.model.Question']
+	},
+	
+	listQuestions: function(){
+		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		sTP.newQuestionPanel.setVariant('preparation');
+		sTP.audienceQuestionPanel.setController(this);
+		sTP.showcaseQuestionPanel.setController(this);
+		sTP.animateActiveItem(sTP.audienceQuestionPanel, 'slide');
+	},
+	
+	destroyAll: function() {
+		var question = Ext.create('ARSnova.model.Question');
+		question.deleteAllPreparationQuestions.apply(question, arguments);
+	},
+	
+	getQuestions: function() {
+		var question = Ext.create('ARSnova.model.Question');
+		question.getPreparationQuestions.apply(question, arguments);
 	}
 });

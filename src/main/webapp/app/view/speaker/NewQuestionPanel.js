@@ -30,7 +30,11 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		title: 'NewQuestionPanel',
 		fullscreen: true,
 		scrollable: true,
-		scroll: 'vertical'
+		scroll: 'vertical',
+		
+		variant: 'lecture',
+		abstention: true,
+		releasedFor: 'all'
 	},
 	
 	/* toolbar items */
@@ -99,17 +103,20 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			}]
 		});
 		
-		if(window.innerWidth < 600) {
-			this.releaseItems = [
-                 { text	: Messages.ALL_SHORT, id: 'all', pressed: true},
-                 { text	: Messages.ONLY_THM_SHORT, id: 'thm' }
-             ]
-		} else {
-			this.releaseItems = [
-                 { text	: Messages.ALL_LONG, id: 'all', pressed: true},
-                 { text	: Messages.ONLY_THM_LONG, id: 'thm' }
-             ]
-		}
+		this.releaseItems = [{
+			text: window.innerWidth < 600 ? Messages.ALL_SHORT : Messages.ALL_LONG,
+			pressed: true,
+			scope: this,
+			handler: function() {
+				this.setReleasedFor('all');
+			}
+		}, {
+			text: window.innerWidth < 600 ? Messages.ONLY_THM_SHORT : Messages.ONLY_THM_LONG,
+			scope: this,
+			handler: function() {
+				this.setReleasedFor('thm');
+			}
+		}];
 		
 		this.abstentionPart = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
@@ -122,9 +129,18 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 					style: 'margin: auto',
 					cls: 'yesnoOptions',
 					items: [{
-						text: Messages.YES, id: 'withAbstention', pressed: true
+						text: Messages.YES,
+						pressed: true,
+						scope: this,
+						handler: function() {
+							this.setAbstention(true);
+						}
 					}, {
-						text: Messages.NO, id: 'withoutAbstention'
+						text: Messages.NO,
+						scope: this,
+						handler: function() {
+							this.setAbstention(false);
+						}
 					}]
 				}]
 			}]
@@ -209,34 +225,28 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		}
 		
 		this.yesNoQuestion = Ext.create('ARSnova.view.speaker.form.YesNoQuestion', {
-			id: 'yesno',
 			cls: 'newQuestionOptions',
 			hidden: true,
 			scrollable: null
 		});
 		
 		this.multipleChoiceQuestion = Ext.create('ARSnova.view.speaker.form.ExpandingAnswerForm', {
-			id: 'mc',
 			hidden: true
 		});
 
 		this.voteQuestion = Ext.create('ARSnova.view.speaker.form.VoteQuestion', {
-			id: 'vote',
 			hidden: true
 		});
 		
 		this.schoolQuestion = Ext.create('ARSnova.view.speaker.form.SchoolQuestion', {
-			id: 'school',
 			hidden: true
 		});
 		
 		this.abcdQuestion = Ext.create('ARSnova.view.speaker.form.IndexedExpandingAnswerForm', {
-			id: 'abcd',
 			hidden: true
 		});
 		
 		this.freetextQuestion = Ext.create('Ext.form.FormPanel', {
-			id: 'freetext',
 			hidden: true,
 			scrollable: null,
 			submitOnAction: false,
@@ -244,7 +254,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		});
 		
 		this.flashcardQuestion = Ext.create('ARSnova.view.speaker.form.FlashcardQuestion', {
-			id: 'flashcard',
 			hidden: true
 		});
 		
@@ -447,48 +456,43 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		var mainPartValues = panel.mainPart.getValues();
 		values.text = mainPartValues.text;
 		values.subject = mainPartValues.subject;
-		values.abstention = !panel.abstentionPart.isHidden() && panel.abstentionPart.down('segmentedbutton').getPressedButtons()[0].id === 'withAbstention';
+		values.abstention = !panel.abstentionPart.isHidden() && panel.getAbstention();
+		values.questionVariant = panel.getVariant();
 		
 		/* check if release question button is clicked */
 		var releasePart = panel.releasePart;
 		
-		var button;
 		if (localStorage.getItem('courseId') != null && localStorage.getItem('courseId').length > 0) {
-			button = null;
 			values.releasedFor = 'courses';
-		} else {
-			button = releasePart.down('segmentedbutton').getPressedButtons()[0];
-		}
+		} 
 		
-		if(button){
-			switch (button.id) {
-				case 'all':
-					values.releasedFor = 'all';
-					break;
-				case 'thm':
-					values.releasedFor = 'thm';
-					break;
-				case 'courses':
-					var releasedForValues = releasePart.getValues();
-					var tmpArray = [];
-					for (name in releasedForValues) {
-						var id = releasedForValues[name];
-						if(id === null)
-							continue;
-						tmpArray.push({
-							name: name,
-							id: id
-						});
-					}
-					if(tmpArray.length > 0){
-						values.releasedFor = 'courses';
-						values.courses = tmpArray;
-					}
-					break;	
-				default:
-					break;
-			}
-    	}
+		switch (panel.getReleasedFor()) {
+			case 'all':
+				values.releasedFor = 'all';
+				break;
+			case 'thm':
+				values.releasedFor = 'thm';
+				break;
+			case 'courses':
+				var releasedForValues = releasePart.getValues();
+				var tmpArray = [];
+				for (name in releasedForValues) {
+					var id = releasedForValues[name];
+					if(id === null)
+						continue;
+					tmpArray.push({
+						name: name,
+						id: id
+					});
+				}
+				if(tmpArray.length > 0){
+					values.releasedFor = 'courses';
+					values.courses = tmpArray;
+				}
+				break;	
+			default:
+				break;
+		}
     	
     	/* fetch the values */
     	switch (panel.questionOptions.getPressedButtons()[0]._text) {
@@ -583,6 +587,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			subject		: values.subject,
 			type		: "skill_question",
 			questionType: values.questionType,
+			questionVariant: values.questionVariant,
 			duration	: values.duration,
 			number		: 0, // unused
 			active		: 1,
