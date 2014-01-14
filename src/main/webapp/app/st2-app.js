@@ -61,7 +61,7 @@ Ext.application({
     icon: 'resources/images/ARSnova_Grafiken/01_AppIcon_114x114px.png',
 
     models: [].concat(
-    		['Answer', 'Config', 'Feedback', 'LoggedIn', 'Question', 'Session', 'Statistic', 'Course'],
+    		['Answer', 'Feedback', 'LoggedIn', 'Question', 'Session', 'Statistic', 'Course'],
     		['Auth', 'FeedbackQuestion']),
     
     views: [].concat(
@@ -95,7 +95,7 @@ Ext.application({
     		/* app/view/user */
     		['user.InClass', 'user.QuestionPanel', 'user.TabPanel']),
 	
-    controllers: ['Auth', 'Feedback', 'Lang', 'Questions', 'FlashcardQuestions', 'PreparationQuestions', 'Sessions', 'User'],
+    controllers: ['Auth', 'Feedback', 'Lang', 'Questions', 'FlashcardQuestions', 'PreparationQuestions', 'Sessions'],
     
     /* items */
     mainTabPanel: null,
