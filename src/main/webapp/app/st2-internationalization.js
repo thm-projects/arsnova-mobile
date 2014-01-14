@@ -92,7 +92,7 @@ switch (lang) {
 			LOAD_MASK_ACTIVATION: "Releasing question...",
 			
 			/* mySessionsPanel */
-			HOME: "Session",
+			HOME: "Start",
 			SESSION: "Session",
 			CREATE_NEW_SESSION: "Create new session",
 			NEW_SESSIONS: "New session",
@@ -296,10 +296,9 @@ switch (lang) {
 			/* about */
 			INFO: "Info",
 			ABOUT: "About",
-			DIAGNOSIS: "Diagnosis",
-			BROWSER_INFO: "Show browser information",
+			ARSNOVA_MANUAL: "Manual",
 			ARSNOVA_FAQ: "FAQ | Helpdesk",
-			ARSNOVA_RELOAD: "Reload ARSnova",
+			
 			OPINION: "Your opinion matters",
 			WIDGET_IS_LOADING: 'Widget is loading...',
 			IMPRESSUM: "Imprint",
@@ -310,6 +309,11 @@ switch (lang) {
 			NOT_RELEASED_YET: "The instructor has not yet released the correct answer.",
 			STUDENTS_USE_CASES: "Student's Use Cases",
 			TEACHERS_USE_CASES: "Teacher's Use Cases",
+
+			/* diagnosis */
+			DIAGNOSIS: "Diagnosis",
+			BROWSER_INFO: "Show browser information",
+			ARSNOVA_RELOAD: "Reload ARSnova",
 
 			/* credits */
 			HMWK: "HMWK",
@@ -388,7 +392,7 @@ switch (lang) {
 			LOAD_MASK_ACTIVATION: "Aktiviere die Freigabe...",
 			
 			/* mySessionsPanel */
-			HOME: "Session",
+			HOME: "Start",
 			SESSION: "Session",
 			CREATE_NEW_SESSION: "Neue Session anlegen",
 			NEW_SESSIONS: "Neue Session",
@@ -591,10 +595,8 @@ switch (lang) {
 			/* about */
 			INFO: "Info",
 			ABOUT: "Über",
-			DIAGNOSIS: "Diagnose",
-			BROWSER_INFO: "Browser Informationen anzeigen",
+			ARSNOVA_MANUAL: "Anleitung",
 			ARSNOVA_FAQ: "FAQ | Helpdesk",
-			ARSNOVA_RELOAD: "ARSnova neu laden",
 			OPINION: "Deine Meinung ist gefragt",
 			WIDGET_IS_LOADING: 'Widget wird geladen...',
 			IMPRESSUM: "Impressum",
@@ -605,6 +607,11 @@ switch (lang) {
 			NOT_RELEASED_YET: "Der Dozent hat die richtige Antwort noch nicht freigegeben.",
 			STUDENTS_USE_CASES: "Für Studenten",
 			TEACHERS_USE_CASES: "Für Dozenten",
+
+			/* diagnosis */
+			DIAGNOSIS: "Diagnose",
+			BROWSER_INFO: "Browser Informationen anzeigen",
+			ARSNOVA_RELOAD: "ARSnova neu laden",
 
 			/* credits */
 			HMWK: "HMWK",

@@ -44,7 +44,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		this.setLectureMode();
 		
 		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.HOME,
+			text	: Messages.BACK,
 			ui		: 'back',
 			hidden	: true,
 			handler	: function() {

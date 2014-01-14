@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 	extend: 'Ext.tab.Panel',
 	
 	config: {
-		title	: Messages.SESSION,
+		title	: Messages.HOME,
 		iconCls	: 'tabBarIconHome',
 		
 		tabBar: {

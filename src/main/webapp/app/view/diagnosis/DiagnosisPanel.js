@@ -18,7 +18,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-Ext.define('ARSnova.view.about.DiagnosisPanel', {
+Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 	extend: 'Ext.Container',
 	
 	config: {
@@ -38,12 +38,11 @@ Ext.define('ARSnova.view.about.DiagnosisPanel', {
 		this.callParent(arguments);
 
 		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.INFO,
+			text	: Messages.BACK,
 			ui		: 'back',
 			hidden	: true,
 			handler	: function() {
-				var infoTabPanel = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
-				infoTabPanel.animateActiveItem(infoTabPanel.infoPanel, {
+				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.lastActivePanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700
@@ -76,6 +75,13 @@ Ext.define('ARSnova.view.about.DiagnosisPanel', {
 			},
 			
 			items: [{
+				text	: Messages.STATISTIC,
+				handler	: function() {
+					var me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel;
+					me.statisticsPanel = Ext.create('ARSnova.view.diagnosis.StatisticsPanel');
+					me.animateActiveItem(me.statisticsPanel, 'slide');
+				}
+			}, {
 				text	: Messages.BROWSER_INFO,
 				handler	: function(b) {
 					var browserInfo = new String(
