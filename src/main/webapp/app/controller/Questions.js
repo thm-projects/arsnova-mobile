@@ -32,6 +32,7 @@ Ext.define("ARSnova.controller.Questions", {
 	lectureIndex: function(options){
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.setLectureMode();
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.backButton.show();
+		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.setTitle(Messages.LECTURE_QUESTIONS);
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.addListener('deactivate', function(panel){
 			panel.backButton.hide();
@@ -41,6 +42,7 @@ Ext.define("ARSnova.controller.Questions", {
 	preparationIndex: function(options){
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.setPreparationMode();
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.backButton.show();
+		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.setTitle(Messages.PREPARATION_QUESTIONS);
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.addListener('deactivate', function(panel){
 			panel.backButton.hide();
@@ -52,6 +54,8 @@ Ext.define("ARSnova.controller.Questions", {
 		sTP.newQuestionPanel.setVariant('lecture');
 		sTP.audienceQuestionPanel.setController(this);
 		sTP.showcaseQuestionPanel.setController(this);
+		sTP.audienceQuestionPanel.toolbar.getTitle().setTitle(Messages.LECTURE_QUESTIONS);
+		sTP.audienceQuestionPanel.newQuestionButton.text = Messages.NEW_LECTURE_QUESTION;
 		sTP.animateActiveItem(sTP.audienceQuestionPanel, 'slide');
 	},
 	
