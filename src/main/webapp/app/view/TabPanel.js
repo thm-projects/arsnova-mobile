@@ -86,6 +86,7 @@ Ext.define('ARSnova.view.TabPanel', {
 			this.rolePanel.tab.hide();
 			this.loginPanel.tab.hide();
 			this.homeTabPanel.tab.hide();
+			this.diagnosisPanel.tab.hide();
 		});
 		this.on('activate', this.onActivate);
 		this.on('deactivate', this.onDeactivate);

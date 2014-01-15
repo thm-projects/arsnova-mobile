@@ -81,6 +81,7 @@ Ext.define("ARSnova.controller.Auth", {
 		ARSnova.app.loginMode = options.mode;
 		localStorage.setItem('loginMode', options.mode);
 		var type = "", role = "STUDENT";
+		
 		switch(options.mode){
 			case ARSnova.app.LOGIN_GUEST:
 				if (localStorage.getItem('login') === null) {
@@ -117,7 +118,8 @@ Ext.define("ARSnova.controller.Auth", {
 			}
 			return window.location = "auth/login?type=" + type + "&role=" + role;
 		}
-		
+
+		/* actions to perform after login */
 		ARSnova.app.afterLogin();
 	},
 	
@@ -136,6 +138,9 @@ Ext.define("ARSnova.controller.Auth", {
 	},
 
     logout: function(){
+		/* hide diagnosis panel */
+		ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.tab.hide();
+    	
     	/* stop task to save user is logged in */
     	taskManager.stop(ARSnova.app.loggedInTask);
     	

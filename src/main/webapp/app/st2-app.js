@@ -220,6 +220,9 @@ Ext.application({
 	afterLogin: function(){
 		taskManager.start(ARSnova.app.loggedInTask);
 		
+		/* show diagnosis tab panel */
+		ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.tab.show();
+		
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.homeTabPanel, 'slide');
 		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 		switch (ARSnova.app.userRole) {
