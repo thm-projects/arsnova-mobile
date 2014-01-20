@@ -124,7 +124,7 @@ switch (lang) {
 			FEEDBACK_RESET: 'Your feedback has been reset',
 			QUESTION_REQUEST: "I've got a question!",
 			QUESTION_TO_SPEAKER: 'Feedback',
-			QUESTION_INSTRUCTION: 'You are asking this question anonymously.<br>Your teacher decides when it will be answered.',
+			QUESTION_INSTRUCTION: 'You are asking this question anonymously.',
 			QUESTION_TEXT: "Text",
 			QUESTION_TEXT_PLACEHOLDER: 'max. 2500 characters',
 			QUESTION_SUBJECT: "Subject",
@@ -189,8 +189,8 @@ switch (lang) {
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
 			QUESTIONS_FROM_STUDENTS: "Students' questions",
-			PREPARATION_QUESTIONS: "Preparation questions",
-			LECTURE_QUESTIONS: "Lecture questions",
+			PREPARATION_QUESTIONS: "Preparation",
+			LECTURE_QUESTIONS: "Lecture",
 			FLASHCARD_SHORT: "FC",
 			FLASHCARDS: "Flashcards",
 			FLASHCARD: "Flashcard",
@@ -213,6 +213,8 @@ switch (lang) {
 			LIVE_FEEDBACK: "Live feedback",
 			COURSES_LEARNING_PROGRESS: "Course's progress",
 			NEW_QUESTION: "New question",
+			NEW_LECTURE_QUESTION: "New lecture question",
+			NEW_PREPARATION_QUESTION: "New preparation question",
 			NEW_QUESTION_TITLE: "Question",
 			AH_HOC_QUESTION: "Instant question",
 			ARE_YOU_SURE: "Are you sure?",
@@ -296,10 +298,9 @@ switch (lang) {
 			/* about */
 			INFO: "Info",
 			ABOUT: "About",
-			DIAGNOSIS: "Diagnosis",
-			BROWSER_INFO: "Show browser information",
+			ARSNOVA_MANUAL: "Manual",
 			ARSNOVA_FAQ: "FAQ | Helpdesk",
-			ARSNOVA_RELOAD: "Reload ARSnova",
+			
 			OPINION: "Your opinion matters",
 			WIDGET_IS_LOADING: 'Widget is loading...',
 			IMPRESSUM: "Imprint",
@@ -310,6 +311,11 @@ switch (lang) {
 			NOT_RELEASED_YET: "The instructor has not yet released the correct answer.",
 			STUDENTS_USE_CASES: "Student's Use Cases",
 			TEACHERS_USE_CASES: "Teacher's Use Cases",
+
+			/* diagnosis */
+			DIAGNOSIS: "Diagnosis",
+			BROWSER_INFO: "Show browser information",
+			ARSNOVA_RELOAD: "Reload ARSnova",
 
 			/* credits */
 			HMWK: "HMWK",
@@ -420,7 +426,7 @@ switch (lang) {
 			FEEDBACK_RESET: 'Ihr Feedback wurde zurückgesetzt',
 			QUESTION_REQUEST: 'Ich habe eine Frage...',
 			QUESTION_TO_SPEAKER: 'Feedback',
-			QUESTION_INSTRUCTION: 'Sie stellen diese Frage anonym.<br>Der Dozent entscheidet, wann sie beantwortet wird.',
+			QUESTION_INSTRUCTION: 'Sie stellen diese Frage anonym.',
 			QUESTION_TEXT: "Frage",
 			QUESTION_TEXT_PLACEHOLDER: 'max. 2500 Zeichen',
 			QUESTION_SUBJECT: "Thema",
@@ -485,8 +491,8 @@ switch (lang) {
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
 			QUESTIONS_FROM_STUDENTS: "Zwischenfragen",
-			PREPARATION_QUESTIONS: "Vorbereitungsfragen",
-			LECTURE_QUESTIONS: "Hörsaalfragen",
+			PREPARATION_QUESTIONS: "Vorbereitung",
+			LECTURE_QUESTIONS: "Hörsaal",
 			FLASHCARD_SHORT: "LK",
 			FLASHCARDS: "Lernkarten",
 			FLASHCARD: "Lernkarte",
@@ -509,6 +515,8 @@ switch (lang) {
 			LIVE_FEEDBACK: "Live-Feedback",
 			COURSES_LEARNING_PROGRESS: "Lernstand des Kurses",
 			NEW_QUESTION: "Neue Frage stellen",
+			NEW_LECTURE_QUESTION: "Neue Hörsaalfrage",
+			NEW_PREPARATION_QUESTION: "Neue Vorbereitungsfrage",
 			NEW_QUESTION_TITLE: "Frage",
 			AH_HOC_QUESTION: 'Frage<br>stellen',
 			ARE_YOU_SURE: "Sind Sie sicher?",
@@ -591,10 +599,8 @@ switch (lang) {
 			/* about */
 			INFO: "Info",
 			ABOUT: "Über",
-			DIAGNOSIS: "Diagnose",
-			BROWSER_INFO: "Browser Informationen anzeigen",
+			ARSNOVA_MANUAL: "Anleitung",
 			ARSNOVA_FAQ: "FAQ | Helpdesk",
-			ARSNOVA_RELOAD: "ARSnova neu laden",
 			OPINION: "Deine Meinung ist gefragt",
 			WIDGET_IS_LOADING: 'Widget wird geladen...',
 			IMPRESSUM: "Impressum",
@@ -605,6 +611,11 @@ switch (lang) {
 			NOT_RELEASED_YET: "Der Dozent hat die richtige Antwort noch nicht freigegeben.",
 			STUDENTS_USE_CASES: "Für Studenten",
 			TEACHERS_USE_CASES: "Für Dozenten",
+
+			/* diagnosis */
+			DIAGNOSIS: "Diagnose",
+			BROWSER_INFO: "Browser Informationen anzeigen",
+			ARSNOVA_RELOAD: "ARSnova neu laden",
 
 			/* credits */
 			HMWK: "HMWK",

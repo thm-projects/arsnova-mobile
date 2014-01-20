@@ -1,8 +1,7 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/controllers/user.js
- - Beschreibung: User-Controller
- - Version:      1.0, 01/05/12
+ app/diagnosis/tabPanel.js
+ - Beschreibung: TabPanel für Diagnose-Werkzeuge
  - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
@@ -18,13 +17,25 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-Ext.define("ARSnova.controller.User", {
-	extend: 'Ext.app.Controller',
+Ext.define('ARSnova.view.diagnosis.TabPanel', {
+	extend: 'Ext.tab.Panel',
+	
+	config: {
+		title	: Messages.DIAGNOSIS,
+		iconCls	: 'tabBarIconDiagnosis',
+		
+		tabBar: {
+	    	hidden: true
+	    }
+	},
 
-	index: function(options){
-		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-		hTP.animateActiveItem(hTP.mySessionsPanel, {
-			type: 'slide'
-		});
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.diagnosisPanel = Ext.create('ARSnova.view.diagnosis.DiagnosisPanel');
+		
+		this.add([
+		    this.diagnosisPanel
+        ]);
 	}
 });

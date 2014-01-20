@@ -18,7 +18,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-Ext.define('ARSnova.view.about.StatisticPanel', {
+Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 	extend: 'Ext.Container',
 	requires: ['Ext.form.Panel', 'Ext.form.FieldSet'],
 	
@@ -48,7 +48,7 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 	updateDataTask: {
 		name: 'update the statistic table',
 		run: function(){
-			ARSnova.app.mainTabPanel.tabPanel.infoTabPanel.statisticPanel.updateData();
+			ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.statisticsPanel.updateData();
 		},
 		interval: 30000
 	},
@@ -61,12 +61,12 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 	    }),
 	    
 		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.INFO,
+			text	: Messages.BACK,
 			ui		: 'back',
 			handler	: function() {
-				me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel;
+				me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel;
 				
-				me.animateActiveItem(me.infoPanel, {
+				me.animateActiveItem(me.diagnosisPanel, {
 					type		: 'slide',
 					direction	: 'right',
 					duration	: 700,
@@ -150,7 +150,7 @@ Ext.define('ARSnova.view.about.StatisticPanel', {
 				var statistics = Ext.decode(response.responseText);
 				
 				if(statistics != null) {
-					var me = ARSnova.app.mainTabPanel.tabPanel.infoTabPanel.statisticPanel;
+					var me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.statisticsPanel;
 					me.statistics = statistics;
 					me.setNumbers();
 				}

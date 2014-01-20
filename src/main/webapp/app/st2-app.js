@@ -74,7 +74,7 @@ Ext.application({
     icon: 'resources/images/ARSnova_Grafiken/01_AppIcon_114x114px.png',
 
     models: [].concat(
-    		['Answer', 'Config', 'Feedback', 'LoggedIn', 'Question', 'Session', 'Statistic', 'Course'],
+    		['Answer', 'Feedback', 'LoggedIn', 'Question', 'Session', 'Statistic', 'Course'],
     		['Auth', 'FeedbackQuestion']),
     
     views: [].concat(
@@ -85,10 +85,12 @@ Ext.application({
     		['FreetextQuestion', 'Question', 'QuestionStatusButton', 'SessionStatusButton', 'TextCheckfield'],
     		
     		/* app/view/about */
-    		['about.InfoPanel'],
-    		['about.StatisticPanel'],
-    		['about.DiagnosisPanel'],
     		['about.TabPanel'],
+    		
+    		/* app/view/diagnosis */
+    		['diagnosis.DiagnosisPanel'],
+    		['diagnosis.StatisticsPanel'],
+    		['diagnosis.TabPanel'],
     		
     		/* app/view/feedback */
     		['feedback.AskPanel', 'feedback.StatisticPanel', 'feedback.TabPanel', 'feedback.VotePanel'],
@@ -106,7 +108,7 @@ Ext.application({
     		/* app/view/user */
     		['user.InClass', 'user.QuestionPanel', 'user.TabPanel']),
 	
-    controllers: ['Auth', 'Feedback', 'Lang', 'Questions', 'Sessions', 'User'],
+    controllers: ['Auth', 'Feedback', 'Lang', 'Questions', 'FlashcardQuestions', 'PreparationQuestions', 'Sessions'],
     
     /* items */
     mainTabPanel: null,
@@ -245,6 +247,9 @@ Ext.application({
 	 */
 	afterLogin: function(){
 		taskManager.start(ARSnova.app.loggedInTask);
+		
+		/* show diagnosis tab panel */
+		ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.tab.show();
 		
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.homeTabPanel, 'slide');
 		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;

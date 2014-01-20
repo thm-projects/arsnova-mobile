@@ -1,9 +1,7 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- app/about/tabPanel.js
- - Beschreibung: TabPanel für den Info-Tab (Zuhörer und Dozenten).
- - Version:      1.0, 01/05/12
- - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
+ - Beschreibung: Questions-Controller
+ - Autor(en):    Christoph Thelen <christoph.thelen@mni.thm.de>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -18,23 +16,28 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
-Ext.define('ARSnova.view.about.TabPanel', {
-	extend: 'Ext.tab.Panel',
+Ext.define("ARSnova.controller.FlashcardQuestions", {
+	extend: 'ARSnova.controller.Questions',
 	
 	config: {
-		title	: Messages.INFO,
-		iconCls	: 'tabBarIconInfo',
-		
-		tabBar: {
-	    	hidden: true
-	    }
+		models: ['ARSnova.model.Question']
 	},
-
-	initialize: function() {
-		this.callParent(arguments);
-		
-		this.on("activate", function() {
-			window.open("https://arsnova.eu/manual/index.php/"+encodeURIComponent(moment.lang())+"/");
-		});
+	
+	listQuestions: function(){
+		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		sTP.newQuestionPanel.setVariant('flashcard');
+		sTP.audienceQuestionPanel.setController(this);
+		sTP.showcaseQuestionPanel.setController(this);
+		sTP.animateActiveItem(sTP.audienceQuestionPanel, 'slide');
+	},
+	
+	destroyAll: function() {
+		var question = Ext.create('ARSnova.model.Question');
+		question.deleteAllFlashcards.apply(question, arguments);
+	},
+	
+	getQuestions: function() {
+		var question = Ext.create('ARSnova.model.Question');
+		question.getFlashcards.apply(question, arguments);
 	}
 });
