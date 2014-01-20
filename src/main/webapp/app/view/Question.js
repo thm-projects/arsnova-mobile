@@ -216,7 +216,10 @@ Ext.define('ARSnova.view.Question', {
 			mode: this.questionObj.questionType === "mc" ? 'MULTI' : 'SINGLE'
 		});
 		if (this.questionObj.abstention
-				&& (this.questionObj.questionType === 'school' || this.questionObj.questionType === 'vote')) {
+				&& (this.questionObj.questionType === 'school'
+					|| this.questionObj.questionType === 'vote'
+					|| this.questionObj.questionType === 'abcd'
+					|| this.questionObj.questionType === 'yesno')) {
 			this.abstentionAnswer = this.answerList.getStore().add({
 				id: this.abstentionInternalId,
 				text: Messages.ABSTENTION,
@@ -325,7 +328,6 @@ Ext.define('ARSnova.view.Question', {
 	getUserAnswer: function() {
 		var self = this;
 		var promise = new RSVP.Promise();
-		console.log(self.questionObj);
 		ARSnova.app.answerModel.getUserAnswer(self.questionObj._id, {
 			empty: function() {
 				var answer = Ext.create('ARSnova.model.Answer', {
