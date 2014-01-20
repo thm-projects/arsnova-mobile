@@ -26,7 +26,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		title	: Messages.QUESTIONS,
 		iconCls	: 'tabBarIconQuestion',
 		
-		questionLoader: null
+		questionLoader: null,
+		questionCountLoader: null
 	},
 	
 	/* toolbar items */
@@ -145,10 +146,12 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	},
 	
 	setPreparationMode: function() {
+		this.setQuestionCountLoader(Ext.bind(ARSnova.app.questionModel.countPreparationQuestions, ARSnova.app.questionModel));
 		this.setQuestionLoader(Ext.bind(ARSnova.app.questionModel.getPreparationQuestionsForUser, ARSnova.app.questionModel));
 	},
 	
 	setLectureMode: function() {
+		this.setQuestionCountLoader(Ext.bind(ARSnova.app.questionModel.countLectureQuestions, ARSnova.app.questionModel));
 		this.setQuestionLoader(Ext.bind(ARSnova.app.questionModel.getLectureQuestionsForUser, ARSnova.app.questionModel));
 	},
 	
@@ -165,7 +168,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				if (questions.length == 0){
 					//no available questions found
 					
-					ARSnova.app.questionModel.countSkillQuestions(localStorage.getItem("keyword"), {
+					self.getQuestionCountLoader()(localStorage.getItem("keyword"), {
 						success: function(response){
 							var questionsInCourse = Ext.decode(response.responseText);
 							
