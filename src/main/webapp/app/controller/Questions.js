@@ -243,7 +243,7 @@ Ext.define("ARSnova.controller.Questions", {
 	},
 	
 	setAllActive: function(options) {
-		ARSnova.app.questionModel.publishAllSkillQuestions(options.questions, options.active, {
+		ARSnova.app.questionModel.publishAllSkillQuestions(localStorage.getItem("keyword"), options.active, {
 			success: function() {
 				options.callback.apply(options.scope);
 			},

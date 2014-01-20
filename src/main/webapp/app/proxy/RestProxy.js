@@ -352,6 +352,15 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 	
+	publishAllSkillQuestions: function(sessionKeyword, active, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/publish?sessionkey=" + encodeURIComponent(sessionKeyword) + "&publish=" + encodeURIComponent(active),
+			method: "POST",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
 	publishSkillQuestionStatistics: function(question, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + question.get('_id') + "/publishstatistics",
