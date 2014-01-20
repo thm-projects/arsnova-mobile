@@ -225,17 +225,37 @@ Ext.define('ARSnova.view.user.InClass', {
 	checkNewSkillQuestions: function(){
 		ARSnova.app.questionModel.getUnansweredPreparationQuestions(localStorage.getItem("keyword"), {
 			success: function(newQuestions){
-				ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.preparationQuestionButton.setBadge([{
-					badgeText: newQuestions.length
-				}]);
+				ARSnova.app.questionModel.countPreparationQuestionAnswers(localStorage.getItem("keyword"), {
+					success: function(response) {
+						var numAnswers = parseInt(response.responseText);
+						
+						var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
+						
+						panel.preparationQuestionButton.setBadge([
+											{badgeText: newQuestions.length, badgeCls: "greybadgeicon"},
+											{badgeText: numAnswers, badgeCls: "redbadgeicon"}
+										]);
+					},
+					failure: Ext.emptyFn
+				});
 			},
 			failure: Ext.emptyFn
 		});
 		ARSnova.app.questionModel.getUnansweredLectureQuestions(localStorage.getItem("keyword"), {
 			success: function(newQuestions){
-				ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.lectureQuestionButton.setBadge([{
-					badgeText: newQuestions.length
-				}]);
+				ARSnova.app.questionModel.countLectureQuestionAnswers(localStorage.getItem("keyword"), {
+					success: function(response) {
+						var numAnswers = parseInt(response.responseText);
+						
+						var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
+						
+						panel.lectureQuestionButton.setBadge([
+											{badgeText: newQuestions.length, badgeCls: "greybadgeicon"},
+											{badgeText: numAnswers, badgeCls: "redbadgeicon"}
+										]);
+					},
+					failure: Ext.emptyFn
+				});
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.tab.setBadgeText(newQuestions.length);
 				
 				if (newQuestions.length > 0) {
