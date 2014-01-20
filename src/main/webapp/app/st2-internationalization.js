@@ -184,7 +184,7 @@ switch (lang) {
 			CONFIRM_CLOSE_ALL_QUESTIONS: "Are you sure to close all questions?",
 			CONFIRM_CLOSE_QUESTION_MESSAGE: "If you close this question, students will not be able to view or answer this question.",
 			CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE: "If you close all questions, students will not be able to view or answer any question.",
-			
+			CONFIRM_ANSWERS_CHANGED: "This will reset all current answers.",
 			
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
@@ -487,6 +487,7 @@ switch (lang) {
 			CONFIRM_CLOSE_QUESTION_MESSAGE: "Wenn Sie die Frage sperren, können Zuhörer/innen die Frage weder sehen noch beantworten.",
 			CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE: "Wenn Sie die Fragen sperren, können Zuhörer/innen die Fragen weder sehen noch beantworten.",
 			SAVE_AND_CONTINUE: 'Speichern und weiter',
+			CONFIRM_ANSWERS_CHANGED: "Bereits gegebene Antworten gehen verloren.",
 			
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",

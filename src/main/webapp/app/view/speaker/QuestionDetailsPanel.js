@@ -133,7 +133,40 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			text	: Messages.EDIT,
 			handler	: function(){
 				var panel = this.up('panel');
-				
+				var answersChanged = function(prevAnswers, newAnswers) {
+					if (prevAnswers.length !== newAnswers.length) {
+						return true;
+					}
+					var changed = false;
+					prevAnswers.forEach(function(answer, i) {
+						if (answer.text !== newAnswers[i].text) {
+							changed = true;
+						}
+					});
+					return changed;
+				};
+				var saveQuestion = function(question) {
+					var questionValues = panel.answerEditForm.getQuestionValues();
+					question.set("possibleAnswers", questionValues.possibleAnswers);
+					question.set("noCorrect", !!questionValues.noCorrect);
+					Ext.apply(question.raw, questionValues);
+					question.saveSkillQuestion({
+						success: function(response) {
+							var newAbstentions = Ext.create('ARSnova.view.MultiBadgeButton', panel.abstentions.config);
+							panel.questionObj = question.data;
+							panel.answerFormFieldset.removeAll();
+							panel.answerFormFieldset.add(newAbstentions);
+							panel.abstentions = newAbstentions;
+							panel.getPossibleAnswers();
+						}
+					});
+				};
+				var finishEdit = Ext.bind(function() {
+					this.setText(Messages.EDIT);
+					this.removeCls('x-button-action');
+					this.config.disableFields(panel);
+					this.config.setEnableAnswerEdit(panel, false);
+				}, this);
 				if(this.getText() == Messages.EDIT){
 					panel.cancelButton.show();
 					panel.backButton.hide();
@@ -158,29 +191,25 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					panel.subject.resetOriginalValue();
 					panel.textarea.resetOriginalValue();
 					
+					var needsConfirmation = false;
 					if (!panel.answerEditForm.isHidden()) {
 						var questionValues = panel.answerEditForm.getQuestionValues();
-						question.set("possibleAnswers", questionValues.possibleAnswers);
-						question.set("noCorrect", !!questionValues.noCorrect);
-						Ext.apply(question.raw, questionValues);
+						if (answersChanged(question.get("possibleAnswers"), questionValues.possibleAnswers)) {
+							needsConfirmation = true;
+						}
 					}
 					
-					question.saveSkillQuestion({
-						success: function(response) {
-							var newAbstentions = Ext.create('ARSnova.view.MultiBadgeButton', panel.abstentions.config);
-							panel.questionObj = question.data;
-							panel.answerFormFieldset.removeAll();
-							panel.answerFormFieldset.add(newAbstentions);
-							panel.abstentions = newAbstentions;
-							panel.getPossibleAnswers();
-						}
-					});
-					
-					this.setText(Messages.EDIT);
-					this.removeCls('x-button-action');
-					
-					this.config.disableFields(panel);
-					this.config.setEnableAnswerEdit(panel, false);
+					if (needsConfirmation) {
+						Ext.Msg.confirm(Messages.ARE_YOU_SURE, Messages.CONFIRM_ANSWERS_CHANGED, function(answer) {
+							if (answer === "yes") {
+								saveQuestion(question);
+								finishEdit();
+							}
+						}, this);
+					} else {
+						saveQuestion(question);
+						finishEdit();
+					}
 				}
 			},
 			
