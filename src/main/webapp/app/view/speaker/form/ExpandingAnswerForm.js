@@ -177,5 +177,15 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			result.noCorrect = 1;
 		}
 		return result;
+	},
+	
+	markEmptyFields: function() {
+		var field;
+		for (var i=0; i < this.selectAnswerCount.getValue(); i++) {
+			field = this.answerComponents[i];
+			if (field.getValue().trim() === "") {
+				field.addCls("required");
+			}
+		}
 	}
 });
