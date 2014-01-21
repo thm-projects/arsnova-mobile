@@ -61,12 +61,27 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				});
 			}
 		});
-		
+
 		this.saveButton = Ext.create('Ext.Button', {
 			text	: Messages.SAVE,
 			ui		: 'confirm',
+			cls: 'saveQuestionButton',
+			style: 'margin-top: 30px;width: 80px',
 			handler: function() {
 				this.saveHandler().then(function(response) {
+					ARSnova.app.getController('Questions').details({
+						question: Ext.decode(response.responseText)
+					});
+				});
+			},
+			scope: this
+		});
+		
+		this.previewButton = Ext.create('Ext.Button', {
+			text	: Messages.QUESTION_PREVIEW,
+			ui		: 'confirm',
+			handler: function() {
+				this.previewHandler().then(function(response) {
 					ARSnova.app.getController('Questions').details({
 						question: Ext.decode(response.responseText)
 					});
@@ -96,6 +111,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			},{
 				xtype: 'fieldset',
 				items: [this.textarea]
+			}, {
+				xtype: 'fieldset',
+				items: [this.previewButton]
 			}]
 		});
 		
@@ -438,6 +456,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	
 	onActivate: function() {
 		this.questionOptions.setPressedButtons([0]);
+	},
+	
+	previewHandler: function() {
+		
+		Ext.Msg.alert(Messages.NOTICE, Messages.QUESTION_PREVIEW);
+		//alert("TEST");
 	},
 	
 	saveHandler: function(){
