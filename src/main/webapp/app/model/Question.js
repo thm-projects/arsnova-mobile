@@ -115,21 +115,8 @@ Ext.define('ARSnova.model.Question', {
     	return this.getProxy().publishSkillQuestion(this, callbacks);
     },
     
-    publishAllSkillQuestions: function(questions, active, callbacks) {
-		 questions.forEach(function(q) {
-			q.set("active", active);
-			q.raw.active = active;
-		});
-		var promises = [];
-		questions.forEach(function(q) {
-			var promise = new RSVP.Promise();
-			q.publishSkillQuestion({
-				success: function() { promise.resolve(); },
-				failure: function() { promose.reject(); }
-			});
-			promises.push(promise);
-		});
-		RSVP.all(promises).then(callbacks.success, callbacks.failure);
+    publishAllSkillQuestions: function(sessionKeyword, active, callbacks) {
+		return this.getProxy().publishAllSkillQuestions(sessionKeyword, active, callbacks);
     },
     
     publishSkillQuestionStatistics: function(callbacks) {
@@ -250,5 +237,9 @@ Ext.define('ARSnova.model.Question', {
     
     deleteAllInterposedQuestions: function(sessionKeyword, callbacks) {
     	return this.getProxy().deleteAllInterposedQuestions(sessionKeyword, callbacks);
+    },
+    
+    deleteAllQuestionsAnswers: function(sessionKeyword, callbacks) {
+    	return this.getProxy().delAllQuestionsAnswers(sessionKeyword, callbacks);
     }
 });

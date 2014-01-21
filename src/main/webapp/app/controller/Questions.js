@@ -69,6 +69,11 @@ Ext.define("ARSnova.controller.Questions", {
 		question.deleteAnswers.apply(question, arguments);
 	},
 	
+	deleteAllQuestionsAnswers: function(callbacks) {
+		var question = Ext.create('ARSnova.model.Question');
+		question.deleteAllQuestionsAnswers(localStorage.getItem("keyword"), callbacks);
+	},
+	
 	destroyAll: function() {
 		var question = Ext.create('ARSnova.model.Question');
 		question.deleteAllLectureQuestions.apply(question, arguments);
@@ -138,7 +143,6 @@ Ext.define("ARSnova.controller.Questions", {
 			case 'mc':
 				panel.multipleChoiceQuestion.query('textfield').forEach(function(el){
 					if(!el.getHidden() && el.getValue().toString().trim() == "") {
-						console.log(el.getValue());
 						el.addCls("required");
 						error = true;
 					}
@@ -243,7 +247,7 @@ Ext.define("ARSnova.controller.Questions", {
 	},
 	
 	setAllActive: function(options) {
-		ARSnova.app.questionModel.publishAllSkillQuestions(options.questions, options.active, {
+		ARSnova.app.questionModel.publishAllSkillQuestions(localStorage.getItem("keyword"), options.active, {
 			success: function() {
 				options.callback.apply(options.scope);
 			},

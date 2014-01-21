@@ -167,6 +167,15 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					this.config.disableFields(panel);
 					this.config.setEnableAnswerEdit(panel, false);
 				}, this);
+				var hasEmptyAnswers = function(possibleAnswers) {
+					var empty = false;
+					possibleAnswers.forEach(function(answer) {
+						if (answer.text === "") {
+							empty = true;
+						}
+					});
+					return empty;
+				};
 				if(this.getText() == Messages.EDIT){
 					panel.cancelButton.show();
 					panel.backButton.hide();
@@ -192,13 +201,20 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					panel.textarea.resetOriginalValue();
 					
 					var needsConfirmation = false;
+					var empty = false;
 					if (!panel.answerEditForm.isHidden()) {
 						var questionValues = panel.answerEditForm.getQuestionValues();
+						if (hasEmptyAnswers(questionValues.possibleAnswers)) {
+							empty = true;
+						}
 						if (answersChanged(question.get("possibleAnswers"), questionValues.possibleAnswers)) {
 							needsConfirmation = true;
 						}
 					}
-					
+					if (empty) {
+						panel.answerEditForm.markEmptyFields();
+						return;
+					}
 					if (needsConfirmation) {
 						Ext.Msg.confirm(Messages.ARE_YOU_SURE, Messages.CONFIRM_ANSWERS_CHANGED, function(answer) {
 							if (answer === "yes") {
