@@ -468,7 +468,7 @@ switch (lang) {
 			QUESTION_GRADE_SHORT: "Note",
 			QUESTION_MC: "Mehrfachauswahl",
 			QUESTION_MC_SHORT: "MC",
-			QUESTION_YESNO: "Ja | Nein",
+			QUESTION_YESNO: "Hallo??? TEST",
 			QUESTION_YESNO_SHORT: "Ja | Nein",
 			QUESTION_SINGLE_CHOICE: "Einfachauswahl",
 			QUESTION_SINGLE_CHOICE_SHORT: "Einfach",

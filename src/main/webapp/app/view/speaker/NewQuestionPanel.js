@@ -298,6 +298,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							if (pressed) {
 								this.yesNoQuestion.show();
 								title = label(Messages.QUESTION_YESNO, Messages.QUESTION_YESNO);
+								//title = label("HALLO???", "HALLO!!!");
 							} else {
 								this.yesNoQuestion.hide();
 							}
