@@ -459,6 +459,15 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 	
+	delAllQuestionsAnswers: function(sessionKeyword, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/answers?sessionkey=" + encodeURIComponent(sessionKeyword),
+			method: "DELETE",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
 	getAnswerByUserAndSession: function(sessionKeyword, callbacks){
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/myanswers",

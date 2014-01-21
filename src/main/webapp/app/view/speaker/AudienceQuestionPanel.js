@@ -193,20 +193,10 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 					var me = this;
 					Ext.Msg.confirm(Messages.DELETE_ALL_ANSWERS_REQUEST, Messages.ALL_QUESTIONS_REMAIN, function(answer) {
 						if (answer == 'yes') {
-							var promises = [];
-							this.questionList.getStore().each(function(item) {
-								var promise = new RSVP.Promise();
-								me.getController().deleteAnswers(item.getId(), {
-									success: function() {
-										promise.resolve();
-									},
-									failure: function(response) {
-										promise.reject();
-									}
-								});
-								promises.push(promise);
+							me.getController().deleteAllQuestionsAnswers({
+								success: Ext.bind(this.handleAnswerCount, this),
+								failure: Ext.emptyFn
 							});
-							RSVP.all(promises).then(Ext.bind(this.handleAnswerCount, this));
 						}
 					}, this);
 				}

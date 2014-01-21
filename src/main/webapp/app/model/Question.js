@@ -237,5 +237,9 @@ Ext.define('ARSnova.model.Question', {
     
     deleteAllInterposedQuestions: function(sessionKeyword, callbacks) {
     	return this.getProxy().deleteAllInterposedQuestions(sessionKeyword, callbacks);
+    },
+    
+    deleteAllQuestionsAnswers: function(sessionKeyword, callbacks) {
+    	return this.getProxy().delAllQuestionsAnswers(sessionKeyword, callbacks);
     }
 });
