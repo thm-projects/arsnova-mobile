@@ -253,17 +253,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		});
 	},
 	
-	addQuestion: function(question){
-		/** 
-		 * check answer text of 'yesno' questions
-		 */
-		if(question.questionType === 'yesno') {
-			question.possibleAnswers.forEach(function(entry) {
-				if (entry.text == 'Ja') entry.text = Messages.YES;
-				else if (entry.text == 'Nein') entry.text = Messages.NO;
-			});
-		}
-		
+	addQuestion: function(question){		
 		/**
 		 * add question to questionPanel
 		 */
