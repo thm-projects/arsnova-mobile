@@ -79,7 +79,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		});
 		
 		this.deleteAllButton = Ext.create('Ext.Button', {
-			text: Messages.DELETE_ALL_QUESTIONS,
+			text: Messages.DELETE_ALL,
 			ui: 'decline',
 			hidden: true,
 			handler: function() {
