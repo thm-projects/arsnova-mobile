@@ -77,6 +77,9 @@ Ext.application({
     		['about.DiagnosisPanel'],
     		['about.TabPanel'],
     		
+    		/* app/view/components */
+    		['components.GridContainer'],
+    		
     		/* app/view/feedback */
     		['feedback.AskPanel', 'feedback.StatisticPanel', 'feedback.TabPanel', 'feedback.VotePanel'],
     		

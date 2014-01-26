@@ -75,6 +75,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			scope: this
 		});
 		
+		this.gridPart = Ext.create('ARSnova.view.components.GridContainer');
+		
 		this.subject = Ext.create('Ext.field.Text', {
 			name: 'subject',
 			placeHolder: Messages.CATEGORY_PLACEHOLDER
@@ -401,6 +403,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			scope: this
 		});
 		
+		/* Hier wird das eigentliche Layout zusammengebaut */
 		this.add([this.toolbar,
 			Ext.create('Ext.Toolbar', {
 				cls: 'noBackground noBorder',
@@ -415,6 +418,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				]
 			}),
 			this.mainPart,
+			this.gridPart,
 			
 			/* only one of the question types will be shown at the same time */
 			this.voteQuestion,

@@ -1447,3 +1447,11 @@ ol.standardList li {
 .joinSessionInput {
 	text-align: center;
 }
+
+/**
+ * Grid Questions
+ */
+#grid-image {
+	display: block;
+	margin: 0 auto;
+}
