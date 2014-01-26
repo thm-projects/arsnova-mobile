@@ -40,10 +40,13 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var elSize = this.calculateGridElementSize();
 		var html = '<map name="grid">';
 		
+		var k = 1;
+		
 		// create all grid elements
 		for (var i = 0; i < this.getGridSize(); i++) {
 			for (var j = 0; j < this.getGridSize(); j++) {
-				html += '<area id="field-' + (i + j + 1) + '" shape="rect" coords="' + (i * elSize) + ',' + (j * elSize) + ',' + elSize + ',' + elSize + '" href="javascript:alert(' + (i+j+1) + ');"/>';
+				html += '<area id="field-' + (k) + '" shape="rect" coords="' + (i * elSize) + ',' + (j * elSize) + ',' + ((i * elSize) + elSize) + ',' + ((j * elSize) + elSize) + '" href="javascript:alert(' + (k) + ');"/>';
+				k++;
 			}
 		}
 		html += '</map>';
