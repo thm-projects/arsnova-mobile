@@ -289,7 +289,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 						case "Grid"://Messages.GRID:
 							if(pressed){
 								this.gridQuestion.show();
-								title = "Grid"; //label(Messages.QUESTION_GRID, Messages.QUESTION_GRID_SHORT);//kann label nicht laden!
+								title = label(Messages.QUESTION_GRID, Messages.QUESTION_GRID_SHORT);//kann label nicht laden!
 							}else{
 								this.gridQuestion.hide();
 							}					
@@ -511,7 +511,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
     	
     	/* fetch the values */
     	switch (panel.questionOptions.getPressedButtons()[0]._text) {
-    		case "Grid"://Messages.GRID:
+    		case Messages.GRID:
     			values.questionType = "Grid";
     			
     			Ext.apply(values, panel.gridQuestion.getQuestionValues());
