@@ -44,11 +44,14 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			}
 
 		});
+		
+		this.grid = Ext.create('ARSnova.view.components.GridContainer');
 
-		this.add([ {
+		this.add([{
 			xtype : 'button',
 			items : [ this.uploadButton ]
-		} ]);
+		},
+		this.grid]);
 
 	},
 
