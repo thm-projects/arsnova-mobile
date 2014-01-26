@@ -58,7 +58,10 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				title = label(Messages.QUESTION_GRADE, Messages.QUESTION_GRADE_SHORT);
 			} else if (questionType === 'flashcard') {
 				title = label(Messages.FLASHCARD, Messages.FLASHCARD);
+			} else if(questionType == 'Grid') {
+				title =  'Grid';//label(Messages.GRID, Messages.GRID);
 			}
+			
 			this.toolbar.setTitle(title);
 			
 			//update question counter in toolbar

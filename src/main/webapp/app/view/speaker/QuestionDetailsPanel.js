@@ -25,7 +25,7 @@ Ext.define('FreetextAnswer', {
     require: ['ARSnova.view.speaker.form.ExpandingAnswerForm', 'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
               'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.SchoolQuestion',
               'ARSnova.view.speaker.form.VoteQuestion', 'ARSnova.view.speaker.form.YesNoQuestion',
-              'ARSnova.view.speaker.form.FlashcardQuestion'],
+              'ARSnova.view.speaker.form.FlashcardQuestion', 'ARSnova.view.speaker.form.GridQuestion'],
  
     config: {
     	idProperty: "_id",
@@ -754,7 +754,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			answerEditFormClass = 'ARSnova.view.speaker.form.VoteQuestion';
 		} else if (this.questionObj.questionType === 'flashcard') {
 			answerEditFormClass = 'ARSnova.view.speaker.form.FlashcardQuestion';
+		} else if(this.questionObj.questionType == 'grid') {
+			answerEditFormClass = 'ARSnova.view.speaker.form.GridQuestion';
 		}
+		
 		
 		this.answerEditForm = Ext.create(answerEditFormClass, {
 			hidden: true
@@ -858,6 +861,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					return Messages.FREETEXT;
 				case "flashcard":
 					return Messages.FLASHCARD;
+				case "grid":
+					return "grid"//Messages.GRID;
 				default:
 					return this.questionObj.questionType;
 			}

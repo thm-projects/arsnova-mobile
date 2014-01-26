@@ -24,7 +24,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	requires: ['ARSnova.view.speaker.form.ExpandingAnswerForm', 'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
 	           'ARSnova.view.speaker.form.FlashcardQuestion', 'ARSnova.view.speaker.form.SchoolQuestion',
 	           'ARSnova.view.speaker.form.VoteQuestion', 'ARSnova.view.speaker.form.YesNoQuestion',
-	           'ARSnova.view.speaker.form.NullQuestion'],
+	           'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.GridQuestion'],
 	
 	config: {
 		title: 'NewQuestionPanel',
@@ -78,8 +78,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			},
 			scope: this
 		});
-		
-		this.gridPart = Ext.create('ARSnova.view.components.GridContainer');
 		
 		this.subject = Ext.create('Ext.field.Text', {
 			name: 'subject',
@@ -231,6 +229,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true,
 			scrollable: null
 		});
+		//24.01.14: Create new instance of GridQuestion
+		this.gridQuestion = Ext.create('ARSnova.view.speaker.form.GridQuestion', {
+			id: 'grid',
+			hidden: true
+			//scrollable: null
+		});
 		
 		this.multipleChoiceQuestion = Ext.create('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			hidden: true
@@ -268,7 +272,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	                { text: Messages.FREETEXT },
 	                { text: Messages.EVALUATION },
 	                { text: Messages.SCHOOL },
-	                { text: Messages.FLASHCARD_SHORT }
+	                { text: Messages.FLASHCARD_SHORT },
+	                { text: "Grid"}//Messages.GRID }
 	        ],
 	        listeners: {
 				scope: this,
@@ -281,10 +286,18 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 					var title = '';
 					
 					switch (button.getText()) {
+						case "Grid"://Messages.GRID:
+							if(pressed){
+								this.gridQuestion.show();
+								title = "Grid"; //label(Messages.QUESTION_GRID, Messages.QUESTION_GRID_SHORT);//kann label nicht laden!
+							}else{
+								this.gridQuestion.hide();
+							}					
+						break;
 						case Messages.EVALUATION:
 							if (pressed) {
 								this.voteQuestion.show();
-								title = label(Messages.QUESTION_RATING, Messages.QUESTION_RATING_SHORT);
+								title =  label(Messages.QUESTION_RATING, Messages.QUESTION_RATING_SHORT);	
 							} else {
 								this.voteQuestion.hide();
 							}
@@ -412,7 +425,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			scope: this
 		});
 		
-		/* Hier wird das eigentliche Layout zusammengebaut */
 		this.add([this.toolbar,
 			Ext.create('Ext.Toolbar', {
 				cls: 'noBackground noBorder',
@@ -427,7 +439,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				]
 			}),
 			this.mainPart,
-			this.gridPart,
 			
 			/* only one of the question types will be shown at the same time */
 			this.voteQuestion,
@@ -437,7 +448,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			this.abcdQuestion,
 			this.freetextQuestion,
 			this.flashcardQuestion,
-			
+			this.gridQuestion,
 			this.abstentionPart,
 			this.releasePart,
 			
@@ -500,6 +511,11 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
     	
     	/* fetch the values */
     	switch (panel.questionOptions.getPressedButtons()[0]._text) {
+    		case "Grid"://Messages.GRID:
+    			values.questionType = "Grid";
+    			
+    			Ext.apply(values, panel.gridQuestion.getQuestionValues());
+    		break;
 			case Messages.EVALUATION:
 				values.questionType = "vote";
 				
