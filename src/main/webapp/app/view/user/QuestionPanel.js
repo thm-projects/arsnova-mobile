@@ -24,7 +24,10 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	config: {
 		fullscreen: true,
 		title	: Messages.QUESTIONS,
-		iconCls	: 'tabBarIconQuestion'
+		iconCls	: 'tabBarIconQuestion',
+		
+		questionLoader: null,
+		questionCountLoader: null
 	},
 	
 	/* toolbar items */
@@ -39,8 +42,10 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	initialize: function() {
 		this.callParent(arguments);
 		
+		this.setLectureMode();
+		
 		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.HOME,
+			text	: Messages.BACK,
 			ui		: 'back',
 			hidden	: true,
 			handler	: function() {
@@ -140,11 +145,21 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		this.getUnansweredSkillQuestions();
 	},
 	
+	setPreparationMode: function() {
+		this.setQuestionCountLoader(Ext.bind(ARSnova.app.questionModel.countPreparationQuestions, ARSnova.app.questionModel));
+		this.setQuestionLoader(Ext.bind(ARSnova.app.questionModel.getPreparationQuestionsForUser, ARSnova.app.questionModel));
+	},
+	
+	setLectureMode: function() {
+		this.setQuestionCountLoader(Ext.bind(ARSnova.app.questionModel.countLectureQuestions, ARSnova.app.questionModel));
+		this.setQuestionLoader(Ext.bind(ARSnova.app.questionModel.getLectureQuestionsForUser, ARSnova.app.questionModel));
+	},
+	
 	getUnansweredSkillQuestions: function(){
 		var self = this;
 		
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
-		ARSnova.app.questionModel.getSkillQuestionsForUser(localStorage.getItem("keyword"), {
+		this.getQuestionLoader()(localStorage.getItem("keyword"), {
 			success: function(questions){
 				var userQuestionsPanel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel;
 				var questionsArr = [];
@@ -153,7 +168,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				if (questions.length == 0){
 					//no available questions found
 					
-					ARSnova.app.questionModel.countSkillQuestions(localStorage.getItem("keyword"), {
+					self.getQuestionCountLoader()(localStorage.getItem("keyword"), {
 						success: function(response){
 							var questionsInCourse = Ext.decode(response.responseText);
 							
@@ -238,7 +253,10 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		});
 	},
 	
-	addQuestion: function(question){
+	addQuestion: function(question){		
+		/**
+		 * add question to questionPanel
+		 */
 		if (question.questionType === 'freetext') {
 			this.add(Ext.create('ARSnova.view.FreetextQuestion', {
 				questionObj: question
@@ -255,7 +273,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			var questionObj = questionPanel.questionObj;
 			if (!questionObj.userAnswered && !questionObj.isAbstentionAnswer) return;
 			
-			if (questionObj.isAbstentionAnswer) {
+			if (questionObj.isAbstentionAnswer && "mc" !== questionObj.questionType) {
 				questionPanel.selectAbstentionAnswer();
 				questionPanel.disableQuestion();
 				return;
@@ -271,17 +289,19 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			var data = list ? list.getStore() : Ext.create('Ext.data.Store', {model:'ARSnova.model.Answer'});
 			
 			if (questionObj.questionType === 'mc') {
-				var answers = questionObj.userAnswered.split(",");
-				// sanity check: is it a correct answer array?
-				if (questionObj.possibleAnswers.length !== answers.length) {
-					return;
+				if (!questionObj.isAbstentionAnswer) {
+					var answers = questionObj.userAnswered.split(",");
+					// sanity check: is it a correct answer array?
+					if (questionObj.possibleAnswers.length !== answers.length) {
+						return;
+					}
+					var selectedIndexes = answers.map(function(isSelected, index) {
+						return isSelected === "1" ? list.getStore().getAt(index) : -1;
+					}).filter(function(index) {
+						return index !== -1;
+					});
+					list.select(selectedIndexes, true);
 				}
-				var selectedIndexes = answers.map(function(isSelected, index) {
-					return isSelected === "1" ? list.getStore().getAt(index) : -1;
-				}).filter(function(index) {
-					return index !== -1;
-				});
-				list.select(selectedIndexes, true);
 				questionPanel.disableQuestion();
 			} else {
 				var index = data.find('text', questionObj.userAnswered);

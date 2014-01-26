@@ -269,15 +269,17 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		        fields	: ['value'],
 		        minimum: 0,
 		        style: { stroke: 'white' },
-		        label: { strokeStyle: 'white' }
+		        label: {
+		        	color: 'white'
+		        }
 		    }, {
 		        type	: 'category',
 		        position: 'bottom',
 		        fields	: ['text'],
 		        style: { stroke: 'white' },
 		        label: {
-		        	strokeStyle: 'white',
-		        	rotate: { degrees: 315}
+		        	color: 'white',
+		        	rotate: { degrees: 315 }
 		        }
 		    }],
 	        
@@ -428,8 +430,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		taskManager.start(this.renewChartDataTask);
 		taskManager.start(this.countActiveUsersTask);
 		this.doTypeset();
-		
-		this.questionChart.redraw();
 	},
 	
 	doTypeset: function(parent) {		

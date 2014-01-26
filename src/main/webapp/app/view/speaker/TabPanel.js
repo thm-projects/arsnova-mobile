@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 	extend: 'Ext.tab.Panel',
 	
 	config: {
-		title	: Messages.SESSION,
+		title	: Messages.HOME,
 		iconCls	: 'tabBarIconHome',
 		
 		tabBar: {
@@ -33,10 +33,10 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 	initialize: function() {
 		this.callParent(arguments);
 		
-		this.inClassPanel 			= Ext.create('ARSnova.view.speaker.InClass');
-		this.audienceQuestionPanel 	= Ext.create('ARSnova.view.speaker.AudienceQuestionPanel');
-		this.newQuestionPanel 		= Ext.create('ARSnova.view.speaker.NewQuestionPanel');
-		this.showcaseQuestionPanel	= Ext.create('ARSnova.view.speaker.ShowcaseQuestionPanel');
+		this.inClassPanel 				= Ext.create('ARSnova.view.speaker.InClass');
+		this.audienceQuestionPanel 		= Ext.create('ARSnova.view.speaker.AudienceQuestionPanel');
+		this.newQuestionPanel 			= Ext.create('ARSnova.view.speaker.NewQuestionPanel');
+		this.showcaseQuestionPanel		= Ext.create('ARSnova.view.speaker.ShowcaseQuestionPanel');
 		
 		this.add([
 	        this.inClassPanel,

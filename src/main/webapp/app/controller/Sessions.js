@@ -102,7 +102,6 @@ Ext.define("ARSnova.controller.Sessions", {
 		
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 		/* show home Panel */
-		tabPanel.homeTabPanel.tab.show();
 		tabPanel.animateActiveItem(tabPanel.homeTabPanel, {
 			type: 'slide',
 			direction: 'right',
@@ -132,7 +131,6 @@ Ext.define("ARSnova.controller.Sessions", {
 	
 	reloadData: function(){
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
-		tabPanel.homeTabPanel.tab.hide();
 		var hideLoadMask = Ext.emptyFn;
 
 		if (ARSnova.app.isSessionOwner) {
@@ -200,22 +198,10 @@ Ext.define("ARSnova.controller.Sessions", {
 				tabPanel.userQuestionsPanel.renew();
 			}
 			
-			tabPanel.animateActiveItem(tabPanel.feedbackTabPanel, {
+			tabPanel.animateActiveItem(tabPanel.userTabPanel, {
 				type: 'slide',
 				duration: 700
 			});
-			
-			tabPanel.feedbackTabPanel.animateActiveItem(tabPanel.feedbackTabPanel.statisticPanel, {
-				type: 'slide',
-				duration: 700
-			});
-			if (localStorage.getItem("ARSnovaCon") === "true") {
-				localStorage.removeItem("ARSnovaCon");
-				tabPanel.setActiveItem(tabPanel.userQuestionsPanel, {
-					type: 'slide',
-					duration: 700
-				});
-			}
 		}
 		hideLoadMask();
 	},

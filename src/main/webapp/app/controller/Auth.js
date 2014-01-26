@@ -24,19 +24,23 @@ Ext.define("ARSnova.controller.Auth", {
 	config: {
 		routes: {
 			'id/:sessionkey': 'qr',
+			'id/:sessionkey/:role': 'qr',
 			'auth/checkLogin': 'checkLogin'
 		}
 	},
 	
-	qr: function(sessionkey) {
+	qr: function(sessionkey, role) {
 		ARSnova.app.loggedIn = true;
 		if (localStorage.getItem('login') === null) {
 			localStorage.setItem('login', ARSnova.app.authModel.generateGuestName());
 		}
-		ARSnova.app.userRole = ARSnova.app.USER_ROLE_STUDENT;
+		ARSnova.app.userRole = "lecturer" === role ? ARSnova.app.USER_ROLE_SPEAKER : ARSnova.app.USER_ROLE_STUDENT;
 		localStorage.setItem('role', ARSnova.app.userRole);
-		ARSnova.app.loginMode = ARSnova.app.LOGIN_GUEST;
-		localStorage.setItem('loginMode', ARSnova.app.loginMode);
+		ARSnova.app.setWindowTitle();
+		if (!ARSnova.app.loginMode) {
+			ARSnova.app.loginMode = ARSnova.app.LOGIN_GUEST;
+			localStorage.setItem('loginMode', ARSnova.app.loginMode);
+		}
 		localStorage.setItem('keyword', sessionkey);
 		ARSnova.app.afterLogin();
 
@@ -77,6 +81,7 @@ Ext.define("ARSnova.controller.Auth", {
 		ARSnova.app.loginMode = options.mode;
 		localStorage.setItem('loginMode', options.mode);
 		var type = "", role = "STUDENT";
+		
 		switch(options.mode){
 			case ARSnova.app.LOGIN_GUEST:
 				if (localStorage.getItem('login') === null) {
@@ -113,14 +118,15 @@ Ext.define("ARSnova.controller.Auth", {
 			}
 			return window.location = "auth/login?type=" + type + "&role=" + role;
 		}
-		
+
+		/* actions to perform after login */
 		ARSnova.app.afterLogin();
 	},
 	
 	checkLogin: function(){
 		Ext.Ajax.request({
 			url: 'whoami.json',
-			method: 'GET',    		
+			method: 'GET',
 			success: function(response){
 				var obj = Ext.decode(response.responseText);
 				ARSnova.app.loggedIn = true;
@@ -132,6 +138,9 @@ Ext.define("ARSnova.controller.Auth", {
 	},
 
     logout: function(){
+		/* hide diagnosis panel */
+		ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.tab.hide();
+    	
     	/* stop task to save user is logged in */
     	taskManager.stop(ARSnova.app.loggedInTask);
     	

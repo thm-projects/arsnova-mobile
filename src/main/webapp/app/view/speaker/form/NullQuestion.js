@@ -24,5 +24,7 @@ Ext.define('ARSnova.view.speaker.form.NullQuestion', {
 	},
 	
 	initWithQuestion: function(question) {
-	}
+	},
+	
+	markEmptyFields: Ext.emptyFn
 });

@@ -128,7 +128,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			cls			: 'forwardListButton',
 			badgeCls	: 'badgeicon',
 			controller	: 'Questions',
-			action		: 'index',
+			action		: 'lectureIndex',
 			handler		: this.buttonClicked
 		});
 		
@@ -138,8 +138,8 @@ Ext.define('ARSnova.view.user.InClass', {
 			cls			: 'forwardListButton',
 			badgeCls	: 'badgeicon',
 			controller	: 'Questions',
-			action		: 'index',
-			handler		: comingSoon
+			action		: 'preparationIndex',
+			handler		: this.buttonClicked
 		});
 		
 		this.myQuestionsButton = Ext.create('ARSnova.view.MultiBadgeButton', {
@@ -187,11 +187,8 @@ Ext.define('ARSnova.view.user.InClass', {
 				
 				items: [
 						this.feedbackButton,
-						this.preparationQuestionButton,
 						this.lectureQuestionButton,
-						this.myQuestionsButton,
-						this.myLearningProgressButton,
-						this.learnButton
+						this.preparationQuestionButton
 					]
 			}]
 		});
@@ -226,11 +223,39 @@ Ext.define('ARSnova.view.user.InClass', {
 	 * if user don't want to answer this questions now, save this opinion in localStorage
 	 */
 	checkNewSkillQuestions: function(){
-		ARSnova.app.questionModel.getUnansweredSkillQuestions(localStorage.getItem("keyword"), {
+		ARSnova.app.questionModel.getUnansweredPreparationQuestions(localStorage.getItem("keyword"), {
 			success: function(newQuestions){
-				ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.lectureQuestionButton.setBadge([{
-					badgeText: newQuestions.length
-				}]);
+				ARSnova.app.questionModel.countPreparationQuestionAnswers(localStorage.getItem("keyword"), {
+					success: function(response) {
+						var numAnswers = parseInt(response.responseText);
+						
+						var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
+						
+						panel.preparationQuestionButton.setBadge([
+											{badgeText: newQuestions.length, badgeCls: "greybadgeicon"},
+											{badgeText: numAnswers, badgeCls: "redbadgeicon"}
+										]);
+					},
+					failure: Ext.emptyFn
+				});
+			},
+			failure: Ext.emptyFn
+		});
+		ARSnova.app.questionModel.getUnansweredLectureQuestions(localStorage.getItem("keyword"), {
+			success: function(newQuestions){
+				ARSnova.app.questionModel.countLectureQuestionAnswers(localStorage.getItem("keyword"), {
+					success: function(response) {
+						var numAnswers = parseInt(response.responseText);
+						
+						var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
+						
+						panel.lectureQuestionButton.setBadge([
+											{badgeText: newQuestions.length, badgeCls: "greybadgeicon"},
+											{badgeText: numAnswers, badgeCls: "redbadgeicon"}
+										]);
+					},
+					failure: Ext.emptyFn
+				});
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.tab.setBadgeText(newQuestions.length);
 				
 				if (newQuestions.length > 0) {
