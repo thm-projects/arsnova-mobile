@@ -103,7 +103,6 @@ Ext.define("ARSnova.controller.Questions", {
 			active		: options.active,
 			number		: options.number,
 			releasedFor	: options.releasedFor,
-			courses		: options.courses,
 			possibleAnswers: options.possibleAnswers,
 			noCorrect	: options.noCorrect,
 			abstention	: options.abstention,

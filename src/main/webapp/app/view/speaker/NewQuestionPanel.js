@@ -157,56 +157,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	            	style: 'margin: auto',
 	        		allowDepress: false,
 	        		allowMultiple: false,
-	        		items: this.releaseItems,
-	    		    listeners: {
-	    		    	toggle: function(container, button, pressed){
-	    		    		var nQP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
-	    		    		var coursesFieldset = nQP.down('fieldset[title='+Messages.MY_COURSES+']');
-	    		    		if(button.id == "course"){
-	    		    			if(pressed){
-	    		    				if(nQP.userCourses.length == 0){
-	        		    				var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_COURSES);
-	        		    				Ext.Ajax.request({
-	        		    					url: ARSnova.app.WEBSERVICE_URL + 'estudy/getTeacherCourses.php',
-	        		    					params: {
-	        		    						login: localStorage.getItem('login')
-	        		    					},
-	        		    					success: function(response, opts){
-	        		    						var obj = Ext.decode(response.responseText).courselist;
-	        		    						
-	        		    						/* Build new options array */
-	        		    						for ( var i = 0; i < obj.count; i++){
-	        		    							var course = obj.course[i];
-	        		    							coursesFieldset.add({
-	        		    								xtype: 'checkboxfield',
-	        		    								name: course.name,
-	        		    								label: course.name,
-	        		    								value:	course.id
-	        		    							});
-	        		    						}
-	        		    						nQP.userCourses = obj;
-	        		    						coursesFieldset.show();
-	        		    						hideLoadMask();
-	        		    					},
-	        		    					failure: function(response, opts){
-	        		    						hideLoadMask();
-	        		    						console.log('getcourses server-side failure with status code ' + response.status);
-	        		    						Ext.Msg.alert(Messages.NOTICE, Messages.COULD_NOT_SEARCH);
-	        		    					}
-	        		    				});
-	    		    				}
-	    		    				coursesFieldset.show();
-	    		    			} else {
-	    		    				coursesFieldset.hide();
-	    		    			}
-	    		    		}
-	    		    	}
-	    		    }
-	            }, {
-	            	xtype: 'fieldset',
-	            	title: Messages.MY_COURSES,
-	            	hidden: true
-	        	}]
+	        		items: this.releaseItems
+	            }]
 			}]
     	});
 		
@@ -459,39 +411,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		values.abstention = !panel.abstentionPart.isHidden() && panel.getAbstention();
 		values.questionVariant = panel.getVariant();
 		
-		/* check if release question button is clicked */
-		var releasePart = panel.releasePart;
-		
 		if (localStorage.getItem('courseId') != null && localStorage.getItem('courseId').length > 0) {
 			values.releasedFor = 'courses';
-		} 
-		
-		switch (panel.getReleasedFor()) {
-			case 'all':
-				values.releasedFor = 'all';
-				break;
-			case 'thm':
-				values.releasedFor = 'thm';
-				break;
-			case 'courses':
-				var releasedForValues = releasePart.getValues();
-				var tmpArray = [];
-				for (name in releasedForValues) {
-					var id = releasedForValues[name];
-					if(id === null)
-						continue;
-					tmpArray.push({
-						name: name,
-						id: id
-					});
-				}
-				if(tmpArray.length > 0){
-					values.releasedFor = 'courses';
-					values.courses = tmpArray;
-				}
-				break;	
-			default:
-				break;
+		} else {
+			values.releasedFor = panel.getReleasedFor();
 		}
     	
     	/* fetch the values */
@@ -593,7 +516,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			active		: 1,
 			possibleAnswers: values.possibleAnswers,
 			releasedFor	: values.releasedFor,
-			courses		: values.courses,
 			noCorrect	: values.noCorrect,
 			abstention	: values.abstention,
 			showStatistic: 1,
