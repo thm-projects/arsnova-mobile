@@ -184,7 +184,7 @@ switch (lang) {
 			CONFIRM_CLOSE_ALL_QUESTIONS: "Are you sure to close all questions?",
 			CONFIRM_CLOSE_QUESTION_MESSAGE: "If you close this question, students will not be able to view or answer this question.",
 			CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE: "If you close all questions, students will not be able to view or answer any question.",
-			
+			CONFIRM_ANSWERS_CHANGED: "This will reset all current answers.",
 			
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
@@ -254,6 +254,7 @@ switch (lang) {
 			MARK_CORRECT_ANSWER: "Mark correct answer",
 			DELETE_QUESTION: "Delete question",
 			DELETE_ALL_QUESTIONS: "Delete questions",
+			DELETE_ALL: "Delete all",
 			DELETE_ANSWERS: "Delete answers",
 			DELETE_ANSWERS_REQUEST: "Delete answers?",
 			DELETE_ALL_ANSWERS_REQUEST: "Delete all answers?",
@@ -487,6 +488,7 @@ switch (lang) {
 			CONFIRM_CLOSE_QUESTION_MESSAGE: "Wenn Sie die Frage sperren, können Zuhörer/innen die Frage weder sehen noch beantworten.",
 			CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE: "Wenn Sie die Fragen sperren, können Zuhörer/innen die Fragen weder sehen noch beantworten.",
 			SAVE_AND_CONTINUE: 'Speichern und weiter',
+			CONFIRM_ANSWERS_CHANGED: "Bereits gegebene Antworten gehen verloren.",
 			
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
@@ -556,6 +558,7 @@ switch (lang) {
 			MARK_CORRECT_ANSWER: "Richtig markieren",
 			DELETE_QUESTION: "Frage löschen",
 			DELETE_ALL_QUESTIONS: "Fragen löschen",
+			DELETE_ALL: "Alle löschen",
 			DELETE_ANSWERS: "Antworten löschen",
 			DELETE_ANSWERS_REQUEST: "Antworten löschen?",
 			DELETE_ALL_ANSWERS_REQUEST: "Alle Antworten löschen?",

@@ -67,14 +67,22 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 			questions.push(question);
 		});
 		
+		var updateQuestions = function(active) {
+			questions.forEach(function(q) {
+				q.set("active", active);
+				q.raw.active = active;
+			});
+		};
+		
 		if (this.isOpen) {
 			Ext.Msg.confirm(this.getWording().confirm, this.getWording().confirmMessage, function (buttonId) {
 				if (buttonId != "no") {
 					/* close all questions */
 					ARSnova.app.getController('Questions').setAllActive({
-						questions	: questions, 
 						active		: false,
-						callback	: this.questionClosedSuccessfully,
+						callback	: Ext.Function.createSequence(this.questionClosedSuccessfully, function() {
+							updateQuestions(false);
+						}, this),
 						scope		: this
 					});
 				}
@@ -82,9 +90,10 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 		} else {
 			/* open all questions */
 			ARSnova.app.getController('Questions').setAllActive({
-				questions	: questions,
 				active		: true,
-				callback	: this.questionOpenedSuccessfully,
+				callback	: Ext.Function.createSequence(this.questionOpenedSuccessfully, function() {
+					updateQuestions(true);
+				}, this),
 				scope		: this
 			});
 		}

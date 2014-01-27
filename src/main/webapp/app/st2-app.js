@@ -247,6 +247,7 @@ Ext.application({
 	 */
 	afterLogin: function(){
 		taskManager.start(ARSnova.app.loggedInTask);
+		ARSnova.app.loggedInTask.run(); // fire immediately
 		
 		/* show diagnosis tab panel */
 		ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.tab.show();
