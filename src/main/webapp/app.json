@@ -116,7 +116,7 @@
             "update": "delta"
         },
         {
-        	"path": "resources/css/arsnova.css",
+        	"path": "resources/css/st2-arsnova_new.css",
         	"update": "delta"
        	}
     ],
