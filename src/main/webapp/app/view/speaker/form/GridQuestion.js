@@ -24,10 +24,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		textYes : Messages.YES,
 		textNo : Messages.NO,
 		textNone : Messages.NONE,
-
-		/**
-		 * Which button should be pressed initially? 'yes', 'no', or 'none'
-		 */
 		pressed : 'none'
 	},
 
@@ -36,40 +32,43 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	constructor : function() {
 		this.callParent(arguments);
 
-		this.uploadButton = Ext.create('Ext.Button', {
-			text : Messages.SESSIONS,
-			ui : 'normal',
-			handler : function() {
-				Ext.Msg.alert('Status', 'Changes saved successfully.');
-			}
-
+		this.uploadButton = Ext.create('Ext.form.FormPanel', {
+			scrollable : null,
+			items : [ {
+				xtype : 'fieldset',
+				title : 'Bild bearbeiten:',
+				cls: 'yesnoOptions',
+				items : [ {
+					xtype :	'button',
+					text : 	'Durchsuchen',
+					ui : 	'round',
+					handler: function() {
+							Ext.Msg.alert('Title', 'The quick brown fox jumped over the lazy dog.', Ext.emptyFn); // dummy test
+						}	
+				} ]
+			} ]
 		});
 		
 		this.grid = Ext.create('ARSnova.view.components.GridContainer');
 
-		this.add([{
-			xtype : 'button',
+		this.add([ this.grid, {
+			xtype : 'container',
+			padding : 10,
 			items : [ this.uploadButton ]
-		},
-		this.grid]);
-
+		} ]);
 	},
 
+	//initialisierung der Startzustaende der jeweiligen Komponenten
 	initWithQuestion : function(question) {
 		var possibleAnswers = question.possibleAnswers;
 		if (possibleAnswers.length === 0) {
 			return;
 		}
-		this.answer.setValue(possibleAnswers[0].text);
 	},
-
+	//liefert die Resultate der angewaehlten Komponenten
 	getQuestionValues : function() {
 		var result = {};
 
-		result.possibleAnswers = [ {
-			text : this.answer.getValue(),
-			correct : true
-		} ];
 
 		return result;
 	}
