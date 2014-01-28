@@ -31,16 +31,23 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 	constructor : function() {
 		this.callParent(arguments);
-
+		//in den FormPanel die restlichen Bearbeitungswerkzeuge fuer das Bild
 		this.uploadButton = Ext.create('Ext.form.FormPanel', {
 			scrollable : null,
 			items : [ {
 				xtype : 'fieldset',
 				title : 'Bild bearbeiten:',
-				cls: 'yesnoOptions',
 				items : [ {
 					xtype :	'button',
 					text : 	'Durchsuchen',
+					style: {
+						maxWidth: '250px',
+						width: '80%',
+						margin: '20px auto'
+					},
+					defaults: {
+						style: 'width: 33%'
+					},
 					ui : 	'round',
 					handler: function() {
 							Ext.Msg.alert('Title', 'The quick brown fox jumped over the lazy dog.', Ext.emptyFn); // dummy test

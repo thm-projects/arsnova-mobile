@@ -1053,7 +1053,7 @@ ol.standardList li {
 	margin: 0 auto 30px;
 }
 
-.yesnoOptions .x-button {
+.yesnoOptions .x-button  {
 	width: 50%;
 }
 
@@ -1061,6 +1061,7 @@ ol.standardList li {
 	/*width: 33%;*/
 	width: 50%;
 }
+
 
 .newQuestionOptions .x-form-fieldset-title {
 	width: 98%;
