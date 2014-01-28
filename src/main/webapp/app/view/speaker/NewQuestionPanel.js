@@ -21,7 +21,8 @@
 Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	extend: 'Ext.Panel',
 	
-	requires: ['ARSnova.view.speaker.form.ExpandingAnswerForm', 'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
+	requires: ['ARSnova.view.speaker.form.AbstentionForm', 'ARSnova.view.speaker.form.ExpandingAnswerForm',
+	           'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
 	           'ARSnova.view.speaker.form.FlashcardQuestion', 'ARSnova.view.speaker.form.SchoolQuestion',
 	           'ARSnova.view.speaker.form.VoteQuestion', 'ARSnova.view.speaker.form.YesNoQuestion',
 	           'ARSnova.view.speaker.form.NullQuestion'],
@@ -33,7 +34,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		scroll: 'vertical',
 		
 		variant: 'lecture',
-		abstention: true,
 		releasedFor: 'all'
 	},
 	
@@ -118,33 +118,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			}
 		}];
 		
-		this.abstentionPart = Ext.create('Ext.form.FormPanel', {
-			scrollable: null,
-			cls: 'newQuestionOptions',
-			items: [{
-				xtype: 'fieldset',
-				title: Messages.ABSTENTION_POSSIBLE,
-				items: [{
-					xtype: 'segmentedbutton',
-					style: 'margin: auto',
-					cls: 'yesnoOptions',
-					items: [{
-						text: Messages.YES,
-						pressed: true,
-						scope: this,
-						handler: function() {
-							this.setAbstention(true);
-						}
-					}, {
-						text: Messages.NO,
-						scope: this,
-						handler: function() {
-							this.setAbstention(false);
-						}
-					}]
-				}]
-			}]
-		});
+		this.abstentionPart = Ext.create('ARSnova.view.speaker.form.AbstentionForm');
 		
 		this.releasePart = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
@@ -456,7 +430,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		var mainPartValues = panel.mainPart.getValues();
 		values.text = mainPartValues.text;
 		values.subject = mainPartValues.subject;
-		values.abstention = !panel.abstentionPart.isHidden() && panel.getAbstention();
+		values.abstention = !panel.abstentionPart.isHidden() && panel.abstentionPart.getAbstention();
 		values.questionVariant = panel.getVariant();
 		
 		/* check if release question button is clicked */
