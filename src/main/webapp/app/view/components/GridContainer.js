@@ -73,9 +73,13 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 	onclick : function(event) {
 
+		var info = {};
+		
 		var canvas = document.getElementById("canvasWrapper");
 		var ctx = canvas.getContext("2d");
 		var gridsize = 400 / 5;
+		
+		info.gridsize = gridsize;
 		
 		// Use the identity matrix while clearing the canvas
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -93,18 +97,39 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			
 			var x = event.x;
 			var y = event.y;
-
+			
+			info.absolutKoord = { xKoord: x, yKoord:y};
+			
+			
 			x -= canvas.offsetLeft;
 			/*y -= canvas.offsetTop;*/ y -= 280;
+			
+			
+			info.offset = {left: canvas.offsetLeft, top: canvas.offsetTop}
+			info.relativKoord = {xKoord:x, yKoord:y};
+
 
 			var xGrid = parseInt(x / gridsize);
-			var yGrid = parseInt(y / gridsize);			
+			var yGrid = parseInt(y / gridsize);	
+			
+			
+			info.whichGrid = {xCount:xGrid, yCount:yGrid};
+
 			
 			var x1 = xGrid * gridsize;
 			var y1 = yGrid * gridsize;
+			
+			info.gridKoord = {xKoord:x1, yKoord:y1};
 
 			ctx.fillStyle = "#C0FFEE";
 			ctx.fillRect(x1, y1, gridsize, gridsize);
+			
+			
+			//infoausgabe über clickevent 
+			//console.log(JSON.stringify(info));
+			console.log(info);
+
+			
 		}
 
 		newimage.src = '../resources/images/planquadrat_test.jpg';
