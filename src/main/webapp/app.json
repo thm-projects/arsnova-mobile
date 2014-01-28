@@ -68,21 +68,17 @@
       		"update": "full"
         },
         {
-      		"path": "app/utils/Ext.plugins.ResizableTextArea.js",
-      		"update": "full"
-        },
-        {
       		"path": "app/utils/Ext.Array.js",
       		"update": "full"
         },
-        {
+        /*{
         	"path": "app/BrowserDetect.js",
         	"update": "full"
         },
         {
         	"path": "app/BrowserSupport.js",
         	"update": "full"
-        },
+        },*/
         {
         	"path": "app/st2-internationalization.js",
         	"update": "full"
@@ -149,7 +145,9 @@
     "resources": [
         "resources/images",
         "resources/icons",
-        "resources/startup"
+        "resources/startup",
+        "favicon.png",
+        "WEB-INF"
     ],
 
     /**
