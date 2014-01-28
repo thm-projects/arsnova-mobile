@@ -6,5 +6,6 @@ target/*
 .sonar
 
 # Output files
+src/main/build
 src/main/webapp/build
 /target
