@@ -23,16 +23,16 @@ Ext.application({
 	
 	requires: [].concat(
 			/* custom arsnova requires */
-			['ARSnova.BrowserSupport', 'ARSnova.proxy.RestProxy', 'ARSnova.WebSocket'],
+			['ARSnova.BrowserSupport', 'ARSnova.proxy.RestProxy', 'ARSnova.WebSocket', 'Ext.plugins.ResizableTextArea'],
 			
 			/* 
 			 * sencha touch library requires 
 			 */
-			['Ext.Img', 'Ext.Label', 'Ext.TitleBar', 'Ext.data.JsonStore', 'Ext.dataview.List', 'Ext.MessageBox' ],
-			['Ext.SegmentedButton', 'Ext.field.Spinner', 'Ext.field.Toggle'],
+			['Ext.Img', 'Ext.Label', 'Ext.TitleBar', 'Ext.data.JsonStore', 'Ext.dataview.List'],
+			['Ext.SegmentedButton', 'Ext.field.Spinner', 'Ext.field.Toggle', 'Ext.field.TextArea'],
 			
 			/* chart requires */
-			['Ext.chart.CartesianChart', 'Ext.chart.series.Bar', 'Ext.chart.axis.Numeric', 'Ext.chart.axis.Category'],
+			['Ext.chart.CartesianChart'],
 			['Ext.draw.gradient.Linear']
 	),
 
@@ -43,9 +43,9 @@ Ext.application({
 		'768x1004': 'resources/images/ARSnova_Grafiken/03_Launchimage_768x1004px.png', // iPad (portrait)
 		'748x1024': 'resources/images/ARSnova_Grafiken/03_Launchimage_748x1024px.png' // iPad (landscape)
 	},
-	viewport: {
+	/*viewport: {
         autoMaximize: Ext.os.is.iOS && !Ext.browser.is.webview && Ext.browser.version.isGreaterThan(3) && Ext.browser.version.isLessThan(7)
-    },
+    },*/
 	icon: {
 		57: 'resources/images/ARSnova_Grafiken/01_AppIcon_57x57px.png',
 		72: 'resources/images/ARSnova_Grafiken/01_AppIcon_72x72px.png',
