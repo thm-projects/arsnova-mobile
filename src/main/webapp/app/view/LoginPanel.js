@@ -21,6 +21,8 @@
 Ext.define('ARSnova.view.LoginPanel', {
 	extend: 'Ext.Container',
 	
+	requires: ['Ext.MessageBox'],
+	
 	config: {
 		fullscreen: true,
 		scrollable: {
