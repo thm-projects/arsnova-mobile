@@ -80,6 +80,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var gridsize = 400 / 5;
 		
 		info.gridsize = gridsize;
+		info.event = event;
 		
 		// Use the identity matrix while clearing the canvas
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -95,8 +96,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				ctx.fillRect(0, gridsize*i, 400, 1);
 			}
 			
-			var x = event.x;
-			var y = event.y;
+			var x = event.clientX;
+			var y = event.clientY;
 			
 			info.absolutKoord = { xKoord: x, yKoord:y};
 			
