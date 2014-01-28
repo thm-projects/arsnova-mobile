@@ -1,3 +1,4 @@
+.DS_Store
 .project
 .classpath
 .settings/*
@@ -5,8 +6,5 @@ target/*
 .sonar
 
 # Output files
-src/main/webapp/lib/sencha1.1.1/arsnovaCombined.js
-src/main/webapp/lib/sencha1.1.1/arsnovaCombined-debug.js
-src/main/webapp/lib/sencha1.1.1/pkgs/arsnovaCombined.js
-src/main/webapp/resources/css/arsnova_min.css
+src/main/webapp/build
 /target
