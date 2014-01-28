@@ -79,6 +79,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var ctx = canvas.getContext("2d");
 		var gridsize = 400 / 5;
 		
+		ctx.globalAlpha = 1;
+		
 		info.gridsize = gridsize;
 		info.event = event;
 		
@@ -122,6 +124,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			
 			info.gridKoord = {xKoord:x1, yKoord:y1};
 
+			
+			ctx.globalAlpha = 0.5;
 			ctx.fillStyle = "#C0FFEE";
 			ctx.fillRect(x1, y1, gridsize, gridsize);
 			
