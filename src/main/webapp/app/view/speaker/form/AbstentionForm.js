@@ -35,6 +35,5 @@ Ext.define('ARSnova.view.speaker.form.AbstentionForm', {
 				}]
 			}]
 		}]);
-	},
-	
+	}
 });
