@@ -516,14 +516,11 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	},
 	
 	saveAnswer: function(answer, callbacks) {
-		var data = answer.getData();
-		// drop sencha touch internal record id
-		delete data.id;
-		
+		console.log(answer);
 		this.arsjax.request({
 			url: "lecturerquestion/" + answer.get('questionId') + "/answer/",
 			method: "POST",
-			jsonData: data,
+			jsonData: answer.raw,
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
