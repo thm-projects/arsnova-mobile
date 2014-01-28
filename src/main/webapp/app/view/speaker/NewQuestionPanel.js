@@ -80,6 +80,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.previewButton = Ext.create('Ext.Button', {
 			text	: Messages.QUESTION_PREVIEW,
 			ui		: 'confirm',
+			cls		: 'previewQuestionButton',
 			handler: function() {
 				this.previewHandler().then(function(response) {
 					ARSnova.app.getController('Questions').details({
@@ -101,6 +102,15 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	    	maxHeight	: 140
 		});
 		
+		this.previewPart = Ext.create('Ext.form.FormPanel', {
+			cls: 'newQuestionPreview',
+			scrollable: null,
+			items: [{
+				xtype: 'fieldset',
+				items: [this.previewButton]
+			}]
+		});
+				
 		this.mainPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
 			scrollable: null,
@@ -111,9 +121,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			},{
 				xtype: 'fieldset',
 				items: [this.textarea]
-			}, {
-				xtype: 'fieldset',
-				items: [this.previewButton]
 			}]
 		});
 		
@@ -316,7 +323,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							if (pressed) {
 								this.yesNoQuestion.show();
 								title = label(Messages.QUESTION_YESNO, Messages.QUESTION_YESNO);
-								//title = label("HALLO???", "HALLO!!!");
 							} else {
 								this.yesNoQuestion.hide();
 							}
@@ -433,8 +439,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 					}
 				]
 			}),
-			this.mainPart,
-			
+			this.mainPart,		
+			this.previewPart,
 			/* only one of the question types will be shown at the same time */
 			this.voteQuestion,
 			this.multipleChoiceQuestion,
@@ -459,7 +465,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	},
 	
 	previewHandler: function() {
-		
 		Ext.Msg.alert(Messages.NOTICE, Messages.QUESTION_PREVIEW);
 		//alert("TEST");
 	},
