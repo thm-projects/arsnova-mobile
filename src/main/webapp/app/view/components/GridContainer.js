@@ -6,6 +6,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		imgSize : 400,
 		canvas : null,
 		imageFile : null,
+		gridWidth : 1,
 	},
 
 	constructor : function() {
@@ -51,37 +52,62 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		console.log('cleared.')
 	},
 
-	getElementKoord : function(x, y) {
+	getFieldKoord : function(x, y) {
 
 		var canvas = this.getCanvas();
-		var gridsize = this.getImgSize() / this.getGridSize();
 
 		x -= canvas.getBoundingClientRect().left;
 		y -= canvas.getBoundingClientRect().top;
 
-		var xGrid = parseInt(x / gridsize);
-		var yGrid = parseInt(y / gridsize);
+		var xGrid = parseInt(x / this.getFieldSize());
+		var yGrid = parseInt(y / this.getFieldSize());
 
 		// +1 um Rasterlinie nicht zu überdecken
-		var x1 = xGrid * gridsize + 1;
-		var y1 = yGrid * gridsize + 1;
+		var x1 = xGrid * this.getFieldSize() + 2 * this.getGridWidth();
+		var y1 = yGrid * this.getFieldSize() + 2 * this.getGridWidth();
 
 		return new Array(x1, y1);
 
 	},
 
+	getFieldSize : function() {
+		return (this.getImgSize() - 2 * this.getGridWidth())
+				/ this.getGridSize();
+	},
+
 	createGrid : function() {
 
 		var ctx = this.getCanvas().getContext("2d");
-		var gridsize = this.getImgSize() / this.getGridSize();
 
 		ctx.globalAlpha = 1;
+		ctx.fillStyle = "#000000";
 
+		// rand
+		ctx.fillRect(0, 0, this.getGridWidth(), this.getImgSize());
+		ctx.fillRect(0, 0, this.getImgSize(), this.getGridWidth());
+		ctx.fillRect(this.getImgSize() - this.getGridWidth(), 0, this
+				.getGridWidth(), this.getImgSize());
+		ctx.fillRect(0, this.getImgSize() - this.getGridWidth(), this
+				.getImgSize(), this.getGridWidth());
+
+		// innengatter
 		for (var i = 1; i < this.getGridSize(); i++) {
-			ctx.fillStyle = "#000000";
-			ctx.fillRect(gridsize * i, 0, 1, this.getImgSize());
-			ctx.fillRect(0, gridsize * i, this.getImgSize(), 1);
+			ctx.fillRect(this.getFieldSize() * i + this.getGridWidth(), 0, this
+					.getGridWidth(), this.getImgSize());
+			ctx.fillRect(0, this.getFieldSize() * i + this.getGridWidth(), this
+					.getImgSize(), this.getGridWidth());
 		}
+	},
+
+	markField : function(x, y) {
+
+		var ctx = this.getCanvas().getContext("2d");
+
+		ctx.globalAlpha = 0.5;
+		ctx.fillStyle = "#C0FFEE";
+		ctx.fillRect(x, y, this.getFieldSize() - this.getGridWidth(), this
+				.getFieldSize()
+				- this.getGridWidth());
 	},
 
 	onclick : function(event) {
@@ -89,15 +115,11 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var info = {};
 
 		info.thiz = this;
+		info.event = event;
 
 		var canvas = document.getElementById("canvasWrapper");
 		var ctx = canvas.getContext("2d");
-
 		var container = this.parentContainer;
-		var gridsize = container.getImgSize() / container.getGridSize();
-
-		info.gridsize = gridsize;
-		info.event = event;
 
 		container.clearAll();
 		container.createGrid();
@@ -110,16 +132,14 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			yKoord : y
 		};
 
-		var gridKorrd = container.getElementKoord(x, y);
+		var gridKorrd = container.getFieldKoord(x, y);
 
 		info.gridKoord = {
 			xKoord : gridKorrd[0],
 			yKoord : gridKorrd[1]
 		};
 
-		ctx.globalAlpha = 0.5;
-		ctx.fillStyle = "#C0FFEE";
-		ctx.fillRect(gridKorrd[0], gridKorrd[1], gridsize - 1, gridsize - 1);
+		container.markField(gridKorrd[0], gridKorrd[1]);
 
 		// infoausgabe über clickevent
 		console.log(info);
