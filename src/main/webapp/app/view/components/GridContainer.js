@@ -102,11 +102,11 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			info.absolutKoord = { xKoord: x, yKoord:y};
 			
 			
-			x -= canvas.offsetLeft;
-			/*y -= canvas.offsetTop;*/ y -= 280;
+			x -= canvas.getBoundingClientRect().left;
+			y -= canvas.getBoundingClientRect().top;
 			
 			
-			info.offset = {left: canvas.offsetLeft, top: canvas.offsetTop}
+			info.offset = {left: canvas.getBoundingClientRect().left, top: canvas.getBoundingClientRect().top}
 			info.relativKoord = {xKoord:x, yKoord:y};
 
 
