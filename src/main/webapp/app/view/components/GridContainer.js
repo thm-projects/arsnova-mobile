@@ -118,29 +118,25 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			
 			info.whichGrid = {xCount:xGrid, yCount:yGrid};
 
-			
-			var x1 = xGrid * gridsize;
-			var y1 = yGrid * gridsize;
+			// +1 um Rasterlinie nicht zu überdecken
+			var x1 = xGrid * gridsize+1;
+			var y1 = yGrid * gridsize+1;
 			
 			info.gridKoord = {xKoord:x1, yKoord:y1};
 
 			
 			ctx.globalAlpha = 0.5;
 			ctx.fillStyle = "#C0FFEE";
-			ctx.fillRect(x1, y1, gridsize, gridsize);
+			ctx.fillRect(x1, y1, gridsize-1, gridsize-1);
 			
 			
 			//infoausgabe über clickevent 
-			//console.log(JSON.stringify(info));
 			console.log(info);
 
 			
 		}
 
 		newimage.src = '../resources/images/planquadrat_test.jpg';
-		
-		
-
 		
 	},
 
