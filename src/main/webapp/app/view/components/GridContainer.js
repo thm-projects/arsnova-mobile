@@ -42,32 +42,15 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.add([ this.image ]);
 	},
 
-	calculateGridElementSize : function() {
-		return this.getImgSize() / this.getGridSize();
-	},
 
 	clearAll : function() {
 
-		var ctx = document.getElementById("canvasWrapper").getContext("2d");
-
-		// Use the identity matrix while clearing the canvas
-		// http://stackoverflow.com/questions/2142535/how-to-clear-the-canvas-for-redrawing
-		ctx.setTransform(1, 0, 0, 1, 0, 0);
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		//TODO
 	},
 
 	getElementKoord : function(x, y) {
 
-		var xGrid = x / this.getGridSize();
-		var yGrid = y / this.getGridSize();
-
-		var x1 = xGrid * this.getGridSize();
-		var y1 = yGrid * this.getGridSize();
-
-		var x2 = x1 + this.getGridSize() - 1;
-		var y2 = y1 + this.getGridSize() - 1;
-
-		return new Array(x1, y1, x2, y2);
+		//TODO
 
 	},
 
@@ -132,7 +115,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			
 			//infoausgabe über clickevent 
 			console.log(info);
-
 			
 		}
 
@@ -146,24 +128,5 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		ctx.fillRect(x1, y1, x2, y2);
 	},
 
-	createGrid : function() {
-		var elSize = this.calculateGridElementSize();
-		var html = '<map name="grid">';
-
-		var k = 1;
-
-		// create all grid elements
-		for (var i = 0; i < this.getGridSize(); i++) {
-			for (var j = 0; j < this.getGridSize(); j++) {
-				html += '<area id="field-' + (k) + '" shape="rect" coords="'
-						+ (i * elSize) + ',' + (j * elSize) + ','
-						+ ((i * elSize) + elSize) + ','
-						+ ((j * elSize) + elSize) + '" href="javascript:alert('
-						+ (k) + ');"/>';
-				k++;
-			}
-		}
-		html += '</map>';
-		return html;
-	}
+	
 });
