@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- - Beschreibung: Panel für die Frageform: Playnquadrat
+ - Beschreibung: Panel für die Frageform: Planquadrat
  - Autor(en):    Artjom Siebert <artjom.siebert@mni.thm.de>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
@@ -21,18 +21,40 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	extend : 'Ext.Container',
 
 	config : {
-		textYes : Messages.YES,
-		textNo : Messages.NO,
-		textNone : Messages.NONE,
-		pressed : 'none'
+		
 	},
-
-	abstentionAnswer : null,
 
 	constructor : function() {
 		this.callParent(arguments);
+		
+		this.uploadField = Ext.create('Ext.form.Panel',{
+			id: 'upload',
+			//hidden: true,
+			  fullscreen: true,
+			items: [
+			         {
+			             xtype: 'fieldset',
+			             title: 'About You',
+			             instructions: 'Tell us all about yourself',
+			             items: [
+			                 {
+			                     xtype: 'textfield',
+			                     name : 'firstName',
+			                     label: 'First Name'
+			                 },
+			                 {
+			                     xtype: 'textfield',
+			                     name : 'lastName',
+			                     label: 'Last Name'
+			                 }
+			             ]
+			         }
+			     ]
+		});
+		
 		//in den FormPanel die restlichen Bearbeitungswerkzeuge fuer das Bild
 		this.uploadButton = Ext.create('Ext.form.FormPanel', {
+			id: 'picPanel',
 			scrollable : null,
 			items : [ {
 				xtype : 'fieldset',
@@ -49,24 +71,36 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						style: 'width: 33%'
 					},
 					ui : 	'round',
+
 					handler: function() {
-							Ext.Msg.alert('Title', 'The quick brown fox jumped over the lazy dog.', Ext.emptyFn); // dummy test
-						}	
+						//this.getParent().getParent().getParent().getParent().hide();		//noch zu ändern
+						Ext.getCmp('picPanel').hide();
+						Ext.getCmp('gridContainer').hide();
+						//this.uploadField.show();
+					}	
 				} ]
 			} ]
 		});
 		
-		this.grid = Ext.create('ARSnova.view.components.GridContainer');
+		this.grid = Ext.create('ARSnova.view.components.GridContainer',{id: 'gridContainer'});
 
-		this.add([ this.grid, {
+		this.add([ this.grid, 
+		    {
 			xtype : 'container',
 			padding : 10,
-			items : [ this.uploadButton ]
-		} ]);
+			items : [this.uploadButton]
+		},
+		{
+		xtype : 'container',
+		padding : 10,
+		items : [this.uploadField]
+	},]);
 	},
-
+	
+	
 	//initialisierung der Startzustaende der jeweiligen Komponenten
 	initWithQuestion : function(question) {
+		
 		var possibleAnswers = question.possibleAnswers;
 		if (possibleAnswers.length === 0) {
 			return;
@@ -75,8 +109,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	//liefert die Resultate der angewaehlten Komponenten
 	getQuestionValues : function() {
 		var result = {};
-
+	
 
 		return result;
-	}
+	},
+	
 });
