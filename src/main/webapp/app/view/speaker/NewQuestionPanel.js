@@ -514,7 +514,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
     		case Messages.GRID:
     			values.questionType = "grid";
     			Ext.apply(values, panel.gridQuestion.getQuestionValues());
-    			Ext.Msg.alert('Grid', 'Save GridQuestion as dummy.', Ext.emptyFn); // dummy test
     		break;
 			case Messages.EVALUATION:
 				values.questionType = "vote";

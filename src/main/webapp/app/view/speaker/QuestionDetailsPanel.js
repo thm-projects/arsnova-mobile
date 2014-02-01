@@ -862,7 +862,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				case "flashcard":
 					return Messages.FLASHCARD;
 				case "grid":
-					return "grid"//Messages.GRID;
+					return Messages.GRID;
 				default:
 					return this.questionObj.questionType;
 			}
