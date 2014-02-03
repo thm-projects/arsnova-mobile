@@ -16,7 +16,7 @@
      * This value is needed when build to resolve your application's dependencies if it requires server-side resources
      * that are not accessible via file system protocol.
      */
-    "url": null,
+    "url": "https://arsnova.eu/mobile/",
 
     /**
      * List of all JavaScript assets in the right execution order.
@@ -71,14 +71,14 @@
       		"path": "app/utils/Ext.Array.js",
       		"update": "full"
         },
-        /*{
+        {
         	"path": "app/BrowserDetect.js",
         	"update": "full"
         },
         {
         	"path": "app/BrowserSupport.js",
         	"update": "full"
-        },*/
+        },
         {
         	"path": "app/st2-internationalization.js",
         	"update": "full"
@@ -125,7 +125,20 @@
          * List of items in the CACHE MANIFEST section
          */
         "cache": [
-            "index.html"
+            "index.html",
+            
+            /* app */
+            "app/BrowserDetect.js",
+            "app/BrowserSupport.js",
+            "app/st2-internationalization.js",
+            "app/utils/Ext.Array.js",
+            "app/utils/Ext.util.TaskRunner.js",
+            
+            /* lib */
+            "lib/moment.de.js",
+            "lib/moment.min.js",
+            "lib/rsvp.min.js",
+            "lib/socket.io/socket.io.min.js"
         ],
         /**
          * List of items in the NETWORK section
