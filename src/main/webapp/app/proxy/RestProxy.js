@@ -516,7 +516,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	},
 	
 	saveAnswer: function(answer, callbacks) {
-		console.log(answer);
 		this.arsjax.request({
 			url: "lecturerquestion/" + answer.get('questionId') + "/answer/",
 			method: "POST",
