@@ -10,6 +10,13 @@
 		<mkdir dir="${build.dir}" />
 	</target>
 	
+	<target name="sencha:refresh">
+		<exec executable="sencha" dir="${main.dir}">
+			<arg value="app"/>
+			<arg value="refresh"/>
+		</exec>
+	</target>
+	
 	<target name="sencha:build:testing">
 		<exec executable="sencha" dir="${main.dir}">
 			<arg value="app"/>
@@ -38,5 +45,5 @@
 		</copy>
 	</target>
 	
-	<target name="run" depends="sencha:build:testing, -assets:testing:copy"/>
+	<target name="run" depends="sencha:refresh, sencha:build:production, -assets:production:copy"/>
 </project>

@@ -182,26 +182,6 @@ Ext.application({
     launch: function(){
         // Destroy the #appLoadingIndicator element
         Ext.fly('appLoadingIndicator').destroy();
-    	
-    	// Use native application update depending on manifest file changes on startup
-		/*var appCache = window.applicationCache;
-		if (appCache.status !== appCache.UNCACHED) {
-			appCache.update();
-		}*/
-		
-		window.addEventListener('load', function(e) {
-			window.applicationCache.addEventListener('updateready', function(e) {
-				if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
-					// New version of ARSnova detected, swap in new chache
-					window.applicationCache.swapCache();
-					Ext.Msg.confirm(Messages.NEW_VERSION_TITLE, Messages.NEW_VERSION_AVAILABLE, function(answer) {
-						if (answer == 'yes') {
-							window.location.reload();
-						}
-					});
-				}
-			}, false);
-		}, false);
 		
 		this.checkLocalStorage();
 		this.checkBrowser();
@@ -217,10 +197,11 @@ Ext.application({
 		ARSnova.app.getController('Auth').checkLogin();
 	},
 
+	/**
+	 * reload application if manifest file is changed
+	 */
     onUpdated: function() {
-        Ext.Msg.confirm(
-            "Application Update",
-            "This application has just successfully been updated to the latest version. Reload now?",
+        Ext.Msg.confirm(Messages.NEW_VERSION_TITLE, Messages.NEW_VERSION_AVAILABLE,
             function(buttonId) {
                 if (buttonId === 'yes') {
                     window.location.reload();
