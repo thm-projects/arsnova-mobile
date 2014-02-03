@@ -20,21 +20,11 @@
  +--------------------------------------------------------------------------*/
 
 Ext.application({
-	
-	requires: [].concat(
-			/* custom arsnova requires */
-			['ARSnova.BrowserSupport', 'ARSnova.proxy.RestProxy', 'ARSnova.WebSocket', 'Ext.plugins.ResizableTextArea'],
-			
-			/* 
-			 * sencha touch library requires 
-			 */
-			['Ext.Img', 'Ext.Label', 'Ext.TitleBar', 'Ext.data.JsonStore', 'Ext.dataview.List'],
-			['Ext.SegmentedButton', 'Ext.field.Spinner', 'Ext.field.Toggle', 'Ext.field.TextArea'],
-			
-			/* chart requires */
-			['Ext.chart.CartesianChart'],
-			['Ext.draw.gradient.Linear']
-	),
+	requires: [ 'Ext.viewport.Viewport', 
+	            'ARSnova.view.CustomMessageBox', 
+	            'ARSnova.view.NumericKeypad', 
+	            'ARSnova.view.MathJaxField' 
+	],
 
 	startupImage: {
 		'320x460' : 'resources/images/ARSnova_Grafiken/03_Launchimage_320x460px.png', // iPhone (3.5" non-retina)
@@ -43,9 +33,11 @@ Ext.application({
 		'768x1004': 'resources/images/ARSnova_Grafiken/03_Launchimage_768x1004px.png', // iPad (portrait)
 		'748x1024': 'resources/images/ARSnova_Grafiken/03_Launchimage_748x1024px.png' // iPad (landscape)
 	},
-	/*viewport: {
+	
+	viewport: {
         autoMaximize: Ext.os.is.iOS && !Ext.browser.is.webview && Ext.browser.version.isGreaterThan(3) && Ext.browser.version.isLessThan(7)
-    },*/
+    },
+    
 	icon: {
 		57: 'resources/images/ARSnova_Grafiken/01_AppIcon_57x57px.png',
 		72: 'resources/images/ARSnova_Grafiken/01_AppIcon_72x72px.png',
@@ -80,9 +72,9 @@ Ext.application({
     views: [].concat(
     		
     		/* app/view */
-    		['Caption', 'LoginPanel', 'MainTabPanel', 'TabPanel', 'RolePanel', 'MathJaxField', 'CustomMask'], 
-    		['CustomMessageBox', 'MultiBadgeButton', 'MatrixButton', 'NumericKeypad', 'FreetextAnswerPanel', 'FreetextDetailAnswer'],
-    		['FreetextQuestion', 'Question', 'QuestionStatusButton', 'SessionStatusButton', 'TextCheckfield'],
+    		['Caption', 'LoginPanel', 'MainTabPanel', 'TabPanel', 'RolePanel', 'CustomMask', 'CustomMessageBox'], 
+    		['MultiBadgeButton', 'MatrixButton', 'FreetextAnswerPanel', 'FreetextDetailAnswer', 'NumericKeypad'],
+    		['FreetextQuestion', 'Question', 'QuestionStatusButton', 'SessionStatusButton', 'MathJaxField'],
     		
     		/* app/view/about */
     		['about.TabPanel'],
