@@ -20,11 +20,16 @@
  +--------------------------------------------------------------------------*/
 
 Ext.application({
-	requires: [ 'Ext.viewport.Viewport', 
-	            'ARSnova.view.CustomMessageBox', 
-	            'ARSnova.view.NumericKeypad', 
-	            'ARSnova.view.MathJaxField' 
-	],
+	requires: [].concat( 
+			/* custom ARSnova requires */
+	        [ 'ARSnova.WebSocket', 'ARSnova.view.CustomMessageBox', 'ARSnova.view.NumericKeypad', 
+	          'ARSnova.view.MathJaxField', 'Ext.plugins.ResizableTextArea' ],
+	        
+			/* sencha lib requires */
+			[ 'Ext.viewport.Viewport', 'Ext.dataview.List', 'Ext.data.JsonStore', 'Ext.Label', 
+			  'Ext.SegmentedButton', 'Ext.field.Spinner', 'Ext.field.Toggle', 'Ext.draw.gradient.Linear',
+			  'Ext.chart.CartesianChart', 'Ext.TitleBar' ]
+	),
 
 	startupImage: {
 		'320x460' : 'resources/images/ARSnova_Grafiken/03_Launchimage_320x460px.png', // iPhone (3.5" non-retina)

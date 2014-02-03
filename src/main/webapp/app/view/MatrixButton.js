@@ -22,6 +22,8 @@ Ext.define('ARSnova.view.MatrixButton', {
 	alias: 'x-matrixbutton',
 	xtype: 'matrixbutton',
 	
+	requires: ['Ext.Img'],
+	
 	config: {
 		image: '',
 		cls: 'noBackground noBorder matrixButton',
