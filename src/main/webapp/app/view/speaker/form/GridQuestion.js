@@ -56,28 +56,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				}
 			} ]
 		});
-		 var popup = new Ext.Panel({
-	            floating: true,
-	            centered: true,
-	            modal: true,
-	            width: 300,
-	            height: 400,
-	            styleHtmlContent: true,
-	            html: 'Hello! I\'m a PopUp',
-	            dockedItems: [{
-	                xtype: 'toolbar',
-	                title: 'PopUp',
-	                items: [{
-	                    xtype: 'spacer'
-	                },{
-	                    text: 'Close',
-	                    handler: function(){
-	                        popup.hide();
-	                    }
-	                }]
-	            }]
-	        });
-		 
+
 		// Panel for picture and settings
 		var imageArea = Ext.create('Ext.Panel', {
 			id : 'imageArea',
@@ -86,10 +65,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				xtype : 'button',
 				iconCls : 'info',
 				iconMask : true,
-				docked : 'right',
-				handler: function(btn){
-				     popup.showBy(btn);
-				}
+				docked : 'right'
 			} ],
 			hidden : true
 		});
@@ -151,7 +127,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			} ]
 		});
 		var answers = Ext.create('Ext.Panel', {
-			id : 'answerField',
 			items : [ {
 				xtype : 'fieldset',
 				id : 'fieldsetAnswers',
@@ -175,9 +150,18 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				items : [ {
 					xtype : 'spinnerfield',
 					label : 'Zoom',
+					listeners : {
+						spinup : function() {
+							grid.zoomIn();
+						},
+						spindown : function() {
+							grid.zoomOut();
+						}
+
+					},
 					minValue : 5,
 					maxValue : 100,
-					value : 100,
+					value : 5,
 					stepValue : 5
 				// cycle : true
 				}, {
@@ -196,8 +180,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				} ]
 			} ]
 		});
-	   
-	    
+
 		var imageCnt = Ext.create('Ext.form.FormPanel', {
 			scrollable : null,
 			id : 'imageControle',
