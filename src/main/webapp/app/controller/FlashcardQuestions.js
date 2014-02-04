@@ -19,6 +19,8 @@
 Ext.define("ARSnova.controller.FlashcardQuestions", {
 	extend: 'ARSnova.controller.Questions',
 	
+	requires: ['ARSnova.model.Question'],
+	
 	config: {
 		models: ['ARSnova.model.Question']
 	},

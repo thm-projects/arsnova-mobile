@@ -21,6 +21,8 @@
 Ext.define('ARSnova.view.feedback.AskPanel', {
 	extend: 'Ext.Panel',
 	
+	requires: ['ARSnova.model.Question'],
+	
 	config: {
 		title: 'AskPanel',
 		fullscreen: true,

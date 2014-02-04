@@ -18,18 +18,32 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
+/**
+ * required classes
+ */
+Ext.require([
+	'Ext.viewport.Viewport',
+	'ARSnova.WebSocket',
+	'ARSnova.view.NumericKeypad',
+	'ARSnova.view.CustomMessageBox',
+	'ARSnova.view.MathJaxField',
+	
+	/* required models */
+	'ARSnova.model.Answer',
+	'ARSnova.model.Auth',
+	'ARSnova.model.Feedback',
+	'ARSnova.model.LoggedIn',
+	'ARSnova.model.Question',
+	'ARSnova.model.Session',
+	'ARSnova.model.Statistic',
+	'ARSnova.model.Course'
+]);
 
 Ext.application({
-	requires: [].concat( 
-			/* custom ARSnova requires */
-	        [ 'ARSnova.WebSocket', 'ARSnova.view.CustomMessageBox', 'ARSnova.view.NumericKeypad', 
-	          'ARSnova.view.MathJaxField', 'Ext.plugins.ResizableTextArea' ],
-	        
-			/* sencha lib requires */
-			[ 'Ext.viewport.Viewport', 'Ext.dataview.List', 'Ext.data.JsonStore', 'Ext.Label', 
-			  'Ext.SegmentedButton', 'Ext.field.Spinner', 'Ext.field.Toggle', 'Ext.draw.gradient.Linear',
-			  'Ext.chart.CartesianChart', 'Ext.TitleBar' ]
-	),
+	requires: 			/* sencha lib requires */
+		[ 'Ext.List', 'Ext.data.JsonStore', 'Ext.Label', 
+		  'Ext.SegmentedButton', 'Ext.field.Spinner', 'Ext.field.Toggle', 'Ext.draw.gradient.Linear',
+		  'Ext.chart.CartesianChart', 'Ext.TitleBar' ],
 
 	startupImage: {
 		'320x460' : 'resources/images/ARSnova_Grafiken/03_Launchimage_320x460px.png', // iPhone (3.5" non-retina)

@@ -20,6 +20,14 @@
  +--------------------------------------------------------------------------*/
 Ext.define("ARSnova.controller.Sessions", {
 	extend: 'Ext.app.Controller',
+	
+	requires: ['ARSnova.model.Session',
+	           'ARSnova.view.speaker.TabPanel',
+	           'ARSnova.view.feedback.TabPanel',
+	           'ARSnova.view.feedbackQuestions.TabPanel',
+	           'ARSnova.view.user.TabPanel',
+	           'ARSnova.view.user.QuestionPanel'
+	],
     
     login: function(options){
     	if(options.keyword.length != 8){

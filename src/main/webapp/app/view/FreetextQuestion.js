@@ -21,6 +21,8 @@
 Ext.define('ARSnova.view.FreetextQuestion', {
 	extend: 'Ext.Panel',
 	
+	requires: ['ARSnova.model.Answer'],
+	
 	config: {
 		viewOnly: false,
 		scrollable: {

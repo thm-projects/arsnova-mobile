@@ -21,7 +21,8 @@
 Ext.define('ARSnova.view.home.HomePanel', {
 	extend: 'Ext.Container',
 	
-	requires: ['ARSnova.view.home.SessionList'],
+	requires: ['ARSnova.view.home.SessionList',
+	           'ARSnova.view.Caption'],
 	
 	config: {
 		fullscreen: true,

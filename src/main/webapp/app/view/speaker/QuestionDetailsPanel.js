@@ -21,12 +21,6 @@
  +--------------------------------------------------------------------------*/
 Ext.define('FreetextAnswer', {
     extend: 'Ext.data.Model',
-    
-    require: ['ARSnova.view.speaker.form.AbstentionForm', 'ARSnova.view.speaker.form.ExpandingAnswerForm',
-              'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
-              'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.SchoolQuestion',
-              'ARSnova.view.speaker.form.VoteQuestion', 'ARSnova.view.speaker.form.YesNoQuestion',
-              'ARSnova.view.speaker.form.FlashcardQuestion'],
  
     config: {
     	idProperty: "_id",
@@ -48,6 +42,13 @@ Ext.define('FreetextAnswer', {
 
 Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	extend: 'Ext.Panel',
+	
+    requires: ['ARSnova.view.speaker.form.AbstentionForm', 'ARSnova.view.speaker.form.ExpandingAnswerForm',
+              'ARSnova.view.speaker.form.IndexedExpandingAnswerForm', 'ARSnova.model.Question',
+              'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.SchoolQuestion',
+              'ARSnova.view.speaker.form.VoteQuestion', 'ARSnova.view.speaker.form.YesNoQuestion',
+              'ARSnova.view.speaker.form.FlashcardQuestion', 'ARSnova.model.Session'
+    ],
 	
 	config: {
 		title: 'QuestionDetailsPanel',

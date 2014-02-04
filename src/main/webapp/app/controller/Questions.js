@@ -21,6 +21,12 @@
 Ext.define("ARSnova.controller.Questions", {
 	extend: 'Ext.app.Controller',
 	
+	requires: ['ARSnova.model.Question',
+	           'ARSnova.view.speaker.QuestionDetailsPanel',
+	           'ARSnova.view.FreetextDetailAnswer',
+	           'ARSnova.view.feedbackQuestions.DetailsPanel'
+	],
+	
 	index: function(options){
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.backButton.show();
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');

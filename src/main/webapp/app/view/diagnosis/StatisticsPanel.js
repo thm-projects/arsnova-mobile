@@ -20,7 +20,8 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 	extend: 'Ext.Container',
-	requires: ['Ext.form.Panel', 'Ext.form.FieldSet'],
+	
+	requires: ['Ext.form.Panel', 'Ext.form.FieldSet', 'ARSnova.model.Statistic'],
 	
 	config: {
 		fullscreen: true,
