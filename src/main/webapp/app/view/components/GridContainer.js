@@ -13,6 +13,10 @@ Ext
 						chosenFields : Array(),
 						fieldColor : "#C0FFEE",
 						borderColor : "#000000",
+						scaleFactor : 1,
+						zoomLvl : 1.2,
+						zoomMin : 200, // min und max zoom in pixel
+						zoomMax : 800,
 						onFieldClick : null
 					},
 
@@ -57,6 +61,9 @@ Ext
 						ctx.clearRect(0, 0, this.getCanvas().width, this
 								.getCanvas().height);
 						ctx.globalAlpha = 1;
+
+						this.zoom();
+						// TODO zentrieren
 						ctx.drawImage(this.getImageFile(), 0, 0);
 						console.log('cleared.')
 					},
@@ -177,6 +184,9 @@ Ext
 							container.getOnFieldClick()(
 									container.getChosenFields().length);
 						}
+
+						// zu Testzwecken
+						// container.zoomOut();
 					},
 
 					setGrids : function(count) {
@@ -184,11 +194,30 @@ Ext
 						this.clearAll();
 						this.setGridSize(count);
 						this.createGrid();
-						
 						if (this.getOnFieldClick() != null) {
 							this.getOnFieldClick()(
 									this.getChosenFields().length);
 						}
-					}
+					},
 
+					zoom : function() {
+						var ctx = this.getCanvas().getContext("2d");
+						ctx.scale(this.getScaleFactor(), this.getScaleFactor());
+					},
+
+					zoomIn : function() {
+						// TODO mit max zoom vergleichen
+						// image size * scaleFactor > max zoom --> nichts tun
+						this.setScaleFactor(this.getScaleFactor()
+								* this.getZoomLvl());
+						this.clearAll();
+					},
+
+					zoomOut : function() {
+						// TODO mit min zoom vergleichen
+						// image size * scaleFactor < min zoom --> nichts tun
+						this.setScaleFactor(this.getScaleFactor()
+								/ this.getZoomLvl());
+						this.clearAll();
+					}
 				});
