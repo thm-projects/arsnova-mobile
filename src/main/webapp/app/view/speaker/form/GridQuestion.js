@@ -26,15 +26,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 	constructor : function() {
 		this.callParent(arguments);
-		
-		var button = Ext.create('Ext.Button', {
-		    iconCls: 'info',
-		    iconMask: true
-		});
-		
+
 		var grid = Ext.create('ARSnova.view.components.GridContainer', {
 			docked : 'top',
 			id : 'gridContainer'
+
 		});
 
 		var uploadButton = Ext.create('Ext.Panel', {
@@ -54,23 +50,47 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				ui : 'round',
 				handler : function() { // handler auslagern
 					Ext.getCmp('picPanel').hide();
-					Ext.getCmp('gridContainer').hide();
+					Ext.getCmp('imageArea').hide();
 					Ext.getCmp('upField').show();
 					Ext.getCmp('imageControle').hide();
 				}
 			} ]
 		});
-
+		 var popup = new Ext.Panel({
+	            floating: true,
+	            centered: true,
+	            modal: true,
+	            width: 300,
+	            height: 400,
+	            styleHtmlContent: true,
+	            html: 'Hello! I\'m a PopUp',
+	            dockedItems: [{
+	                xtype: 'toolbar',
+	                title: 'PopUp',
+	                items: [{
+	                    xtype: 'spacer'
+	                },{
+	                    text: 'Close',
+	                    handler: function(){
+	                        popup.hide();
+	                    }
+	                }]
+	            }]
+	        });
+		 
 		// Panel for picture and settings
 		var imageArea = Ext.create('Ext.Panel', {
 			id : 'imageArea',
-			layout: 'hbox',
-			items : [grid,{
-				xtype:	'button',
-				iconCls: 'info',
-			    iconMask: true,
-			    docked: 'right'
-			}],	
+			layout : 'hbox',
+			items : [ grid, {
+				xtype : 'button',
+				iconCls : 'info',
+				iconMask : true,
+				docked : 'right',
+				handler: function(btn){
+				     popup.showBy(btn);
+				}
+			} ],
 			hidden : true
 		});
 
@@ -100,7 +120,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					label : Messages.SELECT_PICTURE,
 					name : Messages.SELECT_PICTURE,
 					placeHolder : 'http://',
-					docked : 'top'
+					docked : 'top',
 				}, {
 					xtype : 'spacer',
 					height : 50,
@@ -134,17 +154,19 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			id : 'answerField',
 			items : [ {
 				xtype : 'fieldset',
+				id : 'fieldsetAnswers',
 				title : Messages.CORRECT_ANSWERS,
 				items : [ {
 					xtype : 'textfield',
+					id : 'textfieldAnswers',
 					label : Messages.COUNT,
 					name : Messages.COUNT,
-					placeHolder : '4',
+					placeHolder : '0',
 					readOnly : true
 				} ]
 			} ]
 		});
-		
+
 		var imageSettings = Ext.create('Ext.Panel', {
 			id : 'answerField',
 			items : [ answers, {
@@ -156,29 +178,41 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					minValue : 5,
 					maxValue : 100,
 					value : 100,
-					stepValue : 5,
-					cycle : true
+					stepValue : 5
+				// cycle : true
 				}, {
 					xtype : 'spinnerfield',
 					label : 'Quadrate',
+					listeners : {
+						spin : function() {
+							grid.setGrids(this.getValue()); // update grid count
+						}
+					},
 					minValue : 4,
 					maxValue : 128,
-					value : 4,
+					value : 1,
 					stepValue : 2,
-					cycle : true
+					cycle : true,
 				} ]
 			} ]
 		});
-
+	   
+	    
 		var imageCnt = Ext.create('Ext.form.FormPanel', {
 			scrollable : null,
 			id : 'imageControle',
 			hidden : true,
-			items : [imageSettings ]
+			items : [ imageSettings ]
 		});
-		
-	
-		
+
+		// update answers counter
+		grid.setOnFieldClick(function(AnswerValue) {
+			var cnt = Ext.getCmp('textfieldAnswers');
+			cnt.setValue(AnswerValue);
+			console.log(AnswerValue);
+
+		});
+
 		this.add([ {
 			xtype : 'fieldset',
 			title : ' ',
@@ -203,11 +237,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			return;
 		}
 	},
+
 	// liefert die Resultate der angewaehlten Komponenten
 	getQuestionValues : function() {
 		var result = {};
 
 		return result;
-	},
-
+	}
 });
