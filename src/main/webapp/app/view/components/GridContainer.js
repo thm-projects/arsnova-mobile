@@ -13,6 +13,7 @@ Ext
 						chosenFields : Array(),
 						fieldColor : "#C0FFEE",
 						borderColor : "#000000",
+						onFieldClick : null
 					},
 
 					constructor : function() {
@@ -171,7 +172,18 @@ Ext
 														entry[1]);
 											});
 						}
-
+						
+						if (container.getOnFieldClick() != null) {
+							container.getOnFieldClick()(
+									container.getChosenFields().length);
+						}
 					},
+					
+					setGrids : function(count){
+						this.setChosenFields( Array() );
+						this.clearAll();
+						this.setGridSize(count);
+						this.createGrid();
+					} 
 
 				});
