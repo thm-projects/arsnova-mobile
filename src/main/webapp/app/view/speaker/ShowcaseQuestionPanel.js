@@ -18,6 +18,10 @@
 Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	extend: 'Ext.Carousel',
 	
+	requires: ['ARSnova.view.Question',
+	           'ARSnova.view.speaker.QuestionStatisticChart'
+	],
+	
 	config: {
 		fullscreen: true,
 		title	: Messages.QUESTIONS,

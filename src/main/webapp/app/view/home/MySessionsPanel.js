@@ -21,7 +21,7 @@
 Ext.define('ARSnova.view.home.MySessionsPanel', {
 	extend: 'Ext.Panel',
 	
-	requires: ['ARSnova.view.home.SessionList'],
+	requires: ['ARSnova.view.Caption', 'ARSnova.view.home.SessionList'],
 
 	config: {
 		fullscreen: true,

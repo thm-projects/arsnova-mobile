@@ -20,7 +20,7 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.RolePanel', {
 	extend: 'Ext.Container',
-	
+
 	config: {
 		fullscreen: true,
 		scrollable: {

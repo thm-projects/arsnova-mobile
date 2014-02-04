@@ -21,7 +21,8 @@
 Ext.define('ARSnova.view.LoginPanel', {
 	extend: 'Ext.Container',
 	
-	requires: ['Ext.MessageBox'],
+	requires: [ 'Ext.MessageBox',
+	            'ARSnova.view.MatrixButton'],
 	
 	config: {
 		fullscreen: true,

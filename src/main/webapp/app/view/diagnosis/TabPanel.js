@@ -20,6 +20,8 @@
 Ext.define('ARSnova.view.diagnosis.TabPanel', {
 	extend: 'Ext.tab.Panel',
 	
+	requires: ['ARSnova.view.diagnosis.DiagnosisPanel'],
+	
 	config: {
 		title	: Messages.DIAGNOSIS,
 		iconCls	: 'tabBarIconDiagnosis',

@@ -21,8 +21,6 @@
 Ext.define('ARSnova.view.home.NewSessionPanel', {
 	extend: 'Ext.Panel',
 	
-	requires: ['ARSnova.model.Course'],
-	
 	config: {
 		fullscreen: true,
 		scrollable: null,

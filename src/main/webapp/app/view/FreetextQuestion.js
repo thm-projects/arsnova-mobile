@@ -21,7 +21,8 @@
 Ext.define('ARSnova.view.FreetextQuestion', {
 	extend: 'Ext.Panel',
 	
-	requires: ['ARSnova.model.Answer'],
+	requires: ['ARSnova.model.Answer',
+	           'ARSnova.view.CustomMask'],
 	
 	config: {
 		viewOnly: false,

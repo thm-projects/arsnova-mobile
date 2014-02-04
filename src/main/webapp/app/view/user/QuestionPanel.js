@@ -21,7 +21,7 @@
 Ext.define('ARSnova.view.user.QuestionPanel', {
 	extend: 'Ext.Carousel',
 	
-	requires: ['ARSnova.model.Answer'],
+	requires: ['ARSnova.view.Question'],
 	
 	config: {
 		fullscreen: true,

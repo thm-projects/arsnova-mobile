@@ -21,6 +21,8 @@
 Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 	extend: 'Ext.Container',
 	
+	requires: ['ARSnova.view.diagnosis.StatisticsPanel'],
+	
 	config: {
 		fullscreen	: true,
 		title		: Messages.DIAGNOSIS,

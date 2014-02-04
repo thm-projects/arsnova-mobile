@@ -21,9 +21,9 @@
 Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	extend: 'Ext.Panel',
 	
-	requires: ['ARSnova.model.Question', 
-	           'ARSnova.view.speaker.AudienceQuestionListItem', 
-	           'ARSnova.view.speaker.MultiQuestionStatusButton'
+	requires: [ 'ARSnova.view.Caption', 'ARSnova.model.Question', 
+	            'ARSnova.view.speaker.AudienceQuestionListItem', 
+	            'ARSnova.view.speaker.MultiQuestionStatusButton'
 	],
 
 	config: {

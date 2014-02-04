@@ -21,29 +21,28 @@
 /**
  * required classes
  */
+//@require lib/moment.de.js
+//@requrie lib/moment.min.js
+//@require utils/Ext.util.TaskRunner.js
+//@require utils/Ext.util.ResizableTextArea.js
+//@require utils/Ext.Array.js
+
 Ext.require([
+    'Ext.Label',
+	'Ext.TitleBar',
+	'Ext.field.Toggle',
+	'Ext.dataview.List',
+	'Ext.field.Spinner',
+	'Ext.form.FieldSet',
 	'Ext.viewport.Viewport',
-	'ARSnova.WebSocket',
-	'ARSnova.view.NumericKeypad',
-	'ARSnova.view.CustomMessageBox',
-	'ARSnova.view.MathJaxField',
-	
-	/* required models */
-	'ARSnova.model.Answer',
-	'ARSnova.model.Auth',
-	'ARSnova.model.Feedback',
-	'ARSnova.model.LoggedIn',
-	'ARSnova.model.Question',
-	'ARSnova.model.Session',
-	'ARSnova.model.Statistic',
-	'ARSnova.model.Course'
+	'Ext.chart.CartesianChart',
+	'Ext.SegmentedButton',
+	'Ext.data.JsonStore'
 ]);
 
 Ext.application({
-	requires: 			/* sencha lib requires */
-		[ 'Ext.List', 'Ext.data.JsonStore', 'Ext.Label', 
-		  'Ext.SegmentedButton', 'Ext.field.Spinner', 'Ext.field.Toggle', 'Ext.draw.gradient.Linear',
-		  'Ext.chart.CartesianChart', 'Ext.TitleBar' ],
+	
+	requires: ['ARSnova.WebSocket', 'ARSnova.BrowserSupport', 'ARSnova.view.CustomMessageBox'],
 
 	startupImage: {
 		'320x460' : 'resources/images/ARSnova_Grafiken/03_Launchimage_320x460px.png', // iPhone (3.5" non-retina)
@@ -84,40 +83,9 @@ Ext.application({
     isIconPrecomposed: true,
     icon: 'resources/images/ARSnova_Grafiken/01_AppIcon_114x114px.png',
 
-    models: [].concat(
-    		['Answer', 'Feedback', 'LoggedIn', 'Question', 'Session', 'Statistic', 'Course'],
-    		['Auth', 'FeedbackQuestion']),
+    models: ['Answer', 'Feedback', 'LoggedIn', 'Question', 'Session', 'Statistic', 'Course', 'Auth', 'FeedbackQuestion'],
     
-    views: [].concat(
-    		
-    		/* app/view */
-    		['Caption', 'LoginPanel', 'MainTabPanel', 'TabPanel', 'RolePanel', 'CustomMask', 'CustomMessageBox'], 
-    		['MultiBadgeButton', 'MatrixButton', 'FreetextAnswerPanel', 'FreetextDetailAnswer', 'NumericKeypad'],
-    		['FreetextQuestion', 'Question', 'QuestionStatusButton', 'SessionStatusButton', 'MathJaxField'],
-    		
-    		/* app/view/about */
-    		['about.TabPanel'],
-    		
-    		/* app/view/diagnosis */
-    		['diagnosis.DiagnosisPanel'],
-    		['diagnosis.StatisticsPanel'],
-    		['diagnosis.TabPanel'],
-    		
-    		/* app/view/feedback */
-    		['feedback.AskPanel', 'feedback.StatisticPanel', 'feedback.TabPanel', 'feedback.VotePanel'],
-    		
-    		/* app/view/feedbackQuestions */
-    		['feedbackQuestions.DetailsPanel', 'feedbackQuestions.QuestionsPanel', 'feedbackQuestions.TabPanel'],
-    		
-    		/* app/view/home */  
-    		['home.HomePanel', 'home.MySessionsPanel', 'home.NewSessionPanel', 'home.TabPanel'],
-    		
-    		/* app/view/speaker */
-    		['speaker.AudienceQuestionPanel', 'speaker.InClass', 'speaker.NewQuestionPanel', 'speaker.QuestionDetailsPanel'],
-    		['speaker.QuestionStatisticChart', 'speaker.ShowcaseQuestionPanel', 'speaker.TabPanel'],
-    		
-    		/* app/view/user */
-    		['user.InClass', 'user.QuestionPanel', 'user.TabPanel']),
+    views: ['MainTabPanel'],
 	
     controllers: ['Auth', 'Feedback', 'Lang', 'Questions', 'FlashcardQuestions', 'PreparationQuestions', 'Sessions'],
     

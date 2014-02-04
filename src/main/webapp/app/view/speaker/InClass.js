@@ -21,6 +21,9 @@
 Ext.define('ARSnova.view.speaker.InClass', {
 	extend: 'Ext.Panel',
 	
+	requires: ['ARSnova.view.MultiBadgeButton',
+	           'ARSnova.view.SessionStatusButton'],
+	
 	config: {
 		fullscreen: true,
 		title	: Messages.FEEDBACK,

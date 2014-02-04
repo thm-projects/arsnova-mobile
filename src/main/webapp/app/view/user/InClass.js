@@ -21,6 +21,8 @@
 Ext.define('ARSnova.view.user.InClass', {
 	extend: 'Ext.Panel',
 	
+	requires: ['ARSnova.view.MultiBadgeButton'],
+	
 	config: {
 		title: 'InClass',
 		fullscreen: true,

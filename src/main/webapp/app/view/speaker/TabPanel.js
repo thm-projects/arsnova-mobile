@@ -21,6 +21,12 @@
 Ext.define('ARSnova.view.speaker.TabPanel', {
 	extend: 'Ext.tab.Panel',
 	
+	requires: ['ARSnova.view.speaker.InClass',
+	           'ARSnova.view.speaker.AudienceQuestionPanel',
+	           'ARSnova.view.speaker.NewQuestionPanel',
+	           'ARSnova.view.speaker.ShowcaseQuestionPanel'
+	],
+	
 	config: {
 		title	: Messages.HOME,
 		iconCls	: 'tabBarIconHome',

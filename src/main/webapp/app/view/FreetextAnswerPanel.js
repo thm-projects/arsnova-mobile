@@ -22,8 +22,6 @@
 Ext.define('ARSnova.view.FreetextAnswerPanel', {
 	extend: 'Ext.Panel',
 	
-	requires: ['Ext.data.JsonStore'],
-	
 	config: {
 		layout: 'vbox',
 		fullscreen: true,
