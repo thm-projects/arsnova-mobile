@@ -13,6 +13,10 @@ Ext
 						chosenFields : Array(),
 						fieldColor : "#C0FFEE",
 						borderColor : "#000000",
+						scaleFactor : 1,
+						zoomLvl : 1.2,
+						zoomMin : 200, // min und max zoom in pixel
+						zoomMax : 800
 					},
 
 					constructor : function() {
@@ -56,6 +60,8 @@ Ext
 						ctx.clearRect(0, 0, this.getCanvas().width, this
 								.getCanvas().height);
 						ctx.globalAlpha = 1;
+						this.zoom();
+						//TODO zentrieren
 						ctx.drawImage(this.getImageFile(), 0, 0);
 						console.log('cleared.')
 					},
@@ -171,7 +177,26 @@ Ext
 														entry[1]);
 											});
 						}
+						container.zoomOut();
 
 					},
-
+					
+					zoom: function() {
+						var ctx = this.getCanvas().getContext("2d");
+						ctx.scale(this.getScaleFactor(), this.getScaleFactor());
+					},
+					
+					zoomIn: function() {
+						// TODO mit max zoom vergleichen
+						// image size * scaleFactor > max zoom --> nichts tun
+						this.setScaleFactor(this.getScaleFactor() * this.getZoomLvl());
+						this.clearAll();
+					},
+					
+					zoomOut: function() {
+						// TODO mit min zoom vergleichen
+						// image size * scaleFactor < min zoom --> nichts tun
+						this.setScaleFactor(this.getScaleFactor() / this.getZoomLvl());
+						this.clearAll();
+					}
 				});
