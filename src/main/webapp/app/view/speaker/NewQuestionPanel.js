@@ -78,9 +78,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		});
 		
 		this.previewButton = Ext.create('Ext.Button', {
-			text	: Messages.QUESTION_PREVIEW,
+			text	: /*Messages.QUESTION_PREVIEW*/ 'Vorschau-Btn',
 			ui		: 'confirm',
 			cls		: 'previewQuestionButton',
+			style   : 'width:100px; margin-top:100px',
 			handler: function() {
 				this.previewHandler().then(function(response) {
 					ARSnova.app.getController('Questions').details({
@@ -465,8 +466,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	},
 	
 	previewHandler: function() {
-		Ext.Msg.alert(Messages.NOTICE, Messages.QUESTION_PREVIEW);
-		//alert("TEST");
+
+		//create preview message box with converted text
+		(new ARSnova.view.MMPanel()).showPreview(this.subject.getValue(), this.textarea.getValue());
 	},
 	
 	saveHandler: function(){

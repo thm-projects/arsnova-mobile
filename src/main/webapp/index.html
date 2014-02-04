@@ -40,6 +40,19 @@
 		<script type="text/javascript" src="lib/rsvp.min.js"></script>
 		<script type="text/javascript" src="lib/socket.io/socket.io.min.js"></script>
 		<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+		
+		<!-- MathJax and Markdown -->
+		<!--<script type="text/javascript"
+ 			src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+ 		</script>-->
+		<script type="text/x-mathjax-config">
+			MathJax.Hub.Config({
+				tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+			});
+			
+			//MathJax.Hub.queue.pending=0; //pause MJ
+		</script>
+		<script src="lib/markdown/markdown.js"></script>
 	 </body>
  </html>
  
