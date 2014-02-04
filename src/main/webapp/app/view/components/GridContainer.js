@@ -15,7 +15,12 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		zoomLvl : 0,
 		zoomMin : 0,
 		zoomMax : 5,
-		onFieldClick : null
+		onFieldClick : null,
+		mouseClicked : false,
+		canvasOffsetX : 0,
+		canvasOffsetY : 0,
+		canvasMouseX : 0,
+		canvasMouseY : 0
 	},
 
 	constructor : function() {
@@ -27,8 +32,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		canvas.height = this.getImgSize();
 		canvas.style.display = 'block';
 		canvas.style.margin = '0 auto';
-		canvas.addEventListener("mousedown", this.onclick,
-				false);
+		canvas.addEventListener("mousedown", this.onclick, false);
+		canvas.addEventListener("mouseup", this.onclickUp, false);
+		canvas.addEventListener("mousemove", this.onMove, false);
 		canvas.parentContainer = this;
 
 		var newimage = new Image();
@@ -45,6 +51,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		this.setCanvas(canvas);
 
+		this.setCanvasOffsetX(canvas.offsetLeft);
+		this.setCanvasOffsetY(canvas.offsetTop);
+		
 		this.image = {
 			xtype : 'panel',
 			cls : null,
@@ -54,13 +63,13 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.add([ this.image ]);
 	},
 
-	clearAll : function() {
+	clearAll : function(imgX, imgY) {
 		var ctx = this.getCanvas().getContext('2d');
 		ctx.clearRect(0, 0, this.getCanvas().width, this.getCanvas().height);
 		ctx.globalAlpha = 1;
 
 		this.zoom();
-		ctx.drawImage(this.getImageFile(), 0, 0);
+		ctx.drawImage(this.getImageFile(), imgX, imgY);
 		console.log('cleared.')
 	},
 
@@ -142,6 +151,11 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var y = event.clientY;
 		var position = container.getFieldPosition(x, y);
 
+		// register mouse click and position for further events
+		container.setCanvasMouseX(parseInt(event.clientX - container.getCanvasOffsetX()));
+		container.setCanvasMouseY(parseInt(event.clientY - container.getCanvasOffsetY()));
+		container.setMouseClicked(true);
+		
 		// eigenes indexof
 		var index = -1;
 		var fields = container.getChosenFields();
@@ -165,7 +179,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		}
 
 		if (changed) {
-			container.clearAll();
+			container.clearAll(0, 0);
 			container.createGrid();
 
 			container.getChosenFields()
@@ -181,10 +195,45 @@ Ext.define('ARSnova.view.components.GridContainer', {
 					container.getChosenFields().length);
 		}
 	},
+	
+	onclickUp : function(event) {
+		var container = this.parentContainer;
+		// register mouse release and position for further events
+		container.setCanvasMouseX(parseInt(event.clientX - container.getCanvasOffsetX()));
+		container.setCanvasMouseY(parseInt(event.clientY - container.getCanvasOffsetY()));
+		container.setMouseClicked(false);
+	},
+	
+	onMove : function(event) {
+		var container = this.parentContainer;
+		
+		container.setCanvasMouseX(parseInt(event.clientX - container.getCanvasOffsetX()));
+		container.setCanvasMouseY(parseInt(event.clientY - container.getCanvasOffsetY()));
+		
+		var rect = container.getCanvas().getBoundingClientRect();
+		
+//		console.log("event.clientX: " + event.clientX);
+//		console.log("event.clientY: " + event.clientY);
+//		console.log("rect.left: " + rect.left);
+//		console.log("rect.top: " + rect.top);
+//		console.log("canvasOffsetX: " + container.getCanvasOffsetX());
+//		console.log("canvasOffsetY: " + container.getCanvasOffsetY());
+//		console.log("canvasMouseX: " + container.getCanvasMouseX());
+//		console.log("canvasMouseY: " + container.getCanvasMouseY());
+		
+		// only act when mouse is clicked during movement
+		if (container.getMouseClicked()) {
+//			var canvas = container.getCanvas();
+//			var ctx = canvas.getContext("2d");
+			container.clearAll(event.clientX - rect.left, event.clientY - rect.top);
+//			ctx.clearRect(0, 0, canvas.width, canvas.height);
+//			ctx.drawImage(container.getImageFile(), container.getCanvasMouseX() - 128 / 2, container.getCanvasMouseY() - 128 / 2);
+		}
+	},
 
 	setGrids : function(count) {
 		this.setChosenFields(Array());
-		this.clearAll();
+		this.clearAll(0, 0);
 		this.setGridSize(count);
 		this.createGrid();
 		if (this.getOnFieldClick() != null) {
@@ -209,7 +258,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			this.setZoomLvl(this.getZoomLvl() + 1);
 			this.setScale(1 * this.getScaleFactor());
 			console.log("new zoomlvl: " + this.getZoomLvl());
-			this.clearAll();
+			this.clearAll(0, 0);
 			this.setScale(1);
 		} else {
 			console.log("min zoom reached");
@@ -222,7 +271,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			this.setZoomLvl(this.getZoomLvl() - 1);
 			this.setScale(1 / this.getScaleFactor());
 			console.log("new zoomlvl: " + this.getZoomLvl());
-			this.clearAll();
+			this.clearAll(0, 0);
 			this.setScale(1);
 		} else {
 			console.log("min zoom reached");
