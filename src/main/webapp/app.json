@@ -60,24 +60,12 @@
       		"update": "full"
         },
         {
-      		"path": "lib/socket.io/socket.io.min.js",
-      		"update": "full"
-        },
-        {
       		"path": "app/utils/Ext.util.TaskRunner.js",
       		"update": "full"
         },
         {
       		"path": "app/utils/Ext.Array.js",
       		"update": "full"
-        },
-        {
-        	"path": "app/BrowserDetect.js",
-        	"update": "full"
-        },
-        {
-        	"path": "app/BrowserSupport.js",
-        	"update": "full"
         },
         {
         	"path": "app/st2-internationalization.js",
