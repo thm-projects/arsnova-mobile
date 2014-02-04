@@ -9,8 +9,10 @@ Ext
 						imgSize : 400,
 						canvas : null,
 						imageFile : null,
-						gridWidth : 1,
-						chosenFields : Array()
+						borderWidth : 1,
+						chosenFields : Array(),
+						fieldColor : "#C0FFEE",
+						borderColor : "#000000",
 					},
 
 					constructor : function() {
@@ -78,14 +80,14 @@ Ext
 					// params
 					getFieldKoord : function(x, y) {
 						var x1 = x * this.getFieldSize() + 2
-								* this.getGridWidth();
+								* this.getBorderWidth();
 						var y1 = y * this.getFieldSize() + 2
-								* this.getGridWidth();
+								* this.getBorderWidth();
 						return new Array(x1, y1);
 					},
 
 					getFieldSize : function() {
-						return (this.getImgSize() - 2 * this.getGridWidth())
+						return (this.getImgSize() - 2 * this.getBorderWidth())
 								/ this.getGridSize();
 					},
 
@@ -93,27 +95,27 @@ Ext
 						var ctx = this.getCanvas().getContext("2d");
 
 						ctx.globalAlpha = 1;
-						ctx.fillStyle = "#000000";
+						ctx.fillStyle = this.getBorderColor();
 
 						// rand
-						ctx.fillRect(0, 0, this.getGridWidth(), this
+						ctx.fillRect(0, 0, this.getBorderWidth(), this
 								.getImgSize());
 						ctx.fillRect(0, 0, this.getImgSize(), this
-								.getGridWidth());
-						ctx.fillRect(this.getImgSize() - this.getGridWidth(),
-								0, this.getGridWidth(), this.getImgSize());
-						ctx.fillRect(0,
-								this.getImgSize() - this.getGridWidth(), this
-										.getImgSize(), this.getGridWidth());
+								.getBorderWidth());
+						ctx.fillRect(this.getImgSize() - this.getBorderWidth(),
+								0, this.getBorderWidth(), this.getImgSize());
+						ctx.fillRect(0, this.getImgSize()
+								- this.getBorderWidth(), this.getImgSize(),
+								this.getBorderWidth());
 
 						// innengatter
 						for (var i = 1; i < this.getGridSize(); i++) {
 							ctx.fillRect(this.getFieldSize() * i
-									+ this.getGridWidth(), 0, this
-									.getGridWidth(), this.getImgSize());
+									+ this.getBorderWidth(), 0, this
+									.getBorderWidth(), this.getImgSize());
 							ctx.fillRect(0, this.getFieldSize() * i
-									+ this.getGridWidth(), this.getImgSize(),
-									this.getGridWidth());
+									+ this.getBorderWidth(), this.getImgSize(),
+									this.getBorderWidth());
 						}
 					},
 
@@ -124,10 +126,10 @@ Ext
 						var koord = this.getFieldKoord(x, y);
 
 						ctx.globalAlpha = 0.5;
-						ctx.fillStyle = "#C0FFEE";
+						ctx.fillStyle = this.getFieldColor();
 						ctx.fillRect(koord[0], koord[1], this.getFieldSize()
-								- this.getGridWidth(), this.getFieldSize()
-								- this.getGridWidth());
+								- this.getBorderWidth(), this.getFieldSize()
+								- this.getBorderWidth());
 					},
 
 					onclick : function(event) {
@@ -170,13 +172,6 @@ Ext
 											});
 						}
 
-					},
-
-					showGridElement : function(x1, y1, x2, y2) {
-						var ctx = document.getElementById("canvasWrapper")
-								.getContext("2d");
-						ctx.fillStyle = "#C0FFEE";
-						ctx.fillRect(x1, y1, x2, y2);
 					},
 
 				});
