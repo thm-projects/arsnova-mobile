@@ -210,6 +210,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			this.setScale(1 * this.getScaleFactor());
 			console.log("new zoomlvl: " + this.getZoomLvl());
 			this.clearAll();
+			this.setScale(1);
 		} else {
 			console.log("min zoom reached");
 		}
@@ -222,6 +223,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			this.setScale(1 / this.getScaleFactor());
 			console.log("new zoomlvl: " + this.getZoomLvl());
 			this.clearAll();
+			this.setScale(1);
 		} else {
 			console.log("min zoom reached");
 		}
