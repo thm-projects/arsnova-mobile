@@ -11,14 +11,14 @@
 	</target>
 	
 	<target name="sencha:refresh">
-		<exec executable="sencha" dir="${main.dir}">
+		<exec executable="sencha" dir="${main.dir}" failonerror="true">
 			<arg value="app"/>
 			<arg value="refresh"/>
 		</exec>
 	</target>
 	
 	<target name="sencha:build:testing">
-		<exec executable="sencha" dir="${main.dir}">
+		<exec executable="sencha" dir="${main.dir}" failonerror="true">
 			<arg value="app"/>
 			<arg value="build"/>
 			<arg value="testing"/>
@@ -26,7 +26,7 @@
 	</target>
 	
 	<target name="sencha:build:production">
-		<exec executable="sencha" dir="${main.dir}">
+		<exec executable="sencha" dir="${main.dir}" failonerror="true">
 			<arg value="app"/>
 			<arg value="build"/>
 			<arg value="production"/>
