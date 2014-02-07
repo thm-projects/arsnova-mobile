@@ -13,7 +13,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		borderColor : "#000000",
 		scaleFactor : 1.2,
 		scale : 1.0,
-		zoomLvl : 2,
+		zoomLvl : 0,
 		zoomMin : 0,
 		zoomMax : 5,
 		moveX : 0,
@@ -21,11 +21,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		moveInterval : 10,
 		moveable : Array(true, true, true, true), // defines in which direction (l, u, r, d) the image is moveable
 		onFieldClick : null,
-		mouseClicked : false,
-		canvasOffsetX : 0,
-		canvasOffsetY : 0,
-		canvasMouseX : 0,
-		canvasMouseY : 0
 	},
 
 	constructor : function() {
@@ -53,9 +48,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		newimage.src = '../resources/images/planquadrat_test.jpg';
 
 		this.setCanvas(canvas);
-
-		this.setCanvasOffsetX(canvas.offsetLeft);
-		this.setCanvasOffsetY(canvas.offsetTop);
 		
 		this.image = {
 			xtype : 'panel',
@@ -155,9 +147,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var position = container.getFieldPosition(x, y);
 
 		// register mouse click and position for further events
-		container.setCanvasMouseX(parseInt(event.clientX - container.getCanvasOffsetX()));
-		container.setCanvasMouseY(parseInt(event.clientY - container.getCanvasOffsetY()));
-		container.setMouseClicked(true);
+//		container.setCanvasMouseX(parseInt(event.clientX - container.getCanvasOffsetX()));
+//		container.setCanvasMouseY(parseInt(event.clientY - container.getCanvasOffsetY()));
+//		container.setMouseClicked(true);
 		
 		// eigenes indexof
 		var index = -1;
