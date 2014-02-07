@@ -4,6 +4,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	config : {
 		gridSize : 5,
 		imgSize : 400,
+		imgSizeHalf : 200, // TODO diesen Wert zu Beginn berechnen und zuweisen (im Konstruktor?)
 		canvas : null,
 		imageFile : null,
 		borderWidth : 1,
@@ -12,7 +13,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		borderColor : "#000000",
 		scaleFactor : 1.2,
 		scale : 1.0,
-		zoomLvl : 0,
+		zoomLvl : 2,
 		zoomMin : 0,
 		zoomMax : 5,
 		moveX : 0,
@@ -197,7 +198,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 					container.getChosenFields().length);
 		}
 		
-		container.moveRight();
+		container.moveLeft();
+		container.moveLeft();
+		container.moveUp();
 	},
 
 	setGrids : function(count) {
@@ -212,31 +215,59 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 	
 	moveRight : function() {
-		// TODO linken Bildrand überprüfen und in moveable entsprechend abspeichern
-		var moveX = this.getMoveX() + this.getMoveInterval();
-		this.setMoveX(moveX);
-		this.clearAll();
+		if (this.getMoveX() < (this.getScaleFactor() - 1) * this.getZoomLvl() * this.getImgSize() / 2) {
+			var moveX = this.getMoveX() + this.getMoveInterval();
+			this.setMoveX(moveX);
+			this.clearAll();
+			console.log("move right");
+		} else {
+			var moveable = this.getMoveable();
+			moveable[2] = false;
+			this.setMoveable(moveable);
+			console.log("reached left end");
+		}		
 	},
 	
 	moveLeft : function() {
-		// TODO rechten Bildrand überprüfen und in moveable entsprechend abspeichern
-		var moveX = this.getMoveX() - this.getMoveInterval();
-		this.setMoveX(moveX);
-		this.clearAll();
+		if (this.getMoveX() * (-1) < (this.getScaleFactor() - 1) * this.getZoomLvl() * this.getImgSize() / 2) {
+			var moveX = this.getMoveX() - this.getMoveInterval();
+			this.setMoveX(moveX);
+			this.clearAll();
+			console.log("move left");
+		} else {
+			var moveable = this.getMoveable();
+			moveable[0] = false;
+			this.setMoveable(moveable);
+			console.log("reached right end");
+		}	
 	},
 	
 	moveUp : function() {
-		// TODO unteren Bildrand überprüfen und in moveable entsprechend abspeichern
-		var moveY = this.getMoveY() - this.getMoveInterval();
-		this.setMoveY(moveY);
-		this.clearAll();
+		if (this.getMoveY() * (-1) < (this.getScaleFactor() - 1) * this.getZoomLvl() * this.getImgSize() / 2) {
+			var moveY = this.getMoveY() - this.getMoveInterval();
+			this.setMoveY(moveY);
+			this.clearAll();
+			console.log("move up");
+		} else {
+			var moveable = this.getMoveable();
+			moveable[1] = false;
+			this.setMoveable(moveable);
+			console.log("reached bottom end");
+		}	
 	},
 	
 	moveDown : function() {
-		// TODO oberen Bildrand überprüfen und in moveable entsprechend abspeichern
-		var moveY = this.getMoveY() + this.getMoveInterval();
-		this.setMoveY(moveY);
-		this.clearAll();
+		if (this.getMoveY() < (this.getScaleFactor() - 1) * this.getZoomLvl() * this.getImgSize() / 2) {
+			var moveY = this.getMoveY() + this.getMoveInterval();
+			this.setMoveY(moveY);
+			this.clearAll();
+			console.log("move down");
+		} else {
+			var moveable = this.getMoveable();
+			moveable[3] = false;
+			this.setMoveable(moveable);
+			console.log("reached top end");
+		}	
 	},
 	
 	isMoveable : function() {
@@ -244,13 +275,15 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 	
 	zoom : function() {
+		// TODO automatisch verschieben, wenn wieder aus dem Bild rausgezoomt wird
 		var ctx = this.getCanvas().getContext("2d");
 //		if (this.getZoomLvl() == 0) {
 //			ctx.scale(1, 1);
 //		} else {
-			ctx.scale(this.getScale(), this.getScale());
+		var imgSizeHalf = this.getImgSizeHalf();
+		ctx.translate(imgSizeHalf - (imgSizeHalf * this.getScale()), imgSizeHalf - (imgSizeHalf * this.getScale()));
+		ctx.scale(this.getScale(), this.getScale());	
 //		}
-		// TODO zentrieren
 	},
 
 	zoomIn : function() {
