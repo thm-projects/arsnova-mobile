@@ -33,8 +33,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		canvas.style.display = 'block';
 		canvas.style.margin = '0 auto';
 		canvas.addEventListener("mousedown", this.onclick, false);
-		canvas.addEventListener("mouseup", this.onclickUp, false);
-		canvas.addEventListener("mousemove", this.onMove, false);
+//		canvas.addEventListener("mouseup", this.onclickUp, false);
+//		canvas.addEventListener("mousemove", this.onMove, false);
 		canvas.parentContainer = this;
 
 		var newimage = new Image();
