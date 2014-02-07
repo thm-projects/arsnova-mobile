@@ -66,13 +66,13 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.add([ this.image ]);
 	},
 
-	clearAll : function(imgX, imgY) {
+	clearAll : function() {
 		var ctx = this.getCanvas().getContext('2d');
 		ctx.clearRect(0, 0, this.getCanvas().width, this.getCanvas().height);
 		ctx.globalAlpha = 1;
 
 		this.zoom();
-		ctx.drawImage(this.getImageFile(), imgX, imgY);
+		ctx.drawImage(this.getImageFile(), this.getMoveX(), this.getMoveY());
 		console.log('cleared.')
 	},
 
@@ -182,7 +182,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		}
 
 		if (changed) {
-			container.clearAll(0, 0);
+			container.clearAll();
 			container.createGrid();
 
 			container.getChosenFields()
@@ -197,6 +197,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			container.getOnFieldClick()(
 					container.getChosenFields().length);
 		}
+		
+		container.moveRight();
 	},
 	
 	onclickUp : function(event) {
@@ -236,7 +238,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 	setGrids : function(count) {
 		this.setChosenFields(Array());
-		this.clearAll(0, 0);
+		this.clearAll();
 		this.setGridSize(count);
 		this.createGrid();
 		if (this.getOnFieldClick() != null) {
@@ -245,36 +247,40 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		}
 	},
 
-	move : function(x, y) {
-		// TODO alternativ: hier die Berechnung der neuen x und y Werte, 
-		//		dann werden jedoch beide neu berechnet, auch wenn nur einer gebraucht wird.
-		this.clearAll(this.getMoveX(), this.getMoveY());
-	},
+//	move : function(x, y) {
+//		// TODO alternativ: hier die Berechnung der neuen x und y Werte, 
+//		//		dann werden jedoch beide neu berechnet, auch wenn nur einer gebraucht wird.
+//		this.clearAll(this.getMoveX(), this.getMoveY());
+//	},
 	
 	moveRight : function() {
 		// TODO linken Bildrand überprüfen --> Bild soll nur soweit verschoben werden,
 		//		dass es am anderen Ende noch bündig ist.
 		var moveX = this.getMoveX() + this.getMoveInterval();
 		this.setMoveX(moveX);
-		this.move();
+//		this.move();
+		this.clearAll();
 	},
 	
 	moveLeft : function() {
 		var moveX = this.getMoveX() - this.getMoveInterval();
 		this.setMoveX(moveX);
-		this.move();
+//		this.move();
+		this.clearAll();
 	},
 	
 	moveUp : function() {
 		var moveY = this.getMoveY() - this.getMoveInterval();
 		this.setMoveY(moveY);
-		this.move();
+//		this.move();
+		this.clearAll();
 	},
 	
 	moveDown : function() {
 		var moveY = this.getMoveY() + this.getMoveInterval();
 		this.setMoveY(moveY);
-		this.move();
+//		this.move();
+		this.clearAll();
 	},
 	
 	zoom : function() {
@@ -293,7 +299,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			this.setZoomLvl(this.getZoomLvl() + 1);
 			this.setScale(1 * this.getScaleFactor());
 			console.log("new zoomlvl: " + this.getZoomLvl());
-			this.clearAll(0, 0);
+			this.clearAll();
 			this.setScale(1);
 		} else {
 			console.log("min zoom reached");
@@ -306,7 +312,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			this.setZoomLvl(this.getZoomLvl() - 1);
 			this.setScale(1 / this.getScaleFactor());
 			console.log("new zoomlvl: " + this.getZoomLvl());
-			this.clearAll(0, 0);
+			this.clearAll();
 			this.setScale(1);
 		} else {
 			console.log("min zoom reached");
