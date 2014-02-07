@@ -15,6 +15,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		zoomLvl : 0,
 		zoomMin : 0,
 		zoomMax : 5,
+		moveX : 0,
+		moveY : 0,
+		moveInterval : 10,
 		onFieldClick : null,
 		mouseClicked : false,
 		canvasOffsetX : 0,
@@ -242,6 +245,38 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		}
 	},
 
+	move : function(x, y) {
+		// TODO alternativ: hier die Berechnung der neuen x und y Werte, 
+		//		dann werden jedoch beide neu berechnet, auch wenn nur einer gebraucht wird.
+		this.clearAll(this.getMoveX(), this.getMoveY());
+	},
+	
+	moveRight : function() {
+		// TODO linken Bildrand überprüfen --> Bild soll nur soweit verschoben werden,
+		//		dass es am anderen Ende noch bündig ist.
+		var moveX = this.getMoveX() + this.getMoveInterval();
+		this.setMoveX(moveX);
+		this.move();
+	},
+	
+	moveLeft : function() {
+		var moveX = this.getMoveX() - this.getMoveInterval();
+		this.setMoveX(moveX);
+		this.move();
+	},
+	
+	moveUp : function() {
+		var moveY = this.getMoveY() - this.getMoveInterval();
+		this.setMoveY(moveY);
+		this.move();
+	},
+	
+	moveDown : function() {
+		var moveY = this.getMoveY() + this.getMoveInterval();
+		this.setMoveY(moveY);
+		this.move();
+	},
+	
 	zoom : function() {
 		var ctx = this.getCanvas().getContext("2d");
 //		if (this.getZoomLvl() == 0) {
