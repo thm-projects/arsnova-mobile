@@ -18,6 +18,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		moveX : 0,
 		moveY : 0,
 		moveInterval : 10,
+		moveable : Array(true, true, true, true), // defines in which direction (l, u, r, d) the image is moveable
 		onFieldClick : null,
 		mouseClicked : false,
 		canvasOffsetX : 0,
@@ -36,8 +37,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		canvas.style.display = 'block';
 		canvas.style.margin = '0 auto';
 		canvas.addEventListener("mousedown", this.onclick, false);
-//		canvas.addEventListener("mouseup", this.onclickUp, false);
-//		canvas.addEventListener("mousemove", this.onMove, false);
 		canvas.parentContainer = this;
 
 		var newimage = new Image();
@@ -200,41 +199,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		
 		container.moveRight();
 	},
-	
-	onclickUp : function(event) {
-		var container = this.parentContainer;
-		// register mouse release and position for further events
-		container.setCanvasMouseX(parseInt(event.clientX - container.getCanvasOffsetX()));
-		container.setCanvasMouseY(parseInt(event.clientY - container.getCanvasOffsetY()));
-		container.setMouseClicked(false);
-	},
-	
-	onMove : function(event) {
-		var container = this.parentContainer;
-		
-		container.setCanvasMouseX(parseInt(event.clientX - container.getCanvasOffsetX()));
-		container.setCanvasMouseY(parseInt(event.clientY - container.getCanvasOffsetY()));
-		
-		var rect = container.getCanvas().getBoundingClientRect();
-		
-//		console.log("event.clientX: " + event.clientX);
-//		console.log("event.clientY: " + event.clientY);
-//		console.log("rect.left: " + rect.left);
-//		console.log("rect.top: " + rect.top);
-//		console.log("canvasOffsetX: " + container.getCanvasOffsetX());
-//		console.log("canvasOffsetY: " + container.getCanvasOffsetY());
-//		console.log("canvasMouseX: " + container.getCanvasMouseX());
-//		console.log("canvasMouseY: " + container.getCanvasMouseY());
-		
-		// only act when mouse is clicked during movement
-		if (container.getMouseClicked()) {
-//			var canvas = container.getCanvas();
-//			var ctx = canvas.getContext("2d");
-			container.clearAll(event.clientX - rect.left, event.clientY - rect.top);
-//			ctx.clearRect(0, 0, canvas.width, canvas.height);
-//			ctx.drawImage(container.getImageFile(), container.getCanvasMouseX() - 128 / 2, container.getCanvasMouseY() - 128 / 2);
-		}
-	},
 
 	setGrids : function(count) {
 		this.setChosenFields(Array());
@@ -246,41 +210,37 @@ Ext.define('ARSnova.view.components.GridContainer', {
 					this.getChosenFields().length);
 		}
 	},
-
-//	move : function(x, y) {
-//		// TODO alternativ: hier die Berechnung der neuen x und y Werte, 
-//		//		dann werden jedoch beide neu berechnet, auch wenn nur einer gebraucht wird.
-//		this.clearAll(this.getMoveX(), this.getMoveY());
-//	},
 	
 	moveRight : function() {
-		// TODO linken Bildrand überprüfen --> Bild soll nur soweit verschoben werden,
-		//		dass es am anderen Ende noch bündig ist.
+		// TODO linken Bildrand überprüfen und in moveable entsprechend abspeichern
 		var moveX = this.getMoveX() + this.getMoveInterval();
 		this.setMoveX(moveX);
-//		this.move();
 		this.clearAll();
 	},
 	
 	moveLeft : function() {
+		// TODO rechten Bildrand überprüfen und in moveable entsprechend abspeichern
 		var moveX = this.getMoveX() - this.getMoveInterval();
 		this.setMoveX(moveX);
-//		this.move();
 		this.clearAll();
 	},
 	
 	moveUp : function() {
+		// TODO unteren Bildrand überprüfen und in moveable entsprechend abspeichern
 		var moveY = this.getMoveY() - this.getMoveInterval();
 		this.setMoveY(moveY);
-//		this.move();
 		this.clearAll();
 	},
 	
 	moveDown : function() {
+		// TODO oberen Bildrand überprüfen und in moveable entsprechend abspeichern
 		var moveY = this.getMoveY() + this.getMoveInterval();
 		this.setMoveY(moveY);
-//		this.move();
 		this.clearAll();
+	},
+	
+	isMoveable : function() {
+		return this.getMoveable();
 	},
 	
 	zoom : function() {
