@@ -16,6 +16,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
+
 Ext.define('ARSnova.view.MMPanel', {
 	extend: 'Ext.Container',
 
@@ -23,70 +24,74 @@ Ext.define('ARSnova.view.MMPanel', {
 	ui: 'normal',
 	
 	config: {
-		fullscreen: false,
-		
-		title: 'Preview-Panel',
+		fullscreen: false,		
+		title: 'PreviewPanel',
 	},
 	
-	setQuestion: function(q) {
-		this.question = q;
-		
-		//allow more html-tags and set content
-		this.setStyleHtmlContent(true);
-		this.getAt(0).setHtml(q);
+	setQuestionTitle: function(t) {
+		this.getAt(0).setHtml(t);
+	},
+	
+	setQuestionContent: function(q) {
+		this.getAt(1).setHtml(q);
 	},
 	
 	initialize: function() {
 		this.callParent(arguments);
-
-		this.add([{
-			
-			id        : 'mathjax_text',
+		this.add([{			
+			id        : 'questionTitle',
 			xtype     : 'container',
-			style     : 'color:red; background-color: green; margin-bottom:20px',
+			style     : 'color: black; background-color: gray; margin-bottom: 10px',
+			scrollable: {direction: 'auto'},
+			minHeight : '100px',
+			minWidth  : '300px',
+			html      : 'empty',
+		},{			
+			id        : 'questionContent',
+			xtype     : 'container',
+			style     : 'color: black; background-color: gray; margin-bottom: 10px',
 			scrollable: {direction: 'auto'},
 			minHeight : '200px',
 			minWidth  : '300px',
 			html      : 'empty',
-		},
-		{
+		},{
 			xtype   : 'container',
-			items   : [{
-			
+			items   : [{			
 				xtype	: 'button',
 				docked	: 'right',
 				ui		: 'confirm',
 				title	: 'ButtonTitle',
-				style   : '',
-				html    : '<b><i>OK</i></b>'
+				style   : 'width: 80px;',
+				text    : Messages.QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE
 			}]
 		}])
 	},
 	
-	showPreview: function(title, question) {
+	showPreview: function(title, content) {
 		
-		//var markdown = require( "markdown" ).markdown;
-		question = markdown.toHTML(question);
-		//MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-		//alert(MathJax.parse(question));
+		title = markdown.toHTML(title);
+		content = markdown.toHTML(content);
 		
 		var panel = Ext.create('ARSnova.view.MMPanel',{xtype: 'mm_panel'});
-
-		panel.setQuestion(question);
+		panel.setStyleHtmlContent(true);
+		panel.setQuestionTitle(title);
+		panel.setQuestionContent(content);
+		panel.getAt(2).getAt(0).setHandler(function() {box.destroy();});
 		
 		var box = Ext.create('Ext.MessageBox',
         {
-			id: 'message-box',
-            items: [panel],
-            scope: this
-        });
-		box.setTitle(title);
-		panel.getAt(1).getAt(0).setHandler(function() {box.destroy();});
-		
+			id	  : 'message-box',
+			title : Messages.QUESTION_PREVIEW_DIALOGBOX_TITLE,
+            items : [panel],
+			scope : this
+        });	
+
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, panel.getAt(0).element.dom]);
+		MathJax.Hub.Queue(["Typeset", MathJax.Hub, panel.getAt(1).element.dom]);
 		
 		box.show();
-		
-		MathJax.Hub.Queue(["Typeset", MathJax.Hub, panel.getAt(0).element.dom]);
+
+//		MathJax.Hub.Queue(["Typeset", MathJax.Hub, panel.getAt(0).element.dom]);
+//		MathJax.Hub.Queue(["Typeset", MathJax.Hub, panel.getAt(1).element.dom]);
 	}
 });

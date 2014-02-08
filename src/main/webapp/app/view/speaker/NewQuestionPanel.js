@@ -78,17 +78,11 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		});
 		
 		this.previewButton = Ext.create('Ext.Button', {
-			text	: /*Messages.QUESTION_PREVIEW*/ 'Vorschau-Btn',
+			text	: Messages.QUESTION_PREVIEW,
 			ui		: 'confirm',
 			cls		: 'previewQuestionButton',
-			style   : 'width:100px; margin-top:100px',
-			handler: function() {
-				this.previewHandler().then(function(response) {
-					ARSnova.app.getController('Questions').details({
-						question: Ext.decode(response.responseText)
-					});
-				});
-			},
+			style   : 'width:200px;',
+			handler: function() {this.previewHandler();},
 			scope: this
 		});
 		
@@ -466,7 +460,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	},
 	
 	previewHandler: function() {
-
 		//create preview message box with converted text
 		(new ARSnova.view.MMPanel()).showPreview(this.subject.getValue(), this.textarea.getValue());
 	},
