@@ -190,9 +190,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 					container.getChosenFields().length);
 		}
 		
-		container.moveLeft();
-		container.moveLeft();
-		container.moveUp();
+//		container.moveRight();
+//		container.moveRight();
+//		container.moveUp();
 	},
 
 	setGrids : function(count) {
@@ -207,9 +207,13 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 	
 	moveRight : function() {
-		if (this.getMoveX() < (this.getScaleFactor() - 1) * this.getZoomLvl() * this.getImgSize() / 2) {
-			var moveX = this.getMoveX() + this.getMoveInterval();
+		console.log("scaleFactor - 1: " + parseFloat(this.getScaleFactor() - 1));
+		console.log("moveX: " + this.getMoveX());
+		var scaled = parseFloat((this.getScaleFactor() - 1) * this.getZoomLvl());
+		if (this.getMoveX() < scaled * this.getImgSize() / 2) {
+			var moveX = this.getMoveX() + this.getMoveInterval() * scaled;
 			this.setMoveX(moveX);
+//			console.log("new moveX: " + moveX);
 			this.clearAll();
 			console.log("move right");
 		} else {
@@ -274,7 +278,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 //		} else {
 		var imgSizeHalf = this.getImgSizeHalf();
 		ctx.translate(imgSizeHalf - (imgSizeHalf * this.getScale()), imgSizeHalf - (imgSizeHalf * this.getScale()));
-		ctx.scale(this.getScale(), this.getScale());	
+		ctx.scale(this.getScale(), this.getScale());
 //		}
 	},
 
