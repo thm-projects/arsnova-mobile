@@ -61,12 +61,38 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		var imageArea = Ext.create('Ext.Panel', {
 			id : 'imageArea',
 			layout : 'hbox',
-			items : [ grid, {
-				xtype : 'button',
-				iconCls : 'info',
-				iconMask : true,
-				docked : 'right'
-			} ],
+			items : [ 
+			    grid, 
+			    {
+			    	xtype : 'button',
+			    	iconCls : 'info',
+			    	iconMask : true,
+			    	docked : 'right'
+			    }, {
+					xtype: 'button',
+			    	iconCls : 'arrow_left',
+			    	iconMask : true,
+			    	docked : 'right',
+					handler: function() { grid.moveLeft(); }
+				}, {
+					xtype: 'button',
+			    	iconCls : 'arrow_up',
+			    	iconMask : true,
+			    	docked : 'right',
+					handler: function() { grid.moveUp(); }
+				}, {
+					xtype: 'button',
+			    	iconCls : 'arrow_down',
+			    	iconMask : true,
+			    	docked : 'right',
+					handler: function() { grid.moveDown(); }
+				}, {
+					xtype: 'button',
+			    	iconCls : 'arrow_right',
+			    	iconMask : true,
+			    	docked : 'right',
+					handler: function() { grid.moveRight(); }
+				}],
 			hidden : true
 		});
 
@@ -211,7 +237,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		Ext.getCmp('upField').hide();
 		Ext.getCmp('imageControle').show();
 	},
-
 	initWithQuestion : function(question) {
 
 		var possibleAnswers = question.possibleAnswers;
