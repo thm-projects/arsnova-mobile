@@ -82,8 +82,7 @@ Ext.define('ARSnova.view.MMPanel', {
         {
 			id	  : 'message-box',
 			title : Messages.QUESTION_PREVIEW_DIALOGBOX_TITLE,
-            items : [panel],
-			scope : this
+            items : [panel]
         });	
 
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, panel.getAt(0).element.dom]);
