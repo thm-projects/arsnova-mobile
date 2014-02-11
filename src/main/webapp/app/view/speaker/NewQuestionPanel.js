@@ -460,12 +460,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	},
 	
 	previewHandler: function() {
-		//create preview message box with converted text
-		var previewPanel = Ext.create('ARSnova.view.MMPanel', {
-			xtype: 'mm_panel'
-		});
-		
-		previewPanel.showPreview(this.subject.getValue(), this.textarea.getValue());
+		var questionPreview = Ext.create('ARSnova.view.QuestionPreviewBox', {
+			xtype: 'questionPreview'
+		});		
+		questionPreview.showPreview(this.subject.getValue(), this.textarea.getValue());
 	},
 	
 	saveHandler: function(){

@@ -59,7 +59,9 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			ui		: 'confirm',
 			cls		: 'previewQuestionButton',
 			style   : 'width:200px;',
-			handler: function() {this.previewHandler();},
+			handler: function() {
+				this.previewHandler();
+				},
 			scope: this
 		});
 		
@@ -188,6 +190,9 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 	},
 	
 	previewHandler: function() {
-		(new ARSnova.view.MMPanel()).showPreview("Implementierungshinweis", "Anstatt Titel und Inhalt hier alle Antworten, jede in einem eigenen Feld anzeigen");
+		var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox', {
+			xtype: 'answerPreview'
+		});		
+		answerPreview.showPreview(this.getValues());
 	}
 });
