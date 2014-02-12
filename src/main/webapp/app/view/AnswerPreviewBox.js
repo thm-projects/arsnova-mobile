@@ -34,7 +34,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 				id      : 'answer-' + i,
 				});
 			item.setContent(answers[i].text, true, true);
-			answerItems.push(item)
+			answerItems.push(item);
 			
 		}
 
@@ -64,7 +64,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 				}
 			});
 
-		// question preview main panel
+		// answer preview main panel
 		var mainPanel = Ext.create('Ext.Container', {
 			id      	: 'mainPanel',
 			xtype		: 'container',
@@ -74,10 +74,10 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			});
 		mainPanel.setStyleHtmlContent(true);
 
-		// question preview message box with main panel
+		// answer preview message box with main panel
 		var previewBox = Ext.create('Ext.MessageBox',
         {
-			title : Messages.ANSWER_PREVIEW_DIALOGBOX_TITLE,
+			title : Messages.QUESTION_PREVIEW,
             items : [{
     			id      : 'previewBox',
     			xtype   : 'container',
