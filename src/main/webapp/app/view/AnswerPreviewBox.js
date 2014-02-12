@@ -25,25 +25,34 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 	showPreview: function(answers) {
 		
 		// array with separated panel for every answer
-		var answerPanels = [];
+		var answerItems = [];
 		
+		//loop through given answers, wrap them into a temporary panel and push them into the array
 		for (var i = 0; i <= answers.length - 1; i++) {
-			var tempPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			var item = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 				xtype	: 'mathJaxMarkDownPanel',
 				id      : 'answer-' + i,
 				});
-			tempPanel.setContent(answers[i].text, true, true);
-			answerPanels.push(tempPanel)
+			item.setContent(answers[i].text, true, true);
+			answerItems.push(item)
+			
 		}
+
+		// Carousel implementation for displaying formatted answers
+		var carousel = Ext.create('Ext.Carousel', {
+			width	 : '100%',
+			height   : '300px',
+			layout	 : 'fit',
+			defaults : {
+				styleHtmlContent : true
+			}			
+		});
 		
-		// alert(answerPanels[0].getHtml());
+		// Set the carousel's items
+		carousel.setItems(answerItems);
+	    carousel.setActiveItem(0);
 
-
-		// TODO: Hier muss der Spinner hin der als Content die jeweiligen Panels hat
-		//		 dieser muss dann dem mainpanel hinzugefuegt werden
-		
-
-		// question preview confirm button 
+		// question preview confirm button
 		var confirmButton = Ext.create('Ext.Button', {
 			text	: Messages.QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE,
 			id      : 'confirmButton',
@@ -60,7 +69,8 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			id      	: 'mainPanel',
 			xtype		: 'container',
 			fullscreen	: false,	
-			items   	: [confirmButton]
+			items   	: [carousel,
+			        	   confirmButton]
 			});
 		mainPanel.setStyleHtmlContent(true);
 
