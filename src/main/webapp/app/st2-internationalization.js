@@ -488,6 +488,7 @@ switch (lang) {
 			QUESTION_PREVIEW: "Vorschau",
 			QUESTION_PREVIEW_DIALOGBOX_TITLE: "Vorschau Frage",
 			QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE: "OK",
+			ANSWER_PREVIEW_DIALOGBOX_TITLE: "Vorschau Antwort(en)",
 			
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
