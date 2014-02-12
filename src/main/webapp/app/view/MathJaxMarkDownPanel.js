@@ -31,7 +31,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		minHeight 	: '100px',
 		minWidth  	: '300px',
 		html      	: 'empty',
-		style     	: 'color: black; background-color: gray; margin-bottom: 10px',
+		style     	: 'color: black; background-color: #FFFFFF; margin-bottom: 10px',
 	},
 	
 	initialize: function() {
