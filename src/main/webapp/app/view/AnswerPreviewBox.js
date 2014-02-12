@@ -77,7 +77,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		// question preview message box with main panel
 		var previewBox = Ext.create('Ext.MessageBox',
         {
-			title : Messages.QUESTION_PREVIEW_DIALOGBOX_TITLE,
+			title : Messages.ANSWER_PREVIEW_DIALOGBOX_TITLE,
             items : [{
     			id      : 'previewBox',
     			xtype   : 'container',
