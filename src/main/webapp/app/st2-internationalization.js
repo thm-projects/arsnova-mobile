@@ -187,7 +187,10 @@ switch (lang) {
 			QUESTION_PREVIEW: "Preview",
 			QUESTION_PREVIEW_DIALOGBOX_TITLE: "Question preview",
 			QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE: "OK",
-			ANSWER_PREVIEW_DIALOGBOX_TITLE: "Answer preview",
+			ANSWER_PREVIEW_BUTTON_TITLE: "Preview answer",
+			ANSWER_PREVIEW_DIALOGBOX_TITLE_SINGLE: "Preview answer",
+			ANSWER_PREVIEW_DIALOGBOX_TITLE_MULTI: "Preview answers",
+			ANSWER_PREVIEW_DIALOGBOX_BUTTON_TITLE: "Preview answer",
 			
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
