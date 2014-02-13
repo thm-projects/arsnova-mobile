@@ -69,7 +69,6 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			var carousel = Ext.create('Ext.Carousel', {
 				width	 : '100%',
 				height   : '400px',
-				width    : '300px',
 				style	 : 'margin-bottom: 10px;',
 				flex	 : '1',
 				layout	 : 'fit',
