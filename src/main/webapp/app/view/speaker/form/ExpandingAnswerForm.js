@@ -55,14 +55,13 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		});
 		
 		var previewButton = Ext.create('Ext.Button', {
-			text	: Messages.QUESTION_PREVIEW,
+			text	: Messages.ANSWER_PREVIEW_BUTTON_TITLE,
 			ui		: 'confirm',
-			cls		: 'previewQuestionButton',
-			style   : 'width:200px;',
-			handler: function() {
-				this.previewHandler();
-				},
-			scope: this
+			style   : 'width:200px; margin-left: 8px; margin-top: 0px;',
+			scope	: this,
+			handler	: function() {
+					this.previewHandler();
+				}
 		});
 		
 		var answerFieldset = Ext.create('Ext.form.FieldSet', {

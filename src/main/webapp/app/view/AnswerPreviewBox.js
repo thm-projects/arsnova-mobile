@@ -24,34 +24,9 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 	
 	showPreview: function(answers) {
 		
-		// array with separated panel for every answer
-		var answerItems = [];
+		var previewBoxTitle;
+		var previewBoxContent;
 		
-		//loop through given answers, wrap them into a temporary panel and push them into the array
-		for (var i = 0; i <= answers.length - 1; i++) {
-			var item = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-				xtype	: 'mathJaxMarkDownPanel',
-				id      : 'answer-' + i,
-				});
-			item.setContent(answers[i].text, true, true);
-			answerItems.push(item);
-			
-		}
-
-		// Carousel implementation for displaying formatted answers
-		var carousel = Ext.create('Ext.Carousel', {
-			width	 : '100%',
-			height   : '300px',
-			layout	 : 'fit',
-			defaults : {
-				styleHtmlContent : true
-			}			
-		});
-		
-		// Set the carousel's items
-		carousel.setItems(answerItems);
-	    carousel.setActiveItem(0);
-
 		// question preview confirm button
 		var confirmButton = Ext.create('Ext.Button', {
 			text	: Messages.QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE,
@@ -61,31 +36,80 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		   	style   : 'width: 100px;',
 			handler	: function() {
 					previewBox.destroy();
+			}
+		});
+		
+		if (answers.length == 1) {
+			
+			// SINGLE ANSWER 
+			previewBoxTitle = Messages.ANSWER_PREVIEW_DIALOGBOX_TITLE_SINGLE;
+			
+			var item = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+				xtype	: 'mathJaxMarkDownPanel',
+				id      : 'answerPanel',
+				});
+			item.setContent(answers[0].text, true, true);
+			
+			// answer preview box content panel
+			previewBoxContent = Ext.create('Ext.Container', {
+				id      	: 'mainPanel',
+				xtype		: 'container',
+				fullscreen	: false,	
+				items   	: [item,
+				        	   confirmButton]
+			});
+			previewBoxContent.setStyleHtmlContent(true);
+			
+		} else {
+			
+			// MULTIPLE ANSWER 
+			previewBoxTitle = Messages.ANSWER_PREVIEW_DIALOGBOX_TITLE_MULTI;
+		
+			// carousel for displaying the mathJaxMarkDownPanels
+			var carousel = Ext.create('Ext.Carousel', {
+				width	 : '100%',
+				height   : '400px',
+				width    : '300px',
+				style	 : 'margin-bottom: 10px;',
+				flex	 : '1',
+				layout	 : 'fit',
+				defaults : {
+					styleHtmlContent : true
 				}
+			});		
+			
+			// loop through given answers, wrap them into a temporary panel and add them to the carousel
+			for (var i = 0; i <= answers.length - 1; i++) {
+				var item = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+					xtype	: 'mathJaxMarkDownPanel',
+					id      : 'answer-' + i,
+					});
+				item.setContent(answers[i].text, true, true);
+				carousel.add(item);	
+			}	
+			
+			// answer preview box content panel
+			previewBoxContent = Ext.create('Ext.Container', {
+				id      	: 'mainPanel',
+				xtype		: 'container',
+				fullscreen	: false,	
+				items   	: [carousel,
+				        	   confirmButton]
 			});
-
-		// answer preview main panel
-		var mainPanel = Ext.create('Ext.Container', {
-			id      	: 'mainPanel',
-			xtype		: 'container',
-			fullscreen	: false,	
-			items   	: [carousel,
-			        	   confirmButton]
-			});
-		mainPanel.setStyleHtmlContent(true);
+			previewBoxContent.setStyleHtmlContent(true);
+		}
 
 		// answer preview message box with main panel
 		var previewBox = Ext.create('Ext.MessageBox',
         {
-			title : Messages.QUESTION_PREVIEW,
+			title : previewBoxTitle,
             items : [{
     			id      : 'previewBox',
     			xtype   : 'container',
-    			items   : [mainPanel]
+    			items   : [previewBoxContent]
     		}],
 			scope : this
         });			
 		previewBox.show();
 	}
-
 });

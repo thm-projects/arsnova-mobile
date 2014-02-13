@@ -30,6 +30,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		scrollable	: {direction: 'auto'},
 		minHeight 	: '100px',
 		minWidth  	: '300px',
+		styleHtmlContent : true,
 		html      	: 'empty',
 		style     	: 'color: black; background-color: #FFFFFF; margin-bottom: 10px',
 	},

@@ -486,10 +486,13 @@ switch (lang) {
 			CONFIRM_CLOSE_QUESTION_MESSAGE: "Wenn Sie die Frage sperren, können Zuhörer/innen die Frage weder sehen noch beantworten.",
 			CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE: "Wenn Sie die Fragen sperren, können Zuhörer/innen die Fragen weder sehen noch beantworten.",
 			SAVE_AND_CONTINUE: 'Speichern und weiter',
-			QUESTION_PREVIEW: "Vorschau",
+			QUESTION_PREVIEW_BUTTON_TITLE: "Vorschau",
 			QUESTION_PREVIEW_DIALOGBOX_TITLE: "Vorschau Frage",
 			QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE: "OK",
-			ANSWER_PREVIEW_DIALOGBOX_TITLE: "Vorschau Antwort",
+			ANSWER_PREVIEW_BUTTON_TITLE: "Vorschau",
+			ANSWER_PREVIEW_DIALOGBOX_TITLE_SINGLE: "Vorschau Antwort",
+			ANSWER_PREVIEW_DIALOGBOX_TITLE_MULTI: "Vorschau Antworten",
+			ANSWER_PREVIEW_DIALOGBOX_BUTTON_TITLE: "Vorschau Antwort",
 			
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
