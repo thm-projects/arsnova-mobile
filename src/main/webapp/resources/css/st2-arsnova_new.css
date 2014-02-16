@@ -1339,10 +1339,29 @@ ol.standardList li {
 	margin-bottom: 0;
 }
 
+
 .newQuestionPreview .x-form-fieldset {
 	width: 100px;
 	margin-top: 100px;
 	margin-bottom: 0;
+}
+
+.previewMathJaxMarkDownPanel{
+	color: black; 
+	background-color: #FFFFFF; 
+	margin-bottom: 10px;
+}
+
+.previewButtonOK{
+	width: 100px;
+}
+
+.previewButton{
+	width: 200px;
+}
+
+.previewCarousel{
+	margin-bottom: 10px;
 }
 
 .x-spinner .x-input-number {
@@ -1409,20 +1428,6 @@ ol.standardList li {
 	height: 85px;
 	margin: 0 auto;
 	margin-top: 20px;
-}
-
-.previewMathJaxMarkDownPanel{
-	color: black; 
-	background-color: #FFFFFF; 
-	margin-bottom: 10px;
-}
-
-.previewButton{
-	width: 100px;
-}
-
-.previewCarousel{
-	margin-bottom: 10px;
 }
 
 /* Course marks */
