@@ -1411,6 +1411,20 @@ ol.standardList li {
 	margin-top: 20px;
 }
 
+.previewMathJaxMarkDownPanel{
+	color: black; 
+	background-color: #FFFFFF; 
+	margin-bottom: 10px;
+}
+
+.previewButton{
+	width: 100px;
+}
+
+.previewCarousel{
+	margin-bottom: 10px;
+}
+
 /* Course marks */
 .coursemembersonlymessage,
 .course {
