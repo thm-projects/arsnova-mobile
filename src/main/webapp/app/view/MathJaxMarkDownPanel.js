@@ -40,12 +40,13 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 	},
 	
 	setContent: function(content, mathJaxEnabled, markDownEnabled) {
+
 		if (markDownEnabled) {
 			// MarkDown is enabled and content will be converted
 			content = markdown.toHTML(content);
 		}		
 		this.setHtml(content);		
-		if (markDownEnabled) {
+		if (mathJaxEnabled) {
 			// MathJax is enabled and content will be converted
 			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.element.dom]);			
 		}
