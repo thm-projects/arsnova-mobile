@@ -42,8 +42,20 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 	setContent: function(content, mathJaxEnabled, markDownEnabled) {
 
 		if (markDownEnabled) {
+			
+			//remove MathJax blocks
+			var ig = get_delimiter(content, "$$", "$$").concat(get_delimiter(content, "[[", "]]"));
+			var repl = replace_delimiter(content, ig, 'MATHJAXMARKDOWN42');
+			
 			// MarkDown is enabled and content will be converted
-			content = markdown.toHTML(content);
+			console.log(repl[0]);
+			repl[0] = markdown.toHTML(repl[0]);
+			console.log(repl[0]);
+			
+			//get back the MathJax blocks
+			content = replace_back(repl, 'MATHJAXMARKDOWN42');
+			
+			console.log(content);
 		}		
 		this.setHtml(content);		
 		if (mathJaxEnabled) {
@@ -52,3 +64,82 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		}
 	}
 });
+
+//get all delimiter indices as array of [start(incl), end(excl)] elements
+function get_delimiter(input, delimiter, end_delimiter) {
+	
+	//all lines between the tags to this array
+	var result = new Array(); //[start, end]
+
+	var idx_start = 0;
+	var idx_end = -delimiter.length;
+	var run = true;
+	
+	while(run) {
+		//start delimiter
+		idx_start = input.indexOf(delimiter, idx_end + end_delimiter.length);
+		
+		//end delimiter
+		idx_end = input.indexOf(end_delimiter, idx_start + delimiter.length);
+
+		if(idx_start != -1 && idx_end != -1) {
+			//add delimiter position values
+			result.push([idx_start, idx_end + end_delimiter.length]);
+		} else {
+			run = false;
+		}
+	}
+	return result;
+};
+
+//replace the delimiter with id_strN (returns an array with
+//the input string including all replacements and another array with the replaced content)
+function replace_delimiter(input, d_arr, id_label) {
+
+	var result = '';
+
+	var start = 0;
+	
+	var replaced = new Array();
+	
+	for(var i = 0; i < d_arr.length; ++i) {
+	
+		var idx_start = d_arr[i][0];
+		var idx_end = d_arr[i][1];
+	
+		//until start of delimiter
+		result = result + input.substring(start, idx_start);
+		
+		//set id label
+		result += (id_label + i);
+		
+		//new start becomes old end
+		start = idx_end;
+		
+		//store replaced content
+		replaced.push(input.substring(idx_start, idx_end));
+	}
+	result += input.substring(start);
+
+	return new Array(result, replaced);
+}
+
+//replace the labels back to the contents and return the string
+function replace_back(content_replaced, id_label) {
+
+	var content = content_replaced[0];
+	
+	var replaced = content_replaced[1];
+	
+	for(var i = 0; i < replaced.length; ++i) {
+	
+		content = replaceWithoutRegExp(content, id_label + i, replaced[i]);
+	}
+	return content;
+}
+
+//replace given variable with the replacement in input without using regular expressions
+function replaceWithoutRegExp(input, find, replacement) {
+
+	return input.split(find).join(replacement);
+}
