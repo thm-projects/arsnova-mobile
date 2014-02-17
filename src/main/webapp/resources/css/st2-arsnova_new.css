@@ -1339,10 +1339,29 @@ ol.standardList li {
 	margin-bottom: 0;
 }
 
+
 .newQuestionPreview .x-form-fieldset {
 	width: 100px;
 	margin-top: 100px;
 	margin-bottom: 0;
+}
+
+.previewMathJaxMarkDownPanel{
+	color: black; 
+	background-color: #FFFFFF; 
+	margin-bottom: 10px;
+}
+
+.previewButtonOK{
+	width: 100px;
+}
+
+.previewButton{
+	width: 200px;
+}
+
+.previewCarousel{
+	margin-bottom: 10px;
 }
 
 .x-spinner .x-input-number {

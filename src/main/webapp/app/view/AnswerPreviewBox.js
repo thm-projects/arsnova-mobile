@@ -31,6 +31,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		var confirmButton = Ext.create('Ext.Button', {
 			text	: Messages.QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE,
 			id      : 'confirmButton',
+			//cls		: 'previewButtonOK',
 			xtype	: 'button',
 			ui		: 'confirm',
 		   	style   : 'width: 100px;',
@@ -69,6 +70,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			var carousel = Ext.create('Ext.Carousel', {
 				width	 : '100%',
 				height   : '400px',
+				//cls		 : 'previewCarousel',
 				style	 : 'margin-bottom: 10px;',
 				flex	 : '1',
 				layout	 : 'fit',

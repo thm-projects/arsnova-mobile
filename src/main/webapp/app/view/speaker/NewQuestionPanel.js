@@ -77,16 +77,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			scope: this
 		});
 		
-		this.previewButton = Ext.create('Ext.Button', {
-			text	: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
-			ui		: 'confirm',
-			style   : 'width:200px;',
-			scope   : this,
-			handler : function() {
-					this.previewHandler();
-				}
-		});
-		
 		this.subject = Ext.create('Ext.field.Text', {
 			name: 'subject',
 			placeHolder: Messages.CATEGORY_PLACEHOLDER
@@ -98,6 +88,19 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	    	maxHeight	: 140
 		});
 		
+		//Preview button 
+		this.previewButton = Ext.create('Ext.Button', {
+			text	: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
+			ui		: 'confirm',
+			//cls		: 'previewButton',
+			style   : 'width:200px;',
+			scope   : this,
+			handler : function() {
+					this.previewHandler();
+				}
+		});
+		
+		//Preview panel with integrated button
 		this.previewPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestionPreview',
 			scrollable: null,
