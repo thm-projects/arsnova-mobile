@@ -141,5 +141,5 @@ function replace_back(content_replaced, id_label) {
 //replace given variable with the replacement in input without using regular expressions
 function replaceWithoutRegExp(input, find, replacement) {
 
-	return input.split(find).join(replacement);
+	return input.replace(find, replacement);
 }
