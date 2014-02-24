@@ -24,23 +24,24 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 	ui: 'normal',
 	
 	config: {
-		id        	: 'content',
-		title		: 'MathJaxMarkDownPanel',
-		fullscreen	: false,		
-		scrollable	: {direction: 'auto'},
-		minHeight 	: '100px',
-		minWidth  	: '300px',
+		id        		 : 'content',
+		title			 : 'MathJaxMarkDownPanel',
+		cls				 : 'roundedBox',
+		fullscreen		 : false,		
+		scrollable		 : {direction: 'auto'},
 		styleHtmlContent : true,
-		html      	: 'empty',
-		style     	: 'color: black; background-color: #FFFFFF; margin-bottom: 10px',
+		html      		 : 'empty',
+		style     		 : 'color: black; background-color: #FFFFFF; margin-bottom: 10px',
 	},
 	
 	initialize: function() {
 		this.callParent(arguments);
 	},
 	
-	setContent: function(content, mathJaxEnabled, markDownEnabled) {
+	setContent: function(content, mathJaxEnabled, markDownEnabled, height) {
 
+		this.setHeight(height);
+		
 		if (markDownEnabled) {
 			
 			//remove MathJax blocks
@@ -127,19 +128,17 @@ function replace_delimiter(input, d_arr, id_label) {
 //replace the labels back to the contents and return the string
 function replace_back(content_replaced, id_label) {
 
-	var content = content_replaced[0];
-	
+	var content = content_replaced[0];	
 	var replaced = content_replaced[1];
 	
-	for(var i = 0; i < replaced.length; ++i) {
-	
+	for(var i = 0; i < replaced.length; ++i) {	
 		content = replaceWithoutRegExp(content, id_label + i + 'X', replaced[i]);
 	}
+	
 	return content;
 }
 
 //replace given variable with the replacement in input without using regular expressions
 function replaceWithoutRegExp(input, find, replacement) {
-
 	return input.replace(find, replacement);
 }

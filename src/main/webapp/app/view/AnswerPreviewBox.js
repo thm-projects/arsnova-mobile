@@ -23,94 +23,75 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 	ui: 'normal',
 	
 	showPreview: function(answers) {
-		
-		var previewBoxTitle;
-		var previewBoxContent;
-		
+
+		// answer preview message box 
+		var previewBox = Ext.create('Ext.MessageBox',
+        {
+			title : Messages.ANSWER_PREVIEW_DIALOGBOX_TITLE,
+			style : 'border-color: black; maxHeigth: 80%; maxWidth: 80%; width: 1000px; heigth: 1000px',
+			scope : this
+        });	
+				
+		// carousel for displaying the mathJaxMarkDownPanels
+		var carousel = Ext.create('Ext.Carousel', {
+			//cls		 : 'previewCarousel',
+			style	 : 'width: 100%; height: 500px; margin-bottom: 10px;',
+			flex	 : '1',
+			layout	 : 'fit',
+			defaults : {
+				styleHtmlContent : true
+			},
+			listeners: {   
+				activeitemchange : function() {
+					var actualIndex = carousel.getActiveIndex() + 1;
+					previewBox.setTitle(Messages.ANSWER_PREVIEW_DIALOGBOX_TITLE + " (" + actualIndex + "/" + answers.length + ")");
+                }
+            }
+		});		
+					
+		// loop through given answers, wrap them into a temporary panel and add them to the carousel
+		for (var i = 0; i <= answers.length - 1; i++) {
+			var item = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+				xtype	: 'mathJaxMarkDownPanel',
+				id      : 'answer-' + i,
+				style	: 'margin-left: 0px; margin-right: 0px;'
+			});
+			item.setContent(answers[i].text, true, true);
+			carousel.add(item);	
+		}		
+			
 		// question preview confirm button
 		var confirmButton = Ext.create('Ext.Button', {
 			text	: Messages.QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE,
 			id      : 'confirmButton',
-			//cls		: 'previewButtonOK',
 			xtype	: 'button',
 			ui		: 'confirm',
-		   	style   : 'width: 100px;',
+			//cls		: 'previewButtonOK',
+		   	style   : 'width: 80%; maxWidth: 250px; margin-top: 10px;',
 			handler	: function() {
 					previewBox.destroy();
 			}
+		});		
+			
+		// answer preview box content panel
+		var mainPanel = Ext.create('Ext.Container', {
+			id      	: 'mainPanel',
+			xtype		: 'container',
+			style		: 'width: 100%; background-color: #c5ccd3;',
+			fullscreen	: false,	
+			items   	: [carousel,
+			        	   {id		: 'buttonLayout',
+				      		xtype	: 'container',
+				      		layout 	: {
+				      			pack: 'center',
+				      			type: 'hbox'
+				      		},
+				      		items	: [confirmButton]}]
 		});
+		mainPanel.setStyleHtmlContent(true);		
 		
-		if (answers.length == 1) {
-			
-			// SINGLE ANSWER 
-			previewBoxTitle = Messages.ANSWER_PREVIEW_DIALOGBOX_TITLE_SINGLE;
-			
-			var item = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-				xtype	: 'mathJaxMarkDownPanel',
-				id      : 'answerPanel',
-				});
-			item.setContent(answers[0].text, true, true);
-			
-			// answer preview box content panel
-			previewBoxContent = Ext.create('Ext.Container', {
-				id      	: 'mainPanel',
-				xtype		: 'container',
-				fullscreen	: false,	
-				items   	: [item,
-				        	   confirmButton]
-			});
-			previewBoxContent.setStyleHtmlContent(true);
-			
-		} else {
-			
-			// MULTIPLE ANSWER 
-			previewBoxTitle = Messages.ANSWER_PREVIEW_DIALOGBOX_TITLE_MULTI;
-		
-			// carousel for displaying the mathJaxMarkDownPanels
-			var carousel = Ext.create('Ext.Carousel', {
-				width	 : '100%',
-				height   : '400px',
-				//cls		 : 'previewCarousel',
-				style	 : 'margin-bottom: 10px;',
-				flex	 : '1',
-				layout	 : 'fit',
-				defaults : {
-					styleHtmlContent : true
-				}
-			});		
-			
-			// loop through given answers, wrap them into a temporary panel and add them to the carousel
-			for (var i = 0; i <= answers.length - 1; i++) {
-				var item = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-					xtype	: 'mathJaxMarkDownPanel',
-					id      : 'answer-' + i,
-					});
-				item.setContent(answers[i].text, true, true);
-				carousel.add(item);	
-			}	
-			
-			// answer preview box content panel
-			previewBoxContent = Ext.create('Ext.Container', {
-				id      	: 'mainPanel',
-				xtype		: 'container',
-				fullscreen	: false,	
-				items   	: [carousel,
-				        	   confirmButton]
-			});
-			previewBoxContent.setStyleHtmlContent(true);
-		}
-
-		// answer preview message box with main panel
-		var previewBox = Ext.create('Ext.MessageBox',
-        {
-			title : previewBoxTitle,
-            items : [{
-    			id      : 'previewBox',
-    			xtype   : 'container',
-    			items   : [previewBoxContent]
-    		}],
-			scope : this
-        });			
+		// add main panel to preview box and show action
+		previewBox.add(mainPanel);		
 		previewBox.show();
 	}
 });
