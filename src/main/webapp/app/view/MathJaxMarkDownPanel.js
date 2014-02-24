@@ -45,7 +45,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 			
 			//remove MathJax blocks
 			var ig = get_delimiter(content, "$$", "$$").concat(get_delimiter(content, "[[", "]]"));
-			var repl = replace_delimiter(content, ig, 'MATHJAXMARKDOWN42');
+			var repl = replace_delimiter(content, ig, 'MATHJAXMARKDOWN');
 			
 			// MarkDown is enabled and content will be converted
 			console.log(repl[0]);
@@ -53,7 +53,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 			console.log(repl[0]);
 			
 			//get back the MathJax blocks
-			content = replace_back(repl, 'MATHJAXMARKDOWN42');
+			content = replace_back(repl, 'MATHJAXMARKDOWN');
 			
 			console.log(content);
 		}		
@@ -111,7 +111,7 @@ function replace_delimiter(input, d_arr, id_label) {
 		result = result + input.substring(start, idx_start);
 		
 		//set id label
-		result += (id_label + i);
+		result += (id_label + i + 'X');
 		
 		//new start becomes old end
 		start = idx_end;
@@ -133,7 +133,7 @@ function replace_back(content_replaced, id_label) {
 	
 	for(var i = 0; i < replaced.length; ++i) {
 	
-		content = replaceWithoutRegExp(content, id_label + i, replaced[i]);
+		content = replaceWithoutRegExp(content, id_label + i + 'X', replaced[i]);
 	}
 	return content;
 }
