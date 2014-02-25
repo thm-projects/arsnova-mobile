@@ -154,6 +154,7 @@
         "resources/icons",
         "resources/startup",
         "favicon.png",
+        "lib/socket.io/socket.io.min.js",
         "WEB-INF"
     ],
 

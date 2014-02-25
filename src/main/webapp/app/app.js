@@ -84,7 +84,6 @@ Ext.application({
 	USER_ROLE_SPEAKER: "1",
     
     isIconPrecomposed: true,
-    icon: 'resources/images/ARSnova_Grafiken/01_AppIcon_114x114px.png',
 
     models: ['Answer', 'Feedback', 'LoggedIn', 'Question', 'Session', 'Statistic', 'Course', 'Auth', 'FeedbackQuestion'],
     
