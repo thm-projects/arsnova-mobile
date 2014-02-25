@@ -54,7 +54,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			var item = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 				xtype	: 'mathJaxMarkDownPanel',
 				id      : 'answer-' + i,
-				style	: 'margin-left: 0px; margin-right: 0px;'
+				style	: 'margin-left: 0px; margin-right: 0px;word-wrap: break-word;'
 			});
 			item.setContent(answers[i].text, true, true);
 			carousel.add(item);	
