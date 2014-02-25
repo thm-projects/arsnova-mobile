@@ -76,11 +76,11 @@
       		"update": "full"
         },
         {
-        	"path": "app/st2-internationalization.js",
+        	"path": "app/internationalization.js",
         	"update": "full"
         },
         {
-            "path": "app/st2-app.js",
+            "path": "app/app.js",
             "bundle": true,  /* Indicates that all class dependencies are concatenated into this file when build */
             "update": "full"
         }
@@ -108,7 +108,7 @@
             "update": "delta"
         },
         {
-        	"path": "resources/css/st2-arsnova_new.css",
+        	"path": "resources/css/arsnova.css",
         	"update": "delta"
        	}
     ],
@@ -127,7 +127,7 @@
             "app/app.js",
             "app/BrowserDetect.js",
             "app/BrowserSupport.js",
-            "app/st2-internationalization.js",
+            "app/internationalization.js",
             "app/utils/Ext.Array.js",
             "app/utils/Ext.util.TaskRunner.js",
             
