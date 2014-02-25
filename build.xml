@@ -4,11 +4,7 @@
 	<property name="sencha.build.testing.dir" value="${sencha.build.dir}/testing/ARSnova" />
 	<property name="sencha.build.production.dir" value="${sencha.build.dir}/production/ARSnova" />
 	
-	<property name="build.dir" value="src/main/build" />
-	
-	<target name="-build:init">
-		<mkdir dir="${build.dir}" />
-	</target>
+	<taskdef name="jshint" classname="com.philmander.jshint.JsHintAntTask" classpath="${basedir}/lib/ant-jshint-0.3.6-SNAPSHOT-deps.jar" />
 	
 	<target name="sencha:refresh">
 		<exec executable="sencha" dir="${main.dir}" failonerror="true">
@@ -38,6 +34,12 @@
 			<arg value="app"/>
 			<arg value="watch"/>
 		</exec>
+	</target>
+	
+	<target name="jshint">
+		<jshint dir="${main.dir}/app" includes="**/*.js" globals="Ext:true,console:true,ARSnova:true,socket:true,RSVP:true">
+			<report type="xml" destFile="${basedir}/target/jshint.xml" />
+		</jshint>
 	</target>
 	
 	<target name="run" depends="sencha:refresh, sencha:build:production"/>
