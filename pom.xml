@@ -100,13 +100,6 @@
 				<configuration>
 					<filesets>
 						<fileset>
-							<directory>src/main/webapp/app</directory>
-							<includes>
-								<include>**/*.min</include>
-							</includes>
-							<followSymlinks>false</followSymlinks>
-						</fileset>
-						<fileset>
 							<directory>src/main/webapp/build/production/ARSnova</directory>
 						</fileset>
 					</filesets>

@@ -64,10 +64,6 @@
       		"update": "full"
         },
         {
-      		"path": "lib/socket.io/socket.io.min.js",
-      		"update": "full"
-        },
-        {
       		"path": "app/utils/Ext.util.TaskRunner.js",
       		"update": "full"
         },

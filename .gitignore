@@ -4,8 +4,8 @@
 .settings/*
 target/*
 .sonar
+.sass-cache
 
 # Output files
-src/main/build
 src/main/webapp/build
 /target
