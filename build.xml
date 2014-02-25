@@ -33,17 +33,12 @@
 		</exec>
 	</target>
 	
-	<target name="-assets:testing:copy"  depends="-build:init">
-		<copy todir="${build.dir}">
-			<fileset dir="${sencha.build.testing.dir}" />
-		</copy>
+	<target name="sencha:app:watch">
+		<exec executable="sencha" dir="${main.dir}">
+			<arg value="app"/>
+			<arg value="watch"/>
+		</exec>
 	</target>
 	
-	<target name="-assets:production:copy"  depends="-build:init">
-		<copy todir="${build.dir}">
-			<fileset dir="${sencha.build.production.dir}" />
-		</copy>
-	</target>
-	
-	<target name="run" depends="sencha:refresh, sencha:build:production, -assets:production:copy"/>
+	<target name="run" depends="sencha:refresh, sencha:build:production"/>
 </project>
