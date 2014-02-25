@@ -37,7 +37,8 @@ Ext.require([
 	'Ext.viewport.Viewport',
 	'Ext.chart.CartesianChart',
 	'Ext.SegmentedButton',
-	'Ext.data.JsonStore'
+	'Ext.data.JsonStore',
+	'Ext.device.Device'
 ]);
 
 Ext.application({
@@ -63,6 +64,8 @@ Ext.application({
 	},
 	
     name: "ARSnova",
+    absoluteUrl: 'https://arsnova.eu/mobile/',
+    
     /* const */
     WEBAPP			: 'webapp',
     NATIVE			: 'native',
@@ -177,6 +180,7 @@ Ext.application({
 		
 		this.initSocket();
 		this.initModels();
+		
 		this.restProxy = Ext.create('ARSnova.proxy.RestProxy'); 
 		this.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
 		
@@ -241,6 +245,16 @@ Ext.application({
     		return false;
     	else
     		return true;
+    },
+    
+    /**
+     * returns true if device is a phone or a tablet
+     */
+    checkMobileDeviceType: function() {
+    	if(Ext.device.deviceType == 'Phone' || Ext.device.deviceType == 'Tablet') {
+    		return true;
+    	} else
+    	return false;
     },
     
 	checkPreviousLogin: function(){

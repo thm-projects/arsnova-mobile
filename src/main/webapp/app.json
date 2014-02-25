@@ -82,7 +82,7 @@
         {
             "path": "app/st2-app.js",
             "bundle": true,  /* Indicates that all class dependencies are concatenated into this file when build */
-            "update": "delta"
+            "update": "full"
         }
     ],
 
@@ -124,6 +124,7 @@
             "index.html",
             
             /* app */
+            "app/app.js",
             "app/BrowserDetect.js",
             "app/BrowserSupport.js",
             "app/st2-internationalization.js",

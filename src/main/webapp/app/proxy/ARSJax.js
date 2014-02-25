@@ -34,6 +34,10 @@ Ext.define('ARSnova.proxy.ARSJax', {
 		var success = options.success || Ext.emptyFn,
 			failure = options.failure || Ext.emptyFn;
 		
+		if(ARSnova.app.checkMobileDeviceType()) {
+			options.url = ARSnova.app.absoluteUrl + options.url;
+		}
+		
 		Ext.Ajax.request({
 			url: options.url,
 			method: options.method,
