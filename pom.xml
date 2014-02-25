@@ -87,10 +87,10 @@
 				<version>2.3</version>
 				<configuration>
 					<warSourceDirectory>
-						src/main/build
+						src/main/webapp/build/production/ARSnova
 					</warSourceDirectory>
 					<webXml>
-						src/main/build/WEB-INF/web.xml
+						src/main/webapp/build/production/ARSnova/WEB-INF/web.xml
 					</webXml>
 				</configuration>
 			</plugin>
@@ -107,7 +107,7 @@
 							<followSymlinks>false</followSymlinks>
 						</fileset>
 						<fileset>
-							<directory>src/main/build</directory>
+							<directory>src/main/webapp/build/production/ARSnova</directory>
 						</fileset>
 					</filesets>
 				</configuration>
