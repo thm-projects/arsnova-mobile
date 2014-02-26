@@ -160,14 +160,12 @@ Ext.define('ARSnova.view.Question', {
 		};
 		
 		//Setup question title and text to disply in the same field
-		var questionString = Ext.util.Format.htmlEncode(this.questionObj.subject) + '\r' +  Ext.util.Format.htmlEncode(this.questionObj.text);
-		
+		var questionString = Ext.util.Format.htmlEncode(this.questionObj.subject) + Ext.util.Format.htmlEncode(this.questionObj.text);
 		
 		//Create standard panel with framework support
 		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			xtype	: 'mathJaxMarkDownPanel'
 		});
-		
 		questionPanel.setContent(questionString, true, true, '400px');
 		
 		this.answerList = Ext.create('Ext.List', {
@@ -276,7 +274,7 @@ Ext.define('ARSnova.view.Question', {
 			scope: this
 		};
 		
-		this.add([this.questionPanel]);
+		this.add([questionPanel]);
 		if (this.questionObj.questionType === "flashcard") {
 			this.add([flashcardContainer]);
 			this.answerList.setHidden(true);
