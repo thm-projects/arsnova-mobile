@@ -73,6 +73,28 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			placeHolder: Messages.QUESTION_TEXT_PLACEHOLDER
 		});
 		
+		//Preview button 
+		this.previewButton = Ext.create('Ext.Button', {
+			text	: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
+			ui		: 'confirm',
+			//cls		: 'previewButton',
+			style   : 'width:200px;',
+			scope   : this,
+			handler : function() {
+					this.previewHandler();
+				}
+		});
+		
+		//Preview panel with integrated button
+		this.previewPart = Ext.create('Ext.form.FormPanel', {
+			cls: 'newQuestionPreview',
+			scrollable: null,
+			items: [{
+				xtype: 'fieldset',
+				items: [this.previewButton]
+			}]
+		});
+		
 		this.add([this.toolbar, {
 			cls: 'gravure',
 			html: Messages.QUESTION_INSTRUCTION
@@ -84,7 +106,10 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			
 			items: [{
 				xtype: 'fieldset',
-				items: [this.subject, this.text]
+				items: [this.subject, 
+				        this.text, 
+				        this.previewPart
+				       ]
 			}, {
 				xtype: 'button',
 				ui: 'confirm',
@@ -156,6 +181,14 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 				Ext.Msg.alert(Messages.NOTIFICATION, Messages.TRANSMISSION_ERROR);
 			}
 		});
+	},
+	
+	
+	previewHandler: function() {
+		var questionPreview = Ext.create('ARSnova.view.QuestionPreviewBox', {
+			xtype: 'questionPreview'
+		});		
+		questionPreview.showPreview(this.subject.getValue(), this.text.getValue());
 	},
 	
 	closePanel: function() {
