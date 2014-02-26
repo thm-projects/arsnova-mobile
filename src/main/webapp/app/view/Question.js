@@ -160,14 +160,15 @@ Ext.define('ARSnova.view.Question', {
 		};
 		
 		//Setup question title and text to disply in the same field
-		var questionString = Ext.util.Format.htmlEncode(this.questionObj.subject) + "\n" +  Ext.util.Format.htmlEncode(this.questionObj.text);
+		var questionString = Ext.util.Format.htmlEncode(this.questionObj.subject) + '\r' +  Ext.util.Format.htmlEncode(this.questionObj.text);
+		
 		
 		//Create standard panel with framework support
 		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			xtype	: 'mathJaxMarkDownPanel'
 		});
 		
-		questionTemp.setContent(questionString, true, true, '400px');
+		questionPanel.setContent(questionString, true, true, '400px');
 		
 		this.answerList = Ext.create('Ext.List', {
 			store: answerStore,
