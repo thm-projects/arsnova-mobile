@@ -159,13 +159,15 @@ Ext.define('ARSnova.view.Question', {
 			}
 		};
 		
-//		var questionString = '<p class="title">' + this.questionObj.subject + '<p/>' + '<p>' + this.questionObj.text + '</p>';
-		var questionString = Ext.util.Format.htmlEncode(this.questionObj.subject) + Ext.util.Format.htmlEncode(this.questionObj.text);
-		var questionTemp = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+		//Setup question title and text to disply in the same field
+		var questionString = Ext.util.Format.htmlEncode(this.questionObj.subject) + "\n" +  Ext.util.Format.htmlEncode(this.questionObj.text);
+		
+		//Create standard panel with framework support
+		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			xtype	: 'mathJaxMarkDownPanel'
 		});
+		
 		questionTemp.setContent(questionString, true, true, '400px');
-		this.questionTitle = questionTemp;
 		
 		this.answerList = Ext.create('Ext.List', {
 			store: answerStore,
@@ -273,7 +275,7 @@ Ext.define('ARSnova.view.Question', {
 			scope: this
 		};
 		
-		this.add([this.questionTitle]);
+		this.add([this.questionPanel]);
 		if (this.questionObj.questionType === "flashcard") {
 			this.add([flashcardContainer]);
 			this.answerList.setHidden(true);
@@ -304,23 +306,23 @@ Ext.define('ARSnova.view.Question', {
 		if (index !== -1) {
 			this.answerList.select(this.abstentionAnswer);
 		}
-	},
+//	},
 	
-	doTypeset: function(parent) {
-		if (typeof this.questionTitle.element !== "undefined") {
-			var panel = this;
-			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.questionTitle.element.dom]);
-			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.answerList.element.dom]);
-			
-			MathJax.Hub.Queue(
-				["Delay", MathJax.Callback, 700], function() {
-					panel.answerList.fireEvent("resizeList", panel.answerList.element);
-				}
-			);
-		} else {
-			// If the element has not been drawn yet, we need to retry later
-			Ext.defer(Ext.bind(this.doTypeset, this), 100);
-		}
+//	doTypeset: function(parent) {
+//		if (typeof this.questionTitle.element !== "undefined") {
+//			var panel = this;
+//			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.questionTitle.element.dom]);
+//			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.answerList.element.dom]);
+//			
+//			MathJax.Hub.Queue(
+//				["Delay", MathJax.Callback, 700], function() {
+//					panel.answerList.fireEvent("resizeList", panel.answerList.element);
+//				}
+//			);
+//		} else {
+//			// If the element has not been drawn yet, we need to retry later
+//			Ext.defer(Ext.bind(this.doTypeset, this), 100);
+//		}
 	},
 	
 	getUserAnswer: function() {
