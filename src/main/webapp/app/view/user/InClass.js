@@ -248,11 +248,10 @@ Ext.define('ARSnova.view.user.InClass', {
 					if(newQuestions.length == 1){
 						ARSnova.app.questionModel.getQuestionById(newQuestions[0], {
 							success: function(response){
-								var question = Ext.decode(response.responseText);
+								//var question = Ext.decode(response.responseText);
 								
 								Ext.Msg.confirm(
-									Messages.ONE_NEW_QUESTION, 
-									'"' + Ext.util.Format.htmlEncode(question.text) + '"<br>' + Messages.WANNA_ANSWER, 
+									Messages.ONE_NEW_QUESTION, Messages.WANNA_ANSWER, 
 									function(answer){
 										if (answer == 'yes'){ //show the question to the user
 											ARSnova.app.getController('Questions').index();
