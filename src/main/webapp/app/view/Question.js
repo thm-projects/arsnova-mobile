@@ -159,12 +159,13 @@ Ext.define('ARSnova.view.Question', {
 			}
 		};
 		
-		this.questionTitle = Ext.create('Ext.Panel', {
-			cls: 'roundedBox',
-			html: 
-				'<p class="title">' + Ext.util.Format.htmlEncode(this.questionObj.subject) + '<p/>' +
-				'<p>' + Ext.util.Format.htmlEncode(this.questionObj.text) + '</p>'
+//		var questionString = '<p class="title">' + this.questionObj.subject + '<p/>' + '<p>' + this.questionObj.text + '</p>';
+		var questionString = Ext.util.Format.htmlEncode(this.questionObj.subject) + Ext.util.Format.htmlEncode(this.questionObj.text);
+		var questionTemp = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			xtype	: 'mathJaxMarkDownPanel'
 		});
+		questionTemp.setContent(questionString, true, true, '400px');
+		this.questionTitle = questionTemp;
 		
 		this.answerList = Ext.create('Ext.List', {
 			store: answerStore,
