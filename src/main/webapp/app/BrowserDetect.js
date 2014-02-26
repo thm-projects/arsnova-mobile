@@ -4,10 +4,10 @@
 Ext.define('ARSnova.BrowserDetect', {
 	
 	constructor: function () {
-		var userAgentVersion, appVersion;
-		userAgentVersion = this.searchVersion(navigator.userAgent);
-		appVersion = this.searchVersion(navigator.appVersion);
-		this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
+		var browser = this.searchString(this.dataBrowser) || "An unknown browser",
+			userAgentVersion = this.searchVersion(navigator.userAgent),
+			appVersion = this.searchVersion(navigator.appVersion);
+		this.browser = browser;
 		this.version = userAgentVersion || appVersion || "an unknown version";
 		this.OS = this.searchString(this.dataOS) || "an unknown OS";
 
