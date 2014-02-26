@@ -184,6 +184,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				}
 			},
 			
+			
 			enableFields: function(panel){
 				var fields = panel.contentFieldset.getItems().items;
 				var fieldsLength = fields.length;
@@ -456,6 +457,28 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			}]
 		});
 		
+		//Preview button 
+		this.previewButton = Ext.create('Ext.Button', {
+			text	: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
+			ui		: 'confirm',
+			//cls		: 'previewButton',
+			style   : 'width:200px;',
+			scope   : this,
+			handler : function() {
+					this.previewHandler();
+				}
+		});
+		
+		//Preview panel with integrated button
+		this.previewPart = Ext.create('Ext.form.FormPanel', {
+			cls: 'newQuestionPreview',
+			scrollable: null,
+			items: [{
+				xtype: 'fieldset',
+				items: [this.previewButton]
+			}]
+		});
+		
 		this.firstRow = Ext.create('Ext.form.FormPanel', {
 			cls	 : 'actionsForm',
 			scrollable: null,
@@ -612,11 +635,21 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			}]
 		});
 		
+//		var questionString = this.questionObj.subject + " " + this.questionObj.text;
+//		
+//		var questionTemp = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+//			xtype	: 'mathJaxMarkDownPanel',
+//			itemId	 : 'contentFieldset',
+//		});
+//		questionTemp.setContent(questionString, true, true,'400px');
+//		
+//		this.contentFieldset = questionTemp;
+		
 		this.contentForm = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			itemId 	 : 'contentForm',
 			style: { marginTop: '15px', marginLeft: '12px', marginRight: '12px' },
-			items: [this.releasePart, this.contentFieldset]
+			items: [this.releasePart, this.contentFieldset, this.previewPart]
 		});
 		
 		this.answerFormFieldset = Ext.create('Ext.form.FieldSet', {
@@ -956,6 +989,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				});
 			}
 		}
+	},
+	
+	previewHandler: function() {
+		var questionPreview = Ext.create('ARSnova.view.QuestionPreviewBox', {
+			xtype: 'questionPreview'
+		});		
+		questionPreview.showPreview(this.subject.getValue(), this.textarea.getValue());
 	},
 	
 	resetFields: function(){
