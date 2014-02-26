@@ -225,21 +225,9 @@ html,body {
 	height: 100%;
 }
 
-body {
-	display: -webkit-box;
-	-webkit-box-pack: center;
-	-webkit-box-align: center;
-	display: -moz-box;
-	-moz-box-pack: center;
-	-moz-box-align: center;
-	display: box;
-	box-pack: center;
-	box-align: center;
-}
-
 #body {
 	-webkit-box-flex: 1;
-	-moz-box-flex: 1; /* Needed to make this element flexible in Firefox */
+	-moz-box-flex: 1;
 	box-flex: 1;
 	max-width: 50em;
 	margin: 0 auto;

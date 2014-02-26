@@ -8,3 +8,8 @@
 
 // Examples of using the icon mixin:
 // @include icon('user');
+
+// fix hidden fieldsets in firefox
+.x-firefox .x-stretched.x-dock-vertical > .x-dock-body {
+    height: auto;
+}
