@@ -118,6 +118,7 @@
          */
         "cache": [
             "index.html",
+            "favicon.png",
             
             /* app */
             "app/app.js",
@@ -131,7 +132,30 @@
             "lib/moment.de.js",
             "lib/moment.min.js",
             "lib/rsvp.min.js",
-            "lib/socket.io/socket.io.min.js"
+            "lib/socket.io/socket.io.min.js",
+            
+            /* resources */
+            "resources/css/app.css",
+            "resources/css/arsnova.css",
+            "resources/images/ars_log.png",
+            "resources/images/arsnova.png",
+            "resources/images/btn_facebook.png",
+            "resources/images/btn_google.png",
+            "resources/images/btn_guest.png",
+            "resources/images/btn_thm.png",
+            "resources/images/btn_uni.png",
+            "resources/images/delete_session.png",
+            "resources/images/facebook_wide.png",
+            "resources/images/facebook.png",
+            "resources/images/google_wide.png",
+            "resources/images/google.png",
+            "resources/images/lock_session.png",
+            "resources/images/unlock_session.png",
+            "resources/images/login_student.png",
+            "resources/images/openid_wide.png",
+            "resources/images/question.png",
+            "resources/images/speaker.png",
+            "resources/images/thm.png"
         ],
         /**
          * List of items in the NETWORK section
