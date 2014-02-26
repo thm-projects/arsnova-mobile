@@ -171,10 +171,8 @@ Ext.application({
      * This is called automatically when the page loads. Here we set up the main component on the page
      */
     launch: function(){
-    	console.log('Hello');
         // Destroy the #appLoadingIndicator element
         Ext.fly('appLoadingIndicator').destroy();
-		console.log('loading');
         
 		this.checkLocalStorage();
 		this.checkBrowser();
