@@ -67,6 +67,29 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 			]
 		});
 		
+		
+		//Preview button 
+		this.previewButton = Ext.create('Ext.Button', {
+			text	: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
+			ui		: 'confirm',
+			//cls		: 'previewButton',
+			style   : 'width:200px;',
+			scope   : this,
+			handler : function() {
+					this.previewHandler();
+				}
+		});
+		
+		//Preview panel with integrated button
+		this.previewPart = Ext.create('Ext.form.FormPanel', {
+			cls: 'newQuestionPreview',
+			scrollable: null,
+			items: [{
+				xtype: 'fieldset',
+				items: [this.previewButton]
+			}]
+		});
+		
 		this.add([this.toolbar, {
 			xtype: 'formpanel',
 			scrollable: null,
@@ -90,7 +113,11 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 					disabled: true
 				}]
 			}]
-		},{
+		},
+		
+		this.previewPart,
+		
+		{
 			xtype: 'button',
 			ui	 : 'decline',
 			cls  : 'centerButton',
@@ -119,6 +146,13 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 			var textarea = this.element.down('textarea');
 			textarea.setHeight(textarea.dom.scrollHeight);
 		});
+	},
+	
+	previewHandler: function() {
+		var questionPreview = Ext.create('ARSnova.view.QuestionPreviewBox', {
+			xtype: 'questionPreview'
+		});		
+		questionPreview.showPreview(this.questionObj.subject,this.questionObj.text);
 	},
 	
 	onDeactivate: function(){
