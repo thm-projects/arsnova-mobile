@@ -503,16 +503,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			]
 		});
 		
-		this.actionsPanel = Ext.create('Ext.Panel', {
-			items: [
-				{
-					cls: 'gravure',
-					html: '\u201e' + Ext.util.Format.htmlEncode(this.questionObj.text) + '\u201f'
-				},
-				this.firstRow,
-				this.secondRow
-			]
-		});
+//	
+//		this.topPreviewPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+//			xtype	: 'mathJaxMarkDownPanel',
+//		});
+//		topPreviewPanel.setContent(this.questionObj.text, true, true,'400px');
+				
 		/* END ACTIONS PANEL */
 		
 		this.subject = Ext.create('Ext.field.Text', {
@@ -623,6 +619,19 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			});
 		}
 		
+		this.actionsPanel = Ext.create('Ext.Panel', {
+			items: [
+//				{
+//					cls: 'gravure',
+//					html: '\u201e' + Ext.util.Format.htmlEncode(this.questionObj.text) + '\u201f'
+//				},
+//				this.topPreviewPanel,
+				this.releasePart,
+				this.firstRow,
+				this.secondRow
+			]
+		});
+		
 		/* BEGIN QUESTION DETAILS */
 		this.contentFieldset = Ext.create('Ext.form.FieldSet', {
 			cls	 : 'standardFieldset',
@@ -649,7 +658,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			scrollable: null,
 			itemId 	 : 'contentForm',
 			style: { marginTop: '15px', marginLeft: '12px', marginRight: '12px' },
-			items: [this.releasePart, this.contentFieldset, this.previewPart]
+			items: [this.contentFieldset, this.previewPart]
 		});
 		
 		this.answerFormFieldset = Ext.create('Ext.form.FieldSet', {
@@ -756,10 +765,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		
 		this.add([
 		  this.toolbar,
-          this.actionsPanel,
-          this.contentForm,
+		  this.contentForm,
           this.answerForm,
-          this.answerEditForm
+          this.answerEditForm,
+          this.actionsPanel 
         ]);
 		
 		this.on('activate', this.onActivate);
@@ -792,12 +801,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.on('beforedestroy', function () {
 			ARSnova.app.mainTabPanel.removeListener('cardswitch', this.cardSwitchHandler, this);
 		}, this);
-		MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.actionsPanel.getId()]);
-		MathJax.Hub.Queue(
-			["Delay", MathJax.Callback, 700], function() {
-				panel.freetextAnswerList.fireEvent("resizeList", panel.freetextAnswerList.element);
-			}
-		);
+//		MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.actionsPanel.getId()]);
+//		MathJax.Hub.Queue(
+//			["Delay", MathJax.Callback, 700], function() {
+//				panel.freetextAnswerList.fireEvent("resizeList", panel.freetextAnswerList.element);
+//			}
+//		);
 	},
 	
 	onDeactivate: function() {
