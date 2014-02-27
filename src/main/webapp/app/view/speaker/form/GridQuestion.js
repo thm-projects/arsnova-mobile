@@ -19,9 +19,16 @@
 
 Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	extend : 'Ext.Container',
-
+	
+	// identifier
+	xtype: 'grid',
+	
+	requires: [
+	           'Ext.ux.Fileup'	// file upload framework
+	           ],
+	
 	config : {
-
+		
 	},
 
 	constructor : function() {
@@ -134,10 +141,29 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					defaults : {
 						flex : 1
 					},
-					items : [ {
+					items : [ /*{
 						xtype : 'button',
 						text : Messages.SEARCH_PICTURE,
 						handler : this.searchPic
+					},*/{
+						// TODO DV: Text to constants
+					    itemId: 'fileLoadBtn',
+					    xtype: 'fileupload',
+					    autoUpload: true,
+					    loadAsDataUrl: true,
+					    states: {
+					        browse: {
+					            text: Messages.SEARCH_PICTURE
+					        },
+					        ready: {
+					            text: 'Load'
+					        },
+					
+					        uploading: {
+					            text: 'Loading',
+					            loading: true
+					        }
+					    }
 					}, {
 						xtype : 'spacer',
 					}, {
@@ -230,6 +256,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 	},
 
+	// TODO: Umbenennen, macht so keinen Sinn
 	searchPic : function() {
 		Ext.getCmp('picPanel').show();
 		Ext.getCmp('imageArea').show();
@@ -249,7 +276,15 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	// liefert die Resultate der angewaehlten Komponenten
 	getQuestionValues : function() {
 		var result = {};
-
 		return result;
+	},
+	
+	updateCanvas : function(dataUrl) {
+		
+		// update canvas
+		Ext.getCmp('gridContainer').setImage(dataUrl);	
+		
+		// show picture
+		this.searchPic();
 	}
 });

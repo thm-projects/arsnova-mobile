@@ -21,6 +21,44 @@
 Ext.define("ARSnova.controller.Questions", {
 	extend: 'Ext.app.Controller',
 	
+	config: {
+        refs: {
+            //'fileBtn': 'grid #fileBtn',
+            'fileLoadBtn': 'grid #fileLoadBtn',
+            'grid' : 'grid'
+        },
+        
+        control: {
+            //fileBtn: {
+            //    success: 'onFileUploadSuccess',
+            //    failure: 'onFileUploadFailure'
+            //},
+            
+            fileLoadBtn: {
+                loadsuccess: 'onFileLoadSuccess',
+                loadfailure: 'onFileLoadFailure'
+            }
+        }
+	},
+	
+	onFileUploadSuccess: function() {
+	// TODO: anpassen
+	},
+   
+	onFileUploadFailure: function(message) {
+		// TODO: anpassen
+	},
+   
+	onFileLoadSuccess: function(dataurl, e) {
+		var grid = this.getGrid();
+		grid.updateCanvas(dataurl);
+	},
+   
+	onFileLoadFailure: function(message) {
+		// TODO: anpassen
+	},
+	
+
 	index: function(options){
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.backButton.show();
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');

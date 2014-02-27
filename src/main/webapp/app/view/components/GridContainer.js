@@ -1,5 +1,6 @@
 Ext.define('ARSnova.view.components.GridContainer', {
 	extend : 'Ext.Container',
+    xtype: 'canvas',
 
 	config : {
 		gridSize : 5,
@@ -306,5 +307,21 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		} else {
 			console.log("min zoom reached");
 		}
+	},
+	
+	setImage : function(dataUrl) {
+		var newimage = new Image();
+		var canvas = this.getCanvas();
+		
+		// set new image url
+		newimage.src = dataUrl;
+		
+		// clear and redraw canvas
+		var ctx = canvas.getContext('2d');
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		canvas.getContext('2d').drawImage(newimage, 0, 0);
+		this.setImageFile(newimage);
+		this.createGrid();
+
 	}
 });
