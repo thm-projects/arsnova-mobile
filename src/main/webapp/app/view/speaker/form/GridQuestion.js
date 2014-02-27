@@ -125,9 +125,10 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				xtype : 'panel',
 				layout : 'vbox',
 				items : [ {
+					id : 'tf_url',
 					xtype : 'textfield',
 					label : Messages.SELECT_PICTURE_FS,
-					name : Messages.SELECT_PICTURE_FS,
+					name : 'tf_url',
 					placeHolder : 'http://',
 					docked : 'top',
 				}, {
@@ -165,7 +166,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					}, {
 						xtype : 'button',
 						text : Messages.SELECT_PICTURE_URL,
-						handler : this.searchPic
+						handler : function() {
+							var self = Ext.getCmp('grid');
+							var url = Ext.ComponentQuery.query('#tf_url')[0].getValue();
+							self.updateCanvas(Ext.ComponentQuery.query('#tf_url')[0].getValue());
+						}
 					} ]
 				} ]
 			}, {
@@ -282,5 +287,13 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		
 		// show picture
 		this.searchPic();
+	},
+	
+	updateCanvasWithUrl : function() {
+		this.updateCanvas();
+		//Ext.ComponentQuery.query('#tf_url')[0].getValue()
 	}
+	
+	
+	
 });
