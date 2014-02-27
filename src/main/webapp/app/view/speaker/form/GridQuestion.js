@@ -45,7 +45,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			title : Messages.EDIT_PICTURE,
 			items : [ {
 				xtype : 'button',
-				text : Messages.UPLOAD_PICTURE,
+				text : Messages.CHOOSE_PICTURE,
 				style : {
 					maxWidth : '250px',
 					width : '80%',
@@ -126,8 +126,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				layout : 'vbox',
 				items : [ {
 					xtype : 'textfield',
-					label : Messages.SELECT_PICTURE,
-					name : Messages.SELECT_PICTURE,
+					label : Messages.SELECT_PICTURE_FS,
+					name : Messages.SELECT_PICTURE_FS,
 					placeHolder : 'http://',
 					docked : 'top',
 				}, {
@@ -141,11 +141,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					defaults : {
 						flex : 1
 					},
-					items : [ /*{
-						xtype : 'button',
-						text : Messages.SEARCH_PICTURE,
-						handler : this.searchPic
-					},*/{
+					items : [{
 						// TODO DV: Text to constants
 					    itemId: 'fileLoadBtn',
 					    xtype: 'fileupload',
@@ -168,7 +164,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						xtype : 'spacer',
 					}, {
 						xtype : 'button',
-						text : Messages.UPLOAD_PICTURE,
+						text : Messages.SELECT_PICTURE_URL,
 						handler : this.searchPic
 					} ]
 				} ]
