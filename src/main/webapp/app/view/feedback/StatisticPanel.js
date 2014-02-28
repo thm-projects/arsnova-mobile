@@ -21,6 +21,8 @@
 Ext.define('ARSnova.view.feedback.StatisticPanel', {
 	extend: 'Ext.Panel',
 	
+	requires: ['Ext.chart.series.Bar', 'Ext.chart.axis.Numeric', 'Ext.chart.axis.Category'],
+	
 	config: {
 		title: 'StatisticPanel',
 		style: 'background-color: black',
@@ -195,6 +197,16 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		        style: {
 		        	minGapWidth: 25,
 		        	maxBarWidth: 200
+		        },
+		        label: {
+		        	display	: 'insideEnd',
+		        	field	: 'value',
+		        	color	: '#000',
+		        	font	: '20px Helvetica',
+		        	orientation: 'horizontal',
+		        	renderer: function(text) {
+		        		return text;
+		        	}
 		        },
 		        renderer: function (sprite, config, rendererData, i) {		 
 		        	var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel;

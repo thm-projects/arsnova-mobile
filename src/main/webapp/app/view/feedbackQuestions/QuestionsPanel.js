@@ -21,6 +21,8 @@
 Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 	extend: 'Ext.Panel',
 	
+	requires: ['ARSnova.model.FeedbackQuestion'],
+	
 	config: {
 		title: 'QuestionsPanel',
 		fullscreen: true,
@@ -59,8 +61,10 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 	initialize: function(){
 		this.callParent(arguments);
 		
+		var panel = this;
+		
 		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.HOME,
+			text	: Messages.BACK,
 			ui		: 'back',
 			hidden	: true,
 			handler : function(){
@@ -76,12 +80,36 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			}
 		});
 		
+		this.deleteAllButton = Ext.create('Ext.Button', {
+			text: Messages.DELETE_ALL,
+			ui: 'decline',
+			hidden: true,
+			handler: function() {
+				Ext.Msg.confirm(Messages.DELETE_ALL_QUESTIONS, Messages.ARE_YOU_SURE, function(answer) {
+					if (answer === 'yes') {
+						ARSnova.app.getController('Questions').deleteAllInterposedQuestions({
+							success: function() {
+								panel.list.hide();
+								panel.noQuestionsFound.show();
+								panel.deleteAllButton.hide();
+							},
+							failure: function() {
+								console.log("Could not delete all interposed questions.");
+							}
+						});
+					}
+				});
+			}
+		});
+		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: 'Auditorium',
 			docked: 'top',
 			ui: 'light',
 			items: [
-		        this.backButton
+		        this.backButton,
+		        {xtype: 'spacer'},
+		        this.deleteAllButton
 	        ]
 		});
 
@@ -159,10 +187,12 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				if(panel.questionsCounter == 0){
 					panel.list.hide();
 					panel.noQuestionsFound.show();
+					panel.deleteAllButton.hide();
 				} else {
 					panel.getStore().remove(panel.getStore().getRange());
 					panel.list.show();
 					panel.noQuestionsFound.hide();
+					panel.deleteAllButton.show();
 					var unread = 0;
 					for(var i = 0, question; question = questions[i]; i++){
 						var formattedTime = "", fullDate = "", groupDate = "";

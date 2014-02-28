@@ -47,7 +47,7 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 		var possibleAnswers = question.possibleAnswers;
 		
 		this.setMaxAnswers(possibleAnswers.length);
-		for (var i=0; i < this.getMaxAnswers(); i++) {
+		for (var i=0; i < this.fields.length; i++) {
 			this.fields[i].setValue(possibleAnswers[i].text);
 		}
 	},
@@ -62,5 +62,15 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 			};
 		});
 		return result;
+	},
+	
+	markEmptyFields: function() {
+		var field;
+		for (var i=0; i < this.fields.length; i++) {
+			field = this.fields[i];
+			if (field.getValue().trim() === "") {
+				field.addCls("required");
+			}
+		}
 	}
 });

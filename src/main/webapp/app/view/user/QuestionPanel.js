@@ -21,10 +21,15 @@
 Ext.define('ARSnova.view.user.QuestionPanel', {
 	extend: 'Ext.Carousel',
 	
+	requires: ['ARSnova.view.Question'],
+	
 	config: {
 		fullscreen: true,
 		title	: Messages.QUESTIONS,
-		iconCls	: 'tabBarIconQuestion'
+		iconCls	: 'tabBarIconQuestion',
+		
+		questionLoader: null,
+		questionCountLoader: null
 	},
 	
 	/* toolbar items */
@@ -39,8 +44,10 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	initialize: function() {
 		this.callParent(arguments);
 		
+		this.setLectureMode();
+		
 		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.HOME,
+			text	: Messages.BACK,
 			ui		: 'back',
 			hidden	: true,
 			handler	: function() {
@@ -140,11 +147,21 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		this.getUnansweredSkillQuestions();
 	},
 	
+	setPreparationMode: function() {
+		this.setQuestionCountLoader(Ext.bind(ARSnova.app.questionModel.countPreparationQuestions, ARSnova.app.questionModel));
+		this.setQuestionLoader(Ext.bind(ARSnova.app.questionModel.getPreparationQuestionsForUser, ARSnova.app.questionModel));
+	},
+	
+	setLectureMode: function() {
+		this.setQuestionCountLoader(Ext.bind(ARSnova.app.questionModel.countLectureQuestions, ARSnova.app.questionModel));
+		this.setQuestionLoader(Ext.bind(ARSnova.app.questionModel.getLectureQuestionsForUser, ARSnova.app.questionModel));
+	},
+	
 	getUnansweredSkillQuestions: function(){
 		var self = this;
 		
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
-		ARSnova.app.questionModel.getSkillQuestionsForUser(localStorage.getItem("keyword"), {
+		this.getQuestionLoader()(localStorage.getItem("keyword"), {
 			success: function(questions){
 				var userQuestionsPanel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel;
 				var questionsArr = [];
@@ -153,7 +170,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				if (questions.length == 0){
 					//no available questions found
 					
-					ARSnova.app.questionModel.countSkillQuestions(localStorage.getItem("keyword"), {
+					self.getQuestionCountLoader()(localStorage.getItem("keyword"), {
 						success: function(response){
 							var questionsInCourse = Ext.decode(response.responseText);
 							
@@ -238,7 +255,10 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		});
 	},
 	
-	addQuestion: function(question){
+	addQuestion: function(question){		
+		/**
+		 * add question to questionPanel
+		 */
 		if (question.questionType === 'freetext') {
 			this.add(Ext.create('ARSnova.view.FreetextQuestion', {
 				questionObj: question

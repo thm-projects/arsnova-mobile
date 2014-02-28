@@ -1,17 +1,20 @@
+(function() {
+"use strict";
 // by http://www.quirksmode.org/js/detect.html
 Ext.define('ARSnova.BrowserDetect', {
 	
 	constructor: function () {
-		this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
-		this.version = this.searchVersion(navigator.userAgent)
-			|| this.searchVersion(navigator.appVersion)
-			|| "an unknown version";
+		var browser = this.searchString(this.dataBrowser) || "An unknown browser",
+			userAgentVersion = this.searchVersion(navigator.userAgent),
+			appVersion = this.searchVersion(navigator.appVersion);
+		this.browser = browser;
+		this.version = userAgentVersion || appVersion || "an unknown version";
 		this.OS = this.searchString(this.dataOS) || "an unknown OS";
 
-		if ( this.extractAndroidVersion() != null) {
+		if (this.extractAndroidVersion() !== null) {
 			this.browser = 'Android';
 			this.version = this.searchVersion(
-					this.extractAndroidVersion().match(/[1-9]+[0-9]*\.[0-9]+/)
+				this.extractAndroidVersion().match(/[1-9]+[0-9]*\.[0-9]+/)
 			);
 		}
 	},
@@ -19,7 +22,9 @@ Ext.define('ARSnova.BrowserDetect', {
 	extractAndroidVersion: function() {
 		// Should match 'Android x.y'
 		var version = navigator.userAgent.match(/Android [1-9]+[0-9]*\.[0-9]+/);
-		if (version == null) return null;
+		if (version === null) {
+			return null;
+		}
 		return version.toString();
 	},
 	
@@ -29,17 +34,18 @@ Ext.define('ARSnova.BrowserDetect', {
 			var dataProp = data[i].prop;
 			this.versionSearchString = data[i].versionSearch || data[i].identity;
 			if (dataString) {
-				if (dataString.indexOf(data[i].subString) != -1)
+				if (dataString.indexOf(data[i].subString) !== -1) {
 					return data[i].identity;
-			}
-			else if (dataProp)
+				}
+			} else if (dataProp) {
 				return data[i].identity;
+			}
 		}
 	},
 	
 	searchVersion: function (dataString) {
 		var index = dataString.indexOf(this.versionSearchString);
-		if (index == -1) {
+		if (index === -1) {
 			// iOS WebView Fallback
 			return parseFloat(dataString);
 		}
@@ -92,6 +98,11 @@ Ext.define('ARSnova.BrowserDetect', {
 			versionSearch: "MSIE"
 		}, {
 			string: navigator.userAgent,
+			subString: "Trident",
+			identity: "Explorer",
+			versionSearch: "rv"
+		}, {
+			string: navigator.userAgent,
 			subString: "Gecko",
 			identity: "Mozilla",
 			versionSearch: "rv"
@@ -121,3 +132,4 @@ Ext.define('ARSnova.BrowserDetect', {
 			identity: "Linux"
 	}]
 });
+}());

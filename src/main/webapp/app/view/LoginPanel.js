@@ -21,6 +21,9 @@
 Ext.define('ARSnova.view.LoginPanel', {
 	extend: 'Ext.Container',
 	
+	requires: [ 'Ext.MessageBox',
+	            'ARSnova.view.MatrixButton'],
+	
 	config: {
 		fullscreen: true,
 		scrollable: {
@@ -86,10 +89,12 @@ Ext.define('ARSnova.view.LoginPanel', {
 					value: ARSnova.app.LOGIN_CUSTOM,
 					image: "btn_uni",
 					handler	: function(b) {
-						Ext.Msg.alert(Messages.UNI_LOGIN_MSG, Messages.UNI_LOGIN_MSG_TEXT, function() {
-							ARSnova.app.getController('Auth').login({
-								mode: b.config.value
-							});
+						Ext.Msg.confirm(Messages.UNI_LOGIN_MSG, Messages.UNI_LOGIN_MSG_TEXT, function(answer) {
+							if ('yes' === answer) {
+								ARSnova.app.getController('Auth').login({
+									mode: b.config.value
+								});
+							}
 						});
 					},
 					style: "margin-left:20px"

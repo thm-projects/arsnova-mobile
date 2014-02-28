@@ -24,7 +24,7 @@ Ext.define('ARSnova.view.user.TabPanel', {
 	requires: ['ARSnova.view.user.InClass', 'ARSnova.view.user.LearnPanel'],
 	
 	config: {
-		title	: Messages.SESSION,
+		title	: Messages.HOME,
 	
 		iconCls	: 'tabBarIconHome',
 		scroll	: 'vertical',

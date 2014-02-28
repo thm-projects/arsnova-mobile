@@ -19,7 +19,7 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.model.Answer', {
-	extend: 'Ext.data.Model',
+	extend: 'ARSnova.model.ARSmodel',
 	
 	config: {
 		proxy: { type: 'restProxy' },
@@ -34,7 +34,8 @@ Ext.define('ARSnova.model.Answer', {
 			     'questionId',
 			     'sessionId',
 			     'abstention',
-			     'timestamp'
+			     'timestamp',
+			     'questionVariant'
 		         ],
 
 		idProperty: '_id'

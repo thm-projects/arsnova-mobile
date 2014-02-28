@@ -33,10 +33,8 @@ Ext.define('ARSnova.view.about.TabPanel', {
 	initialize: function() {
 		this.callParent(arguments);
 		
-		this.infoPanel = Ext.create('ARSnova.view.about.InfoPanel');
-		
-		this.add([
-		    this.infoPanel
-        ]);
+		this.on("activate", function() {
+			window.location.href = "https://arsnova.eu/manual/index.php/"+encodeURIComponent(moment.lang())+"/";
+		});
 	}
 });

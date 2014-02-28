@@ -54,7 +54,8 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		this.freetextAnswerStore = Ext.create('Ext.data.JsonStore', {
 			model		: 'FreetextAnswer',
 			sorters		: [{property: 'timestamp', direction: 'DESC'}],
-			groupField	: 'groupDate'
+			groupField	: 'groupDate',
+			grouper		: {property: 'timestamp', direction: 'DESC'}
 		});
 		
 		this.backButton = Ext.create('Ext.Button', {
@@ -159,6 +160,10 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				
 				self.freetextAnswerStore.removeAll();
 				self.freetextAnswerStore.add(answers);
+				self.freetextAnswerStore.sort([{
+					property : 'timestamp',
+					direction: 'DESC'
+				}]);
 				self.freetextAbstentions.setBadgeText(abstentions.length);
 				self.freetextAbstentions.setHidden(abstentions.length === 0);
 			},
