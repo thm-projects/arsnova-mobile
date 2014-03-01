@@ -318,9 +318,19 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		
 		// clear and redraw canvas
 		var ctx = canvas.getContext('2d');
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		this.clearImage();
 		canvas.getContext('2d').drawImage(newimage, 0, 0);
 		this.setImageFile(newimage);
+		this.createGrid();
+
+	},
+	
+	clearImage : function() {
+		var canvas = this.getCanvas();
+		
+		// clear and redraw canvas
+		var ctx = canvas.getContext('2d');
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		this.createGrid();
 
 	}

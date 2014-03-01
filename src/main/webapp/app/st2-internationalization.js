@@ -280,6 +280,8 @@ case 'en-gb':
 		CHOOSE_PICTURE : "Choose image",
 		SEARCH_PICTURE : "Search",
 		EDIT_PICTURE : "Edit Image",
+		GRID_LOADING : "Loading",
+		GRID_LOAD : "Load",
 		CORRECT_ANSWERS: "Correct answers",
 		SETTINGS:	"Settings",
 			

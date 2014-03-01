@@ -41,36 +41,19 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 		});
 
-		var uploadButton = Ext.create('Ext.Panel', {
-			xtype : 'fieldset',
-			title : Messages.EDIT_PICTURE,
-			items : [ {
-				xtype : 'button',
-				text : Messages.CHOOSE_PICTURE,
-				style : {
-					maxWidth : '250px',
-					width : '80%',
-					margin : '20px auto'
-				},
-				defaults : {
-					style : 'width: 33%'
-				},
-				ui : 'round',
-				handler : function() { // handler auslagern
-					Ext.getCmp('picPanel').hide();
-					Ext.getCmp('imageArea').hide();
-					Ext.getCmp('upField').show();
-					Ext.getCmp('imageControle').hide();
-				}
-			} ]
-		});
-
 		// Panel for picture and settings
 		var imageArea = Ext.create('Ext.Panel', {
 			id : 'imageArea',
 			layout : 'hbox',
 			items : [ 
 			    grid, 
+			    {
+					xtype: 'button',
+			    	iconCls : 'delete',
+			    	iconMask : true,
+			    	docked : 'right',
+					handler: this.resetView
+				},
 			    {
 			    	xtype : 'button',
 			    	iconCls : 'info',
@@ -104,19 +87,14 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			hidden : true
 		});
 
-		var uploadField = Ext.create('Ext.Panel', {
-			id : 'picPanel',
-			items : [ {
-				xtype : 'fieldset',
-				title : Messages.EDIT_PICTURE,
-				items : [ uploadButton ]
-			} ]
-		});
 
+		/**
+		 * The view containing the url textfield and the
+		 * functionality to load an image into the canvas
+		 */
 		var uploadView = Ext.create('Ext.Panel', {
 			id : 'upField',
 			layout : 'vbox',
-			hidden : true,
 
 			items : [ {
 				xtype : 'fieldset',
@@ -179,6 +157,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				docked : 'bottom'
 			} ]
 		});
+		
+		
 		var answers = Ext.create('Ext.Panel', {
 			items : [ {
 				xtype : 'fieldset',
@@ -252,19 +232,14 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.add([ {
 			xtype : 'fieldset',
 			title : ' ',
-			items : [ imageArea, uploadView, uploadField, imageCnt ]
+			items : [ 
+			          imageArea, 
+			          uploadView,
+			          imageCnt ]
 		} ]);
 
 	},
-
-	// TODO: Umbenennen, macht so keinen Sinn
-	searchPic : function() {
-		Ext.getCmp('picPanel').show();
-		Ext.getCmp('imageArea').show();
-		Ext.getCmp('gridContainer').show();
-		Ext.getCmp('upField').hide();
-		Ext.getCmp('imageControle').show();
-	},
+	
 	initWithQuestion : function(question) {
 
 		var possibleAnswers = question.possibleAnswers;
@@ -281,19 +256,33 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	},
 	
 	updateCanvas : function(dataUrl) {
-		
 		// update canvas
 		Ext.getCmp('gridContainer').setImage(dataUrl);	
 		
 		// show picture
-		this.searchPic();
+		this.toggleViews();
 	},
 	
 	updateCanvasWithUrl : function() {
 		this.updateCanvas();
 		//Ext.ComponentQuery.query('#tf_url')[0].getValue()
+	},
+	
+	/**
+	 * Toggles between the two view possibilities.
+	 */
+	toggleViews : function() {
+		Ext.getCmp('imageArea').isHidden() 	   ? Ext.getCmp('imageArea').show() 	 : Ext.getCmp('imageArea').hide();
+		Ext.getCmp('imageControle').isHidden() ? Ext.getCmp('imageControle').show() : Ext.getCmp('imageControle').hide();
+		Ext.getCmp('upField').isHidden() 	   ? Ext.getCmp('upField').show() 		 : Ext.getCmp('upField').hide();
+	},
+
+	/**
+	 * Resets the view to the initial state.
+	 */
+	resetView : function() {
+		var self = Ext.getCmp('grid');
+		self.toggleViews();
+		Ext.getCmp('gridContainer').clearImage();
 	}
-	
-	
-	
 });
