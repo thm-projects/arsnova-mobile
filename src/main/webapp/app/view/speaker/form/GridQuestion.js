@@ -144,11 +144,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					}, {
 						xtype : 'button',
 						text : Messages.SELECT_PICTURE_URL,
-						handler : function() {
-							var self = Ext.getCmp('grid');
-							var url = Ext.ComponentQuery.query('#tf_url')[0].getValue();
-							self.updateCanvas(Ext.ComponentQuery.query('#tf_url')[0].getValue());
-						}
+						handler : this.updateCanvasWithUrl
 					} ]
 				} ]
 			}, {
@@ -264,8 +260,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	},
 	
 	updateCanvasWithUrl : function() {
-		this.updateCanvas();
-		//Ext.ComponentQuery.query('#tf_url')[0].getValue()
+		var self = Ext.getCmp('grid');
+		var url = Ext.ComponentQuery.query('#tf_url')[0].getValue();
+		self.updateCanvas(Ext.ComponentQuery.query('#tf_url')[0].getValue());
 	},
 	
 	/**

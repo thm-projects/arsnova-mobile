@@ -36,18 +36,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		canvas.addEventListener("mousedown", this.onclick, false);
 		canvas.parentContainer = this;
 
-		var newimage = new Image();
-		var container = this;
-
-		newimage.onload = function() {
-			var ctx = canvas.getContext('2d');
-			canvas.getContext('2d').drawImage(newimage, 0, 0);
-			container.setImageFile(newimage);
-			container.createGrid();
-		}
-
-		newimage.src = '../resources/images/planquadrat_test.jpg';
-
 		this.setCanvas(canvas);
 		
 		this.image = {
@@ -190,10 +178,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			container.getOnFieldClick()(
 					container.getChosenFields().length);
 		}
-		
-//		container.moveRight();
-//		container.moveRight();
-//		container.moveUp();
 	},
 
 	setGrids : function(count) {
@@ -312,17 +296,17 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	setImage : function(dataUrl) {
 		var newimage = new Image();
 		var canvas = this.getCanvas();
-		
-		// set new image url
+		var ctx = canvas.getContext('2d');
+		var container = this;
+
 		newimage.src = dataUrl;
 		
-		// clear and redraw canvas
-		var ctx = canvas.getContext('2d');
-		this.clearImage();
-		canvas.getContext('2d').drawImage(newimage, 0, 0);
-		this.setImageFile(newimage);
-		this.createGrid();
-
+		newimage.onload = function() {
+			container.clearImage();
+			canvas.getContext('2d').drawImage(newimage, 0, 0);
+			container.setImageFile(newimage);
+			container.createGrid();
+		}
 	},
 	
 	clearImage : function() {
