@@ -33,6 +33,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 	constructor : function() {
 		this.callParent(arguments);
+		
 
 		var grid = Ext.create('ARSnova.view.components.GridContainer', {
 			docked : 'top',
@@ -143,8 +144,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						flex : 1
 					},
 					items : [{
-						// TODO DV: Text to constants
-					    itemId: 'fileLoadBtn',
+					    itemId: 'imageToCanvasButton',
 					    xtype: 'fileupload',
 					    autoUpload: true,
 					    loadAsDataUrl: true,
@@ -153,11 +153,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					            text: Messages.SEARCH_PICTURE
 					        },
 					        ready: {
-					            text: 'Load'
+					            text: Messages.LOAD
 					        },
 					
 					        uploading: {
-					            text: 'Loading',
+					            text: Messages.LOADING,
 					            loading: true
 					        }
 					    }

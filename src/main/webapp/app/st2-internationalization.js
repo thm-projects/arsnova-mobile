@@ -593,6 +593,8 @@ default:
 		CHOOSE_PICTURE : "Bild wählen",
 		SEARCH_PICTURE : "Von Dateisystem",
 		EDIT_PICTURE : "Bild bearbeiten",
+		GRID_LOADING : "Lade",
+		GRID_LOAD : "Laden",
 		CORRECT_ANSWERS:	"Richtige Antworten",
 		SETTINGS:	"Einstellungen",
 		

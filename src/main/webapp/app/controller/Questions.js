@@ -24,7 +24,7 @@ Ext.define("ARSnova.controller.Questions", {
 	config: {
         refs: {
             //'fileBtn': 'grid #fileBtn',
-            'fileLoadBtn': 'grid #fileLoadBtn',
+            'imageToCanvasButton': 'grid #imageToCanvasButton',
             'grid' : 'grid'
         },
         
@@ -34,7 +34,7 @@ Ext.define("ARSnova.controller.Questions", {
             //    failure: 'onFileUploadFailure'
             //},
             
-            fileLoadBtn: {
+        	imageToCanvasButton: {
                 loadsuccess: 'onFileLoadSuccess',
                 loadfailure: 'onFileLoadFailure'
             }
