@@ -173,40 +173,43 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 		var imageSettings = Ext.create('Ext.Panel', {
 			id : 'answerField',
-			items : [ answers, {
-				xtype : 'fieldset',
-				title : Messages.SETTINGS,
-				items : [ {
-					xtype : 'spinnerfield',
-					label : 'Zoom',
-					listeners : {
-						spinup : function() {
-							grid.zoomIn();
+			items : [ 
+			         {
+						xtype : 'fieldset',
+						title : Messages.SETTINGS,
+						items : [ {
+							xtype : 'spinnerfield',
+							label : 'Zoom',
+							listeners : {
+								spinup : function() {
+									grid.zoomIn();
+								},
+								spindown : function() {
+									grid.zoomOut();
+								}
+		
+							},
+							minValue : 5,
+							maxValue : 100,
+							value : 5,
+							stepValue : 5
+						// cycle : true
+						}, {
+							xtype : 'spinnerfield',
+							label : 'Quadrate',
+							listeners : {
+								spin : function() {
+									grid.setGrids(this.getValue()); // update grid count
+								}
+							},
+							minValue : 4,
+							maxValue : 128,
+							value : 1,
+							stepValue : 2,
+							cycle : true,
 						},
-						spindown : function() {
-							grid.zoomOut();
-						}
-
-					},
-					minValue : 5,
-					maxValue : 100,
-					value : 5,
-					stepValue : 5
-				// cycle : true
-				}, {
-					xtype : 'spinnerfield',
-					label : 'Quadrate',
-					listeners : {
-						spin : function() {
-							grid.setGrids(this.getValue()); // update grid count
-						}
-					},
-					minValue : 4,
-					maxValue : 128,
-					value : 1,
-					stepValue : 2,
-					cycle : true,
-				} ]
+						answers
+						]
 			} ]
 		});
 
