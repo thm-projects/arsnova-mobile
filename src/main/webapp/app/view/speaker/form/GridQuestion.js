@@ -297,8 +297,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		// get image data
 		result.gridData.image 	 = Ext.getCmp('gridContainer').getImageFile().src;
 		result.gridData.gridSize = Ext.getCmp('gridContainer').getGridSize();
-		result.gridData.offsetX  = Ext.getCmp('gridContainer').getMoveX();
-		result.gridData.offsetY  = Ext.getCmp('gridContainer').getMoveY();
+		result.gridData.offsetX  = Ext.getCmp('gridContainer').getOffsetX();
+		result.gridData.offsetY  = Ext.getCmp('gridContainer').getOffsetY();
 		result.gridData.zoomLvl  = Ext.getCmp('gridContainer').getZoomLvl();
 		
 		// TODO: get possible answers
