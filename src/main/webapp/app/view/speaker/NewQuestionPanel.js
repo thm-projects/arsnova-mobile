@@ -513,7 +513,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
     	switch (panel.questionOptions.getPressedButtons()[0]._text) {
     		case Messages.GRID:
     			values.questionType = "grid";
-    			Ext.apply(values, panel.gridQuestion.getQuestionValues());
+    			//Ext.apply(values, panel.gridQuestion.getQuestionValues());
     		break;
 			case Messages.EVALUATION:
 				values.questionType = "vote";
@@ -616,7 +616,11 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			noCorrect	: values.noCorrect,
 			abstention	: values.abstention,
 			showStatistic: 1,
-			gridData    : values.gridData,
+			gridSize    : values.gridSize,
+			offsetX  	: values.offsetX,
+			offsetY 	: values.offsetY,
+			zoomLvl 	: values.zoomLvl,
+			image		: values.image,
 			successFunc	: function(response, opts){
 				promise.resolve(response);
 			},

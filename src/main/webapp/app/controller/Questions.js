@@ -145,7 +145,11 @@ Ext.define("ARSnova.controller.Questions", {
 			possibleAnswers: options.possibleAnswers,
 			noCorrect	: options.noCorrect,
 			abstention	: options.abstention,
-			gridData	: options.gridData,
+			gridSize	: options.gridSize,
+			offsetX  	: options.offsetX,
+			offsetY 	: options.offsetY,
+			zoomLvl 	: options.zoomLvl,
+			image		: options.image,
 			showStatistic: 1
 		});
     	question.set('_id', undefined);

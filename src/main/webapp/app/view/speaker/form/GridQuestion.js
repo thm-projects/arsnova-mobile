@@ -295,14 +295,13 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		var result = {};
 		
 		// get image data
-		result.gridData 		 = {};
-		result.gridData.image 	 = grid.getImageFile().src;
-		result.gridData.gridSize = grid.getGridSize();
-		result.gridData.offsetX  = grid.getOffsetX();
-		result.gridData.offsetY  = grid.getOffsetY();
-		result.gridData.zoomLvl  = grid.getZoomLvl();
-		result.possibleAnswers   = grid.getChosenFields();
-		result.noCorrect 		 = grid.getChosenFields().length > 0 ? 0 : 1; // TODO: Check if really needed (and why numbers instead of bool)
+		result.image 	 	   = grid.getImageFile().src;
+		result.gridSize 	   = grid.getGridSize();
+		result.offsetX  	   = grid.getOffsetX();
+		result.offsetY 		   = grid.getOffsetY();
+		result.zoomLvl 		   = grid.getZoomLvl();
+		result.chosenFields    = grid.getChosenFields();
+		result.noCorrect 	   = grid.getChosenFields().length > 0 ? 0 : 1; // TODO: Check if really needed (and why numbers instead of bool)
 
 		return result;
 	},
