@@ -621,6 +621,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			offsetY 	: values.offsetY,
 			zoomLvl 	: values.zoomLvl,
 			image		: values.image,
+			chosenFields : values.chosenFields,
 			successFunc	: function(response, opts){
 				promise.resolve(response);
 			},
