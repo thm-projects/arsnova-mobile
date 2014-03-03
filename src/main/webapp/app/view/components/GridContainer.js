@@ -17,6 +17,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		zoomLvl : 0,
 		zoomMin : 0,
 		zoomMax : 5,
+		// TODO: umbenennen in offset x + offset y
 		moveX : 0,
 		moveY : 0,
 		moveInterval : 10,
