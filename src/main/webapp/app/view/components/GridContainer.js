@@ -17,9 +17,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		zoomLvl : 0, // zoomlevel zum vergleichen mit ober und untergrenze
 		zoomMin : 0, // Zoom untergrenze
 		zoomMax : 5, // zoom obergrenze
-		// TODO: umbenennen in offset x + offset y
-		moveX : 0, // x achsen verschiebung
-		moveY : 0, //  y achsen verschiebung
+		offsetX : 0, // x achsen verschiebung
+		offsetY : 0, //  y achsen verschiebung
 		moveInterval : 10, // schrittgröße zum verschieben
 		moveable : Array(true, true, true, true), // defines in which direction (l, u, r, d) the image is moveable
 		onFieldClick : null,
@@ -57,7 +56,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		ctx.globalAlpha = 1;
 
 		this.zoom(this.getScale());
-		ctx.drawImage(this.getImageFile(), this.getMoveX(), this.getMoveY());
+		ctx.drawImage(this.getImageFile(), this.getOffsetX(), this.getOffsetY());
 		ctx.restore();
 		console.log('cleared.')
 		
@@ -206,12 +205,12 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	
 	moveRight : function() {
 		console.log("scaleFactor - 1: " + parseFloat(this.getScaleFactor() - 1));
-		console.log("moveX: " + this.getMoveX());
+		console.log("OffsetX: " + this.getOffsetX());
 		var scaled = parseFloat((this.getScaleFactor() - 1) * this.getZoomLvl());
-		if (this.getMoveX() < scaled * this.getImgSize() / 2) {
-			var moveX = this.getMoveX() + this.getMoveInterval() * scaled;
-			this.setMoveX(moveX);
-//			console.log("new moveX: " + moveX);
+		if (this.getOffsetX() < scaled * this.getImgSize() / 2) {
+			var OffsetX = this.getOffsetX() + this.getMoveInterval() * scaled;
+			this.setOffsetX(OffsetX);
+//			console.log("new OffsetX: " + OffsetX);
 			this.clearAll();
 			console.log("move right");
 		} else {
@@ -223,9 +222,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 	
 	moveLeft : function() {
-		if (this.getMoveX() * (-1) < (this.getScaleFactor() - 1) * this.getZoomLvl() * this.getImgSize() / 2) {
-			var moveX = this.getMoveX() - this.getMoveInterval();
-			this.setMoveX(moveX);
+		if (this.getOffsetX() * (-1) < (this.getScaleFactor() - 1) * this.getZoomLvl() * this.getImgSize() / 2) {
+			var OffsetX = this.getOffsetX() - this.getMoveInterval();
+			this.setOffsetX(OffsetX);
 			this.clearAll();
 			console.log("move left");
 		} else {
@@ -237,9 +236,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 	
 	moveUp : function() {
-		if (this.getMoveY() * (-1) < (this.getScaleFactor() - 1) * this.getZoomLvl() * this.getImgSize() / 2) {
-			var moveY = this.getMoveY() - this.getMoveInterval();
-			this.setMoveY(moveY);
+		if (this.getOffsetY() * (-1) < (this.getScaleFactor() - 1) * this.getZoomLvl() * this.getImgSize() / 2) {
+			var OffsetY = this.getOffsetY() - this.getMoveInterval();
+			this.setOffsetY(OffsetY);
 			this.clearAll();
 			console.log("move up");
 		} else {
@@ -251,9 +250,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 	
 	moveDown : function() {
-		if (this.getMoveY() < (this.getScaleFactor() - 1) * this.getZoomLvl() * this.getImgSize() / 2) {
-			var moveY = this.getMoveY() + this.getMoveInterval();
-			this.setMoveY(moveY);
+		if (this.getOffsetY() < (this.getScaleFactor() - 1) * this.getZoomLvl() * this.getImgSize() / 2) {
+			var OffsetY = this.getOffsetY() + this.getMoveInterval();
+			this.setOffsetY(OffsetY);
 			this.clearAll();
 			console.log("move down");
 		} else {
