@@ -291,18 +291,21 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	 * be send to the backend.
 	 */
 	getQuestionValues: function() {
+		var grid   = Ext.getCmp('gridContainer')
 		var result = {};
-		result.gridData = {};
 		
 		// get image data
-		result.gridData.image 	 = Ext.getCmp('gridContainer').getImageFile().src;
-		result.gridData.gridSize = Ext.getCmp('gridContainer').getGridSize();
-		result.gridData.offsetX  = Ext.getCmp('gridContainer').getOffsetX();
-		result.gridData.offsetY  = Ext.getCmp('gridContainer').getOffsetY();
-		result.gridData.zoomLvl  = Ext.getCmp('gridContainer').getZoomLvl();
-		
-		// TODO: get possible answers
+		result.gridData 		 = {};
+		result.gridData.image 	 = grid.getImageFile().src;
+		result.gridData.gridSize = grid.getGridSize();
+		result.gridData.offsetX  = grid.getOffsetX();
+		result.gridData.offsetY  = grid.getOffsetY();
+		result.gridData.zoomLvl  = grid.getZoomLvl();
+		result.possibleAnswers   = grid.getChosenFields();
+		result.noCorrect 		 = grid.getChosenFields().length > 0 ? 0 : 1; // TODO: Check if really needed (and why numbers instead of bool)
 
 		return result;
 	},
+	
+	
 });
