@@ -17,6 +17,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		zoomLvl : 0, // zoomlevel zum vergleichen mit ober und untergrenze
 		zoomMin : 0, // Zoom untergrenze
 		zoomMax : 5, // zoom obergrenze
+		// TODO: umbenennen in offset x + offset y
 		moveX : 0, // x achsen verschiebung
 		moveY : 0, //  y achsen verschiebung
 		moveInterval : 10, // schrittgröße zum verschieben

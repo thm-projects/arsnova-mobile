@@ -284,5 +284,25 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		var self = Ext.getCmp('grid');
 		self.toggleViews();
 		Ext.getCmp('gridContainer').clearImage();
-	}
+	},
+	
+	/**
+	 * Gets all relevant informations which have to 
+	 * be send to the backend.
+	 */
+	getQuestionValues: function() {
+		var result = {};
+		result.gridData = {};
+		
+		// get image data
+		result.gridData.image 	 = Ext.getCmp('gridContainer').getImageFile().src;
+		result.gridData.gridSize = Ext.getCmp('gridContainer').getGridSize();
+		result.gridData.offsetX  = Ext.getCmp('gridContainer').getMoveX();
+		result.gridData.offsetY  = Ext.getCmp('gridContainer').getMoveY();
+		result.gridData.zoomLvl  = Ext.getCmp('gridContainer').getZoomLvl();
+		
+		// TODO: get possible answers
+
+		return result;
+	},
 });

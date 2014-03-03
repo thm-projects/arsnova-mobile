@@ -616,6 +616,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			noCorrect	: values.noCorrect,
 			abstention	: values.abstention,
 			showStatistic: 1,
+			gridData    : values.gridData,
 			successFunc	: function(response, opts){
 				promise.resolve(response);
 			},

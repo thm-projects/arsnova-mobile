@@ -46,7 +46,8 @@ Ext.define('ARSnova.model.Question', {
 		         'subject',
 		      	 'text',
 		      	 'timestamp',
-		      	 'type'
+		      	 'type',
+		      	 'gridData'
 		],
 		
 		transientFields: ['numAnswers'],

@@ -145,6 +145,7 @@ Ext.define("ARSnova.controller.Questions", {
 			possibleAnswers: options.possibleAnswers,
 			noCorrect	: options.noCorrect,
 			abstention	: options.abstention,
+			gridData	: options.gridData,
 			showStatistic: 1
 		});
     	question.set('_id', undefined);
