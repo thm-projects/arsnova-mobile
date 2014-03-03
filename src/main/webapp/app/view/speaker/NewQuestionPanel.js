@@ -513,7 +513,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
     	switch (panel.questionOptions.getPressedButtons()[0]._text) {
     		case Messages.GRID:
     			values.questionType = "grid";
-    			//Ext.apply(values, panel.gridQuestion.getQuestionValues());
+    			Ext.apply(values, panel.gridQuestion.getQuestionValues());
     		break;
 			case Messages.EVALUATION:
 				values.questionType = "vote";
