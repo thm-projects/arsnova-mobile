@@ -3,27 +3,9 @@ html, body {
 	background-color: #c5ccd3;
 }
 
-#arsnovaLogo {
-	position: absolute;
-	top: 19%;
-	margin-top: -15px;
-	text-align: center;
-	width: 100%;
-	height: 55px;
-}
-
-#arsnovaLogo > * {
-	background-image: url(../images/arsnova.png);
-	background-repeat: no-repeat;
-    display: inline-block;
-    height: 55px;
-    width: 288px;
-    opacity: 0.8;
-}
-
 #appLoadingIndicator {
     position: absolute;
-    top: 40%;
+    top: 50%;
     margin-top: -15px;
     text-align: center;
     width: 100%;
