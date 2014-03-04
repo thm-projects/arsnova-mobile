@@ -12,6 +12,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		chosenFields : Array(), // array von ausgewählten Quadraten
 		fieldColor : "#C0FFEE", // Farbe der ausgewählten Quadrate
 		borderColor : "#000000", // Farbe des Rasters
+		defaultBorderColor : "#000000",
+		defaultToggleBorderColor : "#FFFFFF",
 		scaleFactor : 1.2, // Faktor für zoomschritte
 		scale : 1.0, // Aktuelle ZoomScalierung des Bildes
 		zoomLvl : 0, // zoomlevel zum vergleichen mit ober und untergrenze
@@ -332,5 +334,19 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		this.createGrid();
 
+	}, 
+	
+	clearConfigs : function() {
+		
+	},
+	
+	toggleBorderColor : function(){
+		if(this.getBorderColor() == this.getDefaultBorderColor()){
+			this.setBorderColor(this.getDefaultToggleBorderColor());
+		} else {
+			this.setBorderColor(this.getDefaultBorderColor());
+		}	
+		
+		this.clearAll();
 	}
 });

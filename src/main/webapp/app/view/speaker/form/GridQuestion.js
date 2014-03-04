@@ -59,7 +59,15 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			    	iconCls : 'info',
 			    	iconMask : true,
 			    	docked : 'right'
-			    }, {
+			    },
+			    {
+			    	xtype : 'button',
+			    	iconCls : 'reply',
+			    	iconMask : true,
+			    	docked : 'right',
+			    	handler : function(){ grid.toggleBorderColor(); }
+			    },
+			    {
 					xtype: 'button',
 			    	iconCls : 'arrow_left',
 			    	iconMask : true,
@@ -179,7 +187,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						title : Messages.SETTINGS,
 						items : [ {
 							xtype : 'spinnerfield',
-							label : 'Zoom',
+							label : 'Zoom (in %)',
 							listeners : {
 								spinup : function() {
 									grid.zoomIn();
@@ -189,23 +197,23 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 								}
 		
 							},
-							minValue : 5,
-							maxValue : 100,
-							value : 5,
-							stepValue : 5
+							minValue : 100,
+							maxValue : 200,
+							value : 100,
+							stepValue : 20
 						// cycle : true
 						}, {
 							xtype : 'spinnerfield',
-							label : 'Quadrate',
+							label : 'Quadrate (Breiten x Höhe)',
 							listeners : {
 								spin : function() {
 									grid.setGrids(this.getValue()); // update grid count
 								}
 							},
-							minValue : 4,
-							maxValue : 128,
-							value : 1,
-							stepValue : 2,
+							minValue : 2,
+							maxValue : 16,
+							value : 5,
+							stepValue : 1,
 							cycle : true,
 						},
 						answers
