@@ -66,6 +66,15 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	
 		this.createGrid();
 		
+		var thiz = this;
+		
+		this.getChosenFields()
+		.forEach(
+				function(entry) {
+					thiz.markField(entry[0],
+							entry[1]);
+				});
+		
 	},
 
 	
@@ -174,13 +183,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		if (changed) {
 			container.clearAll();
-			
-			container.getChosenFields()
-					.forEach(
-							function(entry) {
-								container.markField(entry[0],
-										entry[1]);
-							});
 		}
 
 		if (container.getOnFieldClick() != null) {
@@ -328,6 +330,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	clearImage : function() {
 		var canvas = this.getCanvas();
 		this.setImageFile(null);
+		this.clearConfigs();
 		
 		// clear and redraw canvas
 		var ctx = canvas.getContext('2d');
@@ -338,6 +341,13 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	
 	clearConfigs : function() {
 		
+		this.setScale(1.0);
+		this.setOffsetX(0);
+		this.setOffsetY(0);
+		this.setZoomLvl(0);
+		this.setChosenFields(Array());
+		this.setMoveable( Array(true, true, true, true) );
+
 	},
 	
 	toggleBorderColor : function(){
