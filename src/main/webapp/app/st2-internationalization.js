@@ -282,6 +282,7 @@ case 'en-gb':
 		EDIT_PICTURE : "Edit Image",
 		GRID_LOADING : "Loading",
 		GRID_LOAD : "Load",
+		GRID_ERROR_URL_MISSING : "Please insert a valid url.",
 		CORRECT_ANSWERS: "Correct answers",
 		SETTINGS:	"Settings",
 			
@@ -597,6 +598,7 @@ default:
 		EDIT_PICTURE : "Bild bearbeiten",
 		GRID_LOADING : "Lade",
 		GRID_LOAD : "Laden",
+		GRID_ERROR_URL_MISSING : "Bitte geben Sie eine URL an.",
 		CORRECT_ANSWERS:	"Richtige Antworten",
 		SETTINGS:	"Einstellungen",
 		

@@ -255,13 +255,10 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			return;
 		}
 	},
-
-	// liefert die Resultate der angewaehlten Komponenten
-	getQuestionValues : function() {
-		var result = {};
-		return result;
-	},
 	
+	/**
+	 * Interface to the grid element to set a new image.
+	 */
 	updateCanvas : function(dataUrl) {
 		// update canvas
 		Ext.getCmp('gridContainer').setImage(dataUrl);	
@@ -270,10 +267,19 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.toggleViews();
 	},
 	
+	/**
+	 * Gets the value of the url textfield and forwards it to the
+	 * update canvas method.
+	 */
 	updateCanvasWithUrl : function() {
-		var self = Ext.getCmp('grid');
 		var url = Ext.ComponentQuery.query('#tf_url')[0].getValue();
-		self.updateCanvas(Ext.ComponentQuery.query('#tf_url')[0].getValue());
+		
+		if (url) {
+			Ext.getCmp('grid').updateCanvas(url);
+		} else {
+			Ext.Msg.alert(Messages.NOTIFICATION, Messages.GRID_ERROR_URL_MISSING);
+		}
+		
 	},
 	
 	/**
