@@ -27,7 +27,7 @@ Basically a complete build for both projects is done with:
 
 	mvn clean install
 
-Please be always attentive to *first* build the mobile client and afterwards the server application.
+Please be always attentive to build the mobile client **first** and afterwards the server application.
 
 <br />Alternatively you can use several ant-targets to build the client for different purposes:
 
