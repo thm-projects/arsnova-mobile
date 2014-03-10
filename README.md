@@ -75,7 +75,7 @@ In order to develop and test on your local machine, you can use Jetty to deploy 
 	cd /path/to/arsnova-war
 	mvn jetty:run
 	
-If you not intend to (re)build the client after every change, you can use `sencha app watch`. With this command Sencha CMD will containually update bootstrap.js and apps.js files after you change a component in your application. To do so you have to open a second terminal and execute the following command:
+If you not intend to (re)build the client manually after every change, you can use `sencha app watch`. With this command Sencha CMD will containually update bootstrap.js and apps.js files after you change a component in your application. To do so you have to open a second terminal and execute the following command:
 
 	cd /path/to/arsnova-mobile/src/main/webapp
 	sencha app watch
@@ -84,7 +84,6 @@ Or the ant target respectively:
 
 	cd /path/to/arsnova-mobile
 	ant sencha:app:watch
-	
 	
 ## Credits
 
