@@ -104,6 +104,10 @@
             "update": "delta"
         },
         {
+            "path": "resources/css/index.css",
+            "update": "delta"
+        },
+        {
         	"path": "resources/css/arsnova.css",
         	"update": "delta"
        	}
@@ -136,9 +140,10 @@
             
             /* resources */
             "resources/css/app.css",
+            "resources/css/index.css",
             "resources/css/arsnova.css",
-            "resources/images/ars_log.png",
             "resources/images/arsnova.png",
+            "resources/images/ars_log.png",
             "resources/images/btn_facebook.png",
             "resources/images/btn_google.png",
             "resources/images/btn_guest.png",
