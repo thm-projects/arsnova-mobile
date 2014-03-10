@@ -1,6 +1,6 @@
 # ARSnova
 
-ARSnova is a modern approach to Audience Response Systems (ARS). It is released under the GPLv3 license, and is offered as a Software as a Service free of charge. Head over to [arsnova.eu](https://arsnova.eu/) to see it in action.
+ARSnova is a modern approach to Audience Response Systems (ARS). It is released under the GPLv3 license and is offered as a Software as a Service free of charge. Head over to [arsnova.eu](https://arsnova.eu/) to see it in action.
 
 ![ARSnova](src/site/resources/showcase.png)
 
@@ -16,18 +16,20 @@ The mobile client is using Sencha Touch 2 as application framework. In order to 
 
 The download links to the referred requirements, as well as the installation guide for Sencha CMD can be found in the Sencha CMD documentation: 
 
-http://www.sencha.com/products/sencha-cmd/
+http://www.sencha.com/products/sencha-cmd/ <br />
 http://docs.sencha.com/cmd/4.0.0/#!/guide/command_whats_new (subsection "Installing Sencha Cmd")
 
 ### Building
 
 ARSnova consists of two main projects: arsnova-mobile (this repository) and arsnova-war. You have to build both projects separately, in order to work with the mobile client. If you need informations regarding the installation of arsnova-war, please look up the read me at [thm-projects/arsnova-war](https://github.com/thm-projects/arsnova-war).
 
-Basically a complete build is done with:
+Basically a complete build for both projects is done with:
 
-	mvn install
+	mvn clean install
 
-<br />Alternatively you can use several ant-targets to build for different purposes:
+Please be always attentive to *first* build the mobile client and afterwards the server application.
+
+<br />Alternatively you can use several ant-targets to build the client for different purposes:
 
 Refresh Sencha CMD project structure:
 
@@ -43,7 +45,7 @@ Build ARSnova with production parameter:
 
 ### Sencha CMD
 
-Sencha CMD is the cornerstone to build a Sencha application. We will use it to minifying and deploying ARSnova to production. In order to use Sencha CMD with the mobile client you have to call `sencha` in your terminal. This will only work from the `arsnova-mobile/src/main/webapp` folder, where the Sencha CMD project files lies.
+Sencha CMD is the cornerstone to build a Sencha application. We will use it to minifying and deploying ARSnova to production. In order to use Sencha CMD with the mobile client you have to call `sencha` in your terminal. This will only work from the `arsnova-mobile/src/main/webapp` folder, where the Sencha CMD project files lie.
 
 The usage of Sencha CMD is explained explicitly in the [Sencha CMD documentation](http://docs.sencha.com/cmd/4.0.0/).
 
