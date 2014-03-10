@@ -16,8 +16,8 @@ The mobile client is using Sencha Touch 2 as application framework. In order to 
 
 The download links to the referred requirements, as well as the installation guide for Sencha CMD can be found in the Sencha CMD documentation: 
 
-[http://www.sencha.com/products/sencha-cmd/]
-[http://docs.sencha.com/cmd/4.0.0/#!/guide/command_whats_new] (subsection "Installing Sencha Cmd")
+http://www.sencha.com/products/sencha-cmd/
+http://docs.sencha.com/cmd/4.0.0/#!/guide/command_whats_new (subsection "Installing Sencha Cmd")
 
 ### Building
 
@@ -25,10 +25,9 @@ ARSnova consists of two main projects: arsnova-mobile (this repository) and arsn
 
 Basically a complete build is done with:
 
-	mvn install
+	mvn install  
 	
-
-Alternatively you can use several ant-targets to build for different purposes:
+  Alternatively you can use several ant-targets to build for different purposes:
 
 Refresh Sencha CMD project structure:
 
