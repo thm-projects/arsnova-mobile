@@ -57,8 +57,13 @@ Ext.define("ARSnova.controller.Questions", {
 	onFileLoadFailure: function(message) {
 		// TODO: anpassen
 	},
-	
 
+	requires: ['ARSnova.model.Question',
+	           'ARSnova.view.speaker.QuestionDetailsPanel',
+	           'ARSnova.view.FreetextDetailAnswer',
+	           'ARSnova.view.feedbackQuestions.DetailsPanel'
+	],
+	
 	index: function(options){
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.backButton.show();
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');
@@ -141,7 +146,6 @@ Ext.define("ARSnova.controller.Questions", {
 			active		: options.active,
 			number		: options.number,
 			releasedFor	: options.releasedFor,
-			courses		: options.courses,
 			possibleAnswers: options.possibleAnswers,
 			noCorrect	: options.noCorrect,
 			abstention	: options.abstention,

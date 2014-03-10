@@ -21,6 +21,9 @@
 Ext.define('ARSnova.view.Question', {
 	extend: 'Ext.Panel',
 	
+	requires: ['ARSnova.model.Answer',
+	           'ARSnova.view.CustomMask'],
+	
 	config: {
 		scrollable: {
 			direction: 'vertical',

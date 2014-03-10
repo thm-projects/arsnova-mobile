@@ -21,6 +21,11 @@
 Ext.define('ARSnova.view.feedback.TabPanel', {
 	extend: 'Ext.tab.Panel',
 	
+	requires: ['ARSnova.view.feedback.StatisticPanel',
+	           'ARSnova.view.feedback.VotePanel',
+	           'ARSnova.view.feedback.AskPanel'
+	],
+	
 	config: {
 		title: 		Messages.FEEDBACK,
 		iconCls: 	'feedbackARSnova',

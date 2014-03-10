@@ -32,7 +32,7 @@ Ext.define('ARSnova.view.CustomMessageBox', {
 	
 	confirm: function(title, message, fn, scope) {
 		this.callParent(arguments);
-		
+
 		return this.show({
 	        title       : title || null,
 	        message     : message || null,

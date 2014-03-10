@@ -21,6 +21,13 @@
 Ext.define('ARSnova.view.TabPanel', {
 	extend: 'Ext.tab.Panel',
 	
+	requires: [ 'ARSnova.view.LoginPanel',
+	            'ARSnova.view.RolePanel',
+	            'ARSnova.view.home.TabPanel',
+	            'ARSnova.view.diagnosis.TabPanel',
+	            'ARSnova.view.about.TabPanel'
+	],
+	
 	config: {
 		fullscreen: true,
 		scrollable: {

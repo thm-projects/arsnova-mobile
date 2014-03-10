@@ -48,6 +48,13 @@ Ext.define('FreetextAnswer', {
 Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	extend: 'Ext.Panel',
 	
+    requires: ['ARSnova.view.speaker.form.AbstentionForm', 'ARSnova.view.speaker.form.ExpandingAnswerForm',
+              'ARSnova.view.speaker.form.IndexedExpandingAnswerForm', 'ARSnova.view.MultiBadgeButton',
+              'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.SchoolQuestion',
+              'ARSnova.view.speaker.form.VoteQuestion', 'ARSnova.view.speaker.form.YesNoQuestion',
+              'ARSnova.view.speaker.form.FlashcardQuestion', 'ARSnova.view.speaker.QuestionStatisticChart'
+    ],
+	
 	config: {
 		title: 'QuestionDetailsPanel',
 		fullscreen: true,
@@ -152,7 +159,11 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					Ext.apply(question.raw, questionValues);
 					question.saveSkillQuestion({
 						success: function(response) {
-							var newAbstentions = Ext.create('ARSnova.view.MultiBadgeButton', panel.abstentions.config);
+							var newAbstentions = Ext.create('ARSnova.view.MultiBadgeButton',
+								Ext.apply(panel.abstentions.config, {
+									hidden: question.get('abstention') === false
+								})
+							);
 							panel.questionObj = question.data;
 							panel.answerFormFieldset.removeAll();
 							panel.answerFormFieldset.add(newAbstentions);
@@ -194,8 +205,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 					question.set("subject", values.subject);
 					question.set("text", values.questionText);
+					question.set("abstention", panel.abstentionPart.getAbstention());
 					question.raw.subject = values.subject;
 					question.raw.text = values.questionText;
+					question.raw.abstention = panel.abstentionPart.getAbstention();
 					
 					panel.subject.resetOriginalValue();
 					panel.textarea.resetOriginalValue();
@@ -281,6 +294,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					panel.answerForm.show(true);
 				}
 				panel.answerEditForm.setHidden(!enable);
+				panel.abstentionPart.setHidden(!enable);
 			}
 		});
 		
@@ -657,6 +671,11 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			}]
 		});
 		
+		this.abstentionPart = Ext.create('ARSnova.view.speaker.form.AbstentionForm', {
+			abstention: this.questionObj.abstention,
+			hidden: true
+		});
+		
 		this.contentForm = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			itemId 	 : 'contentForm',
@@ -772,6 +791,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		  this.toolbar,
           this.actionsPanel,
           this.contentForm,
+          this.abstentionPart,
           this.answerForm,
           this.answerEditForm
         ]);

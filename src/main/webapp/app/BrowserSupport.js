@@ -1,3 +1,5 @@
+(function() {
+"use strict";
 Ext.define('ARSnova.BrowserSupport', {
 	extend: 'Ext.Base',
 	
@@ -26,9 +28,11 @@ Ext.define('ARSnova.BrowserSupport', {
 	
 	getRequiredBrowsers: function() {
 		var browsers = [];
-		for (var browser in this.getSupported()) {
-			// hasOwnProperty does not seem to work here
-			browsers.push(browser);
+		var supported = this.getSupported();
+		for (var browser in supported) {
+			if (supported.hasOwnProperty(browser)) {
+				browsers.push(browser);
+			}
 		}
 		return browsers;
 	},
@@ -44,3 +48,4 @@ Ext.define('ARSnova.BrowserSupport', {
 		}
 	}
 });
+}());

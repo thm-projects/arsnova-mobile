@@ -71,6 +71,14 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 	
+	absoluteRequest: function(options, callbacks) {
+		this.arsjax.request({
+			url: options.url,
+			method: "GET",
+			success: options.success
+		});
+	},
+	
 	/**
 	 * Get the sessions where user is creator
 	 * @param login from user
@@ -516,14 +524,10 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	},
 	
 	saveAnswer: function(answer, callbacks) {
-		var data = answer.getData();
-		// drop sencha touch internal record id
-		delete data.id;
-		
 		this.arsjax.request({
 			url: "lecturerquestion/" + answer.get('questionId') + "/answer/",
 			method: "POST",
-			jsonData: data,
+			jsonData: answer.raw,
 			success: callbacks.success,
 			failure: callbacks.failure
 		});

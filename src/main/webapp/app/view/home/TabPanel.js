@@ -21,6 +21,11 @@
 
 Ext.define('ARSnova.view.home.TabPanel', {
 	extend: 'Ext.Panel',
+	
+	requires: ['ARSnova.view.home.HomePanel',
+	           'ARSnova.view.home.MySessionsPanel',
+	           'ARSnova.view.home.NewSessionPanel'
+	],
 
 	config: {
 		title	: Messages.HOME,

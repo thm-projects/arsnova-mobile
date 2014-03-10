@@ -1,71 +1,46 @@
 <project name="ARSnova" default="run">
 	<property name="main.dir" value="src/main/webapp" />
-	<property name="main.lib.dir" value="${main.dir}/lib" />
-	<property name="main.sencha.dir" value="${main.lib.dir}/touch-2.3.1" />
+	<property name="sencha.build.dir" value="${main.dir}/build" />
+	<property name="sencha.build.testing.dir" value="${sencha.build.dir}/testing/ARSnova" />
+	<property name="sencha.build.production.dir" value="${sencha.build.dir}/production/ARSnova" />
 	
-	<property name="build.dir" value="src/main/build" />
-	<property name="build.lib.dir" value="${build.dir}/lib" />
-	<property name="build.sencha.dir" value="${build.lib.dir}/touch-2.3.1" />
+	<taskdef name="jshint" classname="com.philmander.jshint.JsHintAntTask" classpath="${basedir}/lib/ant-jshint-0.3.6-SNAPSHOT-deps.jar" />
 	
-	<target name="-build:init">
-		<mkdir dir="${build.dir}" />
+	<target name="sencha:refresh">
+		<exec executable="sencha" dir="${main.dir}" failonerror="true">
+			<arg value="app"/>
+			<arg value="refresh"/>
+		</exec>
 	</target>
 	
-	<target name="-min:js:minify">
-		<apply executable="java" dest="${main.dir}" failonerror="true">
-			<arg value="-jar"/>
-			<arg value="${main.lib.dir}/compiler.jar"/>
-			<arg value="--js"/>
-			<srcfile/>
-			<arg value="--js_output_file"/>
-			<targetfile/>
-			
-			<fileset dir="${main.dir}">
-				<include name="**/*.js"/>
-			</fileset>
-			<mapper type="glob" from="*.js" to="*.js.min"/>
-		</apply>
+	<target name="sencha:build:testing">
+		<exec executable="sencha" dir="${main.dir}" failonerror="true">
+			<arg value="app"/>
+			<arg value="build"/>
+			<arg value="testing"/>
+		</exec>
 	</target>
 	
-	<target name="-min:js:move" depends="-min:js:minify">
-		<move todir="${build.dir}" verbose="true">
-			<fileset dir="${main.dir}">
-				<include name="**/*.js.min"/>
-			</fileset>
-			<mapper type="glob" from="*.min" to="*"/>
-		</move>
+	<target name="sencha:build:production">
+		<exec executable="sencha" dir="${main.dir}" failonerror="true">
+			<arg value="app"/>
+			<arg value="build"/>
+			<arg value="production"/>
+		</exec>
 	</target>
 	
-	<target name="-assets:copy"  depends="-build:init">
-		<copy todir="${build.dir}/resources">
-			<fileset dir="${main.dir}/resources" />
-		</copy>
-		<copy todir="${build.dir}">
-			<fileset dir="${main.dir}">
-				<include name="index.html" />
-				<include name="arsnova.manifest" />
-				<include name="favicon.png" />
-				<include name="WEB-INF/**" />
-			</fileset>
-		</copy>
-		<!-- copy required Sencha Touch resources -->
-		<copy todir="${build.sencha.dir}/resources">
-			<fileset dir="${main.sencha.dir}/resources" />
-		</copy>
+	<target name="sencha:app:watch">
+		<exec executable="sencha" dir="${main.dir}" failonerror="true">
+			<arg value="app"/>
+			<arg value="watch"/>
+		</exec>
 	</target>
 	
-	<target name="min:js" depends="-build:init,-assets:copy,-min:js:move" />
-	
-	<target name="min:css" depends="-build:init,-assets:copy">
-		<java jar="${main.lib.dir}/stylesheets.jar" fork="true" failonerror="true">
-			<arg line="--allowed-non-standard-function color-stop" />
-			<arg line="--allowed-non-standard-function progid:DXImageTransform.Microsoft.gradient" />
-			<arg value="--output-file" />
-			<arg value="${build.dir}/resources/css/st2-arsnova_min.css" />
-			<arg value="${main.dir}/resources/css/st2-arsnova_new.css" />
-		</java> 
+	<target name="jshint">
+		<jshint dir="${main.dir}/app" includes="**/*.js" globals="Ext:true,console:true,ARSnova:true,socket:true,RSVP:true">
+			<report type="xml" destFile="${basedir}/target/jshint.xml" />
+		</jshint>
 	</target>
 	
-	<target name="run" depends="min:css,min:js" />
-
+	<target name="run" depends="sencha:refresh, sencha:build:production"/>
 </project>

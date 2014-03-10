@@ -21,6 +21,8 @@
 Ext.define('ARSnova.view.feedback.StatisticPanel', {
 	extend: 'Ext.Panel',
 	
+	requires: ['Ext.chart.series.Bar', 'Ext.chart.axis.Numeric', 'Ext.chart.axis.Category'],
+	
 	config: {
 		title: 'StatisticPanel',
 		style: 'background-color: black',
