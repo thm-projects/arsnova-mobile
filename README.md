@@ -16,8 +16,8 @@ The mobile client is using Sencha Touch 2 as application framework. In order to 
 
 The download links to the referred requirements, as well as the installation guide for Sencha CMD can be found in the Sencha CMD documentation: 
 
-	[Sencha CMD download](http://www.sencha.com/products/sencha-cmd/]
-	[Sencha CMD documentation](http://docs.sencha.com/cmd/4.0.0/#!/guide/command_whats_new (subsection "Installing Sencha Cmd")
+	[http://www.sencha.com/products/sencha-cmd/]
+	[http://docs.sencha.com/cmd/4.0.0/#!/guide/command_whats_new] (subsection "Installing Sencha Cmd")
 
 ### Building
 
@@ -45,7 +45,7 @@ Build ARSnova with production parameter:
 
 Sencha CMD is the cornerstone to build a Sencha application. We will use it to minifying and deploying ARSnova to production. In order to use Sencha CMD with the mobile client you have to call `sencha` in your terminal. This will only work from the `arsnova-mobile/src/main/webapp` folder, where the Sencha CMD project files lies.
 
-The usage of Sencha CMD is explained explicitly in the [Sencha CMD documentation](http://docs.sencha.com/cmd/4.0.0/.
+The usage of Sencha CMD is explained explicitly in the [Sencha CMD documentation](http://docs.sencha.com/cmd/4.0.0/).
 
 #### Deploying
 
