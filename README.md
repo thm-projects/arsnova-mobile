@@ -4,7 +4,7 @@ ARSnova is a modern approach to Audience Response Systems (ARS). It is released 
 
 ![ARSnova](src/site/resources/showcase.png)
 
-ARSnova consists of two projects: the mobile client and the server. This repository contains the mobile client code. You will find the server at thm-projects/arsnova-war. If you plan to work on the client you have to build both repositories - the server and the client.
+ARSnova consists of two projects: the mobile client and the server. This repository contains the mobile client code. You will find the server at [thm-projects/arsnova-war](https://github.com/thm-projects/arsnova-mobile). If you plan to work on the client you have to build both repositories - the server and the client.
 
 ## Getting Started
 
@@ -16,17 +16,18 @@ The mobile client is using Sencha Touch 2 as application framework. In order to 
 
 The download links to the referred requirements, as well as the installation guide for Sencha CMD can be found in the Sencha CMD documentation: 
 
-	[http://www.sencha.com/products/sencha-cmd/]
-	[http://docs.sencha.com/cmd/4.0.0/#!/guide/command_whats_new] (subsection "Installing Sencha Cmd")
+[http://www.sencha.com/products/sencha-cmd/]
+[http://docs.sencha.com/cmd/4.0.0/#!/guide/command_whats_new] (subsection "Installing Sencha Cmd")
 
 ### Building
 
-ARSnova consists of two main projects: arsnova-mobile (this repository) and arsnova-war. You have to build both projects separately, in order to work with the mobile client. If you need informations regarding the installation of arsnova-war, please look up the read me at thm-projects/arsnova-war.
+ARSnova consists of two main projects: arsnova-mobile (this repository) and arsnova-war. You have to build both projects separately, in order to work with the mobile client. If you need informations regarding the installation of arsnova-war, please look up the read me at [thm-projects/arsnova-war](https://github.com/thm-projects/arsnova-mobile).
 
 Basically a complete build is done with:
 
 	mvn install
 	
+
 Alternatively you can use several ant-targets to build for different purposes:
 
 Refresh Sencha CMD project structure:
