@@ -4,7 +4,7 @@ ARSnova is a modern approach to Audience Response Systems (ARS). It is released 
 
 ![ARSnova](src/site/resources/showcase.png)
 
-ARSnova consists of two projects: the mobile client and the server. This repository contains the mobile client code. You will find the server at [thm-projects/arsnova-war](https://github.com/thm-projects/arsnova-mobile). If you plan to work on the client you have to build both repositories - the server and the client.
+ARSnova consists of two projects: the mobile client and the server. This repository contains the mobile client code. You will find the server at [thm-projects/arsnova-war](https://github.com/thm-projects/arsnova-war). If you plan to work on the client you have to build both repositories - the server and the client.
 
 ## Getting Started
 
@@ -21,13 +21,13 @@ http://docs.sencha.com/cmd/4.0.0/#!/guide/command_whats_new (subsection "Install
 
 ### Building
 
-ARSnova consists of two main projects: arsnova-mobile (this repository) and arsnova-war. You have to build both projects separately, in order to work with the mobile client. If you need informations regarding the installation of arsnova-war, please look up the read me at [thm-projects/arsnova-war](https://github.com/thm-projects/arsnova-mobile).
+ARSnova consists of two main projects: arsnova-mobile (this repository) and arsnova-war. You have to build both projects separately, in order to work with the mobile client. If you need informations regarding the installation of arsnova-war, please look up the read me at [thm-projects/arsnova-war](https://github.com/thm-projects/arsnova-war).
 
 Basically a complete build is done with:
 
-	mvn install  
-	
-  Alternatively you can use several ant-targets to build for different purposes:
+	mvn install
+
+<br />Alternatively you can use several ant-targets to build for different purposes:
 
 Refresh Sencha CMD project structure:
 
