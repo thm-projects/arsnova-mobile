@@ -101,9 +101,14 @@ Ext.define('ARSnova.view.Question', {
 				for (var i=0; i < this.answerList.getStore().getCount(); i++) {
 					answerValues.push(selectedIndexes.indexOf(i) !== -1 ? "1" : "0");
 				}
+				var questionValue = 0;
+				this.answerList.getSelection().forEach(function(node) {
+					questionValue += (node.get('value') || 0);
+				});
 				
 				self.getUserAnswer().then(function(answer) {
 					answer.set('answerText', answerValues.join(","));
+					answer.set('questionValue', questionValue);
 					saveAnswer(answer);
 				});
 			}, this);
@@ -153,6 +158,7 @@ Ext.define('ARSnova.view.Question', {
 						
 						self.getUserAnswer().then(function(answer) {
 							answer.set('answerText', answerObj.text);
+							answer.set('questionValue', answerObj.value);
 							saveAnswer(answer);
 						});
 					} else {
