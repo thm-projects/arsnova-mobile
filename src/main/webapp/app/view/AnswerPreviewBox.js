@@ -28,14 +28,14 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		var previewBox = Ext.create('Ext.MessageBox',
         {
 			title : Messages.ANSWER_PREVIEW_DIALOGBOX_TITLE,
-			style : 'border-color: black; maxHeigth: 80%; maxWidth: 80%; width: 1000px; heigth: 1000px',
+			style : 'border-color: black; maxHeight: 600px; maxWidth: 1000px; width: 80%; height: 80%',
 			scope : this
         });	
 				
 		// carousel for displaying the mathJaxMarkDownPanels
 		var carousel = Ext.create('Ext.Carousel', {
 			//cls		 : 'previewCarousel',
-			style	 : 'width: 100%; height: 500px; margin-bottom: 10px;',
+			style	 : 'width: 100%; height: 400px; margin-bottom: 10px;',
 			flex	 : '1',
 			layout	 : 'fit',
 			defaults : {
@@ -77,8 +77,9 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		var mainPanel = Ext.create('Ext.Container', {
 			id      	: 'mainPanel',
 			xtype		: 'container',
-			style		: 'width: 100%; background-color: #c5ccd3;',
+			style		: 'height: 100%; width: 100%; background-color: #c5ccd3;',
 			fullscreen	: false,	
+            layout		: 'vbox',
 			items   	: [carousel,
 			        	   {id		: 'buttonLayout',
 				      		xtype	: 'container',

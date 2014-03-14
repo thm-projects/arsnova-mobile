@@ -40,7 +40,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 	
 	setContent: function(content, mathJaxEnabled, markDownEnabled, height) {
 
-		this.setHeight(height);
+		//this.setHeight(height);
 		
 		if (markDownEnabled) {
 			

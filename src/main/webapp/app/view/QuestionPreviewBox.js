@@ -27,14 +27,16 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		// panel for question subject
 		var titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			xtype	: 'mathJaxMarkDownPanel',
-			id      : 'questionTitle'
+			id      : 'questionTitle',
+			flex	: 1
 		});
 		titlePanel.setContent(title, false, true, '100px');
 
 		// panel for question content
 		var contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			xtype	: 'mathJaxMarkDownPanel',
-			id      : 'questionContent'
+			id      : 'questionContent',
+			flex	: 3
 		});
 		contentPanel.setContent(content, true, true, '300px');
 		
@@ -54,8 +56,9 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		var mainPanel = Ext.create('Ext.Container', {
 			id      	: 'mainPanel',
 			xtype		: 'container',
-			style		: 'width: 100%; background-color: #c5ccd3;',
+			style		: 'height: 100%; width: 100%; background-color: #c5ccd3;',
 			fullscreen	: false,	
+            layout		: 'vbox',
 			items   	: [titlePanel,
 			        	   contentPanel,
 			        	   {id		: 'buttonLayout',
@@ -72,7 +75,7 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		var previewBox = Ext.create('Ext.MessageBox',
         {
 			title 	 : Messages.QUESTION_PREVIEW_DIALOGBOX_TITLE,
-			style	 : 'width: 80%; maxWidth: 1000px; border-color: black;',
+			style	 : 'height: 80%; maxHeight: 600px; width: 80%; maxWidth: 1000px; border-color: black;',
             items 	 : [mainPanel],
 			scope 	 : this
         });			
