@@ -82,6 +82,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 					(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_GRADE) : this.toolbar.setTitle(Messages.QUESTION_GRADE_SHORT);
 				} else if(newCard.questionObj.questionType === 'flashcard') {
 					(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.FLASHCARD) : this.toolbar.setTitle(Messages.QUESTION_FLASHCARD);
+				} else if(newCard.questionObj.questionType === 'grid') {
+					(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_GRID) : this.toolbar.setTitle(Messages.QUESTION_GRID_SHORT);
 				}
 			}
 			
