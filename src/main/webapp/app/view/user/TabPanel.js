@@ -21,7 +21,7 @@
 Ext.define('ARSnova.view.user.TabPanel', {
 	extend: 'Ext.tab.Panel',
 	
-	requires: ['ARSnova.view.user.InClass', 'ARSnova.view.user.LearnPanel'],
+	requires: ['ARSnova.view.user.InClass'],
 	
 	config: {
 		title	: Messages.HOME,
@@ -38,11 +38,9 @@ Ext.define('ARSnova.view.user.TabPanel', {
 		this.callParent(arguments);
 		
 		this.inClassPanel = Ext.create('ARSnova.view.user.InClass');
-		this.learnPanel = Ext.create('ARSnova.view.user.LearnPanel');
 		
 		this.add([
-	        this.inClassPanel,
-	        this.learnPanel
+	        this.inClassPanel
         ]);
 	},
 	
