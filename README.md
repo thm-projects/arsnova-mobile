@@ -27,7 +27,7 @@ Basically a complete build for both projects is done with:
 
 	mvn clean install
 
-Please be always attentive to build the mobile client **first** and afterwards the server application.
+When you build ARSnova the first time, please be attentive to build the mobile client **first** and afterwards the server application.
 
 <br />Alternatively you can use several ant-targets to build the client for different purposes:
 
