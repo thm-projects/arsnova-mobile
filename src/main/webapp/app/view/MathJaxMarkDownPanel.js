@@ -38,10 +38,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		this.callParent(arguments);
 	},
 	
-	setContent: function(content, mathJaxEnabled, markDownEnabled, height) {
-
-		//this.setHeight(height);
-		
+	setContent: function(content, mathJaxEnabled, markDownEnabled) {
 		if (markDownEnabled) {
 			
 			//remove MathJax blocks

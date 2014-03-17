@@ -35,7 +35,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		// carousel for displaying the mathJaxMarkDownPanels
 		var carousel = Ext.create('Ext.Carousel', {
 			//cls		 : 'previewCarousel',
-			style	 : 'width: 100%; height: 400px; margin-bottom: 10px;',
+			style	 : 'width: 100%; height: 100%; margin-bottom: 10px;',
 			flex	 : '1',
 			layout	 : 'fit',
 			defaults : {
@@ -72,12 +72,12 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 					previewBox.destroy();
 			}
 		});		
-			
+		  
 		// answer preview box content panel
 		var mainPanel = Ext.create('Ext.Container', {
 			id      	: 'mainPanel',
 			xtype		: 'container',
-			style		: 'height: 100%; width: 100%; background-color: #c5ccd3;',
+			style		: 'position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: #c5ccd3;',
 			fullscreen	: false,	
             layout		: 'vbox',
 			items   	: [carousel,

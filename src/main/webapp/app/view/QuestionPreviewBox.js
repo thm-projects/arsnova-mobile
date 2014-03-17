@@ -30,7 +30,7 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 			id      : 'questionTitle',
 			flex	: 1
 		});
-		titlePanel.setContent(title, false, true, '100px');
+		titlePanel.setContent(title, false, true);
 
 		// panel for question content
 		var contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
@@ -38,7 +38,7 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 			id      : 'questionContent',
 			flex	: 3
 		});
-		contentPanel.setContent(content, true, true, '300px');
+		contentPanel.setContent(content, true, true);
 		
 		// question preview confirm button
 		var confirmButton = Ext.create('Ext.Button', {
@@ -56,7 +56,7 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		var mainPanel = Ext.create('Ext.Container', {
 			id      	: 'mainPanel',
 			xtype		: 'container',
-			style		: 'height: 100%; width: 100%; background-color: #c5ccd3;',
+			style		: 'position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: #c5ccd3;',
 			fullscreen	: false,	
             layout		: 'vbox',
 			items   	: [titlePanel,
