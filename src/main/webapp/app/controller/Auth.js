@@ -74,7 +74,6 @@ Ext.define("ARSnova.controller.Auth", {
 		localStorage.setItem('role', options.mode);
 		
 		ARSnova.app.setWindowTitle();
-		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.loginPanel, 'slide');
 	},
 
 	login: function(options) {
