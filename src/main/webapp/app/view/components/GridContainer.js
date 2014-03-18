@@ -358,5 +358,34 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		}	
 		
 		this.clearAll();
+	},
+	
+	getImageFileSizeBytes : function() {
+		
+		var src = this.getImageFile().src;
+		
+		if ( src.indexOf('http') == 0 ) {
+			// image from url
+			
+			// TODO: Doesn't work due to CORS... have to find alternative
+			
+			var xhr = new XMLHttpRequest();
+			xhr.open( 'HEAD', src, true );
+			xhr.onreadystatechange = function(){
+			    if ( xhr.readyState == 4 ) {
+			        if ( xhr.status == 200 ) {
+			            console.log('Canvas image from url filesize: ' + xhr.getResponseHeader('Content-Length'));
+			            return xhr.getResponseHeader('Content-Length');
+			        }
+			    }
+			};
+			xhr.send(null);
+		} else {
+			// image from fs, so wen consult the base64 directly
+			// formula according to: http://en.wikipedia.org/wiki/Base64#MIME
+			
+			console.log('Canvas image from fs filesize: ' + ((src.length - 814) / 1.37));
+			return (src.length - 814) / 1.37;
+		}
 	}
 });

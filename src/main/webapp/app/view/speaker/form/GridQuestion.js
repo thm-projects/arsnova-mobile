@@ -301,8 +301,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	},
 	
 	/**
-	 * Gets all relevant informations which have to 
-	 * be send to the backend.
+	 * Gets all relevant informations which have to be send to the backend.
+	 * 
+	 * Hint: If the canvas contains an image gotten from url we cannot access the
+	 * Base64 of the image in the client due to CORS denial. The image will be
+	 * transfered as a URL an will be converted directly on the server.
 	 */
 	getQuestionValues: function() {
 		var grid   = Ext.getCmp('gridContainer')
