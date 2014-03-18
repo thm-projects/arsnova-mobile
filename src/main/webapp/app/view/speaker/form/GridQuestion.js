@@ -317,7 +317,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		result.offsetX  	   = grid.getOffsetX();
 		result.offsetY 		   = grid.getOffsetY();
 		result.zoomLvl 		   = grid.getZoomLvl();
-		result.chosenFields    = grid.getChosenFields();
+		result.possibleAnswers = grid.getPossibleAnswersFromChosenFields();
 		result.noCorrect 	   = grid.getChosenFields().length > 0 ? 0 : 1; // TODO: Check if really needed (and why numbers instead of bool)
 
 		return result;

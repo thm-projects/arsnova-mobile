@@ -52,7 +52,6 @@ Ext.define('ARSnova.model.Question', {
 		      	 'offsetY',
 		      	 'zoomLvl',
 		      	 'image',
-		      	 'chosenFields',
 		],
 		
 		transientFields: ['numAnswers'],

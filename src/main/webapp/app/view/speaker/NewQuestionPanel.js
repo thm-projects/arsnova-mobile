@@ -491,6 +491,15 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		promise.then(function() {
 			panel.subject.reset();
 			panel.textarea.reset();
+			
+			switch (panel.questionOptions.getPressedButtons()[0]._text) {
+	    		case Messages.GRID:
+	    			panel.resetView();
+	    		break;
+	    		default:
+					break;
+			}
+			
 		});
 		return promise;
 	},
@@ -517,7 +526,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			offsetY 	: values.offsetY,
 			zoomLvl 	: values.zoomLvl,
 			image		: values.image,
-			chosenFields : values.chosenFields,
 			successFunc	: function(response, opts){
 				promise.resolve(response);
 			},

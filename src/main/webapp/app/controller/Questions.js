@@ -154,7 +154,6 @@ Ext.define("ARSnova.controller.Questions", {
 			offsetY 	: options.offsetY,
 			zoomLvl 	: options.zoomLvl,
 			image		: options.image,
-			chosenFields		: options.chosenFields,
 			showStatistic: 1
 		});
     	question.set('_id', undefined);

@@ -387,5 +387,53 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			console.log('Canvas image from fs filesize: ' + ((src.length - 814) / 1.37));
 			return (src.length - 814) / 1.37;
 		}
+	},
+	
+	/**
+	 * Converts the chosen fields of the grid to objects
+	 * to be used as possible answers.
+	 */
+	getPossibleAnswersFromChosenFields : function() {
+		var values = [], obj;
+		
+		for (var i = 0 ; i < this.getGridSize() ; i++) {
+			for (var j = 0 ; j < this.getGridSize() ; j++) {
+				obj = {
+						text: i + "," + j,
+						correct: false
+				}
+				for (var k = 0 ; k < this.getChosenFields().length ; k++) {
+					var currentField = this.getChosenFields()[k];
+					if ( currentField[0] == i && currentField[1] == j ) {
+						obj.correct = true;
+						break;
+					}
+				}
+				values.push(obj);
+			}
+		}
+		return values;
+	},
+	
+	/**
+	 * Converts possible answers to chosen fields (int[][]) to be used
+	 * inside the grid container.
+	 */
+	getChosenFieldsFromPossibleAnswers : function(possibleAnswers) {
+		var chosenFields = Array();
+		var coords, x, y;
+		
+		for (var i=0 ; i < possibleAnswers.length ; i++) {
+			if (possibleAnswers[i].correct) {
+				coords = possibleAnswers[i].text.split(",");
+				x = coords[0];
+				y = coords[1];
+				chosenFields.push(new Array(parseInt(x),parseInt(y)));
+				
+			}
+		}
+		
+		// set directly to grid
+		this.setChosenFields(chosenFields);
 	}
 });
