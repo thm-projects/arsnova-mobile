@@ -1,7 +1,11 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
  - Beschreibung: Panel with Mathjax and Markdown support
- - Autor(en):    Group 3...
+ - Autor(en):    Julian Rossbach <julian.rossbach@mni.thm.de>
+                 Colin Appel <colin.appel@mni.thm.de>
+                 Alexander Nadler <alexander.nadler@mni.thm.de>
+                 Jannik Schaaf <jannik.schaaf-2@mni.thm.de>
+                 Karolina Rozanka <karolina.rozanka@mni.thm.de>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
