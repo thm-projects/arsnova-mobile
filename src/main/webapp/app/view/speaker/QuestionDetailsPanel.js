@@ -99,6 +99,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			this.hasCorrectAnswers = false;
 		}
 		
+		// check if grid question
+		this.isGridQuestion = (['grid'].indexOf(this.questionObj.questionType) !== -1);
+		
 		/* BEGIN TOOLBAR OBJECTS */
 		
 		this.backButton = Ext.create('Ext.Button', {
@@ -334,7 +337,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			}, {
 				html: Messages.STATISTIC,
 				cls	: 'centerTextSmall'
-			}]
+			}],
+			hidden: this.isGridQuestion
 		});
 
 		this.releaseStatisticButton = Ext.create('Ext.Panel', {
@@ -689,6 +693,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 		
 		this.freetextAnswerList = Ext.create('Ext.List', {
+			hidden: this.isGridQuestion, // TODO Do not even instantiate when grid question (+ performance)
 			activeCls: 'search-item-active',
 			store: this.freetextAnswerStore, 
 			
@@ -735,7 +740,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		        		parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
 		        	);
 		        }
-			}
+			},
+			
 		});
 		
 		this.abstentions = Ext.create('ARSnova.view.MultiBadgeButton', {
@@ -839,9 +845,11 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	
 	getPossibleAnswers: function() {
 		var me = this;
+		var isGridQuestion = (['grid'].indexOf(this.questionObj.questionType) !== -1)
 		for ( var i = 0; i < this.questionObj.possibleAnswers.length; i++){
 			var pA = this.questionObj.possibleAnswers[i];
 			var element = Ext.create('ARSnova.view.MultiBadgeButton', {
+				hidden		: isGridQuestion, // added but hidden to due abstention count (smarter solutions welcome)
 				ui			: 'normal',
 				disabled	: true,
 				cls			: 'answerListButton',
@@ -862,6 +870,27 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			
 			MathJax.Hub.Queue(["Typeset", MathJax.Hub, element.dom]);
 		}
+		
+		if ( isGridQuestion ) {
+			var grid = Ext.create('ARSnova.view.components.GridContainer', {
+				//docked : 'top',
+				id 			: 'gridContainerQD',
+				gridSize	: this.questionObj.gridSize,
+				offsetX		: this.questionObj.offsetX,
+				offsetY		: this.questionObj.offsetY,
+				zoomLvl		: this.questionObj.gridSize,
+				editable	: false
+			});
+			
+			// set image data (base64 --> grid)
+			grid.setImage(this.questionObj.image);
+			
+			// make it visible
+			this.answerFormFieldset.add(grid);
+			
+			console.log(this.questionObj);
+		}
+		
 	},
 	
 	getType: function(){

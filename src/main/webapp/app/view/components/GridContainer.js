@@ -3,27 +3,28 @@ Ext.define('ARSnova.view.components.GridContainer', {
     xtype: 'canvas',
 
 	config : {
-		gridSize : 5,  // wurzel der Quadartanzahl 
-		imgSize : 400, // fixe größe des Bildfensters
-		imgSizeHalf : 200, // TODO diesen Wert zu Beginn berechnen und zuweisen (im Konstruktor?)
-		canvas : null, 
-		imageFile : null,
-		borderWidth : 1, // Dicke des Rasters in pixel
-		chosenFields : Array(), // array von ausgewählten Quadraten
-		fieldColor : "#C0FFEE", // Farbe der ausgewählten Quadrate
-		borderColor : "#000000", // Farbe des Rasters
-		defaultBorderColor : "#000000",
-		defaultToggleBorderColor : "#FFFFFF",
-		scaleFactor : 1.2, // Faktor für zoomschritte
-		scale : 1.0, // Aktuelle ZoomScalierung des Bildes
-		zoomLvl : 0, // zoomlevel zum vergleichen mit ober und untergrenze
-		zoomMin : 0, // Zoom untergrenze
-		zoomMax : 5, // zoom obergrenze
-		offsetX : 0, // x achsen verschiebung
-		offsetY : 0, //  y achsen verschiebung
-		moveInterval : 10, // schrittgröße zum verschieben
-		moveable : Array(true, true, true, true), // defines in which direction (l, u, r, d) the image is moveable
-		onFieldClick : null,
+		gridSize 				 : 5,			// Sqrt of the gridcount
+		imgSize 				 : 400,			// TODO Brauchen wir das ???
+		imgSizeHalf 			 : 200,			// TODO Brauchen wir das ???
+		canvas 				 	 : null, 
+		imageFile 				 : null,
+		borderWidth 			 : 1,			// TODO Name ist irreführend: --> gridWidth oder so 
+		chosenFields 			 : Array(),
+		fieldColor 				 : "#C0FFEE",	// TODO Name ist irreführend: --> highlightColor oder so 
+		borderColor 			 : "#000000",	// TODO Name ist irreführend: --> gridColor oder so 
+		defaultBorderColor 		 : "#000000",	// TODO Name ist irreführend: --> defaultGridColor oder so
+		defaultToggleBorderColor : "#FFFFFF",	// TODO Name ist irreführend: --> alternativeGridColor oder so
+		scaleFactor 			 : 1.2,			// zoom level scale factor
+		scale 					 : 1.0, 		// Aktuelle ZoomScalierung des Bildes --> TODO Was soll das sein?
+		zoomLvl 				 : 0, 			// current zoomlevel
+		zoomMin 				 : 0, 			// TODO Warum haben wir sowas?
+		zoomMax 				 : 5, 			// TODO Warum haben wir sowas?
+		offsetX 				 : 0,
+		offsetY 				 : 0,
+		moveInterval 			 : 10,			// steps to take when moving the image
+		moveable 				 : Array(true, true, true, true), // defines in which direction (l, u, r, d) the image is moveable
+		onFieldClick 			 : null,		// TODO: hier wäre ein Kommentar mal sinnvoll
+		editable				 : true			// if set to false click events are prevented
 	},
 
 	constructor : function() {
@@ -153,6 +154,12 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 
 	onclick : function(event) {
+		
+		if ( ! this.isEditable ) {
+			// click prevention for non-editable grids
+			return;
+		}
+		
 		var container = this.parentContainer;
 		var x = event.clientX;
 		var y = event.clientY;

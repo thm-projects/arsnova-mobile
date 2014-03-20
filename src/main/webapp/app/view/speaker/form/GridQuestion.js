@@ -38,7 +38,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		var grid = Ext.create('ARSnova.view.components.GridContainer', {
 			docked : 'top',
 			id : 'gridContainer'
-
 		});
 
 		// Panel for picture and settings
