@@ -155,16 +155,16 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 	onclick : function(event) {
 		
-		if ( ! this.getEditable ) {
+		var container = this.parentContainer;
+		
+		if ( ! container.getEditable() ) {
 			// click prevention for non-editable grids
 			return;
 		}
 		
-		var container = this.parentContainer;
 		var x = event.clientX;
 		var y = event.clientY;
 		var position = container.getFieldPosition(x, y);
-
 
 		// eigenes indexof
 		var index = -1;
