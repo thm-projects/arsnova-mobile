@@ -155,7 +155,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 	onclick : function(event) {
 		
-		if ( ! this.isEditable ) {
+		if ( ! this.getEditable ) {
 			// click prevention for non-editable grids
 			return;
 		}
@@ -406,7 +406,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		for (var i = 0 ; i < this.getGridSize() ; i++) {
 			for (var j = 0 ; j < this.getGridSize() ; j++) {
 				obj = {
-						text: i + "," + j,
+						text: i + ";" + j,
 						correct: false
 				}
 				for (var k = 0 ; k < this.getChosenFields().length ; k++) {
@@ -432,7 +432,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		
 		for (var i=0 ; i < possibleAnswers.length ; i++) {
 			if (possibleAnswers[i].correct) {
-				coords = possibleAnswers[i].text.split(",");
+				coords = possibleAnswers[i].text.split(";");
 				x = coords[0];
 				y = coords[1];
 				chosenFields.push(new Array(parseInt(x),parseInt(y)));

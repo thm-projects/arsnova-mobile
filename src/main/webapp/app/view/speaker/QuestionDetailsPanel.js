@@ -887,8 +887,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			
 			// make it visible
 			this.answerFormFieldset.add(grid);
-			
-			console.log(this.questionObj);
 		}
 		
 	},
@@ -1032,6 +1030,40 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							}).forEach(function(button, index) {
 								button.setBadge([{ badgeText: mcAnswerCount[index] ? mcAnswerCount[index]+'' : '0'}]);
 							});
+						} else if (panel.questionObj.questionType === "grid") {
+							var gridAnswerCount = [];
+							var abstentionCount = 0;
+
+							console.log(answers);
+							// get answers and construct 
+							var el;
+							for (var i = 0; i<answers.length; i++) {
+								el = answers[i];
+								if (!el.answerText) {
+									// answer is abstention
+									abstentionCount = el.abstentionCount;
+									continue;
+								}
+								
+								// get all answers chosen by that user
+								var values = el.answerText.split(",").map(function(answered) {
+									return parseInt(answered, 10);
+								});
+
+								for (var j=0; j < el.answerCount; j++) {
+									console.log("Grid Answer Count: " + gridAnswerCount);
+									console.log("el.answerCount: " + el.answerCount);
+									values.forEach(function(selected, index) {
+										if (typeof gridAnswerCount[index] === "undefined") {
+											gridAnswerCount[index] = 0;
+										}
+										if (selected === 1) {
+											gridAnswerCount[index] += 1;
+										}
+									});
+								}
+							}
+							
 						} else {
 							var abstentionCount = 0;
 							for (var i = 0, el; el = answers[i]; i++) {
