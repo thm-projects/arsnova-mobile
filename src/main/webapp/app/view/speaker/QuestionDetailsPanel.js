@@ -878,7 +878,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				gridSize	: this.questionObj.gridSize,
 				offsetX		: this.questionObj.offsetX,
 				offsetY		: this.questionObj.offsetY,
-				zoomLvl		: this.questionObj.gridSize,
+				zoomLvl		: this.questionObj.zoomLvl,
 				editable	: false
 			});
 			
