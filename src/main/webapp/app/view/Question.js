@@ -78,7 +78,8 @@ Ext.define('ARSnova.view.Question', {
 		
 		this.markCorrectAnswers = function() {
 			if (this.questionObj.showAnswer) {
-				// Mark all possible answers as 'answered'. This will highlight all correct answers.
+				// Mark all possible answers as 'answered'. This will highlight
+				// all correct answers.
 				this.answerList.getStore().each(function(item) {
 					item.set("questionAnswered", true);
 				});
@@ -106,6 +107,47 @@ Ext.define('ARSnova.view.Question', {
 					questionValue += (node.get('value') || 0);
 				});
 				
+
+				
+				self.getUserAnswer().then(function(answer) {
+					answer.set('answerText', answerValues.join(","));
+					answer.set('questionValue', questionValue);
+					saveAnswer(answer);
+				});
+			}, this);
+		};
+		
+		this.saveGridQuestionHandler = function(grid) {
+			Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function(button) {
+				if (button !== 'yes') {
+					return;
+				}
+				
+				var selectedIndexes = [];
+				this.grid.getChosenFields().forEach(function(node) {
+					selectedIndexes.push(node[0]+','+node[1] );
+				}, this);
+				
+				
+				var answerValues = [];
+				var questionValue = 0;
+				this.questionObj.possibleAnswers.forEach(function(node){
+					var b = false
+					var i = selectedIndexes.length;
+					while (i--) {
+					   if (selectedIndexes[i] === node.text) {
+					     b = true;
+					     break;
+					   }
+					}
+					
+					answerValues.push( b ? 1 : 0);
+					
+					questionValue += (node.value || 0);
+			
+				});
+				
+				
 				self.getUserAnswer().then(function(answer) {
 					answer.set('answerText', answerValues.join(","));
 					answer.set('questionValue', questionValue);
@@ -127,6 +169,7 @@ Ext.define('ARSnova.view.Question', {
 				});
 			}, this);
 		};
+
 		
 		var questionListener = this.viewOnly || this.questionObj.questionType === "mc" ? {} : {
 			'itemtap': function(list, index, target, record) {
@@ -175,55 +218,59 @@ Ext.define('ARSnova.view.Question', {
 				'<p>' + Ext.util.Format.htmlEncode(this.questionObj.text) + '</p>'
 		});
 		
-		this.answerList = Ext.create('Ext.List', {
-			store: answerStore,
-			
-			cls: 'roundedBox',
-			variableHeights: true,	
-			scrollable: { disabled: true },
-			
-			itemTpl: new Ext.XTemplate(
-				'{text:htmlEncode}',
-				'<tpl if="correct === true && this.isQuestionAnswered(values)">',
-					'&nbsp;<span style="padding: 0 0.2em 0 0.2em" class="x-list-item-correct">&#10003; </span>',
-				'</tpl>',
-				{
-					isQuestionAnswered: function(values) {
-						return values.questionAnswered === true;
+		
+			this.answerList = Ext.create('Ext.List', {
+				store: answerStore,
+				
+				cls: 'roundedBox',
+				variableHeights: true,	
+				scrollable: { disabled: true },
+				
+				itemTpl: new Ext.XTemplate(
+					'{text:htmlEncode}',
+					'<tpl if="correct === true && this.isQuestionAnswered(values)">',
+						'&nbsp;<span style="padding: 0 0.2em 0 0.2em" class="x-list-item-correct">&#10003; </span>',
+					'</tpl>',
+					{
+						isQuestionAnswered: function(values) {
+							return values.questionAnswered === true;
+						}
 					}
-				}
-			),
-			
-			listeners: {
-				scope: this,
-				selectionchange: function(list, records, eOpts) {
-					if (list.getSelectionCount() > 0) {
-						this.mcSaveButton.enable();
-					} else {
-						this.mcSaveButton.disable();
-					}
+				),
+				
+				listeners: {
+					scope: this,
+					selectionchange: function(list, records, eOpts) {
+						if (list.getSelectionCount() > 0) {
+							this.mcSaveButton.enable();
+						} else {
+							this.mcSaveButton.disable();
+						}
+					},
+					/**
+					 * The following events are used to get the computed height of
+					 * all list items and finally to set this value to the list
+					 * DataView. In order to ensure correct rendering it is also
+					 * necessary to get the properties "padding-top" and
+					 * "padding-bottom" and add them to the height of the list
+					 * DataView.
+					 */
+			        painted: function (list, eOpts) {
+			        	this.answerList.fireEvent("resizeList", list);
+			        },
+			        resizeList: function(list) {
+			        	var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
+			        	
+			        	this.answerList.setHeight(
+			        		parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height"))	+ 
+			        		parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top"))	+
+			        		parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
+			        	);
+			        }
 				},
-				/**
-				 * The following events are used to get the computed height of all list items and 
-				 * finally to set this value to the list DataView. In order to ensure correct rendering
-				 * it is also necessary to get the properties "padding-top" and "padding-bottom" and 
-				 * add them to the height of the list DataView.
-				 */
-		        painted: function (list, eOpts) {
-		        	this.answerList.fireEvent("resizeList", list);
-		        },
-		        resizeList: function(list) {
-		        	var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
-		        	
-		        	this.answerList.setHeight(
-		        		parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height"))	+ 
-		        		parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top"))	+
-		        		parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
-		        	);
-		        }
-			},
-			mode: this.questionObj.questionType === "mc" ? 'MULTI' : 'SINGLE'
-		});
+				mode: this.questionObj.questionType === "mc" ? 'MULTI' : 'SINGLE'
+			});
+		
 		if (this.questionObj.abstention
 				&& (this.questionObj.questionType === 'school'
 					|| this.questionObj.questionType === 'vote'
@@ -267,6 +314,8 @@ Ext.define('ARSnova.view.Question', {
 			}]
 		};
 		
+
+		
 		var flashcardContainer = {
 			xtype: 'button',
 			cls: 'login-button',
@@ -284,11 +333,65 @@ Ext.define('ARSnova.view.Question', {
 			scope: this
 		};
 		
+		this.grid = null;
+		
 		this.add([this.questionTitle]);
 		if (this.questionObj.questionType === "flashcard") {
+			
 			this.add([flashcardContainer]);
 			this.answerList.setHidden(true);
-		} else {
+			
+		} else if(this.questionObj.questionType === "grid") {
+			
+			this.grid = Ext.create('ARSnova.view.components.GridContainer', {
+				id : 'gridContainer',
+				offsetX : this.questionObj.offsetX,
+				offsetY : this.questionObj.offsetY,
+				gridSize : this.questionObj.gridSize,
+				zoomLvl : this.questionObj.zoomLvl,	
+				editable	: true
+			});
+			this.grid.setImage(this.questionObj.image);
+
+		
+			var gridButton = Ext.create('Ext.Button', {
+				flex: 1,
+				ui: 'confirm',
+				cls: 'login-button noMargin',
+				text: Messages.SAVE,
+				handler: !this.viewOnly ? this.saveGridQuestionHandler : function() {},
+				scope: this,
+				disabled: false
+			});
+			
+			var gridContainer = {
+					xtype: 'container',
+					layout: {
+						type: 'hbox',
+						align: 'stretch'
+					},
+					defaults: {
+						style: {
+							margin: '10px'
+						}
+					},
+					items: [gridButton, !!!this.questionObj.abstention ? { hidden: true } : {
+						flex: 1,
+						xtype: 'button',
+						cls: 'login-button noMargin',
+						text: Messages.ABSTENTION,
+						handler: this.mcAbstentionHandler,
+						scope: this
+					}]
+				};
+		
+			
+			this.add([this.grid]);
+			this.add([gridContainer]);
+
+			this.answerList.setHidden(true);
+		}else {
+		
 			this.answerList.setHidden(false);
 		}
 		this.add([this.answerList].concat(
@@ -352,7 +455,7 @@ Ext.define('ARSnova.view.Question', {
 			success: function(response){
 				var theAnswer = Ext.decode(response.responseText);
 				
-				//update
+				// update
 				var answer = Ext.create('ARSnova.model.Answer', theAnswer);
 				promise.resolve(answer);
 			},
