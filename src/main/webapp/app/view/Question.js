@@ -142,7 +142,6 @@ Ext.define('ARSnova.view.Question', {
 					}
 					
 					answerValues.push( b ? 1 : 0);
-					
 					questionValue += (node.value || 0);
 			
 				});
