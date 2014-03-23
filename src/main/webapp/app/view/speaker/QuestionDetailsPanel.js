@@ -874,7 +874,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		
 		if ( isGridQuestion ) {
 			this.grid = Ext.create('ARSnova.view.components.GridContainer', {
-				//docked : 'top',
 				id 			: 'gridContainerQD',
 				gridSize	: this.questionObj.gridSize,
 				offsetX		: this.questionObj.offsetX,
@@ -888,6 +887,54 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			
 			// make it visible
 			this.answerFormFieldset.add(this.grid);
+			
+			// add toggles
+			this.gridWeakenImageToggle = Ext.create('Ext.field.Toggle', {
+				id:			"toggleWeakenImage",
+				name:		"toggleWeakenImage",
+				label:		"Bild abschwächen", // TODO In Konstanten auslagern
+				value: 		true,
+				listeners: {
+			        beforechange: function (slider, thumb, newValue, oldValue) {
+			        	me.getQuestionAnswers();
+			        },
+			        change: function (slider, thumb, newValue, oldValue) {
+			        	me.getQuestionAnswers();
+			        }
+			    }
+			});
+			this.gridShowColors = Ext.create('Ext.field.Toggle', {
+				id:			"toggleShowColors",
+				name:		"toggleShowColors",
+				label:		"Farben anzeigen", // TODO In Konstanten auslagern
+				value:  	true,
+				listeners: {
+			        beforechange: function (slider, thumb, newValue, oldValue) {
+			        	me.getQuestionAnswers();
+			        },
+			        change: function (slider, thumb, newValue, oldValue) {
+			        	me.getQuestionAnswers();
+			        }
+			    }
+			});
+			this.gridShowNumbers = Ext.create('Ext.field.Toggle', {
+				id:			"toggleShowNumbers",
+				name:		"toggleShowNumbers",
+				label:		"Prozente anzeigen", // TODO In Konstanten auslagern
+				value:  	true,
+				listeners: {
+			        beforechange: function (slider, thumb, newValue, oldValue) {
+			        	me.getQuestionAnswers();
+			        },
+			        change: function (slider, thumb, newValue, oldValue) {
+			        	me.getQuestionAnswers();
+			        }
+			    }
+			});
+
+			this.answerFormFieldset.add(this.gridWeakenImageToggle);
+			this.answerFormFieldset.add(this.gridShowColors);
+			this.answerFormFieldset.add(this.gridShowNumbers);
 		}
 		
 	},
@@ -1058,7 +1105,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 									});
 								}
 							}
-							panel.grid.generateStatisticOutput(gridAnswers, true, true, true);
+							
+							// generate output
+							panel.grid.generateStatisticOutput(
+									gridAnswers, 
+									panel.gridShowColors.getValue(), 
+									panel.gridShowNumbers.getValue(), 
+									panel.gridWeakenImageToggle.getValue());
 							
 						} else {
 							var abstentionCount = 0;
