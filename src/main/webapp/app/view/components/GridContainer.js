@@ -74,7 +74,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.getChosenFields().forEach(
 				function(entry) {
 					thiz.markField(entry[0],
-							entry[1], 0.5, thiz.getFieldColor());
+							entry[1], thiz.getFieldColor(), 0.5);
 				});
 		
 	},
