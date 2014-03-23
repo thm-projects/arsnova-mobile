@@ -1043,13 +1043,27 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 									abstentionCount = el.abstentionCount;
 									continue;
 								}
-								gridAnswers[el.answerText] = el.answerCount;
-							}
+								
+								
+								var values = el.answerText.split(",");
 
+								console.log("Values:");
+								console.log(values);
+
+								for (var j=0; j < el.answerCount; j++) {
+									values.forEach(function(selected, index) {
+										
+										if(typeof gridAnswers[values[index]] ===  "undefined") {
+											gridAnswers[values[index]] = 1;
+										} else {
+											gridAnswers[values[index]] += 1
+										}
+									});
+								}
+							}
+							console.log("gridAnswers:");
+							console.log(gridAnswers);
 							panel.grid.markTilesWeighted(gridAnswers);
-							
-							
-							
 							
 						} else {
 							var abstentionCount = 0;
