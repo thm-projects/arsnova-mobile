@@ -125,30 +125,21 @@ Ext.define('ARSnova.view.Question', {
 				
 				var selectedIndexes = [];
 				this.grid.getChosenFields().forEach(function(node) {
-					selectedIndexes.push(node[0]+','+node[1] );
+					selectedIndexes.push(node[0]+';'+node[1] );
 				}, this);
 				
 				
-				var answerValues = [];
 				var questionValue = 0;
 				this.questionObj.possibleAnswers.forEach(function(node){
-					var b = false
-					var i = selectedIndexes.length;
-					while (i--) {
-					   if (selectedIndexes[i] === node.text) {
-					     b = true;
-					     break;
-					   }
-					}
-					
-					answerValues.push( b ? 1 : 0);
 					questionValue += (node.value || 0);
 			
 				});
 				
+				console.log(selectedIndexes);
+				
 				
 				self.getUserAnswer().then(function(answer) {
-					answer.set('answerText', answerValues.join(","));
+					answer.set('answerText', selectedIndexes.join(","));
 					answer.set('questionValue', questionValue);
 					saveAnswer(answer);
 				});
