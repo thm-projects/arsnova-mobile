@@ -1047,9 +1047,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								
 								var values = el.answerText.split(",");
 
-								console.log("Values:");
-								console.log(values);
-
 								for (var j=0; j < el.answerCount; j++) {
 									values.forEach(function(selected, index) {
 										
@@ -1061,9 +1058,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 									});
 								}
 							}
-							console.log("gridAnswers:");
-							console.log(gridAnswers);
-							panel.grid.markTilesWeighted(gridAnswers);
+							panel.grid.generateStatisticOutput(gridAnswers, true, true, true);
 							
 						} else {
 							var abstentionCount = 0;
