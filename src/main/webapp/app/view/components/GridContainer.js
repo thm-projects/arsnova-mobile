@@ -153,6 +153,31 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				- this.getBorderWidth(), this.getFieldSize()
 				- this.getBorderWidth());
 	},
+	
+	
+	/**
+	 * 
+	 */
+	addTextToField : function(x, y, text) {
+		var ctx = this.getCanvas().getContext("2d");
+		var koord = this.getFieldKoord(x, y);
+		
+		// calculate exact starting point
+		var startX = koord[0] + this.getFieldSize() / 2 - this.getBorderWidth();
+		var startY = koord[1] + this.getFieldSize() / 2 - this.getBorderWidth();
+	
+		// set font layout
+		ctx.globalAlpha  = 1;
+		ctx.fillStyle    = "FFFFFF";
+		//ctx.strokeStyle  = "000000";
+		ctx.font 		 = "bold 12pt";
+		ctx.textAlign    = "center";
+		ctx.textBaseline = "middle";
+		
+		// draw text
+		ctx.fillText(text, startX, startY);
+		//ctx.strokeText(text, startX, startY);
+	},
 
 	onclick : function(event) {
 		
@@ -457,7 +482,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	markTilesWeighted : function(tilesToFill) {
 		
 		var totalAnswers = 0;
-		var downset = 0.9; // avoids full colored tiles
+		var downset = 0.95; // avoids full colored tiles
 		
 		// clear canvas
 		this.clearAll();
@@ -470,11 +495,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		console.log(tilesToFill);
 		console.log(totalAnswers);
 		for (var key in tilesToFill) {
-	    	console.log("key2: " + key);
 	    	var coords = this.getChosenFieldFromPossibleAnswer(key);
-	    	console.log("coords");
-	    	console.log(coords);
 			this.markField(coords[0], coords[1], "FF0000",  tilesToFill[key] / totalAnswers * downset);
+			this.addTextToField(coords[0], coords[1], Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) + "%");
 		}
 	}
 });
