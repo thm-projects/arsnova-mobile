@@ -322,5 +322,18 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		return result;
 	},
 	
-	
+	updateGrid: function(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers) {
+		console.log("updateGrid");
+		var grid   = Ext.getCmp('gridContainer')
+		
+		// get image data
+//		result.image 	 	   = grid.getImageFile().src;
+		grid.setGridSize(gridSize);
+		grid.setOffsetX(offsetX);
+		grid.setOffsetY(offsetY);
+		grid.setZoomLvl(zoomLvl);
+//		grid.getChosenFieldsFromPossibleAnswers(possibleAnswers);
+//		result.noCorrect 	   = grid.getChosenFields().length > 0 ? 0 : 1; // TODO: Check if really needed (and why numbers instead of bool)
+//		grid.clearAll();
+	},
 });

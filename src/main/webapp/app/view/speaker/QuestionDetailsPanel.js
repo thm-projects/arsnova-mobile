@@ -788,6 +788,28 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.answerEditForm = Ext.create(answerEditFormClass, {
 			hidden: true
 		});
+		
+		// TODO
+		if(this.questionObj.questionType === 'grid') {
+	 	  
+			console.log('answerEditForm');
+			console.log(this.answerEditForm);
+			
+			console.log('answerFormFieldSet');
+			console.log(this.answerFormFieldset);
+			
+			// set image data (base64 --> grid)
+			this.answerEditForm.updateCanvas(this.questionObj.image);
+			
+			this.answerEditForm.updateGrid(this.questionObj.gridSize, this.questionObj.offsetX, 
+					this.questionObj.offsetY, this.questionObj.zoomLvl, this.questionObj.possibleAnswers);
+			
+			console.log('grid');
+			console.log(this.grid);
+
+//			this.grid.getChosenFieldsFromPossibleAnswers(this.questionObj.possibleAnswers);
+		}
+		
 		this.answerEditForm.initWithQuestion(Ext.clone(this.questionObj));
 		
 		this.possibleAnswers = {};
