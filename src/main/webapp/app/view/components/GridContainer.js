@@ -52,7 +52,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.add([ this.image ]);
 	},
 
-	
+	/**
+	 * TODO: WEr die geschrieben hat, kommentieren!
+	 */
 	clearAll : function() {
 		var ctx = this.getCanvas().getContext('2d');
 		ctx.save();
@@ -69,11 +71,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		
 		var thiz = this;
 		
-		this.getChosenFields()
-		.forEach(
+		this.getChosenFields().forEach(
 				function(entry) {
 					thiz.markField(entry[0],
-							entry[1]);
+							entry[1], 0.5, thiz.getFieldColor());
 				});
 		
 	},
@@ -141,13 +142,13 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 
 	// mark field by position parameters
-	markField : function(x, y) {
+	markField : function(x, y, color, alpha) {
 
 		var ctx = this.getCanvas().getContext("2d");
 		var koord = this.getFieldKoord(x, y);
 
-		ctx.globalAlpha = 0.5;
-		ctx.fillStyle = this.getFieldColor();
+		ctx.globalAlpha = alpha;
+		ctx.fillStyle = color;
 		ctx.fillRect(koord[0], koord[1], this.getFieldSize()
 				- this.getBorderWidth(), this.getFieldSize()
 				- this.getBorderWidth());
@@ -331,7 +332,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			container.clearImage();
 			container.setImageFile(newimage);
 			container.clearAll();
-		}
+		};
 	},
 	
 	clearImage : function() {
@@ -428,19 +429,52 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	getChosenFieldsFromPossibleAnswers : function(possibleAnswers) {
 		var chosenFields = Array();
-		var coords, x, y;
 		
 		for (var i=0 ; i < possibleAnswers.length ; i++) {
 			if (possibleAnswers[i].correct) {
-				coords = possibleAnswers[i].text.split(";");
-				x = coords[0];
-				y = coords[1];
-				chosenFields.push(new Array(parseInt(x),parseInt(y)));
-				
+				chosenFields.push(getChosenFieldFromPossibleAnswer(possibleAnswers[i].text));
 			}
 		}
 		
 		// set directly to grid
 		this.setChosenFields(chosenFields);
+	},
+	
+	/**
+	 * Converts a possibleAnswer message to a chosen field
+	 */
+	getChosenFieldFromPossibleAnswer : function(possibleAnswer) {
+		var coords = possibleAnswer.split(";");
+		x = coords[0];
+		y = coords[1];
+		return new Array(parseInt(x),parseInt(y));
+	},
+	
+	
+	/**
+	 * 
+	 */
+	markTilesWeighted : function(tilesToFill) {
+		
+		var totalAnswers = 0;
+		var downset = 0.9; // avoids full colored tiles
+		
+		// clear canvas
+		this.clearAll();
+		
+		// count answers
+		for (var key in tilesToFill) {
+	    	totalAnswers += tilesToFill[key];
+		}
+
+		console.log(tilesToFill);
+		console.log(totalAnswers);
+		for (var key in tilesToFill) {
+	    	console.log("key2: " + key);
+	    	var coords = this.getChosenFieldFromPossibleAnswer(key);
+	    	console.log("coords");
+	    	console.log(coords);
+			this.markField(coords[0], coords[1], "FF0000",  tilesToFill[key] / totalAnswers * downset);
+		}
 	}
 });

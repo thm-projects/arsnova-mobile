@@ -71,6 +71,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	editButton	: null,
 
 	questionObj : null,
+	grid		: null,
 	
 	freetextAnswerStore: Ext.create('Ext.data.JsonStore', {
 		model		: 'FreetextAnswer',
@@ -872,7 +873,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		}
 		
 		if ( isGridQuestion ) {
-			var grid = Ext.create('ARSnova.view.components.GridContainer', {
+			this.grid = Ext.create('ARSnova.view.components.GridContainer', {
 				//docked : 'top',
 				id 			: 'gridContainerQD',
 				gridSize	: this.questionObj.gridSize,
@@ -883,10 +884,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			});
 			
 			// set image data (base64 --> grid)
-			grid.setImage(this.questionObj.image);
+			this.grid.setImage(this.questionObj.image);
 			
 			// make it visible
-			this.answerFormFieldset.add(grid);
+			this.answerFormFieldset.add(this.grid);
 		}
 		
 	},
@@ -1031,38 +1032,24 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								button.setBadge([{ badgeText: mcAnswerCount[index] ? mcAnswerCount[index]+'' : '0'}]);
 							});
 						} else if (panel.questionObj.questionType === "grid") {
-							var gridAnswerCount = [];
+							var gridAnswers = [];
 							var abstentionCount = 0;
-
-							console.log(answers);
-							// get answers and construct 
-							var el;
+							
+							// parse answers
 							for (var i = 0; i<answers.length; i++) {
-								el = answers[i];
+								var el = answers[i];
 								if (!el.answerText) {
 									// answer is abstention
 									abstentionCount = el.abstentionCount;
 									continue;
 								}
-								
-								// get all answers chosen by that user
-								var values = el.answerText.split(",").map(function(answered) {
-									return parseInt(answered, 10);
-								});
-
-								for (var j=0; j < el.answerCount; j++) {
-									console.log("Grid Answer Count: " + gridAnswerCount);
-									console.log("el.answerCount: " + el.answerCount);
-									values.forEach(function(selected, index) {
-										if (typeof gridAnswerCount[index] === "undefined") {
-											gridAnswerCount[index] = 0;
-										}
-										if (selected === 1) {
-											gridAnswerCount[index] += 1;
-										}
-									});
-								}
+								gridAnswers[el.answerText] = el.answerCount;
 							}
+
+							panel.grid.markTilesWeighted(gridAnswers);
+							
+							
+							
 							
 						} else {
 							var abstentionCount = 0;
