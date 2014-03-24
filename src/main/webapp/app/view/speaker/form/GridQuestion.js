@@ -322,16 +322,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		return result;
 	},
 	
-	updateGrid: function(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers) {
-		console.log("updateGrid");
+	updateGrid: function(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers, mark) {
 		var grid   = Ext.getCmp('gridContainer')
-		
-		grid.setGridSize(gridSize);
-		grid.setOffsetX(offsetX);
-		grid.setOffsetY(offsetY);
-		grid.setZoomLvl(zoomLvl);
-		grid.getChosenFieldsFromPossibleAnswers(possibleAnswers);
-		grid.markChosenFields();
-		grid.initZoom();
+		grid.update(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers, mark);
 	},
 });

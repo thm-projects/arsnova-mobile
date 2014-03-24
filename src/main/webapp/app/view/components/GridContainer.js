@@ -234,6 +234,20 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		}
 	},
 
+	// TODO init / update oder was anderes?
+	update: function(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers, mark) {
+		this.setGridSize(gridSize);
+		this.setOffsetX(offsetX);
+		this.setOffsetY(offsetY);
+		this.setZoomLvl(zoomLvl);
+		console.log("mark: " + mark);
+		if (mark)
+			this.getChosenFieldsFromPossibleAnswers(possibleAnswers);
+		else
+			this.setChosenFields(Array());
+		this.initZoom();
+	},
+	
 	setGrids : function(count) {
 		this.setChosenFields(Array());
 		this.setGridSize(count);
