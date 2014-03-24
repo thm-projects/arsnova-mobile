@@ -71,7 +71,6 @@ Ext.define('ARSnova.view.Question', {
 					localStorage.setItem('questionIds', Ext.encode(questionsArr));
 					
 					self.disableQuestion();
-					console.log('frage disabled');
 					ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
 					ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
 				},
@@ -143,8 +142,6 @@ Ext.define('ARSnova.view.Question', {
 					questionValue += (node.value || 0);
 			
 				});
-				console.log("answerlist");
-				console.log(this.answerList);
 				this.markCorrectAnswers();
 				
 				console.log(selectedIndexes.join(",")); // 1;1,2;1
@@ -383,7 +380,7 @@ Ext.define('ARSnova.view.Question', {
 		} else if(this.questionObj.questionType === "grid") {
 			
 			this.grid = Ext.create('ARSnova.view.components.GridContainer', {
-				id : 'gridContainer',
+				id : 'gridContainer' + this.questionObj._id,
 				offsetX : this.questionObj.offsetX,
 				offsetY : this.questionObj.offsetY,
 				gridSize : this.questionObj.gridSize,
@@ -391,8 +388,11 @@ Ext.define('ARSnova.view.Question', {
 				editable	: true
 			});
 
-			this.grid.setImage(this.questionObj.image, true);
+			this.grid.setImage(this.questionObj.image, false);
 
+			
+			this.grid.update(this.questionObj.gridSize, this.questionObj.offsetX, 
+				 	 this.questionObj.offsetY, this.questionObj.zoomLvl, this.questionObj.possibleAnswers, false);
 			
 			
 			this.add([this.grid]);
@@ -410,16 +410,12 @@ Ext.define('ARSnova.view.Question', {
 		this.on('activate', function(){
 			this.answerList.addListener('itemtap', questionListener.itemtap);
 			
-			
-			
 			/*
 			 * Bugfix, because panel is normally disabled (isDisabled == true),
 			 * but is not rendered as 'disabled'
 			 */
 			if(this.isDisabled()){
-				console.log("this is disabled:");
-				console.log(this);
-				
+
 				this.disableQuestion();
 				
 				if(this.questionObj.questionType === "grid"){

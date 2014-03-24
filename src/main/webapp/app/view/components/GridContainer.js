@@ -325,7 +325,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	
 	initZoom: function() {
 		console.log('init zoom');
-		this.setScale(this.getScale() * this.getScaleFactor() * this.getZoomLvl());
+		this.setScale(this.getScaleFactor() * this.getZoomLvl());
 //		this.clearAll();
 	},
 	
