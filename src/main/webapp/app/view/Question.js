@@ -57,6 +57,10 @@ Ext.define('ARSnova.view.Question', {
 		});
 		
 		var saveAnswer = function(answer) {
+			
+			console.log("Answer beim speichern:");
+			console.log(answer);
+			
 			answer.saveAnswer({
 				success: function() {
 					var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
@@ -135,9 +139,9 @@ Ext.define('ARSnova.view.Question', {
 			
 				});
 				
-				console.log(selectedIndexes);
+				console.log(selectedIndexes.join(",")); // 1;1,2;1
 				
-				
+		
 				self.getUserAnswer().then(function(answer) {
 					answer.set('answerText', selectedIndexes.join(","));
 					answer.set('questionValue', questionValue);
