@@ -788,9 +788,36 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.answerEditForm = Ext.create(answerEditFormClass, {
 			hidden: true
 		});
+		
+		// TODO
+		if(this.questionObj.questionType === 'grid') {
+	 	  
+//			console.log('answerEditForm');
+//			console.log(this.answerEditForm);
+//			
+//			console.log('answerFormFieldSet');
+//			console.log(this.answerFormFieldset);
+//			
+//			console.log('questionObj');
+//			console.log(this.questionObj);
+			
+			// set image data (base64 --> grid)
+			this.answerEditForm.updateCanvas(this.questionObj.image, false);
+			
+			this.answerEditForm.updateGrid(this.questionObj.gridSize, this.questionObj.offsetX, 
+					this.questionObj.offsetY, this.questionObj.zoomLvl, this.questionObj.possibleAnswers, true);
+			
+			console.log('grid');
+			console.log(this.grid);
+
+			// do not reset possible answers in grid questions
+			this.possibleAnswers = this.questionObj.possibleAnswers;
+		} else {
+			this.possibleAnswers = {};
+		}
+		
 		this.answerEditForm.initWithQuestion(Ext.clone(this.questionObj));
 		
-		this.possibleAnswers = {};
 		
 		/* END QUESTION DETAILS */
 		
@@ -883,7 +910,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			});
 			
 			// set image data (base64 --> grid)
-			this.grid.setImage(this.questionObj.image);
+			this.grid.setImage(this.questionObj.image, false);
+			
+			// TODO falls hierbei doch die chosenFields markiert werden sollen, false in true umaendern
+			// oder die Abfrage komplett aus der update Methode entfernen 
+			this.grid.update(this.questionObj.gridSize, this.questionObj.offsetX, 
+					this.questionObj.offsetY, this.questionObj.zoomLvl, this.questionObj.possibleAnswers, false);
 			
 			// make it visible
 			this.answerFormFieldset.add(this.grid);

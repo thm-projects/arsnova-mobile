@@ -39,7 +39,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			docked : 'top',
 			id : 'gridContainer'
 		});
-
+		
 		// Panel for picture and settings
 		var imageArea = Ext.create('Ext.Panel', {
 			id : 'imageArea',
@@ -258,9 +258,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	/**
 	 * Interface to the grid element to set a new image.
 	 */
-	updateCanvas : function(dataUrl) {
+	updateCanvas : function(dataUrl, reload) {
 		// update canvas
-		Ext.getCmp('gridContainer').setImage(dataUrl);	
+		Ext.getCmp('gridContainer').setImage(dataUrl, reload);	
 		
 		// show picture
 		this.toggleViews();
@@ -274,7 +274,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		var url = Ext.ComponentQuery.query('#tf_url')[0].getValue();
 		
 		if (url) {
-			Ext.getCmp('grid').updateCanvas(url);
+			Ext.getCmp('grid').updateCanvas(url, true);
 		} else {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.GRID_ERROR_URL_MISSING);
 		}
@@ -322,5 +322,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		return result;
 	},
 	
-	
+	updateGrid: function(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers, mark) {
+		var grid   = Ext.getCmp('gridContainer')
+		grid.update(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers, mark);
+	},
 });

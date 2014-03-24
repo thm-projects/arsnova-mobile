@@ -36,11 +36,12 @@ Ext.define('ARSnova.view.Question', {
 	
 	constructor: function(args) {
 		this.callParent(args);
+	
 		
 		var self = this; // for use inside callbacks
 		this.viewOnly = args.viewOnly;
 		this.questionObj = args.questionObj;
-		
+
 		var answerStore = Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
 		answerStore.add(this.questionObj.possibleAnswers);
 		
@@ -56,7 +57,7 @@ Ext.define('ARSnova.view.Question', {
 			});
 		});
 		
-		var saveAnswer = function(answer) {
+		var saveAnswer = function(answer) {			
 			answer.saveAnswer({
 				success: function() {
 					var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
@@ -107,7 +108,10 @@ Ext.define('ARSnova.view.Question', {
 					questionValue += (node.get('value') || 0);
 				});
 				
-
+				console.log("answerlist");
+				console.log(this.answerList);
+				console.log("this.answerList.getSelection()");
+				console.log(this.answerList.getSelection());
 				
 				self.getUserAnswer().then(function(answer) {
 					answer.set('answerText', answerValues.join(","));
@@ -134,9 +138,11 @@ Ext.define('ARSnova.view.Question', {
 					questionValue += (node.value || 0);
 			
 				});
+				this.markCorrectAnswers();
 				
-				console.log(selectedIndexes);
+				console.log(selectedIndexes.join(",")); // 1;1,2;1
 				
+		
 				
 				self.getUserAnswer().then(function(answer) {
 					answer.set('answerText', selectedIndexes.join(","));
@@ -161,8 +167,10 @@ Ext.define('ARSnova.view.Question', {
 		};
 
 		
-		var questionListener = this.viewOnly || this.questionObj.questionType === "mc" ? {} : {
-			'itemtap': function(list, index, target, record) {
+		var questionListener = this.viewOnly || this.questionObj.questionType === "mc" || this.questionObj.questionType === "mc" ? {} : {
+
+			
+			'itemtap': function(list, index, target, record) {console.log("questionListener");
 				var confirm = function(answer, handler) {
 					Ext.Msg.confirm(Messages.ANSWER + ' "' + answer + '"', Messages.SUBMIT_ANSWER, handler);
 				};
@@ -209,7 +217,7 @@ Ext.define('ARSnova.view.Question', {
 		});
 		
 		
-			this.answerList = Ext.create('Ext.List', {
+		this.answerList = Ext.create('Ext.List', {
 				store: answerStore,
 				
 				cls: 'roundedBox',
@@ -323,7 +331,42 @@ Ext.define('ARSnova.view.Question', {
 			scope: this
 		};
 		
-		this.grid = null;
+		/**
+		 *  grid, gridbutton and container for the grid button to add into the layout if necessary
+		 */
+		
+		this.gridButton = Ext.create('Ext.Button', {
+			flex: 1,
+			ui: 'confirm',
+			cls: 'login-button noMargin',
+			text: Messages.SAVE,
+			handler: !this.viewOnly ? this.saveGridQuestionHandler : function() {},
+			scope: this,
+			disabled: false
+		});
+		
+		this.gridContainer = {
+				xtype: 'container',
+				layout: {
+					type: 'hbox',
+					align: 'stretch'
+				},
+				defaults: {
+					style: {
+						margin: '10px'
+					}
+				},
+				items: [this.gridButton, !!!this.questionObj.abstention ? { hidden: true } : {
+					flex: 1,
+					xtype: 'button',
+					cls: 'login-button noMargin',
+					text: Messages.ABSTENTION,
+					handler: this.mcAbstentionHandler,
+					scope: this
+				}]
+			};
+		
+		
 		
 		this.add([this.questionTitle]);
 		if (this.questionObj.questionType === "flashcard") {
@@ -332,52 +375,25 @@ Ext.define('ARSnova.view.Question', {
 			this.answerList.setHidden(true);
 			
 		} else if(this.questionObj.questionType === "grid") {
-			
+
 			this.grid = Ext.create('ARSnova.view.components.GridContainer', {
-				id : 'gridContainer',
+				id : 'gridContainer' + this.questionObj._id,
 				offsetX : this.questionObj.offsetX,
 				offsetY : this.questionObj.offsetY,
 				gridSize : this.questionObj.gridSize,
 				zoomLvl : this.questionObj.zoomLvl,	
 				editable	: true
 			});
-			this.grid.setImage(this.questionObj.image);
 
-		
-			var gridButton = Ext.create('Ext.Button', {
-				flex: 1,
-				ui: 'confirm',
-				cls: 'login-button noMargin',
-				text: Messages.SAVE,
-				handler: !this.viewOnly ? this.saveGridQuestionHandler : function() {},
-				scope: this,
-				disabled: false
-			});
+			this.grid.setImage(this.questionObj.image, false);
+
 			
-			var gridContainer = {
-					xtype: 'container',
-					layout: {
-						type: 'hbox',
-						align: 'stretch'
-					},
-					defaults: {
-						style: {
-							margin: '10px'
-						}
-					},
-					items: [gridButton, !!!this.questionObj.abstention ? { hidden: true } : {
-						flex: 1,
-						xtype: 'button',
-						cls: 'login-button noMargin',
-						text: Messages.ABSTENTION,
-						handler: this.mcAbstentionHandler,
-						scope: this
-					}]
-				};
-		
+			this.grid.update(this.questionObj.gridSize, this.questionObj.offsetX, 
+				 	 this.questionObj.offsetY, this.questionObj.zoomLvl, this.questionObj.possibleAnswers, false);
+			
 			
 			this.add([this.grid]);
-			this.add([gridContainer]);
+			this.add([this.gridContainer]);
 
 			this.answerList.setHidden(true);
 		}else {
@@ -390,15 +406,37 @@ Ext.define('ARSnova.view.Question', {
 		
 		this.on('activate', function(){
 			this.answerList.addListener('itemtap', questionListener.itemtap);
+			
 			/*
 			 * Bugfix, because panel is normally disabled (isDisabled == true),
 			 * but is not rendered as 'disabled'
 			 */
-			if(this.isDisabled()) this.disableQuestion();
+			if(this.isDisabled()){
+
+				this.disableQuestion();
+				if(this.questionObj.questionType === "grid"){
+					//this.grid.setEditable(true);
+				}
+			}
 		});
 	},
 	
+	setGridAnswer: function(answerString){
+
+		var grid = this.grid;
+		var fields = answerString.split(",");
+		console.log(grid);
+		
+		fields.forEach(function(node){
+			
+			var entry = grid.getChosenFieldFromPossibleAnswer(node);
+			grid.getChosenFields().push(entry);
+		});	
+	},
+	
+	
 	disableQuestion: function() {
+
 		this.setDisabled(true);
 		this.mask(Ext.create('ARSnova.view.CustomMask'));
 	},
@@ -418,7 +456,9 @@ Ext.define('ARSnova.view.Question', {
 			
 			MathJax.Hub.Queue(
 				["Delay", MathJax.Callback, 700], function() {
-					panel.answerList.fireEvent("resizeList", panel.answerList.element);
+										panel.answerList.fireEvent(
+												"resizeList",
+												panel.answerList.element);
 				}
 			);
 		} else {
