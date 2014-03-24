@@ -36,7 +36,7 @@ Ext.define('ARSnova.view.Question', {
 	
 	constructor: function(args) {
 		this.callParent(args);
-		
+	
 		
 		var self = this; // for use inside callbacks
 		this.viewOnly = args.viewOnly;
@@ -57,11 +57,7 @@ Ext.define('ARSnova.view.Question', {
 			});
 		});
 		
-		var saveAnswer = function(answer) {
-			
-			console.log("Answer beim speichern:");
-			console.log(answer);
-			
+		var saveAnswer = function(answer) {			
 			answer.saveAnswer({
 				success: function() {
 					var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
@@ -171,8 +167,10 @@ Ext.define('ARSnova.view.Question', {
 		};
 
 		
-		var questionListener = this.viewOnly || this.questionObj.questionType === "mc" ? {} : {
-			'itemtap': function(list, index, target, record) {
+		var questionListener = this.viewOnly || this.questionObj.questionType === "mc" || this.questionObj.questionType === "mc" ? {} : {
+
+			
+			'itemtap': function(list, index, target, record) {console.log("questionListener");
 				var confirm = function(answer, handler) {
 					Ext.Msg.confirm(Messages.ANSWER + ' "' + answer + '"', Messages.SUBMIT_ANSWER, handler);
 				};
@@ -219,7 +217,7 @@ Ext.define('ARSnova.view.Question', {
 		});
 		
 		
-			this.answerList = Ext.create('Ext.List', {
+		this.answerList = Ext.create('Ext.List', {
 				store: answerStore,
 				
 				cls: 'roundedBox',
@@ -336,7 +334,6 @@ Ext.define('ARSnova.view.Question', {
 		/**
 		 *  grid, gridbutton and container for the grid button to add into the layout if necessary
 		 */
-		this.grid = null;
 		
 		this.gridButton = Ext.create('Ext.Button', {
 			flex: 1,
@@ -378,7 +375,7 @@ Ext.define('ARSnova.view.Question', {
 			this.answerList.setHidden(true);
 			
 		} else if(this.questionObj.questionType === "grid") {
-			
+
 			this.grid = Ext.create('ARSnova.view.components.GridContainer', {
 				id : 'gridContainer' + this.questionObj._id,
 				offsetX : this.questionObj.offsetX,
@@ -417,15 +414,31 @@ Ext.define('ARSnova.view.Question', {
 			if(this.isDisabled()){
 
 				this.disableQuestion();
-				
 				if(this.questionObj.questionType === "grid"){
-					this.grid.setEditable(true);
+					//this.grid.setEditable(true);
 				}
 			}
 		});
 	},
 	
+	setGridAnswer: function(answerString){
+
+		var grid = this.grid;
+		var fields = answerString.split(",");
+		console.log(grid);
+		
+		fields.forEach(function(node){
+			var entry = node.split(";");
+			grid.markField(entry[0], entry[1], grid.getFieldColor(), 1);
+			console.log(entry[0]+ " "+ entry[1]);
+		});	
+		
+		// TODO
+	},
+	
+	
 	disableQuestion: function() {
+
 		this.setDisabled(true);
 		this.mask(Ext.create('ARSnova.view.CustomMask'));
 	},
@@ -445,7 +458,9 @@ Ext.define('ARSnova.view.Question', {
 			
 			MathJax.Hub.Queue(
 				["Delay", MathJax.Callback, 700], function() {
-					panel.answerList.fireEvent("resizeList", panel.answerList.element);
+										panel.answerList.fireEvent(
+												"resizeList",
+												panel.answerList.element);
 				}
 			);
 		} else {
