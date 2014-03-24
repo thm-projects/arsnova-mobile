@@ -56,6 +56,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * TODO: WEr die geschrieben hat, kommentieren!
 	 */
 	clearAll : function() {
+		this.clearAllWithAlpha(1.0);
+	},
+	
+	clearAllWithAlpha : function(alpha) {
 		var ctx = this.getCanvas().getContext('2d');
 		ctx.save();
 		
@@ -63,6 +67,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		ctx.globalAlpha = 1;
 
 		this.zoom(this.getScale());
+		ctx.globalAlpha = alpha;
 		ctx.drawImage(this.getImageFile(), this.getOffsetX(), this.getOffsetY());
 		ctx.restore();
 		console.log('cleared.')
@@ -76,7 +81,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 					thiz.markField(entry[0],
 							entry[1], thiz.getFieldColor(), 0.5);
 				});
-		
 	},
 
 	
@@ -165,18 +169,20 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		// calculate exact starting point
 		var startX = koord[0] + this.getFieldSize() / 2 - this.getBorderWidth();
 		var startY = koord[1] + this.getFieldSize() / 2 - this.getBorderWidth();
-	
+		
+		ctx.save();
+		
 		// set font layout
 		ctx.globalAlpha  = 1;
 		ctx.fillStyle    = "FFFFFF";
-		//ctx.strokeStyle  = "000000";
-		ctx.font 		 = "bold 12pt";
+		ctx.font 		 = "12pt bold";
 		ctx.textAlign    = "center";
 		ctx.textBaseline = "middle";
 		
 		// draw text
 		ctx.fillText(text, startX, startY);
-		//ctx.strokeText(text, startX, startY);
+
+		ctx.restore();
 	},
 
 	onclick : function(event) {
@@ -479,25 +485,42 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	/**
 	 * 
 	 */
-	markTilesWeighted : function(tilesToFill) {
+	generateStatisticOutput : function(tilesToFill, colorTiles, showPercentages, weakenSourceImage) {
 		
 		var totalAnswers = 0;
-		var downset = 0.95; // avoids full colored tiles
 		
 		// clear canvas
-		this.clearAll();
+		weakenSourceImage ? this.clearAllWithAlpha(0.2) : this.clearAll();
 		
 		// count answers
 		for (var key in tilesToFill) {
 	    	totalAnswers += tilesToFill[key];
 		}
+		
+		for (var row=0; row < this.getGridSize() ; row++) {
+			for (var column=0; column < this.getGridSize() ; column++) {
+				var key = row + ";" + column;
+				var coords = this.getChosenFieldFromPossibleAnswer(key);
+				var isChosen = typeof tilesToFill[key] ===  "undefined";
 
-		console.log(tilesToFill);
-		console.log(totalAnswers);
-		for (var key in tilesToFill) {
-	    	var coords = this.getChosenFieldFromPossibleAnswer(key);
-			this.markField(coords[0], coords[1], "FF0000",  tilesToFill[key] / totalAnswers * downset);
-			this.addTextToField(coords[0], coords[1], Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) + "%");
+				console.log("key: " + key);
+				console.log(coords);
+				console.log("isChosen: " + isChosen);
+				
+				
+				if (typeof tilesToFill[key] ===  "undefined" ) {
+					if (showPercentages) {
+						this.addTextToField(coords[0], coords[1], "0,0%");
+					}
+				} else {
+					if (colorTiles) {
+						this.markField(coords[0], coords[1], "FF0000",  (tilesToFill[key] / totalAnswers / (4/3)) + 0.15); // alpha between 0.15 and 0.9
+					}
+					if (showPercentages) {
+						this.addTextToField(coords[0], coords[1], Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) + "%");
+					}
+				}
+			} 
 		}
 	}
 });
