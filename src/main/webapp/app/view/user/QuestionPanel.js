@@ -330,7 +330,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	checkStatisticRelease: function() {
 		var questionView = this.getActiveItem();
 		var questionObj = questionView.questionObj;
-
+console.log("checkStatisticRelease");
 		questionView.fireEvent('preparestatisticsbutton', this.statisticButton);
 		if( questionObj.showStatistic 
 			&& questionObj.showStatistic == 1

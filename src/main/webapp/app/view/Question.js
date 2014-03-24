@@ -37,10 +37,11 @@ Ext.define('ARSnova.view.Question', {
 	constructor: function(args) {
 		this.callParent(args);
 		
+		
 		var self = this; // for use inside callbacks
 		this.viewOnly = args.viewOnly;
 		this.questionObj = args.questionObj;
-		
+
 		var answerStore = Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
 		answerStore.add(this.questionObj.possibleAnswers);
 		
@@ -70,6 +71,7 @@ Ext.define('ARSnova.view.Question', {
 					localStorage.setItem('questionIds', Ext.encode(questionsArr));
 					
 					self.disableQuestion();
+					console.log('frage disabled');
 					ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
 					ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
 				},
@@ -111,7 +113,10 @@ Ext.define('ARSnova.view.Question', {
 					questionValue += (node.get('value') || 0);
 				});
 				
-
+				console.log("answerlist");
+				console.log(this.answerList);
+				console.log("this.answerList.getSelection()");
+				console.log(this.answerList.getSelection());
 				
 				self.getUserAnswer().then(function(answer) {
 					answer.set('answerText', answerValues.join(","));
@@ -138,10 +143,14 @@ Ext.define('ARSnova.view.Question', {
 					questionValue += (node.value || 0);
 			
 				});
+				console.log("answerlist");
+				console.log(this.answerList);
+				this.markCorrectAnswers();
 				
 				console.log(selectedIndexes.join(",")); // 1;1,2;1
 				
 		
+				
 				self.getUserAnswer().then(function(answer) {
 					answer.set('answerText', selectedIndexes.join(","));
 					answer.set('questionValue', questionValue);
@@ -327,7 +336,43 @@ Ext.define('ARSnova.view.Question', {
 			scope: this
 		};
 		
+		/**
+		 *  grid, gridbutton and container for the grid button to add into the layout if necessary
+		 */
 		this.grid = null;
+		
+		this.gridButton = Ext.create('Ext.Button', {
+			flex: 1,
+			ui: 'confirm',
+			cls: 'login-button noMargin',
+			text: Messages.SAVE,
+			handler: !this.viewOnly ? this.saveGridQuestionHandler : function() {},
+			scope: this,
+			disabled: false
+		});
+		
+		this.gridContainer = {
+				xtype: 'container',
+				layout: {
+					type: 'hbox',
+					align: 'stretch'
+				},
+				defaults: {
+					style: {
+						margin: '10px'
+					}
+				},
+				items: [this.gridButton, !!!this.questionObj.abstention ? { hidden: true } : {
+					flex: 1,
+					xtype: 'button',
+					cls: 'login-button noMargin',
+					text: Messages.ABSTENTION,
+					handler: this.mcAbstentionHandler,
+					scope: this
+				}]
+			};
+		
+		
 		
 		this.add([this.questionTitle]);
 		if (this.questionObj.questionType === "flashcard") {
@@ -346,42 +391,10 @@ Ext.define('ARSnova.view.Question', {
 				editable	: true
 			});
 			this.grid.setImage(this.questionObj.image);
-
-		
-			var gridButton = Ext.create('Ext.Button', {
-				flex: 1,
-				ui: 'confirm',
-				cls: 'login-button noMargin',
-				text: Messages.SAVE,
-				handler: !this.viewOnly ? this.saveGridQuestionHandler : function() {},
-				scope: this,
-				disabled: false
-			});
 			
-			var gridContainer = {
-					xtype: 'container',
-					layout: {
-						type: 'hbox',
-						align: 'stretch'
-					},
-					defaults: {
-						style: {
-							margin: '10px'
-						}
-					},
-					items: [gridButton, !!!this.questionObj.abstention ? { hidden: true } : {
-						flex: 1,
-						xtype: 'button',
-						cls: 'login-button noMargin',
-						text: Messages.ABSTENTION,
-						handler: this.mcAbstentionHandler,
-						scope: this
-					}]
-				};
-		
 			
 			this.add([this.grid]);
-			this.add([gridContainer]);
+			this.add([this.gridContainer]);
 
 			this.answerList.setHidden(true);
 		}else {
@@ -394,11 +407,23 @@ Ext.define('ARSnova.view.Question', {
 		
 		this.on('activate', function(){
 			this.answerList.addListener('itemtap', questionListener.itemtap);
+			
+			
+			
 			/*
 			 * Bugfix, because panel is normally disabled (isDisabled == true),
 			 * but is not rendered as 'disabled'
 			 */
-			if(this.isDisabled()) this.disableQuestion();
+			if(this.isDisabled()){
+				console.log("this is disabled:");
+				console.log(this);
+				
+				this.disableQuestion();
+				
+				if(this.questionObj.questionType === "grid"){
+					this.grid.setEditable(true);
+				}
+			}
 		});
 	},
 	
