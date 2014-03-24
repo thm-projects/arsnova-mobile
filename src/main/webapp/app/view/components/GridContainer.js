@@ -84,7 +84,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.getChosenFields().forEach(
 				function(entry) {
 					thiz.markField(entry[0],
-							entry[1], "FF00FF", 1);
+							entry[1], thiz.getFieldColor(), 0.5);
 				});
 	},
 	
@@ -154,10 +154,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		var ctx = this.getCanvas().getContext("2d");
 		var koord = this.getFieldKoord(x, y);
-
-		console.log("Marking field: ");
-		console.log(koord[0]);
-		console.log(koord[1]);
 
 		ctx.globalAlpha = alpha;
 		ctx.fillStyle = color;
