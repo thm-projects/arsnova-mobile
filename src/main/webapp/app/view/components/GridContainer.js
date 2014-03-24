@@ -76,13 +76,17 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		
 		var thiz = this;
 		
+		this.markChosenFields();
+	},
+
+	markChosenFields: function() {
+		var thiz = this;
 		this.getChosenFields().forEach(
 				function(entry) {
 					thiz.markField(entry[0],
 							entry[1], thiz.getFieldColor(), 0.5);
 				});
 	},
-
 	
 	// get the posotion params of a field by the koords of the
 	// click
@@ -305,6 +309,13 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		return this.getMoveable();
 	},
 	
+	initZoom: function() {
+		console.log('init zoom');
+		this.setScale(this.getScale() * this.getScaleFactor() * this.getZoomLvl());
+//		this.clearAll();
+	},
+	
+	// TODO brauchen wir die noch?
 	zoom : function(scale) {
 		var ctx = this.getCanvas().getContext("2d");
 		var imgSizeHalf = this.getImgSizeHalf();
@@ -353,14 +364,15 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		}
 	},
 	
-	setImage : function(dataUrl) {
+	setImage : function(dataUrl, reload) {
 		var newimage = new Image();
 		var container = this;
 
 		newimage.src = dataUrl;
 		
 		newimage.onload = function() {
-			container.clearImage();
+			if (reload)
+				container.clearImage();
 			container.setImageFile(newimage);
 			container.clearAll();
 		};
@@ -379,14 +391,12 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	}, 
 	
 	clearConfigs : function() {
-		
 		this.setScale(1.0);
 		this.setOffsetX(0);
 		this.setOffsetY(0);
 		this.setZoomLvl(0);
 		this.setChosenFields(Array());
 		this.setMoveable( Array(true, true, true, true) );
-
 	},
 	
 	toggleBorderColor : function(){
@@ -463,7 +473,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		
 		for (var i=0 ; i < possibleAnswers.length ; i++) {
 			if (possibleAnswers[i].correct) {
-				chosenFields.push(getChosenFieldFromPossibleAnswer(possibleAnswers[i].text));
+				chosenFields.push(this.getChosenFieldFromPossibleAnswer(possibleAnswers[i].text));
 			}
 		}
 		
@@ -503,9 +513,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				var coords = this.getChosenFieldFromPossibleAnswer(key);
 				var isChosen = typeof tilesToFill[key] ===  "undefined";
 
-				console.log("key: " + key);
-				console.log(coords);
-				console.log("isChosen: " + isChosen);
+//				console.log("key: " + key);
+//				console.log(coords);
+//				console.log("isChosen: " + isChosen);
 				
 				
 				if (typeof tilesToFill[key] ===  "undefined" ) {

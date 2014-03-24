@@ -341,7 +341,7 @@ Ext.define('ARSnova.view.Question', {
 				zoomLvl : this.questionObj.zoomLvl,	
 				editable	: true
 			});
-			this.grid.setImage(this.questionObj.image);
+			this.grid.setImage(this.questionObj.image, true);
 
 		
 			var gridButton = Ext.create('Ext.Button', {

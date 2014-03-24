@@ -39,7 +39,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			docked : 'top',
 			id : 'gridContainer'
 		});
-
+		
 		// Panel for picture and settings
 		var imageArea = Ext.create('Ext.Panel', {
 			id : 'imageArea',
@@ -258,9 +258,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	/**
 	 * Interface to the grid element to set a new image.
 	 */
-	updateCanvas : function(dataUrl) {
+	updateCanvas : function(dataUrl, reload) {
 		// update canvas
-		Ext.getCmp('gridContainer').setImage(dataUrl);	
+		Ext.getCmp('gridContainer').setImage(dataUrl, reload);	
 		
 		// show picture
 		this.toggleViews();
@@ -274,7 +274,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		var url = Ext.ComponentQuery.query('#tf_url')[0].getValue();
 		
 		if (url) {
-			Ext.getCmp('grid').updateCanvas(url);
+			Ext.getCmp('grid').updateCanvas(url, true);
 		} else {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.GRID_ERROR_URL_MISSING);
 		}
@@ -326,14 +326,12 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		console.log("updateGrid");
 		var grid   = Ext.getCmp('gridContainer')
 		
-		// get image data
-//		result.image 	 	   = grid.getImageFile().src;
 		grid.setGridSize(gridSize);
 		grid.setOffsetX(offsetX);
 		grid.setOffsetY(offsetY);
 		grid.setZoomLvl(zoomLvl);
-//		grid.getChosenFieldsFromPossibleAnswers(possibleAnswers);
-//		result.noCorrect 	   = grid.getChosenFields().length > 0 ? 0 : 1; // TODO: Check if really needed (and why numbers instead of bool)
-//		grid.clearAll();
+		grid.getChosenFieldsFromPossibleAnswers(possibleAnswers);
+		grid.markChosenFields();
+		grid.initZoom();
 	},
 });

@@ -51,7 +51,7 @@ Ext.define("ARSnova.controller.Questions", {
    
 	onFileLoadSuccess: function(dataurl, e) {
 		var grid = this.getGrid();
-		grid.updateCanvas(dataurl);
+		grid.updateCanvas(dataurl, true);
 	},
    
 	onFileLoadFailure: function(message) {
