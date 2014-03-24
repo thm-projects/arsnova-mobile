@@ -390,7 +390,9 @@ Ext.define('ARSnova.view.Question', {
 				zoomLvl : this.questionObj.zoomLvl,	
 				editable	: true
 			});
-			this.grid.setImage(this.questionObj.image);
+
+			this.grid.setImage(this.questionObj.image, true);
+
 			
 			
 			this.add([this.grid]);
