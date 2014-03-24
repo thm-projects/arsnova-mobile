@@ -339,7 +339,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				html: Messages.STATISTIC,
 				cls	: 'centerTextSmall'
 			}],
-			hidden: this.isGridQuestion
+			//hidden: this.isGridQuestion
 		});
 
 		this.releaseStatisticButton = Ext.create('Ext.Panel', {
@@ -931,10 +931,25 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			        }
 			    }
 			});
+			this.gridColorsToggle = Ext.create('Ext.field.Toggle', {
+				id:			"toggleColors",
+				name:		"toggleColors",
+				label:		"Rasterfarbe invertieren", // TODO In Konstanten auslagern
+				value:  	false,
+				listeners: {
+			        beforechange: function (slider, thumb, newValue, oldValue) {
+			        	me.getQuestionAnswers();
+			        },
+			        change: function (slider, thumb, newValue, oldValue) {
+			        	me.getQuestionAnswers();
+			        }
+			    }
+			});
 
 			this.answerFormFieldset.add(this.gridWeakenImageToggle);
 			this.answerFormFieldset.add(this.gridShowColors);
 			this.answerFormFieldset.add(this.gridShowNumbers);
+			this.answerFormFieldset.add(this.gridColorsToggle);
 		}
 		
 	},
@@ -1111,7 +1126,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 									gridAnswers, 
 									panel.gridShowColors.getValue(), 
 									panel.gridShowNumbers.getValue(), 
-									panel.gridWeakenImageToggle.getValue());
+									panel.gridWeakenImageToggle.getValue(),
+									panel.gridColorsToggle.getValue());
 							
 						} else {
 							var abstentionCount = 0;

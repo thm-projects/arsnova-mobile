@@ -257,6 +257,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		this.questionChart = Ext.create('Ext.chart.CartesianChart', {
 		    store: this.questionStore,
+		    hidden:  this.questionObj.questionType == "grid",
 
 		    animate: {
 		        easing: 'bounceOut',
