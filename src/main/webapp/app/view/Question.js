@@ -428,12 +428,10 @@ Ext.define('ARSnova.view.Question', {
 		console.log(grid);
 		
 		fields.forEach(function(node){
-			var entry = node.split(";");
-			grid.markField(entry[0], entry[1], grid.getFieldColor(), 1);
-			console.log(entry[0]+ " "+ entry[1]);
+			
+			var entry = grid.getChosenFieldFromPossibleAnswer(node);
+			grid.getChosenFields().push(entry);
 		});	
-		
-		// TODO
 	},
 	
 	

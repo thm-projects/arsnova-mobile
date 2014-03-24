@@ -289,8 +289,8 @@ console.log(answers);
 				return;
 			}
 			
-			if (questionObj.questionType === "grid") {
-				//questionPanel.setGridAnswer("1;1,2;2");
+			if (questionObj.questionType === "grid") {				
+				questionPanel.setGridAnswer(questionObj.userAnswered);
 				questionPanel.disableQuestion();
 				return;
 			}
