@@ -30,28 +30,38 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	config : {
 		
 	},
+	
+	imageArea : null,
+	uploadView : null,
+	imageCnt : null,
+	grid : null,
+	imageSettings : null,
+	answers : null,
 
-	constructor : function() {
+	initialize : function() {
 		this.callParent(arguments);
 		
 
-		var grid = Ext.create('ARSnova.view.components.GridContainer', {
+		this.grid = Ext.create('ARSnova.view.components.GridContainer', {
 			docked : 'top',
 			id : 'gridContainer'
 		});
 		
 		// Panel for picture and settings
-		var imageArea = Ext.create('Ext.Panel', {
+		this.imageArea = Ext.create('Ext.Panel', {
 			id : 'imageArea',
 			layout : 'hbox',
 			items : [ 
-			    grid, 
+			    this.grid, 
 			    {
 					xtype: 'button',
 			    	iconCls : 'delete',
 			    	iconMask : true,
 			    	docked : 'right',
-					handler: this.resetView
+			    	scope: this,
+			    	handler : function(){ 
+			    		this.resetView();
+			    	}
 				},
 			    {
 			    	xtype : 'button',
@@ -64,32 +74,41 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			    	iconCls : 'reply',
 			    	iconMask : true,
 			    	docked : 'right',
-			    	handler : function(){ grid.toggleBorderColor(); }
+			    	scope: this,
+			    	handler : function(){ 
+			    		this.grid.toggleBorderColor(); 
+			    	}
 			    },
 			    {
 					xtype: 'button',
 			    	iconCls : 'arrow_left',
 			    	iconMask : true,
 			    	docked : 'right',
-					handler: function() { grid.moveLeft(); }
+			    	scope: this,
+					handler: function() { 
+						this.grid.moveLeft(); 
+						}
 				}, {
 					xtype: 'button',
 			    	iconCls : 'arrow_up',
 			    	iconMask : true,
 			    	docked : 'right',
-					handler: function() { grid.moveUp(); }
+			    	scope: this,
+					handler: function() { this.grid.moveUp(); }
 				}, {
 					xtype: 'button',
 			    	iconCls : 'arrow_down',
 			    	iconMask : true,
 			    	docked : 'right',
-					handler: function() { grid.moveDown(); }
+			    	scope: this,
+					handler: function() { this.grid.moveDown(); }
 				}, {
 					xtype: 'button',
 			    	iconCls : 'arrow_right',
 			    	iconMask : true,
 			    	docked : 'right',
-					handler: function() { grid.moveRight(); }
+			    	scope: this,
+					handler: function() { this.grid.moveRight(); }
 				}],
 			hidden : true
 		});
@@ -99,7 +118,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		 * The view containing the url textfield and the
 		 * functionality to load an image into the canvas
 		 */
-		var uploadView = Ext.create('Ext.Panel', {
+		this.uploadView = Ext.create('Ext.Panel', {
 			id : 'upField',
 			layout : 'vbox',
 
@@ -162,7 +181,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		});
 		
 		
-		var answers = Ext.create('Ext.Panel', {
+		this.answers = Ext.create('Ext.Panel', {
 			items : [ {
 				xtype : 'fieldset',
 				id : 'fieldsetAnswers',
@@ -178,7 +197,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			} ]
 		});
 
-		var imageSettings = Ext.create('Ext.Panel', {
+		this.imageSettings = Ext.create('Ext.Panel', {
 			id : 'answerField',
 			items : [ 
 			         {
@@ -188,11 +207,12 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 							xtype : 'spinnerfield',
 							label : 'Zoom (in %)',
 							listeners : {
+								scope: this,
 								spinup : function() {
-									grid.zoomIn();
+									this.grid.zoomIn();
 								},
 								spindown : function() {
-									grid.zoomOut();
+									this.grid.zoomOut();
 								}
 		
 							},
@@ -205,8 +225,10 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 							xtype : 'spinnerfield',
 							label : 'Quadrate (Breiten x Höhe)',
 							listeners : {
-								spin : function() {
-									grid.setGrids(this.getValue()); // update grid count
+								scope: this,
+								spin : function(spinner, value) {
+									console.log(this);
+									this.grid.setGrids(value); // update grid count
 								}
 							},
 							minValue : 2,
@@ -215,20 +237,20 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 							stepValue : 1,
 							cycle : true,
 						},
-						answers
+						this.answers
 						]
 			} ]
 		});
 
-		var imageCnt = Ext.create('Ext.form.FormPanel', {
+		this.imageCnt = Ext.create('Ext.form.FormPanel', {
 			scrollable : null,
 			id : 'imageControle',
 			hidden : true,
-			items : [ imageSettings ]
+			items : [ this.imageSettings ]
 		});
 
 		// update answers counter
-		grid.setOnFieldClick(function(AnswerValue) {
+		this.grid.setOnFieldClick(function(AnswerValue) {
 			var cnt = Ext.getCmp('textfieldAnswers');
 			cnt.setValue(AnswerValue);
 			console.log(AnswerValue);
@@ -239,9 +261,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			xtype : 'fieldset',
 			title : ' ',
 			items : [ 
-			          imageArea, 
-			          uploadView,
-			          imageCnt ]
+			          this.imageArea, 
+			          this.uploadView,
+			          this.imageCnt ]
 		} ]);
 
 	},
@@ -260,7 +282,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	 */
 	updateCanvas : function(dataUrl, reload) {
 		// update canvas
-		Ext.getCmp('gridContainer').setImage(dataUrl, reload);	
+		this.grid.setImage(dataUrl, reload);	
 		
 		// show picture
 		this.toggleViews();
@@ -274,7 +296,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		var url = Ext.ComponentQuery.query('#tf_url')[0].getValue();
 		
 		if (url) {
-			Ext.getCmp('grid').updateCanvas(url, true);
+			this.updateCanvas(url, true);
 		} else {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.GRID_ERROR_URL_MISSING);
 		}
@@ -285,18 +307,21 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	 * Toggles between the two view possibilities.
 	 */
 	toggleViews : function() {
-		Ext.getCmp('imageArea').isHidden() 	   ? Ext.getCmp('imageArea').show() 	 : Ext.getCmp('imageArea').hide();
-		Ext.getCmp('imageControle').isHidden() ? Ext.getCmp('imageControle').show() : Ext.getCmp('imageControle').hide();
-		Ext.getCmp('upField').isHidden() 	   ? Ext.getCmp('upField').show() 		 : Ext.getCmp('upField').hide();
+		console.log("this");
+		console.log(this);
+		
+		
+		this.imageArea.isHidden() 	   ? this.imageArea.show() 	 : this.imageArea.hide();
+		this.imageCnt.isHidden() ? this.imageCnt.show() : this.imageCnt.hide();
+		this.uploadView.isHidden() 	   ? this.uploadView.show() 		 : this.uploadView.hide();
 	},
 
 	/**
 	 * Resets the view to the initial state.
 	 */
 	resetView : function() {
-		var self = Ext.getCmp('grid');
-		self.toggleViews();
-		Ext.getCmp('gridContainer').clearImage();
+		this.toggleViews();
+		this.grid.clearImage();
 	},
 	
 	/**
@@ -325,5 +350,5 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	updateGrid: function(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers, mark) {
 		var grid   = Ext.getCmp('gridContainer')
 		grid.update(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers, mark);
-	},
+	}
 });

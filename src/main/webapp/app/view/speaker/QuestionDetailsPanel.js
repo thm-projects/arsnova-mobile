@@ -1152,7 +1152,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 									});
 								}
 							}
-							
+
 							// generate output
 							panel.grid.generateStatisticOutput(
 									gridAnswers, 
