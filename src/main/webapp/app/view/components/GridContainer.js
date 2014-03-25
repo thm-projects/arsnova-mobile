@@ -236,13 +236,16 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 
 	// TODO init / update oder was anderes?
-	// TODO Aufrufer suchen und schauen, dass mark entfernt werden kann
 	update: function(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers, mark) {
 		this.setGridSize(gridSize);
 		this.setOffsetX(offsetX);
 		this.setOffsetY(offsetY);
 		this.setZoomLvl(zoomLvl);
-		this.getChosenFieldsFromPossibleAnswers(possibleAnswers);
+		if (mark) {
+			this.getChosenFieldsFromPossibleAnswers(possibleAnswers);
+		} else {
+			this.setChosenFields(new Array());
+		}
 		this.initZoom();
 	},
 	
