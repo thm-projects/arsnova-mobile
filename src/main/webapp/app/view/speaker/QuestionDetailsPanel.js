@@ -806,9 +806,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			
 			this.answerEditForm.updateGrid(this.questionObj.gridSize, this.questionObj.offsetX, 
 					this.questionObj.offsetY, this.questionObj.zoomLvl, this.questionObj.possibleAnswers, true);
-			
-			console.log('grid');
-			console.log(this.grid);
 
 			// do not reset possible answers in grid questions
 			this.possibleAnswers = this.questionObj.possibleAnswers;

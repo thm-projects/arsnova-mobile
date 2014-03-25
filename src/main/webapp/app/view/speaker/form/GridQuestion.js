@@ -293,7 +293,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		var url = Ext.ComponentQuery.query('#tf_url')[0].getValue();
 		
 		if (url) {
-			this.updateCanvas(url, true);
+			this.up('grid').updateCanvas(url, true);
 		} else {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.GRID_ERROR_URL_MISSING);
 		}

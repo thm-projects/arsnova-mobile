@@ -56,28 +56,29 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * TODO: WEr die geschrieben hat, kommentieren!
 	 */
 	clearAll : function() {
-		this.clearAllWithAlpha(1.0);
+		this.clearAllWithAlpha(1.0, true);
 	},
 	
-	clearAllWithAlpha : function(alpha) {
+	// TODO: rename to redraw
+	clearAllWithAlpha : function(alpha, markChosenFields) {
 		var ctx = this.getCanvas().getContext('2d');
 		ctx.save();
 		
 		ctx.clearRect(0, 0, this.getCanvas().width, this.getCanvas().height);
-		ctx.globalAlpha = 1;
 
 		this.zoom(this.getScale());
 		ctx.globalAlpha = alpha;
 		
 		ctx.drawImage(this.getImageFile(), this.getOffsetX(), this.getOffsetY());
 		ctx.restore();
-		console.log('cleared.')
+		
+		console.log('[GridContainer.js] - Done restoring canvas image.');
 	
 		this.createGrid();
 		
-		var thiz = this;
-		
-		this.markChosenFields();
+		if ( markChosenFields ) {
+			this.markChosenFields();
+		}
 	},
 
 	markChosenFields: function() {
@@ -87,6 +88,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 					thiz.markField(entry[0],
 							entry[1], thiz.getFieldColor(), 0.5);
 				});
+		console.log('[GridContainer.js] - Done marking chosen fields.');
 	},
 	
 	// get the posotion params of a field by the koords of the
@@ -145,9 +147,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			ctx.fillRect(0, this.getFieldSize() * i
 					+ this.getBorderWidth(), this.getImgSize(),
 					this.getBorderWidth());
-		}	
-		
-		console.log('grid created.');
+		}
+		console.log('[GridContainer.js] - Done creating canvas grid.');
 	},
 
 	// mark field by position parameters
@@ -237,15 +238,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 	// TODO init / update oder was anderes?
 	update: function(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers, mark) {
-		console.log("gridSize" + gridSize);
-		console.log("offsetX" + offsetX);
-		console.log("offsetY" + offsetY);
-		console.log("zoomLvl" + zoomLvl);
 		this.setGridSize(gridSize);
 		this.setOffsetX(offsetX);
 		this.setOffsetY(offsetY);
 		this.setZoomLvl(zoomLvl);
-		console.log("mark: " + mark);
 		if (mark)
 			this.getChosenFieldsFromPossibleAnswers(possibleAnswers);
 		else
@@ -522,7 +518,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setBorderColor(toggleColors ? this.getDefaultToggleBorderColor() : this.getDefaultBorderColor());
 		
 		// clear canvas
-		weakenSourceImage ? this.clearAllWithAlpha(0.2) : this.clearAll();
+		weakenSourceImage ? this.clearAllWithAlpha(0.2, false) : this.clearAll();
 		
 		// count answers
 		for (var key in tilesToFill) {
@@ -533,13 +529,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			for (var column=0; column < this.getGridSize() ; column++) {
 				var key = row + ";" + column;
 				var coords = this.getChosenFieldFromPossibleAnswer(key);
-				var isChosen = typeof tilesToFill[key] ===  "undefined";
 
-//				console.log("key: " + key);
-//				console.log(coords);
-//				console.log("isChosen: " + isChosen);
-				
-				
 				if (typeof tilesToFill[key] ===  "undefined" ) {
 					if (showPercentages) {
 						this.addTextToField(coords[0], coords[1], "0,0%");
