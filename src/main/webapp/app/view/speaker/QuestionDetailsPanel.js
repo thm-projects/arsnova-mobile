@@ -898,6 +898,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		
 		if ( isGridQuestion ) {
 			this.grid = Ext.create('ARSnova.view.components.GridContainer', {
+				docked 		: 'top',
 				id 			: 'gridContainerQD',
 				gridSize	: this.questionObj.gridSize,
 				offsetX		: this.questionObj.offsetX,
@@ -914,8 +915,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			this.grid.update(this.questionObj.gridSize, this.questionObj.offsetX, 
 					this.questionObj.offsetY, this.questionObj.zoomLvl, this.questionObj.possibleAnswers, false);
 			
-			// make it visible
-			this.answerFormFieldset.add(this.grid);
 			
 			// add toggles
 			this.gridWeakenImageToggle = Ext.create('Ext.field.Toggle', {
@@ -975,6 +974,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			    }
 			});
 
+			// add components
+			this.answerFormFieldset.add(this.grid);
+			this.answerFormFieldset.add({xtype : 'spacer', height :25, docked : 'top' });
 			this.answerFormFieldset.add(this.gridWeakenImageToggle);
 			this.answerFormFieldset.add(this.gridShowColors);
 			this.answerFormFieldset.add(this.gridShowNumbers);
