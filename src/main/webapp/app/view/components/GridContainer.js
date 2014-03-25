@@ -236,15 +236,13 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 
 	// TODO init / update oder was anderes?
+	// TODO Aufrufer suchen und schauen, dass mark entfernt werden kann
 	update: function(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers, mark) {
 		this.setGridSize(gridSize);
 		this.setOffsetX(offsetX);
 		this.setOffsetY(offsetY);
 		this.setZoomLvl(zoomLvl);
-		if (mark)
-			this.getChosenFieldsFromPossibleAnswers(possibleAnswers);
-		else
-			this.setChosenFields(Array());
+		this.getChosenFieldsFromPossibleAnswers(possibleAnswers);
 		this.initZoom();
 	},
 	
@@ -451,13 +449,15 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	getChosenFieldsFromPossibleAnswers : function(possibleAnswers) {
 		var chosenFields = Array();
-		
+		console.log("possible answers");
+		console.log(possibleAnswers);
 		for (var i=0 ; i < possibleAnswers.length ; i++) {
 			if (possibleAnswers[i].correct) {
 				chosenFields.push(this.getChosenFieldFromPossibleAnswer(possibleAnswers[i].text));
 			}
 		}
-		
+
+		console.log(chosenFields);
 		// set directly to grid
 		this.setChosenFields(chosenFields);
 	},
@@ -496,18 +496,31 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				var key = row + ";" + column;
 				var coords = this.getChosenFieldFromPossibleAnswer(key);
 
-				if (typeof tilesToFill[key] ===  "undefined" ) {
-					if (showPercentages) {
-						this.addTextToField(coords[0], coords[1], "0,0%");
+				console.log("[GridContainer.js] - coords " + coords[0] + " " + coords[1]);
+				if (colorTiles) {
+					var alphaOffset = 0.05;
+					var alphaScale 	= 0.9;
+					var alpha 		= 0;
+					
+					if (typeof tilesToFill[key] !==  "undefined") {
+						alpha = (tilesToFill[key] / totalAnswers) * alphaScale;
 					}
-				} else {
-					if (colorTiles) {
-						this.markField(coords[0], coords[1], "FF0000",  (tilesToFill[key] / totalAnswers / (4/3)) + 0.15); // alpha between 0.15 and 0.9
+					
+					var color = "FF0000";
+					for (var i=0;i<this.getChosenFields().length;i++) {
+						if (this.getChosenFields()[i][0] == coords[0] && this.getChosenFields()[i][1] == coords[1]) {
+							color = "00FF00";
+						}
 					}
-					if (showPercentages) {
-						this.addTextToField(coords[0], coords[1], Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) + "%");
-					}
+
+					this.markField(coords[0], coords[1], color, alpha + alphaOffset);   // alpha between 0.15 and 0.9
 				}
+				
+				if (showPercentages) {
+					var text = (typeof tilesToFill[key] ===  "undefined" ) ? "0,0%" : Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) + "%";
+					this.addTextToField(coords[0], coords[1], text);
+				}
+				
 			} 
 		}
 	}
