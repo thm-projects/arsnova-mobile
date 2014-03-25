@@ -494,7 +494,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			
 			switch (panel.questionOptions.getPressedButtons()[0]._text) {
 	    		case Messages.GRID:
-	    			panel.resetView();
+	    			console.log(panel);
+	    			console.log(panel.gridQuestion);
+	    			panel.gridQuestion.resetView();
 	    		break;
 	    		default:
 					break;

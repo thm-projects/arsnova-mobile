@@ -68,6 +68,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		this.zoom(this.getScale());
 		ctx.globalAlpha = alpha;
+		
 		ctx.drawImage(this.getImageFile(), this.getOffsetX(), this.getOffsetY());
 		ctx.restore();
 		console.log('cleared.')
@@ -236,6 +237,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 	// TODO init / update oder was anderes?
 	update: function(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers, mark) {
+		console.log("gridSize" + gridSize);
+		console.log("offsetX" + offsetX);
+		console.log("offsetY" + offsetY);
+		console.log("zoomLvl" + zoomLvl);
 		this.setGridSize(gridSize);
 		this.setOffsetX(offsetX);
 		this.setOffsetY(offsetY);
