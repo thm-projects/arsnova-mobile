@@ -15,10 +15,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		defaultBorderColor 		 : "#000000",	// TODO Name ist irreführend: --> defaultGridColor oder so
 		defaultToggleBorderColor : "#FFFFFF",	// TODO Name ist irreführend: --> alternativeGridColor oder so
 		scaleFactor 			 : 1.2,			// zoom level scale factor
-		scale 					 : 1.0, 		// Aktuelle ZoomScalierung des Bildes --> TODO Was soll das sein?
+		scale 					 : 1.0, 		// actual scaling for the image. Necessary to switch between zoomed image an normal scale
 		zoomLvl 				 : 0, 			// current zoomlevel
-		zoomMin 				 : 0, 			// TODO Warum haben wir sowas?
-		zoomMax 				 : 5, 			// TODO Warum haben wir sowas?
 		offsetX 				 : 0,
 		offsetY 				 : 0,
 		moveInterval 			 : 10,			// steps to take when moving the image
@@ -62,6 +60,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	// TODO: rename to redraw
 	clearAllWithAlpha : function(alpha, markChosenFields) {
 		var ctx = this.getCanvas().getContext('2d');
+		// save context
 		ctx.save();
 		
 		ctx.clearRect(0, 0, this.getCanvas().width, this.getCanvas().height);
@@ -70,8 +69,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		ctx.globalAlpha = alpha;
 		
 		ctx.drawImage(this.getImageFile(), this.getOffsetX(), this.getOffsetY());
+		// restore context to draw grid with default scale
 		ctx.restore();
-		
 		console.log('[GridContainer.js] - Done restoring canvas image.');
 	
 		this.createGrid();
@@ -326,15 +325,27 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	
 	initZoom: function() {
 		console.log('init zoom');
-		this.setScale(this.getScaleFactor() * this.getZoomLvl());
-//		this.clearAll();
+		console.log("scale before: " + this.getScale());
+		if (this.getZoomLvl() > 0) {
+			console.log ("zoomLvl > 0")
+			for (i = 0; i < this.getZoomLvl(); i++) {
+				this.setScale(this.getScale() * this.getScaleFactor());
+			}
+		} else if (this.getZoomLvl() < 0) {
+			for (i = 0; i > this.getZoomLvl(); i--) {
+				this.setScale(this.getScale() / this.getScaleFactor());
+			}
+		} else {
+			this.setScale(1.0);
+		}
+		console.log("scale after: " + this.getScale());
 	},
 	
-	// TODO brauchen wir die noch?
 	zoom : function(scale) {
+		console.log("zoom() with scale: " + scale + " this.scale: " + this.getScale());
 		var ctx = this.getCanvas().getContext("2d");
 		var imgSizeHalf = this.getImgSizeHalf();
-				
+		
 		ctx.translate(imgSizeHalf - (imgSizeHalf * scale), imgSizeHalf - (imgSizeHalf * scale));
 		
 		scale *= this.getGeneralScale();
@@ -356,27 +367,25 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 
 	zoomIn : function() {
+		// TODO zoomFactor = 1.2 --> zoomStep = 0.2 --> Bei jedem Schritt 0.2 zum scaling addieren, nicht multiplizieren
+		// --> kein exponentieller Zoom mehr
 		console.log("zoom in");
-		if (this.getZoomLvl() < this.getZoomMax()) {
-			this.setZoomLvl(this.getZoomLvl() + 1);
-			this.setScale(this.getScale() * this.getScaleFactor());
-			console.log("new zoomlvl: " + this.getZoomLvl());
-			this.clearAll();
-		} else {
-			console.log("max zoom reached");
-		}
+		console.log("scale before: " + this.getScale());
+		this.setZoomLvl(this.getZoomLvl() + 1);
+		this.setScale(this.getScale() * this.getScaleFactor());
+		console.log("scale after: " + this.getScale());
+		console.log("new zoomlvl: " + this.getZoomLvl());
+		this.clearAll();
 	},
 
 	zoomOut : function() {
 		console.log("zoom out");
-		if (this.getZoomLvl() > this.getZoomMin()) {
-			this.setZoomLvl(this.getZoomLvl() - 1);
-			this.setScale(this.getScale() / this.getScaleFactor());
-			console.log("new zoomlvl: " + this.getZoomLvl());
-			this.clearAll();
-		} else {
-			console.log("min zoom reached");
-		}
+		console.log("scale before: " + this.getScale());
+		this.setZoomLvl(this.getZoomLvl() - 1);
+		this.setScale(this.getScale() / this.getScaleFactor());
+		console.log("scale after: " + this.getScale());
+		console.log("new zoomlvl: " + this.getZoomLvl());
+		this.clearAll();
 	},
 	
 	setImage : function(dataUrl, reload) {
