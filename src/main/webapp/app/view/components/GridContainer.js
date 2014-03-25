@@ -155,7 +155,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		var ctx = this.getCanvas().getContext("2d");
 		var koord = this.getFieldKoord(x, y);
-
 		ctx.globalAlpha = alpha;
 		ctx.fillStyle = color;
 		ctx.fillRect(koord[0], koord[1], this.getFieldSize()
@@ -180,7 +179,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		// set font layout
 		ctx.globalAlpha  = 1;
 		ctx.fillStyle    = this.getBorderColor();
-		ctx.font 		 = "12pt bold";
+		ctx.font 		 = this.getFontForGridSize(this.getGridSize());
 		ctx.textAlign    = "center";
 		ctx.textBaseline = "middle";
 		
@@ -188,6 +187,18 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		ctx.fillText(text, startX, startY);
 
 		ctx.restore();
+	},
+	
+	getFontForGridSize : function(gridsize) {
+		if (gridsize >= 14) {
+			return "6pt bold";
+		} else if (gridsize >= 12) {
+			return "7pt bold";
+		}  else if (gridsize >= 9) {
+			return "10pt bold";
+		} else {
+			return "12pt bold";
+		}
 	},
 
 	onclick : function(event) {
@@ -499,7 +510,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				var key = row + ";" + column;
 				var coords = this.getChosenFieldFromPossibleAnswer(key);
 
-				console.log("[GridContainer.js] - coords " + coords[0] + " " + coords[1]);
 				if (colorTiles) {
 					var alphaOffset = 0.05;
 					var alphaScale 	= 0.9;
