@@ -331,40 +331,7 @@ Ext.define('ARSnova.view.Question', {
 			scope: this
 		};
 		
-		/**
-		 *  grid, gridbutton and container for the grid button to add into the layout if necessary
-		 */
 		
-		this.gridButton = Ext.create('Ext.Button', {
-			flex: 1,
-			ui: 'confirm',
-			cls: 'login-button noMargin',
-			text: Messages.SAVE,
-			handler: !this.viewOnly ? this.saveGridQuestionHandler : function() {},
-			scope: this,
-			disabled: false
-		});
-		
-		this.gridContainer = {
-				xtype: 'container',
-				layout: {
-					type: 'hbox',
-					align: 'stretch'
-				},
-				defaults: {
-					style: {
-						margin: '10px'
-					}
-				},
-				items: [this.gridButton, !!!this.questionObj.abstention ? { hidden: true } : {
-					flex: 1,
-					xtype: 'button',
-					cls: 'login-button noMargin',
-					text: Messages.ABSTENTION,
-					handler: this.mcAbstentionHandler,
-					scope: this
-				}]
-			};
 		
 		
 		
@@ -376,6 +343,9 @@ Ext.define('ARSnova.view.Question', {
 			
 		} else if(this.questionObj.questionType === "grid") {
 
+			/*
+			 * in case of grid question, create a grid container model
+			 */
 			this.grid = Ext.create('ARSnova.view.components.GridContainer', {
 				id : 'gridContainer' + this.questionObj._id,
 				offsetX : this.questionObj.offsetX,
@@ -387,9 +357,47 @@ Ext.define('ARSnova.view.Question', {
 
 			this.grid.setImage(this.questionObj.image, false);
 
-			
+			/*
+			 * update function for align the grids picture
+			 */
 			this.grid.update(this.questionObj.gridSize, this.questionObj.offsetX, 
 				 	 this.questionObj.offsetY, this.questionObj.zoomLvl, this.questionObj.possibleAnswers, false);
+			
+			
+			/*
+			 *   gridbutton and container for the grid button to add into the layout if necessary
+			 */		
+			this.gridButton = Ext.create('Ext.Button', {
+				flex: 1,
+				ui: 'confirm',
+				cls: 'login-button noMargin',
+				text: Messages.SAVE,
+				handler: !this.viewOnly ? this.saveGridQuestionHandler : function() {},
+				scope: this,
+				disabled: false
+			});
+			
+			this.gridContainer = {
+					xtype: 'container',
+					layout: {
+						type: 'hbox',
+						align: 'stretch'
+					},
+					defaults: {
+						style: {
+							margin: '10px'
+						}
+					},
+					items: [this.gridButton, !!!this.questionObj.abstention ? { hidden: true } : {
+						flex: 1,
+						xtype: 'button',
+						cls: 'login-button noMargin',
+						text: Messages.ABSTENTION,
+						handler: this.mcAbstentionHandler,
+						scope: this
+					}]
+				};
+			
 			
 			
 			this.add([this.grid]);
@@ -421,6 +429,9 @@ Ext.define('ARSnova.view.Question', {
 		});
 	},
 	
+	/*
+	 * function to set the users answers after setting the last answer.
+	 */
 	setGridAnswer: function(answerString){
 
 		var grid = this.grid;
