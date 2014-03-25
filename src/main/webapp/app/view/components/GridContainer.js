@@ -262,66 +262,23 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 	
 	moveRight : function() {
-		console.log("scaleFactor - 1: " + parseFloat(this.getScaleFactor() - 1));
-		console.log("OffsetX: " + this.getOffsetX());
-		var scaled = parseFloat((this.getScaleFactor() - 1) * this.getZoomLvl());
-		if (this.getOffsetX() < scaled * this.getImgSize()/ this.getGeneralScale() / 2) {
-			var OffsetX = this.getOffsetX() + this.getMoveInterval() * scaled;
-			this.setOffsetX(OffsetX);
-			this.clearAll();
-			console.log("move right");
-		} else {
-			var moveable = this.getMoveable();
-			moveable[2] = false;
-			this.setMoveable(moveable);
-			console.log("reached left end");
-		}		
+		this.setOffsetX(this.getOffsetX() + this.getMoveInterval());
+		this.clearAll();
 	},
 	
 	moveLeft : function() {
-		if (this.getOffsetX() * (-1) < (this.getScaleFactor() - 1) * this.getZoomLvl() * this.getImgSize() / this.getGeneralScale() / 2) {
-			var OffsetX = this.getOffsetX() - this.getMoveInterval();
-			this.setOffsetX(OffsetX);
-			this.clearAll();
-			console.log("move left");
-		} else {
-			var moveable = this.getMoveable();
-			moveable[0] = false;
-			this.setMoveable(moveable);
-			console.log("reached right end");
-		}	
+		this.setOffsetX(this.getOffsetX() - this.getMoveInterval());
+		this.clearAll();
 	},
 	
 	moveUp : function() {
-		if (this.getOffsetY() * (-1) < (this.getScaleFactor() - 1) * this.getZoomLvl() * this.getImgSize() / this.getGeneralScale()/ 2) {
-			var OffsetY = this.getOffsetY() - this.getMoveInterval();
-			this.setOffsetY(OffsetY);
-			this.clearAll();
-			console.log("move up");
-		} else {
-			var moveable = this.getMoveable();
-			moveable[1] = false;
-			this.setMoveable(moveable);
-			console.log("reached bottom end");
-		}	
+		this.setOffsetY(this.getOffsetY() - this.getMoveInterval());
+		this.clearAll();
 	},
 	
 	moveDown : function() {
-		if (this.getOffsetY() < (this.getScaleFactor() - 1) * this.getZoomLvl() * this.getImgSize() / this.getGeneralScale() / 2) {
-			var OffsetY = this.getOffsetY() + this.getMoveInterval();
-			this.setOffsetY(OffsetY);
-			this.clearAll();
-			console.log("move down");
-		} else {
-			var moveable = this.getMoveable();
-			moveable[3] = false;
-			this.setMoveable(moveable);
-			console.log("reached top end");
-		}	
-	},
-	
-	isMoveable : function() {
-		return this.getMoveable();
+		this.setOffsetY(this.getOffsetY() + this.getMoveInterval());
+		this.clearAll();
 	},
 	
 	initZoom: function() {
