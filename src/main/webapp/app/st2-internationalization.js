@@ -283,6 +283,8 @@ case 'en-gb':
 		GRID_LOADING : "Loading",
 		GRID_LOAD : "Load",
 		GRID_ERROR_URL_MISSING : "Please insert a valid url.",
+		GRID_LABEL_ZOOM : "Zoom (in percent)",
+		GRID_LABEL_SQUARES : "Squares per edge",
 		CORRECT_ANSWERS: "Correct answers",
 		SETTINGS:	"Settings",
 			
@@ -599,6 +601,8 @@ default:
 		GRID_LOADING : "Lade",
 		GRID_LOAD : "Laden",
 		GRID_ERROR_URL_MISSING : "Bitte geben Sie eine URL an.",
+		GRID_LABEL_ZOOM : "Zoom (in %)",
+		GRID_LABEL_SQUARES : "Quadrate pro Kante",
 		CORRECT_ANSWERS:	"Richtige Antworten",
 		SETTINGS:	"Einstellungen",
 		

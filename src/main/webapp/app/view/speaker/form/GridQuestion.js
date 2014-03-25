@@ -26,28 +26,27 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	requires: [
 	           'Ext.ux.Fileup'	// file upload framework
 	           ],
-	
-	config : {
-		
-	},
-	
-	imageArea : null,
-	uploadView : null,
-	imageCnt : null,
-	grid : null,
-	imageSettings : null,
-	answers : null,
 
+	imageArea 		 : null,		// contains all image relevant items
+	grid 			 : null,		// encapsulated canvas element
+	imageCnt		 : null,		// image manipulation options
+	imageSettings 	 : null,		// the image settings (offset, zoom,...)
+	uploadView 		 : null,		// view containing the upload options
+	answers 		 : null,
+
+	/**
+	 * Initializes the grid question area and the needed
+	 * form elements.
+	 */
 	initialize : function() {
+		var me = this;
 		this.callParent(arguments);
-		
 
 		this.grid = Ext.create('ARSnova.view.components.GridContainer', {
-			docked : 'top',
-			id : 'gridContainer'
+			docked 	: 'top',
+			id 		: 'gridContainer'
 		});
 		
-		// Panel for picture and settings
 		this.imageArea = Ext.create('Ext.Panel', {
 			id : 'imageArea',
 			layout : 'hbox',
@@ -179,12 +178,12 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				docked : 'bottom'
 			} ]
 		});
-		
-		
+
 		this.answers = Ext.create('Ext.Panel', {
 			items : [ {
 				xtype : 'fieldset',
 				id : 'fieldsetAnswers',
+				name : 'fieldsetAnswers',
 				title : Messages.CORRECT_ANSWERS,
 				items : [ {
 					xtype : 'textfield',
@@ -192,8 +191,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					label : Messages.COUNT,
 					name : Messages.COUNT,
 					placeHolder : '0',
-					readOnly : true
-				} ]
+					readOnly : true 
+				}]
 			} ]
 		});
 
@@ -205,7 +204,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						title : Messages.SETTINGS,
 						items : [ {
 							xtype : 'spinnerfield',
-							label : 'Zoom (in %)',
+							label : Messages.GRID_LABEL_ZOOM,
 							listeners : {
 								scope: this,
 								spinup : function() {
@@ -223,7 +222,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						// cycle : true
 						}, {
 							xtype : 'spinnerfield',
-							label : 'Quadrate (Breiten x Höhe)',
+							label : Messages.GRID_LABEL_SQUARES,
 							listeners : {
 								scope: this,
 								spin : function(spinner, value) {
@@ -250,21 +249,19 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		});
 
 		// update answers counter
-		this.grid.setOnFieldClick(function(AnswerValue) {
-			var cnt = Ext.getCmp('textfieldAnswers');
-			cnt.setValue(AnswerValue);
-			console.log(AnswerValue);
-
+		this.grid.setOnFieldClick(function(answerValue) {
+			Ext.getCmp('textfieldAnswers').setValue(answerValue);
 		});
 
-		this.add([ {
+		this.add([{
 			xtype : 'fieldset',
 			title : ' ',
 			items : [ 
 			          this.imageArea, 
 			          this.uploadView,
-			          this.imageCnt ]
-		} ]);
+			          this.imageCnt 
+			        ]
+		}]);
 
 	},
 	
@@ -304,20 +301,16 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	},
 	
 	/**
-	 * Toggles between the two view possibilities.
+	 * Toggles between the image view and the upload view
 	 */
-	toggleViews : function() {
-		console.log("this");
-		console.log(this);
-		
-		
-		this.imageArea.isHidden() 	   ? this.imageArea.show() 	 : this.imageArea.hide();
-		this.imageCnt.isHidden() ? this.imageCnt.show() : this.imageCnt.hide();
-		this.uploadView.isHidden() 	   ? this.uploadView.show() 		 : this.uploadView.hide();
+	toggleViews : function() {	
+		this.imageArea.isHidden()	? this.imageArea.show()		: this.imageArea.hide();
+		this.imageCnt.isHidden()	? this.imageCnt.show()		: this.imageCnt.hide();
+		this.uploadView.isHidden()	? this.uploadView.show()	: this.uploadView.hide();
 	},
 
 	/**
-	 * Resets the view to the initial state.
+	 * Resets the image view to the initial state.
 	 */
 	resetView : function() {
 		this.toggleViews();
@@ -332,23 +325,21 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	 * transfered as a URL an will be converted directly on the server.
 	 */
 	getQuestionValues: function() {
-		var grid   = Ext.getCmp('gridContainer')
 		var result = {};
 		
 		// get image data
-		result.image 	 	   = grid.getImageFile().src;
-		result.gridSize 	   = grid.getGridSize();
-		result.offsetX  	   = grid.getOffsetX();
-		result.offsetY 		   = grid.getOffsetY();
-		result.zoomLvl 		   = grid.getZoomLvl();
-		result.possibleAnswers = grid.getPossibleAnswersFromChosenFields();
-		result.noCorrect 	   = grid.getChosenFields().length > 0 ? 0 : 1; // TODO: Check if really needed (and why numbers instead of bool)
+		result.image 	 	   = this.grid.getImageFile().src;
+		result.gridSize 	   = this.grid.getGridSize();
+		result.offsetX  	   = this.grid.getOffsetX();
+		result.offsetY 		   = this.grid.getOffsetY();
+		result.zoomLvl 		   = this.grid.getZoomLvl();
+		result.possibleAnswers = this.grid.getPossibleAnswersFromChosenFields();
+		result.noCorrect 	   = this.grid.getChosenFields().length > 0 ? 0 : 1; // TODO: Check if really needed (and why numbers instead of bool)
 
 		return result;
 	},
 	
 	updateGrid: function(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers, mark) {
-		var grid   = Ext.getCmp('gridContainer')
-		grid.update(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers, mark);
+		this.grid.update(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers, mark);
 	}
 });
