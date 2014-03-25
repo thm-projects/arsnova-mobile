@@ -910,10 +910,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			// set image data (base64 --> grid)
 			this.grid.setImage(this.questionObj.image, false);
 			
-			// TODO falls hierbei doch die chosenFields markiert werden sollen, false in true umaendern
-			// oder die Abfrage komplett aus der update Methode entfernen 
 			this.grid.update(this.questionObj.gridSize, this.questionObj.offsetX, 
-					this.questionObj.offsetY, this.questionObj.zoomLvl, this.questionObj.possibleAnswers, false);
+					this.questionObj.offsetY, this.questionObj.zoomLvl, this.questionObj.possibleAnswers, true);
 			
 			
 			// add toggles
