@@ -15,8 +15,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		defaultBorderColor 		 : "#000000",	// TODO Name ist irreführend: --> defaultGridColor oder so
 		defaultToggleBorderColor : "#FFFFFF",	// TODO Name ist irreführend: --> alternativeGridColor oder so
 		scaleFactor 			 : 1.2,			// zoom level scale factor
-		scaleInterval			 : 0.2,			// zoom level scale interval
-		scale 					 : 1.0, 		// actual scaling for the image. Necessary to switch between zoomed image an normal scale
+		scale 					 : 1.0, 		// actual scaling for the image. Necessary to switch between scale for zoomed image an normal scale
 		zoomLvl 				 : 0, 			// current zoomlevel
 		offsetX 				 : 0,
 		offsetY 				 : 0,
@@ -299,13 +298,11 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		if (this.getZoomLvl() > 0) {
 			console.log ("zoomLvl > 0")
 			for (i = 0; i < this.getZoomLvl(); i++) {
-				this.setScale(this.getScale() + this.getScaleInterval());
-//				this.setScale(this.getScale() * this.getScaleFactor());
+				this.setScale(this.getScale() * this.getScaleFactor());
 			}
 		} else if (this.getZoomLvl() < 0) {
 			for (i = 0; i > this.getZoomLvl(); i--) {
-				this.setScale(this.getScale() - this.getScaleInterval());
-//				this.setScale(this.getScale() / this.getScaleFactor());
+				this.setScale(this.getScale() / this.getScaleFactor());
 			}
 		} else {
 			this.setScale(1.0);
@@ -321,7 +318,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		ctx.translate(imgSizeHalf - (imgSizeHalf * scale), imgSizeHalf - (imgSizeHalf * scale));
 		
 		scale *= this.getGeneralScale();
-		console.log("ctx.scale: " + scale);
 		ctx.scale(scale, scale);
 	},
 	
@@ -345,8 +341,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		console.log("zoom in");
 		console.log("scale before: " + this.getScale());
 		this.setZoomLvl(this.getZoomLvl() + 1);
-		this.setScale(this.getScale() + this.getScaleInterval());
-//		this.setScale(this.getScale() * this.getScaleFactor());
+		this.setScale(this.getScale() * this.getScaleFactor());
 		console.log("scale after: " + this.getScale());
 		console.log("new zoomlvl: " + this.getZoomLvl());
 		this.clearAll();
@@ -356,8 +351,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		console.log("zoom out");
 		console.log("scale before: " + this.getScale());
 		this.setZoomLvl(this.getZoomLvl() - 1);
-		this.setScale(this.getScale() - this.getScaleInterval());
-//		this.setScale(this.getScale() / this.getScaleFactor());
+		this.setScale(this.getScale() / this.getScaleFactor());
 		console.log("scale after: " + this.getScale());
 		console.log("new zoomlvl: " + this.getZoomLvl());
 		this.clearAll();
