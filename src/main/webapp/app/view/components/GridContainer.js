@@ -374,6 +374,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	
 	clearImage : function() {
 		var canvas = this.getCanvas();
+		this.setGridSize(5);
 		this.setImageFile(null);
 		this.clearConfigs();
 		

@@ -182,12 +182,12 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.answers = Ext.create('Ext.Panel', {
 			items : [ {
 				xtype : 'fieldset',
-				id : 'fieldsetAnswers',
-				name : 'fieldsetAnswers',
+				id : 'fs_answers',
+				name : 'fs_answers',
 				title : Messages.CORRECT_ANSWERS,
 				items : [ {
 					xtype : 'textfield',
-					id : 'textfieldAnswers',
+					id : 'tf_answers',
 					label : Messages.COUNT,
 					name : Messages.COUNT,
 					placeHolder : '0',
@@ -201,9 +201,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			items : [ 
 			         {
 						xtype : 'fieldset',
+						id : 'fs_imagesettings',
 						title : Messages.SETTINGS,
 						items : [ {
 							xtype : 'spinnerfield',
+							id : 'sf_zoom',
 							label : Messages.GRID_LABEL_ZOOM,
 							listeners : {
 								scope: this,
@@ -215,27 +217,29 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 								}
 		
 							},
+							// TODO: raus??
 							minValue : 100,
 							maxValue : 200,
 							value : 100,
 							stepValue : 20
-						// cycle : true
-						}, {
-							xtype : 'spinnerfield',
-							label : Messages.GRID_LABEL_SQUARES,
-							listeners : {
-								scope: this,
-								spin : function(spinner, value) {
-									console.log(this);
-									this.grid.setGrids(value); // update grid count
-								}
+							// cycle : true
+							}, {
+								xtype : 'spinnerfield',
+								id : 'sf_grids',
+								label : Messages.GRID_LABEL_SQUARES,
+								listeners : {
+									scope: this,
+									spin : function(spinner, value) {
+										console.log(this);
+										this.grid.setGrids(value); // update grid count
+									}
+								},
+								minValue : 2,
+								maxValue : 16,
+								value : 5,
+								stepValue : 1,
+								cycle : true,
 							},
-							minValue : 2,
-							maxValue : 16,
-							value : 5,
-							stepValue : 1,
-							cycle : true,
-						},
 						this.answers
 						]
 			} ]
@@ -250,7 +254,10 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 		// update answers counter
 		this.grid.setOnFieldClick(function(answerValue) {
-			Ext.getCmp('textfieldAnswers').setValue(answerValue);
+			//this.answers.getComponent('fs_answers').getComponent('tf_answers').setValue(answerValue);
+			Ext.getCmp('tf_answers').setValue(answerValue);
+			console.log("this: ");
+			console.log(this);
 		});
 
 		this.add([{
@@ -315,6 +322,22 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	resetView : function() {
 		this.toggleViews();
 		this.grid.clearImage();
+		this.clearTextfields();
+	},
+	
+	clearTextfields : function() {
+		var zoomField = this.imageSettings.getComponent('fs_imagesettings').getComponent('sf_zoom');
+		var gridField = this.imageSettings.getComponent('fs_imagesettings').getComponent('sf_grids');
+		var answerField = this.answers.getComponent('fs_answers').getComponent('tf_answers');
+
+		console.log(zoomField);
+		console.log(gridField);
+		console.log(answerField);
+		
+		zoomField.setValue(100);
+		gridField.setValue(5);
+		answerField.setValue(0);
+		
 	},
 	
 	/**
