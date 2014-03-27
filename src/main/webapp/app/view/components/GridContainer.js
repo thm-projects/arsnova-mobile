@@ -175,10 +175,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		 * in row and in column. At this point, the respective field mark get this stretch, too.
 		 */
 		if(y == 0){
-			height += this.getImgSize() - (this.getFieldSize() * this.getGridSize());
+			height += this.getImgSize() - (this.getFieldSize() * this.getGridSize() + this.getBorderWidth());
 		} 
 		if(x == 0) {
-			width += this.getImgSize() - (this.getFieldSize() * this.getGridSize());
+			width += this.getImgSize() - (this.getFieldSize() * this.getGridSize() + this.getBorderWidth());
 		}
 		
 		ctx.fillRect(koord[0], koord[1], width, height);
