@@ -109,10 +109,19 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	// get relative start koords of a field by its position
 	// params
 	getFieldKoord : function(x, y) {
-		var x1 = x * this.getFieldSize() + 2
-				* this.getBorderWidth();
-		var y1 = y * this.getFieldSize() + 2
-				* this.getBorderWidth();
+		var x1 = x * this.getFieldSize() + 2 * this.getBorderWidth();
+		var y1 = y * this.getFieldSize() + 2 * this.getBorderWidth();
+		
+		/*
+		 * If the field is near to the left or top edge, the border is just the half.
+		 */
+		if(x == 0) {
+			x1 -= this.getBorderWidth();
+		}
+		
+		if(y == 0){
+			y1 -= this.getBorderWidth();
+		}
 		return new Array(x1, y1);
 	},
 
@@ -157,9 +166,22 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var koord = this.getFieldKoord(x, y);
 		ctx.globalAlpha = alpha;
 		ctx.fillStyle = color;
-		ctx.fillRect(koord[0], koord[1], this.getFieldSize()
-				- this.getBorderWidth(), this.getFieldSize()
-				- this.getBorderWidth());
+		
+		var width =this.getFieldSize() - this.getBorderWidth();
+		var height = this.getFieldSize() - this.getBorderWidth();
+		
+		/*
+		 * rounding rest in separating the canvas size in fields stretches the first fields 
+		 * in row and in column. At this point, the respective field mark get this stretch, too.
+		 */
+		if(y == 0){
+			height += this.getImgSize() - (this.getFieldSize() * this.getGridSize());
+		} 
+		if(x == 0) {
+			width += this.getImgSize() - (this.getFieldSize() * this.getGridSize());
+		}
+		
+		ctx.fillRect(koord[0], koord[1], width, height);
 	},
 	
 	
