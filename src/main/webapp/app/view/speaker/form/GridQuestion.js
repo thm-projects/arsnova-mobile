@@ -217,12 +217,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 								}
 		
 							},
-							// TODO: raus??
-							minValue : 100,
-							maxValue : 200,
 							value : 100,
 							stepValue : 20
-							// cycle : true
 							}, {
 								xtype : 'spinnerfield',
 								id : 'sf_grids',
