@@ -5,7 +5,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	config : {
 		gridSize 				 : 5,			// Sqrt of the gridcount
 		canvasSize 				 : 400,			// Size of the canvas element (width and height)
-		imgSizeHalf 			 : 200,			// TODO Brauchen wir das ???
 		canvas 				 	 : null, 
 		imageFile 				 : null,
 		borderWidth 			 : 1,			// TODO Name ist irreführend: --> gridWidth oder so 
@@ -40,9 +39,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		canvas.style.margin = '0 auto';
 		canvas.addEventListener("mousedown", this.onclick, false);
 		canvas.parentContainer = this;
-		
-		this.setImgSizeHalf(this.getCanvasSize() / 2);
-
 		this.setCanvas(canvas);
 		
 		this.image = {
@@ -284,7 +280,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		}
 	},
 
-	// TODO init / update oder was anderes?
 	update: function(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers, mark) {
 		this.setGridSize(gridSize);
 		this.setOffsetX(offsetX);
@@ -346,15 +341,20 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	
 	zoom : function(scale) {
 		var ctx = this.getCanvas().getContext("2d");
-		var imgSizeHalf = this.getImgSizeHalf();
+		var imgSizeHalf = this.getCanvasSize() / 2;
 		
 		ctx.translate(imgSizeHalf - (imgSizeHalf * scale), imgSizeHalf - (imgSizeHalf * scale));
 		
-		scale *= this.getGeneralScale();
+		// multiply the current scale with the general scale factor for the image
+		// to scale the image in the center of the canvas element.
+		scale *= this.getGeneralScaleFactor();
 		ctx.scale(scale, scale);
 	},
 	
-	getGeneralScale : function(){
+	/**
+	 * Gets the general scale factor relative to the image to scale the image in the center of the canvas element.
+	 */
+	getGeneralScaleFactor : function() {
 		var image = this.getImageFile();
 		
 		if(image.height >= image.width) {
@@ -364,15 +364,23 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		}
 	},
 
+	/**
+	 * Zooms in the image by one step.
+	 */
 	zoomIn : function() {
 		this.setZoomLvl(this.getZoomLvl() + 1);
 		this.setScale(this.getScale() * this.getScaleFactor());
+		// no redraw the image with the new scale
 		this.redraw();
 	},
 
+	/**
+	 * Zooms out of the image by one step.
+	 */
 	zoomOut : function() {
 		this.setZoomLvl(this.getZoomLvl() - 1);
 		this.setScale(this.getScale() / this.getScaleFactor());
+		// no redraw the image with the new scale
 		this.redraw();
 	},
 	
@@ -551,9 +559,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				if (showPercentages) {
 					var text = (typeof tilesToFill[key] ===  "undefined" ) ? "0,0%" : Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) + "%";
 					this.addTextToField(coords[0], coords[1], text);
-				}
-				
-			} 
+				}	
+			}
 		}
 	}
 });

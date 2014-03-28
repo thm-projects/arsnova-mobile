@@ -341,9 +341,5 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		result.noCorrect 	   = this.grid.getChosenFields().length > 0 ? 0 : 1; // TODO: Check if really needed (and why numbers instead of bool)
 
 		return result;
-	},
-	
-	updateGrid: function(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers, mark) {
-		this.grid.update(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers, mark);
 	}
 });

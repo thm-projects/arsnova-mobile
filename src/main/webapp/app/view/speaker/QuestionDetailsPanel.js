@@ -789,22 +789,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			hidden: true
 		});
 		
-		// TODO
 		if(this.questionObj.questionType === 'grid') {
-	 	  
-//			console.log('answerEditForm');
-//			console.log(this.answerEditForm);
-//			
-//			console.log('answerFormFieldSet');
-//			console.log(this.answerFormFieldset);
-//			
-//			console.log('questionObj');
-//			console.log(this.questionObj);
-			
+	 	
 			// set image data (base64 --> grid)
 			this.answerEditForm.updateCanvas(this.questionObj.image, false);
 			
-			this.answerEditForm.updateGrid(this.questionObj.gridSize, this.questionObj.offsetX, 
+			this.answerEditForm.grid.update(this.questionObj.gridSize, this.questionObj.offsetX, 
 					this.questionObj.offsetY, this.questionObj.zoomLvl, this.questionObj.possibleAnswers, true);
 
 			// do not reset possible answers in grid questions
