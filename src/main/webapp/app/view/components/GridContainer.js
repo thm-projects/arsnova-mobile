@@ -24,6 +24,11 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		editable				 : true			// if set to false click events are prevented
 	},
 
+	/**
+	 * Constructor.
+	 * 
+	 * Creates the canvas element and initializes all necessary variables.
+	 */
 	constructor : function() {
 		this.callParent(arguments);
 
@@ -50,14 +55,19 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 
 	/**
-	 * TODO: WEr die geschrieben hat, kommentieren!
+	 * Redraws the whole canvas element with default alpha value and marks the chosen fields.
 	 */
-	clearAll : function() {
-		this.clearAllWithAlpha(1.0, true);
+	redraw : function() {
+		this.redrawWithAlpha(1.0, true);
 	},
 	
-	// TODO: rename to redraw
-	clearAllWithAlpha : function(alpha, markChosenFields) {
+	/**
+	 * Redraws the whole canvas element.
+	 * 
+	 * @param double	alpha				The alpha value of the field color.
+	 * @param boolean	markChosenFields	<code>true</code> if the chosen fields should be marked, <code>false</code> otherwise.
+	 */
+	redrawWithAlpha : function(alpha, markChosenFields) {
 		var ctx = this.getCanvas().getContext('2d');
 		// save context
 		ctx.save();
@@ -79,6 +89,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		}
 	},
 
+	/**
+	 * Marks all chosen fields.
+	 */
 	markChosenFields: function() {
 		var thiz = this;
 		this.getChosenFields().forEach(
@@ -105,8 +118,12 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		return new Array(xGrid, yGrid);
 	},
 
-	// get relative start koords of a field by its position
-	// params
+	/**
+	 * Gets the relative start coordinates of a field by its position parameters.
+	 *
+	 * @param int	x	The fields x-coordinate.
+	 * @param int	y	The fields y-coordinate.
+	 */
 	getFieldKoord : function(x, y) {
 		var x1 = x * this.getFieldSize() + 2 * this.getBorderWidth();
 		var y1 = y * this.getFieldSize() + 2 * this.getBorderWidth();
@@ -258,7 +275,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		}
 
 		if (changed) {
-			container.clearAll();
+			container.redraw();
 		}
 
 		if (container.getOnFieldClick() != null) {
@@ -285,7 +302,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setChosenFields(Array());
 		this.setGridSize(count);
 		
-		this.clearAll();
+		this.redraw();
 		
 		if (this.getOnFieldClick() != null) {
 			this.getOnFieldClick()(
@@ -295,22 +312,22 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	
 	moveRight : function() {
 		this.setOffsetX(this.getOffsetX() + this.getMoveInterval());
-		this.clearAll();
+		this.redraw();
 	},
 	
 	moveLeft : function() {
 		this.setOffsetX(this.getOffsetX() - this.getMoveInterval());
-		this.clearAll();
+		this.redraw();
 	},
 	
 	moveUp : function() {
 		this.setOffsetY(this.getOffsetY() - this.getMoveInterval());
-		this.clearAll();
+		this.redraw();
 	},
 	
 	moveDown : function() {
 		this.setOffsetY(this.getOffsetY() + this.getMoveInterval());
-		this.clearAll();
+		this.redraw();
 	},
 	
 	initZoom: function() {
@@ -350,13 +367,13 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	zoomIn : function() {
 		this.setZoomLvl(this.getZoomLvl() + 1);
 		this.setScale(this.getScale() * this.getScaleFactor());
-		this.clearAll();
+		this.redraw();
 	},
 
 	zoomOut : function() {
 		this.setZoomLvl(this.getZoomLvl() - 1);
 		this.setScale(this.getScale() / this.getScaleFactor());
-		this.clearAll();
+		this.redraw();
 	},
 	
 	setImage : function(dataUrl, reload) {
@@ -369,7 +386,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			if (reload)
 				container.clearImage();
 			container.setImageFile(newimage);
-			container.clearAll();
+			container.redraw();
 		};
 	},
 	
@@ -401,7 +418,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			this.setBorderColor(this.getDefaultBorderColor());
 		}	
 		
-		this.clearAll();
+		this.redraw();
 	},
 	
 	getImageFileSizeBytes : function() {
@@ -477,7 +494,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 	
 	/**
-	 * Converts a possibleAnswer message to a chosen field
+	 * Converts a possibleAnswer message to a chosen field.
+	 * 
+	 * @param 	possibleAnswer	The possible answer to convert.
 	 */
 	getChosenFieldFromPossibleAnswer : function(possibleAnswer) {
 		var coords = possibleAnswer.split(";");
@@ -498,7 +517,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setBorderColor(toggleColors ? this.getDefaultToggleBorderColor() : this.getDefaultBorderColor());
 		
 		// clear canvas
-		weakenSourceImage ? this.clearAllWithAlpha(0.2, false) : this.clearAll();
+		weakenSourceImage ? this.redrawWithAlpha(0.2, false) : this.redraw();
 		
 		// count answers
 		for (var key in tilesToFill) {
