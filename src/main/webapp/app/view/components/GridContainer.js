@@ -5,20 +5,20 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	config : {
 		gridSize 				 : 5,			// Sqrt of the gridcount
 		canvasSize 				 : 400,			// Size of the canvas element (width and height)
-		canvas 				 	 : null, 
-		imageFile 				 : null,
-		borderWidth 			 : 1,			// TODO Name ist irreführend: --> gridWidth oder so 
+		canvas 				 	 : null, 		// The canvas element.
+		imageFile 				 : null,		// The image file.
+		gridLineWidth		 	 : 1,			// Width of the grid lines.
 		chosenFields 			 : Array(),
 		fieldColor 				 : "#C0FFEE",	// TODO Name ist irreführend: --> highlightColor oder so 
-		borderColor 			 : "#000000",	// TODO Name ist irreführend: --> gridColor oder so 
+		curGridLineColor		 : "#000000",	// Current color of the grid lines. 
 		defaultBorderColor 		 : "#000000",	// TODO Name ist irreführend: --> defaultGridColor oder so
 		defaultToggleBorderColor : "#FFFFFF",	// TODO Name ist irreführend: --> alternativeGridColor oder so
-		scaleFactor 			 : 1.2,			// zoom level scale factor
-		scale 					 : 1.0, 		// actual scaling for the image. Necessary to switch between scale for zoomed image an normal scale
-		zoomLvl 				 : 0, 			// current zoomlevel
-		offsetX 				 : 0,
-		offsetY 				 : 0,
-		moveInterval 			 : 10,			// steps to take when moving the image
+		scaleFactor 			 : 1.2,			// zoom level scale factor.
+		scale 					 : 1.0, 		// actual scaling for the image. Necessary to switch between scale for zoomed image an normal scale.
+		zoomLvl 				 : 0, 			// current zoomlevel.
+		offsetX 				 : 0,			// current offset in x direction.
+		offsetY 				 : 0,			// current offset in y direction.
+		moveInterval 			 : 10,			// steps to take when moving the image (in pixel).
 		onFieldClick 			 : null,		// TODO: hier wäre ein Kommentar mal sinnvoll
 		editable				 : true			// if set to false click events are prevented
 	},
@@ -124,18 +124,18 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * @param int	y	The fields y-coordinate.
 	 */
 	getFieldKoord : function(x, y) {
-		var x1 = x * this.getFieldSize() + 2 * this.getBorderWidth();
-		var y1 = y * this.getFieldSize() + 2 * this.getBorderWidth();
+		var x1 = x * this.getFieldSize() + 2 * this.getGridLineWidth();
+		var y1 = y * this.getFieldSize() + 2 * this.getGridLineWidth();
 		
 		/*
 		 * If the field is near to the left or top edge, the border is just the half.
 		 */
 		if(x == 0) {
-			x1 -= this.getBorderWidth();
+			x1 -= this.getGridLineWidth();
 		}
 		
 		if(y == 0){
-			y1 -= this.getBorderWidth();
+			y1 -= this.getGridLineWidth();
 		}
 		return new Array(x1, y1);
 	},
@@ -146,7 +146,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * @return	int		The field size.
 	 */
 	getFieldSize : function() {
-		return (this.getCanvasSize() - 2 * this.getBorderWidth())
+		return (this.getCanvasSize() - 2 * this.getGridLineWidth())
 				/ this.getGridSize();
 	},
 
@@ -157,27 +157,27 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var ctx = this.getCanvas().getContext("2d");
 
 		ctx.globalAlpha = 1;
-		ctx.fillStyle = this.getBorderColor();
+		ctx.fillStyle = this.getCurGridLineColor();
 
 		// draw border
-		ctx.fillRect(0, 0, this.getBorderWidth(), this
+		ctx.fillRect(0, 0, this.getGridLineWidth(), this
 				.getCanvasSize());
 		ctx.fillRect(0, 0, this.getCanvasSize(), this
-				.getBorderWidth());
-		ctx.fillRect(this.getCanvasSize() - this.getBorderWidth(),
-				0, this.getBorderWidth(), this.getCanvasSize());
+				.getGridLineWidth());
+		ctx.fillRect(this.getCanvasSize() - this.getGridLineWidth(),
+				0, this.getGridLineWidth(), this.getCanvasSize());
 		ctx.fillRect(0, this.getCanvasSize()
-				- this.getBorderWidth(), this.getCanvasSize(),
-				this.getBorderWidth());
+				- this.getGridLineWidth(), this.getCanvasSize(),
+				this.getGridLineWidth());
 
 		// draw inner grid
 		for (var i = 1; i < this.getGridSize(); i++) {
 			ctx.fillRect(this.getFieldSize() * i
-					+ this.getBorderWidth(), 0, this
-					.getBorderWidth(), this.getCanvasSize());
+					+ this.getGridLineWidth(), 0, this
+					.getGridLineWidth(), this.getCanvasSize());
 			ctx.fillRect(0, this.getFieldSize() * i
-					+ this.getBorderWidth(), this.getCanvasSize(),
-					this.getBorderWidth());
+					+ this.getGridLineWidth(), this.getCanvasSize(),
+					this.getGridLineWidth());
 		}
 		console.log('[GridContainer.js] - Done creating canvas grid.');
 	},
@@ -192,18 +192,18 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		ctx.globalAlpha = alpha;
 		ctx.fillStyle = color;
 		
-		var width =this.getFieldSize() - this.getBorderWidth();
-		var height = this.getFieldSize() - this.getBorderWidth();
+		var width =this.getFieldSize() - this.getGridLineWidth();
+		var height = this.getFieldSize() - this.getGridLineWidth();
 		
 		/*
 		 * rounding rest in separating the canvas size in fields stretches the first fields 
 		 * in row and in column. At this point, the respective field mark get this stretch, too.
 		 */
 		if (y == 0) {
-			height += this.getCanvasSize() - (this.getFieldSize() * this.getGridSize() + this.getBorderWidth());
+			height += this.getCanvasSize() - (this.getFieldSize() * this.getGridSize() + this.getGridLineWidth());
 		} 
 		if (x == 0) {
-			width += this.getCanvasSize() - (this.getFieldSize() * this.getGridSize() + this.getBorderWidth());
+			width += this.getCanvasSize() - (this.getFieldSize() * this.getGridSize() + this.getGridLineWidth());
 		}
 		
 		ctx.fillRect(koord[0], koord[1], width, height);
@@ -222,14 +222,14 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var koord = this.getFieldKoord(x, y);
 		
 		// calculate exact starting point
-		var startX = koord[0] + this.getFieldSize() / 2 - this.getBorderWidth();
-		var startY = koord[1] + this.getFieldSize() / 2 - this.getBorderWidth();
+		var startX = koord[0] + this.getFieldSize() / 2 - this.getGridLineWidth();
+		var startY = koord[1] + this.getFieldSize() / 2 - this.getGridLineWidth();
 		
 		ctx.save();
 		
 		// set font layout
 		ctx.globalAlpha  = 1;
-		ctx.fillStyle    = this.getBorderColor();
+		ctx.fillStyle    = this.getCurGridLineColor();
 		ctx.font 		 = this.getFontForGridSize(this.getGridSize());
 		ctx.textAlign    = "center";
 		ctx.textBaseline = "middle";
@@ -486,10 +486,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Toggles the color of the grid.
 	 */
 	toggleBorderColor : function() {
-		if(this.getBorderColor() == this.getDefaultBorderColor()){
-			this.setBorderColor(this.getDefaultToggleBorderColor());
+		if(this.getCurGridLineColor() == this.getDefaultBorderColor()){
+			this.setCurGridLineColor(this.getDefaultToggleBorderColor());
 		} else {
-			this.setBorderColor(this.getDefaultBorderColor());
+			this.setCurGridLineColor(this.getDefaultBorderColor());
 		}	
 		
 		this.redraw();
@@ -591,7 +591,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var totalAnswers = 0;
 		
 		// toggle grid color
-		this.setBorderColor(toggleColors ? this.getDefaultToggleBorderColor() : this.getDefaultBorderColor());
+		this.setCurGridLineColor(toggleColors ? this.getDefaultToggleBorderColor() : this.getDefaultBorderColor());
 		
 		// clear canvas
 		weakenSourceImage ? this.redrawWithAlpha(0.2, false) : this.redraw();
