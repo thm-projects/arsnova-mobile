@@ -122,10 +122,12 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			layout : 'vbox',
 
 			items : [ {
+				id : 'fs_upfield',
 				xtype : 'fieldset',
 				title : Messages.EDIT_PICTURE,
 				docked : 'top',
 			}, {
+				id : 'pnl_upfield',
 				xtype : 'panel',
 				layout : 'vbox',
 				items : [ {
@@ -250,10 +252,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 		// update answers counter
 		this.grid.setOnFieldClick(function(answerValue) {
-			//this.answers.getComponent('fs_answers').getComponent('tf_answers').setValue(answerValue);
-			Ext.getCmp('tf_answers').setValue(answerValue);
-			console.log("this: ");
-			console.log(this);
+			me.answers.getComponent('fs_answers').getComponent('tf_answers').setValue(answerValue);
 		});
 
 		this.add([{
@@ -293,7 +292,10 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	 * update canvas method.
 	 */
 	updateCanvasWithUrl : function() {
-		var url = Ext.ComponentQuery.query('#tf_url')[0].getValue();
+		var url = this.up('grid').uploadView.getComponent('pnl_upfield').getComponent('tf_url').getValue();
+		console.log("url: " + url);
+		console.log(this);
+		console.log(this);
 		
 		if (url) {
 			this.up('grid').updateCanvas(url, true);
@@ -322,17 +324,15 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	},
 	
 	clearTextfields : function() {
-		var zoomField = this.imageSettings.getComponent('fs_imagesettings').getComponent('sf_zoom');
-		var gridField = this.imageSettings.getComponent('fs_imagesettings').getComponent('sf_grids');
+		var zoomField 	= this.imageSettings.getComponent('fs_imagesettings').getComponent('sf_zoom');
+		var gridField 	= this.imageSettings.getComponent('fs_imagesettings').getComponent('sf_grids');
 		var answerField = this.answers.getComponent('fs_answers').getComponent('tf_answers');
-
-		console.log(zoomField);
-		console.log(gridField);
-		console.log(answerField);
+		var urlField 	= this.uploadView.getComponent('pnl_upfield').getComponent('tf_url');
 		
 		zoomField.setValue(100);
 		gridField.setValue(5);
 		answerField.setValue(0);
+		urlField.setValue("");
 		
 	},
 	
