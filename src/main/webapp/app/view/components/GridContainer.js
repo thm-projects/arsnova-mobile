@@ -11,16 +11,16 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		chosenFields 			 : Array(),
 		fieldColor 				 : "#C0FFEE",	// TODO Name ist irreführend: --> highlightColor oder so 
 		curGridLineColor		 : "#000000",	// Current color of the grid lines. 
-		defaultBorderColor 		 : "#000000",	// TODO Name ist irreführend: --> defaultGridColor oder so
-		defaultToggleBorderColor : "#FFFFFF",	// TODO Name ist irreführend: --> alternativeGridColor oder so
-		scaleFactor 			 : 1.2,			// zoom level scale factor.
-		scale 					 : 1.0, 		// actual scaling for the image. Necessary to switch between scale for zoomed image an normal scale.
-		zoomLvl 				 : 0, 			// current zoomlevel.
-		offsetX 				 : 0,			// current offset in x direction.
-		offsetY 				 : 0,			// current offset in y direction.
-		moveInterval 			 : 10,			// steps to take when moving the image (in pixel).
+		GridLineColor 			 : "#000000",	// Default color of the grid lines.
+		AlternativeGridLineColor : "#FFFFFF",	// Alternative color of the grid lines.
+		scaleFactor 			 : 1.2,			// Zoom level scale factor.
+		scale 					 : 1.0, 		// Actual scaling for the image. Necessary to switch between scale for zoomed image an normal scale.
+		zoomLvl 				 : 0, 			// Current zoomlevel.
+		offsetX 				 : 0,			// Current offset in x direction.
+		offsetY 				 : 0,			// Current offset in y direction.
+		moveInterval 			 : 10,			// Steps to take when moving the image (in pixel).
 		onFieldClick 			 : null,		// TODO: hier wäre ein Kommentar mal sinnvoll
-		editable				 : true			// if set to false click events are prevented
+		editable				 : true			// If set to false click events are prevented
 	},
 
 	/**
@@ -486,10 +486,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Toggles the color of the grid.
 	 */
 	toggleBorderColor : function() {
-		if(this.getCurGridLineColor() == this.getDefaultBorderColor()){
-			this.setCurGridLineColor(this.getDefaultToggleBorderColor());
+		if(this.getCurGridLineColor() == this.getGridLineColor()){
+			this.setCurGridLineColor(this.getAlternativeGridLineColor());
 		} else {
-			this.setCurGridLineColor(this.getDefaultBorderColor());
+			this.setCurGridLineColor(this.getGridLineColor());
 		}	
 		
 		this.redraw();
@@ -591,7 +591,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var totalAnswers = 0;
 		
 		// toggle grid color
-		this.setCurGridLineColor(toggleColors ? this.getDefaultToggleBorderColor() : this.getDefaultBorderColor());
+		this.setCurGridLineColor(toggleColors ? this.getAlternativeGridLineColor() : this.getGridLineColor());
 		
 		// clear canvas
 		weakenSourceImage ? this.redrawWithAlpha(0.2, false) : this.redraw();
