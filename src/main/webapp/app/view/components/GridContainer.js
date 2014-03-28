@@ -98,9 +98,12 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		console.log('[GridContainer.js] - Done marking chosen fields.');
 	},
 	
-	// get the posotion params of a field by the koords of the
-	// click
-	// event
+	/**
+	 * Get field position of the given coordinates relative to the grid.
+	 * 
+	 * @param x 	The x-coordinate of the position.
+	 * @param y 	The y-coordinate of the position.
+	 */
 	getFieldPosition : function(x, y) {
 		var canvas = this.getCanvas();
 
@@ -137,18 +140,26 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		return new Array(x1, y1);
 	},
 
+	/**
+	 * Gets the field size relative to the size of the canvas element.
+	 * 
+	 * @return	int		The field size.
+	 */
 	getFieldSize : function() {
 		return (this.getCanvasSize() - 2 * this.getBorderWidth())
 				/ this.getGridSize();
 	},
 
+	/**
+	 * Draws the grid in the canvas element.
+	 */
 	createGrid : function() {
 		var ctx = this.getCanvas().getContext("2d");
 
 		ctx.globalAlpha = 1;
 		ctx.fillStyle = this.getBorderColor();
 
-		// rand
+		// draw border
 		ctx.fillRect(0, 0, this.getBorderWidth(), this
 				.getCanvasSize());
 		ctx.fillRect(0, 0, this.getCanvasSize(), this
@@ -159,7 +170,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				- this.getBorderWidth(), this.getCanvasSize(),
 				this.getBorderWidth());
 
-		// innengatter
+		// draw inner grid
 		for (var i = 1; i < this.getGridSize(); i++) {
 			ctx.fillRect(this.getFieldSize() * i
 					+ this.getBorderWidth(), 0, this
@@ -171,7 +182,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		console.log('[GridContainer.js] - Done creating canvas grid.');
 	},
 
-	// mark field by position parameters
+	/**
+	 * Marks the field by the position parameters.
+	 */
 	markField : function(x, y, color, alpha) {
 
 		var ctx = this.getCanvas().getContext("2d");
@@ -186,10 +199,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		 * rounding rest in separating the canvas size in fields stretches the first fields 
 		 * in row and in column. At this point, the respective field mark get this stretch, too.
 		 */
-		if(y == 0){
+		if (y == 0) {
 			height += this.getCanvasSize() - (this.getFieldSize() * this.getGridSize() + this.getBorderWidth());
 		} 
-		if(x == 0) {
+		if (x == 0) {
 			width += this.getCanvasSize() - (this.getFieldSize() * this.getGridSize() + this.getBorderWidth());
 		}
 		
@@ -198,7 +211,11 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	
 	
 	/**
+	 * Draws the given text in the field by the specified coordinates.
 	 * 
+	 * @param int 		x		The x-coordinate of the field.
+	 * @param int 		y		The y-coordinate of the field.
+	 * @param String	text	The text to display in the field.
 	 */
 	addTextToField : function(x, y, text) {
 		var ctx = this.getCanvas().getContext("2d");
@@ -223,6 +240,13 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		ctx.restore();
 	},
 	
+	/**
+	 * Gets the font size relative to the size of the grid.
+	 * 
+	 * @param	int gridsize	The gridsize specifying the number of fields.
+	 * 
+	 *  @return	String	The String information of the font size.
+	 */
 	getFontForGridSize : function(gridsize) {
 		if (gridsize >= 14) {
 			return "6pt bold";
@@ -235,6 +259,11 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		}
 	},
 
+	/**
+	 * Handles mouse click events on the canvas element.
+	 * 
+	 * @param event		The mouse click event.
+	 */
 	onclick : function(event) {
 		
 		var container = this.parentContainer;
@@ -244,6 +273,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			return;
 		}
 		
+		// get field position of the mouse click relative to the grid. 
 		var x = event.clientX;
 		var y = event.clientY;
 		var position = container.getFieldPosition(x, y);
@@ -280,6 +310,15 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		}
 	},
 
+	/**
+	 * Updates the GridContainer with the given parameters.
+	 * 
+	 * @param int	gridSize		The gridSize to set.
+	 * @param int	offsetX			The offsetX to set.
+	 * @param int	offsetY			The offsetY to set.
+	 * @param 		possibleAnswers	The Array of possible answers to set.
+	 * @param bool	<code>true</code> if the chosen fields should be marked, <code>false</code> otherwise.
+	 */
 	update: function(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers, mark) {
 		this.setGridSize(gridSize);
 		this.setOffsetX(offsetX);
@@ -305,26 +344,41 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		}
 	},
 	
+	/**
+	 * Moves the image one step in positive x direction.
+	 */
 	moveRight : function() {
 		this.setOffsetX(this.getOffsetX() + this.getMoveInterval());
 		this.redraw();
 	},
 	
+	/**
+	 * Moves the image one step in negative x direction.
+	 */
 	moveLeft : function() {
 		this.setOffsetX(this.getOffsetX() - this.getMoveInterval());
 		this.redraw();
 	},
 	
+	/**
+	 * Moves the image one step in negative y direction.
+	 */
 	moveUp : function() {
 		this.setOffsetY(this.getOffsetY() - this.getMoveInterval());
 		this.redraw();
 	},
 	
+	/**
+	 * Moves the image one step in positive y direction.
+	 */
 	moveDown : function() {
 		this.setOffsetY(this.getOffsetY() + this.getMoveInterval());
 		this.redraw();
 	},
 	
+	/**
+	 * Initializes the zoom level and scale.
+	 */
 	initZoom: function() {
 		if (this.getZoomLvl() > 0) {
 			for (i = 0; i < this.getZoomLvl(); i++) {
@@ -384,6 +438,12 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.redraw();
 	},
 	
+	/**
+	 * Sets the image of the canvas element.
+	 * 
+	 * @param 		dataUrl		The url specifiyng the source of the image file.
+	 * @param bool	reload		<code>true</code> if the image should be reloaded, <code>false</code> otherwise.
+	 */
 	setImage : function(dataUrl, reload) {
 		var newimage = new Image();
 		var container = this;
@@ -411,6 +471,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 	}, 
 	
+	/**
+	 * Resets all necessary variables of the GridContainer.
+	 */
 	clearConfigs : function() {
 		this.setScale(1.0);
 		this.setOffsetX(0);
@@ -419,7 +482,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setChosenFields(Array());
 	},
 	
-	toggleBorderColor : function(){
+	/**
+	 * Toggles the color of the grid.
+	 */
+	toggleBorderColor : function() {
 		if(this.getBorderColor() == this.getDefaultBorderColor()){
 			this.setBorderColor(this.getDefaultToggleBorderColor());
 		} else {
@@ -429,6 +495,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.redraw();
 	},
 	
+	/**
+	 * Calculates the size in bytes of the image file.
+	 */
 	getImageFileSizeBytes : function() {
 		
 		var src = this.getImageFile().src;
