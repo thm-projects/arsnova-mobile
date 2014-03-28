@@ -4,7 +4,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 	config : {
 		gridSize 				 : 5,			// Sqrt of the gridcount
-		imgSize 				 : 400,			// TODO Brauchen wir das ???
+		canvasSize 				 : 400,			// Size of the canvas element (width and height)
 		imgSizeHalf 			 : 200,			// TODO Brauchen wir das ???
 		canvas 				 	 : null, 
 		imageFile 				 : null,
@@ -20,7 +20,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		offsetX 				 : 0,
 		offsetY 				 : 0,
 		moveInterval 			 : 10,			// steps to take when moving the image
-		moveable 				 : Array(true, true, true, true), // defines in which direction (l, u, r, d) the image is moveable
 		onFieldClick 			 : null,		// TODO: hier wäre ein Kommentar mal sinnvoll
 		editable				 : true			// if set to false click events are prevented
 	},
@@ -30,14 +29,14 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		var canvas = document.createElement('canvas');
 		canvas.id = 'canvasWrapper';
-		canvas.width = this.getImgSize();
-		canvas.height = this.getImgSize();
+		canvas.width = this.getCanvasSize();
+		canvas.height = this.getCanvasSize();
 		canvas.style.display = 'block';
 		canvas.style.margin = '0 auto';
 		canvas.addEventListener("mousedown", this.onclick, false);
 		canvas.parentContainer = this;
 		
-		this.setImgSizeHalf(this.getImgSize() / 2);
+		this.setImgSizeHalf(this.getCanvasSize() / 2);
 
 		this.setCanvas(canvas);
 		
@@ -100,9 +99,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		y -= canvas.getBoundingClientRect().top;
 
 		var xGrid = parseInt(x
-				/ (this.getImgSize() / this.getGridSize()));
+				/ (this.getCanvasSize() / this.getGridSize()));
 		var yGrid = parseInt(y
-				/ (this.getImgSize() / this.getGridSize()));
+				/ (this.getCanvasSize() / this.getGridSize()));
 		return new Array(xGrid, yGrid);
 	},
 
@@ -126,7 +125,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 
 	getFieldSize : function() {
-		return (this.getImgSize() - 2 * this.getBorderWidth())
+		return (this.getCanvasSize() - 2 * this.getBorderWidth())
 				/ this.getGridSize();
 	},
 
@@ -138,22 +137,22 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		// rand
 		ctx.fillRect(0, 0, this.getBorderWidth(), this
-				.getImgSize());
-		ctx.fillRect(0, 0, this.getImgSize(), this
+				.getCanvasSize());
+		ctx.fillRect(0, 0, this.getCanvasSize(), this
 				.getBorderWidth());
-		ctx.fillRect(this.getImgSize() - this.getBorderWidth(),
-				0, this.getBorderWidth(), this.getImgSize());
-		ctx.fillRect(0, this.getImgSize()
-				- this.getBorderWidth(), this.getImgSize(),
+		ctx.fillRect(this.getCanvasSize() - this.getBorderWidth(),
+				0, this.getBorderWidth(), this.getCanvasSize());
+		ctx.fillRect(0, this.getCanvasSize()
+				- this.getBorderWidth(), this.getCanvasSize(),
 				this.getBorderWidth());
 
 		// innengatter
 		for (var i = 1; i < this.getGridSize(); i++) {
 			ctx.fillRect(this.getFieldSize() * i
 					+ this.getBorderWidth(), 0, this
-					.getBorderWidth(), this.getImgSize());
+					.getBorderWidth(), this.getCanvasSize());
 			ctx.fillRect(0, this.getFieldSize() * i
-					+ this.getBorderWidth(), this.getImgSize(),
+					+ this.getBorderWidth(), this.getCanvasSize(),
 					this.getBorderWidth());
 		}
 		console.log('[GridContainer.js] - Done creating canvas grid.');
@@ -175,10 +174,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		 * in row and in column. At this point, the respective field mark get this stretch, too.
 		 */
 		if(y == 0){
-			height += this.getImgSize() - (this.getFieldSize() * this.getGridSize() + this.getBorderWidth());
+			height += this.getCanvasSize() - (this.getFieldSize() * this.getGridSize() + this.getBorderWidth());
 		} 
 		if(x == 0) {
-			width += this.getImgSize() - (this.getFieldSize() * this.getGridSize() + this.getBorderWidth());
+			width += this.getCanvasSize() - (this.getFieldSize() * this.getGridSize() + this.getBorderWidth());
 		}
 		
 		ctx.fillRect(koord[0], koord[1], width, height);
@@ -315,10 +314,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 	
 	initZoom: function() {
-		console.log('init zoom');
-		console.log("scale before: " + this.getScale());
 		if (this.getZoomLvl() > 0) {
-			console.log ("zoomLvl > 0")
 			for (i = 0; i < this.getZoomLvl(); i++) {
 				this.setScale(this.getScale() * this.getScaleFactor());
 			}
@@ -329,11 +325,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		} else {
 			this.setScale(1.0);
 		}
-		console.log("scale after: " + this.getScale());
 	},
 	
 	zoom : function(scale) {
-		console.log("zoom() with scale: " + scale + " this.scale: " + this.getScale());
 		var ctx = this.getCanvas().getContext("2d");
 		var imgSizeHalf = this.getImgSizeHalf();
 		
@@ -346,41 +340,26 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	getGeneralScale : function(){
 		var image = this.getImageFile();
 		
-		console.log("Canvas größe: " + this.getImgSize() );
-		console.log("Bildhöhe: " + image.height);
-		console.log("Bildbreite: " + image.width);
-		
-		if(image.height >= image.width){
-			return (this.getImgSize() / image.height) ;
+		if(image.height >= image.width) {
+			return (this.getCanvasSize() / image.height) ;
 		} else {
-			return (this.getImgSize() / image.width) ;
+			return (this.getCanvasSize() / image.width) ;
 		}
 	},
 
 	zoomIn : function() {
-		// TODO zoomFactor = 1.2 --> zoomStep = 0.2 --> Bei jedem Schritt 0.2 zum scaling addieren, nicht multiplizieren
-		// --> kein exponentieller Zoom mehr
-		console.log("zoom in");
-		console.log("scale before: " + this.getScale());
 		this.setZoomLvl(this.getZoomLvl() + 1);
 		this.setScale(this.getScale() * this.getScaleFactor());
-		console.log("scale after: " + this.getScale());
-		console.log("new zoomlvl: " + this.getZoomLvl());
 		this.clearAll();
 	},
 
 	zoomOut : function() {
-		console.log("zoom out");
-		console.log("scale before: " + this.getScale());
 		this.setZoomLvl(this.getZoomLvl() - 1);
 		this.setScale(this.getScale() / this.getScaleFactor());
-		console.log("scale after: " + this.getScale());
-		console.log("new zoomlvl: " + this.getZoomLvl());
 		this.clearAll();
 	},
 	
 	setImage : function(dataUrl, reload) {
-		console.log("setImage()");
 		var newimage = new Image();
 		var container = this;
 
@@ -413,7 +392,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setOffsetY(0);
 		this.setZoomLvl(0);
 		this.setChosenFields(Array());
-		this.setMoveable( Array(true, true, true, true) );
 	},
 	
 	toggleBorderColor : function(){
@@ -487,8 +465,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	getChosenFieldsFromPossibleAnswers : function(possibleAnswers) {
 		var chosenFields = Array();
-		console.log("possible answers");
-		console.log(possibleAnswers);
 		for (var i=0 ; i < possibleAnswers.length ; i++) {
 			if (possibleAnswers[i].correct) {
 				chosenFields.push(this.getChosenFieldFromPossibleAnswer(possibleAnswers[i].text));
