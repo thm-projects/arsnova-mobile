@@ -57,10 +57,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			    	iconCls : 'delete',
 			    	iconMask : true,
 			    	docked : 'right',
-			    	scope: this,
-			    	handler : function(){ 
-			    		this.resetView();
-			    	}
+			    	handler : function(){ me.resetView(); }
 				},
 			    {
 			    	xtype : 'button',
@@ -73,41 +70,32 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			    	iconCls : 'reply',
 			    	iconMask : true,
 			    	docked : 'right',
-			    	scope: this,
-			    	handler : function(){ 
-			    		this.grid.toggleBorderColor(); 
-			    	}
+			    	handler : function(){ me.grid.toggleBorderColor(); }
 			    },
 			    {
 					xtype: 'button',
 			    	iconCls : 'arrow_left',
 			    	iconMask : true,
 			    	docked : 'right',
-			    	scope: this,
-					handler: function() { 
-						this.grid.moveLeft(); 
-						}
+					handler: function() { me.grid.moveLeft(); }
 				}, {
 					xtype: 'button',
 			    	iconCls : 'arrow_up',
 			    	iconMask : true,
 			    	docked : 'right',
-			    	scope: this,
-					handler: function() { this.grid.moveUp(); }
+					handler: function() { me.grid.moveUp(); }
 				}, {
 					xtype: 'button',
 			    	iconCls : 'arrow_down',
 			    	iconMask : true,
 			    	docked : 'right',
-			    	scope: this,
-					handler: function() { this.grid.moveDown(); }
+					handler: function() { me.grid.moveDown(); }
 				}, {
 					xtype: 'button',
 			    	iconCls : 'arrow_right',
 			    	iconMask : true,
 			    	docked : 'right',
-			    	scope: this,
-					handler: function() { this.grid.moveRight(); }
+					handler: function() { me.grid.moveRight(); }
 				}],
 			hidden : true
 		});
@@ -210,12 +198,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 							id : 'sf_zoom',
 							label : Messages.GRID_LABEL_ZOOM,
 							listeners : {
-								scope: this,
 								spinup : function() {
-									this.grid.zoomIn();
+									me.grid.zoomIn();
 								},
 								spindown : function() {
-									this.grid.zoomOut();
+									me.grid.zoomOut();
 								}
 		
 							},
@@ -226,10 +213,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 								id : 'sf_grids',
 								label : Messages.GRID_LABEL_SQUARES,
 								listeners : {
-									scope: this,
 									spin : function(spinner, value) {
-										console.log(this);
-										this.grid.setGrids(value); // update grid count
+										me.grid.setGrids(value); // update grid count
 									}
 								},
 								minValue : 2,
