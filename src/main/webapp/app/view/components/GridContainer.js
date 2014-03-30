@@ -30,7 +30,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	constructor : function() {
 		this.callParent(arguments);
-
 		var canvas = document.createElement('canvas');
 		canvas.id = 'canvasWrapper';
 		canvas.width = this.getCanvasSize();
@@ -76,7 +75,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		ctx.drawImage(this.getImageFile(), this.getOffsetX(), this.getOffsetY());
 		// restore context to draw grid with default scale
 		ctx.restore();
-		console.log('[GridContainer.js] - Done restoring canvas image.');
 	
 		this.createGrid();
 		
@@ -95,7 +93,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 					thiz.markField(entry[0],
 							entry[1], thiz.getFieldColor(), 0.5);
 				});
-		console.log('[GridContainer.js] - Done marking chosen fields.');
 	},
 	
 	/**
@@ -179,7 +176,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 					+ this.getGridLineWidth(), this.getCanvasSize(),
 					this.getGridLineWidth());
 		}
-		console.log('[GridContainer.js] - Done creating canvas grid.');
 	},
 
 	/**
@@ -512,7 +508,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			xhr.onreadystatechange = function(){
 			    if ( xhr.readyState == 4 ) {
 			        if ( xhr.status == 200 ) {
-			            console.log('Canvas image from url filesize: ' + xhr.getResponseHeader('Content-Length'));
 			            return xhr.getResponseHeader('Content-Length');
 			        }
 			    }
