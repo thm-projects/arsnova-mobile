@@ -4,12 +4,12 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 	config : {
 		gridSize 				 : 5,			// Sqrt of the gridcount
-		canvasSize 				 : 400,			// Size of the canvas element (width and height)
+		canvasSize 				 : 400,			// Size of the canvas element (width and height).
 		canvas 				 	 : null, 		// The canvas element.
 		imageFile 				 : null,		// The image file.
 		gridLineWidth		 	 : 1,			// Width of the grid lines.
 		chosenFields 			 : Array(),
-		fieldColor 				 : "#C0FFEE",	// TODO Name ist irreführend: --> highlightColor oder so 
+		highlightColor 			 : "#C0FFEE",	// Color of highlighted fields. 
 		curGridLineColor		 : "#000000",	// Current color of the grid lines. 
 		GridLineColor 			 : "#000000",	// Default color of the grid lines.
 		AlternativeGridLineColor : "#FFFFFF",	// Alternative color of the grid lines.
@@ -20,7 +20,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		offsetY 				 : 0,			// Current offset in y direction.
 		moveInterval 			 : 10,			// Steps to take when moving the image (in pixel).
 		onFieldClick 			 : null,		// TODO: hier wäre ein Kommentar mal sinnvoll
-		editable				 : true			// If set to false click events are prevented
+		editable				 : true			// If set to false click events are prevented.
 	},
 
 	/**
@@ -93,7 +93,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.getChosenFields().forEach(
 				function(entry) {
 					thiz.markField(entry[0],
-							entry[1], thiz.getFieldColor(), 0.5);
+							entry[1], thiz.getHighlightColor(), 0.5);
 				});
 		console.log('[GridContainer.js] - Done marking chosen fields.');
 	},

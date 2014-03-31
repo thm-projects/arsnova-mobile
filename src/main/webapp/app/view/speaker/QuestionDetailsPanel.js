@@ -780,7 +780,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			answerEditFormClass = 'ARSnova.view.speaker.form.VoteQuestion';
 		} else if (this.questionObj.questionType === 'flashcard') {
 			answerEditFormClass = 'ARSnova.view.speaker.form.FlashcardQuestion';
-		} else if(this.questionObj.questionType == 'grid') {
+		} else if (this.questionObj.questionType == 'grid') {
 			answerEditFormClass = 'ARSnova.view.speaker.form.GridQuestion';
 		}
 		
@@ -789,7 +789,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			hidden: true
 		});
 		
-		if(this.questionObj.questionType === 'grid') {
+		if (this.questionObj.questionType === 'grid') {
 	 	
 			// set image data (base64 --> grid)
 			this.answerEditForm.updateCanvas(this.questionObj.image, false);
