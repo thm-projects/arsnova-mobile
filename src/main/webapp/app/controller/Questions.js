@@ -20,19 +20,75 @@
  +--------------------------------------------------------------------------*/
 Ext.define("ARSnova.controller.Questions", {
 	extend: 'Ext.app.Controller',
-
+	
+	requires: ['ARSnova.model.Question',
+	           'ARSnova.view.speaker.QuestionDetailsPanel',
+	           'ARSnova.view.FreetextDetailAnswer',
+	           'ARSnova.view.feedbackQuestions.DetailsPanel'
+	],
+	
 	index: function(options){
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.backButton.show();
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.addListener('deactivate', function(panel){
-    		panel.backButton.hide();
-    	}, this, {single: true});
-    },
-    
-    listAudienceQuestions: function(){
-    	var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+			panel.backButton.hide();
+		}, this, {single: true});
+	},
+	
+	lectureIndex: function(options){
+		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.setLectureMode();
+		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.backButton.show();
+		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.setTitle(Messages.LECTURE_QUESTIONS);
+		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');
+		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.addListener('deactivate', function(panel){
+			panel.backButton.hide();
+		}, this, {single: true});
+	},
+	
+	preparationIndex: function(options){
+		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.setPreparationMode();
+		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.backButton.show();
+		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.setTitle(Messages.PREPARATION_QUESTIONS);
+		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');
+		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.addListener('deactivate', function(panel){
+			panel.backButton.hide();
+		}, this, {single: true});
+	},
+	
+	listQuestions: function(){
+		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		sTP.newQuestionPanel.setVariant('lecture');
+		sTP.audienceQuestionPanel.setController(this);
+		sTP.showcaseQuestionPanel.setController(this);
+		sTP.audienceQuestionPanel.toolbar.getTitle().setTitle(Messages.LECTURE_QUESTIONS);
+		sTP.audienceQuestionPanel.newQuestionButton.text = Messages.NEW_LECTURE_QUESTION;
 		sTP.animateActiveItem(sTP.audienceQuestionPanel, 'slide');
-    },
+	},
+	
+	getQuestions: function() {
+		var question = Ext.create('ARSnova.model.Question');
+		question.getLectureQuestions.apply(question, arguments);
+	},
+	
+	deleteAnswers: function() {
+		var question = Ext.create('ARSnova.model.Question');
+		question.deleteAnswers.apply(question, arguments);
+	},
+	
+	deleteAllQuestionsAnswers: function(callbacks) {
+		var question = Ext.create('ARSnova.model.Question');
+		question.deleteAllQuestionsAnswers(localStorage.getItem("keyword"), callbacks);
+	},
+	
+	destroyAll: function() {
+		var question = Ext.create('ARSnova.model.Question');
+		question.deleteAllLectureQuestions.apply(question, arguments);
+	},
+	
+	countAnswersByQuestion: function() {
+		var question = Ext.create('ARSnova.model.Question');
+		question.countAnswersByQuestion.apply(question, arguments);
+	},
     
     listFeedbackQuestions: function(){
     	ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.backButton.show();
@@ -46,6 +102,7 @@ Ext.define("ARSnova.controller.Questions", {
     	var question = Ext.create('ARSnova.model.Question', {
 			type	 	: options.type,
 			questionType: options.questionType,
+			questionVariant: options.questionVariant,
 			sessionKeyword: options.sessionKeyword,
 			//subject		: options.subject.toUpperCase(),
 			subject		: options.subject,
@@ -53,7 +110,6 @@ Ext.define("ARSnova.controller.Questions", {
 			active		: options.active,
 			number		: options.number,
 			releasedFor	: options.releasedFor,
-			courses		: options.courses,
 			possibleAnswers: options.possibleAnswers,
 			noCorrect	: options.noCorrect,
 			abstention	: options.abstention,
@@ -93,7 +149,6 @@ Ext.define("ARSnova.controller.Questions", {
 			case 'mc':
 				panel.multipleChoiceQuestion.query('textfield').forEach(function(el){
 					if(!el.getHidden() && el.getValue().toString().trim() == "") {
-						console.log(el.getValue());
 						el.addCls("required");
 						error = true;
 					}
@@ -198,7 +253,7 @@ Ext.define("ARSnova.controller.Questions", {
 	},
 	
 	setAllActive: function(options) {
-		ARSnova.app.questionModel.publishAllSkillQuestions(options.questions, options.active, {
+		ARSnova.app.questionModel.publishAllSkillQuestions(localStorage.getItem("keyword"), options.active, {
 			success: function() {
 				options.callback.apply(options.scope);
 			},
@@ -210,7 +265,9 @@ Ext.define("ARSnova.controller.Questions", {
     
     adHoc: function(){
     	var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-		
+    	sTP.audienceQuestionPanel.setController(this);
+		sTP.showcaseQuestionPanel.setController(this);
+    	sTP.newQuestionPanel.setVariant('lecture');
 		sTP.animateActiveItem(sTP.newQuestionPanel, {
 			type: 'slide',
 			duration: 700

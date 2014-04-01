@@ -131,5 +131,7 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 		}
 		
 		return result;
-	}
+	},
+	
+	markEmptyFields: Ext.emptyFn
 });

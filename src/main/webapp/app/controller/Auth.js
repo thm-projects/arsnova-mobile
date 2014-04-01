@@ -74,13 +74,13 @@ Ext.define("ARSnova.controller.Auth", {
 		localStorage.setItem('role', options.mode);
 		
 		ARSnova.app.setWindowTitle();
-		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.loginPanel, 'slide');
 	},
 
 	login: function(options) {
 		ARSnova.app.loginMode = options.mode;
 		localStorage.setItem('loginMode', options.mode);
-		var type = "", role = "STUDENT";
+		var location = "", type = "", role = "STUDENT";
+		
 		switch(options.mode){
 			case ARSnova.app.LOGIN_GUEST:
 				if (localStorage.getItem('login') === null) {
@@ -115,16 +115,18 @@ Ext.define("ARSnova.controller.Auth", {
 			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
 				role = "SPEAKER";
 			}
-			return window.location = "auth/login?type=" + type + "&role=" + role;
+			
+			location = "auth/login?type=" + type + "&role=" + role;
+			return this.handleLocationChange(location);
 		}
-		
+
+		/* actions to perform after login */
 		ARSnova.app.afterLogin();
 	},
 	
 	checkLogin: function(){
-		Ext.Ajax.request({
+		ARSnova.app.restProxy.absoluteRequest({
 			url: 'whoami.json',
-			method: 'GET',    		
 			success: function(response){
 				var obj = Ext.decode(response.responseText);
 				ARSnova.app.loggedIn = true;
@@ -136,13 +138,15 @@ Ext.define("ARSnova.controller.Auth", {
 	},
 
     logout: function(){
+		/* hide diagnosis panel */
+		ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.tab.hide();
+    	
     	/* stop task to save user is logged in */
     	taskManager.stop(ARSnova.app.loggedInTask);
     	
     	/* clear local storage */
     	localStorage.removeItem('sessions');
     	localStorage.removeItem('role');
-    	localStorage.removeItem('login');
     	localStorage.removeItem('loginMode');
     	
     	/* check if new version available */
@@ -161,7 +165,8 @@ Ext.define("ARSnova.controller.Auth", {
     	if (ARSnova.app.loginMode == ARSnova.app.LOGIN_THM) {
     		/* update will be done when returning from CAS */
     		localStorage.removeItem('login');
-    		window.location = "https://cas.thm.de/cas/logout?url=http://" + window.location.hostname + window.location.pathname + "#auth/doLogout";
+    		var location = "https://cas.thm.de/cas/logout?url=http://" + window.location.hostname + window.location.pathname + "#auth/doLogout";
+    		this.handleLocationChange(location);
     	} else {
     		Ext.Ajax.request({
     			url: 'auth/logout',
@@ -179,5 +184,25 @@ Ext.define("ARSnova.controller.Auth", {
 				window.location.reload();
 			}
     	}
+    },
+    
+    /**
+     * handles window.location change for desktop and mobile devices separately
+     */
+    handleLocationChange: function(location) {
+    	/** 
+    	 * mobile device 
+    	 */
+		if(ARSnova.app.checkMobileDeviceType()) {
+			ARSnova.app.restProxy.absoluteRequest(location);
+		}
+		
+		/** 
+		 * desktop 
+		 */
+		else {
+			window.location = location;
+		} 
+
     }
 });

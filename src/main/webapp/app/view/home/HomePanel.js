@@ -21,6 +21,9 @@
 Ext.define('ARSnova.view.home.HomePanel', {
 	extend: 'Ext.Container',
 	
+	requires: ['ARSnova.view.home.SessionList',
+	           'ARSnova.view.Caption'],
+	
 	config: {
 		fullscreen: true,
 		scrollable: {
@@ -125,15 +128,10 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			}]
 		});
 		
-		this.lastVisitedSessionsFieldset = Ext.create('Ext.form.FieldSet', {
-			cls: 'standardFieldset',
-			title: Messages.MY_SESSIONS
-		});
-		
-		this.lastVisitedSessionsForm = Ext.create('Ext.form.FormPanel', {
+		this.lastVisitedSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
 			scrollable: null,
 			cls: 'standardForm',
-			items: [this.lastVisitedSessionsFieldset]
+			title: Messages.MY_SESSIONS
 		});
 		
 		this.add([
@@ -183,15 +181,18 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				var badgePromises = [];
 
 				if (sessions && sessions.length !== 0) {
-					panel.lastVisitedSessionsFieldset.removeAll();
+					panel.lastVisitedSessionsForm.removeAll();
 					panel.lastVisitedSessionsForm.show();
 
 					for ( var i = 0; i < sessions.length; i++) {
 						var session = sessions[i];
-						var course = " defaultsession";
 
+						var icon = " defaultsession";
+						if (session.creator !== localStorage.getItem("login")) {
+							icon = " studentsession";
+						}
 						if (session.courseId && session.courseId.length > 0) {
-							course = " coursesession";
+							icon = " coursesession";
 						}
 						
 						// Minimum width of 481px equals at least landscape view
@@ -200,7 +201,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 							xtype		: 'button',
 							ui			: 'normal',
 							text		: Ext.util.Format.htmlEncode(displaytext),
-							cls			: 'forwardListButton' + course,
+							cls			: 'forwardListButton' + icon,
 							controller	: 'sessions',
 							action		: 'showDetails',
 							badgeCls	: 'badgeicon',
@@ -213,7 +214,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 								hideLoadMask();
 							}
 						});
-						panel.lastVisitedSessionsFieldset.add(sessionButton);
+						panel.lastVisitedSessionsForm.addEntry(sessionButton);
 						badgePromises.push(panel.updateBadge(session.keyword, sessionButton));
 						
 						if (!session.active) {
@@ -222,7 +223,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					}
 					RSVP.all(badgePromises).then(Ext.bind(caption.explainBadges, caption));
 					caption.explainStatus(sessions);
-					panel.lastVisitedSessionsFieldset.add(caption);
+					panel.lastVisitedSessionsForm.addEntry(caption);
 				} else {
 					panel.lastVisitedSessionsForm.hide();
 				}

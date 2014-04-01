@@ -19,6 +19,8 @@
 Ext.define('ARSnova.view.Caption', {
 	extend: 'Ext.Container',
 	
+	requires: ['ARSnova.view.MultiBadgeButton'],
+	
 	config: {
 		translation: {
 			active: Messages.OPEN_SESSION,

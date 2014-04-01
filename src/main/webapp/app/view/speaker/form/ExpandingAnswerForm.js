@@ -193,5 +193,15 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			xtype: 'answerPreview'
 		});		
 		answerPreview.showPreview(this.getValues());
+	},
+	
+	markEmptyFields: function() {
+		var field;
+		for (var i=0; i < this.selectAnswerCount.getValue(); i++) {
+			field = this.answerComponents[i];
+			if (field.getValue().trim() === "") {
+				field.addCls("required");
+			}
+		}
 	}
 });

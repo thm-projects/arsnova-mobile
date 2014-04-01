@@ -1,0 +1,109 @@
+html, body {
+	height: 100%;
+	background-color: #c5ccd3;
+}
+
+#appLoadingIndicator {
+    position: absolute;
+    top: 50%;
+    margin-top: -15px;
+    text-align: center;
+    width: 100%;
+    height: 30px;
+    
+    /* webkit browser */
+    -webkit-animation-name: appLoadingIndicator;
+   	-webkit-animation-iteration-count: infinite;
+    -webkit-animation-direction: normal;
+    -webkit-animation-duration: 0.8s;
+    
+    /* other */
+    animation-name: appLoadingIndicator;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-duration: 0.8s;
+}
+
+#appLoadingIndicator > * {
+    background-color: #FFFFFF;
+    display: inline-block;
+    height: 30px;
+    margin: 0 5px;
+    width: 30px;
+    opacity: 1.0;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+
+@keyframes appLoadingIndicator{
+	from {
+        opacity: 1.0
+    }
+    10% {
+        opacity: 0.8
+    }
+    20% {
+        opacity: 0.6
+    }
+    30% {
+        opacity: 0.4
+    }
+    40% {
+        opacity: 0.2
+    }
+    50% {
+        opacity: 0.0
+    }
+    60% {
+        opacity: 0.2
+    }
+    70% {
+        opacity: 0.4
+    }
+    80% {
+        opacity: 0.6
+    }
+    90% {
+        opacity: 0.8
+    }
+    to {
+        opacity: 1.0
+    }
+}
+
+@-webkit-keyframes appLoadingIndicator{
+	from {
+        opacity: 1.0
+    }
+    10% {
+        opacity: 0.8
+    }
+    20% {
+        opacity: 0.6
+    }
+    30% {
+        opacity: 0.4
+    }
+    40% {
+        opacity: 0.2
+    }
+    50% {
+        opacity: 0.0
+    }
+    60% {
+        opacity: 0.2
+    }
+    70% {
+        opacity: 0.4
+    }
+    80% {
+        opacity: 0.6
+    }
+    90% {
+        opacity: 0.8
+    }
+    to {
+        opacity: 1.0
+    }
+}

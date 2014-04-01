@@ -22,6 +22,8 @@ Ext.define('ARSnova.view.MatrixButton', {
 	alias: 'x-matrixbutton',
 	xtype: 'matrixbutton',
 	
+	requires: ['Ext.Img'],
+	
 	config: {
 		image: '',
 		cls: 'noBackground noBorder matrixButton',
@@ -35,7 +37,7 @@ Ext.define('ARSnova.view.MatrixButton', {
 	    	    	buttonText[0].innerHTML = Ext.getCmp(element.id).get("text");
 	    	      
 		    	    Ext.create('Ext.Img', {
-	    	    		src: "/resources/images/" + Ext.getCmp(element.id).get("image") + ".png",
+	    	    		src: "resources/images/" + Ext.getCmp(element.id).get("image") + ".png",
 	    	    	    renderTo: parent.select(".iconBtn").elements[0],
 	    	    	    cls: "iconBtnImg"
 	    	    	});    
