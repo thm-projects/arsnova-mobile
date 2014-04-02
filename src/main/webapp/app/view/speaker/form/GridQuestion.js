@@ -30,7 +30,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	imageArea 		 : null,		// contains all image relevant items
 	grid 			 : null,		// encapsulated canvas element
 	imageCnt		 : null,		// image manipulation options
-	imageSettings 	 : null,		// the image settings (offset, zoom,...)
+	imageSettings 	 : null,			// the image settings (offset, zoom,...)
 	uploadView 		 : null,		// view containing the upload options
 	answers 		 : null,
 
@@ -44,59 +44,89 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 		this.grid = Ext.create('ARSnova.view.components.GridContainer', {
 			docked 	: 'top',
-			id 		: 'gridContainer'
+			id 	: 'gridContainer'
 		});
 		
+		this.InfoButton = Ext.create('Ext.Panel',{
+			height: '20%',
+			html: Messages.SETTINGS_HINT_TEXT,
+			id: 'popup',
+			left: '50%',
+			padding: 20,
+			top: '30%',
+			width: '40%',
+			hideOnMaskTap: true,
+			modal: true		
+		});
+
 		this.imageArea = Ext.create('Ext.Panel', {
 			id : 'imageArea',
-			layout : 'hbox',
+			layout :{
+				type: 'vbox',
+                align: 'center',
+                pack: 'center'
+			}, 
 			items : [ 
-			    this.grid, 
-			    {
-					xtype: 'button',
-			    	iconCls : 'delete',
-			    	iconMask : true,
-			    	docked : 'right',
-			    	handler : function(){ me.resetView(); }
-				},
-			    {
-			    	xtype : 'button',
-			    	iconCls : 'info',
-			    	iconMask : true,
-			    	docked : 'right'
-			    },
-			    {
-			    	xtype : 'button',
-			    	iconCls : 'reply',
-			    	iconMask : true,
-			    	docked : 'right',
-			    	handler : function(){ me.grid.toggleBorderColor(); }
-			    },
-			    {
-					xtype: 'button',
-			    	iconCls : 'arrow_left',
-			    	iconMask : true,
-			    	docked : 'right',
-					handler: function() { me.grid.moveLeft(); }
-				}, {
-					xtype: 'button',
-			    	iconCls : 'arrow_up',
-			    	iconMask : true,
-			    	docked : 'right',
-					handler: function() { me.grid.moveUp(); }
-				}, {
-					xtype: 'button',
-			    	iconCls : 'arrow_down',
-			    	iconMask : true,
-			    	docked : 'right',
-					handler: function() { me.grid.moveDown(); }
-				}, {
-					xtype: 'button',
-			    	iconCls : 'arrow_right',
-			    	iconMask : true,
-			    	docked : 'right',
-					handler: function() { me.grid.moveRight(); }
-				}],
+				this.grid,
+				{
+					xtype: 'panel',
+					layout:{
+						type: 'hbox',
+						align: 'center',
+						pack: 'center'
+					},
+					items : [
+						{
+							xtype : 'button',
+							id : 'infobutton',
+							iconCls : 'info',
+							iconMask : true,
+							//docked : 'right',
+							scope: this,
+							handler : function(){ 
+								this.onInfoButton(this);
+							}
+						},
+						{
+							xtype : 'button',
+							iconCls : 'reply',
+							iconMask : true,
+							//docked : 'right',
+							handler : function(){ me.grid.toggleBorderColor(); }
+						},
+						{
+							xtype: 'button',
+							iconCls : 'arrow_left',
+							iconMask : true,
+							//docked : 'right',
+							handler: function() { me.grid.moveLeft(); }
+						}, {
+							xtype: 'button',
+							iconCls : 'arrow_up',
+							iconMask : true,
+							//docked : 'right',
+							handler: function() { me.grid.moveUp(); }
+						}, {
+							xtype: 'button',
+							iconCls : 'arrow_down',
+							iconMask : true,
+							//docked : 'right',
+							handler: function() { me.grid.moveDown(); }
+						}, {
+							xtype: 'button',
+							iconCls : 'arrow_right',
+							iconMask : true,
+							//docked : 'right',
+							handler: function() { me.grid.moveRight(); }
+						},{
+							xtype: 'button',
+							iconCls : 'delete',
+							iconMask : true,
+							handler : function(){ me.resetView(); }
+						}
+			       ]
+			   }
+			],
 			hidden : true
 		});
 
@@ -288,6 +318,15 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.GRID_ERROR_URL_MISSING);
 		}
 		
+	},
+
+	/**
+	 * Handler function for the event of info button
+	 */
+	onInfoButton : function(iButton){
+		
+		var popup = Ext.getCmp('popup');
+		popup.showBy(iButton);
 	},
 	
 	/**

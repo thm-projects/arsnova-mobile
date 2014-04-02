@@ -397,6 +397,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Initializes the zoom level and scale.
 	 */
 	initZoom: function() {
+		this.setScale(1.0);
 		if (this.getZoomLvl() > 0) {
 			for (i = 0; i < this.getZoomLvl(); i++) {
 				this.setScale(this.getScale() * this.getScaleFactor());
@@ -405,8 +406,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			for (i = 0; i > this.getZoomLvl(); i--) {
 				this.setScale(this.getScale() / this.getScaleFactor());
 			}
-		} else {
-			this.setScale(1.0);
 		}
 	},
 	
