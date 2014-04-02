@@ -753,7 +753,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 		
 		this.abstentions = Ext.create('ARSnova.view.MultiBadgeButton', {
-			hidden		: this.questionObj.abstention === false,
+			hidden		: this.questionObj.abstention === false || this.isGridQuestion,
 			ui			: 'normal',
 			text		: Messages.ABSTENTION,
 			disabled	: true,

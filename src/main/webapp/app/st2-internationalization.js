@@ -285,6 +285,10 @@ case 'en-gb':
 		GRID_ERROR_URL_MISSING : "Please insert a valid url.",
 		GRID_LABEL_ZOOM : "Zoom (in percent)",
 		GRID_LABEL_SQUARES : "Squares per edge",
+		GRID_LABEL_WEAKEN_IMAGE : "Transparent image",
+		GRID_LABEL_SHOW_HEATMAP : "Show heatmap",
+		GRID_LABEL_SHOW_PERCENT : "Show percentage values",
+		GRID_LABEL_INVERT_GRIDCOLORS : "Invert grid colors",
 		CORRECT_ANSWERS: "Correct answers",
 		SETTINGS:	"Settings",
 			
@@ -603,6 +607,10 @@ default:
 		GRID_ERROR_URL_MISSING : "Bitte geben Sie eine URL an.",
 		GRID_LABEL_ZOOM : "Zoom (in %)",
 		GRID_LABEL_SQUARES : "Quadrate pro Kante",
+		GRID_LABEL_WEAKEN_IMAGE : "Bild abschwächen",
+		GRID_LABEL_SHOW_HEATMAP : "Heatmap anzeigen",
+		GRID_LABEL_SHOW_PERCENT : "Zeige Prozentwere",
+		GRID_LABEL_INVERT_GRIDCOLORS : "Rasterfarbe invertieren",
 		CORRECT_ANSWERS:	"Richtige Antworten",
 		SETTINGS:	"Einstellungen",
 		

@@ -31,6 +31,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 	gridShowColors		 	: null,
 	gridShowNumbers 		: null,
 	gridColorsToggle 		: null,
+	abstentionPanel			: null,
 	answers					: new Array(),
 
 	
@@ -55,31 +56,37 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		this.gridWeakenImageToggle = Ext.create('Ext.field.Toggle', {
 			id:			"toggleWeakenImage",
 			name:		"toggleWeakenImage",
-			label:		"Bild abschwächen", // TODO In Konstanten auslagern
+			label:		Messages.GRID_LABEL_WEAKEN_IMAGE,
 			value: 		true
 		});
 
 		this.gridShowColors = Ext.create('Ext.field.Toggle', {
 			id:			"toggleShowColors",
 			name:		"toggleShowColors",
-			label:		"Farben anzeigen", // TODO In Konstanten auslagern
+			label:		Messages.GRID_LABEL_SHOW_HEATMAP,
 			value:  	true
 		});
 
 		this.gridShowNumbers = Ext.create('Ext.field.Toggle', {
 			id:			"toggleShowNumbers",
 			name:		"toggleShowNumbers",
-			label:		"Prozente anzeigen", // TODO In Konstanten auslagern
+			label:		Messages.GRID_LABEL_SHOW_PERCENT,
 			value:  	true
 		});
 
 		this.gridColorsToggle = Ext.create('Ext.field.Toggle', {
 			id:			"toggleColors",
 			name:		"toggleColors",
-			label:		"Rasterfarbe invertieren", // TODO In Konstanten auslagern
+			label:		Messages.GRID_LABEL_INVERT_GRIDCOLORS,
 			value:  	false
 		});
-		
+		this.abstentionPanel = Ext.create('Ext.field.Text', {
+			id		 : 'tf_abstenstion',
+			name	 : 'tf_abstenstion',
+			value	 : 0,
+			label	 : Messages.ABSTENTION,
+			readOnly : true,
+		});
 		// set listeners to toggles
 		var listeners =  {
 		        beforechange: function (slider, thumb, newValue, oldValue) {
@@ -97,10 +104,11 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		// add components to panel
 		this.add(this.grid);
 		this.add({xtype : 'spacer', height :25, docked : 'top' });
+		this.add(this.abstentionPanel);
 		this.add(this.gridWeakenImageToggle);
 		this.add(this.gridShowColors);
-		this.add(this.gridShowNumbers);
 		this.add(this.gridColorsToggle);
+		this.add(this.gridShowNumbers);
 		
 		// everythings creates, now lets update the gridContainer
 		this.updateGrid();
@@ -144,10 +152,13 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 			
 			// parse answers
 			for (var i = 0; i<me.answers.length; i++) {
+
+				console.log("me.answers[" + i + "]");
+				console.log(me.answers[i]);
+				
 				var el = me.answers[i];
 				if (!el.answerText) {
-					// answer is abstention
-					abstentionCount = el.abstentionCount;
+					me.abstentionPanel.setValue(el.abstentionCount);
 					continue;
 				}
 				
