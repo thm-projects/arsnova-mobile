@@ -23,7 +23,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	
 	config: {
 		title	: Messages.STATISTIC,
-		style	: 'background-color: black',
+		//style	: 'background-color: black',
 		iconCls	: 'tabBarIconCanteen',
 		layout	: 'fit'
 	},
@@ -33,6 +33,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	questionChart: null,
 	questionStore: null,
 	lastPanel: null,
+	gridStatistic : null,
 	
 	/* toolbar items */
 	toolbar				: null,
@@ -317,7 +318,19 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		    }]
 		});
 		
+		
 		this.add([this.toolbar, this.titlebar, this.questionChart]);
+		
+		if (this.questionObj.questionType == "grid") {
+			this.style = '';
+			// add statistic
+			this.gridStatistic = Ext.create('ARSnova.view.components.GridStatistic', {
+				questionObj : this.questionObj
+			});
+			this.add({xtype : 'spacer', height :25, docked : 'top' });
+			this.add(this.gridStatistic);
+			this.getQuestionAnswers();
+		}
 
 		this.on('activate', this.onActivate);
 	},
@@ -377,6 +390,10 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 						store.each(function(record, index) {
 							record.set("value", mcAnswerCount[index]);
 						});
+					} else if (panel.questionObj.questionType === "grid") {
+						panel.gridStatistic.answers 		= answers;
+						panel.gridStatistic.setQuestionObj  = panel.questionObj;
+						panel.gridStatistic.updateGrid();
 					} else {
 						if (!el.answerText) {
 							abstentionCount = el.abstentionCount;
