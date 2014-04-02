@@ -603,7 +603,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	/**
 	 * 
 	 */
-	generateStatisticOutput : function(tilesToFill, colorTiles, showPercentages, weakenSourceImage, toggleColors) {
+	generateStatisticOutput : function(tilesToFill, colorTiles, displayType, weakenSourceImage, toggleColors) {
 		
 		var totalAnswers = 0;
 		
@@ -642,10 +642,15 @@ Ext.define('ARSnova.view.components.GridContainer', {
 					this.markField(coords[0], coords[1], color, alpha + alphaOffset);   // alpha between 0.15 and 0.9
 				}
 				
-				if (showPercentages) {
+				if (displayType == Messages.GRID_LABEL_RELATIVE) {
 					var text = (typeof tilesToFill[key] ===  "undefined" ) ? "0,0%" : Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) + "%";
 					this.addTextToField(coords[0], coords[1], text);
-				}	
+				} else if (displayType == Messages.GRID_LABEL_ABSOLUTE) {
+					var text = (typeof tilesToFill[key] ===  "undefined" ) ? "0" : tilesToFill[key];
+					this.addTextToField(coords[0], coords[1], text);
+				}
+					
+				
 			}
 		}
 	}

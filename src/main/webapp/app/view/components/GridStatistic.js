@@ -31,6 +31,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 	gridShowColors		 	: null,
 	gridShowNumbers 		: null,
 	gridColorsToggle 		: null,
+	questionOptionsSegment  : null,
 	abstentionPanel			: null,
 	answers					: new Array(),
 
@@ -66,13 +67,50 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 			label:		Messages.GRID_LABEL_SHOW_HEATMAP,
 			value:  	true
 		});
-
-		this.gridShowNumbers = Ext.create('Ext.field.Toggle', {
-			id:			"toggleShowNumbers",
-			name:		"toggleShowNumbers",
-			label:		Messages.GRID_LABEL_SHOW_PERCENT,
-			value:  	true
-		});
+		
+		this.releaseItems = [{
+			text: Messages.GRID_LABEL_RELATIVE,
+			pressed: true,
+			scope: this,
+			handler: function() {
+				this.updateGrid();
+			}
+		}, {
+			text: Messages.GRID_LABEL_ABSOLUTE,
+			scope: this,
+			handler: function() {
+				this.updateGrid();
+			}
+		}, {
+			text: Messages.GRID_LABEL_NONE,
+			scope: this,
+			handler: function() {
+				this.updateGrid();
+			}
+		}];
+		
+		this.questionOptionsSegment = Ext.create('Ext.SegmentedButton', {
+	        allowDepress: false,
+    		items: this.releaseItems,
+	        listeners: {
+				scope: this,
+				toggle: function(container, button, pressed) {
+					var label = Ext.bind(function(longv, shortv) {
+						var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+						return (screenWidth > 320 || this.backButton.isHidden()) ? longv : shortv;
+					}, this);
+	        	}
+	        }
+	    });
+		
+		this.gridShowNumbers = Ext.create('Ext.form.FormPanel', {
+			scrollable: null,
+			items: [{
+				xtype: 'fieldset',
+				title: Messages.GRID_LABEL_SHOW_PERCENT,
+	            items: [this.questionOptionsSegment]
+			}]
+    	});
 
 		this.gridColorsToggle = Ext.create('Ext.field.Toggle', {
 			id:			"toggleColors",
@@ -80,6 +118,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 			label:		Messages.GRID_LABEL_INVERT_GRIDCOLORS,
 			value:  	false
 		});
+		
 		this.abstentionPanel = Ext.create('Ext.field.Text', {
 			id		 : 'tf_abstenstion',
 			name	 : 'tf_abstenstion',
@@ -87,10 +126,11 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 			label	 : Messages.ABSTENTION,
 			readOnly : true,
 		});
+		
 		// set listeners to toggles
 		var listeners =  {
 		        beforechange: function (slider, thumb, newValue, oldValue) {
-		        	me.updateGrid();
+		        	c
 		        },
 		        change: function (slider, thumb, newValue, oldValue) {
 		        	me.updateGrid();
@@ -98,7 +138,6 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		};
 		this.gridWeakenImageToggle.setListeners(listeners);
 		this.gridShowColors.setListeners(listeners);
-		this.gridShowNumbers.setListeners(listeners);
 		this.gridColorsToggle.setListeners(listeners);
 		
 		// add components to panel
@@ -180,7 +219,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 			me.grid.generateStatisticOutput(
 					gridAnswers, 
 					me.gridShowColors.getValue(), 
-					me.gridShowNumbers.getValue(), 
+					me.questionOptionsSegment.getPressedButtons()[0].getText(),
 					me.gridWeakenImageToggle.getValue(),
 					me.gridColorsToggle.getValue());
 		});
