@@ -25,7 +25,7 @@ Ext.define('FreetextAnswer', {
     require: ['ARSnova.view.speaker.form.ExpandingAnswerForm', 'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
               'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.SchoolQuestion',
               'ARSnova.view.speaker.form.VoteQuestion', 'ARSnova.view.speaker.form.YesNoQuestion',
-              'ARSnova.view.speaker.form.FlashcardQuestion', 'ARSnova.view.speaker.form.GridQuestion'],
+              'ARSnova.view.speaker.form.FlashcardQuestion', 'ARSnova.view.speaker.form.GridStatistic'],
  
     config: {
     	idProperty: "_id",
@@ -65,13 +65,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	},
 	
 	/* toolbar items */
-	toolbar		: null,
-	backButton	: null,
-	cancelButton: null,
-	editButton	: null,
+	toolbar			: null,
+	backButton		: null,
+	cancelButton	: null,
+	editButton		: null,
+	gridStatistic	: null,
 
-	questionObj : null,
-	grid		: null,
+	questionObj 	: null,
 	
 	freetextAnswerStore: Ext.create('Ext.data.JsonStore', {
 		model		: 'FreetextAnswer',
@@ -158,6 +158,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				};
 				var saveQuestion = function(question) {
 					var questionValues = panel.answerEditForm.getQuestionValues();
+
+					if (questionValues.gridSize != undefined) question.set("gridSize", questionValues.gridSize);
+					if (questionValues.image != undefined) 	  question.set("image", questionValues.image);
+					if (questionValues.offsetX != undefined)  question.set("offsetX", questionValues.offsetX);
+					if (questionValues.offsetY != undefined)  question.set("offsetY", questionValues.offsetY);
+					if (questionValues.zoomLvl != undefined)  question.set("zoomLvl", questionValues.zoomLvl);
+
 					question.set("possibleAnswers", questionValues.possibleAnswers);
 					question.set("noCorrect", !!questionValues.noCorrect);
 					Ext.apply(question.raw, questionValues);
@@ -790,6 +797,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 		
 		if (this.questionObj.questionType === 'grid') {
+			
+			
 	 	
 			// set image data (base64 --> grid)
 			this.answerEditForm.updateCanvas(this.questionObj.image, false);
@@ -804,8 +813,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		}
 		
 		this.answerEditForm.initWithQuestion(Ext.clone(this.questionObj));
-		
-		
+
 		/* END QUESTION DETAILS */
 		
 		this.add([
@@ -860,7 +868,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	
 	getPossibleAnswers: function() {
 		var me = this;
-		var isGridQuestion = (['grid'].indexOf(this.questionObj.questionType) !== -1)
+		var isGridQuestion = (['grid'].indexOf(this.questionObj.questionType) !== -1);
 		for ( var i = 0; i < this.questionObj.possibleAnswers.length; i++){
 			var pA = this.questionObj.possibleAnswers[i];
 			var element = Ext.create('ARSnova.view.MultiBadgeButton', {
@@ -885,90 +893,15 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			
 			MathJax.Hub.Queue(["Typeset", MathJax.Hub, element.dom]);
 		}
-		
-		if ( isGridQuestion ) {
-			this.grid = Ext.create('ARSnova.view.components.GridContainer', {
-				docked 		: 'top',
-				id 			: 'gridContainerQD',
-				gridSize	: this.questionObj.gridSize,
-				offsetX		: this.questionObj.offsetX,
-				offsetY		: this.questionObj.offsetY,
-				zoomLvl		: this.questionObj.zoomLvl,
-				editable	: false
-			});
-			
-			// set image data (base64 --> grid)
-			this.grid.setImage(this.questionObj.image, false);
-			
-			this.grid.update(this.questionObj.gridSize, this.questionObj.offsetX, 
-					this.questionObj.offsetY, this.questionObj.zoomLvl, this.questionObj.possibleAnswers, true);
-			
-			
-			// add toggles
-			this.gridWeakenImageToggle = Ext.create('Ext.field.Toggle', {
-				id:			"toggleWeakenImage",
-				name:		"toggleWeakenImage",
-				label:		"Bild abschwächen", // TODO In Konstanten auslagern
-				value: 		true,
-				listeners: {
-			        beforechange: function (slider, thumb, newValue, oldValue) {
-			        	me.getQuestionAnswers();
-			        },
-			        change: function (slider, thumb, newValue, oldValue) {
-			        	me.getQuestionAnswers();
-			        }
-			    }
-			});
-			this.gridShowColors = Ext.create('Ext.field.Toggle', {
-				id:			"toggleShowColors",
-				name:		"toggleShowColors",
-				label:		"Farben anzeigen", // TODO In Konstanten auslagern
-				value:  	true,
-				listeners: {
-			        beforechange: function (slider, thumb, newValue, oldValue) {
-			        	me.getQuestionAnswers();
-			        },
-			        change: function (slider, thumb, newValue, oldValue) {
-			        	me.getQuestionAnswers();
-			        }
-			    }
-			});
-			this.gridShowNumbers = Ext.create('Ext.field.Toggle', {
-				id:			"toggleShowNumbers",
-				name:		"toggleShowNumbers",
-				label:		"Prozente anzeigen", // TODO In Konstanten auslagern
-				value:  	true,
-				listeners: {
-			        beforechange: function (slider, thumb, newValue, oldValue) {
-			        	me.getQuestionAnswers();
-			        },
-			        change: function (slider, thumb, newValue, oldValue) {
-			        	me.getQuestionAnswers();
-			        }
-			    }
-			});
-			this.gridColorsToggle = Ext.create('Ext.field.Toggle', {
-				id:			"toggleColors",
-				name:		"toggleColors",
-				label:		"Rasterfarbe invertieren", // TODO In Konstanten auslagern
-				value:  	false,
-				listeners: {
-			        beforechange: function (slider, thumb, newValue, oldValue) {
-			        	me.getQuestionAnswers();
-			        },
-			        change: function (slider, thumb, newValue, oldValue) {
-			        	me.getQuestionAnswers();
-			        }
-			    }
-			});
 
-			// add components
-			this.answerFormFieldset.add(this.grid);
-			this.answerFormFieldset.add({xtype : 'spacer', height :25, docked : 'top' });
-			this.answerFormFieldset.add(this.gridWeakenImageToggle);
-			this.answerFormFieldset.add(this.gridShowColors);
-			this.answerFormFieldset.add(this.gridShowNumbers);
-			this.answerFormFieldset.add(this.gridColorsToggle);
+		if ( isGridQuestion ) {
+
+			// add statistic
+			this.gridStatistic = Ext.create('ARSnova.view.components.GridStatistic', {
+				questionObj : this.questionObj
+			});
+			this.answerFormFieldset.add(this.gridStatistic);
+			this.getQuestionAnswers();
 		}
 		
 	},
@@ -1113,41 +1046,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								button.setBadge([{ badgeText: mcAnswerCount[index] ? mcAnswerCount[index]+'' : '0'}]);
 							});
 						} else if (panel.questionObj.questionType === "grid") {
-							var gridAnswers = [];
-							var abstentionCount = 0;
-							
-							// parse answers
-							for (var i = 0; i<answers.length; i++) {
-								var el = answers[i];
-								if (!el.answerText) {
-									// answer is abstention
-									abstentionCount = el.abstentionCount;
-									continue;
-								}
-								
-								
-								var values = el.answerText.split(",");
-
-								for (var j=0; j < el.answerCount; j++) {
-									values.forEach(function(selected, index) {
-										
-										if(typeof gridAnswers[values[index]] ===  "undefined") {
-											gridAnswers[values[index]] = 1;
-										} else {
-											gridAnswers[values[index]] += 1
-										}
-									});
-								}
-							}
-
-							// generate output
-							panel.grid.generateStatisticOutput(
-									gridAnswers, 
-									panel.gridShowColors.getValue(), 
-									panel.gridShowNumbers.getValue(), 
-									panel.gridWeakenImageToggle.getValue(),
-									panel.gridColorsToggle.getValue());
-							
+							panel.gridStatistic.answers 		= answers;
+							panel.gridStatistic.setQuestionObj  = panel.questionObj;
+							panel.gridStatistic.updateGrid();
 						} else {
 							var abstentionCount = 0;
 							for (var i = 0, el; el = answers[i]; i++) {

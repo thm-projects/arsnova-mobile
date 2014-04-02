@@ -1,3 +1,21 @@
+/*--------------------------------------------------------------------------+
+ This file is part of ARSnova.
+ - Beschreibung: Panel für die Frageform: Planquadrat
+ +---------------------------------------------------------------------------+
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or any later version.
+ +---------------------------------------------------------------------------+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ +--------------------------------------------------------------------------*/
+
 Ext.define('ARSnova.view.components.GridContainer', {
 	extend : 'Ext.Container',
     xtype: 'canvas',
@@ -66,13 +84,16 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var ctx = this.getCanvas().getContext('2d');
 		// save context
 		ctx.save();
+
 		
 		ctx.clearRect(0, 0, this.getCanvas().width, this.getCanvas().height);
 
 		this.zoom(this.getScale());
+
 		ctx.globalAlpha = alpha;
 		
 		ctx.drawImage(this.getImageFile(), this.getOffsetX(), this.getOffsetY());
+
 		// restore context to draw grid with default scale
 		ctx.restore();
 	
@@ -440,7 +461,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * @param 		dataUrl		The url specifiyng the source of the image file.
 	 * @param bool	reload		<code>true</code> if the image should be reloaded, <code>false</code> otherwise.
 	 */
-	setImage : function(dataUrl, reload) {
+	setImage : function(dataUrl, reload, callback) {
 		var newimage = new Image();
 		var container = this;
 
@@ -451,6 +472,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				container.clearImage();
 			container.setImageFile(newimage);
 			container.redraw();
+			
+			if(callback != undefined && typeof callback == 'function') callback();
 		};
 	},
 	
@@ -560,7 +583,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			}
 		}
 
-		console.log(chosenFields);
 		// set directly to grid
 		this.setChosenFields(chosenFields);
 	},
