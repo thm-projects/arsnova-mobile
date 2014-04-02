@@ -287,7 +287,8 @@ case 'en-gb':
 		GRID_LABEL_SQUARES : "Squares per edge",
 		CORRECT_ANSWERS: "Correct answers",
 		SETTINGS:	"Settings",
-			
+		SETTINGS_HINT_TEXT: "Hint <br>You can zoom the image, move, and then save these settings.",	
+		
 		/* question types */
 		EVALUATION : "Likert",
 		SCHOOL : "Grade",
@@ -605,6 +606,7 @@ default:
 		GRID_LABEL_SQUARES : "Quadrate pro Kante",
 		CORRECT_ANSWERS:	"Richtige Antworten",
 		SETTINGS:	"Einstellungen",
+		SETTINGS_HINT_TEXT: "Hinweis <br>Du kannst das Bild zoomen, verschieben und mit diesen Einstellungen dann abspeichern",	
 		
 		/* question types */
 		EVALUATION : "Likert",

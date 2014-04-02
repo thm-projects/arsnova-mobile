@@ -47,13 +47,25 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			id 		: 'gridContainer'
 		});
 		
+		this.InfoButton = Ext.create('Ext.Panel',{
+			height: '20%',
+			html: Messages.SETTINGS_HINT_TEXT,
+			id: 'popup',
+			left: '50%',
+			padding: 20,
+			top: '30%',
+			width: '40%',
+			hideOnMaskTap: true,
+			modal: true		
+		});
+
 		this.imageArea = Ext.create('Ext.Panel', {
 			id : 'imageArea',
 			layout : 'hbox',
 			items : [ 
 			    this.grid, 
 			    {
-					xtype: 'button',
+				xtype: 'button',
 			    	iconCls : 'delete',
 			    	iconMask : true,
 			    	docked : 'right',
@@ -61,9 +73,14 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				},
 			    {
 			    	xtype : 'button',
+				id : 'infobutton',
 			    	iconCls : 'info',
 			    	iconMask : true,
-			    	docked : 'right'
+			    	docked : 'right',
+				scope: this,
+				handler : function(){ 
+			    		this.onInfoButton(this);
+			    	}
 			    },
 			    {
 			    	xtype : 'button',
@@ -79,7 +96,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			    	docked : 'right',
 					handler: function() { me.grid.moveLeft(); }
 				}, {
-					xtype: 'button',
+				xtype: 'button',
 			    	iconCls : 'arrow_up',
 			    	iconMask : true,
 			    	docked : 'right',
@@ -288,6 +305,15 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.GRID_ERROR_URL_MISSING);
 		}
 		
+	},
+
+	/**
+	 * Handler function for the event of info button
+	 */
+	onInfoButton : function(iButton){
+		
+		var popup = Ext.getCmp('popup');
+		popup.showBy(iButton);
 	},
 	
 	/**
