@@ -20,37 +20,6 @@
  +--------------------------------------------------------------------------*/
 Ext.define("ARSnova.controller.Questions", {
 	extend: 'Ext.app.Controller',
-	
-	config: {
-        refs: {
-            'imageToCanvasButton': 'grid #imageToCanvasButton',
-            'grid' : 'grid'
-        },
-        
-        control: {
-        	imageToCanvasButton: {
-                loadsuccess: 'onFileLoadSuccess',
-                loadfailure: 'onFileLoadFailure'
-            }
-        }
-	},
-	
-	onFileUploadSuccess: function() {
-	// TODO: anpassen
-	},
-   
-	onFileUploadFailure: function(message) {
-		// TODO: anpassen
-	},
-   
-	onFileLoadSuccess: function(dataurl, e) {
-		var grid = this.getGrid();
-		grid.updateCanvas(dataurl, true);
-	},
-   
-	onFileLoadFailure: function(message) {
-		// TODO: anpassen
-	},
 
 	requires: ['ARSnova.model.Question',
 	           'ARSnova.view.speaker.QuestionDetailsPanel',
