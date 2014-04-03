@@ -373,6 +373,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Moves the image one step in negative x direction.
 	 */
 	moveLeft : function() {
+		console.log(this); 
 		this.setOffsetX(this.getOffsetX() - this.getMoveInterval());
 		this.redraw();
 	},
@@ -438,6 +439,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Zooms in the image by one step.
 	 */
 	zoomIn : function() {
+		console.log(this);
 		this.setZoomLvl(this.getZoomLvl() + 1);
 		this.setScale(this.getScale() * this.getScaleFactor());
 		// no redraw the image with the new scale

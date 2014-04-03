@@ -797,8 +797,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 		
 		if (this.questionObj.questionType === 'grid') {
-			
-			
+
+			console.log("this.answerEditForm");
+			console.log(this.answerEditForm);
 	 	
 			// set image data (base64 --> grid)
 			this.answerEditForm.updateCanvas(this.questionObj.image, false);

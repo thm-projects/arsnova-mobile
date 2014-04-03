@@ -27,13 +27,15 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	           'Ext.ux.Fileup'	// file upload framework
 	           ],
 
-	imageArea 		 : null,		// contains all image relevant items
-	grid 			 : null,		// encapsulated canvas element
-	imageCnt		 : null,		// image manipulation options
-	imageSettings 	 : null,		// the image settings (offset, zoom,...)
-	uploadView 		 : null,		// view containing the upload options
-	answers 		 : null,
-	buttonUploadFromFS: null,
+	imageArea 		 	: null,		// contains all image relevant items
+	grid 			 	: null,		// encapsulated canvas element
+	imageCnt		 	: null,		// image manipulation options
+	imageSettings 	 	: null,		// the image settings (offset, zoom,...)
+	uploadView 		 	: null,		// view containing the upload options
+	answers 		 	: null,
+	buttonUploadFromFS	: null,
+	zoomSpinner 		: null,
+	gridSpinner 		: null,
 
 	/**
 	 * Initializes the grid question area and the needed
@@ -243,47 +245,51 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				}]
 			} ]
 		});
+		
+		this.zoomSpinner = Ext.create('Ext.field.Spinner', {
+			xtype : 'spinnerfield',
+			label : Messages.GRID_LABEL_ZOOM,
+			listeners : {
+				spinup : function() {
+					me.grid.zoomIn();
+				},
+				spindown : function() {
+					me.grid.zoomOut();
+				}
+
+			},
+			value : 100,
+			stepValue : 20
+		});
+		
+		this.gridSpinner = Ext.create('Ext.field.Spinner', {
+			xtype : 'spinnerfield',
+			label : Messages.GRID_LABEL_SQUARES,
+			listeners : {
+				spin : function(spinner, value) {
+					me.grid.setGrids(value); // update grid count
+				}
+			},
+			minValue : 2,
+			maxValue : 16,
+			value : 5,
+			stepValue : 1,
+			cycle : true,
+		
+		});
 
 		this.imageSettings = Ext.create('Ext.Panel', {
 			id : 'answerField',
-			items : [ 
-			         {
-						xtype : 'fieldset',
-						id : 'fs_imagesettings',
-						title : Messages.SETTINGS,
-						items : [ {
-							xtype : 'spinnerfield',
-							id : 'sf_zoom',
-							label : Messages.GRID_LABEL_ZOOM,
-							listeners : {
-								spinup : function() {
-									me.grid.zoomIn();
-								},
-								spindown : function() {
-									me.grid.zoomOut();
-								}
-		
-							},
-							value : 100,
-							stepValue : 20
-							}, {
-								xtype : 'spinnerfield',
-								id : 'sf_grids',
-								label : Messages.GRID_LABEL_SQUARES,
-								listeners : {
-									spin : function(spinner, value) {
-										me.grid.setGrids(value); // update grid count
-									}
-								},
-								minValue : 2,
-								maxValue : 16,
-								value : 5,
-								stepValue : 1,
-								cycle : true,
-							},
-						this.answers
-						]
-			} ]
+			items : [{
+				xtype : 'fieldset',
+				id : 'fs_imagesettings',
+				title : Messages.SETTINGS,
+				items : [
+				         this.zoomSpinner,
+				         this.gridSpinner,
+				         this.answers
+				         ]
+			}]
 		});
 
 		this.imageCnt = Ext.create('Ext.form.FormPanel', {
@@ -378,13 +384,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	},
 	
 	clearTextfields : function() {
-		var zoomField 	= this.imageSettings.getComponent('fs_imagesettings').getComponent('sf_zoom');
-		var gridField 	= this.imageSettings.getComponent('fs_imagesettings').getComponent('sf_grids');
 		var answerField = this.answers.getComponent('fs_answers').getComponent('tf_answers');
 		var urlField 	= this.uploadView.getComponent('pnl_upfield').getComponent('tf_url');
 		
-		zoomField.setValue(100);
-		gridField.setValue(5);
+		this.zoomSpinner.setValue(100);
+		this.gridSpinner.setValue(5);
 		answerField.setValue(0);
 		urlField.setValue("");
 		
