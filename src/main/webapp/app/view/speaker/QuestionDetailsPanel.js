@@ -172,7 +172,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						success: function(response) {
 							var newAbstentions = Ext.create('ARSnova.view.MultiBadgeButton',
 								Ext.apply(panel.abstentions.config, {
-									hidden: question.get('abstention') === false
+									hidden: question.get('abstention') === false || (question.get('questionType') == 'grid'),
 								})
 							);
 							panel.questionObj = question.data;
