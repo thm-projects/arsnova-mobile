@@ -151,14 +151,6 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		
 		// everythings creates, now lets update the gridContainer
 		this.updateGrid();
-
-
-		console.log("this");
-		console.log(this);
-
-		console.log("this.grid");
-		console.log(this.grid);
-		
 	},
 
 	updateGrid : function() {
@@ -191,9 +183,6 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 			
 			// parse answers
 			for (var i = 0; i<me.answers.length; i++) {
-
-				console.log("me.answers[" + i + "]");
-				console.log(me.answers[i]);
 				
 				var el = me.answers[i];
 				if (!el.answerText) {

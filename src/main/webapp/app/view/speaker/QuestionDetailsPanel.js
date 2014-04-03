@@ -933,7 +933,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			 * only for older questions:
 			 * try to define the question type
 			 */
-			console.log(this.questionObj);
 			if(this.questionObj.possibleAnswers.length == 2)
 				return Messages.YESNO;
 			else if(this.questionObj.possibleAnswers[0].correct)

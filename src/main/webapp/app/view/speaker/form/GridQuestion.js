@@ -341,9 +341,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	 */
 	updateCanvasWithUrl : function() {
 		var url = this.up('grid').uploadView.getComponent('pnl_upfield').getComponent('tf_url').getValue();
-		console.log("url: " + url);
-		console.log(this);
-		console.log(this);
 		
 		if (url) {
 			this.up('grid').updateCanvas(url, true);
