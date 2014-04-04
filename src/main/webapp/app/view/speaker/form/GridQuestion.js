@@ -36,6 +36,10 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	buttonUploadFromFS	: null,
 	zoomSpinner 		: null,
 	gridSpinner 		: null,
+	btnMoveLeft			: null,
+	btnMoveRight		: null,
+	btnMoveUp			: null,
+	btnMoveDown			: null,
 
 	/**
 	 * Initializes the grid question area and the needed
@@ -62,6 +66,26 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			modal: true		
 		});
 
+		this.btnMoveLeft = Ext.create('Ext.Button', {
+			iconCls : 'arrow_left',
+			iconMask : true
+		});
+		
+		this.btnMoveRight = Ext.create('Ext.Button', {
+			iconCls : 'arrow_right',
+			iconMask : true
+		});
+		
+		this.btnMoveUp = Ext.create('Ext.Button', {
+			iconCls : 'arrow_up',
+			iconMask : true
+		});
+		
+		this.btnMoveDown = Ext.create('Ext.Button', {
+			iconCls : 'arrow_down',
+			iconMask : true
+		});
+		
 		this.imageArea = Ext.create('Ext.Panel', {
 			id : 'imageArea',
 			layout :{
@@ -110,27 +134,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				            }
 						
 						},
+						this.btnMoveLeft,
+						this.btnMoveRight,
+						this.btnMoveUp,
+						this.btnMoveDown,
 						{
-							xtype: 'button',
-							iconCls : 'arrow_left',
-							id : 'btn_left',
-							iconMask : true,
-						}, {
-							xtype: 'button',
-							iconCls : 'arrow_up',
-							id : 'btn_up',
-							iconMask : true,
-						}, {
-							xtype: 'button',
-							iconCls : 'arrow_down',
-							id : 'btn_down',
-							iconMask : true,
-						}, {
-							xtype: 'button',
-							iconCls : 'arrow_right',
-							id : 'btn_right',
-							iconMask : true,
-						},{
 							xtype: 'button',
 							iconCls : 'delete',
 							iconMask : true,
@@ -145,32 +153,31 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		// initialize tap repeater for move buttons
 		// TapRepeater for left button
 		Ext.create('Ext.util.TapRepeater', {
-			el: Ext.get('btn_left')
+			el: this.btnMoveLeft.bodyElement
 		}).on('tap', function() {
 			me.grid.moveLeft();
 		}, me);
 
+		// TapRepeater for right button
+		Ext.create('Ext.util.TapRepeater', {
+			el: this.btnMoveRight.bodyElement
+		}).on('tap', function() {
+			me.grid.moveRight();
+		}, me);
+		
 		// TapRepeater for up button
 		Ext.create('Ext.util.TapRepeater', {
-			el: Ext.get('btn_up')
+			el: this.btnMoveUp.bodyElement
 		}).on('tap', function() {
 			me.grid.moveUp();
 		}, me);
 		
 		// TapRepeater for down button
 		Ext.create('Ext.util.TapRepeater', {
-			el: Ext.get('btn_down')
+			el: this.btnMoveDown.bodyElement
 		}).on('tap', function() {
 			me.grid.moveDown();
 		}, me);
-		
-		// TapRepeater for right button
-		Ext.create('Ext.util.TapRepeater', {
-			el: Ext.get('btn_right')
-		}).on('tap', function() {
-			me.grid.moveRight();
-		}, me);
-		
 		
 		// button: load from filesystem
 		this.buttonUploadFromFS = Ext.create('Ext.ux.Fileup', {
