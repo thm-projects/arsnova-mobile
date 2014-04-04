@@ -116,13 +116,13 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 							iconMask : true,
 							//docked : 'right',
 							handler: function() { me.grid.moveLeft(); }
-						}, {
+						}, /*{
 							xtype: 'button',
 							iconCls : 'arrow_up',
 							iconMask : true,
 							//docked : 'right',
 							handler: function() { me.grid.moveUp(); }
-						}, {
+						},*/ {
 							xtype: 'button',
 							iconCls : 'arrow_down',
 							iconMask : true,

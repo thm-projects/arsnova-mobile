@@ -346,7 +346,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				html: Messages.STATISTIC,
 				cls	: 'centerTextSmall'
 			}],
-			//hidden: this.isGridQuestion
 		});
 
 		this.releaseStatisticButton = Ext.create('Ext.Panel', {
@@ -701,7 +700,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 		
 		this.freetextAnswerList = Ext.create('Ext.List', {
-			hidden: this.isGridQuestion, // TODO Do not even instantiate when grid question (+ performance)
+			hidden: this.isGridQuestion,
 			activeCls: 'search-item-active',
 			store: this.freetextAnswerStore, 
 			
