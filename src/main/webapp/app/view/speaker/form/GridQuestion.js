@@ -27,12 +27,13 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	           'Ext.ux.Fileup'	// file upload framework
 	           ],
 
-	imageArea 		 : null,		// contains all image relevant items
-	grid 			 : null,		// encapsulated canvas element
-	imageCnt		 : null,		// image manipulation options
-	imageSettings 	 : null,			// the image settings (offset, zoom,...)
-	uploadView 		 : null,		// view containing the upload options
-	answers 		 : null,
+	imageArea 			: null,		// contains all image relevant items
+	grid 				: null,		// encapsulated canvas element
+	imageCnt			: null,		// image manipulation options
+	imageSettings 	 	: null,			// the image settings (offset, zoom,...)
+	uploadView 			: null,		// view containing the upload options
+	answers 		 	: null,
+	
 
 	/**
 	 * Initializes the grid question area and the needed
@@ -97,27 +98,23 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						{
 							xtype: 'button',
 							iconCls : 'arrow_left',
+							id : 'btn_left',
 							iconMask : true,
-							//docked : 'right',
-							handler: function() { me.grid.moveLeft(); }
 						}, {
 							xtype: 'button',
 							iconCls : 'arrow_up',
+							id : 'btn_up',
 							iconMask : true,
-							//docked : 'right',
-							handler: function() { me.grid.moveUp(); }
 						}, {
 							xtype: 'button',
 							iconCls : 'arrow_down',
+							id : 'btn_down',
 							iconMask : true,
-							//docked : 'right',
-							handler: function() { me.grid.moveDown(); }
 						}, {
 							xtype: 'button',
 							iconCls : 'arrow_right',
+							id : 'btn_right',
 							iconMask : true,
-							//docked : 'right',
-							handler: function() { me.grid.moveRight(); }
 						},{
 							xtype: 'button',
 							iconCls : 'delete',
@@ -129,8 +126,36 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			],
 			hidden : true
 		});
+		
+		// initialize tap repeater for move buttons
+		// TapRepeater for left button
+		Ext.create('Ext.util.TapRepeater', {
+			el: Ext.get('btn_left')
+		}).on('tap', function() {
+			me.grid.moveLeft();
+		}, me);
 
-
+		// TapRepeater for up button
+		Ext.create('Ext.util.TapRepeater', {
+			el: Ext.get('btn_up')
+		}).on('tap', function() {
+			me.grid.moveUp();
+		}, me);
+		
+		// TapRepeater for down button
+		Ext.create('Ext.util.TapRepeater', {
+			el: Ext.get('btn_down')
+		}).on('tap', function() {
+			me.grid.moveDown();
+		}, me);
+		
+		// TapRepeater for right button
+		Ext.create('Ext.util.TapRepeater', {
+			el: Ext.get('btn_right')
+		}).on('tap', function() {
+			me.grid.moveRight();
+		}, me);
+		
 		/**
 		 * The view containing the url textfield and the
 		 * functionality to load an image into the canvas
