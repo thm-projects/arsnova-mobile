@@ -796,16 +796,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 		
 		if (this.questionObj.questionType === 'grid') {
-
-			console.log("this.answerEditForm");
-			console.log(this.answerEditForm);
-	 	
-			// set image data (base64 --> grid)
-			this.answerEditForm.updateCanvas(this.questionObj.image, false);
-			
-			this.answerEditForm.grid.update(this.questionObj.gridSize, this.questionObj.offsetX, 
-					this.questionObj.offsetY, this.questionObj.zoomLvl, this.questionObj.possibleAnswers, true);
-
+			// TODO braucht man das ueberhaupt?
 			// do not reset possible answers in grid questions
 			this.possibleAnswers = this.questionObj.possibleAnswers;
 		} else {
@@ -1072,11 +1063,16 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		}
 	},
 	
-	resetFields: function(){
+	resetFields: function() {
 		var fields = this.down('#contentFieldset').items.items;
 		fields.forEach(function(field) {
 			field.reset();
 			field.setDisabled(true);
 		});
+		
+		// reset image view if grid question
+		if (this.questionObj.questionType === 'grid') {
+			this.answerEditForm.initWithQuestion(Ext.clone(this.questionObj));
+		}
 	}
 });

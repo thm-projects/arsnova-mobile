@@ -364,7 +364,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.grid.setImage(dataUrl, reload);	
 		
 		// show picture
-		this.toggleViews();
+		this.showImageView();
 	},
 	
 	/**
@@ -392,21 +392,31 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	},
 	
 	/**
-	 * Toggles between the image view and the upload view
+	 * Shows the image view and hides the upload view.
 	 */
-	toggleViews : function() {	
-		this.imageArea.isHidden()	? this.imageArea.show()		: this.imageArea.hide();
-		this.imageCnt.isHidden()	? this.imageCnt.show()		: this.imageCnt.hide();
-		this.uploadView.isHidden()	? this.uploadView.show()	: this.uploadView.hide();
+	showImageView : function() {
+		this.imageArea.show();
+		this.imageCnt.show();
+		this.uploadView.hide();
+	},
+	
+	/**
+	 * Shows the upload view and hides the image view.
+	 */
+	showUploadView : function() {
+		this.imageArea.hide();
+		this.imageCnt.hide();
+		this.uploadView.show();
 	},
 
 	/**
 	 * Resets the image view to the initial state.
 	 */
 	resetView : function() {
-		this.toggleViews();
+		this.showUploadView();
 		this.grid.clearImage();
 		this.clearTextfields();
+		// TODO clear spinners (zoom, gridsize)
 	},
 	
 	clearTextfields : function() {
@@ -440,5 +450,22 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		result.noCorrect 	   = this.grid.getChosenFields().length > 0 ? 0 : 1; // TODO: Check if really needed (and why numbers instead of bool)
 
 		return result;
+	},
+	
+	/**
+	 * Initializes the GridQuestion with the values from the given question.
+	 * 
+	 * @param question		The questionObj providing all necessary information.
+	 */
+	initWithQuestion : function(question) {
+		console.log("GridQuestion.initWithQuestion()");
+		
+		// set image data (base64 --> grid)
+		this.updateCanvas(question.image, false);
+		
+		this.grid.update(question.gridSize, question.offsetX, 
+				question.offsetY, question.zoomLvl, question.possibleAnswers, true);
+		
+		// TODO fill spinners (zoom, gridsize)
 	}
 });
