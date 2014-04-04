@@ -48,6 +48,17 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	constructor : function() {
 		this.callParent(arguments);
+		
+		// set canvas size depending on screen size
+		var width 			= (window.innerWidth > 0) ? window.innerWidth : screen.width;
+		var extraPadding 	= 80;
+		var canvasSize 		= (width < 400 + extraPadding) ? width - extraPadding : 400;
+		this.setCanvasSize(canvasSize);
+
+		console.log("width");
+		console.log(width);
+		console.log(canvasSize);
+		
 		var canvas = document.createElement('canvas');
 		canvas.id = 'canvasWrapper';
 		canvas.width = this.getCanvasSize();
@@ -373,6 +384,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Moves the image one step in negative x direction.
 	 */
 	moveLeft : function() {
+		console.log(this); 
 		this.setOffsetX(this.getOffsetX() - this.getMoveInterval());
 		this.redraw();
 	},
@@ -438,6 +450,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Zooms in the image by one step.
 	 */
 	zoomIn : function() {
+		console.log(this);
 		this.setZoomLvl(this.getZoomLvl() + 1);
 		this.setScale(this.getScale() * this.getScaleFactor());
 		// no redraw the image with the new scale
@@ -602,7 +615,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	/**
 	 * 
 	 */
-	generateStatisticOutput : function(tilesToFill, colorTiles, showPercentages, weakenSourceImage, toggleColors) {
+	generateStatisticOutput : function(tilesToFill, colorTiles, displayType, weakenSourceImage, toggleColors) {
 		
 		var totalAnswers = 0;
 		
@@ -641,10 +654,15 @@ Ext.define('ARSnova.view.components.GridContainer', {
 					this.markField(coords[0], coords[1], color, alpha + alphaOffset);   // alpha between 0.15 and 0.9
 				}
 				
-				if (showPercentages) {
+				if (displayType == Messages.GRID_LABEL_RELATIVE) {
 					var text = (typeof tilesToFill[key] ===  "undefined" ) ? "0,0%" : Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) + "%";
 					this.addTextToField(coords[0], coords[1], text);
-				}	
+				} else if (displayType == Messages.GRID_LABEL_ABSOLUTE) {
+					var text = (typeof tilesToFill[key] ===  "undefined" ) ? "0" : tilesToFill[key];
+					this.addTextToField(coords[0], coords[1], text);
+				}
+					
+				
 			}
 		}
 	}

@@ -172,7 +172,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						success: function(response) {
 							var newAbstentions = Ext.create('ARSnova.view.MultiBadgeButton',
 								Ext.apply(panel.abstentions.config, {
-									hidden: question.get('abstention') === false
+									hidden: question.get('abstention') === false || (question.get('questionType') == 'grid'),
 								})
 							);
 							panel.questionObj = question.data;
@@ -346,7 +346,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				html: Messages.STATISTIC,
 				cls	: 'centerTextSmall'
 			}],
-			//hidden: this.isGridQuestion
 		});
 
 		this.releaseStatisticButton = Ext.create('Ext.Panel', {
@@ -701,7 +700,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 		
 		this.freetextAnswerList = Ext.create('Ext.List', {
-			hidden: this.isGridQuestion, // TODO Do not even instantiate when grid question (+ performance)
+			hidden: this.isGridQuestion,
 			activeCls: 'search-item-active',
 			store: this.freetextAnswerStore, 
 			
@@ -753,7 +752,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 		
 		this.abstentions = Ext.create('ARSnova.view.MultiBadgeButton', {
-			hidden		: this.questionObj.abstention === false,
+			hidden		: this.questionObj.abstention === false || this.isGridQuestion,
 			ui			: 'normal',
 			text		: Messages.ABSTENTION,
 			disabled	: true,
@@ -797,8 +796,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 		
 		if (this.questionObj.questionType === 'grid') {
-			
-			
+
+			console.log("this.answerEditForm");
+			console.log(this.answerEditForm);
 	 	
 			// set image data (base64 --> grid)
 			this.answerEditForm.updateCanvas(this.questionObj.image, false);
@@ -933,7 +933,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			 * only for older questions:
 			 * try to define the question type
 			 */
-			console.log(this.questionObj);
 			if(this.questionObj.possibleAnswers.length == 2)
 				return Messages.YESNO;
 			else if(this.questionObj.possibleAnswers[0].correct)
