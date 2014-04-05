@@ -37,7 +37,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		offsetX 				 : 0,			// Current offset in x direction.
 		offsetY 				 : 0,			// Current offset in y direction.
 		moveInterval 			 : 10,			// Steps to take when moving the image (in pixel).
-		onFieldClick 			 : null,		// TODO: hier wäre ein Kommentar mal sinnvoll
+		onFieldClick 			 : null,		// Hook for function, that will be called after onClick event.
 		editable				 : true			// If set to false click events are prevented.
 	},
 
@@ -71,7 +71,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Redraws the whole canvas element with default alpha value and marks the chosen fields.
 	 */
 	redraw : function() {
-		this.redrawWithAlpha(1.0, true);
+		this.redrawWithAlpha(1.0, true);console.log("redraw!");
 	},
 	
 	/**
@@ -651,6 +651,32 @@ Ext.define('ARSnova.view.components.GridContainer', {
 					this.addTextToField(coords[0], coords[1], text);
 				}
 					
+				
+			}
+		}
+	},
+	
+	
+	generateUserViewWithAnswers : function (userAnswers, correctAnswers, toggleColors){
+		
+		// toggle grid color
+		this.setCurGridLineColor(toggleColors ? this.getAlternativeGridLineColor() : this.getGridLineColor());
+		
+		var lowAlpha = 0.2;
+		var highAlpha = 0.9;
+		
+		var wrongColor = 'FF0000';
+		var rightColor = '00FF00';
+		
+		for (var row=0; row < this.getGridSize(); row++) {
+			for (var column=0; column < this.getGridSize(); column++) {
+				
+				var i = row * this.getGridSize() + column;
+				var color = correctAnswers[i] ? rightColor : wrongColor;
+				var alpha = userAnswers[i] ? highAlpha : lowAlpha;
+				
+					
+				this.markField(row,column, color, alpha);
 				
 			}
 		}

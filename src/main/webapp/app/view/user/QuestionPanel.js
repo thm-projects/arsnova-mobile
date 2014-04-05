@@ -224,7 +224,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				ARSnova.app.answerModel.getAnswerByUserAndSession(localStorage.getItem("keyword"), {
 					success: function(response){
 						var answers = Ext.decode(response.responseText);
-console.log(answers);
+
 						answers.forEach(function(answer){
 							if(questionsArr[answer.questionId]) {
 								questionsArr[answer.questionId].userAnswered = answer.answerText;

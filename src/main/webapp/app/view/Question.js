@@ -78,12 +78,15 @@ Ext.define('ARSnova.view.Question', {
 		};
 		
 		this.markCorrectAnswers = function() {
+
 			if (this.questionObj.showAnswer) {
 				// Mark all possible answers as 'answered'. This will highlight
 				// all correct answers.
-				this.answerList.getStore().each(function(item) {
-					item.set("questionAnswered", true);
-				});
+
+					this.answerList.getStore().each(function(item) {
+						item.set("questionAnswered", true);
+					});
+				
 			}
 		};
 		
@@ -108,10 +111,6 @@ Ext.define('ARSnova.view.Question', {
 					questionValue += (node.get('value') || 0);
 				});
 				
-				console.log("answerlist");
-				console.log(this.answerList);
-				console.log("this.answerList.getSelection()");
-				console.log(this.answerList.getSelection());
 				
 				self.getUserAnswer().then(function(answer) {
 					answer.set('answerText', answerValues.join(","));
@@ -139,11 +138,7 @@ Ext.define('ARSnova.view.Question', {
 			
 				});
 				this.markCorrectAnswers();
-				
-				console.log(selectedIndexes.join(",")); // 1;1,2;1
-				
-		
-				
+			
 				self.getUserAnswer().then(function(answer) {
 					answer.set('answerText', selectedIndexes.join(","));
 					answer.set('questionValue', questionValue);
@@ -343,67 +338,72 @@ Ext.define('ARSnova.view.Question', {
 			
 		} else if(this.questionObj.questionType === "grid") {
 
-			/*
-			 * in case of grid question, create a grid container model
-			 */
-			this.grid = Ext.create('ARSnova.view.components.GridContainer', {
-				id : 'gridContainer' + this.questionObj._id,
-				offsetX : this.questionObj.offsetX,
-				offsetY : this.questionObj.offsetY,
-				gridSize : this.questionObj.gridSize,
-				zoomLvl : this.questionObj.zoomLvl,	
-				editable	: true
-			});
-
-			this.grid.setImage(this.questionObj.image, false);
-
-			/*
-			 * update function for align the grids picture
-			 */
-			this.grid.update(this.questionObj.gridSize, this.questionObj.offsetX, 
-				 	 this.questionObj.offsetY, this.questionObj.zoomLvl, this.questionObj.possibleAnswers, false);
+		
+				/*
+				 * in case of grid question, create a grid container model
+				 */
+				this.grid = Ext.create('ARSnova.view.components.GridContainer', {
+					id : 'gridContainer' + this.questionObj._id,
+					offsetX : this.questionObj.offsetX,
+					offsetY : this.questionObj.offsetY,
+					gridSize : this.questionObj.gridSize,
+					zoomLvl : this.questionObj.zoomLvl,	
+					editable	: true
+				});
+	
+				var me = this;
+				this.grid.setImage(this.questionObj.image, false, function(){
+					me.setGridAnswer(me.questionObj.userAnswered);
+				}); 
+	
+				/*
+				 * update function for align the grids picture
+				 */
+				this.grid.update(this.questionObj.gridSize, this.questionObj.offsetX, 
+					 	 this.questionObj.offsetY, this.questionObj.zoomLvl, this.questionObj.possibleAnswers, false);
+				
+				
+				/*
+				 *   gridbutton and container for the grid button to add into the layout if necessary
+				 */		
+				this.gridButton = Ext.create('Ext.Button', {
+					flex: 1,
+					ui: 'confirm',
+					cls: 'login-button noMargin',
+					text: Messages.SAVE,
+					handler: !this.viewOnly ? this.saveGridQuestionHandler : function() {},
+					scope: this,
+					disabled: false
+				});
+				
+				this.gridContainer = {
+						xtype: 'container',
+						layout: {
+							type: 'hbox',
+							align: 'stretch'
+						},
+						defaults: {
+							style: {
+								margin: '10px'
+							}
+						},
+						items: [this.gridButton, !!!this.questionObj.abstention ? { hidden: true } : {
+							flex: 1,
+							xtype: 'button',
+							cls: 'login-button noMargin',
+							text: Messages.ABSTENTION,
+							handler: this.mcAbstentionHandler,
+							scope: this
+						}]
+					};
+				
+				
+				
+				this.add([this.grid]);
+				this.add([this.gridContainer]);
+	
+				this.answerList.setHidden(true);
 			
-			
-			/*
-			 *   gridbutton and container for the grid button to add into the layout if necessary
-			 */		
-			this.gridButton = Ext.create('Ext.Button', {
-				flex: 1,
-				ui: 'confirm',
-				cls: 'login-button noMargin',
-				text: Messages.SAVE,
-				handler: !this.viewOnly ? this.saveGridQuestionHandler : function() {},
-				scope: this,
-				disabled: false
-			});
-			
-			this.gridContainer = {
-					xtype: 'container',
-					layout: {
-						type: 'hbox',
-						align: 'stretch'
-					},
-					defaults: {
-						style: {
-							margin: '10px'
-						}
-					},
-					items: [this.gridButton, !!!this.questionObj.abstention ? { hidden: true } : {
-						flex: 1,
-						xtype: 'button',
-						cls: 'login-button noMargin',
-						text: Messages.ABSTENTION,
-						handler: this.mcAbstentionHandler,
-						scope: this
-					}]
-				};
-			
-			
-			
-			this.add([this.grid]);
-			this.add([this.gridContainer]);
-
-			this.answerList.setHidden(true);
 		}else {
 		
 			this.answerList.setHidden(false);
@@ -422,9 +422,6 @@ Ext.define('ARSnova.view.Question', {
 			if(this.isDisabled()){
 
 				this.disableQuestion();
-				if(this.questionObj.questionType === "grid"){
-					//this.grid.setEditable(true);
-				}
 			}
 		});
 	},
@@ -436,13 +433,36 @@ Ext.define('ARSnova.view.Question', {
 
 		var grid = this.grid;
 		var fields = answerString.split(",");
-		console.log(grid);
-		
-		fields.forEach(function(node){
+
+		if(this.questionObj.showAnswer){
 			
-			var entry = grid.getChosenFieldFromPossibleAnswer(node);
-			grid.getChosenFields().push(entry);
-		});	
+			var correctAnswers = [];
+			var userAnswers = [];
+				
+			this.questionObj.possibleAnswers.forEach(function(node){
+				if(node.correct){
+					correctAnswers.push(1);
+				} else {
+					correctAnswers.push(0);
+				}
+				userAnswers.push(0);
+			});
+			
+			
+			fields.forEach(function(node){
+				var coord = grid.getChosenFieldFromPossibleAnswer(node);
+				userAnswers[coord[0] * grid.getGridSize() + coord[1]] = 1;
+			});
+			
+			grid.generateUserViewWithAnswers(userAnswers, correctAnswers, false);
+			
+		} else {
+			fields.forEach(function(node){
+				
+				var entry = grid.getChosenFieldFromPossibleAnswer(node);
+				grid.getChosenFields().push(entry);
+			});	
+		}
 	},
 	
 	
