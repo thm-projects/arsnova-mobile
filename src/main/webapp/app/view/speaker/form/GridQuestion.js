@@ -278,8 +278,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				}
 
 			},
-			value : 100,
-			stepValue : 20
+			value : this.grid.getZoomLvl(),
+			stepValue : this.grid.getScaleFactor()
 		});
 		
 		this.gridSpinner = Ext.create('Ext.field.Spinner', {
@@ -292,7 +292,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			},
 			minValue : 2,
 			maxValue : 16,
-			value : 5,
+			value :  this.grid.getGridSize(),
 			stepValue : 1,
 			cycle : true,
 		
@@ -409,14 +409,16 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.grid.clearImage();
 		this.clearTextfields();
 		// TODO clear spinners (zoom, gridsize)
+		// Ich denke das dies hier nicht noetig ist, da diese FUnktion nur ausgeführt wird,
+		// wenn das Bild abgebrochen wird um ein neues zu laden!
 	},
 	
 	clearTextfields : function() {
 		var answerField = this.answers.getComponent('fs_answers').getComponent('tf_answers');
 		var urlField 	= this.uploadView.getComponent('pnl_upfield').getComponent('tf_url');
 		
-		this.zoomSpinner.setValue(100);
-		this.gridSpinner.setValue(5);
+		this.zoomSpinner.setValue(this.grid.getZoomLvl());
+		this.gridSpinner.setValue(this.grid.getGridSize());
 		answerField.setValue(0);
 		urlField.setValue("");
 		
@@ -454,6 +456,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	 * @param question		The questionObj providing all necessary information.
 	 */
 	initWithQuestion : function(question) {
+		var answerField = this.answers.getComponent('fs_answers').getComponent('tf_answers');
 		
 		// set image data (base64 --> grid)
 		this.updateCanvas(question.image, false);
@@ -461,6 +464,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.grid.update(question.gridSize, question.offsetX, 
 				question.offsetY, question.zoomLvl, question.possibleAnswers, true);
 		
-		// TODO fill spinners (zoom, gridsize)
+		answerField.setValue(this.grid.getChosenFields().length);		//set the spinner with correct values (last storage)
+		this.zoomSpinner.setValue(this.grid.getZoomLvl());
+		this.gridSpinner.setValue(this.grid.getGridSize());
 	}
 });
