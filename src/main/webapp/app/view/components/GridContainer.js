@@ -61,7 +61,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		canvas.height = this.getCanvasSize();
 		canvas.style.display = 'block';
 		canvas.style.margin = '0 auto';
-		canvas.addEventListener("mousedown", this.onclick, false);
+		canvas.addEventListener("mouseup", this.onclick, false);
 		canvas.parentContainer = this;
 		this.setCanvas(canvas);
 		
