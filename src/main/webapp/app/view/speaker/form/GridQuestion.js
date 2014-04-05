@@ -30,16 +30,18 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	imageArea 		 	: null,		// contains all image relevant items
 	grid 			 	: null,		// encapsulated canvas element
 	imageCnt		 	: null,		// image manipulation options
-	imageSettings 	 	: null,		// the image settings (offset, zoom,...)
+	imageSettings 	 		: null,		// the image settings (offset, zoom,...)
 	uploadView 		 	: null,		// view containing the upload options
 	answers 		 	: null,
-	buttonUploadFromFS	: null,
-	zoomSpinner 		: null,
-	gridSpinner 		: null,
+	buttonUploadFromFS		: null,
+	zoomSpinner 			: null,
+	gridSpinner 			: null,
 	btnMoveLeft			: null,
-	btnMoveRight		: null,
+	btnMoveRight			: null,
 	btnMoveUp			: null,
 	btnMoveDown			: null,
+	InfoButton			: null,
+    	InfoPanel			: null,
 
 	/**
 	 * Initializes the grid question area and the needed
@@ -54,16 +56,21 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			id 	: 'gridContainer'
 		});
 		
-		this.InfoButton = Ext.create('Ext.Panel',{
+		this.InfoPanel = Ext.create('Ext.Panel',{
 			height: '20%',
 			html: Messages.SETTINGS_HINT_TEXT,
-			id: 'popup',
 			left: '50%',
 			padding: 20,
 			top: '30%',
 			width: '40%',
 			hideOnMaskTap: true,
 			modal: true		
+		});
+		
+		 this.InfoButton = Ext.create('Ext.Button',{
+			iconCls : 'info',
+			iconMask : true,
+			handler : function(){ me.onInfoButton();}
 		});
 
 		this.btnMoveLeft = Ext.create('Ext.Button', {
@@ -103,17 +110,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						pack: 'center'
 					},
 					items : [
-						{
-							xtype : 'button',
-							id : 'infobutton',
-							iconCls : 'info',
-							iconMask : true,
-							//docked : 'right',
-							scope: this,
-							handler : function(){ 
-								this.onInfoButton(this);
-							}
-						},
+						this.InfoButton,
 						{
 							xtype : 'button',
 							iconCls : 'reply',
@@ -392,10 +389,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	/**
 	 * Handler function for the event of info button
 	 */
-	onInfoButton : function(iButton){
-		
-		var popup = Ext.getCmp('popup');
-		popup.showBy(iButton);
+	onInfoButton : function(){
+		this.InfoPanel.showBy(this.InfoButton);
 	},
 	
 	/**
