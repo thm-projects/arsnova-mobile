@@ -155,11 +155,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true,
 			scrollable: null
 		});
-		//24.01.14: Create new instance of GridQuestion
 		this.gridQuestion = Ext.create('ARSnova.view.speaker.form.GridQuestion', {
 			id: 'grid',
 			hidden: true
-			//scrollable: null
 		});
 		
 		this.multipleChoiceQuestion = Ext.create('ARSnova.view.speaker.form.ExpandingAnswerForm', {
@@ -494,8 +492,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			
 			switch (panel.questionOptions.getPressedButtons()[0]._text) {
 	    		case Messages.GRID:
-	    			console.log(panel);
-	    			console.log(panel.gridQuestion);
 	    			panel.gridQuestion.resetView();
 	    		break;
 	    		default:

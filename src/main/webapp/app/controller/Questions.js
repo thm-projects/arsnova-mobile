@@ -158,6 +158,11 @@ Ext.define("ARSnova.controller.Questions", {
 					}
 				});
 				break;
+			case 'grid':
+				if (! panel.gridQuestion.grid.getImageFile()) {
+					error = true;
+				}
+				break;
 		}
     	if(error){
     		Ext.Msg.alert('Hinweis', 'Ihre Eingaben sind unvollständig');

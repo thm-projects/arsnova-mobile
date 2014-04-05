@@ -55,10 +55,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var canvasSize 		= (width < 400 + extraPadding) ? width - extraPadding : 400;
 		this.setCanvasSize(canvasSize);
 
-		console.log("width");
-		console.log(width);
-		console.log(canvasSize);
-		
 		var canvas = document.createElement('canvas');
 		canvas.id = 'canvasWrapper';
 		canvas.width = this.getCanvasSize();
@@ -82,7 +78,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Redraws the whole canvas element with default alpha value and marks the chosen fields.
 	 */
 	redraw : function() {
-		this.redrawWithAlpha(1.0, true);console.log("redraw!");
+		this.redrawWithAlpha(1.0, true);
 	},
 	
 	/**
@@ -384,7 +380,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Moves the image one step in negative x direction.
 	 */
 	moveLeft : function() {
-		console.log(this); 
 		this.setOffsetX(this.getOffsetX() - this.getMoveInterval());
 		this.redraw();
 	},
@@ -450,7 +445,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Zooms in the image by one step.
 	 */
 	zoomIn : function() {
-		console.log(this);
 		this.setZoomLvl(this.getZoomLvl() + 1);
 		this.setScale(this.getScale() * this.getScaleFactor());
 		// no redraw the image with the new scale

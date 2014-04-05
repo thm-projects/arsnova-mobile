@@ -157,10 +157,16 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					return changed;
 				};
 				var saveQuestion = function(question) {
+					var isValid = true;
 					var questionValues = panel.answerEditForm.getQuestionValues();
 
+					if (questionValues.image != undefined) {
+						question.set("image", questionValues.image);
+					} else {
+						isValid = false;
+					}
+					
 					if (questionValues.gridSize != undefined) question.set("gridSize", questionValues.gridSize);
-					if (questionValues.image != undefined) 	  question.set("image", questionValues.image);
 					if (questionValues.offsetX != undefined)  question.set("offsetX", questionValues.offsetX);
 					if (questionValues.offsetY != undefined)  question.set("offsetY", questionValues.offsetY);
 					if (questionValues.zoomLvl != undefined)  question.set("zoomLvl", questionValues.zoomLvl);
@@ -168,20 +174,25 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					question.set("possibleAnswers", questionValues.possibleAnswers);
 					question.set("noCorrect", !!questionValues.noCorrect);
 					Ext.apply(question.raw, questionValues);
-					question.saveSkillQuestion({
-						success: function(response) {
-							var newAbstentions = Ext.create('ARSnova.view.MultiBadgeButton',
-								Ext.apply(panel.abstentions.config, {
-									hidden: question.get('abstention') === false || (question.get('questionType') == 'grid'),
-								})
-							);
-							panel.questionObj = question.data;
-							panel.answerFormFieldset.removeAll();
-							panel.answerFormFieldset.add(newAbstentions);
-							panel.abstentions = newAbstentions;
-							panel.getPossibleAnswers();
-						}
-					});
+					
+					if (isValid) {
+						question.saveSkillQuestion({
+							success: function(response) {
+								var newAbstentions = Ext.create('ARSnova.view.MultiBadgeButton',
+									Ext.apply(panel.abstentions.config, {
+										hidden: question.get('abstention') === false || (question.get('questionType') == 'grid'),
+									})
+								);
+								panel.questionObj = question.data;
+								panel.answerFormFieldset.removeAll();
+								panel.answerFormFieldset.add(newAbstentions);
+								panel.abstentions = newAbstentions;
+								panel.getPossibleAnswers();
+							}
+						});	
+					} else {
+						Ext.Msg.alert(Messages.ERROR, Messages.QUESTION_EDIT_ERROR);
+					}
 				};
 				var finishEdit = Ext.bind(function() {
 					this.setText(Messages.EDIT);

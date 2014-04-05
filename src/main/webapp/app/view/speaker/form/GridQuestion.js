@@ -116,19 +116,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 							iconCls : 'reply',
 							iconMask : true,
 							//docked : 'right',
-							handler : function(){ me.grid.toggleBorderColor(); },
-							listeners : {
-				                render : {
-				                    fn : function() {
-				                        this.el.mon({
-				                            //scope: someScope,
-				                            mousedown : function(){
-				                                console.info('here')
-				                            }
-				                        });
-				                    }
-				                }
-				            }
+							handler : function(){ 
+								me.grid.toggleBorderColor(); 
+							}
 						
 						},
 						this.btnMoveLeft,
@@ -441,9 +431,13 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	 */
 	getQuestionValues: function() {
 		var result = {};
-		
+
+		console.log("getQuestionValues");
 		// get image data
-		result.image 	 	   = this.grid.getImageFile().src;
+		if (this.grid.getImageFile()) {
+			console.log("null");
+			result.image 	 	   = this.grid.getImageFile().src;	
+		}
 		result.gridSize 	   = this.grid.getGridSize();
 		result.offsetX  	   = this.grid.getOffsetX();
 		result.offsetY 		   = this.grid.getOffsetY();
@@ -460,7 +454,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	 * @param question		The questionObj providing all necessary information.
 	 */
 	initWithQuestion : function(question) {
-		console.log("GridQuestion.initWithQuestion()");
 		
 		// set image data (base64 --> grid)
 		this.updateCanvas(question.image, false);
