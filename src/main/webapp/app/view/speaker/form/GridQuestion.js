@@ -36,6 +36,10 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	buttonUploadFromFS	: null,
 	zoomSpinner 		: null,
 	gridSpinner 		: null,
+	btnMoveLeft			: null,
+	btnMoveRight		: null,
+	btnMoveUp			: null,
+	btnMoveDown			: null,
 
 	/**
 	 * Initializes the grid question area and the needed
@@ -62,6 +66,26 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			modal: true		
 		});
 
+		this.btnMoveLeft = Ext.create('Ext.Button', {
+			iconCls : 'arrow_left',
+			iconMask : true
+		});
+		
+		this.btnMoveRight = Ext.create('Ext.Button', {
+			iconCls : 'arrow_right',
+			iconMask : true
+		});
+		
+		this.btnMoveUp = Ext.create('Ext.Button', {
+			iconCls : 'arrow_up',
+			iconMask : true
+		});
+		
+		this.btnMoveDown = Ext.create('Ext.Button', {
+			iconCls : 'arrow_down',
+			iconMask : true
+		});
+		
 		this.imageArea = Ext.create('Ext.Panel', {
 			id : 'imageArea',
 			layout :{
@@ -110,31 +134,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				            }
 						
 						},
+						this.btnMoveLeft,
+						this.btnMoveRight,
+						this.btnMoveUp,
+						this.btnMoveDown,
 						{
-							xtype: 'button',
-							iconCls : 'arrow_left',
-							iconMask : true,
-							//docked : 'right',
-							handler: function() { me.grid.moveLeft(); }
-						}, {
-							xtype: 'button',
-							iconCls : 'arrow_up',
-							iconMask : true,
-							//docked : 'right',
-							handler: function() { me.grid.moveUp(); }
-						}, {
-							xtype: 'button',
-							iconCls : 'arrow_down',
-							iconMask : true,
-							//docked : 'right',
-							handler: function() { me.grid.moveDown(); }
-						}, {
-							xtype: 'button',
-							iconCls : 'arrow_right',
-							iconMask : true,
-							//docked : 'right',
-							handler: function() { me.grid.moveRight(); }
-						},{
 							xtype: 'button',
 							iconCls : 'delete',
 							iconMask : true,
@@ -145,6 +149,35 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			],
 			hidden : true
 		});
+		
+		// initialize tap repeater for move buttons
+		// TapRepeater for left button
+		Ext.create('Ext.util.TapRepeater', {
+			el: this.btnMoveLeft.bodyElement
+		}).on('tap', function() {
+			me.grid.moveLeft();
+		}, me);
+
+		// TapRepeater for right button
+		Ext.create('Ext.util.TapRepeater', {
+			el: this.btnMoveRight.bodyElement
+		}).on('tap', function() {
+			me.grid.moveRight();
+		}, me);
+		
+		// TapRepeater for up button
+		Ext.create('Ext.util.TapRepeater', {
+			el: this.btnMoveUp.bodyElement
+		}).on('tap', function() {
+			me.grid.moveUp();
+		}, me);
+		
+		// TapRepeater for down button
+		Ext.create('Ext.util.TapRepeater', {
+			el: this.btnMoveDown.bodyElement
+		}).on('tap', function() {
+			me.grid.moveDown();
+		}, me);
 		
 		// button: load from filesystem
 		this.buttonUploadFromFS = Ext.create('Ext.ux.Fileup', {
@@ -338,7 +371,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.grid.setImage(dataUrl, reload);	
 		
 		// show picture
-		this.toggleViews();
+		this.showImageView();
 	},
 	
 	/**
@@ -366,21 +399,31 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	},
 	
 	/**
-	 * Toggles between the image view and the upload view
+	 * Shows the image view and hides the upload view.
 	 */
-	toggleViews : function() {	
-		this.imageArea.isHidden()	? this.imageArea.show()		: this.imageArea.hide();
-		this.imageCnt.isHidden()	? this.imageCnt.show()		: this.imageCnt.hide();
-		this.uploadView.isHidden()	? this.uploadView.show()	: this.uploadView.hide();
+	showImageView : function() {
+		this.imageArea.show();
+		this.imageCnt.show();
+		this.uploadView.hide();
+	},
+	
+	/**
+	 * Shows the upload view and hides the image view.
+	 */
+	showUploadView : function() {
+		this.imageArea.hide();
+		this.imageCnt.hide();
+		this.uploadView.show();
 	},
 
 	/**
 	 * Resets the image view to the initial state.
 	 */
 	resetView : function() {
-		this.toggleViews();
+		this.showUploadView();
 		this.grid.clearImage();
 		this.clearTextfields();
+		// TODO clear spinners (zoom, gridsize)
 	},
 	
 	clearTextfields : function() {
@@ -414,5 +457,22 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		result.noCorrect 	   = this.grid.getChosenFields().length > 0 ? 0 : 1; // TODO: Check if really needed (and why numbers instead of bool)
 
 		return result;
+	},
+	
+	/**
+	 * Initializes the GridQuestion with the values from the given question.
+	 * 
+	 * @param question		The questionObj providing all necessary information.
+	 */
+	initWithQuestion : function(question) {
+		console.log("GridQuestion.initWithQuestion()");
+		
+		// set image data (base64 --> grid)
+		this.updateCanvas(question.image, false);
+		
+		this.grid.update(question.gridSize, question.offsetX, 
+				question.offsetY, question.zoomLvl, question.possibleAnswers, true);
+		
+		// TODO fill spinners (zoom, gridsize)
 	}
 });

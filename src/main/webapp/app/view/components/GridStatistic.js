@@ -17,13 +17,14 @@
  +--------------------------------------------------------------------------*/
 
 Ext.define('ARSnova.view.components.GridStatistic', {
-	extend : 'Ext.Container',
+	extend : 'Ext.form.FieldSet',
 	
     require: ['ARSnova.view.components.GridContainer'],
  
 	
 	config : {
 		questionObj : null,
+		cls: 'standardFieldset',
 	},
 	
 	grid 					: null,
@@ -33,6 +34,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 	gridColorsToggle 		: null,
 	questionOptionsSegment  : null,
 	abstentionPanel			: null,
+	optionsFieldSet		 	: null,
 	answers					: new Array(),
 
 	
@@ -92,21 +94,16 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		this.questionOptionsSegment = Ext.create('Ext.SegmentedButton', {
 	        allowDepress: false,
     		items: this.releaseItems,
-	        listeners: {
-				scope: this,
-				toggle: function(container, button, pressed) {
-					var label = Ext.bind(function(longv, shortv) {
-						var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-						return (screenWidth > 320 || this.backButton.isHidden()) ? longv : shortv;
-					}, this);
-	        	}
-	        }
+        	style: 'margin: auto',
+			cls: 'abcOptions'
 	    });
 		
 		this.gridShowNumbers = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
+        	style: 'margin-left: 0px',
 			items: [{
 				xtype: 'fieldset',
+	        	style: 'margin-left: 0px',
 				title: Messages.GRID_LABEL_SHOW_PERCENT,
 	            items: [this.questionOptionsSegment]
 			}]
@@ -127,10 +124,23 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 			readOnly : true,
 		});
 		
+		this.optionsFieldSet = Ext.create('Ext.form.FieldSet', {
+			cls	 : 'standardFieldset',
+			id: 'statisticFieldset',
+        	style: 'margin-left: 0px',
+			items: [
+			        this.abstentionPanel,
+			        this.gridWeakenImageToggle,
+			        this.gridShowColors,
+			        this.gridColorsToggle,
+			        this.gridShowNumbers
+			       ]
+		});
+		
 		// set listeners to toggles
 		var listeners =  {
 		        beforechange: function (slider, thumb, newValue, oldValue) {
-		        	c
+		        	me.updateGrid();
 		        },
 		        change: function (slider, thumb, newValue, oldValue) {
 		        	me.updateGrid();
@@ -143,11 +153,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		// add components to panel
 		this.add(this.grid);
 		this.add({xtype : 'spacer', height :25, docked : 'top' });
-		this.add(this.abstentionPanel);
-		this.add(this.gridWeakenImageToggle);
-		this.add(this.gridShowColors);
-		this.add(this.gridColorsToggle);
-		this.add(this.gridShowNumbers);
+		this.add(this.optionsFieldSet);
 		
 		// everythings creates, now lets update the gridContainer
 		this.updateGrid();
