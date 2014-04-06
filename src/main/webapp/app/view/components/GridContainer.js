@@ -27,10 +27,12 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		imageFile 				 : null,		// The image file.
 		gridLineWidth		 	 : 1,			// Width of the grid lines.
 		chosenFields 			 : Array(),
-		highlightColor 			 : "#C0FFEE",	// Color of highlighted fields. 
-		curGridLineColor		 : "#000000",	// Current color of the grid lines. 
-		gridLineColor 			 : "#000000",	// Default color of the grid lines.
-		alternativeGridLineColor : "#FFFFFF",	// Alternative color of the grid lines.
+		highlightColor 			 : '#C0FFEE',	// Color of highlighted fields. 
+		curGridLineColor		 : '#000000',	// Current color of the grid lines. 
+		gridLineColor 			 : '#000000',	// Default color of the grid lines.
+		alternativeGridLineColor : '#FFFFFF',	// Alternative color of the grid lines.
+		statisticWrongColor		 : '#FF0000',	// Color for wrong fields in statistic.
+		statisticRightColor		 : '#00FF00',	// Color for right fields in statistic.
 		scaleFactor 			 : 1.2,			// Zoom level scale factor.
 		scale 					 : 1.0, 		// Actual scaling for the image. Necessary to switch between scale for zoomed image an normal scale.
 		zoomLvl 				 : 0, 			// Current zoomlevel.
@@ -38,7 +40,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		offsetY 				 : 0,			// Current offset in y direction.
 		moveInterval 			 : 10,			// Steps to take when moving the image (in pixel).
 		onFieldClick 			 : null,		// Hook for function, that will be called after onClick event.
-		editable				 : true			// If set to false click events are prevented.
+		editable				 : true,		// If set to false click events are prevented.
 	},
 
 	/**
@@ -534,36 +536,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.redraw();
 	},
 	
-	/**
-	 * Calculates the size in bytes of the image file.
-	 */
-	getImageFileSizeBytes : function() {
-		
-		var src = this.getImageFile().src;
-		
-		if ( src.indexOf('http') == 0 ) {
-			// image from url
-			
-			// TODO: Doesn't work due to CORS... have to find alternative
-			
-			var xhr = new XMLHttpRequest();
-			xhr.open( 'HEAD', src, true );
-			xhr.onreadystatechange = function(){
-			    if ( xhr.readyState == 4 ) {
-			        if ( xhr.status == 200 ) {
-			            return xhr.getResponseHeader('Content-Length');
-			        }
-			    }
-			};
-			xhr.send(null);
-		} else {
-			// image from fs, so wen consult the base64 directly
-			// formula according to: http://en.wikipedia.org/wiki/Base64#MIME
-			
-			console.log('Canvas image from fs filesize: ' + ((src.length - 814) / 1.37));
-			return (src.length - 814) / 1.37;
-		}
-	},
+
 	
 	/**
 	 * Converts the chosen fields of the grid to objects
@@ -653,10 +626,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 						alpha = (tilesToFill[key] / totalAnswers) * alphaScale;
 					}
 					
-					var color = "FF0000";
+					var color = this.getStatisticWrongColor();
 					for (var i=0;i<this.getChosenFields().length;i++) {
 						if (this.getChosenFields()[i][0] == coords[0] && this.getChosenFields()[i][1] == coords[1]) {
-							color = "00FF00";
+							color = this.getStatisticRightColor();
 						}
 					}
 
@@ -687,14 +660,11 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var lowAlpha = 0.2;
 		var highAlpha = 0.9;
 		
-		var wrongColor = 'FF0000';
-		var rightColor = '00FF00';
-		
 		for (var row=0; row < this.getGridSize(); row++) {
 			for (var column=0; column < this.getGridSize(); column++) {
 				
 				var i = row * this.getGridSize() + column;
-				var color = correctAnswers[i] ? rightColor : wrongColor;
+				var color = correctAnswers[i] ? this.getStatisticRightColor() : this.getStatisticWrongColor();
 				var alpha = userAnswers[i] ? highAlpha : lowAlpha;
 				
 					
