@@ -30,18 +30,18 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	imageArea 		 	: null,		// contains all image relevant items
 	grid 			 	: null,		// encapsulated canvas element
 	imageCnt		 	: null,		// image manipulation options
-	imageSettings 	 		: null,		// the image settings (offset, zoom,...)
+	imageSettings 	 	: null,		// the image settings (offset, zoom,...)
 	uploadView 		 	: null,		// view containing the upload options
 	answers 		 	: null,
-	buttonUploadFromFS		: null,
-	zoomSpinner 			: null,
-	gridSpinner 			: null,
+	buttonUploadFromFS	: null,
+	zoomSpinner 		: null,
+	gridSpinner 		: null,
 	btnMoveLeft			: null,
-	btnMoveRight			: null,
+	btnMoveRight		: null,
 	btnMoveUp			: null,
 	btnMoveDown			: null,
 	InfoButton			: null,
-    	InfoPanel			: null,
+    InfoPanel			: null,
     gridColorsToggle 	: null,
 
 	/**
@@ -348,15 +348,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			        ]
 		}]);
 
-	},
-	
-	initWithQuestion : function(question) {
-
-		var possibleAnswers = question.possibleAnswers;
-
-		if (possibleAnswers.length === 0) {
-			return;
-		}
 	},
 	
 	/**

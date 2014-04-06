@@ -29,8 +29,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		chosenFields 			 : Array(),
 		highlightColor 			 : "#C0FFEE",	// Color of highlighted fields. 
 		curGridLineColor		 : "#000000",	// Current color of the grid lines. 
-		GridLineColor 			 : "#000000",	// Default color of the grid lines.
-		AlternativeGridLineColor : "#FFFFFF",	// Alternative color of the grid lines.
+		gridLineColor 			 : "#000000",	// Default color of the grid lines.
+		alternativeGridLineColor : "#FFFFFF",	// Alternative color of the grid lines.
 		scaleFactor 			 : 1.2,			// Zoom level scale factor.
 		scale 					 : 1.0, 		// Actual scaling for the image. Necessary to switch between scale for zoomed image an normal scale.
 		zoomLvl 				 : 0, 			// Current zoomlevel.
@@ -302,7 +302,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var y = event.clientY;
 		var position = container.getFieldPosition(x, y);
 
-		// eigenes indexof
+		// calculate index
 		var index = -1;
 		var fields = container.getChosenFields();
 		for (var i = 0; i < fields.length; i++) {
@@ -324,6 +324,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			changed = true;
 		}
 
+		// redraw on changed
 		if (changed) {
 			container.redraw();
 		}
@@ -356,6 +357,11 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.initZoom();
 	},
 	
+	/**
+	 * Sets the gridSize and redraws the canvas element.
+	 * 
+	 * @param int	count		The gridSize to set.
+	 */
 	setGrids : function(count) {
 		this.setChosenFields(Array());
 		this.setGridSize(count);
@@ -369,7 +375,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 	
 	/**
-	 * Moves the image one step in positive x direction.
+	 * Moves the image one step in right (positive x) direction.
 	 */
 	moveRight : function() {
 		this.setOffsetX(this.getOffsetX() + this.getMoveInterval() / this.getScale());
@@ -377,7 +383,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 	
 	/**
-	 * Moves the image one step in negative x direction.
+	 * Moves the image one step in left (negative x) direction.
 	 */
 	moveLeft : function() {
 		this.setOffsetX(this.getOffsetX() - this.getMoveInterval() / this.getScale());
@@ -385,7 +391,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 	
 	/**
-	 * Moves the image one step in negative y direction.
+	 * Moves the image one step in up (negative y) direction.
 	 */
 	moveUp : function() {
 		this.setOffsetY(this.getOffsetY() - this.getMoveInterval() / this.getScale());
@@ -393,7 +399,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 	
 	/**
-	 * Moves the image one step in positive y direction.
+	 * Moves the image one step in down (positive y) direction.
 	 */
 	moveDown : function() {
 		this.setOffsetY(this.getOffsetY() + this.getMoveInterval() / this.getScale());
@@ -416,6 +422,11 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		}
 	},
 	
+	/**
+	 * Zooms the image by the given scale level.
+	 * 
+	 * @param long	scale	The scale level of the zoomed image.	
+	 */
 	zoom : function(scale) {
 		var ctx = this.getCanvas().getContext("2d");
 		var imgSizeHalf = this.getCanvasSize() / 2;
@@ -429,7 +440,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 	
 	/**
-	 * Gets the general scale factor relative to the image to scale the image in the center of the canvas element.
+	 * Gets the general scale factor relative to the image and canvas size to scale the image in the center of the canvas element.
 	 */
 	getGeneralScaleFactor : function() {
 		var image = this.getImageFile();
@@ -483,6 +494,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		};
 	},
 	
+	/**
+	 * Clears the image and resets all necessary configurations.
+	 */
 	clearImage : function() {
 		var canvas = this.getCanvas();
 		this.setGridSize(5);
@@ -580,6 +594,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	/**
 	 * Converts possible answers to chosen fields (int[][]) to be used
 	 * inside the grid container.
+	 * 
+	 * @param Array	possibleAnswers		The Array of possible answers to convert.
 	 */
 	getChosenFieldsFromPossibleAnswers : function(possibleAnswers) {
 		var chosenFields = Array();
@@ -596,7 +612,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	/**
 	 * Converts a possibleAnswer message to a chosen field.
 	 * 
-	 * @param 	possibleAnswer	The possible answer to convert.
+	 * @param  possibleAnswer	The possible answer to convert.
 	 */
 	getChosenFieldFromPossibleAnswer : function(possibleAnswer) {
 		var coords = possibleAnswer.split(";");
@@ -605,9 +621,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		return new Array(parseInt(x),parseInt(y));
 	},
 	
-	
 	/**
-	 * 
+	 * TODO kommentieren
 	 */
 	generateStatisticOutput : function(tilesToFill, colorTiles, displayType, weakenSourceImage, toggleColors) {
 		
@@ -661,7 +676,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		}
 	},
 	
-	
+	/**
+	 * TODO kommentieren
+	 */
 	generateUserViewWithAnswers : function (userAnswers, correctAnswers, toggleColors){
 		
 		// toggle grid color
