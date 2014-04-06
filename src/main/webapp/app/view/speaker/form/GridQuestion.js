@@ -42,6 +42,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	btnMoveDown			: null,
 	InfoButton			: null,
     	InfoPanel			: null,
+    gridColorsToggle 	: null,
 
 	/**
 	 * Initializes the grid question area and the needed
@@ -111,16 +112,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					},
 					items : [
 						this.InfoButton,
-						{
-							xtype : 'button',
-							iconCls : 'reply',
-							iconMask : true,
-							//docked : 'right',
-							handler : function(){ 
-								me.grid.toggleBorderColor(); 
-							}
-						
-						},
 						this.btnMoveLeft,
 						this.btnMoveRight,
 						this.btnMoveUp,
@@ -297,6 +288,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			cycle : true,
 		
 		});
+		
+		this.gridColorsToggle = Ext.create('Ext.field.Toggle', {
+			label:		Messages.GRID_LABEL_INVERT_GRIDCOLORS,
+			value:  	false
+		});
 
 		this.imageSettings = Ext.create('Ext.Panel', {
 			id : 'answerField',
@@ -307,6 +303,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				items : [
 				         this.zoomSpinner,
 				         this.gridSpinner,
+				         this.gridColorsToggle,
 				         this.answers
 				         ]
 			}]
@@ -318,6 +315,18 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			hidden : true,
 			items : [ this.imageSettings ]
 		});
+	
+		
+		var toggleColorListener =  {
+		        beforechange: function (slider, thumb, newValue, oldValue) {
+		        	me.grid.toggleBorderColor();
+		        },
+		        change: function (slider, thumb, newValue, oldValue) {
+		        	me.grid.toggleBorderColor(); 
+		        }
+		};
+		this.gridColorsToggle.setListeners(toggleColorListener);
+		
 
 		// update answers counter
 		this.grid.setOnFieldClick(function(answerValue) {
@@ -432,10 +441,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	getQuestionValues: function() {
 		var result = {};
 
-		console.log("getQuestionValues");
 		// get image data
 		if (this.grid.getImageFile()) {
-			console.log("null");
 			result.image 	 	   = this.grid.getImageFile().src;	
 		}
 		result.gridSize 	   = this.grid.getGridSize();
