@@ -61,7 +61,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		canvas.height = this.getCanvasSize();
 		canvas.style.display = 'block';
 		canvas.style.margin = '0 auto';
-		canvas.addEventListener("mousedown", this.onclick, false);
+		canvas.addEventListener("mouseup", this.onclick, false);
 		canvas.parentContainer = this;
 		this.setCanvas(canvas);
 		
@@ -372,7 +372,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Moves the image one step in positive x direction.
 	 */
 	moveRight : function() {
-		this.setOffsetX(this.getOffsetX() + this.getMoveInterval());
+		this.setOffsetX(this.getOffsetX() + this.getMoveInterval() / this.getScale());
 		this.redraw();
 	},
 	
@@ -380,7 +380,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Moves the image one step in negative x direction.
 	 */
 	moveLeft : function() {
-		this.setOffsetX(this.getOffsetX() - this.getMoveInterval());
+		this.setOffsetX(this.getOffsetX() - this.getMoveInterval() / this.getScale());
 		this.redraw();
 	},
 	
@@ -388,7 +388,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Moves the image one step in negative y direction.
 	 */
 	moveUp : function() {
-		this.setOffsetY(this.getOffsetY() - this.getMoveInterval());
+		this.setOffsetY(this.getOffsetY() - this.getMoveInterval() / this.getScale());
 		this.redraw();
 	},
 	
@@ -396,7 +396,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Moves the image one step in positive y direction.
 	 */
 	moveDown : function() {
-		this.setOffsetY(this.getOffsetY() + this.getMoveInterval());
+		this.setOffsetY(this.getOffsetY() + this.getMoveInterval() / this.getScale());
 		this.redraw();
 	},
 	
