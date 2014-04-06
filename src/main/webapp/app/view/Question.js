@@ -87,6 +87,10 @@ Ext.define('ARSnova.view.Question', {
 						item.set("questionAnswered", true);
 					});
 				
+					if(this.questionObj.questionType === 'grid'){
+						console.log(this.questionObj);
+						this.setGridAnswer(this.questionObj.userAnswered);
+					}
 			}
 		};
 		
@@ -130,14 +134,15 @@ Ext.define('ARSnova.view.Question', {
 				this.grid.getChosenFields().forEach(function(node) {
 					selectedIndexes.push(node[0]+';'+node[1] );
 				}, this);
-				
+				this.questionObj.userAnswered = selectedIndexes.join(",");
+				this.markCorrectAnswers();
 				
 				var questionValue = 0;
 				this.questionObj.possibleAnswers.forEach(function(node){
 					questionValue += (node.value || 0);
 			
 				});
-				this.markCorrectAnswers();
+				
 			
 				self.getUserAnswer().then(function(answer) {
 					answer.set('answerText', selectedIndexes.join(","));
@@ -432,6 +437,9 @@ Ext.define('ARSnova.view.Question', {
 	 */
 	setGridAnswer: function(answerString){
 
+		if(answerString == undefined)
+			return;
+		
 		var grid = this.grid;
 		var fields = answerString.split(",");
 
