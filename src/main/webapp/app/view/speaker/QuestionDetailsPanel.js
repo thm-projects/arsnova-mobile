@@ -806,13 +806,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			hidden: true
 		});
 		
-		if (this.questionObj.questionType === 'grid') {
-			// TODO braucht man das ueberhaupt?
-			// do not reset possible answers in grid questions
-			this.possibleAnswers = this.questionObj.possibleAnswers;
-		} else {
-			this.possibleAnswers = {};
-		}
+		this.possibleAnswers = {};
 		
 		this.answerEditForm.initWithQuestion(Ext.clone(this.questionObj));
 
