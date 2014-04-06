@@ -263,14 +263,19 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			listeners : {
 				spinup : function() {
 					me.grid.zoomIn();
+					this.setValue(Math.round(me.grid.getScale()*100));
+				     
 				},
 				spindown : function() {
+				     if(this.getValue() > 1) {						
 					me.grid.zoomOut();
+					this.setValue(Math.round(me.grid.getScale()*100));
+				     }				
 				}
 
 			},
-			value : this.grid.getZoomLvl(),
-			stepValue : this.grid.getScaleFactor()
+			minValue: 1,
+			value : this.grid.getScale() * 100,	// set value as default
 		});
 		
 		this.gridSpinner = Ext.create('Ext.field.Spinner', {
@@ -417,7 +422,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		var answerField = this.answers.getComponent('fs_answers').getComponent('tf_answers');
 		var urlField 	= this.uploadView.getComponent('pnl_upfield').getComponent('tf_url');
 		
-		this.zoomSpinner.setValue(this.grid.getZoomLvl());
+		this.zoomSpinner.setValue(this.grid.getScale() * 100);
 		this.gridSpinner.setValue(this.grid.getGridSize());
 		answerField.setValue(0);
 		urlField.setValue("");
@@ -463,7 +468,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				question.offsetY, question.zoomLvl, question.possibleAnswers, true);
 		
 		answerField.setValue(this.grid.getChosenFields().length);		//set the spinner with correct values (last storage)
-		this.zoomSpinner.setValue(this.grid.getZoomLvl());
+		this.zoomSpinner.setValue(Math.round(this.grid.getScale()*100));
 		this.gridSpinner.setValue(this.grid.getGridSize());
 	}
 });

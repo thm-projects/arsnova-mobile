@@ -28,15 +28,15 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		style: 'margin: 0'
 	},
 	
-	grid 					: null,
-	gridWeakenImageToggle 	: null,
+	grid 				: null,
+	gridWeakenImageToggle 		: null,
 	gridShowColors		 	: null,
 	gridShowNumbers 		: null,
 	gridColorsToggle 		: null,
-	questionOptionsSegment  : null,
+	questionOptionsSegment  	: null,
 	abstentionPanel			: null,
 	optionsFieldSet		 	: null,
-	answers					: new Array(),
+	answers				: new Array(),
 
 	
 	/**
