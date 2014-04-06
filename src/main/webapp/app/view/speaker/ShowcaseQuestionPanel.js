@@ -63,7 +63,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			} else if (questionType === 'flashcard') {
 				title = label(Messages.FLASHCARD, Messages.FLASHCARD);
 			} else if(questionType == 'grid') {
-				title =  label(Messages.GRID, Messages.GRID);
+				title =  label(Messages.QUESTION_GRID, Messages.GRID);
 			}
 			
 			this.toolbar.setTitle(title);

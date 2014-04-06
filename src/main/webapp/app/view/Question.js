@@ -400,7 +400,8 @@ Ext.define('ARSnova.view.Question', {
 				
 				
 				this.add([this.grid]);
-				this.add([this.gridContainer]);
+				if(!this.viewOnly)
+					this.add([this.gridContainer]);
 	
 				this.answerList.setHidden(true);
 			
