@@ -653,10 +653,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 						alpha = (tilesToFill[key] / totalAnswers) * alphaScale;
 					}
 					
-					var color = "FF0000";
+					var color = "#FF0000";
 					for (var i=0;i<this.getChosenFields().length;i++) {
 						if (this.getChosenFields()[i][0] == coords[0] && this.getChosenFields()[i][1] == coords[1]) {
-							color = "00FF00";
+							color = "#00FF00";
 						}
 					}
 
@@ -687,8 +687,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var lowAlpha = 0.2;
 		var highAlpha = 0.9;
 		
-		var wrongColor = 'FF0000';
-		var rightColor = '00FF00';
+		var wrongColor = '#FF0000';
+		var rightColor = '#00FF00';
 		
 		for (var row=0; row < this.getGridSize(); row++) {
 			for (var column=0; column < this.getGridSize(); column++) {
