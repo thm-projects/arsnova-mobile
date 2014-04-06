@@ -1029,11 +1029,11 @@ ol.standardList li {
 	width: 80%;
 	max-width: 500px;
 	margin: 0 auto;
+	min-width: 0px !important;
 }
 
 .abcOptions {
 	width: 80%;
-	max-width: 500px;
 	margin: 0 auto;
 }
 
@@ -1413,6 +1413,10 @@ ol.standardList li {
 	height: 85px;
 	margin: 0 auto;
 	margin-top: 20px;
+}
+
+.gridQDSettingsPanel .x-container .x-toggle {
+	margin-right: -100px;
 }
 
 /* Course marks */

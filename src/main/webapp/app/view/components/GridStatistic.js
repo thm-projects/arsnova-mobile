@@ -25,6 +25,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 	config : {
 		questionObj : null,
 		cls: 'standardFieldset',
+		style: 'margin: 0'
 	},
 	
 	grid 					: null,
@@ -48,6 +49,8 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		
 		// store this for later reference
 		var me = this;
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+		var showShortLabels = screenWidth < 480;
 		
 		// create toggles
 		this.grid = Ext.create('ARSnova.view.components.GridContainer', {
@@ -70,21 +73,22 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 			value:  	true
 		});
 		
+		
 		this.releaseItems = [{
-			text: Messages.GRID_LABEL_RELATIVE,
+			text: showShortLabels ? Messages.GRID_LABEL_RELATIVE_SHORT : Messages.GRID_LABEL_RELATIVE,
 			pressed: true,
 			scope: this,
 			handler: function() {
 				this.updateGrid();
 			}
 		}, {
-			text: Messages.GRID_LABEL_ABSOLUTE,
+			text: showShortLabels ? Messages.GRID_LABEL_ABSOLUTE_SHORT : Messages.GRID_LABEL_ABSOLUTE,
 			scope: this,
 			handler: function() {
 				this.updateGrid();
 			}
 		}, {
-			text: Messages.GRID_LABEL_NONE,
+			text: showShortLabels ? Messages.GRID_LABEL_NONE_SHORT : Messages.GRID_LABEL_NONE,
 			scope: this,
 			handler: function() {
 				this.updateGrid();
@@ -94,16 +98,14 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		this.questionOptionsSegment = Ext.create('Ext.SegmentedButton', {
 	        allowDepress: false,
     		items: this.releaseItems,
-        	style: 'margin: auto',
 			cls: 'abcOptions'
 	    });
 		
 		this.gridShowNumbers = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
-        	style: 'margin-left: 0px',
 			items: [{
 				xtype: 'fieldset',
-	        	style: 'margin-left: 0px',
+	        	style: 'margin: 0',
 				title: Messages.GRID_LABEL_SHOW_PERCENT,
 	            items: [this.questionOptionsSegment]
 			}]
@@ -125,9 +127,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		});
 		
 		this.optionsFieldSet = Ext.create('Ext.form.FieldSet', {
-			cls	 : 'standardFieldset',
-			id: 'statisticFieldset',
-        	style: 'margin-left: 0px',
+			cls	 : 'standardFieldset gridQDSettingsPanel',
 			items: [
 			        this.abstentionPanel,
 			        this.gridWeakenImageToggle,
