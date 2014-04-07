@@ -353,6 +353,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			Ext.create('Ext.Toolbar', {
 				cls: 'noBackground noBorder',
 				docked: 'top',
+				scrollable: {
+				    direction: 'horizontal',
+				    directionLock: true
+				},
 				items: [{
 						xtype: 'spacer'
 					},
