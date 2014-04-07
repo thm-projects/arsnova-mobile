@@ -25,8 +25,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		title	: Messages.STATISTIC,
 		style	: 'background-color: black',
 		iconCls	: 'tabBarIconCanteen',
-		layout	: 'fit',
-		//scrollable: true,
+		layout	: 'fit'
 	},
 	
 	gradients: null,
@@ -128,6 +127,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			this.titlebar.setStyle('background-color: #C5CCD3');
 			this.titlebar.setTitle('');
 			this.toolbar.setTitle(title);
+			this.setLayout('');
 			this.setScrollable(true);
 		}
 		
