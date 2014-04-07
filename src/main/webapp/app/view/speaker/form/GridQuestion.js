@@ -40,8 +40,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	btnMoveRight		: null,
 	btnMoveUp			: null,
 	btnMoveDown			: null,
-	InfoButton			: null,
-    InfoPanel			: null,
+	infoButton			: null,
+    infoPanel			: null,
     gridColorsToggle 	: null,
 
 	/**
@@ -57,18 +57,14 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			id 	: 'gridContainer'
 		});
 		
-		this.InfoPanel = Ext.create('Ext.Panel',{
-			height: '20%',
+		this.infoPanel = Ext.create('Ext.Panel',{
+			cls: 'infoPanel',
 			html: Messages.SETTINGS_HINT_TEXT,
-			left: '50%',
-			padding: 20,
-			top: '30%',
-			width: '40%',
 			hideOnMaskTap: true,
 			modal: true		
 		});
 		
-		 this.InfoButton = Ext.create('Ext.Button',{
+		 this.infoButton = Ext.create('Ext.Button',{
 			iconCls : 'info',
 			iconMask : true,
 			handler : function(){ me.onInfoButton();}
@@ -111,7 +107,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						pack: 'center'
 					},
 					items : [
-						this.InfoButton,
+						this.infoButton,
 						this.btnMoveLeft,
 						this.btnMoveRight,
 						this.btnMoveUp,
@@ -385,7 +381,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	 * Handler function for the event of info button
 	 */
 	onInfoButton : function(){
-		this.InfoPanel.showBy(this.InfoButton);
+		this.infoPanel.showBy(this.infoButton);
 	},
 	
 	/**
