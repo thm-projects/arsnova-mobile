@@ -23,9 +23,10 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	
 	config: {
 		title	: Messages.STATISTIC,
-		//style	: 'background-color: black',
+		style	: 'background-color: black',
 		iconCls	: 'tabBarIconCanteen',
-		layout	: 'fit'
+		layout	: 'fit',
+		scrollable: true,
 	},
 	
 	gradients: null,
@@ -258,7 +259,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		this.questionChart = Ext.create('Ext.chart.CartesianChart', {
 		    store: this.questionStore,
-		    hidden:  this.questionObj.questionType == "grid",
+		    hidden: this.questionObj.questionType === "grid",
 
 		    animate: {
 		        easing: 'bounceOut',
@@ -321,8 +322,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		
 		this.add([this.toolbar, this.titlebar, this.questionChart]);
 		
-		if (this.questionObj.questionType == "grid") {
-			this.style = '';
+		if (this.questionObj.questionType === "grid") {
+			this.setStyle('background-color: white');
 			// add statistic
 			this.gridStatistic = Ext.create('ARSnova.view.components.GridStatistic', {
 				questionObj : this.questionObj
