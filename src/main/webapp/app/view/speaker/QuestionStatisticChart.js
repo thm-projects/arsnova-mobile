@@ -120,13 +120,11 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			cls		: 'questionStatisticTitle',
 			docked	: 'top',
 			title	: title,
-			border  : '0px'
+			border  : '0px',
 		});
 		
 		if(this.questionObj.questionType == "grid"){
 			this.titlebar.setStyle('background-color: #C5CCD3');
-			this.titlebar.setTitle('');
-			this.toolbar.setTitle(title);
 			this.setLayout('');
 			this.setScrollable(true);
 		}
