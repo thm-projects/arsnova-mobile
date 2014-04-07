@@ -26,7 +26,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		style	: 'background-color: black',
 		iconCls	: 'tabBarIconCanteen',
 		layout	: 'fit',
-		scrollable: true,
+		//scrollable: true,
 	},
 	
 	gradients: null,
@@ -120,8 +120,16 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		this.titlebar = Ext.create('Ext.Toolbar', {
 			cls		: 'questionStatisticTitle',
 			docked	: 'top',
-			title	: title
+			title	: title,
+			border  : '0px'
 		});
+		
+		if(this.questionObj.questionType == "grid"){
+			this.titlebar.setStyle('background-color: #C5CCD3');
+			this.titlebar.setTitle('');
+			this.toolbar.setTitle(title);
+			this.setScrollable(true);
+		}
 		
 		if( this.questionObj.questionType == "yesno" 	|| 
 			this.questionObj.questionType == "mc" 		||
@@ -323,7 +331,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		this.add([this.toolbar, this.titlebar, this.questionChart]);
 		
 		if (this.questionObj.questionType === "grid") {
-			this.setStyle('background-color: white');
+			this.setStyle('background-color: #C5CCD3');
 			// add statistic
 			this.gridStatistic = Ext.create('ARSnova.view.components.GridStatistic', {
 				questionObj : this.questionObj
