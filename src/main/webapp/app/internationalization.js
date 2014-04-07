@@ -297,7 +297,7 @@ switch (lang) {
 			ERROR : 'Error',
 			CORRECT_ANSWERS: "Correct answers",
 			SETTINGS:	"Settings",
-			SETTINGS_HINT_TEXT: "Hint <br>You can zoom the image, move, and then save these settings.",	
+			SETTINGS_HINT_TEXT: "Hint <br>Maximal filesize is 1 MB.",	
 		
 			/* question types */
 			EVALUATION: "Likert",
@@ -629,7 +629,7 @@ switch (lang) {
 			ERROR : 'Fehler',
 			CORRECT_ANSWERS:	"Richtige Antworten",
 			SETTINGS:	"Einstellungen",
-			SETTINGS_HINT_TEXT: "Hinweis <br>Du kannst das Bild zoomen, verschieben und mit diesen Einstellungen dann abspeichern",	
+			SETTINGS_HINT_TEXT: "Hinweis: <br>Maximale Dateigröße beträgt 1MB.",	
 		
 			/* question types */
 			EVALUATION: "Likert",
