@@ -43,7 +43,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	infoButton			: null,
     infoPanel			: null,
     gridColorsToggle 	: null,
-
+    deleteButton		: null,
 	/**
 	 * Initializes the grid question area and the needed
 	 * form elements.
@@ -90,6 +90,12 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			iconMask : true
 		});
 		
+		this.deleteButton = Ext.create('Ext.Button',{
+			iconCls : 'delete',
+			iconMask : true,
+			handler : function(){ me.resetView(); }
+		});
+		
 		this.imageArea = Ext.create('Ext.Panel', {
 			id : 'imageArea',
 			layout :{
@@ -112,12 +118,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						this.btnMoveRight,
 						this.btnMoveUp,
 						this.btnMoveDown,
-						{
-							xtype: 'button',
-							iconCls : 'delete',
-							iconMask : true,
-							handler : function(){ me.resetView(); }
-						}
+						this.deleteButton
 			       ]
 			   }
 			],
@@ -258,14 +259,13 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			label : Messages.GRID_LABEL_ZOOM,
 			listeners : {
 				spinup : function() {
-					me.grid.zoomIn();
-					this.setValue(Math.round(me.grid.getScale()*100));
-				     
+						me.grid.zoomIn();
+						this.setValue(Math.round(me.grid.getScale()*100));
 				},
 				spindown : function() {
 				     if(this.getValue() > 1) {						
-					me.grid.zoomOut();
-					this.setValue(Math.round(me.grid.getScale()*100));
+						me.grid.zoomOut();
+						this.setValue(Math.round(me.grid.getScale()*100));
 				     }				
 				}
 
@@ -384,6 +384,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.infoPanel.showBy(this.infoButton);
 	},
 	
+	
 	/**
 	 * Shows the image view and hides the upload view.
 	 */
@@ -409,9 +410,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.showUploadView();
 		this.grid.clearImage();
 		this.clearTextfields();
-		// TODO clear spinners (zoom, gridsize)
-		// Ich denke das dies hier nicht noetig ist, da diese FUnktion nur ausgeführt wird,
-		// wenn das Bild abgebrochen wird um ein neues zu laden!
 	},
 	
 	clearTextfields : function() {
@@ -466,5 +464,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		answerField.setValue(this.grid.getChosenFields().length);		//set the spinner with correct values (last storage)
 		this.zoomSpinner.setValue(Math.round(this.grid.getScale()*100));
 		this.gridSpinner.setValue(this.grid.getGridSize());
+		this.deleteButton.setHidden(true);	//disable delete button in edit mode
 	}
 });
