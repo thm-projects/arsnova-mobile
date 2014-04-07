@@ -88,7 +88,6 @@ Ext.define('ARSnova.view.Question', {
 					});
 				
 					if(this.questionObj.questionType === 'grid'){
-						console.log(this.questionObj);
 						this.setGridAnswer(this.questionObj.userAnswered);
 					}
 			}
