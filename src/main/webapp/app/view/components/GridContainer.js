@@ -595,7 +595,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 	
 	/**
-	 * TODO kommentieren
+	 * generates the statistic output.
 	 */
 	generateStatisticOutput : function(tilesToFill, colorTiles, displayType, weakenSourceImage, toggleColors) {
 		
