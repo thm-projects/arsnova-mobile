@@ -54,7 +54,7 @@ Ext.application({
 	},
 	
 	viewport: {
-        autoMaximize: Ext.os.is.iOS && !Ext.browser.is.webview && Ext.browser.version.isGreaterThan(3) && Ext.browser.version.isLessThan(7)
+        autoMaximize: Ext.os.is.iOS && !Ext.browser.is.webview && Ext.browser.version.isGreaterThan(3)
     },
     
 	icon: {
