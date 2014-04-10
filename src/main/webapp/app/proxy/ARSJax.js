@@ -43,6 +43,7 @@ Ext.define('ARSnova.proxy.ARSJax', {
 			method: options.method,
 			params: options.params,
 			jsonData: options.jsonData,
+			withCredentials: false,
 			useDefaultXhrHeader: false,
 			
 			headers: {
