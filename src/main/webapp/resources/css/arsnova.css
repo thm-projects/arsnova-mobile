@@ -44,7 +44,13 @@
 	padding-right: 40px;
 }
 
-.x-item-disabled .x-form-label span,.x-item-disabled input,.x-item-disabled .x-spinner-body,.x-item-disabled select,.x-item-disabled textarea,.x-item-disabled .x-field-clear-container {
+.x-item-disabled input,
+.x-item-disabled select,
+.x-item-disabled textarea,
+.x-item-disabled .x-spinner-body,
+.x-item-disabled .x-form-label span,
+.x-item-disabled .x-field-clear-container {
+	opacity: 1
 	color: black !important;
 	-webkit-text-fill-color: black !important;
 }
