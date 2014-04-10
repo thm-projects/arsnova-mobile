@@ -27,8 +27,9 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	config: {
 		url : '/couchdb/arsnova',
 		
+		noCache: false,
 		appendId: true,
-		noCache: false
+		withCredentials : true,
 	},
 	
 	arsjax: null,
