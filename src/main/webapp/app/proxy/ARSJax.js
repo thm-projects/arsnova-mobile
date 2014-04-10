@@ -38,18 +38,26 @@ Ext.define('ARSnova.proxy.ARSJax', {
 			options.url = ARSnova.app.absoluteUrl + options.url;
 		}
 		
+		console.log(options);
+		
 		Ext.Ajax.request({
 			url: options.url,
 			method: options.method,
 			params: options.params,
 			jsonData: options.jsonData,
-			headers: options.headers,
+			useDefaultXhrHeader: false,
+			
+			headers: {
+				'Access-Control-Allow-Orgin':'*',
+				'Access-Control-Headers': 'x-requested-with'
+			},
 			
 			success: function(response) {
 				me.handleCode(response.status);
 				var fn = options[response.status] || success;
 				fn.apply(this, arguments);
 			},
+			
 			failure: function(response) {
 				me.handleCode(response.status);
 				var fn = options[response.status] || failure;
