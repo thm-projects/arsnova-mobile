@@ -179,10 +179,10 @@ Ext.application({
 		
 		taskManager = new TaskRunner();
 		
+		this.initRestProxy();
 		this.initSocket();
 		this.initModels();
-		
-		this.restProxy = Ext.create('ARSnova.proxy.RestProxy'); 
+ 
 		this.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
 		
 		/* check previous login */
@@ -200,6 +200,10 @@ Ext.application({
                 }
             }
         );
+    },
+    
+    initRestProxy: function() {
+    	this.restProxy = Ext.create('ARSnova.proxy.RestProxy');
     },
 	
 	initSocket: function() {

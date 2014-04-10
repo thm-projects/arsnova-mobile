@@ -29,7 +29,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		
 		noCache: false,
 		appendId: true,
-		withCredentials : true,
+		withCredentials : true
 	},
 	
 	arsjax: null,
@@ -77,6 +77,47 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			url: options.url,
 			method: "GET",
 			success: options.success
+		});
+	},
+	
+	/**
+	 * Perform server side logout for the current user 
+	 */
+	authLogout: function() {
+		this.arsjax.request({
+			url: 'auth/logout',
+			method: 'GET',
+			success: function(response){}
+		});
+	},
+	
+	/**
+	 * Inits websocket
+	 * @param socket URL
+	 * @param promise
+	 */
+	initWebSocket: function(socketUrl, promise) {
+		this.arsjax.request({
+			url: "socket/url",
+			success: function(data) {
+				promise.resolve(data.responseText);
+			},
+			failure: function() {
+				promise.resolve(socketUrl);
+			}
+		});
+		
+		return promise;
+	},
+	
+	/**
+	 * Connects/reconnects websocket
+	 */
+	connectWebSocket: function() {
+		this.arsjax.request({
+			url: "socket/assign",
+			method: "POST",
+			jsonData: { session: socket.socket.sessionid }
 		});
 	},
 	
