@@ -38,8 +38,6 @@ Ext.define('ARSnova.proxy.ARSJax', {
 			options.url = ARSnova.app.absoluteUrl + options.url;
 		}
 		
-		console.log(options);
-		
 		Ext.Ajax.request({
 			url: options.url,
 			method: options.method,
