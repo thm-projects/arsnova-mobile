@@ -76,6 +76,18 @@ Ext.define('ARSnova.model.Question', {
     	return this.getProxy().delAllQuestions(sessionKeyword, callbacks);
     },
     
+    deleteAllPreparationQuestions: function(sessionKeyword, callbacks) {
+    	return this.getProxy().delAllPreparationQuestions(sessionKeyword, callbacks);
+    },
+    
+    deleteAllFlashcards: function(sessionKeyword, callbacks) {
+    	return this.getProxy().delAllFlashcards(sessionKeyword, callbacks);
+    },
+    
+    deleteAllLectureQuestions: function(sessionKeyword, callbacks) {
+    	return this.getProxy().delAllLectureQuestions(sessionKeyword, callbacks);
+    },
+    
     deleteInterposed: function(question, callbacks) {
 		return this.getProxy().deleteInterposedQuestion(question, callbacks);
     },
@@ -103,21 +115,8 @@ Ext.define('ARSnova.model.Question', {
     	return this.getProxy().publishSkillQuestion(this, callbacks);
     },
     
-    publishAllSkillQuestions: function(questions, active, callbacks) {
-		 questions.forEach(function(q) {
-			q.set("active", active);
-			q.raw.active = active;
-		});
-		var promises = [];
-		questions.forEach(function(q) {
-			var promise = new RSVP.Promise();
-			q.publishSkillQuestion({
-				success: function() { promise.resolve(); },
-				failure: function() { promose.reject(); }
-			});
-			promises.push(promise);
-		});
-		RSVP.all(promises).then(callbacks.success, callbacks.failure);
+    publishAllSkillQuestions: function(sessionKeyword, active, callbacks) {
+		return this.getProxy().publishAllSkillQuestions(sessionKeyword, active, callbacks);
     },
     
     publishSkillQuestionStatistics: function(callbacks) {
@@ -128,8 +127,16 @@ Ext.define('ARSnova.model.Question', {
     	return this.getProxy().publishCorrectSkillQuestionAnswer(this, callbacks);
     },
     
-    getSkillQuestionsSortBySubjectAndText: function(sessionKeyword, callbacks) {
-    	return this.getProxy().getSkillQuestionsSortBySubjectAndText(sessionKeyword, callbacks);
+    getLectureQuestions: function(sessionKeyword, callbacks) {
+    	return this.getProxy().getLectureQuestions(sessionKeyword, callbacks);
+    },
+    
+    getFlashcards: function(sessionKeyword, callbacks) {
+    	return this.getProxy().getFlashcards(sessionKeyword, callbacks);
+    },
+    
+    getPreparationQuestions: function(sessionKeyword, callbacks) {
+    	return this.getProxy().getPreparationQuestions(sessionKeyword, callbacks);
     },
     
     getSkillQuestionsForDelete: function(sessionId, callbacks) {
@@ -140,12 +147,40 @@ Ext.define('ARSnova.model.Question', {
     	return this.getProxy().getUnansweredSkillQuestions(sessionKeyword, callbacks);
     },
     
+    getUnansweredLectureQuestions: function(sessionKeyword, callbacks){
+    	return this.getProxy().getUnansweredLectureQuestions(sessionKeyword, callbacks);
+    },
+    
+    getUnansweredPreparationQuestions: function(sessionKeyword, callbacks){
+    	return this.getProxy().getUnansweredPreparationQuestions(sessionKeyword, callbacks);
+    },
+    
     countSkillQuestions: function(sessionKeyword, callbacks) {
     	return this.getProxy().countSkillQuestions(sessionKeyword, callbacks);
+    },
+    
+    countPreparationQuestions: function(sessionKeyword, callbacks) {
+    	return this.getProxy().countPreparationQuestions(sessionKeyword, callbacks);
+    },
+    
+    countFlashcards: function(sessionKeyword, callbacks) {
+    	return this.getProxy().countFlashcards(sessionKeyword, callbacks);
+    },
+    
+    countLectureQuestions: function(sessionKeyword, callbacks) {
+    	return this.getProxy().countLectureQuestions(sessionKeyword, callbacks);
     },
 	
 	countTotalAnswers: function(sessionKeyword, callbacks) {
 		return this.getProxy().countTotalAnswers(sessionKeyword, callbacks);
+	},
+	
+	countPreparationQuestionAnswers: function(sessionKeyword, callbacks) {
+		return this.getProxy().countPreparationQuestionAnswers(sessionKeyword, callbacks);
+	},
+	
+	countLectureQuestionAnswers: function(sessionKeyword, callbacks) {
+		return this.getProxy().countLectureQuestionAnswers(sessionKeyword, callbacks);
 	},
     
     getInterposedQuestions: function(sessionKeyword, callbacks) {
@@ -183,10 +218,18 @@ Ext.define('ARSnova.model.Question', {
 	deleteAnswer: function(questionId, answerId, callbacks) {
 		return this.getProxy().deleteAnswer(questionId, answerId, callbacks);
 	},
-    
-    getSkillQuestionsForUser: function(sessionKeyword, callbacks) {
-    	return this.getProxy().getSkillQuestionsForUser(sessionKeyword, callbacks);
-    },
+	
+	getSkillQuestionsForUser: function(sessionKeyword, callbacks) {
+		return this.getProxy().getSkillQuestionsForUser(sessionKeyword, callbacks);
+	},
+	
+	getLectureQuestionsForUser: function(sessionKeyword, callbacks) {
+		return this.getProxy().getLectureQuestionsForUser(sessionKeyword, callbacks);
+	},
+	
+	getPreparationQuestionsForUser: function(sessionKeyword, callbacks) {
+		return this.getProxy().getPreparationQuestionsForUser(sessionKeyword, callbacks);
+	},
     
     releasedByCourseId: function(courseId, callbacks) {
     	return this.getProxy().releasedByCourseId(courseId, callbacks);
@@ -194,5 +237,9 @@ Ext.define('ARSnova.model.Question', {
     
     deleteAllInterposedQuestions: function(sessionKeyword, callbacks) {
     	return this.getProxy().deleteAllInterposedQuestions(sessionKeyword, callbacks);
+    },
+    
+    deleteAllQuestionsAnswers: function(sessionKeyword, callbacks) {
+    	return this.getProxy().delAllQuestionsAnswers(sessionKeyword, callbacks);
     }
 });

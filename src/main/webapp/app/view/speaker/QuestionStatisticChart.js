@@ -430,8 +430,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		taskManager.start(this.renewChartDataTask);
 		taskManager.start(this.countActiveUsersTask);
 		this.doTypeset();
-		
-		this.questionChart.redraw();
 	},
 	
 	doTypeset: function(parent) {		

@@ -21,6 +21,8 @@
 Ext.define('ARSnova.view.MainTabPanel', {
 	extend: 'Ext.Container',
 	
+	requires: ['ARSnova.view.TabPanel'],
+	
 	config: {
 		fullscreen: true,
 		layout: 'card'

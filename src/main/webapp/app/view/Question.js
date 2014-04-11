@@ -21,6 +21,9 @@
 Ext.define('ARSnova.view.Question', {
 	extend: 'Ext.Panel',
 	
+	requires: ['ARSnova.model.Answer',
+	           'ARSnova.view.CustomMask'],
+	
 	config: {
 		scrollable: {
 			direction: 'vertical',
@@ -98,9 +101,14 @@ Ext.define('ARSnova.view.Question', {
 				for (var i=0; i < this.answerList.getStore().getCount(); i++) {
 					answerValues.push(selectedIndexes.indexOf(i) !== -1 ? "1" : "0");
 				}
+				var questionValue = 0;
+				this.answerList.getSelection().forEach(function(node) {
+					questionValue += (node.get('value') || 0);
+				});
 				
 				self.getUserAnswer().then(function(answer) {
 					answer.set('answerText', answerValues.join(","));
+					answer.set('questionValue', questionValue);
 					saveAnswer(answer);
 				});
 			}, this);
@@ -150,6 +158,7 @@ Ext.define('ARSnova.view.Question', {
 						
 						self.getUserAnswer().then(function(answer) {
 							answer.set('answerText', answerObj.text);
+							answer.set('questionValue', answerObj.value);
 							saveAnswer(answer);
 						});
 					} else {
@@ -218,7 +227,10 @@ Ext.define('ARSnova.view.Question', {
 			mode: this.questionObj.questionType === "mc" ? 'MULTI' : 'SINGLE'
 		});
 		if (this.questionObj.abstention
-				&& (this.questionObj.questionType === 'school' || this.questionObj.questionType === 'vote')) {
+				&& (this.questionObj.questionType === 'school'
+					|| this.questionObj.questionType === 'vote'
+					|| this.questionObj.questionType === 'abcd'
+					|| this.questionObj.questionType === 'yesno')) {
 			this.abstentionAnswer = this.answerList.getStore().add({
 				id: this.abstentionInternalId,
 				text: Messages.ABSTENTION,
@@ -327,7 +339,6 @@ Ext.define('ARSnova.view.Question', {
 	getUserAnswer: function() {
 		var self = this;
 		var promise = new RSVP.Promise();
-		
 		ARSnova.app.answerModel.getUserAnswer(self.questionObj._id, {
 			empty: function() {
 				var answer = Ext.create('ARSnova.model.Answer', {
@@ -335,7 +346,8 @@ Ext.define('ARSnova.view.Question', {
 					sessionId	: localStorage.getItem("sessionId"),
 					questionId	: self.questionObj._id,
 					user		: localStorage.getItem("login"),
-					timestamp	: Date.now()
+					timestamp	: Date.now(),
+					questionVariant: self.questionObj.questionVariant
 				});
 				promise.resolve(answer);
 			},

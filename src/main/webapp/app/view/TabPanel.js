@@ -21,6 +21,13 @@
 Ext.define('ARSnova.view.TabPanel', {
 	extend: 'Ext.tab.Panel',
 	
+	requires: [ 'ARSnova.view.LoginPanel',
+	            'ARSnova.view.RolePanel',
+	            'ARSnova.view.home.TabPanel',
+	            'ARSnova.view.diagnosis.TabPanel',
+	            'ARSnova.view.about.TabPanel'
+	],
+	
 	config: {
 		fullscreen: true,
 		scrollable: {
@@ -62,28 +69,31 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.loginPanel		= Ext.create('ARSnova.view.LoginPanel');
 		this.rolePanel 		= Ext.create('ARSnova.view.RolePanel');
 		this.homeTabPanel 	= Ext.create('ARSnova.view.home.TabPanel');
+		this.diagnosisPanel = Ext.create('ARSnova.view.diagnosis.TabPanel');
 		this.infoTabPanel 	= Ext.create('ARSnova.view.about.TabPanel');
 		
 		this.add([
 			this.rolePanel,
 			this.loginPanel,
 			this.homeTabPanel,
+			this.diagnosisPanel,
 			this.infoTabPanel
 		]);
 		
 		this.on('activeitemchange', function(panel, newCard, oldCard){
 			ARSnova.app.lastActivePanel = oldCard;
-			if(newCard === panel.homeTabPanel) {
-				panel.homeTabPanel.tab.show();
-			} else if(newCard === panel.rolePanel || newCard === panel.loginPanel) {
-				panel.homeTabPanel.tab.hide();
+			if (newCard === this.infoTabPanel) {
+				// The "Info" panel is just a stub button that opens the ARSnova manual
+				ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.lastActivePanel);
+				return false;
 			}
-		});
+		}, this);
 		
 		this.on('initialize', function(){
 			this.rolePanel.tab.hide();
 			this.loginPanel.tab.hide();
 			this.homeTabPanel.tab.hide();
+			this.diagnosisPanel.tab.hide();
 		});
 		this.on('activate', this.onActivate);
 		this.on('deactivate', this.onDeactivate);

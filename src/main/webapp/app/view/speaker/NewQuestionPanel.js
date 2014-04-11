@@ -21,7 +21,8 @@
 Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	extend: 'Ext.Panel',
 	
-	requires: ['ARSnova.view.speaker.form.ExpandingAnswerForm', 'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
+	requires: ['ARSnova.view.speaker.form.AbstentionForm', 'ARSnova.view.speaker.form.ExpandingAnswerForm',
+	           'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
 	           'ARSnova.view.speaker.form.FlashcardQuestion', 'ARSnova.view.speaker.form.SchoolQuestion',
 	           'ARSnova.view.speaker.form.VoteQuestion', 'ARSnova.view.speaker.form.YesNoQuestion',
 	           'ARSnova.view.speaker.form.NullQuestion'],
@@ -30,7 +31,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		title: 'NewQuestionPanel',
 		fullscreen: true,
 		scrollable: true,
-		scroll: 'vertical'
+		scroll: 'vertical',
+		
+		variant: 'lecture',
+		releasedFor: 'all'
 	},
 	
 	/* toolbar items */
@@ -92,11 +96,11 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.previewButton = Ext.create('Ext.Button', {
 			text	: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui		: 'confirm',
-			//cls		: 'previewButton',
-			style   : 'width:200px;',
+			cls		: 'previewButton',
+			style   : 'width:400px',
 			scope   : this,
 			handler : function() {
-					this.previewHandler();
+					previewHandler();
 				}
 		});
 		
@@ -123,36 +127,22 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			}]
 		});
 		
-		if(window.innerWidth < 600) {
-			this.releaseItems = [
-                 { text	: Messages.ALL_SHORT, id: 'all', pressed: true},
-                 { text	: Messages.ONLY_THM_SHORT, id: 'thm' }
-             ]
-		} else {
-			this.releaseItems = [
-                 { text	: Messages.ALL_LONG, id: 'all', pressed: true},
-                 { text	: Messages.ONLY_THM_LONG, id: 'thm' }
-             ]
-		}
+		this.releaseItems = [{
+			text: window.innerWidth < 600 ? Messages.ALL_SHORT : Messages.ALL_LONG,
+			pressed: true,
+			scope: this,
+			handler: function() {
+				this.setReleasedFor('all');
+			}
+		}, {
+			text: window.innerWidth < 600 ? Messages.ONLY_THM_SHORT : Messages.ONLY_THM_LONG,
+			scope: this,
+			handler: function() {
+				this.setReleasedFor('thm');
+			}
+		}];
 		
-		this.abstentionPart = Ext.create('Ext.form.FormPanel', {
-			scrollable: null,
-			cls: 'newQuestionOptions',
-			items: [{
-				xtype: 'fieldset',
-				title: Messages.ABSTENTION_POSSIBLE,
-				items: [{
-					xtype: 'segmentedbutton',
-					style: 'margin: auto',
-					cls: 'yesnoOptions',
-					items: [{
-						text: Messages.YES, id: 'withAbstention', pressed: true
-					}, {
-						text: Messages.NO, id: 'withoutAbstention'
-					}]
-				}]
-			}]
-		});
+		this.abstentionPart = Ext.create('ARSnova.view.speaker.form.AbstentionForm');
 		
 		this.releasePart = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
@@ -165,56 +155,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	            	style: 'margin: auto',
 	        		allowDepress: false,
 	        		allowMultiple: false,
-	        		items: this.releaseItems,
-	    		    listeners: {
-	    		    	toggle: function(container, button, pressed){
-	    		    		var nQP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
-	    		    		var coursesFieldset = nQP.down('fieldset[title='+Messages.MY_COURSES+']');
-	    		    		if(button.id == "course"){
-	    		    			if(pressed){
-	    		    				if(nQP.userCourses.length == 0){
-	        		    				var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_COURSES);
-	        		    				Ext.Ajax.request({
-	        		    					url: ARSnova.app.WEBSERVICE_URL + 'estudy/getTeacherCourses.php',
-	        		    					params: {
-	        		    						login: localStorage.getItem('login')
-	        		    					},
-	        		    					success: function(response, opts){
-	        		    						var obj = Ext.decode(response.responseText).courselist;
-	        		    						
-	        		    						/* Build new options array */
-	        		    						for ( var i = 0; i < obj.count; i++){
-	        		    							var course = obj.course[i];
-	        		    							coursesFieldset.add({
-	        		    								xtype: 'checkboxfield',
-	        		    								name: course.name,
-	        		    								label: course.name,
-	        		    								value:	course.id
-	        		    							});
-	        		    						}
-	        		    						nQP.userCourses = obj;
-	        		    						coursesFieldset.show();
-	        		    						hideLoadMask();
-	        		    					},
-	        		    					failure: function(response, opts){
-	        		    						hideLoadMask();
-	        		    						console.log('getcourses server-side failure with status code ' + response.status);
-	        		    						Ext.Msg.alert(Messages.NOTICE, Messages.COULD_NOT_SEARCH);
-	        		    					}
-	        		    				});
-	    		    				}
-	    		    				coursesFieldset.show();
-	    		    			} else {
-	    		    				coursesFieldset.hide();
-	    		    			}
-	    		    		}
-	    		    	}
-	    		    }
-	            }, {
-	            	xtype: 'fieldset',
-	            	title: Messages.MY_COURSES,
-	            	hidden: true
-	        	}]
+	        		items: this.releaseItems
+	            }]
 			}]
     	});
 		
@@ -233,34 +175,28 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		}
 		
 		this.yesNoQuestion = Ext.create('ARSnova.view.speaker.form.YesNoQuestion', {
-			id: 'yesno',
 			cls: 'newQuestionOptions',
 			hidden: true,
 			scrollable: null
 		});
 		
 		this.multipleChoiceQuestion = Ext.create('ARSnova.view.speaker.form.ExpandingAnswerForm', {
-			id: 'mc',
 			hidden: true
 		});
 
 		this.voteQuestion = Ext.create('ARSnova.view.speaker.form.VoteQuestion', {
-			id: 'vote',
 			hidden: true
 		});
 		
 		this.schoolQuestion = Ext.create('ARSnova.view.speaker.form.SchoolQuestion', {
-			id: 'school',
 			hidden: true
 		});
 		
 		this.abcdQuestion = Ext.create('ARSnova.view.speaker.form.IndexedExpandingAnswerForm', {
-			id: 'abcd',
 			hidden: true
 		});
 		
 		this.freetextQuestion = Ext.create('Ext.form.FormPanel', {
-			id: 'freetext',
 			hidden: true,
 			scrollable: null,
 			submitOnAction: false,
@@ -268,7 +204,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		});
 		
 		this.flashcardQuestion = Ext.create('ARSnova.view.speaker.form.FlashcardQuestion', {
-			id: 'flashcard',
 			hidden: true
 		});
 		
@@ -478,48 +413,14 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		var mainPartValues = panel.mainPart.getValues();
 		values.text = mainPartValues.text;
 		values.subject = mainPartValues.subject;
-		values.abstention = !panel.abstentionPart.isHidden() && panel.abstentionPart.down('segmentedbutton').getPressedButtons()[0].id === 'withAbstention';
+		values.abstention = !panel.abstentionPart.isHidden() && panel.abstentionPart.getAbstention();
+		values.questionVariant = panel.getVariant();
 		
-		/* check if release question button is clicked */
-		var releasePart = panel.releasePart;
-		
-		var button;
 		if (localStorage.getItem('courseId') != null && localStorage.getItem('courseId').length > 0) {
-			button = null;
 			values.releasedFor = 'courses';
 		} else {
-			button = releasePart.down('segmentedbutton').getPressedButtons()[0];
+			values.releasedFor = panel.getReleasedFor();
 		}
-		
-		if(button){
-			switch (button.id) {
-				case 'all':
-					values.releasedFor = 'all';
-					break;
-				case 'thm':
-					values.releasedFor = 'thm';
-					break;
-				case 'courses':
-					var releasedForValues = releasePart.getValues();
-					var tmpArray = [];
-					for (name in releasedForValues) {
-						var id = releasedForValues[name];
-						if(id === null)
-							continue;
-						tmpArray.push({
-							name: name,
-							id: id
-						});
-					}
-					if(tmpArray.length > 0){
-						values.releasedFor = 'courses';
-						values.courses = tmpArray;
-					}
-					break;	
-				default:
-					break;
-			}
-    	}
     	
     	/* fetch the values */
     	switch (panel.questionOptions.getPressedButtons()[0]._text) {
@@ -614,12 +515,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			subject		: values.subject,
 			type		: "skill_question",
 			questionType: values.questionType,
+			questionVariant: values.questionVariant,
 			duration	: values.duration,
 			number		: 0, // unused
 			active		: 1,
 			possibleAnswers: values.possibleAnswers,
 			releasedFor	: values.releasedFor,
-			courses		: values.courses,
 			noCorrect	: values.noCorrect,
 			abstention	: values.abstention,
 			showStatistic: 1,

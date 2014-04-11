@@ -1,8 +1,9 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
  - Beschreibung: Panel zum Abgeben eines Feedbacks.
- - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
-                 Christoph Thelen <christoph.thelen@mni.thm.de>
+ - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>,
+                 Christoph Thelen <christoph.thelen@mni.thm.de>,
+                 Andreas Gärtner <andreas.gaertner@mni.thm.de>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -19,6 +20,8 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.feedback.AskPanel', {
 	extend: 'Ext.Panel',
+	
+	requires: ['ARSnova.model.Question'],
 	
 	config: {
 		title: 'AskPanel',
@@ -69,6 +72,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			xtype: 'textareafield',
 			label: Messages.QUESTION_TEXT,
 			name: 'text',
+			maxRows: 7,
 			maxLength: 2500,
 			placeHolder: Messages.QUESTION_TEXT_PLACEHOLDER
 		});
@@ -97,6 +101,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		
 		this.add([this.toolbar, {
 			cls: 'gravure',
+			style: 'margin: 10px',
 			html: Messages.QUESTION_INSTRUCTION
 		}, {
 			xtype: 'formpanel',

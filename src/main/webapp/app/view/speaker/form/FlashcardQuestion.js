@@ -58,7 +58,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 		
 		return result;
 	},
-	
+
 	getValue: function() {
 		var values = [], obj;
 		obj = {
@@ -74,5 +74,11 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			xtype: 'answerPreview'
 		});		
 		answerPreview.showPreview(this.getValue());
+	},
+
+	markEmptyFields: function() {
+		if (this.answer.getValue().trim() === "") {
+			this.answer.addCls("required");
+		}
 	}
 });

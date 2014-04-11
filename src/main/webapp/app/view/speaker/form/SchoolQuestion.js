@@ -62,5 +62,15 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 			};
 		});
 		return result;
+	},
+	
+	markEmptyFields: function() {
+		var field;
+		for (var i=0; i < this.fields.length; i++) {
+			field = this.fields[i];
+			if (field.getValue().trim() === "") {
+				field.addCls("required");
+			}
+		}
 	}
 });

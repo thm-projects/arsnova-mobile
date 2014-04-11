@@ -20,7 +20,7 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.RolePanel', {
 	extend: 'Ext.Container',
-	
+
 	config: {
 		fullscreen: true,
 		scrollable: {
@@ -28,16 +28,7 @@ Ext.define('ARSnova.view.RolePanel', {
 			directionLock: true
 		},
 		
-		title: 'RolePanel',
-		
-		defaults: {
-			xtype	: 'button',
-			handler	: function(b) {
-				ARSnova.app.getController('Auth').roleSelect({
-					mode: b.config.value
-				});
-			}
-		}
+		title: 'RolePanel'
 	},
 	
 	initialize: function() {
@@ -60,28 +51,27 @@ Ext.define('ARSnova.view.RolePanel', {
 				type: 'hbox',
 				pack: 'center'
 			},
+			defaults: {
+				xtype	: 'matrixbutton',
+				handler	: function(b) {
+					ARSnova.app.getController('Auth').roleSelect({
+						mode: b.config.value
+					});
+					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(
+							ARSnova.app.mainTabPanel.tabPanel.loginPanel, 'slide'
+					);
+				}
+			},
 			items	: [
 				{
-					xtype	: 'matrixbutton',
 					text: Messages.STUDENT,
 					value: ARSnova.app.USER_ROLE_STUDENT,
-					image: "login_student",
-					handler	: function(b) {
-						ARSnova.app.getController('Auth').roleSelect({
-							mode: b.config.value
-						});
-					}
+					image: "login_student"
 				},
 				{
-					xtype	: 'matrixbutton',
 					text: Messages.SPEAKER,
 					value: ARSnova.app.USER_ROLE_SPEAKER,
 					image: "ars_logo",
-					handler	: function(b) {
-						ARSnova.app.getController('Auth').roleSelect({
-							mode: b.config.value
-						});
-					},
 					style: "margin-left:20px"
 				}
 			]
