@@ -35,7 +35,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		scrollable		 : {direction: 'auto'},
 		styleHtmlContent : true,
 		html      		 : 'empty',
-		style     		 : 'color: black; background-color: #FFFFFF; margin-bottom: 10px',
+		style     		 : 'color: black; background-color: #FFFFFF; margin-bottom: 10px'
 	},
 
 	initialize: function() {
