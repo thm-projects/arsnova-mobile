@@ -39,19 +39,11 @@ Ext.define('ARSnova.WebSocket', {
 				secure: window.location.protocol === 'http:' ? false : true
 			});
 			socket.on('connect', function() {
-				Ext.Ajax.request({
-					url: "socket/assign",
-					method: "POST",
-					jsonData: { session: socket.socket.sessionid }
-				});
+				ARSnova.app.restProxy.connectWebSocket();
 			});
 			
 			socket.on('reconnect', function() {
-				Ext.Ajax.request({
-					url: "socket/assign",
-					method: "POST",
-					jsonData: { session: socket.socket.sessionid }
-				});
+				ARSnova.app.restProxy.connectWebSocket();
 			});
 			
 			socket.on('feedbackData', Ext.bind(function(data) {
@@ -70,18 +62,9 @@ Ext.define('ARSnova.WebSocket', {
 	
 	initSocket: function() {
 		var socketUrl = window.location.protocol + '//' + window.location.hostname + ':10443';
-		
 		var promise = new RSVP.Promise();
 		
-		Ext.Ajax.request({
-			url: "socket/url",
-			success: function(data) {
-				promise.resolve(data.responseText);
-			},
-			failure: function() {
-				promise.resolve(socketUrl);
-			}
-		});
+		promise = ARSnova.app.restProxy.initWebSocket(socketUrl, promise);
 		
 		return promise;
 	}

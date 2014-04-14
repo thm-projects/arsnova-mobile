@@ -43,13 +43,20 @@ Ext.define('ARSnova.proxy.ARSJax', {
 			method: options.method,
 			params: options.params,
 			jsonData: options.jsonData,
-			headers: options.headers,
+			withCredentials: false,
+			useDefaultXhrHeader: false,
+			
+			headers: {
+				'Access-Control-Allow-Orgin':'*',
+				'Access-Control-Headers': 'x-requested-with'
+			},
 			
 			success: function(response) {
 				me.handleCode(response.status);
 				var fn = options[response.status] || success;
 				fn.apply(this, arguments);
 			},
+			
 			failure: function(response) {
 				me.handleCode(response.status);
 				var fn = options[response.status] || failure;
