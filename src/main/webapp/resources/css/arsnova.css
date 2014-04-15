@@ -506,6 +506,17 @@ html,body {
 	text-align: left;
 }
 
+.x-list-item .audiencePanelListBadge {
+	position: initial;
+	min-height: 0em;
+	border: none;
+	padding: 0;
+}
+
+.x-list-item .audiencePanelListBadge .badgefixed {
+	top: 4px;
+}
+
 .answerListButton>span {
 	opacity: 1 !important;
 	text-align: left;
