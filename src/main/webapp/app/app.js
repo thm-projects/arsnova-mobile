@@ -293,19 +293,18 @@ Ext.application({
 	 * Wrapper for an invidivudal LoadMask
 	 */
 	showLoadMask: function(message, duration) {
-		/*var minimumDuration = 500;
-		var loadingMask = new Ext.LoadMask({
+		var minimumDuration = 500;
+		
+		Ext.Viewport.setMasked({
+			xtype: 'loadmask',
 			message: message || ""
 		});
-		Ext.Viewport.add(loadingMask);
-		loadingMask.show(); */
-		var hideLoadMask = Ext.emptyFn;
 		
-		/*var hideLoadMask = Ext.Function.createDelayed(function() {
-			loadingMask.hide();
-			loadingMask.destroy();
+		var hideLoadMask = Ext.Function.createDelayed(function() {
+			Ext.Viewport.setMasked(false);
 		}, minimumDuration);
-		Ext.defer(hideLoadMask, (duration || 5000) - minimumDuration); */
+		Ext.defer(hideLoadMask, (duration || 5000) - minimumDuration);
+		
 		return hideLoadMask;
 	},
     
