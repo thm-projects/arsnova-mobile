@@ -53,7 +53,7 @@ switch (lang) {
 			UPDATE_BROWSER_MESSAGE: "Please update your ### browser in order to use ARSnova.",
 			FEATURE_COMING_SOON: "This feature will be available soon.",
 			UNI_LOGIN_MSG: "Your University here?",
-			UNI_LOGIN_MSG_TEXT: "Would you like to use your university's account? Contact us @ <a href='https://www.transmit.de/zentren/tz.cfm?N=189' target='_blank'>transmit.de</a>.",
+			UNI_LOGIN_MSG_TEXT: "Would you like to use your university's account? Contact us @ <a href='http://www.transmit.de/zentren/tz.cfm?N=189' target='_blank'>transmit.de</a>.",
 			
 			/* rolePanel */
 			CHOOSE_ROLE: "Choose your role:",
@@ -356,7 +356,7 @@ switch (lang) {
 			UPDATE_BROWSER_MESSAGE: "Bitte aktualisieren Sie Ihren ###-Browser, um ARSnova verwenden zu können.",
 			FEATURE_COMING_SOON: "Feature kommt in Kürze.",
 			UNI_LOGIN_MSG: "Ihr Uni-Login an dieser Stelle?",
-			UNI_LOGIN_MSG_TEXT: "Möchten Sie Ihren hochschuleigenen Zugang verwenden? Sprechen Sie mit uns unter <a href='https://www.transmit.de/zentren/tz.cfm?N=189' target='_blank'>transmit.de</a>.",
+			UNI_LOGIN_MSG_TEXT: "Möchten Sie Ihren hochschuleigenen Zugang verwenden? Sprechen Sie mit uns unter <a href='http://www.transmit.de/zentren/tz.cfm?N=189' target='_blank'>transmit.de</a>.",
 			
 			/* rolePanel */
 			CHOOSE_ROLE: "Wählen Sie Ihre Rolle:",
