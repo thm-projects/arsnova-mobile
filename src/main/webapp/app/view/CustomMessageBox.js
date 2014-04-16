@@ -19,6 +19,13 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.CustomMessageBox', {
 	override: 'Ext.MessageBox',
+
+	config: {
+		showAnimation: {
+			type: 'flip', 
+			duration: 200
+		}
+	},
 	
 	confirm: function(title, message, fn, scope) {
 		this.callParent(arguments);
