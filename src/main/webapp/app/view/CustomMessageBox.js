@@ -23,8 +23,6 @@ Ext.define('ARSnova.view.CustomMessageBox', {
 	show: function(config) {
 		this.callParent(arguments);
 		
-		Ext.Viewport.setMasked(false); 
-		
 		if (this.getTitle()) {
 			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.getTitle().element.dom]);
 		}
