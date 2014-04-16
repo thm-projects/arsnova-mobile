@@ -403,40 +403,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				
 				Ext.apply(values, panel.schoolQuestion.getQuestionValues());
 				break;
-				
-			/**
-			 *  Don't delete this! It's a prototype handle for the new TextCheckfields.
-			 *
-			 *
-			 	case Messages.MC:
-				values.questionType = "mc";
-				
-				var formPanel = panel.down("#mc");
-				var tmpValues = formPanel.getFieldsAsArray();
-				
-				var obj;
-				noChecked = true;
-				values.possibleAnswers = [];
-				
-				for(var i = 0, field; field = tmpValues[i], i < tmpValues.length; i++) {
-					if(!field.isHidden() && field.config.hasOwnProperty('checked')) {
-						obj = {
-							text: field.getValue()
-						};
-						
-						if(field.isChecked()) { obj.correct = 1; }
-						values.possibleAnswers.push(obj);
-						
-						// noChecked will be set to false if at least one field is checked
-						noChecked = noChecked && !field.isChecked();
-					}
-				}
-
-				if (noChecked) {
-					values.noCorrect = 1;
-				}
-				break;
-			*/
 			case Messages.MC:
 				values.questionType = "mc";
 				
