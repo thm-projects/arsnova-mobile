@@ -32,6 +32,8 @@ Ext.define('ARSnova.view.CustomMessageBox', {
 	
 	confirm: function(title, message, fn, scope) {
 		this.callParent(arguments);
+		
+		Ext.Viewport.setMasked(false); 
 
 		return this.show({
 	        title       : title || null,
