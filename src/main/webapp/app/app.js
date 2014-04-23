@@ -294,16 +294,17 @@ Ext.application({
 	 */
 	showLoadMask: function(message, duration) {
 		var minimumDuration = 500;
-		var loadingMask = new Ext.LoadMask({
+		
+		Ext.Viewport.setMasked({
+			xtype: 'loadmask',
 			message: message || ""
 		});
-		Ext.Viewport.add(loadingMask);
-		loadingMask.show();
+		
 		var hideLoadMask = Ext.Function.createDelayed(function() {
-			loadingMask.hide();
-			loadingMask.destroy();
+			Ext.Viewport.setMasked(false);
 		}, minimumDuration);
 		Ext.defer(hideLoadMask, (duration || 5000) - minimumDuration);
+		
 		return hideLoadMask;
 	},
     

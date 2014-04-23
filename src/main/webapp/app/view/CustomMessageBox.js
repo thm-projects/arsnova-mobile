@@ -20,14 +20,11 @@
 Ext.define('ARSnova.view.CustomMessageBox', {
 	override: 'Ext.MessageBox',
 
-	show: function(config) {
-		this.callParent(arguments);
-		
-		if (this.getTitle()) {
-			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.getTitle().element.dom]);
+	config: {
+		showAnimation: {
+			type: 'flip', 
+			duration: 200
 		}
-		MathJax.Hub.Queue(["Typeset", MathJax.Hub, this._message.element.dom]);
-		return this;
 	},
 	
 	confirm: function(title, message, fn, scope) {
