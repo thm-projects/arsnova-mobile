@@ -1028,6 +1028,10 @@ ol.standardList li {
 	min-width: 100px;
 }
 
+#statisticFieldset>div {
+	min-width: 100px;
+}
+
 .questionDetailsToggle {
 	background: transparent;
 	border: none;
@@ -1042,6 +1046,16 @@ ol.standardList li {
 	width: 80%;
 	max-width: 500px;
 	margin: 0 auto;
+	min-width: 0px !important;
+}
+
+.abcOptions {
+	width: 80%;
+	margin: 0 auto;
+}
+
+.abcOptions .x-button {
+	width: 33%;
 }
 
 .abcdOptions .x-button {
@@ -1416,6 +1430,19 @@ ol.standardList li {
 	height: 85px;
 	margin: 0 auto;
 	margin-top: 20px;
+}
+
+.gridQDSettingsPanel .x-container .x-toggle {
+	margin-right: -100px;
+}
+
+.infoPanel {
+	height: 20%;
+	left: 50%;
+	padding: 20px;
+	top: 30%;
+	width: 40%;
+	min-width: 150px;
 }
 
 /* Course marks */
