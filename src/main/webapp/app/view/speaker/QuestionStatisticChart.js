@@ -33,6 +33,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	questionChart: null,
 	questionStore: null,
 	lastPanel: null,
+	gridStatistic : null,
 	
 	/* toolbar items */
 	toolbar				: null,
@@ -118,8 +119,15 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		this.titlebar = Ext.create('Ext.Toolbar', {
 			cls		: 'questionStatisticTitle',
 			docked	: 'top',
-			title	: title
+			title	: title,
+			border  : '0px',
 		});
+		
+		if(this.questionObj.questionType == "grid"){
+			this.titlebar.setStyle('background-color: #C5CCD3');
+			this.setLayout('');
+			this.setScrollable(true);
+		}
 		
 		if( this.questionObj.questionType == "yesno" 	|| 
 			this.questionObj.questionType == "mc" 		||
@@ -257,6 +265,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		this.questionChart = Ext.create('Ext.chart.CartesianChart', {
 		    store: this.questionStore,
+		    hidden: this.questionObj.questionType === "grid",
 
 		    animate: {
 		        easing: 'bounceOut',
@@ -316,7 +325,19 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		    }]
 		});
 		
+		
 		this.add([this.toolbar, this.titlebar, this.questionChart]);
+		
+		if (this.questionObj.questionType === "grid") {
+			this.setStyle('background-color: #C5CCD3');
+			// add statistic
+			this.gridStatistic = Ext.create('ARSnova.view.components.GridStatistic', {
+				questionObj : this.questionObj
+			});
+			this.add({xtype : 'spacer', height :25, docked : 'top' });
+			this.add(this.gridStatistic);
+			this.getQuestionAnswers();
+		}
 
 		this.on('activate', this.onActivate);
 	},
@@ -376,6 +397,10 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 						store.each(function(record, index) {
 							record.set("value", mcAnswerCount[index]);
 						});
+					} else if (panel.questionObj.questionType === "grid") {
+						panel.gridStatistic.answers 		= answers;
+						panel.gridStatistic.setQuestionObj  = panel.questionObj;
+						panel.gridStatistic.updateGrid();
 					} else {
 						if (!el.answerText) {
 							abstentionCount = el.abstentionCount;
