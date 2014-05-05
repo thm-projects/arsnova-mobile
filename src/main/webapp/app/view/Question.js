@@ -272,7 +272,8 @@ Ext.define('ARSnova.view.Question', {
 				&& (this.questionObj.questionType === 'school'
 					|| this.questionObj.questionType === 'vote'
 					|| this.questionObj.questionType === 'abcd'
-					|| this.questionObj.questionType === 'yesno')) {
+					|| this.questionObj.questionType === 'yesno'
+          || (this.questionObj.questionType === 'mc' && this.viewOnly) )) {
 			this.abstentionAnswer = this.answerList.getStore().add({
 				id: this.abstentionInternalId,
 				text: Messages.ABSTENTION,
