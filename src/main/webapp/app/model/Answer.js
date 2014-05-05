@@ -35,7 +35,9 @@ Ext.define('ARSnova.model.Answer', {
 			     'sessionId',
 			     'abstention',
 			     'timestamp',
-			     'questionVariant'
+			     'questionVariant',
+			     'questionValue',
+			     'value'
 		         ],
 
 		idProperty: '_id'

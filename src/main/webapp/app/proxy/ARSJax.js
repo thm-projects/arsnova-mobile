@@ -50,6 +50,7 @@ Ext.define('ARSnova.proxy.ARSJax', {
 				var fn = options[response.status] || success;
 				fn.apply(this, arguments);
 			},
+			
 			failure: function(response) {
 				me.handleCode(response.status);
 				var fn = options[response.status] || failure;

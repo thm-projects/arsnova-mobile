@@ -1,7 +1,7 @@
 /*
 This file is part of Sencha Touch 2.3
 
-Copyright (c) 2011-2013 Sencha Inc
+Copyright (c) 2011-2014 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
@@ -16,7 +16,7 @@ requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 If you are unsure which license is appropriate for your use, please contact the sales department
 at http://www.sencha.com/contact.
 
-Build date: 2013-11-08 13:58:42 (d989f4377b0a56f9f540fd415741d1f2db1c7977)
+Build date: 2014-01-08 14:23:30 (0a1d6f5016ee680fcd2e5dc6e9740d9e19920715)
 */
 //@tag foundation,core
 //@define Ext

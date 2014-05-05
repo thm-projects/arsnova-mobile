@@ -164,19 +164,6 @@ Ext.define('ARSnova.view.user.InClass', {
 			handler		: comingSoon
 		});
 		
-		this.learnButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			ui			: 'normal',
-			text		: Messages.LEARN,
-			cls			: 'forwardListButton',
-			badgeCls	: 'badgeicon',
-			controller	: 'Questions',
-			action		: 'index',
-			handler		: function() {
-				var uTP = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
-				uTP.animateActiveItem(uTP.learnPanel, 'slide');
-			}
-		});
-		
 		this.inClass = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			items: [{

@@ -74,7 +74,6 @@ Ext.define("ARSnova.controller.Auth", {
 		localStorage.setItem('role', options.mode);
 		
 		ARSnova.app.setWindowTitle();
-		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.loginPanel, 'slide');
 	},
 
 	login: function(options) {
@@ -172,11 +171,8 @@ Ext.define("ARSnova.controller.Auth", {
     		var location = "https://cas.thm.de/cas/logout?url=http://" + window.location.hostname + window.location.pathname + "#auth/doLogout";
     		this.handleLocationChange(location);
     	} else {
-    		Ext.Ajax.request({
-    			url: 'auth/logout',
-    			method: 'GET',
-    			success: function(response){}
-    		});
+    		ARSnova.app.restProxy.authLogout();
+
     		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
     			type: 'slide',
     			direction: 'right'

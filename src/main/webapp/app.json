@@ -41,6 +41,7 @@
     "js": [
     	{
 			"path": "phonegap.js",
+			"x-bootstrap": true,
 			"remote": true
 		},
         {
@@ -101,15 +102,15 @@
     "css": [
         {
             "path": "resources/css/app.css",
-            "update": "delta"
+            "update": "full"
         },
         {
             "path": "resources/css/index.css",
-            "update": "delta"
+            "update": "full"
         },
         {
         	"path": "resources/css/arsnova.css",
-        	"update": "delta"
+        	"update": "full"
        	}
     ],
 

@@ -54,7 +54,7 @@ Ext.application({
 	},
 	
 	viewport: {
-        autoMaximize: Ext.os.is.iOS && !Ext.browser.is.webview && Ext.browser.version.isGreaterThan(3) && Ext.browser.version.isLessThan(7)
+        autoMaximize: Ext.os.is.iOS && !Ext.browser.is.webview && Ext.browser.version.isGreaterThan(3)
     },
     
 	icon: {
@@ -182,10 +182,10 @@ Ext.application({
 		
 		taskManager = new TaskRunner();
 		
+		this.initRestProxy();
 		this.initSocket();
 		this.initModels();
-		
-		this.restProxy = Ext.create('ARSnova.proxy.RestProxy'); 
+ 
 		this.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
 		
 		/* check previous login */
@@ -203,6 +203,10 @@ Ext.application({
                 }
             }
         );
+    },
+    
+    initRestProxy: function() {
+    	this.restProxy = Ext.create('ARSnova.proxy.RestProxy');
     },
 	
 	initSocket: function() {
@@ -293,16 +297,17 @@ Ext.application({
 	 */
 	showLoadMask: function(message, duration) {
 		var minimumDuration = 500;
-		var loadingMask = new Ext.LoadMask({
+		
+		Ext.Viewport.setMasked({
+			xtype: 'loadmask',
 			message: message || ""
 		});
-		Ext.Viewport.add(loadingMask);
-		loadingMask.show();
+		
 		var hideLoadMask = Ext.Function.createDelayed(function() {
-			loadingMask.hide();
-			loadingMask.destroy();
+			Ext.Viewport.setMasked(false);
 		}, minimumDuration);
 		Ext.defer(hideLoadMask, (duration || 5000) - minimumDuration);
+		
 		return hideLoadMask;
 	},
     
