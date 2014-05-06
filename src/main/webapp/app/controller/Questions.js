@@ -153,7 +153,6 @@ Ext.define("ARSnova.controller.Questions", {
 			case 'mc':
 				panel.multipleChoiceQuestion.query('textfield').forEach(function(el){
 					if(!el.getHidden() && el.getValue().toString().trim() == "") {
-						el.addCls("required");
 						error = true;
 					}
 				});
