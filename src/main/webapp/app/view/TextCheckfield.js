@@ -74,7 +74,7 @@ Ext.define('ARSnova.view.TextCheckfield', {
 		 */
 		this.onAfter('initialize', function() {
 			if(this.config.checked == null) {
-				this.config.checked = false;
+				this.uncheck();
 			}
 		});
 	},
@@ -87,24 +87,37 @@ Ext.define('ARSnova.view.TextCheckfield', {
 	},
 	
 	/**
+	 * checks the checkfield
+	 */
+	check: function() {
+		this.config.checked = true; 
+		this.setCheckfieldCls();
+	},
+	
+	/**
 	 * unchecks the checkfield
 	 */
 	uncheck: function() {
 		this.config.checked = false; 
-		this.label.replaceCls(this.config.checkedCls, this.config.uncheckedCls);
+		this.setCheckfieldCls();
 	},
 	
 	/**
-     * Toggles labelCls between this.config.uncheckedCls and this.config.checkedCls and
-     * the this.config.checked attribute between true and false.
+     * Toggles checkfield cls and value
 	*/
 	toggleChecked: function() {
-		if (this.config.checked) {
-			this.label.replaceCls(this.config.checkedCls, this.config.uncheckedCls);
-		} else {
-			this.label.replaceCls(this.config.uncheckedCls, this.config.checkedCls);
-		}
-        
 		this.config.checked = !this.config.checked;
+		this.setCheckfieldCls();
+	},
+	
+	/**
+	 * Toggles labelCls between this.config.uncheckedCls and this.config.checkedCls
+	 */
+	setCheckfieldCls: function() {
+		if (this.config.checked) {
+			this.label.replaceCls(this.config.uncheckedCls, this.config.checkedCls);
+		} else {
+			this.label.replaceCls(this.config.checkedCls, this.config.uncheckedCls);
+		}
 	}
 });

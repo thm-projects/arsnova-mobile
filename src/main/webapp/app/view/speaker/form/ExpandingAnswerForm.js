@@ -148,6 +148,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 	initAnswerComponents: function(possibleAnswers) {
 		possibleAnswers.forEach(function(answer, index) {
 			this.answerComponents[index].setValue(answer.text);
+			if(answer.correct) this.answerComponents[index].check();
 		}, this);
 	},
 	
