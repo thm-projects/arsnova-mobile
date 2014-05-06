@@ -38,10 +38,22 @@ Ext.define('ARSnova.view.TextCheckfield', {
 		labelWidth:		'2.0em',
 		labelCls:		'checkItem',
 		
+		/**
+		 * listener for tap event on label element (toggleChecked())
+		 */		
 		listeners: {			
 			'tap': {
 				element: 'label',
-	        	fn: this.tabHandler
+	        	fn: function() {
+	        		var parent = this.config.container;
+	        		if(parent.config.singleChoice) {
+	        			var parent = this.config.container;
+	        			for (var i=0; i < parent.selectAnswerCount.getValue(); i++) {
+	        				parent.answerComponents[i].uncheck();
+	        			}
+	        		} 
+	        		this.toggleChecked();
+	        	}
 	        }
 		}
 	},
@@ -66,21 +78,7 @@ Ext.define('ARSnova.view.TextCheckfield', {
 			}
 		});
 	},
-	
-	/**
-	 * listener for tap event on label element (toggleChecked())
-	 */
-	tapHandler: function() {
-		var parent = this.config.container;
-		if(parent.config.singleChoice) {
-			var parent = this.config.container;
-			for (var i=0; i < parent.selectAnswerCount.getValue(); i++) {
-				parent.answerComponents[i].uncheck();
-			}
-		} 
-		this.toggleChecked();
-	},
-	
+		
 	/**
 	 * @return: Returns the value of this.config.checked (boolean).
 	 */
