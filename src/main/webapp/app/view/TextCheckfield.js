@@ -39,25 +39,19 @@ Ext.define('ARSnova.view.TextCheckfield', {
 		labelCls:		'checkItem',
 		
 		listeners: {			
-			/**
-			 *  Adding listener for tap event on label element (toggleChecked())
-			 */
 			'tap': {
 				element: 'label',
-	        	fn: function () {
-	        		this.toggleChecked();
-	            }
+	        	fn: this.tabHandler
 	        }
 		}
 	},
 
-	/**
-	 * If checked is set to true the class of the label will be set to this.config.checkedCls,
-	 * otherwise to this.config.uncheckedCls.
-	 */
 	initialize: function() {
 		this.callParent(arguments);
-		
+		/**
+		 * If checked is set true, the class of the label will be set to this.config.checkedCls,
+		 * otherwise to this.config.uncheckedCls.
+		 */
 		this.label.addCls(
 			(this.isChecked() ? this.config.checkedCls : this.config.uncheckedCls)
 		);
@@ -74,11 +68,32 @@ Ext.define('ARSnova.view.TextCheckfield', {
 	},
 	
 	/**
+	 * listener for tap event on label element (toggleChecked())
+	 */
+	tapHandler: function() {
+		var parent = this.config.container;
+		if(parent.config.singleChoice) {
+			var parent = this.config.container;
+			for (var i=0; i < parent.selectAnswerCount.getValue(); i++) {
+				parent.answerComponents[i].uncheck();
+			}
+		} 
+		this.toggleChecked();
+	},
+	
+	/**
 	 * @return: Returns the value of this.config.checked (boolean).
 	 */
 	isChecked: function() {
-		console.log(this.config.checked);
 		return this.config.checked;
+	},
+	
+	/**
+	 * unchecks the checkfield
+	 */
+	uncheck: function() {
+		this.config.checked = false; 
+		this.label.replaceCls(this.config.checkedCls, this.config.uncheckedCls);
 	},
 	
 	/**
@@ -86,11 +101,9 @@ Ext.define('ARSnova.view.TextCheckfield', {
      * the this.config.checked attribute between true and false.
 	*/
 	toggleChecked: function() {
-		if (this.isChecked()) {
+		if (this.config.checked) {
 			this.label.replaceCls(this.config.checkedCls, this.config.uncheckedCls);
-		}
-
-		else {
+		} else {
 			this.label.replaceCls(this.config.uncheckedCls, this.config.checkedCls);
 		}
         

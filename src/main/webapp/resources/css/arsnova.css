@@ -935,6 +935,11 @@ span.bold {
 	color: #900;
 }
 
+.formInvalid::-webkit-input-placeholder {
+	color: #900;
+	opacity: 0.5;
+}
+
 .isActive {
 	color: #00CD00;
 }
@@ -1381,7 +1386,7 @@ ol.standardList li {
 }
 
 .checkItem.checked {
-	color: #006bb6;
+	color: green;
 }
 
 .checkItem.unchecked {
