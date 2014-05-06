@@ -52,6 +52,16 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			}
 		});
 		
+		var previewButton = Ext.create('Ext.Button', {
+			text	: Messages.ANSWER_PREVIEW_BUTTON_TITLE,
+			ui		: 'confirm',
+			style   : 'width:200px; margin-left: 8px; margin-top: 0px;',
+			scope	: this,
+			handler	: function() {
+					this.previewHandler();
+				}
+		});
+		
 		var answerFieldset = Ext.create('Ext.form.FieldSet', {
 			title: Messages.ANSWERS,
 			items: [this.selectAnswerCount]
@@ -59,9 +69,8 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		
 		var answerOptions = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
-			submitOnAction: false,
-			
-			items: [answerFieldset]
+			submitOnAction: false,			
+			items: [answerFieldset, previewButton]
 		});
 		
 		var answerOptionEntryId = Ext.id();
@@ -151,6 +160,13 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			result.noCorrect = 1;
 		}
 		return result;
+	},
+	
+	previewHandler: function() {
+		var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox', {
+			xtype: 'answerPreview'
+		});		
+		answerPreview.showPreview(this.getValues());
 	},
 	
 	markEmptyFields: function() {

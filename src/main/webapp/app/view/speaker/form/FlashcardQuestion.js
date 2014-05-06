@@ -25,10 +25,21 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			placeHolder: Messages.ANSWER
 		});
 		
+		var previewButton = Ext.create('Ext.Button', {
+			text	: Messages.ANSWER_PREVIEW_BUTTON_TITLE,
+			ui		: 'confirm',
+			style   : 'width:200px; margin-top: 12px;',
+			handler: function() {
+					this.previewHandler();
+				},
+			scope: this
+		});
+		
 		this.add([{
 			xtype: 'fieldset',
 			title: Messages.ANSWER,
-			items: this.answer
+			items: [this.answer,
+			        previewButton]
 		}]);
 	},
 	
@@ -47,7 +58,24 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 		
 		return result;
 	},
-	
+
+	getValue: function() {
+		var values = [], obj;
+		obj = {
+				text	: this.answer.getValue(),
+				correct : true
+			};
+		values.push(obj);
+		return values;
+	},
+		
+	previewHandler: function() {
+		var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox', {
+			xtype: 'answerPreview'
+		});		
+		answerPreview.showPreview(this.getValue());
+	},
+
 	markEmptyFields: function() {
 		if (this.answer.getValue().trim() === "") {
 			this.answer.addCls("required");

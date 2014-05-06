@@ -188,6 +188,12 @@ switch (lang) {
 			CONFIRM_CLOSE_QUESTION_MESSAGE: "If you close this question, students will not be able to view or answer this question.",
 			CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE: "If you close all questions, students will not be able to view or answer any question.",
 			CONFIRM_ANSWERS_CHANGED: "This will reset all current answers.",
+			QUESTION_PREVIEW: "Preview",
+			QUESTION_PREVIEW_DIALOGBOX_TITLE: "Question preview",
+			QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE: "OK",
+			ANSWER_PREVIEW_BUTTON_TITLE: "Preview",
+			ANSWER_PREVIEW_DIALOGBOX_TITLE: "Preview answer",
+			ANSWER_PREVIEW_DIALOGBOX_BUTTON_TITLE: "OK",
 			
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
@@ -521,6 +527,13 @@ switch (lang) {
 			CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE: "Wenn Sie die Fragen sperren, können Zuhörer/innen die Fragen weder sehen noch beantworten.",
 			SAVE_AND_CONTINUE: 'Speichern und weiter',
 			CONFIRM_ANSWERS_CHANGED: "Bereits gegebene Antworten gehen verloren.",
+			
+			QUESTION_PREVIEW_BUTTON_TITLE: "Vorschau",
+			QUESTION_PREVIEW_DIALOGBOX_TITLE: "Vorschau Frage",
+			QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE: "OK",
+			ANSWER_PREVIEW_BUTTON_TITLE: "Vorschau",
+			ANSWER_PREVIEW_DIALOGBOX_TITLE: "Vorschau Antwort",
+			ANSWER_PREVIEW_DIALOGBOX_BUTTON_TITLE: "OK",
 			
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",

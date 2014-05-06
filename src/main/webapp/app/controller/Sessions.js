@@ -153,7 +153,6 @@ Ext.define("ARSnova.controller.Sessions", {
 			}
 			tabPanel.animateActiveItem(tabPanel.speakerTabPanel, {
 				type: 'slide',
-				direction: 'left',
 				duration: 700
 			});
 			tabPanel.speakerTabPanel.inClassPanel.registerListeners();
@@ -209,7 +208,6 @@ Ext.define("ARSnova.controller.Sessions", {
 			
 			tabPanel.animateActiveItem(tabPanel.userTabPanel, {
 				type: 'slide',
-				direction: 'left',
 				duration: 700
 			});
 		}
