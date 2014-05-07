@@ -202,10 +202,10 @@ Ext.define('ARSnova.view.Question', {
 			}
 		};
 
-		//Setup question title and text to disply in the same field
-		var questionString = Ext.util.Format.htmlEncode(this.questionObj.subject)
+		//Setup question title and text to disply in the same field; markdown handles HTML encoding
+		var questionString = this.questionObj.subject
                        + '\n\n' // inserts one blank line between subject and text
-                       + Ext.util.Format.htmlEncode(this.questionObj.text);
+                       + this.questionObj.text;
 
 		//Create standard panel with framework support
 		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
