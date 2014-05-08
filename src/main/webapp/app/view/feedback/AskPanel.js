@@ -164,23 +164,31 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 					width: 300,
 					styleHtmlContent: true,
 					styleHtmlCls: 'notificationBoxText',
-					html: Messages.QUESTION_SAVED,
-					listeners: {
-						hide: function() {
-							this.destroy();
-						},
-						show: function() {
-							Ext.defer(function(){
-								theNotificationBox.hide();
-								me.closePanel();
-								me.subject.setValue('');
-								me.text.setValue('');
-							}, 3000);
-						}
-					}
+					html: Messages.QUESTION_SAVED
+//					listeners: {
+//						hide: function() {
+//							this.destroy();
+//						},
+//						show: function() {
+//							Ext.defer(function(){
+//								theNotificationBox.hide();
+//								me.closePanel();
+//								me.subject.setValue('');
+//								me.text.setValue('');
+//							}, 3000);
+//						}
+//					}
 				});
 				Ext.Viewport.add(theNotificationBox);
 				theNotificationBox.show();
+
+				/* Workaround for Chrome 34+ */
+				Ext.defer(function() {
+					theNotificationBox.destroy();
+					me.closePanel();
+					me.subject.setValue('');
+					me.text.setValue('');
+				}, 3000);
 			},
 			failure: function(records, operation) {
 				Ext.Msg.alert(Messages.NOTIFICATION, Messages.TRANSMISSION_ERROR);
