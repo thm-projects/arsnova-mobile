@@ -81,8 +81,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		this.previewButton = Ext.create('Ext.Button', {
 			text	: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui		: 'confirm',
-			//cls		: 'previewButton',
-			style   : 'width:200px;',
+			cls		: 'previewButton',
 			scope   : this,
 			handler : function() {
 					this.previewHandler();
@@ -91,7 +90,8 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		
 		//Preview panel with integrated button
 		this.previewPart = Ext.create('Ext.form.FormPanel', {
-			cls: 'newQuestionPreview',
+			cls: 'newQuestion',
+			style: 'margin-left: 0',
 			scrollable: null,
 			items: [{
 				xtype: 'fieldset',
