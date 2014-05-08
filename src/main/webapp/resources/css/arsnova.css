@@ -421,6 +421,9 @@ html,body {
 
 .x-button {
 	overflow: visible !important;
+	-webkit-background-clip: initial;
+	-moz-background-clip: initial;
+	background-clip: initial;
 }
 
 .buttonText {
