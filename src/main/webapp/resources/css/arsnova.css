@@ -171,7 +171,6 @@
 }
 
 .x-toolbar-light .x-button, .x-toolbar .x-toolbar-light .x-button, .x-toolbar-light .x-field-select .x-input-text, .x-toolbar .x-toolbar-light .x-field-select .x-input-text, .x-toolbar-light .x-field-select:before, .x-toolbar .x-toolbar-light .x-field-select:before {
-	border: 0.1em solid #030507;
 	border-top-color: #0c1118;
 	color: white;
 	text-shadow: rgba(0, 0, 0, 0.5) 0 -0.08em 0;
@@ -222,6 +221,21 @@
 	line-height: 1.2em;
 	display: block;
 	overflow: hidden;
+}
+
+.x-label-align-right {
+	-webkit-box-direction: reverse!important;
+	-ms-flex-direction: row-reverse!important;
+	-moz-box-direction: reverse!important;
+	box-direction: reverse!important;
+	flex-direction: row-reverse!important;
+}
+
+.x-label-align-left{
+	-webkit-box-orient: horizontal!important;
+	-ms-flex-direction: row!important;
+	-moz-box-orient: horizontal!important;
+	flex-direction: row!important; 
 }
 /* end */
 
