@@ -419,6 +419,10 @@ html,body {
 	padding-right: 3px;
 }
 
+.x-button {
+	overflow: visible !important;
+}
+
 .buttonText {
 	overflow: hidden;
 	width: 100px !important;
