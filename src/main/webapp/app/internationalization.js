@@ -188,7 +188,7 @@ switch (lang) {
 			CONFIRM_CLOSE_QUESTION_MESSAGE: "If you close this question, students will not be able to view or answer this question.",
 			CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE: "If you close all questions, students will not be able to view or answer any question.",
 			CONFIRM_ANSWERS_CHANGED: "This will reset all current answers.",
-			QUESTION_PREVIEW: "Preview",
+			QUESTION_PREVIEW_BUTTON_TITLE: "Preview",
 			QUESTION_PREVIEW_DIALOGBOX_TITLE: "Question preview",
 			QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE: "OK",
 			ANSWER_PREVIEW_BUTTON_TITLE: "Preview",
