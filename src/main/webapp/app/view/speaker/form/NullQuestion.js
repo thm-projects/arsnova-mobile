@@ -18,13 +18,15 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.speaker.form.NullQuestion', {
 	extend: 'Ext.Component',
-	
-	getValues: function() {
-		return [];
+
+	getQuestionValues: function() {
+		var result = {};
+    result.possibleAnswers = [];
+    return result;
 	},
-	
+
 	initWithQuestion: function(question) {
 	},
-	
+
 	markEmptyFields: Ext.emptyFn
 });
