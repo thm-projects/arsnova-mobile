@@ -75,15 +75,14 @@ Ext.application({
     WEBSERVICE_URL	: "app/webservices/",
     PRESENTER_URL	: "/presenter/",
     
-	LOGIN_GUEST		: "0",
-	LOGIN_THM		: "1",
-	LOGIN_OPENID	: "2",
-	LOGIN_TWITTER	: "3",
-	LOGIN_FACEBOOK	: "4",
-	LOGIN_GOOGLE	: "5",
-	
-	// Customized LDAP login
-	LOGIN_CUSTOM	: "100",
+	LOGIN_GUEST		: "guest",
+	LOGIN_ARSNOVA	: "arsnova",
+	LOGIN_LDAP		: "ldap",
+	LOGIN_CAS		: "cas",
+	LOGIN_OPENID	: "notimplemented",
+	LOGIN_TWITTER	: "twitter",
+	LOGIN_FACEBOOK	: "facebook",
+	LOGIN_GOOGLE	: "google",
 	
 	USER_ROLE_STUDENT: "0",
 	USER_ROLE_SPEAKER: "1",
@@ -127,6 +126,7 @@ Ext.application({
     /* other*/
     cardSwitchDuration: 500,
     socket: null,
+    globalConfig: null,
     
     /* tasks */
 	/**
@@ -173,7 +173,9 @@ Ext.application({
     /**
      * This is called automatically when the page loads. Here we set up the main component on the page
      */
+    
     launch: function(){
+		console.info("ARSnova.app.launch");
         // Destroy the #appLoadingIndicator element
         Ext.fly('appLoadingIndicator').destroy();
         
@@ -185,6 +187,7 @@ Ext.application({
 		this.initRestProxy();
 		this.initSocket();
 		this.initModels();
+		this.initConfig();
  
 		this.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
 		
@@ -212,7 +215,28 @@ Ext.application({
 	initSocket: function() {
 		this.socket = Ext.create('ARSnova.WebSocket');
 	},
-	
+
+	initConfig: function() {
+		this.globalConfig = new RSVP.Promise();
+		var me = this;
+		this.restProxy.getGlobalConfiguration({
+			success: function(config) {
+				me.globalConfig.resolve(config);
+			},
+			failure: function() {
+				me.globalConfig.reject();
+			}
+		});
+	},
+
+	getConfig: function() {
+		if (!this.globalConfig) {
+			this.initConfig();
+		}
+
+		return this.globalConfig;
+	},
+
 	/**
 	 * after user has logged in
 	 * start some tasks and show the correct homepage to user

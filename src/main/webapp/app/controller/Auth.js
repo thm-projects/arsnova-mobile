@@ -28,7 +28,21 @@ Ext.define("ARSnova.controller.Auth", {
 			'auth/checkLogin': 'checkLogin'
 		}
 	},
-	
+
+	services: new RSVP.Promise(),
+
+	launch: function() {
+		var me = this;
+		ARSnova.app.restProxy.getAuthServices({
+			success: function(services) {
+				me.services.resolve(services);
+			},
+			failure: function() {
+				me.services.reject();
+			}
+		});
+	},
+
 	qr: function(sessionkey, role) {
 		ARSnova.app.loggedIn = true;
 		if (localStorage.getItem('login') === null) {
@@ -77,11 +91,11 @@ Ext.define("ARSnova.controller.Auth", {
 	},
 
 	login: function(options) {
-		ARSnova.app.loginMode = options.mode;
-		localStorage.setItem('loginMode', options.mode);
-		var location = "", type = "", role = "STUDENT";
+		ARSnova.app.loginMode = options.service.id;
+		localStorage.setItem('loginMode', options.service.id);
+		var location = "", type = "";
 		
-		switch(options.mode){
+		switch(options.service.id){
 			case ARSnova.app.LOGIN_GUEST:
 				if (localStorage.getItem('login') === null) {
 					localStorage.setItem('login', ARSnova.app.authModel.generateGuestName());
@@ -89,37 +103,17 @@ Ext.define("ARSnova.controller.Auth", {
 				} else {
 					type = "guest&user=" + localStorage.getItem('login');
 				}
+				location = "auth/login?type=" + type;
 				break;
-			case ARSnova.app.LOGIN_THM:
-				type = "cas";
-				break;
-			case ARSnova.app.LOGIN_TWITTER:
-				type = "twitter";
-				break;
-			case ARSnova.app.LOGIN_FACEBOOK:
-				type = "facebook";
-				break;
-			case ARSnova.app.LOGIN_GOOGLE:
-				type = "google";
-				break;
-			case ARSnova.app.LOGIN_OPENID:
-				Ext.Msg.alert("Hinweis", "OpenID ist noch nicht freigeschaltet.");
-				return;
-				break;
-			case ARSnova.app.LOGIN_CUSTOM:
-				return window.location = "login.html";
+			case ARSnova.app.LOGIN_ARSNOVA:
+			case ARSnova.app.LOGIN_LDAP:
+				location = options.service.dialogUrl + "?" + encodeURIComponent(window.location.pathname);
 				break;
 			default:
-				Ext.Msg.alert("Hinweis", options.mode + " wurde nicht gefunden.");
-				return;
+				location = options.service.dialogUrl;
 				break;
 		}
-		if (type != "") {
-			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
-				role = "SPEAKER";
-			}
-			
-			location = "auth/login?type=" + type + "&role=" + role;
+		if (location) {
 			return this.handleLocationChange(location);
 		}
 
@@ -165,7 +159,7 @@ Ext.define("ARSnova.controller.Auth", {
 		 * a: to CAS if user is authorized 
 		 * b: to rolePanel if user was guest
 		 * */
-    	if (ARSnova.app.loginMode == ARSnova.app.LOGIN_THM) {
+    	if (ARSnova.app.loginMode == ARSnova.app.LOGIN_CAS) {
     		/* update will be done when returning from CAS */
     		localStorage.removeItem('login');
     		var location = "https://cas.thm.de/cas/logout?url=http://" + window.location.hostname + window.location.pathname + "#auth/doLogout";

@@ -28,20 +28,23 @@ Ext.define('ARSnova.view.MatrixButton', {
 		image: '',
 		cls: 'noBackground noBorder matrixButton',
 		html: [
-		          '<span class="iconBtn"></span><span class="gravure buttonText" style="display:block"></span>'
-		         ],
-	     listeners: {
-	    	    initialize: function (element, options) {
-	    	    	var parent = Ext.get(element.id);
-	    	    	var buttonText = parent.select(".buttonText").elements;
-	    	    	buttonText[0].innerHTML = Ext.getCmp(element.id).get("text");
-	    	      
-		    	    Ext.create('Ext.Img', {
-	    	    		src: "resources/images/" + Ext.getCmp(element.id).get("image") + ".png",
-	    	    	    renderTo: parent.select(".iconBtn").elements[0],
-	    	    	    cls: "iconBtnImg"
-	    	    	});    
-	    	    }
-	     }
+			'<span class="iconBtn"></span><span class="gravure buttonText" style="display:block"></span>'
+		],
+		listeners: {
+			initialize: function (element, options) {
+				var parent = Ext.get(element.id);
+				var buttonText = parent.select(".buttonText").elements;
+				var imageSrc = Ext.getCmp(element.id).get("image");
+				if (imageSrc.indexOf("/") !== 0) {
+					imageSrc = "resources/images/" + imageSrc;
+				}
+				buttonText[0].innerHTML = Ext.getCmp(element.id).get("text");
+				Ext.create('Ext.Img', {
+					src: imageSrc + ".png",
+					renderTo: parent.select(".iconBtn").elements[0],
+					cls: "iconBtnImg"
+				});
+			}
+		}
 	}
 });

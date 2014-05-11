@@ -747,5 +747,27 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			},
 			failure: callbacks.failure
 		});
+	},
+	
+	getAuthServices: function(callbacks){
+		this.arsjax.request({
+			url: "auth/services",
+			method: "GET",
+			success: function(response) {
+				var json = response.responseText || "[]";
+				callbacks.success(Ext.decode(json));
+			}
+		});
+	},
+	
+	getGlobalConfiguration: function(callbacks){
+		this.arsjax.request({
+			url: "configuration/",
+			method: "GET",
+			success: function(response) {
+				var json = response.responseText || "[]";
+				callbacks.success(Ext.decode(json));
+			}
+		});
 	}
 });

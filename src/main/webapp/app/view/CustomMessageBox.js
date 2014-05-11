@@ -22,11 +22,20 @@ Ext.define('ARSnova.view.CustomMessageBox', {
 
 	config: {
 		showAnimation: {
-			type: 'flip', 
+			type: 'fade', 
 			duration: 200
 		}
 	},
-	
+
+	/* Workaround for Google Chrome 34 (MessageBox sometimes cannot be closed).
+	 * TODO: Remove as soon as fixed by Sencha or in Chrome */
+	hide: function() {
+		if (this.activeAnimation && this.activeAnimation._onEnd) {
+			this.activeAnimation._onEnd();
+		}
+		return this.callParent(arguments);
+	},
+
 	confirm: function(title, message, fn, scope) {
 		this.callParent(arguments);
 
