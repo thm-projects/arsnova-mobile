@@ -107,7 +107,7 @@ Ext.define("ARSnova.controller.Auth", {
 				break;
 			case ARSnova.app.LOGIN_ARSNOVA:
 			case ARSnova.app.LOGIN_LDAP:
-				location = options.service.dialogUrl + "?" + encodeURIComponent(window.location.pathname);
+				location = options.service.dialogUrl + "?redirect=" + encodeURIComponent(window.location.pathname);
 				break;
 			default:
 				location = options.service.dialogUrl;
