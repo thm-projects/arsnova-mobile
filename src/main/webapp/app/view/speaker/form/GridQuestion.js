@@ -356,9 +356,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	 */
 	updateCanvas : function(dataUrl, reload) {
 		// update canvas
-		this.grid.setImage(dataUrl, reload, function validImage() {
+		this.grid.setImage(dataUrl, reload, Ext.bind(function validImage() {
       this.showImageView();
-    }, function invalidImage() {
+    }, this), function invalidImage() {
       Ext.Msg.alert(Messages.NOTIFICATION, Messages.GRID_ERROR_IMAGE_NOT_LOADED);
     });
 	},
