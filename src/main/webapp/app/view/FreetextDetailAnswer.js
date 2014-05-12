@@ -20,7 +20,7 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.FreetextDetailAnswer', {
 	extend: 'Ext.Panel',
-	
+
 	config: {
 		title : 'FreetextDetailAnswer',
 		fullscreen: true,
@@ -29,15 +29,15 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			directionLock: true
 		}
 	},
-	
+
 	constructor: function(args) {
 		this.callParent(args);
-		
+
 		this.answer = args.answer;
 		this.sTP = args.sTP;
 
 		var self = this;
-		
+
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.FREETEXT_DETAIL_HEADER,
 			items: [
@@ -53,7 +53,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 								direction	: 'right',
 								duration	: 700,
 								scope		: this,
-					    		listeners: { animationend: function() { 
+					    		listeners: { animationend: function() {
 									self.answer.deselectItem();
 									self.hide();
 					    		}, scope: this }
@@ -64,10 +64,19 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			]
 		});
 
+    //Setup question title and text to disply in the same field; markdown handles HTML encoding
+    var questionString = this.answer.answerSubject
+                       + '\n\n' // inserts one blank line between subject and text
+                       + this.answer.answerText;
+
+    //Create standard panel with framework support
+    var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+    questionPanel.setContent(questionString, true, true);
+
 		this.add([this.toolbar, {
 			xtype: 'formpanel',
 			scrollable: null,
-			
+
 			items: [{
 				xtype: 'fieldset',
 				items: [
@@ -77,19 +86,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 						value: this.answer.formattedTime + " Uhr am " + this.answer.groupDate,
 						disabled: true
 					},
-					{
-						xtype: 'textfield',
-						label: Messages.QUESTION_SUBJECT,
-						value: this.answer.answerSubject,
-						disabled: true
-					},
-					{
-						xtype: 'textareafield',
-						label: Messages.FREETEXT_DETAIL_ANSWER,
-						value: this.answer.answerText,
-						disabled: true,
-						maxRows: 8
-					}
+          questionPanel
 				]
 			}]
 		}, {
@@ -112,14 +109,14 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 										console.log('server-side error: deletion of freetext answer failed');
 									}
 								});
-								
+
 								sheet.destroy();
 								self.sTP.animateActiveItem(self.sTP.questionDetailsPanel, {
 									type		: 'slide',
 									direction	: 'right',
 									duration	: 700,
-						    		listeners: { 
-						    			animationend: function() { 
+						    		listeners: {
+						    			animationend: function() {
 											self.answer.removeItem();
 											me.destroy();
 						    		}, scope: this }
@@ -138,7 +135,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 				sheet.show();
 			}
 		}]);
-	
+
 		this.on('painted', function() {
 			var textarea = this.element.down('textarea');
 			textarea.setHeight(textarea.dom.scrollHeight);
