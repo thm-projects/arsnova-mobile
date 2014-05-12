@@ -481,21 +481,29 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 *
 	 * @param 		dataUrl		The url specifiyng the source of the image file.
 	 * @param bool	reload		<code>true</code> if the image should be reloaded, <code>false</code> otherwise.
+   * @param fn successCallback Called when it's a valid image that has been loaded
+   * @param fn failureCallback Called when it's not a valid image
 	 */
-	setImage : function(dataUrl, reload, callback) {
+	setImage : function(dataUrl, reload, successCallback, failureCallback) {
 		var newimage = new Image();
 		var container = this;
 
 		newimage.src = dataUrl;
 
 		newimage.onload = function() {
-			if (reload)
+      var cb = successCallback || Ext.emptyFn;
+			if (reload) {
 				container.clearImage();
+      }
 			container.setImageFile(newimage);
 			container.redraw();
 
-			if(callback != undefined && typeof callback == 'function') callback();
+			cb();
 		};
+    newimage.onerror = function() {
+      var cb = failureCallback || Ext.emptyFn;
+      cb();
+    }
 	},
 
 	/**
@@ -511,7 +519,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var ctx = canvas.getContext('2d');
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		this.createGrid();
-
 	},
 
 	/**

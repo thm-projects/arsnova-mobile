@@ -19,10 +19,10 @@
 
 Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	extend : 'Ext.Container',
-	
+
 	// identifier
 	xtype: 'grid',
-	
+
 	requires: [
 	           'Ext.ux.Fileup'	// file upload framework
 	           ],
@@ -56,14 +56,14 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			docked 	: 'top',
 			id 	: 'gridContainer'
 		});
-		
+
 		this.infoPanel = Ext.create('Ext.Panel',{
 			cls: 'infoPanel',
 			html: Messages.SETTINGS_HINT_TEXT,
 			hideOnMaskTap: true,
-			modal: true		
+			modal: true
 		});
-		
+
 		 this.infoButton = Ext.create('Ext.Button',{
 			iconCls : 'info',
 			iconMask : true,
@@ -74,36 +74,36 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			iconCls : 'arrow_left',
 			iconMask : true
 		});
-		
+
 		this.btnMoveRight = Ext.create('Ext.Button', {
 			iconCls : 'arrow_right',
 			iconMask : true
 		});
-		
+
 		this.btnMoveUp = Ext.create('Ext.Button', {
 			iconCls : 'arrow_up',
 			iconMask : true
 		});
-		
+
 		this.btnMoveDown = Ext.create('Ext.Button', {
 			iconCls : 'arrow_down',
 			iconMask : true
 		});
-		
+
 		this.deleteButton = Ext.create('Ext.Button',{
 			iconCls : 'delete',
 			iconMask : true,
 			handler : function(){ me.resetView(); }
 		});
-		
+
 		this.imageArea = Ext.create('Ext.Panel', {
 			id : 'imageArea',
 			layout :{
 				type: 'vbox',
                 align: 'center',
                 pack: 'center'
-			}, 
-			items : [ 
+			},
+			items : [
 				this.grid,
 				{
 					xtype: 'panel',
@@ -124,7 +124,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			],
 			hidden : true
 		});
-		
+
 		// initialize tap repeater for move buttons
 		// TapRepeater for left button
 		Ext.create('Ext.util.TapRepeater', {
@@ -139,21 +139,21 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		}).on('tap', function() {
 			me.grid.moveRight();
 		}, me);
-		
+
 		// TapRepeater for up button
 		Ext.create('Ext.util.TapRepeater', {
 			el: this.btnMoveUp.bodyElement
 		}).on('tap', function() {
 			me.grid.moveUp();
 		}, me);
-		
+
 		// TapRepeater for down button
 		Ext.create('Ext.util.TapRepeater', {
 			el: this.btnMoveDown.bodyElement
 		}).on('tap', function() {
 			me.grid.moveDown();
 		}, me);
-		
+
 		// button: load from filesystem
 		this.buttonUploadFromFS = Ext.create('Ext.ux.Fileup', {
 		    itemId			: 'buttonUploadFromFS',
@@ -167,7 +167,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		        ready: {
 		            text: Messages.LOAD
 		        },
-		
+
 		        uploading: {
 		            text: Messages.LOADING,
 		            loading: true
@@ -182,9 +182,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					console.log("Error while loading image: " + message);
 			    }
 		    }
-		    
+
 		});
-		
+
 		/**
 		 * The view containing the url textfield and the
 		 * functionality to load an image into the canvas
@@ -249,11 +249,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					label : Messages.COUNT,
 					name : Messages.COUNT,
 					placeHolder : '0',
-					readOnly : true 
+					readOnly : true
 				}]
 			} ]
 		});
-		
+
 		this.zoomSpinner = Ext.create('Ext.field.Spinner', {
 			xtype : 'spinnerfield',
 			label : Messages.GRID_LABEL_ZOOM,
@@ -263,17 +263,17 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						this.setValue(Math.round(me.grid.getScale()*100));
 				},
 				spindown : function() {
-				     if(this.getValue() > 1) {						
+				     if(this.getValue() > 1) {
 						me.grid.zoomOut();
 						this.setValue(Math.round(me.grid.getScale()*100));
-				     }				
+				     }
 				}
 
 			},
 			minValue: 1,
 			value : this.grid.getScale() * 100,	// set value as default
 		});
-		
+
 		this.gridSpinner = Ext.create('Ext.field.Spinner', {
 			xtype : 'spinnerfield',
 			label : Messages.GRID_LABEL_SQUARES,
@@ -287,9 +287,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			value :  this.grid.getGridSize(),
 			stepValue : 1,
 			cycle : true,
-		
+
 		});
-		
+
 		this.gridColorsToggle = Ext.create('Ext.field.Toggle', {
 			label:		Messages.GRID_LABEL_INVERT_GRIDCOLORS,
 			value:  	false
@@ -316,24 +316,24 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			hidden : true,
 			items : [ this.imageSettings ]
 		});
-	
-		
+
+
 		var toggleColorListener =  {
 		        beforechange: function (slider, thumb, newValue, oldValue) {
 		        	me.grid.toggleBorderColor();
 		        },
 		        change: function (slider, thumb, newValue, oldValue) {
-		        	me.grid.toggleBorderColor(); 
+		        	me.grid.toggleBorderColor();
 		        }
 		};
 		this.gridColorsToggle.setListeners(toggleColorListener);
-		
+
 
 		// update answers counter
 		this.grid.setOnFieldClick(function(answerValue) {
 			me.answers.getComponent('fs_answers').getComponent('tf_answers').setValue(answerValue);
 		});
-		
+
 		this.buttonUploadFromFS.on({
 			loadsuccess: 'onFileLoadSuccess',
 		    loadfailure: 'onFileLoadFailure'
@@ -342,39 +342,40 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.add([{
 			xtype : 'fieldset',
 			title : ' ',
-			items : [ 
-			          this.imageArea, 
+			items : [
+			          this.imageArea,
 			          this.uploadView,
-			          this.imageCnt 
+			          this.imageCnt
 			        ]
 		}]);
 
 	},
-	
+
 	/**
 	 * Interface to the grid element to set a new image.
 	 */
 	updateCanvas : function(dataUrl, reload) {
 		// update canvas
-		this.grid.setImage(dataUrl, reload);	
-		
-		// show picture
-		this.showImageView();
+		this.grid.setImage(dataUrl, reload, function validImage() {
+      this.showImageView();
+    }, function invalidImage() {
+      Ext.Msg.alert(Messages.NOTIFICATION, Messages.GRID_ERROR_IMAGE_NOT_LOADED);
+    });
 	},
-	
+
 	/**
 	 * Gets the value of the url textfield and forwards it to the
 	 * update canvas method.
 	 */
 	updateCanvasWithUrl : function() {
 		var url = this.up('grid').uploadView.getComponent('pnl_upfield').getComponent('tf_url').getValue();
-		
+
 		if (url) {
 			this.up('grid').updateCanvas(url, true);
 		} else {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.GRID_ERROR_URL_MISSING);
 		}
-		
+
 	},
 
 	/**
@@ -383,8 +384,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	onInfoButton : function(){
 		this.infoPanel.showBy(this.infoButton);
 	},
-	
-	
+
+
 	/**
 	 * Shows the image view and hides the upload view.
 	 */
@@ -393,7 +394,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.imageCnt.show();
 		this.uploadView.hide();
 	},
-	
+
 	/**
 	 * Shows the upload view and hides the image view.
 	 */
@@ -411,21 +412,21 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.grid.clearImage();
 		this.clearTextfields();
 	},
-	
+
 	clearTextfields : function() {
 		var answerField = this.answers.getComponent('fs_answers').getComponent('tf_answers');
 		var urlField 	= this.uploadView.getComponent('pnl_upfield').getComponent('tf_url');
-		
+
 		this.zoomSpinner.setValue(this.grid.getScale() * 100);
 		this.gridSpinner.setValue(this.grid.getGridSize());
 		answerField.setValue(0);
 		urlField.setValue("");
-		
+
 	},
-	
+
 	/**
 	 * Gets all relevant informations which have to be send to the backend.
-	 * 
+	 *
 	 * Hint: If the canvas contains an image gotten from url we cannot access the
 	 * Base64 of the image in the client due to CORS denial. The image will be
 	 * transfered as a URL an will be converted directly on the server.
@@ -435,7 +436,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 		// get image data
 		if (this.grid.getImageFile()) {
-			result.image 	 	   = this.grid.getImageFile().src;	
+			result.image 	 	   = this.grid.getImageFile().src;
 		}
 		result.gridSize 	   = this.grid.getGridSize();
 		result.offsetX  	   = this.grid.getOffsetX();
@@ -446,21 +447,21 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 		return result;
 	},
-	
+
 	/**
 	 * Initializes the GridQuestion with the values from the given question.
-	 * 
+	 *
 	 * @param question		The questionObj providing all necessary information.
 	 */
 	initWithQuestion : function(question) {
 		var answerField = this.answers.getComponent('fs_answers').getComponent('tf_answers');
-		
+
 		// set image data (base64 --> grid)
 		this.updateCanvas(question.image, false);
-		
-		this.grid.update(question.gridSize, question.offsetX, 
+
+		this.grid.update(question.gridSize, question.offsetX,
 				question.offsetY, question.zoomLvl, question.possibleAnswers, true);
-		
+
 		answerField.setValue(this.grid.getChosenFields().length);		//set the spinner with correct values (last storage)
 		this.zoomSpinner.setValue(Math.round(this.grid.getScale()*100));
 		this.gridSpinner.setValue(this.grid.getGridSize());
