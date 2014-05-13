@@ -42,6 +42,13 @@ Ext.define('ARSnova.view.Question', {
 
 		var answerStore = Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
 		answerStore.add(this.questionObj.possibleAnswers);
+    answerStore.each(function(item) {
+      var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+      md.setContent(item.get('text'), true, true, function(html) {
+        item.set('text', html.getHtml());
+        md.destroy();
+      });
+    });
 
 		this.on('preparestatisticsbutton', function(button) {
 			button.scope = this;
@@ -218,8 +225,9 @@ Ext.define('ARSnova.view.Question', {
 			variableHeights: true,
 			scrollable: { disabled: true },
 
+      itemCls: 'x-html',
 			itemTpl: new Ext.XTemplate(
-				'{text:htmlEncode}',
+				'{text}',
 				'<tpl if="correct === true && this.isQuestionAnswered(values)">',
 					'&nbsp;<span style="padding: 0 0.2em 0 0.2em" class="x-list-item-correct">&#10003; </span>',
 				'</tpl>',
