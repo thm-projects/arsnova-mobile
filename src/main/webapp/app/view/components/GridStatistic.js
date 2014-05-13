@@ -76,7 +76,6 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 
 		this.releaseItems = [{
 			text: showShortLabels ? Messages.GRID_LABEL_RELATIVE_SHORT : Messages.GRID_LABEL_RELATIVE,
-			pressed: true,
 			scope: this,
 			handler: function() {
 				this.updateGrid();
@@ -90,6 +89,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		}, {
 			text: showShortLabels ? Messages.GRID_LABEL_NONE_SHORT : Messages.GRID_LABEL_NONE,
 			scope: this,
+      pressed: true,
 			handler: function() {
 				this.updateGrid();
 			}

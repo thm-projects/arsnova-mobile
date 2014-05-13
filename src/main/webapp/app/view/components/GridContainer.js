@@ -41,7 +41,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		moveInterval 			 : 10,			// Steps to take when moving the image (in pixel).
 		onFieldClick 			 : null,		// Hook for function, that will be called after onClick event.
 		editable				 : true,		// If set to false click events are prevented.
-    maxActiveFields : 1 // Maximum number of fields that can be enabled at the same time.
+    possibleAnswers  : [] // The pre-set, correct answers of the lecturer
 	},
 
 	/**
@@ -316,7 +316,12 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			}
 		}
 
-    var fieldsLeft = container.getMaxActiveFields() > container.getChosenFields().length;
+    var numChosenFields = container.getChosenFields().length;
+    var numCorrectFields = container.getPossibleAnswers().filter(function isCorrect(e) {
+      return e.correct;
+    }).length;
+    // either allow the maximum of correct fields, or allow all fields to be clicked if no correct answers are present
+    var fieldsLeft = (numChosenFields < numCorrectFields) || (numCorrectFields === 0);
 		var changed = false;
 		if (index > -1) {
 			container.getChosenFields().splice(index, 1);
