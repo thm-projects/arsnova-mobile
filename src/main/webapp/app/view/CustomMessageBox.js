@@ -27,6 +27,16 @@ Ext.define('ARSnova.view.CustomMessageBox', {
 		}
 	},
 	
+	/**
+	 * bugfix for not ending animation of Ext.MessageBox
+	 */
+    hide:  function() {
+        if (this.activeAnimation && this.activeAnimation._onEnd) {
+            this.activeAnimation._onEnd();
+        }
+        return this.callParent(arguments);
+    },
+	
 	confirm: function(title, message, fn, scope) {
 		this.callParent(arguments);
 
