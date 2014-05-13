@@ -93,7 +93,7 @@ Ext.define("ARSnova.controller.Auth", {
 	login: function(options) {
 		ARSnova.app.loginMode = options.service.id;
 		localStorage.setItem('loginMode', options.service.id);
-		var location = "", type = "";
+		var location = "", type = "", me = this;
 		
 		switch(options.service.id){
 			case ARSnova.app.LOGIN_GUEST:
@@ -104,7 +104,13 @@ Ext.define("ARSnova.controller.Auth", {
 					type = "guest&user=" + localStorage.getItem('login');
 				}
 				location = "auth/login?type=" + type;
-				break;
+				ARSnova.app.restProxy.absoluteRequest({
+					url: location,
+					success: function() {
+						me.checkLogin();
+					}
+				});
+				return;
 			case ARSnova.app.LOGIN_ARSNOVA:
 			case ARSnova.app.LOGIN_LDAP:
 				location = options.service.dialogUrl + "?redirect=" + encodeURIComponent(window.location.pathname);
