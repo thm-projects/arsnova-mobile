@@ -95,32 +95,24 @@ Ext.define("ARSnova.controller.Auth", {
 		localStorage.setItem('loginMode', options.service.id);
 		var location = "", type = "", me = this;
 		
-		switch(options.service.id){
-			case ARSnova.app.LOGIN_GUEST:
-				if (localStorage.getItem('login') === null) {
-					localStorage.setItem('login', ARSnova.app.authModel.generateGuestName());
-					type = "guest";
-				} else {
-					type = "guest&user=" + localStorage.getItem('login');
+		if (ARSnova.app.LOGIN_GUEST === options.service.id){
+			if (localStorage.getItem('login') === null) {
+				localStorage.setItem('login', ARSnova.app.authModel.generateGuestName());
+				type = "guest";
+			} else {
+				type = "guest&user=" + localStorage.getItem('login');
+			}
+			location = "auth/login?type=" + type;
+			ARSnova.app.restProxy.absoluteRequest({
+				url: location,
+				success: function() {
+					me.checkLogin();
 				}
-				location = "auth/login?type=" + type;
-				ARSnova.app.restProxy.absoluteRequest({
-					url: location,
-					success: function() {
-						me.checkLogin();
-					}
-				});
-				return;
-			case ARSnova.app.LOGIN_ARSNOVA:
-			case ARSnova.app.LOGIN_LDAP:
-				location = Ext.util.Format.format(options.service.dialogUrl, encodeURIComponent(window.location.pathname));
-				break;
-			default:
-				location = options.service.dialogUrl;
-				break;
-		}
-		if (location) {
-			return this.handleLocationChange(location);
+			});
+			return;
+		} else {
+			location = Ext.util.Format.format(options.service.dialogUrl, encodeURIComponent(window.location.pathname));
+			this.handleLocationChange(location);
 		}
 
 		/* actions to perform after login */
