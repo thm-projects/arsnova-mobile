@@ -25,17 +25,17 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 
 	xtype: 'answerPreview',
 	ui: 'normal',
-	
+
 	showPreview: function(answers) {
 
-		// answer preview message box 
+		// answer preview message box
 		var previewBox = Ext.create('Ext.MessageBox',
         {
 			title : Messages.ANSWER_PREVIEW_DIALOGBOX_TITLE,
 			style : 'border-color: black; maxHeight: 600px; maxWidth: 1000px; width: 80%; height: 80%',
 			scope : this
-        });	
-				
+        });
+
 		// carousel for displaying the mathJaxMarkDownPanels
 		var carousel = Ext.create('Ext.Carousel', {
 			//cls		 : 'previewCarousel',
@@ -45,14 +45,14 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			defaults : {
 				styleHtmlContent : true
 			},
-			listeners: {   
+			listeners: {
 				activeitemchange : function() {
 					var actualIndex = carousel.getActiveIndex() + 1;
 					previewBox.setTitle(Messages.ANSWER_PREVIEW_DIALOGBOX_TITLE + " (" + actualIndex + "/" + answers.length + ")");
                 }
             }
-		});		
-					
+		});
+
 		// loop through given answers, wrap them into a temporary panel and add them to the carousel
 		for (var i = 0; i <= answers.length - 1; i++) {
 			var item = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
@@ -61,9 +61,9 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 				style	: 'margin-left: 0px; margin-right: 0px;word-wrap: break-word;'
 			});
 			item.setContent(answers[i].text, true, true);
-			carousel.add(item);	
-		}		
-			
+			carousel.add(item);
+		}
+
 		// question preview confirm button
 		var confirmButton = Ext.create('Ext.Button', {
 			text	: Messages.QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE,
@@ -75,14 +75,14 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			handler	: function() {
 					previewBox.destroy();
 			}
-		});		
-		  
+		});
+
 		// answer preview box content panel
 		var mainPanel = Ext.create('Ext.Container', {
 			id      	: 'mainPanel',
 			xtype		: 'container',
 			style		: 'position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: #c5ccd3;',
-			fullscreen	: false,	
+			fullscreen	: false,
             layout		: 'vbox',
 			items   	: [carousel,
 			        	   {id		: 'buttonLayout',
@@ -93,10 +93,10 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 				      		},
 				      		items	: [confirmButton]}]
 		});
-		mainPanel.setStyleHtmlContent(true);		
-		
+		mainPanel.setStyleHtmlContent(true);
+
 		// add main panel to preview box and show action
-		previewBox.add(mainPanel);		
+		previewBox.add(mainPanel);
 		previewBox.show();
 	}
 });
