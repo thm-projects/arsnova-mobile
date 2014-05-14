@@ -1556,3 +1556,8 @@ ol.standardList li {
 .arsnova-mathdown {
 	padding: 0;
 }
+
+/* We dont want gray list items when inside a form */
+.x-form .x-scroll-container .arsnova-mathdown {
+	background-color: white;
+}
