@@ -17,16 +17,16 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 	extend: 'Ext.Container',
-	
+
 	config: {
 		maxAnswers: 6,
 		wording: [Messages.SCHOOL_A, Messages.SCHOOL_B, Messages.SCHOOL_C,
 		          Messages.SCHOOL_D, Messages.SCHOOL_E, Messages.SCHOOL_F]
 	},
-	
+
 	constructor: function() {
 		this.callParent(arguments);
-		
+
 		this.fields = [];
 		for (var i=0; i < this.getMaxAnswers(); i++) {
 			this.fields.push(Ext.create('Ext.field.Text', {
@@ -35,35 +35,46 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 				value: this.getWording()[i]
 			}));
 		}
-		
+
+    var previewButton = Ext.create('Ext.Button', {
+      text	: Messages.ANSWER_PREVIEW_BUTTON_TITLE,
+      ui		: 'confirm',
+      style   : 'width:200px; margin-left: 8px; margin-top: 0px;',
+      scope	: this,
+      handler	: function() {
+        this.previewHandler();
+      }
+    });
+
 		this.add([{
 			xtype: 'fieldset',
 			title: Messages.ANSWERS,
 			items: this.fields
-		}]);
+		}, previewButton]);
 	},
-	
+
 	initWithQuestion: function(question) {
 		var possibleAnswers = question.possibleAnswers;
-		
+
 		this.setMaxAnswers(possibleAnswers.length);
 		for (var i=0; i < this.fields.length; i++) {
 			this.fields[i].setValue(possibleAnswers[i].text);
 		}
 	},
-	
+
 	getQuestionValues: function() {
-		var result = {};
-		
-		result.possibleAnswers = this.fields.map(function(item) {
-			return {
-				text: item.getValue(),
-				correct: false
-			};
-		});
-		return result;
+		return { possibleAnswers: this.getValues() };
 	},
-	
+
+  getValues: function() {
+    return this.fields.map(function(item) {
+      return {
+        text: item.getValue(),
+        correct: false
+      };
+    });
+  },
+
 	markEmptyFields: function() {
 		var field;
 		for (var i=0; i < this.fields.length; i++) {
@@ -72,5 +83,12 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 				field.addCls("required");
 			}
 		}
-	}
+	},
+
+  previewHandler: function() {
+    var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox', {
+      xtype: 'answerPreview'
+    });
+    answerPreview.showPreview(this.getValues());
+  }
 });
