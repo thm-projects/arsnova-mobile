@@ -695,11 +695,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 		this.actionsPanel = Ext.create('Ext.Panel', {
 			items: [
-//				{
-//					cls: 'gravure',
-//					html: '\u201e' + Ext.util.Format.htmlEncode(this.questionObj.text) + '\u201f'
-//				},
-//				this.topPreviewPanel,
 				this.releasePart,
 				this.firstRow,
 				this.secondRow
@@ -875,12 +870,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.on('beforedestroy', function () {
 			ARSnova.app.mainTabPanel.removeListener('cardswitch', this.cardSwitchHandler, this);
 		}, this);
-//		MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.actionsPanel.getId()]);
-//		MathJax.Hub.Queue(
-//			["Delay", MathJax.Callback, 700], function() {
-//				panel.freetextAnswerList.fireEvent("resizeList", panel.freetextAnswerList.element);
-//			}
-//		);
 	},
 
 	onDeactivate: function() {
