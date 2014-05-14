@@ -225,7 +225,7 @@ Ext.define('ARSnova.view.Question', {
 			variableHeights: true,
 			scrollable: { disabled: true },
 
-      itemCls: 'x-html',
+      itemCls: 'arsnova-mathdown x-html',
 			itemTpl: new Ext.XTemplate(
 				'{text}',
 				'<tpl if="correct === true && this.isQuestionAnswered(values)">',
