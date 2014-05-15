@@ -108,21 +108,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
     this.answerStore = Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
     this.answerStore.add(this.questionObj.possibleAnswers);
-    this.answerStore.each(function(item) {
-      var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
-      md.setContent(item.get('text'), true, true, function(html) {
-        item.set('text', html.getHtml());
-        md.destroy();
-      });
-    });
-    if (this.questionObj.abstention) {
-      this.abstentionAnswer = this.answerStore.add({
-        id: this.abstentionInternalId,
-        text: Messages.ABSTENTION,
-        correct: false,
-        answerCount: 0
-      })[0];
-    }
+    this.formatAnswerText();
+    this.addAbstentionAnswer();
 
 		/* BEGIN TOOLBAR OBJECTS */
 
@@ -195,16 +182,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 					question.saveSkillQuestion({
 						success: function(response) {
-							var newAbstentions = Ext.create('ARSnova.view.MultiBadgeButton',
-								Ext.apply(panel.abstentions.config, {
-									hidden: question.get('abstention') === false || (question.get('questionType') == 'grid'),
-								})
-							);
 							panel.questionObj = question.data;
-							panel.answerFormFieldset.removeAll();
-							//panel.answerFormFieldset.add(newAbstentions);
-							//panel.abstentions = newAbstentions;
-							panel.getPossibleAnswers();
+							panel.answerStore.removeAll();
+              panel.answerStore.add(questionValues.possibleAnswers);
+              panel.formatAnswerText();
+              panel.addAbstentionAnswer();
+              panel.getQuestionAnswers();
 						}
 					});
 				};
@@ -835,7 +818,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
       itemCls: 'arsnova-mathdown x-html',
       itemTpl: new Ext.XTemplate(
-        '{text}',
+        '{formattedText}',
         '<div style="margin-top:10px">',
           '<span class="greybadgeicon">{answerCount}</span>',
           '<tpl if="correct === true && this.isFlashcard() === false">',
@@ -1080,5 +1063,28 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		if (this.questionObj.questionType === 'grid') {
 			this.answerEditForm.initWithQuestion(Ext.clone(this.questionObj));
 		}
-	}
+	},
+
+  formatAnswerText: function() {
+    this.answerStore.each(function(item) {
+      var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+      md.setContent(item.get('text'), true, true, function(html) {
+        item.set('formattedText', html.getHtml());
+        md.destroy();
+      });
+    });
+  },
+
+  addAbstentionAnswer: function() {
+    if (this.questionObj.abstention) {
+      this.abstentionAnswer = this.answerStore.add({
+        id: this.abstentionInternalId,
+        text: Messages.ABSTENTION,
+        correct: false,
+        answerCount: 0
+      })[0];
+      // has to be set this way as it does not conform to the model
+      this.abstentionAnswer.set('formattedText', Messages.ABSTENTION);
+    }
+  }
 });
