@@ -46,7 +46,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionListItem', {
 			// Update the body only if "important" values have changed
 			if (record && me.hasImportantChanges(record.getId(), data)) {
 				body.updateData(data || null);
-				MathJax.Hub.Queue(["Typeset", MathJax.Hub, body.dom]);
+				if ("undefined" !== typeof MathJax) {
+					MathJax.Hub.Queue(["Typeset", MathJax.Hub, body.dom]);
+				}
 			}
 		}
 

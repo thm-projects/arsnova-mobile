@@ -51,9 +51,11 @@ Ext.define('ARSnova.view.MathJaxField', {
 	afterRender: function() {
 		ARSnova.view.MathJaxField.superclass.afterRender.apply(this, arguments);
 		
-		MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.renderData.inputId], Ext.createDelegate(function() {
-			var containerObject = this.layoutObject || this.up("form");
-			containerObject.doComponentLayout();
-		}, this));
+		if ("undefined" !== typeof MathJax) {
+			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.renderData.inputId], Ext.createDelegate(function() {
+				var containerObject = this.layoutObject || this.up("form");
+				containerObject.doComponentLayout();
+			}, this));
+		}
 	}
 });
