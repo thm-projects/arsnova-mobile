@@ -70,7 +70,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			text	: Messages.SAVE,
 			ui		: 'confirm',
 			cls: 'saveQuestionButton',
-			style: 'width: 85px',
+			style: 'width: 89px',
 			handler: function() {
 				this.saveHandler().then(function(response) {
 					ARSnova.app.getController('Questions').details({
