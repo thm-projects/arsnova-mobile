@@ -32,7 +32,7 @@
      *                                      //  - "delta" to enable over-the-air delta update for this file
      *                                      //  - "full" means full update will be made when this file changes
      *          "x-bootstrap": true         // (Optional)
-     *                                      // Indicates a development mode only dependency.  
+     *                                      // Indicates a development mode only dependency.
      *                                      // These files will not be copied into the build directory or referenced
      *                                      // in the generate app.json manifest for the micro loader.
      *
@@ -51,6 +51,10 @@
         {
             "path": "bootstrap.js",
             "x-bootstrap": true
+        },
+        {
+            "path": "lib/markdown/markdown.js",
+            "update": "full"
         },
         {
       		"path": "lib/moment.min.js",
@@ -124,7 +128,7 @@
         "cache": [
             "index.html",
             "favicon.png",
-            
+
             /* app */
             "app/app.js",
             "app/BrowserDetect.js",
@@ -132,13 +136,14 @@
             "app/internationalization.js",
             "app/utils/Ext.Array.js",
             "app/utils/Ext.util.TaskRunner.js",
-            
+
             /* lib */
+            "lib/markdown/markdown.js",
             "lib/moment.de.js",
             "lib/moment.min.js",
             "lib/rsvp.min.js",
             "lib/socket.io/socket.io.min.js",
-            
+
             /* resources */
             "resources/css/app.css",
             "resources/css/index.css",

@@ -20,7 +20,7 @@
  +--------------------------------------------------------------------------*/
 Ext.define("ARSnova.controller.Questions", {
 	extend: 'Ext.app.Controller',
-	
+
 	requires: ['ARSnova.model.Question',
 	           'ARSnova.view.speaker.QuestionDetailsPanel',
 	           'ARSnova.view.FreetextDetailAnswer',
@@ -112,6 +112,11 @@ Ext.define("ARSnova.controller.Questions", {
 			possibleAnswers: options.possibleAnswers,
 			noCorrect	: options.noCorrect,
 			abstention	: options.abstention,
+			gridSize	: options.gridSize,
+			offsetX  	: options.offsetX,
+			offsetY 	: options.offsetY,
+			zoomLvl 	: options.zoomLvl,
+			image		: options.image,
 			showStatistic: 1
 		});
     	question.set('_id', undefined);
@@ -148,10 +153,14 @@ Ext.define("ARSnova.controller.Questions", {
 			case 'mc':
 				panel.multipleChoiceQuestion.query('textfield').forEach(function(el){
 					if(!el.getHidden() && el.getValue().toString().trim() == "") {
-						el.addCls("required");
 						error = true;
 					}
 				});
+				break;
+			case 'grid':
+				if (! panel.gridQuestion.grid.getImageFile()) {
+					error = true;
+				}
 				break;
 		}
     	if(error){

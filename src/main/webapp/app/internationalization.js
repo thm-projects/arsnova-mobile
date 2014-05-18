@@ -54,7 +54,7 @@ switch (lang) {
 			FEATURE_COMING_SOON: "This feature will be available soon.",
 			UNI_LOGIN_MSG: "Your University here?",
 			UNI_LOGIN_MSG_TEXT: "Would you like to use your university's account? Contact us @ <a href='http://www.transmit.de/zentren/tz.cfm?N=189' target='_blank'>transmit.de</a>.",
-			
+
 			/* rolePanel */
 			CHOOSE_ROLE: "Choose your role:",
 			STUDENT: "Student",
@@ -68,7 +68,7 @@ switch (lang) {
 			CONFIRM_GUEST_SPEAKER: "If you login as guest, you can manage newly created ARSnova sessions only from this device. Still login as guest?",
 			GUEST_LOGIN: "Guest login",
 			BACK_TO_ROLEPANEL: "Role",
-			
+
 			/* homePanel */
 			LOGOUT: "Logout",
 			LOGOUT_REQUEST: "Do you really want to logout?",
@@ -81,7 +81,7 @@ switch (lang) {
 			CLOSED_SESSION: "Closed Session",
 			CONFIRM_CLOSE_SESSION: "Are you sure to close the session?",
 			CONFIRM_CLOSE_SESSION_MESSAGE: "If you close this session, only students currently online will be able to participate.",
-			
+
 			/* LOAD MASK */
 			LOAD_MASK: "Loading...",
 			LOAD_MASK_LOGIN: "Login...",
@@ -90,7 +90,7 @@ switch (lang) {
 			LOAD_MASK_SEARCH_COURSES: "Looking for courses...",
 			LOAD_MASK_SESSION_DELETE: "Deleting session data...",
 			LOAD_MASK_ACTIVATION: "Releasing question...",
-			
+
 			/* mySessionsPanel */
 			HOME: "Start",
 			SESSION: "Session",
@@ -105,13 +105,13 @@ switch (lang) {
 			SESSION_SHORT_NAME_PLACEHOLDER: "max. 8 digits",
 			SESSION_SAVE: "Create Session",
 			SAVE: 'Save',
-			
+
 			/* canteen */
 			CANTEEN: 'Canteen',
 			I_RECOMMEND: "I recommend...",
 			LOGIN: "Login",
 			CANTEEN_MENU: "Menu",
-			
+
 			/* feedback */
 			FEEDBACK: "Feedback",
 			MY_FEEDBACK: "My feedback",
@@ -133,9 +133,10 @@ switch (lang) {
 			NOTIFICATION: "Notice",
 			TRANSMISSION_ERROR: "The question's transmission was unsuccessful.",
 			QUESTION_CREATION_ERROR: "Failed creating the question.",
+			QUESTION_EDIT_ERROR: "Failed editing the question.",
 			ANSWER_CREATION_ERROR: "Your answer could not be saved.",
 			SEND: "Send",
-			
+
 			/* questions */
 			QUESTION: "Question",
 			QUESTION_PLACEHOLDER: "Enter question",
@@ -170,6 +171,8 @@ switch (lang) {
 			QUESTION_RATING_SHORT: "Rating",
 			QUESTION_GRADE: "Grade",
 			QUESTION_GRADE_SHORT: "Grade",
+			QUESTION_GRID : "Grid",
+			QUESTION_GRID_SHORT : "GQ",
 			QUESTION_MC: "Multiple Choice",
 			QUESTION_MC_SHORT: "MC",
 			QUESTION_YESNO: "Yes | No",
@@ -185,7 +188,13 @@ switch (lang) {
 			CONFIRM_CLOSE_QUESTION_MESSAGE: "If you close this question, students will not be able to view or answer this question.",
 			CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE: "If you close all questions, students will not be able to view or answer any question.",
 			CONFIRM_ANSWERS_CHANGED: "This will reset all current answers.",
-			
+			QUESTION_PREVIEW_BUTTON_TITLE: "Preview",
+			QUESTION_PREVIEW_DIALOGBOX_TITLE: "Question preview",
+			QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE: "OK",
+			ANSWER_PREVIEW_BUTTON_TITLE: "Preview",
+			ANSWER_PREVIEW_DIALOGBOX_TITLE: "Preview answer",
+			ANSWER_PREVIEW_DIALOGBOX_BUTTON_TITLE: "OK",
+
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
 			QUESTIONS_FROM_STUDENTS: "Students' questions",
@@ -269,14 +278,41 @@ switch (lang) {
 			MINUTE: "Minute",
 			MINUTES: "Minutes",
 			BACK: "Back",
-			SAVE_AND_CONTINUE: "Save and Continue",
-			
+			SAVE_AND_CONTINUE : "Save and Continue",
+			SELECT_PICTURE_FS : "From Filesystem",
+			SELECT_PICTURE_URL : "From URL",
+			CHOOSE_PICTURE : "Choose image",
+			SEARCH_PICTURE : "Search",
+			EDIT_PICTURE : "Edit Image",
+			GRID_LOADING : "Loading",
+			GRID_LOAD : "Load",
+			GRID_ERROR_URL_MISSING : "Please insert a valid url.",
+      GRID_ERROR_IMAGE_NOT_LOADED: "The image could not be loaded.",
+			GRID_LABEL_ZOOM : "Zoom (in percent)",
+			GRID_LABEL_SQUARES : "Squares per edge",
+			GRID_LABEL_WEAKEN_IMAGE : "Transparent image",
+			GRID_LABEL_SHOW_HEATMAP : "Show heatmap",
+			GRID_LABEL_SHOW_PERCENT : "Show results",
+			GRID_LABEL_INVERT_GRIDCOLORS : "Invert grid colors",
+			GRID_LABEL_ABSOLUTE : 'absolute',
+			GRID_LABEL_RELATIVE : 'relative',
+			GRID_LABEL_ABSOLUTE_SHORT : '#',
+			GRID_LABEL_RELATIVE_SHORT : '%',
+			GRID_LABEL_NONE_SHORT : 'w/o',
+			GRID_LABEL_NONE : 'none',
+			GRID_ERROR_LOADING_IMAGE_FS : 'Could not load image from filesystem',
+			ERROR : 'Error',
+			CORRECT_ANSWERS: "Correct answers",
+			SETTINGS:	"Settings",
+			SETTINGS_HINT_TEXT: "Hint <br>Maximal filesize is 1 MB.",
+
 			/* question types */
 			EVALUATION: "Likert",
 			SCHOOL: "Grade",
 			MC: "MC",
 			YESNO: "YN",
 			ABCD: "SC",
+			GRID : "GQ",
 			FREETEXT: "Txt",
 			BUZZWORD: "Buzzword for",
 			BUZZWORD_A: "Buzzword for A",
@@ -295,13 +331,13 @@ switch (lang) {
 			EVALUATION_NEUTRAL: 	"neutral",
 			EVALUATION_MINUS: 		"disagree",
 			EVALUATION_MINUSMINUS: 	"strongly disagree",
-			
+
 			/* about */
 			INFO: "Info",
 			ABOUT: "About",
 			ARSNOVA_MANUAL: "Manual",
 			ARSNOVA_FAQ: "FAQ | Helpdesk",
-			
+
 			OPINION: "Your opinion matters",
 			WIDGET_IS_LOADING: 'Widget is loading...',
 			IMPRESSUM: "Imprint",
@@ -328,7 +364,7 @@ switch (lang) {
 			COUCHDB: "NoSQL Database: CouchDB",
 			XEN: "Virtualization: Xen",
 			DEBIAN: "Operating System: Debian",
-			
+
 			/* errors */
 			SESSION_NOT_FOUND: "This session does not seem to exist.",
 			SESSION_LOCKED: "This session is currently locked.",
@@ -347,7 +383,7 @@ switch (lang) {
 			UNI: "Uni",
 			SESSION_ID: "Session ID"
 		};
-	
+
 		break;
 	default:
 		moment.lang('de');
@@ -357,7 +393,7 @@ switch (lang) {
 			FEATURE_COMING_SOON: "Feature kommt in Kürze.",
 			UNI_LOGIN_MSG: "Ihr Uni-Login an dieser Stelle?",
 			UNI_LOGIN_MSG_TEXT: "Möchten Sie Ihren hochschuleigenen Zugang verwenden? Sprechen Sie mit uns unter <a href='http://www.transmit.de/zentren/tz.cfm?N=189' target='_blank'>transmit.de</a>.",
-			
+
 			/* rolePanel */
 			CHOOSE_ROLE: "Wählen Sie Ihre Rolle:",
 			STUDENT: "Zuhörer/in",
@@ -371,7 +407,7 @@ switch (lang) {
 			CONFIRM_GUEST_SPEAKER: "Wenn Sie sich als Gast anmelden, ist die ARSnova-Session nur auf dem aktuellen Gerät verwaltbar. Dennoch als Gast anmelden?",
 			GUEST_LOGIN: "Gast-Anmeldung",
 			BACK_TO_ROLEPANEL: "Rollen",
-			
+
 			/* homePanel */
 			LOGOUT: "Abmelden",
 			LOGOUT_REQUEST: "Möchten Sie sich wirklich von ARSnova abmelden?",
@@ -384,7 +420,7 @@ switch (lang) {
 			CLOSED_SESSION: "Gesperrte Session",
 			CONFIRM_CLOSE_SESSION: "Session wirklich sperren?",
 			CONFIRM_CLOSE_SESSION_MESSAGE: "Wenn Sie die Session sperren, können nur noch aktuell angemeldete Zuhörer/innen teilnehmen.",
-			
+
 			/* LOAD MASK */
 			LOAD_MASK: "Lade Daten...",
 			LOAD_MASK_LOGIN: "Login...",
@@ -393,7 +429,7 @@ switch (lang) {
 			LOAD_MASK_SEARCH_COURSES: "Suche Kurse...",
 			LOAD_MASK_SESSION_DELETE: "Lösche Session-Daten...",
 			LOAD_MASK_ACTIVATION: "Aktiviere die Freigabe...",
-			
+
 			/* mySessionsPanel */
 			HOME: "Start",
 			SESSION: "Session",
@@ -408,13 +444,13 @@ switch (lang) {
 			SESSION_SHORT_NAME_PLACEHOLDER: "max. 8 Zeichen",
 			SESSION_SAVE: "Session anlegen",
 			SAVE: 'Speichern',
-			
+
 			/* canteen */
 			CANTEEN: 'Mensa',
 			I_RECOMMEND: "Ich empfehle...",
 			LOGIN: "Login",
 			CANTEEN_MENU: "Speiseplan",
-			
+
 			/* feedback */
 			FEEDBACK: "Feedback",
 			MY_FEEDBACK: "Mein Feedback",
@@ -436,9 +472,10 @@ switch (lang) {
 			NOTIFICATION: "Hinweis",
 			TRANSMISSION_ERROR: "Die Übermittlung der Frage war leider nicht erfolgreich",
 			QUESTION_CREATION_ERROR: "Das Erstellen der Frage war leider nicht erfolgreich",
+			QUESTION_EDIT_ERROR: "Das Editieren der Frage war leider nicht erfolgreich.",
 			ANSWER_CREATION_ERROR: "Die Antwort konnte nicht gespeichert werden",
 			SEND: "Abschicken",
-			
+
 			/* questions */
 			QUESTION: "Frage",
 			QUESTION_PLACEHOLDER: "Frage eingeben",
@@ -473,6 +510,8 @@ switch (lang) {
 			QUESTION_RATING_SHORT: "Rating",
 			QUESTION_GRADE: "Schulnote",
 			QUESTION_GRADE_SHORT: "Note",
+			QUESTION_GRID : "Planquadrat",
+			QUESTION_GRID_SHORT : "PQ",
 			QUESTION_MC: "Mehrfachauswahl",
 			QUESTION_MC_SHORT: "MC",
 			QUESTION_YESNO: "Ja | Nein",
@@ -489,7 +528,14 @@ switch (lang) {
 			CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE: "Wenn Sie die Fragen sperren, können Zuhörer/innen die Fragen weder sehen noch beantworten.",
 			SAVE_AND_CONTINUE: 'Speichern und weiter',
 			CONFIRM_ANSWERS_CHANGED: "Bereits gegebene Antworten gehen verloren.",
-			
+
+			QUESTION_PREVIEW_BUTTON_TITLE: "Vorschau",
+			QUESTION_PREVIEW_DIALOGBOX_TITLE: "Vorschau Frage",
+			QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE: "OK",
+			ANSWER_PREVIEW_BUTTON_TITLE: "Vorschau",
+			ANSWER_PREVIEW_DIALOGBOX_TITLE: "Vorschau Antwort",
+			ANSWER_PREVIEW_DIALOGBOX_BUTTON_TITLE: "OK",
+
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
 			QUESTIONS_FROM_STUDENTS: "Zwischenfragen",
@@ -512,7 +558,7 @@ switch (lang) {
 			RESET_ALL_ANSWERS: "Alle Antworten zurücksetzen",
 			SHOW_FLASHCARD_ANSWER: "Antwort anzeigen",
 			HIDE_FLASHCARD_ANSWER: "Antwort ausblenden",
-			
+
 			/* speaker */
 			LIVE_FEEDBACK: "Live-Feedback",
 			COURSES_LEARNING_PROGRESS: "Lernstand des Kurses",
@@ -573,13 +619,40 @@ switch (lang) {
 			MINUTE: "Minute",
 			MINUTES: "Minuten",
 			BACK: "Zurück",
-			
+			SELECT_PICTURE_FS : "Bild wählen",
+			SELECT_PICTURE_URL : "Von URL",
+			CHOOSE_PICTURE : "Bild wählen",
+			SEARCH_PICTURE : "Von Dateisystem",
+			EDIT_PICTURE : "Bild bearbeiten",
+			GRID_LOADING : "Lade",
+			GRID_LOAD : "Laden",
+			GRID_ERROR_URL_MISSING : "Bitte geben Sie eine URL an.",
+      GRID_ERROR_IMAGE_NOT_LOADED: "Bild konnte nicht geladen werden.",
+			GRID_LABEL_ZOOM : "Zoom (in %)",
+			GRID_LABEL_SQUARES : "Quadrate pro Kante",
+			GRID_LABEL_WEAKEN_IMAGE : "Bild abschwächen",
+			GRID_LABEL_SHOW_HEATMAP : "Heatmap anzeigen",
+			GRID_LABEL_SHOW_PERCENT : "Zeige Resultate",
+			GRID_LABEL_INVERT_GRIDCOLORS : "Rasterfarbe invertieren",
+			GRID_LABEL_ABSOLUTE : 'Absolut',
+			GRID_LABEL_RELATIVE : 'Prozentual',
+			GRID_LABEL_NONE : 'Ausblenden',
+			GRID_LABEL_ABSOLUTE_SHORT : '#',
+			GRID_LABEL_RELATIVE_SHORT : '%',
+			GRID_LABEL_NONE_SHORT : 'ohne',
+			GRID_ERROR_LOADING_IMAGE_FS : 'Bild konnte nicht geladen werden',
+			ERROR : 'Fehler',
+			CORRECT_ANSWERS:	"Richtige Antworten",
+			SETTINGS:	"Einstellungen",
+			SETTINGS_HINT_TEXT: "Hinweis: <br>Maximale Dateigröße beträgt 1MB.",
+
 			/* question types */
 			EVALUATION: "Likert",
 			SCHOOL: "Note",
 			MC: "MC",
 			YESNO: "J/N",
 			ABCD: "SC",
+			GRID : "PQ",
 			FREETEXT: "Txt",
 			BUZZWORD: "Schlagwort für",
 			BUZZWORD_A: "Schlagwort für A",
@@ -598,7 +671,7 @@ switch (lang) {
 			EVALUATION_NEUTRAL: 	"weder noch",
 			EVALUATION_MINUS: 		"trifft eher nicht zu",
 			EVALUATION_MINUSMINUS: 	"trifft nicht zu",
-			
+
 			/* about */
 			INFO: "Info",
 			ABOUT: "Über",
@@ -630,7 +703,7 @@ switch (lang) {
 			COUCHDB: "NoSQL Datenbank: CouchDB",
 			XEN: "Virtualisierung: Xen",
 			DEBIAN: "Betriebssystem: Debian",
-			
+
 			/* errors */
 			SESSION_NOT_FOUND: "Diese Session existiert nicht.",
 			SESSION_LOCKED: "Die Session ist derzeit gesperrt.",
@@ -640,7 +713,7 @@ switch (lang) {
 			BROWSER_SESSION_EXPIRED: "Browsersitzung abgelaufen",
 			BROWSER_SESSION_EXPIRED_MSG: "Ihre Browsersitzung ist abgelaufen. Möchten Sie ARSnova neustarten?",
 			QUESTION_COULD_NOT_BE_SAVED: "Speichern der Frage war nicht erfolgreich",
-			
+
 			/* misc */
 			SUPPORTED_BROWSERES: "Für eine korrekte Darstellung von ARSnova benutzen Sie bitte einen WebKit-Browser, z.B. Apple Safari oder Google Chrome!",
 			NEW_VERSION_TITLE: "Neue Version",

@@ -38,26 +38,32 @@ Ext.define('ARSnova.view.TextCheckfield', {
 		labelWidth:		'2.0em',
 		labelCls:		'checkItem',
 		
+		/**
+		 * listener for tap event on label element (toggleChecked())
+		 */		
 		listeners: {			
-			/**
-			 *  Adding listener for tap event on label element (toggleChecked())
-			 */
 			'tap': {
 				element: 'label',
-	        	fn: function () {
+	        	fn: function() {
+	        		var parent = this.config.container;
+	        		if(parent.config.singleChoice) {
+	        			var parent = this.config.container;
+	        			for (var i=0; i < parent.selectAnswerCount.getValue(); i++) {
+	        				parent.answerComponents[i].uncheck();
+	        			}
+	        		} 
 	        		this.toggleChecked();
-	            }
+	        	}
 	        }
 		}
 	},
 
-	/**
-	 * If checked is set to true the class of the label will be set to this.config.checkedCls,
-	 * otherwise to this.config.uncheckedCls.
-	 */
 	initialize: function() {
 		this.callParent(arguments);
-		
+		/**
+		 * If checked is set true, the class of the label will be set to this.config.checkedCls,
+		 * otherwise to this.config.uncheckedCls.
+		 */
 		this.label.addCls(
 			(this.isChecked() ? this.config.checkedCls : this.config.uncheckedCls)
 		);
@@ -68,32 +74,50 @@ Ext.define('ARSnova.view.TextCheckfield', {
 		 */
 		this.onAfter('initialize', function() {
 			if(this.config.checked == null) {
-				this.config.checked = false;
+				this.uncheck();
 			}
 		});
 	},
-	
+		
 	/**
 	 * @return: Returns the value of this.config.checked (boolean).
 	 */
 	isChecked: function() {
-		console.log(this.config.checked);
 		return this.config.checked;
 	},
 	
 	/**
-     * Toggles labelCls between this.config.uncheckedCls and this.config.checkedCls and
-     * the this.config.checked attribute between true and false.
+	 * checks the checkfield
+	 */
+	check: function() {
+		this.config.checked = true; 
+		this.setCheckfieldCls();
+	},
+	
+	/**
+	 * unchecks the checkfield
+	 */
+	uncheck: function() {
+		this.config.checked = false; 
+		this.setCheckfieldCls();
+	},
+	
+	/**
+     * Toggles checkfield cls and value
 	*/
 	toggleChecked: function() {
-		if (this.isChecked()) {
+		this.config.checked = !this.config.checked;
+		this.setCheckfieldCls();
+	},
+	
+	/**
+	 * Toggles labelCls between this.config.uncheckedCls and this.config.checkedCls
+	 */
+	setCheckfieldCls: function() {
+		if (this.config.checked) {
+			this.label.replaceCls(this.config.uncheckedCls, this.config.checkedCls);
+		} else {
 			this.label.replaceCls(this.config.checkedCls, this.config.uncheckedCls);
 		}
-
-		else {
-			this.label.replaceCls(this.config.uncheckedCls, this.config.checkedCls);
-		}
-        
-		this.config.checked = !this.config.checked;
 	}
 });

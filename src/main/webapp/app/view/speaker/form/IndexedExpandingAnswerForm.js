@@ -20,6 +20,7 @@ Ext.define('ARSnova.view.speaker.form.IndexedExpandingAnswerForm', {
 	extend: 'ARSnova.view.speaker.form.ExpandingAnswerForm',
 	
 	config: {
+		singleChoice: true,
 		wording: {
 			placeHolder: "",
 			/** 'arabic' or 'alphabet' **/

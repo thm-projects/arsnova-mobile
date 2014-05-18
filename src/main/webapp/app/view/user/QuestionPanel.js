@@ -82,6 +82,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 					(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_GRADE) : this.toolbar.setTitle(Messages.QUESTION_GRADE_SHORT);
 				} else if(newCard.questionObj.questionType === 'flashcard') {
 					(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.FLASHCARD) : this.toolbar.setTitle(Messages.QUESTION_FLASHCARD);
+				} else if(newCard.questionObj.questionType === 'grid') {
+					(screenWidth > 320 || backButtonHidden) ? this.toolbar.setTitle(Messages.QUESTION_GRID) : this.toolbar.setTitle(Messages.QUESTION_GRID_SHORT);
 				}
 			}
 			
@@ -287,6 +289,12 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				return;
 			}
 			
+			if (questionObj.questionType === "grid") {				
+				questionPanel.setGridAnswer(questionObj.userAnswered);
+				questionPanel.disableQuestion();
+				return;
+			}
+			
 			var list = questionPanel.answerList;
 			var data = list ? list.getStore() : Ext.create('Ext.data.Store', {model:'ARSnova.model.Answer'});
 			
@@ -328,7 +336,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	checkStatisticRelease: function() {
 		var questionView = this.getActiveItem();
 		var questionObj = questionView.questionObj;
-
+		
 		questionView.fireEvent('preparestatisticsbutton', this.statisticButton);
 		if( questionObj.showStatistic 
 			&& questionObj.showStatistic == 1

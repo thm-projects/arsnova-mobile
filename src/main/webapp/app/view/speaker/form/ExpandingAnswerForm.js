@@ -35,7 +35,6 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		this.callParent(arguments);
 		
 		this.answerComponents = [];
-		this.correctComponents = [];
 		
 		this.selectAnswerCount = Ext.create('Ext.field.Spinner', {
 			label	: Messages.COUNT,
@@ -48,10 +47,19 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 				spin: function(selectField, value) {
 					for (var i=0; i < this.getMaxAnswers(); i++) {
 						this.answerComponents[i].setHidden(i >= value);
-						this.correctComponents[i].setHidden(i >= value);
 					}
 				}
 			}
+		});
+		
+		var previewButton = Ext.create('Ext.Button', {
+			text	: Messages.ANSWER_PREVIEW_BUTTON_TITLE,
+			ui		: 'confirm',
+			style   : 'width:200px; margin-left: 8px; margin-top: 0px;',
+			scope	: this,
+			handler	: function() {
+					this.previewHandler();
+				}
 		});
 		
 		var answerFieldset = Ext.create('Ext.form.FieldSet', {
@@ -61,50 +69,26 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		
 		var answerOptions = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
-			submitOnAction: false,
-			
-			items: [answerFieldset]
-		});
-		
-		var correctAnswerFieldset = Ext.create('Ext.form.FieldSet', {
-			xtype: 'fieldset',
-			title: Messages.CORRECT_ANSWER
-		});
-		
-		var correctAnswer = Ext.create('Ext.form.FormPanel', {
-			scrollable: null,
-			submitOnAction: false,
-			items: [correctAnswerFieldset]
+			submitOnAction: false,			
+			items: [answerFieldset, previewButton]
 		});
 		
 		var answerOptionEntryId = Ext.id();
-		var answerCorrectOptionEntryId = Ext.id();
 		var theComponentId;
-		var labelGenerator = this.getEnumeration();
 		
 		for (var i=0; i < this.getMaxAnswers(); i++) {
 			theComponentId = answerOptionEntryId + "-" + i;
-			this.answerComponents[i] = Ext.create('Ext.field.Text', {
+			this.answerComponents[i] = Ext.create('ARSnova.view.TextCheckfield', {
 				id:				theComponentId,
 				name:			theComponentId,
 				placeHolder:	Messages.ANSWER,
 				hidden:			this.getStart() <= i,
-				label:			this.getWording().placeHolder + " " + labelGenerator(i)
+				container:		this
 			});
 			answerFieldset.add(this.answerComponents[i]);
 		}
-		for (var i=0; i < this.getMaxAnswers(); i++) {
-			theComponentId = answerCorrectOptionEntryId + "-" + i;
-			this.correctComponents[i] = Ext.create('Ext.field.Toggle', {
-				id:		theComponentId,
-				name:	theComponentId,
-				hidden:	this.getStart() <= i,
-				label:	this.getWording().placeHolder + " " + labelGenerator(i)
-			});
-			correctAnswerFieldset.add(this.correctComponents[i]);
-		}
 		
-		this.add([answerOptions, correctAnswer]);
+		this.add([answerOptions]);
 	},
 	
 	getEnumeration: function() {
@@ -128,7 +112,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			obj = {
 				text: this.answerComponents[i].getValue()
 			};
-			if (this.correctComponents[i].getValue()) {
+			if (this.answerComponents[i].isChecked()) {
 				obj.correct = true;
 			} else {
 				obj.correct = false;
@@ -141,7 +125,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 	hasCorrectOptions: function() {
 		var hasCorrectOptions = false;
 		for (var i=0; i < this.selectAnswerCount.getValue(); i++) {
-			hasCorrectOptions = hasCorrectOptions || !!this.correctComponents[i].getValue();
+			hasCorrectOptions = hasCorrectOptions || !!this.answerComponents[i].isChecked();
 		}
 		return hasCorrectOptions;
 	},
@@ -164,7 +148,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 	initAnswerComponents: function(possibleAnswers) {
 		possibleAnswers.forEach(function(answer, index) {
 			this.answerComponents[index].setValue(answer.text);
-			this.correctComponents[index].setValue(answer.correct);
+			if(answer.correct) this.answerComponents[index].check();
 		}, this);
 	},
 	
@@ -179,12 +163,19 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		return result;
 	},
 	
+	previewHandler: function() {
+		var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox', {
+			xtype: 'answerPreview'
+		});		
+		answerPreview.showPreview(this.getValues());
+	},
+	
 	markEmptyFields: function() {
 		var field;
 		for (var i=0; i < this.selectAnswerCount.getValue(); i++) {
 			field = this.answerComponents[i];
 			if (field.getValue().trim() === "") {
-				field.addCls("required");
+				field.element.select(".x-input-text").addCls('formInvalid');
 			}
 		}
 	}
