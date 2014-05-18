@@ -26,7 +26,6 @@ Ext.define('ARSnova.view.CustomMessageBox', {
 			duration: 200
 		}
 	},
-
 	/* Workaround for Google Chrome 34 (MessageBox sometimes cannot be closed).
 	 * TODO: Remove as soon as fixed by Sencha or in Chrome */
 	hide: function() {

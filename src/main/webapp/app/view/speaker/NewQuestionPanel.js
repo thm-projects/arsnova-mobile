@@ -343,21 +343,34 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			handler: function() {
 				this.saveHandler().then(function() {
 					var theNotificationBox = {};
-					theNotificationBox = Ext.create('Ext.MessageBox', {
+					theNotificationBox = Ext.create('Ext.Panel', {
+						cls: 'notificationBox',
+						name: 'notificationBox',
+						showAnimation: 'pop',
+						modal: true,
+						centered: true,
 						width: 300,
 						styleHtmlContent: true,
 						styleHtmlCls: 'notificationBoxText',
-						html: Messages.QUESTION_SAVED,
-						listeners: {
-							show: function() {
-								Ext.defer(function(){
-									theNotificationBox.hide();
-								}, 3000);
-							}
-						}
+						html: Messages.QUESTION_SAVED
+//						listeners: {
+//							hide: function() {
+//								this.destroy();
+//							},
+//							show: function() {
+//								Ext.defer(function(){
+//									theNotificationBox.hide();
+//								}, 3000);
+//							}
+//						}
 					});
 					Ext.Viewport.add(theNotificationBox);
 					theNotificationBox.show();
+	
+					/* Workaround for Chrome 34+ */
+					Ext.defer(function() {
+						theNotificationBox.destroy();
+					}, 3000);
 				}).then(Ext.bind(function(response) {
 					this.getScrollable().getScroller().scrollTo(0, 0, true);
 				}, this));
