@@ -460,11 +460,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
 							ARSnova.app.questionModel.deleteAnswers(panel.questionObj._id, {
 								success: function() {
-									panel.answerFormFieldset.items.each(function(element) {
-										if (element.isXType('button')) {
-											element.setBadge([{ badgeText: "0" }]);
-										}
-									});
+									panel.getQuestionAnswers();
 								},
 								failure: function(response){
 									console.log('server-side error delete question');
