@@ -45,7 +45,7 @@ Ext.define('ARSnova.view.Question', {
     answerStore.each(function(item) {
       var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
       md.setContent(item.get('text'), true, true, function(html) {
-        item.set('text', html.getHtml());
+        item.set('formattedText', html.getHtml());
         md.destroy();
       });
     });
@@ -227,7 +227,7 @@ Ext.define('ARSnova.view.Question', {
 
       itemCls: 'arsnova-mathdown x-html',
 			itemTpl: new Ext.XTemplate(
-				'{text}',
+				'{formattedText}',
 				'<tpl if="correct === true && this.isQuestionAnswered(values)">',
 					'&nbsp;<span style="padding: 0 0.2em 0 0.2em" class="x-list-item-correct">&#10003; </span>',
 				'</tpl>',
