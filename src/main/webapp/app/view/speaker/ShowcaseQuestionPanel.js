@@ -36,7 +36,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		this.callParent(arguments);
 
 		this.on('activeitemchange', function(panel, newCard, oldCard) {
-			this.toolbar.setQuestionTitle(newCard.questionObj.questionType);
+			this.toolbar.setQuestionTitle(newCard.questionObj);
 			this.toolbar.incrementQuestionCounter(panel.activeIndex);
 
 			newCard.fireEvent('preparestatisticsbutton', this.toolbar.statisticsButton);

@@ -64,13 +64,14 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 		]);
 	},
 
-	setQuestionTitle: function(questionType) {
+	setQuestionTitle: function(question) {
 		var label = Ext.bind(function(longv, shortv) {
 			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 			return (screenWidth > 320 || this.backButton.isHidden()) ? longv : shortv;
 		}, this);
 
 		var title = '';
+    var questionType = question ? question.questionType : "";
 
 		if (questionType === 'abcd') {
 			title = label(Messages.QUESTION_SINGLE_CHOICE, Messages.QUESTION_SINGLE_CHOICE_SHORT);
@@ -104,5 +105,13 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 		counter[0] = "1";
 		counter[1] = maxValue;
 		this.questionCounter.setHtml(counter.join("/"));
-	}
+	},
+
+  checkStatistics: function(question, isDisabled) {
+    if (typeof question !== 'undefined' && !!question.showStatistic && isDisabled) {
+      this.statisticsButton.show();
+    } else {
+      this.statisticsButton.hide();
+    }
+  }
 });
