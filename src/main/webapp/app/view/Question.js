@@ -18,6 +18,16 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
+/**
+ * We need to override this class in order to allow custom itemHeights on list elements
+ */
+Ext.define('ARSnova.view.PositionMap',{
+  override: 'Ext.util.PositionMap',
+    config: {
+      minimumHeight: 0
+    }
+});
+
 Ext.define('ARSnova.view.Question', {
 	extend: 'Ext.Panel',
 
@@ -226,6 +236,7 @@ Ext.define('ARSnova.view.Question', {
 			scrollable: { disabled: true },
 
       itemCls: 'arsnova-mathdown x-html',
+      itemHeight: 32,
 			itemTpl: new Ext.XTemplate(
 				'{formattedText}',
 				'<tpl if="correct === true && this.isQuestionAnswered(values)">',

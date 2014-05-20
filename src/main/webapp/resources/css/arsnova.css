@@ -1567,6 +1567,9 @@ ol.standardList li {
 .roundedBox .x-html {
 	padding: 0.2em !important;
 }
+
+/* No margin on answer list items and on the last paragraph of the question */
+.roundedBox .x-html > :last-child,
 .arsnova-mathdown .x-innerhtml p {
 	margin: 0;
 }
