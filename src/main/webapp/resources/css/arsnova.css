@@ -1561,3 +1561,12 @@ ol.standardList li {
 .x-form .x-scroll-container .arsnova-mathdown {
 	background-color: white;
 }
+
+/* Further reduce padding and margin inside question list elements */
+.arsnova-mathdown .x-innerhtml,
+.roundedBox .x-html {
+	padding: 0.2em !important;
+}
+.arsnova-mathdown .x-innerhtml p {
+	margin: 0;
+}
