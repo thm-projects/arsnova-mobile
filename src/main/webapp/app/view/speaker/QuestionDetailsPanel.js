@@ -801,17 +801,16 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
       variableHeights: true,
       scrollable: { disabled: true },
 
-      itemCls: 'arsnova-mathdown x-html',
+      itemCls: 'arsnova-mathdown x-html answerListButton noPadding',
       itemTpl: new Ext.XTemplate(
         '{formattedText}',
-        '<div style="margin-top:10px">',
+          '<tpl if="correct === true">',
+           '&nbsp;<span class="listCorrectItem x-list-item-correct">&#10003; </span>',
+          '</tpl></div>',
           '<tpl if="this.isFlashcard() === false">',
-            '<span class="greybadgeicon">{answerCount}</span>',
-            '<tpl if="correct === true">',
-              '&nbsp;<span style="padding: 0 0.2em 0 0.2em" class="x-list-item-correct">&#10003; </span>',
-            '</tpl>',
+		   '<div class="x-button x-hasbadge audiencePanelListBadge">' +
+		   '<span class="greybadgeicon badgefixed">{answerCount}</span>',
           '</tpl>',
-        '</div>',
         {
           isFlashcard: function() {
             return me.questionObj.questionType === 'flashcard';

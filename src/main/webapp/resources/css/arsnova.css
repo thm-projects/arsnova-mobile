@@ -511,7 +511,6 @@ html,body {
 	background-position: 100%;
 	border-radius: 0;
 	height: 45px !important;
-	border-style: solid;
 	border-color: lightgray;
 	border-width: thin;
 }
@@ -867,6 +866,12 @@ html,body {
 		color-stop(25%, #61c419), color-stop(75%, #61c419),
 		color-stop(100%, #b4e391) );
 	border-radius: 10px;
+}
+
+.listCorrectItem {
+	padding: 0 0.2em 0 0.2em;
+	/*position: absolute;*/
+	/*margin-right: 5px;*/
 }
 
 /* settingsPanel */
@@ -1563,8 +1568,7 @@ ol.standardList li {
 }
 
 /* Further reduce padding and margin inside question list elements */
-.arsnova-mathdown .x-innerhtml,
-.roundedBox .x-html {
+.roundedBox .x-innerhtml.x-html {
 	padding: 0.2em !important;
 }
 
