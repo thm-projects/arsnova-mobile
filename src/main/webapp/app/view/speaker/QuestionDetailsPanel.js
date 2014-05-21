@@ -807,7 +807,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
         '<div style="margin-top:10px">',
           '<tpl if="this.isFlashcard() === false">',
             '<span class="greybadgeicon">{answerCount}</span>',
-            '<tpl if="correct === true>',
+            '<tpl if="correct === true">',
               '&nbsp;<span style="padding: 0 0.2em 0 0.2em" class="x-list-item-correct">&#10003; </span>',
             '</tpl>',
           '</tpl>',
