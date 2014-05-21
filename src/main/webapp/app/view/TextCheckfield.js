@@ -48,11 +48,18 @@ Ext.define('ARSnova.view.TextCheckfield', {
 	        		var parent = this.config.container;
 	        		if(parent.config.singleChoice) {
 	        			var parent = this.config.container;
+	        			var checkedState = this.config.checked;
+	        			
 	        			for (var i=0; i < parent.selectAnswerCount.getValue(); i++) {
 	        				parent.answerComponents[i].uncheck();
 	        			}
-	        		} 
-	        		this.toggleChecked();
+	        			
+		        		if(!checkedState) {
+		        			this.toggleChecked();
+		        		}
+	        		} else {
+	        			this.toggleChecked();
+	        		}
 	        	}
 	        }
 		}
