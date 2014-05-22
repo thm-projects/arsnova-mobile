@@ -1577,3 +1577,8 @@ ol.standardList li {
 .arsnova-mathdown .x-innerhtml p {
 	margin: 0;
 }
+
+/* No linebreak after text in answer list formatted by markdown library */
+.answerListButton .x-innerhtml > p {
+	display: inline;
+}
