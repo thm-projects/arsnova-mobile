@@ -395,7 +395,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		this.arsjax.request({
 			url: "lecturerquestion/" + question.get('_id') + "/publish",
 			method: "POST",
-			jsonData: question.raw,
+			jsonData: question.getData(),
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
