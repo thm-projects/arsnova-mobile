@@ -511,7 +511,6 @@ html,body {
 	background-position: 100%;
 	border-radius: 0;
 	height: 45px !important;
-	border-style: solid;
 	border-color: lightgray;
 	border-width: thin;
 }
@@ -867,6 +866,12 @@ html,body {
 		color-stop(25%, #61c419), color-stop(75%, #61c419),
 		color-stop(100%, #b4e391) );
 	border-radius: 10px;
+}
+
+.listCorrectItem {
+	padding: 0 0.2em 0 0.2em;
+	/*position: absolute;*/
+	/*margin-right: 5px;*/
 }
 
 /* settingsPanel */
@@ -1555,4 +1560,25 @@ ol.standardList li {
 /* Reduce padding around Markdown and Mathjax formatted elements */
 .arsnova-mathdown {
 	padding: 0;
+}
+
+/* We dont want gray list items when inside a form */
+.x-form .x-scroll-container .arsnova-mathdown {
+	background-color: white;
+}
+
+/* Further reduce padding and margin inside question list elements */
+.roundedBox .x-innerhtml.x-html {
+	padding: 0.2em !important;
+}
+
+/* No margin on answer list items and on the last paragraph of the question */
+.roundedBox .x-html > :last-child,
+.arsnova-mathdown .x-innerhtml p {
+	margin: 0;
+}
+
+/* No linebreak after text in answer list formatted by markdown library */
+.answerListButton .x-innerhtml > p {
+	display: inline;
 }

@@ -55,7 +55,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 			content = replace_back(repl, 'MATHJAXMARKDOWN');
 		}
 		this.setHtml(content);
-		if (mathJaxEnabled) {
+		if (mathJaxEnabled && "undefined" !== typeof MathJax) {
       var callback = mathjaxCallback || Ext.emptyFn;
 			// MathJax is enabled and content will be converted
 			var queue = MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.element.dom]);

@@ -18,7 +18,7 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.speaker.form.IndexedExpandingAnswerForm', {
 	extend: 'ARSnova.view.speaker.form.ExpandingAnswerForm',
-	
+
 	config: {
 		singleChoice: true,
 		wording: {
@@ -27,9 +27,9 @@ Ext.define('ARSnova.view.speaker.form.IndexedExpandingAnswerForm', {
 			enumeration: 'alphabet'
 		}
 	},
-	
+
 	isIndexPresent: false,
-	
+
 	getValues: function() {
 		var values = this.callParent(arguments);
 		var labelGenerator = this.getEnumeration();
@@ -41,12 +41,8 @@ Ext.define('ARSnova.view.speaker.form.IndexedExpandingAnswerForm', {
 		}, this);
 		return values;
 	},
-	
+
 	initWithQuestion: function(question) {
-		if (question.abstention) {
-			// Remove abstention answer...
-			question.possibleAnswers.splice(-1);
-		}
 		this.callParent(arguments);
 		this.isIndexPresent = true;
 	}

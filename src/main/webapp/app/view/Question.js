@@ -18,6 +18,16 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
+/**
+ * We need to override this class in order to allow custom itemHeights on list elements
+ */
+Ext.define('ARSnova.view.PositionMap',{
+  override: 'Ext.util.PositionMap',
+    config: {
+      minimumHeight: 0
+    }
+});
+
 Ext.define('ARSnova.view.Question', {
 	extend: 'Ext.Panel',
 
@@ -45,7 +55,7 @@ Ext.define('ARSnova.view.Question', {
     answerStore.each(function(item) {
       var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
       md.setContent(item.get('text'), true, true, function(html) {
-        item.set('text', html.getHtml());
+        item.set('formattedText', html.getHtml());
         md.destroy();
       });
     });
@@ -226,8 +236,9 @@ Ext.define('ARSnova.view.Question', {
 			scrollable: { disabled: true },
 
       itemCls: 'arsnova-mathdown x-html',
+      itemHeight: 32,
 			itemTpl: new Ext.XTemplate(
-				'{text}',
+				'{formattedText}',
 				'<tpl if="correct === true && this.isQuestionAnswered(values)">',
 					'&nbsp;<span style="padding: 0 0.2em 0 0.2em" class="x-list-item-correct">&#10003; </span>',
 				'</tpl>',
@@ -281,6 +292,8 @@ Ext.define('ARSnova.view.Question', {
 				text: Messages.ABSTENTION,
 				correct: false
 			})[0];
+      // has to be set this way as it does not conform to the model
+      this.abstentionAnswer.set('formattedText', Messages.ABSTENTION);
 		}
 
 		this.mcSaveButton = Ext.create('Ext.Button', {

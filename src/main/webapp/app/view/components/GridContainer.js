@@ -651,10 +651,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				}
 
 				if (displayType == Messages.GRID_LABEL_RELATIVE || displayType == Messages.GRID_LABEL_RELATIVE_SHORT) {
-					var text = (typeof tilesToFill[key] ===  "undefined" ) ? "0,0%" : Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) + "%";
+					var text = (typeof tilesToFill[key] !==  "undefined" ) ? Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) + "%" : "";
 					this.addTextToField(coords[0], coords[1], text);
 				} else if (displayType == Messages.GRID_LABEL_ABSOLUTE || displayType == Messages.GRID_LABEL_ABSOLUTE_SHORT) {
-					var text = (typeof tilesToFill[key] ===  "undefined" ) ? "0" : tilesToFill[key];
+					var text = (typeof tilesToFill[key] !==  "undefined" ) ? tilesToFill[key] : "";
 					this.addTextToField(coords[0], coords[1], text);
 				}
 
