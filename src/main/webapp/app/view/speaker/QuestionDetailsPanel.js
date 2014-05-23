@@ -101,7 +101,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
     this.isFlashcard = this.questionObj.questionType === 'flashcard';
 
     this.answerStore = Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
-    this.answerStore.add(this.questionObj.possibleAnswers);
+    this.answerStore.add(Ext.clone(this.questionObj.possibleAnswers));
     this.formatAnswerText();
     this.addAbstentionAnswer();
 
@@ -379,7 +379,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						question.publishSkillQuestionStatistics({
 							success: function(response) {
 								hideLoadMask();
-								me.questionObj = question.data;
+								me.questionObj = question.getData();
 							},
 							failure: function() {
 								hideLoadMask();
@@ -428,7 +428,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						question.publishCorrectSkillQuestionAnswer({
 							success: function(response) {
 								hideLoadMask();
-								panel.questionObj = question.data;
+								panel.questionObj = question.getData();
 							},
 							failure: function() {
 								hideLoadMask();
