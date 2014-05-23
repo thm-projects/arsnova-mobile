@@ -43,7 +43,8 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 	},
 
 	setContent: function(content, mathJaxEnabled, markDownEnabled, mathjaxCallback) {
-		if (markDownEnabled) {
+		var features = ARSnova.app.globalConfig.features;
+		if (markDownEnabled && features.markdown) {
 			// remove MathJax blocks
 			var blockDelims = get_delimiter(content, "$$", "$$");
 			var repl = replace_delimiter(content, blockDelims, 'MATHJAXMARKDOWNBLOCK');
@@ -60,11 +61,13 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
       content = replace_back(repl);
 		}
 		this.setHtml(content);
-		if (mathJaxEnabled && "undefined" !== typeof MathJax) {
-      var callback = mathjaxCallback || Ext.emptyFn;
+		var callback = mathjaxCallback || Ext.emptyFn;
+		if (mathJaxEnabled && features.mathJax && "undefined" !== typeof MathJax) {
 			// MathJax is enabled and content will be converted
 			var queue = MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.element.dom]);
       MathJax.Hub.Queue([callback, this.element.down('div')]);
+		} else {
+			callback(this.element.down('div'));
 		}
 	}
 });
