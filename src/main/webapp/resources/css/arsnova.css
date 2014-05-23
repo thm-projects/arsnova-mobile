@@ -1582,3 +1582,9 @@ ol.standardList li {
 .answerListButton .x-innerhtml > p {
 	display: inline;
 }
+
+/* Display question categories in ALL CAPS */
+.allCapsHeader .x-list-header,
+.allCapsHeader .x-html > p:first-child {
+	text-transform: uppercase;
+}

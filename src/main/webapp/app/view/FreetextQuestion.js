@@ -71,7 +71,9 @@ Ext.define('ARSnova.view.FreetextQuestion', {
                      + this.questionObj.text;
 
     //Create standard panel with framework support
-    var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+    var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+      cls: "roundedBox allCapsHeader"
+    });
     questionPanel.setContent(questionString, true, true);
 
 		this.add([Ext.create('Ext.Panel', {
@@ -185,7 +187,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					answerSubject	: self.answerSubject.getValue(),
 					answerText		: self.answerText.getValue(),
 					timestamp		: Date.now(),
-					user			: localStorage.getItem("login")
+					user			: localStorage.getItem("login"),
+          questionVariant: self.questionObj.questionVariant
 				});
 
 				self.saveAnswer(answer);

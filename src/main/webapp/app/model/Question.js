@@ -20,11 +20,12 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.model.Question', {
 	extend: 'Ext.data.Model',
-	
+
 	config: {
 		idProperty: '_id',
 		proxy: { type: 'restProxy' },
-		
+    useCache: false,
+
 		fields: [
 		         '_rev',
 		         'abstention',
@@ -33,7 +34,6 @@ Ext.define('ARSnova.model.Question', {
 		         'noCorrect',
 		         'type',
 		         'number',
-		         'numAnswers',
 		         'piRound',
 		         'possibleAnswers',
 		         'questionType',
@@ -53,26 +53,14 @@ Ext.define('ARSnova.model.Question', {
 		      	 'zoomLvl',
 		      	 'image',
 		],
-		
-		transientFields: ['numAnswers'],
-		
+
 		validations: [
 		         {type: 'presence', field: 'type'},
 		         {type: 'presence', field: 'text'},
 		         {type: 'presence', field: 'subject'}
 		]
 	},
-	
-	initialize: function() {
-		this.callParent(arguments);
-		
-		for (var i = 0; field = this.config.transientFields[i]; i++) {
-			if (typeof this.get(field) !== "undefined") {
-				delete this[this.persistanceProperty][field];
-			}
-		}
-	},
-    
+
     destroy: function(queObj, callbacks) {
     	return this.getProxy().delQuestion(queObj, callbacks);
     },
