@@ -187,12 +187,18 @@ Ext.application({
 		this.initRestProxy();
 		this.initSocket();
 		this.initModels();
-		this.initConfig();
- 
-		this.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
-		
-		/* check previous login */
-		ARSnova.app.getController('Auth').checkLogin();
+
+		var me = this;
+		this.loadGlobalConfig().then(function (globalConfig) {
+			me.globalConfig = globalConfig;
+			me.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
+			
+			/* check previous login */
+			me.getController('Auth').checkLogin();
+		}, function () {
+			console.error("Could not load configuration");
+			/* TODO: add error handling */
+		});
 	},
 
 	/**
@@ -216,25 +222,18 @@ Ext.application({
 		this.socket = Ext.create('ARSnova.WebSocket');
 	},
 
-	initConfig: function() {
-		this.globalConfig = new RSVP.Promise();
-		var me = this;
-		this.restProxy.getGlobalConfiguration({
+	loadGlobalConfig: function() {
+		var globalConfig = new RSVP.Promise();
+		ARSnova.app.restProxy.getGlobalConfiguration({
 			success: function(config) {
-				me.globalConfig.resolve(config);
+				globalConfig.resolve(config);
 			},
 			failure: function() {
-				me.globalConfig.reject();
+				globalConfig.reject();
 			}
 		});
-	},
 
-	getConfig: function() {
-		if (!this.globalConfig) {
-			this.initConfig();
-		}
-
-		return this.globalConfig;
+		return globalConfig;
 	},
 
 	/**

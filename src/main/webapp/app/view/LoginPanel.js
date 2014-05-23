@@ -78,14 +78,8 @@ Ext.define('ARSnova.view.LoginPanel', {
 			me.arsLogo
 		]);
 
-		var promises = [
-			ARSnova.app.getController('Auth').services,
-			ARSnova.app.getConfig()
-		];
-		RSVP.all(promises).then(function(results) {
-			var services = results[0];
-			var config = results[1];
-			
+		var config = ARSnova.app.globalConfig;
+		ARSnova.app.getController('Auth').services.then(function(services) {
 			var i, buttonPanels = [], button, items = [], service, imagePath = "", imageSrc;
 			if (config.customizationPath) {
 				imagePath = config.customizationPath + "/images/";
