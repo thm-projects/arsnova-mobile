@@ -20,9 +20,8 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	extend: 'Ext.Panel',
-	
-	requires: [ 'ARSnova.view.Caption', 'ARSnova.model.Question', 
-	            'ARSnova.view.speaker.AudienceQuestionListItem', 
+
+	requires: [ 'ARSnova.view.Caption', 'ARSnova.model.Question',
 	            'ARSnova.view.speaker.MultiQuestionStatusButton'
 	],
 
@@ -84,9 +83,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			hidden: true,
 			
 			style: styling,
-			
-			useSimpleItems: false,
-			defaultType: 'audiencequestionlistitem',
 
 			itemCls: 'forwardListButton',
 			itemTpl: '<tpl if="active"><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
