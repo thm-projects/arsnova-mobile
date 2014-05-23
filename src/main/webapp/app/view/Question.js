@@ -225,7 +225,9 @@ Ext.define('ARSnova.view.Question', {
                        + this.questionObj.text;
 
 		//Create standard panel with framework support
-		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+      cls: "roundedBox allCapsHeader"
+    });
 		questionPanel.setContent(questionString, true, true);
 
 		this.answerList = Ext.create('Ext.List', {

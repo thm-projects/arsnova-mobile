@@ -104,7 +104,7 @@ Ext.define("ARSnova.controller.Questions", {
 			questionType: options.questionType,
 			questionVariant: options.questionVariant,
 			sessionKeyword: options.sessionKeyword,
-			subject		: options.subject.toUpperCase(),
+			subject		: options.subject,
 			text 		: options.text,
 			active		: options.active,
 			number		: options.number,

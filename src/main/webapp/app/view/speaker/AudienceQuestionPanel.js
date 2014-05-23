@@ -78,7 +78,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 		this.questionList = Ext.create('Ext.List', {
 			activeCls: 'search-item-active',
-			cls: 'roundedCorners',
+			cls: 'roundedCorners allCapsHeader',
 
 			scrollable: { disabled: true },
 			hidden: true,
