@@ -37,6 +37,7 @@ Ext.define('ARSnova.model.Question', {
 		         'piRound',
 		         'possibleAnswers',
 		         'questionType',
+		         'questionVariant',
 		         'releasedFor',
 		         'session',
 		         'sessionId',
