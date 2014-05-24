@@ -190,6 +190,7 @@ Ext.application({
 
 		var me = this;
 		this.loadGlobalConfig().then(function (globalConfig) {
+			console.debug("Configuration loaded");
 			me.globalConfig = globalConfig;
 			me.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
 			
@@ -197,7 +198,11 @@ Ext.application({
 			me.getController('Auth').checkLogin();
 		}, function () {
 			console.error("Could not load configuration");
-			/* TODO: add error handling */
+			Ext.Msg.alert(Messages.NOTIFICATION, Messages.CONNECTION_PROBLEM, function () {
+				setTimeout(function () {
+					location.reload();
+				}, 5000);
+			});
 		});
 	},
 

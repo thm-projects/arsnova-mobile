@@ -767,6 +767,9 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			success: function(response) {
 				var json = response.responseText || "[]";
 				callbacks.success(Ext.decode(json));
+			},
+			failure: function(response) {
+				callbacks.failure(response);
 			}
 		});
 	}
