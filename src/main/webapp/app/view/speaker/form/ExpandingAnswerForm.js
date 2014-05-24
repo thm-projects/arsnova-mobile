@@ -70,9 +70,13 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		var answerOptions = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			submitOnAction: false,			
-			items: [answerFieldset, previewButton]
+			items: [answerFieldset]
 		});
-		
+
+		if (ARSnova.app.globalConfig.parseAnswerOptionFormatting) {
+			answerOptions.add(previewButton);
+		}
+
 		var answerOptionEntryId = Ext.id();
 		var theComponentId;
 		
