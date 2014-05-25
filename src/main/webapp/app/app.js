@@ -127,6 +127,7 @@ Ext.application({
     cardSwitchDuration: 500,
     socket: null,
     globalConfig: null,
+    launched: null,
     
     /* tasks */
 	/**
@@ -178,7 +179,8 @@ Ext.application({
 		console.info("ARSnova.app.launch");
         // Destroy the #appLoadingIndicator element
         Ext.fly('appLoadingIndicator').destroy();
-        
+		this.launched = new RSVP.Promise();
+	
 		this.checkLocalStorage();
 		this.checkBrowser();
 		
@@ -196,6 +198,7 @@ Ext.application({
 			
 			/* check previous login */
 			me.getController('Auth').checkLogin();
+			me.launched.resolve();
 		}, function () {
 			console.error("Could not load configuration");
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.CONNECTION_PROBLEM, function () {
@@ -203,6 +206,7 @@ Ext.application({
 					location.reload();
 				}, 5000);
 			});
+			me.launched.reject();
 		});
 	},
 
@@ -246,6 +250,7 @@ Ext.application({
 	 * start some tasks and show the correct homepage to user
 	 */
 	afterLogin: function(){
+		console.debug("Application: afterLogin");
 		taskManager.start(ARSnova.app.loggedInTask);
 		ARSnova.app.loggedInTask.run(); // fire immediately
 		
@@ -294,6 +299,7 @@ Ext.application({
     },
     
 	checkPreviousLogin: function(){
+		console.debug("Application: checkPreviousLogin");
 		var isLocalStorageUninitialized = localStorage.getItem('role') == null
 									   || localStorage.getItem('loginMode') == null
 									   || localStorage.getItem('login') == null;

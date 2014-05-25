@@ -44,23 +44,26 @@ Ext.define("ARSnova.controller.Auth", {
 	},
 
 	qr: function(sessionkey, role) {
-		ARSnova.app.loggedIn = true;
-		if (localStorage.getItem('login') === null) {
-			localStorage.setItem('login', ARSnova.app.authModel.generateGuestName());
-		}
-		ARSnova.app.userRole = "lecturer" === role ? ARSnova.app.USER_ROLE_SPEAKER : ARSnova.app.USER_ROLE_STUDENT;
-		localStorage.setItem('role', ARSnova.app.userRole);
-		ARSnova.app.setWindowTitle();
-		if (!ARSnova.app.loginMode) {
-			ARSnova.app.loginMode = ARSnova.app.LOGIN_GUEST;
-			localStorage.setItem('loginMode', ARSnova.app.loginMode);
-		}
-		localStorage.setItem('keyword', sessionkey);
-		ARSnova.app.afterLogin();
+		console.debug("Controller: Auth.qr", sessionkey, role);
+		ARSnova.app.launched.then(function () {
+			ARSnova.app.loggedIn = true;
+			if (localStorage.getItem('login') === null) {
+				localStorage.setItem('login', ARSnova.app.authModel.generateGuestName());
+			}
+			ARSnova.app.userRole = "lecturer" === role ? ARSnova.app.USER_ROLE_SPEAKER : ARSnova.app.USER_ROLE_STUDENT;
+			localStorage.setItem('role', ARSnova.app.userRole);
+			ARSnova.app.setWindowTitle();
+			if (!ARSnova.app.loginMode) {
+				ARSnova.app.loginMode = ARSnova.app.LOGIN_GUEST;
+				localStorage.setItem('loginMode', ARSnova.app.loginMode);
+			}
+			localStorage.setItem('keyword', sessionkey);
+			ARSnova.app.afterLogin();
 
-		window.location = window.location.pathname + "#";
-		ARSnova.app.getController('Sessions').login({
-			keyword: sessionkey
+			window.location = window.location.pathname + "#";
+			ARSnova.app.getController('Sessions').login({
+				keyword: sessionkey
+			});
 		});
 	},
 	
@@ -91,11 +94,13 @@ Ext.define("ARSnova.controller.Auth", {
 	},
 
 	login: function(options) {
-		ARSnova.app.loginMode = options.service.id;
-		localStorage.setItem('loginMode', options.service.id);
+		console.debug("Controller: Auth.login", options);
+		var serviceId = options.service ? options.service.id : "guest";
+		ARSnova.app.loginMode = serviceId;
+		localStorage.setItem('loginMode', serviceId);
 		var location = "", type = "", me = this;
 		
-		if (ARSnova.app.LOGIN_GUEST === options.service.id){
+		if (ARSnova.app.LOGIN_GUEST === serviceId){
 			if (localStorage.getItem('login') === null) {
 				localStorage.setItem('login', ARSnova.app.authModel.generateGuestName());
 				type = "guest";
@@ -116,6 +121,7 @@ Ext.define("ARSnova.controller.Auth", {
 	},
 	
 	checkLogin: function(){
+		console.debug("Controller: Auth.checkLogin");
 		ARSnova.app.restProxy.absoluteRequest({
 			url: 'whoami.json',
 			success: function(response){
