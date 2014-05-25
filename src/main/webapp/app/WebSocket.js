@@ -67,5 +67,9 @@ Ext.define('ARSnova.WebSocket', {
 		promise = ARSnova.app.restProxy.initWebSocket(socketUrl, promise);
 		
 		return promise;
+	},
+
+	setSession: function (sessionKey) {
+		socket.emit("setSession", sessionKey);
 	}
 });

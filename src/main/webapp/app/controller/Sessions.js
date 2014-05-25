@@ -66,6 +66,9 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('courseId', obj.courseId === null ? "" : obj.courseId);
 				localStorage.setItem('courseType', obj.courseType === null ? "" : obj.courseType);
 				localStorage.setItem('active', obj.active ? 1 : 0);
+				
+				/* TODO: Use abstraction layer? */
+				socket.emit("setSession", {keyword: obj.keyword});
     	    	
     	    	//start task to update the feedback tab in tabBar
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge, ARSnova.app.mainTabPanel.tabPanel);
@@ -87,6 +90,9 @@ Ext.define("ARSnova.controller.Sessions", {
     },
 
 	logout: function(){
+		/* TODO: Use abstraction layer? */
+		socket.emit("setSession", {keyword: null});
+
 		//remove "user has voted"-flag
 		if (localStorage.getItem('user has voted'))
 			localStorage.removeItem('user has voted');

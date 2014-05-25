@@ -669,15 +669,11 @@ Ext.define('ARSnova.proxy.RestProxy', {
 
 	/**
 	 * save every minute that i'm online
+	 * replaced by WebSocket solution
+	 * TODO: remove all related code
 	 */
 	loggedInTask: function() {
-		this.arsjax.request({
-			url: "session/" + localStorage.getItem("keyword") + "/online",
-			method: "POST",
-			failure: function() {
-				console.log('server-side error loggedIn.save');
-			}
-		});
+		console.debug("Obsolete method called");
 	},
 
 	/**
@@ -776,5 +772,5 @@ Ext.define('ARSnova.proxy.RestProxy', {
 				callbacks.failure(response);
 			}
 		});
-	}
+	},
 });
