@@ -45,25 +45,19 @@ Ext.define("ARSnova.controller.Auth", {
 
 	qr: function(sessionkey, role) {
 		console.debug("Controller: Auth.qr", sessionkey, role);
+		var me = this;
 		ARSnova.app.launched.then(function () {
-			ARSnova.app.loggedIn = true;
-			if (localStorage.getItem('login') === null) {
-				localStorage.setItem('login', ARSnova.app.authModel.generateGuestName());
-			}
-			ARSnova.app.userRole = "lecturer" === role ? ARSnova.app.USER_ROLE_SPEAKER : ARSnova.app.USER_ROLE_STUDENT;
-			localStorage.setItem('role', ARSnova.app.userRole);
-			ARSnova.app.setWindowTitle();
-			if (!ARSnova.app.loginMode) {
-				ARSnova.app.loginMode = ARSnova.app.LOGIN_GUEST;
-				localStorage.setItem('loginMode', ARSnova.app.loginMode);
-			}
+			localStorage.setItem(
+				'role', 
+				"lecturer" === role ? ARSnova.app.USER_ROLE_SPEAKER : ARSnova.app.USER_ROLE_STUDENT
+			);
 			localStorage.setItem('keyword', sessionkey);
+			if (!ARSnova.app.checkPreviousLogin()) {
+				me.login();
+			}
 			ARSnova.app.afterLogin();
 
 			window.location = window.location.pathname + "#";
-			ARSnova.app.getController('Sessions').login({
-				keyword: sessionkey
-			});
 		});
 	},
 	
@@ -95,7 +89,7 @@ Ext.define("ARSnova.controller.Auth", {
 
 	login: function(options) {
 		console.debug("Controller: Auth.login", options);
-		var serviceId = options.service ? options.service.id : "guest";
+		var serviceId = options && options.service ? options.service.id : "guest";
 		ARSnova.app.loginMode = serviceId;
 		localStorage.setItem('loginMode', serviceId);
 		var location = "", type = "", me = this;
