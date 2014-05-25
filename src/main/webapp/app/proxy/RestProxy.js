@@ -632,6 +632,8 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	},
 
 	postFeedback: function(sessionKeyword, feedbackValue, callbacks) {
+		/* TODO: Remove this method, it has been replaced by a WebSocket solution */
+		console.warn("Deprecated method used for feedback");
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/feedback",
 			method: "POST",

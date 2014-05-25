@@ -48,10 +48,13 @@ Ext.define('ARSnova.model.Feedback', {
 	},
 	
 	getUserFeedback: function(sessionKeyword, callbacks){
+		/* TODO: Remove this method, it has been replaced by a WebSocket solution */
+		console.warn("Deprecated method used for feedback");
 		return this.getProxy().getUserFeedback(sessionKeyword, callbacks);
 	},
 	
-	postFeedback: function(sessionKeyword, feedbackValue, callbacks) {
-		return this.getProxy().postFeedback(sessionKeyword, feedbackValue, callbacks);
+	postFeedback: function(feedbackValue) {
+		/* TODO: Use abstraction layer? */
+		socket.emit("setFeedback", {value: feedbackValue});
 	}
 });
