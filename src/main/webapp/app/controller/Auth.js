@@ -109,14 +109,10 @@ Ext.define("ARSnova.controller.Auth", {
 					me.checkLogin();
 				}
 			});
-			return;
 		} else {
 			location = Ext.util.Format.format(options.service.dialogUrl, encodeURIComponent(window.location.pathname));
 			this.handleLocationChange(location);
 		}
-
-		/* actions to perform after login */
-		ARSnova.app.afterLogin();
 	},
 	
 	checkLogin: function(){
