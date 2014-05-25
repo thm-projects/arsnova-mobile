@@ -39,10 +39,11 @@ Ext.define('ARSnova.WebSocket', {
 				secure: window.location.protocol === 'http:' ? false : true
 			});
 			socket.on('connect', function() {
-				ARSnova.app.restProxy.connectWebSocket();
+				console.debug("WebSocket connection established");
 			});
 			
 			socket.on('reconnect', function() {
+				/* TODO: Handle reconnect: rejoin ARSnova session if necessary */
 				ARSnova.app.restProxy.connectWebSocket();
 			});
 			

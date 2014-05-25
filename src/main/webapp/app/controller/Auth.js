@@ -124,6 +124,7 @@ Ext.define("ARSnova.controller.Auth", {
 				localStorage.setItem('login', obj.username);
 				window.location = window.location.pathname + "#";
 				ARSnova.app.checkPreviousLogin();
+				ARSnova.app.restProxy.connectWebSocket();
 			}
 		});
 	},
