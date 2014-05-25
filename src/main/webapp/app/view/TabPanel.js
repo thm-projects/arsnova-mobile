@@ -169,20 +169,13 @@ Ext.define('ARSnova.view.TabPanel', {
 	},
 	
 	updateHomeBadge: function() {
-		ARSnova.app.loggedInModel.countActiveUsersBySession(localStorage.getItem("keyword"), {
-			success: function(response){
-				var speaker = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-				var student = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
-				
-				var value = parseInt(response.responseText);
-				if (value > 0) {
-					speaker && speaker.tab.setBadgeText(value-1); // Do not count the speaker itself
-					student && student.tab.setBadgeText(value); // Students will see all online users
-				}
-			},
-			failure: function(){
-				console.log('server-side error');
-			}
-		});
+		var count = ARSnova.app.loggedInModel.countActiveUsersBySession();
+		var speaker = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		var student = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
+		
+		if (count > 0) {
+			speaker && speaker.tab.setBadgeText(count-1); // Do not count the speaker itself
+			student && student.tab.setBadgeText(count); // Students will see all online users
+		}
 	}
 });

@@ -474,20 +474,13 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	},
 	
 	countActiveUsers: function(){
-		ARSnova.app.loggedInModel.countActiveUsersBySession(localStorage.getItem("keyword"), {
-			success: function(response){
-				var value = parseInt(response.responseText);
-				
-				//update quote in toolbar
-				var quote = ARSnova.app.mainTabPanel._activeItem.toolbar.items.items[2];
-				var users = quote.getHtml().split("/");
-				users[1] = value;
-				users = users.join("/");
-				quote.setHtml(users);
-			},
-			failure: function(){
-				console.log('server-side error');
-			}
-		});
+		var count = ARSnova.app.loggedInModel.countActiveUsersBySession();
+
+		//update quote in toolbar
+		var quote = ARSnova.app.mainTabPanel._activeItem.toolbar.items.items[2];
+		var users = quote.getHtml().split("/");
+		users[1] = count;
+		users = users.join("/");
+		quote.setHtml(users);
 	}
 });

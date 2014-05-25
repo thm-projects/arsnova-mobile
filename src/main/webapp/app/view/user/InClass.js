@@ -324,6 +324,9 @@ Ext.define('ARSnova.view.user.InClass', {
 		}
 	},
 	
+	/* TODO: check code
+	 * this causes... nothing?
+	 */
 	countActiveUsers: function(){
 		ARSnova.app.loggedInModel.countActiveUsersBySession(localStorage.getItem("keyword"), {
 			success: function(response){

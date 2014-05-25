@@ -74,6 +74,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge, ARSnova.app.mainTabPanel.tabPanel);
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon, ARSnova.app.mainTabPanel.tabPanel);
     	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
+				ARSnova.app.mainTabPanel.tabPanel.updateHomeBadge();
     	    	
 				ARSnova.app.getController('Sessions').reloadData();
     		},
@@ -92,6 +93,8 @@ Ext.define("ARSnova.controller.Sessions", {
 	logout: function(){
 		/* TODO: Use abstraction layer? */
 		socket.emit("setSession", {keyword: null});
+
+		ARSnova.app.loggedInModel.resetActiveUserCount();
 
 		//remove "user has voted"-flag
 		if (localStorage.getItem('user has voted'))

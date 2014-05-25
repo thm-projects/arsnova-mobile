@@ -47,6 +47,10 @@ Ext.define('ARSnova.WebSocket', {
 				ARSnova.app.restProxy.connectWebSocket();
 			});
 			
+			socket.on('activeUserCountData', Ext.bind(function(data) {
+				this.fireEvent("arsnova/socket/activeusercount/update", data);
+			}, this));
+			
 			socket.on('feedbackData', Ext.bind(function(data) {
 				this.fireEvent("arsnova/socket/feedback/update", data);
 			}, this));
