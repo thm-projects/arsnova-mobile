@@ -3,16 +3,17 @@
 	<property name="sencha.build.dir" value="${main.dir}/build" />
 	<property name="sencha.build.testing.dir" value="${sencha.build.dir}/testing/ARSnova" />
 	<property name="sencha.build.production.dir" value="${sencha.build.dir}/production/ARSnova" />
-	
+	<property name="environment" value="production" />
+
 	<taskdef name="jshint" classname="com.philmander.jshint.JsHintAntTask" classpath="${basedir}/lib/ant-jshint-0.3.6-SNAPSHOT-deps.jar" />
-	
+
 	<target name="sencha:refresh">
 		<exec executable="sencha" dir="${main.dir}" failonerror="true">
 			<arg value="app"/>
 			<arg value="refresh"/>
 		</exec>
 	</target>
-	
+
 	<target name="sencha:build:testing">
 		<exec executable="sencha" dir="${main.dir}" failonerror="true">
 			<arg value="app"/>
@@ -20,7 +21,7 @@
 			<arg value="testing"/>
 		</exec>
 	</target>
-	
+
 	<target name="sencha:build:production">
 		<exec executable="sencha" dir="${main.dir}" failonerror="true">
 			<arg value="app"/>
@@ -28,19 +29,18 @@
 			<arg value="production"/>
 		</exec>
 	</target>
-	
+
 	<target name="sencha:app:watch">
 		<exec executable="sencha" dir="${main.dir}" failonerror="true">
-			<arg value="app"/>
-			<arg value="watch"/>
+			<arg line="app watch -e ${environment}"/>
 		</exec>
 	</target>
-	
+
 	<target name="jshint">
 		<jshint dir="${main.dir}/app" includes="**/*.js" globals="Ext:true,console:true,ARSnova:true,socket:true,RSVP:true">
 			<report type="xml" destFile="${basedir}/target/jshint.xml" />
 		</jshint>
 	</target>
-	
+
 	<target name="run" depends="sencha:refresh, sencha:build:production"/>
 </project>

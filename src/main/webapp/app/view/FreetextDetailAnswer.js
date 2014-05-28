@@ -97,42 +97,24 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			scope: this,
 			hidden: !this.answer.deletable,
 			handler: function() {
-				var me = this;
-				var sheet = Ext.create('Ext.ActionSheet', {
-					items: [
-						{
-							text: Messages.DELETE,
-							ui: 'decline',
-							handler: function () {
-								ARSnova.app.questionModel.deleteAnswer(self.answer.questionId, self.answer._id, {
-									failure: function() {
-										console.log('server-side error: deletion of freetext answer failed');
-									}
-								});
-
-								sheet.destroy();
-								self.sTP.animateActiveItem(self.sTP.questionDetailsPanel, {
-									type		: 'slide',
-									direction	: 'right',
-									duration	: 700,
-						    		listeners: {
-						    			animationend: function() {
-											self.answer.removeItem();
-											me.destroy();
-						    		}, scope: this }
-								});
-							}
-						},
-						{
-							text: Messages.CANCEL,
-							handler: function() {
-								sheet.hide();
-							}
-						}
-					]
+				ARSnova.app.questionModel.deleteAnswer(self.answer.questionId, self.answer._id, {
+          success: function() {
+            self.sTP.animateActiveItem(self.sTP.questionDetailsPanel, {
+              type		: 'slide',
+              direction	: 'right',
+              duration	: 700,
+              listeners: {
+                animationend: function() {
+                  self.answer.removeItem();
+                  me.destroy();
+                }
+              }
+            });
+          },
+					failure: function() {
+						console.log('server-side error: deletion of freetext answer failed');
+					}
 				});
-				Ext.Viewport.add(sheet);
-				sheet.show();
 			}
 		}]);
 

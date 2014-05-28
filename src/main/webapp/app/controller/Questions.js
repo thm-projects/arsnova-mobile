@@ -193,12 +193,11 @@ Ext.define("ARSnova.controller.Questions", {
 		// This gets called either by the speaker or by a student
 		if (ARSnova.app.isSessionOwner && !isFromFreetextAnswerPanel) {
 			parentPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-			options.answer.deletable = true;
 		} else {
 			parentPanel = ARSnova.app.mainTabPanel;
-			options.answer.deletable = false;
 		}
 
+    options.answer.deletable = ARSnova.app.isSessionOwner;
 		var freetextDetailAnswerPanel = Ext.create('ARSnova.view.FreetextDetailAnswer', {
 			sTP		: parentPanel,
 			answer	: options.answer
