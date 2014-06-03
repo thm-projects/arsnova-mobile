@@ -502,7 +502,13 @@ html,body {
 	background: white;
 }
 
-.caption .bluebadgeicon, .caption .redbadgeicon, .caption .badgeicon, .caption .greybadgeicon, .caption .bluebadgeiconfixed {
+.caption .bluebadgeicon,
+.caption .redbadgeicon,
+.caption .badgeicon,
+.caption .greybadgeicon,
+.caption .bluebadgeiconfixed,
+.caption .greenbadgeicon,
+.caption .yellowbadgeicon {
 	font-size: 0.6em;
 }
 
@@ -667,7 +673,7 @@ html,body {
 	border-bottom-right-radius: 15px;
 }
 
-.badgeicon, .greybadgeicon, .bluebadgeicon, .redbadgeicon {
+.badgeicon, .greybadgeicon, .bluebadgeicon, .redbadgeicon, .greenbadgeicon, .yellowbadgeicon {
 	font-weight: bold;
 	/* @alternate */ background: rgba(0, 0, 0, .50);
 	/* @alternate */ background: -webkit-linear-gradient(top, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .70) 100%);
@@ -688,6 +694,16 @@ html,body {
 .bluebadgeicon {
 	background: rgb(23, 35, 128);
 	/* @alternate */ background: -webkit-linear-gradient(top, rgba(23, 35, 128, .7) 0%, rgba(23, 35, 128, 1) 100%);
+}
+
+.greenbadgeicon {
+	background: rgb(36, 155, 46);
+	/* @alternate */ background: -webkit-linear-gradient(top, rgba(36, 155, 46, .7) 0%, rgba(1, 121, 11, 1) 100%);
+}
+
+.yellowbadgeicon {
+	background: rgb(223, 226, 130);
+	/* @alternate */ background: -webkit-linear-gradient(top, rgba(204, 163, 0, .7) 0%, rgba(204, 163, 0, 1) 100%);
 }
 
 .withdoublebadge {
