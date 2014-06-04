@@ -194,6 +194,7 @@ switch (lang) {
 			ANSWER_PREVIEW_BUTTON_TITLE: "Preview",
 			ANSWER_PREVIEW_DIALOGBOX_TITLE: "Preview answer",
 			ANSWER_PREVIEW_DIALOGBOX_BUTTON_TITLE: "OK",
+			ANSWER_POINTS: "Answer points",
 
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
@@ -528,13 +529,13 @@ switch (lang) {
 			CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE: "Wenn Sie die Fragen sperren, können Zuhörer/innen die Fragen weder sehen noch beantworten.",
 			SAVE_AND_CONTINUE: 'Speichern und weiter',
 			CONFIRM_ANSWERS_CHANGED: "Bereits gegebene Antworten gehen verloren.",
-
 			QUESTION_PREVIEW_BUTTON_TITLE: "Vorschau",
 			QUESTION_PREVIEW_DIALOGBOX_TITLE: "Vorschau Frage",
 			QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE: "OK",
 			ANSWER_PREVIEW_BUTTON_TITLE: "Vorschau",
 			ANSWER_PREVIEW_DIALOGBOX_TITLE: "Vorschau Antwort",
 			ANSWER_PREVIEW_DIALOGBOX_BUTTON_TITLE: "OK",
+			ANSWER_POINTS: "Antwortpunkte",
 
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
