@@ -297,7 +297,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		        xField: 'text',
 		        yField: 'value',
 		        style: {
-		        	minGapWidth: 25,
+		        	minGapWidth: 20,
 		        	maxBarWidth: 200
 		        },
 		        label: {
@@ -306,7 +306,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		        	color	: '#fff',
 		        	orientation: 'horizontal',
 		        	renderer: function(text) {
-		        		return text + " %";
+		        		return text + "%";
 		        	}
 		        },
 		        renderer: function (sprite, config, rendererData, i) {		 
