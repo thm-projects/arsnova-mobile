@@ -19,6 +19,25 @@
 	opacity: 0;
 }
 
+/* styles for custom sliderField */
+.sliderField .sliderInputField {
+	width: 10%;
+	float: right;
+	margin-right: 5px;
+}
+
+.sliderField .x-slider {
+ 	width: 90%;
+}
+
+.sliderField .sliderInputField .sliderInputValue {
+	width: 100%;
+	border: none;
+	height: 2.0em;
+	text-align: center;
+	pointer-events: none;
+}
+
 .x-carousel-indicator span {
 	display: block;
 	width: 0.7em;
@@ -1604,3 +1623,5 @@ ol.standardList li {
 .allCapsHeader .x-html > p:first-child {
 	text-transform: uppercase;
 }
+
+
