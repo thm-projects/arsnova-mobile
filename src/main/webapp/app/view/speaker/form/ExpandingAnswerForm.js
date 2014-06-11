@@ -18,6 +18,8 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 	extend: 'Ext.Container',
+	
+	requires: ['ARSnova.view.CustomSliderField'],
 
 	config: {
 		minAnswers: 2,
@@ -103,14 +105,14 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 								});
 							} else if (checked.length > 0) {
 								this.questionValueComponents.forEach(function(c, j) {
-										c.setValue(this.answerComponents[j].isChecked() ? c.getMaxValue() : c.getMinValue());
+										c.setSliderValue(this.answerComponents[j].isChecked() ? c.getMaxValue() : c.getMinValue());
 								}, this);
 							} else {
-								component.setValue(isChecked ? component.getMaxValue() : component.getMinValue());
+								component.setSliderValue(isChecked ? component.getMaxValue() : component.getMinValue());
 							}
 						},
 						change: function(field, newValue, oldValue) {
-							this.questionValueComponents[i].setLabel(newValue || Messages.ANSWER);
+							this.questionValueComponents[i].setLabel(newValue || Messages.ANSWER);
 						}
 					}
 				});
@@ -121,16 +123,15 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		for (var i=0; i < this.getMaxAnswers(); i++) {
 			(function(i) {
 				var theComponentId = answerOptionEntryId + "-qv-" + i;
-				this.questionValueComponents[i] = Ext.create("Ext.field.Spinner", {
+				this.questionValueComponents[i] = Ext.create("ARSnova.view.CustomSliderField", {
 					id: theComponentId,
 					name: theComponentId,
 					hidden: this.getStart() <= i,
 					minValue: -10,
 					maxValue: 10,
-					stepValue: 1,
-					cycle: true,
-					label: this.answerComponents[i].getValue() || Messages.ANSWER,
-					defaultValue: 0
+					value: 0,
+					increment: 1,
+					label: this.answerComponents[i].getValue() || Messages.ANSWER
 				});
 				questionValueFieldset.add(this.questionValueComponents[i]);
 			}).call(this, i);
@@ -159,7 +160,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		for (var i=0; i < this.selectAnswerCount.getValue(); i++) {
 			obj = {
 				text: this.answerComponents[i].getValue(),
-				value: this.questionValueComponents[i].getValue(),
+				value: this.questionValueComponents[i].getSliderValue(),
 				correct: this.answerComponents[i].isChecked()
 			};
 			values.push(obj);
@@ -200,7 +201,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 
 	initQuestionValueComponents: function(possibleAnswers) {
 		possibleAnswers.forEach(function(answer, index) {
-			this.questionValueComponents[index].setValue(answer.value);
+			this.questionValueComponents[index].setSliderValue(answer.value);
 		}, this);
 	},
 
