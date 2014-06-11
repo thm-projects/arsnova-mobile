@@ -197,7 +197,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				id : 'fs_upfield',
 				xtype : 'fieldset',
 				title : Messages.EDIT_PICTURE,
-				docked : 'top',
+				docked : 'top'
 			}, {
 				id : 'pnl_upfield',
 				xtype : 'panel',
@@ -208,7 +208,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					label : Messages.SELECT_PICTURE_FS,
 					name : 'tf_url',
 					placeHolder : 'http://',
-					docked : 'top',
+					docked : 'top'
 				}, {
 					xtype : 'spacer',
 					height : 50,
@@ -223,7 +223,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					items : [
 						this.buttonUploadFromFS
 						, {
-						xtype : 'spacer',
+						xtype : 'spacer'
 					}, {
 						xtype : 'button',
 						text : Messages.SELECT_PICTURE_URL,
@@ -271,7 +271,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 			},
 			minValue: 1,
-			value : this.grid.getScale() * 100,	// set value as default
+			value : this.grid.getScale() * 100	// set value as default
 		});
 
 		this.gridSpinner = Ext.create('Ext.field.Spinner', {
@@ -286,8 +286,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			maxValue : 16,
 			value :  this.grid.getGridSize(),
 			stepValue : 1,
-			cycle : true,
-
+			cycle : true
 		});
 
 		this.gridColorsToggle = Ext.create('Ext.field.Toggle', {

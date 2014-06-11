@@ -123,7 +123,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 			name	 : 'tf_abstenstion',
 			value	 : 0,
 			label	 : Messages.ABSTENTION,
-			readOnly : true,
+			readOnly : true
 		});
 
 		this.optionsFieldSet = Ext.create('Ext.form.FieldSet', {

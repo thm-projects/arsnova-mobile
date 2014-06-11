@@ -249,7 +249,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	setAnswerText: function(subject, answer) {
 		this.answerSubject.setValue(subject);
 		this.answerText.setValue(answer);
-	},
+	}
 
 	/*doTypeset: function(parent) {
 		if (typeof this.questionTitle.element !== "undefined") {

@@ -24,7 +24,7 @@ Ext.define('ARSnova.model.Question', {
 	config: {
 		idProperty: '_id',
 		proxy: { type: 'restProxy' },
-    useCache: false,
+		useCache: false,
 
 		fields: [
 		         '_rev',
@@ -52,7 +52,7 @@ Ext.define('ARSnova.model.Question', {
 		      	 'offsetX',
 		      	 'offsetY',
 		      	 'zoomLvl',
-		      	 'image',
+		      	 'image'
 		],
 
 		validations: [

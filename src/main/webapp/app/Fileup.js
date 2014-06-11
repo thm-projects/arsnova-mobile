@@ -176,7 +176,7 @@ Ext.define('Ext.ux.Fileup', {
                     accept: 'image/*',
                     style: 'opacity:0;position:absolute;top:-3px;right:-3px;bottom:-3px;left:-3px;z-index:16777270;'
                 }
-            ],
+            ]
 
         }
     ],

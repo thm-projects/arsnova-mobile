@@ -348,7 +348,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			}, {
 				html: Messages.STATISTIC,
 				cls	: 'centerTextSmall'
-			}],
+			}]
 		});
 
 		this.releaseStatisticButton = Ext.create('Ext.Panel', {
