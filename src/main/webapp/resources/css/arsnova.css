@@ -21,13 +21,13 @@
 
 /* styles for custom sliderField */
 .sliderField .sliderInputField {
-	width: 10%;
+	width: 15%;
 	float: right;
 	margin-right: 5px;
 }
 
 .sliderField .x-slider {
- 	width: 90%;
+ 	width: 85%;
 }
 
 .sliderField .sliderInputField .sliderInputValue {

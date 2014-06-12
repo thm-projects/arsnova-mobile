@@ -24,7 +24,7 @@ Ext.define('ARSnova.view.CustomSliderField', {
 
     config: {
         cls: 'sliderField',
-        labelWidth: '30%',
+        labelWidth: '28%',
         tabIndex: -1
     },
 
