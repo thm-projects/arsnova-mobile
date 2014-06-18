@@ -18,7 +18,7 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 	extend: 'Ext.Container',
-	
+
 	requires: ['ARSnova.view.CustomSliderField'],
 
 	config: {
@@ -72,7 +72,8 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		});
 
 		var questionValueFieldset = Ext.create('Ext.form.FieldSet', {
-			title: Messages.ANSWER_POINTS
+			title: Messages.ANSWER_POINTS,
+			hidden: true
 		});
 
 		var answerOptions = Ext.create('Ext.form.FormPanel', {
@@ -99,6 +100,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 							var checked = this.answerComponents.filter(function(c) {
 								return c.isChecked();
 							});
+							questionValueFieldset.setHidden(checked.length === 0);
 							if (checked.length === 0) {
 								this.questionValueComponents.forEach(function(c) {
 									c.reset();

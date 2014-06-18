@@ -160,8 +160,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 		this.courseLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			text		: Messages.COURSES_LEARNING_PROGRESS,
-			cls			: 'forwardListButton',
-			handler		: comingSoon
+			cls			: 'answerListButton'
 		});
 
 		this.inClassItems = Ext.create('Ext.form.FormPanel', {
@@ -224,7 +223,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		});
 
 		this.inClassActions = Ext.create('Ext.Panel', {
-			style	: { marginTop: '50px' },
+			style	: { marginTop: '20px' },
 			layout  : {
 				type: 'hbox',
 				pack: 'center'

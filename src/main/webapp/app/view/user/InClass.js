@@ -165,11 +165,8 @@ Ext.define('ARSnova.view.user.InClass', {
 		this.myLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			ui			: 'normal',
 			text		: Messages.MY_LEARNING_PROGRESS,
-			cls			: 'forwardListButton',
-			badgeCls	: 'badgeicon',
-			controller	: 'Questions',
-			action		: 'index',
-			handler		: comingSoon
+			cls			: 'answerListButton',
+			badgeCls	: 'badgeicon'
 		});
 
 		this.inClass = Ext.create('Ext.form.FormPanel', {
@@ -373,14 +370,17 @@ Ext.define('ARSnova.view.user.InClass', {
 		var me = this;
 		ARSnova.app.sessionModel.getMyLearningProgress(localStorage.getItem("keyword"), {
 			success: function(response) {
-				var p = Ext.decode(response.responseText);
-				if (p >= 75) {
-					me.myLearningProgressButton.setBadge([{ badgeText: p+"%", badgeCls: "greenbadgeicon" }]);
-				} else if (p >= 25) {
-					me.myLearningProgressButton.setBadge([{ badgeText: p+"%", badgeCls: "yellowbadgeicon" }]);
-				} else {
-					me.myLearningProgressButton.setBadge([{ badgeText: p+"%", badgeCls: "redbadgeicon" }]);
-				}
+				var p = Ext.apply({ myprogress: 0, courseprogress: 0 }, Ext.decode(response.responseText));
+				var getBadge = function(percentage) {
+					if (percentage >= 75) {
+						return { badgeText: percentage+"%", badgeCls: "greenbadgeicon" };
+					} else if (percentage >= 25) {
+						return { badgeText: percentage+"%", badgeCls: "yellowbadgeicon" };
+					} else {
+						return { badgeText: percentage+"%", badgeCls: "redbadgeicon" };
+					}
+				};
+				me.myLearningProgressButton.setBadge([getBadge(p.myprogress), getBadge(p.courseprogress)]);
 			},
 			failure: function() {
 				me.myLearningProgressButton.setBadge([{ badgeText: "" }]);

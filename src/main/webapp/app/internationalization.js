@@ -195,6 +195,8 @@ switch (lang) {
 			ANSWER_PREVIEW_DIALOGBOX_TITLE: "Preview answer",
 			ANSWER_PREVIEW_DIALOGBOX_BUTTON_TITLE: "OK",
 			ANSWER_POINTS: "Answer points",
+			ANSWER_POINTS_CORRECT: "Correct",
+			ANSWER_POINTS_INCORRECT: "Incorrect",
 
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
@@ -536,6 +538,8 @@ switch (lang) {
 			ANSWER_PREVIEW_DIALOGBOX_TITLE: "Vorschau Antwort",
 			ANSWER_PREVIEW_DIALOGBOX_BUTTON_TITLE: "OK",
 			ANSWER_POINTS: "Antwortpunkte",
+			ANSWER_POINTS_CORRECT: "Richtig",
+			ANSWER_POINTS_INCORRECT: "Falsch",
 
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
