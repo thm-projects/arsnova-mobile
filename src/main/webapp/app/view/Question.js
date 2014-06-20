@@ -152,8 +152,9 @@ Ext.define('ARSnova.view.Question', {
 
 				var questionValue = 0;
 				this.questionObj.possibleAnswers.forEach(function(node){
-					questionValue += (node.value || 0);
-
+          if (selectedIndexes.indexOf(node.text) !== -1) {
+            questionValue += (node.value || 0);
+          }
 				});
 
 
