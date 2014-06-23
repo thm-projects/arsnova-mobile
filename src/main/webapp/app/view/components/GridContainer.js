@@ -614,6 +614,15 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	generateStatisticOutput : function(tilesToFill, colorTiles, displayType, weakenSourceImage, toggleColors) {
 
 		var totalAnswers = 0;
+		
+		var wrongColor =  this.getStatisticWrongColor();
+		var rightColor = this.getStatisticRightColor();
+		
+		
+		if(this.getChosenFields().length == 0){
+			wrongColor = this.getHighlightColor();
+		}
+		
 
 		// toggle grid color
 		this.setCurGridLineColor(toggleColors ? this.getAlternativeGridLineColor() : this.getGridLineColor());
@@ -640,10 +649,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 						alpha = (tilesToFill[key] / totalAnswers) * alphaScale;
 					}
 
-					var color = this.getStatisticWrongColor();
+					var color = wrongColor;
 					for (var i=0;i<this.getChosenFields().length;i++) {
 						if (this.getChosenFields()[i][0] == coords[0] && this.getChosenFields()[i][1] == coords[1]) {
-							color = this.getStatisticRightColor();
+							color = rightColor;
 						}
 					}
 

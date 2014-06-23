@@ -336,7 +336,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			});
 			this.add({xtype : 'spacer', height :25, docked : 'top' });
 			this.add(this.gridStatistic);
-			this.getQuestionAnswers();
+			this.getQuestionAnswers(); 
 		}
 
 		this.on('activate', this.onActivate);
