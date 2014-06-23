@@ -128,6 +128,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 			value : 0,
 			label : Messages.ABSTENTION,
 			readOnly : true,
+			hidden:		true
 		});
 
 		this.optionsFieldSet = Ext.create('Ext.form.FieldSet', {
@@ -196,12 +197,17 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 			var gridAnswers = [];
 			var abstentionCount = 0;
 
+
 			// parse answers
+
 			for (var i = 0; i < me.answers.length; i++) {
 
 				var el = me.answers[i];
 				if (!el.answerText) {
 					me.abstentionPanel.setValue(el.abstentionCount);
+
+					if(me.abstentionPanel.getValue() > 0)
+						me.abstentionPanel.setHidden(false);
 					continue;
 				}
 
