@@ -21,27 +21,27 @@
 
 Ext.define('ARSnova.view.FreetextAnswerPanel', {
 	extend: 'Ext.Panel',
-	
+
 	config: {
 		layout: 'vbox',
 		fullscreen: true,
-		
+
 		/**
 		 * task for speakers in a session
 		 * check every x seconds new feedback questions
 		 */
 		checkFreetextAnswersTask: null,
-		
+
 		freetextAnswerStore: null
 	},
-	
+
 	constructor: function(args) {
 		this.callParent(args);
-		
+
 		this.questionObj = args.question;
 		this.lastPanel = args.lastPanel;
 		var self = this;
-		
+
 		this.checkFreetextAnswersTask = {
 			name: 'check for new freetext answers',
 			scope: this,
@@ -50,14 +50,14 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			},
 			interval: 15000
 		},
-		
+
 		this.freetextAnswerStore = Ext.create('Ext.data.JsonStore', {
 			model		: 'FreetextAnswer',
 			sorters		: [{property: 'timestamp', direction: 'DESC'}],
 			groupField	: 'groupDate',
 			grouper		: {property: 'timestamp', direction: 'DESC'}
 		});
-		
+
 		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.BACK,
 			ui		: 'back',
@@ -73,25 +73,20 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				});
 			}
 		});
-		
+
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.QUESTION,
 			docked: 'top',
 			ui: 'light',
 			items: [this.backButton]
 		});
-		
+
 		this.freetextAnswerList = Ext.create('Ext.List', {
 			activeCls: 'search-item-active',
-			store: this.freetextAnswerStore, 
+			store: this.freetextAnswerStore,
 			layout: 'fit',
 			flex: 1,
-			
-			itemConfig: {
-				importantFields: ['answerSubject']
-			},
-			defaultType: 'audiencequestionlistitem',
-			
+
 			itemCls: 'forwardListButton',
 			itemTpl: [
 				'<div class="search-item noOverflow">',
@@ -99,10 +94,10 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				'</div>'
 			],
 			grouped: true,
-			
+
 			deferEmptyText: false,
 			emptyText: Messages.NO_ANSWERS,
-			
+
 			listeners: {
 				itemtap: function (list, index, element) {
 					var answer = list.getStore().getAt(index).data;
@@ -115,7 +110,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				}
 			}
 		});
-		
+
 		this.freetextAbstentions = Ext.create('Ext.Button', {
 			hidden		: true,
 			ui			: 'normal',
@@ -125,19 +120,19 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			badgeText	: '0',
 			badgeCls	: 'badgeicon'
 		});
-		
+
 		this.add([this.toolbar, this.freetextAnswerList]);
-		
+
 		this.on('activate', function() {
 			taskManager.start(this.checkFreetextAnswersTask);
 		}, this);
-		
+
 		this.on('deactivate', function() {
 			taskManager.stop(this.checkFreetextAnswersTask);
 		}, this);
 	},
-	
-	checkFreetextAnswers: function() {	
+
+	checkFreetextAnswers: function() {
 		ARSnova.app.questionModel.getAnsweredFreetextQuestions(localStorage.getItem("keyword"), this.questionObj._id, {
 			success: function(response) {
 				var responseObj = Ext.decode(response.responseText);
@@ -149,7 +144,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 						groupDate		: Ext.Date.format(date, "d.m.y")
 					});
 				});
-				
+
 				var self = ARSnova.app.mainTabPanel._activeItem;
 				var abstentions = listItems.filter(function(item) {
 					return item.abstention;
@@ -157,7 +152,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				var answers = listItems.filter(function(item) {
 					return !item.abstention;
 				});
-				
+
 				self.freetextAnswerStore.removeAll();
 				self.freetextAnswerStore.add(answers);
 				self.freetextAnswerStore.sort([{

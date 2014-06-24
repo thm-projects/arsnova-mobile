@@ -152,8 +152,9 @@ Ext.define('ARSnova.view.Question', {
 
 				var questionValue = 0;
 				this.questionObj.possibleAnswers.forEach(function(node){
-					questionValue += (node.value || 0);
-
+          if (selectedIndexes.indexOf(node.text) !== -1) {
+            questionValue += (node.value || 0);
+          }
 				});
 
 
@@ -225,7 +226,9 @@ Ext.define('ARSnova.view.Question', {
                        + this.questionObj.text;
 
 		//Create standard panel with framework support
-		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+      cls: "roundedBox allCapsHeader"
+    });
 		questionPanel.setContent(questionString, true, true);
 
 		this.answerList = Ext.create('Ext.List', {

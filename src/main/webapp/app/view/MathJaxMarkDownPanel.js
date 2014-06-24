@@ -44,18 +44,23 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 
 	setContent: function(content, mathJaxEnabled, markDownEnabled, mathjaxCallback) {
 		if (markDownEnabled) {
-			//remove MathJax blocks
-			var ig = get_delimiter(content, "$$", "$$").concat(get_delimiter(content, "[[", "]]"));
-			var repl = replace_delimiter(content, ig, 'MATHJAXMARKDOWN');
+			// remove MathJax blocks
+			var blockDelims = get_delimiter(content, "$$", "$$");
+			var repl = replace_delimiter(content, blockDelims, 'MATHJAXMARKDOWNBLOCK');
+
+      // remove MathJax inline
+      var inlineDelims = get_delimiter(repl.content, "[[", "]]");
+      var repl2 = replace_delimiter(repl.content, inlineDelims, 'MATHJAXMARKDOWNINLINE');
 
 			// MarkDown is enabled and content will be converted
-			repl[0] = markdown.toHTML(repl[0]);
+			repl2.content = markdown.toHTML(repl2.content);
 
-			//get back the MathJax blocks
-			content = replace_back(repl, 'MATHJAXMARKDOWN');
+			// get back the MathJax blocks in reverse order
+			repl.content = replace_back(repl2);
+      content = replace_back(repl);
 		}
 		this.setHtml(content);
-		if (mathJaxEnabled) {
+		if (mathJaxEnabled && "undefined" !== typeof MathJax) {
       var callback = mathjaxCallback || Ext.emptyFn;
 			// MathJax is enabled and content will be converted
 			var queue = MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.element.dom]);
@@ -120,17 +125,17 @@ function replace_delimiter(input, d_arr, id_label) {
 	}
 	result += input.substring(start);
 
-	return new Array(result, replaced);
+	return { content: result, source: replaced, label: id_label };
 }
 
 //replace the labels back to the contents and return the string
-function replace_back(content_replaced, id_label) {
+function replace_back(content_replaced) {
 
-	var content = content_replaced[0];
-	var replaced = content_replaced[1];
+	var content = content_replaced.content;
+	var replaced = content_replaced.source;
 
 	for(var i = 0; i < replaced.length; ++i) {
-		content = replaceWithoutRegExp(content, id_label + i + 'X', replaced[i]);
+		content = replaceWithoutRegExp(content, content_replaced.label + i + 'X', replaced[i]);
 	}
 
 	return content;

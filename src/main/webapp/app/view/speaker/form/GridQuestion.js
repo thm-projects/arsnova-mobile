@@ -197,7 +197,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				id : 'fs_upfield',
 				xtype : 'fieldset',
 				title : Messages.EDIT_PICTURE,
-				docked : 'top',
+				docked : 'top'
 			}, {
 				id : 'pnl_upfield',
 				xtype : 'panel',
@@ -208,7 +208,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					label : Messages.SELECT_PICTURE_FS,
 					name : 'tf_url',
 					placeHolder : 'http://',
-					docked : 'top',
+					docked : 'top'
 				}, {
 					xtype : 'spacer',
 					height : 50,
@@ -223,7 +223,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					items : [
 						this.buttonUploadFromFS
 						, {
-						xtype : 'spacer',
+						xtype : 'spacer'
 					}, {
 						xtype : 'button',
 						text : Messages.SELECT_PICTURE_URL,
@@ -254,6 +254,26 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			} ]
 		});
 
+		this.questionValueFieldset = Ext.create('Ext.form.FieldSet', {
+			title: Messages.ANSWER_POINTS,
+			hidden: true
+		});
+
+		var questionValueOptions = {
+			minValue: -10,
+			maxValue: 10,
+			value: 0,
+			increment: 1
+		};
+
+		this.correctValueComponent = Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
+			label: Messages.ANSWER_POINTS_CORRECT
+		}));
+		this.incorrectValueComponent = Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
+			label: Messages.ANSWER_POINTS_INCORRECT
+		}));
+		this.questionValueFieldset.add([this.correctValueComponent, this.incorrectValueComponent]);
+
 		this.zoomSpinner = Ext.create('Ext.field.Spinner', {
 			xtype : 'spinnerfield',
 			label : Messages.GRID_LABEL_ZOOM,
@@ -271,7 +291,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 			},
 			minValue: 1,
-			value : this.grid.getScale() * 100,	// set value as default
+			value : this.grid.getScale() * 100	// set value as default
 		});
 
 		this.gridSpinner = Ext.create('Ext.field.Spinner', {
@@ -286,8 +306,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			maxValue : 16,
 			value :  this.grid.getGridSize(),
 			stepValue : 1,
-			cycle : true,
-
+			cycle : true
 		});
 
 		this.gridColorsToggle = Ext.create('Ext.field.Toggle', {
@@ -332,6 +351,17 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		// update answers counter
 		this.grid.setOnFieldClick(function(answerValue) {
 			me.answers.getComponent('fs_answers').getComponent('tf_answers').setValue(answerValue);
+			if (!me.reset && answerValue > 0) {
+				me.reset = true;
+				me.questionValueFieldset.setHidden(false);
+				me.correctValueComponent.setSliderValue(me.correctValueComponent.getMaxValue());
+				me.incorrectValueComponent.setSliderValue(me.correctValueComponent.getMinValue());
+			} else if (answerValue === 0) {
+				me.reset = false;
+				me.questionValueFieldset.setHidden(true);
+				me.correctValueComponent.reset();
+				me.incorrectValueComponent.reset();
+			}
 		});
 
 		this.buttonUploadFromFS.on({
@@ -347,7 +377,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			          this.uploadView,
 			          this.imageCnt
 			        ]
-		}]);
+		}, this.questionValueFieldset]);
 
 	},
 
@@ -434,6 +464,15 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	getQuestionValues: function() {
 		var result = {};
 
+		var possibleAnswers = this.grid.getPossibleAnswersFromChosenFields();
+		possibleAnswers.forEach(function(answer) {
+			if (answer.correct) {
+				answer.value = this.correctValueComponent.getSliderValue();
+			} else {
+				answer.value = this.incorrectValueComponent.getSliderValue();
+			}
+		}, this);
+
 		// get image data
 		if (this.grid.getImageFile()) {
 			result.image 	 	   = this.grid.getImageFile().src;
@@ -442,7 +481,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		result.offsetX  	   = this.grid.getOffsetX();
 		result.offsetY 		   = this.grid.getOffsetY();
 		result.zoomLvl 		   = this.grid.getZoomLvl();
-		result.possibleAnswers = this.grid.getPossibleAnswersFromChosenFields();
+		result.possibleAnswers = possibleAnswers;
+
 		result.noCorrect 	   = this.grid.getChosenFields().length > 0 ? 0 : 1; // TODO: Check if really needed (and why numbers instead of bool)
 
 		return result;
@@ -455,6 +495,12 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	 */
 	initWithQuestion : function(question) {
 		var answerField = this.answers.getComponent('fs_answers').getComponent('tf_answers');
+		var minValue = question.possibleAnswers.reduce(function(a, b) {
+			return a < b.value ? a : b.value;
+		}, 0);
+		var maxValue = question.possibleAnswers.reduce(function(a, b) {
+			return a < b.value ? b.value : a;
+		}, 0);
 
 		// set image data (base64 --> grid)
 		this.updateCanvas(question.image, false);
@@ -463,6 +509,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				question.offsetY, question.zoomLvl, question.possibleAnswers, true);
 
 		answerField.setValue(this.grid.getChosenFields().length);		//set the spinner with correct values (last storage)
+		this.questionValueFieldset.setHidden(this.grid.getChosenFields().length === 0);
+		this.incorrectValueComponent.setSliderValue(minValue);
+		this.correctValueComponent.setSliderValue(maxValue);
 		this.zoomSpinner.setValue(Math.round(this.grid.getScale()*100));
 		this.gridSpinner.setValue(this.grid.getGridSize());
 		this.deleteButton.setHidden(true);	//disable delete button in edit mode

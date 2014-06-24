@@ -375,7 +375,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		this.arsjax.request({
 			url: "session/" + question.get('sessionKeyword') + "/question",
 			method: "POST",
-			jsonData: question.raw,
+			jsonData: question.getData(),
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -385,7 +385,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		this.arsjax.request({
 			url: "lecturerquestion/" + question.get('_id'),
 			method: "PUT",
-			jsonData: question.raw,
+			jsonData: question.getData(),
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -395,7 +395,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		this.arsjax.request({
 			url: "lecturerquestion/" + question.get('_id') + "/publish",
 			method: "POST",
-			jsonData: question.raw,
+			jsonData: question.getData(),
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -414,7 +414,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		this.arsjax.request({
 			url: "lecturerquestion/" + question.get('_id') + "/publishstatistics",
 			method: "POST",
-			jsonData: question.raw,
+			jsonData: question.getData(),
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -424,7 +424,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		this.arsjax.request({
 			url: "lecturerquestion/" + question.get('_id') + "/publishcorrectanswer",
 			method: "POST",
-			jsonData: question.raw,
+			jsonData: question.getData(),
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -745,6 +745,22 @@ Ext.define('ARSnova.proxy.RestProxy', {
 				var json = response.responseText || "[]";
 				callbacks.success(Ext.decode(json));
 			},
+			failure: callbacks.failure
+		});
+	},
+
+	getMyLearningProgress: function(sessionKeyword, callbacks) {
+		this.arsjax.request({
+			url: "session/" + sessionKeyword + "/mylearningprogress",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
+	getCourseLearningProgress: function(sessionKeyword, callbacks) {
+		this.arsjax.request({
+			url: "session/" + sessionKeyword + "/learningprogress",
+			success: callbacks.success,
 			failure: callbacks.failure
 		});
 	}

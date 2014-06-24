@@ -73,8 +73,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.image = {
 			xtype : 'panel',
 			cls : null,
-			html : canvas,
-		}
+			html : canvas
+		};
 
 		this.add([ this.image ]);
 	},

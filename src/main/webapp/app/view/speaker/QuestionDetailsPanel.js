@@ -98,9 +98,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 		// check if grid question
 		this.isGridQuestion = (['grid'].indexOf(this.questionObj.questionType) !== -1);
+    this.isFlashcard = this.questionObj.questionType === 'flashcard';
 
     this.answerStore = Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
-    this.answerStore.add(this.questionObj.possibleAnswers);
+    this.answerStore.add(Ext.clone(this.questionObj.possibleAnswers));
     this.formatAnswerText();
     this.addAbstentionAnswer();
 
@@ -347,7 +348,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			}, {
 				html: Messages.STATISTIC,
 				cls	: 'centerTextSmall'
-			}],
+			}]
 		});
 
 		this.releaseStatisticButton = Ext.create('Ext.Panel', {
@@ -378,7 +379,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						question.publishSkillQuestionStatistics({
 							success: function(response) {
 								hideLoadMask();
-								me.questionObj = question.data;
+								me.questionObj = question.getData();
 							},
 							failure: function() {
 								hideLoadMask();
@@ -427,7 +428,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						question.publishCorrectSkillQuestionAnswer({
 							success: function(response) {
 								hideLoadMask();
-								panel.questionObj = question.data;
+								panel.questionObj = question.getData();
 							},
 							failure: function() {
 								hideLoadMask();
@@ -448,7 +449,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 		this.deleteAnswersButton = Ext.create('Ext.Panel', {
 			cls: 'threeButtons left',
-
+      hidden: this.isFlashcard,
 			items: [{
 				xtype	: 'button',
 				text	: ' ',
@@ -544,6 +545,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.firstRow = Ext.create('Ext.form.FormPanel', {
 			cls	 : 'actionsForm',
 			scrollable: null,
+      hidden: this.isFlashcard,
 
 			style: {
 				marginTop: '15px'
@@ -804,16 +806,16 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
       itemCls: 'arsnova-mathdown x-html answerListButton noPadding',
       itemTpl: new Ext.XTemplate(
         '{formattedText}',
-          '<tpl if="correct === true">',
+        '<tpl if="correct === true && this.isFlashcard() === false">',
            '&nbsp;<span class="listCorrectItem x-list-item-correct">&#10003; </span>',
-          '</tpl></div>',
-          '<tpl if="this.isFlashcard() === false">',
-		   '<div class="x-button x-hasbadge audiencePanelListBadge">' +
-		   '<span class="greybadgeicon badgefixed">{answerCount}</span>',
-          '</tpl>',
+        '</tpl>',
+        '<tpl if="this.isFlashcard() === false">',
+          '</div><div class="x-button x-hasbadge audiencePanelListBadge">' +
+          '<span class="greybadgeicon badgefixed">{answerCount}</span>',
+        '</tpl>',
         {
           isFlashcard: function() {
-            return me.questionObj.questionType === 'flashcard';
+            return me.isFlashcard;
           }
         }
       ),
