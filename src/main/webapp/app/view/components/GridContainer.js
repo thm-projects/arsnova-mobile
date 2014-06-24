@@ -41,7 +41,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		moveInterval 			 : 10,			// Steps to take when moving the image (in pixel).
 		onFieldClick 			 : null,		// Hook for function, that will be called after onClick event.
 		editable				 : true,		// If set to false click events are prevented.
-    possibleAnswers  : [] // The pre-set, correct answers of the lecturer
+		possibleAnswers  		 : [], 			// The pre-set, correct answers of the lecturer
+		heatmapMaxAlpha			 : 0.9,		// The alpha value of a field with 100% of votes.
+		heatmapMinAlpha			 : 0.2,		// The alpha value of a field with 0% of votes. 
 	},
 
 	/**
@@ -634,6 +636,25 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		for (var key in tilesToFill) {
 	    	totalAnswers += tilesToFill[key];
 		}
+		
+		// pre-iterate through answers to get min and max value, used to define the alpha value
+		// TODO: find a more elagant way than iterating twice through all tiles.
+		var maxVotes = 0;
+		var minVotes = 0;
+		for (var row=0; row < this.getGridSize() ; row++) {
+			for (var column=0; column < this.getGridSize() ; column++) {
+				var key = row + ";" + column;
+				if (typeof tilesToFill[key] !==  "undefined") {
+					if ( tilesToFill[key] > maxVotes ) {
+						maxVotes = tilesToFill[key];
+						if ( minVotes == 0 ) {
+							minVotes = maxVotes;
+						}
+					}
+					minVotes = (tilesToFill[key] > 0 && tilesToFill[key] < minVotes) ? tilesToFill[key] : minVotes;
+				}
+			}
+		}
 
 		for (var row=0; row < this.getGridSize() ; row++) {
 			for (var column=0; column < this.getGridSize() ; column++) {
@@ -641,12 +662,18 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				var coords = this.getChosenFieldFromPossibleAnswer(key);
 
 				if (colorTiles) {
-					var alphaOffset = 0.05;
-					var alphaScale 	= 0.9;
+					var alphaOffset = this.getHeatmapMinAlpha();
+					var alphaScale 	= this.getHeatmapMaxAlpha() - this.getHeatmapMinAlpha();
 					var alpha 		= 0;
 
 					if (typeof tilesToFill[key] !==  "undefined") {
-						alpha = (tilesToFill[key] / totalAnswers) * alphaScale;
+						if ( maxVotes == minVotes ){
+							alpha = this.getHeatmapMaxAlpha();
+						} else if (tilesToFill[key] == 0) {
+							alpha = 0;
+						} else {
+							alpha = this.getHeatmapMinAlpha() + ( ((this.getHeatmapMaxAlpha()-this.getHeatmapMinAlpha())/(maxVotes-minVotes)) * (tilesToFill[key] - minVotes) );
+						}
 					}
 
 					var color = wrongColor;
@@ -656,7 +683,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 						}
 					}
 
-					this.markField(coords[0], coords[1], color, alpha + alphaOffset);   // alpha between 0.15 and 0.9
+					this.markField(coords[0], coords[1], color, alpha);
 				}
 
 				if (displayType == Messages.GRID_LABEL_RELATIVE || displayType == Messages.GRID_LABEL_RELATIVE_SHORT) {
