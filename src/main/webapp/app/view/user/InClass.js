@@ -376,6 +376,8 @@ Ext.define('ARSnova.view.user.InClass', {
 						return { badgeText: percentage+"%", badgeCls: "greenbadgeicon" };
 					} else if (percentage >= 25) {
 						return { badgeText: percentage+"%", badgeCls: "yellowbadgeicon" };
+					} else if (percentage === 0) {
+						return { badgeText: "…", badgeCls: "badgeicon" };
 					} else {
 						return { badgeText: percentage+"%", badgeCls: "redbadgeicon" };
 					}

@@ -401,6 +401,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 					me.courseLearningProgressButton.setBadge([{ badgeText: p+"%", badgeCls: "greenbadgeicon" }]);
 				} else if (p >= 25) {
 					me.courseLearningProgressButton.setBadge([{ badgeText: p+"%", badgeCls: "yellowbadgeicon" }]);
+				} else if (p === 0) {
+						me.courseLearningProgressButton.setBadge([{ badgeText: "…", badgeCls: "badgeicon" }]);
 				} else {
 					me.courseLearningProgressButton.setBadge([{ badgeText: p+"%", badgeCls: "redbadgeicon" }]);
 				}
