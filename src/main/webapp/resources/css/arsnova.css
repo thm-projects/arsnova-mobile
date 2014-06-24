@@ -527,7 +527,8 @@ html,body {
 .caption .greybadgeicon,
 .caption .bluebadgeiconfixed,
 .caption .greenbadgeicon,
-.caption .yellowbadgeicon {
+.caption .yellowbadgeicon,
+.caption .textbadgeicon {
 	font-size: 0.6em;
 }
 
@@ -692,7 +693,7 @@ html,body {
 	border-bottom-right-radius: 15px;
 }
 
-.badgeicon, .greybadgeicon, .bluebadgeicon, .redbadgeicon, .greenbadgeicon, .yellowbadgeicon {
+.badgeicon, .greybadgeicon, .bluebadgeicon, .redbadgeicon, .greenbadgeicon, .yellowbadgeicon, .textbadgeicon {
 	font-weight: bold;
 	/* @alternate */ background: rgba(0, 0, 0, .50);
 	/* @alternate */ background: -webkit-linear-gradient(top, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .70) 100%);
@@ -723,6 +724,14 @@ html,body {
 .yellowbadgeicon {
 	background: rgb(223, 226, 130);
 	/* @alternate */ background: -webkit-linear-gradient(top, rgba(204, 163, 0, .7) 0%, rgba(204, 163, 0, 1) 100%);
+}
+
+.textbadgeicon {
+	background: transparent;
+	color: black;
+	border: none;
+	box-shadow: none;
+	padding: 0;
 }
 
 .withdoublebadge {
@@ -1623,5 +1632,3 @@ ol.standardList li {
 .allCapsHeader .x-html > p:first-child {
 	text-transform: uppercase;
 }
-
-
