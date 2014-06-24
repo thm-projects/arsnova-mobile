@@ -146,17 +146,52 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			handler	: function(){
 				var panel = this.up('panel');
 				var answersChanged = function(prevAnswers, newAnswers) {
+					
+					console.log("length");
+					console.log(prevAnswers.length);
+					console.log(newAnswers.length);
 					if (prevAnswers.length !== newAnswers.length) {
+						console.log("prevAnswers has not the same length as newAnswers");
+						console.log(prevAnswers);
+						console.log(newAnswers);
 						return true;
 					}
+					
 					var changed = false;
 					prevAnswers.forEach(function(answer, i) {
 						if (answer.text !== newAnswers[i].text) {
+							console.log("answer.text !== newAnswers[i].text");
 							changed = true;
 						}
 					});
 					return changed;
 				};
+				
+				
+				var contentChanged = function(prevContent, newContent){
+
+					if(newContent.gridSize !== prevContent.get("gridSize"))
+						return true;
+					
+					if(newContent.zoomLvl !== prevContent.get("zoomLvl"))
+						return true;
+					
+					if(newContent.offsetX !== prevContent.get("offsetX"))
+						return true;
+					
+					if(newContent.offsetY != prevContent.get("offsetY"))
+						return true;
+					
+					console.log(prevContent);
+					var changed = false;
+					prevContent.get("possibleAnswers").forEach(function(answer, i) {
+						if (answer.correct !== newContent.possibleAnswers[i].correct) {
+							changed = true;
+						}
+					});
+					return changed;
+				};
+				
 				var saveQuestion = function(question) {
 					var questionValues = panel.answerEditForm.getQuestionValues();
 
@@ -229,11 +264,20 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					var empty = false;
 					if (!panel.answerEditForm.isHidden()) {
 						var questionValues = panel.answerEditForm.getQuestionValues();
+						
 						if (hasEmptyAnswers(questionValues.possibleAnswers)) {
 							empty = true;
 						}
-						if (answersChanged(question.get("possibleAnswers"), questionValues.possibleAnswers)) {
-							needsConfirmation = true;
+		
+						if(question.get("questionType") == 'grid'){
+							if (contentChanged(question, questionValues)) {
+								needsConfirmation = true;
+							}	
+						}else{
+							console.log("Other Question");
+							if (answersChanged(question.get("possibleAnswers"), questionValues.possibleAnswers)) {
+								needsConfirmation = true;
+							}
 						}
 					}
 					if (empty) {
