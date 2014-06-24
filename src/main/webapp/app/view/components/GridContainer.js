@@ -41,7 +41,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		moveInterval 			 : 10,			// Steps to take when moving the image (in pixel).
 		onFieldClick 			 : null,		// Hook for function, that will be called after onClick event.
 		editable				 : true,		// If set to false click events are prevented.
-    possibleAnswers  : [] // The pre-set, correct answers of the lecturer
+		possibleAnswers  		 : [], 			// The pre-set, correct answers of the lecturer
+		heatmapMaxAlpha			 : 0.95,		// The alpha value of a field with 100% of votes.
+		heatmapMinAlpha			 : 0.15,		// The alpha value of a field with 0% of votes. 
 	},
 
 	/**
@@ -641,8 +643,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				var coords = this.getChosenFieldFromPossibleAnswer(key);
 
 				if (colorTiles) {
-					var alphaOffset = 0.05;
-					var alphaScale 	= 0.9;
+					var alphaOffset = this.getHeatmapMinAlpha();
+					var alphaScale 	= this.getHeatmapMaxAlpha() - this.getHeatmapMinAlpha();
 					var alpha 		= 0;
 
 					if (typeof tilesToFill[key] !==  "undefined") {
@@ -656,7 +658,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 						}
 					}
 
-					this.markField(coords[0], coords[1], color, alpha + alphaOffset);   // alpha between 0.15 and 0.9
+					this.markField(coords[0], coords[1], color, alpha + alphaOffset);
 				}
 
 				if (displayType == Messages.GRID_LABEL_RELATIVE || displayType == Messages.GRID_LABEL_RELATIVE_SHORT) {
