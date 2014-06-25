@@ -218,9 +218,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	                { text: Messages.ABCD	},
 	                { text: Messages.YESNO 	},
 	                { text: Messages.FREETEXT },
-									{ text: Messages.GRID },
 	                { text: Messages.EVALUATION },
 	                { text: Messages.SCHOOL },
+					{ text: Messages.GRID },
 	                { text: Messages.FLASHCARD_SHORT }
 	        ],
 	        listeners: {
