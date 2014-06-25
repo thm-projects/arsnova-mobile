@@ -42,8 +42,14 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		onFieldClick 			 : null,		// Hook for function, that will be called after onClick event.
 		editable				 : true,		// If set to false click events are prevented.
 		possibleAnswers  		 : [], 			// The pre-set, correct answers of the lecturer
-		heatmapMaxAlpha			 : 0.9,		// The alpha value of a field with 100% of votes.
-		heatmapMinAlpha			 : 0.2,		// The alpha value of a field with 0% of votes. 
+		heatmapMaxAlpha			 : 0.9,			// The alpha value of a field with 100% of votes.
+		heatmapMinAlpha			 : 0.2,			// The alpha value of a field with 0% of votes. 
+		gridOffsetX 			 : 0,			// current x offset for grid start point
+		gridOffsetY 			 : 0,			// current y offset for grid start point
+		gridZoomLevel 			 : 0,			// zoom level for grid (defines size of grid fields)
+		gridSizeX 				 : 0,			// number of horizontal grid fields
+		gridSizeY 				 : 0,			// number of vertical grid fields
+		isGridHidden 			 : false,       // flag for visual hiding of the grid
 	},
 
 	/**
