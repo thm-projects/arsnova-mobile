@@ -104,7 +104,7 @@ Ext.define("ARSnova.controller.Questions", {
 			questionType: options.questionType,
 			questionVariant: options.questionVariant,
 			sessionKeyword: options.sessionKeyword,
-			subject		: options.subject.toUpperCase(),
+			subject		: options.subject,
 			text 		: options.text,
 			active		: options.active,
 			number		: options.number,
@@ -193,12 +193,11 @@ Ext.define("ARSnova.controller.Questions", {
 		// This gets called either by the speaker or by a student
 		if (ARSnova.app.isSessionOwner && !isFromFreetextAnswerPanel) {
 			parentPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-			options.answer.deletable = true;
 		} else {
 			parentPanel = ARSnova.app.mainTabPanel;
-			options.answer.deletable = false;
 		}
 
+    options.answer.deletable = ARSnova.app.isSessionOwner;
 		var freetextDetailAnswerPanel = Ext.create('ARSnova.view.FreetextDetailAnswer', {
 			sTP		: parentPanel,
 			answer	: options.answer
@@ -236,7 +235,6 @@ Ext.define("ARSnova.controller.Questions", {
 			success: function(response) {
 				var question = Ext.create('ARSnova.model.Question', Ext.decode(response.responseText));
 				question.set('active', options.active);
-				question.raw.active = options.active;
 
 				question.publishSkillQuestion({
 					success: function(response){

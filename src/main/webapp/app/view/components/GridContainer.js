@@ -79,8 +79,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.image = {
 			xtype : 'panel',
 			cls : null,
-			html : canvas,
-		}
+			html : canvas
+		};
 
 		this.add([ this.image ]);
 	},
@@ -110,8 +110,15 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		ctx.globalAlpha = alpha;
 
-		ctx.drawImage(this.getImageFile(), this.getOffsetX(), this.getOffsetY());
-
+		// draw image avoiding ios 6/7 squash bug
+		this.drawImageIOSFix(
+				ctx, 
+				this.getImageFile(), 
+				0, 0, 
+				this.getImageFile().naturalWidth, this.getImageFile().naturalHeight, 
+				this.getOffsetX(), this.getOffsetY(), 
+				this.getImageFile().width, this.getImageFile().height);
+		
 		// restore context to draw grid with default scale
 		ctx.restore();
 
@@ -728,5 +735,48 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 			}
 		}
-	}
+	},
+	
+	
+	/**
+	 * Detecting vertical squash in loaded image.
+	 * Fixes a bug which squash image vertically while drawing into canvas for some images.
+	 * This is a bug in iOS6 devices. This function from https://github.com/stomita/ios-imagefile-megapixel
+	 * 
+	 */
+	detectVerticalSquash : function (img) {
+	    var iw = img.naturalWidth, ih = img.naturalHeight;
+	    var canvas = document.createElement('canvas');
+	    canvas.width = 1;
+	    canvas.height = ih;
+	    var ctx = canvas.getContext('2d');
+	    ctx.drawImage(img, 0, 0);
+	    var data = ctx.getImageData(0, 0, 1, ih).data;
+	    // search image edge pixel position in case it is squashed vertically.
+	    var sy = 0;
+	    var ey = ih;
+	    var py = ih;
+	    while (py > sy) {
+	        var alpha = data[(py - 1) * 4 + 3];
+	        if (alpha === 0) {
+	            ey = py;
+	        } else {
+	            sy = py;
+	        }
+	        py = (ey + sy) >> 1;
+	    }
+	    var ratio = (py / ih);
+	    return (ratio===0)?1:ratio;
+	},
+
+	/**
+	 * A replacement for context.drawImage
+	 * (args are for source and destination).
+	 */
+	drawImageIOSFix : function (ctx, img, sx, sy, sw, sh, dx, dy, dw, dh) {
+		var vertSquashRatio = this.detectVerticalSquash(img);
+		ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh / vertSquashRatio);
+	},
+
+	
 });

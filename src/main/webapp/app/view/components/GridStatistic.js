@@ -37,6 +37,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 	optionsFieldSet : null,
 	answers : new Array(),
 
+	
 	/**
 	 * Constructor.
 	 * 
@@ -44,7 +45,6 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 	 */
 	constructor : function() {
 		this.callParent(arguments);
-
 		// store this for later reference
 		var me = this;
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth

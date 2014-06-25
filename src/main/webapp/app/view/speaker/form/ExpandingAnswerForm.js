@@ -18,7 +18,9 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 	extend: 'Ext.Container',
-	
+
+	requires: ['ARSnova.view.CustomSliderField'],
+
 	config: {
 		minAnswers: 2,
 		maxAnswers: 8,
@@ -33,9 +35,10 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 
 	constructor: function() {
 		this.callParent(arguments);
-		
+
+		this.questionValueComponents = [];
 		this.answerComponents = [];
-		
+
 		this.selectAnswerCount = Ext.create('Ext.field.Spinner', {
 			label	: Messages.COUNT,
 			minValue: this.getMinAnswers(),
@@ -47,11 +50,12 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 				spin: function(selectField, value) {
 					for (var i=0; i < this.getMaxAnswers(); i++) {
 						this.answerComponents[i].setHidden(i >= value);
+						this.questionValueComponents[i].setHidden(i >= value);
 					}
 				}
 			}
 		});
-		
+
 		var previewButton = Ext.create('Ext.Button', {
 			text	: Messages.ANSWER_PREVIEW_BUTTON_TITLE,
 			ui		: 'confirm',
@@ -61,36 +65,83 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 					this.previewHandler();
 				}
 		});
-		
+
 		var answerFieldset = Ext.create('Ext.form.FieldSet', {
 			title: Messages.ANSWERS,
 			items: [this.selectAnswerCount]
 		});
-		
+
+		var questionValueFieldset = Ext.create('Ext.form.FieldSet', {
+			title: Messages.ANSWER_POINTS,
+			hidden: true
+		});
+
 		var answerOptions = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
-			submitOnAction: false,			
+			submitOnAction: false,
 			items: [answerFieldset, previewButton]
 		});
-		
+
 		var answerOptionEntryId = Ext.id();
-		var theComponentId;
-		
+
 		for (var i=0; i < this.getMaxAnswers(); i++) {
-			theComponentId = answerOptionEntryId + "-" + i;
-			this.answerComponents[i] = Ext.create('ARSnova.view.TextCheckfield', {
-				id:				theComponentId,
-				name:			theComponentId,
-				placeHolder:	Messages.ANSWER,
-				hidden:			this.getStart() <= i,
-				container:		this
-			});
-			answerFieldset.add(this.answerComponents[i]);
+			(function (i) {
+				var theComponentId = answerOptionEntryId + "-" + i;
+				this.answerComponents[i] = Ext.create('ARSnova.view.TextCheckfield', {
+					id:				theComponentId,
+					name:			theComponentId,
+					placeHolder:	Messages.ANSWER,
+					hidden:			this.getStart() <= i,
+					container:		this,
+					listeners: {
+						scope: this,
+						checkchange: function(field, isChecked) {
+							var component = this.questionValueComponents[i];
+							var checked = this.answerComponents.filter(function(c) {
+								return c.isChecked();
+							});
+							questionValueFieldset.setHidden(checked.length === 0);
+							if (checked.length === 0) {
+								this.questionValueComponents.forEach(function(c) {
+									c.reset();
+								});
+							} else if (checked.length > 0) {
+								this.questionValueComponents.forEach(function(c, j) {
+										c.setSliderValue(this.answerComponents[j].isChecked() ? c.getMaxValue() : c.getMinValue());
+								}, this);
+							} else {
+								component.setSliderValue(isChecked ? component.getMaxValue() : component.getMinValue());
+							}
+						},
+						change: function(field, newValue, oldValue) {
+							this.questionValueComponents[i].setLabel(newValue || Messages.ANSWER);
+						}
+					}
+				});
+				answerFieldset.add(this.answerComponents[i]);
+			}).call(this, i);
 		}
-		
-		this.add([answerOptions]);
+
+		for (var i=0; i < this.getMaxAnswers(); i++) {
+			(function(i) {
+				var theComponentId = answerOptionEntryId + "-qv-" + i;
+				this.questionValueComponents[i] = Ext.create("ARSnova.view.CustomSliderField", {
+					id: theComponentId,
+					name: theComponentId,
+					hidden: this.getStart() <= i,
+					minValue: -10,
+					maxValue: 10,
+					value: 0,
+					increment: 1,
+					label: this.answerComponents[i].getValue() || Messages.ANSWER
+				});
+				questionValueFieldset.add(this.questionValueComponents[i]);
+			}).call(this, i);
+		}
+
+		this.add([answerOptions, questionValueFieldset]);
 	},
-	
+
 	getEnumeration: function() {
 		switch (this.getWording().enumeration.toLowerCase()) {
 			case 'alphabet':
@@ -105,23 +156,20 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 				};
 		}
 	},
-	
+
 	getValues: function() {
 		var values = [], obj;
 		for (var i=0; i < this.selectAnswerCount.getValue(); i++) {
 			obj = {
-				text: this.answerComponents[i].getValue()
+				text: this.answerComponents[i].getValue(),
+				value: this.questionValueComponents[i].getSliderValue(),
+				correct: this.answerComponents[i].isChecked()
 			};
-			if (this.answerComponents[i].isChecked()) {
-				obj.correct = true;
-			} else {
-				obj.correct = false;
-			}
 			values.push(obj);
 		}
 		return values;
 	},
-	
+
 	hasCorrectOptions: function() {
 		var hasCorrectOptions = false;
 		for (var i=0; i < this.selectAnswerCount.getValue(); i++) {
@@ -129,7 +177,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		}
 		return hasCorrectOptions;
 	},
-	
+
 	initWithQuestion: function(question) {
 		var possibleAnswers = question.possibleAnswers;
 		if (possibleAnswers.length < this.getMinAnswers() || possibleAnswers.length > this.getMaxAnswers()) {
@@ -137,39 +185,46 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		}
 		this.initSpinnerField(possibleAnswers.length);
 		this.initAnswerComponents(possibleAnswers);
+		this.initQuestionValueComponents(possibleAnswers);
 	},
-	
+
 	initSpinnerField: function(startValue) {
 		this.setStart(startValue);
 		this.selectAnswerCount.setValue(startValue);
 		this.selectAnswerCount.fireEvent('spin', this.selectAnswerCount, this.getStart());
 	},
-	
+
 	initAnswerComponents: function(possibleAnswers) {
 		possibleAnswers.forEach(function(answer, index) {
 			this.answerComponents[index].setValue(answer.text);
 			if(answer.correct) this.answerComponents[index].check();
 		}, this);
 	},
-	
+
+	initQuestionValueComponents: function(possibleAnswers) {
+		possibleAnswers.forEach(function(answer, index) {
+			this.questionValueComponents[index].setSliderValue(answer.value);
+		}, this);
+	},
+
 	getQuestionValues: function() {
 		var result = {};
-		
+
 		result.possibleAnswers = this.getValues();
-		
+
 		if (!this.hasCorrectOptions()) {
 			result.noCorrect = 1;
 		}
 		return result;
 	},
-	
+
 	previewHandler: function() {
 		var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox', {
 			xtype: 'answerPreview'
-		});		
+		});
 		answerPreview.showPreview(this.getValues());
 	},
-	
+
 	markEmptyFields: function() {
 		var field;
 		for (var i=0; i < this.selectAnswerCount.getValue(); i++) {

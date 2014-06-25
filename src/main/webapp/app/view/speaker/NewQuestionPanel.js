@@ -70,7 +70,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			text	: Messages.SAVE,
 			ui		: 'confirm',
 			cls: 'saveQuestionButton',
-			style: 'width: 85px',
+			style: 'width: 89px',
 			handler: function() {
 				this.saveHandler().then(function(response) {
 					ARSnova.app.getController('Questions').details({
@@ -220,8 +220,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	                { text: Messages.FREETEXT },
 	                { text: Messages.EVALUATION },
 	                { text: Messages.SCHOOL },
-	                { text: Messages.FLASHCARD_SHORT },
-	                { text: Messages.GRID }
+					{ text: Messages.GRID },
+	                { text: Messages.FLASHCARD_SHORT }
 	        ],
 	        listeners: {
 				scope: this,
