@@ -724,6 +724,7 @@ html,body {
 .yellowbadgeicon {
 	background: rgb(223, 226, 130);
 	/* @alternate */ background: -webkit-linear-gradient(top, rgba(204, 163, 0, .7) 0%, rgba(204, 163, 0, 1) 100%);
+	color: rgb(17, 17, 17);
 }
 
 .textbadgeicon {
