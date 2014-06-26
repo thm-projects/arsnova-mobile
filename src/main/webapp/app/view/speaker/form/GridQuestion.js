@@ -44,6 +44,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
     infoPanel			: null,
     gridColorsToggle 	: null,
     deleteButton		: null,
+    btnZoomInGrid		: null,
+    btnZoomOutGrid		: null,
+    
 	/**
 	 * Initializes the grid question area and the needed
 	 * form elements.
@@ -95,6 +98,18 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			iconMask : true,
 			handler : function(){ me.resetView(); }
 		});
+		
+		this.btnZoomInGrid = Ext.create('Ext.Button', {
+			iconCls : 'add',
+			iconMask : true,
+			handler : function(){ me.grid.zoomInGrid(); }
+		});
+		
+		this.btnZoomOutGrid = Ext.create('Ext.Button', {
+			iconCls : 'minus2',
+			iconMask : true,
+			handler : function(){ me.grid.zoomOutGrid(); }
+		});
 
 		this.imageArea = Ext.create('Ext.Panel', {
 			id : 'imageArea',
@@ -119,6 +134,18 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						this.btnMoveUp,
 						this.btnMoveDown,
 						this.deleteButton
+			       ]
+			   },
+			   {
+					xtype: 'panel',
+					layout:{
+						type: 'hbox',
+						align: 'center',
+						pack: 'center'
+					},
+					items : [
+						this.btnZoomInGrid,
+						this.btnZoomOutGrid
 			       ]
 			   }
 			],

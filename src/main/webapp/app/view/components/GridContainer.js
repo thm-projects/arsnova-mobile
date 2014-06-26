@@ -46,10 +46,11 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		heatmapMinAlpha			 : 0.2,			// The alpha value of a field with 0% of votes. 
 		gridOffsetX 			 : 0,			// current x offset for grid start point
 		gridOffsetY 			 : 0,			// current y offset for grid start point
-		gridZoomLevel 			 : 0,			// zoom level for grid (defines size of grid fields)
+		gridZoomLvl 			 : 0,			// zoom level for grid (defines size of grid fields)
 		gridSizeX 				 : 0,			// number of horizontal grid fields
 		gridSizeY 				 : 0,			// number of vertical grid fields
 		isGridHidden 			 : false,       // flag for visual hiding of the grid
+		gridScale				 : 1.0,			// Current scale for the grid.
 	},
 
 	/**
@@ -121,9 +122,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		
 		// restore context to draw grid with default scale
 		ctx.restore();
-
+		
 		this.createGrid();
-
+		
 		if ( markChosenFields ) {
 			this.markChosenFields();
 		}
@@ -189,8 +190,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * @return	int		The field size.
 	 */
 	getFieldSize : function() {
-		return (this.getCanvasSize() - 2 * this.getGridLineWidth())
-				/ this.getGridSize();
+		return ((this.getCanvasSize() - 2 * this.getGridLineWidth())
+				/ this.getGridSize()) * this.getGridScale();
 	},
 
 	/**
@@ -482,7 +483,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	zoomIn : function() {
 		this.setZoomLvl(this.getZoomLvl() + 1);
 		this.setScale(this.getScale() * this.getScaleFactor());
-		// no redraw the image with the new scale
+		// now redraw the image with the new scale
 		this.redraw();
 	},
 
@@ -492,7 +493,27 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	zoomOut : function() {
 		this.setZoomLvl(this.getZoomLvl() - 1);
 		this.setScale(this.getScale() / this.getScaleFactor());
-		// no redraw the image with the new scale
+		// now redraw the image with the new scale
+		this.redraw();
+	},
+	
+	zoomInGrid : function() {
+		this.setGridZoomLvl(this.getGridZoomLvl() + 1);
+		this.setGridScale(this.getGridScale() * this.getScaleFactor());
+		// TODO Zoom muss noch zentriert werden
+		
+		// now redraw the grid
+		//this.redrawGrid();
+		this.redraw();
+	},
+	
+	zoomOutGrid : function() {
+		this.setGridZoomLvl(this.getGridZoomLvl() - 1);
+		this.setGridScale(this.getGridScale() / this.getScaleFactor());
+		// TODO Zoom muss noch zentriert werden
+		
+		// now redraw the grid
+		// this.redrawGrid();
 		this.redraw();
 	},
 
