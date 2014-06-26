@@ -525,6 +525,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			gridSizeY	: values.gridSizeY,
 			gridIsHidden: values.gridIsHidden,
 			imgRotation : values.imgRotation,
+			toggleFieldsLeft : values.toggleFieldsLeft,
+			numClickableFields : values.numClickableFields,
 			successFunc	: function(response, opts){
 				promise.resolve(response);
 			},

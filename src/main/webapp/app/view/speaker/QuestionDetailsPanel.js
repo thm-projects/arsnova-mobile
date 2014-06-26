@@ -204,6 +204,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					if(newContent.imgRotation !== prevContent.get("imgRotation"))
 						return true;
 					
+					if(newContent.toggleFieldsLeft !== prevContent.get("toggleFieldsLeft"))
+						return true;
+					
+					if(newContent.numClickableFields !== prevContent.get("numClickableFields"))
+						return true;
+					
 					console.log(prevContent);
 					var changed = false;
 					prevContent.get("possibleAnswers").forEach(function(answer, i) {
@@ -232,7 +238,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					if (questionValues.gridSizeY != undefined)  question.set("gridSizeY", questionValues.gridSizeY);
 					if (questionValues.gridIsHidden != undefined)  question.set("gridIsHidden", questionValues.gridIsHidden);
 					if (questionValues.imgRotation != undefined)  question.set("imgRotation", questionValues.imgRotation);
-
+					if (questionValues.toggleFieldsLeft != undefined)  question.set("toggleFieldsLeft", questionValues.toggleFieldsLeft);
+					if (questionValues.numClickableFields != undefined)  question.set("numClickableFields", questionValues.numClickableFields);
+					
 					question.set("possibleAnswers", questionValues.possibleAnswers);
 					question.set("noCorrect", !!questionValues.noCorrect);
 					Ext.apply(question.raw, questionValues);

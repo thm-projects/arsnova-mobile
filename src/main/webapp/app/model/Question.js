@@ -60,6 +60,8 @@ Ext.define('ARSnova.model.Question', {
 				 'gridSizeY',
 				 'gridIsHidden',
 				 'imgRotation',
+				 'toggleFieldsLeft',
+				 'numClickableFields',
 		],
 
 		validations: [

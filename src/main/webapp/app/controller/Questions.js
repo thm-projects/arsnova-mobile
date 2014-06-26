@@ -124,6 +124,8 @@ Ext.define("ARSnova.controller.Questions", {
 			gridSizeY	: options.gridSizeY,
 			gridIsHidden: options.gridIsHidden,
 			imgRotation	: options.imgRotation,
+			toggleFieldsLeft : options.toggleFieldsLeft,
+			numClickableFields : options.numClickableFields,
 			showStatistic: 1
 		});
     	question.set('_id', undefined);

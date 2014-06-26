@@ -547,6 +547,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		result.gridSizeY		= this.grid.getGridSizeY(),
 		result.gridIsHidden		= this.grid.getGridIsHidden(),
 		result.imgRotation		= this.grid.getImgRotation(),
+		result.toggleFieldsLeft	= this.grid.getToggleFieldsLeft(),
 		
 		result.possibleAnswers 	= possibleAnswers;
 

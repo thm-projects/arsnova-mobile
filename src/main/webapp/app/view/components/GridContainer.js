@@ -49,9 +49,11 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		gridZoomLvl 			 : 0,			// zoom level for grid (defines size of grid fields)
 		gridSizeX 				 : 0,			// number of horizontal grid fields
 		gridSizeY 				 : 0,			// number of vertical grid fields
-		gridIsHidden 			 : false,       // flag for visual hiding of the grid
+		gridIsHidden 			 : false,      	// flag for visual hiding of the grid
 		gridScale				 : 1.0,			// Current scale for the grid.
 		imgRotation				 : 0,			// Current rotation for the image.
+		toggleFieldsLeft		 : false,		// toggle the number of clickable fields. true: all fields are clickable, false: only the number of fields the lecturer has selected are clickable
+		numClickableFields		 : 0,			// number of clickable fields the lecturer has chosen
 	},
 
 	/**
@@ -342,12 +344,12 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			}
 		}
 
-    var numChosenFields = container.getChosenFields().length;
-    var numCorrectFields = container.getPossibleAnswers().filter(function isCorrect(e) {
-      return e.correct;
-    }).length;
-    // either allow the maximum of correct fields, or allow all fields to be clicked if no correct answers are present
-    var fieldsLeft = (numChosenFields < numCorrectFields) || (numCorrectFields === 0);
+	    var numChosenFields = container.getChosenFields().length;
+	    var numCorrectFields = container.getPossibleAnswers().filter(function isCorrect(e) {
+	    	return e.correct;
+	    }).length;
+	    // either allow the maximum of correct fields, or allow all fields to be clicked if no correct answers are present
+	    var fieldsLeft = ((numChosenFields < numCorrectFields) || (numCorrectFields === 0) || container.getToggleFieldsLeft());
 		var changed = false;
 		if (index > -1) {
 			container.getChosenFields().splice(index, 1);
