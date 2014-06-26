@@ -49,7 +49,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		gridZoomLvl 			 : 0,			// zoom level for grid (defines size of grid fields)
 		gridSizeX 				 : 0,			// number of horizontal grid fields
 		gridSizeY 				 : 0,			// number of vertical grid fields
-		isGridHidden 			 : false,       // flag for visual hiding of the grid
+		gridIsHidden 			 : false,       // flag for visual hiding of the grid
 		gridScale				 : 1.0,			// Current scale for the grid.
 	},
 
