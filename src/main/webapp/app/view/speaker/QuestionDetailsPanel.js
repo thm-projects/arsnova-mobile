@@ -148,20 +148,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				var panel = this.up('panel');
 				var answersChanged = function(prevAnswers, newAnswers) {
 					
-					console.log("length");
-					console.log(prevAnswers.length);
-					console.log(newAnswers.length);
 					if (prevAnswers.length !== newAnswers.length) {
-						console.log("prevAnswers has not the same length as newAnswers");
-						console.log(prevAnswers);
-						console.log(newAnswers);
 						return true;
 					}
 					
 					var changed = false;
 					prevAnswers.forEach(function(answer, i) {
 						if (answer.text !== newAnswers[i].text) {
-							console.log("answer.text !== newAnswers[i].text");
 							changed = true;
 						}
 					});
@@ -218,7 +211,14 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					prevContent.get("possibleAnswers").forEach(function(answer, i) {
 						if (answer.correct !== newContent.possibleAnswers[i].correct) {
 							changed = true;
+					
 						}
+						
+						if(answer.value !== newContent.possibleAnswers[i].value){
+							changed = true;
+					
+						}
+						
 					});
 					return changed;
 				};
