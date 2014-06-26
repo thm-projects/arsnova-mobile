@@ -430,11 +430,13 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		
 		var thresholdAnswers =  {
 		        change: function (slider, thumb, newValue, oldValue) {
-		        	
+		        	me.grid.setThresholdCorrectAnswers(newValue);
+
 		        }
 		};
 						
 		//this.correctValueComponent.setListeners(thresholdAnswers);
+		this.ValueOfCorrectAnswers.setListeners(thresholdAnswers);
 		
 		// update answers counter
 		this.grid.setOnFieldClick(function(answerValue) {
@@ -628,5 +630,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.gridSpinner.setValue(this.grid.getGridSize());
 		this.deleteButton.setHidden(true);	//disable delete button in edit mode
 		this.toggleAnswers.setValue(this.grid.getToggleFieldsLeft());
+		this.ValueOfCorrectAnswers.setMaxValue(this.correctValueComponent.getMaxValue() *this.grid.getChosenFields().length);
+    	this.ValueOfCorrectAnswers.setMinValue(this.incorrectValueComponent.getMinValue() * this.grid.getChosenFields().length);   
+    	this.ValueOfCorrectAnswers.setSliderValue(this.correctValueComponent.getMaxValue() * this.grid.getChosenFields().length);
+		
 	}
 });
