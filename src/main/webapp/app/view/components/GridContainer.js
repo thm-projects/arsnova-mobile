@@ -47,8 +47,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		gridOffsetX 			 : 0,			// current x offset for grid start point
 		gridOffsetY 			 : 0,			// current y offset for grid start point
 		gridZoomLvl 			 : 0,			// zoom level for grid (defines size of grid fields)
-		gridSizeX 				 : 0,			// number of horizontal grid fields
-		gridSizeY 				 : 0,			// number of vertical grid fields
+		gridSizeX 				 : 5,			// number of horizontal grid fields
+		gridSizeY 				 : 5,			// number of vertical grid fields
 		gridIsHidden 			 : false,      	// flag for visual hiding of the grid
 		gridScale				 : 1.0,			// Current scale for the grid.
 		imgRotation				 : 0,			// Current rotation for the image.
@@ -115,19 +115,48 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		ctx.globalAlpha = alpha;
 
-		// draw image avoiding ios 6/7 squash bug
-		this.drawImageIOSFix(
+		/*
+		 * Translate the image to x- and y-axis position for start (minus the half of the image (for rotating!!))
+		 * source: http://creativejs.com/2012/01/day-10-drawing-rotated-images-into-canvas/
+		 */
+		ctx.translate(this.getOffsetX()+(this.getImageFile().width / 2), this.getOffsetY() + (this.getImageFile().height / 2));
+		
+		/*
+		 * rotates the image in 90° steps clockwise. Steps are in the variable imgRotation
+		 */
+		ctx.rotate(90 * this.getImgRotation() * Math.PI /180 );
+		
+		
+		
+		
+		// TODO DANIEL FIX MAL!
+		
+		//if (this.getImageFile().lastIndexOf("http", 0) === 0) { // image is load from url
+		
+			/*
+			 * have to be the negative half of width and height of the image for translation to get a fix rotation point in the middle of the image!!!
+			 */  
+			ctx.drawImage(this.getImageFile(), -(this.getImageFile().width / 2),  -(this.getImageFile().height / 2));
+			
+	/*	} else {
+			// draw image avoiding ios 6/7 squash bug
+			this.drawImageIOSFix(
 				ctx, 
 				this.getImageFile(), 
 				0, 0, 
 				this.getImageFile().naturalWidth, this.getImageFile().naturalHeight, 
 				this.getOffsetX(), this.getOffsetY(), 
 				this.getImageFile().width, this.getImageFile().height);
+		}*/
+		
 		
 		// restore context to draw grid with default scale
 		ctx.restore();
 		
-		this.createGrid();
+		
+		if(!this.getGridIsHidden()){
+			this.createGrid();
+		}
 		
 		if ( markChosenFields ) {
 			this.markChosenFields();
@@ -156,12 +185,22 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var canvas = this.getCanvas();
 
 		x -= canvas.getBoundingClientRect().left;
+		x -= this.getGridOffsetX();
+		
 		y -= canvas.getBoundingClientRect().top;
+		y -= this.getGridOffsetY();
+		
+		if(x < 0 || y < 0){
+			return null;
+		}
 
-		var xGrid = parseInt(x
-				/ (this.getCanvasSize() / this.getGridSize()));
-		var yGrid = parseInt(y
-				/ (this.getCanvasSize() / this.getGridSize()));
+		var xGrid = parseInt(x / this.getFieldSize());
+		var yGrid = parseInt(y / this.getFieldSize());
+		
+		if(xGrid >= this.getGridSizeX() || yGrid >= this.getGridSizeY()){
+			return null;
+		}
+		
 		return new Array(xGrid, yGrid);
 	},
 
@@ -172,19 +211,12 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * @param int	y	The fields y-coordinate.
 	 */
 	getFieldKoord : function(x, y) {
-		var x1 = x * this.getFieldSize() + 2 * this.getGridLineWidth();
-		var y1 = y * this.getFieldSize() + 2 * this.getGridLineWidth();
+		var x1 = x * this.getFieldSize() +  this.getGridLineWidth();
+		var y1 = y * this.getFieldSize() +  this.getGridLineWidth();
 
-		/*
-		 * If the field is near to the left or top edge, the border is just the half.
-		 */
-		if(x == 0) {
-			x1 -= this.getGridLineWidth();
-		}
-
-		if(y == 0){
-			y1 -= this.getGridLineWidth();
-		}
+		x1 += this.getGridOffsetX();
+		y1 += this.getGridOffsetY();
+		
 		return new Array(x1, y1);
 	},
 
@@ -212,7 +244,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	createGrid : function() {
 		
-		if(!(this.getGridSizeX() * this.getGridSizeY()))
+		if((this.getGridSizeX() * this.getGridSizeY()) == 0)
 			return;
 		
 		var ctx = this.getCanvas().getContext("2d");
@@ -222,7 +254,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		var fieldsize = this.getFieldSize();
 		
-		
 		// all horizontal lines
 		for (var i  = 0; i <= this.getGridSizeY(); i++){
 			ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY()  + i * fieldsize, fieldsize * this.getGridSizeX(), this.getGridLineWidth());
@@ -231,43 +262,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		
 		// all vertical lines
 		for (var i = 0; i <= this.getGridSizeX(); i++){
-			ctx.fillRect(this.getGridOffsetY(), this.getGridOffsetX() + i * fieldsize, this.getGridLineWidth(), fieldsize * this.getGridSizeY() )
+			ctx.fillRect(this.getGridOffsetX() + i * fieldsize, this.getGridOffsetY(), this.getGridLineWidth(), fieldsize * this.getGridSizeY() )
 		}
 		
-		
-		
-		/*
-		 * gridOffsetX 			 : 0,			// current x offset for grid start point
-		gridOffsetY 			 : 0,			// current y offset for grid start point
-		gridZoomLevel 			 : 0,			// zoom level for grid (defines size of grid fields)
-		gridSizeX 				 : 0,			// number of horizontal grid fields
-		gridSizeY 				 : 0,			// number of vertical grid fields
-		isGridHidden 			 : false,       // flag for visual hiding of the grid
-		 * 
-		 */
-		
-		
-		/*
-		// draw border
-		ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY(), this.getGridLineWidth(), this
-				.getRelativeCanvasSize());
-		ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY(), this.getRelativeCanvasSize(), this
-				.getGridLineWidth());
-		ctx.fillRect(this.getGridOffsetX() + this.getRelativeCanvasSize() - this.getGridLineWidth(),
-				this.getGridOffsetY(), this.getGridLineWidth(), this.getRelativeCanvasSize());
-		ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY() + this.getRelativeCanvasSize()
-				- this.getGridLineWidth(), this.getRelativeCanvasSize(),
-				this.getGridLineWidth());
-
-		// draw inner grid
-		for (var i = 1; i < this.getGridSize(); i++) {
-			ctx.fillRect(this.getGridOffsetX() + this.getFieldSize() * i
-					+ this.getGridLineWidth(), this.getGridOffsetY(), this
-					.getGridLineWidth(), this.getRelativeCanvasSize());
-			ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY() + this.getFieldSize() * i
-					+ this.getGridLineWidth(), this.getRelativeCanvasSize(),
-					this.getGridLineWidth());
-		}*/
 	},
 
 	/**
@@ -366,6 +363,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var y = event.clientY;
 		var position = container.getFieldPosition(x, y);
 
+		if(position == null){
+			return;
+		}
+		
 		// calculate index
 		var index = -1;
 		var fields = container.getChosenFields();
@@ -908,5 +909,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh / vertSquashRatio);
 	},
 
+	spinRight : function(){
+		this.setImgRotation((this.getImgRotation() + 1 )%4);
+	}
 	
 });
