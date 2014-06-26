@@ -324,14 +324,18 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			value: 0,
 			increment: 1
 		};
-
+		
+		this.ValueOfCorrectAnswers=Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
+			label: Messages.GRID_LABEL_THRESHOLD_CORRECT_ANSWERS
+		}));
+		
 		this.correctValueComponent = Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
 			label: Messages.ANSWER_POINTS_CORRECT
 		}));
 		this.incorrectValueComponent = Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
 			label: Messages.ANSWER_POINTS_INCORRECT
 		}));
-		this.questionValueFieldset.add([this.correctValueComponent, this.incorrectValueComponent]);
+		this.questionValueFieldset.add([this.correctValueComponent, this.incorrectValueComponent,this.ValueOfCorrectAnswers]);
 
 		this.zoomSpinner = Ext.create('Ext.field.Spinner', {
 			xtype : 'spinnerfield',
@@ -389,7 +393,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				         this.gridSpinner,
 				         this.gridColorsToggle,
 				         this.toggleAnswers,
-				         this.answers
+				         this.answers,
+				         this.questionValueFieldset
 				         ]
 			}]
 		});
@@ -422,11 +427,24 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		
 		this.gridColorsToggle.setListeners(toggleColorListener);
 		this.toggleAnswers.setListeners(toggleMarkAnswers);
-
+		
+		var thresholdAnswers =  {
+		        change: function (slider, thumb, newValue, oldValue) {
+		        	
+		        }
+		};
+						
+		//this.correctValueComponent.setListeners(thresholdAnswers);
+		
 		// update answers counter
 		this.grid.setOnFieldClick(function(answerValue) {
+			me.ValueOfCorrectAnswers.setMaxValue(me.correctValueComponent.getMaxValue() *me.grid.getChosenFields().length);
+        	me.ValueOfCorrectAnswers.setMinValue(me.incorrectValueComponent.getMinValue() * me.grid.getChosenFields().length);   
+        	me.ValueOfCorrectAnswers.setSliderValue(me.correctValueComponent.getMaxValue() * me.grid.getChosenFields().length);
+        	
 			me.answers.getComponent('fs_answers').getComponent('tf_answers').setValue(answerValue);
 			if (!me.reset && answerValue > 0) {
+				console.log("true");
 				me.reset = true;
 				me.questionValueFieldset.setHidden(false);
 				me.correctValueComponent.setSliderValue(me.correctValueComponent.getMaxValue());
@@ -498,6 +516,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.imageArea.show();
 		this.imageCnt.show();
 		this.uploadView.hide();
+		//this.questionValueFieldset.show();
 	},
 
 	/**
@@ -507,6 +526,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.imageArea.hide();
 		this.imageCnt.hide();
 		this.uploadView.show();
+		this.questionValueFieldset.setHidden(true);
 	},
 
 	/**
@@ -607,8 +627,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.zoomSpinner.setValue(Math.round(this.grid.getScale()*100));
 		this.gridSpinner.setValue(this.grid.getGridSize());
 		this.deleteButton.setHidden(true);	//disable delete button in edit mode
-		console.log("ToggleFieldSet");
-		console.log(this.grid.getToggleFieldsLeft());
 		this.toggleAnswers.setValue(this.grid.getToggleFieldsLeft());
 	}
 });
