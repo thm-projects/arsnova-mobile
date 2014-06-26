@@ -197,11 +197,43 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Draws the grid in the canvas element.
 	 */
 	createGrid : function() {
+		
+		if(!(this.getGridSizeX() * this.getGridSizeY()))
+			return;
+		
 		var ctx = this.getCanvas().getContext("2d");
 
 		ctx.globalAlpha = 1;
 		ctx.fillStyle = this.getCurGridLineColor();
 
+		var fieldsize = this.getFieldSize();
+		
+		
+		// all horizontal lines
+		for (var i  = 0; i <= this.getGridSizeY(); i++){
+			ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY()  + i * fieldsize, fieldsize * this.getGridSizeX(), this.getGridLineWidth());
+		}
+
+		
+		// all vertical lines
+		for (var i = 0; i <= this.getGridSizeX(); i++){
+			ctx.fillRect(this.getGridOffsetY(), this.getGridOffsetX() + i * fieldsize, this.getGridLineWidth(), fieldsize * this.getGridSizeY() )
+		}
+		
+		
+		
+		/*
+		 * gridOffsetX 			 : 0,			// current x offset for grid start point
+		gridOffsetY 			 : 0,			// current y offset for grid start point
+		gridZoomLevel 			 : 0,			// zoom level for grid (defines size of grid fields)
+		gridSizeX 				 : 0,			// number of horizontal grid fields
+		gridSizeY 				 : 0,			// number of vertical grid fields
+		isGridHidden 			 : false,       // flag for visual hiding of the grid
+		 * 
+		 */
+		
+		
+		/*
 		// draw border
 		ctx.fillRect(0, 0, this.getGridLineWidth(), this
 				.getCanvasSize());
@@ -221,7 +253,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			ctx.fillRect(0, this.getFieldSize() * i
 					+ this.getGridLineWidth(), this.getCanvasSize(),
 					this.getGridLineWidth());
-		}
+		}*/
 	},
 
 	/**
