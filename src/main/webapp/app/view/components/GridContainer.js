@@ -381,7 +381,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * @param 		possibleAnswers	The Array of possible answers to set.
 	 * @param bool	<code>true</code> if the chosen fields should be marked, <code>false</code> otherwise.
 	 */
-	update: function(gridSize, offsetX, offsetY, zoomLvl, gridOffsetX, gridOffsetY, gridZoomLvl, gridSizeX, gridSizeY, gridIsHissen, imgRotation, possibleAnswers, mark) {
+	update : function(gridSize, offsetX, offsetY, zoomLvl, gridOffsetX, gridOffsetY, gridZoomLvl, gridSizeX, gridSizeY, gridIsHissen, imgRotation, toggleFieldsLeft, numClickableFields, possibleAnswers, mark) {
 		this.setGridSize(gridSize);
 		this.setOffsetX(offsetX);
 		this.setOffsetY(offsetY);
@@ -393,6 +393,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setGridSizeY(gridSizeY);
 		this.setGridIsHidden(gridIsHissen);
 		this.setImgRotation(imgRotation);
+		this.setToggleFieldsLeft(toggleFieldsLeft);
+		this.setNumClickableFields(numClickableFields);
 		
 		if (mark) {
 			this.getChosenFieldsFromPossibleAnswers(possibleAnswers);
