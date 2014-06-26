@@ -185,13 +185,22 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 
 	/**
-	 * Gets the field size relative to the size of the canvas element.
+	 * Gets the field size relative to the size of the canvas element and the current grid scaling.
 	 *
 	 * @return	int		The field size.
 	 */
 	getFieldSize : function() {
 		return ((this.getCanvasSize() - 2 * this.getGridLineWidth())
 				/ this.getGridSize()) * this.getGridScale();
+	},
+	
+	/**
+	 * Gets the canvas size relative to the current grid scaling.
+	 * 
+	 * @return	int		The relative canvas size. 
+	 */
+	getRelativeCanvasSize : function() {
+		return this.getCanvasSize() * this.getGridScale();
 	},
 
 	/**
@@ -205,22 +214,22 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		// draw border
 		ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY(), this.getGridLineWidth(), this
-				.getCanvasSize());
-		ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY(), this.getCanvasSize(), this
+				.getRelativeCanvasSize());
+		ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY(), this.getRelativeCanvasSize(), this
 				.getGridLineWidth());
-		ctx.fillRect(this.getGridOffsetX() + this.getCanvasSize() - this.getGridLineWidth(),
-				this.getGridOffsetY(), this.getGridLineWidth(), this.getCanvasSize());
-		ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY() + this.getCanvasSize()
-				- this.getGridLineWidth(), this.getCanvasSize(),
+		ctx.fillRect(this.getGridOffsetX() + this.getRelativeCanvasSize() - this.getGridLineWidth(),
+				this.getGridOffsetY(), this.getGridLineWidth(), this.getRelativeCanvasSize());
+		ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY() + this.getRelativeCanvasSize()
+				- this.getGridLineWidth(), this.getRelativeCanvasSize(),
 				this.getGridLineWidth());
 
 		// draw inner grid
 		for (var i = 1; i < this.getGridSize(); i++) {
 			ctx.fillRect(this.getGridOffsetX() + this.getFieldSize() * i
 					+ this.getGridLineWidth(), this.getGridOffsetY(), this
-					.getGridLineWidth(), this.getCanvasSize());
+					.getGridLineWidth(), this.getRelativeCanvasSize());
 			ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY() + this.getFieldSize() * i
-					+ this.getGridLineWidth(), this.getCanvasSize(),
+					+ this.getGridLineWidth(), this.getRelativeCanvasSize(),
 					this.getGridLineWidth());
 		}
 	},
@@ -235,7 +244,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		ctx.globalAlpha = alpha;
 		ctx.fillStyle = color;
 
-		var width =this.getFieldSize() - this.getGridLineWidth();
+		var width = this.getFieldSize() - this.getGridLineWidth();
 		var height = this.getFieldSize() - this.getGridLineWidth();
 
 		/*
@@ -243,10 +252,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		 * in row and in column. At this point, the respective field mark get this stretch, too.
 		 */
 		if (y == 0) {
-			height += this.getCanvasSize() - (this.getFieldSize() * this.getGridSize() + this.getGridLineWidth());
+			height += this.getRelativeCanvasSize() - (this.getFieldSize() * this.getGridSize() + this.getGridLineWidth());
 		}
 		if (x == 0) {
-			width += this.getCanvasSize() - (this.getFieldSize() * this.getGridSize() + this.getGridLineWidth());
+			width += this.getRelativeCanvasSize() - (this.getFieldSize() * this.getGridSize() + this.getGridLineWidth());
 		}
 
 		ctx.fillRect(koord[0], koord[1], width, height);
