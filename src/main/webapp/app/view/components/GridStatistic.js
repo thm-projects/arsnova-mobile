@@ -187,12 +187,19 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				// Output WITH correct answers
 				me.grid.update(questionObj.gridSize, questionObj.offsetX,
 						questionObj.offsetY, questionObj.zoomLvl,
-						questionObj.possibleAnswers, true);
+						questionObj.gridOffsetX, questionObj.gridOffsetY,
+						questionObj.gridZoomLvl, questionObj.gridSizeX, 
+						questionObj.gridSizeY, questionObj.gridIsHidden,
+						questionObj.imgRotation, questionObj.possibleAnswers, true);
 			} else {
 				
 				// output withOUT correct answers
 				me.grid.update(questionObj.gridSize, questionObj.offsetX,
-						questionObj.offsetY, questionObj.zoomLvl, Array(), true);
+						questionObj.offsetY, questionObj.zoomLvl, 
+						questionObj.gridOffsetX, questionObj.gridOffsetY,
+						questionObj.gridZoomLvl, questionObj.gridSizeX, 
+						questionObj.gridSizeY, questionObj.gridIsHidden,
+						questionObj.imgRotation, Array(), true);
 			}
 			var gridAnswers = [];
 			var abstentionCount = 0;

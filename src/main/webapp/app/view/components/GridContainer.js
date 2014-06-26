@@ -379,17 +379,26 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * @param 		possibleAnswers	The Array of possible answers to set.
 	 * @param bool	<code>true</code> if the chosen fields should be marked, <code>false</code> otherwise.
 	 */
-	update: function(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers, mark) {
+	update: function(gridSize, offsetX, offsetY, zoomLvl, gridOffsetX, gridOffsetY, gridZoomLvl, gridSizeX, gridSizeY, gridIsHissen, imgRotation, possibleAnswers, mark) {
 		this.setGridSize(gridSize);
 		this.setOffsetX(offsetX);
 		this.setOffsetY(offsetY);
 		this.setZoomLvl(zoomLvl);
+		this.setGridOffsetX(gridOffsetX);
+		this.setGridOffsetY(gridOffsetY);
+		this.setGridZoomLvl(gridZoomLvl);
+		this.setGridSizeX(gridSizeX);
+		this.setGridSizeY(gridSizeY);
+		this.setGridIsHidden(gridIsHissen);
+		this.setImgRotation(imgRotation);
+		
 		if (mark) {
 			this.getChosenFieldsFromPossibleAnswers(possibleAnswers);
 		} else {
 			this.setChosenFields(new Array());
 		}
 		this.initZoom();
+		this.initGridZoom();
 	},
 
 	/**
@@ -444,7 +453,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	/**
 	 * Initializes the zoom level and scale.
 	 */
-	initZoom: function() {
+	initZoom : function() {
 		this.setScale(1.0);
 		if (this.getZoomLvl() > 0) {
 			for (i = 0; i < this.getZoomLvl(); i++) {
@@ -505,6 +514,22 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setScale(this.getScale() / this.getScaleFactor());
 		// now redraw the image with the new scale
 		this.redraw();
+	},
+	
+	/**
+	 * Initializes the zoom level and scale of the grid.
+	 */
+	initGridZoom : function() {
+		this.setGridScale(1.0);
+		if (this.getGridZoomLvl() > 0) {
+			for (i = 0; i < this.getGridZoomLvl(); i++) {
+				this.setGridScale(this.getGridScale() * this.getScaleFactor());
+			}
+		} else if (this.getGridZoomLvl() < 0) {
+			for (i = 0; i > this.getGridZoomLvl(); i--) {
+				this.setGridScale(this.getGridScale() / this.getScaleFactor());
+			}
+		}
 	},
 	
 	zoomInGrid : function() {

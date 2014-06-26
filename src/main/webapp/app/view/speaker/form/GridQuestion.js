@@ -573,7 +573,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.updateCanvas(question.image, false);
 
 		this.grid.update(question.gridSize, question.offsetX,
-				question.offsetY, question.zoomLvl, question.possibleAnswers, true);
+				question.offsetY, question.zoomLvl,
+				question.gridOffsetX, question.gridOffsetY,
+				question.gridZoomLvl, question.gridSizeX, 
+				question.gridSizeY, question.gridIsHidden,
+				question.imgRotation, question.possibleAnswers, true);
 
 		answerField.setValue(this.grid.getChosenFields().length);		//set the spinner with correct values (last storage)
 		this.questionValueFieldset.setHidden(this.grid.getChosenFields().length === 0);
