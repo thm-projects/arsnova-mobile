@@ -518,6 +518,16 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			offsetY 	: values.offsetY,
 			zoomLvl 	: values.zoomLvl,
 			image		: values.image,
+			gridOffsetX	: values.gridOffsetX,
+			gridOffsetY	: values.gridOffsetY,
+			gridZoomLvl	: values.gridZoomLvl,
+			gridSizeX	: values.gridSizeX,
+			gridSizeY	: values.gridSizeY,
+			gridIsHidden: values.gridIsHidden,
+			imgRotation : values.imgRotation,
+			toggleFieldsLeft : values.toggleFieldsLeft,
+			numClickableFields : values.numClickableFields,
+			thresholdCorrectAnswers : values.thresholdCorrectAnswers,
 			successFunc	: function(response, opts){
 				promise.resolve(response);
 			},

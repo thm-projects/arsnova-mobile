@@ -46,10 +46,15 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		heatmapMinAlpha			 : 0.2,			// The alpha value of a field with 0% of votes. 
 		gridOffsetX 			 : 0,			// current x offset for grid start point
 		gridOffsetY 			 : 0,			// current y offset for grid start point
-		gridZoomLevel 			 : 0,			// zoom level for grid (defines size of grid fields)
+		gridZoomLvl 			 : 0,			// zoom level for grid (defines size of grid fields)
 		gridSizeX 				 : 0,			// number of horizontal grid fields
 		gridSizeY 				 : 0,			// number of vertical grid fields
-		isGridHidden 			 : false,       // flag for visual hiding of the grid
+		gridIsHidden 			 : false,      	// flag for visual hiding of the grid
+		gridScale				 : 1.0,			// Current scale for the grid.
+		imgRotation				 : 0,			// Current rotation for the image.
+		toggleFieldsLeft		 : false,		// toggle the number of clickable fields. true: all fields are clickable, false: only the number of fields the lecturer has selected are clickable
+		numClickableFields		 : 0,			// number of clickable fields the lecturer has chosen
+		thresholdCorrectAnswers	 : 0,			// the points needed to answer the question correct
 	},
 
 	/**
@@ -121,9 +126,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		
 		// restore context to draw grid with default scale
 		ctx.restore();
-
+		
 		this.createGrid();
-
+		
 		if ( markChosenFields ) {
 			this.markChosenFields();
 		}
@@ -184,13 +189,22 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 
 	/**
-	 * Gets the field size relative to the size of the canvas element.
+	 * Gets the field size relative to the size of the canvas element and the current grid scaling.
 	 *
 	 * @return	int		The field size.
 	 */
 	getFieldSize : function() {
-		return (this.getCanvasSize() - 2 * this.getGridLineWidth())
-				/ this.getGridSize();
+		return ((this.getCanvasSize() - 2 * this.getGridLineWidth())
+				/ this.getGridSize()) * this.getGridScale();
+	},
+	
+	/**
+	 * Gets the canvas size relative to the current grid scaling.
+	 * 
+	 * @return	int		The relative canvas size. 
+	 */
+	getRelativeCanvasSize : function() {
+		return this.getCanvasSize() * this.getGridScale();
 	},
 
 	/**
@@ -235,23 +249,23 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		
 		/*
 		// draw border
-		ctx.fillRect(0, 0, this.getGridLineWidth(), this
-				.getCanvasSize());
-		ctx.fillRect(0, 0, this.getCanvasSize(), this
+		ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY(), this.getGridLineWidth(), this
+				.getRelativeCanvasSize());
+		ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY(), this.getRelativeCanvasSize(), this
 				.getGridLineWidth());
-		ctx.fillRect(this.getCanvasSize() - this.getGridLineWidth(),
-				0, this.getGridLineWidth(), this.getCanvasSize());
-		ctx.fillRect(0, this.getCanvasSize()
-				- this.getGridLineWidth(), this.getCanvasSize(),
+		ctx.fillRect(this.getGridOffsetX() + this.getRelativeCanvasSize() - this.getGridLineWidth(),
+				this.getGridOffsetY(), this.getGridLineWidth(), this.getRelativeCanvasSize());
+		ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY() + this.getRelativeCanvasSize()
+				- this.getGridLineWidth(), this.getRelativeCanvasSize(),
 				this.getGridLineWidth());
 
 		// draw inner grid
 		for (var i = 1; i < this.getGridSize(); i++) {
-			ctx.fillRect(this.getFieldSize() * i
-					+ this.getGridLineWidth(), 0, this
-					.getGridLineWidth(), this.getCanvasSize());
-			ctx.fillRect(0, this.getFieldSize() * i
-					+ this.getGridLineWidth(), this.getCanvasSize(),
+			ctx.fillRect(this.getGridOffsetX() + this.getFieldSize() * i
+					+ this.getGridLineWidth(), this.getGridOffsetY(), this
+					.getGridLineWidth(), this.getRelativeCanvasSize());
+			ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY() + this.getFieldSize() * i
+					+ this.getGridLineWidth(), this.getRelativeCanvasSize(),
 					this.getGridLineWidth());
 		}*/
 	},
@@ -266,7 +280,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		ctx.globalAlpha = alpha;
 		ctx.fillStyle = color;
 
-		var width =this.getFieldSize() - this.getGridLineWidth();
+		var width = this.getFieldSize() - this.getGridLineWidth();
 		var height = this.getFieldSize() - this.getGridLineWidth();
 
 		/*
@@ -274,10 +288,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		 * in row and in column. At this point, the respective field mark get this stretch, too.
 		 */
 		if (y == 0) {
-			height += this.getCanvasSize() - (this.getFieldSize() * this.getGridSize() + this.getGridLineWidth());
+			height += this.getRelativeCanvasSize() - (this.getFieldSize() * this.getGridSize() + this.getGridLineWidth());
 		}
 		if (x == 0) {
-			width += this.getCanvasSize() - (this.getFieldSize() * this.getGridSize() + this.getGridLineWidth());
+			width += this.getRelativeCanvasSize() - (this.getFieldSize() * this.getGridSize() + this.getGridLineWidth());
 		}
 
 		ctx.fillRect(koord[0], koord[1], width, height);
@@ -363,12 +377,14 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			}
 		}
 
-    var numChosenFields = container.getChosenFields().length;
-    var numCorrectFields = container.getPossibleAnswers().filter(function isCorrect(e) {
-      return e.correct;
-    }).length;
-    // either allow the maximum of correct fields, or allow all fields to be clicked if no correct answers are present
-    var fieldsLeft = (numChosenFields < numCorrectFields) || (numCorrectFields === 0);
+	    var numChosenFields = container.getChosenFields().length;
+	    // TODO wenn der Dozent selbst eine Anzahl an Antwortmoeglichkeiten bestimmen kann, dann muss
+	    // numCorrectFields durch numClickableFields (wird in der DB abgespeichert) ersetzt werden.
+	    var numCorrectFields = container.getPossibleAnswers().filter(function isCorrect(e) {
+	    	return e.correct;
+	    }).length;
+	    // either allow the maximum of correct fields, or allow all fields to be clicked if no correct answers are present
+	    var fieldsLeft = ((numChosenFields < numCorrectFields) || (numCorrectFields === 0) || container.getToggleFieldsLeft());
 		var changed = false;
 		if (index > -1) {
 			container.getChosenFields().splice(index, 1);
@@ -400,17 +416,31 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * @param 		possibleAnswers	The Array of possible answers to set.
 	 * @param bool	<code>true</code> if the chosen fields should be marked, <code>false</code> otherwise.
 	 */
-	update: function(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers, mark) {
+	update : function(gridSize, offsetX, offsetY, zoomLvl, gridOffsetX, gridOffsetY, gridZoomLvl, 
+						gridSizeX, gridSizeY, gridIsHidden, imgRotation, toggleFieldsLeft, 
+						numClickableFields, thresholdCorrectAnswers, possibleAnswers, mark) {
 		this.setGridSize(gridSize);
 		this.setOffsetX(offsetX);
 		this.setOffsetY(offsetY);
 		this.setZoomLvl(zoomLvl);
+		this.setGridOffsetX(gridOffsetX);
+		this.setGridOffsetY(gridOffsetY);
+		this.setGridZoomLvl(gridZoomLvl);
+		this.setGridSizeX(gridSizeX);
+		this.setGridSizeY(gridSizeY);
+		this.setGridIsHidden(gridIsHidden);
+		this.setImgRotation(imgRotation);
+		this.setToggleFieldsLeft(toggleFieldsLeft);
+		this.setNumClickableFields(numClickableFields);
+		this.setThresholdCorrectAnswers(thresholdCorrectAnswers);
+		
 		if (mark) {
 			this.getChosenFieldsFromPossibleAnswers(possibleAnswers);
 		} else {
 			this.setChosenFields(new Array());
 		}
 		this.initZoom();
+		this.initGridZoom();
 	},
 
 	/**
@@ -465,7 +495,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	/**
 	 * Initializes the zoom level and scale.
 	 */
-	initZoom: function() {
+	initZoom : function() {
 		this.setScale(1.0);
 		if (this.getZoomLvl() > 0) {
 			for (i = 0; i < this.getZoomLvl(); i++) {
@@ -514,7 +544,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	zoomIn : function() {
 		this.setZoomLvl(this.getZoomLvl() + 1);
 		this.setScale(this.getScale() * this.getScaleFactor());
-		// no redraw the image with the new scale
+		// now redraw the image with the new scale
 		this.redraw();
 	},
 
@@ -524,7 +554,75 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	zoomOut : function() {
 		this.setZoomLvl(this.getZoomLvl() - 1);
 		this.setScale(this.getScale() / this.getScaleFactor());
-		// no redraw the image with the new scale
+		// now redraw the image with the new scale
+		this.redraw();
+	},
+	
+	/**
+	 * Initializes the zoom level and scale of the grid.
+	 */
+	initGridZoom : function() {
+		this.setGridScale(1.0);
+		if (this.getGridZoomLvl() > 0) {
+			for (i = 0; i < this.getGridZoomLvl(); i++) {
+				this.setGridScale(this.getGridScale() * this.getScaleFactor());
+			}
+		} else if (this.getGridZoomLvl() < 0) {
+			for (i = 0; i > this.getGridZoomLvl(); i--) {
+				this.setGridScale(this.getGridScale() / this.getScaleFactor());
+			}
+		}
+	},
+	
+	zoomInGrid : function() {
+		this.setGridZoomLvl(this.getGridZoomLvl() + 1);
+		this.setGridScale(this.getGridScale() * this.getScaleFactor());
+		// TODO Zoom muss noch zentriert werden
+		
+		// now redraw the grid
+		//this.redrawGrid();
+		this.redraw();
+	},
+	
+	zoomOutGrid : function() {
+		this.setGridZoomLvl(this.getGridZoomLvl() - 1);
+		this.setGridScale(this.getGridScale() / this.getScaleFactor());
+		// TODO Zoom muss noch zentriert werden
+		
+		// now redraw the grid
+		// this.redrawGrid();
+		this.redraw();
+	},
+	
+	/**
+	 * Moves the grid one step in right (positive x) direction.
+	 */
+	moveGridRight : function() {
+		this.setGridOffsetX(this.getGridOffsetX() + this.getMoveInterval() / this.getGridScale());
+		this.redraw();
+	},
+
+	/**
+	 * Moves the grid one step in left (negative x) direction.
+	 */
+	moveGridLeft : function() {
+		this.setGridOffsetX(this.getGridOffsetX() - this.getMoveInterval() / this.getGridScale());
+		this.redraw();
+	},
+
+	/**
+	 * Moves the grid one step in up (negative y) direction.
+	 */
+	moveGridUp : function() {
+		this.setGridOffsetY(this.getGridOffsetY() - this.getMoveInterval() / this.getGridScale());
+		this.redraw();
+	},
+
+	/**
+	 * Moves the grid one step in down (positive y) direction.
+	 */
+	moveGridDown : function() {
+		this.setGridOffsetY(this.getGridOffsetY() + this.getMoveInterval() / this.getGridScale());
 		this.redraw();
 	},
 

@@ -361,6 +361,16 @@ Ext.define('ARSnova.view.Question', {
 					offsetY : this.questionObj.offsetY,
 					gridSize : this.questionObj.gridSize,
 					zoomLvl : this.questionObj.zoomLvl,
+					gridOffsetX : this.questionObj.gridOffsetX,
+					gridOffsetY : this.questionObj.gridOffsetY,
+					gridZoomLvl : this.questionObj.gridZoomLvl,
+					gridSizeX : this.questionObj.gridSizeX,
+					gridSizeY : this.questionObj.gridSizeY,
+					gridIsHidden : this.questionObj.gridIsHidden,
+					imgRotation : this.questionObj.imgRotation,
+					toggleFieldsLeft : this.questionObj.toggleFieldsLeft,
+					numClickableFields : this.questionObj.numClickableFields,
+					thresholdCorrectAnswers : this.questionObj.thresholdCorrectAnswers,
 					editable	: true,
           possibleAnswers: this.questionObj.possibleAnswers
 				});
@@ -374,7 +384,13 @@ Ext.define('ARSnova.view.Question', {
 				 * update function for align the grids picture
 				 */
 				this.grid.update(this.questionObj.gridSize, this.questionObj.offsetX,
-					 	 this.questionObj.offsetY, this.questionObj.zoomLvl, this.questionObj.possibleAnswers, false);
+						this.questionObj.offsetY, this.questionObj.zoomLvl, 
+					 	this.questionObj.gridOffsetX, this.questionObj.gridOffsetY,
+					 	this.questionObj.gridZoomLvl, this.questionObj.gridSizeX, 
+					 	this.questionObj.gridSizeY, this.questionObj.gridIsHidden,
+					 	this.questionObj.imgRotation, this.questionObj.toggleFieldsLeft,
+					 	this.questionObj.numClickableFields, this.questionObj.thresholdCorrectAnswers,
+					 	this.questionObj.possibleAnswers, false);
 				/*
 				 *   gridbutton and container for the grid button to add into the layout if necessary
 				 */
