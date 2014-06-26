@@ -204,22 +204,22 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		ctx.fillStyle = this.getCurGridLineColor();
 
 		// draw border
-		ctx.fillRect(0, 0, this.getGridLineWidth(), this
+		ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY(), this.getGridLineWidth(), this
 				.getCanvasSize());
-		ctx.fillRect(0, 0, this.getCanvasSize(), this
+		ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY(), this.getCanvasSize(), this
 				.getGridLineWidth());
-		ctx.fillRect(this.getCanvasSize() - this.getGridLineWidth(),
-				0, this.getGridLineWidth(), this.getCanvasSize());
-		ctx.fillRect(0, this.getCanvasSize()
+		ctx.fillRect(this.getGridOffsetX() + this.getCanvasSize() - this.getGridLineWidth(),
+				this.getGridOffsetY(), this.getGridLineWidth(), this.getCanvasSize());
+		ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY() + this.getCanvasSize()
 				- this.getGridLineWidth(), this.getCanvasSize(),
 				this.getGridLineWidth());
 
 		// draw inner grid
 		for (var i = 1; i < this.getGridSize(); i++) {
-			ctx.fillRect(this.getFieldSize() * i
-					+ this.getGridLineWidth(), 0, this
+			ctx.fillRect(this.getGridOffsetX() + this.getFieldSize() * i
+					+ this.getGridLineWidth(), this.getGridOffsetY(), this
 					.getGridLineWidth(), this.getCanvasSize());
-			ctx.fillRect(0, this.getFieldSize() * i
+			ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY() + this.getFieldSize() * i
 					+ this.getGridLineWidth(), this.getCanvasSize(),
 					this.getGridLineWidth());
 		}
@@ -514,6 +514,38 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		
 		// now redraw the grid
 		// this.redrawGrid();
+		this.redraw();
+	},
+	
+	/**
+	 * Moves the grid one step in right (positive x) direction.
+	 */
+	moveGridRight : function() {
+		this.setGridOffsetX(this.getGridOffsetX() + this.getMoveInterval() / this.getGridScale());
+		this.redraw();
+	},
+
+	/**
+	 * Moves the grid one step in left (negative x) direction.
+	 */
+	moveGridLeft : function() {
+		this.setGridOffsetX(this.getGridOffsetX() - this.getMoveInterval() / this.getGridScale());
+		this.redraw();
+	},
+
+	/**
+	 * Moves the grid one step in up (negative y) direction.
+	 */
+	moveGridUp : function() {
+		this.setGridOffsetY(this.getGridOffsetY() - this.getMoveInterval() / this.getGridScale());
+		this.redraw();
+	},
+
+	/**
+	 * Moves the grid one step in down (positive y) direction.
+	 */
+	moveGridDown : function() {
+		this.setGridOffsetY(this.getGridOffsetY() + this.getMoveInterval() / this.getGridScale());
 		this.redraw();
 	},
 

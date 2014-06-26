@@ -40,12 +40,16 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	btnMoveRight		: null,
 	btnMoveUp			: null,
 	btnMoveDown			: null,
+	btnZoomInGrid		: null,
+    btnZoomOutGrid		: null,
+    btnMoveGridLeft		: null,
+    btnMoveGridRight	: null,
+    btnMoveGridUo		: null,
+    btnMoveGridDown		: null,
 	infoButton			: null,
     infoPanel			: null,
     gridColorsToggle 	: null,
     deleteButton		: null,
-    btnZoomInGrid		: null,
-    btnZoomOutGrid		: null,
     
 	/**
 	 * Initializes the grid question area and the needed
@@ -110,6 +114,30 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			iconMask : true,
 			handler : function(){ me.grid.zoomOutGrid(); }
 		});
+		
+		this.btnMoveGridLeft = Ext.create('Ext.Button', {
+			iconCls : 'arrow_left',
+			iconMask : true,
+			handler : function(){ me.grid.moveGridLeft(); }
+		});
+
+		this.btnMoveGridRight = Ext.create('Ext.Button', {
+			iconCls : 'arrow_right',
+			iconMask : true,
+			handler : function(){ me.grid.moveGridRight(); }
+		});
+
+		this.btnMoveGridUp = Ext.create('Ext.Button', {
+			iconCls : 'arrow_up',
+			iconMask : true,
+			handler : function(){ me.grid.moveGridUp(); }
+		});
+
+		this.btnMoveGridDown = Ext.create('Ext.Button', {
+			iconCls : 'arrow_down',
+			iconMask : true,
+			handler : function(){ me.grid.moveGridDown(); }
+		});
 
 		this.imageArea = Ext.create('Ext.Panel', {
 			id : 'imageArea',
@@ -145,7 +173,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					},
 					items : [
 						this.btnZoomInGrid,
-						this.btnZoomOutGrid
+						this.btnZoomOutGrid,
+						this.btnMoveGridLeft,
+						this.btnMoveGridRight,
+						this.btnMoveGridUp,
+						this.btnMoveGridDown,
 			       ]
 			   }
 			],
