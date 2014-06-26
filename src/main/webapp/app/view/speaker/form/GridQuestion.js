@@ -413,10 +413,10 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		
 		var toggleMarkAnswers =  {
 		        beforechange: function (slider, thumb, newValue, oldValue) {
-		        	this.grid.settoggleBorderColor(this.getValue());
+		        	me.grid.setToggleFieldsLeft(this.getValue());
 		        },
 		        change: function (slider, thumb, newValue, oldValue) {
-		        	this.grid.settoggleBorderColor(this.getValue()); 
+		        	me.grid.setToggleFieldsLeft(this.getValue()); 
 		        }
 		};
 		
@@ -604,5 +604,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.zoomSpinner.setValue(Math.round(this.grid.getScale()*100));
 		this.gridSpinner.setValue(this.grid.getGridSize());
 		this.deleteButton.setHidden(true);	//disable delete button in edit mode
+		console.log("ToggleFieldSet");
+		console.log(this.grid.getToggleFieldsLeft());
+		this.toggleAnswers.setValue(this.grid.getToggleFieldsLeft());
 	}
 });
