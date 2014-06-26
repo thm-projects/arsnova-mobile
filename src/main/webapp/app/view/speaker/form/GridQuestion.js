@@ -372,7 +372,12 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			label:		Messages.GRID_LABEL_INVERT_GRIDCOLORS,
 			value:  	false
 		});
-
+		
+		this.toggleAnswers = Ext.create('Ext.field.Toggle', {
+			label:		Messages.GRID_LABEL_MARK_TOGGLE_ANSWERS,
+			value:  	false
+		});
+		
 		this.imageSettings = Ext.create('Ext.Panel', {
 			id : 'answerField',
 			items : [{
@@ -383,6 +388,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				         this.zoomSpinner,
 				         this.gridSpinner,
 				         this.gridColorsToggle,
+				         this.toggleAnswers,
 				         this.answers
 				         ]
 			}]
@@ -404,8 +410,18 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		        	me.grid.toggleBorderColor();
 		        }
 		};
+		
+		var toggleMarkAnswers =  {
+		        beforechange: function (slider, thumb, newValue, oldValue) {
+		        	this.grid.settoggleBorderColor(this.getValue());
+		        },
+		        change: function (slider, thumb, newValue, oldValue) {
+		        	this.grid.settoggleBorderColor(this.getValue()); 
+		        }
+		};
+		
 		this.gridColorsToggle.setListeners(toggleColorListener);
-
+		this.toggleAnswers.setListeners(toggleMarkAnswers);
 
 		// update answers counter
 		this.grid.setOnFieldClick(function(answerValue) {
