@@ -62,6 +62,7 @@ Ext.define('ARSnova.model.Question', {
 				 'imgRotation',
 				 'toggleFieldsLeft',
 				 'numClickableFields',
+				 'thresholdCorrectAnswers',
 		],
 
 		validations: [

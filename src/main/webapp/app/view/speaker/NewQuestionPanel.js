@@ -527,6 +527,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			imgRotation : values.imgRotation,
 			toggleFieldsLeft : values.toggleFieldsLeft,
 			numClickableFields : values.numClickableFields,
+			thresholdCorrectAnswers : values.thresholdCorrectAnswers,
 			successFunc	: function(response, opts){
 				promise.resolve(response);
 			},

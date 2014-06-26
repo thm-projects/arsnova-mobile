@@ -54,6 +54,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		imgRotation				 : 0,			// Current rotation for the image.
 		toggleFieldsLeft		 : false,		// toggle the number of clickable fields. true: all fields are clickable, false: only the number of fields the lecturer has selected are clickable
 		numClickableFields		 : 0,			// number of clickable fields the lecturer has chosen
+		thresholdCorrectAnswers	 : 0,			// the points needed to answer the question correct
 	},
 
 	/**
@@ -345,6 +346,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		}
 
 	    var numChosenFields = container.getChosenFields().length;
+	    // TODO wenn der Dozent selbst eine Anzahl an Antwortmoeglichkeiten bestimmen kann, dann muss
+	    // numCorrectFields durch numClickableFields (wird in der DB abgespeichert) ersetzt werden.
 	    var numCorrectFields = container.getPossibleAnswers().filter(function isCorrect(e) {
 	    	return e.correct;
 	    }).length;
@@ -381,7 +384,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * @param 		possibleAnswers	The Array of possible answers to set.
 	 * @param bool	<code>true</code> if the chosen fields should be marked, <code>false</code> otherwise.
 	 */
-	update : function(gridSize, offsetX, offsetY, zoomLvl, gridOffsetX, gridOffsetY, gridZoomLvl, gridSizeX, gridSizeY, gridIsHissen, imgRotation, toggleFieldsLeft, numClickableFields, possibleAnswers, mark) {
+	update : function(gridSize, offsetX, offsetY, zoomLvl, gridOffsetX, gridOffsetY, gridZoomLvl, 
+						gridSizeX, gridSizeY, gridIsHidden, imgRotation, toggleFieldsLeft, 
+						numClickableFields, thresholdCorrectAnswers, possibleAnswers, mark) {
 		this.setGridSize(gridSize);
 		this.setOffsetX(offsetX);
 		this.setOffsetY(offsetY);
@@ -391,10 +396,11 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setGridZoomLvl(gridZoomLvl);
 		this.setGridSizeX(gridSizeX);
 		this.setGridSizeY(gridSizeY);
-		this.setGridIsHidden(gridIsHissen);
+		this.setGridIsHidden(gridIsHidden);
 		this.setImgRotation(imgRotation);
 		this.setToggleFieldsLeft(toggleFieldsLeft);
 		this.setNumClickableFields(numClickableFields);
+		this.setThresholdCorrectAnswers(thresholdCorrectAnswers);
 		
 		if (mark) {
 			this.getChosenFieldsFromPossibleAnswers(possibleAnswers);

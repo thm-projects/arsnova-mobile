@@ -564,6 +564,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		result.gridIsHidden		= this.grid.getGridIsHidden(),
 		result.imgRotation		= this.grid.getImgRotation(),
 		result.toggleFieldsLeft	= this.grid.getToggleFieldsLeft(),
+		result.numClickableFields = this.grid.getNumClickableFields(),
+		result.thresholdCorrectAnswers = this.grid.getThresholdCorrectAnswers();
 		
 		result.possibleAnswers 	= possibleAnswers;
 
@@ -595,7 +597,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				question.gridZoomLvl, question.gridSizeX, 
 				question.gridSizeY, question.gridIsHidden,
 				question.imgRotation, question.toggleFieldsLeft, 
-				question.numClickableFields, question.possibleAnswers, true);
+				question.numClickableFields, question.thresholdCorrectAnswers,
+				question.possibleAnswers, true);
 
 		answerField.setValue(this.grid.getChosenFields().length);		//set the spinner with correct values (last storage)
 		this.questionValueFieldset.setHidden(this.grid.getChosenFields().length === 0);

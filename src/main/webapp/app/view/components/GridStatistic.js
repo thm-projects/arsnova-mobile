@@ -191,7 +191,8 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 						questionObj.gridZoomLvl, questionObj.gridSizeX, 
 						questionObj.gridSizeY, questionObj.gridIsHidden,
 						questionObj.imgRotation, questionObj.toggleFieldsLeft, 
-						questionObj.numClickableFields, questionObj.possibleAnswers, true);
+						questionObj.numClickableFields, questionObj.thresholdCorrectAnswers,
+						questionObj.possibleAnswers, true);
 			} else {
 				
 				// output withOUT correct answers
@@ -201,7 +202,8 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 						questionObj.gridZoomLvl, questionObj.gridSizeX, 
 						questionObj.gridSizeY, questionObj.gridIsHidden,
 						questionObj.imgRotation, questionObj.toggleFieldsLeft, 
-						questionObj.numClickableFields, Array(), true);
+						questionObj.numClickableFields, questionObj.thresholdCorrectAnswers,
+						Array(), true);
 			}
 			var gridAnswers = [];
 			var abstentionCount = 0;

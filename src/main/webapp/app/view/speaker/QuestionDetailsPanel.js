@@ -210,6 +210,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					if(newContent.numClickableFields !== prevContent.get("numClickableFields"))
 						return true;
 					
+					if(newContent.thresholdCorrectAnswers !== prevContent.get("thresholdCorrectAnswers"))
+						return true;
+					
 					console.log(prevContent);
 					var changed = false;
 					prevContent.get("possibleAnswers").forEach(function(answer, i) {
@@ -240,6 +243,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					if (questionValues.imgRotation != undefined)  question.set("imgRotation", questionValues.imgRotation);
 					if (questionValues.toggleFieldsLeft != undefined)  question.set("toggleFieldsLeft", questionValues.toggleFieldsLeft);
 					if (questionValues.numClickableFields != undefined)  question.set("numClickableFields", questionValues.numClickableFields);
+					if (questionValues.thresholdCorrectAnswers != undefined)  question.set("thresholdCorrectAnswers", questionValues.thresholdCorrectAnswers);
 					
 					question.set("possibleAnswers", questionValues.possibleAnswers);
 					question.set("noCorrect", !!questionValues.noCorrect);

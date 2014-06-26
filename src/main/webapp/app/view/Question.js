@@ -370,6 +370,7 @@ Ext.define('ARSnova.view.Question', {
 					imgRotation : this.questionObj.imgRotation,
 					toggleFieldsLeft : this.questionObj.toggleFieldsLeft,
 					numClickableFields : this.questionObj.numClickableFields,
+					thresholdCorrectAnswers : this.questionObj.thresholdCorrectAnswers,
 					editable	: true,
           possibleAnswers: this.questionObj.possibleAnswers
 				});
@@ -388,7 +389,8 @@ Ext.define('ARSnova.view.Question', {
 					 	this.questionObj.gridZoomLvl, this.questionObj.gridSizeX, 
 					 	this.questionObj.gridSizeY, this.questionObj.gridIsHidden,
 					 	this.questionObj.imgRotation, this.questionObj.toggleFieldsLeft,
-					 	this.questionObj.numClickableFields, this.questionObj.possibleAnswers, false);
+					 	this.questionObj.numClickableFields, this.questionObj.thresholdCorrectAnswers,
+					 	this.questionObj.possibleAnswers, false);
 				/*
 				 *   gridbutton and container for the grid button to add into the layout if necessary
 				 */
