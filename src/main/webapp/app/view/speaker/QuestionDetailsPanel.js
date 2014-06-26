@@ -183,6 +183,27 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					if(newContent.offsetY != prevContent.get("offsetY"))
 						return true;
 					
+					if(newContent.gridOffsetX !== prevContent.get("gridOffsetX"))
+						return true;
+					
+					if(newContent.gridOffsetY != prevContent.get("gridOffsetY"))
+						return true;
+					
+					if(newContent.gridZoomLvl !== prevContent.get("gridZoomLvl"))
+						return true;
+					
+					if(newContent.gridSizeX !== prevContent.get("gridSizeX"))
+						return true;
+					
+					if(newContent.gridSizeY !== prevContent.get("gridSizeY"))
+						return true;
+					
+					if(newContent.gridIsHidden !== prevContent.get("gridIsHidden"))
+						return true;
+					
+					if(newContent.imgRotation !== prevContent.get("imgRotation"))
+						return true;
+					
 					console.log(prevContent);
 					var changed = false;
 					prevContent.get("possibleAnswers").forEach(function(answer, i) {
@@ -204,6 +225,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					if (questionValues.offsetX != undefined)  question.set("offsetX", questionValues.offsetX);
 					if (questionValues.offsetY != undefined)  question.set("offsetY", questionValues.offsetY);
 					if (questionValues.zoomLvl != undefined)  question.set("zoomLvl", questionValues.zoomLvl);
+					if (questionValues.gridOffsetX != undefined)  question.set("gridOffsetX", questionValues.gridOffsetX);
+					if (questionValues.gridOffsetY != undefined)  question.set("gridOffsetY", questionValues.gridOffsetY);
+					if (questionValues.gridZoomLvl != undefined)  question.set("gridZoomLvl", questionValues.gridZoomLvl);
+					if (questionValues.gridSizeX != undefined)  question.set("gridSizeX", questionValues.gridSizeX);
+					if (questionValues.gridSizeY != undefined)  question.set("gridSizeY", questionValues.gridSizeY);
+					if (questionValues.gridIsHidden != undefined)  question.set("gridIsHidden", questionValues.gridIsHidden);
+					if (questionValues.imgRotation != undefined)  question.set("imgRotation", questionValues.imgRotation);
 
 					question.set("possibleAnswers", questionValues.possibleAnswers);
 					question.set("noCorrect", !!questionValues.noCorrect);

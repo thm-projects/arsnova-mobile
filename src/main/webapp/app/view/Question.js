@@ -361,6 +361,13 @@ Ext.define('ARSnova.view.Question', {
 					offsetY : this.questionObj.offsetY,
 					gridSize : this.questionObj.gridSize,
 					zoomLvl : this.questionObj.zoomLvl,
+					gridOffsetX : this.questionObj.gridOffsetX,
+					gridOffsetY : this.questionObj.gridOffsetY,
+					gridZoomLvl : this.questionObj.gridZoomLvl,
+					gridSizeX : this.questionObj.gridSizeX,
+					gridSizeY : this.questionObj.gridSizeY,
+					gridIsHidden : this.questionObj.gridIsHidden,
+					imgRotation : this.questionObj.imgRotation,
 					editable	: true,
           possibleAnswers: this.questionObj.possibleAnswers
 				});

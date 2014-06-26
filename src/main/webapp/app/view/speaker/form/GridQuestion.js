@@ -536,11 +536,19 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		if (this.grid.getImageFile()) {
 			result.image 	 	   = this.grid.getImageFile().src;
 		}
-		result.gridSize 	   = this.grid.getGridSize();
-		result.offsetX  	   = this.grid.getOffsetX();
-		result.offsetY 		   = this.grid.getOffsetY();
-		result.zoomLvl 		   = this.grid.getZoomLvl();
-		result.possibleAnswers = possibleAnswers;
+		result.gridSize 	   	= this.grid.getGridSize();
+		result.offsetX  	   	= this.grid.getOffsetX();
+		result.offsetY 		   	= this.grid.getOffsetY();
+		result.zoomLvl 		   	= this.grid.getZoomLvl();
+		result.gridOffsetX		= this.grid.getGridOffsetX(),
+		result.gridOffsetY		= this.grid.getGridOffsetY(),
+		result.gridZoomLvl		= this.grid.getGridZoomLvl(),
+		result.gridSizeX		= this.grid.getGridSizeX(),
+		result.gridSizeY		= this.grid.getGridSizeY(),
+		result.gridIsHidden		= this.grid.getGridIsHidden(),
+		result.imgRotation		= this.grid.getImgRotation(),
+		
+		result.possibleAnswers 	= possibleAnswers;
 
 		result.noCorrect 	   = this.grid.getChosenFields().length > 0 ? 0 : 1; // TODO: Check if really needed (and why numbers instead of bool)
 

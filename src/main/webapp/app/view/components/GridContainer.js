@@ -51,6 +51,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		gridSizeY 				 : 0,			// number of vertical grid fields
 		gridIsHidden 			 : false,       // flag for visual hiding of the grid
 		gridScale				 : 1.0,			// Current scale for the grid.
+		imgRotation				 : 0,			// Current rotation for the image.
 	},
 
 	/**
