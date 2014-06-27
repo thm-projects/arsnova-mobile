@@ -590,7 +590,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		var urlField 	= this.uploadView.getComponent('pnl_upfield').getComponent('tf_url');
 
 		this.zoomSpinner.setValue(this.grid.getScale() * 100);
-		this.gridSpinner.setValue(this.grid.getGridSize());
+		this.gridXSpinner.setValue(this.grid.getGridSizeX());
+		this.gridYSpinner.setValue(this.grid.getGridSizeY());
 		answerField.setValue(0);
 		urlField.setValue("");
 
@@ -672,7 +673,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.incorrectValueComponent.setSliderValue(minValue);
 		this.correctValueComponent.setSliderValue(maxValue);
 		this.zoomSpinner.setValue(Math.round(this.grid.getScale()*100));
-		this.gridSpinner.setValue(this.grid.getGridSize());
+		this.gridXSpinner.setValue(this.grid.getGridSizeX());
+		this.gridYSpinner.setValue(this.grid.getGridSizeY());
 		this.deleteButton.setHidden(true);	//disable delete button in edit mode
 		this.toggleAnswers.setValue(this.grid.getToggleFieldsLeft());
 		this.ValueOfCorrectAnswers.setMaxValue(this.correctValueComponent.getMaxValue() *this.grid.getChosenFields().length);
