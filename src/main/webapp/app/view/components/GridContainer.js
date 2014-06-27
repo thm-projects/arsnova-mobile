@@ -126,35 +126,22 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		 */
 		ctx.rotate(90 * this.getImgRotation() * Math.PI /180 );
 		
-		
-		
-		
-		// TODO DANIEL FIX MAL!
-		
-		//if (this.getImageFile().lastIndexOf("http", 0) === 0) { // image is load from url
-		
-			/*
-			 * have to be the negative half of width and height of the image for translation to get a fix rotation point in the middle of the image!!!
-			 */  
-			ctx.drawImage(this.getImageFile(), -(this.getImageFile().width / 2),  -(this.getImageFile().height / 2));
-			
-	/*	} else {
+		if (this.getImageFile().src.lastIndexOf("http", 0) === 0) { // image is load from url
+			// have to be the negative half of width and height of the image for translation to get a fix rotation point in the middle of the image!!!  
+			ctx.drawImage(this.getImageFile(), -(this.getImageFile().width / 2), -(this.getImageFile().height / 2));
+		} else {
 			// draw image avoiding ios 6/7 squash bug
 			this.drawImageIOSFix(
 				ctx, 
-				this.getImageFile(), 
-				0, 0, 
-				this.getImageFile().naturalWidth, this.getImageFile().naturalHeight, 
-				this.getOffsetX(), this.getOffsetY(), 
+				this.getImageFile(),
+				-(this.getImageFile().width / 2), -(this.getImageFile().height / 2),
 				this.getImageFile().width, this.getImageFile().height);
-		}*/
-		
+		}
 		
 		// restore context to draw grid with default scale
 		ctx.restore();
 		
-		
-		if(!this.getGridIsHidden()){
+		if(!this.getGridIsHidden()) {
 			this.createGrid();
 		}
 		
@@ -642,19 +629,19 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		newimage.src = dataUrl;
 
 		newimage.onload = function() {
-      var cb = successCallback || Ext.emptyFn;
+			var cb = successCallback || Ext.emptyFn;
 			if (reload) {
 				container.clearImage();
-      }
+		    }
 			container.setImageFile(newimage);
 			container.redraw();
-
+			
 			cb();
 		};
-    newimage.onerror = function() {
-      var cb = failureCallback || Ext.emptyFn;
-      cb();
-    }
+	    newimage.onerror = function() {
+	    	var cb = failureCallback || Ext.emptyFn;
+	    	cb();
+	    }
 	},
 
 	/**
@@ -904,9 +891,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * A replacement for context.drawImage
 	 * (args are for source and destination).
 	 */
-	drawImageIOSFix : function (ctx, img, sx, sy, sw, sh, dx, dy, dw, dh) {
+	drawImageIOSFix : function (ctx, img, dx, dy, dw, dh) {
 		var vertSquashRatio = this.detectVerticalSquash(img);
-		ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh / vertSquashRatio);
+		ctx.drawImage(img, dx, dy, dw, dh / vertSquashRatio);
 	},
 
 	spinRight : function(){
