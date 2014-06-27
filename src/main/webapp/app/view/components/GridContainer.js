@@ -122,7 +122,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		ctx.translate(this.getOffsetX()+(this.getImageFile().width / 2), this.getOffsetY() + (this.getImageFile().height / 2));
 		
 		/*
-		 * rotates the image in 90° steps clockwise. Steps are in the variable imgRotation
+		 * rotates the image in 90ï¿½ steps clockwise. Steps are in the variable imgRotation
 		 */
 		ctx.rotate(90 * this.getImgRotation() * Math.PI /180 );
 		
@@ -911,6 +911,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 	spinRight : function(){
 		this.setImgRotation((this.getImgRotation() + 1 )%4);
+		this.redraw();
 	}
 	
 });

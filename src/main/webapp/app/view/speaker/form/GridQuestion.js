@@ -51,7 +51,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
     infoPanel			: null,
     gridColorsToggle 	: null,
     deleteButton		: null,
-    routateButton		: null,
+    rotateButton		: null,
     hideGridButton		: null,
     
     
@@ -107,12 +107,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			handler : function(){ me.resetView(); }
 		});
 		
-		this.routateButton = Ext.create('Ext.Button',{
-			iconCls : 'reply',
+		this.rotateButton = Ext.create('Ext.Button',{
+			iconCls : 'refresh',
 			iconMask : true,
 			handler : function(){
 				me.grid.spinRight();
-				me.grid.redraw();
 			}
 		});
 		
@@ -184,7 +183,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						this.btnMoveUp,
 						this.btnMoveDown,
 						this.deleteButton,
-						this.routateButton
+						this.rotateButton
 			       ]
 			   },
 			   {
@@ -679,7 +678,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.toggleAnswers.setValue(this.grid.getToggleFieldsLeft());
 		this.ValueOfCorrectAnswers.setMaxValue(this.correctValueComponent.getMaxValue() *this.grid.getChosenFields().length);
     	this.ValueOfCorrectAnswers.setMinValue(this.incorrectValueComponent.getMinValue() * this.grid.getChosenFields().length);   
-    	this.ValueOfCorrectAnswers.setSliderValue(this.correctValueComponent.getMaxValue() * this.grid.getChosenFields().length);
+    	this.ValueOfCorrectAnswers.setSliderValue(this.grid.getThresholdCorrectAnswers());
 		
 	}
 });
