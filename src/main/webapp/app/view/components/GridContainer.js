@@ -140,14 +140,15 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		
 		// restore context to draw grid with default scale
 		ctx.restore();
+
+		if ( markChosenFields ) {
+			this.markChosenFields();
+		}
 		
 		if(!this.getGridIsHidden()) {
 			this.createGrid();
 		}
 		
-		if ( markChosenFields ) {
-			this.markChosenFields();
-		}
 	},
 
 	/**
@@ -267,16 +268,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var width = this.getFieldSize() - this.getGridLineWidth();
 		var height = this.getFieldSize() - this.getGridLineWidth();
 
-		/*
-		 * rounding rest in separating the canvas size in fields stretches the first fields
-		 * in row and in column. At this point, the respective field mark get this stretch, too.
-		 */
-		if (y == 0) {
-			height += this.getRelativeCanvasSize() - (this.getFieldSize() * this.getGridSize() + this.getGridLineWidth());
-		}
-		if (x == 0) {
-			width += this.getRelativeCanvasSize() - (this.getFieldSize() * this.getGridSize() + this.getGridLineWidth());
-		}
 
 		ctx.fillRect(koord[0], koord[1], width, height);
 	},
@@ -377,8 +368,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		if (index > -1) {
 			container.getChosenFields().splice(index, 1);
 			changed = true;
-		} else if ((container.getGridSize()
-				* container.getGridSize() > container
+		} else if ((container.getGridSizeX()
+				* container.getGridSizeY() > container
 				.getChosenFields().length) && fieldsLeft) {
 			container.getChosenFields().push(position);
 			changed = true;
@@ -692,8 +683,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	getPossibleAnswersFromChosenFields : function() {
 		var values = [], obj;
 
-		for (var i = 0 ; i < this.getGridSize() ; i++) {
-			for (var j = 0 ; j < this.getGridSize() ; j++) {
+		for (var i = 0 ; i < this.getGridSizeX() ; i++) {
+			for (var j = 0 ; j < this.getGridSizeY() ; j++) {
 				obj = {
 						text: i + ";" + j,
 						correct: false
@@ -708,6 +699,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				values.push(obj);
 			}
 		}
+		console.log("getPossibleAnswersFromChosenFields:")
+		console.log(values);
 		return values;
 	},
 
@@ -772,8 +765,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		// TODO: find a more elagant way than iterating twice through all tiles.
 		var maxVotes = 0;
 		var minVotes = 0;
-		for (var row=0; row < this.getGridSize() ; row++) {
-			for (var column=0; column < this.getGridSize() ; column++) {
+		for (var row=0; row < this.getGridSizeX() ; row++) {
+			for (var column=0; column < this.getGridSizeY() ; column++) {
 				var key = row + ";" + column;
 				if (typeof tilesToFill[key] !==  "undefined") {
 					if ( tilesToFill[key] > maxVotes ) {
@@ -787,8 +780,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			}
 		}
 
-		for (var row=0; row < this.getGridSize() ; row++) {
-			for (var column=0; column < this.getGridSize() ; column++) {
+		for (var row=0; row < this.getGridSizeX() ; row++) {
+			for (var column=0; column < this.getGridSizeY() ; column++) {
 				var key = row + ";" + column;
 				var coords = this.getChosenFieldFromPossibleAnswer(key);
 
@@ -835,16 +828,21 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	generateUserViewWithAnswers : function (userAnswers, correctAnswers, toggleColors){
 
+		console.log("am i here?");
+		
+		console.log(correctAnswers);
+		console.log(userAnswers);
+		
 		// toggle grid color
 		this.setCurGridLineColor(toggleColors ? this.getAlternativeGridLineColor() : this.getGridLineColor());
 
 		var lowAlpha = 0.2;
 		var highAlpha = 0.9;
 
-		for (var row=0; row < this.getGridSize(); row++) {
-			for (var column=0; column < this.getGridSize(); column++) {
+		for (var row=0; row < this.getGridSizeX(); row++) {
+			for (var column=0; column < this.getGridSizeY(); column++) {
 
-				var i = row * this.getGridSize() + column;
+				var i = row * this.getGridSizeX() + column;
 				var color = correctAnswers[i] ? this.getStatisticRightColor() : this.getStatisticWrongColor();
 				var alpha = userAnswers[i] ? highAlpha : lowAlpha;
 
