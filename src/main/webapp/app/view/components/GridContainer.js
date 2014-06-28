@@ -828,10 +828,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	generateUserViewWithAnswers : function (userAnswers, correctAnswers, toggleColors){
 
-		console.log("am i here?");
-		
-		console.log(correctAnswers);
-		console.log(userAnswers);
 		
 		// toggle grid color
 		this.setCurGridLineColor(toggleColors ? this.getAlternativeGridLineColor() : this.getGridLineColor());
@@ -842,7 +838,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		for (var row=0; row < this.getGridSizeX(); row++) {
 			for (var column=0; column < this.getGridSizeY(); column++) {
 
-				var i = row * this.getGridSizeX() + column;
+				var i = row * this.getGridSizeY() + column;
 				var color = correctAnswers[i] ? this.getStatisticRightColor() : this.getStatisticWrongColor();
 				var alpha = userAnswers[i] ? highAlpha : lowAlpha;
 

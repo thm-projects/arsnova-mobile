@@ -142,14 +142,15 @@ Ext.define('ARSnova.view.Question', {
 				if (button !== 'yes') {
 					return;
 				}
-
+				
 				var selectedIndexes = [];
 				this.grid.getChosenFields().forEach(function(node) {
 					selectedIndexes.push(node[0]+';'+node[1] );
 				}, this);
 				this.questionObj.userAnswered = selectedIndexes.join(",");
 				this.markCorrectAnswers();
-
+				
+				
 				var questionValue = 0;
 				this.questionObj.possibleAnswers.forEach(function(node){
           if (selectedIndexes.indexOf(node.text) !== -1) {
@@ -456,6 +457,7 @@ Ext.define('ARSnova.view.Question', {
 		if(answerString == undefined)
 			return;
 
+
 		var grid = this.grid;
 		var fields = answerString.split(",");
 
@@ -476,8 +478,9 @@ Ext.define('ARSnova.view.Question', {
 
 			fields.forEach(function(node){
 				var coord = grid.getChosenFieldFromPossibleAnswer(node);
-				userAnswers[coord[0] * grid.getGridSize() + coord[1]] = 1;
+				userAnswers[(coord[0] * grid.getGridSizeY()) + coord[1]] = 1;
 			});
+			
 
 			grid.generateUserViewWithAnswers(userAnswers, correctAnswers, false);
 
