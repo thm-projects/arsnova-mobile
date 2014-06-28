@@ -388,6 +388,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					me.grid.setGridSizeX(value); // update grid count
 					me.grid.setChosenFields(Array());
 					me.grid.redraw();
+					me.grid.getOnFieldClick()(0);
 				}
 			},
 			minValue : 1,
@@ -405,6 +406,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					me.grid.setGridSizeY(value); // update grid count
 					me.grid.setChosenFields(Array());
 					me.grid.redraw();
+					me.grid.getOnFieldClick()(0);
 				}
 			},
 			minValue : 1,
