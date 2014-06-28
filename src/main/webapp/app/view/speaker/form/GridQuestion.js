@@ -312,17 +312,14 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						handler : this.updateCanvasWithUrl
 					} ]
 				} ]
-			}, {
-				xtype : 'spacer',
-				height : 100,
-				docked : 'bottom'
-			} ]
+			}]
 		});
 
 		this.answers = Ext.create('Ext.Panel', {
 			items : [ {
 				xtype : 'fieldset',
 				id : 'fs_answers',
+				style: 'margin-bottom: 0',
 				name : 'fs_answers',
 				title : Messages.CORRECT_ANSWERS,
 				items : [ {
@@ -438,9 +435,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				         this.gridXSpinner,
 				         this.gridYSpinner,
 				         this.gridColorsToggle,
-				         this.toggleAnswers,
-				         this.answers,
-				         this.questionValueFieldset
+				         this.toggleAnswers
 				         ]
 			}]
 		});
@@ -449,7 +444,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			scrollable : null,
 			id : 'imageControle',
 			hidden : true,
-			items : [ this.imageSettings ]
+			items : [ this.imageSettings,
+				         this.answers,
+				         this.questionValueFieldset ]
 		});
 
 
