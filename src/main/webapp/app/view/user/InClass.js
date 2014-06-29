@@ -193,6 +193,13 @@ Ext.define('ARSnova.view.user.InClass', {
 		this.on('initialize', function() {
 			this.feedbackButton.setBadge([{ badgeText: '0' }]);
 		});
+
+		// hide or show listeners won't work, so check if the tabpanel activates this panel
+		ARSnova.app.mainTabPanel.tabPanel.on('activeitemchange', function(tabpanel, newPanel, oldPanel) {
+			if (newPanel.down('#' + this.getId()) !== null) {
+				this.refreshListeners();
+			}
+		}, this);
 	},
 
 	/* will be called on session login */
@@ -203,6 +210,16 @@ Ext.define('ARSnova.view.user.InClass', {
 		taskManager.start(panel.countActiveUsersTask);
 		taskManager.start(panel.checkSessionStatusTask);
 		taskManager.start(panel.checkLearningProgressTask);
+	},
+
+	/* will be called whenever panel is shown */
+	refreshListeners: function() {
+		// tasks should get run immediately
+		this.checkNewSkillQuestionsTask.taskRunTime = 0;
+		this.checkFeedbackRemovedTask.taskRunTime = 0;
+		this.countActiveUsersTask.taskRunTime = 0;
+		this.checkSessionStatusTask.taskRunTime = 0;
+		this.checkLearningProgressTask.taskRunTime = 0;
 	},
 
 	/* will be called on session logout */

@@ -256,6 +256,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		this.onBefore('painted', function(){
 			this.updateBadges();
 		});
+
+		this.on('show', this.refreshListeners);
 	},
 
 	updateFeedback: function(averageFeedback) {
@@ -294,6 +296,14 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		taskManager.start(inClassPanel.countActiveUsersTask);
 		taskManager.start(inClassPanel.countFeedbackQuestionsTask);
 		taskManager.start(inClassPanel.courseLearningProgressTask);
+	},
+
+	/* will be called whenever panel is shown */
+	refreshListeners: function() {
+		// tasks should get run immediately
+		this.countActiveUsersTask.taskRunTime = 0;
+		this.countFeedbackQuestionsTask.taskRunTime = 0;
+		this.courseLearningProgressTask.taskRunTime = 0;
 	},
 
 	/* will be called on session logout */
