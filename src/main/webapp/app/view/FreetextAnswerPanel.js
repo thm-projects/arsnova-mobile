@@ -36,7 +36,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 	},
 
 	constructor: function(args) {
-		this.callParent(args);
+		this.callParent(arguments);
 
 		this.questionObj = args.question;
 		this.lastPanel = args.lastPanel;

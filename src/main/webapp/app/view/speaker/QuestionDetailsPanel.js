@@ -86,7 +86,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	},
 
 	constructor: function(args){
-		this.callParent(args);
+		this.callParent(arguments);
 
 		var me = this;
 		this.questionObj = args.question;
@@ -147,11 +147,11 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			handler	: function(){
 				var panel = this.up('panel');
 				var answersChanged = function(prevAnswers, newAnswers) {
-					
+
 					if (prevAnswers.length !== newAnswers.length) {
 						return true;
 					}
-					
+
 					var changed = false;
 					prevAnswers.forEach(function(answer, i) {
 						if (answer.text !== newAnswers[i].text) {
@@ -160,69 +160,69 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					});
 					return changed;
 				};
-				
-				
+
+
 				var contentChanged = function(prevContent, newContent){
 
 					if(newContent.gridSize !== prevContent.get("gridSize"))
 						return true;
-					
+
 					if(newContent.zoomLvl !== prevContent.get("zoomLvl"))
 						return true;
-					
+
 					if(newContent.offsetX !== prevContent.get("offsetX"))
 						return true;
-					
+
 					if(newContent.offsetY != prevContent.get("offsetY"))
 						return true;
-					
+
 					if(newContent.gridOffsetX !== prevContent.get("gridOffsetX"))
 						return true;
-					
+
 					if(newContent.gridOffsetY != prevContent.get("gridOffsetY"))
 						return true;
-					
+
 					if(newContent.gridZoomLvl !== prevContent.get("gridZoomLvl"))
 						return true;
-					
+
 					if(newContent.gridSizeX !== prevContent.get("gridSizeX"))
 						return true;
-					
+
 					if(newContent.gridSizeY !== prevContent.get("gridSizeY"))
 						return true;
-					
+
 					if(newContent.gridIsHidden !== prevContent.get("gridIsHidden"))
 						return true;
-					
+
 					if(newContent.imgRotation !== prevContent.get("imgRotation"))
 						return true;
-					
+
 					if(newContent.toggleFieldsLeft !== prevContent.get("toggleFieldsLeft"))
 						return true;
-					
+
 					if(newContent.numClickableFields !== prevContent.get("numClickableFields"))
 						return true;
-					
+
 					if(newContent.thresholdCorrectAnswers !== prevContent.get("thresholdCorrectAnswers"))
 						return true;
-					
+
 					console.log(prevContent);
 					var changed = false;
 					prevContent.get("possibleAnswers").forEach(function(answer, i) {
 						if (answer.correct !== newContent.possibleAnswers[i].correct) {
 							changed = true;
-					
+
 						}
-						
+
 						if(answer.value !== newContent.possibleAnswers[i].value){
 							changed = true;
-					
+
 						}
-						
+
 					});
 					return changed;
 				};
-				
+
 				var saveQuestion = function(question) {
 					var questionValues = panel.answerEditForm.getQuestionValues();
 
@@ -244,7 +244,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					if (questionValues.toggleFieldsLeft != undefined)  question.set("toggleFieldsLeft", questionValues.toggleFieldsLeft);
 					if (questionValues.numClickableFields != undefined)  question.set("numClickableFields", questionValues.numClickableFields);
 					if (questionValues.thresholdCorrectAnswers != undefined)  question.set("thresholdCorrectAnswers", questionValues.thresholdCorrectAnswers);
-					
+
 					question.set("possibleAnswers", questionValues.possibleAnswers);
 					question.set("noCorrect", !!questionValues.noCorrect);
 					Ext.apply(question.raw, questionValues);
@@ -305,15 +305,15 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					var empty = false;
 					if (!panel.answerEditForm.isHidden()) {
 						var questionValues = panel.answerEditForm.getQuestionValues();
-						
+
 						if (hasEmptyAnswers(questionValues.possibleAnswers)) {
 							empty = true;
 						}
-		
+
 						if(question.get("questionType") == 'grid'){
 							if (contentChanged(question, questionValues)) {
 								needsConfirmation = true;
-							}	
+							}
 						}else{
 							console.log("Other Question");
 							if (answersChanged(question.get("possibleAnswers"), questionValues.possibleAnswers)) {

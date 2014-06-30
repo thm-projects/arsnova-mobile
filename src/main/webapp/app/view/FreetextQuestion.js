@@ -33,7 +33,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	},
 
 	constructor: function(args) {
-		this.callParent(args);
+		this.callParent(arguments);
 
 		var self = this;
 		this.questionObj = args.questionObj;

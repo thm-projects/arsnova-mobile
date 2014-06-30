@@ -20,7 +20,7 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 	extend: 'Ext.Panel',
-	
+
 	config: {
 		title: 'DetailsPanel',
 		fullscreen: true,
@@ -30,25 +30,25 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 		},
 		isRendered: false
 	},
-	
 
-	
+
+
 	/* toolbar items */
 	toolbar		: null,
 	backButton	: null,
 	questionObj : null,
-	
+
 	constructor: function(args){
-		this.callParent(args);
-		
+		this.callParent(arguments);
+
 		this.questionObj = args.question;
-		
+
 		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.QUESTIONS,
 			ui		: 'back',
 			scope	: this,
 			handler	: function(){
-				var sQP = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel; 
+				var sQP = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
 				sQP.animateActiveItem(sQP.questionsPanel, {
 					type		: 'slide',
 					direction	: 'right',
@@ -57,7 +57,7 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 //				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.getFeedbackQuestions();
 			}
 		});
-		
+
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.QUESTION_DETAILS,
 			docked: 'top',
@@ -66,9 +66,9 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 		        this.backButton
 			]
 		});
-		
-		
-		//Preview button 
+
+
+		//Preview button
 		this.previewButton = Ext.create('Ext.Button', {
 			text	: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui		: 'confirm',
@@ -78,7 +78,7 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 					this.previewHandler();
 				}
 		});
-		
+
 		//Preview panel with integrated button
 		this.previewPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
@@ -88,11 +88,11 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 				items: [this.previewButton]
 			}]
 		});
-		
+
 		this.add([this.toolbar, {
 			xtype: 'formpanel',
 			scrollable: null,
-			
+
 			items: [{
 				xtype: 'fieldset',
 				items: [{
@@ -113,9 +113,9 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 				}]
 			}]
 		},
-		
+
 		this.previewPart,
-		
+
 		{
 			xtype: 'button',
 			ui	 : 'decline',
@@ -124,13 +124,13 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 			scope: this,
 			handler: function(){
 				var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
-				
+
 				ARSnova.app.questionModel.deleteInterposed(this.questionObj, {
 					failure: function(response){
 						console.log('server-side error delete question');
 					}
 				});
-				
+
 				panel.animateActiveItem(panel.questionsPanel, {
 					type		: 'slide',
 					direction	: 'right',
@@ -140,20 +140,20 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 		}]);
 
 		this.on('deactivate', this.onDeactivate);
-		
+
 		this.on('painted', function() {
 			var textarea = this.element.down('textarea');
 			textarea.setHeight(textarea.dom.scrollHeight);
 		});
 	},
-	
+
 	previewHandler: function() {
 		var questionPreview = Ext.create('ARSnova.view.QuestionPreviewBox', {
 			xtype: 'questionPreview'
-		});		
+		});
 		questionPreview.showPreview(this.questionObj.subject,this.questionObj.text);
 	},
-	
+
 	onDeactivate: function(){
 		setTimeout("ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.checkFeedbackQuestions();", 500);
 	}

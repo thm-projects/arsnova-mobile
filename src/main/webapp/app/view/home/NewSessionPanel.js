@@ -20,28 +20,28 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.home.NewSessionPanel', {
 	extend: 'Ext.Panel',
-	
+
 	config: {
 		fullscreen: true,
 		scrollable: null,
 		scroll	: 'vertical'
 	},
-	
+
 	sessionKey	: null,
-	
+
 	/* items */
 	sessionIdField: null,
 	unavailableSessionIds: [],
 	mycourses	: [],
 	mycoursesStore: null,
-	
+
 	/* toolbar items */
 	toolbar		: null,
 	backButton	: null,
-	
+
 	constructor: function(args) {
-		this.callParent(args);
-		
+		this.callParent(arguments);
+
 		this.mycoursesStore = new Ext.data.JsonStore({
 			model: 'ARSnova.model.Course'
 		});
@@ -59,25 +59,25 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 						: '<span class="course">{shortname:htmlEncode}<span>',
 			listeners: {
 				itemtap: Ext.bind(this.onCourseSubmit, this),
-				
+
 				/**
-				 * The following event is used to get the computed height of all list items and 
+				 * The following event is used to get the computed height of all list items and
 				 * finally to set this value to the list DataView. In order to ensure correct rendering
-				 * it is also necessary to get the properties "padding-top" and "padding-bottom" and 
+				 * it is also necessary to get the properties "padding-top" and "padding-bottom" and
 				 * add them to the height of the list DataView.
 				 */
 		        resize: function (list, eOpts) {
 		        	var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
-		        	
+
 		        	this.mycourses.setHeight(
-		        		parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height"))	+ 
+		        		parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height"))	+
 		        		parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top"))	+
 		        		parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
 		        	);
 		        }
 			}
 		});
-		
+
 		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.SESSIONS,
 			ui		: 'back',
@@ -90,7 +90,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				});
 			}
 		});
-		
+
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.NEW_SESSION,
 			cls	 : 'titlePaddingLeft',
@@ -100,17 +100,17 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		        this.backButton
 			]
 		});
-		
+
 		this.add([this.toolbar, {
 			title: 'createSession',
-			style: { 
+			style: {
 				marginTop: '15px'
 			},
 			xtype: 'formpanel',
 			scrollable: null,
 			id: 'createSession',
 			submitOnAction: false,
-			
+
 			items: [{
 	            xtype: 'fieldset',
 	            items: [{
@@ -136,7 +136,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				handler: this.onSubmit
 			}, this.mycourses]
 		}]);
-		
+
 		this.onBefore('activate', function() {
 			this.getMyCourses();
 		}, this);
@@ -144,7 +144,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 
 	onSubmit: function() {
 		var values = this.up('panel').getValues();
-		
+
 		ARSnova.app.getController('Sessions').create({
 			name		: values.name,
 			shortName	: values.shortName
@@ -153,13 +153,13 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 
 	onCourseSubmit: function(list, index, element, e) {
 		var course = list.getStore().getAt(index);
-		
+
 		console.log(course);
-		
+
 		var shortName = course.get('shortname');
-		
+
 		console.log(shortName);
-		
+
 		if (course.get('shortname').length > 12) {
 			shortName = course.get('shortname');
 			shortName = shortName.substr(0,7);
