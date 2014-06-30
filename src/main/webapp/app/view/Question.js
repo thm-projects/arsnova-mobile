@@ -44,7 +44,7 @@ Ext.define('ARSnova.view.Question', {
 	abstentionAnswer: null,
 
 	constructor: function(args) {
-		this.callParent(args);
+		this.callParent(arguments);
 
 		var self = this; // for use inside callbacks
 		this.viewOnly = args.viewOnly;
