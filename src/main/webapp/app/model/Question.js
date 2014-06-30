@@ -52,7 +52,17 @@ Ext.define('ARSnova.model.Question', {
 		      	 'offsetX',
 		      	 'offsetY',
 		      	 'zoomLvl',
-		      	 'image'
+		      	 'image',
+		      	 'gridOffsetX',
+				 'gridOffsetY',
+				 'gridZoomLvl',
+				 'gridSizeX',
+				 'gridSizeY',
+				 'gridIsHidden',
+				 'imgRotation',
+				 'toggleFieldsLeft',
+				 'numClickableFields',
+				 'thresholdCorrectAnswers',
 		],
 
 		validations: [

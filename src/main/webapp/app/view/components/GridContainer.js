@@ -41,7 +41,20 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		moveInterval 			 : 10,			// Steps to take when moving the image (in pixel).
 		onFieldClick 			 : null,		// Hook for function, that will be called after onClick event.
 		editable				 : true,		// If set to false click events are prevented.
-    possibleAnswers  : [] // The pre-set, correct answers of the lecturer
+		possibleAnswers  		 : [], 			// The pre-set, correct answers of the lecturer
+		heatmapMaxAlpha			 : 0.9,			// The alpha value of a field with 100% of votes.
+		heatmapMinAlpha			 : 0.2,			// The alpha value of a field with 0% of votes. 
+		gridOffsetX 			 : 0,			// current x offset for grid start point
+		gridOffsetY 			 : 0,			// current y offset for grid start point
+		gridZoomLvl 			 : 0,			// zoom level for grid (defines size of grid fields)
+		gridSizeX 				 : 5,			// number of horizontal grid fields
+		gridSizeY 				 : 5,			// number of vertical grid fields
+		gridIsHidden 			 : false,      	// flag for visual hiding of the grid
+		gridScale				 : 1.0,			// Current scale for the grid.
+		imgRotation				 : 0,			// Current rotation for the image.
+		toggleFieldsLeft		 : false,		// toggle the number of clickable fields. true: all fields are clickable, false: only the number of fields the lecturer has selected are clickable
+		numClickableFields		 : 0,			// number of clickable fields the lecturer has chosen
+		thresholdCorrectAnswers	 : 0,			// the points needed to answer the question correct
 	},
 
 	/**
@@ -102,16 +115,40 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		ctx.globalAlpha = alpha;
 
-		ctx.drawImage(this.getImageFile(), this.getOffsetX(), this.getOffsetY());
-
+		/*
+		 * Translate the image to x- and y-axis position for start (minus the half of the image (for rotating!!))
+		 * source: http://creativejs.com/2012/01/day-10-drawing-rotated-images-into-canvas/
+		 */
+		ctx.translate(this.getOffsetX()+(this.getImageFile().width / 2), this.getOffsetY() + (this.getImageFile().height / 2));
+		
+		/*
+		 * rotates the image in 90� steps clockwise. Steps are in the variable imgRotation
+		 */
+		ctx.rotate(90 * this.getImgRotation() * Math.PI /180 );
+		
+		if (this.getImageFile().src.lastIndexOf("http", 0) === 0) { // image is load from url
+			// have to be the negative half of width and height of the image for translation to get a fix rotation point in the middle of the image!!!  
+			ctx.drawImage(this.getImageFile(), -(this.getImageFile().width / 2), -(this.getImageFile().height / 2));
+		} else {
+			// draw image avoiding ios 6/7 squash bug
+			this.drawImageIOSFix(
+				ctx, 
+				this.getImageFile(),
+				-(this.getImageFile().width / 2), -(this.getImageFile().height / 2),
+				this.getImageFile().width, this.getImageFile().height);
+		}
+		
 		// restore context to draw grid with default scale
 		ctx.restore();
-
-		this.createGrid();
 
 		if ( markChosenFields ) {
 			this.markChosenFields();
 		}
+		
+		if(!this.getGridIsHidden()) {
+			this.createGrid();
+		}
+		
 	},
 
 	/**
@@ -136,12 +173,22 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var canvas = this.getCanvas();
 
 		x -= canvas.getBoundingClientRect().left;
+		x -= this.getGridOffsetX();
+		
 		y -= canvas.getBoundingClientRect().top;
+		y -= this.getGridOffsetY();
+		
+		if(x < 0 || y < 0){
+			return null;
+		}
 
-		var xGrid = parseInt(x
-				/ (this.getCanvasSize() / this.getGridSize()));
-		var yGrid = parseInt(y
-				/ (this.getCanvasSize() / this.getGridSize()));
+		var xGrid = parseInt(x / this.getFieldSize());
+		var yGrid = parseInt(y / this.getFieldSize());
+		
+		if(xGrid >= this.getGridSizeX() || yGrid >= this.getGridSizeY()){
+			return null;
+		}
+		
 		return new Array(xGrid, yGrid);
 	},
 
@@ -152,61 +199,60 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * @param int	y	The fields y-coordinate.
 	 */
 	getFieldKoord : function(x, y) {
-		var x1 = x * this.getFieldSize() + 2 * this.getGridLineWidth();
-		var y1 = y * this.getFieldSize() + 2 * this.getGridLineWidth();
+		var x1 = x * this.getFieldSize() +  this.getGridLineWidth();
+		var y1 = y * this.getFieldSize() +  this.getGridLineWidth();
 
-		/*
-		 * If the field is near to the left or top edge, the border is just the half.
-		 */
-		if(x == 0) {
-			x1 -= this.getGridLineWidth();
-		}
-
-		if(y == 0){
-			y1 -= this.getGridLineWidth();
-		}
+		x1 += this.getGridOffsetX();
+		y1 += this.getGridOffsetY();
+		
 		return new Array(x1, y1);
 	},
 
 	/**
-	 * Gets the field size relative to the size of the canvas element.
+	 * Gets the field size relative to the size of the canvas element and the current grid scaling.
 	 *
 	 * @return	int		The field size.
 	 */
 	getFieldSize : function() {
-		return (this.getCanvasSize() - 2 * this.getGridLineWidth())
-				/ this.getGridSize();
+		return ((this.getCanvasSize() - 2 * this.getGridLineWidth())
+				/ this.getGridSize()) * this.getGridScale();
+	},
+	
+	/**
+	 * Gets the canvas size relative to the current grid scaling.
+	 * 
+	 * @return	int		The relative canvas size. 
+	 */
+	getRelativeCanvasSize : function() {
+		return this.getCanvasSize() * this.getGridScale();
 	},
 
 	/**
 	 * Draws the grid in the canvas element.
 	 */
 	createGrid : function() {
+		
+		if((this.getGridSizeX() * this.getGridSizeY()) == 0)
+			return;
+		
 		var ctx = this.getCanvas().getContext("2d");
 
 		ctx.globalAlpha = 1;
 		ctx.fillStyle = this.getCurGridLineColor();
 
-		// draw border
-		ctx.fillRect(0, 0, this.getGridLineWidth(), this
-				.getCanvasSize());
-		ctx.fillRect(0, 0, this.getCanvasSize(), this
-				.getGridLineWidth());
-		ctx.fillRect(this.getCanvasSize() - this.getGridLineWidth(),
-				0, this.getGridLineWidth(), this.getCanvasSize());
-		ctx.fillRect(0, this.getCanvasSize()
-				- this.getGridLineWidth(), this.getCanvasSize(),
-				this.getGridLineWidth());
-
-		// draw inner grid
-		for (var i = 1; i < this.getGridSize(); i++) {
-			ctx.fillRect(this.getFieldSize() * i
-					+ this.getGridLineWidth(), 0, this
-					.getGridLineWidth(), this.getCanvasSize());
-			ctx.fillRect(0, this.getFieldSize() * i
-					+ this.getGridLineWidth(), this.getCanvasSize(),
-					this.getGridLineWidth());
+		var fieldsize = this.getFieldSize();
+		
+		// all horizontal lines
+		for (var i  = 0; i <= this.getGridSizeY(); i++){
+			ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY()  + i * fieldsize, fieldsize * this.getGridSizeX(), this.getGridLineWidth());
 		}
+
+		
+		// all vertical lines
+		for (var i = 0; i <= this.getGridSizeX(); i++){
+			ctx.fillRect(this.getGridOffsetX() + i * fieldsize, this.getGridOffsetY(), this.getGridLineWidth(), fieldsize * this.getGridSizeY() )
+		}
+		
 	},
 
 	/**
@@ -219,19 +265,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		ctx.globalAlpha = alpha;
 		ctx.fillStyle = color;
 
-		var width =this.getFieldSize() - this.getGridLineWidth();
+		var width = this.getFieldSize() - this.getGridLineWidth();
 		var height = this.getFieldSize() - this.getGridLineWidth();
 
-		/*
-		 * rounding rest in separating the canvas size in fields stretches the first fields
-		 * in row and in column. At this point, the respective field mark get this stretch, too.
-		 */
-		if (y == 0) {
-			height += this.getCanvasSize() - (this.getFieldSize() * this.getGridSize() + this.getGridLineWidth());
-		}
-		if (x == 0) {
-			width += this.getCanvasSize() - (this.getFieldSize() * this.getGridSize() + this.getGridLineWidth());
-		}
 
 		ctx.fillRect(koord[0], koord[1], width, height);
 	},
@@ -305,6 +341,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var y = event.clientY;
 		var position = container.getFieldPosition(x, y);
 
+		if(position == null){
+			return;
+		}
+		
 		// calculate index
 		var index = -1;
 		var fields = container.getChosenFields();
@@ -316,18 +356,20 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			}
 		}
 
-    var numChosenFields = container.getChosenFields().length;
-    var numCorrectFields = container.getPossibleAnswers().filter(function isCorrect(e) {
-      return e.correct;
-    }).length;
-    // either allow the maximum of correct fields, or allow all fields to be clicked if no correct answers are present
-    var fieldsLeft = (numChosenFields < numCorrectFields) || (numCorrectFields === 0);
+	    var numChosenFields = container.getChosenFields().length;
+	    // TODO wenn der Dozent selbst eine Anzahl an Antwortmoeglichkeiten bestimmen kann, dann muss
+	    // numCorrectFields durch numClickableFields (wird in der DB abgespeichert) ersetzt werden.
+	    var numCorrectFields = container.getPossibleAnswers().filter(function isCorrect(e) {
+	    	return e.correct;
+	    }).length;
+	    // either allow the maximum of correct fields, or allow all fields to be clicked if no correct answers are present
+	    var fieldsLeft = ((numChosenFields < numCorrectFields) || (numCorrectFields === 0) || container.getToggleFieldsLeft());
 		var changed = false;
 		if (index > -1) {
 			container.getChosenFields().splice(index, 1);
 			changed = true;
-		} else if ((container.getGridSize()
-				* container.getGridSize() > container
+		} else if ((container.getGridSizeX()
+				* container.getGridSizeY() > container
 				.getChosenFields().length) && fieldsLeft) {
 			container.getChosenFields().push(position);
 			changed = true;
@@ -353,17 +395,31 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * @param 		possibleAnswers	The Array of possible answers to set.
 	 * @param bool	<code>true</code> if the chosen fields should be marked, <code>false</code> otherwise.
 	 */
-	update: function(gridSize, offsetX, offsetY, zoomLvl, possibleAnswers, mark) {
+	update : function(gridSize, offsetX, offsetY, zoomLvl, gridOffsetX, gridOffsetY, gridZoomLvl, 
+						gridSizeX, gridSizeY, gridIsHidden, imgRotation, toggleFieldsLeft, 
+						numClickableFields, thresholdCorrectAnswers, possibleAnswers, mark) {
 		this.setGridSize(gridSize);
 		this.setOffsetX(offsetX);
 		this.setOffsetY(offsetY);
 		this.setZoomLvl(zoomLvl);
+		this.setGridOffsetX(gridOffsetX);
+		this.setGridOffsetY(gridOffsetY);
+		this.setGridZoomLvl(gridZoomLvl);
+		this.setGridSizeX(gridSizeX);
+		this.setGridSizeY(gridSizeY);
+		this.setGridIsHidden(gridIsHidden);
+		this.setImgRotation(imgRotation);
+		this.setToggleFieldsLeft(toggleFieldsLeft);
+		this.setNumClickableFields(numClickableFields);
+		this.setThresholdCorrectAnswers(thresholdCorrectAnswers);
+		
 		if (mark) {
 			this.getChosenFieldsFromPossibleAnswers(possibleAnswers);
 		} else {
 			this.setChosenFields(new Array());
 		}
 		this.initZoom();
+		this.initGridZoom();
 	},
 
 	/**
@@ -418,7 +474,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	/**
 	 * Initializes the zoom level and scale.
 	 */
-	initZoom: function() {
+	initZoom : function() {
 		this.setScale(1.0);
 		if (this.getZoomLvl() > 0) {
 			for (i = 0; i < this.getZoomLvl(); i++) {
@@ -467,7 +523,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	zoomIn : function() {
 		this.setZoomLvl(this.getZoomLvl() + 1);
 		this.setScale(this.getScale() * this.getScaleFactor());
-		// no redraw the image with the new scale
+		// now redraw the image with the new scale
 		this.redraw();
 	},
 
@@ -477,7 +533,75 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	zoomOut : function() {
 		this.setZoomLvl(this.getZoomLvl() - 1);
 		this.setScale(this.getScale() / this.getScaleFactor());
-		// no redraw the image with the new scale
+		// now redraw the image with the new scale
+		this.redraw();
+	},
+	
+	/**
+	 * Initializes the zoom level and scale of the grid.
+	 */
+	initGridZoom : function() {
+		this.setGridScale(1.0);
+		if (this.getGridZoomLvl() > 0) {
+			for (i = 0; i < this.getGridZoomLvl(); i++) {
+				this.setGridScale(this.getGridScale() * this.getScaleFactor());
+			}
+		} else if (this.getGridZoomLvl() < 0) {
+			for (i = 0; i > this.getGridZoomLvl(); i--) {
+				this.setGridScale(this.getGridScale() / this.getScaleFactor());
+			}
+		}
+	},
+	
+	zoomInGrid : function() {
+		this.setGridZoomLvl(this.getGridZoomLvl() + 1);
+		this.setGridScale(this.getGridScale() * this.getScaleFactor());
+		// TODO Zoom muss noch zentriert werden
+		
+		// now redraw the grid
+		//this.redrawGrid();
+		this.redraw();
+	},
+	
+	zoomOutGrid : function() {
+		this.setGridZoomLvl(this.getGridZoomLvl() - 1);
+		this.setGridScale(this.getGridScale() / this.getScaleFactor());
+		// TODO Zoom muss noch zentriert werden
+		
+		// now redraw the grid
+		// this.redrawGrid();
+		this.redraw();
+	},
+	
+	/**
+	 * Moves the grid one step in right (positive x) direction.
+	 */
+	moveGridRight : function() {
+		this.setGridOffsetX(this.getGridOffsetX() + this.getMoveInterval() / this.getGridScale());
+		this.redraw();
+	},
+
+	/**
+	 * Moves the grid one step in left (negative x) direction.
+	 */
+	moveGridLeft : function() {
+		this.setGridOffsetX(this.getGridOffsetX() - this.getMoveInterval() / this.getGridScale());
+		this.redraw();
+	},
+
+	/**
+	 * Moves the grid one step in up (negative y) direction.
+	 */
+	moveGridUp : function() {
+		this.setGridOffsetY(this.getGridOffsetY() - this.getMoveInterval() / this.getGridScale());
+		this.redraw();
+	},
+
+	/**
+	 * Moves the grid one step in down (positive y) direction.
+	 */
+	moveGridDown : function() {
+		this.setGridOffsetY(this.getGridOffsetY() + this.getMoveInterval() / this.getGridScale());
 		this.redraw();
 	},
 
@@ -496,19 +620,19 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		newimage.src = dataUrl;
 
 		newimage.onload = function() {
-      var cb = successCallback || Ext.emptyFn;
+			var cb = successCallback || Ext.emptyFn;
 			if (reload) {
 				container.clearImage();
-      }
+		    }
 			container.setImageFile(newimage);
 			container.redraw();
-
+			
 			cb();
 		};
-    newimage.onerror = function() {
-      var cb = failureCallback || Ext.emptyFn;
-      cb();
-    }
+	    newimage.onerror = function() {
+	    	var cb = failureCallback || Ext.emptyFn;
+	    	cb();
+	    }
 	},
 
 	/**
@@ -559,8 +683,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	getPossibleAnswersFromChosenFields : function() {
 		var values = [], obj;
 
-		for (var i = 0 ; i < this.getGridSize() ; i++) {
-			for (var j = 0 ; j < this.getGridSize() ; j++) {
+		for (var i = 0 ; i < this.getGridSizeX() ; i++) {
+			for (var j = 0 ; j < this.getGridSizeY() ; j++) {
 				obj = {
 						text: i + ";" + j,
 						correct: false
@@ -575,6 +699,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				values.push(obj);
 			}
 		}
+		console.log("getPossibleAnswersFromChosenFields:")
+		console.log(values);
 		return values;
 	},
 
@@ -614,6 +740,15 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	generateStatisticOutput : function(tilesToFill, colorTiles, displayType, weakenSourceImage, toggleColors) {
 
 		var totalAnswers = 0;
+		
+		var wrongColor =  this.getStatisticWrongColor();
+		var rightColor = this.getStatisticRightColor();
+		
+		
+		if(this.getChosenFields().length == 0){
+			wrongColor = this.getHighlightColor();
+		}
+		
 
 		// toggle grid color
 		this.setCurGridLineColor(toggleColors ? this.getAlternativeGridLineColor() : this.getGridLineColor());
@@ -625,29 +760,54 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		for (var key in tilesToFill) {
 	    	totalAnswers += tilesToFill[key];
 		}
+		
+		// pre-iterate through answers to get min and max value, used to define the alpha value
+		// TODO: find a more elagant way than iterating twice through all tiles.
+		var maxVotes = 0;
+		var minVotes = 0;
+		for (var row=0; row < this.getGridSizeX() ; row++) {
+			for (var column=0; column < this.getGridSizeY() ; column++) {
+				var key = row + ";" + column;
+				if (typeof tilesToFill[key] !==  "undefined") {
+					if ( tilesToFill[key] > maxVotes ) {
+						maxVotes = tilesToFill[key];
+						if ( minVotes == 0 ) {
+							minVotes = maxVotes;
+						}
+					}
+					minVotes = (tilesToFill[key] > 0 && tilesToFill[key] < minVotes) ? tilesToFill[key] : minVotes;
+				}
+			}
+		}
 
-		for (var row=0; row < this.getGridSize() ; row++) {
-			for (var column=0; column < this.getGridSize() ; column++) {
+		for (var row=0; row < this.getGridSizeX() ; row++) {
+			for (var column=0; column < this.getGridSizeY() ; column++) {
 				var key = row + ";" + column;
 				var coords = this.getChosenFieldFromPossibleAnswer(key);
 
 				if (colorTiles) {
-					var alphaOffset = 0.05;
-					var alphaScale 	= 0.9;
+					var alphaOffset = this.getHeatmapMinAlpha();
+					var alphaScale 	= this.getHeatmapMaxAlpha() - this.getHeatmapMinAlpha();
 					var alpha 		= 0;
 
 					if (typeof tilesToFill[key] !==  "undefined") {
-						alpha = (tilesToFill[key] / totalAnswers) * alphaScale;
-					}
-
-					var color = this.getStatisticWrongColor();
-					for (var i=0;i<this.getChosenFields().length;i++) {
-						if (this.getChosenFields()[i][0] == coords[0] && this.getChosenFields()[i][1] == coords[1]) {
-							color = this.getStatisticRightColor();
+						if ( maxVotes == minVotes ){
+							alpha = this.getHeatmapMaxAlpha();
+						} else if (tilesToFill[key] == 0) {
+							alpha = 0;
+						} else {
+							alpha = this.getHeatmapMinAlpha() + ( ((this.getHeatmapMaxAlpha()-this.getHeatmapMinAlpha())/(maxVotes-minVotes)) * (tilesToFill[key] - minVotes) );
 						}
 					}
 
-					this.markField(coords[0], coords[1], color, alpha + alphaOffset);   // alpha between 0.15 and 0.9
+					var color = wrongColor;
+					for (var i=0;i<this.getChosenFields().length;i++) {
+						if (this.getChosenFields()[i][0] == coords[0] && this.getChosenFields()[i][1] == coords[1]) {
+							color = rightColor;
+						}
+					}
+
+					this.markField(coords[0], coords[1], color, alpha);
 				}
 
 				if (displayType == Messages.GRID_LABEL_RELATIVE || displayType == Messages.GRID_LABEL_RELATIVE_SHORT) {
@@ -668,16 +828,17 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	generateUserViewWithAnswers : function (userAnswers, correctAnswers, toggleColors){
 
+		
 		// toggle grid color
 		this.setCurGridLineColor(toggleColors ? this.getAlternativeGridLineColor() : this.getGridLineColor());
 
 		var lowAlpha = 0.2;
 		var highAlpha = 0.9;
 
-		for (var row=0; row < this.getGridSize(); row++) {
-			for (var column=0; column < this.getGridSize(); column++) {
+		for (var row=0; row < this.getGridSizeX(); row++) {
+			for (var column=0; column < this.getGridSizeY(); column++) {
 
-				var i = row * this.getGridSize() + column;
+				var i = row * this.getGridSizeY() + column;
 				var color = correctAnswers[i] ? this.getStatisticRightColor() : this.getStatisticWrongColor();
 				var alpha = userAnswers[i] ? highAlpha : lowAlpha;
 
@@ -686,5 +847,52 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 			}
 		}
+	},
+	
+	
+	/**
+	 * Detecting vertical squash in loaded image.
+	 * Fixes a bug which squash image vertically while drawing into canvas for some images.
+	 * This is a bug in iOS6 devices. This function from https://github.com/stomita/ios-imagefile-megapixel
+	 * 
+	 */
+	detectVerticalSquash : function (img) {
+	    var iw = img.naturalWidth, ih = img.naturalHeight;
+	    var canvas = document.createElement('canvas');
+	    canvas.width = 1;
+	    canvas.height = ih;
+	    var ctx = canvas.getContext('2d');
+	    ctx.drawImage(img, 0, 0);
+	    var data = ctx.getImageData(0, 0, 1, ih).data;
+	    // search image edge pixel position in case it is squashed vertically.
+	    var sy = 0;
+	    var ey = ih;
+	    var py = ih;
+	    while (py > sy) {
+	        var alpha = data[(py - 1) * 4 + 3];
+	        if (alpha === 0) {
+	            ey = py;
+	        } else {
+	            sy = py;
+	        }
+	        py = (ey + sy) >> 1;
+	    }
+	    var ratio = (py / ih);
+	    return (ratio===0)?1:ratio;
+	},
+
+	/**
+	 * A replacement for context.drawImage
+	 * (args are for source and destination).
+	 */
+	drawImageIOSFix : function (ctx, img, dx, dy, dw, dh) {
+		var vertSquashRatio = this.detectVerticalSquash(img);
+		ctx.drawImage(img, dx, dy, dw, dh / vertSquashRatio);
+	},
+
+	spinRight : function(){
+		this.setImgRotation((this.getImgRotation() + 1 )%4);
+		this.redraw();
 	}
+	
 });
