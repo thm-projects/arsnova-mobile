@@ -116,6 +116,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			}]
 		});
 		
+
+			
 		this.titlebar = Ext.create('Ext.Toolbar', {
 			cls		: 'questionStatisticTitle',
 			docked	: 'top',
@@ -123,11 +125,28 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			border  : '0px'
 		});
 		
+		
+		
 		if(this.questionObj.questionType == "grid"){
-			this.titlebar.setStyle('background-color: #C5CCD3');
+			
+			this.titlebar = Ext.create('Ext.Toolbar', {
+				cls		: 'questionStatisticTitle',
+				docked	: 'top',
+				title	: '',
+				border  : '0px',
+				hidden : 1,
+			});
+			
 			this.setLayout('');
 			this.setScrollable(true);
-		}
+			
+			this.contentField = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+			this.contentField.setContent(
+					Ext.util.Format.htmlEncode(this.questionObj.text), true, true);	
+					
+		} 
+		
+		
 		
 		if( this.questionObj.questionType == "yesno" 	|| 
 			this.questionObj.questionType == "mc" 		||
@@ -325,18 +344,21 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		    }]
 		});
 		
-		
-		this.add([this.toolbar, this.titlebar, this.questionChart]);
-		
-		if (this.questionObj.questionType === "grid") {
+		if (this.questionObj.questionType !== "grid") {
+			
+			this.add([this.toolbar, this.titlebar, this.questionChart]);
+			
+		} else {
+			this.add([this.toolbar, this.titlebar, this.contentField, this.questionChart]);
+			
 			this.setStyle('background-color: #C5CCD3');
 			// add statistic
 			this.gridStatistic = Ext.create('ARSnova.view.components.GridStatistic', {
 				questionObj : this.questionObj
 			});
-			this.add({xtype : 'spacer', height :25, docked : 'top' });
+			//this.add({xtype : 'spacer', height :25, docked : 'top' });
 			this.add(this.gridStatistic);
-			this.getQuestionAnswers();
+			this.getQuestionAnswers(); 
 		}
 
 		this.on('activate', this.onActivate);
