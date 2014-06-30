@@ -206,7 +206,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					if(newContent.thresholdCorrectAnswers !== prevContent.get("thresholdCorrectAnswers"))
 						return true;
 					
-					console.log(prevContent);
 					var changed = false;
 					prevContent.get("possibleAnswers").forEach(function(answer, i) {
 						if (answer.correct !== newContent.possibleAnswers[i].correct) {
@@ -315,7 +314,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								needsConfirmation = true;
 							}	
 						}else{
-							console.log("Other Question");
 							if (answersChanged(question.get("possibleAnswers"), questionValues.possibleAnswers)) {
 								needsConfirmation = true;
 							}
