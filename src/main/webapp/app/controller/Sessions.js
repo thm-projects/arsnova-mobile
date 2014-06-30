@@ -44,7 +44,7 @@ Ext.define("ARSnova.controller.Sessions", {
     			var obj = Ext.decode(response.responseText);
     			
     			//check if user is creator of this session
-    			if (obj.creator == localStorage.getItem('login') && ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER){
+    			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
     				ARSnova.app.isSessionOwner = true;
     				//start task: update that session owner is logeed in
     				taskManager.start(ARSnova.app.updateSessionActivityTask);
