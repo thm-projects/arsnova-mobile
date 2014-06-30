@@ -170,6 +170,10 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			items : [
 				this.grid,
 				{
+					xtype: 'label',
+					html: Messages.GRID_CONFIG_IMAGE
+			    },
+				{
 					xtype: 'panel',
 					layout:{
 						type: 'hbox',
@@ -177,6 +181,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						pack: 'center'
 					},
 					items : [
+					    
 						this.infoButton,
 						this.btnMoveLeft,
 						this.btnMoveRight,
@@ -185,7 +190,12 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						this.deleteButton,
 						this.rotateButton
 			       ]
-			   },
+			   },			   
+			   {
+					xtype: 'label',
+					html: Messages.GRID_CONFIG_GRID,
+					style: "margin-top: 15px"
+				},
 			   {
 					xtype: 'panel',
 					layout:{
@@ -325,6 +335,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				items : [ {
 					xtype : 'textfield',
 					id : 'tf_answers',
+					cls: 'centerAligned',
 					label : Messages.COUNT,
 					name : Messages.COUNT,
 					placeHolder : '0',
@@ -332,7 +343,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				}]
 			} ]
 		});
-
+		
+		
 		this.questionValueFieldset = Ext.create('Ext.form.FieldSet', {
 			title: Messages.ANSWER_POINTS,
 			hidden: true
@@ -416,11 +428,13 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 		this.gridColorsToggle = Ext.create('Ext.field.Toggle', {
 			label:		Messages.GRID_LABEL_INVERT_GRIDCOLORS,
+			cls:		'rightAligned',
 			value:  	false
 		});
 		
 		this.toggleAnswers = Ext.create('Ext.field.Toggle', {
 			label:		Messages.GRID_LABEL_MARK_TOGGLE_ANSWERS,
+			cls:		'rightAligned',
 			value:  	false
 		});
 		
@@ -507,16 +521,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		    loadfailure: 'onFileLoadFailure'
 		});
 
-		this.add([{
-			xtype : 'fieldset',
-			title : ' ',
-			items : [
-			          this.imageArea,
-			          this.uploadView,
-			          this.imageCnt
-			        ]
-		}, this.questionValueFieldset]);
-
+		this.add([
+          this.imageArea,
+          this.uploadView,
+          this.imageCnt,
+          this.questionValueFieldset]);
 	},
 
 	/**
