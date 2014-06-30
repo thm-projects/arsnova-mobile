@@ -518,16 +518,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		    loadfailure: 'onFileLoadFailure'
 		});
 
-		this.add([{
-			xtype : 'fieldset',
-			title : ' ',
-			items : [
-			          this.imageArea,
-			          this.uploadView,
-			          this.imageCnt
-			        ]
-		}, this.questionValueFieldset]);
-
+		this.add([
+          this.imageArea,
+          this.uploadView,
+          this.imageCnt,
+          this.questionValueFieldset]);
 	},
 
 	/**
