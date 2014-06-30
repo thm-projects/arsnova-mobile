@@ -1,11 +1,9 @@
 # Note: YAML does not allow Tabs for indentation!
 
 language: java
-
 env:
   - ARSNOVA_SENCHA_CMD_VERSION="4.0.4.84"
-
-before_script:
+before_install:
   # Install Sencha Command (taken from deftjs/DeftJS)
   - "wget http://cdn.sencha.com/cmd/$ARSNOVA_SENCHA_CMD_VERSION/SenchaCmd-$ARSNOVA_SENCHA_CMD_VERSION-linux-x64.run.zip"
   - "unzip -q SenchaCmd-$ARSNOVA_SENCHA_CMD_VERSION-linux-x64.run.zip"
