@@ -99,6 +99,11 @@
 	color: #333;
 }
 
+.rightAligned .x-toggle {
+    float:right;
+    margin-right:1em;
+}  
+
 .x-form-label {
 	background-color: #dbdbdb;
 }

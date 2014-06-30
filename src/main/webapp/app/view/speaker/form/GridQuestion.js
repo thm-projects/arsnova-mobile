@@ -427,11 +427,13 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 		this.gridColorsToggle = Ext.create('Ext.field.Toggle', {
 			label:		Messages.GRID_LABEL_INVERT_GRIDCOLORS,
+			cls:		'rightAligned',
 			value:  	false
 		});
 		
 		this.toggleAnswers = Ext.create('Ext.field.Toggle', {
 			label:		Messages.GRID_LABEL_MARK_TOGGLE_ANSWERS,
+			cls:		'rightAligned',
 			value:  	false
 		});
 		
