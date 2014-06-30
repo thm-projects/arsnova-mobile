@@ -102,7 +102,13 @@
 .rightAligned .x-toggle {
     float:right;
     margin-right:1em;
+    margin-top: 3px;
+    padding-bottom: 3px;
 }  
+
+.centerAligned input{
+	text-align: center;
+}
 
 .x-form-label {
 	background-color: #dbdbdb;
