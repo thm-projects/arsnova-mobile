@@ -659,6 +659,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setOffsetY(0);
 		this.setZoomLvl(0);
 		this.setChosenFields(Array());
+		this.setImgRotation(0);
 	},
 
 	/**
