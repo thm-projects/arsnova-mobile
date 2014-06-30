@@ -170,6 +170,10 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			items : [
 				this.grid,
 				{
+					xtype: 'label',
+					html: Messages.GRID_CONFIG_IMAGE
+			    },
+				{
 					xtype: 'panel',
 					layout:{
 						type: 'hbox',
@@ -177,6 +181,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						pack: 'center'
 					},
 					items : [
+					    
 						this.infoButton,
 						this.btnMoveLeft,
 						this.btnMoveRight,
@@ -185,7 +190,12 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						this.deleteButton,
 						this.rotateButton
 			       ]
-			   },
+			   },			   
+			   {
+					xtype: 'label',
+					html: Messages.GRID_CONFIG_GRID,
+					style: "margin-top: 15px"
+				},
 			   {
 					xtype: 'panel',
 					layout:{
@@ -332,7 +342,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				}]
 			} ]
 		});
-
+		
+		
 		this.questionValueFieldset = Ext.create('Ext.form.FieldSet', {
 			title: Messages.ANSWER_POINTS,
 			hidden: true
