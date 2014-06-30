@@ -335,6 +335,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				items : [ {
 					xtype : 'textfield',
 					id : 'tf_answers',
+					cls: 'centerAligned',
 					label : Messages.COUNT,
 					name : Messages.COUNT,
 					placeHolder : '0',
