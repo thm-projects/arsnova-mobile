@@ -707,8 +707,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				values.push(obj);
 			}
 		}
-		console.log("getPossibleAnswersFromChosenFields:")
-		console.log(values);
 		return values;
 	},
 

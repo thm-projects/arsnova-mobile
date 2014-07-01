@@ -503,7 +503,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
         	
 			me.answers.getComponent('fs_answers').getComponent('tf_answers').setValue(answerValue);
 			if (!me.reset && answerValue > 0) {
-				console.log("true");
 				me.reset = true;
 				me.questionValueFieldset.setHidden(false);
 				me.correctValueComponent.setSliderValue(me.correctValueComponent.getMaxValue());
