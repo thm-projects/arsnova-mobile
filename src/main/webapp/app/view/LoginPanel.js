@@ -20,41 +20,39 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.LoginPanel', {
 	extend: 'Ext.Container',
-	
-	requires: [ 'Ext.MessageBox',
-	            'ARSnova.view.MatrixButton'],
-	
+
+	requires: [ 'Ext.MessageBox', 'ARSnova.view.MatrixButton'],
+
 	config: {
 		fullscreen: true,
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
 		},
-		
+
 		layoutOnOrientationChange: false,
 		monitorOrientation: false,
-		
+
 		title: 'LoginPanel'
 	},
-	
+
 	initialize: function() {
 		this.callParent(arguments);
-		
-		
+
 		this.arsLogo = {
 				xtype	: 'panel',
 				cls		: null,
 				html	: "<div class='arsnova-logo'></div>",
 				style	: { marginTop: '35px', marginBottom: '35px' }
 			};
-		
+
 		if (Ext.os.is.Phone) {
 			this.arsLogo = {
 					xtype	: 'panel',
 					style	: { marginTop: '35px' }
 				};
 		}
-		
+
 		this.buttonPanelTop = Ext.create('Ext.Panel', {
 			xtype	: 'container',
 			layout	: {
@@ -101,7 +99,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 				}
 			]
 		});
-		
+
 		this.buttonPanelBottom = Ext.create('Ext.Panel', {
 			xtype	: 'container',
 			layout	: {
@@ -134,9 +132,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 				}
 			]
 		});
-		
-		
-		
+
 		this.add([{
 			xtype	: 'toolbar',
 			docked	: 'top',
@@ -149,30 +145,18 @@ Ext.define('ARSnova.view.LoginPanel', {
 			   handler: function(){
 					ARSnova.app.userRole = "";
 					ARSnova.app.setWindowTitle();
-					
+
 					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
 						type: 'slide',
 						direction: 'right',
 						duration: 500
-					});	
+					});
 				}
 			}]
 		},
-		this.arsLogo, 
+		this.arsLogo,
 		this.buttonPanelTop,
 		this.buttonPanelBottom
 		]);
-		
-		/*this.on('activate', Ext.bind(function() {
-			var isDevelopmentEnvironment = window.location.href.match(/developer\.html#?$/);
-			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
-				this.guestLoginButton.hide('fade');
-			} else {
-				this.guestLoginButton.show('fade');
-			}
-			if (isDevelopmentEnvironment) {
-				this.guestLoginButton.show('fade');
-			}
-		}, this));*/
 	}
 });
