@@ -13,3 +13,4 @@ before_install:
   - "export PATH=~/bin/Sencha/Cmd/$ARSNOVA_SENCHA_CMD_VERSION/:$PATH"
 notifications:
   slack: f112a:GOZb6ewuAf2AVxduDXzdiCTG
+  email: admin@ecollab.eu
