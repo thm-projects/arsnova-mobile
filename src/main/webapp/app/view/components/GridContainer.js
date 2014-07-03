@@ -27,7 +27,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		imageFile 				 : null,		// The image file.
 		gridLineWidth		 	 : 1,			// Width of the grid lines.
 		chosenFields 			 : Array(),
-		highlightColor 			 : '#C0FFEE',	// Color of highlighted fields.
+		highlightColor 			 : '#FFFF00',	// Color of highlighted fields.
 		curGridLineColor		 : '#000000',	// Current color of the grid lines.
 		gridLineColor 			 : '#000000',	// Default color of the grid lines.
 		alternativeGridLineColor : '#FFFFFF',	// Alternative color of the grid lines.
