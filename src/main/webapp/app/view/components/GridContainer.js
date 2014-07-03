@@ -21,7 +21,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
     xtype: 'canvas',
 
 	config : {
-		gridSize 				 : 5,			// Sqrt of the gridcount
+		gridSize 				 : 16,			// Sqrt of the gridcount
 		canvasSize 				 : 400,			// Size of the canvas element (width and height).
 		canvas 				 	 : null, 		// The canvas element.
 		imageFile 				 : null,		// The image file.
@@ -47,8 +47,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		gridOffsetX 			 : 0,			// current x offset for grid start point
 		gridOffsetY 			 : 0,			// current y offset for grid start point
 		gridZoomLvl 			 : 0,			// zoom level for grid (defines size of grid fields)
-		gridSizeX 				 : 5,			// number of horizontal grid fields
-		gridSizeY 				 : 5,			// number of vertical grid fields
+		gridSizeX 				 : 16,			// number of horizontal grid fields
+		gridSizeY 				 : 16,			// number of vertical grid fields
 		gridIsHidden 			 : false,      	// flag for visual hiding of the grid
 		gridScale				 : 1.0,			// Current scale for the grid.
 		imgRotation				 : 0,			// Current rotation for the image.
@@ -87,6 +87,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			html : canvas
 		};
 
+		//this.initGridZoom();
+		
 		this.add([ this.image ]);
 	},
 
@@ -558,8 +560,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setGridScale(this.getGridScale() * this.getScaleFactor());
 		// TODO Zoom muss noch zentriert werden
 		
-		// now redraw the grid
-		//this.redrawGrid();
 		this.redraw();
 	},
 	
@@ -567,9 +567,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setGridZoomLvl(this.getGridZoomLvl() - 1);
 		this.setGridScale(this.getGridScale() / this.getScaleFactor());
 		// TODO Zoom muss noch zentriert werden
-		
-		// now redraw the grid
-		// this.redrawGrid();
+			
 		this.redraw();
 	},
 	
@@ -640,7 +638,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	clearImage : function() {
 		var canvas = this.getCanvas();
-		this.setGridSize(5);
+		this.setGridSize(16);
 		this.setImageFile(null);
 		this.clearConfigs();
 
@@ -662,8 +660,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setImgRotation(0);
 		this.setGridOffsetX(0);
 		this.setGridOffsetY(0);
-		this.setGridSizeX(5);
-		this.setGridSizeY(5);
+		this.setGridSizeX(16);
+		this.setGridSizeY(16);
 		this.setGridScale(1.0);
 		this.setGridZoomLvl(0);
 		this.setGridIsHidden(false);
