@@ -3,6 +3,8 @@
 language: java
 env:
   - ARSNOVA_SENCHA_CMD_VERSION="4.0.4.84"
+services:
+  - couchdb
 before_install:
   # Install Sencha Command (taken from deftjs/DeftJS)
   - "wget http://cdn.sencha.com/cmd/$ARSNOVA_SENCHA_CMD_VERSION/SenchaCmd-$ARSNOVA_SENCHA_CMD_VERSION-linux-x64.run.zip"
@@ -11,6 +13,19 @@ before_install:
   - "./SenchaCmd-$ARSNOVA_SENCHA_CMD_VERSION-linux-x64.run --mode unattended"
   # Add Sencha Command to PATH
   - "export PATH=~/bin/Sencha/Cmd/$ARSNOVA_SENCHA_CMD_VERSION/:$PATH"
+  # Download ARSnova-war, CouchDB init
+  - "git clone https://github.com/thm-projects/arsnova-war"
+  - "git clone https://github.com/thm-projects/setuptool"
+before_script:
+  # Setup CouchDB
+  "cd setuptool"
+  "python tool.py"
+  "cd .."
+script:
+  # Build ARSnova-mobile with production settings
+  - "mvn install"
+  # Run Server
+  - "mvn -f arsnova-war jetty:run -Dmobile.path=src/main/webapp/build/production/ARSnova/"
 notifications:
   slack: f112a:GOZb6ewuAf2AVxduDXzdiCTG
   email: admin@ecollab.eu
