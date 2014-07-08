@@ -165,7 +165,7 @@ Ext.define("ARSnova.controller.Auth", {
     	if (ARSnova.app.loginMode == ARSnova.app.LOGIN_THM) {
     		/* update will be done when returning from CAS */
     		localStorage.removeItem('login');
-    		var location = "http://" + window.location.hostname + window.location.pathname + "#auth/doLogout";
+    		var location = "auth/logout?url=http://" + window.location.hostname + window.location.pathname + "#auth/doLogout";
     		this.handleLocationChange(location);
     	} else {
     		ARSnova.app.restProxy.authLogout();
