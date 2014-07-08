@@ -18,6 +18,8 @@ before_install:
   - "git clone https://github.com/thm-projects/setuptool"
 before_script:
   # Setup CouchDB
+  - "sudo mkdir /etc/arsnova"
+  - "sudo cp arsnova-war/src/main/webapp/arsnova.properties.example /etc/arsnova/arsnova.properties"
   - "cd setuptool"
   - "python tool.py"
   - "cd .."
