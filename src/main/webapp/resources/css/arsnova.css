@@ -104,7 +104,7 @@
     margin-right:1em;
     margin-top: 3px;
     padding-bottom: 3px;
-}  
+}
 
 .centerAligned input{
 	text-align: center;
@@ -733,8 +733,8 @@ html,body {
 }
 
 .yellowbadgeicon {
-	background: rgb(223, 226, 130);
-	/* @alternate */ background: -webkit-linear-gradient(top, rgba(204, 163, 0, .7) 0%, rgba(204, 163, 0, 1) 100%);
+	background: rgb(255, 233, 106);
+	/* @alternate */ background: -webkit-linear-gradient(top, rgba(255, 233, 106, .7) 0%, rgba(255, 184, 71, 1) 100%);
 	color: rgb(17, 17, 17);
 }
 
