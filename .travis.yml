@@ -21,6 +21,7 @@ before_install:
   - "export PATH=~/bin/Sencha/Cmd/$ARSNOVA_SENCHA_CMD_VERSION/:$PATH"
   # Download ARSnova-war, CouchDB init
   - "git clone https://github.com/thm-projects/arsnova-war"
+  - "mvn -f arsnova-war dependency:go-offline"
   - "git clone https://github.com/thm-projects/setuptool"
   - "gem install selenium-webdriver"
   - "curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash"
@@ -38,7 +39,7 @@ script:
   # Run server
   - "cd arsnova-war"
   - "mvn jetty:run -Dmobile.path=../src/main/webapp/build/production/ARSnova/ &"
-  - "sleep 3"
+  - "sleep 15"
   - "cd .."
   # Run tests
   - "ruby src/test/saucelabs.rb"
