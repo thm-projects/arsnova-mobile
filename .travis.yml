@@ -18,9 +18,9 @@ before_install:
   - "git clone https://github.com/thm-projects/setuptool"
 before_script:
   # Setup CouchDB
-  "cd setuptool"
-  "python tool.py"
-  "cd .."
+  - "cd setuptool"
+  - "python tool.py"
+  - "cd .."
 script:
   # Build ARSnova-mobile with production settings
   - "mvn install"
