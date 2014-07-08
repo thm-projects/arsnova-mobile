@@ -115,7 +115,7 @@ switch (lang) {
 			/* feedback */
 			FEEDBACK: "Feedback",
 			MY_FEEDBACK: "My feedback",
-			GIVE_FEEDBACK: "Give feedback",
+			GIVE_FEEDBACK: "Give instant feedback",
 			FEEDBACK_GOOD: "Faster, please!",
 			FEEDBACK_OKAY: "I can follow you.",
 			FEEDBACK_BAD: "Slower, please!",
@@ -201,7 +201,7 @@ switch (lang) {
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
 			QUESTIONS_FROM_STUDENTS: "Students' questions",
-			PREPARATION_QUESTIONS: "Preparation",
+			PREPARATION_QUESTIONS: "Prep questions",
 			LECTURE_QUESTIONS: "Lecture",
 			FLASHCARD_SHORT: "FC",
 			FLASHCARDS: "Flashcards",
@@ -210,7 +210,7 @@ switch (lang) {
 			WANNA_ANSWER: 'Would you like to answer now?',
 			THERE_ARE: "There are",
 			NEW_QUESTIONS: "new questions.",
-			MY_QUESTIONS: "My Questions",
+			MY_QUESTIONS: "My questions",
 			MY_LEARNING_PROGRESS: "Progress",
 			VERSUS: "vs",
 			LEARN: "Learn",
@@ -223,8 +223,8 @@ switch (lang) {
 			HIDE_FLASHCARD_ANSWER: "Hide answer",
 
 			/* speaker */
-			LIVE_FEEDBACK: "Live feedback",
-			COURSES_LEARNING_PROGRESS: "Course's progress",
+			LIVE_FEEDBACK: "Instant feedback",
+			COURSES_LEARNING_PROGRESS: "Class progress",
 			NEW_QUESTION: "New question",
 			NEW_LECTURE_QUESTION: "New lecture question",
 			NEW_PREPARATION_QUESTION: "New preparation question",
