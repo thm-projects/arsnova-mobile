@@ -24,10 +24,21 @@ before_script:
   - "python tool.py"
   - "cd .."
 script:
-  # Build ARSnova-mobile with production settings
+  # Build ARSnova with production settings
   - "mvn install"
+  - "mvn -f arsnova-war install"
   # Run Server
-  - "mvn -f arsnova-war jetty:run -Dmobile.path=src/main/webapp/build/production/ARSnova/"
+  - "cd arsnova-war"
+  - "mvn jetty:run -Dmobile.path=../src/main/webapp/build/production/ARSnova/ &"
+  - "sleep 3"
+  - "cd .."
+  - "ruby src/test/saucelabs.rb"
 notifications:
   slack: f112a:GOZb6ewuAf2AVxduDXzdiCTG
   email: admin@ecollab.eu
+
+addons:
+  sauce_connect:
+    username: "commana-mni"
+    access_key:
+      secure: "aRIa42mm6gKzQriTaf8X4wmU1UsMIaFrDs/1uApOwEFd9UlmNRVCkByGoB8y0Hfn91VuO3SwQ7vrwAmXBc2pCe8cx8QJBc+lqA7hdBQuMwOfLIpCo2b6gKcpPEflvP2ZMxqVrVnqb6RVlD64diM/m6LM9g5/ncE10w8A3M4PPEE="
