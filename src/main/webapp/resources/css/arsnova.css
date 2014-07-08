@@ -74,20 +74,6 @@
 	-webkit-text-fill-color: black !important;
 }
 
-.x-mask {
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 8000 !important;
-	display: -webkit-box;
-	display: box;
-	-webkit-box-align: center;
-	box-align: center;
-	-webkit-box-pack: center;
-	box-pack: center;
-	background: rgba(0, 0, 0, 0.3) center center no-repeat;
-}
-
 .x-item-selected .x-dock {
 	border-radius: 10px;
 }

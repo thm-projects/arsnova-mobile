@@ -32,12 +32,16 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		}
 	},
 
-	constructor: function(args) {
+	initialize: function() {
 		this.callParent(arguments);
 
-		var self = this;
-		this.questionObj = args.questionObj;
-		this.viewOnly = typeof args.viewOnly === "undefined" ? false : args.viewOnly;
+		var self = this;		
+		this.questionObj = this.config.questionObj;
+		this.viewOnly = typeof this.config.viewOnly === "undefined" ? false : this.config.viewOnly;	
+		
+		this.customMask = Ext.create('ARSnova.view.CustomMask', {
+			mainPanel: this
+		});
 
 		this.on('preparestatisticsbutton', function(button) {
 			button.scope = this;
@@ -66,15 +70,15 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		});
 
 		//Setup question title and text to disply in the same field; markdown handles HTML encoding
-    var questionString = this.questionObj.subject
+		var questionString = this.questionObj.subject
                      + '\n\n' // inserts one blank line between subject and text
                      + this.questionObj.text;
 
-    //Create standard panel with framework support
-    var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-      cls: "roundedBox allCapsHeader"
-    });
-    questionPanel.setContent(questionString, true, true);
+		//Create standard panel with framework support
+		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			cls: "roundedBox allCapsHeader"
+		});
+		questionPanel.setContent(questionString, true, true);
 
 		this.add([Ext.create('Ext.Panel', {
 			items: [questionPanel, this.viewOnly ? {} : {
@@ -188,7 +192,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					answerText		: self.answerText.getValue(),
 					timestamp		: Date.now(),
 					user			: localStorage.getItem("login"),
-          questionVariant: self.questionObj.questionVariant
+					questionVariant	: self.questionObj.questionVariant
 				});
 
 				self.saveAnswer(answer);
@@ -243,7 +247,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 	disableQuestion: function() {
 		this.setDisabled(true);
-		this.mask(Ext.create('ARSnova.view.CustomMask'));
+		this.mask(this.customMask);
 	},
 
 	setAnswerText: function(subject, answer) {

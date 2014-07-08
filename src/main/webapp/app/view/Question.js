@@ -42,23 +42,27 @@ Ext.define('ARSnova.view.Question', {
 
 	abstentionInternalId: 'ARSnova_Abstention',
 	abstentionAnswer: null,
-
-	constructor: function(args) {
+	
+	initialize: function() {
 		this.callParent(arguments);
-
+		
 		var self = this; // for use inside callbacks
-		this.viewOnly = args.viewOnly;
-		this.questionObj = args.questionObj;
+		this.viewOnly = this.config.viewOnly;
+		this.questionObj = this.config.questionObj;
 
+		this.customMask = Ext.create('ARSnova.view.CustomMask', {
+			mainPanel: this
+		});
+				
 		var answerStore = Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
 		answerStore.add(this.questionObj.possibleAnswers);
-    answerStore.each(function(item) {
-      var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
-      md.setContent(item.get('text'), true, true, function(html) {
-        item.set('formattedText', html.getHtml());
-        md.destroy();
-      });
-    });
+		answerStore.each(function(item) {
+			var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+			md.setContent(item.get('text'), true, true, function(html) {
+				item.set('formattedText', html.getHtml());
+				md.destroy();
+			});
+		});
 
 		this.on('preparestatisticsbutton', function(button) {
 			button.scope = this;
@@ -228,8 +232,8 @@ Ext.define('ARSnova.view.Question', {
 
 		//Create standard panel with framework support
 		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-      cls: "roundedBox allCapsHeader"
-    });
+			cls: "roundedBox allCapsHeader"
+		});
 		questionPanel.setContent(questionString, true, true);
 
 		this.answerList = Ext.create('Ext.List', {
@@ -239,8 +243,8 @@ Ext.define('ARSnova.view.Question', {
 			variableHeights: true,
 			scrollable: { disabled: true },
 
-      itemCls: 'arsnova-mathdown x-html',
-      itemHeight: 32,
+			itemCls: 'arsnova-mathdown x-html',
+			itemHeight: 32,
 			itemTpl: new Ext.XTemplate(
 				'{formattedText}',
 				'<tpl if="correct === true && this.isQuestionAnswered(values)">',
@@ -296,8 +300,8 @@ Ext.define('ARSnova.view.Question', {
 				text: Messages.ABSTENTION,
 				correct: false
 			})[0];
-      // has to be set this way as it does not conform to the model
-      this.abstentionAnswer.set('formattedText', Messages.ABSTENTION);
+			// has to be set this way as it does not conform to the model
+			this.abstentionAnswer.set('formattedText', Messages.ABSTENTION);
 		}
 
 		this.mcSaveButton = Ext.create('Ext.Button', {
@@ -436,13 +440,10 @@ Ext.define('ARSnova.view.Question', {
 		this.add([this.answerList].concat(
 			this.questionObj.questionType === "mc" && !this.viewOnly ? mcContainer : {}
 		));
-
-		this.on('activate', function(){
+		
+		this.on('painted', function(){
 			this.answerList.addListener('itemtap', questionListener.itemtap);
-			/*
-			 * Bugfix, because panel is normally disabled (isDisabled == true),
-			 * but is not rendered as 'disabled'
-			 */
+
 			if (this.isDisabled()){
 				this.disableQuestion();
 			}
@@ -494,9 +495,8 @@ Ext.define('ARSnova.view.Question', {
 	},
 
 	disableQuestion: function() {
-
 		this.setDisabled(true);
-		this.mask(Ext.create('ARSnova.view.CustomMask'));
+		this.mask(this.customMask);
 	},
 
 	selectAbstentionAnswer: function() {
@@ -504,7 +504,7 @@ Ext.define('ARSnova.view.Question', {
 		if (index !== -1) {
 			this.answerList.select(this.abstentionAnswer);
 		}
-//	},
+	},
 
 //	doTypeset: function(parent) {
 //		if (typeof this.questionTitle.element !== "undefined") {
@@ -521,7 +521,7 @@ Ext.define('ARSnova.view.Question', {
 //			// If the element has not been drawn yet, we need to retry later
 //			Ext.defer(Ext.bind(this.doTypeset, this), 100);
 //		}
-	},
+//	},
 
 	getUserAnswer: function() {
 		var self = this;
