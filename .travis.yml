@@ -2,7 +2,11 @@
 
 language: java
 env:
+  global:
   - ARSNOVA_SENCHA_CMD_VERSION="4.0.4.84"
+  matrix:
+    - "BROWSER='firefox:19:Windows 2012'"
+    - "BROWSER='chrome::Windows 2008'"
 services:
   - couchdb
 before_install:
@@ -16,6 +20,8 @@ before_install:
   # Download ARSnova-war, CouchDB init
   - "git clone https://github.com/thm-projects/arsnova-war"
   - "git clone https://github.com/thm-projects/setuptool"
+  - "gem install selenium-webdriver"
+  - "curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash"
 before_script:
   # Setup CouchDB
   - "sudo mkdir /etc/arsnova"
@@ -27,11 +33,12 @@ script:
   # Build ARSnova with production settings
   - "mvn install"
   - "mvn -f arsnova-war install"
-  # Run Server
+  # Run server
   - "cd arsnova-war"
   - "mvn jetty:run -Dmobile.path=../src/main/webapp/build/production/ARSnova/ &"
   - "sleep 3"
   - "cd .."
+  # Run tests
   - "ruby src/test/saucelabs.rb"
 notifications:
   slack: f112a:GOZb6ewuAf2AVxduDXzdiCTG
