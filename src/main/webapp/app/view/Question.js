@@ -441,7 +441,7 @@ Ext.define('ARSnova.view.Question', {
 			this.questionObj.questionType === "mc" && !this.viewOnly ? mcContainer : {}
 		));
 		
-		this.on('painted', function(){
+		this.on('activate', function(){
 			this.answerList.addListener('itemtap', questionListener.itemtap);
 
 			if (this.isDisabled()){
