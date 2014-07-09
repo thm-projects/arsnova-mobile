@@ -7,8 +7,10 @@ env:
   - secure: "a40mKptMrfdsTkbtbXRfhUd68nWoQXIgEBEimg2xcpwE39j63Xb7YljotecjBBUgpHqZz0/dr8i5qgYqOk+SBXdpYtwOsGJ7SM3tTdb+cYnxPw5Br3YfK2GQwZXkgm6U2F3aDTKt/cZqTyfFI0cQok//vt7GPykF6Ieoh023dUM="
   - secure: "A1tAwqHLhSDa/yAthaq5MKYCjSHU/Z5wuc/znIklgmqd0GLYQ25T+huTPn9Kh9LuFOsbVGFRJk/ydRxAAQtAUdcHaY38xjspxkznP3osd2QtDVGgLLGv02RfcIorWOwIOKR8jWgsQv5cuAD+u8/baNzkdDD0abvBGlNVCNYNLxg="
   matrix:
-    - "BROWSER='firefox:19:Windows 2012'"
-    - "BROWSER='chrome::Windows 2008'"
+    - "BROWSER='firefox::Windows 7'"
+    - "BROWSER='chrome::Windows 7'"
+    - "BROWSER='internet_explorer::Windows 7'"
+    - "BROWSER='opera::Windows 7'"
 services:
   - couchdb
 before_install:
