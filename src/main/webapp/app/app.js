@@ -27,6 +27,11 @@
 //@require utils/Ext.util.ResizableTextArea.js
 //@require utils/Ext.Array.js
 
+//<if selenium>
+// Fixes Selenium WebDriver's limitations by disabling certain animations
+Ext.require(["ARSnova.test.Slide", "ARSnova.test.MessageBox", "ARSnova.test.Container"]);
+//</if>
+
 Ext.require([
     'Ext.Label',
 	'Ext.TitleBar',
