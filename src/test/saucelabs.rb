@@ -35,7 +35,7 @@ driver.navigate.to "http://localhost:8080/index.html"
 passed = true
 
 # Perform role selection and log in
-driver.find_element(:id, "ext-image-6").click # Teacher
+driver.wait_for_element(:id, "ext-image-6").click # Teacher
 driver.find_element(:id, "ext-image-1").click # Guest
 driver.find_element(:id, "ext-button-16").click # 'Yes' in popup
 # Wait for log in...
