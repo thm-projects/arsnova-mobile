@@ -20,7 +20,8 @@ before_install:
   - "unzip -q SenchaCmd-$ARSNOVA_SENCHA_CMD_VERSION-linux-x64.run.zip"
   - "chmod +x SenchaCmd-$ARSNOVA_SENCHA_CMD_VERSION-linux-x64.run"
   - "./SenchaCmd-$ARSNOVA_SENCHA_CMD_VERSION-linux-x64.run --mode unattended"
-  # Add Sencha Command to PATH
+  # Configure Sencha, add to PATH
+  - "echo 'build.options.custom=selenium:true' > ~/bin/Sencha/Cmd/sencha.cfg"
   - "export PATH=~/bin/Sencha/Cmd/$ARSNOVA_SENCHA_CMD_VERSION/:$PATH"
   # Download ARSnova-war, CouchDB init
   - "git clone https://github.com/thm-projects/arsnova-war"
