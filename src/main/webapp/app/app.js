@@ -127,7 +127,7 @@ Ext.application({
     cardSwitchDuration: 500,
     socket: null,
     globalConfig: null,
-    launched: null,
+    configLoaded: null,
     
     /* tasks */
 	/**
@@ -179,7 +179,7 @@ Ext.application({
 		console.info("ARSnova.app.launch");
         // Destroy the #appLoadingIndicator element
         Ext.fly('appLoadingIndicator').destroy();
-		this.launched = new RSVP.Promise();
+		this.configLoaded = new RSVP.Promise();
 	
 		this.checkLocalStorage();
 		this.checkBrowser();
@@ -198,7 +198,7 @@ Ext.application({
 			
 			/* check previous login */
 			me.getController('Auth').checkLogin();
-			me.launched.resolve();
+			me.configLoaded.resolve();
 		}, function () {
 			console.error("Could not load configuration");
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.CONNECTION_PROBLEM, function () {
@@ -206,7 +206,7 @@ Ext.application({
 					location.reload();
 				}, 5000);
 			});
-			me.launched.reject();
+			me.configLoaded.reject();
 		});
 	},
 

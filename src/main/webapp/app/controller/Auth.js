@@ -30,16 +30,17 @@ Ext.define("ARSnova.controller.Auth", {
 	},
 
 	services: new RSVP.Promise(),
-
 	launch: function() {
 		var me = this;
-		ARSnova.app.restProxy.getAuthServices({
-			success: function(services) {
-				me.services.resolve(services);
-			},
-			failure: function() {
-				me.services.reject();
-			}
+		ARSnova.app.configLoaded.then(function () {
+			ARSnova.app.restProxy.getAuthServices({
+				success: function(services) {
+					me.services.resolve(services);
+				},
+				failure: function() {
+					me.services.reject();
+				}
+			});
 		});
 	},
 
