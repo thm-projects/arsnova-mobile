@@ -116,7 +116,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		this.arsjax.request({
 			url: "socket/assign",
 			method: "POST",
-			jsonData: { session: socket.socket.sessionid }
+			jsonData: { session: socket.io.engine.id }
 		});
 	},
 
