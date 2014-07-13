@@ -47,7 +47,7 @@ Ext.define("ARSnova.controller.Auth", {
 	qr: function(sessionkey, role) {
 		console.debug("Controller: Auth.qr", sessionkey, role);
 		var me = this;
-		ARSnova.app.launched.then(function () {
+		ARSnova.app.configLoaded.then(function () {
 			localStorage.setItem(
 				'role', 
 				"lecturer" === role ? ARSnova.app.USER_ROLE_SPEAKER : ARSnova.app.USER_ROLE_STUDENT
