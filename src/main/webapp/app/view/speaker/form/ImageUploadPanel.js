@@ -22,7 +22,6 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	requires: ['Ext.ux.Fileup'],
 
 	config: {
-		id: 'upField',
 		xtype: 'upField',
 		layout: 'vbox',
 
@@ -70,7 +69,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 
 		this.add([
 			{
-				id: 'fs_upfield',
+				itemId: 'fs_upfield',
 				xtype: 'fieldset',
 				title: Messages.EDIT_PICTURE,
 				docked: 'top'
@@ -81,7 +80,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				layout: 'vbox',
 				items: [
 					{
-						id: 'tf_url',
+						itemId: 'tf_url',
 						xtype: 'textfield',
 						label: Messages.SELECT_PICTURE_FS,
 						name: 'tf_url',
@@ -109,7 +108,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 								xtype: 'button',
 								text: Messages.SELECT_PICTURE_URL,
 								handler: Ext.bind(function () {
-									var url = Ext.getCmp("tf_url").getValue();
+									var url = this.getComponent('pnl_upfield').getComponent('tf_url').getValue();
 									Ext.bind(this.getUrlUploadHandler(), this.getHandlerScope())(url);
 								}, this)
 							}
