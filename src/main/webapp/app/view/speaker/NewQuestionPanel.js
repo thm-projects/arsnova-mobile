@@ -25,7 +25,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	           'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
 	           'ARSnova.view.speaker.form.FlashcardQuestion', 'ARSnova.view.speaker.form.SchoolQuestion',
 	           'ARSnova.view.speaker.form.VoteQuestion', 'ARSnova.view.speaker.form.YesNoQuestion',
-	           'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.GridQuestion'],
+	           'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.GridQuestion',
+	           'ARSnova.view.speaker.form.ImageUploadPanel'],
 
 	config: {
 		title: 'NewQuestionPanel',

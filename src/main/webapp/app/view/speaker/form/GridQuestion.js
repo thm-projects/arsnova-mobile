@@ -33,7 +33,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	imageSettings 	 	: null,		// the image settings (offset, zoom,...)
 	uploadView 		 	: null,		// view containing the upload options
 	answers 		 	: null,
-	buttonUploadFromFS	: null,
 	zoomSpinner 		: null,
 	gridXSpinner 		: null,
 	gridYSpinner 		: null,
@@ -246,83 +245,14 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			me.grid.moveDown();
 		}, me);
 
-		// button: load from filesystem
-		this.buttonUploadFromFS = Ext.create('Ext.ux.Fileup', {
-		    itemId			: 'buttonUploadFromFS',
-		    xtype			: 'fileupload',
-		    autoUpload		: true,
-		    loadAsDataUrl	: true,
-		    states: {
-		        browse: {
-		            text: Messages.SEARCH_PICTURE
-		        },
-		        ready: {
-		            text: Messages.LOAD
-		        },
-
-		        uploading: {
-		            text: Messages.LOADING,
-		            loading: true
-		        }
-		    },
-		    listeners: {
-		    	loadsuccess: function(dataurl, e) {
-		    		me.updateCanvas(dataurl, true);
-		    	},
-			    loadfailure: function(message) {
-					Ext.Msg.alert(Messages.ERROR, Messages.GRID_ERROR_LOADING_IMAGE_FS);
-					console.log("Error while loading image: " + message);
-			    }
-		    }
-
-		});
-
 		/**
 		 * The view containing the url textfield and the
 		 * functionality to load an image into the canvas
 		 */
-		this.uploadView = Ext.create('Ext.Panel', {
-			id : 'upField',
-			layout : 'vbox',
-
-			items : [ {
-				id : 'fs_upfield',
-				xtype : 'fieldset',
-				title : Messages.EDIT_PICTURE,
-				docked : 'top'
-			}, {
-				id : 'pnl_upfield',
-				xtype : 'panel',
-				layout : 'vbox',
-				items : [ {
-					id : 'tf_url',
-					xtype : 'textfield',
-					label : Messages.SELECT_PICTURE_FS,
-					name : 'tf_url',
-					placeHolder : 'http://',
-					docked : 'top'
-				}, {
-					xtype : 'spacer',
-					height : 50,
-					docked : 'top'
-				}, {
-					docked : 'bottom',
-					xtype : 'panel',
-					layout : 'hbox',
-					defaults : {
-						flex : 1
-					},
-					items : [
-						this.buttonUploadFromFS
-						, {
-						xtype : 'spacer'
-					}, {
-						xtype : 'button',
-						text : Messages.SELECT_PICTURE_URL,
-						handler : this.updateCanvasWithUrl
-					} ]
-				} ]
-			}]
+		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
+			handlerScope: me,
+			urlUploadHandler: me.updateCanvasWithUrl,
+			fsUploadHandler: me.updateCanvas
 		});
 
 		this.answers = Ext.create('Ext.Panel', {
@@ -515,11 +445,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			}
 		});
 
-		this.buttonUploadFromFS.on({
-			loadsuccess: 'onFileLoadSuccess',
-		    loadfailure: 'onFileLoadFailure'
-		});
-
 		this.add([
           this.imageArea,
           this.uploadView,
@@ -540,14 +465,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	},
 
 	/**
-	 * Gets the value of the url textfield and forwards it to the
-	 * update canvas method.
+	 * TODO: This method does nearly the same as updateCanvas, now and should be merged into it
 	 */
-	updateCanvasWithUrl : function() {
-		var url = this.up('grid').uploadView.getComponent('pnl_upfield').getComponent('tf_url').getValue();
-
+	updateCanvasWithUrl : function(url) {
 		if (url) {
-			this.up('grid').updateCanvas(url, true);
+			this.updateCanvas(url, true);
 		} else {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.GRID_ERROR_URL_MISSING);
 		}
@@ -593,14 +515,12 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 	clearTextfields : function() {
 		var answerField = this.answers.getComponent('fs_answers').getComponent('tf_answers');
-		var urlField 	= this.uploadView.getComponent('pnl_upfield').getComponent('tf_url');
 
+		this.uploadView.setUrl("");
 		this.zoomSpinner.setValue(this.grid.getScale() * 100);
 		this.gridXSpinner.setValue(this.grid.getGridSizeX());
 		this.gridYSpinner.setValue(this.grid.getGridSizeY());
 		answerField.setValue(0);
-		urlField.setValue("");
-
 	},
 
 	/**
