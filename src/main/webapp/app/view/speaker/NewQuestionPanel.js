@@ -47,6 +47,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	text: null,
 	subject: null,
 	duration: null,
+	image: null,
 
 	/* for estudy */
 	userCourses: [],
@@ -153,10 +154,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		var imgNode = this.imgNode = document.createElement('img');
 		imgNode.style.maxWidth = "300px";
 		imgNode.style.paddingTop = "5px";
-		this.imageView = Ext.create('Ext.Panel', {
-			style: {'text-align': 'center'},
-			layout: 'vbox',
-			html: imgNode
+		this.grid = Ext.create('ARSnova.view.components.GridContainer', {
+			editable: false,
+			gridIsHidden: true
 		});
 
 		this.releasePart = Ext.create('Ext.form.FormPanel', {
@@ -255,11 +255,11 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 								this.gridQuestion.show();
 								title = label(Messages.QUESTION_GRID, Messages.QUESTION_GRID_SHORT);
 								this.uploadView.hide();
-								this.imageView.hide();
+								this.grid.hide();
 							}else{
 								this.gridQuestion.hide();
 								this.uploadView.show();
-								this.imageView.show();
+								this.grid.show();
 							}
 						break;
 						case Messages.EVALUATION:
@@ -416,7 +416,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 			this.abstentionPart,
 			this.uploadView,
-			this.imageView,
+			this.grid,
 			this.releasePart,
 
 			this.saveButton,
@@ -447,9 +447,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		values.subject = mainPartValues.subject;
 		values.abstention = !panel.abstentionPart.isHidden() && panel.abstentionPart.getAbstention();
 		values.questionVariant = panel.getVariant();
-		if (this.imgNode.src) {
-			values.image = this.imgNode.src;
-		}
+		values.image = this.image;
 
 		if (localStorage.getItem('courseId') != null && localStorage.getItem('courseId').length > 0) {
 			values.releasedFor = 'courses';
@@ -565,6 +563,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	},
 	
 	setImage: function (image) {
-		this.imgNode.src = image;
+		this.image = image;
+		this.grid.setImage(image);
+		if (image) {
+			this.grid.show();
+		} else {
+			this.grid.hide();
+		}
 	}
 });
