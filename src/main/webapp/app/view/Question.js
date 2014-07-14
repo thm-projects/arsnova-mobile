@@ -353,6 +353,15 @@ Ext.define('ARSnova.view.Question', {
 		};
 
 		this.add([questionPanel]);
+		if (this.questionObj.image && this.questionObj.questionType !== "grid") {
+			this.grid = Ext.create('ARSnova.view.components.GridContainer', {
+				id: 'gridContainer' + this.questionObj._id,
+				editable: false,
+				gridIsHidden: true
+			});
+			this.grid.setImage(this.questionObj.image);
+			this.add(this.grid);
+		}
 		if (this.questionObj.questionType === "flashcard") {
 			this.add([flashcardContainer]);
 			this.answerList.setHidden(true);
