@@ -34,7 +34,8 @@ Ext.define('ARSnova.view.about.TabPanel', {
 		this.callParent(arguments);
 		
 		this.on("activate", function() {
-			window.location.href = "https://arsnova.eu/manual/index.php/"+encodeURIComponent(moment.lang())+"/";
+			var url = ARSnova.app.globalConfig.documentationUrl || "https://arsnova.eu/manual/index.php/"+encodeURIComponent(moment.lang())+"/";
+			window.location.href = url;
 		});
 	}
 });
