@@ -144,6 +144,21 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 		this.abstentionPart = Ext.create('ARSnova.view.speaker.form.AbstentionForm');
 
+		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
+			handlerScope: this,
+			urlUploadHandler: this.setImage,
+			fsUploadHandler: this.setImage
+		});
+
+		var imgNode = this.imgNode = document.createElement('img');
+		imgNode.style.maxWidth = "300px";
+		imgNode.style.paddingTop = "5px";
+		this.imageView = Ext.create('Ext.Panel', {
+			style: {'text-align': 'center'},
+			layout: 'vbox',
+			html: imgNode
+		});
+
 		this.releasePart = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			cls: 'newQuestionOptions',
@@ -239,8 +254,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							if(pressed){
 								this.gridQuestion.show();
 								title = label(Messages.QUESTION_GRID, Messages.QUESTION_GRID_SHORT);
+								this.uploadView.hide();
+								this.imageView.hide();
 							}else{
 								this.gridQuestion.hide();
+								this.uploadView.show();
+								this.imageView.show();
 							}
 						break;
 						case Messages.EVALUATION:
@@ -396,6 +415,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			this.gridQuestion,
 
 			this.abstentionPart,
+			this.uploadView,
+			this.imageView,
 			this.releasePart,
 
 			this.saveButton,
@@ -426,6 +447,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		values.subject = mainPartValues.subject;
 		values.abstention = !panel.abstentionPart.isHidden() && panel.abstentionPart.getAbstention();
 		values.questionVariant = panel.getVariant();
+		if (this.imgNode.src) {
+			values.image = this.imgNode.src;
+		}
 
 		if (localStorage.getItem('courseId') != null && localStorage.getItem('courseId').length > 0) {
 			values.releasedFor = 'courses';
@@ -538,5 +562,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			}
 		});
 		return promise;
+	},
+	
+	setImage: function (image) {
+		this.imgNode.src = image;
 	}
 });
