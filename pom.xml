@@ -63,7 +63,8 @@
 						<phase>compile</phase>
 						<configuration>
 							<target>
-								<ant target="run" />
+								<ant target="sencha:refresh" />
+								<ant target="sencha:build:${sencha.env}" />
 							</target>
 						</configuration>
 						<goals>
@@ -87,10 +88,10 @@
 				<version>2.3</version>
 				<configuration>
 					<warSourceDirectory>
-						src/main/webapp/build/production/ARSnova
+						src/main/webapp/build/${sencha.env}/ARSnova
 					</warSourceDirectory>
 					<webXml>
-						src/main/webapp/build/production/ARSnova/WEB-INF/web.xml
+						src/main/webapp/build/${sencha.env}/ARSnova/WEB-INF/web.xml
 					</webXml>
 				</configuration>
 			</plugin>
@@ -100,7 +101,7 @@
 				<configuration>
 					<filesets>
 						<fileset>
-							<directory>src/main/webapp/build/production/ARSnova</directory>
+							<directory>src/main/webapp/build/${sencha.env}/ARSnova</directory>
 						</fileset>
 					</filesets>
 				</configuration>
@@ -108,4 +109,36 @@
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>env-prod</id>
+
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>env</name>
+					<value>prod</value>
+				</property>
+			</activation>
+
+			<properties>
+				<sencha.env>production</sencha.env>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>env-dev</id>
+
+			<activation>
+				<property>
+					<name>env</name>
+					<value>dev</value>
+				</property>
+			</activation>
+
+			<properties>
+				<sencha.env>testing</sencha.env>
+			</properties>
+		</profile>
+	</profiles>
 </project>
