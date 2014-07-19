@@ -28,20 +28,19 @@ before_install:
   # Install tools required for GUI testing
   - "gem install selenium-webdriver"
   - "curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash"
-install:
+  # Setup CouchDB
+  - "sudo mkdir /etc/arsnova"
+  - "sudo cp arsnova-war/src/main/webapp/arsnova.properties.example /etc/arsnova/arsnova.properties"
+  - "cd setuptool"
+  - "python tool.py"
+  - "cd .."
+before_script:
   # Download dependencies, install packages, run server
   - "mvn install"
   - "cd arsnova-war"
   - "mvn install -DskipTests=true"
   - "mvn jetty:run -Dmobile.path=../src/main/webapp/build/production/ARSnova/ &"
   - "sleep 30"
-  - "cd .."
-before_script:
-  # Setup CouchDB
-  - "sudo mkdir /etc/arsnova"
-  - "sudo cp arsnova-war/src/main/webapp/arsnova.properties.example /etc/arsnova/arsnova.properties"
-  - "cd setuptool"
-  - "python tool.py"
   - "cd .."
 script:
   # Run tests
