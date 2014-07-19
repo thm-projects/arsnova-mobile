@@ -6,7 +6,7 @@ ARSnova is a modern approach to Audience Response Systems (ARS). It is released 
 
 ARSnova consists of two projects: the mobile client and the server. This repository contains the mobile client code. You will find the server at [thm-projects/arsnova-war](https://github.com/thm-projects/arsnova-war). If you plan to work on the client you have to build both repositories - the server and the client.
 
-![Build Status](https://travis-ci.org/thm-projects/arsnova-mobile.svg?branch=master)
+[![Build Status](https://travis-ci.org/thm-projects/arsnova-mobile.svg?branch=master)](https://travis-ci.org/thm-projects/arsnova-mobile)
 
 ## Getting Started
 
