@@ -4,9 +4,9 @@ language: java
 env:
   global:
   - ARSNOVA_SENCHA_CMD_VERSION="4.0.4.84"
-  # Sauce Labs
-  - secure: "a40mKptMrfdsTkbtbXRfhUd68nWoQXIgEBEimg2xcpwE39j63Xb7YljotecjBBUgpHqZz0/dr8i5qgYqOk+SBXdpYtwOsGJ7SM3tTdb+cYnxPw5Br3YfK2GQwZXkgm6U2F3aDTKt/cZqTyfFI0cQok//vt7GPykF6Ieoh023dUM="
-  - secure: "A1tAwqHLhSDa/yAthaq5MKYCjSHU/Z5wuc/znIklgmqd0GLYQ25T+huTPn9Kh9LuFOsbVGFRJk/ydRxAAQtAUdcHaY38xjspxkznP3osd2QtDVGgLLGv02RfcIorWOwIOKR8jWgsQv5cuAD+u8/baNzkdDD0abvBGlNVCNYNLxg="
+  # Sauce Labs: 1. User, 2. Access-Key
+  - secure: "h9KHs5w6EiNsMrVgEqgnMla0N0W5YNdWKSnEcJ+j+9vKK/+dRPXiFz9jdi8ZhpgD5GZN5zeZE2BUBJ6eypLg3rElT9Lw/x8kFbLsOiIrw0YeE4Csd4wBHNbrLL4/MEXECkOUh3QN+5Kc0RKt1juDkK1Wn8a33J5n4r382XdsGSM="
+  - secure: "fW/DcbNclyZaTOZV59IOvMxqN/wEHGZTpd+L6rag+ZNXbdigPlqydh0uX4OuS27l75EQR0UD/YoZwiF+qsj/iOEw6y8ncWpmXIa5GGuFo6VczlulS7PnLcCxjWh0c1GAs9hiF1CyEq4dR3c8S7KmYSEyeBU3G0F43mAwFEzynAQ="
   matrix:
     - "BROWSER='firefox::Windows 7'"
     - "BROWSER='chrome::Windows 7'"
