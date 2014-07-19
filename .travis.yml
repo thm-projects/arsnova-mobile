@@ -10,7 +10,7 @@ env:
   matrix:
     - "BROWSER='firefox::Windows 7'"
     - "BROWSER='chrome::Windows 7'"
-    - "BROWSER='internet_explorer::Windows 7'"
+    #- "BROWSER='internet_explorer::Windows 7'" # Deactivated: IE WebDriver doesn't work like it should :'-(
 services:
   - couchdb
 before_install:
