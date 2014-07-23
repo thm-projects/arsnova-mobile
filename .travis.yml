@@ -3,10 +3,13 @@
 language: java
 env:
   global:
-  - ARSNOVA_SENCHA_CMD_VERSION="4.0.4.84"
-  # Sauce Labs: 1. User, 2. Access-Key
-  - secure: "h9KHs5w6EiNsMrVgEqgnMla0N0W5YNdWKSnEcJ+j+9vKK/+dRPXiFz9jdi8ZhpgD5GZN5zeZE2BUBJ6eypLg3rElT9Lw/x8kFbLsOiIrw0YeE4Csd4wBHNbrLL4/MEXECkOUh3QN+5Kc0RKt1juDkK1Wn8a33J5n4r382XdsGSM="
-  - secure: "fW/DcbNclyZaTOZV59IOvMxqN/wEHGZTpd+L6rag+ZNXbdigPlqydh0uX4OuS27l75EQR0UD/YoZwiF+qsj/iOEw6y8ncWpmXIa5GGuFo6VczlulS7PnLcCxjWh0c1GAs9hiF1CyEq4dR3c8S7KmYSEyeBU3G0F43mAwFEzynAQ="
+    - ARSNOVA_SENCHA_CMD_VERSION="4.0.4.84"
+    # Sauce Labs: (thm-projects/arsnova-mobile) 1. User, 2. Access-Key
+    - secure: "h9KHs5w6EiNsMrVgEqgnMla0N0W5YNdWKSnEcJ+j+9vKK/+dRPXiFz9jdi8ZhpgD5GZN5zeZE2BUBJ6eypLg3rElT9Lw/x8kFbLsOiIrw0YeE4Csd4wBHNbrLL4/MEXECkOUh3QN+5Kc0RKt1juDkK1Wn8a33J5n4r382XdsGSM="
+    - secure: "fW/DcbNclyZaTOZV59IOvMxqN/wEHGZTpd+L6rag+ZNXbdigPlqydh0uX4OuS27l75EQR0UD/YoZwiF+qsj/iOEw6y8ncWpmXIa5GGuFo6VczlulS7PnLcCxjWh0c1GAs9hiF1CyEq4dR3c8S7KmYSEyeBU3G0F43mAwFEzynAQ="
+    # Sauce Labs: (commana/arsnova-mobile) 1. User, 2. Access-Key
+    - secure: "dUrgRZ1EhUiFXQmF0wIjyQDl88FeKjjysC7SVTh2y7TOtASNqEuPXycsWSxP3jQUL3Yk1V5rw0wrwUhQ1Am9dajOeverl7Zs2ivJFYJGfYOvPWZWgutvpIize7Kuu6gK/tv35Mb68UlYFx/9BMzZDPxHQhYvy8l9QBHbw0mipow="
+    - secure: "D3BDV2SOCrg7vNtRyg+5FRKAxDTFpnediQswMO2phGNMtkK2uHNxXe0ltHGVqULkuvvk3NMleOFR3vDZ4Qea9ylG0ewYACxc14H3qrozJm1c1eHkJv5fhOqxS9OvRNd7c2/16eu+D1VuPGvIoh2fyrTalU3USJHvkiy0Hvse4AM="
   matrix:
     - "BROWSER='firefox::Windows 7'"
     - "BROWSER='chrome::Windows 7'"
