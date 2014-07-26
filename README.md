@@ -10,16 +10,44 @@ ARSnova consists of two projects: the mobile client and the server. This reposit
 
 ## Getting Started
 
-This is the mobile client repository. The following chapters will guide you through the installation, as well as the utilization of of all requirements you need to build and use the mobile client of ARSnova. Before you start, please ensure that the server part has been arranged completely.
+The most convenient way to get started developing ARSnova is by using our [Vagrant](http://www.vagrantup.com/) environment, found at [thm-projects/arsnova-vagrant](https://github.com/thm-projects/arsnova-vagrant). Use your IDE on your host machine to make changes to ARSnova, while the build process is completely handled by the Vagrant box. You will not need to install any development tools.
+
+[arsnova-vagrant](https://github.com/thm-projects/arsnova-vagrant) sets up a virtual machine for both development and production use. The basic usage is `vagrant up`, which will start the development environment. If you wish to start production as well, use `vagrant up production`.
+
+Once any machine has been started, all required ARSnova repositories are automatically cloned from GitHub, so that you can start coding immediately.
+
+To connect to your development machine, type `vagrant ssh`. After that, you can start ARSnova inside the machine by running `./start.sh`. You can then access ARSnova from your host machine by opening http://localhost:8080.
+
+### QA Private Build
+
+[arsnova-vagrant](https://github.com/thm-projects/arsnova-vagrant) also sets up the build environment we use internally at THM, which consists of [Jenkins](http://jenkins-ci.org/) and [SonarQube](http://www.sonarqube.org/). The former provides a QA pipeline that builds, tests, analyzes, and finally deploys ARSnova to the production environment. SonarQube is used for the analyzation phase and provides a drill-down into many quality aspects, including [technical debt](https://en.wikipedia.org/wiki/Technical_debt).
+
+While the development environment is running, Jenkins and SonarQube are available at:
+
+- http://localhost:9000 (SonarQube)
+- http://localhost:9090 (Jenkins)
+
+### QA Public Build
+
+We also leverage the cloud provided by [Travis CI](https://travis-ci.org/) and [Sauce Labs](https://saucelabs.com/) to build and test ARSnova. Travis first builds and unit tests the software, then it instructs Sauce Labs to run smoke tests on different browsers and operating systems. This ensures that the basic features of ARSnova work across browsers and platforms. See [this example](https://saucelabs.com/tests/4beecf8c754f418da0b75259c039c077) to get an idea.
+
+Our official build status provided by Travis CI:
+
+- [![Build Status](https://travis-ci.org/thm-projects/arsnova-war.svg?branch=master)](https://travis-ci.org/thm-projects/arsnova-war) for ARSnova-war
+- [![Build Status](https://travis-ci.org/thm-projects/arsnova-mobile.svg?branch=master)](https://travis-ci.org/thm-projects/arsnova-mobile) for ARSnova-mobile
+
+## Development
+
+This is the mobile client repository. The following chapters will guide you through the installation, as well as the utilization of all requirements you need to build and use the mobile client of ARSnova. Before you start, please ensure that the server part has been arranged completely.
 
 ### Requirements
 
-The mobile client is using Sencha Touch 2 as application framework. In order to work with the client you have to install Sencha CMD. The basic requirement for installing and using Sencha CMD is the presence of Ruby 1.9.3 and Java Runtime Environment in Version 1.7. Before you continue, please ensure that all requirements are installed properly.
+The mobile client uses Sencha Touch 2 as application framework. In order to work with the client you have to install Sencha Cmd. The basic requirement for installing and using Sencha Cmd is the presence of Ruby 1.9.3 and Java Runtime Environment in Version 1.7. Before you continue, please ensure that all requirements are installed properly.
 
-The download links to the referred requirements, as well as the installation guide for Sencha CMD can be found in the Sencha CMD documentation:
+The download links to the referred requirements, as well as the installation guide for Sencha Cmd can be found here:
 
-http://www.sencha.com/products/sencha-cmd/ <br />
-http://docs.sencha.com/cmd/4.0.0/#!/guide/command_whats_new (subsection "Installing Sencha Cmd")
+- [Download Sencha Cmd](http://www.sencha.com/products/sencha-cmd/)
+- [Sencha Cmd documentation](http://docs.sencha.com/cmd/4.0.0/#!/guide/command_whats_new) (see subsection "Installing Sencha Cmd")
 
 ### Building
 
@@ -31,61 +59,46 @@ Basically a complete build for both projects is done with:
 
 When you build ARSnova the first time, please be attentive to build the mobile client **first** and afterwards the server application.
 
-<br />Alternatively you can use several ant-targets to build the client for different purposes:
+#### Continuous Build
 
-Refresh Sencha CMD project structure:
+The command above builds the software in such a way that it can be put into production immediately. However, this is not the best way to develop a feature or to fix a bug. Instead, we provide several fine-grained build commands, based on Sencha Cmd.
 
+Before you call any build command, you have to refresh your Sencha Cmd project:
+
+	cd /path/to/arsnova-mobile
 	ant sencha:refresh
 
-Build ARSnova with testing parameter:
+After that you can use the following command to build the mobile client for production deployment:
 
-	ant sencha:build:testing
-
-Build ARSnova with production parameter:
-
+	cd /path/to/arsnova-mobile
 	ant sencha:build:production
-
-### Sencha CMD
-
-Sencha CMD is the cornerstone to build a Sencha application. We will use it to minifying and deploying ARSnova to production. In order to use Sencha CMD with the mobile client you have to call `sencha` in your terminal. This will only work from the `arsnova-mobile/src/main/webapp` folder, where the Sencha CMD project files lie.
-
-The usage of Sencha CMD is explained explicitly in the [Sencha CMD documentation](http://docs.sencha.com/cmd/4.0.0/).
-
-#### Deploying
-
-We can use Sencha CMD to deploy the mobile client. As specified in the [Sencha CMD documentation](http://docs.sencha.com/cmd/4.0.0/#!/guide/command_app_touch), there are different build environment options. Two of them are relevant for deploying the mobile client - `testing` and `production`.
-
-Before you call any deployment command, you have to refresh your Sencha CMD project:
-
-	cd /path/to/arsnova-mobile/src/main/webapp
-	sencha app refresh
-
-After that you can use the following command to deploy the mobile client for testing deployment:
-
-	cd /path/to/arsnova-mobile/src/main/webapp
-	sencha app build testing
-
-And similarly for production deployment:
-
-	cd /path/to/arsnova-mobile/src/main/webapp
-	sencha app build production
-
-#### Development
 
 In order to develop and test on your local machine, you can use Jetty to deploy ARSnova:
 
 	cd /path/to/arsnova-war
 	mvn jetty:run
 
-If you not intend to (re)build the client manually after every change, you can use `sencha app watch`. With this command Sencha CMD will containually update bootstrap.js and apps.js files after you change a component in your application. To do so you have to open a second terminal and execute the following command:
-
-	cd /path/to/arsnova-mobile/src/main/webapp
-	sencha app watch
-
-Or the ant target respectively:
+If you do not want to manually rebuild the client after every change, you can use Sencha Cmd's watching feature. Then ARSnova will be built continuously, while Jetty will pick up and redeploy the changes. To do so you have to open a second terminal and execute the following command:
 
 	cd /path/to/arsnova-mobile
 	ant sencha:app:watch
+
+#### The "testing" environment
+
+By default, all JavaScript and CSS files are minified and put into the browser's cache. This is good to make your changes ready for production, but you might want to have a faster build including proper stack traces while your still coding your feature. This is where the `testing` environment comes in.
+
+The build commands change in the following way:
+
+	cd /path/to/arsnova-mobile
+	ant sencha:build:testing
+
+	cd /path/to/arsnova-war
+	mvn jetty:run -Dmobile.path=\${mobile.testing.path}
+
+For using the watching functionality, run:
+
+	cd /path/to/arsnova-mobile
+	ant sencha:app:watch -Denvironment=testing
 
 ## Credits
 
