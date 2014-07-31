@@ -154,7 +154,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.grid = Ext.create('ARSnova.view.components.GridContainer', {
 			editable: false,
 			gridIsHidden: true,
-			hidden: true
+			hidden: true,
+			style: "padding-top: 10px;"
 		});
 
 		this.releasePart = Ext.create('Ext.form.FormPanel', {
