@@ -511,6 +511,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	    			panel.gridQuestion.resetView();
 	    		break;
 	    		default:
+					panel.setImage(null);
 					break;
 			}
 
