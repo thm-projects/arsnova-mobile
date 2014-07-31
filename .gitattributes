@@ -1,1 +1,30 @@
-* text eol=lf
+* text=auto
+
+*.cfg           text
+*.css           text
+*.html          text
+*.js            text
+*.json          text
+*.md            text
+*.properties    text
+*.rb            text
+*.scss          text
+*.sh            text
+*.svg           text
+*.txt           text
+*.xml           text
+*.yml           text
+
+*.eot           binary
+*.gif           binary
+*.jar           binary
+*.jpg           binary
+*.otf           binary
+*.png           binary
+*.ttf           binary
+*.xcf           binary
+
+# Do not touch third-party libraries
+/lib/                      binary
+/src/main/webapp/lib/      binary
+/src/main/webapp/touch/    binary
