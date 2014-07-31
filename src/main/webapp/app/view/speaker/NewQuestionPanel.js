@@ -156,7 +156,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		imgNode.style.paddingTop = "5px";
 		this.grid = Ext.create('ARSnova.view.components.GridContainer', {
 			editable: false,
-			gridIsHidden: true
+			gridIsHidden: true,
+			hidden: true
 		});
 
 		this.releasePart = Ext.create('Ext.form.FormPanel', {
