@@ -158,10 +158,22 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			handler		: this.buttonClicked
 		});
 
-		this.courseLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			text		: Messages.COURSES_LEARNING_PROGRESS,
-			cls			: 'answerListButton'
-		});
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			this.courseLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+				text		: Messages.COURSES_LEARNING_PROGRESS,
+				cls			: 'answerListButton'
+			});
+		}
+
+		var buttons = [
+			this.feedbackButton,
+			this.feedbackQuestionButton,
+			this.lectureQuestionButton,
+			this.preparationQuestionButton
+		];
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			buttons.push(this.courseLearningProgressButton);
+		}
 
 		this.inClassItems = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
@@ -174,14 +186,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				xtype: 'formpanel',
 				cls	 : 'standardForm topPadding',
 				scrollable: null,
-
-				items: [
-					this.feedbackButton,
-					this.feedbackQuestionButton,
-					this.lectureQuestionButton,
-					this.preparationQuestionButton,
-					this.courseLearningProgressButton
-				]
+				items: buttons
 			}]
 		});
 
@@ -295,7 +300,9 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		var inClassPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 		taskManager.start(inClassPanel.countActiveUsersTask);
 		taskManager.start(inClassPanel.countFeedbackQuestionsTask);
-		taskManager.start(inClassPanel.courseLearningProgressTask);
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			taskManager.start(inClassPanel.courseLearningProgressTask);
+		}
 	},
 
 	/* will be called whenever panel is shown */
@@ -303,7 +310,9 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		// tasks should get run immediately
 		this.countActiveUsersTask.taskRunTime = 0;
 		this.countFeedbackQuestionsTask.taskRunTime = 0;
-		this.courseLearningProgressTask.taskRunTime = 0;
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			this.courseLearningProgressTask.taskRunTime = 0;
+		}
 	},
 
 	/* will be called on session logout */
@@ -311,7 +320,9 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		var inClassPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 		taskManager.stop(inClassPanel.countActiveUsersTask);
 		taskManager.stop(inClassPanel.countFeedbackQuestionsTask);
-		taskManager.stop(inClassPanel.courseLearningProgressTask);
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			taskManager.stop(inClassPanel.courseLearningProgressTask);
+		}
 	},
 
 	updateBadges: function(){
