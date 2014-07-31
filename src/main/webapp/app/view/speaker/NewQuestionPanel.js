@@ -151,9 +151,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			fsUploadHandler: this.setImage
 		});
 
-		var imgNode = this.imgNode = document.createElement('img');
-		imgNode.style.maxWidth = "300px";
-		imgNode.style.paddingTop = "5px";
 		this.grid = Ext.create('ARSnova.view.components.GridContainer', {
 			editable: false,
 			gridIsHidden: true,
