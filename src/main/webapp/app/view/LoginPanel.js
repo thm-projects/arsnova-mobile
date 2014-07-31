@@ -84,6 +84,16 @@ Ext.define('ARSnova.view.LoginPanel', {
 			if (config.customizationPath) {
 				imagePath = config.customizationPath + "/images/";
 			}
+			services.sort(function (a, b) {
+				if (a.order > 0 && (a.order < b.order || b.order <= 0)) {
+					return -1;
+				}
+				if (b.order > 0 && (a.order > b.order || a.order <= 0)) {
+					return 1;
+				}
+
+				return 0;
+			});
 			for (i = 0; i < services.length; i++) {
 				service = services[i];
 				imageSrc = service.image ? imagePath + service.image : "btn_" + service.id;
