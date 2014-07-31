@@ -126,52 +126,17 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			}]
 		});
 
-		this.releaseItems = [{
-			text: window.innerWidth < 600 ? Messages.ALL_SHORT : Messages.ALL_LONG,
-			pressed: true,
-			scope: this,
-			handler: function() {
-				this.setReleasedFor('all');
-			}
-		}, {
-			text: window.innerWidth < 600 ? Messages.ONLY_THM_SHORT : Messages.ONLY_THM_LONG,
-			scope: this,
-			handler: function() {
-				this.setReleasedFor('thm');
-			}
-		}];
-
 		this.abstentionPart = Ext.create('ARSnova.view.speaker.form.AbstentionForm');
 
-		this.releasePart = Ext.create('Ext.form.FormPanel', {
-			scrollable: null,
-			cls: 'newQuestionOptions',
-			items: [{
-				xtype: 'fieldset',
-				title: Messages.RELEASE_FOR,
-	            items: [{
-	            	xtype: 'segmentedbutton',
-	            	style: 'margin: auto',
-	        		allowDepress: false,
-	        		allowMultiple: false,
-	        		items: this.releaseItems
-	            }]
-			}]
-    	});
-
-		if (
-		  localStorage.getItem('courseId') != null
-		  && localStorage.getItem('courseId').length > 0
-		) {
-			this.releasePart = Ext.create('Ext.Panel', {
-				items: [
-					{
-						cls: 'gravure',
-						html: '<span class="coursemembersonlymessage">'+Messages.MEMBERS_ONLY+'</span>'
-					}
-				]
-			});
-		}
+		this.releasePart = Ext.create('Ext.Panel', {
+			items: [
+				{
+					cls: 'gravure',
+					html: '<span class="coursemembersonlymessage">'+Messages.MEMBERS_ONLY+'</span>'
+				}
+			],
+			hidden: true
+		});
 
 		this.yesNoQuestion = Ext.create('ARSnova.view.speaker.form.YesNoQuestion', {
 			cls: 'newQuestionOptions',
@@ -406,6 +371,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 	onActivate: function() {
 		this.questionOptions.setPressedButtons([0]);
+		this.releasePart.setHidden(localStorage.getItem('courseId') === null || localStorage.getItem('courseId').length === 0);
 	},
 
 	previewHandler: function() {

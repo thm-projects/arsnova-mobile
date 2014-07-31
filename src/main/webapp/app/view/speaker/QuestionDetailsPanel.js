@@ -665,99 +665,16 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			disabled: true
 		});
 
-		var allPressed = false;
-		var thmPressed = false;
-
-		if(this.questionObj.releasedFor) {
-			if(this.questionObj.releasedFor == "all")
-				allPressed = true;
-			else
-				thmPressed = true;
-		} else {
-			allPressed = true;
-		}
-
-		if(window.innerWidth < 600) {
-			this.releaseItems = [
-                 { text	: Messages.ALL_SHORT, 	  itemId: 'all', pressed: allPressed},
-                 { text	: Messages.ONLY_THM_SHORT, itemId: 'thm', pressed: thmPressed}
-             ];
-		} else {
-			this.releaseItems = [
-                 { text	: Messages.ALL_LONG, 	 itemId: 'all', pressed: allPressed },
-                 { text	: Messages.ONLY_THM_LONG, itemId: 'thm', pressed: thmPressed }
-             ];
-		}
-
-		if (
-		  localStorage.getItem('courseId') != null
-		  && localStorage.getItem('courseId').length > 0
-		) {
-			this.releasePart = Ext.create('Ext.Panel', {
-				items: [
-					{
-						cls: 'gravure icon',
-						style: { margin: '20px' },
-						html: '<span class="coursemembersonlymessage">'+Messages.MEMBERS_ONLY+'</span>'
-					}
-				]
-			});
-		} else {
-			this.releasePart = Ext.create('Ext.form.FormPanel', {
-				scrollable: null,
-
-				items: [{
-					xtype: 'fieldset',
-					cls: 'newQuestionOptions',
-					title: Messages.RELEASE_FOR,
-			    items: [{
-				xtype: 'segmentedbutton',
-					allowDepress: false,
-					allowMultiple: false,
-					items: this.releaseItems,
-					listeners: {
-					toggle: function(container, button, pressed){
-						if(pressed){
-							var hideLoadMask = ARSnova.app.showLoadMask(Messages.CHANGE_RELEASE);
-							var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
-
-							var question = Ext.ModelManager.getModel('ARSnova.model.Session').load(
-									panel.questionObj._id,
-							{
-								success: function(records, operation) {
-									var question = Ext.create('ARSnova.model.Question',
-											Ext.decode(operation.getResponse().responseText));
-
-									// button was already pressed
-									if(question.get('releasedFor') == button.getItemId()){
-										hideLoadMask();
-										return;
-									}
-
-									question.set('releasedFor', button.getItemId());
-
-									question.save({
-										success: function(response){
-											panel.questionObj = question.getData();
-											hideLoadMask();
-										},
-										failure: function() {
-											hideLoadMask();
-											console.log('could not save releasedFor flag');
-										}
-									});
-								},
-								failure: function(records, operation){
-					    	  		Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
-								}
-							});
-						}
-					}
-					}
-				}]
-				}]
-			});
-		}
+		this.releasePart = Ext.create('Ext.Panel', {
+			items: [
+				{
+					cls: 'gravure icon',
+					style: { margin: '20px' },
+					html: '<span class="coursemembersonlymessage">'+Messages.MEMBERS_ONLY+'</span>'
+				}
+			],
+			hidden: localStorage.getItem('courseId') === null || localStorage.getItem('courseId').length === 0
+		});
 
 		this.actionsPanel = Ext.create('Ext.Panel', {
 			items: [
