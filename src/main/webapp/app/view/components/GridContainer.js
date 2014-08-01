@@ -55,6 +55,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		toggleFieldsLeft		 : false,		// toggle the number of clickable fields. true: all fields are clickable, false: only the number of fields the lecturer has selected are clickable
 		numClickableFields		 : 0,			// number of clickable fields the lecturer has chosen
 		thresholdCorrectAnswers	 : 0,			// the points needed to answer the question correct
+		cvBackgroundColor		 : '#FFFFFF',	// background color of the canvas element
+		cvIsColored				 : false,		// true if the canvas background is colored (cvBackgroundColor), false otherwise. This way older questions without this attribute should still have a transparent background
 	},
 
 	/**
@@ -77,6 +79,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		canvas.height = this.getCanvasSize();
 		canvas.style.display = 'block';
 		canvas.style.margin = '0 auto';
+		
 		canvas.addEventListener("mouseup", this.onclick, false);
 		canvas.parentContainer = this;
 		this.setCanvas(canvas);
@@ -109,7 +112,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var ctx = this.getCanvas().getContext('2d');
 		// save context
 		ctx.save();
-
 
 		ctx.clearRect(0, 0, this.getCanvas().width, this.getCanvas().height);
 
@@ -471,6 +473,18 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	moveDown : function() {
 		this.setOffsetY(this.getOffsetY() + this.getMoveInterval() / this.getScale());
 		this.redraw();
+	},
+	
+	/**
+	 * Toggles the background of the canvas element.
+	 */
+	toggleCvBackground : function() {
+		this.setCvIsColored(!this.getCvIsColored());
+		
+		if (this.getCvIsColored())
+			this.getCanvas().style.backgroundColor = this.getCvBackgroundColor();
+		else
+			this.getCanvas().style.backgroundColor = 'transparent';
 	},
 
 	/**
