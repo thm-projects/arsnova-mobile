@@ -431,14 +431,17 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			//this.correctValueComponent.setListeners(thresholdAnswers);
 			this.ValueOfCorrectAnswers.setListeners(thresholdAnswers);
+		}
 
-			// update answers counter
-			this.grid.setOnFieldClick(function(answerValue) {
+		// update answers counter
+		this.grid.setOnFieldClick(function(answerValue) {
+			me.answers.getComponent('fs_answers').getComponent('tf_answers').setValue(answerValue);
+
+			if (ARSnova.app.globalConfig.features.learningProgress) {
 				me.ValueOfCorrectAnswers.setMaxValue(me.correctValueComponent.getMaxValue() *me.grid.getChosenFields().length);
 				me.ValueOfCorrectAnswers.setMinValue(me.incorrectValueComponent.getMinValue() * me.grid.getChosenFields().length);   
 				me.ValueOfCorrectAnswers.setSliderValue(me.correctValueComponent.getMaxValue() * me.grid.getChosenFields().length);
-
-				me.answers.getComponent('fs_answers').getComponent('tf_answers').setValue(answerValue);
+	
 				if (!me.reset && answerValue > 0) {
 					me.reset = true;
 					me.questionValueFieldset.setHidden(false);
@@ -450,8 +453,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					me.correctValueComponent.reset();
 					me.incorrectValueComponent.reset();
 				}
-			});
-		}
+			}
+		});
 
 		this.add([
 			this.imageArea,
