@@ -401,7 +401,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	update : function(gridSize, offsetX, offsetY, zoomLvl, gridOffsetX, gridOffsetY, gridZoomLvl, 
 						gridSizeX, gridSizeY, gridIsHidden, imgRotation, toggleFieldsLeft, 
-						numClickableFields, thresholdCorrectAnswers, possibleAnswers, mark) {
+						numClickableFields, thresholdCorrectAnswers, cvIsColored, possibleAnswers, mark) {
 		this.setGridSize(gridSize);
 		this.setOffsetX(offsetX);
 		this.setOffsetY(offsetY);
@@ -416,6 +416,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setToggleFieldsLeft(toggleFieldsLeft);
 		this.setNumClickableFields(numClickableFields);
 		this.setThresholdCorrectAnswers(thresholdCorrectAnswers);
+		this.setCvIsColored(cvIsColored);
+		
+		this.colorBackground();
 		
 		if (mark) {
 			this.getChosenFieldsFromPossibleAnswers(possibleAnswers);
@@ -480,7 +483,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	toggleCvBackground : function() {
 		this.setCvIsColored(!this.getCvIsColored());
-		
+		this.colorBackground();
+	},
+	
+	colorBackground : function() {
 		if (this.getCvIsColored())
 			this.getCanvas().style.backgroundColor = this.getCvBackgroundColor();
 		else

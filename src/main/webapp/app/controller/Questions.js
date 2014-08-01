@@ -127,6 +127,7 @@ Ext.define("ARSnova.controller.Questions", {
 			toggleFieldsLeft : options.toggleFieldsLeft,
 			numClickableFields : options.numClickableFields,
 			thresholdCorrectAnswers : options.thresholdCorrectAnswers,
+			cvIsColored : options.cvIsColored,
 			showStatistic: 1
 		});
     	question.set('_id', undefined);

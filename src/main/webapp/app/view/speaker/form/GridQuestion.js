@@ -658,6 +658,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		result.toggleFieldsLeft	= this.grid.getToggleFieldsLeft(),
 		result.numClickableFields = this.grid.getNumClickableFields(),
 		result.thresholdCorrectAnswers = this.grid.getThresholdCorrectAnswers();
+		result.cvIsColored		= this.grid.getCvIsColored();
 		
 		result.possibleAnswers 	= possibleAnswers;
 
@@ -690,7 +691,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				question.gridSizeY, question.gridIsHidden,
 				question.imgRotation, question.toggleFieldsLeft, 
 				question.numClickableFields, question.thresholdCorrectAnswers,
-				question.possibleAnswers, true);
+				question.cvIsColored, question.possibleAnswers, true);
 
 		answerField.setValue(this.grid.getChosenFields().length);		//set the spinner with correct values (last storage)
 		this.questionValueFieldset.setHidden(this.grid.getChosenFields().length === 0);
@@ -704,6 +705,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.ValueOfCorrectAnswers.setMaxValue(this.correctValueComponent.getMaxValue() *this.grid.getChosenFields().length);
     	this.ValueOfCorrectAnswers.setMinValue(this.incorrectValueComponent.getMinValue() * this.grid.getChosenFields().length);   
     	this.ValueOfCorrectAnswers.setSliderValue(this.grid.getThresholdCorrectAnswers());
+    	this.cvBackgroundToggle.setValue(this.grid.getCvIsColored());
 		
 	}
 });
