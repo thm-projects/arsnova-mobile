@@ -483,10 +483,10 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		
 		var toggleCvBackgroundListener = {
 				beforechange: function (slider, thumb, newValue, oldValue) {
-					me.grid.toggleCvBackground();
+					me.grid.toggleCvBackground(newValue);
 		        },
 		        change: function (slider, thumb, newValue, oldValue) {
-		        	me.grid.toggleCvBackground();
+		        	me.grid.toggleCvBackground(this.getValue());
 		        }
 		};
 		
@@ -495,7 +495,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		        	me.grid.setToggleFieldsLeft(this.getValue());
 		        },
 		        change: function (slider, thumb, newValue, oldValue) {
-		        	me.grid.setToggleFieldsLeft(this.getValue()); 
+		        	me.grid.setToggleFieldsLeft(this.getValue());
 		        }
 		};
 		
@@ -706,6 +706,5 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
     	this.ValueOfCorrectAnswers.setMinValue(this.incorrectValueComponent.getMinValue() * this.grid.getChosenFields().length);   
     	this.ValueOfCorrectAnswers.setSliderValue(this.grid.getThresholdCorrectAnswers());
     	this.cvBackgroundToggle.setValue(this.grid.getCvIsColored());
-		
 	}
 });

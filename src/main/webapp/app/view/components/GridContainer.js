@@ -418,6 +418,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setThresholdCorrectAnswers(thresholdCorrectAnswers);
 		this.setCvIsColored(cvIsColored);
 		
+		// change background color itself if necessary
 		this.colorBackground();
 		
 		if (mark) {
@@ -481,8 +482,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	/**
 	 * Toggles the background of the canvas element.
 	 */
-	toggleCvBackground : function() {
-		this.setCvIsColored(!this.getCvIsColored());
+	toggleCvBackground : function(colored) {
+		this.setCvIsColored(colored);
 		this.colorBackground();
 	},
 	
@@ -685,6 +686,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setGridScale(1.0);
 		this.setGridZoomLvl(0);
 		this.setGridIsHidden(false);
+		this.setCvIsColored(false);
 	},
 
 	/**
