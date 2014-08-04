@@ -34,15 +34,14 @@ Ext.define('ARSnova.model.Feedback', {
 		this.callParent(arguments);
 		
 		ARSnova.app.socket.addListener("arsnova/socket/feedback/update", function(values) {
-			this.currentValues = values;
-			this.fireEvent("arsnova/session/feedback/update", this.currentValues);
-			this.fireEvent("arsnova/session/feedback/count", this.currentValues.reduce(function(a, b){
+			var count = this.currentValues.reduce(function(a, b){
 				return a + b;
-			}, 0));
-		}, this);
-		
-		ARSnova.app.socket.addListener("arsnova/socket/feedback/average", function(average) {
-			this.currentAverage = average;
+			}, 0);
+			this.currentValues = values;
+			this.currentAverage = Math.round(values / count);
+
+			this.fireEvent("arsnova/session/feedback/count", count);
+			this.fireEvent("arsnova/session/feedback/update", this.currentValues);
 			this.fireEvent("arsnova/session/feedback/average", this.currentAverage);
 		}, this);
 	},

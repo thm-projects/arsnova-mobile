@@ -58,10 +58,6 @@ Ext.define('ARSnova.WebSocket', {
 			socket.on('feedbackReset', Ext.bind(function(affectedSessions) {
 				//topic.publish("arsnova/socket/feedback/remove", affectedSessions);
 			}, this));
-			
-			socket.on('feedbackDataRoundedAverage', Ext.bind(function(average) {
-				this.fireEvent("arsnova/socket/feedback/average", average);
-			}, this));
 		}, this));
 	},
 	
