@@ -39,23 +39,31 @@ Ext.define('ARSnova.WebSocket', {
 				secure: window.location.protocol === 'http:' ? false : true
 			});
 			socket.on('connect', function() {
-				console.debug("WebSocket connection established");
+				console.debug("Socket.IO connection established");
 			});
-			
-			socket.on('reconnect', function() {
-				/* TODO: Handle reconnect: rejoin ARSnova session if necessary */
+
+			socket.on('disconnect', function() {
+				console.debug("Socket.IO connection lost");
+			});
+
+			socket.on('reconnect', Ext.bind(function() {
+				console.debug("Socket.IO connection restored");
 				ARSnova.app.restProxy.connectWebSocket();
-			});
+				this.fireEvent("arsnova/socket/reconnect");
+			}, this));
 			
 			socket.on('activeUserCountData', Ext.bind(function(data) {
+				console.debug("Socket.IO: activeUserCountData", data);
 				this.fireEvent("arsnova/socket/activeusercount/update", data);
 			}, this));
 			
 			socket.on('feedbackData', Ext.bind(function(data) {
+				console.debug("Socket.IO: feedbackData", data);
 				this.fireEvent("arsnova/socket/feedback/update", data);
 			}, this));
 			
 			socket.on('feedbackReset', Ext.bind(function(affectedSessions) {
+				console.debug("Socket.IO: feedbackReset", affectedSessions);
 				//topic.publish("arsnova/socket/feedback/remove", affectedSessions);
 			}, this));
 		}, this));

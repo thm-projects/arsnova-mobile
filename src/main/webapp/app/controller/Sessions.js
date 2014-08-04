@@ -28,7 +28,19 @@ Ext.define("ARSnova.controller.Sessions", {
 	           'ARSnova.view.user.TabPanel',
 	           'ARSnova.view.user.QuestionPanel'
 	],
-    
+
+	initialize: function () {
+		/* Rejoin session on Socket.IO reconnect event */
+		ARSnova.app.socket.addListener("arsnova/socket/reconnect", function () {
+			var keyword = localStorage.getItem('keyword');
+
+			if (keyword) {
+				/* TODO: Use abstraction layer? */
+				socket.emit("setSession", {keyword: keyword});
+			}
+		});
+	},
+
     login: function(options){
     	console.debug("Controller: Sessions.login", options);
     	if(options.keyword.length != 8){
