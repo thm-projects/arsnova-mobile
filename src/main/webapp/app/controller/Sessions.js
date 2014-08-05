@@ -29,7 +29,7 @@ Ext.define("ARSnova.controller.Sessions", {
 	           'ARSnova.view.user.QuestionPanel'
 	],
 
-	initialize: function () {
+	launch: function () {
 		/* (Re)join session on Socket.IO connect event */
 		ARSnova.app.socket.addListener("arsnova/socket/connect", function () {
 			var keyword = localStorage.getItem('keyword');
@@ -80,7 +80,9 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('active', obj.active ? 1 : 0);
 				
 				/* TODO: Use abstraction layer? */
-				socket.emit("setSession", {keyword: obj.keyword});
+				if (window.socket) {
+					socket.emit("setSession", {keyword: obj.keyword});
+				}
     	    	
     	    	//start task to update the feedback tab in tabBar
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge, ARSnova.app.mainTabPanel.tabPanel);
@@ -104,7 +106,9 @@ Ext.define("ARSnova.controller.Sessions", {
 
 	logout: function(){
 		/* TODO: Use abstraction layer? */
-		socket.emit("setSession", {keyword: null});
+		if (window.socket) {
+			socket.emit("setSession", {keyword: null});
+		}
 
 		ARSnova.app.loggedInModel.resetActiveUserCount();
 

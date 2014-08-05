@@ -34,13 +34,34 @@ Ext.define('ARSnova.WebSocket', {
 		this.callParent(arguments);
 		
 		this.initSocket().then(Ext.bind(function(socketUrl) {
+			/* Upgrade from polling to WebSocket currently does not work 
+			 * reliably so manually set the transport by detecting browser 
+			 * support for WebSocket protocol */
+			var hasWs = false;
+			if (window.WebSocket) {
+				/* Workaround: unfortunately some browsers pretend to support 
+				 * WS protocol although they do not */
+				try {
+					var ws = new Websocket("wss:" + window.location.hostname + ":10443");
+					ws.close(-1);
+				} catch (e) {
+					hasWs = true;
+				}
+			}
+			var transports = hasWs ? ["websocket"] : ["polling"];
+			console.debug("Socket.IO transports", transports);
+
 			socket = io.connect(socketUrl, {
 				reconnect: true,
-				secure: window.location.protocol === 'http:' ? false : true
+				secure: window.location.protocol === 'http:' ? false : true,
+				transports: transports
 			});
+
 			socket.on('connect', Ext.bind(function() {
 				console.debug("Socket.IO connection established");
-				this.fireEvent("arsnova/socket/connect");
+				ARSnova.app.restProxy.connectWebSocket().then(Ext.bind(function () {
+					this.fireEvent("arsnova/socket/connect");
+				}, this));
 			}, this));
 
 			socket.on('disconnect', Ext.bind(function() {
@@ -50,7 +71,6 @@ Ext.define('ARSnova.WebSocket', {
 
 			socket.on('reconnect', Ext.bind(function() {
 				console.debug("Socket.IO connection restored");
-				ARSnova.app.restProxy.connectWebSocket();
 				this.fireEvent("arsnova/socket/reconnect");
 			}, this));
 			

@@ -136,7 +136,9 @@ Ext.define("ARSnova.controller.Auth", {
 				ARSnova.app.loggedIn = true;
 				localStorage.setItem('login', obj.username);
 				window.location = window.location.pathname + "#";
-				ARSnova.app.restProxy.connectWebSocket();
+				if (window.socket) {
+					ARSnova.app.restProxy.connectWebSocket();
+				}
 				promise.resolve();
 			},
 			failure: function (response) {

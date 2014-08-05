@@ -113,11 +113,20 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	 * Connects/reconnects websocket
 	 */
 	connectWebSocket: function() {
+		var promise = new RSVP.Promise();
 		this.arsjax.request({
 			url: "socket/assign",
 			method: "POST",
-			jsonData: { session: socket.socket.sessionid }
+			jsonData: { session: socket.socket.sessionid },
+			success: function () {
+				promise.resolve();
+			},
+			failure: function () {
+				promise.reject();
+			}
 		});
+
+		return promise;
 	},
 
 	/**
