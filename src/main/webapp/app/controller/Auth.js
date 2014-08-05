@@ -30,6 +30,8 @@ Ext.define("ARSnova.controller.Auth", {
 		}
 	},
 
+	disableRouting: false,
+
 	services: new RSVP.Promise(),
 	launch: function() {
 		var me = this;
@@ -46,6 +48,14 @@ Ext.define("ARSnova.controller.Auth", {
 	},
 
 	qr: function(sessionkey, role) {
+		/* Workaround: Currently ARSnova is not designed to support routing after startup */
+		if (this.disableRouting) {
+			console.debug("Route ignored");
+
+			return;
+		}
+		this.disableRouting = true;
+
 		console.debug("Controller: Auth.qr", sessionkey, role);
 		var me = this;
 		ARSnova.app.configLoaded.then(function () {
@@ -138,6 +148,14 @@ Ext.define("ARSnova.controller.Auth", {
 	},
 
 	restoreLogin: function () {
+		/* Workaround: Currently ARSnova is not designed to support routing after startup */
+		if (this.disableRouting) {
+			console.debug("Route ignored");
+
+			return;
+		}
+		this.disableRouting = true;
+
 		console.debug("Controller: Auth.restoreLogin");
 		ARSnova.app.configLoaded.then(Ext.bind(function () {
 			this.checkLogin().then(function () {

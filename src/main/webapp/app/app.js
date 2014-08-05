@@ -307,6 +307,8 @@ Ext.application({
 		ARSnova.app.userRole = localStorage.getItem('role');
 		ARSnova.app.setWindowTitle();
 		ARSnova.app.afterLogin();
+
+		return true;
 	},
 
 	setWindowTitle: function() {
