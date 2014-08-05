@@ -195,9 +195,6 @@ Ext.application({
 			console.debug("Configuration loaded");
 			me.globalConfig = globalConfig;
 			me.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
-			
-			/* check previous login */
-			me.getController('Auth').checkLogin();
 			me.configLoaded.resolve();
 		}, function () {
 			console.error("Could not load configuration");

@@ -25,7 +25,8 @@ Ext.define("ARSnova.controller.Auth", {
 		routes: {
 			'id/:sessionkey': 'qr',
 			'id/:sessionkey/:role': 'qr',
-			'auth/checkLogin': 'checkLogin'
+			'auth/checkLogin': 'restoreLogin',
+			'': 'restoreLogin'
 		}
 	},
 
@@ -56,7 +57,6 @@ Ext.define("ARSnova.controller.Auth", {
 			if (!ARSnova.app.checkPreviousLogin()) {
 				me.login();
 			}
-			ARSnova.app.afterLogin();
 
 			window.location = window.location.pathname + "#";
 		});
@@ -107,6 +107,7 @@ Ext.define("ARSnova.controller.Auth", {
 				url: location,
 				success: function() {
 					me.checkLogin();
+					ARSnova.app.afterLogin();
 				}
 			});
 		} else {
@@ -117,6 +118,7 @@ Ext.define("ARSnova.controller.Auth", {
 	
 	checkLogin: function(){
 		console.debug("Controller: Auth.checkLogin");
+		var promise = new RSVP.Promise();
 		ARSnova.app.restProxy.absoluteRequest({
 			url: 'whoami.json',
 			success: function(response){
@@ -124,10 +126,24 @@ Ext.define("ARSnova.controller.Auth", {
 				ARSnova.app.loggedIn = true;
 				localStorage.setItem('login', obj.username);
 				window.location = window.location.pathname + "#";
-				ARSnova.app.checkPreviousLogin();
 				ARSnova.app.restProxy.connectWebSocket();
+				promise.resolve();
+			},
+			failure: function (response) {
+				promise.reject();
 			}
 		});
+
+		return promise;
+	},
+
+	restoreLogin: function () {
+		console.debug("Controller: Auth.restoreLogin");
+		ARSnova.app.configLoaded.then(Ext.bind(function () {
+			this.checkLogin().then(function () {
+				ARSnova.app.checkPreviousLogin();
+			});
+		}, this));
 	},
 
     logout: function(){
