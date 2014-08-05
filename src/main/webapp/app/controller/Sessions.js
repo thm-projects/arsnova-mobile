@@ -30,8 +30,8 @@ Ext.define("ARSnova.controller.Sessions", {
 	],
 
 	initialize: function () {
-		/* Rejoin session on Socket.IO reconnect event */
-		ARSnova.app.socket.addListener("arsnova/socket/reconnect", function () {
+		/* (Re)join session on Socket.IO connect event */
+		ARSnova.app.socket.addListener("arsnova/socket/connect", function () {
 			var keyword = localStorage.getItem('keyword');
 
 			if (keyword) {

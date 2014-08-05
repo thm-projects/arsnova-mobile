@@ -38,13 +38,15 @@ Ext.define('ARSnova.WebSocket', {
 				reconnect: true,
 				secure: window.location.protocol === 'http:' ? false : true
 			});
-			socket.on('connect', function() {
+			socket.on('connect', Ext.bind(function() {
 				console.debug("Socket.IO connection established");
-			});
+				this.fireEvent("arsnova/socket/connect");
+			}, this));
 
-			socket.on('disconnect', function() {
+			socket.on('disconnect', Ext.bind(function() {
 				console.debug("Socket.IO connection lost");
-			});
+				this.fireEvent("arsnova/socket/disconnect");
+			}, this));
 
 			socket.on('reconnect', Ext.bind(function() {
 				console.debug("Socket.IO connection restored");
