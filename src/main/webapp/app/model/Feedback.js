@@ -37,12 +37,12 @@ Ext.define('ARSnova.model.Feedback', {
 			var count = this.currentValues.reduce(function(a, b){
 				return a + b;
 			}, 0);
+			this.currentAverage = Math.round((values[1] + values[2] * 2 + values[3] * 3) / count);
 			this.currentValues = values;
-			this.currentAverage = Math.round(values / count);
 
 			this.fireEvent("arsnova/session/feedback/count", count);
-			this.fireEvent("arsnova/session/feedback/update", this.currentValues);
 			this.fireEvent("arsnova/session/feedback/average", this.currentAverage);
+			this.fireEvent("arsnova/session/feedback/update", this.currentValues);
 		}, this);
 	},
 	
@@ -54,6 +54,8 @@ Ext.define('ARSnova.model.Feedback', {
 	
 	postFeedback: function(feedbackValue) {
 		/* TODO: Use abstraction layer? */
-		socket.emit("setFeedback", {value: feedbackValue});
+		if (window.socket) {
+			socket.emit("setFeedback", {value: feedbackValue});
+		}
 	}
 });
