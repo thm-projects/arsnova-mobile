@@ -26,7 +26,9 @@ Ext.define("ARSnova.controller.Auth", {
 			'id/:sessionkey': 'qr',
 			'id/:sessionkey/:role': 'qr',
 			'auth/checkLogin': 'restoreLogin',
-			'': 'restoreLogin'
+			'': 'restoreLogin',
+			/* Facebook unfortunately appends #_=_ to auth success URL */
+			'_=_': 'restoreLogin'
 		}
 	},
 
