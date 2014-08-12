@@ -23,6 +23,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	config : {
 		gridSize 				 : 16,			// Sqrt of the gridcount
 		canvasSize 				 : 400,			// Size of the canvas element (width and height).
+		initCanvasSize			 : 400,			// Should be same as canvasSize; for later reference.
 		canvas 				 	 : null, 		// The canvas element.
 		imageFile 				 : null,		// The image file.
 		gridLineWidth		 	 : 1,			// Width of the grid lines.
@@ -177,10 +178,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var canvas = this.getCanvas();
 
 		x -= canvas.getBoundingClientRect().left;
-		x -= this.getGridOffsetX();
+		x -= this.getRelativeLength(this.getGridOffsetX());
 		
 		y -= canvas.getBoundingClientRect().top;
-		y -= this.getGridOffsetY();
+		y -= this.getRelativeLength(this.getGridOffsetY());
 		
 		if(x < 0 || y < 0){
 			return null;
@@ -206,8 +207,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var x1 = x * this.getFieldSize() +  this.getGridLineWidth();
 		var y1 = y * this.getFieldSize() +  this.getGridLineWidth();
 
-		x1 += this.getGridOffsetX();
-		y1 += this.getGridOffsetY();
+		x1 += this.getRelativeLength(this.getGridOffsetX());
+		y1 += this.getRelativeLength(this.getGridOffsetY());
 		
 		return new Array(x1, y1);
 	},
@@ -230,6 +231,15 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	getRelativeCanvasSize : function() {
 		return this.getCanvasSize() * this.getGridScale();
 	},
+	
+	/**
+	 * Converts a length to a canvas relative length. This function is needed due to
+	 * the fact, that on small displays the canvas itself is displayed smaller.
+	 * The usage of this function ensures correct positioning.
+	 */
+	getRelativeLength : function(n) {
+		return n * (this.getCanvasSize() / this.getInitCanvasSize());
+	},
 
 	/**
 	 * Draws the grid in the canvas element.
@@ -248,13 +258,21 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		
 		// all horizontal lines
 		for (var i  = 0; i <= this.getGridSizeY(); i++){
-			ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY()  + i * fieldsize, fieldsize * this.getGridSizeX(), this.getGridLineWidth());
+			ctx.fillRect(
+					this.getRelativeLength(this.getGridOffsetX()), 
+					this.getRelativeLength(this.getGridOffsetY())  + i * fieldsize, 
+					fieldsize * this.getGridSizeX(), 
+					this.getGridLineWidth());
 		}
 
 		
 		// all vertical lines
 		for (var i = 0; i <= this.getGridSizeX(); i++){
-			ctx.fillRect(this.getGridOffsetX() + i * fieldsize, this.getGridOffsetY(), this.getGridLineWidth(), fieldsize * this.getGridSizeY() )
+			ctx.fillRect(
+					this.getRelativeLength(this.getGridOffsetX()) + i * fieldsize, 
+					this.getRelativeLength(this.getGridOffsetY()), 
+					this.getGridLineWidth(), 
+					fieldsize * this.getGridSizeY() );
 		}
 		
 	},
