@@ -178,10 +178,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var canvas = this.getCanvas();
 
 		x -= canvas.getBoundingClientRect().left;
-		x -= this.getRelativeLength(this.getGridOffsetX());
+		x -= this.getRelativeLength(this.getGridOffsetX(), false);
 		
 		y -= canvas.getBoundingClientRect().top;
-		y -= this.getRelativeLength(this.getGridOffsetY());
+		y -= this.getRelativeLength(this.getGridOffsetY(), false);
 		
 		if(x < 0 || y < 0){
 			return null;
@@ -207,8 +207,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var x1 = x * this.getFieldSize() +  this.getGridLineWidth();
 		var y1 = y * this.getFieldSize() +  this.getGridLineWidth();
 
-		x1 += this.getRelativeLength(this.getGridOffsetX());
-		y1 += this.getRelativeLength(this.getGridOffsetY());
+		x1 += this.getRelativeLength(this.getGridOffsetX(), false);
+		y1 += this.getRelativeLength(this.getGridOffsetY(), false);
 		
 		return new Array(x1, y1);
 	},
@@ -237,15 +237,16 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * the fact, that on small displays the canvas itself is displayed smaller.
 	 * The usage of this function ensures correct positioning.
 	 */
-	getRelativeLength : function(n) {
-		return n * (this.getCanvasSize() / this.getInitCanvasSize());
+	getRelativeLength : function(n, reverse) {
+		var f = reverse ? (this.getInitCanvasSize() / this.getCanvasSize()) : (this.getCanvasSize() / this.getInitCanvasSize());
+		return n * f;
 	},
 
 	/**
 	 * Draws the grid in the canvas element.
 	 */
 	createGrid : function() {
-		
+
 		if((this.getGridSizeX() * this.getGridSizeY()) == 0)
 			return;
 		
@@ -259,8 +260,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		// all horizontal lines
 		for (var i  = 0; i <= this.getGridSizeY(); i++){
 			ctx.fillRect(
-					this.getRelativeLength(this.getGridOffsetX()), 
-					this.getRelativeLength(this.getGridOffsetY())  + i * fieldsize, 
+					this.getRelativeLength(this.getGridOffsetX(), false), 
+					this.getRelativeLength(this.getGridOffsetY(), false)  + i * fieldsize, 
 					fieldsize * this.getGridSizeX(), 
 					this.getGridLineWidth());
 		}
@@ -269,8 +270,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		// all vertical lines
 		for (var i = 0; i <= this.getGridSizeX(); i++){
 			ctx.fillRect(
-					this.getRelativeLength(this.getGridOffsetX()) + i * fieldsize, 
-					this.getRelativeLength(this.getGridOffsetY()), 
+					this.getRelativeLength(this.getGridOffsetX(), false) + i * fieldsize, 
+					this.getRelativeLength(this.getGridOffsetY(), false), 
 					this.getGridLineWidth(), 
 					fieldsize * this.getGridSizeY() );
 		}
@@ -614,7 +615,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Moves the grid one step in right (positive x) direction.
 	 */
 	moveGridRight : function() {
-		this.setGridOffsetX(this.getGridOffsetX() + this.getMoveInterval() / this.getGridScale());
+		this.setGridOffsetX(this.getGridOffsetX() + this.getRelativeLength(this.getMoveInterval() / this.getGridScale()));
 		this.redraw();
 	},
 
@@ -622,7 +623,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Moves the grid one step in left (negative x) direction.
 	 */
 	moveGridLeft : function() {
-		this.setGridOffsetX(this.getGridOffsetX() - this.getMoveInterval() / this.getGridScale());
+		this.setGridOffsetX(this.getGridOffsetX() - this.getRelativeLength(this.getMoveInterval() / this.getGridScale()));
 		this.redraw();
 	},
 
@@ -630,7 +631,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Moves the grid one step in up (negative y) direction.
 	 */
 	moveGridUp : function() {
-		this.setGridOffsetY(this.getGridOffsetY() - this.getMoveInterval() / this.getGridScale());
+		this.setGridOffsetY(this.getGridOffsetY() - this.getRelativeLength(this.getMoveInterval() / this.getGridScale()));
 		this.redraw();
 	},
 
@@ -638,7 +639,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Moves the grid one step in down (positive y) direction.
 	 */
 	moveGridDown : function() {
-		this.setGridOffsetY(this.getGridOffsetY() + this.getMoveInterval() / this.getGridScale());
+		this.setGridOffsetY(this.getGridOffsetY() + this.getRelativeLength(this.getMoveInterval() / this.getGridScale()));
 		this.redraw();
 	},
 
