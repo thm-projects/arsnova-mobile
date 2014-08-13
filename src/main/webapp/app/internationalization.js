@@ -318,7 +318,7 @@ switch (lang) {
 			SETTINGS_HINT_TEXT: "Hint <br>Maximal filesize is 1 MB.",
 
 			/* question types */
-			EVALUATION: "LKT",
+			EVALUATION: "+-",
 			SCHOOL: "A-F",
 			MC: "MC",
 			YESNO: "YN",
@@ -667,7 +667,7 @@ switch (lang) {
 			SETTINGS_HINT_TEXT: "Hinweis: <br>Maximale Dateigröße beträgt 1MB.",
 
 			/* question types */
-			EVALUATION: "LKT",
+			EVALUATION: "+-",
 			SCHOOL: "1-6",
 			MC: "MC",
 			YESNO: "JN",
