@@ -45,7 +45,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
     btnZoomOutGrid		: null,
     btnMoveGridLeft		: null,
     btnMoveGridRight	: null,
-    btnMoveGridUo		: null,
+    btnMoveGridUp		: null,
     btnMoveGridDown		: null,
 	infoButton			: null,
     infoPanel			: null,
