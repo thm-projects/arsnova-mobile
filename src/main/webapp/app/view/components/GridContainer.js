@@ -421,6 +421,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	update : function(gridSize, offsetX, offsetY, zoomLvl, gridOffsetX, gridOffsetY, gridZoomLvl, 
 						gridSizeX, gridSizeY, gridIsHidden, imgRotation, toggleFieldsLeft, 
 						numClickableFields, thresholdCorrectAnswers, cvIsColored, possibleAnswers, mark) {
+		console.log(this);
 		this.setGridSize(gridSize);
 		this.setOffsetX(offsetX);
 		this.setOffsetY(offsetY);
@@ -437,8 +438,33 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setThresholdCorrectAnswers(thresholdCorrectAnswers);
 		this.setCvIsColored(cvIsColored);
 		
+		//TODO größe der felder setzen!
+		//converting from old version -- a854a13822a8c9fb3109f528b1001384 
+		if(this.getGridSizeX() === undefined){
+			this.setGridSizeX(gridSize);
+		}
+		
+		if(this.getGridSizeY() === undefined){
+			this.setGridSizeY(gridSize);
+		}
+		
+		if(this.getGridOffsetX() === undefined){
+			this.setGridOffsetX(0);
+		}
+		
+		if(this.getGridOffsetY() === undefined){
+			this.setGridOffsetY(0);
+		}
+		
+		
+		
+		
+		console.log(this);
 		// change background color itself if necessary
 		this.colorBackground();
+		
+		
+		
 		
 		if (mark) {
 			this.getChosenFieldsFromPossibleAnswers(possibleAnswers);
