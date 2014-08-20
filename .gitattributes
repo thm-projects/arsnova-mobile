@@ -15,16 +15,17 @@
 *.xml           text
 *.yml           text
 
-*.eot           binary
-*.gif           binary
-*.jar           binary
-*.jpg           binary
-*.otf           binary
-*.png           binary
-*.ttf           binary
-*.xcf           binary
+*.eot           -text
+*.gif           -text
+*.jar           -text
+*.jpg           -text
+*.otf           -text
+*.png           -text
+*.ttf           -text
+*.xcf           -text
 
 # Do not touch third-party libraries
-/lib/                      binary
-/src/main/webapp/lib/      binary
-/src/main/webapp/touch/    binary
+/lib/**                         -text
+/src/main/webapp/lib/**         -text
+/src/main/webapp/phonegap/**    -text
+/src/main/webapp/touch/**       -text
