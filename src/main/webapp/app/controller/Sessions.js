@@ -28,8 +28,21 @@ Ext.define("ARSnova.controller.Sessions", {
 	           'ARSnova.view.user.TabPanel',
 	           'ARSnova.view.user.QuestionPanel'
 	],
-    
+
+	launch: function () {
+		/* (Re)join session on Socket.IO connect event */
+		ARSnova.app.socket.addListener("arsnova/socket/connect", function () {
+			var keyword = localStorage.getItem('keyword');
+
+			if (keyword) {
+				/* TODO: Use abstraction layer? */
+				socket.emit("setSession", {keyword: keyword});
+			}
+		});
+	},
+
     login: function(options){
+    	console.debug("Controller: Sessions.login", options);
     	if(options.keyword.length != 8){
     		Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_ID_INVALID_LENGTH);
     		return;
@@ -65,11 +78,17 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('courseId', obj.courseId === null ? "" : obj.courseId);
 				localStorage.setItem('courseType', obj.courseType === null ? "" : obj.courseType);
 				localStorage.setItem('active', obj.active ? 1 : 0);
+				
+				/* TODO: Use abstraction layer? */
+				if (window.socket) {
+					socket.emit("setSession", {keyword: obj.keyword});
+				}
     	    	
     	    	//start task to update the feedback tab in tabBar
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge, ARSnova.app.mainTabPanel.tabPanel);
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon, ARSnova.app.mainTabPanel.tabPanel);
     	    	taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
+				ARSnova.app.mainTabPanel.tabPanel.updateHomeBadge();
     	    	
 				ARSnova.app.getController('Sessions').reloadData();
     		},
@@ -86,6 +105,13 @@ Ext.define("ARSnova.controller.Sessions", {
     },
 
 	logout: function(){
+		/* TODO: Use abstraction layer? */
+		if (window.socket) {
+			socket.emit("setSession", {keyword: null});
+		}
+
+		ARSnova.app.loggedInModel.resetActiveUserCount();
+
 		//remove "user has voted"-flag
 		if (localStorage.getItem('user has voted'))
 			localStorage.removeItem('user has voted');

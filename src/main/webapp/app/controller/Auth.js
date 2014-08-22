@@ -25,28 +25,52 @@ Ext.define("ARSnova.controller.Auth", {
 		routes: {
 			'id/:sessionkey': 'qr',
 			'id/:sessionkey/:role': 'qr',
-			'auth/checkLogin': 'checkLogin'
+			'auth/checkLogin': 'restoreLogin',
+			'': 'restoreLogin',
+			/* Facebook unfortunately appends #_=_ to auth success URL */
+			'_=_': 'restoreLogin'
 		}
 	},
-	
-	qr: function(sessionkey, role) {
-		ARSnova.app.loggedIn = true;
-		if (localStorage.getItem('login') === null) {
-			localStorage.setItem('login', ARSnova.app.authModel.generateGuestName());
-		}
-		ARSnova.app.userRole = "lecturer" === role ? ARSnova.app.USER_ROLE_SPEAKER : ARSnova.app.USER_ROLE_STUDENT;
-		localStorage.setItem('role', ARSnova.app.userRole);
-		ARSnova.app.setWindowTitle();
-		if (!ARSnova.app.loginMode) {
-			ARSnova.app.loginMode = ARSnova.app.LOGIN_GUEST;
-			localStorage.setItem('loginMode', ARSnova.app.loginMode);
-		}
-		localStorage.setItem('keyword', sessionkey);
-		ARSnova.app.afterLogin();
 
-		window.location = window.location.pathname + "#";
-		ARSnova.app.getController('Sessions').login({
-			keyword: sessionkey
+	disableRouting: false,
+
+	services: new RSVP.Promise(),
+	launch: function() {
+		var me = this;
+		ARSnova.app.configLoaded.then(function () {
+			ARSnova.app.restProxy.getAuthServices({
+				success: function(services) {
+					me.services.resolve(services);
+				},
+				failure: function() {
+					me.services.reject();
+				}
+			});
+		});
+	},
+
+	qr: function(sessionkey, role) {
+		/* Workaround: Currently ARSnova is not designed to support routing after startup */
+		if (this.disableRouting) {
+			console.debug("Route ignored");
+
+			return;
+		}
+		this.disableRouting = true;
+
+		console.debug("Controller: Auth.qr", sessionkey, role);
+		var me = this;
+		ARSnova.app.configLoaded.then(function () {
+			localStorage.setItem(
+				'role', 
+				"lecturer" === role ? ARSnova.app.USER_ROLE_SPEAKER : ARSnova.app.USER_ROLE_STUDENT
+			);
+			localStorage.setItem('keyword', sessionkey);
+			if (!ARSnova.app.checkPreviousLogin()) {
+				me.login();
+			}
+
+			window.location = window.location.pathname + "#";
 		});
 	},
 	
@@ -77,54 +101,36 @@ Ext.define("ARSnova.controller.Auth", {
 	},
 
 	login: function(options) {
-		ARSnova.app.loginMode = options.mode;
-		localStorage.setItem('loginMode', options.mode);
-		var location = "", type = "", role = "STUDENT";
+		console.debug("Controller: Auth.login", options);
+		var serviceId = options && options.service ? options.service.id : "guest";
+		ARSnova.app.loginMode = serviceId;
+		localStorage.setItem('loginMode', serviceId);
+		var location = "", type = "", me = this;
 		
-		switch(options.mode){
-			case ARSnova.app.LOGIN_GUEST:
-				if (localStorage.getItem('login') === null) {
-					localStorage.setItem('login', ARSnova.app.authModel.generateGuestName());
-					type = "guest";
-				} else {
-					type = "guest&user=" + localStorage.getItem('login');
-				}
-				break;
-			case ARSnova.app.LOGIN_THM:
-				type = "cas";
-				break;
-			case ARSnova.app.LOGIN_TWITTER:
-				type = "twitter";
-				break;
-			case ARSnova.app.LOGIN_FACEBOOK:
-				type = "facebook";
-				break;
-			case ARSnova.app.LOGIN_GOOGLE:
-				type = "google";
-				break;
-			case ARSnova.app.LOGIN_OPENID:
-				Ext.Msg.alert("Hinweis", "OpenID ist noch nicht freigeschaltet.");
-				return;
-				break;
-			default:
-				Ext.Msg.alert("Hinweis", options.mode + " wurde nicht gefunden.");
-				return;
-				break;
-		}
-		if (type != "") {
-			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
-				role = "SPEAKER";
+		if (ARSnova.app.LOGIN_GUEST === serviceId){
+			if (localStorage.getItem('login') === null) {
+				localStorage.setItem('login', ARSnova.app.authModel.generateGuestName());
+				type = "guest";
+			} else {
+				type = "guest&user=" + localStorage.getItem('login');
 			}
-			
-			location = "auth/login?type=" + type + "&role=" + role;
-			return this.handleLocationChange(location);
+			location = "auth/login?type=" + type;
+			ARSnova.app.restProxy.absoluteRequest({
+				url: location,
+				success: function() {
+					me.checkLogin();
+					ARSnova.app.afterLogin();
+				}
+			});
+		} else {
+			location = Ext.util.Format.format(options.service.dialogUrl, encodeURIComponent(window.location.pathname));
+			this.handleLocationChange(location);
 		}
-
-		/* actions to perform after login */
-		ARSnova.app.afterLogin();
 	},
 	
 	checkLogin: function(){
+		console.debug("Controller: Auth.checkLogin");
+		var promise = new RSVP.Promise();
 		ARSnova.app.restProxy.absoluteRequest({
 			url: 'whoami.json',
 			success: function(response){
@@ -132,9 +138,34 @@ Ext.define("ARSnova.controller.Auth", {
 				ARSnova.app.loggedIn = true;
 				localStorage.setItem('login', obj.username);
 				window.location = window.location.pathname + "#";
-				ARSnova.app.checkPreviousLogin();
+				if (window.socket) {
+					ARSnova.app.restProxy.connectWebSocket();
+				}
+				promise.resolve();
+			},
+			failure: function (response) {
+				promise.reject();
 			}
 		});
+
+		return promise;
+	},
+
+	restoreLogin: function () {
+		/* Workaround: Currently ARSnova is not designed to support routing after startup */
+		if (this.disableRouting) {
+			console.debug("Route ignored");
+
+			return;
+		}
+		this.disableRouting = true;
+
+		console.debug("Controller: Auth.restoreLogin");
+		ARSnova.app.configLoaded.then(Ext.bind(function () {
+			this.checkLogin().then(function () {
+				ARSnova.app.checkPreviousLogin();
+			});
+		}, this));
 	},
 
     logout: function(){
@@ -162,10 +193,11 @@ Ext.define("ARSnova.controller.Auth", {
 		 * a: to CAS if user is authorized 
 		 * b: to rolePanel if user was guest
 		 * */
-    	if (ARSnova.app.loginMode == ARSnova.app.LOGIN_THM) {
+    	if (ARSnova.app.loginMode == ARSnova.app.LOGIN_CAS) {
     		/* update will be done when returning from CAS */
     		localStorage.removeItem('login');
-    		var location = "auth/logout?url=http://" + window.location.hostname + window.location.pathname + "#auth/doLogout";
+    		var apiPath = ARSnova.app.globalConfig.apiPath;
+    		var location = apiPath + "/auth/logout?url=" + window.location.protocol + "//" + window.location.hostname + window.location.pathname + "#auth/doLogout";
     		this.handleLocationChange(location);
     	} else {
     		ARSnova.app.restProxy.authLogout();

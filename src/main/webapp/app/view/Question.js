@@ -57,11 +57,15 @@ Ext.define('ARSnova.view.Question', {
 		var answerStore = Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
 		answerStore.add(this.questionObj.possibleAnswers);
 		answerStore.each(function(item) {
+			if (ARSnova.app.globalConfig.parseAnswerOptionFormatting) {
 			var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
 			md.setContent(item.get('text'), true, true, function(html) {
 				item.set('formattedText', html.getHtml());
 				md.destroy();
 			});
+			} else {
+				item.set('formattedText', Ext.util.Format.htmlEncode(item.get('text')));
+			}
 		});
 
 		this.on('preparestatisticsbutton', function(button) {

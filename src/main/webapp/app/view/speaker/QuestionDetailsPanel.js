@@ -1055,15 +1055,19 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		}
 	},
 
-  formatAnswerText: function() {
-    this.answerStore.each(function(item) {
-      var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
-      md.setContent(item.get('text'), true, true, function(html) {
-        item.set('formattedText', html.getHtml());
-        md.destroy();
-      });
-    });
-  },
+	formatAnswerText: function() {
+		this.answerStore.each(function(item) {
+			if (ARSnova.app.globalConfig.parseAnswerOptionFormatting) {
+				var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+				md.setContent(item.get('text'), true, true, function(html) {
+					item.set('formattedText', html.getHtml());
+					md.destroy();
+				});
+			} else {
+				item.set('formattedText', Ext.util.Format.htmlEncode(item.get('text')));
+			}
+		});
+	},
 
   addAbstentionAnswer: function() {
     if (this.questionObj.abstention) {

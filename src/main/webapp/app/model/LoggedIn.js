@@ -24,8 +24,22 @@ Ext.define('ARSnova.model.LoggedIn', {
 	config: {
 		proxy: { type: 'restProxy' }
 	},
-	
+
+	activeUserCount: 0,
+
+	constructor: function () {
+		this.callParent(arguments);
+
+		ARSnova.app.socket.addListener("arsnova/socket/activeusercount/update", function (count) {
+			this.activeUserCount = count;
+		}, this);
+	},
+
+	resetActiveUserCount: function () {
+		this.activeUserCount = 0;
+	},
+
 	countActiveUsersBySession: function(sessionKeyword, callbacks){
-		return this.getProxy().countActiveUsersBySession(sessionKeyword, callbacks);
+		return this.activeUserCount;
 	}
 });

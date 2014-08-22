@@ -80,12 +80,14 @@ Ext.application({
     WEBSERVICE_URL	: "app/webservices/",
     PRESENTER_URL	: "/presenter/",
     
-	LOGIN_GUEST		: "0",
-	LOGIN_THM		: "1",
-	LOGIN_OPENID	: "2",
-	LOGIN_TWITTER	: "3",
-	LOGIN_FACEBOOK	: "4",
-	LOGIN_GOOGLE	: "5",
+	LOGIN_GUEST		: "guest",
+	LOGIN_ARSNOVA	: "arsnova",
+	LOGIN_LDAP		: "ldap",
+	LOGIN_CAS		: "cas",
+	LOGIN_OPENID	: "notimplemented",
+	LOGIN_TWITTER	: "twitter",
+	LOGIN_FACEBOOK	: "facebook",
+	LOGIN_GOOGLE	: "google",
 	
 	USER_ROLE_STUDENT: "0",
 	USER_ROLE_SPEAKER: "1",
@@ -129,6 +131,8 @@ Ext.application({
     /* other*/
     cardSwitchDuration: 500,
     socket: null,
+    globalConfig: null,
+    configLoaded: null,
     
     /* tasks */
 	/**
@@ -175,10 +179,13 @@ Ext.application({
     /**
      * This is called automatically when the page loads. Here we set up the main component on the page
      */
+    
     launch: function(){
+		console.info("ARSnova.app.launch");
         // Destroy the #appLoadingIndicator element
         Ext.fly('appLoadingIndicator').destroy();
-        
+		this.configLoaded = new RSVP.Promise();
+	
 		this.checkLocalStorage();
 		this.checkBrowser();
 		
@@ -187,11 +194,22 @@ Ext.application({
 		this.initRestProxy();
 		this.initSocket();
 		this.initModels();
- 
-		this.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
-		
-		/* check previous login */
-		ARSnova.app.getController('Auth').checkLogin();
+
+		var me = this;
+		this.loadGlobalConfig().then(function (globalConfig) {
+			console.debug("Configuration loaded");
+			me.globalConfig = globalConfig;
+			me.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
+			me.configLoaded.resolve();
+		}, function () {
+			console.error("Could not load configuration");
+			Ext.Msg.alert(Messages.NOTIFICATION, Messages.CONNECTION_PROBLEM, function () {
+				setTimeout(function () {
+					location.reload();
+				}, 5000);
+			});
+			me.configLoaded.reject();
+		});
 	},
 
 	/**
@@ -214,12 +232,27 @@ Ext.application({
 	initSocket: function() {
 		this.socket = Ext.create('ARSnova.WebSocket');
 	},
-	
+
+	loadGlobalConfig: function() {
+		var globalConfig = new RSVP.Promise();
+		ARSnova.app.restProxy.getGlobalConfiguration({
+			success: function(config) {
+				globalConfig.resolve(config);
+			},
+			failure: function() {
+				globalConfig.reject();
+			}
+		});
+
+		return globalConfig;
+	},
+
 	/**
 	 * after user has logged in
 	 * start some tasks and show the correct homepage to user
 	 */
 	afterLogin: function(){
+		console.debug("Application: afterLogin");
 		taskManager.start(ARSnova.app.loggedInTask);
 		ARSnova.app.loggedInTask.run(); // fire immediately
 		
@@ -268,6 +301,7 @@ Ext.application({
     },
     
 	checkPreviousLogin: function(){
+		console.debug("Application: checkPreviousLogin");
 		var isLocalStorageUninitialized = localStorage.getItem('role') == null
 									   || localStorage.getItem('loginMode') == null
 									   || localStorage.getItem('login') == null;
@@ -278,6 +312,8 @@ Ext.application({
 		ARSnova.app.userRole = localStorage.getItem('role');
 		ARSnova.app.setWindowTitle();
 		ARSnova.app.afterLogin();
+
+		return true;
 	},
 
 	setWindowTitle: function() {

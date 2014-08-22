@@ -113,11 +113,20 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	 * Connects/reconnects websocket
 	 */
 	connectWebSocket: function() {
+		var promise = new RSVP.Promise();
 		this.arsjax.request({
 			url: "socket/assign",
 			method: "POST",
-			jsonData: { session: socket.socket.sessionid }
+			jsonData: { session: socket.socket.sessionid },
+			success: function () {
+				promise.resolve();
+			},
+			failure: function () {
+				promise.reject();
+			}
 		});
+
+		return promise;
 	},
 
 	/**
@@ -632,6 +641,8 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	},
 
 	postFeedback: function(sessionKeyword, feedbackValue, callbacks) {
+		/* TODO: Remove this method, it has been replaced by a WebSocket solution */
+		console.warn("Deprecated method used for feedback");
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/feedback",
 			method: "POST",
@@ -669,26 +680,29 @@ Ext.define('ARSnova.proxy.RestProxy', {
 
 	/**
 	 * save every minute that i'm online
+	 * replaced by WebSocket solution
+	 * TODO: remove all related code
 	 */
 	loggedInTask: function() {
-		this.arsjax.request({
-			url: "session/" + localStorage.getItem("keyword") + "/online",
-			method: "POST",
-			failure: function() {
-				console.log('server-side error loggedIn.save');
-			}
-		});
+		console.debug("Obsolete method called: RestProxy.loggedInTask");
 	},
 
 	/**
 	 * if user is session owner update that owner of session is logged in
 	 * every 3 minutes
+	 * replaced by WebSocket solution
+	 * TODO: remove all related code
 	 */
 	updateSessionActivityTask: function() {
-		this.loggedInTask();
+		console.debug("Obsolete method called: RestProxy.updateSessionActivityTask");
 	},
 
+	/*
+	 * replaced by WebSocket solution
+	 * TODO: remove all related code
+	 */
 	countActiveUsersBySession: function(sessionKeyword, callbacks) {
+		console.debug("Deprecated method called: RestProxy.countActiveUsersBySession");
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/activeusercount",
 			success: callbacks.success,
@@ -762,6 +776,35 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			url: "session/" + sessionKeyword + "/learningprogress",
 			success: callbacks.success,
 			failure: callbacks.failure
+		});
+	},
+
+	getAuthServices: function(callbacks){
+		this.arsjax.request({
+			url: "auth/services",
+			method: "GET",
+			success: function(response) {
+				var json = response.responseText || "[]";
+				callbacks.success(Ext.decode(json));
+			}
+		});
+	},
+	
+	getGlobalConfiguration: function(callbacks){
+		var configUrl = "arsnova-config";
+		//<debug>
+		configUrl = "configuration/";
+		//</debug>
+		this.arsjax.request({
+			url: configUrl,
+			method: "GET",
+			success: function(response) {
+				var json = response.responseText || "[]";
+				callbacks.success(Ext.decode(json));
+			},
+			failure: function(response) {
+				callbacks.failure(response);
+			}
 		});
 	}
 });

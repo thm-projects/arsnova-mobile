@@ -144,11 +144,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			scrollable: null
 		});
 
-		this.gridQuestion = Ext.create('ARSnova.view.speaker.form.GridQuestion', {
-			id: 'grid',
-			hidden: true
-		});
-
 		this.multipleChoiceQuestion = Ext.create('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			hidden: true
 		});
@@ -172,165 +167,190 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			items: []
 		});
 
-		this.flashcardQuestion = Ext.create('ARSnova.view.speaker.form.FlashcardQuestion', {
-			hidden: true
-		});
+		var formatItems = [
+			{ text: Messages.MC },
+			{ text: Messages.ABCD	},
+			{ text: Messages.YESNO 	},
+			{ text: Messages.FREETEXT },
+			{ text: Messages.EVALUATION },
+			{ text: Messages.SCHOOL }
+		];
 
-		this.questionOptions = Ext.create('Ext.SegmentedButton', {
+		var me = this;
+		var config = ARSnova.app.globalConfig;
+		if (config.features.flashcard) {
+			formatItems.push({text: Messages.FLASHCARD_SHORT});
+			me.flashcardQuestion = Ext.create('ARSnova.view.speaker.form.FlashcardQuestion', {
+				hidden: true
+			});
+		}
+		if (config.features.gridSquare) {
+			formatItems.push({text: Messages.GRID});
+			me.gridQuestion = Ext.create('ARSnova.view.speaker.form.GridQuestion', {
+				id: 'grid',
+				hidden: true
+			});
+		}
+
+		me.questionOptions = Ext.create('Ext.SegmentedButton', {
 	        allowDepress: false,
-	        items: [
-	                { text: Messages.MC },
-	                { text: Messages.ABCD	},
-	                { text: Messages.YESNO 	},
-	                { text: Messages.FREETEXT },
-	                { text: Messages.EVALUATION },
-	                { text: Messages.SCHOOL },
-					{ text: Messages.GRID },
-	                { text: Messages.FLASHCARD_SHORT }
-	        ],
+	        items: formatItems,
 	        listeners: {
-				scope: this,
+				scope: me,
 				toggle: function(container, button, pressed) {
 					var label = Ext.bind(function(longv, shortv) {
 						var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-						return (screenWidth > 320 || this.backButton.isHidden()) ? longv : shortv;
-					}, this);
+						return (screenWidth > 320 || me.backButton.isHidden()) ? longv : shortv;
+					}, me);
 
 					var title = '';
 
 					switch (button.getText()) {
 						case Messages.GRID:
 							if(pressed){
-								this.gridQuestion.show();
+								me.gridQuestion.show();
 								title = label(Messages.QUESTION_GRID, Messages.QUESTION_GRID_SHORT);
 							}else{
-								this.gridQuestion.hide();
+								me.gridQuestion.hide();
 							}
 						break;
 						case Messages.EVALUATION:
 							if (pressed) {
-								this.voteQuestion.show();
+								me.voteQuestion.show();
 								title =  label(Messages.QUESTION_RATING, Messages.QUESTION_RATING_SHORT);
 							} else {
-								this.voteQuestion.hide();
+								me.voteQuestion.hide();
 							}
 							break;
 						case Messages.SCHOOL:
 							if (pressed) {
-								this.schoolQuestion.show();
+								me.schoolQuestion.show();
 								title = label(Messages.QUESTION_GRADE, Messages.QUESTION_GRADE_SHORT);
 							} else {
-								this.schoolQuestion.hide();
+								me.schoolQuestion.hide();
 							}
 							break;
 						case Messages.MC:
 							if (pressed) {
-								this.multipleChoiceQuestion.show();
+								me.multipleChoiceQuestion.show();
 								title = label(Messages.QUESTION_MC, Messages.QUESTION_MC_SHORT);
 							} else {
-								this.multipleChoiceQuestion.hide();
+								me.multipleChoiceQuestion.hide();
 							}
 							break;
 						case Messages.YESNO:
 							if (pressed) {
-								this.yesNoQuestion.show();
+								me.yesNoQuestion.show();
 								title = label(Messages.QUESTION_YESNO, Messages.QUESTION_YESNO);
 							} else {
-								this.yesNoQuestion.hide();
+								me.yesNoQuestion.hide();
 							}
 							break;
 						case Messages.ABCD:
 							if (pressed) {
-								this.abcdQuestion.show();
+								me.abcdQuestion.show();
 								title = label(Messages.QUESTION_SINGLE_CHOICE, Messages.QUESTION_SINGLE_CHOICE_SHORT);
 							} else {
-								this.abcdQuestion.hide();
+								me.abcdQuestion.hide();
 							}
 							break;
 						case Messages.FREETEXT:
 							if (pressed) {
-								this.freetextQuestion.show();
+								me.freetextQuestion.show();
 								title = label(Messages.QUESTION_FREETEXT, Messages.QUESTION_FREETEXT_SHORT);
 							} else {
-								this.freetextQuestion.hide();
+								me.freetextQuestion.hide();
 							}
 							break;
 						case Messages.FLASHCARD_SHORT:
 							if (pressed) {
-								this.flashcardQuestion.show();
-								this.abstentionPart.hide();
+								me.flashcardQuestion.show();
+								me.abstentionPart.hide();
 								title = Messages.FLASHCARD;
 							} else {
-								this.flashcardQuestion.hide();
-								this.abstentionPart.show();
+								me.flashcardQuestion.hide();
+								me.abstentionPart.show();
 							}
 							break;
 						default:
 							title = Messages.NEW_QUESTION_TITLE;
 							break;
 					}
-					this.toolbar.setTitle(title);
+					me.toolbar.setTitle(title);
 	        	}
 	        }
 	    });
 
-		this.toolbar = Ext.create('Ext.Toolbar', {
+		me.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.NEW_QUESTION_TITLE,
 			docked: 'top',
 			ui: 'light',
 			items: [
-		        this.backButton,
+		        me.backButton,
 		        {xtype:'spacer'},
-		        this.saveButtonToolbar
+		        me.saveButtonToolbar
 			]
 		});
 
-		this.saveButton = Ext.create('Ext.Button', {
+		me.saveButton = Ext.create('Ext.Button', {
 			ui: 'confirm',
 			cls: 'saveQuestionButton',
 			style: 'margin-top: 30px',
 			text: Messages.SAVE,
 			handler: function() {
-				this.saveHandler().then(function(response) {
+				me.saveHandler().then(function(response) {
 					ARSnova.app.getController('Questions').details({
 						question: Ext.decode(response.responseText)
 					});
 				});
 			},
-			scope: this
+			scope: me
 		});
 
-		this.saveAndContinueButton = Ext.create('Ext.Button', {
+		me.saveAndContinueButton = Ext.create('Ext.Button', {
 			ui: 'confirm',
 			cls: 'saveQuestionButton',
 			style: 'margin-top: 30px',
 			text: Messages.SAVE_AND_CONTINUE,
 			handler: function() {
-				this.saveHandler().then(function() {
+				me.saveHandler().then(function() {
 					var theNotificationBox = {};
-					theNotificationBox = Ext.create('Ext.MessageBox', {
+					theNotificationBox = Ext.create('Ext.Panel', {
+						cls: 'notificationBox',
+						name: 'notificationBox',
+						showAnimation: 'pop',
+						modal: true,
+						centered: true,
 						width: 300,
 						styleHtmlContent: true,
 						styleHtmlCls: 'notificationBoxText',
-						html: Messages.QUESTION_SAVED,
-						listeners: {
-							show: function() {
-								Ext.defer(function(){
-									theNotificationBox.hide();
-								}, 3000);
-							}
-						}
+						html: Messages.QUESTION_SAVED
+//						listeners: {
+//							hide: function() {
+//								me.destroy();
+//							},
+//							show: function() {
+//								Ext.defer(function(){
+//									theNotificationBox.hide();
+//								}, 3000);
+//							}
+//						}
 					});
 					Ext.Viewport.add(theNotificationBox);
 					theNotificationBox.show();
+
+					/* Workaround for Chrome 34+ */
+					Ext.defer(function() {
+						theNotificationBox.destroy();
+					}, 3000);
 				}).then(Ext.bind(function(response) {
-					this.getScrollable().getScroller().scrollTo(0, 0, true);
-				}, this));
+					me.getScrollable().getScroller().scrollTo(0, 0, true);
+				}, me));
 			},
-			scope: this
+			scope: me
 		});
 
-		this.add([this.toolbar,
+		me.add([me.toolbar,
 			Ext.create('Ext.Toolbar', {
 				cls: 'noBackground noBorder',
 				docked: 'top',
@@ -341,32 +361,37 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				items: [{
 						xtype: 'spacer'
 					},
-					this.questionOptions,
+					me.questionOptions,
 					{
 						xtype: 'spacer'
 					}
 				]
 			}),
-			this.mainPart,
-			this.previewPart,
+			me.mainPart,
+			me.previewPart,
 			/* only one of the question types will be shown at the same time */
-			this.voteQuestion,
-			this.multipleChoiceQuestion,
-			this.yesNoQuestion,
-			this.schoolQuestion,
-			this.abcdQuestion,
-			this.freetextQuestion,
-			this.flashcardQuestion,
-			this.gridQuestion,
+			me.voteQuestion,
+			me.multipleChoiceQuestion,
+			me.yesNoQuestion,
+			me.schoolQuestion,
+			me.abcdQuestion,
+			me.freetextQuestion,
 
-			this.abstentionPart,
-			this.releasePart,
+			me.abstentionPart,
+			me.releasePart,
 
-			this.saveButton,
-			this.saveAndContinueButton
+			me.saveButton,
+			me.saveAndContinueButton
 		]);
 
-		this.on('activate', this.onActivate);
+		if (me.flashcardQuestion) {
+			me.add(me.flashcardQuestion);
+		}
+		if (me.gridQuestion) {
+			me.add(me.gridQuestion);
+		}
+
+		me.on('activate', me.onActivate);
 	},
 
 	onActivate: function() {

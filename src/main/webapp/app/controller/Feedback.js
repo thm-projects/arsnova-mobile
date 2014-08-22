@@ -62,25 +62,19 @@ Ext.define("ARSnova.controller.Feedback", {
 				return;
 		}
 		
-		ARSnova.app.feedbackModel.postFeedback(localStorage.getItem("keyword"), feedbackValue, {
-			success: function(response) {
-				localStorage.setItem('user has voted', 1);
-				var feedbackButton = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.feedbackButton;
-				
-				feedbackButton.setBadge([{ 
-					badgeText: "0", 
-					badgeCls: 'badgeicon feedback' + feedbackCls 
-				}]);
-				
-				var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
-				fP.animateActiveItem(fP.statisticPanel, {
-					type		: 'slide',
-					direction	: 'up'
-				});
-			},
-			failure: function(){
-				console.log('server-side error feedback save');
-			}
+		ARSnova.app.feedbackModel.postFeedback(feedbackValue);
+		localStorage.setItem('user has voted', 1);
+		var feedbackButton = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.feedbackButton;
+		
+		feedbackButton.setBadge([{ 
+			badgeText: "0", 
+			badgeCls: 'badgeicon feedback' + feedbackCls 
+		}]);
+		
+		var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
+		fP.animateActiveItem(fP.statisticPanel, {
+			type		: 'slide',
+			direction	: 'up'
 		});
 	},
 	

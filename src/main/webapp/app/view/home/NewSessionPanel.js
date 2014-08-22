@@ -58,6 +58,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 						? '<span class="course">{fullname:htmlEncode}<span>'
 						: '<span class="course">{shortname:htmlEncode}<span>',
 			listeners: {
+				scope: this,
 				itemtap: Ext.bind(this.onCourseSubmit, this),
 
 				/**
@@ -174,7 +175,14 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 	},
 
 	getMyCourses: function() {
-		if (ARSnova.app.loginMode != ARSnova.app.LOGIN_THM) return;
+		/* only allow auth services with fixed user names */
+		var allowedAuthServices = [
+			ARSnova.app.LOGIN_LDAP,
+			ARSnova.app.LOGIN_CAS
+		];
+		if (-1 === allowedAuthServices.indexOf(ARSnova.app.loginMode)) {
+			return;
+		}
 		var newSessionPanel = this;
 		ARSnova.app.courseModel.getMyCourses({
 			success: Ext.bind(function(response) {

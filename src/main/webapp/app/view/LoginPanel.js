@@ -38,7 +38,9 @@ Ext.define('ARSnova.view.LoginPanel', {
 
 	initialize: function() {
 		this.callParent(arguments);
-
+		var me = this;
+		
+		
 		this.arsLogo = {
 				xtype	: 'panel',
 				cls		: null,
@@ -53,96 +55,16 @@ Ext.define('ARSnova.view.LoginPanel', {
 				};
 		}
 
-		this.buttonPanelTop = Ext.create('Ext.Panel', {
-			xtype	: 'container',
-			layout	: {
-				type: 'hbox',
-				pack: 'center'
-			},
-			items	: [
-				{
-					xtype	: 'matrixbutton',
-					text: Messages.GUEST,
-					value: ARSnova.app.LOGIN_GUEST,
-					image: "btn_guest",
-					handler	: function(b) {
-						if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-							Ext.Msg.confirm(Messages.GUEST_LOGIN, Messages.CONFIRM_GUEST_SPEAKER, function(answer) {
-								if ('yes' === answer) {
-									ARSnova.app.getController('Auth').login({
-										mode: b.config.value
-									});
-								}
-							});
-						} else {
-							ARSnova.app.getController('Auth').login({
-								mode: b.config.value
-							});
-						}
-					}
-				},
-				{
-					xtype	: 'matrixbutton',
-					text: Messages.UNI,
-					value: ARSnova.app.LOGIN_THM,
-					image: "btn_uni",
-					handler	: function(b) {
-						Ext.Msg.confirm(Messages.UNI_LOGIN_MSG, Messages.UNI_LOGIN_MSG_TEXT, function(answer) {
-							if ('yes' === answer) {
-								ARSnova.app.getController('Auth').login({
-									mode: b.config.value
-								});
-							}
-						});
-					},
-					style: "margin-left:20px"
-				}
-			]
-		});
-
-		this.buttonPanelBottom = Ext.create('Ext.Panel', {
-			xtype	: 'container',
-			layout	: {
-				type: 'hbox',
-				pack: 'center'
-			},
-			items	: [
-				{
-					xtype	: 'matrixbutton',
-					text: 'Google',
-					value: ARSnova.app.LOGIN_GOOGLE,
-					image: "btn_google",
-					handler	: function(b) {
-						ARSnova.app.getController('Auth').login({
-							mode: b.config.value
-						});
-					}
-				},
-				{
-					xtype	: 'matrixbutton',
-					text: 'Facebook',
-					value	: ARSnova.app.LOGIN_FACEBOOK,
-					image: "btn_facebook",
-					handler	: function(b) {
-						ARSnova.app.getController('Auth').login({
-							mode: b.config.value
-						});
-					},
-					style: "margin-left:20px"
-				}
-			]
-		});
-
-		this.add([{
+		me.add([{
 			xtype	: 'toolbar',
 			docked	: 'top',
 			ui		: 'light',
 			title	: 'Login',
 			cls		: null,
 			items: [{
-			   text: Messages.BACK_TO_ROLEPANEL,
-			   ui: 'back',
-			   handler: function(){
+				text: Messages.BACK_TO_ROLEPANEL,
+				ui: 'back',
+				handler: function(){
 					ARSnova.app.userRole = "";
 					ARSnova.app.setWindowTitle();
 
@@ -152,11 +74,73 @@ Ext.define('ARSnova.view.LoginPanel', {
 						duration: 500
 					});
 				}
-			}]
-		},
-		this.arsLogo,
-		this.buttonPanelTop,
-		this.buttonPanelBottom
+			}]},
+			me.arsLogo
 		]);
+
+		var config = ARSnova.app.globalConfig;
+		ARSnova.app.getController('Auth').services.then(function(services) {
+			var i, buttonPanels = [], button, items = [], service, imagePath = "", imageSrc;
+			if (config.customizationPath) {
+				imagePath = config.customizationPath + "/images/";
+			}
+			services.sort(function (a, b) {
+				if (a.order > 0 && (a.order < b.order || b.order <= 0)) {
+					return -1;
+				}
+				if (b.order > 0 && (a.order > b.order || a.order <= 0)) {
+					return 1;
+				}
+
+				return 0;
+			});
+			for (i = 0; i < services.length; i++) {
+				service = services[i];
+				imageSrc = service.image ? imagePath + service.image : "btn_" + service.id;
+				button = {
+					xtype : 'matrixbutton',
+					text: "guest" === service.id ? Messages.GUEST : service.name,
+					value: service,
+					image: imageSrc,
+					handler: function(b) {
+						var service = b.config.value;
+						if ("guest" === service.id && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+							Ext.Msg.confirm(Messages.GUEST_LOGIN, Messages.CONFIRM_GUEST_SPEAKER, function(answer) {
+								if ('yes' === answer) {
+									ARSnova.app.getController('Auth').login({
+										service: service
+									});
+								}
+							});
+						} else {
+							ARSnova.app.getController('Auth').login({
+								service: service
+							});
+						}
+					}
+				};
+				if (i % 2 === 1) {
+					button.style = "margin-left: 20px";
+				}
+				items.push(button);
+				if (i % 2 === 1 || i === services.length - 1) {
+					buttonPanels.push(
+						Ext.create('Ext.Panel', {
+							xtype: 'container',
+							layout: {
+								type: 'hbox',
+								pack: 'center'
+							},
+							items: items
+						})
+					);
+					items = [];
+				}
+			}
+
+			buttonPanels.forEach(function (buttonPanel) {
+				me.add(buttonPanel);
+			});
+		});
 	}
 });

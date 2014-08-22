@@ -42,13 +42,13 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		this.selectAnswerCount = Ext.create('Ext.field.Spinner', {
 			label	: Messages.COUNT,
 			minValue: this.getMinAnswers(),
-			maxValue: this.getMaxAnswers(),
+			maxValue: ARSnova.app.globalConfig.answerOptionLimit,
 			stepValue: this.getStep(),
 			value: this.getStart(),
 			listeners: {
 				scope: this,
 				spin: function(selectField, value) {
-					for (var i=0; i < this.getMaxAnswers(); i++) {
+					for (var i=0; i < ARSnova.app.globalConfig.answerOptionLimit; i++) {
 						this.answerComponents[i].setHidden(i >= value);
 						this.questionValueComponents[i].setHidden(i >= value);
 					}
@@ -79,12 +79,16 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		var answerOptions = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			submitOnAction: false,
-			items: [answerFieldset, previewButton]
+			items: [answerFieldset]
 		});
+
+		if (ARSnova.app.globalConfig.parseAnswerOptionFormatting) {
+			answerOptions.add(previewButton);
+		}
 
 		var answerOptionEntryId = Ext.id();
 
-		for (var i=0; i < this.getMaxAnswers(); i++) {
+		for (var i=0; i < ARSnova.app.globalConfig.answerOptionLimit; i++) {
 			(function (i) {
 				var theComponentId = answerOptionEntryId + "-" + i;
 				this.answerComponents[i] = Ext.create('ARSnova.view.TextCheckfield', {
@@ -180,7 +184,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 
 	initWithQuestion: function(question) {
 		var possibleAnswers = question.possibleAnswers;
-		if (possibleAnswers.length < this.getMinAnswers() || possibleAnswers.length > this.getMaxAnswers()) {
+		if (possibleAnswers.length < this.getMinAnswers() || possibleAnswers.length > ARSnova.app.globalConfig.answerOptionLimit) {
 			return;
 		}
 		this.initSpinnerField(possibleAnswers.length);

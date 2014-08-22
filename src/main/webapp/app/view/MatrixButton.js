@@ -33,8 +33,12 @@ Ext.define('ARSnova.view.MatrixButton', {
 				var buttonText = parent.select(".buttonText").elements;
 				var retina = window.devicePixelRatio >= 2;
 
-				var imagefile = "resources/images/" + this.getImage() + ".png";
-				var imagefile2x = "resources/images/" + this.getImage() + "@2x.png";
+				var imagefile = this.getImage() + ".png";
+				var imagefile2x = this.getImage() + "@2x.png";
+				if (this.getImage().indexOf("/") !== 0) {
+					imagefile = "resources/images/" + imagefile;
+					imagefile2x = "resources/images/" + imagefile2x;
+				}
 				var promise = new RSVP.Promise();
 				if (retina) {
 					var img = new Image();
