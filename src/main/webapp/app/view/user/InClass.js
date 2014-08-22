@@ -162,12 +162,23 @@ Ext.define('ARSnova.view.user.InClass', {
 			handler		: comingSoon
 		});
 
-		this.myLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			ui			: 'normal',
-			text		: Messages.MY_LEARNING_PROGRESS,
-			cls			: 'answerListButton',
-			badgeCls	: 'badgeicon'
-		});
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			this.myLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+				ui			: 'normal',
+				text		: Messages.MY_LEARNING_PROGRESS,
+				cls			: 'answerListButton',
+				badgeCls	: 'badgeicon'
+			});
+		}
+		
+		var buttons = [
+			this.feedbackButton,
+			this.lectureQuestionButton,
+			this.preparationQuestionButton
+		];
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			buttons.push(this.myLearningProgressButton);
+		}
 
 		this.inClass = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
@@ -178,13 +189,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				xtype: 'formpanel',
 				cls	 : 'standardForm topPadding',
 				scrollable: null,
-
-				items: [
-						this.feedbackButton,
-						this.lectureQuestionButton,
-						this.preparationQuestionButton,
-						this.myLearningProgressButton
-					]
+				items: buttons
 			}]
 		});
 
@@ -209,7 +214,9 @@ Ext.define('ARSnova.view.user.InClass', {
 		taskManager.start(panel.checkFeedbackRemovedTask);
 		taskManager.start(panel.countActiveUsersTask);
 		taskManager.start(panel.checkSessionStatusTask);
-		taskManager.start(panel.checkLearningProgressTask);
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			taskManager.start(panel.checkLearningProgressTask);
+		}
 	},
 
 	/* will be called whenever panel is shown */
@@ -219,7 +226,9 @@ Ext.define('ARSnova.view.user.InClass', {
 		this.checkFeedbackRemovedTask.taskRunTime = 0;
 		this.countActiveUsersTask.taskRunTime = 0;
 		this.checkSessionStatusTask.taskRunTime = 0;
-		this.checkLearningProgressTask.taskRunTime = 0;
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			this.checkLearningProgressTask.taskRunTime = 0;
+		}
 	},
 
 	/* will be called on session logout */
@@ -229,7 +238,9 @@ Ext.define('ARSnova.view.user.InClass', {
 		taskManager.stop(panel.checkFeedbackRemovedTask);
 		taskManager.stop(panel.countActiveUsersTask);
 		taskManager.stop(panel.checkSessionStatusTask);
-		taskManager.stop(panel.checkLearningProgressTask);
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			taskManager.stop(panel.checkLearningProgressTask);
+		}
 	},
 
 	/**

@@ -273,31 +273,32 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				}]
 			} ]
 		});
-		
-		
-		this.questionValueFieldset = Ext.create('Ext.form.FieldSet', {
-			title: Messages.ANSWER_POINTS,
-			hidden: true
-		});
 
-		var questionValueOptions = {
-			minValue: -10,
-			maxValue: 10,
-			value: 0,
-			increment: 1
-		};
-		
-		this.ValueOfCorrectAnswers=Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
-			label: Messages.GRID_LABEL_THRESHOLD_CORRECT_ANSWERS
-		}));
-		
-		this.correctValueComponent = Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
-			label: Messages.ANSWER_POINTS_CORRECT
-		}));
-		this.incorrectValueComponent = Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
-			label: Messages.ANSWER_POINTS_INCORRECT
-		}));
-		this.questionValueFieldset.add([this.correctValueComponent, this.incorrectValueComponent,this.ValueOfCorrectAnswers]);
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			this.questionValueFieldset = Ext.create('Ext.form.FieldSet', {
+				title: Messages.ANSWER_POINTS,
+				hidden: true
+			});
+
+			var questionValueOptions = {
+				minValue: -10,
+				maxValue: 10,
+				value: 0,
+				increment: 1
+			};
+
+			this.ValueOfCorrectAnswers=Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
+				label: Messages.GRID_LABEL_THRESHOLD_CORRECT_ANSWERS
+			}));
+
+			this.correctValueComponent = Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
+				label: Messages.ANSWER_POINTS_CORRECT
+			}));
+			this.incorrectValueComponent = Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
+				label: Messages.ANSWER_POINTS_INCORRECT
+			}));
+			this.questionValueFieldset.add([this.correctValueComponent, this.incorrectValueComponent,this.ValueOfCorrectAnswers]);
+		}
 
 		this.zoomSpinner = Ext.create('Ext.field.Spinner', {
 			xtype : 'spinnerfield',
@@ -384,13 +385,18 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			}]
 		});
 
+		var panelItems = [
+			this.imageSettings,
+			this.answers
+		];
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			panelItems.push(this.questionValueFieldset);
+		}
 		this.imageCnt = Ext.create('Ext.form.FormPanel', {
 			scrollable : null,
 			id : 'imageControle',
 			hidden : true,
-			items : [ this.imageSettings,
-				         this.answers,
-				         this.questionValueFieldset ]
+			items : panelItems
 		});
 
 
@@ -421,35 +427,43 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 		        }
 		};
-						
-		//this.correctValueComponent.setListeners(thresholdAnswers);
-		this.ValueOfCorrectAnswers.setListeners(thresholdAnswers);
-		
+
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			//this.correctValueComponent.setListeners(thresholdAnswers);
+			this.ValueOfCorrectAnswers.setListeners(thresholdAnswers);
+		}
+
 		// update answers counter
 		this.grid.setOnFieldClick(function(answerValue) {
-			me.ValueOfCorrectAnswers.setMaxValue(me.correctValueComponent.getMaxValue() *me.grid.getChosenFields().length);
-        	me.ValueOfCorrectAnswers.setMinValue(me.incorrectValueComponent.getMinValue() * me.grid.getChosenFields().length);   
-        	me.ValueOfCorrectAnswers.setSliderValue(me.correctValueComponent.getMaxValue() * me.grid.getChosenFields().length);
-        	
 			me.answers.getComponent('fs_answers').getComponent('tf_answers').setValue(answerValue);
-			if (!me.reset && answerValue > 0) {
-				me.reset = true;
-				me.questionValueFieldset.setHidden(false);
-				me.correctValueComponent.setSliderValue(me.correctValueComponent.getMaxValue());
-				me.incorrectValueComponent.setSliderValue(me.correctValueComponent.getMinValue());
-			} else if (answerValue === 0) {
-				me.reset = false;
-				me.questionValueFieldset.setHidden(true);
-				me.correctValueComponent.reset();
-				me.incorrectValueComponent.reset();
+
+			if (ARSnova.app.globalConfig.features.learningProgress) {
+				me.ValueOfCorrectAnswers.setMaxValue(me.correctValueComponent.getMaxValue() *me.grid.getChosenFields().length);
+				me.ValueOfCorrectAnswers.setMinValue(me.incorrectValueComponent.getMinValue() * me.grid.getChosenFields().length);   
+				me.ValueOfCorrectAnswers.setSliderValue(me.correctValueComponent.getMaxValue() * me.grid.getChosenFields().length);
+	
+				if (!me.reset && answerValue > 0) {
+					me.reset = true;
+					me.questionValueFieldset.setHidden(false);
+					me.correctValueComponent.setSliderValue(me.correctValueComponent.getMaxValue());
+					me.incorrectValueComponent.setSliderValue(me.correctValueComponent.getMinValue());
+				} else if (answerValue === 0) {
+					me.reset = false;
+					me.questionValueFieldset.setHidden(true);
+					me.correctValueComponent.reset();
+					me.incorrectValueComponent.reset();
+				}
 			}
 		});
 
 		this.add([
-          this.imageArea,
-          this.uploadView,
-          this.imageCnt,
-          this.questionValueFieldset]);
+			this.imageArea,
+			this.uploadView,
+			this.imageCnt
+		]);
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			this.add([this.questionValueFieldset]);
+		}
 	},
 
 	/**
@@ -501,7 +515,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.imageArea.hide();
 		this.imageCnt.hide();
 		this.uploadView.show();
-		this.questionValueFieldset.setHidden(true);
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			this.questionValueFieldset.setHidden(true);
+		}
 	},
 
 	/**
@@ -534,13 +550,15 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		var result = {};
 
 		var possibleAnswers = this.grid.getPossibleAnswersFromChosenFields();
-		possibleAnswers.forEach(function(answer) {
-			if (answer.correct) {
-				answer.value = this.correctValueComponent.getSliderValue();
-			} else {
-				answer.value = this.incorrectValueComponent.getSliderValue();
-			}
-		}, this);
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			possibleAnswers.forEach(function(answer) {
+				if (answer.correct) {
+					answer.value = this.correctValueComponent.getSliderValue();
+				} else {
+					answer.value = this.incorrectValueComponent.getSliderValue();
+				}
+			}, this);
+		}
 
 		// get image data
 		if (this.grid.getImageFile()) {
@@ -595,17 +613,18 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				question.possibleAnswers, true);
 
 		answerField.setValue(this.grid.getChosenFields().length);		//set the spinner with correct values (last storage)
-		this.questionValueFieldset.setHidden(this.grid.getChosenFields().length === 0);
-		this.incorrectValueComponent.setSliderValue(minValue);
-		this.correctValueComponent.setSliderValue(maxValue);
 		this.zoomSpinner.setValue(Math.round(this.grid.getScale()*100));
 		this.gridXSpinner.setValue(this.grid.getGridSizeX());
 		this.gridYSpinner.setValue(this.grid.getGridSizeY());
 		this.deleteButton.setHidden(true);	//disable delete button in edit mode
 		this.toggleAnswers.setValue(this.grid.getToggleFieldsLeft());
-		this.ValueOfCorrectAnswers.setMaxValue(this.correctValueComponent.getMaxValue() *this.grid.getChosenFields().length);
-    	this.ValueOfCorrectAnswers.setMinValue(this.incorrectValueComponent.getMinValue() * this.grid.getChosenFields().length);   
-    	this.ValueOfCorrectAnswers.setSliderValue(this.grid.getThresholdCorrectAnswers());
-		
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			this.questionValueFieldset.setHidden(this.grid.getChosenFields().length === 0);
+			this.incorrectValueComponent.setSliderValue(minValue);
+			this.correctValueComponent.setSliderValue(maxValue);
+			this.ValueOfCorrectAnswers.setMaxValue(this.correctValueComponent.getMaxValue() *this.grid.getChosenFields().length);
+			this.ValueOfCorrectAnswers.setMinValue(this.incorrectValueComponent.getMinValue() * this.grid.getChosenFields().length);   
+			this.ValueOfCorrectAnswers.setSliderValue(this.grid.getThresholdCorrectAnswers());
+		}
 	}
 });
