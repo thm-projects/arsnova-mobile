@@ -142,7 +142,7 @@
             "lib/moment.de.js",
             "lib/moment.min.js",
             "lib/rsvp.min.js",
-            "lib/socket.io/socket.io.min.js",
+            "lib/socket.io.min.js",
 
             /* resources */
             "resources/css/app.css",
@@ -185,7 +185,7 @@
         "resources/icons",
         "resources/startup",
         "favicon.png",
-        "lib/socket.io/socket.io.min.js",
+        "lib/socket.io.min.js",
         "WEB-INF"
     ],
 
