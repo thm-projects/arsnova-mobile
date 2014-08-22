@@ -854,6 +854,14 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			});
 			this.answerFormFieldset.add(this.gridStatistic);
 			this.getQuestionAnswers();
+		} else if (this.questionObj.image) {
+			this.grid = Ext.create('ARSnova.view.components.GridContainer', {
+				id: 'gridContainer' + this.questionObj._id,
+				editable: false,
+				gridIsHidden: true
+			});
+			this.grid.setImage(this.questionObj.image);
+			this.answerFormFieldset.add(this.grid);
 		}
 	},
 

@@ -25,7 +25,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	           'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
 	           'ARSnova.view.speaker.form.FlashcardQuestion', 'ARSnova.view.speaker.form.SchoolQuestion',
 	           'ARSnova.view.speaker.form.VoteQuestion', 'ARSnova.view.speaker.form.YesNoQuestion',
-	           'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.GridQuestion'],
+	           'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.GridQuestion',
+	           'ARSnova.view.speaker.form.ImageUploadPanel'],
 
 	config: {
 		title: 'NewQuestionPanel',
@@ -46,6 +47,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	text: null,
 	subject: null,
 	duration: null,
+	image: null,
 
 	/* for estudy */
 	userCourses: [],
@@ -127,6 +129,19 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		});
 
 		this.abstentionPart = Ext.create('ARSnova.view.speaker.form.AbstentionForm');
+
+		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
+			handlerScope: this,
+			urlUploadHandler: this.setImage,
+			fsUploadHandler: this.setImage
+		});
+
+		this.grid = Ext.create('ARSnova.view.components.GridContainer', {
+			editable: false,
+			gridIsHidden: true,
+			hidden: true,
+			style: "padding-top: 10px;"
+		});
 
 		this.releasePart = Ext.create('Ext.Panel', {
 			items: [
@@ -210,8 +225,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							if(pressed){
 								me.gridQuestion.show();
 								title = label(Messages.QUESTION_GRID, Messages.QUESTION_GRID_SHORT);
+								this.uploadView.hide();
+								this.grid.hide();
 							}else{
 								me.gridQuestion.hide();
+								this.uploadView.show();
+								this.grid.show();
 							}
 						break;
 						case Messages.EVALUATION:
@@ -378,7 +397,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			me.freetextQuestion,
 
 			me.abstentionPart,
-			me.releasePart,
+			this.uploadView,
+			this.grid,
+			this.releasePart,
 
 			me.saveButton,
 			me.saveAndContinueButton
@@ -416,6 +437,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		values.subject = mainPartValues.subject;
 		values.abstention = !panel.abstentionPart.isHidden() && panel.abstentionPart.getAbstention();
 		values.questionVariant = panel.getVariant();
+		values.image = this.image;
 
 		if (localStorage.getItem('courseId') != null && localStorage.getItem('courseId').length > 0) {
 			values.releasedFor = 'courses';
@@ -480,6 +502,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	    			panel.gridQuestion.resetView();
 	    		break;
 	    		default:
+					panel.setImage(null);
 					break;
 			}
 
@@ -528,5 +551,15 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			}
 		});
 		return promise;
+	},
+	
+	setImage: function (image) {
+		this.image = image;
+		this.grid.setImage(image);
+		if (image) {
+			this.grid.show();
+		} else {
+			this.grid.hide();
+		}
 	}
 });
