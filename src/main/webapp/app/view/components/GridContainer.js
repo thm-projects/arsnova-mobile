@@ -21,13 +21,14 @@ Ext.define('ARSnova.view.components.GridContainer', {
     xtype: 'canvas',
 
 	config : {
-		gridSize 				 : 5,			// Sqrt of the gridcount
+		gridSize 				 : 16,			// Sqrt of the gridcount
 		canvasSize 				 : 400,			// Size of the canvas element (width and height).
+		initCanvasSize			 : 400,			// Should be same as canvasSize; for later reference.
 		canvas 				 	 : null, 		// The canvas element.
 		imageFile 				 : null,		// The image file.
 		gridLineWidth		 	 : 1,			// Width of the grid lines.
 		chosenFields 			 : Array(),
-		highlightColor 			 : '#C0FFEE',	// Color of highlighted fields.
+		highlightColor 			 : '#FFFF00',	// Color of highlighted fields.
 		curGridLineColor		 : '#000000',	// Current color of the grid lines.
 		gridLineColor 			 : '#000000',	// Default color of the grid lines.
 		alternativeGridLineColor : '#FFFFFF',	// Alternative color of the grid lines.
@@ -47,14 +48,16 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		gridOffsetX 			 : 0,			// current x offset for grid start point
 		gridOffsetY 			 : 0,			// current y offset for grid start point
 		gridZoomLvl 			 : 0,			// zoom level for grid (defines size of grid fields)
-		gridSizeX 				 : 5,			// number of horizontal grid fields
-		gridSizeY 				 : 5,			// number of vertical grid fields
+		gridSizeX 				 : 16,			// number of horizontal grid fields
+		gridSizeY 				 : 16,			// number of vertical grid fields
 		gridIsHidden 			 : false,      	// flag for visual hiding of the grid
 		gridScale				 : 1.0,			// Current scale for the grid.
 		imgRotation				 : 0,			// Current rotation for the image.
 		toggleFieldsLeft		 : false,		// toggle the number of clickable fields. true: all fields are clickable, false: only the number of fields the lecturer has selected are clickable
 		numClickableFields		 : 0,			// number of clickable fields the lecturer has chosen
 		thresholdCorrectAnswers	 : 0,			// the points needed to answer the question correct
+		cvBackgroundColor		 : '#FFFFFF',	// background color of the canvas element
+		cvIsColored				 : false,		// true if the canvas background is colored (cvBackgroundColor), false otherwise. This way older questions without this attribute should still have a transparent background
 	},
 
 	/**
@@ -77,6 +80,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		canvas.height = this.getCanvasSize();
 		canvas.style.display = 'block';
 		canvas.style.margin = '0 auto';
+		
 		canvas.addEventListener("mouseup", this.onclick, false);
 		canvas.parentContainer = this;
 		this.setCanvas(canvas);
@@ -87,6 +91,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			html : canvas
 		};
 
+		//this.initGridZoom();
+		
 		this.add([ this.image ]);
 	},
 
@@ -107,7 +113,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var ctx = this.getCanvas().getContext('2d');
 		// save context
 		ctx.save();
-
 
 		ctx.clearRect(0, 0, this.getCanvas().width, this.getCanvas().height);
 
@@ -173,10 +178,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var canvas = this.getCanvas();
 
 		x -= canvas.getBoundingClientRect().left;
-		x -= this.getGridOffsetX();
+		x -= this.getRelativeLength(this.getGridOffsetX(), false);
 		
 		y -= canvas.getBoundingClientRect().top;
-		y -= this.getGridOffsetY();
+		y -= this.getRelativeLength(this.getGridOffsetY(), false);
 		
 		if(x < 0 || y < 0){
 			return null;
@@ -202,8 +207,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var x1 = x * this.getFieldSize() +  this.getGridLineWidth();
 		var y1 = y * this.getFieldSize() +  this.getGridLineWidth();
 
-		x1 += this.getGridOffsetX();
-		y1 += this.getGridOffsetY();
+		x1 += this.getRelativeLength(this.getGridOffsetX(), false);
+		y1 += this.getRelativeLength(this.getGridOffsetY(), false);
 		
 		return new Array(x1, y1);
 	},
@@ -226,12 +231,22 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	getRelativeCanvasSize : function() {
 		return this.getCanvasSize() * this.getGridScale();
 	},
+	
+	/**
+	 * Converts a length to a canvas relative length. This function is needed due to
+	 * the fact, that on small displays the canvas itself is displayed smaller.
+	 * The usage of this function ensures correct positioning.
+	 */
+	getRelativeLength : function(n, reverse) {
+		var f = reverse ? (this.getInitCanvasSize() / this.getCanvasSize()) : (this.getCanvasSize() / this.getInitCanvasSize());
+		return n * f;
+	},
 
 	/**
 	 * Draws the grid in the canvas element.
 	 */
 	createGrid : function() {
-		
+
 		if((this.getGridSizeX() * this.getGridSizeY()) == 0)
 			return;
 		
@@ -244,13 +259,21 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		
 		// all horizontal lines
 		for (var i  = 0; i <= this.getGridSizeY(); i++){
-			ctx.fillRect(this.getGridOffsetX(), this.getGridOffsetY()  + i * fieldsize, fieldsize * this.getGridSizeX(), this.getGridLineWidth());
+			ctx.fillRect(
+					this.getRelativeLength(this.getGridOffsetX(), false), 
+					this.getRelativeLength(this.getGridOffsetY(), false)  + i * fieldsize, 
+					fieldsize * this.getGridSizeX(), 
+					this.getGridLineWidth());
 		}
 
 		
 		// all vertical lines
 		for (var i = 0; i <= this.getGridSizeX(); i++){
-			ctx.fillRect(this.getGridOffsetX() + i * fieldsize, this.getGridOffsetY(), this.getGridLineWidth(), fieldsize * this.getGridSizeY() )
+			ctx.fillRect(
+					this.getRelativeLength(this.getGridOffsetX(), false) + i * fieldsize, 
+					this.getRelativeLength(this.getGridOffsetY(), false), 
+					this.getGridLineWidth(), 
+					fieldsize * this.getGridSizeY() );
 		}
 		
 	},
@@ -397,7 +420,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	update : function(gridSize, offsetX, offsetY, zoomLvl, gridOffsetX, gridOffsetY, gridZoomLvl, 
 						gridSizeX, gridSizeY, gridIsHidden, imgRotation, toggleFieldsLeft, 
-						numClickableFields, thresholdCorrectAnswers, possibleAnswers, mark) {
+						numClickableFields, thresholdCorrectAnswers, cvIsColored, possibleAnswers, mark) {
+		
+		
 		this.setGridSize(gridSize);
 		this.setOffsetX(offsetX);
 		this.setOffsetY(offsetY);
@@ -412,6 +437,34 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setToggleFieldsLeft(toggleFieldsLeft);
 		this.setNumClickableFields(numClickableFields);
 		this.setThresholdCorrectAnswers(thresholdCorrectAnswers);
+		this.setCvIsColored(cvIsColored);
+		
+		
+		//converting from old version 
+		if(gridSize != undefined && gridSize > 0){
+			
+			if(gridSizeX === undefined || gridSizeX === 0){
+				this.setGridSizeX(gridSize);
+			}
+			
+			if(gridSizeY === undefined || gridSizeY === 0){
+				this.setGridSizeY(gridSize);
+			}
+			
+		}
+		
+		if(this.getGridOffsetX() === undefined){
+			this.setGridOffsetX(0);
+		}
+		
+		if(this.getGridOffsetY() === undefined){
+			this.setGridOffsetY(0);
+		}
+		
+
+		// change background color itself if necessary
+		this.colorBackground();
+		
 		
 		if (mark) {
 			this.getChosenFieldsFromPossibleAnswers(possibleAnswers);
@@ -469,6 +522,21 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	moveDown : function() {
 		this.setOffsetY(this.getOffsetY() + this.getMoveInterval() / this.getScale());
 		this.redraw();
+	},
+	
+	/**
+	 * Toggles the background of the canvas element.
+	 */
+	toggleCvBackground : function(colored) {
+		this.setCvIsColored(colored);
+		this.colorBackground();
+	},
+	
+	colorBackground : function() {
+		if (this.getCvIsColored())
+			this.getCanvas().style.backgroundColor = this.getCvBackgroundColor();
+		else
+			this.getCanvas().style.backgroundColor = 'transparent';
 	},
 
 	/**
@@ -558,8 +626,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setGridScale(this.getGridScale() * this.getScaleFactor());
 		// TODO Zoom muss noch zentriert werden
 		
-		// now redraw the grid
-		//this.redrawGrid();
 		this.redraw();
 	},
 	
@@ -567,9 +633,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setGridZoomLvl(this.getGridZoomLvl() - 1);
 		this.setGridScale(this.getGridScale() / this.getScaleFactor());
 		// TODO Zoom muss noch zentriert werden
-		
-		// now redraw the grid
-		// this.redrawGrid();
+			
 		this.redraw();
 	},
 	
@@ -577,7 +641,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Moves the grid one step in right (positive x) direction.
 	 */
 	moveGridRight : function() {
-		this.setGridOffsetX(this.getGridOffsetX() + this.getMoveInterval() / this.getGridScale());
+		this.setGridOffsetX(this.getGridOffsetX() + this.getRelativeLength(this.getMoveInterval() / this.getGridScale()));
 		this.redraw();
 	},
 
@@ -585,7 +649,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Moves the grid one step in left (negative x) direction.
 	 */
 	moveGridLeft : function() {
-		this.setGridOffsetX(this.getGridOffsetX() - this.getMoveInterval() / this.getGridScale());
+		this.setGridOffsetX(this.getGridOffsetX() - this.getRelativeLength(this.getMoveInterval() / this.getGridScale()));
 		this.redraw();
 	},
 
@@ -593,7 +657,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Moves the grid one step in up (negative y) direction.
 	 */
 	moveGridUp : function() {
-		this.setGridOffsetY(this.getGridOffsetY() - this.getMoveInterval() / this.getGridScale());
+		this.setGridOffsetY(this.getGridOffsetY() - this.getRelativeLength(this.getMoveInterval() / this.getGridScale()));
 		this.redraw();
 	},
 
@@ -601,7 +665,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Moves the grid one step in down (positive y) direction.
 	 */
 	moveGridDown : function() {
-		this.setGridOffsetY(this.getGridOffsetY() + this.getMoveInterval() / this.getGridScale());
+		this.setGridOffsetY(this.getGridOffsetY() + this.getRelativeLength(this.getMoveInterval() / this.getGridScale()));
 		this.redraw();
 	},
 
@@ -640,7 +704,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	clearImage : function() {
 		var canvas = this.getCanvas();
-		this.setGridSize(5);
+		this.setGridSize(16);
 		this.setImageFile(null);
 		this.clearConfigs();
 
@@ -662,11 +726,12 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setImgRotation(0);
 		this.setGridOffsetX(0);
 		this.setGridOffsetY(0);
-		this.setGridSizeX(5);
-		this.setGridSizeY(5);
+		this.setGridSizeX(16);
+		this.setGridSizeY(16);
 		this.setGridScale(1.0);
 		this.setGridZoomLvl(0);
 		this.setGridIsHidden(false);
+		this.setCvIsColored(false);
 	},
 
 	/**

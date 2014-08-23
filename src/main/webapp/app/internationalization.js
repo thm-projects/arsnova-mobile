@@ -300,6 +300,7 @@ switch (lang) {
 			GRID_LABEL_SHOW_HEATMAP : "Show heatmap",
 			GRID_LABEL_SHOW_PERCENT : "Show results",
 			GRID_LABEL_INVERT_GRIDCOLORS : "Invert grid colors",
+			GRID_LABEL_CV_TRANSPARENCY : "color background",
 			GRID_LABEL_ABSOLUTE : 'absolute',
 			GRID_LABEL_RELATIVE : 'relative',
 			GRID_LABEL_ABSOLUTE_SHORT : '#',
@@ -317,7 +318,7 @@ switch (lang) {
 			SETTINGS_HINT_TEXT: "Hint <br>Maximal filesize is 1 MB.",
 
 			/* question types */
-			EVALUATION: "LKT",
+			EVALUATION: "+-",
 			SCHOOL: "A-F",
 			MC: "MC",
 			YESNO: "YN",
@@ -640,7 +641,7 @@ switch (lang) {
 			GRID_LOADING : "Lade",
 			GRID_LOAD : "Laden",
 			GRID_ERROR_URL_MISSING : "Bitte geben Sie eine URL an.",
-      GRID_ERROR_IMAGE_NOT_LOADED: "Bild konnte nicht geladen werden.",
+			GRID_ERROR_IMAGE_NOT_LOADED: "Bild konnte nicht geladen werden.",
 			GRID_LABEL_ZOOM : "Zoom (in %)",
 			GRID_LABEL_FIELD_X : "Anzahl Felder an x-Achse",
 			GRID_LABEL_FIELD_Y : "Anzahl Felder an y-Achse",
@@ -648,6 +649,7 @@ switch (lang) {
 			GRID_LABEL_SHOW_HEATMAP : "Heatmap anzeigen",
 			GRID_LABEL_SHOW_PERCENT : "Zeige Resultate",
 			GRID_LABEL_INVERT_GRIDCOLORS : "Rasterfarbe invertieren",
+			GRID_LABEL_CV_TRANSPARENCY : "Hintergrund einfärben",
 			GRID_LABEL_ABSOLUTE : 'Absolut',
 			GRID_LABEL_RELATIVE : 'Prozentual',
 			GRID_LABEL_NONE : 'Ausblenden',
@@ -665,7 +667,7 @@ switch (lang) {
 			SETTINGS_HINT_TEXT: "Hinweis: <br>Maximale Dateigröße beträgt 1MB.",
 
 			/* question types */
-			EVALUATION: "LKT",
+			EVALUATION: "+-",
 			SCHOOL: "1-6",
 			MC: "MC",
 			YESNO: "JN",

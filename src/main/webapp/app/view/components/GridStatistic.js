@@ -73,17 +73,17 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		});
 
 		this.releaseItems = [
-				{
-					text : showShortLabels ? Messages.GRID_LABEL_RELATIVE_SHORT
-							: Messages.GRID_LABEL_RELATIVE,
+		          {
+					text : showShortLabels ? Messages.GRID_LABEL_ABSOLUTE_SHORT
+							: Messages.GRID_LABEL_ABSOLUTE,
 					scope : this,
 					handler : function() {
 						this.updateGrid();
 					}
 				},
 				{
-					text : showShortLabels ? Messages.GRID_LABEL_ABSOLUTE_SHORT
-							: Messages.GRID_LABEL_ABSOLUTE,
+					text : showShortLabels ? Messages.GRID_LABEL_RELATIVE_SHORT
+							: Messages.GRID_LABEL_RELATIVE,
 					scope : this,
 					handler : function() {
 						this.updateGrid();
@@ -133,9 +133,16 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 
 		this.optionsFieldSet = Ext.create('Ext.form.FieldSet', {
 			cls : 'standardFieldset gridQDSettingsPanel',
-			items : [ this.abstentionPanel, this.gridWeakenImageToggle,
-					this.gridShowColors, this.gridColorsToggle,
-					this.gridShowNumbers ]
+			items : [ this.gridShowNumbers,
+			          {
+							xtype : 'spacer',
+							height : 25
+					  },
+			          this.gridShowColors,
+			          this.gridColorsToggle,
+			          this.gridWeakenImageToggle,
+			          this.abstentionPanel			          
+					]
 		});
 
 		// set listeners to toggles
@@ -192,7 +199,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 						questionObj.gridSizeY, questionObj.gridIsHidden,
 						questionObj.imgRotation, questionObj.toggleFieldsLeft, 
 						questionObj.numClickableFields, questionObj.thresholdCorrectAnswers,
-						questionObj.possibleAnswers, true);
+						questionObj.cvIsColored, questionObj.possibleAnswers, true);
 			} else {
 				
 				// output withOUT correct answers
@@ -203,7 +210,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 						questionObj.gridSizeY, questionObj.gridIsHidden,
 						questionObj.imgRotation, questionObj.toggleFieldsLeft, 
 						questionObj.numClickableFields, questionObj.thresholdCorrectAnswers,
-						Array(), true);
+						questionObj.cvIsColored, Array(), true);
 			}
 			var gridAnswers = [];
 			var abstentionCount = 0;
