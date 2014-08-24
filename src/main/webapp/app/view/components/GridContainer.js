@@ -684,7 +684,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		newimage.src = dataUrl;
 
 		newimage.onload = function() {
-			var cb = successCallback || Ext.emptyFn;
+			var cb = successCallback || Ext.emptyFn;
 			if (reload) {
 				container.clearImage();
 			}
