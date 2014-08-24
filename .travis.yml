@@ -33,7 +33,7 @@ before_install:
   - "curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash"
   # Setup CouchDB
   - "sudo mkdir /etc/arsnova"
-  - "sudo cp arsnova-war/src/main/webapp/arsnova.properties.example /etc/arsnova/arsnova.properties"
+  - "sudo cp arsnova-war/src/main/resources/arsnova.properties.example /etc/arsnova/arsnova.properties"
   - "cd setuptool"
   - "python tool.py"
   - "cd .."
