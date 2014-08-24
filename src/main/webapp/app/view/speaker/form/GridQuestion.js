@@ -24,14 +24,14 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	xtype: 'grid',
 
 	requires: [
-		'Ext.ux.Fileup'	// file upload framework
+		'Ext.ux.Fileup' // file upload framework
 	],
 
-	imageArea: null,		// contains all image relevant items
-	grid: null,		// encapsulated canvas element
-	imageCnt: null,		// image manipulation options
-	imageSettings: null,		// the image settings (offset, zoom,...)
-	uploadView: null,		// view containing the upload options
+	imageArea: null, // contains all image relevant items
+	grid: null, // encapsulated canvas element
+	imageCnt: null, // image manipulation options
+	imageSettings: null, // the image settings (offset, zoom,...)
+	uploadView: null, // view containing the upload options
 	answers: null,
 	zoomSpinner: null,
 	gridXSpinner: null,
@@ -318,7 +318,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 			},
 			minValue: 1,
-			value: this.grid.getScale() * 100	// set value as default
+			value: this.grid.getScale() * 100 // set value as default
 		});
 
 		this.gridXSpinner = Ext.create('Ext.field.Spinner', {
@@ -631,11 +631,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				question.numClickableFields, question.thresholdCorrectAnswers,
 				question.cvIsColored, question.possibleAnswers, true);
 
-		answerField.setValue(this.grid.getChosenFields().length);		//set the spinner with correct values (last storage)
+		answerField.setValue(this.grid.getChosenFields().length);// set the spinner with correct values (last storage)
 		this.zoomSpinner.setValue(Math.round(this.grid.getScale()*100));
 		this.gridXSpinner.setValue(this.grid.getGridSizeX());
 		this.gridYSpinner.setValue(this.grid.getGridSizeY());
-		this.deleteButton.setHidden(true);	//disable delete button in edit mode
+		this.deleteButton.setHidden(true);// disable delete button in edit mode
 		this.toggleAnswers.setValue(this.grid.getToggleFieldsLeft());
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.questionValueFieldset.setHidden(this.grid.getChosenFields().length === 0);

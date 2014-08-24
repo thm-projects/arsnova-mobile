@@ -20,7 +20,7 @@
  *
  * Server response format (JSON):
  * {
- *	 success: true,// or false
+ *	 success: true, // or false
  *	 message: ''// error message if success === false
  * }
  *
@@ -51,7 +51,7 @@ items: [
 
 			uploading: {
 				text: 'Loading',
-				loading: true// Enable loading spinner on button
+				loading: true // Enable loading spinner on button
 			}
 		}
 	},
@@ -280,7 +280,7 @@ Ext.define('Ext.ux.Fileup', {
 
 		me.on({
 			scope: me,
-			buffer: 250,// Avoid multiple tap
+			buffer: 250, // Avoid multiple tap
 			tap: me.onButtonTap
 		});
 
@@ -579,6 +579,6 @@ Ext.define('Ext.ux.Fileup', {
 	 * @param {Function} failure Signing failure callback
 	 */
 	signProvider: function(success, failure) {
-		success('default-token');// Default behaviour
+		success('default-token'); // Default behaviour
 	}
 });

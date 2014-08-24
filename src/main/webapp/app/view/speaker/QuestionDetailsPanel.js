@@ -95,7 +95,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 			ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel.getQuestionAnswers();
 		},
-		interval: 20000 //20 seconds
+		interval: 20000// 20 seconds
 	},
 
 	constructor: function(args){

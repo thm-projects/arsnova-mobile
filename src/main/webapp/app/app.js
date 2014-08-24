@@ -146,7 +146,7 @@ Ext.application({
 				ARSnova.app.restProxy.loggedInTask();
 			}
 		},
-		interval: 60000 //60 seconds
+		interval: 60000// 60 seconds
 	},
 
 	/**
@@ -159,7 +159,7 @@ Ext.application({
 				ARSnova.app.restProxy.updateSessionActivityTask();
 			}
 		},
-		interval: 180000 //180 seconds
+		interval: 180000// 180 seconds
 	},
 
 	/**

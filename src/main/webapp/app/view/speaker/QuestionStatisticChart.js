@@ -44,7 +44,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			ARSnova.app.mainTabPanel._activeItem.getQuestionAnswers();
 
 		},
-		interval: 10000 //10 seconds
+		interval: 10000// 10 seconds
 	},
 
 	/**
@@ -446,7 +446,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 							abstentionCount = el.abstentionCount;
 							continue;
 						}
-						var record = store.findRecord('text', el.answerText, 0, false, true, true); //exact match
+						var record = store.findRecord('text', el.answerText, 0, false, true, true);// exact match
 						record.set('value', el.answerCount);
 					}
 					sum += el.answerCount;
@@ -459,7 +459,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					if(idx!=-1) tmp_possibleAnswers.splice(idx, 1); // Remove it if really found!
 				}
 				if (abstentionCount) {
-					var record = store.findRecord('text', Messages.ABSTENTION, 0, false, true, true); //exact match
+					var record = store.findRecord('text', Messages.ABSTENTION, 0, false, true, true);// exact match
 					if (!record) {
 						store.add({text: Messages.ABSTENTION, value: abstentionCount});
 					} else if (record.get('value') != abstentionCount) {

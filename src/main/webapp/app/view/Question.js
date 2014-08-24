@@ -532,7 +532,7 @@ Ext.define('ARSnova.view.Question', {
 //				}
 //			);
 //		} else {
-//			// If the element has not been drawn yet, we need to retry later
+// // If the element has not been drawn yet, we need to retry later
 //			Ext.defer(Ext.bind(this.doTypeset, this), 100);
 //		}
 //	},

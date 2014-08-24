@@ -21,43 +21,43 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	xtype: 'canvas',
 
 	config: {
-		gridSize: 16,			// Sqrt of the gridcount
-		canvasSize: 400,			// Size of the canvas element (width and height).
-		initCanvasSize: 400,			// Should be same as canvasSize; for later reference.
-		canvas: null,			// The canvas element.
-		imageFile: null,			// The image file.
-		gridLineWidth: 1,			// Width of the grid lines.
+		gridSize: 16, // Sqrt of the gridcount
+		canvasSize: 400, // Size of the canvas element (width and height).
+		initCanvasSize: 400, // Should be same as canvasSize; for later reference.
+		canvas: null, // The canvas element.
+		imageFile: null, // The image file.
+		gridLineWidth: 1, // Width of the grid lines.
 		chosenFields: Array(),
-		highlightColor: '#FFFF00',	// Color of highlighted fields.
-		curGridLineColor: '#000000',	// Current color of the grid lines.
-		gridLineColor: '#000000',	// Default color of the grid lines.
-		alternativeGridLineColor: '#FFFFFF',	// Alternative color of the grid lines.
-		statisticWrongColor: '#FF0000',	// Color for wrong fields in statistic.
-		statisticRightColor: '#00FF00',	// Color for right fields in statistic.
-		scaleFactor: 1.2,			// Zoom level scale factor.
-		scale: 1.0,			// Actual scaling for the image. Necessary to switch between scale for zoomed image an normal scale.
-		zoomLvl: 0,			// Current zoomlevel.
-		offsetX: 0,			// Current offset in x direction.
-		offsetY: 0,			// Current offset in y direction.
-		moveInterval: 10,			// Steps to take when moving the image (in pixel).
-		onFieldClick: null,			// Hook for function, that will be called after onClick event.
-		editable: true,			// If set to false click events are prevented.
-		possibleAnswers: [],			// The pre-set, correct answers of the lecturer
-		heatmapMaxAlpha: 0.9,			// The alpha value of a field with 100% of votes.
-		heatmapMinAlpha: 0.2,			// The alpha value of a field with 0% of votes.
-		gridOffsetX: 0,			// current x offset for grid start point
-		gridOffsetY: 0,			// current y offset for grid start point
-		gridZoomLvl: 0,			// zoom level for grid (defines size of grid fields)
-		gridSizeX: 16,			// number of horizontal grid fields
-		gridSizeY: 16,			// number of vertical grid fields
-		gridIsHidden: false,		// flag for visual hiding of the grid
-		gridScale: 1.0,			// Current scale for the grid.
-		imgRotation: 0,			// Current rotation for the image.
-		toggleFieldsLeft: false,		// toggle the number of clickable fields. true: all fields are clickable, false: only the number of fields the lecturer has selected are clickable
-		numClickableFields: 0,			// number of clickable fields the lecturer has chosen
-		thresholdCorrectAnswers: 0,			// the points needed to answer the question correct
-		cvBackgroundColor: '#FFFFFF',	// background color of the canvas element
-		cvIsColored: false,		// true if the canvas background is colored (cvBackgroundColor), false otherwise. This way older questions without this attribute should still have a transparent background
+		highlightColor: '#FFFF00', // Color of highlighted fields.
+		curGridLineColor: '#000000', // Current color of the grid lines.
+		gridLineColor: '#000000', // Default color of the grid lines.
+		alternativeGridLineColor: '#FFFFFF', // Alternative color of the grid lines.
+		statisticWrongColor: '#FF0000', // Color for wrong fields in statistic.
+		statisticRightColor: '#00FF00', // Color for right fields in statistic.
+		scaleFactor: 1.2, // Zoom level scale factor.
+		scale: 1.0, // Actual scaling for the image. Necessary to switch between scale for zoomed image an normal scale.
+		zoomLvl: 0, // Current zoomlevel.
+		offsetX: 0, // Current offset in x direction.
+		offsetY: 0, // Current offset in y direction.
+		moveInterval: 10, // Steps to take when moving the image (in pixel).
+		onFieldClick: null, // Hook for function, that will be called after onClick event.
+		editable: true, // If set to false click events are prevented.
+		possibleAnswers: [], // The pre-set, correct answers of the lecturer
+		heatmapMaxAlpha: 0.9, // The alpha value of a field with 100% of votes.
+		heatmapMinAlpha: 0.2, // The alpha value of a field with 0% of votes.
+		gridOffsetX: 0, // current x offset for grid start point
+		gridOffsetY: 0, // current y offset for grid start point
+		gridZoomLvl: 0, // zoom level for grid (defines size of grid fields)
+		gridSizeX: 16, // number of horizontal grid fields
+		gridSizeY: 16, // number of vertical grid fields
+		gridIsHidden: false, // flag for visual hiding of the grid
+		gridScale: 1.0, // Current scale for the grid.
+		imgRotation: 0, // Current rotation for the image.
+		toggleFieldsLeft: false, // toggle the number of clickable fields. true: all fields are clickable, false: only the number of fields the lecturer has selected are clickable
+		numClickableFields: 0, // number of clickable fields the lecturer has chosen
+		thresholdCorrectAnswers: 0, // the points needed to answer the question correct
+		cvBackgroundColor: '#FFFFFF', // background color of the canvas element
+		cvIsColored: false, // true if the canvas background is colored (cvBackgroundColor), false otherwise. This way older questions without this attribute should still have a transparent background
 	},
 
 	/**
