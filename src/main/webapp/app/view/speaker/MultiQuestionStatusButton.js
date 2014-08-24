@@ -79,22 +79,22 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 				if (buttonId != "no") {
 					/* close all questions */
 					ARSnova.app.getController('Questions').setAllActive({
-						active		: false,
-						callback	: Ext.Function.createSequence(this.questionClosedSuccessfully, function() {
+						active: false,
+						callback: Ext.Function.createSequence(this.questionClosedSuccessfully, function() {
 							updateQuestions(false);
 						}, this),
-						scope		: this
+						scope: this
 					});
 				}
 			}, this);
 		} else {
 			/* open all questions */
 			ARSnova.app.getController('Questions').setAllActive({
-				active		: true,
-				callback	: Ext.Function.createSequence(this.questionOpenedSuccessfully, function() {
+				active: true,
+				callback: Ext.Function.createSequence(this.questionOpenedSuccessfully, function() {
 					updateQuestions(true);
 				}, this),
-				scope		: this
+				scope: this
 			});
 		}
 	}

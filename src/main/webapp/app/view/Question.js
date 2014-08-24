@@ -2,8 +2,8 @@
  This file is part of ARSnova.
  app/view/Question.js
  - Beschreibung: Template für einzelne Fragen.
- - Version:	  1.0, 01/05/12
- - Autor(en):	Christian Thomas Weber <christian.t.weber@gmail.com>
+ - Version:      1.0, 01/05/12
+ - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -73,8 +73,8 @@ Ext.define('ARSnova.view.Question', {
 			button.setHandler(function() {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel || ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
-					question	: self.questionObj,
-					lastPanel	: self
+					question: self.questionObj,
+					lastPanel: self
 				});
 				ARSnova.app.mainTabPanel.animateActiveItem(panel.questionStatisticChart, 'slide');
 			});
@@ -129,8 +129,8 @@ Ext.define('ARSnova.view.Question', {
 				this.markCorrectAnswers();
 
 				var answerValues = [];
-				for (var i=0; i < this.answerList.getStore().getCount(); i++) {
-					answerValues.push(selectedIndexes.indexOf(i) !== -1 ? "1" : "0");
+				for (var i = 0; i < this.answerList.getStore().getCount(); i++) {
+					answerValues.push(selectedIndexes.indexOf(i) !== -1 ? "1": "0");
 				}
 				var questionValue = 0;
 				this.answerList.getSelection().forEach(function(node) {
@@ -153,7 +153,7 @@ Ext.define('ARSnova.view.Question', {
 
 				var selectedIndexes = [];
 				this.grid.getChosenFields().forEach(function(node) {
-					selectedIndexes.push(node[0]+';'+node[1] );
+					selectedIndexes.push(node[0] + ';' + node[1] );
 				}, this);
 				this.questionObj.userAnswered = selectedIndexes.join(",");
 				this.markCorrectAnswers();
@@ -189,7 +189,7 @@ Ext.define('ARSnova.view.Question', {
 			}, this);
 		};
 
-		var questionListener = this.viewOnly || this.questionObj.questionType === "mc" ? {} : {
+		var questionListener = this.viewOnly || this.questionObj.questionType === "mc" ? {}: {
 			'itemtap': function(list, index, target, record) {
 				var confirm = function(answer, handler) {
 					Ext.Msg.confirm(Messages.ANSWER + ' "' + answer + '"', Messages.SUBMIT_ANSWER, handler);
@@ -231,8 +231,8 @@ Ext.define('ARSnova.view.Question', {
 
 		//Setup question title and text to disply in the same field; markdown handles HTML encoding
 		var questionString = this.questionObj.subject
-					   + '\n\n' // inserts one blank line between subject and text
-					   + this.questionObj.text;
+			+ '\n\n' // inserts one blank line between subject and text
+			+ this.questionObj.text;
 
 		//Create standard panel with framework support
 		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
@@ -245,7 +245,7 @@ Ext.define('ARSnova.view.Question', {
 
 			cls: 'roundedBox',
 			variableHeights: true,
-			scrollable: { disabled: true },
+			scrollable: {disabled: true},
 
 			itemCls: 'arsnova-mathdown x-html',
 			itemHeight: 32,
@@ -284,13 +284,13 @@ Ext.define('ARSnova.view.Question', {
 			var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
 
 			this.answerList.setHeight(
-				parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height"))	+
-				parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top"))	+
+				parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
+				parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
 				parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
 			);
 		}
 			},
-			mode: this.questionObj.questionType === "mc" ? 'MULTI' : 'SINGLE'
+			mode: this.questionObj.questionType === "mc" ? 'MULTI': 'SINGLE'
 		});
 
 		if (this.questionObj.abstention
@@ -313,7 +313,7 @@ Ext.define('ARSnova.view.Question', {
 			ui: 'confirm',
 			cls: 'login-button noMargin',
 			text: Messages.SAVE,
-			handler: !this.viewOnly ? this.saveMcQuestionHandler : function() {},
+			handler: !this.viewOnly ? this.saveMcQuestionHandler: function() {},
 			scope: this,
 			disabled: true
 		});
@@ -329,7 +329,7 @@ Ext.define('ARSnova.view.Question', {
 					margin: '10px'
 				}
 			},
-			items: [this.mcSaveButton, !!!this.questionObj.abstention ? { hidden: true } : {
+			items: [this.mcSaveButton, !!!this.questionObj.abstention ? {hidden: true}: {
 				flex: 1,
 				xtype: 'button',
 				cls: 'login-button noMargin',
@@ -374,23 +374,23 @@ Ext.define('ARSnova.view.Question', {
 				 * in case of grid question, create a grid container model
 				 */
 				this.grid = Ext.create('ARSnova.view.components.GridContainer', {
-					id : 'gridContainer' + this.questionObj._id,
-					offsetX : this.questionObj.offsetX,
-					offsetY : this.questionObj.offsetY,
-					gridSize : this.questionObj.gridSize,
-					zoomLvl : this.questionObj.zoomLvl,
-					gridOffsetX : this.questionObj.gridOffsetX,
-					gridOffsetY : this.questionObj.gridOffsetY,
-					gridZoomLvl : this.questionObj.gridZoomLvl,
-					gridSizeX : this.questionObj.gridSizeX,
-					gridSizeY : this.questionObj.gridSizeY,
-					gridIsHidden : this.questionObj.gridIsHidden,
-					imgRotation : this.questionObj.imgRotation,
-					toggleFieldsLeft : this.questionObj.toggleFieldsLeft,
-					numClickableFields : this.questionObj.numClickableFields,
-					thresholdCorrectAnswers : this.questionObj.thresholdCorrectAnswers,
-					cvIsColored : this.questionObj.cvIsColored,
-					editable	: true,
+					id: 'gridContainer' + this.questionObj._id,
+					offsetX: this.questionObj.offsetX,
+					offsetY: this.questionObj.offsetY,
+					gridSize: this.questionObj.gridSize,
+					zoomLvl: this.questionObj.zoomLvl,
+					gridOffsetX: this.questionObj.gridOffsetX,
+					gridOffsetY: this.questionObj.gridOffsetY,
+					gridZoomLvl: this.questionObj.gridZoomLvl,
+					gridSizeX: this.questionObj.gridSizeX,
+					gridSizeY: this.questionObj.gridSizeY,
+					gridIsHidden: this.questionObj.gridIsHidden,
+					imgRotation: this.questionObj.imgRotation,
+					toggleFieldsLeft: this.questionObj.toggleFieldsLeft,
+					numClickableFields: this.questionObj.numClickableFields,
+					thresholdCorrectAnswers: this.questionObj.thresholdCorrectAnswers,
+					cvIsColored: this.questionObj.cvIsColored,
+					editable: true,
 		  possibleAnswers: this.questionObj.possibleAnswers
 				});
 
@@ -418,7 +418,7 @@ Ext.define('ARSnova.view.Question', {
 					ui: 'confirm',
 					cls: 'login-button noMargin',
 					text: Messages.SAVE,
-					handler: !this.viewOnly ? this.saveGridQuestionHandler : function() {},
+					handler: !this.viewOnly ? this.saveGridQuestionHandler: function() {},
 					scope: this,
 					disabled: false
 				});
@@ -434,7 +434,7 @@ Ext.define('ARSnova.view.Question', {
 								margin: '10px'
 							}
 						},
-						items: [this.gridButton, !!!this.questionObj.abstention ? { hidden: true } : {
+						items: [this.gridButton, !!!this.questionObj.abstention ? {hidden: true}: {
 							flex: 1,
 							xtype: 'button',
 							cls: 'login-button noMargin',
@@ -452,7 +452,7 @@ Ext.define('ARSnova.view.Question', {
 			this.answerList.setHidden(false);
 		}
 		this.add([this.answerList].concat(
-			this.questionObj.questionType === "mc" && !this.viewOnly ? mcContainer : {}
+			this.questionObj.questionType === "mc" && !this.viewOnly ? mcContainer: {}
 		));
 
 		this.on('activate', function(){
@@ -543,11 +543,11 @@ Ext.define('ARSnova.view.Question', {
 		ARSnova.app.answerModel.getUserAnswer(self.questionObj._id, {
 			empty: function() {
 				var answer = Ext.create('ARSnova.model.Answer', {
-					type		: "skill_question_answer",
-					sessionId	: localStorage.getItem("sessionId"),
-					questionId	: self.questionObj._id,
-					user		: localStorage.getItem("login"),
-					timestamp	: Date.now(),
+					type: "skill_question_answer",
+					sessionId: localStorage.getItem("sessionId"),
+					questionId: self.questionObj._id,
+					user: localStorage.getItem("login"),
+					timestamp: Date.now(),
 					questionVariant: self.questionObj.questionVariant
 				});
 				promise.resolve(answer);

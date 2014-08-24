@@ -27,9 +27,9 @@ Ext.define('ARSnova.view.NumericKeypad', {
 	},
 
 	inputType: 'text',
-	minValue : undefined,
-	maxValue : undefined,
-	stepValue : undefined,
+	minValue: undefined,
+	maxValue: undefined,
+	stepValue: undefined,
 	renderTpl: [
 		'<tpl if="label"><div class="x-form-label"><span>{label}</span></div></tpl>',
 		'<tpl if="fieldEl"><div class="x-form-field-container">',
@@ -51,13 +51,13 @@ Ext.define('ARSnova.view.NumericKeypad', {
 	],
 
 	// @private
-	initialize : function() {
+	initialize: function() {
 		Ext.apply(this.renderData, {
-			maxValue	: this.maxValue,
-			maxLength	: this.maxLength,
-			minValue	: this.minValue,
-			stepValue	: this.stepValue,
-			placeHolder	: this.placeHolder
+			maxValue: this.maxValue,
+			maxLength: this.maxLength,
+			minValue: this.minValue,
+			stepValue: this.stepValue,
+			placeHolder: this.placeHolder
 		});
 
 		this.callParent(arguments);

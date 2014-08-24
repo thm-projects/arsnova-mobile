@@ -1,8 +1,8 @@
  /*--------------------------------------------------------------------------------+
  This file is part of ARSnova.
- - Dateipfad:	  app/view/SliderField.js
- - Beschreibung:   SliderField prototype.
- - Autor(en):	  Andreas Gärtner <andreas.gaertner@mni.thm.de>
+ - Dateipfad: app/view/SliderField.js
+ - Beschreibung: SliderField prototype.
+ - Autor(en):    Andreas Gärtner <andreas.gaertner@mni.thm.de>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -18,8 +18,8 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.CustomSliderField', {
-	extend  : 'Ext.field.Field',
-	xtype   : 'sliderField',
+	extend: 'Ext.field.Field',
+	xtype: 'sliderField',
 	requires: ['Ext.slider.Slider'],
 
 	config: {
@@ -49,11 +49,11 @@ Ext.define('ARSnova.view.CustomSliderField', {
 		this.callParent();
 
 		this.getComponent().on({
-			scope	   : this,
-			change	  : 'onSliderChange',
-			dragstart   : 'onSliderDragStart',
-			drag		: 'onSliderDrag',
-			dragend	 : 'onSliderDragEnd'
+			scope: this,
+			change: 'onSliderChange',
+			dragstart: 'onSliderDragStart',
+			drag: 'onSliderDrag',
+			dragend: 'onSliderDragEnd'
 		});
 	},
 
@@ -116,7 +116,7 @@ Ext.define('ARSnova.view.CustomSliderField', {
 
 	reset: function() {
 		var config = this.config,
-		initialValue = (this.config.hasOwnProperty('values')) ? config.values : config.value;
+		initialValue = (this.config.hasOwnProperty('values')) ? config.values: config.value;
 
 		this.setValue(initialValue);
 	},

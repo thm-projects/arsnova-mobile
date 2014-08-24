@@ -25,7 +25,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	requires: ['ARSnova.proxy.ARSJax'],
 
 	config: {
-		url : '/couchdb/arsnova',
+		url: '/couchdb/arsnova',
 
 		noCache: false,
 		appendId: true
@@ -45,7 +45,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 					window.location.reload();
 				}
 			});
-		}, this, { single: true });
+		}, this, {single: true});
 	},
 
 	/**
@@ -117,7 +117,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		this.arsjax.request({
 			url: "socket/assign",
 			method: "POST",
-			jsonData: { session: socket.io.engine.id },
+			jsonData: {session: socket.io.engine.id},
 			success: function () {
 				promise.resolve();
 			},
@@ -348,7 +348,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/interposed",
 			method: "POST",
-			jsonData: { subject: subject, text: text, sessionId: sessionKeyword },
+			jsonData: {subject: subject, text: text, sessionId: sessionKeyword},
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -446,8 +446,8 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			jsonData: {
 				"name": session.get("name"),
 				"shortName": session.get("shortName"),
-				"courseId":  session.get("courseId") ? session.get("courseId") : null,
-				"courseType": session.get("courseType") ? session.get("courseType") : null
+				"courseId": session.get("courseId") ? session.get("courseId"): null,
+				"courseType": session.get("courseType") ? session.get("courseType"): null
 			},
 			success: callbacks.success,
 			failure: callbacks.failure

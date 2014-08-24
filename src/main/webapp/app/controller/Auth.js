@@ -63,7 +63,7 @@ Ext.define("ARSnova.controller.Auth", {
 		ARSnova.app.configLoaded.then(function () {
 			localStorage.setItem(
 				'role',
-				"lecturer" === role ? ARSnova.app.USER_ROLE_SPEAKER : ARSnova.app.USER_ROLE_STUDENT
+				"lecturer" === role ? ARSnova.app.USER_ROLE_SPEAKER: ARSnova.app.USER_ROLE_STUDENT
 			);
 			localStorage.setItem('keyword', sessionkey);
 			if (!ARSnova.app.checkPreviousLogin()) {
@@ -102,7 +102,7 @@ Ext.define("ARSnova.controller.Auth", {
 
 	login: function(options) {
 		console.debug("Controller: Auth.login", options);
-		var serviceId = options && options.service ? options.service.id : "guest";
+		var serviceId = options && options.service ? options.service.id: "guest";
 		ARSnova.app.loginMode = serviceId;
 		localStorage.setItem('loginMode', serviceId);
 		var location = "", type = "", me = this;

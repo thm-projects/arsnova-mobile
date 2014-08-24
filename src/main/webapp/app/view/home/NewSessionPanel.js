@@ -24,20 +24,20 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 	config: {
 		fullscreen: true,
 		scrollable: null,
-		scroll	: 'vertical'
+		scroll: 'vertical'
 	},
 
-	sessionKey	: null,
+	sessionKey: null,
 
 	/* items */
 	sessionIdField: null,
 	unavailableSessionIds: [],
-	mycourses	: [],
+	mycourses: [],
 	mycoursesStore: null,
 
 	/* toolbar items */
-	toolbar		: null,
-	backButton	: null,
+	toolbar: null,
+	backButton: null,
 
 	constructor: function(args) {
 		this.callParent(arguments);
@@ -50,13 +50,13 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			store: this.mycoursesStore,
 			hidden: true,
 			style: {
-				marginLeft:  '12px',
+				marginLeft: '12px',
 				marginRight: '12px',
 				backgroundColor: 'transparent'
 			},
 			itemTpl: window.innerWidth > 321
 						? '<span class="course">{fullname:htmlEncode}<span>'
-						: '<span class="course">{shortname:htmlEncode}<span>',
+: '<span class="course">{shortname:htmlEncode}<span>',
 			listeners: {
 				scope: this,
 				itemtap: Ext.bind(this.onCourseSubmit, this),
@@ -80,21 +80,21 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		});
 
 		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.SESSIONS,
-			ui		: 'back',
-			handler	: function() {
+			text: Messages.SESSIONS,
+			ui: 'back',
+			handler: function() {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 				hTP.animateActiveItem(hTP.mySessionsPanel, {
-					type		: 'slide',
-					direction	: 'right',
-					duration	: 700
+					type: 'slide',
+					direction: 'right',
+					duration: 700
 				});
 			}
 		});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.NEW_SESSION,
-			cls	 : 'titlePaddingLeft',
+			cls: 'titlePaddingLeft',
 			docked: 'top',
 			ui: 'light',
 			items: [
@@ -115,23 +115,23 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			items: [{
 				xtype: 'fieldset',
 				items: [{
-					xtype		: 'textfield',
-					name		: 'name',
-					label		: Messages.SESSION_NAME,
-					placeHolder	: Messages.SESSION_NAME_PLACEHOLDER,
-					maxLength	: 50,
-					clearIcon	: true
+					xtype: 'textfield',
+					name: 'name',
+					label: Messages.SESSION_NAME,
+					placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+					maxLength: 50,
+					clearIcon: true
 				}, {
-					xtype		: 'textfield',
-					name		: 'shortName',
-					label		: Messages.SESSION_SHORT_NAME,
-					placeHolder	: Messages.SESSION_SHORT_NAME_PLACEHOLDER,
-					maxLength	: 8,
-					clearIcon	: true
+					xtype: 'textfield',
+					name: 'shortName',
+					label: Messages.SESSION_SHORT_NAME,
+					placeHolder: Messages.SESSION_SHORT_NAME_PLACEHOLDER,
+					maxLength: 8,
+					clearIcon: true
 				}]
 			}, {
 				xtype: 'button',
-				cls  : 'centerButton',
+				cls: 'centerButton',
 				ui: 'confirm',
 				text: Messages.SESSION_SAVE,
 				handler: this.onSubmit
@@ -147,8 +147,8 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		var values = this.up('panel').getValues();
 
 		ARSnova.app.getController('Sessions').create({
-			name		: values.name,
-			shortName	: values.shortName
+			name: values.name,
+			shortName: values.shortName
 		});
 	},
 
@@ -167,10 +167,10 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		}
 
 		ARSnova.app.getController('Sessions').create({
-			name		: course.get('fullname'),
-			shortName	: shortName,
-			courseId	: course.get('id'),
-			courseType	: course.get('type')
+			name: course.get('fullname'),
+			shortName: shortName,
+			courseId: course.get('id'),
+			courseType: course.get('type')
 		});
 	},
 
@@ -213,6 +213,6 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			failure: function() {
 				console.log("my courses request failure");
 			}
-		}, (window.innerWidth > 321 ? 'name' : 'shortname'));
+		}, (window.innerWidth > 321 ? 'name': 'shortname'));
 	}
 });

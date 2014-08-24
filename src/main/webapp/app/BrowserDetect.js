@@ -19,7 +19,7 @@ Ext.define('ARSnova.BrowserDetect', {
 		}
 	},
 
-	extractAndroidVersion: function() {
+	extractAndroidVersion:        function() {
 		// Should match 'Android x.y'
 		var version = navigator.userAgent.match(/Android [1-9]+[0-9]*\.[0-9]+/);
 		if (version === null) {
@@ -29,7 +29,7 @@ Ext.define('ARSnova.BrowserDetect', {
 	},
 
 	searchString: function (data) {
-		for (var i=0;i<data.length;i++)	{
+		for (var i = 0; i < data.length; i++) {
 			var dataString = data[i].string;
 			var dataProp = data[i].prop;
 			this.versionSearchString = data[i].versionSearch || data[i].identity;
@@ -43,13 +43,13 @@ Ext.define('ARSnova.BrowserDetect', {
 		}
 	},
 
-	searchVersion: function (dataString) {
+	searchVersion:        function (dataString) {
 		var index = dataString.indexOf(this.versionSearchString);
 		if (index === -1) {
 			// iOS WebView Fallback
 			return parseFloat(dataString);
 		}
-		return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
+		return parseFloat(dataString.substring(index + this.versionSearchString.length + 1));
 	},
 
 	dataBrowser: [{
@@ -114,7 +114,7 @@ Ext.define('ARSnova.BrowserDetect', {
 			versionSearch: "Mozilla"
 	}],
 
-	dataOS : [{
+	dataOS: [{
 			string: navigator.platform,
 			subString: "Win",
 			identity: "Windows"

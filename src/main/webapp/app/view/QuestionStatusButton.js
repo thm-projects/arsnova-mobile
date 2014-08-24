@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 	extend: 'Ext.Panel',
 
 	config: {
-		cls	: 'threeButtons left',
+		cls: 'threeButtons left',
 		wording: {
 			stop: Messages.STOP_QUESTION,
 			release: Messages.RELEASE_QUESTION,
@@ -45,28 +45,28 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		this.questionObj = args.questionObj;
 
 		this.questionIsClosedButton = Ext.create('Ext.Button', {
-			cls		: 'closedSession',
-			scope	: this,
-			handler	: function() {
+			cls: 'closedSession',
+			scope: this,
+			handler: function() {
 				this.changeStatus();
 			}
 		});
 
 		this.questionIsClosedText = Ext.create('Ext.Panel', {
-			cls	: 'centerTextSmall',
+			cls: 'centerTextSmall',
 			html: this.getWording().release
 		});
 
 		this.questionIsOpenButton = Ext.create('Ext.Button', {
-			cls		: 'openSession',
-			scope	: this,
-			handler	: function() {
+			cls: 'openSession',
+			scope: this,
+			handler: function() {
 				this.changeStatus();
 			}
 		});
 
 		this.questionIsOpenText = Ext.create('Ext.Panel', {
-			cls	: 'centerTextSmall',
+			cls: 'centerTextSmall',
 			html: this.getWording().stop
 		});
 
@@ -91,18 +91,18 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 				if (buttonId != "no") {
 					/* close this question */
 					ARSnova.app.getController('Questions').setActive({
-						questionId	: id,
-						active		: 0,
-						callback	: this.questionClosedSuccessfully
+						questionId: id,
+						active: 0,
+						callback: this.questionClosedSuccessfully
 					});
 				}
 			}, this);
 		} else {
 			/* open this question */
 			ARSnova.app.getController('Questions').setActive({
-				questionId	: id,
-				active		: 1,
-				callback	: this.questionOpenedSuccessfully
+				questionId: id,
+				active: 1,
+				callback: this.questionOpenedSuccessfully
 			});
 		}
 	},

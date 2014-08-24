@@ -26,9 +26,9 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 		});
 
 		var previewButton = Ext.create('Ext.Button', {
-			text	: Messages.ANSWER_PREVIEW_BUTTON_TITLE,
-			ui		: 'confirm',
-			style   : 'width:200px; margin-top: 12px;',
+			text: Messages.ANSWER_PREVIEW_BUTTON_TITLE,
+			ui: 'confirm',
+			style: 'width:200px; margin-top: 12px;',
 			handler: function() {
 					this.previewHandler();
 				},
@@ -64,8 +64,8 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 	getValue: function() {
 		var values = [], obj;
 		obj = {
-				text	: this.answer.getValue(),
-				correct : true
+				text: this.answer.getValue(),
+				correct: true
 			};
 		values.push(obj);
 		return values;

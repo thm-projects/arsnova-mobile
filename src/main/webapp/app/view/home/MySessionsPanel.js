@@ -32,8 +32,8 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	},
 
 	/* toolbar items */
-	toolbar		: null,
-	backButton	: null,
+	toolbar: null,
+	backButton: null,
 
 	/* items */
 	createdSessions: null,
@@ -42,23 +42,23 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		this.callParent(arguments);
 
 		this.logoutButton = Ext.create('Ext.Button', {
-			text	: Messages.LOGOUT,
-			ui		: 'back',
-			hidden	: true,
-			handler	: function() {
+			text: Messages.LOGOUT,
+			ui: 'back',
+			hidden: true,
+			handler: function() {
 				ARSnova.app.getController('Auth').logout();
 			}
 		});
 
 		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.HOME,
-			ui		: 'back',
-			handler	: function() {
+			text: Messages.HOME,
+			ui: 'back',
+			handler: function() {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 				hTP.animateActiveItem(hTP.homePanel, {
-					type		: 'slide',
-					direction	: 'right',
-					duration	: 700
+					type: 'slide',
+					direction: 'right',
+					duration: 700
 				});
 			}
 		});
@@ -79,11 +79,11 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			scrollable: null,
 
 			items: [{
-				xtype	: 'button',
-				ui		: 'normal',
-				text	: Messages.CREATE_NEW_SESSION,
-				cls		: 'forwardListButton',
-				handler	: function(options){
+				xtype: 'button',
+				ui: 'normal',
+				text: Messages.CREATE_NEW_SESSION,
+				cls: 'forwardListButton',
+				handler: function(options){
 					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 					hTP.animateActiveItem(hTP.newSessionPanel, 'slide');
 				}
@@ -160,19 +160,19 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					}
 
 					// Minimum width of 321px equals at least landscape view
-					var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
+					var displaytext = window.innerWidth > 481 ? session.name: session.shortName;
 					var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-						ui			: 'normal',
-						text		: Ext.util.Format.htmlEncode(displaytext),
-						cls			: 'forwardListButton' + status + course,
-						sessionObj	: session,
-						handler		: function(options){
+						ui: 'normal',
+						text: Ext.util.Format.htmlEncode(displaytext),
+						cls: 'forwardListButton' + status + course,
+						sessionObj: session,
+						handler: function(options){
 							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
 							ARSnova.app.getController('Auth').roleSelect({
 								mode: ARSnova.app.USER_ROLE_SPEAKER
 							});
 							ARSnova.app.getController('Sessions').login({
-								keyword		: options.config.sessionObj.keyword
+								keyword: options.config.sessionObj.keyword
 							});
 							hideLoadMask();
 						}
@@ -200,7 +200,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				hideLoadMask();
 				console.log("my sessions request failure");
 			}
-		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
+		}, (window.innerWidth > 481 ? 'name': 'shortname'));
 	},
 
 	loadVisitedSessions: function() {
@@ -230,23 +230,23 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						}
 
 						// Minimum width of 481px equals at least landscape view
-						var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
+						var displaytext = window.innerWidth > 481 ? session.name: session.shortName;
 						var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-							xtype		: 'button',
-							ui			: 'normal',
-							text		: Ext.util.Format.htmlEncode(displaytext),
-							cls			: 'forwardListButton' + icon,
-							controller	: 'sessions',
-							action		: 'showDetails',
-							badgeCls	: 'badgeicon',
-							sessionObj	: session,
-							handler		: function(options){
+							xtype: 'button',
+							ui: 'normal',
+							text: Ext.util.Format.htmlEncode(displaytext),
+							cls: 'forwardListButton' + icon,
+							controller: 'sessions',
+							action: 'showDetails',
+							badgeCls: 'badgeicon',
+							sessionObj: session,
+							handler: function(options){
 								var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
 								ARSnova.app.getController('Auth').roleSelect({
 									mode: ARSnova.app.USER_ROLE_STUDENT
 								});
 								ARSnova.app.getController('Sessions').login({
-									keyword		: options.config.sessionObj.keyword
+									keyword: options.config.sessionObj.keyword
 								});
 								hideLoadMask();
 							}
@@ -277,7 +277,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				console.log('server-side error loggedIn.save');
 				me.lastVisitedSessionsForm.hide();
 			}
-		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
+		}, (window.innerWidth > 481 ? 'name': 'shortname'));
 	},
 
 	updateBadges: function(sessionKeyword, button) {

@@ -29,14 +29,14 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		layout: 'vbox',
 
 		store: Ext.create('Ext.data.JsonStore', {
-			model  : 'ARSnova.model.FeedbackQuestion',
+			model: 'ARSnova.model.FeedbackQuestion',
 			sorters: [{
-				property : "timestamp",
+				property: "timestamp",
 				direction: "DESC"
 			}],
 			groupField: 'groupDate',
 			grouper: {
-				property : "timestamp",
+				property: "timestamp",
 				direction: 'DESC'
 			}
 		}),
@@ -54,8 +54,8 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		}
 	},
 
-	toolbar		: null,
-	backButton	: null,
+	toolbar: null,
+	backButton: null,
 	questionsCounter: 0,
 
 	initialize: function(){
@@ -64,18 +64,21 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		var panel = this;
 
 		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.BACK,
-			ui		: 'back',
-			hidden	: true,
-			handler : function(){
+			text: Messages.BACK,
+			ui: 'back',
+			hidden: true,
+			handler: function(){
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel, {
-					type		: 'slide',
-					direction	: 'right',
-					duration	: 700,
-					scope		: this,
-					listeners: { animationend: function() {
-						this.hide();
-					}, scope: this }
+					type: 'slide',
+					direction: 'right',
+					duration: 700,
+					scope: this,
+					listeners: {
+						animationend: function() {
+							this.hide();
+						},
+						scope: this
+					}
 				});
 			}
 		});
@@ -143,11 +146,14 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			store: this.getStore(),
 			listeners: {
 				itemswipe: function(list, index, target) {
-					var el		= target.element,
-						hasClass  = el.hasCls(this.activeCls);
+					var el = target.element,
+						hasClass = el.hasCls(this.activeCls);
 
-					if (hasClass) { el.removeCls(this.activeCls); }
-					else { el.addCls(this.activeCls);}
+					if (hasClass) {
+						el.removeCls(this.activeCls);
+					} else {
+						el.addCls(this.activeCls);
+					}
 				},
 				itemtap: function(list, index, target, record, event){
 					var details = list.getStore().getAt(index).data;
@@ -155,9 +161,9 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					list.refresh();
 
 					ARSnova.app.getController('Questions').detailsFeedbackQuestion({
-						question		: details.obj,
-						formattedTime	: details.formattedTime,
-						fullDate		: details.fullDate
+						question: details.obj,
+						formattedTime: details.formattedTime,
+						fullDate: details.fullDate
 					});
 				}
 			}
@@ -199,8 +205,8 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 						if (question.timestamp) {
 							var time = new Date(question.timestamp);
 							formattedTime = moment(time).format('LT');
-							groupDate	  = moment(time).format('L');
-							fullDate	  = moment(time).format('LLL');
+							groupDate = moment(time).format('L');
+							fullDate = moment(time).format('LLL');
 						} else {
 							groupDate = Messages.NO_DATE;
 						}
@@ -231,7 +237,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					}]);
 
 					panel.getStore().sort([{
-						property : 'timestamp',
+						property: 'timestamp',
 						direction: 'DESC'
 					}]);
 				}

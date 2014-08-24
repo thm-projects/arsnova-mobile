@@ -28,8 +28,8 @@ Ext.define('ARSnova.view.feedback.TabPanel', {
 	],
 
 	config: {
-		title:		Messages.FEEDBACK,
-		iconCls:	'feedbackARSnova',
+		title: Messages.FEEDBACK,
+		iconCls: 'feedbackARSnova',
 
 		tabBar: {
 			hidden: true

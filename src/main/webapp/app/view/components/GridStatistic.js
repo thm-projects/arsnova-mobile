@@ -17,25 +17,25 @@
  +--------------------------------------------------------------------------*/
 
 Ext.define('ARSnova.view.components.GridStatistic', {
-	extend : 'Ext.form.FieldSet',
+	extend: 'Ext.form.FieldSet',
 
-	require : [ 'ARSnova.view.components.GridContainer' ],
+	require: [ 'ARSnova.view.components.GridContainer' ],
 
-	config : {
-		questionObj : null,
-		cls : 'standardFieldset',
-		style : 'margin: 0'
+	config: {
+		questionObj: null,
+		cls: 'standardFieldset',
+		style: 'margin: 0'
 	},
 
-	grid : null,
-	gridWeakenImageToggle : null,
-	gridShowColors : null,
-	gridShowNumbers : null,
-	gridColorsToggle : null,
-	questionOptionsSegment : null,
-	abstentionPanel : null,
-	optionsFieldSet : null,
-	answers : new Array(),
+	grid: null,
+	gridWeakenImageToggle: null,
+	gridShowColors: null,
+	gridShowNumbers: null,
+	gridColorsToggle: null,
+	questionOptionsSegment: null,
+	abstentionPanel: null,
+	optionsFieldSet: null,
+	answers: new Array(),
 
 
 	/**
@@ -43,100 +43,100 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 	 *
 	 * Creates the canvas element and initializes all necessary variables.
 	 */
-	constructor : function() {
+	constructor: function() {
 		this.callParent(arguments);
 		// store this for later reference
 		var me = this;
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth
-				: screen.width;
+: screen.width;
 		var showShortLabels = screenWidth < 480;
 
 		// create toggles
 		this.grid = Ext.create('ARSnova.view.components.GridContainer', {
-			docked : 'top',
-			editable : false
+			docked: 'top',
+			editable: false
 		});
 
 		// add toggles
 		this.gridWeakenImageToggle = Ext.create('Ext.field.Toggle', {
-			id : "toggleWeakenImage",
-			name : "toggleWeakenImage",
-			label : Messages.GRID_LABEL_WEAKEN_IMAGE,
-			value : false
+			id: "toggleWeakenImage",
+			name: "toggleWeakenImage",
+			label: Messages.GRID_LABEL_WEAKEN_IMAGE,
+			value: false
 		});
 
 		this.gridShowColors = Ext.create('Ext.field.Toggle', {
-			id : "toggleShowColors",
-			name : "toggleShowColors",
-			label : Messages.GRID_LABEL_SHOW_HEATMAP,
-			value : true
+			id: "toggleShowColors",
+			name: "toggleShowColors",
+			label: Messages.GRID_LABEL_SHOW_HEATMAP,
+			value: true
 		});
 
 		this.releaseItems = [
 				  {
-					text : showShortLabels ? Messages.GRID_LABEL_ABSOLUTE_SHORT
-							: Messages.GRID_LABEL_ABSOLUTE,
-					scope : this,
-					handler : function() {
+					text: showShortLabels ? Messages.GRID_LABEL_ABSOLUTE_SHORT
+: Messages.GRID_LABEL_ABSOLUTE,
+					scope: this,
+					handler: function() {
 						this.updateGrid();
 					}
 				},
 				{
-					text : showShortLabels ? Messages.GRID_LABEL_RELATIVE_SHORT
-							: Messages.GRID_LABEL_RELATIVE,
-					scope : this,
-					handler : function() {
+					text: showShortLabels ? Messages.GRID_LABEL_RELATIVE_SHORT
+: Messages.GRID_LABEL_RELATIVE,
+					scope: this,
+					handler: function() {
 						this.updateGrid();
 					}
 				},
 				{
-					text : showShortLabels ? Messages.GRID_LABEL_NONE_SHORT
-							: Messages.GRID_LABEL_NONE,
-					scope : this,
-					pressed : true,
-					handler : function() {
+					text: showShortLabels ? Messages.GRID_LABEL_NONE_SHORT
+: Messages.GRID_LABEL_NONE,
+					scope: this,
+					pressed: true,
+					handler: function() {
 						this.updateGrid();
 					}
 				} ];
 
 		this.questionOptionsSegment = Ext.create('Ext.SegmentedButton', {
-			allowDepress : false,
-			items : this.releaseItems,
-			cls : 'abcOptions'
+			allowDepress: false,
+			items: this.releaseItems,
+			cls: 'abcOptions'
 		});
 
 		this.gridShowNumbers = Ext.create('Ext.form.FormPanel', {
-			scrollable : null,
-			items : [ {
-				xtype : 'fieldset',
-				style : 'margin: 0',
-				title : Messages.GRID_LABEL_SHOW_PERCENT,
-				items : [ this.questionOptionsSegment ]
+			scrollable: null,
+			items: [ {
+				xtype: 'fieldset',
+				style: 'margin: 0',
+				title: Messages.GRID_LABEL_SHOW_PERCENT,
+				items: [ this.questionOptionsSegment ]
 			} ]
 		});
 
 		this.gridColorsToggle = Ext.create('Ext.field.Toggle', {
-			id : "toggleColors",
-			name : "toggleColors",
-			label : Messages.GRID_LABEL_INVERT_GRIDCOLORS,
-			value : false
+			id: "toggleColors",
+			name: "toggleColors",
+			label: Messages.GRID_LABEL_INVERT_GRIDCOLORS,
+			value: false
 		});
 
 		this.abstentionPanel = Ext.create('Ext.field.Text', {
-			id : 'tf_abstenstion',
-			name : 'tf_abstenstion',
-			value : 0,
-			label : Messages.ABSTENTION,
-			readOnly : true,
-			hidden:		true
+			id: 'tf_abstenstion',
+			name: 'tf_abstenstion',
+			value: 0,
+			label: Messages.ABSTENTION,
+			readOnly: true,
+			hidden: true
 		});
 
 		this.optionsFieldSet = Ext.create('Ext.form.FieldSet', {
-			cls : 'standardFieldset gridQDSettingsPanel',
-			items : [ this.gridShowNumbers,
+			cls: 'standardFieldset gridQDSettingsPanel',
+			items: [ this.gridShowNumbers,
 					  {
-							xtype : 'spacer',
-							height : 25
+							xtype: 'spacer',
+							height: 25
 					  },
 					  this.gridShowColors,
 					  this.gridColorsToggle,
@@ -147,10 +147,10 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 
 		// set listeners to toggles
 		var listeners = {
-			beforechange : function(slider, thumb, newValue, oldValue) {
+			beforechange: function(slider, thumb, newValue, oldValue) {
 				me.updateGrid();
 			},
-			change : function(slider, thumb, newValue, oldValue) {
+			change: function(slider, thumb, newValue, oldValue) {
 				me.updateGrid();
 			}
 		};
@@ -161,9 +161,9 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		// add components to panel
 		this.add(this.grid);
 		this.add({
-			xtype : 'spacer',
-			height : 25,
-			docked : 'top'
+			xtype: 'spacer',
+			height: 25,
+			docked: 'top'
 		});
 		this.add(this.optionsFieldSet);
 
@@ -171,7 +171,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		this.updateGrid();
 	},
 
-	updateGrid : function() {
+	updateGrid: function() {
 		var questionObj = this.getQuestionObj();
 		var me = this;
 

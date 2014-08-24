@@ -509,14 +509,14 @@ Ext.define('Ext.ux.Fileup', {
 	 * @param {Object} file Link to loaded file element
 	 */
 	getForm: function(file) {
-	  // Create FormData object
-	  var form = new FormData();
+		// Create FormData object
+		var form = new FormData();
 
-	  // Add selected file to form
-	  form.append(this.getName(), file);
+		// Add selected file to form
+		form.append(this.getName(), file);
 
-	  // Return the form.
-	  return form;
+		// Return the form.
+		return form;
 	},
 
 	/**

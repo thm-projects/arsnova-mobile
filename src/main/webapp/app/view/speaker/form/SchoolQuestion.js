@@ -34,20 +34,20 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 		this.callParent(arguments);
 
 		this.fields = [];
-		for (var i=0; i < this.getMaxAnswers(); i++) {
+		for (var i = 0; i < this.getMaxAnswers(); i++) {
 			this.fields.push(Ext.create('Ext.field.Text', {
-				label: (i+1) + '. ',
+				label: (i + 1) + '. ',
 				labelWidth: '15%',
 				value: this.getWording()[i]
 			}));
 		}
 
 	var previewButton = Ext.create('Ext.Button', {
-		text	: Messages.ANSWER_PREVIEW_BUTTON_TITLE,
-		ui		: 'confirm',
-		style   : 'width:200px; margin-left: 8px; margin-top: 0px;',
-		scope	: this,
-		handler	: function() {
+		text: Messages.ANSWER_PREVIEW_BUTTON_TITLE,
+		ui: 'confirm',
+		style: 'width:200px; margin-left: 8px; margin-top: 0px;',
+		scope: this,
+		handler: function() {
 			this.previewHandler();
 		}
 	});
@@ -63,13 +63,13 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 		var possibleAnswers = question.possibleAnswers;
 
 		this.setMaxAnswers(possibleAnswers.length);
-		for (var i=0; i < this.fields.length; i++) {
+		for (var i = 0; i < this.fields.length; i++) {
 			this.fields[i].setValue(possibleAnswers[i].text);
 		}
 	},
 
 	getQuestionValues: function() {
-		return { possibleAnswers: this.getValues() };
+		return {possibleAnswers: this.getValues()};
 	},
 
 	getValues: function() {
@@ -83,7 +83,7 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 
 	markEmptyFields: function() {
 		var field;
-		for (var i=0; i < this.fields.length; i++) {
+		for (var i = 0; i < this.fields.length; i++) {
 			field = this.fields[i];
 			if (field.getValue().trim() === "") {
 				field.addCls("required");

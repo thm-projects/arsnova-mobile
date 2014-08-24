@@ -42,7 +42,7 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 		if (!innerHtmlElement || !innerHtmlElement.dom || !innerHtmlElement.dom.parentNode) {
 			this.innerHtmlElement = innerHtmlElement = this.innerElement.createChild({
 				cls: 'x-innerhtml ',
-				style: { display:'none' }
+				style: {display:'none'}
 			});
 
 			if (this.getStyleHtmlContent()) {
@@ -89,7 +89,7 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 			// Use special badge class on all but the last badge. The class sticks the badges together but leaves
 			// enough space for the last (right most) badge.
 			var index = 1;
-			var sp = me.multiBadges.splice(0, me.multiBadges.length-1);
+			var sp = me.multiBadges.splice(0, me.multiBadges.length - 1);
 			sp.forEach(function(item) {
 				item.addCls("withdoublebadge");
 				me.multiBadges.splice(index++, 1, item);

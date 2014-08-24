@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- - Autor(en):	Christoph Thelen <christoph.thelen@mni.thm.de>
+ - Autor(en):    Christoph Thelen <christoph.thelen@mni.thm.de>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -26,8 +26,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 
 	config: {
 		fullscreen: true,
-		title	: Messages.QUESTIONS,
-		iconCls	: 'tabBarIconQuestion',
+		title: Messages.QUESTIONS,
+		iconCls: 'tabBarIconQuestion',
 
 		controller: null
 	},

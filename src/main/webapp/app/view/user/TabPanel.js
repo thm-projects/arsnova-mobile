@@ -24,10 +24,10 @@ Ext.define('ARSnova.view.user.TabPanel', {
 	requires: ['ARSnova.view.user.InClass'],
 
 	config: {
-		title	: Messages.HOME,
+		title: Messages.HOME,
 
-		iconCls	: 'tabBarIconHome',
-		scroll	: 'vertical',
+		iconCls: 'tabBarIconHome',
+		scroll: 'vertical',
 
 		tabBar: {
 			hidden: true

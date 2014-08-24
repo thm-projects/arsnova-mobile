@@ -24,30 +24,30 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 	requires: ['ARSnova.view.diagnosis.StatisticsPanel'],
 
 	config: {
-		fullscreen	: true,
-		title		: Messages.DIAGNOSIS,
-		scrollable	: {
+		fullscreen: true,
+		title: Messages.DIAGNOSIS,
+		scrollable: {
 			direction: 'vertical',
 			directionLock: true
 		}
 	},
 
 	/* toolbar items */
-	toolbar		: null,
-	backButton	: null,
+	toolbar: null,
+	backButton: null,
 
 	initialize: function() {
 		this.callParent(arguments);
 
 		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.BACK,
-			ui		: 'back',
-			hidden	: true,
-			handler	: function() {
+			text: Messages.BACK,
+			ui: 'back',
+			hidden: true,
+			handler: function() {
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.lastActivePanel, {
-					type		: 'slide',
-					direction	: 'right',
-					duration	: 700
+					type: 'slide',
+					direction: 'right',
+					duration: 700
 				});
 			}
 		});
@@ -60,32 +60,32 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 		});
 
 		this.add([this.toolbar, {
-			xtype	: 'panel',
-			cls		: null,
-			html	: "<div class='arsnova-logo'></div>",
-			style	: { marginTop: '35px', marginBottom: '35px' }
+			xtype: 'panel',
+			cls: null,
+			html: "<div class='arsnova-logo'></div>",
+			style: {marginTop: '35px', marginBottom: '35px'}
 		},
 		{
 			xtype: 'formpanel',
-			cls  : 'standardForm topPadding',
-			scrollable : null,
+			cls: 'standardForm topPadding',
+			scrollable: null,
 
 			defaults: {
-				xtype	: 'button',
-				ui		: 'normal',
-				cls		: 'forwardListButton'
+				xtype: 'button',
+				ui: 'normal',
+				cls: 'forwardListButton'
 			},
 
 			items: [{
-				text	: Messages.STATISTIC,
-				handler	: function() {
+				text: Messages.STATISTIC,
+				handler: function() {
 					var me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel;
 					me.statisticsPanel = Ext.create('ARSnova.view.diagnosis.StatisticsPanel');
 					me.animateActiveItem(me.statisticsPanel, 'slide');
 				}
 			}, {
-				text	: Messages.BROWSER_INFO,
-				handler	: function(b) {
+				text: Messages.BROWSER_INFO,
+				handler: function(b) {
 					this.detect = Ext.create("ARSnova.BrowserDetect");
 					var browserInfo = new String(
 						"<b>Name:</b> "   + this.detect.browser		+ "<br>" +
@@ -96,8 +96,8 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 					Ext.Msg.alert('Browser', browserInfo, Ext.emptyFn);
 				}
 			}, {
-				text	: Messages.ARSNOVA_RELOAD,
-				handler	: function(b) {
+				text: Messages.ARSNOVA_RELOAD,
+				handler: function(b) {
 					Ext.Msg.confirm(Messages.ARSNOVA_RELOAD, Messages.RELOAD_SURE, function(b) {
 						if(b == "yes") {
 							if(ARSnova.app.checkSessionLogin()) {
@@ -111,10 +111,10 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 			}]
 		},
 		{
-			xtype	: 'panel',
-			style	: {marginTop: '30px'},
-			html	: "<div class='gravure'><a href='http://www.thm.de/' class='thmlink' target='_blank'>A <span style='color:#699824; font-weight:bold;'>THM</span> Product</a></div>",
-			cls		: null
+			xtype: 'panel',
+			style: {marginTop: '30px'},
+			html: "<div class='gravure'><a href='http://www.thm.de/' class='thmlink' target='_blank'>A <span style='color:#699824; font-weight:bold;'>THM</span> Product</a></div>",
+			cls: null
 		}]);
 
 		this.on('activate', function(){

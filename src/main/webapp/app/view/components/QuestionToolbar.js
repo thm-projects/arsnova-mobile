@@ -31,10 +31,10 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 		this.callParent(arguments);
 
 		this.backButton = Ext.create('Ext.Button', {
-			ui		: 'back',
-			text	: Messages.BACK,
-			scope	: this,
-			handler	: function() {
+			ui: 'back',
+			text: Messages.BACK,
+			scope: this,
+			handler: function() {
 				var animation = {
 					type: 'slide',
 					direction: 'right',
@@ -66,12 +66,12 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 
 	setQuestionTitle: function(question) {
 		var label = Ext.bind(function(longv, shortv) {
-			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-			return (screenWidth > 320 || this.backButton.isHidden()) ? longv : shortv;
+			var screenWidth = (window.innerWidth > 0) ? window.innerWidth: screen.width;
+			return (screenWidth > 320 || this.backButton.isHidden()) ? longv: shortv;
 		}, this);
 
 		var title = '';
-	var questionType = question ? question.questionType : "";
+	var questionType = question ? question.questionType: "";
 
 		if (questionType === 'abcd') {
 			title = label(Messages.QUESTION_SINGLE_CHOICE, Messages.QUESTION_SINGLE_CHOICE_SHORT);
@@ -88,7 +88,7 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 		} else if (questionType === 'flashcard') {
 			title = label(Messages.FLASHCARD, Messages.FLASHCARD);
 		} else if(questionType == 'grid') {
-			title =  label(Messages.QUESTION_GRID, Messages.GRID);
+			title = label(Messages.QUESTION_GRID, Messages.GRID);
 		}
 
 		this.setTitle(title);

@@ -1,7 +1,7 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
  /app/view/TextCheckfield.js
- - Description:  Textfield with a checkfield instead of the default label.
+ - Beschreibung: Textfield with a checkfield instead of the default label.
  - Version:      1.0, 15/06/2013
  - Autor(en):    Andreas Gaertner <andreas.gaertner@mni.thm.de>
  +---------------------------------------------------------------------------+
@@ -26,18 +26,18 @@ Ext.define('ARSnova.view.TextCheckfield', {
 
 	config: {
 		container: null,
-		checked:		null,
-		checkedCls:		'checked',
-		uncheckedCls:	'unchecked',
+		checked: null,
+		checkedCls: 'checked',
+		uncheckedCls: 'unchecked',
 
 		/**
 		 * Overwriting label of textfield in order to place a checkbox instead of the label.
 		 * Label value '3' is the checkbox icon (check css cls checkItem).
 		 */
-		label:			'3',
-		labelAlign:		'right',
-		labelWidth:		'2.0em',
-		labelCls:		'checkItem',
+		label: '3',
+		labelAlign: 'right',
+		labelWidth: '2.0em',
+		labelCls: 'checkItem',
 
 		/**
 		 * listener for tap event on label element (toggleChecked())
@@ -48,7 +48,7 @@ Ext.define('ARSnova.view.TextCheckfield', {
 				fn: function() {
 					var parent = this.getContainer();
 					if (parent.config.singleChoice) {
-						for (var i=0; i < parent.selectAnswerCount.getValue(); i++) {
+						for (var i = 0; i < parent.selectAnswerCount.getValue(); i++) {
 							parent.answerComponents[i].uncheck();
 						}
 
@@ -71,7 +71,7 @@ Ext.define('ARSnova.view.TextCheckfield', {
 		 * otherwise to this.config.uncheckedCls.
 		 */
 		this.label.addCls(
-			(this.isChecked() ? this.getCheckedCls() : this.getUncheckedCls())
+			(this.isChecked() ? this.getCheckedCls(): this.getUncheckedCls())
 		);
 
 		/**

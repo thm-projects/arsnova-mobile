@@ -24,9 +24,9 @@ Ext.define('ARSnova.view.feedbackQuestions.TabPanel', {
 	requires: ['ARSnova.view.feedbackQuestions.QuestionsPanel'],
 
 	config: {
-		title	: Messages.QUESTIONS,
-		iconCls	: 'tabBarIconQuestion',
-		scroll	: 'vertical',
+		title: Messages.QUESTIONS,
+		iconCls: 'tabBarIconQuestion',
+		scroll: 'vertical',
 
 		tabBar: {
 			hidden: true

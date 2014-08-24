@@ -51,8 +51,8 @@ Ext.application({
 	requires: ['ARSnova.WebSocket', 'ARSnova.BrowserSupport', 'ARSnova.view.CustomMessageBox'],
 
 	startupImage: {
-		'320x460' : 'resources/images/ARSnova_Grafiken/03_Launchimage_320x460px.png', // iPhone (3.5" non-retina)
-		'640x920' : 'resources/images/ARSnova_Grafiken/03_Launchimage_640x920px.png', // iPhone (3.5" retina)
+		'320x460': 'resources/images/ARSnova_Grafiken/03_Launchimage_320x460px.png', // iPhone (3.5" non-retina)
+		'640x920': 'resources/images/ARSnova_Grafiken/03_Launchimage_640x920px.png', // iPhone (3.5" retina)
 		'640x1096': 'resources/images/ARSnova_Grafiken/03_Launchimage_640x1096px.png', // iPhone (4" retina)
 		'768x1004': 'resources/images/ARSnova_Grafiken/03_Launchimage_768x1004px.png', // iPad (portrait)
 		'748x1024': 'resources/images/ARSnova_Grafiken/03_Launchimage_748x1024px.png' // iPad (landscape)
@@ -74,20 +74,20 @@ Ext.application({
 	fullscreen: true,
 
 	/* const */
-	WEBAPP			: 'webapp',
-	NATIVE			: 'native',
-	APP_URL			: window.location.origin + window.location.pathname,
-	WEBSERVICE_URL	: "app/webservices/",
-	PRESENTER_URL	: "/presenter/",
+	WEBAPP: 'webapp',
+	NATIVE: 'native',
+	APP_URL: window.location.origin + window.location.pathname,
+	WEBSERVICE_URL: "app/webservices/",
+	PRESENTER_URL: "/presenter/",
 
-	LOGIN_GUEST		: "guest",
-	LOGIN_ARSNOVA	: "arsnova",
-	LOGIN_LDAP		: "ldap",
-	LOGIN_CAS		: "cas",
-	LOGIN_OPENID	: "notimplemented",
-	LOGIN_TWITTER	: "twitter",
-	LOGIN_FACEBOOK	: "facebook",
-	LOGIN_GOOGLE	: "google",
+	LOGIN_GUEST: "guest",
+	LOGIN_ARSNOVA: "arsnova",
+	LOGIN_LDAP: "ldap",
+	LOGIN_CAS: "cas",
+	LOGIN_OPENID: "notimplemented",
+	LOGIN_TWITTER: "twitter",
+	LOGIN_FACEBOOK: "facebook",
+	LOGIN_GOOGLE: "google",
 
 	USER_ROLE_STUDENT: "0",
 	USER_ROLE_SPEAKER: "1",
@@ -102,31 +102,31 @@ Ext.application({
 
 	/* items */
 	mainTabPanel: null,
-	tabPanel	: null,
-	loginPanel	: null,
-	taskManager	: null,
+	tabPanel: null,
+	loginPanel: null,
+	taskManager: null,
 	previousActiveItem: null,
 
 	/* infos */
-	loginMode		: null,  /* ARSnova.app.LOGIN_GUEST, ... */
-	appStatus		: null,  /* ARSnova.app.WEBAPP || ARSnova.app.NATIVE */
-	isSessionOwner	: false, /* boolean */
-	loggedIn		: false, /* boolean */
-	userRole		: null,  /* ARSnova.app.USER_ROLE_STUDENT || ARSnova.app.USER_ROLE_SPEAKER */
-	isNative		: function () { return this.appStatus === this.NATIVE; },
-	isWebApp		: function () { return this.appStatus === this.WEBAPP; },
+	loginMode: null,  /* ARSnova.app.LOGIN_GUEST, ... */
+	appStatus: null,  /* ARSnova.app.WEBAPP || ARSnova.app.NATIVE */
+	isSessionOwner: false, /* boolean */
+	loggedIn: false, /* boolean */
+	userRole: null,  /* ARSnova.app.USER_ROLE_STUDENT || ARSnova.app.USER_ROLE_SPEAKER */
+	isNative: function () {return this.appStatus === this.NATIVE;},
+	isWebApp: function () {return this.appStatus === this.WEBAPP;},
 
 	/* models */
-	answerModel		: null,
-	feedbackModel	: null,
-	loggedInModel	: null,
-	questionModel	: null,
-	sessionModel	: null,
-	statisticModel	: null,
-	courseModel		: null,
+	answerModel: null,
+	feedbackModel: null,
+	loggedInModel: null,
+	questionModel: null,
+	sessionModel: null,
+	statisticModel: null,
+	courseModel: null,
 
 	/* proxy */
-	restProxy		: null,
+	restProxy: null,
 
 	/* other*/
 	cardSwitchDuration: 500,
@@ -166,14 +166,14 @@ Ext.application({
 	 * initialize models
 	 */
 	initModels: function() {
-		this.answerModel		= Ext.create('ARSnova.model.Answer');
-		this.authModel			= Ext.create('ARSnova.model.Auth');
-		this.feedbackModel		= Ext.create('ARSnova.model.Feedback');
-		this.loggedInModel		= Ext.create('ARSnova.model.LoggedIn');
-		this.questionModel		= Ext.create('ARSnova.model.Question');
-		this.sessionModel		= Ext.create('ARSnova.model.Session');
-		this.statisticModel		= Ext.create('ARSnova.model.Statistic');
-		this.courseModel		= Ext.create('ARSnova.model.Course');
+		this.answerModel = Ext.create('ARSnova.model.Answer');
+		this.authModel = Ext.create('ARSnova.model.Auth');
+		this.feedbackModel = Ext.create('ARSnova.model.Feedback');
+		this.loggedInModel = Ext.create('ARSnova.model.LoggedIn');
+		this.questionModel = Ext.create('ARSnova.model.Question');
+		this.sessionModel = Ext.create('ARSnova.model.Session');
+		this.statisticModel = Ext.create('ARSnova.model.Statistic');
+		this.courseModel = Ext.create('ARSnova.model.Course');
 	},
 
 	/**

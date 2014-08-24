@@ -22,8 +22,8 @@ Ext.define('ARSnova.view.about.TabPanel', {
 	extend: 'Ext.tab.Panel',
 
 	config: {
-		title	: Messages.INFO,
-		iconCls	: 'tabBarIconInfo',
+		title: Messages.INFO,
+		iconCls: 'tabBarIconInfo',
 
 		tabBar: {
 			hidden: true
@@ -34,7 +34,7 @@ Ext.define('ARSnova.view.about.TabPanel', {
 		this.callParent(arguments);
 
 		this.on("activate", function() {
-			var url = ARSnova.app.globalConfig.documentationUrl || "https://arsnova.eu/manual/index.php/"+encodeURIComponent(moment.lang())+"/";
+			var url = ARSnova.app.globalConfig.documentationUrl || "https://arsnova.eu/manual/index.php/" + encodeURIComponent(moment.lang())+"/";
 			window.location.href = url;
 		});
 	}

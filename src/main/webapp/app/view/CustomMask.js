@@ -109,6 +109,6 @@ Ext.define('ARSnova.view.CustomMask', {
 	},
 
 	updateTransparent: function(newTransparent) {
-		this[newTransparent ? 'addCls' : 'removeCls'](this.getBaseCls() + '-transparent');
+		this[newTransparent ? 'addCls': 'removeCls'](this.getBaseCls() + '-transparent');
 	}
 });

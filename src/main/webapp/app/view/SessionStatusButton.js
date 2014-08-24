@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 	extend: 'Ext.Panel',
 
 	config: {
-		cls	: ''
+		cls: ''
 	},
 
 	handler: null,
@@ -35,17 +35,17 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 		this.callParent(arguments);
 
 		this.sessionIsClosed = Ext.create('ARSnova.view.MatrixButton', {
-			text		: Messages.START_SESSION,
-			image		: 'unlock_session',
-			handler	: function(){
+			text: Messages.START_SESSION,
+			image: 'unlock_session',
+			handler: function(){
 				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
 			}
 		});
 
 		this.sessionIsOpen = Ext.create('ARSnova.view.MatrixButton', {
-			text		: Messages.STOP_SESSION,
-			image		: 'lock_session',
-			handler	: function(){
+			text: Messages.STOP_SESSION,
+			image: 'lock_session',
+			handler: function(){
 				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
 			}
 		});
@@ -67,16 +67,16 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 				if (buttonId != "no") {
 					/* close this session */
 					ARSnova.app.getController('Sessions').setActive({
-						active		: 0,
-						callback	: this.sessionClosedSuccessfully
+						active: 0,
+						callback: this.sessionClosedSuccessfully
 					});
 				}
 			}, this);
 		} else {
 			/* open this session */
 			ARSnova.app.getController('Sessions').setActive({
-				active		: 1,
-				callback	: this.sessionOpenedSuccessfully
+				active: 1,
+				callback: this.sessionOpenedSuccessfully
 			});
 		}
 	},

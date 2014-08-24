@@ -31,8 +31,8 @@ Ext.define("ARSnova.controller.Feedback", {
 			Ext.Msg.alert('Hinweis', 'Bitte loggen Sie sich erst in einen Kurs ein, bevor Sie diese Funktion nutzen!');
 			var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 			fP.animateActiveItem(fP.statisticPanel, {
-				type		: 'slide',
-				direction	: 'right'
+				type: 'slide',
+				direction: 'right'
 			});
 			return;
 		}
@@ -73,8 +73,8 @@ Ext.define("ARSnova.controller.Feedback", {
 
 		var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 		fP.animateActiveItem(fP.statisticPanel, {
-			type		: 'slide',
-			direction	: 'up'
+			type: 'slide',
+			direction: 'up'
 		});
 	},
 

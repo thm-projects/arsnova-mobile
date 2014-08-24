@@ -58,20 +58,20 @@ Ext.define('ARSnova.view.TabPanel', {
 	},
 
 	/* items */
-	settingsPanel	: null,
+	settingsPanel: null,
 
 	/* panels will be created in  sessions/reloadData */
-	userQuizPanel		: null,
-	feedbackTabPanel	: null,
+	userQuizPanel: null,
+	feedbackTabPanel: null,
 
 	initialize: function() {
 		this.callParent(arguments);
 
-		this.loginPanel		= Ext.create('ARSnova.view.LoginPanel');
-		this.rolePanel		= Ext.create('ARSnova.view.RolePanel');
-		this.homeTabPanel	= Ext.create('ARSnova.view.home.TabPanel');
-		this.diagnosisPanel	= Ext.create('ARSnova.view.diagnosis.TabPanel');
-		this.infoTabPanel	= Ext.create('ARSnova.view.about.TabPanel');
+		this.loginPanel = Ext.create('ARSnova.view.LoginPanel');
+		this.rolePanel = Ext.create('ARSnova.view.RolePanel');
+		this.homeTabPanel = Ext.create('ARSnova.view.home.TabPanel');
+		this.diagnosisPanel = Ext.create('ARSnova.view.diagnosis.TabPanel');
+		this.infoTabPanel = Ext.create('ARSnova.view.about.TabPanel');
 
 		this.add([
 			this.rolePanel,

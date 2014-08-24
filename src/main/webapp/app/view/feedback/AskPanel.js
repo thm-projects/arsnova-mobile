@@ -33,25 +33,25 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 	},
 
 	/* toolbar items */
-	toolbar		: null,
-	saveButton	: null,
-	backButton	: null,
+	toolbar: null,
+	saveButton: null,
+	backButton: null,
 
 	initialize: function() {
 		this.callParent(arguments);
 
 		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.BACK,
-			ui		: 'back',
-			handler : this.closePanel,
-			scope	: this
+			text: Messages.BACK,
+			ui: 'back',
+			handler: this.closePanel,
+			scope: this
 		});
 
 		this.saveButton = Ext.create('Ext.Button', {
-			text	: Messages.SEND,
-			ui		: 'confirm',
-			handler	: this.askQuestion,
-			scope	: this
+			text: Messages.SEND,
+			ui: 'confirm',
+			handler: this.askQuestion,
+			scope: this
 		});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
@@ -79,11 +79,11 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 
 		//Preview button
 		this.previewButton = Ext.create('Ext.Button', {
-			text	: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
-			ui		: 'confirm',
-			cls		: 'previewButton',
-			scope   : this,
-			handler : function() {
+			text: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
+			ui: 'confirm',
+			cls: 'previewButton',
+			scope: this,
+			handler: function() {
 					this.previewHandler();
 				}
 		});
@@ -129,12 +129,12 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 	askQuestion: function() {
 		var me = this;
 		var question = Ext.create('ARSnova.model.Question', {
-			type			: "interposed_question",
-			sessionId		: localStorage.getItem("sessionId"),
-			sessionKeyword	: localStorage.getItem("keyword"),
-			subject			: this.subject.getValue().trim(),
-			text			: this.text.getValue().trim(),
-			timestamp		: new Date().getTime()
+			type: "interposed_question",
+			sessionId: localStorage.getItem("sessionId"),
+			sessionKeyword: localStorage.getItem("keyword"),
+			subject: this.subject.getValue().trim(),
+			text: this.text.getValue().trim(),
+			timestamp: new Date().getTime()
 		});
 		question.set('_id', undefined);
 
@@ -207,9 +207,9 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 	closePanel: function() {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 		panel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.votePanel, {
-			type		: 'slide',
-			direction	: 'right',
-			duration	: 700
+			type: 'slide',
+			direction: 'right',
+			duration: 700
 		});
 	}
 });

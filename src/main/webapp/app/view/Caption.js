@@ -32,9 +32,9 @@ Ext.define('ARSnova.view.Caption', {
 		this.callParent(arguments);
 
 		this.listButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			ui			: 'small',
-			text		: "",
-			cls			: 'forwardListButton caption'
+			ui: 'small',
+			text: "",
+			cls: 'forwardListButton caption'
 		});
 
 		this.add([].concat(window.innerWidth > 320 ? [{
@@ -43,7 +43,7 @@ Ext.define('ARSnova.view.Caption', {
 				fontSize: "0.6em"
 			},
 			html: Messages.LEGEND
-		}, this.listButton] : []));
+		}, this.listButton]: []));
 	},
 
 	explainStatus: function(items) {
@@ -85,11 +85,11 @@ Ext.define('ARSnova.view.Caption', {
 			}
 		});
 		this.listButton.setBadge([{
-				badgeText: hasFeedbackQuestions ? Messages.QUESTIONS_FROM_STUDENTS : "", badgeCls: "bluebadgeicon"
+				badgeText: hasFeedbackQuestions ? Messages.QUESTIONS_FROM_STUDENTS: "", badgeCls: "bluebadgeicon"
 			}, {
-				badgeText: hasQuestions ? Messages.QUESTIONS : "", badgeCls: "greybadgeicon"
+				badgeText: hasQuestions ? Messages.QUESTIONS: "", badgeCls: "greybadgeicon"
 			}, {
-				badgeText: hasAnswers ? Messages.ANSWERS : "", badgeCls: "redbadgeicon"
+				badgeText: hasAnswers ? Messages.ANSWERS: "", badgeCls: "redbadgeicon"
 		}]);
 		return badges;
 	},

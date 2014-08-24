@@ -30,50 +30,50 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 
 		// panel for question subject
 		var titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			xtype	: 'mathJaxMarkDownPanel',
-			id	  : 'questionTitle',
-			flex	: 1
+			xtype: 'mathJaxMarkDownPanel',
+			id: 'questionTitle',
+			flex: 1
 		});
 		titlePanel.setContent(title, false, true);
 
 		// panel for question content
 		var contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			xtype	: 'mathJaxMarkDownPanel',
-			id	  : 'questionContent',
-			flex	: 3
+			xtype: 'mathJaxMarkDownPanel',
+			id: 'questionContent',
+			flex: 3
 		});
 		contentPanel.setContent(content, true, true);
 
 		// question preview confirm button
 		var confirmButton = Ext.create('Ext.Button', {
-			text	: Messages.QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE,
-			id	  : 'confirmButton',
-			xtype	: 'button',
-			ui		: 'confirm',
-			style   : 'width: 80%; maxWidth: 250px; margin-top: 10px;',
-			handler	: function() {
+			text: Messages.QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE,
+			id: 'confirmButton',
+			xtype: 'button',
+			ui: 'confirm',
+			style: 'width: 80%; maxWidth: 250px; margin-top: 10px;',
+			handler: function() {
 					previewBox.destroy();
 				}
 		});
 
 		// question preview main panel
 		var mainPanel = Ext.create('Ext.Container', {
-			id			: 'mainPanel',
-			xtype		: 'container',
-			style		: 'position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: #c5ccd3;',
-			fullscreen	: false,
-			layout		: 'vbox',
-			items		: [
+			id: 'mainPanel',
+			xtype: 'container',
+			style: 'position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: #c5ccd3;',
+			fullscreen: false,
+			layout: 'vbox',
+			items: [
 				titlePanel,
 				contentPanel,
 				{
-					id		: 'buttonLayout',
-					xtype	: 'container',
-					layout	: {
+					id: 'buttonLayout',
+					xtype: 'container',
+					layout: {
 						pack: 'center',
 						type: 'hbox'
 					},
-					items	: [confirmButton]
+					items: [confirmButton]
 				}
 			]
 		});
@@ -82,10 +82,10 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		// question preview message box with main panel
 		var previewBox = Ext.create('Ext.MessageBox',
 		{
-			title	 : Messages.QUESTION_PREVIEW_DIALOGBOX_TITLE,
-			style	 : 'height: 80%; maxHeight: 600px; width: 80%; maxWidth: 1000px; border-color: black;',
-			items	 : [mainPanel],
-			scope	 : this
+			title: Messages.QUESTION_PREVIEW_DIALOGBOX_TITLE,
+			style: 'height: 80%; maxHeight: 600px; width: 80%; maxWidth: 1000px; border-color: black;',
+			items: [mainPanel],
+			scope: this
 		});
 		previewBox.show();
 

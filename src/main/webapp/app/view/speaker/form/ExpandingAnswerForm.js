@@ -40,7 +40,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		this.answerComponents = [];
 
 		this.selectAnswerCount = Ext.create('Ext.field.Spinner', {
-			label	: Messages.COUNT,
+			label: Messages.COUNT,
 			minValue: this.getMinAnswers(),
 			maxValue: ARSnova.app.globalConfig.answerOptionLimit,
 			stepValue: this.getStep(),
@@ -48,7 +48,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			listeners: {
 				scope: this,
 				spin: function(selectField, value) {
-					for (var i=0; i < ARSnova.app.globalConfig.answerOptionLimit; i++) {
+					for (var i = 0; i < ARSnova.app.globalConfig.answerOptionLimit; i++) {
 						this.answerComponents[i].setHidden(i >= value);
 						if (ARSnova.app.globalConfig.features.learningProgress) {
 							this.questionValueComponents[i].setHidden(i >= value);
@@ -59,11 +59,11 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		});
 
 		var previewButton = Ext.create('Ext.Button', {
-			text	: Messages.ANSWER_PREVIEW_BUTTON_TITLE,
-			ui		: 'confirm',
-			style   : 'width:200px; margin-left: 8px; margin-top: 0px;',
-			scope	: this,
-			handler	: function() {
+			text: Messages.ANSWER_PREVIEW_BUTTON_TITLE,
+			ui: 'confirm',
+			style: 'width:200px; margin-left: 8px; margin-top: 0px;',
+			scope: this,
+			handler: function() {
 					this.previewHandler();
 				}
 		});
@@ -93,15 +93,15 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 
 		var answerOptionEntryId = Ext.id();
 
-		for (var i=0; i < ARSnova.app.globalConfig.answerOptionLimit; i++) {
+		for (var i = 0; i < ARSnova.app.globalConfig.answerOptionLimit; i++) {
 			(function (i) {
 				var theComponentId = answerOptionEntryId + "-" + i;
 				this.answerComponents[i] = Ext.create('ARSnova.view.TextCheckfield', {
-					id:				theComponentId,
-					name:			theComponentId,
-					placeHolder:	Messages.ANSWER,
-					hidden:			this.getStart() <= i,
-					container:		this,
+					id: theComponentId,
+					name: theComponentId,
+					placeHolder: Messages.ANSWER,
+					hidden: this.getStart() <= i,
+					container: this,
 					listeners: {
 						scope: this,
 						checkchange: function(field, isChecked) {
@@ -117,10 +117,10 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 									});
 								} else if (checked.length > 0) {
 									this.questionValueComponents.forEach(function(c, j) {
-											c.setSliderValue(this.answerComponents[j].isChecked() ? c.getMaxValue() : c.getMinValue());
+											c.setSliderValue(this.answerComponents[j].isChecked() ? c.getMaxValue(): c.getMinValue());
 									}, this);
 								} else {
-									component.setSliderValue(isChecked ? component.getMaxValue() : component.getMinValue());
+									component.setSliderValue(isChecked ? component.getMaxValue(): component.getMinValue());
 								}
 							}
 						},
@@ -136,7 +136,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		}
 
 		if (ARSnova.app.globalConfig.features.learningProgress) {
-			for (var i=0; i < this.getMaxAnswers(); i++) {
+			for (var i = 0; i < this.getMaxAnswers(); i++) {
 				(function(i) {
 					var theComponentId = answerOptionEntryId + "-qv-" + i;
 					this.questionValueComponents[i] = Ext.create("ARSnova.view.CustomSliderField", {
@@ -169,14 +169,14 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			case 'arabic':
 			default:
 				return function(index) {
-					return index+1;
+					return index + 1;
 				};
 		}
 	},
 
 	getValues: function() {
 		var values = [], obj;
-		for (var i=0; i < this.selectAnswerCount.getValue(); i++) {
+		for (var i = 0; i < this.selectAnswerCount.getValue(); i++) {
 			obj = {
 				text: this.answerComponents[i].getValue(),
 				correct: this.answerComponents[i].isChecked()
@@ -191,7 +191,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 
 	hasCorrectOptions: function() {
 		var hasCorrectOptions = false;
-		for (var i=0; i < this.selectAnswerCount.getValue(); i++) {
+		for (var i = 0; i < this.selectAnswerCount.getValue(); i++) {
 			hasCorrectOptions = hasCorrectOptions || !!this.answerComponents[i].isChecked();
 		}
 		return hasCorrectOptions;
@@ -248,7 +248,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 
 	markEmptyFields: function() {
 		var field;
-		for (var i=0; i < this.selectAnswerCount.getValue(); i++) {
+		for (var i = 0; i < this.selectAnswerCount.getValue(); i++) {
 			field = this.answerComponents[i];
 			if (field.getValue().trim() === "") {
 				field.element.select(".x-input-text").addCls('formInvalid');

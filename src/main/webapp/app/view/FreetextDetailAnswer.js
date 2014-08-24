@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 	extend: 'Ext.Panel',
 
 	config: {
-		title : 'FreetextDetailAnswer',
+		title: 'FreetextDetailAnswer',
 		fullscreen: true,
 		scrollable: {
 			direction: 'vertical',
@@ -42,21 +42,24 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			title: Messages.FREETEXT_DETAIL_HEADER,
 			items: [
 				Ext.create('Ext.Button', {
-					text	: Messages.BACK,
-					ui		: 'back',
-					handler	: function() {
+					text: Messages.BACK,
+					ui: 'back',
+					handler: function() {
 						self.sTP.items.items.pop(); // Remove this panel from view stack
 						self.sTP.animateActiveItem(
 							self.sTP.items.items[self.sTP.items.items.length-1], // Switch back to top of view stack
 							{
-								type		: 'slide',
-								direction	: 'right',
-								duration	: 700,
-								scope		: this,
-								listeners: { animationend: function() {
-									self.answer.deselectItem();
-									self.hide();
-								}, scope: this }
+								type: 'slide',
+								direction: 'right',
+								duration: 700,
+								scope: this,
+								listeners: {
+									animationend: function() {
+										self.answer.deselectItem();
+										self.hide();
+									},
+									scope: this
+								}
 							}
 						);
 					}
@@ -91,18 +94,18 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			}]
 		}, {
 			xtype: 'button',
-			ui	 : 'decline',
-			cls  : 'centerButton',
-			text : Messages.DELETE,
+			ui: 'decline',
+			cls: 'centerButton',
+			text: Messages.DELETE,
 			scope: this,
 			hidden: !this.answer.deletable,
 			handler: function() {
 				ARSnova.app.questionModel.deleteAnswer(self.answer.questionId, self.answer._id, {
 		  success: function() {
 			self.sTP.animateActiveItem(self.sTP.questionDetailsPanel, {
-			  type		: 'slide',
-			  direction	: 'right',
-			  duration	: 700,
+			  type: 'slide',
+			  direction: 'right',
+			  duration: 700,
 			  listeners: {
 				animationend: function() {
 				  self.answer.removeItem();

@@ -56,7 +56,7 @@ Ext.define('Ext.plugins.ResizableTextArea', {
 		var scrollH = textarea.scrollHeight;
 
 		if (scrollH > textarea.style.height.replace(/[^0-9]/g, '')) {
-			textarea.style.height = scrollH+'px';
+			textarea.style.height = scrollH + 'px';
 		}
 	}
 });

@@ -101,34 +101,34 @@ Ext.define("ARSnova.controller.Questions", {
 
 	add: function(options){
 		var question = Ext.create('ARSnova.model.Question', {
-			type		: options.type,
+			type: options.type,
 			questionType: options.questionType,
 			questionVariant: options.questionVariant,
 			sessionKeyword: options.sessionKeyword,
-			subject		: options.subject,
-			text		: options.text,
-			active		: options.active,
-			number		: options.number,
-			releasedFor	: options.releasedFor,
+			subject: options.subject,
+			text: options.text,
+			active: options.active,
+			number: options.number,
+			releasedFor: options.releasedFor,
 			possibleAnswers: options.possibleAnswers,
-			noCorrect	: options.noCorrect,
-			abstention	: options.abstention,
-			gridSize	: options.gridSize,
-			offsetX		: options.offsetX,
-			offsetY		: options.offsetY,
-			zoomLvl		: options.zoomLvl,
-			image		: options.image,
-			gridOffsetX	: options.gridOffsetX,
-			gridOffsetY	: options.gridOffsetY,
-			gridZoomLvl	: options.gridZoomLvl,
-			gridSizeX	: options.gridSizeX,
-			gridSizeY	: options.gridSizeY,
+			noCorrect: options.noCorrect,
+			abstention: options.abstention,
+			gridSize: options.gridSize,
+			offsetX: options.offsetX,
+			offsetY: options.offsetY,
+			zoomLvl: options.zoomLvl,
+			image: options.image,
+			gridOffsetX: options.gridOffsetX,
+			gridOffsetY: options.gridOffsetY,
+			gridZoomLvl: options.gridZoomLvl,
+			gridSizeX: options.gridSizeX,
+			gridSizeY: options.gridSizeY,
 			gridIsHidden: options.gridIsHidden,
-			imgRotation	: options.imgRotation,
-			toggleFieldsLeft : options.toggleFieldsLeft,
-			numClickableFields : options.numClickableFields,
-			thresholdCorrectAnswers : options.thresholdCorrectAnswers,
-			cvIsColored : options.cvIsColored,
+			imgRotation: options.imgRotation,
+			toggleFieldsLeft: options.toggleFieldsLeft,
+			numClickableFields: options.numClickableFields,
+			thresholdCorrectAnswers: options.thresholdCorrectAnswers,
+			cvIsColored: options.cvIsColored,
 			showStatistic: 1
 		});
 		question.set('_id', undefined);
@@ -219,14 +219,14 @@ Ext.define("ARSnova.controller.Questions", {
 
 	options.answer.deletable = ARSnova.app.isSessionOwner;
 		var freetextDetailAnswerPanel = Ext.create('ARSnova.view.FreetextDetailAnswer', {
-			sTP		: parentPanel,
-			answer	: options.answer
+			sTP: parentPanel,
+			answer: options.answer
 		});
 
 		parentPanel.animateActiveItem(freetextDetailAnswerPanel, {
-			type		: 'slide',
-			direction	: 'left',
-			duration	: 700
+			type: 'slide',
+			direction: 'left',
+			duration: 700
 		}, 'slide');
 	},
 
@@ -315,9 +315,9 @@ Ext.define("ARSnova.controller.Questions", {
 			panel.backButton.handler = function(){
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				sTP.animateActiveItem(sTP.audienceQuestionPanel, {
-					type		: 'slide',
-					direction	: 'right',
-					duration	: 700
+					type: 'slide',
+					direction: 'right',
+					duration: 700
 				});
 			};
 			panel.backButton.setText("Fragen");

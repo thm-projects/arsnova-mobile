@@ -137,7 +137,7 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 		});
 		// Press the 'correct' button
 		this.segmentedButton.setPressedButtons(possibleAnswers.map(function(answer, index) {
-			return answer.correct ? index : null;
+			return answer.correct ? index: null;
 		}));
 		// Still no button pressed? Select the 'none' button...
 		if (this.segmentedButton.getPressedButtons().length === 0) {
@@ -158,8 +158,8 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 	getQuestionValues: function() {
 		var result = {};
 
-		var yesAnswer = { text: this.yesButton.getText(), correct: false };
-		var noAnswer = { text: this.noButton.getText(), correct: false };
+		var yesAnswer = {text: this.yesButton.getText(), correct: false};
+		var noAnswer = {text: this.noButton.getText(), correct: false};
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			yesAnswer.value = this.yesValueComponent.getSliderValue();
 			noAnswer.value = this.noValueComponent.getSliderValue();

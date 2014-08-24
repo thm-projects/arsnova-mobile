@@ -43,11 +43,11 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		this.callParent(arguments);
 
 		this.feedbackVoteButton = Ext.create('Ext.Button', {
-			text	: Messages.FEEDBACK_VOTE,
-			ui		: 'back',
-			scope	: this,
-			hidden	: true,
-			handler	: function() {
+			text: Messages.FEEDBACK_VOTE,
+			ui: 'back',
+			scope: this,
+			hidden: true,
+			handler: function() {
 				var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 				fP.animateActiveItem(fP.votePanel, {
 						type: 'slide',
@@ -61,7 +61,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		if(ARSnova.app.userRole != ARSnova.app.USER_ROLE_SPEAKER) {
 			this.buttonClicked = function(button) {
 				ARSnova.app.getController('Feedback').vote({
-					value : button.config.value
+					value: button.config.value
 				});
 			};
 		}
@@ -77,10 +77,10 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			flex: 1,
 
 			items: [{
-				xtype		: 'button',
-				value		: 'Kann folgen',
-				cls			: 'feedbackOkIcon',
-				handler		: this.buttonClicked
+				xtype: 'button',
+				value: 'Kann folgen',
+				cls: 'feedbackOkIcon',
+				handler: this.buttonClicked
 			}]
 		});
 
@@ -89,10 +89,10 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			flex: 1,
 
 			items: [{
-				xtype		: 'button',
-				value		: 'Bitte schneller',
-				cls			: 'feedbackGoodIcon',
-				handler		: this.buttonClicked
+				xtype: 'button',
+				value: 'Bitte schneller',
+				cls: 'feedbackGoodIcon',
+				handler: this.buttonClicked
 			}]
 		});
 
@@ -101,10 +101,10 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			flex: 1,
 
 			items: [{
-				xtype		: 'button',
-				value		: 'Zu schnell',
-				cls			: 'feedbackBadIcon',
-				handler		: this.buttonClicked
+				xtype: 'button',
+				value: 'Zu schnell',
+				cls: 'feedbackBadIcon',
+				handler: this.buttonClicked
 			}]
 		});
 
@@ -113,15 +113,15 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			flex: 1,
 
 			items: [{
-				xtype		: 'button',
-				value		: 'Nicht mehr dabei',
-				cls			: 'feedbackNoneIcon',
-				handler		: this.buttonClicked
+				xtype: 'button',
+				value: 'Nicht mehr dabei',
+				cls: 'feedbackNoneIcon',
+				handler: this.buttonClicked
 			}]
 		});
 
 		this.feedbackButtons = Ext.create('Ext.Toolbar', {
-			cls	 : 'voteButtonsPanel',
+			cls: 'voteButtonsPanel',
 			docked: 'top',
 
 			items: [
@@ -135,41 +135,44 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		this.feedbackChartColors = [
 			Ext.create('Ext.draw.gradient.Linear', {
 				degrees: 90,
-				stops: [{ offset: 0,	color: 'rgb(122, 184, 68)' },
-						{ offset: 100,	color: 'rgb(82, 144, 28)' }
+				stops: [{offset: 0, color: 'rgb(122, 184, 68)'},
+						{offset: 100, color: 'rgb(82, 144, 28)'}
 				]
 			}),
 
 			Ext.create('Ext.draw.gradient.Linear', {
 				degrees: 90,
-				stops: [{ offset: 0,	color: 'rgb(254, 201, 41)' },
-						{ offset: 100,	color: 'rgb(214, 161, 0)' }
+				stops: [
+					{offset: 0, color: 'rgb(254, 201, 41)'},
+					{offset: 100, color: 'rgb(214, 161, 0)'}
 				]
 			}),
 
 			Ext.create('Ext.draw.gradient.Linear', {
 				degrees: 90,
-				stops: [{offset: 0,		color: 'rgb(237, 96, 28)' },
-						{offset: 100,	color: 'rgb(197, 56, 0)' }
+				stops: [
+					{offset: 0, color: 'rgb(237, 96, 28)'},
+					{offset: 100, color: 'rgb(197, 56, 0)'}
 				]
 			}),
 
 			Ext.create('Ext.draw.gradient.Linear', {
 				degrees: 90,
-				stops: [{ offset: 0,	color: 'rgb(235, 235, 235)' },
-						{ offset: 100,	color: 'rgb(195,195,195)' }
+				stops: [
+					{offset: 0, color: 'rgb(235, 235, 235)'},
+					{offset: 100, color: 'rgb(195,195,195)'}
 				]
 			})
 		];
 
 		this.feedbackChart = Ext.create('Ext.chart.CartesianChart', {
-			store:  Ext.create('Ext.data.Store', {
+			store: Ext.create('Ext.data.Store', {
 				fields: ['name', 'displayName', 'value', 'percent'],
 				data: [
-					   {'name': 'Kann folgen',		'displayName': Messages.FEEDBACK_OKAY,	'value': 0, 'percent': 0.0},
-					   {'name': 'Bitte schneller',	'displayName': Messages.FEEDBACK_GOOD,	'value': 0, 'percent': 0.0},
-					   {'name': 'Zu schnell',		'displayName': Messages.FEEDBACK_BAD,	'value': 0, 'percent': 0.0},
-					   {'name': 'Nicht mehr dabei',	'displayName': Messages.FEEDBACK_NONE,	'value': 0, 'percent': 0.0}
+					{'name': 'Kann folgen', 'displayName': Messages.FEEDBACK_OKAY, 'value': 0, 'percent': 0.0},
+					{'name': 'Bitte schneller', 'displayName': Messages.FEEDBACK_GOOD, 'value': 0, 'percent': 0.0},
+					{'name': 'Zu schnell', 'displayName': Messages.FEEDBACK_BAD, 'value': 0, 'percent': 0.0},
+					{'name': 'Nicht mehr dabei', 'displayName': Messages.FEEDBACK_NONE, 'value': 0, 'percent': 0.0}
 				]
 			}),
 
@@ -186,8 +189,8 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			}, {
 				type: 'category',
 				position: 'bottom',
-				fields : ['name'],
-				style: { stroke : 'white' },
+				fields: ['name'],
+				style: {stroke: 'white'},
 				renderer: function(label, layout, lastLabel) {
 					// remove x-axis ticks and labels on refresh or update
 					layout.attr.majorTicks = false;
@@ -203,10 +206,10 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 					maxBarWidth: 200
 				},
 				label: {
-					display	: 'insideEnd',
-					field	: 'value',
-					color	: '#000',
-					font	: '20px Helvetica',
+					display: 'insideEnd',
+					field: 'value',
+					color: '#000',
+					font: '20px Helvetica',
 					orientation: 'horizontal',
 					renderer: function(text) {
 						return text;
@@ -216,7 +219,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 					var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel;
 
 					return rendererData = {
-							fill : panel.feedbackChartColors[i % panel.feedbackChartColors.length]
+						fill: panel.feedbackChartColors[i % panel.feedbackChartColors.length]
 					};
 				}
 			}]
@@ -250,7 +253,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		// Calculate percentages
 		var sum = store.sum('value');
 		store.each(function(record) {
-			record.set('percent', sum > 0 ? (record.get('value') / sum) : 0.0);
+			record.set('percent', sum > 0 ? (record.get('value') / sum): 0.0);
 		});
 
 		chart.getAxes()[0].setMaximum(Math.max.apply(null, values));

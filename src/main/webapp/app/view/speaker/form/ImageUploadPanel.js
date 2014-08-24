@@ -75,7 +75,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				docked: 'top'
 			},
 			{
-				id : 'pnl_upfield',
+				id: 'pnl_upfield',
 				xtype: 'panel',
 				layout: 'vbox',
 				items: [

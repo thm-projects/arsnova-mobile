@@ -34,23 +34,23 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		}
 	},
 
-	inClassRendered	: false,
-	userInClass		: null,
-	speakerInClass	: null,
-	outOfClass		: null,
+	inClassRendered: false,
+	userInClass: null,
+	speakerInClass: null,
+	outOfClass: null,
 
 	/* toolbar items */
-	toolbar				: null,
-	logoutButton		: null,
-	sessionLogoutButton	: null,
+	toolbar: null,
+	logoutButton: null,
+	sessionLogoutButton: null,
 
 	initialize: function() {
 		this.callParent(arguments);
 
 		this.logoutButton = Ext.create('Ext.Button', {
-			text	: Messages.LOGOUT,
-			ui		: 'back',
-			handler	: function() {
+			text: Messages.LOGOUT,
+			ui: 'back',
+			handler: function() {
 				ARSnova.app.getController('Auth').logout();
 			}
 		});
@@ -66,32 +66,32 @@ Ext.define('ARSnova.view.home.HomePanel', {
 
 		this.outOfClass = Ext.create('Ext.form.FormPanel', {
 			title: 'Out of class',
-			cls  : 'standardForm',
+			cls: 'standardForm',
 			scrollable: null,
 
 			items: [{
-				xtype		: 'button',
-				ui			: 'normal',
-				text		: 'Sessions',
-				cls			: 'forwardListButton',
-				controller	: 'user',
-				action		: 'index',
-				handler		: this.buttonClicked
+				xtype: 'button',
+				ui: 'normal',
+				text: 'Sessions',
+				cls: 'forwardListButton',
+				controller: 'user',
+				action: 'index',
+				handler: this.buttonClicked
 			}]
 		});
 
 		this.sessionLoginForm = Ext.create('Ext.Panel', {
-			layout : {
-				type : 'vbox',
-				pack : 'center',
+			layout: {
+				type: 'vbox',
+				pack: 'center',
 				align: 'center'
 			},
 
 			items: [{
-					xtype	: 'panel',
-					cls		: null,
-					html	: "<div class='arsnova-logo'></div>",
-					style	: { marginTop: '35px', marginBottom: '30px' }
+					xtype: 'panel',
+					cls: null,
+					html: "<div class='arsnova-logo'></div>",
+					style: {marginTop: '35px', marginBottom: '30px'}
 				}, {
 					submitOnAction: false,
 					xtype: 'formpanel',
@@ -100,32 +100,32 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					margin: '0 auto',
 
 					items: [{
-							xtype : 'fieldset',
+							xtype: 'fieldset',
 							cls: 'bottomMargin',
 
 							items: [{
-								xtype		: 'textfield',
+								xtype: 'textfield',
 								component: {
 									xtype: 'input',
 									cls: 'joinSessionInput',
 									type: 'tel',
 									maxLength: 16
 								},
-								name		: 'keyword',
-								placeHolder	: Messages.SESSIONID_PLACEHOLDER,
+								name: 'keyword',
+								placeHolder: Messages.SESSIONID_PLACEHOLDER,
 								listeners: {
 									scope: this,
 									action: this.onSubmit
 								}
 							}]
 						}, {
-							xtype	: 'button',
-							height	: '45px',
-							margin	: '-10px 10px 0',
-							ui		: 'confirm',
-							text	: Messages.GO,
-							handler	: this.onSubmit,
-							scope	: this
+							xtype: 'button',
+							height: '45px',
+							margin: '-10px 10px 0',
+							ui: 'confirm',
+							text: Messages.GO,
+							handler: this.onSubmit,
+							scope: this
 						}]
 			}]
 		});
@@ -164,9 +164,9 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		this.down('textfield').blur();
 
 		ARSnova.app.getController('Sessions').login({
-			keyword	  : this.down('textfield').getValue().replace(/ /g, ""),
-			destroy   : false,
-			panel	  : this
+			keyword: this.down('textfield').getValue().replace(/ /g, ""),
+			destroy: false,
+			panel: this
 		});
 	},
 
@@ -198,20 +198,20 @@ Ext.define('ARSnova.view.home.HomePanel', {
 						}
 
 						// Minimum width of 481px equals at least landscape view
-						var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
+						var displaytext = window.innerWidth > 481 ? session.name: session.shortName;
 						var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-							xtype		: 'button',
-							ui			: 'normal',
-							text		: Ext.util.Format.htmlEncode(displaytext),
-							cls			: 'forwardListButton' + icon,
-							controller	: 'sessions',
-							action		: 'showDetails',
-							badgeCls	: 'badgeicon',
-							sessionObj	: session,
-							handler		: function(options){
+							xtype: 'button',
+							ui: 'normal',
+							text: Ext.util.Format.htmlEncode(displaytext),
+							cls: 'forwardListButton' + icon,
+							controller: 'sessions',
+							action: 'showDetails',
+							badgeCls: 'badgeicon',
+							sessionObj: session,
+							handler: function(options){
 								var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
 								ARSnova.app.getController('Sessions').login({
-									keyword		: options.config.sessionObj.keyword
+									keyword: options.config.sessionObj.keyword
 								});
 								hideLoadMask();
 							}
@@ -242,14 +242,14 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				console.log('server-side error loggedIn.save');
 				ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.homePanel.lastVisitedSessionsForm.hide();
 			}
-		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
+		}, (window.innerWidth > 481 ? 'name': 'shortname'));
 	},
 
 	updateBadge: function(sessionKeyword, button) {
 		var promise = new RSVP.Promise();
 		ARSnova.app.questionModel.getUnansweredSkillQuestions(sessionKeyword, {
 			success: function(newQuestions) {
-				button.setBadge([{ badgeText: newQuestions.length }]);
+				button.setBadge([{badgeText: newQuestions.length}]);
 				promise.resolve(newQuestions.length);
 			},
 			failure: function(response) {

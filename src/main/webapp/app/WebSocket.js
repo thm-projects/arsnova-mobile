@@ -48,12 +48,12 @@ Ext.define('ARSnova.WebSocket', {
 					hasWs = true;
 				}
 			}
-			var transports = hasWs ? ["websocket"] : ["polling"];
+			var transports = hasWs ? ["websocket"]: ["polling"];
 			console.debug("Socket.IO transports", transports);
 
 			socket = io.connect(socketUrl, {
 				reconnect: true,
-				secure: window.location.protocol === 'http:' ? false : true,
+				secure: window.location.protocol === 'http:' ? false: true,
 				transports: transports
 			});
 

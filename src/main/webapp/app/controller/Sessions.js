@@ -76,9 +76,9 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('name', obj.name);
 				localStorage.setItem('keyword', obj.keyword);
 				localStorage.setItem('shortName', obj.shortName);
-				localStorage.setItem('courseId', obj.courseId === null ? "" : obj.courseId);
-				localStorage.setItem('courseType', obj.courseType === null ? "" : obj.courseType);
-				localStorage.setItem('active', obj.active ? 1 : 0);
+				localStorage.setItem('courseId', obj.courseId === null ? "": obj.courseId);
+				localStorage.setItem('courseType', obj.courseType === null ? "": obj.courseType);
+				localStorage.setItem('active', obj.active ? 1: 0);
 
 				/* TODO: Use abstraction layer? */
 				if (window.socket) {
@@ -243,12 +243,12 @@ Ext.define("ARSnova.controller.Sessions", {
 
 	create: function(options){
 		var session = Ext.create('ARSnova.model.Session', {
-			type		: 'session',
-			name		: options.name,
-			shortName	: options.shortName,
-			creator		: localStorage.getItem('login'),
-			courseId	: options.courseId,
-			courseType	: options.courseType
+			type: 'session',
+			name: options.name,
+			shortName: options.shortName,
+			creator: localStorage.getItem('login'),
+			courseId: options.courseId,
+			courseType: options.courseType
 		});
 		session.set('_id', undefined);
 
@@ -273,9 +273,9 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('name', fullSession.name);
 				localStorage.setItem('keyword', fullSession.keyword);
 				localStorage.setItem('shortName', fullSession.shortName);
-				localStorage.setItem('active', fullSession.active ? 1 : 0);
-				localStorage.setItem('courseId', fullSession.courseId === null ? "" : fullSession.courseId);
-				localStorage.setItem('courseType', fullSession.courseType === null ? "" : fullSession.courseType);
+				localStorage.setItem('active', fullSession.active ? 1: 0);
+				localStorage.setItem('courseId', fullSession.courseId === null ? "": fullSession.courseId);
+				localStorage.setItem('courseType', fullSession.courseType === null ? "": fullSession.courseType);
 				ARSnova.app.isSessionOwner = true;
 
 				//start task to update the feedback tab in tabBar

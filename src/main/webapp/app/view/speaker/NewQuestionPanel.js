@@ -45,9 +45,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	},
 
 	/* toolbar items */
-	toolbar		: null,
-	backButton	: null,
-	saveButton	: null,
+	toolbar: null,
+	backButton: null,
+	saveButton: null,
 
 	/* items */
 	text: null,
@@ -62,21 +62,21 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.callParent(arguments);
 
 		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.QUESTIONS,
-			ui		: 'back',
-			handler	: function(){
+			text: Messages.QUESTIONS,
+			ui: 'back',
+			handler: function(){
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				sTP.animateActiveItem(sTP.audienceQuestionPanel, {
-					type		: 'slide',
-					direction	: 'right',
-					duration	: 700
+					type: 'slide',
+					direction: 'right',
+					duration: 700
 				});
 			}
 		});
 
 		this.saveButtonToolbar = Ext.create('Ext.Button', {
-			text	: Messages.SAVE,
-			ui		: 'confirm',
+			text: Messages.SAVE,
+			ui: 'confirm',
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
 			handler: function() {
@@ -95,18 +95,18 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		});
 
 		this.textarea = Ext.create('Ext.plugins.ResizableTextArea', {
-			name		: 'text',
-			placeHolder	: Messages.QUESTIONTEXT_PlACEHOLDER,
-			maxHeight	: 140
+			name: 'text',
+			placeHolder: Messages.QUESTIONTEXT_PlACEHOLDER,
+			maxHeight: 140
 		});
 
 		//Preview button
 		this.previewButton = Ext.create('Ext.Button', {
-			text	: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
-			ui		: 'confirm',
-			cls		: 'previewButton',
-			scope   : this,
-			handler : function() {
+			text: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
+			ui: 'confirm',
+			cls: 'previewButton',
+			scope: this,
+			handler: function() {
 					this.previewHandler();
 				}
 		});
@@ -153,7 +153,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			items: [
 				{
 					cls: 'gravure',
-					html: '<span class="coursemembersonlymessage">'+Messages.MEMBERS_ONLY+'</span>'
+					html: '<span class="coursemembersonlymessage">' + Messages.MEMBERS_ONLY + '</span>'
 				}
 			],
 			hidden: true
@@ -189,12 +189,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		});
 
 		var formatItems = [
-			{ text: Messages.MC },
-			{ text: Messages.ABCD	},
-			{ text: Messages.YESNO	},
-			{ text: Messages.FREETEXT },
-			{ text: Messages.EVALUATION },
-			{ text: Messages.SCHOOL }
+			{text: Messages.MC},
+			{text: Messages.ABCD},
+			{text: Messages.YESNO},
+			{text: Messages.FREETEXT},
+			{text: Messages.EVALUATION},
+			{text: Messages.SCHOOL}
 		];
 
 		var me = this;
@@ -220,8 +220,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				scope: me,
 				toggle: function(container, button, pressed) {
 					var label = Ext.bind(function(longv, shortv) {
-						var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-						return (screenWidth > 320 || me.backButton.isHidden()) ? longv : shortv;
+						var screenWidth = (window.innerWidth > 0) ? window.innerWidth: screen.width;
+						return (screenWidth > 320 || me.backButton.isHidden()) ? longv: shortv;
 					}, me);
 
 					var title = '';
@@ -242,7 +242,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 						case Messages.EVALUATION:
 							if (pressed) {
 								me.voteQuestion.show();
-								title =  label(Messages.QUESTION_RATING, Messages.QUESTION_RATING_SHORT);
+								title = label(Messages.QUESTION_RATING, Messages.QUESTION_RATING_SHORT);
 							} else {
 								me.voteQuestion.hide();
 							}
@@ -520,39 +520,39 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		var promise = new RSVP.Promise();
 		ARSnova.app.getController('Questions').add({
 			sessionKeyword: localStorage.getItem('keyword'),
-			text		: values.text,
-			subject		: values.subject,
-			type		: "skill_question",
+			text: values.text,
+			subject: values.subject,
+			type: "skill_question",
 			questionType: values.questionType,
 			questionVariant: values.questionVariant,
-			duration	: values.duration,
-			number		: 0, // unused
-			active		: 1,
+			duration: values.duration,
+			number: 0, // unused
+			active: 1,
 			possibleAnswers: values.possibleAnswers,
-			releasedFor	: values.releasedFor,
-			noCorrect	: values.noCorrect,
-			abstention	: values.abstention,
+			releasedFor: values.releasedFor,
+			noCorrect: values.noCorrect,
+			abstention: values.abstention,
 			showStatistic: 1,
-			gridSize	: values.gridSize,
-			offsetX		: values.offsetX,
-			offsetY		: values.offsetY,
-			zoomLvl		: values.zoomLvl,
-			image		: values.image,
-			gridOffsetX	: values.gridOffsetX,
-			gridOffsetY	: values.gridOffsetY,
-			gridZoomLvl	: values.gridZoomLvl,
-			gridSizeX	: values.gridSizeX,
-			gridSizeY	: values.gridSizeY,
+			gridSize: values.gridSize,
+			offsetX: values.offsetX,
+			offsetY: values.offsetY,
+			zoomLvl: values.zoomLvl,
+			image: values.image,
+			gridOffsetX: values.gridOffsetX,
+			gridOffsetY: values.gridOffsetY,
+			gridZoomLvl: values.gridZoomLvl,
+			gridSizeX: values.gridSizeX,
+			gridSizeY: values.gridSizeY,
 			gridIsHidden: values.gridIsHidden,
-			imgRotation : values.imgRotation,
-			toggleFieldsLeft : values.toggleFieldsLeft,
-			numClickableFields : values.numClickableFields,
-			thresholdCorrectAnswers : values.thresholdCorrectAnswers,
-			cvIsColored : values.cvIsColored,
-			successFunc	: function(response, opts){
+			imgRotation: values.imgRotation,
+			toggleFieldsLeft: values.toggleFieldsLeft,
+			numClickableFields: values.numClickableFields,
+			thresholdCorrectAnswers: values.thresholdCorrectAnswers,
+			cvIsColored: values.cvIsColored,
+			successFunc: function(response, opts){
 				promise.resolve(response);
 			},
-			failureFunc	: function(response, opts){
+			failureFunc: function(response, opts){
 				Ext.Msg.alert(Messages.NOTICE, Messages.QUESTION_CREATION_ERROR);
 				promise.reject(response);
 			}

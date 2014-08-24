@@ -29,8 +29,8 @@ Ext.define('ARSnova.view.home.TabPanel', {
 	],
 
 	config: {
-		title	: Messages.HOME,
-		iconCls	: 'tabBarIconHome',
+		title: Messages.HOME,
+		iconCls: 'tabBarIconHome',
 		layout: 'card'
 	},
 
@@ -38,7 +38,7 @@ Ext.define('ARSnova.view.home.TabPanel', {
 		this.callParent(arguments);
 
 		/* out of class */
-		this.homePanel		 = Ext.create('ARSnova.view.home.HomePanel');
+		this.homePanel = Ext.create('ARSnova.view.home.HomePanel');
 		this.mySessionsPanel = Ext.create('ARSnova.view.home.MySessionsPanel');
 		this.newSessionPanel = Ext.create('ARSnova.view.home.NewSessionPanel');
 

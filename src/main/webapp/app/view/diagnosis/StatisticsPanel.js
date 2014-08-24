@@ -25,7 +25,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 
 	config: {
 		fullscreen: true,
-		title:	'StatisticPanel',
+		title: 'StatisticPanel',
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
@@ -40,8 +40,8 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 	statistics: null,
 
 	/* toolbar items */
-	toolbar		: null,
-	backButton	: null,
+	toolbar: null,
+	backButton: null,
 
 	/**
 	 * update the statistics table
@@ -62,16 +62,16 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 		}),
 
 		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.BACK,
-			ui		: 'back',
-			handler	: function() {
+			text: Messages.BACK,
+			ui: 'back',
+			handler: function() {
 				me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel;
 
 				me.animateActiveItem(me.diagnosisPanel, {
-					type		: 'slide',
-					direction	: 'right',
-					duration	: 700,
-					scope		: this
+					type: 'slide',
+					direction: 'right',
+					duration: 700,
+					scope: this
 				});
 			}
 		});
@@ -84,31 +84,31 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 		});
 
 		this.formpanel = Ext.create('Ext.form.Panel', {
-			cls  : 'standardForm topPadding',
-			scrollable : null,
+			cls: 'standardForm topPadding',
+			scrollable: null,
 
 			defaults: {
-				xtype	: 'button',
-				ui		: 'normal',
-				cls		: 'standardListButton',
+				xtype: 'button',
+				ui: 'normal',
+				cls: 'standardListButton',
 				disabled: true
 			},
 
 			items: [{
-					itemId : 'statisticUsersOnline',
-					text	: 'Users online'
+					itemId: 'statisticUsersOnline',
+					text: 'Users online'
 				},{
-					itemId : 'statisticOpenSessions',
-					text	: Messages.OPEN_SESSIONS
+					itemId: 'statisticOpenSessions',
+					text: Messages.OPEN_SESSIONS
 				},{
-					itemId : 'statisticClosedSessions',
-					text	: Messages.CLOSED_SESSIONS
+					itemId: 'statisticClosedSessions',
+					text: Messages.CLOSED_SESSIONS
 				},{
-					itemId : 'statisticQuestions',
-					text	: Messages.QUESTIONS
+					itemId: 'statisticQuestions',
+					text: Messages.QUESTIONS
 				},{
-					itemId : 'statisticAnswers',
-					text	: Messages.ANSWERS
+					itemId: 'statisticAnswers',
+					text: Messages.ANSWERS
 				}]
 		});
 

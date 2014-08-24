@@ -7,12 +7,12 @@ Ext.define('ARSnova.BrowserSupport', {
 
 	config: {
 		supported: {
-			"Chrome" : 0,
-			"Safari" : 0,
-			"Firefox" : 22,
-			"Opera" : 15,
-			"Explorer" : 10,
-			"Android" : 2
+			"Chrome": 0,
+			"Safari": 0,
+			"Firefox": 22,
+			"Opera": 15,
+			"Explorer": 10,
+			"Android": 2
 		}
 	},
 
@@ -22,7 +22,7 @@ Ext.define('ARSnova.BrowserSupport', {
 		this.detect = Ext.create("ARSnova.BrowserDetect");
 	},
 
-	getRequiredBrowserVersion: function() {
+	getRequiredBrowserVersion:        function() {
 		return this.getSupported()[this.detect.browser];
 	},
 

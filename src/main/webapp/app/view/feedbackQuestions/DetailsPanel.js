@@ -32,9 +32,9 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 	},
 
 	/* toolbar items */
-	toolbar		: null,
-	backButton	: null,
-	questionObj : null,
+	toolbar: null,
+	backButton: null,
+	questionObj: null,
 
 	constructor: function(args){
 		this.callParent(arguments);
@@ -42,15 +42,15 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 		this.questionObj = args.question;
 
 		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.QUESTIONS,
-			ui		: 'back',
-			scope	: this,
-			handler	: function(){
+			text: Messages.QUESTIONS,
+			ui: 'back',
+			scope: this,
+			handler: function(){
 				var sQP = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
 				sQP.animateActiveItem(sQP.questionsPanel, {
-					type		: 'slide',
-					direction	: 'right',
-					duration	: 700
+					type: 'slide',
+					direction: 'right',
+					duration: 700
 				});
 //				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.getFeedbackQuestions();
 			}
@@ -68,11 +68,11 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 
 		//Preview button
 		this.previewButton = Ext.create('Ext.Button', {
-			text	: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
-			ui		: 'confirm',
-			cls		: 'previewButton',
-			scope   : this,
-			handler : function() {
+			text: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
+			ui: 'confirm',
+			cls: 'previewButton',
+			scope: this,
+			handler: function() {
 					this.previewHandler();
 				}
 		});
@@ -116,9 +116,9 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 
 		{
 			xtype: 'button',
-			ui	 : 'decline',
-			cls  : 'centerButton',
-			text : Messages.DELETE,
+			ui: 'decline',
+			cls: 'centerButton',
+			text: Messages.DELETE,
 			scope: this,
 			handler: function(){
 				var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
@@ -130,9 +130,9 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 				});
 
 				panel.animateActiveItem(panel.questionsPanel, {
-					type		: 'slide',
-					direction	: 'right',
-					duration	: 700
+					type: 'slide',
+					direction: 'right',
+					duration: 700
 				});
 			}
 		}]);

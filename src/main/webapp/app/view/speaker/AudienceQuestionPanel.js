@@ -39,8 +39,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	monitorOrientation: true,
 
 	/* toolbar items */
-	toolbar		: null,
-	backButton	: null,
+	toolbar: null,
+	backButton: null,
 
 	controls: null,
 	questions: null,
@@ -72,7 +72,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		});
 
 		var styling = {
-			marginLeft:  '12px',
+			marginLeft: '12px',
 			marginRight: '12px',
 			backgroundColor: 'transparent'
 		};
@@ -81,7 +81,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			activeCls: 'search-item-active',
 			cls: 'roundedCorners allCapsHeader',
 
-			scrollable: { disabled: true },
+			scrollable: {disabled: true},
 			hidden: true,
 
 			style: styling,
@@ -98,7 +98,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				scope: this,
 				itemtap: function(list, index, element) {
 					this.getController().details({
-						question	: list.getStore().getAt(index).data
+						question: list.getStore().getAt(index).data
 					});
 				},
 				/**
@@ -126,38 +126,38 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 		this.questionTitle = Ext.create('Ext.Label', {
 			html: Messages.QUESTIONS,
-			style: { marginTop: '30px' },
+			style: {marginTop: '30px'},
 			cls: 'standardLabel',
 			hidden: true
 		});
 
 		this.newQuestionButton = {
-			xtype	: 'button',
-			text	: Messages.NEW_QUESTION,
-			cls		: 'forwardListButton',
-			handler	: this.newQuestionHandler
+			xtype: 'button',
+			text: Messages.NEW_QUESTION,
+			cls: 'forwardListButton',
+			handler: this.newQuestionHandler
 		};
 
 		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.BACK,
-			ui		: 'back',
-			handler	: function() {
+			text: Messages.BACK,
+			ui: 'back',
+			handler: function() {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				sTP.inClassPanel.updateAudienceQuestionBadge();
 				sTP.animateActiveItem(sTP.inClassPanel, {
-					type		: 'slide',
-					direction	: 'right',
-					duration	: 700
+					type: 'slide',
+					direction: 'right',
+					duration: 700
 				});
 			}
 		});
 
 		this.showcaseButton = Ext.create('Ext.Button', {
-			cls		: "thm",
-			text	: Messages.SHOWCASE,
-			hidden	: true,
-			scope	: this,
-			handler	: this.showcaseHandler
+			cls: "thm",
+			text: Messages.SHOWCASE,
+			hidden: true,
+			scope: this,
+			handler: this.showcaseHandler
 		});
 
 		this.showcaseFormButton = {
@@ -186,11 +186,11 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			cls: 'threeButtons left',
 			hidden: true,
 			items: [{
-				xtype	: 'button',
-				text	: ' ',
-				cls		: 'recycleIcon',
-				scope	: this,
-				handler	: function() {
+				xtype: 'button',
+				text: ' ',
+				cls: 'recycleIcon',
+				scope: this,
+				handler: function() {
 					var me = this;
 					Ext.Msg.confirm(Messages.DELETE_ALL_ANSWERS_REQUEST, Messages.ALL_QUESTIONS_REMAIN, function(answer) {
 						if (answer == 'yes') {
@@ -203,7 +203,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				}
 			}, {
 				html: Messages.DELETE_ANSWERS,
-				cls	: 'centerTextSmall'
+				cls: 'centerTextSmall'
 			}]
 		});
 
@@ -211,11 +211,11 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			cls: 'threeButtons left',
 			hidden: true,
 			items: [{
-				xtype	: 'button',
-				text	: ' ',
-				cls		: 'deleteIcon',
-				scope	: this,
-				handler	: function() {
+				xtype: 'button',
+				text: ' ',
+				cls: 'deleteIcon',
+				scope: this,
+				handler: function() {
 					var msg = Messages.ARE_YOU_SURE;
 						msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
 					Ext.Msg.confirm(Messages.DELETE_ALL_QUESTIONS, msg, function(answer) {
@@ -231,7 +231,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				}
 			}, {
 				html: Messages.DELETE_ALL_QUESTIONS,
-				cls	: 'centerTextSmall'
+				cls: 'centerTextSmall'
 			}]
 		});
 
@@ -254,7 +254,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			this.caption,
 			Ext.create('Ext.Panel', {
 				scrollable: null,
-				style	: {
+				style: {
 					marginTop: '30px'
 				},
 				items: [this.questionStatusButton, this.deleteAnswersButton, this.deleteQuestionsButton]

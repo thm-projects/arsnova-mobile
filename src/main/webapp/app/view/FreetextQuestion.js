@@ -39,7 +39,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 		var self = this;
 		this.questionObj = this.config.questionObj;
-		this.viewOnly = typeof this.config.viewOnly === "undefined" ? false : this.config.viewOnly;
+		this.viewOnly = typeof this.config.viewOnly === "undefined" ? false: this.config.viewOnly;
 
 		this.customMask = Ext.create('ARSnova.view.CustomMask', {
 			mainPanel: this
@@ -64,7 +64,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		});
 
 		this.answerText = Ext.create('Ext.form.TextArea', {
-			placeHolder	: Messages.QUESTION_TEXT_PLACEHOLDER,
+			placeHolder: Messages.QUESTION_TEXT_PLACEHOLDER,
 			label: Messages.FREETEXT_ANSWER_TEXT,
 			name: 'text',
 			maxLength: 2500,
@@ -83,7 +83,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		questionPanel.setContent(questionString, true, true);
 
 		this.add([Ext.create('Ext.Panel', {
-			items: [questionPanel, this.viewOnly ? {} : {
+			items: [questionPanel, this.viewOnly ? {}: {
 					xtype: 'formpanel',
 					scrollable: null,
 					submitOnAction: false,
@@ -103,13 +103,13 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 						},
 						items: [{
 							flex: 1,
-							xtype	: 'button',
+							xtype: 'button',
 							ui: 'confirm',
 							cls: 'login-button noMargin',
 							text: Messages.SAVE,
 							handler: this.saveHandler,
 							scope: this
-						}, !!!this.questionObj.abstention ? { hidden: true } : {
+						}, !!!this.questionObj.abstention ? {hidden: true}: {
 							flex: 1,
 							xtype: 'button',
 							cls: 'login-button noMargin',
@@ -187,14 +187,14 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		ARSnova.app.answerModel.getUserAnswer(this.questionObj._id, {
 			empty: function() {
 				var answer = Ext.create('ARSnova.model.Answer', {
-					type			: "skill_question_answer",
-					sessionId		: localStorage.getItem("sessionId"),
-					questionId		: self.questionObj._id,
-					answerSubject	: self.answerSubject.getValue(),
-					answerText		: self.answerText.getValue(),
-					timestamp		: Date.now(),
-					user			: localStorage.getItem("login"),
-					questionVariant	: self.questionObj.questionVariant
+					type: "skill_question_answer",
+					sessionId: localStorage.getItem("sessionId"),
+					questionId: self.questionObj._id,
+					answerSubject: self.answerSubject.getValue(),
+					answerText: self.answerText.getValue(),
+					timestamp: Date.now(),
+					user: localStorage.getItem("login"),
+					questionVariant: self.questionObj.questionVariant
 				});
 
 				self.saveAnswer(answer);
@@ -222,12 +222,12 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		ARSnova.app.answerModel.getUserAnswer(this.questionObj._id, {
 			empty: function() {
 				var answer = Ext.create('ARSnova.model.Answer', {
-					type			: "skill_question_answer",
-					sessionId		: localStorage.getItem("sessionId"),
-					questionId		: self.questionObj._id,
-					timestamp		: Date.now(),
-					user			: localStorage.getItem("login"),
-					abstention		: true
+					type: "skill_question_answer",
+					sessionId: localStorage.getItem("sessionId"),
+					questionId: self.questionObj._id,
+					timestamp: Date.now(),
+					user: localStorage.getItem("login"),
+					abstention: true
 				});
 
 				self.saveAnswer(answer);
