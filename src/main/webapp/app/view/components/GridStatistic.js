@@ -37,10 +37,10 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 	optionsFieldSet : null,
 	answers : new Array(),
 
-	
+
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * Creates the canvas element and initializes all necessary variables.
 	 */
 	constructor : function() {
@@ -73,7 +73,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		});
 
 		this.releaseItems = [
-		          {
+				  {
 					text : showShortLabels ? Messages.GRID_LABEL_ABSOLUTE_SHORT
 							: Messages.GRID_LABEL_ABSOLUTE,
 					scope : this,
@@ -134,14 +134,14 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		this.optionsFieldSet = Ext.create('Ext.form.FieldSet', {
 			cls : 'standardFieldset gridQDSettingsPanel',
 			items : [ this.gridShowNumbers,
-			          {
+					  {
 							xtype : 'spacer',
 							height : 25
 					  },
-			          this.gridShowColors,
-			          this.gridColorsToggle,
-			          this.gridWeakenImageToggle,
-			          this.abstentionPanel			          
+					  this.gridShowColors,
+					  this.gridColorsToggle,
+					  this.gridWeakenImageToggle,
+					  this.abstentionPanel
 					]
 		});
 
@@ -195,20 +195,20 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				me.grid.update(questionObj.gridSize, questionObj.offsetX,
 						questionObj.offsetY, questionObj.zoomLvl,
 						questionObj.gridOffsetX, questionObj.gridOffsetY,
-						questionObj.gridZoomLvl, questionObj.gridSizeX, 
+						questionObj.gridZoomLvl, questionObj.gridSizeX,
 						questionObj.gridSizeY, questionObj.gridIsHidden,
-						questionObj.imgRotation, questionObj.toggleFieldsLeft, 
+						questionObj.imgRotation, questionObj.toggleFieldsLeft,
 						questionObj.numClickableFields, questionObj.thresholdCorrectAnswers,
 						questionObj.cvIsColored, questionObj.possibleAnswers, true);
 			} else {
-				
+
 				// output withOUT correct answers
 				me.grid.update(questionObj.gridSize, questionObj.offsetX,
-						questionObj.offsetY, questionObj.zoomLvl, 
+						questionObj.offsetY, questionObj.zoomLvl,
 						questionObj.gridOffsetX, questionObj.gridOffsetY,
-						questionObj.gridZoomLvl, questionObj.gridSizeX, 
+						questionObj.gridZoomLvl, questionObj.gridSizeX,
 						questionObj.gridSizeY, questionObj.gridIsHidden,
-						questionObj.imgRotation, questionObj.toggleFieldsLeft, 
+						questionObj.imgRotation, questionObj.toggleFieldsLeft,
 						questionObj.numClickableFields, questionObj.thresholdCorrectAnswers,
 						questionObj.cvIsColored, Array(), true);
 			}

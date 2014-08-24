@@ -18,46 +18,46 @@
 
 Ext.define('ARSnova.view.components.GridContainer', {
 	extend : 'Ext.Container',
-    xtype: 'canvas',
+	xtype: 'canvas',
 
 	config : {
-		gridSize 				 : 16,			// Sqrt of the gridcount
-		canvasSize 				 : 400,			// Size of the canvas element (width and height).
-		initCanvasSize			 : 400,			// Should be same as canvasSize; for later reference.
-		canvas 				 	 : null, 		// The canvas element.
-		imageFile 				 : null,		// The image file.
-		gridLineWidth		 	 : 1,			// Width of the grid lines.
-		chosenFields 			 : Array(),
-		highlightColor 			 : '#FFFF00',	// Color of highlighted fields.
-		curGridLineColor		 : '#000000',	// Current color of the grid lines.
-		gridLineColor 			 : '#000000',	// Default color of the grid lines.
-		alternativeGridLineColor : '#FFFFFF',	// Alternative color of the grid lines.
-		statisticWrongColor		 : '#FF0000',	// Color for wrong fields in statistic.
-		statisticRightColor		 : '#00FF00',	// Color for right fields in statistic.
-		scaleFactor 			 : 1.2,			// Zoom level scale factor.
-		scale 					 : 1.0, 		// Actual scaling for the image. Necessary to switch between scale for zoomed image an normal scale.
-		zoomLvl 				 : 0, 			// Current zoomlevel.
-		offsetX 				 : 0,			// Current offset in x direction.
-		offsetY 				 : 0,			// Current offset in y direction.
-		moveInterval 			 : 10,			// Steps to take when moving the image (in pixel).
-		onFieldClick 			 : null,		// Hook for function, that will be called after onClick event.
-		editable				 : true,		// If set to false click events are prevented.
-		possibleAnswers  		 : [], 			// The pre-set, correct answers of the lecturer
-		heatmapMaxAlpha			 : 0.9,			// The alpha value of a field with 100% of votes.
-		heatmapMinAlpha			 : 0.2,			// The alpha value of a field with 0% of votes. 
-		gridOffsetX 			 : 0,			// current x offset for grid start point
-		gridOffsetY 			 : 0,			// current y offset for grid start point
-		gridZoomLvl 			 : 0,			// zoom level for grid (defines size of grid fields)
-		gridSizeX 				 : 16,			// number of horizontal grid fields
-		gridSizeY 				 : 16,			// number of vertical grid fields
-		gridIsHidden 			 : false,      	// flag for visual hiding of the grid
-		gridScale				 : 1.0,			// Current scale for the grid.
-		imgRotation				 : 0,			// Current rotation for the image.
-		toggleFieldsLeft		 : false,		// toggle the number of clickable fields. true: all fields are clickable, false: only the number of fields the lecturer has selected are clickable
-		numClickableFields		 : 0,			// number of clickable fields the lecturer has chosen
-		thresholdCorrectAnswers	 : 0,			// the points needed to answer the question correct
-		cvBackgroundColor		 : '#FFFFFF',	// background color of the canvas element
-		cvIsColored				 : false,		// true if the canvas background is colored (cvBackgroundColor), false otherwise. This way older questions without this attribute should still have a transparent background
+		gridSize					: 16,			// Sqrt of the gridcount
+		canvasSize					: 400,			// Size of the canvas element (width and height).
+		initCanvasSize				: 400,			// Should be same as canvasSize; for later reference.
+		canvas						: null,			// The canvas element.
+		imageFile					: null,			// The image file.
+		gridLineWidth				: 1,			// Width of the grid lines.
+		chosenFields				: Array(),
+		highlightColor				: '#FFFF00',	// Color of highlighted fields.
+		curGridLineColor			: '#000000',	// Current color of the grid lines.
+		gridLineColor				: '#000000',	// Default color of the grid lines.
+		alternativeGridLineColor	: '#FFFFFF',	// Alternative color of the grid lines.
+		statisticWrongColor			: '#FF0000',	// Color for wrong fields in statistic.
+		statisticRightColor			: '#00FF00',	// Color for right fields in statistic.
+		scaleFactor					: 1.2,			// Zoom level scale factor.
+		scale						: 1.0,			// Actual scaling for the image. Necessary to switch between scale for zoomed image an normal scale.
+		zoomLvl						: 0,			// Current zoomlevel.
+		offsetX						: 0,			// Current offset in x direction.
+		offsetY						: 0,			// Current offset in y direction.
+		moveInterval				: 10,			// Steps to take when moving the image (in pixel).
+		onFieldClick				: null,			// Hook for function, that will be called after onClick event.
+		editable					: true,			// If set to false click events are prevented.
+		possibleAnswers				: [],			// The pre-set, correct answers of the lecturer
+		heatmapMaxAlpha				: 0.9,			// The alpha value of a field with 100% of votes.
+		heatmapMinAlpha				: 0.2,			// The alpha value of a field with 0% of votes.
+		gridOffsetX					: 0,			// current x offset for grid start point
+		gridOffsetY					: 0,			// current y offset for grid start point
+		gridZoomLvl					: 0,			// zoom level for grid (defines size of grid fields)
+		gridSizeX					: 16,			// number of horizontal grid fields
+		gridSizeY					: 16,			// number of vertical grid fields
+		gridIsHidden				: false,		// flag for visual hiding of the grid
+		gridScale					: 1.0,			// Current scale for the grid.
+		imgRotation					: 0,			// Current rotation for the image.
+		toggleFieldsLeft			: false,		// toggle the number of clickable fields. true: all fields are clickable, false: only the number of fields the lecturer has selected are clickable
+		numClickableFields			: 0,			// number of clickable fields the lecturer has chosen
+		thresholdCorrectAnswers		: 0,			// the points needed to answer the question correct
+		cvBackgroundColor			: '#FFFFFF',	// background color of the canvas element
+		cvIsColored					: false,		// true if the canvas background is colored (cvBackgroundColor), false otherwise. This way older questions without this attribute should still have a transparent background
 	},
 
 	/**
@@ -69,9 +69,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.callParent(arguments);
 
 		// set canvas size depending on screen size
-		var width 			= (window.innerWidth > 0) ? window.innerWidth : screen.width;
-		var extraPadding 	= 40;
-		var canvasSize 		= (width < 400 + extraPadding) ? width - extraPadding : 400;
+		var width			= (window.innerWidth > 0) ? window.innerWidth : screen.width;
+		var extraPadding	= 40;
+		var canvasSize		= (width < 400 + extraPadding) ? width - extraPadding : 400;
 		this.setCanvasSize(canvasSize);
 
 		var canvas = document.createElement('canvas');
@@ -80,7 +80,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		canvas.height = this.getCanvasSize();
 		canvas.style.display = 'block';
 		canvas.style.margin = '0 auto';
-		
+
 		canvas.addEventListener("mouseup", this.onclick, false);
 		canvas.parentContainer = this;
 		this.setCanvas(canvas);
@@ -92,7 +92,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		};
 
 		//this.initGridZoom();
-		
+
 		this.add([ this.image ]);
 	},
 
@@ -125,35 +125,35 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		 * source: http://creativejs.com/2012/01/day-10-drawing-rotated-images-into-canvas/
 		 */
 		ctx.translate(this.getOffsetX()+(this.getImageFile().width / 2), this.getOffsetY() + (this.getImageFile().height / 2));
-		
+
 		/*
 		 * rotates the image in 90� steps clockwise. Steps are in the variable imgRotation
 		 */
 		ctx.rotate(90 * this.getImgRotation() * Math.PI /180 );
-		
+
 		if (this.getImageFile().src.lastIndexOf("http", 0) === 0) { // image is load from url
-			// have to be the negative half of width and height of the image for translation to get a fix rotation point in the middle of the image!!!  
+			// have to be the negative half of width and height of the image for translation to get a fix rotation point in the middle of the image!!!
 			ctx.drawImage(this.getImageFile(), -(this.getImageFile().width / 2), -(this.getImageFile().height / 2));
 		} else {
 			// draw image avoiding ios 6/7 squash bug
 			this.drawImageIOSFix(
-				ctx, 
+				ctx,
 				this.getImageFile(),
 				-(this.getImageFile().width / 2), -(this.getImageFile().height / 2),
 				this.getImageFile().width, this.getImageFile().height);
 		}
-		
+
 		// restore context to draw grid with default scale
 		ctx.restore();
 
 		if ( markChosenFields ) {
 			this.markChosenFields();
 		}
-		
+
 		if(!this.getGridIsHidden()) {
 			this.createGrid();
 		}
-		
+
 	},
 
 	/**
@@ -171,29 +171,29 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	/**
 	 * Get field position of the given coordinates relative to the grid.
 	 *
-	 * @param x 	The x-coordinate of the position.
-	 * @param y 	The y-coordinate of the position.
+	 * @param x		The x-coordinate of the position.
+	 * @param y		The y-coordinate of the position.
 	 */
 	getFieldPosition : function(x, y) {
 		var canvas = this.getCanvas();
 
 		x -= canvas.getBoundingClientRect().left;
 		x -= this.getRelativeLength(this.getGridOffsetX(), false);
-		
+
 		y -= canvas.getBoundingClientRect().top;
 		y -= this.getRelativeLength(this.getGridOffsetY(), false);
-		
+
 		if(x < 0 || y < 0){
 			return null;
 		}
 
 		var xGrid = parseInt(x / this.getFieldSize());
 		var yGrid = parseInt(y / this.getFieldSize());
-		
+
 		if(xGrid >= this.getGridSizeX() || yGrid >= this.getGridSizeY()){
 			return null;
 		}
-		
+
 		return new Array(xGrid, yGrid);
 	},
 
@@ -209,7 +209,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		x1 += this.getRelativeLength(this.getGridOffsetX(), false);
 		y1 += this.getRelativeLength(this.getGridOffsetY(), false);
-		
+
 		return new Array(x1, y1);
 	},
 
@@ -222,16 +222,16 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		return ((this.getCanvasSize() - 2 * this.getGridLineWidth())
 				/ this.getGridSize()) * this.getGridScale();
 	},
-	
+
 	/**
 	 * Gets the canvas size relative to the current grid scaling.
-	 * 
-	 * @return	int		The relative canvas size. 
+	 *
+	 * @return	int		The relative canvas size.
 	 */
 	getRelativeCanvasSize : function() {
 		return this.getCanvasSize() * this.getGridScale();
 	},
-	
+
 	/**
 	 * Converts a length to a canvas relative length. This function is needed due to
 	 * the fact, that on small displays the canvas itself is displayed smaller.
@@ -249,33 +249,33 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		if((this.getGridSizeX() * this.getGridSizeY()) == 0)
 			return;
-		
+
 		var ctx = this.getCanvas().getContext("2d");
 
 		ctx.globalAlpha = 1;
 		ctx.fillStyle = this.getCurGridLineColor();
 
 		var fieldsize = this.getFieldSize();
-		
+
 		// all horizontal lines
 		for (var i  = 0; i <= this.getGridSizeY(); i++){
 			ctx.fillRect(
-					this.getRelativeLength(this.getGridOffsetX(), false), 
-					this.getRelativeLength(this.getGridOffsetY(), false)  + i * fieldsize, 
-					fieldsize * this.getGridSizeX(), 
+					this.getRelativeLength(this.getGridOffsetX(), false),
+					this.getRelativeLength(this.getGridOffsetY(), false)  + i * fieldsize,
+					fieldsize * this.getGridSizeX(),
 					this.getGridLineWidth());
 		}
 
-		
+
 		// all vertical lines
 		for (var i = 0; i <= this.getGridSizeX(); i++){
 			ctx.fillRect(
-					this.getRelativeLength(this.getGridOffsetX(), false) + i * fieldsize, 
-					this.getRelativeLength(this.getGridOffsetY(), false), 
-					this.getGridLineWidth(), 
+					this.getRelativeLength(this.getGridOffsetX(), false) + i * fieldsize,
+					this.getRelativeLength(this.getGridOffsetY(), false),
+					this.getGridLineWidth(),
 					fieldsize * this.getGridSizeY() );
 		}
-		
+
 	},
 
 	/**
@@ -299,8 +299,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	/**
 	 * Draws the given text in the field by the specified coordinates.
 	 *
-	 * @param int 		x		The x-coordinate of the field.
-	 * @param int 		y		The y-coordinate of the field.
+	 * @param int		x		The x-coordinate of the field.
+	 * @param int		y		The y-coordinate of the field.
 	 * @param String	text	The text to display in the field.
 	 */
 	addTextToField : function(x, y, text) {
@@ -314,10 +314,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		ctx.save();
 
 		// set font layout
-		ctx.globalAlpha  = 1;
-		ctx.fillStyle    = this.getCurGridLineColor();
-		ctx.font 		 = this.getFontForGridSize(this.getGridSize());
-		ctx.textAlign    = "center";
+		ctx.globalAlpha	= 1;
+		ctx.fillStyle	= this.getCurGridLineColor();
+		ctx.font		= this.getFontForGridSize(this.getGridSize());
+		ctx.textAlign	= "center";
 		ctx.textBaseline = "middle";
 
 		// draw text
@@ -367,7 +367,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		if(position == null){
 			return;
 		}
-		
+
 		// calculate index
 		var index = -1;
 		var fields = container.getChosenFields();
@@ -379,14 +379,14 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			}
 		}
 
-	    var numChosenFields = container.getChosenFields().length;
-	    // TODO wenn der Dozent selbst eine Anzahl an Antwortmoeglichkeiten bestimmen kann, dann muss
-	    // numCorrectFields durch numClickableFields (wird in der DB abgespeichert) ersetzt werden.
-	    var numCorrectFields = container.getPossibleAnswers().filter(function isCorrect(e) {
-	    	return e.correct;
-	    }).length;
-	    // either allow the maximum of correct fields, or allow all fields to be clicked if no correct answers are present
-	    var fieldsLeft = ((numChosenFields < numCorrectFields) || (numCorrectFields === 0) || container.getToggleFieldsLeft());
+		var numChosenFields = container.getChosenFields().length;
+		// TODO wenn der Dozent selbst eine Anzahl an Antwortmoeglichkeiten bestimmen kann, dann muss
+		// numCorrectFields durch numClickableFields (wird in der DB abgespeichert) ersetzt werden.
+		var numCorrectFields = container.getPossibleAnswers().filter(function isCorrect(e) {
+			return e.correct;
+		}).length;
+		// either allow the maximum of correct fields, or allow all fields to be clicked if no correct answers are present
+		var fieldsLeft = ((numChosenFields < numCorrectFields) || (numCorrectFields === 0) || container.getToggleFieldsLeft());
 		var changed = false;
 		if (index > -1) {
 			container.getChosenFields().splice(index, 1);
@@ -415,14 +415,14 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * @param int	gridSize		The gridSize to set.
 	 * @param int	offsetX			The offsetX to set.
 	 * @param int	offsetY			The offsetY to set.
-	 * @param 		possibleAnswers	The Array of possible answers to set.
+	 * @param		possibleAnswers	The Array of possible answers to set.
 	 * @param bool	<code>true</code> if the chosen fields should be marked, <code>false</code> otherwise.
 	 */
-	update : function(gridSize, offsetX, offsetY, zoomLvl, gridOffsetX, gridOffsetY, gridZoomLvl, 
-						gridSizeX, gridSizeY, gridIsHidden, imgRotation, toggleFieldsLeft, 
+	update : function(gridSize, offsetX, offsetY, zoomLvl, gridOffsetX, gridOffsetY, gridZoomLvl,
+						gridSizeX, gridSizeY, gridIsHidden, imgRotation, toggleFieldsLeft,
 						numClickableFields, thresholdCorrectAnswers, cvIsColored, possibleAnswers, mark) {
-		
-		
+
+
 		this.setGridSize(gridSize);
 		this.setOffsetX(offsetX);
 		this.setOffsetY(offsetY);
@@ -438,34 +438,34 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setNumClickableFields(numClickableFields);
 		this.setThresholdCorrectAnswers(thresholdCorrectAnswers);
 		this.setCvIsColored(cvIsColored);
-		
-		
-		//converting from old version 
+
+
+		//converting from old version
 		if(gridSize != undefined && gridSize > 0){
-			
+
 			if(gridSizeX === undefined || gridSizeX === 0){
 				this.setGridSizeX(gridSize);
 			}
-			
+
 			if(gridSizeY === undefined || gridSizeY === 0){
 				this.setGridSizeY(gridSize);
 			}
-			
+
 		}
-		
+
 		if(this.getGridOffsetX() === undefined){
 			this.setGridOffsetX(0);
 		}
-		
+
 		if(this.getGridOffsetY() === undefined){
 			this.setGridOffsetY(0);
 		}
-		
+
 
 		// change background color itself if necessary
 		this.colorBackground();
-		
-		
+
+
 		if (mark) {
 			this.getChosenFieldsFromPossibleAnswers(possibleAnswers);
 		} else {
@@ -523,7 +523,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setOffsetY(this.getOffsetY() + this.getMoveInterval() / this.getScale());
 		this.redraw();
 	},
-	
+
 	/**
 	 * Toggles the background of the canvas element.
 	 */
@@ -531,7 +531,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setCvIsColored(colored);
 		this.colorBackground();
 	},
-	
+
 	colorBackground : function() {
 		if (this.getCvIsColored())
 			this.getCanvas().style.backgroundColor = this.getCvBackgroundColor();
@@ -604,7 +604,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		// now redraw the image with the new scale
 		this.redraw();
 	},
-	
+
 	/**
 	 * Initializes the zoom level and scale of the grid.
 	 */
@@ -620,23 +620,23 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			}
 		}
 	},
-	
+
 	zoomInGrid : function() {
 		this.setGridZoomLvl(this.getGridZoomLvl() + 1);
 		this.setGridScale(this.getGridScale() * this.getScaleFactor());
 		// TODO Zoom muss noch zentriert werden
-		
+
 		this.redraw();
 	},
-	
+
 	zoomOutGrid : function() {
 		this.setGridZoomLvl(this.getGridZoomLvl() - 1);
 		this.setGridScale(this.getGridScale() / this.getScaleFactor());
 		// TODO Zoom muss noch zentriert werden
-			
+
 		this.redraw();
 	},
-	
+
 	/**
 	 * Moves the grid one step in right (positive x) direction.
 	 */
@@ -672,10 +672,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	/**
 	 * Sets the image of the canvas element.
 	 *
-	 * @param 		dataUrl		The url specifiyng the source of the image file.
-	 * @param bool	reload		<code>true</code> if the image should be reloaded, <code>false</code> otherwise.
-   * @param fn successCallback Called when it's a valid image that has been loaded
-   * @param fn failureCallback Called when it's not a valid image
+	 * @param		dataUrl			The url specifiyng the source of the image file.
+	 * @param bool	reload			<code>true</code> if the image should be reloaded, <code>false</code> otherwise.
+	 * @param fn	successCallback	Called when it's a valid image that has been loaded
+	 * @param fn	failureCallback	Called when it's not a valid image
 	 */
 	setImage : function(dataUrl, reload, successCallback, failureCallback) {
 		var newimage = new Image();
@@ -687,16 +687,16 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			var cb = successCallback || Ext.emptyFn;
 			if (reload) {
 				container.clearImage();
-		    }
+			}
 			container.setImageFile(newimage);
 			container.redraw();
-			
+
 			cb();
 		};
-	    newimage.onerror = function() {
-	    	var cb = failureCallback || Ext.emptyFn;
-	    	cb();
-	    }
+		newimage.onerror = function() {
+			var cb = failureCallback || Ext.emptyFn;
+			cb();
+		}
 	},
 
 	/**
@@ -811,15 +811,15 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	generateStatisticOutput : function(tilesToFill, colorTiles, displayType, weakenSourceImage, toggleColors) {
 
 		var totalAnswers = 0;
-		
+
 		var wrongColor =  this.getStatisticWrongColor();
 		var rightColor = this.getStatisticRightColor();
-		
-		
+
+
 		if(this.getChosenFields().length == 0){
 			wrongColor = this.getHighlightColor();
 		}
-		
+
 
 		// toggle grid color
 		this.setCurGridLineColor(toggleColors ? this.getAlternativeGridLineColor() : this.getGridLineColor());
@@ -829,9 +829,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		// count answers
 		for (var key in tilesToFill) {
-	    	totalAnswers += tilesToFill[key];
+			totalAnswers += tilesToFill[key];
 		}
-		
+
 		// pre-iterate through answers to get min and max value, used to define the alpha value
 		// TODO: find a more elagant way than iterating twice through all tiles.
 		var maxVotes = 0;
@@ -858,8 +858,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 				if (colorTiles) {
 					var alphaOffset = this.getHeatmapMinAlpha();
-					var alphaScale 	= this.getHeatmapMaxAlpha() - this.getHeatmapMinAlpha();
-					var alpha 		= 0;
+					var alphaScale	= this.getHeatmapMaxAlpha() - this.getHeatmapMinAlpha();
+					var alpha		= 0;
 
 					if (typeof tilesToFill[key] !==  "undefined") {
 						if ( maxVotes == minVotes ){
@@ -899,7 +899,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	generateUserViewWithAnswers : function (userAnswers, correctAnswers, toggleColors){
 
-		
+
 		// toggle grid color
 		this.setCurGridLineColor(toggleColors ? this.getAlternativeGridLineColor() : this.getGridLineColor());
 
@@ -919,37 +919,37 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			}
 		}
 	},
-	
-	
+
+
 	/**
 	 * Detecting vertical squash in loaded image.
 	 * Fixes a bug which squash image vertically while drawing into canvas for some images.
 	 * This is a bug in iOS6 devices. This function from https://github.com/stomita/ios-imagefile-megapixel
-	 * 
+	 *
 	 */
 	detectVerticalSquash : function (img) {
-	    var iw = img.naturalWidth, ih = img.naturalHeight;
-	    var canvas = document.createElement('canvas');
-	    canvas.width = 1;
-	    canvas.height = ih;
-	    var ctx = canvas.getContext('2d');
-	    ctx.drawImage(img, 0, 0);
-	    var data = ctx.getImageData(0, 0, 1, ih).data;
-	    // search image edge pixel position in case it is squashed vertically.
-	    var sy = 0;
-	    var ey = ih;
-	    var py = ih;
-	    while (py > sy) {
-	        var alpha = data[(py - 1) * 4 + 3];
-	        if (alpha === 0) {
-	            ey = py;
-	        } else {
-	            sy = py;
-	        }
-	        py = (ey + sy) >> 1;
-	    }
-	    var ratio = (py / ih);
-	    return (ratio===0)?1:ratio;
+		var iw = img.naturalWidth, ih = img.naturalHeight;
+		var canvas = document.createElement('canvas');
+		canvas.width = 1;
+		canvas.height = ih;
+		var ctx = canvas.getContext('2d');
+		ctx.drawImage(img, 0, 0);
+		var data = ctx.getImageData(0, 0, 1, ih).data;
+		// search image edge pixel position in case it is squashed vertically.
+		var sy = 0;
+		var ey = ih;
+		var py = ih;
+		while (py > sy) {
+			var alpha = data[(py - 1) * 4 + 3];
+			if (alpha === 0) {
+				ey = py;
+			} else {
+				sy = py;
+			}
+			py = (ey + sy) >> 1;
+		}
+		var ratio = (py / ih);
+		return (ratio===0)?1:ratio;
 	},
 
 	/**
@@ -965,5 +965,5 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setImgRotation((this.getImgRotation() + 1 )%4);
 		this.redraw();
 	}
-	
+
 });

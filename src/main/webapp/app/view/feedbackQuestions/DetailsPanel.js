@@ -31,8 +31,6 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 		isRendered: false
 	},
 
-
-
 	/* toolbar items */
 	toolbar		: null,
 	backButton	: null,
@@ -63,7 +61,7 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 			docked: 'top',
 			ui: 'light',
 			items: [
-		        this.backButton
+				this.backButton
 			]
 		});
 

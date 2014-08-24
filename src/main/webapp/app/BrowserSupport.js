@@ -2,9 +2,9 @@
 "use strict";
 Ext.define('ARSnova.BrowserSupport', {
 	extend: 'Ext.Base',
-	
+
 	requires: ['ARSnova.BrowserDetect'],
-	
+
 	config: {
 		supported: {
 			"Chrome" : 0,
@@ -15,17 +15,17 @@ Ext.define('ARSnova.BrowserSupport', {
 			"Android" : 2
 		}
 	},
-	
+
 	constructor: function(config) {
 		this.initConfig(config);
-		
+
 		this.detect = Ext.create("ARSnova.BrowserDetect");
 	},
-	
+
 	getRequiredBrowserVersion: function() {
 		return this.getSupported()[this.detect.browser];
 	},
-	
+
 	getRequiredBrowsers: function() {
 		var browsers = [];
 		var supported = this.getSupported();
@@ -36,7 +36,7 @@ Ext.define('ARSnova.BrowserSupport', {
 		}
 		return browsers;
 	},
-	
+
 	isBrowserSupported: function(updateRequiredCallback, browserUnsupportedCallback, scope) {
 		if (typeof this.getSupported()[this.detect.browser] !== "undefined") {
 			var hasMinimumVersion = this.getRequiredBrowserVersion() <= this.detect.version;

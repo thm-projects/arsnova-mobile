@@ -20,10 +20,19 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.model.FeedbackQuestion', {
 	extend: 'Ext.data.Model',
-	
+
 	config: {
 		idProperty: '_id',
-		
-		fields: ['fullDate', 'formattedTime', 'read', 'timestamp', 'subject', 'type', 'groupDate', 'obj']
+
+		fields: [
+			'fullDate',
+			'formattedTime',
+			'read',
+			'timestamp',
+			'subject',
+			'type',
+			'groupDate',
+			'obj'
+		]
 	}
 });

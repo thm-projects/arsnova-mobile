@@ -20,8 +20,14 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 
 	config: {
 		maxAnswers: 6,
-		wording: [Messages.SCHOOL_A, Messages.SCHOOL_B, Messages.SCHOOL_C,
-		          Messages.SCHOOL_D, Messages.SCHOOL_E, Messages.SCHOOL_F]
+		wording: [
+			Messages.SCHOOL_A,
+			Messages.SCHOOL_B,
+			Messages.SCHOOL_C,
+			Messages.SCHOOL_D,
+			Messages.SCHOOL_E,
+			Messages.SCHOOL_F
+		]
 	},
 
 	constructor: function() {
@@ -36,15 +42,15 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 			}));
 		}
 
-    var previewButton = Ext.create('Ext.Button', {
-      text	: Messages.ANSWER_PREVIEW_BUTTON_TITLE,
-      ui		: 'confirm',
-      style   : 'width:200px; margin-left: 8px; margin-top: 0px;',
-      scope	: this,
-      handler	: function() {
-        this.previewHandler();
-      }
-    });
+	var previewButton = Ext.create('Ext.Button', {
+		text	: Messages.ANSWER_PREVIEW_BUTTON_TITLE,
+		ui		: 'confirm',
+		style   : 'width:200px; margin-left: 8px; margin-top: 0px;',
+		scope	: this,
+		handler	: function() {
+			this.previewHandler();
+		}
+	});
 
 		this.add([{
 			xtype: 'fieldset',
@@ -66,14 +72,14 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 		return { possibleAnswers: this.getValues() };
 	},
 
-  getValues: function() {
-    return this.fields.map(function(item) {
-      return {
-        text: item.getValue(),
-        correct: false
-      };
-    });
-  },
+	getValues: function() {
+		return this.fields.map(function(item) {
+			return {
+				text: item.getValue(),
+				correct: false
+			};
+		});
+	},
 
 	markEmptyFields: function() {
 		var field;
@@ -85,10 +91,10 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 		}
 	},
 
-  previewHandler: function() {
-    var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox', {
-      xtype: 'answerPreview'
-    });
-    answerPreview.showPreview(this.getValues());
-  }
+	previewHandler: function() {
+		var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox', {
+			xtype: 'answerPreview'
+		});
+		answerPreview.showPreview(this.getValues());
+	}
 });

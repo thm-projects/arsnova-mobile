@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- - Autor(en):    Christoph Thelen <christoph.thelen@mni.thm.de>
+ - Autor(en):	Christoph Thelen <christoph.thelen@mni.thm.de>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -19,9 +19,9 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	extend: 'Ext.Carousel',
 
 	requires: [
-    'ARSnova.view.Question',
-	  'ARSnova.view.speaker.QuestionStatisticChart',
-    'ARSnova.view.components.QuestionToolbar'
+		'ARSnova.view.Question',
+		'ARSnova.view.speaker.QuestionStatisticChart',
+		'ARSnova.view.components.QuestionToolbar'
 	],
 
 	config: {
@@ -43,19 +43,19 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		}, this);
 
 		this.toolbar = Ext.create('ARSnova.view.components.QuestionToolbar', {
-      backButtonHandler: function(animation) {
-        var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-        sTP.animateActiveItem(sTP.audienceQuestionPanel, animation);
-      },
-      statisticsButtonHandler: function() {
-        var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-        sTP.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
-          question: ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel._activeItem._activeItem.questionObj,
-          lastPanel: this
-        });
-        ARSnova.app.mainTabPanel.animateActiveItem(sTP.questionStatisticChart, 'slide');
-      }
-    });
+			backButtonHandler: function(animation) {
+			var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+			sTP.animateActiveItem(sTP.audienceQuestionPanel, animation);
+		},
+		statisticsButtonHandler: function() {
+			var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+			sTP.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
+				question: ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel._activeItem._activeItem.questionObj,
+				lastPanel: this
+			});
+			ARSnova.app.mainTabPanel.animateActiveItem(sTP.questionStatisticChart, 'slide');
+		}
+	});
 
 		this.add([this.toolbar]);
 
@@ -115,7 +115,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	},
 
 	addQuestion: function(question) {
-    var question;
+	var question;
 		if (question.questionType === 'freetext') {
 			question = Ext.create('ARSnova.view.FreetextQuestion', {
 				questionObj: question,
@@ -127,7 +127,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				viewOnly: true
 			});
 		}
-    this.add(question);
+	this.add(question);
 	},
 
 	checkFirstQuestion: function() {

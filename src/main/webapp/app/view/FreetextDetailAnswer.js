@@ -53,10 +53,10 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 								direction	: 'right',
 								duration	: 700,
 								scope		: this,
-					    		listeners: { animationend: function() {
+								listeners: { animationend: function() {
 									self.answer.deselectItem();
 									self.hide();
-					    		}, scope: this }
+								}, scope: this }
 							}
 						);
 					}
@@ -64,14 +64,14 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			]
 		});
 
-    //Setup question title and text to disply in the same field; markdown handles HTML encoding
-    var questionString = this.answer.answerSubject
-                       + '\n\n' // inserts one blank line between subject and text
-                       + this.answer.answerText;
+	//Setup question title and text to disply in the same field; markdown handles HTML encoding
+	var questionString = this.answer.answerSubject
+					   + '\n\n' // inserts one blank line between subject and text
+					   + this.answer.answerText;
 
-    //Create standard panel with framework support
-    var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
-    questionPanel.setContent(questionString, true, true);
+	//Create standard panel with framework support
+	var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+	questionPanel.setContent(questionString, true, true);
 
 		this.add([this.toolbar, {
 			xtype: 'formpanel',
@@ -86,7 +86,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 						value: this.answer.formattedTime + " Uhr am " + this.answer.groupDate,
 						disabled: true
 					},
-          questionPanel
+		  questionPanel
 				]
 			}]
 		}, {
@@ -98,19 +98,19 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			hidden: !this.answer.deletable,
 			handler: function() {
 				ARSnova.app.questionModel.deleteAnswer(self.answer.questionId, self.answer._id, {
-          success: function() {
-            self.sTP.animateActiveItem(self.sTP.questionDetailsPanel, {
-              type		: 'slide',
-              direction	: 'right',
-              duration	: 700,
-              listeners: {
-                animationend: function() {
-                  self.answer.removeItem();
-                  me.destroy();
-                }
-              }
-            });
-          },
+		  success: function() {
+			self.sTP.animateActiveItem(self.sTP.questionDetailsPanel, {
+			  type		: 'slide',
+			  direction	: 'right',
+			  duration	: 700,
+			  listeners: {
+				animationend: function() {
+				  self.answer.removeItem();
+				  me.destroy();
+				}
+			  }
+			});
+		  },
 					failure: function() {
 						console.log('server-side error: deletion of freetext answer failed');
 					}

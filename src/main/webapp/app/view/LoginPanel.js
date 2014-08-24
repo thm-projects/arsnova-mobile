@@ -39,8 +39,8 @@ Ext.define('ARSnova.view.LoginPanel', {
 	initialize: function() {
 		this.callParent(arguments);
 		var me = this;
-		
-		
+
+
 		this.arsLogo = {
 				xtype	: 'panel',
 				cls		: null,

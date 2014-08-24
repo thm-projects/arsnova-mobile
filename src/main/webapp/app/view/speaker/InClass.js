@@ -21,8 +21,10 @@
 Ext.define('ARSnova.view.speaker.InClass', {
 	extend: 'Ext.Panel',
 
-	requires: ['ARSnova.view.MultiBadgeButton',
-	           'ARSnova.view.SessionStatusButton'],
+	requires: [
+		'ARSnova.view.MultiBadgeButton',
+		'ARSnova.view.SessionStatusButton'
+	],
 
 	config: {
 		fullscreen: true,
@@ -109,9 +111,9 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			ui: 'light',
 			docked: 'top',
 			items: [
-		        this.sessionLogoutButton,
-		        {xtype: 'spacer'},
-		        this.presenterButton
+				this.sessionLogoutButton,
+				{xtype: 'spacer'},
+				this.presenterButton
 			]
 		});
 
@@ -235,10 +237,10 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			},
 
 			items: [
-			    this.createAdHocQuestionButton,
-			    this.sessionStatusButton,
-			    this.deleteSessionButton
-	        ]
+				this.createAdHocQuestionButton,
+				this.sessionStatusButton,
+				this.deleteSessionButton
+			]
 
 		});
 

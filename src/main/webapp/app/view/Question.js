@@ -2,8 +2,8 @@
  This file is part of ARSnova.
  app/view/Question.js
  - Beschreibung: Template für einzelne Fragen.
- - Version:      1.0, 01/05/12
- - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
+ - Version:	  1.0, 01/05/12
+ - Autor(en):	Christian Thomas Weber <christian.t.weber@gmail.com>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -22,10 +22,10 @@
  * We need to override this class in order to allow custom itemHeights on list elements
  */
 Ext.define('ARSnova.view.PositionMap',{
-  override: 'Ext.util.PositionMap',
-    config: {
-      minimumHeight: 0
-    }
+	override: 'Ext.util.PositionMap',
+	config: {
+		minimumHeight: 0
+	}
 });
 
 Ext.define('ARSnova.view.Question', {
@@ -42,10 +42,10 @@ Ext.define('ARSnova.view.Question', {
 
 	abstentionInternalId: 'ARSnova_Abstention',
 	abstentionAnswer: null,
-	
+
 	initialize: function() {
 		this.callParent(arguments);
-		
+
 		var self = this; // for use inside callbacks
 		this.viewOnly = this.config.viewOnly;
 		this.questionObj = this.config.questionObj;
@@ -53,7 +53,7 @@ Ext.define('ARSnova.view.Question', {
 		this.customMask = Ext.create('ARSnova.view.CustomMask', {
 			mainPanel: this
 		});
-				
+
 		var answerStore = Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
 		answerStore.add(this.questionObj.possibleAnswers);
 		answerStore.each(function(item) {
@@ -150,20 +150,20 @@ Ext.define('ARSnova.view.Question', {
 				if (button !== 'yes') {
 					return;
 				}
-				
+
 				var selectedIndexes = [];
 				this.grid.getChosenFields().forEach(function(node) {
 					selectedIndexes.push(node[0]+';'+node[1] );
 				}, this);
 				this.questionObj.userAnswered = selectedIndexes.join(",");
 				this.markCorrectAnswers();
-				
-				
+
+
 				var questionValue = 0;
 				this.questionObj.possibleAnswers.forEach(function(node){
-          if (selectedIndexes.indexOf(node.text) !== -1) {
-            questionValue += (node.value || 0);
-          }
+		  if (selectedIndexes.indexOf(node.text) !== -1) {
+			questionValue += (node.value || 0);
+		  }
 				});
 
 
@@ -231,8 +231,8 @@ Ext.define('ARSnova.view.Question', {
 
 		//Setup question title and text to disply in the same field; markdown handles HTML encoding
 		var questionString = this.questionObj.subject
-                       + '\n\n' // inserts one blank line between subject and text
-                       + this.questionObj.text;
+					   + '\n\n' // inserts one blank line between subject and text
+					   + this.questionObj.text;
 
 		//Create standard panel with framework support
 		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
@@ -277,18 +277,18 @@ Ext.define('ARSnova.view.Question', {
 				 * "padding-bottom" and add them to the height of the list
 				 * DataView.
 				 */
-        painted: function (list, eOpts) {
-        	this.answerList.fireEvent("resizeList", list);
-        },
-        resizeList: function(list) {
-        	var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
+		painted: function (list, eOpts) {
+			this.answerList.fireEvent("resizeList", list);
+		},
+		resizeList: function(list) {
+			var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
 
-        	this.answerList.setHeight(
-        		parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height"))	+
-        		parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top"))	+
-        		parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
-        	);
-        }
+			this.answerList.setHeight(
+				parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height"))	+
+				parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top"))	+
+				parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
+			);
+		}
 			},
 			mode: this.questionObj.questionType === "mc" ? 'MULTI' : 'SINGLE'
 		});
@@ -298,7 +298,7 @@ Ext.define('ARSnova.view.Question', {
 					|| this.questionObj.questionType === 'vote'
 					|| this.questionObj.questionType === 'abcd'
 					|| this.questionObj.questionType === 'yesno'
-          || (this.questionObj.questionType === 'mc' && this.viewOnly) )) {
+		  || (this.questionObj.questionType === 'mc' && this.viewOnly) )) {
 			this.abstentionAnswer = this.answerList.getStore().add({
 				id: this.abstentionInternalId,
 				text: Messages.ABSTENTION,
@@ -391,7 +391,7 @@ Ext.define('ARSnova.view.Question', {
 					thresholdCorrectAnswers : this.questionObj.thresholdCorrectAnswers,
 					cvIsColored : this.questionObj.cvIsColored,
 					editable	: true,
-          possibleAnswers: this.questionObj.possibleAnswers
+		  possibleAnswers: this.questionObj.possibleAnswers
 				});
 
 				var me = this;
@@ -403,13 +403,13 @@ Ext.define('ARSnova.view.Question', {
 				 * update function for align the grids picture
 				 */
 				this.grid.update(this.questionObj.gridSize, this.questionObj.offsetX,
-						this.questionObj.offsetY, this.questionObj.zoomLvl, 
-					 	this.questionObj.gridOffsetX, this.questionObj.gridOffsetY,
-					 	this.questionObj.gridZoomLvl, this.questionObj.gridSizeX, 
-					 	this.questionObj.gridSizeY, this.questionObj.gridIsHidden,
-					 	this.questionObj.imgRotation, this.questionObj.toggleFieldsLeft,
-					 	this.questionObj.numClickableFields, this.questionObj.thresholdCorrectAnswers,
-					 	this.questionObj.cvIsColored, this.questionObj.possibleAnswers, false);
+						this.questionObj.offsetY, this.questionObj.zoomLvl,
+						this.questionObj.gridOffsetX, this.questionObj.gridOffsetY,
+						this.questionObj.gridZoomLvl, this.questionObj.gridSizeX,
+						this.questionObj.gridSizeY, this.questionObj.gridIsHidden,
+						this.questionObj.imgRotation, this.questionObj.toggleFieldsLeft,
+						this.questionObj.numClickableFields, this.questionObj.thresholdCorrectAnswers,
+						this.questionObj.cvIsColored, this.questionObj.possibleAnswers, false);
 				/*
 				 *   gridbutton and container for the grid button to add into the layout if necessary
 				 */
@@ -446,7 +446,7 @@ Ext.define('ARSnova.view.Question', {
 				this.add([this.grid]);
 				if (!this.viewOnly) {
 					this.add([this.gridContainer]);
-        }
+		}
 				this.answerList.setHidden(true);
 		} else {
 			this.answerList.setHidden(false);
@@ -454,7 +454,7 @@ Ext.define('ARSnova.view.Question', {
 		this.add([this.answerList].concat(
 			this.questionObj.questionType === "mc" && !this.viewOnly ? mcContainer : {}
 		));
-		
+
 		this.on('activate', function(){
 			this.answerList.addListener('itemtap', questionListener.itemtap);
 
@@ -495,7 +495,7 @@ Ext.define('ARSnova.view.Question', {
 				var coord = grid.getChosenFieldFromPossibleAnswer(node);
 				userAnswers[(coord[0] * grid.getGridSizeY()) + coord[1]] = 1;
 			});
-			
+
 
 			grid.generateUserViewWithAnswers(userAnswers, correctAnswers, false);
 
@@ -543,7 +543,7 @@ Ext.define('ARSnova.view.Question', {
 		ARSnova.app.answerModel.getUserAnswer(self.questionObj._id, {
 			empty: function() {
 				var answer = Ext.create('ARSnova.model.Answer', {
-					type	 	: "skill_question_answer",
+					type		: "skill_question_answer",
 					sessionId	: localStorage.getItem("sessionId"),
 					questionId	: self.questionObj._id,
 					user		: localStorage.getItem("login"),

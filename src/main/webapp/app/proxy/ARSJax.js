@@ -17,41 +17,41 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.proxy.ARSJax', {
 	extend: 'Ext.util.Observable',
-	
+
 	config: {
 		maxStatusCodes: 8,
 		notificationThreshold: 4
 	},
-	
+
 	lastStatusCodes: [],
-	
+
 	constructor: function() {
 		this.callParent(arguments);
 	},
-	
+
 	request: function(options) {
 		var me = this;
 		var success = options.success || Ext.emptyFn,
 			failure = options.failure || Ext.emptyFn;
 		var prefix = (ARSnova.app.globalConfig ? ARSnova.app.globalConfig.apiPath : "") + "/";
-		
+
 		if(ARSnova.app.checkMobileDeviceType()) {
 			options.url = ARSnova.app.absoluteUrl + options.url;
 		}
-		
+
 		Ext.Ajax.request({
 			url: prefix + options.url,
 			method: options.method,
 			params: options.params,
 			jsonData: options.jsonData,
 			headers: options.headers,
-			
+
 			success: function(response) {
 				me.handleCode(response.status);
 				var fn = options[response.status] || success;
 				fn.apply(this, arguments);
 			},
-			
+
 			failure: function(response) {
 				me.handleCode(response.status);
 				var fn = options[response.status] || failure;
@@ -59,7 +59,7 @@ Ext.define('ARSnova.proxy.ARSJax', {
 			}
 		});
 	},
-	
+
 	handleCode: function(statusCode) {
 		this.lastStatusCodes.push(statusCode);
 		if (this.lastStatusCodes.length > this.getMaxStatusCodes()) {
@@ -68,7 +68,7 @@ Ext.define('ARSnova.proxy.ARSJax', {
 		var unauthorized = this.lastStatusCodes.filter(function(code) {
 			return code === 401;
 		});
-		
+
 		if (unauthorized.length > this.getNotificationThreshold()) {
 			this.fireEvent("arsnova/arsjax/status/401");
 		}

@@ -30,11 +30,11 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 
 		// answer preview message box
 		var previewBox = Ext.create('Ext.MessageBox',
-        {
+		{
 			title : Messages.ANSWER_PREVIEW_DIALOGBOX_TITLE,
 			style : 'border-color: black; maxHeight: 600px; maxWidth: 1000px; width: 80%; height: 80%',
 			scope : this
-        });
+		});
 
 		// carousel for displaying the mathJaxMarkDownPanels
 		var carousel = Ext.create('Ext.Carousel', {
@@ -49,15 +49,15 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 				activeitemchange : function() {
 					var actualIndex = carousel.getActiveIndex() + 1;
 					previewBox.setTitle(Messages.ANSWER_PREVIEW_DIALOGBOX_TITLE + " (" + actualIndex + "/" + answers.length + ")");
-                }
-            }
+				}
+			}
 		});
 
 		// loop through given answers, wrap them into a temporary panel and add them to the carousel
 		for (var i = 0; i <= answers.length - 1; i++) {
 			var item = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 				xtype	: 'mathJaxMarkDownPanel',
-				id      : 'answer-' + i,
+				id		: 'answer-' + i,
 				style	: 'margin-left: 0px; margin-right: 0px;word-wrap: break-word;'
 			});
 			item.setContent(answers[i].text, true, true);
@@ -67,31 +67,35 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		// question preview confirm button
 		var confirmButton = Ext.create('Ext.Button', {
 			text	: Messages.QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE,
-			id      : 'confirmButton',
+			id		: 'confirmButton',
 			xtype	: 'button',
 			ui		: 'confirm',
 			//cls		: 'previewButtonOK',
-		   	style   : 'width: 80%; maxWidth: 250px; margin-top: 10px;',
+			style   : 'width: 80%; maxWidth: 250px; margin-top: 10px;',
 			handler	: function() {
-					previewBox.destroy();
+				previewBox.destroy();
 			}
 		});
 
 		// answer preview box content panel
 		var mainPanel = Ext.create('Ext.Container', {
-			id      	: 'mainPanel',
+			id			: 'mainPanel',
 			xtype		: 'container',
 			style		: 'position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: #c5ccd3;',
 			fullscreen	: false,
-            layout		: 'vbox',
-			items   	: [carousel,
-			        	   {id		: 'buttonLayout',
-				      		xtype	: 'container',
-				      		layout 	: {
-				      			pack: 'center',
-				      			type: 'hbox'
-				      		},
-				      		items	: [confirmButton]}]
+			layout		: 'vbox',
+			items		: [
+				carousel,
+				{
+					id		: 'buttonLayout',
+					xtype	: 'container',
+					layout	: {
+						pack: 'center',
+						type: 'hbox'
+					},
+					items	: [confirmButton]
+				}
+			]
 		});
 		mainPanel.setStyleHtmlContent(true);
 

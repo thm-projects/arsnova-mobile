@@ -21,12 +21,18 @@
 Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	extend: 'Ext.Panel',
 
-	requires: ['ARSnova.view.speaker.form.AbstentionForm', 'ARSnova.view.speaker.form.ExpandingAnswerForm',
-	           'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
-	           'ARSnova.view.speaker.form.FlashcardQuestion', 'ARSnova.view.speaker.form.SchoolQuestion',
-	           'ARSnova.view.speaker.form.VoteQuestion', 'ARSnova.view.speaker.form.YesNoQuestion',
-	           'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.GridQuestion',
-	           'ARSnova.view.speaker.form.ImageUploadPanel'],
+	requires: [
+		'ARSnova.view.speaker.form.AbstentionForm',
+		'ARSnova.view.speaker.form.ExpandingAnswerForm',
+		'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
+		'ARSnova.view.speaker.form.FlashcardQuestion',
+		'ARSnova.view.speaker.form.SchoolQuestion',
+		'ARSnova.view.speaker.form.VoteQuestion',
+		'ARSnova.view.speaker.form.YesNoQuestion',
+		'ARSnova.view.speaker.form.NullQuestion',
+		'ARSnova.view.speaker.form.GridQuestion',
+		'ARSnova.view.speaker.form.ImageUploadPanel'
+	],
 
 	config: {
 		title: 'NewQuestionPanel',
@@ -89,9 +95,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		});
 
 		this.textarea = Ext.create('Ext.plugins.ResizableTextArea', {
-			name	  	: 'text',
-	    	placeHolder	: Messages.QUESTIONTEXT_PlACEHOLDER,
-	    	maxHeight	: 140
+			name		: 'text',
+			placeHolder	: Messages.QUESTIONTEXT_PlACEHOLDER,
+			maxHeight	: 140
 		});
 
 		//Preview button
@@ -185,7 +191,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		var formatItems = [
 			{ text: Messages.MC },
 			{ text: Messages.ABCD	},
-			{ text: Messages.YESNO 	},
+			{ text: Messages.YESNO	},
 			{ text: Messages.FREETEXT },
 			{ text: Messages.EVALUATION },
 			{ text: Messages.SCHOOL }
@@ -208,9 +214,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		}
 
 		me.questionOptions = Ext.create('Ext.SegmentedButton', {
-	        allowDepress: false,
-	        items: formatItems,
-	        listeners: {
+			allowDepress: false,
+			items: formatItems,
+			listeners: {
 				scope: me,
 				toggle: function(container, button, pressed) {
 					var label = Ext.bind(function(longv, shortv) {
@@ -296,18 +302,18 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							break;
 					}
 					me.toolbar.setTitle(title);
-	        	}
-	        }
-	    });
+				}
+			}
+		});
 
 		me.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.NEW_QUESTION_TITLE,
 			docked: 'top',
 			ui: 'light',
 			items: [
-		        me.backButton,
-		        {xtype:'spacer'},
-		        me.saveButtonToolbar
+				me.backButton,
+				{xtype:'spacer'},
+				me.saveButtonToolbar
 			]
 		});
 
@@ -374,8 +380,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				cls: 'noBackground noBorder',
 				docked: 'top',
 				scrollable: {
-				    direction: 'horizontal',
-				    directionLock: true
+					direction: 'horizontal',
+					directionLock: true
 				},
 				items: [{
 						xtype: 'spacer'
@@ -428,8 +434,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	},
 
 	saveHandler: function(){
-    	var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
-    	var values = {};
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
+		var values = {};
 
 		/* get text, subject of question from mainPart */
 		var mainPartValues = panel.mainPart.getValues();
@@ -445,12 +451,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			values.releasedFor = panel.getReleasedFor();
 		}
 
-    	/* fetch the values */
-    	switch (panel.questionOptions.getPressedButtons()[0]._text) {
-    		case Messages.GRID:
-    			values.questionType = "grid";
-    			Ext.apply(values, panel.gridQuestion.getQuestionValues());
-    		break;
+		/* fetch the values */
+		switch (panel.questionOptions.getPressedButtons()[0]._text) {
+			case Messages.GRID:
+				values.questionType = "grid";
+				Ext.apply(values, panel.gridQuestion.getQuestionValues());
+			break;
 			case Messages.EVALUATION:
 				values.questionType = "vote";
 
@@ -498,10 +504,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			panel.textarea.reset();
 
 			switch (panel.questionOptions.getPressedButtons()[0]._text) {
-	    		case Messages.GRID:
-	    			panel.gridQuestion.resetView();
-	    		break;
-	    		default:
+				case Messages.GRID:
+					panel.gridQuestion.resetView();
+				break;
+				default:
 					panel.setImage(null);
 					break;
 			}
@@ -527,10 +533,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			noCorrect	: values.noCorrect,
 			abstention	: values.abstention,
 			showStatistic: 1,
-			gridSize    : values.gridSize,
-			offsetX  	: values.offsetX,
-			offsetY 	: values.offsetY,
-			zoomLvl 	: values.zoomLvl,
+			gridSize	: values.gridSize,
+			offsetX		: values.offsetX,
+			offsetY		: values.offsetY,
+			zoomLvl		: values.zoomLvl,
 			image		: values.image,
 			gridOffsetX	: values.gridOffsetX,
 			gridOffsetY	: values.gridOffsetY,
@@ -553,7 +559,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		});
 		return promise;
 	},
-	
+
 	setImage: function (image) {
 		this.image = image;
 		this.grid.setImage(image);

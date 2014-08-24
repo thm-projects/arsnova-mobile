@@ -20,16 +20,16 @@
 Ext.define('ARSnova.view.MultiBadgeButton', {
 	extend: 'Ext.Button',
 	alias: 'x-multibadgebutton',
-	
+
 	multiBadges: [],
-	
+
 	updateBadgeText: function(badges) {
 		if (badges && !Ext.isArray(badges)) {
 			return this.callParent(arguments);
 		}
 		this.setBadge(badges);
 	},
-	
+
 	/**
 	 * This is copied from Ext.Component, and it is needed whenever this button is recreated based on its config.
 	 * The 'innerHtmlElement', however, causes the button's text to disappear. That's why we simply hide the
@@ -38,13 +38,13 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 	getInnerHtmlElement: function() {
 		var innerHtmlElement = this.innerHtmlElement,
 		styleHtmlCls = this.getStyleHtmlCls();
-		
+
 		if (!innerHtmlElement || !innerHtmlElement.dom || !innerHtmlElement.dom.parentNode) {
 			this.innerHtmlElement = innerHtmlElement = this.innerElement.createChild({
 				cls: 'x-innerhtml ',
 				style: { display:'none' }
 			});
-			
+
 			if (this.getStyleHtmlContent()) {
 				this.innerHtmlElement.addCls(styleHtmlCls);
 				this.innerElement.removeCls(styleHtmlCls);
@@ -52,7 +52,7 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 		}
 		return innerHtmlElement;
 	},
-	
+
 	/**
 	 * Creates a badge overlay on the button for displaying notifications. (with code borrowed from Ext.Button)
 	 * @param {Array} badges The array of badge configurations. If you pass null or undefined the badges will be removed.
@@ -62,18 +62,18 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 	 */
 	setBadge: function(badges) {
 		var me = this;
-		
+
 		if (badges && !Ext.isArray(badges)) {
 			return ARSnova.view.MultiBadgeButton.superclass.setBadge.call(this, badges);
 		}
 		me.config.badgeText = badges;
-		
+
 		me.multiBadges.forEach(function(item) {
 			item.destroy();
 		});
 		me.element.removeCls(me._hasBadgeCls);
 		me.multiBadges = [];
-		
+
 		badges.forEach(function(item) {
 			if (!!item.badgeText) {
 				var aBadge = me.element.createChild({

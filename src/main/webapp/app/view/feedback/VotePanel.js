@@ -20,7 +20,7 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.feedback.VotePanel', {
 	extend: 'Ext.Panel',
-	
+
 	config: {
 		title: 'VotePanel',
 		fullscreen: true,
@@ -29,49 +29,49 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 			directionLock: true
 		}
 	},
-	
+
 	/* toolbar items */
 	toolbar			: null,
 	backButton		: null,
 	questionButton	: null,
-	
+
 	initialize: function() {
 		this.callParent(arguments);
-		
+
 		this.backButton = Ext.create('Ext.Button', {
 			text	: Messages.HOME,
 			ui		: 'back',
 			hidden	: false,
 			handler	: function() {
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
-		    		type		: 'slide',
-		    		direction	: 'right',
-		    		duration	: 700,
-		    		scope		: this,
-		    		listeners: { animationend: function() { 
-		    			this.hide();
-		    		}, scope: this }
-		    	});
+					type		: 'slide',
+					direction	: 'right',
+					duration	: 700,
+					scope		: this,
+					listeners: { animationend: function() {
+						this.hide();
+					}, scope: this }
+				});
 			}
 		});
-		
+
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.FEEDBACK,
 			docked: 'top',
 			ui: 'light',
 			cls: 'titlePaddingLeft',
 			items: [
-		        this.backButton
-	        ]
+				this.backButton
+			]
 		});
-		
+
 		if (Ext.os.is.Phone) {
 			this.arsLogo = {
 					xtype	: 'panel',
 					style	: { marginTop: '35px' }
 				};
 		}
-		
+
 		this.buttonPanelTop = Ext.create('Ext.Panel', {
 			xtype	: 'container',
 			style	: 'margin-top:20px',
@@ -107,7 +107,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 				}
 			]
 		});
-		
+
 		this.buttonPanelBottom = Ext.create('Ext.Panel', {
 			xtype	: 'container',
 			layout	: {
@@ -131,7 +131,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 				{
 					xtype	: 'matrixbutton',
 					text	: Messages.FEEDBACK_NONE,
-					cls		: 'noPadding noBackground noBorder feedbackNoneBackground', 
+					cls		: 'noPadding noBackground noBorder feedbackNoneBackground',
 					value	: 'Nicht mehr dabei',
 					image	: "icons/48x48/smiley_angry",
 					handler	: function(button) {
@@ -143,13 +143,13 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 				}
 			]
 		});
-		
+
 		this.add([
-		    this.toolbar,
-		    this.buttonPanelTop,
-		    this.buttonPanelBottom, 
+			this.toolbar,
+			this.buttonPanelTop,
+			this.buttonPanelBottom,
 			{
-		    	xtype	: 'button',
+				xtype	: 'button',
 				text	: Messages.QUESTION_REQUEST,
 				cls		: 'questionRequestButton',
 				ui		: 'action',

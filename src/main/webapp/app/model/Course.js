@@ -19,19 +19,19 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.model.Course', {
 	extend: 'Ext.data.Model',
-	
+
 	config: {
-		proxy: { type: 'restProxy' },
-		
+		proxy: {type: 'restProxy'},
+
 		fields: [
-		   	  'id',
-		   	  'fullname',
-		   	  'shortname',
-		   	  'type'
-		       ]
+			'id',
+			'fullname',
+			'shortname',
+			'type'
+		]
 	},
-	
-    getMyCourses: function(callbacks, sortby){
-    	return this.getProxy().getMyCourses(callbacks, sortby);
-    }
+
+	getMyCourses: function(callbacks, sortby){
+		return this.getProxy().getMyCourses(callbacks, sortby);
+	}
 });

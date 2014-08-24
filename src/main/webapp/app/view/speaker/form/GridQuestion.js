@@ -24,37 +24,37 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	xtype: 'grid',
 
 	requires: [
-	           'Ext.ux.Fileup'	// file upload framework
-	           ],
+		'Ext.ux.Fileup'	// file upload framework
+	],
 
-	imageArea 		 	: null,		// contains all image relevant items
-	grid 			 	: null,		// encapsulated canvas element
-	imageCnt		 	: null,		// image manipulation options
-	imageSettings 	 	: null,		// the image settings (offset, zoom,...)
-	uploadView 		 	: null,		// view containing the upload options
-	answers 		 	: null,
-	zoomSpinner 		: null,
-	gridXSpinner 		: null,
-	gridYSpinner 		: null,
+	imageArea			: null,		// contains all image relevant items
+	grid				: null,		// encapsulated canvas element
+	imageCnt			: null,		// image manipulation options
+	imageSettings		: null,		// the image settings (offset, zoom,...)
+	uploadView			: null,		// view containing the upload options
+	answers				: null,
+	zoomSpinner			: null,
+	gridXSpinner		: null,
+	gridYSpinner		: null,
 	btnMoveLeft			: null,
 	btnMoveRight		: null,
 	btnMoveUp			: null,
 	btnMoveDown			: null,
 	btnZoomInGrid		: null,
-    btnZoomOutGrid		: null,
-    btnMoveGridLeft		: null,
-    btnMoveGridRight	: null,
-    btnMoveGridUp		: null,
-    btnMoveGridDown		: null,
+	btnZoomOutGrid		: null,
+	btnMoveGridLeft		: null,
+	btnMoveGridRight	: null,
+	btnMoveGridUp		: null,
+	btnMoveGridDown		: null,
 	infoButton			: null,
-    infoPanel			: null,
-    gridColorsToggle 	: null,
-    cvBackgroundToggle  : null,
-    deleteButton		: null,
-    rotateButton		: null,
-    hideGridButton		: null,
-    
-    
+	infoPanel			: null,
+	gridColorsToggle	: null,
+	cvBackgroundToggle	: null,
+	deleteButton		: null,
+	rotateButton		: null,
+	hideGridButton		: null,
+
+
 	/**
 	 * Initializes the grid question area and the needed
 	 * form elements.
@@ -64,8 +64,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.callParent(arguments);
 
 		this.grid = Ext.create('ARSnova.view.components.GridContainer', {
-			docked 	: 'top',
-			id 	: 'gridContainer'
+			docked: 'top',
+			id: 'gridContainer'
 		});
 
 		this.infoPanel = Ext.create('Ext.Panel',{
@@ -106,7 +106,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			iconMask : true,
 			handler : function(){ me.resetView(); }
 		});
-		
+
 		this.rotateButton = Ext.create('Ext.Button',{
 			iconCls : 'refresh',
 			iconMask : true,
@@ -114,19 +114,19 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				me.grid.spinRight();
 			}
 		});
-		
+
 		this.btnZoomInGrid = Ext.create('Ext.Button', {
 			iconCls : 'add',
 			iconMask : true,
 			handler : function(){ me.grid.zoomInGrid(); }
 		});
-		
+
 		this.btnZoomOutGrid = Ext.create('Ext.Button', {
 			iconCls : 'minus2',
 			iconMask : true,
 			handler : function(){ me.grid.zoomOutGrid(); }
 		});
-		
+
 		this.btnMoveGridLeft = Ext.create('Ext.Button', {
 			iconCls : 'arrow_left',
 			iconMask : true,
@@ -150,12 +150,12 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			iconMask : true,
 			handler : function(){ me.grid.moveGridDown(); }
 		});
-		
+
 		this.hideGridButton = Ext.create('Ext.Button',{
 			iconCls : 'delete',
 			iconMask : true,
-			handler : function(){ 
-				me.grid.setGridIsHidden( !me.grid.getGridIsHidden()); 
+			handler : function(){
+				me.grid.setGridIsHidden( !me.grid.getGridIsHidden());
 				me.grid.redraw();
 			}
 		});
@@ -164,15 +164,15 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			id : 'imageArea',
 			layout :{
 				type: 'vbox',
-                align: 'center',
-                pack: 'center'
+				align: 'center',
+				pack: 'center'
 			},
 			items : [
 				this.grid,
 				{
 					xtype: 'label',
 					html: Messages.GRID_CONFIG_IMAGE
-			    },
+				},
 				{
 					xtype: 'panel',
 					layout:{
@@ -181,7 +181,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						pack: 'center'
 					},
 					items : [
-					    
+
 						this.infoButton,
 						this.btnMoveLeft,
 						this.btnMoveRight,
@@ -189,8 +189,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						this.btnMoveDown,
 						this.deleteButton,
 						this.rotateButton
-			       ]
-			   },			   
+				   ]
+			   },
 			   {
 					xtype: 'label',
 					html: Messages.GRID_CONFIG_GRID,
@@ -211,7 +211,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						this.btnMoveGridUp,
 						this.btnMoveGridDown,
 						this.hideGridButton,
-			       ]
+				   ]
 			   }
 			],
 			hidden : true
@@ -310,10 +310,10 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						this.setValue(Math.round(me.grid.getScale()*100));
 				},
 				spindown : function() {
-				     if(this.getValue() > 1) {
+					 if(this.getValue() > 1) {
 						me.grid.zoomOut();
 						this.setValue(Math.round(me.grid.getScale()*100));
-				     }
+					 }
 				}
 
 			},
@@ -338,7 +338,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			stepValue : 1,
 			cycle : true
 		});
-		
+
 		this.gridYSpinner = Ext.create('Ext.field.Spinner', {
 			xtype : 'spinnerfield',
 			label : Messages.GRID_LABEL_FIELD_Y,
@@ -356,26 +356,26 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			stepValue : 1,
 			cycle : true
 		});
-		
+
 
 		this.gridColorsToggle = Ext.create('Ext.field.Toggle', {
 			label:		Messages.GRID_LABEL_INVERT_GRIDCOLORS,
 			cls:		'rightAligned',
-			value:  	false
+			value:		false
 		});
-		
+
 		this.cvBackgroundToggle = Ext.create('Ext.field.Toggle', {
 			label:		Messages.GRID_LABEL_CV_TRANSPARENCY,
 			cls:		'rightAligned',
 			value:		false
 		});
-		
+
 		this.toggleAnswers = Ext.create('Ext.field.Toggle', {
 			label:		Messages.GRID_LABEL_MARK_TOGGLE_ANSWERS,
 			cls:		'rightAligned',
-			value:  	false
+			value:		false
 		});
-		
+
 		this.imageSettings = Ext.create('Ext.Panel', {
 			id : 'answerField',
 			items : [{
@@ -383,13 +383,13 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				id : 'fs_imagesettings',
 				title : Messages.SETTINGS,
 				items : [
-				         this.zoomSpinner,
-				         this.gridXSpinner,
-				         this.gridYSpinner,
-				         this.gridColorsToggle,
-				         this.cvBackgroundToggle,
-				         this.toggleAnswers
-				         ]
+					this.zoomSpinner,
+					this.gridXSpinner,
+					this.gridYSpinner,
+					this.gridColorsToggle,
+					this.cvBackgroundToggle,
+					this.toggleAnswers
+				]
 			}]
 		});
 
@@ -409,41 +409,41 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 
 		var toggleColorListener =  {
-		        beforechange: function (slider, thumb, newValue, oldValue) {
-		        	me.grid.toggleBorderColor();
-		        },
-		        change: function (slider, thumb, newValue, oldValue) {
-		        	me.grid.toggleBorderColor();
-		        }
+				beforechange: function (slider, thumb, newValue, oldValue) {
+					me.grid.toggleBorderColor();
+				},
+				change: function (slider, thumb, newValue, oldValue) {
+					me.grid.toggleBorderColor();
+				}
 		};
-		
+
 		var toggleCvBackgroundListener = {
 				beforechange: function (slider, thumb, newValue, oldValue) {
 					me.grid.toggleCvBackground(newValue);
-		        },
-		        change: function (slider, thumb, newValue, oldValue) {
-		        	me.grid.toggleCvBackground(this.getValue());
-		        }
+				},
+				change: function (slider, thumb, newValue, oldValue) {
+					me.grid.toggleCvBackground(this.getValue());
+				}
 		};
-		
+
 		var toggleMarkAnswers =  {
-		        beforechange: function (slider, thumb, newValue, oldValue) {
-		        	me.grid.setToggleFieldsLeft(this.getValue());
-		        },
-		        change: function (slider, thumb, newValue, oldValue) {
-		        	me.grid.setToggleFieldsLeft(this.getValue());
-		        }
+				beforechange: function (slider, thumb, newValue, oldValue) {
+					me.grid.setToggleFieldsLeft(this.getValue());
+				},
+				change: function (slider, thumb, newValue, oldValue) {
+					me.grid.setToggleFieldsLeft(this.getValue());
+				}
 		};
-		
+
 		this.gridColorsToggle.setListeners(toggleColorListener);
 		this.cvBackgroundToggle.setListeners(toggleCvBackgroundListener);
 		this.toggleAnswers.setListeners(toggleMarkAnswers);
-		
-		var thresholdAnswers =  {
-		        change: function (slider, thumb, newValue, oldValue) {
-		        	me.grid.setThresholdCorrectAnswers(newValue);
 
-		        }
+		var thresholdAnswers =  {
+				change: function (slider, thumb, newValue, oldValue) {
+					me.grid.setThresholdCorrectAnswers(newValue);
+
+				}
 		};
 
 		if (ARSnova.app.globalConfig.features.learningProgress) {
@@ -457,9 +457,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 			if (ARSnova.app.globalConfig.features.learningProgress) {
 				me.ValueOfCorrectAnswers.setMaxValue(me.correctValueComponent.getMaxValue() *me.grid.getChosenFields().length);
-				me.ValueOfCorrectAnswers.setMinValue(me.incorrectValueComponent.getMinValue() * me.grid.getChosenFields().length);   
+				me.ValueOfCorrectAnswers.setMinValue(me.incorrectValueComponent.getMinValue() * me.grid.getChosenFields().length);
 				me.ValueOfCorrectAnswers.setSliderValue(me.correctValueComponent.getMaxValue() * me.grid.getChosenFields().length);
-	
+
 				if (!me.reset && answerValue > 0) {
 					me.reset = true;
 					me.questionValueFieldset.setHidden(false);
@@ -490,10 +490,10 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	updateCanvas : function(dataUrl, reload) {
 		// update canvas
 		this.grid.setImage(dataUrl, reload, Ext.bind(function validImage() {
-      this.showImageView();
-    }, this), function invalidImage() {
-      Ext.Msg.alert(Messages.NOTIFICATION, Messages.GRID_ERROR_IMAGE_NOT_LOADED);
-    });
+	  this.showImageView();
+	}, this), function invalidImage() {
+	  Ext.Msg.alert(Messages.NOTIFICATION, Messages.GRID_ERROR_IMAGE_NOT_LOADED);
+	});
 	},
 
 	/**
@@ -580,12 +580,12 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 		// get image data
 		if (this.grid.getImageFile()) {
-			result.image 	 	   = this.grid.getImageFile().src;
+			result.image = this.grid.getImageFile().src;
 		}
-		result.gridSize 	   	= this.grid.getGridSize();
-		result.offsetX  	   	= this.grid.getOffsetX();
-		result.offsetY 		   	= this.grid.getOffsetY();
-		result.zoomLvl 		   	= this.grid.getZoomLvl();
+		result.gridSize			= this.grid.getGridSize();
+		result.offsetX			= this.grid.getOffsetX();
+		result.offsetY			= this.grid.getOffsetY();
+		result.zoomLvl			= this.grid.getZoomLvl();
 		result.gridOffsetX		= this.grid.getGridOffsetX(),
 		result.gridOffsetY		= this.grid.getGridOffsetY(),
 		result.gridZoomLvl		= this.grid.getGridZoomLvl(),
@@ -597,10 +597,10 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		result.numClickableFields = this.grid.getNumClickableFields(),
 		result.thresholdCorrectAnswers = this.grid.getThresholdCorrectAnswers();
 		result.cvIsColored		= this.grid.getCvIsColored();
-		
-		result.possibleAnswers 	= possibleAnswers;
 
-		result.noCorrect 	   = this.grid.getChosenFields().length > 0 ? 0 : 1; // TODO: Check if really needed (and why numbers instead of bool)
+		result.possibleAnswers	= possibleAnswers;
+
+		result.noCorrect		= this.grid.getChosenFields().length > 0 ? 0 : 1; // TODO: Check if really needed (and why numbers instead of bool)
 
 		return result;
 	},
@@ -625,9 +625,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.grid.update(question.gridSize, question.offsetX,
 				question.offsetY, question.zoomLvl,
 				question.gridOffsetX, question.gridOffsetY,
-				question.gridZoomLvl, question.gridSizeX, 
+				question.gridZoomLvl, question.gridSizeX,
 				question.gridSizeY, question.gridIsHidden,
-				question.imgRotation, question.toggleFieldsLeft, 
+				question.imgRotation, question.toggleFieldsLeft,
 				question.numClickableFields, question.thresholdCorrectAnswers,
 				question.cvIsColored, question.possibleAnswers, true);
 
@@ -642,7 +642,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			this.incorrectValueComponent.setSliderValue(minValue);
 			this.correctValueComponent.setSliderValue(maxValue);
 			this.ValueOfCorrectAnswers.setMaxValue(this.correctValueComponent.getMaxValue() *this.grid.getChosenFields().length);
-			this.ValueOfCorrectAnswers.setMinValue(this.incorrectValueComponent.getMinValue() * this.grid.getChosenFields().length);   
+			this.ValueOfCorrectAnswers.setMinValue(this.incorrectValueComponent.getMinValue() * this.grid.getChosenFields().length);
 			this.ValueOfCorrectAnswers.setSliderValue(this.grid.getThresholdCorrectAnswers());
 			this.cvBackgroundToggle.setValue(this.grid.getCvIsColored());
 		}

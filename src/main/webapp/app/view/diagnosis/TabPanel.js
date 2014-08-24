@@ -19,25 +19,25 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.diagnosis.TabPanel', {
 	extend: 'Ext.tab.Panel',
-	
+
 	requires: ['ARSnova.view.diagnosis.DiagnosisPanel'],
-	
+
 	config: {
 		title	: Messages.DIAGNOSIS,
 		iconCls	: 'tabBarIconDiagnosis',
-		
+
 		tabBar: {
-	    	hidden: true
-	    }
+			hidden: true
+		}
 	},
 
 	initialize: function() {
 		this.callParent(arguments);
-		
+
 		this.diagnosisPanel = Ext.create('ARSnova.view.diagnosis.DiagnosisPanel');
-		
+
 		this.add([
-		    this.diagnosisPanel
-        ]);
+			this.diagnosisPanel
+		]);
 	}
 });

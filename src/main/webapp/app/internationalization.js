@@ -30,10 +30,10 @@ var lang;
 
 if(isAndroid && !isChrome) {
 	if ( navigator && navigator.userAgent && (lang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {
-	        lang = lang[1];
+		lang = lang[1];
 	}
 } else {
-    lang = navigator.language;
+	lang = navigator.language;
 }
 
 var prefLang = localStorage.getItem("language");
@@ -292,7 +292,7 @@ switch (lang) {
 			GRID_LOADING : "Loading",
 			GRID_LOAD : "Load",
 			GRID_ERROR_URL_MISSING : "Please insert a valid url.",
-      GRID_ERROR_IMAGE_NOT_LOADED: "The image could not be loaded.",
+			GRID_ERROR_IMAGE_NOT_LOADED: "The image could not be loaded.",
 			GRID_LABEL_ZOOM : "Zoom (in percent)",
 			GRID_LABEL_SQUARES : "Squares per edge",
 			GRID_LABEL_FIELD_X : "Number of fields on x-axis",
@@ -338,11 +338,11 @@ switch (lang) {
 			SCHOOL_E: "very poor",
 			SCHOOL_F: "inadequate",
 			SCHOOL_NONE: "abstention",
-			EVALUATION_PLUSPLUS: 	"strongly agree",
-			EVALUATION_PLUS: 		"agree",
-			EVALUATION_NEUTRAL: 	"neutral",
-			EVALUATION_MINUS: 		"disagree",
-			EVALUATION_MINUSMINUS: 	"strongly disagree",
+			EVALUATION_PLUSPLUS:	"strongly agree",
+			EVALUATION_PLUS:		"agree",
+			EVALUATION_NEUTRAL:		"neutral",
+			EVALUATION_MINUS:		"disagree",
+			EVALUATION_MINUSMINUS:	"strongly disagree",
 
 			/* about */
 			INFO: "Info",
@@ -688,11 +688,11 @@ switch (lang) {
 			SCHOOL_E: "mangelhaft",
 			SCHOOL_F: "ungenügend",
 			SCHOOL_NONE: "Enthaltung",
-			EVALUATION_PLUSPLUS: 	"trifft voll zu",
-			EVALUATION_PLUS: 		"trifft eher zu",
-			EVALUATION_NEUTRAL: 	"weder noch",
-			EVALUATION_MINUS: 		"trifft eher nicht zu",
-			EVALUATION_MINUSMINUS: 	"trifft nicht zu",
+			EVALUATION_PLUSPLUS:	"trifft voll zu",
+			EVALUATION_PLUS:		"trifft eher zu",
+			EVALUATION_NEUTRAL:		"weder noch",
+			EVALUATION_MINUS:		"trifft eher nicht zu",
+			EVALUATION_MINUSMINUS:	"trifft nicht zu",
 
 			/* about */
 			INFO: "Info",

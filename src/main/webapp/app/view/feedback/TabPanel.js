@@ -20,34 +20,35 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.feedback.TabPanel', {
 	extend: 'Ext.tab.Panel',
-	
-	requires: ['ARSnova.view.feedback.StatisticPanel',
-	           'ARSnova.view.feedback.VotePanel',
-	           'ARSnova.view.feedback.AskPanel'
+
+	requires: [
+		'ARSnova.view.feedback.StatisticPanel',
+		'ARSnova.view.feedback.VotePanel',
+		'ARSnova.view.feedback.AskPanel'
 	],
-	
+
 	config: {
-		title: 		Messages.FEEDBACK,
-		iconCls: 	'feedbackARSnova',
-		
+		title:		Messages.FEEDBACK,
+		iconCls:	'feedbackARSnova',
+
 		tabBar: {
-	    	hidden: true
+			hidden: true
 		}
 	},
-	
+
 	initialize: function() {
 		this.callParent(arguments);
-		
+
 		this.statisticPanel = Ext.create('ARSnova.view.feedback.StatisticPanel');
 		this.votePanel = Ext.create('ARSnova.view.feedback.VotePanel');
 		this.askPanel = Ext.create('ARSnova.view.feedback.AskPanel');
-		
+
 		this.add([
-            this.statisticPanel,
-            this.votePanel,
-            this.askPanel
-        ]);
-		
+			this.statisticPanel,
+			this.votePanel,
+			this.askPanel
+		]);
+
 		this.on('activate', function(){
 			this.statisticPanel.checkVoteButton();
 			this.statisticPanel.checkTitle();
@@ -55,12 +56,12 @@ Ext.define('ARSnova.view.feedback.TabPanel', {
 			ARSnova.app.feedbackModel.un("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon);
 			ARSnova.app.feedbackModel.on('arsnova/session/feedback/update', this.statisticPanel.updateChart, this.statisticPanel);
 			ARSnova.app.feedbackModel.on('arsnova/session/feedback/average', this.statisticPanel.updateTabBar, this.statisticPanel);
-			
+
 			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER && this.getActiveItem() == this.votePanel) {
 				this.setActiveItem(this.statisticPanel);
 			}
 		});
-		
+
 		this.on('deactivate', function(){
 			ARSnova.app.feedbackModel.un('arsnova/session/feedback/update', this.statisticPanel.updateChart);
 			ARSnova.app.feedbackModel.un('arsnova/session/feedback/average', this.statisticPanel.updateTabBar);
@@ -68,7 +69,7 @@ Ext.define('ARSnova.view.feedback.TabPanel', {
 			ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon, ARSnova.app.mainTabPanel.tabPanel);
 		});
 	},
-	
+
 	renew: function(){
 		this.tab.setBadgeText("");
 	}

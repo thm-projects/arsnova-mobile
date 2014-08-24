@@ -58,7 +58,7 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 
 		this.add([
 			this.backButton,
-			{ xtype: 'spacer' },
+			{xtype: 'spacer'},
 			this.questionCounter,
 			this.statisticsButton
 		]);
@@ -71,7 +71,7 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 		}, this);
 
 		var title = '';
-    var questionType = question ? question.questionType : "";
+	var questionType = question ? question.questionType : "";
 
 		if (questionType === 'abcd') {
 			title = label(Messages.QUESTION_SINGLE_CHOICE, Messages.QUESTION_SINGLE_CHOICE_SHORT);
@@ -107,11 +107,11 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 		this.questionCounter.setHtml(counter.join("/"));
 	},
 
-  checkStatistics: function(question, isDisabled) {
-    if (typeof question !== 'undefined' && !!question.showStatistic && isDisabled) {
-      this.statisticsButton.show();
-    } else {
-      this.statisticsButton.hide();
-    }
-  }
+	checkStatistics: function(question, isDisabled) {
+		if (typeof question !== 'undefined' && !!question.showStatistic && isDisabled) {
+			this.statisticsButton.show();
+		} else {
+			this.statisticsButton.hide();
+		}
+	}
 });

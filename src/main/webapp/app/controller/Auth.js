@@ -20,7 +20,7 @@
  +--------------------------------------------------------------------------*/
 Ext.define("ARSnova.controller.Auth", {
 	extend: 'Ext.app.Controller',
-	
+
 	config: {
 		routes: {
 			'id/:sessionkey': 'qr',
@@ -62,7 +62,7 @@ Ext.define("ARSnova.controller.Auth", {
 		var me = this;
 		ARSnova.app.configLoaded.then(function () {
 			localStorage.setItem(
-				'role', 
+				'role',
 				"lecturer" === role ? ARSnova.app.USER_ROLE_SPEAKER : ARSnova.app.USER_ROLE_STUDENT
 			);
 			localStorage.setItem('keyword', sessionkey);
@@ -73,7 +73,7 @@ Ext.define("ARSnova.controller.Auth", {
 			window.location = window.location.pathname + "#";
 		});
 	},
-	
+
 	con: function(options) {
 		ARSnova.loggedIn = true;
 		ARSnova.loginMode = ARSnova.LOGIN_GUEST;
@@ -86,17 +86,17 @@ Ext.define("ARSnova.controller.Auth", {
 		localStorage.setItem('role', ARSnova.userRole);
 		localStorage.setItem('ARSnovaCon', true);
 		localStorage.setItem('keyword', options.sessionid);
-		
+
 		ARSnova.afterLogin();
 
 		window.location = window.location.pathname + "#";
 		Ext.dispatch({controller:'sessions', action:'login', keyword: options.sessionid});
 	},
-	
+
 	roleSelect: function(options){
 		ARSnova.app.userRole = options.mode;
 		localStorage.setItem('role', options.mode);
-		
+
 		ARSnova.app.setWindowTitle();
 	},
 
@@ -106,7 +106,7 @@ Ext.define("ARSnova.controller.Auth", {
 		ARSnova.app.loginMode = serviceId;
 		localStorage.setItem('loginMode', serviceId);
 		var location = "", type = "", me = this;
-		
+
 		if (ARSnova.app.LOGIN_GUEST === serviceId){
 			if (localStorage.getItem('login') === null) {
 				localStorage.setItem('login', ARSnova.app.authModel.generateGuestName());
@@ -127,7 +127,7 @@ Ext.define("ARSnova.controller.Auth", {
 			this.handleLocationChange(location);
 		}
 	},
-	
+
 	checkLogin: function(){
 		console.debug("Controller: Auth.checkLogin");
 		var promise = new RSVP.Promise();
@@ -168,70 +168,70 @@ Ext.define("ARSnova.controller.Auth", {
 		}, this));
 	},
 
-    logout: function(){
+	logout: function(){
 		/* hide diagnosis panel */
 		ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.tab.hide();
-    	
-    	/* stop task to save user is logged in */
-    	taskManager.stop(ARSnova.app.loggedInTask);
-    	
-    	/* clear local storage */
-    	localStorage.removeItem('sessions');
-    	localStorage.removeItem('role');
-    	localStorage.removeItem('loginMode');
-    	
-    	/* check if new version available */
-    	var appCache = window.applicationCache;
-    	if (appCache.status !== appCache.UNCACHED) {
-    		appCache.update();
-    	}
-    	
-    	ARSnova.app.userRole = "";
+
+		/* stop task to save user is logged in */
+		taskManager.stop(ARSnova.app.loggedInTask);
+
+		/* clear local storage */
+		localStorage.removeItem('sessions');
+		localStorage.removeItem('role');
+		localStorage.removeItem('loginMode');
+
+		/* check if new version available */
+		var appCache = window.applicationCache;
+		if (appCache.status !== appCache.UNCACHED) {
+			appCache.update();
+		}
+
+		ARSnova.app.userRole = "";
 		ARSnova.app.setWindowTitle();
-    	
+
 		/* redirect user:
-		 * a: to CAS if user is authorized 
+		 * a: to CAS if user is authorized
 		 * b: to rolePanel if user was guest
 		 * */
-    	if (ARSnova.app.loginMode == ARSnova.app.LOGIN_CAS) {
-    		/* update will be done when returning from CAS */
-    		localStorage.removeItem('login');
-    		var apiPath = ARSnova.app.globalConfig.apiPath;
-    		var location = apiPath + "/auth/logout?url=" + window.location.protocol + "//" + window.location.hostname + window.location.pathname + "#auth/doLogout";
-    		this.handleLocationChange(location);
-    	} else {
-    		ARSnova.app.restProxy.authLogout();
+		if (ARSnova.app.loginMode == ARSnova.app.LOGIN_CAS) {
+			/* update will be done when returning from CAS */
+			localStorage.removeItem('login');
+			var apiPath = ARSnova.app.globalConfig.apiPath;
+			var location = apiPath + "/auth/logout?url=" + window.location.protocol + "//" + window.location.hostname + window.location.pathname + "#auth/doLogout";
+			this.handleLocationChange(location);
+		} else {
+			ARSnova.app.restProxy.authLogout();
 
-    		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
-    			type: 'slide',
-    			direction: 'right'
-    		});
-    		/* update manifest cache of new version is loaded */
-    		if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+			ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
+				type: 'slide',
+				direction: 'right'
+			});
+			/* update manifest cache of new version is loaded */
+			if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
 				window.applicationCache.swapCache();
 				Console.log('reload');
 				window.location.reload();
 			}
-    	}
-    },
-    
-    /**
-     * handles window.location change for desktop and mobile devices separately
-     */
-    handleLocationChange: function(location) {
-    	/** 
-    	 * mobile device 
-    	 */
+		}
+	},
+
+	/**
+	 * handles window.location change for desktop and mobile devices separately
+	 */
+	handleLocationChange: function(location) {
+		/**
+		 * mobile device
+		 */
 		if(ARSnova.app.checkMobileDeviceType()) {
 			ARSnova.app.restProxy.absoluteRequest(location);
 		}
-		
-		/** 
-		 * desktop 
+
+		/**
+		 * desktop
 		 */
 		else {
 			window.location = location;
-		} 
+		}
 
-    }
+	}
 });

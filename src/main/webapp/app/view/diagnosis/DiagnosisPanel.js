@@ -20,9 +20,9 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 	extend: 'Ext.Container',
-	
+
 	requires: ['ARSnova.view.diagnosis.StatisticsPanel'],
-	
+
 	config: {
 		fullscreen	: true,
 		title		: Messages.DIAGNOSIS,
@@ -31,11 +31,11 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 			directionLock: true
 		}
 	},
-	
+
 	/* toolbar items */
 	toolbar		: null,
 	backButton	: null,
-	
+
 	initialize: function() {
 		this.callParent(arguments);
 
@@ -51,31 +51,31 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 				});
 			}
 		});
-		
+
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.DIAGNOSIS,
 			docked: 'top',
 			ui: 'light',
 			items: [this.backButton]
 		});
-		
+
 		this.add([this.toolbar, {
 			xtype	: 'panel',
 			cls		: null,
 			html	: "<div class='arsnova-logo'></div>",
 			style	: { marginTop: '35px', marginBottom: '35px' }
-		}, 
+		},
 		{
 			xtype: 'formpanel',
 			cls  : 'standardForm topPadding',
 			scrollable : null,
-			
+
 			defaults: {
 				xtype	: 'button',
 				ui		: 'normal',
 				cls		: 'forwardListButton'
 			},
-			
+
 			items: [{
 				text	: Messages.STATISTIC,
 				handler	: function() {
@@ -89,9 +89,9 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 					this.detect = Ext.create("ARSnova.BrowserDetect");
 					var browserInfo = new String(
 						"<b>Name:</b> "   + this.detect.browser		+ "<br>" +
-						"<b>Engine:</b> " + Ext.browser.engineName 	+ 
-						" " 			  + Ext.browser.engineVersion.version + "<br>" +
-						"<b>UA:</b> " 	  + Ext.browser.userAgent 	+ "<br>"
+						"<b>Engine:</b> " + Ext.browser.engineName	+
+						" "				  + Ext.browser.engineVersion.version + "<br>" +
+						"<b>UA:</b> "	  + Ext.browser.userAgent	+ "<br>"
 					);
 					Ext.Msg.alert('Browser', browserInfo, Ext.emptyFn);
 				}
@@ -100,9 +100,9 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 				handler	: function(b) {
 					Ext.Msg.confirm(Messages.ARSNOVA_RELOAD, Messages.RELOAD_SURE, function(b) {
 						if(b == "yes") {
-					    	if(ARSnova.app.checkSessionLogin()) {
-					    		ARSnova.app.getController('Sessions').logout();
-					    	}
+							if(ARSnova.app.checkSessionLogin()) {
+								ARSnova.app.getController('Sessions').logout();
+							}
 							ARSnova.app.getController('Auth').logout();
 							window.location.reload(true);
 						}
@@ -112,11 +112,11 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 		},
 		{
 			xtype	: 'panel',
-			style	: { marginTop: '30px'},
+			style	: {marginTop: '30px'},
 			html	: "<div class='gravure'><a href='http://www.thm.de/' class='thmlink' target='_blank'>A <span style='color:#699824; font-weight:bold;'>THM</span> Product</a></div>",
-			cls		: null		
+			cls		: null
 		}]);
-		
+
 		this.on('activate', function(){
 			this.backButton.show();
 		});

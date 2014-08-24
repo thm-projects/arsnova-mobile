@@ -17,10 +17,15 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.speaker.form.VoteQuestion', {
 	extend: 'ARSnova.view.speaker.form.SchoolQuestion',
-	
+
 	config: {
 		maxAnswers: 5,
-		wording: [Messages.EVALUATION_PLUSPLUS, Messages.EVALUATION_PLUS, Messages.EVALUATION_NEUTRAL,
-		          Messages.EVALUATION_MINUS, Messages.EVALUATION_MINUSMINUS]
+		wording: [
+			Messages.EVALUATION_PLUSPLUS,
+			Messages.EVALUATION_PLUS,
+			Messages.EVALUATION_NEUTRAL,
+			Messages.EVALUATION_MINUS,
+			Messages.EVALUATION_MINUSMINUS
+		]
 	}
 });

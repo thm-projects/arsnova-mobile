@@ -789,7 +789,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			}
 		});
 	},
-	
+
 	getGlobalConfiguration: function(callbacks){
 		var configUrl = "arsnova-config";
 		//<debug>

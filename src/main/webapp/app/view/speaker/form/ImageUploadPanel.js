@@ -118,7 +118,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			}
 		]);
 	},
-	
+
 	setUrl: function (url) {
 		this.getComponent('pnl_upfield').getComponent('tf_url').setValue(url);
 	}

@@ -41,9 +41,9 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		this.setLectureMode();
 
 		this.on('activeitemchange', function(panel, newCard, oldCard) {
-		  this.toolbar.setQuestionTitle(newCard.questionObj);
-      this.toolbar.incrementQuestionCounter(panel.activeIndex);
-      this.toolbar.checkStatistics(newCard.questionObj, newCard.isDisabled());
+			this.toolbar.setQuestionTitle(newCard.questionObj);
+			this.toolbar.incrementQuestionCounter(panel.activeIndex);
+			this.toolbar.checkStatistics(newCard.questionObj, newCard.isDisabled());
 
 			newCard.fireEvent('preparestatisticsbutton', this.toolbar.statisticsButton);
 		});
@@ -51,8 +51,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		this.toolbar = Ext.create('ARSnova.view.components.QuestionToolbar', {
 			title: Messages.QUESTION,
 			backButtonHandler: function(animation) {
-        ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, animation);
-      }
+				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, animation);
+			}
 		});
 
 		this.add([this.toolbar]);
@@ -122,13 +122,13 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 						},
 						failure: function() {
 							hideLoadMask();
-			    			console.log('error');
-			    		}
+							console.log('error');
+						}
 					});
 					return;
 
 				} else {
-          userQuestionsPanel.toolbar.resetQuestionCounter(questions.length);
+					userQuestionsPanel.toolbar.resetQuestionCounter(questions.length);
 				}
 
 				if (questions.length == 1){
@@ -256,7 +256,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		var questionView = this.getActiveItem();
 
 		questionView.fireEvent('preparestatisticsbutton', this.toolbar.statisticsButton);
-    this.toolbar.checkStatistics(questionView.questionObj, questionView.isDisabled());
+	this.toolbar.checkStatistics(questionView.questionObj, questionView.isDisabled());
 	},
 
 	/**
@@ -278,11 +278,11 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 		if(allAnswered) {
 			ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
-	    		type		: 'slide',
-	    		direction	: 'right',
-	    		duration	: 700,
-	    		scope		: this
-	    	});
+				type		: 'slide',
+				direction	: 'right',
+				duration	: 700,
+				scope		: this
+			});
 		}
 	},
 

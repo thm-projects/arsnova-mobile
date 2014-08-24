@@ -118,7 +118,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			docked: 'top',
 			ui: 'light',
 			items: [
-		        this.sessionLogoutButton
+				this.sessionLogoutButton
 			]
 		});
 
@@ -170,7 +170,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				badgeCls	: 'badgeicon'
 			});
 		}
-		
+
 		var buttons = [
 			this.feedbackButton,
 			this.lectureQuestionButton,
@@ -285,7 +285,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 				if (newQuestions.length > 0) {
 					var showNotification = false;
-    				var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
+					var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
 
 					//check for each question if exists a "dont-remind-me"-flag
 					for(var i = 0; i < newQuestions.length; i++){
@@ -313,8 +313,8 @@ Ext.define('ARSnova.view.user.InClass', {
 								);
 							},
 							failure: function() {
-				    			console.log("my sessions request failure");
-				    		}
+								console.log("my sessions request failure");
+							}
 						});
 					} else {
 						//show a notification window

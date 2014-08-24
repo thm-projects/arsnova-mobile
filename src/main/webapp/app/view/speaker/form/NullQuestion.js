@@ -21,8 +21,8 @@ Ext.define('ARSnova.view.speaker.form.NullQuestion', {
 
 	getQuestionValues: function() {
 		var result = {};
-    result.possibleAnswers = [];
-    return result;
+		result.possibleAnswers = [];
+		return result;
 	},
 
 	initWithQuestion: function(question) {

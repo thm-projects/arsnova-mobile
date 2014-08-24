@@ -67,15 +67,15 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				 * it is also necessary to get the properties "padding-top" and "padding-bottom" and
 				 * add them to the height of the list DataView.
 				 */
-		        resize: function (list, eOpts) {
-		        	var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
+				resize: function (list, eOpts) {
+					var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
 
-		        	this.mycourses.setHeight(
-		        		parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height"))	+
-		        		parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top"))	+
-		        		parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
-		        	);
-		        }
+					this.mycourses.setHeight(
+						parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height"))	+
+						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top"))	+
+						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
+					);
+				}
 			}
 		});
 
@@ -98,7 +98,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			docked: 'top',
 			ui: 'light',
 			items: [
-		        this.backButton
+				this.backButton
 			]
 		});
 
@@ -113,22 +113,22 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			submitOnAction: false,
 
 			items: [{
-	            xtype: 'fieldset',
-	            items: [{
-	                xtype		: 'textfield',
-	                name		: 'name',
-	                label		: Messages.SESSION_NAME,
-	                placeHolder	: Messages.SESSION_NAME_PLACEHOLDER,
-	                maxLength	: 50,
-	                clearIcon	: true
-	            }, {
-	                xtype		: 'textfield',
-	                name		: 'shortName',
-	                label		: Messages.SESSION_SHORT_NAME,
-	                placeHolder	: Messages.SESSION_SHORT_NAME_PLACEHOLDER,
-	                maxLength	: 8,
-	                clearIcon	: true
-	            }]
+				xtype: 'fieldset',
+				items: [{
+					xtype		: 'textfield',
+					name		: 'name',
+					label		: Messages.SESSION_NAME,
+					placeHolder	: Messages.SESSION_NAME_PLACEHOLDER,
+					maxLength	: 50,
+					clearIcon	: true
+				}, {
+					xtype		: 'textfield',
+					name		: 'shortName',
+					label		: Messages.SESSION_SHORT_NAME,
+					placeHolder	: Messages.SESSION_SHORT_NAME_PLACEHOLDER,
+					maxLength	: 8,
+					clearIcon	: true
+				}]
 			}, {
 				xtype: 'button',
 				cls  : 'centerButton',
@@ -213,6 +213,6 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			failure: function() {
 				console.log("my courses request failure");
 			}
-    	}, (window.innerWidth > 321 ? 'name' : 'shortname'));
+		}, (window.innerWidth > 321 ? 'name' : 'shortname'));
 	}
 });

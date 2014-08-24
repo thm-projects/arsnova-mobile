@@ -28,14 +28,14 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 	ui: 'normal',
 
 	config: {
-		id        		 : 'content',
+		id				 : 'content',
 		title			 : 'MathJaxMarkDownPanel',
 		cls				 : 'roundedBox',
 		fullscreen		 : false,
 		scrollable		 : {direction: 'auto'},
 		styleHtmlContent : true,
-		html      		 : 'empty',
-		style     		 : 'color: black; background-color: #FFFFFF; margin-bottom: 10px'
+		html			 : 'empty',
+		style			 : 'color: black; background-color: #FFFFFF; margin-bottom: 10px'
 	},
 
 	initialize: function() {
@@ -49,23 +49,23 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 			var blockDelims = get_delimiter(content, "$$", "$$");
 			var repl = replace_delimiter(content, blockDelims, 'MATHJAXMARKDOWNBLOCK');
 
-      // remove MathJax inline
-      var inlineDelims = get_delimiter(repl.content, "[[", "]]");
-      var repl2 = replace_delimiter(repl.content, inlineDelims, 'MATHJAXMARKDOWNINLINE');
+	  // remove MathJax inline
+	  var inlineDelims = get_delimiter(repl.content, "[[", "]]");
+	  var repl2 = replace_delimiter(repl.content, inlineDelims, 'MATHJAXMARKDOWNINLINE');
 
 			// MarkDown is enabled and content will be converted
 			repl2.content = markdown.toHTML(repl2.content);
 
 			// get back the MathJax blocks in reverse order
 			repl.content = replace_back(repl2);
-      content = replace_back(repl);
+	  content = replace_back(repl);
 		}
 		this.setHtml(content);
 		var callback = mathjaxCallback || Ext.emptyFn;
 		if (mathJaxEnabled && features.mathJax && "undefined" !== typeof MathJax) {
 			// MathJax is enabled and content will be converted
 			var queue = MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.element.dom]);
-      MathJax.Hub.Queue([callback, this.element.down('div')]);
+	  MathJax.Hub.Queue([callback, this.element.down('div')]);
 		} else {
 			callback(this.element.down('div'));
 		}

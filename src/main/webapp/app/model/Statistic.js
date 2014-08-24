@@ -20,16 +20,16 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.model.Statistic', {
 	extend: 'Ext.data.Model',
-	
+
 	config: {
-		proxy: { type: 'restProxy' },
+		proxy: {type: 'restProxy'},
 
 		fields: [
-		   	  'category', 
-		   	  'counter'
-		       ]
+			'category',
+			'counter'
+		]
 	},
-	
+
 	getStatistics: function(callbacks) {
 		return this.getProxy().getStatistics(callbacks);
 	}

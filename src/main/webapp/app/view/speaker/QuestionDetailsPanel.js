@@ -20,40 +20,53 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  +--------------------------------------------------------------------------*/
 Ext.define('FreetextAnswer', {
-    extend: 'Ext.data.Model',
+	extend: 'Ext.data.Model',
 
-    require: ['ARSnova.view.speaker.form.ExpandingAnswerForm', 'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
-              'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.SchoolQuestion',
-              'ARSnova.view.speaker.form.VoteQuestion', 'ARSnova.view.speaker.form.YesNoQuestion',
-              'ARSnova.view.speaker.form.FlashcardQuestion', 'ARSnova.view.speaker.form.GridStatistic'],
+	require: [
+		'ARSnova.view.speaker.form.ExpandingAnswerForm',
+		'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
+		'ARSnova.view.speaker.form.NullQuestion',
+		'ARSnova.view.speaker.form.SchoolQuestion',
+		'ARSnova.view.speaker.form.VoteQuestion',
+		'ARSnova.view.speaker.form.YesNoQuestion',
+		'ARSnova.view.speaker.form.FlashcardQuestion',
+		'ARSnova.view.speaker.form.GridStatistic'
+	],
 
-    config: {
-    	idProperty: "_id",
+	config: {
+		idProperty: "_id",
 
-    	fields: [ 'answerSubject',
-    	          'timestamp',
-    	          'formattedTime',
-    	          'groupDate',
-    	          'questionId',
-    	          'abstention',
-    	          'answerText',
-    	          'piRound',
-    	          'sessionId',
-    	          'type',
-    	          '_rev'
-    	        ]
-    }
+		fields: [
+			'answerSubject',
+			'timestamp',
+			'formattedTime',
+			'groupDate',
+			'questionId',
+			'abstention',
+			'answerText',
+			'piRound',
+			'sessionId',
+			'type',
+			'_rev'
+		]
+	}
 });
 
 Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	extend: 'Ext.Panel',
 
-    requires: ['ARSnova.view.speaker.form.AbstentionForm', 'ARSnova.view.speaker.form.ExpandingAnswerForm',
-              'ARSnova.view.speaker.form.IndexedExpandingAnswerForm', 'ARSnova.view.MultiBadgeButton',
-              'ARSnova.view.speaker.form.NullQuestion', 'ARSnova.view.speaker.form.SchoolQuestion',
-              'ARSnova.view.speaker.form.VoteQuestion', 'ARSnova.view.speaker.form.YesNoQuestion',
-              'ARSnova.view.speaker.form.FlashcardQuestion', 'ARSnova.view.speaker.QuestionStatisticChart'
-    ],
+	requires: [
+		'ARSnova.view.speaker.form.AbstentionForm',
+		'ARSnova.view.speaker.form.ExpandingAnswerForm',
+		'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
+		'ARSnova.view.MultiBadgeButton',
+		'ARSnova.view.speaker.form.NullQuestion',
+		'ARSnova.view.speaker.form.SchoolQuestion',
+		'ARSnova.view.speaker.form.VoteQuestion',
+		'ARSnova.view.speaker.form.YesNoQuestion',
+		'ARSnova.view.speaker.form.FlashcardQuestion',
+		'ARSnova.view.speaker.QuestionStatisticChart'
+	],
 
 	config: {
 		title: 'QuestionDetailsPanel',
@@ -72,9 +85,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	gridStatistic	: null,
 
 	questionObj : null,
-  answerStore : null,
-  abstentionInternalId: 'ARSnova_Abstention',
-  abstentionAnswer: null,
+	answerStore : null,
+	abstentionInternalId: 'ARSnova_Abstention',
+	abstentionAnswer: null,
 
 	renewAnswerDataTask: {
 		name: 'renew the answer table data at question details panel',
@@ -98,12 +111,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 		// check if grid question
 		this.isGridQuestion = (['grid'].indexOf(this.questionObj.questionType) !== -1);
-    this.isFlashcard = this.questionObj.questionType === 'flashcard';
+		this.isFlashcard = this.questionObj.questionType === 'flashcard';
 
-    this.answerStore = Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
-    this.answerStore.add(Ext.clone(this.questionObj.possibleAnswers));
-    this.formatAnswerText();
-    this.addAbstentionAnswer();
+		this.answerStore = Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
+		this.answerStore.add(Ext.clone(this.questionObj.possibleAnswers));
+		this.formatAnswerText();
+		this.addAbstentionAnswer();
 
 		/* BEGIN TOOLBAR OBJECTS */
 
@@ -208,7 +221,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 					if(newContent.cvIsColored !== prevContent.get("cvIsColored"))
 						return true;
-					
+
 					var changed = false;
 					prevContent.get("possibleAnswers").forEach(function(answer, i) {
 						if (answer.correct !== newContent.possibleAnswers[i].correct) {
@@ -256,10 +269,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						success: function(response) {
 							panel.questionObj = question.data;
 							panel.answerStore.removeAll();
-              panel.answerStore.add(questionValues.possibleAnswers);
-              panel.formatAnswerText();
-              panel.addAbstentionAnswer();
-              panel.getQuestionAnswers();
+							panel.answerStore.add(questionValues.possibleAnswers);
+							panel.formatAnswerText();
+							panel.addAbstentionAnswer();
+							panel.getQuestionAnswers();
 						}
 					});
 				};
@@ -403,10 +416,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			docked: 'top',
 			ui: 'light',
 			items: [
-		        this.backButton,
-		        this.cancelButton,
-		        {xtype:'spacer'},
-		        this.editButton
+				this.backButton,
+				this.cancelButton,
+				{xtype:'spacer'},
+				this.editButton
 			]
 		});
 
@@ -445,7 +458,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				label	: false,
 				cls		: 'questionDetailsToggle',
 				scope	: this,
-				value 	: this.questionObj.showStatistic? this.questionObj.showStatistic : 0,
+				value	: this.questionObj.showStatistic? this.questionObj.showStatistic : 0,
 				listeners: {
 					change: function(toggle, newValue, oldValue, eOpts ){
 						if (newValue == 0 && me.questionObj.showStatistic == undefined || newValue == me.questionObj.showStatistic) return;
@@ -488,7 +501,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				label	: false,
 				cls		: 'questionDetailsToggle',
 				scope	: this,
-				value 	: this.questionObj.showAnswer? this.questionObj.showAnswer : 0,
+				value	: this.questionObj.showAnswer? this.questionObj.showAnswer : 0,
 				listeners: {
 					scope: this,
 					change: function(toggle, newValue, oldValue, eOpts) {
@@ -535,7 +548,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 		this.deleteAnswersButton = Ext.create('Ext.Panel', {
 			cls: 'threeButtons left',
-      hidden: this.isFlashcard,
+			hidden: this.isFlashcard,
 			items: [{
 				xtype	: 'button',
 				text	: ' ',
@@ -585,12 +598,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 										type		: 'slide',
 										direction	: 'right',
 										duration	: 700,
-									    listeners: {
-									        animationend: function() {
-									        	taskManager.stop(me.renewAnswerDataTask);
-									        	me.destroy();
-									        }
-									    }
+										listeners: {
+											animationend: function() {
+												taskManager.stop(me.renewAnswerDataTask);
+												me.destroy();
+											}
+										}
 									});
 								},
 								failure: function(response){
@@ -631,7 +644,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.firstRow = Ext.create('Ext.form.FormPanel', {
 			cls	 : 'actionsForm',
 			scrollable: null,
-      hidden: this.isFlashcard,
+			hidden: this.isFlashcard,
 
 			style: {
 				marginTop: '15px'
@@ -647,9 +660,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			scrollable: null,
 
 			items: [
-			    this.questionStatusButton,
-			    this.deleteAnswersButton,
-			    this.deleteQuestionButton
+				this.questionStatusButton,
+				this.deleteAnswersButton,
+				this.deleteQuestionButton
 			]
 		});
 
@@ -707,7 +720,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 		this.contentForm = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
-			itemId 	 : 'contentForm',
+			itemId: 'contentForm',
 			style: { marginTop: '15px', marginLeft: '12px', marginRight: '12px' },
 			items: [this.contentFieldset, this.previewPart]
 		});
@@ -718,7 +731,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 
 		this.answerForm = Ext.create('Ext.form.FormPanel', {
-			itemId 	 	: 'answerForm',
+			itemId	: 'answerForm',
 			scroll	: false,
 			scrollable: null,
 			items	: [this.answerFormFieldset]
@@ -751,14 +764,14 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		/* END QUESTION DETAILS */
 
 		this.add([
-		  this.toolbar,
-		  this.contentForm,
-          this.actionsPanel,
-          this.abstentionPart,
-          this.answerForm,
-          this.answerEditForm,
-          this.actionsPanel
-        ]);
+			this.toolbar,
+			this.contentForm,
+			this.actionsPanel,
+			this.abstentionPart,
+			this.answerForm,
+			this.answerEditForm,
+			this.actionsPanel
+		]);
 
 		this.on('activate', this.onActivate);
 		this.on('deactivate', this.onDeactivate);
@@ -798,58 +811,58 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	getPossibleAnswers: function() {
 		var me = this;
 		var isGridQuestion = (['grid'].indexOf(this.questionObj.questionType) !== -1);
-    this.answerList = Ext.create('Ext.List', {
-      hidden: isGridQuestion,
-      store: this.answerStore,
+	this.answerList = Ext.create('Ext.List', {
+		hidden: isGridQuestion,
+		store: this.answerStore,
 
-      cls: 'roundedBox',
-      variableHeights: true,
-      scrollable: { disabled: true },
+		cls: 'roundedBox',
+		variableHeights: true,
+		scrollable: { disabled: true },
 
-      itemCls: 'arsnova-mathdown x-html answerListButton noPadding',
-      itemTpl: new Ext.XTemplate(
-        '{formattedText}',
-        '<tpl if="correct === true && this.isFlashcard() === false">',
-           '&nbsp;<span class="listCorrectItem x-list-item-correct">&#10003; </span>',
-        '</tpl>',
-        '<tpl if="this.isFlashcard() === false">',
-          '</div><div class="x-button x-hasbadge audiencePanelListBadge">' +
-          '<span class="greybadgeicon badgefixed">{answerCount}</span>',
-        '</tpl>',
-        {
-          isFlashcard: function() {
-            return me.isFlashcard;
-          }
-        }
-      ),
-      listeners: {
-        scope: this,
-        /**
-         * The following events are used to get the computed height of
-         * all list items and finally to set this value to the list
-         * DataView. In order to ensure correct rendering it is also
-         * necessary to get the properties "padding-top" and
-         * "padding-bottom" and add them to the height of the list
-         * DataView.
-         */
-        painted: function (list, eOpts) {
-          this.answerList.fireEvent("resizeList", list);
-        },
-        resizeList: function(list) {
-          var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
+		itemCls: 'arsnova-mathdown x-html answerListButton noPadding',
+		itemTpl: new Ext.XTemplate(
+			'{formattedText}',
+			'<tpl if="correct === true && this.isFlashcard() === false">',
+			'&nbsp;<span class="listCorrectItem x-list-item-correct">&#10003; </span>',
+			'</tpl>',
+			'<tpl if="this.isFlashcard() === false">',
+			'</div><div class="x-button x-hasbadge audiencePanelListBadge">' +
+			'<span class="greybadgeicon badgefixed">{answerCount}</span>',
+			'</tpl>',
+			{
+				isFlashcard: function() {
+					return me.isFlashcard;
+				}
+			}
+		),
+		listeners: {
+			scope: this,
+			/**
+			 * The following events are used to get the computed height of
+			 * all list items and finally to set this value to the list
+			 * DataView. In order to ensure correct rendering it is also
+			 * necessary to get the properties "padding-top" and
+			 * "padding-bottom" and add them to the height of the list
+			 * DataView.
+			 */
+			painted: function (list, eOpts) {
+				this.answerList.fireEvent("resizeList", list);
+			},
+			resizeList: function(list) {
+				var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
 
-          this.answerList.setHeight(
-            parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height"))	+
-            parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top"))	+
-            parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
-          );
-        }
-      },
-      mode: this.questionObj.questionType === "mc" ? 'MULTI' : 'SINGLE'
-    });
-    if (this.questionObj.questionType !== "freetext") {
-      this.answerFormFieldset.add(this.answerList);
-    }
+				this.answerList.setHeight(
+					parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height"))	+
+					parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top"))	+
+					parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
+				);
+			}
+		},
+		mode: this.questionObj.questionType === "mc" ? 'MULTI' : 'SINGLE'
+	});
+	if (this.questionObj.questionType !== "freetext") {
+		this.answerFormFieldset.add(this.answerList);
+	}
 
 		if (isGridQuestion) {
 			// add statistic
@@ -947,28 +960,28 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						});
 
 						self.answerFormFieldset.removeAll();
-            var abstentionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-              ui: 'normal',
-              cls: 'answerListButton',
-              text: Messages.ABSTENTION
-            });
-            abstentionButton.setBadge([{ badgeText: abstentions.length + '', badgeCls: "greybadgeicon" }]);
-            var answerCountButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-              cls: 'forwardListButton',
-              text: Messages.ANSWERS,
-              handler: function() {
-                var p = Ext.create('ARSnova.view.FreetextAnswerPanel', {
-                  question: self.questionObj,
-                  lastPanel: self
-                });
-                ARSnova.app.mainTabPanel.animateActiveItem(p, 'slide');
-              }
-            });
-            answerCountButton.setBadge([{ badgeText: answers.length + '', badgeCls: "greybadgeicon" }]);
-            self.answerFormFieldset.add([answerCountButton]);
-            if (self.questionObj.abstention) {
-              self.answerFormFieldset.add([abstentionButton])
-            }
+						var abstentionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+							ui: 'normal',
+							cls: 'answerListButton',
+							text: Messages.ABSTENTION
+						});
+						abstentionButton.setBadge([{ badgeText: abstentions.length + '', badgeCls: "greybadgeicon" }]);
+						var answerCountButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+							cls: 'forwardListButton',
+							text: Messages.ANSWERS,
+							handler: function() {
+								var p = Ext.create('ARSnova.view.FreetextAnswerPanel', {
+									question: self.questionObj,
+									lastPanel: self
+								});
+								ARSnova.app.mainTabPanel.animateActiveItem(p, 'slide');
+							}
+						});
+						answerCountButton.setBadge([{ badgeText: answers.length + '', badgeCls: "greybadgeicon" }]);
+						self.answerFormFieldset.add([answerCountButton]);
+						if (self.questionObj.abstention) {
+							self.answerFormFieldset.add([abstentionButton])
+						}
 					},
 					failure: function() {
 						console.log('server-side error');
@@ -980,11 +993,11 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
 						var answers = Ext.decode(response.responseText);
 
-            var abstentionIndex = panel.answerStore.find('id', panel.abstentionInternalId);
-            // reset answer badges
-					  panel.answerStore.each(function(item) {
-              item.set('answerCount', 0);
-            });
+						var abstentionIndex = panel.answerStore.find('id', panel.abstentionInternalId);
+						// reset answer badges
+						panel.answerStore.each(function(item) {
+							item.set('answerCount', 0);
+						});
 
 						if (panel.questionObj.questionType === "mc") {
 							var mcAnswerCount = [];
@@ -1011,16 +1024,16 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 									});
 								}
 							}
-              panel.answerStore.each(function(item, index) {
-                item.set('answerCount', mcAnswerCount[index] || 0);
-              });
-              if (abstentionIndex !== -1) {
-                panel.answerStore.getAt(abstentionIndex).set('answerCount', abstentionCount);
-              }
+							panel.answerStore.each(function(item, index) {
+								item.set('answerCount', mcAnswerCount[index] || 0);
+							});
+							if (abstentionIndex !== -1) {
+								panel.answerStore.getAt(abstentionIndex).set('answerCount', abstentionCount);
+							}
 
 						} else if (panel.questionObj.questionType === "grid") {
-							panel.gridStatistic.answers 		= answers;
-							panel.gridStatistic.setQuestionObj  = panel.questionObj;
+							panel.gridStatistic.answers = answers;
+							panel.gridStatistic.setQuestionObj = panel.questionObj;
 							panel.gridStatistic.updateGrid();
 						} else {
 							var abstentionCount = 0;
@@ -1029,14 +1042,14 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 									abstentionCount = el.abstentionCount;
 									continue;
 								}
-                var answerIndex = panel.answerStore.find('text', el.answerText);
-                if (answerIndex !== -1) {
-                  panel.answerStore.getAt(answerIndex).set('answerCount', el.answerCount);
-                }
+				var answerIndex = panel.answerStore.find('text', el.answerText);
+				if (answerIndex !== -1) {
+					panel.answerStore.getAt(answerIndex).set('answerCount', el.answerCount);
+				}
 							}
-              if (abstentionIndex !== -1) {
-                panel.answerStore.getAt(abstentionIndex).set('answerCount', abstentionCount);
-              }
+				if (abstentionIndex !== -1) {
+					panel.answerStore.getAt(abstentionIndex).set('answerCount', abstentionCount);
+				}
 						}
 					},
 					failure: function(){
@@ -1081,16 +1094,16 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 	},
 
-  addAbstentionAnswer: function() {
-    if (this.questionObj.abstention) {
-      this.abstentionAnswer = this.answerStore.add({
-        id: this.abstentionInternalId,
-        text: Messages.ABSTENTION,
-        correct: false,
-        answerCount: 0
-      })[0];
-      // has to be set this way as it does not conform to the model
-      this.abstentionAnswer.set('formattedText', Messages.ABSTENTION);
-    }
-  }
+	addAbstentionAnswer: function() {
+		if (this.questionObj.abstention) {
+			this.abstentionAnswer = this.answerStore.add({
+				id: this.abstentionInternalId,
+				text: Messages.ABSTENTION,
+				correct: false,
+				answerCount: 0
+			})[0];
+			// has to be set this way as it does not conform to the model
+			this.abstentionAnswer.set('formattedText', Messages.ABSTENTION);
+		}
+	}
 });

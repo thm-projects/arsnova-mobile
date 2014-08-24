@@ -1,9 +1,9 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
  /app/view/TextCheckfield.js
- - Description	: Textfield with a checkfield instead of the default label.
- - Version		: 1.0, 15/06/2013
- - Autor(en)	: Andreas Gaertner <andreas.gaertner@mni.thm.de>
+ - Description:  Textfield with a checkfield instead of the default label.
+ - Version:      1.0, 15/06/2013
+ - Autor(en):    Andreas Gaertner <andreas.gaertner@mni.thm.de>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -45,22 +45,22 @@ Ext.define('ARSnova.view.TextCheckfield', {
 		listeners: {
 			'tap': {
 				element: 'label',
-	        	fn: function() {
-	        		var parent = this.getContainer();
-	        		if (parent.config.singleChoice) {
-	        			for (var i=0; i < parent.selectAnswerCount.getValue(); i++) {
-	        				parent.answerComponents[i].uncheck();
-	        			}
+				fn: function() {
+					var parent = this.getContainer();
+					if (parent.config.singleChoice) {
+						for (var i=0; i < parent.selectAnswerCount.getValue(); i++) {
+							parent.answerComponents[i].uncheck();
+						}
 
-		        		if (!this.isChecked()) {
-		        			this.toggleChecked();
-		        		}
-	        		} else {
-	        			this.toggleChecked();
-	        		}
-							this.fireEvent('checkchange', this, this.isChecked());
-	        	}
-	        }
+						if (!this.isChecked()) {
+							this.toggleChecked();
+						}
+					} else {
+						this.toggleChecked();
+					}
+						this.fireEvent('checkchange', this, this.isChecked());
+				}
+			}
 		}
 	},
 
@@ -109,7 +109,7 @@ Ext.define('ARSnova.view.TextCheckfield', {
 	},
 
 	/**
-     * Toggles checkfield cls and value
+	 * Toggles checkfield cls and value
 	*/
 	toggleChecked: function() {
 		this.setChecked(!this.isChecked());

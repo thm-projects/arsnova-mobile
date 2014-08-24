@@ -2,7 +2,7 @@
 "use strict";
 // by http://www.quirksmode.org/js/detect.html
 Ext.define('ARSnova.BrowserDetect', {
-	
+
 	constructor: function () {
 		var browser = this.searchString(this.dataBrowser) || "An unknown browser",
 			userAgentVersion = this.searchVersion(navigator.userAgent),
@@ -27,7 +27,7 @@ Ext.define('ARSnova.BrowserDetect', {
 		}
 		return version.toString();
 	},
-	
+
 	searchString: function (data) {
 		for (var i=0;i<data.length;i++)	{
 			var dataString = data[i].string;
@@ -42,7 +42,7 @@ Ext.define('ARSnova.BrowserDetect', {
 			}
 		}
 	},
-	
+
 	searchVersion: function (dataString) {
 		var index = dataString.indexOf(this.versionSearchString);
 		if (index === -1) {
@@ -51,7 +51,7 @@ Ext.define('ARSnova.BrowserDetect', {
 		}
 		return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
 	},
-	
+
 	dataBrowser: [{
 			string: navigator.userAgent,
 			subString: "Chrome",
@@ -113,7 +113,7 @@ Ext.define('ARSnova.BrowserDetect', {
 			identity: "Netscape",
 			versionSearch: "Mozilla"
 	}],
-		
+
 	dataOS : [{
 			string: navigator.platform,
 			subString: "Win",

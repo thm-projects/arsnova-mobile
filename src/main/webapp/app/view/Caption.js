@@ -18,25 +18,25 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.Caption', {
 	extend: 'Ext.Container',
-	
+
 	requires: ['ARSnova.view.MultiBadgeButton'],
-	
+
 	config: {
 		translation: {
 			active: Messages.OPEN_SESSION,
 			inactive: Messages.CLOSED_SESSION
 		}
 	},
-	
+
 	constructor: function() {
 		this.callParent(arguments);
-		
+
 		this.listButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			ui			: 'small',
 			text		: "",
 			cls			: 'forwardListButton caption'
 		});
-		
+
 		this.add([].concat(window.innerWidth > 320 ? [{
 			cls: 'gravure',
 			style: {
@@ -45,7 +45,7 @@ Ext.define('ARSnova.view.Caption', {
 			html: Messages.LEGEND
 		}, this.listButton] : []));
 	},
-	
+
 	explainStatus: function(items) {
 		var hasActiveItems = false;
 		items.forEach(function(item) {
@@ -55,7 +55,7 @@ Ext.define('ARSnova.view.Caption', {
 		items.forEach(function(item) {
 			hasInactiveItems = hasInactiveItems || !!!item.active;
 		});
-		
+
 		var activeText = "";
 		if (hasActiveItems) {
 			activeText = this.getTranslation().active;
@@ -70,7 +70,7 @@ Ext.define('ARSnova.view.Caption', {
 			this.listButton.setText(activeText || inactiveText);
 		}
 	},
-	
+
 	explainBadges: function(badges) {
 		var hasFeedbackQuestions = false;
 		var hasQuestions = false;
@@ -93,7 +93,7 @@ Ext.define('ARSnova.view.Caption', {
 		}]);
 		return badges;
 	},
-	
+
 	connectToStore: function(store) {
 		store.on('updaterecord', function(theStore, record) {
 			var records = [];

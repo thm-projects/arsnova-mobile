@@ -18,13 +18,13 @@
  +--------------------------------------------------------------------------*/
 Ext.define("ARSnova.controller.FlashcardQuestions", {
 	extend: 'ARSnova.controller.Questions',
-	
+
 	requires: ['ARSnova.model.Question'],
-	
+
 	config: {
 		models: ['ARSnova.model.Question']
 	},
-	
+
 	listQuestions: function(){
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.newQuestionPanel.setVariant('flashcard');
@@ -32,12 +32,12 @@ Ext.define("ARSnova.controller.FlashcardQuestions", {
 		sTP.showcaseQuestionPanel.setController(this);
 		sTP.animateActiveItem(sTP.audienceQuestionPanel, 'slide');
 	},
-	
+
 	destroyAll: function() {
 		var question = Ext.create('ARSnova.model.Question');
 		question.deleteAllFlashcards.apply(question, arguments);
 	},
-	
+
 	getQuestions: function() {
 		var question = Ext.create('ARSnova.model.Question');
 		question.getFlashcards.apply(question, arguments);
