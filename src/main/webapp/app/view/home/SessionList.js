@@ -18,26 +18,26 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.home.SessionList', {
 	extend: 'Ext.form.FormPanel',
-	
+
 	config: {
 		title: ""
 	},
-	
+
 	constructor: function() {
 		this.callParent(arguments);
-		
+
 		this.content = Ext.create('Ext.form.FieldSet', {
 			cls: 'standardFieldset',
 			title: this.getTitle()
 		});
-		
+
 		this.add(this.content);
 	},
-	
+
 	addEntry: function(element) {
 		this.content.add(element);
 	},
-	
+
 	removeAll: function() {
 		this.content.removeAll();
 	}

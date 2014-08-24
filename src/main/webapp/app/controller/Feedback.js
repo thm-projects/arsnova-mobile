@@ -24,22 +24,22 @@ Ext.define("ARSnova.controller.Feedback", {
 	index: function(options){
 		var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 		fP.animateActiveItem(fP.votePanel, 'slide');
-    },
-    
-    vote: function(options){
-    	if (!ARSnova.app.checkSessionLogin()){
-    		Ext.Msg.alert('Hinweis', 'Bitte loggen Sie sich erst in einen Kurs ein, bevor Sie diese Funktion nutzen!');
-    		var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
-    		fP.animateActiveItem(fP.statisticPanel, {
-    			type		: 'slide',
-    			direction	: 'right'
-    		});
-    		return;
-    	}
-    	
-    	var feedbackValue;
-    	var feedbackCls;
-    	switch (options.value){
+	},
+
+	vote: function(options){
+		if (!ARSnova.app.checkSessionLogin()){
+			Ext.Msg.alert('Hinweis', 'Bitte loggen Sie sich erst in einen Kurs ein, bevor Sie diese Funktion nutzen!');
+			var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
+			fP.animateActiveItem(fP.statisticPanel, {
+				type: 'slide',
+				direction: 'right'
+			});
+			return;
+		}
+
+		var feedbackValue;
+		var feedbackCls;
+		switch (options.value){
 			case "Kann folgen":
 				feedbackCls = "Good";
 				feedbackValue = 1;
@@ -55,56 +55,56 @@ Ext.define("ARSnova.controller.Feedback", {
 			case "Nicht mehr dabei":
 				feedbackCls = "None";
 				feedbackValue = 3;
-				break;	
+				break;
 			case "cancel":
 				return;
 			default:
 				return;
 		}
-		
+
 		ARSnova.app.feedbackModel.postFeedback(feedbackValue);
 		localStorage.setItem('user has voted', 1);
 		var feedbackButton = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.feedbackButton;
-		
-		feedbackButton.setBadge([{ 
-			badgeText: "0", 
-			badgeCls: 'badgeicon feedback' + feedbackCls 
+
+		feedbackButton.setBadge([{
+			badgeText: "0",
+			badgeCls: 'badgeicon feedback' + feedbackCls
 		}]);
-		
+
 		var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 		fP.animateActiveItem(fP.statisticPanel, {
-			type		: 'slide',
-			direction	: 'up'
+			type: 'slide',
+			direction: 'up'
 		});
 	},
-	
+
 	ask: function(options) {
 		options.question.saveInterposed({
 			success: options.success,
 			failure: options.failure
 		});
 	},
-    
-    showVotePanel: function(){
-    	tP = ARSnova.app.mainTabPanel.tabPanel;
-    	fP = tP.feedbackTabPanel;
-    	
-    	if(fP.rendered){
-    		fP.setActiveItem(fP.votePanel);
-    	} else {
-    		fP.activeItem = 1;
-    	}
-    	tP.setActiveItem(fP);
-    },
-    
-    statistic: function(){
-    	ARSnova.app.showLoadMask("Erzeuge die Grafik...");
-    	fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
-    	fP.statisticPanel.backButton.show();
-    	ARSnova.app.mainTabPanel.tabPanel.setActiveItem(fP);
-    	
-    	ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.addListener('deactivate', function(panel){
-    		panel.statisticPanel.backButton.hide();
-    	}, this, {single: true});
-    }
+
+	showVotePanel: function(){
+		tP = ARSnova.app.mainTabPanel.tabPanel;
+		fP = tP.feedbackTabPanel;
+
+		if(fP.rendered){
+			fP.setActiveItem(fP.votePanel);
+		} else {
+			fP.activeItem = 1;
+		}
+		tP.setActiveItem(fP);
+	},
+
+	statistic: function(){
+		ARSnova.app.showLoadMask("Erzeuge die Grafik...");
+		fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
+		fP.statisticPanel.backButton.show();
+		ARSnova.app.mainTabPanel.tabPanel.setActiveItem(fP);
+
+		ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.addListener('deactivate', function(panel){
+			panel.statisticPanel.backButton.hide();
+		}, this, {single: true});
+	}
 });

@@ -20,29 +20,30 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.TabPanel', {
 	extend: 'Ext.tab.Panel',
-	
-	requires: [ 'ARSnova.view.LoginPanel',
-	            'ARSnova.view.RolePanel',
-	            'ARSnova.view.home.TabPanel',
-	            'ARSnova.view.diagnosis.TabPanel',
-	            'ARSnova.view.about.TabPanel'
+
+	requires: [
+		'ARSnova.view.LoginPanel',
+		'ARSnova.view.RolePanel',
+		'ARSnova.view.home.TabPanel',
+		'ARSnova.view.diagnosis.TabPanel',
+		'ARSnova.view.about.TabPanel'
 	],
-	
+
 	config: {
 		fullscreen: true,
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
 		},
-		
+
 		tabBar: {
 			layout: {
 				pack: 'center'
 			}
 		},
-		
+
 		tabBarPosition: 'bottom',
-		
+
 		/**
 		 * task for everyone in a session
 		 * displays the number of online users
@@ -55,23 +56,23 @@ Ext.define('ARSnova.view.TabPanel', {
 			interval: 15000 // 15 seconds
 		}
 	},
-	
+
 	/* items */
-	settingsPanel 	: null,
-	
+	settingsPanel: null,
+
 	/* panels will be created in  sessions/reloadData */
-	userQuizPanel	  	: null,
-	feedbackTabPanel	: null,
-	
+	userQuizPanel: null,
+	feedbackTabPanel: null,
+
 	initialize: function() {
 		this.callParent(arguments);
-		
-		this.loginPanel		= Ext.create('ARSnova.view.LoginPanel');
-		this.rolePanel 		= Ext.create('ARSnova.view.RolePanel');
-		this.homeTabPanel 	= Ext.create('ARSnova.view.home.TabPanel');
+
+		this.loginPanel = Ext.create('ARSnova.view.LoginPanel');
+		this.rolePanel = Ext.create('ARSnova.view.RolePanel');
+		this.homeTabPanel = Ext.create('ARSnova.view.home.TabPanel');
 		this.diagnosisPanel = Ext.create('ARSnova.view.diagnosis.TabPanel');
-		this.infoTabPanel 	= Ext.create('ARSnova.view.about.TabPanel');
-		
+		this.infoTabPanel = Ext.create('ARSnova.view.about.TabPanel');
+
 		this.add([
 			this.rolePanel,
 			this.loginPanel,
@@ -79,7 +80,7 @@ Ext.define('ARSnova.view.TabPanel', {
 			this.diagnosisPanel,
 			this.infoTabPanel
 		]);
-		
+
 		this.on('activeitemchange', function(panel, newCard, oldCard){
 			ARSnova.app.lastActivePanel = oldCard;
 			if (newCard === this.infoTabPanel) {
@@ -88,7 +89,7 @@ Ext.define('ARSnova.view.TabPanel', {
 				return false;
 			}
 		}, this);
-		
+
 		this.on('initialize', function(){
 			this.rolePanel.tab.hide();
 			this.loginPanel.tab.hide();
@@ -98,15 +99,15 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.on('activate', this.onActivate);
 		this.on('deactivate', this.onDeactivate);
 	},
-	
+
 	/*
 	 * override method to be sure that cardswitch-animation has correct animation direction and duration
 	 */
 	setActiveItem: function(card, animation){
 		this.callParent(arguments);
-		
-		this.getTabBar().activeTab = card.tab; //for correct animation direction
-		
+
+		this.getTabBar().activeTab = card.tab;// for correct animation direction
+
 		if (typeof(animation) == 'object')
 			animation.duration = ARSnova.app.cardSwitchDuration;
 		else {
@@ -117,7 +118,7 @@ Ext.define('ARSnova.view.TabPanel', {
 			};
 		}
 	},
-	
+
 	onActivate: function(){
 		if (ARSnova.app.checkSessionLogin()) {
 			/* only start task if user/speaker is not(!) on feedbackTabPanel/statisticPanel (feedback chart)
@@ -139,10 +140,10 @@ Ext.define('ARSnova.view.TabPanel', {
 			taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
 		}
 	},
-	
+
 	updateFeedbackIcon: function(averageFeedback) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
-		
+
 		switch (averageFeedback) {
 			/* 0: faster, please!; 1: can follow; 2: to fast!; 3: you have lost me */
 			case 0:
@@ -156,23 +157,23 @@ Ext.define('ARSnova.view.TabPanel', {
 				break;
 			case 3:
 				panel.tab.setIconCls("feedbackNone");
-				break;	
+				break;
 			default:
 				break;
 		}
 	},
-	
+
 	updateFeedbackBadge: function(feedbackCount) {
 		if (feedbackCount > 0) {
 			ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab.setBadgeText(feedbackCount);
 		}
 	},
-	
+
 	updateHomeBadge: function() {
 		var count = ARSnova.app.loggedInModel.countActiveUsersBySession();
 		var speaker = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		var student = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
-		
+
 		if (count > 0) {
 			speaker && speaker.tab.setBadgeText(count-1); // Do not count the speaker itself
 			student && student.tab.setBadgeText(count); // Students will see all online users

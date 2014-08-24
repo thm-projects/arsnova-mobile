@@ -20,30 +20,30 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.user.TabPanel', {
 	extend: 'Ext.tab.Panel',
-	
+
 	requires: ['ARSnova.view.user.InClass'],
-	
+
 	config: {
-		title	: Messages.HOME,
-	
-		iconCls	: 'tabBarIconHome',
-		scroll	: 'vertical',
-		
+		title: Messages.HOME,
+
+		iconCls: 'tabBarIconHome',
+		scroll: 'vertical',
+
 		tabBar: {
-	    	hidden: true
-	    }
+			hidden: true
+		}
 	},
-	
+
 	constructor: function() {
 		this.callParent(arguments);
-		
+
 		this.inClassPanel = Ext.create('ARSnova.view.user.InClass');
-		
+
 		this.add([
-	        this.inClassPanel
-        ]);
+			this.inClassPanel
+		]);
 	},
-	
+
 	renew: function(){
 		this.remove(this.inClassPanel);
 		this.inClassPanel = Ext.create('ARSnova.view.user.InClass');

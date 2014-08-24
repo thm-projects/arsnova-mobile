@@ -2,7 +2,7 @@
  This file is part of ARSnova.
  - Beschreibung: MessageBox mit Mathjax-Unterstützung
  - Autor(en):    Christoph Thelen <christoph.thelen@mni.thm.de>,
- 				 Andreas Gärtner <andreas.gaertner@mni.thm.de>
+                 Andreas Gärtner <andreas.gaertner@mni.thm.de>
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.CustomMessageBox', {
 
 	config: {
 		showAnimation: {
-			type: 'fade', 
+			type: 'fade',
 			duration: 200
 		}
 	},
@@ -39,19 +39,19 @@ Ext.define('ARSnova.view.CustomMessageBox', {
 		this.callParent(arguments);
 
 		return this.show({
-	        title       : title || null,
-	        message     : message || null,
-	        buttons     : [
-	            {text: Messages.YES, itemId: 'yes', ui: 'action'},
-	 			{text: Messages.NO,  itemId: 'no'}
+			title: title || null,
+			message: message || null,
+			buttons: [
+				{text: Messages.YES, itemId: 'yes', ui: 'action'},
+				{text: Messages.NO,  itemId: 'no'}
 			],
-	        promptConfig: false,
-	        scope       : scope,
-	        fn: function() {
-	            if (fn) {
-	                fn.apply(scope, arguments);
-	            }
-	        }
+			promptConfig: false,
+			scope: scope,
+			fn: function() {
+				if (fn) {
+					fn.apply(scope, arguments);
+				}
+			}
 		});
 	}
 });

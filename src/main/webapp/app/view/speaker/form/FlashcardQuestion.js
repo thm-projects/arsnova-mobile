@@ -17,32 +17,34 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 	extend: 'Ext.Container',
-	
+
 	constructor: function() {
 		this.callParent(arguments);
-		
+
 		this.answer = Ext.create('Ext.plugins.ResizableTextArea', {
 			placeHolder: Messages.ANSWER
 		});
-		
+
 		var previewButton = Ext.create('Ext.Button', {
-			text	: Messages.ANSWER_PREVIEW_BUTTON_TITLE,
-			ui		: 'confirm',
-			style   : 'width:200px; margin-top: 12px;',
+			text: Messages.ANSWER_PREVIEW_BUTTON_TITLE,
+			ui: 'confirm',
+			style: 'width:200px; margin-top: 12px;',
 			handler: function() {
 					this.previewHandler();
 				},
 			scope: this
 		});
-		
+
 		this.add([{
 			xtype: 'fieldset',
 			title: Messages.ANSWER,
-			items: [this.answer,
-			        previewButton]
+			items: [
+				this.answer,
+				previewButton
+			]
 		}]);
 	},
-	
+
 	initWithQuestion: function(question) {
 		var possibleAnswers = question.possibleAnswers;
 		if (possibleAnswers.length === 0) {
@@ -50,29 +52,29 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 		}
 		this.answer.setValue(possibleAnswers[0].text);
 	},
-	
+
 	getQuestionValues: function() {
 		var result = {};
-		
+
 		result.possibleAnswers = [{text: this.answer.getValue(), correct: true}];
-		
+
 		return result;
 	},
 
 	getValue: function() {
 		var values = [], obj;
 		obj = {
-				text	: this.answer.getValue(),
-				correct : true
+				text: this.answer.getValue(),
+				correct: true
 			};
 		values.push(obj);
 		return values;
 	},
-		
+
 	previewHandler: function() {
 		var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox', {
 			xtype: 'answerPreview'
-		});		
+		});
 		answerPreview.showPreview(this.getValue());
 	},
 

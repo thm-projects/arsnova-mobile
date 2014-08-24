@@ -25,15 +25,15 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 	config: {
 		fullscreen: true,
-		title	: Messages.QUESTIONS,
-		iconCls	: 'tabBarIconQuestion',
+		title: Messages.QUESTIONS,
+		iconCls: 'tabBarIconQuestion',
 
 		questionLoader: null,
 		questionCountLoader: null
 	},
 
 	/* item index 0 and 1 are occupied by the carousel and toolbar. */
-	carouselOffset:	2,
+	carouselOffset: 2,
 
 	initialize: function() {
 		this.callParent(arguments);
@@ -41,9 +41,9 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		this.setLectureMode();
 
 		this.on('activeitemchange', function(panel, newCard, oldCard) {
-		  this.toolbar.setQuestionTitle(newCard.questionObj);
-      this.toolbar.incrementQuestionCounter(panel.activeIndex);
-      this.toolbar.checkStatistics(newCard.questionObj, newCard.isDisabled());
+			this.toolbar.setQuestionTitle(newCard.questionObj);
+			this.toolbar.incrementQuestionCounter(panel.activeIndex);
+			this.toolbar.checkStatistics(newCard.questionObj, newCard.isDisabled());
 
 			newCard.fireEvent('preparestatisticsbutton', this.toolbar.statisticsButton);
 		});
@@ -51,8 +51,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		this.toolbar = Ext.create('ARSnova.view.components.QuestionToolbar', {
 			title: Messages.QUESTION,
 			backButtonHandler: function(animation) {
-        ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, animation);
-      }
+				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, animation);
+			}
 		});
 
 		this.add([this.toolbar]);
@@ -122,13 +122,13 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 						},
 						failure: function() {
 							hideLoadMask();
-			    			console.log('error');
-			    		}
+							console.log('error');
+						}
 					});
 					return;
 
 				} else {
-          userQuestionsPanel.toolbar.resetQuestionCounter(questions.length);
+					userQuestionsPanel.toolbar.resetQuestionCounter(questions.length);
 				}
 
 				if (questions.length == 1){
@@ -215,7 +215,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			}
 
 			var list = questionPanel.answerList;
-			var data = list ? list.getStore() : Ext.create('Ext.data.Store', {model:'ARSnova.model.Answer'});
+			var data = list ? list.getStore(): Ext.create('Ext.data.Store', {model:'ARSnova.model.Answer'});
 
 			if (questionObj.questionType === 'mc') {
 				if (!questionObj.isAbstentionAnswer) {
@@ -225,7 +225,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 						return;
 					}
 					var selectedIndexes = answers.map(function(isSelected, index) {
-						return isSelected === "1" ? list.getStore().getAt(index) : -1;
+						return isSelected === "1" ? list.getStore().getAt(index): -1;
 					}).filter(function(index) {
 						return index !== -1;
 					});
@@ -256,7 +256,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		var questionView = this.getActiveItem();
 
 		questionView.fireEvent('preparestatisticsbutton', this.toolbar.statisticsButton);
-    this.toolbar.checkStatistics(questionView.questionObj, questionView.isDisabled());
+	this.toolbar.checkStatistics(questionView.questionObj, questionView.isDisabled());
 	},
 
 	/**
@@ -264,7 +264,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	 * If it was the last one, the application moves back to user.InClass panel.
 	 */
 	checkIfLastAnswer: function(){
-		var questionPanels	= this.items.items;
+		var questionPanels = this.items.items;
 		var allAnswered = true;
 
 		for (var i = this.carouselOffset, questionPanel; questionPanel = questionPanels[i]; i++) {
@@ -278,11 +278,11 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 		if(allAnswered) {
 			ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
-	    		type		: 'slide',
-	    		direction	: 'right',
-	    		duration	: 700,
-	    		scope		: this
-	    	});
+				type: 'slide',
+				direction: 'right',
+				duration: 700,
+				scope: this
+			});
 		}
 	},
 
@@ -292,9 +292,9 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	 * the items before the current position will be checked also.
 	 */
 	showNextUnanswered: function(){
-		var questionPanels	= this.items.items;
-		var activeQuestion	= this.getActiveItem();
-		var lastQuestion	= questionPanels[questionPanels.length-1];
+		var questionPanels = this.items.items;
+		var activeQuestion = this.getActiveItem();
+		var lastQuestion = questionPanels[questionPanels.length-1];
 
 		if(!activeQuestion.isDisabled()) return;
 		this.checkStatisticRelease();

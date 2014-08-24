@@ -20,14 +20,14 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.model.Auth', {
 	extend: 'Ext.data.Model',
-	
+
 	generateGuestName: function() {
 		var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
 		var string_length = 5;
 		var randomstring = 'Guest';
-		for (var i=0; i<string_length; i++){
+		for (var i = 0; i < string_length; i++){
 			var rnum = Math.floor(Math.random() * chars.length);
-			randomstring += chars.substring(rnum,rnum+1);
+			randomstring += chars.substring(rnum, rnum + 1);
 		}
 		return randomstring;
 	}

@@ -20,19 +20,19 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.model.Feedback', {
 	extend: 'Ext.data.Model',
-	
+
 	mixin: ['Ext.mixin.Observable'],
-	
+
 	config: {
-		proxy: { type: 'restProxy' }
+		proxy: {type: 'restProxy'}
 	},
-	
+
 	currentValues: [0, 0, 0, 0],
 	currentAverage: null,
-	
+
 	constructor: function() {
 		this.callParent(arguments);
-		
+
 		ARSnova.app.socket.addListener("arsnova/socket/feedback/update", function(values) {
 			var count = this.currentValues.reduce(function(a, b){
 				return a + b;
@@ -45,13 +45,13 @@ Ext.define('ARSnova.model.Feedback', {
 			this.fireEvent("arsnova/session/feedback/update", this.currentValues);
 		}, this);
 	},
-	
+
 	getUserFeedback: function(sessionKeyword, callbacks){
 		/* TODO: Remove this method, it has been replaced by a WebSocket solution */
 		console.warn("Deprecated method used for feedback");
 		return this.getProxy().getUserFeedback(sessionKeyword, callbacks);
 	},
-	
+
 	postFeedback: function(feedbackValue) {
 		/* TODO: Use abstraction layer? */
 		if (window.socket) {

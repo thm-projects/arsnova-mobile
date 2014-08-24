@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------+
  This file is part of ARSnova.
- - Beschreibung: MessageBox mit Mathjax und Markdown Unterstützung
+ - Beschreibung: MessageBox mit Mathjax und Markdown Unterstï¿½tzung
  - Autor(en):    Group 3...
  +---------------------------------------------------------------------------+
  This program is free software; you can redistribute it and/or
@@ -21,7 +21,7 @@ Ext.define('ARSnova.view.PreviewMessageBox', {
 
 	show: function(config) {
 		this.callParent(arguments);
-		
+
 		//if (this.getTitle()) {
 		//	MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.getTitle().element.dom]);
 		//}

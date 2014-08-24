@@ -21,21 +21,23 @@
 Ext.define('ARSnova.view.speaker.InClass', {
 	extend: 'Ext.Panel',
 
-	requires: ['ARSnova.view.MultiBadgeButton',
-	           'ARSnova.view.SessionStatusButton'],
+	requires: [
+		'ARSnova.view.MultiBadgeButton',
+		'ARSnova.view.SessionStatusButton'
+	],
 
 	config: {
 		fullscreen: true,
-		title	: Messages.FEEDBACK,
-		iconCls	: 'feedbackMedium',
+		title: Messages.FEEDBACK,
+		iconCls: 'feedbackMedium',
 		scrollable: 'vertical'
 	},
 
-	inClassItems			: null,
+	inClassItems: null,
 
 	inClassActions: null,
-	sessionStatusButton			: null,
-	createAdHocQuestionButton	: null,
+	sessionStatusButton: null,
+	createAdHocQuestionButton: null,
 
 	/**
 	 * count every x seconds all actually logged-in users for this sessions
@@ -74,7 +76,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		var comingSoon = function(component) {
 			var comingSoonPanel = Ext.create('Ext.Panel', {
 				top: -1000,
-				html: "<div style='padding: 0.5em'>"+Messages.FEATURE_COMING_SOON+"</div>"
+				html: "<div style='padding: 0.5em'>" + Messages.FEATURE_COMING_SOON + "</div>"
 			});
 			comingSoonPanel.showBy(component, 'tc-bc');
 			Ext.defer(function() {
@@ -88,20 +90,20 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		}
 
 		this.sessionLogoutButton = Ext.create('Ext.Button', {
-			text	: Messages.SESSIONS,
-			ui		: 'back',
-			cls		: loggedInCls,
-			handler	: function() {
+			text: Messages.SESSIONS,
+			ui: 'back',
+			cls: loggedInCls,
+			handler: function() {
 				ARSnova.app.getController('Sessions').logout();
 			}
 		});
 
 		this.presenterButton = Ext.create('Ext.Button', {
-			cls		: "thm",
-			text	: Messages.PRESENTER,
-			hidden	: true,
-			scope	: this,
-			handler	: this.presenterHandler
+			cls: "thm",
+			text: Messages.PRESENTER,
+			hidden: true,
+			scope: this,
+			handler: this.presenterHandler
 		});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
@@ -109,59 +111,59 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			ui: 'light',
 			docked: 'top',
 			items: [
-		        this.sessionLogoutButton,
-		        {xtype: 'spacer'},
-		        this.presenterButton
+				this.sessionLogoutButton,
+				{xtype: 'spacer'},
+				this.presenterButton
 			]
 		});
 
 		this.feedbackButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			text		: Messages.LIVE_FEEDBACK,
-			cls			: 'forwardListButton',
-			badgeCls	: 'badgeicon feedbackARSnova',
-			handler		: function() {
+			text: Messages.LIVE_FEEDBACK,
+			cls: 'forwardListButton',
+			badgeCls: 'badgeicon feedbackARSnova',
+			handler: function() {
 				var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 				tabPanel.setActiveItem(tabPanel.feedbackTabPanel, "slide");
 			}
 		});
 
 		this.preparationQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			text		: Messages.PREPARATION_QUESTIONS,
-			cls			: 'forwardListButton',
-			controller	: 'PreparationQuestions',
-			action		: 'listQuestions',
-			handler		: this.buttonClicked
+			text: Messages.PREPARATION_QUESTIONS,
+			cls: 'forwardListButton',
+			controller: 'PreparationQuestions',
+			action: 'listQuestions',
+			handler: this.buttonClicked
 		});
 
 		this.lectureQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			text		: Messages.LECTURE_QUESTIONS,
-			cls			: 'forwardListButton',
-			controller	: 'Questions',
-			action		: 'listQuestions',
-			handler		: this.buttonClicked
+			text: Messages.LECTURE_QUESTIONS,
+			cls: 'forwardListButton',
+			controller: 'Questions',
+			action: 'listQuestions',
+			handler: this.buttonClicked
 		});
 
 		this.feedbackQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			ui			: 'normal',
-			text		: Messages.QUESTIONS_FROM_STUDENTS,
-			cls			: 'forwardListButton',
-			controller	: 'Questions',
-			action		: 'listFeedbackQuestions',
-			handler		: this.buttonClicked
+			ui: 'normal',
+			text: Messages.QUESTIONS_FROM_STUDENTS,
+			cls: 'forwardListButton',
+			controller: 'Questions',
+			action: 'listFeedbackQuestions',
+			handler: this.buttonClicked
 		});
 
 		this.flashcardsButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			text		: Messages.FLASHCARDS,
-			cls			: 'forwardListButton',
-			controller	: 'FlashcardQuestions',
-			action		: 'listQuestions',
-			handler		: this.buttonClicked
+			text: Messages.FLASHCARDS,
+			cls: 'forwardListButton',
+			controller: 'FlashcardQuestions',
+			action: 'listQuestions',
+			handler: this.buttonClicked
 		});
 
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.courseLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-				text		: Messages.COURSES_LEARNING_PROGRESS,
-				cls			: 'answerListButton'
+				text: Messages.COURSES_LEARNING_PROGRESS,
+				cls: 'answerListButton'
 			});
 		}
 
@@ -184,7 +186,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(localStorage.getItem("keyword"))
 			}, {
 				xtype: 'formpanel',
-				cls	 : 'standardForm topPadding',
+				cls: 'standardForm topPadding',
 				scrollable: null,
 				items: buttons
 			}]
@@ -193,18 +195,18 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		this.sessionStatusButton = Ext.create('ARSnova.view.SessionStatusButton');
 
 		this.createAdHocQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
-			text		: Messages.AH_HOC_QUESTION,
-			image		: 'question',
-			controller	: 'Questions',
-			action		: 'adHoc',
-			handler		: this.buttonClicked
+			text: Messages.AH_HOC_QUESTION,
+			image: 'question',
+			controller: 'Questions',
+			action: 'adHoc',
+			handler: this.buttonClicked
 		});
 
 		this.deleteSessionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.DELETE_SESSION,
 			image: 'delete_session',
-			scope	: this,
-			handler	: function(){
+			scope: this,
+			handler: function(){
 				var msg = Messages.ARE_YOU_SURE +
 						"<br>" + Messages.DELETE_SESSION_NOTICE;
 				Ext.Msg.confirm(Messages.DELETE_SESSION, msg, function(answer){
@@ -228,24 +230,24 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		});
 
 		this.inClassActions = Ext.create('Ext.Panel', {
-			style	: { marginTop: '20px' },
-			layout  : {
+			style: {marginTop: '20px'},
+			layout: {
 				type: 'hbox',
 				pack: 'center'
 			},
 
 			items: [
-			    this.createAdHocQuestionButton,
-			    this.sessionStatusButton,
-			    this.deleteSessionButton
-	        ]
+				this.createAdHocQuestionButton,
+				this.sessionStatusButton,
+				this.deleteSessionButton
+			]
 
 		});
 
 		this.add([this.toolbar, this.inClassItems, this.inClassActions]);
 
 		this.on('initialize', function() {
-			this.feedbackButton.setBadge([{ badgeText: '0' }]);
+			this.feedbackButton.setBadge([{badgeText: '0'}]);
 		});
 
 		this.on('activate', function() {
@@ -422,17 +424,17 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			success: function(response) {
 				var p = Ext.decode(response.responseText);
 				if (p >= 75) {
-					me.courseLearningProgressButton.setBadge([{ badgeText: p+"%", badgeCls: "greenbadgeicon" }]);
+					me.courseLearningProgressButton.setBadge([{badgeText: p + "%", badgeCls: "greenbadgeicon"}]);
 				} else if (p >= 25) {
-					me.courseLearningProgressButton.setBadge([{ badgeText: p+"%", badgeCls: "yellowbadgeicon" }]);
+					me.courseLearningProgressButton.setBadge([{badgeText: p + "%", badgeCls: "yellowbadgeicon"}]);
 				} else if (p === 0) {
-						me.courseLearningProgressButton.setBadge([{ badgeText: "…", badgeCls: "badgeicon" }]);
+						me.courseLearningProgressButton.setBadge([{badgeText: "…", badgeCls: "badgeicon"}]);
 				} else {
-					me.courseLearningProgressButton.setBadge([{ badgeText: p+"%", badgeCls: "redbadgeicon" }]);
+					me.courseLearningProgressButton.setBadge([{badgeText: p + "%", badgeCls: "redbadgeicon"}]);
 				}
 			},
 			failure: function() {
-				me.courseLearningProgressButton.setBadge([{ badgeText: "" }]);
+				me.courseLearningProgressButton.setBadge([{badgeText: ""}]);
 			}
 		});
 	},

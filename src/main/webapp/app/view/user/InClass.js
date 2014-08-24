@@ -29,10 +29,10 @@ Ext.define('ARSnova.view.user.InClass', {
 		scrollable: true
 	},
 
-	inClass			: null,
-	feedbackButton	: null,
-	questionsButton	: null,
-	quizButton		: null,
+	inClass: null,
+	feedbackButton: null,
+	questionsButton: null,
+	quizButton: null,
 
 	/**
 	 * If user logged in a session, check for new skill questions
@@ -91,7 +91,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 		var comingSoon = function(component) {
 			var comingSoonPanel = Ext.create('Ext.Panel', {
-				html: "<div style='padding: 0.5em'>"+Messages.FEATURE_COMING_SOON+"</div>"
+				html: "<div style='padding: 0.5em'>" + Messages.FEATURE_COMING_SOON+"</div>"
 			});
 			comingSoonPanel.showBy(component, 'tc-bc');
 			Ext.defer(function() {
@@ -105,10 +105,10 @@ Ext.define('ARSnova.view.user.InClass', {
 		}
 
 		this.sessionLogoutButton = Ext.create('Ext.Button', {
-			text	: Messages.SESSIONS,
-			ui		: 'back',
-			cls		: loggedInCls,
-			handler	: function() {
+			text: Messages.SESSIONS,
+			ui: 'back',
+			cls: loggedInCls,
+			handler: function() {
 				ARSnova.app.getController('Sessions').logout();
 			}
 		});
@@ -118,59 +118,59 @@ Ext.define('ARSnova.view.user.InClass', {
 			docked: 'top',
 			ui: 'light',
 			items: [
-		        this.sessionLogoutButton
+				this.sessionLogoutButton
 			]
 		});
 
 		this.feedbackButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			ui			: 'normal',
-			text		: Messages.GIVE_FEEDBACK,
-			cls			: 'forwardListButton',
-			badgeCls	: 'badgeicon feedbackARSnova',
-			controller	: 'Feedback',
-			action		: 'showVotePanel',
-			handler		: this.buttonClicked
+			ui: 'normal',
+			text: Messages.GIVE_FEEDBACK,
+			cls: 'forwardListButton',
+			badgeCls: 'badgeicon feedbackARSnova',
+			controller: 'Feedback',
+			action: 'showVotePanel',
+			handler: this.buttonClicked
 		});
 
 		this.lectureQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			ui			: 'normal',
-			text		: Messages.LECTURE_QUESTIONS,
-			cls			: 'forwardListButton',
-			badgeCls	: 'badgeicon',
-			controller	: 'Questions',
-			action		: 'lectureIndex',
-			handler		: this.buttonClicked
+			ui: 'normal',
+			text: Messages.LECTURE_QUESTIONS,
+			cls: 'forwardListButton',
+			badgeCls: 'badgeicon',
+			controller: 'Questions',
+			action: 'lectureIndex',
+			handler: this.buttonClicked
 		});
 
 		this.preparationQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			ui			: 'normal',
-			text		: Messages.PREPARATION_QUESTIONS,
-			cls			: 'forwardListButton',
-			badgeCls	: 'badgeicon',
-			controller	: 'Questions',
-			action		: 'preparationIndex',
-			handler		: this.buttonClicked
+			ui: 'normal',
+			text: Messages.PREPARATION_QUESTIONS,
+			cls: 'forwardListButton',
+			badgeCls: 'badgeicon',
+			controller: 'Questions',
+			action: 'preparationIndex',
+			handler: this.buttonClicked
 		});
 
 		this.myQuestionsButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			ui			: 'normal',
-			text		: Messages.MY_QUESTIONS,
-			cls			: 'forwardListButton',
-			badgeCls	: 'badgeicon',
-			controller	: 'Questions',
-			action		: 'index',
-			handler		: comingSoon
+			ui: 'normal',
+			text: Messages.MY_QUESTIONS,
+			cls: 'forwardListButton',
+			badgeCls: 'badgeicon',
+			controller: 'Questions',
+			action: 'index',
+			handler: comingSoon
 		});
 
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.myLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-				ui			: 'normal',
-				text		: Messages.MY_LEARNING_PROGRESS,
-				cls			: 'answerListButton',
-				badgeCls	: 'badgeicon'
+				ui: 'normal',
+				text: Messages.MY_LEARNING_PROGRESS,
+				cls: 'answerListButton',
+				badgeCls: 'badgeicon'
 			});
 		}
-		
+
 		var buttons = [
 			this.feedbackButton,
 			this.lectureQuestionButton,
@@ -187,7 +187,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(localStorage.getItem("keyword"))
 			}, {
 				xtype: 'formpanel',
-				cls	 : 'standardForm topPadding',
+				cls: 'standardForm topPadding',
 				scrollable: null,
 				items: buttons
 			}]
@@ -196,7 +196,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		this.add([this.toolbar, this.inClass]);
 
 		this.on('initialize', function() {
-			this.feedbackButton.setBadge([{ badgeText: '0' }]);
+			this.feedbackButton.setBadge([{badgeText: '0'}]);
 		});
 
 		// hide or show listeners won't work, so check if the tabpanel activates this panel
@@ -285,7 +285,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 				if (newQuestions.length > 0) {
 					var showNotification = false;
-    				var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
+					var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
 
 					//check for each question if exists a "dont-remind-me"-flag
 					for(var i = 0; i < newQuestions.length; i++){
@@ -306,22 +306,22 @@ Ext.define('ARSnova.view.user.InClass', {
 								Ext.Msg.confirm(
 									Messages.ONE_NEW_QUESTION, Messages.WANNA_ANSWER,
 									function(answer){
-										if (answer == 'yes'){ //show the question to the user
+										if (answer == 'yes'){// show the question to the user
 											ARSnova.app.getController('Questions').index();
 										}
 									}
 								);
 							},
 							failure: function() {
-				    			console.log("my sessions request failure");
-				    		}
+								console.log("my sessions request failure");
+							}
 						});
 					} else {
 						//show a notification window
 						Ext.Msg.confirm(
-							Messages.THERE_ARE + ' ' + newQuestions.length + ' ' + Messages.NEW_QUESTIONS , Messages.WANNA_ANSWER,
+							Messages.THERE_ARE + ' ' + newQuestions.length + ' ' + Messages.NEW_QUESTIONS, Messages.WANNA_ANSWER,
 							function(answer){
-								if (answer == 'yes'){ //show the question to the user
+								if (answer == 'yes'){// show the question to the user
 									ARSnova.app.getController('Questions').index();
 								}
 							}
@@ -347,10 +347,10 @@ Ext.define('ARSnova.view.user.InClass', {
 					localStorage.removeItem('user has voted');
 
 					var feedbackButton = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.feedbackButton;
-					feedbackButton.badgeEl ? feedbackButton.badgeEl.destroy() : '';
+					feedbackButton.badgeEl ? feedbackButton.badgeEl.destroy(): '';
 					feedbackButton.badgeEl = null;
 					feedbackButton.badgeCls = "badgeicon feedbackARSnova";
-					feedbackButton.setBadge([{ badgeText: "0" }]);
+					feedbackButton.setBadge([{badgeText: "0"}]);
 				},
 				success: function() {},
 				failure: function(){
@@ -401,25 +401,25 @@ Ext.define('ARSnova.view.user.InClass', {
 		var me = this;
 		ARSnova.app.sessionModel.getMyLearningProgress(localStorage.getItem("keyword"), {
 			success: function(response) {
-				var p = Ext.apply({ myprogress: 0, courseprogress: 0 }, Ext.decode(response.responseText));
-				var vsBadge = { badgeText: Messages.VERSUS, badgeCls: "textbadgeicon" };
+				var p = Ext.apply({myprogress: 0, courseprogress: 0}, Ext.decode(response.responseText));
+				var vsBadge = {badgeText: Messages.VERSUS, badgeCls: "textbadgeicon"};
 				var getBadge = function(percentage) {
 					if (percentage >= 75) {
-						return { badgeText: percentage+"%", badgeCls: "greenbadgeicon" };
+						return {badgeText: percentage+"%", badgeCls: "greenbadgeicon"};
 					} else if (percentage >= 25) {
-						return { badgeText: percentage+"%", badgeCls: "yellowbadgeicon" };
+						return {badgeText: percentage+"%", badgeCls: "yellowbadgeicon"};
 					} else {
-						return { badgeText: percentage+"%", badgeCls: "redbadgeicon" };
+						return {badgeText: percentage+"%", badgeCls: "redbadgeicon"};
 					}
 				};
 				if (p.myprogress === 0 && p.courseprogress === 0) {
-					me.myLearningProgressButton.setBadge([{ badgeText: "…" }, vsBadge, { badgeText: "…" }]);
+					me.myLearningProgressButton.setBadge([{badgeText: "…"}, vsBadge, {badgeText: "…"}]);
 				} else {
 					me.myLearningProgressButton.setBadge([getBadge(p.myprogress), vsBadge, getBadge(p.courseprogress)]);
 				}
 			},
 			failure: function() {
-				me.myLearningProgressButton.setBadge([{ badgeText: "" }]);
+				me.myLearningProgressButton.setBadge([{badgeText: ""}]);
 			}
 		});
 	}

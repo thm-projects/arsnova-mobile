@@ -20,37 +20,37 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.model.Answer', {
 	extend: 'ARSnova.model.ARSmodel',
-	
+
 	config: {
-		proxy: { type: 'restProxy' },
-		
+		proxy: {type: 'restProxy'},
+
 		fields: [
-			     'correct',
-			     'id',
-			     'text',
-			     'user',
-			     'answerSubject',
-			     'answerText',
-			     'questionId',
-			     'sessionId',
-			     'abstention',
-			     'timestamp',
-			     'questionVariant',
-			     'questionValue',
-			     'value'
-		         ],
+			'correct',
+			'id',
+			'text',
+			'user',
+			'answerSubject',
+			'answerText',
+			'questionId',
+			'sessionId',
+			'abstention',
+			'timestamp',
+			'questionVariant',
+			'questionValue',
+			'value'
+		],
 
 		idProperty: '_id'
 	},
-	
+
 	getUserAnswer: function(questionId, callbacks){
 		return this.getProxy().getUserAnswer(questionId, callbacks);
 	},
-	
+
 	getAnswerByUserAndSession: function(sessionKeyword, callbacks){
 		return this.getProxy().getAnswerByUserAndSession(sessionKeyword, callbacks);
 	},
-	
+
 	saveAnswer: function(callbacks) {
 		if (this.get('_id') && this.get('_rev')) {
 			return this.getProxy().updateAnswer(this, callbacks);

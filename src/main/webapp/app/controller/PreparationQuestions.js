@@ -18,13 +18,13 @@
  +--------------------------------------------------------------------------*/
 Ext.define("ARSnova.controller.PreparationQuestions", {
 	extend: 'ARSnova.controller.Questions',
-	
+
 	requires: ['ARSnova.model.Question'],
-	
+
 	config: {
 		models: ['ARSnova.model.Question']
 	},
-	
+
 	listQuestions: function(){
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.newQuestionPanel.setVariant('preparation');
@@ -34,12 +34,12 @@ Ext.define("ARSnova.controller.PreparationQuestions", {
 		sTP.audienceQuestionPanel.newQuestionButton.text = Messages.NEW_PREPARATION_QUESTION;
 		sTP.animateActiveItem(sTP.audienceQuestionPanel, 'slide');
 	},
-	
+
 	destroyAll: function() {
 		var question = Ext.create('ARSnova.model.Question');
 		question.deleteAllPreparationQuestions.apply(question, arguments);
 	},
-	
+
 	getQuestions: function() {
 		var question = Ext.create('ARSnova.model.Question');
 		question.getPreparationQuestions.apply(question, arguments);

@@ -27,33 +27,33 @@ Ext.define('ARSnova.view.RolePanel', {
 			direction: 'vertical',
 			directionLock: true
 		},
-		
+
 		title: 'RolePanel'
 	},
-	
+
 	initialize: function() {
 		this.callParent(arguments);
-		
+
 		this.add([{
-			xtype	: 'toolbar',
-			docked	: 'top',
-			ui		: 'light',
-			title	: Messages.TITLE_ROLE,
-			cls		: null
+			xtype: 'toolbar',
+			docked: 'top',
+			ui: 'light',
+			title: Messages.TITLE_ROLE,
+			cls: null
 		}, {
-			xtype	: 'panel',
-			cls		: null,
-			html	: "<div class='arsnova-logo'></div>",
-			style	: { marginTop: '35px', marginBottom: '35px' }
+			xtype: 'panel',
+			cls: null,
+			html: "<div class='arsnova-logo'></div>",
+			style: {marginTop: '35px', marginBottom: '35px'}
 		}, {
-			xtype	: 'container',
-			layout	: {
+			xtype: 'container',
+			layout: {
 				type: 'hbox',
 				pack: 'center'
 			},
 			defaults: {
-				xtype	: 'matrixbutton',
-				handler	: function(b) {
+				xtype: 'matrixbutton',
+				handler: function(b) {
 					ARSnova.app.getController('Auth').roleSelect({
 						mode: b.config.value
 					});
@@ -62,7 +62,7 @@ Ext.define('ARSnova.view.RolePanel', {
 					);
 				}
 			},
-			items	: [
+			items: [
 				{
 					text: Messages.STUDENT,
 					value: ARSnova.app.USER_ROLE_STUDENT,
@@ -76,10 +76,10 @@ Ext.define('ARSnova.view.RolePanel', {
 				}
 			]
 		}, {
-			xtype	: 'panel',
-			style	: { marginTop: (Ext.os.is.Phone && Ext.os.is.iOS) ? '10px' : '30px' },
-			html	: "<div class='gravure'><a href='http://www.thm.de/' class='thmlink' target='_blank'>A <span style='color:#699824; font-weight:bold;'>THM</span> Product</a></div>",
-			cls		: null
+			xtype: 'panel',
+			style: {marginTop: (Ext.os.is.Phone && Ext.os.is.iOS) ? '10px': '30px'},
+			html: "<div class='gravure'><a href='http://www.thm.de/' class='thmlink' target='_blank'>A <span style='color:#699824; font-weight:bold;'>THM</span> Product</a></div>",
+			cls: null
 		}]);
 	}
 });

@@ -20,38 +20,38 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.SessionStatusButton', {
 	extend: 'Ext.Panel',
-	
+
 	config: {
-		cls	: ''
+		cls: ''
 	},
-	
+
 	handler: null,
 	isOpen: false,
-	
+
 	sessionIsOpenButton: null,
 	sessionIsClosedButton: null,
-	
+
 	initialize: function() {
 		this.callParent(arguments);
-		
+
 		this.sessionIsClosed = Ext.create('ARSnova.view.MatrixButton', {
-			text		: Messages.START_SESSION,
-			image		: 'unlock_session',
-			handler	: function(){
+			text: Messages.START_SESSION,
+			image: 'unlock_session',
+			handler: function(){
 				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
 			}
 		});
-		
+
 		this.sessionIsOpen = Ext.create('ARSnova.view.MatrixButton', {
-			text		: Messages.STOP_SESSION,
-			image		: 'lock_session',
-			handler	: function(){
+			text: Messages.STOP_SESSION,
+			image: 'lock_session',
+			handler: function(){
 				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
 			}
 		});
 
 		this.add([this.sessionIsClosed, this.sessionIsOpen]);
-		
+
 		if(localStorage.getItem('active') == 1){
 			this.isOpen = true;
 			this.sessionIsClosed.hide();
@@ -60,30 +60,30 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 			this.sessionIsOpen.hide();
 		}
 	},
-	
+
 	changeStatus: function(){
 		if (this.isOpen) {
 			Ext.Msg.confirm(Messages.CONFIRM_CLOSE_SESSION, Messages.CONFIRM_CLOSE_SESSION_MESSAGE, function (buttonId) {
 				if (buttonId != "no") {
 					/* close this session */
 					ARSnova.app.getController('Sessions').setActive({
-						active		: 0,
-						callback	: this.sessionClosedSuccessfully
+						active: 0,
+						callback: this.sessionClosedSuccessfully
 					});
 				}
 			}, this);
 		} else {
 			/* open this session */
 			ARSnova.app.getController('Sessions').setActive({
-				active		: 1,
-				callback	: this.sessionOpenedSuccessfully
+				active: 1,
+				callback: this.sessionOpenedSuccessfully
 			});
 		}
 	},
-	
+
 	checkInitialStatus: function(){
 		if(this.isRendered) return;
-		
+
 		if(localStorage.getItem('active') == 1){
 			this.isOpen = true;
 		} else {
@@ -91,16 +91,16 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 		}
 		this.isRendered = true;
 	},
-	
+
 	sessionClosedSuccessfully: function(){
 		this.isOpen = false;
 		this.sessionIsClosed.show();
 		this.sessionIsOpen.hide();
 	},
-	
+
 	sessionOpenedSuccessfully: function(){
 		this.isOpen = true;
 		this.sessionIsOpen.show();
 		this.sessionIsClosed.hide();
 	}
-}); 
+});

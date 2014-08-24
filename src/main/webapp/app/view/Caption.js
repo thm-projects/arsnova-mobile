@@ -18,34 +18,34 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.Caption', {
 	extend: 'Ext.Container',
-	
+
 	requires: ['ARSnova.view.MultiBadgeButton'],
-	
+
 	config: {
 		translation: {
 			active: Messages.OPEN_SESSION,
 			inactive: Messages.CLOSED_SESSION
 		}
 	},
-	
+
 	constructor: function() {
 		this.callParent(arguments);
-		
+
 		this.listButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			ui			: 'small',
-			text		: "",
-			cls			: 'forwardListButton caption'
+			ui: 'small',
+			text: "",
+			cls: 'forwardListButton caption'
 		});
-		
+
 		this.add([].concat(window.innerWidth > 320 ? [{
 			cls: 'gravure',
 			style: {
 				fontSize: "0.6em"
 			},
 			html: Messages.LEGEND
-		}, this.listButton] : []));
+		}, this.listButton]: []));
 	},
-	
+
 	explainStatus: function(items) {
 		var hasActiveItems = false;
 		items.forEach(function(item) {
@@ -55,7 +55,7 @@ Ext.define('ARSnova.view.Caption', {
 		items.forEach(function(item) {
 			hasInactiveItems = hasInactiveItems || !!!item.active;
 		});
-		
+
 		var activeText = "";
 		if (hasActiveItems) {
 			activeText = this.getTranslation().active;
@@ -70,7 +70,7 @@ Ext.define('ARSnova.view.Caption', {
 			this.listButton.setText(activeText || inactiveText);
 		}
 	},
-	
+
 	explainBadges: function(badges) {
 		var hasFeedbackQuestions = false;
 		var hasQuestions = false;
@@ -85,15 +85,15 @@ Ext.define('ARSnova.view.Caption', {
 			}
 		});
 		this.listButton.setBadge([{
-				badgeText: hasFeedbackQuestions ? Messages.QUESTIONS_FROM_STUDENTS : "", badgeCls: "bluebadgeicon"
+				badgeText: hasFeedbackQuestions ? Messages.QUESTIONS_FROM_STUDENTS: "", badgeCls: "bluebadgeicon"
 			}, {
-				badgeText: hasQuestions ? Messages.QUESTIONS : "", badgeCls: "greybadgeicon"
+				badgeText: hasQuestions ? Messages.QUESTIONS: "", badgeCls: "greybadgeicon"
 			}, {
-				badgeText: hasAnswers ? Messages.ANSWERS : "", badgeCls: "redbadgeicon"
+				badgeText: hasAnswers ? Messages.ANSWERS: "", badgeCls: "redbadgeicon"
 		}]);
 		return badges;
 	},
-	
+
 	connectToStore: function(store) {
 		store.on('updaterecord', function(theStore, record) {
 			var records = [];

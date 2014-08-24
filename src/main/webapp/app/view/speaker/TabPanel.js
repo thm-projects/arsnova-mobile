@@ -20,37 +20,38 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.speaker.TabPanel', {
 	extend: 'Ext.tab.Panel',
-	
-	requires: ['ARSnova.view.speaker.InClass',
-	           'ARSnova.view.speaker.AudienceQuestionPanel',
-	           'ARSnova.view.speaker.NewQuestionPanel',
-	           'ARSnova.view.speaker.ShowcaseQuestionPanel'
+
+	requires: [
+		'ARSnova.view.speaker.InClass',
+		'ARSnova.view.speaker.AudienceQuestionPanel',
+		'ARSnova.view.speaker.NewQuestionPanel',
+		'ARSnova.view.speaker.ShowcaseQuestionPanel'
 	],
-	
+
 	config: {
-		title	: Messages.HOME,
-		iconCls	: 'tabBarIconHome',
-		
+		title: Messages.HOME,
+		iconCls: 'tabBarIconHome',
+
 		tabBar: {
-	    	hidden: true
-		}  
+			hidden: true
+		}
 	},
-	    
+
 	initialize: function() {
 		this.callParent(arguments);
-		
-		this.inClassPanel 				= Ext.create('ARSnova.view.speaker.InClass');
-		this.audienceQuestionPanel 		= Ext.create('ARSnova.view.speaker.AudienceQuestionPanel');
-		this.newQuestionPanel 			= Ext.create('ARSnova.view.speaker.NewQuestionPanel');
-		this.showcaseQuestionPanel		= Ext.create('ARSnova.view.speaker.ShowcaseQuestionPanel');
-		
+
+		this.inClassPanel = Ext.create('ARSnova.view.speaker.InClass');
+		this.audienceQuestionPanel = Ext.create('ARSnova.view.speaker.AudienceQuestionPanel');
+		this.newQuestionPanel = Ext.create('ARSnova.view.speaker.NewQuestionPanel');
+		this.showcaseQuestionPanel = Ext.create('ARSnova.view.speaker.ShowcaseQuestionPanel');
+
 		this.add([
-	        this.inClassPanel,
-	        this.audienceQuestionPanel,
-	        this.newQuestionPanel
-        ]);
+			this.inClassPanel,
+			this.audienceQuestionPanel,
+			this.newQuestionPanel
+		]);
 	},
-	
+
 	renew: function(){
 		this.remove(this.inClassPanel);
 		this.inClassPanel = Ext.create('ARSnova.view.speaker.InClass');

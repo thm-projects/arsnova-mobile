@@ -20,9 +20,9 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.model.LoggedIn', {
 	extend: 'Ext.data.Model',
-	
+
 	config: {
-		proxy: { type: 'restProxy' }
+		proxy: {type: 'restProxy'}
 	},
 
 	activeUserCount: 0,

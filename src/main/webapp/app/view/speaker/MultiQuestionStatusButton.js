@@ -18,7 +18,7 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 	extend: 'ARSnova.view.QuestionStatusButton',
-	
+
 	config: {
 		questionStore: null,
 		wording: {
@@ -28,20 +28,20 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 			confirmMessage: Messages.CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE
 		}
 	},
-	
+
 	constructor: function() {
 		this.callParent(arguments);
-		
+
 		this.checkInitialStatus();
 	},
-	
+
 	checkInitialStatus: function(){
 		// Initial status is always "open" unless all questions are already closed
 		var hasActiveQuestions = false;
 		this.getQuestionStore().each(function(item) {
 			hasActiveQuestions = hasActiveQuestions || item.get("active");
 		});
-		
+
 		if (hasActiveQuestions) {
 			this.isOpen = true;
 			this.questionIsClosedButton.hide();
@@ -56,45 +56,45 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 			this.questionIsOpenText.hide();
 		}
 	},
-	
+
 	changeStatus: function() {
 		if (!this.getQuestionStore()) {
 			return;
 		}
-		
+
 		var questions = [];
 		this.getQuestionStore().each(function(question) {
 			questions.push(question);
 		});
-		
+
 		var updateQuestions = function(active) {
 			questions.forEach(function(q) {
 				q.set("active", active);
 				q.raw.active = active;
 			});
 		};
-		
+
 		if (this.isOpen) {
 			Ext.Msg.confirm(this.getWording().confirm, this.getWording().confirmMessage, function (buttonId) {
 				if (buttonId != "no") {
 					/* close all questions */
 					ARSnova.app.getController('Questions').setAllActive({
-						active		: false,
-						callback	: Ext.Function.createSequence(this.questionClosedSuccessfully, function() {
+						active: false,
+						callback: Ext.Function.createSequence(this.questionClosedSuccessfully, function() {
 							updateQuestions(false);
 						}, this),
-						scope		: this
+						scope: this
 					});
 				}
 			}, this);
 		} else {
 			/* open all questions */
 			ARSnova.app.getController('Questions').setAllActive({
-				active		: true,
-				callback	: Ext.Function.createSequence(this.questionOpenedSuccessfully, function() {
+				active: true,
+				callback: Ext.Function.createSequence(this.questionOpenedSuccessfully, function() {
 					updateQuestions(true);
 				}, this),
-				scope		: this
+				scope: this
 			});
 		}
 	}

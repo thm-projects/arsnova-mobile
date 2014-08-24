@@ -20,22 +20,22 @@
  +--------------------------------------------------------------------------*/
 Ext.define("ARSnova.controller.Lang", {
 	extend: 'Ext.app.Controller',
-	
+
 	config: {
 		routes: {
-			 'en': 'switchToEnglish',
-			 'de': 'switchToGerman'
+			'en': 'switchToEnglish',
+			'de': 'switchToGerman'
 		}
 	},
-	
+
 	switchToEnglish: function() {
 		this.switchTo('en');
 	},
-	
+
 	switchToGerman: function() {
 		this.switchTo('de');
 	},
-	
+
 	switchTo: function(lang) {
 		localStorage.setItem("language", lang);
 		// remove hash from URL and reload language changes

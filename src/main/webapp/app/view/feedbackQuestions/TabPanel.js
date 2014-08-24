@@ -20,33 +20,33 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.feedbackQuestions.TabPanel', {
 	extend: 'Ext.tab.Panel',
-	
+
 	requires: ['ARSnova.view.feedbackQuestions.QuestionsPanel'],
-	
+
 	config: {
-		title	: Messages.QUESTIONS,
-		iconCls	: 'tabBarIconQuestion',
-		scroll	: 'vertical',
-	
+		title: Messages.QUESTIONS,
+		iconCls: 'tabBarIconQuestion',
+		scroll: 'vertical',
+
 		tabBar: {
-	    	hidden: true
-	    }
+			hidden: true
+		}
 	},
-	
+
 	initialize: function(){
 		this.callParent(arguments);
-		
+
 		this.questionsPanel = Ext.create('ARSnova.view.feedbackQuestions.QuestionsPanel');
-		
+
 		this.add([
-            this.questionsPanel
-        ]);
-		
+			this.questionsPanel
+		]);
+
 		this.on('painted', function(){
 			taskManager.start(ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.config.checkFeedbackQuestionsTask);
 			taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countFeedbackQuestionsTask);
 		});
-		
+
 		this.on('deactivate', function(){
 			taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.config.checkFeedbackQuestionsTask);
 			taskManager.start(ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countFeedbackQuestionsTask);

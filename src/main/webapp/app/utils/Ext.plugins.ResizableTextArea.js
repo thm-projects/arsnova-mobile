@@ -25,18 +25,18 @@
  */
 Ext.define('Ext.plugins.ResizableTextArea', {
 	extend: 'Ext.form.TextArea',
-	
+
 	config: {
 		maxHeight: -1
 	},
-	
+
 	initialize: function(config) {
 		this.callParent(arguments);
 	},
-	
+
 	onKeyUp: function() {
 		textarea = Ext.DomQuery.select('textarea', this.element.dom)[0];
-		
+
 		/* Default max height */
 		/* Don't let it grow over the max height */
 		if ((this.maxHeight > -1) && (textarea.scrollHeight > this.maxHeight)) {
@@ -52,11 +52,11 @@ Ext.define('Ext.plugins.ResizableTextArea', {
 		}
 		/* Now reset and adjust the height */
 		textarea.style.height = 0;
-		
+
 		var scrollH = textarea.scrollHeight;
-		
+
 		if (scrollH > textarea.style.height.replace(/[^0-9]/g, '')) {
-			textarea.style.height = scrollH+'px';
+			textarea.style.height = scrollH + 'px';
 		}
 	}
 });

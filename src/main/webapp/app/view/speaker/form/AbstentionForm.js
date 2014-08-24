@@ -18,17 +18,17 @@
  +--------------------------------------------------------------------------*/
 Ext.define('ARSnova.view.speaker.form.AbstentionForm', {
 	extend: 'Ext.form.FormPanel',
-	
+
 	config: {
 		abstention: true,
-		
+
 		scrollable: null,
 		cls: 'newQuestionOptions'
 	},
-	
+
 	constructor: function() {
 		this.callParent(arguments);
-		
+
 		this.add([{
 			xtype: 'fieldset',
 			title: Messages.ABSTENTION_POSSIBLE,

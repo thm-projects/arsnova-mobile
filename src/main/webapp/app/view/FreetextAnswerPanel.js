@@ -52,24 +52,24 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		},
 
 		this.freetextAnswerStore = Ext.create('Ext.data.JsonStore', {
-			model		: 'FreetextAnswer',
-			sorters		: [{property: 'timestamp', direction: 'DESC'}],
-			groupField	: 'groupDate',
-			grouper		: {property: 'timestamp', direction: 'DESC'}
+			model: 'FreetextAnswer',
+			sorters: [{property: 'timestamp', direction: 'DESC'}],
+			groupField: 'groupDate',
+			grouper: {property: 'timestamp', direction: 'DESC'}
 		});
 
 		this.backButton = Ext.create('Ext.Button', {
-			text	: Messages.BACK,
-			ui		: 'back',
-			scope	: this,
-			handler	: function() {
+			text: Messages.BACK,
+			ui: 'back',
+			scope: this,
+			handler: function() {
 				ARSnova.app.mainTabPanel._activeItem.on('deactivate', function() {
 					this.destroy();
 				}, this, {single:true});
 				ARSnova.app.mainTabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel, {
-					type		: 'slide',
-					direction	: 'right',
-					duration	: 700
+					type: 'slide',
+					direction: 'right',
+					duration: 700
 				});
 			}
 		});
@@ -102,23 +102,23 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				itemtap: function (list, index, element) {
 					var answer = list.getStore().getAt(index).data;
 					ARSnova.app.getController('Questions').freetextDetailAnswer({
-						answer		: Ext.apply(answer, {
-							deselectItem: function() { list.deselect(index); },
-							removeItem: function() { list.getStore().remove(list.getStore().getAt(index)); }
-						}), panel : self
+						answer: Ext.apply(answer, {
+							deselectItem: function() {list.deselect(index);},
+							removeItem: function() {list.getStore().remove(list.getStore().getAt(index));}
+						}), panel: self
 					});
 				}
 			}
 		});
 
 		this.freetextAbstentions = Ext.create('Ext.Button', {
-			hidden		: true,
-			ui			: 'normal',
-			text		: Messages.ABSTENTION,
-			disabled	: true,
-			cls			: 'answerListButton',
-			badgeText	: '0',
-			badgeCls	: 'badgeicon'
+			hidden: true,
+			ui: 'normal',
+			text: Messages.ABSTENTION,
+			disabled: true,
+			cls: 'answerListButton',
+			badgeText: '0',
+			badgeCls: 'badgeicon'
 		});
 
 		this.add([this.toolbar, this.freetextAnswerList]);
@@ -140,8 +140,8 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 					var v = item;
 					var date = new Date(v.timestamp);
 					return Ext.apply(item, {
-						formattedTime	: Ext.Date.format(date, "H:i"),
-						groupDate		: Ext.Date.format(date, "d.m.y")
+						formattedTime: Ext.Date.format(date, "H:i"),
+						groupDate: Ext.Date.format(date, "d.m.y")
 					});
 				});
 
@@ -156,7 +156,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				self.freetextAnswerStore.removeAll();
 				self.freetextAnswerStore.add(answers);
 				self.freetextAnswerStore.sort([{
-					property : 'timestamp',
+					property: 'timestamp',
 					direction: 'DESC'
 				}]);
 				self.freetextAbstentions.setBadgeText(abstentions.length);

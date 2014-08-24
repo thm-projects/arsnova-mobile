@@ -39,28 +39,28 @@ Ext.define('ARSnova.view.LoginPanel', {
 	initialize: function() {
 		this.callParent(arguments);
 		var me = this;
-		
-		
+
+
 		this.arsLogo = {
-				xtype	: 'panel',
-				cls		: null,
-				html	: "<div class='arsnova-logo'></div>",
-				style	: { marginTop: '35px', marginBottom: '35px' }
+				xtype: 'panel',
+				cls: null,
+				html: "<div class='arsnova-logo'></div>",
+				style: {marginTop: '35px', marginBottom: '35px'}
 			};
 
 		if (Ext.os.is.Phone) {
 			this.arsLogo = {
-					xtype	: 'panel',
-					style	: { marginTop: '35px' }
+					xtype: 'panel',
+					style: {marginTop: '35px'}
 				};
 		}
 
 		me.add([{
-			xtype	: 'toolbar',
-			docked	: 'top',
-			ui		: 'light',
-			title	: 'Login',
-			cls		: null,
+			xtype: 'toolbar',
+			docked: 'top',
+			ui: 'light',
+			title: 'Login',
+			cls: null,
 			items: [{
 				text: Messages.BACK_TO_ROLEPANEL,
 				ui: 'back',
@@ -96,10 +96,10 @@ Ext.define('ARSnova.view.LoginPanel', {
 			});
 			for (i = 0; i < services.length; i++) {
 				service = services[i];
-				imageSrc = service.image ? imagePath + service.image : "btn_" + service.id;
+				imageSrc = service.image ? imagePath + service.image: "btn_" + service.id;
 				button = {
-					xtype : 'matrixbutton',
-					text: "guest" === service.id ? Messages.GUEST : service.name,
+					xtype: 'matrixbutton',
+					text: "guest" === service.id ? Messages.GUEST: service.name,
 					value: service,
 					image: imageSrc,
 					handler: function(b) {
