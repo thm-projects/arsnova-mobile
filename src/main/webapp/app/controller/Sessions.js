@@ -192,17 +192,6 @@ Ext.define("ARSnova.controller.Sessions", {
 				tabPanel.feedbackTabPanel.tab.show();
 				tabPanel.feedbackTabPanel.renew();
 			}
-
-			/* add feedback questions panel*/
-			if (!tabPanel.feedbackQuestionsPanel) {
-				tabPanel.feedbackQuestionsPanel = Ext.create('ARSnova.view.feedbackQuestions.TabPanel');
-				if(!tabPanel.userTabPanel)
-					tabPanel.insert(3, tabPanel.feedbackQuestionsPanel);
-				else
-					tabPanel.insert(4, tabPanel.feedbackQuestionsPanel);
-			} else {
-				tabPanel.feedbackQuestionsPanel.tab.show();
-			}
 		} else {
 			/* add user in class panel */
 			if (!tabPanel.userTabPanel) {
@@ -238,6 +227,20 @@ Ext.define("ARSnova.controller.Sessions", {
 				duration: 700
 			});
 		}
+		
+		/* add feedback questions panel*/
+		if (!tabPanel.feedbackQuestionsPanel) {
+			tabPanel.feedbackQuestionsPanel = Ext.create('ARSnova.view.feedbackQuestions.TabPanel');
+			if (!tabPanel.userTabPanel) {
+				tabPanel.insert(3, tabPanel.feedbackQuestionsPanel);
+			} else {
+				tabPanel.insert(4, tabPanel.feedbackQuestionsPanel);
+				tabPanel.feedbackQuestionsPanel.tab.hide();
+			}
+		} else {
+			tabPanel.feedbackQuestionsPanel.tab.show();
+		}
+
 		hideLoadMask();
 	},
 

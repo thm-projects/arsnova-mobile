@@ -32,7 +32,8 @@ Ext.define('ARSnova.model.FeedbackQuestion', {
 			'subject',
 			'type',
 			'groupDate',
-			'obj'
+			'obj',
+			'creator'
 		]
 	}
 });

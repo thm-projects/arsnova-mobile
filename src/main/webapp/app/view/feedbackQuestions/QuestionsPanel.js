@@ -62,13 +62,20 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		this.callParent(arguments);
 
 		var panel = this;
+		var isSpeakerView = !!ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
 			ui: 'back',
 			hidden: true,
-			handler: function(){
-				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel, {
+			handler: function() {
+				var target;
+				if (isSpeakerView) {
+					target = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+				} else {
+					target = ARSnova.app.mainTabPanel.tabPanel.userTabPanel
+				}
+				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(target, {
 					type: 'slide',
 					direction: 'right',
 					duration: 700,
@@ -135,12 +142,21 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				'<div class="search-item noOverflow">',
 					'<span style="color:gray;">{formattedTime}</span>',
 					'<tpl if="obj.get(\'read\')">',
-						'<span style="padding-left:30px;">{subject:htmlEncode}</span>',
+						'<span style="padding-left:30px;{[ this.colorStyle(values.obj.get(\'read\')); ]}">{subject:htmlEncode}</span>',
 					'</tpl>',
 					'<tpl if="!obj.get(\'read\')">',
-						'<span style="padding-left:30px;font-weight:bold;color:red">{subject:htmlEncode}</span>',
+						'<span style="padding-left:30px;{[ this.colorStyle(values.obj.get(\'read\')); ]}">{subject:htmlEncode}</span>',
 					'</tpl>',
-				'</div>'
+				'</div>',
+				{
+					colorStyle: function(read) {
+						if (panel.isSpeakerView) {
+							return read ? "" : "font-weight:bold;color:red";
+						} else {
+							return read ? "color:green" : "";
+						}
+					}
+				}
 			),
 			grouped: true,
 			store: this.getStore(),
@@ -157,8 +173,10 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				},
 				itemtap: function(list, index, target, record, event){
 					var details = list.getStore().getAt(index).data;
-					details.obj.set('read', true);
-					list.refresh();
+					if (isSpeakerView) {
+						details.obj.set('read', true);
+						list.refresh();
+					}
 
 					ARSnova.app.getController('Questions').detailsFeedbackQuestion({
 						question: details.obj,
@@ -232,9 +250,11 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					}
 
 					fQP.tab.setBadgeText(unread);
-					ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge([{
-						badgeText: questions.length, badgeCls: "bluebadgeicon"
-					}]);
+					if (ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel) {
+						ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge([{
+							badgeText: questions.length, badgeCls: "bluebadgeicon"
+						}]);
+					}
 
 					panel.getStore().sort([{
 						property: 'timestamp',
@@ -257,9 +277,11 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				var questionCount = Ext.decode(response.responseText);
 
 				feedbackQuestionsPanel.tab.setBadgeText(questionCount.unread);
-				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge([{
-					badgeText: questionCount.total, badgeCls: "bluebadgeicon"
-				}]);
+				if (ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel) {
+					ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge([{
+						badgeText: questionCount.total, badgeCls: "bluebadgeicon"
+					}]);
+				}
 
 				if(panel.questionsCounter != questionCount.total) {
 					panel.questionsCounter = questionCount.total;

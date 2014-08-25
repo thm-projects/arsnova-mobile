@@ -158,8 +158,8 @@ Ext.define('ARSnova.view.user.InClass', {
 			cls: 'forwardListButton',
 			badgeCls: 'badgeicon',
 			controller: 'Questions',
-			action: 'index',
-			handler: comingSoon
+			action: 'listFeedbackQuestions',
+			handler: this.buttonClicked
 		});
 
 		if (ARSnova.app.globalConfig.features.learningProgress) {
@@ -173,6 +173,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 		var buttons = [
 			this.feedbackButton,
+			this.myQuestionsButton,
 			this.lectureQuestionButton,
 			this.preparationQuestionButton
 		];
