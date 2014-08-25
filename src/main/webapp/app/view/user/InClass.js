@@ -86,6 +86,17 @@ Ext.define('ARSnova.view.user.InClass', {
 		interval: 20000
 	},
 
+	/**
+	* count every x seconds the number of feedback questions
+	*/
+	countFeedbackQuestionsTask: {
+		name: 'count feedback questions',
+		run: function(){
+			ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.countFeedbackQuestions();
+		},
+		interval: 15000
+	},
+
 	initialize: function() {
 		this.callParent(arguments);
 
@@ -215,6 +226,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		taskManager.start(panel.checkFeedbackRemovedTask);
 		taskManager.start(panel.countActiveUsersTask);
 		taskManager.start(panel.checkSessionStatusTask);
+		taskManager.start(panel.countFeedbackQuestionsTask);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			taskManager.start(panel.checkLearningProgressTask);
 		}
@@ -227,6 +239,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		this.checkFeedbackRemovedTask.taskRunTime = 0;
 		this.countActiveUsersTask.taskRunTime = 0;
 		this.checkSessionStatusTask.taskRunTime = 0;
+		this.countFeedbackQuestionsTask.taskRunTime = 0;
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.checkLearningProgressTask.taskRunTime = 0;
 		}
@@ -239,6 +252,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		taskManager.stop(panel.checkFeedbackRemovedTask);
 		taskManager.stop(panel.countActiveUsersTask);
 		taskManager.stop(panel.checkSessionStatusTask);
+		taskManager.stop(panel.countFeedbackQuestionsTask);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			taskManager.stop(panel.checkLearningProgressTask);
 		}
@@ -368,6 +382,25 @@ Ext.define('ARSnova.view.user.InClass', {
 		ARSnova.app.loggedInModel.countActiveUsersBySession(localStorage.getItem("keyword"), {
 			success: function(response){
 				var value = parseInt(response.responseText);
+			},
+			failure: function(){
+				console.log('server-side error');
+			}
+		});
+	},
+
+	countFeedbackQuestions: function(){
+		ARSnova.app.questionModel.countFeedbackQuestions(localStorage.getItem("keyword"), {
+			success: function(response){
+				var questionCount = Ext.decode(response.responseText);
+
+				var myQuestionsButton = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.myQuestionsButton;
+				myQuestionsButton.setBadge([{
+					badgeText: questionCount.total
+				}, {
+					badgeText: questionCount.unread,
+					badgeCls: "redbadgeicon"
+				}]);
 			},
 			failure: function(){
 				console.log('server-side error');
