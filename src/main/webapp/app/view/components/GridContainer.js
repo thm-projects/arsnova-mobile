@@ -826,8 +826,12 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		// toggle grid color
 		this.setCurGridLineColor(toggleColors ? this.getAlternativeGridLineColor(): this.getGridLineColor());
 
+		if (!colorTiles) {
+			this.setHighlightColor(rightColor);
+		}
+		
 		// clear canvas
-		weakenSourceImage ? this.redrawWithAlpha(0.2, false): this.redraw();
+		weakenSourceImage ? this.redrawWithAlpha(0.2, false) : this.redrawWithAlpha(1, false);
 
 		// count answers
 		for (var key in tilesToFill) {
