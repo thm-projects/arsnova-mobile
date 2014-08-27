@@ -74,8 +74,8 @@ Ext.define('Ext.chart.series.Series', {
         chart: null,
 
         /**
-         * @cfg {String} title
-         * The human-readable name of the series.
+         * @cfg {String|String[]} title
+         * The human-readable name of the series (displayed in the legend).
          */
         title: null,
 
@@ -209,7 +209,7 @@ Ext.define('Ext.chart.series.Series', {
          *     Label's renderer is passed the same arguments as {@link #renderer}
          *     plus one extra 'text' argument which comes first.
          *
-         * @return {Object/String} The attributes that have been changed or added, or the text for the label.
+         * @return {Object|String} The attributes that have been changed or added, or the text for the label.
          * Example to enclose every other label in parentheses:
          *
          *      renderer: function (text) {
@@ -229,7 +229,7 @@ Ext.define('Ext.chart.series.Series', {
         labelOverflowPadding: 5,
 
         /**
-         * @cfg {String/String[]} labelField
+         * @cfg {String|String[]} labelField
          * @deprecated Use 'field' property of {@link Ext.chart.series.Series#label} instead.
          * The store record field name to be used for the series labels.
          */
@@ -464,6 +464,9 @@ Ext.define('Ext.chart.series.Series', {
                     if (stacked) {
                         dataEnd = [];
                         for (k = 0; k < items.length; k++) {
+                            if (!data[k]) {
+                                data[k] = 0;
+                            }
                             if (data[k] >= 0) {
                                 dataStart[k] = posDataStart[k];
                                 posDataStart[k] += data[k];
@@ -549,7 +552,7 @@ Ext.define('Ext.chart.series.Series', {
             i, x;
         for (i = 0; i < length; i++) {
             x = items[i].data[field];
-            data[i] = !Ext.isEmpty(x) ? coord(x, field, i, items) : 0;
+            data[i] = !Ext.isEmpty(x) ? coord(x, field, i, items) : x;
         }
         return data;
     },

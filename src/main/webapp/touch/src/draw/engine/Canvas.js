@@ -42,7 +42,7 @@ Ext.define('Ext.draw.engine.Canvas', {
 
                 if (fillStyle !== rgba && fillStyle !== rgba0 && fillOpacity !== 0) {
                     if (fillGradient && bbox) {
-                        this.fillStyle = fillGradient.getGradient(this, bbox);
+                        this.fillStyle = fillGradient.generateGradient(this, bbox);
                     }
 
                     if (fillOpacity !== 1) {
@@ -74,7 +74,7 @@ Ext.define('Ext.draw.engine.Canvas', {
 
                 if (strokeStyle !== rgba && strokeStyle !== rgba0 && strokeOpacity !== 0) {
                     if (strokeGradient && bbox) {
-                        this.strokeStyle = strokeGradient.getGradient(this, bbox);
+                        this.strokeStyle = strokeGradient.generateGradient(this, bbox);
                     }
 
                     if (strokeOpacity !== 1) {

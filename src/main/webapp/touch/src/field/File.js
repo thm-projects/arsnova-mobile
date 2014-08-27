@@ -29,6 +29,14 @@ Ext.define('Ext.field.File', {
     xtype : 'filefield',
     requires: ["Ext.field.FileInput"],
 
+    /**
+     * @event change
+     * Fires when a file has been selected
+     * @param {Ext.field.File} this This field
+     * @param {Mixed} newValue The new value
+     * @param {Mixed} oldValue The original value
+     */
+
     config : {
         component: {
             xtype : 'fileinput',

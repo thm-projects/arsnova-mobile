@@ -250,6 +250,9 @@ Ext.define('Ext.viewport.Default', {
 
             if (osEnv.is.BlackBerry) {
                 classList.push(clsPrefix + 'bb');
+                if (Ext.browser.userAgent.match(/Kbd/gi)) {
+                    classList.push(clsPrefix + 'bb-keyboard');
+                }
             }
 
             if (Ext.browser.is.WebKit) {
@@ -262,6 +265,10 @@ Ext.define('Ext.viewport.Default', {
 
             if (Ext.browser.is.AndroidStock) {
                 classList.push(clsPrefix + 'android-stock');
+            }
+
+            if (Ext.browser.is.GoogleGlass) {
+                classList.push(clsPrefix + 'google-glass');
             }
 
             classList.push(clsPrefix + orientation);

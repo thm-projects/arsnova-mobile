@@ -690,6 +690,7 @@ Ext.define('Ext.chart.AbstractChart', {
     resizeHandler: function (size) {
         var me = this;
         me.scheduleLayout();
+        return false;
     },
 
     applyMainRegion: function (newRegion, region) {
@@ -883,7 +884,7 @@ Ext.define('Ext.chart.AbstractChart', {
         }
         var me = this,
             result = [], oldMap = oldInteractions.map,
-            i, interaction;
+            i, ln, interaction;
         result.map = {};
         interactions = Ext.Array.from(interactions, true);
         for (i = 0, ln = interactions.length; i < ln; i++) {

@@ -98,21 +98,35 @@ Ext.define('Ext.chart.series.Bar', {
         this.callSuper(arguments);
     },
 
+    updateHidden: function (hidden) {
+        this.callParent(arguments);
+        this.updateStacked();
+    },
+
     updateStacked: function (stacked) {
         var sprites = this.getSprites(),
-            attrs = {}, i, ln = sprites.length;
+            ln = sprites.length,
+            visible = [],
+            attrs = {}, i;
+
+        for (i = 0; i < ln; i++) {
+            if (!sprites[i].attr.hidden) {
+                visible.push(sprites[i]);
+            }
+        }
+        ln = visible.length;
 
         if (this.getStacked()) {
             attrs.groupCount = 1;
             attrs.groupOffset = 0;
             for (i = 0; i < ln; i++) {
-                sprites[i].setAttributes(attrs);
+                visible[i].setAttributes(attrs);
             }
         } else {
-            attrs.groupCount = this.getYField().length;
+            attrs.groupCount = visible.length;
             for (i = 0; i < ln; i++) {
                 attrs.groupOffset = i;
-                sprites[i].setAttributes(attrs);
+                visible[i].setAttributes(attrs);
             }
         }
         this.callSuper(arguments);

@@ -135,7 +135,7 @@ Ext.define('Ext.chart.series.StackedCartesian', {
             hidden = this.getHidden();
         for (var i = 0; i < sprites.length; i++) {
             target.push({
-                name: this.getTitle() ? this.getTitle()[i] : (field && field[i]) || this.getId(),
+                name: Ext.isArray(this.getTitle()) ? this.getTitle()[i] : (field && field[i]) || this.getId(),
                 mark: this.getStyleByIndex(i).fillStyle || this.getStyleByIndex(i).strokeStyle || 'black',
                 disabled: hidden[i],
                 series: this.getId(),

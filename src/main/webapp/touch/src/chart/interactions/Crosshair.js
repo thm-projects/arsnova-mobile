@@ -407,4 +407,4 @@ Ext.define('Ext.chart.interactions.Crosshair', {
         me.unlockEvents(me.getGesture());
     }
 
-})
+});

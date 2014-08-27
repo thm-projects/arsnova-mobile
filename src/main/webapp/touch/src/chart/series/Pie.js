@@ -61,10 +61,10 @@ Ext.define('Ext.chart.series.Pie', {
         labelField: false,
 
         /**
-         * @cfg {Boolean/Number} donut Whether to set the pie chart as donut chart.
-         * Can be set to a particular percentage to set the radius of the donut chart.
+         * @cfg {Number} donut Specifies the radius of the donut hole, as a percentage of the chart's radius.
+         * Defaults to 0 (no donut hole).
          */
-        donut: false,
+        donut: 0,
 
         /**
          * @cfg {String} field
@@ -293,8 +293,9 @@ Ext.define('Ext.chart.series.Pie', {
      * @return {Object} An object containing the reocord, sprite, scope etc.
      */
     getItemForAngle: function (angle) {
-        var me      = this,
-            sprites = me.getSprites();
+        var me = this,
+            sprites = me.getSprites(),
+            attr;
 
         angle %= Math.PI * 2;
 

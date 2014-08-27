@@ -50,7 +50,7 @@ Ext.define('Ext.chart.axis.segmenter.Numeric', {
     /**
      * Wraps the provided estimated step size of a range without altering it into a step size object.
      *
-     * @param {*} start The start point of range.
+     * @param {*} min The start point of range.
      * @param {*} estStepSize The estimated step size.
      * @return {Object} Return the step size by an object of step x unit.
      * @return {Number} return.step The step count of units.

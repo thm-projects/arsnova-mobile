@@ -158,7 +158,6 @@ Ext.define('Ext.draw.engine.Svg', {
         try {
             sprite.element = ctx.save();
             sprite.preRender(this);
-            sprite.applyTransformations();
             sprite.useAttributes(ctx, region);
             if (false === sprite.render(this, ctx, [0, 0, region[2], region[3]])) {
                 return false;
@@ -183,9 +182,13 @@ Ext.define('Ext.draw.engine.Svg', {
 
     remove: function (sprite, destroySprite) {
         if (sprite && sprite.element) {
-          //if sprite has an associated svg element remove it from the surface
-          sprite.element.destroy();
-          sprite.element = null;
+            //if sprite has an associated svg element remove it from the surface
+            if (this.ctx) {
+                this.ctx.removeElement(sprite.element);
+            } else {
+                sprite.element.destroy();
+            }
+            sprite.element = null;
         }
         this.callSuper(arguments);
     }

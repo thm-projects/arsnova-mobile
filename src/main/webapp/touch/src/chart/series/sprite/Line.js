@@ -48,13 +48,9 @@ Ext.define('Ext.chart.series.sprite.Line', {
 
             updaters: {
                 smooth: function (attr) {
-                    var dataX = attr.dataX,
-                        dataY = attr.dataY,
-                        path;
-                    if (attr.smooth && dataX && dataY && dataX.length > 2 && dataY.length > 2) {
-                        path = Ext.draw.Draw.smooth(dataX, dataY, 3);
-                        this.smoothX = path.smoothX;
-                        this.smoothY = path.smoothY;
+                    if (attr.smooth && attr.dataX && attr.dataY && attr.dataX.length > 2 && attr.dataY.length > 2) {
+                        this.smoothX = Ext.draw.Draw.spline(attr.dataX);
+                        this.smoothY = Ext.draw.Draw.spline(attr.dataY);
                     } else {
                         delete this.smoothX;
                         delete this.smoothY;

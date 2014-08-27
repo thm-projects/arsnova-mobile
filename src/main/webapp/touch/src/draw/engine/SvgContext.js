@@ -29,6 +29,8 @@ Ext.define('Ext.draw.engine.SvgContext', {
     "shadowColor": "none",
     "globalCompositeOperation": "src",
 
+    urlStringRe: /^url\(#([\w\-]+)\)$/,
+
     constructor: function (SvgSurface) {
         this.surface = SvgSurface;
         this.status = [];
@@ -56,16 +58,59 @@ Ext.define('Ext.draw.engine.SvgContext', {
     },
 
     /**
+     * @private
+     *
+     * Destroys the DOM element and all associated gradients.
+     *
+     * @param element {HTMLElement|Ext.dom.Element|String} DOM element.
+     */
+    removeElement: function (element) {
+        var element = Ext.fly(element),
+            fill, stroke, fillMatch, strokeMatch,
+            gradients, gradient, key;
+
+        if (!element) {
+            return;
+        }
+        if (element.dom.tagName === 'g') {
+            gradients = element.dom.gradients;
+            for (key in gradients) {
+                gradients[key].destroy();
+            }
+        } else {
+            fill = element.getAttribute('fill');
+            stroke = element.getAttribute('stroke');
+            fillMatch = fill && fill.match(this.urlStringRe);
+            strokeMatch = stroke && stroke.match(this.urlStringRe);
+            if (fillMatch && fillMatch[1]) {
+                gradient = Ext.fly(fillMatch[1]);
+                if (gradient) {
+                    gradient.destroy();
+                }
+            }
+            if (strokeMatch && strokeMatch[1]) {
+                gradient = Ext.fly(strokeMatch[1]);
+                if (gradient) {
+                    gradient.destroy();
+                }
+            }
+        }
+        element.destroy();
+    },
+
+    /**
      * Pushes the context state to the state stack.
      */
     save: function () {
         var toSave = this.toSave,
             obj = {},
-            group = this.getElement('g');
+            group = this.getElement('g'),
+            key, i;
 
-        for (var i = 0; i < toSave.length; i++) {
-            if (toSave[i] in this) {
-                obj[toSave[i]] = this[toSave[i]];
+        for (i = 0; i < toSave.length; i++) {
+            key = toSave[i];
+            if (key in this) {
+                obj[key] = this[key];
             }
         }
         this.position = 0;
@@ -81,15 +126,19 @@ Ext.define('Ext.draw.engine.SvgContext', {
     restore: function () {
         var toSave = this.toSave,
             obj = this.status.pop(),
-            children = this.group.dom.childNodes;
+            children = this.group.dom.childNodes,
+            key, i;
+        
+        // Removing extra DOM elements that were not reused.
         while (children.length > this.position) {
-            Ext.fly(children[children.length - 1]).destroy();
+            this.removeElement(children[children.length - 1]);
         }
-        for (var i = 0; i < toSave.length; i++) {
-            if (toSave[i] in obj) {
-                this[toSave[i]] = obj[toSave[i]];
+        for (i = 0; i < toSave.length; i++) {
+            key = toSave[i];
+            if (key in obj) {
+                this[key] = obj[key];
             } else {
-                delete this[toSave[i]];
+                delete this[key];
             }
         }
 
@@ -129,6 +178,36 @@ Ext.define('Ext.draw.engine.SvgContext', {
         }
         this.matrix.reset();
         this.transform(xx, yx, xy, yy, dx, dy);
+    },
+
+    /**
+     * Scales the current context by the specified horizontal (x) and vertical (y) factors.
+     * @param {Number} x The horizontal scaling factor, where 1 equals unity or 100% scale.
+     * @param {Number} y The vertical scaling factor.
+     */
+    scale: function (x, y) {
+        this.transform(x, 0, 0, y, 0, 0);
+    },
+
+    /**
+     * Rotates the current context coordinates (that is, a transformation matrix).
+     * @param {Number} angle The rotation angle, in radians.
+     */
+    rotate: function (angle) {
+        var xx = Math.cos(angle),
+            yx = Math.sin(angle),
+            xy = -Math.sin(angle),
+            yy = Math.cos(angle);
+        this.transform(xx, yx, xy, yy, 0, 0);
+    },
+
+    /**
+     * Specifies values to move the origin point in a canvas.
+     * @param {Number} x The value to add to horizontal (or x) coordinates.
+     * @param {Number} y The value to add to vertical (or y) coordinates.
+     */
+    translate: function (x, y) {
+        this.transform(1, 0, 0, 1, x, y);
     },
 
     setGradientBBox: function (bbox) {
@@ -440,7 +519,7 @@ Ext.define('Ext.draw.engine.SvgContext', {
                 });
             }
             this.surface.setElementAttributes(element, {
-                "fill": fillGradient && bbox ? fillGradient.getGradient(this, bbox) : this.fillStyle,
+                "fill": fillGradient && bbox ? fillGradient.generateGradient(this, bbox) : this.fillStyle,
                 "fill-opacity": this.fillOpacity * this.globalAlpha
             });
         }
@@ -468,7 +547,7 @@ Ext.define('Ext.draw.engine.SvgContext', {
                 });
             }
             this.surface.setElementAttributes(element, {
-                "stroke": strokeGradient && bbox ? strokeGradient.getGradient(this, bbox) : this.strokeStyle,
+                "stroke": strokeGradient && bbox ? strokeGradient.generateGradient(this, bbox) : this.strokeStyle,
                 "stroke-linecap": this.lineCap,
                 "stroke-linejoin": this.lineJoin,
                 "stroke-width": this.lineWidth,
@@ -528,15 +607,20 @@ Ext.define('Ext.draw.engine.SvgContext', {
      * @return {Ext.draw.engine.SvgContext.Gradient}
      */
     createLinearGradient: function (x0, y0, x1, y1) {
-        var element = this.surface.getNextDef('linearGradient');
-        this.surface.setElementAttributes(element, {
+        var me = this,
+            element = me.surface.getNextDef('linearGradient'),
+            gradients = me.group.dom.gradients || (me.group.dom.gradients = {}),
+            gradient;
+        me.surface.setElementAttributes(element, {
             "x1": x0,
             "y1": y0,
             "x2": x1,
             "y2": y1,
             "gradientUnits": "userSpaceOnUse"
         });
-        return new Ext.draw.engine.SvgContext.Gradient(this, this.surface, element);
+        gradient = new Ext.draw.engine.SvgContext.Gradient(me, me.surface, element);
+        gradients[element.dom.id] = gradient;
+        return gradient;
     },
 
     /**
@@ -551,8 +635,11 @@ Ext.define('Ext.draw.engine.SvgContext', {
      * @return {Ext.draw.engine.SvgContext.Gradient}
      */
     createRadialGradient: function (x0, y0, r0, x1, y1, r1) {
-        var element = this.surface.getNextDef('radialGradient');
-        this.surface.setElementAttributes(element, {
+        var me = this,
+            element = me.surface.getNextDef('radialGradient'),
+            gradients = me.group.dom.gradients || (me.group.dom.gradients = {}),
+            gradient;
+        me.surface.setElementAttributes(element, {
             "fx": x0,
             "fy": y0,
             "cx": x1,
@@ -560,7 +647,9 @@ Ext.define('Ext.draw.engine.SvgContext', {
             "r": r1,
             "gradientUnits": "userSpaceOnUse"
         });
-        return new Ext.draw.engine.SvgContext.Gradient(this, this.surface, element, r0 / r1);
+        gradient = new Ext.draw.engine.SvgContext.Gradient(me, me.surface, element, r0 / r1);
+        gradients[element.dom.id] = gradient;
+        return gradient;
     }
 });
 
@@ -568,7 +657,24 @@ Ext.define('Ext.draw.engine.SvgContext', {
  * @class Ext.draw.engine.SvgContext.Gradient
  */
 Ext.define("Ext.draw.engine.SvgContext.Gradient", {
+
+    statics: {
+        map: {}
+    },
+
     constructor: function (ctx, surface, element, compression) {
+        var map = this.statics().map,
+            oldInstance;
+
+        // Because of the way Ext.draw.engine.Svg.getNextDef works,
+        // there is no guarantee that an existing DOM element from the 'defs' section won't be used
+        // for the 'element' param.
+        oldInstance = map[element.dom.id];
+        if (oldInstance) {
+            oldInstance.element = null;
+        }
+        map[element.dom.id] = this;
+
         this.ctx = ctx;
         this.surface = surface;
         this.element = element;
@@ -592,6 +698,21 @@ Ext.define("Ext.draw.engine.SvgContext.Gradient", {
     },
 
     toString: function () {
+        var children = this.element.dom.childNodes;
+        // Removing surplus stops in case existing gradient element with more stops was reused.
+        while (children.length > this.position) {
+            Ext.fly(children[children.length - 1]).destroy();
+        }
         return 'url(#' + this.element.getId() + ')';
+    },
+
+    destroy: function () {
+        var map = this.statics().map,
+            element = this.element;
+        if (element) {
+            delete map[element.dom.id];
+            element.destroy();
+        }
+        this.callSuper();
     }
 });

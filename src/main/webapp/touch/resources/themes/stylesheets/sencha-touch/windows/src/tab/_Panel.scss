@@ -2,6 +2,11 @@
  * @class Ext.tab.Bar
  */
 
+//Custom fonts in older android do not work with text-rendering set to optimizeLegibility
+.x-android-4.x-android-stock .x-tab .x-button-label {
+	text-rendering: inherit !important;
+}
+
 // Tabs
 .x-tab {
     background-color: transparent;

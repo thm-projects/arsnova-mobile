@@ -1,5 +1,5 @@
 /*
-This file is part of Sencha Touch 2.3
+This file is part of Sencha Touch 2.4
 
 Copyright (c) 2011-2014 Sencha Inc
 
@@ -16,7 +16,7 @@ requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 If you are unsure which license is appropriate for your use, please contact the sales department
 at http://www.sencha.com/contact.
 
-Build date: 2014-01-08 14:23:30 (0a1d6f5016ee680fcd2e5dc6e9740d9e19920715)
+Build date: 2014-08-18 16:20:22 (508f2bbd9a1ad08c25cf2fea5b9f939a4113bfa3)
 */
 //@tag foundation,core
 //@define Ext
@@ -679,7 +679,7 @@ Build date: 2014-01-08 14:23:30 (0a1d6f5016ee680fcd2e5dc6e9740d9e19920715)
 (function() {
 
 // Current core version
-var version = '4.1.0', Version;
+var version = '2.4.0.482', Version;
     Ext.Version = Version = Ext.extend(Object, {
 
         /**
@@ -3715,7 +3715,7 @@ Ext.JSON = new(function() {
      * __The returned value includes enclosing double quotation marks.__
      *
      * The default return format is "yyyy-mm-ddThh:mm:ss".
-     * 
+     *
      * To override this:
      *
      *     Ext.JSON.encodeDate = function(d) {
@@ -3726,7 +3726,7 @@ Ext.JSON = new(function() {
      * @return {String} The string literal to use in a JSON string.
      */
     this.encodeDate = function(o) {
-        return '"' + o.getFullYear() + "-" 
+        return '"' + o.getFullYear() + "-"
         + pad(o.getMonth() + 1) + "-"
         + pad(o.getDate()) + "T"
         + pad(o.getHours()) + ":"
@@ -3782,6 +3782,13 @@ Ext.JSON = new(function() {
     }();
 
 })();
+
+//@private Alias for backwards compatibility
+if (!Ext.util) {
+    Ext.util = {};
+}
+Ext.util.JSON = Ext.JSON;
+
 /**
  * Shorthand for {@link Ext.JSON#encode}.
  * @member Ext
@@ -9033,7 +9040,7 @@ var noArgs = [],
  *
  * [getting_started]: #!/guide/getting_started
  */
-Ext.setVersion('touch', '2.3.1');
+Ext.setVersion('touch', '2.4.0.482');
 
 Ext.apply(Ext, {
     /**
@@ -9673,7 +9680,7 @@ Ext.apply(Ext, {
             addMeta('viewport', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0');
         }
         else {
-            addMeta('viewport', 'initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0');
+            addMeta('viewport', 'initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, minimum-ui');
         }
         addMeta('apple-mobile-web-app-capable', 'yes');
         addMeta('apple-touch-fullscreen', 'yes');
@@ -10661,6 +10668,10 @@ Ext.define('Ext.env.Browser', {
             browserVersion = new Ext.Version(browserMatch[1]);
         }
 
+        if(browserName === 'Safari' && userAgent.match(/BB10/)) {
+            browserName = 'BlackBerry';
+        }
+
         Ext.apply(this, {
             engineName: engineName,
             engineVersion: engineVersion,
@@ -10711,6 +10722,10 @@ Ext.define('Ext.env.Browser', {
         else if (!!window.isNK) {
             isWebView = true;
             this.setFlag('Sencha');
+        }
+
+        if (/(Glass)/i.test(userAgent)) {
+            this.setFlag('GoogleGlass');
         }
 
         // Check if running in UIWebView
@@ -11378,7 +11393,14 @@ Ext.define('Ext.env.Feature', {
         },
 
         CssTransformNoPrefix: function() {
-            return this.isStyleSupportedWithoutPrefix('transform');
+            // This extra check is needed to get around a browser bug where both 'transform' and '-webkit-transform' are present
+            // but the device really only uses '-webkit-transform'. This is seen on the HTC One for example.
+            // https://sencha.jira.com/browse/TOUCH-5029
+            if(!Ext.browser.is.AndroidStock) {
+                return this.isStyleSupportedWithoutPrefix('transform')
+            } else {
+                return this.isStyleSupportedWithoutPrefix('transform') && !this.isStyleSupportedWithoutPrefix('-webkit-transform');
+            }
         },
 
         Css3dTransforms: function() {
@@ -11630,6 +11652,7 @@ Ext.define('Ext.dom.Query', {
 /**
  * @class Ext.DomHelper
  * @alternateClassName Ext.dom.Helper
+ * @singleton
  *
  * The DomHelper class provides a layer of abstraction from DOM and transparently supports creating elements via DOM or
  * using HTML fragments. It also has the ability to create HTML fragment templates from your DOM building code.
@@ -16450,7 +16473,7 @@ Ext.define('Ext.mixin.Observable', {
      *
      * @param {String/String[]/Object} eventName The name of the event to listen for. May also be an object who's property names are
      * event names.
-     * @param {Function/String} fn The method the event invokes.  Will be called with arguments given to
+     * @param {Function/String} [fn] The method the event invokes.  Will be called with arguments given to
      * {@link #fireEvent} plus the `options` parameter described below.
      * @param {Object} [scope] The scope (`this` reference) in which the handler function is executed. **If
      * omitted, defaults to the object which fired the event.**
@@ -21636,6 +21659,8 @@ Ext.define('Ext.util.Draggable', {
             drag     : 'onDrag',
             dragend  : 'onDragEnd',
             resize   : 'onElementResize',
+            touchstart : 'onPress',
+            touchend   : 'onRelease',
             scope: this
         };
 
@@ -21792,6 +21817,14 @@ Ext.define('Ext.util.Draggable', {
         }
 
         return (direction === this.DIRECTION_BOTH || direction === this.DIRECTION_VERTICAL);
+    },
+
+    onPress: function(e) {
+        this.fireAction('touchstart', [this, e]);
+    },
+
+    onRelease: function(e) {
+        this.fireAction('touchend', [this, e]);
     },
 
     onDragStart: function(e) {
@@ -23335,11 +23368,22 @@ Ext.define('Ext.Component', {
     },
 
     /**
-     * @private
+     * Add or removes a class based on if the class is already added to the Component.
+     *
+     * @param {String} className The class to toggle.
      * @chainable
      */
-    toggleCls: function(className, force) {
-        this.element.toggleCls(className, force);
+    toggleCls: function(className, /* private */ force) {
+        var oldCls = this.getCls(),
+            newCls = (oldCls) ? oldCls.slice() : [];
+
+        if (force || newCls.indexOf(className) == -1) {
+            newCls.push(className);
+        } else {
+            Ext.Array.remove(newCls, className);
+        }
+
+        this.setCls(newCls);
 
         return this;
     },
@@ -35970,29 +36014,41 @@ Ext.define('Ext.data.Connection', {
         });
     },
 
-    onUploadComplete: function(frame, options, id) {
+    onUploadComplete : function(frame, options, id) {
         // bogus response object
         var response = {
                 responseText: '',
-                responseXML: null
-            }, doc, firstChild;
+                responseXML: null,
+                request: {
+                    options: options
+                }
+            },
+            doc, body, firstChild;
 
         try {
-            doc = frame.contentWindow || frame.contentWindow.document || frame.contentDocument || window.frames[id].document;
+            doc = (frame.contentWindow && frame.contentWindow.document) || frame.contentDocument || window.frames[id].document;
+
             if (doc) {
-                if (doc.hasOwnProperty("body") && doc.body) {
-                    if (this.textAreaRe.test((firstChild = doc.body.firstChild || {}).tagName)) { // json response wrapped in textarea
+                if (doc.hasOwnProperty('body') && doc.body) {
+                    body = doc.body;
+                }
+
+                if (body) {
+                    firstChild = body.firstChild || {};
+
+                    if (this.textAreaRe.test(firstChild.tagName)) { // json response wrapped in textarea
                         response.responseText = firstChild.value;
                     } else {
-                        response.responseText = doc.body.innerHTML;
+                        response.responseText = firstChild.innerHTML;
                     }
+
+                    //in IE the document may still have a body even if returns XML.
+                    response.responseXML = body.XMLDocument;
                 }
-                //in IE the document may still have a body even if returns XML.
-                response.responseXML = doc.XMLDocument || doc;
             }
         } catch (e) {
             response.success = false;
-            response.message = "Cross-Domain access is not permitted between frames. XHR2 is recommended for this type of request.";
+            response.message = 'Cross-Domain access is not permitted between frames. XHR2 is recommended for this type of request.';
             response.error = e;
         }
 
@@ -36004,7 +36060,6 @@ Ext.define('Ext.data.Connection', {
 
         me.fireEvent('requestcomplete', me, response, options);
 
-        Ext.callback(options.success, options.scope, [response, options]);
         Ext.callback(options.callback, options.scope, [options, true, response]);
 
         setTimeout(function() {
@@ -40604,6 +40659,19 @@ Ext.define('Ext.field.Input', {
             tap: 'onInputTap'
         });
 
+
+        // Stock android has a delayed mousedown event that is dispatched
+        // this prevents the mousedown from focus's an input when not intended (click a message box button or picker button that lays over an input)
+        // we then force focus on touchend.
+        if(Ext.browser.is.AndroidStock) {
+            me.input.dom.addEventListener("mousedown", function(e) {
+                if(document.activeElement != e.target) {
+                    e.preventDefault();
+                }
+            } );
+            me.input.dom.addEventListener("touchend", function() { me.focus(); });
+        }
+
         me.mask.on({
             scope: me,
             tap: 'onMaskTap'
@@ -44561,6 +44629,271 @@ Ext.define('Ext.TitleBar', {
         }
     }
 });
+
+/**
+ * A 'Toast' is a simple modal message that is displayed on the screen and then automatically closed by a timeout or by a user tapping
+ * outside of the toast itself. Think about it like a text only alert box that will self destruct. **A Toast should not be instantiated manually**
+ * but creating by calling 'Ext.toast(message, timeout)'. This will create one reusable toast container and content will be swapped out as
+ * toast messages are queued or displayed.
+ *
+ *  # Simple Toast
+ *
+ *      @example miniphone
+ *      Ext.toast('Hello Sencha!'); // Toast will close in 1000 milliseconds (default)
+ *
+ *  # Toast with Timeout
+ *
+ *      @example miniphone
+ *      Ext.toast('Hello Sencha!', 5000); // Toast will close in 5000 milliseconds
+ *
+ *  # Toast with config
+ *
+ *      @example miniphone
+ *      Ext.toast({message: 'Hello Sencha!', timeout: 2000}); // Toast will close in 2000 milliseconds
+ *
+ * # Multiple Toasts queued
+ *
+ *      @example miniphone
+ *      Ext.toast('Hello Sencha!');
+ *      Ext.toast('Hello Sencha Again!');
+ *      Ext.toast('Hello Sencha One More Time!');
+ */
+Ext.define('Ext.Toast', {
+    extend:  Ext.Sheet ,
+               
+                               
+      
+
+    config: {
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        ui: 'dark',
+
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        baseCls: Ext.baseCSSPrefix + 'toast',
+
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        showAnimation: {
+            type: 'popIn',
+            duration: 250,
+            easing: 'ease-out'
+        },
+
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        hideAnimation: {
+            type: 'popOut',
+            duration: 250,
+            easing: 'ease-out'
+        },
+
+        /**
+         * Override the default `zIndex` so it is normally always above floating components.
+         */
+        zIndex: 999,
+
+        /**
+         * @cfg {String} message
+         * The message to be displayed in the {@link Ext.Toast}.
+         * @accessor
+         */
+        message: null,
+
+        /**
+         * @cfg {Number} timeout
+         * The amount of time in milliseconds to wait before destroying the toast automatically
+         */
+        timeout: 1000,
+
+        /**
+         * @cfg{Boolean/Object} animation
+         * The animation that should be used between toast messages when they are queued up
+         */
+        messageAnimation: true,
+
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        hideOnMaskTap: true,
+
+        /**
+         * @private
+         */
+        modal: true,
+
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        layout: {
+            type: 'vbox',
+            pack: 'center'
+        }
+    },
+
+    /**
+     * @private
+     */
+    applyMessage: function(config) {
+        config = {
+            html: config,
+            cls: this.getBaseCls() + '-text'
+        };
+
+        return Ext.factory(config, Ext.Component, this._message);
+    },
+
+    /**
+     * @private
+     */
+    updateMessage: function(newMessage) {
+        if (newMessage) {
+            this.add(newMessage);
+        }
+    },
+
+    /**
+     * @private
+     */
+    applyTimeout: function(timeout) {
+        if (this._timeoutID) {
+            clearTimeout(this._timeoutID);
+            if (!Ext.isEmpty(timeout)) {
+                this._timeoutID = setTimeout(Ext.bind(this.onTimeout, this), timeout);
+            }
+        }
+        return timeout;
+    },
+
+    /**
+     * @internal
+     */
+    next: Ext.emptyFn,
+
+    /**
+     * @private
+     */
+    show: function(config) {
+        var me = this,
+            timeout = config.timeout,
+            msgAnimation = me.getMessageAnimation(),
+            message = me.getMessage();
+
+        if (me.isRendered() && me.isHidden() === false) {
+            config.timeout = null;
+            message.onAfter({
+                hiddenchange: function() {
+                    me.setMessage(config.message);
+                    message = me.getMessage();
+                    message.onAfter({
+                        hiddenchange: function() {
+
+                            // Forces applyTimeout to create a timer
+                            this._timeoutID = true;
+                            me.setTimeout(timeout);
+                        },
+                        scope: me,
+                        single: true
+                    });
+                    message.show(msgAnimation);
+                },
+                scope: me,
+                single: true
+            });
+
+            message.hide(msgAnimation);
+        } else {
+            Ext.util.InputBlocker.blockInputs();
+            me.setConfig(config);
+
+            //if it has not been added to a container, add it to the Viewport.
+            if (!me.getParent() && Ext.Viewport) {
+                Ext.Viewport.add(me);
+            }
+
+            if (!Ext.isEmpty(timeout)) {
+                me._timeoutID = setTimeout(Ext.bind(me.onTimeout, me), timeout);
+            }
+
+            me.callParent(arguments);
+        }
+    },
+
+    /**
+     * @private
+     */
+    hide: function(animation) {
+        clearTimeout(this._timeoutID);
+        if (!this.next()) {
+            this.callParent(arguments);
+        }
+    },
+
+    /**
+     * @private
+     */
+    onTimeout: function() {
+        this.hide();
+    }
+}, function(Toast) {
+    var _queue = [], _isToasting = false;
+
+    function next() {
+        var config = _queue.shift();
+
+        if (config) {
+            _isToasting = true;
+            this.show(config);
+        } else {
+            _isToasting = false;
+        }
+
+        return _isToasting;
+    }
+
+    function getInstance() {
+        if (!Ext.Toast._instance) {
+            Ext.Toast._instance = Ext.create('Ext.Toast');
+            Ext.Toast._instance.next = next;
+        }
+        return Ext.Toast._instance;
+    }
+
+    Ext.toast = function(message, timeout) {
+        var toast = getInstance(),
+            config = message;
+
+        if (Ext.isString(message)) {
+            config = {
+                message: message,
+                timeout: timeout
+            };
+        }
+
+        if (config.timeout === undefined) {
+            config.timeout = Ext.Toast.prototype.config.timeout;
+        }
+
+        _queue.push(config);
+        if (!_isToasting) {
+            toast.next();
+        }
+
+        return toast;
+    }
+});
+
 
 /**
  * @aside example video
@@ -48545,101 +48878,13 @@ Ext.define('Ext.draw.Draw', {
 });
 
 /**
- * Limited cache is a size limited cache container that stores limited number of objects.
- * 
- * When {@link #get} is called, the container will try to find the object in the list.
- * If failed it will call the {@link #feeder} to create that object. If there are too many
- * objects in the container, the old ones are removed.
- * 
- * __Note:__ This is not using a Least Recently Used policy due to simplicity and performance consideration.
- */
-Ext.define("Ext.draw.LimitedCache", {
-    config: {
-        /**
-         * @cfg {Number}
-         * The amount limit of the cache.
-         */
-        limit: 40,
-
-        /**
-         * @cfg {Function}
-         * Function that generates the object when look-up failed.
-         * @return {Number}
-         */
-        feeder: function () {
-            return 0;
-        },
-
-        /**
-         * @cfg {Object}
-         * The scope for {@link #feeder}
-         */
-        scope: null
-    },
-    cache: null,
-
-    constructor: function (config) {
-        this.cache = {};
-        this.cache.list = [];
-        this.cache.tail = 0;
-        this.initConfig(config);
-    },
-
-    /**
-     * Get a cached object.
-     * @param {String} id
-     * @param {Mixed...} args Arguments appended to feeder.
-     * @return {Object}
-     */
-    get: function (id) {
-        // TODO: Implement cache hit optimization
-        var cache = this.cache,
-            limit = this.getLimit(),
-            feeder = this.getFeeder(),
-            scope = this.getScope() || this;
-
-        if (cache[id]) {
-            return cache[id].value;
-        }
-        if (cache.list[cache.tail]) {
-            delete cache[cache.list[cache.tail].cacheId];
-        }
-        cache[id] = cache.list[cache.tail] = {
-            value: feeder.apply(scope, Array.prototype.slice.call(arguments, 1)),
-            cacheId: id
-        };
-        cache.tail++;
-        if (cache.tail === limit) {
-            cache.tail = 0;
-        }
-        return cache[id].value;
-    },
-
-    /**
-     * Clear all the objects.
-     */
-    clear: function () {
-        this.cache = {};
-        this.cache.list = [];
-        this.cache.tail = 0;
-    }
-});
-
-/**
  * @class Ext.draw.gradient.Gradient
  *
  * Creates a gradient.
  */
-Ext.define("Ext.draw.gradient.Gradient", {
-                                        
-    mixins: {
-        identifiable:  Ext.mixin.Identifiable 
-    },
-    identifiablePrefix: 'ext-gradient-',
+Ext.define('Ext.draw.gradient.Gradient', {
+
     isGradient: true,
-    statics: {
-        gradientCache: null
-    },
 
     config: {
         /**
@@ -48674,16 +48919,7 @@ Ext.define("Ext.draw.gradient.Gradient", {
     },
 
     constructor: function (config) {
-        config = config || {};
-        this.gradientCache = new Ext.draw.LimitedCache({
-            feeder: function (gradient, ctx, bbox) {
-                return gradient.generateGradient(ctx, bbox);
-            },
-            scope: this
-        });
         this.initConfig(config);
-        this.id = config.id;
-        this.getId();
     },
 
     /**
@@ -48693,24 +48929,7 @@ Ext.define("Ext.draw.gradient.Gradient", {
      * @param {Object} bbox
      * @return {Object}
      */
-    generateGradient: Ext.emptyFn,
-
-    /**
-     * @private
-     * @param {Ext.draw.engine.SvgContext} ctx
-     * @param {Object} bbox
-     * @return {*}
-     */
-    getGradient: function (ctx, bbox) {
-        return this.gradientCache.get(this.id + ',' + bbox.x + ',' + bbox.y + ',' + bbox.width + ',' + bbox.height, this, ctx, bbox);
-    },
-
-    /**
-     * @private
-     */
-    clearCache: function () {
-        this.gradientCache.clear();
-    }
+    generateGradient: Ext.emptyFn
 
 });
 
@@ -49136,7 +49355,7 @@ Ext.define("Ext.draw.gradient.Gradient", {
     });
 })();
 
-Ext.define('Ext.draw.sprite.GradientDefinition', {
+Ext.define('Ext.draw.gradient.GradientDefinition', {
     singleton: true,
 
     urlStringRe: /^url\(#([\w\-]+)\)$/,
@@ -49162,7 +49381,7 @@ Ext.define('Ext.draw.sprite.GradientDefinition', {
         }
         return str;
     }
-})
+});
 
 /**
  * @private
@@ -49175,7 +49394,7 @@ Ext.define("Ext.draw.sprite.AttributeParser", {
     attributeRe: /^url\(#([a-zA-Z\-]+)\)$/,
                
                          
-                                            
+                                              
       
 
     "default": function (n) {
@@ -49225,7 +49444,7 @@ Ext.define("Ext.draw.sprite.AttributeParser", {
         } else if (!n) {
             return 'none';
         } else if (Ext.isString(n)) {
-            n = Ext.draw.sprite.GradientDefinition.get(n);
+            n = Ext.draw.gradient.GradientDefinition.get(n);
             if (Ext.isString(n)) {
                 return n;
             }
@@ -49598,28 +49817,28 @@ Ext.define("Ext.draw.sprite.AttributeDefinition", {
         var definition = this,
             processors = definition.getProcessors(),
             aliases = definition.getAliases(),
-            normalized = {}, i, ln,
-            undef, name, val,
+            normalized = {},
+            i, ln, name, val,
             translation, rotation, scaling,
             matrix, subVal, split;
         if ('rotation' in batchedChanges) {
             rotation = batchedChanges.rotation;
         }
         else {
-            rotation = ('rotate' in batchedChanges) ? batchedChanges.rotate : undef;
+            rotation = ('rotate' in batchedChanges) ? batchedChanges.rotate : undefined;
         }
 
         if ('scaling' in batchedChanges) {
             scaling = batchedChanges.scaling;
         }
         else {
-            scaling = ('scale' in batchedChanges) ? batchedChanges.scale : undef;
+            scaling = ('scale' in batchedChanges) ? batchedChanges.scale : undefined;
         }
 
         if ('translation' in batchedChanges) {
             translation = batchedChanges.translation;
         } else {
-            translation = ('translate' in batchedChanges) ? batchedChanges.translate : undef;
+            translation = ('translate' in batchedChanges) ? batchedChanges.translate : undefined;
         }
 
         if (typeof scaling !== 'undefined') {
@@ -50506,7 +50725,10 @@ Ext.define("Ext.draw.modifier.Animation", {
     },
 
     /**
-     * Set special easings on the given attributes.
+     * Set special easings on the given attributes. E.g.:
+     *
+     *     circleSprite.fx.setEasingOn('r', 'elasticIn');
+     *
      * @param {String/Array} attrs The source attribute(s).
      * @param {String} easing The special easings.
      */
@@ -50552,7 +50774,10 @@ Ext.define("Ext.draw.modifier.Animation", {
     },
 
     /**
-     * Set special duration on the given attributes.
+     * Set special duration on the given attributes. E.g.:
+     *
+     *     rectSprite.fx.setDurationOn('height', 2000);
+     *
      * @param {String/Array} attrs The source attributes.
      * @param {Number} duration The special duration.
      */
@@ -50727,7 +50952,7 @@ Ext.define("Ext.draw.modifier.Animation", {
         if (!attr.animating) {
             return {};
         }
-        var changes = {}, change,
+        var changes = {},
             any = false,
             original = attr.animationOriginal,
             timers = attr.timers,
@@ -51365,17 +51590,9 @@ Ext.define('Ext.draw.sprite.Sprite', {
             throw 'Ext.draw.sprite.Sprite is an abstract class';
         }
         config = config || {};
-        var me = this,
-            groups = [].concat(config.group || []),
-            i, ln;
+        var me = this;
 
         me.id = config.id || Ext.id(null, 'ext-sprite-');
-        me.group = new Array(groups.length);
-
-        for (i = 0, ln = groups.length; i < ln; i++) {
-            me.group[i] = groups[i].id || groups[i].toString();
-        }
-
         me.attr = {};
         me.initConfig(config);
         var modifiers = Ext.Array.from(config.modifiers, true);
@@ -54089,10 +54306,11 @@ Ext.define('Ext.draw.sprite.Sector', {
  * 
  * Represents a group of sprites.
  */
-Ext.define("Ext.draw.sprite.Composite", {
+Ext.define('Ext.draw.sprite.Composite', {
     extend:  Ext.draw.sprite.Sprite ,
     alias: 'sprite.composite',
     type: 'composite',
+
     constructor: function () {
         this.callSuper(arguments);
         this.sprites = [];
@@ -54101,6 +54319,7 @@ Ext.define("Ext.draw.sprite.Composite", {
 
     /**
      * Adds a sprite to the composite.
+     * @param {Ext.draw.sprite.Sprite|Object} sprite
      */
     add: function (sprite) {
         if (!(sprite instanceof Ext.draw.sprite.Sprite)) {
@@ -54124,6 +54343,21 @@ Ext.define("Ext.draw.sprite.Composite", {
         attr.bbox.plain.dirty = true;
         attr.bbox.transform.dirty = true;
         return sprite;
+    },
+
+    /**
+     * Adds a list of sprites to the composite.
+     * @param {Ext.draw.sprite.Sprite[]|Object[]|Ext.draw.sprite.Sprite|Object} sprites
+     */
+    addAll: function (sprites) {
+        if (sprites.isSprite || sprites.type) {
+            this.add(sprites);
+        } else if (Ext.isArray(sprites)) {
+            var i = 0;
+            while (i < sprites.length) {
+                this.add(sprites[i++]);
+            }
+        }
     },
 
     /**
@@ -54611,14 +54845,6 @@ Ext.define("Ext.draw.gradient.Linear", {
 
     setAngle: function (angle) {
         this.setDegrees(angle);
-    },
-
-    updateDegrees: function () {
-        this.clearCache();
-    },
-
-    updateStops: function () {
-        this.clearCache();
     },
 
     /**
@@ -55605,263 +55831,13 @@ Ext.define('Ext.draw.Matrix', {
 });
 
 /**
- * @deprecated
- * A collection of sprites that delegates sprite functions to its elements.
- *
- * Avoid using this multiple groups in a surface as it is error prone.
- * The group notion may be remove in future releases.
- *
- */
-Ext.define("Ext.draw.Group", {
-    mixins: {
-        observable:  Ext.mixin.Observable 
-    },
-
-    config: {
-        surface: null
-    },
-
-    statics: {
-        /**
-         * @private
-         * @param {String} name
-         * @return {Function}
-         */
-        createRelayEvent: function (name) {
-            return (function (e) {
-                this.fireEvent(name, e);
-            });
-        },
-
-        /**
-         * @private
-         * @param {String} name
-         * @return {Function}
-         */
-        createDispatcherMethod: function (name) {
-            return function () {
-                var args = Array.prototype.slice.call(arguments, 0), items = this.items, i = 0, ln = items.length, item;
-                while (i < ln) {
-                    item = items[i++];
-                    item[name].apply(item, args);
-                }
-            };
-        }
-    },
-
-    autoDestroy: false,
-
-    constructor: function (config) {
-        this.initConfig(config);
-        this.map = {};
-        this.items = [];
-        this.length = 0;
-    },
-
-    /**
-     * Add sprite to group.
-     * @param {Ext.draw.sprite.Sprite} sprite
-     */
-    add: function (sprite) {
-        var id = sprite.getId(),
-            oldSprite = this.map[id];
-        if (!oldSprite) {
-            sprite.group.push(this.id);
-            this.map[id] = sprite;
-            this.items.push(sprite);
-            this.length++;
-        } else if (sprite !== oldSprite) {
-            Ext.Logger.error('Sprite with duplicated id.');
-        }
-    },
-
-    /**
-     * Remote sprite from group.
-     * @param {Ext.draw.sprite.Sprite} sprite
-     * @param {Boolean} [destroySprite]
-     */
-    remove: function (sprite, destroySprite) {
-        var id = sprite.getId(),
-            oldSprite = this.map[id];
-
-        destroySprite = destroySprite || this.autoDestroy;
-        if (oldSprite) {
-            if (oldSprite === sprite) {
-                delete this.map[id];
-                this.length--;
-                Ext.Array.remove(this.items, sprite);
-                if (destroySprite) {
-                    oldSprite.destroy();
-                } else {
-                    Ext.Array.remove(sprite.group, this);
-                }
-            } else if (sprite !== oldSprite) {
-                Ext.Logger.error('Sprite with duplicated id.');
-            }
-        }
-    },
-
-    /**
-     * Add a list of sprites to group.
-     * @param {Array|Ext.draw.sprite.Sprite} sprites
-     */
-    addAll: function (sprites) {
-        if (sprites.isSprite) {
-            this.add(sprites);
-        } else if (Ext.isArray(sprites)) {
-            var i = 0;
-            while (i < sprites.length) {
-                this.add(sprites[i++]);
-            }
-        }
-    },
-
-    /**
-     * Iterate all sprites with specific function.
-     * __Note:__ Avoid using this for performance consideration.
-     * @param {Function} fn Function to iterate.
-     */
-    each: function (fn) {
-        var i = 0,
-            items = this.items,
-            ln = items.length;
-        while (i < ln) {
-            if (false === fn(items[i])) {
-                return;
-            }
-        }
-    },
-
-    /**
-     * Clear the group
-     * @param {Boolean} [destroySprite]
-     */
-    clear: function (destroySprite) {
-        var i, ln, sprite, items;
-
-        if (destroySprite || this.autoDestroy) {
-            items = this.items.slice(0);
-            for (i = 0, ln = items.length; i < ln; i++) {
-                items[i].destroy();
-            }
-        } else {
-            items = this.items.slice(0);
-            for (i = 0, ln = items.length; i < ln; i++) {
-                sprite = items[i];
-                Ext.Array.remove(sprite.group, this);
-            }
-        }
-        this.length = 0;
-        this.map = {};
-        this.items.length = 0;
-    },
-
-    /**
-     * Get the i-th sprite of the group.
-     * __Note:__ Do not reply on the order of the sprite. It could be changed by {@link Ext.draw.Surface#stableSort}.
-     * @param {Number}  index
-     * @return {Ext.draw.sprite.Sprite}
-     */
-    getAt: function (index) {
-        return this.items[index];
-    },
-
-    /**
-     * Get the sprite with id or index.
-     * It will first find sprite with given id, otherwise will try to use the id as an index.
-     * @param {String|Number} id
-     * @return {Ext.draw.sprite.Sprite}
-     */
-    get: function (id) {
-        return this.map[id] || this.items[id];
-    },
-
-    /**
-     * Destroy the group and remove it from surface.
-     */
-    destroy: function () {
-        this.clear();
-        this.getSurface().getGroups().remove(this);
-    }
-}, function () {
-
-    this.addMembers({
-        /**
-         * Set attributes to all sprites in the group.
-         *
-         * @param {Object} o Sprite attribute options just like in {@link Ext.draw.sprite.Sprite}.
-         * @method
-         */
-        setAttributes: this.createDispatcherMethod('setAttributes'),
-
-        /**
-         * Display all sprites in the group.
-         *
-         * @param {Boolean} o Whether to re-render the frame.
-         * @method
-         */
-        show: this.createDispatcherMethod('show'),
-
-        /**
-         * Hide all sprites in the group.
-         *
-         * @param {Boolean} o Whether to re-render the frame.
-         * @method
-         */
-        hide: this.createDispatcherMethod('hide'),
-
-        /**
-         * Set dirty flag for all sprites in the group
-         * @method
-         */
-        setDirty: this.createDispatcherMethod('setDirty'),
-
-        /**
-         * Return the minimal bounding box that contains all the sprites bounding boxes in this group.
-         *
-         * Bad performance. Avoid using it.
-         */
-        getBBox: function (isWithTransform) {
-            if (this.length === 0) {
-                return {x: 0, y: 0, width: 0, height: 0};
-            }
-            var i, ln, l = Infinity, r = -Infinity, t = Infinity, b = -Infinity, bbox;
-            for (i = 0, ln = this.items.length; i < ln; i++) {
-                bbox = this.items[i].getBBox(isWithTransform);
-                if (!bbox) {
-                    continue;
-                }
-                if (bbox.x + bbox.width > r) {
-                    r = bbox.x + bbox.width;
-                }
-                if (bbox.x < l) {
-                    l = bbox.x;
-                }
-                if (bbox.y + bbox.height > b) {
-                    b = bbox.y + bbox.height;
-                }
-                if (bbox.y < t) {
-                    t = bbox.y;
-                }
-            }
-            return {
-                x: l,
-                y: t,
-                height: b - t,
-                width: r - l
-            };
-        }
-    });
-});
-
-/**
  * A Surface is an interface to render methods inside a draw {@link Ext.draw.Component}.
  * A Surface contains methods to render sprites, get bounding boxes of sprites, add
  * sprites to the canvas, initialize other graphic components, etc. One of the most used
  * methods for this class is the `add` method, to add Sprites to the surface.
  *
  * Most of the Surface methods are abstract and they have a concrete implementation
- * in VML or SVG engines.
+ * in Canvas or SVG engines.
  *
  * A Surface instance can be accessed as a property of a draw component. For example:
  *
@@ -55884,45 +55860,39 @@ Ext.define("Ext.draw.Group", {
  *             radius: 10,
  *             fill: '#f00',
  *             x: 10,
- *             y: 10,
- *             group: 'circles'
+ *             y: 10
  *         },
  *         {
  *             type: 'circle',
  *             radius: 10,
  *             fill: '#0f0',
  *             x: 50,
- *             y: 50,
- *             group: 'circles'
+ *             y: 50
  *         },
  *         {
  *             type: 'circle',
  *             radius: 10,
  *             fill: '#00f',
  *             x: 100,
- *             y: 100,
- *             group: 'circles'
+ *             y: 100
  *         },
  *         {
  *             type: 'rect',
  *             radius: 10,
  *             x: 10,
- *             y: 10,
- *             group: 'rectangles'
+ *             y: 10
  *         },
  *         {
  *             type: 'rect',
  *             radius: 10,
  *             x: 50,
- *             y: 50,
- *             group: 'rectangles'
+ *             y: 50
  *         },
  *         {
  *             type: 'rect',
  *             radius: 10,
  *             x: 100,
- *             y: 100,
- *             group: 'rectangles'
+ *             y: 100
  *         }
  *     ]);
  *
@@ -55936,8 +55906,7 @@ Ext.define('Ext.draw.Surface', {
                               
                                               
                           
-                        
-                        
+                       
       
 
            
@@ -55990,21 +55959,15 @@ Ext.define('Ext.draw.Surface', {
 
         /**
          * @cfg {Object}
-         * The config of a background sprite of current surface
+         * Background sprite config of the surface.
          */
         background: null,
 
         /**
-         * @cfg {Ext.draw.Group}
-         * The default group of the surfaces.
+         * @cfg {Array}
+         * Array of sprite instances.
          */
         items: [],
-
-        /**
-         * @cfg {Array}
-         * An array of groups.
-         */
-        groups: [],
 
         /**
          * @cfg {Boolean}
@@ -56020,7 +55983,11 @@ Ext.define('Ext.draw.Surface', {
 
         me.predecessors = [];
         me.successors = [];
+        // The `pendingRenderFrame` flag is used to indicate that `predecessors` (surfaces that should render first)
+        // are dirty, and to call `renderFrame` when all `predecessors` have their `renderFrame` called
+        // (i.e. not dirty anymore).
         me.pendingRenderFrame = false;
+        me.map = {};
 
         me.callSuper([config]);
         me.matrix = new Ext.draw.Matrix();
@@ -56150,6 +56117,16 @@ Ext.define('Ext.draw.Surface', {
     },
 
     /**
+     * Get the sprite by id or index.
+     * It will first try to find a sprite with the given id, otherwise will try to use the id as an index.
+     * @param {String|Number} id
+     * @returns {Ext.draw.sprite.Sprite}
+     */
+    get: function (id) {
+        return this.map[id] || this.items[id];
+    },
+
+    /**
      * Add a Sprite to the surface.
      * You can put any number of object as parameter.
      * See {@link Ext.draw.sprite.Sprite} for the configuration object to be passed into this method.
@@ -56170,25 +56147,25 @@ Ext.define('Ext.draw.Surface', {
             args = Array.prototype.slice.call(arguments),
             argIsArray = Ext.isArray(args[0]),
             results = [],
-            sprite, sprites, items, i, ln, group, groups;
+            sprite, sprites, items, i, ln;
 
         items = Ext.Array.clean(argIsArray ? args[0] : args);
+        if (!items.length) {
+            return results;
+        }
         sprites = me.prepareItems(items);
 
         for (i = 0, ln = sprites.length; i < ln; i++) {
             sprite = sprites[i];
-            groups = sprite.group;
-            if (groups.length) {
-                for (i = 0, ln = groups.length; i < ln; i++) {
-                    group = groups[i];
-                    me.getGroup(group).add(sprite);
-                }
-            }
-
-            me.getItems().add(sprite);
+            me.map[sprite.getId()] = sprite;
             results.push(sprite);
             sprite.setParent(this);
             me.onAdd(sprite);
+        }
+
+        items = me.getItems();
+        if (items) {
+            items.push.apply(items, results);
         }
 
         me.dirtyZIndex = true;
@@ -56203,7 +56180,7 @@ Ext.define('Ext.draw.Surface', {
 
     /**
      * @protected
-     * Invoked when a sprite is adding to the surface.
+     * Invoked when a sprite is added to the surface.
      * @param {Ext.draw.sprite.Sprite} sprite The sprite to be added.
      */
     onAdd: Ext.emptyFn,
@@ -56219,17 +56196,16 @@ Ext.define('Ext.draw.Surface', {
      *      sprite.remove();
      *
      * @param {Ext.draw.sprite.Sprite} sprite
-     * @param {Boolean} destroySprite
+     * @param {Boolean} [destroySprite=false]
      */
     remove: function (sprite, destroySprite) {
         if (sprite) {
-            if (destroySprite === true) {
+            delete this.map[sprite.getId()];
+            if (destroySprite) {
                 sprite.destroy();
             } else {
-                this.getGroups().each(function (item) {
-                    item.remove(sprite);
-                });
-                this.getItems().remove(sprite);
+                sprite.setParent(null);
+                Ext.Array.remove(this.getItems(), sprite);
             }
             this.dirtyZIndex = true;
             this.setDirty(true);
@@ -56241,27 +56217,33 @@ Ext.define('Ext.draw.Surface', {
      *
      * For example:
      *
-     *      drawComponent.surface.removeAll();
+     *      drawComponent.getSurface('main').removeAll();
      *
+     * @param {Boolean} [destroySprites=false]
      */
-    removeAll: function () {
-        this.getItems().clear();
+    removeAll: function (destroySprites) {
+        var items = this.getItems(),
+            i = items.length;
+        if (destroySprites) {
+            while (i > 0) {
+                items[--i].destroy();
+            }
+        } else {
+            while (i > 0) {
+                items[--i].setParent(null);
+            }
+        }
+        items.length = 0;
+        this.map = {};
         this.dirtyZIndex = true;
     },
 
     // @private
-    applyItems: function (items, oldItems) {
-        var result;
-
-        if (items instanceof Ext.draw.Group) {
-            result = items;
-        } else {
-            result = new Ext.draw.Group({surface: this});
-            result.autoDestroy = true;
-            result.addAll(this.prepareItems(items));
+    applyItems: function (items) {
+        if (this.getItems()) {
+            this.removeAll(true);
         }
-        this.setDirty(true);
-        return result;
+        return Ext.Array.from(this.add(items));
     },
 
     /**
@@ -56284,92 +56266,9 @@ Ext.define('Ext.draw.Surface', {
                 // Temporary, just take in configs...
                 item = items[i] = me.createItem(item);
             }
-            for (j = 0; j < item.group.length; j++) {
-                me.getGroup(item.group[j]).add(item);
-            }
             item.on('beforedestroy', removeSprite, me);
         }
         return items;
-    },
-
-    applyGroups: function (groups, oldGroups) {
-        var result;
-
-        if (groups instanceof Ext.util.MixedCollection) {
-            result = groups;
-        } else {
-            result = new Ext.util.MixedCollection();
-            result.addAll(groups);
-        }
-        if (oldGroups) {
-            oldGroups.each(function (group) {
-                if (!result.contains()) {
-                    group.destroy();
-                }
-            });
-            oldGroups.destroy();
-        }
-        this.setDirty(true);
-        return result;
-    },
-
-    /**
-     * @deprecated Do not use groups directly
-     * Returns a new group or an existent group associated with the current surface.
-     * The group returned is a {@link Ext.draw.Group} group.
-     *
-     * For example:
-     *
-     *      var spriteGroup = drawComponent.surface.getGroup('someGroupId');
-     *
-     * @param {String} id The unique identifier of the group.
-     * @return {Ext.draw.Group} The group.
-     */
-    getGroup: function (id) {
-        var group;
-        if (typeof id === "string") {
-            group = this.getGroups().get(id);
-            if (!group) {
-                group = this.createGroup(id);
-            }
-        } else {
-            group = id;
-        }
-        return group;
-    },
-
-    /**
-     * @private
-     * @deprecated Do not use groups directly
-     * @param {String} id
-     * @return {Ext.draw.Group} The group.
-     */
-    createGroup: function (id) {
-        var group = this.getGroups().get(id);
-
-        if (!group) {
-            group = new Ext.draw.Group({surface: this});
-            group.id = id || Ext.id(null, 'ext-surface-group-');
-            this.getGroups().add(group);
-        }
-        this.setDirty(true);
-        return group;
-    },
-
-    /**
-     * @private
-     * @deprecated Do not use groups directly
-     * @param {Ext.draw.Group} group
-     */
-    removeGroup: function (group) {
-        if (Ext.isString(group)) {
-            group = this.getGroups().get(group);
-        }
-        if (group) {
-            this.getGroups().remove(group);
-            group.destroy();
-        }
-        this.setDirty(true);
     },
 
     /**
@@ -56382,13 +56281,41 @@ Ext.define('Ext.draw.Surface', {
     },
 
     /**
-     * @deprecated Use the `sprite.getBBox(isWithoutTransform)` directly.
-     * @param {Ext.draw.sprite.Sprite} sprite
-     * @param {Boolean} isWithoutTransform
-     * @return {Object}
+     * Return the minimal bounding box that contains all the sprites bounding boxes in the given list of sprites.
+     * @param {Ext.draw.sprite.Sprite[]|Ext.draw.sprite.Sprite} sprites
+     * @param {Boolean} [isWithoutTransform=false]
+     * @returns {{x: Number, y: Number, width: number, height: number}}
      */
-    getBBox: function (sprite, isWithoutTransform) {
-        return sprite.getBBox(isWithoutTransform);
+    getBBox: function (sprites, isWithoutTransform) {
+        var sprites = Ext.Array.from(sprites),
+            left = Infinity,
+            right = -Infinity,
+            top = Infinity,
+            bottom = -Infinity,
+            sprite, bbox, i, ln;
+
+        for (i = 0, ln = sprites.length; i < ln; i++) {
+            sprite = sprites[i];
+            bbox = sprite.getBBox(isWithoutTransform);
+            if (left > bbox.x) {
+                left = bbox.x;
+            }
+            if (right < bbox.x + bbox.width) {
+                right = bbox.x + bbox.width;
+            }
+            if (top > bbox.y) {
+                top = bbox.y;
+            }
+            if (bottom < bbox.y + bbox.height) {
+                bottom = bbox.y + bbox.height;
+            }
+        }
+        return {
+            x: left,
+            y: top,
+            width: right - left,
+            height: bottom - top
+        };
     },
 
     /**
@@ -56402,7 +56329,7 @@ Ext.define('Ext.draw.Surface', {
      */
     orderByZIndex: function () {
         var me = this,
-            items = me.getItems().items,
+            items = me.getItems(),
             dirtyZIndex = false,
             i, ln;
 
@@ -56446,12 +56373,13 @@ Ext.define('Ext.draw.Surface', {
         }
         if (this.dirtyPredecessor > 0) {
             this.pendingRenderFrame = true;
+            return;
         }
 
         var me = this,
             region = this.getRegion(),
             background = me.getBackground(),
-            items = me.getItems().items,
+            items = me.getItems(),
             item, i, ln;
 
         // Cannot render before the surface is placed.
@@ -56517,8 +56445,6 @@ Ext.define('Ext.draw.Surface', {
         var me = this;
         me.removeAll();
         me.setBackground(null);
-        me.setGroups([]);
-        me.getGroups().destroy();
         me.predecessors = null;
         me.successors = null;
         me.callSuper();
@@ -56558,6 +56484,8 @@ Ext.define('Ext.draw.engine.SvgContext', {
     "shadowColor": "none",
     "globalCompositeOperation": "src",
 
+    urlStringRe: /^url\(#([\w\-]+)\)$/,
+
     constructor: function (SvgSurface) {
         this.surface = SvgSurface;
         this.status = [];
@@ -56585,16 +56513,59 @@ Ext.define('Ext.draw.engine.SvgContext', {
     },
 
     /**
+     * @private
+     *
+     * Destroys the DOM element and all associated gradients.
+     *
+     * @param element {HTMLElement|Ext.dom.Element|String} DOM element.
+     */
+    removeElement: function (element) {
+        var element = Ext.fly(element),
+            fill, stroke, fillMatch, strokeMatch,
+            gradients, gradient, key;
+
+        if (!element) {
+            return;
+        }
+        if (element.dom.tagName === 'g') {
+            gradients = element.dom.gradients;
+            for (key in gradients) {
+                gradients[key].destroy();
+            }
+        } else {
+            fill = element.getAttribute('fill');
+            stroke = element.getAttribute('stroke');
+            fillMatch = fill && fill.match(this.urlStringRe);
+            strokeMatch = stroke && stroke.match(this.urlStringRe);
+            if (fillMatch && fillMatch[1]) {
+                gradient = Ext.fly(fillMatch[1]);
+                if (gradient) {
+                    gradient.destroy();
+                }
+            }
+            if (strokeMatch && strokeMatch[1]) {
+                gradient = Ext.fly(strokeMatch[1]);
+                if (gradient) {
+                    gradient.destroy();
+                }
+            }
+        }
+        element.destroy();
+    },
+
+    /**
      * Pushes the context state to the state stack.
      */
     save: function () {
         var toSave = this.toSave,
             obj = {},
-            group = this.getElement('g');
+            group = this.getElement('g'),
+            key, i;
 
-        for (var i = 0; i < toSave.length; i++) {
-            if (toSave[i] in this) {
-                obj[toSave[i]] = this[toSave[i]];
+        for (i = 0; i < toSave.length; i++) {
+            key = toSave[i];
+            if (key in this) {
+                obj[key] = this[key];
             }
         }
         this.position = 0;
@@ -56610,15 +56581,19 @@ Ext.define('Ext.draw.engine.SvgContext', {
     restore: function () {
         var toSave = this.toSave,
             obj = this.status.pop(),
-            children = this.group.dom.childNodes;
+            children = this.group.dom.childNodes,
+            key, i;
+        
+        // Removing extra DOM elements that were not reused.
         while (children.length > this.position) {
-            Ext.fly(children[children.length - 1]).destroy();
+            this.removeElement(children[children.length - 1]);
         }
-        for (var i = 0; i < toSave.length; i++) {
-            if (toSave[i] in obj) {
-                this[toSave[i]] = obj[toSave[i]];
+        for (i = 0; i < toSave.length; i++) {
+            key = toSave[i];
+            if (key in obj) {
+                this[key] = obj[key];
             } else {
-                delete this[toSave[i]];
+                delete this[key];
             }
         }
 
@@ -56658,6 +56633,36 @@ Ext.define('Ext.draw.engine.SvgContext', {
         }
         this.matrix.reset();
         this.transform(xx, yx, xy, yy, dx, dy);
+    },
+
+    /**
+     * Scales the current context by the specified horizontal (x) and vertical (y) factors.
+     * @param {Number} x The horizontal scaling factor, where 1 equals unity or 100% scale.
+     * @param {Number} y The vertical scaling factor.
+     */
+    scale: function (x, y) {
+        this.transform(x, 0, 0, y, 0, 0);
+    },
+
+    /**
+     * Rotates the current context coordinates (that is, a transformation matrix).
+     * @param {Number} angle The rotation angle, in radians.
+     */
+    rotate: function (angle) {
+        var xx = Math.cos(angle),
+            yx = Math.sin(angle),
+            xy = -Math.sin(angle),
+            yy = Math.cos(angle);
+        this.transform(xx, yx, xy, yy, 0, 0);
+    },
+
+    /**
+     * Specifies values to move the origin point in a canvas.
+     * @param {Number} x The value to add to horizontal (or x) coordinates.
+     * @param {Number} y The value to add to vertical (or y) coordinates.
+     */
+    translate: function (x, y) {
+        this.transform(1, 0, 0, 1, x, y);
     },
 
     setGradientBBox: function (bbox) {
@@ -56969,7 +56974,7 @@ Ext.define('Ext.draw.engine.SvgContext', {
                 });
             }
             this.surface.setElementAttributes(element, {
-                "fill": fillGradient && bbox ? fillGradient.getGradient(this, bbox) : this.fillStyle,
+                "fill": fillGradient && bbox ? fillGradient.generateGradient(this, bbox) : this.fillStyle,
                 "fill-opacity": this.fillOpacity * this.globalAlpha
             });
         }
@@ -56997,7 +57002,7 @@ Ext.define('Ext.draw.engine.SvgContext', {
                 });
             }
             this.surface.setElementAttributes(element, {
-                "stroke": strokeGradient && bbox ? strokeGradient.getGradient(this, bbox) : this.strokeStyle,
+                "stroke": strokeGradient && bbox ? strokeGradient.generateGradient(this, bbox) : this.strokeStyle,
                 "stroke-linecap": this.lineCap,
                 "stroke-linejoin": this.lineJoin,
                 "stroke-width": this.lineWidth,
@@ -57057,15 +57062,20 @@ Ext.define('Ext.draw.engine.SvgContext', {
      * @return {Ext.draw.engine.SvgContext.Gradient}
      */
     createLinearGradient: function (x0, y0, x1, y1) {
-        var element = this.surface.getNextDef('linearGradient');
-        this.surface.setElementAttributes(element, {
+        var me = this,
+            element = me.surface.getNextDef('linearGradient'),
+            gradients = me.group.dom.gradients || (me.group.dom.gradients = {}),
+            gradient;
+        me.surface.setElementAttributes(element, {
             "x1": x0,
             "y1": y0,
             "x2": x1,
             "y2": y1,
             "gradientUnits": "userSpaceOnUse"
         });
-        return new Ext.draw.engine.SvgContext.Gradient(this, this.surface, element);
+        gradient = new Ext.draw.engine.SvgContext.Gradient(me, me.surface, element);
+        gradients[element.dom.id] = gradient;
+        return gradient;
     },
 
     /**
@@ -57080,8 +57090,11 @@ Ext.define('Ext.draw.engine.SvgContext', {
      * @return {Ext.draw.engine.SvgContext.Gradient}
      */
     createRadialGradient: function (x0, y0, r0, x1, y1, r1) {
-        var element = this.surface.getNextDef('radialGradient');
-        this.surface.setElementAttributes(element, {
+        var me = this,
+            element = me.surface.getNextDef('radialGradient'),
+            gradients = me.group.dom.gradients || (me.group.dom.gradients = {}),
+            gradient;
+        me.surface.setElementAttributes(element, {
             "fx": x0,
             "fy": y0,
             "cx": x1,
@@ -57089,7 +57102,9 @@ Ext.define('Ext.draw.engine.SvgContext', {
             "r": r1,
             "gradientUnits": "userSpaceOnUse"
         });
-        return new Ext.draw.engine.SvgContext.Gradient(this, this.surface, element, r0 / r1);
+        gradient = new Ext.draw.engine.SvgContext.Gradient(me, me.surface, element, r0 / r1);
+        gradients[element.dom.id] = gradient;
+        return gradient;
     }
 });
 
@@ -57097,7 +57112,24 @@ Ext.define('Ext.draw.engine.SvgContext', {
  * @class Ext.draw.engine.SvgContext.Gradient
  */
 Ext.define("Ext.draw.engine.SvgContext.Gradient", {
+
+    statics: {
+        map: {}
+    },
+
     constructor: function (ctx, surface, element, compression) {
+        var map = this.statics().map,
+            oldInstance;
+
+        // Because of the way Ext.draw.engine.Svg.getNextDef works,
+        // there is no guarantee that an existing DOM element from the 'defs' section won't be used
+        // for the 'element' param.
+        oldInstance = map[element.dom.id];
+        if (oldInstance) {
+            oldInstance.element = null;
+        }
+        map[element.dom.id] = this;
+
         this.ctx = ctx;
         this.surface = surface;
         this.element = element;
@@ -57121,7 +57153,22 @@ Ext.define("Ext.draw.engine.SvgContext.Gradient", {
     },
 
     toString: function () {
+        var children = this.element.dom.childNodes;
+        // Removing surplus stops in case existing gradient element with more stops was reused.
+        while (children.length > this.position) {
+            Ext.fly(children[children.length - 1]).destroy();
+        }
         return 'url(#' + this.element.getId() + ')';
+    },
+
+    destroy: function () {
+        var map = this.statics().map,
+            element = this.element;
+        if (element) {
+            delete map[element.dom.id];
+            element.destroy();
+        }
+        this.callSuper();
     }
 });
 
@@ -57285,7 +57332,6 @@ Ext.define('Ext.draw.engine.Svg', {
         try {
             sprite.element = ctx.save();
             sprite.preRender(this);
-            sprite.applyTransformations();
             sprite.useAttributes(ctx, region);
             if (false === sprite.render(this, ctx, [0, 0, region[2], region[3]])) {
                 return false;
@@ -57310,9 +57356,13 @@ Ext.define('Ext.draw.engine.Svg', {
 
     remove: function (sprite, destroySprite) {
         if (sprite && sprite.element) {
-          //if sprite has an associated svg element remove it from the surface
-          sprite.element.destroy();
-          sprite.element = null;
+            //if sprite has an associated svg element remove it from the surface
+            if (this.ctx) {
+                this.ctx.removeElement(sprite.element);
+            } else {
+                sprite.element.destroy();
+            }
+            sprite.element = null;
         }
         this.callSuper(arguments);
     }
@@ -57362,7 +57412,7 @@ Ext.define('Ext.draw.engine.Canvas', {
 
                 if (fillStyle !== rgba && fillStyle !== rgba0 && fillOpacity !== 0) {
                     if (fillGradient && bbox) {
-                        this.fillStyle = fillGradient.getGradient(this, bbox);
+                        this.fillStyle = fillGradient.generateGradient(this, bbox);
                     }
 
                     if (fillOpacity !== 1) {
@@ -57394,7 +57444,7 @@ Ext.define('Ext.draw.engine.Canvas', {
 
                 if (strokeStyle !== rgba && strokeStyle !== rgba0 && strokeOpacity !== 0) {
                     if (strokeGradient && bbox) {
-                        this.strokeStyle = strokeGradient.getGradient(this, bbox);
+                        this.strokeStyle = strokeGradient.generateGradient(this, bbox);
                     }
 
                     if (strokeOpacity !== 1) {
@@ -58191,7 +58241,7 @@ Ext.define('Ext.draw.Component', {
                            
                               
                                  
-                                            
+                                              
       
     engine: 'Ext.draw.engine.Canvas',
     statics: {
@@ -58226,6 +58276,9 @@ Ext.define('Ext.draw.Component', {
 
         /**
          * @cfg {Function} [resizeHandler] The resize function that can be configured to have a behavior.
+         *
+         * __Note:__ since resize events trigger {@link #renderFrame} calls automatically,
+         * return `false` from the resize function, if it also calls `renderFrame`, to prevent double rendering.
          */
         resizeHandler: null,
 
@@ -58286,7 +58339,7 @@ Ext.define('Ext.draw.Component', {
 
     applyGradients: function (gradients) {
         var result = [],
-            i, n, gradient;
+            i, n, gradient, offset;
         if (!Ext.isArray(gradients)) {
             return result;
         }
@@ -58317,7 +58370,7 @@ Ext.define('Ext.draw.Component', {
             }
             result.push(gradient);
         }
-        Ext.draw.sprite.GradientDefinition.add(result);
+        Ext.draw.gradient.GradientDefinition.add(result);
         return result;
     },
 
@@ -58387,15 +58440,15 @@ Ext.define('Ext.draw.Component', {
 
     onResize: function () {
         var me = this,
-            size = me.element.getSize();
+            size = me.element.getSize(),
+            resizeHandler = me.getResizeHandler() || me.resizeHandler,
+            result;
         me.fireEvent('resize', me, size);
-        if (me.getResizeHandler()) {
-            me.getResizeHandler().call(me, size);
-        } else {
-            me.resizeHandler(size);
+        result = resizeHandler.call(me, size);
+        if (result !== false) {
+            me.renderFrame();
+            me.onPlaceWatermark();
         }
-        me.renderFrame();
-        me.onPlaceWatermark();
     },
 
     resizeHandler: function (size) {
@@ -58447,6 +58500,7 @@ Ext.define('Ext.draw.Component', {
         Ext.draw.Animator.removeFrameCallback(this.frameCallbackId);
         this.callSuper();
     }
+
 }, function () {
     if (location.search.match('svg')) {
         Ext.draw.Component.prototype.engine = 'Ext.draw.engine.Svg';
@@ -58463,7 +58517,7 @@ Ext.define('Ext.draw.Component', {
  * Marker sprite. A specialized version of instancing sprite that groups instances.
  * Putting a marker is grouped by its category id. Clearing removes that category.
  */
-Ext.define("Ext.chart.Markers", {
+Ext.define('Ext.chart.Markers', {
     extend:  Ext.draw.sprite.Instancing ,
     revisions: 0,
 
@@ -58524,6 +58578,12 @@ Ext.define("Ext.chart.Markers", {
                 return this.getBBoxFor(this.map[category][index], isWithoutTransform);
             }
         }
+        return {
+            x: Infinity,
+            y: Infinity,
+            width: -Infinity,
+            height: -Infinity
+        };
     },
 
     getBBox: function () { return null; },
@@ -58844,8 +58904,8 @@ Ext.define('Ext.chart.series.Series', {
         chart: null,
 
         /**
-         * @cfg {String} title
-         * The human-readable name of the series.
+         * @cfg {String|String[]} title
+         * The human-readable name of the series (displayed in the legend).
          */
         title: null,
 
@@ -58979,7 +59039,7 @@ Ext.define('Ext.chart.series.Series', {
          *     Label's renderer is passed the same arguments as {@link #renderer}
          *     plus one extra 'text' argument which comes first.
          *
-         * @return {Object/String} The attributes that have been changed or added, or the text for the label.
+         * @return {Object|String} The attributes that have been changed or added, or the text for the label.
          * Example to enclose every other label in parentheses:
          *
          *      renderer: function (text) {
@@ -58999,7 +59059,7 @@ Ext.define('Ext.chart.series.Series', {
         labelOverflowPadding: 5,
 
         /**
-         * @cfg {String/String[]} labelField
+         * @cfg {String|String[]} labelField
          * @deprecated Use 'field' property of {@link Ext.chart.series.Series#label} instead.
          * The store record field name to be used for the series labels.
          */
@@ -59234,6 +59294,9 @@ Ext.define('Ext.chart.series.Series', {
                     if (stacked) {
                         dataEnd = [];
                         for (k = 0; k < items.length; k++) {
+                            if (!data[k]) {
+                                data[k] = 0;
+                            }
                             if (data[k] >= 0) {
                                 dataStart[k] = posDataStart[k];
                                 posDataStart[k] += data[k];
@@ -59319,7 +59382,7 @@ Ext.define('Ext.chart.series.Series', {
             i, x;
         for (i = 0; i < length; i++) {
             x = items[i].data[field];
-            data[i] = !Ext.isEmpty(x) ? coord(x, field, i, items) : 0;
+            data[i] = !Ext.isEmpty(x) ? coord(x, field, i, items) : x;
         }
         return data;
     },
@@ -60047,7 +60110,7 @@ Ext.define('Ext.chart.interactions.Abstract', {
  *
  * Mixin that provides the functionality to place markers.
  */
-Ext.define("Ext.chart.MarkerHolder", {
+Ext.define('Ext.chart.MarkerHolder', {
     extend:  Ext.mixin.Mixin ,
     mixinConfig: {
         id: 'markerHolder',
@@ -60118,12 +60181,36 @@ Ext.define("Ext.chart.MarkerHolder", {
     },
 
     getMarkerBBox: function (name, index, isWithoutTransform) {
-        var boundMarkersItem, i, ln, id = this.getId();
+        var id = this.getId(),
+            left = Infinity,
+            right = -Infinity,
+            top = Infinity,
+            bottom = -Infinity,
+            bbox, boundMarker, i, ln;
+
         if (this.boundMarkers[name]) {
-            for (boundMarkersItem = this.boundMarkers[name], i = 0, ln = boundMarkersItem.length; i < ln; i++) {
-                return boundMarkersItem[i].getMarkerBBoxFor(id, index, isWithoutTransform);
+            for (boundMarker = this.boundMarkers[name], i = 0, ln = boundMarker.length; i < ln; i++) {
+                bbox = boundMarker[i].getMarkerBBoxFor(id, index, isWithoutTransform);
+                if (left > bbox.x) {
+                    left = bbox.x;
+                }
+                if (right < bbox.x + bbox.width) {
+                    right = bbox.x + bbox.width;
+                }
+                if (top > bbox.y) {
+                    top = bbox.y;
+                }
+                if (bottom < bbox.y + bbox.height) {
+                    bottom = bbox.y + bbox.height;
+                }
             }
         }
+        return {
+            x: left,
+            y: top,
+            width: right - left,
+            height: bottom - top
+        };
     }
 });
 
@@ -61125,7 +61212,7 @@ Ext.define('Ext.chart.axis.segmenter.Numeric', {
     /**
      * Wraps the provided estimated step size of a range without altering it into a step size object.
      *
-     * @param {*} start The start point of range.
+     * @param {*} min The start point of range.
      * @param {*} estStepSize The estimated step size.
      * @return {Object} Return the step size by an object of step x unit.
      * @return {Number} return.step The step count of units.
@@ -74208,6 +74295,7 @@ Ext.define('Ext.data.Model', {
             fields = me.getFields().items,
             ln = fields.length,
             modified = me.modified,
+            modifiedFieldNames = [],
             data = me.data,
             i, field, fieldName, value, id;
 
@@ -74221,6 +74309,14 @@ Ext.define('Ext.data.Model', {
                     value = field._convert(value, me);
                 }
 
+                if(data[fieldName] !== value) {
+                    if(modifiedFieldNames.length === 0 && !me.editing) {
+                        this.beginEdit()
+                    }
+
+                    modifiedFieldNames.push(fieldName);
+                }
+
                 data[fieldName] = value;
             } else if (Ext.isFunction(field._convert)) {
 				value = field._convert(value, me);
@@ -74230,6 +74326,10 @@ Ext.define('Ext.data.Model', {
 
         if (me.associations.length) {
             me.handleInlineAssociationData(rawData);
+        }
+
+        if(modifiedFieldNames.length > 0 && me.editing) {
+            this.endEdit(false, modifiedFieldNames);
         }
 
         return this;
@@ -78776,6 +78876,7 @@ Ext.define('Ext.chart.AbstractChart', {
     resizeHandler: function (size) {
         var me = this;
         me.scheduleLayout();
+        return false;
     },
 
     applyMainRegion: function (newRegion, region) {
@@ -78969,7 +79070,7 @@ Ext.define('Ext.chart.AbstractChart', {
         }
         var me = this,
             result = [], oldMap = oldInteractions.map,
-            i, interaction;
+            i, ln, interaction;
         result.map = {};
         interactions = Ext.Array.from(interactions, true);
         for (i = 0, ln = interactions.length; i < ln; i++) {
@@ -79546,7 +79647,7 @@ Ext.define('Ext.chart.CartesianChart', {
             this.suspendThicknessChanged();
             var me = this,
                 axes = me.getAxes(), axis,
-                serieses = me.getSeries(), series,
+                seriesList = me.getSeries(), series,
                 axisSurface, thickness,
                 size = me.element.getSize(),
                 width = size.width,
@@ -79643,8 +79744,8 @@ Ext.define('Ext.chart.CartesianChart', {
                 matrix.inverse(axisSurface.inverseMatrix);
             }
 
-            for (i = 0, ln = serieses.length; i < ln; i++) {
-                series = serieses[i];
+            for (i = 0, ln = seriesList.length; i < ln; i++) {
+                series = seriesList[i];
                 surface = series.getSurface();
                 surface.setRegion(mainRegion);
                 if (flipXY) {
@@ -79729,9 +79830,9 @@ Ext.define('Ext.chart.CartesianChart', {
                     // Iterate through its marker sprites to do the same.
                     markers = sprite.boundMarkers;
                     if (markers) {
-                        markersCount = (markers.items ? markers.items.length : 0);
-                        if (markersCount) {
-                            for (markerIndex = 0; markerIndex < markersCount; markerIndex++) {
+                        markerCount = (markers.items ? markers.items.length : 0);
+                        if (markerCount) {
+                            for (markerIndex = 0; markerIndex < markerCount; markerIndex++) {
                                 markerSprite = markers.items[markerIndex];
                                 markerZIndex = (markerSprite.attr.zIndex || 0);
                                 if (markerZIndex == Number.MAX_VALUE) {
@@ -81182,7 +81283,7 @@ Ext.define('Ext.chart.interactions.Crosshair', {
         me.unlockEvents(me.getGesture());
     }
 
-})
+});
 
 /**
  * @class Ext.chart.interactions.ItemHighlight
@@ -82502,18 +82603,16 @@ Ext.define('Ext.chart.series.Cartesian', {
     extend:  Ext.chart.series.Series ,
     config: {
         /**
-         * The field used to access the x axis value from the items from the data
-         * source.
+         * The field used to access the x axis value from the items from the data source.
          *
          * @cfg {String} xField
          */
         xField: null,
 
         /**
-         * The field used to access the y-axis value from the items from the data
-         * source.
+         * The field(s) used to access the y-axis value(s) of the items from the data source.
          *
-         * @cfg {String} yField
+         * @cfg {String|String[]} yField
          */
         yField: null,
 
@@ -82774,7 +82873,7 @@ Ext.define('Ext.chart.series.StackedCartesian', {
             hidden = this.getHidden();
         for (var i = 0; i < sprites.length; i++) {
             target.push({
-                name: this.getTitle() ? this.getTitle()[i] : (field && field[i]) || this.getId(),
+                name: Ext.isArray(this.getTitle()) ? this.getTitle()[i] : (field && field[i]) || this.getId(),
                 mark: this.getStyleByIndex(i).fillStyle || this.getStyleByIndex(i).strokeStyle || 'black',
                 disabled: hidden[i],
                 series: this.getId(),
@@ -83660,24 +83759,119 @@ Ext.define('Ext.chart.series.Bar', {
         this.callSuper(arguments);
     },
 
+    updateHidden: function (hidden) {
+        this.callParent(arguments);
+        this.updateStacked();
+    },
+
     updateStacked: function (stacked) {
         var sprites = this.getSprites(),
-            attrs = {}, i, ln = sprites.length;
+            ln = sprites.length,
+            visible = [],
+            attrs = {}, i;
+
+        for (i = 0; i < ln; i++) {
+            if (!sprites[i].attr.hidden) {
+                visible.push(sprites[i]);
+            }
+        }
+        ln = visible.length;
 
         if (this.getStacked()) {
             attrs.groupCount = 1;
             attrs.groupOffset = 0;
             for (i = 0; i < ln; i++) {
-                sprites[i].setAttributes(attrs);
+                visible[i].setAttributes(attrs);
             }
         } else {
-            attrs.groupCount = this.getYField().length;
+            attrs.groupCount = visible.length;
             for (i = 0; i < ln; i++) {
                 attrs.groupOffset = i;
-                sprites[i].setAttributes(attrs);
+                visible[i].setAttributes(attrs);
             }
         }
         this.callSuper(arguments);
+    }
+});
+
+/**
+ * Limited cache is a size limited cache container that stores limited number of objects.
+ * 
+ * When {@link #get} is called, the container will try to find the object in the list.
+ * If failed it will call the {@link #feeder} to create that object. If there are too many
+ * objects in the container, the old ones are removed.
+ * 
+ * __Note:__ This is not using a Least Recently Used policy due to simplicity and performance consideration.
+ */
+Ext.define("Ext.draw.LimitedCache", {
+    config: {
+        /**
+         * @cfg {Number}
+         * The amount limit of the cache.
+         */
+        limit: 40,
+
+        /**
+         * @cfg {Function}
+         * Function that generates the object when look-up failed.
+         * @return {Number}
+         */
+        feeder: function () {
+            return 0;
+        },
+
+        /**
+         * @cfg {Object}
+         * The scope for {@link #feeder}
+         */
+        scope: null
+    },
+    cache: null,
+
+    constructor: function (config) {
+        this.cache = {};
+        this.cache.list = [];
+        this.cache.tail = 0;
+        this.initConfig(config);
+    },
+
+    /**
+     * Get a cached object.
+     * @param {String} id
+     * @param {Mixed...} args Arguments appended to feeder.
+     * @return {Object}
+     */
+    get: function (id) {
+        // TODO: Implement cache hit optimization
+        var cache = this.cache,
+            limit = this.getLimit(),
+            feeder = this.getFeeder(),
+            scope = this.getScope() || this;
+
+        if (cache[id]) {
+            return cache[id].value;
+        }
+        if (cache.list[cache.tail]) {
+            delete cache[cache.list[cache.tail].cacheId];
+        }
+        cache[id] = cache.list[cache.tail] = {
+            value: feeder.apply(scope, Array.prototype.slice.call(arguments, 1)),
+            cacheId: id
+        };
+        cache.tail++;
+        if (cache.tail === limit) {
+            cache.tail = 0;
+        }
+        return cache[id].value;
+    },
+
+    /**
+     * Clear all the objects.
+     */
+    clear: function () {
+        this.cache = {};
+        this.cache.list = [];
+        this.cache.tail = 0;
     }
 });
 
@@ -84700,8 +84894,7 @@ Ext.define('Ext.chart.series.Gauge', {
     doUpdateShape: function (radius, donut) {
         var endRhoArray,
             sectors = this.getSectors(),
-            sectorCount = (sectors && sectors.length) || 0;
-            needle = this.getNeedle(),
+            sectorCount = (sectors && sectors.length) || 0,
             needleLength = this.getNeedleLength() / 100;
 
         // Initialize an array that contains the endRho for each sprite.
@@ -84835,7 +85028,8 @@ Ext.define('Ext.chart.series.Gauge', {
     getSprites: function () {
         var me = this,
             store = me.getStore(),
-            value = me.getValue();
+            value = me.getValue(),
+            i, ln;
 
         // The store must be initialized, or the value must be set
         if (!store && !Ext.isNumber(value)) {
@@ -84872,7 +85066,7 @@ Ext.define('Ext.chart.series.Gauge', {
         // Create background sprite(s)
         me.getLabel().getTemplate().setField(true); // Enable labels
         sectors = me.normalizeSectors(me.getSectors());
-        for (i = 0; i < sectors.length; i++) {
+        for (i = 0, ln = sectors.length; i < ln; i++) {
             attr = {
                 startAngle: me.valueToAngle(sectors[i].start),
                 endAngle: me.valueToAngle(sectors[i].end),
@@ -85358,13 +85552,9 @@ Ext.define('Ext.chart.series.sprite.Line', {
 
             updaters: {
                 smooth: function (attr) {
-                    var dataX = attr.dataX,
-                        dataY = attr.dataY,
-                        path;
-                    if (attr.smooth && dataX && dataY && dataX.length > 2 && dataY.length > 2) {
-                        path = Ext.draw.Draw.smooth(dataX, dataY, 3);
-                        this.smoothX = path.smoothX;
-                        this.smoothY = path.smoothY;
+                    if (attr.smooth && attr.dataX && attr.dataY && attr.dataX.length > 2 && attr.dataY.length > 2) {
+                        this.smoothX = Ext.draw.Draw.spline(attr.dataX);
+                        this.smoothY = Ext.draw.Draw.spline(attr.dataY);
                     } else {
                         delete this.smoothX;
                         delete this.smoothY;
@@ -86238,10 +86428,10 @@ Ext.define('Ext.chart.series.Pie', {
         labelField: false,
 
         /**
-         * @cfg {Boolean/Number} donut Whether to set the pie chart as donut chart.
-         * Can be set to a particular percentage to set the radius of the donut chart.
+         * @cfg {Number} donut Specifies the radius of the donut hole, as a percentage of the chart's radius.
+         * Defaults to 0 (no donut hole).
          */
-        donut: false,
+        donut: 0,
 
         /**
          * @cfg {String} field
@@ -86470,8 +86660,9 @@ Ext.define('Ext.chart.series.Pie', {
      * @return {Object} An object containing the reocord, sprite, scope etc.
      */
     getItemForAngle: function (angle) {
-        var me      = this,
-            sprites = me.getSprites();
+        var me = this,
+            sprites = me.getSprites(),
+            attr;
 
         angle %= Math.PI * 2;
 
@@ -92928,6 +93119,13 @@ Ext.define('Ext.dataview.IndexBar', {
          */
         listPrefix: null
     },
+    platformConfig: [
+        {
+            theme: ['Blackberry'],
+            direction: 'vertical',
+            letters: ['*', '#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+        }
+    ],
     // @private
     itemCls: Ext.baseCSSPrefix + '',
 
@@ -92938,11 +93136,31 @@ Ext.define('Ext.dataview.IndexBar', {
     },
 
     getElementConfig: function() {
-        return {
-            reference: 'wrapper',
-            classList: ['x-centered', 'x-indexbar-wrapper'],
-            children: [this.callParent()]
-        };
+        // Blackberry Specific code for Index Bar Indicator
+        if(Ext.theme.is.Blackberry) {
+            return {
+                reference: 'wrapper',
+                classList: ['x-centered', 'x-indexbar-wrapper'],
+                children: [
+                    {
+                        reference: 'indicator',
+                        classList: ['x-indexbar-indicator'],
+                        hidden: true,
+                        children: [{
+                            reference: 'indicatorInner',
+                            classList: ['x-indexbar-indicator-inner']
+                        }]
+                    },
+                    this.callParent()
+                ]
+            };
+        } else {
+            return {
+                reference: 'wrapper',
+                classList: ['x-centered', 'x-indexbar-wrapper'],
+                children: [this.callParent()]
+            };
+        }
     },
 
     updateLetters: function(letters) {
@@ -92974,6 +93192,7 @@ Ext.define('Ext.dataview.IndexBar', {
 
         this.innerElement.on({
             touchstart: this.onTouchStart,
+            touchend: this.onTouchEnd,
             dragend: this.onDragEnd,
             drag: this.onDrag,
             scope: this
@@ -92987,35 +93206,62 @@ Ext.define('Ext.dataview.IndexBar', {
         this.onDrag(e);
     },
 
+    onTouchEnd: function(e) {
+        this.onDragEnd();
+    },
+
     // @private
     onDragEnd: function() {
         this.innerElement.removeCls(this.getBaseCls() + '-pressed');
+
+        // Blackberry Specific code for Index Bar Indicator
+        if(this.indicator) {
+            this.indicator.hide();
+        }
     },
 
     // @private
     onDrag: function(e) {
         var point = Ext.util.Point.fromEvent(e),
-            target,
+            target, isValidTarget,
             pageBox = this.pageBox;
 
         if (!pageBox) {
             pageBox = this.pageBox = this.el.getPageBox();
         }
 
+
         if (this.getDirection() === 'vertical') {
             if (point.y > pageBox.bottom || point.y < pageBox.top) {
                 return;
             }
             target = Ext.Element.fromPoint(pageBox.left + (pageBox.width / 2), point.y);
+            isValidTarget = target.getParent() == this.element;
+
+            // Blackberry Specific code for Index Bar Indicator
+            if(this.indicator) {
+                this.indicator.show();
+
+                var halfIndicatorHeight = this.indicator.getHeight() / 2,
+                    y = point.y - this.element.getY();
+
+                y = Math.min(Math.max(y, halfIndicatorHeight), this.element.getHeight() - halfIndicatorHeight);
+
+                if (this.indicatorInner && isValidTarget) {
+                    this.indicatorInner.setHtml(target.getHtml().toUpperCase());
+                }
+                this.indicator.setTop(y - (halfIndicatorHeight));
+            }
         }
         else {
             if (point.x > pageBox.right || point.x < pageBox.left) {
                 return;
             }
             target = Ext.Element.fromPoint(point.x, pageBox.top + (pageBox.height / 2));
+            isValidTarget = target.getParent() == this.element;
         }
 
-        if (target) {
+        if (target && isValidTarget) {
             this.fireEvent('index', this, target.dom.innerHTML, target);
         }
     },
@@ -98634,7 +98880,9 @@ Ext.define('Ext.event.publisher.Dom', {
 
         var defaultView = doc.defaultView;
 
-        if (Ext.os.is.iOS && Ext.os.version.getMajor() < 5) {
+        // Some AndroidStock browsers (HP Slate for example) will not process any touch events unless a listener is added to document or body
+        // this listener must be to a touch event (touchstart, touchmove, touchend)
+        if ((Ext.os.is.iOS && Ext.os.version.getMajor() < 5) || Ext.browser.is.AndroidStock) {
             document.addEventListener(eventName, this.onEvent, !this.doesEventBubble(eventName));
         }
         else if (defaultView && defaultView.addEventListener) {
@@ -98653,7 +98901,7 @@ Ext.define('Ext.event.publisher.Dom', {
 
         var defaultView = doc.defaultView;
 
-        if (Ext.os.is.iOS && Ext.os.version.getMajor() < 5) {
+        if ((Ext.os.is.iOS && Ext.os.version.getMajor() < 5) && Ext.browser.is.AndroidStock) {
             document.removeEventListener(eventName, this.onEvent, !this.doesEventBubble(eventName));
         }
         else if (defaultView && defaultView.addEventListener) {
@@ -99740,6 +99988,8 @@ Ext.define('Ext.event.publisher.TouchGesture', {
     },
 
     constructor: function(config) {
+        var me = this;
+
         this.eventProcessors = {
             touchstart: this.onTouchStart,
             touchmove: this.onTouchMove,
@@ -99771,6 +100021,12 @@ Ext.define('Ext.event.publisher.TouchGesture', {
             this.screenPositionRatio = window.innerWidth / window.screen.width;
         }
         this.initConfig(config);
+
+        if (Ext.feature.has.Touch) {
+            // bind handlers that are only invoked when the browser has touchevents
+            me.onTargetTouchMove = me.onTargetTouchMove.bind(me);
+            me.onTargetTouchEnd = me.onTargetTouchEnd.bind(me);
+        }
 
         return this.callSuper();
     },
@@ -99817,10 +100073,10 @@ Ext.define('Ext.event.publisher.TouchGesture', {
             // when the element is being animated with webkit-transition (2 mousedowns without any mouseup)
             if (type === 'mousedown' && lastEventType && lastEventType !== 'mouseup') {
                 var fixedEvent = document.createEvent("MouseEvent");
-                    fixedEvent.initMouseEvent('mouseup', e.bubbles, e.cancelable,
-                        document.defaultView, e.detail, e.screenX, e.screenY, e.clientX,
-                        e.clientY, e.ctrlKey, e.altKey, e.shiftKey, e.metaKey, e.metaKey,
-                        e.button, e.relatedTarget);
+                fixedEvent.initMouseEvent('mouseup', e.bubbles, e.cancelable,
+                    document.defaultView, e.detail, e.screenX, e.screenY, e.clientX,
+                    e.clientY, e.ctrlKey, e.altKey, e.shiftKey, e.metaKey, e.metaKey,
+                    e.button, e.relatedTarget);
 
                 this.onEvent(fixedEvent);
             }
@@ -99994,12 +100250,29 @@ Ext.define('Ext.event.publisher.TouchGesture', {
             target = e.target,
             ln = changedTouches.length,
             isNotPreventable = this.isNotPreventable,
+            isTouch = (e.type === 'touchstart'),
+            me = this,
             i, touch, parent;
 
         this.updateTouches(changedTouches);
 
         e = this.factoryEvent(e);
         changedTouches = e.changedTouches;
+
+        // TOUCH-3934
+        // Android event system will not dispatch touchend for any multitouch
+        // event that has not been preventDefaulted.
+        if(Ext.browser.is.AndroidStock && this.currentIdentifiers.length >= 2) {
+            e.preventDefault();
+        }
+
+        // If targets are destroyed while touches are active on them
+        // we need these listeners to sync up our internal TouchesMap
+        if (isTouch) {
+            target.addEventListener('touchmove', me.onTargetTouchMove);
+            target.addEventListener('touchend', me.onTargetTouchEnd);
+            target.addEventListener('touchcancel', me.onTargetTouchEnd);
+        }
 
         for (i = 0; i < ln; i++) {
             touch = changedTouches[i];
@@ -100091,9 +100364,10 @@ Ext.define('Ext.event.publisher.TouchGesture', {
 
         this.invokeRecognizers('onTouchEnd', e);
 
-        // Only one touch currently active, and we're ending that one. So currentTouches should be 0 and clear the touchMap.
-        // This resolves an issue in iOS where it can sometimes not report a touchend/touchcancel
-        if (e.touches.length === 1 && currentIdentifiers.length) {
+        // This previously was set to e.touches.length === 1 to catch errors in syncing
+        // this has since been addressed to keep proper sync and now this is a catch for
+        // a sync error in touches to reset our internal maps
+        if (e.touches.length === 0 && currentIdentifiers.length) {
             currentIdentifiers.length = 0;
             this.touchesMap = {};
         }
@@ -100105,6 +100379,38 @@ Ext.define('Ext.event.publisher.TouchGesture', {
                 this.animationQueued = false;
                 Ext.AnimationQueue.stop('onAnimationFrame', this);
             }
+        }
+    },
+
+    onTargetTouchMove: function(e) {
+        if (!Ext.getBody().contains(e.target)) {
+            this.onTouchMove(e);
+        }
+    },
+
+    onTargetTouchEnd: function(e) {
+        var me = this,
+            target = e.target,
+            touchCount=0,
+            touchTarget;
+
+        // Determine how many active touches there are on this target
+        for (identifier in this.touchesMap) {
+            touchTarget = this.touchesMap[identifier].target;
+            if (touchTarget === target ) {
+                touchCount++;
+            }
+        }
+
+        // If this is the last active touch on the target remove the target listeners
+        if (touchCount <= 1) {
+            target.removeEventListener('touchmove', me.onTargetTouchMove);
+            target.removeEventListener('touchend', me.onTargetTouchEnd);
+            target.removeEventListener('touchcancel', me.onTargetTouchEnd);
+        }
+
+        if (!Ext.getBody().contains(target)) {
+            me.onTouchEnd(e);
         }
     }
 
@@ -100140,12 +100446,22 @@ Ext.define('Ext.event.publisher.TouchGesture', {
             },
 
             onEvent: function(e) {
+                var type = e.type;
+                if (
+                        this.currentIdentifiers.length === 0 &&
+                        // This is for IE 10 and IE 11
+                        (e.pointerType === e.MSPOINTER_TYPE_TOUCH || e.pointerType === "touch") &&
+                        // This is for IE 10 and IE 11
+                        (type === "MSPointerMove" || type === "pointermove")
+                    ) {
+                    type = "MSPointerDown";
+                }
+
                 if ('button' in e && e.button > 0) {
                     return;
                 }
 
-                var type = this.pointerToTouchMap[e.type];
-
+                type = this.pointerToTouchMap[type];
                 e.identifier = e.pointerId;
                 e.changedTouches = [e];
 
@@ -103504,14 +103820,29 @@ Ext.define('Ext.field.Select', {
      * @chainable
      */
     reset: function() {
-        var store = this.getStore(),
-            record = (this.originalValue) ? this.originalValue : store.getAt(0);
+        var me = this,
+            record;
 
-        if (store && record) {
-            this.setValue(record);
+        if (me.getAutoSelect()) {
+            var store = me.getStore();
+
+            record = (me.originalValue) ? me.originalValue : store.getAt(0);
+        } else {
+            var usePicker = me.getUsePicker(),
+                picker = usePicker ? me.picker : me.listPanel;
+
+            if (picker) {
+                picker = picker.child(usePicker ? 'pickerslot' : 'dataview');
+
+                picker.deselectAll();
+            }
+
+            record = null;
         }
 
-        return this;
+        me.setValue(record);
+
+        return me;
     },
 
     onFocus: function(e) {
@@ -104505,6 +104836,14 @@ Ext.define('Ext.field.FileInput', {
     extend:  Ext.field.Input ,
     xtype: 'fileinput',
 
+    /**
+     * @event change
+     * Fires just before the field blurs if the field value has changed
+     * @param {Ext.field.Text} this This field
+     * @param {Mixed} newValue The new value
+     * @param {Mixed} oldValue The original value
+     */
+
     config: {
         type: "file",
         accept: null,
@@ -104684,6 +105023,14 @@ Ext.define('Ext.field.File', {
     extend:  Ext.field.Field ,
     xtype : 'filefield',
                                       
+
+    /**
+     * @event change
+     * Fires when a file has been selected
+     * @param {Ext.field.File} this This field
+     * @param {Mixed} newValue The new value
+     * @param {Mixed} oldValue The original value
+     */
 
     config : {
         component: {
@@ -105036,18 +105383,148 @@ Ext.define('Ext.field.Password', {
 
     config: {
         /**
-         * @cfg
+         * @cfg autoCapitalize
          * @inheritdoc
          */
         autoCapitalize: false,
 
         /**
-         * @cfg
+         * @cfg revealable {Boolean}
+         * Enables the reveal toggle button that will show the password in clear text. This is currently only implemented in the Blackberry theme
+         */
+        revealable: false,
+
+        /**
+         * @cfg revealed {Boolean}
+         * A value of 'true' for this config will show the password from clear text
+         */
+        revealed: false,
+
+        /**
+         * @cfg component
          * @inheritdoc
          */
         component: {
 	        type: 'password'
 	    }
+    },
+
+    platformConfig: [{
+        theme: ['Blackberry'],
+        revealable: true
+    }],
+
+    isPassword: true,
+
+    initialize: function() {
+        this.callParent(arguments);
+        this.addCls(Ext.baseCSSPrefix + 'field-password');
+    },
+
+    updateRevealable: function(newValue, oldValue) {
+        if(newValue === oldValue) return;
+
+        if(this.$revealIcon) {
+            this.getComponent().element.removeChild(this.$revealIcon);
+            this.$revealIcon = null;
+        }
+
+        if(newValue === true) {
+            this.$revealIcon = new Ext.Element(Ext.Element.create({cls:'x-reveal-icon'}, true));
+            this.$revealIcon.on({
+                tap: 'onRevealIconTap',
+                touchstart: 'onRevealIconPress',
+                touchend: 'onRevealIconRelease',
+                scope: this
+            });
+            this.getComponent().element.appendChild(this.$revealIcon);
+        }
+    },
+
+    updateRevealed: function(newValue, oldValue) {
+        var component = this.getComponent();
+
+        if(newValue) {
+            this.element.addCls(Ext.baseCSSPrefix + 'revealed');
+            component.setType("text");
+        } else {
+            this.element.removeCls(Ext.baseCSSPrefix + 'revealed');
+            component.setType("password");
+        }
+    },
+
+    // @private
+    updateValue: function(newValue) {
+        var component  = this.getComponent(),
+        // allows newValue to be zero but not undefined or null (other falsey values)
+            valueValid = newValue !== undefined && newValue !== null && newValue !== "";
+
+        if (component) {
+            component.setValue(newValue);
+        }
+
+        this[valueValid && this.isDirty() ? 'showClearIcon' : 'hideClearIcon']();
+
+        this.syncEmptyCls();
+
+        this[valueValid ? 'showRevealIcon' : 'hideRevealIcon']();
+    },
+
+    doKeyUp: function(me, e) {
+        // getValue to ensure that we are in sync with the dom
+        var value      = me.getValue(),
+        // allows value to be zero but not undefined or null (other falsey values)
+            valueValid = value !== undefined && value !== null && value !== "";
+
+        this[valueValid ? 'showClearIcon' : 'hideClearIcon']();
+
+        if (e.browserEvent.keyCode === 13) {
+            me.fireAction('action', [me, e], 'doAction');
+        }
+
+        this[valueValid ? 'showRevealIcon' : 'hideRevealIcon']();
+    },
+
+    // @private
+    showRevealIcon: function() {
+        var me         = this,
+            value      = me.getValue(),
+        // allows value to be zero but not undefined or null (other falsey values)
+            valueValid = value !== undefined && value !== null && value !== "";
+
+        if (me.getRevealable() && !me.getDisabled() && valueValid) {
+            me.element.addCls(Ext.baseCSSPrefix + 'field-revealable');
+        }
+
+        return me;
+    },
+
+    // @private
+    hideRevealIcon: function() {
+        if (this.getRevealable()) {
+            this.element.removeCls(Ext.baseCSSPrefix + 'field-revealable');
+        }
+    },
+
+    onRevealIconTap: function(e) {
+        this.fireAction('revealicontap', [this, e], 'doRevealIconTap');
+    },
+
+    // @private
+    doRevealIconTap: function(me, e) {
+        if(this.getRevealed()) {
+            this.setRevealed(false)
+        } else {
+            this.setRevealed(true)
+        }
+    },
+
+    onRevealIconPress: function() {
+        this.$revealIcon.addCls(Ext.baseCSSPrefix + 'pressing');
+    },
+
+    onRevealIconRelease: function() {
+        this.$revealIcon.removeCls(Ext.baseCSSPrefix + 'pressing');
     }
 });
 
@@ -105303,6 +105780,13 @@ Ext.define('Ext.slider.Thumb', {
         baseCls: Ext.baseCSSPrefix + 'thumb',
 
         /**
+         * @cfg {String} pressedCls
+         * The CSS class to add to the Slider when it is pressed.
+         * @accessor
+         */
+        pressedCls: Ext.baseCSSPrefix + 'thumb-pressing',
+
+        /**
          * @cfg
          * @inheritdoc
          */
@@ -105313,14 +105797,16 @@ Ext.define('Ext.slider.Thumb', {
 
     // Strange issue where the thumbs translation value is not being set when it is not visible. Happens when the thumb 
     // is contained within a modal panel.
-    platformConfig: [{
-        platform: ['ie10'],
-        draggable: {
-            translatable: {
-                translationMethod: 'csstransform'
+    platformConfig: [
+        {
+            platform: ['ie10'],
+            draggable: {
+                translatable: {
+                    translationMethod: 'csstransform'
+                }
             }
         }
-    }],
+    ],
 
     elementWidth: 0,
 
@@ -105334,7 +105820,62 @@ Ext.define('Ext.slider.Thumb', {
             scope: this
         });
 
+        this.getDraggable().on({
+            touchstart: 'onPress',
+            touchend: 'onRelease',
+            scope: this
+        });
+
         this.element.on('resize', 'onElementResize', this);
+    },
+
+    getTemplate: function() {
+        if(Ext.theme.is.Blackberry) {
+            return [
+                {
+                    tag: 'div',
+                    className: Ext.baseCSSPrefix + 'thumb-inner',
+                    reference: 'innerElement'
+                }
+            ]
+        } else {
+            return this.template;
+        }
+    },
+
+
+    /**
+     * @private
+     */
+    updatePressedCls: function(pressedCls, oldPressedCls) {
+        var element = this.element;
+
+        if (element.hasCls(oldPressedCls)) {
+            element.replaceCls(oldPressedCls, pressedCls);
+        }
+    },
+
+    // @private
+    onPress: function() {
+        var me = this,
+            element = me.element,
+            pressedCls = me.getPressedCls();
+
+        if (!me.getDisabled()) {
+            element.addCls(pressedCls);
+        }
+    },
+
+    // @private
+    onRelease: function(e) {
+        this.fireAction('release', [this, e], 'doRelease');
+    },
+
+    // @private
+    doRelease: function(me, e) {
+        if (!me.getDisabled()) {
+            me.element.removeCls(me.getPressedCls());
+        }
     },
 
     onDragStart: function() {
@@ -105689,7 +106230,7 @@ Ext.define('Ext.slider.Slider', {
 
     // @private
     onTap: function(e) {
-        if (this.isDisabled()) {
+        if (this.isDisabled() || this.getReadOnly()) {
             return;
         }
 
@@ -107718,8 +108259,9 @@ Ext.define('Ext.form.Panel', {
      * @param {Ext.form.Panel} options.success.form
      * The {@link Ext.form.Panel} that requested the action.
      *
-     * @param {Ext.form.Panel} options.success.result
-     * The result object returned by the server as a result of the submit request.
+     * @param {Object/Ext.direct.Event} options.success.result
+     * The result object returned by the server as a result of the submit request. If the submit is sent using Ext.Direct,
+     * this will return the {@link Ext.direct.Event} instance, otherwise will return an Object.
      *
      * @param {Object} options.success.data
      * The parsed data returned by the server.
@@ -107745,6 +108287,8 @@ Ext.define('Ext.form.Panel', {
      * If the standardSubmit config is true, then the return value is undefined.
      */
     submit: function(options, e) {
+        options = options || {};
+
         var me = this,
             formValues = me.getValues(me.getStandardSubmit() || !options.submitDisabled),
             form = me.element.dom || {};
@@ -107797,6 +108341,10 @@ Ext.define('Ext.form.Panel', {
                     fileinputElement.parentNode.insertBefore(input, fileinputElement.nextSibling);
                     form.appendChild(fileinputElement);
                     form.$fileswap.push({original: fileinputElement, placeholder: input});
+                } else if(field.isPassword) {
+                    if(field.getComponent().getType !== "password") {
+                        field.setRevealed(false);
+                    }
                 }
             }
         }
@@ -108049,8 +108597,9 @@ Ext.define('Ext.form.Panel', {
      * @param {Ext.form.Panel} options.success.form
      * The {@link Ext.form.Panel} that requested the load.
      *
-     * @param {Ext.form.Panel} options.success.result
-     * The result object returned by the server as a result of the load request.
+     * @param {Object/Ext.direct.Event} options.success.result
+     * The result object returned by the server as a result of the load request. If the loading was done via Ext.Direct,
+     * will return the {@link Ext.direct.Event} instance, otherwise will return an Object.
      *
      * @param {Object} options.success.data
      * The parsed data returned by the server.
@@ -108081,7 +108630,7 @@ Ext.define('Ext.form.Panel', {
             api = me.getApi(),
             url = me.getUrl() || options.url,
             waitMsg = options.waitMsg,
-            successFn = function(data, response) {
+            successFn = function(response, data) {
                 me.setValues(data.data);
 
                 if (Ext.isFunction(options.success)) {
@@ -108090,7 +108639,7 @@ Ext.define('Ext.form.Panel', {
 
                 me.fireEvent('load', me, response);
             },
-            failureFn = function(data, response) {
+            failureFn = function(response, data) {
                 if (Ext.isFunction(options.failure)) {
                     options.failure.call(scope, me, response, data);
                 }
@@ -108140,7 +108689,6 @@ Ext.define('Ext.form.Panel', {
         } else if (url) {
             return Ext.Ajax.request({
                 url: url,
-                scope: me,
                 timeout: (options.timeout || this.getTimeout()) * 1000,
                 method: options.method || 'GET',
                 autoAbort: options.autoAbort,
@@ -108151,8 +108699,7 @@ Ext.define('Ext.form.Panel', {
                     options.headers || {}
                 ),
                 callback: function(callbackOptions, success, response) {
-                    var me = this,
-                        responseText = response.responseText,
+                    var responseText = response.responseText,
                         statusResult = Ext.Ajax.parseStatus(response.status, response);
 
                     me.setMasked(false);
@@ -111444,8 +111991,66 @@ Ext.define('Ext.navigation.View', {
         }
     },
 
+    /**
+     * This is called when an Item is added to the BackButtonContainer of a SplitNavigation View
+     * @private
+     *
+     * @param toolbar
+     * @param item
+     */
+    onBackButtonContainerAdd: function(toolbar, item) {
+        item.on({
+            scope: this,
+            show: this.refreshBackButtonContainer,
+            hide: this.refreshBackButtonContainer
+        });
+        this.refreshBackButtonContainer();
+    },
+
+    /**
+     * This is called when an Item is removed from the BackButtonContainer of a SplitNavigation View
+     * @private
+     *
+     * @param toolbar
+     * @param item
+     */
+    onBackButtonContainerRemove: function(toolbar, item) {
+        item.un({
+            scope: this,
+            show: this.refreshBackButtonContainer,
+            hide: this.refreshBackButtonContainer
+        });
+        this.refreshBackButtonContainer();
+    },
+
+    /**
+     * This is used for Blackberry SplitNavigation to monitor the state of child items in the bottom toolbar.
+     * if no visible children exist the toolbar will be hidden
+     * @private
+     */
+    refreshBackButtonContainer: function() {
+        if (!this.$backButtonContainer) {
+            return;
+        }
+        var i = 0,
+            backButtonContainer = this.$backButtonContainer,
+            items = backButtonContainer.items,
+            item;
+
+        for(;i < items.length; i++) {
+            item = items.get(i);
+            if(!item.isHidden()) {
+                this.$backButtonContainer.show();
+                return;
+            }
+        }
+
+        this.$backButtonContainer.hide();
+    },
+
     // @private
     applyNavigationBar: function(config) {
+        var me = this;
         if (!config) {
             config = {
                 hidden: true,
@@ -111457,13 +112062,13 @@ Ext.define('Ext.navigation.View', {
             delete config.title;
             //<debug>
             Ext.Logger.warn("Ext.navigation.View: The 'navigationBar' configuration does not accept a 'title' property. You " +
-                            "set the title of the navigationBar by giving this navigation view's children a 'title' property.");
+                "set the title of the navigationBar by giving this navigation view's children a 'title' property.");
             //</debug>
         }
 
         config.view = this;
         config.useTitleForBackButtonText = this.getUseTitleForBackButtonText();
-
+        // Blackberry specific nav setup where title is on the top title bar and the bottom toolbar is used for buttons and BACK
         if (config.splitNavigation) {
             this.$titleContainer = this.add({
                 docked: 'top',
@@ -111474,10 +112079,19 @@ Ext.define('Ext.navigation.View', {
 
             var containerConfig = (config.splitNavigation === true) ? {} : config.splitNavigation;
 
-            this.$backButtonContainer = this.add(Ext.apply({
+            this.$backButtonContainer = this.add({
                 xtype: 'toolbar',
-                docked: 'bottom'
-            }, containerConfig));
+                docked: 'bottom',
+                hidden: true
+            });
+
+            // Any item that is added to the BackButtonContainer should be monitored for visibility
+            // this will allow the toolbar to be hidden when no items exist in it.
+            this.$backButtonContainer.on ({
+                scope: me,
+                add: me.onBackButtonContainerAdd,
+                remove: me.onBackButtonContainerRemove
+            });
 
             this.$backButton = this.$backButtonContainer.add({
                 xtype: 'button',
@@ -111485,6 +112099,16 @@ Ext.define('Ext.navigation.View', {
                 hidden: true,
                 ui: 'back'
             });
+
+            // Default config items go into the bottom bar
+            if(config.items) {
+                this.$backButtonContainer.add(config.items);
+            }
+
+            // If the user provided items and splitNav items, default items go into the bottom bar, split nav items go into the top
+            if(containerConfig.items) {
+                this.$titleContainer.add(containerConfig.items);
+            }
 
             this.$backButton.on({
                 scope: this,
@@ -113431,528 +114055,6 @@ Ext.define('Ext.util.Droppable', {
     }
 });
 
-/*
-    http://www.JSON.org/json2.js
-    2010-03-20
-
-    Public Domain.
-
-    NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
-
-    See http://www.JSON.org/js.html
-
-
-    This code should be minified before deployment.
-    See http://javascript.crockford.com/jsmin.html
-
-    USE YOUR OWN COPY. IT IS EXTREMELY UNWISE TO LOAD CODE FROM SERVERS YOU DO
-    NOT CONTROL.
-
-
-    This file creates a global JSON object containing two methods: stringify
-    and parse.
-
-        JSON.stringify(value, replacer, space)
-            value       any JavaScript value, usually an object or array.
-
-            replacer    an optional parameter that determines how object
-                        values are stringified for objects. It can be a
-                        function or an array of strings.
-
-            space       an optional parameter that specifies the indentation
-                        of nested structures. If it is omitted, the text will
-                        be packed without extra whitespace. If it is a number,
-                        it will specify the number of spaces to indent at each
-                        level. If it is a string (such as '\t' or '&nbsp;'),
-                        it contains the characters used to indent at each level.
-
-            This method produces a JSON text from a JavaScript value.
-
-            When an object value is found, if the object contains a toJSON
-            method, its toJSON method will be called and the result will be
-            stringified. A toJSON method does not serialize: it returns the
-            value represented by the name/value pair that should be serialized,
-            or undefined if nothing should be serialized. The toJSON method
-            will be passed the key associated with the value, and this will be
-            bound to the value
-
-            For example, this would serialize Dates as ISO strings.
-
-                Date.prototype.toJSON = function (key) {
-                    function f(n) {
-                        // Format integers to have at least two digits.
-                        return n < 10 ? '0' + n : n;
-                    }
-
-                    return this.getUTCFullYear()   + '-' +
-                         f(this.getUTCMonth() + 1) + '-' +
-                         f(this.getUTCDate())      + 'T' +
-                         f(this.getUTCHours())     + ':' +
-                         f(this.getUTCMinutes())   + ':' +
-                         f(this.getUTCSeconds())   + 'Z';
-                };
-
-            You can provide an optional replacer method. It will be passed the
-            key and value of each member, with this bound to the containing
-            object. The value that is returned from your method will be
-            serialized. If your method returns undefined, then the member will
-            be excluded from the serialization.
-
-            If the replacer parameter is an array of strings, then it will be
-            used to select the members to be serialized. It filters the results
-            such that only members with keys listed in the replacer array are
-            stringified.
-
-            Values that do not have JSON representations, such as undefined or
-            functions, will not be serialized. Such values in objects will be
-            dropped; in arrays they will be replaced with null. You can use
-            a replacer function to replace those with JSON values.
-            JSON.stringify(undefined) returns undefined.
-
-            The optional space parameter produces a stringification of the
-            value that is filled with line breaks and indentation to make it
-            easier to read.
-
-            If the space parameter is a non-empty string, then that string will
-            be used for indentation. If the space parameter is a number, then
-            the indentation will be that many spaces.
-
-            Example:
-
-            text = JSON.stringify(['e', {pluribus: 'unum'}]);
-            // text is '["e",{"pluribus":"unum"}]'
-
-
-            text = JSON.stringify(['e', {pluribus: 'unum'}], null, '\t');
-            // text is '[\n\t"e",\n\t{\n\t\t"pluribus": "unum"\n\t}\n]'
-
-            text = JSON.stringify([new Date()], function (key, value) {
-                return this[key] instanceof Date ?
-                    'Date(' + this[key] + ')' : value;
-            });
-            // text is '["Date(---current time---)"]'
-
-
-        JSON.parse(text, reviver)
-            This method parses a JSON text to produce an object or array.
-            It can throw a SyntaxError exception.
-
-            The optional reviver parameter is a function that can filter and
-            transform the results. It receives each of the keys and values,
-            and its return value is used instead of the original value.
-            If it returns what it received, then the structure is not modified.
-            If it returns undefined then the member is deleted.
-
-            Example:
-
-            // Parse the text. Values that look like ISO date strings will
-            // be converted to Date objects.
-
-            myData = JSON.parse(text, function (key, value) {
-                var a;
-                if (typeof value === 'string') {
-                    a =
-/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z$/.exec(value);
-                    if (a) {
-                        return new Date(Date.UTC(+a[1], +a[2] - 1, +a[3], +a[4],
-                            +a[5], +a[6]));
-                    }
-                }
-                return value;
-            });
-
-            myData = JSON.parse('["Date(09/09/2001)"]', function (key, value) {
-                var d;
-                if (typeof value === 'string' &&
-                        value.slice(0, 5) === 'Date(' &&
-                        value.slice(-1) === ')') {
-                    d = new Date(value.slice(5, -1));
-                    if (d) {
-                        return d;
-                    }
-                }
-                return value;
-            });
-
-
-    This is a reference implementation. You are free to copy, modify, or
-    redistribute.
-*/
-
-/*jslint evil: true, strict: false */
-
-/*members "", "\b", "\t", "\n", "\f", "\r", "\"", JSON, "\\", apply,
-    call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
-    getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join,
-    lastIndex, length, parse, prototype, push, replace, slice, stringify,
-    test, toJSON, toString, valueOf
-*/
-
-
-// Create a JSON object only if one does not already exist. We create the
-// methods in a closure to avoid creating global variables.
-
-if (!this.JSON) {
-    this.JSON = {};
-}
-
-(function () {
-
-    function f(n) {
-        // Format integers to have at least two digits.
-        return n < 10 ? '0' + n : n;
-    }
-
-    if (typeof Date.prototype.toJSON !== 'function') {
-
-        Date.prototype.toJSON = function (key) {
-
-            return isFinite(this.valueOf()) ?
-                   this.getUTCFullYear()   + '-' +
-                 f(this.getUTCMonth() + 1) + '-' +
-                 f(this.getUTCDate())      + 'T' +
-                 f(this.getUTCHours())     + ':' +
-                 f(this.getUTCMinutes())   + ':' +
-                 f(this.getUTCSeconds())   + 'Z' : null;
-        };
-
-        String.prototype.toJSON =
-        Number.prototype.toJSON =
-        Boolean.prototype.toJSON = function (key) {
-            return this.valueOf();
-        };
-    }
-
-    var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
-        escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
-        gap,
-        indent,
-        meta = {    // table of character substitutions
-            '\b': '\\b',
-            '\t': '\\t',
-            '\n': '\\n',
-            '\f': '\\f',
-            '\r': '\\r',
-            '"' : '\\"',
-            '\\': '\\\\'
-        },
-        rep;
-
-
-    function quote(string) {
-
-// If the string contains no control characters, no quote characters, and no
-// backslash characters, then we can safely slap some quotes around it.
-// Otherwise we must also replace the offending characters with safe escape
-// sequences.
-
-        escapable.lastIndex = 0;
-        return escapable.test(string) ?
-            '"' + string.replace(escapable, function (a) {
-                var c = meta[a];
-                return typeof c === 'string' ? c :
-                    '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
-            }) + '"' :
-            '"' + string + '"';
-    }
-
-
-    function str(key, holder) {
-
-// Produce a string from holder[key].
-
-        var i,          // The loop counter.
-            k,          // The member key.
-            v,          // The member value.
-            length,
-            mind = gap,
-            partial,
-            value = holder[key];
-
-// If the value has a toJSON method, call it to obtain a replacement value.
-
-        if (value && typeof value === 'object' &&
-                typeof value.toJSON === 'function') {
-            value = value.toJSON(key);
-        }
-
-// If we were called with a replacer function, then call the replacer to
-// obtain a replacement value.
-
-        if (typeof rep === 'function') {
-            value = rep.call(holder, key, value);
-        }
-
-// What happens next depends on the value's type.
-
-        switch (typeof value) {
-        case 'string':
-            return quote(value);
-
-        case 'number':
-
-// JSON numbers must be finite. Encode non-finite numbers as null.
-
-            return isFinite(value) ? String(value) : 'null';
-
-        case 'boolean':
-        case 'null':
-
-// If the value is a boolean or null, convert it to a string. Note:
-// typeof null does not produce 'null'. The case is included here in
-// the remote chance that this gets fixed someday.
-
-            return String(value);
-
-// If the type is 'object', we might be dealing with an object or an array or
-// null.
-
-        case 'object':
-
-// Due to a specification blunder in ECMAScript, typeof null is 'object',
-// so watch out for that case.
-
-            if (!value) {
-                return 'null';
-            }
-
-// Make an array to hold the partial results of stringifying this object value.
-
-            gap += indent;
-            partial = [];
-
-// Is the value an array?
-
-            if (Object.prototype.toString.apply(value) === '[object Array]') {
-
-// The value is an array. Stringify every element. Use null as a placeholder
-// for non-JSON values.
-
-                length = value.length;
-                for (i = 0; i < length; i += 1) {
-                    partial[i] = str(i, value) || 'null';
-                }
-
-// Join all of the elements together, separated with commas, and wrap them in
-// brackets.
-
-                v = partial.length === 0 ? '[]' :
-                    gap ? '[\n' + gap +
-                            partial.join(',\n' + gap) + '\n' +
-                                mind + ']' :
-                          '[' + partial.join(',') + ']';
-                gap = mind;
-                return v;
-            }
-
-// If the replacer is an array, use it to select the members to be stringified.
-
-            if (rep && typeof rep === 'object') {
-                length = rep.length;
-                for (i = 0; i < length; i += 1) {
-                    k = rep[i];
-                    if (typeof k === 'string') {
-                        v = str(k, value);
-                        if (v) {
-                            partial.push(quote(k) + (gap ? ': ' : ':') + v);
-                        }
-                    }
-                }
-            } else {
-
-// Otherwise, iterate through all of the keys in the object.
-
-                for (k in value) {
-                    if (Object.hasOwnProperty.call(value, k)) {
-                        v = str(k, value);
-                        if (v) {
-                            partial.push(quote(k) + (gap ? ': ' : ':') + v);
-                        }
-                    }
-                }
-            }
-
-// Join all of the member texts together, separated with commas,
-// and wrap them in braces.
-
-            v = partial.length === 0 ? '{}' :
-                gap ? '{\n' + gap + partial.join(',\n' + gap) + '\n' +
-                        mind + '}' : '{' + partial.join(',') + '}';
-            gap = mind;
-            return v;
-        }
-        return v;
-    }
-
-// If the JSON object does not yet have a stringify method, give it one.
-
-    if (typeof JSON.stringify !== 'function') {
-        JSON.stringify = function (value, replacer, space) {
-
-// The stringify method takes a value and an optional replacer, and an optional
-// space parameter, and returns a JSON text. The replacer can be a function
-// that can replace values, or an array of strings that will select the keys.
-// A default replacer method can be provided. Use of the space parameter can
-// produce text that is more easily readable.
-
-            var i;
-            gap = '';
-            indent = '';
-
-// If the space parameter is a number, make an indent string containing that
-// many spaces.
-
-            if (typeof space === 'number') {
-                for (i = 0; i < space; i += 1) {
-                    indent += ' ';
-                }
-
-// If the space parameter is a string, it will be used as the indent string.
-
-            } else if (typeof space === 'string') {
-                indent = space;
-            }
-
-// If there is a replacer, it must be a function or an array.
-// Otherwise, throw an error.
-
-            rep = replacer;
-            if (replacer && typeof replacer !== 'function' &&
-                    (typeof replacer !== 'object' ||
-                     typeof replacer.length !== 'number')) {
-                throw new Error('JSON.stringify');
-            }
-
-// Make a fake root object containing our value under the key of ''.
-// Return the result of stringifying the value.
-
-            return str('', {'': value});
-        };
-    }
-
-
-// If the JSON object does not yet have a parse method, give it one.
-
-    if (typeof JSON.parse !== 'function') {
-        JSON.parse = function (text, reviver) {
-
-// The parse method takes a text and an optional reviver function, and returns
-// a JavaScript value if the text is a valid JSON text.
-
-            var j;
-
-            function walk(holder, key) {
-
-// The walk method is used to recursively walk the resulting structure so
-// that modifications can be made.
-
-                var k, v, value = holder[key];
-                if (value && typeof value === 'object') {
-                    for (k in value) {
-                        if (Object.hasOwnProperty.call(value, k)) {
-                            v = walk(value, k);
-                            if (v !== undefined) {
-                                value[k] = v;
-                            } else {
-                                delete value[k];
-                            }
-                        }
-                    }
-                }
-                return reviver.call(holder, key, value);
-            }
-
-
-// Parsing happens in four stages. In the first stage, we replace certain
-// Unicode characters with escape sequences. JavaScript handles many characters
-// incorrectly, either silently deleting them, or treating them as line endings.
-
-            text = String(text);
-            cx.lastIndex = 0;
-            if (cx.test(text)) {
-                text = text.replace(cx, function (a) {
-                    return '\\u' +
-                        ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
-                });
-            }
-
-// In the second stage, we run the text against regular expressions that look
-// for non-JSON patterns. We are especially concerned with '()' and 'new'
-// because they can cause invocation, and '=' because it can cause mutation.
-// But just to be safe, we want to reject all unexpected forms.
-
-// We split the second stage into 4 regexp operations in order to work around
-// crippling inefficiencies in IE's and Safari's regexp engines. First we
-// replace the JSON backslash pairs with '@' (a non-JSON character). Second, we
-// replace all simple value tokens with ']' characters. Third, we delete all
-// open brackets that follow a colon or comma or that begin the text. Finally,
-// we look to see that the remaining characters are only whitespace or ']' or
-// ',' or ':' or '{' or '}'. If that is so, then the text is safe for eval.
-
-            if (/^[\],:{}\s]*$/.
-test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g, '@').
-replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
-replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
-
-// In the third stage we use the eval function to compile the text into a
-// JavaScript structure. The '{' operator is subject to a syntactic ambiguity
-// in JavaScript: it can begin a block or an object literal. We wrap the text
-// in parens to eliminate the ambiguity.
-
-                j = eval('(' + text + ')');
-
-// In the optional fourth stage, we recursively walk the new structure, passing
-// each name/value pair to a reviver function for possible transformation.
-
-                return typeof reviver === 'function' ?
-                    walk({'': j}, '') : j;
-            }
-
-// If the text is not JSON parseable, then a SyntaxError is thrown.
-
-            throw new SyntaxError('JSON.parse');
-        };
-    }
-}());
-
-/**
- * @class Ext.util.JSON
- * Modified version of Douglas Crockford"s json.js that doesn"t
- * mess with the Object prototype
- * http://www.json.org/js.html
- * @singleton
- * @ignore
- */
-Ext.util.JSON = {
-    encode: function(o) {
-        return JSON.stringify(o);
-    },
-
-    decode: function(s) {
-        return JSON.parse(s);
-    }
-};
-
-/**
- * Shorthand for {@link Ext.util.JSON#encode}
- * @param {Mixed} o The variable to encode
- * @return {String} The JSON string
- * @member Ext
- * @method encode
- * @ignore
- */
-Ext.encode = Ext.util.JSON.encode;
-/**
- * Shorthand for {@link Ext.util.JSON#decode}
- * @param {String} json The JSON string
- * @param {Boolean} safe (optional) Whether to return null or throw an exception if the JSON is invalid.
- * @return {Object} The resulting object
- * @member Ext
- * @method decode
- * @ignore
- */
-Ext.decode = Ext.util.JSON.decode;
-
 /**
  * @private
  */
@@ -114236,6 +114338,9 @@ Ext.define('Ext.viewport.Default', {
 
             if (osEnv.is.BlackBerry) {
                 classList.push(clsPrefix + 'bb');
+                if (Ext.browser.userAgent.match(/Kbd/gi)) {
+                    classList.push(clsPrefix + 'bb-keyboard');
+                }
             }
 
             if (Ext.browser.is.WebKit) {
@@ -114248,6 +114353,10 @@ Ext.define('Ext.viewport.Default', {
 
             if (Ext.browser.is.AndroidStock) {
                 classList.push(clsPrefix + 'android-stock');
+            }
+
+            if (Ext.browser.is.GoogleGlass) {
+                classList.push(clsPrefix + 'google-glass');
             }
 
             classList.push(clsPrefix + orientation);
@@ -115247,9 +115356,10 @@ Ext.define('Ext.viewport.Android', {
 
         this.callSuper(arguments);
 
-        this.bodyElement.on('resize', this.onResize, this, {
-            buffer: 1
-        });
+        // Viewport is initialized before event system, we need to wait until the application is ready before
+        // we add the resize listener. Otherwise it will only fire if another resize listener is added later.
+        var me = this;
+        Ext.onReady(function() { Ext.getBody().on('resize', me.onResize, me);});
     },
 
     getWindowWidth: function () {

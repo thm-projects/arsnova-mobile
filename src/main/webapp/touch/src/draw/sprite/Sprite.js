@@ -350,17 +350,9 @@ Ext.define('Ext.draw.sprite.Sprite', {
             throw 'Ext.draw.sprite.Sprite is an abstract class';
         }
         config = config || {};
-        var me = this,
-            groups = [].concat(config.group || []),
-            i, ln;
+        var me = this;
 
         me.id = config.id || Ext.id(null, 'ext-sprite-');
-        me.group = new Array(groups.length);
-
-        for (i = 0, ln = groups.length; i < ln; i++) {
-            me.group[i] = groups[i].id || groups[i].toString();
-        }
-
         me.attr = {};
         me.initConfig(config);
         var modifiers = Ext.Array.from(config.modifiers, true);

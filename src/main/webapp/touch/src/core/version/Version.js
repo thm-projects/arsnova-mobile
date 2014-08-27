@@ -31,7 +31,7 @@
 (function() {
 
 // Current core version
-var version = '2.3.1.410', Version;
+var version = '2.4.0.482', Version;
     Ext.Version = Version = Ext.extend(Object, {
 
         /**

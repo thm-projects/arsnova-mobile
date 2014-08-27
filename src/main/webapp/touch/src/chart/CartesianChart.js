@@ -59,7 +59,7 @@ Ext.define('Ext.chart.CartesianChart', {
             this.suspendThicknessChanged();
             var me = this,
                 axes = me.getAxes(), axis,
-                serieses = me.getSeries(), series,
+                seriesList = me.getSeries(), series,
                 axisSurface, thickness,
                 size = me.element.getSize(),
                 width = size.width,
@@ -156,8 +156,8 @@ Ext.define('Ext.chart.CartesianChart', {
                 matrix.inverse(axisSurface.inverseMatrix);
             }
 
-            for (i = 0, ln = serieses.length; i < ln; i++) {
-                series = serieses[i];
+            for (i = 0, ln = seriesList.length; i < ln; i++) {
+                series = seriesList[i];
                 surface = series.getSurface();
                 surface.setRegion(mainRegion);
                 if (flipXY) {
@@ -242,9 +242,9 @@ Ext.define('Ext.chart.CartesianChart', {
                     // Iterate through its marker sprites to do the same.
                     markers = sprite.boundMarkers;
                     if (markers) {
-                        markersCount = (markers.items ? markers.items.length : 0);
-                        if (markersCount) {
-                            for (markerIndex = 0; markerIndex < markersCount; markerIndex++) {
+                        markerCount = (markers.items ? markers.items.length : 0);
+                        if (markerCount) {
+                            for (markerIndex = 0; markerIndex < markerCount; markerIndex++) {
                                 markerSprite = markers.items[markerIndex];
                                 markerZIndex = (markerSprite.attr.zIndex || 0);
                                 if (markerZIndex == Number.MAX_VALUE) {

@@ -3,16 +3,9 @@
  *
  * Creates a gradient.
  */
-Ext.define("Ext.draw.gradient.Gradient", {
-    requires: ["Ext.draw.LimitedCache"],
-    mixins: {
-        identifiable: 'Ext.mixin.Identifiable'
-    },
-    identifiablePrefix: 'ext-gradient-',
+Ext.define('Ext.draw.gradient.Gradient', {
+
     isGradient: true,
-    statics: {
-        gradientCache: null
-    },
 
     config: {
         /**
@@ -47,16 +40,7 @@ Ext.define("Ext.draw.gradient.Gradient", {
     },
 
     constructor: function (config) {
-        config = config || {};
-        this.gradientCache = new Ext.draw.LimitedCache({
-            feeder: function (gradient, ctx, bbox) {
-                return gradient.generateGradient(ctx, bbox);
-            },
-            scope: this
-        });
         this.initConfig(config);
-        this.id = config.id;
-        this.getId();
     },
 
     /**
@@ -66,23 +50,6 @@ Ext.define("Ext.draw.gradient.Gradient", {
      * @param {Object} bbox
      * @return {Object}
      */
-    generateGradient: Ext.emptyFn,
-
-    /**
-     * @private
-     * @param {Ext.draw.engine.SvgContext} ctx
-     * @param {Object} bbox
-     * @return {*}
-     */
-    getGradient: function (ctx, bbox) {
-        return this.gradientCache.get(this.id + ',' + bbox.x + ',' + bbox.y + ',' + bbox.width + ',' + bbox.height, this, ctx, bbox);
-    },
-
-    /**
-     * @private
-     */
-    clearCache: function () {
-        this.gradientCache.clear();
-    }
+    generateGradient: Ext.emptyFn
 
 });

@@ -106,7 +106,10 @@ Ext.define("Ext.draw.modifier.Animation", {
     },
 
     /**
-     * Set special easings on the given attributes.
+     * Set special easings on the given attributes. E.g.:
+     *
+     *     circleSprite.fx.setEasingOn('r', 'elasticIn');
+     *
      * @param {String/Array} attrs The source attribute(s).
      * @param {String} easing The special easings.
      */
@@ -152,7 +155,10 @@ Ext.define("Ext.draw.modifier.Animation", {
     },
 
     /**
-     * Set special duration on the given attributes.
+     * Set special duration on the given attributes. E.g.:
+     *
+     *     rectSprite.fx.setDurationOn('height', 2000);
+     *
      * @param {String/Array} attrs The source attributes.
      * @param {Number} duration The special duration.
      */
@@ -327,7 +333,7 @@ Ext.define("Ext.draw.modifier.Animation", {
         if (!attr.animating) {
             return {};
         }
-        var changes = {}, change,
+        var changes = {},
             any = false,
             original = attr.animationOriginal,
             timers = attr.timers,
