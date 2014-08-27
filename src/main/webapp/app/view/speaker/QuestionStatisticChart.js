@@ -116,16 +116,12 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			}]
 		});
 
-
-
 		this.titlebar = Ext.create('Ext.Toolbar', {
 			cls: 'questionStatisticTitle',
 			docked: 'top',
 			title: title,
 			border: '0px'
 		});
-
-
 
 		if(this.questionObj.questionType == "grid"){
 
@@ -134,7 +130,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				docked: 'top',
 				title: '',
 				border: '0px',
-				hidden: 1,
+				hidden: 1
 			});
 
 			this.setLayout('');
@@ -145,8 +141,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					Ext.util.Format.htmlEncode(this.questionObj.text), true, true);
 
 		}
-
-
 
 		if( this.questionObj.questionType == "yesno"	||
 			this.questionObj.questionType == "mc"		||

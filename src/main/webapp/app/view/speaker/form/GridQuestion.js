@@ -210,7 +210,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						this.btnMoveGridRight,
 						this.btnMoveGridUp,
 						this.btnMoveGridDown,
-						this.hideGridButton,
+						this.hideGridButton
 				   ]
 			   }
 			],

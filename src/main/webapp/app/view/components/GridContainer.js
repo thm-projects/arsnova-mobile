@@ -57,7 +57,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		numClickableFields: 0, // number of clickable fields the lecturer has chosen
 		thresholdCorrectAnswers: 0, // the points needed to answer the question correct
 		cvBackgroundColor: '#FFFFFF', // background color of the canvas element
-		cvIsColored: false, // true if the canvas background is colored (cvBackgroundColor), false otherwise. This way older questions without this attribute should still have a transparent background
+		cvIsColored: false // true if the canvas background is colored (cvBackgroundColor), false otherwise. This way older questions without this attribute should still have a transparent background
 	},
 
 	/**
