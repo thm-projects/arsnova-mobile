@@ -27,7 +27,7 @@
 }
 
 .sliderField .x-slider {
- 	width: 85%;
+	width: 85%;
 }
 
 .sliderField .sliderInputField .sliderInputValue {
@@ -86,10 +86,10 @@
 }
 
 .rightAligned .x-toggle {
-    float:right;
-    margin-right:1em;
-    margin-top: 3px;
-    padding-bottom: 3px;
+	float:right;
+	margin-right:1em;
+	margin-top: 3px;
+	padding-bottom: 3px;
 }
 
 .centerAligned input{
@@ -114,7 +114,7 @@
  * and buttons from Sencha Touch 1.1 and arsnova-legacy
  */
 
- .x-list-normal .x-list-header {
+.x-list-normal .x-list-header {
 	background-color: #4d80bc;
 	/* @alternate */ background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #bccfe6), color-stop(2%, #6792c5), color-stop(100%, #3f6ea6));
 	/* @alternate */ background-image: -webkit-linear-gradient(#bccfe6,#6792c5 2%,#3f6ea6);
@@ -148,8 +148,8 @@
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b0bccd', endColorstr='#6d84a2',GradientType=0 );
 	border-color: black;
 	border-bottom: 1px solid #2D3642;
-    border-top: 1px solid #CDD5DF;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.6);
+	border-top: 1px solid #CDD5DF;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.6);
 }
 
 .x-tabbar-dark {
@@ -404,23 +404,23 @@ html,body {
 	/* @alternate */ background: -ms-linear-gradient(top,  #fdfdfd 0%,#f8f8f8 50%,#eeeeee 50%,#cecece 100%);
 	/* @alternate */ background: linear-gradient(to bottom,  #fdfdfd 0%,#f8f8f8 50%,#eeeeee 50%,#cecece 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdfdfd', endColorstr='#cecece',GradientType=0 );
-    background-clip: padding-box;
-    border-radius: 7px 7px 7px 7px;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #9CACC0;
-    color: black;
-    display: block;
-    font-family: 'Helvetica Neue',HelveticaNeue,Helvetica-Neue,Helvetica,'BBAlpha Sans';
-    font-size: 1.4em;
-    font-weight: bold;
-    height: 80px;
-    margin: 0 auto 5px;
-    overflow: hidden;
-    position: relative;
-    text-align: center;
-    vertical-align: middle;
-    width: 80px;
+	background-clip: padding-box;
+	border-radius: 7px 7px 7px 7px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #9CACC0;
+	color: black;
+	display: block;
+	font-family: 'Helvetica Neue',HelveticaNeue,Helvetica-Neue,Helvetica,'BBAlpha Sans';
+	font-size: 1.4em;
+	font-weight: bold;
+	height: 80px;
+	margin: 0 auto 5px;
+	overflow: hidden;
+	position: relative;
+	text-align: center;
+	vertical-align: middle;
+	width: 80px;
 }
 
 .iconBtn .iconBtnImg {
@@ -1414,8 +1414,8 @@ ol.standardList li {
 .questionRequestButton {
 	margin-top: 15px;
 	margin-bottom: 30px;
-    margin-left: auto;
-   	margin-right: auto;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .questionRequestButton .x-button-label {
