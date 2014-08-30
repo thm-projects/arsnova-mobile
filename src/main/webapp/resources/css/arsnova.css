@@ -1630,3 +1630,7 @@ ol.standardList li {
 .allCapsHeader .x-html > p:first-child {
 	text-transform: uppercase;
 }
+
+.file-upload-panel {
+	margin: 0.5em 0.5em 1em;
+}
