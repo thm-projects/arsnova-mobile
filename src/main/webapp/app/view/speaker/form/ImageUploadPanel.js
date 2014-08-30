@@ -69,41 +69,27 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 
 		this.add([
 			{
-				itemId: 'fs_upfield',
+				itemId: 'pnl_upfield',
 				xtype: 'fieldset',
-				title: Messages.EDIT_PICTURE,
-				docked: 'top'
-			},
-			{
-				id: 'pnl_upfield',
-				xtype: 'panel',
+				cls: 'file-upload-panel',
 				layout: 'vbox',
+				title: Messages.EDIT_PICTURE,
 				items: [
 					{
 						itemId: 'tf_url',
 						xtype: 'textfield',
 						label: Messages.SELECT_PICTURE_FS,
 						name: 'tf_url',
-						placeHolder: 'http://',
-						docked: 'top'
+						placeHolder: 'http://'
 					},
 					{
-						xtype: 'spacer',
-						height: 50,
-						docked: 'top'
-					},
-					{
-						docked: 'bottom',
 						xtype: 'panel',
 						layout: 'hbox',
 						defaults: {
 							flex: 1
 						},
+						style: 'margin-top: 0.5em',
 						items: [
-							this.buttonUploadFromFS,
-							{
-								xtype: 'spacer'
-							},
 							{
 								xtype: 'button',
 								text: Messages.SELECT_PICTURE_URL,
@@ -111,7 +97,11 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 									var url = this.getComponent('pnl_upfield').getComponent('tf_url').getValue();
 									Ext.bind(this.getUrlUploadHandler(), this.getHandlerScope())(url);
 								}, this)
-							}
+							},
+							{
+								xtype: 'spacer'
+							},
+							this.buttonUploadFromFS
 						]
 					}
 				]
