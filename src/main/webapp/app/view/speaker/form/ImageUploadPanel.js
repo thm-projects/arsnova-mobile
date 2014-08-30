@@ -90,10 +90,6 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 						},
 						style: 'margin-top: 0.5em',
 						items: [
-							this.buttonUploadFromFS,
-							{
-								xtype: 'spacer'
-							},
 							{
 								xtype: 'button',
 								text: Messages.SELECT_PICTURE_URL,
@@ -101,7 +97,11 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 									var url = this.getComponent('pnl_upfield').getComponent('tf_url').getValue();
 									Ext.bind(this.getUrlUploadHandler(), this.getHandlerScope())(url);
 								}, this)
-							}
+							},
+							{
+								xtype: 'spacer'
+							},
+							this.buttonUploadFromFS
 						]
 					}
 				]
