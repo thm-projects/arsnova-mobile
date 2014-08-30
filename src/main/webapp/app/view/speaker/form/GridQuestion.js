@@ -65,7 +65,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 		this.grid = Ext.create('ARSnova.view.components.GridContainer', {
 			docked: 'top',
-			id: 'gridContainer'
+			itemId: 'gridContainer'
 		});
 
 		this.infoPanel = Ext.create('Ext.Panel',{
@@ -161,7 +161,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		});
 
 		this.imageArea = Ext.create('Ext.Panel', {
-			id: 'imageArea',
+			itemId: 'imageArea',
 			layout:{
 				type: 'vbox',
 				align: 'center',
@@ -259,13 +259,13 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.answers = Ext.create('Ext.Panel', {
 			items: [ {
 				xtype: 'fieldset',
-				id: 'fs_answers',
+				itemId: 'fs_answers',
 				style: 'margin-bottom: 0',
 				name: 'fs_answers',
 				title: Messages.CORRECT_ANSWERS,
 				items: [ {
 					xtype: 'textfield',
-					id: 'tf_answers',
+					itemId: 'tf_answers',
 					cls: 'centerAligned',
 					label: Messages.COUNT,
 					name: Messages.COUNT,
@@ -377,10 +377,10 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		});
 
 		this.imageSettings = Ext.create('Ext.Panel', {
-			id: 'answerField',
+			itemId: 'answerField',
 			items: [{
 				xtype: 'fieldset',
-				id: 'fs_imagesettings',
+				itemId: 'fs_imagesettings',
 				title: Messages.SETTINGS,
 				items: [
 					this.zoomSpinner,
@@ -402,7 +402,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		}
 		this.imageCnt = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
-			id: 'imageControle',
+			itemId: 'imageControls',
 			hidden: true,
 			items: panelItems
 		});
