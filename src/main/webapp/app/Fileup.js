@@ -174,7 +174,7 @@ Ext.define('Ext.ux.Fileup', {
 					tabindex: -1,
 					hidden: false,
 					accept: 'image/*',
-					style: 'opacity:0;position:absolute;top:-3px;right:-3px;bottom:-3px;left:-3px;z-index:16777270;'
+					style: 'opacity:0;position:absolute;width:100%;top:0;right:0;bottom:0;left:0;z-index:16777270;'
 				}
 			]
 
