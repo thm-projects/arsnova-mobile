@@ -400,23 +400,25 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			me.yesNoQuestion,
 			me.schoolQuestion,
 			me.abcdQuestion,
-			me.freetextQuestion,
-
-			me.abstentionPart,
-			this.uploadView,
-			this.grid,
-			this.releasePart,
-
-			me.saveButton,
-			me.saveAndContinueButton
+			me.freetextQuestion
 		]);
-
 		if (me.flashcardQuestion) {
 			me.add(me.flashcardQuestion);
 		}
+		me.add([
+			me.abstentionPart,
+			me.uploadView,
+			me.grid,
+			me.releasePart
+		]);
 		if (me.gridQuestion) {
 			me.add(me.gridQuestion);
 		}
+
+		me.add([
+			me.saveButton,
+			me.saveAndContinueButton
+		]);
 
 		me.on('activate', me.onActivate);
 	},
