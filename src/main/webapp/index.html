@@ -10,7 +10,7 @@
 		<link rel="stylesheet" href="resources/css/index.css" type="text/css">
 
 		<!-- MathJax -->
-		<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+		<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 		<!-- Socket.IO -->
 		<script type="text/javascript" src="lib/socket.io.min.js"></script>
@@ -22,14 +22,12 @@
 		<script type="text/x-mathjax-config">
 			MathJax.Hub.Config({
 				tex2jax: {
-					inlineMath: [['\[\[','\]\]']],
-					displayMath: [["$$","$$"]],
+					inlineMath: [['\\(', '\\)'], ['\[\[', '\]\]']],
+					displayMath: [["$$", "$$"]],
 					processEscapes: true
 				}
 			});
 		</script>
-
-		<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </head>
 <body>
     <div id="appLoadingIndicator">
