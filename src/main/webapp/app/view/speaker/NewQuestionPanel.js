@@ -236,7 +236,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							}else{
 								me.gridQuestion.hide();
 								this.uploadView.show();
-								this.grid.show();
+								if (this.grid.getImageFile()) {
+									this.grid.show();
+								}
 							}
 						break;
 						case Messages.EVALUATION:
