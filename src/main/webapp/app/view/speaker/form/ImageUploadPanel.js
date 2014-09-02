@@ -86,7 +86,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 						xtype: 'panel',
 						layout: 'hbox',
 						defaults: {
-							flex: 1
+							flex: 2
 						},
 						style: 'margin-top: 0.5em',
 						items: [
@@ -99,7 +99,8 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 								}, this)
 							},
 							{
-								xtype: 'spacer'
+								xtype: 'spacer',
+								flex: 1
 							},
 							this.buttonUploadFromFS
 						]
