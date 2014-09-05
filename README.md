@@ -4,7 +4,7 @@ ARSnova is a modern approach to Audience Response Systems (ARS). It is released 
 
 ![ARSnova](src/site/resources/showcase.png)
 
-ARSnova consists of two projects: the mobile client and the server. This repository contains the mobile client code. You will find the server at [thm-projects/arsnova-war](https://github.com/thm-projects/arsnova-war). If you plan to work on the client you have to build both repositories - the server and the client.
+ARSnova consists of two projects: the mobile client and the server. This repository contains the mobile client code. You will find the server at [thm-projects/arsnova-backend](https://github.com/thm-projects/arsnova-backend). If you plan to work on the client you have to build both repositories - the server and the client.
 
 [![Build Status](https://travis-ci.org/thm-projects/arsnova-mobile.svg?branch=master)](https://travis-ci.org/thm-projects/arsnova-mobile)
 
@@ -33,7 +33,7 @@ We also leverage the cloud provided by [Travis CI](https://travis-ci.org/) and [
 
 Our official build status provided by Travis CI:
 
-- [![Build Status](https://travis-ci.org/thm-projects/arsnova-war.svg?branch=master)](https://travis-ci.org/thm-projects/arsnova-war) for ARSnova-war
+- [![Build Status](https://travis-ci.org/thm-projects/arsnova-backend.svg?branch=master)](https://travis-ci.org/thm-projects/arsnova-backend) for arsnova-backend
 - [![Build Status](https://travis-ci.org/thm-projects/arsnova-mobile.svg?branch=master)](https://travis-ci.org/thm-projects/arsnova-mobile) for ARSnova-mobile
 
 ## Development
@@ -51,7 +51,7 @@ The download links to the referred requirements, as well as the installation gui
 
 ### Building
 
-ARSnova consists of two main projects: arsnova-mobile (this repository) and arsnova-war. You have to build both projects separately, in order to work with the mobile client. If you need informations regarding the installation of arsnova-war, please look up the read me at [thm-projects/arsnova-war](https://github.com/thm-projects/arsnova-war).
+ARSnova consists of two main projects: arsnova-mobile (this repository) and arsnova-backend. You have to build both projects separately, in order to work with the mobile client. If you need informations regarding the installation of arsnova-backend, please look up the read me at [thm-projects/arsnova-backend](https://github.com/thm-projects/arsnova-backend).
 
 Basically a complete build for both projects is done with:
 
@@ -75,7 +75,7 @@ After that you can use the following command to build the mobile client for prod
 
 In order to develop and test on your local machine, you can use Jetty to deploy ARSnova:
 
-	cd /path/to/arsnova-war
+	cd /path/to/arsnova-backend
 	mvn jetty:run
 
 If you do not want to manually rebuild the client after every change, you can use Sencha Cmd's watching feature. Then ARSnova will be built continuously, while Jetty will pick up and redeploy the changes. To do so you have to open a second terminal and execute the following command:
@@ -92,7 +92,7 @@ The build commands change in the following way:
 	cd /path/to/arsnova-mobile
 	ant sencha:build:testing
 
-	cd /path/to/arsnova-war
+	cd /path/to/arsnova-backend
 	mvn jetty:run -Dmobile.path=\${mobile.testing.path}
 
 For using the watching functionality, run:
