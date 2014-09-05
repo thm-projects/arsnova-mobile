@@ -408,7 +408,7 @@ switch (lang) {
 
 			/* rolePanel */
 			CHOOSE_ROLE: "Wählen Sie Ihre Rolle:",
-			STUDENT: "Zuhörer/in",
+			STUDENT: "Student/in",
 			SPEAKER: "Dozent/in",
 			TITLE_ROLE: "Feedback im Hörsaal",
 			/* loginPanel */
@@ -431,7 +431,7 @@ switch (lang) {
 			OPEN_SESSION: "Offene Session",
 			CLOSED_SESSION: "Gesperrte Session",
 			CONFIRM_CLOSE_SESSION: "Session wirklich sperren?",
-			CONFIRM_CLOSE_SESSION_MESSAGE: "Wenn Sie die Session sperren, können nur noch aktuell angemeldete Zuhörer/innen teilnehmen.",
+			CONFIRM_CLOSE_SESSION_MESSAGE: "Wenn Sie die Session sperren, können nur noch aktuell angemeldete Student/innen teilnehmen.",
 
 			/* LOAD MASK */
 			LOAD_MASK: "Lade Daten...",
@@ -536,8 +536,8 @@ switch (lang) {
 			CLOSED_QUESTION: "Gesperrte Frage",
 			CONFIRM_CLOSE_QUESTION: "Frage wirklich sperren?",
 			CONFIRM_CLOSE_ALL_QUESTIONS: "Fragen wirklich sperren?",
-			CONFIRM_CLOSE_QUESTION_MESSAGE: "Wenn Sie die Frage sperren, können Zuhörer/innen die Frage weder sehen noch beantworten.",
-			CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE: "Wenn Sie die Fragen sperren, können Zuhörer/innen die Fragen weder sehen noch beantworten.",
+			CONFIRM_CLOSE_QUESTION_MESSAGE: "Wenn Sie die Frage sperren, können Student/innen die Frage weder sehen noch beantworten.",
+			CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE: "Wenn Sie die Fragen sperren, können Student/innen die Fragen weder sehen noch beantworten.",
 			SAVE_AND_CONTINUE: 'Speichern und weiter',
 			CONFIRM_ANSWERS_CHANGED: "Bereits gegebene Antworten gehen verloren.",
 			QUESTION_PREVIEW_BUTTON_TITLE: "Vorschau",
