@@ -1,0 +1,28 @@
+# Changelog
+
+## 2.0
+ARSnova 2.0 has been in development for more than two years. Further releases
+can be expected much more frequently.
+
+The second major release finally introduces compatibility for non-webkit
+browsers. Starting with this version, ARSnova Mobile no longer has direct
+access to the database. It now depends on the separate ARSnova Backend
+software, which introduces more options for access control. Furthermore ARSnova
+Mobile has got support for additional question formats and a new theme.
+
+**This version is brought to you by:**  
+Project management: Klaus Quibeldey-Cirkel  
+Lead programming: Andreas Gärtner, Daniel Gerhardt, Christoph Thelen,
+Paul-Christian Volkmer  
+Contributions: Colin Appel, Sören Gutzeit, Julian Hochstetter, Jan Kammer,
+Daniel Knapp, Alexander Nadler, Julian Rossback, Karolina Rozanka, Jannik
+Schaaf, Felix Schmidt, Artjom Siebert, Daniel Vogel  
+Testing & Feedback: Kevin Atkins, Kathrin Jäger  
+Sponsoring: [AG QLS](https://www.thm.de/zqe/qmnetzwerk/agqls),
+[HMWK](https://wissenschaft.hessen.de/wissenschaft/it-neue-medien/kompetenznetz-e-learning-hessen),
+[@LLZ](http://llz.uni-halle.de/)  
+
+## 1.0
+**The initial release of ARSnova is brought to you by:**  
+Project management: Klaus Quibeldey-Cirkel  
+Design & programming: Christian Thomas Weber  
