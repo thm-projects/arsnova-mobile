@@ -1,0 +1,20 @@
+{
+	"browser": true,
+	"devel": true,
+	"camelcase": true,
+	"curly": true,
+	"eqeqeq": true,
+	"eqnull": true,
+	"forin": true,
+	"immed": true,
+	"latedef": true,
+	"laxbreak": true,
+	"noarg": true,
+	"noempty": true,
+	"quotmark": false,
+	"regexdash": true,
+	"strict": false,
+	"trailing": true,
+	"undef": true,
+	"white": false
+}

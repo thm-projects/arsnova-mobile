@@ -36,7 +36,7 @@
 
 items: [
 
-	//Fileup configuration for "Load local file" mode
+	// Fileup configuration for "Load local file" mode
 	{
 		xtype: 'fileupload',
 		autoUpload: true,
@@ -56,7 +56,7 @@ items: [
 		}
 	},
 
-	//Fileup configuration for "Upload file" mode
+	// Fileup configuration for "Upload file" mode
 	{
 		itemId: 'fileBtn',
 		xtype: 'fileupload',
@@ -252,7 +252,7 @@ Ext.define('Ext.ux.Fileup', {
 	},
 
 	// @private
-	applyStates: function(states) {
+	applyStates: function (states) {
 		var me = this;
 
 		if (states) {
@@ -270,11 +270,11 @@ Ext.define('Ext.ux.Fileup', {
 	},
 
 	// @private
-	initialize: function() {
+	initialize: function () {
 		var me = this;
 		me.callParent();
 
-		me.fileElement.dom.onchange = function() {
+		me.fileElement.dom.onchange = function () {
 			me.onChanged.apply(me, arguments);
 		};
 
@@ -289,7 +289,7 @@ Ext.define('Ext.ux.Fileup', {
 	},
 
 	// @private
-	onButtonTap: function() {
+	onButtonTap: function () {
 		var me = this;
 
 		switch (me.currentState) {
@@ -311,11 +311,11 @@ Ext.define('Ext.ux.Fileup', {
 	},
 
 	// @private
-	onChanged: function(e) {
+	onChanged: function (e) {
 		var me = this;
 
 		if (e.target.files.length > 0) {
-			me.fireAction('ready', [e.target.files[0]], function() {
+			me.fireAction('ready', [e.target.files[0]], function () {
 				me.changeState('ready');
 			}, me);
 		} else {
@@ -323,7 +323,7 @@ Ext.define('Ext.ux.Fileup', {
 				title: 'Error',
 				message: 'File selected but not accessible',
 				buttons: Ext.MessageBox.OK,
-				callback: function() {
+				callback: function () {
 					me.changeState('browse');
 				}
 			});
@@ -331,7 +331,7 @@ Ext.define('Ext.ux.Fileup', {
 	},
 
 	// @private
-	changeState: function(state) {
+	changeState: function (state) {
 		var me = this;
 		var states = me.getStates();
 
@@ -397,11 +397,11 @@ Ext.define('Ext.ux.Fileup', {
 	 * then you should listen for "loadsuccess" event
 	 * @param {Object} file Link to loaded file element
 	 */
-	doLoad: function(file) {
+	doLoad: function (file) {
 		var me = this;
 		var reader = new FileReader();
 
-		reader.onerror = function(e) {
+		reader.onerror = function (e) {
 			var message;
 			switch (e.target.error.code) {
 				case e.target.error.NOT_FOUND_ERR:
@@ -417,11 +417,11 @@ Ext.define('Ext.ux.Fileup', {
 
 				default:
 					message = 'Can not read file';
-			};
+			}
 			me.fireEvent('loadfailure', message, this, e);
 		};
 
-		reader.onload = function(e) {
+		reader.onload = function (e) {
 			me.fireEvent('loadsuccess', this.result, this, e);
 			me.changeState('browse');
 		};
@@ -436,14 +436,14 @@ Ext.define('Ext.ux.Fileup', {
 	 * Upload selected file using XMLHttpRequest.
 	 * @param {Object} file Link to loaded file element
 	 */
-	doUpload: function(file) {
+	doUpload: function (file) {
 		var me = this;
 		var http = new XMLHttpRequest();
 
 		if (http.upload && http.upload.addEventListener) {
 
 			// Uploading progress handler
-			http.upload.onprogress = function(e) {
+			http.upload.onprogress = function (e) {
 				if (e.lengthComputable) {
 					var percentComplete = (e.loaded / e.total) * 100;
 					me.setBadgeText(percentComplete.toFixed(0) + '%');
@@ -480,7 +480,7 @@ Ext.define('Ext.ux.Fileup', {
 			};
 
 			// Error handler
-			http.upload.onerror = function(e) {
+			http.upload.onerror = function (e) {
 				me.fireEvent('failure', this.status + ' ' + this.statusText, {}, this, e);
 			};
 		}
@@ -491,7 +491,7 @@ Ext.define('Ext.ux.Fileup', {
 		if (me.getSignRequestEnabled()) {
 
 			// Sign the request and then send.
-			me.signRequest(http, function(http) {
+			me.signRequest(http, function (http) {
 
 			  // Send the form.
 			  http.send(me.getForm(file));
@@ -508,7 +508,7 @@ Ext.define('Ext.ux.Fileup', {
 	 *
 	 * @param {Object} file Link to loaded file element
 	 */
-	getForm: function(file) {
+	getForm: function (file) {
 		// Create FormData object
 		var form = new FormData();
 
@@ -523,7 +523,7 @@ Ext.define('Ext.ux.Fileup', {
 	 * @method reset
 	 * Component reset
 	 */
-	reset: function() {
+	reset: function () {
 		var me = this;
 
 		me.setBadgeText(null);
@@ -539,7 +539,7 @@ Ext.define('Ext.ux.Fileup', {
 	 * @param {Object} response The response from the server to decode
 	 * @return {Object} The response to provide to the library
 	 */
-	decodeResponse: function(response) {
+	decodeResponse: function (response) {
 		return Ext.decode(response.responseText, true);
 	},
 
@@ -551,7 +551,7 @@ Ext.define('Ext.ux.Fileup', {
 	 * @param {Object} http The XHR request object.
 	 * @param {Function} callback Called when the request has been signed.
 	 */
-	signRequest: function(http, callback) {
+	signRequest: function (http, callback) {
 		var me = this;
 		var header = me.getSignHeader();
 
@@ -560,11 +560,11 @@ Ext.define('Ext.ux.Fileup', {
 		}
 
 		me.signProvider(
-			function(token) {
+			function (token) {
 				http.setRequestHeader(header, token);
 				callback(http);
 			},
-			function(failureText) {
+			function (failureText) {
 				me.fireEvent('failure', 'Request signing is failed! ' +
 										failureText, {}, this);
 			});
@@ -578,7 +578,7 @@ Ext.define('Ext.ux.Fileup', {
 	 * @param {Function} success Signing success callback
 	 * @param {Function} failure Signing failure callback
 	 */
-	signProvider: function(success, failure) {
+	signProvider: function (success, failure) {
 		success('default-token'); // Default behaviour
 	}
 });

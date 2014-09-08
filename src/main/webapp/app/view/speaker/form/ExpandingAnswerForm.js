@@ -33,7 +33,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		}
 	},
 
-	constructor: function() {
+	constructor: function () {
 		this.callParent(arguments);
 
 		this.questionValueComponents = [];
@@ -47,7 +47,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			value: this.getStart(),
 			listeners: {
 				scope: this,
-				spin: function(selectField, value) {
+				spin: function (selectField, value) {
 					for (var i = 0; i < ARSnova.app.globalConfig.answerOptionLimit; i++) {
 						this.answerComponents[i].setHidden(i >= value);
 						if (ARSnova.app.globalConfig.features.learningProgress) {
@@ -63,7 +63,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			ui: 'confirm',
 			style: 'width:200px; margin-left: 8px; margin-top: 0px;',
 			scope: this,
-			handler: function() {
+			handler: function () {
 					this.previewHandler();
 				}
 		});
@@ -104,27 +104,27 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 					container: this,
 					listeners: {
 						scope: this,
-						checkchange: function(field, isChecked) {
+						checkchange: function (field, isChecked) {
 							if (ARSnova.app.globalConfig.features.learningProgress) {
 								var component = this.questionValueComponents[i];
-								var checked = this.answerComponents.filter(function(c) {
+								var checked = this.answerComponents.filter(function (c) {
 									return c.isChecked();
 								});
 								questionValueFieldset.setHidden(checked.length === 0);
 								if (checked.length === 0) {
-									this.questionValueComponents.forEach(function(c) {
+									this.questionValueComponents.forEach(function (c) {
 										c.reset();
 									});
 								} else if (checked.length > 0) {
-									this.questionValueComponents.forEach(function(c, j) {
-											c.setSliderValue(this.answerComponents[j].isChecked() ? c.getMaxValue(): c.getMinValue());
+									this.questionValueComponents.forEach(function (c, j) {
+											c.setSliderValue(this.answerComponents[j].isChecked() ? c.getMaxValue() : c.getMinValue());
 									}, this);
 								} else {
-									component.setSliderValue(isChecked ? component.getMaxValue(): component.getMinValue());
+									component.setSliderValue(isChecked ? component.getMaxValue() : component.getMinValue());
 								}
 							}
 						},
-						change: function(field, newValue, oldValue) {
+						change: function (field, newValue, oldValue) {
 							if (ARSnova.app.globalConfig.features.learningProgress) {
 								this.questionValueComponents[i].setLabel(newValue || Messages.ANSWER);
 							}
@@ -137,7 +137,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			for (var i = 0; i < this.getMaxAnswers(); i++) {
-				(function(i) {
+				(function (i) {
 					var theComponentId = answerOptionEntryId + "-qv-" + i;
 					this.questionValueComponents[i] = Ext.create("ARSnova.view.CustomSliderField", {
 						id: theComponentId,
@@ -159,22 +159,22 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		}
 	},
 
-	getEnumeration: function() {
+	getEnumeration: function () {
 		switch (this.getWording().enumeration.toLowerCase()) {
 			case 'alphabet':
 				var alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-				return function(index) {
+				return function (index) {
 					return alphabet[index];
 				};
 			case 'arabic':
 			default:
-				return function(index) {
+				return function (index) {
 					return index + 1;
 				};
 		}
 	},
 
-	getValues: function() {
+	getValues: function () {
 		var values = [], obj;
 		for (var i = 0; i < this.selectAnswerCount.getValue(); i++) {
 			obj = {
@@ -189,7 +189,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		return values;
 	},
 
-	hasCorrectOptions: function() {
+	hasCorrectOptions: function () {
 		var hasCorrectOptions = false;
 		for (var i = 0; i < this.selectAnswerCount.getValue(); i++) {
 			hasCorrectOptions = hasCorrectOptions || !!this.answerComponents[i].isChecked();
@@ -197,7 +197,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		return hasCorrectOptions;
 	},
 
-	initWithQuestion: function(question) {
+	initWithQuestion: function (question) {
 		var possibleAnswers = question.possibleAnswers;
 		if (possibleAnswers.length < this.getMinAnswers() || possibleAnswers.length > ARSnova.app.globalConfig.answerOptionLimit) {
 			return;
@@ -209,26 +209,26 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		}
 	},
 
-	initSpinnerField: function(startValue) {
+	initSpinnerField: function (startValue) {
 		this.setStart(startValue);
 		this.selectAnswerCount.setValue(startValue);
 		this.selectAnswerCount.fireEvent('spin', this.selectAnswerCount, this.getStart());
 	},
 
-	initAnswerComponents: function(possibleAnswers) {
-		possibleAnswers.forEach(function(answer, index) {
+	initAnswerComponents: function (possibleAnswers) {
+		possibleAnswers.forEach(function (answer, index) {
 			this.answerComponents[index].setValue(answer.text);
-			if(answer.correct) this.answerComponents[index].check();
+			if (answer.correct) this.answerComponents[index].check();
 		}, this);
 	},
 
-	initQuestionValueComponents: function(possibleAnswers) {
-		possibleAnswers.forEach(function(answer, index) {
+	initQuestionValueComponents: function (possibleAnswers) {
+		possibleAnswers.forEach(function (answer, index) {
 			this.questionValueComponents[index].setSliderValue(answer.value);
 		}, this);
 	},
 
-	getQuestionValues: function() {
+	getQuestionValues: function () {
 		var result = {};
 
 		result.possibleAnswers = this.getValues();
@@ -239,14 +239,14 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		return result;
 	},
 
-	previewHandler: function() {
+	previewHandler: function () {
 		var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox', {
 			xtype: 'answerPreview'
 		});
 		answerPreview.showPreview(this.getValues());
 	},
 
-	markEmptyFields: function() {
+	markEmptyFields: function () {
 		var field;
 		for (var i = 0; i < this.selectAnswerCount.getValue(); i++) {
 			field = this.answerComponents[i];

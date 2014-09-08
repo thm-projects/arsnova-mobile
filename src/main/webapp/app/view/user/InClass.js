@@ -39,7 +39,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	 */
 	checkNewSkillQuestionsTask: {
 		name: 'check for new skill questions',
-		run: function(){
+		run: function () {
 			ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.checkNewSkillQuestions();
 		},
 		interval: 30000
@@ -50,7 +50,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	 */
 	checkFeedbackRemovedTask: {
 		name: 'check if my feedback was deleted',
-		run: function(){
+		run: function () {
 			ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.checkFeedbackRemoved();
 		},
 		interval: 30000
@@ -61,7 +61,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	 */
 	countActiveUsersTask: {
 		name: 'count the actually logged in users',
-		run: function(){
+		run: function () {
 			ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.countActiveUsers();
 		},
 		interval: 15000
@@ -72,7 +72,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	 */
 	checkSessionStatusTask: {
 		name: 'check if this session was closed',
-		run: function(){
+		run: function () {
 			ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.checkSessionStatus();
 		},
 		interval: 20000
@@ -80,7 +80,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 	checkLearningProgressTask: {
 		name: 'check if my progress has changed',
-		run: function(){
+		run: function () {
 			ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.checkLearningProgress();
 		},
 		interval: 20000
@@ -91,21 +91,21 @@ Ext.define('ARSnova.view.user.InClass', {
 	*/
 	countFeedbackQuestionsTask: {
 		name: 'count feedback questions',
-		run: function(){
+		run: function () {
 			ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.countFeedbackQuestions();
 		},
 		interval: 15000
 	},
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
-		var comingSoon = function(component) {
+		var comingSoon = function (component) {
 			var comingSoonPanel = Ext.create('Ext.Panel', {
 				html: "<div style='padding: 0.5em'>" + Messages.FEATURE_COMING_SOON+"</div>"
 			});
 			comingSoonPanel.showBy(component, 'tc-bc');
-			Ext.defer(function() {
+			Ext.defer(function () {
 				comingSoonPanel.destroy();
 			}, 2000);
 		};
@@ -119,7 +119,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			text: Messages.SESSIONS,
 			ui: 'back',
 			cls: loggedInCls,
-			handler: function() {
+			handler: function () {
 				ARSnova.app.getController('Sessions').logout();
 			}
 		});
@@ -207,12 +207,12 @@ Ext.define('ARSnova.view.user.InClass', {
 
 		this.add([this.toolbar, this.inClass]);
 
-		this.on('initialize', function() {
+		this.on('initialize', function () {
 			this.feedbackButton.setBadge([{badgeText: '0'}]);
 		});
 
 		// hide or show listeners won't work, so check if the tabpanel activates this panel
-		ARSnova.app.mainTabPanel.tabPanel.on('activeitemchange', function(tabpanel, newPanel, oldPanel) {
+		ARSnova.app.mainTabPanel.tabPanel.on('activeitemchange', function (tabpanel, newPanel, oldPanel) {
 			if (newPanel.down('#' + this.getId()) !== null) {
 				this.refreshListeners();
 			}
@@ -220,20 +220,20 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	/* will be called on session login */
-	registerListeners: function(){
+	registerListeners: function () {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
-		taskManager.start(panel.checkNewSkillQuestionsTask);
-		taskManager.start(panel.checkFeedbackRemovedTask);
-		taskManager.start(panel.countActiveUsersTask);
-		taskManager.start(panel.checkSessionStatusTask);
-		taskManager.start(panel.countFeedbackQuestionsTask);
+		ARSnova.app.taskManager.start(panel.checkNewSkillQuestionsTask);
+		ARSnova.app.taskManager.start(panel.checkFeedbackRemovedTask);
+		ARSnova.app.taskManager.start(panel.countActiveUsersTask);
+		ARSnova.app.taskManager.start(panel.checkSessionStatusTask);
+		ARSnova.app.taskManager.start(panel.countFeedbackQuestionsTask);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
-			taskManager.start(panel.checkLearningProgressTask);
+			ARSnova.app.taskManager.start(panel.checkLearningProgressTask);
 		}
 	},
 
 	/* will be called whenever panel is shown */
-	refreshListeners: function() {
+	refreshListeners: function () {
 		// tasks should get run immediately
 		this.checkNewSkillQuestionsTask.taskRunTime = 0;
 		this.checkFeedbackRemovedTask.taskRunTime = 0;
@@ -246,15 +246,15 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	/* will be called on session logout */
-	destroyListeners: function(){
+	destroyListeners: function () {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
-		taskManager.stop(panel.checkNewSkillQuestionsTask);
-		taskManager.stop(panel.checkFeedbackRemovedTask);
-		taskManager.stop(panel.countActiveUsersTask);
-		taskManager.stop(panel.checkSessionStatusTask);
-		taskManager.stop(panel.countFeedbackQuestionsTask);
+		ARSnova.app.taskManager.stop(panel.checkNewSkillQuestionsTask);
+		ARSnova.app.taskManager.stop(panel.checkFeedbackRemovedTask);
+		ARSnova.app.taskManager.stop(panel.countActiveUsersTask);
+		ARSnova.app.taskManager.stop(panel.checkSessionStatusTask);
+		ARSnova.app.taskManager.stop(panel.countFeedbackQuestionsTask);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
-			taskManager.stop(panel.checkLearningProgressTask);
+			ARSnova.app.taskManager.stop(panel.checkLearningProgressTask);
 		}
 	},
 
@@ -262,11 +262,11 @@ Ext.define('ARSnova.view.user.InClass', {
 	 * fetch all new unanswered skill questions for this session and show a notification
 	 * if user don't want to answer this questions now, save this opinion in localStorage
 	 */
-	checkNewSkillQuestions: function(){
+	checkNewSkillQuestions: function () {
 		ARSnova.app.questionModel.getUnansweredPreparationQuestions(localStorage.getItem("keyword"), {
-			success: function(newQuestions){
+			success: function (newQuestions) {
 				ARSnova.app.questionModel.countPreparationQuestionAnswers(localStorage.getItem("keyword"), {
-					success: function(response) {
+					success: function (response) {
 						var numAnswers = parseInt(response.responseText);
 
 						var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
@@ -282,9 +282,9 @@ Ext.define('ARSnova.view.user.InClass', {
 			failure: Ext.emptyFn
 		});
 		ARSnova.app.questionModel.getUnansweredLectureQuestions(localStorage.getItem("keyword"), {
-			success: function(newQuestions){
+			success: function (newQuestions) {
 				ARSnova.app.questionModel.countLectureQuestionAnswers(localStorage.getItem("keyword"), {
-					success: function(response) {
+					success: function (response) {
 						var numAnswers = parseInt(response.responseText);
 
 						var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
@@ -302,10 +302,10 @@ Ext.define('ARSnova.view.user.InClass', {
 					var showNotification = false;
 					var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
 
-					//check for each question if exists a "dont-remind-me"-flag
-					for(var i = 0; i < newQuestions.length; i++){
+					// check for each question if exists a "dont-remind-me"-flag
+					for (var i = 0; i < newQuestions.length; i++) {
 						var question = newQuestions[i];
-						if (questionsArr.indexOf(question) == -1){
+						if (questionsArr.indexOf(question) == -1) {
 							questionsArr.push(question);
 							showNotification = true;
 						}
@@ -313,30 +313,30 @@ Ext.define('ARSnova.view.user.InClass', {
 					localStorage.setItem('questionIds', Ext.encode(questionsArr));
 					if (!showNotification) return;
 
-					if(newQuestions.length == 1){
+					if (newQuestions.length == 1) {
 						ARSnova.app.questionModel.getQuestionById(newQuestions[0], {
-							success: function(response){
+							success: function (response) {
 								//var question = Ext.decode(response.responseText);
 
 								Ext.Msg.confirm(
 									Messages.ONE_NEW_QUESTION, Messages.WANNA_ANSWER,
-									function(answer){
-										if (answer == 'yes'){// show the question to the user
+									function (answer) {
+										if (answer == 'yes') { // show the question to the user
 											ARSnova.app.getController('Questions').index();
 										}
 									}
 								);
 							},
-							failure: function() {
+							failure: function () {
 								console.log("my sessions request failure");
 							}
 						});
 					} else {
-						//show a notification window
+						// show a notification window
 						Ext.Msg.confirm(
 							Messages.THERE_ARE + ' ' + newQuestions.length + ' ' + Messages.NEW_QUESTIONS, Messages.WANNA_ANSWER,
-							function(answer){
-								if (answer == 'yes'){// show the question to the user
+							function (answer) {
+								if (answer == 'yes') { // show the question to the user
 									ARSnova.app.getController('Questions').index();
 								}
 							}
@@ -344,31 +344,31 @@ Ext.define('ARSnova.view.user.InClass', {
 					}
 				}
 			},
-			failure: function(response){
+			failure: function (response) {
 				console.log('error');
 			}
 		});
 	},
 
-	buttonClicked: function(button){
+	buttonClicked: function (button) {
 		ARSnova.app.getController(button.config.controller)[button.config.action]();
 	},
 
-	checkFeedbackRemoved: function() {
-		if (localStorage.getItem('user has voted')){
+	checkFeedbackRemoved: function () {
+		if (localStorage.getItem('user has voted')) {
 			ARSnova.app.feedbackModel.getUserFeedback(localStorage.getItem("keyword"), {
-				empty: function(response){
+				empty: function (response) {
 					Ext.Msg.alert(Messages.NOTICE, Messages.FEEDBACK_RESET);
 					localStorage.removeItem('user has voted');
 
 					var feedbackButton = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.feedbackButton;
-					feedbackButton.badgeEl ? feedbackButton.badgeEl.destroy(): '';
+					feedbackButton.badgeEl ? feedbackButton.badgeEl.destroy() : '';
 					feedbackButton.badgeEl = null;
 					feedbackButton.badgeCls = "badgeicon feedbackARSnova";
 					feedbackButton.setBadge([{badgeText: "0"}]);
 				},
-				success: function() {},
-				failure: function(){
+				success: function () {},
+				failure: function () {
 					console.log('server-side error feedbackModel save');
 				}
 			});
@@ -378,20 +378,20 @@ Ext.define('ARSnova.view.user.InClass', {
 	/* TODO: check code
 	 * this causes... nothing?
 	 */
-	countActiveUsers: function(){
+	countActiveUsers: function () {
 		ARSnova.app.loggedInModel.countActiveUsersBySession(localStorage.getItem("keyword"), {
-			success: function(response){
+			success: function (response) {
 				var value = parseInt(response.responseText);
 			},
-			failure: function(){
+			failure: function () {
 				console.log('server-side error');
 			}
 		});
 	},
 
-	countFeedbackQuestions: function(){
+	countFeedbackQuestions: function () {
 		ARSnova.app.questionModel.countFeedbackQuestions(localStorage.getItem("keyword"), {
-			success: function(response){
+			success: function (response) {
 				var questionCount = Ext.decode(response.responseText);
 
 				var myQuestionsButton = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.myQuestionsButton;
@@ -402,16 +402,16 @@ Ext.define('ARSnova.view.user.InClass', {
 					badgeCls: "redbadgeicon"
 				}]);
 			},
-			failure: function(){
+			failure: function () {
 				console.log('server-side error');
 			}
 		});
 	},
 
 	/* if the session was closed, show a notification window and stop this task */
-	checkSessionStatus: function(){
+	checkSessionStatus: function () {
 		ARSnova.app.sessionModel.isActive(localStorage.getItem("keyword"), {
-			success: function(isActive){
+			success: function (isActive) {
 				if (!isActive) {
 					Ext.Msg.show({
 						title: 'Hinweis:',
@@ -422,22 +422,22 @@ Ext.define('ARSnova.view.user.InClass', {
 						}]
 					});
 
-					taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.checkSessionStatusTask);
+					ARSnova.app.taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.checkSessionStatusTask);
 				}
 			},
-			failure: function(){
+			failure: function () {
 				console.log('server-side error');
 			}
 		});
 	},
 
-	checkLearningProgress: function() {
+	checkLearningProgress: function () {
 		var me = this;
 		ARSnova.app.sessionModel.getMyLearningProgress(localStorage.getItem("keyword"), {
-			success: function(response) {
+			success: function (response) {
 				var p = Ext.apply({myprogress: 0, courseprogress: 0}, Ext.decode(response.responseText));
 				var vsBadge = {badgeText: Messages.VERSUS, badgeCls: "textbadgeicon"};
-				var getBadge = function(percentage) {
+				var getBadge = function (percentage) {
 					if (percentage >= 75) {
 						return {badgeText: percentage+"%", badgeCls: "greenbadgeicon"};
 					} else if (percentage >= 25) {
@@ -452,7 +452,7 @@ Ext.define('ARSnova.view.user.InClass', {
 					me.myLearningProgressButton.setBadge([getBadge(p.myprogress), vsBadge, getBadge(p.courseprogress)]);
 				}
 			},
-			failure: function() {
+			failure: function () {
 				me.myLearningProgressButton.setBadge([{badgeText: ""}]);
 			}
 		});

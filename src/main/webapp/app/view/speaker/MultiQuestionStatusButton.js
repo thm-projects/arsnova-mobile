@@ -29,16 +29,16 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 		}
 	},
 
-	constructor: function() {
+	constructor: function () {
 		this.callParent(arguments);
 
 		this.checkInitialStatus();
 	},
 
-	checkInitialStatus: function(){
+	checkInitialStatus: function () {
 		// Initial status is always "open" unless all questions are already closed
 		var hasActiveQuestions = false;
-		this.getQuestionStore().each(function(item) {
+		this.getQuestionStore().each(function (item) {
 			hasActiveQuestions = hasActiveQuestions || item.get("active");
 		});
 
@@ -57,18 +57,18 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 		}
 	},
 
-	changeStatus: function() {
+	changeStatus: function () {
 		if (!this.getQuestionStore()) {
 			return;
 		}
 
 		var questions = [];
-		this.getQuestionStore().each(function(question) {
+		this.getQuestionStore().each(function (question) {
 			questions.push(question);
 		});
 
-		var updateQuestions = function(active) {
-			questions.forEach(function(q) {
+		var updateQuestions = function (active) {
+			questions.forEach(function (q) {
 				q.set("active", active);
 				q.raw.active = active;
 			});
@@ -80,7 +80,7 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 					/* close all questions */
 					ARSnova.app.getController('Questions').setAllActive({
 						active: false,
-						callback: Ext.Function.createSequence(this.questionClosedSuccessfully, function() {
+						callback: Ext.Function.createSequence(this.questionClosedSuccessfully, function () {
 							updateQuestions(false);
 						}, this),
 						scope: this
@@ -91,7 +91,7 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 			/* open all questions */
 			ARSnova.app.getController('Questions').setAllActive({
 				active: true,
-				callback: Ext.Function.createSequence(this.questionOpenedSuccessfully, function() {
+				callback: Ext.Function.createSequence(this.questionOpenedSuccessfully, function () {
 					updateQuestions(true);
 				}, this),
 				scope: this

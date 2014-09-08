@@ -21,13 +21,13 @@
 Ext.define("ARSnova.controller.Feedback", {
 	extend: 'Ext.app.Controller',
 
-	index: function(options){
+	index: function (options) {
 		var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 		fP.animateActiveItem(fP.votePanel, 'slide');
 	},
 
-	vote: function(options){
-		if (!ARSnova.app.checkSessionLogin()){
+	vote: function (options) {
+		if (!ARSnova.app.checkSessionLogin()) {
 			Ext.Msg.alert('Hinweis', 'Bitte loggen Sie sich erst in einen Kurs ein, bevor Sie diese Funktion nutzen!');
 			var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 			fP.animateActiveItem(fP.statisticPanel, {
@@ -39,7 +39,7 @@ Ext.define("ARSnova.controller.Feedback", {
 
 		var feedbackValue;
 		var feedbackCls;
-		switch (options.value){
+		switch (options.value) {
 			case "Kann folgen":
 				feedbackCls = "Good";
 				feedbackValue = 1;
@@ -78,18 +78,18 @@ Ext.define("ARSnova.controller.Feedback", {
 		});
 	},
 
-	ask: function(options) {
+	ask: function (options) {
 		options.question.saveInterposed({
 			success: options.success,
 			failure: options.failure
 		});
 	},
 
-	showVotePanel: function(){
-		tP = ARSnova.app.mainTabPanel.tabPanel;
-		fP = tP.feedbackTabPanel;
+	showVotePanel: function () {
+		var tP = ARSnova.app.mainTabPanel.tabPanel;
+		var fP = tP.feedbackTabPanel;
 
-		if(fP.rendered){
+		if (fP.rendered) {
 			fP.setActiveItem(fP.votePanel);
 		} else {
 			fP.activeItem = 1;
@@ -97,13 +97,13 @@ Ext.define("ARSnova.controller.Feedback", {
 		tP.setActiveItem(fP);
 	},
 
-	statistic: function(){
+	statistic: function () {
 		ARSnova.app.showLoadMask("Erzeuge die Grafik...");
-		fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
+		var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 		fP.statisticPanel.backButton.show();
 		ARSnova.app.mainTabPanel.tabPanel.setActiveItem(fP);
 
-		ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.addListener('deactivate', function(panel){
+		ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.addListener('deactivate', function (panel) {
 			panel.statisticPanel.backButton.hide();
 		}, this, {single: true});
 	}

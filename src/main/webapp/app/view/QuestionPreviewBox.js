@@ -26,7 +26,7 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 	xtype: 'questionPreview',
 	ui: 'normal',
 
-	showPreview: function(title, content) {
+	showPreview: function (title, content) {
 
 		// panel for question subject
 		var titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
@@ -51,7 +51,7 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 			xtype: 'button',
 			ui: 'confirm',
 			style: 'width: 80%; maxWidth: 250px; margin-top: 10px;',
-			handler: function() {
+			handler: function () {
 					previewBox.destroy();
 				}
 		});
@@ -89,7 +89,7 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		});
 		previewBox.show();
 
-		//for IE: unblock input fields
+		// for IE: unblock input fields
 		Ext.util.InputBlocker.unblockInputs();
 	}
 });

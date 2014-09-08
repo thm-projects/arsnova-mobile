@@ -26,7 +26,7 @@ Ext.define('ARSnova.view.speaker.form.AbstentionForm', {
 		cls: 'newQuestionOptions'
 	},
 
-	constructor: function() {
+	constructor: function () {
 		this.callParent(arguments);
 
 		this.add([{
@@ -40,14 +40,14 @@ Ext.define('ARSnova.view.speaker.form.AbstentionForm', {
 					text: Messages.YES,
 					pressed: this.getAbstention(),
 					scope: this,
-					handler: function() {
+					handler: function () {
 						this.setAbstention(true);
 					}
 				}, {
 					text: Messages.NO,
 					pressed: !this.getAbstention(),
 					scope: this,
-					handler: function() {
+					handler: function () {
 						this.setAbstention(false);
 					}
 				}]

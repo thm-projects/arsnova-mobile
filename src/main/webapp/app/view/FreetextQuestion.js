@@ -34,20 +34,20 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		}
 	},
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
 		var self = this;
 		this.questionObj = this.config.questionObj;
-		this.viewOnly = typeof this.config.viewOnly === "undefined" ? false: this.config.viewOnly;
+		this.viewOnly = typeof this.config.viewOnly === "undefined" ? false : this.config.viewOnly;
 
 		this.customMask = Ext.create('ARSnova.view.CustomMask', {
 			mainPanel: this
 		});
 
-		this.on('preparestatisticsbutton', function(button) {
+		this.on('preparestatisticsbutton', function (button) {
 			button.scope = this;
-			button.setHandler(function() {
+			button.setHandler(function () {
 				var p = Ext.create('ARSnova.view.FreetextAnswerPanel', {
 					question: self.questionObj,
 					lastPanel: self
@@ -71,12 +71,12 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			maxRows: 7
 		});
 
-		//Setup question title and text to disply in the same field; markdown handles HTML encoding
+		// Setup question title and text to disply in the same field; markdown handles HTML encoding
 		var questionString = this.questionObj.subject
-					 + '\n\n' // inserts one blank line between subject and text
-					 + this.questionObj.text;
+			+ '\n\n' // inserts one blank line between subject and text
+			+ this.questionObj.text;
 
-		//Create standard panel with framework support
+		// Create standard panel with framework support
 		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			cls: "roundedBox allCapsHeader"
 		});
@@ -122,16 +122,16 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			]
 		})]);
 
-		this.on('activate', function(){
+		this.on('activate', function () {
 			/*
 			 * Bugfix, because panel is normally disabled (isDisabled == true),
 			 * but is not rendered as 'disabled'
 			 */
-			if(this.isDisabled()) this.disableQuestion();
+			if (this.isDisabled()) this.disableQuestion();
 		});
 	},
 
-	saveHandler: function(button, event) {
+	saveHandler: function (button, event) {
 		if (this.isEmptyAnswer()) {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.MISSING_INPUT);
 			return;
@@ -144,7 +144,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		}, this);
 	},
 
-	abstentionHandler: function(button, event) {
+	abstentionHandler: function (button, event) {
 		Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
 			if (button === "yes") {
 				this.storeAbstention();
@@ -152,17 +152,17 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		}, this);
 	},
 
-	selectAbstentionAnswer: function() {},
+	selectAbstentionAnswer: function () {},
 
-	isEmptyAnswer: function() {
+	isEmptyAnswer: function () {
 		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "";
 	},
 
-	saveAnswer: function(answer) {
+	saveAnswer: function (answer) {
 		var self = this;
 
 		answer.saveAnswer({
-			success: function() {
+			success: function () {
 				var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
 				if (questionsArr.indexOf(self.questionObj._id) == -1) {
 					questionsArr.push(self.questionObj._id);
@@ -173,7 +173,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
 			},
-			failure: function(response, opts) {
+			failure: function (response, opts) {
 				console.log('server-side error');
 				Ext.Msg.alert(Messages.NOTIFICATION, Messages.ANSWER_CREATION_ERROR);
 				Ext.Msg.doComponentLayout();
@@ -185,7 +185,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		var self = this;
 
 		ARSnova.app.answerModel.getUserAnswer(this.questionObj._id, {
-			empty: function() {
+			empty: function () {
 				var answer = Ext.create('ARSnova.model.Answer', {
 					type: "skill_question_answer",
 					sessionId: localStorage.getItem("sessionId"),
@@ -199,7 +199,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 				self.saveAnswer(answer);
 			},
-			success: function(response) {
+			success: function (response) {
 				var theAnswer = Ext.decode(response.responseText);
 
 				var answer = Ext.create('ARSnova.model.Answer', theAnswer);
@@ -210,17 +210,17 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 				self.saveAnswer(answer);
 			},
-			failure: function(){
+			failure: function () {
 				console.log('server-side error');
 			}
 		});
 	},
 
-	storeAbstention: function() {
+	storeAbstention: function () {
 		var self = this;
 
 		ARSnova.app.answerModel.getUserAnswer(this.questionObj._id, {
-			empty: function() {
+			empty: function () {
 				var answer = Ext.create('ARSnova.model.Answer', {
 					type: "skill_question_answer",
 					sessionId: localStorage.getItem("sessionId"),
@@ -232,7 +232,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 				self.saveAnswer(answer);
 			},
-			success: function(response) {
+			success: function (response) {
 				var theAnswer = Ext.decode(response.responseText);
 
 				var answer = Ext.create('ARSnova.model.Answer', theAnswer);
@@ -241,23 +241,23 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 				self.saveAnswer(answer);
 			},
-			failure: function(){
+			failure: function () {
 				console.log('server-side error');
 			}
 		});
 	},
 
-	disableQuestion: function() {
+	disableQuestion: function () {
 		this.setDisabled(true);
 		this.mask(this.customMask);
 	},
 
-	setAnswerText: function(subject, answer) {
+	setAnswerText: function (subject, answer) {
 		this.answerSubject.setValue(subject);
 		this.answerText.setValue(answer);
 	}
 
-	/*doTypeset: function(parent) {
+	/*doTypeset: function (parent) {
 		if (typeof this.questionTitle.element !== "undefined") {
 			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.questionTitle.element.dom]);
 		} else {

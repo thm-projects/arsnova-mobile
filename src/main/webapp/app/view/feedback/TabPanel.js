@@ -36,7 +36,7 @@ Ext.define('ARSnova.view.feedback.TabPanel', {
 		}
 	},
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
 		this.statisticPanel = Ext.create('ARSnova.view.feedback.StatisticPanel');
@@ -49,7 +49,7 @@ Ext.define('ARSnova.view.feedback.TabPanel', {
 			this.askPanel
 		]);
 
-		this.on('activate', function(){
+		this.on('activate', function () {
 			this.statisticPanel.checkVoteButton();
 			this.statisticPanel.checkTitle();
 			ARSnova.app.feedbackModel.un("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge);
@@ -62,7 +62,7 @@ Ext.define('ARSnova.view.feedback.TabPanel', {
 			}
 		});
 
-		this.on('deactivate', function(){
+		this.on('deactivate', function () {
 			ARSnova.app.feedbackModel.un('arsnova/session/feedback/update', this.statisticPanel.updateChart);
 			ARSnova.app.feedbackModel.un('arsnova/session/feedback/average', this.statisticPanel.updateTabBar);
 			ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge, ARSnova.app.mainTabPanel.tabPanel);
@@ -70,7 +70,7 @@ Ext.define('ARSnova.view.feedback.TabPanel', {
 		});
 	},
 
-	renew: function(){
+	renew: function () {
 		this.tab.setBadgeText("");
 	}
 });

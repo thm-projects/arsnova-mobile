@@ -85,21 +85,21 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 	// get all delimiter indices as array of [start(incl), end(excl)] elements
 	getDelimiter: function (input, delimiter, endDelimiter) {
 		// all lines between the tags to this array
-		var result = new Array();// [start, end]
+		var result = new Array(); // [start, end]
 
 		var idxStart = 0;
 		var idxEnd = -delimiter.length;
 		var run = true;
 
 		while (run) {
-			//start delimiter
+			// start delimiter
 			idxStart = input.indexOf(delimiter, idxEnd + endDelimiter.length);
 
-			//end delimiter
+			// end delimiter
 			idxEnd = input.indexOf(endDelimiter, idxStart + delimiter.length);
 
 			if (idxStart != -1 && idxEnd != -1) {
-				//add delimiter position values
+				// add delimiter position values
 				result.push([idxStart, idxEnd + endDelimiter.length]);
 			} else {
 				run = false;

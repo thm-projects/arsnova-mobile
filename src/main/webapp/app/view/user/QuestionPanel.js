@@ -35,12 +35,12 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	/* item index 0 and 1 are occupied by the carousel and toolbar. */
 	carouselOffset: 2,
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
 		this.setLectureMode();
 
-		this.on('activeitemchange', function(panel, newCard, oldCard) {
+		this.on('activeitemchange', function (panel, newCard, oldCard) {
 			this.toolbar.setQuestionTitle(newCard.questionObj);
 			this.toolbar.incrementQuestionCounter(panel.activeIndex);
 			this.toolbar.checkStatistics(newCard.questionObj, newCard.isDisabled());
@@ -50,7 +50,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 		this.toolbar = Ext.create('ARSnova.view.components.QuestionToolbar', {
 			title: Messages.QUESTION,
-			backButtonHandler: function(animation) {
+			backButtonHandler: function (animation) {
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, animation);
 			}
 		});
@@ -59,45 +59,45 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 		this.onBefore('activate', this.beforeActivate, this);
 		this.onAfter('activate', this.onActivate, this);
-		this.on('add', function(panel, component, index) {
+		this.on('add', function (panel, component, index) {
 			component.doTypeset && component.doTypeset(panel);
 		});
 	},
 
-	beforeActivate: function(){
+	beforeActivate: function () {
 		this.removeAll(false);
 		this._indicator.show();
 	},
 
-	onActivate: function(){
+	onActivate: function () {
 		this.getUnansweredSkillQuestions();
 	},
 
-	setPreparationMode: function() {
+	setPreparationMode: function () {
 		this.setQuestionCountLoader(Ext.bind(ARSnova.app.questionModel.countPreparationQuestions, ARSnova.app.questionModel));
 		this.setQuestionLoader(Ext.bind(ARSnova.app.questionModel.getPreparationQuestionsForUser, ARSnova.app.questionModel));
 	},
 
-	setLectureMode: function() {
+	setLectureMode: function () {
 		this.setQuestionCountLoader(Ext.bind(ARSnova.app.questionModel.countLectureQuestions, ARSnova.app.questionModel));
 		this.setQuestionLoader(Ext.bind(ARSnova.app.questionModel.getLectureQuestionsForUser, ARSnova.app.questionModel));
 	},
 
-	getUnansweredSkillQuestions: function(){
+	getUnansweredSkillQuestions: function () {
 		var self = this;
 
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
 		this.getQuestionLoader()(localStorage.getItem("keyword"), {
-			success: function(questions){
+			success: function (questions) {
 				var userQuestionsPanel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel;
 				var questionsArr = [];
 				var questionIds = [];
 
-				if (questions.length == 0){
-					//no available questions found
+				if (questions.length == 0) {
+					// no available questions found
 
 					self.getQuestionCountLoader()(localStorage.getItem("keyword"), {
-						success: function(response){
+						success: function (response) {
 							var questionsInCourse = Ext.decode(response.responseText);
 
 							if (questionsInCourse > 0) {
@@ -120,7 +120,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 							}
 							hideLoadMask();
 						},
-						failure: function() {
+						failure: function () {
 							hideLoadMask();
 							console.log('error');
 						}
@@ -131,27 +131,27 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 					userQuestionsPanel.toolbar.resetQuestionCounter(questions.length);
 				}
 
-				if (questions.length == 1){
+				if (questions.length == 1) {
 					userQuestionsPanel._indicator.hide();
 				}
 
-				questions.forEach(function(question){
+				questions.forEach(function (question) {
 					questionsArr[question._id] = question;
 					questionIds.push(question._id);
 				});
 
 				ARSnova.app.answerModel.getAnswerByUserAndSession(localStorage.getItem("keyword"), {
-					success: function(response){
+					success: function (response) {
 						var answers = Ext.decode(response.responseText);
 
-						answers.forEach(function(answer){
-							if(questionsArr[answer.questionId]) {
+						answers.forEach(function (answer) {
+							if (questionsArr[answer.questionId]) {
 								questionsArr[answer.questionId].userAnswered = answer.answerText;
 								questionsArr[answer.questionId].answerSubject = answer.answerSubject;
 								questionsArr[answer.questionId].isAbstentionAnswer = answer.abstention;
 							}
 						});
-						questionIds.forEach(function(questionId){
+						questionIds.forEach(function (questionId) {
 							userQuestionsPanel.addQuestion(questionsArr[questionId]);
 						});
 
@@ -163,20 +163,20 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 						userQuestionsPanel.checkAnswer();
 						userQuestionsPanel.showNextUnanswered();
 					},
-					failure: function(response){
+					failure: function (response) {
 						console.log('error');
 					}
 				});
 				hideLoadMask();
 			},
-			failure: function(response) {
+			failure: function (response) {
 				hideLoadMask();
 				console.log('error');
 			}
 		});
 	},
 
-	addQuestion: function(question){
+	addQuestion: function (question) {
 		/**
 		 * add question to questionPanel
 		 */
@@ -191,8 +191,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		}
 	},
 
-	checkAnswer: function(){
-		this.getInnerItems().forEach(function(questionPanel) {
+	checkAnswer: function () {
+		this.getInnerItems().forEach(function (questionPanel) {
 			var questionObj = questionPanel.questionObj;
 			if (!questionObj.userAnswered && !questionObj.isAbstentionAnswer) return;
 
@@ -215,7 +215,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			}
 
 			var list = questionPanel.answerList;
-			var data = list ? list.getStore(): Ext.create('Ext.data.Store', {model:'ARSnova.model.Answer'});
+			var data = list ? list.getStore() : Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
 
 			if (questionObj.questionType === 'mc') {
 				if (!questionObj.isAbstentionAnswer) {
@@ -224,9 +224,9 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 					if (questionObj.possibleAnswers.length !== answers.length) {
 						return;
 					}
-					var selectedIndexes = answers.map(function(isSelected, index) {
-						return isSelected === "1" ? list.getStore().getAt(index): -1;
-					}).filter(function(index) {
+					var selectedIndexes = answers.map(function (isSelected, index) {
+						return isSelected === "1" ? list.getStore().getAt(index) : -1;
+					}).filter(function (index) {
 						return index !== -1;
 					});
 					list.select(selectedIndexes, true);
@@ -240,7 +240,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				}
 			}
 			if (questionObj.showAnswer) {
-				list.getStore().each(function(item) {
+				list.getStore().each(function (item) {
 					item.set('questionAnswered', true);
 				});
 			}
@@ -252,7 +252,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	 * The button will only become visible if showStatistic is enabled in
 	 * speaker.questionDetailsPanel and the active question is already answered.
 	 */
-	checkStatisticRelease: function() {
+	checkStatisticRelease: function () {
 		var questionView = this.getActiveItem();
 
 		questionView.fireEvent('preparestatisticsbutton', this.toolbar.statisticsButton);
@@ -263,12 +263,12 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	 * Check if last answered Question was last unanswered question in carousel.
 	 * If it was the last one, the application moves back to user.InClass panel.
 	 */
-	checkIfLastAnswer: function(){
+	checkIfLastAnswer: function () {
 		var questionPanels = this.items.items;
 		var allAnswered = true;
 
 		for (var i = this.carouselOffset, questionPanel; questionPanel = questionPanels[i]; i++) {
-			if(questionPanel.isDisabled()) {
+			if (questionPanel.isDisabled()) {
 				continue;
 			}
 
@@ -276,7 +276,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			break;
 		}
 
-		if(allAnswered) {
+		if (allAnswered) {
 			ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
 				type: 'slide',
 				direction: 'right',
@@ -291,12 +291,12 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	 * to find the next unanswered question. If the last index of the carousel is reached
 	 * the items before the current position will be checked also.
 	 */
-	showNextUnanswered: function(){
+	showNextUnanswered: function () {
 		var questionPanels = this.items.items;
 		var activeQuestion = this.getActiveItem();
 		var lastQuestion = questionPanels[questionPanels.length-1];
 
-		if(!activeQuestion.isDisabled()) return;
+		if (!activeQuestion.isDisabled()) return;
 		this.checkStatisticRelease();
 
 		var currentPosition = 0;
@@ -309,12 +309,12 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 		var spin = false;
 		for (var i = currentPosition, questionPanel; questionPanel = questionPanels[i]; i++) {
-			if(spin && i == currentPosition) {
+			if (spin && i == currentPosition) {
 				break;
 			}
 
-			if(questionPanel.isDisabled()) {
-				if(questionPanel == lastQuestion) {
+			if (questionPanel.isDisabled()) {
+				if (questionPanel == lastQuestion) {
 					i = this.carouselOffset;
 					spin = true;
 				}
@@ -326,7 +326,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		}
 	},
 
-	renew: function() {
+	renew: function () {
 		this.removeAll();
 		this.getUnansweredSkillQuestions();
 	}

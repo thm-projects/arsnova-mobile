@@ -31,13 +31,13 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 	sessionIsOpenButton: null,
 	sessionIsClosedButton: null,
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
 		this.sessionIsClosed = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.START_SESSION,
 			image: 'unlock_session',
-			handler: function(){
+			handler: function () {
 				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
 			}
 		});
@@ -45,14 +45,14 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 		this.sessionIsOpen = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.STOP_SESSION,
 			image: 'lock_session',
-			handler: function(){
+			handler: function () {
 				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
 			}
 		});
 
 		this.add([this.sessionIsClosed, this.sessionIsOpen]);
 
-		if(localStorage.getItem('active') == 1){
+		if (localStorage.getItem('active') == 1) {
 			this.isOpen = true;
 			this.sessionIsClosed.hide();
 		} else {
@@ -61,7 +61,7 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 		}
 	},
 
-	changeStatus: function(){
+	changeStatus: function () {
 		if (this.isOpen) {
 			Ext.Msg.confirm(Messages.CONFIRM_CLOSE_SESSION, Messages.CONFIRM_CLOSE_SESSION_MESSAGE, function (buttonId) {
 				if (buttonId != "no") {
@@ -81,10 +81,10 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 		}
 	},
 
-	checkInitialStatus: function(){
-		if(this.isRendered) return;
+	checkInitialStatus: function () {
+		if (this.isRendered) return;
 
-		if(localStorage.getItem('active') == 1){
+		if (localStorage.getItem('active') == 1) {
 			this.isOpen = true;
 		} else {
 			this.isOpen = false;
@@ -92,13 +92,13 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 		this.isRendered = true;
 	},
 
-	sessionClosedSuccessfully: function(){
+	sessionClosedSuccessfully: function () {
 		this.isOpen = false;
 		this.sessionIsClosed.show();
 		this.sessionIsOpen.hide();
 	},
 
-	sessionOpenedSuccessfully: function(){
+	sessionOpenedSuccessfully: function () {
 		this.isOpen = true;
 		this.sessionIsOpen.show();
 		this.sessionIsClosed.hide();

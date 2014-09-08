@@ -37,7 +37,7 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 		}
 	},
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
 		this.inClassPanel = Ext.create('ARSnova.view.speaker.InClass');
@@ -52,7 +52,7 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 		]);
 	},
 
-	renew: function(){
+	renew: function () {
 		this.remove(this.inClassPanel);
 		this.inClassPanel = Ext.create('ARSnova.view.speaker.InClass');
 		this.insert(0, this.inClassPanel);

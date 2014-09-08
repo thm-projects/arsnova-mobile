@@ -34,7 +34,7 @@ Ext.define('ARSnova.view.home.TabPanel', {
 		layout: 'card'
 	},
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
 		/* out of class */

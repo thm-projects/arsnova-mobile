@@ -30,19 +30,19 @@ Ext.define('ARSnova.view.speaker.form.IndexedExpandingAnswerForm', {
 
 	isIndexPresent: false,
 
-	getValues: function() {
+	getValues: function () {
 		var values = this.callParent(arguments);
 		var labelGenerator = this.getEnumeration();
-		values.forEach(function(item, index) {
+		values.forEach(function (item, index) {
 			if (!this.isIndexPresent) {
-				item.text = item.text ? (labelGenerator(index) + ": " + item.text): labelGenerator(index);
+				item.text = item.text ? (labelGenerator(index) + ": " + item.text) : labelGenerator(index);
 			}
 			item.id = labelGenerator(index);
 		}, this);
 		return values;
 	},
 
-	initWithQuestion: function(question) {
+	initWithQuestion: function (question) {
 		this.callParent(arguments);
 		this.isIndexPresent = true;
 	}

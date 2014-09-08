@@ -28,7 +28,7 @@ Ext.define('ARSnova.view.MainTabPanel', {
 		layout: 'card'
 	},
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
 		this.tabPanel = Ext.create('ARSnova.view.TabPanel');
@@ -36,7 +36,7 @@ Ext.define('ARSnova.view.MainTabPanel', {
 		this.add([this.tabPanel]);
 	},
 
-	setActiveItem: function(card, animation) {
+	setActiveItem: function (card, animation) {
 		this.callParent(arguments);
 
 		if (typeof(animation) == 'object') {

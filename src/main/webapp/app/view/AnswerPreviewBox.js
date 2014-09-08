@@ -26,7 +26,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 	xtype: 'answerPreview',
 	ui: 'normal',
 
-	showPreview: function(answers) {
+	showPreview: function (answers) {
 
 		// answer preview message box
 		var previewBox = Ext.create('Ext.MessageBox',
@@ -46,7 +46,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 				styleHtmlContent: true
 			},
 			listeners: {
-				activeitemchange: function() {
+				activeitemchange: function () {
 					var actualIndex = carousel.getActiveIndex() + 1;
 					previewBox.setTitle(Messages.ANSWER_PREVIEW_DIALOGBOX_TITLE + " (" + actualIndex + "/" + answers.length + ")");
 				}
@@ -72,7 +72,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			ui: 'confirm',
 			//cls: 'previewButtonOK',
 			style: 'width: 80%; maxWidth: 250px; margin-top: 10px;',
-			handler: function() {
+			handler: function () {
 				previewBox.destroy();
 			}
 		});

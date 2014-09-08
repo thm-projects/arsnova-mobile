@@ -25,7 +25,7 @@ Ext.define("ARSnova.controller.FlashcardQuestions", {
 		models: ['ARSnova.model.Question']
 	},
 
-	listQuestions: function(){
+	listQuestions: function () {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.newQuestionPanel.setVariant('flashcard');
 		sTP.audienceQuestionPanel.setController(this);
@@ -33,12 +33,12 @@ Ext.define("ARSnova.controller.FlashcardQuestions", {
 		sTP.animateActiveItem(sTP.audienceQuestionPanel, 'slide');
 	},
 
-	destroyAll: function() {
+	destroyAll: function () {
 		var question = Ext.create('ARSnova.model.Question');
 		question.deleteAllFlashcards.apply(question, arguments);
 	},
 
-	getQuestions: function() {
+	getQuestions: function () {
 		var question = Ext.create('ARSnova.model.Question');
 		question.getFlashcards.apply(question, arguments);
 	}

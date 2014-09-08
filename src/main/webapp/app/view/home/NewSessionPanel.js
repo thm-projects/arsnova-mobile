@@ -39,7 +39,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 	toolbar: null,
 	backButton: null,
 
-	constructor: function(args) {
+	constructor: function (args) {
 		this.callParent(arguments);
 
 		this.mycoursesStore = new Ext.data.JsonStore({
@@ -54,9 +54,10 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				marginRight: '12px',
 				backgroundColor: 'transparent'
 			},
-			itemTpl: window.innerWidth > 321
-						? '<span class="course">{fullname:htmlEncode}<span>'
-: '<span class="course">{shortname:htmlEncode}<span>',
+			itemTpl: window.innerWidth > 321 ?
+				'<span class="course">{fullname:htmlEncode}<span>' :
+				'<span class="course">{shortname:htmlEncode}<span>'
+			,
 			listeners: {
 				scope: this,
 				itemtap: Ext.bind(this.onCourseSubmit, this),
@@ -71,8 +72,8 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 					var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
 
 					this.mycourses.setHeight(
-						parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height"))	+
-						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top"))	+
+						parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
+						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
 						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
 					);
 				}
@@ -82,7 +83,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.SESSIONS,
 			ui: 'back',
-			handler: function() {
+			handler: function () {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 				hTP.animateActiveItem(hTP.mySessionsPanel, {
 					type: 'slide',
@@ -138,12 +139,12 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			}, this.mycourses]
 		}]);
 
-		this.onBefore('activate', function() {
+		this.onBefore('activate', function () {
 			this.getMyCourses();
 		}, this);
 	},
 
-	onSubmit: function() {
+	onSubmit: function () {
 		var values = this.up('panel').getValues();
 
 		ARSnova.app.getController('Sessions').create({
@@ -152,7 +153,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		});
 	},
 
-	onCourseSubmit: function(list, index, element, e) {
+	onCourseSubmit: function (list, index, element, e) {
 		var course = list.getStore().getAt(index);
 
 		console.log(course);
@@ -174,7 +175,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		});
 	},
 
-	getMyCourses: function() {
+	getMyCourses: function () {
 		/* only allow auth services with fixed user names */
 		var allowedAuthServices = [
 			ARSnova.app.LOGIN_LDAP,
@@ -185,8 +186,8 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		}
 		var newSessionPanel = this;
 		ARSnova.app.courseModel.getMyCourses({
-			success: Ext.bind(function(response) {
-				if(response.responseText == "[]") {
+			success: Ext.bind(function (response) {
+				if (response.responseText == "[]") {
 					newSessionPanel.mycourses.hide();
 					newSessionPanel.setScrollable(null);
 				} else {
@@ -201,18 +202,18 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 					}
 				}
 			}, this),
-			empty: Ext.bind(function() {
+			empty: Ext.bind(function () {
 				newSessionPanel.mycourses.hide();
 				newSessionPanel.setScrollable(null);
 			}, this),
-			unauthenticated: function() {
+			unauthenticated: function () {
 				ARSnova.app.getController('Auth').login({
 					mode: ARSnova.app.loginMode
 				});
 			},
-			failure: function() {
+			failure: function () {
 				console.log("my courses request failure");
 			}
-		}, (window.innerWidth > 321 ? 'name': 'shortname'));
+		}, (window.innerWidth > 321 ? 'name' : 'shortname'));
 	}
 });

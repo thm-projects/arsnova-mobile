@@ -30,7 +30,7 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 		]
 	},
 
-	constructor: function() {
+	constructor: function () {
 		this.callParent(arguments);
 
 		this.fields = [];
@@ -47,7 +47,7 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 		ui: 'confirm',
 		style: 'width:200px; margin-left: 8px; margin-top: 0px;',
 		scope: this,
-		handler: function() {
+		handler: function () {
 			this.previewHandler();
 		}
 	});
@@ -59,7 +59,7 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 		}, previewButton]);
 	},
 
-	initWithQuestion: function(question) {
+	initWithQuestion: function (question) {
 		var possibleAnswers = question.possibleAnswers;
 
 		this.setMaxAnswers(possibleAnswers.length);
@@ -68,12 +68,12 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 		}
 	},
 
-	getQuestionValues: function() {
+	getQuestionValues: function () {
 		return {possibleAnswers: this.getValues()};
 	},
 
-	getValues: function() {
-		return this.fields.map(function(item) {
+	getValues: function () {
+		return this.fields.map(function (item) {
 			return {
 				text: item.getValue(),
 				correct: false
@@ -81,7 +81,7 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 		});
 	},
 
-	markEmptyFields: function() {
+	markEmptyFields: function () {
 		var field;
 		for (var i = 0; i < this.fields.length; i++) {
 			field = this.fields[i];
@@ -91,7 +91,7 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 		}
 	},
 
-	previewHandler: function() {
+	previewHandler: function () {
 		var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox', {
 			xtype: 'answerPreview'
 		});

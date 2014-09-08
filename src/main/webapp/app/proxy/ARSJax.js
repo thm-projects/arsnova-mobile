@@ -25,17 +25,17 @@ Ext.define('ARSnova.proxy.ARSJax', {
 
 	lastStatusCodes: [],
 
-	constructor: function() {
+	constructor: function () {
 		this.callParent(arguments);
 	},
 
-	request: function(options) {
+	request: function (options) {
 		var me = this;
 		var success = options.success || Ext.emptyFn,
 			failure = options.failure || Ext.emptyFn;
-		var prefix = (ARSnova.app.globalConfig ? ARSnova.app.globalConfig.apiPath: "") + "/";
+		var prefix = (ARSnova.app.globalConfig ? ARSnova.app.globalConfig.apiPath : "") + "/";
 
-		if(ARSnova.app.checkMobileDeviceType()) {
+		if (ARSnova.app.checkMobileDeviceType()) {
 			options.url = ARSnova.app.absoluteUrl + options.url;
 		}
 
@@ -46,13 +46,13 @@ Ext.define('ARSnova.proxy.ARSJax', {
 			jsonData: options.jsonData,
 			headers: options.headers,
 
-			success: function(response) {
+			success: function (response) {
 				me.handleCode(response.status);
 				var fn = options[response.status] || success;
 				fn.apply(this, arguments);
 			},
 
-			failure: function(response) {
+			failure: function (response) {
 				me.handleCode(response.status);
 				var fn = options[response.status] || failure;
 				fn.apply(this, arguments);
@@ -60,12 +60,12 @@ Ext.define('ARSnova.proxy.ARSJax', {
 		});
 	},
 
-	handleCode: function(statusCode) {
+	handleCode: function (statusCode) {
 		this.lastStatusCodes.push(statusCode);
 		if (this.lastStatusCodes.length > this.getMaxStatusCodes()) {
 			this.lastStatusCodes.splice(0, 1);
 		}
-		var unauthorized = this.lastStatusCodes.filter(function(code) {
+		var unauthorized = this.lastStatusCodes.filter(function (code) {
 			return code === 401;
 		});
 

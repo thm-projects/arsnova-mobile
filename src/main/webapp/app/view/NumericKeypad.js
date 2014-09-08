@@ -51,7 +51,7 @@ Ext.define('ARSnova.view.NumericKeypad', {
 	],
 
 	// @private
-	initialize: function() {
+	initialize: function () {
 		Ext.apply(this.renderData, {
 			maxValue: this.maxValue,
 			maxLength: this.maxLength,

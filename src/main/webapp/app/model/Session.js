@@ -45,35 +45,35 @@ Ext.define('ARSnova.model.Session', {
 		]
 	},
 
-	destroy: function(sessionId, creator, callbacks) {
+	destroy: function (sessionId, creator, callbacks) {
 		return this.getProxy().delSession(sessionId, creator, callbacks);
 	},
 
-	create: function(callbacks) {
+	create: function (callbacks) {
 		return this.getProxy().createSession(this, callbacks);
 	},
 
-	checkSessionLogin: function(keyword, callbacks) {
+	checkSessionLogin: function (keyword, callbacks) {
 		return this.getProxy().checkSessionLogin(keyword, callbacks);
 	},
 
-	getMySessions: function(callbacks, sortby) {
+	getMySessions: function (callbacks, sortby) {
 		return this.getProxy().getMySessions(callbacks, sortby);
 	},
 
-	isActive: function(sessionKeyword, callbacks) {
+	isActive: function (sessionKeyword, callbacks) {
 		return this.getProxy().isActive(sessionKeyword, callbacks);
 	},
 
-	lock: function(sessionKeyword, theLock, callbacks) {
+	lock: function (sessionKeyword, theLock, callbacks) {
 		return this.getProxy().lock(sessionKeyword, theLock, callbacks);
 	},
 
-	getMyLearningProgress: function(sessionKeyword, callbacks) {
+	getMyLearningProgress: function (sessionKeyword, callbacks) {
 		return this.getProxy().getMyLearningProgress(sessionKeyword, callbacks);
 	},
 
-	getCourseLearningProgress: function(sessionKeyword, callbacks) {
+	getCourseLearningProgress: function (sessionKeyword, callbacks) {
 		return this.getProxy().getCourseLearningProgress(sessionKeyword, callbacks);
 	}
 });

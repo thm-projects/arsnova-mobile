@@ -38,7 +38,7 @@ Ext.define('ARSnova.view.MathJaxField', {
 		'</tpl>'
 	],
 
-	initRenderData: function() {
+	initRenderData: function () {
 		ARSnova.view.MathJaxField.superclass.initRenderData.apply(this, arguments);
 
 		Ext.applyIf(this.renderData, {
@@ -48,11 +48,11 @@ Ext.define('ARSnova.view.MathJaxField', {
 		return this.renderData;
 	},
 
-	afterRender: function() {
+	afterRender: function () {
 		ARSnova.view.MathJaxField.superclass.afterRender.apply(this, arguments);
 
 		if ("undefined" !== typeof MathJax) {
-			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.renderData.inputId], Ext.createDelegate(function() {
+			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.renderData.inputId], Ext.createDelegate(function () {
 				var containerObject = this.layoutObject || this.up("form");
 				containerObject.doComponentLayout();
 			}, this));

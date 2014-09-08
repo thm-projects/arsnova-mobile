@@ -18,7 +18,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA	02111-1307, USA.
  +--------------------------------------------------------------------------*/
-var TaskRunner = function(interval) {
+var TaskRunner = function (interval) {
 	interval = interval || 10;
 	var tasks = [],
 	removeQueue = [],
@@ -26,15 +26,15 @@ var TaskRunner = function(interval) {
 	running = false,
 	debug = false,
 
-	//private
-	stopThread = function() {
+	// private
+	stopThread = function () {
 		running = false;
 		clearInterval(id);
 		id = 0;
 	},
 
 	// private
-	startThread = function() {
+	startThread = function () {
 		if (!running) {
 			running = true;
 			id = setInterval(runTasks, interval);
@@ -42,7 +42,7 @@ var TaskRunner = function(interval) {
 	},
 
 	// private
-	removeTask = function(t) {
+	removeTask = function (t) {
 		/*
 		 * removeQueue.push(t);
 		 */
@@ -54,7 +54,7 @@ var TaskRunner = function(interval) {
 	},
 
 	// private
-	runTasks = function() {
+	runTasks = function () {
 		var rqLen = removeQueue.length,
 				now = new Date().getTime(),
 				i;
@@ -91,9 +91,9 @@ var TaskRunner = function(interval) {
 		}
 	};
 
-	this.start = function(task) {
-		if(debug) console.log("starting task: " + task.name);
-		if(Ext.Array.contains(tasks, task)) return false;
+	this.start = function (task) {
+		if (debug) console.log("starting task: " + task.name);
+		if (Ext.Array.contains(tasks, task)) return false;
 		tasks.push(task);
 		task.taskStartTime = new Date().getTime();
 		task.taskRunTime = 0;
@@ -102,13 +102,13 @@ var TaskRunner = function(interval) {
 		return task;
 	};
 
-	this.stop = function(task) {
-		if(debug) console.log("stopping task: " + task.name);
+	this.stop = function (task) {
+		if (debug) console.log("stopping task: " + task.name);
 		removeTask(task);
 		return task;
 	};
 
-	this.stopAll = function() {
+	this.stopAll = function () {
 		stopThread();
 		for (var i = 0, len = tasks.length; i < len; i++) {
 			if (tasks[i].onStop) {
@@ -119,7 +119,7 @@ var TaskRunner = function(interval) {
 		removeQueue = [];
 	};
 
-	this.getTasks = function() {
+	this.getTasks = function () {
 		console.log(tasks);
 	};
 };

@@ -28,8 +28,8 @@ var isAndroid = ua.indexOf("android") > -1;
 var isChrome = ua.indexOf("chrome") > -1;
 var lang;
 
-if(isAndroid && !isChrome) {
-	if ( navigator && navigator.userAgent && (lang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {
+if (isAndroid && !isChrome) {
+	if (navigator && navigator.userAgent && (lang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {
 		lang = lang[1];
 	}
 } else {
@@ -37,11 +37,11 @@ if(isAndroid && !isChrome) {
 }
 
 var prefLang = localStorage.getItem("language");
-if(prefLang != undefined){
+if (prefLang != undefined) {
 	lang = prefLang;
 }
 
-if(lang != null) {
+if (lang != null) {
 	lang = lang.toLowerCase();
 }
 
@@ -140,7 +140,7 @@ switch (lang) {
 			/* questions */
 			QUESTION: "Question",
 			QUESTION_PLACEHOLDER: "Enter question",
-			QUESTIONTEXT_PlACEHOLDER: "Enter question",
+			QUESTIONTEXT_PLACEHOLDER: "Enter question",
 			QUESTIONS: "Questions",
 			QUESTION_DETAILS: "Details",
 			QUESTION_DATE: "Date",
@@ -491,7 +491,7 @@ switch (lang) {
 			/* questions */
 			QUESTION: "Frage",
 			QUESTION_PLACEHOLDER: "Frage eingeben",
-			QUESTIONTEXT_PlACEHOLDER: "Frage eingeben",
+			QUESTIONTEXT_PLACEHOLDER: "Frage eingeben",
 			QUESTIONS: "Fragen",
 			QUESTION_DETAILS: "Details",
 			QUESTION_DATE: "Datum",

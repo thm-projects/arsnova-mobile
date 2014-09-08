@@ -37,7 +37,7 @@
 	</target>
 
 	<target name="jshint">
-		<jshint dir="${main.dir}/app" includes="**/*.js" globals="Ext:true,console:true,ARSnova:true,socket:true,RSVP:true">
+		<jshint dir="${main.dir}/app" includes="**/*.js" excludes="utils/**" globals="ARSnova:true,Ext:true,io:true,markdown:true,MathJax:true,Messages:true,moment:true,RSVP:true,socket:true,TaskRunner:true">
 			<report type="xml" destFile="${basedir}/target/jshint.xml" />
 		</jshint>
 	</target>

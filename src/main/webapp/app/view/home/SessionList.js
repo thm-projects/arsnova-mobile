@@ -23,7 +23,7 @@ Ext.define('ARSnova.view.home.SessionList', {
 		title: ""
 	},
 
-	constructor: function() {
+	constructor: function () {
 		this.callParent(arguments);
 
 		this.content = Ext.create('Ext.form.FieldSet', {
@@ -34,11 +34,11 @@ Ext.define('ARSnova.view.home.SessionList', {
 		this.add(this.content);
 	},
 
-	addEntry: function(element) {
+	addEntry: function (element) {
 		this.content.add(element);
 	},
 
-	removeAll: function() {
+	removeAll: function () {
 		this.content.removeAll();
 	}
 });

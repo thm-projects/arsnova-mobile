@@ -141,12 +141,12 @@ Ext.application({
 	 */
 	loggedInTask: {
 		name: 'save that user is logged in',
-		run: function() {
+		run: function () {
 			if (localStorage.getItem('keyword')) {
 				ARSnova.app.restProxy.loggedInTask();
 			}
 		},
-		interval: 60000// 60 seconds
+		interval: 60000 // 60 seconds
 	},
 
 	/**
@@ -154,18 +154,18 @@ Ext.application({
 	 */
 	updateSessionActivityTask: {
 		name: 'save that owner of a session is logged in',
-		run: function() {
+		run: function () {
 			if (localStorage.getItem('keyword')) {
 				ARSnova.app.restProxy.updateSessionActivityTask();
 			}
 		},
-		interval: 180000// 180 seconds
+		interval: 180000 // 180 seconds
 	},
 
 	/**
 	 * initialize models
 	 */
-	initModels: function() {
+	initModels: function () {
 		this.answerModel = Ext.create('ARSnova.model.Answer');
 		this.authModel = Ext.create('ARSnova.model.Auth');
 		this.feedbackModel = Ext.create('ARSnova.model.Feedback');
@@ -180,7 +180,7 @@ Ext.application({
 	 * This is called automatically when the page loads. Here we set up the main component on the page
 	 */
 
-	launch: function(){
+	launch: function () {
 		console.info("ARSnova.app.launch");
 		// Destroy the #appLoadingIndicator element
 		Ext.fly('appLoadingIndicator').destroy();
@@ -189,7 +189,7 @@ Ext.application({
 		this.checkLocalStorage();
 		this.checkBrowser();
 
-		taskManager = new TaskRunner();
+		this.taskManager = new TaskRunner();
 
 		this.initRestProxy();
 		this.initSocket();
@@ -215,9 +215,9 @@ Ext.application({
 	/**
 	 * reload application if manifest file is changed
 	 */
-	onUpdated: function() {
+	onUpdated: function () {
 		Ext.Msg.confirm(Messages.NEW_VERSION_TITLE, Messages.NEW_VERSION_AVAILABLE,
-			function(buttonId) {
+			function (buttonId) {
 				if (buttonId === 'yes') {
 					window.location.reload();
 				}
@@ -225,21 +225,21 @@ Ext.application({
 		);
 	},
 
-	initRestProxy: function() {
+	initRestProxy: function () {
 		this.restProxy = Ext.create('ARSnova.proxy.RestProxy');
 	},
 
-	initSocket: function() {
+	initSocket: function () {
 		this.socket = Ext.create('ARSnova.WebSocket');
 	},
 
-	loadGlobalConfig: function() {
+	loadGlobalConfig: function () {
 		var globalConfig = new RSVP.Promise();
 		ARSnova.app.restProxy.getGlobalConfiguration({
-			success: function(config) {
+			success: function (config) {
 				globalConfig.resolve(config);
 			},
-			failure: function() {
+			failure: function () {
 				globalConfig.reject();
 			}
 		});
@@ -251,9 +251,9 @@ Ext.application({
 	 * after user has logged in
 	 * start some tasks and show the correct homepage to user
 	 */
-	afterLogin: function(){
+	afterLogin: function () {
 		console.debug("Application: afterLogin");
-		taskManager.start(ARSnova.app.loggedInTask);
+		ARSnova.app.taskManager.start(ARSnova.app.loggedInTask);
 		ARSnova.app.loggedInTask.run(); // fire immediately
 
 		/* show diagnosis tab panel */
@@ -283,8 +283,8 @@ Ext.application({
 	/**
 	 * returns true if user is logged in a session
 	 */
-	checkSessionLogin: function(){
-		if(localStorage.getItem('sessionId') == undefined || localStorage.getItem('sessionId') == "")
+	checkSessionLogin: function () {
+		if (localStorage.getItem('sessionId') == undefined || localStorage.getItem('sessionId') == "")
 			return false;
 		else
 			return true;
@@ -293,14 +293,14 @@ Ext.application({
 	/**
 	 * returns true if device is a phone or a tablet
 	 */
-	checkMobileDeviceType: function() {
-		if(Ext.device.deviceType == 'Phone' || Ext.device.deviceType == 'Tablet') {
+	checkMobileDeviceType: function () {
+		if (Ext.device.deviceType == 'Phone' || Ext.device.deviceType == 'Tablet') {
 			return true;
 		} else
 		return false;
 	},
 
-	checkPreviousLogin: function(){
+	checkPreviousLogin: function () {
 		console.debug("Application: checkPreviousLogin");
 		var isLocalStorageUninitialized = localStorage.getItem('role') == null
 			|| localStorage.getItem('loginMode') == null
@@ -316,7 +316,7 @@ Ext.application({
 		return true;
 	},
 
-	setWindowTitle: function() {
+	setWindowTitle: function () {
 		switch (ARSnova.app.userRole) {
 			case ARSnova.app.USER_ROLE_SPEAKER:
 				window.document.title = "ARSnova: " + Messages.SPEAKER;
@@ -333,7 +333,7 @@ Ext.application({
 	/**
 	 * Wrapper for an invidivudal LoadMask
 	 */
-	showLoadMask: function(message, duration) {
+	showLoadMask: function (message, duration) {
 		var minimumDuration = 500;
 
 		Ext.Viewport.setMasked({
@@ -341,7 +341,7 @@ Ext.application({
 			message: message || ""
 		});
 
-		var hideLoadMask = Ext.Function.createDelayed(function() {
+		var hideLoadMask = Ext.Function.createDelayed(function () {
 			Ext.Viewport.setMasked(false);
 		}, minimumDuration);
 		Ext.defer(hideLoadMask, (duration || 5000) - minimumDuration);
@@ -352,17 +352,17 @@ Ext.application({
 	/**
 	 * clear local storage
 	 */
-	cleanLocalStorage: function(){
+	cleanLocalStorage: function () {
 		localStorage.clear();
 	},
 
 	/**
 	 * check if string is valid json
 	 */
-	isJsonString: function(str){
+	isJsonString: function (str) {
 		try {
 			JSON.parse(str);
-		} catch (e){
+		} catch (e) {
 			return false;
 		}
 		return true;
@@ -371,16 +371,16 @@ Ext.application({
 	/**
 	 * make localStorage ready
 	 */
-	checkLocalStorage: function(){
-		if (localStorage.getItem('lastVisitedSessions') == null){
+	checkLocalStorage: function () {
+		if (localStorage.getItem('lastVisitedSessions') == null) {
 			localStorage.setItem('lastVisitedSessions', "[]");
 		}
 
-		if (localStorage.getItem('questionIds') == null){
+		if (localStorage.getItem('questionIds') == null) {
 			localStorage.setItem('questionIds', "[]");
 		}
 
-		if (localStorage.getItem('loggedIn') == null){
+		if (localStorage.getItem('loggedIn') == null) {
 			localStorage.setItem('loggedIn', "[]");
 		}
 
@@ -396,7 +396,7 @@ Ext.application({
 		return true;
 	},
 
-	checkBrowser: function() {
+	checkBrowser: function () {
 		var support = Ext.create('ARSnova.BrowserSupport');
 		support.isBrowserSupported(function updateRequired(browserName, requiredVersion) {
 			alert(Messages.UPDATE_BROWSER_MESSAGE.replace(/###/, browserName));
@@ -405,22 +405,22 @@ Ext.application({
 		});
 	},
 
-	formatSessionID: function(sessionID){
+	formatSessionID: function (sessionID) {
 		var tmp = [];
-		for(var i = 0; i < sessionID.length; i++){
-			if(i % 2){
+		for (var i = 0; i < sessionID.length; i++) {
+			if (i % 2) {
 				tmp.push(sessionID.substr(i - 1, 2));
 			}
 		}
-		if(tmp.length * 2 < sessionID.length) tmp.push(sessionID[tmp.length * 2]);
+		if (tmp.length * 2 < sessionID.length) tmp.push(sessionID[tmp.length * 2]);
 		return tmp.join(" ");
 	},
 
-	removeVisitedSession: function(sessionId){
+	removeVisitedSession: function (sessionId) {
 		var sessions = Ext.decode(localStorage.getItem('lastVisitedSessions'));
-		for ( var i = 0; i < sessions.length; i++){
+		for (var i = 0; i < sessions.length; i++) {
 			var session = sessions[i];
-			if (sessionId == session._id){
+			if (sessionId == session._id) {
 				sessions.splice(i, 1);
 			}
 		}
@@ -458,4 +458,4 @@ function clone(obj) {
 	}
 
 	throw new Error("Unable to copy obj! Its type isn't supported.");
-};
+}

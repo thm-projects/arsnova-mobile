@@ -45,7 +45,7 @@ Ext.define('ARSnova.view.TextCheckfield', {
 		listeners: {
 			'tap': {
 				element: 'label',
-				fn: function() {
+				fn: function () {
 					var parent = this.getContainer();
 					if (parent.config.singleChoice) {
 						for (var i = 0; i < parent.selectAnswerCount.getValue(); i++) {
@@ -64,7 +64,7 @@ Ext.define('ARSnova.view.TextCheckfield', {
 		}
 	},
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 		/**
 		 * If checked is set true, the class of the label will be set to this.config.checkedCls,
@@ -78,7 +78,7 @@ Ext.define('ARSnova.view.TextCheckfield', {
 		 * initialize checked as false by default. If this step is not done, the framework
 		 * don't initialize 'checked' and let it undefined.
 		 */
-		this.onAfter('initialize', function() {
+		this.onAfter('initialize', function () {
 			if (this.getChecked() == null) {
 				this.uncheck();
 			}
@@ -88,14 +88,14 @@ Ext.define('ARSnova.view.TextCheckfield', {
 	/**
 	 * @return: Returns the value of this.config.checked (boolean).
 	 */
-	isChecked: function() {
+	isChecked: function () {
 		return this.getChecked();
 	},
 
 	/**
 	 * checks the checkfield
 	 */
-	check: function() {
+	check: function () {
 		this.setChecked(true);
 		this.setCheckfieldCls();
 	},
@@ -103,7 +103,7 @@ Ext.define('ARSnova.view.TextCheckfield', {
 	/**
 	 * unchecks the checkfield
 	 */
-	uncheck: function() {
+	uncheck: function () {
 		this.setChecked(false);
 		this.setCheckfieldCls();
 	},
@@ -111,7 +111,7 @@ Ext.define('ARSnova.view.TextCheckfield', {
 	/**
 	 * Toggles checkfield cls and value
 	*/
-	toggleChecked: function() {
+	toggleChecked: function () {
 		this.setChecked(!this.isChecked());
 		this.setCheckfieldCls();
 	},
@@ -119,7 +119,7 @@ Ext.define('ARSnova.view.TextCheckfield', {
 	/**
 	 * Toggles labelCls between this.config.uncheckedCls and this.config.checkedCls
 	 */
-	setCheckfieldCls: function() {
+	setCheckfieldCls: function () {
 		if (this.isChecked()) {
 			this.label.replaceCls(this.getUncheckedCls(), this.getCheckedCls());
 		} else {

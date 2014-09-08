@@ -36,7 +36,7 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 	backButton: null,
 	questionObj: null,
 
-	constructor: function(args){
+	constructor: function (args) {
 		this.callParent(arguments);
 
 		this.questionObj = args.question;
@@ -45,7 +45,7 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 			text: Messages.QUESTIONS,
 			ui: 'back',
 			scope: this,
-			handler: function(){
+			handler: function () {
 				var sQP = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
 				sQP.animateActiveItem(sQP.questionsPanel, {
 					type: 'slide',
@@ -64,12 +64,12 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 			]
 		});
 
-		//Setup question title and text to display in the same field; markdown handles HTML encoding
+		// Setup question title and text to display in the same field; markdown handles HTML encoding
 		var questionString = this.questionObj.fullDate + ": " + this.questionObj.subject
 			+ '\n\n' // inserts one blank line between subject and text
 			+ this.questionObj.text;
 
-		//Create standard panel with framework support
+		// Create standard panel with framework support
 		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			cls: "roundedBox allCapsHeader"
 		});
@@ -85,11 +85,11 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 			cls: 'centerButton',
 			text: Messages.DELETE,
 			scope: this,
-			handler: function(){
+			handler: function () {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
 
 				ARSnova.app.questionModel.deleteInterposed(this.questionObj, {
-					failure: function(response){
+					failure: function (response) {
 						console.log('server-side error delete question');
 					}
 				});
@@ -104,13 +104,13 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 
 		this.on('deactivate', this.onDeactivate);
 
-		this.on('painted', function() {
+		this.on('painted', function () {
 			var textarea = this.element.down('textarea');
 			textarea.setHeight(textarea.dom.scrollHeight);
 		});
 	},
 
-	onDeactivate: function(){
+	onDeactivate: function () {
 		setTimeout("ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.checkFeedbackQuestions();", 500);
 	}
 });

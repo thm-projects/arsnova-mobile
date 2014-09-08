@@ -24,7 +24,7 @@ Ext.define('ARSnova.model.ARSmodel', {
 	 * @param {String/Object} fieldName The field to set, or an object containing key/value pairs.
 	 * @param {Object} value The value to set.
 	 */
-	set: function(fieldName, value) {
+	set: function (fieldName, value) {
 
 		var me = this,
 			// We are using the fields map since it saves lots of function calls
@@ -42,8 +42,8 @@ Ext.define('ARSnova.model.ARSmodel', {
 		if (arguments.length == 1) {
 			for (key in fieldName) {
 				if (fieldName.hasOwnProperty(key)) {
-					//here we check for the custom convert function. Note that if a field doesn't have a convert function,
-					//we default it to its type's convert function, so we have to check that here. This feels rather dirty.
+					// here we check for the custom convert function. Note that if a field doesn't have a convert function,
+					// we default it to its type's convert function, so we have to check that here. This feels rather dirty.
 					field = fieldMap[key];
 					if (field && field.hasCustomConvert()) {
 						modifiedFieldNames.push(key);
@@ -73,7 +73,7 @@ Ext.define('ARSnova.model.ARSmodel', {
 			if (notEditing && modifiedCount) {
 				me.endEdit(false, modifiedFieldNames);
 			}
-		} else if(modified) {
+		} else if (modified) {
 			field = fieldMap[fieldName];
 			convert = field && field.getConvert();
 			if (convert) {
