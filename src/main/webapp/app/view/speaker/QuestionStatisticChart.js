@@ -388,9 +388,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				var sum = 0;
 				var maxValue = 10;
 
-				var tmp_possibleAnswers = [];
-				for (var i = 0; i < tmp_possibleAnswers.length; i++) {
-					var el = tmp_possibleAnswers[i];
+				var tmpPossibleAnswers = [];
+				for (var i = 0; i < tmpPossibleAnswers.length; i++) {
+					var el = tmpPossibleAnswers[i];
 					var record = store.findRecord('text', el, 0, false, true, true);
 					record.set('value', 0);
 				}
@@ -398,9 +398,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				for (var i = 0; i < panel.questionObj.possibleAnswers.length; i++) {
 					var el = panel.questionObj.possibleAnswers[i];
 					if (el.data)
-						tmp_possibleAnswers.push(el.data.text);
+						tmpPossibleAnswers.push(el.data.text);
 					else
-						tmp_possibleAnswers.push(el.text);
+						tmpPossibleAnswers.push(el.text);
 				}
 
 				var mcAnswerCount = [];
@@ -449,8 +449,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 						maxValue = Math.ceil(el.answerCount / 10) * 10;
 					}
 
-					var idx = tmp_possibleAnswers.indexOf(el.answerText); // Find the index
-					if (idx != -1) tmp_possibleAnswers.splice(idx, 1); // Remove it if really found!
+					var idx = tmpPossibleAnswers.indexOf(el.answerText); // Find the index
+					if (idx != -1) tmpPossibleAnswers.splice(idx, 1); // Remove it if really found!
 				}
 				if (abstentionCount) {
 					var record = store.findRecord('text', Messages.ABSTENTION, 0, false, true, true); // exact match
