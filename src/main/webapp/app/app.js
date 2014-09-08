@@ -458,4 +458,4 @@ function clone(obj) {
 	}
 
 	throw new Error("Unable to copy obj! Its type isn't supported.");
-};
+}

@@ -417,7 +417,7 @@ Ext.define('Ext.ux.Fileup', {
 
 				default:
 					message = 'Can not read file';
-			};
+			}
 			me.fireEvent('loadfailure', message, this, e);
 		};
 

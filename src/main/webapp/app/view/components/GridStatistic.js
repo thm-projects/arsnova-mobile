@@ -247,7 +247,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 						if (typeof gridAnswers[values[index]] === "undefined") {
 							gridAnswers[values[index]] = 1;
 						} else {
-							gridAnswers[values[index]] += 1
+							gridAnswers[values[index]] += 1;
 						}
 					});
 				}

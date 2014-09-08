@@ -698,7 +698,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		newimage.onerror = function () {
 			var cb = failureCallback || Ext.emptyFn;
 			cb();
-		}
+		};
 	},
 
 	/**
@@ -763,7 +763,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				obj = {
 						text: i + ";" + j,
 						correct: false
-				}
+				};
 				for (var k = 0; k < this.getChosenFields().length; k++) {
 					var currentField = this.getChosenFields()[k];
 					if (currentField[0] == i && currentField[1] == j) {

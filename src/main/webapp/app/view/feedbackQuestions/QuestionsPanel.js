@@ -73,7 +73,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				if (isSpeakerView) {
 					target = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				} else {
-					target = ARSnova.app.mainTabPanel.tabPanel.userTabPanel
+					target = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
 				}
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(target, {
 					type: 'slide',

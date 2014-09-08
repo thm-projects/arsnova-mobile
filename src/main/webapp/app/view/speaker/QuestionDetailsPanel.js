@@ -980,7 +980,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						answerCountButton.setBadge([{badgeText: answers.length + '', badgeCls: "greybadgeicon"}]);
 						self.answerFormFieldset.add([answerCountButton]);
 						if (self.questionObj.abstention) {
-							self.answerFormFieldset.add([abstentionButton])
+							self.answerFormFieldset.add([abstentionButton]);
 						}
 					},
 					failure: function () {
