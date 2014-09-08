@@ -142,21 +142,12 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				'<div class="search-item noOverflow">',
 					'<span style="color:gray;">{formattedTime}</span>',
 					'<tpl if="obj.get(\'read\')">',
-						'<span style="padding-left:30px;{[ this.colorStyle(values.obj.get(\'read\')); ]}">{subject:htmlEncode}</span>',
+						'<span style="padding-left:30px;">{subject:htmlEncode}</span>',
 					'</tpl>',
 					'<tpl if="!obj.get(\'read\')">',
-						'<span style="padding-left:30px;{[ this.colorStyle(values.obj.get(\'read\')); ]}">{subject:htmlEncode}</span>',
+						'<span style="padding-left:30px;font-weight:bold;color:red">{subject:htmlEncode}</span>',
 					'</tpl>',
-				'</div>',
-				{
-					colorStyle: function(read) {
-						if (panel.isSpeakerView) {
-							return read ? "" : "font-weight:bold;color:red";
-						} else {
-							return read ? "color:green" : "";
-						}
-					}
-				}
+				'</div>'
 			),
 			grouped: true,
 			store: this.getStore(),
