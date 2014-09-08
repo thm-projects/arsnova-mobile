@@ -7,5 +7,6 @@ target/*
 .sass-cache
 
 # Output files
+src/main/webapp/.sencha_backup
 src/main/webapp/build
 /target
