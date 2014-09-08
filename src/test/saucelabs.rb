@@ -35,29 +35,29 @@ driver.navigate.to "http://localhost:8080/index.html"
 passed = true
 
 # Perform role selection and log in
-driver.wait_for_element(:id, "ext-image-6").click # Teacher
-driver.find_element(:id, "ext-image-1").click # Guest
-driver.find_element(:id, "ext-button-16").click # 'Yes' in popup
+driver.wait_for_element(:id, "ext-image-2").click # Teacher
+driver.find_element(:id, "ext-image-3").click # Guest
+driver.find_element(:id, "ext-button-86").click # 'Yes' in popup
 # Wait for log in...
-driver.wait_for_element(:id, "ext-element-133").click # Create new session
+driver.wait_for_element(:id, "ext-element-123").click # Create new session
 # Create Session
-driver.find_element(:id, "ext-element-167").click # set focus to 'name' field
-driver.find_element(:id, "ext-element-167").clear
-driver.find_element(:id, "ext-element-167").send_keys "test"
-driver.find_element(:id, "ext-element-173").click # set focus to 'short name' field
-driver.find_element(:id, "ext-element-173").clear
-driver.find_element(:id, "ext-element-173").send_keys "test"
-driver.find_element(:id, "ext-element-179").click # create session
+driver.find_element(:id, "ext-element-157").click # set focus to 'name' field
+driver.find_element(:id, "ext-element-157").clear
+driver.find_element(:id, "ext-element-157").send_keys "test"
+driver.find_element(:id, "ext-element-163").click # set focus to 'short name' field
+driver.find_element(:id, "ext-element-163").clear
+driver.find_element(:id, "ext-element-163").send_keys "test"
+driver.find_element(:id, "ext-element-169").click # create session
 
-if not driver.wait_for_element(:id, "ext-element-254").text.include? "test" # short name displayed in titlebar?
+if not driver.wait_for_element(:id, "ext-element-1216").text.include? "test" # short name displayed in titlebar?
     print "verifyTextPresent failed"
     passed = false
 end
 
 # Teardown
 driver.find_element(:id, "ext-image-10").click # delete session
-driver.find_element(:id, "ext-button-79").click # 'Yes' in popup
-driver.wait_for_element(:id, "ext-element-124").click # Logout
+driver.find_element(:id, "ext-button-92").click # 'Yes' in popup
+driver.wait_for_element(:id, "ext-element-114").click # Logout
 
 driver.quit
 
