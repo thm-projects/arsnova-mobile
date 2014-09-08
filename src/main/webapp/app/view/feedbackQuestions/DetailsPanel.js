@@ -52,7 +52,6 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 					direction: 'right',
 					duration: 700
 				});
-//				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.getFeedbackQuestions();
 			}
 		});
 
@@ -65,54 +64,20 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 			]
 		});
 
+		//Setup question title and text to display in the same field; markdown handles HTML encoding
+		var questionString = this.questionObj.fullDate + ": " + this.questionObj.subject
+			+ '\n\n' // inserts one blank line between subject and text
+			+ this.questionObj.text;
 
-		//Preview button
-		this.previewButton = Ext.create('Ext.Button', {
-			text: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
-			ui: 'confirm',
-			cls: 'previewButton',
-			scope: this,
-			handler: function() {
-					this.previewHandler();
-				}
+		//Create standard panel with framework support
+		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			cls: "roundedBox allCapsHeader"
 		});
+		questionPanel.setContent(questionString, true, true);
 
-		//Preview panel with integrated button
-		this.previewPart = Ext.create('Ext.form.FormPanel', {
-			cls: 'newQuestion',
-			scrollable: null,
-			items: [{
-				xtype: 'fieldset',
-				items: [this.previewButton]
-			}]
-		});
+		this.add([this.toolbar,
 
-		this.add([this.toolbar, {
-			xtype: 'formpanel',
-			scrollable: null,
-
-			items: [{
-				xtype: 'fieldset',
-				items: [{
-					xtype: 'textfield',
-					label: Messages.QUESTION_DATE,
-					value: this.questionObj.fullDate,
-					disabled: true
-				}, {
-					xtype: 'textfield',
-					label: Messages.QUESTION_SUBJECT,
-					value: this.questionObj.subject,
-					disabled: true
-				}, {
-					xtype: "textareafield",
-					label: Messages.QUESTION_TEXT,
-					value: this.questionObj.text,
-					disabled: true
-				}]
-			}]
-		},
-
-		this.previewPart,
+		questionPanel,
 
 		{
 			xtype: 'button',
@@ -143,13 +108,6 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 			var textarea = this.element.down('textarea');
 			textarea.setHeight(textarea.dom.scrollHeight);
 		});
-	},
-
-	previewHandler: function() {
-		var questionPreview = Ext.create('ARSnova.view.QuestionPreviewBox', {
-			xtype: 'questionPreview'
-		});
-		questionPreview.showPreview(this.questionObj.subject,this.questionObj.text);
 	},
 
 	onDeactivate: function(){
