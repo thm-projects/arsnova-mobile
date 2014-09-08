@@ -4,7 +4,7 @@ ARSnova is a modern approach to Audience Response Systems (ARS). It is released 
 
 ![ARSnova](src/site/resources/showcase.png)
 
-ARSnova consists of two projects: the mobile client and the server. This repository contains the mobile client code. You will find the server at [thm-projects/arsnova-backend](https://github.com/thm-projects/arsnova-backend). If you plan to work on the client you have to build both repositories - the server and the client.
+ARSnova consists of two projects: the mobile client and the backend. This repository contains the mobile client code. You will find the backend at [thm-projects/arsnova-backend](https://github.com/thm-projects/arsnova-backend). If you plan to work on the client you have to build both repositories - the backend and the client.
 
 [![Build Status](https://travis-ci.org/thm-projects/arsnova-mobile.svg?branch=master)](https://travis-ci.org/thm-projects/arsnova-mobile)
 
@@ -33,8 +33,8 @@ We also leverage the cloud provided by [Travis CI](https://travis-ci.org/) and [
 
 Our official build status provided by Travis CI:
 
-- [![Build Status](https://travis-ci.org/thm-projects/arsnova-backend.svg?branch=master)](https://travis-ci.org/thm-projects/arsnova-backend) for arsnova-backend
-- [![Build Status](https://travis-ci.org/thm-projects/arsnova-mobile.svg?branch=master)](https://travis-ci.org/thm-projects/arsnova-mobile) for ARSnova-mobile
+- [![Build Status](https://travis-ci.org/thm-projects/arsnova-backend.svg?branch=master)](https://travis-ci.org/thm-projects/arsnova-backend) for ARSnova Backend
+- [![Build Status](https://travis-ci.org/thm-projects/arsnova-mobile.svg?branch=master)](https://travis-ci.org/thm-projects/arsnova-mobile) for ARSnova Mobile
 
 ## Development
 
@@ -51,13 +51,11 @@ The download links to the referred requirements, as well as the installation gui
 
 ### Building
 
-ARSnova consists of two main projects: arsnova-mobile (this repository) and arsnova-backend. You have to build both projects separately, in order to work with the mobile client. If you need informations regarding the installation of arsnova-backend, please look up the read me at [thm-projects/arsnova-backend](https://github.com/thm-projects/arsnova-backend).
+ARSnova consists of two main projects: ARSnova Mobile (this repository) and ARSnova Backend. You have to build both projects separately, in order to work with the mobile client. If you need informations regarding the installation of ARSnova Backend, please look up the read me at [thm-projects/arsnova-backend](https://github.com/thm-projects/arsnova-backend).
 
 Basically a complete build for both projects is done with:
 
 	mvn clean install
-
-When you build ARSnova the first time, please be attentive to build the mobile client **first** and afterwards the server application.
 
 #### Continuous Build
 
