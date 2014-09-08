@@ -127,7 +127,7 @@ Ext.define('ARSnova.view.TabPanel', {
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", this.updateFeedbackIcon, this);
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", this.updateFeedbackBadge, this);
 			}
-			taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
+			ARSnova.app.taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
 		}
 	},
 
@@ -137,7 +137,7 @@ Ext.define('ARSnova.view.TabPanel', {
 				ARSnova.app.feedbackModel.un("arsnova/session/feedback/average", this.updateFeedbackIcon);
 				ARSnova.app.feedbackModel.un("arsnova/session/feedback/count", this.updateFeedbackBadge);
 			}
-			taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
+			ARSnova.app.taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
 		}
 	},
 

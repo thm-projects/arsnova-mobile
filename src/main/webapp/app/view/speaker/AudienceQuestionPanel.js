@@ -274,7 +274,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			 */
 			return;
 		}
-		taskManager.start(this.updateAnswerCount);
+		ARSnova.app.taskManager.start(this.updateAnswerCount);
 		this.controls.removeAll();
 		this.questionStore.removeAll();
 
@@ -314,7 +314,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 	onDeactivate: function() {
 		this.questionList.hide();
-		taskManager.stop(this.updateAnswerCount);
+		ARSnova.app.taskManager.stop(this.updateAnswerCount);
 	},
 
 	onOrientationChange: function(panel, orientation, width, height) {

@@ -43,16 +43,16 @@ Ext.define('ARSnova.view.feedbackQuestions.TabPanel', {
 		]);
 
 		this.on('painted', function(){
-			taskManager.start(ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.config.checkFeedbackQuestionsTask);
+			ARSnova.app.taskManager.start(ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.config.checkFeedbackQuestionsTask);
 			if (ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel) {
-				taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countFeedbackQuestionsTask);
+				ARSnova.app.taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countFeedbackQuestionsTask);
 			}
 		});
 
 		this.on('deactivate', function(){
-			taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.config.checkFeedbackQuestionsTask);
+			ARSnova.app.taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.config.checkFeedbackQuestionsTask);
 			if (ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel) {
-				taskManager.start(ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countFeedbackQuestionsTask);
+				ARSnova.app.taskManager.start(ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countFeedbackQuestionsTask);
 			}
 		});
 	}

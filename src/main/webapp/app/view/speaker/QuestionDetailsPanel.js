@@ -125,7 +125,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			ui: 'back',
 			scope: this,
 			handler: function(){
-				taskManager.stop(this.renewAnswerDataTask);
+				ARSnova.app.taskManager.stop(this.renewAnswerDataTask);
 
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				sTP.on('cardswitch', function(){
@@ -436,7 +436,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				cls: 'statisticIcon',
 				scope: this,
 				handler: function(){
-					taskManager.stop(this.renewAnswerDataTask);
+					ARSnova.app.taskManager.stop(this.renewAnswerDataTask);
 					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 					sTP.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
 						question: this.questionObj,
@@ -592,7 +592,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 							ARSnova.app.questionModel.destroy(sTP.questionDetailsPanel.questionObj, {
 								success: function() {
-									me = sTP.questionDetailsPanel;
+									var me = sTP.questionDetailsPanel;
 
 									sTP.animateActiveItem(sTP.audienceQuestionPanel, {
 										type: 'slide',
@@ -600,7 +600,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 										duration: 700,
 										listeners: {
 											animationend: function() {
-												taskManager.stop(me.renewAnswerDataTask);
+												ARSnova.app.taskManager.stop(me.renewAnswerDataTask);
 												me.destroy();
 											}
 										}
@@ -781,7 +781,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	prevOldCard: null,
 	cardSwitchHandler: function(panel, newCard, oldCard, index, animated) {
 		if (this.prevNewCard === oldCard) {
-			taskManager.start(this.renewAnswerDataTask);
+			ARSnova.app.taskManager.start(this.renewAnswerDataTask);
 			return;
 		}
 		this.prevNewCard = newCard;
@@ -796,7 +796,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			this.firstRow.add(this.showCorrectAnswerButton);
 		}
 		if (this.questionObj.active) {
-			taskManager.start(this.renewAnswerDataTask);
+			ARSnova.app.taskManager.start(this.renewAnswerDataTask);
 		}
 
 		ARSnova.app.mainTabPanel.on('cardswitch', this.cardSwitchHandler, this);

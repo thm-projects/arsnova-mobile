@@ -300,10 +300,10 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	/* will be called on session login */
 	registerListeners: function(){
 		var inClassPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
-		taskManager.start(inClassPanel.countActiveUsersTask);
-		taskManager.start(inClassPanel.countFeedbackQuestionsTask);
+		ARSnova.app.taskManager.start(inClassPanel.countActiveUsersTask);
+		ARSnova.app.taskManager.start(inClassPanel.countFeedbackQuestionsTask);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
-			taskManager.start(inClassPanel.courseLearningProgressTask);
+			ARSnova.app.taskManager.start(inClassPanel.courseLearningProgressTask);
 		}
 	},
 
@@ -320,10 +320,10 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	/* will be called on session logout */
 	destroyListeners: function(){
 		var inClassPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
-		taskManager.stop(inClassPanel.countActiveUsersTask);
-		taskManager.stop(inClassPanel.countFeedbackQuestionsTask);
+		ARSnova.app.taskManager.stop(inClassPanel.countActiveUsersTask);
+		ARSnova.app.taskManager.stop(inClassPanel.countFeedbackQuestionsTask);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
-			taskManager.stop(inClassPanel.courseLearningProgressTask);
+			ARSnova.app.taskManager.stop(inClassPanel.courseLearningProgressTask);
 		}
 	},
 

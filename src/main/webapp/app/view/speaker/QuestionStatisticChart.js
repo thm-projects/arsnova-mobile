@@ -88,8 +88,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			ui: 'back',
 			scope: this,
 			handler: function() {
-				taskManager.stop(this.renewChartDataTask);
-				taskManager.stop(this.countActiveUsersTask);
+				ARSnova.app.taskManager.stop(this.renewChartDataTask);
+				ARSnova.app.taskManager.stop(this.countActiveUsersTask);
 				ARSnova.app.mainTabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel, {
 					type: 'slide',
 					direction: 'right',
@@ -486,8 +486,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	},
 
 	onActivate: function() {
-		taskManager.start(this.renewChartDataTask);
-		taskManager.start(this.countActiveUsersTask);
+		ARSnova.app.taskManager.start(this.renewChartDataTask);
+		ARSnova.app.taskManager.start(this.countActiveUsersTask);
 		this.doTypeset();
 	},
 

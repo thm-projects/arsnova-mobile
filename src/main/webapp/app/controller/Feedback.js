@@ -86,8 +86,8 @@ Ext.define("ARSnova.controller.Feedback", {
 	},
 
 	showVotePanel: function(){
-		tP = ARSnova.app.mainTabPanel.tabPanel;
-		fP = tP.feedbackTabPanel;
+		var tP = ARSnova.app.mainTabPanel.tabPanel;
+		var fP = tP.feedbackTabPanel;
 
 		if(fP.rendered){
 			fP.setActiveItem(fP.votePanel);
@@ -99,7 +99,7 @@ Ext.define("ARSnova.controller.Feedback", {
 
 	statistic: function(){
 		ARSnova.app.showLoadMask("Erzeuge die Grafik...");
-		fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
+		var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 		fP.statisticPanel.backButton.show();
 		ARSnova.app.mainTabPanel.tabPanel.setActiveItem(fP);
 

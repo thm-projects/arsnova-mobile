@@ -147,6 +147,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 				var badgePromises = [];
 
+				var session;
 				for ( var i = 0, session; session = sessions[i]; i++) {
 					var status = "";
 					var course = " defaultsession";

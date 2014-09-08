@@ -189,7 +189,7 @@ Ext.application({
 		this.checkLocalStorage();
 		this.checkBrowser();
 
-		taskManager = new TaskRunner();
+		this.taskManager = new TaskRunner();
 
 		this.initRestProxy();
 		this.initSocket();
@@ -253,7 +253,7 @@ Ext.application({
 	 */
 	afterLogin: function(){
 		console.debug("Application: afterLogin");
-		taskManager.start(ARSnova.app.loggedInTask);
+		ARSnova.app.taskManager.start(ARSnova.app.loggedInTask);
 		ARSnova.app.loggedInTask.run(); // fire immediately
 
 		/* show diagnosis tab panel */

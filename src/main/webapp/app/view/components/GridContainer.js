@@ -802,8 +802,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	getChosenFieldFromPossibleAnswer: function(possibleAnswer) {
 		var coords = possibleAnswer.split(";");
-		x = coords[0];
-		y = coords[1];
+		var x = coords[0];
+		var y = coords[1];
 		return new Array(parseInt(x),parseInt(y));
 	},
 
@@ -829,7 +829,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		if (!colorTiles) {
 			this.setHighlightColor(rightColor);
 		}
-		
+
 		// clear canvas
 		weakenSourceImage ? this.redrawWithAlpha(0.2, false) : this.redrawWithAlpha(1, false);
 

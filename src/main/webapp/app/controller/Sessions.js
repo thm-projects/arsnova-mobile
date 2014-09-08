@@ -61,7 +61,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
 					ARSnova.app.isSessionOwner = true;
 					//start task: update that session owner is logeed in
-					taskManager.start(ARSnova.app.updateSessionActivityTask);
+					ARSnova.app.taskManager.start(ARSnova.app.updateSessionActivityTask);
 				} else {
 					//check if session is open
 					if(!obj.active){
@@ -88,7 +88,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				//start task to update the feedback tab in tabBar
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge, ARSnova.app.mainTabPanel.tabPanel);
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon, ARSnova.app.mainTabPanel.tabPanel);
-				taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
+				ARSnova.app.taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
 				ARSnova.app.mainTabPanel.tabPanel.updateHomeBadge();
 
 				ARSnova.app.getController('Sessions').reloadData();
@@ -121,9 +121,9 @@ Ext.define("ARSnova.controller.Sessions", {
 		ARSnova.app.feedbackModel.un("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge);
 		ARSnova.app.feedbackModel.un("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon);
 		//online counter badge
-		taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
+		ARSnova.app.taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
 		//stop task to update that session owner is logged-in
-		taskManager.stop(ARSnova.app.updateSessionActivityTask);
+		ARSnova.app.taskManager.stop(ARSnova.app.updateSessionActivityTask);
 
 		localStorage.removeItem("sessionId");
 		localStorage.removeItem("name");
@@ -227,7 +227,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				duration: 700
 			});
 		}
-		
+
 		/* add feedback questions panel*/
 		if (!tabPanel.feedbackQuestionsPanel) {
 			tabPanel.feedbackQuestionsPanel = Ext.create('ARSnova.view.feedbackQuestions.TabPanel');
@@ -284,7 +284,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				//start task to update the feedback tab in tabBar
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge, ARSnova.app.mainTabPanel.tabPanel);
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon, ARSnova.app.mainTabPanel.tabPanel);
-				taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
+				ARSnova.app.taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
 
 				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 				panel.setActiveItem(panel.mySessionsPanel);
@@ -303,6 +303,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				//update this session in localStorage
 				var sessions = Ext.decode(localStorage.getItem('lastVisitedSessions'));
 				sessions.forEach(function(el){
+					/* FIXME: ref to global `session` variable? why? */
 					if(el._id == session.data._id)
 						el.active = session.data.active;
 				});

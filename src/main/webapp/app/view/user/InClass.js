@@ -222,13 +222,13 @@ Ext.define('ARSnova.view.user.InClass', {
 	/* will be called on session login */
 	registerListeners: function(){
 		var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
-		taskManager.start(panel.checkNewSkillQuestionsTask);
-		taskManager.start(panel.checkFeedbackRemovedTask);
-		taskManager.start(panel.countActiveUsersTask);
-		taskManager.start(panel.checkSessionStatusTask);
-		taskManager.start(panel.countFeedbackQuestionsTask);
+		ARSnova.app.taskManager.start(panel.checkNewSkillQuestionsTask);
+		ARSnova.app.taskManager.start(panel.checkFeedbackRemovedTask);
+		ARSnova.app.taskManager.start(panel.countActiveUsersTask);
+		ARSnova.app.taskManager.start(panel.checkSessionStatusTask);
+		ARSnova.app.taskManager.start(panel.countFeedbackQuestionsTask);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
-			taskManager.start(panel.checkLearningProgressTask);
+			ARSnova.app.taskManager.start(panel.checkLearningProgressTask);
 		}
 	},
 
@@ -248,13 +248,13 @@ Ext.define('ARSnova.view.user.InClass', {
 	/* will be called on session logout */
 	destroyListeners: function(){
 		var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
-		taskManager.stop(panel.checkNewSkillQuestionsTask);
-		taskManager.stop(panel.checkFeedbackRemovedTask);
-		taskManager.stop(panel.countActiveUsersTask);
-		taskManager.stop(panel.checkSessionStatusTask);
-		taskManager.stop(panel.countFeedbackQuestionsTask);
+		ARSnova.app.taskManager.stop(panel.checkNewSkillQuestionsTask);
+		ARSnova.app.taskManager.stop(panel.checkFeedbackRemovedTask);
+		ARSnova.app.taskManager.stop(panel.countActiveUsersTask);
+		ARSnova.app.taskManager.stop(panel.checkSessionStatusTask);
+		ARSnova.app.taskManager.stop(panel.countFeedbackQuestionsTask);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
-			taskManager.stop(panel.checkLearningProgressTask);
+			ARSnova.app.taskManager.stop(panel.checkLearningProgressTask);
 		}
 	},
 
@@ -422,7 +422,7 @@ Ext.define('ARSnova.view.user.InClass', {
 						}]
 					});
 
-					taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.checkSessionStatusTask);
+					ARSnova.app.taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.checkSessionStatusTask);
 				}
 			},
 			failure: function(){

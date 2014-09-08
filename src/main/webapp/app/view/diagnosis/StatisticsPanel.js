@@ -65,7 +65,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 			text: Messages.BACK,
 			ui: 'back',
 			handler: function() {
-				me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel;
+				var me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel;
 
 				me.animateActiveItem(me.diagnosisPanel, {
 					type: 'slide',
@@ -124,11 +124,11 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 	},
 
 	onActivate: function(){
-		taskManager.start(this.updateDataTask);
+		ARSnova.app.taskManager.start(this.updateDataTask);
 	},
 
 	onDeactivate: function(){
-		taskManager.stop(this.updateDataTask);
+		ARSnova.app.taskManager.stop(this.updateDataTask);
 	},
 
 	setNumbers: function() {

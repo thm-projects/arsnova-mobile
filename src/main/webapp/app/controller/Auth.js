@@ -173,7 +173,7 @@ Ext.define("ARSnova.controller.Auth", {
 		ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.tab.hide();
 
 		/* stop task to save user is logged in */
-		taskManager.stop(ARSnova.app.loggedInTask);
+		ARSnova.app.taskManager.stop(ARSnova.app.loggedInTask);
 
 		/* clear local storage */
 		localStorage.removeItem('sessions');
@@ -209,7 +209,7 @@ Ext.define("ARSnova.controller.Auth", {
 			/* update manifest cache of new version is loaded */
 			if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
 				window.applicationCache.swapCache();
-				Console.log('reload');
+				console.log('reload');
 				window.location.reload();
 			}
 		}

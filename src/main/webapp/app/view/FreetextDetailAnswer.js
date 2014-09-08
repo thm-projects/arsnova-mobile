@@ -109,7 +109,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			  listeners: {
 				animationend: function() {
 				  self.answer.removeItem();
-				  me.destroy();
+				  self.destroy();
 				}
 			  }
 			});
