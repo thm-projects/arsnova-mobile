@@ -552,7 +552,7 @@ switch (lang) {
 
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
-			QUESTIONS_FROM_STUDENTS: "Zwischenfragen",
+			QUESTIONS_FROM_STUDENTS: "Studierendenfragen",
 			PREPARATION_QUESTIONS: "Vorbereitung",
 			LECTURE_QUESTIONS: "Hörsaal",
 			FLASHCARD_SHORT: "LK",
