@@ -146,10 +146,10 @@ Ext.define("ARSnova.controller.Questions", {
 				error = true;
 			});
 		}
-		switch(question.get('questionType')){
+		switch (question.get('questionType')){
 			case 'vote':
 				panel.voteQuestion.query('textfield').forEach(function(el){
-					if(el.getValue().trim() == "") {
+					if (el.getValue().trim() == "") {
 						el.addCls("required");
 						error = true;
 					}
@@ -157,7 +157,7 @@ Ext.define("ARSnova.controller.Questions", {
 				break;
 			case 'school':
 				panel.schoolQuestion.query('textfield').forEach(function(el){
-					if(el.getValue().trim() == "") {
+					if (el.getValue().trim() == "") {
 						el.addCls("required");
 						error = true;
 					}
@@ -165,7 +165,7 @@ Ext.define("ARSnova.controller.Questions", {
 				break;
 			case 'mc':
 				panel.multipleChoiceQuestion.query('textfield').forEach(function(el) {
-					if(!el.getHidden() && el.getValue().toString().trim() == "") {
+					if (!el.getHidden() && el.getValue().toString().trim() == "") {
 						error = true;
 					}
 				});
@@ -180,7 +180,7 @@ Ext.define("ARSnova.controller.Questions", {
 
 				break;
 		}
-		if(error){
+		if (error){
 			Ext.Msg.alert('Hinweis', 'Ihre Eingaben sind unvollständig');
 			return;
 		} else if (errorNoChosenFields) {
@@ -206,7 +206,7 @@ Ext.define("ARSnova.controller.Questions", {
 		var parentPanel;
 
 		var isFromFreetextAnswerPanel = false;
-		if(typeof options.panel !== 'undefined') {
+		if (typeof options.panel !== 'undefined') {
 			isFromFreetextAnswerPanel = ARSnova.app.mainTabPanel.getActiveItem().constructor === options.panel.constructor;
 		}
 
@@ -261,7 +261,7 @@ Ext.define("ARSnova.controller.Questions", {
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
 						var questionStatus = panel.questionStatusButton;
 
-						if(options.active == 1){
+						if (options.active == 1){
 							questionStatus.questionOpenedSuccessfully();
 						} else {
 							questionStatus.questionClosedSuccessfully();

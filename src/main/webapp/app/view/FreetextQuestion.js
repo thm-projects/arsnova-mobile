@@ -39,7 +39,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 		var self = this;
 		this.questionObj = this.config.questionObj;
-		this.viewOnly = typeof this.config.viewOnly === "undefined" ? false: this.config.viewOnly;
+		this.viewOnly = typeof this.config.viewOnly === "undefined" ? false : this.config.viewOnly;
 
 		this.customMask = Ext.create('ARSnova.view.CustomMask', {
 			mainPanel: this
@@ -71,12 +71,12 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			maxRows: 7
 		});
 
-		//Setup question title and text to disply in the same field; markdown handles HTML encoding
+		// Setup question title and text to disply in the same field; markdown handles HTML encoding
 		var questionString = this.questionObj.subject
-					 + '\n\n' // inserts one blank line between subject and text
-					 + this.questionObj.text;
+			+ '\n\n' // inserts one blank line between subject and text
+			+ this.questionObj.text;
 
-		//Create standard panel with framework support
+		// Create standard panel with framework support
 		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			cls: "roundedBox allCapsHeader"
 		});
@@ -127,7 +127,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			 * Bugfix, because panel is normally disabled (isDisabled == true),
 			 * but is not rendered as 'disabled'
 			 */
-			if(this.isDisabled()) this.disableQuestion();
+			if (this.isDisabled()) this.disableQuestion();
 		});
 	},
 

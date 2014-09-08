@@ -77,7 +77,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			placeHolder: Messages.QUESTION_TEXT_PLACEHOLDER
 		});
 
-		//Preview button
+		// Preview button
 		this.previewButton = Ext.create('Ext.Button', {
 			text: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'confirm',
@@ -88,7 +88,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 				}
 		});
 
-		//Preview panel with integrated button
+		// Preview panel with integrated button
 		this.previewPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
 			style: 'margin-left: 0',
@@ -111,10 +111,11 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 
 			items: [{
 				xtype: 'fieldset',
-				items: [this.subject,
-						this.text,
-						this.previewPart
-					   ]
+				items: [
+					this.subject,
+					this.text,
+					this.previewPart
+				]
 			}, {
 				xtype: 'button',
 				ui: 'confirm',
@@ -141,7 +142,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		var validation = question.validate();
 		if (!validation.isValid()) {
 			me.down('fieldset').items.items.forEach(function(el) {
-				if(el.xtype == 'textfield')
+				if (el.xtype == 'textfield')
 					el.removeCls("required");
 			});
 

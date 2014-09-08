@@ -160,7 +160,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	onSubmit: function() {
 		ARSnova.app.showLoadMask(Messages.LOGIN_LOAD_MASK);
 
-		//delete the textfield-focus, to hide the numeric keypad on phones
+		// delete the textfield-focus, to hide the numeric keypad on phones
 		this.down('textfield').blur();
 
 		ARSnova.app.getController('Sessions').login({
@@ -171,7 +171,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	},
 
 	loadVisitedSessions: function() {
-		if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) return;
+		if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) return;
 
 		var hideLoadingMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
 
@@ -186,7 +186,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					panel.lastVisitedSessionsForm.removeAll();
 					panel.lastVisitedSessionsForm.show();
 
-					for ( var i = 0; i < sessions.length; i++) {
+					for (var i = 0; i < sessions.length; i++) {
 						var session = sessions[i];
 
 						var icon = " defaultsession";
@@ -198,7 +198,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 						}
 
 						// Minimum width of 481px equals at least landscape view
-						var displaytext = window.innerWidth > 481 ? session.name: session.shortName;
+						var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
 						var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 							xtype: 'button',
 							ui: 'normal',
@@ -242,7 +242,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				console.log('server-side error loggedIn.save');
 				ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.homePanel.lastVisitedSessionsForm.hide();
 			}
-		}, (window.innerWidth > 481 ? 'name': 'shortname'));
+		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
 	},
 
 	updateBadge: function(sessionKeyword, button) {

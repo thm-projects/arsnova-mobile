@@ -64,7 +64,7 @@ Ext.define('ARSnova.view.CustomMask', {
 	onEvent: function(e) {
 		var controller = arguments[arguments.length - 1];
 
-		if(controller.info.eventName === 'tap') {
+		if (controller.info.eventName === 'tap') {
 			this.fireEvent('tap', this, e);
 		}
 
@@ -75,7 +75,7 @@ Ext.define('ARSnova.view.CustomMask', {
 		var controller = arguments[arguments.length - 1],
 			mainScroller = this.config.mainPanel.getScrollable().getScroller();
 
-		switch(controller.info.eventName) {
+		switch (controller.info.eventName) {
 			case 'scrollStart':
 			case 'scrollEnd':
 			case 'scroll':
@@ -109,6 +109,6 @@ Ext.define('ARSnova.view.CustomMask', {
 	},
 
 	updateTransparent: function(newTransparent) {
-		this[newTransparent ? 'addCls': 'removeCls'](this.getBaseCls() + '-transparent');
+		this[newTransparent ? 'addCls' : 'removeCls'](this.getBaseCls() + '-transparent');
 	}
 });

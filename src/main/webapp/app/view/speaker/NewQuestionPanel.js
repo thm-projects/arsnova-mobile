@@ -100,7 +100,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			maxHeight: 140
 		});
 
-		//Preview button
+		// Preview button
 		this.previewButton = Ext.create('Ext.Button', {
 			text: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'confirm',
@@ -111,7 +111,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				}
 		});
 
-		//Preview panel with integrated button
+		// Preview panel with integrated button
 		this.previewPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
 			scrollable: null,
@@ -128,7 +128,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			items: [{
 				xtype: 'fieldset',
 				items: [this.subject]
-			},{
+			}, {
 				xtype: 'fieldset',
 				items: [this.textarea]
 			}]
@@ -220,20 +220,20 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				scope: me,
 				toggle: function(container, button, pressed) {
 					var label = Ext.bind(function(longv, shortv) {
-						var screenWidth = (window.innerWidth > 0) ? window.innerWidth: screen.width;
-						return (screenWidth > 320 || me.backButton.isHidden()) ? longv: shortv;
+						var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+						return (screenWidth > 320 || me.backButton.isHidden()) ? longv : shortv;
 					}, me);
 
 					var title = '';
 
 					switch (button.getText()) {
 						case Messages.GRID:
-							if(pressed){
+							if (pressed){
 								me.gridQuestion.show();
 								title = label(Messages.QUESTION_GRID, Messages.QUESTION_GRID_SHORT);
 								this.uploadView.hide();
 								this.grid.hide();
-							}else{
+							} else {
 								me.gridQuestion.hide();
 								this.uploadView.show();
 								if (this.grid.getImageFile()) {

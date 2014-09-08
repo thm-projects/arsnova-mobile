@@ -142,10 +142,10 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				'<div class="search-item noOverflow">',
 					'<span style="color:gray;">{formattedTime}</span>',
 					'<tpl if="obj.get(\'read\')">',
-						'<span style="padding-left:30px;{[ this.colorStyle(values.obj.get(\'read\')); ]}">{subject:htmlEncode}</span>',
+						'<span style="padding-left:30px;{[this.colorStyle(values.obj.get(\'read\'));]}">{subject:htmlEncode}</span>',
 					'</tpl>',
 					'<tpl if="!obj.get(\'read\')">',
-						'<span style="padding-left:30px;{[ this.colorStyle(values.obj.get(\'read\')); ]}">{subject:htmlEncode}</span>',
+						'<span style="padding-left:30px;{[this.colorStyle(values.obj.get(\'read\'));]}">{subject:htmlEncode}</span>',
 					'</tpl>',
 				'</div>',
 				{
@@ -200,7 +200,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 
 	getFeedbackQuestions: function(){
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOADING_NEW_QUESTIONS);
-		ARSnova.app.questionModel.getInterposedQuestions(localStorage.getItem('keyword'),{
+		ARSnova.app.questionModel.getInterposedQuestions(localStorage.getItem('keyword'), {
 			success: function(response){
 				var questions = Ext.decode(response.responseText);
 				var fQP = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
@@ -208,7 +208,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadgeText(questions.length);
 				panel.questionsCounter = questions.length;
 
-				if(panel.questionsCounter == 0){
+				if (panel.questionsCounter == 0){
 					panel.list.hide();
 					panel.noQuestionsFound.show();
 					panel.deleteAllButton.hide();
@@ -218,7 +218,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					panel.noQuestionsFound.hide();
 					panel.deleteAllButton.show();
 					var unread = 0;
-					for(var i = 0, question; question = questions[i]; i++){
+					for (var i = 0, question; question = questions[i]; i++){
 						var formattedTime = "", fullDate = "", groupDate = "";
 						if (question.timestamp) {
 							var time = new Date(question.timestamp);
@@ -230,7 +230,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 						}
 						question.formattedTime = formattedTime;
 						question.fullDate = fullDate;
-						if(!question.subject)
+						if (!question.subject)
 							question.subject = Messages.NO_SUBJECT;
 
 						if (!question.read) {
@@ -283,7 +283,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					}]);
 				}
 
-				if(panel.questionsCounter != questionCount.total) {
+				if (panel.questionsCounter != questionCount.total) {
 					panel.questionsCounter = questionCount.total;
 					panel.getFeedbackQuestions();
 				}

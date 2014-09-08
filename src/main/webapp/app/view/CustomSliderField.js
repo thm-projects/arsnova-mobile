@@ -116,7 +116,7 @@ Ext.define('ARSnova.view.CustomSliderField', {
 
 	reset: function() {
 		var config = this.config,
-		initialValue = (this.config.hasOwnProperty('values')) ? config.values: config.value;
+		initialValue = (this.config.hasOwnProperty('values')) ? config.values : config.value;
 
 		this.setValue(initialValue);
 	},

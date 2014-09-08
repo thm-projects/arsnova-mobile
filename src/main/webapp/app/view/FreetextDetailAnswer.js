@@ -67,12 +67,12 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			]
 		});
 
-	//Setup question title and text to disply in the same field; markdown handles HTML encoding
+	// Setup question title and text to disply in the same field; markdown handles HTML encoding
 	var questionString = this.answer.answerSubject
-					   + '\n\n' // inserts one blank line between subject and text
-					   + this.answer.answerText;
+		+ '\n\n' // inserts one blank line between subject and text
+		+ this.answer.answerText;
 
-	//Create standard panel with framework support
+	// Create standard panel with framework support
 	var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
 	questionPanel.setContent(questionString, true, true);
 
@@ -89,7 +89,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 						value: this.answer.formattedTime + " Uhr am " + this.answer.groupDate,
 						disabled: true
 					},
-		  questionPanel
+					questionPanel
 				]
 			}]
 		}, {
@@ -101,19 +101,19 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			hidden: !this.answer.deletable,
 			handler: function() {
 				ARSnova.app.questionModel.deleteAnswer(self.answer.questionId, self.answer._id, {
-		  success: function() {
-			self.sTP.animateActiveItem(self.sTP.questionDetailsPanel, {
-			  type: 'slide',
-			  direction: 'right',
-			  duration: 700,
-			  listeners: {
-				animationend: function() {
-				  self.answer.removeItem();
-				  self.destroy();
-				}
-			  }
-			});
-		  },
+					success: function() {
+						self.sTP.animateActiveItem(self.sTP.questionDetailsPanel, {
+							type: 'slide',
+							direction: 'right',
+							duration: 700,
+							listeners: {
+								animationend: function() {
+									self.answer.removeItem();
+									self.destroy();
+								}
+							}
+						});
+					},
 					failure: function() {
 						console.log('server-side error: deletion of freetext answer failed');
 					}

@@ -44,7 +44,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			ARSnova.app.mainTabPanel._activeItem.getQuestionAnswers();
 
 		},
-		interval: 10000// 10 seconds
+		interval: 10000 // 10 seconds
 	},
 
 	/**
@@ -68,9 +68,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			fields: ['text', 'value', 'percent']
 		});
 
-		for ( var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
+		for (var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
 			var pA = this.questionObj.possibleAnswers[i];
-			if(pA.data){
+			if (pA.data){
 				this.questionStore.add({
 					text: pA.data.text,
 					value: 0
@@ -99,7 +99,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		});
 
 		var title = Ext.util.Format.htmlEncode(this.questionObj.text);
-		if(window.innerWidth < 800 && title.length > (window.innerWidth / 10))
+		if (window.innerWidth < 800 && title.length > (window.innerWidth / 10))
 			title = title.substring(0, (window.innerWidth) / 10) + "...";
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
@@ -123,7 +123,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			border: '0px'
 		});
 
-		if(this.questionObj.questionType == "grid"){
+		if (this.questionObj.questionType == "grid"){
 
 			this.titlebar = Ext.create('Ext.Toolbar', {
 				cls: 'questionStatisticTitle',
@@ -142,13 +142,13 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		}
 
-		if( this.questionObj.questionType == "yesno"	||
-			this.questionObj.questionType == "mc"		||
-			( this.questionObj.questionType == "abcd" && !this.questionObj.noCorrect ) ) {
+		if (this.questionObj.questionType == "yesno" ||
+			this.questionObj.questionType == "mc" ||
+			(this.questionObj.questionType == "abcd" && !this.questionObj.noCorrect)) {
 
-			if(this.questionObj.showAnswer){
+			if (this.questionObj.showAnswer){
 				this.gradients = [];
-				for ( var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
+				for (var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
 					var question = this.questionObj.possibleAnswers[i];
 
 					if ((question.data && !question.data.correct) || (!question.data && !question.correct)){
@@ -343,7 +343,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				renderer: function (sprite, config, rendererData, i) {
 					var panel;
 
-					if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_STUDENT) {
+					if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_STUDENT) {
 						panel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart;
 					}
 
@@ -389,15 +389,15 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				var maxValue = 10;
 
 				var tmp_possibleAnswers = [];
-				for ( var i = 0; i < tmp_possibleAnswers.length; i++) {
+				for (var i = 0; i < tmp_possibleAnswers.length; i++) {
 					var el = tmp_possibleAnswers[i];
 					var record = store.findRecord('text', el, 0, false, true, true);
 					record.set('value', 0);
 				}
 
-				for ( var i = 0; i < panel.questionObj.possibleAnswers.length; i++) {
+				for (var i = 0; i < panel.questionObj.possibleAnswers.length; i++) {
 					var el = panel.questionObj.possibleAnswers[i];
-					if(el.data)
+					if (el.data)
 						tmp_possibleAnswers.push(el.data.text);
 					else
 						tmp_possibleAnswers.push(el.text);
@@ -405,7 +405,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 				var mcAnswerCount = [];
 				var abstentionCount = 0;
-				for ( var i = 0, el; el = answers[i]; i++) {
+				for (var i = 0, el; el = answers[i]; i++) {
 					if (panel.questionObj.questionType === "mc") {
 						if (!el.answerText) {
 							abstentionCount = el.abstentionCount;
@@ -440,7 +440,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 							abstentionCount = el.abstentionCount;
 							continue;
 						}
-						var record = store.findRecord('text', el.answerText, 0, false, true, true);// exact match
+						var record = store.findRecord('text', el.answerText, 0, false, true, true); // exact match
 						record.set('value', el.answerCount);
 					}
 					sum += el.answerCount;
@@ -450,10 +450,10 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					}
 
 					var idx = tmp_possibleAnswers.indexOf(el.answerText); // Find the index
-					if(idx!=-1) tmp_possibleAnswers.splice(idx, 1); // Remove it if really found!
+					if (idx != -1) tmp_possibleAnswers.splice(idx, 1); // Remove it if really found!
 				}
 				if (abstentionCount) {
-					var record = store.findRecord('text', Messages.ABSTENTION, 0, false, true, true);// exact match
+					var record = store.findRecord('text', Messages.ABSTENTION, 0, false, true, true); // exact match
 					if (!record) {
 						store.add({text: Messages.ABSTENTION, value: abstentionCount});
 					} else if (record.get('value') != abstentionCount) {
@@ -472,7 +472,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				// renew the chart-data
 				chart.redraw();
 
-				//update quote in toolbar
+				// update quote in toolbar
 				var quote = panel.toolbar.items.items[2];
 				var users = quote.getHtml().split("/");
 				users[0] = sum;
@@ -510,7 +510,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	countActiveUsers: function(){
 		var count = ARSnova.app.loggedInModel.countActiveUsersBySession();
 
-				//update quote in toolbar
+				// update quote in toolbar
 				var quote = ARSnova.app.mainTabPanel._activeItem.toolbar.items.items[2];
 				var users = quote.getHtml().split("/");
 		users[1] = count;

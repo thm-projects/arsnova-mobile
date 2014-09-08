@@ -89,7 +89,7 @@ Ext.define("ARSnova.controller.Feedback", {
 		var tP = ARSnova.app.mainTabPanel.tabPanel;
 		var fP = tP.feedbackTabPanel;
 
-		if(fP.rendered){
+		if (fP.rendered){
 			fP.setActiveItem(fP.votePanel);
 		} else {
 			fP.activeItem = 1;

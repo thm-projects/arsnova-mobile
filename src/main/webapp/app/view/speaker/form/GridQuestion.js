@@ -68,14 +68,14 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			itemId: 'gridContainer'
 		});
 
-		this.infoPanel = Ext.create('Ext.Panel',{
+		this.infoPanel = Ext.create('Ext.Panel', {
 			cls: 'infoPanel',
 			html: Messages.SETTINGS_HINT_TEXT,
 			hideOnMaskTap: true,
 			modal: true
 		});
 
-		 this.infoButton = Ext.create('Ext.Button',{
+		this.infoButton = Ext.create('Ext.Button', {
 			iconCls: 'info',
 			iconMask: true,
 			handler: function(){me.onInfoButton();}
@@ -101,13 +101,13 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			iconMask: true
 		});
 
-		this.deleteButton = Ext.create('Ext.Button',{
+		this.deleteButton = Ext.create('Ext.Button', {
 			iconCls: 'delete',
 			iconMask: true,
 			handler: function(){me.resetView();}
 		});
 
-		this.rotateButton = Ext.create('Ext.Button',{
+		this.rotateButton = Ext.create('Ext.Button', {
 			iconCls: 'refresh',
 			iconMask: true,
 			handler: function(){
@@ -151,11 +151,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			handler: function(){me.grid.moveGridDown();}
 		});
 
-		this.hideGridButton = Ext.create('Ext.Button',{
+		this.hideGridButton = Ext.create('Ext.Button', {
 			iconCls: 'delete',
 			iconMask: true,
 			handler: function(){
-				me.grid.setGridIsHidden( !me.grid.getGridIsHidden());
+				me.grid.setGridIsHidden(!me.grid.getGridIsHidden());
 				me.grid.redraw();
 			}
 		});
@@ -181,7 +181,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						pack: 'center'
 					},
 					items: [
-
 						this.infoButton,
 						this.btnMoveLeft,
 						this.btnMoveRight,
@@ -189,14 +188,14 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						this.btnMoveDown,
 						this.deleteButton,
 						this.rotateButton
-				   ]
-			  },
-			   {
+					]
+				},
+				{
 					xtype: 'label',
 					html: Messages.GRID_CONFIG_GRID,
 					style: "margin-top: 15px"
 				},
-			   {
+				{
 					xtype: 'panel',
 					layout:{
 						type: 'hbox',
@@ -211,8 +210,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						this.btnMoveGridUp,
 						this.btnMoveGridDown,
 						this.hideGridButton
-				   ]
-			   }
+					]
+				}
 			],
 			hidden: true
 		});
@@ -257,13 +256,13 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		});
 
 		this.answers = Ext.create('Ext.Panel', {
-			items: [ {
+			items: [{
 				xtype: 'fieldset',
 				itemId: 'fs_answers',
 				style: 'margin-bottom: 0',
 				name: 'fs_answers',
 				title: Messages.CORRECT_ANSWERS,
-				items: [ {
+				items: [{
 					xtype: 'textfield',
 					itemId: 'tf_answers',
 					cls: 'centerAligned',
@@ -272,7 +271,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					placeHolder: '0',
 					readOnly: true
 				}]
-			} ]
+			}]
 		});
 
 		if (ARSnova.app.globalConfig.features.learningProgress) {
@@ -306,14 +305,14 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			label: Messages.GRID_LABEL_ZOOM,
 			listeners: {
 				spinup: function() {
-						me.grid.zoomIn();
-						this.setValue(Math.round(me.grid.getScale()*100));
+					me.grid.zoomIn();
+					this.setValue(Math.round(me.grid.getScale() * 100));
 				},
 				spindown: function() {
-					 if(this.getValue() > 1) {
+					if (this.getValue() > 1) {
 						me.grid.zoomOut();
-						this.setValue(Math.round(me.grid.getScale()*100));
-					 }
+						this.setValue(Math.round(me.grid.getScale() * 100));
+					}
 				}
 
 			},
@@ -600,7 +599,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 		result.possibleAnswers = possibleAnswers;
 
-		result.noCorrect = this.grid.getChosenFields().length > 0 ? 0: 1; // TODO: Check if really needed (and why numbers instead of bool)
+		result.noCorrect = this.grid.getChosenFields().length > 0 ? 0 : 1; // TODO: Check if really needed (and why numbers instead of bool)
 
 		return result;
 	},
@@ -613,10 +612,10 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	initWithQuestion: function(question) {
 		var answerField = this.answers.getComponent('fs_answers').getComponent('tf_answers');
 		var minValue = question.possibleAnswers.reduce(function(a, b) {
-			return a < b.value ? a: b.value;
+			return a < b.value ? a : b.value;
 		}, 0);
 		var maxValue = question.possibleAnswers.reduce(function(a, b) {
-			return a < b.value ? b.value: a;
+			return a < b.value ? b.value : a;
 		}, 0);
 
 		// set image data (base64 --> grid)
@@ -631,11 +630,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				question.numClickableFields, question.thresholdCorrectAnswers,
 				question.cvIsColored, question.possibleAnswers, true);
 
-		answerField.setValue(this.grid.getChosenFields().length);// set the spinner with correct values (last storage)
-		this.zoomSpinner.setValue(Math.round(this.grid.getScale()*100));
+		answerField.setValue(this.grid.getChosenFields().length); // set the spinner with correct values (last storage)
+		this.zoomSpinner.setValue(Math.round(this.grid.getScale() * 100));
 		this.gridXSpinner.setValue(this.grid.getGridSizeX());
 		this.gridYSpinner.setValue(this.grid.getGridSizeY());
-		this.deleteButton.setHidden(true);// disable delete button in edit mode
+		this.deleteButton.setHidden(true); // disable delete button in edit mode
 		this.toggleAnswers.setValue(this.grid.getToggleFieldsLeft());
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.questionValueFieldset.setHidden(this.grid.getChosenFields().length === 0);

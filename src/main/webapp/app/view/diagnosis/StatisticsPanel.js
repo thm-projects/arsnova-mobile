@@ -97,16 +97,16 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 			items: [{
 					itemId: 'statisticUsersOnline',
 					text: 'Users online'
-				},{
+				}, {
 					itemId: 'statisticOpenSessions',
 					text: Messages.OPEN_SESSIONS
-				},{
+				}, {
 					itemId: 'statisticClosedSessions',
 					text: Messages.CLOSED_SESSIONS
-				},{
+				}, {
 					itemId: 'statisticQuestions',
 					text: Messages.QUESTIONS
-				},{
+				}, {
 					itemId: 'statisticAnswers',
 					text: Messages.ANSWERS
 				}]
@@ -151,7 +151,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 			success: function(response){
 				var statistics = Ext.decode(response.responseText);
 
-				if(statistics != null) {
+				if (statistics != null) {
 					var me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.statisticsPanel;
 					me.statistics = statistics;
 					me.setNumbers();

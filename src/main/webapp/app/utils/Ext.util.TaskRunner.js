@@ -26,7 +26,7 @@ var TaskRunner = function(interval) {
 	running = false,
 	debug = false,
 
-	//private
+	// private
 	stopThread = function() {
 		running = false;
 		clearInterval(id);
@@ -92,8 +92,8 @@ var TaskRunner = function(interval) {
 	};
 
 	this.start = function(task) {
-		if(debug) console.log("starting task: " + task.name);
-		if(Ext.Array.contains(tasks, task)) return false;
+		if (debug) console.log("starting task: " + task.name);
+		if (Ext.Array.contains(tasks, task)) return false;
 		tasks.push(task);
 		task.taskStartTime = new Date().getTime();
 		task.taskRunTime = 0;
@@ -103,7 +103,7 @@ var TaskRunner = function(interval) {
 	};
 
 	this.stop = function(task) {
-		if(debug) console.log("stopping task: " + task.name);
+		if (debug) console.log("stopping task: " + task.name);
 		removeTask(task);
 		return task;
 	};

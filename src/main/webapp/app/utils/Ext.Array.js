@@ -48,7 +48,7 @@
 
             array.splice(15, 0, "F", "F", "F", "F", "F","F","F","F","F","F","F","F","F","F","F","F","F","F","F","F","F");
 
-            lengthBefore = array.length; //41
+            lengthBefore = array.length; // 41
             array.splice(13, 0, "XXX"); // add one element
 
             if (lengthBefore+1 != array.length) {
@@ -138,7 +138,7 @@
                     array[tailNewPos+i] = array[tailOldPos+i];
                 }
             } else if (tailNewPos > tailOldPos) { // case B
-                for (i = tailCount; i--; ) {
+                for (i = tailCount; i--;) {
                     array[tailNewPos+i] = array[tailOldPos+i];
                 }
             } // else, add == remove (nothing to do)
@@ -780,7 +780,7 @@
                 }
                 return slice.call(array, begin, end);
             }
-        ),
+       ),
 
         /**
          * Sorts the elements of an Array.

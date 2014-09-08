@@ -69,9 +69,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.callParent(arguments);
 
 		// set canvas size depending on screen size
-		var width = (window.innerWidth > 0) ? window.innerWidth: screen.width;
+		var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		var extraPadding = 40;
-		var canvasSize = (width < 400 + extraPadding) ? width - extraPadding: 400;
+		var canvasSize = (width < 400 + extraPadding) ? width - extraPadding : 400;
 		this.setCanvasSize(canvasSize);
 
 		var canvas = document.createElement('canvas');
@@ -93,7 +93,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		//this.initGridZoom();
 
-		this.add([ this.image ]);
+		this.add([this.image]);
 	},
 
 	/**
@@ -129,7 +129,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		/*
 		 * rotates the image in 90� steps clockwise. Steps are in the variable imgRotation
 		 */
-		ctx.rotate(90 * this.getImgRotation() * Math.PI /180 );
+		ctx.rotate(90 * this.getImgRotation() * Math.PI / 180);
 
 		if (this.getImageFile().src.lastIndexOf("http", 0) === 0) { // image is load from url
 			// have to be the negative half of width and height of the image for translation to get a fix rotation point in the middle of the image!!!
@@ -146,11 +146,11 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		// restore context to draw grid with default scale
 		ctx.restore();
 
-		if ( markChosenFields ) {
+		if (markChosenFields) {
 			this.markChosenFields();
 		}
 
-		if(!this.getGridIsHidden()) {
+		if (!this.getGridIsHidden()) {
 			this.createGrid();
 		}
 
@@ -183,14 +183,14 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		y -= canvas.getBoundingClientRect().top;
 		y -= this.getRelativeLength(this.getGridOffsetY(), false);
 
-		if(x < 0 || y < 0){
+		if (x < 0 || y < 0){
 			return null;
 		}
 
 		var xGrid = parseInt(x / this.getFieldSize());
 		var yGrid = parseInt(y / this.getFieldSize());
 
-		if(xGrid >= this.getGridSizeX() || yGrid >= this.getGridSizeY()){
+		if (xGrid >= this.getGridSizeX() || yGrid >= this.getGridSizeY()){
 			return null;
 		}
 
@@ -238,7 +238,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * The usage of this function ensures correct positioning.
 	 */
 	getRelativeLength: function(n, reverse) {
-		var f = reverse ? (this.getInitCanvasSize() / this.getCanvasSize()): (this.getCanvasSize() / this.getInitCanvasSize());
+		var f = reverse ? (this.getInitCanvasSize() / this.getCanvasSize()) : (this.getCanvasSize() / this.getInitCanvasSize());
 		return n * f;
 	},
 
@@ -247,7 +247,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	createGrid: function() {
 
-		if((this.getGridSizeX() * this.getGridSizeY()) == 0)
+		if ((this.getGridSizeX() * this.getGridSizeY()) == 0)
 			return;
 
 		var ctx = this.getCanvas().getContext("2d");
@@ -273,7 +273,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 					this.getRelativeLength(this.getGridOffsetX(), false) + i * fieldsize,
 					this.getRelativeLength(this.getGridOffsetY(), false),
 					this.getGridLineWidth(),
-					fieldsize * this.getGridSizeY() );
+					fieldsize * this.getGridSizeY());
 		}
 
 	},
@@ -354,7 +354,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		var container = this.parentContainer;
 
-		if ( ! container.getEditable() ) {
+		if (! container.getEditable()) {
 			// click prevention for non-editable grids
 			return;
 		}
@@ -364,7 +364,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var y = event.clientY;
 		var position = container.getFieldPosition(x, y);
 
-		if(position == null){
+		if (position == null){
 			return;
 		}
 
@@ -440,24 +440,24 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setCvIsColored(cvIsColored);
 
 
-		//converting from old version
-		if(gridSize != undefined && gridSize > 0){
+		// converting from old version
+		if (gridSize != undefined && gridSize > 0){
 
-			if(gridSizeX === undefined || gridSizeX === 0){
+			if (gridSizeX === undefined || gridSizeX === 0){
 				this.setGridSizeX(gridSize);
 			}
 
-			if(gridSizeY === undefined || gridSizeY === 0){
+			if (gridSizeY === undefined || gridSizeY === 0){
 				this.setGridSizeY(gridSize);
 			}
 
 		}
 
-		if(this.getGridOffsetX() === undefined){
+		if (this.getGridOffsetX() === undefined){
 			this.setGridOffsetX(0);
 		}
 
-		if(this.getGridOffsetY() === undefined){
+		if (this.getGridOffsetY() === undefined){
 			this.setGridOffsetY(0);
 		}
 
@@ -579,7 +579,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	getGeneralScaleFactor: function() {
 		var image = this.getImageFile();
 
-		if(image.height >= image.width) {
+		if (image.height >= image.width) {
 			return (this.getCanvasSize() / image.height);
 		} else {
 			return (this.getCanvasSize() / image.width);
@@ -740,7 +740,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Toggles the color of the grid.
 	 */
 	toggleBorderColor: function() {
-		if(this.getCurGridLineColor() == this.getGridLineColor()){
+		if (this.getCurGridLineColor() == this.getGridLineColor()){
 			this.setCurGridLineColor(this.getAlternativeGridLineColor());
 		} else {
 			this.setCurGridLineColor(this.getGridLineColor());
@@ -766,7 +766,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				}
 				for (var k = 0; k < this.getChosenFields().length; k++) {
 					var currentField = this.getChosenFields()[k];
-					if ( currentField[0] == i && currentField[1] == j ) {
+					if (currentField[0] == i && currentField[1] == j) {
 						obj.correct = true;
 						break;
 					}
@@ -804,7 +804,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var coords = possibleAnswer.split(";");
 		var x = coords[0];
 		var y = coords[1];
-		return new Array(parseInt(x),parseInt(y));
+		return new Array(parseInt(x), parseInt(y));
 	},
 
 	/**
@@ -818,13 +818,13 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var rightColor = this.getStatisticRightColor();
 
 
-		if(this.getChosenFields().length == 0){
+		if (this.getChosenFields().length == 0){
 			wrongColor = this.getHighlightColor();
 		}
 
 
 		// toggle grid color
-		this.setCurGridLineColor(toggleColors ? this.getAlternativeGridLineColor(): this.getGridLineColor());
+		this.setCurGridLineColor(toggleColors ? this.getAlternativeGridLineColor() : this.getGridLineColor());
 
 		if (!colorTiles) {
 			this.setHighlightColor(rightColor);
@@ -846,13 +846,13 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			for (var column = 0; column < this.getGridSizeY(); column++) {
 				var key = row + ";" + column;
 				if (typeof tilesToFill[key] !== "undefined") {
-					if ( tilesToFill[key] > maxVotes ) {
+					if (tilesToFill[key] > maxVotes) {
 						maxVotes = tilesToFill[key];
-						if ( minVotes == 0 ) {
+						if (minVotes == 0) {
 							minVotes = maxVotes;
 						}
 					}
-					minVotes = (tilesToFill[key] > 0 && tilesToFill[key] < minVotes) ? tilesToFill[key]: minVotes;
+					minVotes = (tilesToFill[key] > 0 && tilesToFill[key] < minVotes) ? tilesToFill[key] : minVotes;
 				}
 			}
 		}
@@ -868,12 +868,12 @@ Ext.define('ARSnova.view.components.GridContainer', {
 					var alpha = 0;
 
 					if (typeof tilesToFill[key] !== "undefined") {
-						if ( maxVotes == minVotes ){
+						if (maxVotes == minVotes){
 							alpha = this.getHeatmapMaxAlpha();
 						} else if (tilesToFill[key] == 0) {
 							alpha = 0;
 						} else {
-							alpha = this.getHeatmapMinAlpha() + ( ((this.getHeatmapMaxAlpha() - this.getHeatmapMinAlpha())/(maxVotes - minVotes)) * (tilesToFill[key] - minVotes) );
+							alpha = this.getHeatmapMinAlpha() + (((this.getHeatmapMaxAlpha() - this.getHeatmapMinAlpha())/(maxVotes - minVotes)) * (tilesToFill[key] - minVotes));
 						}
 					}
 
@@ -888,10 +888,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				}
 
 				if (displayType == Messages.GRID_LABEL_RELATIVE || displayType == Messages.GRID_LABEL_RELATIVE_SHORT) {
-					var text = (typeof tilesToFill[key] !== "undefined" ) ? Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) + "%": "";
+					var text = (typeof tilesToFill[key] !== "undefined") ? Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) + "%" : "";
 					this.addTextToField(coords[0], coords[1], text);
 				} else if (displayType == Messages.GRID_LABEL_ABSOLUTE || displayType == Messages.GRID_LABEL_ABSOLUTE_SHORT) {
-					var text = (typeof tilesToFill[key] !== "undefined" ) ? tilesToFill[key]: "";
+					var text = (typeof tilesToFill[key] !== "undefined") ? tilesToFill[key] : "";
 					this.addTextToField(coords[0], coords[1], text);
 				}
 
@@ -907,7 +907,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 
 		// toggle grid color
-		this.setCurGridLineColor(toggleColors ? this.getAlternativeGridLineColor(): this.getGridLineColor());
+		this.setCurGridLineColor(toggleColors ? this.getAlternativeGridLineColor() : this.getGridLineColor());
 
 		var lowAlpha = 0.2;
 		var highAlpha = 0.9;
@@ -916,11 +916,11 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			for (var column = 0; column < this.getGridSizeY(); column++) {
 
 				var i = row * this.getGridSizeY() + column;
-				var color = correctAnswers[i] ? this.getStatisticRightColor(): this.getStatisticWrongColor();
-				var alpha = userAnswers[i] ? highAlpha: lowAlpha;
+				var color = correctAnswers[i] ? this.getStatisticRightColor() : this.getStatisticWrongColor();
+				var alpha = userAnswers[i] ? highAlpha : lowAlpha;
 
 
-				this.markField(row,column, color, alpha);
+				this.markField(row, column, color, alpha);
 
 			}
 		}
@@ -955,7 +955,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			py = (ey + sy) >> 1;
 		}
 		var ratio = (py / ih);
-		return (ratio === 0) ? 1: ratio;
+		return (ratio === 0) ? 1 : ratio;
 	},
 
 	/**
@@ -968,7 +968,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 
 	spinRight: function(){
-		this.setImgRotation((this.getImgRotation() + 1 )%4);
+		this.setImgRotation((this.getImgRotation() + 1) % 4);
 		this.redraw();
 	}
 

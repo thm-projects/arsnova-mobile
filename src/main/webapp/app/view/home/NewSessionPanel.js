@@ -54,9 +54,10 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				marginRight: '12px',
 				backgroundColor: 'transparent'
 			},
-			itemTpl: window.innerWidth > 321
-						? '<span class="course">{fullname:htmlEncode}<span>'
-: '<span class="course">{shortname:htmlEncode}<span>',
+			itemTpl: window.innerWidth > 321 ?
+				'<span class="course">{fullname:htmlEncode}<span>' :
+				'<span class="course">{shortname:htmlEncode}<span>'
+			,
 			listeners: {
 				scope: this,
 				itemtap: Ext.bind(this.onCourseSubmit, this),
@@ -71,8 +72,8 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 					var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
 
 					this.mycourses.setHeight(
-						parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height"))	+
-						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top"))	+
+						parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
+						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
 						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
 					);
 				}
@@ -186,7 +187,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		var newSessionPanel = this;
 		ARSnova.app.courseModel.getMyCourses({
 			success: Ext.bind(function(response) {
-				if(response.responseText == "[]") {
+				if (response.responseText == "[]") {
 					newSessionPanel.mycourses.hide();
 					newSessionPanel.setScrollable(null);
 				} else {
@@ -213,6 +214,6 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			failure: function() {
 				console.log("my courses request failure");
 			}
-		}, (window.innerWidth > 321 ? 'name': 'shortname'));
+		}, (window.innerWidth > 321 ? 'name' : 'shortname'));
 	}
 });

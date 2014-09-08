@@ -55,7 +55,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.audienceQuestionPanel;
 			panel.handleAnswerCount();
 		},
-		interval: 10000// 10 seconds
+		interval: 10000 // 10 seconds
 	},
 
 	initialize: function(){
@@ -88,9 +88,10 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 			itemCls: 'forwardListButton',
 			itemTpl: '<tpl if="active"><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
-					 '<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
-					 '<div class="x-button x-hasbadge audiencePanelListBadge">' +
-					 '<tpl if="numAnswers &gt; 0"><span class="redbadgeicon badgefixed">{numAnswers}</span></tpl></div>',
+				'<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
+				'<div class="x-button x-hasbadge audiencePanelListBadge">' +
+				'<tpl if="numAnswers &gt; 0"><span class="redbadgeicon badgefixed">{numAnswers}</span></tpl></div>'
+			,
 			grouped: true,
 			store: this.questionStore,
 
@@ -111,8 +112,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 					var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
 
 					this.questionList.setHeight(
-						parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height"))	+
-						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top"))	+
+						parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
+						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
 						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
 					);
 				}

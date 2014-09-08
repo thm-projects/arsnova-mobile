@@ -117,10 +117,10 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 									});
 								} else if (checked.length > 0) {
 									this.questionValueComponents.forEach(function(c, j) {
-											c.setSliderValue(this.answerComponents[j].isChecked() ? c.getMaxValue(): c.getMinValue());
+											c.setSliderValue(this.answerComponents[j].isChecked() ? c.getMaxValue() : c.getMinValue());
 									}, this);
 								} else {
-									component.setSliderValue(isChecked ? component.getMaxValue(): component.getMinValue());
+									component.setSliderValue(isChecked ? component.getMaxValue() : component.getMinValue());
 								}
 							}
 						},
@@ -218,7 +218,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 	initAnswerComponents: function(possibleAnswers) {
 		possibleAnswers.forEach(function(answer, index) {
 			this.answerComponents[index].setValue(answer.text);
-			if(answer.correct) this.answerComponents[index].check();
+			if (answer.correct) this.answerComponents[index].check();
 		}, this);
 	},
 

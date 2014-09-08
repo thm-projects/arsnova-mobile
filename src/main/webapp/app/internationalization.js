@@ -28,8 +28,8 @@ var isAndroid = ua.indexOf("android") > -1;
 var isChrome = ua.indexOf("chrome") > -1;
 var lang;
 
-if(isAndroid && !isChrome) {
-	if ( navigator && navigator.userAgent && (lang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {
+if (isAndroid && !isChrome) {
+	if (navigator && navigator.userAgent && (lang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {
 		lang = lang[1];
 	}
 } else {
@@ -37,11 +37,11 @@ if(isAndroid && !isChrome) {
 }
 
 var prefLang = localStorage.getItem("language");
-if(prefLang != undefined){
+if (prefLang != undefined){
 	lang = prefLang;
 }
 
-if(lang != null) {
+if (lang != null) {
 	lang = lang.toLowerCase();
 }
 

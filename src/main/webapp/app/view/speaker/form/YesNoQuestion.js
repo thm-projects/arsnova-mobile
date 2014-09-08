@@ -137,7 +137,7 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 		});
 		// Press the 'correct' button
 		this.segmentedButton.setPressedButtons(possibleAnswers.map(function(answer, index) {
-			return answer.correct ? index: null;
+			return answer.correct ? index : null;
 		}));
 		// Still no button pressed? Select the 'none' button...
 		if (this.segmentedButton.getPressedButtons().length === 0) {

@@ -21,7 +21,7 @@
 /**
  * We need to override this class in order to allow custom itemHeights on list elements
  */
-Ext.define('ARSnova.view.PositionMap',{
+Ext.define('ARSnova.view.PositionMap', {
 	override: 'Ext.util.PositionMap',
 	config: {
 		minimumHeight: 0
@@ -106,13 +106,13 @@ Ext.define('ARSnova.view.Question', {
 				// Mark all possible answers as 'answered'. This will highlight
 				// all correct answers.
 
-					this.answerList.getStore().each(function(item) {
-						item.set("questionAnswered", true);
-					});
+				this.answerList.getStore().each(function(item) {
+					item.set("questionAnswered", true);
+				});
 
-					if(this.questionObj.questionType === 'grid'){
-						this.setGridAnswer(this.questionObj.userAnswered);
-					}
+				if (this.questionObj.questionType === 'grid'){
+					this.setGridAnswer(this.questionObj.userAnswered);
+				}
 			}
 		};
 
@@ -130,7 +130,7 @@ Ext.define('ARSnova.view.Question', {
 
 				var answerValues = [];
 				for (var i = 0; i < this.answerList.getStore().getCount(); i++) {
-					answerValues.push(selectedIndexes.indexOf(i) !== -1 ? "1": "0");
+					answerValues.push(selectedIndexes.indexOf(i) !== -1 ? "1" : "0");
 				}
 				var questionValue = 0;
 				this.answerList.getSelection().forEach(function(node) {
@@ -153,7 +153,7 @@ Ext.define('ARSnova.view.Question', {
 
 				var selectedIndexes = [];
 				this.grid.getChosenFields().forEach(function(node) {
-					selectedIndexes.push(node[0] + ';' + node[1] );
+					selectedIndexes.push(node[0] + ';' + node[1]);
 				}, this);
 				this.questionObj.userAnswered = selectedIndexes.join(",");
 				this.markCorrectAnswers();
@@ -161,9 +161,9 @@ Ext.define('ARSnova.view.Question', {
 
 				var questionValue = 0;
 				this.questionObj.possibleAnswers.forEach(function(node){
-		  if (selectedIndexes.indexOf(node.text) !== -1) {
-			questionValue += (node.value || 0);
-		  }
+					if (selectedIndexes.indexOf(node.text) !== -1) {
+						questionValue += (node.value || 0);
+					}
 				});
 
 
@@ -229,12 +229,12 @@ Ext.define('ARSnova.view.Question', {
 			}
 		};
 
-		//Setup question title and text to disply in the same field; markdown handles HTML encoding
+		// Setup question title and text to disply in the same field; markdown handles HTML encoding
 		var questionString = this.questionObj.subject
 			+ '\n\n' // inserts one blank line between subject and text
 			+ this.questionObj.text;
 
-		//Create standard panel with framework support
+		// Create standard panel with framework support
 		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			cls: "roundedBox allCapsHeader"
 		});
@@ -277,18 +277,18 @@ Ext.define('ARSnova.view.Question', {
 				 * "padding-bottom" and add them to the height of the list
 				 * DataView.
 				 */
-		painted: function (list, eOpts) {
-			this.answerList.fireEvent("resizeList", list);
-		},
-		resizeList: function(list) {
-			var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
+				painted: function (list, eOpts) {
+					this.answerList.fireEvent("resizeList", list);
+				},
+				resizeList: function(list) {
+					var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
 
-			this.answerList.setHeight(
-				parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
-				parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
-				parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
-			);
-		}
+					this.answerList.setHeight(
+						parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
+						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
+						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
+					);
+				}
 			},
 			mode: this.questionObj.questionType === "mc" ? 'MULTI': 'SINGLE'
 		});
@@ -298,7 +298,7 @@ Ext.define('ARSnova.view.Question', {
 					|| this.questionObj.questionType === 'vote'
 					|| this.questionObj.questionType === 'abcd'
 					|| this.questionObj.questionType === 'yesno'
-		  || (this.questionObj.questionType === 'mc' && this.viewOnly) )) {
+			|| (this.questionObj.questionType === 'mc' && this.viewOnly))) {
 			this.abstentionAnswer = this.answerList.getStore().add({
 				id: this.abstentionInternalId,
 				text: Messages.ABSTENTION,
@@ -369,7 +369,7 @@ Ext.define('ARSnova.view.Question', {
 		if (this.questionObj.questionType === "flashcard") {
 			this.add([flashcardContainer]);
 			this.answerList.setHidden(true);
-		} else if(this.questionObj.questionType === "grid") {
+		} else if (this.questionObj.questionType === "grid") {
 				/*
 				 * in case of grid question, create a grid container model
 				 */
@@ -391,7 +391,7 @@ Ext.define('ARSnova.view.Question', {
 					thresholdCorrectAnswers: this.questionObj.thresholdCorrectAnswers,
 					cvIsColored: this.questionObj.cvIsColored,
 					editable: true,
-		  possibleAnswers: this.questionObj.possibleAnswers
+					possibleAnswers: this.questionObj.possibleAnswers
 				});
 
 				var me = this;
@@ -469,20 +469,20 @@ Ext.define('ARSnova.view.Question', {
 	 */
 	setGridAnswer: function(answerString){
 
-		if(answerString == undefined)
+		if (answerString == undefined)
 			return;
 
 
 		var grid = this.grid;
 		var fields = answerString.split(",");
 
-		if(this.questionObj.showAnswer){
+		if (this.questionObj.showAnswer){
 
 			var correctAnswers = [];
 			var userAnswers = [];
 
 			this.questionObj.possibleAnswers.forEach(function(node){
-				if(node.correct){
+				if (node.correct){
 					correctAnswers.push(1);
 				} else {
 					correctAnswers.push(0);

@@ -89,7 +89,7 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		});
 		previewBox.show();
 
-		//for IE: unblock input fields
+		// for IE: unblock input fields
 		Ext.util.InputBlocker.unblockInputs();
 	}
 });

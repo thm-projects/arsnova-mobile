@@ -88,10 +88,10 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 				handler: function(b) {
 					this.detect = Ext.create("ARSnova.BrowserDetect");
 					var browserInfo = new String(
-						"<b>Name:</b> "   + this.detect.browser		+ "<br>" +
-						"<b>Engine:</b> " + Ext.browser.engineName	+
-						" "				  + Ext.browser.engineVersion.version + "<br>" +
-						"<b>UA:</b> "	  + Ext.browser.userAgent	+ "<br>"
+						"<b>Name:</b> " + this.detect.browser + "<br>" +
+						"<b>Engine:</b> " + Ext.browser.engineName +
+						" " + Ext.browser.engineVersion.version + "<br>" +
+						"<b>UA:</b> " + Ext.browser.userAgent + "<br>"
 					);
 					Ext.Msg.alert('Browser', browserInfo, Ext.emptyFn);
 				}
@@ -99,8 +99,8 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 				text: Messages.ARSNOVA_RELOAD,
 				handler: function(b) {
 					Ext.Msg.confirm(Messages.ARSNOVA_RELOAD, Messages.RELOAD_SURE, function(b) {
-						if(b == "yes") {
-							if(ARSnova.app.checkSessionLogin()) {
+						if (b == "yes") {
+							if (ARSnova.app.checkSessionLogin()) {
 								ARSnova.app.getController('Sessions').logout();
 							}
 							ARSnova.app.getController('Auth').logout();

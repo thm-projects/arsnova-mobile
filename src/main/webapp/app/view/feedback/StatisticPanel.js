@@ -58,7 +58,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			}
 		});
 
-		if(ARSnova.app.userRole != ARSnova.app.USER_ROLE_SPEAKER) {
+		if (ARSnova.app.userRole != ARSnova.app.USER_ROLE_SPEAKER) {
 			this.buttonClicked = function(button) {
 				ARSnova.app.getController('Feedback').vote({
 					value: button.config.value
@@ -253,7 +253,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		// Calculate percentages
 		var sum = store.sum('value');
 		store.each(function(record) {
-			record.set('percent', sum > 0 ? (record.get('value') / sum): 0.0);
+			record.set('percent', sum > 0 ? (record.get('value') / sum) : 0.0);
 		});
 
 		chart.getAxes()[0].setMaximum(Math.max.apply(null, values));
@@ -261,10 +261,10 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 	},
 
 	updateTabBar: function(averageFeedback) {
-		//update feedback-badge in tab bar
+		// update feedback-badge in tab bar
 		ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab.setBadgeText(this.feedbackChart.getStore().sum('value'));
 
-		//change the feedback tab bar icon
+		// change the feedback tab bar icon
 		var tab = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab;
 		switch (averageFeedback) {
 			case 0:

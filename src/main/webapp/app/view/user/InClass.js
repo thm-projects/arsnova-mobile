@@ -302,8 +302,8 @@ Ext.define('ARSnova.view.user.InClass', {
 					var showNotification = false;
 					var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
 
-					//check for each question if exists a "dont-remind-me"-flag
-					for(var i = 0; i < newQuestions.length; i++){
+					// check for each question if exists a "dont-remind-me"-flag
+					for (var i = 0; i < newQuestions.length; i++){
 						var question = newQuestions[i];
 						if (questionsArr.indexOf(question) == -1){
 							questionsArr.push(question);
@@ -313,7 +313,7 @@ Ext.define('ARSnova.view.user.InClass', {
 					localStorage.setItem('questionIds', Ext.encode(questionsArr));
 					if (!showNotification) return;
 
-					if(newQuestions.length == 1){
+					if (newQuestions.length == 1){
 						ARSnova.app.questionModel.getQuestionById(newQuestions[0], {
 							success: function(response){
 								//var question = Ext.decode(response.responseText);
@@ -321,7 +321,7 @@ Ext.define('ARSnova.view.user.InClass', {
 								Ext.Msg.confirm(
 									Messages.ONE_NEW_QUESTION, Messages.WANNA_ANSWER,
 									function(answer){
-										if (answer == 'yes'){// show the question to the user
+										if (answer == 'yes'){ // show the question to the user
 											ARSnova.app.getController('Questions').index();
 										}
 									}
@@ -332,11 +332,11 @@ Ext.define('ARSnova.view.user.InClass', {
 							}
 						});
 					} else {
-						//show a notification window
+						// show a notification window
 						Ext.Msg.confirm(
 							Messages.THERE_ARE + ' ' + newQuestions.length + ' ' + Messages.NEW_QUESTIONS, Messages.WANNA_ANSWER,
 							function(answer){
-								if (answer == 'yes'){// show the question to the user
+								if (answer == 'yes'){ // show the question to the user
 									ARSnova.app.getController('Questions').index();
 								}
 							}
@@ -362,7 +362,7 @@ Ext.define('ARSnova.view.user.InClass', {
 					localStorage.removeItem('user has voted');
 
 					var feedbackButton = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.feedbackButton;
-					feedbackButton.badgeEl ? feedbackButton.badgeEl.destroy(): '';
+					feedbackButton.badgeEl ? feedbackButton.badgeEl.destroy() : '';
 					feedbackButton.badgeEl = null;
 					feedbackButton.badgeCls = "badgeicon feedbackARSnova";
 					feedbackButton.setBadge([{badgeText: "0"}]);

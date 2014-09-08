@@ -36,7 +36,7 @@
 
 items: [
 
-	//Fileup configuration for "Load local file" mode
+	// Fileup configuration for "Load local file" mode
 	{
 		xtype: 'fileupload',
 		autoUpload: true,
@@ -56,7 +56,7 @@ items: [
 		}
 	},
 
-	//Fileup configuration for "Upload file" mode
+	// Fileup configuration for "Upload file" mode
 	{
 		itemId: 'fileBtn',
 		xtype: 'fileupload',

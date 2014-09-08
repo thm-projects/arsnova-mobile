@@ -146,7 +146,7 @@ Ext.application({
 				ARSnova.app.restProxy.loggedInTask();
 			}
 		},
-		interval: 60000// 60 seconds
+		interval: 60000 // 60 seconds
 	},
 
 	/**
@@ -159,7 +159,7 @@ Ext.application({
 				ARSnova.app.restProxy.updateSessionActivityTask();
 			}
 		},
-		interval: 180000// 180 seconds
+		interval: 180000 // 180 seconds
 	},
 
 	/**
@@ -284,7 +284,7 @@ Ext.application({
 	 * returns true if user is logged in a session
 	 */
 	checkSessionLogin: function(){
-		if(localStorage.getItem('sessionId') == undefined || localStorage.getItem('sessionId') == "")
+		if (localStorage.getItem('sessionId') == undefined || localStorage.getItem('sessionId') == "")
 			return false;
 		else
 			return true;
@@ -294,7 +294,7 @@ Ext.application({
 	 * returns true if device is a phone or a tablet
 	 */
 	checkMobileDeviceType: function() {
-		if(Ext.device.deviceType == 'Phone' || Ext.device.deviceType == 'Tablet') {
+		if (Ext.device.deviceType == 'Phone' || Ext.device.deviceType == 'Tablet') {
 			return true;
 		} else
 		return false;
@@ -407,18 +407,18 @@ Ext.application({
 
 	formatSessionID: function(sessionID){
 		var tmp = [];
-		for(var i = 0; i < sessionID.length; i++){
-			if(i % 2){
+		for (var i = 0; i < sessionID.length; i++){
+			if (i % 2){
 				tmp.push(sessionID.substr(i - 1, 2));
 			}
 		}
-		if(tmp.length * 2 < sessionID.length) tmp.push(sessionID[tmp.length * 2]);
+		if (tmp.length * 2 < sessionID.length) tmp.push(sessionID[tmp.length * 2]);
 		return tmp.join(" ");
 	},
 
 	removeVisitedSession: function(sessionId){
 		var sessions = Ext.decode(localStorage.getItem('lastVisitedSessions'));
-		for ( var i = 0; i < sessions.length; i++){
+		for (var i = 0; i < sessions.length; i++){
 			var session = sessions[i];
 			if (sessionId == session._id){
 				sessions.splice(i, 1);

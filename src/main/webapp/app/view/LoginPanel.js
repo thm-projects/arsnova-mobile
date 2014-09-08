@@ -21,7 +21,7 @@
 Ext.define('ARSnova.view.LoginPanel', {
 	extend: 'Ext.Container',
 
-	requires: [ 'Ext.MessageBox', 'ARSnova.view.MatrixButton'],
+	requires: ['Ext.MessageBox', 'ARSnova.view.MatrixButton'],
 
 	config: {
 		fullscreen: true,
@@ -96,7 +96,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 			});
 			for (i = 0; i < services.length; i++) {
 				service = services[i];
-				imageSrc = service.image ? imagePath + service.image: "btn_" + service.id;
+				imageSrc = service.image ? imagePath + service.image : "btn_" + service.id;
 				button = {
 					xtype: 'matrixbutton',
 					text: "guest" === service.id ? Messages.GUEST: service.name,

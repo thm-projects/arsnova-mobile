@@ -44,7 +44,7 @@ Ext.define("ARSnova.controller.Sessions", {
 
 	login: function(options){
 		console.debug("Controller: Sessions.login", options);
-		if(options.keyword.length != 8){
+		if (options.keyword.length != 8){
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_ID_INVALID_LENGTH);
 			return;
 		}
@@ -57,35 +57,35 @@ Ext.define("ARSnova.controller.Sessions", {
 			success: function(response){
 				var obj = Ext.decode(response.responseText);
 
-				//check if user is creator of this session
+				// check if user is creator of this session
 				if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
 					ARSnova.app.isSessionOwner = true;
-					//start task: update that session owner is logeed in
+					// start task: update that session owner is logeed in
 					ARSnova.app.taskManager.start(ARSnova.app.updateSessionActivityTask);
 				} else {
-					//check if session is open
-					if(!obj.active){
+					// check if session is open
+					if (!obj.active){
 						Ext.Msg.alert("Hinweis", "Die Session \"" + obj.name +"\” ist momentan geschlossen.");
 						return;
 					}
 					ARSnova.app.isSessionOwner = false;
 				}
 
-				//set local variables
+				// set local variables
 				localStorage.setItem('sessionId', obj._id);
 				localStorage.setItem('name', obj.name);
 				localStorage.setItem('keyword', obj.keyword);
 				localStorage.setItem('shortName', obj.shortName);
-				localStorage.setItem('courseId', obj.courseId === null ? "": obj.courseId);
-				localStorage.setItem('courseType', obj.courseType === null ? "": obj.courseType);
-				localStorage.setItem('active', obj.active ? 1: 0);
+				localStorage.setItem('courseId', obj.courseId === null ? "" : obj.courseId);
+				localStorage.setItem('courseType', obj.courseType === null ? "" : obj.courseType);
+				localStorage.setItem('active', obj.active ? 1 : 0);
 
 				/* TODO: Use abstraction layer? */
 				if (window.socket) {
 					socket.emit("setSession", {keyword: obj.keyword});
 				}
 
-				//start task to update the feedback tab in tabBar
+				// start task to update the feedback tab in tabBar
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge, ARSnova.app.mainTabPanel.tabPanel);
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon, ARSnova.app.mainTabPanel.tabPanel);
 				ARSnova.app.taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
@@ -113,16 +113,16 @@ Ext.define("ARSnova.controller.Sessions", {
 
 		ARSnova.app.loggedInModel.resetActiveUserCount();
 
-		//remove "user has voted"-flag
+		// remove "user has voted"-flag
 		if (localStorage.getItem('user has voted'))
 			localStorage.removeItem('user has voted');
 
-		//stop task to update the feedback tab in tabBar
+		// stop task to update the feedback tab in tabBar
 		ARSnova.app.feedbackModel.un("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge);
 		ARSnova.app.feedbackModel.un("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon);
-		//online counter badge
+		// online counter badge
 		ARSnova.app.taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
-		//stop task to update that session owner is logged-in
+		// stop task to update that session owner is logged-in
 		ARSnova.app.taskManager.stop(ARSnova.app.updateSessionActivityTask);
 
 		localStorage.removeItem("sessionId");
@@ -170,7 +170,7 @@ Ext.define("ARSnova.controller.Sessions", {
 
 		if (ARSnova.app.isSessionOwner) {
 			/* add speaker in class panel */
-			if(!tabPanel.speakerTabPanel) {
+			if (!tabPanel.speakerTabPanel) {
 				tabPanel.speakerTabPanel = Ext.create('ARSnova.view.speaker.TabPanel');
 				tabPanel.insert(1, tabPanel.speakerTabPanel);
 			} else {
@@ -260,7 +260,7 @@ Ext.define("ARSnova.controller.Sessions", {
 			Ext.Msg.alert('Hinweis', 'Bitte alle markierten Felder ausfüllen.');
 			var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel;
 			panel.down('fieldset').items.items.forEach(function(el){
-				if(el.xtype == 'textfield')
+				if (el.xtype == 'textfield')
 					el.removeCls("required");
 			});
 			validation.items.forEach(function(el){
@@ -276,12 +276,12 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('name', fullSession.name);
 				localStorage.setItem('keyword', fullSession.keyword);
 				localStorage.setItem('shortName', fullSession.shortName);
-				localStorage.setItem('active', fullSession.active ? 1: 0);
-				localStorage.setItem('courseId', fullSession.courseId === null ? "": fullSession.courseId);
-				localStorage.setItem('courseType', fullSession.courseType === null ? "": fullSession.courseType);
+				localStorage.setItem('active', fullSession.active ? 1 : 0);
+				localStorage.setItem('courseId', fullSession.courseId === null ? "" : fullSession.courseId);
+				localStorage.setItem('courseType', fullSession.courseType === null ? "" : fullSession.courseType);
 				ARSnova.app.isSessionOwner = true;
 
-				//start task to update the feedback tab in tabBar
+				// start task to update the feedback tab in tabBar
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge, ARSnova.app.mainTabPanel.tabPanel);
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon, ARSnova.app.mainTabPanel.tabPanel);
 				ARSnova.app.taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
@@ -300,11 +300,11 @@ Ext.define("ARSnova.controller.Sessions", {
 	setActive: function(options) {
 		ARSnova.app.sessionModel.lock(localStorage.getItem("keyword"), options.active, {
 			success: function() {
-				//update this session in localStorage
+				// update this session in localStorage
 				var sessions = Ext.decode(localStorage.getItem('lastVisitedSessions'));
 				sessions.forEach(function(el){
 					/* FIXME: ref to global `session` variable? why? */
-					if(el._id == session.data._id)
+					if (el._id == session.data._id)
 						el.active = session.data.active;
 				});
 				localStorage.setItem('lastVisitedSessions', Ext.encode(sessions));

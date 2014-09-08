@@ -94,7 +94,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				var questionIds = [];
 
 				if (questions.length == 0){
-					//no available questions found
+					// no available questions found
 
 					self.getQuestionCountLoader()(localStorage.getItem("keyword"), {
 						success: function(response){
@@ -145,7 +145,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 						var answers = Ext.decode(response.responseText);
 
 						answers.forEach(function(answer){
-							if(questionsArr[answer.questionId]) {
+							if (questionsArr[answer.questionId]) {
 								questionsArr[answer.questionId].userAnswered = answer.answerText;
 								questionsArr[answer.questionId].answerSubject = answer.answerSubject;
 								questionsArr[answer.questionId].isAbstentionAnswer = answer.abstention;
@@ -215,7 +215,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			}
 
 			var list = questionPanel.answerList;
-			var data = list ? list.getStore(): Ext.create('Ext.data.Store', {model:'ARSnova.model.Answer'});
+			var data = list ? list.getStore() : Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
 
 			if (questionObj.questionType === 'mc') {
 				if (!questionObj.isAbstentionAnswer) {
@@ -225,7 +225,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 						return;
 					}
 					var selectedIndexes = answers.map(function(isSelected, index) {
-						return isSelected === "1" ? list.getStore().getAt(index): -1;
+						return isSelected === "1" ? list.getStore().getAt(index) : -1;
 					}).filter(function(index) {
 						return index !== -1;
 					});
@@ -268,7 +268,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		var allAnswered = true;
 
 		for (var i = this.carouselOffset, questionPanel; questionPanel = questionPanels[i]; i++) {
-			if(questionPanel.isDisabled()) {
+			if (questionPanel.isDisabled()) {
 				continue;
 			}
 
@@ -276,7 +276,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			break;
 		}
 
-		if(allAnswered) {
+		if (allAnswered) {
 			ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
 				type: 'slide',
 				direction: 'right',
@@ -296,7 +296,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		var activeQuestion = this.getActiveItem();
 		var lastQuestion = questionPanels[questionPanels.length-1];
 
-		if(!activeQuestion.isDisabled()) return;
+		if (!activeQuestion.isDisabled()) return;
 		this.checkStatisticRelease();
 
 		var currentPosition = 0;
@@ -309,12 +309,12 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 		var spin = false;
 		for (var i = currentPosition, questionPanel; questionPanel = questionPanels[i]; i++) {
-			if(spin && i == currentPosition) {
+			if (spin && i == currentPosition) {
 				break;
 			}
 
-			if(questionPanel.isDisabled()) {
-				if(questionPanel == lastQuestion) {
+			if (questionPanel.isDisabled()) {
+				if (questionPanel == lastQuestion) {
 					i = this.carouselOffset;
 					spin = true;
 				}

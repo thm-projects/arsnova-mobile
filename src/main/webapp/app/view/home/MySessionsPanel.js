@@ -110,7 +110,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		]);
 
 		this.onBefore('painted', function() {
-			if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
+			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
 				this.loadCreatedSessions();
 				this.loadVisitedSessions();
 			}
@@ -148,7 +148,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				var badgePromises = [];
 
 				var session;
-				for ( var i = 0, session; session = sessions[i]; i++) {
+				for (var i = 0, session; session = sessions[i]; i++) {
 					var status = "";
 					var course = " defaultsession";
 
@@ -161,7 +161,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					}
 
 					// Minimum width of 321px equals at least landscape view
-					var displaytext = window.innerWidth > 481 ? session.name: session.shortName;
+					var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
 					var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 						ui: 'normal',
 						text: Ext.util.Format.htmlEncode(displaytext),
@@ -201,7 +201,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				hideLoadMask();
 				console.log("my sessions request failure");
 			}
-		}, (window.innerWidth > 481 ? 'name': 'shortname'));
+		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
 	},
 
 	loadVisitedSessions: function() {
@@ -219,7 +219,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					panel.lastVisitedSessionsForm.removeAll();
 					panel.lastVisitedSessionsForm.show();
 
-					for ( var i = 0; i < sessions.length; i++) {
+					for (var i = 0; i < sessions.length; i++) {
 						var session = sessions[i];
 
 						var icon = " studentsession";
@@ -231,7 +231,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						}
 
 						// Minimum width of 481px equals at least landscape view
-						var displaytext = window.innerWidth > 481 ? session.name: session.shortName;
+						var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
 						var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 							xtype: 'button',
 							ui: 'normal',
@@ -278,7 +278,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				console.log('server-side error loggedIn.save');
 				me.lastVisitedSessionsForm.hide();
 			}
-		}, (window.innerWidth > 481 ? 'name': 'shortname'));
+		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
 	},
 
 	updateBadges: function(sessionKeyword, button) {
@@ -298,10 +298,10 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							var numFeedbackQuestions = Ext.decode(response.responseText).total;
 
 							button.setBadge([
-											 {badgeText: numFeedbackQuestions, badgeCls: "bluebadgeicon"},
-											 {badgeText: numQuestions, badgeCls: "greybadgeicon"},
-											 {badgeText: numAnswers, badgeCls: "redbadgeicon"}
-											 ]);
+								{badgeText: numFeedbackQuestions, badgeCls: "bluebadgeicon"},
+								{badgeText: numQuestions, badgeCls: "greybadgeicon"},
+								{badgeText: numAnswers, badgeCls: "redbadgeicon"}
+							]);
 
 							promise.resolve({
 								hasFeedbackQuestions: numFeedbackQuestions > 0,

@@ -102,7 +102,7 @@ Ext.define("ARSnova.controller.Auth", {
 
 	login: function(options) {
 		console.debug("Controller: Auth.login", options);
-		var serviceId = options && options.service ? options.service.id: "guest";
+		var serviceId = options && options.service ? options.service.id : "guest";
 		ARSnova.app.loginMode = serviceId;
 		localStorage.setItem('loginMode', serviceId);
 		var location = "", type = "", me = this;
@@ -222,7 +222,7 @@ Ext.define("ARSnova.controller.Auth", {
 		/**
 		 * mobile device
 		 */
-		if(ARSnova.app.checkMobileDeviceType()) {
+		if (ARSnova.app.checkMobileDeviceType()) {
 			ARSnova.app.restProxy.absoluteRequest(location);
 		}
 
