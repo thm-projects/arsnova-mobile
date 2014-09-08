@@ -35,7 +35,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		freetextAnswerStore: null
 	},
 
-	constructor: function(args) {
+	constructor: function (args) {
 		this.callParent(arguments);
 
 		this.questionObj = args.question;
@@ -45,7 +45,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		this.checkFreetextAnswersTask = {
 			name: 'check for new freetext answers',
 			scope: this,
-			run: function() {
+			run: function () {
 				this.checkFreetextAnswers();
 			},
 			interval: 15000
@@ -62,8 +62,8 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			text: Messages.BACK,
 			ui: 'back',
 			scope: this,
-			handler: function() {
-				ARSnova.app.mainTabPanel._activeItem.on('deactivate', function() {
+			handler: function () {
+				ARSnova.app.mainTabPanel._activeItem.on('deactivate', function () {
 					this.destroy();
 				}, this, {single:true});
 				ARSnova.app.mainTabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel, {
@@ -103,8 +103,8 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 					var answer = list.getStore().getAt(index).data;
 					ARSnova.app.getController('Questions').freetextDetailAnswer({
 						answer: Ext.apply(answer, {
-							deselectItem: function() {list.deselect(index);},
-							removeItem: function() {list.getStore().remove(list.getStore().getAt(index));}
+							deselectItem: function () {list.deselect(index);},
+							removeItem: function () {list.getStore().remove(list.getStore().getAt(index));}
 						}), panel: self
 					});
 				}
@@ -123,18 +123,18 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 
 		this.add([this.toolbar, this.freetextAnswerList]);
 
-		this.on('activate', function() {
+		this.on('activate', function () {
 			ARSnova.app.taskManager.start(this.checkFreetextAnswersTask);
 		}, this);
 
-		this.on('deactivate', function() {
+		this.on('deactivate', function () {
 			ARSnova.app.taskManager.stop(this.checkFreetextAnswersTask);
 		}, this);
 	},
 
-	checkFreetextAnswers: function() {
+	checkFreetextAnswers: function () {
 		ARSnova.app.questionModel.getAnsweredFreetextQuestions(localStorage.getItem("keyword"), this.questionObj._id, {
-			success: function(response) {
+			success: function (response) {
 				var responseObj = Ext.decode(response.responseText);
 				var listItems = responseObj.map(function (item) {
 					var v = item;
@@ -146,10 +146,10 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				});
 
 				var self = ARSnova.app.mainTabPanel._activeItem;
-				var abstentions = listItems.filter(function(item) {
+				var abstentions = listItems.filter(function (item) {
 					return item.abstention;
 				});
-				var answers = listItems.filter(function(item) {
+				var answers = listItems.filter(function (item) {
 					return !item.abstention;
 				});
 
@@ -162,7 +162,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				self.freetextAbstentions.setBadgeText(abstentions.length);
 				self.freetextAbstentions.setHidden(abstentions.length === 0);
 			},
-			failure: function() {
+			failure: function () {
 				console.log('server-side error');
 			}
 		});

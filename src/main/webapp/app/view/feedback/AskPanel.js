@@ -37,7 +37,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 	saveButton: null,
 	backButton: null,
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
 		this.backButton = Ext.create('Ext.Button', {
@@ -83,7 +83,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			ui: 'confirm',
 			cls: 'previewButton',
 			scope: this,
-			handler: function() {
+			handler: function () {
 					this.previewHandler();
 				}
 		});
@@ -127,7 +127,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		}]);
 	},
 
-	askQuestion: function() {
+	askQuestion: function () {
 		var me = this;
 		var question = Ext.create('ARSnova.model.Question', {
 			type: "interposed_question",
@@ -141,12 +141,12 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 
 		var validation = question.validate();
 		if (!validation.isValid()) {
-			me.down('fieldset').items.items.forEach(function(el) {
+			me.down('fieldset').items.items.forEach(function (el) {
 				if (el.xtype == 'textfield')
 					el.removeCls("required");
 			});
 
-			validation.items.forEach(function(el) {
+			validation.items.forEach(function (el) {
 				me.down('textfield[name=' + el.getField() + ']').addCls("required");
 			});
 			return;
@@ -154,7 +154,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 
 		ARSnova.app.getController('Feedback').ask({
 			question: question,
-			success: function() {
+			success: function () {
 				var theNotificationBox = {};
 				theNotificationBox = Ext.create('Ext.Panel', {
 					cls: 'notificationBox',
@@ -167,11 +167,11 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 					styleHtmlCls: 'notificationBoxText',
 					html: Messages.QUESTION_SAVED
 //					listeners: {
-//						hide: function() {
+//						hide: function () {
 //							this.destroy();
 //						},
-//						show: function() {
-//							Ext.defer(function(){
+//						show: function () {
+//							Ext.defer(function () {
 //								theNotificationBox.hide();
 //								me.closePanel();
 //								me.subject.setValue('');
@@ -184,28 +184,28 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 				theNotificationBox.show();
 
 				/* Workaround for Chrome 34+ */
-				Ext.defer(function() {
+				Ext.defer(function () {
 					theNotificationBox.destroy();
 					me.closePanel();
 					me.subject.setValue('');
 					me.text.setValue('');
 				}, 3000);
 			},
-			failure: function(records, operation) {
+			failure: function (records, operation) {
 				Ext.Msg.alert(Messages.NOTIFICATION, Messages.TRANSMISSION_ERROR);
 			}
 		});
 	},
 
 
-	previewHandler: function() {
+	previewHandler: function () {
 		var questionPreview = Ext.create('ARSnova.view.QuestionPreviewBox', {
 			xtype: 'questionPreview'
 		});
 		questionPreview.showPreview(this.subject.getValue(), this.text.getValue());
 	},
 
-	closePanel: function() {
+	closePanel: function () {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 		panel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.votePanel, {
 			type: 'slide',

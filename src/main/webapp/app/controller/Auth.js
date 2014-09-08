@@ -35,21 +35,21 @@ Ext.define("ARSnova.controller.Auth", {
 	disableRouting: false,
 
 	services: new RSVP.Promise(),
-	launch: function() {
+	launch: function () {
 		var me = this;
 		ARSnova.app.configLoaded.then(function () {
 			ARSnova.app.restProxy.getAuthServices({
-				success: function(services) {
+				success: function (services) {
 					me.services.resolve(services);
 				},
-				failure: function() {
+				failure: function () {
 					me.services.reject();
 				}
 			});
 		});
 	},
 
-	qr: function(sessionkey, role) {
+	qr: function (sessionkey, role) {
 		/* Workaround: Currently ARSnova is not designed to support routing after startup */
 		if (this.disableRouting) {
 			console.debug("Route ignored");
@@ -74,7 +74,7 @@ Ext.define("ARSnova.controller.Auth", {
 		});
 	},
 
-	con: function(options) {
+	con: function (options) {
 		ARSnova.loggedIn = true;
 		ARSnova.loginMode = ARSnova.LOGIN_GUEST;
 		ARSnova.userRole = ARSnova.USER_ROLE_STUDENT;
@@ -93,21 +93,21 @@ Ext.define("ARSnova.controller.Auth", {
 		Ext.dispatch({controller:'sessions', action:'login', keyword: options.sessionid});
 	},
 
-	roleSelect: function(options){
+	roleSelect: function (options) {
 		ARSnova.app.userRole = options.mode;
 		localStorage.setItem('role', options.mode);
 
 		ARSnova.app.setWindowTitle();
 	},
 
-	login: function(options) {
+	login: function (options) {
 		console.debug("Controller: Auth.login", options);
 		var serviceId = options && options.service ? options.service.id : "guest";
 		ARSnova.app.loginMode = serviceId;
 		localStorage.setItem('loginMode', serviceId);
 		var location = "", type = "", me = this;
 
-		if (ARSnova.app.LOGIN_GUEST === serviceId){
+		if (ARSnova.app.LOGIN_GUEST === serviceId) {
 			if (localStorage.getItem('login') === null) {
 				localStorage.setItem('login', ARSnova.app.authModel.generateGuestName());
 				type = "guest";
@@ -117,7 +117,7 @@ Ext.define("ARSnova.controller.Auth", {
 			location = "auth/login?type=" + type;
 			ARSnova.app.restProxy.absoluteRequest({
 				url: location,
-				success: function() {
+				success: function () {
 					me.checkLogin();
 					ARSnova.app.afterLogin();
 				}
@@ -128,12 +128,12 @@ Ext.define("ARSnova.controller.Auth", {
 		}
 	},
 
-	checkLogin: function(){
+	checkLogin: function () {
 		console.debug("Controller: Auth.checkLogin");
 		var promise = new RSVP.Promise();
 		ARSnova.app.restProxy.absoluteRequest({
 			url: 'whoami.json',
-			success: function(response){
+			success: function (response) {
 				var obj = Ext.decode(response.responseText);
 				ARSnova.app.loggedIn = true;
 				localStorage.setItem('login', obj.username);
@@ -168,7 +168,7 @@ Ext.define("ARSnova.controller.Auth", {
 		}, this));
 	},
 
-	logout: function(){
+	logout: function () {
 		/* hide diagnosis panel */
 		ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.tab.hide();
 
@@ -218,7 +218,7 @@ Ext.define("ARSnova.controller.Auth", {
 	/**
 	 * handles window.location change for desktop and mobile devices separately
 	 */
-	handleLocationChange: function(location) {
+	handleLocationChange: function (location) {
 		/**
 		 * mobile device
 		 */

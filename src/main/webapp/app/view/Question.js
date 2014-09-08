@@ -43,7 +43,7 @@ Ext.define('ARSnova.view.Question', {
 	abstentionInternalId: 'ARSnova_Abstention',
 	abstentionAnswer: null,
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
 		var self = this; // for use inside callbacks
@@ -56,10 +56,10 @@ Ext.define('ARSnova.view.Question', {
 
 		var answerStore = Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
 		answerStore.add(this.questionObj.possibleAnswers);
-		answerStore.each(function(item) {
+		answerStore.each(function (item) {
 			if (ARSnova.app.globalConfig.parseAnswerOptionFormatting) {
 			var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
-			md.setContent(item.get('text'), true, true, function(html) {
+			md.setContent(item.get('text'), true, true, function (html) {
 				item.set('formattedText', html.getHtml());
 				md.destroy();
 			});
@@ -68,9 +68,9 @@ Ext.define('ARSnova.view.Question', {
 			}
 		});
 
-		this.on('preparestatisticsbutton', function(button) {
+		this.on('preparestatisticsbutton', function (button) {
 			button.scope = this;
-			button.setHandler(function() {
+			button.setHandler(function () {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel || ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
 					question: self.questionObj,
@@ -80,9 +80,9 @@ Ext.define('ARSnova.view.Question', {
 			});
 		});
 
-		var saveAnswer = function(answer) {
+		var saveAnswer = function (answer) {
 			answer.saveAnswer({
-				success: function() {
+				success: function () {
 					var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
 					if (questionsArr.indexOf(self.questionObj._id) == -1) {
 						questionsArr.push(self.questionObj._id);
@@ -93,37 +93,37 @@ Ext.define('ARSnova.view.Question', {
 					ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
 					ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
 				},
-				failure: function(response, opts) {
+				failure: function (response, opts) {
 					console.log('server-side error');
 					Ext.Msg.alert(Messages.NOTIFICATION, Messages.ANSWER_CREATION_ERROR);
 				}
 			});
 		};
 
-		this.markCorrectAnswers = function() {
+		this.markCorrectAnswers = function () {
 
 			if (this.questionObj.showAnswer) {
 				// Mark all possible answers as 'answered'. This will highlight
 				// all correct answers.
 
-				this.answerList.getStore().each(function(item) {
+				this.answerList.getStore().each(function (item) {
 					item.set("questionAnswered", true);
 				});
 
-				if (this.questionObj.questionType === 'grid'){
+				if (this.questionObj.questionType === 'grid') {
 					this.setGridAnswer(this.questionObj.userAnswered);
 				}
 			}
 		};
 
-		this.saveMcQuestionHandler = function() {
-			Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function(button) {
+		this.saveMcQuestionHandler = function () {
+			Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
 				if (button !== 'yes') {
 					return;
 				}
 
 				var selectedIndexes = [];
-				this.answerList.getSelection().forEach(function(node) {
+				this.answerList.getSelection().forEach(function (node) {
 					selectedIndexes.push(this.answerList.getStore().indexOf(node));
 				}, this);
 				this.markCorrectAnswers();
@@ -133,11 +133,11 @@ Ext.define('ARSnova.view.Question', {
 					answerValues.push(selectedIndexes.indexOf(i) !== -1 ? "1" : "0");
 				}
 				var questionValue = 0;
-				this.answerList.getSelection().forEach(function(node) {
+				this.answerList.getSelection().forEach(function (node) {
 					questionValue += (node.get('value') || 0);
 				});
 
-				self.getUserAnswer().then(function(answer) {
+				self.getUserAnswer().then(function (answer) {
 					answer.set('answerText', answerValues.join(","));
 					answer.set('questionValue', questionValue);
 					saveAnswer(answer);
@@ -145,14 +145,14 @@ Ext.define('ARSnova.view.Question', {
 			}, this);
 		};
 
-		this.saveGridQuestionHandler = function(grid) {
-			Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function(button) {
+		this.saveGridQuestionHandler = function (grid) {
+			Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
 				if (button !== 'yes') {
 					return;
 				}
 
 				var selectedIndexes = [];
-				this.grid.getChosenFields().forEach(function(node) {
+				this.grid.getChosenFields().forEach(function (node) {
 					selectedIndexes.push(node[0] + ';' + node[1]);
 				}, this);
 				this.questionObj.userAnswered = selectedIndexes.join(",");
@@ -160,14 +160,14 @@ Ext.define('ARSnova.view.Question', {
 
 
 				var questionValue = 0;
-				this.questionObj.possibleAnswers.forEach(function(node){
+				this.questionObj.possibleAnswers.forEach(function (node) {
 					if (selectedIndexes.indexOf(node.text) !== -1) {
 						questionValue += (node.value || 0);
 					}
 				});
 
 
-				self.getUserAnswer().then(function(answer) {
+				self.getUserAnswer().then(function (answer) {
 					answer.set('answerText', selectedIndexes.join(","));
 					answer.set('questionValue', questionValue);
 					saveAnswer(answer);
@@ -175,13 +175,13 @@ Ext.define('ARSnova.view.Question', {
 			}, this);
 		};
 
-		this.mcAbstentionHandler = function() {
-			Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function(button) {
+		this.mcAbstentionHandler = function () {
+			Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
 				if (button !== 'yes') {
 					return;
 				}
 
-				self.getUserAnswer().then(function(answer) {
+				self.getUserAnswer().then(function (answer) {
 					answer.set('abstention', true);
 					self.answerList.deselectAll();
 					saveAnswer(answer);
@@ -190,16 +190,16 @@ Ext.define('ARSnova.view.Question', {
 		};
 
 		var questionListener = this.viewOnly || this.questionObj.questionType === "mc" ? {}: {
-			'itemtap': function(list, index, target, record) {
-				var confirm = function(answer, handler) {
+			'itemtap': function (list, index, target, record) {
+				var confirm = function (answer, handler) {
 					Ext.Msg.confirm(Messages.ANSWER + ' "' + answer + '"', Messages.SUBMIT_ANSWER, handler);
 				};
 				if (record.get('id') === self.abstentionInternalId) {
-					return confirm(Messages.ABSTENTION, function(button) {
+					return confirm(Messages.ABSTENTION, function (button) {
 						if (button !== 'yes') {
 							return;
 						}
-						self.getUserAnswer().then(function(answer) {
+						self.getUserAnswer().then(function (answer) {
 							answer.set('abstention', true);
 							saveAnswer(answer);
 						});
@@ -213,11 +213,11 @@ Ext.define('ARSnova.view.Question', {
 
 				var theAnswer = answerObj.id || answerObj.text;
 
-				confirm(theAnswer, function(button) {
+				confirm(theAnswer, function (button) {
 					if (button == 'yes') {
 						self.markCorrectAnswers();
 
-						self.getUserAnswer().then(function(answer) {
+						self.getUserAnswer().then(function (answer) {
 							answer.set('answerText', answerObj.text);
 							answer.set('questionValue', answerObj.value);
 							saveAnswer(answer);
@@ -255,14 +255,14 @@ Ext.define('ARSnova.view.Question', {
 					'&nbsp;<span style="padding: 0 0.2em 0 0.2em" class="x-list-item-correct">&#10003; </span>',
 				'</tpl>',
 				{
-					isQuestionAnswered: function(values) {
+					isQuestionAnswered: function (values) {
 						return values.questionAnswered === true;
 					}
 				}
 			),
 			listeners: {
 				scope: this,
-				selectionchange: function(list, records, eOpts) {
+				selectionchange: function (list, records, eOpts) {
 					if (list.getSelectionCount() > 0) {
 						this.mcSaveButton.enable();
 					} else {
@@ -280,7 +280,7 @@ Ext.define('ARSnova.view.Question', {
 				painted: function (list, eOpts) {
 					this.answerList.fireEvent("resizeList", list);
 				},
-				resizeList: function(list) {
+				resizeList: function (list) {
 					var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
 
 					this.answerList.setHeight(
@@ -313,7 +313,7 @@ Ext.define('ARSnova.view.Question', {
 			ui: 'confirm',
 			cls: 'login-button noMargin',
 			text: Messages.SAVE,
-			handler: !this.viewOnly ? this.saveMcQuestionHandler: function() {},
+			handler: !this.viewOnly ? this.saveMcQuestionHandler: function () {},
 			scope: this,
 			disabled: true
 		});
@@ -344,7 +344,7 @@ Ext.define('ARSnova.view.Question', {
 			cls: 'login-button',
 			ui: 'confirm',
 			text: Messages.SHOW_FLASHCARD_ANSWER,
-			handler: function(button) {
+			handler: function (button) {
 				if (this.answerList.isHidden()) {
 					this.answerList.show(true);
 					button.setText(Messages.HIDE_FLASHCARD_ANSWER);
@@ -395,7 +395,7 @@ Ext.define('ARSnova.view.Question', {
 				});
 
 				var me = this;
-				this.grid.setImage(this.questionObj.image, false, function(){
+				this.grid.setImage(this.questionObj.image, false, function () {
 					me.setGridAnswer(me.questionObj.userAnswered);
 				});
 
@@ -418,7 +418,7 @@ Ext.define('ARSnova.view.Question', {
 					ui: 'confirm',
 					cls: 'login-button noMargin',
 					text: Messages.SAVE,
-					handler: !this.viewOnly ? this.saveGridQuestionHandler: function() {},
+					handler: !this.viewOnly ? this.saveGridQuestionHandler: function () {},
 					scope: this,
 					disabled: false
 				});
@@ -455,10 +455,10 @@ Ext.define('ARSnova.view.Question', {
 			this.questionObj.questionType === "mc" && !this.viewOnly ? mcContainer: {}
 		));
 
-		this.on('activate', function(){
+		this.on('activate', function () {
 			this.answerList.addListener('itemtap', questionListener.itemtap);
 
-			if (this.isDisabled()){
+			if (this.isDisabled()) {
 				this.disableQuestion();
 			}
 		});
@@ -467,7 +467,7 @@ Ext.define('ARSnova.view.Question', {
 	/*
 	 * function to set the users answers after setting the last answer.
 	 */
-	setGridAnswer: function(answerString){
+	setGridAnswer: function (answerString) {
 
 		if (answerString == undefined)
 			return;
@@ -476,13 +476,13 @@ Ext.define('ARSnova.view.Question', {
 		var grid = this.grid;
 		var fields = answerString.split(",");
 
-		if (this.questionObj.showAnswer){
+		if (this.questionObj.showAnswer) {
 
 			var correctAnswers = [];
 			var userAnswers = [];
 
-			this.questionObj.possibleAnswers.forEach(function(node){
-				if (node.correct){
+			this.questionObj.possibleAnswers.forEach(function (node) {
+				if (node.correct) {
 					correctAnswers.push(1);
 				} else {
 					correctAnswers.push(0);
@@ -491,7 +491,7 @@ Ext.define('ARSnova.view.Question', {
 			});
 
 
-			fields.forEach(function(node){
+			fields.forEach(function (node) {
 				var coord = grid.getChosenFieldFromPossibleAnswer(node);
 				userAnswers[(coord[0] * grid.getGridSizeY()) + coord[1]] = 1;
 			});
@@ -500,7 +500,7 @@ Ext.define('ARSnova.view.Question', {
 			grid.generateUserViewWithAnswers(userAnswers, correctAnswers, false);
 
 		} else {
-			fields.forEach(function(node){
+			fields.forEach(function (node) {
 
 				var entry = grid.getChosenFieldFromPossibleAnswer(node);
 				grid.getChosenFields().push(entry);
@@ -508,26 +508,26 @@ Ext.define('ARSnova.view.Question', {
 		}
 	},
 
-	disableQuestion: function() {
+	disableQuestion: function () {
 		this.setDisabled(true);
 		this.mask(this.customMask);
 	},
 
-	selectAbstentionAnswer: function() {
+	selectAbstentionAnswer: function () {
 		var index = this.answerList.getStore().indexOf(this.abstentionAnswer);
 		if (index !== -1) {
 			this.answerList.select(this.abstentionAnswer);
 		}
 	},
 
-//	doTypeset: function(parent) {
+//	doTypeset: function (parent) {
 //		if (typeof this.questionTitle.element !== "undefined") {
 //			var panel = this;
 //			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.questionTitle.element.dom]);
 //			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.answerList.element.dom]);
 //
 //			MathJax.Hub.Queue(
-//				["Delay", MathJax.Callback, 700], function() {
+//				["Delay", MathJax.Callback, 700], function () {
 //					panel.answerList.fireEvent("resizeList", panel.answerList.element);
 //				}
 //			);
@@ -537,11 +537,11 @@ Ext.define('ARSnova.view.Question', {
 //		}
 //	},
 
-	getUserAnswer: function() {
+	getUserAnswer: function () {
 		var self = this;
 		var promise = new RSVP.Promise();
 		ARSnova.app.answerModel.getUserAnswer(self.questionObj._id, {
-			empty: function() {
+			empty: function () {
 				var answer = Ext.create('ARSnova.model.Answer', {
 					type: "skill_question_answer",
 					sessionId: localStorage.getItem("sessionId"),
@@ -552,13 +552,13 @@ Ext.define('ARSnova.view.Question', {
 				});
 				promise.resolve(answer);
 			},
-			success: function(response){
+			success: function (response) {
 				var theAnswer = Ext.decode(response.responseText);
 				// update
 				var answer = Ext.create('ARSnova.model.Answer', theAnswer);
 				promise.resolve(answer);
 			},
-			failure: function(){
+			failure: function () {
 				console.log('server-side error');
 				promise.reject();
 			}

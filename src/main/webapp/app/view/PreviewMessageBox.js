@@ -19,7 +19,7 @@
 Ext.define('ARSnova.view.PreviewMessageBox', {
 	override: 'Ext.MessageBox',
 
-	show: function(config) {
+	show: function (config) {
 		this.callParent(arguments);
 
 		//if (this.getTitle()) {

@@ -43,15 +43,15 @@ Ext.define('ARSnova.model.Answer', {
 		idProperty: '_id'
 	},
 
-	getUserAnswer: function(questionId, callbacks){
+	getUserAnswer: function (questionId, callbacks) {
 		return this.getProxy().getUserAnswer(questionId, callbacks);
 	},
 
-	getAnswerByUserAndSession: function(sessionKeyword, callbacks){
+	getAnswerByUserAndSession: function (sessionKeyword, callbacks) {
 		return this.getProxy().getAnswerByUserAndSession(sessionKeyword, callbacks);
 	},
 
-	saveAnswer: function(callbacks) {
+	saveAnswer: function (callbacks) {
 		if (this.get('_id') && this.get('_rev')) {
 			return this.getProxy().updateAnswer(this, callbacks);
 		}

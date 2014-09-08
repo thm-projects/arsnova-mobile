@@ -37,7 +37,7 @@ if (isAndroid && !isChrome) {
 }
 
 var prefLang = localStorage.getItem("language");
-if (prefLang != undefined){
+if (prefLang != undefined) {
 	lang = prefLang;
 }
 

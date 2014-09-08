@@ -24,7 +24,7 @@ Ext.define('ARSnova.model.ARSmodel', {
 	 * @param {String/Object} fieldName The field to set, or an object containing key/value pairs.
 	 * @param {Object} value The value to set.
 	 */
-	set: function(fieldName, value) {
+	set: function (fieldName, value) {
 
 		var me = this,
 			// We are using the fields map since it saves lots of function calls

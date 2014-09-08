@@ -36,14 +36,14 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 	toolbar: null,
 	backButton: null,
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
 			ui: 'back',
 			hidden: true,
-			handler: function() {
+			handler: function () {
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.lastActivePanel, {
 					type: 'slide',
 					direction: 'right',
@@ -78,14 +78,14 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 
 			items: [{
 				text: Messages.STATISTIC,
-				handler: function() {
+				handler: function () {
 					var me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel;
 					me.statisticsPanel = Ext.create('ARSnova.view.diagnosis.StatisticsPanel');
 					me.animateActiveItem(me.statisticsPanel, 'slide');
 				}
 			}, {
 				text: Messages.BROWSER_INFO,
-				handler: function(b) {
+				handler: function (b) {
 					this.detect = Ext.create("ARSnova.BrowserDetect");
 					var browserInfo = new String(
 						"<b>Name:</b> " + this.detect.browser + "<br>" +
@@ -97,8 +97,8 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 				}
 			}, {
 				text: Messages.ARSNOVA_RELOAD,
-				handler: function(b) {
-					Ext.Msg.confirm(Messages.ARSNOVA_RELOAD, Messages.RELOAD_SURE, function(b) {
+				handler: function (b) {
+					Ext.Msg.confirm(Messages.ARSNOVA_RELOAD, Messages.RELOAD_SURE, function (b) {
 						if (b == "yes") {
 							if (ARSnova.app.checkSessionLogin()) {
 								ARSnova.app.getController('Sessions').logout();
@@ -117,7 +117,7 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 			cls: null
 		}]);
 
-		this.on('activate', function(){
+		this.on('activate', function () {
 			this.backButton.show();
 		});
 	}

@@ -30,7 +30,7 @@ Ext.define('ARSnova.model.Statistic', {
 		]
 	},
 
-	getStatistics: function(callbacks) {
+	getStatistics: function (callbacks) {
 		return this.getProxy().getStatistics(callbacks);
 	}
 });

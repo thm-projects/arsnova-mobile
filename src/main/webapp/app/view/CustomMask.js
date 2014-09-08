@@ -38,7 +38,7 @@ Ext.define('ARSnova.view.CustomMask', {
 	/**
 	 * needs the masked panel as argument, as the panel has to react on mask scrolling events
 	 */
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
 		var scroller = this.getScrollable().getScroller();
@@ -50,7 +50,7 @@ Ext.define('ARSnova.view.CustomMask', {
 		this.on({hide: 'onHide'});
 	},
 
-	onHide: function(){
+	onHide: function () {
 		Ext.util.InputBlocker.unblockInputs();
 
 		if (Ext.browser.is.AndroidStock4 && Ext.os.version.getMinor() === 0) {
@@ -61,7 +61,7 @@ Ext.define('ARSnova.view.CustomMask', {
 		}
 	},
 
-	onEvent: function(e) {
+	onEvent: function (e) {
 		var controller = arguments[arguments.length - 1];
 
 		if (controller.info.eventName === 'tap') {
@@ -71,7 +71,7 @@ Ext.define('ARSnova.view.CustomMask', {
 		return false;
 	},
 
-	onScrollEvent: function(e) {
+	onScrollEvent: function (e) {
 		var controller = arguments[arguments.length - 1],
 			mainScroller = this.config.mainPanel.getScrollable().getScroller();
 
@@ -86,8 +86,8 @@ Ext.define('ARSnova.view.CustomMask', {
 		return false;
 	},
 
-	overwriteScrollerMaxPosition: function(scroller, mainPanel) {
-		scroller.getMaxPosition = function() {
+	overwriteScrollerMaxPosition: function (scroller, mainPanel) {
+		scroller.getMaxPosition = function () {
 			var mainScroller = mainPanel.getScrollable().getScroller(),
 				maxPosition = mainScroller.maxPosition,
 				size, containerSize;
@@ -108,7 +108,7 @@ Ext.define('ARSnova.view.CustomMask', {
 		};
 	},
 
-	updateTransparent: function(newTransparent) {
+	updateTransparent: function (newTransparent) {
 		this[newTransparent ? 'addCls' : 'removeCls'](this.getBaseCls() + '-transparent');
 	}
 });

@@ -42,9 +42,9 @@ Ext.define("ARSnova.controller.Sessions", {
 		});
 	},
 
-	login: function(options){
+	login: function (options) {
 		console.debug("Controller: Sessions.login", options);
-		if (options.keyword.length != 8){
+		if (options.keyword.length != 8) {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_ID_INVALID_LENGTH);
 			return;
 		}
@@ -54,7 +54,7 @@ Ext.define("ARSnova.controller.Sessions", {
 		}
 		/* do login stuff */
 		var res = ARSnova.app.sessionModel.checkSessionLogin(options.keyword, {
-			success: function(response){
+			success: function (response) {
 				var obj = Ext.decode(response.responseText);
 
 				// check if user is creator of this session
@@ -64,7 +64,7 @@ Ext.define("ARSnova.controller.Sessions", {
 					ARSnova.app.taskManager.start(ARSnova.app.updateSessionActivityTask);
 				} else {
 					// check if session is open
-					if (!obj.active){
+					if (!obj.active) {
 						Ext.Msg.alert("Hinweis", "Die Session \"" + obj.name +"\” ist momentan geschlossen.");
 						return;
 					}
@@ -93,19 +93,19 @@ Ext.define("ARSnova.controller.Sessions", {
 
 				ARSnova.app.getController('Sessions').reloadData();
 			},
-			notFound: function() {
+			notFound: function () {
 				Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_NOT_FOUND);
 			},
-			forbidden: function() {
+			forbidden: function () {
 				Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_LOCKED);
 			},
-			failure: function() {
+			failure: function () {
 				Ext.Msg.alert(Messages.NOTIFICATION, Messages.CONNECTION_PROBLEM);
 			}
 		});
 	},
 
-	logout: function(){
+	logout: function () {
 		/* TODO: Use abstraction layer? */
 		if (window.socket) {
 			socket.emit("setSession", {keyword: null});
@@ -164,7 +164,7 @@ Ext.define("ARSnova.controller.Sessions", {
 		tabPanel.feedbackTabPanel.tab.hide();
 	},
 
-	reloadData: function(){
+	reloadData: function () {
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 		var hideLoadMask = Ext.emptyFn;
 
@@ -244,7 +244,7 @@ Ext.define("ARSnova.controller.Sessions", {
 		hideLoadMask();
 	},
 
-	create: function(options){
+	create: function (options) {
 		var session = Ext.create('ARSnova.model.Session', {
 			type: 'session',
 			name: options.name,
@@ -259,18 +259,18 @@ Ext.define("ARSnova.controller.Sessions", {
 		if (!validation.isValid()) {
 			Ext.Msg.alert('Hinweis', 'Bitte alle markierten Felder ausfüllen.');
 			var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel;
-			panel.down('fieldset').items.items.forEach(function(el){
+			panel.down('fieldset').items.items.forEach(function (el) {
 				if (el.xtype == 'textfield')
 					el.removeCls("required");
 			});
-			validation.items.forEach(function(el){
+			validation.items.forEach(function (el) {
 				panel.down('textfield[name=' + el.getField() + ']').addCls("required");
 			});
 			return;
 		}
 
 		session.create({
-			success: function(response){
+			success: function (response) {
 				var fullSession = Ext.decode(response.responseText);
 				localStorage.setItem('sessionId', fullSession._id);
 				localStorage.setItem('name', fullSession.name);
@@ -291,18 +291,18 @@ Ext.define("ARSnova.controller.Sessions", {
 
 				ARSnova.app.getController('Sessions').reloadData();
 			},
-			failure: function(records, operation){
+			failure: function (records, operation) {
 				Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
 			}
 		});
 	},
 
-	setActive: function(options) {
+	setActive: function (options) {
 		ARSnova.app.sessionModel.lock(localStorage.getItem("keyword"), options.active, {
-			success: function() {
+			success: function () {
 				// update this session in localStorage
 				var sessions = Ext.decode(localStorage.getItem('lastVisitedSessions'));
-				sessions.forEach(function(el){
+				sessions.forEach(function (el) {
 					/* FIXME: ref to global `session` variable? why? */
 					if (el._id == session.data._id)
 						el.active = session.data.active;
@@ -311,13 +311,13 @@ Ext.define("ARSnova.controller.Sessions", {
 
 				var sessionStatus = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton;
 
-				if (options.active == 1){
+				if (options.active == 1) {
 					sessionStatus.sessionOpenedSuccessfully();
 				} else {
 					sessionStatus.sessionClosedSuccessfully();
 				}
 			},
-			failure: function(records, operation) {
+			failure: function (records, operation) {
 				Ext.Msg.alert("Hinweis!", "Session speichern war nicht erfolgreich");
 			}
 		});

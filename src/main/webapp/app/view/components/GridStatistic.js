@@ -43,7 +43,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 	 *
 	 * Creates the canvas element and initializes all necessary variables.
 	 */
-	constructor: function() {
+	constructor: function () {
 		this.callParent(arguments);
 		// store this for later reference
 		var me = this;
@@ -81,7 +81,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 					Messages.GRID_LABEL_ABSOLUTE
 				,
 				scope: this,
-				handler: function() {
+				handler: function () {
 					this.updateGrid();
 				}
 			},
@@ -91,7 +91,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 					Messages.GRID_LABEL_RELATIVE
 				,
 				scope: this,
-				handler: function() {
+				handler: function () {
 					this.updateGrid();
 				}
 			},
@@ -102,7 +102,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				,
 				scope: this,
 				pressed: true,
-				handler: function() {
+				handler: function () {
 					this.updateGrid();
 				}
 			}
@@ -157,10 +157,10 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 
 		// set listeners to toggles
 		var listeners = {
-			beforechange: function(slider, thumb, newValue, oldValue) {
+			beforechange: function (slider, thumb, newValue, oldValue) {
 				me.updateGrid();
 			},
-			change: function(slider, thumb, newValue, oldValue) {
+			change: function (slider, thumb, newValue, oldValue) {
 				me.updateGrid();
 			}
 		};
@@ -181,7 +181,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		this.updateGrid();
 	},
 
-	updateGrid: function() {
+	updateGrid: function () {
 		var questionObj = this.getQuestionObj();
 		var me = this;
 
@@ -197,7 +197,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		this.grid.setOffsetY(questionObj.offsetY);
 		this.grid.setZoomLvl(questionObj.zoomLvl);
 
-		this.grid.setImage(questionObj.image, false, function() {
+		this.grid.setImage(questionObj.image, false, function () {
 
 			if (questionObj.showAnswer || questionObj.userAnswered == null) {
 
@@ -242,7 +242,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				var values = el.answerText.split(",");
 
 				for (var j = 0; j < el.answerCount; j++) {
-					values.forEach(function(selected, index) {
+					values.forEach(function (selected, index) {
 
 						if (typeof gridAnswers[values[index]] === "undefined") {
 							gridAnswers[values[index]] = 1;

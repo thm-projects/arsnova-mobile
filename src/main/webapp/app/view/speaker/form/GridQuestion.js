@@ -59,7 +59,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	 * Initializes the grid question area and the needed
 	 * form elements.
 	 */
-	initialize: function() {
+	initialize: function () {
 		var me = this;
 		this.callParent(arguments);
 
@@ -78,7 +78,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.infoButton = Ext.create('Ext.Button', {
 			iconCls: 'info',
 			iconMask: true,
-			handler: function(){me.onInfoButton();}
+			handler: function () {me.onInfoButton();}
 		});
 
 		this.btnMoveLeft = Ext.create('Ext.Button', {
@@ -104,13 +104,13 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.deleteButton = Ext.create('Ext.Button', {
 			iconCls: 'delete',
 			iconMask: true,
-			handler: function(){me.resetView();}
+			handler: function () {me.resetView();}
 		});
 
 		this.rotateButton = Ext.create('Ext.Button', {
 			iconCls: 'refresh',
 			iconMask: true,
-			handler: function(){
+			handler: function () {
 				me.grid.spinRight();
 			}
 		});
@@ -118,43 +118,43 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.btnZoomInGrid = Ext.create('Ext.Button', {
 			iconCls: 'add',
 			iconMask: true,
-			handler: function(){me.grid.zoomInGrid();}
+			handler: function () {me.grid.zoomInGrid();}
 		});
 
 		this.btnZoomOutGrid = Ext.create('Ext.Button', {
 			iconCls: 'minus2',
 			iconMask: true,
-			handler: function(){me.grid.zoomOutGrid();}
+			handler: function () {me.grid.zoomOutGrid();}
 		});
 
 		this.btnMoveGridLeft = Ext.create('Ext.Button', {
 			iconCls: 'arrow_left',
 			iconMask: true,
-			handler: function(){me.grid.moveGridLeft();}
+			handler: function () {me.grid.moveGridLeft();}
 		});
 
 		this.btnMoveGridRight = Ext.create('Ext.Button', {
 			iconCls: 'arrow_right',
 			iconMask: true,
-			handler: function(){me.grid.moveGridRight();}
+			handler: function () {me.grid.moveGridRight();}
 		});
 
 		this.btnMoveGridUp = Ext.create('Ext.Button', {
 			iconCls: 'arrow_up',
 			iconMask: true,
-			handler: function(){me.grid.moveGridUp();}
+			handler: function () {me.grid.moveGridUp();}
 		});
 
 		this.btnMoveGridDown = Ext.create('Ext.Button', {
 			iconCls: 'arrow_down',
 			iconMask: true,
-			handler: function(){me.grid.moveGridDown();}
+			handler: function () {me.grid.moveGridDown();}
 		});
 
 		this.hideGridButton = Ext.create('Ext.Button', {
 			iconCls: 'delete',
 			iconMask: true,
-			handler: function(){
+			handler: function () {
 				me.grid.setGridIsHidden(!me.grid.getGridIsHidden());
 				me.grid.redraw();
 			}
@@ -220,28 +220,28 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		// TapRepeater for left button
 		Ext.create('Ext.util.TapRepeater', {
 			el: this.btnMoveLeft.bodyElement
-		}).on('tap', function() {
+		}).on('tap', function () {
 			me.grid.moveLeft();
 		}, me);
 
 		// TapRepeater for right button
 		Ext.create('Ext.util.TapRepeater', {
 			el: this.btnMoveRight.bodyElement
-		}).on('tap', function() {
+		}).on('tap', function () {
 			me.grid.moveRight();
 		}, me);
 
 		// TapRepeater for up button
 		Ext.create('Ext.util.TapRepeater', {
 			el: this.btnMoveUp.bodyElement
-		}).on('tap', function() {
+		}).on('tap', function () {
 			me.grid.moveUp();
 		}, me);
 
 		// TapRepeater for down button
 		Ext.create('Ext.util.TapRepeater', {
 			el: this.btnMoveDown.bodyElement
-		}).on('tap', function() {
+		}).on('tap', function () {
 			me.grid.moveDown();
 		}, me);
 
@@ -304,11 +304,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			xtype: 'spinnerfield',
 			label: Messages.GRID_LABEL_ZOOM,
 			listeners: {
-				spinup: function() {
+				spinup: function () {
 					me.grid.zoomIn();
 					this.setValue(Math.round(me.grid.getScale() * 100));
 				},
-				spindown: function() {
+				spindown: function () {
 					if (this.getValue() > 1) {
 						me.grid.zoomOut();
 						this.setValue(Math.round(me.grid.getScale() * 100));
@@ -324,7 +324,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			xtype: 'spinnerfield',
 			label: Messages.GRID_LABEL_FIELD_X,
 			listeners: {
-				spin: function(spinner, value) {
+				spin: function (spinner, value) {
 					me.grid.setGridSizeX(value); // update grid count
 					me.grid.setChosenFields(Array());
 					me.grid.redraw();
@@ -342,7 +342,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			xtype: 'spinnerfield',
 			label: Messages.GRID_LABEL_FIELD_Y,
 			listeners: {
-				spin: function(spinner, value) {
+				spin: function (spinner, value) {
 					me.grid.setGridSizeY(value); // update grid count
 					me.grid.setChosenFields(Array());
 					me.grid.redraw();
@@ -451,7 +451,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		}
 
 		// update answers counter
-		this.grid.setOnFieldClick(function(answerValue) {
+		this.grid.setOnFieldClick(function (answerValue) {
 			me.answers.getComponent('fs_answers').getComponent('tf_answers').setValue(answerValue);
 
 			if (ARSnova.app.globalConfig.features.learningProgress) {
@@ -486,7 +486,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	/**
 	 * Interface to the grid element to set a new image.
 	 */
-	updateCanvas: function(dataUrl, reload) {
+	updateCanvas: function (dataUrl, reload) {
 		// update canvas
 		this.grid.setImage(dataUrl, reload, Ext.bind(function validImage() {
 			this.showImageView();
@@ -498,7 +498,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	/**
 	 * TODO: This method does nearly the same as updateCanvas, now and should be merged into it
 	 */
-	updateCanvasWithUrl: function(url) {
+	updateCanvasWithUrl: function (url) {
 		if (url) {
 			this.updateCanvas(url, true);
 		} else {
@@ -510,7 +510,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	/**
 	 * Handler function for the event of info button
 	 */
-	onInfoButton: function(){
+	onInfoButton: function () {
 		this.infoPanel.showBy(this.infoButton);
 	},
 
@@ -518,7 +518,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	/**
 	 * Shows the image view and hides the upload view.
 	 */
-	showImageView: function() {
+	showImageView: function () {
 		this.imageArea.show();
 		this.imageCnt.show();
 		this.uploadView.hide();
@@ -528,7 +528,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	/**
 	 * Shows the upload view and hides the image view.
 	 */
-	showUploadView: function() {
+	showUploadView: function () {
 		this.imageArea.hide();
 		this.imageCnt.hide();
 		this.uploadView.show();
@@ -540,13 +540,13 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	/**
 	 * Resets the image view to the initial state.
 	 */
-	resetView: function() {
+	resetView: function () {
 		this.showUploadView();
 		this.grid.clearImage();
 		this.clearTextfields();
 	},
 
-	clearTextfields: function() {
+	clearTextfields: function () {
 		var answerField = this.answers.getComponent('fs_answers').getComponent('tf_answers');
 
 		this.uploadView.setUrl("");
@@ -563,12 +563,12 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	 * Base64 of the image in the client due to CORS denial. The image will be
 	 * transfered as a URL an will be converted directly on the server.
 	 */
-	getQuestionValues: function() {
+	getQuestionValues: function () {
 		var result = {};
 
 		var possibleAnswers = this.grid.getPossibleAnswersFromChosenFields();
 		if (ARSnova.app.globalConfig.features.learningProgress) {
-			possibleAnswers.forEach(function(answer) {
+			possibleAnswers.forEach(function (answer) {
 				if (answer.correct) {
 					answer.value = this.correctValueComponent.getSliderValue();
 				} else {
@@ -609,12 +609,12 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	 *
 	 * @param question		The questionObj providing all necessary information.
 	 */
-	initWithQuestion: function(question) {
+	initWithQuestion: function (question) {
 		var answerField = this.answers.getComponent('fs_answers').getComponent('tf_answers');
-		var minValue = question.possibleAnswers.reduce(function(a, b) {
+		var minValue = question.possibleAnswers.reduce(function (a, b) {
 			return a < b.value ? a : b.value;
 		}, 0);
-		var maxValue = question.possibleAnswers.reduce(function(a, b) {
+		var maxValue = question.possibleAnswers.reduce(function (a, b) {
 			return a < b.value ? b.value : a;
 		}, 0);
 

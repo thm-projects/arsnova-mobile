@@ -28,7 +28,7 @@ Ext.define('ARSnova.view.Caption', {
 		}
 	},
 
-	constructor: function() {
+	constructor: function () {
 		this.callParent(arguments);
 
 		this.listButton = Ext.create('ARSnova.view.MultiBadgeButton', {
@@ -46,13 +46,13 @@ Ext.define('ARSnova.view.Caption', {
 		}, this.listButton]: []));
 	},
 
-	explainStatus: function(items) {
+	explainStatus: function (items) {
 		var hasActiveItems = false;
-		items.forEach(function(item) {
+		items.forEach(function (item) {
 			hasActiveItems = hasActiveItems || !!item.active;
 		});
 		var hasInactiveItems = false;
-		items.forEach(function(item) {
+		items.forEach(function (item) {
 			hasInactiveItems = hasInactiveItems || !!!item.active;
 		});
 
@@ -71,11 +71,11 @@ Ext.define('ARSnova.view.Caption', {
 		}
 	},
 
-	explainBadges: function(badges) {
+	explainBadges: function (badges) {
 		var hasFeedbackQuestions = false;
 		var hasQuestions = false;
 		var hasAnswers = false;
-		badges.forEach(function(item) {
+		badges.forEach(function (item) {
 			if (Ext.isNumber(item)) {
 				hasQuestions = hasQuestions || item > 0;
 			} else {
@@ -94,10 +94,10 @@ Ext.define('ARSnova.view.Caption', {
 		return badges;
 	},
 
-	connectToStore: function(store) {
-		store.on('updaterecord', function(theStore, record) {
+	connectToStore: function (store) {
+		store.on('updaterecord', function (theStore, record) {
 			var records = [];
-			store.each(function(r) {
+			store.each(function (r) {
 				records.push(r.data);
 			});
 			this.explainStatus(records);

@@ -30,7 +30,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 		}
 	},
 
-	constructor: function(args) {
+	constructor: function (args) {
 		this.callParent(arguments);
 
 		this.answer = args.answer;
@@ -44,7 +44,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 				Ext.create('Ext.Button', {
 					text: Messages.BACK,
 					ui: 'back',
-					handler: function() {
+					handler: function () {
 						self.sTP.items.items.pop(); // Remove this panel from view stack
 						self.sTP.animateActiveItem(
 							self.sTP.items.items[self.sTP.items.items.length-1], // Switch back to top of view stack
@@ -54,7 +54,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 								duration: 700,
 								scope: this,
 								listeners: {
-									animationend: function() {
+									animationend: function () {
 										self.answer.deselectItem();
 										self.hide();
 									},
@@ -99,29 +99,29 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			text: Messages.DELETE,
 			scope: this,
 			hidden: !this.answer.deletable,
-			handler: function() {
+			handler: function () {
 				ARSnova.app.questionModel.deleteAnswer(self.answer.questionId, self.answer._id, {
-					success: function() {
+					success: function () {
 						self.sTP.animateActiveItem(self.sTP.questionDetailsPanel, {
 							type: 'slide',
 							direction: 'right',
 							duration: 700,
 							listeners: {
-								animationend: function() {
+								animationend: function () {
 									self.answer.removeItem();
 									self.destroy();
 								}
 							}
 						});
 					},
-					failure: function() {
+					failure: function () {
 						console.log('server-side error: deletion of freetext answer failed');
 					}
 				});
 			}
 		}]);
 
-		this.on('painted', function() {
+		this.on('painted', function () {
 			var textarea = this.element.down('textarea');
 			textarea.setHeight(textarea.dom.scrollHeight);
 		});

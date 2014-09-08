@@ -39,7 +39,7 @@ Ext.define('ARSnova.model.LoggedIn', {
 		this.activeUserCount = 0;
 	},
 
-	countActiveUsersBySession: function(sessionKeyword, callbacks){
+	countActiveUsersBySession: function (sessionKeyword, callbacks) {
 		return this.activeUserCount;
 	}
 });

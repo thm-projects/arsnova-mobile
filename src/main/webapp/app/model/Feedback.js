@@ -30,11 +30,11 @@ Ext.define('ARSnova.model.Feedback', {
 	currentValues: [0, 0, 0, 0],
 	currentAverage: null,
 
-	constructor: function() {
+	constructor: function () {
 		this.callParent(arguments);
 
-		ARSnova.app.socket.addListener("arsnova/socket/feedback/update", function(values) {
-			var count = this.currentValues.reduce(function(a, b){
+		ARSnova.app.socket.addListener("arsnova/socket/feedback/update", function (values) {
+			var count = this.currentValues.reduce(function (a, b) {
 				return a + b;
 			}, 0);
 			this.currentAverage = Math.round((values[1] + values[2] * 2 + values[3] * 3) / count);
@@ -46,13 +46,13 @@ Ext.define('ARSnova.model.Feedback', {
 		}, this);
 	},
 
-	getUserFeedback: function(sessionKeyword, callbacks){
+	getUserFeedback: function (sessionKeyword, callbacks) {
 		/* TODO: Remove this method, it has been replaced by a WebSocket solution */
 		console.warn("Deprecated method used for feedback");
 		return this.getProxy().getUserFeedback(sessionKeyword, callbacks);
 	},
 
-	postFeedback: function(feedbackValue) {
+	postFeedback: function (feedbackValue) {
 		/* TODO: Use abstraction layer? */
 		if (window.socket) {
 			socket.emit("setFeedback", {value: feedbackValue});

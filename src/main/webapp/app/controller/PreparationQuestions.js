@@ -25,7 +25,7 @@ Ext.define("ARSnova.controller.PreparationQuestions", {
 		models: ['ARSnova.model.Question']
 	},
 
-	listQuestions: function(){
+	listQuestions: function () {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.newQuestionPanel.setVariant('preparation');
 		sTP.audienceQuestionPanel.setController(this);
@@ -35,12 +35,12 @@ Ext.define("ARSnova.controller.PreparationQuestions", {
 		sTP.animateActiveItem(sTP.audienceQuestionPanel, 'slide');
 	},
 
-	destroyAll: function() {
+	destroyAll: function () {
 		var question = Ext.create('ARSnova.model.Question');
 		question.deleteAllPreparationQuestions.apply(question, arguments);
 	},
 
-	getQuestions: function() {
+	getQuestions: function () {
 		var question = Ext.create('ARSnova.model.Question');
 		question.getPreparationQuestions.apply(question, arguments);
 	}

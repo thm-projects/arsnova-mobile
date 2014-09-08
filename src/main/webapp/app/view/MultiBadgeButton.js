@@ -23,7 +23,7 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 
 	multiBadges: [],
 
-	updateBadgeText: function(badges) {
+	updateBadgeText: function (badges) {
 		if (badges && !Ext.isArray(badges)) {
 			return this.callParent(arguments);
 		}
@@ -35,7 +35,7 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 	 * The 'innerHtmlElement', however, causes the button's text to disappear. That's why we simply hide the
 	 * element.
 	 */
-	getInnerHtmlElement: function() {
+	getInnerHtmlElement: function () {
 		var innerHtmlElement = this.innerHtmlElement,
 		styleHtmlCls = this.getStyleHtmlCls();
 
@@ -60,7 +60,7 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 	 * this objects badgeCls.
 	 * @return {ARSnova.app.view.MultiBadgeButton} this
 	 */
-	setBadge: function(badges) {
+	setBadge: function (badges) {
 		var me = this;
 
 		if (badges && !Ext.isArray(badges)) {
@@ -68,13 +68,13 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 		}
 		me.config.badgeText = badges;
 
-		me.multiBadges.forEach(function(item) {
+		me.multiBadges.forEach(function (item) {
 			item.destroy();
 		});
 		me.element.removeCls(me._hasBadgeCls);
 		me.multiBadges = [];
 
-		badges.forEach(function(item) {
+		badges.forEach(function (item) {
 			if (!!item.badgeText) {
 				var aBadge = me.element.createChild({
 					tag: 'span',
@@ -90,7 +90,7 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 			// enough space for the last (right most) badge.
 			var index = 1;
 			var sp = me.multiBadges.splice(0, me.multiBadges.length - 1);
-			sp.forEach(function(item) {
+			sp.forEach(function (item) {
 				item.addCls("withdoublebadge");
 				me.multiBadges.splice(index++, 1, item);
 			});

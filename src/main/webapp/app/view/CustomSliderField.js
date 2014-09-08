@@ -35,7 +35,7 @@ Ext.define('ARSnova.view.CustomSliderField', {
 		increment: 1
 	},
 
-	constructor: function(config) {
+	constructor: function (config) {
 		config = config || {};
 
 		if (config.hasOwnProperty('values')) {
@@ -45,7 +45,7 @@ Ext.define('ARSnova.view.CustomSliderField', {
 		this.callParent([config]);
 	},
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent();
 
 		this.getComponent().on({
@@ -57,7 +57,7 @@ Ext.define('ARSnova.view.CustomSliderField', {
 		});
 	},
 
-	getElementConfig: function() {
+	getElementConfig: function () {
 		var self = this;
 		var originalConfig = self.callParent();
 
@@ -77,57 +77,57 @@ Ext.define('ARSnova.view.CustomSliderField', {
 		return originalConfig;
 	},
 
-	applyComponent: function(config) {
+	applyComponent: function (config) {
 		this.setInputValue(this.config.value);
 		return Ext.factory(config, Ext.slider.Slider);
 	},
 
-	onSliderChange: function(me, thumb, newValue, oldValue) {
+	onSliderChange: function (me, thumb, newValue, oldValue) {
 		this.setInputValue(newValue);
 		this.fireEvent('change', this, thumb, newValue, oldValue);
 	},
 
-	onSliderDragStart: function(me, thumb, newValue, oldValue) {
+	onSliderDragStart: function (me, thumb, newValue, oldValue) {
 		this.fireEvent('dragstart', this, thumb, newValue, oldValue);
 	},
 
-	onSliderDrag: function(me, thumb, newValue, oldValue) {
+	onSliderDrag: function (me, thumb, newValue, oldValue) {
 		this.setInputValue(newValue);
 		this.fireEvent('drag', this, thumb, newValue, oldValue);
 	},
 
-	onSliderDragEnd: function(me, thumb, newValue, oldValue) {
+	onSliderDragEnd: function (me, thumb, newValue, oldValue) {
 		this.fireEvent('dragend', this, thumb, newValue, oldValue);
 	},
 
-	setInputValue: function(value) {
+	setInputValue: function (value) {
 		this.inputValue.dom.value = value;
 	},
 
-	setSliderValue: function(value) {
+	setSliderValue: function (value) {
 		this.setValue(value);
 		this.setInputValue(value);
 		this.updateMultipleState();
 	},
 
-	getSliderValue: function() {
+	getSliderValue: function () {
 		return this.getValue()[0];
 	},
 
-	reset: function() {
+	reset: function () {
 		var config = this.config,
 		initialValue = (this.config.hasOwnProperty('values')) ? config.values : config.value;
 
 		this.setValue(initialValue);
 	},
 
-	doSetDisabled: function(disabled) {
+	doSetDisabled: function (disabled) {
 		this.callParent(arguments);
 
 		this.getComponent().setDisabled(disabled);
 	},
 
-	updateMultipleState: function() {
+	updateMultipleState: function () {
 		var value = this.getValue();
 		if (value && value.length > 1) {
 			this.addCls(Ext.baseCSSPrefix + 'slider-multiple');

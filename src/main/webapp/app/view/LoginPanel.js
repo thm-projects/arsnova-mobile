@@ -36,7 +36,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 		title: 'LoginPanel'
 	},
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 		var me = this;
 
@@ -64,7 +64,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 			items: [{
 				text: Messages.BACK_TO_ROLEPANEL,
 				ui: 'back',
-				handler: function(){
+				handler: function () {
 					ARSnova.app.userRole = "";
 					ARSnova.app.setWindowTitle();
 
@@ -79,7 +79,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 		]);
 
 		var config = ARSnova.app.globalConfig;
-		ARSnova.app.getController('Auth').services.then(function(services) {
+		ARSnova.app.getController('Auth').services.then(function (services) {
 			var i, buttonPanels = [], button, items = [], service, imagePath = "", imageSrc;
 			if (config.customizationPath) {
 				imagePath = config.customizationPath + "/images/";
@@ -102,10 +102,10 @@ Ext.define('ARSnova.view.LoginPanel', {
 					text: "guest" === service.id ? Messages.GUEST: service.name,
 					value: service,
 					image: imageSrc,
-					handler: function(b) {
+					handler: function (b) {
 						var service = b.config.value;
 						if ("guest" === service.id && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-							Ext.Msg.confirm(Messages.GUEST_LOGIN, Messages.CONFIRM_GUEST_SPEAKER, function(answer) {
+							Ext.Msg.confirm(Messages.GUEST_LOGIN, Messages.CONFIRM_GUEST_SPEAKER, function (answer) {
 								if ('yes' === answer) {
 									ARSnova.app.getController('Auth').login({
 										service: service

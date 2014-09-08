@@ -30,10 +30,10 @@
 Ext.define('ARSnova.WebSocket', {
 	extend: 'Ext.util.Observable',
 
-	constructor: function(config) {
+	constructor: function (config) {
 		this.callParent(arguments);
 
-		this.initSocket().then(Ext.bind(function(socketUrl) {
+		this.initSocket().then(Ext.bind(function (socketUrl) {
 			/* Upgrade from polling to WebSocket currently does not work
 			 * reliably so manually set the transport by detecting browser
 			 * support for WebSocket protocol */
@@ -57,41 +57,41 @@ Ext.define('ARSnova.WebSocket', {
 				transports: transports
 			});
 
-			socket.on('connect', Ext.bind(function() {
+			socket.on('connect', Ext.bind(function () {
 				console.debug("Socket.IO connection established");
 				ARSnova.app.restProxy.connectWebSocket().then(Ext.bind(function () {
 					this.fireEvent("arsnova/socket/connect");
 				}, this));
 			}, this));
 
-			socket.on('disconnect', Ext.bind(function() {
+			socket.on('disconnect', Ext.bind(function () {
 				console.debug("Socket.IO connection lost");
 				this.fireEvent("arsnova/socket/disconnect");
 			}, this));
 
-			socket.on('reconnect', Ext.bind(function() {
+			socket.on('reconnect', Ext.bind(function () {
 				console.debug("Socket.IO connection restored");
 				this.fireEvent("arsnova/socket/reconnect");
 			}, this));
 
-			socket.on('activeUserCountData', Ext.bind(function(data) {
+			socket.on('activeUserCountData', Ext.bind(function (data) {
 				console.debug("Socket.IO: activeUserCountData", data);
 				this.fireEvent("arsnova/socket/activeusercount/update", data);
 			}, this));
 
-			socket.on('feedbackData', Ext.bind(function(data) {
+			socket.on('feedbackData', Ext.bind(function (data) {
 				console.debug("Socket.IO: feedbackData", data);
 				this.fireEvent("arsnova/socket/feedback/update", data);
 			}, this));
 
-			socket.on('feedbackReset', Ext.bind(function(affectedSessions) {
+			socket.on('feedbackReset', Ext.bind(function (affectedSessions) {
 				console.debug("Socket.IO: feedbackReset", affectedSessions);
 				//topic.publish("arsnova/socket/feedback/remove", affectedSessions);
 			}, this));
 		}, this));
 	},
 
-	initSocket: function() {
+	initSocket: function () {
 		var socketUrl = window.location.protocol + '//' + window.location.hostname + ':10443';
 		var promise = new RSVP.Promise();
 

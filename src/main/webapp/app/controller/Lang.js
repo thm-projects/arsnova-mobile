@@ -28,15 +28,15 @@ Ext.define("ARSnova.controller.Lang", {
 		}
 	},
 
-	switchToEnglish: function() {
+	switchToEnglish: function () {
 		this.switchTo('en');
 	},
 
-	switchToGerman: function() {
+	switchToGerman: function () {
 		this.switchTo('de');
 	},
 
-	switchTo: function(lang) {
+	switchTo: function (lang) {
 		localStorage.setItem("language", lang);
 		// remove hash from URL and reload language changes
 		window.location = window.location.origin + window.location.pathname;

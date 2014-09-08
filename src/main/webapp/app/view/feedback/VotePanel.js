@@ -35,21 +35,21 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 	backButton: null,
 	questionButton: null,
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.HOME,
 			ui: 'back',
 			hidden: false,
-			handler: function() {
+			handler: function () {
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
 					type: 'slide',
 					direction: 'right',
 					duration: 700,
 					scope: this,
 					listeners: {
-						animationend: function() {
+						animationend: function () {
 							this.hide();
 						},
 						scope: this
@@ -89,7 +89,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 					cls: 'noPadding noBackground noBorder feedbackOkBackground',
 					value: 'Kann folgen',
 					image: "icons/48x48/smiley_happy",
-					handler: function(button) {
+					handler: function (button) {
 						ARSnova.app.getController('Feedback').vote({
 							value: button.config.value
 						});
@@ -101,7 +101,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 					cls: 'noPadding noBackground noBorder feedbackGoodBackground',
 					value: 'Bitte schneller',
 					image: "icons/48x48/smiley_wink",
-					handler: function(button) {
+					handler: function (button) {
 						ARSnova.app.getController('Feedback').vote({
 							value: button.config.value
 						});
@@ -125,7 +125,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 					cls: 'noPadding noBackground noBorder feedbackBadBackground',
 					value: 'Zu schnell',
 					image: "icons/48x48/smiley_frown",
-					handler: function(button) {
+					handler: function (button) {
 						ARSnova.app.getController('Feedback').vote({
 							value: button.config.value
 						});
@@ -137,7 +137,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 					cls: 'noPadding noBackground noBorder feedbackNoneBackground',
 					value: 'Nicht mehr dabei',
 					image: "icons/48x48/smiley_angry",
-					handler: function(button) {
+					handler: function (button) {
 						ARSnova.app.getController('Feedback').vote({
 							value: button.config.value
 						});
@@ -157,7 +157,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 				cls: 'questionRequestButton',
 				ui: 'action',
 				width: '235px',
-				handler: function() {
+				handler: function () {
 					var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 					panel.animateActiveItem(panel.askPanel, 'slide');
 				}

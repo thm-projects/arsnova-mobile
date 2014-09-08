@@ -31,7 +31,7 @@ Ext.define('ARSnova.view.RolePanel', {
 		title: 'RolePanel'
 	},
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
 		this.add([{
@@ -53,7 +53,7 @@ Ext.define('ARSnova.view.RolePanel', {
 			},
 			defaults: {
 				xtype: 'matrixbutton',
-				handler: function(b) {
+				handler: function (b) {
 					ARSnova.app.getController('Auth').roleSelect({
 						mode: b.config.value
 					});

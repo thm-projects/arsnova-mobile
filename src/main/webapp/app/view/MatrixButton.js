@@ -55,7 +55,7 @@ Ext.define('ARSnova.view.MatrixButton', {
 
 				buttonText[0].innerHTML = this.getText();
 
-				promise.then(function(theImage) {
+				promise.then(function (theImage) {
 					Ext.create('Ext.Img', {
 						src: theImage,
 						renderTo: parent.select(".iconBtn").elements[0],

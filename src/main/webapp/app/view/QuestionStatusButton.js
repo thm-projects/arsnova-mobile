@@ -39,7 +39,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 	questionIsOpenButton: null,
 	questionIsClosedButton: null,
 
-	constructor: function(args) {
+	constructor: function (args) {
 		this.callParent(arguments);
 
 		this.questionObj = args.questionObj;
@@ -47,7 +47,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		this.questionIsClosedButton = Ext.create('Ext.Button', {
 			cls: 'closedSession',
 			scope: this,
-			handler: function() {
+			handler: function () {
 				this.changeStatus();
 			}
 		});
@@ -60,7 +60,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		this.questionIsOpenButton = Ext.create('Ext.Button', {
 			cls: 'openSession',
 			scope: this,
-			handler: function() {
+			handler: function () {
 				this.changeStatus();
 			}
 		});
@@ -83,7 +83,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		}
 	},
 
-	changeStatus: function(){
+	changeStatus: function () {
 		var id = this.questionObj._id;
 
 		if (this.isOpen) {
@@ -107,10 +107,10 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		}
 	},
 
-	checkInitialStatus: function(){
+	checkInitialStatus: function () {
 		if (this.isRendered) return;
 
-		if (localStorage.getItem('active') == 1){
+		if (localStorage.getItem('active') == 1) {
 			this.isOpen = true;
 		} else {
 			this.isOpen = false;
@@ -118,7 +118,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		this.isRendered = true;
 	},
 
-	questionClosedSuccessfully: function(){
+	questionClosedSuccessfully: function () {
 		this.isOpen = false;
 		this.questionIsClosedButton.show();
 		this.questionIsClosedText.show();
@@ -126,7 +126,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		this.questionIsOpenText.hide();
 	},
 
-	questionOpenedSuccessfully: function(){
+	questionOpenedSuccessfully: function () {
 		this.isOpen = true;
 		this.questionIsOpenButton.show();
 		this.questionIsOpenText.show();

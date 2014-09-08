@@ -51,21 +51,21 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 	updateAnswerCount: {
 		name: 'refresh the number of answers inside the badges',
-		run: function() {
+		run: function () {
 			var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.audienceQuestionPanel;
 			panel.handleAnswerCount();
 		},
 		interval: 10000 // 10 seconds
 	},
 
-	initialize: function(){
+	initialize: function () {
 		this.callParent(arguments);
 
 		this.questionStore = Ext.create('Ext.data.JsonStore', {
 			model: 'ARSnova.model.Question',
 			sorters: 'text',
 			grouper: {
-				groupFn: function(record) {
+				groupFn: function (record) {
 					return Ext.util.Format.htmlEncode(record.get('subject'));
 				}
 			}
@@ -97,7 +97,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 			listeners: {
 				scope: this,
-				itemtap: function(list, index, element) {
+				itemtap: function (list, index, element) {
 					this.getController().details({
 						question: list.getStore().getAt(index).data
 					});
@@ -108,7 +108,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				 * it is also necessary to get the properties "padding-top" and "padding-bottom" and
 				 * add them to the height of the list DataView.
 				 */
-				painted: function(list, eOpts) {
+				painted: function (list, eOpts) {
 					var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
 
 					this.questionList.setHeight(
@@ -142,7 +142,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
 			ui: 'back',
-			handler: function() {
+			handler: function () {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				sTP.inClassPanel.updateAudienceQuestionBadge();
 				sTP.animateActiveItem(sTP.inClassPanel, {
@@ -191,9 +191,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				text: ' ',
 				cls: 'recycleIcon',
 				scope: this,
-				handler: function() {
+				handler: function () {
 					var me = this;
-					Ext.Msg.confirm(Messages.DELETE_ALL_ANSWERS_REQUEST, Messages.ALL_QUESTIONS_REMAIN, function(answer) {
+					Ext.Msg.confirm(Messages.DELETE_ALL_ANSWERS_REQUEST, Messages.ALL_QUESTIONS_REMAIN, function (answer) {
 						if (answer == 'yes') {
 							me.getController().deleteAllQuestionsAnswers({
 								success: Ext.bind(this.handleAnswerCount, this),
@@ -216,14 +216,14 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				text: ' ',
 				cls: 'deleteIcon',
 				scope: this,
-				handler: function() {
+				handler: function () {
 					var msg = Messages.ARE_YOU_SURE;
 						msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
-					Ext.Msg.confirm(Messages.DELETE_ALL_QUESTIONS, msg, function(answer) {
+					Ext.Msg.confirm(Messages.DELETE_ALL_QUESTIONS, msg, function (answer) {
 						if (answer == 'yes') {
 							this.getController().destroyAll(localStorage.getItem("keyword"), {
 								success: Ext.bind(this.onActivate, this),
-								failure: function() {
+								failure: function () {
 									console.log("could not delete the questions.");
 								}
 							});
@@ -267,7 +267,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		this.on('orientationchange', this.onOrientationChange);
 	},
 
-	onActivate: function() {
+	onActivate: function () {
 		if (!this.getController()) {
 			/*
 			 * Somewhere, in ARSnova's endless depths, this method gets called before this panel is ready.
@@ -284,7 +284,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		this.questionEntries = [];
 
 		this.getController().getQuestions(localStorage.getItem('keyword'), {
-			success: Ext.bind(function(response) {
+			success: Ext.bind(function (response) {
 				var questions = Ext.decode(response.responseText);
 				this.questionStore.add(questions);
 				this.caption.show();
@@ -299,7 +299,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.questionStatusButton.show();
 				this.deleteQuestionsButton.show();
 			}, this),
-			empty: Ext.bind(function() {
+			empty: Ext.bind(function () {
 				this.showcaseButton.hide();
 				this.questionTitle.hide();
 				this.questionList.show();
@@ -307,25 +307,25 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.questionStatusButton.hide();
 				this.deleteQuestionsButton.hide();
 			}, this),
-			failure: function(response) {
+			failure: function (response) {
 				console.log('server-side error questionModel.getSkillQuestions');
 			}
 		});
 	},
 
-	onDeactivate: function() {
+	onDeactivate: function () {
 		this.questionList.hide();
 		ARSnova.app.taskManager.stop(this.updateAnswerCount);
 	},
 
-	onOrientationChange: function(panel, orientation, width, height) {
+	onOrientationChange: function (panel, orientation, width, height) {
 		this.displayShowcaseButton();
 	},
 
 	/**
 	 * Displays the showcase button if enough screen width is available
 	 */
-	displayShowcaseButton: function() {
+	displayShowcaseButton: function () {
 		/* iPad does not swap screen width and height values in landscape orientation */
 		if (screen.availWidth >= 980 || screen.availHeight >= 980) {
 			this.showcaseButton.hide();
@@ -336,28 +336,28 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		}
 	},
 
-	newQuestionHandler: function(){
+	newQuestionHandler: function () {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.animateActiveItem(sTP.newQuestionPanel, 'slide');
 	},
 
-	showcaseHandler: function() {
+	showcaseHandler: function () {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.animateActiveItem(sTP.showcaseQuestionPanel, 'slide');
 	},
 
-	getQuestionAnswers: function() {
+	getQuestionAnswers: function () {
 		var me = this;
-		var getAnswerCount = function(questionRecord, promise) {
+		var getAnswerCount = function (questionRecord, promise) {
 			me.getController().countAnswersByQuestion(localStorage.getItem("keyword"), questionRecord.get('_id'), {
-				success: function(response) {
+				success: function (response) {
 					var numAnswers = Ext.decode(response.responseText);
 					questionRecord.set('numAnswers', numAnswers);
 					promise.resolve({
 						hasAnswers: numAnswers > 0
 					});
 				},
-				failure: function() {
+				failure: function () {
 					console.log("Could not update answer count");
 					promise.reject();
 				}
@@ -365,7 +365,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		};
 
 		var promises = [];
-		this.questionStore.each(function(questionRecord) {
+		this.questionStore.each(function (questionRecord) {
 			var promise = new RSVP.Promise();
 			getAnswerCount(questionRecord, promise);
 			promises.push(promise);
@@ -374,11 +374,11 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		return promises;
 	},
 
-	handleAnswerCount: function() {
+	handleAnswerCount: function () {
 		RSVP.all(this.getQuestionAnswers())
 		.then(Ext.bind(this.caption.explainBadges, this.caption))
-		.then(Ext.bind(function(badgeInfos) {
-			var hasAnswers = badgeInfos.filter(function(item) {
+		.then(Ext.bind(function (badgeInfos) {
+			var hasAnswers = badgeInfos.filter(function (item) {
 				return item.hasAnswers;
 			}, this);
 			this.deleteAnswersButton.setHidden(hasAnswers.length === 0);

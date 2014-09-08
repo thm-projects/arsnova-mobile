@@ -31,7 +31,7 @@ Ext.define('ARSnova.view.diagnosis.TabPanel', {
 		}
 	},
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
 		this.diagnosisPanel = Ext.create('ARSnova.view.diagnosis.DiagnosisPanel');

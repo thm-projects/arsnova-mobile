@@ -28,14 +28,14 @@ Ext.define('ARSnova.view.CustomMessageBox', {
 	},
 	/* Workaround for Google Chrome 34 (MessageBox sometimes cannot be closed).
 	 * TODO: Remove as soon as fixed by Sencha or in Chrome */
-	hide: function() {
+	hide: function () {
 		if (this.activeAnimation && this.activeAnimation._onEnd) {
 			this.activeAnimation._onEnd();
 		}
 		return this.callParent(arguments);
 	},
 
-	confirm: function(title, message, fn, scope) {
+	confirm: function (title, message, fn, scope) {
 		this.callParent(arguments);
 
 		return this.show({
@@ -47,7 +47,7 @@ Ext.define('ARSnova.view.CustomMessageBox', {
 			],
 			promptConfig: false,
 			scope: scope,
-			fn: function() {
+			fn: function () {
 				if (fn) {
 					fn.apply(scope, arguments);
 				}

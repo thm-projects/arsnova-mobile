@@ -33,7 +33,7 @@ Ext.define('ARSnova.view.feedbackQuestions.TabPanel', {
 		}
 	},
 
-	initialize: function(){
+	initialize: function () {
 		this.callParent(arguments);
 
 		this.questionsPanel = Ext.create('ARSnova.view.feedbackQuestions.QuestionsPanel');
@@ -42,14 +42,14 @@ Ext.define('ARSnova.view.feedbackQuestions.TabPanel', {
 			this.questionsPanel
 		]);
 
-		this.on('painted', function(){
+		this.on('painted', function () {
 			ARSnova.app.taskManager.start(ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.config.checkFeedbackQuestionsTask);
 			if (ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel) {
 				ARSnova.app.taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countFeedbackQuestionsTask);
 			}
 		});
 
-		this.on('deactivate', function(){
+		this.on('deactivate', function () {
 			ARSnova.app.taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.config.checkFeedbackQuestionsTask);
 			if (ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel) {
 				ARSnova.app.taskManager.start(ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countFeedbackQuestionsTask);

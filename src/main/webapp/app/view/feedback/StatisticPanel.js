@@ -39,7 +39,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 	/* toolbar items */
 	toolbar: null,
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
 		this.feedbackVoteButton = Ext.create('Ext.Button', {
@@ -47,7 +47,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			ui: 'back',
 			scope: this,
 			hidden: true,
-			handler: function() {
+			handler: function () {
 				var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 				fP.animateActiveItem(fP.votePanel, {
 						type: 'slide',
@@ -59,7 +59,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		});
 
 		if (ARSnova.app.userRole != ARSnova.app.USER_ROLE_SPEAKER) {
-			this.buttonClicked = function(button) {
+			this.buttonClicked = function (button) {
 				ARSnova.app.getController('Feedback').vote({
 					value: button.config.value
 				});
@@ -191,7 +191,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				position: 'bottom',
 				fields: ['name'],
 				style: {stroke: 'white'},
-				renderer: function(label, layout, lastLabel) {
+				renderer: function (label, layout, lastLabel) {
 					// remove x-axis ticks and labels on refresh or update
 					layout.attr.majorTicks = false;
 				}
@@ -211,7 +211,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 					color: '#000',
 					font: '20px Helvetica',
 					orientation: 'horizontal',
-					renderer: function(text) {
+					renderer: function (text) {
 						return text;
 					}
 				},
@@ -227,13 +227,13 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 
 		this.add([this.toolbar, this.feedbackButtons, this.feedbackChart]);
 
-		this.onBefore('activate', function() {
+		this.onBefore('activate', function () {
 			// remove x-axis ticks and labels at initialization
 			this.feedbackChart.getAxes()[1].sprites[0].attr.majorTicks = false;
 		});
 	},
 
-	updateChart: function(feedbackValues) {
+	updateChart: function (feedbackValues) {
 		var chart = this.feedbackChart;
 		var store = chart.getStore();
 
@@ -246,13 +246,13 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		if (!Ext.isArray(values) || values.length != store.getCount()) return;
 
 		// Set chart data
-		store.each(function(record, index) {
+		store.each(function (record, index) {
 			record.set('value', values[index]);
 		});
 
 		// Calculate percentages
 		var sum = store.sum('value');
-		store.each(function(record) {
+		store.each(function (record) {
 			record.set('percent', sum > 0 ? (record.get('value') / sum) : 0.0);
 		});
 
@@ -260,7 +260,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		chart.redraw();
 	},
 
-	updateTabBar: function(averageFeedback) {
+	updateTabBar: function (averageFeedback) {
 		// update feedback-badge in tab bar
 		ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab.setBadgeText(this.feedbackChart.getStore().sum('value'));
 
@@ -285,12 +285,12 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		}
 	},
 
-	checkVoteButton: function(){
+	checkVoteButton: function () {
 		if (!ARSnova.app.isSessionOwner) this.feedbackVoteButton.show();
 		else this.feedbackVoteButton.hide();
 	},
 
-	checkTitle: function(){
+	checkTitle: function () {
 		var title = Ext.util.Format.htmlEncode(localStorage.getItem('shortName'));
 		this.toolbar.setTitle(title);
 	}
