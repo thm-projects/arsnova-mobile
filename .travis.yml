@@ -43,7 +43,7 @@ before_script:
   - "cd arsnova-war"
   - "mvn install -DskipTests=true"
   - "mvn jetty:run -Dmobile.path=../src/main/webapp/build/production/ARSnova/ &"
-  - "sleep 30"
+  - "sleep 60"
   - "cd .."
 script:
   # Run tests
