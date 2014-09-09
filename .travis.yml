@@ -3,6 +3,7 @@
 language: java
 env:
   global:
+    - ARSNOVA_URL="http://localhost:8080/mobile/"
     - ARSNOVA_SENCHA_CMD_VERSION="4.0.4.84"
     # Sauce Labs: (thm-projects/arsnova-mobile) 1. User, 2. Access-Key
     - secure: "h9KHs5w6EiNsMrVgEqgnMla0N0W5YNdWKSnEcJ+j+9vKK/+dRPXiFz9jdi8ZhpgD5GZN5zeZE2BUBJ6eypLg3rElT9Lw/x8kFbLsOiIrw0YeE4Csd4wBHNbrLL4/MEXECkOUh3QN+5Kc0RKt1juDkK1Wn8a33J5n4r382XdsGSM="
@@ -33,7 +34,8 @@ before_install:
   - "curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash"
   # Setup CouchDB
   - "sudo mkdir /etc/arsnova"
-  - "sudo cp arsnova-war/src/main/resources/arsnova.properties.example /etc/arsnova/arsnova.properties"
+  - "wget https://gist.githubusercontent.com/commana/d33799546479a2a10fbc/raw/efba23a145eaf6ce0e05a22ab3ea4124ad49353e/arsnova.properties"
+  - "sudo cp arsnova.properties /etc/arsnova/arsnova.properties"
   - "cd setuptool"
   - "python tool.py"
   - "cd .."
@@ -42,8 +44,7 @@ before_script:
   - "mvn install"
   - "cd arsnova-war"
   - "mvn install -DskipTests=true"
-  - "mvn jetty:run -Dmobile.path=../src/main/webapp/build/production/ARSnova/ &"
-  - "sleep 60"
+  - "ARSNOVA_MOBILE_PATH=../src/main/webapp/build/production/ARSnova/ bash ../src/test/runserver.sh"
   - "cd .."
 script:
   # Run tests
