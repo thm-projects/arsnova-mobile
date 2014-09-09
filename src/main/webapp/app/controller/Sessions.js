@@ -229,14 +229,13 @@ Ext.define("ARSnova.controller.Sessions", {
 		/* add feedback questions panel*/
 		if (!tabPanel.feedbackQuestionsPanel) {
 			tabPanel.feedbackQuestionsPanel = Ext.create('ARSnova.view.feedbackQuestions.TabPanel');
-			if (!tabPanel.userTabPanel) {
-				tabPanel.insert(3, tabPanel.feedbackQuestionsPanel);
-			} else {
-				tabPanel.insert(4, tabPanel.feedbackQuestionsPanel);
-				tabPanel.feedbackQuestionsPanel.tab.hide();
-			}
-		} else {
+		}
+		if (!tabPanel.userTabPanel) {
+			tabPanel.insert(3, tabPanel.feedbackQuestionsPanel);
 			tabPanel.feedbackQuestionsPanel.tab.show();
+		} else {
+			tabPanel.insert(4, tabPanel.feedbackQuestionsPanel);
+			tabPanel.feedbackQuestionsPanel.tab.hide();
 		}
 
 		hideLoadMask();
