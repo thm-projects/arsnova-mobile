@@ -30,7 +30,7 @@ def driver.wait_for_element(*args)
   find_element(how.to_sym, what)
 end
 
-driver.navigate.to "http://localhost:8080/index.html"
+driver.navigate.to "http://localhost:8080/mobile/index.html"
 
 passed = true
 
