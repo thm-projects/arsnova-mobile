@@ -43,9 +43,7 @@ before_script:
   - "mvn install"
   - "cd arsnova-war"
   - "mvn install -DskipTests=true"
-  - "mvn jetty:run -Dmobile.path=../src/main/webapp/build/production/ARSnova/ &"
-  # Wait for Jetty to finish startup
-  - "while [ `curl -s -o /dev/null -I -w '%{http_code}' -m 5 '$ARSNOVA_URL'` -ne 200 ]; do sleep 10; done"
+  - "ARSNOVA_MOBILE_PATH=../src/main/webapp/build/production/ARSnova/ ../src/test/runserver.sh"
   - "cd .."
 script:
   # Run tests
