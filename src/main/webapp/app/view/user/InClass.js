@@ -161,15 +161,17 @@ Ext.define('ARSnova.view.user.InClass', {
 			handler: this.buttonClicked
 		});
 
-		this.myQuestionsButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			ui: 'normal',
-			text: Messages.MY_QUESTIONS,
-			cls: 'forwardListButton',
-			badgeCls: 'badgeicon',
-			controller: 'Questions',
-			action: 'listFeedbackQuestions',
-			handler: this.buttonClicked
-		});
+		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
+			this.myQuestionsButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+				ui: 'normal',
+				text: Messages.MY_QUESTIONS,
+				cls: 'forwardListButton',
+				badgeCls: 'badgeicon',
+				controller: 'Questions',
+				action: 'listFeedbackQuestions',
+				handler: this.buttonClicked
+			});
+		}
 
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.myLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
@@ -180,12 +182,15 @@ Ext.define('ARSnova.view.user.InClass', {
 			});
 		}
 
-		var buttons = [
-			this.feedbackButton,
-			this.myQuestionsButton,
+		var buttons = [];
+		buttons.push(this.feedbackButton);
+		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
+			buttons.push(this.myQuestionsButton);
+		}
+		buttons.push(
 			this.lectureQuestionButton,
 			this.preparationQuestionButton
-		];
+		);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			buttons.push(this.myLearningProgressButton);
 		}
@@ -245,7 +250,9 @@ Ext.define('ARSnova.view.user.InClass', {
 		ARSnova.app.taskManager.start(panel.checkFeedbackRemovedTask);
 		ARSnova.app.taskManager.start(panel.countActiveUsersTask);
 		ARSnova.app.taskManager.start(panel.checkSessionStatusTask);
-		ARSnova.app.taskManager.start(panel.countFeedbackQuestionsTask);
+		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
+			ARSnova.app.taskManager.start(panel.countFeedbackQuestionsTask);
+		}
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			ARSnova.app.taskManager.start(panel.checkLearningProgressTask);
 		}
@@ -258,7 +265,9 @@ Ext.define('ARSnova.view.user.InClass', {
 		this.checkFeedbackRemovedTask.taskRunTime = 0;
 		this.countActiveUsersTask.taskRunTime = 0;
 		this.checkSessionStatusTask.taskRunTime = 0;
-		this.countFeedbackQuestionsTask.taskRunTime = 0;
+		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
+			this.countFeedbackQuestionsTask.taskRunTime = 0;
+		}
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.checkLearningProgressTask.taskRunTime = 0;
 		}
@@ -271,7 +280,9 @@ Ext.define('ARSnova.view.user.InClass', {
 		ARSnova.app.taskManager.stop(panel.checkFeedbackRemovedTask);
 		ARSnova.app.taskManager.stop(panel.countActiveUsersTask);
 		ARSnova.app.taskManager.stop(panel.checkSessionStatusTask);
-		ARSnova.app.taskManager.stop(panel.countFeedbackQuestionsTask);
+		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
+			ARSnova.app.taskManager.stop(panel.countFeedbackQuestionsTask);
+		}
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			ARSnova.app.taskManager.stop(panel.checkLearningProgressTask);
 		}
