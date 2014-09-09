@@ -4,9 +4,11 @@ require 'rubygems'
 require 'selenium-webdriver'
 
 driver = nil
+arsnova_url = nil
 
 if ENV['TRAVIS']
   browser = ENV['BROWSER'].split(':')
+  arsnova_url = ENV['ARSNOVA_URL']
 
   caps = Selenium::WebDriver::Remote::Capabilities.send browser[0]
   caps.version = browser[1]
@@ -20,6 +22,7 @@ if ENV['TRAVIS']
     :desired_capabilities => caps)
 else
   driver = Selenium::WebDriver.for :chrome
+  arsnova_url = "http://localhost:8080/mobile/"
 end
 
 def driver.wait_for_element(*args)
@@ -30,7 +33,7 @@ def driver.wait_for_element(*args)
   find_element(how.to_sym, what)
 end
 
-driver.navigate.to "http://localhost:8080/mobile/index.html"
+driver.navigate.to arsnova_url
 
 passed = true
 
