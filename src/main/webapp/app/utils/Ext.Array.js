@@ -26,7 +26,7 @@
  *
  * A set of useful static methods to deal with arrays; provide missing methods for older browsers.
  */
-(function() {
+(function () {
 
     var arrayPrototype = Array.prototype,
         slice = arrayPrototype.slice,
@@ -48,7 +48,7 @@
 
             array.splice(15, 0, "F", "F", "F", "F", "F","F","F","F","F","F","F","F","F","F","F","F","F","F","F","F","F");
 
-            lengthBefore = array.length; //41
+            lengthBefore = array.length; // 41
             array.splice(13, 0, "XXX"); // add one element
 
             if (lengthBefore+1 != array.length) {
@@ -64,8 +64,8 @@
         supportsEvery = 'every' in arrayPrototype,
         supportsSome = 'some' in arrayPrototype,
         supportsFilter = 'filter' in arrayPrototype,
-        supportsSort = function() {
-            var a = [1,2,3,4,5].sort(function(){ return 0; });
+        supportsSort = function () {
+            var a = [1,2,3,4,5].sort(function () { return 0; });
             return a[0] === 1 && a[1] === 2 && a[2] === 3 && a[3] === 4 && a[4] === 5;
         }(),
         supportsSliceOnNodeList = true,
@@ -138,7 +138,7 @@
                     array[tailNewPos+i] = array[tailOldPos+i];
                 }
             } else if (tailNewPos > tailOldPos) { // case B
-                for (i = tailCount; i--; ) {
+                for (i = tailCount; i--;) {
                     array[tailNewPos+i] = array[tailOldPos+i];
                 }
             } // else, add == remove (nothing to do)
@@ -208,14 +208,14 @@
          *
          *     var countries = ['Vietnam', 'Singapore', 'United States', 'Russia'];
          *
-         *     Ext.Array.each(countries, function(name, index, countriesItSelf) {
+         *     Ext.Array.each(countries, function (name, index, countriesItSelf) {
          *         console.log(name);
          *     });
          *
-         *     var sum = function() {
+         *     var sum = function () {
          *         var sum = 0;
          *
-         *         Ext.Array.each(arguments, function(value) {
+         *         Ext.Array.each(arguments, function (value) {
          *             sum += value;
          *         });
          *
@@ -226,7 +226,7 @@
          *
          * The iteration can be stopped by returning false in the function callback.
          *
-         *     Ext.Array.each(countries, function(name, index, countriesItSelf) {
+         *     Ext.Array.each(countries, function (name, index, countriesItSelf) {
          *         if (name === 'Singapore') {
          *             return false; // break here
          *         }
@@ -247,7 +247,7 @@
          * Defaults false
          * @return {Boolean} See description for the `fn` parameter.
          */
-        each: function(array, fn, scope, reverse) {
+        each: function (array, fn, scope, reverse) {
             array = ExtArray.from(array);
 
             var i,
@@ -284,7 +284,7 @@
          * @param {Array}  fn.allItems The `array` itself which was passed as the first argument
          * @param {Object} scope (Optional) The execution scope (`this`) in which the specified function is executed.
          */
-        forEach: function(array, fn, scope) {
+        forEach: function (array, fn, scope) {
             if (supportsForEach) {
                 return array.forEach(fn, scope);
             }
@@ -306,7 +306,7 @@
          * @param {Number} from (Optional) The index at which to begin the search
          * @return {Number} The index of item in the array (or -1 if it is not found)
          */
-        indexOf: function(array, item, from) {
+        indexOf: function (array, item, from) {
             if (supportsIndexOf) {
                 return array.indexOf(item, from);
             }
@@ -329,7 +329,7 @@
          * @param {Object} item The item to look for
          * @return {Boolean} True if the array contains the item, false otherwise
          */
-        contains: function(array, item) {
+        contains: function (array, item) {
             if (supportsIndexOf) {
                 return array.indexOf(item) !== -1;
             }
@@ -371,7 +371,7 @@
          * index of the iterable value
          * @return {Array} array
          */
-        toArray: function(iterable, start, end){
+        toArray: function (iterable, start, end) {
             if (!iterable || !iterable.length) {
                 return [];
             }
@@ -406,7 +406,7 @@
          * @param {String} propertyName The property name to pluck from each element.
          * @return {Array} The value from each item in the Array.
          */
-        pluck: function(array, propertyName) {
+        pluck: function (array, propertyName) {
             var ret = [],
                 i, ln, item;
 
@@ -427,7 +427,7 @@
          * @param {Object} scope Callback function scope
          * @return {Array} results
          */
-        map: function(array, fn, scope) {
+        map: function (array, fn, scope) {
             if (supportsMap) {
                 return array.map(fn, scope);
             }
@@ -453,7 +453,7 @@
          * @param {Object} scope Callback function scope
          * @return {Boolean} True if no false value is returned by the callback function.
          */
-        every: function(array, fn, scope) {
+        every: function (array, fn, scope) {
             //<debug>
             if (!fn) {
                 Ext.Error.raise('Ext.Array.every must have a callback function passed as second argument.');
@@ -484,7 +484,7 @@
          * @param {Object} scope Callback function scope
          * @return {Boolean} True if the callback function returns a truthy value.
          */
-        some: function(array, fn, scope) {
+        some: function (array, fn, scope) {
             //<debug>
             if (!fn) {
                 Ext.Error.raise('Ext.Array.some must have a callback function passed as second argument.');
@@ -514,7 +514,7 @@
          * @param {Array} array
          * @return {Array} results
          */
-        clean: function(array) {
+        clean: function (array) {
             var results = [],
                 i = 0,
                 ln = array.length,
@@ -537,7 +537,7 @@
          * @param {Array} array
          * @return {Array} results
          */
-        unique: function(array) {
+        unique: function (array) {
             var clone = [],
                 i = 0,
                 ln = array.length,
@@ -563,7 +563,7 @@
          * @param {Object} scope Callback function scope
          * @return {Array} results
          */
-        filter: function(array, fn, scope) {
+        filter: function (array, fn, scope) {
             if (supportsFilter) {
                 return array.filter(fn, scope);
             }
@@ -594,7 +594,7 @@
          * defaults to false
          * @return {Array} array
          */
-        from: function(value, newReference) {
+        from: function (value, newReference) {
             if (value === undefined || value === null) {
                 return [];
             }
@@ -617,7 +617,7 @@
          * @param {Object} item The item to remove
          * @return {Array} The passed array itself
          */
-        remove: function(array, item) {
+        remove: function (array, item) {
             var index = ExtArray.indexOf(array, item);
 
             if (index !== -1) {
@@ -633,7 +633,7 @@
          * @param {Array} array The array
          * @param {Object} item The item to include
          */
-        include: function(array, item) {
+        include: function (array, item) {
             if (!ExtArray.contains(array, item)) {
                 array.push(item);
             }
@@ -647,7 +647,7 @@
          * @param {Array} array The array
          * @return {Array} The clone array
          */
-        clone: function(array) {
+        clone: function (array) {
             return slice.call(array);
         },
 
@@ -661,7 +661,7 @@
          * @param {Array} etc
          * @return {Array} merged
          */
-        merge: function() {
+        merge: function () {
             var args = slice.call(arguments),
                 array = [],
                 i, ln;
@@ -681,7 +681,7 @@
          * @param {Array} etc
          * @return {Array} intersect
          */
-        intersect: function() {
+        intersect: function () {
             var intersect = [],
                 arrays = slice.call(arguments),
                 i, j, k, minArray, array, x, y, ln, arraysLn, arrayLn;
@@ -731,7 +731,7 @@
          * @param {Array} arrayB
          * @return {Array} difference
          */
-        difference: function(arrayA, arrayB) {
+        difference: function (arrayA, arrayB) {
             var clone = slice.call(arrayA),
                 ln = clone.length,
                 i, j, lnB;
@@ -780,7 +780,7 @@
                 }
                 return slice.call(array, begin, end);
             }
-        ),
+       ),
 
         /**
          * Sorts the elements of an Array.
@@ -790,7 +790,7 @@
          * @param {Function} sortFn (optional) The comparison function.
          * @return {Array} The sorted array.
          */
-        sort: function(array, sortFn) {
+        sort: function (array, sortFn) {
             if (supportsSort) {
                 if (sortFn) {
                     return array.sort(sortFn);
@@ -832,7 +832,7 @@
          * @param {Array} array The array to flatten
          * @return {Array} The 1-d array.
          */
-        flatten: function(array) {
+        flatten: function (array) {
             var worker = [];
 
             function rFlatten(a) {
@@ -862,7 +862,7 @@
          * If omitted the "<" operator will be used. Note: gt = 1; eq = 0; lt = -1
          * @return {Object} minValue The minimum value
          */
-        min: function(array, comparisonFn) {
+        min: function (array, comparisonFn) {
             var min = array[0],
                 i, ln, item;
 
@@ -892,7 +892,7 @@
          * If omitted the ">" operator will be used. Note: gt = 1; eq = 0; lt = -1
          * @return {Object} maxValue The maximum value
          */
-        max: function(array, comparisonFn) {
+        max: function (array, comparisonFn) {
             var max = array[0],
                 i, ln, item;
 
@@ -920,7 +920,7 @@
          * @param {Array} array The Array to calculate the mean value of.
          * @return {Number} The mean.
          */
-        mean: function(array) {
+        mean: function (array) {
             return array.length > 0 ? ExtArray.sum(array) / array.length : undefined;
         },
 
@@ -930,7 +930,7 @@
          * @param {Array} array The Array to calculate the sum value of.
          * @return {Number} The sum.
          */
-        sum: function(array) {
+        sum: function (array) {
             var sum = 0,
                 i, ln, item;
 
@@ -1094,7 +1094,7 @@
      * @member Ext
      * @alias Ext.Array#toArray
      */
-    Ext.toArray = function() {
+    Ext.toArray = function () {
         return ExtArray.toArray.apply(ExtArray, arguments);
     };
 })();

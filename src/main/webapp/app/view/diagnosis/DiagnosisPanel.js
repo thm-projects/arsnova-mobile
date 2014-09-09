@@ -1,23 +1,21 @@
-/*--------------------------------------------------------------------------+
- This file is part of ARSnova.
- app/about/DiagnosisPanel.js
- - Beschreibung: Panel "Diagnosis".
- - Version:      1.0, 21/10/13
- - Autor(en):    Andreas Gärtner <andreas.gaertner@mni.thm.de>
- +---------------------------------------------------------------------------+
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or any later version.
- +---------------------------------------------------------------------------+
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- +--------------------------------------------------------------------------*/
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 	extend: 'Ext.Container',
 
@@ -36,14 +34,14 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 	toolbar: null,
 	backButton: null,
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
 			ui: 'back',
 			hidden: true,
-			handler: function() {
+			handler: function () {
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.lastActivePanel, {
 					type: 'slide',
 					direction: 'right',
@@ -78,29 +76,29 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 
 			items: [{
 				text: Messages.STATISTIC,
-				handler: function() {
+				handler: function () {
 					var me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel;
 					me.statisticsPanel = Ext.create('ARSnova.view.diagnosis.StatisticsPanel');
 					me.animateActiveItem(me.statisticsPanel, 'slide');
 				}
 			}, {
 				text: Messages.BROWSER_INFO,
-				handler: function(b) {
+				handler: function (b) {
 					this.detect = Ext.create("ARSnova.BrowserDetect");
 					var browserInfo = new String(
-						"<b>Name:</b> "   + this.detect.browser		+ "<br>" +
-						"<b>Engine:</b> " + Ext.browser.engineName	+
-						" "				  + Ext.browser.engineVersion.version + "<br>" +
-						"<b>UA:</b> "	  + Ext.browser.userAgent	+ "<br>"
+						"<b>Name:</b> " + this.detect.browser + "<br>" +
+						"<b>Engine:</b> " + Ext.browser.engineName +
+						" " + Ext.browser.engineVersion.version + "<br>" +
+						"<b>UA:</b> " + Ext.browser.userAgent + "<br>"
 					);
 					Ext.Msg.alert('Browser', browserInfo, Ext.emptyFn);
 				}
 			}, {
 				text: Messages.ARSNOVA_RELOAD,
-				handler: function(b) {
-					Ext.Msg.confirm(Messages.ARSNOVA_RELOAD, Messages.RELOAD_SURE, function(b) {
-						if(b == "yes") {
-							if(ARSnova.app.checkSessionLogin()) {
+				handler: function (b) {
+					Ext.Msg.confirm(Messages.ARSNOVA_RELOAD, Messages.RELOAD_SURE, function (b) {
+						if (b == "yes") {
+							if (ARSnova.app.checkSessionLogin()) {
 								ARSnova.app.getController('Sessions').logout();
 							}
 							ARSnova.app.getController('Auth').logout();
@@ -117,7 +115,7 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 			cls: null
 		}]);
 
-		this.on('activate', function(){
+		this.on('activate', function () {
 			this.backButton.show();
 		});
 	}

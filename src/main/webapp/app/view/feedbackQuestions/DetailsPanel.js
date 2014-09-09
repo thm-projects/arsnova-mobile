@@ -1,23 +1,21 @@
-/*--------------------------------------------------------------------------+
- This file is part of ARSnova.
- app/feedbackQuestions/detailsPanel.js
- - Beschreibung: Panel für die Details einer Zwischenfrage (für Dozenten).
- - Version:      1.0, 01/05/12
- - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
- +---------------------------------------------------------------------------+
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or any later version.
- +---------------------------------------------------------------------------+
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- +--------------------------------------------------------------------------*/
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 	extend: 'Ext.Panel',
 
@@ -36,7 +34,7 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 	backButton: null,
 	questionObj: null,
 
-	constructor: function(args){
+	constructor: function (args) {
 		this.callParent(arguments);
 
 		this.questionObj = args.question;
@@ -45,7 +43,7 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 			text: Messages.QUESTIONS,
 			ui: 'back',
 			scope: this,
-			handler: function(){
+			handler: function () {
 				var sQP = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
 				sQP.animateActiveItem(sQP.questionsPanel, {
 					type: 'slide',
@@ -64,12 +62,12 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 			]
 		});
 
-		//Setup question title and text to display in the same field; markdown handles HTML encoding
+		// Setup question title and text to display in the same field; markdown handles HTML encoding
 		var questionString = this.questionObj.fullDate + ": " + this.questionObj.subject
 			+ '\n\n' // inserts one blank line between subject and text
 			+ this.questionObj.text;
 
-		//Create standard panel with framework support
+		// Create standard panel with framework support
 		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			cls: "roundedBox allCapsHeader"
 		});
@@ -85,11 +83,11 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 			cls: 'centerButton',
 			text: Messages.DELETE,
 			scope: this,
-			handler: function(){
+			handler: function () {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
 
 				ARSnova.app.questionModel.deleteInterposed(this.questionObj, {
-					failure: function(response){
+					failure: function (response) {
 						console.log('server-side error delete question');
 					}
 				});
@@ -105,7 +103,7 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 		this.on('deactivate', this.onDeactivate);
 	},
 
-	onDeactivate: function(){
+	onDeactivate: function () {
 		setTimeout("ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.checkFeedbackQuestions();", 500);
 	}
 });

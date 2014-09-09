@@ -1,4 +1,4 @@
-(function() {
+(function () {
 "use strict";
 // by http://www.quirksmode.org/js/detect.html
 Ext.define('ARSnova.BrowserDetect', {
@@ -19,7 +19,7 @@ Ext.define('ARSnova.BrowserDetect', {
 		}
 	},
 
-	extractAndroidVersion:        function() {
+	extractAndroidVersion:        function () {
 		// Should match 'Android x.y'
 		var version = navigator.userAgent.match(/Android [1-9]+[0-9]*\.[0-9]+/);
 		if (version === null) {

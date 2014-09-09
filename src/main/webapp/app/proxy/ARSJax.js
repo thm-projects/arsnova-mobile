@@ -1,20 +1,21 @@
-/*--------------------------------------------------------------------------+
- This file is part of ARSnova.
- - Autor(en):    Christoph Thelen <christoph.thelen@mni.thm.de>
- +---------------------------------------------------------------------------+
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or any later version.
- +---------------------------------------------------------------------------+
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- +--------------------------------------------------------------------------*/
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 Ext.define('ARSnova.proxy.ARSJax', {
 	extend: 'Ext.util.Observable',
 
@@ -25,17 +26,17 @@ Ext.define('ARSnova.proxy.ARSJax', {
 
 	lastStatusCodes: [],
 
-	constructor: function() {
+	constructor: function () {
 		this.callParent(arguments);
 	},
 
-	request: function(options) {
+	request: function (options) {
 		var me = this;
 		var success = options.success || Ext.emptyFn,
 			failure = options.failure || Ext.emptyFn;
-		var prefix = (ARSnova.app.globalConfig ? ARSnova.app.globalConfig.apiPath: "") + "/";
+		var prefix = (ARSnova.app.globalConfig ? ARSnova.app.globalConfig.apiPath : "") + "/";
 
-		if(ARSnova.app.checkMobileDeviceType()) {
+		if (ARSnova.app.checkMobileDeviceType()) {
 			options.url = ARSnova.app.absoluteUrl + options.url;
 		}
 
@@ -46,13 +47,13 @@ Ext.define('ARSnova.proxy.ARSJax', {
 			jsonData: options.jsonData,
 			headers: options.headers,
 
-			success: function(response) {
+			success: function (response) {
 				me.handleCode(response.status);
 				var fn = options[response.status] || success;
 				fn.apply(this, arguments);
 			},
 
-			failure: function(response) {
+			failure: function (response) {
 				me.handleCode(response.status);
 				var fn = options[response.status] || failure;
 				fn.apply(this, arguments);
@@ -60,12 +61,12 @@ Ext.define('ARSnova.proxy.ARSJax', {
 		});
 	},
 
-	handleCode: function(statusCode) {
+	handleCode: function (statusCode) {
 		this.lastStatusCodes.push(statusCode);
 		if (this.lastStatusCodes.length > this.getMaxStatusCodes()) {
 			this.lastStatusCodes.splice(0, 1);
 		}
-		var unauthorized = this.lastStatusCodes.filter(function(code) {
+		var unauthorized = this.lastStatusCodes.filter(function (code) {
 			return code === 401;
 		});
 

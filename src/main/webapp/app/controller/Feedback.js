@@ -1,33 +1,31 @@
-/*--------------------------------------------------------------------------+
- This file is part of ARSnova.
- app/controllers/feedback.js
- - Beschreibung: Feedback-Controller
- - Version:      1.0, 01/05/12
- - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
- +---------------------------------------------------------------------------+
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or any later version.
- +---------------------------------------------------------------------------+
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- +--------------------------------------------------------------------------*/
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 Ext.define("ARSnova.controller.Feedback", {
 	extend: 'Ext.app.Controller',
 
-	index: function(options){
+	index: function (options) {
 		var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 		fP.animateActiveItem(fP.votePanel, 'slide');
 	},
 
-	vote: function(options){
-		if (!ARSnova.app.checkSessionLogin()){
+	vote: function (options) {
+		if (!ARSnova.app.checkSessionLogin()) {
 			Ext.Msg.alert('Hinweis', 'Bitte loggen Sie sich erst in einen Kurs ein, bevor Sie diese Funktion nutzen!');
 			var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 			fP.animateActiveItem(fP.statisticPanel, {
@@ -39,7 +37,7 @@ Ext.define("ARSnova.controller.Feedback", {
 
 		var feedbackValue;
 		var feedbackCls;
-		switch (options.value){
+		switch (options.value) {
 			case "Kann folgen":
 				feedbackCls = "Good";
 				feedbackValue = 1;
@@ -78,18 +76,18 @@ Ext.define("ARSnova.controller.Feedback", {
 		});
 	},
 
-	ask: function(options) {
+	ask: function (options) {
 		options.question.saveInterposed({
 			success: options.success,
 			failure: options.failure
 		});
 	},
 
-	showVotePanel: function(){
-		tP = ARSnova.app.mainTabPanel.tabPanel;
-		fP = tP.feedbackTabPanel;
+	showVotePanel: function () {
+		var tP = ARSnova.app.mainTabPanel.tabPanel;
+		var fP = tP.feedbackTabPanel;
 
-		if(fP.rendered){
+		if (fP.rendered) {
 			fP.setActiveItem(fP.votePanel);
 		} else {
 			fP.activeItem = 1;
@@ -97,13 +95,13 @@ Ext.define("ARSnova.controller.Feedback", {
 		tP.setActiveItem(fP);
 	},
 
-	statistic: function(){
+	statistic: function () {
 		ARSnova.app.showLoadMask("Erzeuge die Grafik...");
-		fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
+		var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 		fP.statisticPanel.backButton.show();
 		ARSnova.app.mainTabPanel.tabPanel.setActiveItem(fP);
 
-		ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.addListener('deactivate', function(panel){
+		ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.addListener('deactivate', function (panel) {
 			panel.statisticPanel.backButton.hide();
 		}, this, {single: true});
 	}

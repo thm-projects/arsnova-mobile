@@ -1,21 +1,21 @@
-/*--------------------------------------------------------------------------+
- This file is part of ARSnova.
- - Beschreibung: Questions-Controller
- - Autor(en):    Christoph Thelen <christoph.thelen@mni.thm.de>
- +---------------------------------------------------------------------------+
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or any later version.
- +---------------------------------------------------------------------------+
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- +--------------------------------------------------------------------------*/
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 Ext.define("ARSnova.controller.FlashcardQuestions", {
 	extend: 'ARSnova.controller.Questions',
 
@@ -25,7 +25,7 @@ Ext.define("ARSnova.controller.FlashcardQuestions", {
 		models: ['ARSnova.model.Question']
 	},
 
-	listQuestions: function(){
+	listQuestions: function () {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.newQuestionPanel.setVariant('flashcard');
 		sTP.audienceQuestionPanel.setController(this);
@@ -33,12 +33,12 @@ Ext.define("ARSnova.controller.FlashcardQuestions", {
 		sTP.animateActiveItem(sTP.audienceQuestionPanel, 'slide');
 	},
 
-	destroyAll: function() {
+	destroyAll: function () {
 		var question = Ext.create('ARSnova.model.Question');
 		question.deleteAllFlashcards.apply(question, arguments);
 	},
 
-	getQuestions: function() {
+	getQuestions: function () {
 		var question = Ext.create('ARSnova.model.Question');
 		question.getFlashcards.apply(question, arguments);
 	}

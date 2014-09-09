@@ -1,23 +1,21 @@
-/*--------------------------------------------------------------------------+
- This file is part of ARSnova.
- app/view/SessionStatusButton.js
- - Beschreibung: Button zum Starten/Stoppen einer Session.
- - Version:      1.0, 01/05/12
- - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
- +---------------------------------------------------------------------------+
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or any later version.
- +---------------------------------------------------------------------------+
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- +--------------------------------------------------------------------------*/
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 Ext.define('ARSnova.view.SessionStatusButton', {
 	extend: 'Ext.Panel',
 
@@ -31,13 +29,13 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 	sessionIsOpenButton: null,
 	sessionIsClosedButton: null,
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
 		this.sessionIsClosed = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.START_SESSION,
 			image: 'unlock_session',
-			handler: function(){
+			handler: function () {
 				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
 			}
 		});
@@ -45,14 +43,14 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 		this.sessionIsOpen = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.STOP_SESSION,
 			image: 'lock_session',
-			handler: function(){
+			handler: function () {
 				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
 			}
 		});
 
 		this.add([this.sessionIsClosed, this.sessionIsOpen]);
 
-		if(localStorage.getItem('active') == 1){
+		if (localStorage.getItem('active') == 1) {
 			this.isOpen = true;
 			this.sessionIsClosed.hide();
 		} else {
@@ -61,7 +59,7 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 		}
 	},
 
-	changeStatus: function(){
+	changeStatus: function () {
 		if (this.isOpen) {
 			Ext.Msg.confirm(Messages.CONFIRM_CLOSE_SESSION, Messages.CONFIRM_CLOSE_SESSION_MESSAGE, function (buttonId) {
 				if (buttonId != "no") {
@@ -81,10 +79,10 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 		}
 	},
 
-	checkInitialStatus: function(){
-		if(this.isRendered) return;
+	checkInitialStatus: function () {
+		if (this.isRendered) return;
 
-		if(localStorage.getItem('active') == 1){
+		if (localStorage.getItem('active') == 1) {
 			this.isOpen = true;
 		} else {
 			this.isOpen = false;
@@ -92,13 +90,13 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 		this.isRendered = true;
 	},
 
-	sessionClosedSuccessfully: function(){
+	sessionClosedSuccessfully: function () {
 		this.isOpen = false;
 		this.sessionIsClosed.show();
 		this.sessionIsOpen.hide();
 	},
 
-	sessionOpenedSuccessfully: function(){
+	sessionOpenedSuccessfully: function () {
 		this.isOpen = true;
 		this.sessionIsOpen.show();
 		this.sessionIsClosed.hide();

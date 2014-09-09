@@ -1,25 +1,26 @@
-/*--------------------------------------------------------------------------+
- This file is part of ARSnova.
- - Beschreibung: Panel für die Frageform: Planquadrat
- +---------------------------------------------------------------------------+
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or any later version.
- +---------------------------------------------------------------------------+
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- +--------------------------------------------------------------------------*/
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 Ext.define('ARSnova.view.components.GridStatistic', {
 	extend: 'Ext.form.FieldSet',
 
-	require: [ 'ARSnova.view.components.GridContainer' ],
+	require: ['ARSnova.view.components.GridContainer'],
 
 	config: {
 		questionObj: null,
@@ -43,12 +44,14 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 	 *
 	 * Creates the canvas element and initializes all necessary variables.
 	 */
-	constructor: function() {
+	constructor: function () {
 		this.callParent(arguments);
 		// store this for later reference
 		var me = this;
-		var screenWidth = (window.innerWidth > 0) ? window.innerWidth
-: screen.width;
+		var screenWidth = (window.innerWidth > 0) ?
+			window.innerWidth :
+			screen.width
+		;
 		var showShortLabels = screenWidth < 480;
 
 		// create toggles
@@ -73,31 +76,38 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		});
 
 		this.releaseItems = [
-				  {
-					text: showShortLabels ? Messages.GRID_LABEL_ABSOLUTE_SHORT
-: Messages.GRID_LABEL_ABSOLUTE,
-					scope: this,
-					handler: function() {
-						this.updateGrid();
-					}
-				},
-				{
-					text: showShortLabels ? Messages.GRID_LABEL_RELATIVE_SHORT
-: Messages.GRID_LABEL_RELATIVE,
-					scope: this,
-					handler: function() {
-						this.updateGrid();
-					}
-				},
-				{
-					text: showShortLabels ? Messages.GRID_LABEL_NONE_SHORT
-: Messages.GRID_LABEL_NONE,
-					scope: this,
-					pressed: true,
-					handler: function() {
-						this.updateGrid();
-					}
-				} ];
+			{
+				text: showShortLabels ?
+					Messages.GRID_LABEL_ABSOLUTE_SHORT :
+					Messages.GRID_LABEL_ABSOLUTE
+				,
+				scope: this,
+				handler: function () {
+					this.updateGrid();
+				}
+			},
+			{
+				text: showShortLabels ?
+					Messages.GRID_LABEL_RELATIVE_SHORT :
+					Messages.GRID_LABEL_RELATIVE
+				,
+				scope: this,
+				handler: function () {
+					this.updateGrid();
+				}
+			},
+			{
+				text: showShortLabels ?
+					Messages.GRID_LABEL_NONE_SHORT :
+					Messages.GRID_LABEL_NONE
+				,
+				scope: this,
+				pressed: true,
+				handler: function () {
+					this.updateGrid();
+				}
+			}
+		];
 
 		this.questionOptionsSegment = Ext.create('Ext.SegmentedButton', {
 			allowDepress: false,
@@ -107,12 +117,12 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 
 		this.gridShowNumbers = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
-			items: [ {
+			items: [{
 				xtype: 'fieldset',
 				style: 'margin: 0',
 				title: Messages.GRID_LABEL_SHOW_PERCENT,
-				items: [ this.questionOptionsSegment ]
-			} ]
+				items: [this.questionOptionsSegment]
+			}]
 		});
 
 		this.gridColorsToggle = Ext.create('Ext.field.Toggle', {
@@ -133,24 +143,25 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 
 		this.optionsFieldSet = Ext.create('Ext.form.FieldSet', {
 			cls: 'standardFieldset gridQDSettingsPanel',
-			items: [ this.gridShowNumbers,
-					  {
-							xtype: 'spacer',
-							height: 25
-					  },
-					  this.gridShowColors,
-					  this.gridColorsToggle,
-					  this.gridWeakenImageToggle,
-					  this.abstentionPanel
-					]
+			items: [
+				this.gridShowNumbers,
+				{
+					xtype: 'spacer',
+					height: 25
+				},
+				this.gridShowColors,
+				this.gridColorsToggle,
+				this.gridWeakenImageToggle,
+				this.abstentionPanel
+			]
 		});
 
 		// set listeners to toggles
 		var listeners = {
-			beforechange: function(slider, thumb, newValue, oldValue) {
+			beforechange: function (slider, thumb, newValue, oldValue) {
 				me.updateGrid();
 			},
-			change: function(slider, thumb, newValue, oldValue) {
+			change: function (slider, thumb, newValue, oldValue) {
 				me.updateGrid();
 			}
 		};
@@ -171,7 +182,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		this.updateGrid();
 	},
 
-	updateGrid: function() {
+	updateGrid: function () {
 		var questionObj = this.getQuestionObj();
 		var me = this;
 
@@ -187,7 +198,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		this.grid.setOffsetY(questionObj.offsetY);
 		this.grid.setZoomLvl(questionObj.zoomLvl);
 
-		this.grid.setImage(questionObj.image, false, function() {
+		this.grid.setImage(questionObj.image, false, function () {
 
 			if (questionObj.showAnswer || questionObj.userAnswered == null) {
 
@@ -224,7 +235,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				if (!el.answerText) {
 					me.abstentionPanel.setValue(el.abstentionCount);
 
-					if(me.abstentionPanel.getValue() > 0)
+					if (me.abstentionPanel.getValue() > 0)
 						me.abstentionPanel.setHidden(false);
 					continue;
 				}
@@ -232,12 +243,12 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				var values = el.answerText.split(",");
 
 				for (var j = 0; j < el.answerCount; j++) {
-					values.forEach(function(selected, index) {
+					values.forEach(function (selected, index) {
 
 						if (typeof gridAnswers[values[index]] === "undefined") {
 							gridAnswers[values[index]] = 1;
 						} else {
-							gridAnswers[values[index]] += 1
+							gridAnswers[values[index]] += 1;
 						}
 					});
 				}

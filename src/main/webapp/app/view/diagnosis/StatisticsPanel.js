@@ -1,23 +1,21 @@
-/*--------------------------------------------------------------------------+
- This file is part of ARSnova.
- app/about/statisticPanel.js
- - Beschreibung: Panel "Statistik".
- - Version:      1.0, 01/05/12
- - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
- +---------------------------------------------------------------------------+
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or any later version.
- +---------------------------------------------------------------------------+
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- +--------------------------------------------------------------------------*/
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 	extend: 'Ext.Container',
 
@@ -48,13 +46,13 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 	 */
 	updateDataTask: {
 		name: 'update the statistic table',
-		run: function(){
+		run: function () {
 			ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.statisticsPanel.updateData();
 		},
 		interval: 30000
 	},
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
 		this.statisticsStore = Ext.create('Ext.data.Store', {
@@ -64,8 +62,8 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
 			ui: 'back',
-			handler: function() {
-				me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel;
+			handler: function () {
+				var me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel;
 
 				me.animateActiveItem(me.diagnosisPanel, {
 					type: 'slide',
@@ -97,16 +95,16 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 			items: [{
 					itemId: 'statisticUsersOnline',
 					text: 'Users online'
-				},{
+				}, {
 					itemId: 'statisticOpenSessions',
 					text: Messages.OPEN_SESSIONS
-				},{
+				}, {
 					itemId: 'statisticClosedSessions',
 					text: Messages.CLOSED_SESSIONS
-				},{
+				}, {
 					itemId: 'statisticQuestions',
 					text: Messages.QUESTIONS
-				},{
+				}, {
 					itemId: 'statisticAnswers',
 					text: Messages.ANSWERS
 				}]
@@ -119,19 +117,19 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 		this.on('deactivate', this.onDeactivate);
 	},
 
-	beforeActivate: function(){
+	beforeActivate: function () {
 		this.getStatistics();
 	},
 
-	onActivate: function(){
-		taskManager.start(this.updateDataTask);
+	onActivate: function () {
+		ARSnova.app.taskManager.start(this.updateDataTask);
 	},
 
-	onDeactivate: function(){
-		taskManager.stop(this.updateDataTask);
+	onDeactivate: function () {
+		ARSnova.app.taskManager.stop(this.updateDataTask);
 	},
 
-	setNumbers: function() {
+	setNumbers: function () {
 		if (this.statistics != null) {
 			this.formpanel.getComponent('statisticUsersOnline').setText('Users online <div style="float:right">' + this.statistics.activeUsers + '</div>');
 			this.formpanel.getComponent('statisticOpenSessions').setText(Messages.OPEN_SESSIONS + '<div style="float:right">' + this.statistics.openSessions + '</div>');
@@ -145,27 +143,27 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 	/**
 	 * get statistics from proxy
 	 */
-	getStatistics: function() {
+	getStatistics: function () {
 		var promise = new RSVP.Promise();
 		ARSnova.app.statisticModel.getStatistics({
-			success: function(response){
+			success: function (response) {
 				var statistics = Ext.decode(response.responseText);
 
-				if(statistics != null) {
+				if (statistics != null) {
 					var me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.statisticsPanel;
 					me.statistics = statistics;
 					me.setNumbers();
 				}
 				promise.resolve(statistics);
 			},
-			failure: function(response){
+			failure: function (response) {
 				console.log('server-side error, countOpenSessions');
 				promise.reject();
 			}
 		});
 		return promise;
 	},
-	updateData: function() {
+	updateData: function () {
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK);
 		this.statisticsStore.clearData();
 		this.getStatistics().then(hideLoadMask, hideLoadMask); // hide mask on success and on error

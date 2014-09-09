@@ -1,4 +1,4 @@
-(function() {
+(function () {
 "use strict";
 Ext.define('ARSnova.BrowserSupport', {
 	extend: 'Ext.Base',
@@ -16,17 +16,17 @@ Ext.define('ARSnova.BrowserSupport', {
 		}
 	},
 
-	constructor: function(config) {
+	constructor: function (config) {
 		this.initConfig(config);
 
 		this.detect = Ext.create("ARSnova.BrowserDetect");
 	},
 
-	getRequiredBrowserVersion:        function() {
+	getRequiredBrowserVersion:        function () {
 		return this.getSupported()[this.detect.browser];
 	},
 
-	getRequiredBrowsers: function() {
+	getRequiredBrowsers: function () {
 		var browsers = [];
 		var supported = this.getSupported();
 		for (var browser in supported) {
@@ -37,7 +37,7 @@ Ext.define('ARSnova.BrowserSupport', {
 		return browsers;
 	},
 
-	isBrowserSupported: function(updateRequiredCallback, browserUnsupportedCallback, scope) {
+	isBrowserSupported: function (updateRequiredCallback, browserUnsupportedCallback, scope) {
 		if (typeof this.getSupported()[this.detect.browser] !== "undefined") {
 			var hasMinimumVersion = this.getRequiredBrowserVersion() <= this.detect.version;
 			if (!hasMinimumVersion) {

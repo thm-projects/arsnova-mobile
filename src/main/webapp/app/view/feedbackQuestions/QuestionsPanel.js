@@ -1,23 +1,21 @@
-/*--------------------------------------------------------------------------+
- This file is part of ARSnova.
- app/feedbackQuestions/questionsPanel.js
- - Beschreibung: Panel zum Anzeigen aller Zwischenfragen einer Session (für Dozenten).
- - Version:      1.0, 01/05/12
- - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
- +---------------------------------------------------------------------------+
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or any later version.
- +---------------------------------------------------------------------------+
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- +--------------------------------------------------------------------------*/
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 	extend: 'Ext.Panel',
 
@@ -47,7 +45,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		 */
 		checkFeedbackQuestionsTask: {
 			name: 'check for new feedback questions',
-			run: function(){
+			run: function () {
 				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.checkFeedbackQuestions();
 			},
 			interval: 15000
@@ -58,7 +56,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 	backButton: null,
 	questionsCounter: 0,
 
-	initialize: function(){
+	initialize: function () {
 		this.callParent(arguments);
 
 		var panel = this;
@@ -68,12 +66,12 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			text: Messages.BACK,
 			ui: 'back',
 			hidden: true,
-			handler: function() {
+			handler: function () {
 				var target;
 				if (isSpeakerView) {
 					target = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				} else {
-					target = ARSnova.app.mainTabPanel.tabPanel.userTabPanel
+					target = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
 				}
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(target, {
 					type: 'slide',
@@ -81,7 +79,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					duration: 700,
 					scope: this,
 					listeners: {
-						animationend: function() {
+						animationend: function () {
 							this.hide();
 						},
 						scope: this
@@ -94,16 +92,16 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			text: Messages.DELETE_ALL,
 			ui: 'decline',
 			hidden: true,
-			handler: function() {
-				Ext.Msg.confirm(Messages.DELETE_ALL_QUESTIONS, Messages.ARE_YOU_SURE, function(answer) {
+			handler: function () {
+				Ext.Msg.confirm(Messages.DELETE_ALL_QUESTIONS, Messages.ARE_YOU_SURE, function (answer) {
 					if (answer === 'yes') {
 						ARSnova.app.getController('Questions').deleteAllInterposedQuestions({
-							success: function() {
+							success: function () {
 								panel.list.hide();
 								panel.noQuestionsFound.show();
 								panel.deleteAllButton.hide();
 							},
-							failure: function() {
+							failure: function () {
 								console.log("Could not delete all interposed questions.");
 							}
 						});
@@ -152,7 +150,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			grouped: true,
 			store: this.getStore(),
 			listeners: {
-				itemswipe: function(list, index, target) {
+				itemswipe: function (list, index, target) {
 					var el = target.element,
 						hasClass = el.hasCls(this.activeCls);
 
@@ -162,7 +160,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 						el.addCls(this.activeCls);
 					}
 				},
-				itemtap: function(list, index, target, record, event){
+				itemtap: function (list, index, target, record, event) {
 					var details = list.getStore().getAt(index).data;
 					if (isSpeakerView) {
 						details.obj.set('read', true);
@@ -184,22 +182,22 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			this.list
 		]);
 
-		this.on('deactivate', function(){
+		this.on('deactivate', function () {
 			this.list.deselect(this.list._lastSelected, true);
 		});
 	},
 
-	getFeedbackQuestions: function(){
+	getFeedbackQuestions: function () {
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOADING_NEW_QUESTIONS);
-		ARSnova.app.questionModel.getInterposedQuestions(localStorage.getItem('keyword'),{
-			success: function(response){
+		ARSnova.app.questionModel.getInterposedQuestions(localStorage.getItem('keyword'), {
+			success: function (response) {
 				var questions = Ext.decode(response.responseText);
 				var fQP = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
 				var panel = fQP.questionsPanel;
 				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadgeText(questions.length);
 				panel.questionsCounter = questions.length;
 
-				if(panel.questionsCounter == 0){
+				if (panel.questionsCounter == 0) {
 					panel.list.hide();
 					panel.noQuestionsFound.show();
 					panel.deleteAllButton.hide();
@@ -209,7 +207,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					panel.noQuestionsFound.hide();
 					panel.deleteAllButton.show();
 					var unread = 0;
-					for(var i = 0, question; question = questions[i]; i++){
+					for (var i = 0, question; question = questions[i]; i++) {
 						var formattedTime = "", fullDate = "", groupDate = "";
 						if (question.timestamp) {
 							var time = new Date(question.timestamp);
@@ -221,7 +219,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 						}
 						question.formattedTime = formattedTime;
 						question.fullDate = fullDate;
-						if(!question.subject)
+						if (!question.subject)
 							question.subject = Messages.NO_SUBJECT;
 
 						if (!question.read) {
@@ -254,15 +252,15 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				}
 				hideLoadMask();
 			},
-			failure: function(records, operation){
+			failure: function (records, operation) {
 				console.log('server side error');
 			}
 		});
 	},
 
-	checkFeedbackQuestions: function(){
+	checkFeedbackQuestions: function () {
 		ARSnova.app.questionModel.countFeedbackQuestions(localStorage.getItem("keyword"), {
-			success: function(response){
+			success: function (response) {
 				var feedbackQuestionsPanel = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
 				var panel = feedbackQuestionsPanel.questionsPanel;
 				var questionCount = Ext.decode(response.responseText);
@@ -274,12 +272,12 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					}]);
 				}
 
-				if(panel.questionsCounter != questionCount.total) {
+				if (panel.questionsCounter != questionCount.total) {
 					panel.questionsCounter = questionCount.total;
 					panel.getFeedbackQuestions();
 				}
 			},
-			failure: function(){
+			failure: function () {
 				console.log('server-side error');
 			}
 		});

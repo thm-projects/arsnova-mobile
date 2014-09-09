@@ -1,20 +1,21 @@
-/*--------------------------------------------------------------------------+
- This file is part of ARSnova.
- - Autor(en):    Christoph Thelen <christoph.thelen@mni.thm.de>
- +---------------------------------------------------------------------------+
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or any later version.
- +---------------------------------------------------------------------------+
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- +--------------------------------------------------------------------------*/
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 /**
  * This class serves as an interface to ARSnova Web Socket implementation.
  *
@@ -30,10 +31,10 @@
 Ext.define('ARSnova.WebSocket', {
 	extend: 'Ext.util.Observable',
 
-	constructor: function(config) {
+	constructor: function (config) {
 		this.callParent(arguments);
 
-		this.initSocket().then(Ext.bind(function(socketUrl) {
+		this.initSocket().then(Ext.bind(function (socketUrl) {
 			/* Upgrade from polling to WebSocket currently does not work
 			 * reliably so manually set the transport by detecting browser
 			 * support for WebSocket protocol */
@@ -42,13 +43,13 @@ Ext.define('ARSnova.WebSocket', {
 				/* Workaround: unfortunately some browsers pretend to support
 				 * WS protocol although they do not */
 				try {
-					var ws = new Websocket("wss:" + window.location.hostname + ":10443");
+					var ws = new WebSocket("wss:" + window.location.hostname + ":10443");
 					ws.close(-1);
 				} catch (e) {
 					hasWs = true;
 				}
 			}
-			var transports = hasWs ? ["websocket"]: ["polling"];
+			var transports = hasWs ? ["websocket"] : ["polling"];
 			console.debug("Socket.IO transports", transports);
 
 			socket = io.connect(socketUrl, {
@@ -57,41 +58,41 @@ Ext.define('ARSnova.WebSocket', {
 				transports: transports
 			});
 
-			socket.on('connect', Ext.bind(function() {
+			socket.on('connect', Ext.bind(function () {
 				console.debug("Socket.IO connection established");
 				ARSnova.app.restProxy.connectWebSocket().then(Ext.bind(function () {
 					this.fireEvent("arsnova/socket/connect");
 				}, this));
 			}, this));
 
-			socket.on('disconnect', Ext.bind(function() {
+			socket.on('disconnect', Ext.bind(function () {
 				console.debug("Socket.IO connection lost");
 				this.fireEvent("arsnova/socket/disconnect");
 			}, this));
 
-			socket.on('reconnect', Ext.bind(function() {
+			socket.on('reconnect', Ext.bind(function () {
 				console.debug("Socket.IO connection restored");
 				this.fireEvent("arsnova/socket/reconnect");
 			}, this));
 
-			socket.on('activeUserCountData', Ext.bind(function(data) {
+			socket.on('activeUserCountData', Ext.bind(function (data) {
 				console.debug("Socket.IO: activeUserCountData", data);
 				this.fireEvent("arsnova/socket/activeusercount/update", data);
 			}, this));
 
-			socket.on('feedbackData', Ext.bind(function(data) {
+			socket.on('feedbackData', Ext.bind(function (data) {
 				console.debug("Socket.IO: feedbackData", data);
 				this.fireEvent("arsnova/socket/feedback/update", data);
 			}, this));
 
-			socket.on('feedbackReset', Ext.bind(function(affectedSessions) {
+			socket.on('feedbackReset', Ext.bind(function (affectedSessions) {
 				console.debug("Socket.IO: feedbackReset", affectedSessions);
 				//topic.publish("arsnova/socket/feedback/remove", affectedSessions);
 			}, this));
 		}, this));
 	},
 
-	initSocket: function() {
+	initSocket: function () {
 		var socketUrl = window.location.protocol + '//' + window.location.hostname + ':10443';
 		var promise = new RSVP.Promise();
 

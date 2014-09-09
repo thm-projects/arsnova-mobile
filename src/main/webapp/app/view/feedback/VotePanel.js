@@ -1,23 +1,21 @@
-/*--------------------------------------------------------------------------+
- This file is part of ARSnova.
- app/feedback/votePanel.js
- - Beschreibung: Panel zum Abgeben eines Feedbacks.
- - Version:      1.0, 01/05/12
- - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
- +---------------------------------------------------------------------------+
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or any later version.
- +---------------------------------------------------------------------------+
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- +--------------------------------------------------------------------------*/
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 Ext.define('ARSnova.view.feedback.VotePanel', {
 	extend: 'Ext.Panel',
 
@@ -35,21 +33,21 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 	backButton: null,
 	questionButton: null,
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.HOME,
 			ui: 'back',
 			hidden: false,
-			handler: function() {
+			handler: function () {
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
 					type: 'slide',
 					direction: 'right',
 					duration: 700,
 					scope: this,
 					listeners: {
-						animationend: function() {
+						animationend: function () {
 							this.hide();
 						},
 						scope: this
@@ -89,7 +87,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 					cls: 'noPadding noBackground noBorder feedbackOkBackground',
 					value: 'Kann folgen',
 					image: "icons/48x48/smiley_happy",
-					handler: function(button) {
+					handler: function (button) {
 						ARSnova.app.getController('Feedback').vote({
 							value: button.config.value
 						});
@@ -101,7 +99,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 					cls: 'noPadding noBackground noBorder feedbackGoodBackground',
 					value: 'Bitte schneller',
 					image: "icons/48x48/smiley_wink",
-					handler: function(button) {
+					handler: function (button) {
 						ARSnova.app.getController('Feedback').vote({
 							value: button.config.value
 						});
@@ -125,7 +123,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 					cls: 'noPadding noBackground noBorder feedbackBadBackground',
 					value: 'Zu schnell',
 					image: "icons/48x48/smiley_frown",
-					handler: function(button) {
+					handler: function (button) {
 						ARSnova.app.getController('Feedback').vote({
 							value: button.config.value
 						});
@@ -137,7 +135,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 					cls: 'noPadding noBackground noBorder feedbackNoneBackground',
 					value: 'Nicht mehr dabei',
 					image: "icons/48x48/smiley_angry",
-					handler: function(button) {
+					handler: function (button) {
 						ARSnova.app.getController('Feedback').vote({
 							value: button.config.value
 						});
@@ -157,7 +155,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 				cls: 'questionRequestButton',
 				ui: 'action',
 				width: '235px',
-				handler: function() {
+				handler: function () {
 					var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 					panel.animateActiveItem(panel.askPanel, 'slide');
 				}

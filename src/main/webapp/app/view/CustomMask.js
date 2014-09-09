@@ -1,23 +1,21 @@
-/*--------------------------------------------------------------------------+
- This file is part of ARSnova.
- app/view/CustomMask.js
- - Beschreibung: Angepasste Maske, um Scrolling innerhalb eines Carousel zu ermoeglichen
- - Version:      1.0, 21/05/13
- - Autor(en):    Andreas Gaertner <andreas.gaertner@mni.thm.de>
- +---------------------------------------------------------------------------+
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or any later version.
- +---------------------------------------------------------------------------+
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- +--------------------------------------------------------------------------*/
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 Ext.define('ARSnova.view.CustomMask', {
 	extend: 'Ext.Container',
 	xtype: 'custom-mask',
@@ -38,7 +36,7 @@ Ext.define('ARSnova.view.CustomMask', {
 	/**
 	 * needs the masked panel as argument, as the panel has to react on mask scrolling events
 	 */
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
 		var scroller = this.getScrollable().getScroller();
@@ -50,7 +48,7 @@ Ext.define('ARSnova.view.CustomMask', {
 		this.on({hide: 'onHide'});
 	},
 
-	onHide: function(){
+	onHide: function () {
 		Ext.util.InputBlocker.unblockInputs();
 
 		if (Ext.browser.is.AndroidStock4 && Ext.os.version.getMinor() === 0) {
@@ -61,21 +59,21 @@ Ext.define('ARSnova.view.CustomMask', {
 		}
 	},
 
-	onEvent: function(e) {
+	onEvent: function (e) {
 		var controller = arguments[arguments.length - 1];
 
-		if(controller.info.eventName === 'tap') {
+		if (controller.info.eventName === 'tap') {
 			this.fireEvent('tap', this, e);
 		}
 
 		return false;
 	},
 
-	onScrollEvent: function(e) {
+	onScrollEvent: function (e) {
 		var controller = arguments[arguments.length - 1],
 			mainScroller = this.config.mainPanel.getScrollable().getScroller();
 
-		switch(controller.info.eventName) {
+		switch (controller.info.eventName) {
 			case 'scrollStart':
 			case 'scrollEnd':
 			case 'scroll':
@@ -86,8 +84,8 @@ Ext.define('ARSnova.view.CustomMask', {
 		return false;
 	},
 
-	overwriteScrollerMaxPosition: function(scroller, mainPanel) {
-		scroller.getMaxPosition = function() {
+	overwriteScrollerMaxPosition: function (scroller, mainPanel) {
+		scroller.getMaxPosition = function () {
 			var mainScroller = mainPanel.getScrollable().getScroller(),
 				maxPosition = mainScroller.maxPosition,
 				size, containerSize;
@@ -108,7 +106,7 @@ Ext.define('ARSnova.view.CustomMask', {
 		};
 	},
 
-	updateTransparent: function(newTransparent) {
-		this[newTransparent ? 'addCls': 'removeCls'](this.getBaseCls() + '-transparent');
+	updateTransparent: function (newTransparent) {
+		this[newTransparent ? 'addCls' : 'removeCls'](this.getBaseCls() + '-transparent');
 	}
 });

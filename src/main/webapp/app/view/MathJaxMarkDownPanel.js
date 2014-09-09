@@ -1,25 +1,21 @@
-/*--------------------------------------------------------------------------+
- This file is part of ARSnova.
- - Beschreibung: Panel with Mathjax and Markdown support
- - Autor(en):    Julian Rossbach <julian.rossbach@mni.thm.de>
-                 Colin Appel <colin.appel@mni.thm.de>
-                 Alexander Nadler <alexander.nadler@mni.thm.de>
-                 Jannik Schaaf <jannik.schaaf-2@mni.thm.de>
-                 Karolina Rozanka <karolina.rozanka@mni.thm.de>
- +---------------------------------------------------------------------------+
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or any later version.
- +---------------------------------------------------------------------------+
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- +--------------------------------------------------------------------------*/
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 	extend: 'Ext.Component',
@@ -85,21 +81,21 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 	// get all delimiter indices as array of [start(incl), end(excl)] elements
 	getDelimiter: function (input, delimiter, endDelimiter) {
 		// all lines between the tags to this array
-		var result = new Array();// [start, end]
+		var result = new Array(); // [start, end]
 
 		var idxStart = 0;
 		var idxEnd = -delimiter.length;
 		var run = true;
 
 		while (run) {
-			//start delimiter
+			// start delimiter
 			idxStart = input.indexOf(delimiter, idxEnd + endDelimiter.length);
 
-			//end delimiter
+			// end delimiter
 			idxEnd = input.indexOf(endDelimiter, idxStart + delimiter.length);
 
 			if (idxStart != -1 && idxEnd != -1) {
-				//add delimiter position values
+				// add delimiter position values
 				result.push([idxStart, idxEnd + endDelimiter.length]);
 			} else {
 				run = false;

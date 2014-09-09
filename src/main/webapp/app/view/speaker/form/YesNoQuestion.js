@@ -1,20 +1,21 @@
-/*--------------------------------------------------------------------------+
- This file is part of ARSnova.
- - Autor(en):    Christoph Thelen <christoph.thelen@mni.thm.de>
- +---------------------------------------------------------------------------+
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or any later version.
- +---------------------------------------------------------------------------+
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- +--------------------------------------------------------------------------*/
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 	extend: 'Ext.Container',
 
@@ -31,7 +32,7 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 
 	abstentionAnswer: null,
 
-	constructor: function() {
+	constructor: function () {
 		this.callParent(arguments);
 
 		this.yesButton = Ext.create('Ext.Button', {
@@ -85,7 +86,7 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 			items: [this.yesButton, this.noButton, this.noneButton],
 			listeners: {
 				scope: this,
-				toggle: function(container, button, pressed) {
+				toggle: function (container, button, pressed) {
 					if (pressed) {
 						if (button === this.yesButton) {
 							this.setPressed('yes');
@@ -124,7 +125,7 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 		}
 	},
 
-	initWithQuestion: function(question) {
+	initWithQuestion: function (question) {
 		var possibleAnswers = question.possibleAnswers;
 		// We will have 2 or 3 answers, depending on an 'abstention' value
 		if (possibleAnswers.length !== 2 && possibleAnswers.length !== 3) {
@@ -132,12 +133,12 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 		}
 
 		// We assume that the possibleAnswers are laid out exactly as 'yes' and 'no'
-		[this.yesButton, this.noButton].forEach(function(button, index) {
+		[this.yesButton, this.noButton].forEach(function (button, index) {
 			button.setText(possibleAnswers[index].text);
 		});
 		// Press the 'correct' button
-		this.segmentedButton.setPressedButtons(possibleAnswers.map(function(answer, index) {
-			return answer.correct ? index: null;
+		this.segmentedButton.setPressedButtons(possibleAnswers.map(function (answer, index) {
+			return answer.correct ? index : null;
 		}));
 		// Still no button pressed? Select the 'none' button...
 		if (this.segmentedButton.getPressedButtons().length === 0) {
@@ -149,13 +150,13 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 		}
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			// Again, assume specifiy yes, no layout!
-			[this.yesValueComponent, this.noValueComponent].forEach(function(component, index) {
+			[this.yesValueComponent, this.noValueComponent].forEach(function (component, index) {
 				component.setSliderValue(possibleAnswers[index].value || 0);
 			});
 		}
 	},
 
-	getQuestionValues: function() {
+	getQuestionValues: function () {
 		var result = {};
 
 		var yesAnswer = {text: this.yesButton.getText(), correct: false};

@@ -1,23 +1,21 @@
-/*--------------------------------------------------------------------------+
- This file is part of ARSnova.
- internationalization.js
- - Beschreibung: Internationalisierung für ARSnova.
- - Version:      1.0, 01/05/12
- - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
- +---------------------------------------------------------------------------+
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or any later version.
- +---------------------------------------------------------------------------+
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- +--------------------------------------------------------------------------*/
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 // Android browser return always English as language, even when your phone is set up with a different one. Because of
 // that, we read here the user agent and we extract from there the phone language. For all the other devices,
@@ -28,8 +26,8 @@ var isAndroid = ua.indexOf("android") > -1;
 var isChrome = ua.indexOf("chrome") > -1;
 var lang;
 
-if(isAndroid && !isChrome) {
-	if ( navigator && navigator.userAgent && (lang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {
+if (isAndroid && !isChrome) {
+	if (navigator && navigator.userAgent && (lang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {
 		lang = lang[1];
 	}
 } else {
@@ -37,11 +35,11 @@ if(isAndroid && !isChrome) {
 }
 
 var prefLang = localStorage.getItem("language");
-if(prefLang != undefined){
+if (prefLang != undefined) {
 	lang = prefLang;
 }
 
-if(lang != null) {
+if (lang != null) {
 	lang = lang.toLowerCase();
 }
 
@@ -140,7 +138,7 @@ switch (lang) {
 			/* questions */
 			QUESTION: "Question",
 			QUESTION_PLACEHOLDER: "Enter question",
-			QUESTIONTEXT_PlACEHOLDER: "Enter question",
+			QUESTIONTEXT_PLACEHOLDER: "Enter question",
 			QUESTIONS: "Questions",
 			QUESTION_DETAILS: "Details",
 			QUESTION_DATE: "Date",
@@ -491,7 +489,7 @@ switch (lang) {
 			/* questions */
 			QUESTION: "Frage",
 			QUESTION_PLACEHOLDER: "Frage eingeben",
-			QUESTIONTEXT_PlACEHOLDER: "Frage eingeben",
+			QUESTIONTEXT_PLACEHOLDER: "Frage eingeben",
 			QUESTIONS: "Fragen",
 			QUESTION_DETAILS: "Details",
 			QUESTION_DATE: "Datum",

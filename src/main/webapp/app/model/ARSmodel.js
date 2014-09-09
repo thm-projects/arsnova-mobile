@@ -1,21 +1,21 @@
-/*--------------------------------------------------------------------------+
- This file is part of ARSnova.
- - Beschreibung: Überschreibt set() Methode von Ext.data.Model
- - Autor(en):    Andreas Gärtner <andreas.gaertner@mni.thm.de>
- +---------------------------------------------------------------------------+
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or any later version.
- +---------------------------------------------------------------------------+
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- +--------------------------------------------------------------------------*/
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 Ext.define('ARSnova.model.ARSmodel', {
 	extend: 'Ext.data.Model',
 
@@ -24,7 +24,7 @@ Ext.define('ARSnova.model.ARSmodel', {
 	 * @param {String/Object} fieldName The field to set, or an object containing key/value pairs.
 	 * @param {Object} value The value to set.
 	 */
-	set: function(fieldName, value) {
+	set: function (fieldName, value) {
 
 		var me = this,
 			// We are using the fields map since it saves lots of function calls
@@ -42,8 +42,8 @@ Ext.define('ARSnova.model.ARSmodel', {
 		if (arguments.length == 1) {
 			for (key in fieldName) {
 				if (fieldName.hasOwnProperty(key)) {
-					//here we check for the custom convert function. Note that if a field doesn't have a convert function,
-					//we default it to its type's convert function, so we have to check that here. This feels rather dirty.
+					// here we check for the custom convert function. Note that if a field doesn't have a convert function,
+					// we default it to its type's convert function, so we have to check that here. This feels rather dirty.
 					field = fieldMap[key];
 					if (field && field.hasCustomConvert()) {
 						modifiedFieldNames.push(key);
@@ -73,7 +73,7 @@ Ext.define('ARSnova.model.ARSmodel', {
 			if (notEditing && modifiedCount) {
 				me.endEdit(false, modifiedFieldNames);
 			}
-		} else if(modified) {
+		} else if (modified) {
 			field = fieldMap[fieldName];
 			convert = field && field.getConvert();
 			if (convert) {

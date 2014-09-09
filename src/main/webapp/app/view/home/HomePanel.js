@@ -1,23 +1,21 @@
-/*--------------------------------------------------------------------------+
- This file is part of ARSnova.
- app/home/homePanel.js
- - Beschreibung: Startseite für User in der Rolle "Zuhörer/in".
- - Version:      1.0, 01/05/12
- - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
- +---------------------------------------------------------------------------+
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or any later version.
- +---------------------------------------------------------------------------+
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- +--------------------------------------------------------------------------*/
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 Ext.define('ARSnova.view.home.HomePanel', {
 	extend: 'Ext.Container',
 
@@ -44,13 +42,13 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	logoutButton: null,
 	sessionLogoutButton: null,
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
 		this.logoutButton = Ext.create('Ext.Button', {
 			text: Messages.LOGOUT,
 			ui: 'back',
-			handler: function() {
+			handler: function () {
 				ARSnova.app.getController('Auth').logout();
 			}
 		});
@@ -142,25 +140,25 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			this.lastVisitedSessionsForm
 		]);
 
-		this.on('painted', function(){
+		this.on('painted', function () {
 			this.loadVisitedSessions();
 		});
 	},
 
-	checkLogin: function(){
+	checkLogin: function () {
 		if (ARSnova.app.loginMode == ARSnova.app.LOGIN_THM) {
 			this.logoutButton.addCls('thm');
 		}
 	},
 
-	buttonClicked: function(button) {
+	buttonClicked: function (button) {
 		ARSnova.app.getController(button.controller)[button.action]();
 	},
 
-	onSubmit: function() {
+	onSubmit: function () {
 		ARSnova.app.showLoadMask(Messages.LOGIN_LOAD_MASK);
 
-		//delete the textfield-focus, to hide the numeric keypad on phones
+		// delete the textfield-focus, to hide the numeric keypad on phones
 		this.down('textfield').blur();
 
 		ARSnova.app.getController('Sessions').login({
@@ -170,13 +168,13 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		});
 	},
 
-	loadVisitedSessions: function() {
-		if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) return;
+	loadVisitedSessions: function () {
+		if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) return;
 
 		var hideLoadingMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
 
 		ARSnova.app.restProxy.getMyVisitedSessions({
-			success: function(sessions) {
+			success: function (sessions) {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.homePanel;
 				var caption = Ext.create('ARSnova.view.Caption');
 
@@ -186,7 +184,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					panel.lastVisitedSessionsForm.removeAll();
 					panel.lastVisitedSessionsForm.show();
 
-					for ( var i = 0; i < sessions.length; i++) {
+					for (var i = 0; i < sessions.length; i++) {
 						var session = sessions[i];
 
 						var icon = " defaultsession";
@@ -198,7 +196,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 						}
 
 						// Minimum width of 481px equals at least landscape view
-						var displaytext = window.innerWidth > 481 ? session.name: session.shortName;
+						var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
 						var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 							xtype: 'button',
 							ui: 'normal',
@@ -208,7 +206,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 							action: 'showDetails',
 							badgeCls: 'badgeicon',
 							sessionObj: session,
-							handler: function(options){
+							handler: function (options) {
 								var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
 								ARSnova.app.getController('Sessions').login({
 									keyword: options.config.sessionObj.keyword
@@ -231,28 +229,28 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				}
 				hideLoadingMask();
 			},
-			unauthenticated: function() {
+			unauthenticated: function () {
 				hideLoadingMask();
 				ARSnova.app.getController('Auth').login({
 					mode: ARSnova.app.loginMode
 				});
 			},
-			failure: function() {
+			failure: function () {
 				hideLoadingMask();
 				console.log('server-side error loggedIn.save');
 				ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.homePanel.lastVisitedSessionsForm.hide();
 			}
-		}, (window.innerWidth > 481 ? 'name': 'shortname'));
+		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
 	},
 
-	updateBadge: function(sessionKeyword, button) {
+	updateBadge: function (sessionKeyword, button) {
 		var promise = new RSVP.Promise();
 		ARSnova.app.questionModel.getUnansweredSkillQuestions(sessionKeyword, {
-			success: function(newQuestions) {
+			success: function (newQuestions) {
 				button.setBadge([{badgeText: newQuestions.length}]);
 				promise.resolve(newQuestions.length);
 			},
-			failure: function(response) {
+			failure: function (response) {
 				console.log('error');
 				promise.reject();
 			}

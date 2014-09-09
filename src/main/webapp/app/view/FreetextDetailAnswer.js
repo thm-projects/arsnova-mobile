@@ -1,23 +1,21 @@
-/*--------------------------------------------------------------------------+
- This file is part of ARSnova.
- app/view/FreetextDetailAnswer.js
- - Beschreibung: Darstellung von Freitext-Antworten
- - Version:      1.0, 11/06/12
- - Autor(en):    Christoph Thelen <christoph.thelen@mni.thm.de>
- +---------------------------------------------------------------------------+
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or any later version.
- +---------------------------------------------------------------------------+
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- +--------------------------------------------------------------------------*/
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 Ext.define('ARSnova.view.FreetextDetailAnswer', {
 	extend: 'Ext.Panel',
 
@@ -30,7 +28,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 		}
 	},
 
-	constructor: function(args) {
+	constructor: function (args) {
 		this.callParent(arguments);
 
 		this.answer = args.answer;
@@ -44,7 +42,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 				Ext.create('Ext.Button', {
 					text: Messages.BACK,
 					ui: 'back',
-					handler: function() {
+					handler: function () {
 						self.sTP.items.items.pop(); // Remove this panel from view stack
 						self.sTP.animateActiveItem(
 							self.sTP.items.items[self.sTP.items.items.length-1], // Switch back to top of view stack
@@ -54,7 +52,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 								duration: 700,
 								scope: this,
 								listeners: {
-									animationend: function() {
+									animationend: function () {
 										self.answer.deselectItem();
 										self.hide();
 									},
@@ -67,12 +65,12 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			]
 		});
 
-	//Setup question title and text to disply in the same field; markdown handles HTML encoding
+	// Setup question title and text to disply in the same field; markdown handles HTML encoding
 	var questionString = this.answer.answerSubject
-					   + '\n\n' // inserts one blank line between subject and text
-					   + this.answer.answerText;
+		+ '\n\n' // inserts one blank line between subject and text
+		+ this.answer.answerText;
 
-	//Create standard panel with framework support
+	// Create standard panel with framework support
 	var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
 	questionPanel.setContent(questionString, true, true);
 
@@ -89,7 +87,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 						value: this.answer.formattedTime + " Uhr am " + this.answer.groupDate,
 						disabled: true
 					},
-		  questionPanel
+					questionPanel
 				]
 			}]
 		}, {
@@ -99,29 +97,29 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			text: Messages.DELETE,
 			scope: this,
 			hidden: !this.answer.deletable,
-			handler: function() {
+			handler: function () {
 				ARSnova.app.questionModel.deleteAnswer(self.answer.questionId, self.answer._id, {
-		  success: function() {
-			self.sTP.animateActiveItem(self.sTP.questionDetailsPanel, {
-			  type: 'slide',
-			  direction: 'right',
-			  duration: 700,
-			  listeners: {
-				animationend: function() {
-				  self.answer.removeItem();
-				  me.destroy();
-				}
-			  }
-			});
-		  },
-					failure: function() {
+					success: function () {
+						self.sTP.animateActiveItem(self.sTP.questionDetailsPanel, {
+							type: 'slide',
+							direction: 'right',
+							duration: 700,
+							listeners: {
+								animationend: function () {
+									self.answer.removeItem();
+									self.destroy();
+								}
+							}
+						});
+					},
+					failure: function () {
 						console.log('server-side error: deletion of freetext answer failed');
 					}
 				});
 			}
 		}]);
 
-		this.on('painted', function() {
+		this.on('painted', function () {
 			var textarea = this.element.down('textarea');
 			textarea.setHeight(textarea.dom.scrollHeight);
 		});

@@ -1,23 +1,21 @@
-/*--------------------------------------------------------------------------+
- This file is part of ARSnova.
- app/model/Session.js
- - Beschreibung: Session-Model
- - Version:      1.0, 01/05/12
- - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>
- +---------------------------------------------------------------------------+
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or any later version.
- +---------------------------------------------------------------------------+
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- +--------------------------------------------------------------------------*/
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 Ext.define('ARSnova.model.Session', {
 	extend: 'Ext.data.Model',
 
@@ -45,35 +43,35 @@ Ext.define('ARSnova.model.Session', {
 		]
 	},
 
-	destroy: function(sessionId, creator, callbacks) {
+	destroy: function (sessionId, creator, callbacks) {
 		return this.getProxy().delSession(sessionId, creator, callbacks);
 	},
 
-	create: function(callbacks) {
+	create: function (callbacks) {
 		return this.getProxy().createSession(this, callbacks);
 	},
 
-	checkSessionLogin: function(keyword, callbacks) {
+	checkSessionLogin: function (keyword, callbacks) {
 		return this.getProxy().checkSessionLogin(keyword, callbacks);
 	},
 
-	getMySessions: function(callbacks, sortby) {
+	getMySessions: function (callbacks, sortby) {
 		return this.getProxy().getMySessions(callbacks, sortby);
 	},
 
-	isActive: function(sessionKeyword, callbacks) {
+	isActive: function (sessionKeyword, callbacks) {
 		return this.getProxy().isActive(sessionKeyword, callbacks);
 	},
 
-	lock: function(sessionKeyword, theLock, callbacks) {
+	lock: function (sessionKeyword, theLock, callbacks) {
 		return this.getProxy().lock(sessionKeyword, theLock, callbacks);
 	},
 
-	getMyLearningProgress: function(sessionKeyword, callbacks) {
+	getMyLearningProgress: function (sessionKeyword, callbacks) {
 		return this.getProxy().getMyLearningProgress(sessionKeyword, callbacks);
 	},
 
-	getCourseLearningProgress: function(sessionKeyword, callbacks) {
+	getCourseLearningProgress: function (sessionKeyword, callbacks) {
 		return this.getProxy().getCourseLearningProgress(sessionKeyword, callbacks);
 	}
 });

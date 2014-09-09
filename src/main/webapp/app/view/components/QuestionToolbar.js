@@ -1,20 +1,21 @@
-/*--------------------------------------------------------------------------+
-This file is part of ARSnova.
-- Autor(en):    Christoph Thelen <christoph.thelen@mni.thm.de>
-+---------------------------------------------------------------------------+
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or any later version.
-+---------------------------------------------------------------------------+
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-+--------------------------------------------------------------------------*/
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 Ext.define('ARSnova.view.components.QuestionToolbar', {
 	extend: 'Ext.Toolbar',
 
@@ -27,14 +28,14 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 		statisticsButtonHandler: Ext.emptyFn
 	},
 
-	constructor: function() {
+	constructor: function () {
 		this.callParent(arguments);
 
 		this.backButton = Ext.create('Ext.Button', {
 			ui: 'back',
 			text: Messages.BACK,
 			scope: this,
-			handler: function() {
+			handler: function () {
 				var animation = {
 					type: 'slide',
 					direction: 'right',
@@ -64,14 +65,14 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 		]);
 	},
 
-	setQuestionTitle: function(question) {
-		var label = Ext.bind(function(longv, shortv) {
-			var screenWidth = (window.innerWidth > 0) ? window.innerWidth: screen.width;
-			return (screenWidth > 320 || this.backButton.isHidden()) ? longv: shortv;
+	setQuestionTitle: function (question) {
+		var label = Ext.bind(function (longv, shortv) {
+			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+			return (screenWidth > 320 || this.backButton.isHidden()) ? longv : shortv;
 		}, this);
 
 		var title = '';
-	var questionType = question ? question.questionType: "";
+	var questionType = question ? question.questionType : "";
 
 		if (questionType === 'abcd') {
 			title = label(Messages.QUESTION_SINGLE_CHOICE, Messages.QUESTION_SINGLE_CHOICE_SHORT);
@@ -87,27 +88,27 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 			title = label(Messages.QUESTION_GRADE, Messages.QUESTION_GRADE_SHORT);
 		} else if (questionType === 'flashcard') {
 			title = label(Messages.FLASHCARD, Messages.FLASHCARD);
-		} else if(questionType == 'grid') {
+		} else if (questionType == 'grid') {
 			title = label(Messages.QUESTION_GRID, Messages.GRID);
 		}
 
 		this.setTitle(title);
 	},
 
-	incrementQuestionCounter: function(activeIndex) {
+	incrementQuestionCounter: function (activeIndex) {
 		var counter = this.questionCounter.getHtml().split("/");
 		counter[0] = activeIndex + 1;
 		this.questionCounter.setHtml(counter.join("/"));
 	},
 
-	resetQuestionCounter: function(maxValue) {
+	resetQuestionCounter: function (maxValue) {
 		var counter = this.questionCounter.getHtml().split("/");
 		counter[0] = "1";
 		counter[1] = maxValue;
 		this.questionCounter.setHtml(counter.join("/"));
 	},
 
-	checkStatistics: function(question, isDisabled) {
+	checkStatistics: function (question, isDisabled) {
 		if (typeof question !== 'undefined' && !!question.showStatistic && isDisabled) {
 			this.statisticsButton.show();
 		} else {

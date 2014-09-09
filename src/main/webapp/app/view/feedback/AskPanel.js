@@ -1,23 +1,21 @@
-/*--------------------------------------------------------------------------+
- This file is part of ARSnova.
- - Beschreibung: Panel zum Abgeben eines Feedbacks.
- - Autor(en):    Christian Thomas Weber <christian.t.weber@gmail.com>,
-                 Christoph Thelen <christoph.thelen@mni.thm.de>,
-                 Andreas Gärtner <andreas.gaertner@mni.thm.de>
- +---------------------------------------------------------------------------+
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or any later version.
- +---------------------------------------------------------------------------+
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- +--------------------------------------------------------------------------*/
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 Ext.define('ARSnova.view.feedback.AskPanel', {
 	extend: 'Ext.Panel',
 
@@ -37,7 +35,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 	saveButton: null,
 	backButton: null,
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
 		this.backButton = Ext.create('Ext.Button', {
@@ -77,18 +75,18 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			placeHolder: Messages.QUESTION_TEXT_PLACEHOLDER
 		});
 
-		//Preview button
+		// Preview button
 		this.previewButton = Ext.create('Ext.Button', {
 			text: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'confirm',
 			cls: 'previewButton',
 			scope: this,
-			handler: function() {
+			handler: function () {
 					this.previewHandler();
 				}
 		});
 
-		//Preview panel with integrated button
+		// Preview panel with integrated button
 		this.previewPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
 			style: 'margin-left: 0',
@@ -111,10 +109,11 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 
 			items: [{
 				xtype: 'fieldset',
-				items: [this.subject,
-						this.text,
-						this.previewPart
-					   ]
+				items: [
+					this.subject,
+					this.text,
+					this.previewPart
+				]
 			}, {
 				xtype: 'button',
 				ui: 'confirm',
@@ -126,7 +125,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		}]);
 	},
 
-	askQuestion: function() {
+	askQuestion: function () {
 		var me = this;
 		var question = Ext.create('ARSnova.model.Question', {
 			type: "interposed_question",
@@ -140,12 +139,12 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 
 		var validation = question.validate();
 		if (!validation.isValid()) {
-			me.down('fieldset').items.items.forEach(function(el) {
-				if(el.xtype == 'textfield')
+			me.down('fieldset').items.items.forEach(function (el) {
+				if (el.xtype == 'textfield')
 					el.removeCls("required");
 			});
 
-			validation.items.forEach(function(el) {
+			validation.items.forEach(function (el) {
 				me.down('textfield[name=' + el.getField() + ']').addCls("required");
 			});
 			return;
@@ -153,7 +152,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 
 		ARSnova.app.getController('Feedback').ask({
 			question: question,
-			success: function() {
+			success: function () {
 				var theNotificationBox = {};
 				theNotificationBox = Ext.create('Ext.Panel', {
 					cls: 'notificationBox',
@@ -166,11 +165,11 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 					styleHtmlCls: 'notificationBoxText',
 					html: Messages.QUESTION_SAVED
 //					listeners: {
-//						hide: function() {
+//						hide: function () {
 //							this.destroy();
 //						},
-//						show: function() {
-//							Ext.defer(function(){
+//						show: function () {
+//							Ext.defer(function () {
 //								theNotificationBox.hide();
 //								me.closePanel();
 //								me.subject.setValue('');
@@ -183,28 +182,28 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 				theNotificationBox.show();
 
 				/* Workaround for Chrome 34+ */
-				Ext.defer(function() {
+				Ext.defer(function () {
 					theNotificationBox.destroy();
 					me.closePanel();
 					me.subject.setValue('');
 					me.text.setValue('');
 				}, 3000);
 			},
-			failure: function(records, operation) {
+			failure: function (records, operation) {
 				Ext.Msg.alert(Messages.NOTIFICATION, Messages.TRANSMISSION_ERROR);
 			}
 		});
 	},
 
 
-	previewHandler: function() {
+	previewHandler: function () {
 		var questionPreview = Ext.create('ARSnova.view.QuestionPreviewBox', {
 			xtype: 'questionPreview'
 		});
 		questionPreview.showPreview(this.subject.getValue(), this.text.getValue());
 	},
 
-	closePanel: function() {
+	closePanel: function () {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 		panel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.votePanel, {
 			type: 'slide',
