@@ -203,7 +203,28 @@ Ext.define('ARSnova.view.user.InClass', {
 			}]
 		});
 
-		this.add([this.toolbar, this.inClass]);
+		this.swotBadge = Ext.create('Ext.Img', {
+			src: 'resources/images/badge_streber_1.png',
+			width: 100,
+			height: 100,
+			hidden: true
+		});
+
+		this.userBadges = Ext.create('Ext.Panel', {
+			style: {marginTop: '20px'},
+			layout: {
+				type: 'hbox',
+				pack: 'center'
+			},
+			hidden: !ARSnova.app.globalConfig.features.learningProgress,
+
+			items: [
+				this.swotBadge
+			]
+
+		});
+
+		this.add([this.toolbar, this.inClass, this.userBadges]);
 
 		this.on('initialize', function () {
 			this.feedbackButton.setBadge([{badgeText: '0'}]);
@@ -433,12 +454,14 @@ Ext.define('ARSnova.view.user.InClass', {
 		var me = this;
 		ARSnova.app.sessionModel.getMyLearningProgress(localStorage.getItem("keyword"), {
 			success: function (response) {
+				var goodProgressThreshold = 75;
+				var avgProgressThreshold = 25;
 				var p = Ext.apply({myprogress: 0, courseprogress: 0}, Ext.decode(response.responseText));
 				var vsBadge = {badgeText: Messages.VERSUS, badgeCls: "textbadgeicon"};
 				var getBadge = function (percentage) {
-					if (percentage >= 75) {
+					if (percentage >= goodProgressThreshold) {
 						return {badgeText: percentage+"%", badgeCls: "greenbadgeicon"};
-					} else if (percentage >= 25) {
+					} else if (percentage >= avgProgressThreshold) {
 						return {badgeText: percentage+"%", badgeCls: "yellowbadgeicon"};
 					} else {
 						return {badgeText: percentage+"%", badgeCls: "redbadgeicon"};
@@ -449,6 +472,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				} else {
 					me.myLearningProgressButton.setBadge([getBadge(p.myprogress), vsBadge, getBadge(p.courseprogress)]);
 				}
+				me.swotBadge.setHidden(p.myprogress < goodProgressThreshold);
 			},
 			failure: function () {
 				me.myLearningProgressButton.setBadge([{badgeText: ""}]);
