@@ -43,7 +43,8 @@ Ext.define('ARSnova.WebSocket', {
 				/* Workaround: unfortunately some browsers pretend to support
 				 * WS protocol although they do not */
 				try {
-					var ws = new WebSocket("wss:" + window.location.hostname + ":10443");
+					var wsTestUrl = socketUrl.replace(/^http/, "ws") + "/socket.io/1/";
+					var ws = new WebSocket(wsTestUrl);
 					ws.close(-1);
 				} catch (e) {
 					hasWs = true;
