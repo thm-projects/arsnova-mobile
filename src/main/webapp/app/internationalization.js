@@ -176,9 +176,9 @@ switch (lang) {
 			QUESTION_YESNO: "Yes | No",
 			QUESTION_YESNO_SHORT: "Yes | No",
 			QUESTION_SINGLE_CHOICE: "Single Choice",
-			QUESTION_SINGLE_CHOICE_SHORT: "ABCD",
+			QUESTION_SINGLE_CHOICE_SHORT: "Single",
 			QUESTION_FREETEXT: "Free text",
-			QUESTION_FREETEXT_SHORT: "Text",
+			QUESTION_FREETEXT_SHORT: "Free text",
 			OPEN_QUESTION: "Open Question",
 			CLOSED_QUESTION: "Closed Question",
 			CONFIRM_CLOSE_QUESTION: "Are you sure to close this question?",
@@ -361,7 +361,7 @@ switch (lang) {
 
 			/* diagnosis */
 			DIAGNOSIS: "Diagnosis",
-			BROWSER_INFO: "Show browser information",
+			BROWSER_INFO: "Browser information",
 			ARSNOVA_RELOAD: "Reload ARSnova",
 
 			/* credits */
@@ -516,8 +516,8 @@ switch (lang) {
 			SHOWCASE_MODE: "Präsentationsmodus",
 			LEAVE: "Verlassen",
 			MEMBERS_ONLY: "Diese Frage ist nur für Kursmitglieder sichtbar.",
-			QUESTION_RATING: "Rating",
-			QUESTION_RATING_SHORT: "Rating",
+			QUESTION_RATING: "Likert-Skala",
+			QUESTION_RATING_SHORT: "Skala",
 			QUESTION_GRADE: "Schulnote",
 			QUESTION_GRADE_SHORT: "Note",
 			QUESTION_GRID: "Planquadrat",
@@ -527,7 +527,7 @@ switch (lang) {
 			QUESTION_YESNO: "Ja | Nein",
 			QUESTION_YESNO_SHORT: "Ja | Nein",
 			QUESTION_SINGLE_CHOICE: "Einfachauswahl",
-			QUESTION_SINGLE_CHOICE_SHORT: "Einfach",
+			QUESTION_SINGLE_CHOICE_SHORT: "ABCD",
 			QUESTION_FREETEXT: "Freitext",
 			QUESTION_FREETEXT_SHORT: "Text",
 			OPEN_QUESTION: "Offene Frage",
@@ -550,7 +550,7 @@ switch (lang) {
 
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
-			QUESTIONS_FROM_STUDENTS: "Studierendenfragen",
+			QUESTIONS_FROM_STUDENTS: "Fragen der Studenten",
 			PREPARATION_QUESTIONS: "Vorbereitung",
 			LECTURE_QUESTIONS: "Hörsaal",
 			FLASHCARD_SHORT: "LK",
@@ -710,7 +710,7 @@ switch (lang) {
 
 			/* diagnosis */
 			DIAGNOSIS: "Diagnose",
-			BROWSER_INFO: "Browser Informationen anzeigen",
+			BROWSER_INFO: "Browser-Informationen",
 			ARSNOVA_RELOAD: "ARSnova neu laden",
 
 			/* credits */
