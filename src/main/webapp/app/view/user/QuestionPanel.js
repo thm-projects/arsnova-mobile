@@ -27,7 +27,9 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		iconCls: 'tabBarIconQuestion',
 
 		questionLoader: null,
-		questionCountLoader: null
+		questionCountLoader: null,
+		questionTitle: Messages.LECTURE_QUESTIONS_LONG,
+		questionTitleShort: Messages.LECTURE_QUESTIONS
 	},
 
 	/* item index 0 and 1 are occupied by the carousel and toolbar. */
@@ -39,7 +41,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		this.setLectureMode();
 
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
-			this.toolbar.setQuestionTitle(newCard.questionObj);
+			this.toolbar.setTitleOptions(this.getQuestionTitle(), this.getQuestionTitleShort());
 			this.toolbar.incrementQuestionCounter(panel.activeIndex);
 			this.toolbar.checkStatistics(newCard.questionObj, newCard.isDisabled());
 
@@ -74,11 +76,15 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	setPreparationMode: function () {
 		this.setQuestionCountLoader(Ext.bind(ARSnova.app.questionModel.countPreparationQuestions, ARSnova.app.questionModel));
 		this.setQuestionLoader(Ext.bind(ARSnova.app.questionModel.getPreparationQuestionsForUser, ARSnova.app.questionModel));
+		this.setQuestionTitle(Messages.PREPARATION_QUESTION_LONG);
+		this.setQuestionTitleShort(Messages.PREPARATION_QUESTION_SHORT);
 	},
 
 	setLectureMode: function () {
 		this.setQuestionCountLoader(Ext.bind(ARSnova.app.questionModel.countLectureQuestions, ARSnova.app.questionModel));
 		this.setQuestionLoader(Ext.bind(ARSnova.app.questionModel.getLectureQuestionsForUser, ARSnova.app.questionModel));
+		this.setQuestionTitle(Messages.LECTURE_QUESTIONS_LONG);
+		this.setQuestionTitleShort(Messages.LECTURE_QUESTIONS);
 	},
 
 	getUnansweredSkillQuestions: function () {

@@ -30,14 +30,16 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		title: Messages.QUESTIONS,
 		iconCls: 'tabBarIconQuestion',
 
-		controller: null
+		controller: null,
+		questionTitleLong: Messages.LECTURE_QUESTIONS_LONG,
+		questionTitleShort: Messages.LECTURE_QUESTIONS
 	},
 
 	initialize: function () {
 		this.callParent(arguments);
 
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
-			this.toolbar.setQuestionTitle(newCard.questionObj);
+			this.toolbar.setTitleOptions(this.getQuestionTitleLong(), this.getQuestionTitleShort());
 			this.toolbar.incrementQuestionCounter(panel.activeIndex);
 
 			newCard.fireEvent('preparestatisticsbutton', this.toolbar.statisticsButton);
@@ -135,5 +137,15 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		var firstQuestionView = this.items.items[0];
 
 		firstQuestionView.fireEvent('preparestatisticsbutton', this.toolbar.statisticsButton);
+	},
+
+	setLectureMode: function () {
+		this.setQuestionTitleLong(Messages.LECTURE_QUESTIONS_LONG);
+		this.setQuestionTitleShort(Messages.LECTURE_QUESTIONS);
+	},
+
+	setPreparationMode: function () {
+		this.setQuestionTitleLong(Messages.PREPARATION_QUESTION_LONG);
+		this.setQuestionTitleShort(Messages.PREPARATION_QUESTION_SHORT);
 	}
 });

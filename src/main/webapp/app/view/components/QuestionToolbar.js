@@ -66,33 +66,34 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 	},
 
 	setQuestionTitle: function (question) {
-		var label = Ext.bind(function (longv, shortv) {
-			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-			return (screenWidth > 320 || this.backButton.isHidden()) ? longv : shortv;
-		}, this);
-
-		var title = '';
-	var questionType = question ? question.questionType : "";
+		var questionType = question ? question.questionType : "";
 
 		if (questionType === 'abcd') {
-			title = label(Messages.QUESTION_SINGLE_CHOICE, Messages.QUESTION_SINGLE_CHOICE_SHORT);
+			this.setTitleOptions(Messages.QUESTION_SINGLE_CHOICE, Messages.QUESTION_SINGLE_CHOICE_SHORT);
 		} else if (questionType === 'freetext') {
-			title = label(Messages.QUESTION_FREETEXT, Messages.QUESTION_FREETEXT_SHORT);
+			this.setTitleOptions(Messages.QUESTION_FREETEXT, Messages.QUESTION_FREETEXT_SHORT);
 		} else if (questionType === 'mc') {
-			title = label(Messages.QUESTION_MC, Messages.QUESTION_MC_SHORT);
+			this.setTitleOptions(Messages.QUESTION_MC, Messages.QUESTION_MC_SHORT);
 		} else if (questionType === 'vote') {
-			title = label(Messages.QUESTION_RATING, Messages.QUESTION_RATING_SHORT);
+			this.setTitleOptions(Messages.QUESTION_RATING, Messages.QUESTION_RATING_SHORT);
 		} else if (questionType === 'yesno') {
-			title = label(Messages.QUESTION_YESNO, Messages.QUESTION_YESNO);
+			this.setTitleOptions(Messages.QUESTION_YESNO, Messages.QUESTION_YESNO);
 		} else if (questionType === 'school') {
-			title = label(Messages.QUESTION_GRADE, Messages.QUESTION_GRADE_SHORT);
+			this.setTitleOptions(Messages.QUESTION_GRADE, Messages.QUESTION_GRADE_SHORT);
 		} else if (questionType === 'flashcard') {
-			title = label(Messages.FLASHCARD, Messages.FLASHCARD);
+			this.setTitleOptions(Messages.FLASHCARD, Messages.FLASHCARD);
 		} else if (questionType == 'grid') {
-			title = label(Messages.QUESTION_GRID, Messages.QUESTION_GRID_SHORT);
+			this.setTitleOptions(Messages.QUESTION_GRID, Messages.QUESTION_GRID_SHORT);
 		}
+	},
 
-		this.setTitle(title);
+	setTitleOptions: function (longVersion, shortVersion) {
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+		if (screenWidth > 320 || this.backButton.isHidden()) {
+			this.setTitle(longVersion);
+		} else {
+			this.setTitle(shortVersion);
+		}
 	},
 
 	incrementQuestionCounter: function (activeIndex) {
