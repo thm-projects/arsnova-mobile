@@ -178,6 +178,26 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 
 		this.add([
 			this.toolbar,
+			{
+				xtype: 'button',
+				text: Messages.QUESTION_REQUEST,
+				style: {
+					margin: '15px auto'
+				},
+				ui: 'action',
+				width: '235px',
+				hidden: ARSnova.app.isSessionOwner,
+				handler: function () {
+					ARSnova.app.getController('Feedback').showAskPanel({
+						type: 'slide'
+					}, function closePanelHandler() {
+						ARSnova.app.getController('Questions').listFeedbackQuestions({
+							type: 'slide',
+							direction: 'right'
+						});
+					});
+				}
+			},
 			this.noQuestionsFound,
 			this.list
 		]);

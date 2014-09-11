@@ -27,7 +27,8 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
-		}
+		},
+		closePanelHandler: null
 	},
 
 	/* toolbar items */
@@ -41,7 +42,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
 			ui: 'back',
-			handler: this.closePanel,
+			handler: this.getClosePanelHandler() || this.closePanel,
 			scope: this
 		});
 
@@ -164,27 +165,15 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 					styleHtmlContent: true,
 					styleHtmlCls: 'notificationBoxText',
 					html: Messages.QUESTION_SAVED
-//					listeners: {
-//						hide: function () {
-//							this.destroy();
-//						},
-//						show: function () {
-//							Ext.defer(function () {
-//								theNotificationBox.hide();
-//								me.closePanel();
-//								me.subject.setValue('');
-//								me.text.setValue('');
-//							}, 3000);
-//						}
-//					}
 				});
 				Ext.Viewport.add(theNotificationBox);
 				theNotificationBox.show();
 
 				/* Workaround for Chrome 34+ */
-				Ext.defer(function () {
+				Ext.defer(function chromeWorkaround() {
 					theNotificationBox.destroy();
-					me.closePanel();
+					// Use back button for closing this panel because we may override the button's behaviour.
+					(me.backButton.getHandler())();
 					me.subject.setValue('');
 					me.text.setValue('');
 				}, 3000);
@@ -201,6 +190,15 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			xtype: 'questionPreview'
 		});
 		questionPreview.showPreview(this.subject.getValue(), this.text.getValue());
+	},
+
+	setClosePanelHandler: function(handler) {
+		var me = this;
+		var previousHandler = me.backButton.getHandler();
+		// Restore previous back button handler after custom handler has been executed.
+		me.backButton.setHandler(Ext.Function.createSequence(handler, function restoreHandler() {
+			me.backButton.setHandler(previousHandler);
+		}));
 	},
 
 	closePanel: function () {

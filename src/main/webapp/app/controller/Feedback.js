@@ -83,6 +83,19 @@ Ext.define("ARSnova.controller.Feedback", {
 		});
 	},
 
+	showAskPanel: function (animation, closePanelHandler) {
+		var tP = ARSnova.app.mainTabPanel.tabPanel;
+		var fP = tP.feedbackTabPanel;
+		fP.askPanel.setClosePanelHandler(closePanelHandler);
+
+		if (fP.rendered) {
+			fP.setActiveItem(fP.askPanel);
+		} else {
+			fP.activeItem = 1;
+		}
+		tP.animateActiveItem(fP, animation);
+	},
+
 	showVotePanel: function () {
 		var tP = ARSnova.app.mainTabPanel.tabPanel;
 		var fP = tP.feedbackTabPanel;
