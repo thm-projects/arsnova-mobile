@@ -692,14 +692,30 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				container.clearImage();
 			}
 			container.setImageFile(newimage);
+			container.setHeightAccordingToImg(newimage);
 			container.redraw();
-
 			cb();
 		};
 		newimage.onerror = function () {
 			var cb = failureCallback || Ext.emptyFn;
 			cb();
 		};
+	},
+	
+	/**
+	 * Sets height of canvas according to images width/height ratio.
+	 * 
+	 * @param Image img A instance of the javascript Image object.
+	 */
+	setHeightAccordingToImg: function(img) {
+		var scale = img.width / this.getCanvasSize(),
+			height = scale > 1 ? img.height/scale : img.height;
+
+		if(height < container.getCanvasSize()) {
+			container.image.html.height = height;
+		} else {
+			container.image.html.height = container.getCanvasSize();
+		}
 	},
 
 	/**
