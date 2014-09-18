@@ -712,6 +712,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			height = scale > 1 ? img.height/scale : img.height;
 
 		if(height < this.getCanvasSize()) {
+			height = scale < 1 ? height * (1+scale) : height;
 			this.image.html.height = height;
 		} else {
 			this.image.html.height = this.getCanvasSize();
