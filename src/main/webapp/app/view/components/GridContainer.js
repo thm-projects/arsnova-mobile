@@ -112,6 +112,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	redrawWithAlpha: function (alpha, markChosenFields) {
 		var ctx = this.getCanvas().getContext('2d');
+		this.setHeightAccordingToImg();
+		
 		// save context
 		ctx.save();
 
@@ -155,6 +157,31 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			this.createGrid();
 		}
 
+	},
+	
+	/**
+	 * Sets height of canvas according to images width/height ratio.
+	 */
+	setHeightAccordingToImg: function() {
+		var scale,
+			calcHeight,
+			img = this.getImageFile(),
+			initialHeight = img.height;
+				
+		/** is picture spinned? */
+		if(this.getImgRotation()%2) {
+			initialHeight = img.width;
+		}
+
+		scale = this.getCanvasSize() / img.width;
+		calcHeight = scale < 1 ? initialHeight * scale : initialHeight;
+		
+		if(calcHeight < this.getCanvasSize()) {
+			calcHeight = scale > 1 ? calcHeight * scale : calcHeight;
+			this.image.html.height = calcHeight;
+		} else {
+			this.image.html.height = this.getCanvasSize();
+		}
 	},
 
 	/**
@@ -692,7 +719,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				container.clearImage();
 			}
 			container.setImageFile(newimage);
-			container.setHeightAccordingToImg(newimage);
 			container.redraw();
 			cb();
 		};
@@ -702,23 +728,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		};
 	},
 	
-	/**
-	 * Sets height of canvas according to images width/height ratio.
-	 * 
-	 * @param Image img A instance of the javascript Image object.
-	 */
-	setHeightAccordingToImg: function(img) {
-		var scale = this.getCanvasSize() / img.width,
-			height = scale < 1 ? img.height * scale : img.height;
-
-		if(height < this.getCanvasSize()) {
-			height = scale > 1 ? height * + scale : height;
-			this.image.html.height = height;
-		} else {
-			this.image.html.height = this.getCanvasSize();
-		}
-	},
-
 	/**
 	 * Clears the image and resets all necessary configurations.
 	 */
