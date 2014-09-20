@@ -708,11 +708,11 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * @param Image img A instance of the javascript Image object.
 	 */
 	setHeightAccordingToImg: function(img) {
-		var scale = img.width / this.getCanvasSize(),
-			height = scale > 1 ? img.height/scale : img.height;
+		var scale = this.getCanvasSize() / img.width,
+			height = scale < 1 ? img.height * scale : img.height;
 
 		if(height < this.getCanvasSize()) {
-			height = scale < 1 ? height * (1+scale) : height;
+			height = scale > 1 ? height * + scale : height;
 			this.image.html.height = height;
 		} else {
 			this.image.html.height = this.getCanvasSize();
