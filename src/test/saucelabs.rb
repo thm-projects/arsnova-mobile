@@ -59,7 +59,7 @@ end
 
 # Teardown
 driver.find_element(:id, "ext-image-10").click # delete session
-driver.find_element(:id, "ext-button-82").click # 'Yes' in popup
+driver.find_element(:id, "ext-button-83").click # 'Yes' in popup
 driver.wait_for_element(:id, "ext-element-114").click # Logout
 
 driver.quit
