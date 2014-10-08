@@ -12,13 +12,18 @@
 		<!-- MathJax -->
 		<script type="text/x-mathjax-config">
 		MathJax.Hub.Config({
+			jax: ["input/TeX","output/HTML-CSS"],
+			extensions: ["tex2jax.js","MathMenu.js","MathZoom.js","Safe.js"],
+			TeX: {
+				extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]
+			},
 			tex2jax: {
 				inlineMath: [['\\(', '\\)'], ['\[\[', '\]\]']],
 				processEscapes: true
 			}
 		});
 		</script>
-		<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+		<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 
 		<!-- Socket.IO -->
 		<script type="text/javascript" src="lib/socket.io.min.js"></script>
