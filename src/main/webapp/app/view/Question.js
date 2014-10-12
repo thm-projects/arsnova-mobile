@@ -32,10 +32,12 @@ Ext.define('ARSnova.view.Question', {
 	requires: ['ARSnova.model.Answer', 'ARSnova.view.CustomMask', 'ARSnova.view.MathJaxMarkDownPanel'],
 
 	config: {
+		padding: '0 0 20 0',
+		
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
-		}
+		}		
 	},
 
 	abstentionInternalId: 'ARSnova_Abstention',
@@ -325,8 +327,7 @@ Ext.define('ARSnova.view.Question', {
 			},
 			defaults: {
 				style: {
-					margin: '10px',
-					marginBottom: '30px'
+					margin: '10px'
 				}
 			},
 			items: [this.mcSaveButton, !!!this.questionObj.abstention ? {hidden: true}: {
