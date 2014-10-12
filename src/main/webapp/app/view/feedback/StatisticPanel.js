@@ -39,20 +39,27 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
-
-		this.feedbackVoteButton = Ext.create('Ext.Button', {
-			text: Messages.FEEDBACK_VOTE,
+		
+		this.backButton = Ext.create('Ext.Button', {
+			text: ARSnova.app.isSessionOwner ? Messages.HOME : Messages.FEEDBACK_VOTE,
 			ui: 'back',
-			scope: this,
-			hidden: true,
-			handler: function () {
-				var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
-				fP.animateActiveItem(fP.votePanel, {
+			handler: function() {
+				var	tabPanel = ARSnova.app.mainTabPanel.tabPanel,
+					feedbackTabPanel = tabPanel.feedbackTabPanel;
+				
+				if(ARSnova.app.isSessionOwner) {
+					tabPanel.animateActiveItem(tabPanel.speakerTabPanel, {
+						type: 'slide',
+						direction: 'right',
+						duration: 700
+					});
+				} else {
+					feedbackTabPanel.animateActiveItem(feedbackTabPanel.votePanel, {
 						type: 'slide',
 						direction: 'down',
 						duration: 700
-					}
-				);
+					});
+				}
 			}
 		});
 
@@ -67,7 +74,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			ui: 'light',
-			items: [this.feedbackVoteButton]
+			items: [this.backButton]
 		});
 
 		this.feedbackOkButton = Ext.create('Ext.Panel', {
@@ -281,11 +288,6 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				tab.setIconCls("feedbackARSnova");
 				break;
 		}
-	},
-
-	checkVoteButton: function () {
-		if (!ARSnova.app.isSessionOwner) this.feedbackVoteButton.show();
-		else this.feedbackVoteButton.hide();
 	},
 
 	checkTitle: function () {
