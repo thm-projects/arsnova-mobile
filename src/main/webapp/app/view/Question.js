@@ -325,7 +325,8 @@ Ext.define('ARSnova.view.Question', {
 			},
 			defaults: {
 				style: {
-					margin: '10px'
+					margin: '10px',
+					marginBottom: '30px'
 				}
 			},
 			items: [this.mcSaveButton, !!!this.questionObj.abstention ? {hidden: true}: {
