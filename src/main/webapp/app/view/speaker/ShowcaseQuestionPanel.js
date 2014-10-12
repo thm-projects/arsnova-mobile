@@ -118,19 +118,19 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	},
 
 	addQuestion: function (question) {
-	var question;
+		var questionPanel;
 		if (question.questionType === 'freetext') {
-			question = Ext.create('ARSnova.view.FreetextQuestion', {
+			questionPanel = Ext.create('ARSnova.view.FreetextQuestion', {
 				questionObj: question,
 				viewOnly: true
 			});
 		} else {
-			question = Ext.create('ARSnova.view.Question', {
+			questionPanel = Ext.create('ARSnova.view.Question', {
 				questionObj: question,
 				viewOnly: true
 			});
 		}
-	this.add(question);
+		this.add(questionPanel);
 	},
 
 	checkFirstQuestion: function () {
