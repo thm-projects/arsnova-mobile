@@ -45,9 +45,8 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 		ctx.fillStyle = color;
 
 		var width = this.getFieldSize() - this.getGridLineWidth();
-		var height = this.getFieldSize() - this.getGridLineWidth();
 
-		ctx.fillRect(koord[0], koord[1], width, height);
+		ctx.fillRect(koord[0], koord[1], width, width);
 	},
 	
 	/**
