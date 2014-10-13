@@ -140,7 +140,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			fsUploadHandler: this.setImage
 		});
 
-		this.grid = Ext.create('ARSnova.view.components.GridContainer', {
+		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
 			editable: false,
 			gridIsHidden: true,
 			hidden: true,

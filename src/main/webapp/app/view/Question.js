@@ -357,8 +357,8 @@ Ext.define('ARSnova.view.Question', {
 
 		this.add([questionPanel]);
 		if (this.questionObj.image && this.questionObj.questionType !== "grid") {
-			this.grid = Ext.create('ARSnova.view.components.GridContainer', {
-				id: 'gridContainer' + this.questionObj._id,
+			this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
+				id: 'gridImageContainer' + this.questionObj._id,
 				editable: false,
 				gridIsHidden: true
 			});
@@ -372,8 +372,8 @@ Ext.define('ARSnova.view.Question', {
 				/*
 				 * in case of grid question, create a grid container model
 				 */
-				this.grid = Ext.create('ARSnova.view.components.GridContainer', {
-					id: 'gridContainer' + this.questionObj._id,
+				this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
+					id: 'gridImageContainer' + this.questionObj._id,
 					offsetX: this.questionObj.offsetX,
 					offsetY: this.questionObj.offsetY,
 					gridSize: this.questionObj.gridSize,
@@ -422,7 +422,7 @@ Ext.define('ARSnova.view.Question', {
 					disabled: false
 				});
 
-				this.gridContainer = {
+				this.gridImageContainer = {
 						xtype: 'container',
 						layout: {
 							type: 'hbox',
@@ -444,7 +444,7 @@ Ext.define('ARSnova.view.Question', {
 					};
 				this.add([this.grid]);
 				if (!this.viewOnly) {
-					this.add([this.gridContainer]);
+					this.add([this.gridImageContainer]);
 		}
 				this.answerList.setHidden(true);
 		} else {

@@ -20,7 +20,7 @@
 Ext.define('ARSnova.view.components.GridStatistic', {
 	extend: 'Ext.form.FieldSet',
 
-	require: ['ARSnova.view.components.GridContainer'],
+	require: ['ARSnova.view.components.GridImageContainer'],
 
 	config: {
 		questionObj: null,
@@ -55,7 +55,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		var showShortLabels = screenWidth < 480;
 
 		// create toggles
-		this.grid = Ext.create('ARSnova.view.components.GridContainer', {
+		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
 			docked: 'top',
 			editable: false
 		});
@@ -178,7 +178,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		});
 		this.add(this.optionsFieldSet);
 
-		// everythings creates, now lets update the gridContainer
+		// everythings creates, now lets update the gridImageContainer
 		this.updateGrid();
 	},
 

@@ -63,9 +63,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		var me = this;
 		this.callParent(arguments);
 
-		this.grid = Ext.create('ARSnova.view.components.GridContainer', {
+		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
 			docked: 'top',
-			itemId: 'gridContainer'
+			itemId: 'gridImageContainer'
 		});
 
 		this.infoPanel = Ext.create('Ext.Panel', {
