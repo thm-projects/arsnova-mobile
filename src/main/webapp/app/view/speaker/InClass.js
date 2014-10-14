@@ -445,11 +445,11 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	 * Displays the showcase button if enough screen width is available
 	 */
 	displayPresenterButton: function () {
-		/* iPad does not swap screen width and height values in landscape orientation */
-		if (screen.availWidth >= 980 || screen.availHeight >= 980) {
+		if (ARSnova.app.globalConfig.presenterPath &&
+				ARSnova.app.LOGIN_GUEST !== ARSnova.app.loginMode &&
+				/* iPad does not swap screen width and height values in landscape orientation */
+				(screen.availWidth >= 980 || screen.availHeight >= 980)) {
 			this.presenterButton.show();
-		} else if (window.innerWidth >= 480) {
-			this.presenterButton.hide();
 		} else {
 			this.presenterButton.hide();
 		}
