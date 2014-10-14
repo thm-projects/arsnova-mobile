@@ -438,7 +438,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	},
 
 	presenterHandler: function () {
-		window.open(ARSnova.app.PRESENTER_URL + "#!/" + localStorage.getItem('keyword'), "_self");
+		window.open(ARSnova.app.globalConfig.presenterPath + "/#!/" + localStorage.getItem('keyword'), "_self");
 	},
 
 	/**
