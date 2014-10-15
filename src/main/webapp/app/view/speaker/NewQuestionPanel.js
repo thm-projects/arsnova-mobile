@@ -551,6 +551,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			numClickableFields: values.numClickableFields,
 			thresholdCorrectAnswers: values.thresholdCorrectAnswers,
 			cvIsColored: values.cvIsColored,
+			gridLineColor: values.gridLineColor,
 			successFunc: function (response, opts) {
 				promise.resolve(response);
 			},

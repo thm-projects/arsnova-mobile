@@ -66,11 +66,11 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	/**
 	 * generates the statistic output.
 	 */
-	generateStatisticOutput: function (tilesToFill, colorTiles, displayType, weakenSourceImage, toggleColors) {
+	generateStatisticOutput: function (tilesToFill, colorTiles, displayType, weakenSourceImage) {
 		// TODO implementieren
 	},
 	
-	generateUserViewWithAnswers: function (userAnswers, correctAnswers, toggleColors) {
+	generateUserViewWithAnswers: function (userAnswers, correctAnswers) {
 		// TODO implementieren
 	},
 });

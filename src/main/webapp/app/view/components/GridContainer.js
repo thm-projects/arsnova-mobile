@@ -409,7 +409,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	update: function (gridSize, offsetX, offsetY, zoomLvl, gridOffsetX, gridOffsetY, gridZoomLvl,
 						gridSizeX, gridSizeY, gridIsHidden, imgRotation, toggleFieldsLeft,
-						numClickableFields, thresholdCorrectAnswers, cvIsColored, possibleAnswers, mark) {
+						numClickableFields, thresholdCorrectAnswers, cvIsColored, gridLineColor, possibleAnswers, mark) {
 
 
 		this.setGridSize(gridSize);
@@ -427,6 +427,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setNumClickableFields(numClickableFields);
 		this.setThresholdCorrectAnswers(thresholdCorrectAnswers);
 		this.setCvIsColored(cvIsColored);
+		this.setCurGridLineColor(gridLineColor);
 
 
 		// converting from old version
@@ -799,11 +800,11 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	/**
 	 * generates the statistic output.
 	 */
-	generateStatisticOutput: function (tilesToFill, colorTiles, displayType, weakenSourceImage, toggleColors) {
+	generateStatisticOutput: function (tilesToFill, colorTiles, displayType, weakenSourceImage) {
 		// TODO mark as abstract method
 	},
 
-	generateUserViewWithAnswers: function (userAnswers, correctAnswers, toggleColors) {
+	generateUserViewWithAnswers: function (userAnswers, correctAnswers) {
 		// TODO mark as abstract method
 	},
 

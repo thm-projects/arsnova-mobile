@@ -32,7 +32,6 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 	gridWeakenImageToggle: null,
 	gridShowColors: null,
 	gridShowNumbers: null,
-	gridColorsToggle: null,
 	questionOptionsSegment: null,
 	abstentionPanel: null,
 	optionsFieldSet: null,
@@ -124,14 +123,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				items: [this.questionOptionsSegment]
 			}]
 		});
-
-		this.gridColorsToggle = Ext.create('Ext.field.Toggle', {
-			id: "toggleColors",
-			name: "toggleColors",
-			label: Messages.GRID_LABEL_INVERT_GRIDCOLORS,
-			value: false
-		});
-
+		
 		this.abstentionPanel = Ext.create('Ext.field.Text', {
 			id: 'tf_abstenstion',
 			name: 'tf_abstenstion',
@@ -150,7 +142,6 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 					height: 25
 				},
 				this.gridShowColors,
-				this.gridColorsToggle,
 				this.gridWeakenImageToggle,
 				this.abstentionPanel
 			]
@@ -167,7 +158,6 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		};
 		this.gridWeakenImageToggle.setListeners(listeners);
 		this.gridShowColors.setListeners(listeners);
-		this.gridColorsToggle.setListeners(listeners);
 
 		// add components to panel
 		this.add(this.grid);
@@ -210,7 +200,8 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 						questionObj.gridSizeY, questionObj.gridIsHidden,
 						questionObj.imgRotation, questionObj.toggleFieldsLeft,
 						questionObj.numClickableFields, questionObj.thresholdCorrectAnswers,
-						questionObj.cvIsColored, questionObj.possibleAnswers, true);
+						questionObj.cvIsColored, questionObj.gridLineColor,
+						questionObj.possibleAnswers, true);
 			} else {
 
 				// output withOUT correct answers
@@ -221,7 +212,8 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 						questionObj.gridSizeY, questionObj.gridIsHidden,
 						questionObj.imgRotation, questionObj.toggleFieldsLeft,
 						questionObj.numClickableFields, questionObj.thresholdCorrectAnswers,
-						questionObj.cvIsColored, Array(), true);
+						questionObj.cvIsColored, questionObj.gridLineColor,
+						Array(), true);
 			}
 			var gridAnswers = [];
 			var abstentionCount = 0;
@@ -258,8 +250,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 			me.grid.generateStatisticOutput(gridAnswers, me.gridShowColors
 					.getValue(),
 					me.questionOptionsSegment.getPressedButtons()[0].getText(),
-					me.gridWeakenImageToggle.getValue(), me.gridColorsToggle
-							.getValue());
+					me.gridWeakenImageToggle.getValue());
 
 		});
 	}

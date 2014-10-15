@@ -59,7 +59,7 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 	/**
 	 * generates the statistic output.
 	 */
-	generateStatisticOutput: function (tilesToFill, colorTiles, displayType, weakenSourceImage, toggleColors) {
+	generateStatisticOutput: function (tilesToFill, colorTiles, displayType, weakenSourceImage) {
 		var totalAnswers = 0;
 
 		var wrongColor = this.getStatisticWrongColor();
@@ -69,10 +69,6 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 		if (this.getChosenFields().length == 0) {
 			wrongColor = this.getHighlightColor();
 		}
-
-
-		// toggle grid color
-		this.setCurGridLineColor(toggleColors ? this.getAlternativeGridLineColor() : this.getGridLineColor());
 
 		if (!colorTiles) {
 			this.setHighlightColor(rightColor);
@@ -148,9 +144,7 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 		}
 	},
 	
-	generateUserViewWithAnswers: function (userAnswers, correctAnswers, toggleColors) {
-		// toggle grid color
-		this.setCurGridLineColor(toggleColors ? this.getAlternativeGridLineColor() : this.getGridLineColor());
+	generateUserViewWithAnswers: function (userAnswers, correctAnswers) {
 
 		var lowAlpha = 0.2;
 		var highAlpha = 0.9;

@@ -389,6 +389,7 @@ Ext.define('ARSnova.view.Question', {
 					numClickableFields: this.questionObj.numClickableFields,
 					thresholdCorrectAnswers: this.questionObj.thresholdCorrectAnswers,
 					cvIsColored: this.questionObj.cvIsColored,
+					gridLineColor: this.gridLineColor,
 					editable: true,
 					possibleAnswers: this.questionObj.possibleAnswers
 				});
@@ -408,7 +409,8 @@ Ext.define('ARSnova.view.Question', {
 						this.questionObj.gridSizeY, this.questionObj.gridIsHidden,
 						this.questionObj.imgRotation, this.questionObj.toggleFieldsLeft,
 						this.questionObj.numClickableFields, this.questionObj.thresholdCorrectAnswers,
-						this.questionObj.cvIsColored, this.questionObj.possibleAnswers, false);
+						this.questionObj.cvIsColored, this.questionObj.gridLineColor,
+						this.questionObj.possibleAnswers, false);
 				/*
 				 *   gridbutton and container for the grid button to add into the layout if necessary
 				 */
@@ -496,7 +498,7 @@ Ext.define('ARSnova.view.Question', {
 			});
 
 
-			grid.generateUserViewWithAnswers(userAnswers, correctAnswers, false);
+			grid.generateUserViewWithAnswers(userAnswers, correctAnswers);
 
 		} else {
 			fields.forEach(function (node) {
