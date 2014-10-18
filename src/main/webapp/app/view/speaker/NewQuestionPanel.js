@@ -229,11 +229,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							if (pressed) {
 								me.gridQuestion.show();
 								title = label(Messages.QUESTION_GRID, Messages.QUESTION_GRID_SHORT);
-								this.uploadView.hide();
+								this.uploadView.show();
 								this.grid.hide();
 							} else {
 								me.gridQuestion.hide();
-								this.uploadView.show();
+								
+								this.uploadView.hide();
 								if (this.grid.getImageFile()) {
 									this.grid.show();
 								}

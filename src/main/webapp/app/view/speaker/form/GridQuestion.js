@@ -483,6 +483,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		}
 	},
 
+	
 	/**
 	 * Interface to the grid element to set a new image.
 	 */
