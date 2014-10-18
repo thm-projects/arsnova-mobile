@@ -184,6 +184,7 @@
         "resources/images",
         "resources/icons",
         "resources/startup",
+        "resources/gridTemplates",
         "favicon.png",
         "lib/socket.io.min.js",
         "WEB-INF"

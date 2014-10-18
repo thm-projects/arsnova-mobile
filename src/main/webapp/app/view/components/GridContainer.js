@@ -22,6 +22,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	xtype: 'canvas',
 
 	config: {
+		name: null,
+		description: null,
 		gridSize: 16, // Sqrt of the gridcount
 		canvasSize: 400, // Size of the canvas element (width and height).
 		initCanvasSize: 400, // Should be same as canvasSize; for later reference.
@@ -99,6 +101,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Redraws the whole canvas element with default alpha value and marks the chosen fields.
 	 */
 	redraw: function () {
+		
+		
 		this.redrawWithAlpha(1.0, true);
 	},
 
@@ -342,7 +346,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	onclick: function (event) {
 
 		var container = this.parentContainer;
-
+		
 		if (! container.getEditable()) {
 			// click prevention for non-editable grids
 			return;
@@ -682,7 +686,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			}
 			container.setImageFile(newimage);
 			container.redraw();
-
+			
 			cb();
 		};
 		newimage.onerror = function () {
@@ -852,6 +856,91 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	spinRight: function () {
 		this.setImgRotation((this.getImgRotation() + 1) % 4);
 		this.redraw();
-	}
+	},
+	
+	/**
+	 * Initialies this objects with the information given by the config structure.
+	 * Precondition is, that the "imageFile"-Attribute is set. Otherwise no other
+	 * options can be set.
+	 * The grid container is redrawn after configutarion.
+	 * 
+	 * param config The configuration structure. Attributes have to match gridContainter attibutes.
+	 */
+	setConfig : function(config) {
+		
+		if (typeof(config) == "undefined") {
+			console.log("Could not set config due to undefined config attribute.");
+			return;
+		}
+		
+		this.clearConfigs();
+		
+		if (typeof(config.imageFile) != "undefined") {
+			// TODO: path-prefix to config
+			var url = "resources/gridTemplates/" + config.imageFile;
+			var me = this;
+			this.setImage(url, false, 
+					function() {
+						// set optional attributes if defined
+						if (typeof(config.gridSize) != "undefined") me.setGridSize(config.gridSize);
+						if (typeof(config.scaleFactor) != "undefined") me.setScaleFactor(config.scaleFactor);
+						if (typeof(config.scale) != "undefined") me.setScale(config.scale);
+						if (typeof(config.zoomLvl) != "undefined") me.setZoomLvl(config.zoomLvl);
+						if (typeof(config.offsetX) != "undefined") me.setOffsetX(config.offsetX);
+						if (typeof(config.offsetY) != "undefined") me.setOffsetY(config.offsetY);
+						if (typeof(config.gridOffsetX) != "undefined") me.setGridOffsetX(config.gridOffsetX);
+						if (typeof(config.gridOffsetY) != "undefined") me.setGridOffsetY(config.gridOffsetY);
+						if (typeof(config.gridZoomLvl) != "undefined") me.setGridZoomLvl(config.gridZoomLvl);
+						if (typeof(config.gridSizeX) != "undefined") me.setGridSizeX(config.gridSizeX);
+						if (typeof(config.gridSizeY) != "undefined") me.setGridSizeY(config.gridSizeY);
+						if (typeof(config.gridScale) != "undefined") me.setGridScale(config.gridScale);
+						if (typeof(config.imgRotation) != "undefined") me.setImgRotation(config.imgRotation);
+						if (typeof(config.cvBackgroundColor) != "undefined") me.setCvBackgroundColor(config.cvBackgroundColor);
+						if (typeof(config.cvIsColored) != "undefined") me.setCvIsColored(config.cvIsColored);
+						
+						me.redraw();
+					}, function() {
+						console.log("Could not set config. Error while loading image: '" + url + "'.");
+					});
+		} else {
+			console.log("Could not set config. No image path provided.");
+			return;
+		}
+	},
+	
+	/**
+	 * Loads the template JSON file and starts the configuration process on success.
+	 */
+	getTemplates : function() {
+		var me = this;
+		Ext.Ajax.request({
+			url: 'resources/gridTemplates/templates.json',
+			success: function(response, opts) {
+				console.log(response.responseText);
+				var config = JSON.parse(response.responseText);
+				var templates = array();
+				
+				// extract all the templates
+				if (typeof(config) != "undefined") {
+					config.forEach(function(templateDesc) {
+						var template = Ext.create('ARSnova.view.components.GridImageContainer');
+						template.setConfig(templateDesc);
+						templates.push();
+						// TODO: name & desc
+					});
+				}
+				
+				me.setConfig(config[0].grid);
+			},
+			failure: function(response, opts) {
+				// iOS in phonegap returns response.status=0 on success
+				if(response.status == 0 && response.responseText != ''){
+					console.log(response.responseText);
+				} else {
+					console.error('Could not find template.json !');
+				}
+			}
+		});
+	},
 
 });
