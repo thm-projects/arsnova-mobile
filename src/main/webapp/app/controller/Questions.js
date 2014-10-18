@@ -138,7 +138,6 @@ Ext.define("ARSnova.controller.Questions", {
 		});
 
 		var error = false;
-		var errorNoChosenFields = false;
 		var validation = question.validate();
 		if (!validation.isValid()) {
 			validation.items.forEach(function (el) {
@@ -174,17 +173,11 @@ Ext.define("ARSnova.controller.Questions", {
 				if (! panel.gridQuestion.grid.getImageFile()) {
 					error = true;
 				}
-				if (panel.gridQuestion.grid.getChosenFields().length == 0) {
-					errorNoChosenFields = true;
-				}
 
 				break;
 		}
 		if (error) {
 			Ext.Msg.alert('Hinweis', 'Ihre Eingaben sind unvollständig');
-			return;
-		} else if (errorNoChosenFields) {
-			Ext.Msg.alert('Hinweis', 'Sie müssen mindestens ein Feld auswählen');
 			return;
 		}
 
