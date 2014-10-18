@@ -19,16 +19,19 @@
 Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	extend: 'Ext.Panel',
 
-	requires: ['Ext.ux.Fileup'],
+	requires: ['Ext.ux.Fileup',
+	           'ARSnova.view.speaker.form.GridModerationQuestion'],
 
 	config: {
 		xtype: 'upField',
 		layout: 'vbox',
-
+		hidden:	true,
+		
 		handlerScope: null,
 		urlUploadHandler: Ext.emptyFn,
 		fsUploadHandler: Ext.emptyFn,
-		toggleUrl: true
+		toggleUrl: true,
+		templateHandler: Ext.emptyFn
 	},
 
 	initialize: function () {
@@ -36,7 +39,15 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		
 		this.buttonTemplate = Ext.create('Ext.Button',
 		 {
-			text: 'Template'
+			text: 'Template',
+			handler: Ext.bind(function () {
+				var gridMod = Ext.create('ARSnova.view.speaker.form.GridModerationQuestion');
+				//var sTP = ARSnova.app.mainTabPanel.tabPanel;
+				
+				//Ext.bind(this.getTemplateHandler(), this.getHandlerScope())(gridMod);
+				//Ext.Viewport.add(gridMod);
+				//Ext.Viewport.setActiveItem(gridMod);
+			},this)
 		 }		
 		);
 		
@@ -103,8 +114,8 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 							text:	'Send',
 							name:	'btn_url',
 							handler: Ext.bind(function () {
-								var url = this.getComponent('pnl_upfield').getComponent('pnl_url').getComponent('tf_url').getValue();
-								Ext.bind(this.getUrlUploadHandler(), this.getHandlerScope())(url);
+								var url = this.getComponent('pnl_upfield').getComponent('pnl_url').getComponent('tf_url').getValue();							
+								Ext.bid(this.getUrlUploadHandler(), this.getHandlerScope())(url);
 							}, this)
 						}]
 					},
@@ -120,7 +131,6 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 								xtype: 'button',
 								text: Messages.SELECT_PICTURE_URL,
 								handler: Ext.bind(function () {
-									console.log('adresse');
 									var url = this.getComponent('pnl_upfield').getComponent('pnl_url');
 									url.setHidden(this.toggleUrl);	
 									
