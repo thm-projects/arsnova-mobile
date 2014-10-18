@@ -218,6 +218,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 					if (newContent.cvIsColored !== prevContent.get("cvIsColored"))
 						return true;
+					
+					if (newContent.gridLineColor !== prevContent.get("gridLineColor"))
+						return true;
 
 					var changed = false;
 					prevContent.get("possibleAnswers").forEach(function (answer, i) {
@@ -257,7 +260,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					if (questionValues.numClickableFields != undefined)  question.set("numClickableFields", questionValues.numClickableFields);
 					if (questionValues.thresholdCorrectAnswers != undefined)  question.set("thresholdCorrectAnswers", questionValues.thresholdCorrectAnswers);
 					if (questionValues.cvIsColored != undefined)  question.set("cvIsColored", questionValues.cvIsColored);
-
+					if (questionValues.gridLineColor != undefined)  question.set("gridLineColor", questionValues.gridLineColor);
+					
 					question.set("possibleAnswers", questionValues.possibleAnswers);
 					question.set("noCorrect", !!questionValues.noCorrect);
 					Ext.apply(question.raw, questionValues);

@@ -59,7 +59,7 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 	/**
 	 * generates the statistic output.
 	 */
-	generateStatisticOutput: function (tilesToFill, colorTiles, displayType, weakenSourceImage, toggleColors) {
+	generateStatisticOutput: function (tilesToFill, colorTiles, displayType, weakenSourceImage) {
 		var totalAnswers = 0;
 
 		var wrongColor = this.getStatisticWrongColor();
@@ -69,10 +69,6 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 		if (this.getChosenFields().length == 0) {
 			wrongColor = this.getHighlightColor();
 		}
-
-
-		// toggle grid color
-		this.setCurGridLineColor(toggleColors ? this.getAlternativeGridLineColor() : this.getGridLineColor());
 
 		if (!colorTiles) {
 			this.setHighlightColor(rightColor);
@@ -148,9 +144,7 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 		}
 	},
 	
-	generateUserViewWithAnswers: function (userAnswers, correctAnswers, toggleColors) {
-		// toggle grid color
-		this.setCurGridLineColor(toggleColors ? this.getAlternativeGridLineColor() : this.getGridLineColor());
+	generateUserViewWithAnswers: function (userAnswers, correctAnswers) {
 
 		var lowAlpha = 0.2;
 		var highAlpha = 0.9;
@@ -167,6 +161,33 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 
 			}
 		}
+	},
+	
+	/**
+	 * Converts the chosen fields of the grid to objects
+	 * to be used as possible answers.
+	 */
+	getPossibleAnswersFromChosenFields: function () {
+		var values = [], obj;
+
+		for (var i = 0; i < this.getGridSizeX(); i++) {
+			for (var j = 0; j < this.getGridSizeY(); j++) {
+				obj = {
+						text: i + ";" + j,
+						correct: false
+				};
+				// use chosenFields as right answers
+				for (var k = 0; k < this.getChosenFields().length; k++) {
+					var currentField = this.getChosenFields()[k];
+					if (currentField[0] == i && currentField[1] == j) {
+						obj.correct = true;
+						break;
+					}
+				}
+				values.push(obj);
+			}
+		}
+		return values;
 	},
 });
 

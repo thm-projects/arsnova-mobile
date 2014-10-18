@@ -409,7 +409,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	update: function (gridSize, offsetX, offsetY, zoomLvl, gridOffsetX, gridOffsetY, gridZoomLvl,
 						gridSizeX, gridSizeY, gridIsHidden, imgRotation, toggleFieldsLeft,
-						numClickableFields, thresholdCorrectAnswers, cvIsColored, possibleAnswers, mark) {
+						numClickableFields, thresholdCorrectAnswers, cvIsColored, gridLineColor, possibleAnswers, mark) {
 
 
 		this.setGridSize(gridSize);
@@ -427,6 +427,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setNumClickableFields(numClickableFields);
 		this.setThresholdCorrectAnswers(thresholdCorrectAnswers);
 		this.setCvIsColored(cvIsColored);
+		this.setCurGridLineColor(gridLineColor);
 
 
 		// converting from old version
@@ -745,25 +746,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * to be used as possible answers.
 	 */
 	getPossibleAnswersFromChosenFields: function () {
-		var values = [], obj;
-
-		for (var i = 0; i < this.getGridSizeX(); i++) {
-			for (var j = 0; j < this.getGridSizeY(); j++) {
-				obj = {
-						text: i + ";" + j,
-						correct: false
-				};
-				for (var k = 0; k < this.getChosenFields().length; k++) {
-					var currentField = this.getChosenFields()[k];
-					if (currentField[0] == i && currentField[1] == j) {
-						obj.correct = true;
-						break;
-					}
-				}
-				values.push(obj);
-			}
-		}
-		return values;
+		// TODO make abstract method
 	},
 
 	/**
@@ -799,11 +782,11 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	/**
 	 * generates the statistic output.
 	 */
-	generateStatisticOutput: function (tilesToFill, colorTiles, displayType, weakenSourceImage, toggleColors) {
+	generateStatisticOutput: function (tilesToFill, colorTiles, displayType, weakenSourceImage) {
 		// TODO mark as abstract method
 	},
 
-	generateUserViewWithAnswers: function (userAnswers, correctAnswers, toggleColors) {
+	generateUserViewWithAnswers: function (userAnswers, correctAnswers) {
 		// TODO mark as abstract method
 	},
 

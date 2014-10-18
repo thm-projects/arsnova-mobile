@@ -63,6 +63,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		var me = this;
 		this.callParent(arguments);
 
+		// TODO Erstellung des GridContainers -> updateCanvas / withURL
 		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
 			docked: 'top',
 			itemId: 'gridImageContainer'
@@ -597,6 +598,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		result.numClickableFields = this.grid.getNumClickableFields(),
 		result.thresholdCorrectAnswers = this.grid.getThresholdCorrectAnswers();
 		result.cvIsColored = this.grid.getCvIsColored();
+		result.gridLineColor = this.grid.getCurGridLineColor();
 
 		result.possibleAnswers = possibleAnswers;
 
@@ -629,7 +631,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				question.gridSizeY, question.gridIsHidden,
 				question.imgRotation, question.toggleFieldsLeft,
 				question.numClickableFields, question.thresholdCorrectAnswers,
-				question.cvIsColored, question.possibleAnswers, true);
+				question.cvIsColored, question.gridLineColor,
+				question.possibleAnswers, true);
 
 		answerField.setValue(this.grid.getChosenFields().length); // set the spinner with correct values (last storage)
 		this.zoomSpinner.setValue(Math.round(this.grid.getScale() * 100));

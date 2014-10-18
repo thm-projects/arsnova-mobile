@@ -66,11 +66,32 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	/**
 	 * generates the statistic output.
 	 */
-	generateStatisticOutput: function (tilesToFill, colorTiles, displayType, weakenSourceImage, toggleColors) {
+	generateStatisticOutput: function (tilesToFill, colorTiles, displayType, weakenSourceImage) {
 		// TODO implementieren
 	},
 	
-	generateUserViewWithAnswers: function (userAnswers, correctAnswers, toggleColors) {
+	generateUserViewWithAnswers: function (userAnswers, correctAnswers) {
 		// TODO implementieren
+	},
+	
+	/**
+	 * Converts the chosen fields of the grid to objects
+	 * to be used as possible answers.
+	 * 
+	 */
+	getPossibleAnswersFromChosenFields: function () {
+		var values = [], obj;
+
+		for (var i = 0; i < this.getGridSizeX(); i++) {
+			for (var j = 0; j < this.getGridSizeY(); j++) {
+				obj = {
+						text: i + ";" + j,
+						correct: false
+				};
+				// do not use chosenFields as right answers
+				values.push(obj);
+			}
+		}
+		return values;
 	},
 });
