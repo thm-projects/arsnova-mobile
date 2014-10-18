@@ -22,8 +22,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	xtype: 'canvas',
 
 	config: {
-		name: null,
-		description: null,
 		gridSize: 16, // Sqrt of the gridcount
 		canvasSize: 400, // Size of the canvas element (width and height).
 		initCanvasSize: 400, // Should be same as canvasSize; for later reference.
@@ -904,11 +902,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				
 				// extract all the templates
 				if (typeof(config) != "undefined") {
-					config.forEach(function(templateDesc) {
-						var template = Ext.create('ARSnova.view.components.GridImageContainer');
-						template.setConfig(templateDesc);
+					config.forEach(function(entry) {
+						var template = Ext.create('ARSnova.view.components.GridModerationContainer');
+						template.setConfig(entry);
 						templates.push();
-						// TODO: name & desc
 					});
 				}
 				

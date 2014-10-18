@@ -21,6 +21,8 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	extend: 'ARSnova.view.components.GridContainer',
 	
 	config: {
+		name: "",
+		description: "",
 		highlightColor: '#FFA500', // Color of the highlighted fields.
 	},
 	
@@ -94,4 +96,23 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		}
 		return values;
 	},
+	
+	/**
+	 * Initialies this objects with the information given by the config structure.
+	 * Precondition is, that the "imageFile"-Attribute is set. Otherwise no other
+	 * options can be set.
+	 * The grid container is redrawn after configuration.
+	 * 
+	 * param config The configuration structure. Attributes have to match gridContainter attibutes.
+	 */
+	setConfig : function(config) {
+		
+		if (typeof(config.name) != "undefined") me.setName(config.name);
+		if (typeof(config.description) != "undefined") me.setDescription(config.description);
+		
+		this.callParent(arguments);
+	}
+	
+		
+		
 });
