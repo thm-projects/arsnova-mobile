@@ -746,25 +746,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * to be used as possible answers.
 	 */
 	getPossibleAnswersFromChosenFields: function () {
-		var values = [], obj;
-
-		for (var i = 0; i < this.getGridSizeX(); i++) {
-			for (var j = 0; j < this.getGridSizeY(); j++) {
-				obj = {
-						text: i + ";" + j,
-						correct: false
-				};
-				for (var k = 0; k < this.getChosenFields().length; k++) {
-					var currentField = this.getChosenFields()[k];
-					if (currentField[0] == i && currentField[1] == j) {
-						obj.correct = true;
-						break;
-					}
-				}
-				values.push(obj);
-			}
-		}
-		return values;
+		// TODO make abstract method
 	},
 
 	/**
