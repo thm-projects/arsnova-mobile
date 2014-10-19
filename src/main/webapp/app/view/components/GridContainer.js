@@ -886,40 +886,5 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			console.log("Could not set config. No image path provided.");
 			return;
 		}
-	},
-	
-	/**
-	 * Loads the template JSON file and starts the configuration process on success.
-	 */
-	getTemplates : function() {
-		var me = this;
-		Ext.Ajax.request({
-			url: 'resources/gridTemplates/templates.json',
-			success: function(response, opts) {
-				console.log(response.responseText);
-				var config = JSON.parse(response.responseText);
-				var templates = array();
-				
-				// extract all the templates
-				if (typeof(config) != "undefined") {
-					config.forEach(function(entry) {
-						var template = Ext.create('ARSnova.view.components.GridModerationContainer');
-						template.setConfig(entry);
-						templates.push();
-					});
-				}
-				
-				me.setConfig(config[0].grid);
-			},
-			failure: function(response, opts) {
-				// iOS in phonegap returns response.status=0 on success
-				if(response.status == 0 && response.responseText != ''){
-					console.log(response.responseText);
-				} else {
-					console.error('Could not find template.json !');
-				}
-			}
-		});
-	},
-
+	}
 });

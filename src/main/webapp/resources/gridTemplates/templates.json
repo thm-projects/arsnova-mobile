@@ -15,7 +15,27 @@
         "gridSizeX": 8,
         "gridSizeY": 4,
         "gridScale": 2,
-        "imgRotation": 90,
+        "imgRotation": 1,
+        "cvBackgroundColor": "#C0FFEE",
+        "cvIsColored": true
+    },
+    {
+		"name": "Zweiter Testname",
+    	"description": "Testbeschreibung",	
+        "imageFile": "Firefox_wallpaper.png",
+        "gridSize": 16,
+        "scaleFactor": 1.2,
+        "scale": 1,
+        "zoomLvl": 2,
+        "offsetX": 4,
+        "offsetY": 3,
+        "gridOffsetX": 1,
+        "gridOffsetY": 1,
+        "gridZoomLvl": 3,
+        "gridSizeX": 8,
+        "gridSizeY": 4,
+        "gridScale": 2,
+        "imgRotation": 1,
         "cvBackgroundColor": "#C0FFEE",
         "cvIsColored": true
     }

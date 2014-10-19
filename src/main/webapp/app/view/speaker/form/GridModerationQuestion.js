@@ -30,5 +30,40 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 	initialize: function () {
 		var me = this;
 		this.callParent(arguments);
-	}
+	},
+	
+	/**
+	 * Loads the template JSON file and starts the configuration process on success.
+	 * 
+	 * @param successCallback(templates) The function which gets called after the templates were
+	 * loaded successfully.
+	 */
+	getTemplates : function(successCallback) {
+		Ext.Ajax.request({
+			url: 'resources/gridTemplates/templates.json',
+			success: function(response, opts) {
+				var config = JSON.parse(response.responseText);
+				var templates = new Array();
+
+				// extract all the templates
+				if (typeof(config) != "undefined") {
+					config.forEach(function(entry) {
+						var template = Ext.create('ARSnova.view.components.GridModerationContainer');
+						template.setConfig(entry);
+						templates.push(template);
+					});
+				}
+				
+				successCallback(templates);
+			},
+			failure: function(response, opts) {
+				// iOS in phonegap returns response.status=0 on success
+				if(response.status == 0 && response.responseText != ''){
+					console.log(response.responseText);
+				} else {
+					console.error('Could not find template.json');
+				}
+			}
+		});
+	},
 });

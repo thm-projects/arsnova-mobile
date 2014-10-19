@@ -59,7 +59,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	 * Initializes the grid question area and the needed
 	 * form elements.
 	 */
-	initialize: function () {
+	initialize: function () {		
 		var me = this;
 		this.callParent(arguments);
 
