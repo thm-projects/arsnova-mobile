@@ -397,12 +397,12 @@ html,body {
 
 .iconBtn {
 	background: #fdfdfd;
-	/* @alternate */ background: -moz-linear-gradient(top,  #fdfdfd 0%, #f8f8f8 50%, #eeeeee 50%, #cecece 100%);
-	/* @alternate */ background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fdfdfd), color-stop(50%,#f8f8f8), color-stop(50%,#eeeeee), color-stop(100%,#cecece));
-	/* @alternate */ background: -webkit-linear-gradient(top,  #fdfdfd 0%,#f8f8f8 50%,#eeeeee 50%,#cecece 100%);
-	/* @alternate */ background: -o-linear-gradient(top,  #fdfdfd 0%,#f8f8f8 50%,#eeeeee 50%,#cecece 100%);
-	/* @alternate */ background: -ms-linear-gradient(top,  #fdfdfd 0%,#f8f8f8 50%,#eeeeee 50%,#cecece 100%);
-	/* @alternate */ background: linear-gradient(to bottom,  #fdfdfd 0%,#f8f8f8 50%,#eeeeee 50%,#cecece 100%);
+	/* @alternate */ background: -moz-linear-gradient(top,  #fdfdfd 0%, #f8f8f8 25%, #eeeeee 50%, #cecece 100%);
+	/* @alternate */ background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fdfdfd), color-stop(25%,#f8f8f8), color-stop(50%,#eeeeee), color-stop(100%,#cecece));
+	/* @alternate */ background: -webkit-linear-gradient(top,  #fdfdfd 0%,#f8f8f8 25%,#eeeeee 50%,#cecece 100%);
+	/* @alternate */ background: -o-linear-gradient(top,  #fdfdfd 0%,#f8f8f8 25%,#eeeeee 50%,#cecece 100%);
+	/* @alternate */ background: -ms-linear-gradient(top,  #fdfdfd 0%,#f8f8f8 25%,#eeeeee 50%,#cecece 100%);
+	/* @alternate */ background: linear-gradient(to bottom,  #fdfdfd 0%,#f8f8f8 25%,#eeeeee 50%,#cecece 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdfdfd', endColorstr='#cecece',GradientType=0 );
 	background-clip: padding-box;
 	border-radius: 7px 7px 7px 7px;
@@ -415,8 +415,8 @@ html,body {
 	font-size: 1.4em;
 	font-weight: bold;
 	height: 80px;
-	margin: 0 auto 5px;
-	overflow: hidden;
+	margin: 0 auto 2.5px;
+	overflow: visible;
 	position: relative;
 	text-align: center;
 	vertical-align: middle;
@@ -427,6 +427,25 @@ html,body {
 	margin: 16px 0 0 15px;
 	width: 48px;
 	height: 48px;
+}
+
+.iconBtn .iconBtnImg.x-button-icon {
+	margin: 18px 0 0 15px;
+	font-weight: normal !important;
+}
+
+.iconBtn .x-toggle-field {
+	background: transparent;
+	font-size: 0.65em;	
+}
+
+.iconBtn .x-toggle-field .x-container {
+	overflow: visible;
+}
+
+.iconBtn .x-toggle-field .x-component-outer {
+	padding: initial;
+	margin: 20px 0 0 2.9px;
 }
 
 .matrixButton {
@@ -1303,6 +1322,13 @@ ol.standardList li {
 /* BEGIN of feedback vote */
 .voteButtons > div {
 	padding: 0 !important;
+}
+
+.voteIcons {
+	font-size: 0.85em;
+	width: 30px !important;
+	height: 30px !important;
+	top: 3px;
 }
 
 .voteButtonsPanel {
