@@ -42,7 +42,11 @@ Ext.define('ARSnova.view.LoginPanel', {
 		this.arsLogo = {
 				xtype: 'panel',
 				cls: null,
-				html: "<div class='arsnova-logo'></div>",
+				html: 	"<div style='font-family: arsnova; font-size: 3em; text-align: center;'>" +
+						"<span style='color:#80ba24; text-shadow: 1px 1px black; margin-right: -.20em; margin-left: -.20em;'>r</span>" +
+						"<span>a</span>" +
+						"<span style='color:#80ba24; text-shadow: 1px 1px black;'>n</span>" +
+						"</div>",
 				style: {marginTop: '35px', marginBottom: '35px'}
 			};
 
@@ -95,11 +99,13 @@ Ext.define('ARSnova.view.LoginPanel', {
 			for (i = 0; i < services.length; i++) {
 				service = services[i];
 				imageSrc = service.image ? imagePath + service.image : "btn_" + service.id;
+				imageCls = "login-icon-" + service.id;
 				button = {
 					xtype: 'matrixbutton',
 					text: "guest" === service.id ? Messages.GUEST: service.name,
 					value: service,
 					image: imageSrc,
+					imageCls: imageCls,
 					handler: function (b) {
 						var service = b.config.value;
 						if ("guest" === service.id && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
