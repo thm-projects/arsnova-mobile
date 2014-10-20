@@ -4,15 +4,112 @@
 @import 'sencha-touch/default';
 @import 'sencha-touch/default/all';
 
-// Custom code goes here..
-
-// Examples of using the icon mixin:
-// @include icon('user');
-
-
-@include icon('minus2');
+// **********************************
+// general css
+// **********************************
 
 // fix hidden fieldsets in firefox
 .x-firefox .x-stretched.x-dock-vertical > .x-dock-body {
     height: auto;
+}
+
+
+// **********************************
+// icon / fonticon stuff
+// **********************************
+
+@include icon-font('arsnova', inline-font-files(
+ 'arsnova/arsnova.woff', woff,
+ 'arsnova/arsnova.ttf', truetype,
+ 'arsnova/arsnova.svg', svg
+));
+
+@include font-face('arsnova', inline-font-files(
+ 'arsnova/arsnova.woff', woff,
+ 'arsnova/arsnova.ttf', truetype,
+ 'arsnova/arsnova.svg', svg
+));
+
+@include icon("icon-ars" , "\61", "arsnova");
+@include icon("icon-radar" , "\72", "arsnova");
+@include icon("icon-nova" , "\6e", "arsnova");
+@include icon("icon-thm" , "\74", "arsnova");
+@include icon("icon-users" , "\e600", "arsnova");
+@include icon("icon-thm-full" , "\e603", "arsnova");
+@include icon("icon-gear" , "\e605", "arsnova");
+@include icon("icon-home" , "\e606", "arsnova");
+@include icon("icon-questions" , "\e607", "arsnova");
+@include icon("icon-renew" , "\e608", "arsnova");
+@include icon("icon-lock" , "\e609", "arsnova");
+@include icon("icon-play" , "\e60a", "arsnova");
+@include icon("icon-pause" , "\e60b", "arsnova");
+@include icon("icon-question" , "\e60c", "arsnova");
+@include icon("icon-info" , "\e60d", "arsnova");
+@include icon("icon-chart" , "\e60e", "arsnova");
+@include icon("icon-unlock" , "\e612", "arsnova");
+@include icon("icon-prof" , "\e613", "arsnova");
+@include icon("icon-user" , "\e614", "arsnova");
+@include icon("icon-speaker" , "\e615", "arsnova");
+@include icon("icon-happy" , "\e616", "arsnova");
+@include icon("icon-sad" , "\e617", "arsnova");
+@include icon("icon-wink" , "\e618", "arsnova");
+@include icon("icon-shocked" , "\e619", "arsnova");
+@include icon("icon-close" , "\e61a", "arsnova");
+
+.x-tabbar .icon-questions,
+.x-tabbar .icon-question,
+.x-tabbar .icon-gear,
+.x-tabbar .icon-info {
+	margin-left: 17px !important;
+}
+
+@include icon('minus2');
+
+// login
+@include icon("login-icon-guest" , "\e618", "arsnova");
+@include icon("login-icon-arsnova" , "\72", "arsnova");
+@include icon("login-icon-cas" , "\74", "arsnova");
+@include icon("login-icon-ldap" , "\e613", "arsnova");
+@include icon("login-icon-twitter" , "\f081", "arsnova");
+@include icon("login-icon-facebook" , "\e60f", "arsnova");
+@include icon("login-icon-google" , "\e611", "arsnova");
+
+.login-icon-twitter,
+.login-icon-facebook,
+.login-icon-google {
+	font-size: 1.5em !important;
+	margin: 9px 0 0 13px !important;
+}
+
+.login-icon-cas,
+.login-icon-arsnova {
+	color: #80BA24;
+	font-size: 1.1em;
+	text-shadow: .5px 1px black;
+}
+
+.login-icon-ldap {
+	margin: 20px 0 0 14px !important;
+}
+
+.login-icon-twitter {
+	color: #55ACEE;
+}
+
+.login-icon-facebook {
+	color: #3b5998;
+}
+
+.login-icon-google {
+	color: #D34836;
+}
+
+.login-icon-guest {
+	color: #FFCC4F;
+	font-size: 1.175em;
+	border-radius: 50%/50%; 
+    width: 46px !important;
+    height: 46px !important;
+    margin-top: 15px !important;
+    background: black;
 }
