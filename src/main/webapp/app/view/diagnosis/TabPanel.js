@@ -23,7 +23,7 @@ Ext.define('ARSnova.view.diagnosis.TabPanel', {
 
 	config: {
 		title: Messages.DIAGNOSIS,
-		iconCls: 'tabBarIconDiagnosis',
+		iconCls: 'icon-gear',
 
 		tabBar: {
 			hidden: true
