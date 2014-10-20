@@ -41,13 +41,14 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		this.callParent(arguments);
 		
 		this.backButton = Ext.create('Ext.Button', {
-			text: ARSnova.app.isSessionOwner ? Messages.HOME : Messages.FEEDBACK_VOTE,
+			text: ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER ? 
+					Messages.HOME : Messages.FEEDBACK_VOTE,
 			ui: 'back',
 			handler: function() {
 				var	tabPanel = ARSnova.app.mainTabPanel.tabPanel,
 					feedbackTabPanel = tabPanel.feedbackTabPanel;
 				
-				if(ARSnova.app.isSessionOwner) {
+				if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 					tabPanel.animateActiveItem(tabPanel.speakerTabPanel, {
 						type: 'slide',
 						direction: 'right',
@@ -273,19 +274,19 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		var tab = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab;
 		switch (averageFeedback) {
 			case 0:
-				tab.setIconCls("feedbackMedium");
+				tab.setIconCls("voteIcons icon-wink");
 				break;
 			case 1:
-				tab.setIconCls("feedbackGood");
+				tab.setIconCls("voteIcons icon-happy");
 				break;
 			case 2:
-				tab.setIconCls("feedbackBad");
+				tab.setIconCls("voteIcons icon-shocked");
 				break;
 			case 3:
-				tab.setIconCls("feedbackNone");
+				tab.setIconCls("voteIcons icon-sad");
 				break;
 			default:
-				tab.setIconCls("feedbackARSnova");
+				tab.setIconCls("voteIcons icon-radar");
 				break;
 		}
 	},
