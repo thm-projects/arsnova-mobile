@@ -41,8 +41,8 @@ Ext.define('ARSnova.view.RolePanel', {
 		}, {
 			xtype: 'panel',
 			cls: null,
-			html: 	"<div style='font-family: arsnova; font-size: 3em; text-align: center;'>" +
-					"<span style='color:#80ba24; text-shadow: 1px 1px black; margin-right: -.20em; margin-left: -.20em;'>r</span>" +
+			html: 	"<div style='font-family: arsnova; font-size: 3em; text-align: center; margin-left: 5px'>" +
+					"<span style='color:#80ba24; text-shadow: 1px 1px black; margin-right: -.20em;'>r</span>" +
 					"<span>a</span>" +
 					"<span style='color:#80ba24; text-shadow: 1px 1px black;'>n</span>" +
 					"</div>",
