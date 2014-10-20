@@ -24,7 +24,7 @@ Ext.define('ARSnova.view.user.TabPanel', {
 	config: {
 		title: Messages.HOME,
 
-		iconCls: 'tabBarIconHome',
+		iconCls: 'icon-home',
 		scroll: 'vertical',
 
 		tabBar: {
