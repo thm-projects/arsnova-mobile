@@ -44,14 +44,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
 					type: 'slide',
 					direction: 'right',
-					duration: 700,
-					scope: this,
-					listeners: {
-						animationend: function () {
-							this.hide();
-						},
-						scope: this
-					}
+					duration: 700
 				});
 			}
 		});
