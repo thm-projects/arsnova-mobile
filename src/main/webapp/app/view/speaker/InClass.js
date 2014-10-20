@@ -194,7 +194,13 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 		this.createAdHocQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.AH_HOC_QUESTION,
-			image: 'question',
+			buttonConfig: 'icon',
+			imageCls: 'icon-question',
+			imageStyle: {
+				'color': '#205bcf',
+				'font-size': '1.35em',
+				'margin-top': '11px'
+			},
 			controller: 'Questions',
 			action: 'adHoc',
 			handler: this.buttonClicked
@@ -202,7 +208,12 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 		this.deleteSessionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.DELETE_SESSION,
-			image: 'delete_session',
+			buttonConfig: 'icon',
+			imageCls: 'icon-close',
+			imageStyle: {
+				'color': '#bf0e0e',
+				'margin-top': '20px !important'
+			},
 			scope: this,
 			handler: function () {
 				var msg = Messages.ARE_YOU_SURE +

@@ -42,6 +42,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		this.questionObj = args.questionObj;
 		
 		this.questionIsClosedButton = Ext.create('ARSnova.view.MatrixButton', {
+			buttonConfig: 'icon',
 			text: this.getWording().release,
 			imageCls: 'icon-play',
 			imageStyle: {
@@ -56,6 +57,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		});
 
 		this.questionIsOpenButton = Ext.create('ARSnova.view.MatrixButton', {
+			buttonConfig: 'icon',
 			text: this.getWording().stop,
 			imageCls: 'icon-pause',
 			imageStyle: {

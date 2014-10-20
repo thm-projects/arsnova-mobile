@@ -181,57 +181,69 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			questionStore: this.questionList.getStore()
 		});
 
-		this.deleteAnswersButton = Ext.create('Ext.Panel', {
-			cls: 'threeButtons left',
+		this.deleteAnswersButton = Ext.create('ARSnova.view.MatrixButton', {
 			hidden: true,
-			items: [{
-				xtype: 'button',
-				text: ' ',
-				cls: 'recycleIcon',
-				scope: this,
-				handler: function () {
-					var me = this;
-					Ext.Msg.confirm(Messages.DELETE_ALL_ANSWERS_REQUEST, Messages.ALL_QUESTIONS_REMAIN, function (answer) {
-						if (answer == 'yes') {
-							me.getController().deleteAllQuestionsAnswers({
-								success: Ext.bind(this.handleAnswerCount, this),
-								failure: Ext.emptyFn
-							});
-						}
-					}, this);
-				}
-			}, {
-				html: Messages.DELETE_ANSWERS,
-				cls: 'centerTextSmall'
-			}]
+			buttonConfig: 'icon',
+			text: Messages.DELETE_ANSWERS,
+			imageCls: 'icon-renew',
+			imageStyle: {
+				'font-size': '1.15em',
+				'color': 'steelblue',
+				'margin': '16px 0 0 18px'
+			},
+			scope: this,
+			handler: function () {
+				var me = this;
+				Ext.Msg.confirm(Messages.DELETE_ALL_ANSWERS_REQUEST, Messages.ALL_QUESTIONS_REMAIN, function (answer) {
+					if (answer == 'yes') {
+						me.getController().deleteAllQuestionsAnswers({
+							success: Ext.bind(this.handleAnswerCount, this),
+							failure: Ext.emptyFn
+						});
+					}
+				}, this);
+			}
 		});
 
-		this.deleteQuestionsButton = Ext.create('Ext.Panel', {
-			cls: 'threeButtons left',
+		this.deleteQuestionsButton = Ext.create('ARSnova.view.MatrixButton', {
 			hidden: true,
-			items: [{
-				xtype: 'button',
-				text: ' ',
-				cls: 'deleteIcon',
-				scope: this,
-				handler: function () {
-					var msg = Messages.ARE_YOU_SURE;
-						msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
-					Ext.Msg.confirm(Messages.DELETE_ALL_QUESTIONS, msg, function (answer) {
-						if (answer == 'yes') {
-							this.getController().destroyAll(localStorage.getItem("keyword"), {
-								success: Ext.bind(this.onActivate, this),
-								failure: function () {
-									console.log("could not delete the questions.");
-								}
-							});
-						}
-					}, this);
-				}
-			}, {
-				html: Messages.DELETE_ALL_QUESTIONS,
-				cls: 'centerTextSmall'
-			}]
+			buttonConfig: 'icon',
+			text: Messages.DELETE_ALL_QUESTIONS,
+			imageCls: 'icon-close',
+			imageStyle: {
+				'color': '#bf0e0e',
+				'margin-top': '20px'
+			},
+			scope: this,
+			handler: function () {
+				var msg = Messages.ARE_YOU_SURE;
+					msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
+				Ext.Msg.confirm(Messages.DELETE_ALL_QUESTIONS, msg, function (answer) {
+					if (answer == 'yes') {
+						this.getController().destroyAll(localStorage.getItem("keyword"), {
+							success: Ext.bind(this.onActivate, this),
+							failure: function () {
+								console.log("could not delete the questions.");
+							}
+						});
+					}
+				}, this);
+			}
+		});
+		
+		this.inClassActions = Ext.create('Ext.Panel', {
+			style: {marginTop: '20px'},
+			layout: {
+				type: 'hbox',
+				pack: 'center'
+			},
+
+			items: [
+			    this.questionStatusButton,
+			    this.deleteAnswersButton,
+			    this.deleteQuestionsButton
+			]
+
 		});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
@@ -251,13 +263,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			this.questionTitle,
 			this.questionList,
 			this.caption,
-			Ext.create('Ext.Panel', {
-				scrollable: null,
-				style: {
-					marginTop: '30px'
-				},
-				items: [this.questionStatusButton, this.deleteAnswersButton, this.deleteQuestionsButton]
-			})
+			this.inClassActions
 		]);
 
 		this.on('activate', this.onActivate);
