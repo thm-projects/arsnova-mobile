@@ -34,7 +34,11 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 
 		this.sessionIsClosed = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.START_SESSION,
-			image: 'unlock_session',
+			imageCls: 'icon-unlock',
+			imageStyle: {
+				'font-size': '1.35em',
+				'margin-top': '12px !important'
+			},
 			handler: function () {
 				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
 			}
@@ -42,7 +46,11 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 
 		this.sessionIsOpen = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.STOP_SESSION,
-			image: 'lock_session',
+			imageCls: 'icon-lock',
+			imageStyle: {
+				'font-size': '1.35em',
+				'margin-top': '12px !important'
+			},
 			handler: function () {
 				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
 			}
