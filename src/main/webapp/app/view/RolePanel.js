@@ -41,7 +41,11 @@ Ext.define('ARSnova.view.RolePanel', {
 		}, {
 			xtype: 'panel',
 			cls: null,
-			html: "<div class='arsnova-logo'></div>",
+			html: 	"<div style='font-family: arsnova; font-size: 3em; text-align: center;'>" +
+					"<span style='color:#80ba24; text-shadow: 1px 1px black; margin-right: -.20em; margin-left: -.20em;'>r</span>" +
+					"<span>a</span>" +
+					"<span style='color:#80ba24; text-shadow: 1px 1px black;'>n</span>" +
+					"</div>",
 			style: {marginTop: '35px', marginBottom: '35px'}
 		}, {
 			xtype: 'container',
@@ -52,6 +56,7 @@ Ext.define('ARSnova.view.RolePanel', {
 			defaults: {
 				xtype: 'matrixbutton',
 				handler: function (b) {
+					console.log(b);
 					ARSnova.app.getController('Auth').roleSelect({
 						mode: b.config.value
 					});
@@ -64,12 +69,21 @@ Ext.define('ARSnova.view.RolePanel', {
 				{
 					text: Messages.STUDENT,
 					value: ARSnova.app.USER_ROLE_STUDENT,
-					image: "login_student"
+					image: "login_student",
+					imageCls: "icon-users",
+					imageStyle: {
+						"margin-top": "15px",
+						"font-size": "1.15em"
+					}
 				},
 				{
 					text: Messages.SPEAKER,
 					value: ARSnova.app.USER_ROLE_SPEAKER,
 					image: "ars_logo",
+					imageCls: "icon-speaker",
+					imageStyle: {
+						"font-size": "1.15em"
+					},
 					style: "margin-left:20px"
 				}
 			]
