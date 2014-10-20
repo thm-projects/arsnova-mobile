@@ -28,7 +28,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	config: {
 		fullscreen: true,
 		title: Messages.QUESTIONS,
-		iconCls: 'tabBarIconQuestion',
+		iconCls: 'icon-questions',
 
 		controller: null,
 		questionTitleLong: Messages.LECTURE_QUESTIONS_LONG,
