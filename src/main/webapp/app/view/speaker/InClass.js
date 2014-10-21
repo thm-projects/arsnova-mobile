@@ -27,7 +27,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	config: {
 		fullscreen: true,
 		title: Messages.FEEDBACK,
-		iconCls: 'feedbackMedium',
 		scrollable: 'vertical'
 	},
 
@@ -118,7 +117,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		this.feedbackButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			text: Messages.LIVE_FEEDBACK,
 			cls: 'forwardListButton',
-			badgeCls: 'badgeicon feedbackARSnova',
+			badgeCls: 'x-button-icon x-shown icon-radar',
 			handler: function () {
 				var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 				tabPanel.setActiveItem(tabPanel.feedbackTabPanel, "slide");
@@ -281,24 +280,24 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		switch (averageFeedback) {
 			/* 0: faster, please!; 1: can follow; 2: to fast!; 3: you have lost me */
 			case 0:
-				feedbackCls = "Medium";
+				feedbackCls = "happy";
 				break;
 			case 1:
-				feedbackCls = "Good";
+				feedbackCls = "wink";
 				break;
 			case 2:
-				feedbackCls = "Bad";
+				feedbackCls = "shocked";
 				break;
 			case 3:
-				feedbackCls = "None";
+				feedbackCls = "sad";
 				break;
 			default:
-				feedbackCls = "ARSnova";
+				feedbackCls = "radar";
 				break;
 		}
 		this.feedbackButton.setBadge([{
-			badgeText: "0",
-			badgeCls: 'badgeicon feedback' + feedbackCls
+			badgeText: " ",
+			badgeCls: 'x-button-icon x-shown icon-' + feedbackCls
 		}]);
 	},
 
