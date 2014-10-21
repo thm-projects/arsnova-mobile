@@ -255,7 +255,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		this.add([this.toolbar, this.inClassItems, this.inClassActions]);
 
 		this.on('initialize', function () {
-			this.feedbackButton.setBadge([{badgeText: '0'}]);
+			this.feedbackButton.setBadge([{badgeText: ' '}]);
 		});
 
 		this.on('activate', function () {
