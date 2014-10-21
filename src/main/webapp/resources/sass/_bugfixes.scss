@@ -17,16 +17,9 @@
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-// The following two lines import the default Sencha Touch theme. If you are building
-// a new theme, remove them and the add your own CSS on top of the base CSS (which
-// is already included in your app.json file).
-
-@import 'sencha-touch/default';
-@import 'sencha-touch/default/all';
-
 //
-// The following lines import the custom scss files.
+// fix hidden fieldsets in firefox 
 //
-@import 'bugfixes';
-@import 'iconfont';
+.x-firefox .x-stretched.x-dock-vertical > .x-dock-body {
+    height: auto;
+}

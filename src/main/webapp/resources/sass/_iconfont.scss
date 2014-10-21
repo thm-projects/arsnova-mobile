@@ -1,0 +1,156 @@
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
+ 
+@include icon-font('arsnova', inline-font-files(
+ 'arsnova/arsnova.woff', woff,
+ 'arsnova/arsnova.ttf', truetype,
+ 'arsnova/arsnova.svg', svg
+));
+
+@include icon("icon-ars" , "\61", "arsnova");
+@include icon("icon-radar" , "\72", "arsnova");
+@include icon("icon-nova" , "\6e", "arsnova");
+@include icon("icon-thm" , "\74", "arsnova");
+@include icon("icon-users" , "\e600", "arsnova");
+@include icon("icon-thm-full" , "\e603", "arsnova");
+@include icon("icon-gear" , "\e605", "arsnova");
+@include icon("icon-home" , "\e606", "arsnova");
+@include icon("icon-questions" , "\e607", "arsnova");
+@include icon("icon-renew" , "\e608", "arsnova");
+@include icon("icon-lock" , "\e609", "arsnova");
+@include icon("icon-play" , "\e60a", "arsnova");
+@include icon("icon-pause" , "\e60b", "arsnova");
+@include icon("icon-question" , "\e60c", "arsnova");
+@include icon("icon-info" , "\e60d", "arsnova");
+@include icon("icon-chart" , "\e60e", "arsnova");
+@include icon("icon-unlock" , "\e612", "arsnova");
+@include icon("icon-prof" , "\e613", "arsnova");
+@include icon("icon-user" , "\e614", "arsnova");
+@include icon("icon-speaker" , "\e615", "arsnova");
+@include icon("icon-happy" , "\e616", "arsnova");
+@include icon("icon-sad" , "\e617", "arsnova");
+@include icon("icon-wink" , "\e618", "arsnova");
+@include icon("icon-shocked" , "\e619", "arsnova");
+@include icon("icon-close" , "\e61a", "arsnova");
+@include icon('minus2');
+
+@include icon("login-icon-guest" , "\e618", "arsnova");
+@include icon("login-icon-arsnova" , "\72", "arsnova");
+@include icon("login-icon-cas" , "\74", "arsnova");
+@include icon("login-icon-ldap" , "\e613", "arsnova");
+@include icon("login-icon-twitter" , "\f081", "arsnova");
+@include icon("login-icon-facebook" , "\e60f", "arsnova");
+@include icon("login-icon-google" , "\e611", "arsnova");
+
+.x-tabbar .icon-questions,
+.x-tabbar .icon-question,
+.x-tabbar .icon-gear,
+.x-tabbar .icon-info {
+	margin-left: 17px !important;
+}
+
+.feedbackStatisticButton {
+	border: none !important;
+	margin: 0 auto !important;
+	background: none !important;
+	font-size: 1.75em;
+}
+
+.feedbackStatisticButton .icon-happy,
+.feedbackStatisticButton .icon-wink,
+.feedbackStatisticButton .icon-sad,
+.feedbackStatisticButton .icon-shocked {
+	color: #FFCC00;
+}
+
+.forwardListButton .icon-happy,
+.forwardListButton .icon-wink,
+.forwardListButton .icon-sad,
+.forwardListButton .icon-shocked {
+	color: #FFCC00;
+	margin-right: 15px;
+	border-radius: 50%/50%; 
+    width: 28px !important;
+    height: 28px !important;
+    background: black;
+}
+
+.courseIcon.icon-prof {
+	font-size: 0.85em;
+	margin-right: 4px;
+	margin-bottom: -3px;
+}
+
+.courseIcon.icon-users {
+	margin-bottom: 5px;
+}
+
+.courseIcon.icon-radar {
+	margin: 0px !important;
+}
+
+.forwardListButton .icon-radar {
+	color: #80BA24;
+	margin-right: 15px;
+	text-shadow: 1px 1px black;
+}
+
+.login-icon-guest,
+.voteButton .icon-happy,
+.voteButton .icon-wink,
+.voteButton .icon-sad,
+.voteButton .icon-shocked {
+	color: #FFCC00;
+	font-size: 1.19em;
+	border-radius: 50%/50%; 
+    width: 47px !important;
+    height: 47px !important;
+    margin-top: 16px !important;
+    background: black;
+}
+
+.login-icon-twitter,
+.login-icon-facebook,
+.login-icon-google {
+	font-size: 1.5em !important;
+	margin: 9px 0 0 13px !important;
+}
+
+.login-icon-cas,
+.login-icon-arsnova {
+	color: #80BA24;
+	font-size: 1.1em;
+	text-shadow: 1px 1px black;
+}
+
+.login-icon-ldap {
+	margin: 20px 0 0 14px !important;
+}
+
+.login-icon-twitter {
+	color: #55ACEE;
+}
+
+.login-icon-facebook {
+	color: #3b5998;
+}
+
+.login-icon-google {
+	color: #D34836;
+}
