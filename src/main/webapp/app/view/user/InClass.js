@@ -135,7 +135,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			ui: 'normal',
 			text: Messages.GIVE_FEEDBACK,
 			cls: 'forwardListButton',
-			badgeCls: 'badgeicon feedbackARSnova',
+			badgeCls: 'x-button-icon x-shown icon-radar',
 			controller: 'Feedback',
 			action: 'showVotePanel',
 			handler: this.buttonClicked
@@ -232,7 +232,8 @@ Ext.define('ARSnova.view.user.InClass', {
 		this.add([this.toolbar, this.inClass, this.userBadges]);
 
 		this.on('initialize', function () {
-			this.feedbackButton.setBadge([{badgeText: '0'}]);
+			console.log('this');
+			this.feedbackButton.setBadge([{badgeText: ' '}]);
 		});
 
 		// hide or show listeners won't work, so check if the tabpanel activates this panel
@@ -394,8 +395,8 @@ Ext.define('ARSnova.view.user.InClass', {
 					var feedbackButton = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.feedbackButton;
 					feedbackButton.badgeEl ? feedbackButton.badgeEl.destroy() : '';
 					feedbackButton.badgeEl = null;
-					feedbackButton.badgeCls = "badgeicon feedbackARSnova";
-					feedbackButton.setBadge([{badgeText: "0"}]);
+					feedbackButton.badgeCls = "x-button-icon x-shown icon-radar";
+					feedbackButton.setBadge([{badgeText: " "}]);
 				},
 				success: function () {},
 				failure: function () {
