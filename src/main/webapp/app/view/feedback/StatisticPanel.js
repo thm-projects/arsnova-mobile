@@ -79,13 +79,14 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		});
 
 		this.feedbackOkButton = Ext.create('Ext.Panel', {
-			cls: 'voteButtons',
 			flex: 1,
 
 			items: [{
 				xtype: 'button',
 				value: 'Kann folgen',
-				cls: 'feedbackOkIcon',
+				//cls: 'feedbackOkIcon',
+				cls: 'feedbackStatisticButton',
+				iconCls: 'icon-happy',
 				handler: this.buttonClicked
 			}]
 		});
@@ -97,7 +98,9 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			items: [{
 				xtype: 'button',
 				value: 'Bitte schneller',
-				cls: 'feedbackGoodIcon',
+				//cls: 'feedbackGoodIcon',
+				cls: 'feedbackStatisticButton',
+				iconCls: 'icon-wink',
 				handler: this.buttonClicked
 			}]
 		});
@@ -109,7 +112,9 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			items: [{
 				xtype: 'button',
 				value: 'Zu schnell',
-				cls: 'feedbackBadIcon',
+				cls: 'feedbackStatisticButton',
+				iconCls: 'icon-shocked',
+				//cls: 'feedbackBadIcon',
 				handler: this.buttonClicked
 			}]
 		});
@@ -121,7 +126,9 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			items: [{
 				xtype: 'button',
 				value: 'Nicht mehr dabei',
-				cls: 'feedbackNoneIcon',
+				cls: 'feedbackStatisticButton',
+				iconCls: 'icon-sad',
+				//cls: 'feedbackNoneIcon',
 				handler: this.buttonClicked
 			}]
 		});
