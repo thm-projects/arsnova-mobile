@@ -148,14 +148,14 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				var session;
 				for (var i = 0, session; session = sessions[i]; i++) {
 					var status = "";
-					var course = " defaultsession";
+					var course = "icon-radar";
 
 					if (!session.active) {
 						status = " isInactive";
 					}
 
 					if (session.courseType && session.courseType.length > 0) {
-						course = " coursesession";
+						course = "icon-prof";
 					}
 
 					// Minimum width of 321px equals at least landscape view
@@ -163,7 +163,8 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 						ui: 'normal',
 						text: Ext.util.Format.htmlEncode(displaytext),
-						cls: 'forwardListButton' + status + course,
+						iconCls: course + " courseIcon",
+						cls: 'forwardListButton' + status,
 						sessionObj: session,
 						handler: function (options) {
 							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
@@ -220,12 +221,12 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					for (var i = 0; i < sessions.length; i++) {
 						var session = sessions[i];
 
-						var icon = " studentsession";
+						var icon = "icon-users";
 						if (session.creator === localStorage.getItem("login")) {
 							continue;
 						}
 						if (session.courseId && session.courseId.length > 0) {
-							icon = " coursesession";
+							icon = "icon-prof";
 						}
 
 						// Minimum width of 481px equals at least landscape view
@@ -234,7 +235,8 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							xtype: 'button',
 							ui: 'normal',
 							text: Ext.util.Format.htmlEncode(displaytext),
-							cls: 'forwardListButton' + icon,
+							cls: 'forwardListButton',
+							iconCls: icon + ' courseIcon',
 							controller: 'sessions',
 							action: 'showDetails',
 							badgeCls: 'badgeicon',

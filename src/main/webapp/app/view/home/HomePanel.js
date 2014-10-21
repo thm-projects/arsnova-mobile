@@ -191,12 +191,12 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					for (var i = 0; i < sessions.length; i++) {
 						var session = sessions[i];
 
-						var icon = " defaultsession";
+						var icon = "icon-radar";
 						if (session.creator !== localStorage.getItem("login")) {
-							icon = " studentsession";
+							icon = "icon-users";
 						}
 						if (session.courseId && session.courseId.length > 0) {
-							icon = " coursesession";
+							icon = "icon-prof";
 						}
 
 						// Minimum width of 481px equals at least landscape view
@@ -205,7 +205,8 @@ Ext.define('ARSnova.view.home.HomePanel', {
 							xtype: 'button',
 							ui: 'normal',
 							text: Ext.util.Format.htmlEncode(displaytext),
-							cls: 'forwardListButton' + icon,
+							cls: 'forwardListButton',
+							iconCls: icon + ' courseIcon',
 							controller: 'sessions',
 							action: 'showDetails',
 							badgeCls: 'badgeicon',
