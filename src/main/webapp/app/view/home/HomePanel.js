@@ -178,8 +178,6 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.homePanel;
 				var caption = Ext.create('ARSnova.view.Caption');
 
-				var badgePromises = [];
-
 				if (sessions && sessions.length !== 0) {
 					panel.lastVisitedSessionsForm.removeAll();
 					panel.lastVisitedSessionsForm.show();
@@ -191,7 +189,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 						if (session.creator !== localStorage.getItem("login")) {
 							icon = " studentsession";
 						}
-						if (session.courseId && session.courseId.length > 0) {
+						if (session.courseType && session.courseType.length > 0) {
 							icon = " coursesession";
 						}
 
@@ -214,14 +212,14 @@ Ext.define('ARSnova.view.home.HomePanel', {
 								hideLoadMask();
 							}
 						});
+						sessionButton.setBadge([{badgeText: session.numUnanswered}]);
 						panel.lastVisitedSessionsForm.addEntry(sessionButton);
-						badgePromises.push(panel.updateBadge(session.keyword, sessionButton));
 
 						if (!session.active) {
 							panel.down('button[text=' + displaytext + ']').addCls("isInactive");
 						}
 					}
-					RSVP.all(badgePromises).then(Ext.bind(caption.explainBadges, caption));
+					caption.explainBadges(sessions, { questions: false, answers: false, interposed: false, unanswered: true });
 					caption.explainStatus(sessions);
 					panel.lastVisitedSessionsForm.addEntry(caption);
 				} else {
@@ -241,20 +239,5 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.homePanel.lastVisitedSessionsForm.hide();
 			}
 		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
-	},
-
-	updateBadge: function (sessionKeyword, button) {
-		var promise = new RSVP.Promise();
-		ARSnova.app.questionModel.getUnansweredSkillQuestions(sessionKeyword, {
-			success: function (newQuestions) {
-				button.setBadge([{badgeText: newQuestions.length}]);
-				promise.resolve(newQuestions.length);
-			},
-			failure: function (response) {
-				console.log('error');
-				promise.reject();
-			}
-		});
-		return promise;
 	}
 });

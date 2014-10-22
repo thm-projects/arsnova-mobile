@@ -143,8 +143,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				panel.sessionsForm.removeAll();
 				panel.sessionsForm.show();
 
-				var badgePromises = [];
-
 				var session;
 				for (var i = 0, session; session = sessions[i]; i++) {
 					var status = "";
@@ -215,8 +213,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				var panel = me;
 				var caption = Ext.create('ARSnova.view.Caption');
 
-				var badgePromises = [];
-
 				if (sessions && sessions.length !== 0) {
 					panel.lastVisitedSessionsForm.removeAll();
 					panel.lastVisitedSessionsForm.show();
@@ -254,14 +250,14 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 								hideLoadMask();
 							}
 						});
-						sessionButton.setBadge([{badgeText: session.numQuestions, badgeCls: "greybadgeicon"}]);
+						sessionButton.setBadge([{badgeText: session.numUnanswered, badgeCls: "greybadgeicon"}]);
 						panel.lastVisitedSessionsForm.addEntry(sessionButton);
 
 						if (!session.active) {
 							panel.down('button[text=' + displaytext + ']').addCls("isInactive");
 						}
 					}
-					caption.explainBadges(sessions, { questions: true, answers: false, interposed: false });
+					caption.explainBadges(sessions, { questions: false, answers: false, interposed: false, unanswered: true });
 					caption.explainStatus(sessions);
 					panel.lastVisitedSessionsForm.addEntry(caption);
 				} else {

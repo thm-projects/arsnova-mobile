@@ -75,10 +75,12 @@ Ext.define('ARSnova.view.Caption', {
 		var options = Ext.apply({}, opt, {
 			questions: true,
 			answers: true,
-			interposed: true
+			interposed: true,
+			unanswered: false
 		});
 		var hasFeedbackQuestions = false;
 		var hasQuestions = false;
+		var hasUnansweredQuestions = false;
 		var hasAnswers = false;
 		badges.forEach(function (item) {
 			if (Ext.isNumber(item)) {
@@ -86,6 +88,7 @@ Ext.define('ARSnova.view.Caption', {
 			} else {
 				hasFeedbackQuestions = hasFeedbackQuestions || item.hasFeedbackQuestions || item.numInterposed > 0;
 				hasQuestions = hasQuestions || item.hasQuestions || item.numQuestions > 0;
+				hasUnansweredQuestions = hasUnansweredQuestions || item.hasUnansweredQuestions || item.numUnanswered > 0;
 				hasAnswers = hasAnswers || item.hasAnswers || item.numAnswers > 0;
 			}
 		});
@@ -93,7 +96,7 @@ Ext.define('ARSnova.view.Caption', {
 				badgeText: options.interposed && hasFeedbackQuestions ? Messages.QUESTIONS_FROM_STUDENTS : "",
 				badgeCls: "bluebadgeicon"
 			}, {
-				badgeText: options.questions && hasQuestions ? Messages.QUESTIONS : "",
+				badgeText: (options.questions && hasQuestions) || (options.unanswered && hasUnansweredQuestions) ? Messages.QUESTIONS : "",
 				badgeCls: "greybadgeicon"
 			}, {
 				badgeText: options.answers && hasAnswers ? Messages.ANSWERS : "",
