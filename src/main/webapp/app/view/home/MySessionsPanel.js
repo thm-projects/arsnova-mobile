@@ -143,8 +143,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				panel.sessionsForm.removeAll();
 				panel.sessionsForm.show();
 
-				var badgePromises = [];
-
 				var session;
 				for (var i = 0, session; session = sessions[i]; i++) {
 					var status = "";
@@ -177,10 +175,14 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							hideLoadMask();
 						}
 					});
-					badgePromises.push(me.updateBadges(session.keyword, sessionButton));
+					sessionButton.setBadge([
+						{badgeText: session.numInterposed, badgeCls: "bluebadgeicon"},
+						{badgeText: session.numQuestions, badgeCls: "greybadgeicon"},
+						{badgeText: session.numAnswers, badgeCls: "redbadgeicon"}
+					]);
 					panel.sessionsForm.addEntry(sessionButton);
 				}
-				RSVP.all(badgePromises).then(Ext.bind(caption.explainBadges, caption));
+				caption.explainBadges(sessions);
 				caption.explainStatus(sessions);
 
 				panel.sessionsForm.addEntry(caption);
@@ -212,8 +214,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				var panel = me;
 				var caption = Ext.create('ARSnova.view.Caption');
 
-				var badgePromises = [];
-
 				if (sessions && sessions.length !== 0) {
 					panel.lastVisitedSessionsForm.removeAll();
 					panel.lastVisitedSessionsForm.show();
@@ -225,7 +225,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						if (session.creator === localStorage.getItem("login")) {
 							continue;
 						}
-						if (session.courseId && session.courseId.length > 0) {
+						if (session.courseType && session.courseType.length > 0) {
 							icon = "icon-prof";
 						}
 
@@ -252,14 +252,14 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 								hideLoadMask();
 							}
 						});
+						sessionButton.setBadge([{badgeText: session.numUnanswered, badgeCls: "greybadgeicon"}]);
 						panel.lastVisitedSessionsForm.addEntry(sessionButton);
-						badgePromises.push(panel.updateQuestionBadge(session.keyword, sessionButton));
 
 						if (!session.active) {
 							panel.down('button[text=' + displaytext + ']').addCls("isInactive");
 						}
 					}
-					RSVP.all(badgePromises).then(Ext.bind(caption.explainBadges, caption));
+					caption.explainBadges(sessions, { questions: false, answers: false, interposed: false, unanswered: true });
 					caption.explainStatus(sessions);
 					panel.lastVisitedSessionsForm.addEntry(caption);
 				} else {
@@ -279,63 +279,5 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				me.lastVisitedSessionsForm.hide();
 			}
 		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
-	},
-
-	updateBadges: function (sessionKeyword, button) {
-		var promise = new RSVP.Promise();
-
-		var failureCallback = function () {
-			console.log('server-side error: ', arguments);
-			promise.reject();
-		};
-
-		this.getQuestionCount(sessionKeyword).then(function (numQuestions) {
-			ARSnova.app.questionModel.countTotalAnswers(sessionKeyword, {
-				success: function (response) {
-					var numAnswers = parseInt(response.responseText);
-					ARSnova.app.questionModel.countFeedbackQuestions(sessionKeyword, {
-						success: function (response) {
-							var numFeedbackQuestions = Ext.decode(response.responseText).total;
-
-							button.setBadge([
-								{badgeText: numFeedbackQuestions, badgeCls: "bluebadgeicon"},
-								{badgeText: numQuestions, badgeCls: "greybadgeicon"},
-								{badgeText: numAnswers, badgeCls: "redbadgeicon"}
-							]);
-
-							promise.resolve({
-								hasFeedbackQuestions: numFeedbackQuestions > 0,
-								hasQuestions: numQuestions > 0,
-								hasAnswers: numAnswers > 0
-							});
-						},
-						failure: failureCallback
-					});
-				},
-				failure: failureCallback
-			});
-		});
-
-		return promise;
-	},
-
-	getQuestionCount: function (sessionKeyword) {
-		var promise = new RSVP.Promise();
-		ARSnova.app.questionModel.countSkillQuestions(sessionKeyword, {
-			success: function (response) {
-				promise.resolve(parseInt(response.responseText));
-			},
-			failure: function () {
-				promise.reject();
-			}
-		});
-		return promise;
-	},
-
-	updateQuestionBadge: function (sessionKeyword, button) {
-		return this.getQuestionCount(sessionKeyword).then(function (numQuestions) {
-			button.setBadge([{badgeText: numQuestions, badgeCls: "greybadgeicon"}]);
-			return numQuestions;
-		});
 	}
 });

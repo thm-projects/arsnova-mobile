@@ -139,7 +139,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			url: "session/",
 			method: "GET",
 			params: {
-				ownedonly: true,
+				statusonly: true,
 				sortby: sortby
 			},
 
@@ -161,9 +161,11 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	 */
 	getMyVisitedSessions: function (callbacks, sortby) {
 		this.arsjax.request({
-			url: "session/?visitedonly=true",
+			url: "session/",
 			method: "GET",
 			params: {
+				visitedonly: true,
+				statusonly: true,
 				sortby: sortby
 			},
 			success: function (response) {

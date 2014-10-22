@@ -39,19 +39,19 @@ Ext.define("ARSnova.controller.Feedback", {
 		var feedbackCls;
 		switch (options.value) {
 			case "Kann folgen":
-				feedbackCls = "Good";
+				feedbackCls = "happy";
 				feedbackValue = 1;
 				break;
 			case "Bitte schneller":
-				feedbackCls = "Medium";
+				feedbackCls = "wink";
 				feedbackValue = 0;
 				break;
 			case "Zu schnell":
-				feedbackCls = "Bad";
+				feedbackCls = "shocked";
 				feedbackValue = 2;
 				break;
 			case "Nicht mehr dabei":
-				feedbackCls = "None";
+				feedbackCls = "sad";
 				feedbackValue = 3;
 				break;
 			case "cancel":
@@ -65,8 +65,8 @@ Ext.define("ARSnova.controller.Feedback", {
 		var feedbackButton = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.feedbackButton;
 
 		feedbackButton.setBadge([{
-			badgeText: "0",
-			badgeCls: 'badgeicon feedback' + feedbackCls
+			badgeText: " ",
+			badgeCls: 'x-button-icon x-shown icon-' + feedbackCls
 		}]);
 
 		var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
