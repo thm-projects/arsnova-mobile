@@ -60,6 +60,18 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	},
 	
 	/**
+	 * Updates the GridImageContainer with the given parameters.
+	 *
+	 * @param questionObj	The questionObj containing all necessary attributes.
+	 * @param mark	<code>true</code> if the chosen fields should be marked, <code>false</code> otherwise.
+	 */
+	update: function (questionObj, mark) {
+		this.callParent(arguments);
+		
+		this.setNumberOfDots(questionObj.numberOfDots);
+	},
+	
+	/**
 	 * Resets all necessary variables of the GridContainer.
 	 */
 	clearConfigs: function() {
@@ -98,6 +110,14 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		return values;
 	},
 	
+	createResult: function() {
+		result = this.callParent(arguments);
+		
+		result.numberOfDots = this.getNumberOfDots();
+		
+		return result;
+	},
+	
 	/**
 	 * Initialies this objects with the information given by the config structure.
 	 * Precondition is, that the "imageFile"-Attribute is set. Otherwise no other
@@ -112,5 +132,5 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		if (typeof(config.description) != "undefined") this.setDescription(config.description);
 		
 		this.callParent(arguments);
-	}	
+	},
 });

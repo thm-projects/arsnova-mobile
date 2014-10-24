@@ -50,6 +50,16 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 	},
 	
 	/**
+	 * Updates the GridImageContainer with the given parameters.
+	 *
+	 * @param questionObj	The questionObj containing all necessary attributes.
+	 * @param mark	<code>true</code> if the chosen fields should be marked, <code>false</code> otherwise.
+	 */
+	update: function (questionObj, mark) {
+		this.callParent(arguments);
+	},
+	
+	/**
 	 * Resets all necessary variables of the GridContainer.
 	 */
 	clearConfigs: function() {
@@ -188,6 +198,10 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 			}
 		}
 		return values;
+	},
+	
+	createResult: function() {
+		return this.callParent(arguments);
 	},
 });
 

@@ -191,32 +191,11 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		this.grid.setImage(questionObj.image, false, function () {
 
 			if (questionObj.showAnswer || questionObj.userAnswered == null) {
-
-				// TODO Logik in die jeweiligen GridContainer (GridImage vs GridModeration) packen
-				// --> result = this.grid.update(questionObj) --> dort die Zuweisung der Werte vornehmen
-				
 				// Output WITH correct answers
-				me.grid.update(questionObj.gridSize, questionObj.offsetX,
-						questionObj.offsetY, questionObj.zoomLvl,
-						questionObj.gridOffsetX, questionObj.gridOffsetY,
-						questionObj.gridZoomLvl, questionObj.gridSizeX,
-						questionObj.gridSizeY, questionObj.gridIsHidden,
-						questionObj.imgRotation, questionObj.toggleFieldsLeft,
-						questionObj.numClickableFields, questionObj.thresholdCorrectAnswers,
-						questionObj.cvIsColored, questionObj.gridLineColor,
-						questionObj.possibleAnswers, true);
+				me.grid.update(questionObj, true);
 			} else {
-
 				// output withOUT correct answers
-				me.grid.update(questionObj.gridSize, questionObj.offsetX,
-						questionObj.offsetY, questionObj.zoomLvl,
-						questionObj.gridOffsetX, questionObj.gridOffsetY,
-						questionObj.gridZoomLvl, questionObj.gridSizeX,
-						questionObj.gridSizeY, questionObj.gridIsHidden,
-						questionObj.imgRotation, questionObj.toggleFieldsLeft,
-						questionObj.numClickableFields, questionObj.thresholdCorrectAnswers,
-						questionObj.cvIsColored, questionObj.gridLineColor,
-						Array(), true);
+				me.grid.update(questionObj, false);
 			}
 			var gridAnswers = [];
 			var abstentionCount = 0;

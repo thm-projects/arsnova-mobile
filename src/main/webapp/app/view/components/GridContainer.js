@@ -403,44 +403,37 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	/**
 	 * Updates the GridContainer with the given parameters.
 	 *
-	 * @param int	gridSize		The gridSize to set.
-	 * @param int	offsetX			The offsetX to set.
-	 * @param int	offsetY			The offsetY to set.
-	 * @param		possibleAnswers	The Array of possible answers to set.
-	 * @param bool	<code>true</code> if the chosen fields should be marked, <code>false</code> otherwise.
+	 * @param questionObj	The questionObj containing all necessary attributes.
+	 * @param mark	<code>true</code> if the chosen fields should be marked, <code>false</code> otherwise.
 	 */
-	update: function (gridSize, offsetX, offsetY, zoomLvl, gridOffsetX, gridOffsetY, gridZoomLvl,
-						gridSizeX, gridSizeY, gridIsHidden, imgRotation, toggleFieldsLeft,
-						numClickableFields, thresholdCorrectAnswers, cvIsColored, gridLineColor, possibleAnswers, mark) {
+	update: function (questionObj, mark) {
 
-
-		this.setGridSize(gridSize);
-		this.setOffsetX(offsetX);
-		this.setOffsetY(offsetY);
-		this.setZoomLvl(zoomLvl);
-		this.setGridOffsetX(gridOffsetX);
-		this.setGridOffsetY(gridOffsetY);
-		this.setGridZoomLvl(gridZoomLvl);
-		this.setGridSizeX(gridSizeX);
-		this.setGridSizeY(gridSizeY);
-		this.setGridIsHidden(gridIsHidden);
-		this.setImgRotation(imgRotation);
-		this.setToggleFieldsLeft(toggleFieldsLeft);
-		this.setNumClickableFields(numClickableFields);
-		this.setThresholdCorrectAnswers(thresholdCorrectAnswers);
-		this.setCvIsColored(cvIsColored);
-		this.setCurGridLineColor(gridLineColor);
-
+		this.setGridSize(questionObj.gridSize);
+		this.setOffsetX(questionObj.offsetX);
+		this.setOffsetY(questionObj.offsetY);
+		this.setZoomLvl(questionObj.zoomLvl);
+		this.setGridOffsetX(questionObj.gridOffsetX);
+		this.setGridOffsetY(questionObj.gridOffsetY);
+		this.setGridZoomLvl(questionObj.gridZoomLvl);
+		this.setGridSizeX(questionObj.gridSizeX);
+		this.setGridSizeY(questionObj.gridSizeY);
+		this.setGridIsHidden(questionObj.gridIsHidden);
+		this.setImgRotation(questionObj.imgRotation);
+		this.setToggleFieldsLeft(questionObj.toggleFieldsLeft);
+		this.setNumClickableFields(questionObj.numClickableFields);
+		this.setThresholdCorrectAnswers(questionObj.thresholdCorrectAnswers);
+		this.setCvIsColored(questionObj.cvIsColored);
+		this.setCurGridLineColor(questionObj.gridLineColor);
 
 		// converting from old version
-		if (gridSize != undefined && gridSize > 0) {
+		if (questionObj.gridSize != undefined && questionObj.gridSize > 0) {
 
-			if (gridSizeX === undefined || gridSizeX === 0) {
-				this.setGridSizeX(gridSize);
+			if (questionObj.gridSizeX === undefined || questionObj.gridSizeX === 0) {
+				this.setGridSizeX(questionObj.gridSize);
 			}
 
-			if (gridSizeY === undefined || gridSizeY === 0) {
-				this.setGridSizeY(gridSize);
+			if (questionObj.gridSizeY === undefined || questionObj.gridSizeY === 0) {
+				this.setGridSizeY(questionObj.gridSize);
 			}
 
 		}
@@ -459,7 +452,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 
 		if (mark) {
-			this.getChosenFieldsFromPossibleAnswers(possibleAnswers);
+			this.getChosenFieldsFromPossibleAnswers(questionObj.possibleAnswers);
 		} else {
 			this.setChosenFields(new Array());
 		}
@@ -886,5 +879,42 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			console.log("Could not set config. No image path provided.");
 			return;
 		}
-	}
+	},
+	
+	/**
+	 * Gets all relevant informations which have to be send to the backend.
+	 *
+	 * Hint: If the canvas contains an image gotten from url we cannot access the
+	 * Base64 of the image in the client due to CORS denial. The image will be
+	 * transfered as a URL an will be converted directly on the server.
+	 */
+	createResult: function() {
+		var result = {};
+		
+		// get image data
+		if (this.getImageFile()) {
+			result.image = this.getImageFile().src;
+		}
+		
+		result.gridSize = this.getGridSize();
+		result.offsetX = this.getOffsetX();
+		result.offsetY = this.getOffsetY();
+		result.zoomLvl = this.getZoomLvl();
+		result.gridOffsetX = this.getGridOffsetX(),
+		result.gridOffsetY = this.getGridOffsetY(),
+		result.gridZoomLvl = this.getGridZoomLvl(),
+		result.gridSizeX = this.getGridSizeX(),
+		result.gridSizeY = this.getGridSizeY(),
+		result.gridIsHidden = this.getGridIsHidden(),
+		result.imgRotation = this.getImgRotation(),
+		result.toggleFieldsLeft = this.getToggleFieldsLeft(),
+		result.numClickableFields = this.getNumClickableFields(),
+		result.thresholdCorrectAnswers = this.getThresholdCorrectAnswers();
+		result.cvIsColored = this.getCvIsColored();
+		result.gridLineColor = this.getCurGridLineColor();
+		
+		result.noCorrect = this.getChosenFields().length > 0 ? 0 : 1; // TODO: Check if really needed (and why numbers instead of bool)
+		
+		return result;
+	},
 });

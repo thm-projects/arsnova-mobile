@@ -403,15 +403,8 @@ Ext.define('ARSnova.view.Question', {
 				/*
 				 * update function for align the grids picture
 				 */
-				this.grid.update(this.questionObj.gridSize, this.questionObj.offsetX,
-						this.questionObj.offsetY, this.questionObj.zoomLvl,
-						this.questionObj.gridOffsetX, this.questionObj.gridOffsetY,
-						this.questionObj.gridZoomLvl, this.questionObj.gridSizeX,
-						this.questionObj.gridSizeY, this.questionObj.gridIsHidden,
-						this.questionObj.imgRotation, this.questionObj.toggleFieldsLeft,
-						this.questionObj.numClickableFields, this.questionObj.thresholdCorrectAnswers,
-						this.questionObj.cvIsColored, this.questionObj.gridLineColor,
-						this.questionObj.possibleAnswers, false);
+				this.grid.update(this.questionObj, false);
+				
 				/*
 				 *   gridbutton and container for the grid button to add into the layout if necessary
 				 */

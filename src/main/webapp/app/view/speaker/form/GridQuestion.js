@@ -622,6 +622,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	 */
 	getQuestionValues: function () {
 		var result = {};
+		
+		result = this.grid.createResult();
 
 		var possibleAnswers = this.grid.getPossibleAnswersFromChosenFields();
 		if (ARSnova.app.globalConfig.features.learningProgress) {
@@ -634,34 +636,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			}, this);
 		}
 
-		// get image data
-		if (this.grid.getImageFile()) {
-			result.image = this.grid.getImageFile().src;
-		}
-		
-		// TODO Logik in die jeweiligen GridContainer (GridImage vs GridModeration) packen
-		// --> result = this.grid.createResult() --> dort die Zuweisung der Werte vornehmen
-		
-		result.gridSize = this.grid.getGridSize();
-		result.offsetX = this.grid.getOffsetX();
-		result.offsetY = this.grid.getOffsetY();
-		result.zoomLvl = this.grid.getZoomLvl();
-		result.gridOffsetX = this.grid.getGridOffsetX(),
-		result.gridOffsetY = this.grid.getGridOffsetY(),
-		result.gridZoomLvl = this.grid.getGridZoomLvl(),
-		result.gridSizeX = this.grid.getGridSizeX(),
-		result.gridSizeY = this.grid.getGridSizeY(),
-		result.gridIsHidden = this.grid.getGridIsHidden(),
-		result.imgRotation = this.grid.getImgRotation(),
-		result.toggleFieldsLeft = this.grid.getToggleFieldsLeft(),
-		result.numClickableFields = this.grid.getNumClickableFields(),
-		result.thresholdCorrectAnswers = this.grid.getThresholdCorrectAnswers();
-		result.cvIsColored = this.grid.getCvIsColored();
-		result.gridLineColor = this.grid.getCurGridLineColor();
-
 		result.possibleAnswers = possibleAnswers;
-
-		result.noCorrect = this.grid.getChosenFields().length > 0 ? 0 : 1; // TODO: Check if really needed (and why numbers instead of bool)
 
 		return result;
 	},
@@ -683,15 +658,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		// set image data (base64 --> grid)
 		this.updateCanvas(question.image, false);
 
-		this.grid.update(question.gridSize, question.offsetX,
-				question.offsetY, question.zoomLvl,
-				question.gridOffsetX, question.gridOffsetY,
-				question.gridZoomLvl, question.gridSizeX,
-				question.gridSizeY, question.gridIsHidden,
-				question.imgRotation, question.toggleFieldsLeft,
-				question.numClickableFields, question.thresholdCorrectAnswers,
-				question.cvIsColored, question.gridLineColor,
-				question.possibleAnswers, true);
+		this.grid.update(question, true);
 
 		answerField.setValue(this.grid.getChosenFields().length); // set the spinner with correct values (last storage)
 		this.zoomSpinner.setValue(Math.round(this.grid.getScale() * 100));
