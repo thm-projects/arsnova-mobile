@@ -25,7 +25,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	config: {
 		xtype: 'upField',
 		layout: 'vbox',
-		hidden:	true,
+//		hidden:	true,
 		
 		handlerScope: null,
 		urlUploadHandler: Ext.emptyFn,
@@ -115,7 +115,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 							name:	'btn_url',
 							handler: Ext.bind(function () {
 								var url = this.getComponent('pnl_upfield').getComponent('pnl_url').getComponent('tf_url').getValue();							
-								Ext.bid(this.getUrlUploadHandler(), this.getHandlerScope())(url);
+								Ext.bind(this.getUrlUploadHandler(), this.getHandlerScope())(url);
 							}, this)
 						}]
 					},

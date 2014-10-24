@@ -192,6 +192,9 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 
 			if (questionObj.showAnswer || questionObj.userAnswered == null) {
 
+				// TODO Logik in die jeweiligen GridContainer (GridImage vs GridModeration) packen
+				// --> result = this.grid.update(questionObj) --> dort die Zuweisung der Werte vornehmen
+				
 				// Output WITH correct answers
 				me.grid.update(questionObj.gridSize, questionObj.offsetX,
 						questionObj.offsetY, questionObj.zoomLvl,

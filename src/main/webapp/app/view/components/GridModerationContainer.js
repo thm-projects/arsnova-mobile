@@ -24,6 +24,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		name: "",
 		description: "",
 		highlightColor: '#FFA500', // Color of the highlighted fields.
+		numberOfDots: 0,
 	},
 	
 	/**

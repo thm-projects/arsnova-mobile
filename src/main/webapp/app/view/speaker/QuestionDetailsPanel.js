@@ -221,7 +221,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					
 					if (newContent.gridLineColor !== prevContent.get("gridLineColor"))
 						return true;
-
+					
+					if (newContent.numberOfDots !== prevContent.get("numberOfDots"))
+						return true;
+					
 					var changed = false;
 					prevContent.get("possibleAnswers").forEach(function (answer, i) {
 						if (answer.correct !== newContent.possibleAnswers[i].correct) {
@@ -261,6 +264,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					if (questionValues.thresholdCorrectAnswers != undefined)  question.set("thresholdCorrectAnswers", questionValues.thresholdCorrectAnswers);
 					if (questionValues.cvIsColored != undefined)  question.set("cvIsColored", questionValues.cvIsColored);
 					if (questionValues.gridLineColor != undefined)  question.set("gridLineColor", questionValues.gridLineColor);
+					if (questionValues.numberOfDots != undefined)  question.set("numberOfDots", questionValues.numberOfDots);
 					
 					question.set("possibleAnswers", questionValues.possibleAnswers);
 					question.set("noCorrect", !!questionValues.noCorrect);

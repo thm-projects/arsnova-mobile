@@ -29,7 +29,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		'ARSnova.view.speaker.form.YesNoQuestion',
 		'ARSnova.view.speaker.form.NullQuestion',
 		'ARSnova.view.speaker.form.GridQuestion',
-		'ARSnova.view.speaker.form.ImageUploadPanel'
+//		'ARSnova.view.speaker.form.ImageUploadPanel'
 	],
 
 	config: {
@@ -134,11 +134,11 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 		this.abstentionPart = Ext.create('ARSnova.view.speaker.form.AbstentionForm');
 
-		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
-			handlerScope: this,
-			urlUploadHandler: this.setImage,
-			fsUploadHandler: this.setImage
-		});
+//		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
+//			handlerScope: this,
+//			urlUploadHandler: this.setImage,
+//			fsUploadHandler: this.setImage
+//		});
 
 		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
 			editable: false,
@@ -229,12 +229,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							if (pressed) {
 								me.gridQuestion.show();
 								title = label(Messages.QUESTION_GRID, Messages.QUESTION_GRID_SHORT);
-								this.uploadView.show();
+//								this.uploadView.show();
 								this.grid.hide();
 							} else {
 								me.gridQuestion.hide();
 								
-								this.uploadView.hide();
+//								this.uploadView.hide();
 								if (this.grid.getImageFile()) {
 									this.grid.show();
 								}
@@ -408,7 +408,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		}
 		me.add([
 			me.abstentionPart,
-			me.uploadView,
+//			me.uploadView,
 			me.grid,
 			me.releasePart
 		]);
@@ -553,6 +553,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			thresholdCorrectAnswers: values.thresholdCorrectAnswers,
 			cvIsColored: values.cvIsColored,
 			gridLineColor: values.gridLineColor,
+			numberOfDots: values.numberOfDots,
 			successFunc: function (response, opts) {
 				promise.resolve(response);
 			},

@@ -389,7 +389,8 @@ Ext.define('ARSnova.view.Question', {
 					numClickableFields: this.questionObj.numClickableFields,
 					thresholdCorrectAnswers: this.questionObj.thresholdCorrectAnswers,
 					cvIsColored: this.questionObj.cvIsColored,
-					gridLineColor: this.gridLineColor,
+					gridLineColor: this.questionObj.gridLineColor,
+					numberOfDots: this.questionObj.numberOfDots,
 					editable: true,
 					possibleAnswers: this.questionObj.possibleAnswers
 				});

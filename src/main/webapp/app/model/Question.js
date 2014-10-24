@@ -62,7 +62,8 @@ Ext.define('ARSnova.model.Question', {
 			'numClickableFields',
 			'thresholdCorrectAnswers',
 			'cvIsColored',
-			'gridLineColor'
+			'gridLineColor',
+			'numberOfDots'
 		],
 
 		validations: [

@@ -161,62 +161,77 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			}
 		});
 
-		this.imageArea = Ext.create('Ext.Panel', {
-			itemId: 'imageArea',
-			layout:{
-				type: 'vbox',
-				align: 'center',
-				pack: 'center'
-			},
-			items: [
-				this.grid,
-				{
-					xtype: 'label',
-					html: Messages.GRID_CONFIG_IMAGE
+		if (this.grid instanceof ARSnova.view.components.GridModerationContainer) {
+			this.imageArea = Ext.create('Ext.Panel', {
+				itemId: 'imageArea',
+				layout:{
+					type: 'vbox',
+					align: 'center',
+					pack: 'center'
 				},
-				{
-					xtype: 'panel',
-					layout:{
-						type: 'hbox',
-						align: 'center',
-						pack: 'center'
+				items: [
+					this.grid
+				],
+			});
+		} else {
+		
+			this.imageArea = Ext.create('Ext.Panel', {
+				itemId: 'imageArea',
+				layout:{
+					type: 'vbox',
+					align: 'center',
+					pack: 'center'
+				},
+				items: [
+					this.grid,
+					{
+						xtype: 'label',
+						html: Messages.GRID_CONFIG_IMAGE
 					},
-					items: [
-						this.infoButton,
-						this.btnMoveLeft,
-						this.btnMoveRight,
-						this.btnMoveUp,
-						this.btnMoveDown,
-						this.deleteButton,
-						this.rotateButton
-					]
-				},
-				{
-					xtype: 'label',
-					html: Messages.GRID_CONFIG_GRID,
-					style: "margin-top: 15px"
-				},
-				{
-					xtype: 'panel',
-					layout:{
-						type: 'hbox',
-						align: 'center',
-						pack: 'center'
+					{
+						xtype: 'panel',
+						layout:{
+							type: 'hbox',
+							align: 'center',
+							pack: 'center'
+						},
+						items: [
+							this.infoButton,
+							this.btnMoveLeft,
+							this.btnMoveRight,
+							this.btnMoveUp,
+							this.btnMoveDown,
+							this.deleteButton,
+							this.rotateButton
+						]
 					},
-					items: [
-						this.btnZoomInGrid,
-						this.btnZoomOutGrid,
-						this.btnMoveGridLeft,
-						this.btnMoveGridRight,
-						this.btnMoveGridUp,
-						this.btnMoveGridDown,
-						this.hideGridButton
-					]
-				}
-			],
-			hidden: true
-		});
-
+					{
+						xtype: 'label',
+						html: Messages.GRID_CONFIG_GRID,
+						style: "margin-top: 15px"
+					},
+					{
+						xtype: 'panel',
+						layout:{
+							type: 'hbox',
+							align: 'center',
+							pack: 'center'
+						},
+						items: [
+							this.btnZoomInGrid,
+							this.btnZoomOutGrid,
+							this.btnMoveGridLeft,
+							this.btnMoveGridRight,
+							this.btnMoveGridUp,
+							this.btnMoveGridDown,
+							this.hideGridButton
+						]
+					}
+				],
+				hidden: true
+			});
+		}
+			
 		// initialize tap repeater for move buttons
 		// TapRepeater for left button
 		Ext.create('Ext.util.TapRepeater', {
@@ -376,27 +391,67 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			value: false
 		});
 
-		this.imageSettings = Ext.create('Ext.Panel', {
-			itemId: 'answerField',
-			items: [{
-				xtype: 'fieldset',
-				itemId: 'fs_imagesettings',
-				title: Messages.SETTINGS,
-				items: [
-					this.zoomSpinner,
-					this.gridXSpinner,
-					this.gridYSpinner,
-					this.gridColorsToggle,
-					this.cvBackgroundToggle,
-					this.toggleAnswers
-				]
-			}]
-		});
-
-		var panelItems = [
-			this.imageSettings,
-			this.answers
-		];
+		var panelItems = [];
+		
+		if (this.grid instanceof ARSnova.view.components.GridModerationContainer) {
+			this.numberOfDotsSpinner = Ext.create('Ext.field.Spinner', {
+				xtype: 'spinnerfield',
+//				label: Messages.GRID_LABEL_FIELD_X,
+				label: 'Anzahl Klebepunkte',
+				listeners: {
+					spin: function (spinner, value) {
+						me.grid.setNumberOfDots(value); // update value in grid
+//						me.grid.setChosenFields(Array());
+//						me.grid.redraw();
+//						me.grid.getOnFieldClick()(0);
+					}
+				},
+				minValue: 1,
+				maxValue: 8,
+				value: this.grid.getNumberOfDots(),
+				stepValue: 1,
+				cycle: true
+			});
+			
+			panelItems = [
+				this.imageSettings = Ext.create('Ext.Panel', {
+					itemId: 'answerField',
+					items: [{
+						xtype: 'fieldset',
+						itemId: 'fs_imagesettings',
+						title: Messages.SETTINGS,
+						items: [
+							this.numberOfDotsSpinner,
+						]
+					}]
+				})
+			];
+		} else {
+			panelItems = [
+				this.imageSettings = Ext.create('Ext.Panel', {
+					itemId: 'answerField',
+					items: [{
+						xtype: 'fieldset',
+						itemId: 'fs_imagesettings',
+						title: Messages.SETTINGS,
+						items: [
+							this.zoomSpinner,
+							this.gridXSpinner,
+							this.gridYSpinner,
+							this.gridColorsToggle,
+							this.cvBackgroundToggle,
+							this.toggleAnswers
+						]
+					}]
+				}),
+				this.answers
+			];
+		}
+		
+//		var panelItems = [
+//			this.imageSettings,
+//			this.answers
+//		];
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			panelItems.push(this.questionValueFieldset);
 		}
@@ -583,6 +638,10 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		if (this.grid.getImageFile()) {
 			result.image = this.grid.getImageFile().src;
 		}
+		
+		// TODO Logik in die jeweiligen GridContainer (GridImage vs GridModeration) packen
+		// --> result = this.grid.createResult() --> dort die Zuweisung der Werte vornehmen
+		
 		result.gridSize = this.grid.getGridSize();
 		result.offsetX = this.grid.getOffsetX();
 		result.offsetY = this.grid.getOffsetY();
