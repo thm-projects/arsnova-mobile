@@ -238,6 +238,8 @@ Ext.define("ARSnova.controller.Sessions", {
 			tabPanel.feedbackQuestionsPanel.tab.hide();
 		}
 
+		ARSnova.app.sessionModel.sessionIsActive = true;
+
 		hideLoadMask();
 	},
 

@@ -65,17 +65,6 @@ Ext.define('ARSnova.view.user.InClass', {
 		interval: 15000
 	},
 
-	/**
-	 * check if speaker has closed the session
-	 */
-	checkSessionStatusTask: {
-		name: 'check if this session was closed',
-		run: function () {
-			ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.checkSessionStatus();
-		},
-		interval: 20000
-	},
-
 	checkLearningProgressTask: {
 		name: 'check if my progress has changed',
 		run: function () {
@@ -249,7 +238,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		ARSnova.app.taskManager.start(panel.checkNewSkillQuestionsTask);
 		ARSnova.app.taskManager.start(panel.checkFeedbackRemovedTask);
 		ARSnova.app.taskManager.start(panel.countActiveUsersTask);
-		ARSnova.app.taskManager.start(panel.checkSessionStatusTask);
+		ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.sessionActive, panel.checkSessionStatus);
 		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
 			ARSnova.app.taskManager.start(panel.countFeedbackQuestionsTask);
 		}
@@ -264,7 +253,6 @@ Ext.define('ARSnova.view.user.InClass', {
 		this.checkNewSkillQuestionsTask.taskRunTime = 0;
 		this.checkFeedbackRemovedTask.taskRunTime = 0;
 		this.countActiveUsersTask.taskRunTime = 0;
-		this.checkSessionStatusTask.taskRunTime = 0;
 		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
 			this.countFeedbackQuestionsTask.taskRunTime = 0;
 		}
@@ -279,7 +267,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		ARSnova.app.taskManager.stop(panel.checkNewSkillQuestionsTask);
 		ARSnova.app.taskManager.stop(panel.checkFeedbackRemovedTask);
 		ARSnova.app.taskManager.stop(panel.countActiveUsersTask);
-		ARSnova.app.taskManager.stop(panel.checkSessionStatusTask);
+		ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.sessionActive, panel.checkSessionStatus);
 		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
 			ARSnova.app.taskManager.stop(panel.countFeedbackQuestionsTask);
 		}
@@ -438,27 +426,18 @@ Ext.define('ARSnova.view.user.InClass', {
 		});
 	},
 
-	/* if the session was closed, show a notification window and stop this task */
-	checkSessionStatus: function () {
-		ARSnova.app.sessionModel.isActive(localStorage.getItem("keyword"), {
-			success: function (isActive) {
-				if (!isActive) {
-					Ext.Msg.show({
-						title: 'Hinweis:',
-						message: Messages.SESSION_CLOSE_NOTICE,
-						buttons: [{
-							text: Messages.NOTICE_READ,
-							ui: 'action'
-						}]
-					});
-
-					ARSnova.app.taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.checkSessionStatusTask);
-				}
-			},
-			failure: function () {
-				console.log('server-side error');
-			}
-		});
+	/* if the session was closed, show a notification window */
+	checkSessionStatus: function (isActive) {
+		if (!isActive) {
+			Ext.Msg.show({
+				title: 'Hinweis:',
+				message: Messages.SESSION_CLOSE_NOTICE,
+				buttons: [{
+					text: Messages.NOTICE_READ,
+					ui: 'action'
+				}]
+			});
+		}
 	},
 
 	checkLearningProgress: function () {

@@ -19,6 +19,8 @@
 Ext.define('ARSnova.model.Session', {
 	extend: 'Ext.data.Model',
 
+	mixin: ['Ext.mixin.Observable'],
+
 	config: {
 		proxy: {type: 'restProxy'},
 		idProperty: "_id",
@@ -43,6 +45,22 @@ Ext.define('ARSnova.model.Session', {
 		]
 	},
 
+	sessionIsActive: true,
+
+	events: {
+		sessionActive: "arsnova/session/active"
+	},
+
+	constructor: function () {
+		this.callParent(arguments);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.setSessionActive, function (active) {
+			this.sessionIsActive = active;
+
+			this.fireEvent(this.events.sessionActive, active);
+		}, this);
+	},
+
 	destroy: function (sessionId, creator, callbacks) {
 		return this.getProxy().delSession(sessionId, creator, callbacks);
 	},
@@ -57,10 +75,6 @@ Ext.define('ARSnova.model.Session', {
 
 	getMySessions: function (callbacks, sortby) {
 		return this.getProxy().getMySessions(callbacks, sortby);
-	},
-
-	isActive: function (sessionKeyword, callbacks) {
-		return this.getProxy().isActive(sessionKeyword, callbacks);
 	},
 
 	lock: function (sessionKeyword, theLock, callbacks) {

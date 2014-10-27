@@ -652,23 +652,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	isActive: function (sessionKeyword, callbacks) {
-		this.arsjax.request({
-			url: "session/" + sessionKeyword,
-			success: function (response) {
-				var session = Ext.decode(response.responseText);
-				callbacks.success(session.active);
-			},
-			failure: function (response) {
-				if (response.status === 403) {
-					callbacks.success(false);
-				} else {
-					callbacks.failure.apply(this, arguments);
-				}
-			}
-		});
-	},
-
 	lock: function (sessionKeyword, theLock, callbacks) {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/lock?lock=" + !!theLock,
