@@ -661,25 +661,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	/**
-	 * save every minute that i'm online
-	 * replaced by WebSocket solution
-	 * TODO: remove all related code
-	 */
-	loggedInTask: function () {
-		console.debug("Obsolete method called: RestProxy.loggedInTask");
-	},
-
-	/**
-	 * if user is session owner update that owner of session is logged in
-	 * every 3 minutes
-	 * replaced by WebSocket solution
-	 * TODO: remove all related code
-	 */
-	updateSessionActivityTask: function () {
-		console.debug("Obsolete method called: RestProxy.updateSessionActivityTask");
-	},
-
 	/*
 	 * replaced by WebSocket solution
 	 * TODO: remove all related code
