@@ -661,19 +661,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	/*
-	 * replaced by WebSocket solution
-	 * TODO: remove all related code
-	 */
-	countActiveUsersBySession: function (sessionKeyword, callbacks) {
-		console.debug("Deprecated method called: RestProxy.countActiveUsersBySession");
-		this.arsjax.request({
-			url: "session/" + sessionKeyword + "/activeusercount",
-			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-
 	getStatistics: function (callbacks) {
 		this.arsjax.request({
 			url: "statistics/",

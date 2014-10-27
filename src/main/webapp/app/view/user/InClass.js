@@ -54,17 +54,6 @@ Ext.define('ARSnova.view.user.InClass', {
 		interval: 30000
 	},
 
-	/**
-	 * count all actually logged-in users for this session
-	 */
-	countActiveUsersTask: {
-		name: 'count the actually logged in users',
-		run: function () {
-			ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.countActiveUsers();
-		},
-		interval: 15000
-	},
-
 	checkLearningProgressTask: {
 		name: 'check if my progress has changed',
 		run: function () {
@@ -237,7 +226,6 @@ Ext.define('ARSnova.view.user.InClass', {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
 		ARSnova.app.taskManager.start(panel.checkNewSkillQuestionsTask);
 		ARSnova.app.taskManager.start(panel.checkFeedbackRemovedTask);
-		ARSnova.app.taskManager.start(panel.countActiveUsersTask);
 		ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.sessionActive, panel.checkSessionStatus);
 		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
 			ARSnova.app.taskManager.start(panel.countFeedbackQuestionsTask);
@@ -252,7 +240,6 @@ Ext.define('ARSnova.view.user.InClass', {
 		// tasks should get run immediately
 		this.checkNewSkillQuestionsTask.taskRunTime = 0;
 		this.checkFeedbackRemovedTask.taskRunTime = 0;
-		this.countActiveUsersTask.taskRunTime = 0;
 		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
 			this.countFeedbackQuestionsTask.taskRunTime = 0;
 		}
@@ -266,7 +253,6 @@ Ext.define('ARSnova.view.user.InClass', {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
 		ARSnova.app.taskManager.stop(panel.checkNewSkillQuestionsTask);
 		ARSnova.app.taskManager.stop(panel.checkFeedbackRemovedTask);
-		ARSnova.app.taskManager.stop(panel.countActiveUsersTask);
 		ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.sessionActive, panel.checkSessionStatus);
 		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
 			ARSnova.app.taskManager.stop(panel.countFeedbackQuestionsTask);
@@ -391,20 +377,6 @@ Ext.define('ARSnova.view.user.InClass', {
 				}
 			});
 		}
-	},
-
-	/* TODO: check code
-	 * this causes... nothing?
-	 */
-	countActiveUsers: function () {
-		ARSnova.app.loggedInModel.countActiveUsersBySession(localStorage.getItem("keyword"), {
-			success: function (response) {
-				var value = parseInt(response.responseText);
-			},
-			failure: function () {
-				console.log('server-side error');
-			}
-		});
 	},
 
 	countFeedbackQuestions: function () {
