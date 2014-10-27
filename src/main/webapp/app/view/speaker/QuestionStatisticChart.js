@@ -508,11 +508,11 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	countActiveUsers: function () {
 		var count = ARSnova.app.loggedInModel.countActiveUsersBySession();
 
-				// update quote in toolbar
-				var quote = ARSnova.app.mainTabPanel._activeItem.toolbar.items.items[2];
-				var users = quote.getHtml().split("/");
+		// update quote in toolbar
+		var quote = ARSnova.app.mainTabPanel._activeItem.toolbar.items.items[2];
+		var users = quote.getHtml().split("/");
 		users[1] = count;
-				users = users.join("/");
-				quote.setHtml(users);
+		users = users.join("/");
+		quote.setHtml(users);
 	}
 });

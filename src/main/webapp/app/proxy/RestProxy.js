@@ -652,59 +652,10 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	isActive: function (sessionKeyword, callbacks) {
-		this.arsjax.request({
-			url: "session/" + sessionKeyword,
-			success: function (response) {
-				var session = Ext.decode(response.responseText);
-				callbacks.success(session.active);
-			},
-			failure: function (response) {
-				if (response.status === 403) {
-					callbacks.success(false);
-				} else {
-					callbacks.failure.apply(this, arguments);
-				}
-			}
-		});
-	},
-
 	lock: function (sessionKeyword, theLock, callbacks) {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/lock?lock=" + !!theLock,
 			method: "POST",
-			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-
-	/**
-	 * save every minute that i'm online
-	 * replaced by WebSocket solution
-	 * TODO: remove all related code
-	 */
-	loggedInTask: function () {
-		console.debug("Obsolete method called: RestProxy.loggedInTask");
-	},
-
-	/**
-	 * if user is session owner update that owner of session is logged in
-	 * every 3 minutes
-	 * replaced by WebSocket solution
-	 * TODO: remove all related code
-	 */
-	updateSessionActivityTask: function () {
-		console.debug("Obsolete method called: RestProxy.updateSessionActivityTask");
-	},
-
-	/*
-	 * replaced by WebSocket solution
-	 * TODO: remove all related code
-	 */
-	countActiveUsersBySession: function (sessionKeyword, callbacks) {
-		console.debug("Deprecated method called: RestProxy.countActiveUsersBySession");
-		this.arsjax.request({
-			url: "session/" + sessionKeyword + "/activeusercount",
 			success: callbacks.success,
 			failure: callbacks.failure
 		});

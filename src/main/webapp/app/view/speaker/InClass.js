@@ -37,17 +37,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	createAdHocQuestionButton: null,
 
 	/**
-	 * count every x seconds all actually logged-in users for this sessions
-	 */
-	countActiveUsersTask: {
-		name: 'count the actually logged in users',
-		run: function () {
-			ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countActiveUsers();
-		},
-		interval: 15000
-	},
-
-	/**
 	 * task for speakers in a session
 	 * count every x seconds the number of feedback questions
 	 */
@@ -308,7 +297,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	/* will be called on session login */
 	registerListeners: function () {
 		var inClassPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
-		ARSnova.app.taskManager.start(inClassPanel.countActiveUsersTask);
 		ARSnova.app.taskManager.start(inClassPanel.countFeedbackQuestionsTask);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			ARSnova.app.taskManager.start(inClassPanel.courseLearningProgressTask);
@@ -318,7 +306,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	/* will be called whenever panel is shown */
 	refreshListeners: function () {
 		// tasks should get run immediately
-		this.countActiveUsersTask.taskRunTime = 0;
 		this.countFeedbackQuestionsTask.taskRunTime = 0;
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.courseLearningProgressTask.taskRunTime = 0;
@@ -328,7 +315,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	/* will be called on session logout */
 	destroyListeners: function () {
 		var inClassPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
-		ARSnova.app.taskManager.stop(inClassPanel.countActiveUsersTask);
 		ARSnova.app.taskManager.stop(inClassPanel.countFeedbackQuestionsTask);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			ARSnova.app.taskManager.stop(inClassPanel.courseLearningProgressTask);
@@ -390,24 +376,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				panel.flashcardsButton.setBadge([{badgeText: numQuestions, badgeCls: "greybadgeicon"}]);
 			},
 			failure: failureCallback
-		});
-	},
-
-	/* TODO: check code
-	 * this causes... nothing?
-	 */
-	countActiveUsers: function () {
-		ARSnova.app.loggedInModel.countActiveUsersBySession(localStorage.getItem("keyword"), {
-			success: function (response) {
-				var value = parseInt(response.responseText);
-				if (value > 0) {
-					// Do not count myself ;-)
-					value--;
-				}
-			},
-			failure: function () {
-				console.log('server-side error');
-			}
 		});
 	},
 
