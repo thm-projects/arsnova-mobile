@@ -394,6 +394,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		var panelItems = [];
 		
 		if (this.grid instanceof ARSnova.view.components.GridModerationContainer) {
+			
+			// hide abstention panel
+			var abstention = Ext.getCmp('abstentionPart');
+			abstention.hide();
+			
 			this.numberOfDotsSpinner = Ext.create('Ext.field.Spinner', {
 				xtype: 'spinnerfield',
 //				label: Messages.GRID_LABEL_FIELD_X,

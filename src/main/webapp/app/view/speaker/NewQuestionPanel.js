@@ -132,7 +132,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			}]
 		});
 
-		this.abstentionPart = Ext.create('ARSnova.view.speaker.form.AbstentionForm');
+		this.abstentionPart = Ext.create('ARSnova.view.speaker.form.AbstentionForm', {
+			id: 'abstentionPart'
+		});
 
 //		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
 //			handlerScope: this,
