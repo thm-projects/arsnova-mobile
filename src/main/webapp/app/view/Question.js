@@ -70,10 +70,6 @@ Ext.define('ARSnova.view.Question', {
 
 		this.on('preparestatisticsbutton', function (button) {
 			button.scope = this;
-			var isFlashcard = this.questionObj.questionType === 'flashcard';
-			var areStatisticsEnabled = this.questionObj.showStatistic === true;
-			var hasBeenAnswered = typeof(this.questionObj.userAnswered) !== "undefined";
-			button.setHidden(isFlashcard || (areStatisticsEnabled && !hasBeenAnswered));
 			button.setHandler(function () {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel || ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {

@@ -103,6 +103,7 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 	},
 
 	resetQuestionCounter: function (maxValue) {
+		this.questionCounter.show();
 		var counter = this.questionCounter.getHtml().split("/");
 		counter[0] = "1";
 		counter[1] = maxValue;
