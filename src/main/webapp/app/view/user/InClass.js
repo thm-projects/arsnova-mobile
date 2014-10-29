@@ -347,7 +347,6 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	checkFeedbackRemoved: function (sessions) {
-		console.log("remove feedback for", sessions);
 		if (Ext.Array.contains(sessions, localStorage.getItem("keyword"))) {
 			Ext.Msg.alert(Messages.NOTICE, Messages.FEEDBACK_RESET);
 
