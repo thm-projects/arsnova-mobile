@@ -17,20 +17,22 @@
 Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 	extend: 'Ext.Carousel',
     
-	grid: null,
+	moderationGrid: null,
 	
 	config: {
 		fullscreen: true,
 		title: Messages.TEMPLATE,
-		layout: {
-			type:	'hbox',
-			align:	'center'
+	    direction: 'horizontal',
+		layout:	{
+			type: 'hbox',
+			pack: 'center',
+			align: 'center' 
 		},
-		defaults:	{flex: 1}
 	},
 	
 	initialize: function () {
 		this.callParent(arguments);
+		this.moderationGrid = new Array();
 		
 		this.gridModeration = Ext.create('ARSnova.view.components.GridModerationContainer',{
 			itemId: 'gridModearionContainer'
@@ -84,22 +86,14 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 				pack: 'center'
 			},
 			items: [
-				this.gridModeration,
+				//this.gridModeration,
 				{
                     html : 'Item 1',
                     style: 'background-color: #5E99CC'
                 }
-			],
+			]
 		});
-		
-		this.templatePanel = Ext.create('Ext.Panel',{
-			 fullscreen: true,
-			 layout: 'hbox',
-			 items:[ 
-			 		this.gridModeration
-			    ]
-		});
-		
+			
 		this.add([this.toolbar]);
 		this.on('activate', this.getTemplates, this, null, 'before');
 		this.on('activate', this.onActivate);
@@ -116,9 +110,33 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 	addTemplate : function(templates) {		
 		for(var i = 0; i <= templates.length; i++){
 			var template = templates.pop();
-			this.add(template);
+			
+			this.templatePanel = Ext.create('Ext.Panel',{
+				layout:	{
+					type: 'vbox',
+					pack: 'center',
+					align: 'center' 
+				},
+				 items:[ template,
+				        {
+				         	xtype: 'fieldset',
+				            title: 'Beschreibung:',
+							
+				            items: 
+					        	{	xtype:	'panel',
+				            		
+					        		html:	template.getDescription()
+					        	}
+				 		},
+				 		{
+			        		xtype:	'button',
+			        		text:	'Download'
+			        	}
+				      ]
+			});
+			this.add(this.templatePanel);
+			this.moderationGrid.push(template);
 		}
-		
 	},
 	
 	/**
@@ -140,7 +158,8 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 					config.forEach(function(entry) {
 						var template = Ext.create('ARSnova.view.components.GridModerationContainer');
 						template.setConfig(entry);
-						//console.log(template.getDescription);
+						console.log(entry);
+						
 						templates.push(template);
 					});
 				}
