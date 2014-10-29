@@ -25,7 +25,6 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	config: {
 		xtype: 'upField',
 		layout: 'vbox',
-//		hidden:	true,
 		
 		handlerScope: null,
 		urlUploadHandler: Ext.emptyFn,
@@ -39,14 +38,11 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		
 		this.buttonTemplate = Ext.create('Ext.Button',
 		 {
-			text: 'Template',
+			text: Messages.TEMPLATE ,
 			handler: Ext.bind(function () {
 				var gridMod = Ext.create('ARSnova.view.speaker.form.GridModerationQuestion');
-				//var sTP = ARSnova.app.mainTabPanel.tabPanel;
-				
-				//Ext.bind(this.getTemplateHandler(), this.getHandlerScope())(gridMod);
-				//Ext.Viewport.add(gridMod);
-				//Ext.Viewport.setActiveItem(gridMod);
+				var tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;	
+				tabPanel.setActiveItem(gridMod);
 			},this)
 		 }		
 		);

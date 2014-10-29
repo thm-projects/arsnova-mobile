@@ -129,7 +129,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	setConfig : function(config) {
 		
 		if (typeof(config.name) != "undefined") this.setName(config.name);
-		if (typeof(config.description) != "undefined") this.setDescription(config.description);
+		if (typeof(config.description) != "undefined"){ this.setDescription(config.description); console.log(this.description);}
 		
 		this.callParent(arguments);
 	},

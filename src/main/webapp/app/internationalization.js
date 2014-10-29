@@ -195,7 +195,7 @@ switch (lang) {
 			ANSWER_POINTS: "Answer points",
 			ANSWER_POINTS_CORRECT: "Correct",
 			ANSWER_POINTS_INCORRECT: "Incorrect",
-
+			
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
 			QUESTIONS_FROM_STUDENTS: "Students' questions",
@@ -318,7 +318,8 @@ switch (lang) {
 			CORRECT_ANSWERS: "Correct answers",
 			SETTINGS: "Settings",
 			SETTINGS_HINT_TEXT: "Hint <br>Maximal filesize is 1 MB.",
-
+			TEMPLATE:	"Template",
+			
 			/* question types */
 			EVALUATION: "+-",
 			SCHOOL: "A-F",
@@ -670,7 +671,8 @@ switch (lang) {
 			CORRECT_ANSWERS: "Richtige Antworten",
 			SETTINGS: "Einstellungen",
 			SETTINGS_HINT_TEXT: "Hinweis: <br>Maximale Dateigröße beträgt 1MB.",
-
+			TEMPLATE:	"Template",
+			
 			/* question types */
 			EVALUATION: "+-",
 			SCHOOL: "1-6",

@@ -28,7 +28,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		'ARSnova.view.speaker.form.VoteQuestion',
 		'ARSnova.view.speaker.form.YesNoQuestion',
 		'ARSnova.view.speaker.form.NullQuestion',
-		'ARSnova.view.speaker.form.GridQuestion',
+		'ARSnova.view.speaker.form.GridQuestion'
 //		'ARSnova.view.speaker.form.ImageUploadPanel'
 	],
 
