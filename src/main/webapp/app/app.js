@@ -352,10 +352,6 @@ Ext.application({
 			localStorage.setItem('loggedIn', "[]");
 		}
 
-		if (localStorage.getItem('user has voted')) {
-			localStorage.removeItem('user has voted');
-		}
-
 		if (localStorage.getItem('session')) {
 			localStorage.removeItem('session');
 		}

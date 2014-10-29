@@ -32,7 +32,8 @@ Ext.define('ARSnova.WebSocket', {
 	extend: 'Ext.util.Observable',
 
 	events: {
-		setSessionActive: "arsnova/socket/session/active"
+		setSessionActive: "arsnova/socket/session/active",
+		feedbackReset: "arsnova/socket/feedback/reset"
 	},
 
 	memoization: {},
@@ -94,7 +95,7 @@ Ext.define('ARSnova.WebSocket', {
 
 			socket.on('feedbackReset', Ext.bind(function (affectedSessions) {
 				console.debug("Socket.IO: feedbackReset", affectedSessions);
-				//topic.publish("arsnova/socket/feedback/remove", affectedSessions);
+				this.fireEvent(this.events.feedbackReset, affectedSessions);
 			}, this));
 
 			socket.on('setSessionActive', Ext.bind(function (active) {

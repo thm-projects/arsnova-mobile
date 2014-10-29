@@ -28,6 +28,10 @@ Ext.define('ARSnova.model.Feedback', {
 	currentValues: [0, 0, 0, 0],
 	currentAverage: null,
 
+	events: {
+		feedbackReset: "arsnova/session/feedback/reset"
+	},
+
 	constructor: function () {
 		this.callParent(arguments);
 
@@ -42,12 +46,10 @@ Ext.define('ARSnova.model.Feedback', {
 			this.fireEvent("arsnova/session/feedback/average", this.currentAverage);
 			this.fireEvent("arsnova/session/feedback/update", this.currentValues);
 		}, this);
-	},
 
-	getUserFeedback: function (sessionKeyword, callbacks) {
-		/* TODO: Remove this method, it has been replaced by a WebSocket solution */
-		console.warn("Deprecated method used for feedback");
-		return this.getProxy().getUserFeedback(sessionKeyword, callbacks);
+		ARSnova.app.socket.on(ARSnova.app.socket.events.feedbackReset, function (affectedSessions) {
+			this.fireEvent(this.events.feedbackReset, affectedSessions);
+		}, this);
 	},
 
 	postFeedback: function (feedbackValue) {

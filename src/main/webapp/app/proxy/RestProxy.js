@@ -626,32 +626,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	getUserFeedback: function (sessionKeyword, callbacks) {
-		this.arsjax.request({
-			url: "session/" + sessionKeyword + "/myfeedback",
-			success: callbacks.success,
-			failure: function (response) {
-				if (response.status === 404) {
-					callbacks.empty.apply(this, arguments);
-				} else {
-					callbacks.failure.apply(this, arguments);
-				}
-			}
-		});
-	},
-
-	postFeedback: function (sessionKeyword, feedbackValue, callbacks) {
-		/* TODO: Remove this method, it has been replaced by a WebSocket solution */
-		console.warn("Deprecated method used for feedback");
-		this.arsjax.request({
-			url: "session/" + sessionKeyword + "/feedback",
-			method: "POST",
-			jsonData: feedbackValue + "", // A string ensures that even zero gets submitted to the server!
-			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-
 	lock: function (sessionKeyword, theLock, callbacks) {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/lock?lock=" + !!theLock,

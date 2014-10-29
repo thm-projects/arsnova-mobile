@@ -109,10 +109,6 @@ Ext.define("ARSnova.controller.Sessions", {
 
 		ARSnova.app.loggedInModel.resetActiveUserCount();
 
-		// remove "user has voted"-flag
-		if (localStorage.getItem('user has voted'))
-			localStorage.removeItem('user has voted');
-
 		// stop task to update the feedback tab in tabBar
 		ARSnova.app.feedbackModel.un("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge);
 		ARSnova.app.feedbackModel.un("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon);
