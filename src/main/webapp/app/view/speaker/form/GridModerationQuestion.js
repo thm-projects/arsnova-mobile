@@ -91,26 +91,40 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 		for(var i = 0; i <= templates.length; i++){
 			var template = templates.pop();
 			template.setEditable(false);
+
+			// panel for question content
+			var contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+				xtype: 'mathJaxMarkDownPanel',
+				id: 'questionContent',
+				flex: 3,
+				cls: '',
+				style: 'color: black;font-weight: bold'
+			});
+			contentPanel.setContent(template.getDescription(), true, true);
+			
+			// panel for question subject
+			var titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+				xtype: 'mathJaxMarkDownPanel',
+				id: 'questionTitle',
+				flex: 1,
+				cls: '',
+				style: 'color: black;'
+			});
+			titlePanel.setContent(template.getName(), false, true);
+			
 			this.templatePanel = Ext.create('Ext.Panel',{	
 				scrollable: {
 					direction: 'vertical',
 					directionLock:true
 			     },
-				
 				layout:	{
 					type: 'vbox',
 					pack: 'center',
 					align: 'center' 
 				},
 				 items:[ template,
-				        {
-				         	xtype: 'fieldset',
-				            title: 'Beschreibung:',
-				            items: 
-					        	{	xtype:	'panel',				            		
-					        		html:	template.getDescription()
-					        	}
-				 		},
+				         titlePanel,
+			        	 contentPanel,
 				 		{
 			        		xtype:	'button',
 			        		text:	'Download'

@@ -21,7 +21,7 @@
     },
     {
 		"name": "Zweiter Testname",
-    	"description": "Testbeschreibung",	
+    	"description": "* Rot\n* Grün\n* Blau",	
         "imageFile": "Firefox_wallpaper.png",
         "gridSize": 16,
         "scaleFactor": 1.2,
