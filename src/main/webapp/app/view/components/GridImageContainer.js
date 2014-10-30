@@ -23,6 +23,7 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 	config: {
 		statisticWrongColor: '#FF0000', // Color for wrong fields in statistic.
 		statisticRightColor: '#00FF00', // Color for right fields in statistic.
+		type: 'image',
 	},
 	
 	/**
@@ -32,6 +33,19 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 	 */
 	constructor: function() {
 		this.callParent(arguments);
+	},
+	
+	/**
+	 * Checks if there are fields left to be clicked.
+	 */
+	calculateFieldsLeft: function() {
+		
+		var numChosenFields = this.getChosenFields().length;
+		var numCorrectFields = this.getPossibleAnswers().filter(function isCorrect(e) {
+			return e.correct;
+		}).length;
+		
+		return ((numChosenFields < numCorrectFields) || (numCorrectFields === 0) || this.getToggleFieldsLeft());
 	},
 	
 	/**

@@ -24,7 +24,8 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		name: "",
 		description: "",
 		highlightColor: '#FFA500', // Color of the highlighted fields.
-		numberOfDots: 0,
+		numberOfDots: 1,
+		type: 'moderation',
 	},
 	
 	/**
@@ -34,6 +35,16 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	 */
 	constructor: function() {
 		this.callParent(arguments);
+	},
+	
+	/**
+	 * Checks if there are fields left to be clicked.
+	 */
+	calculateFieldsLeft: function() {
+		
+		var numChosenFields = this.getChosenFields().length;
+		
+		return numChosenFields < this.getNumberOfDots();
 	},
 	
 	/**
@@ -67,7 +78,6 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	 */
 	update: function (questionObj, mark) {
 		this.callParent(arguments);
-		
 		this.setNumberOfDots(questionObj.numberOfDots);
 	},
 	

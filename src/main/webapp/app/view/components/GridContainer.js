@@ -335,6 +335,13 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			return "12pt bold";
 		}
 	},
+	
+	/**
+	 * Checks if there are fields left to be clicked.
+	 */
+	calculateFieldsLeft: function() {
+		// TODO make abstract method
+	},
 
 	/**
 	 * Handles mouse click events on the canvas element.
@@ -370,14 +377,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			}
 		}
 
-		var numChosenFields = container.getChosenFields().length;
-		// TODO wenn der Dozent selbst eine Anzahl an Antwortmoeglichkeiten bestimmen kann, dann muss
-		// numCorrectFields durch numClickableFields (wird in der DB abgespeichert) ersetzt werden.
-		var numCorrectFields = container.getPossibleAnswers().filter(function isCorrect(e) {
-			return e.correct;
-		}).length;
 		// either allow the maximum of correct fields, or allow all fields to be clicked if no correct answers are present
-		var fieldsLeft = ((numChosenFields < numCorrectFields) || (numCorrectFields === 0) || container.getToggleFieldsLeft());
+		var fieldsLeft = container.calculateFieldsLeft();
 		var changed = false;
 		if (index > -1) {
 			container.getChosenFields().splice(index, 1);

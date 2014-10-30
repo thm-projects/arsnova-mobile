@@ -369,6 +369,7 @@ Ext.define('ARSnova.view.Question', {
 			this.add([flashcardContainer]);
 			this.answerList.setHidden(true);
 		} else if (this.questionObj.questionType === "grid") {
+			// TODO Typabfrage (Moderation oder Image)
 				/*
 				 * in case of grid question, create a grid container model
 				 */

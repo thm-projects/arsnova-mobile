@@ -64,7 +64,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.callParent(arguments);
 
 		// TODO Erstellung des GridContainers -> updateCanvas / withURL
-		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
+		this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
 			docked: 'top',
 			itemId: 'gridImageContainer'
 		});
@@ -406,9 +406,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				listeners: {
 					spin: function (spinner, value) {
 						me.grid.setNumberOfDots(value); // update value in grid
-//						me.grid.setChosenFields(Array());
-//						me.grid.redraw();
-//						me.grid.getOnFieldClick()(0);
+						me.grid.setChosenFields(Array());
+						me.grid.redraw();
+						me.grid.getOnFieldClick()(0);
 					}
 				},
 				minValue: 1,
@@ -671,6 +671,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.gridYSpinner.setValue(this.grid.getGridSizeY());
 		this.deleteButton.setHidden(true); // disable delete button in edit mode
 		this.toggleAnswers.setValue(this.grid.getToggleFieldsLeft());
+		
+		if (this.grid instanceof ARSnova.view.components.GridModerationContainer) {
+			this.numberOfDotsSpinner.setValue(this.grid.getNumberOfDots());
+		}
+		
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.questionValueFieldset.setHidden(this.grid.getChosenFields().length === 0);
 			this.incorrectValueComponent.setSliderValue(minValue);
