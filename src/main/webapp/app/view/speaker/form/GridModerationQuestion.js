@@ -58,7 +58,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 		});
 		
 		this.saveButtonToolbar = Ext.create('Ext.Button', {
-			text: Messages.SAVE,
+			text: Messages.CONTINUE,
 			ui: 'confirm',
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
@@ -78,31 +78,11 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 			]
 		});
 				
-		this.imageArea = Ext.create('Ext.Panel', {
-			itemId: 'imageArea',
-			layout:{
-				type: 'hbox',
-				align: 'center',
-				pack: 'center'
-			},
-			items: [
-				//this.gridModeration,
-				{
-                    html : 'Item 1',
-                    style: 'background-color: #5E99CC'
-                }
-			]
-		});
-			
 		this.add([this.toolbar]);
 		this.on('activate', this.getTemplates, this, null, 'before');
-		this.on('activate', this.onActivate);
-		
+
 	},
 		
-	onActivate: function () {
-		//this.getAllSkillQuestions();
-	},
 	
 	/**
 	 * Loads the templates to Carousel. 
@@ -110,7 +90,8 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 	addTemplate : function(templates) {		
 		for(var i = 0; i <= templates.length; i++){
 			var template = templates.pop();
-			
+			template.setEditable(false);
+
 			// panel for question content
 			var contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 				xtype: 'mathJaxMarkDownPanel',
@@ -131,7 +112,11 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 			});
 			titlePanel.setContent(template.getName(), false, true);
 			
-			this.templatePanel = Ext.create('Ext.Panel',{
+			this.templatePanel = Ext.create('Ext.Panel',{	
+				scrollable: {
+					direction: 'vertical',
+					directionLock:true
+			     },
 				layout:	{
 					type: 'vbox',
 					pack: 'center',
@@ -170,8 +155,6 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 					config.forEach(function(entry) {
 						var template = Ext.create('ARSnova.view.components.GridModerationContainer');
 						template.setConfig(entry);
-						console.log(entry);
-						
 						templates.push(template);
 					});
 				}
