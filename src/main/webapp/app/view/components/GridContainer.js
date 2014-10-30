@@ -56,7 +56,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		numClickableFields: 0, // number of clickable fields the lecturer has chosen
 		thresholdCorrectAnswers: 0, // the points needed to answer the question correct
 		cvBackgroundColor: '#FFFFFF', // background color of the canvas element
-		cvIsColored: false // true if the canvas background is colored (cvBackgroundColor), false otherwise. This way older questions without this attribute should still have a transparent background
+		cvIsColored: false, // true if the canvas background is colored (cvBackgroundColor), false otherwise. This way older questions without this attribute should still have a transparent background
+		gridType: ""
 	},
 
 	/**
@@ -913,6 +914,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		result.thresholdCorrectAnswers = this.getThresholdCorrectAnswers();
 		result.cvIsColored = this.getCvIsColored();
 		result.gridLineColor = this.getCurGridLineColor();
+		result.gridType = this.getGridType();
 		
 		result.noCorrect = this.getChosenFields().length > 0 ? 0 : 1; // TODO: Check if really needed (and why numbers instead of bool)
 		

@@ -130,6 +130,7 @@ Ext.define("ARSnova.controller.Questions", {
 			cvIsColored: options.cvIsColored,
 			gridLineColor: options.gridLineColor,
 			numberOfDots: options.numberOfDots,
+			gridType: options.gridType,
 			showStatistic: 1
 		});
 		question.set('_id', undefined);

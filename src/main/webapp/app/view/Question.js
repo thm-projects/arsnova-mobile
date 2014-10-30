@@ -370,78 +370,63 @@ Ext.define('ARSnova.view.Question', {
 			this.answerList.setHidden(true);
 		} else if (this.questionObj.questionType === "grid") {
 			// TODO Typabfrage (Moderation oder Image)
-				/*
-				 * in case of grid question, create a grid container model
-				 */
+			if (this.questionObj.gridType === 'moderation') {
+				this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
+					id: 'gridImageContainer' + this.questionObj._id,
+				});
+			} else {
 				this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
 					id: 'gridImageContainer' + this.questionObj._id,
-					offsetX: this.questionObj.offsetX,
-					offsetY: this.questionObj.offsetY,
-					gridSize: this.questionObj.gridSize,
-					zoomLvl: this.questionObj.zoomLvl,
-					gridOffsetX: this.questionObj.gridOffsetX,
-					gridOffsetY: this.questionObj.gridOffsetY,
-					gridZoomLvl: this.questionObj.gridZoomLvl,
-					gridSizeX: this.questionObj.gridSizeX,
-					gridSizeY: this.questionObj.gridSizeY,
-					gridIsHidden: this.questionObj.gridIsHidden,
-					imgRotation: this.questionObj.imgRotation,
-					toggleFieldsLeft: this.questionObj.toggleFieldsLeft,
-					numClickableFields: this.questionObj.numClickableFields,
-					thresholdCorrectAnswers: this.questionObj.thresholdCorrectAnswers,
-					cvIsColored: this.questionObj.cvIsColored,
-					gridLineColor: this.questionObj.gridLineColor,
-					numberOfDots: this.questionObj.numberOfDots,
-					editable: true,
-					possibleAnswers: this.questionObj.possibleAnswers
 				});
+			}
 
-				var me = this;
-				this.grid.setImage(this.questionObj.image, false, function () {
-					me.setGridAnswer(me.questionObj.userAnswered);
-				});
+			this.grid.setPossibleAnswers(this.questionObj.possibleAnswers);
+			var me = this;
+			this.grid.setImage(this.questionObj.image, false, function () {
+				me.setGridAnswer(me.questionObj.userAnswered);
+			});
 
-				/*
-				 * update function for align the grids picture
-				 */
-				this.grid.update(this.questionObj, false);
-				
-				/*
-				 *   gridbutton and container for the grid button to add into the layout if necessary
-				 */
-				this.gridButton = Ext.create('Ext.Button', {
-					flex: 1,
-					ui: 'confirm',
-					cls: 'login-button noMargin',
-					text: Messages.SAVE,
-					handler: !this.viewOnly ? this.saveGridQuestionHandler: function () {},
-					scope: this,
-					disabled: false
-				});
+			/*
+			 * update function for align the grids picture
+			 */
+			this.grid.update(this.questionObj, false);
+			
+			/*
+			 *   gridbutton and container for the grid button to add into the layout if necessary
+			 */
+			this.gridButton = Ext.create('Ext.Button', {
+				flex: 1,
+				ui: 'confirm',
+				cls: 'login-button noMargin',
+				text: Messages.SAVE,
+				handler: !this.viewOnly ? this.saveGridQuestionHandler: function () {},
+				scope: this,
+				disabled: false
+			});
 
-				this.gridImageContainer = {
-						xtype: 'container',
-						layout: {
-							type: 'hbox',
-							align: 'stretch'
-						},
-						defaults: {
-							style: {
-								margin: '10px'
-							}
-						},
-						items: [this.gridButton, !!!this.questionObj.abstention ? {hidden: true}: {
-							flex: 1,
-							xtype: 'button',
-							cls: 'login-button noMargin',
-							text: Messages.ABSTENTION,
-							handler: this.mcAbstentionHandler,
-							scope: this
-						}]
-					};
-				this.add([this.grid]);
-				if (!this.viewOnly) {
-					this.add([this.gridImageContainer]);
+			this.gridImageContainer = {
+					xtype: 'container',
+					layout: {
+						type: 'hbox',
+						align: 'stretch'
+					},
+					defaults: {
+						style: {
+							margin: '10px'
+						}
+					},
+					items: [this.gridButton, !!!this.questionObj.abstention ? {hidden: true}: {
+						flex: 1,
+						xtype: 'button',
+						cls: 'login-button noMargin',
+						text: Messages.ABSTENTION,
+						handler: this.mcAbstentionHandler,
+						scope: this
+					}]
+				};
+			this.add([this.grid]);
+			if (!this.viewOnly) {
+				this.add([this.gridImageContainer]);
 		}
 				this.answerList.setHidden(true);
 		} else {

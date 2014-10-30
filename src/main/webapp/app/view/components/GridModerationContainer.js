@@ -25,7 +25,8 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		description: "",
 		highlightColor: '#FFA500', // Color of the highlighted fields.
 		numberOfDots: 1,
-		type: 'moderation',
+		gridType: 'moderation',
+		gridIsHidden: true,
 	},
 	
 	/**
@@ -86,6 +87,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	 */
 	clearConfigs: function() {
 		this.callParent(arguments);
+		this.setGridIsHidden(true);
 	},
 	
 	/**

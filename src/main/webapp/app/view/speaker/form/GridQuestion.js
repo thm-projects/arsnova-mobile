@@ -64,7 +64,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.callParent(arguments);
 
 		// TODO Erstellung des GridContainers -> updateCanvas / withURL
-		this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
+		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
 			docked: 'top',
 			itemId: 'gridImageContainer'
 		});
