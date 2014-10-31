@@ -85,19 +85,19 @@
 }
 
 .icon-logo-radar {
-	color: #80ba24;
+	color: $thm-green;
 	margin-right: -.20em;
 	margin-left: 5px;
 	content: "r";
 }
 
 .icon-logo-ars {
-	color: #4a5c66;
+	color: $thm-grey;
 	content: "a";
 }
 
 .icon-logo-nova {
-	color: #80ba24;
+	color: $thm-green;
 	content: "n";
 }
 
@@ -112,14 +112,14 @@
 .feedbackStatisticButton .icon-wink,
 .feedbackStatisticButton .icon-sad,
 .feedbackStatisticButton .icon-shocked {
-	color: #FFCC00;
+	color: $smiley-color;
 }
 
 .forwardListButton .icon-happy,
 .forwardListButton .icon-wink,
 .forwardListButton .icon-sad,
 .forwardListButton .icon-shocked {
-	color: #FFCC00;
+	color: $smiley-color;
 	margin-right: 15px;
     width: 28px !important;
     height: 28px !important;
@@ -140,7 +140,7 @@
 }
 
 .forwardListButton .icon-radar {
-	color: #80BA24 !important;
+	color: $thm-green !important;
 	margin-right: 15px;
 }
 
@@ -170,7 +170,7 @@
 
 .icon-happy, .icon-wink, .icon-sad,
 .icon-shocked, .login-icon-guest {
-	color: #FFCC00;
+	color: $smiley-color;
 	-moz-transform:rotate(20deg); /* Firefox 3.6 Firefox 4 */
 	-webkit-transform:rotate(20deg); /* Safari */
 	-o-transform:rotate(20deg); /* Opera */
@@ -209,17 +209,17 @@
 
 .login-icon-cas,
 .login-icon-arsnova {
-	color: #80BA24;
+	color: $thm-green;
 }
 
 .login-icon-twitter {
-	color: #55ACEE;
+	color: $twitter-color;
 }
 
 .login-icon-facebook {
-	color: #3b5998;
+	color: $facebook-color;
 }
 
 .login-icon-google {
-	color: #D34836;
+	color: $google-color;
 }
