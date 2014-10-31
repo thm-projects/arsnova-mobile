@@ -4,11 +4,12 @@
 	background: white !important;
 }
 
+.thmlink,
 .answerListButton .x-button-label,
 .forwardListButton .x-button-label,
 .standardListButton .x-button-label,
 .x-button .courseIcon {
-	color: $thm-grey;
+	color: $thm-grey !important;
 }
 
 .gravure {
