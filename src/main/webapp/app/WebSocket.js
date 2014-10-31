@@ -32,7 +32,9 @@ Ext.define('ARSnova.WebSocket', {
 	extend: 'Ext.util.Observable',
 
 	events: {
-		setSessionActive: "arsnova/socket/session/active"
+		setSessionActive: "arsnova/socket/session/active",
+		feedbackReset: "arsnova/socket/feedback/reset",
+		feedbackAverage: "feedbackDataRoundedAverage"
 	},
 
 	memoization: {},
@@ -92,9 +94,14 @@ Ext.define('ARSnova.WebSocket', {
 				this.fireEvent("arsnova/socket/feedback/update", data);
 			}, this));
 
+			socket.on('feedbackDataRoundedAverage', Ext.bind(function (average) {
+				console.debug("Socket.IO: feedbackDataRoundedAverage", average);
+				this.fireEvent(this.events.feedbackAverage, average);
+			}, this));
+
 			socket.on('feedbackReset', Ext.bind(function (affectedSessions) {
 				console.debug("Socket.IO: feedbackReset", affectedSessions);
-				//topic.publish("arsnova/socket/feedback/remove", affectedSessions);
+				this.fireEvent(this.events.feedbackReset, affectedSessions);
 			}, this));
 
 			socket.on('setSessionActive', Ext.bind(function (active) {

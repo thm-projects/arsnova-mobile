@@ -61,7 +61,6 @@ Ext.define("ARSnova.controller.Feedback", {
 		}
 
 		ARSnova.app.feedbackModel.postFeedback(feedbackValue);
-		localStorage.setItem('user has voted', 1);
 		var feedbackButton = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.feedbackButton;
 
 		feedbackButton.setBadge([{

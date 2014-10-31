@@ -41,10 +41,10 @@ Ext.define('ARSnova.view.RolePanel', {
 		}, {
 			xtype: 'panel',
 			cls: null,
-			html: 	"<div style='font-family: arsnova; font-size: 3em; text-align: center; margin-left: 5px'>" +
-					"<span style='color:#80ba24; text-shadow: 1px 1px black; margin-right: -.20em;'>r</span>" +
-					"<span>a</span>" +
-					"<span style='color:#80ba24; text-shadow: 1px 1px black;'>n</span>" +
+			html: 	"<div class='icon-logo'>" +
+					"<span class='icon-logo-radar'>r</span>" +
+					"<span class='icon-logo-ars'>a</span>" +
+					"<span class='icon-logo-nova'>n</span>" +
 					"</div>",
 			style: {marginTop: '35px', marginBottom: '35px'}
 		}, {
@@ -72,8 +72,7 @@ Ext.define('ARSnova.view.RolePanel', {
 					image: "login_student",
 					imageCls: "icon-users",
 					imageStyle: {
-						"margin-top": "15px",
-						"font-size": "1.15em"
+						marginTop: "13px"
 					}
 				},
 				{
@@ -82,7 +81,6 @@ Ext.define('ARSnova.view.RolePanel', {
 					image: "ars_logo",
 					imageCls: "icon-speaker",
 					imageStyle: {
-						"font-size": "1.15em"
 					},
 					style: "margin-left:20px"
 				}

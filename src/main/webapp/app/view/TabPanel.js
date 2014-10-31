@@ -151,10 +151,10 @@ Ext.define('ARSnova.view.TabPanel', {
 				panel.tab.setIconCls("voteIcons icon-happy");
 				break;
 			case 2:
-				panel.tab.setIconCls("voteIcons icon-sad");
+				panel.tab.setIconCls("voteIcons icon-shocked");
 				break;
 			case 3:
-				panel.tab.setIconCls("voteIcons icon-shocked");
+				panel.tab.setIconCls("voteIcons icon-sad");
 				break;
 			default:
 				break;

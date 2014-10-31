@@ -170,9 +170,6 @@ Ext.define("ARSnova.controller.Auth", {
 		/* hide diagnosis panel */
 		ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.tab.hide();
 
-		/* stop task to save user is logged in */
-		ARSnova.app.taskManager.stop(ARSnova.app.loggedInTask);
-
 		/* clear local storage */
 		localStorage.removeItem('sessions');
 		localStorage.removeItem('role');

@@ -88,47 +88,41 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			items: [{
 					xtype: 'panel',
 					cls: null,
-					html: 	"<div style='font-family: arsnova; font-size: 3em; text-align: center; margin-left: 5px'>" +
-							"<span style='color:#80ba24; text-shadow: 1px 1px black; margin-right: -.20em;'>r</span>" +
-							"<span>a</span>" +
-							"<span style='color:#80ba24; text-shadow: 1px 1px black;'>n</span>" +
+					html: 	"<div class='icon-logo'>" +
+							"<span class='icon-logo-radar'>r</span>" +
+							"<span class='icon-logo-ars'>a</span>" +
+							"<span class='icon-logo-nova'>n</span>" +
 							"</div>",
 					style: {marginTop: '35px', marginBottom: '30px'}
 				}, {
 					submitOnAction: false,
 					xtype: 'formpanel',
+					cls: 'loginFieldSet',
 					scrollable: null,
 					width: '310px',
 					margin: '0 auto',
 
 					items: [{
-							xtype: 'fieldset',
-							cls: 'bottomMargin',
-
-							items: [{
-								xtype: 'textfield',
-								component: {
-									xtype: 'input',
-									cls: 'joinSessionInput',
-									type: 'tel',
-									maxLength: 16
-								},
-								name: 'keyword',
-								placeHolder: Messages.SESSIONID_PLACEHOLDER,
-								listeners: {
-									scope: this,
-									action: this.onSubmit
-								}
-							}]
-						}, {
-							xtype: 'button',
-							height: '45px',
-							margin: '-10px 10px 0',
-							ui: 'confirm',
-							text: Messages.GO,
-							handler: this.onSubmit,
-							scope: this
-						}]
+						xtype: 'textfield',
+						component: {
+							xtype: 'input',
+							cls: 'joinSessionInput',
+							type: 'tel',
+							maxLength: 16
+						},
+						name: 'keyword',
+						placeHolder: Messages.SESSIONID_PLACEHOLDER,
+						listeners: {
+							scope: this,
+							action: this.onSubmit
+						}
+					}, {
+						xtype: 'button',
+						ui: 'confirm',
+						text: Messages.GO,
+						handler: this.onSubmit,
+						scope: this
+					}]
 			}]
 		});
 

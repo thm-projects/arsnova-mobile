@@ -33,11 +33,11 @@ Ext.define('ARSnova.view.Question', {
 
 	config: {
 		padding: '0 0 20 0',
-		
+
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
-		}		
+		}
 	},
 
 	abstentionInternalId: 'ARSnova_Abstention',
@@ -58,11 +58,11 @@ Ext.define('ARSnova.view.Question', {
 		answerStore.add(this.questionObj.possibleAnswers);
 		answerStore.each(function (item) {
 			if (ARSnova.app.globalConfig.parseAnswerOptionFormatting) {
-			var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
-			md.setContent(item.get('text'), true, true, function (html) {
-				item.set('formattedText', html.getHtml());
-				md.destroy();
-			});
+				var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+				md.setContent(item.get('text'), true, true, function (html) {
+					item.set('formattedText', html.getHtml());
+					md.destroy();
+				});
 			} else {
 				item.set('formattedText', Ext.util.Format.htmlEncode(item.get('text')));
 			}
@@ -70,7 +70,6 @@ Ext.define('ARSnova.view.Question', {
 
 		this.on('preparestatisticsbutton', function (button) {
 			button.scope = this;
-			button.setHidden(this.questionObj.questionType === 'flashcard');
 			button.setHandler(function () {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel || ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
@@ -102,7 +101,6 @@ Ext.define('ARSnova.view.Question', {
 		};
 
 		this.markCorrectAnswers = function () {
-
 			if (this.questionObj.showAnswer) {
 				// Mark all possible answers as 'answered'. This will highlight
 				// all correct answers.

@@ -60,10 +60,10 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 		this.add([this.toolbar, {
 			xtype: 'panel',
 			cls: null,
-			html: 	"<div style='font-family: arsnova; font-size: 3em; text-align: center; margin-left: 5px'>" +
-					"<span style='color:#80ba24; text-shadow: 1px 1px black; margin-right: -.20em;'>r</span>" +
-					"<span>a</span>" +
-					"<span style='color:#80ba24; text-shadow: 1px 1px black;'>n</span>" +
+			html: 	"<div class='icon-logo'>" +
+					"<span class='icon-logo-radar'>r</span>" +
+					"<span class='icon-logo-ars'>a</span>" +
+					"<span class='icon-logo-nova'>n</span>" +
 					"</div>",
 			style: {marginTop: '35px', marginBottom: '35px'}
 		},

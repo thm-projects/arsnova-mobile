@@ -105,8 +105,14 @@
      */
     "css": [
         {
-            "path": "resources/css/app.css",
-            "update": "full"
+			"path": "resources/css/app.css",
+			"platform": ["chrome", "safari", "ios", "android", "firefox"],
+			"update": "full"
+        },
+       	{
+			"path": "resources/css/demo.css",
+			"platform": ["demo"],
+			"update": "full"
         },
         {
             "path": "resources/css/index.css",

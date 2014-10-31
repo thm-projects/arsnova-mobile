@@ -36,10 +36,12 @@
 @include icon("icon-lock" , "\e609", "arsnova");
 @include icon("icon-play" , "\e60a", "arsnova");
 @include icon("icon-pause" , "\e60b", "arsnova");
-@include icon("icon-question" , "\e60c", "arsnova");
-@include icon("icon-info" , "\e60d", "arsnova");
-@include icon("icon-chart" , "\e60e", "arsnova");
-@include icon("icon-unlock" , "\e612", "arsnova");
+@include icon("icon-question" , "\f128", "arsnova");
+@include icon("icon-info" , "\f129", "arsnova");
+@include icon("icon-exclamation" , "\f12a", "arsnova");
+@include icon("icon-chart" , "\f012", "arsnova");
+@include icon("icon-unlock" , "\f09c", "arsnova");
+@include icon("icon-unlock2" , "\e612", "arsnova");
 @include icon("icon-prof" , "\e613", "arsnova");
 @include icon("icon-user" , "\e614", "arsnova");
 @include icon("icon-speaker" , "\e615", "arsnova");
@@ -59,10 +61,44 @@
 @include icon("login-icon-google" , "\e611", "arsnova");
 
 .x-tabbar .icon-questions,
-.x-tabbar .icon-question,
-.x-tabbar .icon-gear,
-.x-tabbar .icon-info {
+.x-tabbar .icon-gear {
 	margin-left: 17px !important;
+}
+
+.x-tabbar .icon-questions,
+.x-tabbar .icon-home {
+	font-size: 1.1em;
+	margin-bottom: -3px !important;
+	bottom: 1px;
+}
+
+.x-tabbar .icon-info {
+	top: 5px;
+	font-size: .9em;
+	margin-bottom: 3.5px!important;
+}
+
+.icon-logo {
+	font-size: 3em;
+	text-align: center;
+	font-family: "arsnova";
+}
+
+.icon-logo-radar {
+	color: #80ba24;
+	margin-right: -.20em;
+	margin-left: 5px;
+	content: "r";
+}
+
+.icon-logo-ars {
+	color: #4a5c66;
+	content: "a";
+}
+
+.icon-logo-nova {
+	color: #80ba24;
+	content: "n";
 }
 
 .feedbackStatisticButton {
@@ -85,10 +121,8 @@
 .forwardListButton .icon-shocked {
 	color: #FFCC00;
 	margin-right: 15px;
-	border-radius: 50%/50%; 
     width: 28px !important;
     height: 28px !important;
-    background: black;
 }
 
 .courseIcon.icon-prof {
@@ -106,41 +140,76 @@
 }
 
 .forwardListButton .icon-radar {
-	color: #80BA24;
+	color: #80BA24 !important;
 	margin-right: 15px;
-	text-shadow: 1px 1px black;
 }
 
-.login-icon-guest,
-.voteButton .icon-happy,
-.voteButton .icon-wink,
-.voteButton .icon-sad,
-.voteButton .icon-shocked {
+.voteButton .x-button-icon,
+.x-button .iconBtnImg.x-button-icon {
+	width: 48px;
+	height: 48px;
+	font-size: 48px;
+	line-height: 48px;
+}
+
+.iconBtn {
+	border-color: transparent !important;
+}
+
+.voteButton .x-button-icon:before,
+.x-toolbar .voteButton .x-button-icon:before,
+.x-button .iconBtnImg.x-button-icon:before {
+	font-size: 1em !important;
+	line-height: 1em !important;
+}
+
+.login-icon-ldap {
+	margin: 16px 0 0 10px !important;
+	font-size: 46px !important;
+}
+
+.icon-happy, .icon-wink, .icon-sad,
+.icon-shocked, .login-icon-guest {
 	color: #FFCC00;
-	font-size: 1.19em;
-	border-radius: 50%/50%; 
-    width: 47px !important;
-    height: 47px !important;
-    margin-top: 16px !important;
-    background: black;
+	-moz-transform:rotate(20deg); /* Firefox 3.6 Firefox 4 */
+	-webkit-transform:rotate(20deg); /* Safari */
+	-o-transform:rotate(20deg); /* Opera */
+	-ms-transform:rotate(20deg); /* IE9 */
+	transform:rotate(20deg); /* W3C */
+}
+
+.icon-happy:after, .icon-wink:after, .icon-sad:after,
+.icon-shocked:after, .login-icon-guest:after {
+	width: 90%;
+	height: 90%;
+	top: 5%;
+	left: 5%;
+	right: 5%;
+	bottom: 5%;
+	content: " ";
+	position: absolute;
+	z-index: -50;
+	display: inline-block;
+	border-radius: 50%/50%;
+	box-shadow: inset 50px 50px 50px #4a5c66;
+}
+
+.voteIcons {
+	top: 3px;
+	font-size: 0.875em;
+	margin-bottom: 5px !important;
 }
 
 .login-icon-twitter,
 .login-icon-facebook,
 .login-icon-google {
-	font-size: 1.5em !important;
-	margin: 9px 0 0 13px !important;
+	margin: 9px 0 0 14px !important;
+	font-size: 60px !important;
 }
 
 .login-icon-cas,
 .login-icon-arsnova {
 	color: #80BA24;
-	font-size: 1.1em;
-	text-shadow: 1px 1px black;
-}
-
-.login-icon-ldap {
-	margin: 20px 0 0 14px !important;
 }
 
 .login-icon-twitter {

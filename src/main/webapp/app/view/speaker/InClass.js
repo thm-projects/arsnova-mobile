@@ -185,7 +185,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			buttonConfig: 'icon',
 			imageCls: 'icon-question',
 			imageStyle: {
-				'color': '#205bcf',
+				'color': '#012169',
 				'font-size': '1.35em',
 				'margin-top': '11px'
 			},
@@ -199,7 +199,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			buttonConfig: 'icon',
 			imageCls: 'icon-close',
 			imageStyle: {
-				'color': '#bf0e0e',
+				'color': '#971b2f',
 				'margin-top': '20px !important'
 			},
 			scope: this,
@@ -269,10 +269,10 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		switch (averageFeedback) {
 			/* 0: faster, please!; 1: can follow; 2: to fast!; 3: you have lost me */
 			case 0:
-				feedbackCls = "happy";
+				feedbackCls = "wink";
 				break;
 			case 1:
-				feedbackCls = "wink";
+				feedbackCls = "happy";
 				break;
 			case 2:
 				feedbackCls = "shocked";
