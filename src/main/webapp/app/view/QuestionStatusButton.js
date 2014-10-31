@@ -44,11 +44,11 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		this.questionIsClosedButton = Ext.create('ARSnova.view.MatrixButton', {
 			buttonConfig: 'icon',
 			text: this.getWording().release,
-			imageCls: 'icon-play',
+			imageCls: 'icon-play thm-green',
 			imageStyle: {
-				'color': '#006633',
-				'font-size': '1.15em',
-				'margin': '17px 0 0 19px'
+				'font-size': '52px',
+				'margin-top': '14px',
+				'margin-left': '18px'
 			},
 			scope: this,
 			handler: function () {
@@ -61,9 +61,9 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 			text: this.getWording().stop,
 			imageCls: 'icon-pause',
 			imageStyle: {
-				'color': '#787878',
-				'font-size': '1.15em',
-				'margin': '17px 0 0 19px'
+				'font-size': '52px',
+				'margin-top': '14px',
+				'margin-left': '18px'
 			},
 			scope: this,
 			handler: function () {

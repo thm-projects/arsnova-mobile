@@ -19,6 +19,10 @@
 	opacity: 0;
 }
 
+.x-toolbar .x-button .x-button-label {
+	line-height: 1.2em;
+}
+
 /* styles for custom sliderField */
 .sliderField .sliderInputField {
 	width: 15%;
@@ -97,6 +101,10 @@
 	color: #333;
 }
 
+.x-form-fieldset .x-form-fieldset-inner {
+	overflow: visible !important;
+}
+
 .rightAligned .x-toggle {
 	float:right;
 	margin-right:1em;
@@ -106,10 +114,6 @@
 
 .centerAligned input{
 	text-align: center;
-}
-
-.x-form-label {
-	background-color: #dbdbdb;
 }
 
 .x-button.x-button-confirm {
@@ -212,47 +216,7 @@
 	color: #fff;
 }
 
-.x-hasbadge .x-badge {
-	-webkit-border-radius: 1em;
-	border-radius: 1em;
-	-webkit-background-clip: padding;
-	background-clip: padding-box;
-	padding: .15em .25em !important;
-	z-index: 30;
-	text-shadow: rgba(0, 0, 0, 0.5) 0 -0.08em 0;
-	-webkit-box-shadow: #000 0 .1em .2em;
-	overflow: hidden;
-	color: #fff;
-	border: 2px solid #fff;
-	position: absolute;
-	width: auto;
-	min-width: 2em;
-	height: 2em;
-	line-height: 1.2em !important;
-	font-size: .6em !important;
-	top: -0.15em;
-	right: 0px;
-	max-width: 100%;
-	background-color: #990000;
-	/* @alternate */ background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e60000), color-stop(50%, #b30000), color-stop(51%, #990000), color-stop(100%, #800000));
-	/* @alternate */ background-image: -webkit-linear-gradient(#e60000,#b30000 50%,#990000 51%,#800000);
-	/* @alternate */ background-image: linear-gradient(#e60000,#b30000 50%,#990000 51%,#800000);
-	display: inline-block;
-}
 
-.x-button-label, .x-hasbadge .x-badge {
-	-webkit-box-flex: 1;
-	box-flex: 1;
-	-webkit-box-align: center;
-	box-align: center;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	text-align: center;
-	font-weight: bold;
-	line-height: 1.2em;
-	display: block;
-	overflow: hidden;
-}
 
 .x-label-align-right {
 	-webkit-box-direction: reverse!important;
@@ -473,7 +437,9 @@ html,body {
 
 .buttonText {
 	overflow: hidden;
-	width: 100px !important;
+	width: 90px;
+	margin-left: 5px;
+	margin-right: 5px;
 	font-size: 1em !important;
 	padding: 5px 0 0 !important;
 	font-weight: normal !important;
@@ -486,6 +452,8 @@ html,body {
 .matrixButton.feedbackBadBackground .buttonText,
 .matrixButton.feedbackNoneBackground .buttonText {
 	width: 145px !important;
+	margin-left: 0px;
+	margin-right: 0px;
 }
 
 .noBackground {
@@ -547,17 +515,6 @@ html,body {
 	background: white;
 }
 
-.caption .bluebadgeicon,
-.caption .redbadgeicon,
-.caption .badgeicon,
-.caption .greybadgeicon,
-.caption .bluebadgeiconfixed,
-.caption .greenbadgeicon,
-.caption .yellowbadgeicon,
-.caption .textbadgeicon {
-	font-size: 0.6em;
-}
-
 .standardListButton, .answerListButton {
 	background: white no-repeat;
 	background-position: 100%;
@@ -567,26 +524,11 @@ html,body {
 	border-width: thin;
 }
 
-.standardListButton .x-hasbadge,
-.forwardListButton .x-hasbadge,
-.answerListButton .x-hasbadge {
-	margin-top: 6px;
-}
+
 
 .standardListButton>span,
 .forwardListButton>span {
 	text-align: left;
-}
-
-.x-list-item .audiencePanelListBadge {
-	position: initial;
-	min-height: 0em;
-	border: none;
-	padding: 0;
-}
-
-.x-list-item .audiencePanelListBadge .badgefixed {
-	top: 4px;
 }
 
 .answerListButton>span {
@@ -651,8 +593,6 @@ html,body {
 /* new session form BEGIN */
 
 .beside .x-field {
-	/*
-	*/
 	width: 50%;
 	min-width: 280px;
 	margin: 0 auto;
@@ -719,57 +659,7 @@ html,body {
 	border-bottom-right-radius: 15px;
 }
 
-.badgeicon, .greybadgeicon, .bluebadgeicon, .redbadgeicon, .greenbadgeicon, .yellowbadgeicon, .textbadgeicon {
-	font-weight: bold;
-	/* @alternate */ background: rgba(0, 0, 0, .50);
-	/* @alternate */ background: -webkit-linear-gradient(top, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .70) 100%);
-	color: rgb(238, 238, 238);
-	-webkit-border-radius: 20px;
-	border-radius: 11px;
-	padding: 4px 10px 4px 10px;
-	border: 2px solid white;
-	box-shadow: 0 0 3px gray;
-	margin-right: 12px;
-}
 
-.redbadgeicon {
-	background: rgba(128, 0, 50, 1);
-	/* @alternate */ background: -webkit-linear-gradient(top, rgba(128, 0, 50, .7) 0%, rgba(128, 0, 50, 1) 100%);
-}
-
-.bluebadgeicon {
-	background: rgb(23, 35, 128);
-	/* @alternate */ background: -webkit-linear-gradient(top, rgba(23, 35, 128, .7) 0%, rgba(23, 35, 128, 1) 100%);
-}
-
-.greenbadgeicon {
-	background: rgb(36, 155, 46);
-	/* @alternate */ background: -webkit-linear-gradient(top, rgba(36, 155, 46, .7) 0%, rgba(1, 121, 11, 1) 100%);
-}
-
-.yellowbadgeicon {
-	background: rgb(255, 233, 106);
-	/* @alternate */ background: -webkit-linear-gradient(top, rgba(255, 233, 106, .7) 0%, rgba(255, 184, 71, 1) 100%);
-	color: rgb(17, 17, 17);
-}
-
-.textbadgeicon {
-	background: transparent;
-	color: black;
-	border: none;
-	box-shadow: none;
-	padding: 0;
-}
-
-.withdoublebadge {
-	margin-right: 5px;
-}
-
-.badgefixed {
-	right: 12px;
-	position: absolute;
-	margin-right: 5px;
-}
 
 .inOutClassLabel {
 	padding: 0.5em 1em 0 1em;
@@ -885,8 +775,7 @@ html,body {
 	background-color: transparent;
 	text-align: center;
 	text-shadow: white 0 1px 1px;
-
-	color: #333;
+	color: #4a5c66;
 }
 
 .roundedBox p.title {
