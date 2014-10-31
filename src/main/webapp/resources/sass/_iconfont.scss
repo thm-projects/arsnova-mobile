@@ -65,6 +65,22 @@
 	margin-left: 17px !important;
 }
 
+.x-tabbar .icon-gear {
+	font-size: 18px;
+}
+
+.x-tabbar .icon-question {
+	font-size: 20px;
+	top: -2px;
+	margin-bottom: -3.5px!important;
+}
+
+.voteIcons {
+	top: 2px;
+	font-size: 16px;
+	margin-bottom: 3px!important;
+}
+
 .x-tabbar .icon-questions,
 .x-tabbar .icon-home {
 	font-size: 1.1em;
@@ -73,9 +89,9 @@
 }
 
 .x-tabbar .icon-info {
-	top: 3px;
-	font-size: .9em;
-	margin-bottom: 3px!important;
+	top: 2px;
+	font-size: 18px;
+	margin-bottom: 0px!important;
 }
 
 .icon-logo {
@@ -141,7 +157,7 @@
 
 .forwardListButton .icon-radar {
 	color: $thm-green !important;
-	margin-right: 15px;
+	margin-right: 16px;
 }
 
 .voteButton .x-button-icon,
@@ -192,12 +208,6 @@
 	display: inline-block;
 	border-radius: 50%/50%;
 	box-shadow: inset 50px 50px 50px #4a5c66;
-}
-
-.voteIcons {
-	top: 2px;
-	font-size: 0.875em;
-	margin-bottom: 4px !important;
 }
 
 .login-icon-twitter,
