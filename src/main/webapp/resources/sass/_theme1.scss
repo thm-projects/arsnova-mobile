@@ -1,0 +1,91 @@
+$thm-green: #80ba24;
+$thm-grey: #4a5c66;
+$thm-red: #971b2f;
+$thm-darkblue: #012169;
+$thm-orange: #f2a900;
+$smiley-color: #FFCC00;
+
+.thm-red {
+	color: $thm-red;
+}
+
+.thm-darkblue {
+	color: $thm-darkblue;
+}
+
+.thm-orange {
+	color: $thm-orange;
+}
+
+.iconBtn {
+	color: $thm-grey !important;
+	background: white !important;
+}
+
+.x-button .courseIcon {
+	color: $thm-grey;
+}
+
+.x-button {
+	border: none;
+}
+
+.gravure {
+	text-shadow: none !important;
+}
+
+.x-fullscreen {
+	background-color: #E0E0E0 !important; 
+}
+
+.x-button.x-button-confirm,
+.x-toolbar-light .x-button, .x-toolbar-light .x-button.x-button-back:after, .x-toolbar-light .x-button.x-button-forward:after, .x-toolbar .x-toolbar-light .x-button, .x-toolbar .x-toolbar-light .x-button.x-button-back:after, .x-toolbar .x-toolbar-light .x-button.x-button-forward:after, .x-toolbar-light .x-field-select .x-input-text, .x-toolbar-light .x-field-select .x-input-text.x-button-back:after, .x-toolbar-light .x-field-select .x-input-text.x-button-forward:after, .x-toolbar .x-toolbar-light .x-field-select .x-input-text, .x-toolbar .x-toolbar-light .x-field-select .x-input-text.x-button-back:after, .x-toolbar .x-toolbar-light .x-field-select .x-input-text.x-button-forward:after, .x-toolbar-light .x-field-select:before, .x-toolbar .x-toolbar-light .x-field-select:before {
+	background: $thm-green !important;
+}
+
+.x-toolbar-light .x-button, .x-toolbar .x-toolbar-light .x-button, .x-toolbar-light .x-field-select .x-input-text, .x-toolbar .x-toolbar-light .x-field-select .x-input-text, .x-toolbar-light .x-field-select:before, .x-toolbar .x-toolbar-light .x-field-select:before {
+	text-shadow: none !important;
+}
+
+.x-toolbar-light, 
+.x-tabbar-dark {
+	text-shadow: none !important;
+	background: $thm-grey !important;	
+	border-top: none !important; 
+	border-top-color: transparent;
+	border-bottom-color: transparent;
+}
+
+.x-toolbar-light .x-title {
+	color: #fff;
+	text-shadow: none !important; 
+}
+
+.x-tabbar-dark.x-docked-bottom .x-tab-active .x-button-icon:before {
+	color: $thm-green;
+}
+
+.x-tabbar-dark.x-docked-bottom .x-tab-active {
+	background-image: none !important;
+	background-color: transparent;
+	box-shadow: none;
+}
+
+.x-tabbar-dark.x-docked-bottom .x-tab {
+	text-shadow: none !important;
+}
+
+.x-tabbar-dark.x-docked-bottom .x-tab-active .icon-happy.x-button-icon:before,
+.x-tabbar-dark.x-docked-bottom .x-tab-active .icon-wink.x-button-icon:before,
+.x-tabbar-dark.x-docked-bottom .x-tab-active .icon-sad.x-button-icon:before,
+.x-tabbar-dark.x-docked-bottom .x-tab-active .icon-shocked.x-button-icon:before {
+	color: $smiley-color !important;
+}
+
+.x-tabbar .voteIcons {
+	color: white;
+}
+
+.x-mask-inner {
+	border-radius: 10px 10px 10px 10px;	
+}
