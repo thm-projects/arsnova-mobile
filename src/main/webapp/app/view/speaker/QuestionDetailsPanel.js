@@ -427,13 +427,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.statisticButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SHOW_STATISTIC,
 			buttonConfig: 'icon',
-			imageCls: 'icon-chart',
-			imageStyle: {
-				'font-size': '1.25em',
-				'color': 'navy',
-				'margin-top': '14px',
-				'margin-left': '13px'
-			},
+			imageCls: 'icon-chart thm-darkblue',
 			scope: this,
 			handler: function () {
 				ARSnova.app.taskManager.stop(this.renewAnswerDataTask);
@@ -540,11 +534,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			hidden: this.isFlashcard,
 			buttonConfig: 'icon',
 			text: Messages.DELETE_ANSWERS,
-			imageCls: 'icon-renew',
+			imageCls: 'icon-renew thm-lightblue',
 			imageStyle: {
-				'font-size': '1.15em',
-				'color': 'steelblue',
-				'margin': '16px 0 0 18px'
+				'font-size': '56px',
+				'margin-top': '12px'
 			},
 			scope: this,
 			handler: function () {
@@ -568,11 +561,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			xtype: 'button',
 			buttonConfig: 'icon',
 			text: Messages.DELETE_QUESTION,
-			imageCls: 'icon-close',
-			imageStyle: {
-				'color': '#bf0e0e',
-				'margin-top': '20px'
-			},
+			imageCls: 'icon-close thm-red',
 			scope: this,
 			handler: function () {
 				var msg = Messages.ARE_YOU_SURE;
@@ -633,20 +622,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			}
 		});
 		
-		/*this.inClassActions = Ext.create('Ext.Panel', {
-			style: {marginTop: '20px'},
-			layout: {
-				type: 'hbox',
-				pack: 'center'
-			},
-
-			items: [
-			        this.deleteQuestionsButton,
-			        this.deleteQuestionButton
-			]
-
-		});*/
-
 		// Preview button
 		this.previewButton = Ext.create('Ext.Button', {
 			text: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
@@ -673,12 +648,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				type: 'hbox',
 				pack: 'center'
 			},
-			//cls: 'actionsForm',
-			//scrollable: null,
 			hidden: this.isFlashcard,
 
 			style: {
-				marginTop: '15px'
+				marginTop: '30px'
 			},
 
 			items: [].concat(
@@ -705,20 +678,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 		/* END ACTIONS PANEL */
 
-		this.subject = Ext.create('Ext.field.Text', {
-			label: Messages.CATEGORY,
-			name: 'subject',
-			value: this.questionObj.subject,
-			disabled: true
-		});
-
-		this.textarea = Ext.create('Ext.plugins.ResizableTextArea', {
-			label: Messages.QUESTION,
-			name: 'questionText',
-			value: this.questionObj.text,
-			disabled: true
-		});
-
 		this.releasePart = Ext.create('Ext.Panel', {
 			items: [
 				{
@@ -739,6 +698,25 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 
 		/* BEGIN QUESTION DETAILS */
+		
+		this.subject = Ext.create('Ext.field.Text', {
+			label: Messages.CATEGORY,
+			name: 'subject',
+			value: this.questionObj.subject,
+			disabledCls: 'disableDefault',
+			inputCls: 'thm-grey',
+			disabled: true
+		});
+
+		this.textarea = Ext.create('Ext.plugins.ResizableTextArea', {
+			label: Messages.QUESTION,
+			name: 'questionText',
+			value: this.questionObj.text,
+			disabledCls: 'disableDefault',
+			inputCls: 'thm-grey',
+			disabled: true
+		});
+		
 		this.contentFieldset = Ext.create('Ext.form.FieldSet', {
 			cls: 'standardFieldset',
 			itemId: 'contentFieldset',
@@ -746,6 +724,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				xtype: 'textfield',
 				label: Messages.TYPE,
 				value: this.getType(),
+				disabledCls: 'disableDefault',
+				inputCls: 'thm-grey',
 				disabled: true
 			}]
 		});

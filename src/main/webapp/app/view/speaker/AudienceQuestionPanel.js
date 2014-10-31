@@ -185,11 +185,10 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			hidden: true,
 			buttonConfig: 'icon',
 			text: Messages.DELETE_ANSWERS,
-			imageCls: 'icon-renew',
+			imageCls: 'icon-renew thm-lightblue',
 			imageStyle: {
-				'font-size': '1.15em',
-				'color': 'steelblue',
-				'margin': '16px 0 0 18px'
+				'font-size': '56px',
+				'margin-top': '12px'
 			},
 			scope: this,
 			handler: function () {
@@ -209,11 +208,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			hidden: true,
 			buttonConfig: 'icon',
 			text: Messages.DELETE_ALL_QUESTIONS,
-			imageCls: 'icon-close',
-			imageStyle: {
-				'color': '#bf0e0e',
-				'margin-top': '20px'
-			},
+			imageCls: 'icon-close thm-red',
 			scope: this,
 			handler: function () {
 				var msg = Messages.ARE_YOU_SURE;
