@@ -8,10 +8,6 @@
 	color: $thm-grey;
 }
 
-.x-button {
-	border: none;
-}
-
 .gravure {
 	text-shadow: none !important;
 }
@@ -45,6 +41,13 @@
 
 .x-tabbar-dark.x-docked-bottom .x-tab-active .x-button-icon:before {
 	color: $thm-green;
+}
+
+.x-list-normal .x-list-header {
+	border: none !important;
+	background-color: $thm-grey !important;
+	background-image: none !important;
+	-webkit-box-shadow: none !important;
 }
 
 .x-tabbar-dark.x-docked-bottom .x-tab-active {
