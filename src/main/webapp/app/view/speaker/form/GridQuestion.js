@@ -225,7 +225,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
 			handlerScope: me,
 			urlUploadHandler: me.handleFS,
-			fsUploadHandler: me.handleUrl
+			fsUploadHandler: me.handleUrl,
+			templateHandler: me.handleTemplate,
 //			urlUploadHandler: me.updateCanvasWithUrl,
 //			fsUploadHandler: me.updateCanvas
 		});
@@ -587,9 +588,14 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	},
 	
 	handleTemplate: function(grid) {
-		// TODO methoden implementieren
-		this.initializeFormFields();
-		this.setGrid(grid);
+		console.log(grid);
+		
+//		var tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;	
+//		tabPanel.setActiveItem(this);
+		
+//		this.initializeFormFields();
+//		this.setGrid(grid);
+//		this.showImageView();
 	},
 	
 	/**

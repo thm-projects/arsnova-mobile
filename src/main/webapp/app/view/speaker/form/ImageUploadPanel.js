@@ -30,20 +30,27 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		urlUploadHandler: Ext.emptyFn,
 		fsUploadHandler: Ext.emptyFn,
 		toggleUrl: true,
+		gridMod: null, 
 		templateHandler: Ext.emptyFn
 	},
 
 	initialize: function () {
+		var me = this;
 		this.callParent(arguments);
+		
+		this.gridMod = Ext.create('ARSnova.view.speaker.form.GridModerationQuestion', {
+			saveHandlerScope: me,
+			templateSaveHandler: me.loadTemplate
+		});
 		
 		this.buttonTemplate = Ext.create('Ext.Button',
 		 {
 			text: Messages.TEMPLATE ,
-			handler: Ext.bind(function () {
-				var gridMod = Ext.create('ARSnova.view.speaker.form.GridModerationQuestion');
+			handler: function () {
+				
 				var tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;	
-				tabPanel.setActiveItem(gridMod);
-			},this)
+				tabPanel.setActiveItem(me.gridMod);
+			}
 		 }		
 		);
 		
@@ -157,5 +164,17 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 
 	setUrl: function (url) {
 		this.getComponent('pnl_upfield').getComponent('pnl_url').getComponent('tf_url').setValue(url);
-	}
+	},
+	
+	loadTemplate: function(grid) {
+		console.log('loadTemplate');
+		console.log(grid);
+		
+		console.log(Ext.getCmp('grid'));
+		
+		var tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		tabPanel.setActiveItem(Ext.getCmp('grid'));
+		
+//		Ext.bind(this.getTemplateHandler(), this.getHandlerScope())(grid);
+	},
 });
