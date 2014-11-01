@@ -369,7 +369,6 @@ Ext.define('ARSnova.view.Question', {
 			this.add([flashcardContainer]);
 			this.answerList.setHidden(true);
 		} else if (this.questionObj.questionType === "grid") {
-			// TODO Typabfrage (Moderation oder Image)
 			if (this.questionObj.gridType === 'moderation') {
 				this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
 					id: 'gridImageContainer' + this.questionObj._id,

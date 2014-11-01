@@ -183,50 +183,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					pack: 'center'
 				},
 				items: [
-					this.grid,
-					{
-						xtype: 'label',
-						html: Messages.GRID_CONFIG_IMAGE
-					},
-					{
-						xtype: 'panel',
-						layout:{
-							type: 'hbox',
-							align: 'center',
-							pack: 'center'
-						},
-						items: [
-							this.infoButton,
-							this.btnMoveLeft,
-							this.btnMoveRight,
-							this.btnMoveUp,
-							this.btnMoveDown,
-							this.deleteButton,
-							this.rotateButton
-						]
-					},
-					{
-						xtype: 'label',
-						html: Messages.GRID_CONFIG_GRID,
-						style: "margin-top: 15px"
-					},
-					{
-						xtype: 'panel',
-						layout:{
-							type: 'hbox',
-							align: 'center',
-							pack: 'center'
-						},
-						items: [
-							this.btnZoomInGrid,
-							this.btnZoomOutGrid,
-							this.btnMoveGridLeft,
-							this.btnMoveGridRight,
-							this.btnMoveGridUp,
-							this.btnMoveGridDown,
-							this.hideGridButton
-						]
-					}
+					this.grid
 				],
 				hidden: true
 			});
@@ -267,8 +224,10 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		 */
 		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
 			handlerScope: me,
-			urlUploadHandler: me.updateCanvasWithUrl,
-			fsUploadHandler: me.updateCanvas
+			urlUploadHandler: me.handleFS,
+			fsUploadHandler: me.handleUrl
+//			urlUploadHandler: me.updateCanvasWithUrl,
+//			fsUploadHandler: me.updateCanvas
 		});
 
 		this.answers = Ext.create('Ext.Panel', {
@@ -391,81 +350,20 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			value: false
 		});
 
-		var panelItems = [];
-		
-		if (this.grid instanceof ARSnova.view.components.GridModerationContainer) {
-			
-			// hide abstention panel
-			var abstention = Ext.getCmp('abstentionPart');
-			abstention.hide();
-			
-			this.numberOfDotsSpinner = Ext.create('Ext.field.Spinner', {
-				xtype: 'spinnerfield',
-//				label: Messages.GRID_LABEL_FIELD_X,
-				label: 'Anzahl Klebepunkte',
-				listeners: {
-					spin: function (spinner, value) {
-						me.grid.setNumberOfDots(value); // update value in grid
-						me.grid.setChosenFields(Array());
-						me.grid.redraw();
-						me.grid.getOnFieldClick()(0);
-					}
-				},
-				minValue: 1,
-				maxValue: 8,
-				value: this.grid.getNumberOfDots(),
-				stepValue: 1,
-				cycle: true
-			});
-			
-			panelItems = [
-				this.imageSettings = Ext.create('Ext.Panel', {
-					itemId: 'answerField',
-					items: [{
-						xtype: 'fieldset',
-						itemId: 'fs_imagesettings',
-						title: Messages.SETTINGS,
-						items: [
-							this.numberOfDotsSpinner,
-						]
-					}]
-				})
-			];
-		} else {
-			panelItems = [
-				this.imageSettings = Ext.create('Ext.Panel', {
-					itemId: 'answerField',
-					items: [{
-						xtype: 'fieldset',
-						itemId: 'fs_imagesettings',
-						title: Messages.SETTINGS,
-						items: [
-							this.zoomSpinner,
-							this.gridXSpinner,
-							this.gridYSpinner,
-							this.gridColorsToggle,
-							this.cvBackgroundToggle,
-							this.toggleAnswers
-						]
-					}]
-				}),
-				this.answers
-			];
-		}
-		
 //		var panelItems = [
 //			this.imageSettings,
 //			this.answers
 //		];
-		if (ARSnova.app.globalConfig.features.learningProgress) {
-			panelItems.push(this.questionValueFieldset);
-		}
-		this.imageCnt = Ext.create('Ext.form.FormPanel', {
-			scrollable: null,
-			itemId: 'imageControls',
-			hidden: true,
-			items: panelItems
-		});
+//		if (ARSnova.app.globalConfig.features.learningProgress) {
+//			panelItems.push(this.questionValueFieldset);
+//		}
+		
+//		this.imageCnt = Ext.create('Ext.form.FormPanel', {
+//			scrollable: null,
+//			itemId: 'imageControls',
+//			hidden: true,
+////			items: panelItems
+//		});
 
 
 		var toggleColorListener = {
@@ -535,15 +433,164 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		});
 
 		this.add([
-			this.imageArea,
 			this.uploadView,
-			this.imageCnt
-		]);
+			this.imageArea
+//			this.imageCnt
+		]);		
+	},
+
+	/**
+	 * Initialize the form fields depending on the type of gridContainer loaded in this question.
+	 */
+	initializeFormFields: function() {
+		
+		// TODO check if necessary
+//		if (this.imageCnt) {
+//			this.remove(this.imageCnt);
+//		}
+		
+		var panelItems = [];
+		
+		if (this.grid instanceof ARSnova.view.components.GridModerationContainer) {
+			
+			// hide abstention panel
+			var abstention = Ext.getCmp('abstentionPart');
+			abstention.hide();
+			
+			this.numberOfDotsSpinner = Ext.create('Ext.field.Spinner', {
+				xtype: 'spinnerfield',
+				// TODO String lokalisieren
+//				label: Messages.GRID_LABEL_FIELD_X,
+				label: 'Anzahl Klebepunkte',
+				listeners: {
+					spin: function (spinner, value) {
+						me.grid.setNumberOfDots(value); // update value in grid
+						me.grid.setChosenFields(Array());
+						me.grid.redraw();
+						me.grid.getOnFieldClick()(0);
+					}
+				},
+				minValue: 1,
+				maxValue: 8,
+				value: this.grid.getNumberOfDots(),
+				stepValue: 1,
+				cycle: true
+			});
+			
+			panelItems = [
+				this.imageSettings = Ext.create('Ext.Panel', {
+					itemId: 'answerField',
+					items: [{
+						xtype: 'fieldset',
+						itemId: 'fs_imagesettings',
+						title: Messages.SETTINGS,
+						items: [
+							this.numberOfDotsSpinner,
+						]
+					}]
+				})
+			];
+		} else {
+			panelItems = [
+				this.imageSettings = Ext.create('Ext.Panel', {
+					itemId: 'answerField',
+					items: [{
+						xtype: 'fieldset',
+						itemId: 'fs_imagesettings',
+						title: Messages.SETTINGS,
+						items: [
+							this.zoomSpinner,
+							this.gridXSpinner,
+							this.gridYSpinner,
+							this.gridColorsToggle,
+							this.cvBackgroundToggle,
+							this.toggleAnswers
+						]
+					}]
+				}),
+				this.answers
+			];
+			
+			this.imageArea.add([
+				{
+					xtype: 'label',
+					html: Messages.GRID_CONFIG_IMAGE
+				},
+				{
+					xtype: 'panel',
+					layout:{
+						type: 'hbox',
+						align: 'center',
+						pack: 'center'
+					},
+					items: [
+						this.infoButton,
+						this.btnMoveLeft,
+						this.btnMoveRight,
+						this.btnMoveUp,
+						this.btnMoveDown,
+						this.deleteButton,
+						this.rotateButton
+					]
+				},
+				{
+					xtype: 'label',
+					html: Messages.GRID_CONFIG_GRID,
+					style: "margin-top: 15px"
+				},
+				{
+					xtype: 'panel',
+					layout:{
+						type: 'hbox',
+						align: 'center',
+						pack: 'center'
+					},
+					items: [
+						this.btnZoomInGrid,
+						this.btnZoomOutGrid,
+						this.btnMoveGridLeft,
+						this.btnMoveGridRight,
+						this.btnMoveGridUp,
+						this.btnMoveGridDown,
+						this.hideGridButton
+					]
+				}
+            ]);
+		}
+		
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			panelItems.push(this.questionValueFieldset);
+		}
+		
+		this.imageCnt = Ext.create('Ext.form.FormPanel', {
+			scrollable: null,
+			itemId: 'imageControls',
+			hidden: true,
+			items: panelItems
+		});
+		
+		this.add(this.imageCnt);
+		
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.add([this.questionValueFieldset]);
 		}
 	},
-
+	
+	handleFS: function(dataUrl, reload) {
+		this.initializeFormFields()
+		this.updateCanvas(dataUrl, reload);
+	},
+	
+	handleUrl: function(url) {
+		this.initializeFormFields();
+		this.updateCanvasWithUrl(url);
+	},
+	
+	handleTemplate: function(grid) {
+		// TODO methoden implementieren
+		this.initializeFormFields();
+		this.setGrid(grid);
+	},
 	
 	/**
 	 * Interface to the grid element to set a new image.
@@ -659,6 +706,19 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		var maxValue = question.possibleAnswers.reduce(function (a, b) {
 			return a < b.value ? b.value : a;
 		}, 0);
+		
+		// reinstantiate grid if necessary
+		if (question.gridType === 'moderation') {
+			this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
+				docked: 'top',
+				itemId: 'gridImageContainer'
+			});
+		}
+		
+		console.log('initWithQuestion');
+		console.log(grid);
+		
+		this.initializeFormFields();
 
 		// set image data (base64 --> grid)
 		this.updateCanvas(question.image, false);
