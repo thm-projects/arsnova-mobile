@@ -57,7 +57,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		thresholdCorrectAnswers: 0, // the points needed to answer the question correct
 		cvBackgroundColor: '#FFFFFF', // background color of the canvas element
 		cvIsColored: false, // true if the canvas background is colored (cvBackgroundColor), false otherwise. This way older questions without this attribute should still have a transparent background
-		gridType: ""
+		gridType: "",
+		onClickHandler: Ext.emptyFn,
+		handlerScope: null
 	},
 
 	/**
@@ -402,6 +404,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			container.getOnFieldClick()(
 					container.getChosenFields().length);
 		}
+		
+		Ext.bind(container.getOnClickHandler(), container.getHandlerScope())();
 	},
 
 	/**
