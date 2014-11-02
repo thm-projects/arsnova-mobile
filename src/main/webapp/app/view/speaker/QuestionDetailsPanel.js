@@ -102,7 +102,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.questionObj = args.question;
 
 		this.hasCorrectAnswers = true;
-		if (['vote', 'school', 'freetext'].indexOf(this.questionObj.questionType) !== -1) {
+		if (['vote', 'school', 'freetext'].indexOf(this.questionObj.questionType) !== -1
+				|| (['grid'].indexOf(this.questionObj.questionType) !== -1 && this.questionObj.gridType == 'moderation')) {
 			this.hasCorrectAnswers = false;
 		}
 
