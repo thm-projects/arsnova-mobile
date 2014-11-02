@@ -875,6 +875,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 						if (typeof(config.cvBackgroundColor) != "undefined") me.setCvBackgroundColor(config.cvBackgroundColor);
 						if (typeof(config.cvIsColored) != "undefined") me.setCvIsColored(config.cvIsColored);
 						
+						me.initZoom();
+						me.initGridZoom();
+						
 						me.redraw();
 					}, function() {
 						console.log("Could not set config. Error while loading image: '" + url + "'.");
