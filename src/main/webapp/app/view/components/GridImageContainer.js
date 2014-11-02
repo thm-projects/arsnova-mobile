@@ -31,7 +31,7 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 	 * 
 	 * Creates the canvas element and initializes all necessary variables.
 	 */
-	constructor: function() {
+	constructor: function(config) {
 		this.callParent(arguments);
 	},
 	

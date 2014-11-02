@@ -34,7 +34,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	 * 
 	 * Creates the canvas element and initializes all necessary variables.
 	 */
-	constructor: function() {
+	constructor: function(config) {
 		this.callParent(arguments);
 	},
 	
@@ -144,5 +144,39 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		if (typeof(config.description) != "undefined"){ this.setDescription(config.description); console.log(this.description);}
 		
 		this.callParent(arguments);
+	},
+	
+	updateFromTemplate: function(templateGrid) {
+		
+		this.setGridSize(templateGrid.getGridSize());
+		this.setOffsetX(templateGrid.getOffsetX());
+		this.setOffsetY(templateGrid.getOffsetY());
+		this.setZoomLvl(templateGrid.getZoomLvl());
+		this.setGridOffsetX(templateGrid.getGridOffsetX());
+		this.setGridOffsetY(templateGrid.getGridOffsetY());
+		this.setGridZoomLvl(templateGrid.getGridZoomLvl());
+		this.setGridSizeX(templateGrid.getGridSizeX());
+		this.setGridSizeY(templateGrid.getGridSizeY());
+		this.setGridIsHidden(templateGrid.getGridIsHidden());
+		this.setImgRotation(templateGrid.getImgRotation());
+		this.setToggleFieldsLeft(templateGrid.getToggleFieldsLeft());
+		this.setNumClickableFields(templateGrid.getNumClickableFields());
+		this.setThresholdCorrectAnswers(templateGrid.getThresholdCorrectAnswers());
+		this.setCvIsColored(templateGrid.getCvIsColored());
+		this.setCurGridLineColor(templateGrid.getGridLineColor());
+
+		if (this.getGridOffsetX() === undefined) {
+			this.setGridOffsetX(0);
+		}
+
+		if (this.getGridOffsetY() === undefined) {
+			this.setGridOffsetY(0);
+		}
+
+		// change background color itself if necessary
+		this.colorBackground();
+
+		this.initZoom();
+		this.initGridZoom();
 	},
 });

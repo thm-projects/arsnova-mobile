@@ -29,7 +29,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 			align: 'center' 
 		},
 		saveHandlerScope: null,
-		templateSaveHandler: Ext.emptyFn,
+		templateAdoptionHandler: Ext.emptyFn,
 	},
 	
 	initialize: function () {
@@ -68,7 +68,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 			scope: this,
 			handler: function() {
 				// TODO get the active grid container
-				Ext.bind(this.getTemplateSaveHandler(), this.getSaveHandlerScope())(this.moderationGrid[0])
+				Ext.bind(this.getTemplateAdoptionHandler(), this.getSaveHandlerScope())(this.moderationGrid[0])
 			}
 		});
 		

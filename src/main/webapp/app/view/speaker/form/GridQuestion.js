@@ -63,12 +63,40 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		var me = this;
 		this.callParent(arguments);
 
-		// TODO Erstellung des GridContainers -> updateCanvas / withURL
-		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
-			docked: 'top',
-			itemId: 'gridImageContainer'
-		});
+		this.grid = null;
+//		this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
+//			docked: 'top',
+//			itemId: 'gridImageContainer'
+//		});
 
+		/**
+		 * The view containing the url textfield and the
+		 * functionality to load an image into the canvas
+		 */
+		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
+			handlerScope: me,
+			urlUploadHandler: me.handleFS,
+			fsUploadHandler: me.handleUrl,
+			templateHandler: me.handleTemplate
+		});
+		
+		this.add([
+			this.uploadView
+		]);
+	},
+
+	/**
+	 * Initialize the form fields depending on the type of gridContainer loaded in this question.
+	 */
+	initializeFormFields: function() {
+		
+		var me = this;
+		
+		// TODO check if necessary
+//		if (this.imageCnt) {
+//			this.remove(this.imageCnt);
+//		}
+		
 		this.infoPanel = Ext.create('Ext.Panel', {
 			cls: 'infoPanel',
 			html: Messages.SETTINGS_HINT_TEXT,
@@ -161,34 +189,19 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			}
 		});
 
-		if (this.grid instanceof ARSnova.view.components.GridModerationContainer) {
-			this.imageArea = Ext.create('Ext.Panel', {
-				itemId: 'imageArea',
-				layout:{
-					type: 'vbox',
-					align: 'center',
-					pack: 'center'
-				},
-				items: [
-					this.grid
-				],
-			});
-		} else {
+		this.imageArea = Ext.create('Ext.Panel', {
+			itemId: 'imageArea',
+			layout:{
+				type: 'vbox',
+				align: 'center',
+				pack: 'center'
+			},
+			items: [
+				this.grid
+			],
+			hidden: true
+		});
 		
-			this.imageArea = Ext.create('Ext.Panel', {
-				itemId: 'imageArea',
-				layout:{
-					type: 'vbox',
-					align: 'center',
-					pack: 'center'
-				},
-				items: [
-					this.grid
-				],
-				hidden: true
-			});
-		}
-			
 		// initialize tap repeater for move buttons
 		// TapRepeater for left button
 		Ext.create('Ext.util.TapRepeater', {
@@ -217,19 +230,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		}).on('tap', function () {
 			me.grid.moveDown();
 		}, me);
-
-		/**
-		 * The view containing the url textfield and the
-		 * functionality to load an image into the canvas
-		 */
-		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
-			handlerScope: me,
-			urlUploadHandler: me.handleFS,
-			fsUploadHandler: me.handleUrl,
-			templateHandler: me.handleTemplate,
-//			urlUploadHandler: me.updateCanvasWithUrl,
-//			fsUploadHandler: me.updateCanvas
-		});
 
 		this.answers = Ext.create('Ext.Panel', {
 			items: [{
@@ -351,22 +351,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			value: false
 		});
 
-//		var panelItems = [
-//			this.imageSettings,
-//			this.answers
-//		];
-//		if (ARSnova.app.globalConfig.features.learningProgress) {
-//			panelItems.push(this.questionValueFieldset);
-//		}
-		
-//		this.imageCnt = Ext.create('Ext.form.FormPanel', {
-//			scrollable: null,
-//			itemId: 'imageControls',
-//			hidden: true,
-////			items: panelItems
-//		});
-
-
 		var toggleColorListener = {
 				beforechange: function (slider, thumb, newValue, oldValue) {
 					me.grid.toggleBorderColor();
@@ -434,21 +418,10 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		});
 
 		this.add([
-			this.uploadView,
+//			this.uploadView,
 			this.imageArea
 //			this.imageCnt
 		]);		
-	},
-
-	/**
-	 * Initialize the form fields depending on the type of gridContainer loaded in this question.
-	 */
-	initializeFormFields: function() {
-		
-		// TODO check if necessary
-//		if (this.imageCnt) {
-//			this.remove(this.imageCnt);
-//		}
 		
 		var panelItems = [];
 		
@@ -578,24 +551,54 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	},
 	
 	handleFS: function(dataUrl, reload) {
+		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
+			docked: 'top',
+			itemId: 'gridImageContainer'
+		});
 		this.initializeFormFields()
 		this.updateCanvas(dataUrl, reload);
 	},
 	
 	handleUrl: function(url) {
+		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
+			docked: 'top',
+			itemId: 'gridImageContainer'
+		});
 		this.initializeFormFields();
 		this.updateCanvasWithUrl(url);
 	},
 	
-	handleTemplate: function(grid) {
-		console.log(grid);
+	handleTemplate: function(templateGrid) {
+//		console.log('handleTemplate');
+//		console.log(templateGrid);
 		
-//		var tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;	
-//		tabPanel.setActiveItem(this);
+//		console.log("this.grid before:");
+//		console.log(this.grid);
 		
-//		this.initializeFormFields();
-//		this.setGrid(grid);
-//		this.showImageView();
+		this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
+			docked: 'top',
+			itemId: 'gridImageContainer'
+		});
+		
+		this.grid.setImageFile(templateGrid.getImageFile());
+		
+		this.grid.updateFromTemplate(templateGrid);
+		
+//		console.log("this.grid after:");
+//		console.log(this.grid);
+		
+		this.grid.redraw();
+		
+		this.initializeFormFields();
+		this.showImageView();
+		
+		// show GridQuestion
+		var newQuestionPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
+		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.setActiveItem(newQuestionPanel);
+		
+		// TODO Focus on GridQuestion
+		newQuestionPanel.multipleChoiceQuestion.hide();
+		newQuestionPanel.gridQuestion.show();
 	},
 	
 	/**
@@ -705,17 +708,14 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	 * @param question		The questionObj providing all necessary information.
 	 */
 	initWithQuestion: function (question) {
-		var answerField = this.answers.getComponent('fs_answers').getComponent('tf_answers');
-		var minValue = question.possibleAnswers.reduce(function (a, b) {
-			return a < b.value ? a : b.value;
-		}, 0);
-		var maxValue = question.possibleAnswers.reduce(function (a, b) {
-			return a < b.value ? b.value : a;
-		}, 0);
-		
 		// reinstantiate grid if necessary
 		if (question.gridType === 'moderation') {
 			this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
+				docked: 'top',
+				itemId: 'gridImageContainer'
+			});
+		} else {
+			this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
 				docked: 'top',
 				itemId: 'gridImageContainer'
 			});
@@ -731,7 +731,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 		this.grid.update(question, true);
 
-		answerField.setValue(this.grid.getChosenFields().length); // set the spinner with correct values (last storage)
 		this.zoomSpinner.setValue(Math.round(this.grid.getScale() * 100));
 		this.gridXSpinner.setValue(this.grid.getGridSizeX());
 		this.gridYSpinner.setValue(this.grid.getGridSizeY());
@@ -741,6 +740,16 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		if (this.grid instanceof ARSnova.view.components.GridModerationContainer) {
 			this.numberOfDotsSpinner.setValue(this.grid.getNumberOfDots());
 		}
+		
+		var answerField = this.answers.getComponent('fs_answers').getComponent('tf_answers');
+		var minValue = question.possibleAnswers.reduce(function (a, b) {
+			return a < b.value ? a : b.value;
+		}, 0);
+		var maxValue = question.possibleAnswers.reduce(function (a, b) {
+			return a < b.value ? b.value : a;
+		}, 0);
+		
+		answerField.setValue(this.grid.getChosenFields().length); // set the spinner with correct values (last storage)
 		
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.questionValueFieldset.setHidden(this.grid.getChosenFields().length === 0);

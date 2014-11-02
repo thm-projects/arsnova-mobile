@@ -65,8 +65,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 *
 	 * Creates the canvas element and initializes all necessary variables.
 	 */
-	constructor: function () {
+	constructor: function (config) {
 		this.callParent(arguments);
+		
+		this.initConfig(config);
 
 		// set canvas size depending on screen size
 		var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
