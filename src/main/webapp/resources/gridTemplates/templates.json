@@ -10,5 +10,17 @@
         "gridZoomLvl": 7,
         "gridSizeX": 4,
         "gridSizeY": 1
+    },
+     {
+		"name": "Moderationsfrage",
+    	"description": "Nehmen Sie hier die Meinung Ihrer Studenten \"2-Dimensional\" entgegen.",	
+        "imageFile": "moderation.jpg",
+        "gridSize": 16,
+        "zoomLvl": 0,
+        "gridOffsetX": 13,
+        "gridOffsetY": 16,
+        "gridZoomLvl": 11,
+        "gridSizeX": 2,
+        "gridSizeY": 2
     }
 ]
