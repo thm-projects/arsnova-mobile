@@ -53,11 +53,17 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		;
 		var showShortLabels = screenWidth < 480;
 
-		// create toggles
-		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
-			docked: 'top',
-			editable: false
-		});
+		if (this.getQuestionObj().gridType == "moderation") {
+			this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
+				docked: 'top',
+				editable: false
+			});
+		} else {
+			this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
+				docked: 'top',
+				editable: false
+			});
+		}
 
 		// add toggles
 		this.gridWeakenImageToggle = Ext.create('Ext.field.Toggle', {
@@ -71,7 +77,8 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 			id: "toggleShowColors",
 			name: "toggleShowColors",
 			label: Messages.GRID_LABEL_SHOW_HEATMAP,
-			value: true
+			value: (this.getQuestionObj().gridType != "moderation"),
+			hidden: (this.getQuestionObj().gridType == "moderation")
 		});
 
 		this.releaseItems = [
@@ -168,14 +175,13 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		});
 		this.add(this.optionsFieldSet);
 
-		// everythings creates, now lets update the gridImageContainer
+		// everything is created, now lets update the gridImageContainer
 		this.updateGrid();
 	},
 
 	updateGrid: function () {
 		var questionObj = this.getQuestionObj();
 		var me = this;
-
 
 		if (typeof questionObj === "undefined"
 				|| typeof questionObj.image === "undefined") {
@@ -227,13 +233,12 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 					});
 				}
 			}
-
+			
 			// generate output
 			me.grid.generateStatisticOutput(gridAnswers, me.gridShowColors
 					.getValue(),
 					me.questionOptionsSegment.getPressedButtons()[0].getText(),
 					me.gridWeakenImageToggle.getValue());
-
 		});
 	}
 });
