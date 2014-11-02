@@ -92,7 +92,8 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 	/**
 	 * Loads the templates to Carousel. 
 	 */
-	addTemplate : function(templates) {		
+	addTemplate : function(templates) {	
+		var me = this;
 		for(var i = 0; i <= templates.length; i++){
 			var template = templates.pop();
 			template.setEditable(false);
@@ -132,7 +133,12 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 			        	 contentPanel,
 				 		{
 			        		xtype:	'button',
-			        		text:	'Download'
+			        		text:	'Download',
+			        		handler : function(){
+			        			var index = me.getActiveIndex();
+			        			var src = me.moderationGrid[index].getImageFile().src
+			        			window.open(src);
+			        		} 
 			        	}
 				      ]
 			});
