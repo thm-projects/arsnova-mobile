@@ -54,6 +54,10 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	markField: function (x, y, color, alpha) {
 		var ctx = this.getCanvas().getContext("2d");
 		var koord = this.getFieldKoord(x, y);
+		
+		// no transparency
+		alpha = 1.0;
+		
 		ctx.globalAlpha = alpha;
 		ctx.fillStyle = color;
 
@@ -62,7 +66,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		// draw circle
 		centerX = koord[0] + width / 2;
 		centerY = koord[1] + width / 2;
-		radius = width / 2;
+		radius = width / 2.75;
 		// TODO attribute padding in config mit verrechnen
 		
 		ctx.beginPath();
