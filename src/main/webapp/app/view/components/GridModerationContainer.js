@@ -58,7 +58,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		ctx.fillStyle = color;
 
 		var width = this.getFieldSize() - this.getGridLineWidth();
-		
+
 		// draw circle
 		centerX = koord[0] + width / 2;
 		centerY = koord[1] + width / 2;
@@ -94,7 +94,36 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	 * generates the statistic output.
 	 */
 	generateStatisticOutput: function (tilesToFill, colorTiles, displayType, weakenSourceImage) {
-		// TODO implementieren
+		
+		// clear canvas
+		weakenSourceImage ? this.redrawWithAlpha(0.2, false) : this.redrawWithAlpha(1, false);
+
+		// count answers
+		var totalAnswers = 0;
+		for (var key in tilesToFill) {
+			totalAnswers += tilesToFill[key];
+		}
+
+		for (var row = 0; row < this.getGridSizeX(); row++) {
+			for (var column = 0; column < this.getGridSizeY(); column++) {
+				var key = row + ";" + column;
+				var coords = this.getChosenFieldFromPossibleAnswer(key);
+
+				// mark field
+				if (typeof tilesToFill[key] !== "undefined")
+					this.markField(coords[0], coords[1], this.getHighlightColor(), 1.0);
+				
+
+				// draw text if needed
+				if (displayType == Messages.GRID_LABEL_RELATIVE || displayType == Messages.GRID_LABEL_RELATIVE_SHORT) {
+					var text = (typeof tilesToFill[key] !== "undefined") ? Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) + "%" : "";
+					this.addTextToField(coords[0], coords[1], text);
+				} else if (displayType == Messages.GRID_LABEL_ABSOLUTE || displayType == Messages.GRID_LABEL_ABSOLUTE_SHORT) {
+					var text = (typeof tilesToFill[key] !== "undefined") ? tilesToFill[key] : "";
+					this.addTextToField(coords[0], coords[1], text);
+				}
+			}
+		}
 	},
 	
 	generateUserViewWithAnswers: function (userAnswers, correctAnswers) {
