@@ -33,6 +33,8 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 	},
 	
 	initialize: function () {
+		var me = this;
+		
 		this.callParent(arguments);
 		this.moderationGrid = new Array();
 		
@@ -67,8 +69,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 
 			scope: this,
 			handler: function() {
-				// TODO get the active grid container
-				Ext.bind(this.getTemplateAdoptionHandler(), this.getSaveHandlerScope())(this.moderationGrid[0])
+				Ext.bind(this.getTemplateAdoptionHandler(), this.getSaveHandlerScope())(this.moderationGrid[me.getActiveIndex()])
 			}
 		});
 		

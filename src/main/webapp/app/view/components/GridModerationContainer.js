@@ -170,7 +170,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	setConfig : function(config) {
 		
 		if (typeof(config.name) != "undefined") this.setName(config.name);
-		if (typeof(config.description) != "undefined"){ this.setDescription(config.description); console.log(this.description);}
+		if (typeof(config.description) != "undefined"){ this.setDescription(config.description);}
 		
 		this.callParent(arguments);
 	},
@@ -191,8 +191,10 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		this.setToggleFieldsLeft(templateGrid.getToggleFieldsLeft());
 		this.setNumClickableFields(templateGrid.getNumClickableFields());
 		this.setThresholdCorrectAnswers(templateGrid.getThresholdCorrectAnswers());
+		this.setCvBackgroundColor(templateGrid.getCvBackgroundColor());
 		this.setCvIsColored(templateGrid.getCvIsColored());
 		this.setCurGridLineColor(templateGrid.getGridLineColor());
+		this.setScaleFactor(templateGrid.getScaleFactor());
 
 		if (this.getGridOffsetX() === undefined) {
 			this.setGridOffsetX(0);

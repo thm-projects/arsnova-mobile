@@ -569,8 +569,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	},
 	
 	handleTemplate: function(templateGrid) {
-//		console.log('handleTemplate');
-//		console.log(templateGrid);
+		console.log('handleTemplate');
+		console.log(templateGrid);
 		
 //		console.log("this.grid before:");
 //		console.log(this.grid);
@@ -584,8 +584,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		
 		this.grid.updateFromTemplate(templateGrid);
 		
-//		console.log("this.grid after:");
-//		console.log(this.grid);
+		console.log("this.grid after:");
+		console.log(this.grid);
 		
 		this.grid.redraw();
 		
