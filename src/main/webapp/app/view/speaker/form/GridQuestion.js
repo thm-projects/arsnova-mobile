@@ -445,7 +445,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					}
 				},
 				minValue: 1,
-				maxValue: 8,
+				maxValue: Math.min(this.grid.getGridSizeX() * this.grid.getGridSizeY(), 8),
 				value: this.grid.getNumberOfDots(),
 				stepValue: 1,
 				cycle: true

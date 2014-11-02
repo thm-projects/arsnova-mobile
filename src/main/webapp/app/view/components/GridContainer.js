@@ -313,7 +313,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		ctx.globalAlpha = 1;
 		ctx.fillStyle = this.getCurGridLineColor();
 		
-		var minGridSize = this.getGridSizeX()<this.getGridSizeY() ? this.getGridSizeX() : this.getGridSizeY();
+		var minGridSize = Math.min(this.getGridSizeX(), this.getGridSizeY());
 		
 		ctx.font = this.getFontForGridSize(minGridSize);
 		ctx.textAlign = "center";
