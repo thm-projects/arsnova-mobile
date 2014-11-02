@@ -370,9 +370,19 @@ Ext.define('ARSnova.view.Question', {
 			this.answerList.setHidden(true);
 		} else if (this.questionObj.questionType === "grid") {
 			if (this.questionObj.gridType === 'moderation') {
+			
 				this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
 					id: 'gridImageContainer' + this.questionObj._id,
+					handlerScope: self,
+					onClickHandler: function() {
+						var remainingDots = self.grid.getNumberOfDots() - (self.grid.getChosenFields() !== -1 ? self.grid.getChosenFields().length : 0);
+						Ext.get('remainingDotsLabel').setText("Verbleibende Klebepunkte:" + remainingDots);
+					}
 				});
+				
+				// TODO Strings lokalisieren
+				
+				
 			} else {
 				this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
 					id: 'gridImageContainer' + this.questionObj._id,
@@ -389,6 +399,19 @@ Ext.define('ARSnova.view.Question', {
 			 * update function for align the grids picture
 			 */
 			this.grid.update(this.questionObj, false);
+			
+			if (this.questionObj.gridType === 'moderation') {
+				this.add({
+					xtype: 'label',
+					id: 'remainingDotsLabel',
+					html: "Verbleibende Klebepunkte:" + this.grid.getNumberOfDots(),
+					layout:{
+						type: 'vbox',
+						align: 'center',
+						pack: 'center'
+					}
+				});
+			}
 			
 			/*
 			 *   gridbutton and container for the grid button to add into the layout if necessary
