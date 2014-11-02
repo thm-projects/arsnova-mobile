@@ -162,6 +162,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		this.setToggleFieldsLeft(templateGrid.getToggleFieldsLeft());
 		this.setNumClickableFields(templateGrid.getNumClickableFields());
 		this.setThresholdCorrectAnswers(templateGrid.getThresholdCorrectAnswers());
+		this.setCvBackgroundColor(templateGrid.getCvBackgroundColor());
 		this.setCvIsColored(templateGrid.getCvIsColored());
 		this.setCurGridLineColor(templateGrid.getGridLineColor());
 		this.setScaleFactor(templateGrid.getScaleFactor());
