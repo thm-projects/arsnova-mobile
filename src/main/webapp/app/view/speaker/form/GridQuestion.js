@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 	// identifier
 	xtype: 'grid',
-
+	scrollable: 'vertical',
 	requires: [
 		'Ext.ux.Fileup' // file upload framework
 	],

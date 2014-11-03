@@ -139,10 +139,17 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 			        			var src = me.allTemplates[index].getImageFile().src
 			        			window.open(src);
 			        		} 
-			        	}
+			        	},
+			        	{
+							xtype: 'spacer',
+							height: 25,
+							docked: 'bottom'
+						}
 				      ]
 			});
-			me.add(me.singleTemplatePanel);
+			me.BtnSpacer = Ext.create('Ext.Spacer');
+			
+			me.add([me.singleTemplatePanel]);
 			me.allTemplates.push(templateContainer);
 			me.setActiveItem(0);
 		});
@@ -154,7 +161,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 	 * @param successCallback(templates) The function which gets called after the templates were
 	 * loaded successfully.
 	 */
-	getTemplates : function() {
+	getTemplates : function() {	
 		var me = this;
 		this.removeAll();
 		Ext.Ajax.request({
