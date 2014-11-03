@@ -322,7 +322,7 @@ switch (lang) {
 			SETTINGS: "Settings",
 			SETTINGS_HINT_TEXT: "Hint <br>Maximal filesize is 1 MB.",
 			TEMPLATE:	"Template",
-			CONTINUE:	"Übernehmen",
+			CONTINUE:	"Continue",
 			
 			/* question types */
 			EVALUATION: "+-",
@@ -679,7 +679,7 @@ switch (lang) {
 			SETTINGS: "Einstellungen",
 			SETTINGS_HINT_TEXT: "Hinweis: <br>Maximale Dateigröße beträgt 1MB.",
 			TEMPLATE:	"Template",
-			CONTINUE:	"Continue",
+			CONTINUE:	"Übernehmen",
 			
 			/* question types */
 			EVALUATION: "+-",
