@@ -105,8 +105,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			cls: 'previewButton',
 			scope: this,
 			handler: function () {
-					this.previewHandler();
-				}
+				this.previewHandler();
+			}
 		});
 
 		// Preview panel with integrated button

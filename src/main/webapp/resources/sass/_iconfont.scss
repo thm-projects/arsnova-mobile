@@ -176,7 +176,8 @@
 .x-toolbar .voteButton .x-button-icon:before,
 .x-button .iconBtnImg.x-button-icon:before {
 	font-size: inherit !important;
-	line-height: initial !important;
+	line-height: initial !important; /* ie10+ fallback */
+	line-height: 1em !important;
 }
 
 .login-icon-ldap {
