@@ -79,7 +79,7 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		var previewBox = Ext.create('Ext.MessageBox',
 		{
 			title: Messages.QUESTION_PREVIEW_DIALOGBOX_TITLE,
-			style: 'height: 80%; maxHeight: 600px; width: 80%; maxWidth: 1000px; border-color: black;',
+			style: 'height: 80%; maxHeight: 600px; width: 80%; maxWidth: 1000px;',
 			items: [mainPanel],
 			scope: this
 		});
