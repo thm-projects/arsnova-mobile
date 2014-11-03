@@ -19,6 +19,32 @@
 	opacity: 0;
 }
 
+.myCoursesList .x-innerhtml{
+	padding: 0 !important;	
+}
+
+.myCoursesList .x-list-item {
+	border: none !important;
+}
+
+.myCoursesList .x-list-item-first .x-button {
+	-moz-border-radius-topleft: .4em;
+	-moz-border-radius-topright: .4em;
+	-webkit-border-top-left-radius: .4em;
+	-webkit-border-top-right-radius: .4em;
+	border-top-left-radius: .4em;
+	border-top-right-radius: .4em;
+}
+
+.myCoursesList .x-list-item-last .x-button {
+	-moz-border-radius-bottomleft: .4em;
+	-moz-border-radius-bottomright: .4em;
+	-webkit-border-bottom-left-radius: .4em;
+	-webkit-border-bottom-right-radius: .4em;
+	border-bottom-left-radius: .4em;
+	border-bottom-right-radius: .4em;
+}
+
 .x-toolbar .x-button .x-button-label {
 	line-height: 1.2em;
 }
@@ -191,16 +217,6 @@
 	/* @alternate */ background: -ms-linear-gradient(top,  #7c87a4 0%,#394d77 50%,#243b69 50%,#263e6c 100%);
 	/* @alternate */ background: linear-gradient(to bottom,  #7c87a4 0%,#394d77 50%,#243b69 50%,#263e6c 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7c87a4', endColorstr='#263e6c',GradientType=0 );
-}
-
-.x-toolbar-light .x-button, .x-toolbar .x-toolbar-light .x-button, .x-toolbar-light .x-field-select .x-input-text, .x-toolbar .x-toolbar-light .x-field-select .x-input-text, .x-toolbar-light .x-field-select:before, .x-toolbar .x-toolbar-light .x-field-select:before {
-	border: 1px solid #80ba24 !important;
-	color: white;
-	text-shadow: rgba(0, 0, 0, 0.5) 0 -0.08em 0;
-}
-
-.x-toolbar-light .x-button.x-button-back:before, .x-toolbar-light .x-button.x-button-forward:before, .x-toolbar .x-toolbar-light .x-button.x-button-back:before, .x-toolbar .x-toolbar-light .x-button.x-button-forward:before, .x-toolbar-light .x-field-select .x-component-outer.x-button-back:before, .x-toolbar-light .x-field-select .x-component-outer.x-button-forward:before, .x-toolbar .x-toolbar-light .x-field-select .x-component-outer.x-button-back:before, .x-toolbar .x-toolbar-light .x-field-select .x-component-outer.x-button-forward:before {
-	background: #80ba24;
 }
 
 .x-tabbar-dark .x-tab {
