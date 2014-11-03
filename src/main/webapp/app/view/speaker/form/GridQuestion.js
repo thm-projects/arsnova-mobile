@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 	// identifier
 	xtype: 'grid',
-
+	scrollable: 'vertical',
 	requires: [
 		'Ext.ux.Fileup' // file upload framework
 	],
@@ -604,9 +604,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.grid.setImageFile(templateGrid.getImageFile());
 		
 		this.grid.updateFromTemplate(templateGrid);
-		
-		console.log("this.grid after:");
-		console.log(this.grid);
 		
 		this.grid.redraw();
 		

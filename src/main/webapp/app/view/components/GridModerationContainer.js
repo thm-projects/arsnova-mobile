@@ -55,8 +55,6 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		var ctx = this.getCanvas().getContext("2d");
 		var koord = this.getFieldKoord(x, y);
 		
-		console.log(alpha);
-		
 		ctx.globalAlpha = alpha;
 		ctx.fillStyle = color;
 
@@ -165,7 +163,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	},
 	
 	generateUserViewWithAnswers: function (userAnswers, correctAnswers) {
-		// TODO implementieren
+		// TODO not necessary because marking the right answers is deactivated for moderation grids
 	},
 	
 	/**
