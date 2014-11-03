@@ -17,9 +17,14 @@
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-//
+
 // fix hidden fieldsets in firefox 
-//
 .x-firefox .x-stretched.x-dock-vertical > .x-dock-body {
     height: auto;
 }
+
+// fix placeholder opacity
+.x-input-el {
+	-webkit-text-fill-color: initial !important;
+}
+
