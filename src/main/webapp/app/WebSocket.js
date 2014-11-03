@@ -108,6 +108,14 @@ Ext.define('ARSnova.WebSocket', {
 				this.memoization[this.events.setSessionActive] = active;
 				this.fireEvent(this.events.setSessionActive, active);
 			}, this));
+
+			socket.on('lecQuestionAvail', Ext.bind(function (questionId) {
+				console.debug("Socket.IO: lecQuestionAvail", questionId);
+			}, this));
+
+			socket.on('audQuestionAvail', Ext.bind(function (questionId) {
+				console.debug("Socket.IO: audQuestionAvail", questionId);
+			}, this));
 		}, this));
 	},
 
