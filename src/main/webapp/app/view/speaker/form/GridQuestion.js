@@ -595,10 +595,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		// show GridQuestion
 		var newQuestionPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
 		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.setActiveItem(newQuestionPanel);
-		
-		// TODO Focus on GridQuestion
-		newQuestionPanel.multipleChoiceQuestion.hide();
-		newQuestionPanel.gridQuestion.show();
+		newQuestionPanel.activateButtonWithText(Messages.GRID);
 	},
 	
 	/**

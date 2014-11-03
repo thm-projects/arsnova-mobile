@@ -1,7 +1,7 @@
 [
     {
-		"name": "Gewichtungsfrage neutral",
-    	"description": "Mit dieser Vorlage können Sie ein gewichtetes Meinungsbild zu einem von __Ihnen__ gewählten Thema einholen.\n So etwas finden man z.B. auch mit <http://www.google.de/>",	
+		"name": "Gewichtungsfrage Einfachauswahl",
+    	"description": "Mit dieser Vorlage können Sie ein gewichtetes Meinungsbild zu einem von Ihnen gewählten Thema einholen. Bei dieser Vorlage müssen die Studierenden sich entscheiden. So etwas finden man z.B. auch mit <http://www.google.de/>",	
         "imageFile": "meinung1.jpg",
         "gridSize": 16,
         "zoomLvl": -1,

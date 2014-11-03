@@ -441,7 +441,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	saveHandler: function () {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
 		var values = {};
-
+		console.log("SAVE HANDLER");
 		/* get text, subject of question from mainPart */
 		var mainPartValues = panel.mainPart.getValues();
 		values.text = mainPartValues.text;
@@ -576,5 +576,19 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		} else {
 			this.grid.hide();
 		}
+	},
+	
+	/**
+	 * Selects a button of the segmentation component with the given name.
+	 * 
+	 * @param text The text of the button to be selected.
+	 */
+	activateButtonWithText: function(text) {
+		var me = this;
+		this.questionOptions.innerItems.forEach(function(item, index) {
+			if (item.getText() == text) {
+				me.questionOptions.setPressedButtons([index]);
+			}
+		});
 	}
 });
