@@ -58,6 +58,10 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 					direction: 'right',
 					duration: 700
 				});
+				
+				// pre-select image question
+				var newQuestionPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
+				newQuestionPanel.activateButtonWithText(Messages.GRID);
 			}
 		});
 		
