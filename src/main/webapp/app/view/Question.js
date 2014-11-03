@@ -376,13 +376,9 @@ Ext.define('ARSnova.view.Question', {
 					handlerScope: self,
 					onClickHandler: function() {
 						var remainingDots = self.grid.getNumberOfDots() - (self.grid.getChosenFields() !== -1 ? self.grid.getChosenFields().length : 0);
-						Ext.get('remainingDotsLabel').setText("Verbleibende Klebepunkte:" + remainingDots);
+						Ext.get('remainingDotsLabel').setText(Messages.GRID_LABEL_REMAINING_DOTS + remainingDots);
 					}
 				});
-				
-				// TODO Strings lokalisieren
-				
-				
 			} else {
 				this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
 					id: 'gridImageContainer' + this.questionObj._id,
@@ -400,19 +396,6 @@ Ext.define('ARSnova.view.Question', {
 			 */
 			this.grid.update(this.questionObj, false);
 			
-			if (this.questionObj.gridType === 'moderation') {
-				this.add({
-					xtype: 'label',
-					id: 'remainingDotsLabel',
-					html: "Verbleibende Klebepunkte:" + this.grid.getNumberOfDots(),
-					layout:{
-						type: 'vbox',
-						align: 'center',
-						pack: 'center'
-					}
-				});
-			}
-			
 			/*
 			 *   gridbutton and container for the grid button to add into the layout if necessary
 			 */
@@ -427,30 +410,50 @@ Ext.define('ARSnova.view.Question', {
 			});
 
 			this.gridImageContainer = {
-					xtype: 'container',
-					layout: {
-						type: 'hbox',
-						align: 'stretch'
-					},
-					defaults: {
-						style: {
-							margin: '10px'
-						}
-					},
-					items: [this.gridButton, !!!this.questionObj.abstention ? {hidden: true}: {
-						flex: 1,
-						xtype: 'button',
-						cls: 'login-button noMargin',
-						text: Messages.ABSTENTION,
-						handler: this.mcAbstentionHandler,
-						scope: this
-					}]
-				};
+				xtype: 'container',
+				layout: {
+					type: 'hbox',
+					align: 'stretch'
+				},
+				defaults: {
+					style: {
+						margin: '10px'
+					}
+				},
+				items: [this.gridButton, !!!this.questionObj.abstention ? {hidden: true}: {
+					flex: 1,
+					xtype: 'button',
+					cls: 'login-button noMargin',
+					text: Messages.ABSTENTION,
+					handler: this.mcAbstentionHandler,
+					scope: this
+				}]
+			};
 			this.add([this.grid]);
+			
+			if (this.questionObj.gridType === 'moderation') {
+				
+				var panel = new Ext.Panel({
+				    layout: {
+		                type: 'vbox',
+		                align: 'center',
+		                pack: 'center'
+				    },
+				    style: "margin-top: 15px",
+			        items:[{
+			        	xtype: 'label',
+						id: 'remainingDotsLabel',
+						html: Messages.GRID_LABEL_REMAINING_DOTS + this.grid.getNumberOfDots(),
+			        }]
+				});
+				
+				this.add(panel);
+			}
+			
 			if (!this.viewOnly) {
 				this.add([this.gridImageContainer]);
-		}
-				this.answerList.setHidden(true);
+			}
+			this.answerList.setHidden(true);
 		} else {
 			this.answerList.setHidden(false);
 		}
@@ -499,12 +502,10 @@ Ext.define('ARSnova.view.Question', {
 				userAnswers[(coord[0] * grid.getGridSizeY()) + coord[1]] = 1;
 			});
 
-
 			grid.generateUserViewWithAnswers(userAnswers, correctAnswers);
 
 		} else {
 			fields.forEach(function (node) {
-
 				var entry = grid.getChosenFieldFromPossibleAnswer(node);
 				grid.getChosenFields().push(entry);
 			});

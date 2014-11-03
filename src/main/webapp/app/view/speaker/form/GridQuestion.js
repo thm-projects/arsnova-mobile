@@ -418,9 +418,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		});
 
 		this.add([
-//			this.uploadView,
 			this.imageArea
-//			this.imageCnt
 		]);		
 		
 		var panelItems = [];
@@ -433,9 +431,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			
 			this.numberOfDotsSpinner = Ext.create('Ext.field.Spinner', {
 				xtype: 'spinnerfield',
-				// TODO String lokalisieren
-//				label: Messages.GRID_LABEL_FIELD_X,
-				label: 'Anzahl Klebepunkte',
+				label: Messages.GRID_LABEL_NUMBER_OF_DOTS,
 				listeners: {
 					spin: function (spinner, value) {
 						me.grid.setNumberOfDots(value); // update value in grid
