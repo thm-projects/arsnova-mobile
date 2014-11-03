@@ -323,6 +323,7 @@ switch (lang) {
 			SETTINGS_HINT_TEXT: "Hint <br>Maximal filesize is 1 MB.",
 			TEMPLATE:	"Template",
 			CONTINUE:	"Continue",
+			DOWNLOAD:	"Herunterladen",
 			
 			/* question types */
 			EVALUATION: "+-",
@@ -493,7 +494,7 @@ switch (lang) {
 			QUESTION_EDIT_ERROR: "Das Editieren der Frage war leider nicht erfolgreich.",
 			ANSWER_CREATION_ERROR: "Die Antwort konnte nicht gespeichert werden",
 			SEND: "Abschicken",
-
+			
 			/* questions */
 			QUESTION: "Frage",
 			QUESTION_PLACEHOLDER: "Frage eingeben",
@@ -680,6 +681,7 @@ switch (lang) {
 			SETTINGS_HINT_TEXT: "Hinweis: <br>Maximale Dateigröße beträgt 1MB.",
 			TEMPLATE:	"Template",
 			CONTINUE:	"Übernehmen",
+			DOWNLOAD:	"Download",
 			
 			/* question types */
 			EVALUATION: "+-",

@@ -133,7 +133,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 			        	 contentPanel,
 				 		{
 			        		xtype:	'button',
-			        		text:	'Download',
+			        		text:	Messages.DOWNLOAD,
 			        		handler : function(){
 			        			var index = me.getActiveIndex();
 			        			var src = me.allTemplates[index].getImageFile().src
