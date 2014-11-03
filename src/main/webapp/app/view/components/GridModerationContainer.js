@@ -55,8 +55,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		var ctx = this.getCanvas().getContext("2d");
 		var koord = this.getFieldKoord(x, y);
 		
-		// no transparency
-		alpha = 1.0;
+		console.log(alpha);
 		
 		ctx.globalAlpha = alpha;
 		ctx.fillStyle = color;
@@ -107,18 +106,53 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		for (var key in tilesToFill) {
 			totalAnswers += tilesToFill[key];
 		}
-
+		
+		// pre-iterate through answers to get min and max value, used to define the alpha value
+		// TODO: find a more elagant way than iterating twice through all tiles.
+		var maxVotes = 0;
+		var minVotes = 0;
+		for (var row = 0; row < this.getGridSizeX(); row++) {
+			for (var column = 0; column < this.getGridSizeY(); column++) {
+				var key = row + ";" + column;
+				if (typeof tilesToFill[key] !== "undefined") {
+					if (tilesToFill[key] > maxVotes) {
+						maxVotes = tilesToFill[key];
+						if (minVotes == 0) {
+							minVotes = maxVotes;
+						}
+					}
+					minVotes = (tilesToFill[key] > 0 && tilesToFill[key] < minVotes) ? tilesToFill[key] : minVotes;
+				}
+			}
+		}
+		
 		for (var row = 0; row < this.getGridSizeX(); row++) {
 			for (var column = 0; column < this.getGridSizeY(); column++) {
 				var key = row + ";" + column;
 				var coords = this.getChosenFieldFromPossibleAnswer(key);
 
-				// mark field
-				if (typeof tilesToFill[key] !== "undefined")
-					this.markField(coords[0], coords[1], this.getHighlightColor(), 1.0);
-				
+				if (colorTiles) {
+					var alphaOffset = this.getHeatmapMinAlpha();
+					var alphaScale = this.getHeatmapMaxAlpha() - this.getHeatmapMinAlpha();
+					var alpha = 0;
 
-				// draw text if needed
+					if (typeof tilesToFill[key] !== "undefined") {
+						if (maxVotes == minVotes) {
+							alpha = this.getHeatmapMaxAlpha();
+						} else if (tilesToFill[key] == 0) {
+							alpha = 0;
+						} else {
+							alpha = this.getHeatmapMinAlpha() + (((this.getHeatmapMaxAlpha() - this.getHeatmapMinAlpha())/(maxVotes - minVotes)) * (tilesToFill[key] - minVotes));
+						}
+					}
+
+					this.markField(coords[0], coords[1], this.getHighlightColor(), alpha);
+				} else {
+					// mark field
+					if (typeof tilesToFill[key] !== "undefined")
+						this.markField(coords[0], coords[1], this.getHighlightColor(), 1.0);
+				}
+
 				if (displayType == Messages.GRID_LABEL_RELATIVE || displayType == Messages.GRID_LABEL_RELATIVE_SHORT) {
 					var text = (typeof tilesToFill[key] !== "undefined") ? Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) + "%" : "";
 					this.addTextToField(coords[0], coords[1], text);
