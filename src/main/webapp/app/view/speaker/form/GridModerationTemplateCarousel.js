@@ -99,8 +99,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 	setTemplates : function(templates) {	
 		var me = this;
 		
-		for(var i = 0; i <= templates.length; i++){
-			var templateContainer = templates.pop();
+		templates.forEach(function(templateContainer) {
 			templateContainer.setEditable(false);
 
 			// panel for question content
@@ -123,7 +122,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 			});
 			titlePanel.setContent(templateContainer.getName(), false, true);
 			
-			this.singleTemplatePanel = Ext.create('Ext.Panel',{	
+			me.singleTemplatePanel = Ext.create('Ext.Panel',{	
 				scrollable: {
 					direction: 'vertical',
 					directionLock:true
@@ -147,10 +146,10 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 			        	}
 				      ]
 			});
-			this.add(this.singleTemplatePanel);
-			this.allTemplates.push(templateContainer);
-			this.setActiveItem(0);
-		}
+			me.add(me.singleTemplatePanel);
+			me.allTemplates.push(templateContainer);
+			me.setActiveItem(0);
+		});
 	},
 	
 	/**
