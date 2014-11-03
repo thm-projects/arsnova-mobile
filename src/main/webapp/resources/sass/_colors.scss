@@ -1,5 +1,6 @@
 $thm-green: #80ba24;
 $thm-grey: #4a5c66;
+$thm-lightgrey: #788895;
 $thm-red: #971b2f;
 $thm-lightblue: #00b5e2;
 $thm-darkblue: #012169;
@@ -17,6 +18,10 @@ $google-color: #D34836;
 
 .thm-grey {
 	color: $thm-grey;
+}
+
+.thm-lightgrey {
+	color: $thm-lightgrey;
 }
 
 .thm-red {

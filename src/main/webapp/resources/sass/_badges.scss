@@ -39,15 +39,12 @@
 	overflow: hidden;
 }
 
-.caption .bluebadgeicon,
-.caption .redbadgeicon,
-.caption .badgeicon,
-.caption .greybadgeicon,
-.caption .bluebadgeiconfixed,
-.caption .greenbadgeicon,
-.caption .yellowbadgeicon,
-.caption .textbadgeicon {
-	font-size: 0.6em;
+.caption {
+	.bluebadgeicon, .redbadgeicon, .badgeicon,
+	.greybadgeicon,  .greenbadgeicon, .yellowbadgeicon,
+	.bluebadgeiconfixed, .textbadgeicon {
+		font-size: 0.6em;
+	}
 }
 
 .standardListButton .x-hasbadge,
@@ -56,15 +53,22 @@
 	margin-top: 6px;
 }
 
-.x-list-item .audiencePanelListBadge {
-	position: initial;
-	min-height: 0em;
-	border: none;
-	padding: 0;
-}
-
-.x-list-item .audiencePanelListBadge .badgefixed {
-	top: 4px;
+.x-list-item {
+	.questionDetailsListBadge,
+	.audiencePanelListBadge {
+		position: initial;
+		min-height: 0em;
+		border: none;
+		padding: 0;
+	}
+	
+	.audiencePanelListBadge .badgefixed {
+		top: 5px;
+	}
+	
+	.questionDetailsListBadge .badgefixed {
+		top: 6px;
+	}
 }
 
 .badgeicon, .greybadgeicon, .bluebadgeicon, .redbadgeicon, .greenbadgeicon, .yellowbadgeicon, .textbadgeicon {

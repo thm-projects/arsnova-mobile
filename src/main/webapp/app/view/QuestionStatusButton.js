@@ -59,7 +59,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		this.questionIsOpenButton = Ext.create('ARSnova.view.MatrixButton', {
 			buttonConfig: 'icon',
 			text: this.getWording().stop,
-			imageCls: 'icon-pause',
+			imageCls: 'icon-pause thm-lightgrey',
 			imageStyle: {
 				'font-size': '52px',
 				'margin-top': '14px',

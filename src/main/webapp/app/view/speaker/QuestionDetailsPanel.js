@@ -843,7 +843,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			'&nbsp;<span class="listCorrectItem x-list-item-correct">&#10003; </span>',
 			'</tpl>',
 			'<tpl if="this.isFlashcard() === false">',
-			'</div><div class="x-button x-hasbadge audiencePanelListBadge">' +
+			'</div><div class="x-button x-hasbadge questionDetailsListBadge">' +
 			'<span class="greybadgeicon badgefixed">{answerCount}</span>',
 			'</tpl>',
 			{

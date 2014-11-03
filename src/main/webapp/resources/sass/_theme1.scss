@@ -5,11 +5,15 @@
 }
 
 .thmlink,
+.x-button .courseIcon,
 .answerListButton .x-button-label,
 .forwardListButton .x-button-label,
-.standardListButton .x-button-label,
-.x-button .courseIcon {
+.standardListButton .x-button-label {
 	color: $thm-grey !important;
+}
+
+.forwardListButton, .standardListButton {
+	border: 1px solid $background !important;
 }
 
 .gravure {
@@ -23,6 +27,14 @@
 .x-form-label {
 	background-color: white;
 	border-right: 1px solid $background;
+}
+
+.x-form-label {
+	border-right: none;
+}
+
+.x-form-label.checkItem {
+	border-right: none;
 }
 
 .x-form-fieldset .x-field {
@@ -51,26 +63,49 @@
 }
 
 .x-button.x-button-confirm,
-.x-button.x-button-action {
+.x-button.x-button-action,
+.x-button.x-button-decline {
 	background-image: none !important;
 	border: none !important;
 }
 
-.x-toolbar-light .x-button, .x-toolbar-light .x-button.x-button-back:after, .x-toolbar-light .x-button.x-button-forward:after, .x-toolbar .x-toolbar-light .x-button, .x-toolbar .x-toolbar-light .x-button.x-button-back:after, .x-toolbar .x-toolbar-light .x-button.x-button-forward:after, .x-toolbar-light .x-field-select .x-input-text, .x-toolbar-light .x-field-select .x-input-text.x-button-back:after, .x-toolbar-light .x-field-select .x-input-text.x-button-forward:after, .x-toolbar .x-toolbar-light .x-field-select .x-input-text, .x-toolbar .x-toolbar-light .x-field-select .x-input-text.x-button-back:after, .x-toolbar .x-toolbar-light .x-field-select .x-input-text.x-button-forward:after, .x-toolbar-light .x-field-select:before, .x-toolbar .x-toolbar-light .x-field-select:before {
-	border: none !important;
-	background: $thm-green !important;
+.x-toolbar-light {
+	.x-title {
+		color: #fff;
+		text-shadow: none !important; 
+	}
+	
+	.x-button, 
+	.x-button.x-button-back:after, 
+	.x-button.x-button-forward:after, 
+	.x-field-select .x-input-text, 
+	.x-field-select .x-input-text.x-button-back:after, 
+	.x-field-select .x-input-text.x-button-forward:after, 
+	.x-field-select:before {
+		border: none !important;
+		text-shadow: none !important;
+		background: $thm-green !important;
+	}
 }
 
-.x-list-normal .x-list-item.x-item-selected.x-list-item-tpl, .x-list-normal .x-list-item.x-item-selected .x-dock-horizontal,
-.x-list .x-list-item.x-item-selected .x-dock-horizontal, .x-list .x-list-item.x-item-selected.x-list-item-tpl {
-	background-image: none;
-	border-color: $thm-green;
-	background-color: $thm-green;
-}
-
-.x-toolbar-light .x-button, .x-toolbar .x-toolbar-light .x-button, .x-toolbar-light .x-field-select .x-input-text, .x-toolbar .x-toolbar-light .x-field-select .x-input-text, .x-toolbar-light .x-field-select:before, .x-toolbar .x-toolbar-light .x-field-select:before {
-	text-shadow: none !important;
-}
+.x-list,
+.x-list-normal {
+	.x-list-header {
+		color: white !important;
+		border: none !important;
+		text-shadow: none !important;
+		background-color: $thm-lightgrey !important;
+		background-image: none !important;
+		-webkit-box-shadow: none !important;
+	}
+	
+	.x-list-item.x-item-selected.x-list-item-tpl,
+	.x-list-item.x-item-selected .x-dock-horizontal {
+		background-image: none;
+		border-color: $thm-green;
+		background-color: $thm-green;
+	}
+} 
 
 .x-toolbar-light, 
 .x-tabbar-dark {
@@ -79,20 +114,8 @@
 	border: none !important;
 }
 
-.x-toolbar-light .x-title {
-	color: #fff;
-	text-shadow: none !important; 
-}
-
 .x-tabbar-dark.x-docked-bottom .x-tab-active .x-button-icon:before {
 	color: $thm-green;
-}
-
-.x-list-normal .x-list-header {
-	border: none !important;
-	background-color: $thm-grey !important;
-	background-image: none !important;
-	-webkit-box-shadow: none !important;
 }
 
 .x-tabbar-dark.x-docked-bottom .x-tab-active {

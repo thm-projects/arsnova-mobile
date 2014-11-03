@@ -51,11 +51,6 @@
 	margin: 0.2em;
 }
 
-.x-list-normal .x-list-header {
-	color: white !important;
-	text-shadow: none;
-}
-
 .x-fullscreen {
 	background-color: #c5ccd3;
 }
@@ -99,10 +94,6 @@
 
 	text-shadow: white 0 1px 1px;
 	color: #333;
-}
-
-.x-form-fieldset .x-form-fieldset-inner {
-	overflow: visible !important;
 }
 
 .rightAligned .x-toggle {
