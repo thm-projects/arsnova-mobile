@@ -14,10 +14,10 @@
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
+Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 	extend: 'Ext.Carousel',
     
-	moderationGrid: null,
+	allTemplates: null,
 	
 	config: {
 		fullscreen: true,
@@ -36,7 +36,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 		var me = this;
 		
 		this.callParent(arguments);
-		this.moderationGrid = new Array();
+		this.allTemplates = new Array();
 		
 		this.gridModeration = Ext.create('ARSnova.view.components.GridModerationContainer',{
 			itemId: 'gridModearionContainer'
@@ -73,7 +73,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 
 			scope: this,
 			handler: function() {
-				Ext.bind(this.getTemplateAdoptionHandler(), this.getSaveHandlerScope())(this.moderationGrid[me.getActiveIndex()])
+				Ext.bind(this.getTemplateAdoptionHandler(), this.getSaveHandlerScope())(this.allTemplates[me.getActiveIndex()])
 			}
 		});
 		
@@ -87,21 +87,21 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 			     this.saveButtonToolbar
 			]
 		});
-				
+		
 		this.add([this.toolbar]);
+		
 		this.on('activate', this.getTemplates, this, null, 'before');
-
 	},
 		
-	
 	/**
 	 * Loads the templates to Carousel. 
 	 */
-	addTemplate : function(templates) {	
+	setTemplates : function(templates) {	
 		var me = this;
+		
 		for(var i = 0; i <= templates.length; i++){
-			var template = templates.pop();
-			template.setEditable(false);
+			var templateContainer = templates.pop();
+			templateContainer.setEditable(false);
 
 			// panel for question content
 			var contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
@@ -111,7 +111,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 				cls: '',
 				style: 'color: black;font-weight: bold'
 			});
-			contentPanel.setContent(template.getDescription(), true, true);
+			contentPanel.setContent(templateContainer.getDescription(), true, true);
 			
 			// panel for question subject
 			var titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
@@ -121,9 +121,9 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 				cls: '',
 				style: 'color: black;'
 			});
-			titlePanel.setContent(template.getName(), false, true);
+			titlePanel.setContent(templateContainer.getName(), false, true);
 			
-			this.templatePanel = Ext.create('Ext.Panel',{	
+			this.singleTemplatePanel = Ext.create('Ext.Panel',{	
 				scrollable: {
 					direction: 'vertical',
 					directionLock:true
@@ -133,7 +133,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 					pack: 'center',
 					align: 'center' 
 				},
-				 items:[ template,
+				 items:[ templateContainer,
 				         titlePanel,
 			        	 contentPanel,
 				 		{
@@ -141,14 +141,15 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 			        		text:	'Download',
 			        		handler : function(){
 			        			var index = me.getActiveIndex();
-			        			var src = me.moderationGrid[index].getImageFile().src
+			        			var src = me.allTemplates[index].getImageFile().src
 			        			window.open(src);
 			        		} 
 			        	}
 				      ]
 			});
-			this.add(this.templatePanel);
-			this.moderationGrid.push(template);
+			this.add(this.singleTemplatePanel);
+			this.allTemplates.push(templateContainer);
+			this.setActiveItem(0);
 		}
 	},
 	
@@ -160,6 +161,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 	 */
 	getTemplates : function() {
 		var me = this;
+		this.removeAll();
 		Ext.Ajax.request({
 			url: 'resources/gridTemplates/templates.json',
 			success: function(response, opts) {
@@ -175,7 +177,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationQuestion', {
 					});
 				}
 				// add templates to Carousel
-				me.addTemplate(templates);
+				me.setTemplates(templates);
 			},
 			failure: function(response, opts) {
 				// iOS in phonegap returns response.status=0 on success

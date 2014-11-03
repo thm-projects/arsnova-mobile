@@ -20,7 +20,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	extend: 'Ext.Panel',
 
 	requires: ['Ext.ux.Fileup',
-	           'ARSnova.view.speaker.form.GridModerationQuestion'],
+	           'ARSnova.view.speaker.form.GridModerationTemplateCarousel'],
 
 	config: {
 		xtype: 'upField',
@@ -38,7 +38,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		var thiz = this;
 		this.callParent(arguments);
 		
-		this.gridMod = Ext.create('ARSnova.view.speaker.form.GridModerationQuestion', {
+		this.gridMod = Ext.create('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 			saveHandlerScope: thiz,
 			templateAdoptionHandler: thiz.adoptTemplate
 		});
