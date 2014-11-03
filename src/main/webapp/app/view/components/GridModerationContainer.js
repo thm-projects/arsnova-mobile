@@ -55,8 +55,6 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		var ctx = this.getCanvas().getContext("2d");
 		var koord = this.getFieldKoord(x, y);
 		
-		console.log(alpha);
-		
 		ctx.globalAlpha = alpha;
 		ctx.fillStyle = color;
 
