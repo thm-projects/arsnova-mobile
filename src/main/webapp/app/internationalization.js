@@ -323,7 +323,7 @@ switch (lang) {
 			SETTINGS_HINT_TEXT: "Hint <br>Maximal filesize is 1 MB.",
 			TEMPLATE:	"Template",
 			CONTINUE:	"Continue",
-			DOWNLOAD:	"Herunterladen",
+			DOWNLOAD:	"Download",
 			
 			/* question types */
 			EVALUATION: "+-",
@@ -681,7 +681,7 @@ switch (lang) {
 			SETTINGS_HINT_TEXT: "Hinweis: <br>Maximale Dateigröße beträgt 1MB.",
 			TEMPLATE:	"Template",
 			CONTINUE:	"Übernehmen",
-			DOWNLOAD:	"Download",
+			DOWNLOAD:	"Herunterladen",
 			
 			/* question types */
 			EVALUATION: "+-",

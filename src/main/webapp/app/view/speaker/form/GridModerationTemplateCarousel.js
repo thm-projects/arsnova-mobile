@@ -65,7 +65,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 			text: Messages.CONTINUE,
 			ui: 'confirm',
 			cls: 'saveQuestionButton',
-			style: 'width: 89px',
+			style: 'width: 99px',
 
 			scope: this,
 			handler: function() {
