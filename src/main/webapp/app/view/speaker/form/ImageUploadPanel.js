@@ -38,21 +38,14 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		var thiz = this;
 		this.callParent(arguments);
 		
+		var screenWidth = (window.innerWidth > 0) ?
+				window.innerWidth :	screen.width;
+		var showShortLabels = screenWidth < 480;
+		
 		this.gridMod = Ext.create('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 			saveHandlerScope: thiz,
 			templateAdoptionHandler: thiz.adoptTemplate
 		});
-		
-		this.buttonTemplate = Ext.create('Ext.Button',
-		 {
-			text: Messages.TEMPLATE ,
-			handler: function () {
-				
-				var tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;	
-				tabPanel.setActiveItem(thiz.gridMod);
-			}
-		 }		
-		);
 		
 		this.buttonUploadFromFS = Ext.create('Ext.ux.Fileup', {
 			//itemId: 'buttonUploadFromFS',
@@ -61,7 +54,9 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			loadAsDataUrl: true,
 			states: {
 				browse: {
-					text: Messages.SEARCH_PICTURE
+					text: showShortLabels ?
+						Messages.SEARCH_PICTURE_SHORT :
+						Messages.SEARCH_PICTURE
 				},
 				ready: {
 					text: Messages.LOAD
@@ -88,6 +83,39 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			loadfailure: 'onFileLoadFailure'
 		});
 
+		this.segmentButton = Ext.create('Ext.SegmentedButton', {
+			allowDepress: false,
+			items: [
+				{
+					text: showShortLabels ?
+						Messages.SELECT_PICTURE_URL_SHORT :
+						Messages.SELECT_PICTURE_URL,
+					scope: this,
+					handler: Ext.bind(function () {
+						var url = this.getComponent('pnl_upfield').getComponent('pnl_url');
+						url.setHidden(this.toggleUrl);	
+						
+						if(this.toggleUrl)
+							this.toggleUrl = false
+						else
+							this.toggleUrl = true
+				
+					}, this)
+				},
+				{
+					text: Messages.TEMPLATE,
+					scope: this,
+					handler: function () {
+						
+						var tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;	
+						tabPanel.setActiveItem(thiz.gridMod);
+					}
+				},
+		        this.buttonUploadFromFS
+			],
+			cls: 'abcOptions'
+		});
+		
 		this.add([
 			{
 				itemId: 'pnl_upfield',
@@ -125,36 +153,12 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 					{
 						xtype: 'panel',
 						layout: 'hbox',
-						defaults: {
-							flex: 2
-						},
+//						defaults: {
+//							flex: 2
+//						},
 						style: 'margin-top: 0.5em',
 						items: [
-							{
-								xtype: 'button',
-								text: Messages.SELECT_PICTURE_URL,
-								handler: Ext.bind(function () {
-									var url = this.getComponent('pnl_upfield').getComponent('pnl_url');
-									url.setHidden(this.toggleUrl);	
-									
-									if(this.toggleUrl)
-										this.toggleUrl = false
-									else
-										this.toggleUrl = true
-							
-								}, this)
-							},
-							{
-								xtype: 'spacer',
-								flex: 1
-							},
-							this.buttonTemplate,
-							{
-								xtype: 'spacer',
-								flex: 1
-							},
-							
-							this.buttonUploadFromFS
+						    this.segmentButton
 						]
 					}
 				]
