@@ -131,7 +131,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	},
 	
 	generateUserViewWithAnswers: function (userAnswers, correctAnswers) {
-		// TODO implementieren
+		// TODO not necessary because marking the right answers is deactivated for moderation grids
 	},
 	
 	/**
