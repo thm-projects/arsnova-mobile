@@ -605,9 +605,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		
 		this.grid.updateFromTemplate(templateGrid);
 		
-		console.log("this.grid after:");
-		console.log(this.grid);
-		
 		this.grid.redraw();
 		
 		this.initializeFormFields();
