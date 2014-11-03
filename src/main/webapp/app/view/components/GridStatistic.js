@@ -77,8 +77,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 			id: "toggleShowColors",
 			name: "toggleShowColors",
 			label: Messages.GRID_LABEL_SHOW_HEATMAP,
-			value: (this.getQuestionObj().gridType != "moderation"),
-			hidden: (this.getQuestionObj().gridType == "moderation")
+			value: (this.getQuestionObj().gridType != "moderation")
 		});
 
 		this.releaseItems = [
