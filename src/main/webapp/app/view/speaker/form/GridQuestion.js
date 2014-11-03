@@ -595,11 +595,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	},
 	
 	handleTemplate: function(templateGrid) {
-		console.log('handleTemplate');
-		console.log(templateGrid);
-		
-//		console.log("this.grid before:");
-//		console.log(this.grid);
 		
 		this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
 			docked: 'top',
@@ -743,9 +738,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				itemId: 'gridImageContainer'
 			});
 		}
-		
-		console.log('initWithQuestion');
-		console.log(grid);
 		
 		this.initializeFormFields();
 
