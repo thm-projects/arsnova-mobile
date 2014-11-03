@@ -23,11 +23,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 		fullscreen: true,
 		title: Messages.TEMPLATE,
 	    direction: 'horizontal',
-		layout:	{
-			type: 'hbox',
-			pack: 'center',
-			align: 'center' 
-		},
+		 
 		saveHandlerScope: null,
 		templateAdoptionHandler: Ext.emptyFn,
 	},
@@ -106,7 +102,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 			var contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 				xtype: 'mathJaxMarkDownPanel',
 				id: 'questionContent',
-				flex: 3,
+				//flex: 3,
 				cls: '',
 				style: 'color: black;font-weight: bold'
 			});
@@ -116,7 +112,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 			var titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 				xtype: 'mathJaxMarkDownPanel',
 				id: 'questionTitle',
-				flex: 1,
+				//flex: 1,
 				cls: '',
 				style: 'color: black;'
 			});
