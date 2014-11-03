@@ -104,7 +104,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 				id: 'questionContent',
 				//flex: 3,
 				cls: '',
-				style: 'color: black;font-weight: bold'
+				style: 'color: black;'
 			});
 			contentPanel.setContent(templateContainer.getDescription(), true, true);
 			
@@ -114,7 +114,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 				id: 'questionTitle',
 				//flex: 1,
 				cls: '',
-				style: 'color: black;'
+				style: 'color: black; font-weight: bold; font-size: 1.5em; margin-bottom: 0; padding-bottom: 0;'
 			});
 			titlePanel.setContent(templateContainer.getName(), false, true);
 			
@@ -128,10 +128,11 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 					pack: 'center',
 					align: 'center' 
 				},
-				 items:[ templateContainer,
-				         titlePanel,
+				 items:[ titlePanel,
+				         templateContainer,
 			        	 contentPanel,
 				 		{
+					 	    ui: 'action',
 			        		xtype:	'button',
 			        		text:	Messages.DOWNLOAD,
 			        		handler : function(){
