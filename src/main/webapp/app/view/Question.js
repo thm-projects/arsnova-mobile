@@ -375,8 +375,8 @@ Ext.define('ARSnova.view.Question', {
 					id: 'gridImageContainer' + this.questionObj._id,
 					handlerScope: self,
 					onClickHandler: function() {
-						var remainingDots = self.grid.getNumberOfDots() - (self.grid.getChosenFields() !== -1 ? self.grid.getChosenFields().length : 0);
-						Ext.get('remainingDotsLabel').setText(Messages.GRID_LABEL_REMAINING_DOTS + remainingDots);
+						var remainingDots = self.grid.getNumberOfDots() - self.grid.getChosenFields().length;
+						Ext.get('remainingDotsLabel' + self.getId()).setText(Messages.GRID_LABEL_REMAINING_DOTS + remainingDots);
 					}
 				});
 			} else {
@@ -442,7 +442,7 @@ Ext.define('ARSnova.view.Question', {
 				    style: "margin-top: 15px",
 			        items:[{
 			        	xtype: 'label',
-						id: 'remainingDotsLabel',
+						id: 'remainingDotsLabel' + this.getId(),
 						html: Messages.GRID_LABEL_REMAINING_DOTS + this.grid.getNumberOfDots(),
 			        }]
 				});
