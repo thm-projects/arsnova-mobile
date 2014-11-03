@@ -53,6 +53,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	deleteButton: null,
 	rotateButton: null,
 	hideGridButton: null,
+	removeImageButton: null,
 
 
 	/**
@@ -189,19 +190,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			}
 		});
 
-		this.imageArea = Ext.create('Ext.Panel', {
-			itemId: 'imageArea',
-			layout:{
-				type: 'vbox',
-				align: 'center',
-				pack: 'center'
-			},
-			items: [
-				this.grid
-			],
-			hidden: true
-		});
-		
 		// initialize tap repeater for move buttons
 		// TapRepeater for left button
 		Ext.create('Ext.util.TapRepeater', {
@@ -417,12 +405,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			}
 		});
 
-		this.add([
-//			this.uploadView,
-			this.imageArea
-//			this.imageCnt
-		]);		
-		
 		var panelItems = [];
 		
 		if (this.grid instanceof ARSnova.view.components.GridModerationContainer) {
@@ -433,9 +415,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			
 			this.numberOfDotsSpinner = Ext.create('Ext.field.Spinner', {
 				xtype: 'spinnerfield',
-				// TODO String lokalisieren
-//				label: Messages.GRID_LABEL_FIELD_X,
-				label: 'Anzahl Klebepunkte',
+				label: Messages.GRID_LABEL_NUMBER_OF_DOTS,
 				listeners: {
 					spin: function (spinner, value) {
 						me.grid.setNumberOfDots(value); // update value in grid
@@ -451,6 +431,17 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				cycle: true
 			});
 			
+			this.deleteModerationButton = Ext.create('Ext.Button', {
+				ui: 'action',
+				cls: 'saveQuestionButton',
+				style: 'margin-top: 30px',
+				text: Messages.GRID_LABEL_DELETE_MODERATION,
+				handler: function () {
+					me.resetView();
+				},
+				scope: me
+			});
+			
 			panelItems = [
 				this.imageSettings = Ext.create('Ext.Panel', {
 					itemId: 'answerField',
@@ -464,6 +455,29 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					}]
 				})
 			];
+			
+			this.imageArea = Ext.create('Ext.Panel', {
+				itemId: 'imageArea',
+				layout:{
+					type: 'vbox',
+					align: 'stretch',
+				},
+				items: [
+				    this.grid,
+				    {
+						xtype: 'container',
+						layout:{
+							type: 'hbox',
+							align: 'stretch',
+//							pack: 'stretch',
+						},
+						items: [
+							this.deleteModerationButton
+						]
+					}
+				],
+				hidden: true
+			});
 		} else {
 			panelItems = [
 				this.imageSettings = Ext.create('Ext.Panel', {
@@ -485,52 +499,64 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				this.answers
 			];
 			
-			this.imageArea.add([
-				{
-					xtype: 'label',
-					html: Messages.GRID_CONFIG_IMAGE
+			this.imageArea = Ext.create('Ext.Panel', {
+				itemId: 'imageArea',
+				layout:{
+					type: 'vbox',
+					align: 'center',
+					pack: 'center'
 				},
-				{
-					xtype: 'panel',
-					layout:{
-						type: 'hbox',
-						align: 'center',
-						pack: 'center'
+				items: [
+					this.grid,
+					{
+						xtype: 'label',
+						html: Messages.GRID_CONFIG_IMAGE
 					},
-					items: [
-						this.infoButton,
-						this.btnMoveLeft,
-						this.btnMoveRight,
-						this.btnMoveUp,
-						this.btnMoveDown,
-						this.deleteButton,
-						this.rotateButton
-					]
-				},
-				{
-					xtype: 'label',
-					html: Messages.GRID_CONFIG_GRID,
-					style: "margin-top: 15px"
-				},
-				{
-					xtype: 'panel',
-					layout:{
-						type: 'hbox',
-						align: 'center',
-						pack: 'center'
+					{
+						xtype: 'panel',
+						layout:{
+							type: 'hbox',
+							align: 'center',
+							pack: 'center'
+						},
+						items: [
+							this.infoButton,
+							this.btnMoveLeft,
+							this.btnMoveRight,
+							this.btnMoveUp,
+							this.btnMoveDown,
+							this.deleteButton,
+							this.rotateButton
+						]
 					},
-					items: [
-						this.btnZoomInGrid,
-						this.btnZoomOutGrid,
-						this.btnMoveGridLeft,
-						this.btnMoveGridRight,
-						this.btnMoveGridUp,
-						this.btnMoveGridDown,
-						this.hideGridButton
-					]
-				}
-            ]);
+					{
+						xtype: 'label',
+						html: Messages.GRID_CONFIG_GRID,
+						style: "margin-top: 15px"
+					},
+					{
+						xtype: 'panel',
+						layout:{
+							type: 'hbox',
+							align: 'center',
+							pack: 'center'
+						},
+						items: [
+							this.btnZoomInGrid,
+							this.btnZoomOutGrid,
+							this.btnMoveGridLeft,
+							this.btnMoveGridRight,
+							this.btnMoveGridUp,
+							this.btnMoveGridDown,
+							this.hideGridButton
+						]
+					}
+				],
+				hidden: true
+			});			
 		}
+		
+		this.add(this.imageArea);		
 		
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			panelItems.push(this.questionValueFieldset);
@@ -569,11 +595,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	},
 	
 	handleTemplate: function(templateGrid) {
-		console.log('handleTemplate');
-		console.log(templateGrid);
-		
-//		console.log("this.grid before:");
-//		console.log(this.grid);
 		
 		this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
 			docked: 'top',
@@ -718,9 +739,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			});
 		}
 		
-		console.log('initWithQuestion');
-		console.log(grid);
-		
 		this.initializeFormFields();
 
 		// set image data (base64 --> grid)
@@ -736,6 +754,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		
 		if (this.grid instanceof ARSnova.view.components.GridModerationContainer) {
 			this.numberOfDotsSpinner.setValue(this.grid.getNumberOfDots());
+			this.deleteModerationButton.setHidden(true); // disable delete moderation button in edit mode
 		}
 		
 		var answerField = this.answers.getComponent('fs_answers').getComponent('tf_answers');

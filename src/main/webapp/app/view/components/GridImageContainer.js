@@ -44,12 +44,6 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 		var numCorrectFields = this.getPossibleAnswers().filter(function isCorrect(e) {
 			return e.correct;
 		}).length;
-		
-		console.log('numChosenFields:');
-		console.log(numChosenFields);
-		console.log('numCorrectFields:');
-		console.log(numCorrectFields);
-		
 		return ((numChosenFields < numCorrectFields) || (numCorrectFields === 0) || this.getToggleFieldsLeft());
 	},
 	
