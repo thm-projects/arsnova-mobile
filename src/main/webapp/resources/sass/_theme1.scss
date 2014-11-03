@@ -12,6 +12,29 @@
 	color: $thm-grey !important;
 }
 
+.x-button-normal,
+.x-button-filebrowse,
+.x-segmentedbutton .x-button-normal {
+	background-color: $thm-grey;
+	border-color: $background !important;
+	background-image: none !important;
+	
+	.x-button-label {
+		color: white;
+	}
+	
+	&.x-button-pressed {
+		background-color: $thm-lightgrey;
+	}
+}
+
+.myCoursesList {
+	.x-inner,
+	.x-scroll-container {
+		background-color: #E0E0E0;
+	}
+}
+
 .forwardListButton, .standardListButton {
 	border: 1px solid $background !important;
 }
@@ -25,16 +48,13 @@
 }
 
 .x-form-label {
+	color: $thm-grey;
 	background-color: white;
 	border-right: 1px solid $background;
-}
-
-.x-form-label {
-	border-right: none;
-}
-
-.x-form-label.checkItem {
-	border-right: none;
+	
+	&.checkItem {
+		border-right: none;
+	}
 }
 
 .x-form-fieldset .x-field {
@@ -49,22 +69,40 @@
 	}
 } 
 
+.x-field-input .x-input-el {
+	color: $thm-grey !important;
+	-webkit-text-fill-color: initial !important;
+}
+
 .disableDefault {
 	.thm-grey, .x-form-label span {
 		color: $thm-grey !important;
-		-webkit-text-fill-color: $thm-grey !important;
+		-webkit-text-fill-color: initial !important;
 	}
 }
 
 .x-msgbox {
-	border: none;
-	box-shadow: 0px 0px 8px 0px;
-	background: $thm-grey;
+	color: $thm-grey;
+	border: 10px solid;
+	box-shadow: 0 0 8px 0;
+	background: $background;
+	border-color: $thm-grey;
+	
+	.x-title, 
+	.x-msgbox-text {
+		color: $thm-grey;
+		text-shadow: none;
+	}
+	
+	.x-msgbox-buttons .x-button-normal span {
+		opacity: 1;
+	}
 }
 
 .x-button.x-button-confirm,
 .x-button.x-button-action,
 .x-button.x-button-decline {
+	background-color: $thm-green !important;
 	background-image: none !important;
 	border: none !important;
 }
@@ -82,10 +120,16 @@
 	.x-field-select .x-input-text.x-button-back:after, 
 	.x-field-select .x-input-text.x-button-forward:after, 
 	.x-field-select:before {
-		border: none !important;
+		color: white;
+		border: 1px solid #80ba24 !important;
 		text-shadow: none !important;
 		background: $thm-green !important;
 	}
+	
+	.x-button.x-button-back:before,
+	.x-button.x-button-forward:before {
+		background: #80ba24;
+	}	
 }
 
 .x-list,
