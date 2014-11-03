@@ -56,7 +56,7 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		var mainPanel = Ext.create('Ext.Container', {
 			id: 'mainPanel',
 			xtype: 'container',
-			style: 'position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: #c5ccd3;',
+			style: 'position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: #E0E0E0;',
 			fullscreen: false,
 			layout: 'vbox',
 			items: [
