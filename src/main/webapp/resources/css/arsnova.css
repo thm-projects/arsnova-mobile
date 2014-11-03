@@ -425,7 +425,7 @@ html,body {
 }
 
 .iconBtn .x-toggle-field .x-component-outer {
-	padding: initial;
+	padding: 0;
 	margin: 20px 0 0 2.9px;
 }
 

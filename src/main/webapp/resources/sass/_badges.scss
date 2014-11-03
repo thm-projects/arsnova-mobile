@@ -56,7 +56,7 @@
 .x-list-item {
 	.questionDetailsListBadge,
 	.audiencePanelListBadge {
-		position: initial;
+		position: inherit;
 		min-height: 0em;
 		border: none;
 		padding: 0;
