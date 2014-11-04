@@ -17,7 +17,7 @@
 .x-segmentedbutton .x-button-normal {
 	background-color: $thm-grey;
 	border-color: $background !important;
-	background-image: none !important;
+	background-image: none;
 	
 	.x-button-label {
 		color: white;
@@ -26,6 +26,10 @@
 	&.x-button-pressed {
 		background-color: $thm-lightgrey;
 	}
+}
+
+.x-segmentedbutton .x-button-normal {
+	background-image: none !important;
 }
 
 .myCoursesList {
