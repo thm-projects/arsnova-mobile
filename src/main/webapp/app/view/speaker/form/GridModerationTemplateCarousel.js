@@ -102,8 +102,6 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 			var contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 				xtype: 'mathJaxMarkDownPanel',
 				id: 'questionContent',
-				//flex: 3,
-				cls: '',
 				style: 'color: black;'
 			});
 			contentPanel.setContent(templateContainer.getDescription(), true, true);
@@ -112,9 +110,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 			var titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 				xtype: 'mathJaxMarkDownPanel',
 				id: 'questionTitle',
-				//flex: 1,
-				cls: '',
-				style: 'color: black; font-weight: bold; font-size: 1.5em; margin-bottom: 0; padding-bottom: 0;'
+				style: 'background-color: transparent; padding: 0;font-weight: bold; font-size: 1.4em;'
 			});
 			titlePanel.setContent(templateContainer.getName(), false, true);
 			

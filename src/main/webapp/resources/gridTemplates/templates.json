@@ -1,17 +1,5 @@
 [
     {
-		"name": "Gewichtungsfrage (Einfachauswahl)",
-    	"description": "Mit dieser Vorlage können Sie ein gewichtetes Meinungsbild zu einem von Ihnen gewählten Thema einholen. Bei dieser Vorlage müssen die Studierenden sich entscheiden. So etwas finden man z.B. auch mit <http://www.google.de/>",	
-        "imageFile": "meinung2.jpg",
-        "gridSize": 16,
-        "zoomLvl": -1,
-        "gridOffsetX": 20,
-        "gridOffsetY": 173,
-        "gridZoomLvl": 7,
-        "gridSizeX": 4,
-        "gridSizeY": 1
-    },
-    {
 		"name": "Gewichtungsfrage (Mehrfachauswahl)",
     	"description": "Mit dieser Vorlage können Sie ein gewichtetes Meinungsbild zu einem von Ihnen gewählten Thema einholen. Bei dieser Vorlage kann eine Person ein Feld theoretisch mehrfach auswählen. So etwas finden man z.B. auch mit <http://www.google.de/>",	
         "imageFile": "meinung2.jpg",
@@ -22,6 +10,18 @@
         "gridZoomLvl": 4,
         "gridSizeX": 8,
         "gridSizeY": 2
+    },
+    {
+		"name": "Gewichtungsfrage (Einfachauswahl)",
+    	"description": "Mit dieser Vorlage können Sie ein gewichtetes Meinungsbild zu einem von Ihnen gewählten Thema einholen. Bei dieser Vorlage müssen die Studierenden sich entscheiden. So etwas finden man z.B. auch mit <http://www.google.de/>",	
+        "imageFile": "meinung2.jpg",
+        "gridSize": 16,
+        "zoomLvl": -1,
+        "gridOffsetX": 20,
+        "gridOffsetY": 173,
+        "gridZoomLvl": 7,
+        "gridSizeX": 4,
+        "gridSizeY": 1
     },
      {
 		"name": "Moderationsfrage",
