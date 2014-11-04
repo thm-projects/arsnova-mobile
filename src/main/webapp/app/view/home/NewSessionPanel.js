@@ -48,17 +48,8 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 
 		this.mycourses = Ext.create('Ext.List', {
 			cls: 'myCoursesList',
-			store: Ext.create("Ext.data.Store", {
-				model: 'ARSnova.model.Course',
-				data: [
-					{id: 1, fullname: "test", shortname: "ts",type: "lecturer"},
-					{id: 2, fullname: "test", shortname: "ts",type: "lecturer"},
-					{id: 3, fullname: "test", shortname: "ts",type: "lecturer"},
-					{id: 4, fullname: "test", shortname: "ts",type: "lecturer"}
-				]
-			}),
-			//hidden: true,
-			hidden: false,
+			store: this.mycoursesStore,
+			hidden: true,
 			style: {
 				marginLeft: '12px',
 				marginRight: '12px',
@@ -151,7 +142,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		}]);
 
 		this.onBefore('activate', function () {
-			//this.getMyCourses();
+			this.getMyCourses();
 		}, this);
 	},
 
