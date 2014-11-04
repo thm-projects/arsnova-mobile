@@ -56,7 +56,6 @@ Ext.define('ARSnova.view.RolePanel', {
 			defaults: {
 				xtype: 'matrixbutton',
 				handler: function (b) {
-					console.log(b);
 					ARSnova.app.getController('Auth').roleSelect({
 						mode: b.config.value
 					});
