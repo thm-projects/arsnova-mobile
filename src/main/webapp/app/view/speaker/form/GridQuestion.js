@@ -53,7 +53,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	deleteButton: null,
 	rotateButton: null,
 	hideGridButton: null,
-	removeImageButton: null,
 
 
 	/**
@@ -406,11 +405,10 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		});
 
 		var panelItems = [];
-		
+		var abstention = Ext.getCmp('abstentionPart');
 		if (this.grid instanceof ARSnova.view.components.GridModerationContainer) {
 			
 			// hide abstention panel
-			var abstention = Ext.getCmp('abstentionPart');
 			abstention.hide();
 			
 			this.numberOfDotsSpinner = Ext.create('Ext.field.Spinner', {
@@ -438,6 +436,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				text: Messages.GRID_LABEL_DELETE_MODERATION,
 				handler: function () {
 					me.resetView();
+					Ext.getCmp('abstentionPart').show();
+					
 				},
 				scope: me
 			});
@@ -479,6 +479,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				hidden: true
 			});
 		} else {
+			abstention.show();
 			panelItems = [
 				this.imageSettings = Ext.create('Ext.Panel', {
 					itemId: 'answerField',
