@@ -50,6 +50,9 @@
 @include icon("icon-wink" , "\e618", "arsnova");
 @include icon("icon-shocked" , "\e619", "arsnova");
 @include icon("icon-close" , "\e61a", "arsnova");
+@include icon("icon-group" , "\f0c0", "arsnova");
+@include icon("icon-book" , "\f02d", "arsnova");
+@include icon("icon-book2" , "\e601", "arsnova");
 @include icon('minus2');
 
 @include icon("login-icon-guest" , "\e618", "arsnova");
@@ -86,6 +89,12 @@
 	font-size: 1.1em;
 	margin-bottom: -3px !important;
 	bottom: 1px;
+}
+
+.x-tabbar .icon-book {
+	top: 2.5px;
+	font-size: 16px;
+	margin-bottom: 3px!important;	
 }
 
 .x-tabbar .icon-info {
@@ -178,6 +187,11 @@
 	font-size: inherit !important;
 	line-height: initial !important; /* ie10+ fallback */
 	line-height: 1em !important;
+}
+
+.iconBtn .icon-group {
+	font-size: 44px !important;
+	margin-top: 18px !important;
 }
 
 .login-icon-ldap {
