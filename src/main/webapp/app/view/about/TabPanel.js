@@ -21,7 +21,7 @@ Ext.define('ARSnova.view.about.TabPanel', {
 
 	config: {
 		title: Messages.INFO,
-		iconCls: 'icon-info',
+		iconCls: 'icon-book',
 
 		tabBar: {
 			hidden: true
