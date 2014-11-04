@@ -92,6 +92,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	initializeFormFields: function() {
 		
 		var me = this;
+		this.remove(this.imageArea);
+		this.remove(this.imageCnt);
 		
 		// TODO check if necessary
 //		if (this.imageCnt) {
@@ -464,17 +466,18 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				},
 				items: [
 				    this.grid,
-				    {
-						xtype: 'container',
-						layout:{
-							type: 'hbox',
-							align: 'stretch',
-//							pack: 'stretch',
-						},
-						items: [
-							this.deleteModerationButton
-						]
-					}
+				    this.deleteModerationButton
+//				    {
+//						xtype: 'container',
+//						layout:{
+//							type: 'hbox',
+//							align: 'stretch',
+////							pack: 'stretch',
+//						},
+//						items: [
+//							
+//						]
+//					}
 				],
 				hidden: true
 			});
@@ -573,7 +576,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.add([this.questionValueFieldset]);
-		}
+		}		
 	},
 	
 	handleFS: function(dataUrl, reload) {
@@ -737,7 +740,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		}
 		
 		this.initializeFormFields();
-
+		
 		// set image data (base64 --> grid)
 		this.updateCanvas(question.image, false);
 
