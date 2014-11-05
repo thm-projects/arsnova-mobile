@@ -31,6 +31,14 @@
 Ext.define('ARSnova.WebSocket', {
 	extend: 'Ext.util.Observable',
 
+	events: {
+		setSessionActive: "arsnova/socket/session/active",
+		feedbackReset: "arsnova/socket/feedback/reset",
+		feedbackAverage: "feedbackDataRoundedAverage"
+	},
+
+	memoization: {},
+
 	constructor: function (config) {
 		this.callParent(arguments);
 
@@ -86,9 +94,27 @@ Ext.define('ARSnova.WebSocket', {
 				this.fireEvent("arsnova/socket/feedback/update", data);
 			}, this));
 
+			socket.on('feedbackDataRoundedAverage', Ext.bind(function (average) {
+				console.debug("Socket.IO: feedbackDataRoundedAverage", average);
+				this.fireEvent(this.events.feedbackAverage, average);
+			}, this));
+
 			socket.on('feedbackReset', Ext.bind(function (affectedSessions) {
 				console.debug("Socket.IO: feedbackReset", affectedSessions);
-				//topic.publish("arsnova/socket/feedback/remove", affectedSessions);
+				this.fireEvent(this.events.feedbackReset, affectedSessions);
+			}, this));
+
+			socket.on('setSessionActive', Ext.bind(function (active) {
+				this.memoization[this.events.setSessionActive] = active;
+				this.fireEvent(this.events.setSessionActive, active);
+			}, this));
+
+			socket.on('lecQuestionAvail', Ext.bind(function (questionId) {
+				console.debug("Socket.IO: lecQuestionAvail", questionId);
+			}, this));
+
+			socket.on('audQuestionAvail', Ext.bind(function (questionId) {
+				console.debug("Socket.IO: audQuestionAvail", questionId);
 			}, this));
 		}, this));
 	},
@@ -104,5 +130,13 @@ Ext.define('ARSnova.WebSocket', {
 
 	setSession: function (sessionKey) {
 		socket.emit("setSession", sessionKey);
+	},
+
+	doAddListener: function (name, fn, scope, options, order) {
+		var result = this.callParent(arguments);
+		if (this.memoization.hasOwnProperty(name)) {
+			this.fireEvent(name, this.memoization[name]);
+		}
+		return result;
 	}
 });

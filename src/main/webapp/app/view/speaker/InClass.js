@@ -27,7 +27,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	config: {
 		fullscreen: true,
 		title: Messages.FEEDBACK,
-		iconCls: 'feedbackMedium',
 		scrollable: 'vertical'
 	},
 
@@ -36,17 +35,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	inClassActions: null,
 	sessionStatusButton: null,
 	createAdHocQuestionButton: null,
-
-	/**
-	 * count every x seconds all actually logged-in users for this sessions
-	 */
-	countActiveUsersTask: {
-		name: 'count the actually logged in users',
-		run: function () {
-			ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countActiveUsers();
-		},
-		interval: 15000
-	},
 
 	/**
 	 * task for speakers in a session
@@ -118,7 +106,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		this.feedbackButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			text: Messages.LIVE_FEEDBACK,
 			cls: 'forwardListButton',
-			badgeCls: 'badgeicon feedbackARSnova',
+			badgeCls: 'x-button-icon x-shown icon-radar',
 			handler: function () {
 				var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 				tabPanel.setActiveItem(tabPanel.feedbackTabPanel, "slide");
@@ -161,7 +149,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.courseLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 				text: Messages.COURSES_LEARNING_PROGRESS,
-				cls: 'answerListButton'
+				cls: 'standardListButton'
 			});
 		}
 
@@ -194,7 +182,12 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 		this.createAdHocQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.AH_HOC_QUESTION,
-			image: 'question',
+			buttonConfig: 'icon',
+			imageCls: 'icon-question thm-darkblue',
+			imageStyle: {
+				'font-size': '70px',
+				'margin-top': '4px'
+			},
 			controller: 'Questions',
 			action: 'adHoc',
 			handler: this.buttonClicked
@@ -202,7 +195,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 		this.deleteSessionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.DELETE_SESSION,
-			image: 'delete_session',
+			buttonConfig: 'icon',
+			imageCls: 'icon-close thm-red',
 			scope: this,
 			handler: function () {
 				var msg = Messages.ARE_YOU_SURE +
@@ -245,7 +239,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		this.add([this.toolbar, this.inClassItems, this.inClassActions]);
 
 		this.on('initialize', function () {
-			this.feedbackButton.setBadge([{badgeText: '0'}]);
+			this.feedbackButton.setBadge([{badgeText: ' '}]);
 		});
 
 		this.on('activate', function () {
@@ -270,24 +264,24 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		switch (averageFeedback) {
 			/* 0: faster, please!; 1: can follow; 2: to fast!; 3: you have lost me */
 			case 0:
-				feedbackCls = "Medium";
+				feedbackCls = "wink";
 				break;
 			case 1:
-				feedbackCls = "Good";
+				feedbackCls = "happy";
 				break;
 			case 2:
-				feedbackCls = "Bad";
+				feedbackCls = "shocked";
 				break;
 			case 3:
-				feedbackCls = "None";
+				feedbackCls = "sad";
 				break;
 			default:
-				feedbackCls = "ARSnova";
+				feedbackCls = "radar";
 				break;
 		}
 		this.feedbackButton.setBadge([{
-			badgeText: "0",
-			badgeCls: 'badgeicon feedback' + feedbackCls
+			badgeText: " ",
+			badgeCls: 'x-button-icon x-shown icon-' + feedbackCls
 		}]);
 	},
 
@@ -298,7 +292,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	/* will be called on session login */
 	registerListeners: function () {
 		var inClassPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
-		ARSnova.app.taskManager.start(inClassPanel.countActiveUsersTask);
 		ARSnova.app.taskManager.start(inClassPanel.countFeedbackQuestionsTask);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			ARSnova.app.taskManager.start(inClassPanel.courseLearningProgressTask);
@@ -308,7 +301,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	/* will be called whenever panel is shown */
 	refreshListeners: function () {
 		// tasks should get run immediately
-		this.countActiveUsersTask.taskRunTime = 0;
 		this.countFeedbackQuestionsTask.taskRunTime = 0;
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.courseLearningProgressTask.taskRunTime = 0;
@@ -318,7 +310,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	/* will be called on session logout */
 	destroyListeners: function () {
 		var inClassPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
-		ARSnova.app.taskManager.stop(inClassPanel.countActiveUsersTask);
 		ARSnova.app.taskManager.stop(inClassPanel.countFeedbackQuestionsTask);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			ARSnova.app.taskManager.stop(inClassPanel.courseLearningProgressTask);
@@ -380,24 +371,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				panel.flashcardsButton.setBadge([{badgeText: numQuestions, badgeCls: "greybadgeicon"}]);
 			},
 			failure: failureCallback
-		});
-	},
-
-	/* TODO: check code
-	 * this causes... nothing?
-	 */
-	countActiveUsers: function () {
-		ARSnova.app.loggedInModel.countActiveUsersBySession(localStorage.getItem("keyword"), {
-			success: function (response) {
-				var value = parseInt(response.responseText);
-				if (value > 0) {
-					// Do not count myself ;-)
-					value--;
-				}
-			},
-			failure: function () {
-				console.log('server-side error');
-			}
 		});
 	},
 

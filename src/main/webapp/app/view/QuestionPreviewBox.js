@@ -56,7 +56,7 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		var mainPanel = Ext.create('Ext.Container', {
 			id: 'mainPanel',
 			xtype: 'container',
-			style: 'position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: #c5ccd3;',
+			style: 'position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: #E0E0E0;',
 			fullscreen: false,
 			layout: 'vbox',
 			items: [
@@ -79,7 +79,7 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		var previewBox = Ext.create('Ext.MessageBox',
 		{
 			title: Messages.QUESTION_PREVIEW_DIALOGBOX_TITLE,
-			style: 'height: 80%; maxHeight: 600px; width: 80%; maxWidth: 1000px; border-color: black;',
+			style: 'height: 80%; maxHeight: 600px; width: 80%; maxWidth: 1000px;',
 			items: [mainPanel],
 			scope: this
 		});

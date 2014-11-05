@@ -52,8 +52,8 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 		});
 
 		this.statisticsButton = Ext.create('Ext.Button', {
-			text: ' ',
-			cls: 'statisticIconSmall',
+			iconCls: 'icon-chart',
+			style: 'padding: 0 0.4em',
 			handler: this.getStatisticsButtonHandler()
 		});
 
@@ -103,6 +103,7 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 	},
 
 	resetQuestionCounter: function (maxValue) {
+		this.questionCounter.show();
 		var counter = this.questionCounter.getHtml().split("/");
 		counter[0] = "1";
 		counter[1] = maxValue;

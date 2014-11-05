@@ -38,29 +38,29 @@ driver.navigate.to arsnova_url
 passed = true
 
 # Perform role selection and log in
-driver.wait_for_element(:id, "ext-image-2").click # Teacher
-driver.find_element(:id, "ext-image-3").click # Guest
+driver.wait_for_element(:id, "ext-matrixbutton-2").click # Teacher
+driver.find_element(:id, "ext-matrixbutton-3").click # Guest
 driver.find_element(:id, "ext-button-16").click # 'Yes' in popup
 # Wait for log in...
-driver.wait_for_element(:id, "ext-element-123").click # Create new session
+driver.wait_for_element(:id, "ext-element-122").click # Create new session
 # Create Session
-driver.find_element(:id, "ext-element-157").click # set focus to 'name' field
-driver.find_element(:id, "ext-element-157").clear
-driver.find_element(:id, "ext-element-157").send_keys "test"
-driver.find_element(:id, "ext-element-163").click # set focus to 'short name' field
-driver.find_element(:id, "ext-element-163").clear
-driver.find_element(:id, "ext-element-163").send_keys "test"
-driver.find_element(:id, "ext-element-169").click # create session
+driver.find_element(:id, "ext-element-156").click # set focus to 'name' field
+driver.find_element(:id, "ext-element-156").clear
+driver.find_element(:id, "ext-element-156").send_keys "test"
+driver.find_element(:id, "ext-element-162").click # set focus to 'short name' field
+driver.find_element(:id, "ext-element-162").clear
+driver.find_element(:id, "ext-element-162").send_keys "test"
+driver.find_element(:id, "ext-element-168").click # create session
 
-if not driver.wait_for_element(:id, "ext-element-277").text.include? "test" # short name displayed in titlebar?
+if not driver.wait_for_element(:id, "ext-element-276").text.include? "test" # short name displayed in titlebar?
     print "verifyTextPresent failed"
     passed = false
 end
 
 # Teardown
-driver.find_element(:id, "ext-image-10").click # delete session
-driver.find_element(:id, "ext-button-82").click # 'Yes' in popup
-driver.wait_for_element(:id, "ext-element-114").click # Logout
+driver.find_element(:id, "ext-matrixbutton-10").click # delete session
+driver.find_element(:id, "ext-button-79").click # 'Yes' in popup
+driver.wait_for_element(:id, "ext-element-113").click # Logout
 
 driver.quit
 

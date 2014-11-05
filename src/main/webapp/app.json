@@ -105,8 +105,8 @@
      */
     "css": [
         {
-            "path": "resources/css/app.css",
-            "update": "full"
+			"path": "resources/css/app.css",
+			"update": "full"
         },
         {
             "path": "resources/css/index.css",
@@ -147,22 +147,7 @@
             /* resources */
             "resources/css/app.css",
             "resources/css/index.css",
-            "resources/css/arsnova.css",
-            "resources/images/ars_logo.png",
-            "resources/images/arsnova.png",
-            "resources/images/btn_facebook.png",
-            "resources/images/btn_facebook@2x.png",
-            "resources/images/btn_google.png",
-            "resources/images/btn_google@2x.png",
-            "resources/images/btn_guest.png",
-            "resources/images/btn_thm.png",
-            "resources/images/btn_uni.png",
-            "resources/images/delete_session.png",
-            "resources/images/lock_session.png",
-            "resources/images/unlock_session.png",
-            "resources/images/login_student.png",
-            "resources/images/question.png",
-            "resources/images/speaker.png"
+            "resources/css/arsnova.css"
         ],
         /**
          * List of items in the NETWORK section

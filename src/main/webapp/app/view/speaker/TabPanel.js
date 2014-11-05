@@ -28,7 +28,7 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 
 	config: {
 		title: Messages.HOME,
-		iconCls: 'tabBarIconHome',
+		iconCls: 'icon-home',
 
 		tabBar: {
 			hidden: true

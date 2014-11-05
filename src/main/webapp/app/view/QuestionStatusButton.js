@@ -20,7 +20,6 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 	extend: 'Ext.Panel',
 
 	config: {
-		cls: 'threeButtons left',
 		wording: {
 			stop: Messages.STOP_QUESTION,
 			release: Messages.RELEASE_QUESTION,
@@ -41,43 +40,45 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		this.callParent(arguments);
 
 		this.questionObj = args.questionObj;
-
-		this.questionIsClosedButton = Ext.create('Ext.Button', {
-			cls: 'closedSession',
+		
+		this.questionIsClosedButton = Ext.create('ARSnova.view.MatrixButton', {
+			buttonConfig: 'icon',
+			text: this.getWording().release,
+			imageCls: 'icon-play thm-green',
+			imageStyle: {
+				'font-size': '52px',
+				'margin-top': '14px',
+				'margin-left': '18px'
+			},
 			scope: this,
 			handler: function () {
 				this.changeStatus();
 			}
 		});
 
-		this.questionIsClosedText = Ext.create('Ext.Panel', {
-			cls: 'centerTextSmall',
-			html: this.getWording().release
-		});
-
-		this.questionIsOpenButton = Ext.create('Ext.Button', {
-			cls: 'openSession',
+		this.questionIsOpenButton = Ext.create('ARSnova.view.MatrixButton', {
+			buttonConfig: 'icon',
+			text: this.getWording().stop,
+			imageCls: 'icon-pause thm-lightgrey',
+			imageStyle: {
+				'font-size': '52px',
+				'margin-top': '14px',
+				'margin-left': '18px'
+			},
 			scope: this,
 			handler: function () {
 				this.changeStatus();
 			}
 		});
 
-		this.questionIsOpenText = Ext.create('Ext.Panel', {
-			cls: 'centerTextSmall',
-			html: this.getWording().stop
-		});
-
-		this.add([this.questionIsClosedButton, this.questionIsClosedText, this.questionIsOpenButton, this.questionIsOpenText]);
+		this.add([this.questionIsClosedButton, this.questionIsOpenButton]);
 
 		if (this.questionObj && this.questionObj.active == 1) {
 			this.isOpen = true;
 			this.questionIsClosedButton.hide();
-			this.questionIsClosedText.hide();
 		} else {
 			this.isOpen = false;
 			this.questionIsOpenButton.hide();
-			this.questionIsOpenText.hide();
 		}
 	},
 
@@ -119,16 +120,12 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 	questionClosedSuccessfully: function () {
 		this.isOpen = false;
 		this.questionIsClosedButton.show();
-		this.questionIsClosedText.show();
 		this.questionIsOpenButton.hide();
-		this.questionIsOpenText.hide();
 	},
 
 	questionOpenedSuccessfully: function () {
 		this.isOpen = true;
 		this.questionIsOpenButton.show();
-		this.questionIsOpenText.show();
 		this.questionIsClosedButton.hide();
-		this.questionIsClosedText.hide();
 	}
 });

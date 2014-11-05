@@ -139,7 +139,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			url: "session/",
 			method: "GET",
 			params: {
-				ownedonly: true,
+				statusonly: true,
 				sortby: sortby
 			},
 
@@ -161,9 +161,11 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	 */
 	getMyVisitedSessions: function (callbacks, sortby) {
 		this.arsjax.request({
-			url: "session/?visitedonly=true",
+			url: "session/",
 			method: "GET",
 			params: {
+				visitedonly: true,
+				statusonly: true,
 				sortby: sortby
 			},
 			success: function (response) {
@@ -624,85 +626,10 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	getUserFeedback: function (sessionKeyword, callbacks) {
-		this.arsjax.request({
-			url: "session/" + sessionKeyword + "/myfeedback",
-			success: callbacks.success,
-			failure: function (response) {
-				if (response.status === 404) {
-					callbacks.empty.apply(this, arguments);
-				} else {
-					callbacks.failure.apply(this, arguments);
-				}
-			}
-		});
-	},
-
-	postFeedback: function (sessionKeyword, feedbackValue, callbacks) {
-		/* TODO: Remove this method, it has been replaced by a WebSocket solution */
-		console.warn("Deprecated method used for feedback");
-		this.arsjax.request({
-			url: "session/" + sessionKeyword + "/feedback",
-			method: "POST",
-			jsonData: feedbackValue + "", // A string ensures that even zero gets submitted to the server!
-			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-
-	isActive: function (sessionKeyword, callbacks) {
-		this.arsjax.request({
-			url: "session/" + sessionKeyword,
-			success: function (response) {
-				var session = Ext.decode(response.responseText);
-				callbacks.success(session.active);
-			},
-			failure: function (response) {
-				if (response.status === 403) {
-					callbacks.success(false);
-				} else {
-					callbacks.failure.apply(this, arguments);
-				}
-			}
-		});
-	},
-
 	lock: function (sessionKeyword, theLock, callbacks) {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/lock?lock=" + !!theLock,
 			method: "POST",
-			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-
-	/**
-	 * save every minute that i'm online
-	 * replaced by WebSocket solution
-	 * TODO: remove all related code
-	 */
-	loggedInTask: function () {
-		console.debug("Obsolete method called: RestProxy.loggedInTask");
-	},
-
-	/**
-	 * if user is session owner update that owner of session is logged in
-	 * every 3 minutes
-	 * replaced by WebSocket solution
-	 * TODO: remove all related code
-	 */
-	updateSessionActivityTask: function () {
-		console.debug("Obsolete method called: RestProxy.updateSessionActivityTask");
-	},
-
-	/*
-	 * replaced by WebSocket solution
-	 * TODO: remove all related code
-	 */
-	countActiveUsersBySession: function (sessionKeyword, callbacks) {
-		console.debug("Deprecated method called: RestProxy.countActiveUsersBySession");
-		this.arsjax.request({
-			url: "session/" + sessionKeyword + "/activeusercount",
 			success: callbacks.success,
 			failure: callbacks.failure
 		});

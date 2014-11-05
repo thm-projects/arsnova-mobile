@@ -45,15 +45,11 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 		if (hasActiveQuestions) {
 			this.isOpen = true;
 			this.questionIsClosedButton.hide();
-			this.questionIsClosedText.hide();
 			this.questionIsOpenButton.show();
-			this.questionIsOpenText.show();
 		} else {
 			this.isOpen = false;
 			this.questionIsClosedButton.show();
-			this.questionIsClosedText.show();
 			this.questionIsOpenButton.hide();
-			this.questionIsOpenText.hide();
 		}
 	},
 

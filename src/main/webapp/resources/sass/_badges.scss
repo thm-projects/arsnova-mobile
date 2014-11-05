@@ -1,0 +1,117 @@
+
+.x-hasbadge .x-badge {
+	-webkit-border-radius: 1em;
+	border-radius: 1em;
+	-webkit-background-clip: padding;
+	background-clip: padding-box;
+	padding: .15em .25em !important;
+	z-index: 30;
+	text-shadow: rgba(0, 0, 0, 0.5) 0 -0.08em 0;
+	-webkit-box-shadow: #000 0 .1em .2em;
+	overflow: hidden;
+	color: #fff;
+	border: 2px solid #fff;
+	position: absolute;
+	width: auto;
+	min-width: 2em;
+	height: 2em;
+	line-height: 1.2em !important;
+	font-size: .6em !important;
+	top: -0.15em;
+	right: 0px;
+	max-width: 100%;
+	background-image: none;
+	background-color: $thm-red;
+	display: inline-block;
+}
+
+.x-button-label, .x-hasbadge .x-badge {
+	-webkit-box-flex: 1;
+	box-flex: 1;
+	-webkit-box-align: center;
+	box-align: center;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	text-align: center;
+	font-weight: bold;
+	line-height: 1.2em;
+	display: block;
+	overflow: hidden;
+}
+
+.caption {
+	.bluebadgeicon, .redbadgeicon, .badgeicon,
+	.greybadgeicon,  .greenbadgeicon, .yellowbadgeicon,
+	.bluebadgeiconfixed, .textbadgeicon {
+		font-size: 0.6em;
+	}
+}
+
+.standardListButton .x-hasbadge,
+.forwardListButton .x-hasbadge,
+.answerListButton .x-hasbadge {
+	margin-top: 6px;
+}
+
+.x-list-item {
+	.questionDetailsListBadge,
+	.audiencePanelListBadge {
+		position: inherit;
+		min-height: 0em;
+		border: none;
+		padding: 0;
+	}
+	
+	.audiencePanelListBadge .badgefixed {
+		top: 5px;
+	}
+	
+	.questionDetailsListBadge .badgefixed {
+		top: 6px;
+	}
+}
+
+.badgeicon, .greybadgeicon, .bluebadgeicon, .redbadgeicon, .greenbadgeicon, .yellowbadgeicon, .textbadgeicon {
+	font-weight: bold;
+	background: $thm-grey;
+	color: white;
+	-webkit-border-radius: 20px;
+	border-radius: 11px;
+	padding: 3px 9px 3px 9px;
+	border: 2px solid transparent;
+	margin-right: 12px;
+}
+
+.redbadgeicon {
+	background: $thm-red;
+}
+
+.bluebadgeicon {
+	background: $thm-darkblue;
+}
+
+.greenbadgeicon {
+	background: $thm-green;
+}
+
+.yellowbadgeicon {
+	background: $thm-orange;
+}
+
+.textbadgeicon {
+	background: transparent;
+	color: black;
+	border: none;
+	box-shadow: none;
+	padding: 0;
+}
+
+.withdoublebadge {
+	margin-right: 5px;
+}
+
+.badgefixed {
+	right: 12px;
+	position: absolute;
+	margin-right: 5px;
+}

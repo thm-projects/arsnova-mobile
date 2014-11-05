@@ -58,8 +58,6 @@ Ext.define("ARSnova.controller.Sessions", {
 				// check if user is creator of this session
 				if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
 					ARSnova.app.isSessionOwner = true;
-					// start task: update that session owner is logeed in
-					ARSnova.app.taskManager.start(ARSnova.app.updateSessionActivityTask);
 				} else {
 					// check if session is open
 					if (!obj.active) {
@@ -111,17 +109,11 @@ Ext.define("ARSnova.controller.Sessions", {
 
 		ARSnova.app.loggedInModel.resetActiveUserCount();
 
-		// remove "user has voted"-flag
-		if (localStorage.getItem('user has voted'))
-			localStorage.removeItem('user has voted');
-
 		// stop task to update the feedback tab in tabBar
 		ARSnova.app.feedbackModel.un("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge);
 		ARSnova.app.feedbackModel.un("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon);
 		// online counter badge
 		ARSnova.app.taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
-		// stop task to update that session owner is logged-in
-		ARSnova.app.taskManager.stop(ARSnova.app.updateSessionActivityTask);
 
 		localStorage.removeItem("sessionId");
 		localStorage.removeItem("name");
@@ -237,6 +229,8 @@ Ext.define("ARSnova.controller.Sessions", {
 			tabPanel.insert(4, tabPanel.feedbackQuestionsPanel);
 			tabPanel.feedbackQuestionsPanel.tab.hide();
 		}
+
+		ARSnova.app.sessionModel.sessionIsActive = true;
 
 		hideLoadMask();
 	},

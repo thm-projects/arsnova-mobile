@@ -27,7 +27,7 @@ Ext.define('ARSnova.view.feedback.TabPanel', {
 
 	config: {
 		title: Messages.FEEDBACK,
-		iconCls: 'feedbackARSnova',
+		iconCls: 'voteIcons icon-radar',
 
 		tabBar: {
 			hidden: true
@@ -48,7 +48,6 @@ Ext.define('ARSnova.view.feedback.TabPanel', {
 		]);
 
 		this.on('activate', function () {
-			this.statisticPanel.checkVoteButton();
 			this.statisticPanel.checkTitle();
 			ARSnova.app.feedbackModel.un("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge);
 			ARSnova.app.feedbackModel.un("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon);

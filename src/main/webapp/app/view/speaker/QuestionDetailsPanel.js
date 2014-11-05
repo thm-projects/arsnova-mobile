@@ -437,44 +437,38 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 		/* BEGIN ACTIONS PANEL */
 
-		this.statisticButton = Ext.create('Ext.Panel', {
-			cls: this.hasCorrectAnswers? 'threeButtons left': 'twoButtons left',
-
-			items: [{
-				xtype: 'button',
-				text: ' ',
-				cls: 'statisticIcon',
-				scope: this,
-				handler: function () {
-					ARSnova.app.taskManager.stop(this.renewAnswerDataTask);
-					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-					sTP.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
-						question: this.questionObj,
-						lastPanel: this
-					});
-					ARSnova.app.mainTabPanel.animateActiveItem(sTP.questionStatisticChart, 'slide');
-				}
-			}, {
-				html: Messages.STATISTIC,
-				cls: 'centerTextSmall'
-			}]
+		this.statisticButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: Messages.SHOW_STATISTIC,
+			buttonConfig: 'icon',
+			imageCls: 'icon-chart thm-darkblue',
+			scope: this,
+			handler: function () {
+				ARSnova.app.taskManager.stop(this.renewAnswerDataTask);
+				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+				sTP.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
+					question: this.questionObj,
+					lastPanel: this
+				});
+				ARSnova.app.mainTabPanel.animateActiveItem(sTP.questionStatisticChart, 'slide');
+			}
 		});
 
-		this.releaseStatisticButton = Ext.create('Ext.Panel', {
-			cls: this.hasCorrectAnswers? 'threeButtons left': 'twoButtons left',
-
-			items: [{
-				xtype: 'togglefield',
-				label: false,
-				cls: 'questionDetailsToggle',
+		this.releaseStatisticButton = Ext.create('ARSnova.view.MatrixButton', {
+			buttonConfig: 'togglefield',
+			text: Messages.RELEASE_STATISTIC,
+			toggleConfig: {
 				scope: this,
+				label: false,
 				value: this.questionObj.showStatistic? this.questionObj.showStatistic: 0,
 				listeners: {
+					scope: this,
 					change: function(toggle, newValue, oldValue, eOpts) {
-						if (newValue == 0 && me.questionObj.showStatistic == undefined || newValue == me.questionObj.showStatistic) return;
+						if (newValue == 0 && typeof this.questionObj.showStatistic === "undefined" ||
+							newValue == this.questionObj.showStatistic) return;
+						
 						var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_ACTIVATION);
-						var question = Ext.create('ARSnova.model.Question', me.questionObj);
-
+						var question = Ext.create('ARSnova.model.Question', this.questionObj);
+						
 						switch (newValue) {
 							case 0:
 								delete question.data.showStatistic;
@@ -497,27 +491,23 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						});
 					}
 				}
-			}, {
-				html: Messages.RELEASE_STATISTIC,
-				cls: 'centerTextSmall'
-			}]
+			}
 		});
-
-		this.showCorrectAnswerButton = Ext.create('Ext.Panel', {
-			cls: 'threeButtons left',
-
-			items: [{
-				xtype: 'togglefield',
-				label: false,
-				cls: 'questionDetailsToggle',
+		
+		this.showCorrectAnswerButton = Ext.create('ARSnova.view.MatrixButton', {
+			buttonConfig: 'togglefield',
+			text: Messages.MARK_CORRECT_ANSWER,
+			toggleConfig: {
 				scope: this,
+				label: false,
 				value: this.questionObj.showAnswer? this.questionObj.showAnswer: 0,
 				listeners: {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
 						var panel = this;
 
-						if (newValue == 0 && typeof this.questionObj.showAnswer === "undefined" || newValue == this.questionObj.showAnswer) {
+						if (newValue == 0 && typeof this.questionObj.showAnswer === "undefined" ||
+							newValue == this.questionObj.showAnswer) {
 							return;
 						}
 
@@ -546,90 +536,105 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						});
 					}
 				}
-			}, {
-				html: Messages.MARK_CORRECT_ANSWER,
-				cls: 'centerTextSmall'
-			}]
+			}
 		});
 
 		this.questionStatusButton = Ext.create('ARSnova.view.QuestionStatusButton', {
 			questionObj: this.questionObj
 		});
 
-		this.deleteAnswersButton = Ext.create('Ext.Panel', {
-			cls: 'threeButtons left',
+		this.deleteAnswersButton = Ext.create('ARSnova.view.MatrixButton', {
 			hidden: this.isFlashcard,
-			items: [{
-				xtype: 'button',
-				text: ' ',
-				cls: 'recycleIcon',
-				scope: this,
-				handler: function () {
-					Ext.Msg.confirm(Messages.DELETE_ANSWERS_REQUEST, Messages.QUESTION_REMAINS, function (answer) {
-						if (answer == 'yes') {
-							var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
-							ARSnova.app.questionModel.deleteAnswers(panel.questionObj._id, {
-								success: function () {
-									panel.getQuestionAnswers();
-								},
-								failure: function (response) {
-									console.log('server-side error delete question');
-								}
-							});
-						}
-					});
-				}
-			}, {
-				html: Messages.DELETE_ANSWERS,
-				cls: 'centerTextSmall'
-			}]
+			buttonConfig: 'icon',
+			text: Messages.DELETE_ANSWERS,
+			imageCls: 'icon-renew thm-lightblue',
+			imageStyle: {
+				'font-size': '56px',
+				'margin-top': '12px'
+			},
+			scope: this,
+			handler: function () {
+				Ext.Msg.confirm(Messages.DELETE_ANSWERS_REQUEST, Messages.QUESTION_REMAINS, function (answer) {
+					if (answer == 'yes') {
+						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
+						ARSnova.app.questionModel.deleteAnswers(panel.questionObj._id, {
+							success: function () {
+								panel.getQuestionAnswers();
+							},
+							failure: function (response) {
+								console.log('server-side error delete question');
+							}
+						});
+					}
+				});
+			}
 		});
 
-		this.deleteQuestionButton = Ext.create('Ext.Panel', {
-			cls: 'threeButtons left',
+		this.deleteQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
+			xtype: 'button',
+			buttonConfig: 'icon',
+			text: Messages.DELETE_QUESTION,
+			imageCls: 'icon-close thm-red',
+			scope: this,
+			handler: function () {
+				var msg = Messages.ARE_YOU_SURE;
+				if (this.questionObj.active && this.questionObj.active == 1)
+					msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
+				Ext.Msg.confirm(Messages.DELETE_QUESTION, msg, function (answer) {
+					if (answer == 'yes') {
+						var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+						ARSnova.app.questionModel.destroy(sTP.questionDetailsPanel.questionObj, {
+							success: function () {
+								var me = sTP.questionDetailsPanel;
 
-			items: [{
-				xtype: 'button',
-				text: ' ',
-				cls: 'deleteIcon',
-				scope: this,
-				handler: function () {
-					var msg = Messages.ARE_YOU_SURE;
-					if (this.questionObj.active && this.questionObj.active == 1)
-						msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
-					Ext.Msg.confirm(Messages.DELETE_QUESTION, msg, function (answer) {
-						if (answer == 'yes') {
-							var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-							ARSnova.app.questionModel.destroy(sTP.questionDetailsPanel.questionObj, {
-								success: function () {
-									var me = sTP.questionDetailsPanel;
-
-									sTP.animateActiveItem(sTP.audienceQuestionPanel, {
-										type: 'slide',
-										direction: 'right',
-										duration: 700,
-										listeners: {
-											animationend: function () {
-												ARSnova.app.taskManager.stop(me.renewAnswerDataTask);
-												me.destroy();
-											}
+								sTP.animateActiveItem(sTP.audienceQuestionPanel, {
+									type: 'slide',
+									direction: 'right',
+									duration: 700,
+									listeners: {
+										animationend: function () {
+											ARSnova.app.taskManager.stop(me.renewAnswerDataTask);
+											me.destroy();
 										}
-									});
-								},
-								failure: function (response) {
-									console.log('server-side error delete question');
-								}
-							});
+									}
+								});
+							},
+							failure: function (response) {
+								console.log('server-side error delete question');
+							}
+						});
 
-						}
-					});
-				}
-			}, {
-				html: Messages.DELETE_QUESTION,
-				cls: 'centerTextSmall'
-			}]
+					}
+				});
+			}
 		});
-
+		
+		this.deleteQuestionsButton = Ext.create('ARSnova.view.MatrixButton', {
+			hidden: true,
+			buttonConfig: 'icon',
+			text: Messages.DELETE_ALL_QUESTIONS,
+			imageCls: 'icon-close',
+			imageStyle: {
+				'color': '#bf0e0e',
+				'margin-top': '20px'
+			},
+			scope: this,
+			handler: function () {
+				var msg = Messages.ARE_YOU_SURE;
+					msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
+				Ext.Msg.confirm(Messages.DELETE_ALL_QUESTIONS, msg, function (answer) {
+					if (answer == 'yes') {
+						this.getController().destroyAll(localStorage.getItem("keyword"), {
+							success: Ext.bind(this.onActivate, this),
+							failure: function () {
+								console.log("could not delete the questions.");
+							}
+						});
+					}
+				}, this);
+			}
+		});
+		
 		// Preview button
 		this.previewButton = Ext.create('Ext.Button', {
 			text: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
@@ -651,13 +656,15 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			}]
 		});
 
-		this.firstRow = Ext.create('Ext.form.FormPanel', {
-			cls: 'actionsForm',
-			scrollable: null,
+		this.firstRow = Ext.create('Ext.Panel', {
+			layout: {
+				type: 'hbox',
+				pack: 'center'
+			},
 			hidden: this.isFlashcard,
 
 			style: {
-				marginTop: '15px'
+				marginTop: '30px'
 			},
 
 			items: [].concat(
@@ -665,9 +672,15 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			)
 		});
 
-		this.secondRow = Ext.create('Ext.form.FormPanel', {
-			cls: 'actionsForm',
-			scrollable: null,
+		this.secondRow = Ext.create('Ext.Panel', {
+			layout: {
+				type: 'hbox',
+				pack: 'center'
+			},
+			
+			style: {
+				marginTop: '15px'
+			},
 
 			items: [
 				this.questionStatusButton,
@@ -677,20 +690,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 
 		/* END ACTIONS PANEL */
-
-		this.subject = Ext.create('Ext.field.Text', {
-			label: Messages.CATEGORY,
-			name: 'subject',
-			value: this.questionObj.subject,
-			disabled: true
-		});
-
-		this.textarea = Ext.create('Ext.plugins.ResizableTextArea', {
-			label: Messages.QUESTION,
-			name: 'questionText',
-			value: this.questionObj.text,
-			disabled: true
-		});
 
 		this.releasePart = Ext.create('Ext.Panel', {
 			items: [
@@ -712,6 +711,25 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 
 		/* BEGIN QUESTION DETAILS */
+		
+		this.subject = Ext.create('Ext.field.Text', {
+			label: Messages.CATEGORY,
+			name: 'subject',
+			value: this.questionObj.subject,
+			disabledCls: 'disableDefault',
+			inputCls: 'thm-grey',
+			disabled: true
+		});
+
+		this.textarea = Ext.create('Ext.plugins.ResizableTextArea', {
+			label: Messages.QUESTION,
+			name: 'questionText',
+			value: this.questionObj.text,
+			disabledCls: 'disableDefault',
+			inputCls: 'thm-grey',
+			disabled: true
+		});
+		
 		this.contentFieldset = Ext.create('Ext.form.FieldSet', {
 			cls: 'standardFieldset',
 			itemId: 'contentFieldset',
@@ -719,6 +737,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				xtype: 'textfield',
 				label: Messages.TYPE,
 				value: this.getType(),
+				disabledCls: 'disableDefault',
+				inputCls: 'thm-grey',
 				disabled: true
 			}]
 		});
@@ -836,7 +856,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			'&nbsp;<span class="listCorrectItem x-list-item-correct">&#10003; </span>',
 			'</tpl>',
 			'<tpl if="this.isFlashcard() === false">',
-			'</div><div class="x-button x-hasbadge audiencePanelListBadge">' +
+			'</div><div class="x-button x-hasbadge questionDetailsListBadge">' +
 			'<span class="greybadgeicon badgefixed">{answerCount}</span>',
 			'</tpl>',
 			{

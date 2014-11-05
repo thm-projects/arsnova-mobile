@@ -43,8 +43,11 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		this.mycoursesStore = new Ext.data.JsonStore({
 			model: 'ARSnova.model.Course'
 		});
+		
+		var htmlEncode = window.innerWidth > 321 ? "{fullname:htmlEncode}" : "{shortname:htmlEncode}"; 
 
 		this.mycourses = Ext.create('Ext.List', {
+			cls: 'myCoursesList',
 			store: this.mycoursesStore,
 			hidden: true,
 			style: {
@@ -52,9 +55,10 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				marginRight: '12px',
 				backgroundColor: 'transparent'
 			},
-			itemTpl: window.innerWidth > 321 ?
-				'<span class="course">{fullname:htmlEncode}<span>' :
-				'<span class="course">{shortname:htmlEncode}<span>'
+			itemTpl: 
+				'<div class="x-unsized x-button x-button-normal x-iconalign-left forwardListButton">' +
+				'<span class="x-button-icon x-shown courseIcon icon-prof"></span>' +
+				'<span class="x-button-label">' + htmlEncode + '</span></div>' 
 			,
 			listeners: {
 				scope: this,

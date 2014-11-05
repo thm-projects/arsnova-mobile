@@ -117,6 +117,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	redrawWithAlpha: function (alpha, markChosenFields) {
 		var ctx = this.getCanvas().getContext('2d');
+		this.setHeightAccordingToImg();
+		
 		// save context
 		ctx.save();
 
@@ -160,6 +162,31 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			this.createGrid();
 		}
 
+	},
+	
+	/**
+	 * Sets height of canvas according to images width/height ratio.
+	 */
+	setHeightAccordingToImg: function() {
+		var scale,
+			calcHeight,
+			img = this.getImageFile(),
+			initialHeight = img.height;
+				
+		/** is picture spinned? */
+		if(this.getImgRotation()%2) {
+			initialHeight = img.width;
+		}
+
+		scale = this.getCanvasSize() / img.width;
+		calcHeight = scale < 1 ? initialHeight * scale : initialHeight;
+		
+		if(calcHeight < this.getCanvasSize()) {
+			calcHeight = scale > 1 ? calcHeight * scale : calcHeight;
+			this.image.html.height = calcHeight;
+		} else {
+			this.image.html.height = this.getCanvasSize();
+		}
 	},
 
 	/**
@@ -688,7 +715,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			}
 			container.setImageFile(newimage);
 			container.redraw();
-			
+
 			cb();
 		};
 		newimage.onerror = function () {
@@ -696,7 +723,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			cb();
 		};
 	},
-
+	
 	/**
 	 * Clears the image and resets all necessary configurations.
 	 */

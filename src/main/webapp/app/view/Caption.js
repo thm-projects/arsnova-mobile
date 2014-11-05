@@ -71,25 +71,36 @@ Ext.define('ARSnova.view.Caption', {
 		}
 	},
 
-	explainBadges: function (badges) {
+	explainBadges: function (badges, opt) {
+		var options = Ext.apply({}, opt, {
+			questions: true,
+			answers: true,
+			interposed: true,
+			unanswered: false
+		});
 		var hasFeedbackQuestions = false;
 		var hasQuestions = false;
+		var hasUnansweredQuestions = false;
 		var hasAnswers = false;
 		badges.forEach(function (item) {
 			if (Ext.isNumber(item)) {
 				hasQuestions = hasQuestions || item > 0;
 			} else {
-				hasFeedbackQuestions = hasFeedbackQuestions || item.hasFeedbackQuestions;
-				hasQuestions = hasQuestions || item.hasQuestions;
-				hasAnswers = hasAnswers || item.hasAnswers;
+				hasFeedbackQuestions = hasFeedbackQuestions || item.hasFeedbackQuestions || item.numInterposed > 0;
+				hasQuestions = hasQuestions || item.hasQuestions || item.numQuestions > 0;
+				hasUnansweredQuestions = hasUnansweredQuestions || item.hasUnansweredQuestions || item.numUnanswered > 0;
+				hasAnswers = hasAnswers || item.hasAnswers || item.numAnswers > 0;
 			}
 		});
 		this.listButton.setBadge([{
-				badgeText: hasFeedbackQuestions ? Messages.QUESTIONS_FROM_STUDENTS: "", badgeCls: "bluebadgeicon"
+				badgeText: options.interposed && hasFeedbackQuestions ? Messages.QUESTIONS_FROM_STUDENTS : "",
+				badgeCls: "bluebadgeicon"
 			}, {
-				badgeText: hasQuestions ? Messages.QUESTIONS: "", badgeCls: "greybadgeicon"
+				badgeText: (options.questions && hasQuestions) || (options.unanswered && hasUnansweredQuestions) ? Messages.QUESTIONS : "",
+				badgeCls: "greybadgeicon"
 			}, {
-				badgeText: hasAnswers ? Messages.ANSWERS: "", badgeCls: "redbadgeicon"
+				badgeText: options.answers && hasAnswers ? Messages.ANSWERS : "",
+				badgeCls: "redbadgeicon"
 		}]);
 		return badges;
 	},

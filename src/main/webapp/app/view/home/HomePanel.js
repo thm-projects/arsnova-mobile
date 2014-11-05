@@ -88,43 +88,41 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			items: [{
 					xtype: 'panel',
 					cls: null,
-					html: "<div class='arsnova-logo'></div>",
+					html: 	"<div class='icon-logo'>" +
+							"<span class='icon-logo-radar'>r</span>" +
+							"<span class='icon-logo-ars'>a</span>" +
+							"<span class='icon-logo-nova'>n</span>" +
+							"</div>",
 					style: {marginTop: '35px', marginBottom: '30px'}
 				}, {
 					submitOnAction: false,
 					xtype: 'formpanel',
+					cls: 'loginFieldSet',
 					scrollable: null,
 					width: '310px',
 					margin: '0 auto',
 
 					items: [{
-							xtype: 'fieldset',
-							cls: 'bottomMargin',
-
-							items: [{
-								xtype: 'textfield',
-								component: {
-									xtype: 'input',
-									cls: 'joinSessionInput',
-									type: 'tel',
-									maxLength: 16
-								},
-								name: 'keyword',
-								placeHolder: Messages.SESSIONID_PLACEHOLDER,
-								listeners: {
-									scope: this,
-									action: this.onSubmit
-								}
-							}]
-						}, {
-							xtype: 'button',
-							height: '45px',
-							margin: '-10px 10px 0',
-							ui: 'confirm',
-							text: Messages.GO,
-							handler: this.onSubmit,
-							scope: this
-						}]
+						xtype: 'textfield',
+						component: {
+							xtype: 'input',
+							cls: 'joinSessionInput',
+							type: 'tel',
+							maxLength: 16
+						},
+						name: 'keyword',
+						placeHolder: Messages.SESSIONID_PLACEHOLDER,
+						listeners: {
+							scope: this,
+							action: this.onSubmit
+						}
+					}, {
+						xtype: 'button',
+						ui: 'confirm',
+						text: Messages.GO,
+						handler: this.onSubmit,
+						scope: this
+					}]
 			}]
 		});
 
@@ -178,8 +176,6 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.homePanel;
 				var caption = Ext.create('ARSnova.view.Caption');
 
-				var badgePromises = [];
-
 				if (sessions && sessions.length !== 0) {
 					panel.lastVisitedSessionsForm.removeAll();
 					panel.lastVisitedSessionsForm.show();
@@ -187,12 +183,12 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					for (var i = 0; i < sessions.length; i++) {
 						var session = sessions[i];
 
-						var icon = " defaultsession";
+						var icon = "icon-radar";
 						if (session.creator !== localStorage.getItem("login")) {
-							icon = " studentsession";
+							icon = "icon-users";
 						}
-						if (session.courseId && session.courseId.length > 0) {
-							icon = " coursesession";
+						if (session.courseType && session.courseType.length > 0) {
+							icon = "icon-prof";
 						}
 
 						// Minimum width of 481px equals at least landscape view
@@ -201,7 +197,8 @@ Ext.define('ARSnova.view.home.HomePanel', {
 							xtype: 'button',
 							ui: 'normal',
 							text: Ext.util.Format.htmlEncode(displaytext),
-							cls: 'forwardListButton' + icon,
+							cls: 'forwardListButton',
+							iconCls: icon + ' courseIcon',
 							controller: 'sessions',
 							action: 'showDetails',
 							badgeCls: 'badgeicon',
@@ -214,14 +211,14 @@ Ext.define('ARSnova.view.home.HomePanel', {
 								hideLoadMask();
 							}
 						});
+						sessionButton.setBadge([{badgeText: session.numUnanswered}]);
 						panel.lastVisitedSessionsForm.addEntry(sessionButton);
-						badgePromises.push(panel.updateBadge(session.keyword, sessionButton));
 
 						if (!session.active) {
 							panel.down('button[text=' + displaytext + ']').addCls("isInactive");
 						}
 					}
-					RSVP.all(badgePromises).then(Ext.bind(caption.explainBadges, caption));
+					caption.explainBadges(sessions, { questions: false, answers: false, interposed: false, unanswered: true });
 					caption.explainStatus(sessions);
 					panel.lastVisitedSessionsForm.addEntry(caption);
 				} else {
@@ -241,20 +238,5 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.homePanel.lastVisitedSessionsForm.hide();
 			}
 		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
-	},
-
-	updateBadge: function (sessionKeyword, button) {
-		var promise = new RSVP.Promise();
-		ARSnova.app.questionModel.getUnansweredSkillQuestions(sessionKeyword, {
-			success: function (newQuestions) {
-				button.setBadge([{badgeText: newQuestions.length}]);
-				promise.resolve(newQuestions.length);
-			},
-			failure: function (response) {
-				console.log('error');
-				promise.reject();
-			}
-		});
-		return promise;
 	}
 });

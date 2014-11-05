@@ -39,20 +39,28 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
-
-		this.feedbackVoteButton = Ext.create('Ext.Button', {
-			text: Messages.FEEDBACK_VOTE,
+		
+		this.backButton = Ext.create('Ext.Button', {
+			text: ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER ? 
+					Messages.HOME : Messages.FEEDBACK_VOTE,
 			ui: 'back',
-			scope: this,
-			hidden: true,
-			handler: function () {
-				var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
-				fP.animateActiveItem(fP.votePanel, {
+			handler: function() {
+				var	tabPanel = ARSnova.app.mainTabPanel.tabPanel,
+					feedbackTabPanel = tabPanel.feedbackTabPanel;
+				
+				if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+					tabPanel.animateActiveItem(tabPanel.speakerTabPanel, {
+						type: 'slide',
+						direction: 'right',
+						duration: 700
+					});
+				} else {
+					feedbackTabPanel.animateActiveItem(feedbackTabPanel.votePanel, {
 						type: 'slide',
 						direction: 'down',
 						duration: 700
-					}
-				);
+					});
+				}
 			}
 		});
 
@@ -67,17 +75,18 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			ui: 'light',
-			items: [this.feedbackVoteButton]
+			items: [this.backButton]
 		});
 
 		this.feedbackOkButton = Ext.create('Ext.Panel', {
-			cls: 'voteButtons',
 			flex: 1,
 
 			items: [{
 				xtype: 'button',
 				value: 'Kann folgen',
-				cls: 'feedbackOkIcon',
+				//cls: 'feedbackOkIcon',
+				cls: 'feedbackStatisticButton voteButton',
+				iconCls: 'icon-happy',
 				handler: this.buttonClicked
 			}]
 		});
@@ -89,7 +98,9 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			items: [{
 				xtype: 'button',
 				value: 'Bitte schneller',
-				cls: 'feedbackGoodIcon',
+				//cls: 'feedbackGoodIcon',
+				cls: 'feedbackStatisticButton voteButton',
+				iconCls: 'icon-wink',
 				handler: this.buttonClicked
 			}]
 		});
@@ -101,7 +112,9 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			items: [{
 				xtype: 'button',
 				value: 'Zu schnell',
-				cls: 'feedbackBadIcon',
+				cls: 'feedbackStatisticButton voteButton',
+				iconCls: 'icon-shocked',
+				//cls: 'feedbackBadIcon',
 				handler: this.buttonClicked
 			}]
 		});
@@ -113,7 +126,9 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			items: [{
 				xtype: 'button',
 				value: 'Nicht mehr dabei',
-				cls: 'feedbackNoneIcon',
+				cls: 'feedbackStatisticButton voteButton',
+				iconCls: 'icon-sad',
+				//cls: 'feedbackNoneIcon',
 				handler: this.buttonClicked
 			}]
 		});
@@ -266,26 +281,21 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		var tab = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab;
 		switch (averageFeedback) {
 			case 0:
-				tab.setIconCls("feedbackMedium");
+				tab.setIconCls("voteIcons icon-wink");
 				break;
 			case 1:
-				tab.setIconCls("feedbackGood");
+				tab.setIconCls("voteIcons icon-happy");
 				break;
 			case 2:
-				tab.setIconCls("feedbackBad");
+				tab.setIconCls("voteIcons icon-shocked");
 				break;
 			case 3:
-				tab.setIconCls("feedbackNone");
+				tab.setIconCls("voteIcons icon-sad");
 				break;
 			default:
-				tab.setIconCls("feedbackARSnova");
+				tab.setIconCls("voteIcons icon-radar");
 				break;
 		}
-	},
-
-	checkVoteButton: function () {
-		if (!ARSnova.app.isSessionOwner) this.feedbackVoteButton.show();
-		else this.feedbackVoteButton.hide();
 	},
 
 	checkTitle: function () {

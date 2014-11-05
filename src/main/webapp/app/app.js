@@ -132,34 +132,6 @@ Ext.application({
 	globalConfig: null,
 	configLoaded: null,
 
-	/* tasks */
-	/**
-	 * update every x seconds the user timestamp
-	 * important for all "who is online"-requests
-	 */
-	loggedInTask: {
-		name: 'save that user is logged in',
-		run: function () {
-			if (localStorage.getItem('keyword')) {
-				ARSnova.app.restProxy.loggedInTask();
-			}
-		},
-		interval: 60000 // 60 seconds
-	},
-
-	/**
-	 * update every x seconds the owner of a session is logged in
-	 */
-	updateSessionActivityTask: {
-		name: 'save that owner of a session is logged in',
-		run: function () {
-			if (localStorage.getItem('keyword')) {
-				ARSnova.app.restProxy.updateSessionActivityTask();
-			}
-		},
-		interval: 180000 // 180 seconds
-	},
-
 	/**
 	 * initialize models
 	 */
@@ -251,8 +223,6 @@ Ext.application({
 	 */
 	afterLogin: function () {
 		console.debug("Application: afterLogin");
-		ARSnova.app.taskManager.start(ARSnova.app.loggedInTask);
-		ARSnova.app.loggedInTask.run(); // fire immediately
 
 		/* show diagnosis tab panel */
 		ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.tab.show();
@@ -380,10 +350,6 @@ Ext.application({
 
 		if (localStorage.getItem('loggedIn') == null) {
 			localStorage.setItem('loggedIn', "[]");
-		}
-
-		if (localStorage.getItem('user has voted')) {
-			localStorage.removeItem('user has voted');
 		}
 
 		if (localStorage.getItem('session')) {

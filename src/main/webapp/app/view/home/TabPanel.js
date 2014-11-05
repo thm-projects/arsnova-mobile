@@ -28,7 +28,7 @@ Ext.define('ARSnova.view.home.TabPanel', {
 
 	config: {
 		title: Messages.HOME,
-		iconCls: 'tabBarIconHome',
+		iconCls: 'icon-home',
 		layout: 'card'
 	},
 

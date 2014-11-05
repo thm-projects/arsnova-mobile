@@ -24,7 +24,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	config: {
 		fullscreen: true,
 		title: Messages.QUESTIONS,
-		iconCls: 'tabBarIconQuestion',
+		iconCls: 'icon-questions',
 
 		questionLoader: null,
 		questionCountLoader: null,
@@ -256,11 +256,11 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	 * The button will only become visible if showStatistic is enabled in
 	 * speaker.questionDetailsPanel and the active question is already answered.
 	 */
-	checkStatisticRelease: function () {
+	checkStatisticsRelease: function () {
 		var questionView = this.getActiveItem();
 
 		questionView.fireEvent('preparestatisticsbutton', this.toolbar.statisticsButton);
-	this.toolbar.checkStatistics(questionView.questionObj, questionView.isDisabled());
+		this.toolbar.checkStatistics(questionView.questionObj, questionView.isDisabled());
 	},
 
 	/**
@@ -301,7 +301,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		var lastQuestion = questionPanels[questionPanels.length-1];
 
 		if (!activeQuestion.isDisabled()) return;
-		this.checkStatisticRelease();
+		this.checkStatisticsRelease();
 
 		var currentPosition = 0;
 		for (var i = 0, questionPanel; questionPanel = questionPanels[i]; i++) {
