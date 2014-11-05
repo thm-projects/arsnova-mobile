@@ -205,6 +205,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.lecturerQuestionAvailable, panel.questionAvailable, panel);
 		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.unansweredLecturerQuestions, panel.checkLecturerQuestions, panel);
 		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.unansweredPreparationQuestions, panel.checkPreparationQuestions, panel);
+		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.countQuestionsAndAnswers, panel.countQuestionsAndAnswers, panel);
 		ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.sessionActive, panel.checkSessionStatus, panel);
 		ARSnova.app.feedbackModel.on(ARSnova.app.feedbackModel.events.feedbackReset, panel.checkFeedbackRemoved, panel);
 		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
@@ -232,6 +233,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.lecturerQuestionAvailable, panel.questionAvailable, panel);
 		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.unansweredLecturerQuestions, panel.checkLecturerQuestions, panel);
 		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.unansweredPreparationQuestions, panel.checkPreparationQuestions, panel);
+		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.countQuestionsAndAnswers, panel.countQuestionsAndAnswers, panel);
 		ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.sessionActive, panel.checkSessionStatus, panel);
 		ARSnova.app.feedbackModel.un(ARSnova.app.feedbackModel.events.feedbackReset, panel.checkFeedbackRemoved, panel);
 		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
@@ -301,49 +303,15 @@ Ext.define('ARSnova.view.user.InClass', {
 		}
 	},
 
-	/**
-	 * fetch all new unanswered skill questions for this session and show a notification
-	 * if user don't want to answer this questions now, save this opinion in localStorage
-	 */
-	checkNewSkillQuestions: function () {
-		ARSnova.app.questionModel.getUnansweredPreparationQuestions(localStorage.getItem("keyword"), {
-			success: function (newQuestions) {
-				ARSnova.app.questionModel.countPreparationQuestionAnswers(localStorage.getItem("keyword"), {
-					success: function (response) {
-						var numAnswers = parseInt(response.responseText);
-
-						var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
-
-						panel.preparationQuestionButton.setBadge([
-											{badgeText: newQuestions.length, badgeCls: "greybadgeicon"},
-											{badgeText: numAnswers, badgeCls: "redbadgeicon"}
-										]);
-					},
-					failure: Ext.emptyFn
-				});
-			},
-			failure: Ext.emptyFn
-		});
-		ARSnova.app.questionModel.getUnansweredLectureQuestions(localStorage.getItem("keyword"), {
-			success: function (newQuestions) {
-				ARSnova.app.questionModel.countLectureQuestionAnswers(localStorage.getItem("keyword"), {
-					success: function (response) {
-						var numAnswers = parseInt(response.responseText);
-
-						var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
-
-						panel.lectureQuestionButton.setBadge([
-											{badgeText: newQuestions.length, badgeCls: "greybadgeicon"},
-											{badgeText: numAnswers, badgeCls: "redbadgeicon"}
-										]);
-					},
-					failure: Ext.emptyFn
-				});
-			},
-			failure: function (response) {
-				console.log('error');
-			}
-		});
+	countQuestionsAndAnswers: function (data) {
+		this.lectureQuestionButton.setBadge([
+			{badgeText: data.unansweredLectureQuestions, badgeCls: "greybadgeicon"},
+			{badgeText: data.lectureQuestionAnswers, badgeCls: "redbadgeicon"}
+		]);
+		this.preparationQuestionButton.setBadge([
+			{badgeText: data.unansweredPreparationQuestions, badgeCls: "greybadgeicon"},
+			{badgeText: data.preparationQuestionAnswers, badgeCls: "redbadgeicon"}
+		]);
 	},
 
 	buttonClicked: function (button) {

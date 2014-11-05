@@ -77,8 +77,17 @@ Ext.define('ARSnova.model.Question', {
 		lecturerQuestionAvailable: "arsnova/question/lecturer/available",
 		audienceQuestionAvailable: "arsnova/question/audience/available",
 		unansweredLecturerQuestions: "arsnova/question/lecturer/lecture/unanswered",
-		unansweredPreparationQuestions: "arsnova/question/lecturer/preparation/unanswered"
+		unansweredPreparationQuestions: "arsnova/question/lecturer/preparation/unanswered",
+		countLectureQuestionAnswers: "arsnova/question/lecturer/lecture/answercount",
+		countPreparationQuestionAnswers: "arsnova/question/lecturer/preparation/answercount",
+		countQuestionsAndAnswers: "arsnova/question/unanswered-question-and-answer-count",
+		internalUpdate: "arsnova/question/internal/update"
 	},
+
+	numUnanswerdLectureQuestions: 0,
+	numUnansweredPreparationQuestions: 0,
+	numLectureQuestionAnswers: 0,
+	numPreparationQuestionAnswers: 0,
 
 	constructor: function () {
 		this.callParent(arguments);
@@ -92,11 +101,36 @@ Ext.define('ARSnova.model.Question', {
 		}, this);
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.unansweredLecturerQuestions, function (questionIds) {
+			this.numUnanswerdLectureQuestions = questionIds.length;
 			this.fireEvent(this.events.unansweredLecturerQuestions, questionIds);
+			this.fireEvent(this.events.internalUpdate);
 		}, this);
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.unansweredPreparationQuestions, function (questionIds) {
+			this.numUnansweredPreparationQuestions = questionIds.length;
 			this.fireEvent(this.events.unansweredPreparationQuestions, questionIds);
+			this.fireEvent(this.events.internalUpdate);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.countLectureQuestionAnswers, function (count) {
+			this.numLectureQuestionAnswers = count;
+			this.fireEvent(this.events.countLectureQuestionAnswers, count);
+			this.fireEvent(this.events.internalUpdate);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.countPreparationQuestionAnswers, function (count) {
+			this.numPreparationQuestionAnswers = count;
+			this.fireEvent(this.events.countPreparationQuestionAnswers, count);
+			this.fireEvent(this.events.internalUpdate);
+		}, this);
+
+		this.on(this.events.internalUpdate, function () {
+			this.fireEvent(this.events.countQuestionsAndAnswers, {
+				unansweredLectureQuestions: this.numUnanswerdLectureQuestions,
+				unansweredPreparationQuestions: this.numUnansweredPreparationQuestions,
+				lectureQuestionAnswers: this.numLectureQuestionAnswers,
+				preparationQuestionAnswers: this.numPreparationQuestionAnswers
+			});
 		}, this);
 	},
 

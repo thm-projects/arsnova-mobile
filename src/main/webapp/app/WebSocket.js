@@ -38,7 +38,9 @@ Ext.define('ARSnova.WebSocket', {
 		lecturerQuestionAvailable: "arsnova/socket/question/lecturer/available",
 		audienceQuestionAvailable: "arsnova/socket/question/audience/available",
 		unansweredLecturerQuestions: "arsnova/socket/question/lecturer/lecture/unanswered",
-		unansweredPreparationQuestions: "arsnova/socket/question/lecturer/preparation/unanswered"
+		unansweredPreparationQuestions: "arsnova/socket/question/lecturer/preparation/unanswered",
+		countLectureQuestionAnswers: "arsnova/socket/question/lecturer/lecture/answercount",
+		countPreparationQuestionAnswers: "arsnova/socket/question/lecturer/preparation/answercount"
 	},
 
 	memoization: {},
@@ -130,6 +132,16 @@ Ext.define('ARSnova.WebSocket', {
 			socket.on('unansweredPreparationQuestions', Ext.bind(function (questionIds) {
 				console.debug("Socket.IO: unansweredPreparationQuestions", questionIds);
 				this.fireEvent(this.events.unansweredPreparationQuestions, questionIds);
+			}, this));
+
+			socket.on('countLectureQuestionAnswers', Ext.bind(function (count) {
+				console.debug("Socket.IO: countLectureQuestionAnswers", count);
+				this.fireEvent(this.events.countLectureQuestionAnswers, count);
+			}, this));
+
+			socket.on('countPreparationQuestionAnswers', Ext.bind(function (count) {
+				console.debug("Socket.IO: countPreparationQuestionAnswers", count);
+				this.fireEvent(this.events.countPreparationQuestionAnswers, count);
 			}, this));
 		}, this));
 	},
