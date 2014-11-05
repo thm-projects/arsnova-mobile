@@ -224,6 +224,8 @@ Ext.application({
 	afterLogin: function () {
 		console.debug("Application: afterLogin");
 
+		this.socket.connect();
+
 		/* show diagnosis tab panel */
 		ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.tab.show();
 

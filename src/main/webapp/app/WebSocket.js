@@ -39,17 +39,15 @@ Ext.define('ARSnova.WebSocket', {
 
 	memoization: {},
 
-	constructor: function (config) {
-		this.callParent(arguments);
-
+	connect: function () {
 		this.initSocket().then(Ext.bind(function (socketUrl) {
 			/* Upgrade from polling to WebSocket currently does not work
-			 * reliably so manually set the transport by detecting browser
-			 * support for WebSocket protocol */
+			* reliably so manually set the transport by detecting browser
+			* support for WebSocket protocol */
 			var hasWs = false;
 			if (window.WebSocket) {
 				/* Workaround: unfortunately some browsers pretend to support
-				 * WS protocol although they do not */
+				* WS protocol although they do not */
 				try {
 					var wsTestUrl = socketUrl.replace(/^http/, "ws") + "/socket.io/1/";
 					var ws = new WebSocket(wsTestUrl);
@@ -121,10 +119,7 @@ Ext.define('ARSnova.WebSocket', {
 
 	initSocket: function () {
 		var socketUrl = window.location.protocol + '//' + window.location.hostname + ':10443';
-		var promise = new RSVP.Promise();
-
-		promise = ARSnova.app.restProxy.initWebSocket(socketUrl, promise);
-
+		var promise = ARSnova.app.restProxy.initWebSocket(socketUrl, new RSVP.Promise());
 		return promise;
 	},
 
