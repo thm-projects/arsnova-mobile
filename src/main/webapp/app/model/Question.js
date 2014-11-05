@@ -209,18 +209,6 @@ Ext.define('ARSnova.model.Question', {
 		return this.getProxy().getSkillQuestionsForDelete(sessionId, callbacks);
 	},
 
-	getUnansweredSkillQuestions: function (sessionKeyword, callbacks) {
-		return this.getProxy().getUnansweredSkillQuestions(sessionKeyword, callbacks);
-	},
-
-	getUnansweredLectureQuestions: function (sessionKeyword, callbacks) {
-		return this.getProxy().getUnansweredLectureQuestions(sessionKeyword, callbacks);
-	},
-
-	getUnansweredPreparationQuestions: function (sessionKeyword, callbacks) {
-		return this.getProxy().getUnansweredPreparationQuestions(sessionKeyword, callbacks);
-	},
-
 	countSkillQuestions: function (sessionKeyword, callbacks) {
 		return this.getProxy().countSkillQuestions(sessionKeyword, callbacks);
 	},
