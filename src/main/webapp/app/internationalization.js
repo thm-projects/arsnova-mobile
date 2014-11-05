@@ -563,7 +563,7 @@ switch (lang) {
 			FLASHCARD_SHORT: "LK",
 			FLASHCARDS: "Lernkarten",
 			FLASHCARD: "Lernkarte",
-			ONE_NEW_QUESTION: 'Es gibt 1 neue Frage.',
+			ONE_NEW_QUESTION: 'Es gibt eine neue Frage.',
 			WANNA_ANSWER: 'Möchten Sie jetzt antworten?',
 			THERE_ARE: "Es gibt",
 			NEW_QUESTIONS: "neue Fragen.",

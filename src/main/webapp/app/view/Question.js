@@ -83,11 +83,11 @@ Ext.define('ARSnova.view.Question', {
 		var saveAnswer = function (answer) {
 			answer.saveAnswer({
 				success: function () {
-					var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
+					var questionsArr = Ext.decode(localStorage.getItem(self.questionObj.questionVariant + 'QuestionIds'));
 					if (questionsArr.indexOf(self.questionObj._id) == -1) {
 						questionsArr.push(self.questionObj._id);
 					}
-					localStorage.setItem('questionIds', Ext.encode(questionsArr));
+					localStorage.setItem(self.questionObj.questionVariant + 'QuestionIds', Ext.encode(questionsArr));
 
 					self.disableQuestion();
 					ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();

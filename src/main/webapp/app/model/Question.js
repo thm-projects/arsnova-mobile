@@ -19,6 +19,8 @@
 Ext.define('ARSnova.model.Question', {
 	extend: 'Ext.data.Model',
 
+	mixin: ['Ext.mixin.Observable'],
+
 	config: {
 		idProperty: '_id',
 		proxy: {type: 'restProxy'},
@@ -69,6 +71,33 @@ Ext.define('ARSnova.model.Question', {
 			{type: 'presence', field: 'text'},
 			{type: 'presence', field: 'subject'}
 		]
+	},
+
+	events: {
+		lecturerQuestionAvailable: "arsnova/question/lecturer/available",
+		audienceQuestionAvailable: "arsnova/question/audience/available",
+		unansweredLecturerQuestions: "arsnova/question/lecturer/lecture/unanswered",
+		unansweredPreparationQuestions: "arsnova/question/lecturer/preparation/unanswered"
+	},
+
+	constructor: function () {
+		this.callParent(arguments);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.lecturerQuestionAvailable, function (question) {
+			this.fireEvent(this.events.lecturerQuestionAvailable, question);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.audienceQuestionAvailable, function (question) {
+			this.fireEvent(this.events.audienceQuestionAvailable, question);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.unansweredLecturerQuestions, function (questionIds) {
+			this.fireEvent(this.events.unansweredLecturerQuestions, questionIds);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.unansweredPreparationQuestions, function (questionIds) {
+			this.fireEvent(this.events.unansweredPreparationQuestions, questionIds);
+		}, this);
 	},
 
 	destroy: function (queObj, callbacks) {

@@ -47,7 +47,6 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 				// replace MathJax delimiters
 				var delimiterPairs = MathJax.Hub.config.tex2jax.inlineMath.concat(MathJax.Hub.config.tex2jax.displayMath);
 				delimiterPairs.forEach(function (delimiterPair, i) {
-					console.debug("replace", i, delimiterPair);
 					var delimiterPositions = this.getDelimiter(content, delimiterPair[0], delimiterPair[1]);
 					replStack.push(repl = this.replaceDelimiter(content, delimiterPositions, '%%MATHJAX' + i + '%%'));
 					content = repl.content;
@@ -58,7 +57,6 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 
 				// undo MathJax delimiter replacements in reverse order
 				for (var i = replStack.length - 1; i > 0; i--) {
-					console.debug("replaceBack", i);
 					replStack[i - 1].content = this.replaceBack(replStack[i]);
 				}
 				content = this.replaceBack(replStack[0]);

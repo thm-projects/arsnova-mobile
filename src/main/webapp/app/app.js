@@ -346,8 +346,12 @@ Ext.application({
 			localStorage.setItem('lastVisitedSessions', "[]");
 		}
 
-		if (localStorage.getItem('questionIds') == null) {
-			localStorage.setItem('questionIds', "[]");
+		if (localStorage.getItem('lectureQuestionIds') == null) {
+			localStorage.setItem('lectureQuestionIds', "[]");
+		}
+
+		if (localStorage.getItem('preparationQuestionIds') == null) {
+			localStorage.setItem('preparationQuestionIds', "[]");
 		}
 
 		if (localStorage.getItem('loggedIn') == null) {

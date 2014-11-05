@@ -34,7 +34,11 @@ Ext.define('ARSnova.WebSocket', {
 	events: {
 		setSessionActive: "arsnova/socket/session/active",
 		feedbackReset: "arsnova/socket/feedback/reset",
-		feedbackAverage: "feedbackDataRoundedAverage"
+		feedbackAverage: "arsnova/socket/feedback/average",
+		lecturerQuestionAvailable: "arsnova/socket/question/lecturer/available",
+		audienceQuestionAvailable: "arsnova/socket/question/audience/available",
+		unansweredLecturerQuestions: "arsnova/socket/question/lecturer/lecture/unanswered",
+		unansweredPreparationQuestions: "arsnova/socket/question/lecturer/preparation/unanswered"
 	},
 
 	memoization: {},
@@ -107,12 +111,25 @@ Ext.define('ARSnova.WebSocket', {
 				this.fireEvent(this.events.setSessionActive, active);
 			}, this));
 
-			socket.on('lecQuestionAvail', Ext.bind(function (questionId) {
-				console.debug("Socket.IO: lecQuestionAvail", questionId);
+			socket.on('lecturerQuestionAvailable', Ext.bind(function (question) {
+				console.debug("Socket.IO: lecturerQuestionAvailable", question);
+				this.fireEvent(this.events.lecturerQuestionAvailable, question);
 			}, this));
 
 			socket.on('audQuestionAvail', Ext.bind(function (questionId) {
 				console.debug("Socket.IO: audQuestionAvail", questionId);
+				this.fireEvent(this.events.audienceQuestionAvailable, questionId);
+			}, this));
+
+			socket.on('unansweredLecturerQuestions', Ext.bind(function (questionIds) {
+				console.debug("Socket.IO: unansweredLecturerQuestions", questionIds);
+				this.memoization[this.events.unansweredLecturerQuestions] = questionIds;
+				this.fireEvent(this.events.unansweredLecturerQuestions, questionIds);
+			}, this));
+
+			socket.on('unansweredPreparationQuestions', Ext.bind(function (questionIds) {
+				console.debug("Socket.IO: unansweredPreparationQuestions", questionIds);
+				this.fireEvent(this.events.unansweredPreparationQuestions, questionIds);
 			}, this));
 		}, this));
 	},
