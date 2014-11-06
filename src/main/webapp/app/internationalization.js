@@ -24,7 +24,7 @@
 var ua = navigator.userAgent.toLowerCase();
 var isAndroid = ua.indexOf("android") > -1;
 var isChrome = ua.indexOf("chrome") > -1;
-var lang;
+//var lang; // without declaration with "var" lang will be globally accessible 
 
 if (isAndroid && !isChrome) {
 	if (navigator && navigator.userAgent && (lang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {

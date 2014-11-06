@@ -1,7 +1,13 @@
 [
     {
-		"name": "Gewichtungsfrage (Mehrfachauswahl)",
-    	"description": "Mit dieser Vorlage können Sie ein gewichtetes Meinungsbild zu einem von Ihnen gewählten Thema einholen. Bei dieser Vorlage kann eine Person ein Feld theoretisch mehrfach auswählen. So etwas finden man z.B. auch mit <http://www.google.de/>",	
+		"name": {
+			"de": "Gewichtungsfrage (Mehrfachauswahl)",
+			"en": "Weighted Question (Multiple Choice)"
+		},
+    	"description": {
+    	    "de" : "Mit dieser Vorlage können Sie ein gewichtetes Meinungsbild zu einem von Ihnen gewählten Thema einholen. Bei dieser Vorlage kann eine Person ein Feld theoretisch mehrfach auswählen. So etwas finden man z.B. auch mit <http://www.google.de/>",	
+            "en" : "Create a simple weighted question for your students. With this template students can set multiple dots per choice."	
+        },
         "imageFile": "meinung2.jpg",
         "gridSize": 16,
         "zoomLvl": 0,
@@ -12,8 +18,14 @@
         "gridSizeY": 2
     },
     {
-		"name": "Gewichtungsfrage (Einfachauswahl)",
-    	"description": "Mit dieser Vorlage können Sie ein gewichtetes Meinungsbild zu einem von Ihnen gewählten Thema einholen. Bei dieser Vorlage müssen die Studierenden sich entscheiden. So etwas finden man z.B. auch mit <http://www.google.de/>",	
+		"name": {
+			"de": "Gewichtungsfrage (Einfachauswahl)",
+			"en": "Weighted Question (Single Choice)"
+		},
+    	"description": {
+    	    "de" : "Mit dieser Vorlage können Sie ein gewichtetes Meinungsbild zu einem von Ihnen gewählten Thema einholen. Bei dieser Vorlage kann eine Person ein Feld theoretisch mehrfach auswählen. So etwas finden man z.B. auch mit <http://www.google.de/>",	
+            "en" : "Create a simple weighted question for your students. With this template students can only set one dot per choice."	
+        },
         "imageFile": "meinung2.jpg",
         "gridSize": 16,
         "zoomLvl": -1,
@@ -24,8 +36,14 @@
         "gridSizeY": 1
     },
      {
-		"name": "Moderationsfrage",
-    	"description": "Nehmen Sie hier die Meinung Ihrer Studenten \"2-Dimensional\" entgegen.",	
+		"name": {
+			"de": "Moderationsfrage",
+			"en": "Moderation question"
+		},
+    	"description": {
+    	    "de" : "Erhalte Sie eine mehrdimensionale Rückmeldung Ihrer Studenten.",	
+            "en" : "Get feedback in multiple dimensions."	
+        },
         "imageFile": "moderation.jpg",
         "gridSize": 16,
         "zoomLvl": 0,
