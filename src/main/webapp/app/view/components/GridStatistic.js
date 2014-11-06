@@ -96,7 +96,9 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 			});
 			
 			var relItemHeatmap = {
-				text: Messages.GRID_LABEL_SHOW_HEATMAP_SHORT,
+				text: showShortLabels ? 
+					Messages.GRID_LABEL_HEATMAP_SHORT :
+					Messages.GRID_LABEL_HEATMAP,
 				labelWidth: '100%',
 				flex: 1,
 				scope: this,
@@ -278,7 +280,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 			var weakenImage = false;
 			
 			if (me.getQuestionObj().gridType == 'moderation') {
-				showColors = me.questionOptionsSegment.getPressedButtons()[0].getText() == Messages.GRID_LABEL_SHOW_HEATMAP_SHORT;
+				showColors = me.questionOptionsSegment.getPressedButtons()[0].getText() == Messages.GRID_LABEL_HEATMAP_SHORT;
 			} else {
 				showColors = me.gridShowColors.getValue();
 				weakenImage = me.gridWeakenImageToggle.getValue();
