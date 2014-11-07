@@ -1,4 +1,42 @@
 
+$toolbar-title-txt-color: #fff;
+$toolbar-button-bg-color: $thm-green;
+$toolbar-button-txt-color: #fff;
+$toolbar-back-button-bg-color: #fff;
+$toolbar-back-button-txt-color: $thm-grey;
+$toolbar-label-font-weight: normal;
+$toolbar-label-text-shadow: none;
+
+@mixin toolbar-label-config {
+	font-weight: $toolbar-label-font-weight;
+	text-shadow: $toolbar-label-text-shadow !important; 
+}
+
+@mixin toolbar-title-config() {
+	@include toolbar-label-config;
+	color: $toolbar-title-txt-color;
+}
+
+@mixin toolbar-button-config() {
+	color: $toolbar-button-txt-color;
+	background: $toolbar-button-bg-color !important;
+	border: 1px solid $toolbar-button-bg-color !important;
+	
+	.x-button-label {
+		@include toolbar-label-config;
+	}
+}
+
+@mixin toolbar-back-button-config() {
+	color: $toolbar-back-button-txt-color;
+	background: $toolbar-back-button-bg-color !important;
+	border: 1px solid $toolbar-back-button-bg-color !important;
+	
+	.x-button-label {
+		@include toolbar-label-config;
+	}
+}
+
 .iconBtn {
 	color: $thm-grey !important;
 	background: white !important;
@@ -112,26 +150,23 @@
 
 .x-toolbar-light {
 	.x-title {
-		color: #fff;
-		text-shadow: none !important; 
+		@include toolbar-title-config;
 	}
-	
+		
 	.x-button, 
-	.x-button.x-button-back:after, 
-	.x-button.x-button-forward:after, 
 	.x-field-select .x-input-text, 
-	.x-field-select .x-input-text.x-button-back:after, 
-	.x-field-select .x-input-text.x-button-forward:after, 
 	.x-field-select:before {
-		color: white;
-		border: 1px solid #80ba24 !important;
-		text-shadow: none !important;
-		background: $thm-green !important;
+		@include toolbar-button-config;
 	}
 	
+	.x-button-back,
+	.x-button.x-button-back:after, 
 	.x-button.x-button-back:before,
-	.x-button.x-button-forward:before {
-		background: #80ba24;
+	.x-button.x-button-forward:after,
+	.x-button.x-button-forward:before, 
+	.x-field-select .x-input-text.x-button-back:after, 
+	.x-field-select .x-input-text.x-button-forward:after {
+		 @include toolbar-back-button-config;
 	}	
 }
 
