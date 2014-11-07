@@ -36,6 +36,9 @@ Ext.define('ARSnova.view.speaker.form.AbstentionForm', {
 				xtype: 'segmentedbutton',
 				style: 'margin: auto',
 				cls: 'yesnoOptions',
+				defaults: {
+					ui: 'action'
+				},
 				items: [{
 					text: Messages.YES,
 					pressed: this.getAbstention(),

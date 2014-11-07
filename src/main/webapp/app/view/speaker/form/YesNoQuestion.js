@@ -81,6 +81,7 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 				margin: 'auto'
 			},
 			defaults: {
+				ui: 'action',
 				style: 'width: 33%'
 			},
 			items: [this.yesButton, this.noButton, this.noneButton],

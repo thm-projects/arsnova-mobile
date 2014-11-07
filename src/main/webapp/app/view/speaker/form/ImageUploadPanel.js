@@ -92,6 +92,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 						items: [
 							{
 								xtype: 'button',
+								ui: 'action',
 								text: Messages.SELECT_PICTURE_URL,
 								handler: Ext.bind(function () {
 									var url = this.getComponent('pnl_upfield').getComponent('tf_url').getValue();

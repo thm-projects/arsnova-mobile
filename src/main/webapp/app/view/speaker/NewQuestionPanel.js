@@ -214,6 +214,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		me.questionOptions = Ext.create('Ext.SegmentedButton', {
 			allowDepress: false,
 			items: formatItems,
+		    defaults: {
+		    	ui: 'action'
+		    },
 			listeners: {
 				scope: me,
 				toggle: function (container, button, pressed) {

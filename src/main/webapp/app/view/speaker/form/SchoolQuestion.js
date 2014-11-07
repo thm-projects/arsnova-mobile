@@ -45,7 +45,7 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 
 	var previewButton = Ext.create('Ext.Button', {
 		text: Messages.ANSWER_PREVIEW_BUTTON_TITLE,
-		ui: 'confirm',
+		ui: 'action',
 		style: 'width:200px; margin-left: 8px; margin-top: 0px;',
 		scope: this,
 		handler: function () {
