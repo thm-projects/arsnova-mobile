@@ -137,7 +137,9 @@ Ext.define("ARSnova.controller.Questions", {
 			gridLineColor: options.gridLineColor,
 			numberOfDots: options.numberOfDots,
 			gridType: options.gridType,
-			showStatistic: 1
+			showStatistic: 1,
+			scaleFactor: options.scaleFactor,
+			gridScaleFactor: options.gridScaleFactor
 		});
 		question.set('_id', undefined);
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;

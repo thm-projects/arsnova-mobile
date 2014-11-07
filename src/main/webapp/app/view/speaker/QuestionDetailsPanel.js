@@ -270,6 +270,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					if (questionValues.gridLineColor != undefined)  question.set("gridLineColor", questionValues.gridLineColor);
 					if (questionValues.numberOfDots != undefined)  question.set("numberOfDots", questionValues.numberOfDots);
 					if (questionValues.gridType != undefined)  question.set("gridType", questionValues.gridType);
+					if (questionValues.scaleFactor != undefined)  question.set("scaleFactor", questionValues.scaleFactor);
+					if (questionValues.gridScaleFactor != undefined)  question.set("gridScaleFactor", questionValues.gridScaleFactor);
 					
 					question.set("possibleAnswers", questionValues.possibleAnswers);
 					question.set("noCorrect", !!questionValues.noCorrect);
