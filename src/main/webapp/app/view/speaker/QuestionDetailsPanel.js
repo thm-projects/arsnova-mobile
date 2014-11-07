@@ -302,14 +302,21 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					return empty;
 				};
 				if (this.getText() == Messages.EDIT) {
+					var questionValues = panel.answerEditForm.getQuestionValues();
+
 					panel.cancelButton.show();
-					panel.backButton.hide();
+					panel.backButton.hide(); 
 
 					this.setText(Messages.SAVE);
 					this.addCls('x-button-action');
-
+													
 					this.config.enableFields(panel);
 					this.config.setEnableAnswerEdit(panel, true);
+					
+					if(questionValues.gridType == "moderation"){
+			
+						panel.abstentionPart.setHidden(true);
+					}
 				} else {
 					panel.cancelButton.hide();
 					panel.backButton.show();
@@ -418,6 +425,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				}
 				panel.answerEditForm.setHidden(!enable);
 				panel.abstentionPart.setHidden(!enable);
+				console.log("setEnableAnswerdEdit");
 			}
 		});
 
