@@ -314,8 +314,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					this.config.setEnableAnswerEdit(panel, true);
 					
 					if(questionValues.gridType == "moderation"){
-			
 						panel.abstentionPart.setHidden(true);
+						panel.absteionAlternative.show();
+					}else{
+						panel.absteionAlternative.hide();
 					}
 				} else {
 					panel.cancelButton.hide();
@@ -425,7 +427,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				}
 				panel.answerEditForm.setHidden(!enable);
 				panel.abstentionPart.setHidden(!enable);
-				console.log("setEnableAnswerdEdit");
 			}
 		});
 
@@ -755,6 +756,11 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			abstention: this.questionObj.abstention,
 			hidden: true
 		});
+		
+		this.absteionAlternative = Ext.create('Ext.Spacer',{
+			hidden:	true,
+			height: 40
+		});
 
 		this.contentForm = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
@@ -806,6 +812,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			this.contentForm,
 			this.actionsPanel,
 			this.abstentionPart,
+			this.absteionAlternative,
 			this.answerForm,
 			this.answerEditForm,
 			this.actionsPanel
