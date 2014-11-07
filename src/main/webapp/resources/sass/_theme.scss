@@ -1,4 +1,21 @@
+$background-color: $background;
 
+$button-confirm-bg-color: $thm-green;
+$button-confirm-txt-color: #fff;
+$button-action-bg-color: $thm-grey;
+$button-action-active-bg-color: $thm-lightgrey;
+$button-action-txt-color: #fff;
+$button-decline-bg-color: $thm-red;
+$button-decline-txt-color: #fff;
+
+@mixin button-decoration-config($bgcolor, $txtcolor) {
+	color: $txtcolor;
+	background: $bgcolor;
+	border: none !important;
+	background-image: none !important;
+}
+
+$toolbar-bg-color: $thm-grey;
 $toolbar-title-txt-color: #fff;
 $toolbar-button-bg-color: $thm-green;
 $toolbar-button-txt-color: #fff;
@@ -12,29 +29,15 @@ $toolbar-label-text-shadow: none;
 	text-shadow: $toolbar-label-text-shadow !important; 
 }
 
-@mixin toolbar-title-config() {
+@mixin toolbar-title-config {
 	@include toolbar-label-config;
 	color: $toolbar-title-txt-color;
 }
 
-@mixin toolbar-button-config() {
-	color: $toolbar-button-txt-color;
-	background: $toolbar-button-bg-color !important;
-	border: 1px solid $toolbar-button-bg-color !important;
-	
-	.x-button-label {
-		@include toolbar-label-config;
-	}
-}
-
-@mixin toolbar-back-button-config() {
-	color: $toolbar-back-button-txt-color;
-	background: $toolbar-back-button-bg-color !important;
-	border: 1px solid $toolbar-back-button-bg-color !important;
-	
-	.x-button-label {
-		@include toolbar-label-config;
-	}
+@mixin toolbar-button-config($bgcolor, $txtcolor) {
+	color: $txtcolor;
+	background: $bgcolor !important;
+	border: 1px solid $bgcolor !important;
 }
 
 .iconBtn {
@@ -48,22 +51,6 @@ $toolbar-label-text-shadow: none;
 .forwardListButton .x-button-label,
 .standardListButton .x-button-label {
 	color: $thm-grey !important;
-}
-
-.x-button-normal,
-.x-button-filebrowse,
-.x-segmentedbutton .x-button-normal {
-	background-color: $thm-grey;
-	border-color: $background !important;
-	background-image: none;
-	
-	.x-button-label {
-		color: white;
-	}
-	
-	&.x-button-pressed {
-		background-color: $thm-lightgrey;
-	}
 }
 
 .x-segmentedbutton .x-button-normal {
@@ -140,12 +127,49 @@ $toolbar-label-text-shadow: none;
 	}
 }
 
-.x-button.x-button-confirm,
-.x-button.x-button-action,
-.x-button.x-button-decline {
-	background-color: $thm-green !important;
-	background-image: none !important;
+.x-button {
+	&.x-button-confirm {
+		@include button-decoration-config(
+			$button-confirm-bg-color !important, 
+			$button-confirm-txt-color !important
+		);
+	}
+	
+	&.x-button-action,
+	&.x-button-filebrowse {
+		@include button-decoration-config(
+			$button-action-bg-color !important, 
+			$button-action-txt-color !important
+		);
+		
+		&.x-button-pressed,
+		&.x-button-pressing {
+			background-color: $button-action-active-bg-color !important;
+		}
+	}
+	
+	&.x-button-decline {
+		@include button-decoration-config(
+			$button-decline-bg-color !important, 
+			$button-decline-txt-color !important
+		);
+	}
+}
+
+.x-segmentedbutton .x-button.x-button-action {
 	border: none !important;
+	border-right: thin solid $background-color !important;
+}
+
+.test {
+	border: none;
+}
+
+.x-tabbar-dark,
+.x-toolbar-light {
+	border: none !important;
+	text-shadow: none !important;
+	background: $toolbar-bg-color !important;
 }
 
 .x-toolbar-light {
@@ -156,7 +180,10 @@ $toolbar-label-text-shadow: none;
 	.x-button, 
 	.x-field-select .x-input-text, 
 	.x-field-select:before {
-		@include toolbar-button-config;
+		@include toolbar-button-config(
+			$toolbar-button-bg-color, 
+			$toolbar-button-txt-color
+		);
 	}
 	
 	.x-button-back,
@@ -166,8 +193,45 @@ $toolbar-label-text-shadow: none;
 	.x-button.x-button-forward:before, 
 	.x-field-select .x-input-text.x-button-back:after, 
 	.x-field-select .x-input-text.x-button-forward:after {
-		 @include toolbar-back-button-config;
-	}	
+		@include toolbar-button-config(
+			$toolbar-back-button-bg-color, 
+			$toolbar-back-button-txt-color
+		);
+	}
+	
+	.x-button, .x-button-back {
+		.x-button-label {
+			@include toolbar-label-config;
+		}
+	}
+}
+
+.x-tabbar-dark.x-docked-bottom {
+	.x-tab {
+		text-shadow: none !important;
+	}
+	
+	.voteIcons:before,
+	.x-button-icon:before {
+		color: #fff;
+	}
+	
+	.x-tab-active {
+		box-shadow: none;
+		background-image: none !important;
+		background-color: transparent;
+		
+		.x-button-icon {
+			&:before,
+			&.voteIcons.icon-radar:before {
+				color: $thm-green;
+			}
+			
+			&.voteIcons:before {
+				color: $smiley-color;
+			}
+		}
+	}
 }
 
 .x-list,
@@ -188,38 +252,6 @@ $toolbar-label-text-shadow: none;
 		background-color: $thm-green;
 	}
 } 
-
-.x-toolbar-light, 
-.x-tabbar-dark {
-	text-shadow: none !important;
-	background: $thm-grey !important;	
-	border: none !important;
-}
-
-.x-tabbar-dark.x-docked-bottom .x-tab-active .x-button-icon:before {
-	color: $thm-green;
-}
-
-.x-tabbar-dark.x-docked-bottom .x-tab-active {
-	background-image: none !important;
-	background-color: transparent;
-	box-shadow: none;
-}
-
-.x-tabbar-dark.x-docked-bottom .x-tab {
-	text-shadow: none !important;
-}
-
-.x-tabbar-dark.x-docked-bottom .x-tab-active .icon-happy.x-button-icon:before,
-.x-tabbar-dark.x-docked-bottom .x-tab-active .icon-wink.x-button-icon:before,
-.x-tabbar-dark.x-docked-bottom .x-tab-active .icon-sad.x-button-icon:before,
-.x-tabbar-dark.x-docked-bottom .x-tab-active .icon-shocked.x-button-icon:before {
-	color: $smiley-color !important;
-}
-
-.x-tabbar .voteIcons {
-	color: white;
-}
 
 .x-mask-inner {
 	border-radius: 10px 10px 10px 10px;	
