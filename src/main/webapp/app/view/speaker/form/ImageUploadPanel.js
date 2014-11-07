@@ -146,24 +146,29 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 							xtype:	'button',
 							itemId: 'btn_url',
 							name: 'btn_url',
+							ui: 'action',
 							text: Messages.SEND,
+							style: {
+								'height': '1em',
+								'margin-top': '7.5px',
+								'margin-left': '10px'
+							},
 							handler: Ext.bind(function () {
 								var url = this.getComponent('pnl_upfield').getComponent('pnl_url').getComponent('tf_url').getValue();							
 								Ext.bind(this.getUrlUploadHandler(), this.getHandlerScope())(url);
 							}, this)
 						}]
-					},
-					{
-						xtype: 'panel',
-						layout: 'hbox',
-//						defaults: {
-//							flex: 2
-//						},
-						style: 'margin-top: 0.5em',
-						items: [
-						    this.segmentButton
-						]
 					}
+				]
+			}, {
+				xtype: 'panel',
+				layout: 'hbox',
+//				defaults: {
+//					flex: 2
+//				},
+				style: 'margin-top: 0.5em',
+				items: [
+				    this.segmentButton
 				]
 			}
 		]);
