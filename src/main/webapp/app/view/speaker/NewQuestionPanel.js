@@ -28,8 +28,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		'ARSnova.view.speaker.form.VoteQuestion',
 		'ARSnova.view.speaker.form.YesNoQuestion',
 		'ARSnova.view.speaker.form.NullQuestion',
-		'ARSnova.view.speaker.form.GridQuestion',
-		'ARSnova.view.speaker.form.ImageUploadPanel'
+		'ARSnova.view.speaker.form.GridQuestion'
+//		'ARSnova.view.speaker.form.ImageUploadPanel'
 	],
 
 	config: {
@@ -132,15 +132,17 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			}]
 		});
 
-		this.abstentionPart = Ext.create('ARSnova.view.speaker.form.AbstentionForm');
-
-		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
-			handlerScope: this,
-			urlUploadHandler: this.setImage,
-			fsUploadHandler: this.setImage
+		this.abstentionPart = Ext.create('ARSnova.view.speaker.form.AbstentionForm', {
+			id: 'abstentionPart'
 		});
 
-		this.grid = Ext.create('ARSnova.view.components.GridContainer', {
+//		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
+//			handlerScope: this,
+//			urlUploadHandler: this.setImage,
+//			fsUploadHandler: this.setImage
+//		});
+
+		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
 			editable: false,
 			gridIsHidden: true,
 			hidden: true,
@@ -229,11 +231,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							if (pressed) {
 								me.gridQuestion.show();
 								title = label(Messages.QUESTION_GRID, Messages.QUESTION_GRID_SHORT);
-								this.uploadView.hide();
+//								this.uploadView.show();
 								this.grid.hide();
 							} else {
 								me.gridQuestion.hide();
-								this.uploadView.show();
+								
+//								this.uploadView.hide();
 								if (this.grid.getImageFile()) {
 									this.grid.show();
 								}
@@ -407,7 +410,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		}
 		me.add([
 			me.abstentionPart,
-			me.uploadView,
+//			me.uploadView,
 			me.grid,
 			me.releasePart
 		]);
@@ -438,7 +441,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	saveHandler: function () {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
 		var values = {};
-
+		console.log("SAVE HANDLER");
 		/* get text, subject of question from mainPart */
 		var mainPartValues = panel.mainPart.getValues();
 		values.text = mainPartValues.text;
@@ -551,6 +554,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			numClickableFields: values.numClickableFields,
 			thresholdCorrectAnswers: values.thresholdCorrectAnswers,
 			cvIsColored: values.cvIsColored,
+			gridLineColor: values.gridLineColor,
+			numberOfDots: values.numberOfDots,
+			gridType: values.gridType,
 			successFunc: function (response, opts) {
 				promise.resolve(response);
 			},
@@ -570,5 +576,19 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		} else {
 			this.grid.hide();
 		}
+	},
+	
+	/**
+	 * Selects a button of the segmentation component with the given name.
+	 * 
+	 * @param text The text of the button to be selected.
+	 */
+	activateButtonWithText: function(text) {
+		var me = this;
+		this.questionOptions.innerItems.forEach(function(item, index) {
+			if (item.getText() == text) {
+				me.questionOptions.setPressedButtons([index]);
+			}
+		});
 	}
 });

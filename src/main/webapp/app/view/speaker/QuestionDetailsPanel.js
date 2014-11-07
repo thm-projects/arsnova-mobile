@@ -102,7 +102,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.questionObj = args.question;
 
 		this.hasCorrectAnswers = true;
-		if (['vote', 'school', 'freetext'].indexOf(this.questionObj.questionType) !== -1) {
+		if (['vote', 'school', 'freetext'].indexOf(this.questionObj.questionType) !== -1
+				|| (['grid'].indexOf(this.questionObj.questionType) !== -1 && this.questionObj.gridType == 'moderation')) {
 			this.hasCorrectAnswers = false;
 		}
 
@@ -218,7 +219,16 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 					if (newContent.cvIsColored !== prevContent.get("cvIsColored"))
 						return true;
-
+					
+					if (newContent.gridLineColor !== prevContent.get("gridLineColor"))
+						return true;
+					
+					if (newContent.numberOfDots !== prevContent.get("numberOfDots"))
+						return true;
+					
+					if (newContent.gridType !== prevContent.get("gridType"))
+						return true;
+					
 					var changed = false;
 					prevContent.get("possibleAnswers").forEach(function (answer, i) {
 						if (answer.correct !== newContent.possibleAnswers[i].correct) {
@@ -257,7 +267,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					if (questionValues.numClickableFields != undefined)  question.set("numClickableFields", questionValues.numClickableFields);
 					if (questionValues.thresholdCorrectAnswers != undefined)  question.set("thresholdCorrectAnswers", questionValues.thresholdCorrectAnswers);
 					if (questionValues.cvIsColored != undefined)  question.set("cvIsColored", questionValues.cvIsColored);
-
+					if (questionValues.gridLineColor != undefined)  question.set("gridLineColor", questionValues.gridLineColor);
+					if (questionValues.numberOfDots != undefined)  question.set("numberOfDots", questionValues.numberOfDots);
+					if (questionValues.gridType != undefined)  question.set("gridType", questionValues.gridType);
+					
 					question.set("possibleAnswers", questionValues.possibleAnswers);
 					question.set("noCorrect", !!questionValues.noCorrect);
 					Ext.apply(question.raw, questionValues);
@@ -289,14 +302,23 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					return empty;
 				};
 				if (this.getText() == Messages.EDIT) {
+					var questionValues = panel.answerEditForm.getQuestionValues();
+
 					panel.cancelButton.show();
-					panel.backButton.hide();
+					panel.backButton.hide(); 
 
 					this.setText(Messages.SAVE);
 					this.addCls('x-button-action');
-
+													
 					this.config.enableFields(panel);
 					this.config.setEnableAnswerEdit(panel, true);
+					
+					if(questionValues.gridType == "moderation"){
+						panel.abstentionPart.setHidden(true);
+						panel.absteionAlternative.show();
+					}else{
+						panel.absteionAlternative.hide();
+					}
 				} else {
 					panel.cancelButton.hide();
 					panel.backButton.show();
@@ -734,6 +756,11 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			abstention: this.questionObj.abstention,
 			hidden: true
 		});
+		
+		this.absteionAlternative = Ext.create('Ext.Spacer',{
+			hidden:	true,
+			height: 40
+		});
 
 		this.contentForm = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
@@ -785,6 +812,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			this.contentForm,
 			this.actionsPanel,
 			this.abstentionPart,
+			this.absteionAlternative,
 			this.answerForm,
 			this.answerEditForm,
 			this.actionsPanel
@@ -889,8 +917,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			this.answerFormFieldset.add(this.gridStatistic);
 			this.getQuestionAnswers();
 		} else if (this.questionObj.image) {
-			this.grid = Ext.create('ARSnova.view.components.GridContainer', {
-				id: 'gridContainer' + this.questionObj._id,
+			this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
+				id: 'gridImageContainer' + this.questionObj._id,
 				editable: false,
 				gridIsHidden: true
 			});
