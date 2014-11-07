@@ -534,31 +534,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	getUnansweredSkillQuestions: function (sessionKeyword, callbacks) {
-		this.getUnansweredQuestions(sessionKeyword, "", callbacks);
-	},
-
-	getUnansweredLectureQuestions: function (sessionKeyword, callbacks) {
-		this.getUnansweredQuestions(sessionKeyword, "&lecturequestionsonly=true", callbacks);
-	},
-
-	getUnansweredPreparationQuestions: function (sessionKeyword, callbacks) {
-		this.getUnansweredQuestions(sessionKeyword, "&preparationquestionsonly=true", callbacks);
-	},
-
-	getUnansweredQuestions: function (sessionKeyword, query, callbacks) {
-		this.arsjax.request({
-			url: "lecturerquestion/unanswered?sessionkey=" + sessionKeyword + query,
-			204: function () {
-				callbacks.success.call(this, []);
-			},
-			success: function (response) {
-				callbacks.success.call(this, Ext.decode(response.responseText));
-			},
-			failure: callbacks.failure
-		});
-	},
-
 	getUserAnswer: function (questionId, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/myanswer",

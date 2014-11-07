@@ -24,7 +24,7 @@
 var ua = navigator.userAgent.toLowerCase();
 var isAndroid = ua.indexOf("android") > -1;
 var isChrome = ua.indexOf("chrome") > -1;
-var lang;
+//var lang; // without declaration with "var" lang will be globally accessible 
 
 if (isAndroid && !isChrome) {
 	if (navigator && navigator.userAgent && (lang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {
@@ -195,7 +195,7 @@ switch (lang) {
 			ANSWER_POINTS: "Answer points",
 			ANSWER_POINTS_CORRECT: "Correct",
 			ANSWER_POINTS_INCORRECT: "Incorrect",
-
+			
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
 			QUESTIONS_FROM_STUDENTS: "Students' questions",
@@ -288,8 +288,10 @@ switch (lang) {
 			SAVE_AND_CONTINUE: "Save and Continue",
 			SELECT_PICTURE_FS: "Image URL",
 			SELECT_PICTURE_URL: "From URL",
+			SELECT_PICTURE_URL_SHORT: "URL",
 			CHOOSE_PICTURE: "Choose image",
 			SEARCH_PICTURE: "From File System",
+			SEARCH_PICTURE_SHORT: "File System",
 			EDIT_PICTURE: "Upload Image",
 			GRID_LOADING: "Loading",
 			GRID_LOAD: "Load",
@@ -301,6 +303,8 @@ switch (lang) {
 			GRID_LABEL_FIELD_Y: "Number of fields on y-axis",
 			GRID_LABEL_WEAKEN_IMAGE: "Transparent image",
 			GRID_LABEL_SHOW_HEATMAP: "Show heatmap",
+			GRID_LABEL_HEATMAP: "Heatmap",
+			GRID_LABEL_HEATMAP_SHORT: "HM",
 			GRID_LABEL_SHOW_PERCENT: "Show results",
 			GRID_LABEL_INVERT_GRIDCOLORS: "Invert grid colors",
 			GRID_LABEL_CV_TRANSPARENCY: "color background",
@@ -315,11 +319,17 @@ switch (lang) {
 			GRID_ERROR_LOADING_IMAGE_FS: 'Could not load image from filesystem',
 			GRID_CONFIG_IMAGE: "Image configuration",
 			GRID_CONFIG_GRID: "Grid configuration",
+			GRID_LABEL_REMAINING_DOTS: "Remaining dots: ",
+			GRID_LABEL_NUMBER_OF_DOTS: "Number of dots",
+			GRID_LABEL_DELETE_MODERATION: "Remove template",
 			ERROR: 'Error',
 			CORRECT_ANSWERS: "Correct answers",
 			SETTINGS: "Settings",
 			SETTINGS_HINT_TEXT: "Hint <br>Maximal filesize is 1 MB.",
-
+			TEMPLATE:	"Template",
+			CONTINUE:	"Continue",
+			DOWNLOAD:	"Download",
+			
 			/* question types */
 			EVALUATION: "+-",
 			SCHOOL: "A-F",
@@ -489,7 +499,7 @@ switch (lang) {
 			QUESTION_EDIT_ERROR: "Das Editieren der Frage war leider nicht erfolgreich.",
 			ANSWER_CREATION_ERROR: "Die Antwort konnte nicht gespeichert werden",
 			SEND: "Abschicken",
-
+			
 			/* questions */
 			QUESTION: "Frage",
 			QUESTION_PLACEHOLDER: "Frage eingeben",
@@ -563,7 +573,7 @@ switch (lang) {
 			FLASHCARD_SHORT: "LK",
 			FLASHCARDS: "Lernkarten",
 			FLASHCARD: "Lernkarte",
-			ONE_NEW_QUESTION: 'Es gibt 1 neue Frage.',
+			ONE_NEW_QUESTION: 'Es gibt eine neue Frage.',
 			WANNA_ANSWER: 'Möchten Sie jetzt antworten?',
 			THERE_ARE: "Es gibt",
 			NEW_QUESTIONS: "neue Fragen.",
@@ -642,9 +652,11 @@ switch (lang) {
 			MINUTES: "Minuten",
 			BACK: "Zurück",
 			SELECT_PICTURE_FS: "Bildadresse",
-			SELECT_PICTURE_URL: "Von Bildadresse",
+			SELECT_PICTURE_URL: "Von URL",
+			SELECT_PICTURE_URL_SHORT: "URL",
 			CHOOSE_PICTURE: "Bild wählen",
 			SEARCH_PICTURE: "Von Dateisystem",
+			SEARCH_PICTURE_SHORT: "Datei",
 			EDIT_PICTURE: "Bild hochladen",
 			GRID_LOADING: "Lade",
 			GRID_LOAD: "Laden",
@@ -655,6 +667,8 @@ switch (lang) {
 			GRID_LABEL_FIELD_Y: "Anzahl Felder an y-Achse",
 			GRID_LABEL_WEAKEN_IMAGE: "Bild abschwächen",
 			GRID_LABEL_SHOW_HEATMAP: "Heatmap anzeigen",
+			GRID_LABEL_HEATMAP: "Heatmap",
+			GRID_LABEL_HEATMAP_SHORT: "HM",
 			GRID_LABEL_SHOW_PERCENT: "Zeige Resultate",
 			GRID_LABEL_INVERT_GRIDCOLORS: "Rasterfarbe invertieren",
 			GRID_LABEL_CV_TRANSPARENCY: "Hintergrund einfärben",
@@ -669,11 +683,17 @@ switch (lang) {
 			GRID_ERROR_LOADING_IMAGE_FS: 'Bild konnte nicht geladen werden',
 			GRID_CONFIG_IMAGE: "Bildeinstellungen",
 			GRID_CONFIG_GRID: "Rastereinstellungen",
+			GRID_LABEL_REMAINING_DOTS: "Verbleibende Klebepunkte: ",
+			GRID_LABEL_NUMBER_OF_DOTS: "Anzahl Klebepunkte",
+			GRID_LABEL_DELETE_MODERATION: "Template löschen",
 			ERROR: 'Fehler',
 			CORRECT_ANSWERS: "Richtige Antworten",
 			SETTINGS: "Einstellungen",
 			SETTINGS_HINT_TEXT: "Hinweis: <br>Maximale Dateigröße beträgt 1MB.",
-
+			TEMPLATE:	"Vorlage",
+			CONTINUE:	"Übernehmen",
+			DOWNLOAD:	"Herunterladen",
+			
 			/* question types */
 			EVALUATION: "+-",
 			SCHOOL: "1-6",

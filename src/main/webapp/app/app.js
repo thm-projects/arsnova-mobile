@@ -224,6 +224,8 @@ Ext.application({
 	afterLogin: function () {
 		console.debug("Application: afterLogin");
 
+		this.socket.connect();
+
 		/* show diagnosis tab panel */
 		ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.tab.show();
 
@@ -344,8 +346,12 @@ Ext.application({
 			localStorage.setItem('lastVisitedSessions', "[]");
 		}
 
-		if (localStorage.getItem('questionIds') == null) {
-			localStorage.setItem('questionIds', "[]");
+		if (localStorage.getItem('lectureQuestionIds') == null) {
+			localStorage.setItem('lectureQuestionIds', "[]");
+		}
+
+		if (localStorage.getItem('preparationQuestionIds') == null) {
+			localStorage.setItem('preparationQuestionIds', "[]");
 		}
 
 		if (localStorage.getItem('loggedIn') == null) {

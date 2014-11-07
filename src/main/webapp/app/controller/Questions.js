@@ -38,6 +38,9 @@ Ext.define("ARSnova.controller.Questions", {
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.setLectureMode();
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.backButton.show();
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.setTitle(Messages.LECTURE_QUESTIONS);
+		if (options && options.renew) {
+			ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.renew();
+		}
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.addListener('deactivate', function (panel) {
 			panel.toolbar.backButton.hide();
@@ -48,6 +51,9 @@ Ext.define("ARSnova.controller.Questions", {
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.setPreparationMode();
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.backButton.show();
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.setTitle(Messages.PREPARATION_QUESTIONS);
+		if (options && options.renew) {
+			ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.renew();
+		}
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.addListener('deactivate', function (panel) {
 			panel.toolbar.backButton.hide();
@@ -128,7 +134,12 @@ Ext.define("ARSnova.controller.Questions", {
 			numClickableFields: options.numClickableFields,
 			thresholdCorrectAnswers: options.thresholdCorrectAnswers,
 			cvIsColored: options.cvIsColored,
-			showStatistic: 1
+			gridLineColor: options.gridLineColor,
+			numberOfDots: options.numberOfDots,
+			gridType: options.gridType,
+			showStatistic: 1,
+			scaleFactor: options.scaleFactor,
+			gridScaleFactor: options.gridScaleFactor
 		});
 		question.set('_id', undefined);
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
@@ -137,7 +148,6 @@ Ext.define("ARSnova.controller.Questions", {
 		});
 
 		var error = false;
-		var errorNoChosenFields = false;
 		var validation = question.validate();
 		if (!validation.isValid()) {
 			validation.items.forEach(function (el) {
@@ -173,17 +183,11 @@ Ext.define("ARSnova.controller.Questions", {
 				if (! panel.gridQuestion.grid.getImageFile()) {
 					error = true;
 				}
-				if (panel.gridQuestion.grid.getChosenFields().length == 0) {
-					errorNoChosenFields = true;
-				}
 
 				break;
 		}
 		if (error) {
 			Ext.Msg.alert('Hinweis', 'Ihre Eingaben sind unvollständig');
-			return;
-		} else if (errorNoChosenFields) {
-			Ext.Msg.alert('Hinweis', 'Sie müssen mindestens ein Feld auswählen');
 			return;
 		}
 

@@ -19,6 +19,8 @@
 Ext.define('ARSnova.model.Question', {
 	extend: 'Ext.data.Model',
 
+	mixin: ['Ext.mixin.Observable'],
+
 	config: {
 		idProperty: '_id',
 		proxy: {type: 'restProxy'},
@@ -61,7 +63,12 @@ Ext.define('ARSnova.model.Question', {
 			'toggleFieldsLeft',
 			'numClickableFields',
 			'thresholdCorrectAnswers',
-			'cvIsColored'
+			'cvIsColored',
+			'gridLineColor',
+			'numberOfDots',
+			'gridType',
+			'scaleFactor',
+			'gridScaleFactor'
 		],
 
 		validations: [
@@ -69,6 +76,67 @@ Ext.define('ARSnova.model.Question', {
 			{type: 'presence', field: 'text'},
 			{type: 'presence', field: 'subject'}
 		]
+	},
+
+	events: {
+		lecturerQuestionAvailable: "arsnova/question/lecturer/available",
+		audienceQuestionAvailable: "arsnova/question/audience/available",
+		unansweredLecturerQuestions: "arsnova/question/lecturer/lecture/unanswered",
+		unansweredPreparationQuestions: "arsnova/question/lecturer/preparation/unanswered",
+		countLectureQuestionAnswers: "arsnova/question/lecturer/lecture/answercount",
+		countPreparationQuestionAnswers: "arsnova/question/lecturer/preparation/answercount",
+		countQuestionsAndAnswers: "arsnova/question/unanswered-question-and-answer-count",
+		internalUpdate: "arsnova/question/internal/update"
+	},
+
+	numUnanswerdLectureQuestions: 0,
+	numUnansweredPreparationQuestions: 0,
+	numLectureQuestionAnswers: 0,
+	numPreparationQuestionAnswers: 0,
+
+	constructor: function () {
+		this.callParent(arguments);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.lecturerQuestionAvailable, function (question) {
+			this.fireEvent(this.events.lecturerQuestionAvailable, question);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.audienceQuestionAvailable, function (question) {
+			this.fireEvent(this.events.audienceQuestionAvailable, question);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.unansweredLecturerQuestions, function (questionIds) {
+			this.numUnanswerdLectureQuestions = questionIds.length;
+			this.fireEvent(this.events.unansweredLecturerQuestions, questionIds);
+			this.fireEvent(this.events.internalUpdate);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.unansweredPreparationQuestions, function (questionIds) {
+			this.numUnansweredPreparationQuestions = questionIds.length;
+			this.fireEvent(this.events.unansweredPreparationQuestions, questionIds);
+			this.fireEvent(this.events.internalUpdate);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.countLectureQuestionAnswers, function (count) {
+			this.numLectureQuestionAnswers = count;
+			this.fireEvent(this.events.countLectureQuestionAnswers, count);
+			this.fireEvent(this.events.internalUpdate);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.countPreparationQuestionAnswers, function (count) {
+			this.numPreparationQuestionAnswers = count;
+			this.fireEvent(this.events.countPreparationQuestionAnswers, count);
+			this.fireEvent(this.events.internalUpdate);
+		}, this);
+
+		this.on(this.events.internalUpdate, function () {
+			this.fireEvent(this.events.countQuestionsAndAnswers, {
+				unansweredLectureQuestions: this.numUnanswerdLectureQuestions,
+				unansweredPreparationQuestions: this.numUnansweredPreparationQuestions,
+				lectureQuestionAnswers: this.numLectureQuestionAnswers,
+				preparationQuestionAnswers: this.numPreparationQuestionAnswers
+			});
+		}, this);
 	},
 
 	destroy: function (queObj, callbacks) {
@@ -144,18 +212,6 @@ Ext.define('ARSnova.model.Question', {
 
 	getSkillQuestionsForDelete: function (sessionId, callbacks) {
 		return this.getProxy().getSkillQuestionsForDelete(sessionId, callbacks);
-	},
-
-	getUnansweredSkillQuestions: function (sessionKeyword, callbacks) {
-		return this.getProxy().getUnansweredSkillQuestions(sessionKeyword, callbacks);
-	},
-
-	getUnansweredLectureQuestions: function (sessionKeyword, callbacks) {
-		return this.getProxy().getUnansweredLectureQuestions(sessionKeyword, callbacks);
-	},
-
-	getUnansweredPreparationQuestions: function (sessionKeyword, callbacks) {
-		return this.getProxy().getUnansweredPreparationQuestions(sessionKeyword, callbacks);
 	},
 
 	countSkillQuestions: function (sessionKeyword, callbacks) {

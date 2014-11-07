@@ -59,7 +59,7 @@ end
 
 # Teardown
 driver.find_element(:id, "ext-matrixbutton-10").click # delete session
-driver.find_element(:id, "ext-button-79").click # 'Yes' in popup
+driver.find_element(:id, "ext-button-68").click # 'Yes' in popup
 driver.wait_for_element(:id, "ext-element-113").click # Logout
 
 driver.quit

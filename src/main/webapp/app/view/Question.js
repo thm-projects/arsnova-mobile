@@ -83,11 +83,11 @@ Ext.define('ARSnova.view.Question', {
 		var saveAnswer = function (answer) {
 			answer.saveAnswer({
 				success: function () {
-					var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
+					var questionsArr = Ext.decode(localStorage.getItem(self.questionObj.questionVariant + 'QuestionIds'));
 					if (questionsArr.indexOf(self.questionObj._id) == -1) {
 						questionsArr.push(self.questionObj._id);
 					}
-					localStorage.setItem('questionIds', Ext.encode(questionsArr));
+					localStorage.setItem(self.questionObj.questionVariant + 'QuestionIds', Ext.encode(questionsArr));
 
 					self.disableQuestion();
 					ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
@@ -357,8 +357,8 @@ Ext.define('ARSnova.view.Question', {
 
 		this.add([questionPanel]);
 		if (this.questionObj.image && this.questionObj.questionType !== "grid") {
-			this.grid = Ext.create('ARSnova.view.components.GridContainer', {
-				id: 'gridContainer' + this.questionObj._id,
+			this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
+				id: 'gridImageContainer' + this.questionObj._id,
 				editable: false,
 				gridIsHidden: true
 			});
@@ -369,84 +369,91 @@ Ext.define('ARSnova.view.Question', {
 			this.add([flashcardContainer]);
 			this.answerList.setHidden(true);
 		} else if (this.questionObj.questionType === "grid") {
-				/*
-				 * in case of grid question, create a grid container model
-				 */
-				this.grid = Ext.create('ARSnova.view.components.GridContainer', {
-					id: 'gridContainer' + this.questionObj._id,
-					offsetX: this.questionObj.offsetX,
-					offsetY: this.questionObj.offsetY,
-					gridSize: this.questionObj.gridSize,
-					zoomLvl: this.questionObj.zoomLvl,
-					gridOffsetX: this.questionObj.gridOffsetX,
-					gridOffsetY: this.questionObj.gridOffsetY,
-					gridZoomLvl: this.questionObj.gridZoomLvl,
-					gridSizeX: this.questionObj.gridSizeX,
-					gridSizeY: this.questionObj.gridSizeY,
-					gridIsHidden: this.questionObj.gridIsHidden,
-					imgRotation: this.questionObj.imgRotation,
-					toggleFieldsLeft: this.questionObj.toggleFieldsLeft,
-					numClickableFields: this.questionObj.numClickableFields,
-					thresholdCorrectAnswers: this.questionObj.thresholdCorrectAnswers,
-					cvIsColored: this.questionObj.cvIsColored,
-					editable: true,
-					possibleAnswers: this.questionObj.possibleAnswers
+			if (this.questionObj.gridType === 'moderation') {
+			
+				this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
+					id: 'gridImageContainer' + this.questionObj._id,
+					handlerScope: self,
+					onClickHandler: function() {
+						var remainingDots = self.grid.getNumberOfDots() - self.grid.getChosenFields().length;
+						Ext.get('remainingDotsLabel' + self.getId()).setText(Messages.GRID_LABEL_REMAINING_DOTS + remainingDots);
+					}
 				});
-
-				var me = this;
-				this.grid.setImage(this.questionObj.image, false, function () {
-					me.setGridAnswer(me.questionObj.userAnswered);
+			} else {
+				this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
+					id: 'gridImageContainer' + this.questionObj._id,
 				});
+			}
 
-				/*
-				 * update function for align the grids picture
-				 */
-				this.grid.update(this.questionObj.gridSize, this.questionObj.offsetX,
-						this.questionObj.offsetY, this.questionObj.zoomLvl,
-						this.questionObj.gridOffsetX, this.questionObj.gridOffsetY,
-						this.questionObj.gridZoomLvl, this.questionObj.gridSizeX,
-						this.questionObj.gridSizeY, this.questionObj.gridIsHidden,
-						this.questionObj.imgRotation, this.questionObj.toggleFieldsLeft,
-						this.questionObj.numClickableFields, this.questionObj.thresholdCorrectAnswers,
-						this.questionObj.cvIsColored, this.questionObj.possibleAnswers, false);
-				/*
-				 *   gridbutton and container for the grid button to add into the layout if necessary
-				 */
-				this.gridButton = Ext.create('Ext.Button', {
+			this.grid.setPossibleAnswers(this.questionObj.possibleAnswers);
+			var me = this;
+			this.grid.setImage(this.questionObj.image, false, function () {
+				me.setGridAnswer(me.questionObj.userAnswered);
+			});
+
+			/*
+			 * update function for align the grids picture
+			 */
+			this.grid.update(this.questionObj, false);
+			
+			/*
+			 *   gridbutton and container for the grid button to add into the layout if necessary
+			 */
+			this.gridButton = Ext.create('Ext.Button', {
+				flex: 1,
+				ui: 'confirm',
+				cls: 'login-button noMargin',
+				text: Messages.SAVE,
+				handler: !this.viewOnly ? this.saveGridQuestionHandler: function () {},
+				scope: this,
+				disabled: false
+			});
+
+			this.gridImageContainer = {
+				xtype: 'container',
+				layout: {
+					type: 'hbox',
+					align: 'stretch'
+				},
+				defaults: {
+					style: {
+						margin: '10px'
+					}
+				},
+				items: [this.gridButton, !!!this.questionObj.abstention ? {hidden: true}: {
 					flex: 1,
-					ui: 'confirm',
+					xtype: 'button',
 					cls: 'login-button noMargin',
-					text: Messages.SAVE,
-					handler: !this.viewOnly ? this.saveGridQuestionHandler: function () {},
-					scope: this,
-					disabled: false
+					text: Messages.ABSTENTION,
+					handler: this.mcAbstentionHandler,
+					scope: this
+				}]
+			};
+			this.add([this.grid]);
+			
+			if (this.questionObj.gridType === 'moderation') {
+				
+				var panel = new Ext.Panel({
+				    layout: {
+		                type: 'vbox',
+		                align: 'center',
+		                pack: 'center'
+				    },
+				    style: "margin-top: 15px",
+			        items:[{
+			        	xtype: 'label',
+						id: 'remainingDotsLabel' + this.getId(),
+						html: Messages.GRID_LABEL_REMAINING_DOTS + this.grid.getNumberOfDots(),
+			        }]
 				});
-
-				this.gridContainer = {
-						xtype: 'container',
-						layout: {
-							type: 'hbox',
-							align: 'stretch'
-						},
-						defaults: {
-							style: {
-								margin: '10px'
-							}
-						},
-						items: [this.gridButton, !!!this.questionObj.abstention ? {hidden: true}: {
-							flex: 1,
-							xtype: 'button',
-							cls: 'login-button noMargin',
-							text: Messages.ABSTENTION,
-							handler: this.mcAbstentionHandler,
-							scope: this
-						}]
-					};
-				this.add([this.grid]);
-				if (!this.viewOnly) {
-					this.add([this.gridContainer]);
-		}
-				this.answerList.setHidden(true);
+				
+				this.add(panel);
+			}
+			
+			if (!this.viewOnly) {
+				this.add([this.gridImageContainer]);
+			}
+			this.answerList.setHidden(true);
 		} else {
 			this.answerList.setHidden(false);
 		}
@@ -495,12 +502,10 @@ Ext.define('ARSnova.view.Question', {
 				userAnswers[(coord[0] * grid.getGridSizeY()) + coord[1]] = 1;
 			});
 
-
-			grid.generateUserViewWithAnswers(userAnswers, correctAnswers, false);
+			grid.generateUserViewWithAnswers(userAnswers, correctAnswers);
 
 		} else {
 			fields.forEach(function (node) {
-
 				var entry = grid.getChosenFieldFromPossibleAnswer(node);
 				grid.getChosenFields().push(entry);
 			});

@@ -1,0 +1,20 @@
+[
+    {
+		"name": {
+			"de": "Gewichtungsfrage (Mehrfachauswahl)",
+			"en": "Weighted Question (Multiple Choice)"
+		},
+    	"description": {
+    	    "de" : "Mit dieser Vorlage können Sie ein gewichtetes Meinungsbild zu einem von Ihnen gewählten Thema einholen. Bei dieser Vorlage kann eine Person ein Feld theoretisch mehrfach auswählen. So etwas finden man z.B. auch mit <http://www.google.de/>",	
+            "en" : "Create a simple weighted question for your students. With this template students can set multiple dots per choice."	
+        },
+        "imageFile": "Lineare_Punktabfrage.png",
+        "gridSize": 16,
+        "zoomLvl": 0,
+        "gridOffsetX": 4,
+        "gridOffsetY": 0,
+        "gridZoomLvl": 1,
+        "gridSizeX": 16,
+        "gridSizeY": 3
+    }
+]

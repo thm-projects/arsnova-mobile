@@ -34,22 +34,26 @@ Ext.define('ARSnova.WebSocket', {
 	events: {
 		setSessionActive: "arsnova/socket/session/active",
 		feedbackReset: "arsnova/socket/feedback/reset",
-		feedbackAverage: "feedbackDataRoundedAverage"
+		feedbackAverage: "arsnova/socket/feedback/average",
+		lecturerQuestionAvailable: "arsnova/socket/question/lecturer/available",
+		audienceQuestionAvailable: "arsnova/socket/question/audience/available",
+		unansweredLecturerQuestions: "arsnova/socket/question/lecturer/lecture/unanswered",
+		unansweredPreparationQuestions: "arsnova/socket/question/lecturer/preparation/unanswered",
+		countLectureQuestionAnswers: "arsnova/socket/question/lecturer/lecture/answercount",
+		countPreparationQuestionAnswers: "arsnova/socket/question/lecturer/preparation/answercount"
 	},
 
 	memoization: {},
 
-	constructor: function (config) {
-		this.callParent(arguments);
-
+	connect: function () {
 		this.initSocket().then(Ext.bind(function (socketUrl) {
 			/* Upgrade from polling to WebSocket currently does not work
-			 * reliably so manually set the transport by detecting browser
-			 * support for WebSocket protocol */
+			* reliably so manually set the transport by detecting browser
+			* support for WebSocket protocol */
 			var hasWs = false;
 			if (window.WebSocket) {
 				/* Workaround: unfortunately some browsers pretend to support
-				 * WS protocol although they do not */
+				* WS protocol although they do not */
 				try {
 					var wsTestUrl = socketUrl.replace(/^http/, "ws") + "/socket.io/1/";
 					var ws = new WebSocket(wsTestUrl);
@@ -109,22 +113,42 @@ Ext.define('ARSnova.WebSocket', {
 				this.fireEvent(this.events.setSessionActive, active);
 			}, this));
 
-			socket.on('lecQuestionAvail', Ext.bind(function (questionId) {
-				console.debug("Socket.IO: lecQuestionAvail", questionId);
+			socket.on('lecturerQuestionAvailable', Ext.bind(function (question) {
+				console.debug("Socket.IO: lecturerQuestionAvailable", question);
+				this.fireEvent(this.events.lecturerQuestionAvailable, question);
 			}, this));
 
 			socket.on('audQuestionAvail', Ext.bind(function (questionId) {
 				console.debug("Socket.IO: audQuestionAvail", questionId);
+				this.fireEvent(this.events.audienceQuestionAvailable, questionId);
+			}, this));
+
+			socket.on('unansweredLecturerQuestions', Ext.bind(function (questionIds) {
+				console.debug("Socket.IO: unansweredLecturerQuestions", questionIds);
+				this.memoization[this.events.unansweredLecturerQuestions] = questionIds;
+				this.fireEvent(this.events.unansweredLecturerQuestions, questionIds);
+			}, this));
+
+			socket.on('unansweredPreparationQuestions', Ext.bind(function (questionIds) {
+				console.debug("Socket.IO: unansweredPreparationQuestions", questionIds);
+				this.fireEvent(this.events.unansweredPreparationQuestions, questionIds);
+			}, this));
+
+			socket.on('countLectureQuestionAnswers', Ext.bind(function (count) {
+				console.debug("Socket.IO: countLectureQuestionAnswers", count);
+				this.fireEvent(this.events.countLectureQuestionAnswers, count);
+			}, this));
+
+			socket.on('countPreparationQuestionAnswers', Ext.bind(function (count) {
+				console.debug("Socket.IO: countPreparationQuestionAnswers", count);
+				this.fireEvent(this.events.countPreparationQuestionAnswers, count);
 			}, this));
 		}, this));
 	},
 
 	initSocket: function () {
 		var socketUrl = window.location.protocol + '//' + window.location.hostname + ':10443';
-		var promise = new RSVP.Promise();
-
-		promise = ARSnova.app.restProxy.initWebSocket(socketUrl, promise);
-
+		var promise = ARSnova.app.restProxy.initWebSocket(socketUrl, new RSVP.Promise());
 		return promise;
 	},
 
