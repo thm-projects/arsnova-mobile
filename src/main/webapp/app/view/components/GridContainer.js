@@ -153,11 +153,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				this.getImageFile().width, this.getImageFile().height);
 		}
 
-		console.log("this.getImageFile().height");
-		console.log(this.getImageFile().height);
-		console.log(this.getImageFile().width);
-		console.log(this.getImageFile());
-
 		// restore context to draw grid with default scale
 		ctx.restore();
 
