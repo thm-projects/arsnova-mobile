@@ -85,93 +85,78 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 
 		this.segmentButton = Ext.create('Ext.SegmentedButton', {
 			allowDepress: false,
+			cls: 'abcOptions',
 			defaults: {
 				ui: 'action'
 			},
-			items: [
-				{
-					text: showShortLabels ?
-						Messages.SELECT_PICTURE_URL_SHORT :
-						Messages.SELECT_PICTURE_URL,
-					scope: this,
-					handler: Ext.bind(function () {
-						var url = this.getComponent('pnl_upfield').getComponent('pnl_url');
-						url.setHidden(this.toggleUrl);	
+			items: [{
+				text: showShortLabels ?
+				Messages.SELECT_PICTURE_URL_SHORT :
+				Messages.SELECT_PICTURE_URL,
+				scope: this,
+				handler: Ext.bind(function () {
+					var url = this.getComponent('pnl_upfield').getComponent('pnl_url');
+					url.setHidden(this.toggleUrl);	
 						
-						if(this.toggleUrl)
-							this.toggleUrl = false;
-						else
-							this.toggleUrl = true;
-				
-					}, this)
-				},
-				{
-					text: Messages.TEMPLATE,
-					scope: this,
-					handler: function () {
+					if(this.toggleUrl)
+						this.toggleUrl = false;
+					else
+						this.toggleUrl = true;				
+				}, this)
+			}, {
+				text: Messages.TEMPLATE,
+				scope: this,
+				handler: function () {
 						
-						var tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;	
-						tabPanel.setActiveItem(thiz.gridMod);
-					}
-				},
-		        this.buttonUploadFromFS
-			],
-			cls: 'abcOptions'
+					var tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;	
+					tabPanel.setActiveItem(thiz.gridMod);
+				}
+			}, 
+			this.buttonUploadFromFS]
 		});
 		
-		this.add([
-			{
-				itemId: 'pnl_upfield',
-				xtype: 'fieldset',
-				cls: 'file-upload-panel',
-				layout: 'vbox',
-				title: Messages.EDIT_PICTURE,
-				items: [
-					{
-						itemId:	 'pnl_url',
-						xtype:	'panel',
-						layout: 'hbox',
-						hidden: true,
-											
-					items: [	
-					    {
-					    	xtype: 'textfield',
-							itemId: 'tf_url',
-							label: Messages.SELECT_PICTURE_FS,
-							name: 'tf_url',
-							placeHolder: 'http://',
-							flex:	3
-						},
-						{
-							xtype:	'button',
-							itemId: 'btn_url',
-							name: 'btn_url',
-							ui: 'action',
-							text: Messages.SEND,
-							style: {
-								'height': '1em',
-								'margin-top': '7.5px',
-								'margin-left': '10px'
-							},
-							handler: Ext.bind(function () {
-								var url = this.getComponent('pnl_upfield').getComponent('pnl_url').getComponent('tf_url').getValue();							
-								Ext.bind(this.getUrlUploadHandler(), this.getHandlerScope())(url);
-							}, this)
-						}]
-					}
-				]
+		this.add({
+			itemId: 'pnl_upfield',
+		 	xtype: 'fieldset',
+			cls: 'file-upload-panel',
+			layout: 'vbox',
+			title: Messages.EDIT_PICTURE,
+			items: [{
+				itemId:	 'pnl_url',
+				xtype:	'panel',
+				layout: 'hbox',
+				hidden: true,
+										
+				items: [{
+			    	xtype: 'textfield',
+					itemId: 'tf_url',
+					label: Messages.SELECT_PICTURE_FS,
+					name: 'tf_url',
+					placeHolder: 'http://',
+					flex:	3
+				}, {
+					xtype:	'button',
+					itemId: 'btn_url',
+					name: 'btn_url',
+					ui: 'action',
+					text: Messages.SEND,
+					style: {
+						'height': '1em',
+						'margin-top': '7.5px',
+						'margin-left': '10px'
+					},
+					handler: Ext.bind(function () {
+						var url = this.getComponent('pnl_upfield').getComponent('pnl_url').getComponent('tf_url').getValue();							
+						Ext.bind(this.getUrlUploadHandler(), this.getHandlerScope())(url);
+					}, this)
+				}]
 			}, {
 				xtype: 'panel',
 				layout: 'hbox',
-//				defaults: {
-//					flex: 2
-//				},
 				style: 'margin-top: 0.5em',
-				items: [
-				    this.segmentButton
-				]
-			}
-		]);
+				items: [this.segmentButton]
+			}]
+		});
 	},
 
 	setUrl: function (url) {
