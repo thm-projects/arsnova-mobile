@@ -280,7 +280,8 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 			var weakenImage = false;
 			
 			if (me.getQuestionObj().gridType == 'moderation') {
-				showColors = me.questionOptionsSegment.getPressedButtons()[0].getText() == Messages.GRID_LABEL_HEATMAP_SHORT;
+				showColors = me.questionOptionsSegment.getPressedButtons()[0].getText() == Messages.GRID_LABEL_HEATMAP_SHORT
+							|| me.questionOptionsSegment.getPressedButtons()[0].getText() == Messages.GRID_LABEL_HEATMAP;
 			} else {
 				showColors = me.gridShowColors.getValue();
 				weakenImage = me.gridWeakenImageToggle.getValue();
