@@ -557,6 +557,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			gridLineColor: values.gridLineColor,
 			numberOfDots: values.numberOfDots,
 			gridType: values.gridType,
+			scaleFactor: values.scaleFactor,
+			gridScaleFactor: values.gridScaleFactor,
 			successFunc: function (response, opts) {
 				promise.resolve(response);
 			},

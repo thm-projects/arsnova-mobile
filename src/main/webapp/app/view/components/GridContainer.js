@@ -33,12 +33,13 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		curGridLineColor: '#000000', // Current color of the grid lines.
 		gridLineColor: '#000000', // Default color of the grid lines.
 		alternativeGridLineColor: '#FFFFFF', // Alternative color of the grid lines.
-		scaleFactor: 1.2, // Zoom level scale factor.
+		scaleFactor: 1.05, // Zoom level scale factor.
+		defaultScaleFactor: 1.2,
 		scale: 1.0, // Actual scaling for the image. Necessary to switch between scale for zoomed image an normal scale.
 		zoomLvl: 0, // Current zoomlevel.
 		offsetX: 0, // Current offset in x direction.
 		offsetY: 0, // Current offset in y direction.
-		moveInterval: 10, // Steps to take when moving the image (in pixel).
+		moveInterval: 4, // Steps to take when moving the image (in pixel).
 		onFieldClick: null, // Hook for function, that will be called after onClick event.
 		editable: true, // If set to false click events are prevented.
 		possibleAnswers: [], // The pre-set, correct answers of the lecturer
@@ -59,7 +60,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		cvIsColored: false, // true if the canvas background is colored (cvBackgroundColor), false otherwise. This way older questions without this attribute should still have a transparent background
 		gridType: "",
 		onClickHandler: Ext.emptyFn,
-		handlerScope: null
+		handlerScope: null,
+		gridScaleFactor: 1.05
 	},
 
 	/**
@@ -150,6 +152,11 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				-(this.getImageFile().width / 2), -(this.getImageFile().height / 2),
 				this.getImageFile().width, this.getImageFile().height);
 		}
+
+		console.log("this.getImageFile().height");
+		console.log(this.getImageFile().height);
+		console.log(this.getImageFile().width);
+		console.log(this.getImageFile());
 
 		// restore context to draw grid with default scale
 		ctx.restore();
@@ -462,6 +469,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setThresholdCorrectAnswers(questionObj.thresholdCorrectAnswers);
 		this.setCvIsColored(questionObj.cvIsColored);
 		this.setCurGridLineColor(questionObj.gridLineColor);
+		
 
 		// converting from old version
 		if (questionObj.gridSize != undefined && questionObj.gridSize > 0) {
@@ -475,6 +483,21 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			}
 
 		}
+		
+		if (questionObj.scaleFactor == undefined) {
+			this.setScaleFactor(this.getDefaultScaleFactor());
+		} else {
+			this.setScaleFactor(questionObj.scaleFactor);
+		}
+		
+		if (questionObj.gridScaleFactor == undefined) {
+			this.setGridScaleFactor(this.getDefaultScaleFactor());
+		} else {
+			this.setGridScaleFactor(questionObj.gridScaleFactor);
+		}
+		
+		
+
 
 		if (this.getGridOffsetX() === undefined) {
 			this.setGridOffsetX(0);
@@ -957,6 +980,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		result.cvIsColored = this.getCvIsColored();
 		result.gridLineColor = this.getCurGridLineColor();
 		result.gridType = this.getGridType();
+		result.scaleFactor = this.getScaleFactor() + "";
+		result.gridScaleFactor = this.getGridScaleFactor() + "";
 		
 		result.noCorrect = this.getChosenFields().length > 0 ? 0 : 1; // TODO: Check if really needed (and why numbers instead of bool)
 		

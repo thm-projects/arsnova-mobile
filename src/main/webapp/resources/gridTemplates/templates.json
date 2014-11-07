@@ -16,41 +16,5 @@
         "gridZoomLvl": 4,
         "gridSizeX": 8,
         "gridSizeY": 2
-    },
-    {
-		"name": {
-			"de": "Gewichtungsfrage (Einfachauswahl)",
-			"en": "Weighted Question (Single Choice)"
-		},
-    	"description": {
-    	    "de" : "Mit dieser Vorlage können Sie ein gewichtetes Meinungsbild zu einem von Ihnen gewählten Thema einholen. Bei dieser Vorlage kann eine Person ein Feld theoretisch mehrfach auswählen. So etwas finden man z.B. auch mit <http://www.google.de/>",	
-            "en" : "Create a simple weighted question for your students. With this template students can only set one dot per choice."	
-        },
-        "imageFile": "meinung2.jpg",
-        "gridSize": 16,
-        "zoomLvl": -1,
-        "gridOffsetX": 20,
-        "gridOffsetY": 173,
-        "gridZoomLvl": 7,
-        "gridSizeX": 4,
-        "gridSizeY": 1
-    },
-     {
-		"name": {
-			"de": "Moderationsfrage",
-			"en": "Moderation question"
-		},
-    	"description": {
-    	    "de" : "Erhalte Sie eine mehrdimensionale Rückmeldung Ihrer Studenten.",	
-            "en" : "Get feedback in multiple dimensions."	
-        },
-        "imageFile": "moderation.jpg",
-        "gridSize": 16,
-        "zoomLvl": 0,
-        "gridOffsetX": 0,
-        "gridOffsetY": 0,
-        "gridZoomLvl": 0,
-        "gridSizeX": 16,
-        "gridSizeY": 16
     }
 ]
