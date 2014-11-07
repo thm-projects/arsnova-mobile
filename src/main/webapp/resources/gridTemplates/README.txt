@@ -36,7 +36,6 @@ Example:
         "gridSizeY": 4,
         "gridScale": 2,
         "imgRotation": 1,
-        "cvBackgroundColor": "#C0FFEE",
         "cvIsColored": true
     },
     ...
