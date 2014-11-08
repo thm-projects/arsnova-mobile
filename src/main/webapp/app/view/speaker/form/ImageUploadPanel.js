@@ -47,7 +47,6 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		});
 		
 		this.buttonUploadFromFS = Ext.create('Ext.ux.Fileup', {
-			//itemId: 'buttonUploadFromFS',
 			xtype: 'fileupload',
 			autoUpload: true,
 			loadAsDataUrl: true,
@@ -94,8 +93,8 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				Messages.SELECT_PICTURE_URL,
 				scope: this,
 				handler: Ext.bind(function () {
-					var url = this.uploadTextfield;
-					url.setHidden(this.toggleUrl);	
+					this.uploadTextfield.setHidden(this.toggleUrl);
+					this.sendButton.setHidden(this.toggleUrl);
 						
 					if(this.toggleUrl)
 						this.toggleUrl = false;
@@ -109,18 +108,19 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 					var tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;	
 					tabPanel.setActiveItem(this.gridMod);
 				}
-			}, 
-			this.buttonUploadFromFS]
+			}, this.buttonUploadFromFS]
 		});
 		
 		this.uploadTextfield = Ext.create('Ext.form.Text', {
 			label: Messages.SELECT_PICTURE_FS,
 			placeHolder: 'http://',
+			hidden: true,
 			flex: 3
 		});
 		
 		this.sendButton = Ext.create('Ext.Button', {
 			ui: 'action',
+			hidden: true,
 			text: Messages.SEND,
 			style: {
 				'height': '1em',
@@ -128,7 +128,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				'margin-left': '10px'
 			},
 			handler: Ext.bind(function () {
-				var url = this.getComponent('pnl_upfield').getComponent('pnl_url').getComponent('tf_url').getValue();							
+				var url = this.uploadTextfield.getValue();							
 				Ext.bind(this.getUrlUploadHandler(), this.getHandlerScope())(url);
 			}, this)
 		});
@@ -142,7 +142,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				this.uploadTextfield,
 				this.sendButton
 			]
-		},  this.segmentButton
+		}, this.segmentButton
 		]);
 	},
 
