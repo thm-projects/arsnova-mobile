@@ -1,4 +1,12 @@
 $background-color: $background;
+$label-font-color: $thm-grey;
+$label-font-weight: normal;
+$label-text-shadow: none;
+
+@mixin label-config {
+	font-weight: $label-font-weight;
+	text-shadow: $label-text-shadow !important; 
+}
 
 $button-confirm-bg-color: $thm-green;
 $button-confirm-txt-color: #fff;
@@ -21,16 +29,9 @@ $toolbar-button-bg-color: $thm-green;
 $toolbar-button-txt-color: #fff;
 $toolbar-back-button-bg-color: #fff;
 $toolbar-back-button-txt-color: $thm-grey;
-$toolbar-label-font-weight: normal;
-$toolbar-label-text-shadow: none;
-
-@mixin toolbar-label-config {
-	font-weight: $toolbar-label-font-weight;
-	text-shadow: $toolbar-label-text-shadow !important; 
-}
 
 @mixin toolbar-title-config {
-	@include toolbar-label-config;
+	@include label-config;
 	color: $toolbar-title-txt-color;
 }
 
@@ -176,10 +177,8 @@ $toolbar-label-text-shadow: none;
 	.x-title {
 		@include toolbar-title-config;
 	}
-		
-	.x-button, 
-	.x-field-select .x-input-text, 
-	.x-field-select:before {
+	
+	.x-button-normal {
 		@include toolbar-button-config(
 			$toolbar-button-bg-color, 
 			$toolbar-button-txt-color
@@ -201,7 +200,7 @@ $toolbar-label-text-shadow: none;
 	
 	.x-button, .x-button-back {
 		.x-button-label {
-			@include toolbar-label-config;
+			@include label-config;
 		}
 	}
 }
@@ -252,6 +251,11 @@ $toolbar-label-text-shadow: none;
 		background-color: $thm-green;
 	}
 } 
+
+.x-form-fieldset-title {
+	font-weight: normal;
+	margin: 1em .5em 0.4em;
+}
 
 .x-mask-inner {
 	border-radius: 10px 10px 10px 10px;	
