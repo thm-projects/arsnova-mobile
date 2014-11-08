@@ -717,7 +717,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	getQuestionValues: function () {
 		var result = {};
 		
-		result = this.grid.createResult();
+		if(this.grid === null) return;
+		else result = this.grid.createResult();
 
 		var possibleAnswers = this.grid.getPossibleAnswersFromChosenFields();
 		if (ARSnova.app.globalConfig.features.learningProgress) {

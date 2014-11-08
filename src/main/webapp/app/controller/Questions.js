@@ -180,10 +180,12 @@ Ext.define("ARSnova.controller.Questions", {
 				});
 				break;
 			case 'grid':
-				if (! panel.gridQuestion.grid.getImageFile()) {
-					error = true;
-				}
-
+				if(panel.gridQuestion.grid !== null) {
+					if (! panel.gridQuestion.grid.getImageFile()) {
+						error = true;
+					}
+				} else error = true;
+				
 				break;
 		}
 		if (error) {
