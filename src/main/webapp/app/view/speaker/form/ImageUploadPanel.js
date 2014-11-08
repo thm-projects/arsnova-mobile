@@ -35,7 +35,6 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	},
 
 	initialize: function () {
-		var thiz = this;
 		this.callParent(arguments);
 		
 		var screenWidth = (window.innerWidth > 0) ?
@@ -43,8 +42,8 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		var showShortLabels = screenWidth < 480;
 		
 		this.gridMod = Ext.create('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
-			saveHandlerScope: thiz,
-			templateAdoptionHandler: thiz.adoptTemplate
+			saveHandlerScope: this,
+			templateAdoptionHandler: this.adoptTemplate
 		});
 		
 		this.buttonUploadFromFS = Ext.create('Ext.ux.Fileup', {
@@ -95,7 +94,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				Messages.SELECT_PICTURE_URL,
 				scope: this,
 				handler: Ext.bind(function () {
-					var url = this.getComponent('pnl_upfield').getComponent('pnl_url');
+					var url = this.uploadTextfield;
 					url.setHidden(this.toggleUrl);	
 						
 					if(this.toggleUrl)
@@ -107,9 +106,8 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				text: Messages.TEMPLATE,
 				scope: this,
 				handler: function () {
-						
 					var tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;	
-					tabPanel.setActiveItem(thiz.gridMod);
+					tabPanel.setActiveItem(this.gridMod);
 				}
 			}, 
 			this.buttonUploadFromFS]
@@ -149,7 +147,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	},
 
 	setUrl: function (url) {
-		this.getComponent('pnl_upfield').getComponent('pnl_url').getComponent('tf_url').setValue(url);
+		this.uploadTextfield.setValue(url);
 	},
 	
 	adoptTemplate: function(grid) {
