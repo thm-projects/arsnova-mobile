@@ -1561,6 +1561,12 @@ ol.standardList li {
 	text-transform: uppercase;
 }
 
-.file-upload-panel {
+.fileUploadFieldset {
 	margin: 0.5em 0.5em 1em;
+}
+
+.fileUploadFieldset .x-field-text,
+.fileUploadFieldset .x-input-text {
+	border-bottom: none;
+	border-radius: .4em;
 }

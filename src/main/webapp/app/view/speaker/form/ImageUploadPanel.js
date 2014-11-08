@@ -115,48 +115,37 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			this.buttonUploadFromFS]
 		});
 		
-		this.add({
-			itemId: 'pnl_upfield',
-		 	xtype: 'fieldset',
-			cls: 'file-upload-panel',
-			layout: 'vbox',
-			title: Messages.EDIT_PICTURE,
-			items: [{
-				itemId:	 'pnl_url',
-				xtype:	'panel',
-				layout: 'hbox',
-				hidden: true,
-										
-				items: [{
-			    	xtype: 'textfield',
-					itemId: 'tf_url',
-					label: Messages.SELECT_PICTURE_FS,
-					name: 'tf_url',
-					placeHolder: 'http://',
-					flex:	3
-				}, {
-					xtype:	'button',
-					itemId: 'btn_url',
-					name: 'btn_url',
-					ui: 'action',
-					text: Messages.SEND,
-					style: {
-						'height': '1em',
-						'margin-top': '7.5px',
-						'margin-left': '10px'
-					},
-					handler: Ext.bind(function () {
-						var url = this.getComponent('pnl_upfield').getComponent('pnl_url').getComponent('tf_url').getValue();							
-						Ext.bind(this.getUrlUploadHandler(), this.getHandlerScope())(url);
-					}, this)
-				}]
-			}, {
-				xtype: 'panel',
-				layout: 'hbox',
-				style: 'margin-top: 0.5em',
-				items: [this.segmentButton]
-			}]
+		this.uploadTextfield = Ext.create('Ext.form.Text', {
+			label: Messages.SELECT_PICTURE_FS,
+			placeHolder: 'http://',
+			flex: 3
 		});
+		
+		this.sendButton = Ext.create('Ext.Button', {
+			ui: 'action',
+			text: Messages.SEND,
+			style: {
+				'height': '1em',
+				'margin-top': '7.5px',
+				'margin-left': '10px'
+			},
+			handler: Ext.bind(function () {
+				var url = this.getComponent('pnl_upfield').getComponent('pnl_url').getComponent('tf_url').getValue();							
+				Ext.bind(this.getUrlUploadHandler(), this.getHandlerScope())(url);
+			}, this)
+		});
+		
+		this.add([{
+			xtype: 'fieldset',
+			layout: 'hbox',
+			cls: 'fileUploadFieldset',
+			title: Messages.EDIT_PICTURE,	
+			items: [
+				this.uploadTextfield,
+				this.sendButton
+			]
+		},  this.segmentButton
+		]);
 	},
 
 	setUrl: function (url) {
