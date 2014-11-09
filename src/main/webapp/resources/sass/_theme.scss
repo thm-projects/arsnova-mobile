@@ -254,9 +254,13 @@ $toolbar-back-button-txt-color: $thm-grey;
 	
 	.x-list-item.x-item-selected.x-list-item-tpl,
 	.x-list-item.x-item-selected .x-dock-horizontal {
+		border-color: white;
 		background-image: none;
-		border-color: $thm-green;
-		background-color: $thm-green;
+		background-color: $thm-orange;
+		
+		.search-item span {
+			color: white;
+		}
 	}
 } 
 
