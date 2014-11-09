@@ -263,3 +263,11 @@ $toolbar-back-button-txt-color: $thm-grey;
 .x-mask-inner {
 	border-radius: 10px 10px 10px 10px;	
 }
+
+.x-carousel-indicator span {
+	background-color: $thm-grey;
+}
+
+.x-carousel-indicator span.x-carousel-indicator-active {
+	background-color: $thm-green;
+}
