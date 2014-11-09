@@ -23,10 +23,11 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	config: {
 		name: "",
 		description: "",
-		highlightColor: '#FFA500', // Color of the highlighted fields.
+		highlightColor: '#f2a900', // Color of the highlighted fields.
 		numberOfDots: 1,
 		gridType: 'moderation',
 		gridIsHidden: true,
+		strokeColor: '#ffffff',
 	},
 	
 	/**
@@ -49,6 +50,18 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	},
 	
 	/**
+	 * Marks all chosen fields.
+	 */
+	markChosenFields: function () {
+		var thiz = this;
+		this.getChosenFields().forEach(
+				function (entry) {
+					thiz.markField(entry[0],
+					entry[1], thiz.getHighlightColor(), 1.0);
+				});
+	},
+	
+	/**
 	 * Marks the field by the position parameters.
 	 */
 	markField: function (x, y, color, alpha) {
@@ -64,12 +77,15 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		centerX = koord[0] + width / 2;
 		centerY = koord[1] + width / 2;
 		radius = width / 2.75;
-		// TODO attribute padding in config mit verrechnen
 		
 		ctx.beginPath();
 		ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
 		ctx.closePath();
 		ctx.fill();
+
+		ctx.lineWidth = 1;
+		ctx.strokeStyle = this.getStrokeColor();
+		ctx.stroke();
 	},
 	
 	/**

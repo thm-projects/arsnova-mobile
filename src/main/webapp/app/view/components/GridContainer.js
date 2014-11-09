@@ -195,12 +195,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Marks all chosen fields.
 	 */
 	markChosenFields: function () {
-		var thiz = this;
-		this.getChosenFields().forEach(
-				function (entry) {
-					thiz.markField(entry[0],
-					entry[1], thiz.getHighlightColor(), 0.5);
-				});
+		// TODO mark as abstract method
 	},
 
 	/**
