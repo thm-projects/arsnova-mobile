@@ -295,10 +295,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							break;
 						case Messages.FLASHCARD_SHORT:
 							if (pressed) {
+								me.textarea.setPlaceHolder(Messages.FLASHCARD_FRONT_PAGE);
 								me.flashcardQuestion.show();
 								me.abstentionPart.hide();
 								title = Messages.FLASHCARD;
 							} else {
+								me.textarea.setPlaceHolder(Messages.QUESTIONTEXT_PLACEHOLDER);
 								me.flashcardQuestion.hide();
 								me.abstentionPart.show();
 							}

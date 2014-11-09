@@ -18,31 +18,35 @@
  */
 Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 	extend: 'Ext.Container',
+	
+	config: {
+		cls: 'newQuestion'
+	},
 
 	constructor: function () {
 		this.callParent(arguments);
 
 		this.answer = Ext.create('Ext.plugins.ResizableTextArea', {
-			placeHolder: Messages.ANSWER
+			placeHolder: Messages.FLASHCARD_BACK_PAGE
 		});
 
 		var previewButton = Ext.create('Ext.Button', {
 			text: Messages.ANSWER_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
-			style: 'width:200px; margin-top: 12px;',
+			style: 'width:200px;',
 			handler: function () {
-					this.previewHandler();
-				},
+				this.previewHandler();
+			},
 			scope: this
 		});
 
 		this.add([{
 			xtype: 'fieldset',
-			title: Messages.ANSWER,
-			items: [
-				this.answer,
-				previewButton
-			]
+			title: ' ',
+			items: [this.answer]
+		}, {
+			xtype: 'fieldset',
+			items: [previewButton]
 		}]);
 	},
 
