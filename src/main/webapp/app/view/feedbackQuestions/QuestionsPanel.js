@@ -261,7 +261,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					fQP.tab.setBadgeText(unread);
 					if (ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel) {
 						ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge([{
-							badgeText: questions.length, badgeCls: "bluebadgeicon"
+							badgeText: questions.length, badgeCls: "feedbackQuestionsBadgeIcon"
 						}]);
 					}
 
@@ -288,7 +288,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				feedbackQuestionsPanel.tab.setBadgeText(questionCount.unread);
 				if (ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel) {
 					ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge([{
-						badgeText: questionCount.total, badgeCls: "bluebadgeicon"
+						badgeText: questionCount.total, badgeCls: "feedbackQuestionsBadgeIcon"
 					}]);
 				}
 

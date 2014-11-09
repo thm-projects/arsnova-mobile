@@ -40,8 +40,9 @@
 }
 
 .caption {
-	.bluebadgeicon, .redbadgeicon, .badgeicon,
-	.greybadgeicon,  .greenbadgeicon, .yellowbadgeicon,
+	.questionsBadgeIcon, .feedbackQuestionsBadgeIcon,
+	.answersBadgeIcon, .bluebadgeicon, .redbadgeicon, 
+	.badgeicon, .greybadgeicon,  .greenbadgeicon, .yellowbadgeicon,
 	.bluebadgeiconfixed, .textbadgeicon {
 		font-size: 0.6em;
 	}
@@ -71,7 +72,7 @@
 	}
 }
 
-.badgeicon, .greybadgeicon, .bluebadgeicon, .redbadgeicon, .greenbadgeicon, .yellowbadgeicon, .textbadgeicon {
+.badgeicon, .questionsBadgeIcon, .feedbackQuestionsBadgeIcon, .answersBadgeIcon, .greybadgeicon, .bluebadgeicon, .redbadgeicon, .greenbadgeicon, .yellowbadgeicon, .textbadgeicon {
 	font-weight: bold;
 	background: $thm-grey;
 	color: white;
@@ -80,6 +81,18 @@
 	padding: 3px 9px 3px 9px;
 	border: 2px solid transparent;
 	margin-right: 12px;
+}
+
+.questionsBadgeIcon {
+	background: $thm-grey;
+}
+
+.feedbackQuestionsBadgeIcon {
+	background: $thm-green;
+}
+
+.answersBadgeIcon {
+	background: $thm-orange;
 }
 
 .redbadgeicon {

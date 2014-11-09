@@ -176,9 +176,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						}
 					});
 					sessionButton.setBadge([
-						{badgeText: session.numInterposed, badgeCls: "bluebadgeicon"},
-						{badgeText: session.numQuestions, badgeCls: "greybadgeicon"},
-						{badgeText: session.numAnswers, badgeCls: "redbadgeicon"}
+						{badgeText: session.numInterposed, badgeCls: "feedbackQuestionsBadgeIcon"},
+						{badgeText: session.numQuestions, badgeCls: "questionsBadgeIcon"},
+						{badgeText: session.numAnswers, badgeCls: "answersBadgeIcon"}
 					]);
 					panel.sessionsForm.addEntry(sessionButton);
 				}
@@ -252,7 +252,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 								hideLoadMask();
 							}
 						});
-						sessionButton.setBadge([{badgeText: session.numUnanswered, badgeCls: "greybadgeicon"}]);
+						sessionButton.setBadge([{badgeText: session.numUnanswered, badgeCls: "questionsBadgeIcon"}]);
 						panel.lastVisitedSessionsForm.addEntry(sessionButton);
 
 						if (!session.active) {

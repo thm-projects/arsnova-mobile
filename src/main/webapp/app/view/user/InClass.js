@@ -305,12 +305,12 @@ Ext.define('ARSnova.view.user.InClass', {
 
 	countQuestionsAndAnswers: function (data) {
 		this.lectureQuestionButton.setBadge([
-			{badgeText: data.unansweredLectureQuestions, badgeCls: "greybadgeicon"},
-			{badgeText: data.lectureQuestionAnswers, badgeCls: "redbadgeicon"}
+			{badgeText: data.unansweredLectureQuestions, badgeCls: "questionsBadgeIcon"},
+			{badgeText: data.lectureQuestionAnswers, badgeCls: "answersBadgeIcon"}
 		]);
 		this.preparationQuestionButton.setBadge([
-			{badgeText: data.unansweredPreparationQuestions, badgeCls: "greybadgeicon"},
-			{badgeText: data.preparationQuestionAnswers, badgeCls: "redbadgeicon"}
+			{badgeText: data.unansweredPreparationQuestions, badgeCls: "questionsBadgeIcon"},
+			{badgeText: data.preparationQuestionAnswers, badgeCls: "answersBadgeIcon"}
 		]);
 	},
 

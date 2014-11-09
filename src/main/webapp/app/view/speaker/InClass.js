@@ -183,7 +183,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		this.createAdHocQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.AH_HOC_QUESTION,
 			buttonConfig: 'icon',
-			imageCls: 'icon-question thm-darkblue',
+			imageCls: 'icon-question thm-green',
 			imageStyle: {
 				'font-size': '70px',
 				'margin-top': '4px'
@@ -336,8 +336,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 
 						panel.lectureQuestionButton.setBadge([
-											{badgeText: numQuestions, badgeCls: "greybadgeicon"},
-											{badgeText: numAnswers, badgeCls: "redbadgeicon"}
+											{badgeText: numQuestions, badgeCls: "questionsBadgeIcon"},
+											{badgeText: numAnswers, badgeCls: "answersBadgeIcon"}
 										]);
 					},
 					failure: failureCallback
@@ -355,8 +355,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 
 						panel.preparationQuestionButton.setBadge([
-											{badgeText: numQuestions, badgeCls: "greybadgeicon"},
-											{badgeText: numAnswers, badgeCls: "redbadgeicon"}
+											{badgeText: numQuestions, badgeCls: "questionsBadgeIcon"},
+											{badgeText: numAnswers, badgeCls: "answersBadgeIcon"}
 										]);
 					},
 					failure: failureCallback
@@ -368,7 +368,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			success: function (response) {
 				var numQuestions = parseInt(response.responseText);
 				var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
-				panel.flashcardsButton.setBadge([{badgeText: numQuestions, badgeCls: "greybadgeicon"}]);
+				panel.flashcardsButton.setBadge([{badgeText: numQuestions, badgeCls: "questionsBadgeIcon"}]);
 			},
 			failure: failureCallback
 		});
@@ -381,7 +381,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadgeText(questionCount.unread);
 
 				var feedbackQButton = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton;
-				feedbackQButton.setBadge([{badgeText: questionCount.total, badgeCls: "bluebadgeicon"}]);
+				feedbackQButton.setBadge([{badgeText: questionCount.total, badgeCls: "feedbackQuestionsBadgeIcon"}]);
 			},
 			failure: function () {
 				console.log('server-side error');
