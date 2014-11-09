@@ -746,7 +746,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 
 		this.answerFormFieldset = Ext.create('Ext.form.FieldSet', {
-			cls: 'standardFieldset',
+			cls: 'standardFieldset centerFormTitle',
 			title: this.questionObj.questionType !== "flashcard" ? Messages.ANSWERS: Messages.ANSWER
 		});
 
