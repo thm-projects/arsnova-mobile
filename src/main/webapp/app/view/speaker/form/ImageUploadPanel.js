@@ -26,6 +26,8 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		xtype: 'upField',
 		layout: 'vbox',
 		
+		cls: 'centerFormTitle',
+		
 		handlerScope: null,
 		urlUploadHandler: Ext.emptyFn,
 		fsUploadHandler: Ext.emptyFn,
@@ -36,6 +38,10 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
+		
+		if(this.config.toggleUrl) {
+			this.addCls('hiddenUrl');
+		}
 		
 		var screenWidth = (window.innerWidth > 0) ?
 				window.innerWidth :	screen.width;
@@ -84,6 +90,9 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		this.segmentButton = Ext.create('Ext.SegmentedButton', {
 			allowDepress: false,
 			cls: 'abcOptions',
+			style: {
+				'margin-bottom': '30px'
+			},
 			defaults: {
 				ui: 'action'
 			},
@@ -91,16 +100,8 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				text: showShortLabels ?
 				Messages.SELECT_PICTURE_URL_SHORT :
 				Messages.SELECT_PICTURE_URL,
-				scope: this,
-				handler: Ext.bind(function () {
-					this.uploadTextfield.setHidden(this.toggleUrl);
-					this.sendButton.setHidden(this.toggleUrl);
-						
-					if(this.toggleUrl)
-						this.toggleUrl = false;
-					else
-						this.toggleUrl = true;				
-				}, this)
+				handler: this.toggleUploadTextfieldVisibility,
+				scope: this
 			}, {
 				text: Messages.TEMPLATE,
 				scope: this,
@@ -142,8 +143,20 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				this.uploadTextfield,
 				this.sendButton
 			]
-		}, this.segmentButton
-		]);
+		}, this.segmentButton]);
+	},
+	
+	toggleUploadTextfieldVisibility: function() {
+		this.uploadTextfield.setHidden(this.toggleUrl);
+		this.sendButton.setHidden(this.toggleUrl);
+			
+		if(this.toggleUrl) {
+			this.toggleUrl = false;
+			this.addCls('hiddenUrl');
+		} else {
+			this.toggleUrl = true;	
+			this.removeCls('hiddenUrl');
+		}
 	},
 
 	setUrl: function (url) {

@@ -19,6 +19,15 @@
 	opacity: 0;
 }
 
+.centerFormTitle .x-form-fieldset-title {
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.centerFormTitle.hiddenUrl .x-form-fieldset-title {
+	margin-bottom: -9px;
+}
+
 .x-tabbar .x-tab .infoButtonBeforeLogin:before {
 	color: #80ba24;
 }
@@ -1086,11 +1095,6 @@ ol.standardList li {
 .newQuestionOptions .x-button {
 	/*width: 33%;*/
 	width: 50%;
-}
-
-.newQuestionOptions .x-form-fieldset-title {
-	width: 98%;
-	margin: 0 auto;
 }
 
 .login-label-openid {

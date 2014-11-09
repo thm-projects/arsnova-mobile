@@ -23,7 +23,7 @@ Ext.define('ARSnova.view.speaker.form.AbstentionForm', {
 		abstention: true,
 
 		scrollable: null,
-		cls: 'newQuestionOptions'
+		cls: 'newQuestionOptions centerFormTitle'
 	},
 
 	constructor: function () {

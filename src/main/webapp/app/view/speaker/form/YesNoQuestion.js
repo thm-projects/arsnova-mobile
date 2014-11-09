@@ -24,6 +24,9 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 		textNo: Messages.NO,
 		textNone: Messages.NONE,
 
+		cls: 'newQuestionOptions centerFormTitle',
+		scrollable: null,
+		
 		/**
 		 * Which button should be pressed initially? 'yes', 'no', or 'none'
 		 */
