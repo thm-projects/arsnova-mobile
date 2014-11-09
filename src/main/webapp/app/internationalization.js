@@ -376,7 +376,7 @@ switch (lang) {
 			TEACHERS_USE_CASES: "Teacher's Use Cases",
 
 			/* diagnosis */
-			DIAGNOSIS: "Diagnosis",
+			DIAGNOSIS: "System",
 			BROWSER_INFO: "Browser information",
 			ARSNOVA_RELOAD: "Reload ARSnova",
 
@@ -741,7 +741,7 @@ switch (lang) {
 			TEACHERS_USE_CASES: "Für Dozenten",
 
 			/* diagnosis */
-			DIAGNOSIS: "Diagnose",
+			DIAGNOSIS: "System",
 			BROWSER_INFO: "Browser-Informationen",
 			ARSNOVA_RELOAD: "ARSnova neu laden",
 

@@ -83,8 +83,10 @@ Ext.define('ARSnova.view.RolePanel', {
 			]
 		}, {
 			xtype: 'panel',
-			style: {marginTop: (Ext.os.is.Phone && Ext.os.is.iOS) ? '10px': '30px'},
-			html: "<div class='gravure'><a href='http://www.thm.de/' class='thmlink' target='_blank'>A <span style='color:#699824; font-weight:bold;'>THM</span> Product</a></div>",
+			style: {
+				marginTop: (Ext.os.is.Phone && Ext.os.is.iOS) ? '50px': '80px'
+			},
+			html: "<div class='gravure'><a href='http://www.thm.de/' class='thmlink' target='_blank'>A <span style='color:#699824;'>THM</span> Product</a></div>",
 			cls: null
 		}]);
 		
