@@ -28,7 +28,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 
 		var previewButton = Ext.create('Ext.Button', {
 			text: Messages.ANSWER_PREVIEW_BUTTON_TITLE,
-			ui: 'confirm',
+			ui: 'action',
 			style: 'width:200px; margin-top: 12px;',
 			handler: function () {
 					this.previewHandler();
