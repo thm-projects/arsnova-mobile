@@ -85,6 +85,10 @@ $toolbar-back-button-txt-color: $thm-grey;
 	&.checkItem {
 		border-right: none;
 	}
+	
+	& span {
+		font-weight: normal;	
+	}
 }
 
 .x-form-fieldset .x-field {
@@ -155,15 +159,15 @@ $toolbar-back-button-txt-color: $thm-grey;
 			$button-decline-txt-color !important
 		);
 	}
+	
+	.x-button-label {
+		@include label-config;
+	}
 }
 
 .x-segmentedbutton .x-button.x-button-action {
 	border: none !important;
 	border-right: thin solid $background-color !important;
-}
-
-.test {
-	border: none;
 }
 
 .x-tabbar-dark,

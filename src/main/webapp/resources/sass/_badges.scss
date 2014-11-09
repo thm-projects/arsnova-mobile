@@ -33,7 +33,7 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	text-align: center;
-	font-weight: bold;
+	font-weight: normal;
 	line-height: 1.2em;
 	display: block;
 	overflow: hidden;
@@ -73,7 +73,7 @@
 }
 
 .badgeicon, .questionsBadgeIcon, .feedbackQuestionsBadgeIcon, .answersBadgeIcon, .greybadgeicon, .bluebadgeicon, .redbadgeicon, .greenbadgeicon, .yellowbadgeicon, .textbadgeicon {
-	font-weight: bold;
+	font-weight: normal;
 	background: $thm-grey;
 	color: white;
 	-webkit-border-radius: 20px;
