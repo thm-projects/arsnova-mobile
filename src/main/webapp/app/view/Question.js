@@ -330,6 +330,7 @@ Ext.define('ARSnova.view.Question', {
 			},
 			items: [this.mcSaveButton, !!!this.questionObj.abstention ? {hidden: true}: {
 				flex: 1,
+				ui: 'action',
 				xtype: 'button',
 				cls: 'login-button noMargin',
 				text: Messages.ABSTENTION,
@@ -422,6 +423,7 @@ Ext.define('ARSnova.view.Question', {
 				},
 				items: [this.gridButton, !!!this.questionObj.abstention ? {hidden: true}: {
 					flex: 1,
+					ui: 'action',
 					xtype: 'button',
 					cls: 'login-button noMargin',
 					text: Messages.ABSTENTION,
