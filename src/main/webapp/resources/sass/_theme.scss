@@ -163,6 +163,10 @@ $toolbar-back-button-txt-color: $thm-grey;
 	.x-button-label {
 		@include label-config;
 	}
+	
+	&.isInactive .x-button-label {
+		color: $thm-red !important;
+	}
 }
 
 .x-segmentedbutton .x-button.x-button-action {
@@ -270,4 +274,8 @@ $toolbar-back-button-txt-color: $thm-grey;
 
 .x-carousel-indicator span.x-carousel-indicator-active {
 	background-color: $thm-green;
+}
+
+.isInactive {
+	color: $thm-red;
 }
