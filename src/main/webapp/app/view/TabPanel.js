@@ -70,7 +70,7 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.homeTabPanel = Ext.create('ARSnova.view.home.TabPanel');
 		this.diagnosisPanel = Ext.create('ARSnova.view.diagnosis.TabPanel');
 		this.infoTabPanel = Ext.create('ARSnova.view.about.TabPanel');
-
+		
 		this.add([
 			this.rolePanel,
 			this.loginPanel,
@@ -137,6 +137,20 @@ Ext.define('ARSnova.view.TabPanel', {
 			}
 			ARSnova.app.taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
 		}
+	},
+	
+	addClassToTab: function(addCls, panel) {
+		var tabbar = this.getTabBar().element,
+			selectCls = '.' + panel.getIconCls();
+
+		tabbar.select(selectCls).addCls(addCls);
+	},
+	
+	removeClassFromTab: function(removeCls, panel) {
+		var tabbar = this.getTabBar().element,
+			selectCls = '.' + panel.getIconCls();
+			
+		tabbar.select(selectCls).removeCls(removeCls);
 	},
 
 	updateFeedbackIcon: function (averageFeedback) {

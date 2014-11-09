@@ -222,15 +222,16 @@ Ext.application({
 	 * start some tasks and show the correct homepage to user
 	 */
 	afterLogin: function () {
+		var mainTabPanel = ARSnova.app.mainTabPanel.tabPanel;
+		
 		console.debug("Application: afterLogin");
-
 		this.socket.connect();
 
 		/* show diagnosis tab panel */
-		ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.tab.show();
+		mainTabPanel.diagnosisPanel.tab.show();
 
-		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.homeTabPanel, 'slide');
-		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+		mainTabPanel.animateActiveItem(mainTabPanel.homeTabPanel, 'slide');
+		var hTP = mainTabPanel.homeTabPanel;
 		switch (ARSnova.app.userRole) {
 			case ARSnova.app.USER_ROLE_STUDENT:
 				hTP.homePanel.checkLogin();

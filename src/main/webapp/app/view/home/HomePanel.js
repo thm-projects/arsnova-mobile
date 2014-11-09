@@ -139,6 +139,9 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		]);
 
 		this.on('painted', function () {
+			var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+			
+			tabPanel.removeClassFromTab('infoButtonBeforeLogin', tabPanel.infoTabPanel);
 			this.loadVisitedSessions();
 		});
 	},

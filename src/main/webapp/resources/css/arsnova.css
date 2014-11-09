@@ -19,6 +19,10 @@
 	opacity: 0;
 }
 
+.x-tabbar .x-tab .infoButtonBeforeLogin:before {
+	color: #80ba24;
+}
+
 .myCoursesList .x-innerhtml{
 	padding: 0 !important;	
 }
