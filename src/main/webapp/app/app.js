@@ -48,24 +48,17 @@ Ext.application({
 
 	requires: ['ARSnova.WebSocket', 'ARSnova.BrowserSupport', 'ARSnova.view.CustomMessageBox'],
 
-	startupImage: {
-		'320x460': 'resources/images/ARSnova_Grafiken/03_Launchimage_320x460px.png', // iPhone (3.5" non-retina)
-		'640x920': 'resources/images/ARSnova_Grafiken/03_Launchimage_640x920px.png', // iPhone (3.5" retina)
-		'640x1096': 'resources/images/ARSnova_Grafiken/03_Launchimage_640x1096px.png', // iPhone (4" retina)
-		'768x1004': 'resources/images/ARSnova_Grafiken/03_Launchimage_768x1004px.png', // iPad (portrait)
-		'748x1024': 'resources/images/ARSnova_Grafiken/03_Launchimage_748x1024px.png' // iPad (landscape)
-	},
-
 	viewport: {
 		autoMaximize: Ext.os.is.iOS && !Ext.browser.is.webview && Ext.browser.version.isGreaterThan(3)
 	},
 
 	icon: {
-		57: 'resources/images/ARSnova_Grafiken/01_AppIcon_57x57px.png',
-		72: 'resources/images/ARSnova_Grafiken/01_AppIcon_72x72px.png',
-		114: 'resources/images/ARSnova_Grafiken/01_AppIcon_114x114px.png'
+		57: 'resources/icons/appicon_57x57px.png',
+		72: 'resources/icons/appicon_72x72px.png',
+		114: 'resources/icons/appicon_114x114px.png'
 	},
 
+	
 	name: "ARSnova",
 	absoluteUrl: 'https://arsnova.eu/mobile/',
 
