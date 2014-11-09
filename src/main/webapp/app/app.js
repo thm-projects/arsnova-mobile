@@ -57,7 +57,6 @@ Ext.application({
 		72: 'resources/icons/appicon_72x72px.png',
 		114: 'resources/icons/appicon_114x114px.png'
 	},
-
 	
 	name: "ARSnova",
 	absoluteUrl: 'https://arsnova.eu/mobile/',
