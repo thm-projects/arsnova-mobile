@@ -101,7 +101,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		// Preview button
 		this.previewButton = Ext.create('Ext.Button', {
 			text: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
-			ui: 'confirm',
+			ui: 'action',
 			cls: 'previewButton',
 			scope: this,
 			handler: function () {

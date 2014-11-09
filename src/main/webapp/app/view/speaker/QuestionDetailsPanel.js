@@ -623,12 +623,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		// Preview button
 		this.previewButton = Ext.create('Ext.Button', {
 			text: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
-			ui: 'confirm',
+			ui: 'action',
 			style: 'width:200px;',
 			scope: this,
 			handler: function () {
-					this.previewHandler();
-				}
+				this.previewHandler();
+			}
 		});
 
 		// Preview panel with integrated button
