@@ -381,7 +381,11 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadgeText(questionCount.unread);
 
 				var feedbackQButton = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton;
-				feedbackQButton.setBadge([{badgeText: questionCount.total, badgeCls: "feedbackQuestionsBadgeIcon"}]);
+				feedbackQButton.setBadge([{
+					badgeText: questionCount.total, badgeCls: "feedbackQuestionsBadgeIcon"
+				}, {
+					badgeText: questionCount.unread, badgeCls: "answersBadgeIcon"
+				}]);
 			},
 			failure: function () {
 				console.log('server-side error');
