@@ -35,6 +35,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	/* item index 0 and 1 are occupied by the carousel and toolbar. */
 	carouselOffset: 2,
 
+	questions: [],
+
 	initialize: function () {
 		this.callParent(arguments);
 
@@ -65,7 +67,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	},
 
 	beforeActivate: function () {
-		this.removeAll(false);
+		this.removeAll();
 		this._indicator.show();
 	},
 
@@ -181,6 +183,11 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	},
 
 	addQuestion: function (question) {
+		// do not add the same question multiple times
+		if (this.questions.indexOf(question._id) !== -1) {
+			return;
+		}
+		this.questions.push(question._id);
 		/**
 		 * add question to questionPanel
 		 */
@@ -333,5 +340,11 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	renew: function () {
 		this.removeAll();
 		this.getUnansweredSkillQuestions();
+	},
+
+	removeAll: function() {
+		var result = this.callParent(arguments);
+		this.questions = [];
+		return result;
 	}
 });
