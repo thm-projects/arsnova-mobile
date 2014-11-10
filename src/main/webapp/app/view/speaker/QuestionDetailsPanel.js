@@ -848,7 +848,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			'</tpl>',
 			'<tpl if="this.isFlashcard() === false">',
 			'</div><div class="x-button x-hasbadge questionDetailsListBadge">' +
-			'<span class="greybadgeicon badgefixed">{answerCount}</span>',
+			'<span class="answersBadgeIcon badgefixed">{answerCount}</span>',
 			'</tpl>',
 			{
 				isFlashcard: function () {
@@ -986,7 +986,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							cls: 'answerListButton',
 							text: Messages.ABSTENTION
 						});
-						abstentionButton.setBadge([{badgeText: abstentions.length + '', badgeCls: "greybadgeicon"}]);
+						abstentionButton.setBadge([{badgeText: abstentions.length + '', badgeCls: "answersBadgeIcon"}]);
 						var answerCountButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 							cls: 'forwardListButton',
 							text: Messages.ANSWERS,
@@ -998,7 +998,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								ARSnova.app.mainTabPanel.animateActiveItem(p, 'slide');
 							}
 						});
-						answerCountButton.setBadge([{badgeText: answers.length + '', badgeCls: "greybadgeicon"}]);
+						answerCountButton.setBadge([{badgeText: answers.length + '', badgeCls: "answersBadgeIcon"}]);
 						self.answerFormFieldset.add([answerCountButton]);
 						if (self.questionObj.abstention) {
 							self.answerFormFieldset.add([abstentionButton]);
