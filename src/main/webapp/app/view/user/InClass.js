@@ -331,6 +331,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	countFeedbackQuestions: function () {
+		var me = this;
 		ARSnova.app.questionModel.countFeedbackQuestions(localStorage.getItem("keyword"), {
 			success: function (response) {
 				var questionCount = Ext.decode(response.responseText);
@@ -342,6 +343,21 @@ Ext.define('ARSnova.view.user.InClass', {
 					badgeText: questionCount.unread,
 					badgeCls: "redbadgeicon"
 				}]);
+
+				if (questionCount.total === 0) {
+					myQuestionsButton.setHandler(Ext.bind(function () {
+						ARSnova.app.getController('Feedback').showAskPanel({
+							type: 'slide'
+						}, function closePanelHandler() {
+							ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
+								type: 'slide',
+								duration: 700
+							});
+						});
+					}, me));
+				} else {
+					myQuestionsButton.setHandler(me.buttonClicked);
+				}
 			},
 			failure: function () {
 				console.log('server-side error');
