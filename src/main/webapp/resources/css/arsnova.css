@@ -19,6 +19,10 @@
 	opacity: 0;
 }
 
+.statisticButton.x-item-disabled .x-button-label {
+	opacity: 1;
+}
+
 .centerFormTitle .x-form-fieldset-title {
 	text-align: center;
 	margin-bottom: 10px;
