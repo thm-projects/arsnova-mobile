@@ -68,7 +68,6 @@ Ext.application({
 	NATIVE: 'native',
 	APP_URL: window.location.origin + window.location.pathname,
 	WEBSERVICE_URL: "app/webservices/",
-	PRESENTER_URL: "/presenter/",
 
 	LOGIN_GUEST: "guest",
 	LOGIN_ARSNOVA: "arsnova",
