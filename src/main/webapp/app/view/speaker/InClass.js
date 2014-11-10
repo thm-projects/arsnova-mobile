@@ -384,7 +384,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				feedbackQButton.setBadge([{
 					badgeText: questionCount.total, badgeCls: "feedbackQuestionsBadgeIcon"
 				}, {
-					badgeText: questionCount.unread, badgeCls: "answersBadgeIcon"
+					badgeText: questionCount.unread, badgeCls: "redbadgeicon"
 				}]);
 			},
 			failure: function () {
