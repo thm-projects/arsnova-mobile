@@ -123,7 +123,7 @@ switch (lang) {
 			QUESTION_REQUEST: "I've got a question!",
 			QUESTION_TO_SPEAKER: 'Feedback',
 			QUESTION_INSTRUCTION: 'You are asking this question anonymously.',
-			QUESTION_TEXT: "Text",
+			QUESTION_TEXT: "Question",
 			QUESTION_TEXT_PLACEHOLDER: 'max. 2500 characters',
 			QUESTION_SUBJECT: "Subject",
 			QUESTION_SUBJECT_PLACEHOLDER: "max. 140 characters",
