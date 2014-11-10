@@ -291,11 +291,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 						badgeText: questionCount.total, badgeCls: "feedbackQuestionsBadgeIcon"
 					}]);
 				}
-
-				if (panel.questionsCounter != questionCount.total) {
-					panel.questionsCounter = questionCount.total;
-					panel.getFeedbackQuestions();
-				}
+				panel.getFeedbackQuestions();
 			},
 			failure: function () {
 				console.log('server-side error');
