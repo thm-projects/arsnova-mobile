@@ -48,6 +48,18 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 	},
 	
 	/**
+	 * Marks all chosen fields.
+	 */
+	markChosenFields: function () {
+		var thiz = this;
+		this.getChosenFields().forEach(
+				function (entry) {
+					thiz.markField(entry[0],
+					entry[1], thiz.getHighlightColor(), 0.5);
+				});
+	},
+	
+	/**
 	 * Marks the field by the position parameters.
 	 */
 	markField: function (x, y, color, alpha) {

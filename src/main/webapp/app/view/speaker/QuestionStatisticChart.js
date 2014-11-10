@@ -134,9 +134,25 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			this.setLayout('');
 			this.setScrollable(true);
 
-			this.contentField = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
-			this.contentField.setContent(
-					Ext.util.Format.htmlEncode(this.questionObj.text), true, true);
+			// Setup question title and text to disply in the same field; markdown handles HTML encoding
+			var questionString = this.questionObj.subject
+				+ '\n\n' // inserts one blank line between subject and text
+				+ this.questionObj.text;
+
+			// Create standard panel with framework support
+			this.contentField = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+				cls: "roundedBox allCapsHeader"
+			});
+			this.contentField.setContent(questionString, true, true);
+			
+//			// Setup question title and text to disply in the same field; markdown handles HTML encoding
+//			var questionString = this.questionObj.subject
+//				+ '\n\n' // inserts one blank line between subject and text
+//				+ this.questionObj.text;
+//			
+//			this.contentField = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+//			this.contentField.setContent(
+//					Ext.util.Format.htmlEncode(this.questionObj.text), true, true);
 
 		}
 
