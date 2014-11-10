@@ -371,7 +371,7 @@ Ext.define('ARSnova.view.Question', {
 			this.answerList.setHidden(true);
 		} else if (this.questionObj.questionType === "grid") {
 			if (this.questionObj.gridType === 'moderation') {
-			
+
 				this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
 					id: 'gridImageContainer' + this.questionObj._id,
 					handlerScope: self,
@@ -396,7 +396,7 @@ Ext.define('ARSnova.view.Question', {
 			 * update function for align the grids picture
 			 */
 			this.grid.update(this.questionObj, false);
-			
+
 			/*
 			 *   gridbutton and container for the grid button to add into the layout if necessary
 			 */
@@ -432,9 +432,9 @@ Ext.define('ARSnova.view.Question', {
 				}]
 			};
 			this.add([this.grid]);
-			
+
 			if (this.questionObj.gridType === 'moderation') {
-				
+
 				var panel = new Ext.Panel({
 				    layout: {
 		                type: 'vbox',
@@ -448,10 +448,10 @@ Ext.define('ARSnova.view.Question', {
 						html: Messages.GRID_LABEL_REMAINING_DOTS + this.grid.getNumberOfDots(),
 			        }]
 				});
-				
+
 				this.add(panel);
 			}
-			
+
 			if (!this.viewOnly) {
 				this.add([this.gridImageContainer]);
 			}
