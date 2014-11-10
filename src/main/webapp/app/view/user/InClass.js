@@ -375,7 +375,7 @@ Ext.define('ARSnova.view.user.InClass', {
 					if (percentage >= goodProgressThreshold) {
 						return {badgeText: percentage+"%", badgeCls: "greenbadgeicon"};
 					} else if (percentage >= avgProgressThreshold) {
-						return {badgeText: percentage+"%", badgeCls: "yellowbadgeicon"};
+						return {badgeText: percentage+"%", badgeCls: "orangebadgeicon"};
 					} else {
 						return {badgeText: percentage+"%", badgeCls: "redbadgeicon"};
 					}
