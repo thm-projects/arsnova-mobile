@@ -30,7 +30,7 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 			id: 'questionTitle',
 			flex: 1
 		});
-		titlePanel.setContent(title, false, true);
+		titlePanel.setContent(title.replace(/\./, "\\."), false, true);
 
 		// panel for question content
 		var contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {

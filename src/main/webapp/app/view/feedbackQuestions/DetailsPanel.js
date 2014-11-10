@@ -63,7 +63,7 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 		});
 
 		// Setup question title and text to display in the same field; markdown handles HTML encoding
-		var questionString = this.questionObj.fullDate + ": " + this.questionObj.subject
+		var questionString = this.questionObj.fullDate.replace(/\./, "\\.") + ": " + this.questionObj.subject
 			+ '\n\n' // inserts one blank line between subject and text
 			+ this.questionObj.text;
 

@@ -72,7 +72,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		});
 
 		// Setup question title and text to disply in the same field; markdown handles HTML encoding
-		var questionString = this.questionObj.subject
+		var questionString = this.questionObj.subject.replace(/\./, "\\.")
 			+ '\n\n' // inserts one blank line between subject and text
 			+ this.questionObj.text;
 
