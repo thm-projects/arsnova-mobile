@@ -123,11 +123,13 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			}, {
 				xtype: 'button',
 				html: '&#10003;',
+				width: '35px',
+				cls: 'toggleCorrectButton',
 				handler: function(button) {
 					if (this.toggleCorrect) {
-						button.setHtml('&#10003;'); // 'check mark'
+						button.removeCls('x-button-pressed');
 					} else {
-						button.setHtml('&#10007;'); // 'ballot x'
+						button.addCls('x-button-pressed');
 					}
 					this.toggleCorrect = !this.toggleCorrect;
 					// updates the chart's colors

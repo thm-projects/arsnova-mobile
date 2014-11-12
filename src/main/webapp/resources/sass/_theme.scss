@@ -29,6 +29,8 @@ $toolbar-button-bg-color: $thm-green;
 $toolbar-button-txt-color: #fff;
 $toolbar-back-button-bg-color: #fff;
 $toolbar-back-button-txt-color: $thm-grey;
+$toolbar-toogleCorrect-button-active-color: $thm-green;
+$toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 
 @mixin toolbar-title-config {
 	@include label-config;
@@ -191,6 +193,21 @@ $toolbar-back-button-txt-color: $thm-grey;
 			$toolbar-button-bg-color, 
 			$toolbar-button-txt-color
 		);
+		
+		&.toggleCorrectButton {
+			@include toolbar-button-config(
+				$toolbar-toogleCorrect-button-active-color,
+				$toolbar-button-txt-color
+			);
+			
+			&.x-button-pressed,
+			&.x-button-pressing {
+				@include toolbar-button-config(
+					$toolbar-toogleCorrect-button-inactive-color,
+					$toolbar-button-txt-color
+				);
+			}
+		}
 	}
 	
 	.x-button-back,
