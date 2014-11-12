@@ -96,6 +96,36 @@ Ext.define("ARSnova.controller.Auth", {
 		localStorage.setItem('role', options.mode);
 
 		ARSnova.app.setWindowTitle();
+
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) {
+			this.services.then(Ext.bind(function (services) {
+				var credibleLogins = services.filter(function (service) {
+					return ['ldap', 'cas'].indexOf(service.id) !== -1;
+				});
+				var guestLogin = services.filter(function (service) {
+					return service.id === 'guest';
+				});
+				var guest;
+
+				if (credibleLogins.length > 0) {
+					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(
+						ARSnova.app.mainTabPanel.tabPanel.loginPanel, 'slide'
+					);
+				} else if (guestLogin.length > 0) {
+					this.login({ service: guestLogin[0] });
+				} else {
+					// this case should never happen ... but just in case:
+					// display login panel if no suitable logins are found
+					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(
+						ARSnova.app.mainTabPanel.tabPanel.loginPanel, 'slide'
+					);
+				}
+			}, this));
+		} else {
+			ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(
+				ARSnova.app.mainTabPanel.tabPanel.loginPanel, 'slide'
+			);
+		}
 	},
 
 	login: function (options) {
