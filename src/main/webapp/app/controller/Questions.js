@@ -185,7 +185,7 @@ Ext.define("ARSnova.controller.Questions", {
 						error = true;
 					}
 				} else error = true;
-				
+
 				break;
 		}
 		if (error) {
@@ -236,23 +236,11 @@ Ext.define("ARSnova.controller.Questions", {
 	},
 
 	detailsFeedbackQuestion: function (options) {
-		var questionModel = Ext.create('ARSnova.model.Question', options.question.data);
-		questionModel.getInterposed({
-			success: function (response) {
-				var question = Ext.create('ARSnova.model.Question', Ext.decode(response.responseText));
-				question.set('formattedTime', options.formattedTime);
-				question.set('fullDate', options.fullDate);
-
-				var newPanel = Ext.create('ARSnova.view.feedbackQuestions.DetailsPanel', {
-					question: question.data
-				});
-				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.animateActiveItem(newPanel, 'slide');
-			},
-			failure: function (records, operation) {
-				console.log(operation);
-				Ext.Msg.alert(Messages.NOTIFICATION, Messages.CONNECTION_PROBLEM);
-			}
+		options.question.read();
+		var newPanel = Ext.create('ARSnova.view.feedbackQuestions.DetailsPanel', {
+			question: options.question
 		});
+		ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.animateActiveItem(newPanel, 'slide');
 	},
 
 	setActive: function (options) {
