@@ -111,7 +111,7 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 	},
 
 	checkStatistics: function (question, isDisabled) {
-		if (typeof question !== 'undefined' && !!question.showStatistic && isDisabled) {
+		if (typeof question !== 'undefined' && !!question.showStatistic && isDisabled && question.questionType !== 'flashcard') {
 			this.statisticsButton.show();
 		} else {
 			this.statisticsButton.hide();

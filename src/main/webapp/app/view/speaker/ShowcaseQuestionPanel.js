@@ -41,6 +41,11 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
 			this.toolbar.setTitleOptions(this.getQuestionTitleLong(), this.getQuestionTitleShort());
 			this.toolbar.incrementQuestionCounter(panel.activeIndex);
+			if (newCard.questionObj.questionType !== 'flashcard') {
+				this.toolbar.statisticsButton.show();
+			} else {
+				this.toolbar.statisticsButton.hide();
+			}
 
 			newCard.fireEvent('preparestatisticsbutton', this.toolbar.statisticsButton);
 		}, this);
