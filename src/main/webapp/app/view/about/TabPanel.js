@@ -33,7 +33,7 @@ Ext.define('ARSnova.view.about.TabPanel', {
 
 		this.on("activate", function () {
 			var url = ARSnova.app.globalConfig.documentationUrl || "https://arsnova.eu/manual/index.php/" + encodeURIComponent(moment.lang())+"/";
-			window.location.href = url;
+			window.open(url);
 		});
 	}
 });
