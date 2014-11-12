@@ -212,6 +212,10 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				var sessions = Ext.decode(response.responseText);
 				me.displaySessions(sessions, me.mySessionsForm, hideLoadingMask);
 			},
+			empty: function () {
+				hideLoadingMask();
+				me.mySessionsForm.hide();
+			},
 			unauthenticated: function () {
 				hideLoadingMask();
 				ARSnova.app.getController('Auth').login({
