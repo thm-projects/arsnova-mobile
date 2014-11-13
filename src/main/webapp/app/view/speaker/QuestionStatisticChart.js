@@ -22,7 +22,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	config: {
 		title: Messages.STATISTIC,
 		style: 'background-color: black',
-		iconCls: 'tabBarIconCanteen',
 		layout: 'fit'
 	},
 
@@ -249,7 +248,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		} else {
 			this.add([this.toolbar, this.titlebar, this.contentField, this.questionChart]);
 
-			this.setStyle('background-color: #C5CCD3');
+			this.setStyle('background-color: #E0E0E0');
 			// add statistic
 			this.gridStatistic = Ext.create('ARSnova.view.components.GridStatistic', {
 				questionObj: this.questionObj
