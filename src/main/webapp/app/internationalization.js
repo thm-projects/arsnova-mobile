@@ -68,7 +68,7 @@ switch (lang) {
 			BACK_TO_ROLEPANEL: "Role",
 
 			/* homePanel */
-			LOGOUT: "Logout",
+			LOGOUT: "Log out",
 			LOGOUT_REQUEST: "Do you really want to logout?",
 			SESSIONID_PLACEHOLDER: "Enter Session ID  (8 digits)",
 			ENTER_SESSIONID: "Insert Session ID:",
@@ -435,7 +435,7 @@ switch (lang) {
 			BACK_TO_ROLEPANEL: "Rollen",
 
 			/* homePanel */
-			LOGOUT: "Abmelden",
+			LOGOUT: "Log out",
 			LOGOUT_REQUEST: "Möchten Sie sich wirklich von ARSnova abmelden?",
 			SESSIONID_PLACEHOLDER: "Zugangsschlüssel (8 Ziffern)",
 			ENTER_SESSIONID: "Bitte Session-ID eingeben",
