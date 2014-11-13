@@ -92,6 +92,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			allowDepress: false,
 			cls: this.config.activateTemplates ? 'abcOptions' : 'yesnoOptions',
 			style: {
+				'margin-top': '0px',
 				'margin-bottom': '30px'
 			},
 			defaults: {
@@ -145,7 +146,11 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				this.uploadTextfield,
 				this.sendButton
 			]
-		}, this.segmentButton]);
+		}, {
+			xtype: 'fieldset',
+			style: 'margin-top: 0px',
+			items: [this.segmentButton]
+		}]);
 	},
 	
 	toggleUploadTextfieldVisibility: function() {
