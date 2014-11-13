@@ -226,7 +226,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					}
 				},
 				renderer: function (sprite, config, rendererData, i) {
-					var panel;
+					var panel, gradient,
+						data = rendererData.store.getData().getAt(i).getData();
 
 					if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_STUDENT) {
 						panel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart;
@@ -235,8 +236,14 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					else {
 						panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 					}
+					
+					if(data.text === Messages.ABSTENTION) {
+						gradient = panel.abstentionGradient;
+					} else {
+						gradient = panel.gradients[i % panel.gradients.length];
+					}
 
-					return {fill: panel.gradients[i % panel.gradients.length]};
+					return { fill: gradient};
 				}
 			}]
 		});
@@ -414,6 +421,14 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		} else {
 			this.gradients = this.getDefaultGradients();
 		}
+		
+		this.abstentionGradient = Ext.create('Ext.draw.gradient.Linear', {
+			degrees: 90,
+			stops: [
+				{offset: 0, color: 'rgb(180, 180, 180)'},
+				{offset: 100, color: 'rgb(150, 150, 150)'}
+			]
+		});
 	},
 
 	getCorrectAnswerGradients: function () {
@@ -455,7 +470,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					{offset: 0, color: 'rgb(22, 64, 128)'},
 					{offset: 100, color: 'rgb(0, 14, 88)'}
 				]
-			}),
+			}),	
 			Ext.create('Ext.draw.gradient.Linear', {
 				degrees: 90,
 				stops: [
