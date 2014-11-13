@@ -32,8 +32,7 @@ Ext.define('ARSnova.view.about.ImprintTabPanel', {
 		this.callParent(arguments);
 
 		this.on("activate", function () {
-			var url = "https://arsnova.eu/blog/impressum/";
-			console.log(url);
+			var url = ARSnova.app.globalConfig.imprintUrl || "https://arsnova.eu/blog/impressum/";
 			window.open(url);
 		});
 	}
