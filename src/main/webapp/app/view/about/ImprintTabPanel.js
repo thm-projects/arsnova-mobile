@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('ARSnova.view.about.TabPanel', {
+Ext.define('ARSnova.view.about.ImprintTabPanel', {
 	extend: 'Ext.tab.Panel',
 
 	config: {
-		title: Messages.INFO,
-		iconCls: 'icon-book',
+		title: Messages.IMPRINT,
+		iconCls: 'icon-info',
 
 		tabBar: {
 			hidden: true
@@ -32,7 +32,8 @@ Ext.define('ARSnova.view.about.TabPanel', {
 		this.callParent(arguments);
 
 		this.on("activate", function () {
-			var url = ARSnova.app.globalConfig.documentationUrl || "https://arsnova.eu/manual/index.php/" + encodeURIComponent(moment.lang())+"/";
+			var url = "https://arsnova.eu/blog/impressum/";
+			console.log(url);
 			window.open(url);
 		});
 	}

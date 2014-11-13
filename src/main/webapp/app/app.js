@@ -221,6 +221,7 @@ Ext.application({
 		/* show diagnosis tab panel */
 		mainTabPanel.diagnosisPanel.tab.show();
 
+		mainTabPanel.deactivateAboutTabs();
 		mainTabPanel.animateActiveItem(mainTabPanel.homeTabPanel, 'slide');
 		var hTP = mainTabPanel.homeTabPanel;
 		switch (ARSnova.app.userRole) {

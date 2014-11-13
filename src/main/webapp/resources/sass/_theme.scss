@@ -196,14 +196,14 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 		
 		&.toggleCorrectButton {
 			@include toolbar-button-config(
-				$toolbar-toogleCorrect-button-active-color,
+				$toolbar-toogleCorrect-button-inactive-color,
 				$toolbar-button-txt-color
 			);
 			
 			&.x-button-pressed,
 			&.x-button-pressing {
 				@include toolbar-button-config(
-					$toolbar-toogleCorrect-button-inactive-color,
+					$toolbar-toogleCorrect-button-active-color,
 					$toolbar-button-txt-color
 				);
 			}

@@ -144,11 +144,8 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			this.lastVisitedSessionsForm,
 			this.mySessionsForm
 		]);
-
-		this.on('painted', function () {
-			var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
-
-			tabPanel.removeClassFromTab('infoButtonBeforeLogin', tabPanel.infoTabPanel);
+		
+		this.onBefore('painted', function() {
 			this.loadVisitedSessions();
 			this.loadMySessions();
 		});

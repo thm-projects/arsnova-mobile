@@ -361,6 +361,8 @@ switch (lang) {
 			/* about */
 			INFO: "Info",
 			ABOUT: "About",
+			IMPRINT: "Imprint",
+			PRIVACY: "Privacy Policy",
 			ARSNOVA_MANUAL: "Manual",
 			ARSNOVA_FAQ: "FAQ | Helpdesk",
 
@@ -727,6 +729,8 @@ switch (lang) {
 			/* about */
 			INFO: "Info",
 			ABOUT: "Über",
+			IMPRINT: "Impressum",
+			PRIVACY: "Datenschutz",
 			ARSNOVA_MANUAL: "Anleitung",
 			ARSNOVA_FAQ: "FAQ | Helpdesk",
 			OPINION: "Deine Meinung ist gefragt",
