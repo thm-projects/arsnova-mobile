@@ -32,7 +32,7 @@ Ext.define('ARSnova.view.about.PrivacyTabPanel', {
 		this.callParent(arguments);
 
 		this.on("activate", function () {
-			var url = "https://arsnova.eu/blog/blog/datenschutzerklaerung/";
+			var url = "https://arsnova.eu/blog/datenschutzerklaerung/";
 			console.log(url);
 			window.open(url);
 		});
