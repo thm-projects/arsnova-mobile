@@ -29,6 +29,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		cls: 'centerFormTitle',
 		
 		handlerScope: null,
+		activateTemplates: true,
 		urlUploadHandler: Ext.emptyFn,
 		fsUploadHandler: Ext.emptyFn,
 		toggleUrl: true,
@@ -89,7 +90,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 
 		this.segmentButton = Ext.create('Ext.SegmentedButton', {
 			allowDepress: false,
-			cls: 'abcOptions',
+			cls: this.config.activateTemplates ? 'abcOptions' : 'yesnoOptions',
 			style: {
 				'margin-bottom': '30px'
 			},
@@ -104,6 +105,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				scope: this
 			}, {
 				text: Messages.TEMPLATE,
+				hidden: !this.config.activateTemplates,
 				scope: this,
 				handler: function () {
 					var tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;	
