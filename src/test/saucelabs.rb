@@ -42,25 +42,25 @@ driver.wait_for_element(:id, "ext-matrixbutton-2").click # Teacher
 driver.find_element(:id, "ext-matrixbutton-3").click # Guest
 driver.find_element(:id, "ext-button-16").click # 'Yes' in popup
 # Wait for log in...
-driver.wait_for_element(:id, "ext-element-122").click # Create new session
+driver.wait_for_element(:id, "ext-button-7").click # Create new session
 # Create Session
-driver.find_element(:id, "ext-element-156").click # set focus to 'name' field
-driver.find_element(:id, "ext-element-156").clear
-driver.find_element(:id, "ext-element-156").send_keys "test"
-driver.find_element(:id, "ext-element-162").click # set focus to 'short name' field
-driver.find_element(:id, "ext-element-162").clear
-driver.find_element(:id, "ext-element-162").send_keys "test"
-driver.find_element(:id, "ext-element-168").click # create session
+driver.find_element(:id, "ext-element-161").click # set focus to 'name' field
+driver.find_element(:id, "ext-element-161").clear
+driver.find_element(:id, "ext-element-161").send_keys "test"
+driver.find_element(:id, "ext-element-167").click # set focus to 'short name' field
+driver.find_element(:id, "ext-element-167").clear
+driver.find_element(:id, "ext-element-167").send_keys "test"
+driver.find_element(:id, "ext-button-9").click # create session
 
-if not driver.wait_for_element(:id, "ext-element-276").text.include? "test" # short name displayed in titlebar?
+if not driver.wait_for_element(:id, "ext-element-291").text.include? "test" # short name displayed in titlebar?
     print "verifyTextPresent failed"
     passed = false
 end
 
 # Teardown
-driver.find_element(:id, "ext-matrixbutton-10").click # delete session
-driver.find_element(:id, "ext-button-68").click # 'Yes' in popup
-driver.wait_for_element(:id, "ext-element-113").click # Logout
+driver.find_element(:id, "ext-matrixbutton-9").click # delete session
+driver.find_element(:id, "ext-button-73").click # 'Yes' in popup
+driver.wait_for_element(:id, "ext-button-5").click # Logout
 
 driver.quit
 
