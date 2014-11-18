@@ -156,6 +156,11 @@ Ext.define('ARSnova.WebSocket', {
 		socket.emit("setSession", sessionKey);
 	},
 
+	readInterposedQuestion: function (question) {
+		console.debug("Socket.IO.emit: readInterposedQuestion", question.getData());
+		socket.emit("readInterposedQuestion", question.getData());
+	},
+
 	doAddListener: function (name, fn, scope, options, order) {
 		var result = this.callParent(arguments);
 		if (this.memoization.hasOwnProperty(name)) {
