@@ -413,7 +413,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	setGradients: function () {
 		if (this.questionObj.questionType == "yesno" || this.questionObj.questionType == "mc"
 				|| (this.questionObj.questionType == "abcd" && !this.questionObj.noCorrect)) {
-			if (this.questionObj.showAnswer || this.toggleCorrect) {
+			if (this.toggleCorrect) {
 				this.gradients = this.getCorrectAnswerGradients();
 			} else {
 				this.gradients = this.getDefaultGradients();
