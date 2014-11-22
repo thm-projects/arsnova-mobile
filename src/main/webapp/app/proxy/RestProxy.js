@@ -356,7 +356,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 
 	deleteInterposedQuestion: function (question, callbacks) {
 		this.arsjax.request({
-			url: "session/" + question.sessionId + "/interposed/" + question._id,
+			url: "audiencequestion/" + question.getId(),
 			method: "DELETE",
 			success: callbacks.success,
 			failure: callbacks.failure
