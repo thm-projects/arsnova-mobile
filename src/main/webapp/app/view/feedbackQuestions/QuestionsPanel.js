@@ -199,6 +199,10 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		this.on('deactivate', function () {
 			this.list.deselect(this.list._lastSelected, true);
 		});
+
+		this.on('activate', function () {
+			this.getCheckFeedbackQuestionsTask().taskRunTime = 0;
+		});
 	},
 
 	getFeedbackQuestions: function () {

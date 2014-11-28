@@ -38,6 +38,7 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 
 	constructor: function (args) {
 		this.callParent(arguments);
+		var me = this;
 
 		this.questionObj = this.getQuestion();
 
@@ -89,15 +90,17 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
 
 				ARSnova.app.questionModel.deleteInterposed(this.questionObj, {
+					success: function () {
+						me.questionObj.destroy();
+						panel.animateActiveItem(panel.questionsPanel, {
+							type: 'slide',
+							direction: 'right',
+							duration: 700
+						});
+					},
 					failure: function (response) {
 						console.log('server-side error delete question');
 					}
-				});
-
-				panel.animateActiveItem(panel.questionsPanel, {
-					type: 'slide',
-					direction: 'right',
-					duration: 700
 				});
 			}
 		}]);
