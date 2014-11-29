@@ -225,6 +225,10 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				return;
 			}
 
+			if (questionObj.questionType === "flashcard") {
+				return;
+			}
+
 			var list = questionPanel.answerList;
 			var data = list ? list.getStore() : Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
 

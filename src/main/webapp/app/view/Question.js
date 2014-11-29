@@ -89,9 +89,11 @@ Ext.define('ARSnova.view.Question', {
 					}
 					localStorage.setItem(self.questionObj.questionVariant + 'QuestionIds', Ext.encode(questionsArr));
 
-					self.disableQuestion();
-					ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
-					ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
+					if (self.questionObj.questionType !== 'flashcard') {
+						self.disableQuestion();
+						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
+						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
+					}
 				},
 				failure: function (response, opts) {
 					console.log('server-side error');
@@ -351,6 +353,11 @@ Ext.define('ARSnova.view.Question', {
 				if (this.answerList.isHidden()) {
 					this.answerList.show(true);
 					button.setText(Messages.HIDE_FLASHCARD_ANSWER);
+					self.getUserAnswer().then(function (answer) {
+						var answerObj = self.questionObj.possibleAnswers[0];
+						answer.set('answerText', answerObj.text);
+						saveAnswer(answer);
+					});
 				} else {
 					this.answerList.hide(true);
 					button.setText(Messages.SHOW_FLASHCARD_ANSWER);
