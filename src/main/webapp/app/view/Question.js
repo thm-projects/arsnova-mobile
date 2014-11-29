@@ -188,7 +188,9 @@ Ext.define('ARSnova.view.Question', {
 			}, this);
 		};
 
-		var questionListener = this.viewOnly || this.questionObj.questionType === "mc" ? {}: {
+		// MC and Flash Card questions have their own handlers...
+		var answerable = ['mc', 'flashcard'].indexOf(this.questionObj.questionType) === -1;
+		var questionListener = this.viewOnly || !answerable ? {} : {
 			'itemtap': function (list, index, target, record) {
 				var confirm = function (answer, handler) {
 					Ext.Msg.confirm(Messages.ANSWER + ' "' + answer + '"', Messages.SUBMIT_ANSWER, handler);
@@ -245,6 +247,7 @@ Ext.define('ARSnova.view.Question', {
 			cls: 'roundedBox',
 			variableHeights: true,
 			scrollable: {disabled: true},
+			disableSelection: this.questionObj.questionType === 'flashcard',
 
 			itemCls: 'arsnova-mathdown x-html',
 			itemHeight: 32,
