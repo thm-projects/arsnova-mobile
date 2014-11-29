@@ -526,23 +526,6 @@ Ext.define('ARSnova.view.Question', {
 		}
 	},
 
-//	doTypeset: function (parent) {
-//		if (typeof this.questionTitle.element !== "undefined") {
-//			var panel = this;
-//			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.questionTitle.element.dom]);
-//			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.answerList.element.dom]);
-//
-//			MathJax.Hub.Queue(
-//				["Delay", MathJax.Callback, 700], function () {
-//					panel.answerList.fireEvent("resizeList", panel.answerList.element);
-//				}
-//			);
-//		} else {
-// // If the element has not been drawn yet, we need to retry later
-//			Ext.defer(Ext.bind(this.doTypeset, this), 100);
-//		}
-//	},
-
 	getUserAnswer: function () {
 		var self = this;
 		var promise = new RSVP.Promise();
