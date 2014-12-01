@@ -21,13 +21,13 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 	xtype: 'answerPreview',
 	ui: 'normal',
 
-	showPreview: function (answers) {
+	showPreview: function (answers, questionType) {
 		this.answers = answers;
 
 		// answer preview message box
 		this.previewBox = Ext.create('Ext.MessageBox', {
 			scrollable: true,
-			layout: 'fit',
+			layout: 'vbox',
 			style: 'font-size: 110%; border-color: black; maxHeight: 600px; maxWidth: 1000px; width: 80%; height: 80%',
 			scope: this
 		});
@@ -75,64 +75,77 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			}
 		});
 		
-		this.answerList = Ext.create('Ext.List', {
-			store: answerStore,
-
-			cls: 'roundedBox',
-			variableHeights: true,
-			scrollable: {disabled: true},
-
-			itemCls: 'arsnova-mathdown x-html',
-			itemHeight: '33px',
-			itemTpl: new Ext.XTemplate(
-				"<tpl if='this.isFormattedStringEmpty(formattedText) === true'>",
-					"&nbsp;",
-				"<tpl else>",
-					"{formattedText}",
-				"</tpl>",
-				{
-					isFormattedStringEmpty: function(formattedString) {						
-						if(formattedString === "") {
-							return true;
+		if(questionType === 'flashcard') {
+			this.answerList = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+		    	xtype: 'mathJaxMarkDownPanel',
+		    	flex: 1,
+		    	style: 'margin-left: 0px; margin-right: 0px;word-wrap: break-word;'
+			});
+			
+			this.answerList.setContent(answers[0].text, true, true);
+		}
+		
+		else {	
+			this.answerList = Ext.create('Ext.List', {
+				store: answerStore,
+	
+				cls: 'roundedBox',
+				variableHeights: true,
+				scrollable: {disabled: true},
+	
+				itemCls: 'arsnova-mathdown x-html',
+				itemHeight: '32px',
+				itemTpl: new Ext.XTemplate(
+					"<tpl if='this.isFormattedStringEmpty(formattedText) === true'>",
+						"&nbsp;",
+					"<tpl else>",
+						"{formattedText}",
+					"</tpl>",
+					{
+						isFormattedStringEmpty: function(formattedString) {						
+							if(formattedString === "") {
+								return true;
+							}
+							
+							return false;
 						}
-						
-						return false;
+					}
+				),
+				listeners: {
+					scope: this,
+					
+					/**
+					 * The following events are used to get the computed height of
+					 * all list items and finally to set this value to the list
+					 * DataView. In order to ensure correct rendering it is also
+					 * necessary to get the properties "padding-top" and
+					 * "padding-bottom" and add them to the height of the list
+					 * DataView.
+					 */
+					painted: function (list, eOpts) {
+						this.answerList.fireEvent("resizeList", list);
+					},
+					resizeList: function (list) {
+						var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
+	
+						this.answerList.setHeight(
+							parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
+							parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
+							parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
+						);
 					}
 				}
-			),
-			listeners: {
-				scope: this,
-				
-				/**
-				 * The following events are used to get the computed height of
-				 * all list items and finally to set this value to the list
-				 * DataView. In order to ensure correct rendering it is also
-				 * necessary to get the properties "padding-top" and
-				 * "padding-bottom" and add them to the height of the list
-				 * DataView.
-				 */
-				painted: function (list, eOpts) {
-					this.answerList.fireEvent("resizeList", list);
-				},
-				resizeList: function (list) {
-					var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
-
-					this.answerList.setHeight(
-						parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
-						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
-						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
-					);
-				}
-			}
-		});
-		
+			});
+		}
+			
 		// answer preview box content panel
 		this.mainPanel = Ext.create('Ext.Container', {
 			id: 'mainPanel',
+			flex: '1',
 			xtype: 'container',
-			style: 'background-color: #E0E0E0;',
-			fullscreen: false,
+			style: 'width: 100%; height: 100%; margin-bottom: 10px;',
 			layout: 'vbox',
+			fullscreen: false,
 			items: [
 				this.answerList,
 				{
@@ -157,7 +170,6 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		var questionObj = {};
 		questionObj.possibleAnswers = this.answers;
 		
-		console.log(questionObj);
 		this.questionStatisticChart = Ext.create('ARSnova.view.AnswerPreviewStatisticChart', {
 			layout: 'fit',
 			answerObj: questionObj

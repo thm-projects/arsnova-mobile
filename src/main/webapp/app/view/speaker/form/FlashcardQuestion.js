@@ -80,7 +80,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 		var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox', {
 			xtype: 'answerPreview'
 		});
-		answerPreview.showPreview(this.getValue());
+		answerPreview.showPreview(this.getValue(), 'flashcard');
 	},
 
 	markEmptyFields: function () {
