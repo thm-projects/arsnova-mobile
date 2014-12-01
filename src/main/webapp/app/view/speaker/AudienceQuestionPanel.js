@@ -132,6 +132,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 		this.newQuestionButton = {
 			xtype: 'button',
+			iconCls: 'icon-question thm-green',
 			text: Messages.NEW_QUESTION,
 			cls: 'forwardListButton',
 			handler: this.newQuestionHandler
@@ -161,6 +162,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 		this.showcaseFormButton = {
 			xtype: "button",
+			iconCls: 'icon-presenter thm-grey',
 			text: Messages.SHOWCASE_MODE,
 			cls: "forwardListButton",
 			handler: this.showcaseHandler

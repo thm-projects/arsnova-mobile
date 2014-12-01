@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'arsnova';
-	src:url('fonts/arsnova.eot?-mj58mv');
-	src:url('fonts/arsnova.eot?#iefix-mj58mv') format('embedded-opentype'),
-		url('fonts/arsnova.woff?-mj58mv') format('woff'),
-		url('fonts/arsnova.ttf?-mj58mv') format('truetype'),
-		url('fonts/arsnova.svg?-mj58mv#arsnova') format('svg');
+	src:url('fonts/arsnova.eot?u26kib');
+	src:url('fonts/arsnova.eot?#iefixu26kib') format('embedded-opentype'),
+		url('fonts/arsnova.woff?u26kib') format('woff'),
+		url('fonts/arsnova.ttf?u26kib') format('truetype'),
+		url('fonts/arsnova.svg?u26kib#arsnova') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,11 +23,20 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon-presenter:before {
+	content: "\e602";
+}
+.icon-ars:before {
+	content: "\61";
+}
+.icon-nova:before {
+	content: "\6e";
+}
+.icon-thm-full:before {
+	content: "\e603";
+}
 .icon-book:before {
 	content: "\f02d";
-}
-.icon-group:before {
-	content: "\f0c0";
 }
 .icon-chart:before {
 	content: "\f012";
@@ -79,15 +88,6 @@
 }
 .icon-prof:before {
 	content: "\e613";
-}
-.icon-ars:before {
-	content: "\61";
-}
-.icon-nova:before {
-	content: "\6e";
-}
-.icon-thm-full:before {
-	content: "\e603";
 }
 .icon-radar:before {
 	content: "\72";
