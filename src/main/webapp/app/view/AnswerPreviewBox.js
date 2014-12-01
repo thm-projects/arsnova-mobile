@@ -18,48 +18,35 @@
  */
 
 Ext.define('ARSnova.view.AnswerPreviewBox', {
-
 	xtype: 'answerPreview',
 	ui: 'normal',
 
 	showPreview: function (answers) {
+		this.answers = answers;
 
 		// answer preview message box
-		var previewBox = Ext.create('Ext.MessageBox',
-		{
-			title: Messages.ANSWER_PREVIEW_DIALOGBOX_TITLE,
-			style: 'border-color: black; maxHeight: 600px; maxWidth: 1000px; width: 80%; height: 80%',
+		this.previewBox = Ext.create('Ext.MessageBox', {
+			scrollable: true,
+			layout: 'fit',
+			style: 'font-size: 110%; border-color: black; maxHeight: 600px; maxWidth: 1000px; width: 80%; height: 80%',
 			scope: this
 		});
-
-		// carousel for displaying the mathJaxMarkDownPanels
-		var carousel = Ext.create('Ext.Carousel', {
-			//cls: 'previewCarousel',
-			style: 'width: 100%; height: 100%; margin-bottom: 10px;',
-			flex: '1',
-			layout: 'fit',
-			defaults: {
-				styleHtmlContent: true
-			},
-			listeners: {
-				activeitemchange: function () {
-					var actualIndex = carousel.getActiveIndex() + 1;
-					previewBox.setTitle(Messages.ANSWER_PREVIEW_DIALOGBOX_TITLE + " (" + actualIndex + "/" + answers.length + ")");
-				}
-			}
+		
+		this.toolbar = Ext.create('Ext.Toolbar', {
+			title: Messages.ANSWER_PREVIEW_DIALOGBOX_TITLE,
+			docked: 'top',
+			ui: 'light',
+			/*items: [
+			    {xtype: 'spacer'},
+			    Ext.create('Ext.Button', {
+			    	iconCls: 'icon-chart',
+			    	style: 'padding: 0 0.4em',
+			    	handler: this.statisticsButtonHandler,
+			    	scope: this
+			    })
+			]*/
 		});
-
-		// loop through given answers, wrap them into a temporary panel and add them to the carousel
-		for (var i = 0; i <= answers.length - 1; i++) {
-			var item = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-				xtype: 'mathJaxMarkDownPanel',
-				id: 'answer-' + i,
-				style: 'margin-left: 0px; margin-right: 0px;word-wrap: break-word;'
-			});
-			item.setContent(answers[i].text, true, true);
-			carousel.add(item);
-		}
-
+		
 		// question preview confirm button
 		var confirmButton = Ext.create('Ext.Button', {
 			text: Messages.QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE,
@@ -68,20 +55,86 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			ui: 'confirm',
 			//cls: 'previewButtonOK',
 			style: 'width: 80%; maxWidth: 250px; margin-top: 10px;',
+			scope: this,
 			handler: function () {
-				previewBox.destroy();
+				this.previewBox.destroy();
 			}
 		});
+		
+		var answerStore = Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
+		answerStore.add(answers);
+		answerStore.each(function (item) {
+			if (ARSnova.app.globalConfig.parseAnswerOptionFormatting) {
+				var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+				md.setContent(item.get('text'), true, true, function (html) {
+					item.set('formattedText', html.getHtml());
+					md.destroy();
+				});
+			} else {
+				item.set('formattedText', Ext.util.Format.htmlEncode(item.get('text')));
+			}
+		});
+		
+		this.answerList = Ext.create('Ext.List', {
+			store: answerStore,
 
+			cls: 'roundedBox',
+			variableHeights: true,
+			scrollable: {disabled: true},
+
+			itemCls: 'arsnova-mathdown x-html',
+			itemHeight: '33px',
+			itemTpl: new Ext.XTemplate(
+				"<tpl if='this.isFormattedStringEmpty(formattedText) === true'>",
+					"&nbsp;",
+				"<tpl else>",
+					"{formattedText}",
+				"</tpl>",
+				{
+					isFormattedStringEmpty: function(formattedString) {						
+						if(formattedString === "") {
+							return true;
+						}
+						
+						return false;
+					}
+				}
+			),
+			listeners: {
+				scope: this,
+				
+				/**
+				 * The following events are used to get the computed height of
+				 * all list items and finally to set this value to the list
+				 * DataView. In order to ensure correct rendering it is also
+				 * necessary to get the properties "padding-top" and
+				 * "padding-bottom" and add them to the height of the list
+				 * DataView.
+				 */
+				painted: function (list, eOpts) {
+					this.answerList.fireEvent("resizeList", list);
+				},
+				resizeList: function (list) {
+					var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
+
+					this.answerList.setHeight(
+						parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
+						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
+						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
+					);
+				}
+			}
+		});
+		
 		// answer preview box content panel
-		var mainPanel = Ext.create('Ext.Container', {
+		this.mainPanel = Ext.create('Ext.Container', {
 			id: 'mainPanel',
 			xtype: 'container',
-			style: 'position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: #E0E0E0;',
+			style: 'background-color: #E0E0E0;',
 			fullscreen: false,
 			layout: 'vbox',
 			items: [
-				carousel,
+				this.answerList,
 				{
 					id: 'buttonLayout',
 					xtype: 'container',
@@ -93,10 +146,25 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 				}
 			]
 		});
-		mainPanel.setStyleHtmlContent(true);
-
-		// add main panel to preview box and show action
-		previewBox.add(mainPanel);
-		previewBox.show();
+		this.mainPanel.setStyleHtmlContent(true);
+		
+		this.previewBox.add(this.toolbar);
+		this.previewBox.add(this.mainPanel);
+		this.previewBox.show();
+	},
+	
+	statisticsButtonHandler: function () {
+		var questionObj = {};
+		questionObj.possibleAnswers = this.answers;
+		
+		console.log(questionObj);
+		this.questionStatisticChart = Ext.create('ARSnova.view.AnswerPreviewStatisticChart', {
+			layout: 'fit',
+			answerObj: questionObj
+		});
+		
+		this.previewBox.remove(this.toolbar);
+		this.previewBox.remove(this.mainPanel);
+		this.previewBox.add(this.questionStatisticChart);
 	}
 });
