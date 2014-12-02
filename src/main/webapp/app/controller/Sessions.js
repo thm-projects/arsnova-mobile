@@ -75,6 +75,9 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('courseId', obj.courseId === null ? "" : obj.courseId);
 				localStorage.setItem('courseType', obj.courseType === null ? "" : obj.courseType);
 				localStorage.setItem('active', obj.active ? 1 : 0);
+				
+				// deactivate several about tabs
+				ARSnova.app.mainTabPanel.tabPanel.deactivateAboutTabs();
 
 				/* TODO: Use abstraction layer? */
 				if (window.socket) {
@@ -124,6 +127,9 @@ Ext.define("ARSnova.controller.Sessions", {
 		localStorage.removeItem("courseId");
 		localStorage.removeItem("courseType");
 		ARSnova.app.isSessionOwner = false;
+		
+		/* show about tab panels */
+		ARSnova.app.mainTabPanel.tabPanel.activateAboutTabs();
 
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 		/* show home Panel */
@@ -277,6 +283,9 @@ Ext.define("ARSnova.controller.Sessions", {
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon, ARSnova.app.mainTabPanel.tabPanel);
 				ARSnova.app.taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
 
+				/* deactivate several tab panels */
+				ARSnova.app.mainTabPanel.tabPanel.deactivateAboutTabs();
+				
 				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 				panel.setActiveItem(panel.mySessionsPanel);
 
