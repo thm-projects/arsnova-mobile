@@ -63,6 +63,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.SESSIONS,
+			cls: 'speakerTitleText',
 			docked: 'top',
 			ui: 'light',
 			items: [

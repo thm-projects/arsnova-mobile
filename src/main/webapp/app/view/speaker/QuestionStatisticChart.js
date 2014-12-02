@@ -111,6 +111,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			ui: 'light',
+			cls: ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER ? 'speakerTitleText' : '',
 			title: Messages.QUESTION,
 			items: [this.backButton, {
 				xtype: 'spacer'

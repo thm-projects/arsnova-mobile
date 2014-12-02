@@ -84,7 +84,7 @@ Ext.define('ARSnova.view.TabPanel', {
 			this.privacyTabPanel,
 			this.imprintTabPanel
 		]);
-
+		
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
 			ARSnova.app.lastActivePanel = oldCard;
 			switch(newCard) {
@@ -94,6 +94,13 @@ Ext.define('ARSnova.view.TabPanel', {
 					// The "about" panels are just stub buttons that opens the ARSnova manual, privacy police and imprint
 					ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.lastActivePanel);
 					return false;
+			}
+
+			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER
+				&& newCard !== this.loginPanel) {
+				this.addCls('speakerTabbar');
+			} else {
+				this.removeCls('speakerTabbar');
 			}
 		}, this);
 

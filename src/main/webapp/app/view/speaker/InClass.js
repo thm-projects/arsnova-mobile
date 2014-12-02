@@ -94,6 +94,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Ext.util.Format.htmlEncode(localStorage.getItem("shortName")),
+			cls: 'speakerTitleText',
 			ui: 'light',
 			docked: 'top',
 			items: [

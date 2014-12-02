@@ -51,6 +51,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		}, this);
 
 		this.toolbar = Ext.create('ARSnova.view.components.QuestionToolbar', {
+			cls: 'speakerTitleText',
 			backButtonHandler: function (animation) {
 			var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 			sTP.animateActiveItem(sTP.audienceQuestionPanel, animation);

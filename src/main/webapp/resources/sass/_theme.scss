@@ -25,6 +25,7 @@ $button-decline-txt-color: #fff;
 
 $toolbar-bg-color: $thm-grey;
 $toolbar-title-txt-color: #fff;
+$toolbar-speaker-title-color: $thm-green;
 $toolbar-button-bg-color: $thm-green;
 $toolbar-button-txt-color: #fff;
 $toolbar-back-button-bg-color: #fff;
@@ -188,6 +189,10 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 		@include toolbar-title-config;
 	}
 	
+	&.speakerTitleText .x-title {
+		color: $toolbar-speaker-title-color;
+	}
+	
 	.x-button-normal {
 		@include toolbar-button-config(
 			$toolbar-button-bg-color, 
@@ -226,6 +231,32 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 	.x-button, .x-button-back {
 		.x-button-label {
 			@include label-config;
+		}
+	}
+}
+
+.speakerTabbar {
+	.x-tab-icon .x-button-icon {
+		&:before,
+		&.voteIcons.icon-radar:before {
+			color: $thm-green !important;
+		}
+		
+		&.voteIcons:before {
+			color: $thm-green !important;
+		}
+	}
+	
+	.x-tab-active {
+		.x-button-icon {
+			&:before,
+			&.voteIcons.icon-radar:before {
+				color: white !important;
+			}
+			
+			&.voteIcons:before {
+				color: $smiley-color !important;
+			}
 		}
 	}
 }
