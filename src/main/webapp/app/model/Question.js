@@ -300,5 +300,9 @@ Ext.define('ARSnova.model.Question', {
 
 	deleteAllQuestionsAnswers: function (sessionKeyword, callbacks) {
 		return this.getProxy().delAllQuestionsAnswers(sessionKeyword, callbacks);
+	},
+
+	deleteAllPreparationAnswers: function (sessionKeyword, callbacks) {
+		return this.getProxy().delAllPreparationAnswers(sessionKeyword, callbacks);
 	}
 });

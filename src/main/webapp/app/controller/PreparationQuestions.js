@@ -41,6 +41,11 @@ Ext.define("ARSnova.controller.PreparationQuestions", {
 		question.deleteAllPreparationQuestions.apply(question, arguments);
 	},
 
+	deleteAllQuestionsAnswers: function (callbacks) {
+		var question = Ext.create('ARSnova.model.Question');
+		question.deleteAllPreparationAnswers(localStorage.getItem("keyword"), callbacks);
+	},
+
 	getQuestions: function () {
 		var question = Ext.create('ARSnova.model.Question');
 		question.getPreparationQuestions.apply(question, arguments);

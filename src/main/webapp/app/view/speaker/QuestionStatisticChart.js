@@ -237,7 +237,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					else {
 						panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 					}
-					
+
 					if(data.text === Messages.ABSTENTION) {
 						gradient = panel.abstentionGradient;
 					} else {
@@ -338,9 +338,11 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					}
 					sum += el.answerCount;
 
-					if (el.answerCount > maxValue) {
-						maxValue = Math.ceil(el.answerCount / 10) * 10;
-					}
+					store.each(function (record, index) {
+						var max = Math.max(maxValue, record.get('value'));
+						// Scale axis to a bigger number. For example, 12 answers get a maximum scale of 20.
+						maxValue = Math.ceil(max / 10) * 10;
+					});
 
 					var idx = tmpPossibleAnswers.indexOf(el.answerText); // Find the index
 					if (idx != -1) tmpPossibleAnswers.splice(idx, 1); // Remove it if really found!
@@ -422,7 +424,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		} else {
 			this.gradients = this.getDefaultGradients();
 		}
-		
+
 		this.abstentionGradient = Ext.create('Ext.draw.gradient.Linear', {
 			degrees: 90,
 			stops: [
@@ -471,7 +473,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					{offset: 0, color: 'rgb(22, 64, 128)'},
 					{offset: 100, color: 'rgb(0, 14, 88)'}
 				]
-			}),	
+			}),
 			Ext.create('Ext.draw.gradient.Linear', {
 				degrees: 90,
 				stops: [
