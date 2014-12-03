@@ -796,7 +796,7 @@
       //
       lists: (function( ) {
         // Use a closure to hide a few variables.
-        var any_list = "[*+-]|\\d+§",
+        var any_list = "[*+-]|\\d+\\.",
             bullet_list = /[*+-]/,
             // Capture leading indent as it matters for determining nested lists.
             is_list_re = new RegExp( "^( {0,3})(" + any_list + ")[ \t]+" ),
