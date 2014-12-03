@@ -38,6 +38,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.FREETEXT_DETAIL_HEADER,
+			ui: 'light',
 			items: [
 				Ext.create('Ext.Button', {
 					text: Messages.BACK,
@@ -85,6 +86,8 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 						xtype: 'textfield',
 						label: Messages.QUESTION_DATE,
 						value: this.answer.formattedTime + " Uhr am " + this.answer.groupDate,
+						disabledCls: 'disableDefault',
+						inputCls: 'thm-grey',
 						disabled: true
 					},
 					questionPanel
@@ -118,10 +121,5 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 				});
 			}
 		}]);
-
-		this.on('painted', function () {
-			var textarea = this.element.down('textarea');
-			textarea.setHeight(textarea.dom.scrollHeight);
-		});
 	}
 });
