@@ -64,8 +64,8 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			style: 'width:200px; margin-left: 8px; margin-top: 0px;',
 			scope: this,
 			handler: function () {
-					this.previewHandler();
-				}
+				this.previewHandler();
+			}
 		});
 
 		var answerFieldset = Ext.create('Ext.form.FieldSet', {
@@ -176,6 +176,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 
 	getValues: function () {
 		var values = [], obj;
+		
 		for (var i = 0; i < this.selectAnswerCount.getValue(); i++) {
 			obj = {
 				text: this.answerComponents[i].getValue(),
@@ -186,6 +187,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			}
 			values.push(obj);
 		}
+		
 		return values;
 	},
 
@@ -240,10 +242,20 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 	},
 
 	previewHandler: function () {
-		var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox', {
-			xtype: 'answerPreview'
-		});
-		answerPreview.showPreview(this.getValues());
+		var values = this.getValues(),
+			panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
+		
+		var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox');
+		
+		if(!panel.abstentionPart.isHidden() && panel.abstentionPart.getAbstention()) {
+			values.push({
+				text: Messages.ABSTENTION,
+				correct: false,
+				value: 0
+			});
+		}
+		
+		answerPreview.showPreview(values);
 	},
 
 	markEmptyFields: function () {
