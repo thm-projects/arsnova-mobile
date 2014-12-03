@@ -34,8 +34,9 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			'border-color': 'black',
 			'maxHeight': '600px',
 			'maxWidth': '1000px',
-			'height': '80%',
-			'width': '80%'
+			'margin-bottom': '18px',
+			'height': '79%',
+			'width': '95%'
 		});
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
@@ -80,6 +81,9 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			styleHtmlContent: true,
 			fullscreen: true
 		});
+		
+		// remove padding around mainPanel
+		this.mainPanel.bodyElement.dom.style.padding="0";
 		
 		this.on('hide', this.destroy);
 	},
