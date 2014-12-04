@@ -251,12 +251,12 @@ Ext.define('ARSnova.view.Question', {
 			scrollable: {disabled: true},
 			disableSelection: this.questionObj.questionType === 'flashcard',
 
-			itemCls: 'arsnova-mathdown x-html',
+			itemCls: 'arsnova-mathdown x-html answerListButton noPadding',
 			itemHeight: 32,
 			itemTpl: new Ext.XTemplate(
 				'{formattedText}',
 				'<tpl if="correct === true && this.isQuestionAnswered(values)">',
-					'&nbsp;<span style="padding: 0 0.2em 0 0.2em" class="x-list-item-correct">&#10003; </span>',
+					'&nbsp;<span class="listCorrectItem x-list-item-correct">&#10003; </span>',
 				'</tpl>',
 				{
 					isQuestionAnswered: function (values) {
