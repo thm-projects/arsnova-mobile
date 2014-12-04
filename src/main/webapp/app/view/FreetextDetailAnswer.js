@@ -103,17 +103,22 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			handler: function () {
 				ARSnova.app.questionModel.deleteAnswer(self.answer.questionId, self.answer._id, {
 					success: function () {
-						self.sTP.animateActiveItem(self.sTP.questionDetailsPanel, {
-							type: 'slide',
-							direction: 'right',
-							duration: 700,
-							listeners: {
-								animationend: function () {
-									self.answer.removeItem();
-									self.destroy();
+						self.sTP.items.items.pop(); // Remove this panel from view stack
+						self.sTP.animateActiveItem(
+							self.sTP.items.items[self.sTP.items.items.length-1], // Switch back to top of view stack
+							{
+								type: 'slide',
+								direction: 'right',
+								duration: 700,
+								scope: this,
+								listeners: {
+									animationend: function () {
+										this.destroy();
+									},
+									scope: this
 								}
 							}
-						});
+						);
 					},
 					failure: function () {
 						console.log('server-side error: deletion of freetext answer failed');
