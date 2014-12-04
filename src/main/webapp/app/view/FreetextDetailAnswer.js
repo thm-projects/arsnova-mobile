@@ -113,9 +113,8 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 								scope: this,
 								listeners: {
 									animationend: function () {
-										this.destroy();
-									},
-									scope: this
+										self.destroy();
+									}
 								}
 							}
 						);
