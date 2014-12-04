@@ -122,8 +122,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				style: {paddingRight: '10px'}
 			}, {
 				xtype: 'button',
-				html: '&#10003;',
-				width: '35px',
+				width: '55px',
+				iconCls: 'icon-check',
 				cls: 'toggleCorrectButton',
 				handler: function(button) {
 					if (this.toggleCorrect) {
