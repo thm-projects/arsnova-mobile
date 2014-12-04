@@ -112,12 +112,15 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 				scrollable: {disabled: true},
 	
 				itemHeight: '32px',
-				itemCls: 'arsnova-mathdown x-html',
+				itemCls: 'arsnova-mathdown x-html answerListButton noPadding',
 				itemTpl: new Ext.XTemplate(
 					"<tpl if='this.isFormattedStringEmpty(formattedText) === true'>",
 						"&nbsp;",
 					"<tpl else>",
 						"{formattedText}",
+					"</tpl>",
+					"<tpl if='correct === true'>",
+						"&nbsp;<span class='listCorrectItem x-list-item-correct'>&#10003; </span>",
 					"</tpl>",
 					{
 						isFormattedStringEmpty: function(formattedString) {						

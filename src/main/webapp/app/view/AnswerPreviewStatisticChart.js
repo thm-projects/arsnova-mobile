@@ -26,6 +26,8 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 		layout: 'fit'
 	},
 	
+	chartRefreshDuration: 1000,
+	
 	constructor: function (args) {
 		this.callParent(arguments);
 
@@ -53,6 +55,8 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 					previewBox.toolbar,
 					previewBox.mainPanel
 				]);
+				
+				this.destroy();
 			}
 		});
 		
@@ -60,18 +64,80 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 			docked: 'top',
 			ui: 'light',
 			title: Messages.QUESTION,
-			items: [this.backButton]
+			items: [this.backButton, { 
+				xtype: 'spacer'
+			}, {
+				xtype: 'button',
+				width: '55px',
+				iconCls: 'icon-check',
+				cls: 'toggleCorrectButton',
+				handler: function(button) {
+					var me = this,
+						data = [];
+					
+					button.disable();
+					
+					if (this.toggleCorrect) {
+						button.removeCls('x-button-pressed');
+					} else {
+						button.addCls('x-button-pressed');
+					}
+					this.toggleCorrect = !this.toggleCorrect;
+					
+					// remove all data for a smooth "redraw"
+					this.questionStore.each(function (record) {
+						data.push({
+							text: record.get('text'),
+							value: record.get('value'),
+							percent: record.get('percent')
+						}); 
+						
+						record.set('value', 0);
+						record.set('percent', 0);
+					});
+					
+					var updateDataTask = Ext.create('Ext.util.DelayedTask', function () {		
+						me.questionStore.setData(data);
+						button.enable();
+					}); 
+					
+					var setGradientTask = Ext.create('Ext.util.DelayedTask', function () {		
+						// updates the chart's colors
+						me.setGradients();
+						
+						// delay till chart is redrawn
+						updateDataTask.delay(me.chartRefreshDuration-200);
+					});
+					
+					// delay till chart is empty
+					setGradientTask.delay(me.chartRefreshDuration-200);
+				},
+				scope: this
+			}]
 		});
-
+		
+		this.abstentionGradient = Ext.create('Ext.draw.gradient.Linear', {
+			degrees: 90,
+			stops: [
+				{offset: 0, color: 'rgb(180, 180, 180)'},
+				{offset: 100, color: 'rgb(150, 150, 150)'}
+			]
+		});
+		
+		this.initializeDefaultGradients();
+		this.initializeCorrectAnswerGradients();
 		this.setGradients();
 		
 		for (var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
 			var pA = this.questionObj.possibleAnswers[i];
+				
 			this.questionStore.add({
 				text: pA.text === "" ? i+1 : pA.text,
 				value: Math.floor(Math.random() * (8 + 2) + 1)
 			});
 		}
+		
+		console.log(this.gradients);
 
 		this.questionChart = Ext.create('Ext.chart.CartesianChart', {
 			store: this.questionStore,
@@ -80,7 +146,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 			
 			animate: {
 				easing: 'bounceOut',
-				duration: 1000
+				duration: this.chartRefreshDuration
 			},
 
 			axes: [{
@@ -110,6 +176,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 				type: 'bar',
 				xField: 'text',
 				yField: 'value',
+				colors: this.gradients,
 				style: {
 					minGapWidth: 20,
 					maxBarWidth: 200
@@ -128,22 +195,117 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 						data = rendererData.store.getData().getAt(i).getData();
 					
 					if(data.text === Messages.ABSTENTION) {
-						gradient = me.abstentionGradient;
-					} else {
-						gradient = me.gradients[i % me.gradients.length];
-					}
-	
-					return { fill: gradient};
+						return { fill: me.abstentionGradient };
+					} 
+					
+					return rendererData = {
+						fill: me.gradients[i % me.gradients.length]
+					};
 				}
 			}]
 		});
 
 		this.add([this.toolbar, this.questionChart]);
-		this.on('activate', this.onActivate);
+		this.on('activate', this.getQuestionAnswers);
 	},
 	
-	onActivate: function () {
-		this.getQuestionAnswers();
+	setGradients: function (promise) {
+		if (this.toggleCorrect) {
+			this.gradients = this.correctAnswerGradients;
+		} else {
+			this.gradients = this.defaultGradients;
+		}
+	},
+	
+	initializeCorrectAnswerGradients: function() {
+		this.correctAnswerGradients = [];
+		
+		for (var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
+			question = this.questionObj.possibleAnswers[i];
+
+			if ((question.data && !question.data.correct) || (!question.data && !question.correct)) {
+				this.correctAnswerGradients.push(
+					Ext.create('Ext.draw.gradient.Linear', {
+						degrees: 90,
+						stops: [
+							{offset: 0, color: 'rgb(212, 40, 40)'},
+							{offset: 100, color: 'rgb(117, 14, 14)'}
+						]
+					})
+				);
+			} else {
+				this.correctAnswerGradients.push(
+					Ext.create('Ext.draw.gradient.Linear', {
+						degrees: 90,
+						stops: [
+							{offset: 0, color: 'rgb(43, 221, 115)'},
+							{offset: 100, color: 'rgb(14, 117, 56)'}
+						]
+					})
+				);
+			}
+		}
+	},
+	
+	initializeDefaultGradients: function() {
+		this.defaultGradients = [
+	         Ext.create('Ext.draw.gradient.Linear', {
+				degrees: 90,
+				stops: [
+					{offset: 0, color: 'rgb(22, 64, 128)'},
+					{offset: 100, color: 'rgb(0, 14, 88)'}
+				]
+			}),
+			Ext.create('Ext.draw.gradient.Linear', {
+				degrees: 90,
+				stops: [
+					{offset: 0, color: 'rgb(48, 128, 128)'},
+					{offset: 100, color: 'rgb(8, 88, 88)'}
+				]
+			}),
+			Ext.create('Ext.draw.gradient.Linear', {
+				degrees: 90,
+				stops: [
+					{offset: 0, color: 'rgb(128, 128, 25)'},
+					{offset: 100, color: 'rgb(88, 88, 0)'}
+				]
+			}),
+			Ext.create('Ext.draw.gradient.Linear', {
+				degrees: 90,
+				stops: [
+					{offset: 0, color: 'rgb(128, 28, 128)'},
+					{offset: 100, color: 'rgb(88, 0, 88)'}
+				]
+			}),
+			Ext.create('Ext.draw.gradient.Linear', {
+				degrees: 90,
+				stops: [
+					{offset: 0, color: 'rgb(128, 21, 21)'},
+					{offset: 100, color: 'rgb(88, 0, 0)'}
+				]
+			}),
+			Ext.create('Ext.draw.gradient.Linear', {
+				degrees: 90,
+				stops: [
+					{offset: 0, color: 'rgb(128, 64, 22)'},
+					{offset: 100, color: 'rgb(88, 24, 0)'}
+				]
+			}),
+			Ext.create('Ext.draw.gradient.Linear', {
+				degrees: 90,
+				stops: [
+					{offset: 0, color: 'rgb(64, 0, 128)'},
+					{offset: 100, color: 'rgb(40, 2, 79)'}
+				]
+			}),
+			Ext.create('Ext.draw.gradient.Linear', {
+				degrees: 90,
+				stops: [
+					{offset: 0, color: 'rgb(4, 88, 34)'},
+					{offset: 100, color: 'rgb(2, 62, 31)'}
+				]
+			})
+		];
 	},
 
 	getQuestionAnswers: function () { 
@@ -235,78 +397,5 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 
 		// renew the chart-data
 		chart.redraw();
-	},
-
-	setGradients: function () {
-		this.gradients = this.getDefaultGradients();
-		
-		this.abstentionGradient = Ext.create('Ext.draw.gradient.Linear', {
-			degrees: 90,
-			stops: [
-				{offset: 0, color: 'rgb(180, 180, 180)'},
-				{offset: 100, color: 'rgb(150, 150, 150)'}
-			]
-		});
-	},
-
-	getDefaultGradients: function () {
-		return [
-			Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [
-					{offset: 0, color: 'rgb(22, 64, 128)'},
-					{offset: 100, color: 'rgb(0, 14, 88)'}
-				]
-			}),	
-			Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [
-					{offset: 0, color: 'rgb(48, 128, 128)'},
-					{offset: 100, color: 'rgb(8, 88, 88)'}
-				]
-			}),
-			Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [
-					{offset: 0, color: 'rgb(128, 128, 25)'},
-					{offset: 100, color: 'rgb(88, 88, 0)'}
-				]
-			}),
-			Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [
-					{offset: 0, color: 'rgb(128, 28, 128)'},
-					{offset: 100, color: 'rgb(88, 0, 88)'}
-				]
-			}),
-			Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [
-					{offset: 0, color: 'rgb(128, 21, 21)'},
-					{offset: 100, color: 'rgb(88, 0, 0)'}
-				]
-			}),
-			Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [
-					{offset: 0, color: 'rgb(128, 64, 22)'},
-					{offset: 100, color: 'rgb(88, 24, 0)'}
-				]
-			}),
-			Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [
-					{offset: 0, color: 'rgb(64, 0, 128)'},
-					{offset: 100, color: 'rgb(40, 2, 79)'}
-				]
-			}),
-			Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [
-					{offset: 0, color: 'rgb(4, 88, 34)'},
-					{offset: 100, color: 'rgb(2, 62, 31)'}
-				]
-			})
-		];
 	}
 });
