@@ -136,8 +136,6 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 				value: Math.floor(Math.random() * (8 + 2) + 1)
 			});
 		}
-		
-		console.log(this.gradients);
 
 		this.questionChart = Ext.create('Ext.chart.CartesianChart', {
 			store: this.questionStore,
