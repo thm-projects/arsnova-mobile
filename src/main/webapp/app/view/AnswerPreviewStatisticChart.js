@@ -22,6 +22,8 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 	config: {
 		title: Messages.STATISTIC,
 		style: 'background: black',
+		height: '100%',
+		width: '100%',
 		fullscreen: true,
 		layout: 'fit'
 	},

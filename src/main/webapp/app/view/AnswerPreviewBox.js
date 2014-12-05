@@ -23,7 +23,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 	config: {
 		scrollable: true,
 		hideOnMaskTap: true,
-		layout: 'fit'
+		layout: 'vbox'
 	},
 	
 	initialize: function(args) {
@@ -78,8 +78,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			id: 'mainPanel',
 			layout: 'vbox',
 			style: 'margin-bottom: 10px;',
-			styleHtmlContent: true,
-			fullscreen: true
+			styleHtmlContent: true
 		});
 		
 		// remove padding around mainPanel
@@ -93,8 +92,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		
 		if(questionType === 'flashcard') {
 			this.answerList = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-		    	style: 'margin-left: 0px; margin-right: 0px; word-wrap: break-word;',
-		    	flex: 1
+		    	style: 'min-height: 150px; margin-left: 0px; margin-right: 0px; word-wrap: break-word;'
 			});
 			
 			this.statisticButton.setHidden(true);
