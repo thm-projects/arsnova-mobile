@@ -40,9 +40,9 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 		
 		this.questionStore = Ext.create('Ext.data.Store', {
 			fields: [
-				{name: "text", type: "string"},
-				{name: "value",  type: "int"},
-				{name: "percent",  type: "int"}
+				{name: 'text', type: 'string'},
+				{name: 'value',  type: 'int'},
+				{name: 'percent',  type: 'int'}
 			]
 		});
 

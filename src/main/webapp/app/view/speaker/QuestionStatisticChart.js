@@ -64,9 +64,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		this.questionStore = Ext.create('Ext.data.Store', {
 			fields: [
-				{name: "text", type: "string"},
-				{name: "value",  type: "int"},
-				{name: "percent",  type: "int"}
+				{name: 'text', type: 'string'},
+				{name: 'value',  type: 'int'},
+				{name: 'percent',  type: 'int'}
 			]
 		});
 
@@ -197,6 +197,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				type: 'numeric',
 				position: 'left',
 				fields: ['value'],
+				increment: 1,
 				minimum: 0,
 				style: {stroke: 'white'},
 				label: {
