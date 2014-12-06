@@ -39,7 +39,11 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 		this.lastPanel = args.lastPanel;
 		
 		this.questionStore = Ext.create('Ext.data.Store', {
-			fields: ['text', 'value', 'percent']
+			fields: [
+				{name: "text", type: "string"},
+				{name: "value",  type: "int"},
+				{name: "percent",  type: "int"}
+			]
 		});
 
 		this.backButton = Ext.create('Ext.Button', {
@@ -132,10 +136,13 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 		
 		for (var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
 			var pA = this.questionObj.possibleAnswers[i];
-				
+			
+			var min = 1,
+				max = 10;
+			
 			this.questionStore.add({
 				text: pA.text === "" ? i+1 : pA.text,
-				value: Math.floor(Math.random() * (8 + 2) + 1)
+				value: Math.floor(Math.random() * (max - min + 1) + min)
 			});
 		}
 
@@ -153,6 +160,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 				type: 'numeric',
 				position: 'left',
 				fields: ['value'],
+				increment: 1,
 				minimum: 0,
 				style: {stroke: 'white'},
 				label: {
@@ -206,7 +214,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 		});
 
 		this.add([this.toolbar, this.questionChart]);
-		this.on('activate', this.getQuestionAnswers);
+		this.on('activate', this.calculateChartData);
 	},
 	
 	setGradients: function (promise) {
@@ -308,91 +316,33 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 		];
 	},
 
-	getQuestionAnswers: function () { 
+	calculateChartData: function () { 
 		var panel = this;
 		var chart = panel.questionChart;
 		var store = chart.getStore();
 
-		var answers = panel.questionObj.possibleAnswers;
-
-		var sum = 0;
-		var maxValue = 10;
-
-		var tmpPossibleAnswers = [];
-		for (var i = 0; i < tmpPossibleAnswers.length; i++) {
-			var el = tmpPossibleAnswers[i];
-			var record = store.findRecord('text', el, 0, false, true, true);
-			record.set('value', 0);
-		}
-
-		for (var i = 0; i < panel.questionObj.possibleAnswers.length; i++) {
-			var el = panel.questionObj.possibleAnswers[i];
-			if (el.data)
-				tmpPossibleAnswers.push(el.data.text);
-			else
-				tmpPossibleAnswers.push(el.text);
-		}
-
-		var mcAnswerCount = [];
-		var abstentionCount = 0;
-		for (var i = 0, el; el = answers[i]; i++) {
-			if (panel.questionObj.questionType === "mc") {
-				if (!el.answerText) {
-					abstentionCount = el.abstentionCount;
-					continue;
-				}
-				var values = el.answerText.split(",").map(function (answered) {
-					return parseInt(answered, 10);
-				});
-				if (values.length !== panel.questionObj.possibleAnswers.length) {
-					return;
-				}
-
-				for (var j = 0; j < el.answerCount; j++) {
-					values.forEach(function (selected, index) {
-						if (typeof mcAnswerCount[index] === "undefined") {
-							mcAnswerCount[index] = 0;
-						}
-						if (selected === 1) {
-							mcAnswerCount[index] += 1;
-						}
-					});
-				}
-				store.each(function (record, index) {
-					record.set("value", mcAnswerCount[index]);
-				});
-			} else {
-				if (!el.answerText) {
-					abstentionCount = el.abstentionCount;
-					continue;
-				}
-				var record = store.findRecord('text', el.answerText, 0, false, true, true); // exact match
-				record.set('value', el.answerCount);
-			}
-			sum += el.answerCount;
-
-			if (el.answerCount > maxValue) {
-				maxValue = Math.ceil(el.answerCount / 10) * 10;
-			}
-
-			var idx = tmpPossibleAnswers.indexOf(el.answerText); // Find the index
-			if (idx != -1) tmpPossibleAnswers.splice(idx, 1); // Remove it if really found!
-		}
-		if (abstentionCount) {
-			var record = store.findRecord('text', Messages.ABSTENTION, 0, false, true, true); // exact match
-			if (!record) {
-				store.add({text: Messages.ABSTENTION, value: abstentionCount});
-			} else if (record.get('value') != abstentionCount) {
-				record.set('value', abstentionCount);
-			}
-		}
+		var value,
+			percent,
+			sum = 0,
+			maxValue = 10,
+			totalResults;
+		
+		// sum all values
+		totalResults = store.sum('value');
 
 		// Calculate percentages
-		var totalResults = store.sum('value');
-		store.each(function (record) {
-			var percent = Math.round((record.get('value') / totalResults) * 100);
+		// determine max value
+		store.each(function(record) {
+			value = record.get('value');
+			percent = Math.round((value / totalResults) * 100);
 			record.set('percent', percent);
+			
+			if(value > maxValue) {
+				maxValue = Math.ceil(value / 10) * 10;
+			}
 		});
+
+		// set maximum
 		chart.getAxes()[0].setMaximum(maxValue);
 
 		// renew the chart-data
