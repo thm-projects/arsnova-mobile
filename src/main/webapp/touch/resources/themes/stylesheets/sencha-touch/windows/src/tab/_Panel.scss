@@ -93,6 +93,11 @@
             padding-top: 7px;
         }
 
+        .x-badge {
+          padding-top: 3px;
+          padding-bottom: 3px;
+        }
+
         .x-button-icon {
             width: 42px;
             height: 42px;
@@ -213,6 +218,10 @@
     .x-tab {
         .x-button-label {
             color: #000;
+        }
+
+        .x-badge {
+          color: #fff;
         }
 
         .x-button-icon {

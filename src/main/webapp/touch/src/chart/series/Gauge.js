@@ -158,6 +158,10 @@ Ext.define('Ext.chart.series.Gauge', {
 
         rotation: 0,
 
+        /**
+        * @cfg {Number} totalAngle
+        * The size of the sector that the series will occupy.
+        */
         totalAngle: Math.PI / 2,
 
         region: [0, 0, 1, 1],

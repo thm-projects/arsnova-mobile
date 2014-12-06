@@ -6,18 +6,14 @@
  * One way to create a draw component is:
  *
  *     var drawComponent = new Ext.draw.Component({
- *         items: [{
+ *         fullscreen: true,
+ *         sprites: [{
  *             type: 'circle',
  *             fill: '#79BB3F',
  *             radius: 100,
  *             x: 100,
  *             y: 100
  *         }]
- *     });
- *
- *     new Ext.Panel({
- *         fullscreen: true,
- *         items: [drawComponent]
  *     });
  *
  * In this case we created a draw component and added a sprite to it.
@@ -29,7 +25,7 @@
  *
  *     drawComponent.getSurface('main').add({
  *         type: 'circle',
- *         fill: '#79BB3F',
+ *         fill: 'blue',
  *         radius: 100,
  *         x: 100,
  *         y: 100

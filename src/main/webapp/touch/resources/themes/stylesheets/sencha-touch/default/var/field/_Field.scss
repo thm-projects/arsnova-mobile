@@ -30,7 +30,7 @@ $form-field-border-bottom-width: 1px !default;
  * @var {color} $form-field-label-bg-color
  * Default background color for form field labels.
  */
-$form-field-label-bg-color: $form-field-bg-color !default;
+$form-field-label-bg-color: $form-label-background-color !default;
 
 /**
  * @var {color} $form-field-label-color

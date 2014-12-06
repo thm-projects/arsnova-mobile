@@ -282,6 +282,28 @@ Ext.define('Ext.event.publisher.TouchGesture', {
         return changedTouches;
     },
 
+    syncTouches: function (touches) {
+        var touchIDs = [], len = touches.length,
+            i, id, touch, ghostTouches;
+
+        // Collect the actual touch IDs that exist
+        for (i = 0; i < len; i++) {
+            touch = touches[i];
+            touchIDs.push(touch.identifier);
+        }
+
+        // Compare actual IDs to cached IDs
+        // Remove any that are not real anymore
+        ghostTouches = Ext.Array.difference(this.currentIdentifiers, touchIDs);
+        len = ghostTouches.length;
+
+        for (i = 0; i < len; i++) {
+            id = ghostTouches[i];
+            Ext.Array.remove(this.currentIdentifiers, id);
+            delete this.touchesMap[id];
+        }
+    },
+
     factoryEvent: function(e) {
         return new Ext.event.Touch(e, null, this.touchesMap, this.currentIdentifiers);
     },
@@ -289,11 +311,18 @@ Ext.define('Ext.event.publisher.TouchGesture', {
     onTouchStart: function(e) {
         var changedTouches = e.changedTouches,
             target = e.target,
+            touches = e.touches,
             ln = changedTouches.length,
             isNotPreventable = this.isNotPreventable,
             isTouch = (e.type === 'touchstart'),
             me = this,
             i, touch, parent;
+
+        // Potentially sync issue from various reasons.
+        // example: ios8 does not dispatch touchend on audio element play/pause tap.
+        if (touches && touches.length < this.currentIdentifiers.length + 1) {
+            this.syncTouches(touches);
+        }
 
         this.updateTouches(changedTouches);
 
@@ -408,7 +437,7 @@ Ext.define('Ext.event.publisher.TouchGesture', {
         // This previously was set to e.touches.length === 1 to catch errors in syncing
         // this has since been addressed to keep proper sync and now this is a catch for
         // a sync error in touches to reset our internal maps
-        if (e.touches.length === 0 && currentIdentifiers.length) {
+        if (e.touches && e.touches.length === 0 && currentIdentifiers.length) {
             currentIdentifiers.length = 0;
             this.touchesMap = {};
         }
