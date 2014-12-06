@@ -63,7 +63,11 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		this.lastPanel = args.lastPanel;
 
 		this.questionStore = Ext.create('Ext.data.Store', {
-			fields: ['text', 'value', 'percent']
+			fields: [
+				{name: "text", type: "string"},
+				{name: "value",  type: "int"},
+				{name: "percent",  type: "int"}
+			]
 		});
 
 		var hasCorrectAnswers = Ext.bind(function () {
