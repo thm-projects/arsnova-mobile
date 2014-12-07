@@ -50,7 +50,7 @@ Ext.define('ARSnova.model.Answer', {
 	},
 
 	saveAnswer: function (callbacks) {
-		if (this.get('_id') && this.get('_rev')) {
+		if (!this.phantom) {
 			return this.getProxy().updateAnswer(this, callbacks);
 		}
 		return this.getProxy().saveAnswer(this, callbacks);

@@ -26,7 +26,9 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 			direction: 'vertical',
 			directionLock: true
 		},
-		isRendered: false
+		isRendered: false,
+
+		question: null
 	},
 
 	/* toolbar items */
@@ -36,8 +38,9 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 
 	constructor: function (args) {
 		this.callParent(arguments);
+		var me = this;
 
-		this.questionObj = args.question;
+		this.questionObj = this.getQuestion();
 
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.QUESTIONS,
@@ -63,9 +66,9 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 		});
 
 		// Setup question title and text to display in the same field; markdown handles HTML encoding
-		var questionString = this.questionObj.fullDate + ": " + this.questionObj.subject
+		var questionString = this.questionObj.getFormattedDateTime().replace(/\./, "\\.") + ": " + this.questionObj.get('subject')
 			+ '\n\n' // inserts one blank line between subject and text
-			+ this.questionObj.text;
+			+ this.questionObj.get('text');
 
 		// Create standard panel with framework support
 		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
@@ -87,15 +90,17 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
 
 				ARSnova.app.questionModel.deleteInterposed(this.questionObj, {
+					success: function () {
+						me.questionObj.destroy();
+						panel.animateActiveItem(panel.questionsPanel, {
+							type: 'slide',
+							direction: 'right',
+							duration: 700
+						});
+					},
 					failure: function (response) {
 						console.log('server-side error delete question');
 					}
-				});
-
-				panel.animateActiveItem(panel.questionsPanel, {
-					type: 'slide',
-					direction: 'right',
-					duration: 700
 				});
 			}
 		}]);
@@ -104,6 +109,7 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 	},
 
 	onDeactivate: function () {
-		setTimeout("ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.checkFeedbackQuestions();", 500);
+		// reload questions
+		ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.getCheckFeedbackQuestionsTask().taskRunTime = 0;
 	}
 });

@@ -107,38 +107,45 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		});
 
 		this.infoButton = Ext.create('Ext.Button', {
+			ui: 'action',
 			iconCls: 'info',
 			iconMask: true,
 			handler: function () {me.onInfoButton();}
 		});
 
 		this.btnMoveLeft = Ext.create('Ext.Button', {
+			ui: 'action',
 			iconCls: 'arrow_left',
 			iconMask: true
 		});
 
 		this.btnMoveRight = Ext.create('Ext.Button', {
+			ui: 'action',
 			iconCls: 'arrow_right',
 			iconMask: true
 		});
 
 		this.btnMoveUp = Ext.create('Ext.Button', {
+			ui: 'action',
 			iconCls: 'arrow_up',
 			iconMask: true
 		});
 
 		this.btnMoveDown = Ext.create('Ext.Button', {
+			ui: 'action',
 			iconCls: 'arrow_down',
 			iconMask: true
 		});
 
 		this.deleteButton = Ext.create('Ext.Button', {
+			ui: 'action',
 			iconCls: 'delete',
 			iconMask: true,
 			handler: function () {me.resetView();}
 		});
 
 		this.rotateButton = Ext.create('Ext.Button', {
+			ui: 'action',
 			iconCls: 'refresh',
 			iconMask: true,
 			handler: function () {
@@ -147,42 +154,49 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		});
 
 		this.btnZoomInGrid = Ext.create('Ext.Button', {
+			ui: 'action',
 			iconCls: 'add',
 			iconMask: true,
 			handler: function () {me.grid.zoomInGrid();}
 		});
 
 		this.btnZoomOutGrid = Ext.create('Ext.Button', {
+			ui: 'action',
 			iconCls: 'minus2',
 			iconMask: true,
 			handler: function () {me.grid.zoomOutGrid();}
 		});
 
 		this.btnMoveGridLeft = Ext.create('Ext.Button', {
+			ui: 'action',
 			iconCls: 'arrow_left',
 			iconMask: true,
 			handler: function () {me.grid.moveGridLeft();}
 		});
 
 		this.btnMoveGridRight = Ext.create('Ext.Button', {
+			ui: 'action',
 			iconCls: 'arrow_right',
 			iconMask: true,
 			handler: function () {me.grid.moveGridRight();}
 		});
 
 		this.btnMoveGridUp = Ext.create('Ext.Button', {
+			ui: 'action',
 			iconCls: 'arrow_up',
 			iconMask: true,
 			handler: function () {me.grid.moveGridUp();}
 		});
 
 		this.btnMoveGridDown = Ext.create('Ext.Button', {
+			ui: 'action',
 			iconCls: 'arrow_down',
 			iconMask: true,
 			handler: function () {me.grid.moveGridDown();}
 		});
 
 		this.hideGridButton = Ext.create('Ext.Button', {
+			ui: 'action',
 			iconCls: 'delete',
 			iconMask: true,
 			handler: function () {
@@ -706,7 +720,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	getQuestionValues: function () {
 		var result = {};
 		
-		result = this.grid.createResult();
+		if(this.grid === null) return;
+		else result = this.grid.createResult();
 
 		var possibleAnswers = this.grid.getPossibleAnswersFromChosenFields();
 		if (ARSnova.app.globalConfig.features.learningProgress) {

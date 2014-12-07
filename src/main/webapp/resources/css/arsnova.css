@@ -19,6 +19,23 @@
 	opacity: 0;
 }
 
+.statisticButton.x-item-disabled .x-button-label {
+	opacity: 1;
+}
+
+.centerFormTitle .x-form-fieldset-title {
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.centerFormTitle.hiddenUrl .x-form-fieldset-title {
+	margin-bottom: -9px;
+}
+
+.x-tabbar .x-tab .infoButtonBeforeLogin:before {
+	color: #80ba24;
+}
+
 .myCoursesList .x-innerhtml{
 	padding: 0 !important;	
 }
@@ -75,10 +92,6 @@
 	-webkit-border-radius: 0.5em;
 	border-radius: 0.5em;
 	margin: 0.2em;
-}
-
-.x-fullscreen {
-	background-color: #c5ccd3;
 }
 
 .loginFieldSet .x-field-text {
@@ -937,10 +950,6 @@ span.bold {
 	color: #00CD00;
 }
 
-.isInactive {
-	color: #800032;
-}
-
 .buttontext {
 	margin-left: 15px;
 }
@@ -1082,11 +1091,6 @@ ol.standardList li {
 .newQuestionOptions .x-button {
 	/*width: 33%;*/
 	width: 50%;
-}
-
-.newQuestionOptions .x-form-fieldset-title {
-	width: 98%;
-	margin: 0 auto;
 }
 
 .login-label-openid {
@@ -1357,7 +1361,7 @@ ol.standardList li {
 	text-shadow: #fff 0 1px 1px;
 	color: #333333;
 	margin: 1em 0.7em 0.3em;
-	font-weight: bold;
+	font-weight: normal;
 	margin-left: 30px;
 	margin-right: 30px;
 }
@@ -1561,6 +1565,12 @@ ol.standardList li {
 	text-transform: uppercase;
 }
 
-.file-upload-panel {
+.fileUploadFieldset {
 	margin: 0.5em 0.5em 1em;
+}
+
+.fileUploadFieldset .x-field-text,
+.fileUploadFieldset .x-input-text {
+	border-bottom: none;
+	border-radius: .4em;
 }

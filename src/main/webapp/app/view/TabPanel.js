@@ -24,7 +24,9 @@ Ext.define('ARSnova.view.TabPanel', {
 		'ARSnova.view.RolePanel',
 		'ARSnova.view.home.TabPanel',
 		'ARSnova.view.diagnosis.TabPanel',
-		'ARSnova.view.about.TabPanel'
+		'ARSnova.view.about.AboutTabPanel',
+		'ARSnova.view.about.ImprintTabPanel',
+		'ARSnova.view.about.PrivacyTabPanel'
 	],
 
 	config: {
@@ -69,22 +71,36 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.rolePanel = Ext.create('ARSnova.view.RolePanel');
 		this.homeTabPanel = Ext.create('ARSnova.view.home.TabPanel');
 		this.diagnosisPanel = Ext.create('ARSnova.view.diagnosis.TabPanel');
-		this.infoTabPanel = Ext.create('ARSnova.view.about.TabPanel');
-
+		this.infoTabPanel = Ext.create('ARSnova.view.about.AboutTabPanel');
+		this.privacyTabPanel = Ext.create('ARSnova.view.about.PrivacyTabPanel');
+		this.imprintTabPanel = Ext.create('ARSnova.view.about.ImprintTabPanel');
+		
 		this.add([
 			this.rolePanel,
 			this.loginPanel,
 			this.homeTabPanel,
 			this.diagnosisPanel,
-			this.infoTabPanel
+			this.infoTabPanel,
+			this.privacyTabPanel,
+			this.imprintTabPanel
 		]);
-
+		
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
 			ARSnova.app.lastActivePanel = oldCard;
-			if (newCard === this.infoTabPanel) {
-				// The "Info" panel is just a stub button that opens the ARSnova manual
-				ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.lastActivePanel);
-				return false;
+			switch(newCard) {
+				case this.infoTabPanel:
+				case this.privacyTabPanel:
+				case this.imprintTabPanel:
+					// The "about" panels are just stub buttons that opens the ARSnova manual, privacy police and imprint
+					ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.lastActivePanel);
+					return false;
+			}
+
+			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER
+				&& newCard !== this.loginPanel) {
+				this.addCls('speakerTabbar');
+			} else {
+				this.removeCls('speakerTabbar');
 			}
 		}, this);
 
@@ -137,6 +153,38 @@ Ext.define('ARSnova.view.TabPanel', {
 			}
 			ARSnova.app.taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
 		}
+	},
+	
+	activateAboutTabs: function() {
+		this.privacyTabPanel.tab.show();
+		this.imprintTabPanel.tab.show();
+		
+		// this.addClassToTab('infoButtonBeforeLogin', this.infoTabPanel);
+		// this.addClassToTab('infoButtonBeforeLogin', this.privacyTabPanel);
+		// this.addClassToTab('infoButtonBeforeLogin', this.imprintTabPanel);
+	},
+	
+	deactivateAboutTabs: function() {
+		this.privacyTabPanel.tab.hide();
+		this.imprintTabPanel.tab.hide();
+		
+		// this.removeClassFromTab('infoButtonBeforeLogin', this.infoTabPanel);
+		// this.removeClassFromTab('infoButtonBeforeLogin', this.privacyTabPanel);
+		// this.removeClassFromTab('infoButtonBeforeLogin', this.imprintTabPanel);
+	},
+	
+	addClassToTab: function(addCls, panel) {
+		var tabbar = this.getTabBar().element,
+			selectCls = '.' + panel.getIconCls();
+
+		tabbar.select(selectCls).addCls(addCls);
+	},
+	
+	removeClassFromTab: function(removeCls, panel) {
+		var tabbar = this.getTabBar().element,
+			selectCls = '.' + panel.getIconCls();
+			
+		tabbar.select(selectCls).removeCls(removeCls);
 	},
 
 	updateFeedbackIcon: function (averageFeedback) {

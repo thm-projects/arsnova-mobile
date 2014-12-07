@@ -20,18 +20,28 @@ Ext.define('ARSnova.model.FeedbackQuestion', {
 	extend: 'Ext.data.Model',
 
 	config: {
-		idProperty: '_id',
-
 		fields: [
-			'fullDate',
-			'formattedTime',
-			'read',
-			'timestamp',
 			'subject',
-			'type',
-			'groupDate',
-			'obj',
-			'creator'
+			'text',
+			'timestamp',
+			'read'
+		],
+
+		validations: [
+			{ type: 'presence', field: 'subject' },
+			{ type: 'presence', field: 'text' }
 		]
+	},
+
+	getFormattedDateTime: function () {
+		var time = new Date(this.get('timestamp'));
+		return moment(time).format('LLL');
+	},
+
+	read: function () {
+		if (ARSnova.app.isSessionOwner && this.get('read') === false) {
+			this.set('read', true);
+			ARSnova.app.socket.readInterposedQuestion(this);
+		}
 	}
 });

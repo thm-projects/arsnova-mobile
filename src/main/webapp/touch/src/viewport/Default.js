@@ -40,17 +40,7 @@ Ext.define('Ext.viewport.Default', {
 
     config: {
         /**
-         * @cfg {Boolean} autoMaximize
-         * Whether or not to always automatically maximize the viewport on first load and all subsequent orientation changes.
-         *
-         * This is set to `false` by default for a number of reasons:
-         *
-         * - Orientation change performance is drastically reduced when this is enabled, on all devices.
-         * - On some devices (mostly Android) this can sometimes cause issues when the default browser zoom setting is changed.
-         * - When wrapping your phone in a native shell, you may get a blank screen.
-         * - When bookmarked to the homescreen (iOS), you may get a blank screen.
-         *
-         * @accessor
+         * @private
          */
         autoMaximize: false,
 
@@ -143,6 +133,8 @@ Ext.define('Ext.viewport.Default', {
     id: 'ext-viewport',
 
     isInputRegex: /^(input|textarea|select|a)$/i,
+
+    isInteractiveWebComponentRegEx: /^(audio|video)$/i,
 
     focusedElement: null,
 
@@ -383,7 +375,22 @@ Ext.define('Ext.viewport.Default', {
     },
 
     doPreventPanning: function(e) {
-        e.preventDefault();
+        var target = e.target, touch;
+
+        // If we have an interaction on a WebComponent we need to check the actual shadow dom element selected
+        // to determine if it is an input before preventing default behavior
+        // Side effect to this is if the shadow input does not do anything with 'touchmove' the user could pan
+        // the screen.
+        if (this.isInteractiveWebComponentRegEx.test(target.tagName) && e.touches && e.touches.length > 0) {
+            touch = e.touches[0];
+            if (touch && touch.target && this.isInputRegex.test(touch.target.tagName)) {
+                return;
+            }
+        }
+
+        if (target && target.nodeType === 1 && !this.isInputRegex.test(target.tagName)) {
+            e.preventDefault();
+        }
     },
 
     doPreventZooming: function(e) {
@@ -392,7 +399,13 @@ Ext.define('Ext.viewport.Default', {
             return;
         }
 
-        var target = e.target;
+        var target = e.target, touch;
+        if (this.isInteractiveWebComponentRegEx.test(target.tagName) && e.touches && e.touches.length > 0) {
+            touch = e.touches[0];
+            if (touch && touch.target && this.isInputRegex.test(touch.target.tagName)) {
+                return;
+            }
+        }
 
         if (target && target.nodeType === 1 && !this.isInputRegex.test(target.tagName)) {
             e.preventDefault();

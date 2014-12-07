@@ -79,12 +79,12 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		// Preview button
 		this.previewButton = Ext.create('Ext.Button', {
 			text: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
-			ui: 'confirm',
+			ui: 'action',
 			cls: 'previewButton',
 			scope: this,
 			handler: function () {
-					this.previewHandler();
-				}
+				this.previewHandler();
+			}
 		});
 
 		// Preview panel with integrated button
@@ -106,23 +106,24 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			xtype: 'formpanel',
 			submitOnAction: false,
 			scrollable: null,
-			cls: 'standardForm',
+			style: 'margin-bottom; 10px',
 
 			items: [{
 				xtype: 'fieldset',
 				items: [
 					this.subject,
-					this.text,
-					this.previewPart
+					this.text
 				]
-			}, {
-				xtype: 'button',
-				ui: 'confirm',
-				cls: 'login-button',
-				text: Messages.SEND,
-				handler: this.askQuestion,
-				scope: this
-			}]
+			}
+				
+			]
+		}, this.previewPart, {
+			xtype: 'button',
+			ui: 'confirm',
+			cls: 'login-button',
+			text: Messages.SEND,
+			handler: this.askQuestion,
+			scope: this
 		}]);
 	},
 

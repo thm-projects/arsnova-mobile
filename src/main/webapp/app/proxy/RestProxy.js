@@ -356,7 +356,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 
 	deleteInterposedQuestion: function (question, callbacks) {
 		this.arsjax.request({
-			url: "session/" + question.sessionId + "/interposed/" + question._id,
+			url: "audiencequestion/" + question.getId(),
 			method: "DELETE",
 			success: callbacks.success,
 			failure: callbacks.failure
@@ -519,7 +519,16 @@ Ext.define('ARSnova.proxy.RestProxy', {
 
 	delAllQuestionsAnswers: function (sessionKeyword, callbacks) {
 		this.arsjax.request({
-			url: "lecturerquestion/answers?sessionkey=" + encodeURIComponent(sessionKeyword),
+			url: "lecturerquestion/answers?sessionkey=" + encodeURIComponent(sessionKeyword) + "&lecturequestionsonly=true",
+			method: "DELETE",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
+	delAllPreparationAnswers: function (sessionKeyword, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/answers?sessionkey=" + encodeURIComponent(sessionKeyword) + "&preparationquestionsonly=true",
 			method: "DELETE",
 			success: callbacks.success,
 			failure: callbacks.failure
@@ -530,31 +539,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/myanswers",
 			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-
-	getUnansweredSkillQuestions: function (sessionKeyword, callbacks) {
-		this.getUnansweredQuestions(sessionKeyword, "", callbacks);
-	},
-
-	getUnansweredLectureQuestions: function (sessionKeyword, callbacks) {
-		this.getUnansweredQuestions(sessionKeyword, "&lecturequestionsonly=true", callbacks);
-	},
-
-	getUnansweredPreparationQuestions: function (sessionKeyword, callbacks) {
-		this.getUnansweredQuestions(sessionKeyword, "&preparationquestionsonly=true", callbacks);
-	},
-
-	getUnansweredQuestions: function (sessionKeyword, query, callbacks) {
-		this.arsjax.request({
-			url: "lecturerquestion/unanswered?sessionkey=" + sessionKeyword + query,
-			204: function () {
-				callbacks.success.call(this, []);
-			},
-			success: function (response) {
-				callbacks.success.call(this, Ext.decode(response.responseText));
-			},
 			failure: callbacks.failure
 		});
 	},

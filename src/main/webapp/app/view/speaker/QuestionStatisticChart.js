@@ -22,7 +22,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	config: {
 		title: Messages.STATISTIC,
 		style: 'background-color: black',
-		iconCls: 'tabBarIconCanteen',
 		layout: 'fit'
 	},
 
@@ -35,6 +34,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 	/* toolbar items */
 	toolbar: null,
+	toggleCorrect: false,
 
 	renewChartDataTask: {
 		name: 'renew the chart data at question statistics charts',
@@ -63,8 +63,20 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		this.lastPanel = args.lastPanel;
 
 		this.questionStore = Ext.create('Ext.data.Store', {
-			fields: ['text', 'value', 'percent']
+			fields: [
+				{name: 'text', type: 'string'},
+				{name: 'value',  type: 'int'},
+				{name: 'percent',  type: 'int'}
+			]
 		});
+
+		var hasCorrectAnswers = Ext.bind(function () {
+			var hasCorrect = false;
+			this.questionObj.possibleAnswers.forEach(function (answer) {
+				hasCorrect = hasCorrect || !!answer.correct;
+			});
+			return hasCorrect;
+		}, this);
 
 		for (var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
 			var pA = this.questionObj.possibleAnswers[i];
@@ -103,6 +115,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			ui: 'light',
+			cls: ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER ? 'speakerTitleText' : '',
 			title: Messages.QUESTION,
 			items: [this.backButton, {
 				xtype: 'spacer'
@@ -111,6 +124,30 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				cls: "x-toolbar-title counterText",
 				html: "0/0",
 				style: {paddingRight: '10px'}
+			}, {
+				xtype: 'button',
+				width: '55px',
+				iconCls: 'icon-check',
+				cls: 'toggleCorrectButton',
+				handler: function(button) {
+					if (this.toggleCorrect) {
+						button.removeCls('x-button-pressed');
+					} else {
+						button.addCls('x-button-pressed');
+					}
+					this.toggleCorrect = !this.toggleCorrect;
+					// updates the chart's colors
+					this.setGradients();
+					// remove all data for a smooth "redraw"
+					this.questionStore.each(function (record) {
+						record.set('value', 0);
+						record.set('percent', 0);
+					});
+					// reload chart data
+					this.renewChartDataTask.taskRunTime = 0;
+				},
+				scope: this,
+				hidden: !ARSnova.app.isSessionOwner || !hasCorrectAnswers() || this.questionObj.questionType === 'grid'
 			}]
 		});
 
@@ -122,7 +159,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		});
 
 		if (this.questionObj.questionType == "grid") {
-
 			this.titlebar = Ext.create('Ext.Toolbar', {
 				cls: 'questionStatisticTitle',
 				docked: 'top',
@@ -144,169 +180,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				cls: "roundedBox allCapsHeader"
 			});
 			this.contentField.setContent(questionString, true, true);
-			
-//			// Setup question title and text to disply in the same field; markdown handles HTML encoding
-//			var questionString = this.questionObj.subject
-//				+ '\n\n' // inserts one blank line between subject and text
-//				+ this.questionObj.text;
-//			
-//			this.contentField = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
-//			this.contentField.setContent(
-//					Ext.util.Format.htmlEncode(this.questionObj.text), true, true);
-
 		}
 
-		if (this.questionObj.questionType == "yesno" ||
-			this.questionObj.questionType == "mc" ||
-			(this.questionObj.questionType == "abcd" && !this.questionObj.noCorrect)) {
-
-			if (this.questionObj.showAnswer) {
-				this.gradients = [];
-				for (var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
-					var question = this.questionObj.possibleAnswers[i];
-
-					if ((question.data && !question.data.correct) || (!question.data && !question.correct)) {
-						this.gradients.push(
-							Ext.create('Ext.draw.gradient.Linear', {
-								degrees: 90,
-								stops: [
-									{offset: 0, color: 'rgb(212, 40, 40)'},
-									{offset: 100, color: 'rgb(117, 14, 14)'}
-								]
-							})
-						);
-					} else {
-						this.gradients.push(
-							Ext.create('Ext.draw.gradient.Linear', {
-								degrees: 90,
-								stops: [
-									{offset: 0, color: 'rgb(43, 221, 115)'},
-									{offset: 100, color: 'rgb(14, 117, 56)'}
-								]
-							})
-						);
-					}
-				}
-			} else {
-				this.gradients = [
-					Ext.create('Ext.draw.gradient.Linear', {
-						degrees: 90,
-						stops: [
-							{offset: 0, color: 'rgb(22, 64, 128)'},
-							{offset: 100, color: 'rgb(0, 14, 88)'}
-						]
-					}),
-					Ext.create('Ext.draw.gradient.Linear', {
-						degrees: 90,
-						stops: [
-							{offset: 0, color: 'rgb(48, 128, 128)'},
-							{offset: 100, color: 'rgb(8, 88, 88)'}
-						]
-					}),
-					Ext.create('Ext.draw.gradient.Linear', {
-						degrees: 90,
-						stops: [
-							{offset: 0, color: 'rgb(128, 128, 25)'},
-							{offset: 100, color: 'rgb(88, 88, 0)'}
-						]
-					}),
-					Ext.create('Ext.draw.gradient.Linear', {
-						degrees: 90,
-						stops: [
-							{offset: 0, color: 'rgb(128, 28, 128)'},
-							{offset: 100, color: 'rgb(88, 0, 88)'}
-						]
-					}),
-					Ext.create('Ext.draw.gradient.Linear', {
-						degrees: 90,
-						stops: [
-							{offset: 0, color: 'rgb(128, 21, 21)'},
-							{offset: 100, color: 'rgb(88, 0, 0)'}
-						]
-					}),
-					Ext.create('Ext.draw.gradient.Linear', {
-						degrees: 90,
-						stops: [
-							{offset: 0, color: 'rgb(128, 64, 22)'},
-							{offset: 100, color: 'rgb(88, 24, 0)'}
-						]
-					}),
-					Ext.create('Ext.draw.gradient.Linear', {
-						degrees: 90,
-						stops: [
-							{offset: 0, color: 'rgb(64, 0, 128)'},
-							{offset: 100, color: 'rgb(40, 2, 79)'}
-						]
-					}),
-					Ext.create('Ext.draw.gradient.Linear', {
-						degrees: 90,
-						stops: [
-							{offset: 0, color: 'rgb(4, 88, 34)'},
-							{offset: 100, color: 'rgb(2, 62, 31)'}
-						]
-					})
-				];
-			}
-		} else {
-			this.gradients = [
-				Ext.create('Ext.draw.gradient.Linear', {
-					degrees: 90,
-					stops: [
-						{offset: 0, color: 'rgb(22, 64, 128)'},
-						{offset: 100, color: 'rgb(0, 14, 88)'}
-					]
-				}),
-				Ext.create('Ext.draw.gradient.Linear', {
-					degrees: 90,
-					stops: [
-						{offset: 0, color: 'rgb(48, 128, 128)'},
-						{offset: 100, color: 'rgb(8, 88, 88)'}
-					]
-				}),
-				Ext.create('Ext.draw.gradient.Linear', {
-					degrees: 90,
-					stops: [
-						{offset: 0, color: 'rgb(128, 128, 25)'},
-						{offset: 100, color: 'rgb(88, 88, 0)'}
-					]
-				}),
-				Ext.create('Ext.draw.gradient.Linear', {
-					degrees: 90,
-					stops: [
-						{offset: 0, color: 'rgb(128, 28, 128)'},
-						{offset: 100, color: 'rgb(88, 0, 88)'}
-					]
-				}),
-				Ext.create('Ext.draw.gradient.Linear', {
-					degrees: 90,
-					stops: [
-						{offset: 0, color: 'rgb(128, 21, 21)'},
-						{offset: 100, color: 'rgb(88, 0, 0)'}
-					]
-				}),
-				Ext.create('Ext.draw.gradient.Linear', {
-					degrees: 90,
-					stops: [
-						{offset: 0, color: 'rgb(128, 64, 22)'},
-						{offset: 100, color: 'rgb(88, 24, 0)'}
-					]
-				}),
-				Ext.create('Ext.draw.gradient.Linear', {
-					degrees: 90,
-					stops: [
-						{offset: 0, color: 'rgb(64, 0, 128)'},
-						{offset: 100, color: 'rgb(40, 2, 79)'}
-					]
-				}),
-				Ext.create('Ext.draw.gradient.Linear', {
-					degrees: 90,
-					stops: [
-						{offset: 0, color: 'rgb(4, 88, 34)'},
-						{offset: 100, color: 'rgb(2, 62, 31)'}
-					]
-				})
-			];
-		}
+		this.setGradients();
 
 		this.questionChart = Ext.create('Ext.chart.CartesianChart', {
 			store: this.questionStore,
@@ -321,6 +197,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				type: 'numeric',
 				position: 'left',
 				fields: ['value'],
+				increment: 1,
 				minimum: 0,
 				style: {stroke: 'white'},
 				label: {
@@ -355,7 +232,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					}
 				},
 				renderer: function (sprite, config, rendererData, i) {
-					var panel;
+					var panel, gradient,
+						data = rendererData.store.getData().getAt(i).getData();
 
 					if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_STUDENT) {
 						panel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart;
@@ -365,7 +243,13 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 						panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 					}
 
-					return {fill: panel.gradients[i % panel.gradients.length]};
+					if(data.text === Messages.ABSTENTION) {
+						gradient = panel.abstentionGradient;
+					} else {
+						gradient = panel.gradients[i % panel.gradients.length];
+					}
+
+					return { fill: gradient};
 				}
 			}]
 		});
@@ -377,7 +261,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		} else {
 			this.add([this.toolbar, this.titlebar, this.contentField, this.questionChart]);
 
-			this.setStyle('background-color: #C5CCD3');
+			this.setStyle('background-color: #E0E0E0');
 			// add statistic
 			this.gridStatistic = Ext.create('ARSnova.view.components.GridStatistic', {
 				questionObj: this.questionObj
@@ -459,9 +343,11 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					}
 					sum += el.answerCount;
 
-					if (el.answerCount > maxValue) {
-						maxValue = Math.ceil(el.answerCount / 10) * 10;
-					}
+					store.each(function (record, index) {
+						var max = Math.max(maxValue, record.get('value'));
+						// Scale axis to a bigger number. For example, 12 answers get a maximum scale of 20.
+						maxValue = Math.ceil(max / 10) * 10;
+					});
 
 					var idx = tmpPossibleAnswers.indexOf(el.answerText); // Find the index
 					if (idx != -1) tmpPossibleAnswers.splice(idx, 1); // Remove it if really found!
@@ -530,5 +416,118 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		users[1] = count;
 		users = users.join("/");
 		quote.setHtml(users);
+	},
+
+	setGradients: function () {
+		if (this.questionObj.questionType == "yesno" || this.questionObj.questionType == "mc"
+				|| (this.questionObj.questionType == "abcd" && !this.questionObj.noCorrect)) {
+			if (this.toggleCorrect) {
+				this.gradients = this.getCorrectAnswerGradients();
+			} else {
+				this.gradients = this.getDefaultGradients();
+			}
+		} else {
+			this.gradients = this.getDefaultGradients();
+		}
+
+		this.abstentionGradient = Ext.create('Ext.draw.gradient.Linear', {
+			degrees: 90,
+			stops: [
+				{offset: 0, color: 'rgb(180, 180, 180)'},
+				{offset: 100, color: 'rgb(150, 150, 150)'}
+			]
+		});
+	},
+
+	getCorrectAnswerGradients: function () {
+		var gradients = [];
+		var question;
+		for (var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
+			question = this.questionObj.possibleAnswers[i];
+
+			if ((question.data && !question.data.correct) || (!question.data && !question.correct)) {
+				gradients.push(
+					Ext.create('Ext.draw.gradient.Linear', {
+						degrees: 90,
+						stops: [
+							{offset: 0, color: 'rgb(212, 40, 40)'},
+							{offset: 100, color: 'rgb(117, 14, 14)'}
+						]
+					})
+				);
+			} else {
+				gradients.push(
+					Ext.create('Ext.draw.gradient.Linear', {
+						degrees: 90,
+						stops: [
+							{offset: 0, color: 'rgb(43, 221, 115)'},
+							{offset: 100, color: 'rgb(14, 117, 56)'}
+						]
+					})
+				);
+			}
+		}
+		return gradients;
+	},
+
+	getDefaultGradients: function () {
+		return [
+			Ext.create('Ext.draw.gradient.Linear', {
+				degrees: 90,
+				stops: [
+					{offset: 0, color: 'rgb(22, 64, 128)'},
+					{offset: 100, color: 'rgb(0, 14, 88)'}
+				]
+			}),
+			Ext.create('Ext.draw.gradient.Linear', {
+				degrees: 90,
+				stops: [
+					{offset: 0, color: 'rgb(48, 128, 128)'},
+					{offset: 100, color: 'rgb(8, 88, 88)'}
+				]
+			}),
+			Ext.create('Ext.draw.gradient.Linear', {
+				degrees: 90,
+				stops: [
+					{offset: 0, color: 'rgb(128, 128, 25)'},
+					{offset: 100, color: 'rgb(88, 88, 0)'}
+				]
+			}),
+			Ext.create('Ext.draw.gradient.Linear', {
+				degrees: 90,
+				stops: [
+					{offset: 0, color: 'rgb(128, 28, 128)'},
+					{offset: 100, color: 'rgb(88, 0, 88)'}
+				]
+			}),
+			Ext.create('Ext.draw.gradient.Linear', {
+				degrees: 90,
+				stops: [
+					{offset: 0, color: 'rgb(128, 21, 21)'},
+					{offset: 100, color: 'rgb(88, 0, 0)'}
+				]
+			}),
+			Ext.create('Ext.draw.gradient.Linear', {
+				degrees: 90,
+				stops: [
+					{offset: 0, color: 'rgb(128, 64, 22)'},
+					{offset: 100, color: 'rgb(88, 24, 0)'}
+				]
+			}),
+			Ext.create('Ext.draw.gradient.Linear', {
+				degrees: 90,
+				stops: [
+					{offset: 0, color: 'rgb(64, 0, 128)'},
+					{offset: 100, color: 'rgb(40, 2, 79)'}
+				]
+			}),
+			Ext.create('Ext.draw.gradient.Linear', {
+				degrees: 90,
+				stops: [
+					{offset: 0, color: 'rgb(4, 88, 34)'},
+					{offset: 100, color: 'rgb(2, 62, 31)'}
+				]
+			})
+		];
 	}
 });

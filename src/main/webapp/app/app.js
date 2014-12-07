@@ -48,24 +48,16 @@ Ext.application({
 
 	requires: ['ARSnova.WebSocket', 'ARSnova.BrowserSupport', 'ARSnova.view.CustomMessageBox'],
 
-	startupImage: {
-		'320x460': 'resources/images/ARSnova_Grafiken/03_Launchimage_320x460px.png', // iPhone (3.5" non-retina)
-		'640x920': 'resources/images/ARSnova_Grafiken/03_Launchimage_640x920px.png', // iPhone (3.5" retina)
-		'640x1096': 'resources/images/ARSnova_Grafiken/03_Launchimage_640x1096px.png', // iPhone (4" retina)
-		'768x1004': 'resources/images/ARSnova_Grafiken/03_Launchimage_768x1004px.png', // iPad (portrait)
-		'748x1024': 'resources/images/ARSnova_Grafiken/03_Launchimage_748x1024px.png' // iPad (landscape)
-	},
-
 	viewport: {
 		autoMaximize: Ext.os.is.iOS && !Ext.browser.is.webview && Ext.browser.version.isGreaterThan(3)
 	},
 
 	icon: {
-		57: 'resources/images/ARSnova_Grafiken/01_AppIcon_57x57px.png',
-		72: 'resources/images/ARSnova_Grafiken/01_AppIcon_72x72px.png',
-		114: 'resources/images/ARSnova_Grafiken/01_AppIcon_114x114px.png'
+		57: 'resources/icons/appicon_57x57px.png',
+		72: 'resources/icons/appicon_72x72px.png',
+		114: 'resources/icons/appicon_114x114px.png'
 	},
-
+	
 	name: "ARSnova",
 	absoluteUrl: 'https://arsnova.eu/mobile/',
 
@@ -76,7 +68,6 @@ Ext.application({
 	NATIVE: 'native',
 	APP_URL: window.location.origin + window.location.pathname,
 	WEBSERVICE_URL: "app/webservices/",
-	PRESENTER_URL: "/presenter/",
 
 	LOGIN_GUEST: "guest",
 	LOGIN_ARSNOVA: "arsnova",
@@ -222,13 +213,16 @@ Ext.application({
 	 * start some tasks and show the correct homepage to user
 	 */
 	afterLogin: function () {
+		var mainTabPanel = ARSnova.app.mainTabPanel.tabPanel;
+		
 		console.debug("Application: afterLogin");
+		this.socket.connect();
 
 		/* show diagnosis tab panel */
-		ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.tab.show();
-
-		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.homeTabPanel, 'slide');
-		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+		mainTabPanel.diagnosisPanel.tab.show();
+		
+		mainTabPanel.animateActiveItem(mainTabPanel.homeTabPanel, 'slide');
+		var hTP = mainTabPanel.homeTabPanel;
 		switch (ARSnova.app.userRole) {
 			case ARSnova.app.USER_ROLE_STUDENT:
 				hTP.homePanel.checkLogin();
@@ -344,8 +338,12 @@ Ext.application({
 			localStorage.setItem('lastVisitedSessions', "[]");
 		}
 
-		if (localStorage.getItem('questionIds') == null) {
-			localStorage.setItem('questionIds', "[]");
+		if (localStorage.getItem('lectureQuestionIds') == null) {
+			localStorage.setItem('lectureQuestionIds', "[]");
+		}
+
+		if (localStorage.getItem('preparationQuestionIds') == null) {
+			localStorage.setItem('preparationQuestionIds', "[]");
 		}
 
 		if (localStorage.getItem('loggedIn') == null) {

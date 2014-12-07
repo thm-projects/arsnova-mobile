@@ -16,7 +16,7 @@ requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 If you are unsure which license is appropriate for your use, please contact the sales department
 at http://www.sencha.com/contact.
 
-Build date: 2014-08-18 16:20:22 (508f2bbd9a1ad08c25cf2fea5b9f939a4113bfa3)
+Build date: 2014-10-22 11:38:23 (733f32116ad89611b6e3f1861049fa2f7733e61d)
 */
 //@tag foundation,core
 //@define Ext
@@ -679,7 +679,7 @@ Build date: 2014-08-18 16:20:22 (508f2bbd9a1ad08c25cf2fea5b9f939a4113bfa3)
 (function() {
 
 // Current core version
-var version = '2.4.0.482', Version;
+var version = '2.4.1.527', Version;
     Ext.Version = Version = Ext.extend(Object, {
 
         /**
@@ -9040,7 +9040,7 @@ var noArgs = [],
  *
  * [getting_started]: #!/guide/getting_started
  */
-Ext.setVersion('touch', '2.4.0.482');
+Ext.setVersion('touch', '2.4.1.527');
 
 Ext.apply(Ext, {
     /**
@@ -29859,14 +29859,36 @@ Ext.define('Ext.fx.easing.EaseOut', {
  * Here is a simple example of how to adjust the scroller settings when using a {@link Ext.Container} (or anything
  * that extends it).
  *
- *     @example
- *     var container = Ext.create('Ext.Container', {
- *         fullscreen: true,
- *         html: 'This container is scrollable!',
- *         scrollable: {
- *             direction: 'vertical'
- *         }
- *     });
+ *      @example
+ *      Ext.create('Ext.Container', {
+ *           fullscreen: true,
+ *           html: "Macaroni cheese roquefort<br>" +
+ *                "port-salut. The big cheese<br>" + 
+ *                "fondue camembert de normandie<br>" + 
+ *                "cow boursin cheese swiss stinking<br>" +  
+ *                "bishop. Fromage feta edam fromage<br>" + 
+ *                "frais bavarian bergkase paneer<br>" + 
+ *                "paneer cheese and wine. Cow danish<br>" +  
+ *                "fontina roquefort bocconcini<br>" + 
+ *                "jarlsberg parmesan cheesecake<br>" + 
+ *                "danish fontina. Mascarpone<br>" +
+ *                "bishop. Fromage feta edam fromage<br>" + 
+ *                "frais bavarian bergkase paneer<br>" + 
+ *                "paneer cheese and wine. Cow danish<br>" +  
+ *                "fontina roquefort bocconcini<br>" + 
+ *                "jarlsberg parmesan cheesecake<br>" + 
+ *                "emmental fromage frais cheesy<br>" + 
+ *                "grin say cheese squirty cheese<br>" + 
+ *                "parmesan queso. Cheese triangles<br>" + 
+ *                "st. agur blue cheese chalk and cheese<br>" + 
+ *                "cream cheese lancashire manchego<br>" + 
+ *                "taleggio blue castello. Port-salut<br>" + 
+ *                "paneer monterey jack<br>" + 
+ *                "say cheese fondue.",
+ *           scrollable: {
+ *              direction: 'vertical'
+ *           }
+ *       });
  *
  * As you can see, we are passing the {@link #direction} configuration into the scroller instance in our container.
  *
@@ -38699,6 +38721,30 @@ Ext.define('Ext.BingMap', {
  * - `component[autoScroll]`
  * - `panel[title="Test"]`
  *
+ * Attributes can use the '=' or '~=' operators to do the pattern matching.
+ *
+ * The <strong>'='</strong> operator will return the results that <strong>exactly</strong> match:
+ *
+ *     Ext.Component.query('panel[cls=my-cls]')
+ *
+ * Will match the following Component:
+ *
+ *     Ext.create('Ext.Panel', {
+ *         cls : 'my-cls'
+ *     });
+ *
+ * The <strong>'~='</strong> operator will return results that <strong>exactly</strong> matches one of the whitespace-separated values:
+ *
+ *     Ext.Component.query('panel[cls~=my-cls]')
+ *
+ * Will match the follow Component:
+ *
+ *     Ext.create('My.Panel', {
+ *         cls : 'foo-cls my-cls bar-cls'
+ *     });
+ *
+ * This is because it <strong>exactly</strong> matched the 'my-cls' within the cls config.
+ *
  * Member expressions from candidate Components may be tested. If the expression returns a *truthy* value,
  * the candidate Component will be included in the query:
  *
@@ -38854,7 +38900,44 @@ Ext.define('Ext.ComponentQuery', {
             for (; i < length; i++) {
                 candidate = items[i];
                 getter = Ext.Class.getConfigNameMap(property).get;
-                if (candidate[getter]) {
+                if (operator === '~=') {
+                    getValue = null;
+
+                    if (candidate[getter]) {
+                        getValue = candidate[getter]();
+                    } else if (candidate.config && candidate.config[property]) {
+                        getValue = String(candidate.config[property]);
+                    } else if (candidate[property]) {
+                        getValue = String(candidate[property]);
+                    }
+
+                    if (getValue) {
+                        //normalize to an array
+                        if (!Ext.isArray(getValue)) {
+                            getValue = getValue.split(' ');
+                        }
+
+                        var v = 0,
+                            vLen = getValue.length,
+                            val;
+
+                        for (; v < vLen; v++) {
+                            /**
+                             * getValue[v] could still be whitespaced-separated, this normalizes it. This is an example:
+                             *
+                             * {
+                             *     html : 'Imprint',
+                             *     cls  : 'overlay-footer-item overlay-footer-imprint'
+                             * }
+                             */
+                            val = String(getValue[v]).split(' ');
+
+                            if (Ext.Array.indexOf(val, value) !== -1) {
+                                result.push(candidate);
+                            }
+                        }
+                    }
+                } else if (candidate[getter]) {
                     getValue = candidate[getter]();
                     if (!value ? !!getValue : (String(getValue) === value)) {
                         result.push(candidate);
@@ -44955,7 +45038,13 @@ Ext.define('Ext.Video', {
          * @cfg
          * @inheritdoc
          */
-        baseCls: Ext.baseCSSPrefix + 'video'
+        baseCls: Ext.baseCSSPrefix + 'video',
+
+        /**
+         * @cfg {Boolean} controls
+         * Determines if native controls should be shown for this video player.
+         */
+        controls: true
     },
 
     template: [{
@@ -45025,6 +45114,10 @@ Ext.define('Ext.Video', {
         if (me.isPlaying()) {
             me.play();
         }
+    },
+
+    updateControls: function(value) {
+        this.media.set({controls:value ? true : undefined});
     },
 
     onErased: function() {
@@ -58199,18 +58292,14 @@ Ext.define('Ext.draw.engine.Canvas', {
  * One way to create a draw component is:
  *
  *     var drawComponent = new Ext.draw.Component({
- *         items: [{
+ *         fullscreen: true,
+ *         sprites: [{
  *             type: 'circle',
  *             fill: '#79BB3F',
  *             radius: 100,
  *             x: 100,
  *             y: 100
  *         }]
- *     });
- *
- *     new Ext.Panel({
- *         fullscreen: true,
- *         items: [drawComponent]
  *     });
  *
  * In this case we created a draw component and added a sprite to it.
@@ -58222,7 +58311,7 @@ Ext.define('Ext.draw.engine.Canvas', {
  *
  *     drawComponent.getSurface('main').add({
  *         type: 'circle',
- *         fill: '#79BB3F',
+ *         fill: 'blue',
  *         radius: 100,
  *         x: 100,
  *         y: 100
@@ -72668,7 +72757,9 @@ Ext.define('Ext.data.association.HasMany', {
  *                 { name: 'name',        type: 'string' }
  *             ],
  *             // we can use the belongsTo shortcut on the model to create a belongsTo association
- *             associations: { type: 'belongsTo', model: 'Category' }
+ *             belongsTo: {
+ *                 model: 'Category'
+ *             }
  *         }
  *     });
  *
@@ -72755,9 +72846,11 @@ Ext.define('Ext.data.association.HasMany', {
  *                 // ...
  *             ],
  *
- *             associations: [
- *                 { type: 'belongsTo', model: 'Category', primaryKey: 'unique_id', foreignKey: 'cat_id' }
- *             ]
+ *             belongsTo: {
+ *                 model     : 'Category',
+ *                 primaryKey: 'unique_key',
+ *                 foreignKey: 'cat_id'
+ *             }
  *         }
  *     });
  *
@@ -73060,7 +73153,10 @@ Ext.define('Ext.data.association.BelongsTo', {
  *             ],
  *
  *             // we can use the hasOne shortcut on the model to create a hasOne association
- *             associations: { type: 'hasOne', model: 'Address' }
+ *             hasOne: {
+ *                 model: 'Address',
+ *                 name : 'address'
+ *             }
  *         }
  *     });
  *
@@ -73160,9 +73256,11 @@ Ext.define('Ext.data.association.BelongsTo', {
  *                 // ...
  *             ],
  *
- *             associations: [
- *                 { type: 'hasOne', model: 'Address', primaryKey: 'unique_id', foreignKey: 'addr_id' }
- *             ]
+ *             hasOne: {
+ *                 model     : 'Address', 
+ *                 primaryKey: 'unique_id',
+ *                 foreignKey: 'addr_id'
+ *             }
  *         }
  *     });
  *
@@ -73685,7 +73783,8 @@ Ext.define('Ext.data.Validations', {
     },
 
     /**
-     * Validates that the given value is present in the configured `list`.
+     * Validates that the given value is not present in the configured `list`.
+     * 
      * For example:
      *
      *     validations: [{type: 'exclusion', field: 'username', list: ['Admin', 'Operator']}]
@@ -80126,7 +80225,7 @@ Ext.define('Ext.chart.PolarChart', {
  * @extends Ext.chart.AbstractChart
  *
  * Creates a chart that fills the entire area of the chart.
- * e.g. Gauge, Treemap
+ * e.g. Gauge Charts
  */
 Ext.define('Ext.chart.SpaceFillingChart', {
 
@@ -84792,6 +84891,10 @@ Ext.define('Ext.chart.series.Gauge', {
 
         rotation: 0,
 
+        /**
+        * @cfg {Number} totalAngle
+        * The size of the sector that the series will occupy.
+        */
         totalAngle: Math.PI / 2,
 
         region: [0, 0, 1, 1],
@@ -85594,7 +85697,7 @@ Ext.define('Ext.chart.series.sprite.Line', {
         function power(count, end) {
             var power = 0,
                 n = count;
-            while (n < end) {
+            while (n > 0 && n < end) {
                 power++;
                 n += count >> power;
             }
@@ -91921,14 +92024,14 @@ Ext.define('Ext.data.proxy.SessionStorage', {
  *
  * You can create a Store for the proxy, for example:
  *
- *    Ext.require(["Ext.data.proxy.SQL"]);
+ *     Ext.require(["Ext.data.proxy.SQL"]);
  *
- *    Ext.define("User", {
- *       extend: "Ext.data.Model",
- *       config: {
- *          fields: [ "firstName", "lastName" ]
- *       }
- *     });
+ *     Ext.define("User", {
+ *        extend: "Ext.data.Model",
+ *        config: {
+ *           fields: [ "firstName", "lastName" ]
+ *        }
+ *      });
  *
  *     Ext.create("Ext.data.Store", {
  *        model: "User",
@@ -91947,7 +92050,7 @@ Ext.define('Ext.data.proxy.SessionStorage', {
  *
  * To destroy a table use:
  *
- *    Ext.getStore("Users").getModel().getProxy().dropTable();
+ *     Ext.getStore("Users").getProxy().dropTable();
  *
  * To recreate a table use:
  *
@@ -100241,6 +100344,28 @@ Ext.define('Ext.event.publisher.TouchGesture', {
         return changedTouches;
     },
 
+    syncTouches: function (touches) {
+        var touchIDs = [], len = touches.length,
+            i, id, touch, ghostTouches;
+
+        // Collect the actual touch IDs that exist
+        for (i = 0; i < len; i++) {
+            touch = touches[i];
+            touchIDs.push(touch.identifier);
+        }
+
+        // Compare actual IDs to cached IDs
+        // Remove any that are not real anymore
+        ghostTouches = Ext.Array.difference(this.currentIdentifiers, touchIDs);
+        len = ghostTouches.length;
+
+        for (i = 0; i < len; i++) {
+            id = ghostTouches[i];
+            Ext.Array.remove(this.currentIdentifiers, id);
+            delete this.touchesMap[id];
+        }
+    },
+
     factoryEvent: function(e) {
         return new Ext.event.Touch(e, null, this.touchesMap, this.currentIdentifiers);
     },
@@ -100248,11 +100373,18 @@ Ext.define('Ext.event.publisher.TouchGesture', {
     onTouchStart: function(e) {
         var changedTouches = e.changedTouches,
             target = e.target,
+            touches = e.touches,
             ln = changedTouches.length,
             isNotPreventable = this.isNotPreventable,
             isTouch = (e.type === 'touchstart'),
             me = this,
             i, touch, parent;
+
+        // Potentially sync issue from various reasons.
+        // example: ios8 does not dispatch touchend on audio element play/pause tap.
+        if (touches && touches.length < this.currentIdentifiers.length + 1) {
+            this.syncTouches(touches);
+        }
 
         this.updateTouches(changedTouches);
 
@@ -100367,7 +100499,7 @@ Ext.define('Ext.event.publisher.TouchGesture', {
         // This previously was set to e.touches.length === 1 to catch errors in syncing
         // this has since been addressed to keep proper sync and now this is a catch for
         // a sync error in touches to reset our internal maps
-        if (e.touches.length === 0 && currentIdentifiers.length) {
+        if (e.touches && e.touches.length === 0 && currentIdentifiers.length) {
             currentIdentifiers.length = 0;
             this.touchesMap = {};
         }
@@ -108947,7 +109079,6 @@ Ext.define('Ext.form.Panel', {
     },
 
     /**
-     * @private
      * Returns all {@link Ext.field.Field field} instances inside this form.
      * @param {Boolean} byName return only fields that match the given name, otherwise return all fields.
      * @return {Object/Array} All field instances, mapped by field name; or an array if `byName` is passed.
@@ -112622,6 +112753,7 @@ Ext.define('Ext.plugin.PullRefresh', {
                                  
 
     config: {
+        width: '100%',
         /**
          * @cfg {Ext.dataview.List} list
          * The list to which this PullRefresh plugin is connected.
@@ -112986,7 +113118,39 @@ Ext.define('Ext.plugin.PullRefresh', {
 /**
  * @class Ext.plugin.SortableList
  * @extends Ext.Component
- * Description
+ * The SortableList plugin gives your list items the ability to be reordered by tapping and 
+ * dragging elements within the item.   
+ *
+ * The list-sortablehandle is not added to your tpl by default, so it's important that you 
+ * manually include it. It's also important to recognize that list-items are not draggable 
+ * themselves.  You must add an element to the itemTpl for it to be dragged.
+ *
+ *     Ext.Viewport.add({
+ *          xtype: 'list',
+ *          infinite: true,
+ *          plugins: 'sortablelist',
+ *          itemTpl: '<span class="myStyle ' + Ext.baseCSSPrefix + 'list-sortablehandle"></span>{text}',
+ *          data: [{
+ *              text: 'Item 1'
+ *          }, {
+ *              text: 'Item 2'
+ *          }, {
+ *              text: 'Item 3'
+ *          }]
+ *     });
+ *
+ * The CSS for MyStyle can be anything that creates an element to tap and drag.  For this 
+ * example we made a simple rectangle like so:
+ *
+ *      .myStyle{
+ *          width:30px;
+ *          height:20px;
+ *          background:gray;
+ *          float:left;
+ *      }
+ * 
+ * Note: You must have infinite set to 'true' when using the SortableList plugin.
+ * 
  */
 Ext.define('Ext.plugin.SortableList', {
     extend:  Ext.Component ,
@@ -114128,17 +114292,7 @@ Ext.define('Ext.viewport.Default', {
 
     config: {
         /**
-         * @cfg {Boolean} autoMaximize
-         * Whether or not to always automatically maximize the viewport on first load and all subsequent orientation changes.
-         *
-         * This is set to `false` by default for a number of reasons:
-         *
-         * - Orientation change performance is drastically reduced when this is enabled, on all devices.
-         * - On some devices (mostly Android) this can sometimes cause issues when the default browser zoom setting is changed.
-         * - When wrapping your phone in a native shell, you may get a blank screen.
-         * - When bookmarked to the homescreen (iOS), you may get a blank screen.
-         *
-         * @accessor
+         * @private
          */
         autoMaximize: false,
 
@@ -114231,6 +114385,8 @@ Ext.define('Ext.viewport.Default', {
     id: 'ext-viewport',
 
     isInputRegex: /^(input|textarea|select|a)$/i,
+
+    isInteractiveWebComponentRegEx: /^(audio|video)$/i,
 
     focusedElement: null,
 
@@ -114471,7 +114627,22 @@ Ext.define('Ext.viewport.Default', {
     },
 
     doPreventPanning: function(e) {
-        e.preventDefault();
+        var target = e.target, touch;
+
+        // If we have an interaction on a WebComponent we need to check the actual shadow dom element selected
+        // to determine if it is an input before preventing default behavior
+        // Side effect to this is if the shadow input does not do anything with 'touchmove' the user could pan
+        // the screen.
+        if (this.isInteractiveWebComponentRegEx.test(target.tagName) && e.touches && e.touches.length > 0) {
+            touch = e.touches[0];
+            if (touch && touch.target && this.isInputRegex.test(touch.target.tagName)) {
+                return;
+            }
+        }
+
+        if (target && target.nodeType === 1 && !this.isInputRegex.test(target.tagName)) {
+            e.preventDefault();
+        }
     },
 
     doPreventZooming: function(e) {
@@ -114480,7 +114651,13 @@ Ext.define('Ext.viewport.Default', {
             return;
         }
 
-        var target = e.target;
+        var target = e.target, touch;
+        if (this.isInteractiveWebComponentRegEx.test(target.tagName) && e.touches && e.touches.length > 0) {
+            touch = e.touches[0];
+            if (touch && touch.target && this.isInputRegex.test(touch.target.tagName)) {
+                return;
+            }
+        }
 
         if (target && target.nodeType === 1 && !this.isInputRegex.test(target.tagName)) {
             e.preventDefault();

@@ -88,7 +88,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 			defaults: {
 				xtype: 'button',
 				ui: 'normal',
-				cls: 'standardListButton',
+				cls: 'standardListButton statisticButton',
 				disabled: true
 			},
 
@@ -136,7 +136,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 			this.formpanel.getComponent('statisticClosedSessions').setText(Messages.CLOSED_SESSIONS + '<div style="float:right">' + this.statistics.closedSessions + '</div>');
 			this.formpanel.getComponent('statisticQuestions').setText(Messages.QUESTIONS + '<div style="float:right">' + this.statistics.questions + '</div>');
 			this.formpanel.getComponent('statisticAnswers').setText(Messages.ANSWERS + '<div style="float:right">' + this.statistics.answers + '</div>');
-			this.formpanel.getComponent('statisticAnswersPerQuestion').setText(Messages.ANSWERS_PER_QUESTION + '<div style="float:right">' + this.statistics.averageAnswersPerQuestion + '</div>');
+			// this.formpanel.getComponent('statisticAnswersPerQuestion').setText(Messages.ANSWERS_PER_QUESTION + '<div style="float:right">' + this.statistics.averageAnswersPerQuestion + '</div>');
 		}
 	},
 

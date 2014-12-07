@@ -90,7 +90,7 @@ Ext.define('Ext.chart.series.sprite.Line', {
         function power(count, end) {
             var power = 0,
                 n = count;
-            while (n < end) {
+            while (n > 0 && n < end) {
                 power++;
                 n += count >> power;
             }

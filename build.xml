@@ -30,6 +30,18 @@
 		</exec>
 	</target>
 
+	<target name="sencha:watch:testing">
+		<antcall target="sencha:app:watch">
+			<param name="environment" value="testing" />
+		</antcall>
+	</target>
+
+	<target name="sencha:watch:production">
+		<antcall target="sencha:app:watch">
+			<param name="environment" value="production" />
+		</antcall>
+	</target>
+
 	<target name="sencha:app:watch">
 		<exec executable="sencha" dir="${main.dir}" failonerror="true">
 			<arg line="app watch -e ${environment}"/>

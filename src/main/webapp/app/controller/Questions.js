@@ -38,6 +38,9 @@ Ext.define("ARSnova.controller.Questions", {
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.setLectureMode();
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.backButton.show();
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.setTitle(Messages.LECTURE_QUESTIONS);
+		if (options && options.renew) {
+			ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.renew();
+		}
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.addListener('deactivate', function (panel) {
 			panel.toolbar.backButton.hide();
@@ -48,6 +51,9 @@ Ext.define("ARSnova.controller.Questions", {
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.setPreparationMode();
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.backButton.show();
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.setTitle(Messages.PREPARATION_QUESTIONS);
+		if (options && options.renew) {
+			ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.renew();
+		}
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.addListener('deactivate', function (panel) {
 			panel.toolbar.backButton.hide();
@@ -174,9 +180,11 @@ Ext.define("ARSnova.controller.Questions", {
 				});
 				break;
 			case 'grid':
-				if (! panel.gridQuestion.grid.getImageFile()) {
-					error = true;
-				}
+				if(panel.gridQuestion.grid !== null) {
+					if (! panel.gridQuestion.grid.getImageFile()) {
+						error = true;
+					}
+				} else error = true;
 
 				break;
 		}
@@ -228,23 +236,11 @@ Ext.define("ARSnova.controller.Questions", {
 	},
 
 	detailsFeedbackQuestion: function (options) {
-		var questionModel = Ext.create('ARSnova.model.Question', options.question.data);
-		questionModel.getInterposed({
-			success: function (response) {
-				var question = Ext.create('ARSnova.model.Question', Ext.decode(response.responseText));
-				question.set('formattedTime', options.formattedTime);
-				question.set('fullDate', options.fullDate);
-
-				var newPanel = Ext.create('ARSnova.view.feedbackQuestions.DetailsPanel', {
-					question: question.data
-				});
-				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.animateActiveItem(newPanel, 'slide');
-			},
-			failure: function (records, operation) {
-				console.log(operation);
-				Ext.Msg.alert(Messages.NOTIFICATION, Messages.CONNECTION_PROBLEM);
-			}
+		options.question.read();
+		var newPanel = Ext.create('ARSnova.view.feedbackQuestions.DetailsPanel', {
+			question: options.question
 		});
+		ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.animateActiveItem(newPanel, 'slide');
 	},
 
 	setActive: function (options) {

@@ -50,9 +50,11 @@
 @include icon("icon-wink" , "\e618", "arsnova");
 @include icon("icon-shocked" , "\e619", "arsnova");
 @include icon("icon-close" , "\e61a", "arsnova");
-@include icon("icon-group" , "\f0c0", "arsnova");
+@include icon("icon-presenter" , "\e602", "arsnova");
 @include icon("icon-book" , "\f02d", "arsnova");
 @include icon("icon-book2" , "\e601", "arsnova");
+
+@include icon("icon-check" , "3", "Pictos");
 @include icon('minus2');
 
 @include icon("login-icon-guest" , "\e618", "arsnova");
@@ -76,6 +78,12 @@
 	font-size: 20px;
 	top: -2px;
 	margin-bottom: -3.5px!important;
+}
+
+.x-tabbar .icon-lock {
+	font-size: 19px;
+	top: 1px;
+	margin-bottom: -1.5px!important;
 }
 
 .voteIcons {

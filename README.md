@@ -150,7 +150,7 @@ The build commands change in the following way:
 For using the watching functionality, run:
 
 	cd /path/to/arsnova-mobile
-	ant sencha:app:watch -Denvironment=testing
+	ant sencha:watch:testing
 
 ## Credits
 

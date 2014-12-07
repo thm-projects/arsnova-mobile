@@ -88,7 +88,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			itemTpl: '<tpl if="active"><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
 				'<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
 				'<div class="x-button x-hasbadge audiencePanelListBadge">' +
-				'<tpl if="numAnswers &gt; 0"><span class="redbadgeicon badgefixed">{numAnswers}</span></tpl></div>'
+				'<tpl if="numAnswers &gt; 0"><span class="answersBadgeIcon badgefixed">{numAnswers}</span></tpl></div>'
 			,
 			grouped: true,
 			store: this.questionStore,
@@ -132,6 +132,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 		this.newQuestionButton = {
 			xtype: 'button',
+			iconCls: 'icon-question thm-green',
 			text: Messages.NEW_QUESTION,
 			cls: 'forwardListButton',
 			handler: this.newQuestionHandler
@@ -161,6 +162,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 		this.showcaseFormButton = {
 			xtype: "button",
+			iconCls: 'icon-presenter thm-grey',
 			text: Messages.SHOWCASE_MODE,
 			cls: "forwardListButton",
 			handler: this.showcaseHandler
@@ -185,7 +187,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			hidden: true,
 			buttonConfig: 'icon',
 			text: Messages.DELETE_ANSWERS,
-			imageCls: 'icon-renew thm-lightblue',
+			imageCls: 'icon-renew thm-orange',
 			imageStyle: {
 				'font-size': '56px',
 				'margin-top': '12px'
@@ -243,6 +245,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.QUESTIONS,
+			cls: 'speakerTitleText',
 			ui: 'light',
 			docked: 'top',
 			items: [

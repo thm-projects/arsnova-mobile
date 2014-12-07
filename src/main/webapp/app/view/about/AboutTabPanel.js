@@ -16,41 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('ARSnova.view.CustomMessageBox', {
-	override: 'Ext.MessageBox',
+Ext.define('ARSnova.view.about.AboutTabPanel', {
+	extend: 'Ext.tab.Panel',
 
 	config: {
-		showAnimation: {
-			type: 'fade',
-			duration: 200
+		title: Messages.INFO,
+		iconCls: 'icon-book',
+
+		tabBar: {
+			hidden: true
 		}
-	},
-	/* Workaround for Google Chrome 34 (MessageBox sometimes cannot be closed).
-	 * TODO: Remove as soon as fixed by Sencha or in Chrome */
-	hide: function () {
-		if (this.activeAnimation && this.activeAnimation._onEnd) {
-			this.activeAnimation._onEnd();
-		}
-		return this.callParent(arguments);
 	},
 
-	confirm: function (title, message, fn, scope) {
+	initialize: function () {
 		this.callParent(arguments);
 
-		return this.show({
-			title: title || null,
-			message: message || null,
-			buttons: [
-				{text: Messages.YES, itemId: 'yes', ui: 'action'},
-				{text: Messages.NO,  itemId: 'no', ui: 'action'}
-			],
-			promptConfig: false,
-			scope: scope,
-			fn: function () {
-				if (fn) {
-					fn.apply(scope, arguments);
-				}
-			}
+		this.on("activate", function () {
+			var url = ARSnova.app.globalConfig.documentationUrl || "https://arsnova.eu/manual/index.php/" + encodeURIComponent(moment.lang())+"/";
+			window.open(url);
 		});
 	}
 });

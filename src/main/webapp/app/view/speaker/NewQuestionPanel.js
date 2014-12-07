@@ -28,8 +28,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		'ARSnova.view.speaker.form.VoteQuestion',
 		'ARSnova.view.speaker.form.YesNoQuestion',
 		'ARSnova.view.speaker.form.NullQuestion',
-		'ARSnova.view.speaker.form.GridQuestion'
-//		'ARSnova.view.speaker.form.ImageUploadPanel'
+		'ARSnova.view.speaker.form.GridQuestion',
+		'ARSnova.view.speaker.form.ImageUploadPanel'
 	],
 
 	config: {
@@ -101,7 +101,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		// Preview button
 		this.previewButton = Ext.create('Ext.Button', {
 			text: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
-			ui: 'confirm',
+			ui: 'action',
 			cls: 'previewButton',
 			scope: this,
 			handler: function () {
@@ -136,11 +136,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			id: 'abstentionPart'
 		});
 
-//		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
-//			handlerScope: this,
-//			urlUploadHandler: this.setImage,
-//			fsUploadHandler: this.setImage
-//		});
+		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
+			handlerScope: this,
+			activateTemplates: false,
+			urlUploadHandler: this.setImage,
+			fsUploadHandler: this.setImage
+		});
 
 		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
 			editable: false,
@@ -160,9 +161,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		});
 
 		this.yesNoQuestion = Ext.create('ARSnova.view.speaker.form.YesNoQuestion', {
-			cls: 'newQuestionOptions',
-			hidden: true,
-			scrollable: null
+			hidden: true
 		});
 
 		this.multipleChoiceQuestion = Ext.create('ARSnova.view.speaker.form.ExpandingAnswerForm', {
@@ -216,6 +215,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		me.questionOptions = Ext.create('Ext.SegmentedButton', {
 			allowDepress: false,
 			items: formatItems,
+		    defaults: {
+		    	ui: 'action'
+		    },
 			listeners: {
 				scope: me,
 				toggle: function (container, button, pressed) {
@@ -231,12 +233,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							if (pressed) {
 								me.gridQuestion.show();
 								title = label(Messages.QUESTION_GRID, Messages.QUESTION_GRID_SHORT);
-//								this.uploadView.show();
+								this.uploadView.hide();
 								this.grid.hide();
 							} else {
 								me.gridQuestion.hide();
 								
-//								this.uploadView.hide();
+								this.uploadView.show();
 								if (this.grid.getImageFile()) {
 									this.grid.show();
 								}
@@ -292,10 +294,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							break;
 						case Messages.FLASHCARD_SHORT:
 							if (pressed) {
+								me.textarea.setPlaceHolder(Messages.FLASHCARD_FRONT_PAGE);
 								me.flashcardQuestion.show();
 								me.abstentionPart.hide();
 								title = Messages.FLASHCARD;
 							} else {
+								me.textarea.setPlaceHolder(Messages.QUESTIONTEXT_PLACEHOLDER);
 								me.flashcardQuestion.hide();
 								me.abstentionPart.show();
 							}
@@ -311,6 +315,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 		me.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.NEW_QUESTION_TITLE,
+			cls: 'speakerTitleText',
 			docked: 'top',
 			ui: 'light',
 			items: [
@@ -353,16 +358,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 						styleHtmlContent: true,
 						styleHtmlCls: 'notificationBoxText',
 						html: Messages.QUESTION_SAVED
-//						listeners: {
-//							hide: function () {
-//								me.destroy();
-//							},
-//							show: function () {
-//								Ext.defer(function () {
-//									theNotificationBox.hide();
-//								}, 3000);
-//							}
-//						}
 					});
 					Ext.Viewport.add(theNotificationBox);
 					theNotificationBox.show();
@@ -410,7 +405,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		}
 		me.add([
 			me.abstentionPart,
-//			me.uploadView,
+			me.uploadView,
 			me.grid,
 			me.releasePart
 		]);

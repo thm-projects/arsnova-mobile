@@ -94,6 +94,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Ext.util.Format.htmlEncode(localStorage.getItem("shortName")),
+			cls: 'speakerTitleText',
 			ui: 'light',
 			docked: 'top',
 			items: [
@@ -183,7 +184,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		this.createAdHocQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.AH_HOC_QUESTION,
 			buttonConfig: 'icon',
-			imageCls: 'icon-question thm-darkblue',
+			imageCls: 'icon-question thm-green',
 			imageStyle: {
 				'font-size': '70px',
 				'margin-top': '4px'
@@ -336,8 +337,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 
 						panel.lectureQuestionButton.setBadge([
-											{badgeText: numQuestions, badgeCls: "greybadgeicon"},
-											{badgeText: numAnswers, badgeCls: "redbadgeicon"}
+											{badgeText: numQuestions, badgeCls: "questionsBadgeIcon"},
+											{badgeText: numAnswers, badgeCls: "answersBadgeIcon"}
 										]);
 					},
 					failure: failureCallback
@@ -355,8 +356,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 
 						panel.preparationQuestionButton.setBadge([
-											{badgeText: numQuestions, badgeCls: "greybadgeicon"},
-											{badgeText: numAnswers, badgeCls: "redbadgeicon"}
+											{badgeText: numQuestions, badgeCls: "questionsBadgeIcon"},
+											{badgeText: numAnswers, badgeCls: "answersBadgeIcon"}
 										]);
 					},
 					failure: failureCallback
@@ -368,7 +369,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			success: function (response) {
 				var numQuestions = parseInt(response.responseText);
 				var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
-				panel.flashcardsButton.setBadge([{badgeText: numQuestions, badgeCls: "greybadgeicon"}]);
+				panel.flashcardsButton.setBadge([{badgeText: numQuestions, badgeCls: "questionsBadgeIcon"}]);
 			},
 			failure: failureCallback
 		});
@@ -381,7 +382,11 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadgeText(questionCount.unread);
 
 				var feedbackQButton = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton;
-				feedbackQButton.setBadge([{badgeText: questionCount.total, badgeCls: "bluebadgeicon"}]);
+				feedbackQButton.setBadge([{
+					badgeText: questionCount.total, badgeCls: "feedbackQuestionsBadgeIcon"
+				}, {
+					badgeText: questionCount.unread, badgeCls: "redbadgeicon"
+				}]);
 			},
 			failure: function () {
 				console.log('server-side error');
@@ -397,7 +402,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				if (p >= 75) {
 					me.courseLearningProgressButton.setBadge([{badgeText: p + "%", badgeCls: "greenbadgeicon"}]);
 				} else if (p >= 25) {
-					me.courseLearningProgressButton.setBadge([{badgeText: p + "%", badgeCls: "yellowbadgeicon"}]);
+					me.courseLearningProgressButton.setBadge([{badgeText: p + "%", badgeCls: "orangebadgeicon"}]);
 				} else if (p === 0) {
 						me.courseLearningProgressButton.setBadge([{badgeText: "…", badgeCls: "badgeicon"}]);
 				} else {
@@ -411,18 +416,18 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	},
 
 	presenterHandler: function () {
-		window.open(ARSnova.app.PRESENTER_URL + "#!/" + localStorage.getItem('keyword'), "_self");
+		window.open(ARSnova.app.globalConfig.presenterPath + "/#!/" + localStorage.getItem('keyword'), "_self");
 	},
 
 	/**
 	 * Displays the showcase button if enough screen width is available
 	 */
 	displayPresenterButton: function () {
-		/* iPad does not swap screen width and height values in landscape orientation */
-		if (screen.availWidth >= 980 || screen.availHeight >= 980) {
+		if (ARSnova.app.globalConfig.presenterPath &&
+				ARSnova.app.LOGIN_GUEST !== ARSnova.app.loginMode &&
+				/* iPad does not swap screen width and height values in landscape orientation */
+				(screen.availWidth >= 980 || screen.availHeight >= 980)) {
 			this.presenterButton.show();
-		} else if (window.innerWidth >= 480) {
-			this.presenterButton.hide();
 		} else {
 			this.presenterButton.hide();
 		}

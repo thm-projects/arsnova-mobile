@@ -27,7 +27,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	config: {
 		viewOnly: false,
 		padding: '0 0 20 0',
-			
+
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
@@ -72,7 +72,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		});
 
 		// Setup question title and text to disply in the same field; markdown handles HTML encoding
-		var questionString = this.questionObj.subject
+		var questionString = this.questionObj.subject.replace(/\./, "\\.")
 			+ '\n\n' // inserts one blank line between subject and text
 			+ this.questionObj.text;
 
@@ -163,11 +163,11 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 		answer.saveAnswer({
 			success: function () {
-				var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
+				var questionsArr = Ext.decode(localStorage.getItem(self.questionObj.questionVariant + 'QuestionIds'));
 				if (questionsArr.indexOf(self.questionObj._id) == -1) {
 					questionsArr.push(self.questionObj._id);
 				}
-				localStorage.setItem('questionIds', Ext.encode(questionsArr));
+				localStorage.setItem(self.questionObj.questionVariant + 'QuestionIds', Ext.encode(questionsArr));
 
 				self.disableQuestion();
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();

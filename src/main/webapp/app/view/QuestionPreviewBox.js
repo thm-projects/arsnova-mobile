@@ -18,72 +18,93 @@
  */
 
 Ext.define('ARSnova.view.QuestionPreviewBox', {
-
-	xtype: 'questionPreview',
-	ui: 'normal',
-
-	showPreview: function (title, content) {
-
+	extend: 'Ext.MessageBox',
+	
+	config: {
+		scrollable: true,
+		hideOnMaskTap: true,
+		layout: 'vbox'
+	},
+	
+	initialize: function(args) {
+		this.callParent(args);
+		
+		this.setStyle({
+			'font-size': '110%',
+			'border-color': 'black',
+			'maxHeight': '600px',
+			'maxWidth': '1000px',
+			'margin-bottom': '18px',
+			'height': '79%',
+			'width': '95%'
+		});
+		
+		this.toolbar = Ext.create('Ext.Toolbar', {
+			title: Messages.QUESTION_PREVIEW_DIALOGBOX_TITLE,
+			docked: 'top',
+			ui: 'light'
+		});
+		
 		// panel for question subject
-		var titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			xtype: 'mathJaxMarkDownPanel',
+		this.titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			id: 'questionTitle',
-			flex: 1
+			style: 'min-height: 50px'
 		});
-		titlePanel.setContent(title, false, true);
-
+		
 		// panel for question content
-		var contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			xtype: 'mathJaxMarkDownPanel',
+		this.contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			id: 'questionContent',
-			flex: 3
+			style: 'min-height: 150px'
 		});
-		contentPanel.setContent(content, true, true);
-
+		
 		// question preview confirm button
-		var confirmButton = Ext.create('Ext.Button', {
-			text: Messages.QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE,
-			id: 'confirmButton',
-			xtype: 'button',
-			ui: 'confirm',
-			style: 'width: 80%; maxWidth: 250px; margin-top: 10px;',
-			handler: function () {
-					previewBox.destroy();
-				}
-		});
-
-		// question preview main panel
-		var mainPanel = Ext.create('Ext.Container', {
-			id: 'mainPanel',
-			xtype: 'container',
-			style: 'position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: #E0E0E0;',
-			fullscreen: false,
-			layout: 'vbox',
+		this.confirmButton = Ext.create('Ext.Container', {
+			layout: {
+				pack: 'center',
+				type: 'hbox'
+			},
 			items: [
-				titlePanel,
-				contentPanel,
-				{
-					id: 'buttonLayout',
-					xtype: 'container',
-					layout: {
-						pack: 'center',
-						type: 'hbox'
-					},
-					items: [confirmButton]
-				}
+				Ext.create('Ext.Button', {
+					text: Messages.QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE,
+					ui: 'confirm',
+					style: 'width: 80%; maxWidth: 250px; margin-top: 10px;',
+					scope: this,
+					handler: function () {
+						this.hide();
+					}
+				})
 			]
 		});
-		mainPanel.setStyleHtmlContent(true);
-
-		// question preview message box with main panel
-		var previewBox = Ext.create('Ext.MessageBox',
-		{
-			title: Messages.QUESTION_PREVIEW_DIALOGBOX_TITLE,
-			style: 'height: 80%; maxHeight: 600px; width: 80%; maxWidth: 1000px;',
-			items: [mainPanel],
-			scope: this
+		
+		// answer preview box content panel
+		this.mainPanel = Ext.create('Ext.Container', {
+			layout: 'vbox',
+			style: 'margin-bottom: 10px;',
+			styleHtmlContent: true
 		});
-		previewBox.show();
+		
+		// remove padding around mainPanel
+		this.mainPanel.bodyElement.dom.style.padding="0";
+		
+		this.on('hide', this.destroy);
+	},
+
+	showPreview: function (title, content) {		
+		this.titlePanel.setContent(title.replace(/\./, "\\."), false, true);
+		this.contentPanel.setContent(content, true, true);
+		
+		this.mainPanel.add([
+			this.titlePanel,
+			this.contentPanel,
+			this.confirmButton
+		]);
+		
+		this.add([
+			this.toolbar,
+			this.mainPanel
+		]);
+		
+		this.show();
 
 		// for IE: unblock input fields
 		Ext.util.InputBlocker.unblockInputs();

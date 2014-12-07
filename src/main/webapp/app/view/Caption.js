@@ -94,13 +94,13 @@ Ext.define('ARSnova.view.Caption', {
 		});
 		this.listButton.setBadge([{
 				badgeText: options.interposed && hasFeedbackQuestions ? Messages.QUESTIONS_FROM_STUDENTS : "",
-				badgeCls: "bluebadgeicon"
+				badgeCls: "feedbackQuestionsBadgeIcon"
 			}, {
 				badgeText: (options.questions && hasQuestions) || (options.unanswered && hasUnansweredQuestions) ? Messages.QUESTIONS : "",
-				badgeCls: "greybadgeicon"
+				badgeCls: "questionsBadgeIcon"
 			}, {
 				badgeText: options.answers && hasAnswers ? Messages.ANSWERS : "",
-				badgeCls: "redbadgeicon"
+				badgeCls: "answersBadgeIcon"
 		}]);
 		return badges;
 	},

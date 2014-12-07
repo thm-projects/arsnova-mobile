@@ -83,15 +83,17 @@ Ext.define('ARSnova.view.Question', {
 		var saveAnswer = function (answer) {
 			answer.saveAnswer({
 				success: function () {
-					var questionsArr = Ext.decode(localStorage.getItem('questionIds'));
+					var questionsArr = Ext.decode(localStorage.getItem(self.questionObj.questionVariant + 'QuestionIds'));
 					if (questionsArr.indexOf(self.questionObj._id) == -1) {
 						questionsArr.push(self.questionObj._id);
 					}
-					localStorage.setItem('questionIds', Ext.encode(questionsArr));
+					localStorage.setItem(self.questionObj.questionVariant + 'QuestionIds', Ext.encode(questionsArr));
 
-					self.disableQuestion();
-					ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
-					ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
+					if (self.questionObj.questionType !== 'flashcard') {
+						self.disableQuestion();
+						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
+						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
+					}
 				},
 				failure: function (response, opts) {
 					console.log('server-side error');
@@ -188,7 +190,9 @@ Ext.define('ARSnova.view.Question', {
 			}, this);
 		};
 
-		var questionListener = this.viewOnly || this.questionObj.questionType === "mc" ? {}: {
+		// MC and Flash Card questions have their own handlers...
+		var answerable = ['mc', 'flashcard'].indexOf(this.questionObj.questionType) === -1;
+		var questionListener = this.viewOnly || !answerable ? {} : {
 			'itemtap': function (list, index, target, record) {
 				var confirm = function (answer, handler) {
 					Ext.Msg.confirm(Messages.ANSWER + ' "' + answer + '"', Messages.SUBMIT_ANSWER, handler);
@@ -228,8 +232,8 @@ Ext.define('ARSnova.view.Question', {
 			}
 		};
 
-		// Setup question title and text to disply in the same field; markdown handles HTML encoding
-		var questionString = this.questionObj.subject
+		// Setup question title and text to display in the same field; markdown handles HTML encoding
+		var questionString = this.questionObj.subject.replace(/\./, "\\.")
 			+ '\n\n' // inserts one blank line between subject and text
 			+ this.questionObj.text;
 
@@ -245,13 +249,14 @@ Ext.define('ARSnova.view.Question', {
 			cls: 'roundedBox',
 			variableHeights: true,
 			scrollable: {disabled: true},
+			disableSelection: this.questionObj.questionType === 'flashcard',
 
-			itemCls: 'arsnova-mathdown x-html',
+			itemCls: 'arsnova-mathdown x-html answerListButton noPadding',
 			itemHeight: 32,
 			itemTpl: new Ext.XTemplate(
 				'{formattedText}',
 				'<tpl if="correct === true && this.isQuestionAnswered(values)">',
-					'&nbsp;<span style="padding: 0 0.2em 0 0.2em" class="x-list-item-correct">&#10003; </span>',
+					'&nbsp;<span class="listCorrectItem x-list-item-correct">&#10003; </span>',
 				'</tpl>',
 				{
 					isQuestionAnswered: function (values) {
@@ -330,6 +335,7 @@ Ext.define('ARSnova.view.Question', {
 			},
 			items: [this.mcSaveButton, !!!this.questionObj.abstention ? {hidden: true}: {
 				flex: 1,
+				ui: 'action',
 				xtype: 'button',
 				cls: 'login-button noMargin',
 				text: Messages.ABSTENTION,
@@ -347,6 +353,11 @@ Ext.define('ARSnova.view.Question', {
 				if (this.answerList.isHidden()) {
 					this.answerList.show(true);
 					button.setText(Messages.HIDE_FLASHCARD_ANSWER);
+					self.getUserAnswer().then(function (answer) {
+						var answerObj = self.questionObj.possibleAnswers[0];
+						answer.set('answerText', answerObj.text);
+						saveAnswer(answer);
+					});
 				} else {
 					this.answerList.hide(true);
 					button.setText(Messages.SHOW_FLASHCARD_ANSWER);
@@ -370,7 +381,7 @@ Ext.define('ARSnova.view.Question', {
 			this.answerList.setHidden(true);
 		} else if (this.questionObj.questionType === "grid") {
 			if (this.questionObj.gridType === 'moderation') {
-			
+
 				this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
 					id: 'gridImageContainer' + this.questionObj._id,
 					handlerScope: self,
@@ -395,7 +406,7 @@ Ext.define('ARSnova.view.Question', {
 			 * update function for align the grids picture
 			 */
 			this.grid.update(this.questionObj, false);
-			
+
 			/*
 			 *   gridbutton and container for the grid button to add into the layout if necessary
 			 */
@@ -422,6 +433,7 @@ Ext.define('ARSnova.view.Question', {
 				},
 				items: [this.gridButton, !!!this.questionObj.abstention ? {hidden: true}: {
 					flex: 1,
+					ui: 'action',
 					xtype: 'button',
 					cls: 'login-button noMargin',
 					text: Messages.ABSTENTION,
@@ -430,9 +442,9 @@ Ext.define('ARSnova.view.Question', {
 				}]
 			};
 			this.add([this.grid]);
-			
+
 			if (this.questionObj.gridType === 'moderation') {
-				
+
 				var panel = new Ext.Panel({
 				    layout: {
 		                type: 'vbox',
@@ -446,10 +458,10 @@ Ext.define('ARSnova.view.Question', {
 						html: Messages.GRID_LABEL_REMAINING_DOTS + this.grid.getNumberOfDots(),
 			        }]
 				});
-				
+
 				this.add(panel);
 			}
-			
+
 			if (!this.viewOnly) {
 				this.add([this.gridImageContainer]);
 			}
@@ -523,23 +535,6 @@ Ext.define('ARSnova.view.Question', {
 			this.answerList.select(this.abstentionAnswer);
 		}
 	},
-
-//	doTypeset: function (parent) {
-//		if (typeof this.questionTitle.element !== "undefined") {
-//			var panel = this;
-//			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.questionTitle.element.dom]);
-//			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.answerList.element.dom]);
-//
-//			MathJax.Hub.Queue(
-//				["Delay", MathJax.Callback, 700], function () {
-//					panel.answerList.fireEvent("resizeList", panel.answerList.element);
-//				}
-//			);
-//		} else {
-// // If the element has not been drawn yet, we need to retry later
-//			Ext.defer(Ext.bind(this.doTypeset, this), 100);
-//		}
-//	},
 
 	getUserAnswer: function () {
 		var self = this;

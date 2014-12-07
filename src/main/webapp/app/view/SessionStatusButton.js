@@ -35,7 +35,7 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 		this.sessionIsClosed = Ext.create('ARSnova.view.MatrixButton', {
 			buttonConfig: 'icon',
 			text: Messages.START_SESSION,
-			imageCls: 'icon-unlock thm-orange',
+			imageCls: 'icon-unlock',
 			imageStyle: {
 				'font-size': '64px',
 				'margin-top': '9px !important'
@@ -48,7 +48,7 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 		this.sessionIsOpen = Ext.create('ARSnova.view.MatrixButton', {
 			buttonConfig: 'icon',
 			text: Messages.STOP_SESSION,
-			imageCls: 'icon-lock thm-orange',
+			imageCls: 'icon-lock',
 			imageStyle: {
 				'font-size': '64px',
 				'margin-top': '9px !important'

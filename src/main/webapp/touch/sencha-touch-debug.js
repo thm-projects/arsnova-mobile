@@ -16,7 +16,7 @@ requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 If you are unsure which license is appropriate for your use, please contact the sales department
 at http://www.sencha.com/contact.
 
-Build date: 2014-08-18 16:20:22 (508f2bbd9a1ad08c25cf2fea5b9f939a4113bfa3)
+Build date: 2014-10-22 11:38:23 (733f32116ad89611b6e3f1861049fa2f7733e61d)
 */
 //@tag foundation,core
 //@define Ext
@@ -679,7 +679,7 @@ Build date: 2014-08-18 16:20:22 (508f2bbd9a1ad08c25cf2fea5b9f939a4113bfa3)
 (function() {
 
 // Current core version
-var version = '2.4.0.482', Version;
+var version = '2.4.1.527', Version;
     Ext.Version = Version = Ext.extend(Object, {
 
         /**
@@ -9040,7 +9040,7 @@ var noArgs = [],
  *
  * [getting_started]: #!/guide/getting_started
  */
-Ext.setVersion('touch', '2.4.0.482');
+Ext.setVersion('touch', '2.4.1.527');
 
 Ext.apply(Ext, {
     /**

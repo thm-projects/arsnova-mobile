@@ -129,17 +129,25 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		this.lastVisitedSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
 			scrollable: null,
 			cls: 'standardForm',
+			title: Messages.LAST_VISITED_SESSIONS
+		});
+
+		this.mySessionsForm = Ext.create('ARSnova.view.home.SessionList', {
+			scrollable: null,
+			cls: 'standardForm',
 			title: Messages.MY_SESSIONS
 		});
 
 		this.add([
 			this.toolbar,
 			this.sessionLoginForm,
-			this.lastVisitedSessionsForm
+			this.lastVisitedSessionsForm,
+			this.mySessionsForm
 		]);
-
-		this.on('painted', function () {
+		
+		this.onBefore('painted', function() {
 			this.loadVisitedSessions();
+			this.loadMySessions();
 		});
 	},
 
@@ -168,63 +176,13 @@ Ext.define('ARSnova.view.home.HomePanel', {
 
 	loadVisitedSessions: function () {
 		if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) return;
+		var me = this;
 
 		var hideLoadingMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
 
 		ARSnova.app.restProxy.getMyVisitedSessions({
 			success: function (sessions) {
-				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.homePanel;
-				var caption = Ext.create('ARSnova.view.Caption');
-
-				if (sessions && sessions.length !== 0) {
-					panel.lastVisitedSessionsForm.removeAll();
-					panel.lastVisitedSessionsForm.show();
-
-					for (var i = 0; i < sessions.length; i++) {
-						var session = sessions[i];
-
-						var icon = "icon-radar";
-						if (session.creator !== localStorage.getItem("login")) {
-							icon = "icon-users";
-						}
-						if (session.courseType && session.courseType.length > 0) {
-							icon = "icon-prof";
-						}
-
-						// Minimum width of 481px equals at least landscape view
-						var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
-						var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-							xtype: 'button',
-							ui: 'normal',
-							text: Ext.util.Format.htmlEncode(displaytext),
-							cls: 'forwardListButton',
-							iconCls: icon + ' courseIcon',
-							controller: 'sessions',
-							action: 'showDetails',
-							badgeCls: 'badgeicon',
-							sessionObj: session,
-							handler: function (options) {
-								var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
-								ARSnova.app.getController('Sessions').login({
-									keyword: options.config.sessionObj.keyword
-								});
-								hideLoadMask();
-							}
-						});
-						sessionButton.setBadge([{badgeText: session.numUnanswered}]);
-						panel.lastVisitedSessionsForm.addEntry(sessionButton);
-
-						if (!session.active) {
-							panel.down('button[text=' + displaytext + ']').addCls("isInactive");
-						}
-					}
-					caption.explainBadges(sessions, { questions: false, answers: false, interposed: false, unanswered: true });
-					caption.explainStatus(sessions);
-					panel.lastVisitedSessionsForm.addEntry(caption);
-				} else {
-					panel.lastVisitedSessionsForm.hide();
-				}
-				hideLoadingMask();
+				me.displaySessions(sessions, me.lastVisitedSessionsForm, hideLoadingMask);
 			},
 			unauthenticated: function () {
 				hideLoadingMask();
@@ -238,5 +196,85 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.homePanel.lastVisitedSessionsForm.hide();
 			}
 		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
+	},
+
+	loadMySessions: function () {
+		if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) return;
+		var me = this;
+
+		var hideLoadingMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
+
+		ARSnova.app.sessionModel.getMySessions({
+			success: function (response) {
+				var sessions = Ext.decode(response.responseText);
+				me.displaySessions(sessions, me.mySessionsForm, hideLoadingMask);
+			},
+			empty: function () {
+				hideLoadingMask();
+				me.mySessionsForm.hide();
+			},
+			unauthenticated: function () {
+				hideLoadingMask();
+				ARSnova.app.getController('Auth').login({
+					mode: ARSnova.app.loginMode
+				});
+			},
+			failure: function () {
+				hideLoadingMask();
+				console.log('server-side error loggedIn.save');
+				ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.homePanel.mySessionsForm.hide();
+			}
+		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
+	},
+
+	displaySessions: function (sessions, form, hideLoadingMask) {
+		var caption = Ext.create('ARSnova.view.Caption');
+
+		if (sessions && sessions.length !== 0) {
+			form.removeAll();
+			form.show();
+
+			for (var i = 0; i < sessions.length; i++) {
+				var session = sessions[i];
+
+				var icon = "icon-users";
+				if (session.courseType && session.courseType.length > 0) {
+					icon = "icon-prof";
+				}
+
+				// Minimum width of 481px equals at least landscape view
+				var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
+				var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+					xtype: 'button',
+					ui: 'normal',
+					text: Ext.util.Format.htmlEncode(displaytext),
+					cls: 'forwardListButton',
+					iconCls: icon + ' courseIcon',
+					controller: 'sessions',
+					action: 'showDetails',
+					badgeCls: 'badgeicon',
+					sessionObj: session,
+					handler: function (options) {
+						var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
+						ARSnova.app.getController('Sessions').login({
+							keyword: options.config.sessionObj.keyword
+						});
+						hideLoadMask();
+					}
+				});
+				sessionButton.setBadge([{badgeText: session.numUnanswered}]);
+				form.addEntry(sessionButton);
+
+				if (!session.active) {
+					this.down('button[text=' + displaytext + ']').addCls("isInactive");
+				}
+			}
+			caption.explainBadges(sessions, { questions: false, answers: false, interposed: false, unanswered: true });
+			caption.explainStatus(sessions);
+			form.addEntry(caption);
+		} else {
+			form.hide();
+		}
+		hideLoadingMask();
 	}
 });

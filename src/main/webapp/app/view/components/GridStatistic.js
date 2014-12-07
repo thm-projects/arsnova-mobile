@@ -24,7 +24,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 
 	config: {
 		questionObj: null,
-		cls: 'standardFieldset',
+		cls: 'standardFieldset centerFormTitle',
 		style: 'margin: 0'
 	},
 
@@ -171,6 +171,9 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				type: 'hbox',
 				pack: 'center',
 				align: 'stretchmax'
+			},
+			defaults: {
+				ui: 'action'
 			},
 			allowDepress: false,
 			items: this.releaseItems,

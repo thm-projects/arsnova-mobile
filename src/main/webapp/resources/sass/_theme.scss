@@ -1,3 +1,48 @@
+$background-color: $background;
+$label-font-color: $thm-grey;
+$label-font-weight: normal;
+$label-text-shadow: none;
+
+@mixin label-config {
+	font-weight: $label-font-weight;
+	text-shadow: $label-text-shadow !important; 
+}
+
+$button-confirm-bg-color: $thm-green;
+$button-confirm-txt-color: #fff;
+$button-action-bg-color: $thm-grey;
+$button-action-active-bg-color: $thm-lightgrey;
+$button-action-txt-color: #fff;
+$button-decline-bg-color: $thm-red;
+$button-decline-txt-color: #fff;
+
+@mixin button-decoration-config($bgcolor, $txtcolor) {
+	color: $txtcolor;
+	background: $bgcolor;
+	border: none !important;
+	background-image: none !important;
+}
+
+$toolbar-bg-color: $thm-grey;
+$toolbar-title-txt-color: #fff;
+$toolbar-speaker-title-color: $thm-green;
+$toolbar-button-bg-color: $thm-green;
+$toolbar-button-txt-color: #fff;
+$toolbar-back-button-bg-color: #fff;
+$toolbar-back-button-txt-color: $thm-grey;
+$toolbar-toogleCorrect-button-active-color: $thm-green;
+$toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
+
+@mixin toolbar-title-config {
+	@include label-config;
+	color: $toolbar-title-txt-color;
+}
+
+@mixin toolbar-button-config($bgcolor, $txtcolor) {
+	color: $txtcolor;
+	background: $bgcolor !important;
+	border: 1px solid $bgcolor !important;
+}
 
 .iconBtn {
 	color: $thm-grey !important;
@@ -10,22 +55,6 @@
 .forwardListButton .x-button-label,
 .standardListButton .x-button-label {
 	color: $thm-grey !important;
-}
-
-.x-button-normal,
-.x-button-filebrowse,
-.x-segmentedbutton .x-button-normal {
-	background-color: $thm-grey;
-	border-color: $background !important;
-	background-image: none;
-	
-	.x-button-label {
-		color: white;
-	}
-	
-	&.x-button-pressed {
-		background-color: $thm-lightgrey;
-	}
 }
 
 .x-segmentedbutton .x-button-normal {
@@ -48,7 +77,7 @@
 }
 
 .x-fullscreen {
-	background-color: $background !important; 
+	background-color: $background;
 }
 
 .x-form-label {
@@ -58,6 +87,10 @@
 	
 	&.checkItem {
 		border-right: none;
+	}
+	
+	& span {
+		font-weight: normal;	
 	}
 }
 
@@ -102,37 +135,158 @@
 	}
 }
 
-.x-button.x-button-confirm,
-.x-button.x-button-action,
-.x-button.x-button-decline {
-	background-color: $thm-green !important;
-	background-image: none !important;
+.x-button {
+	&.x-button-confirm {
+		@include button-decoration-config(
+			$button-confirm-bg-color !important, 
+			$button-confirm-txt-color !important
+		);
+	}
+	
+	&.x-button-action,
+	&.x-button-filebrowse {
+		@include button-decoration-config(
+			$button-action-bg-color !important, 
+			$button-action-txt-color !important
+		);
+		
+		&.x-button-pressed,
+		&.x-button-pressing {
+			background-color: $button-action-active-bg-color !important;
+		}
+	}
+	
+	&.x-button-decline {
+		@include button-decoration-config(
+			$button-decline-bg-color !important, 
+			$button-decline-txt-color !important
+		);
+	}
+	
+	.x-button-label {
+		@include label-config;
+	}
+	
+	&.isInactive .x-button-label {
+		color: $thm-red !important;
+	}
+}
+
+.x-segmentedbutton .x-button.x-button-action {
 	border: none !important;
+	border-right: thin solid $background-color !important;
+}
+
+.x-tabbar-dark,
+.x-toolbar-light {
+	border: none !important;
+	text-shadow: none !important;
+	background: $toolbar-bg-color !important;
 }
 
 .x-toolbar-light {
 	.x-title {
-		color: #fff;
-		text-shadow: none !important; 
+		@include toolbar-title-config;
 	}
 	
-	.x-button, 
+	&.speakerTitleText .x-title {
+		color: $toolbar-speaker-title-color;
+	}
+	
+	.x-button-normal {
+		@include toolbar-button-config(
+			$toolbar-button-bg-color, 
+			$toolbar-button-txt-color
+		);
+		
+		&.toggleCorrectButton {
+			@include toolbar-button-config(
+				$toolbar-toogleCorrect-button-inactive-color,
+				$toolbar-button-txt-color
+			);
+			
+			&.x-button-pressed,
+			&.x-button-pressing {
+				@include toolbar-button-config(
+					$toolbar-toogleCorrect-button-active-color,
+					$toolbar-button-txt-color
+				);
+			}
+		}
+	}
+	
+	.x-button-back,
 	.x-button.x-button-back:after, 
-	.x-button.x-button-forward:after, 
-	.x-field-select .x-input-text, 
+	.x-button.x-button-back:before,
+	.x-button.x-button-forward:after,
+	.x-button.x-button-forward:before, 
 	.x-field-select .x-input-text.x-button-back:after, 
-	.x-field-select .x-input-text.x-button-forward:after, 
-	.x-field-select:before {
-		color: white;
-		border: 1px solid #80ba24 !important;
-		text-shadow: none !important;
-		background: $thm-green !important;
+	.x-field-select .x-input-text.x-button-forward:after {
+		@include toolbar-button-config(
+			$toolbar-back-button-bg-color, 
+			$toolbar-back-button-txt-color
+		);
 	}
 	
-	.x-button.x-button-back:before,
-	.x-button.x-button-forward:before {
-		background: #80ba24;
-	}	
+	.x-button, .x-button-back {
+		.x-button-label {
+			@include label-config;
+		}
+	}
+}
+
+.speakerTabbar {
+	.x-tab-icon .x-button-icon {
+		&:before,
+		&.voteIcons.icon-radar:before {
+			color: $thm-green !important;
+		}
+		
+		&.voteIcons:before {
+			color: $thm-green !important;
+		}
+	}
+	
+	.x-tab-active {
+		.x-button-icon {
+			&:before,
+			&.voteIcons.icon-radar:before {
+				color: white !important;
+			}
+			
+			&.voteIcons:before {
+				color: $smiley-color !important;
+			}
+		}
+	}
+}
+
+.x-tabbar-dark.x-docked-bottom {
+	.x-tab {
+		text-shadow: none !important;
+	}
+	
+	.voteIcons:before,
+	.x-button-icon:before {
+		color: #fff;
+	}
+	
+	.x-tab-active {
+		box-shadow: none;
+		background-image: none !important;
+		background-color: transparent;
+		
+		.x-button-icon {
+			&:before,
+			&.voteIcons.icon-radar:before {
+				color: $thm-green;
+			}
+			
+			&.voteIcons:before {
+				color: $smiley-color;
+			}
+		}
+	}
 }
 
 .x-list,
@@ -148,44 +302,32 @@
 	
 	.x-list-item.x-item-selected.x-list-item-tpl,
 	.x-list-item.x-item-selected .x-dock-horizontal {
+		border-color: white;
 		background-image: none;
-		border-color: $thm-green;
-		background-color: $thm-green;
+		background-color: $thm-orange;
+		
+		.search-item span {
+			color: white;
+		}
 	}
 } 
 
-.x-toolbar-light, 
-.x-tabbar-dark {
-	text-shadow: none !important;
-	background: $thm-grey !important;	
-	border: none !important;
-}
-
-.x-tabbar-dark.x-docked-bottom .x-tab-active .x-button-icon:before {
-	color: $thm-green;
-}
-
-.x-tabbar-dark.x-docked-bottom .x-tab-active {
-	background-image: none !important;
-	background-color: transparent;
-	box-shadow: none;
-}
-
-.x-tabbar-dark.x-docked-bottom .x-tab {
-	text-shadow: none !important;
-}
-
-.x-tabbar-dark.x-docked-bottom .x-tab-active .icon-happy.x-button-icon:before,
-.x-tabbar-dark.x-docked-bottom .x-tab-active .icon-wink.x-button-icon:before,
-.x-tabbar-dark.x-docked-bottom .x-tab-active .icon-sad.x-button-icon:before,
-.x-tabbar-dark.x-docked-bottom .x-tab-active .icon-shocked.x-button-icon:before {
-	color: $smiley-color !important;
-}
-
-.x-tabbar .voteIcons {
-	color: white;
+.x-form-fieldset-title {
+	font-weight: normal;
 }
 
 .x-mask-inner {
 	border-radius: 10px 10px 10px 10px;	
+}
+
+.x-carousel-indicator span {
+	background-color: $thm-grey;
+}
+
+.x-carousel-indicator span.x-carousel-indicator-active {
+	background-color: $thm-green;
+}
+
+.isInactive {
+	color: $thm-red;
 }
