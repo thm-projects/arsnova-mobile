@@ -244,15 +244,19 @@ Ext.define('ARSnova.view.Question', {
 		questionPanel.setContent(questionString, true, true);
 
 		if(this.questionObj.questionType === 'flashcard') {
-			console.log(this.questionObj);
+			var answerPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+		    	style: 'word-wrap: break-word;'
+			});
 			
 			this.answerList = Ext.create('Ext.Container', {
 				layout: 'vbox',
 				cls: 'roundedBox',
 				style: 'margin-bottom: 10px;',
 				styleHtmlContent: true,
-				html: [this.questionObj.possibleAnswers[0].formattedText]
+				items: [answerPanel]
 			});
+			
+			answerPanel.setContent(this.questionObj.possibleAnswers[0].text, true, true);
 		}
 		
 		else {
