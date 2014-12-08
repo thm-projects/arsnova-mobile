@@ -147,7 +147,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					this.renewChartDataTask.taskRunTime = 0;
 				},
 				scope: this,
-				hidden: !ARSnova.app.isSessionOwner || !hasCorrectAnswers() || this.questionObj.questionType === 'grid'
+				hidden: !hasCorrectAnswers() || this.questionObj.questionType === 'grid'
 			}]
 		});
 
