@@ -243,7 +243,9 @@ Ext.define('ARSnova.view.Question', {
 		});
 		questionPanel.setContent(questionString, true, true);
 
-		if(this.questionObj.questionType === 'flashcard') {;
+		if(this.questionObj.questionType === 'flashcard') {
+			console.log(this.questionObj);
+			
 			this.answerList = Ext.create('Ext.Container', {
 				layout: 'vbox',
 				cls: 'roundedBox',
