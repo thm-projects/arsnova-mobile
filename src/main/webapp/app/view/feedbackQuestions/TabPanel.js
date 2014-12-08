@@ -23,7 +23,7 @@ Ext.define('ARSnova.view.feedbackQuestions.TabPanel', {
 
 	config: {
 		title: Messages.QUESTIONS,
-		iconCls: 'icon-question',
+		iconCls: 'icon-users',
 		scroll: 'vertical',
 
 		tabBar: {
