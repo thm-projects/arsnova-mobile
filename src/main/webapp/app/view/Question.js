@@ -243,59 +243,70 @@ Ext.define('ARSnova.view.Question', {
 		});
 		questionPanel.setContent(questionString, true, true);
 
-		this.answerList = Ext.create('Ext.List', {
-			store: answerStore,
-
-			cls: 'roundedBox',
-			variableHeights: true,
-			scrollable: {disabled: true},
-			disableSelection: this.questionObj.questionType === 'flashcard',
-
-			itemCls: 'arsnova-mathdown x-html answerListButton noPadding',
-			itemHeight: 32,
-			itemTpl: new Ext.XTemplate(
-				'{formattedText}',
-				'<tpl if="correct === true && this.isQuestionAnswered(values)">',
-					'&nbsp;<span class="listCorrectItem x-list-item-correct">&#10003; </span>',
-				'</tpl>',
-				{
-					isQuestionAnswered: function (values) {
-						return values.questionAnswered === true;
+		if(this.questionObj.questionType === 'flashcard') {;
+			this.answerList = Ext.create('Ext.Container', {
+				layout: 'vbox',
+				cls: 'roundedBox',
+				style: 'margin-bottom: 10px;',
+				styleHtmlContent: true,
+				html: [this.questionObj.possibleAnswers[0].formattedText]
+			});
+		}
+		
+		else {
+			this.answerList = Ext.create('Ext.List', {
+				store: answerStore,
+	
+				cls: 'roundedBox',
+				variableHeights: true,
+				scrollable: {disabled: true},
+	
+				itemCls: 'arsnova-mathdown x-html answerListButton noPadding',
+				itemHeight: 32,
+				itemTpl: new Ext.XTemplate(
+					'{formattedText}',
+					'<tpl if="correct === true && this.isQuestionAnswered(values)">',
+						'&nbsp;<span class="listCorrectItem x-list-item-correct">&#10003; </span>',
+					'</tpl>',
+					{
+						isQuestionAnswered: function (values) {
+							return values.questionAnswered === true;
+						}
 					}
-				}
-			),
-			listeners: {
-				scope: this,
-				selectionchange: function (list, records, eOpts) {
-					if (list.getSelectionCount() > 0) {
-						this.mcSaveButton.enable();
-					} else {
-						this.mcSaveButton.disable();
+				),
+				listeners: {
+					scope: this,
+					selectionchange: function (list, records, eOpts) {
+						if (list.getSelectionCount() > 0) {
+							this.mcSaveButton.enable();
+						} else {
+							this.mcSaveButton.disable();
+						}
+					},
+					/**
+					 * The following events are used to get the computed height of
+					 * all list items and finally to set this value to the list
+					 * DataView. In order to ensure correct rendering it is also
+					 * necessary to get the properties "padding-top" and
+					 * "padding-bottom" and add them to the height of the list
+					 * DataView.
+					 */
+					painted: function (list, eOpts) {
+						this.answerList.fireEvent("resizeList", list);
+					},
+					resizeList: function (list) {
+						var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
+	
+						this.answerList.setHeight(
+							parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
+							parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
+							parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
+						);
 					}
 				},
-				/**
-				 * The following events are used to get the computed height of
-				 * all list items and finally to set this value to the list
-				 * DataView. In order to ensure correct rendering it is also
-				 * necessary to get the properties "padding-top" and
-				 * "padding-bottom" and add them to the height of the list
-				 * DataView.
-				 */
-				painted: function (list, eOpts) {
-					this.answerList.fireEvent("resizeList", list);
-				},
-				resizeList: function (list) {
-					var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
-
-					this.answerList.setHeight(
-						parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
-						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
-						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
-					);
-				}
-			},
-			mode: this.questionObj.questionType === "mc" ? 'MULTI': 'SINGLE'
-		});
+				mode: this.questionObj.questionType === "mc" ? 'MULTI': 'SINGLE'
+			});
+		}
 
 		if (this.questionObj.abstention
 				&& (this.questionObj.questionType === 'school'

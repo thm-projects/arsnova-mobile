@@ -44,6 +44,13 @@
 	border: none !important;
 }
 
+code {
+	white-space:pre;
+	white-space:pre-wrap;
+	word-break:break-all;
+	word-wrap:break-word;
+}
+
 .myCoursesList .x-list-item-first .x-button {
 	-moz-border-radius-topleft: .4em;
 	-moz-border-radius-topright: .4em;
