@@ -836,7 +836,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		
 		if(this.questionObj.questionType === 'flashcard') {
 			var answerPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-		    	style: 'word-wrap: break-word;'
+		    	style: 'word-wrap: break-word;',
+		    	cls: ''
 			});
 			
 			this.answerList = Ext.create('Ext.Container', {
@@ -847,6 +848,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				items: [answerPanel]
 			});
 			
+			// remove padding around panel
+			this.answerList.bodyElement.dom.style.padding="0";
+			
+			// set content
 			answerPanel.setContent(this.questionObj.possibleAnswers[0].text, true, true);
 		}
 	
