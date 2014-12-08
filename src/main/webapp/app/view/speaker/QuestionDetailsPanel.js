@@ -833,58 +833,78 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	getPossibleAnswers: function () {
 		var me = this;
 		var isGridQuestion = (['grid'].indexOf(this.questionObj.questionType) !== -1);
-	this.answerList = Ext.create('Ext.List', {
-		hidden: isGridQuestion,
-		store: this.answerStore,
-
-		cls: 'roundedBox',
-		variableHeights: true,
-		scrollable: {disabled: true},
-
-		itemCls: 'arsnova-mathdown x-html answerListButton noPadding',
-		itemTpl: new Ext.XTemplate(
-			'{formattedText}',
-			'<tpl if="correct === true && this.isFlashcard() === false">',
-			'&nbsp;<span class="listCorrectItem x-list-item-correct">&#10003; </span>',
-			'</tpl>',
-			'<tpl if="this.isFlashcard() === false">',
-			'</div><div class="x-button x-hasbadge questionDetailsListBadge">' +
-			'<span class="answersBadgeIcon badgefixed">{answerCount}</span>',
-			'</tpl>',
-			{
-				isFlashcard: function () {
-					return me.isFlashcard;
-				}
-			}
-		),
-		listeners: {
-			scope: this,
-			/**
-			 * The following events are used to get the computed height of
-			 * all list items and finally to set this value to the list
-			 * DataView. In order to ensure correct rendering it is also
-			 * necessary to get the properties "padding-top" and
-			 * "padding-bottom" and add them to the height of the list
-			 * DataView.
-			 */
-			painted: function (list, eOpts) {
-				this.answerList.fireEvent("resizeList", list);
-			},
-			resizeList: function (list) {
-				var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
-
-				this.answerList.setHeight(
-					parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
-					parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
-					parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
-				);
-			}
-		},
-		mode: this.questionObj.questionType === "mc" ? 'MULTI': 'SINGLE'
-	});
-	if (this.questionObj.questionType !== "freetext") {
-		this.answerFormFieldset.add(this.answerList);
-	}
+		
+		if(this.questionObj.questionType === 'flashcard') {
+			var answerPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+		    	style: 'word-wrap: break-word;'
+			});
+			
+			this.answerList = Ext.create('Ext.Container', {
+				layout: 'vbox',
+				cls: 'roundedBox',
+				style: 'margin-bottom: 10px;',
+				styleHtmlContent: true,
+				items: [answerPanel]
+			});
+			
+			answerPanel.setContent(this.questionObj.possibleAnswers[0].text, true, true);
+		}
+	
+		else {
+			this.answerList = Ext.create('Ext.List', {
+				hidden: isGridQuestion,
+				store: this.answerStore,
+		
+				cls: 'roundedBox',
+				variableHeights: true,
+				scrollable: {disabled: true},
+		
+				itemCls: 'arsnova-mathdown x-html answerListButton noPadding',
+				itemTpl: new Ext.XTemplate(
+					'{formattedText}',
+					'<tpl if="correct === true && this.isFlashcard() === false">',
+						'&nbsp;<span class="listCorrectItem x-list-item-correct">&#10003; </span>',
+					'</tpl>',
+					'<tpl if="this.isFlashcard() === false">',
+						'</div><div class="x-button x-hasbadge questionDetailsListBadge">' +
+						'<span class="answersBadgeIcon badgefixed">{answerCount}</span>',
+					'</tpl>',
+					{
+						isFlashcard: function () {
+							return me.isFlashcard;
+						}
+					}
+				),
+				listeners: {
+					scope: this,
+					/**
+					 * The following events are used to get the computed height of
+					 * all list items and finally to set this value to the list
+					 * DataView. In order to ensure correct rendering it is also
+					 * necessary to get the properties "padding-top" and
+					 * "padding-bottom" and add them to the height of the list
+					 * DataView.
+					 */
+					painted: function (list, eOpts) {
+						this.answerList.fireEvent("resizeList", list);
+					},
+					resizeList: function (list) {
+						var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
+		
+						this.answerList.setHeight(
+							parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
+							parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
+							parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
+						);
+					}
+				},
+				mode: this.questionObj.questionType === "mc" ? 'MULTI': 'SINGLE'
+			});
+		}
+		
+		if (this.questionObj.questionType !== "freetext") {
+			this.answerFormFieldset.add(this.answerList);
+		}
 
 		if (isGridQuestion) {
 			// add statistic
