@@ -35,6 +35,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	/* toolbar items */
 	toolbar: null,
 	toggleCorrect: false,
+	chartRefreshDuration: 1000,
 
 	renewChartDataTask: {
 		name: 'renew the chart data at question statistics charts',
@@ -130,21 +131,45 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				iconCls: 'icon-check',
 				cls: 'toggleCorrectButton',
 				handler: function(button) {
+					var me = this,
+					data = [];
+				
+					button.disable();
+					
 					if (this.toggleCorrect) {
 						button.removeCls('x-button-pressed');
 					} else {
 						button.addCls('x-button-pressed');
 					}
 					this.toggleCorrect = !this.toggleCorrect;
-					// updates the chart's colors
-					this.setGradients();
+					
 					// remove all data for a smooth "redraw"
 					this.questionStore.each(function (record) {
+						data.push({
+							text: record.get('text'),
+							value: record.get('value'),
+							percent: record.get('percent')
+						}); 
+						
 						record.set('value', 0);
 						record.set('percent', 0);
 					});
-					// reload chart data
-					this.renewChartDataTask.taskRunTime = 0;
+				
+					var updateDataTask = Ext.create('Ext.util.DelayedTask', function () {		
+						me.questionStore.setData(data);
+						button.enable();
+					}); 
+				
+					var setGradientTask = Ext.create('Ext.util.DelayedTask', function () {		
+						// updates the chart's colors
+						me.setGradients();
+						
+						// delay till chart is redrawn
+						updateDataTask.delay(me.chartRefreshDuration-200);
+					});
+
+					// delay till chart is empty
+					setGradientTask.delay(me.chartRefreshDuration-200);
 				},
 				scope: this,
 				hidden: !hasCorrectAnswers() || this.questionObj.questionType === 'grid'
@@ -190,7 +215,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 			animate: {
 				easing: 'bounceOut',
-				duration: 1000
+				duration: this.chartRefreshDuration
 			},
 
 			axes: [{
