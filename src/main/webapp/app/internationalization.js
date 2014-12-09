@@ -24,7 +24,7 @@
 var ua = navigator.userAgent.toLowerCase();
 var isAndroid = ua.indexOf("android") > -1;
 var isChrome = ua.indexOf("chrome") > -1;
-//var lang; // without declaration with "var" lang will be globally accessible 
+//var lang; // without declaration with "var" lang will be globally accessible
 
 if (isAndroid && !isChrome) {
 	if (navigator && navigator.userAgent && (lang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {
@@ -74,7 +74,7 @@ switch (lang) {
 			ENTER_SESSIONID: "Insert Session ID:",
 			GO: "Enter Session",
 			LAST_VISITED_SESSIONS: "Visited Sessions",
-			LEGEND: "Legend",
+			LEGEND: "Color and Badge Legend",
 			OPEN_SESSION: "Open Session",
 			CLOSED_SESSION: "Closed Session",
 			CONFIRM_CLOSE_SESSION: "Are you sure to close the session?",
@@ -195,7 +195,7 @@ switch (lang) {
 			ANSWER_POINTS: "Answer points",
 			ANSWER_POINTS_CORRECT: "Correct",
 			ANSWER_POINTS_INCORRECT: "Incorrect",
-			
+
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
 			QUESTIONS_FROM_STUDENTS: "Students' questions",
@@ -331,7 +331,7 @@ switch (lang) {
 			TEMPLATE:	"Template",
 			CONTINUE:	"Continue",
 			DOWNLOAD:	"Download",
-			
+
 			/* question types */
 			EVALUATION: "+-",
 			SCHOOL: "A-F",
@@ -443,7 +443,7 @@ switch (lang) {
 			ENTER_SESSIONID: "Bitte Session-ID eingeben",
 			GO: "Session betreten",
 			LAST_VISITED_SESSIONS: "Besuchte Sessions",
-			LEGEND: "Legende",
+			LEGEND: "Farben- und Badge-Legende",
 			OPEN_SESSION: "Offene Session",
 			CLOSED_SESSION: "Gesperrte Session",
 			CONFIRM_CLOSE_SESSION: "Session wirklich sperren?",
@@ -503,7 +503,7 @@ switch (lang) {
 			QUESTION_EDIT_ERROR: "Das Editieren der Frage war leider nicht erfolgreich.",
 			ANSWER_CREATION_ERROR: "Die Antwort konnte nicht gespeichert werden",
 			SEND: "Abschicken",
-			
+
 			/* questions */
 			QUESTION: "Frage",
 			QUESTION_PLACEHOLDER: "Frage eingeben",
@@ -699,7 +699,7 @@ switch (lang) {
 			TEMPLATE:	"Vorlage",
 			CONTINUE:	"Übernehmen",
 			DOWNLOAD:	"Herunterladen",
-			
+
 			/* question types */
 			EVALUATION: "+-",
 			SCHOOL: "1-6",
