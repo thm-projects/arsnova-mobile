@@ -109,10 +109,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			}
 		});
 
-		var title = Ext.util.Format.htmlEncode(this.questionObj.text);
-		if (window.innerWidth < 800 && title.length > (window.innerWidth / 10))
-			title = title.substring(0, (window.innerWidth) / 10) + "...";
-
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			ui: 'light',
@@ -176,12 +172,13 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			}]
 		});
 
-		this.titlebar = Ext.create('Ext.Toolbar', {
+		this.titlebar = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			cls: 'questionStatisticTitle',
 			docked: 'top',
-			title: title,
-			border: '0px'
+			baseCls: Ext.baseCSSPrefix + 'title',
+			style: ''
 		});
+		this.titlebar.setContent(this.questionObj.text, true, true);
 
 		if (this.questionObj.questionType == "grid") {
 			this.titlebar = Ext.create('Ext.Toolbar', {
@@ -413,23 +410,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	onActivate: function () {
 		ARSnova.app.taskManager.start(this.renewChartDataTask);
 		ARSnova.app.taskManager.start(this.countActiveUsersTask);
-		this.doTypeset();
-	},
-
-	doTypeset: function (parent) {
-		if (typeof this.titlebar.element !== "undefined") {
-			if ("undefined" !== typeof MathJax) {
-				MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.titlebar.element.dom]);
-			}
-
-			// get the computed height of MathJax and set it as new height for question titlebar
-			var mjaxDom = this.titlebar.element.dom.childNodes[0].childNodes[0].childNodes[0];
-			var mjaxHeight = window.getComputedStyle(mjaxDom, "").getPropertyValue("height");
-			this.titlebar.setHeight(mjaxHeight);
-		} else {
-			// If the element has not been drawn yet, we need to retry later
-			Ext.defer(Ext.bind(this.doTypeset, this), 100);
-		}
 	},
 
 	countActiveUsers: function () {

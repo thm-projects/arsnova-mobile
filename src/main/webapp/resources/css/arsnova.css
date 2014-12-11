@@ -1256,6 +1256,12 @@ ol.standardList li {
 
 .questionStatisticTitle .x-innerhtml {
 	font-weight: normal !important;
+	color: white;
+	font-size: 1.2em;
+}
+
+.questionStatisticTitle .x-innerhtml p {
+	margin: 0;
 }
 
 .feedbackStatisticButton {
