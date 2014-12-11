@@ -198,7 +198,11 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		ARSnova.app.restProxy.getMyVisitedSessions({
 			success: function (sessions) {
 				me.displaySessions(sessions, me.lastVisitedSessionsForm, hideLoadingMask);
-				promise.resolve(sessions);
+				if (sessions.length > 0) {
+					promise.resolve(sessions);
+				} else {
+					promise.reject();
+				}
 			},
 			unauthenticated: function () {
 				hideLoadingMask();
@@ -228,7 +232,11 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			success: function (response) {
 				var sessions = Ext.decode(response.responseText);
 				me.displaySessions(sessions, me.mySessionsForm, hideLoadingMask);
-				promise.resolve(sessions);
+				if (sessions.length > 0) {
+					promise.resolve(sessions);
+				} else {
+					promise.reject();
+				}
 			},
 			empty: function () {
 				hideLoadingMask();
