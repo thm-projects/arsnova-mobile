@@ -19,7 +19,7 @@
 Ext.define('ARSnova.view.home.MySessionsPanel', {
 	extend: 'Ext.Panel',
 
-	requires: ['ARSnova.view.Caption', 'ARSnova.view.home.SessionList', 'Ext.ux.Fileup', 'ARSnova.view.speaker.ExportSessionPanel'],
+	requires: ['ARSnova.view.Caption', 'ARSnova.view.home.SessionList', 'Ext.ux.Fileup', 'ARSnova.view.speaker.SessionExportListPanel'],
 
 	config: {
 		fullscreen: true,
@@ -112,13 +112,13 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			scope: this,
 			handler: function () {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				this.exportSessionPanel = Ext.create('ARSnova.view.speaker.ExportSessionPanel');
+				this.exportSessionListPanel = Ext.create('ARSnova.view.speaker.SessionExportListPanel');
 				hTP.animateActiveItem(hTP.mySessionsPanel, {
 					type: 'slide',
 					direction: 'left',
 					duration: 700
 				});
-				hTP.setActiveItem(this.exportSessionPanel);
+				hTP.setActiveItem(this.exportSessionListPanel);
 			}
 		});
 		

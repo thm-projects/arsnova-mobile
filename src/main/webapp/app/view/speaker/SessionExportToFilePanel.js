@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('ARSnova.view.speaker.SessionExportPanel', {
+Ext.define('ARSnova.view.speaker.SessionExportToFilePanel', {
 	extend: 'Ext.Panel',
 	
 	initialize: function () {

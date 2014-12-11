@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('ARSnova.view.speaker.ExportSessionPanel', { 
+Ext.define('ARSnova.view.speaker.SessionExportListPanel', { 
 	extend: 'Ext.Panel',
 	requires: ['ARSnova.view.Caption', 'ARSnova.view.home.SessionList'],
 	
@@ -49,7 +49,7 @@ Ext.define('ARSnova.view.speaker.ExportSessionPanel', {
 		this.msgBox = Ext.create('Ext.MessageBox');
 		
 
-		this.questionExport = Ext.create('ARSnova.view.speaker.SessionExportPanel');
+		this.questionExportToFile = Ext.create('ARSnova.view.speaker.SessionExportToFilePanel');
 		this.questionExportToPublic = Ext.create('ARSnova.view.speaker.SessionExportToPublicPanel');
 		
 		this.exportButton = Ext.create('Ext.Button', {
@@ -70,7 +70,7 @@ Ext.define('ARSnova.view.speaker.ExportSessionPanel', {
 					buttons: me.msgBox.YESNO,
 					fn: function(btn) {
 					    if (btn === 'yes') {
-					    	hTP.animateActiveItem(me.questionExport, 'slide');
+					    	hTP.animateActiveItem(me.questionExportToFile, 'slide');
 					    }  else {
 					    	hTP.animateActiveItem(me.questionExportToPublic, 'slide');
 					    }
