@@ -74,7 +74,7 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.infoTabPanel = Ext.create('ARSnova.view.about.AboutTabPanel');
 		this.privacyTabPanel = Ext.create('ARSnova.view.about.PrivacyTabPanel');
 		this.imprintTabPanel = Ext.create('ARSnova.view.about.ImprintTabPanel');
-		
+
 		this.add([
 			this.rolePanel,
 			this.loginPanel,
@@ -84,7 +84,7 @@ Ext.define('ARSnova.view.TabPanel', {
 			this.privacyTabPanel,
 			this.imprintTabPanel
 		]);
-		
+
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
 			ARSnova.app.lastActivePanel = oldCard;
 			switch(newCard) {
@@ -154,36 +154,36 @@ Ext.define('ARSnova.view.TabPanel', {
 			ARSnova.app.taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
 		}
 	},
-	
+
 	activateAboutTabs: function() {
 		this.privacyTabPanel.tab.show();
 		this.imprintTabPanel.tab.show();
-		
+
 		// this.addClassToTab('infoButtonBeforeLogin', this.infoTabPanel);
 		// this.addClassToTab('infoButtonBeforeLogin', this.privacyTabPanel);
 		// this.addClassToTab('infoButtonBeforeLogin', this.imprintTabPanel);
 	},
-	
+
 	deactivateAboutTabs: function() {
 		this.privacyTabPanel.tab.hide();
 		this.imprintTabPanel.tab.hide();
-		
+
 		// this.removeClassFromTab('infoButtonBeforeLogin', this.infoTabPanel);
 		// this.removeClassFromTab('infoButtonBeforeLogin', this.privacyTabPanel);
 		// this.removeClassFromTab('infoButtonBeforeLogin', this.imprintTabPanel);
 	},
-	
+
 	addClassToTab: function(addCls, panel) {
 		var tabbar = this.getTabBar().element,
 			selectCls = '.' + panel.getIconCls();
 
 		tabbar.select(selectCls).addCls(addCls);
 	},
-	
+
 	removeClassFromTab: function(removeCls, panel) {
 		var tabbar = this.getTabBar().element,
 			selectCls = '.' + panel.getIconCls();
-			
+
 		tabbar.select(selectCls).removeCls(removeCls);
 	},
 

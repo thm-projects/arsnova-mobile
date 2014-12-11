@@ -39,15 +39,15 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
-		
+
 		this.backButton = Ext.create('Ext.Button', {
-			text: ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER ? 
+			text: ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER ?
 					Messages.HOME : Messages.FEEDBACK_VOTE,
 			ui: 'back',
 			handler: function() {
 				var	tabPanel = ARSnova.app.mainTabPanel.tabPanel,
 					feedbackTabPanel = tabPanel.feedbackTabPanel;
-				
+
 				if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 					tabPanel.animateActiveItem(tabPanel.speakerTabPanel, {
 						type: 'slide',
