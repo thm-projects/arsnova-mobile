@@ -129,37 +129,37 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				handler: function(button) {
 					var me = this,
 					data = [];
-				
+
 					button.disable();
-					
+
 					if (this.toggleCorrect) {
 						button.removeCls('x-button-pressed');
 					} else {
 						button.addCls('x-button-pressed');
 					}
 					this.toggleCorrect = !this.toggleCorrect;
-					
+
 					// remove all data for a smooth "redraw"
 					this.questionStore.each(function (record) {
 						data.push({
 							text: record.get('text'),
 							value: record.get('value'),
 							percent: record.get('percent')
-						}); 
-						
+						});
+
 						record.set('value', 0);
 						record.set('percent', 0);
 					});
-				
-					var updateDataTask = Ext.create('Ext.util.DelayedTask', function () {		
+
+					var updateDataTask = Ext.create('Ext.util.DelayedTask', function () {
 						me.questionStore.setData(data);
 						button.enable();
-					}); 
-				
-					var setGradientTask = Ext.create('Ext.util.DelayedTask', function () {		
+					});
+
+					var setGradientTask = Ext.create('Ext.util.DelayedTask', function () {
 						// updates the chart's colors
 						me.setGradients();
-						
+
 						// delay till chart is redrawn
 						updateDataTask.delay(me.chartRefreshDuration-200);
 					});
