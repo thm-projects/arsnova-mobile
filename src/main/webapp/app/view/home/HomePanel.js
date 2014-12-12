@@ -150,18 +150,20 @@ Ext.define('ARSnova.view.home.HomePanel', {
 
 		this.onBefore('painted', function() {
 			var me = this;
-			var handler = function success(sessions) {
-				me.caption.summarize(sessions, { questions: false, answers: false, interposed: false, unanswered: true });
-				me.add(me.caption);
-			};
-			var p1 = this.loadVisitedSessions();
-			var p2 = this.loadMySessions();
-			// get the summary of all session lists
-			RSVP.all([p1, p2]).then(handler, function error() {
-				// errors swallow results, retest each promise seperately to figure out if one succeeded
-				p1.then(handler);
-				p2.then(handler);
-			});
+			if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
+				var handler = function success(sessions) {
+					me.caption.summarize(sessions, { questions: false, answers: false, interposed: false, unanswered: true });
+					me.add(me.caption);
+				};
+				var p1 = this.loadVisitedSessions();
+				var p2 = this.loadMySessions();
+				// get the summary of all session lists
+				RSVP.all([p1, p2]).then(handler, function error() {
+					// errors swallow results, retest each promise seperately to figure out if one succeeded
+					p1.then(handler);
+					p2.then(handler);
+				});
+			}
 		});
 	},
 
