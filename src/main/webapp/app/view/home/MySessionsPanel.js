@@ -129,7 +129,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			loadAsDataUrl: true,
 			buttonConfig: 'icon',
 			imageCls: 'icon-upload2 thm-orange',
-			style: 'position:absolute; width:100%; height: 100%; z-index: 100; background: transparent;border: none !important;font-size:0;',
+			style: 'background: transparent!important;position:absolute; width:100%; height: 100%; z-index: 100;border: none !important;font-size:0;',
 			states: {
 				browse: {
 					text: "Suchen"
