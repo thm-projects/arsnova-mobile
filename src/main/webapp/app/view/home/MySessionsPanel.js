@@ -263,6 +263,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						cls: 'forwardListButton' + status,
 						sessionObj: session,
 						handler: function (options) {
+							console.log(options.config.sessionObj);
 							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
 							ARSnova.app.getController('Auth').roleSelect({
 								mode: ARSnova.app.USER_ROLE_SPEAKER

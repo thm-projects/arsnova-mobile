@@ -99,10 +99,7 @@ Ext.define('ARSnova.view.speaker.ExportSessionPanel', {
 		
 		this.add([this.toolbar]);
 		
-		this.onBefore('painted', function () {
-			//this.loadCreatedSessions();
-		});
-		
+		/*
 		this.exportAnswerToggle = Ext.create('Ext.field.Toggle', {
 			label: 'SessionXY',
 			cls: 'rightAligned',
@@ -128,14 +125,15 @@ Ext.define('ARSnova.view.speaker.ExportSessionPanel', {
 		        this.exportStudentsQuestionToggle,
 		        this.exportStatisticToggle
 	        ]
-		});
+		});*/
 		
 		this.mainPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
 			scrollable: null,
 
 			items: [
-		        this.exportOptions
+		        //this.exportOptions
+		        this.sessionsForm
 	        ]
 		});
 		
@@ -143,8 +141,13 @@ Ext.define('ARSnova.view.speaker.ExportSessionPanel', {
 	          this.toolbar,
       		  this.mainPart
 	  	]);
-
 		
+		// load user sessions before displaying the page
+		this.onBefore('painted', function () {
+			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
+				this.loadCreatedSessions();
+			}
+		});
 	},
 	
 	
@@ -155,46 +158,59 @@ Ext.define('ARSnova.view.speaker.ExportSessionPanel', {
 		ARSnova.app.sessionModel.getMySessions({
 			success: function (response) {
 				var sessions = Ext.decode(response.responseText);
-				var panel = me;//ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.mySessionsPanel;
-				var caption = Ext.create('ARSnova.view.Caption');
-
+				me.sessionMap = [];
+				var panel = me;
+			
 				panel.sessionsForm.removeAll();
 				panel.sessionsForm.show();
 
+				var toggleListener = {
+						beforechange: function (slider, thumb, newValue, oldValue) {
+							
+						},
+				        change: function (slider, thumb, newValue, oldValue) {
+				        	// TODO why is 0 toggle checked and 1 toggle unchecked?
+				            if (newValue == 0) { // true
+				                // Changing from off to on...do something?
+				            	console.log('on');
+				            	var id = slider.id.split('_')[1];
+				            	me.sessionMap[id][1] = true;
+				            	console.log(me.sessionMap);
+				            } else if (newValue == 1) { // false
+			            	   // Changing from on to off...do something?
+				            	console.log('off');
+				            	var id = slider.id.split('_')[1];
+				            	me.sessionMap[id][1] = false;
+				            	console.log(me.sessionMap);
+				            }
+				        }
+				};
+
+				
 				var session;
 				for (var i = 0, session; session = sessions[i]; i++) {
 					
-					//hier radio button anzeigen fuer jede Session
-					var status = "";
-					var course = "icon-radar";
-
-					if (!session.active) {
-						status = " isInactive";
-					}
-
-					if (session.courseType && session.courseType.length > 0) {
-						course = "icon-prof";
-					}
-
+					var sessionChecked = true;
+					
+					me.sessionMap[i] = [session, sessionChecked];
+					
 					// Minimum width of 321px equals at least landscape view
 					var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
-					var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-						//ui: 'normal',
-						text: Ext.util.Format.htmlEncode(displaytext),
-						//iconCls: course + " courseIcon",
-						//cls: 'forwardListButton' + status,
+					
+					var sessionToggle = Ext.create('Ext.field.Toggle', {
+						id: 'sessionToggle_' + i,
+						label: Ext.util.Format.htmlEncode(displaytext),
+						cls: 'rightAligned',
 						sessionObj: session,
-						handler: function (options) {
-							
-						}
+						value: sessionChecked
 					});
 					
-									
-					panel.sessionsForm.addEntry(sessionButton);
+					sessionToggle.setListeners(toggleListener);
+					
+					panel.sessionsForm.addEntry(sessionToggle);
 				}
-				caption.explainBadges(sessions);
-				caption.explainStatus(sessions);
 
+				console.log(me.sessionMap);
 				hideLoadMask();
 			},
 			empty: Ext.bind(function () {
