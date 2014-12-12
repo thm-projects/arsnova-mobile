@@ -70,7 +70,10 @@ Ext.define('ARSnova.view.speaker.SessionExportListPanel', {
 					buttons: me.msgBox.YESNO,
 					fn: function(btn) {
 					    if (btn === 'yes') {
-					    	hTP.animateActiveItem(me.questionExportToFile, 'slide');
+					    	var questionExportToFile = Ext.create('ARSnova.view.speaker.SessionExportToFilePanel', {
+					    		exportSessionMap: me.sessionMap
+					    	});
+					    	hTP.animateActiveItem(questionExportToFile, 'slide');
 					    }  else {
 					    	hTP.animateActiveItem(me.questionExportToPublic, 'slide');
 					    }
@@ -150,7 +153,6 @@ Ext.define('ARSnova.view.speaker.SessionExportListPanel', {
 		});
 	},
 	
-	
 	loadCreatedSessions: function () {
 		var me = this;
 
@@ -169,6 +171,7 @@ Ext.define('ARSnova.view.speaker.SessionExportListPanel', {
 							
 						},
 				        change: function (slider, thumb, newValue, oldValue) {
+				        	console.log(ARSnova.app);
 				        	// TODO why is 0 toggle checked and 1 toggle unchecked?
 				            if (newValue == 0) { // true
 				                // Changing from off to on...do something?
