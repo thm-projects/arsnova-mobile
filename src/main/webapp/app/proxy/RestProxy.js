@@ -381,6 +381,10 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	},
 
 	saveSkillQuestion: function (question, callbacks) {
+		console.log("saveSkillQuestion - question");
+		console.log(question);
+		console.log("question.getData()");
+		console.log(question.getData());
 		this.arsjax.request({
 			url: "session/" + question.get('sessionKeyword') + "/question",
 			method: "POST",
