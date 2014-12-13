@@ -33,7 +33,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 		jsonContent = jsonContent.exportData;
 
 		if (typeof jsonContent === "undefined" || typeof jsonContent.session === "undefined") {
-			Ext.Msg.alert("FEHLER", "Falsches Format! Achja, lokalisier' mich BITTE!");
+			Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_FORMAT);
 			return;
 		}
 
@@ -52,7 +52,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 				//me.saveSessionAttachment(response, jsonContent);
 			},
 			failure: function(records, operation) {
-				Ext.Msg.alert("FEHLER", "Konnte Session nicht importieren! Achja, lokalisier' mich BITTE!");
+				Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_SAVE);
 			}
 		});
 	},

@@ -128,7 +128,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		});
 		
 		this.importButtonClickable = Ext.create('Ext.ux.Fileup', {
-			//itemId: 'buttonUploadFromFS',
 			xtype: 'fileupload',
 			autoUpload: true,
 			loadAsDataUrl: true,
@@ -151,7 +150,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				scope: this,
 				loadsuccess: function (data) {
 					data = atob(data.substring(13)); // remove disturbing prefix
-					var hideLoadMask = ARSnova.app.showLoadMask("Importiere Session");
+					var hideLoadMask = ARSnova.app.showLoadMask(Messages.IMP_LOADMSK);
 					var ctrl = ARSnova.app.getController("SessionImport").importSession(JSON.parse(data));
 					
 					hideLoadMask();
@@ -162,7 +161,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		this.importButtonClickable.fileElement.dom.accept = ""; // enable all kinds of data for file input
 		
 		this.importButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: 'Import', //Hier in internationalization hinzufuegen
+			text: Messages.IMP_BUTTON_IMPORT,
 			buttonConfig: 'icon',
 			imageCls: 'icon-upload2 thm-orange',
 

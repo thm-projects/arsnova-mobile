@@ -422,7 +422,15 @@ switch (lang) {
 			NEW_VERSION_AVAILABLE: "A new version of ARSnova is available. Do you want to update?",
 			PRESENTER: "Presenter",
 			UNI: "Uni",
-			SESSION_ID: "Session ID"
+			SESSION_ID: "Session ID",
+				
+			/* session import */
+			IMP_BUTTON_IMPORT: "Import",
+			IMP_LOADMSK: "Importing sessions",
+			IMP_LOADMSK: "Importing sessions",
+			IMP_ERROR: "Error while importing sessions",
+			IMP_ERROR_FORMAT: "JSON file is not formated correctly",
+			IMP_ERROR_SAVE: "Could not save session to database",
 		};
 
 		break;
@@ -802,7 +810,14 @@ switch (lang) {
 			NEW_VERSION_AVAILABLE: "Eine neue Version von ARSnova ist verfügbar. Möchten Sie aktualisieren?",
 			PRESENTER: "Presenter",
 			UNI: "Uni",
-			SESSION_ID: "Session-ID"
+			SESSION_ID: "Session-ID",
+			
+			/* session import */
+			IMP_BUTTON_IMPORT: "Import",
+			IMP_LOADMSK: "Importiere sessions",
+			IMP_ERROR: "Fehler bei Session-Import",
+			IMP_ERROR_FORMAT: "JSON Datei ist falsch formatiert.",
+			IMP_ERROR_SAVE: "Session konnte nicht gespeichert werden",
 	};
 	break;
 }
