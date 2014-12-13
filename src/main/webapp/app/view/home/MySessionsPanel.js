@@ -23,7 +23,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	           'ARSnova.view.Caption', 
 	           'ARSnova.view.home.SessionList', 
 	           'Ext.ux.Fileup', 
-	           'ARSnova.view.speaker.ExportSessionPanel',
+	           'ARSnova.view.speaker.SessionExportListPanel', 
 	           'ARSnova.controller.SessionImport'
 	],
 
@@ -114,7 +114,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		this.exportButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: 'Export', //Hier in internationalization hinzufuegen
 			buttonConfig: 'icon',
-			imageCls: 'icon-download2 thm-darkblue',
+			imageCls: 'icon-cloud-download ',
 			scope: this,
 			handler: function () {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
@@ -132,9 +132,8 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			xtype: 'fileupload',
 			autoUpload: true,
 			loadAsDataUrl: true,
-			buttonConfig: 'icon',
-			imageCls: 'icon-upload2 thm-orange',
-			style: 'background: transparent!important;position:absolute; width:100%; height: 100%; z-index: 100;border: none !important;font-size:0;',
+			baseCls: 'button',
+			style: 'background: transparent;position:absolute; width:100%; height: 100%; z-index: 100;border: none !important;font-size:0;',
 			states: {
 				browse: {
 					text: "Suchen"
@@ -164,7 +163,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		this.importButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.IMP_BUTTON_IMPORT,
 			buttonConfig: 'icon',
-			imageCls: 'icon-upload2 thm-orange',
+			imageCls: 'icon-cloud-upload ',
 
 			scope: this,
 		});
@@ -176,7 +175,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		this.publicPoolButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: 'Pool', //Hier in internationalization hinzufuegen
 			buttonConfig: 'icon',
-			imageCls: 'icon-cloud',
+			imageCls: 'icon-cloud thm-green',
 			scope: this,
 			handler: function() {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
