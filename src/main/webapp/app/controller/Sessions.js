@@ -54,10 +54,6 @@ Ext.define("ARSnova.controller.Sessions", {
 		var res = ARSnova.app.sessionModel.checkSessionLogin(options.keyword, {
 			success: function (response) {
 				var obj = Ext.decode(response.responseText);
-
-				console.log("obj");
-				console.log(obj);
-
 				// check if user is creator of this session
 				if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
 					ARSnova.app.isSessionOwner = true;
@@ -78,9 +74,6 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('courseId', obj.courseId === null ? "" : obj.courseId);
 				localStorage.setItem('courseType', obj.courseType === null ? "" : obj.courseType);
 				localStorage.setItem('active', obj.active ? 1 : 0);
-
-				console.log("localStorage");
-				console.log(localStorage);
 				
 				// deactivate several about tabs
 				ARSnova.app.mainTabPanel.tabPanel.deactivateAboutTabs();

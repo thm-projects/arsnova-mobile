@@ -19,7 +19,12 @@
 Ext.define('ARSnova.view.home.MySessionsPanel', {
 	extend: 'Ext.Panel',
 
-	requires: ['ARSnova.view.Caption', 'ARSnova.view.home.SessionList', 'Ext.ux.Fileup', 'ARSnova.view.speaker.ExportSessionPanel'],
+	requires: [
+	           'ARSnova.view.Caption', 
+	           'ARSnova.view.home.SessionList', 
+	           'Ext.ux.Fileup', 
+	           'ARSnova.view.speaker.ExportSessionPanel',
+	           'ARSnova.controller.SessionImport'],
 
 	config: {
 		fullscreen: true,
@@ -144,18 +149,21 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			},
 			listeners: {
 				scope: this,
-				loadsuccess: function (dataurl, e) {
+				loadsuccess: function (data) {
+					data = data.substring(13); // remove disturbing prefix
+					console.log(atob(data));
 					var hideLoadMask = ARSnova.app.showLoadMask("Importiere Session");
-					var millisecondsToWait = 3000;
-					setTimeout(function() {
-						Ext.Msg.alert("Session Import", "Die Session wurde erfolgreich importiert. Sie werden nun weitergeleitet.");
-						hideLoadMask();
-						
-					}, millisecondsToWait);
+					var ctr = ARSnova.app.getController("Auth");
+					console.log(ctr);
+					var ctr = ARSnova.app.getController("SessionImport");
+					console.log(ctr);
+					//ctr.import(data);
+					hideLoadMask();
 				},
 				loadfailure: function (message) {}
 			}
 		});
+		this.importButtonClickable.fileElement.dom.accept = ""; // enable all kinds of data for file input
 		
 		this.importButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: 'Import', //Hier in internationalization hinzufuegen
