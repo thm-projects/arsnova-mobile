@@ -150,14 +150,10 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			listeners: {
 				scope: this,
 				loadsuccess: function (data) {
-					data = data.substring(13); // remove disturbing prefix
-					console.log(atob(data));
+					data = atob(data.substring(13)); // remove disturbing prefix
 					var hideLoadMask = ARSnova.app.showLoadMask("Importiere Session");
-					var ctr = ARSnova.app.getController("Auth");
-					console.log(ctr);
-					var ctr = ARSnova.app.getController("SessionImport");
-					console.log(ctr);
-					//ctr.import(data);
+					var ctrl = ARSnova.app.getController("SessionImport").importSession(JSON.parse(data));
+					
 					hideLoadMask();
 				},
 				loadfailure: function (message) {}
