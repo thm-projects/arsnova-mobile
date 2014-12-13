@@ -19,7 +19,13 @@
 Ext.define('ARSnova.view.home.MySessionsPanel', {
 	extend: 'Ext.Panel',
 
-	requires: ['ARSnova.view.Caption', 'ARSnova.view.home.SessionList', 'Ext.ux.Fileup', 'ARSnova.view.speaker.SessionExportListPanel'],
+	requires: [
+	           'ARSnova.view.Caption', 
+	           'ARSnova.view.home.SessionList', 
+	           'Ext.ux.Fileup', 
+	           'ARSnova.view.speaker.ExportSessionPanel',
+	           'ARSnova.controller.SessionImport'
+	],
 
 	config: {
 		fullscreen: true,
@@ -123,13 +129,12 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		});
 		
 		this.importButtonClickable = Ext.create('Ext.ux.Fileup', {
-			//itemId: 'buttonUploadFromFS',
 			xtype: 'fileupload',
 			autoUpload: true,
 			loadAsDataUrl: true,
 			buttonConfig: 'icon',
 			imageCls: 'icon-upload2 thm-orange',
-			style: 'position:absolute; width:100%; height: 100%; z-index: 100; background: transparent;border: none !important;font-size:0;',
+			style: 'background: transparent!important;position:absolute; width:100%; height: 100%; z-index: 100;border: none !important;font-size:0;',
 			states: {
 				browse: {
 					text: "Suchen"
@@ -144,21 +149,20 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			},
 			listeners: {
 				scope: this,
-				loadsuccess: function (dataurl, e) {
-					var hideLoadMask = ARSnova.app.showLoadMask("Importiere Session");
-					var millisecondsToWait = 3000;
-					setTimeout(function() {
-						Ext.Msg.alert("Session Import", "Die Session wurde erfolgreich importiert. Sie werden nun weitergeleitet.");
-						hideLoadMask();
-						
-					}, millisecondsToWait);
+				loadsuccess: function (data) {
+					data = atob(data.substring(13)); // remove disturbing prefix
+					var hideLoadMask = ARSnova.app.showLoadMask(Messages.IMP_LOADMSK);
+					var ctrl = ARSnova.app.getController("SessionImport").importSession(JSON.parse(data));
+					me.loadCreatedSessions();
+					hideLoadMask();
 				},
 				loadfailure: function (message) {}
 			}
 		});
+		this.importButtonClickable.fileElement.dom.accept = ""; // enable all kinds of data for file input
 		
 		this.importButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: 'Import', //Hier in internationalization hinzufuegen
+			text: Messages.IMP_BUTTON_IMPORT,
 			buttonConfig: 'icon',
 			imageCls: 'icon-upload2 thm-orange',
 
