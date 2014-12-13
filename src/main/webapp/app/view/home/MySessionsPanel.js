@@ -152,7 +152,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					data = atob(data.substring(13)); // remove disturbing prefix
 					var hideLoadMask = ARSnova.app.showLoadMask(Messages.IMP_LOADMSK);
 					var ctrl = ARSnova.app.getController("SessionImport").importSession(JSON.parse(data));
-					
+					me.loadCreatedSessions();
 					hideLoadMask();
 				},
 				loadfailure: function (message) {}
