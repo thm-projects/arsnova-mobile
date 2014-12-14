@@ -116,6 +116,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			buttonConfig: 'icon',
 			imageCls: 'icon-cloud-download ',
 			scope: this,
+			hidden: true,
 			handler: function () {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 				this.exportSessionListPanel = Ext.create('ARSnova.view.speaker.SessionExportListPanel');
@@ -216,6 +217,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		});
 
 		this.on('activate', function () {
+
 			switch (ARSnova.app.userRole) {
 				case ARSnova.app.USER_ROLE_SPEAKER:
 					this.backButton.hide();
@@ -243,11 +245,14 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 				panel.sessionsForm.removeAll();
 				panel.sessionsForm.show();
-
+				
+				if(sessions.length > 0){
+					me.exportButton.setHidden(false);
+				}
+								
 				var session;
 				for (var i = 0, session; session = sessions[i]; i++) {
-					console.log("Session in MySession\n");
-					console.log(session);
+					
 					var status = "";
 					var course = "icon-radar";
 
@@ -296,6 +301,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			empty: Ext.bind(function () {
 				hideLoadMask();
 				this.sessionsForm.hide();
+				me.exportButton.setHidden(true);	
 			}, this),
 			unauthenticated: function () {
 				hideLoadMask();
