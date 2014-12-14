@@ -67,13 +67,13 @@ Ext.define('ARSnova.view.speaker.SessionExportToFilePanel', {
 		});
 		
 		this.exportAnswerToggle = Ext.create('Ext.field.Toggle', {
-			label: Messages.ANSWERS,
+			label: Messages.ANSWERS_STATISTICS,
 			cls: 'rightAligned',
 			value: true
 		});
 		
 		this.exportStatisticToggle = Ext.create('Ext.field.Toggle', {
-			label: Messages.STATISTICS,
+			label: Messages.LEARNING_STATUS,
 			cls: 'rightAligned',
 			value: true
 		});

@@ -250,6 +250,7 @@ switch (lang) {
 			NO: "No",
 			NONE: "None",
 			ANSWERS: "Answers",
+			ANSWERS_STATISTICS: "Answer statistics",
 			ANSWERS_PER_QUESTION: "Answers per question",
 			ANSWER: "Answer",
 			COUNT: "Count",
@@ -260,6 +261,7 @@ switch (lang) {
 			OPTION_PLACEHOLDER: "Option",
 			STATISTIC: "Statistics",
 			STATISTICS: "Statistics",
+			LEARNING_STATUS: "Learning status of the course",
 			SHOW_STATISTIC: "Show statistics",
 			RELEASE_STATISTIC: "Release statistics",
 			RELEASE_QUESTION: "Release question",
@@ -344,6 +346,7 @@ switch (lang) {
 			EXPORT_FIELD_EMAIL: "Email",
 			EXPORT_SELECTED_SESSIONS_TITLE : "Export selected sessions",
 			EXPORT_SELECTED_SESSIONS_MSG : "Where should the sessions be exported",
+			EXPORT_SESSION_INFORMATION: "The questions of selected sessions will be exported",
 			
 			/* question types */
 			EVALUATION: "+-",
@@ -641,6 +644,7 @@ switch (lang) {
 			NO: "Nein",
 			NONE: "Keine",
 			ANSWERS: "Antworten",
+			ANSWERS_STATISTICS: "Antwort-Statisiken",
 			ANSWERS_PER_QUESTION: "Antworten pro Frage",
 			ANSWER: "Antwort",
 			COUNT: "Anzahl",
@@ -651,6 +655,7 @@ switch (lang) {
 			OPTION_PLACEHOLDER: "Option",
 			STATISTIC: "Statistik",
 			STATISTICS: "Statistiken",
+			LEARNING_STATUS:	"Lernstand des Kurses",
 			SHOW_STATISTIC: "Statistik anzeigen",
 			RELEASE_STATISTIC: "Statistik freigeben",
 			RELEASE_QUESTION: "Frage freigeben",
@@ -733,6 +738,7 @@ switch (lang) {
 			EXPORT_FIELD_EMAIL: "Email",
 			EXPORT_SELECTED_SESSIONS_TITLE : "Ausgewählte Sessions exportieren",
 			EXPORT_SELECTED_SESSIONS_MSG : "Wohin möchten Sie die Sessions exportieren",
+			EXPORT_SESSION_INFORMATION: "Die Fragen der ausgewählten Sessions werden exportiert",
 			
 			/* question types */
 			EVALUATION: "+-",

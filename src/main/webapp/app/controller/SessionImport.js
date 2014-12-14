@@ -40,6 +40,8 @@ Ext.define("ARSnova.controller.SessionImport", {
 		// extract session and save it to the database
 		var storeSession = this.getElements(jsonContent.session, "ARSnova.model.Session");
 		var session = storeSession.getAt(0);
+		console.log("Session: \n");
+		console.log(session);
 		
 		// attribute setup
 		storeSession.each(function(e) {
@@ -49,7 +51,8 @@ Ext.define("ARSnova.controller.SessionImport", {
 		
 		session.create({
 			success: function(response) {
-				//me.saveSessionAttachment(response, jsonContent);
+				me.saveSessionAttachment(Ext.decode(response.responseText), jsonContent);
+				me.loadSessionView();
 			},
 			failure: function(records, operation) {
 				Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_SAVE);
@@ -57,51 +60,79 @@ Ext.define("ARSnova.controller.SessionImport", {
 		});
 	},
 	
+	loadSessionView: function(){
+		var me = this;
+
+		ARSnova.app.sessionModel.getMySessions({
+			success: function (response) {
+				var sessions = Ext.decode(response.responseText);
+				var session = sessions[0];
+		
+				var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
+				ARSnova.app.getController('Auth').roleSelect({
+					mode: ARSnova.app.USER_ROLE_SPEAKER
+				});
+				ARSnova.app.getController('Sessions').login({
+					keyword: session.keyword
+				});
+				hideLoadMask();
+					
+		
+			}
+			});
+	},
+	
 	/**
 	 * Saves the answers, questions, etc. from a session.
 	 * 
-	 * @param The session retrieved after saving to the db e.g. for id reference.
-	 * @param The content of the JSON file.
+	 * @param The
+	 *            session retrieved after saving to the db e.g. for id
+	 *            reference.
+	 * @param The
+	 *            content of the JSON file.
 	 */
 	saveSessionAttachment: function(session, jsonContent) {
-		if (typeof jsonContent.answers !== undefined) {
-			var storeAnswers     = this.getElements(jsonContent.answers, "ARSnova.model.Answer");	
-			storeAnswers.each(function(e) {
-				e._id       = undefined;
-				e.user      = undefined;
-				e.sessionId = session._id;
+		if (typeof jsonContent.questions !== undefined) {
+			var storeQuestions = this.getElements(jsonContent.questions, "ARSnova.model.Question");
+
+			storeQuestions.each(function(e) {
+				e._data._id       		= undefined;
+				e._data._rev       		= undefined;
+				e._data.sessionId     	= session._id;
+				e._data.sessionKeyword 	= session.keyword;
+				e.sessionId				= session._id;
+				e.sessionKeyword 		= session.keyword;
+				console.log("e");
+				console.log(e);
 				
-				e.saveAnswer({
+				e.saveSkillQuestion({
 					success: function() {
-						console.log("Antwort gespeichert");
+						/*
+						 * if (typeof jsonContent.answers !== undefined) { var
+						 * storeAnswers = this.getElements(jsonContent.answers,
+						 * "ARSnova.model.Answer");
+						 * storeAnswers.each(function(e) { e._id = undefined;
+						 * e.user = undefined; e.sessionId = session._id;
+						 * 
+						 * e.saveAnswer({ success: function() {
+						 * console.log("Antwort gespeichert"); }, failure:
+						 * function() { console.log("Konnte Antwort nicht
+						 * speichern."); } }); }); } else { console.log("No
+						 * answers to import"); }
+						 */
+						
 					},
 					failure: function() {
-						console.log("Konnte Antwort nicht speichern.");
+						console.log("Error while saving question to database.");
 					}
 				});
-			});	
-		} else {
-			console.log("No answers to import");
-		}
-		var storeQuestions   = this.getElements(jsonContent.questions, "ARSnova.model.Question");		
-		// TODO var strgFBQuestions = this.getElements(jsonContent.studentQuestions, "ARSnova.model.Session"); // ???
-				
-			
-		storeQuestions.each(function(e) {
-			e._id       = undefined;
-			e.sessionId = session._id;
-			e.sessionKeyword = session.keyword;
-			// TODO e.session = ???;
-			
-			e.saveSkillQuestion({
-				success: function() {
-					console.log("Frage gespeichert");
-				},
-				failure: function() {
-					console.log("Konnte Frage nicht speichern.");
-				}
 			});
-		});
+		}
+		
+		
+		// TODO var strgFBQuestions =
+		// this.getElements(jsonContent.studentQuestions,
+		// "ARSnova.model.Session"); // ???
 	},
 	
 	/**

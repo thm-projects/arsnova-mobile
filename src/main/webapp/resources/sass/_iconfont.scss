@@ -65,9 +65,14 @@
 @include icon("login-icon-facebook" , "\e60f", "arsnova");
 @include icon("login-icon-google" , "\e611", "arsnova");
 
+
+@include icon("icon-cloud-upload" , "\e604", "arsnova");
+@include icon("icon-cloud-download" , "\e60c", "arsnova");
+@include icon("icon-cloud" , "\e60d", "arsnova");
+
 .x-tabbar .icon-questions,
 .x-tabbar .icon-gear {
-	margin-left: 17px !important;
+	margin-left: 17px !important; 
 }
 
 .x-tabbar .icon-gear {
