@@ -101,42 +101,13 @@ Ext.define('ARSnova.view.speaker.SessionExportListPanel', {
 		});
 		
 		this.add([this.toolbar]);
-		
-		/*
-		this.exportAnswerToggle = Ext.create('Ext.field.Toggle', {
-			label: 'SessionXY',
-			cls: 'rightAligned',
-			value: true
-		});
-		
-		this.exportStatisticToggle = Ext.create('Ext.field.Toggle', {
-			label: 'Session1',
-			cls: 'rightAligned',
-			value: true
-		});
-		
-		this.exportStudentsQuestionToggle = Ext.create('Ext.field.Toggle', {
-			label: 'Session3',
-			cls: 'rightAligned',
-			value: true
-		});
-		
-		this.exportOptions = Ext.create('Ext.form.FieldSet', {
-			text: 'What should be exported?',
-			items: [
-		        this.exportAnswerToggle,
-		        this.exportStudentsQuestionToggle,
-		        this.exportStatisticToggle
-	        ]
-		});*/
-	
-		
+				
 		this.contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			xtype: 'mathJaxMarkDownPanel',
 			id: 'questionContent',
 			style: 'color: black; '
 		});
-		this.contentPanel.setContent(Messages.EXPORT_SESSION_INFORMATION, true, true);	// Hier noch den Text auslagern
+		this.contentPanel.setContent(Messages.EXPORT_SESSION_INFORMATION, true, true);	 
 		
 		// panel for question subject
 		this.titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
@@ -144,7 +115,7 @@ Ext.define('ARSnova.view.speaker.SessionExportListPanel', {
 			id: 'questionTitle',
 			style: 'background-color: transparent; padding: 0;font-weight: bold; font-size: 1.4em;'
 		});
-		this.titlePanel.setContent(Messages.NOTIFICATION, false, true);	//Hier noch den Text auslagern
+		this.titlePanel.setContent(Messages.NOTIFICATION, false, true);	
 		
 		this.singleTemplatePanel = Ext.create('Ext.Panel',{	
 			
@@ -162,8 +133,7 @@ Ext.define('ARSnova.view.speaker.SessionExportListPanel', {
 			cls: 'newQuestion',
 			scrollable: null,
 
-			items: [
-		        //this.exportOptions      
+			items: [    
 		       	this.singleTemplatePanel,
 		        this.sessionsForm
 	        ]

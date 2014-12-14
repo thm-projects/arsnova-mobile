@@ -45,12 +45,12 @@ Ext.define('ARSnova.view.speaker.SessionExportToFilePanel', {
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
 			handler: function () {
-				me.exportSessions();
-//				this.saveHandler().then(function (response) {
-//					ARSnova.app.getController('Questions').details({
-//						question: Ext.decode(response.responseText)
-//					});
-//				});
+				console.log(me.getExportSessionMap());
+				var withAnswerStatistics = me.exportAnswerToggle.getValue();
+				// TODO correct toggles
+				var withFeedbackQuestions = me.exportStatisticToggle.getValue();
+				ARSnova.app.getController("SessionExport").exportSessionsToFile(
+						me.getExportSessionMap(), withAnswerStatistics, withFeedbackQuestions);
 			},
 			scope: this
 		});
@@ -106,57 +106,5 @@ Ext.define('ARSnova.view.speaker.SessionExportToFilePanel', {
 	          this.toolbar,
       		  this.mainPart
 	  	]);
-	},
-	
-	exportSessions: function() {
-		var sessionMap = this.getExportSessionMap();
-		
-		// get export data for each session
-		for (var i = 0; i < sessionMap.length; i++) {
-			
-			var questionData = new Array();
-			
-			// get preparation questions
-			ARSnova.app.getController('PreparationQuestions').getQuestions(
-					sessionMap[i][0].keyword, {
-				success: Ext.bind(function (response) {
-					var questions = Ext.decode(response.responseText);
-					questionData.push.apply(questionData, questions);
-					console.log(questionData);
-//					this.questionStore.add(questions);
-//					this.handleAnswerCount();
-				}, this),
-				empty: Ext.bind(function () {
-					console.log('empty');
-				}, this),
-				failure: function (response) {
-					console.log('server-side error questionModel.getSkillQuestions');
-					console.log(reponse);
-				}
-			});
-			
-			// get other questions
-			ARSnova.app.getController('Questions').getQuestions(
-					sessionMap[i][0].keyword, {
-				success: Ext.bind(function (response) {
-					var questions = Ext.decode(response.responseText);
-					questionData.push.apply(questionData, questions);
-					console.log(questionData);
-//					this.questionStore.add(questions);
-//					this.handleAnswerCount();
-				}, this),
-				empty: Ext.bind(function () {
-					console.log('empty');
-				}, this),
-				failure: function (response) {
-					console.log('server-side error questionModel.getSkillQuestions');
-					console.log(reponse);
-				}
-			});
-			
-			// TODO get other data
-			// - answerStatistics --> siehe view/speaker/QuestionDetailsPanel.getQuestionAnswers();
-			// - StudentQuestions
-		}
 	},
 });

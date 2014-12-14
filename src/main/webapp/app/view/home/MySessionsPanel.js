@@ -22,8 +22,8 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	requires: [
 	           'ARSnova.view.Caption', 
 	           'ARSnova.view.home.SessionList', 
-	           'Ext.ux.Fileup', 
-	           'ARSnova.view.speaker.SessionExportListPanel', 
+	           'Ext.ux.Fileup',
+	           'ARSnova.view.speaker.SessionExportListPanel',
 	           'ARSnova.controller.SessionImport'
 	],
 
@@ -246,6 +246,8 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 				var session;
 				for (var i = 0, session; session = sessions[i]; i++) {
+					console.log("Session in MySession\n");
+					console.log(session);
 					var status = "";
 					var course = "icon-radar";
 
@@ -267,6 +269,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						sessionObj: session,
 						handler: function (options) {
 							console.log(options.config.sessionObj);
+							console.log("Test");
 							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
 							ARSnova.app.getController('Auth').roleSelect({
 								mode: ARSnova.app.USER_ROLE_SPEAKER

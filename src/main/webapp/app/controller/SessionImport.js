@@ -39,6 +39,8 @@ Ext.define("ARSnova.controller.SessionImport", {
 
 		// extract session and save it to the database
 		var storeSession = this.getElements(jsonContent.session, "ARSnova.model.Session");
+		console.log("Session: \n");
+		console.log(session);
 
 		// attribute setup
 		storeSession.each(function(e) {
@@ -48,6 +50,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 			e.create({
 				success: function(response) {
 					me.saveSessionAttachment(Ext.decode(response.responseText), jsonContent);
+				me.loadSessionView();
 				},
 				failure: function(records, operation) {
 					Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_SAVE);
@@ -56,11 +59,36 @@ Ext.define("ARSnova.controller.SessionImport", {
 		});
 	},
 	
+	loadSessionView: function(){
+		var me = this;
+
+		ARSnova.app.sessionModel.getMySessions({
+			success: function (response) {
+				var sessions = Ext.decode(response.responseText);
+				var session = sessions[0];
+		
+				var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
+				ARSnova.app.getController('Auth').roleSelect({
+					mode: ARSnova.app.USER_ROLE_SPEAKER
+				});
+				ARSnova.app.getController('Sessions').login({
+					keyword: session.keyword
+				});
+				hideLoadMask();
+					
+		
+			}
+			});
+	},
+	
 	/**
 	 * Saves the answers, questions, etc. from a session.
 	 * 
-	 * @param The session retrieved after saving to the db e.g. for id reference.
-	 * @param The content of the JSON file.
+	 * @param The
+	 *            session retrieved after saving to the db e.g. for id
+	 *            reference.
+	 * @param The
+	 *            content of the JSON file.
 	 */
 	saveSessionAttachment: function(session, jsonContent) {
 		var me = this;
@@ -80,24 +108,12 @@ Ext.define("ARSnova.controller.SessionImport", {
 						var respQuestion = Ext.decode(response.responseText);
 						if (typeof q.raw.answers !== undefined) {
 							var answers = q.raw.answers;
-							
-							var storeAnswers = me.getElements(q.raw.answers, "ARSnova.model.Answer");	
+						 	var storeAnswers = me.getElements(q.raw.answers, "ARSnova.model.Answer");	
 							storeAnswers.each(function(a) {
-								/*a._data.id         		= undefined;
-								a._data._id        		= undefined;
-								a._data.user       		= undefined;
-								a._data.questionId 		= respQuestion._id;
-								a._data.questionVariant = respQuestion.questionVariant;
-								a._data.sessionId 		= session._id;*/
-								
 								a.raw.user       		= undefined;
 								a.raw.questionId 		= respQuestion._id;
 								a.raw.questionVariant   = respQuestion.questionVariant;
 								a.raw.sessionId 		= session._id;
-								
-								/*a._id		= undefined;
-								a.sessionId	= session._id;
-								a.user		= undefined;*/
 								
 								a.saveAnswer({
 									success: function() {
@@ -121,7 +137,9 @@ Ext.define("ARSnova.controller.SessionImport", {
 		}
 		
 		
-		// TODO var strgFBQuestions = this.getElements(jsonContent.studentQuestions, "ARSnova.model.Session"); // ???
+		// TODO var strgFBQuestions =
+		// this.getElements(jsonContent.studentQuestions,
+		// "ARSnova.model.Session"); // ???
 	},
 	
 	/**
