@@ -109,22 +109,42 @@ Ext.define('ARSnova.view.speaker.SessionExportToFilePanel', {
 	},
 	
 	exportSessions: function() {
+		this.exportData = new Array();
+		this.exportData['sessions'] = new Array();
+		this.exportData['questions'] = new Array();
+		// TODO the rest
+		
+		var me = this;
+		
 		var sessionMap = this.getExportSessionMap();
 		
 		// get export data for each session
 		for (var i = 0; i < sessionMap.length; i++) {
 			
+			// set question in exportData
+			this.exportData['sessions'].push(sessionMap[i][0]);
+			
+			var keyword = sessionMap[i][0].keyword;
 			var questionData = new Array();
 			
 			// get preparation questions
 			ARSnova.app.getController('PreparationQuestions').getQuestions(
-					sessionMap[i][0].keyword, {
+					keyword, {
 				success: Ext.bind(function (response) {
 					var questions = Ext.decode(response.responseText);
-					questionData.push.apply(questionData, questions);
-					console.log(questionData);
-//					this.questionStore.add(questions);
-//					this.handleAnswerCount();
+					
+					for (var j = 0; j < questions.length; j++) {
+						console.log('question withOUT answers:');
+						console.log(questions[j]);
+						
+						// just execute if toggle is true
+						if (true) {
+							me.exportAnswerStatistics(keyword, questions[j]);
+						} else {
+							// if toggle is not true, only export the question without answers
+							me.exportData['questions'].push(questions[j]);
+						}
+					}
 				}, this),
 				empty: Ext.bind(function () {
 					console.log('empty');
@@ -135,13 +155,15 @@ Ext.define('ARSnova.view.speaker.SessionExportToFilePanel', {
 				}
 			});
 			
+			/*
 			// get other questions
 			ARSnova.app.getController('Questions').getQuestions(
-					sessionMap[i][0].keyword, {
+					keyword, {
 				success: Ext.bind(function (response) {
 					var questions = Ext.decode(response.responseText);
 					questionData.push.apply(questionData, questions);
 					console.log(questionData);
+					this.exportData['questions'] = questionData;
 //					this.questionStore.add(questions);
 //					this.handleAnswerCount();
 				}, this),
@@ -152,11 +174,29 @@ Ext.define('ARSnova.view.speaker.SessionExportToFilePanel', {
 					console.log('server-side error questionModel.getSkillQuestions');
 					console.log(reponse);
 				}
-			});
+			});*/
 			
 			// TODO get other data
 			// - answerStatistics --> siehe view/speaker/QuestionDetailsPanel.getQuestionAnswers();
 			// - StudentQuestions
 		}
+	},
+	
+	exportAnswerStatistics: function(keyword, questionData) {
+		var me = this;
+		ARSnova.app.questionModel.countAnswers(keyword, questionData._id, {
+			success: function(response) {
+				var answers = Ext.decode(response.responseText);
+				questionData['answers'] = answers;
+				console.log('question with answers:');
+				console.log(questionData);
+				me.exportData['questions'].push(questionData);
+				console.log('exportData:');
+				console.log(me.exportData);
+			},
+			failue: function() {
+				console.log('server-side error');
+			}
+		});
 	},
 });
