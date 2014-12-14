@@ -40,10 +40,14 @@ Ext.define("ARSnova.controller.SessionExport", {
 		this.exportData = new Array();
 		this.exportData['session'] = null;
 		this.exportData['questions'] = new Array();
+		this.exportData['feedbackQuestions'] = new Array();
 		// TODO the rest
 		
 		// get export data for each session
 		for (var i = 0; i < exportSessionMap.length; i++) {
+			
+			if (!exportSessionMap[i][1])
+				continue;
 			
 			var session = exportSessionMap[i][0];
 			
@@ -78,7 +82,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 					}
 				}, this),
 				empty: Ext.bind(function () {
-					console.log('empty');
+					console.log('no questions');
 					// session has no question. So we do not have to export anything else
 					console.log(me.exportData);
 				}, this),
@@ -87,6 +91,9 @@ Ext.define("ARSnova.controller.SessionExport", {
 					console.log(reponse);
 				}
 			});
+			
+			// get feedback questions
+			this.exportFeedbackQuestions(session.keyword);
 		}
 	},
 	
@@ -98,17 +105,36 @@ Ext.define("ARSnova.controller.SessionExport", {
 				console.log('Export with answers');
 				var answers = Ext.decode(response.responseText);
 				questionData['answers'] = answers;
-//				console.log('question with answers:');
-//				console.log(questionData);
 				me.exportData['questions'].push(questionData);
-//				console.log('exportData:');
-//				console.log(me.exportData);
 				
 				console.log(me.exportData);
 			},
-			failue: function() {
+			empty: function() {
+				console.log('no answers');
+			},
+			failure: function() {
 				console.log('server-side error');
 			}
 		});
 	},
+	
+	exportFeedbackQuestions: function(keyword) {
+		var me = this;
+		
+		console.log('exportFeedbackQuestions()');
+		ARSnova.app.questionModel.getInterposedQuestions(keyword, {
+			success: function(response) {
+				console.log('feedback success');
+				var feedbackQuestions = Ext.decode(response.responseText);
+				console.log(feedbackQuestions);
+				me.exportData['feedbackQuestions'] = feedbackQuestions;
+			},
+			empty: function() {
+				console.log('no feedbackQuestions');
+			},
+			failure: function() {
+				console.log('server-side error');
+			}
+		});
+	}
 });
