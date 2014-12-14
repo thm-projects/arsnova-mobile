@@ -34,6 +34,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 
 		if (typeof jsonContent === "undefined" || typeof jsonContent.session === "undefined") {
 			Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_FORMAT);
+			console.log("Error while loading session json: content or session-attribute malformed or missing.");
 			return;
 		}
 
@@ -41,13 +42,14 @@ Ext.define("ARSnova.controller.SessionImport", {
 		var storeSession = this.getElements(jsonContent.session, "ARSnova.model.Session");
 
 		// attribute setup
-		storeSession.each(function(e) {
-			e._id     = undefined;
-			e.creator = localStorage.getItem('login');
+		storeSession.each(function(s) {
+			s._id     = undefined;
+			s.creator = localStorage.getItem('login');
 			
-			e.create({
+			s.create({
 				success: function(response) {
-					me.saveSessionAttachment(Ext.decode(response.responseText), jsonContent);
+					var session = Ext.decode(response.responseText)
+					me.saveSessionAttachment(session, jsonContent);
 					me.loadSessionView(session);
 				},
 				failure: function(records, operation) {
