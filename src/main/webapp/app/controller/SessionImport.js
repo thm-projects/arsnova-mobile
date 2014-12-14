@@ -132,6 +132,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 			var storeQuestions = this.getElements(jsonContent.feedbackQuestions, "ARSnova.model.Question");
 
 			storeQuestions.each(function(q) {
+				
 				q._data._id       		= undefined;
 				q._data._rev       		= undefined;
 				q._data.sessionId     	= session._id;

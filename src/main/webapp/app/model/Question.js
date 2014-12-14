@@ -251,10 +251,6 @@ Ext.define('ARSnova.model.Question', {
 	},
 
 	saveInterposed: function (callbacks) {
-		
-		console.log("data");
-		console.log(this.data);
-		
 		return this.getProxy().saveInterposedQuestion(this.data.subject, this.data.text, this.data.sessionKeyword, callbacks);
 	},
 
