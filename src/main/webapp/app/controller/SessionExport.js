@@ -37,10 +37,10 @@ Ext.define("ARSnova.controller.SessionExport", {
 		var me = this;
 		
 		// create export data structure
-		this.exportData = new Array();
+		this.exportData = {};
 		this.exportData['session'] = null;
-		this.exportData['questions'] = new Array();
-		this.exportData['feedbackQuestions'] = new Array();
+		this.exportData['questions'] = [];
+		this.exportData['feedbackQuestions'] = [];
 		// TODO the rest
 		
 		// get export data for each session
@@ -67,8 +67,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 			
 					for (var j = 0; j < questions.length; j++) {
 						var question = questions[j];
-//						console.log('question withOUT answers:');
-//						console.log(question);
 						
 						// just execute if toggle is true
 						if (withAnswerStatistics) {
@@ -80,6 +78,13 @@ Ext.define("ARSnova.controller.SessionExport", {
 							console.log(me.exportData);
 						}
 					}
+					
+					// TODO this callback takes longer than the feedbackQuestion callback
+					// so we create the json file here
+					me.writeExportDataToFile();
+					
+					// TODO wie kann man sicherstellen, dass alle success-callbacks fertig sind?
+					
 				}, this),
 				empty: Ext.bind(function () {
 					console.log('no questions');
@@ -93,7 +98,11 @@ Ext.define("ARSnova.controller.SessionExport", {
 			});
 			
 			// get feedback questions
-			this.exportFeedbackQuestions(session.keyword);
+			if (withFeedbackQuestions) {
+				this.exportFeedbackQuestions(session.keyword);
+			}
+			
+			// TODO wie kann man sicherstellen, dass alle success-callbacks fertig sind?
 		}
 	},
 	
@@ -107,7 +116,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 				questionData['answers'] = answers;
 				me.exportData['questions'].push(questionData);
 				
-				console.log(me.exportData);
+				console.log(me.exportData);				
 			},
 			empty: function() {
 				console.log('no answers');
@@ -136,5 +145,13 @@ Ext.define("ARSnova.controller.SessionExport", {
 				console.log('server-side error');
 			}
 		});
-	}
+	},
+	
+	writeExportDataToFile: function() {
+		console.log('writeExportDataToFile()');
+		console.log(this.exportData);
+		var jsonData = JSON.stringify({exportData: this.exportData});
+		console.log(jsonData);
+		return jsonData;
+	},
 });
