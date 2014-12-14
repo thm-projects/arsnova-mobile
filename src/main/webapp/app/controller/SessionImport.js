@@ -39,8 +39,6 @@ Ext.define("ARSnova.controller.SessionImport", {
 
 		// extract session and save it to the database
 		var storeSession = this.getElements(jsonContent.session, "ARSnova.model.Session");
-		console.log("Session: \n");
-		console.log(session);
 
 		// attribute setup
 		storeSession.each(function(e) {
@@ -50,7 +48,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 			e.create({
 				success: function(response) {
 					me.saveSessionAttachment(Ext.decode(response.responseText), jsonContent);
-				me.loadSessionView();
+					me.loadSessionView(session);
 				},
 				failure: function(records, operation) {
 					Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_SAVE);
@@ -59,26 +57,21 @@ Ext.define("ARSnova.controller.SessionImport", {
 		});
 	},
 	
-	loadSessionView: function(){
+	/**
+	 * Load the imported Session
+	 */
+	loadSessionView: function(session){
 		var me = this;
-
-		ARSnova.app.sessionModel.getMySessions({
-			success: function (response) {
-				var sessions = Ext.decode(response.responseText);
-				var session = sessions[0];
 		
-				var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
-				ARSnova.app.getController('Auth').roleSelect({
-					mode: ARSnova.app.USER_ROLE_SPEAKER
-				});
-				ARSnova.app.getController('Sessions').login({
-					keyword: session.keyword
-				});
-				hideLoadMask();
-					
-		
-			}
-			});
+		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
+		ARSnova.app.getController('Auth').roleSelect({
+			mode: ARSnova.app.USER_ROLE_SPEAKER
+		});
+		ARSnova.app.getController('Sessions').login({
+			keyword: session.keyword
+		});
+		hideLoadMask();
+			
 	},
 	
 	/**
