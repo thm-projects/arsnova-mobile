@@ -23,7 +23,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	           'ARSnova.view.Caption', 
 	           'ARSnova.view.home.SessionList', 
 	           'Ext.ux.Fileup', 
-	           'ARSnova.view.speaker.ExportSessionPanel',
+	           'ARSnova.view.speaker.SessionExportListPanel',
 	           'ARSnova.controller.SessionImport'
 	],
 
