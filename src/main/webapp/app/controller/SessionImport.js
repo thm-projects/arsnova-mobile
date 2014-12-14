@@ -39,21 +39,20 @@ Ext.define("ARSnova.controller.SessionImport", {
 
 		// extract session and save it to the database
 		var storeSession = this.getElements(jsonContent.session, "ARSnova.model.Session");
-		var session = storeSession.getAt(0);
-		
+
 		// attribute setup
 		storeSession.each(function(e) {
 			e._id     = undefined;
 			e.creator = localStorage.getItem('login');
-		});
-		
-		session.create({
-			success: function(response) {
-				me.saveSessionAttachment(Ext.decode(response.responseText), jsonContent);
-			},
-			failure: function(records, operation) {
-				Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_SAVE);
-			}
+			
+			e.create({
+				success: function(response) {
+					me.saveSessionAttachment(Ext.decode(response.responseText), jsonContent);
+				},
+				failure: function(records, operation) {
+					Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_SAVE);
+				}
+			});
 		});
 	},
 	
@@ -64,41 +63,55 @@ Ext.define("ARSnova.controller.SessionImport", {
 	 * @param The content of the JSON file.
 	 */
 	saveSessionAttachment: function(session, jsonContent) {
+		var me = this;
 		if (typeof jsonContent.questions !== undefined) {
 			var storeQuestions = this.getElements(jsonContent.questions, "ARSnova.model.Question");
 
-			storeQuestions.each(function(e) {
-				e._data._id       		= undefined;
-				e._data._rev       		= undefined;
-				e._data.sessionId     	= session._id;
-				e._data.sessionKeyword 	= session.keyword;
-				e.sessionId				= session._id;
-				e.sessionKeyword 		= session.keyword;
-				console.log("e");
-				console.log(e);
-				
-				e.saveSkillQuestion({
-					success: function() {
-						/*if (typeof jsonContent.answers !== undefined) {
-						var storeAnswers     = this.getElements(jsonContent.answers, "ARSnova.model.Answer");	
-						storeAnswers.each(function(e) {
-							e._id       = undefined;
-							e.user      = undefined;
-							e.sessionId = session._id;
+			storeQuestions.each(function(q) {
+				q._data._id       		= undefined;
+				q._data._rev       		= undefined;
+				q._data.sessionId     	= session._id;
+				q._data.sessionKeyword 	= session.keyword;
+				q.sessionId				= session._id;
+				q.sessionKeyword 		= session.keyword;
+
+				q.saveSkillQuestion({
+					success: function(response) {
+						var respQuestion = Ext.decode(response.responseText);
+						if (typeof q.raw.answers !== undefined) {
+							var answers = q.raw.answers;
 							
-							e.saveAnswer({
-								success: function() {
-									console.log("Antwort gespeichert");
-								},
-								failure: function() {
-									console.log("Konnte Antwort nicht speichern.");
-								}
-							});
-						});	
-					} else {
-						console.log("No answers to import");
-					}*/
-						
+							var storeAnswers = me.getElements(q.raw.answers, "ARSnova.model.Answer");	
+							storeAnswers.each(function(a) {
+								/*a._data.id         		= undefined;
+								a._data._id        		= undefined;
+								a._data.user       		= undefined;
+								a._data.questionId 		= respQuestion._id;
+								a._data.questionVariant = respQuestion.questionVariant;
+								a._data.sessionId 		= session._id;*/
+								
+								a.raw.user       		= undefined;
+								a.raw.questionId 		= respQuestion._id;
+								a.raw.questionVariant   = respQuestion.questionVariant;
+								a.raw.sessionId 		= session._id;
+								
+								/*a._id		= undefined;
+								a.sessionId	= session._id;
+								a.user		= undefined;*/
+								
+								a.saveAnswer({
+									success: function() {
+										console.log("Answer saved successfully.");
+									},
+									failure: function(response, request) {
+										console.log("Could not save answer");
+										
+									}
+								});
+							});	
+						} else {
+							console.log("No answers to import");
+						}
 					},
 					failure: function() {
 						console.log("Error while saving question to database.");
