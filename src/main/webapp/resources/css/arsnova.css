@@ -546,12 +546,13 @@ html,body {
 	background: white no-repeat;
 	background-position: 100%;
 	border-radius: 0;
-	height: 45px !important;
 	border-color: lightgray;
 	border-width: thin;
 }
 
-
+.standardListButton {
+	height: 45px !important;
+}
 
 .standardListButton>span,
 .forwardListButton>span {
