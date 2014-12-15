@@ -151,7 +151,8 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 
 		ARSnova.app.getController('Sessions').create({
 			name: values.name,
-			shortName: values.shortName
+			shortName: values.shortName,
+			creationTime: Date.now()
 		});
 	},
 

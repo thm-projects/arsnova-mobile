@@ -447,8 +447,9 @@ Ext.define('ARSnova.proxy.RestProxy', {
 				"name": session.get("name"),
 				"shortName": session.get("shortName"),
 				"courseId": session.get("courseId") ? session.get("courseId"): null,
-				"courseType": session.get("courseType") ? session.get("courseType"): null
-			},
+				"courseType": session.get("courseType") ? session.get("courseType"): null,
+				"creationTime": session.get("creationTime")
+			},			
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
