@@ -40,7 +40,6 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
 			ui: 'back',
-			hidden: true,
 			handler: function () {
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.lastActivePanel, {
 					type: 'slide',
@@ -120,9 +119,5 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 			html: "<div class='gravure'><a href='http://www.thm.de/' class='thmlink' target='_blank'>A <span style='color:#699824;'>THM</span> Product</a></div>",
 			cls: null
 		}]);
-
-		this.on('activate', function () {
-			this.backButton.show();
-		});
 	}
 });
