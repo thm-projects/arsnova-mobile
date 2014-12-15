@@ -288,8 +288,8 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 			Ext.create('Ext.draw.gradient.Linear', {
 				degrees: 90,
 				stops: [
-					{offset: 0, color: 'rgb(128, 21, 21)'},
-					{offset: 100, color: 'rgb(88, 0, 0)'}
+					{offset: 0, color: 'rgb(255, 153, 1)'},
+					{offset: 100, color: 'rgb(215, 113, 0)'}
 				]
 			}),
 			Ext.create('Ext.draw.gradient.Linear', {
@@ -309,8 +309,8 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 			Ext.create('Ext.draw.gradient.Linear', {
 				degrees: 90,
 				stops: [
-					{offset: 0, color: 'rgb(4, 88, 34)'},
-					{offset: 100, color: 'rgb(2, 62, 31)'}
+					{offset: 0, color: 'rgb(150, 30, 0)'},
+					{offset: 100, color: 'rgb(110, 0, 0)'}
 				]
 			})
 		];
