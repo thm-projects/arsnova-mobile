@@ -455,8 +455,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					Ext.create('Ext.draw.gradient.Linear', {
 						degrees: 90,
 						stops: [
-							{offset: 0, color: 'rgb(212, 40, 40)'},
-							{offset: 100, color: 'rgb(117, 14, 14)'}
+							{offset: 0, color: 'rgb(151, 27, 47);'},
+							{offset: 100, color: 'rgb(111, 7, 27)'}
 						]
 					})
 				);
@@ -465,8 +465,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					Ext.create('Ext.draw.gradient.Linear', {
 						degrees: 90,
 						stops: [
-							{offset: 0, color: 'rgb(43, 221, 115)'},
-							{offset: 100, color: 'rgb(14, 117, 56)'}
+							{offset: 0, color: 'rgb(128, 186, 36)'},
+							{offset: 100, color: 'rgb(88, 146, 0)'}
 						]
 					})
 				);
@@ -508,8 +508,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			Ext.create('Ext.draw.gradient.Linear', {
 				degrees: 90,
 				stops: [
-					{offset: 0, color: 'rgb(255, 153, 1)'},
-					{offset: 100, color: 'rgb(215, 113, 0)'}
+					{offset: 0, color: 'rgb(215, 113, 1)'},
+					{offset: 100, color: 'rgb(175, 73, 0)'}
 				]
 			}),
 			Ext.create('Ext.draw.gradient.Linear', {
