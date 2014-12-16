@@ -133,7 +133,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			this.myLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 				ui: 'normal',
 				text: Messages.MY_LEARNING_PROGRESS,
-				cls: 'answerListButton',
+				cls: 'standardListButton',
 				badgeCls: 'badgeicon'
 			});
 		}
