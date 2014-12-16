@@ -279,9 +279,23 @@ Ext.define("ARSnova.controller.SessionExport", {
 //		console.log(exportData);
 		// TODO metadata field
 		var jsonData = JSON.stringify({exportData: exportData});
+		
+		this.saveFileOnFileSystem(jsonData,"export.json");
+		
 		console.log(jsonData);
 		
 		// TODO hide load mask
 		return jsonData;
+	},
+	
+	 saveFileOnFileSystem: function(rawJson, fileName) {
+		 var blob = new Blob([rawJson], {type: "text/plain;charset=utf-8"});
+		 var a = window.document.createElement('a');
+		 a.href = window.URL.createObjectURL(blob);
+		 a.download = filename;
+
+		 // Append anchor to body.
+		 document.body.appendChild(a)
+		 a.click();
 	},
 });
