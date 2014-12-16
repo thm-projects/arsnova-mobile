@@ -41,197 +41,124 @@ Ext.define("ARSnova.controller.SessionExport", {
 		
 		// get export data for each session
 		for (var i = 0; i < exportSessionMap.length; i++) {
-			
+		
+			console.log('Iteration ' + i);
 			// continue if session is not selected for export
 			if (!exportSessionMap[i][1])
 				continue;
 			
-			// otherwise export this session
-			var session = exportSessionMap[i][0];
 			
-			// TODO collect missing session information like creator and type: "session"
-			// TODO type: session hardcoded
 			
-			// create export data structure
-			var exportData = {};
-			exportData['session'] = null;
-			exportData['questions'] = [];
-			exportData['feedbackQuestions'] = [];
-			
-			// set session in exportData
-			exportData['session'] = session;
-			
-//			console.log(session);
-			
-			this.exportQuestions('Questions', session.keyword, withAnswerStatistics)
-				.then(function(questions) {
-					
-					console.log('questions: ');
-					console.log(questions);
-					
-					var promiseWhile = function(condition, action) {
-						console.log('promiseWhile()');
-						var dfd = Ext.create('Ext.ux.Deferred'),
-							task = setInterval(function() {
-							
-								var loop = function() {
-									console.log('loop()');
-									if (!condition()) {
-										console.log('condition false');
-										return dfd.resolve();
+			(function(me, i, exportSessionMap, withAnswerStatistics, withFeedbackQuestions) {
+				
+				console.log('inside function');
+				
+				// create export data structure
+				var exportData = {};
+				exportData['session'] = null;
+				exportData['questions'] = [];
+				exportData['feedbackQuestions'] = [];
+				
+				// otherwise export this session
+				var session = exportSessionMap[i][0];
+				
+				// TODO collect missing session information like creator and type: "session"
+				// TODO type: session hardcoded
+				
+				// set session in exportData
+				exportData['session'] = session;
+				
+				console.log(session);
+				
+				me.exportQuestions('Questions', session.keyword, withAnswerStatistics)
+					.then(function(questions) {
+						
+						console.log('questions: ');
+						console.log(questions);
+						
+						var promiseWhile = function(condition, action, actionOnResult) {
+							console.log('promiseWhile()');
+							var dfd = Ext.create('Ext.ux.Deferred'),
+								task = setInterval(function() {
+								
+									var loop = function(result) {
+										console.log('loop()');
+										
+										console.log('result:');
+										console.log(result);
+										if (result) {
+											actionOnResult(result);
+										}
+										if (!condition()) {
+											console.log('condition false');
+											return dfd.resolve();
+										}
+										return action().then(loop,
+												function(error) {
+													console.log(error);
+												}
+										);
 									}
-									return action().then(loop,
-											function(error) {
-												console.log(error);
-											}
-									);
-								}
-								
-								loop();
-								
-								clearInterval(task);
-							}, 1000);
-						
-						return dfd.promise();
-					}
-					
-					var pendingQuestions = questions.length;
-					var i = 0;
-					
-					promiseWhile(
-						function() {
-							console.log('checking condition');
-							// condition for stopping while loop
-							return i < questions.length;
-						},
-						function() {
-							var question = questions[i];
-							console.log(question);
-							i++;
-							return me.exportQuestionWithAnswerStatistics(session.keyword, question, withAnswerStatistics); /*.then(
-								function(question) {
-									// save updated question in exportData
-									exportData['questions'].push(question);
-								}, function(error) {
-									console.log(error);
-								}
-							);*/
+									
+									loop(null);
+									
+									clearInterval(task);
+								}, 1000);
+							
+							return dfd.promise();
 						}
-					).then(function() {
-						console.log('done');
 						
-						me.exportFeedbackQuestions(session.keyword)
-						.then(function(feedbackQuestions) {
-								exportData['feedbackQuestions'] = feedbackQuestions;
-							}, function(error) {
-								console.log(error);
-							}
-						)
-						.then(me.writeExportDataToFile(exportData),
-							function(error) {
-								console.log(error);
-							}
-						);
+						var pendingQuestions = questions.length;
+						var i = 0;
 						
-					});
-					
-					/*.then(me.exportFeedbackQuestions(session.keyword)
-						.then(function(feedbackQuestions) {
-								exportData['feedbackQuestions'] = feedbackQuestions;
-							}, function(error) {
-								console.log(error);
-							}
-						),
-						function(error) {
-							console.log(error);
-						}
-					)
-					.then(me.writeExportDataToFile(exportData),
-						function(error) {
-							console.log(error);
-						}
-					);*/
-				})
-					
-					/*
-					// TODO .when()
-					var dfd = Ext.create('Ext.ux.Deferred'),
-						task = setInterval(function() {
-							for (var i = 0; i < questions.length; i++) {
-								var question = questions[i];
-								me.exportQuestionWithAnswerStatistics(session.keyword, question, withAnswerStatistics)
-									.then(function(question) {
+						promiseWhile(
+							function() {
+								console.log('checking condition');
+								console.log('i: ' + i);
+								console.log('length: ' + questions.length);
+								// condition for stopping while loop
+								return i < questions.length;
+							},
+							function() {
+								console.log('action nr.: ' + i);
+								var question = questions[i++];
+//								console.log(question);
+//								i++;
+								return me.exportQuestionWithAnswerStatistics(session.keyword, question, withAnswerStatistics); /*.then(
+									function(question) {
+										// save updated question in exportData
 										exportData['questions'].push(question);
 									}, function(error) {
 										console.log(error);
-									});
+									}
+								);*/
+							},
+							function(question) {
+								console.log('result()');
+								exportData['questions'].push(question);
 							}
-							dfd.resolve();
-							clearInterval(task);
-						}, 1000);
-					return dfd.promise();
-				}, function(error) {
-					console.log(error);
-				})*/
+						).then(function() {
+							console.log('done');
+							
+							me.exportFeedbackQuestions(session.keyword)
+							.then(function(feedbackQuestions) {
+							
+									// set feedback questions in export data
+									exportData['feedbackQuestions'] = feedbackQuestions;
+									
+									// create json file
+									me.writeExportDataToFile(exportData)
+									
+								}, function(error) {
+									console.log(error);
+								}
+							)
+						});
+					})
+				
+			})(me, i, exportSessionMap, withAnswerStatistics, withFeedbackQuestions);
+			
 		}
-	},
-	
-	aSync1: function(val) {
-		var dfd = Ext.create('Ext.ux.Deferred'),
-			task = setInterval(function() {
-				console.log('during async task');
-				if (1 == 1) {
-					var string = 'task resolved';
-					dfd.resolve(string);
-				} else {
-					var string = 'task rejected';
-					dfd.reject(string)
-				}
-				clearInterval(task);
-			}, 1000);
-		return dfd.promise();
-	},
-	
-	test: function() {
-		/*
-		var dfd = Ext.create('Ext.ux.Deferred'),
-			task = setInterval(function() {
-//				dfd.resolve(10);
-				dfd.reject('error');
-				clearInterval(task);
-			}, 1000);
-		
-		Ext.ux.Deferred
-			.when(dfd.promise())
-			.then(function(value) {
-				console.log(value);
-			}, function(error) {
-				console.log(error);
-			});
-		*/
-		function aSync1(val) {
-			var dfd = Ext.create('Ext.ux.Deferred'),
-				task = setInterval(function() {
-					console.log('during async task');
-					if (1 == 1) {
-						var string = 'task resolved';
-						dfd.resolve(string);
-					} else {
-						var string = 'task rejected';
-						dfd.reject(string)
-					}
-					clearInterval(task);
-				}, 1000);
-			return dfd.promise();
-		}
-		
-		var promise = aSync1(10);
-		
-		promise.then(function(result) {
-			console.log('promise resolved with: ' + result);
-		}, function(error) {
-			console.log('promise rejected with: ' + error);
-		});
 	},
 	
 	exportQuestions: function(controller, keyword, withAnswerStatistics) {
@@ -297,6 +224,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 						}
 					});
 				} else {
+					console.log('Export withOUT answers');
 					// return question without answers
 					dfd.resolve(question);
 				}
