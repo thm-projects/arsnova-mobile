@@ -47,11 +47,18 @@ Ext.define("ARSnova.controller.SessionExport", {
 			if (!exportSessionMap[i][1])
 				continue;
 			
-			
-			
+			// wrapper function to define a namespace for each iteration of for loop
+			// otherwise the promises would overwrite the exportData on return and every iteration contains
+			// random data of itself and older iterations
 			(function(me, i, exportSessionMap, withAnswerStatistics, withFeedbackQuestions) {
 				
 				console.log('inside function');
+				
+				console.log('withAnswerStatistics:');
+				console.log(withAnswerStatistics);
+				
+				console.log('withFeedbackQuestions:');
+				console.log(withFeedbackQuestions);
 				
 				// create export data structure
 				var exportData = {};
@@ -140,19 +147,25 @@ Ext.define("ARSnova.controller.SessionExport", {
 						).then(function() {
 							console.log('done');
 							
-							me.exportFeedbackQuestions(session.keyword)
-							.then(function(feedbackQuestions) {
+							if (withFeedbackQuestions) {
+								me.exportFeedbackQuestions(session.keyword)
+								.then(function(feedbackQuestions) {
+								
+										// set feedback questions in export data
+										exportData['feedbackQuestions'] = feedbackQuestions;
+										
+										// create json file
+										me.writeExportDataToFile(exportData);
+										
+									}, function(error) {
+										console.log(error);
+									}
+								)
+							} else {
+								// write data without feedback questions
+								me.writeExportDataToFile(exportData);
+							}
 							
-									// set feedback questions in export data
-									exportData['feedbackQuestions'] = feedbackQuestions;
-									
-									// create json file
-									me.writeExportDataToFile(exportData)
-									
-								}, function(error) {
-									console.log(error);
-								}
-							)
 						});
 					})
 				
