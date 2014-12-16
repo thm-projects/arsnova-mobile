@@ -65,6 +65,95 @@ Ext.define("ARSnova.controller.SessionExport", {
 			
 			this.exportQuestions('Questions', session.keyword, withAnswerStatistics)
 				.then(function(questions) {
+					
+					console.log('questions: ');
+					console.log(questions);
+					
+					var promiseWhile = function(condition, action) {
+						console.log('promiseWhile()');
+						var dfd = Ext.create('Ext.ux.Deferred'),
+							task = setInterval(function() {
+							
+								var loop = function() {
+									console.log('loop()');
+									if (!condition()) {
+										console.log('condition false');
+										return dfd.resolve();
+									}
+									return action().then(loop,
+											function(error) {
+												console.log(error);
+											}
+									);
+								}
+								
+								loop();
+								
+								clearInterval(task);
+							}, 1000);
+						
+						return dfd.promise();
+					}
+					
+					var pendingQuestions = questions.length;
+					var i = 0;
+					
+					promiseWhile(
+						function() {
+							console.log('checking condition');
+							// condition for stopping while loop
+							return i < questions.length;
+						},
+						function() {
+							var question = questions[i];
+							console.log(question);
+							i++;
+							return me.exportQuestionWithAnswerStatistics(session.keyword, question, withAnswerStatistics); /*.then(
+								function(question) {
+									// save updated question in exportData
+									exportData['questions'].push(question);
+								}, function(error) {
+									console.log(error);
+								}
+							);*/
+						}
+					).then(function() {
+						console.log('done');
+						
+						me.exportFeedbackQuestions(session.keyword)
+						.then(function(feedbackQuestions) {
+								exportData['feedbackQuestions'] = feedbackQuestions;
+							}, function(error) {
+								console.log(error);
+							}
+						)
+						.then(me.writeExportDataToFile(exportData),
+							function(error) {
+								console.log(error);
+							}
+						);
+						
+					});
+					
+					/*.then(me.exportFeedbackQuestions(session.keyword)
+						.then(function(feedbackQuestions) {
+								exportData['feedbackQuestions'] = feedbackQuestions;
+							}, function(error) {
+								console.log(error);
+							}
+						),
+						function(error) {
+							console.log(error);
+						}
+					)
+					.then(me.writeExportDataToFile(exportData),
+						function(error) {
+							console.log(error);
+						}
+					);*/
+				})
+					
+					/*
 					// TODO .when()
 					var dfd = Ext.create('Ext.ux.Deferred'),
 						task = setInterval(function() {
@@ -83,22 +172,24 @@ Ext.define("ARSnova.controller.SessionExport", {
 					return dfd.promise();
 				}, function(error) {
 					console.log(error);
-				})
-				.then(me.exportFeedbackQuestions(session.keyword)
-					.then(function(feedbackQuestions) {
-						exportData['feedbackQuestions'] = feedbackQuestions;
-					}, function(error) {
-						console.log(error);
-					}
-				), function(error) {
-					console.log(error);
-				})
-				.then(me.writeExportDataToFile(exportData),
-					function(error) {
-						console.log(error);
-					}
-				);
+				})*/
 		}
+	},
+	
+	aSync1: function(val) {
+		var dfd = Ext.create('Ext.ux.Deferred'),
+			task = setInterval(function() {
+				console.log('during async task');
+				if (1 == 1) {
+					var string = 'task resolved';
+					dfd.resolve(string);
+				} else {
+					var string = 'task rejected';
+					dfd.reject(string)
+				}
+				clearInterval(task);
+			}, 1000);
+		return dfd.promise();
 	},
 	
 	test: function() {
@@ -224,7 +315,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 				ARSnova.app.questionModel.getInterposedQuestions(keyword, {
 					success: function(response) {
 						var feedbackQuestions = Ext.decode(response.responseText);
-						console.log(feedbackQuestions);
+//						console.log(feedbackQuestions);
 						dfd.resolve(feedbackQuestions);
 //						me.exportData['feedbackQuestions'] = feedbackQuestions;
 					},
@@ -244,7 +335,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 	
 	writeExportDataToFile: function(exportData) {
 		console.log('writeExportDataToFile()');
-		console.log(exportData);
+//		console.log(exportData);
 		// TODO metadata field
 		var jsonData = JSON.stringify({exportData: exportData});
 		console.log(jsonData);
