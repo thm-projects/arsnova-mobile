@@ -33,125 +33,223 @@ Ext.define("ARSnova.controller.SessionExport", {
 	 */
 	exportSessionsToFile: function(exportSessionMap, withAnswerStatistics, withFeedbackQuestions) {
 		console.log('exportSessionsToFile()');
-		console.log(exportSessionMap);
 		var me = this;
 		
-		// create export data structure
-		this.exportData = {};
-		this.exportData['session'] = null;
-		this.exportData['questions'] = [];
-		this.exportData['feedbackQuestions'] = [];
-		// TODO the rest
+//		this.test();
+		
+		// TODO show load mask
 		
 		// get export data for each session
 		for (var i = 0; i < exportSessionMap.length; i++) {
 			
+			// continue if session is not selected for export
 			if (!exportSessionMap[i][1])
 				continue;
 			
+			// otherwise export this session
 			var session = exportSessionMap[i][0];
 			
 			// TODO collect missing session information like creator and type: "session"
+			// TODO type: session hardcoded
+			
+			// create export data structure
+			var exportData = {};
+			exportData['session'] = null;
+			exportData['questions'] = [];
+			exportData['feedbackQuestions'] = [];
 			
 			// set session in exportData
-			this.exportData['session'] = session;
+			exportData['session'] = session;
 			
-			console.log(session);
+//			console.log(session);
 			
-			// get preparation questions
-			ARSnova.app.getController('PreparationQuestions').getQuestions(
-					session.keyword, {
-				success: Ext.bind(function (response) {
-					console.log('success');
-					var questions = Ext.decode(response.responseText);
-			
-					for (var j = 0; j < questions.length; j++) {
-						var question = questions[j];
-						
-						// just execute if toggle is true
-						if (withAnswerStatistics) {
-							me.exportAnswerStatistics(session.keyword, question);
-						} else {
-							console.log('Export withOUT answers')
-							// if toggle is not true, only export the question without answers
-							me.exportData['questions'].push(question);
-							console.log(me.exportData);
-						}
+			this.exportQuestions('Questions', session.keyword, withAnswerStatistics)
+				.then(function(questions) {
+					// TODO .when()
+					var dfd = Ext.create('Ext.ux.Deferred'),
+						task = setInterval(function() {
+							for (var i = 0; i < questions.length; i++) {
+								var question = questions[i];
+								me.exportQuestionWithAnswerStatistics(session.keyword, question, withAnswerStatistics)
+									.then(function(question) {
+										exportData['questions'].push(question);
+									}, function(error) {
+										console.log(error);
+									});
+							}
+							dfd.resolve();
+							clearInterval(task);
+						}, 1000);
+					return dfd.promise();
+				}, function(error) {
+					console.log(error);
+				})
+				.then(me.exportFeedbackQuestions(session.keyword)
+					.then(function(feedbackQuestions) {
+						exportData['feedbackQuestions'] = feedbackQuestions;
+					}, function(error) {
+						console.log(error);
 					}
-					
-					// TODO this callback takes longer than the feedbackQuestion callback
-					// so we create the json file here
-					me.writeExportDataToFile();
-					
-					// TODO wie kann man sicherstellen, dass alle success-callbacks fertig sind?
-					
-				}, this),
-				empty: Ext.bind(function () {
-					console.log('no questions');
-					// session has no question. So we do not have to export anything else
-					console.log(me.exportData);
-				}, this),
-				failure: function (response) {
-					console.log('server-side error questionModel.getSkillQuestions');
-					console.log(reponse);
-				}
-			});
-			
-			// get feedback questions
-			if (withFeedbackQuestions) {
-				this.exportFeedbackQuestions(session.keyword);
-			}
-			
-			// TODO wie kann man sicherstellen, dass alle success-callbacks fertig sind?
+				), function(error) {
+					console.log(error);
+				})
+				.then(me.writeExportDataToFile(exportData),
+					function(error) {
+						console.log(error);
+					}
+				);
 		}
 	},
 	
-	exportAnswerStatistics: function(keyword, questionData) {
+	test: function() {
+		/*
+		var dfd = Ext.create('Ext.ux.Deferred'),
+			task = setInterval(function() {
+//				dfd.resolve(10);
+				dfd.reject('error');
+				clearInterval(task);
+			}, 1000);
+		
+		Ext.ux.Deferred
+			.when(dfd.promise())
+			.then(function(value) {
+				console.log(value);
+			}, function(error) {
+				console.log(error);
+			});
+		*/
+		function aSync1(val) {
+			var dfd = Ext.create('Ext.ux.Deferred'),
+				task = setInterval(function() {
+					console.log('during async task');
+					if (1 == 1) {
+						var string = 'task resolved';
+						dfd.resolve(string);
+					} else {
+						var string = 'task rejected';
+						dfd.reject(string)
+					}
+					clearInterval(task);
+				}, 1000);
+			return dfd.promise();
+		}
+		
+		var promise = aSync1(10);
+		
+		promise.then(function(result) {
+			console.log('promise resolved with: ' + result);
+		}, function(error) {
+			console.log('promise rejected with: ' + error);
+		});
+	},
+	
+	exportQuestions: function(controller, keyword, withAnswerStatistics) {
+		console.log('exportQuestions()');
 		var me = this;
 		
-		ARSnova.app.questionModel.countAnswers(keyword, questionData._id, {
-			success: function(response) {
-				console.log('Export with answers');
-				var answers = Ext.decode(response.responseText);
-				questionData['answers'] = answers;
-				me.exportData['questions'].push(questionData);
+		var dfd = Ext.create('Ext.ux.Deferred'),
+			task = setInterval(function() {
+			
+				// get preparation questions
+				ARSnova.app.getController(controller).getQuestions(
+						keyword, {
+					success: Ext.bind(function (response) {
+						var questions = Ext.decode(response.responseText);
 				
-				console.log(me.exportData);				
-			},
-			empty: function() {
-				console.log('no answers');
-			},
-			failure: function() {
-				console.log('server-side error');
-			}
-		});
+						dfd.resolve(questions);
+				
+//						me.writeExportDataToFile();
+						
+					}, this),
+					empty: Ext.bind(function () {
+						console.log('no questions');
+						// session has no question. So we do not have to export anything else
+//						console.log(me.exportData);
+						dfd.resolve([]);
+					}, this),
+					failure: function (response) {
+//						console.log('server-side error questionModel.getSkillQuestions');
+//						console.log(reponse);
+						dfd.reject('server-side error questionModel.getSkillQuestions');
+					}
+				});
+				
+				clearInterval(task);
+			}, 1000);
+		return dfd.promise();
+	},
+	
+	exportQuestionWithAnswerStatistics: function(keyword, question, withAnswerStatistics) {
+		var me = this;
+		
+		var dfd = Ext.create('Ext.ux.Deferred'),
+			task = setInterval(function() {
+				
+				if (withAnswerStatistics) {
+					ARSnova.app.questionModel.countAnswers(keyword, question._id, {
+						success: function(response) {
+							console.log('Export with answers');
+							var answers = Ext.decode(response.responseText);
+							// save answer data in question
+							question['answers'] = answers;
+							// and return the updated question
+							dfd.resolve(question);
+						},
+						empty: function() {
+							console.log('no answers');
+							// return the question without answers
+							dfd.resolve(question);
+						},
+						failure: function() {
+							console.log('server-side error');
+							dfd.reject('server-side error');
+						}
+					});
+				} else {
+					// return question without answers
+					dfd.resolve(question);
+				}
+				clearInterval(task);
+			}, 1000);
+		return dfd.promise();
 	},
 	
 	exportFeedbackQuestions: function(keyword) {
 		var me = this;
 		
 		console.log('exportFeedbackQuestions()');
-		ARSnova.app.questionModel.getInterposedQuestions(keyword, {
-			success: function(response) {
-				console.log('feedback success');
-				var feedbackQuestions = Ext.decode(response.responseText);
-				console.log(feedbackQuestions);
-				me.exportData['feedbackQuestions'] = feedbackQuestions;
-			},
-			empty: function() {
-				console.log('no feedbackQuestions');
-			},
-			failure: function() {
-				console.log('server-side error');
-			}
-		});
+		
+		var dfd = Ext.create('Ext.ux.Deferred'),
+			task = setInterval(function() {
+				ARSnova.app.questionModel.getInterposedQuestions(keyword, {
+					success: function(response) {
+						var feedbackQuestions = Ext.decode(response.responseText);
+						console.log(feedbackQuestions);
+						dfd.resolve(feedbackQuestions);
+//						me.exportData['feedbackQuestions'] = feedbackQuestions;
+					},
+					empty: function() {
+						console.log('no feedbackQuestions');
+						dfd.resolve([]);
+					},
+					failure: function() {
+						console.log('server-side error');
+						dfd.reject('server-side error');
+					}
+				});
+				clearInterval(task);
+			}, 1000);
+		return dfd.promise();
 	},
 	
-	writeExportDataToFile: function() {
+	writeExportDataToFile: function(exportData) {
 		console.log('writeExportDataToFile()');
-		console.log(this.exportData);
-		var jsonData = JSON.stringify({exportData: this.exportData});
+		console.log(exportData);
+		// TODO metadata field
+		var jsonData = JSON.stringify({exportData: exportData});
 		console.log(jsonData);
+		
+		// TODO hide load mask
 		return jsonData;
 	},
 });
