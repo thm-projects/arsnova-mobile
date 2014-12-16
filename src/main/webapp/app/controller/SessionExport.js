@@ -279,76 +279,9 @@ Ext.define("ARSnova.controller.SessionExport", {
 //		console.log(exportData);
 		// TODO metadata field
 		var jsonData = JSON.stringify({exportData: exportData});
-		this.saveFileOnFileSystem(jsonData, "Session1.json");
 		console.log(jsonData);
 		
 		// TODO hide load mask
 		return jsonData;
-	},
-	
-	saveFileOnFileSystem: function(saveFile, fileName){
-		var me = this;
-		var filesystem;
-
-	    var myWindow = window.open("", "Export File");
-	    myWindow.document.write(saveFile);
-	    
-		/*Ext.device.FileSystem.requestFileSystem({	 	     
-			
-		    type: window.PERSISTENT,
-		    size: saveFile.length, 
-		    exclusive: false,
-		    
-		    success: function(fs) {
-		    	console.log("Successfull created file system");	
-		    	console.log('fs.fs.root.fullPath',fs.fs.root.fullPath)
-		        me.filesystem = fs;
-		        
-			    var fe = new Ext.device.filesystem.FileEntry(fs.fs.root.fullPath + "home/artjom/test/" + fileName, me.filesystem);
-			    console.log('fe',fe);
-			    console.log('size',saveFile.length);
-			    
-			    fe.getEntry({
-		            file: fileName,
-		            options: {create: true},
-		            success: function(entry) {
-
-						console.log('Success getEntry',entry);        
-		            },
-		        	
-		            failure: function(error) {              
-		                Ext.Msg.alert("Transaction Failed (02)", error.message);
-		            }
-			    });
-			    fe.write({
-					
-            		data: saveFile,
-            		append: false,
-            		success: function(){
-            			console.log("Success wrote on file system");
-            		},
-            		onwritestart: function(){
-            			console.log("Start writing");
-            		},
-            		onwrite: function(){
-            			console.log("Writing now ...");
-	            			
-            		}
-            		
-            		
-            	});
-	             
-            	var Path = fe.getFullPath();
-			    console.log('fullPath',Path);
-            	
-		    },
-		    failure: function() {
-		        Ext.Msg.alert("FileSystem Error","Could not access the local file system<br>You will not be able to save notifications for offline use.");
-		    }
-		});
-		
-		var fsSize = Ext.device.FileSystem.getFileSystemSize();
-		console.log('fsSize',fsSize);
-		*/
 	},
 });
