@@ -21,8 +21,8 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 	extend: 'ARSnova.view.components.GridContainer',
 	
 	config: {
-		statisticWrongColor: '#FF0000', // Color for wrong fields in statistic.
-		statisticRightColor: '#00FF00', // Color for right fields in statistic.
+		statisticWrongColor: '#971B2F', // Color for wrong fields in statistic.
+		statisticRightColor: '#80BA24', // Color for right fields in statistic.
 		gridType: 'image',
 	},
 	

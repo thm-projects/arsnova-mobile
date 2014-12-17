@@ -39,15 +39,15 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
-		
+
 		this.backButton = Ext.create('Ext.Button', {
-			text: ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER ? 
+			text: ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER ?
 					Messages.HOME : Messages.FEEDBACK_VOTE,
 			ui: 'back',
 			handler: function() {
 				var	tabPanel = ARSnova.app.mainTabPanel.tabPanel,
 					feedbackTabPanel = tabPanel.feedbackTabPanel;
-				
+
 				if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 					tabPanel.animateActiveItem(tabPanel.speakerTabPanel, {
 						type: 'slide',
@@ -251,12 +251,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		var chart = this.feedbackChart;
 		var store = chart.getStore();
 
-		/* Swap values for "can follow" and "faster, please" feedback
-		 * TODO: improve implementation, this is a quick hack for MoodleMoot 2013 */
 		var values = feedbackValues.slice();
-		var tmpValue = values[0];
-		values[0] = values[1];
-		values[1] = tmpValue;
 		if (!Ext.isArray(values) || values.length != store.getCount()) return;
 
 		// Set chart data
@@ -282,10 +277,10 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		var tab = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab;
 		switch (averageFeedback) {
 			case 0:
-				tab.setIconCls("voteIcons icon-wink");
+				tab.setIconCls("voteIcons icon-happy");
 				break;
 			case 1:
-				tab.setIconCls("voteIcons icon-happy");
+				tab.setIconCls("voteIcons icon-wink");
 				break;
 			case 2:
 				tab.setIconCls("voteIcons icon-shocked");

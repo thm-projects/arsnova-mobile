@@ -45,9 +45,7 @@ Ext.define('ARSnova.view.speaker.SessionExportToFilePanel', {
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
 			handler: function () {
-				console.log(me.getExportSessionMap());
 				var withAnswerStatistics = me.exportAnswerToggle.getValue();
-				// TODO correct toggles
 				var withFeedbackQuestions = me.exportStudentsQuestionToggle.getValue();
 				ARSnova.app.getController("SessionExport").exportSessionsToFile(
 						me.getExportSessionMap(), withAnswerStatistics, withFeedbackQuestions);

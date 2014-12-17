@@ -35,6 +35,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	/* toolbar items */
 	toolbar: null,
 	toggleCorrect: false,
+	chartRefreshDuration: 1000,
 
 	renewChartDataTask: {
 		name: 'renew the chart data at question statistics charts',
@@ -108,10 +109,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			}
 		});
 
-		var title = Ext.util.Format.htmlEncode(this.questionObj.text);
-		if (window.innerWidth < 800 && title.length > (window.innerWidth / 10))
-			title = title.substring(0, (window.innerWidth) / 10) + "...";
-
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			ui: 'light',
@@ -130,33 +127,58 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				iconCls: 'icon-check',
 				cls: 'toggleCorrectButton',
 				handler: function(button) {
+					var me = this,
+					data = [];
+
+					button.disable();
+
 					if (this.toggleCorrect) {
 						button.removeCls('x-button-pressed');
 					} else {
 						button.addCls('x-button-pressed');
 					}
 					this.toggleCorrect = !this.toggleCorrect;
-					// updates the chart's colors
-					this.setGradients();
+
 					// remove all data for a smooth "redraw"
 					this.questionStore.each(function (record) {
+						data.push({
+							text: record.get('text'),
+							value: record.get('value'),
+							percent: record.get('percent')
+						});
+
 						record.set('value', 0);
 						record.set('percent', 0);
 					});
-					// reload chart data
-					this.renewChartDataTask.taskRunTime = 0;
+
+					var updateDataTask = Ext.create('Ext.util.DelayedTask', function () {
+						me.questionStore.setData(data);
+						button.enable();
+					});
+
+					var setGradientTask = Ext.create('Ext.util.DelayedTask', function () {
+						// updates the chart's colors
+						me.setGradients();
+
+						// delay till chart is redrawn
+						updateDataTask.delay(me.chartRefreshDuration-200);
+					});
+
+					// delay till chart is empty
+					setGradientTask.delay(me.chartRefreshDuration-200);
 				},
 				scope: this,
-				hidden: !ARSnova.app.isSessionOwner || !hasCorrectAnswers() || this.questionObj.questionType === 'grid'
+				hidden: !hasCorrectAnswers() || this.questionObj.questionType === 'grid'
 			}]
 		});
 
-		this.titlebar = Ext.create('Ext.Toolbar', {
+		this.titlebar = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			cls: 'questionStatisticTitle',
 			docked: 'top',
-			title: title,
-			border: '0px'
+			baseCls: Ext.baseCSSPrefix + 'title',
+			style: ''
 		});
+		this.titlebar.setContent(this.questionObj.text, true, true);
 
 		if (this.questionObj.questionType == "grid") {
 			this.titlebar = Ext.create('Ext.Toolbar', {
@@ -190,7 +212,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 			animate: {
 				easing: 'bounceOut',
-				duration: 1000
+				duration: this.chartRefreshDuration
 			},
 
 			axes: [{
@@ -388,23 +410,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	onActivate: function () {
 		ARSnova.app.taskManager.start(this.renewChartDataTask);
 		ARSnova.app.taskManager.start(this.countActiveUsersTask);
-		this.doTypeset();
-	},
-
-	doTypeset: function (parent) {
-		if (typeof this.titlebar.element !== "undefined") {
-			if ("undefined" !== typeof MathJax) {
-				MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.titlebar.element.dom]);
-			}
-
-			// get the computed height of MathJax and set it as new height for question titlebar
-			var mjaxDom = this.titlebar.element.dom.childNodes[0].childNodes[0].childNodes[0];
-			var mjaxHeight = window.getComputedStyle(mjaxDom, "").getPropertyValue("height");
-			this.titlebar.setHeight(mjaxHeight);
-		} else {
-			// If the element has not been drawn yet, we need to retry later
-			Ext.defer(Ext.bind(this.doTypeset, this), 100);
-		}
 	},
 
 	countActiveUsers: function () {
@@ -450,8 +455,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					Ext.create('Ext.draw.gradient.Linear', {
 						degrees: 90,
 						stops: [
-							{offset: 0, color: 'rgb(212, 40, 40)'},
-							{offset: 100, color: 'rgb(117, 14, 14)'}
+							{offset: 0, color: 'rgb(151, 27, 47);'},
+							{offset: 100, color: 'rgb(111, 7, 27)'}
 						]
 					})
 				);
@@ -460,8 +465,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					Ext.create('Ext.draw.gradient.Linear', {
 						degrees: 90,
 						stops: [
-							{offset: 0, color: 'rgb(43, 221, 115)'},
-							{offset: 100, color: 'rgb(14, 117, 56)'}
+							{offset: 0, color: 'rgb(128, 186, 36)'},
+							{offset: 100, color: 'rgb(88, 146, 0)'}
 						]
 					})
 				);
@@ -472,7 +477,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 	getDefaultGradients: function () {
 		return [
-			Ext.create('Ext.draw.gradient.Linear', {
+	        Ext.create('Ext.draw.gradient.Linear', {
 				degrees: 90,
 				stops: [
 					{offset: 0, color: 'rgb(22, 64, 128)'},
@@ -503,8 +508,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			Ext.create('Ext.draw.gradient.Linear', {
 				degrees: 90,
 				stops: [
-					{offset: 0, color: 'rgb(128, 21, 21)'},
-					{offset: 100, color: 'rgb(88, 0, 0)'}
+					{offset: 0, color: 'rgb(215, 113, 1)'},
+					{offset: 100, color: 'rgb(175, 73, 0)'}
 				]
 			}),
 			Ext.create('Ext.draw.gradient.Linear', {
@@ -524,8 +529,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			Ext.create('Ext.draw.gradient.Linear', {
 				degrees: 90,
 				stops: [
-					{offset: 0, color: 'rgb(4, 88, 34)'},
-					{offset: 100, color: 'rgb(2, 62, 31)'}
+					{offset: 0, color: 'rgb(150, 30, 0)'},
+					{offset: 100, color: 'rgb(110, 0, 0)'}
 				]
 			})
 		];

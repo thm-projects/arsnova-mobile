@@ -227,7 +227,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					questionId: self.questionObj._id,
 					timestamp: Date.now(),
 					user: localStorage.getItem("login"),
-					abstention: true
+					abstention: true,
+					questionVariant: self.questionObj.questionVariant
 				});
 
 				self.saveAnswer(answer);

@@ -34,7 +34,8 @@ Ext.define('ARSnova.view.Caption', {
 		this.listButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			ui: 'small',
 			text: "",
-			cls: 'forwardListButton caption'
+			cls: 'forwardListButton caption',
+			style: this.getStyle()
 		});
 
 		this.add([].concat(window.innerWidth > 320 ? [{
@@ -69,6 +70,12 @@ Ext.define('ARSnova.view.Caption', {
 		} else {
 			this.listButton.setText(activeText || inactiveText);
 		}
+	},
+
+	summarize: function (sessions, options) {
+		var flat = [].concat.apply([], sessions);
+		this.explainBadges(flat, options);
+		this.explainStatus(flat);
 	},
 
 	explainBadges: function (badges, opt) {

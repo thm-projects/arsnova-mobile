@@ -52,7 +52,7 @@ Ext.application({
 	requires: ['ARSnova.WebSocket', 'ARSnova.BrowserSupport', 'ARSnova.view.CustomMessageBox'],
 
 	viewport: {
-		autoMaximize: Ext.os.is.iOS && !Ext.browser.is.webview && Ext.browser.version.isGreaterThan(3)
+		autoMaximize: Ext.os.is.iOS && Ext.browser.is.webview
 	},
 
 	icon: {
@@ -60,7 +60,7 @@ Ext.application({
 		72: 'resources/icons/appicon_72x72px.png',
 		114: 'resources/icons/appicon_114x114px.png'
 	},
-	
+
 	name: "ARSnova",
 	absoluteUrl: 'https://arsnova.eu/mobile/',
 
@@ -217,13 +217,13 @@ Ext.application({
 	 */
 	afterLogin: function () {
 		var mainTabPanel = ARSnova.app.mainTabPanel.tabPanel;
-		
+
 		console.debug("Application: afterLogin");
 		this.socket.connect();
 
 		/* show diagnosis tab panel */
 		mainTabPanel.diagnosisPanel.tab.show();
-		
+
 		mainTabPanel.animateActiveItem(mainTabPanel.homeTabPanel, 'slide');
 		var hTP = mainTabPanel.homeTabPanel;
 		switch (ARSnova.app.userRole) {

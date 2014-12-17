@@ -263,12 +263,12 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	updateFeedback: function (averageFeedback) {
 		var feedbackCls;
 		switch (averageFeedback) {
-			/* 0: faster, please!; 1: can follow; 2: to fast!; 3: you have lost me */
+			/* 0: can follow; 1: faster, please!; 2: to fast!; 3: you have lost me */
 			case 0:
-				feedbackCls = "wink";
+				feedbackCls = "happy";
 				break;
 			case 1:
-				feedbackCls = "happy";
+				feedbackCls = "wink";
 				break;
 			case 2:
 				feedbackCls = "shocked";
