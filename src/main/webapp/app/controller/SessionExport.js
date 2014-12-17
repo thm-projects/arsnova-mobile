@@ -277,7 +277,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 		return jsonData;
 	},
 	
-	 saveFileOnFileSystem: function(rawJson, fileName) {
+	 saveFileOnFileSystem: function(rawJson, filename) {
 		 var blob = new Blob([rawJson], {type: "text/plain;charset=utf-8"});
 		 var a = window.document.createElement('a');
 		 a.href = window.URL.createObjectURL(blob);
