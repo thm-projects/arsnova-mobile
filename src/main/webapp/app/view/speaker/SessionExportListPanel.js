@@ -174,7 +174,7 @@ Ext.define('ARSnova.view.speaker.SessionExportListPanel', {
 				var session;
 				for (var i = 0, session; session = sessions[i]; i++) {
 					
-					var sessionChecked = true;
+					var sessionChecked = false;
 					
 					me.sessionMap[i] = [session, sessionChecked];
 					
