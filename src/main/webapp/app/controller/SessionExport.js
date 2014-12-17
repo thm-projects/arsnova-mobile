@@ -38,7 +38,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 //		this.test();
 		
 		// TODO show load mask
-		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
+		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_EXPORT);
 		
 		// get export data for each session
 		for (var i = 0; i < exportSessionMap.length; i++) {
