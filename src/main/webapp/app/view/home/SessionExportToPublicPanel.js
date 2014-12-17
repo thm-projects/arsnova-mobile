@@ -15,16 +15,11 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('ARSnova.view.speaker.SessionExportToFilePanel', {
+Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 	extend: 'Ext.Panel',
-	
-	config: {
-		exportSessionMap: null
-	},
 	
 	initialize: function () {
 		this.callParent(arguments);
-		var me = this;
 		
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.SESSIONS,
@@ -45,16 +40,17 @@ Ext.define('ARSnova.view.speaker.SessionExportToFilePanel', {
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
 			handler: function () {
-				var withAnswerStatistics = me.exportAnswerToggle.getValue();
-				var withFeedbackQuestions = me.exportStudentsQuestionToggle.getValue();
-				ARSnova.app.getController("SessionExport").exportSessionsToFile(
-						me.getExportSessionMap(), withAnswerStatistics, withFeedbackQuestions);
+//				this.saveHandler().then(function (response) {
+//					ARSnova.app.getController('Questions').details({
+//						question: Ext.decode(response.responseText)
+//					});
+//				});
 			},
 			scope: this
 		});
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: Messages.EXPORT_SESSION_TITLE,
+			title: Messages.EXPORT_SESSION_TO_PUBLIC_TITLE,
 			docked: 'top',
 			ui: 'light',
 			items: [
@@ -64,24 +60,53 @@ Ext.define('ARSnova.view.speaker.SessionExportToFilePanel', {
 			]
 		});
 		
-		this.exportAnswerToggle = Ext.create('Ext.field.Toggle', {
-			label: Messages.ANSWERS_STATISTICS,
-			cls: 'rightAligned',
-			value: true
-		});
-		
-		this.exportStudentsQuestionToggle = Ext.create('Ext.field.Toggle', {
-			label: Messages.QUESTIONS_FROM_STUDENTS,
-			cls: 'rightAligned',
-			value: true
-		});
-		
 		this.exportOptions = Ext.create('Ext.form.FieldSet', {
 			text: Messages.EXPORT_MSG,
-			items: [
-		        this.exportAnswerToggle,
-		        this.exportStudentsQuestionToggle
-	        ]
+			items: [{
+				xtype: 'textfield',
+				name: 'name',
+				label: Messages.EXPORT_FIELD_NAME,
+//				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+				maxLength: 50,
+				clearIcon: true
+			}, {
+				xtype: 'textfield',
+				name: 'hs',
+				label: Messages.EXPORT_FIELD_UNI,
+//				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+				maxLength: 50,
+				clearIcon: true
+			}, {
+				xtype: 'textfield',
+				name: 'logo',
+				label: Messages.EXPORT_FIELD_LOGO,
+//				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+				maxLength: 50,
+				clearIcon: true
+			}, {
+				xtype: 'textfield',
+				name: 'subject',
+				label: Messages.EXPORT_FIELD_SUBJECT,
+//				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+				maxLength: 50,
+				clearIcon: true
+			}, {
+				xtype: 'textfield',
+				name: 'licence',
+				label: Messages.EXPORT_FIELD_LICENCE,
+//				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+				maxLength: 50,
+				clearIcon: true
+			}, {
+				xtype: 'textfield',
+				// TODO auf gültige Mail-Adresse prüfen
+				// vll gibt es da schon was von Sencha
+				name: 'email',
+				label: Messages.EXPORT_FIELD_EMAIL,
+//				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+				maxLength: 50,
+				clearIcon: true
+			}]
 		});
 		
 		this.mainPart = Ext.create('Ext.form.FormPanel', {

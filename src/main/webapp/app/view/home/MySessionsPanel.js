@@ -23,7 +23,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	           'ARSnova.view.Caption', 
 	           'ARSnova.view.home.SessionList', 
 	           'Ext.ux.Fileup',
-	           'ARSnova.view.speaker.SessionExportListPanel',
+	           'ARSnova.view.home.SessionExportListPanel',
 	           'ARSnova.controller.SessionImport'
 	],
 
@@ -122,7 +122,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			hidden: true,
 			handler: function () {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				this.exportSessionListPanel = Ext.create('ARSnova.view.speaker.SessionExportListPanel');
+				this.exportSessionListPanel = Ext.create('ARSnova.view.home.SessionExportListPanel');
 				hTP.animateActiveItem(hTP.mySessionsPanel, {
 					type: 'slide',
 					direction: 'left',
@@ -178,7 +178,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		});
 		
 		this.matrixButtonPanel = Ext.create('Ext.Panel', {
-			style: {marginTop: '20px'},
 			layout: {
 				type: 'hbox',
 				pack: 'center'
@@ -193,8 +192,8 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			this.toolbar,
 			this.newSessionButtonForm,
 			this.sessionsForm,
-			this.lastVisitedSessionsForm,
-			this.matrixButtonPanel
+			this.matrixButtonPanel,
+			this.lastVisitedSessionsForm
 		]);
 
 		this.onBefore('painted', function () {

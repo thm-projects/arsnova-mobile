@@ -273,7 +273,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 		var filename = exportData.session.name + ".json";
 		this.saveFileOnFileSystem(jsonData, filename);
 		
-		// TODO hide load mask
 		return jsonData;
 	},
 	
