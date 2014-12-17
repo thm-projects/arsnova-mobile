@@ -38,6 +38,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 //		this.test();
 		
 		// TODO show load mask
+		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
 		
 		// get export data for each session
 		for (var i = 0; i < exportSessionMap.length; i++) {
@@ -50,7 +51,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 			// wrapper function to define a namespace for each iteration of for loop
 			// otherwise the promises would overwrite the exportData on return and every iteration contains
 			// random data of itself and older iterations
-			(function(me, i, exportSessionMap, withAnswerStatistics, withFeedbackQuestions) {
+			(function(me, i, exportSessionMap, withAnswerStatistics, withFeedbackQuestions, hideLoadMask) {
 				
 				console.log('inside function');
 				
@@ -167,11 +168,14 @@ Ext.define("ARSnova.controller.SessionExport", {
 								me.writeExportDataToFile(exportData);
 							}
 							
+							// hide load mask after last iteration
+							if (i == exportSessionMap.length - 1) {
+								hideLoadMask();
+							}
 						});
 					})
 				
-			})(me, i, exportSessionMap, withAnswerStatistics, withFeedbackQuestions);
-			
+			})(me, i, exportSessionMap, withAnswerStatistics, withFeedbackQuestions, hideLoadMask);
 		}
 	},
 	
