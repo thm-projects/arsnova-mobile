@@ -135,8 +135,12 @@ Ext.define("ARSnova.controller.SessionExport", {
 							
 							if (withFeedbackQuestions) {
 								me.exportFeedbackQuestions(session.keyword)
-								.then(function(feedbackQuestions) {
+									.then(function(feedbackQuestions) {
 								
+										// set question type for export
+										for (var k = 0; k < feedbackQuestions.length; k++) {
+											feedbackQuestions[k]['type'] = 'interposed_question';
+										}
 										// set feedback questions in export data
 										exportData['feedbackQuestions'] = feedbackQuestions;
 										
