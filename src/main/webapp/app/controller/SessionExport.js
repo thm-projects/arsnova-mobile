@@ -35,9 +35,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 		console.log('exportSessionsToFile()');
 		var me = this;
 		
-//		this.test();
-		
-		// TODO show load mask
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_EXPORT);
 		
 		// get export data for each session
@@ -70,9 +67,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 				// otherwise export this session
 				var session = exportSessionMap[i][0];
 				session['type'] = 'session';
-				
-				// TODO collect missing session information like creator and type: "session"
-				// TODO type: session hardcoded
 				
 				// set session in exportData
 				exportData['session'] = session;
@@ -117,30 +111,20 @@ Ext.define("ARSnova.controller.SessionExport", {
 							return dfd.promise();
 						}
 						
-						var pendingQuestions = questions.length;
-						var i = 0;
+						var j = 0;
 						
 						promiseWhile(
 							function() {
 								console.log('checking condition');
-								console.log('i: ' + i);
+								console.log('j: ' + j);
 								console.log('length: ' + questions.length);
 								// condition for stopping while loop
-								return i < questions.length;
+								return j < questions.length;
 							},
 							function() {
-								console.log('action nr.: ' + i);
-								var question = questions[i++];
-//								console.log(question);
-//								i++;
-								return me.exportQuestionWithAnswerStatistics(session.keyword, question, withAnswerStatistics); /*.then(
-									function(question) {
-										// save updated question in exportData
-										exportData['questions'].push(question);
-									}, function(error) {
-										console.log(error);
-									}
-								);*/
+								console.log('action nr.: ' + j);
+								var question = questions[j++];
+								return me.exportQuestionWithAnswerStatistics(session.keyword, question, withAnswerStatistics);
 							},
 							function(question) {
 								console.log('result()');
