@@ -97,11 +97,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			}]
 		});
 
-		this.caption = Ext.create('ARSnova.view.Caption', {
-			cls: 'x-form-fieldset',
-			style: "border-radius: 15px"
-		});
-
 		this.sessionsForm = Ext.create('ARSnova.view.home.SessionList', {
 			style: 'margin:0 3px',
 			scrollable: null,
@@ -198,20 +193,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		]);
 
 		this.onBefore('painted', function () {
-			var me = this;
 			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
-				var handler = function success(sessions) {
-					me.caption.summarize(sessions);
-					me.add(me.caption);
-				};
-				var p1 = this.loadCreatedSessions();
-				var p2 = this.loadVisitedSessions();
-				// get the summary of all session lists
-				RSVP.all([p1, p2]).then(handler, function error() {
-					// errors swallow results, retest each promise seperately to figure out if one succeeded
-					p1.then(handler);
-					p2.then(handler);
-				});
+				this.loadCreatedSessions();
+				this.loadVisitedSessions();
 			}
 		});
 
@@ -234,14 +218,13 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 	loadCreatedSessions: function () {
 		var me = this;
-		var promise = new RSVP.Promise();
 
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
 		ARSnova.app.sessionModel.getMySessions({
 			success: function (response) {
 				var sessions = Ext.decode(response.responseText);
 				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.mySessionsPanel;
-				var caption = panel.caption;
+				var caption = Ext.create('ARSnova.view.Caption');
 
 				panel.sessionsForm.removeAll();
 				panel.sessionsForm.show();
@@ -292,41 +275,38 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					]);
 					panel.sessionsForm.addEntry(sessionButton);
 				}
+				caption.explainBadges(sessions);
+				caption.explainStatus(sessions);
 
+				panel.sessionsForm.addEntry(caption);
 				hideLoadMask();
-				promise.resolve(sessions);
 			},
 			empty: Ext.bind(function () {
 				hideLoadMask();
 				this.sessionsForm.hide();
 				me.exportButton.setHidden(true);	
-				promise.reject();
 			}, this),
 			unauthenticated: function () {
 				hideLoadMask();
 				ARSnova.app.getController('Auth').login({
 					mode: ARSnova.app.loginMode
 				});
-				promise.reject();
 			},
 			failure: function () {
 				hideLoadMask();
 				console.log("my sessions request failure");
-				promise.reject();
 			}
 		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
-		return promise;
 	},
 
 	loadVisitedSessions: function () {
 		var me = this;
 		var hideLoadingMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
-		var promise = new RSVP.Promise();
 
 		ARSnova.app.restProxy.getMyVisitedSessions({
 			success: function (sessions) {
 				var panel = me;
-				var caption = panel.caption;
+				var caption = Ext.create('ARSnova.view.Caption');
 
 				if (sessions && sessions.length !== 0) {
 					panel.lastVisitedSessionsForm.removeAll();
@@ -373,10 +353,11 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							panel.down('button[text=' + displaytext + ']').addCls("isInactive");
 						}
 					}
-					promise.resolve(sessions);
+					caption.explainBadges(sessions, { questions: false, answers: false, interposed: false, unanswered: true });
+					caption.explainStatus(sessions);
+					panel.lastVisitedSessionsForm.addEntry(caption);
 				} else {
 					panel.lastVisitedSessionsForm.hide();
-					promise.reject();
 				}
 				hideLoadingMask();
 			},
@@ -385,15 +366,12 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				ARSnova.app.getController('Auth').login({
 					mode: ARSnova.app.loginMode
 				});
-				promise.reject();
 			},
 			failure: function () {
 				hideLoadingMask();
 				console.log('server-side error loggedIn.save');
 				me.lastVisitedSessionsForm.hide();
-				promise.reject();
 			}
 		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
-		return promise;
 	}
 });

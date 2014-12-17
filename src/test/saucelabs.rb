@@ -44,15 +44,15 @@ driver.find_element(:id, "ext-button-16").click # 'Yes' in popup
 # Wait for log in...
 driver.wait_for_element(:id, "ext-button-7").click # Create new session
 # Create Session
-driver.find_element(:id, "ext-element-161").click # set focus to 'name' field
-driver.find_element(:id, "ext-element-161").clear
-driver.find_element(:id, "ext-element-161").send_keys "test"
-driver.find_element(:id, "ext-element-167").click # set focus to 'short name' field
-driver.find_element(:id, "ext-element-167").clear
-driver.find_element(:id, "ext-element-167").send_keys "test"
+driver.find_element(:id, "ext-element-172").click # set focus to 'name' field
+driver.find_element(:id, "ext-element-172").clear
+driver.find_element(:id, "ext-element-172").send_keys "test"
+driver.find_element(:id, "ext-element-178").click # set focus to 'short name' field
+driver.find_element(:id, "ext-element-178").clear
+driver.find_element(:id, "ext-element-178").send_keys "test"
 driver.find_element(:id, "ext-button-9").click # create session
 
-if not driver.wait_for_element(:id, "ext-element-291").text.include? "test" # short name displayed in titlebar?
+if not driver.wait_for_element(:id, "ext-element-296").text.include? "test" # short name displayed in titlebar?
     print "verifyTextPresent failed"
     passed = false
 end

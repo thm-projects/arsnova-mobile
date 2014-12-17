@@ -69,12 +69,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			}
 		});
 
-		var styling = {
-			marginLeft: '12px',
-			marginRight: '12px',
-			backgroundColor: 'transparent'
-		};
-
 		this.questionList = Ext.create('Ext.List', {
 			activeCls: 'search-item-active',
 			cls: 'roundedCorners allCapsHeader',
@@ -82,7 +76,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			scrollable: {disabled: true},
 			hidden: true,
 
-			style: styling,
+			style: {
+				backgroundColor: 'transparent'
+			},
 
 			itemCls: 'forwardListButton',
 			itemTpl: '<tpl if="active"><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
@@ -120,14 +116,15 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 		this.controls = Ext.create('Ext.form.FormPanel', {
 			cls: 'standardForm topPadding',
+			style: "margin: .5em",
 			scrollable: null
 		});
 
-		this.questionTitle = Ext.create('Ext.Label', {
-			html: Messages.QUESTIONS,
+		this.questionTitle = Ext.create('Ext.form.FieldSet', {
+			title: Messages.QUESTIONS,
 			style: {marginTop: '30px'},
-			cls: 'standardLabel',
-			hidden: true
+			hidden: true,
+			items: [this.questionList]
 		});
 
 		this.newQuestionButton = {
@@ -173,7 +170,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				active: Messages.OPEN_QUESTION,
 				inactive: Messages.CLOSED_QUESTION
 			},
-			style: styling,
+			cls: "x-form-fieldset",
+			style: "border-radius: 15px",
 			hidden: true
 		});
 		this.caption.connectToStore(this.questionStore);
@@ -227,7 +225,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				}, this);
 			}
 		});
-		
+
 		this.inClassActions = Ext.create('Ext.Panel', {
 			style: {marginTop: '20px'},
 			layout: {
@@ -259,7 +257,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			this.toolbar,
 			this.controls,
 			this.questionTitle,
-			this.questionList,
 			this.caption,
 			this.inClassActions
 		]);

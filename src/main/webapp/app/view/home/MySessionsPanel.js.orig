@@ -299,8 +299,11 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			empty: Ext.bind(function () {
 				hideLoadMask();
 				this.sessionsForm.hide();
+<<<<<<< HEAD
 				me.exportButton.setHidden(true);	
+=======
 				promise.reject();
+>>>>>>> 60df816aa29ab640c6fb1721ce6ad063ce225369
 			}, this),
 			unauthenticated: function () {
 				hideLoadMask();

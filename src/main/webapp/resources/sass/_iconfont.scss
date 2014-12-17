@@ -85,6 +85,12 @@
 	margin-bottom: -3.5px!important;
 }
 
+.x-tabbar .icon-users {
+	font-size: 18px;
+	top: -1.5px;
+	margin-bottom: 0px!important;
+}
+
 .x-tabbar .icon-lock {
 	font-size: 19px;
 	top: 1px;
@@ -94,14 +100,14 @@
 .voteIcons {
 	top: 2px;
 	font-size: 16px;
-	margin-bottom: 3px!important;
+	margin-bottom: 3.5px!important;
 }
 
 .x-tabbar .icon-questions,
 .x-tabbar .icon-home {
+	top: -1px;
 	font-size: 1.1em;
-	margin-bottom: -3px !important;
-	bottom: 1px;
+	margin-bottom: -3.5px !important;
 }
 
 .x-tabbar .icon-book {

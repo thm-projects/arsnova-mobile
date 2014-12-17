@@ -335,6 +335,7 @@ switch (lang) {
 			TEMPLATE:	"Template",
 			CONTINUE:	"Continue",
 			DOWNLOAD:	"Download",
+<<<<<<< HEAD
 			EXPORT_MSG: "What should be exported?",
 			EXPORT_SESSION_TITLE: "Session Export",
 			EXPORT_BUTTON_LABEL: "Export",
@@ -348,7 +349,10 @@ switch (lang) {
 			EXPORT_SELECTED_SESSIONS_TITLE : "Export selected sessions",
 			EXPORT_SELECTED_SESSIONS_MSG : "Where should the sessions be exported",
 			EXPORT_SESSION_INFORMATION: "The questions of selected sessions will be exported",
+			
+=======
 
+>>>>>>> 60df816aa29ab640c6fb1721ce6ad063ce225369
 			/* question types */
 			EVALUATION: "+-",
 			SCHOOL: "A-F",
@@ -728,6 +732,7 @@ switch (lang) {
 			TEMPLATE:	"Vorlage",
 			CONTINUE:	"Übernehmen",
 			DOWNLOAD:	"Herunterladen",
+<<<<<<< HEAD
 			EXPORT_MSG: "Was möchten Sie exportieren?",
 			EXPORT_SESSION_TITLE: "Session Export",
 			EXPORT_BUTTON_LABEL: "Exportieren",
@@ -741,7 +746,10 @@ switch (lang) {
 			EXPORT_SELECTED_SESSIONS_TITLE : "Ausgewählte Sessions exportieren",
 			EXPORT_SELECTED_SESSIONS_MSG : "Wohin möchten Sie die Sessions exportieren",
 			EXPORT_SESSION_INFORMATION: "Die Fragen der ausgewählten Sessions werden exportiert",
+			
+=======
 
+>>>>>>> 60df816aa29ab640c6fb1721ce6ad063ce225369
 			/* question types */
 			EVALUATION: "+-",
 			SCHOOL: "1-6",

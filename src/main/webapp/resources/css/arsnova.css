@@ -37,11 +37,18 @@
 }
 
 .myCoursesList .x-innerhtml{
-	padding: 0 !important;	
+	padding: 0 !important;
 }
 
 .myCoursesList .x-list-item {
 	border: none !important;
+}
+
+code {
+	white-space:pre;
+	white-space:pre-wrap;
+	word-break:break-all;
+	word-wrap:break-word;
 }
 
 .myCoursesList .x-list-item-first .x-button {
@@ -430,7 +437,7 @@ html,body {
 
 .iconBtn .x-toggle-field {
 	background: transparent;
-	font-size: 0.65em;	
+	font-size: 0.65em;
 }
 
 .iconBtn .x-toggle-field .x-container {
@@ -539,12 +546,13 @@ html,body {
 	background: white no-repeat;
 	background-position: 100%;
 	border-radius: 0;
-	height: 45px !important;
 	border-color: lightgray;
 	border-width: thin;
 }
 
-
+.standardListButton {
+	height: 45px !important;
+}
 
 .standardListButton>span,
 .forwardListButton>span {
@@ -781,7 +789,6 @@ html,body {
 	padding: 10px;
 	border-radius: 10px;
 	background-color: white;
-	font-weight: bold;
 }
 
 .fontNormal {
@@ -1249,6 +1256,12 @@ ol.standardList li {
 
 .questionStatisticTitle .x-innerhtml {
 	font-weight: normal !important;
+	color: white;
+	font-size: 1.2em;
+}
+
+.questionStatisticTitle .x-innerhtml p {
+	margin: 0;
 }
 
 .feedbackStatisticButton {

@@ -19,13 +19,7 @@
 Ext.define('ARSnova.view.home.MySessionsPanel', {
 	extend: 'Ext.Panel',
 
-	requires: [
-	           'ARSnova.view.Caption', 
-	           'ARSnova.view.home.SessionList', 
-	           'Ext.ux.Fileup',
-	           'ARSnova.view.speaker.SessionExportListPanel',
-	           'ARSnova.controller.SessionImport'
-	],
+	requires: ['ARSnova.view.Caption', 'ARSnova.view.home.SessionList'],
 
 	config: {
 		fullscreen: true,
@@ -44,8 +38,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
-		
-		var me = this;
 
 		this.logoutButton = Ext.create('Ext.Button', {
 			text: Messages.LOGOUT,
@@ -113,88 +105,12 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			scrollable: null,
 			title: Messages.LAST_VISITED_SESSIONS
 		});
-		
-		this.exportButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: 'Export', //Hier in internationalization hinzufuegen
-			buttonConfig: 'icon',
-			imageCls: 'icon-cloud-download ',
-			scope: this,
-			hidden: true,
-			handler: function () {
-				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				this.exportSessionListPanel = Ext.create('ARSnova.view.speaker.SessionExportListPanel');
-				hTP.animateActiveItem(hTP.mySessionsPanel, {
-					type: 'slide',
-					direction: 'left',
-					duration: 700
-				});
-				hTP.setActiveItem(this.exportSessionListPanel);
-			}
-		});
-		
-		this.importButtonClickable = Ext.create('Ext.ux.Fileup', {
-			xtype: 'fileupload',
-			autoUpload: true,
-			loadAsDataUrl: true,
-			baseCls: 'button',
-			style: 'background: transparent;position:absolute; width:100%; height: 100%; z-index: 100;border: none !important;font-size:0;',
-			states: {
-				browse: {
-					text: "Suchen"
-				},
-				ready: {
-					text: Messages.LOAD
-				},
-				uploading: {
-					text: Messages.LOADING,
-					loading: true
-				}
-			},
-			listeners: {
-				scope: this,
-				loadsuccess: function (data) {
-					var n = data.indexOf("base64,");
-					data = atob(data.substring(n+7)); // remove disturbing prefix
-					var hideLoadMask = ARSnova.app.showLoadMask(Messages.IMP_LOADMSK);
-					var ctrl = ARSnova.app.getController("SessionImport").importSession(JSON.parse(data));
-					me.loadCreatedSessions();
-					hideLoadMask();
-				},
-				loadfailure: function (message) {}
-			}
-		});
-		this.importButtonClickable.fileElement.dom.accept = ""; // enable all kinds of data for file input
-		
-		this.importButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.IMP_BUTTON_IMPORT,
-			buttonConfig: 'icon',
-			imageCls: 'icon-cloud-upload ',
-
-			scope: this,
-		});
-		
-		this.importButtonPanel = Ext.create('Ext.Panel', {
-			items: [this.importButtonClickable, this.importButton]
-		});
-		
-		this.matrixButtonPanel = Ext.create('Ext.Panel', {
-			style: {marginTop: '20px'},
-			layout: {
-				type: 'hbox',
-				pack: 'center'
-			},
-			items: [
-				this.exportButton,
-				this.importButtonPanel
-			]
-		});
 
 		this.add([
 			this.toolbar,
 			this.newSessionButtonForm,
 			this.sessionsForm,
-			this.lastVisitedSessionsForm,
-			this.matrixButtonPanel
+			this.lastVisitedSessionsForm
 		]);
 
 		this.onBefore('painted', function () {
@@ -216,7 +132,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		});
 
 		this.on('activate', function () {
-
 			switch (ARSnova.app.userRole) {
 				case ARSnova.app.USER_ROLE_SPEAKER:
 					this.backButton.hide();
@@ -245,14 +160,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 				panel.sessionsForm.removeAll();
 				panel.sessionsForm.show();
-				
-				if(sessions.length > 0){
-					me.exportButton.setHidden(false);
-				}
-								
+
 				var session;
 				for (var i = 0, session; session = sessions[i]; i++) {
-					
 					var status = "";
 					var course = "icon-radar";
 
@@ -273,8 +183,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						cls: 'forwardListButton' + status,
 						sessionObj: session,
 						handler: function (options) {
-							console.log(options.config.sessionObj);
-							console.log("Test");
 							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
 							ARSnova.app.getController('Auth').roleSelect({
 								mode: ARSnova.app.USER_ROLE_SPEAKER
@@ -299,7 +207,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			empty: Ext.bind(function () {
 				hideLoadMask();
 				this.sessionsForm.hide();
-				me.exportButton.setHidden(true);	
 				promise.reject();
 			}, this),
 			unauthenticated: function () {
