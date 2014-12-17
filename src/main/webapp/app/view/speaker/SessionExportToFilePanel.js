@@ -48,7 +48,7 @@ Ext.define('ARSnova.view.speaker.SessionExportToFilePanel', {
 				console.log(me.getExportSessionMap());
 				var withAnswerStatistics = me.exportAnswerToggle.getValue();
 				// TODO correct toggles
-				var withFeedbackQuestions = me.exportStatisticToggle.getValue();
+				var withFeedbackQuestions = me.exportStudentsQuestionToggle.getValue();
 				ARSnova.app.getController("SessionExport").exportSessionsToFile(
 						me.getExportSessionMap(), withAnswerStatistics, withFeedbackQuestions);
 			},
@@ -72,12 +72,6 @@ Ext.define('ARSnova.view.speaker.SessionExportToFilePanel', {
 			value: true
 		});
 		
-		this.exportStatisticToggle = Ext.create('Ext.field.Toggle', {
-			label: Messages.LEARNING_STATUS,
-			cls: 'rightAligned',
-			value: true
-		});
-		
 		this.exportStudentsQuestionToggle = Ext.create('Ext.field.Toggle', {
 			label: Messages.QUESTIONS_FROM_STUDENTS,
 			cls: 'rightAligned',
@@ -88,8 +82,7 @@ Ext.define('ARSnova.view.speaker.SessionExportToFilePanel', {
 			text: Messages.EXPORT_MSG,
 			items: [
 		        this.exportAnswerToggle,
-		        this.exportStudentsQuestionToggle,
-		        this.exportStatisticToggle
+		        this.exportStudentsQuestionToggle
 	        ]
 		});
 		

@@ -280,9 +280,9 @@ Ext.define("ARSnova.controller.SessionExport", {
 		// TODO metadata field
 		var jsonData = JSON.stringify({exportData: exportData});
 		
-		this.saveFileOnFileSystem(jsonData,"export.json");
-		
 		console.log(jsonData);
+		
+		this.saveFileOnFileSystem(jsonData,"export.json");
 		
 		// TODO hide load mask
 		return jsonData;
