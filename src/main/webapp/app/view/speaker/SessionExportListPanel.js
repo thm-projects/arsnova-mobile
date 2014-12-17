@@ -57,28 +57,10 @@ Ext.define('ARSnova.view.speaker.SessionExportListPanel', {
 			ui: 'confirm',
 			handler: function () {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-					
-				Ext.apply(me.msgBox, {
-					YESNO: [
-					        { text: 'Dateisystem', itemId: 'yes', ui: 'action' }, 
-					        { text: 'Public Pool', itemId: 'no'}]//, ui: 'action' }]
-				});
-				
-				me.msgBox.show({
-					title: Messages.EXPORT_SELECTED_SESSIONS_TITLE,
-					message: Messages.EXPORT_SELECTED_SESSIONS_MSG,
-					buttons: me.msgBox.YESNO,
-					fn: function(btn) {
-					    if (btn === 'yes') {
-					    	var questionExportToFile = Ext.create('ARSnova.view.speaker.SessionExportToFilePanel', {
-					    		exportSessionMap: me.sessionMap
-					    	});
-					    	hTP.animateActiveItem(questionExportToFile, 'slide');
-					    }  else {
-					    	hTP.animateActiveItem(me.questionExportToPublic, 'slide');
-					    }
-					}
-				});
+				var questionExportToFile = Ext.create('ARSnova.view.speaker.SessionExportToFilePanel', {
+		    		exportSessionMap: me.sessionMap
+		    	});
+		    	hTP.animateActiveItem(questionExportToFile, 'slide');
 			}
 		});
 		

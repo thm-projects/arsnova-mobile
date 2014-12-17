@@ -109,8 +109,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			title: Messages.LAST_VISITED_SESSIONS
 		});
 		
-		this.publicPoolPanel = Ext.create('ARSnova.view.home.PublicPoolPanel');
-		
 		this.exportButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: 'Export', //Hier in internationalization hinzufuegen
 			buttonConfig: 'icon',
@@ -174,21 +172,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			items: [this.importButtonClickable, this.importButton]
 		});
 		
-		this.publicPoolButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: 'Pool', //Hier in internationalization hinzufuegen
-			buttonConfig: 'icon',
-			imageCls: 'icon-cloud thm-green',
-			scope: this,
-			handler: function() {
-				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				hTP.animateActiveItem(me.publicPoolPanel, {
-					type: 'slide',
-					direction: 'left',
-					duration: 700
-				});
-			}
-		});
-		
 		this.matrixButtonPanel = Ext.create('Ext.Panel', {
 			style: {marginTop: '20px'},
 			layout: {
@@ -197,8 +180,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			},
 			items: [
 				this.exportButton,
-				this.importButtonPanel,
-				this.publicPoolButton
+				this.importButtonPanel
 			]
 		});
 
@@ -391,10 +373,5 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				me.lastVisitedSessionsForm.hide();
 			}
 		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
-	},
-	
-	showPublicPool: function() {
-		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-		hTP.animateActiveItem(this.publicPoolPanel, 'slide');
 	}
 });
