@@ -68,6 +68,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 				
 				// otherwise export this session
 				var session = exportSessionMap[i][0];
+				session['type'] = 'session';
 				
 				// TODO collect missing session information like creator and type: "session"
 				// TODO type: session hardcoded
