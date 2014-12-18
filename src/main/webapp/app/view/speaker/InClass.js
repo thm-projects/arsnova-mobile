@@ -115,7 +115,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		});
 
 		this.preparationQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			text: Messages.PREPARATION_QUESTIONS,
+			text: Messages.PREPARATION_QUESTIONS_LONG,
 			cls: 'forwardListButton',
 			controller: 'PreparationQuestions',
 			action: 'listQuestions',
@@ -123,7 +123,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		});
 
 		this.lectureQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			text: Messages.LECTURE_QUESTIONS,
+			text: Messages.LECTURE_QUESTIONS_LONG,
 			cls: 'forwardListButton',
 			controller: 'Questions',
 			action: 'listQuestions',
