@@ -36,12 +36,18 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
+		
+		this.on('painted', function() {
+			// save last panel for backButton handler
+			this.lastActivePanel = ARSnova.app.lastActivePanel;
+		});
 
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
 			ui: 'back',
+			scope: this,
 			handler: function () {
-				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.lastActivePanel, {
+				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(this.lastActivePanel, {
 					type: 'slide',
 					direction: 'right',
 					duration: 700
