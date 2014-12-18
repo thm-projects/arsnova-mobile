@@ -360,7 +360,7 @@ switch (lang) {
 			EVALUATION_MINUSMINUS: "strongly disagree",
 
 			/* about */
-			INFO: "Info",
+			INFO: "Manual",
 			ABOUT: "About",
 			IMPRINT: "Imprint",
 			PRIVACY: "Privacy Policy",
@@ -730,7 +730,7 @@ switch (lang) {
 			EVALUATION_MINUSMINUS: "trifft nicht zu",
 
 			/* about */
-			INFO: "Info",
+			INFO: "Handbuch",
 			ABOUT: "Über",
 			IMPRINT: "Impressum",
 			PRIVACY: "Datenschutz",
