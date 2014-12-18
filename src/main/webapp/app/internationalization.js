@@ -47,6 +47,8 @@ switch (lang) {
 	case 'en':case 'en-en':case 'en-us':case 'en-gb':
 		moment.lang('en');
 		Messages = {
+			LOCALSTORAGE_NOT_AVAILABLE_TITLE: "Privacy Mode",
+			LOCALSTORAGE_NOT_AVAILABLE_TEXT: "You are in Privacy Mode.\nPlease deactivate Privacy Mode and then reload the page.",
 			BROWSER_NOT_SUPPORTED_MESSAGE: "Please use one of the following officially supported browsers: ###.",
 			UPDATE_BROWSER_MESSAGE: "Please update your ### browser in order to use ARSnova.",
 			FEATURE_COMING_SOON: "This feature will be available soon.",
@@ -418,6 +420,8 @@ switch (lang) {
 	default:
 		moment.lang('de');
 		Messages = {
+			LOCALSTORAGE_NOT_AVAILABLE_TITLE: "Privater Modus",
+			LOCALSTORAGE_NOT_AVAILABLE_TEXT: "Sie befinden sich im privaten Modus. Bitte den Modus deaktiveren und die Seite neu laden.",
 			BROWSER_NOT_SUPPORTED_MESSAGE: "Bitte verwenden Sie einen der folgenden Browser für ARSnova: ###.",
 			UPDATE_BROWSER_MESSAGE: "Bitte aktualisieren Sie Ihren ###-Browser, um ARSnova verwenden zu können.",
 			FEATURE_COMING_SOON: "Feature kommt in Kürze.",
