@@ -337,9 +337,9 @@ Ext.define('ARSnova.view.speaker.InClass', {
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 
 						panel.lectureQuestionButton.setBadge([
-											{badgeText: numQuestions, badgeCls: "questionsBadgeIcon"},
-											{badgeText: numAnswers, badgeCls: "answersBadgeIcon"}
-										]);
+							{badgeText: numQuestions, badgeCls: "questionsBadgeIcon"},
+							{badgeText: numAnswers, badgeCls: "answersBadgeIcon"}
+						]);
 					},
 					failure: failureCallback
 				});
@@ -356,9 +356,9 @@ Ext.define('ARSnova.view.speaker.InClass', {
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 
 						panel.preparationQuestionButton.setBadge([
-											{badgeText: numQuestions, badgeCls: "questionsBadgeIcon"},
-											{badgeText: numAnswers, badgeCls: "answersBadgeIcon"}
-										]);
+							{badgeText: numQuestions, badgeCls: "questionsBadgeIcon"},
+							{badgeText: numAnswers, badgeCls: "answersBadgeIcon"}
+						]);
 					},
 					failure: failureCallback
 				});
