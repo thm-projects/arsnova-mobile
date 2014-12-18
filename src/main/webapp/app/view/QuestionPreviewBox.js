@@ -80,7 +80,12 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		this.mainPanel = Ext.create('Ext.Container', {
 			layout: 'vbox',
 			style: 'margin-bottom: 10px;',
-			styleHtmlContent: true
+			styleHtmlContent: true,
+			items: [
+				this.titlePanel,
+				this.contentPanel,
+				this.confirmButton
+			]
 		});
 		
 		// remove padding around mainPanel
@@ -92,12 +97,6 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 	showPreview: function (title, content) {		
 		this.titlePanel.setContent(title.replace(/\./, "\\."), false, true);
 		this.contentPanel.setContent(content, true, true);
-		
-		this.mainPanel.add([
-			this.titlePanel,
-			this.contentPanel,
-			this.confirmButton
-		]);
 		
 		this.add([
 			this.toolbar,

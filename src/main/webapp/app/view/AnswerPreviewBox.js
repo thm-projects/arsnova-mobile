@@ -75,7 +75,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		
 		// answer preview box content panel
 		this.mainPanel = Ext.create('Ext.Container', {
-			id: 'mainPanel',
+			itemId: 'mainPanel',
 			layout: 'vbox',
 			style: 'margin-bottom: 10px;',
 			styleHtmlContent: true
