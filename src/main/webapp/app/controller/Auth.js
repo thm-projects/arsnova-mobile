@@ -107,15 +107,9 @@ Ext.define("ARSnova.controller.Auth", {
 				});
 				var guest;
 
-				if (credibleLogins.length > 0) {
-					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(
-						ARSnova.app.mainTabPanel.tabPanel.loginPanel, 'slide'
-					);
-				} else if (guestLogin.length > 0) {
+				if (credibleLogins.length == 0 && guestLogin.length > 0) {
 					this.login({ service: guestLogin[0] });
 				} else {
-					// this case should never happen ... but just in case:
-					// display login panel if no suitable logins are found
 					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(
 						ARSnova.app.mainTabPanel.tabPanel.loginPanel, 'slide'
 					);
