@@ -62,7 +62,6 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			items: [
 				Ext.create('Ext.Button', {
 					text: Messages.QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE,
-					id: 'confirmButton',
 					ui: 'confirm',
 					style: 'width: 80%; maxWidth: 250px; margin-top: 10px;',
 					scope: this,
@@ -75,7 +74,6 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		
 		// answer preview box content panel
 		this.mainPanel = Ext.create('Ext.Container', {
-			itemId: 'mainPanel',
 			layout: 'vbox',
 			style: 'margin-bottom: 10px;',
 			styleHtmlContent: true

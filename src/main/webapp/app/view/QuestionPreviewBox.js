@@ -47,13 +47,11 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		
 		// panel for question subject
 		this.titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			id: 'questionTitle',
 			style: 'min-height: 50px'
 		});
 		
 		// panel for question content
-		this.contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			id: 'questionContent',
+		this.contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', { 
 			style: 'min-height: 150px'
 		});
 		
