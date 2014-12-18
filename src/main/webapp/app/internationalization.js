@@ -421,7 +421,7 @@ switch (lang) {
 		moment.lang('de');
 		Messages = {
 			LOCALSTORAGE_NOT_AVAILABLE_TITLE: "Privater Modus",
-			LOCALSTORAGE_NOT_AVAILABLE_TEXT: "Sie befinden sich im privaten Modus. Bitte den Modus deaktiveren und die Seite neu laden.",
+			LOCALSTORAGE_NOT_AVAILABLE_TEXT: "Sie befinden sich im privaten Modus. Bitte den Modus deaktiveren und die Seite erneut laden.",
 			BROWSER_NOT_SUPPORTED_MESSAGE: "Bitte verwenden Sie einen der folgenden Browser für ARSnova: ###.",
 			UPDATE_BROWSER_MESSAGE: "Bitte aktualisieren Sie Ihren ###-Browser, um ARSnova verwenden zu können.",
 			FEATURE_COMING_SOON: "Feature kommt in Kürze.",
