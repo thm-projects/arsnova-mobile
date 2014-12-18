@@ -351,6 +351,7 @@ Ext.define('ARSnova.view.user.InClass', {
 						}, function closePanelHandler() {
 							ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
 								type: 'slide',
+								direction: 'right',
 								duration: 700
 							});
 						});

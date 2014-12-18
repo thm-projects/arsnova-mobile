@@ -187,7 +187,8 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					}, function closePanelHandler() {
 						ARSnova.app.getController('Questions').listFeedbackQuestions({
 							type: 'slide',
-							direction: 'right'
+							direction: 'right',
+							duration: 700
 						});
 					});
 				}
