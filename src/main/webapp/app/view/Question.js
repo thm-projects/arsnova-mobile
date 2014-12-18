@@ -414,7 +414,7 @@ Ext.define('ARSnova.view.Question', {
 				});
 			} else {
 				this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
-					id: 'gridImageContainer' + this.questionObj._id,
+					id: 'gridImageContainer' + this.questionObj._id
 				});
 			}
 
@@ -477,7 +477,7 @@ Ext.define('ARSnova.view.Question', {
 			        items:[{
 			        	xtype: 'label',
 						id: 'remainingDotsLabel' + this.getId(),
-						html: Messages.GRID_LABEL_REMAINING_DOTS + this.grid.getNumberOfDots(),
+						html: Messages.GRID_LABEL_REMAINING_DOTS + this.grid.getNumberOfDots()
 			        }]
 				});
 

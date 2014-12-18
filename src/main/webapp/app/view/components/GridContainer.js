@@ -976,5 +976,5 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		result.noCorrect = this.getChosenFields().length > 0 ? 0 : 1; // TODO: Check if really needed (and why numbers instead of bool)
 		
 		return result;
-	},
+	}
 });

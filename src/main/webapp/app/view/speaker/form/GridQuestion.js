@@ -469,7 +469,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						itemId: 'fs_imagesettings',
 						title: Messages.SETTINGS,
 						items: [
-							this.numberOfDotsSpinner,
+							this.numberOfDotsSpinner
 						]
 					}]
 				})
@@ -479,7 +479,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				itemId: 'imageArea',
 				layout:{
 					type: 'vbox',
-					align: 'stretch',
+					align: 'stretch'
 				},
 				items: [
 				    this.grid,

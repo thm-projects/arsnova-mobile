@@ -172,5 +172,5 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	
 	adoptTemplate: function(grid) {
 		Ext.bind(this.getTemplateHandler(), this.getHandlerScope())(grid);
-	},
+	}
 });
