@@ -200,6 +200,7 @@ switch (lang) {
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
 			QUESTIONS_FROM_STUDENTS: "Students' questions",
 			PREPARATION_QUESTIONS: "Prep questions",
+			PREPARATION_QUESTIONS_LONG: "Preparation Questions",
 			PREPARATION_QUESTION_SHORT: "Prep Question",
 			PREPARATION_QUESTION_LONG: "Preparation Question",
 			LECTURE_QUESTIONS: "Lecture",
