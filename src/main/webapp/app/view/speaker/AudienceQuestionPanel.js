@@ -121,7 +121,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		});
 
 		this.questionTitle = Ext.create('Ext.form.FieldSet', {
-			title: Messages.QUESTIONS,
+			title: Messages.QUESTION_MANAGEMENT,
 			style: {marginTop: '30px'},
 			hidden: true,
 			items: [this.questionList]
