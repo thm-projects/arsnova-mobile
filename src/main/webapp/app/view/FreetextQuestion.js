@@ -112,6 +112,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 						}, !!!this.questionObj.abstention ? {hidden: true}: {
 							flex: 1,
 							xtype: 'button',
+							ui: 'action',
 							cls: 'login-button noMargin',
 							text: Messages.ABSTENTION,
 							handler: this.abstentionHandler,
