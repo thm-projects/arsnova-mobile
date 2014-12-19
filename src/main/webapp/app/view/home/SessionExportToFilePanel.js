@@ -84,11 +84,39 @@ Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
 	        ]
 		});
 		
+		this.contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			xtype: 'mathJaxMarkDownPanel',
+			id: 'questionContent',
+			style: 'background-color: transparent; color: black; '
+		});
+		this.contentPanel.setContent(Messages.EXPORT_SESSION_INFORMATION, true, true);	 
+		
+		// panel for question subject
+		this.titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			xtype: 'mathJaxMarkDownPanel',
+			id: 'questionTitle',
+			style: 'background-color: transparent; padding: 0;font-weight: bold; font-size: 1.4em;'
+		});
+		this.titlePanel.setContent(Messages.NOTIFICATION, false, true);	
+		
+		this.singleTemplatePanel = Ext.create('Ext.Panel',{	
+			
+			layout:	{
+				type: 'vbox',
+				pack: 'center',
+				align: 'center' 
+			},
+			 items:[ this.titlePanel,
+			         this.contentPanel
+			      ]
+		});
+		
 		this.mainPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
 			scrollable: null,
 
 			items: [
+			    this.singleTemplatePanel,
 		        this.exportOptions
 	        ]
 		});
