@@ -99,7 +99,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 				this.answerComponents[i] = Ext.create('ARSnova.view.TextCheckfield', {
 					id: theComponentId,
 					name: theComponentId,
-					placeHolder: Messages.ANSWER,
+					placeHolder: Messages.ENTER_ANSWER_OPTION + " " + (i+1),
 					hidden: this.getStart() <= i,
 					container: this,
 					listeners: {
