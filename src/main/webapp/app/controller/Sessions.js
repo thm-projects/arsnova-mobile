@@ -263,6 +263,10 @@ Ext.define("ARSnova.controller.Sessions", {
 			validation.items.forEach(function (el) {
 				panel.down('textfield[name=' + el.getField() + ']').addCls("required");
 			});
+			
+			/* activate submitButton in newSessionPanel */
+			options.submitButton.enable();
+			
 			return;
 		}
 
@@ -286,13 +290,18 @@ Ext.define("ARSnova.controller.Sessions", {
 				/* deactivate several tab panels */
 				ARSnova.app.mainTabPanel.tabPanel.deactivateAboutTabs();
 				
+				/* activate submitButton in newSessionPanel */
+				options.submitButton.enable();
+				
 				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 				panel.setActiveItem(panel.mySessionsPanel);
-
+				
 				ARSnova.app.getController('Sessions').reloadData();
+				
 			},
 			failure: function (records, operation) {
 				Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
+				options.submitButton.enable();
 			}
 		});
 	},

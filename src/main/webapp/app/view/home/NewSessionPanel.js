@@ -146,12 +146,14 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		}, this);
 	},
 
-	onSubmit: function () {
+	onSubmit: function (button) {
+		button.disable();
 		var values = this.up('panel').getValues();
 
 		ARSnova.app.getController('Sessions').create({
 			name: values.name,
-			shortName: values.shortName
+			shortName: values.shortName,
+			submitButton: button
 		});
 	},
 
