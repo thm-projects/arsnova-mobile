@@ -25,7 +25,8 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
-		}
+		},
+		error: true
 	},
 	
 	initialize: function () {
@@ -56,18 +57,22 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 			text: Messages.EXPORT_BUTTON_LABEL,
 			ui: 'confirm',
 			handler: function () {
-				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				var questionExportToFile = Ext.create('ARSnova.view.home.SessionExportToFilePanel', {
-		    		exportSessionMap: me.sessionMap,
-		    		backButtonHandler: this
-		    	});
-		    	hTP.animateActiveItem(questionExportToFile, 'slide');
+				if(me.getError()){
+					Ext.Msg.alert('Hinweis', 'Ihre Eingaben sind unvollständig');
+				}else{
+					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+					var questionExportToFile = Ext.create('ARSnova.view.home.SessionExportToFilePanel', {
+			    		exportSessionMap: me.sessionMap,
+			    		backButtonHandler: me
+			    	});
+			    	hTP.animateActiveItem(questionExportToFile, 'slide');
+					}
 			}
 		});
 		
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: Messages.SESSIONS,	// evtl. anderer Title
+			title: Messages.SESSIONS,	
 			docked: 'top',
 			ui: 'light',
 			items: [
@@ -131,12 +136,14 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 				            if (newValue == 0) { // true
 				                // Changing from off to on...do something?
 				            	console.log('on');
+				            	me.setError(false);
 				            	var id = slider.id.split('_')[1];
 				            	me.sessionMap[id][1] = true;
 				            	console.log(me.sessionMap);
 				            } else if (newValue == 1) { // false
 			            	   // Changing from on to off...do something?
 				            	console.log('off');
+				            	me.setError(true);
 				            	var id = slider.id.split('_')[1];
 				            	me.sessionMap[id][1] = false;
 				            	console.log(me.sessionMap);
