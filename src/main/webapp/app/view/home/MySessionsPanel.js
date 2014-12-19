@@ -164,7 +164,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				var session;
 				for (var i = 0, session; session = sessions[i]; i++) {
 					var status = "";
-					var course = "icon-radar";
+					var course = "icon-presenter";
 
 					if (!session.active) {
 						status = " isInactive";
