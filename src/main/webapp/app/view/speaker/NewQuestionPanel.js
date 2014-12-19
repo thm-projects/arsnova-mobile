@@ -77,8 +77,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			ui: 'confirm',
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
-			handler: function () {
-				this.saveHandler().then(function (response) {
+			handler: function (button) {
+				this.saveHandler(button).then(function (response) {
 					ARSnova.app.getController('Questions').details({
 						question: Ext.decode(response.responseText)
 					});
@@ -330,8 +330,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			cls: 'saveQuestionButton',
 			style: 'margin-top: 30px',
 			text: Messages.SAVE,
-			handler: function () {
-				me.saveHandler().then(function (response) {
+			handler: function (button) {
+				me.saveHandler(button).then(function (response) {
 					ARSnova.app.getController('Questions').details({
 						question: Ext.decode(response.responseText)
 					});
@@ -345,8 +345,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			cls: 'saveQuestionButton',
 			style: 'margin-top: 30px',
 			text: Messages.SAVE_AND_CONTINUE,
-			handler: function () {
-				me.saveHandler().then(function () {
+			handler: function (button) {
+				me.saveHandler(button).then(function () {
 					var theNotificationBox = {};
 					theNotificationBox = Ext.create('Ext.Panel', {
 						cls: 'notificationBox',
@@ -433,7 +433,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		questionPreview.showPreview(this.subject.getValue(), this.textarea.getValue());
 	},
 
-	saveHandler: function () {
+	saveHandler: function (button) {
+		/* disable save button in order to avoid multiple question creation */
+		button.disable();
+		
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
 		var values = {};
 		console.log("SAVE HANDLER");
@@ -498,7 +501,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				break;
 		}
 
-		var promise = panel.dispatch(values);
+		var promise = panel.dispatch(values, button);
 		promise.then(function () {
 			panel.subject.reset();
 			panel.textarea.reset();
@@ -516,7 +519,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		return promise;
 	},
 
-	dispatch: function (values) {
+	dispatch: function (values, button) {
 		var promise = new RSVP.Promise();
 		ARSnova.app.getController('Questions').add({
 			sessionKeyword: localStorage.getItem('keyword'),
@@ -554,12 +557,15 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			gridType: values.gridType,
 			scaleFactor: values.scaleFactor,
 			gridScaleFactor: values.gridScaleFactor,
+			saveButton: button,
 			successFunc: function (response, opts) {
 				promise.resolve(response);
+				button.enable();
 			},
 			failureFunc: function (response, opts) {
 				Ext.Msg.alert(Messages.NOTICE, Messages.QUESTION_CREATION_ERROR);
 				promise.reject(response);
+				button.enable();
 			}
 		});
 		return promise;
