@@ -19,7 +19,8 @@ Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
 	extend: 'Ext.Panel',
 	
 	config: {
-		exportSessionMap: null
+		exportSessionMap: null,
+		backButtonHandler: null
 	},
 	
 	initialize: function () {
@@ -27,15 +28,17 @@ Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
 		var me = this;
 		
 		this.backButton = Ext.create('Ext.Button', {
-			text: Messages.SESSIONS,
+			text: Messages.BACK,
 			ui: 'back',
 			handler: function () {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				hTP.animateActiveItem(hTP.mySessionsPanel, {
+				this.exportSessionListPanel = Ext.create('ARSnova.view.home.SessionExportListPanel');
+				hTP.animateActiveItem(hTP.exportSessionListPanel, {
 					type: 'slide',
 					direction: 'right',
 					duration: 700
 				});
+				hTP.setActiveItem(this.getBackButtonHandler);
 			}
 		});
 

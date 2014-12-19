@@ -58,7 +58,8 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 			handler: function () {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 				var questionExportToFile = Ext.create('ARSnova.view.home.SessionExportToFilePanel', {
-		    		exportSessionMap: me.sessionMap
+		    		exportSessionMap: me.sessionMap,
+		    		backButtonHandler: this
 		    	});
 		    	hTP.animateActiveItem(questionExportToFile, 'slide');
 			}
