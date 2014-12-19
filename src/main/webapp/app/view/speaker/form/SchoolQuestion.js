@@ -55,7 +55,7 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 
 		this.add([{
 			xtype: 'fieldset',
-			title: Messages.ANSWERS,
+			title: Messages.ANSWER_OPTIONS,
 			items: this.fields
 		}, previewButton]);
 	},

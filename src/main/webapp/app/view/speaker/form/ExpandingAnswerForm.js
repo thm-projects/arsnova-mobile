@@ -69,7 +69,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		});
 
 		var answerFieldset = Ext.create('Ext.form.FieldSet', {
-			title: Messages.ANSWERS,
+			title: Messages.ANSWER_OPTIONS,
 			items: [this.selectAnswerCount]
 		});
 
