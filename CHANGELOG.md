@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.1
+This is a security and bug fix release. It introduces the following changes:
+* HTML code is always filtered for skill questions
+* MathJax's safe mode is enabled
+* Line breaks are displayed even if Markdown is disabled
+* The Presenter button uses the path from configuration and is hidden for
+  guests
+
 ## 2.0
 ARSnova 2.0 has been in development for more than two years. Further releases
 can be expected much more frequently.
