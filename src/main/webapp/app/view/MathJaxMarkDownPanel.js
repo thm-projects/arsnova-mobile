@@ -66,8 +66,12 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 				// directly convert Markdown if MathJax is disabled
 				content = markdown.toHTML(content);
 			}
+		} else {
+			content = Ext.util.Format.htmlEncode(content);
+			content = content.replace(/\n/g, "<br />");
 		}
 		this.setHtml(content);
+
 		var callback = mathjaxCallback || Ext.emptyFn;
 		if (mathJaxEnabled && features.mathJax && "undefined" !== typeof MathJax) {
 			// MathJax is enabled and content will be converted
