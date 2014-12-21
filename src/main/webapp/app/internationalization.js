@@ -348,7 +348,8 @@ switch (lang) {
 			EXPORT_SELECTED_SESSIONS_TITLE : "Export selected sessions",
 			EXPORT_SELECTED_SESSIONS_MSG : "Where should the sessions be exported",
 			EXPORT_SESSION_INFORMATION: "The questions of selected sessions will be exported",
-
+			EXPORT_NOTIFICATION:	"There was no session selected",
+			
 			/* question types */
 			EVALUATION: "+-",
 			SCHOOL: "A-F",
@@ -741,7 +742,8 @@ switch (lang) {
 			EXPORT_SELECTED_SESSIONS_TITLE : "Ausgewählte Sessions exportieren",
 			EXPORT_SELECTED_SESSIONS_MSG : "Wohin möchten Sie die Sessions exportieren",
 			EXPORT_SESSION_INFORMATION: "Die Fragen der ausgewählten Sessions werden exportiert",
-
+			EXPORT_NOTIFICATION: "Es wurde keine Session ausgewählt",
+	
 			/* question types */
 			EVALUATION: "+-",
 			SCHOOL: "1-6",

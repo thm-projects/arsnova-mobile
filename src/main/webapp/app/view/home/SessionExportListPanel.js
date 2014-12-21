@@ -58,7 +58,7 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 			ui: 'confirm',
 			handler: function () {
 				if(me.getError()){
-					Ext.Msg.alert('Hinweis', 'Ihre Eingaben sind unvollständig');
+					Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_NOTIFICATION);
 				}else{
 					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 					var questionExportToFile = Ext.create('ARSnova.view.home.SessionExportToFilePanel', {
