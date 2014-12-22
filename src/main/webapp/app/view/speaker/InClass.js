@@ -84,23 +84,13 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			}
 		});
 
-		this.presenterButton = Ext.create('Ext.Button', {
-			cls: "thm",
-			text: Messages.PRESENTER,
-			hidden: true,
-			scope: this,
-			handler: this.presenterHandler
-		});
-
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Ext.util.Format.htmlEncode(localStorage.getItem("shortName")),
 			cls: 'speakerTitleText',
 			ui: 'light',
 			docked: 'top',
 			items: [
-				this.sessionLogoutButton,
-				{xtype: 'spacer'},
-				this.presenterButton
+				this.sessionLogoutButton
 			]
 		});
 
@@ -227,10 +217,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		});
 
 		this.add([this.toolbar, this.inClassItems, this.inClassActions]);
-
-		this.on('activate', function () {
-			this.displayPresenterButton();
-		});
 
 		this.on('destroy', this.destroyListeners);
 
@@ -368,27 +354,5 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				me.courseLearningProgressButton.setBadge([{badgeText: ""}]);
 			}
 		});
-	},
-
-	presenterHandler: function () {
-		window.open(ARSnova.app.globalConfig.presenterPath + "/#!/" + localStorage.getItem('keyword'), "_self");
-	},
-
-	/**
-	 * Displays the showcase button if enough screen width is available
-	 */
-	displayPresenterButton: function () {
-		if (ARSnova.app.globalConfig.presenterPath &&
-				ARSnova.app.LOGIN_GUEST !== ARSnova.app.loginMode &&
-				/* iPad does not swap screen width and height values in landscape orientation */
-				(screen.availWidth >= 980 || screen.availHeight >= 980)) {
-			this.presenterButton.show();
-		} else {
-			this.presenterButton.hide();
-		}
-	},
-
-	onOrientationChange: function (panel, orientation, width, height) {
-		this.displayPresenterButton();
 	}
 });
