@@ -25,8 +25,6 @@
 //@require utils/Ext.util.TaskRunner.js
 //@require utils/Ext.util.ResizableTextArea.js
 //@require utils/Ext.Array.js
-//@require utils/Ext.ux.Promise.js
-//@require utils/Ext.ux.Deferred.js
 
 //<if selenium>
 // Fixes Selenium WebDriver's limitations by disabling certain animations
