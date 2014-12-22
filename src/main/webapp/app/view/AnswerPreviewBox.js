@@ -72,25 +72,43 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			]
 		});
 		
+		// Create standard panel with framework support
+		this.questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			cls: "roundedBox allCapsHeader"
+		});
+		
 		// answer preview box content panel
 		this.mainPanel = Ext.create('Ext.Container', {
 			layout: 'vbox',
 			style: 'margin-bottom: 10px;',
-			styleHtmlContent: true
+			styleHtmlContent: true,
+			items: [this.questionPanel]
 		});
 		
 		// remove padding around mainPanel
 		this.mainPanel.bodyElement.dom.style.padding="0";
 		
 		this.on('hide', this.destroy);
+		
+		this.add([
+			this.toolbar,
+			this.mainPanel
+		]);
 	},
 	
-	showPreview: function (answers, questionType) {
+	showPreview: function (title, content, answers, questionType) {
 		this.answers = answers;
+
+		// Setup question title and text to display in the same field; markdown handles HTML encoding
+		var questionString = title.replace(/\./, "\\.")
+			+ '\n\n' // inserts one blank line between subject and text
+			+ content;
+
+		this.questionPanel.setContent(questionString, true, true);
 		
 		if(questionType === 'flashcard') {
 			this.answerList = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-		    	style: 'min-height: 150px; margin-left: 0px; margin-right: 0px; word-wrap: break-word;'
+		    	style: 'min-height: 100px; word-wrap: break-word;'
 			});
 			
 			this.statisticButton.setHidden(true);
@@ -157,16 +175,15 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		}		
 
 		this.mainPanel.add([
-			this.answerList,
-			this.confirmButton
-		]);
-		
-		this.add([
-			this.toolbar,
-			this.mainPanel
+    		this.answerList,
+    		this.confirmButton
 		]);
 
+
 		this.show();
+		
+		// for IE: unblock input fields
+		Ext.util.InputBlocker.unblockInputs();
 	},
 	
 	statisticsButtonHandler: function () {

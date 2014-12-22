@@ -242,20 +242,23 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 	},
 
 	previewHandler: function () {
-		var values = this.getValues(),
-			panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
-		
-		var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox');
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel,
+			answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox'),
+			answerValues = this.getValues();
 		
 		if(!panel.abstentionPart.isHidden() && panel.abstentionPart.getAbstention()) {
-			values.push({
+			answerValues.push({
 				text: Messages.ABSTENTION,
 				correct: false,
 				value: 0
 			});
 		}
-		
-		answerPreview.showPreview(values);
+
+		answerPreview.showPreview(
+			panel.subject.getValue(), 
+			panel.textarea.getValue(), 
+			answerValues
+		);
 	},
 
 	markEmptyFields: function () {

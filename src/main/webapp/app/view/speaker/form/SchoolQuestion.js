@@ -93,9 +93,16 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 	},
 
 	previewHandler: function () {
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
+		
 		var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox', {
 			xtype: 'answerPreview'
 		});
-		answerPreview.showPreview(this.getValues());
+		
+		answerPreview.showPreview(
+			panel.subject.getValue(), 
+			panel.textarea.getValue(), 
+			this.getValues()
+		);
 	}
 });

@@ -77,10 +77,18 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 	},
 
 	previewHandler: function () {
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
+		
 		var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox', {
 			xtype: 'answerPreview'
 		});
-		answerPreview.showPreview(this.getValue(), 'flashcard');
+
+		answerPreview.showPreview(
+			panel.subject.getValue(), 
+			panel.textarea.getValue(), 
+			this.getValue(),
+			'flashcard'
+		);
 	},
 
 	markEmptyFields: function () {
