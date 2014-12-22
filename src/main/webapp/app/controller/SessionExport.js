@@ -269,8 +269,14 @@ Ext.define("ARSnova.controller.SessionExport", {
 	
 	writeExportDataToFile: function(exportData) {
 		var jsonData = JSON.stringify({exportData: exportData});
+
+		var dateString = "";
+		if (exportData.session.creationTime != 0) {
+			var d = new Date(exportData.session.creationTime);
+			dateString = "-"+d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes();
+		}
 		
-		var filename = exportData.session.name + ".json";
+		var filename = exportData.session.name + "-" + exportData.session.keyword + dateString + ".json";
 		this.saveFileOnFileSystem(jsonData, filename);
 		
 		return jsonData;
