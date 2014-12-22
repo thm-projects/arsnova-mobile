@@ -42,7 +42,19 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.QUESTION_PREVIEW_DIALOGBOX_TITLE,
 			docked: 'top',
-			ui: 'light'
+			ui: 'light',
+			items: [{
+				xtype: 'button',
+				iconCls: 'icon-close',
+				handler: this.hide,
+				scope: this,
+				style: {
+					'height': '36px',
+					'font-size': '0.9em',
+					'padding': '0 0.4em'
+				}
+			}]
+		
 		});
 		
 		// panel for question subject
