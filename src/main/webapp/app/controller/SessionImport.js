@@ -45,8 +45,8 @@ Ext.define("ARSnova.controller.SessionImport", {
 		storeSession.each(function(s) {
 			s._id     = undefined;
 			s.creator = localStorage.getItem('login');
-			s.creationTime = Date.now();
-			
+			s.data.creationTime = Date.now();
+
 			s.create({
 				success: function(response) {
 					var session = Ext.decode(response.responseText)
@@ -98,7 +98,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 				q._data.sessionKeyword 	= session.keyword;
 				q.sessionId				= session._id;
 				q.sessionKeyword 		= session.keyword;
-
+				
 				q.saveSkillQuestion({
 					success: function(response) {
 						var respQuestion = Ext.decode(response.responseText);
