@@ -254,11 +254,12 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			});
 		}
 
-		answerPreview.showPreview(
-			panel.subject.getValue(), 
-			panel.textarea.getValue(), 
-			answerValues
-		);
+		answerPreview.showPreview({
+			title: panel.subject.getValue(), 
+			content: panel.textarea.getValue(),
+			answers: answerValues,
+			image: panel.image
+		});
 	},
 
 	markEmptyFields: function () {

@@ -82,12 +82,13 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			xtype: 'answerPreview'
 		});
 
-		answerPreview.showPreview(
-			panel.subject.getValue(), 
-			panel.textarea.getValue(), 
-			this.getValue(),
-			'flashcard'
-		);
+		answerPreview.showPreview({
+			title: panel.subject.getValue(), 
+			content: panel.textarea.getValue(),
+			questionType: 'flashcard',
+			answers: this.getValue(),
+			image: panel.image
+		});
 	},
 
 	markEmptyFields: function () {
