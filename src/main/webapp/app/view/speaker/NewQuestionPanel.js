@@ -105,7 +105,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			cls: 'previewButton',
 			scope: this,
 			handler: function () {
-				this.previewHandler();
+				this.defaultPreviewHandler();
 			}
 		});
 
@@ -228,11 +228,15 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 					}, me);
 
 					var title = '';
+					
+					me.previewPart.hide();
+					me.previewButton.setHandler(this.defaultPreviewHandler);
 
 					switch (button.getText()) {
 						case Messages.GRID:
 							if (pressed) {
 								me.gridQuestion.show();
+								me.previewButton.setHandler(me.gridQuestion.previewHandler);
 								title = label(Messages.QUESTION_GRID, Messages.QUESTION_GRID_SHORT);
 								this.previewPart.show();
 								this.uploadView.hide();
@@ -248,7 +252,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 						break;
 						case Messages.EVALUATION:
 							if (pressed) {
-								me.previewPart.hide();
 								me.voteQuestion.show();
 								title = label(Messages.QUESTION_RATING, Messages.QUESTION_RATING_SHORT);
 							} else {
@@ -257,7 +260,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							break;
 						case Messages.SCHOOL:
 							if (pressed) {
-								me.previewPart.hide();
 								me.schoolQuestion.show();
 								title = label(Messages.QUESTION_GRADE, Messages.QUESTION_GRADE_SHORT);
 							} else {
@@ -266,7 +268,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							break;
 						case Messages.MC:
 							if (pressed) {
-								me.previewPart.hide();
 								me.multipleChoiceQuestion.show();
 								title = label(Messages.QUESTION_MC, Messages.QUESTION_MC_SHORT);
 							} else {
@@ -277,6 +278,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							if (pressed) {
 								me.previewPart.show();
 								me.yesNoQuestion.show();
+								me.previewButton.setHandler(me.yesNoQuestion.previewHandler);
 								title = label(Messages.QUESTION_YESNO, Messages.QUESTION_YESNO);
 							} else {
 								me.yesNoQuestion.hide();
@@ -284,7 +286,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							break;
 						case Messages.ABCD:
 							if (pressed) {
-								me.previewPart.hide();
 								me.abcdQuestion.show();
 								title = label(Messages.QUESTION_SINGLE_CHOICE, Messages.QUESTION_SINGLE_CHOICE_SHORT);
 							} else {
@@ -302,7 +303,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							break;
 						case Messages.FLASHCARD_SHORT:
 							if (pressed) {
-								me.previewPart.hide();
 								me.textarea.setPlaceHolder(Messages.FLASHCARD_FRONT_PAGE);
 								me.flashcardQuestion.show();
 								me.abstentionPart.hide();
@@ -434,11 +434,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.questionOptions.setPressedButtons([0]);
 		this.releasePart.setHidden(localStorage.getItem('courseId') === null || localStorage.getItem('courseId').length === 0);
 	},
-
-	previewHandler: function () {
-		var questionPreview = Ext.create('ARSnova.view.QuestionPreviewBox', {
-			xtype: 'questionPreview'
-		});
+	
+	defaultPreviewHandler: function() {
+		var questionPreview = Ext.create('ARSnova.view.QuestionPreviewBox');
 		questionPreview.showPreview(this.subject.getValue(), this.textarea.getValue());
 	},
 

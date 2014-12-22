@@ -93,16 +93,26 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 	},
 
 	previewHandler: function () {
-		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel,
+			answerValues = this.getValues();
 		
 		var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox', {
 			xtype: 'answerPreview'
 		});
 		
-		answerPreview.showPreview(
-			panel.subject.getValue(), 
-			panel.textarea.getValue(), 
-			this.getValues()
-		);
+		if(!panel.abstentionPart.isHidden() && panel.abstentionPart.getAbstention()) {
+			answerValues.push({
+				text: Messages.ABSTENTION,
+				correct: false,
+				value: 0
+			});
+		}
+		
+		answerPreview.showPreview({
+			title: panel.subject.getValue(),
+			content: panel.textarea.getValue(),
+			answers: answerValues,
+			image: panel.image
+		});
 	}
 });

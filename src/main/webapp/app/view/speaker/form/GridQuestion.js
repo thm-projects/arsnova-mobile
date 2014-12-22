@@ -602,8 +602,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			docked: 'top',
 			itemId: 'gridImageContainer'
 		});
-		this.initializeFormFields()
+		this.initializeFormFields();
 		this.updateCanvas(dataUrl, reload);
+		this.image = dataUrl;
 	},
 	
 	handleUrl: function(url) {
@@ -613,6 +614,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		});
 		this.initializeFormFields();
 		this.updateCanvasWithUrl(url);
+		this.image = url;
 	},
 	
 	handleTemplate: function(templateGrid) {
@@ -635,6 +637,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		var newQuestionPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
 		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.setActiveItem(newQuestionPanel);
 		newQuestionPanel.activateButtonWithText(Messages.GRID);
+		this.image = this.grid.image.html.toDataURL();
 	},
 	
 	/**
@@ -797,5 +800,19 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			this.cvBackgroundToggle.setValue(this.grid.getCvIsColored());
 				
 		}
-	}
+	},
+	
+	previewHandler: function () {
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel,
+			answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox'),
+			answerValues = [];
+		
+		answerPreview.showPreview({
+			title: panel.subject.getValue(), 
+			content: panel.textarea.getValue(),
+			questionType: 'grid',
+			answers: answerValues,
+			image: panel.gridQuestion.image
+		});
+	},
 });
