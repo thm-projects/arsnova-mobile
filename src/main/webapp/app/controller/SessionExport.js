@@ -284,12 +284,21 @@ Ext.define("ARSnova.controller.SessionExport", {
 	
 	 saveFileOnFileSystem: function(rawJson, filename) {
 		 var blob = new Blob([rawJson], {type: "text/plain;charset=utf-8"});
-		 var a = window.document.createElement('a');
-		 a.href = window.URL.createObjectURL(blob);
-		 a.download = filename;
+		 var ua   = window.navigator.userAgent;
+	     var msie = ua.indexOf("MSIE ");
+	     
+	     if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+	    	 console.log("### IE ###");
+	    	 window.navigator.msSaveBlob(blob, filename);
+	     } else {
+	    	 
+			 var a = window.document.createElement('a');
+			 a.href = window.URL.createObjectURL(blob);
+			 a.download = filename;
 
-		 // Append anchor to body.
-		 document.body.appendChild(a)
-		 a.click();
+			 // Append anchor to body.
+			 document.body.appendChild(a)
+			 a.click(); 
+	     }
 	},
 });
