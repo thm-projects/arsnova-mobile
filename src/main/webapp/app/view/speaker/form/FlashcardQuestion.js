@@ -42,7 +42,6 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 
 		this.add([{
 			xtype: 'fieldset',
-			title: ' ',
 			items: [this.answer]
 		}, {
 			xtype: 'fieldset',
