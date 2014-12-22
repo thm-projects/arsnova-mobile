@@ -32,13 +32,11 @@ Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
 			ui: 'back',
 			handler: function () {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				this.exportSessionListPanel = Ext.create('ARSnova.view.home.SessionExportListPanel');
 				hTP.animateActiveItem(hTP.exportSessionListPanel, {
 					type: 'slide',
 					direction: 'right',
 					duration: 700
 				});
-				hTP.setActiveItem(this.exportSessionListPanel);
 			}
 		});
 

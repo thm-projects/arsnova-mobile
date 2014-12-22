@@ -48,11 +48,7 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 		});
 		
 		this.msgBox = Ext.create('Ext.MessageBox');
-		
-
-		this.questionExportToFile = Ext.create('ARSnova.view.home.SessionExportToFilePanel');
-		this.questionExportToPublic = Ext.create('ARSnova.view.home.SessionExportToPublicPanel');
-		
+	
 		this.exportButton = Ext.create('Ext.Button', {
 			text: Messages.EXPORT_BUTTON_LABEL,
 			ui: 'confirm',
