@@ -104,16 +104,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			]
 		});
 
-		this.feedbackButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			text: Messages.LIVE_FEEDBACK,
-			cls: 'forwardListButton',
-			badgeCls: 'x-button-icon x-shown icon-radar',
-			handler: function () {
-				var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
-				tabPanel.setActiveItem(tabPanel.feedbackTabPanel, "slide");
-			}
-		});
-
 		this.preparationQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			text: Messages.PREPARATION_QUESTIONS_LONG,
 			cls: 'forwardListButton',
@@ -155,7 +145,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		}
 
 		var buttons = [
-			this.feedbackButton,
 			this.feedbackQuestionButton,
 			this.lectureQuestionButton,
 			this.preparationQuestionButton
@@ -239,16 +228,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 		this.add([this.toolbar, this.inClassItems, this.inClassActions]);
 
-		this.on('initialize', function () {
-			this.feedbackButton.setBadge([{badgeText: ' '}]);
-		});
-
 		this.on('activate', function () {
-			ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", this.updateFeedback, this);
 			this.displayPresenterButton();
-		});
-		this.on('deactivate', function () {
-			ARSnova.app.feedbackModel.un("arsnova/session/feedback/average", this.updateFeedback);
 		});
 
 		this.on('destroy', this.destroyListeners);
@@ -258,32 +239,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		});
 
 		this.on('show', this.refreshListeners);
-	},
-
-	updateFeedback: function (averageFeedback) {
-		var feedbackCls;
-		switch (averageFeedback) {
-			/* 0: can follow; 1: faster, please!; 2: to fast!; 3: you have lost me */
-			case 0:
-				feedbackCls = "happy";
-				break;
-			case 1:
-				feedbackCls = "wink";
-				break;
-			case 2:
-				feedbackCls = "shocked";
-				break;
-			case 3:
-				feedbackCls = "sad";
-				break;
-			default:
-				feedbackCls = "radar";
-				break;
-		}
-		this.feedbackButton.setBadge([{
-			badgeText: " ",
-			badgeCls: 'x-button-icon x-shown icon-' + feedbackCls
-		}]);
 	},
 
 	buttonClicked: function (button) {
