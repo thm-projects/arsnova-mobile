@@ -48,8 +48,10 @@ Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
 			handler: function () {
 				var withAnswerStatistics = me.exportAnswerToggle.getValue();
 				var withFeedbackQuestions = me.exportStudentsQuestionToggle.getValue();
+				
 				ARSnova.app.getController("SessionExport").exportSessionsToFile(
 						me.getExportSessionMap(), withAnswerStatistics, withFeedbackQuestions);
+				
 			},
 			scope: this
 		});

@@ -104,7 +104,6 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 		// load user sessions before displaying the page
 		this.onBefore('painted', function () {
 			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
-				console.log("onBefore");
 				me.setError(true);
 				this.loadCreatedSessions();
 			}
