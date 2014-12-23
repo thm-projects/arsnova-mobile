@@ -47,7 +47,7 @@ Ext.require([
 
 Ext.application({
 
-	requires: ['ARSnova.WebSocket', 'ARSnova.BrowserSupport', 'ARSnova.view.CustomMessageBox'],
+	requires: ['ARSnova.WebSocket', 'ARSnova.BrowserSupport', 'ARSnova.view.CustomMessageBox', 'ARSnova.utils.AsyncUtils'],
 
 	viewport: {
 		autoMaximize: Ext.os.is.iOS && Ext.browser.is.webview

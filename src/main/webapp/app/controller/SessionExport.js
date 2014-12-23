@@ -88,7 +88,8 @@ Ext.define("ARSnova.controller.SessionExport", {
 					var j = 0;
 					
 					// save questions and check for answers if enabled
-					promiseWhile(
+					console.log(ARSnova.utils);
+					ARSnova.utils.AsyncUtils.promiseWhile(
 						function() {
 							console.log('checking condition');
 							console.log('j: ' + j);
@@ -306,7 +307,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 		return jsonData;
 	},
 	
-	 saveFileOnFileSystem: function(rawJson, filename) {
+	saveFileOnFileSystem: function(rawJson, filename) {
 		 var blob = new Blob([rawJson], {type: "text/plain;charset=utf-8"});
 		 var a = window.document.createElement('a');
 		 a.href = window.URL.createObjectURL(blob);
@@ -317,31 +318,3 @@ Ext.define("ARSnova.controller.SessionExport", {
 		 a.click();
 	},
 });
-
-var promiseWhile = function(condition, action, actionOnResult) {
-	console.log('promiseWhile()');
-	
-	var promise = new RSVP.Promise();
-		
-	var loop = function(result) {
-		console.log('loop()');
-		
-		console.log('result:');
-		console.log(result);
-		if (result) {
-			actionOnResult(result);
-		}
-		if (!condition()) {
-			console.log('condition false');
-			return promise.resolve();
-		}
-		return action().then(loop,
-				function(error) {
-					console.log(error);
-				}
-		);
-	}
-			
-	loop(null);
-	return promise;
-}
