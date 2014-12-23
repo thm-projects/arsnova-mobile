@@ -32,7 +32,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 	 * @param withFeedbackQuestions	<code>true</code> if the feedbackQuestions should be exported, <code>false</code> otherwise.
 	 */
 	exportSessionsToFile: function(exportSessionMap, withAnswerStatistics, withFeedbackQuestions) {
-		console.log('exportSessionsToFile()');
 		var me = this;
 		
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_EXPORT);
@@ -40,7 +39,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 		// get export data for each session
 		for (var i = 0; i < exportSessionMap.length; i++) {
 		
-			console.log('Iteration ' + i);
 			// continue if session is not selected for export
 			if (!exportSessionMap[i][1])
 				continue;
@@ -49,14 +47,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 			// otherwise the promises would overwrite the exportData on return and every iteration contains
 			// random data of itself and older iterations
 			(function(me, i, exportSessionMap, withAnswerStatistics, withFeedbackQuestions, hideLoadMask) {
-				
-				console.log('inside function');
-				
-				console.log('withAnswerStatistics:');
-				console.log(withAnswerStatistics);
-				
-				console.log('withFeedbackQuestions:');
-				console.log(withFeedbackQuestions);
 				
 				// create export data structure
 				var exportData = {};
@@ -71,44 +61,28 @@ Ext.define("ARSnova.controller.SessionExport", {
 				// set session in exportData
 				exportData['session'] = session;
 				
-				console.log(session);
-				
 				// get classroom and preparation questions
 				var p1 = me.exportQuestions('Questions', session.keyword, withAnswerStatistics);
 				var p2 = me.exportQuestions('PreparationQuestions', session.keyword, withAnswerStatistics);
 				
 				RSVP.all([p1, p2]).then(function(allQuestions) {
-					console.log('promises all:');
-					console.log(allQuestions);
-					
 					var questions = allQuestions[0].concat(allQuestions[1]);
-					
-					console.log(questions);
-					
 					var j = 0;
 					
 					// save questions and check for answers if enabled
-					console.log(ARSnova.utils);
 					ARSnova.utils.AsyncUtils.promiseWhile(
 						function() {
-							console.log('checking condition');
-							console.log('j: ' + j);
-							console.log('length: ' + questions.length);
 							// condition for stopping while loop
 							return j < questions.length;
 						},
 						function() {
-							console.log('action nr.: ' + j);
 							var question = questions[j++];
 							return me.exportQuestionWithAnswerStatistics(session.keyword, question, withAnswerStatistics);
 						},
 						function(question) {
-							console.log('result()');
 							exportData['questions'].push(question);
 						}
 					).then(function() {
-						console.log('done');
-						
 						if (withFeedbackQuestions) {
 							me.exportFeedbackQuestions(session.keyword)
 								.then(function(feedbackQuestions) {
@@ -139,71 +113,11 @@ Ext.define("ARSnova.controller.SessionExport", {
 					});
 				});
 				
-				/*
-				me.exportQuestions('Questions', session.keyword, withAnswerStatistics)
-					.then(function(questions) {
-						
-						console.log('questions: ');
-						console.log(questions);
-						
-						var j = 0;
-						
-						promiseWhile(
-							function() {
-								console.log('checking condition');
-								console.log('j: ' + j);
-								console.log('length: ' + questions.length);
-								// condition for stopping while loop
-								return j < questions.length;
-							},
-							function() {
-								console.log('action nr.: ' + j);
-								var question = questions[j++];
-								return me.exportQuestionWithAnswerStatistics(session.keyword, question, withAnswerStatistics);
-							},
-							function(question) {
-								console.log('result()');
-								exportData['questions'].push(question);
-							}
-						).then(function() {
-							console.log('done');
-							
-							if (withFeedbackQuestions) {
-								me.exportFeedbackQuestions(session.keyword)
-									.then(function(feedbackQuestions) {
-								
-										// set question type for export
-										for (var k = 0; k < feedbackQuestions.length; k++) {
-											feedbackQuestions[k]['type'] = 'interposed_question';
-										}
-										// set feedback questions in export data
-										exportData['feedbackQuestions'] = feedbackQuestions;
-										
-										// create json file
-										me.writeExportDataToFile(exportData);
-										
-									}, function(error) {
-										console.log(error);
-									}
-								)
-							} else {
-								// write data without feedback questions
-								me.writeExportDataToFile(exportData);
-							}
-							
-							// hide load mask after last iteration
-							if (i == exportSessionMap.length - 1) {
-								hideLoadMask();
-							}
-						});
-					})*/
-				
 			})(me, i, exportSessionMap, withAnswerStatistics, withFeedbackQuestions, hideLoadMask);
 		}
 	},
 	
 	exportQuestions: function(controller, keyword, withAnswerStatistics) {
-		console.log('exportQuestions()');
 		var me = this;
 		
 		var promise = new RSVP.Promise();
@@ -212,21 +126,13 @@ Ext.define("ARSnova.controller.SessionExport", {
 				keyword, {
 			success: Ext.bind(function (response) {
 				var questions = Ext.decode(response.responseText);
-		
 				promise.resolve(questions);
-		
-//						me.writeExportDataToFile();
-				
 			}, this),
 			empty: Ext.bind(function () {
-				console.log('no questions');
 				// session has no question. So we do not have to export anything else
-//						console.log(me.exportData);
 				promise.resolve([]);
 			}, this),
-			failure: function (response) {
-//						console.log('server-side error questionModel.getSkillQuestions');
-//						console.log(reponse);
+			failure: function (response) {					
 				promise.reject('server-side error questionModel.getSkillQuestions');
 			}
 		});
@@ -240,27 +146,21 @@ Ext.define("ARSnova.controller.SessionExport", {
 		if (withAnswerStatistics) {
 			ARSnova.app.questionModel.countAnswers(keyword, question._id, {
 				success: function(response) {
-					console.log('Export with answers');
 					var answers = Ext.decode(response.responseText);
-					
-					console.log('No: ' + answers.length);
 					// save answer data in question
 					question['answers'] = answers;
 					// and return the updated question
 					promise.resolve(question);
 				},
 				empty: function() {
-					console.log('no answers');
 					// return the question without answers
 					promise.resolve(question);
 				},
 				failure: function() {
-					console.log('server-side error');
 					promise.reject('server-side error');
 				}
 			});
 		} else {
-			console.log('Export withOUT answers');
 			// return question without answers
 			promise.resolve(question);
 		}
@@ -269,23 +169,16 @@ Ext.define("ARSnova.controller.SessionExport", {
 	
 	exportFeedbackQuestions: function(keyword) {
 		var me = this;
-		
-		console.log('exportFeedbackQuestions()');
-		
 		var promise = new RSVP.Promise();
 		ARSnova.app.questionModel.getInterposedQuestions(keyword, {
 			success: function(response) {
 				var feedbackQuestions = Ext.decode(response.responseText);
-//						console.log(feedbackQuestions);
 				promise.resolve(feedbackQuestions);
-//						me.exportData['feedbackQuestions'] = feedbackQuestions;
 			},
 			empty: function() {
-				console.log('no feedbackQuestions');
 				promise.resolve([]);
 			},
 			failure: function() {
-				console.log('server-side error');
 				promise.reject('server-side error');
 			}
 		});
@@ -313,7 +206,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 	     var msie = ua.indexOf("MSIE ");
 	     
 	     if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
-	    	 console.log("### IE ###");
 	    	 window.navigator.msSaveBlob(blob, filename);
 	     } else {
 	    	 
