@@ -152,19 +152,21 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					loading: true
 				}
 			},
+			handler: function(){
+				if(Ext.os.is.iOS)
+					Ext.Msg.alert(Messages.NOTIFICATION, Messages.IMPORT_IOS_NOTIFICATION);
+			},
 			listeners: {
 				scope: this,
 				loadsuccess: function (data) {
-					if(Ext.os.is.iOS){
-						Ext.Msg.alert(Messages.NOTIFICATION, Messages.IMPORT_IOS_NOTIFICATION);
-					}else{	
+					if(!Ext.os.is.iOS){			
 						var n = data.indexOf("base64,");
 						data = atob(data.substring(n+7)); // remove disturbing prefix
 						var hideLoadMask = ARSnova.app.showLoadMask(Messages.IMP_LOADMSK);
 						var ctrl = ARSnova.app.getController("SessionImport").importSession(JSON.parse(data));
 						me.loadCreatedSessions();
 						hideLoadMask();
-						}
+					}	
 				},
 				loadfailure: function (message) {}
 			}
