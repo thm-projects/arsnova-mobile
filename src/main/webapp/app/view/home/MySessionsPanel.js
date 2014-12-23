@@ -115,19 +115,23 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		});
 		
 		this.exportButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: 'Export', //Hier in internationalization hinzufuegen
+			text: 'Export', 
 			buttonConfig: 'icon',
 			imageCls: 'icon-cloud-download ',
 			scope: this,
 			hidden: true,
 			handler: function () {
+				if(Ext.os.is.iOS){
+					Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_IOS_NOTIFICATION);
+				}else{
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 				hTP.animateActiveItem(hTP.exportSessionListPanel, {
 					type: 'slide',
 					direction: 'left',
 					duration: 700
 				});
-			}
+			  }
+			}	
 		});
 		
 		this.importButtonClickable = Ext.create('Ext.ux.Fileup', {
@@ -151,12 +155,16 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			listeners: {
 				scope: this,
 				loadsuccess: function (data) {
-					var n = data.indexOf("base64,");
-					data = atob(data.substring(n+7)); // remove disturbing prefix
-					var hideLoadMask = ARSnova.app.showLoadMask(Messages.IMP_LOADMSK);
-					var ctrl = ARSnova.app.getController("SessionImport").importSession(JSON.parse(data));
-					me.loadCreatedSessions();
-					hideLoadMask();
+					if(Ext.os.is.iOS){
+						Ext.Msg.alert(Messages.NOTIFICATION, Messages.IMPORT_IOS_NOTIFICATION);
+					}else{	
+						var n = data.indexOf("base64,");
+						data = atob(data.substring(n+7)); // remove disturbing prefix
+						var hideLoadMask = ARSnova.app.showLoadMask(Messages.IMP_LOADMSK);
+						var ctrl = ARSnova.app.getController("SessionImport").importSession(JSON.parse(data));
+						me.loadCreatedSessions();
+						hideLoadMask();
+						}
 				},
 				loadfailure: function (message) {}
 			}
