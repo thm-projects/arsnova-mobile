@@ -349,6 +349,8 @@ switch (lang) {
 			EXPORT_SELECTED_SESSIONS_MSG : "Where should the sessions be exported",
 			EXPORT_SESSION_INFORMATION: "The questions of selected sessions will be exported",
 			EXPORT_NOTIFICATION:	"There was no session selected",
+			EXPORT_IOS_NOTIFICATION: "An export can not be performed on iOS devices",
+			IMPORT_IOS_NOTIFICATION: "An import can not be performed on iOS devices",
 			
 			/* question types */
 			EVALUATION: "+-",
@@ -743,7 +745,9 @@ switch (lang) {
 			EXPORT_SELECTED_SESSIONS_MSG : "Wohin möchten Sie die Sessions exportieren",
 			EXPORT_SESSION_INFORMATION: "Die Fragen der ausgewählten Sessions werden exportiert",
 			EXPORT_NOTIFICATION: "Es wurde keine Session ausgewählt",
-	
+			EXPORT_IOS_NOTIFICATION: "Ein Export kann auf iOS Geräten nicht durchgeführt werden",
+			IMPORT_IOS_NOTIFICATION: "Ein Import kann auf iOS Geräten nicht durchgeführt werden",
+			
 			/* question types */
 			EVALUATION: "+-",
 			SCHOOL: "1-6",

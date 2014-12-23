@@ -104,6 +104,7 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 		// load user sessions before displaying the page
 		this.onBefore('painted', function () {
 			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
+				me.setError(true);
 				this.loadCreatedSessions();
 			}
 		});
@@ -159,8 +160,8 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 					var longDateString  = "";
 					if (session.creationTime != 0) {
 						var d               = new Date(session.creationTime);
-						var shortDateString = " ("+d.getDate()+"."+d.getMonth()+"."+d.getFullYear()+")";
-						var longDateString  = " ("+d.getDate()+"."+d.getMonth()+"."+d.getFullYear()+" "+d.getHours()+":"+d.getMinutes()+")";
+						var shortDateString = " ("+d.getDate()+"."+(parseInt(d.getMonth())+1)+"."+d.getFullYear()+")";
+						var longDateString  = " ("+d.getDate()+"."+(parseInt(d.getMonth())+1)+"."+d.getFullYear()+" "+d.getHours()+":"+('0'+d.getMinutes()).slice(-2)+")";
 					}
 					
 					// Minimum width of 321px equals at least landscape view
