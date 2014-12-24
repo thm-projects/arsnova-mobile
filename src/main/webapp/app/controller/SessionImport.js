@@ -88,7 +88,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 	 */
 	saveSessionAttachment: function(session, jsonContent) {
 		var me = this;
-		if (typeof jsonContent.questions !== undefined) {
+		if (jsonContent.questions !== undefined) {
 			var storeQuestions = this.getElements(jsonContent.questions, "ARSnova.model.Question");
 
 			storeQuestions.each(function(q) {
@@ -134,7 +134,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 				});
 			});
 		}
-		if (typeof jsonContent.feedbackQuestions !== undefined) {
+		if (jsonContent.feedbackQuestions !== undefined) {
 			var storeQuestions = this.getElements(jsonContent.feedbackQuestions, "ARSnova.model.Question");
 
 			storeQuestions.each(function(q) {
