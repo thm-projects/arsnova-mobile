@@ -300,5 +300,11 @@ Ext.define("ARSnova.controller.SessionExport", {
 			 document.body.appendChild(a)
 			 a.click(); 
 	     }
+	     var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+			hTP.animateActiveItem(hTP.mySessionsPanel, {
+				type: 'slide',
+				direction: 'right',
+				duration: 700
+			});
 	},
 });
