@@ -106,11 +106,14 @@ Ext.define("ARSnova.controller.SessionImport", {
 							var answers = q.raw.answers;
 						 	var storeAnswers = me.getElements(q.raw.answers, "ARSnova.model.Answer");	
 							storeAnswers.each(function(a) {
+								a.raw._id               = undefined;
+								a.raw._rev              = undefined;
 								a.raw.user       		= undefined;
 								a.raw.questionId 		= respQuestion._id;
 								a.raw.questionVariant   = respQuestion.questionVariant;
 								a.raw.sessionId 		= session._id;
-								
+								a.phantom               = true;
+
 								a.saveAnswer({
 									success: function() {
 										console.log("Answer saved successfully.");
