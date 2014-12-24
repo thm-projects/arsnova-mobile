@@ -159,9 +159,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			listeners: {
 				scope: this,
 				loadsuccess: function (data) {
-					if(!Ext.os.is.iOS){			
+					if(!Ext.os.is.iOS){
 						var n = data.indexOf("base64,");
-						data = atob(data.substring(n+7)); // remove disturbing prefix
+						data = decodeURIComponent(escape(atob(data.substring(n+7)))); // remove disturbing prefix
 						var hideLoadMask = ARSnova.app.showLoadMask(Messages.IMP_LOADMSK);
 						var ctrl = ARSnova.app.getController("SessionImport").importSession(JSON.parse(data));
 						me.loadCreatedSessions();
