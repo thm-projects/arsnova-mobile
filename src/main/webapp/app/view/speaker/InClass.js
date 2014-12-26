@@ -84,38 +84,18 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			}
 		});
 
-		this.presenterButton = Ext.create('Ext.Button', {
-			cls: "thm",
-			text: Messages.PRESENTER,
-			hidden: true,
-			scope: this,
-			handler: this.presenterHandler
-		});
-
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Ext.util.Format.htmlEncode(localStorage.getItem("shortName")),
 			cls: 'speakerTitleText',
 			ui: 'light',
 			docked: 'top',
 			items: [
-				this.sessionLogoutButton,
-				{xtype: 'spacer'},
-				this.presenterButton
+				this.sessionLogoutButton
 			]
 		});
 
-		this.feedbackButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			text: Messages.LIVE_FEEDBACK,
-			cls: 'forwardListButton',
-			badgeCls: 'x-button-icon x-shown icon-radar',
-			handler: function () {
-				var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
-				tabPanel.setActiveItem(tabPanel.feedbackTabPanel, "slide");
-			}
-		});
-
 		this.preparationQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			text: Messages.PREPARATION_QUESTIONS,
+			text: Messages.PREPARATION_QUESTIONS_LONG,
 			cls: 'forwardListButton',
 			controller: 'PreparationQuestions',
 			action: 'listQuestions',
@@ -123,7 +103,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		});
 
 		this.lectureQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			text: Messages.LECTURE_QUESTIONS,
+			text: Messages.LECTURE_QUESTIONS_LONG,
 			cls: 'forwardListButton',
 			controller: 'Questions',
 			action: 'listQuestions',
@@ -155,7 +135,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		}
 
 		var buttons = [
-			this.feedbackButton,
 			this.feedbackQuestionButton,
 			this.lectureQuestionButton,
 			this.preparationQuestionButton
@@ -239,18 +218,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 		this.add([this.toolbar, this.inClassItems, this.inClassActions]);
 
-		this.on('initialize', function () {
-			this.feedbackButton.setBadge([{badgeText: ' '}]);
-		});
-
-		this.on('activate', function () {
-			ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", this.updateFeedback, this);
-			this.displayPresenterButton();
-		});
-		this.on('deactivate', function () {
-			ARSnova.app.feedbackModel.un("arsnova/session/feedback/average", this.updateFeedback);
-		});
-
 		this.on('destroy', this.destroyListeners);
 
 		this.onBefore('painted', function () {
@@ -258,32 +225,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		});
 
 		this.on('show', this.refreshListeners);
-	},
-
-	updateFeedback: function (averageFeedback) {
-		var feedbackCls;
-		switch (averageFeedback) {
-			/* 0: can follow; 1: faster, please!; 2: to fast!; 3: you have lost me */
-			case 0:
-				feedbackCls = "happy";
-				break;
-			case 1:
-				feedbackCls = "wink";
-				break;
-			case 2:
-				feedbackCls = "shocked";
-				break;
-			case 3:
-				feedbackCls = "sad";
-				break;
-			default:
-				feedbackCls = "radar";
-				break;
-		}
-		this.feedbackButton.setBadge([{
-			badgeText: " ",
-			badgeCls: 'x-button-icon x-shown icon-' + feedbackCls
-		}]);
 	},
 
 	buttonClicked: function (button) {
@@ -337,9 +278,9 @@ Ext.define('ARSnova.view.speaker.InClass', {
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 
 						panel.lectureQuestionButton.setBadge([
-											{badgeText: numQuestions, badgeCls: "questionsBadgeIcon"},
-											{badgeText: numAnswers, badgeCls: "answersBadgeIcon"}
-										]);
+							{badgeText: numQuestions, badgeCls: "questionsBadgeIcon"},
+							{badgeText: numAnswers, badgeCls: "answersBadgeIcon"}
+						]);
 					},
 					failure: failureCallback
 				});
@@ -356,9 +297,9 @@ Ext.define('ARSnova.view.speaker.InClass', {
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 
 						panel.preparationQuestionButton.setBadge([
-											{badgeText: numQuestions, badgeCls: "questionsBadgeIcon"},
-											{badgeText: numAnswers, badgeCls: "answersBadgeIcon"}
-										]);
+							{badgeText: numQuestions, badgeCls: "questionsBadgeIcon"},
+							{badgeText: numAnswers, badgeCls: "answersBadgeIcon"}
+						]);
 					},
 					failure: failureCallback
 				});
@@ -413,27 +354,5 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				me.courseLearningProgressButton.setBadge([{badgeText: ""}]);
 			}
 		});
-	},
-
-	presenterHandler: function () {
-		window.open(ARSnova.app.globalConfig.presenterPath + "/#!/" + localStorage.getItem('keyword'), "_self");
-	},
-
-	/**
-	 * Displays the showcase button if enough screen width is available
-	 */
-	displayPresenterButton: function () {
-		if (ARSnova.app.globalConfig.presenterPath &&
-				ARSnova.app.LOGIN_GUEST !== ARSnova.app.loginMode &&
-				/* iPad does not swap screen width and height values in landscape orientation */
-				(screen.availWidth >= 980 || screen.availHeight >= 980)) {
-			this.presenterButton.show();
-		} else {
-			this.presenterButton.hide();
-		}
-	},
-
-	onOrientationChange: function (panel, orientation, width, height) {
-		this.displayPresenterButton();
 	}
 });

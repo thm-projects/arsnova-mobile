@@ -69,7 +69,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		});
 
 		var answerFieldset = Ext.create('Ext.form.FieldSet', {
-			title: Messages.ANSWERS,
+			title: Messages.ANSWER_OPTIONS,
 			items: [this.selectAnswerCount]
 		});
 
@@ -99,7 +99,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 				this.answerComponents[i] = Ext.create('ARSnova.view.TextCheckfield', {
 					id: theComponentId,
 					name: theComponentId,
-					placeHolder: Messages.ANSWER,
+					placeHolder: Messages.ENTER_ANSWER_OPTION + " " + (i+1),
 					hidden: this.getStart() <= i,
 					container: this,
 					listeners: {
@@ -242,20 +242,24 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 	},
 
 	previewHandler: function () {
-		var values = this.getValues(),
-			panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
-		
-		var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox');
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel,
+			answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox'),
+			answerValues = this.getValues();
 		
 		if(!panel.abstentionPart.isHidden() && panel.abstentionPart.getAbstention()) {
-			values.push({
+			answerValues.push({
 				text: Messages.ABSTENTION,
 				correct: false,
 				value: 0
 			});
 		}
-		
-		answerPreview.showPreview(values);
+
+		answerPreview.showPreview({
+			title: panel.subject.getValue(), 
+			content: panel.textarea.getValue(),
+			answers: answerValues,
+			image: panel.image
+		});
 	},
 
 	markEmptyFields: function () {

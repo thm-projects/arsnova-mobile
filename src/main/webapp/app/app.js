@@ -332,9 +332,13 @@ Ext.application({
 	},
 
 	/**
-	 * make localStorage ready
+	 * make localStorage ready after checking availability of localStorage
 	 */
 	checkLocalStorage: function () {
+		if(!this.checkLocalStorageAvailability()) {
+			return;
+		}
+		
 		if (localStorage.getItem('lastVisitedSessions') == null) {
 			localStorage.setItem('lastVisitedSessions', "[]");
 		}
@@ -356,6 +360,37 @@ Ext.application({
 		}
 
 		localStorage.setItem('sessionId', "");
+		return true;
+	},
+	
+	/**
+	 * Checks availability of localStorage. Masks viewport if localStorage
+	 * is not available and displays messagebox.
+	 * 
+	 * @return true if localStorage is available - returns false otherwise
+	 */
+	checkLocalStorageAvailability: function() {
+		try {
+			localStorage.setItem('storageTest', 1);
+			localStorage.removeItem('storageTest');
+		} catch (e) {			
+			Ext.Viewport.setMasked({ 
+				xtype: 'mask',
+				listeners: {
+					tap: function() { 
+						Ext.Msg.alert(
+							Messages.LOCALSTORAGE_NOT_AVAILABLE_TITLE, 
+							Messages.LOCALSTORAGE_NOT_AVAILABLE_TEXT, 
+							Ext.emptyFn
+						); 
+					}
+				}
+			});
+			
+			Ext.Viewport.getMasked().fireEvent('tap');
+			return false;
+		}
+		
 		return true;
 	},
 

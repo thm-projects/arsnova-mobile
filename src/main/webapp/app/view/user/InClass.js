@@ -99,7 +99,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 		this.lectureQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			ui: 'normal',
-			text: Messages.LECTURE_QUESTIONS,
+			text: Messages.LECTURE_QUESTIONS_LONG,
 			cls: 'forwardListButton',
 			badgeCls: 'badgeicon',
 			controller: 'Questions',
@@ -109,7 +109,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 		this.preparationQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			ui: 'normal',
-			text: Messages.PREPARATION_QUESTIONS,
+			text: Messages.PREPARATION_QUESTIONS_LONG,
 			cls: 'forwardListButton',
 			badgeCls: 'badgeicon',
 			controller: 'Questions',
@@ -351,6 +351,7 @@ Ext.define('ARSnova.view.user.InClass', {
 						}, function closePanelHandler() {
 							ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
 								type: 'slide',
+								direction: 'right',
 								duration: 700
 							});
 						});

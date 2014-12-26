@@ -42,18 +42,28 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.QUESTION_PREVIEW_DIALOGBOX_TITLE,
 			docked: 'top',
-			ui: 'light'
+			ui: 'light',
+			items: [{
+				xtype: 'button',
+				iconCls: 'icon-close',
+				handler: this.hide,
+				scope: this,
+				style: {
+					'height': '36px',
+					'font-size': '0.9em',
+					'padding': '0 0.4em'
+				}
+			}]
+		
 		});
 		
 		// panel for question subject
 		this.titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			id: 'questionTitle',
 			style: 'min-height: 50px'
 		});
 		
 		// panel for question content
-		this.contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			id: 'questionContent',
+		this.contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', { 
 			style: 'min-height: 150px'
 		});
 		
@@ -80,7 +90,12 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		this.mainPanel = Ext.create('Ext.Container', {
 			layout: 'vbox',
 			style: 'margin-bottom: 10px;',
-			styleHtmlContent: true
+			styleHtmlContent: true,
+			items: [
+				this.titlePanel,
+				this.contentPanel,
+				this.confirmButton
+			]
 		});
 		
 		// remove padding around mainPanel
@@ -92,12 +107,6 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 	showPreview: function (title, content) {		
 		this.titlePanel.setContent(title.replace(/\./, "\\."), false, true);
 		this.contentPanel.setContent(content, true, true);
-		
-		this.mainPanel.add([
-			this.titlePanel,
-			this.contentPanel,
-			this.confirmButton
-		]);
 		
 		this.add([
 			this.toolbar,

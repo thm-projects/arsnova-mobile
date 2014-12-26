@@ -188,6 +188,25 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 
 		return result;
 	},
+	
+	previewHandler: function () {
+		var questionPreview = Ext.create('ARSnova.view.AnswerPreviewBox');
+		var answerValues = this.yesNoQuestion.getQuestionValues().possibleAnswers;
+		
+		if(!this.abstentionPart.isHidden() && this.abstentionPart.getAbstention()) {
+			answerValues.push({
+				text: Messages.ABSTENTION,
+				correct: false,
+				value: 0
+			});
+		}
+
+		questionPreview.showPreview({
+			title: this.subject.getValue(), 
+			content: this.textarea.getValue(),
+			answers: answerValues
+		});
+	},
 
 	markEmptyFields: Ext.emptyFn
 });

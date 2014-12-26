@@ -43,14 +43,23 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			title: Messages.ANSWER_PREVIEW_DIALOGBOX_TITLE,
 			docked: 'top',
 			ui: 'light',
-			items: [
-			    {xtype: 'spacer'},
-			    this.statisticButton = Ext.create('Ext.Button', {
-			    	iconCls: 'icon-chart',
-			    	style: 'padding: 0 0.4em',
-			    	handler: this.statisticsButtonHandler,
-			    	scope: this
-			    })
+			items: [{
+				xtype: 'button',
+				iconCls: 'icon-close',
+				handler: this.hide,
+				scope: this,
+				style: {
+					'height': '36px',
+					'font-size': '0.9em',
+					'padding': '0 0.4em'
+				}
+			}, {xtype: 'spacer'},
+				this.statisticButton = Ext.create('Ext.Button', {
+					iconCls: 'icon-chart',
+					style: 'padding: 0 0.4em',
+					handler: this.statisticsButtonHandler,
+					scope: this
+				})
 			]
 		});
 		
@@ -62,7 +71,6 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			items: [
 				Ext.create('Ext.Button', {
 					text: Messages.QUESTION_PREVIEW_DIALOGBOX_BUTTON_TITLE,
-					id: 'confirmButton',
 					ui: 'confirm',
 					style: 'width: 80%; maxWidth: 250px; margin-top: 10px;',
 					scope: this,
@@ -73,30 +81,61 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			]
 		});
 		
+		// Create standard panel with framework support
+		this.questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			cls: "roundedBox allCapsHeader",
+			style: 'min-height: 82px;'
+		});
+		
 		// answer preview box content panel
 		this.mainPanel = Ext.create('Ext.Container', {
-			id: 'mainPanel',
 			layout: 'vbox',
 			style: 'margin-bottom: 10px;',
-			styleHtmlContent: true
+			styleHtmlContent: true,
+			items: [this.questionPanel]
 		});
 		
 		// remove padding around mainPanel
 		this.mainPanel.bodyElement.dom.style.padding="0";
 		
 		this.on('hide', this.destroy);
+		
+		this.add([
+			this.toolbar,
+			this.mainPanel
+		]);
 	},
 	
-	showPreview: function (answers, questionType) {
-		this.answers = answers;
+	showPreview: function (options) {
+		this.answers = options.answers;
+		this.setQuestionPanelContent(options.title, options.content);
+
+		if (options.image) {
+			this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
+				itemId: 'previewGridImageContainer',
+				gridIsHidden: true,
+				editable: false
+			});
+			
+			this.grid.setImage(options.image);
+			this.mainPanel.add(this.grid);
+		}
 		
-		if(questionType === 'flashcard') {
+		if(options.questionType === 'grid') {
+			if(options.image) {
+				this.grid.setGridIsHidden(false);
+				this.grid.setEditable(true);
+			}
+		}
+		
+		else if(options.questionType === 'flashcard') {
 			this.answerList = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-		    	style: 'min-height: 150px; margin-left: 0px; margin-right: 0px; word-wrap: break-word;'
+		    	style: 'min-height: 100px; word-wrap: break-word;'
 			});
 			
 			this.statisticButton.setHidden(true);
-			this.answerList.setContent(answers[0].text, true, true);
+			this.answerList.setContent(this.answers[0].text, true, true);
+			this.mainPanel.add([this.answerList]);
 		}
 		
 		else {
@@ -144,7 +183,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 				}
 			});
 			
-			this.answerList.getStore().add(answers);
+			this.answerList.getStore().add(this.answers);
 			this.answerList.getStore().each(function (item) {
 				if (ARSnova.app.globalConfig.parseAnswerOptionFormatting) {
 					var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
@@ -156,19 +195,27 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 					item.set('formattedText', Ext.util.Format.htmlEncode(item.get('text')));
 				}
 			});
+			
+			this.mainPanel.add([this.answerList]);
 		}		
 
 		this.mainPanel.add([
-			this.answerList,
-			this.confirmButton
-		]);
-		
-		this.add([
-			this.toolbar,
-			this.mainPanel
+    		this.confirmButton
 		]);
 
 		this.show();
+		
+		// for IE: unblock input fields
+		Ext.util.InputBlocker.unblockInputs();
+	},
+	
+	setQuestionPanelContent: function(title, content) {
+		// Setup question title and text to display in the same field; markdown handles HTML encoding
+		var questionString = title.replace(/\./, "\\.")
+			+ '\n\n' // inserts one blank line between subject and text
+			+ content;
+		
+		this.questionPanel.setContent(questionString, true, true);
 	},
 	
 	statisticsButtonHandler: function () {

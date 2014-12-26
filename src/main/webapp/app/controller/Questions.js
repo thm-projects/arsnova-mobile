@@ -189,7 +189,8 @@ Ext.define("ARSnova.controller.Questions", {
 				break;
 		}
 		if (error) {
-			Ext.Msg.alert('Hinweis', 'Ihre Eingaben sind unvollständig');
+			Ext.Msg.alert(Messages.NOTIFICATION, Messages.INCOMPLETE_INPUTS);
+			options.saveButton.enable();
 			return;
 		}
 

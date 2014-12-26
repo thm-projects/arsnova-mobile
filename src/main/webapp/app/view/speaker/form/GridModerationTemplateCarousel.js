@@ -25,7 +25,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 	    direction: 'horizontal',
 		 
 		saveHandlerScope: null,
-		templateAdoptionHandler: Ext.emptyFn,
+		templateAdoptionHandler: Ext.emptyFn
 	},
 	
 	initialize: function () {

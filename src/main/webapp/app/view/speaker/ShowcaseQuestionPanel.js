@@ -31,7 +31,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		iconCls: 'icon-questions',
 
 		controller: null,
-		questionTitleLong: Messages.LECTURE_QUESTIONS_LONG,
+		questionTitleLong: Messages.LECTURE_QUESTION_LONG,
 		questionTitleShort: Messages.LECTURE_QUESTIONS
 	},
 
@@ -146,7 +146,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	},
 
 	setLectureMode: function () {
-		this.setQuestionTitleLong(Messages.LECTURE_QUESTIONS_LONG);
+		this.setQuestionTitleLong(Messages.LECTURE_QUESTION_LONG);
 		this.setQuestionTitleShort(Messages.LECTURE_QUESTIONS);
 	},
 

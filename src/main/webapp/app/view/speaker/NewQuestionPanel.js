@@ -77,8 +77,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			ui: 'confirm',
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
-			handler: function () {
-				this.saveHandler().then(function (response) {
+			handler: function (button) {
+				this.saveHandler(button).then(function (response) {
 					ARSnova.app.getController('Questions').details({
 						question: Ext.decode(response.responseText)
 					});
@@ -105,7 +105,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			cls: 'previewButton',
 			scope: this,
 			handler: function () {
-				this.previewHandler();
+				this.defaultPreviewHandler();
 			}
 		});
 
@@ -113,6 +113,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.previewPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
 			scrollable: null,
+			hidden: true,
 			items: [{
 				xtype: 'fieldset',
 				items: [this.previewButton]
@@ -227,12 +228,17 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 					}, me);
 
 					var title = '';
+					
+					me.previewPart.hide();
+					me.previewButton.setHandler(this.defaultPreviewHandler);
 
 					switch (button.getText()) {
 						case Messages.GRID:
 							if (pressed) {
 								me.gridQuestion.show();
+								me.previewButton.setHandler(me.gridQuestion.previewHandler);
 								title = label(Messages.QUESTION_GRID, Messages.QUESTION_GRID_SHORT);
+								this.previewPart.show();
 								this.uploadView.hide();
 								this.grid.hide();
 							} else {
@@ -270,7 +276,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							break;
 						case Messages.YESNO:
 							if (pressed) {
+								me.previewPart.show();
 								me.yesNoQuestion.show();
+								me.previewButton.setHandler(me.yesNoQuestion.previewHandler);
 								title = label(Messages.QUESTION_YESNO, Messages.QUESTION_YESNO);
 							} else {
 								me.yesNoQuestion.hide();
@@ -286,6 +294,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							break;
 						case Messages.FREETEXT:
 							if (pressed) {
+								me.previewPart.show();
 								me.freetextQuestion.show();
 								title = label(Messages.QUESTION_FREETEXT, Messages.QUESTION_FREETEXT_SHORT);
 							} else {
@@ -330,8 +339,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			cls: 'saveQuestionButton',
 			style: 'margin-top: 30px',
 			text: Messages.SAVE,
-			handler: function () {
-				me.saveHandler().then(function (response) {
+			handler: function (button) {
+				me.saveHandler(button).then(function (response) {
 					ARSnova.app.getController('Questions').details({
 						question: Ext.decode(response.responseText)
 					});
@@ -345,8 +354,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			cls: 'saveQuestionButton',
 			style: 'margin-top: 30px',
 			text: Messages.SAVE_AND_CONTINUE,
-			handler: function () {
-				me.saveHandler().then(function () {
+			handler: function (button) {
+				me.saveHandler(button).then(function () {
 					var theNotificationBox = {};
 					theNotificationBox = Ext.create('Ext.Panel', {
 						cls: 'notificationBox',
@@ -425,15 +434,16 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.questionOptions.setPressedButtons([0]);
 		this.releasePart.setHidden(localStorage.getItem('courseId') === null || localStorage.getItem('courseId').length === 0);
 	},
-
-	previewHandler: function () {
-		var questionPreview = Ext.create('ARSnova.view.QuestionPreviewBox', {
-			xtype: 'questionPreview'
-		});
+	
+	defaultPreviewHandler: function() {
+		var questionPreview = Ext.create('ARSnova.view.QuestionPreviewBox');
 		questionPreview.showPreview(this.subject.getValue(), this.textarea.getValue());
 	},
 
-	saveHandler: function () {
+	saveHandler: function (button) {
+		/* disable save button in order to avoid multiple question creation */
+		button.disable();
+		
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
 		var values = {};
 		console.log("SAVE HANDLER");
@@ -498,7 +508,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				break;
 		}
 
-		var promise = panel.dispatch(values);
+		var promise = panel.dispatch(values, button);
 		promise.then(function () {
 			panel.subject.reset();
 			panel.textarea.reset();
@@ -516,7 +526,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		return promise;
 	},
 
-	dispatch: function (values) {
+	dispatch: function (values, button) {
 		var promise = new RSVP.Promise();
 		ARSnova.app.getController('Questions').add({
 			sessionKeyword: localStorage.getItem('keyword'),
@@ -554,12 +564,15 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			gridType: values.gridType,
 			scaleFactor: values.scaleFactor,
 			gridScaleFactor: values.gridScaleFactor,
+			saveButton: button,
 			successFunc: function (response, opts) {
 				promise.resolve(response);
+				button.enable();
 			},
 			failureFunc: function (response, opts) {
 				Ext.Msg.alert(Messages.NOTICE, Messages.QUESTION_CREATION_ERROR);
 				promise.reject(response);
+				button.enable();
 			}
 		});
 		return promise;

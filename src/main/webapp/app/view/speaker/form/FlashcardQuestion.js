@@ -42,7 +42,6 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 
 		this.add([{
 			xtype: 'fieldset',
-			title: ' ',
 			items: [this.answer]
 		}, {
 			xtype: 'fieldset',
@@ -77,10 +76,19 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 	},
 
 	previewHandler: function () {
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
+		
 		var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox', {
 			xtype: 'answerPreview'
 		});
-		answerPreview.showPreview(this.getValue(), 'flashcard');
+
+		answerPreview.showPreview({
+			title: panel.subject.getValue(), 
+			content: panel.textarea.getValue(),
+			questionType: 'flashcard',
+			answers: this.getValue(),
+			image: panel.image
+		});
 	},
 
 	markEmptyFields: function () {

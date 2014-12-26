@@ -27,7 +27,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		numberOfDots: 1,
 		gridType: 'moderation',
 		gridIsHidden: true,
-		strokeColor: '#ffffff',
+		strokeColor: '#ffffff'
 	},
 	
 	/**
@@ -261,5 +261,5 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 
 		this.initZoom();
 		this.initGridZoom();
-	},
+	}
 });

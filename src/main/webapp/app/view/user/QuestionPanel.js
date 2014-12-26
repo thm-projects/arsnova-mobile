@@ -28,7 +28,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 		questionLoader: null,
 		questionCountLoader: null,
-		questionTitle: Messages.LECTURE_QUESTIONS_LONG,
+		questionTitle: Messages.LECTURE_QUESTION_LONG,
 		questionTitleShort: Messages.LECTURE_QUESTIONS
 	},
 
@@ -85,7 +85,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	setLectureMode: function () {
 		this.setQuestionCountLoader(Ext.bind(ARSnova.app.questionModel.countLectureQuestions, ARSnova.app.questionModel));
 		this.setQuestionLoader(Ext.bind(ARSnova.app.questionModel.getLectureQuestionsForUser, ARSnova.app.questionModel));
-		this.setQuestionTitle(Messages.LECTURE_QUESTIONS_LONG);
+		this.setQuestionTitle(Messages.LECTURE_QUESTION_LONG);
 		this.setQuestionTitleShort(Messages.LECTURE_QUESTIONS);
 	},
 

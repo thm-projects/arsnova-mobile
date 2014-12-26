@@ -81,46 +81,51 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			cls: "roundedBox allCapsHeader"
 		});
 		questionPanel.setContent(questionString, true, true);
+		
+		this.buttonContainer = Ext.create('Ext.Container', {
+			layout: {
+				type: 'hbox',
+				align: 'stretch'
+			},
+			defaults: {
+				style: {
+					margin: '10px'
+				}
+			},
+			hidden: !!this.questionObj.userAnswered || !!this.questionObj.isAbstentionAnswer,
+			items: [{
+				flex: 1,
+				xtype: 'button',
+				ui: 'confirm',
+				cls: 'login-button noMargin',
+				text: Messages.SAVE,
+				handler: this.saveHandler,
+				scope: this
+			}, !!!this.questionObj.abstention ? {hidden: true}: {
+				flex: 1,
+				xtype: 'button',
+				ui: 'action',
+				cls: 'login-button noMargin',
+				text: Messages.ABSTENTION,
+				handler: this.abstentionHandler,
+				scope: this
+			}]
+		});
 
-		this.add([Ext.create('Ext.Panel', {
-			items: [questionPanel, this.viewOnly ? {}: {
+		this.add([
+			Ext.create('Ext.Panel', {
+				items: [questionPanel, this.viewOnly ? {}: {
 					xtype: 'formpanel',
 					scrollable: null,
 					submitOnAction: false,
 					items: [{
 						xtype: 'fieldset',
 						items: [this.answerSubject, this.answerText]
-					}, {
-						xtype: 'container',
-						layout: {
-							type: 'hbox',
-							align: 'stretch'
-						},
-						defaults: {
-							style: {
-								margin: '10px'
-							}
-						},
-						items: [{
-							flex: 1,
-							xtype: 'button',
-							ui: 'confirm',
-							cls: 'login-button noMargin',
-							text: Messages.SAVE,
-							handler: this.saveHandler,
-							scope: this
-						}, !!!this.questionObj.abstention ? {hidden: true}: {
-							flex: 1,
-							xtype: 'button',
-							cls: 'login-button noMargin',
-							text: Messages.ABSTENTION,
-							handler: this.abstentionHandler,
-							scope: this
-						}]
-					}]
-				}
-			]
-		})]);
+					}, 
+					this.buttonContainer]
+				}]
+			})
+		]);
 
 		this.on('activate', function () {
 			/*
@@ -140,6 +145,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
 			if (button === "yes") {
 				this.storeAnswer();
+				this.buttonContainer.setHidden(true);
 			}
 		}, this);
 	},
@@ -148,6 +154,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
 			if (button === "yes") {
 				this.storeAbstention();
+				this.buttonContainer.setHidden(true);
 			}
 		}, this);
 	},

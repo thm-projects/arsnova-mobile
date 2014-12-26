@@ -111,7 +111,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		this.lastVisitedSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
 			style: 'margin:0 3px',
 			scrollable: null,
-			title: Messages.LAST_VISITED_SESSIONS
+			title: Messages.LAST_VISITED_SESSIONS_SPEAKER
 		});
 		
 		this.exportButton = Ext.create('ARSnova.view.MatrixButton', {
@@ -261,7 +261,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				for (var i = 0, session; session = sessions[i]; i++) {
 					
 					var status = "";
-					var course = "icon-radar";
+					var course = "icon-presenter";
 
 					if (!session.active) {
 						status = " isInactive";
@@ -283,9 +283,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							console.log(options.config.sessionObj);
 							console.log("Test");
 							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
-							ARSnova.app.getController('Auth').roleSelect({
-								mode: ARSnova.app.USER_ROLE_SPEAKER
-							});
+							localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
+							ARSnova.app.setWindowTitle();
+							
 							ARSnova.app.getController('Sessions').login({
 								keyword: options.config.sessionObj.keyword
 							});
