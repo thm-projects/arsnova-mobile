@@ -410,51 +410,51 @@ Ext.application({
 	initializeAdvancedScrolling: function() {
 		if(Ext.os.is.Desktop) {
 			var doScroll = function (e) {
-			    e = window.event || e;
-			    var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+				e = window.event || e;
+				var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
 
-			    /** check if previewBox is activeItem */
-			    var scrollMe = ARSnova.app.activePreviewBox ? ARSnova.app.activePreviewBox :
-			    	ARSnova.app.mainTabPanel.tabPanel.getActiveItem();
+				/** check if previewBox is activeItem */
+				var scrollMe = ARSnova.app.activePreviewBox ? ARSnova.app.activePreviewBox :
+					ARSnova.app.mainTabPanel.tabPanel.getActiveItem();
 			    
-			    if(scrollMe) {
-			    	/** check if tabPanel is activeItem */
-			    	if(scrollMe.getActiveItem().getScrollable()) scrollMe = scrollMe.getActiveItem();
+				if(scrollMe) {
+					/** check if tabPanel is activeItem */
+					if(scrollMe.getActiveItem().getScrollable()) scrollMe = scrollMe.getActiveItem();
 			    	
-			    	if(scrollMe.getScrollable()) {
-				    	var scroller = scrollMe.getScrollable().getScroller();
-					    var maxPosition = scroller.getMaxPosition().y;
-					    var currentPos = scroller.position.y; 
+					if(scrollMe.getScrollable()) {
+						var scroller = scrollMe.getScrollable().getScroller();
+						var maxPosition = scroller.getMaxPosition().y;
+						var currentPos = scroller.position.y; 
+					
+						var newPos = currentPos;
+						if (delta === 1) {
+							if (currentPos >= 10) {
+								newPos = currentPos - 10;
+							}
+							else {
+								newPos = 0;
+							}
+						}
+						else if (delta === -1) {
+							if (currentPos <= maxPosition - 10) {
+								newPos = currentPos + 10;
+							}
+							else {
+								newPos = maxPosition;
+							}
+						}
+						scroller.scrollTo(0, newPos);
+					}
+				}
 
-					    var newPos = currentPos;
-					    if (delta === 1) {
-					        if (currentPos >= 10) {
-					        	newPos = currentPos - 10;
-					        }
-					        else {
-					        	newPos = 0;
-					        }
-					    }
-					    else if (delta === -1) {
-					        if (currentPos <= maxPosition - 10) {
-					        	newPos = currentPos + 10;
-					        }
-					        else {
-					        	newPos = maxPosition;
-					        }
-					    }
-					   	scroller.scrollTo(0, newPos);
-			    	}
-			    }
-
-			    e.preventDefault();
+				e.preventDefault();
 			};
 
 			if (window.addEventListener) {
-			    window.addEventListener("mousewheel", doScroll, false);
-			    window.addEventListener("DOMMouseScroll", doScroll, false);
+				window.addEventListener("mousewheel", doScroll, false);
+				window.addEventListener("DOMMouseScroll", doScroll, false);
 			} else {
-			    window.attachEvent("onmousewheel", doScroll);
+				window.attachEvent("onmousewheel", doScroll);
 			}
 		}
 	},
