@@ -37,7 +37,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
-
+		
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
 			this.toolbar.setTitleOptions(this.getQuestionTitleLong(), this.getQuestionTitleShort());
 			this.toolbar.incrementQuestionCounter(panel.activeIndex);
@@ -73,6 +73,10 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		this.on('add', function (panel, component, index) {
 			component.doTypeset && component.doTypeset(panel);
 		});
+		
+		this.on('hide', function() {
+			ARSnova.app.activePreviewBox = false;
+		});
 	},
 
 	beforeActivate: function () {
@@ -83,6 +87,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 
 	onActivate: function () {
 		this.getAllSkillQuestions();
+		ARSnova.app.activePreviewBox = this;
 	},
 
 	getAllSkillQuestions: function () {
