@@ -413,10 +413,12 @@ Ext.application({
 				e = window.event || e;
 				var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
 
+				if(ARSnova.app.mainTabPanel == null) return;
+				
 				/** check if previewBox is activeItem */
 				var scrollMe = ARSnova.app.activePreviewBox ? ARSnova.app.activePreviewBox :
 					ARSnova.app.mainTabPanel.tabPanel.getActiveItem();
-			    
+				    
 				if(scrollMe) {
 					/** check if tabPanel is activeItem */
 					if(scrollMe.getActiveItem().getScrollable()) scrollMe = scrollMe.getActiveItem();
