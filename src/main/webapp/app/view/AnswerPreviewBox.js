@@ -98,7 +98,10 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		// remove padding around mainPanel
 		this.mainPanel.bodyElement.dom.style.padding="0";
 		
-		this.on('hide', this.destroy);
+		this.on('hide', function() {
+			ARSnova.app.activePreviewBox = false;
+			this.destroy();
+		});
 		
 		this.add([
 			this.toolbar,
@@ -108,6 +111,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 	
 	showPreview: function (options) {
 		this.answers = options.answers;
+		ARSnova.app.activePreviewBox = this;
 		this.setQuestionPanelContent(options.title, options.content);
 
 		if (options.image) {

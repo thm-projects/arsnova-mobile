@@ -141,12 +141,14 @@ Ext.application({
 	 * This is called automatically when the page loads. Here we set up the main component on the page
 	 */
 
-	launch: function () {
+	launch: function () {		
 		console.info("ARSnova.app.launch");
 		// Destroy the #appLoadingIndicator element
 		Ext.fly('appLoadingIndicator').destroy();
 		this.configLoaded = new RSVP.Promise();
 
+		this.initializeAdvancedScrolling();
+		
 		this.checkLocalStorage();
 		this.checkBrowser();
 
@@ -172,7 +174,7 @@ Ext.application({
 			me.configLoaded.reject();
 		});
 	},
-
+	
 	/**
 	 * reload application if manifest file is changed
 	 */
@@ -400,6 +402,61 @@ Ext.application({
 		}, function browserUnsupported(requiredBrowsers) {
 			alert(Messages.BROWSER_NOT_SUPPORTED_MESSAGE.replace(/###/, requiredBrowsers.join(", ")));
 		});
+	},
+	
+	/**
+	 * adds mouse scrolling feature if app is used in desktop browser
+	 */
+	initializeAdvancedScrolling: function() {
+		if(Ext.os.is.Desktop) {
+			var doScroll = function (e) {
+			    e = window.event || e;
+			    var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+
+			    /** check if previewBox is activeItem */
+			    var scrollMe = ARSnova.app.activePreviewBox ? ARSnova.app.activePreviewBox :
+			    	ARSnova.app.mainTabPanel.tabPanel.getActiveItem();
+			    
+			    if(scrollMe) {
+			    	/** check if tabPanel is activeItem */
+			    	if(scrollMe.getActiveItem().getScrollable()) scrollMe = scrollMe.getActiveItem();
+			    	
+			    	if(scrollMe.getScrollable()) {
+				    	var scroller = scrollMe.getScrollable().getScroller();
+					    var maxPosition = scroller.getMaxPosition().y;
+					    var currentPos = scroller.position.y; 
+
+					    var newPos = currentPos;
+					    if (delta === 1) {
+					        if (currentPos >= 10) {
+					        	newPos = currentPos - 10;
+					        }
+					        else {
+					        	newPos = 0;
+					        }
+					    }
+					    else if (delta === -1) {
+					        if (currentPos <= maxPosition - 10) {
+					        	newPos = currentPos + 10;
+					        }
+					        else {
+					        	newPos = maxPosition;
+					        }
+					    }
+					   	scroller.scrollTo(0, newPos);
+			    	}
+			    }
+
+			    e.preventDefault();
+			};
+
+			if (window.addEventListener) {
+			    window.addEventListener("mousewheel", doScroll, false);
+			    window.addEventListener("DOMMouseScroll", doScroll, false);
+			} else {
+			    window.attachEvent("onmousewheel", doScroll);
+			}
+		}
 	},
 
 	formatSessionID: function (sessionID) {
