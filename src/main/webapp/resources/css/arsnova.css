@@ -1048,14 +1048,12 @@ ol.standardList li {
 }
 
 .abcdOptions {
-	width: 80%;
 	max-width: 500px;
 	margin: 0 auto;
 	min-width: 0px !important;
 }
 
 .abcOptions {
-	width: 80%;
 	margin: 0 auto;
 }
 
@@ -1073,13 +1071,12 @@ ol.standardList li {
 }
 
 .yesnoOptions, .newQuestionOptions .x-segmentedbutton, .saveQuestionButton {
-	width: 80%;
 	max-width: 500px;
 	margin: 20px auto;
 }
 
 .saveQuestionButton {
-	margin: 0 auto 30px;
+	margin: 1em 0.5em 30px;
 }
 
 .yesnoOptions .x-button {
