@@ -53,18 +53,18 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		this.toolbar = Ext.create('ARSnova.view.components.QuestionToolbar', {
 			cls: 'speakerTitleText',
 			backButtonHandler: function (animation) {
-			var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-			sTP.animateActiveItem(sTP.audienceQuestionPanel, animation);
-		},
-		statisticsButtonHandler: function () {
-			var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-			sTP.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
-				question: ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel._activeItem._activeItem.questionObj,
-				lastPanel: this
-			});
-			ARSnova.app.mainTabPanel.animateActiveItem(sTP.questionStatisticChart, 'slide');
-		}
-	});
+				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+				sTP.animateActiveItem(sTP.audienceQuestionPanel, animation);
+			},
+			statisticsButtonHandler: function () {
+				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+				sTP.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
+					question: ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel._activeItem._activeItem.questionObj,
+					lastPanel: this
+				});
+				ARSnova.app.mainTabPanel.animateActiveItem(sTP.questionStatisticChart, 'slide');
+			}
+		});
 
 		this.add([this.toolbar]);
 
