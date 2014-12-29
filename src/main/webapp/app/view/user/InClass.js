@@ -134,7 +134,9 @@ Ext.define('ARSnova.view.user.InClass', {
 				ui: 'normal',
 				text: Messages.MY_LEARNING_PROGRESS,
 				cls: 'standardListButton',
-				badgeCls: 'badgeicon'
+				badgeCls: 'badgeicon',
+				disabledCls: '',
+				disabled: true
 			});
 		}
 
