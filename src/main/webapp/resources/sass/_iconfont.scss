@@ -53,6 +53,7 @@
 @include icon("icon-presenter" , "\e602", "arsnova");
 @include icon("icon-book" , "\f02d", "arsnova");
 @include icon("icon-book2" , "\e601", "arsnova");
+@include icon("icon-newsession" , "\f044", "arsnova");
 
 @include icon("icon-check" , "3", "Pictos");
 @include icon('minus2');
@@ -64,58 +65,6 @@
 @include icon("login-icon-twitter" , "\f081", "arsnova");
 @include icon("login-icon-facebook" , "\e60f", "arsnova");
 @include icon("login-icon-google" , "\e611", "arsnova");
-
-.x-tabbar .icon-questions,
-.x-tabbar .icon-gear {
-	margin-left: 17px !important;
-}
-
-.x-tabbar .icon-gear {
-	font-size: 18px;
-}
-
-.x-tabbar .icon-question {
-	font-size: 20px;
-	top: -2px;
-	margin-bottom: -3.5px!important;
-}
-
-.x-tabbar .icon-users {
-	font-size: 18px;
-	top: -1.5px;
-	margin-bottom: 0px!important;
-}
-
-.x-tabbar .icon-lock {
-	font-size: 19px;
-	top: 1px;
-	margin-bottom: -1.5px!important;
-}
-
-.voteIcons {
-	top: 2px;
-	font-size: 16px;
-	margin-bottom: 3.5px!important;
-}
-
-.x-tabbar .icon-questions,
-.x-tabbar .icon-home {
-	top: -1px;
-	font-size: 1.1em;
-	margin-bottom: -3.5px !important;
-}
-
-.x-tabbar .icon-book {
-	top: 2px;
-	font-size: 17px;
-	margin-bottom: 2px!important;	
-}
-
-.x-tabbar .icon-info {
-	top: 2px;
-	font-size: 18px;
-	margin-bottom: 0px!important;
-}
 
 .icon-logo {
 	font-size: 3em;
@@ -140,48 +89,100 @@
 	content: "n";
 }
 
+.voteIcons {
+	top: 2px;
+	font-size: 16px;
+	margin-bottom: 3.5px!important;
+}
+
+.x-tabbar  {
+	.icon-gear {
+		font-size: 18px;
+	}
+	
+	.icon-questions,
+	.icon-gear {
+		margin-left: 17px !important;
+	}
+	
+	.icon-questions,
+	.icon-home {
+		top: -1px;
+		font-size: 1.1em;
+		margin-bottom: -3.5px !important;
+	}
+	
+	.icon-question {
+		font-size: 20px;
+		top: -2px;
+		margin-bottom: -3.5px!important;
+	}
+	
+	.icon-book {
+		top: 2px;
+		font-size: 17px;
+		margin-bottom: 2px!important;
+	}
+	
+	.icon-info {
+		top: 2px;
+		font-size: 18px;
+		margin-bottom: 0px!important;
+	}
+	
+	.icon-lock {
+		font-size: 19px;
+		top: 1px;
+		margin-bottom: -1.5px!important;
+	}
+	
+	.icon-users {
+		font-size: 18px;
+		top: -1.5px;
+		margin-bottom: 0px!important;
+	}
+}
+
 .feedbackStatisticButton {
 	border: none !important;
 	margin: 0 auto !important;
 	background: none !important;
 	font-size: 1.75em;
+	
+	.icon-happy, .icon-wink, .icon-sad, .icon-shocked {
+		color: $smiley-color;
+	}
 }
 
-.feedbackStatisticButton .icon-happy,
-.feedbackStatisticButton .icon-wink,
-.feedbackStatisticButton .icon-sad,
-.feedbackStatisticButton .icon-shocked {
-	color: $smiley-color;
+.forwardListButton {
+	.icon-happy, .icon-wink, .icon-sad, .icon-shocked {
+		color: $smiley-color;
+		margin-right: 15px;
+   		width: 28px !important;
+    	height: 28px !important;
+	}
+	
+	.icon-radar {
+		color: $thm-green !important;
+		margin-right: 16px;
+	}
 }
 
-.forwardListButton .icon-happy,
-.forwardListButton .icon-wink,
-.forwardListButton .icon-sad,
-.forwardListButton .icon-shocked {
-	color: $smiley-color;
-	margin-right: 15px;
-    width: 28px !important;
-    height: 28px !important;
-}
-
-.courseIcon.icon-prof {
-	font-size: 0.85em;
-	margin-right: 4px;
-	margin-bottom: -3px;
-}
-
-.courseIcon.icon-users {
-	margin-bottom: 5px;
-}
-
-.courseIcon.icon-presenter {
-	margin-left: 1.5px;
-	margin-right: -1.5px;
-}
-
-.forwardListButton .icon-radar {
-	color: $thm-green !important;
-	margin-right: 16px;
+.courseIcon {
+	&.icon-prof {
+		font-size: 0.85em;
+		margin-right: 4px;
+		margin-bottom: -3px;
+	}
+	
+	&.icon-users {
+		margin-bottom: 5px;
+	}
+	
+	&.icon-presenter {
+		margin-left: 1.5px;
+		margin-right: -1.5px;
+	}
 }
 
 .voteButton .x-button-icon,
@@ -192,10 +193,6 @@
 	line-height: 48px;
 }
 
-.iconBtn {
-	border-color: transparent !important;
-}
-
 .voteButton .x-button-icon:before,
 .x-toolbar .voteButton .x-button-icon:before,
 .x-button .iconBtnImg.x-button-icon:before {
@@ -204,18 +201,52 @@
 	line-height: 1em !important;
 }
 
-.iconBtn .icon-users {
-	margin-top: 14px !important;
-}
 
-.iconBtn .icon-group {
-	font-size: 44px !important;
-	margin-top: 18px !important;
-}
+.iconBtn {
+	border-color: transparent !important;
+	
+	.icon-newsession {
+		margin-left: 5px;
+		margin-top: 1px;
+	}
+	
+	.icon-group {
+		font-size: 44px !important;
+		margin-top: 18px !important;
+	}
+	
+	.icon-users {
+		margin-top: 14px !important;
+	}
+	
+	.login-icon-ldap {
+		margin: 16px 0 0 10px !important;
+		font-size: 46px !important;
+	}
+	
+	.login-icon-twitter,
+	.login-icon-facebook,
+	.login-icon-google {
+		margin: 9px 0 0 14px !important;
+		font-size: 60px !important;
+	}
 
-.login-icon-ldap {
-	margin: 16px 0 0 10px !important;
-	font-size: 46px !important;
+	.login-icon-cas,
+	.login-icon-arsnova {
+		color: $thm-green;
+	}
+
+	.login-icon-twitter {
+		color: $twitter-color;
+	}
+
+	.login-icon-facebook {
+		color: $facebook-color;
+	}
+
+	.login-icon-google {
+		color: $google-color;
+	}
 }
 
 .icon-happy, .icon-wink, .icon-sad,
@@ -242,28 +273,4 @@
 	display: inline-block;
 	border-radius: 50%/50%;
 	box-shadow: inset 50px 50px 50px #4a5c66;
-}
-
-.login-icon-twitter,
-.login-icon-facebook,
-.login-icon-google {
-	margin: 9px 0 0 14px !important;
-	font-size: 60px !important;
-}
-
-.login-icon-cas,
-.login-icon-arsnova {
-	color: $thm-green;
-}
-
-.login-icon-twitter {
-	color: $twitter-color;
-}
-
-.login-icon-facebook {
-	color: $facebook-color;
-}
-
-.login-icon-google {
-	color: $google-color;
 }
