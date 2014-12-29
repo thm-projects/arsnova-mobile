@@ -21,7 +21,6 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 
 	config: {
 		title: Messages.STATISTIC,
-		style: 'background: black',
 		height: '100%',
 		width: '100%',
 		fullscreen: true,
@@ -148,7 +147,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 
 		this.questionChart = Ext.create('Ext.chart.CartesianChart', {
 			store: this.questionStore,
-			style: 'background: black',
+			style: 'margin-top: 15px',
 			fullscreen: true,
 			
 			animate: {
@@ -162,17 +161,25 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 				fields: ['value'],
 				increment: 1,
 				minimum: 0,
-				style: {stroke: 'white'},
+				style: {
+					stroke: '#4a5c66',
+					lineWidth: 2
+				},
 				label: {
-					color: 'white'
+					color: '#4a5c66',
+					fontWeight: 'bold'
 				}
 			}, {
 				type: 'category',
 				position: 'bottom',
 				fields: ['text'],
-				style: {stroke: 'white'},
+				style: {
+					stroke: '#4a5c66',
+					lineWidth: 2
+				},
 				label: {
-					color: 'white',
+					color: '#4a5c66',
+					fontWeight: 'bold',
 					rotate: {degrees: 315}
 				},
 				renderer: function (text, object, index) {
@@ -193,9 +200,13 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 					display: 'insideEnd',
 					field: 'percent',
 					color: '#fff',
+					calloutColor: 'black',
 					orientation: 'horizontal',
-					renderer: function (text) {
-						return text + "%";
+					renderer: function (text, sprite, config, rendererData, index) {
+						return {
+							text: text + " %",
+							color: config.callout ? '#4a5c66' : '#fff'
+						};
 					}
 				},
 				renderer: function (sprite, config, rendererData, i) {

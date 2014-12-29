@@ -1239,15 +1239,10 @@ ol.standardList li {
 	margin-bottom: 5px;
 }
 
-.questionStatisticTitle {
-	background: black;
-	font-size: 80% !important;
-}
-
 .questionStatisticTitle .x-innerhtml {
 	font-weight: normal !important;
-	color: white;
-	font-size: 1.2em;
+	color: #4a5c66;
+	padding: 1em;
 }
 
 .questionStatisticTitle .x-innerhtml p {
