@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'arsnova';
-	src:url('fonts/arsnova.eot?u26kib');
-	src:url('fonts/arsnova.eot?#iefixu26kib') format('embedded-opentype'),
-		url('fonts/arsnova.woff?u26kib') format('woff'),
-		url('fonts/arsnova.ttf?u26kib') format('truetype'),
-		url('fonts/arsnova.svg?u26kib#arsnova') format('svg');
+	src:url('fonts/arsnova.eot?-zdbctp');
+	src:url('fonts/arsnova.eot?#iefix-zdbctp') format('embedded-opentype'),
+		url('fonts/arsnova.woff?-zdbctp') format('woff'),
+		url('fonts/arsnova.ttf?-zdbctp') format('truetype'),
+		url('fonts/arsnova.svg?-zdbctp#arsnova') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -88,6 +88,9 @@
 }
 .icon-prof:before {
 	content: "\e613";
+}
+.icon-newsession:before {
+	content: "\f044";
 }
 .icon-radar:before {
 	content: "\72";

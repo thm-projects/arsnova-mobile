@@ -19,10 +19,10 @@
 						"visibility": false
 					}
 				],
-				"grid": 0,
 				"tags": [
 					"presenter-512"
-				]
+				],
+				"grid": 0
 			},
 			"attrs": [
 				{
@@ -68,8 +68,8 @@
 				"name": "ars",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 19
+			"setIdx": 0,
+			"iconIdx": 1
 		},
 		{
 			"icon": {
@@ -95,8 +95,8 @@
 				"name": "nova",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 20
+			"setIdx": 0,
+			"iconIdx": 2
 		},
 		{
 			"icon": {
@@ -134,8 +134,8 @@
 				"name": "thm-full",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 21
+			"setIdx": 0,
+			"iconIdx": 3
 		},
 		{
 			"icon": {
@@ -158,8 +158,8 @@
 				"code": 61485,
 				"name": "book"
 			},
-			"setIdx": 1,
-			"iconIdx": 0
+			"setIdx": 0,
+			"iconIdx": 4
 		},
 		{
 			"icon": {
@@ -181,8 +181,8 @@
 				"code": 61458,
 				"name": "chart"
 			},
-			"setIdx": 1,
-			"iconIdx": 2
+			"setIdx": 0,
+			"iconIdx": 5
 		},
 		{
 			"icon": {
@@ -205,8 +205,8 @@
 				"code": 61596,
 				"name": "unlock"
 			},
-			"setIdx": 1,
-			"iconIdx": 3
+			"setIdx": 0,
+			"iconIdx": 6
 		},
 		{
 			"icon": {
@@ -229,8 +229,8 @@
 				"code": 61736,
 				"name": "question"
 			},
-			"setIdx": 1,
-			"iconIdx": 4
+			"setIdx": 0,
+			"iconIdx": 7
 		},
 		{
 			"icon": {
@@ -253,8 +253,8 @@
 				"code": 61737,
 				"name": "info"
 			},
-			"setIdx": 1,
-			"iconIdx": 5
+			"setIdx": 0,
+			"iconIdx": 8
 		},
 		{
 			"icon": {
@@ -277,8 +277,8 @@
 				"code": 61738,
 				"name": "exclamation"
 			},
-			"setIdx": 1,
-			"iconIdx": 6
+			"setIdx": 0,
+			"iconIdx": 9
 		},
 		{
 			"icon": {
@@ -301,8 +301,8 @@
 				"name": "twitter",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 7
+			"setIdx": 0,
+			"iconIdx": 10
 		},
 		{
 			"icon": {
@@ -326,8 +326,8 @@
 				"name": "gear",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 8
+			"setIdx": 0,
+			"iconIdx": 11
 		},
 		{
 			"icon": {
@@ -351,8 +351,8 @@
 				"name": "home",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 9
+			"setIdx": 0,
+			"iconIdx": 12
 		},
 		{
 			"icon": {
@@ -375,8 +375,8 @@
 				"name": "questions",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 10
+			"setIdx": 0,
+			"iconIdx": 13
 		},
 		{
 			"icon": {
@@ -400,8 +400,8 @@
 				"name": "renew",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 11
+			"setIdx": 0,
+			"iconIdx": 14
 		},
 		{
 			"icon": {
@@ -425,8 +425,8 @@
 				"name": "lock",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 12
+			"setIdx": 0,
+			"iconIdx": 15
 		},
 		{
 			"icon": {
@@ -450,8 +450,8 @@
 				"name": "play",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 13
+			"setIdx": 0,
+			"iconIdx": 16
 		},
 		{
 			"icon": {
@@ -474,8 +474,8 @@
 				"name": "pause",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 14
+			"setIdx": 0,
+			"iconIdx": 17
 		},
 		{
 			"icon": {
@@ -498,8 +498,8 @@
 				"name": "facebook",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 15
+			"setIdx": 0,
+			"iconIdx": 18
 		},
 		{
 			"icon": {
@@ -522,8 +522,8 @@
 				"name": "googleplus",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 16
+			"setIdx": 0,
+			"iconIdx": 19
 		},
 		{
 			"icon": {
@@ -547,8 +547,8 @@
 				"name": "unlock2",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 17
+			"setIdx": 0,
+			"iconIdx": 20
 		},
 		{
 			"icon": {
@@ -573,8 +573,32 @@
 				"name": "prof",
 				"ligatures": ""
 			},
+			"setIdx": 0,
+			"iconIdx": 21
+		},
+		{
+			"icon": {
+				"paths": [
+					"M507.429 676.571l66.286-66.286-86.857-86.857-66.286 66.286v32h54.857v54.857h32zM758.857 265.143q-9.143-9.143-18.857 0.571l-200 200q-9.714 9.714-0.571 18.857t18.857-0.571l200-200q9.714-9.714 0.571-18.857zM804.571 604.571v108.571q0 68-48.286 116.286t-116.286 48.286h-475.429q-68 0-116.286-48.286t-48.286-116.286v-475.429q0-68 48.286-116.286t116.286-48.286h475.429q36 0 66.857 14.286 8.571 4 10.286 13.143 1.714 9.714-5.143 16.571l-28 28q-8 8-18.286 4.571-13.143-3.429-25.714-3.429h-475.429q-37.714 0-64.571 26.857t-26.857 64.571v475.429q0 37.714 26.857 64.571t64.571 26.857h475.429q37.714 0 64.571-26.857t26.857-64.571v-72q0-7.429 5.143-12.571l36.571-36.571q8.571-8.571 20-4t11.429 16.571zM749.714 182.857l164.571 164.571-384 384h-164.571v-164.571zM1003.429 258.286l-52.571 52.571-164.571-164.571 52.571-52.571q16-16 38.857-16t38.857 16l86.857 86.857q16 16 16 38.857t-16 38.857z"
+				],
+				"attrs": [],
+				"tags": [
+					"edit",
+					"pencil-square-o"
+				],
+				"defaultCode": 61508,
+				"grid": 14
+			},
+			"attrs": [],
+			"properties": {
+				"id": 64,
+				"order": 1,
+				"prevSize": 28,
+				"code": 61508,
+				"name": "newsession"
+			},
 			"setIdx": 1,
-			"iconIdx": 18
+			"iconIdx": 64
 		},
 		{
 			"icon": {
@@ -596,7 +620,7 @@
 				"name": "radar",
 				"ligatures": ""
 			},
-			"setIdx": 1,
+			"setIdx": 0,
 			"iconIdx": 22
 		},
 		{
@@ -629,7 +653,7 @@
 				"name": "thm",
 				"ligatures": ""
 			},
-			"setIdx": 1,
+			"setIdx": 0,
 			"iconIdx": 23
 		},
 		{
@@ -657,7 +681,7 @@
 				"name": "user",
 				"ligatures": ""
 			},
-			"setIdx": 1,
+			"setIdx": 0,
 			"iconIdx": 24
 		},
 		{
@@ -688,7 +712,7 @@
 				"name": "speaker",
 				"ligatures": ""
 			},
-			"setIdx": 1,
+			"setIdx": 0,
 			"iconIdx": 25
 		},
 		{
@@ -714,7 +738,7 @@
 				"name": "happy",
 				"ligatures": ""
 			},
-			"setIdx": 1,
+			"setIdx": 0,
 			"iconIdx": 26
 		},
 		{
@@ -740,7 +764,7 @@
 				"name": "sad",
 				"ligatures": ""
 			},
-			"setIdx": 1,
+			"setIdx": 0,
 			"iconIdx": 27
 		},
 		{
@@ -766,7 +790,7 @@
 				"name": "wink",
 				"ligatures": ""
 			},
-			"setIdx": 1,
+			"setIdx": 0,
 			"iconIdx": 28
 		},
 		{
@@ -792,7 +816,7 @@
 				"name": "shocked",
 				"ligatures": ""
 			},
-			"setIdx": 1,
+			"setIdx": 0,
 			"iconIdx": 29
 		},
 		{
@@ -819,7 +843,7 @@
 				"name": "close",
 				"ligatures": ""
 			},
-			"setIdx": 1,
+			"setIdx": 0,
 			"iconIdx": 30
 		},
 		{
@@ -847,7 +871,7 @@
 				"name": "users",
 				"ligatures": ""
 			},
-			"setIdx": 1,
+			"setIdx": 0,
 			"iconIdx": 31
 		},
 		{
@@ -870,7 +894,7 @@
 				"code": 58881,
 				"name": "book2"
 			},
-			"setIdx": 1,
+			"setIdx": 0,
 			"iconIdx": 32
 		}
 	],
@@ -879,6 +903,10 @@
 		"name": "arsnova"
 	},
 	"preferences": {
+		"showGlyphs": true,
+		"showQuickUse": true,
+		"showQuickUse2": true,
+		"showSVGs": true,
 		"fontPref": {
 			"prefix": "icon-",
 			"metadata": {
@@ -886,35 +914,21 @@
 				"majorVersion": 1,
 				"minorVersion": 0
 			},
-			"showGlyphs": true,
 			"metrics": {
 				"emSize": 1024,
 				"baseline": 6.25,
 				"whitespace": 50
-			},
-			"resetPoint": 58880,
-			"showQuickUse": true,
-			"quickUsageToken": false,
-			"showMetrics": true,
-			"showMetadata": false
+			}
 		},
 		"imagePref": {
-			"color": 0,
-			"height": 32,
-			"columns": 16,
-			"margin": 16,
-			"png": false,
-			"sprites": true
+			"prefix": "icon-",
+			"png": true,
+			"useClassSelector": true,
+			"color": 4473924,
+			"bgColor": 16777215,
+			"classSelector": ".icon"
 		},
 		"historySize": 100,
-		"showCodes": true,
-		"gridSize": 16,
-		"showLiga": false,
-		"showGrid": true,
-		"showGlyphs": true,
-		"showQuickUse": true,
-		"showQuickUse2": true,
-		"showSVGs": true,
-		"search": ""
+		"showCodes": true
 	}
 }
