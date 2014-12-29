@@ -402,15 +402,6 @@ html,body {
 }
 
 .iconBtn {
-	background: #fdfdfd;
-	/* @alternate */ background: -moz-linear-gradient(top,  #fdfdfd 0%, #f8f8f8 25%, #eeeeee 50%, #cecece 100%);
-	/* @alternate */ background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fdfdfd), color-stop(25%,#f8f8f8), color-stop(50%,#eeeeee), color-stop(100%,#cecece));
-	/* @alternate */ background: -webkit-linear-gradient(top,  #fdfdfd 0%,#f8f8f8 25%,#eeeeee 50%,#cecece 100%);
-	/* @alternate */ background: -o-linear-gradient(top,  #fdfdfd 0%,#f8f8f8 25%,#eeeeee 50%,#cecece 100%);
-	/* @alternate */ background: -ms-linear-gradient(top,  #fdfdfd 0%,#f8f8f8 25%,#eeeeee 50%,#cecece 100%);
-	/* @alternate */ background: linear-gradient(to bottom,  #fdfdfd 0%,#f8f8f8 25%,#eeeeee 50%,#cecece 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdfdfd', endColorstr='#cecece',GradientType=0 );
-	background-clip: padding-box;
 	border-radius: 7px 7px 7px 7px;
 	border-style: solid;
 	border-width: 1px;

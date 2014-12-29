@@ -45,8 +45,13 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 }
 
 .iconBtn {
-	color: $thm-grey !important;
-	background: white !important;
+	color: $thm-grey;
+	background: white;
+	
+	&.x-button-pressing {
+		background-image: none;
+		background-color: #c4c4c4;
+	}
 }
 
 .thmlink,
