@@ -37,7 +37,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 		this.callParent(arguments);
 
 		this.backButton = Ext.create('Ext.Button', {
-			text: Messages.HOME,
+			text: Messages.BACK,
 			ui: 'back',
 			hidden: false,
 			handler: function () {
