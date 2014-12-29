@@ -1076,7 +1076,8 @@ ol.standardList li {
 }
 
 .saveQuestionButton {
-	margin: 1em 0.5em 30px;
+	width: 95.15%;
+	margin: 1em auto 30px;
 }
 
 .yesnoOptions .x-button {
