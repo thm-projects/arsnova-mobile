@@ -334,25 +334,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			]
 		});
 
-		me.saveButton = Ext.create('Ext.Button', {
-			ui: 'confirm',
-			cls: 'saveQuestionButton',
-			style: 'margin-top: 30px',
-			text: Messages.SAVE,
-			handler: function (button) {
-				me.saveHandler(button).then(function (response) {
-					ARSnova.app.getController('Questions').details({
-						question: Ext.decode(response.responseText)
-					});
-				});
-			},
-			scope: me
-		});
-
 		me.saveAndContinueButton = Ext.create('Ext.Button', {
 			ui: 'confirm',
 			cls: 'saveQuestionButton',
-			style: 'margin-top: 30px',
 			text: Messages.SAVE_AND_CONTINUE,
 			handler: function (button) {
 				me.saveHandler(button).then(function () {
@@ -423,7 +407,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		}
 
 		me.add([
-			me.saveButton,
 			me.saveAndContinueButton
 		]);
 
