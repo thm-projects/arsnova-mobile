@@ -33,7 +33,6 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 
 	/* toolbar items */
 	toolbar: null,
-	saveButton: null,
 	backButton: null,
 
 	initialize: function () {
@@ -46,18 +45,11 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			scope: this
 		});
 
-		this.saveButton = Ext.create('Ext.Button', {
-			text: Messages.SEND,
-			ui: 'confirm',
-			handler: this.askQuestion,
-			scope: this
-		});
-
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			ui: 'light',
 			title: Messages.QUESTION_TO_SPEAKER,
-			items: [this.backButton, {xtype: 'spacer'}, this.saveButton]
+			items: [this.backButton]
 		}),
 
 		this.subject = Ext.create('Ext.form.Text', {
