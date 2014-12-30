@@ -27,7 +27,7 @@ Ext.define('ARSnova.view.feedback.TabPanel', {
 
 	config: {
 		title: Messages.FEEDBACK,
-		iconCls: 'voteIcons icon-radar',
+		iconCls: 'voteIcons icon-bullhorn',
 
 		tabBar: {
 			hidden: true

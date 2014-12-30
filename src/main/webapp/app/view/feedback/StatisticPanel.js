@@ -289,7 +289,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				tab.setIconCls("voteIcons icon-sad");
 				break;
 			default:
-				tab.setIconCls("voteIcons icon-radar");
+				tab.setIconCls("voteIcons icon-bullhorn");
 				break;
 		}
 	},

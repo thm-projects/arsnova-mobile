@@ -91,7 +91,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			ui: 'normal',
 			text: Messages.GIVE_FEEDBACK,
 			cls: 'forwardListButton',
-			badgeCls: 'x-button-icon x-shown icon-radar',
+			badgeCls: 'x-button-icon x-shown icon-bullhorn',
 			controller: 'Feedback',
 			action: 'showVotePanel',
 			handler: this.buttonClicked
@@ -327,7 +327,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			var feedbackButton = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.feedbackButton;
 			feedbackButton.badgeEl ? feedbackButton.badgeEl.destroy() : '';
 			feedbackButton.badgeEl = null;
-			feedbackButton.badgeCls = "x-button-icon x-shown icon-radar";
+			feedbackButton.badgeCls = "x-button-icon x-shown icon-bullhorn";
 			feedbackButton.setBadge([{badgeText: " "}]);
 		}
 	},
