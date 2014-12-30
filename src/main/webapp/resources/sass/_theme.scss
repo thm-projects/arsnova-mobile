@@ -331,10 +331,10 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 
 .x-carousel-indicator span {
 	background-color: $thm-grey;
-}
-
-.x-carousel-indicator span.x-carousel-indicator-active {
-	background-color: $thm-green;
+	
+	&.x-carousel-indicator-active {
+		background-color: $thm-green;
+	}
 }
 
 .isInactive {
