@@ -220,6 +220,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				fields: ['value'],
 				increment: 1,
 				minimum: 0,
+				majorTickSteps: 10,
 				style: {
 					stroke: '#4a5c66',
 					lineWidth: 2
