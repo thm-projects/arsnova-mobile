@@ -148,7 +148,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			]
 		}, {
 			xtype: 'fieldset',
-			style: 'margin-top: 0px',
+			cls: 'fileUploadButtonFieldset',
 			items: [this.segmentButton]
 		}]);
 	},

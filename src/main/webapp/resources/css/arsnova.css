@@ -1023,7 +1023,7 @@ ol.standardList li {
 }
 
 .threeButtons {
-	width: 33%;
+	width: 33.3%;
 }
 
 .threeButtons > div {
@@ -1059,7 +1059,7 @@ ol.standardList li {
 }
 
 .abcOptions .x-button {
-	width: 33%;
+	width: 33.3%;
 }
 
 .abcdOptions .x-button {
@@ -1086,7 +1086,7 @@ ol.standardList li {
 }
 
 .newQuestionOptions .x-button {
-	/*width: 33%;*/
+	/*width: 33.3%;*/
 	width: 50%;
 }
 
@@ -1571,4 +1571,10 @@ ol.standardList li {
 .fileUploadFieldset .x-input-text {
 	border-bottom: none;
 	border-radius: .4em;
+}
+
+.fileUploadButtonFieldset {
+	margin: 0px auto 1.5em;
+	max-width: 500px;
+	width: 95.15%;
 }
