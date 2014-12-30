@@ -247,7 +247,7 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 .speakerTabbar {
 	.x-tab-icon .x-button-icon {
 		&:before,
-		&.voteIcons.icon-radar:before {
+		&.voteIcons.icon-bullhorn:before {
 			color: $thm-green !important;
 		}
 		
@@ -259,7 +259,7 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 	.x-tab-active {
 		.x-button-icon {
 			&:before,
-			&.voteIcons.icon-radar:before {
+			&.voteIcons.icon-bullhorn:before {
 				color: white !important;
 			}
 			
@@ -287,7 +287,7 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 		
 		.x-button-icon {
 			&:before,
-			&.voteIcons.icon-radar:before {
+			&.voteIcons.icon-bullhorn:before {
 				color: $thm-green;
 			}
 			

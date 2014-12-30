@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'arsnova';
-	src:url('fonts/arsnova.eot?-zdbctp');
-	src:url('fonts/arsnova.eot?#iefix-zdbctp') format('embedded-opentype'),
-		url('fonts/arsnova.woff?-zdbctp') format('woff'),
-		url('fonts/arsnova.ttf?-zdbctp') format('truetype'),
-		url('fonts/arsnova.svg?-zdbctp#arsnova') format('svg');
+	src:url('fonts/arsnova.eot?-5ecd3');
+	src:url('fonts/arsnova.eot?#iefix-5ecd3') format('embedded-opentype'),
+		url('fonts/arsnova.woff?-5ecd3') format('woff'),
+		url('fonts/arsnova.ttf?-5ecd3') format('truetype'),
+		url('fonts/arsnova.svg?-5ecd3#arsnova') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,105 +23,139 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.icon-presenter:before {
-	content: "\e602";
+.icon-bullhorn:before {
+	content: "\f0a1";
 }
-.icon-ars:before {
-	content: "\61";
-}
-.icon-nova:before {
-	content: "\6e";
-}
-.icon-thm-full:before {
-	content: "\e603";
-}
+
 .icon-book:before {
 	content: "\f02d";
 }
+
 .icon-chart:before {
 	content: "\f012";
 }
+
 .icon-unlock:before {
 	content: "\f09c";
 }
+
 .icon-question:before {
 	content: "\f128";
 }
+
 .icon-info:before {
 	content: "\f129";
 }
+
 .icon-exclamation:before {
 	content: "\f12a";
 }
+
 .icon-twitter:before {
 	content: "\f081";
 }
+
 .icon-gear:before {
 	content: "\e605";
 }
+
 .icon-home:before {
 	content: "\e606";
 }
-.icon-questions:before {
-	content: "\e607";
-}
+
 .icon-renew:before {
 	content: "\e608";
 }
+
 .icon-lock:before {
 	content: "\e609";
 }
+
 .icon-play:before {
 	content: "\e60a";
 }
+
 .icon-pause:before {
 	content: "\e60b";
 }
+
 .icon-facebook:before {
 	content: "\e60f";
 }
+
 .icon-googleplus:before {
 	content: "\e611";
 }
+
 .icon-unlock2:before {
 	content: "\e612";
 }
+
 .icon-prof:before {
 	content: "\e613";
 }
+
 .icon-newsession:before {
 	content: "\f044";
 }
+
+.icon-presenter:before {
+	content: "\e602";
+}
+
+.icon-ars:before {
+	content: "\61";
+}
+
+.icon-nova:before {
+	content: "\6e";
+}
+
+.icon-thm-full:before {
+	content: "\e603";
+}
+
 .icon-radar:before {
 	content: "\72";
 }
+
 .icon-thm:before {
 	content: "\74";
 }
+
 .icon-user:before {
 	content: "\e614";
 }
+
 .icon-speaker:before {
 	content: "\e615";
 }
+
 .icon-happy:before {
 	content: "\e616";
 }
+
 .icon-sad:before {
 	content: "\e617";
 }
+
 .icon-wink:before {
 	content: "\e618";
 }
+
 .icon-shocked:before {
 	content: "\e619";
 }
+
 .icon-close:before {
 	content: "\e61a";
 }
+
 .icon-users:before {
 	content: "\e600";
 }
+
 .icon-book2:before {
 	content: "\e601";
 }
+

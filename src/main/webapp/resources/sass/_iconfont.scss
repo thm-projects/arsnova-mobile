@@ -31,7 +31,7 @@
 @include icon("icon-thm-full" , "\e603", "arsnova");
 @include icon("icon-gear" , "\e605", "arsnova");
 @include icon("icon-home" , "\e606", "arsnova");
-@include icon("icon-questions" , "\e607", "arsnova");
+@include icon("icon-bullhorn" , "\f0a1", "arsnova");
 @include icon("icon-renew" , "\e608", "arsnova");
 @include icon("icon-lock" , "\e609", "arsnova");
 @include icon("icon-play" , "\e60a", "arsnova");
@@ -105,6 +105,18 @@
 		margin-left: 17px !important;
 	}
 	
+	.icon-bullhorn {
+		top: 1px;
+		font-size: 0.9em;
+		margin-bottom: 2.5px !important;
+	}
+	
+	.icon-presenter {
+		top: 2.5px;
+		font-size: 0.9em;
+		margin-bottom: 2.5px !important;
+	}
+	
 	.icon-questions,
 	.icon-home {
 		top: -1px;
@@ -162,7 +174,7 @@
     	height: 28px !important;
 	}
 	
-	.icon-radar {
+	.icon-bullhorn {
 		color: $thm-green !important;
 		margin-right: 16px;
 	}
