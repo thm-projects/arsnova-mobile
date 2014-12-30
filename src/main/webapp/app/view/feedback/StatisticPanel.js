@@ -27,7 +27,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 
 	config: {
 		title: 'StatisticPanel',
-		style: 'background-color: black',
+		fullscreen: true,
 		layout: 'fit'
 	},
 
@@ -169,13 +169,14 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			Ext.create('Ext.draw.gradient.Linear', {
 				degrees: 90,
 				stops: [
-					{offset: 0, color: 'rgb(235, 235, 235)'},
-					{offset: 100, color: 'rgb(195,195,195)'}
+					{offset: 0, color: 'rgb(180, 180, 180)'},
+					{offset: 100, color: 'rgb(160, 160, 160)'}
 				]
 			})
 		];
 
 		this.feedbackChart = Ext.create('Ext.chart.CartesianChart', {
+			fullscreen: true,
 			store: Ext.create('Ext.data.Store', {
 				fields: ['name', 'displayName', 'value', 'percent'],
 				data: [
@@ -200,7 +201,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				type: 'category',
 				position: 'bottom',
 				fields: ['name'],
-				style: {stroke: 'white'},
+				style: {stroke: '#4a5c66'},
 				renderer: function (label, layout, lastLabel) {
 					// remove x-axis ticks and labels on refresh or update
 					layout.attr.majorTicks = false;
@@ -218,11 +219,14 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				label: {
 					display: 'insideEnd',
 					field: 'value',
-					color: '#000',
+					color: '#fff',
 					font: '20px Helvetica',
 					orientation: 'horizontal',
-					renderer: function (text) {
-						return text;
+					renderer: function (text, sprite, config, rendererData, index) {
+						return {
+							text: text,
+							color: config.callout ? '#4a5c66' : '#fff'
+						};
 					}
 				},
 				renderer: function (sprite, config, rendererData, i) {
