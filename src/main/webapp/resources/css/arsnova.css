@@ -1232,11 +1232,12 @@ ol.standardList li {
 }
 
 .voteButtonsPanel {
-	background: black;
+	background: #E0E0E0;
 	padding-left: 10px;
 	padding-right: 10px;
 	margin-top: 15px;
 	margin-bottom: 5px;
+	border-bottom: none !important;
 }
 
 .questionStatisticTitle .x-innerhtml {
