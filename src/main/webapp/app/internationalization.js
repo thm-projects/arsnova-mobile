@@ -126,7 +126,7 @@ switch (lang) {
 			FEEDBACK_OKAY: "I can follow you.",
 			FEEDBACK_BAD: "Slower, please!",
 			FEEDBACK_NONE: "You've lost me.",
-			FEEDBACK_VOTE: "Vote",
+			FEEDBACK_VOTE: "Feedback",
 			FEEDBACK_RESET: 'Your feedback has been reset',
 			QUESTION_REQUEST: "I've got a question!",
 			QUESTION_TO_SPEAKER: 'Feedback',
