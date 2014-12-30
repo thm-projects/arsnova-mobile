@@ -194,26 +194,30 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 				yField: 'value',
 				colors: this.gradients,
 				style: {
-					minGapWidth: 20,
+					minGapWidth: 10,
 					maxBarWidth: 200
 				},
 				label: {
 					display: 'insideEnd',
 					field: 'percent',
 					color: '#fff',
-					calloutColor: 'black',
-					orientation: 'horizontal',
+					calloutColor: 'transparent',
 					renderer: function (text, sprite, config, rendererData, index) {
+						var barWidth = this.itemCfg.width;
 						return {
 							text: text + " %",
-							color: config.callout ? '#4a5c66' : '#fff'
+							color: config.callout ? '#4a5c66' : '#fff',
+							calloutVertical: barWidth > 40 ? false : true,
+							rotationRads: barWidth > 40 ? 0 : config.rotationRads,
+							calloutPlaceY: barWidth <= 40 ? config.calloutPlaceY : 
+								config.calloutPlaceY + 10
 						};
 					}
 				},
 				renderer: function (sprite, config, rendererData, i) {
 					var panel, gradient,
 						data = rendererData.store.getData().getAt(i).getData();
-					
+
 					if(data.text === Messages.ABSTENTION) {
 						return { fill: me.abstentionGradient };
 					} 
