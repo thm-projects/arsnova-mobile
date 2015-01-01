@@ -1481,16 +1481,25 @@ ol.standardList li {
 	min-width: 150px;
 }
 
+.coursememberonlyicon {
+	font-size: inherit !important;
+	line-height: initial !important;
+	line-height: 1em !important;
+}
+
 /* Course marks */
-.coursemembersonlymessage,
-.course {
-	background-image: url(../images/icons/30x30/isCourse.png);
-	background-repeat: no-repeat;
-	padding: 4px 48px;
+.coursemembersonlyicon:before {
+	position: absolute;
+	top: 5px;
+	text-align: center;
+	font-family: "arsnova";
+	content: "\e613";
+	margin-left: -20px;
+	font-size: 32px;
 }
 .coursemembersonlymessage {
 	color: #800;
-	font-weight: bold;
+	margin-left: 30px;
 }
 
 /* animation */

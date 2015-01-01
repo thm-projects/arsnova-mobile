@@ -155,7 +155,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			items: [
 				{
 					cls: 'gravure',
-					html: '<span class="coursemembersonlymessage">' + Messages.MEMBERS_ONLY + '</span>'
+					html: '<span class="coursemembersonlyicon"></span><span class="coursemembersonlymessage">' + Messages.MEMBERS_ONLY + '</span>'
 				}
 			],
 			hidden: true
