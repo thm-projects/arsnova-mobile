@@ -264,8 +264,8 @@ Ext.define("ARSnova.controller.Sessions", {
 				panel.down('textfield[name=' + el.getField() + ']').addCls("required");
 			});
 			
-			/* activate submitButton in newSessionPanel */
-			options.submitButton.enable();
+			/* activate inputElements in newSessionPanel */
+			options.newSessionPanel.enableInputElements();
 			
 			return;
 		}
@@ -290,8 +290,8 @@ Ext.define("ARSnova.controller.Sessions", {
 				/* deactivate several tab panels */
 				ARSnova.app.mainTabPanel.tabPanel.deactivateAboutTabs();
 				
-				/* activate submitButton in newSessionPanel */
-				options.submitButton.enable();
+				/* activate inputElements in newSessionPanel */
+				options.newSessionPanel.enableInputElements();
 				
 				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 				panel.setActiveItem(panel.mySessionsPanel);
