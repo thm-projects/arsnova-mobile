@@ -166,11 +166,10 @@ Ext.define('ARSnova.view.user.InClass', {
 			}]
 		});
 
-		this.swotBadge = Ext.create('Ext.Img', {
-			src: 'resources/images/badge_streber_1.png',
-			width: 100,
-			height: 100,
-			hidden: true
+		this.swotBadge = Ext.create('Ext.Panel', {
+			cls: 'swotBadgeIcon',
+			width: '100%',
+			height: '100%'
 		});
 
 		this.userBadges = Ext.create('Ext.Panel', {
@@ -390,20 +389,26 @@ Ext.define('ARSnova.view.user.InClass', {
 				var avgProgressThreshold = 25;
 				var p = Ext.apply({myprogress: 0, courseprogress: 0}, Ext.decode(response.responseText));
 				var vsBadge = {badgeText: Messages.VERSUS, badgeCls: "textbadgeicon"};
+				var badgeColorCls = "redbadge";
+				
 				var getBadge = function (percentage) {
 					if (percentage >= goodProgressThreshold) {
-						return {badgeText: percentage+"%", badgeCls: "greenbadgeicon"};
+						badgeColorCls = "greenbadge";
 					} else if (percentage >= avgProgressThreshold) {
-						return {badgeText: percentage+"%", badgeCls: "orangebadgeicon"};
+						badgeColorCls = "orangebadge";
 					} else {
-						return {badgeText: percentage+"%", badgeCls: "redbadgeicon"};
+						badgeColorCls = "redbadge";
 					}
+					
+					return {badgeText: percentage+"%", badgeCls: badgeColorCls + "icon"};
 				};
 				if (p.myprogress === 0 && p.courseprogress === 0) {
 					me.myLearningProgressButton.setBadge([{badgeText: "…"}, vsBadge, {badgeText: "…"}]);
 				} else {
 					me.myLearningProgressButton.setBadge([getBadge(p.myprogress), vsBadge, getBadge(p.courseprogress)]);
 				}
+				
+				me.swotBadge.setCls('swotBadgeIcon ' + badgeColorCls + "color");
 				me.swotBadge.setHidden(p.myprogress < goodProgressThreshold);
 			},
 			failure: function () {
