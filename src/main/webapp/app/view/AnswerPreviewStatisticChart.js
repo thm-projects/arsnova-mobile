@@ -184,7 +184,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 					rotate: {degrees: 315}
 				},
 				renderer: function (text, object, index) {
-					return text;
+					return text.substring(0, 30);
 				}
 			}],
 

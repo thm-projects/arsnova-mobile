@@ -241,6 +241,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					color: '#4a5c66',
 					fontWeight: 'bold',
 					rotate: {degrees: 315}
+				},
+				renderer: function (text, object, index) {
+					return text.substring(0, 30);
 				}
 			}],
 
