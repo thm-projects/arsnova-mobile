@@ -38,6 +38,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.FREETEXT_DETAIL_HEADER,
+			docked: 'top',
 			ui: 'light',
 			items: [
 				Ext.create('Ext.Button', {
@@ -66,14 +67,14 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			]
 		});
 
-	// Setup question title and text to disply in the same field; markdown handles HTML encoding
-	var questionString = this.answer.answerSubject
-		+ '\n\n' // inserts one blank line between subject and text
-		+ this.answer.answerText;
-
-	// Create standard panel with framework support
-	var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
-	questionPanel.setContent(questionString, true, true);
+		// Setup question title and text to disply in the same field; markdown handles HTML encoding
+		var questionString = this.answer.answerSubject
+			+ '\n\n' // inserts one blank line between subject and text
+			+ this.answer.answerText;
+	
+		// Create standard panel with framework support
+		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+		questionPanel.setContent(questionString, true, true);
 
 		this.add([this.toolbar, {
 			xtype: 'formpanel',
