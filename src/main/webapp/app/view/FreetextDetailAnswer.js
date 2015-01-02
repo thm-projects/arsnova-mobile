@@ -126,5 +126,17 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 				});
 			}
 		}]);
+	},
+	
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.on('painted', function() {
+			ARSnova.app.activePreviewBox = this;
+		});
+		
+		this.on('deactivate', function() {
+			ARSnova.app.activePreviewBox = false;
+		});
 	}
 });
