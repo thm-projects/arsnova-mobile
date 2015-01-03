@@ -292,6 +292,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.deleteQuestionsButton.show();
 			}, this),
 			empty: Ext.bind(function () {
+				this.showcaseActionButton.hide();
 				this.questionListContainer.hide();
 				this.questionList.show();
 				this.caption.hide();
