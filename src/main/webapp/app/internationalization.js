@@ -237,7 +237,7 @@ switch (lang) {
 			/* speaker */
 			LIVE_FEEDBACK: "Instant feedback",
 			COURSES_LEARNING_PROGRESS: "Class progress",
-			NEW_QUESTION: "New question",
+			NEW_QUESTION: "Ask new question",
 			NEW_LECTURE_QUESTION: "New lecture question",
 			NEW_PREPARATION_QUESTION: "New preparation question",
 			NEW_QUESTION_TITLE: "Question",

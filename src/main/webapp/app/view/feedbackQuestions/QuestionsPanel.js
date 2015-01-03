@@ -188,10 +188,17 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					ARSnova.app.getController('Feedback').showAskPanel({
 						type: 'slide'
 					}, function closePanelHandler() {
+						var userTabPanel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
+						
 						ARSnova.app.getController('Questions').listFeedbackQuestions({
 							type: 'slide',
 							direction: 'right',
-							duration: 700
+							duration: 700,
+							listeners: {
+								animationend: function () {
+									userTabPanel.setActiveItem(userTabPanel.inClassPanel);
+								}
+							}
 						});
 					});
 				}
