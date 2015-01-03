@@ -549,7 +549,7 @@ switch (lang) {
 			ANSWER_SAVED: 'Ihre Antwort wurde gespeichert.',
 			MISSING_INPUT: "Es müssen alle Felder ausgefüllt werden.",
 			SHOWCASE: "Vorstellen",
-			SHOWCASE_MODE: "Präsentationsmodus",
+			SHOWCASE_MODE: "Präsentations- modus",
 			LEAVE: "Verlassen",
 			MEMBERS_ONLY: "Diese Frage ist nur für Kursmitglieder sichtbar.",
 			QUESTION_RATING: "Likert-Skala",
