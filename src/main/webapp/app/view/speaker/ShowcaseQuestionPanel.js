@@ -34,7 +34,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		questionTitleShort: Messages.LECTURE_QUESTIONS
 	},
 
-	initialize: function () {
+	initialize: function (arguments) {
 		this.callParent(arguments);
 		
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
@@ -53,7 +53,13 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			cls: 'speakerTitleText',
 			backButtonHandler: function (animation) {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-				sTP.animateActiveItem(sTP.audienceQuestionPanel, animation);
+			
+				if(sTP.showcaseQuestionPanel.inclassBackButtonHandle) {
+					sTP.animateActiveItem(sTP.inClassPanel, animation);
+					sTP.showcaseQuestionPanel.inclassBackButtonHandle = false;
+				} else {
+					sTP.animateActiveItem(sTP.audienceQuestionPanel, animation);
+				}
 			},
 			statisticsButtonHandler: function () {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
