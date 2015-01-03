@@ -149,18 +149,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 		this.add([
 			this.toolbar,
 			this.buttonPanelTop,
-			this.buttonPanelBottom,
-			{
-				xtype: 'button',
-				text: Messages.QUESTION_REQUEST,
-				cls: 'questionRequestButton',
-				ui: 'action',
-				width: '235px',
-				handler: function () {
-					var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
-					panel.animateActiveItem(panel.askPanel, 'slide');
-				}
-			}
+			this.buttonPanelBottom
 		]);
 	}
 });
