@@ -77,7 +77,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				type: 'hbox',
 				pack: 'center'
 			},
-			hidden: this.isFlashcard,
 
 			style: {
 				marginTop: '30px'
@@ -87,7 +86,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				Ext.create('ARSnova.view.MatrixButton', {
 					text: Messages.CREATE_NEW_SESSION,
 					buttonConfig: 'icon',
-					cls: 'newSessionButton',
+					cls: 'actionButton',
 					imageCls: 'icon-newsession thm-green',
 					scope: this,
 					handler: function (options) {

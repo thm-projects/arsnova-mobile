@@ -469,8 +469,8 @@ html,body {
 .matrixButton.feedbackOkBackground .buttonText,
 .matrixButton.feedbackBadBackground .buttonText,
 .matrixButton.feedbackNoneBackground .buttonText,
-.matrixButton.newSessionButton .buttonText {
-	width: 145px !important;
+.matrixButton.actionButton .buttonText {
+	width: 135px !important;
 	margin-left: 0px;
 	margin-right: 0px;
 }

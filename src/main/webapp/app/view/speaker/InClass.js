@@ -166,10 +166,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			text: Messages.AH_HOC_QUESTION,
 			buttonConfig: 'icon',
 			imageCls: 'icon-question thm-green',
-			imageStyle: {
-				'font-size': '70px',
-				'margin-top': '4px'
-			},
 			controller: 'Questions',
 			action: 'adHoc',
 			handler: this.buttonClicked
