@@ -61,12 +61,6 @@ Ext.define("ARSnova.controller.Feedback", {
 		}
 
 		ARSnova.app.feedbackModel.postFeedback(feedbackValue);
-		var feedbackButton = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.feedbackButton;
-
-		feedbackButton.setBadge([{
-			badgeText: " ",
-			badgeCls: 'x-button-icon x-shown icon-' + feedbackCls
-		}]);
 
 		var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 		fP.animateActiveItem(fP.statisticPanel, {
@@ -85,14 +79,15 @@ Ext.define("ARSnova.controller.Feedback", {
 	showAskPanel: function (animation, closePanelHandler) {
 		var tP = ARSnova.app.mainTabPanel.tabPanel;
 		var fP = tP.feedbackTabPanel;
-		fP.askPanel.setClosePanelHandler(closePanelHandler);
+		
+		if(closePanelHandler) fP.askPanel.setClosePanelHandler(closePanelHandler);
 
-		if (fP.rendered) {
-			fP.setActiveItem(fP.askPanel);
+		if (tP.getActiveItem() === tP.userTabPanel) {
+			tP.userTabPanel.animateActiveItem(fP.askPanel, animation);
 		} else {
-			fP.activeItem = 1;
+			tP.userTabPanel.setActiveItem(fP.askPanel);
+			tP.animateActiveItem(tP.userTabPanel, animation);
 		}
-		tP.animateActiveItem(fP, animation);
 	},
 
 	showVotePanel: function () {
