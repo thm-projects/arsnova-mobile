@@ -199,7 +199,8 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 						rotate: {degrees: 315}
 					});
 					
-					return label.substring(0, 30);
+					return label.length < 30 ? label :
+						label.substring(0, 29) + "...";
 				}
 			}],
 
