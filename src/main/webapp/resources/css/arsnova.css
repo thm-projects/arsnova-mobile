@@ -480,6 +480,10 @@ html,body {
 	margin-right: 0px;
 }
 
+.matrixButton.manualActionButton .buttonText {
+	display: compact;
+}
+
 .noBackground {
 	background: none !important;
 }
@@ -837,26 +841,6 @@ html,body {
 }
 
 /* question.js */
-.x-list-item-wrong {
-	color: white !important;
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f16f5c),
-		color-stop(25%, #f6290c), color-stop(75%, #f6290c),
-		color-stop(100%, #f16f5c) );
-}
-
-.x-list-item-correct {
-	color: white !important;
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b4e391),
-		color-stop(25%, #61c419), color-stop(75%, #61c419),
-		color-stop(100%, #b4e391) );
-	border-radius: 10px;
-}
-
-.listCorrectItem {
-	padding: 0 0.2em 0 0.2em;
-	/*position: absolute;*/
-	/*margin-right: 5px;*/
-}
 
 /* settingsPanel */
 .logoutButton {
