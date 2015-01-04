@@ -98,7 +98,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		});
 		
 		this.feedbackButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.NEW_QUESTION,
+			text: Messages.QUESTION_REQUEST,
 			cls: 'actionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-question thm-green',
@@ -167,15 +167,15 @@ Ext.define('ARSnova.view.user.InClass', {
 		}
 
 		var buttons = [];
-		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
-			buttons.push(this.myQuestionsButton);
-		}
 		buttons.push(
 			this.lectureQuestionButton,
 			this.preparationQuestionButton
 		);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			buttons.push(this.myLearningProgressButton);
+		}
+		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
+			buttons.push(this.myQuestionsButton);
 		}
 
 		this.inClass = Ext.create('Ext.form.FormPanel', {
