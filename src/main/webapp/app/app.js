@@ -163,6 +163,11 @@ Ext.application({
 			console.debug("Configuration loaded");
 			me.globalConfig = globalConfig;
 			me.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
+
+			if(ARSnova.app.getController('Lang').activateTestRoutine) {
+				ARSnova.app.getController('Lang').testRoutine(me.mainTabPanel.tabPanel);
+			}
+			
 			me.configLoaded.resolve();
 		}, function () {
 			console.error("Could not load configuration");
