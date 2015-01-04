@@ -183,8 +183,23 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 					fontWeight: 'bold',
 					rotate: {degrees: 315}
 				},
-				renderer: function (text, object, index) {
-					return text.substring(0, 30);
+				renderer: function (label, layout, lastLabel) {
+					var panel, labelColor;
+
+					if(me.toggleCorrect && 	label !== 'Abstention' 
+						&&	Object.keys(me.correctAnswers).length > 0) {
+						labelColor =  me.correctAnswers[label] ?  '#80ba24' : '#971b2f';
+					} else {
+						labelColor = '#4a5c66';
+					}
+					
+					layout.segmenter.getAxis().setLabel({
+						color: labelColor,
+						fontWeight: 'bold',
+						rotate: {degrees: 315}
+					});
+					
+					return label.substring(0, 30);
 				}
 			}],
 
@@ -242,10 +257,16 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 	},
 	
 	initializeCorrectAnswerGradients: function() {
+		var data, question;
+		this.correctAnswers = {};
 		this.correctAnswerGradients = [];
 		
 		for (var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
 			question = this.questionObj.possibleAnswers[i];
+			data = question.data ? question.data : question;
+			
+			data.text = data.text === "" ? i+1 : data.text;
+			this.correctAnswers[data.text] = data.correct;
 
 			if ((question.data && !question.data.correct) || (!question.data && !question.correct)) {
 				this.correctAnswerGradients.push(

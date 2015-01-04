@@ -423,6 +423,8 @@ Ext.application({
 					/** check if tabPanel is activeItem */
 					if(scrollMe.getActiveItem().getScrollable()) scrollMe = scrollMe.getActiveItem();
 			    	
+					if(scrollMe.disableScrolling) return;
+					
 					if(scrollMe.getScrollable()) {
 						var scroller = scrollMe.getScrollable().getScroller();
 						var maxPosition = scroller.getMaxPosition().y;
