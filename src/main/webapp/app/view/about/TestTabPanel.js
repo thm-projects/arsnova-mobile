@@ -61,7 +61,7 @@ Ext.define('ARSnova.view.about.TestTabPanel', {
 		this.add(this.toolbar);
 		
 		this.on("painted", function() {
-			var url = "http://arsnovamanual.cloudcontrolled.com";
+			var url = "https://arsnovamanual.cloudcontrolled.com";
 			this.add(Ext.create('ARSnova.view.components.EmbeddedPage', {
 				src: url
 			}));
