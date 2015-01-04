@@ -64,6 +64,7 @@ switch (lang) {
 			CHOOSE_ROLE: "Choose your role:",
 			STUDENT: "Student",
 			SPEAKER: "Teacher",
+			ABOUT_ARSNOVA: "About ARSnova",
 			TITLE_ROLE: "Audience Response System",
 			/* loginPanel */
 			CHOOSE_LOGIN: "Login as:",
@@ -442,6 +443,7 @@ switch (lang) {
 			CHOOSE_ROLE: "Wählen Sie Ihre Rolle:",
 			STUDENT: "Student/in",
 			SPEAKER: "Dozent/in",
+			ABOUT_ARSNOVA: "Was ist ARSnova?",
 			TITLE_ROLE: "Feedback im Hörsaal",
 			/* loginPanel */
 			CHOOSE_LOGIN: 'Wählen Sie Ihren Zugang:',
