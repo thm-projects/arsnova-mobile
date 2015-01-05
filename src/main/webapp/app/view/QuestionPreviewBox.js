@@ -21,7 +21,10 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 	extend: 'Ext.MessageBox',
 	
 	config: {
-		scrollable: true,
+		scrollable: {
+			direction: 'vertical',
+			directionLock: true
+		},
 		hideOnMaskTap: true,
 		layout: 'vbox'
 	},

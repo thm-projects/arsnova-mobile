@@ -24,7 +24,10 @@ Ext.define('ARSnova.view.user.InClass', {
 	config: {
 		title: 'InClass',
 		fullscreen: true,
-		scrollable: true
+		scrollable: {
+			direction: 'vertical',
+			directionLock: true
+		}
 	},
 
 	inClass: null,

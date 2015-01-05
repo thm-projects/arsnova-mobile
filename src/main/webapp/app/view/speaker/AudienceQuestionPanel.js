@@ -28,8 +28,10 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	config: {
 		title: 'AudienceQuestionPanel',
 		fullscreen: true,
-		scrollable: true,
-		scroll: 'vertical',
+		scrollable: {
+			direction: 'vertical',
+			directionLock: true
+		},
 
 		controller: null
 	},

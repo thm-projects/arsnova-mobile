@@ -27,7 +27,10 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	config: {
 		fullscreen: true,
 		title: Messages.FEEDBACK,
-		scrollable: 'vertical'
+		scrollable: {
+			direction: 'vertical',
+			directionLock: true
+		}
 	},
 
 	inClassItems: null,
