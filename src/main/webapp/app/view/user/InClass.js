@@ -171,11 +171,11 @@ Ext.define('ARSnova.view.user.InClass', {
 			this.lectureQuestionButton,
 			this.preparationQuestionButton
 		);
-		if (ARSnova.app.globalConfig.features.learningProgress) {
-			buttons.push(this.myLearningProgressButton);
-		}
 		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
 			buttons.push(this.myQuestionsButton);
+		}
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			buttons.push(this.myLearningProgressButton);
 		}
 
 		this.inClass = Ext.create('Ext.form.FormPanel', {
