@@ -250,7 +250,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 							ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart :
 							ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 					
-					if(panel.toggleCorrect && label !== 'Abstention' 
+					if(panel.toggleCorrect && label !== Messages.ABSTENTION 
 						&&	Object.keys(panel.correctAnswers).length > 0) {
 						labelColor =  panel.correctAnswers[label] ?  '#80ba24' : '#971b2f';
 					} else {

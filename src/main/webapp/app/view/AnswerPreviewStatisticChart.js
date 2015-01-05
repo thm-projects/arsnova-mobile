@@ -186,7 +186,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 				renderer: function (label, layout, lastLabel) {
 					var panel, labelColor;
 
-					if(me.toggleCorrect && 	label !== 'Abstention' 
+					if(me.toggleCorrect && 	label !== Messages.ABSTENTION
 						&&	Object.keys(me.correctAnswers).length > 0) {
 						labelColor =  me.correctAnswers[label] ?  '#80ba24' : '#971b2f';
 					} else {
