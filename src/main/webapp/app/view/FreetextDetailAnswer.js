@@ -128,11 +128,11 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 		this.callParent(arguments);
 		
 		this.on('painted', function() {
-			ARSnova.app.activePreviewBox = this;
+			ARSnova.app.innerScrollPanel = this;
 		});
 		
 		this.on('deactivate', function() {
-			ARSnova.app.activePreviewBox = false;
+			ARSnova.app.innerScrollPanel = false;
 		});
 	}
 });

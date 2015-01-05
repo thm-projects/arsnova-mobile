@@ -26,7 +26,7 @@ Ext.define("ARSnova.controller.Application", {
 
 	launch: function () {
 		var me = this;
-
+		
 		me.initializeAdvancedScrolling();
 	},
 	
@@ -42,7 +42,7 @@ Ext.define("ARSnova.controller.Application", {
 				if(ARSnova.app.mainTabPanel == null) return;
 				
 				/** check if previewBox is activeItem */
-				var scrollMe = ARSnova.app.activePreviewBox ? ARSnova.app.activePreviewBox :
+				var scrollMe = ARSnova.app.innerScrollPanel ? ARSnova.app.innerScrollPanel :
 					ARSnova.app.mainTabPanel.tabPanel.getActiveItem();
 				
 				if(scrollMe) {

@@ -98,6 +98,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			ui: 'back',
 			scope: this,
 			handler: function () {
+				ARSnova.app.innerScrollPanel = false;
 				ARSnova.app.taskManager.stop(this.renewChartDataTask);
 				ARSnova.app.taskManager.stop(this.countActiveUsersTask);
 				ARSnova.app.mainTabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel, {
@@ -328,6 +329,12 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		this.on('activate', this.onActivate);
 	},
+	
+	onActivate: function () {
+		ARSnova.app.innerScrollPanel = this;
+		ARSnova.app.taskManager.start(this.renewChartDataTask);
+		ARSnova.app.taskManager.start(this.countActiveUsersTask);
+	},
 
 	getQuestionAnswers: function () {
 		ARSnova.app.questionModel.countAnswers(localStorage.getItem('keyword'), this.questionObj._id, {
@@ -438,11 +445,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				console.log('server-side error');
 			}
 		});
-	},
-
-	onActivate: function () {
-		ARSnova.app.taskManager.start(this.renewChartDataTask);
-		ARSnova.app.taskManager.start(this.countActiveUsersTask);
 	},
 
 	countActiveUsers: function () {

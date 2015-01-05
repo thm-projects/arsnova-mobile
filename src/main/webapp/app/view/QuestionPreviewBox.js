@@ -105,13 +105,20 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		this.mainPanel.bodyElement.dom.style.padding="0";
 		
 		this.on('hide', function() {
-			ARSnova.app.activePreviewBox = false;
+			ARSnova.app.innerScrollPanel = false;
+			ARSnova.app.activePreviewPanel = false;
 			this.destroy();
+		});
+		
+		this.on('painted', function() {
+			ARSnova.app.innerScrollPanel = this;
+			ARSnova.app.activePreviewPanel = true;
 		});
 	},
 
 	showPreview: function (title, content) {	
-		ARSnova.app.activePreviewBox = this;
+		ARSnova.app.innerScrollPanel = this;
+		ARSnova.app.activePreviewPanel = true;
 		this.titlePanel.setContent(title.replace(/\./, "\\."), false, true);
 		this.contentPanel.setContent(content, true, true);
 		

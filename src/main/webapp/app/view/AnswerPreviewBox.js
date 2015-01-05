@@ -102,8 +102,14 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		this.mainPanel.bodyElement.dom.style.padding="0";
 		
 		this.on('hide', function() {
-			ARSnova.app.activePreviewBox = false;
+			ARSnova.app.innerScrollPanel = false;
+			ARSnova.app.activePreviewPanel = false;
 			this.destroy();
+		});
+		
+		this.on('painted', function() {
+			ARSnova.app.innerScrollPanel = this;
+			ARSnova.app.activePreviewPanel = true;
 		});
 		
 		this.add([
@@ -114,7 +120,6 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 	
 	showPreview: function (options) {
 		this.answers = options.answers;
-		ARSnova.app.activePreviewBox = this;
 		this.setQuestionPanelContent(options.title, options.content);
 
 		if (options.image) {
