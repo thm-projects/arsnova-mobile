@@ -131,21 +131,21 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 			
 			// add toggles
 			this.gridWeakenImageToggle = Ext.create('Ext.field.Toggle', {
-				id: "toggleWeakenImage",
+				itemId: "toggleWeakenImage",
 				name: "toggleWeakenImage",
 				label: Messages.GRID_LABEL_WEAKEN_IMAGE,
 				value: false
 			});
 
 			this.gridShowColors = Ext.create('Ext.field.Toggle', {
-				id: "toggleShowColors",
+				itemId: "toggleShowColors",
 				name: "toggleShowColors",
 				label: Messages.GRID_LABEL_SHOW_HEATMAP,
 				value: (this.getQuestionObj().gridType != "moderation")
 			});
 			
 			this.abstentionPanel = Ext.create('Ext.field.Text', {
-				id: 'tf_abstenstion',
+				itemId: 'tf_abstenstion',
 				name: 'tf_abstenstion',
 				value: 0,
 				label: Messages.ABSTENTION,
