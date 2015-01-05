@@ -364,12 +364,6 @@ Ext.define('ARSnova.view.user.InClass', {
 					myQuestionsButton.setHandler(Ext.bind(function () {
 						ARSnova.app.getController('Feedback').showAskPanel({
 							type: 'slide'
-						}, function closePanelHandler() {
-							ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.inClassPanel, {
-								type: 'slide',
-								direction: 'right',
-								duration: 700
-							});
 						});
 					}, me));
 				} else {
