@@ -39,7 +39,7 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 		
 		this.on('painted', function() {
 			// save last panel for backButton handler
-			this.lastActivePanel = ARSnova.app.lastActivePanel;
+			this.lastActivePanel = ARSnova.app.lastActiveMainTabPanel;
 		});
 
 		this.backButton = Ext.create('Ext.Button', {

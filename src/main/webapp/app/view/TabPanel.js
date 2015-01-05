@@ -88,19 +88,10 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
 			ARSnova.app.lastActivePanel = oldCard;
 			
-			switch(newCard) {
-			case this.infoTabPanel:
-			case this.privacyTabPanel:
-			case this.imprintTabPanel:
-				// The "about" panels are just stub buttons that opens the ARSnova manual, privacy police and imprint
-				ARSnova.app.mainTabPanel.tabPanel.setActiveItem(ARSnova.app.lastActivePanel);
-				return false;
-			}
-			
 			switch(oldCard) {
-				//case this.infoTabPanel:
-				//case this.privacyTabPanel:
-				//case this.imprintTabPanel:
+				case this.infoTabPanel:
+				case this.privacyTabPanel:
+				case this.imprintTabPanel:
 				case this.diagnosisPanel:
 				case this.testTabPanel:
 					break;

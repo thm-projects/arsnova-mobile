@@ -18,6 +18,8 @@
  */
 Ext.define('ARSnova.view.about.PrivacyTabPanel', {
 	extend: 'Ext.tab.Panel',
+	
+	requires: ['ARSnova.view.components.EmbeddedPage'],
 
 	config: {
 		title: Messages.PRIVACY,
@@ -30,10 +32,34 @@ Ext.define('ARSnova.view.about.PrivacyTabPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
+		
+		this.toolbar = Ext.create('Ext.Toolbar', {
+			docked: 'top',
+			title: this.getTitle(),
+			ui: 'light',
+			items: [{
+				xtype: 'button',
+				text: Messages.BACK,
+				ui: 'back',
+				scope: this,
+				handler: function() {
+					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.lastActiveMainTabPanel, {
+						type: 'slide',
+						direction: 'right',
+						duration: 700
+					});
+				}
+			}]
+		});
+		
+		this.add(this.toolbar);
 
-		this.on("activate", function () {
+		this.on("painted", function () {
 			var url = ARSnova.app.globalConfig.privacyPolicyUrl || "https://arsnova.eu/blog/datenschutzerklaerung/";
-			window.open(url);
+			
+			this.add(Ext.create('ARSnova.view.components.EmbeddedPage', {
+				src: url
+			}));
 		});
 	}
 });
