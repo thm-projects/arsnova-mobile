@@ -46,7 +46,9 @@ Ext.define('ARSnova.view.components.EmbeddedPage', {
 						src: this.config.src,
 						cls: 'embeddedPageElement',
 						id: this.id + '-iframe',
-						scrolling: 'yes'
+						style: 'border: 0;',
+						scrolling: 'yes',
+						frameBorder: '0'
 					}]
 				});
 			}
