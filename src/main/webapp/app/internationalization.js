@@ -356,7 +356,7 @@ switch (lang) {
 			EXPORT_SESSION_TITLE: "Session Export",
 			EXPORT_BUTTON_LABEL: "Export",
 			EXPORT_SESSION_TO_PUBLIC_TITLE: "Public Pool Export",
-			EXPORT_FIELD_NAME: "Name des Dozenten",
+			EXPORT_FIELD_NAME: "Name of teacher",
 			EXPORT_FIELD_UNI: "University",
 			EXPORT_FIELD_LOGO: "Logo",
 			EXPORT_FIELD_SUBJECT: "Subject",
