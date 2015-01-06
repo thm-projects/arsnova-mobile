@@ -82,7 +82,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		//
 
 		this.sessionName = Ext.create('Ext.field.Text', {
-			label: "Name",
+			label: Messages.SESSION_NAME,
 			name: 'sessionName',
 			value: this.getTitle(),
 			disabledCls: 'disableDefault',
@@ -91,7 +91,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		});
 
 		this.sessionDescription = Ext.create('Ext.plugins.ResizableTextArea', {
-			label: "Beschreibung",
+			label: Messages.SESSIONPOOL_INFO,
 			name: 'sessionDescription',
 			value: "Dies ist eine generische, hardcodierte Beschreibung dieser Session.",
 			disabledCls: 'disableDefault',
@@ -100,7 +100,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		});
 		
 		this.sessionQuestionCount = Ext.create('Ext.field.Text', {
-			label: "Anzahl Fragen",
+			label: Messages.SESSIONPOOL_COUNT_QUESTION,
 			name: 'sessionQuestionCount',
 			value: this.getQuestionCount(),
 			disabledCls: 'disableDefault',
@@ -109,7 +109,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		});
 		
 		this.sessionLicense = Ext.create('Ext.field.Text', {
-			label: "Lizenz",
+			label: Messages.EXPORT_FIELD_LICENCE,
 			name: 'sessionLicense',
 			value: "MIT",
 			disabledCls: 'disableDefault',
@@ -118,7 +118,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		});
 		
 		this.sessionFieldSet = Ext.create('Ext.form.FieldSet', {
-			title: 'Session Infomationen',
+			title: Messages.SESSIONPOOL_SESSIONINFO,
 			cls: 'standardFieldset',
 			itemId: 'contentFieldset',
 			items: [this.sessionName, this.sessionDescription, this.sessionQuestionCount, this.sessionLicense]
@@ -129,7 +129,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		//
 		
 		this.creatorName = Ext.create('Ext.field.Text', {
-			label: "Name",
+			label: Messages.EXPORT_FIELD_NAME,
 			name: 'creatorName',
 			value: "Werner Müller",
 			disabledCls: 'disableDefault',
@@ -138,7 +138,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		});
 		
 		this.creatorMail = Ext.create('Ext.field.Text', {
-			label: "E-Mail",
+			label: Messages.EXPORT_FIELD_EMAIL,
 			name: 'creatorMail',
 			value: "werner.mueller123@mni.thm.de",
 			disabledCls: 'disableDefault',
@@ -147,7 +147,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		});
 		
 		this.creatorUni = Ext.create('Ext.field.Text', {
-			label: "Hochschule",
+			label: Messages.EXPORT_FIELD_UNI,
 			name: 'creatorUni',
 			value: "Technische Hochschule Mittelhessen",
 			disabledCls: 'disableDefault',
@@ -156,7 +156,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		});
 		
 		this.creatorDep = Ext.create('Ext.field.Text', {
-			label: "Fachbereich",
+			label: Messages.EXPORT_FIELD_SPECIAL_FIELD,
 			name: 'creatorDep',
 			value: "MNI",
 			disabledCls: 'disableDefault',
@@ -165,7 +165,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		});
 		
 		this.creatorFieldSet = Ext.create('Ext.form.FieldSet', {
-			title: 'Urheber',
+			title: Messages.SESSIONPOOL_AUTHORINFO,
 			cls: 'standardFieldset',
 			itemId: 'contentFieldset',
 			items: [this.creatorName, this.creatorMail, this.creatorUni, this.creatorDep]

@@ -356,12 +356,13 @@ switch (lang) {
 			EXPORT_SESSION_TITLE: "Session Export",
 			EXPORT_BUTTON_LABEL: "Export",
 			EXPORT_SESSION_TO_PUBLIC_TITLE: "Public Pool Export",
-			EXPORT_FIELD_NAME: "Name",
+			EXPORT_FIELD_NAME: "Name des Dozenten",
 			EXPORT_FIELD_UNI: "University",
 			EXPORT_FIELD_LOGO: "Logo",
 			EXPORT_FIELD_SUBJECT: "Subject",
 			EXPORT_FIELD_LICENCE: "Licence",
 			EXPORT_FIELD_EMAIL: "Email",
+			EXPORT_FIELD_SPECIAL_FIELD: "Faculty",
 			EXPORT_SELECTED_SESSIONS_TITLE : "Export selected sessions",
 			EXPORT_SELECTED_SESSIONS_MSG : "Where should the sessions be exported",
 			EXPORT_SESSION_INFORMATION: "The questions of selected sessions will be exported",
@@ -373,6 +374,10 @@ switch (lang) {
 			
 			/*Public pool*/
 			SESSIONPOOL_CLONE: "Clone",
+			SESSIONPOOL_AUTHORINFO: "Author information",
+			SESSIONPOOL_SESSIONINFO: "Session information",
+			SESSIONPOOL_INFO: "Description",
+			SESSIONPOOL_COUNT_QUESTION: "Number of isssues",
 			
 			/* question types */
 			EVALUATION: "+-",
@@ -769,12 +774,13 @@ switch (lang) {
 			EXPORT_SESSION_TITLE: "Session Export",
 			EXPORT_BUTTON_LABEL: "Exportieren",
 			EXPORT_SESSION_TO_PUBLIC_TITLE: "Public Pool Export",
-			EXPORT_FIELD_NAME: "Name",
+			EXPORT_FIELD_NAME: "Name des Dozenten",
 			EXPORT_FIELD_UNI: "Hochschule",
 			EXPORT_FIELD_LOGO: "Logo",
 			EXPORT_FIELD_SUBJECT: "Fach",
 			EXPORT_FIELD_LICENCE: "Lizenz",
 			EXPORT_FIELD_EMAIL: "Email",
+			EXPORT_FIELD_SPECIAL_FIELD: "Fachbereich",
 			EXPORT_SELECTED_SESSIONS_TITLE : "Ausgewählte Sessions exportieren",
 			EXPORT_SELECTED_SESSIONS_MSG : "Wohin möchten Sie die Sessions exportieren",
 			EXPORT_SESSION_INFORMATION: "Die Fragen der ausgewählten Sessions werden exportiert",
@@ -786,6 +792,10 @@ switch (lang) {
 			
 			/*Public pool*/
 			SESSIONPOOL_CLONE: "Klonen",
+			SESSIONPOOL_AUTHORINFO: "Verfasserinformation",
+			SESSIONPOOL_SESSIONINFO: "Sessioninformation",
+			SESSIONPOOL_INFO: "Beschreibung",
+			SESSIONPOOL_COUNT_QUESTION: "Anzahl Fragen",
 			
 			/* question types */
 			EVALUATION: "+-",
