@@ -40,11 +40,11 @@ Ext.define("ARSnova.controller.Feedback", {
 		switch (options.value) {
 			case "Kann folgen":
 				feedbackCls = "happy";
-				feedbackValue = 0;
+				feedbackValue = 1;
 				break;
 			case "Bitte schneller":
 				feedbackCls = "wink";
-				feedbackValue = 1;
+				feedbackValue = 0;
 				break;
 			case "Zu schnell":
 				feedbackCls = "shocked";

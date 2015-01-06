@@ -196,12 +196,12 @@ Ext.define('ARSnova.view.TabPanel', {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 
 		switch (averageFeedback) {
-			/* 0: can follow; 1: faster, please!; 2: to fast!; 3: you have lost me */
+			/* 0: faster, please!; 1: can follow; 2: to fast!; 3: you have lost me */
 			case 0:
-				panel.tab.setIconCls("voteIcons icon-happy");
+				panel.tab.setIconCls("voteIcons icon-wink");
 				break;
 			case 1:
-				panel.tab.setIconCls("voteIcons icon-wink");
+				panel.tab.setIconCls("voteIcons icon-happy");
 				break;
 			case 2:
 				panel.tab.setIconCls("voteIcons icon-shocked");
