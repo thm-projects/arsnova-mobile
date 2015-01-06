@@ -188,6 +188,22 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 			scope: this,
 		});
+
+		this.publicPoolPanel  = Ext.create('ARSnova.view.home.PublicPoolPanel');
+		this.publicPoolButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: 'Pool',
+			buttonConfig: 'icon',
+			imageCls: 'icon-cloud',
+			scope: this,
+			handler: function() {
+				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+				hTP.animateActiveItem(me.publicPoolPanel, {
+					type: 'slide',
+					direction: 'left',
+					duration: 700
+				});
+			}
+		});
 		
 		this.importButtonPanel = Ext.create('Ext.Panel', {
 			items: [this.importButtonClickable, this.importButton]
@@ -200,7 +216,8 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			},
 			items: [
 				this.exportButton,
-				this.importButtonPanel
+				this.importButtonPanel,
+				this.publicPoolButton
 			]
 		});
 
@@ -420,5 +437,10 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			}
 		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
 		return promise;
+	},
+	
+	showPublicPool: function() {
+		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+		hTP.animateActiveItem(this.publicPoolPanel, 'slide');
 	}
 });
