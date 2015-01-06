@@ -26,8 +26,65 @@ Ext.define("ARSnova.controller.Application", {
 
 	launch: function () {
 		var me = this;
+		this.hrefPanelActive = false;
 		
+		me.initializeHrefOverride();
 		me.initializeAdvancedScrolling();
+	},
+	
+	/** 
+	 * toggles boolean value of hrefPanelActive
+	 */
+	toggleHrefPanelActive: function() {
+		this.hrefPanelActive = !this.hrefPanelActive;
+	},
+	
+	/** 
+	 * check if used protocol is http/https 
+	 */
+	checkHrefProtocol: function(href) {
+		switch(href.split(":")[0]) {
+			case "http":
+			case "https":
+				return true;
+				break;
+		}
+		
+		return false;
+	},
+	
+	/** 
+	 * overrides onclick event handler in order to change behavior when an a-tag is clicked 
+	 */
+	initializeHrefOverride: function() {
+		document.onclick = function (e) {
+			e = e ||  window.event;
+			var element = e.target || e.srcElement;
+			var controller = ARSnova.app.getController('Application');
+
+			if (element.tagName == 'A') {
+				if(!controller.hrefPanelActive) {
+					if(controller.checkHrefProtocol(element.href)) {
+						controller.toggleHrefPanelActive();
+						
+						var previewPanel = ARSnova.app.activePreviewPanel;
+						
+						controller.embeddedPage = Ext.create('ARSnova.view.components.EmbeddedPageContainer', {
+							title: element.innerHTML,
+							onClickElement: element
+						});
+						
+						if(previewPanel) {
+							previewPanel.showEmbeddedPagePreview(controller.embeddedPage);
+						} else {
+							ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(controller.embeddedPage, 'slide');
+						}
+					}
+				} 
+				
+				return false; // prevent default action and stop event propagation
+			}
+		};
 	},
 	
 	/**
