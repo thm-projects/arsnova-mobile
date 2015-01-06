@@ -16,111 +16,152 @@
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
-	extend: 'Ext.Panel',
-	
-	initialize: function () {
+	extend : 'Ext.Panel',
+	alias : 'widget.SessionExportToPublicPanel',
+	requires : [ 'ARSnova.model.PublicPool' ],
+
+	initialize : function() {
 		this.callParent(arguments);
-		
+
 		this.backButton = Ext.create('Ext.Button', {
-			text: Messages.SESSIONS,
-			ui: 'back',
-			handler: function () {
+			text : Messages.SESSIONS,
+			ui : 'back',
+			handler : function() {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 				hTP.animateActiveItem(hTP.mySessionsPanel, {
-					type: 'slide',
-					direction: 'right',
-					duration: 700
+					type : 'slide',
+					direction : 'right',
+					duration : 700
 				});
 			}
 		});
 
 		this.exportButton = Ext.create('Ext.Button', {
-			text: Messages.EXPORT_BUTTON_LABEL,
-			ui: 'confirm',
-			cls: 'saveQuestionButton',
-			style: 'width: 89px',
-			handler: function () {
-//				this.saveHandler().then(function (response) {
-//					ARSnova.app.getController('Questions').details({
-//						question: Ext.decode(response.responseText)
-//					});
-//				});
+			text : Messages.EXPORT_BUTTON_LABEL,
+			ui : 'confirm',
+			cls : 'saveQuestionButton',
+			style : 'width: 89px',
+			listeners : {
+				tap : function(button, e, eOpts) {
+					var me = button.up('SessionExportToPublicPanel');
+					me.ValidateInput(button, e, eOpts);
+				}
 			},
-			scope: this
+			// handler: function () {
+			// this.saveHandler().then(function (response) {
+			// ARSnova.app.getController('Questions').details({
+			// question: Ext.decode(response.responseText)
+			// });
+			// });
+			// },
+			scope : this
 		});
-		
-		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: Messages.EXPORT_SESSION_TO_PUBLIC_TITLE,
-			docked: 'top',
-			ui: 'light',
-			items: [
-				this.backButton,
-				{xtype:'spacer'},
-				this.exportButton
-			]
-		});
-		
-		this.exportOptions = Ext.create('Ext.form.FieldSet', {
-			text: Messages.EXPORT_MSG,
-			items: [{
-				xtype: 'textfield',
-				name: 'name',
-				label: Messages.EXPORT_FIELD_NAME,
-//				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
-				maxLength: 50,
-				clearIcon: true
-			}, {
-				xtype: 'textfield',
-				name: 'hs',
-				label: Messages.EXPORT_FIELD_UNI,
-//				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
-				maxLength: 50,
-				clearIcon: true
-			}, {
-				xtype: 'textfield',
-				name: 'logo',
-				label: Messages.EXPORT_FIELD_LOGO,
-//				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
-				maxLength: 50,
-				clearIcon: true
-			}, {
-				xtype: 'textfield',
-				name: 'subject',
-				label: Messages.EXPORT_FIELD_SUBJECT,
-//				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
-				maxLength: 50,
-				clearIcon: true
-			}, {
-				xtype: 'textfield',
-				name: 'licence',
-				label: Messages.EXPORT_FIELD_LICENCE,
-//				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
-				maxLength: 50,
-				clearIcon: true
-			}, {
-				xtype: 'textfield',
-				// TODO auf gültige Mail-Adresse prüfen
-				// vll gibt es da schon was von Sencha
-				name: 'email',
-				label: Messages.EXPORT_FIELD_EMAIL,
-//				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
-				maxLength: 50,
-				clearIcon: true
-			}]
-		});
-		
-		this.mainPart = Ext.create('Ext.form.FormPanel', {
-			cls: 'newQuestion',
-			scrollable: null,
 
-			items: [
-		        this.exportOptions
-	        ]
+		this.toolbar = Ext.create('Ext.Toolbar', {
+			title : Messages.EXPORT_SESSION_TO_PUBLIC_TITLE,
+			docked : 'top',
+			ui : 'light',
+			items : [ this.backButton, {
+				xtype : 'spacer'
+			}, this.exportButton ]
+		});
+
+		this.teacherName = Ext.create('Ext.field.Text', {
+			name : 'name',
+			label : Messages.EXPORT_FIELD_NAME,
+			// placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+			maxLength : 50,
+			clearIcon : true
+		});
+
+		this.university = Ext.create('Ext.field.Text', {
+			name : 'hs',
+			label : Messages.EXPORT_FIELD_UNI,
+			// placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+			maxLength : 50,
+			clearIcon : true
+		});
+
+		this.logo = Ext.create('Ext.field.Text', {
+			name : 'logo',
+			label : Messages.EXPORT_FIELD_LOGO,
+			// placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+			maxLength : 50,
+			clearIcon : true
+		});
+
+		this.licence = Ext.create('Ext.field.Text', {
+			name : 'licence',
+			label : Messages.EXPORT_FIELD_LICENCE,
+			// placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+			maxLength : 50,
+			clearIcon : true
+		});
+
+		this.email = Ext.create('Ext.field.Text', {
+			// TODO auf gültige Mail-Adresse prüfen
+			// vll gibt es da schon was von Sencha
+			name : 'email',
+			label : Messages.EXPORT_FIELD_EMAIL,
+			vtype : 'email',
+			// placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+			maxLength : 50,
+			clearIcon : true
+		});
+
+		this.subject = Ext.create('Ext.field.Text', {
+			name : 'subject',
+			label : Messages.EXPORT_FIELD_SUBJECT,
+			// placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+			maxLength : 50,
+			clearIcon : true
+		});
+
+		this.exportOptions = Ext.create('Ext.form.FieldSet', {
+			text : Messages.EXPORT_MSG,
+			items : [ this.teacherName, this.university, this.logo,
+					this.licence, this.subject, this.email ]
+		});
+
+		this.mainPart = Ext.create('Ext.form.FormPanel', {
+			cls : 'newQuestion',
+			scrollable : null,
+
+			items : [ this.exportOptions ]
+		});
+
+		this.add([ this.toolbar, this.mainPart ]);
+	},
+
+	ValidateInput : function(button, e, options) {
+		var scope = this;
+		var me = button.up('SessionExportToPublicPanel');
+
+		var validation = Ext.create('ARSnova.model.PublicPool', {
+			name:	    me.teacherName.getValue(),
+			hs:		    me.university.getValue(),
+			logo:	    me.logo.getValue(),
+			subject:	me.logo.getValue(),
+			licence:	me.licence.getValue(),
+			email:		me.email.getValue()
 		});
 		
-		this.add([
-	          this.toolbar,
-      		  this.mainPart
-	  	]);
-	},
+		
+		console.log('get fields',validation.getFields());
+		var errs = validation.validate();
+		console.log('errors',errs);
+		var msg = '';
+
+		if (!errs.isValid()) {
+			errs.each(function(err) {
+				msg += err.getField() + ' : ' + err.getMessage() + '\n';
+			});
+
+			Ext.Msg.alert('The formular is not complete', msg);
+			
+		} else {
+			// export to public pool here
+			
+		}
+	}
 });
