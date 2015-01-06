@@ -31,6 +31,8 @@ Ext.define('ARSnova.view.RolePanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
+		
+		var isPhone = (Ext.os.is.Phone && Ext.os.is.iOS);
 
 		this.add([{
 			xtype: 'toolbar',
@@ -46,13 +48,23 @@ Ext.define('ARSnova.view.RolePanel', {
 					"<span class='icon-logo-ars'>a</span>" +
 					"<span class='icon-logo-nova'>n</span>" +
 					"</div>",
-			style: {marginTop: '35px', marginBottom: '35px'}
+			style: {
+				marginTop: isPhone ? '10px' : '25px'
+			}
+		}, {
+			xtype: 'panel',
+			style: {
+				marginBottom: isPhone ? '5px': '30px'
+			},
+			html: "<div class='gravure'>Made by <a href='http://www.thm.de/' class='thmlink' target='_blank'><span style='color:#699824;'>THM</span></a></div>",
+			cls: null
 		}, {
 			xtype: 'container',
 			layout: {
 				type: 'hbox',
 				pack: 'center'
 			},
+			style: isPhone ? 'height: 100px;' : 'height: 110px',
 			defaults: {
 				xtype: 'matrixbutton',
 				handler: function (b) {
@@ -68,23 +80,35 @@ Ext.define('ARSnova.view.RolePanel', {
 					image: "login_student",
 					imageCls: "icon-users thm-grey",
 					imageStyle: {}
-				},
-				{
+				}, {
 					text: Messages.SPEAKER,
 					value: ARSnova.app.USER_ROLE_SPEAKER,
 					image: "ars_logo",
-					imageCls: "icon-presenter thm-green",
-					imageStyle: {},
-					style: "margin-left:20px"
+					imageCls: "icon-presenter thm-green"
 				}
 			]
 		}, {
-			xtype: 'panel',
-			style: {
-				marginTop: (Ext.os.is.Phone && Ext.os.is.iOS) ? '50px': '80px'
+			xtype: 'container',
+			layout: {
+				type: 'hbox',
+				pack: 'center'
 			},
-			html: "<div class='gravure'><a href='http://www.thm.de/' class='thmlink' target='_blank'>A <span style='color:#699824;'>THM</span> Product</a></div>",
-			cls: null
+			style: {
+				marginTop: isPhone ? '15px' : '15px',
+			},
+			items: [{
+				xtype: 'matrixbutton',
+				text: Messages.INFO,
+				imageCls: "icon-book",
+				handler: function() {
+					var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+					tabPanel.setActiveItem(tabPanel.infoTabPanel);
+				}
+			}]
 		}]);
+
+		this.on('deactivate', function() {
+			ARSnova.app.mainTabPanel.tabPanel.infoTabPanel.tab.show();
+		});
 	}
 });
