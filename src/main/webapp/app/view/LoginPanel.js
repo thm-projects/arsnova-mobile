@@ -38,24 +38,10 @@ Ext.define('ARSnova.view.LoginPanel', {
 		this.callParent(arguments);
 		var me = this;
 
-
 		this.arsLogo = {
-				xtype: 'panel',
-				cls: null,
-				html: 	"<div class='icon-logo'>" +
-						"<span class='icon-logo-radar'>r</span>" +
-						"<span class='icon-logo-ars'>a</span>" +
-						"<span class='icon-logo-nova'>n</span>" +
-						"</div>",
-				style: {marginTop: '35px', marginBottom: '35px'}
-			};
-
-		if (Ext.os.is.Phone) {
-			this.arsLogo = {
-					xtype: 'panel',
-					style: {marginTop: '35px'}
-				};
-		}
+			xtype: 'panel',
+			style: 'marginTop: 15px',
+		};
 
 		me.add([{
 			xtype: 'toolbar',

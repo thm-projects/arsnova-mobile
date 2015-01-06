@@ -116,16 +116,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 		this.add([
 			this.toolbar,
-			{
-				xtype: 'panel',
-				cls: null,
-				html: 	"<div class='icon-logo'>" +
-						"<span class='icon-logo-radar'>r</span>" +
-						"<span class='icon-logo-ars'>a</span>" +
-						"<span class='icon-logo-nova'>n</span>" +
-						"</div>",
-				style: {marginTop: '35px', marginBottom: '30px'}
-			},
 			this.newSessionButtonForm,
 			this.sessionsForm,
 			this.lastVisitedSessionsForm

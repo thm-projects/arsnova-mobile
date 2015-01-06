@@ -63,17 +63,8 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 		});
 
 		this.add([this.toolbar, {
-			xtype: 'panel',
-			cls: null,
-			html: 	"<div class='icon-logo'>" +
-					"<span class='icon-logo-radar'>r</span>" +
-					"<span class='icon-logo-ars'>a</span>" +
-					"<span class='icon-logo-nova'>n</span>" +
-					"</div>",
-			style: {marginTop: '35px', marginBottom: '35px'}
-		},
-		{
 			xtype: 'formpanel',
+			style: 'marginTop: 15px',
 			cls: 'standardForm topPadding',
 			scrollable: null,
 
