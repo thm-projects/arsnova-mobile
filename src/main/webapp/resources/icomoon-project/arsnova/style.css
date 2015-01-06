@@ -23,6 +23,18 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon-cloud:before {
+	content: "\e2b5";
+}
+
+.icon-cloud-download:before {
+	content: "\e2b6";
+}
+
+.icon-cloud-upload:before {
+	content: "\e2b7";
+}
+
 .icon-chart:before {
 	content: "\f012";
 }
