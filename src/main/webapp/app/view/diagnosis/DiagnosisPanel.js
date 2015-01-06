@@ -110,10 +110,8 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 		},
 		{
 			xtype: 'panel',
-			style: {
-				marginTop: (Ext.os.is.Phone && Ext.os.is.iOS) ? '30px': '60px'
-			},
-			html: "<div class='gravure'><a href='http://www.thm.de/' class='thmlink' target='_blank'>A <span style='color:#699824;'>THM</span> Product</a></div>",
+			style: 'margin-top: 30px',
+			html: "<div class='gravure'>Made by <a href='http://www.thm.de/' class='thmlink' target='_blank'><span style='color:#699824;'>THM</span></a></div>",
 			cls: null
 		}]);
 	}
