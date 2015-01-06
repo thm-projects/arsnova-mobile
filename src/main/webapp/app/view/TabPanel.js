@@ -88,7 +88,11 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
 			ARSnova.app.innerScrollPanel = false;
 			ARSnova.app.lastActivePanel = oldCard;
-
+			
+			if(newCard === this.rolePanel) {
+				this.infoTabPanel.tab.hide();
+			}
+			
 			switch(oldCard) {
 				case this.infoTabPanel:
 				case this.privacyTabPanel:
@@ -114,6 +118,7 @@ Ext.define('ARSnova.view.TabPanel', {
 			this.rolePanel.tab.hide();
 			this.loginPanel.tab.hide();
 			this.homeTabPanel.tab.hide();
+			this.infoTabPanel.tab.hide();
 			this.diagnosisPanel.tab.hide();
 		});
 		this.on('activate', this.onActivate);
@@ -173,6 +178,7 @@ Ext.define('ARSnova.view.TabPanel', {
 	deactivateAboutTabs: function() {
 		this.privacyTabPanel.tab.hide();
 		this.imprintTabPanel.tab.hide();
+		this.infoTabPanel.tab.show();
 
 		// this.removeClassFromTab('infoButtonBeforeLogin', this.infoTabPanel);
 		// this.removeClassFromTab('infoButtonBeforeLogin', this.privacyTabPanel);
