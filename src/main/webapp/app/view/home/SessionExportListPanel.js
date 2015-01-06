@@ -55,14 +55,28 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 			handler: function () {
 				if(me.getError()){
 					Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_NOTIFICATION);
-				}else{
+				} else {
 					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-					var questionExportToFile = Ext.create('ARSnova.view.home.SessionExportToFilePanel', {
-			    		exportSessionMap: me.sessionMap,
-			    		backButtonHandler: me
-			    	});
-			    	hTP.animateActiveItem(questionExportToFile, 'slide');
-					}
+					
+					Ext.apply(me.msgBox, {
+						YESNO: [
+						        { text: 'Dateisystem', itemId: 'yes', ui: 'action' }, 
+						        { text: 'Public Pool', itemId: 'no'}]//, ui: 'action' }]
+					});
+
+					me.msgBox.show({
+						title: Messages.EXPORT_SELECTED_SESSIONS_TITLE,
+						message: Messages.EXPORT_SELECTED_SESSIONS_MSG,
+						buttons: me.msgBox.YESNO,
+						fn: function(btn) {
+						    if (btn === 'yes') {
+						    	hTP.animateActiveItem(Ext.create('ARSnova.view.home.SessionExportToFilePanel'), 'slide');
+						    }  else {
+						    	hTP.animateActiveItem(Ext.create('ARSnova.view.home.SessionExportToPublicPanel'), 'slide');
+						    }
+						}
+					});
+				}
 			}
 		});
 		
