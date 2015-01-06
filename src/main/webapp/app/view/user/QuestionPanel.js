@@ -24,7 +24,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	config: {
 		fullscreen: true,
 		title: Messages.QUESTIONS,
-		iconCls: 'icon-questions',
+		iconCls: 'icon-presenter',
 
 		questionLoader: null,
 		questionCountLoader: null,

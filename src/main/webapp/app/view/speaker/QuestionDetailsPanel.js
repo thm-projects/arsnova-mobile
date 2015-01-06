@@ -1009,7 +1009,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						self.answerFormFieldset.removeAll();
 						var abstentionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 							ui: 'normal',
-							cls: 'answerListButton',
+							cls: 'standardListButton',
 							text: Messages.ABSTENTION
 						});
 						abstentionButton.setBadge([{badgeText: abstentions.length + '', badgeCls: "answersBadgeIcon"}]);

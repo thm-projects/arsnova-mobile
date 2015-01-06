@@ -78,14 +78,10 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 		}
 
 		this.segmentedButton = Ext.create('Ext.SegmentedButton', {
-			style: {
-				maxWidth: '500px',
-				width: '80%',
-				margin: 'auto'
-			},
+			style: 'margin: auto;',
 			defaults: {
 				ui: 'action',
-				style: 'width: 33%'
+				style: 'width: 33.3%'
 			},
 			items: [this.yesButton, this.noButton, this.noneButton],
 			listeners: {

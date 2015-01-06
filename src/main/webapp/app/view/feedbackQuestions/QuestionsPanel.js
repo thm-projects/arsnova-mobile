@@ -76,6 +76,8 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				} else {
 					target = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
 				}
+				
+				ARSnova.app.innerScrollPanel = false;
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(target, {
 					type: 'slide',
 					direction: 'right',
@@ -182,13 +184,21 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				width: '235px',
 				hidden: ARSnova.app.isSessionOwner,
 				handler: function () {
+					ARSnova.app.innerScrollPanel = false;
 					ARSnova.app.getController('Feedback').showAskPanel({
 						type: 'slide'
 					}, function closePanelHandler() {
+						var userTabPanel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
+						
 						ARSnova.app.getController('Questions').listFeedbackQuestions({
 							type: 'slide',
 							direction: 'right',
-							duration: 700
+							duration: 700,
+							listeners: {
+								animationend: function () {
+									userTabPanel.setActiveItem(userTabPanel.inClassPanel);
+								}
+							}
 						});
 					});
 				}
@@ -196,13 +206,17 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			this.noQuestionsFound,
 			this.list
 		]);
-
-		this.on('deactivate', function () {
+		
+		this.on('deactivate', function (panel) {
 			this.list.deselect(this.list._lastSelected, true);
 		});
 
 		this.on('activate', function () {
 			this.getCheckFeedbackQuestionsTask().taskRunTime = 0;
+		});
+		
+		this.on('painted', function() {
+			ARSnova.app.innerScrollPanel = this.list;
 		});
 	},
 

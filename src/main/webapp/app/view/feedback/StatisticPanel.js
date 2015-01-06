@@ -27,7 +27,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 
 	config: {
 		title: 'StatisticPanel',
-		style: 'background-color: black',
+		fullscreen: true,
 		layout: 'fit'
 	},
 
@@ -85,7 +85,6 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			items: [{
 				xtype: 'button',
 				value: 'Kann folgen',
-				//cls: 'feedbackOkIcon',
 				cls: 'feedbackStatisticButton voteButton',
 				iconCls: 'icon-happy',
 				handler: this.buttonClicked
@@ -99,7 +98,6 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			items: [{
 				xtype: 'button',
 				value: 'Bitte schneller',
-				//cls: 'feedbackGoodIcon',
 				cls: 'feedbackStatisticButton voteButton',
 				iconCls: 'icon-wink',
 				handler: this.buttonClicked
@@ -115,7 +113,6 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				value: 'Zu schnell',
 				cls: 'feedbackStatisticButton voteButton',
 				iconCls: 'icon-shocked',
-				//cls: 'feedbackBadIcon',
 				handler: this.buttonClicked
 			}]
 		});
@@ -129,7 +126,6 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				value: 'Nicht mehr dabei',
 				cls: 'feedbackStatisticButton voteButton',
 				iconCls: 'icon-sad',
-				//cls: 'feedbackNoneIcon',
 				handler: this.buttonClicked
 			}]
 		});
@@ -173,13 +169,14 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			Ext.create('Ext.draw.gradient.Linear', {
 				degrees: 90,
 				stops: [
-					{offset: 0, color: 'rgb(235, 235, 235)'},
-					{offset: 100, color: 'rgb(195,195,195)'}
+					{offset: 0, color: 'rgb(180, 180, 180)'},
+					{offset: 100, color: 'rgb(160, 160, 160)'}
 				]
 			})
 		];
 
 		this.feedbackChart = Ext.create('Ext.chart.CartesianChart', {
+			fullscreen: true,
 			store: Ext.create('Ext.data.Store', {
 				fields: ['name', 'displayName', 'value', 'percent'],
 				data: [
@@ -204,7 +201,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				type: 'category',
 				position: 'bottom',
 				fields: ['name'],
-				style: {stroke: 'white'},
+				style: {stroke: '#4a5c66'},
 				renderer: function (label, layout, lastLabel) {
 					// remove x-axis ticks and labels on refresh or update
 					layout.attr.majorTicks = false;
@@ -222,11 +219,14 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				label: {
 					display: 'insideEnd',
 					field: 'value',
-					color: '#000',
+					color: '#fff',
 					font: '20px Helvetica',
 					orientation: 'horizontal',
-					renderer: function (text) {
-						return text;
+					renderer: function (text, sprite, config, rendererData, index) {
+						return {
+							text: text,
+							color: config.callout ? '#4a5c66' : '#fff'
+						};
 					}
 				},
 				renderer: function (sprite, config, rendererData, i) {
@@ -251,7 +251,12 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		var chart = this.feedbackChart;
 		var store = chart.getStore();
 
+		/* Swap values for "can follow" and "faster, please" feedback
+		 * TODO: improve implementation, this is a quick hack for MoodleMoot 2013 */
 		var values = feedbackValues.slice();
+		var tmpValue = values[0];
+		values[0] = values[1];
+		values[1] = tmpValue;
 		if (!Ext.isArray(values) || values.length != store.getCount()) return;
 
 		// Set chart data
@@ -277,10 +282,10 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		var tab = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab;
 		switch (averageFeedback) {
 			case 0:
-				tab.setIconCls("voteIcons icon-happy");
+				tab.setIconCls("voteIcons icon-wink");
 				break;
 			case 1:
-				tab.setIconCls("voteIcons icon-wink");
+				tab.setIconCls("voteIcons icon-happy");
 				break;
 			case 2:
 				tab.setIconCls("voteIcons icon-shocked");
@@ -289,7 +294,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				tab.setIconCls("voteIcons icon-sad");
 				break;
 			default:
-				tab.setIconCls("voteIcons icon-radar");
+				tab.setIconCls("voteIcons icon-bullhorn");
 				break;
 		}
 	},

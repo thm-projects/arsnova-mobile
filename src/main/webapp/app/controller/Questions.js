@@ -223,7 +223,7 @@ Ext.define("ARSnova.controller.Questions", {
 			parentPanel = ARSnova.app.mainTabPanel;
 		}
 
-	options.answer.deletable = ARSnova.app.isSessionOwner;
+		options.answer.deletable = ARSnova.app.isSessionOwner;
 		var freetextDetailAnswerPanel = Ext.create('ARSnova.view.FreetextDetailAnswer', {
 			sTP: parentPanel,
 			answer: options.answer

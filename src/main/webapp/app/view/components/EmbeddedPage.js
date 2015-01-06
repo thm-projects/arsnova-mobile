@@ -16,39 +16,42 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define("ARSnova.controller.Lang", {
-	extend: 'Ext.app.Controller',
-	
-	requires: ['ARSnova.view.about.TestTabPanel'],
+
+Ext.define('ARSnova.view.components.EmbeddedPage', {
+	extend: 'Ext.Component',
+	xtype: 'embeddedpage',
 
 	config: {
-		routes: {
-			'en': 'switchToEnglish',
-			'de': 'switchToGerman',
-			'test': 'onTest'
-		}
-	},
-
-	switchToEnglish: function () {
-		this.switchTo('en');
-	},
-
-	switchToGerman: function () {
-		this.switchTo('de');
+		title: 'EmbeddedPage',
+		scrollable: true,
+		fullscreen: false
 	},
 	
-	onTest: function() {
-		this.activateTestRoutine = true;
-	},
-	
-	testRoutine: function(tabPanel) {
-		tabPanel.testTabPanel = Ext.create('ARSnova.view.about.TestTabPanel');
-		tabPanel.add(tabPanel.testTabPanel);
-	},
+	disableScrolling: true,
 
-	switchTo: function (lang) {
-		localStorage.setItem("language", lang);
-		// remove hash from URL and reload language changes
-		window.location = window.location.origin + window.location.pathname;
+	initialize: function () {
+		this.callParent(arguments);
+    
+		this.on('painted', function () {
+			if(!this.defined) {
+				this.defined = true;
+
+				Ext.DomHelper.append(this.element, {
+					tag: 'div',
+					scrolling: 'no',
+					cls: 'embeddedPageElement',
+					style: Ext.os.is.iOS ? 'overflow: auto;' : '',
+					children: [this.iframe = {
+						tag: 'iframe',
+						src: this.config.src,
+						cls: 'embeddedPageElement',
+						id: this.id + '-iframe',
+						style: 'border: 0;',
+						scrolling: 'yes',
+						frameBorder: '0'
+					}]
+				});
+			}
+		});
 	}
 });

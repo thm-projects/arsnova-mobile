@@ -21,7 +21,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 	config: {
 		title: Messages.STATISTIC,
-		style: 'background-color: black',
 		layout: 'fit'
 	},
 
@@ -99,6 +98,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			ui: 'back',
 			scope: this,
 			handler: function () {
+				ARSnova.app.innerScrollPanel = false;
 				ARSnova.app.taskManager.stop(this.renewChartDataTask);
 				ARSnova.app.taskManager.stop(this.countActiveUsersTask);
 				ARSnova.app.mainTabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel, {
@@ -221,18 +221,50 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				fields: ['value'],
 				increment: 1,
 				minimum: 0,
-				style: {stroke: 'white'},
+				majorTickSteps: 10,
+				style: {
+					stroke: '#4a5c66',
+					lineWidth: 2
+				},
 				label: {
-					color: 'white'
+					color: '#4a5c66',
+					fontWeight: 'bold'
 				}
 			}, {
 				type: 'category',
 				position: 'bottom',
 				fields: ['text'],
-				style: {stroke: 'white'},
+				style: {
+					stroke: '#4a5c66',
+					lineWidth: 2
+				},
 				label: {
-					color: 'white',
+					color: '#4a5c66',
+					fontWeight: 'bold',
 					rotate: {degrees: 315}
+				},
+				renderer: function (label, layout, lastLabel) {
+					var panel, labelColor;
+					
+					panel = ARSnova.app.userRole == ARSnova.app.USER_ROLE_STUDENT ?
+							ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart :
+							ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
+					
+					if(panel.toggleCorrect && label !== Messages.ABSTENTION 
+						&&	Object.keys(panel.correctAnswers).length > 0) {
+						labelColor =  panel.correctAnswers[label] ?  '#80ba24' : '#971b2f';
+					} else {
+						labelColor = '#4a5c66';
+					}
+					
+					layout.segmenter.getAxis().setLabel({
+						color: labelColor,
+						fontWeight: 'bold',
+						rotate: {degrees: 315}
+					});
+					
+					return label.length < 30 ? label :
+						label.substring(0, 29) + "...";
 				}
 			}],
 
@@ -241,35 +273,37 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				xField: 'text',
 				yField: 'value',
 				style: {
-					minGapWidth: 20,
+					minGapWidth: 10,
 					maxBarWidth: 200
 				},
 				label: {
 					display: 'insideEnd',
 					field: 'percent',
 					color: '#fff',
-					orientation: 'horizontal',
-					renderer: function (text) {
-						return text + "%";
+					calloutColor: 'transparent',
+					renderer: function (text, sprite, config, rendererData, index) {
+						var barWidth = this.itemCfg.width;
+						return {
+							text: text + " %",
+							color: config.callout ? '#4a5c66' : '#fff',
+							calloutVertical: barWidth > 40 ? false : true,
+							rotationRads: barWidth > 40 ? 0 : config.rotationRads,
+							calloutPlaceY: barWidth <= 40 ? config.calloutPlaceY : 
+								config.calloutPlaceY + 10
+						};
 					}
 				},
 				renderer: function (sprite, config, rendererData, i) {
 					var panel, gradient,
 						data = rendererData.store.getData().getAt(i).getData();
 
-					if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_STUDENT) {
-						panel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart;
-					}
+					panel = ARSnova.app.userRole == ARSnova.app.USER_ROLE_STUDENT ?
+							ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart :
+							ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 
-					else {
-						panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
-					}
-
-					if(data.text === Messages.ABSTENTION) {
-						gradient = panel.abstentionGradient;
-					} else {
-						gradient = panel.gradients[i % panel.gradients.length];
-					}
+					gradient = data.text === Messages.ABSTENTION ?
+							gradient = panel.abstentionGradient :
+							gradient = panel.gradients[i % panel.gradients.length];
 
 					return { fill: gradient};
 				}
@@ -294,6 +328,12 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		}
 
 		this.on('activate', this.onActivate);
+	},
+	
+	onActivate: function () {
+		ARSnova.app.innerScrollPanel = this;
+		ARSnova.app.taskManager.start(this.renewChartDataTask);
+		ARSnova.app.taskManager.start(this.countActiveUsersTask);
 	},
 
 	getQuestionAnswers: function () {
@@ -407,11 +447,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		});
 	},
 
-	onActivate: function () {
-		ARSnova.app.taskManager.start(this.renewChartDataTask);
-		ARSnova.app.taskManager.start(this.countActiveUsersTask);
-	},
-
 	countActiveUsers: function () {
 		var count = ARSnova.app.loggedInModel.countActiveUsersBySession();
 
@@ -424,6 +459,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	},
 
 	setGradients: function () {
+		this.correctAnswers = {};
+		
 		if (this.questionObj.questionType == "yesno" || this.questionObj.questionType == "mc"
 				|| (this.questionObj.questionType == "abcd" && !this.questionObj.noCorrect)) {
 			if (this.toggleCorrect) {
@@ -445,11 +482,14 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	},
 
 	getCorrectAnswerGradients: function () {
-		var gradients = [];
-		var question;
+		var data, question, gradients = [];
+		
 		for (var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
 			question = this.questionObj.possibleAnswers[i];
-
+			data = question.data ? question.data : question;
+			
+			this.correctAnswers[data.text] = data.correct;
+			
 			if ((question.data && !question.data.correct) || (!question.data && !question.correct)) {
 				gradients.push(
 					Ext.create('Ext.draw.gradient.Linear', {
@@ -472,6 +512,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				);
 			}
 		}
+		
 		return gradients;
 	},
 

@@ -122,12 +122,18 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		this.add([this.toolbar, this.freetextAnswerList]);
 
 		this.on('activate', function () {
+			ARSnova.app.innerScrollPanel = this.freetextAnswerList;
 			ARSnova.app.taskManager.start(this.checkFreetextAnswersTask);
 		}, this);
 
 		this.on('deactivate', function () {
+			ARSnova.app.innerScrollPanel = false;
 			ARSnova.app.taskManager.stop(this.checkFreetextAnswersTask);
 		}, this);
+		
+		this.on('painted', function() {
+			ARSnova.app.innerScrollPanel = this.freetextAnswerList;
+		});
 	},
 
 	checkFreetextAnswers: function () {

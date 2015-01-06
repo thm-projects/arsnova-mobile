@@ -27,7 +27,10 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	config: {
 		fullscreen: true,
 		title: Messages.FEEDBACK,
-		scrollable: 'vertical'
+		scrollable: {
+			direction: 'vertical',
+			directionLock: true
+		}
 	},
 
 	inClassItems: null,
@@ -93,6 +96,39 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				this.sessionLogoutButton
 			]
 		});
+		
+		this.createAdHocQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: Messages.AH_HOC_QUESTION,
+			cls: 'actionButton',
+			buttonConfig: 'icon',
+			imageCls: 'icon-question thm-green',
+			controller: 'Questions',
+			action: 'adHoc',
+			handler: this.buttonClicked
+		});
+		
+		this.showcaseActionButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: Messages.SHOWCASE_MODE,
+			cls: 'actionButton',
+			buttonConfig: 'icon',
+			imageCls: 'icon-presenter thm-grey',
+			handler: this.showcaseHandler,
+			hidden: true
+		});
+		
+		this.actionButtonPanel = Ext.create('Ext.Panel', {
+			layout: {
+				type: 'hbox',
+				pack: 'center'
+			},
+
+			style: 'margin: 15px',
+
+			items: [
+				this.createAdHocQuestionButton,
+				this.showcaseActionButton
+			]
+		});
 
 		this.preparationQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			text: Messages.PREPARATION_QUESTIONS_LONG,
@@ -130,7 +166,9 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.courseLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 				text: Messages.COURSES_LEARNING_PROGRESS,
-				cls: 'standardListButton'
+				cls: 'standardListButton',
+				disabledCls: '',
+				disabled: true
 			});
 		}
 
@@ -148,9 +186,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 			items: [{
 				cls: 'gravure',
-				style: 'padding:15px 0 0',
 				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(localStorage.getItem("keyword"))
-			}, {
+			}, this.actionButtonPanel, {
 				xtype: 'formpanel',
 				cls: 'standardForm topPadding',
 				scrollable: null,
@@ -160,22 +197,10 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 		this.sessionStatusButton = Ext.create('ARSnova.view.SessionStatusButton');
 
-		this.createAdHocQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.AH_HOC_QUESTION,
-			buttonConfig: 'icon',
-			imageCls: 'icon-question thm-green',
-			imageStyle: {
-				'font-size': '70px',
-				'margin-top': '4px'
-			},
-			controller: 'Questions',
-			action: 'adHoc',
-			handler: this.buttonClicked
-		});
-
 		this.deleteSessionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.DELETE_SESSION,
 			buttonConfig: 'icon',
+			cls: 'actionButton',
 			imageCls: 'icon-close thm-red',
 			scope: this,
 			handler: function () {
@@ -209,11 +234,9 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			},
 
 			items: [
-				this.createAdHocQuestionButton,
 				this.sessionStatusButton,
 				this.deleteSessionButton
 			]
-
 		});
 
 		this.add([this.toolbar, this.inClassItems, this.inClassActions]);
@@ -221,7 +244,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		this.on('destroy', this.destroyListeners);
 
 		this.onBefore('painted', function () {
-			this.updateBadges();
+			this.onActivate();
 		});
 
 		this.on('show', this.refreshListeners);
@@ -229,6 +252,12 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 	buttonClicked: function (button) {
 		ARSnova.app.getController(button.config.controller)[button.config.action]();
+	},
+	
+	showcaseHandler: function () {
+		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		sTP.showcaseQuestionPanel.inclassBackButtonHandle = true;
+		sTP.animateActiveItem(sTP.showcaseQuestionPanel, 'slide');
 	},
 
 	/* will be called on session login */
@@ -258,12 +287,17 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		}
 	},
 
-	updateBadges: function () {
-		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
-		panel.updateAudienceQuestionBadge();
+	onActivate: function () {
+		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		sTP.showcaseQuestionPanel.setController(ARSnova.app.getController('Questions'));
+		sTP.showcaseQuestionPanel.setLectureMode();
+		
+		sTP.inClassPanel.updateAudienceQuestionBadge();
 	},
 
 	updateAudienceQuestionBadge: function () {
+		var me = this;
+		
 		var failureCallback = function () {
 			console.log('server-side error');
 		};
@@ -271,12 +305,13 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		ARSnova.app.questionModel.countLectureQuestions(localStorage.getItem("keyword"), {
 			success: function (response) {
 				var numQuestions = parseInt(response.responseText);
+				if(numQuestions) me.showcaseActionButton.show();
+				
 				ARSnova.app.questionModel.countLectureQuestionAnswers(localStorage.getItem("keyword"), {
 					success: function (response) {
 						var numAnswers = parseInt(response.responseText);
-
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
-
+						
 						panel.lectureQuestionButton.setBadge([
 							{badgeText: numQuestions, badgeCls: "questionsBadgeIcon"},
 							{badgeText: numAnswers, badgeCls: "answersBadgeIcon"}

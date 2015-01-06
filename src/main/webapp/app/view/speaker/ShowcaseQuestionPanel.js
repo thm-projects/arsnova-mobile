@@ -28,16 +28,15 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	config: {
 		fullscreen: true,
 		title: Messages.QUESTIONS,
-		iconCls: 'icon-questions',
 
 		controller: null,
 		questionTitleLong: Messages.LECTURE_QUESTION_LONG,
 		questionTitleShort: Messages.LECTURE_QUESTIONS
 	},
 
-	initialize: function () {
+	initialize: function (arguments) {
 		this.callParent(arguments);
-
+		
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
 			this.toolbar.setTitleOptions(this.getQuestionTitleLong(), this.getQuestionTitleShort());
 			this.toolbar.incrementQuestionCounter(panel.activeIndex);
@@ -53,23 +52,31 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		this.toolbar = Ext.create('ARSnova.view.components.QuestionToolbar', {
 			cls: 'speakerTitleText',
 			backButtonHandler: function (animation) {
-			var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-			sTP.animateActiveItem(sTP.audienceQuestionPanel, animation);
-		},
-		statisticsButtonHandler: function () {
-			var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-			sTP.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
-				question: ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel._activeItem._activeItem.questionObj,
-				lastPanel: this
-			});
-			ARSnova.app.mainTabPanel.animateActiveItem(sTP.questionStatisticChart, 'slide');
-		}
-	});
+				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+				ARSnova.app.innerScrollPanel = false;
+				
+				if(sTP.showcaseQuestionPanel.inclassBackButtonHandle) {
+					sTP.animateActiveItem(sTP.inClassPanel, animation);
+					sTP.showcaseQuestionPanel.inclassBackButtonHandle = false;
+				} else {
+					sTP.animateActiveItem(sTP.audienceQuestionPanel, animation);
+				}
+			},
+			statisticsButtonHandler: function () {
+				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+				sTP.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
+					question: ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel._activeItem._activeItem.questionObj,
+					lastPanel: this
+				});
+				ARSnova.app.mainTabPanel.animateActiveItem(sTP.questionStatisticChart, 'slide');
+			}
+		});
 
 		this.add([this.toolbar]);
 
-		this.on('activate', this.beforeActivate, this, null, 'before');
 		this.on('activate', this.onActivate);
+		this.on('activate', this.beforeActivate, this, null, 'before');
+		this.on('painted', function() { ARSnova.app.innerScrollPanel = this; });
 		this.on('add', function (panel, component, index) {
 			component.doTypeset && component.doTypeset(panel);
 		});
@@ -83,6 +90,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 
 	onActivate: function () {
 		this.getAllSkillQuestions();
+		
 	},
 
 	getAllSkillQuestions: function () {

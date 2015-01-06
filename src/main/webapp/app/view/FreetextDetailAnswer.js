@@ -38,6 +38,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.FREETEXT_DETAIL_HEADER,
+			docked: 'top',
 			ui: 'light',
 			items: [
 				Ext.create('Ext.Button', {
@@ -66,33 +67,29 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			]
 		});
 
-	// Setup question title and text to disply in the same field; markdown handles HTML encoding
-	var questionString = this.answer.answerSubject
-		+ '\n\n' // inserts one blank line between subject and text
-		+ this.answer.answerText;
-
-	// Create standard panel with framework support
-	var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
-	questionPanel.setContent(questionString, true, true);
+		// Setup question title and text to disply in the same field; markdown handles HTML encoding
+		var questionString = this.answer.answerSubject
+			+ '\n\n' // inserts one blank line between subject and text
+			+ this.answer.answerText;
+	
+		// Create standard panel with framework support
+		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+		questionPanel.setContent(questionString, true, true);
 
 		this.add([this.toolbar, {
 			xtype: 'formpanel',
 			scrollable: null,
 
 			items: [{
-				xtype: 'fieldset',
-				items: [
-					{
-						xtype: 'textfield',
-						label: Messages.QUESTION_DATE,
-						value: this.answer.formattedTime + " Uhr am " + this.answer.groupDate,
-						disabledCls: 'disableDefault',
-						inputCls: 'thm-grey',
-						disabled: true
-					},
-					questionPanel
-				]
-			}]
+				xtype: 'textfield',
+				cls: 'roundedBox',
+				label: Messages.QUESTION_DATE,
+				value: this.answer.formattedTime + " Uhr am " + this.answer.groupDate,
+				disabledCls: 'disableDefault',
+				inputCls: 'thm-grey',
+				disabled: true
+				}, questionPanel
+			]
 		}, {
 			xtype: 'button',
 			ui: 'decline',
@@ -125,5 +122,17 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 				});
 			}
 		}]);
+	},
+	
+	initialize: function() {
+		this.callParent(arguments);
+		
+		this.on('painted', function() {
+			ARSnova.app.innerScrollPanel = this;
+		});
+		
+		this.on('deactivate', function() {
+			ARSnova.app.innerScrollPanel = false;
+		});
 	}
 });

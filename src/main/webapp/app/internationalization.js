@@ -34,7 +34,12 @@ if (isAndroid && !isChrome) {
 	lang = navigator.language;
 }
 
-var prefLang = localStorage.getItem("language");
+try {
+	var prefLang = localStorage.getItem("language");
+} catch (e) {			
+	var prefLang = undefined;
+}
+
 if (prefLang != undefined) {
 	lang = prefLang;
 }
@@ -59,6 +64,7 @@ switch (lang) {
 			CHOOSE_ROLE: "Choose your role:",
 			STUDENT: "Student",
 			SPEAKER: "Teacher",
+			ABOUT_ARSNOVA: "About ARSnova",
 			TITLE_ROLE: "Audience Response System",
 			/* loginPanel */
 			CHOOSE_LOGIN: "Login as:",
@@ -80,8 +86,8 @@ switch (lang) {
 			LEGEND: "Color and Badge Legend",
 			OPEN_SESSION: "Open Session",
 			CLOSED_SESSION: "Closed Session",
-			CONFIRM_CLOSE_SESSION: "Are you sure to close the session?",
-			CONFIRM_CLOSE_SESSION_MESSAGE: "If you close this session, only students currently online will be able to participate.",
+			CONFIRM_CLOSE_SESSION: "Are you sure to lock access to this session?",
+			CONFIRM_CLOSE_SESSION_MESSAGE: "If you lock the access, only students currently online will be able to participate.",
 
 			/* LOAD MASK */
 			LOAD_MASK: "Loading...",
@@ -122,9 +128,9 @@ switch (lang) {
 			FEEDBACK_OKAY: "I can follow you.",
 			FEEDBACK_BAD: "Slower, please!",
 			FEEDBACK_NONE: "You've lost me.",
-			FEEDBACK_VOTE: "Vote",
+			FEEDBACK_VOTE: "Feedback",
 			FEEDBACK_RESET: 'Your feedback has been reset',
-			QUESTION_REQUEST: "I've got a question!",
+			QUESTION_REQUEST: "I've got a question",
 			QUESTION_TO_SPEAKER: 'Feedback',
 			QUESTION_INSTRUCTION: 'You are asking this question anonymously.',
 			QUESTION_TEXT: "Question",
@@ -167,7 +173,7 @@ switch (lang) {
 			ANSWER_SAVED: 'Your answer has been saved.',
 			MISSING_INPUT: "Please fill out all required fields.",
 			SHOWCASE: "Showcase",
-			SHOWCASE_MODE: "Presentation Mode",
+			SHOWCASE_MODE: "Present question",
 			LEAVE: "Leave",
 			MEMBERS_ONLY: "This question is visible to course members only.",
 			QUESTION_RATING: "Rating",
@@ -203,7 +209,7 @@ switch (lang) {
 
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
-			QUESTIONS_FROM_STUDENTS: "Students' questions",
+			QUESTIONS_FROM_STUDENTS: "Student questions",
 			PREPARATION_QUESTIONS: "Prep questions",
 			PREPARATION_QUESTIONS_LONG: "Preparation Questions",
 			PREPARATION_QUESTION_SHORT: "Prep Question",
@@ -219,7 +225,7 @@ switch (lang) {
 			THERE_ARE: "There are",
 			NEW_QUESTIONS: "new questions.",
 			MY_QUESTIONS: "My questions",
-			MY_LEARNING_PROGRESS: "Progress",
+			MY_LEARNING_PROGRESS: "My progress",
 			VERSUS: "vs",
 			LEARN: "Learn",
 			LEARN_WITH_SELECTION: "Learn with selection",
@@ -233,11 +239,11 @@ switch (lang) {
 			/* speaker */
 			LIVE_FEEDBACK: "Instant feedback",
 			COURSES_LEARNING_PROGRESS: "Class progress",
-			NEW_QUESTION: "New question",
+			NEW_QUESTION: "Create new question",
 			NEW_LECTURE_QUESTION: "New lecture question",
 			NEW_PREPARATION_QUESTION: "New preparation question",
 			NEW_QUESTION_TITLE: "Question",
-			AH_HOC_QUESTION: "Instant question",
+			AH_HOC_QUESTION: "Create new question",
 			ARE_YOU_SURE: "Are you sure?",
 			DELETE_SESSION_NOTICE: "All questions and answers of this session will be deleted.",
 			DELETE_SESSION: "Delete session",
@@ -277,8 +283,8 @@ switch (lang) {
 			RELEASE_ALL_QUESTIONS: "Release questions",
 			STOP_QUESTION: "Lock question",
 			STOP_ALL_QUESTIONS: "Lock questions",
-			START_SESSION: "Open session",
-			STOP_SESSION: "Lock session",
+			START_SESSION: "Open access",
+			STOP_SESSION: "Lock access",
 			MARK_CORRECT_ANSWER: "Mark correct",
 			DELETE_QUESTION: "Delete question",
 			DELETE_ALL_QUESTIONS: "Delete questions",
@@ -300,7 +306,7 @@ switch (lang) {
 			BACK: "Back",
 			FLASHCARD_FRONT_PAGE: 'Front page',
 			FLASHCARD_BACK_PAGE: 'Back page',
-			SAVE_AND_CONTINUE: "Save and Continue",
+			SAVE_AND_CONTINUE: "Save and ask a new question",
 			SELECT_PICTURE_FS: "URL",
 			SELECT_PICTURE_URL: "From URL",
 			SELECT_PICTURE_URL_SHORT: "URL",
@@ -465,6 +471,7 @@ switch (lang) {
 			CHOOSE_ROLE: "Wählen Sie Ihre Rolle:",
 			STUDENT: "Student/in",
 			SPEAKER: "Dozent/in",
+			ABOUT_ARSNOVA: "Was ist ARSnova?",
 			TITLE_ROLE: "Feedback im Hörsaal",
 			/* loginPanel */
 			CHOOSE_LOGIN: 'Wählen Sie Ihren Zugang:',
@@ -486,8 +493,8 @@ switch (lang) {
 			LEGEND: "Farben- und Badge-Legende",
 			OPEN_SESSION: "Offene Session",
 			CLOSED_SESSION: "Gesperrte Session",
-			CONFIRM_CLOSE_SESSION: "Session wirklich sperren?",
-			CONFIRM_CLOSE_SESSION_MESSAGE: "Wenn Sie die Session sperren, können nur noch aktuell angemeldete Student/innen teilnehmen.",
+			CONFIRM_CLOSE_SESSION: "Zugang wirklich sperren?",
+			CONFIRM_CLOSE_SESSION_MESSAGE: "Wenn Sie den Zugang sperren, können nur noch aktuell angemeldete Student/innen teilnehmen.",
 
 			/* LOAD MASK */
 			LOAD_MASK: "Lade Daten...",
@@ -530,7 +537,7 @@ switch (lang) {
 			FEEDBACK_NONE: "Abgehängt",
 			FEEDBACK_VOTE: "Feedback",
 			FEEDBACK_RESET: 'Ihr Feedback wurde zurückgesetzt',
-			QUESTION_REQUEST: 'Ich habe eine Frage...',
+			QUESTION_REQUEST: 'Ich habe eine Frage',
 			QUESTION_TO_SPEAKER: 'Feedback',
 			QUESTION_INSTRUCTION: 'Sie stellen diese Frage anonym.',
 			QUESTION_TEXT: "Frage",
@@ -573,7 +580,7 @@ switch (lang) {
 			ANSWER_SAVED: 'Ihre Antwort wurde gespeichert.',
 			MISSING_INPUT: "Es müssen alle Felder ausgefüllt werden.",
 			SHOWCASE: "Vorstellen",
-			SHOWCASE_MODE: "Präsentationsmodus",
+			SHOWCASE_MODE: "Frage präsentieren",
 			LEAVE: "Verlassen",
 			MEMBERS_ONLY: "Diese Frage ist nur für Kursmitglieder sichtbar.",
 			QUESTION_RATING: "Likert-Skala",
@@ -596,7 +603,7 @@ switch (lang) {
 			CONFIRM_CLOSE_ALL_QUESTIONS: "Fragen wirklich sperren?",
 			CONFIRM_CLOSE_QUESTION_MESSAGE: "Wenn Sie die Frage sperren, können Student/innen die Frage weder sehen noch beantworten.",
 			CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE: "Wenn Sie die Fragen sperren, können Student/innen die Fragen weder sehen noch beantworten.",
-			SAVE_AND_CONTINUE: 'Speichern und weiter',
+			SAVE_AND_CONTINUE: 'Speichern und neue Frage stellen',
 			CONFIRM_ANSWERS_CHANGED: "Bereits gegebene Antworten gehen verloren.",
 			QUESTION_PREVIEW_BUTTON_TITLE: "Vorschau",
 			QUESTION_PREVIEW_DIALOGBOX_TITLE: "Vorschau Frage",
@@ -626,7 +633,7 @@ switch (lang) {
 			THERE_ARE: "Es gibt",
 			NEW_QUESTIONS: "neue Fragen.",
 			MY_QUESTIONS: "Meine Fragen",
-			MY_LEARNING_PROGRESS: "Lernstand",
+			MY_LEARNING_PROGRESS: "Mein Lernstand",
 			VERSUS: "vs.",
 			LEARN: "Lernen",
 			LEARN_WITH_SELECTION: "Mit Auswahl lernen",
@@ -640,11 +647,11 @@ switch (lang) {
 			/* speaker */
 			LIVE_FEEDBACK: "Live-Feedback",
 			COURSES_LEARNING_PROGRESS: "Lernstand des Kurses",
-			NEW_QUESTION: "Neue Frage stellen",
+			NEW_QUESTION: "Neue Frage anlegen",
 			NEW_LECTURE_QUESTION: "Neue Hörsaalfrage",
 			NEW_PREPARATION_QUESTION: "Neue Vorbereitungsfrage",
 			NEW_QUESTION_TITLE: "Frage",
-			AH_HOC_QUESTION: 'Frage stellen',
+			AH_HOC_QUESTION: 'Neue Frage anlegen',
 			ARE_YOU_SURE: "Sind Sie sicher?",
 			DELETE_SESSION_NOTICE: "Es werden alle Fragen und Antworten der Session gelöscht.",
 			DELETE_SESSION: "Session löschen",
@@ -684,8 +691,8 @@ switch (lang) {
 			RELEASE_ALL_QUESTIONS: "Fragen freigeben",
 			STOP_QUESTION: "Frage sperren",
 			STOP_ALL_QUESTIONS: "Fragen sperren",
-			START_SESSION: "Session freigeben",
-			STOP_SESSION: "Session sperren",
+			START_SESSION: "Zugang freigeben",
+			STOP_SESSION: "Zugang sperren",
 			MARK_CORRECT_ANSWER: "Richtig markieren",
 			DELETE_QUESTION: "Frage löschen",
 			DELETE_ALL_QUESTIONS: "Fragen löschen",

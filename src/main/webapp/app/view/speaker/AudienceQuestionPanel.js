@@ -28,8 +28,10 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	config: {
 		title: 'AudienceQuestionPanel',
 		fullscreen: true,
-		scrollable: true,
-		scroll: 'vertical',
+		scrollable: {
+			direction: 'vertical',
+			directionLock: true
+		},
 
 		controller: null
 	},
@@ -40,7 +42,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	toolbar: null,
 	backButton: null,
 
-	controls: null,
 	questions: null,
 	newQuestionButton: null,
 
@@ -114,26 +115,11 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			}
 		});
 
-		this.controls = Ext.create('Ext.form.FormPanel', {
-			cls: 'standardForm topPadding',
-			style: "margin: .5em",
-			scrollable: null
-		});
-
-		this.questionTitle = Ext.create('Ext.form.FieldSet', {
+		this.questionListContainer = Ext.create('Ext.form.FieldSet', {
 			title: Messages.QUESTION_MANAGEMENT,
-			style: {marginTop: '30px'},
 			hidden: true,
 			items: [this.questionList]
 		});
-
-		this.newQuestionButton = {
-			xtype: 'button',
-			iconCls: 'icon-question thm-green',
-			text: Messages.NEW_QUESTION,
-			cls: 'forwardListButton',
-			handler: this.newQuestionHandler
-		};
 
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
@@ -148,22 +134,37 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				});
 			}
 		});
-
-		this.showcaseButton = Ext.create('Ext.Button', {
-			cls: "thm",
-			text: Messages.SHOWCASE,
-			hidden: true,
-			scope: this,
-			handler: this.showcaseHandler
-		});
-
-		this.showcaseFormButton = {
-			xtype: "button",
-			iconCls: 'icon-presenter thm-grey',
+		
+		this.showcaseActionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SHOWCASE_MODE,
-			cls: "forwardListButton",
-			handler: this.showcaseHandler
-		};
+			cls: 'actionButton',
+			buttonConfig: 'icon',
+			imageCls: 'icon-presenter thm-grey',
+			handler: this.showcaseHandler,
+			hidden: true
+		});
+		
+		this.newQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: Messages.NEW_QUESTION,
+			cls: 'actionButton',
+			buttonConfig: 'icon',
+			imageCls: 'icon-question thm-green',
+			handler: this.newQuestionHandler
+		});
+		
+		this.actionButtonPanel = Ext.create('Ext.Panel', {
+			layout: {
+				type: 'hbox',
+				pack: 'center'
+			},
+
+			style: 'margin-top: 30px',
+
+			items: [
+				this.newQuestionButton,
+				this.showcaseActionButton
+			]
+		});
 
 		this.caption = Ext.create('ARSnova.view.Caption', {
 			translation: {
@@ -247,16 +248,14 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			ui: 'light',
 			docked: 'top',
 			items: [
-				this.backButton,
-				{xtype: 'spacer'},
-				this.showcaseButton
+				this.backButton
 			]
 		});
 
 		this.add([
 			this.toolbar,
-			this.controls,
-			this.questionTitle,
+			this.actionButtonPanel,
+			this.questionListContainer,
 			this.caption,
 			this.inClassActions
 		]);
@@ -275,10 +274,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			return;
 		}
 		ARSnova.app.taskManager.start(this.updateAnswerCount);
-		this.controls.removeAll();
 		this.questionStore.removeAll();
-
-		this.controls.add(this.newQuestionButton);
 
 		this.questionEntries = [];
 
@@ -289,18 +285,17 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.caption.show();
 				this.caption.explainStatus(questions);
 				this.handleAnswerCount();
-
-				this.controls.insert(0, this.showcaseFormButton);
-				this.displayShowcaseButton();
-				this.questionTitle.show();
+				
+				this.showcaseActionButton.show();
+				this.questionListContainer.show();
 				this.questionList.show();
 				this.questionStatusButton.checkInitialStatus();
 				this.questionStatusButton.show();
 				this.deleteQuestionsButton.show();
 			}, this),
 			empty: Ext.bind(function () {
-				this.showcaseButton.hide();
-				this.questionTitle.hide();
+				this.showcaseActionButton.hide();
+				this.questionListContainer.hide();
 				this.questionList.show();
 				this.caption.hide();
 				this.questionStatusButton.hide();
@@ -315,24 +310,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	onDeactivate: function () {
 		this.questionList.hide();
 		ARSnova.app.taskManager.stop(this.updateAnswerCount);
-	},
-
-	onOrientationChange: function (panel, orientation, width, height) {
-		this.displayShowcaseButton();
-	},
-
-	/**
-	 * Displays the showcase button if enough screen width is available
-	 */
-	displayShowcaseButton: function () {
-		/* iPad does not swap screen width and height values in landscape orientation */
-		if (screen.availWidth >= 980 || screen.availHeight >= 980) {
-			this.showcaseButton.hide();
-		} else if (window.innerWidth >= 480) {
-			this.showcaseButton.show();
-		} else {
-			this.showcaseButton.hide();
-		}
 	},
 
 	newQuestionHandler: function () {

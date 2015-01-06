@@ -1,0 +1,21 @@
+
+.embeddedPageElement {
+	width: 100%;
+	height:100%; 
+	overflow: hidden; 
+	-webkit-overflow-scrolling: touch;
+}
+
+.x-mask-inner {
+	border-radius: 10px 10px 10px 10px;	
+}
+
+.listCorrectItem {
+	padding: 0 0.25em 0 0.2em;
+}
+
+.x-list-item-correct {
+	color: white !important;
+	background: $thm-green;
+	border-radius: 10px;
+}

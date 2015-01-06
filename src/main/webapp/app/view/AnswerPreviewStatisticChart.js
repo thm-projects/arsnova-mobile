@@ -21,7 +21,6 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 
 	config: {
 		title: Messages.STATISTIC,
-		style: 'background: black',
 		height: '100%',
 		width: '100%',
 		fullscreen: true,
@@ -148,7 +147,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 
 		this.questionChart = Ext.create('Ext.chart.CartesianChart', {
 			store: this.questionStore,
-			style: 'background: black',
+			style: 'margin-top: 15px',
 			fullscreen: true,
 			
 			animate: {
@@ -162,21 +161,46 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 				fields: ['value'],
 				increment: 1,
 				minimum: 0,
-				style: {stroke: 'white'},
+				majorTickSteps: 10,
+				style: {
+					stroke: '#4a5c66',
+					lineWidth: 2
+				},
 				label: {
-					color: 'white'
+					color: '#4a5c66',
+					fontWeight: 'bold'
 				}
 			}, {
 				type: 'category',
 				position: 'bottom',
 				fields: ['text'],
-				style: {stroke: 'white'},
+				style: {
+					stroke: '#4a5c66',
+					lineWidth: 2
+				},
 				label: {
-					color: 'white',
+					color: '#4a5c66',
+					fontWeight: 'bold',
 					rotate: {degrees: 315}
 				},
-				renderer: function (text, object, index) {
-					return text;
+				renderer: function (label, layout, lastLabel) {
+					var panel, labelColor;
+
+					if(me.toggleCorrect && 	label !== Messages.ABSTENTION
+						&&	Object.keys(me.correctAnswers).length > 0) {
+						labelColor =  me.correctAnswers[label] ?  '#80ba24' : '#971b2f';
+					} else {
+						labelColor = '#4a5c66';
+					}
+					
+					layout.segmenter.getAxis().setLabel({
+						color: labelColor,
+						fontWeight: 'bold',
+						rotate: {degrees: 315}
+					});
+					
+					return label.length < 30 ? label :
+						label.substring(0, 29) + "...";
 				}
 			}],
 
@@ -186,22 +210,30 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 				yField: 'value',
 				colors: this.gradients,
 				style: {
-					minGapWidth: 20,
+					minGapWidth: 10,
 					maxBarWidth: 200
 				},
 				label: {
 					display: 'insideEnd',
 					field: 'percent',
 					color: '#fff',
-					orientation: 'horizontal',
-					renderer: function (text) {
-						return text + "%";
+					calloutColor: 'transparent',
+					renderer: function (text, sprite, config, rendererData, index) {
+						var barWidth = this.itemCfg.width;
+						return {
+							text: text + " %",
+							color: config.callout ? '#4a5c66' : '#fff',
+							calloutVertical: barWidth > 40 ? false : true,
+							rotationRads: barWidth > 40 ? 0 : config.rotationRads,
+							calloutPlaceY: barWidth <= 40 ? config.calloutPlaceY : 
+								config.calloutPlaceY + 10
+						};
 					}
 				},
 				renderer: function (sprite, config, rendererData, i) {
 					var panel, gradient,
 						data = rendererData.store.getData().getAt(i).getData();
-					
+
 					if(data.text === Messages.ABSTENTION) {
 						return { fill: me.abstentionGradient };
 					} 
@@ -226,10 +258,16 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 	},
 	
 	initializeCorrectAnswerGradients: function() {
+		var data, question;
+		this.correctAnswers = {};
 		this.correctAnswerGradients = [];
 		
 		for (var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
 			question = this.questionObj.possibleAnswers[i];
+			data = question.data ? question.data : question;
+			
+			data.text = data.text === "" ? i+1 : data.text;
+			this.correctAnswers[data.text] = data.correct;
 
 			if ((question.data && !question.data.correct) || (!question.data && !question.correct)) {
 				this.correctAnswerGradients.push(

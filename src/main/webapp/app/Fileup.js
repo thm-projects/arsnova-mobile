@@ -132,33 +132,6 @@ Ext.define('Ext.ux.Fileup', {
 			hidden: true
 		},
 
-		// Loading spinner
-		{
-			tag: 'div',
-			className: Ext.baseCSSPrefix + 'loading-spinner',
-			reference: 'loadingElement',
-			hidden: true,
-
-			children: [
-				{
-					tag: 'span',
-					className: Ext.baseCSSPrefix + 'loading-top'
-				},
-				{
-					tag: 'span',
-					className: Ext.baseCSSPrefix + 'loading-right'
-				},
-				{
-					tag: 'span',
-					className: Ext.baseCSSPrefix + 'loading-bottom'
-				},
-				{
-					tag: 'span',
-					className: Ext.baseCSSPrefix + 'loading-left'
-				}
-			]
-		},
-
 		// Hidden file element
 		{
 			tag: 'form',
@@ -185,21 +158,18 @@ Ext.define('Ext.ux.Fileup', {
 	defaultStates: {
 		browse: {
 			text: 'Browse',
-			cls: Ext.baseCSSPrefix + 'fileup',
 			ui: 'filebrowse'
 		},
 
 		ready: {
 			text: 'Upload',
-			cls: Ext.baseCSSPrefix + 'fileup-ready',
 			ui: 'fileready'
 		},
 
 		uploading: {
 			text: 'Uploading',
-			cls: Ext.baseCSSPrefix + 'fileup-uploading',
 			ui: 'fileupload',
-			loading: true
+			loading: false
 		}
 	},
 
@@ -344,24 +314,12 @@ Ext.define('Ext.ux.Fileup', {
 				me.setText('');
 			}
 
-			if (states[state].cls) {
-				me.setCls(states[state].cls);
-			} else {
-				me.setCls('');
-			}
-
 			if (states[state].ui) {
 				me.setUi(states[state].ui);
 			} else {
 				me.setUi('normal');
 			}
-
-			if (states[state].loading) {
-				me.loadingElement.show();
-			} else {
-				me.loadingElement.hide();
-			}
-
+			
 			// State specific tasks
 			switch (state) {
 				case 'browse':
@@ -371,7 +329,6 @@ Ext.define('Ext.ux.Fileup', {
 
 				case 'ready':
 					me.currentState = 'ready';
-					me.fileElement.hide();
 
 					if (me.getAutoUpload()) {
 						me.onButtonTap();
@@ -528,7 +485,6 @@ Ext.define('Ext.ux.Fileup', {
 
 		me.setBadgeText(null);
 		me.formElement.dom.reset();
-		me.fileElement.show();
 	},
 
 	/**

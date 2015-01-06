@@ -16,20 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('ARSnova.view.about.PrivacyTabPanel', {
+
+Ext.define('ARSnova.view.about.TestTabPanel', {
 	extend: 'Ext.tab.Panel',
 	
 	requires: ['ARSnova.view.components.EmbeddedPage'],
 
 	config: {
-		title: Messages.PRIVACY,
-		iconCls: 'icon-lock',
-
+		title: 'TestManual',
+		iconCls: 'icon-book',
+		
+		scrollable: {
+			direction: 'vertical',
+			directionLock: true
+		},
+		
 		tabBar: {
 			hidden: true
 		}
 	},
-
+	
 	initialize: function () {
 		this.callParent(arguments);
 		
@@ -53,10 +59,9 @@ Ext.define('ARSnova.view.about.PrivacyTabPanel', {
 		});
 		
 		this.add(this.toolbar);
-
-		this.on("painted", function () {
-			var url = ARSnova.app.globalConfig.privacyPolicyUrl || "https://arsnova.eu/blog/datenschutzerklaerung/";
-			
+		
+		this.on("painted", function() {
+			var url = "https://arsnovamanual.cloudcontrolled.com";
 			this.add(Ext.create('ARSnova.view.components.EmbeddedPage', {
 				src: url
 			}));

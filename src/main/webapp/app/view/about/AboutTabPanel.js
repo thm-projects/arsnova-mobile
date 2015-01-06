@@ -16,24 +16,56 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 Ext.define('ARSnova.view.about.AboutTabPanel', {
 	extend: 'Ext.tab.Panel',
+	
+	requires: ['ARSnova.view.components.EmbeddedPage'],
 
 	config: {
 		title: Messages.INFO,
 		iconCls: 'icon-book',
-
+		
+		scrollable: {
+			direction: 'vertical',
+			directionLock: true
+		},
+		
 		tabBar: {
 			hidden: true
 		}
 	},
-
+	
 	initialize: function () {
 		this.callParent(arguments);
+		
+		this.toolbar = Ext.create('Ext.Toolbar', {
+			docked: 'top',
+			title: this.getTitle(),
+			ui: 'light',
+			items: [{
+				xtype: 'button',
+				text: Messages.BACK,
+				ui: 'back',
+				scope: this,
+				handler: function() {
+					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.lastActiveMainTabPanel, {
+						type: 'slide',
+						direction: 'right',
+						duration: 700
+					});
+				}
+			}]
+		});
+		
+		this.add(this.toolbar);
+		
+		this.on("painted", function() {
+			var url = ARSnova.app.globalConfig.documentationUrl || "https://arsnova.eu/manual/index.php/" + encodeURIComponent(moment.lang())+"/";	
 
-		this.on("activate", function () {
-			var url = ARSnova.app.globalConfig.documentationUrl || "https://arsnova.eu/manual/index.php/" + encodeURIComponent(moment.lang())+"/";
-			window.open(url);
+			this.add(Ext.create('ARSnova.view.components.EmbeddedPage', {
+				src: url
+			}));
 		});
 	}
 });

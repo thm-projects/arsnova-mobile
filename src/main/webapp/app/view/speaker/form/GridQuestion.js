@@ -814,5 +814,5 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			answers: answerValues,
 			image: panel.gridQuestion.image
 		});
-	},
+	}
 });

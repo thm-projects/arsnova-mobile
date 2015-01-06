@@ -79,22 +79,30 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				this.logoutButton
 			]
 		});
+		
+		this.newSessionButtonForm = Ext.create('Ext.Panel', {
+			layout: {
+				type: 'hbox',
+				pack: 'center'
+			},
 
-		this.newSessionButtonForm = Ext.create('Ext.form.FormPanel', {
-			cls: 'topPadding standardForm',
-			style: 'margin: 5px 12px',
-			scrollable: null,
+			style: {
+				marginTop: '30px'
+			},
 
-			items: [{
-				xtype: 'button',
-				ui: 'normal',
-				text: Messages.CREATE_NEW_SESSION,
-				cls: 'forwardListButton',
-				handler: function (options) {
-					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-					hTP.animateActiveItem(hTP.newSessionPanel, 'slide');
-				}
-			}]
+			items: [
+				Ext.create('ARSnova.view.MatrixButton', {
+					text: Messages.CREATE_NEW_SESSION,
+					buttonConfig: 'icon',
+					cls: 'actionButton',
+					imageCls: 'icon-newsession thm-green',
+					scope: this,
+					handler: function (options) {
+						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+						hTP.animateActiveItem(hTP.newSessionPanel, 'slide');
+					}
+				})
+			]
 		});
 
 		this.caption = Ext.create('ARSnova.view.Caption', {
@@ -198,6 +206,16 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 		this.add([
 			this.toolbar,
+			{
+				xtype: 'panel',
+				cls: null,
+				html: 	"<div class='icon-logo'>" +
+						"<span class='icon-logo-radar'>r</span>" +
+						"<span class='icon-logo-ars'>a</span>" +
+						"<span class='icon-logo-nova'>n</span>" +
+						"</div>",
+				style: {marginTop: '35px', marginBottom: '30px'}
+			},
 			this.newSessionButtonForm,
 			this.sessionsForm,
 			this.matrixButtonPanel,

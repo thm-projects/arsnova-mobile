@@ -88,7 +88,7 @@ Ext.application({
 
 	views: ['MainTabPanel', 'MathJaxMarkDownPanel', 'QuestionPreviewBox', 'AnswerPreviewBox'],
 
-	controllers: ['Auth', 'Feedback', 'Lang', 'Questions', 'FlashcardQuestions', 'PreparationQuestions', 'Sessions', 'SessionImport', 'SessionExport'],
+	controllers: ['Auth', 'Application', 'Feedback', 'Lang', 'Questions', 'FlashcardQuestions', 'PreparationQuestions', 'Sessions'],
 
 	/* items */
 	mainTabPanel: null,
@@ -142,7 +142,7 @@ Ext.application({
 	 * This is called automatically when the page loads. Here we set up the main component on the page
 	 */
 
-	launch: function () {
+	launch: function () {		
 		console.info("ARSnova.app.launch");
 		// Destroy the #appLoadingIndicator element
 		Ext.fly('appLoadingIndicator').destroy();
@@ -162,6 +162,11 @@ Ext.application({
 			console.debug("Configuration loaded");
 			me.globalConfig = globalConfig;
 			me.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
+
+			if(ARSnova.app.getController('Lang').activateTestRoutine) {
+				ARSnova.app.getController('Lang').testRoutine(me.mainTabPanel.tabPanel);
+			}
+			
 			me.configLoaded.resolve();
 		}, function () {
 			console.error("Could not load configuration");
@@ -173,7 +178,7 @@ Ext.application({
 			me.configLoaded.reject();
 		});
 	},
-
+	
 	/**
 	 * reload application if manifest file is changed
 	 */

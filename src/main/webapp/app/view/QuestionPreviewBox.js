@@ -21,7 +21,10 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 	extend: 'Ext.MessageBox',
 	
 	config: {
-		scrollable: true,
+		scrollable: {
+			direction: 'vertical',
+			directionLock: true
+		},
 		hideOnMaskTap: true,
 		layout: 'vbox'
 	},
@@ -101,10 +104,21 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		// remove padding around mainPanel
 		this.mainPanel.bodyElement.dom.style.padding="0";
 		
-		this.on('hide', this.destroy);
+		this.on('hide', function() {
+			ARSnova.app.innerScrollPanel = false;
+			ARSnova.app.activePreviewPanel = false;
+			this.destroy();
+		});
+		
+		this.on('painted', function() {
+			ARSnova.app.innerScrollPanel = this;
+			ARSnova.app.activePreviewPanel = true;
+		});
 	},
 
-	showPreview: function (title, content) {		
+	showPreview: function (title, content) {	
+		ARSnova.app.innerScrollPanel = this;
+		ARSnova.app.activePreviewPanel = true;
 		this.titlePanel.setContent(title.replace(/\./, "\\."), false, true);
 		this.contentPanel.setContent(content, true, true);
 		
