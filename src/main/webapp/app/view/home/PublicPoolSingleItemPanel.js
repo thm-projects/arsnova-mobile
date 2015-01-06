@@ -41,7 +41,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		//
 		
 		this.backButton = Ext.create('Ext.Button', {
-			text: "Back",
+			text: Messages.BACK,
 			ui: 'back',
 			scope: this,
 			handler: function () {
@@ -57,7 +57,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		});
 		
 		this.exportButton = Ext.create('Ext.Button', {
-			text: 'Übernehmen',
+			text: Messages.SESSIONPOOL_CLONE,
 			ui: 'confirm',
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',

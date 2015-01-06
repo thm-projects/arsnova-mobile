@@ -350,6 +350,8 @@ switch (lang) {
 			TEMPLATE:	"Template",
 			CONTINUE:	"Continue",
 			DOWNLOAD:	"Download",
+			
+			/*Export session*/
 			EXPORT_MSG: "What should be exported?",
 			EXPORT_SESSION_TITLE: "Session Export",
 			EXPORT_BUTTON_LABEL: "Export",
@@ -365,7 +367,12 @@ switch (lang) {
 			EXPORT_SESSION_INFORMATION: "The questions of selected sessions will be exported",
 			EXPORT_NOTIFICATION:	"There was no session selected",
 			EXPORT_IOS_NOTIFICATION: "An export can not be performed on iOS devices",
+			
+			/*Import session*/
 			IMPORT_IOS_NOTIFICATION: "An import can not be performed on iOS devices",
+			
+			/*Public pool*/
+			SESSIONPOOL_CLONE: "Clone",
 			
 			/* question types */
 			EVALUATION: "+-",
@@ -756,6 +763,8 @@ switch (lang) {
 			TEMPLATE:	"Vorlage",
 			CONTINUE:	"Übernehmen",
 			DOWNLOAD:	"Herunterladen",
+			
+			/*Export session*/
 			EXPORT_MSG: "Was möchten Sie exportieren?",
 			EXPORT_SESSION_TITLE: "Session Export",
 			EXPORT_BUTTON_LABEL: "Exportieren",
@@ -771,7 +780,12 @@ switch (lang) {
 			EXPORT_SESSION_INFORMATION: "Die Fragen der ausgewählten Sessions werden exportiert",
 			EXPORT_NOTIFICATION: "Es wurde keine Session ausgewählt",
 			EXPORT_IOS_NOTIFICATION: "Ein Export kann auf iOS Geräten nicht durchgeführt werden",
+			
+			/*Import session*/
 			IMPORT_IOS_NOTIFICATION: "Ein Import kann auf iOS Geräten nicht durchgeführt werden",
+			
+			/*Public pool*/
+			SESSIONPOOL_CLONE: "Klonen",
 			
 			/* question types */
 			EVALUATION: "+-",
