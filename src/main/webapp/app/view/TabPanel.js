@@ -88,15 +88,16 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
 			ARSnova.app.innerScrollPanel = false;
 			ARSnova.app.lastActivePanel = oldCard;
-			
+
 			switch(oldCard) {
 				case this.infoTabPanel:
 				case this.privacyTabPanel:
 				case this.imprintTabPanel:
 				case this.diagnosisPanel:
 				case this.testTabPanel:
+				case ARSnova.app.getController('Application').embeddedPage:
 					break;
-					
+				
 				default:
 					ARSnova.app.lastActiveMainTabPanel = oldCard;
 			}
