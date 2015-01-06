@@ -42,22 +42,22 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 			'width': '95%'
 		});
 		
+		this.closeButton = Ext.create('Ext.Button', {
+			iconCls: 'icon-close',
+			handler: this.hide,
+			scope: this,
+			style: {
+				'height': '36px',
+				'font-size': '0.9em',
+				'padding': '0 0.4em'
+			}
+		});
+		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.QUESTION_PREVIEW_DIALOGBOX_TITLE,
 			docked: 'top',
 			ui: 'light',
-			items: [{
-				xtype: 'button',
-				iconCls: 'icon-close',
-				handler: this.hide,
-				scope: this,
-				style: {
-					'height': '36px',
-					'font-size': '0.9em',
-					'padding': '0 0.4em'
-				}
-			}]
-		
+			items: [this.closeButton]
 		});
 		
 		// panel for question subject
@@ -112,7 +112,7 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		
 		this.on('painted', function() {
 			ARSnova.app.innerScrollPanel = this;
-			ARSnova.app.activePreviewPanel = true;
+			ARSnova.app.activePreviewPanel = this;
 		});
 	},
 
@@ -131,5 +131,30 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 
 		// for IE: unblock input fields
 		Ext.util.InputBlocker.unblockInputs();
+	},
+	
+	showEmbeddedPagePreview: function(embeddedPage) {
+		var controller = ARSnova.app.getController('Application'),
+			me = this;
+		
+		// remove default elements from preview
+		this.remove(this.toolbar, false);
+		this.remove(this.mainPanel, false);
+		
+		embeddedPage.setBackHandler(function() {
+			// toggle hrefPanelActive();
+			controller.toggleHrefPanelActive();
+			
+			// remove & destroy embeddedPage and delete reference
+			me.remove(embeddedPage, true);
+			delete controller.embeddedPage;
+			
+			// add default elements to preview
+			me.add(me.toolbar);
+			me.add(me.mainPanel);
+		});
+		
+		// add embeddedPage to preview
+		this.add(embeddedPage);
 	}
 });

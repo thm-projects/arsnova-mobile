@@ -23,6 +23,8 @@ Ext.define('ARSnova.view.components.EmbeddedPage', {
 
 	config: {
 		title: 'EmbeddedPage',
+		width: '100%',
+		height: '100%',
 		scrollable: true,
 		fullscreen: false
 	},

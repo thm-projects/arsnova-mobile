@@ -109,7 +109,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		
 		this.on('painted', function() {
 			ARSnova.app.innerScrollPanel = this;
-			ARSnova.app.activePreviewPanel = true;
+			ARSnova.app.activePreviewPanel = this;
 		});
 		
 		this.add([
@@ -246,5 +246,30 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		this.add([	
 	    	this.questionStatisticChart
 		]);
+	},
+	
+	showEmbeddedPagePreview: function(embeddedPage) {
+		var controller = ARSnova.app.getController('Application'),
+			me = this;
+		
+		// remove default elements from preview
+		this.remove(this.toolbar, false);
+		this.remove(this.mainPanel, false);
+		
+		embeddedPage.setBackHandler(function() {
+			// toggle hrefPanelActive();
+			controller.toggleHrefPanelActive();
+			
+			// remove & destroy embeddedPage and delete reference
+			me.remove(embeddedPage, true);
+			delete controller.embeddedPage;
+			
+			// add default elements to preview
+			me.add(me.toolbar);
+			me.add(me.mainPanel);
+		});
+		
+		// add embeddedPage to preview
+		this.add(embeddedPage);
 	}
 });
