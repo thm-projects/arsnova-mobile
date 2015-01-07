@@ -126,7 +126,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 				}, {
 					xtype: 'matrixbutton',
 					buttonConfig: 'icon',
-					text: Messages.FEEDBACK_OKAY,
+					text: Messages.RESET_FEEDBACK,
 					cls: 'noPadding noBackground voteButton feedbackOkBackground',
 					value: 'Kann folgen',
 					imageCls: 'icon-renew',

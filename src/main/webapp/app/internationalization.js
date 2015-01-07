@@ -123,6 +123,7 @@ switch (lang) {
 			FEEDBACK: "Feedback",
 			MY_FEEDBACK: "My feedback",
 			GIVE_FEEDBACK: "Give instant feedback",
+			RESET_FEEDBACK: 'Reset feedback',
 			FEEDBACK_GOOD: "Faster, please!",
 			FEEDBACK_OKAY: "I can follow you.",
 			FEEDBACK_BAD: "Slower, please!",
@@ -501,6 +502,7 @@ switch (lang) {
 			/* feedback */
 			FEEDBACK: "Feedback",
 			MY_FEEDBACK: "Mein Feedback",
+			RESET_FEEDBACK: 'Zurücksetzen',
 			GIVE_FEEDBACK: "Feedback geben",
 			FEEDBACK_GOOD: "Bitte schneller",
 			FEEDBACK_OKAY: "Kann folgen",
