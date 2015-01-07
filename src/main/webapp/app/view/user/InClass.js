@@ -197,11 +197,14 @@ Ext.define('ARSnova.view.user.InClass', {
 		this.swotBadge = Ext.create('Ext.Panel', {
 			cls: 'swotBadgeIcon',
 			width: '100%',
-			height: '100%'
+			height: '100px'
 		});
 
 		this.userBadges = Ext.create('Ext.Panel', {
-			style: {marginTop: '20px'},
+			style: {
+				marginTop: '20px',
+				height: '100%'
+			},
 			layout: {
 				type: 'hbox',
 				pack: 'center'
