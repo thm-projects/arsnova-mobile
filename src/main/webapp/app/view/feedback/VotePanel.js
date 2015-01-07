@@ -80,7 +80,6 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 					text: Messages.FEEDBACK_OKAY,
 					cls: 'noPadding noBackground voteButton feedbackOkBackground',
 					value: 'Kann folgen',
-					image: "icons/48x48/smiley_happy",
 					imageCls: "icon-happy",
 					handler: function (button) {
 						ARSnova.app.getController('Feedback').vote({
@@ -94,7 +93,6 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 					text: Messages.FEEDBACK_GOOD,
 					cls: 'noPadding noBackground voteButton feedbackGoodBackground',
 					value: 'Bitte schneller',
-					image: "icons/48x48/smiley_wink",
 					imageCls: "icon-wink",
 					handler: function (button) {
 						ARSnova.app.getController('Feedback').vote({
@@ -120,7 +118,6 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 					text: Messages.FEEDBACK_BAD,
 					cls: 'noPadding noBackground voteButton feedbackBadBackground',
 					value: 'Zu schnell',
-					image: "icons/48x48/smiley_frown",
 					imageCls: "icon-shocked",
 					handler: function (button) {
 						ARSnova.app.getController('Feedback').vote({
@@ -134,7 +131,6 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 					text: Messages.FEEDBACK_NONE,
 					cls: 'noPadding noBackground voteButton feedbackNoneBackground',
 					value: 'Nicht mehr dabei',
-					image: "icons/48x48/smiley_angry",
 					imageCls: "icon-sad",
 					handler: function (button) {
 						ARSnova.app.getController('Feedback').vote({
