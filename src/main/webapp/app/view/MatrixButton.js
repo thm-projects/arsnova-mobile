@@ -46,6 +46,7 @@ Ext.define('ARSnova.view.MatrixButton', {
 	
 	initialize: function() {
 		var me = this;
+		var buttonSpan = this.element.select(".x-button-label").elements;
 		var	buttonText = this.element.select(".buttonText").elements;
 		
 		switch(this.getButtonConfig()) {
@@ -62,7 +63,12 @@ Ext.define('ARSnova.view.MatrixButton', {
 				this.useIconConfiguration();
 		}
 		
-		buttonText[0].innerHTML = this.getText();
+		if(this.getText() === "") {
+			buttonSpan[0].removeChild(buttonText[0]);
+		} else {
+			buttonText[0].innerHTML = this.getText();
+		}
+		
 		this.callParent(arguments);
 		
 		this.element.on('touchstart', function() {

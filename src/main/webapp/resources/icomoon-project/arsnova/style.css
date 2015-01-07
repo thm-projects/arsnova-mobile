@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'arsnova';
-	src:url('fonts/arsnova.eot?-wljxer');
-	src:url('fonts/arsnova.eot?#iefix-wljxer') format('embedded-opentype'),
-		url('fonts/arsnova.woff?-wljxer') format('woff'),
-		url('fonts/arsnova.ttf?-wljxer') format('truetype'),
-		url('fonts/arsnova.svg?-wljxer#arsnova') format('svg');
+	src:url('fonts/arsnova.eot?tvxxw9');
+	src:url('fonts/arsnova.eot?#iefixtvxxw9') format('embedded-opentype'),
+		url('fonts/arsnova.woff?tvxxw9') format('woff'),
+		url('fonts/arsnova.ttf?tvxxw9') format('truetype'),
+		url('fonts/arsnova.svg?tvxxw9#arsnova') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -21,6 +21,10 @@
 	/* Better Font Rendering =========== */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-blog:before {
+	content: "\f0f6";
 }
 
 .icon-chart:before {
