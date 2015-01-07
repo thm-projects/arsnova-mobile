@@ -45,6 +45,10 @@ Ext.define("ARSnova.controller.Application", {
 	checkHrefProtocol: function(href) {
 		switch(href.split(":")[0]) {
 			case "http":
+				if(Ext.browser.is.IE || Ext.browser.is.Safari) {
+					return true;
+				}
+				break;
 			case "https":
 				return true;
 				break;
@@ -63,8 +67,8 @@ Ext.define("ARSnova.controller.Application", {
 			var controller = ARSnova.app.getController('Application');
 
 			if (element.tagName == 'A') {
-				if(!controller.hrefPanelActive) {
-					if(controller.checkHrefProtocol(element.href)) {
+				if(controller.checkHrefProtocol(element.href)) {
+					if(!controller.hrefPanelActive) {
 						controller.toggleHrefPanelActive();
 						
 						var previewPanel = ARSnova.app.activePreviewPanel;
@@ -80,9 +84,11 @@ Ext.define("ARSnova.controller.Application", {
 							ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(controller.embeddedPage, 'slide');
 						}
 					}
-				} 
 				
-				return false; // prevent default action and stop event propagation
+					return false; // prevent default action and stop event propagation
+				} else {
+					element.target = '_blank'; // open link in new tab
+				}
 			}
 		};
 	},
