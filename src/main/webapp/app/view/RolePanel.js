@@ -33,7 +33,7 @@ Ext.define('ARSnova.view.RolePanel', {
 		this.callParent(arguments);
 		
 		var isPhone = (Ext.os.is.Phone && Ext.os.is.iOS);
-		var smallHeight = document.body.clientHeight <= 480;
+		var smallHeight = document.body.clientHeight <= 460;
 		var mediumHeight = document.body.clientHeight >= 520;
 		
 		this.add([{
@@ -56,7 +56,7 @@ Ext.define('ARSnova.view.RolePanel', {
 		}, {
 			xtype: 'panel',
 			style: {
-				marginBottom: isPhone && !mediumHeight ? (smallHeight ? '0px' : '5px') : '30px'
+				marginBottom: isPhone && !mediumHeight ? (smallHeight ? '10px' : '15px') : '30px'
 			},
 			html: "<div class='gravure'>Made by <a href='http://www.thm.de/' class='thmlink' target='_blank'><span style='color:#699824;'>THM</span></a></div>",
 			cls: null
