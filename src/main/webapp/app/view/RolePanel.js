@@ -107,9 +107,5 @@ Ext.define('ARSnova.view.RolePanel', {
 				}
 			}]
 		}]);
-
-		this.on('deactivate', function() {
-			ARSnova.app.mainTabPanel.tabPanel.infoTabPanel.tab.show();
-		});
 	}
 });
