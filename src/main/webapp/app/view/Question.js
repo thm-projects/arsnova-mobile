@@ -69,14 +69,10 @@ Ext.define('ARSnova.view.Question', {
 		});
 
 		this.on('preparestatisticsbutton', function (button) {
+			var scope = this;
 			button.scope = this;
-			button.setHandler(function () {
-				var panel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel || ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-				panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
-					question: self.questionObj,
-					lastPanel: self
-				});
-				ARSnova.app.mainTabPanel.animateActiveItem(panel.questionStatisticChart, 'slide');
+			button.setHandler(function() {
+				scope.statisticButtonHandler(scope);
 			});
 		});
 
@@ -91,6 +87,9 @@ Ext.define('ARSnova.view.Question', {
 
 					if (self.questionObj.questionType !== 'flashcard') {
 						self.disableQuestion();
+						if(typeof self.questionObj !== 'undefined' && !!self.questionObj.showStatistic && self.questionObj.questionType !== 'flashcard') {
+							self.statisticButtonHandler(self);
+						}
 						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
 						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
 					}
@@ -492,7 +491,6 @@ Ext.define('ARSnova.view.Question', {
 			}
 			this.answerList.setHidden(true);
 		} else {
-			console.log()
 			this.answerList.setHidden(false);
 		}
 
@@ -503,6 +501,15 @@ Ext.define('ARSnova.view.Question', {
 				this.disableQuestion();
 			}
 		});
+	},
+	
+	statisticButtonHandler: function (scope) {
+		var panel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel || ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
+			question: scope.questionObj,
+			lastPanel: scope
+		});
+		ARSnova.app.mainTabPanel.animateActiveItem(panel.questionStatisticChart, 'slide');
 	},
 
 	/*
