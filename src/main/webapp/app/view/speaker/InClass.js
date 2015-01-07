@@ -98,7 +98,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		});
 		
 		this.createAdHocQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.AH_HOC_QUESTION,
+			text: Messages.NEW_QUESTION,
 			cls: 'actionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-question thm-green',
