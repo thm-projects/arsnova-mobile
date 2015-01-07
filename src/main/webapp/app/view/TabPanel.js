@@ -124,13 +124,6 @@ Ext.define('ARSnova.view.TabPanel', {
 						this.blogTabPanel.tab.show();
 					}
 			}
-
-			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER
-				&& newCard !== this.loginPanel) {
-				this.addCls('speakerTabbar');
-			} else {
-				this.removeCls('speakerTabbar');
-			}
 		}, this);
 
 		this.on('initialize', function () {

@@ -48,14 +48,6 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 			this.audienceQuestionPanel,
 			this.newQuestionPanel
 		]);
-		
-		this.on('activeitemchange', function (panel, newCard, oldCard) {
-			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
-				this.addCls('speakerTabbar');
-			} else {
-				this.removeCls('speakerTabbar');
-			}
-		});
 	},
 
 	renew: function () {

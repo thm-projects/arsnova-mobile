@@ -245,32 +245,6 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 	}
 }
 
-.speakerTabbar {
-	.x-tab-icon .x-button-icon {
-		&:before,
-		&.voteIcons.icon-bullhorn:before {
-			color: $thm-green !important;
-		}
-		
-		&.voteIcons:before {
-			color: $thm-green !important;
-		}
-	}
-	
-	.x-tab-active {
-		.x-button-icon {
-			&:before,
-			&.voteIcons.icon-bullhorn:before {
-				color: white !important;
-			}
-			
-			&.voteIcons:before {
-				color: $smiley-color !important;
-			}
-		}
-	}
-}
-
 .x-tabbar-dark.x-docked-bottom {
 	.x-tab {
 		text-shadow: none !important;
