@@ -19,3 +19,30 @@
 	background: $thm-green;
 	border-radius: 10px;
 }
+
+.feedbackStatisticButton {
+	min-height: 0px !important;
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+}
+
+.feedbackOkBackground .iconBtn {
+	background: $thm-green;
+	
+	.icon-renew {
+		color: white;
+	}
+}
+
+.feedbackGoodBackground .iconBtn {
+	background: $thm-orange;
+}
+
+.feedbackBadBackground .iconBtn {
+	background: $thm-red;
+}
+
+.feedbackNoneBackground .iconBtn {
+	background: $thm-grey;
+	color: #000;
+}

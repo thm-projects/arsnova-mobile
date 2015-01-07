@@ -469,7 +469,7 @@ html,body {
 .matrixButton.feedbackOkBackground .buttonText,
 .matrixButton.feedbackBadBackground .buttonText,
 .matrixButton.feedbackNoneBackground .buttonText {
-	width: 135px !important;
+	width: 140px !important;
 	margin-left: 0px;
 	margin-right: 0px;
 }
@@ -1224,8 +1224,7 @@ ol.standardList li {
 	background: #E0E0E0;
 	padding-left: 10px;
 	padding-right: 10px;
-	margin-top: 15px;
-	margin-bottom: 5px;
+	margin-top: 10px;
 	border-bottom: none !important;
 }
 
@@ -1237,28 +1236,6 @@ ol.standardList li {
 
 .questionStatisticTitle .x-innerhtml p {
 	margin: 0;
-}
-
-.feedbackStatisticButton {
-	padding-left: 0px !important;
-	padding-right: 0px !important;
-}
-
-.feedbackOkBackground .iconBtn {
-	background: #7ab844;
-}
-
-.feedbackGoodBackground .iconBtn {
-	background: #FFAE00;
-}
-
-.feedbackBadBackground .iconBtn {
-	background: #ed601c;
-}
-
-.feedbackNoneBackground .iconBtn {
-	background: #ebebeb;
-	color: #000;
 }
 
 .questionRequestButton {
