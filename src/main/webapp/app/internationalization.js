@@ -210,6 +210,7 @@ switch (lang) {
 			PREPARATION_QUESTIONS_LONG: "Preparation Questions",
 			PREPARATION_QUESTION_SHORT: "Prep Question",
 			PREPARATION_QUESTION_LONG: "Preparation Question",
+			QUESTION_REQUEST: "I've got a quetstion",
 			LECTURE_QUESTIONS: "Lecture",
 			LECTURE_QUESTION_LONG: "Lecture Question",
 			LECTURE_QUESTIONS_LONG: "Lecture Questions",
@@ -373,7 +374,7 @@ switch (lang) {
 			DELETE_ANSWERS: "Delete<br/>answers",
 			DELETE_SESSION: "Delete<br/>session",
 			GIVE_FEEDBACK: "Give instant<br/>feedback",
-			QUESTION_REQUEST: "I've got a<br/>question",
+			QUESTION_REQUEST_ADHOC: "I've got a<br/>question",
 
 			/* about */
 			INFO: "Manual",
@@ -595,6 +596,7 @@ switch (lang) {
 			LECTURE_QUESTIONS: "Hörsaal",
 			LECTURE_QUESTION_LONG: "Hörsaalfrage",
 			LECTURE_QUESTIONS_LONG: "Hörsaalfragen",
+			QUESTION_REQUEST: 'Ich habe eine Frage',
 			FLASHCARD_SHORT: "LK",
 			FLASHCARDS: "Lernkarten",
 			FLASHCARD: "Lernkarte",
@@ -753,7 +755,7 @@ switch (lang) {
 			DELETE_ANSWERS: "Antworten<br/>löschen",
 			DELETE_SESSION: "Session<br/>löschen",
 			GIVE_FEEDBACK: "Feedback<br/>geben",
-			QUESTION_REQUEST: 'Ich habe eine<br/>Frage',
+			QUESTION_REQUEST_ADHOC: 'Ich habe eine<br/>Frage',
 
 			/* about */
 			INFO: "Handbuch",
