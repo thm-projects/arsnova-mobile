@@ -24,6 +24,7 @@ Ext.define('ARSnova.view.TabPanel', {
 		'ARSnova.view.RolePanel',
 		'ARSnova.view.home.TabPanel',
 		'ARSnova.view.diagnosis.TabPanel',
+		'ARSnova.view.about.BlogTabPanel',
 		'ARSnova.view.about.AboutTabPanel',
 		'ARSnova.view.about.ImprintTabPanel',
 		'ARSnova.view.about.PrivacyTabPanel'
@@ -72,6 +73,7 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.homeTabPanel = Ext.create('ARSnova.view.home.TabPanel');
 		this.diagnosisPanel = Ext.create('ARSnova.view.diagnosis.TabPanel');
 		this.infoTabPanel = Ext.create('ARSnova.view.about.AboutTabPanel');
+		this.blogTabPanel = Ext.create('ARSnova.view.about.BlogTabPanel');
 		this.privacyTabPanel = Ext.create('ARSnova.view.about.PrivacyTabPanel');
 		this.imprintTabPanel = Ext.create('ARSnova.view.about.ImprintTabPanel');
 
@@ -81,6 +83,7 @@ Ext.define('ARSnova.view.TabPanel', {
 			this.homeTabPanel,
 			this.diagnosisPanel,
 			this.infoTabPanel,
+			this.blogTabPanel,
 			this.privacyTabPanel,
 			this.imprintTabPanel
 		]);
@@ -88,22 +91,38 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
 			ARSnova.app.innerScrollPanel = false;
 			ARSnova.app.lastActivePanel = oldCard;
-			
-			if(newCard === this.rolePanel) {
-				this.infoTabPanel.tab.hide();
-			}
-			
-			switch(oldCard) {
+						
+			switch(oldCard) {			
 				case this.infoTabPanel:
 				case this.privacyTabPanel:
 				case this.imprintTabPanel:
 				case this.diagnosisPanel:
+				case this.blogTabPanel:
 				case this.testTabPanel:
 				case ARSnova.app.getController('Application').embeddedPage:
 					break;
 				
 				default:
 					ARSnova.app.lastActiveMainTabPanel = oldCard;
+			}
+
+			if(newCard === this.rolePanel) {
+				this.infoTabPanel.tab.hide();
+				this.blogTabPanel.tab.show();
+			} else {
+				this.infoTabPanel.tab.show();
+				this.blogTabPanel.tab.hide();
+			}
+			
+			if(ARSnova.app.lastActiveMainTabPanel === this.rolePanel) {
+				if(	newCard === this.infoTabPanel ||
+					newCard === this.privacyTabPanel ||
+					newCard === this.imprintTabPanel ||
+					newCard === this.blogTabPanel
+					) {
+						this.infoTabPanel.tab.hide();
+						this.blogTabPanel.tab.show();
+					}
 			}
 
 			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER
@@ -169,6 +188,7 @@ Ext.define('ARSnova.view.TabPanel', {
 	activateAboutTabs: function() {
 		this.privacyTabPanel.tab.show();
 		this.imprintTabPanel.tab.show();
+		this.blogTabPanel.tab.show();
 
 		// this.addClassToTab('infoButtonBeforeLogin', this.infoTabPanel);
 		// this.addClassToTab('infoButtonBeforeLogin', this.privacyTabPanel);
@@ -178,6 +198,7 @@ Ext.define('ARSnova.view.TabPanel', {
 	deactivateAboutTabs: function() {
 		this.privacyTabPanel.tab.hide();
 		this.imprintTabPanel.tab.hide();
+		this.blogTabPanel.tab.hide();
 		this.infoTabPanel.tab.show();
 
 		// this.removeClassFromTab('infoButtonBeforeLogin', this.infoTabPanel);
