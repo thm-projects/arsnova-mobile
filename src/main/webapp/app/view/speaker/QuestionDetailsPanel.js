@@ -781,8 +781,11 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		/* END QUESTION DETAILS */
 
 		this.add([
-			this.toolbar,
-			this.contentForm,
+			this.toolbar, {
+				xtype: 'formpanel',
+				scrollable: null,
+				items: [this.contentForm]
+			},
 			this.actionsPanel,
 			this.abstentionPart,
 			this.absteionAlternative,

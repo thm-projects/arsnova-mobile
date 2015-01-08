@@ -76,11 +76,11 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 		});
 		questionPanel.setContent(questionString, true, true);
 
-		this.add([this.toolbar,
-
-		questionPanel,
-
-		{
+		this.add([this.toolbar, {
+			xtype: 'formpanel',
+			scrollable: null,
+			items: [questionPanel]
+		}, {
 			xtype: 'button',
 			ui: 'decline',
 			cls: 'centerButton',

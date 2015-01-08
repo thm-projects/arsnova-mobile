@@ -155,7 +155,11 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		}
 		this.add([answerOptions]);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
-			this.add([questionValueFieldset]);
+			this.add([{
+				xtype: 'formpanel',
+				scrollable: null,
+				items: [questionValueFieldset]
+			}]);
 		}
 	},
 

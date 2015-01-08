@@ -315,15 +315,22 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			this.add([this.toolbar, this.titlebar, this.questionChart]);
 
 		} else {
-			this.add([this.toolbar, this.titlebar, this.contentField, this.questionChart]);
-
 			this.setStyle('background-color: #E0E0E0');
 			// add statistic
 			this.gridStatistic = Ext.create('ARSnova.view.components.GridStatistic', {
 				questionObj: this.questionObj
 			});
-			//this.add({xtype: 'spacer', height:25, docked: 'top'});
-			this.add(this.gridStatistic);
+			
+			this.add([this.toolbar, {
+				xtype: 'formpanel',
+				scrollable: null,
+				items: [this.titlebar, 
+						this.contentField, 
+						this.questionChart,
+						this.gridStatistic
+				]}
+			]);
+			
 			this.getQuestionAnswers();
 		}
 

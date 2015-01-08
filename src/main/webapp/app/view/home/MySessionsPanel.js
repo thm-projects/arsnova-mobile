@@ -103,13 +103,11 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		});
 
 		this.sessionsForm = Ext.create('ARSnova.view.home.SessionList', {
-			style: 'margin:0 3px',
 			scrollable: null,
 			title: Messages.MY_SESSIONS
 		});
 
 		this.lastVisitedSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
-			style: 'margin:0 3px',
 			scrollable: null,
 			title: Messages.LAST_VISITED_SESSIONS_SPEAKER
 		});

@@ -250,8 +250,11 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 		this.add([
 			this.toolbar,
-			this.actionButtonPanel,
-			this.questionListContainer,
+			this.actionButtonPanel, {
+				xtype: 'formpanel',
+				scrollable: null,
+				items: [this.questionListContainer]
+			},
 			this.caption,
 			this.inClassActions
 		]);

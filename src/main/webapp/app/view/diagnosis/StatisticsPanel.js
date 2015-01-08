@@ -109,8 +109,13 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 					text: Messages.ANSWERS
 				}]
 		});
+		
+		this.inClass = Ext.create('Ext.form.FormPanel', {
+			scrollable: null,
+			items: [this.formpanel]
+		});
 
-		this.add([this.toolbar, this.formpanel]);
+		this.add([this.toolbar, this.inClass]);
 
 		this.on('activate', this.onActivate);
 		this.on('activate', this.beforeActivate, this, null, 'before');

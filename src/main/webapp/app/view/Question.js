@@ -356,6 +356,10 @@ Ext.define('ARSnova.view.Question', {
 			handler: this.mcAbstentionHandler,
 			scope: this
 		});
+		
+		this.formPanel = Ext.create('Ext.form.Panel', {
+			scrollable: null
+		});
 
 		this.buttonContainer = Ext.create('Ext.Container', {
 			layout: {
@@ -392,7 +396,7 @@ Ext.define('ARSnova.view.Question', {
 			scope: this
 		};
 
-		this.add([questionPanel]);
+		this.formPanel.add([questionPanel]);
 		
 		if (this.questionObj.image && this.questionObj.questionType !== "grid") {
 			this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
@@ -401,10 +405,10 @@ Ext.define('ARSnova.view.Question', {
 				gridIsHidden: true
 			});
 			this.grid.setImage(this.questionObj.image);
-			this.add(this.grid);
+			this.formPanel.add(this.grid);
 		}
 		
-		this.add(this.answerList);
+		this.formPanel.add(this.answerList);
 		
 		if(this.questionObj.questionType === "mc") {
 			this.buttonContainer.add([
@@ -412,11 +416,11 @@ Ext.define('ARSnova.view.Question', {
 				this.abstentionButton
 			]);
 			
-			this.add(!this.viewOnly ? this.buttonContainer: {});
+			this.formPanel.add(!this.viewOnly ? this.buttonContainer: {});
 			this.answerList.setHidden(false);
 		}
 		else if (this.questionObj.questionType === "flashcard") {
-			this.add([flashcardContainer]);
+			this.formPanel.add([flashcardContainer]);
 			this.answerList.setHidden(true);
 		} 
 		else if (this.questionObj.questionType === "grid") {
@@ -460,7 +464,7 @@ Ext.define('ARSnova.view.Question', {
 				disabled: false
 			});
 			
-			this.add([this.grid]);
+			this.formPanel.add([this.grid]);
 
 			if (this.questionObj.gridType === 'moderation') {
 
@@ -478,7 +482,7 @@ Ext.define('ARSnova.view.Question', {
 			        }]
 				});
 
-				this.add(panel);
+				this.formPanel.add(panel);
 			}
 
 			if (!this.viewOnly) {
@@ -487,12 +491,14 @@ Ext.define('ARSnova.view.Question', {
       				this.abstentionButton
       			]);
 				
-				this.add([this.buttonContainer]);
+				this.formPanel.add([this.buttonContainer]);
 			}
 			this.answerList.setHidden(true);
 		} else {
 			this.answerList.setHidden(false);
 		}
+		
+		this.add(this.formPanel);
 
 		this.on('activate', function () {
 			this.answerList.addListener('itemtap', questionListener.itemtap);

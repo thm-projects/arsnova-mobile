@@ -46,3 +46,10 @@
 	background: $thm-grey;
 	color: #000;
 }
+
+.x-container.x-form,
+.forwardListButton.caption {
+	max-width: 720px;
+	margin-left: auto;
+	margin-right: auto;
+}

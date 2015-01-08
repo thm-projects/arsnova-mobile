@@ -41,11 +41,15 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 		});
 
 		this.add([{
-			xtype: 'fieldset',
-			items: [this.answer]
-		}, {
-			xtype: 'fieldset',
-			items: [previewButton]
+			xtype: 'formpanel',
+			scrollable: null,
+			items: [{
+				xtype: 'fieldset',
+				items: [this.answer]
+			}, {
+				xtype: 'fieldset',
+				items: [previewButton]
+			}]
 		}]);
 	},
 

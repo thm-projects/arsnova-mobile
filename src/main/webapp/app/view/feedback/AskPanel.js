@@ -80,13 +80,19 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		});
 
 		// Preview panel with integrated button
-		this.previewPart = Ext.create('Ext.form.FormPanel', {
+		this.buttonPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
-			style: 'margin-left: 0',
 			scrollable: null,
 			items: [{
 				xtype: 'fieldset',
 				items: [this.previewButton]
+			}, {
+				xtype: 'button',
+				ui: 'confirm',
+				cls: 'login-button',
+				text: Messages.SEND,
+				handler: this.askQuestion,
+				scope: this
 			}]
 		});
 
@@ -98,7 +104,6 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			xtype: 'formpanel',
 			submitOnAction: false,
 			scrollable: null,
-			style: 'margin-bottom; 10px',
 
 			items: [{
 				xtype: 'fieldset',
@@ -109,14 +114,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			}
 				
 			]
-		}, this.previewPart, {
-			xtype: 'button',
-			ui: 'confirm',
-			cls: 'login-button',
-			text: Messages.SEND,
-			handler: this.askQuestion,
-			scope: this
-		}]);
+		}, this.buttonPart]);
 	},
 
 	askQuestion: function () {

@@ -101,7 +101,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		});
 		
 		this.feedbackButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.QUESTION_REQUEST,
+			text: Messages.QUESTION_REQUEST_ADHOC,
 			cls: 'actionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-question thm-green',

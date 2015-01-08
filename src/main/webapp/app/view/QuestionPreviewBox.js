@@ -36,7 +36,7 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 			'font-size': '110%',
 			'border-color': 'black',
 			'maxHeight': '600px',
-			'maxWidth': '1000px',
+			'maxWidth': '740px',
 			'margin-bottom': '18px',
 			'height': '79%',
 			'width': '95%'

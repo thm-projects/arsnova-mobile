@@ -69,7 +69,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 
 			scope: this,
 			handler: function() {
-				Ext.bind(this.getTemplateAdoptionHandler(), this.getSaveHandlerScope())(this.allTemplates[me.getActiveIndex()])
+				Ext.bind(this.getTemplateAdoptionHandler(), this.getSaveHandlerScope())(this.allTemplates[me.getActiveIndex()]);
 			}
 		});
 		
@@ -124,25 +124,28 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 					pack: 'center',
 					align: 'center' 
 				},
-				 items:[ titlePanel,
-				         templateContainer,
-			        	 contentPanel,
+				 items:[titlePanel, {
+					xtype: 'formpanel',
+					scrollable: null,
+					items: [
+						templateContainer,
+						contentPanel,
 				 		{
-					 	    ui: 'action',
-			        		xtype:	'button',
-			        		text:	Messages.DOWNLOAD,
-			        		handler : function(){
-			        			var index = me.getActiveIndex();
-			        			var src = me.allTemplates[index].getImageFile().src
-			        			window.open(src);
-			        		} 
-			        	},
-			        	{
+							ui: 'action',
+							xtype:	'button',
+							text:	Messages.DOWNLOAD,
+							handler : function(){
+								var index = me.getActiveIndex();
+								var src = me.allTemplates[index].getImageFile().src;
+								window.open(src);
+							} 
+						}, {
 							xtype: 'spacer',
 							height: 25,
 							docked: 'bottom'
 						}
-				      ]
+					]
+				 }]
 			});
 			me.BtnSpacer = Ext.create('Ext.Spacer');
 			

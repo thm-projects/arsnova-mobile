@@ -138,18 +138,22 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		});
 		
 		this.add([{
-			xtype: 'fieldset',
-			layout: 'hbox',
-			cls: 'fileUploadFieldset',
-			title: Messages.EDIT_PICTURE,	
-			items: [
-				this.uploadTextfield,
-				this.sendButton
-			]
-		}, {
-			xtype: 'fieldset',
-			cls: 'fileUploadButtonFieldset',
-			items: [this.segmentButton]
+			xtype: 'formpanel',
+			scrollable: null,
+			items: [{
+				xtype: 'fieldset',
+				layout: 'hbox',
+				cls: 'fileUploadFieldset',
+				title: Messages.EDIT_PICTURE,	
+				items: [
+					this.uploadTextfield,
+					this.sendButton
+				]
+			}, {
+				xtype: 'fieldset',
+				cls: 'fileUploadButtonFieldset',
+				items: [this.segmentButton]
+			}]
 		}]);
 	},
 	
