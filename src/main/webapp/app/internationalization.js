@@ -52,8 +52,8 @@ switch (lang) {
 	case 'en':case 'en-en':case 'en-us':case 'en-gb':
 		moment.lang('en');
 		Messages = {
-			LOCALSTORAGE_NOT_AVAILABLE_TITLE: "Privacy Mode",
-			LOCALSTORAGE_NOT_AVAILABLE_TEXT: "Unfortunately ARSnova isn't working in Privacy Mode, as your browser denies to write to the application storage.\nPlease deactivate Privacy Mode for the period of usage of ARSnova and reload the page. Your anonymity is guaranteed even when private browsing mode is disabled.",
+			PRIVACY_MODE_WARNING_TITLE: "Privacy Mode",
+			PRIVACY_MODE_WARNING_TEXT: "Unfortunately ARSnova isn't working in Privacy Mode, as your browser denies to write to the application storage.\nPlease deactivate Privacy Mode for the period of usage of ARSnova and reload the page. Your anonymity is guaranteed even when private browsing mode is disabled.",
 			BROWSER_NOT_SUPPORTED_MESSAGE: "Please use one of the following officially supported browsers: ###.",
 			UPDATE_BROWSER_MESSAGE: "Please update your ### browser in order to use ARSnova.",
 			FEATURE_COMING_SOON: "This feature will be available soon.",
@@ -435,8 +435,8 @@ switch (lang) {
 	default:
 		moment.lang('de');
 		Messages = {
-			LOCALSTORAGE_NOT_AVAILABLE_TITLE: "Privater Modus",
-			LOCALSTORAGE_NOT_AVAILABLE_TEXT: "Im Privaten Modus Ihres Browsers funktioniert ARSnova leider nicht, da Ihr Browser das Beschreiben des App-Speichers verweigert. Bitte für die Dauer der Nutzung von ARSnova den Privaten Modus deaktivieren und ARSnova erneut aufrufen. Ihre Anonymität bleibt auch im deaktivierten Privaten Modus gewahrt.",
+			PRIVACY_MODE_WARNING_TITLE: "Privater Modus",
+			PRIVACY_MODE_WARNING_TEXT: "Im Privaten Modus Ihres Browsers funktioniert ARSnova leider nicht, da Ihr Browser das Beschreiben des App-Speichers verweigert. Bitte für die Dauer der Nutzung von ARSnova den Privaten Modus deaktivieren und ARSnova erneut aufrufen. Ihre Anonymität bleibt auch im deaktivierten Privaten Modus gewahrt.",
 			BROWSER_NOT_SUPPORTED_MESSAGE: "Bitte verwenden Sie einen der folgenden Browser für ARSnova: ###.",
 			UPDATE_BROWSER_MESSAGE: "Bitte aktualisieren Sie Ihren ###-Browser, um ARSnova verwenden zu können.",
 			FEATURE_COMING_SOON: "Feature kommt in Kürze.",

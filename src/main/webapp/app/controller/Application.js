@@ -94,6 +94,50 @@ Ext.define("ARSnova.controller.Application", {
 	},
 	
 	/**
+	 * Checks availability of localStorage. Masks viewport if localStorage
+	 * is not available and displays messagebox.
+	 * 
+	 * @return true if localStorage is available - returns false otherwise
+	 */
+	checkForPrivacyMode: function() {
+		var privacyMode = false,
+			cookieEnabled = (navigator.cookieEnabled) ? true : false;
+		
+		try {
+			localStorage.setItem('storageTest', 1);
+			localStorage.removeItem('storageTest');
+			
+			//if not IE4+ nor NS6+
+			if (typeof navigator.cookieEnabled=="undefined" && !cookieEnabled){ 
+				document.cookie= "cookieTest";
+				cookieEnabled= (document.cookie.indexOf("cookieTest") != -1) ? true : false;
+			}			
+		} catch (e) {	
+			privacyMode = true;
+		}
+		
+		if(privacyMode && !cookieEnabled) {
+			Ext.Viewport.setMasked({ 
+				xtype: 'mask',
+				listeners: {
+					tap: function() { 
+						Ext.Msg.alert(
+							Messages.PRIVACY_MODE_WARNING_TITLE, 
+							Messages.PRIVACY_MODE_WARNING_TEXT, 
+							Ext.emptyFn
+						); 
+					}
+				}
+			});
+			
+			Ext.Viewport.getMasked().fireEvent('tap');
+			return false;
+		}
+		
+		return true;
+	},
+	
+	/**
 	 * adds mouse scrolling feature if app is used in desktop browser
 	 */
 	initializeAdvancedScrolling: function() {
