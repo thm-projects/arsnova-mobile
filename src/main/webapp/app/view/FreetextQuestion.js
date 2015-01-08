@@ -46,13 +46,10 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		});
 
 		this.on('preparestatisticsbutton', function (button) {
+			var scope = self;
 			button.scope = this;
 			button.setHandler(function () {
-				var p = Ext.create('ARSnova.view.FreetextAnswerPanel', {
-					question: self.questionObj,
-					lastPanel: self
-				});
-				ARSnova.app.mainTabPanel.animateActiveItem(p, 'slide');
+				scope.statisticButtonHandler(scope);
 			});
 		});
 
@@ -149,6 +146,14 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			}
 		}, this);
 	},
+	
+	statisticButtonHandler: function (scope) {
+		var p = Ext.create('ARSnova.view.FreetextAnswerPanel', {
+			question: scope.questionObj,
+			lastPanel: scope
+		});
+		ARSnova.app.mainTabPanel.animateActiveItem(p, 'slide');
+	},
 
 	abstentionHandler: function (button, event) {
 		Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
@@ -177,6 +182,9 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				localStorage.setItem(self.questionObj.questionVariant + 'QuestionIds', Ext.encode(questionsArr));
 
 				self.disableQuestion();
+				if(typeof self.questionObj !== 'undefined' && !!self.questionObj.showStatistic && self.questionObj.questionType !== 'flashcard') {
+					self.statisticButtonHandler(self);
+				}
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
 			},

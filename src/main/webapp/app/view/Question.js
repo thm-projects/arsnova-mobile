@@ -69,7 +69,7 @@ Ext.define('ARSnova.view.Question', {
 		});
 
 		this.on('preparestatisticsbutton', function (button) {
-			var scope = this;
+			var scope = self;
 			button.scope = this;
 			button.setHandler(function() {
 				scope.statisticButtonHandler(scope);
