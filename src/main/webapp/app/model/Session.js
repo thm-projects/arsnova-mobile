@@ -83,6 +83,10 @@ Ext.define('ARSnova.model.Session', {
 	getMySessions: function (callbacks, sortby) {
 		return this.getProxy().getMySessions(callbacks, sortby);
 	},
+	
+	getPublicPoolSessions: function (callbacks) {
+		return this.getProxy().getPublicPoolSessions(callbacks);
+	},
 
 	lock: function (sessionKeyword, theLock, callbacks) {
 		return this.getProxy().lock(sessionKeyword, theLock, callbacks);
