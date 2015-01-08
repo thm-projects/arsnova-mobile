@@ -52,8 +52,6 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			disableSelection: true,
 			hidden: true,
 			style: {
-				marginLeft: '12px',
-				marginRight: '12px',
 				backgroundColor: 'transparent'
 			},
 			itemTpl: 
@@ -139,7 +137,11 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 					maxLength: 8,
 					clearIcon: true
 				}]
-			}, this.submitButton, this.mycourses]
+			}, this.submitButton, {
+				xtype: 'fieldset',
+				title: Messages.YOUR_COURSE_SESSIONS,
+				items:[this.mycourses]
+			}]
 		}]);
 
 		this.onBefore('activate', function () {
