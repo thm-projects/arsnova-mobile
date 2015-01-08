@@ -94,10 +94,10 @@ Ext.define("ARSnova.controller.Application", {
 	},
 	
 	/**
-	 * Checks availability of localStorage. Masks viewport if localStorage
-	 * is not available and displays messagebox.
+	 * Checks availability of localStorage and cookies. Masks viewport if localStorage
+	 * or cookies are not supported.
 	 * 
-	 * @return true if localStorage is available - returns false otherwise
+	 * @return true if localStorage/cookies are supported - returns false otherwise
 	 */
 	checkForPrivacyMode: function() {
 		var privacyMode = false,

@@ -23,35 +23,39 @@ Ext.define('ARSnova.view.components.EmbeddedPage', {
 
 	config: {
 		title: 'EmbeddedPage',
-		width: '100%',
-		height: '100%',
 		scrollable: true,
-		fullscreen: false
+		fullscreen: true
 	},
 	
 	disableScrolling: true,
 
 	initialize: function () {
 		this.callParent(arguments);
+		
+		this.frameContainer = Ext.DomHelper.append(this.element, {
+			tag: 'div',
+			scrolling: 'no',
+			cls: 'embeddedPageElement',
+			style: Ext.os.is.iOS ? 'overflow: auto;' : ''
+		});
+		
+		this.on('resize', function(element) {
+			this.frame.width = element.getWidth() + 'px';
+		});
     
 		this.on('painted', function () {
 			if(!this.defined) {
 				this.defined = true;
-
-				Ext.DomHelper.append(this.element, {
-					tag: 'div',
-					scrolling: 'no',
-					cls: 'embeddedPageElement',
-					style: Ext.os.is.iOS ? 'overflow: auto;' : '',
-					children: [this.iframe = {
-						tag: 'iframe',
-						src: this.config.src,
-						cls: 'embeddedPageElement',
-						id: this.id + '-iframe',
-						style: 'border: 0;',
-						scrolling: 'yes',
-						frameBorder: '0'
-					}]
+				
+				this.frame = Ext.DomHelper.append(this.frameContainer, {
+					tag: 'iframe',
+					src: this.config.src,
+					id: this.id + '-iframe',
+					style: 'border: 0;',
+					frameBorder: '0',
+					scrolling: Ext.os.is.iOS ? 'no' : 'yes',
+					width: this.element.getWidth() + 'px',
+					height: '100%'
 				});
 			}
 		});
