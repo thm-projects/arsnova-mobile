@@ -61,7 +61,7 @@ switch (lang) {
 			UNI_LOGIN_MSG_TEXT: "Would you like to use your university's account? Contact us @ <a href='http://www.transmit.de/zentren/tz.cfm?N=189' target='_blank'>transmit.de</a>.",
 
 			/* rolePanel */
-			BLOG: "ARSnova Blog",
+			BLOG: "Blog",
 			CHOOSE_ROLE: "Choose your role:",
 			STUDENT: "Student",
 			SPEAKER: "Teacher",
@@ -443,7 +443,7 @@ switch (lang) {
 			UNI_LOGIN_MSG_TEXT: "Möchten Sie Ihren hochschuleigenen Zugang verwenden? Sprechen Sie mit uns unter <a href='http://www.transmit.de/zentren/tz.cfm?N=189' target='_blank'>transmit.de</a>.",
 
 			/* rolePanel */
-			BLOG: "ARSnova Blog",
+			BLOG: "Blog",
 			CHOOSE_ROLE: "Wählen Sie Ihre Rolle:",
 			STUDENT: "Student/in",
 			SPEAKER: "Dozent/in",
