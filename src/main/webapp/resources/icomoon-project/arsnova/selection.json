@@ -4,30 +4,6 @@
 		{
 			"icon": {
 				"paths": [
-					"M838.857 217.143q16 16 27.429 43.429t11.429 50.286v658.286q0 22.857-16 38.857t-38.857 16h-768q-22.857 0-38.857-16t-16-38.857v-914.286q0-22.857 16-38.857t38.857-16h512q22.857 0 50.286 11.429t43.429 27.429zM585.143 77.714v214.857h214.857q-5.714-16.571-12.571-23.429l-178.857-178.857q-6.857-6.857-23.429-12.571zM804.571 950.857v-585.143h-237.714q-22.857 0-38.857-16t-16-38.857v-237.714h-438.857v877.714h731.429zM219.429 457.143q0-8 5.143-13.143t13.143-5.143h402.286q8 0 13.143 5.143t5.143 13.143v36.571q0 8-5.143 13.143t-13.143 5.143h-402.286q-8 0-13.143-5.143t-5.143-13.143v-36.571zM640 585.143q8 0 13.143 5.143t5.143 13.143v36.571q0 8-5.143 13.143t-13.143 5.143h-402.286q-8 0-13.143-5.143t-5.143-13.143v-36.571q0-8 5.143-13.143t13.143-5.143h402.286zM640 731.429q8 0 13.143 5.143t5.143 13.143v36.571q0 8-5.143 13.143t-13.143 5.143h-402.286q-8 0-13.143-5.143t-5.143-13.143v-36.571q0-8 5.143-13.143t13.143-5.143h402.286z"
-				],
-				"attrs": [],
-				"isMulticolor": false,
-				"tags": [
-					"file-text-o"
-				],
-				"defaultCode": 61686,
-				"grid": 14
-			},
-			"attrs": [],
-			"properties": {
-				"id": 219,
-				"order": 1,
-				"prevSize": 28,
-				"code": 61686,
-				"name": "blog"
-			},
-			"setIdx": 0,
-			"iconIdx": 219
-		},
-		{
-			"icon": {
-				"paths": [
 					"M365.714 512v292.571h-146.286v-292.571h146.286zM585.143 219.429v585.143h-146.286v-585.143h146.286zM1170.286 877.714v73.143h-1170.286v-877.714h73.143v804.571h1097.143zM804.571 365.714v438.857h-146.286v-438.857h146.286zM1024 146.286v658.286h-146.286v-658.286h146.286z"
 				],
 				"width": 1170,
@@ -48,8 +24,8 @@
 				"code": 61458,
 				"name": "chart"
 			},
-			"setIdx": 1,
-			"iconIdx": 0
+			"setIdx": 0,
+			"iconIdx": 1
 		},
 		{
 			"icon": {
@@ -72,8 +48,8 @@
 				"code": 61601,
 				"name": "bullhorn"
 			},
-			"setIdx": 1,
-			"iconIdx": 1
+			"setIdx": 0,
+			"iconIdx": 2
 		},
 		{
 			"icon": {
@@ -97,8 +73,8 @@
 				"code": 61485,
 				"name": "book"
 			},
-			"setIdx": 1,
-			"iconIdx": 2
+			"setIdx": 0,
+			"iconIdx": 3
 		},
 		{
 			"icon": {
@@ -122,8 +98,8 @@
 				"code": 61596,
 				"name": "unlock"
 			},
-			"setIdx": 1,
-			"iconIdx": 3
+			"setIdx": 0,
+			"iconIdx": 4
 		},
 		{
 			"icon": {
@@ -147,8 +123,8 @@
 				"code": 61736,
 				"name": "question"
 			},
-			"setIdx": 1,
-			"iconIdx": 4
+			"setIdx": 0,
+			"iconIdx": 5
 		},
 		{
 			"icon": {
@@ -172,8 +148,8 @@
 				"code": 61737,
 				"name": "info"
 			},
-			"setIdx": 1,
-			"iconIdx": 5
+			"setIdx": 0,
+			"iconIdx": 6
 		},
 		{
 			"icon": {
@@ -197,8 +173,8 @@
 				"code": 61738,
 				"name": "exclamation"
 			},
-			"setIdx": 1,
-			"iconIdx": 6
+			"setIdx": 0,
+			"iconIdx": 7
 		},
 		{
 			"icon": {
@@ -222,8 +198,8 @@
 				"name": "twitter",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 7
+			"setIdx": 0,
+			"iconIdx": 8
 		},
 		{
 			"icon": {
@@ -248,8 +224,8 @@
 				"name": "gear",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 8
+			"setIdx": 0,
+			"iconIdx": 9
 		},
 		{
 			"icon": {
@@ -274,8 +250,8 @@
 				"name": "home",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 9
+			"setIdx": 0,
+			"iconIdx": 10
 		},
 		{
 			"icon": {
@@ -300,8 +276,8 @@
 				"name": "renew",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 10
+			"setIdx": 0,
+			"iconIdx": 11
 		},
 		{
 			"icon": {
@@ -326,8 +302,8 @@
 				"name": "lock",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 11
+			"setIdx": 0,
+			"iconIdx": 12
 		},
 		{
 			"icon": {
@@ -352,8 +328,8 @@
 				"name": "play",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 12
+			"setIdx": 0,
+			"iconIdx": 13
 		},
 		{
 			"icon": {
@@ -377,8 +353,8 @@
 				"name": "pause",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 13
+			"setIdx": 0,
+			"iconIdx": 14
 		},
 		{
 			"icon": {
@@ -402,8 +378,8 @@
 				"name": "facebook",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 14
+			"setIdx": 0,
+			"iconIdx": 15
 		},
 		{
 			"icon": {
@@ -427,8 +403,8 @@
 				"name": "googleplus",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 15
+			"setIdx": 0,
+			"iconIdx": 16
 		},
 		{
 			"icon": {
@@ -453,8 +429,8 @@
 				"name": "unlock2",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 16
+			"setIdx": 0,
+			"iconIdx": 17
 		},
 		{
 			"icon": {
@@ -480,8 +456,8 @@
 				"name": "prof",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 17
+			"setIdx": 0,
+			"iconIdx": 18
 		},
 		{
 			"icon": {
@@ -505,8 +481,32 @@
 				"code": 61508,
 				"name": "newsession"
 			},
+			"setIdx": 0,
+			"iconIdx": 19
+		},
+		{
+			"icon": {
+				"paths": [
+					"M838.857 272q8 8 16 20.571h-269.714v-269.714q12.571 8 20.571 16zM566.857 365.714h310.857v603.429q0 22.857-16 38.857t-38.857 16h-768q-22.857 0-38.857-16t-16-38.857v-914.286q0-22.857 16-38.857t38.857-16h457.143v310.857q0 22.857 16 38.857t38.857 16zM658.286 786.286v-36.571q0-8-5.143-13.143t-13.143-5.143h-402.286q-8 0-13.143 5.143t-5.143 13.143v36.571q0 8 5.143 13.143t13.143 5.143h402.286q8 0 13.143-5.143t5.143-13.143zM658.286 640v-36.571q0-8-5.143-13.143t-13.143-5.143h-402.286q-8 0-13.143 5.143t-5.143 13.143v36.571q0 8 5.143 13.143t13.143 5.143h402.286q8 0 13.143-5.143t5.143-13.143zM658.286 493.714v-36.571q0-8-5.143-13.143t-13.143-5.143h-402.286q-8 0-13.143 5.143t-5.143 13.143v36.571q0 8 5.143 13.143t13.143 5.143h402.286q8 0 13.143-5.143t5.143-13.143z"
+				],
+				"attrs": [],
+				"isMulticolor": false,
+				"tags": [
+					"file-text"
+				],
+				"defaultCode": 61788,
+				"grid": 14
+			},
+			"attrs": [],
+			"properties": {
+				"id": 313,
+				"order": 36,
+				"prevSize": 28,
+				"code": 61686,
+				"name": "blog"
+			},
 			"setIdx": 1,
-			"iconIdx": 18
+			"iconIdx": 313
 		},
 		{
 			"icon": {
@@ -550,8 +550,8 @@
 				"code": 58882,
 				"name": "presenter"
 			},
-			"setIdx": 1,
-			"iconIdx": 19
+			"setIdx": 0,
+			"iconIdx": 20
 		},
 		{
 			"icon": {
@@ -577,8 +577,8 @@
 				"name": "ars",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 20
+			"setIdx": 0,
+			"iconIdx": 21
 		},
 		{
 			"icon": {
@@ -605,8 +605,8 @@
 				"name": "nova",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 21
+			"setIdx": 0,
+			"iconIdx": 22
 		},
 		{
 			"icon": {
@@ -645,8 +645,8 @@
 				"name": "thm-full",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 22
+			"setIdx": 0,
+			"iconIdx": 23
 		},
 		{
 			"icon": {
@@ -669,8 +669,8 @@
 				"name": "radar",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 23
+			"setIdx": 0,
+			"iconIdx": 24
 		},
 		{
 			"icon": {
@@ -703,8 +703,8 @@
 				"name": "thm",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 24
+			"setIdx": 0,
+			"iconIdx": 25
 		},
 		{
 			"icon": {
@@ -732,8 +732,8 @@
 				"name": "user",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 25
+			"setIdx": 0,
+			"iconIdx": 26
 		},
 		{
 			"icon": {
@@ -764,8 +764,8 @@
 				"name": "speaker",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 26
+			"setIdx": 0,
+			"iconIdx": 27
 		},
 		{
 			"icon": {
@@ -791,8 +791,8 @@
 				"name": "happy",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 27
+			"setIdx": 0,
+			"iconIdx": 28
 		},
 		{
 			"icon": {
@@ -818,8 +818,8 @@
 				"name": "sad",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 28
+			"setIdx": 0,
+			"iconIdx": 29
 		},
 		{
 			"icon": {
@@ -845,8 +845,8 @@
 				"name": "wink",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 29
+			"setIdx": 0,
+			"iconIdx": 30
 		},
 		{
 			"icon": {
@@ -872,8 +872,8 @@
 				"name": "shocked",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 30
+			"setIdx": 0,
+			"iconIdx": 31
 		},
 		{
 			"icon": {
@@ -900,8 +900,8 @@
 				"name": "close",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 31
+			"setIdx": 0,
+			"iconIdx": 32
 		},
 		{
 			"icon": {
@@ -929,8 +929,8 @@
 				"name": "users",
 				"ligatures": ""
 			},
-			"setIdx": 1,
-			"iconIdx": 32
+			"setIdx": 0,
+			"iconIdx": 33
 		},
 		{
 			"icon": {
@@ -953,8 +953,8 @@
 				"code": 58881,
 				"name": "book2"
 			},
-			"setIdx": 1,
-			"iconIdx": 33
+			"setIdx": 0,
+			"iconIdx": 34
 		}
 	],
 	"height": 1024,
@@ -987,6 +987,8 @@
 			"bgColor": 16777215
 		},
 		"historySize": 100,
-		"showCodes": true
+		"showCodes": true,
+		"gridSize": 16,
+		"showGrid": false
 	}
 }
