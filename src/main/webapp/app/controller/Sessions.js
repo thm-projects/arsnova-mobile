@@ -250,7 +250,13 @@ Ext.define("ARSnova.controller.Sessions", {
 			creator: localStorage.getItem('login'),
 			courseId: options.courseId,
 			courseType: options.courseType,
-			creationTime: Date.now()
+			creationTime: Date.now(),
+			ppAuthorName: options.ppAuthorName,
+			ppAuthorMail: options.ppAuthorMail,
+			ppUniversity: options.ppUniversity,
+			ppLogo: options.ppLogo,
+			ppSubject: options.ppSubject,
+			ppLicense: options.ppLicense
 		});
 		session.set('_id', undefined);
 

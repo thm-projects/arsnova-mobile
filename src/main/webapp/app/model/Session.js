@@ -35,7 +35,13 @@ Ext.define('ARSnova.model.Session', {
 			'keyword',
 			'courseId',
 			'courseType',
-			'creationTime'
+			'creationTime',
+			'ppAuthorName',
+			'ppAuthorMail',
+			'ppUniversity',
+			'ppLogo',
+			'ppSubject',
+			'ppLicense'
 		],
 
 		validations: [
