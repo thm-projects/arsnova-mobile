@@ -10,6 +10,12 @@
 	border-radius: 10px 10px 10px 10px;	
 }
 
+.x-list {
+	.x-scroll-container {
+		background: transparent;
+	}
+}
+
 .listCorrectItem {
 	padding: 0 0.25em 0 0.2em;
 }

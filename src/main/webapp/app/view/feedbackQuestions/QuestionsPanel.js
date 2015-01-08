@@ -127,7 +127,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		this.list = Ext.create('Ext.List', {
 			activeCls: 'search-item-active',
 			layout: 'fit',
-			flex: 1,
+			height: '100%',
 
 			style: {
 				backgroundColor: 'transparent'
@@ -202,9 +202,16 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 						});
 					});
 				}
-			},
-			this.noQuestionsFound,
-			this.list
+			}, this.noQuestionsFound, {
+				xtype: 'formpanel',
+				style: {
+					marginTop: this.deleteAllButton.getHidden() ? '15px' : ''
+				},
+				cls: 'roundedCorners',
+				flex: 1,
+				scrollable: null,
+				items: [this.list]
+			}
 		]);
 		
 		this.on('deactivate', function (panel) {
