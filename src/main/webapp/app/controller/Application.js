@@ -116,7 +116,7 @@ Ext.define("ARSnova.controller.Application", {
 			privacyMode = true;
 		}
 		
-		if(privacyMode && !cookieEnabled) {
+		if(privacyMode || !cookieEnabled) {
 			Ext.Viewport.setMasked({ 
 				xtype: 'mask',
 				listeners: {
