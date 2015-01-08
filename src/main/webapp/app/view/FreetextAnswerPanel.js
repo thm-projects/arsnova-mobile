@@ -82,8 +82,13 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		this.freetextAnswerList = Ext.create('Ext.List', {
 			activeCls: 'search-item-active',
 			store: this.freetextAnswerStore,
+			height: '100%',
 			layout: 'fit',
 			flex: 1,
+			
+			style: {
+				backgroundColor: 'transparent'
+			},
 
 			itemCls: 'forwardListButton',
 			itemTpl: [
@@ -119,7 +124,14 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			badgeCls: 'badgeicon'
 		});
 
-		this.add([this.toolbar, this.freetextAnswerList]);
+		this.add([this.toolbar, {
+			xtype: 'formpanel',
+			style: 'margin-top: 15px',
+			cls: 'roundedCorners',
+			flex: 1,
+			scrollable: null,
+			items: [this.freetextAnswerList]
+		}]);
 
 		this.on('activate', function () {
 			ARSnova.app.innerScrollPanel = this.freetextAnswerList;
