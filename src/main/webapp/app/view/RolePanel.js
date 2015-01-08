@@ -25,6 +25,10 @@ Ext.define('ARSnova.view.RolePanel', {
 			direction: 'vertical',
 			directionLock: true
 		},
+		
+		tab: {
+			hidden: true
+		},
 
 		title: 'RolePanel'
 	},
