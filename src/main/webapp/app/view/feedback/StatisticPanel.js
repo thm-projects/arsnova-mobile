@@ -130,8 +130,6 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				handler: this.buttonClicked
 			}]
 		});
-		
-		console.log(speakerRole);
 
 		this.feedbackButtons = Ext.create('Ext.Toolbar', {
 			cls: speakerRole ? 'speakerVoteButtonsPanel' : 'voteButtonsPanel',

@@ -48,6 +48,8 @@ if (lang != null) {
 	lang = lang.toLowerCase();
 }
 
+var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+
 switch (lang) {
 	case 'en':case 'en-en':case 'en-us':case 'en-gb':
 		moment.lang('en');
@@ -339,6 +341,11 @@ switch (lang) {
 			ABCD: "SC",
 			GRID: "P",
 			FREETEXT: "Txt",
+			EVALUATION_LONG: "Evaluation",
+			SCHOOL_LONG: 'Grade',
+			YESNO_LONG: 'Ja|Nein',
+			GRID_LONG: "Grid",
+			FREETEXT_LONG: 'Free text',
 			BUZZWORD: "Buzzword for",
 			BUZZWORD_A: "Buzzword for A",
 			BUZZWORD_B: "Buzzword for B",
@@ -721,6 +728,11 @@ switch (lang) {
 			ABCD: "SC",
 			GRID: "B",
 			FREETEXT: "Txt",
+			EVALUATION_LONG: "Likert",
+			SCHOOL_LONG: 'Note',
+			YESNO_LONG: 'Yes|No',
+			GRID_LONG: "Bildpunkt",
+			FREETEXT_LONG: 'Freitext',
 			BUZZWORD: "Schlagwort für",
 			BUZZWORD_A: "Schlagwort für A",
 			BUZZWORD_B: "Schlagwort für B",

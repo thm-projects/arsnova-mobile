@@ -64,6 +64,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 
 		var panel = this;
 		var isSpeakerView = !!ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
@@ -107,9 +108,15 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				});
 			}
 		});
+		
+		var toolbarTitle = Messages.QUESTIONS;
+		
+		if(screenWidth > 380) {
+			toolbarTitle = isSpeakerView ? Messages.QUESTIONS_FROM_STUDENTS : Messages.MY_QUESTIONS;
+		}
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: '',
+			title: toolbarTitle,
 			docked: 'top',
 			ui: 'light',
 			items: [

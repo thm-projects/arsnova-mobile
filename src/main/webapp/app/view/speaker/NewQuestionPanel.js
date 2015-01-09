@@ -58,6 +58,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
+		
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.QUESTIONS,
@@ -187,26 +189,28 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			submitOnAction: false,
 			items: []
 		});
+		
+		var messageAppendix = screenWidth >= 495 ? "_LONG" : "";
 
 		var formatItems = [
-			{text: Messages.MC},
-			{text: Messages.ABCD},
-			{text: Messages.YESNO},
-			{text: Messages.FREETEXT},
-			{text: Messages.EVALUATION},
-			{text: Messages.SCHOOL}
+			{text: Messages["MC"]},
+			{text: Messages["ABCD"]},
+			{text: Messages["YESNO" + messageAppendix]},
+			{text: Messages["FREETEXT" + messageAppendix]},
+			{text: Messages["EVALUATION" + messageAppendix]},
+			{text: Messages["SCHOOL" + messageAppendix]}
 		];
 
 		var me = this;
 		var config = ARSnova.app.globalConfig;
 		if (config.features.flashcard) {
-			formatItems.push({text: Messages.FLASHCARD_SHORT});
+			formatItems.push({text: messageAppendix.length ? Messages.FLASHCARD : Messages.FLASHCARD_SHORT});
 			me.flashcardQuestion = Ext.create('ARSnova.view.speaker.form.FlashcardQuestion', {
 				hidden: true
 			});
 		}
 		if (config.features.gridSquare) {
-			formatItems.push({text: Messages.GRID});
+			formatItems.push({text: Messages["GRID" + messageAppendix]});
 			me.gridQuestion = Ext.create('ARSnova.view.speaker.form.GridQuestion', {
 				id: 'grid',
 				hidden: true
@@ -234,6 +238,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 					switch (button.getText()) {
 						case Messages.GRID:
+						case Messages.GRID_LONG:
 							if (pressed) {
 								me.gridQuestion.show();
 								me.previewButton.setHandler(me.gridQuestion.previewHandler);
@@ -251,6 +256,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							}
 						break;
 						case Messages.EVALUATION:
+						case Messages.EVALUATION_LONG:
 							if (pressed) {
 								me.voteQuestion.show();
 								title = label(Messages.QUESTION_RATING, Messages.QUESTION_RATING_SHORT);
@@ -259,6 +265,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							}
 							break;
 						case Messages.SCHOOL:
+						case Messages.SCHOOL_LONG:
 							if (pressed) {
 								me.schoolQuestion.show();
 								title = label(Messages.QUESTION_GRADE, Messages.QUESTION_GRADE_SHORT);
@@ -275,6 +282,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							}
 							break;
 						case Messages.YESNO:
+						case Messages.YESNO_LONG:
 							if (pressed) {
 								me.previewPart.show();
 								me.yesNoQuestion.show();
@@ -293,6 +301,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							}
 							break;
 						case Messages.FREETEXT:
+						case Messages.FREETEXT_LONG:
 							if (pressed) {
 								me.previewPart.show();
 								me.freetextQuestion.show();
@@ -301,6 +310,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 								me.freetextQuestion.hide();
 							}
 							break;
+						case Messages.FLASHCARD:
 						case Messages.FLASHCARD_SHORT:
 							if (pressed) {
 								me.textarea.setPlaceHolder(Messages.FLASHCARD_FRONT_PAGE);
