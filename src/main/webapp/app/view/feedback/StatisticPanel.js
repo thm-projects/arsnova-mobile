@@ -39,16 +39,17 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
+		
+		var speakerRole = ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER;
 
 		this.backButton = Ext.create('Ext.Button', {
-			text: ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER ?
-					Messages.HOME : Messages.FEEDBACK_VOTE,
+			text: speakerRole ? Messages.HOME : Messages.FEEDBACK_VOTE,
 			ui: 'back',
 			handler: function() {
 				var	tabPanel = ARSnova.app.mainTabPanel.tabPanel,
 					feedbackTabPanel = tabPanel.feedbackTabPanel;
 
-				if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+				if(speakerRole) {
 					tabPanel.animateActiveItem(tabPanel.speakerTabPanel, {
 						type: 'slide',
 						direction: 'right',
@@ -64,7 +65,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			}
 		});
 
-		if (ARSnova.app.userRole != ARSnova.app.USER_ROLE_SPEAKER) {
+		if (!speakerRole) {
 			this.buttonClicked = function (button) {
 				ARSnova.app.getController('Feedback').vote({
 					value: button.config.value
@@ -75,7 +76,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			ui: 'light',
-			cls: ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER ? 'speakerTitleText' : '',
+			cls: speakerRole ? 'speakerTitleText' : '',
 			items: [this.backButton]
 		});
 
@@ -129,9 +130,11 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				handler: this.buttonClicked
 			}]
 		});
+		
+		console.log(speakerRole);
 
 		this.feedbackButtons = Ext.create('Ext.Toolbar', {
-			cls: 'voteButtonsPanel',
+			cls: speakerRole ? 'speakerVoteButtonsPanel' : 'voteButtonsPanel',
 			docked: 'top',
 
 			items: [

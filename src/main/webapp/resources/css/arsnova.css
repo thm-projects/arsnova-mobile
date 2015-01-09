@@ -1221,12 +1221,17 @@ ol.standardList li {
 	padding: 0 !important;
 }
 
-.voteButtonsPanel {
+.voteButtonsPanel,
+.speakerVoteButtonsPanel {
 	background: #E0E0E0;
 	padding-left: 10px;
 	padding-right: 10px;
 	margin-top: 10px;
 	border-bottom: none !important;
+}
+
+.speakerVoteButtonsPanel .iconBtn {
+	background: white !important;
 }
 
 .questionStatisticTitle .x-innerhtml {
