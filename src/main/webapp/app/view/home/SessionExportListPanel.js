@@ -70,9 +70,16 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 						buttons: me.msgBox.YESNO,
 						fn: function(btn) {
 						    if (btn === 'yes') {
-						    	hTP.animateActiveItem(Ext.create('ARSnova.view.home.SessionExportToFilePanel'), 'slide');
+						    	var exportToFile = Ext.create('ARSnova.view.home.SessionExportToFilePanel', {
+						    		exportSessionMap: me.sessionMap,
+						    		backbuttonHandler: me
+						    	});
+						    	hTP.animateActiveItem(exportToFile, 'slide');
 						    }  else {
-						    	hTP.animateActiveItem(Ext.create('ARSnova.view.home.SessionExportToPublicPanel'), 'slide');
+						    	var exportToPublic = Ext.create('ARSnova.view.home.SessionExportToPublicPanel', {
+						    		
+						    	});
+						    	hTP.animateActiveItem(exportToPublic, 'slide');
 						    }
 						}
 					});
