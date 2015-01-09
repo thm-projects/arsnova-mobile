@@ -18,6 +18,11 @@
 Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 	extend : 'Ext.Panel',
 	alias : 'widget.SessionExportToPublicPanel',
+	
+	config: {
+		exportSessionMap: null,
+	},
+	
 	requires : [ 'ARSnova.model.PublicPool' ],
 
 	initialize : function() {
@@ -160,8 +165,20 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			Ext.Msg.alert('The formular is not complete', msg);
 			
 		} else {
-			// export to public pool here
+			console.log(validation);
+			var publicPoolAttributes = {};
+			publicPoolAttributes['ppAuthorName'] = validation.get('name');
+			publicPoolAttributes['ppAuthorMail'] = validation.get('email');
+			publicPoolAttributes['ppUniversity'] = validation.get('hs');
+			publicPoolAttributes['ppLogo'] 		 = validation.get('logo');
+			publicPoolAttributes['ppSubject'] 	 = validation.get('subject');
+			publicPoolAttributes['ppLicense'] 	 = validation.get('licence');
 			
+			console.log('ppAttributes', publicPoolAttributes);
+			
+			// export to public pool here
+			ARSnova.app.getController("SessionExport").exportSessionsToPublicPool(
+					me.getExportSessionMap(), publicPoolAttributes);
 		}
 	}
 });

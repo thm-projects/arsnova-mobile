@@ -24,13 +24,26 @@ Ext.define("ARSnova.controller.SessionExport", {
 	   'ARSnova.model.Question'
 	],
 	
-	exportSessionsToPublicPool: function(exportSessionMap) {
+	exportSessionsToPublicPool: function(exportSessionMap, publicPoolAttributes) {
 		var me = this;
 		this.exportSessions(exportSessionMap, true, true)
 		.then(function(exportData) {
 			// TODO set public pool attributes in every session.
 
 			// TODO rewrite type of session to 'session_public_pool'
+			
+			console.log('after promise');
+			console.log(publicPoolAttributes);
+			
+			for (var i = 0; i < exportData.length; i++) {
+				// set public pool attributes in session
+				for (var attrname in publicPoolAttributes) {
+					exportData[i]['session'][attrname] = publicPoolAttributes[attrname];
+				}
+				exportData[i]['session']['type'] = 'session_public_pool';
+			}
+			
+			console.log(exportData);
 			
 			// TODO call ImportCtrl to import the sessions
 		});
