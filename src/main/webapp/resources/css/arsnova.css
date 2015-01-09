@@ -1495,3 +1495,7 @@ ol.standardList li {
 	max-width: 500px;
 	width: 95.15%;
 }
+
+.hidden {
+	display: none;
+}
