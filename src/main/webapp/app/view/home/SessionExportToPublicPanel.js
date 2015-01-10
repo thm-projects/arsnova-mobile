@@ -147,7 +147,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			name:	    me.teacherName.getValue(),
 			hs:		    me.university.getValue(),
 			logo:	    me.logo.getValue(),
-			subject:	me.logo.getValue(),
+			subject:	me.subject.getValue(),
 			licence:	me.licence.getValue(),
 			email:		me.email.getValue()
 		});
