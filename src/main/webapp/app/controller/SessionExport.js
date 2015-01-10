@@ -29,9 +29,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 		this.exportSessions(exportSessionMap, true, true)
 		.then(function(exportData) {
 			
-			console.log('after promise');
-			console.log(publicPoolAttributes);
-			
 			for (var i = 0; i < exportData.length; i++) {
 				// set public pool attributes in session
 				for (var attrname in publicPoolAttributes) {
@@ -57,8 +54,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 		var me = this;
 		this.exportSessions(exportSessionMap, withAnswerStatistics, withFeedbackQuestions)
 		.then(function(exportData) {
-			console.log('after promise');
-			console.log(exportData);
 			for (var i = 0; i < exportData.length; i++) {
 				me.writeExportDataToFile(exportData[i]);
 			}
@@ -89,9 +84,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 				sessions.push(exportSessionMap[i][0]);
 		}
 		
-		console.log('sessions:');
-		console.log(sessions);
-		
 		// save questions and check for answers if enabled
 		ARSnova.utils.AsyncUtils.promiseWhile(
 			function() {
@@ -99,21 +91,14 @@ Ext.define("ARSnova.controller.SessionExport", {
 				return j < sessions.length;
 			},
 			function() {
-				console.log('iteration ' + j);
-				console.log('get session');
 				var session = sessions[j++];
 				return me.exportSession(session, withAnswerStatistics, withFeedbackQuestions);
 			},
 			function(session) {
-				console.log('push session');
-				console.log(session);
 				exportData.push(session);
-				console.log('after push');
 			}
 		).then(function() {
-			console.log('hideLoadMask');
 			hideLoadMask();
-			console.log(exportData);
 			
 			promise.resolve(exportData);
 		});
@@ -129,7 +114,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 	 * @param withFeedbackQuestions	<code>true</code> if the feedbackQuestions should be exported, <code>false</code> otherwise.
 	 */
 	exportSession: function(session, withAnswerStatistics, withFeedbackQuestions) {
-		console.log('exportSession()');
 		var me = this;
 		var promise = new RSVP.Promise();
 		// create export data structure
@@ -270,7 +254,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 	},
 	
 	writeExportDataToFile: function(exportData) {
-		console.log('writeExportDataToFile()');
 		var jsonData = JSON.stringify({exportData: exportData});
 
 		var dateString = "";
