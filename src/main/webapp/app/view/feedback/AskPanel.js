@@ -55,7 +55,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		this.subject = Ext.create('Ext.form.Text', {
 			label: Messages.QUESTION_SUBJECT,
 			name: 'subject',
-			maxLength: 140,
+			maxLength: 50,
 			placeHolder: Messages.QUESTION_SUBJECT_PLACEHOLDER
 		});
 
