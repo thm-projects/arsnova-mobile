@@ -46,7 +46,8 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		
 		var screenWidth = (window.innerWidth > 0) ?
 				window.innerWidth :	screen.width;
-		var showShortLabels = screenWidth < 480;
+		var showShortLabels = screenWidth < 590;
+		var showLongLabelsAndTemplate = !showShortLabels && this.config.activateTemplates;
 		
 		this.gridMod = Ext.create('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 			saveHandlerScope: this,
@@ -57,6 +58,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			xtype: 'fileupload',
 			autoUpload: true,
 			loadAsDataUrl: true,
+			width: showLongLabelsAndTemplate ? '20%' : '',
 			states: {
 				browse: {
 					text: showShortLabels ?
@@ -90,7 +92,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 
 		this.segmentButton = Ext.create('Ext.SegmentedButton', {
 			allowDepress: false,
-			cls: this.config.activateTemplates ? 'abcOptions' : 'yesnoOptions',
+			cls: !this.config.activateTemplates ? 'yesnoOptions' : 'abcOptions',
 			style: {
 				'margin-top': '0px',
 				'margin-bottom': '30px'
@@ -102,17 +104,21 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				text: showShortLabels ?
 				Messages.SELECT_PICTURE_URL_SHORT :
 				Messages.SELECT_PICTURE_URL,
+				width: showLongLabelsAndTemplate ? '25%' : '',
 				handler: this.toggleUploadTextfieldVisibility,
 				scope: this
-			}, {
-				text: Messages.TEMPLATE,
+			}, this.buttonUploadFromFS, {
+				text: showShortLabels ?
+				Messages.TEMPLATE :
+				Messages.TEMPLATE_FOR_MODERATION,
+				width: showLongLabelsAndTemplate ? '55%' : '',
 				hidden: !this.config.activateTemplates,
 				scope: this,
 				handler: function () {
 					var tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;	
 					tabPanel.setActiveItem(this.gridMod);
 				}
-			}, this.buttonUploadFromFS]
+			}]
 		});
 		
 		this.uploadTextfield = Ext.create('Ext.form.Text', {
@@ -145,14 +151,16 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				xtype: 'fieldset',
 				layout: 'hbox',
 				cls: 'fileUploadFieldset',
-				title: Messages.EDIT_PICTURE,	
+				title: Messages.PICTURE_SOURCE,	
 				items: [
 					this.uploadTextfield,
 					this.sendButton
 				]
 			}, {
 				xtype: 'fieldset',
-				cls: 'fileUploadButtonFieldset',
+				cls: showLongLabelsAndTemplate ? 
+				'fileUploadButtonFieldset longText' : 
+				'fileUploadButtonFieldset',
 				items: [this.segmentButton]
 			}]
 		}]);

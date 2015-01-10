@@ -1501,6 +1501,10 @@ ol.standardList li {
 	width: 95.15%;
 }
 
+.fileUploadButtonFieldset.longText {
+	max-width: 604px; 
+}
+
 .hidden {
 	display: none;
 }
