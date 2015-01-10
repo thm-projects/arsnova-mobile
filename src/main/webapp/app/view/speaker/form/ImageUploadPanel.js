@@ -139,6 +139,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		
 		this.add([{
 			xtype: 'formpanel',
+			width: '100%',
 			scrollable: null,
 			items: [{
 				xtype: 'fieldset',
