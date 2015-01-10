@@ -27,7 +27,15 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 
 	initialize : function() {
 		this.callParent(arguments);
+		
+		var config = ARSnova.app.globalConfig;
+		
+		var subjects = config.publicPool.subjects.split(',');
+		console.log('subjects:', subjects);
 
+		var licenses = config.publicPool.licenses.split(',');
+		console.log('licenses:', licenses);
+		
 		this.backButton = Ext.create('Ext.Button', {
 			text : Messages.SESSIONS,
 			ui : 'back',
@@ -52,13 +60,6 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 					me.ValidateInput(button, e, eOpts);
 				}
 			},
-			// handler: function () {
-			// this.saveHandler().then(function (response) {
-			// ARSnova.app.getController('Questions').details({
-			// question: Ext.decode(response.responseText)
-			// });
-			// });
-			// },
 			scope : this
 		});
 
