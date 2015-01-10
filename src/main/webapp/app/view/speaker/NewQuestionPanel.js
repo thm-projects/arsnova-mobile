@@ -190,11 +190,11 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			items: []
 		});
 		
-		var messageAppendix = screenWidth >= 495 ? "_LONG" : "";
+		var messageAppendix = screenWidth >= 650 ? "_LONG" : "";
 
 		var formatItems = [
-			{text: Messages["MC"]},
-			{text: Messages["ABCD"]},
+			{text: Messages["MC" + messageAppendix]},
+			{text: Messages["ABCD" + messageAppendix]},
 			{text: Messages["YESNO" + messageAppendix]},
 			{text: Messages["FREETEXT" + messageAppendix]},
 			{text: Messages["EVALUATION" + messageAppendix]},
@@ -228,7 +228,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				toggle: function (container, button, pressed) {
 					var label = Ext.bind(function (longv, shortv) {
 						var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-						return (screenWidth > 320 || me.backButton.isHidden()) ? longv : shortv;
+						return (screenWidth >= 490 || me.backButton.isHidden()) ? longv : shortv;
 					}, me);
 
 					var title = '';
@@ -274,6 +274,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							}
 							break;
 						case Messages.MC:
+						case Messages.MC_LONG:
 							if (pressed) {
 								me.multipleChoiceQuestion.show();
 								title = label(Messages.QUESTION_MC, Messages.QUESTION_MC_SHORT);
@@ -287,12 +288,13 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 								me.previewPart.show();
 								me.yesNoQuestion.show();
 								me.previewButton.setHandler(me.yesNoQuestion.previewHandler);
-								title = label(Messages.QUESTION_YESNO, Messages.QUESTION_YESNO);
+								title = label(Messages.QUESTION_YESNO, Messages.QUESTION_YESNO_SHORT);
 							} else {
 								me.yesNoQuestion.hide();
 							}
 							break;
 						case Messages.ABCD:
+						case Messages.ABCD_LONG:
 							if (pressed) {
 								me.abcdQuestion.show();
 								title = label(Messages.QUESTION_SINGLE_CHOICE, Messages.QUESTION_SINGLE_CHOICE_SHORT);
