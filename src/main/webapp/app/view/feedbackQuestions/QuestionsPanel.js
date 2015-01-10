@@ -211,11 +211,13 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				}
 			}, this.noQuestionsFound, {
 				xtype: 'formpanel',
+				flex: 1,
 				style: {
 					marginTop: this.deleteAllButton.getHidden() ? '15px' : ''
 				},
 				cls: 'roundedCorners',
-				flex: 1,
+				height: '100%',
+				width: '100%',
 				scrollable: null,
 				items: [this.list]
 			}

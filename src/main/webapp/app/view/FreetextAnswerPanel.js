@@ -128,6 +128,8 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			xtype: 'formpanel',
 			style: 'margin-top: 15px',
 			cls: 'roundedCorners',
+			height: '100%',
+			width: '100%',
 			flex: 1,
 			scrollable: null,
 			items: [this.freetextAnswerList]
