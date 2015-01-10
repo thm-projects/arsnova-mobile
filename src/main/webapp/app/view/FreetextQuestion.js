@@ -89,7 +89,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					margin: '10px'
 				}
 			},
-			hidden: !!this.questionObj.userAnswered || !!this.questionObj.isAbstentionAnswer,
+			hidden: this.viewOnly || !!this.questionObj.userAnswered || !!this.questionObj.isAbstentionAnswer,
 			items: [{
 				flex: 1,
 				xtype: 'button',
