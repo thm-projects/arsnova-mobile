@@ -206,7 +206,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			handler: function () {
 				var msg = Messages.ARE_YOU_SURE +
 						"<br>" + Messages.DELETE_SESSION_NOTICE;
-				Ext.Msg.confirm(Messages.DELETE_SESSION, msg, function (answer) {
+				Ext.Msg.confirm(Messages.DELETE_SESSION_TITLE, msg, function (answer) {
 					if (answer == 'yes') {
 						ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_DELETE);
 						ARSnova.app.sessionModel.destroy(localStorage.getItem('keyword'), {

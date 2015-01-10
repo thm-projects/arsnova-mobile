@@ -588,7 +588,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				var msg = Messages.ARE_YOU_SURE;
 				if (this.questionObj.active && this.questionObj.active == 1)
 					msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
-				Ext.Msg.confirm(Messages.DELETE_QUESTION, msg, function (answer) {
+				Ext.Msg.confirm(Messages.DELETE_QUESTION_TITLE, msg, function (answer) {
 					if (answer == 'yes') {
 						var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 						ARSnova.app.questionModel.destroy(sTP.questionDetailsPanel.questionObj, {

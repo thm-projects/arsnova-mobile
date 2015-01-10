@@ -459,40 +459,48 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		/* fetch the values */
 		switch (panel.questionOptions.getPressedButtons()[0]._text) {
 			case Messages.GRID:
+			case Messages.GRID_LONG:
 				values.questionType = "grid";
 				Ext.apply(values, panel.gridQuestion.getQuestionValues());
 			break;
 			case Messages.EVALUATION:
+			case Messages.EVALUATION_LONG:
 				values.questionType = "vote";
 
 				Ext.apply(values, panel.voteQuestion.getQuestionValues());
 				break;
 			case Messages.SCHOOL:
+			case Messages.SCHOOL_LONG:
 				values.questionType = "school";
 
 				Ext.apply(values, panel.schoolQuestion.getQuestionValues());
 				break;
 			case Messages.MC:
+			case Messages.MC_LONG:
 				values.questionType = "mc";
 
 				Ext.apply(values, panel.multipleChoiceQuestion.getQuestionValues());
 				break;
 			case Messages.YESNO:
+			case Messages.YESNO_LONG:
 				values.questionType = "yesno";
 
 				Ext.apply(values, panel.yesNoQuestion.getQuestionValues());
 				break;
 			case Messages.ABCD:
+			case Messages.ABCD_LONG:
 				values.questionType = "abcd";
 
 				Ext.apply(values, panel.abcdQuestion.getQuestionValues());
 				break;
 
 			case Messages.FREETEXT:
+			case Messages.FREETEXT_LONG:
 				values.questionType = "freetext";
 				values.possibleAnswers = [];
 				break;
 
+			case Messages.FLASHCARD:
 			case Messages.FLASHCARD_SHORT:
 				values.questionType = "flashcard";
 
