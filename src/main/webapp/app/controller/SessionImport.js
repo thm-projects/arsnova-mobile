@@ -30,8 +30,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 	 */
 	importSession: function(jsonContent) {
 		var me = this;
-		jsonContent = jsonContent.exportData;
-
+		
 		if (typeof jsonContent === "undefined" || typeof jsonContent.session === "undefined") {
 			Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_FORMAT);
 			console.log("Error while loading session json: content or session-attribute malformed or missing.");

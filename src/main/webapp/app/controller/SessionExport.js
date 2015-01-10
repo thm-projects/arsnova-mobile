@@ -28,9 +28,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 		var me = this;
 		this.exportSessions(exportSessionMap, true, true)
 		.then(function(exportData) {
-			// TODO set public pool attributes in every session.
-
-			// TODO rewrite type of session to 'session_public_pool'
 			
 			console.log('after promise');
 			console.log(publicPoolAttributes);
@@ -40,12 +37,12 @@ Ext.define("ARSnova.controller.SessionExport", {
 				for (var attrname in publicPoolAttributes) {
 					exportData[i]['session'][attrname] = publicPoolAttributes[attrname];
 				}
+				// rewrite session type
 				exportData[i]['session']['type'] = 'session_public_pool';
+			
+				// call import ctrl to save public pool session in db
+				ARSnova.app.getController("SessionImport").importSession(exportData[i]);
 			}
-			
-			console.log(exportData);
-			
-			// TODO call ImportCtrl to import the sessions
 		});
 	},
 	
