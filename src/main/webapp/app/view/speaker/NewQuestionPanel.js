@@ -411,14 +411,14 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		me.add([
 			me.abstentionPart,
 			me.uploadView,
-			me.grid,
-			me.releasePart
+			me.grid
 		]);
 		if (me.gridQuestion) {
 			me.add(me.gridQuestion);
 		}
 
 		me.add([
+			me.releasePart,
 			me.saveAndContinueButton
 		]);
 
