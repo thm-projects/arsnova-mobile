@@ -171,7 +171,8 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						var n = data.indexOf("base64,");
 						data = decodeURIComponent(escape(atob(data.substring(n+7)))); // remove disturbing prefix
 						var hideLoadMask = ARSnova.app.showLoadMask(Messages.IMP_LOADMSK);
-						var ctrl = ARSnova.app.getController("SessionImport").importSession(JSON.parse(data));
+						var jsonContent = JSON.parse(data);
+						var ctrl = ARSnova.app.getController("SessionImport").importSession(jsonContent.exportData);
 						me.loadCreatedSessions();
 						hideLoadMask();
 					}	

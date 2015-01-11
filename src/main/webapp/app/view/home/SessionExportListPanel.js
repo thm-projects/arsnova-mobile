@@ -77,7 +77,7 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 						    	hTP.animateActiveItem(exportToFile, 'slide');
 						    }  else {
 						    	var exportToPublic = Ext.create('ARSnova.view.home.SessionExportToPublicPanel', {
-						    		
+						    		exportSessionMap: me.sessionMap
 						    	});
 						    	hTP.animateActiveItem(exportToPublic, 'slide');
 						    }
