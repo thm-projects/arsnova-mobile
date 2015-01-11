@@ -43,6 +43,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	sessionLogoutButton: null,
 
 	initialize: function () {
+		var me = this;
 		this.callParent(arguments);
 
 		this.logoutButton = Ext.create('Ext.Button', {
@@ -125,7 +126,33 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					}]
 			}]
 		});
-
+		
+		this.publicPoolPanel  = Ext.create('ARSnova.view.home.PublicPoolPanel');
+		this.publicPoolButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: 'Pool',
+			buttonConfig: 'icon',
+			imageCls: 'icon-cloud',
+			scope: this,
+			handler: function() {
+				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+				hTP.animateActiveItem(me.publicPoolPanel, {
+					type: 'slide',
+					direction: 'left',
+					duration: 700
+				});
+			}
+		});
+		
+		this.matrixButtonPanel = Ext.create('Ext.Panel', {
+			layout: {
+				type: 'hbox',
+				pack: 'center'
+			},
+			items: [
+				this.publicPoolButton
+			]
+		});
+		
 		this.caption = Ext.create('ARSnova.view.Caption', {
 			cls: 'x-form-fieldset',
 			style: "border-radius: 15px"
@@ -145,7 +172,8 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			this.toolbar,
 			this.sessionLoginForm,
 			this.lastVisitedSessionsForm,
-			this.mySessionsForm
+			this.mySessionsForm,
+			this.matrixButtonPanel
 		]);
 
 		this.onBefore('painted', function() {
