@@ -285,6 +285,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							panel.formatAnswerText();
 							panel.addAbstentionAnswer();
 							panel.getQuestionAnswers();
+							
+							if(panel.questionObj.questionType === 'flashcard') {
+								panel.answerListPanel.setContent(
+									panel.questionObj.possibleAnswers[0].text, true, true
+								);
+							}
 						}
 					});
 				};
@@ -834,7 +840,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		var isGridQuestion = (['grid'].indexOf(this.questionObj.questionType) !== -1);
 		
 		if(this.questionObj.questionType === 'flashcard') {
-			var answerPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			this.answerListPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 		    	style: 'word-wrap: break-word;',
 		    	cls: ''
 			});
@@ -844,14 +850,14 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				cls: 'roundedBox',
 				style: 'margin-bottom: 10px;',
 				styleHtmlContent: true,
-				items: [answerPanel]
+				items: [this.answerListPanel]
 			});
 			
 			// remove padding around panel
 			this.answerList.bodyElement.dom.style.padding="0";
 			
 			// set content
-			answerPanel.setContent(this.questionObj.possibleAnswers[0].text, true, true);
+			this.answerListPanel.setContent(this.questionObj.possibleAnswers[0].text, true, true);
 		}
 	
 		else {
@@ -1088,14 +1094,16 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 									abstentionCount = el.abstentionCount;
 									continue;
 								}
-				var answerIndex = panel.answerStore.find('text', el.answerText);
-				if (answerIndex !== -1) {
-					panel.answerStore.getAt(answerIndex).set('answerCount', el.answerCount);
-				}
+								
+								var answerIndex = panel.answerStore.find('text', el.answerText);
+								if (answerIndex !== -1) {
+									panel.answerStore.getAt(answerIndex).set('answerCount', el.answerCount);
+								}
 							}
-				if (abstentionIndex !== -1) {
-					panel.answerStore.getAt(abstentionIndex).set('answerCount', abstentionCount);
-				}
+							
+							if (abstentionIndex !== -1) {
+								panel.answerStore.getAt(abstentionIndex).set('answerCount', abstentionCount);
+							}
 						}
 					},
 					failure: function () {
