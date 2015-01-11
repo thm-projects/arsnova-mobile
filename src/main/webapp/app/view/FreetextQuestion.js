@@ -61,7 +61,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		});
 
 		this.answerText = Ext.create('Ext.form.TextArea', {
-			placeHolder: Messages.QUESTION_TEXT_PLACEHOLDER,
+			placeHolder: Messages.FORMAT_PLACEHOLDER,
 			label: Messages.FREETEXT_ANSWER_TEXT,
 			name: 'text',
 			maxLength: 2500,

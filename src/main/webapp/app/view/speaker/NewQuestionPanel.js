@@ -96,7 +96,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 		this.textarea = Ext.create('Ext.plugins.ResizableTextArea', {
 			name: 'text',
-			placeHolder: Messages.QUESTIONTEXT_PLACEHOLDER,
+			placeHolder: Messages.FORMAT_PLACEHOLDER,
 			maxHeight: 140
 		});
 
@@ -320,7 +320,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 								me.abstentionPart.hide();
 								title = Messages.FLASHCARD;
 							} else {
-								me.textarea.setPlaceHolder(Messages.QUESTIONTEXT_PLACEHOLDER);
+								me.textarea.setPlaceHolder(Messages.FORMAT_PLACEHOLDER);
 								me.flashcardQuestion.hide();
 								me.abstentionPart.show();
 							}
