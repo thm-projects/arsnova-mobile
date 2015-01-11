@@ -149,22 +149,17 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 							
 						},
 				        change: function (slider, thumb, newValue, oldValue) {
-				        	console.log(ARSnova.app);
 				        	// TODO why is 0 toggle checked and 1 toggle unchecked?
 				            if (newValue == 0) { // true
-				                // Changing from off to on...do something?
-				            	console.log('on');
+				                // Changing from off to on
 				            	me.setError(false);
 				            	var id = slider.id.split('_')[1];
 				            	me.sessionMap[id][1] = true;
-				            	console.log(me.sessionMap);
 				            } else if (newValue == 1) { // false
-			            	   // Changing from on to off...do something?
-				            	console.log('off');
+			            	   // Changing from on to off
 				            	me.setError(true);
 				            	var id = slider.id.split('_')[1];
 				            	me.sessionMap[id][1] = false;
-				            	console.log(me.sessionMap);
 				            }
 				        }
 				};
