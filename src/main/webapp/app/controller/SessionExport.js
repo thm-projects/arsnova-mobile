@@ -278,6 +278,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 	     } else {
 	    	 
 			 var a = window.document.createElement('a');
+			 a.className = "session-export";
 			 a.href = window.URL.createObjectURL(blob);
 			 a.download = filename;
 
