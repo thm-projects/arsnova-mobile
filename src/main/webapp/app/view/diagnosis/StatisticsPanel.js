@@ -54,6 +54,8 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
+		
+		var me = this;
 
 		this.statisticsStore = Ext.create('Ext.data.Store', {
 			model: 'ARSnova.model.Statistic'
@@ -89,7 +91,19 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 				xtype: 'button',
 				ui: 'normal',
 				cls: 'standardListButton statisticButton',
-				disabled: true
+				disabled: true,
+				setInnerValue: function(value) {
+					var component = me.formpanel.getComponent(this.itemId);
+					
+					if(!component.innerValue) {
+						component.innerValue = Ext.DomHelper.append(component.element, {
+							tag: 'span',
+							cls: 'thm-grey'
+						});
+					}
+					
+					component.innerValue.innerHTML = value;
+				}
 			},
 
 			items: [{
@@ -136,12 +150,12 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 
 	setNumbers: function () {
 		if (this.statistics != null) {
-			this.formpanel.getComponent('statisticUsersOnline').setText('Users online <div style="float:right">' + this.statistics.activeUsers + '</div>');
-			this.formpanel.getComponent('statisticOpenSessions').setText(Messages.OPEN_SESSIONS + '<div style="float:right">' + this.statistics.openSessions + '</div>');
-			this.formpanel.getComponent('statisticClosedSessions').setText(Messages.CLOSED_SESSIONS + '<div style="float:right">' + this.statistics.closedSessions + '</div>');
-			this.formpanel.getComponent('statisticQuestions').setText(Messages.QUESTIONS + '<div style="float:right">' + this.statistics.questions + '</div>');
-			this.formpanel.getComponent('statisticAnswers').setText(Messages.ANSWERS + '<div style="float:right">' + this.statistics.answers + '</div>');
-			// this.formpanel.getComponent('statisticAnswersPerQuestion').setText(Messages.ANSWERS_PER_QUESTION + '<div style="float:right">' + this.statistics.averageAnswersPerQuestion + '</div>');
+			this.formpanel.getComponent('statisticUsersOnline').config.setInnerValue(this.statistics.activeUsers);
+			this.formpanel.getComponent('statisticOpenSessions').config.setInnerValue(this.statistics.openSessions);
+			this.formpanel.getComponent('statisticClosedSessions').config.setInnerValue(this.statistics.closedSessions);
+			this.formpanel.getComponent('statisticQuestions').config.setInnerValue(this.statistics.questions);
+			this.formpanel.getComponent('statisticAnswers').config.setInnerValue(this.statistics.answers);
+			// this.formpanel.getComponent('statisticAnswersPerQuestion').config.setInnerValue(this.statistics.averageAnswersPerQuestion);
 		}
 	},
 
