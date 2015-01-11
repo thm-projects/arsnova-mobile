@@ -119,7 +119,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	redrawWithAlpha: function (alpha, markChosenFields) {
 		var ctx = this.getCanvas().getContext('2d');
-		this.setHeightAccordingToImg();
+		this.setCanvasSizeAccordingToImg();
 		
 		// save context
 		ctx.save();
@@ -167,27 +167,38 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 	
 	/**
-	 * Sets height of canvas according to images width/height ratio.
+	 * Sets height and width of canvas according to images width/height ratio.
 	 */
-	setHeightAccordingToImg: function() {
-		var scale,
-			calcHeight,
+	setCanvasSizeAccordingToImg: function() {
+		var calcHeight,
 			img = this.getImageFile(),
-			initialHeight = img.height;
+			initialHeight = img.height,
+			initialWidth = img.width;
 				
 		/** is picture spinned? */
 		if(this.getImgRotation()%2) {
 			initialHeight = img.width;
+			initalWidth = img.height;
 		}
 
-		scale = this.getCanvasSize() / img.width;
-		calcHeight = scale < 1 ? initialHeight * scale : initialHeight;
+		scaleWidth = this.getCanvasSize() / initialHeight;
+		scaleHeight = this.getCanvasSize() / initialWidth;
+		
+		calcWidth = scaleWidth < 1 ? initialWidth * scaleWidth : initialWidth;
+		calcHeight = scaleHeight < 1 ? initialHeight * scaleHeight : initialHeight;
 		
 		if(calcHeight < this.getCanvasSize()) {
-			calcHeight = scale > 1 ? calcHeight * scale : calcHeight;
+			calcHeight = scaleHeight > 1 ? calcHeight * scaleHeight : calcHeight;
 			this.image.html.height = calcHeight;
 		} else {
 			this.image.html.height = this.getCanvasSize();
+		}
+		
+		if(calcWidth < this.getCanvasSize()) {
+			calcWidth = scaleWidth > 1 ? calcWidth * scaleWidth : calcWidth;
+			this.image.html.width = calcWidth;
+		} else {
+			this.image.html.width = this.getCanvasSize();
 		}
 	},
 
