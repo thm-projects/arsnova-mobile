@@ -25,11 +25,15 @@ Ext.define('ARSnova.view.home.PPListItem', {
 Ext.define('ARSnova.view.home.PublicPoolPanel', {
 	extend: 'Ext.Panel',
 	
+	config: {
+		sessions: null
+	},
 	
 	initialize: function () {
 		this.callParent(arguments);
 		
 		var me = this;
+		console.log(this.getSessions());
 		
 		this.treeStore = Ext.create('Ext.data.TreeStore', {
             model: 'ARSnova.view.home.PPListItem',
@@ -144,8 +148,6 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		var toolbar = this.nestedList.getToolbar();
 		toolbar.setTitle("Session Pool");
 		toolbar.add(this.backButton);
-		
-		console.log(toolbar);
 		
 		this.add([
 	          this.toolbar,
