@@ -27,14 +27,24 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 
 	initialize : function() {
 		this.callParent(arguments);
+		var SubjectoptionsPP = [];	// save loaded subjects
+		var LicenceoptionsPP = [];  // save loaded lincences
 		
 		var config = ARSnova.app.globalConfig;
 		
 		var subjects = config.publicPool.subjects.split(',');
 		console.log('subjects:', subjects);
-
+		
+		subjects.forEach(function(entry){
+			SubjectoptionsPP.push({text: entry, value: entry})
+		});
+	
 		var licenses = config.publicPool.licenses.split(',');
 		console.log('licenses:', licenses);
+		
+		licenses.forEach(function(entry){
+			LicenceoptionsPP.push({text: entry, value: entry})
+		});
 		
 		this.backButton = Ext.create('Ext.Button', {
 			text : Messages.SESSIONS,
@@ -96,17 +106,16 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			clearIcon : true
 		});
 
-		this.licence = Ext.create('Ext.field.Text', {
+		this.licence = Ext.create('Ext.field.Select', {
 			name : 'licence',
 			label : Messages.EXPORT_FIELD_LICENCE,
 			// placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
 			maxLength : 50,
 			clearIcon : true
 		});
-
+		this.licence.updateOptions(LicenceoptionsPP);
+		
 		this.email = Ext.create('Ext.field.Text', {
-			// TODO auf gültige Mail-Adresse prüfen
-			// vll gibt es da schon was von Sencha
 			name : 'email',
 			label : Messages.EXPORT_FIELD_EMAIL,
 			vtype : 'email',
@@ -115,7 +124,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			clearIcon : true
 		});
 
-		this.subject = Ext.create('Ext.field.Text', {
+		this.subject = Ext.create('Ext.field.Select', {
 			name : 'subject',
 			label : Messages.EXPORT_FIELD_SUBJECT,
 			// placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
@@ -123,7 +132,10 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			clearIcon : true
 		});
 
+		this.subject.updateOptions(SubjectoptionsPP);
+		
 		this.exportOptions = Ext.create('Ext.form.FieldSet', {
+			title: Messages.SESSIONPOOL_AUTHORINFO,
 			text : Messages.EXPORT_MSG,
 			items : [ this.teacherName, this.university, this.logo,
 					this.licence, this.subject, this.email ]
@@ -132,10 +144,9 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		this.mainPart = Ext.create('Ext.form.FormPanel', {
 			cls : 'newQuestion',
 			scrollable : null,
-
 			items : [ this.exportOptions ]
 		});
-
+		
 		this.add([ this.toolbar, this.mainPart ]);
 	},
 
@@ -147,7 +158,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			name:	    me.teacherName.getValue(),
 			hs:		    me.university.getValue(),
 			logo:	    me.logo.getValue(),
-			subject:	me.logo.getValue(),
+			subject:	me.subject.getValue(),
 			licence:	me.licence.getValue(),
 			email:		me.email.getValue()
 		});

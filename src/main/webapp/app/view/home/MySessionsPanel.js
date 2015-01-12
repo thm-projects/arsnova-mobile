@@ -186,22 +186,39 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			text: Messages.IMP_BUTTON_IMPORT,
 			buttonConfig: 'icon',
 			imageCls: 'icon-cloud-upload ',
-
-			scope: this,
+			scope: this
 		});
 
-		this.publicPoolPanel  = Ext.create('ARSnova.view.home.PublicPoolPanel');
 		this.publicPoolButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: 'Pool',
 			buttonConfig: 'icon',
 			imageCls: 'icon-cloud',
 			scope: this,
 			handler: function() {
-				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				hTP.animateActiveItem(me.publicPoolPanel, {
-					type: 'slide',
-					direction: 'left',
-					duration: 700
+				// get public pool sessions from server
+				ARSnova.app.restProxy.getPublicPoolSessions({
+					success: function(sessionList) {
+						me.publicPoolPanel = Ext.create('ARSnova.view.home.PublicPoolPanel',{
+							sessions: sessionList
+						});
+						
+						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+						hTP.animateActiveItem(me.publicPoolPanel, {
+							type: 'slide',
+							direction: 'left',
+							duration: 700
+						});
+					},
+					empty: function() {
+						
+					},
+					failure: function() {
+						
+					},
+					unauthenticated: function() {
+						
+					}
+					
 				});
 			}
 		});
@@ -438,10 +455,5 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			}
 		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
 		return promise;
-	},
-	
-	showPublicPool: function() {
-		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-		hTP.animateActiveItem(this.publicPoolPanel, 'slide');
 	}
 });
