@@ -18,7 +18,7 @@
 Ext.define('ARSnova.view.home.PPListItem', {
             extend: 'Ext.data.Model',
             config: {
-                fields: ['text', 'itemCount']
+                fields: ['text', 'itemCount', 'keyword']
             }
         });
 
@@ -33,53 +33,34 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		this.callParent(arguments);
 		
 		var me = this;
-		console.log(this.getSessions());
 		
 		this.treeStore = Ext.create('Ext.data.TreeStore', {
             model: 'ARSnova.view.home.PPListItem',
-            defaultRootProperty: 'items',
-            root: {
-                items: [{
-                    text: 'BWL',
-                    itemCount: '1',
-                    items: [{
-                        text: 'Makroökonomie',
-                        itemCount: '1',
-                        items: [{
-                            text: 'Super BWL Session',
-                            itemCount: '12',
-                            leaf: true
-                        }]
-                    }]
-                },
-                {
-                    text: 'Informatik',
-                    itemCount: '2',
-                    items: [{
-                        text: 'Softwaretechnik',
-                        itemCount: '1',
-                        items: [{
-                            text: 'Geniale Fragen für SWT',
-                            itemCount: '8',
-                            leaf: true
-                        }]
-                    }, {
-                        text: 'Compilerbau',
-                        itemCount: '2',
-                        items: [{
-                            text: 'Einführung Compilerbau',
-                            itemCount: '13',
-                            leaf: true
-                        },
-                        {
-                            text: 'Compileroptimierung',
-                            itemCount: '7',
-                            leaf: true
-                        }]
-                    }]
-                }]
-            }
+            defaultRootProperty: 'items'
         });
+		
+		this.rootNode = this.treeStore.getRoot();
+		
+		if (this.getSessions() !== null) {
+			Object.keys(this.getSessions()).forEach(function(key, index) {
+				var firstLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
+					text: key,
+					itemCount: this[key].length,
+					keyword: 0
+				});
+				// create node and append single sessions
+				var node = me.rootNode.appendChild(firstLevelEntry);
+				
+				this[key].forEach(function(session) {
+					node.appendChild(Ext.create('ARSnova.view.home.PPListItem', {
+						text: session.name,
+						itemCount: 0,
+						keyword: session.keyword
+					}));
+				});
+			}, this.getSessions());
+		}
+		
 		
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.SESSIONS,
