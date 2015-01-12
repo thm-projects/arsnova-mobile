@@ -31,11 +31,11 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		var LicenceoptionsPP = [];  // save loaded lincences
 		
 		var config = ARSnova.app.globalConfig;
-		
+				
 		var screenWidth = (window.innerWidth > 0) ?
 				window.innerWidth :	screen.width;
 		var showShortLabels = screenWidth < 480;
-		
+				
 		var subjects = config.publicPool.subjects.split(',');
 		console.log('subjects:', subjects);
 		
@@ -102,13 +102,13 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			clearIcon : true
 		});
 
-		this.logo = Ext.create('Ext.field.Text', {
+		/*this.logo = Ext.create('Ext.field.Text', {
 			name : 'logo',
 			label : Messages.EXPORT_FIELD_LOGO,
 			// placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
 			maxLength : 50,
 			clearIcon : true
-		});
+		});*/
 
 		this.licence = Ext.create('Ext.field.Select', {
 			name : 'licence',
@@ -137,7 +137,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		});
 
 		this.subject.updateOptions(SubjectoptionsPP);
-		
+	
 		this.buttonUploadFromFS = Ext.create('Ext.ux.Fileup', {
 			xtype: 'fileupload',
 			autoUpload: true,
@@ -159,7 +159,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			listeners: {
 				scope: this,
 				loadsuccess: function (dataurl, e) {
-			//		Ext.bind(this.getFsUploadHandler(), this.getHandlerScope())(dataurl, true);
+					this.drawLogo(dataurl);
 				},
 				loadfailure: function (message) {
 					Ext.Msg.alert(Messages.ERROR, Messages.GRID_ERROR_LOADING_IMAGE_FS);
@@ -186,7 +186,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			},
 			handler: Ext.bind(function () {
 				var url = this.uploadTextfield.getValue();							
-				Ext.bind(this.getUrlUploadHandler(), this.getHandlerScope())(url);
+				this.drawLogo(url);
 			}, this)
 		});
 		
@@ -211,7 +211,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		this.exportOptions = Ext.create('Ext.form.FieldSet', {
 			title: Messages.SESSIONPOOL_AUTHORINFO,
 			text : Messages.EXPORT_MSG,
-			items : [ this.teacherName, this.university, this.logo,
+			items : [ this.teacherName, this.university,
 					this.licence, this.subject, this.email  ]
 		});
 		
@@ -227,14 +227,32 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 				]
 			},{xtype: 'fieldset',
 				cls: 'fileUploadButtonFieldset',
-				items: [this.segmentButton]}]
-		
+				items: [this.segmentButton]
+			}
+			]
 		});
 		
+		 this.logo = Ext.create('Ext.Img', {
+	            id: 'logo',
+	            style: {
+					'margin': '0px auto',
+					'width': '50%'
+				},
+	            width: 100,
+	            height: 100,
+	            hidden: true
+	        });
+		 
 		this.mainPart = Ext.create('Ext.form.FormPanel', {
 			cls : 'newQuestion',
 			scrollable : null,
-			items : [ this.exportOptions, this.exportOptionalOptions  ]
+			items : [ this.exportOptions, 
+			          this.exportOptionalOptions, 
+			          {
+						xtype: 'fieldset',
+						layout: 'vbox',
+						items: [this.logo ]
+			          }]
 		});
 		
 		this.add([ this.toolbar, this.mainPart]);
@@ -243,11 +261,11 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 	ValidateInput : function(button, e, options) {
 		var scope = this;
 		var me = button.up('SessionExportToPublicPanel');
-
+		console.log(this.logo.getSrc());
 		var validation = Ext.create('ARSnova.model.PublicPool', {
 			name:	    me.teacherName.getValue(),
 			hs:		    me.university.getValue(),
-			//logo:	    me.logo.getValue(),
+			logo:	    me.logo.getSrc(),
 			subject:	me.subject.getValue(),
 			licence:	me.licence.getValue(),
 			email:		me.email.getValue()
@@ -295,5 +313,13 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			this.toggleUrl = true;	
 			this.removeCls('hiddenUrl');
 		}
+	},
+	
+	drawLogo: function (logoImg) {
+		this.logo.setHidden(false);
+		this.logo.setSrc(logoImg);
+		this.uploadTextfield.setHidden(true);
+		this.sendButton.setHidden(true);	
+		this.toggleUrl = true;	
 	},
 });
