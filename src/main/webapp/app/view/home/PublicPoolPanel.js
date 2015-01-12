@@ -55,7 +55,8 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 					node.appendChild(Ext.create('ARSnova.view.home.PPListItem', {
 						text: session.name,
 						itemCount: 0,
-						keyword: session.keyword
+						keyword: session.keyword,
+						leaf: true
 					}));
 				});
 			}, this.getSessions());
@@ -120,15 +121,12 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		        }
 		    },
 		    getItemTextTpl: function(node) {
-		    	return '<div class="x-unsized x-button x-button-normal x-iconalign-left forwardListButton x-hasbadge"><span class="x-button-label" id="ext-element-495">{text}</span><span class="feedbackQuestionsBadgeIcon">{itemCount}</span></div>';
+		    	if(typeof node.data.itemCount == "undefined" || node.data.itemCount == 0)
+		    		return '<div class="x-unsized x-button x-button-normal x-iconalign-left forwardListButton x-hasbadge"><span class="x-button-label" id="ext-element-495">{text}</span><span class="feedbackQuestionsBadgeIcon">{itemCount}</span></div>';
+		    	else
+		    		return '<div class="x-unsized x-button x-button-normal x-iconalign-left forwardListButton x-hasbadge"><span class="x-button-label" id="ext-element-495">{text}</span></div>';
 		    }
         });
-		
-		/*
-		 * 
-		 * <div class="x-unsized x-button x-button-normal x-iconalign-left forwardListButton x-hasbadge" id="arsnova-view-multibadgebutton-6"><span class="x-badge" style="display: none;"></span><span class="x-button-icon x-shown icon-presenter courseIcon" id="ext-element-494"></span><span class="x-button-label" id="ext-element-495">Meine Session</span><span class="feedbackQuestionsBadgeIcon withdoublebadge" id="ext-element-496">2</span><span class="questionsBadgeIcon withdoublebadge" id="ext-element-497">3</span><span class="answersBadgeIcon" id="ext-element-498">8</span></div>
-		 * 
-		 */
 		
 		var toolbar = this.nestedList.getToolbar();
 		toolbar.setTitle("Session Pool");
