@@ -39,17 +39,14 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
-		
-		var speakerRole = ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER;
 
 		this.backButton = Ext.create('Ext.Button', {
-			text: speakerRole ? Messages.HOME : Messages.FEEDBACK_VOTE,
 			ui: 'back',
 			handler: function() {
 				var	tabPanel = ARSnova.app.mainTabPanel.tabPanel,
 					feedbackTabPanel = tabPanel.feedbackTabPanel;
 
-				if(speakerRole) {
+				if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 					tabPanel.animateActiveItem(tabPanel.speakerTabPanel, {
 						type: 'slide',
 						direction: 'right',
@@ -65,18 +62,17 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			}
 		});
 
-		if (!speakerRole) {
-			this.buttonClicked = function (button) {
+		this.buttonClicked = function (button) {
+			if(ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
 				ARSnova.app.getController('Feedback').vote({
 					value: button.config.value
 				});
-			};
-		}
+			}
+		};
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			ui: 'light',
-			cls: speakerRole ? 'speakerTitleText' : '',
 			items: [this.backButton]
 		});
 
@@ -132,7 +128,6 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		});
 
 		this.feedbackButtons = Ext.create('Ext.Toolbar', {
-			cls: speakerRole ? 'speakerVoteButtonsPanel' : 'voteButtonsPanel',
 			docked: 'top',
 
 			items: [
@@ -249,6 +244,26 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			// remove x-axis ticks and labels at initialization
 			this.feedbackChart.getAxes()[1].sprites[0].attr.majorTicks = false;
 		});
+		
+		this.onBefore('painted', function() {
+			if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+				this.prepareSpeakersView();
+			} else {
+				this.prepareStudentsView();
+			}
+		});
+	},
+	
+	prepareSpeakersView: function() {
+		this.backButton.setText(Messages.HOME);
+		this.feedbackButtons.setCls('speakerVoteButtonsPanel');
+		this.toolbar.setCls('speakerTitleBar');
+	},
+	
+	prepareStudentsView: function() {
+		this.backButton.setText(Messages.FEEDBACK_VOTE);
+		this.feedbackButtons.setCls('voteButtonsPanel');
+		this.toolbar.setCls('');
 	},
 
 	updateChart: function (feedbackValues) {
