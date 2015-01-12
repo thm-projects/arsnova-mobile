@@ -43,22 +43,24 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		
 		if (this.getSessions() !== null) {
 			Object.keys(this.getSessions()).forEach(function(key, index) {
-				var firstLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
-					text: key,
-					itemCount: this[key].length,
-					keyword: 0
-				});
-				// create node and append single sessions
-				var node = me.rootNode.appendChild(firstLevelEntry);
 				
-				this[key].forEach(function(session) {
-					node.appendChild(Ext.create('ARSnova.view.home.PPListItem', {
-						text: session.name,
-						itemCount: 0,
-						keyword: session.keyword,
-						leaf: true
-					}));
-				});
+				var node = me.rootNode.findChild("text", this[key].ppSubject, false);
+				if (node == null) {
+					var firstLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
+						text: this[key].ppSubject,
+						itemCount: 1,
+						keyword: 0
+					});
+					node = me.rootNode.appendChild(firstLevelEntry);
+				} else {
+					node._data.itemCount++;
+				}
+				node.appendChild(Ext.create('ARSnova.view.home.PPListItem', {
+					text: this[key].name,
+					itemCount: 0,
+					keyword: this[key].keyword,
+					leaf: true
+				}));
 			}, this.getSessions());
 		}
 		
@@ -105,7 +107,8 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		        	var singleView = Ext.create("ARSnova.view.home.PublicPoolSingleItemPanel", {
 		        		title: node._data.text,
 		        		questionCount: node._data.itemCount,
-		        		backRef: me
+		        		backRef: me,
+		        		keyword: node._data.keyword
 		        	});
 		    		hTP.animateActiveItem(singleView, 'slide');
 		        },
@@ -139,4 +142,33 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		
 		this.toolbar.hide();
 	},
+	
+	parseSessions: function() {
+		var parsedSessions = [];
+		if (this.getSessions() !== null) {
+			Object.keys(this.getSessions()).forEach(function(key, index) {
+				if (!(key in parsedSessions)) {
+					
+				}
+				
+				var firstLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
+					text: key,
+					itemCount: this[key].length,
+					keyword: 0
+				});
+				// create node and append single sessions
+				var node = me.rootNode.appendChild(firstLevelEntry);
+				
+				this[key].forEach(function(session) {
+					node.appendChild(Ext.create('ARSnova.view.home.PPListItem', {
+						text: session.name,
+						itemCount: 0,
+						keyword: session.keyword,
+						leaf: true
+					}));
+				});
+			}, this.getSessions());
+		}
+		
+	}
 });

@@ -21,6 +21,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 
 	config: {
 		title: 'PublicPoolSingleItemPanel',
+		keyword: 0,
 		questionCount: 0,
 		backRef: null,
 		fullscreen: true,
@@ -80,6 +81,26 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		//
 		// Create Session Fieldset
 		//
+		// get public pool sessions from server
+		ARSnova.app.restProxy.getSessionsByKeyword(this.keyword, {
+			success: function(session) {
+				console.log("session");
+				console.log(session);
+			},
+			empty: function() {
+				console.log("empty");
+				
+			},
+			failure: function() {
+				console.log("failure");
+				
+			},
+			unauthenticated: function() {
+				console.log("unauthenticated");
+				
+			}
+			
+		});
 
 		this.sessionName = Ext.create('Ext.field.Text', {
 			label: Messages.SESSION_NAME,
