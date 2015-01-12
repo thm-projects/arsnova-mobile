@@ -43,21 +43,24 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		
 		if (this.getSessions() !== null) {
 			Object.keys(this.getSessions()).forEach(function(key, index) {
-				var firstLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
-					text: key,
-					itemCount: this[key].length,
-					keyword: 0
-				});
-				// create node and append single sessions
-				var node = me.rootNode.appendChild(firstLevelEntry);
 				
-				this[key].forEach(function(session) {
-					node.appendChild(Ext.create('ARSnova.view.home.PPListItem', {
-						text: session.name,
-						itemCount: 0,
-						keyword: session.keyword
-					}));
-				});
+				var node = me.rootNode.findChild("text", this[key].ppSubject, false);
+				if (node == null) {
+					var firstLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
+						text: this[key].ppSubject,
+						itemCount: 1,
+						keyword: 0
+					});
+					node = me.rootNode.appendChild(firstLevelEntry);
+				} else {
+					node._data.itemCount++;
+				}
+				node.appendChild(Ext.create('ARSnova.view.home.PPListItem', {
+					text: this[key].name,
+					itemCount: 0,
+					keyword: this[key].keyword,
+					leaf: true
+				}));
 			}, this.getSessions());
 		}
 		
@@ -104,7 +107,8 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		        	var singleView = Ext.create("ARSnova.view.home.PublicPoolSingleItemPanel", {
 		        		title: node._data.text,
 		        		questionCount: node._data.itemCount,
-		        		backRef: me
+		        		backRef: me,
+		        		keyword: node._data.keyword
 		        	});
 		    		hTP.animateActiveItem(singleView, 'slide');
 		        },
@@ -120,15 +124,12 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		        }
 		    },
 		    getItemTextTpl: function(node) {
-		    	return '<div class="x-unsized x-button x-button-normal x-iconalign-left forwardListButton x-hasbadge"><span class="x-button-label" id="ext-element-495">{text}</span><span class="feedbackQuestionsBadgeIcon">{itemCount}</span></div>';
+		    	if(typeof node.data.itemCount == "undefined" || node.data.itemCount == 0)
+		    		return '<div class="x-unsized x-button x-button-normal x-iconalign-left forwardListButton x-hasbadge"><span class="x-button-label" id="ext-element-495">{text}</span><span class="feedbackQuestionsBadgeIcon">{itemCount}</span></div>';
+		    	else
+		    		return '<div class="x-unsized x-button x-button-normal x-iconalign-left forwardListButton x-hasbadge"><span class="x-button-label" id="ext-element-495">{text}</span></div>';
 		    }
         });
-		
-		/*
-		 * 
-		 * <div class="x-unsized x-button x-button-normal x-iconalign-left forwardListButton x-hasbadge" id="arsnova-view-multibadgebutton-6"><span class="x-badge" style="display: none;"></span><span class="x-button-icon x-shown icon-presenter courseIcon" id="ext-element-494"></span><span class="x-button-label" id="ext-element-495">Meine Session</span><span class="feedbackQuestionsBadgeIcon withdoublebadge" id="ext-element-496">2</span><span class="questionsBadgeIcon withdoublebadge" id="ext-element-497">3</span><span class="answersBadgeIcon" id="ext-element-498">8</span></div>
-		 * 
-		 */
 		
 		var toolbar = this.nestedList.getToolbar();
 		toolbar.setTitle("Session Pool");
@@ -141,4 +142,33 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		
 		this.toolbar.hide();
 	},
+	
+	parseSessions: function() {
+		var parsedSessions = [];
+		if (this.getSessions() !== null) {
+			Object.keys(this.getSessions()).forEach(function(key, index) {
+				if (!(key in parsedSessions)) {
+					
+				}
+				
+				var firstLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
+					text: key,
+					itemCount: this[key].length,
+					keyword: 0
+				});
+				// create node and append single sessions
+				var node = me.rootNode.appendChild(firstLevelEntry);
+				
+				this[key].forEach(function(session) {
+					node.appendChild(Ext.create('ARSnova.view.home.PPListItem', {
+						text: session.name,
+						itemCount: 0,
+						keyword: session.keyword,
+						leaf: true
+					}));
+				});
+			}, this.getSessions());
+		}
+		
+	}
 });

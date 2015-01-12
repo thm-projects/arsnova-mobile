@@ -172,6 +172,25 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
+	getSessionsByKeyword: function (keyword, callbacks) {
+		this.arsjax.request({
+			url: "session/" + keyword,
+			method: "GET",
+
+			success: function (response) {
+				if (response.status === 204) {
+					callbacks.success.call(this, []);
+				} else {
+					callbacks.success.call(this, Ext.decode(response.responseText));
+				}
+			},
+			204: callbacks.empty,
+
+			401: callbacks.unauthenticated,
+			404: callbacks.empty,
+			failure: callbacks.failure
+		});
+	},
 	/**
 	 * Get the sessions where user is visitor
 	 * @param login from user
@@ -474,7 +493,8 @@ Ext.define('ARSnova.proxy.RestProxy', {
 				"ppUniversity": session.get("ppUniversity"),
 				"ppLogo": session.get("ppLogo"),
 				"ppSubject": session.get("ppSubject"),
-				"ppLicense": session.get("ppLicense")
+				"ppLicense": session.get("ppLicense"),
+				"sessionType": session.get("sessionType")
 			},			
 			success: callbacks.success,
 			failure: callbacks.failure
