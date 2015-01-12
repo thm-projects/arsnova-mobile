@@ -154,6 +154,15 @@ Ext.define("ARSnova.controller.Sessions", {
 			tabPanel.userQuestionsPanel.tab.hide();
 			tabPanel.userTabPanel.tab.hide();
 			tabPanel.userTabPanel.inClassPanel.destroyListeners();
+			
+			if(localStorage.getItem('lastVisitedRole') === ARSnova.app.USER_ROLE_SPEAKER) {
+				localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
+				ARSnova.app.userRole = ARSnova.app.USER_ROLE_SPEAKER;
+				
+				/* refresh mySessionsPanel */
+				tabPanel.homeTabPanel.mySessionsPanel.loadCreatedSessions();
+				localStorage.removeItem('lastVisitedRole');
+			}
 		}
 
 		/* hide feedback statistic panel */

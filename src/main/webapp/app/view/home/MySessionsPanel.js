@@ -270,6 +270,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							sessionObj: session,
 							handler: function (options) {
 								var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
+								localStorage.setItem('lastVisitedRole', ARSnova.app.USER_ROLE_SPEAKER);
 								ARSnova.app.getController('Auth').roleSelect({
 									mode: ARSnova.app.USER_ROLE_STUDENT
 								});
