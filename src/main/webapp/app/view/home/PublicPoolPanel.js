@@ -89,6 +89,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 			store: this.treeStore,
 			fullscreen: true,
 			style: 'width:100%; height:100%;',
+			cls: 'standardFieldset',
 			scrollable: {
 				direction: 'vertical',
 				directionLock: true
@@ -119,12 +120,15 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		        }
 		    },
 		    getItemTextTpl: function(node) {
-		    	return '<span>{text}<div class="x-hasbadge"><span class="x-badge ">{itemCount}</span></div></span>';
-		    	//return '<span><img src="image_url" alt="alternative_text">{text}</span>';
+		    	return '<div class="x-unsized x-button x-button-normal x-iconalign-left forwardListButton x-hasbadge"><span class="x-button-label" id="ext-element-495">{text}</span><span class="feedbackQuestionsBadgeIcon">{itemCount}</span></div>';
 		    }
         });
 		
-		
+		/*
+		 * 
+		 * <div class="x-unsized x-button x-button-normal x-iconalign-left forwardListButton x-hasbadge" id="arsnova-view-multibadgebutton-6"><span class="x-badge" style="display: none;"></span><span class="x-button-icon x-shown icon-presenter courseIcon" id="ext-element-494"></span><span class="x-button-label" id="ext-element-495">Meine Session</span><span class="feedbackQuestionsBadgeIcon withdoublebadge" id="ext-element-496">2</span><span class="questionsBadgeIcon withdoublebadge" id="ext-element-497">3</span><span class="answersBadgeIcon" id="ext-element-498">8</span></div>
+		 * 
+		 */
 		
 		var toolbar = this.nestedList.getToolbar();
 		toolbar.setTitle("Session Pool");
