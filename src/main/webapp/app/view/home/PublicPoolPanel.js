@@ -103,14 +103,24 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		        },
 		        leafitemtap: function(nestedList, list, index, node, record, e) {
 		        	var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-		        	var node = me.treeStore.getNodeById(record.getId())
-		        	var singleView = Ext.create("ARSnova.view.home.PublicPoolSingleItemPanel", {
-		        		title: node._data.text,
-		        		questionCount: node._data.itemCount,
-		        		backRef: me,
-		        		keyword: node._data.keyword
-		        	});
-		    		hTP.animateActiveItem(singleView, 'slide');
+		        	ARSnova.app.restProxy.getSessionsByKeyword(record._data.keyword, {
+		    			success: function(remoteSession) {
+		    				var singleView = Ext.create("ARSnova.view.home.PublicPoolSingleItemPanel", {
+		    					session: remoteSession,
+				        		backRef: me
+				        	});
+				    		hTP.animateActiveItem(singleView, 'slide');
+		    			},
+		    			empty: function() {
+		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_GET_NOTFOUND);
+		    			},
+		    			failure: function() {
+		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_GET_NOTFOUND);
+		    			},
+		    			unauthenticated: function() {
+		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_GET_SESSION);
+		    			}
+		    		});
 		        },
 				back: function(a1, a2, a3) {
 					if (me.nestedList.getActiveItem().getId() == "ext-list-1" ) {

@@ -20,9 +20,6 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 	extend: 'Ext.Panel',
 
 	config: {
-		title: 'PublicPoolSingleItemPanel',
-		keyword: 0,
-		questionCount: 0,
 		backRef: null,
 		fullscreen: true,
 		scrollable: {
@@ -46,14 +43,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			ui: 'back',
 			scope: this,
 			handler: function () {
-				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				
-				console.log(this);
-				hTP.animateActiveItem(this.getBackRef(), {
-					type: 'slide',
-					direction: 'right',
-					duration: 700
-				});
+				me.getBack();
 			}
 		});
 		
@@ -67,7 +57,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: this.getTitle(),
+			title: this.getSession().name,
 			docked: 'top',
 			ui: 'light',
 			items: [
@@ -76,36 +66,12 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 				this.exportButton
 			]
 		});
-		
-		
-		//
-		// Create Session Fieldset
-		//
-		// get public pool sessions from server
-		ARSnova.app.restProxy.getSessionsByKeyword(this.keyword, {
-			success: function(session) {
-				console.log("session");
-				console.log(session);
-			},
-			empty: function() {
-				console.log("empty");
-				
-			},
-			failure: function() {
-				console.log("failure");
-				
-			},
-			unauthenticated: function() {
-				console.log("unauthenticated");
-				
-			}
-			
-		});
+
 
 		this.sessionName = Ext.create('Ext.field.Text', {
 			label: Messages.SESSION_NAME,
 			name: 'sessionName',
-			value: this.getTitle(),
+			value: this.getSession().name,
 			disabledCls: 'disableDefault',
 			inputCls: 'thm-grey',
 			disabled: true
@@ -114,25 +80,25 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		this.sessionDescription = Ext.create('Ext.plugins.ResizableTextArea', {
 			label: Messages.SESSIONPOOL_INFO,
 			name: 'sessionDescription',
-			value: "Dies ist eine generische, hardcodierte Beschreibung dieser Session.",
+			//value: this.getSession().ppDescription,
 			disabledCls: 'disableDefault',
 			inputCls: 'thm-grey',
 			disabled: true
 		});
 		
-		this.sessionQuestionCount = Ext.create('Ext.field.Text', {
-			label: Messages.SESSIONPOOL_COUNT_QUESTION,
-			name: 'sessionQuestionCount',
-			value: this.getQuestionCount(),
-			disabledCls: 'disableDefault',
-			inputCls: 'thm-grey',
-			disabled: true
-		});
+//		this.sessionQuestionCount = Ext.create('Ext.field.Text', {
+//			label: Messages.SESSIONPOOL_COUNT_QUESTION,
+//			name: 'sessionQuestionCount',
+//			value: this.getQuestionCount(),
+//			disabledCls: 'disableDefault',
+//			inputCls: 'thm-grey',
+//			disabled: true
+//		});
 		
 		this.sessionLicense = Ext.create('Ext.field.Text', {
 			label: Messages.EXPORT_FIELD_LICENCE,
 			name: 'sessionLicense',
-			value: "MIT",
+			value: this.getSession().ppLicense,
 			disabledCls: 'disableDefault',
 			inputCls: 'thm-grey',
 			disabled: true
@@ -142,7 +108,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			title: Messages.SESSIONPOOL_SESSIONINFO,
 			cls: 'standardFieldset',
 			itemId: 'contentFieldset',
-			items: [this.sessionName, this.sessionDescription, this.sessionQuestionCount, this.sessionLicense]
+			items: [this.sessionName, this.sessionDescription, /*this.sessionQuestionCount,*/ this.sessionLicense]
 		});
 		
 		//
@@ -152,7 +118,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		this.creatorName = Ext.create('Ext.field.Text', {
 			label: Messages.EXPORT_FIELD_NAME,
 			name: 'creatorName',
-			value: "Werner Müller",
+			value: this.getSession().ppAuthorName,
 			disabledCls: 'disableDefault',
 			inputCls: 'thm-grey',
 			disabled: true
@@ -161,7 +127,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		this.creatorMail = Ext.create('Ext.field.Text', {
 			label: Messages.EXPORT_FIELD_EMAIL,
 			name: 'creatorMail',
-			value: "werner.mueller123@mni.thm.de",
+			value: this.getSession().ppAuthorMail,
 			disabledCls: 'disableDefault',
 			inputCls: 'thm-grey',
 			disabled: true
@@ -170,7 +136,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		this.creatorUni = Ext.create('Ext.field.Text', {
 			label: Messages.EXPORT_FIELD_UNI,
 			name: 'creatorUni',
-			value: "Technische Hochschule Mittelhessen",
+			value: this.getSession().ppUniversity,
 			disabledCls: 'disableDefault',
 			inputCls: 'thm-grey',
 			disabled: true
@@ -179,7 +145,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		this.creatorDep = Ext.create('Ext.field.Text', {
 			label: Messages.EXPORT_FIELD_SPECIAL_FIELD,
 			name: 'creatorDep',
-			value: "MNI",
+			//value: this.getSession().ppDepartment,
 			disabledCls: 'disableDefault',
 			inputCls: 'thm-grey',
 			disabled: true
@@ -205,5 +171,15 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			this.toolbar,
 			this.contentForm
 		]);
+	},
+	
+	getBack: function() {
+		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+
+		hTP.animateActiveItem(this.getBackRef(), {
+			type: 'slide',
+			direction: 'right',
+			duration: 700
+		});
 	}
 });
