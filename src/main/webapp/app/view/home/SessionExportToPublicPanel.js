@@ -23,7 +23,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		exportSessionMap: null,
 	},
 	
-	requires : [ 'ARSnova.model.PublicPool' ],
+	requires : [ 'Ext.ux.Fileup', 'ARSnova.model.PublicPool' ],
 
 	initialize : function() {
 		this.callParent(arguments);
@@ -31,6 +31,10 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		var LicenceoptionsPP = [];  // save loaded lincences
 		
 		var config = ARSnova.app.globalConfig;
+		
+		var screenWidth = (window.innerWidth > 0) ?
+				window.innerWidth :	screen.width;
+		var showShortLabels = screenWidth < 480;
 		
 		var subjects = config.publicPool.subjects.split(',');
 		console.log('subjects:', subjects);
@@ -134,20 +138,106 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 
 		this.subject.updateOptions(SubjectoptionsPP);
 		
+		this.buttonUploadFromFS = Ext.create('Ext.ux.Fileup', {
+			xtype: 'fileupload',
+			autoUpload: true,
+			loadAsDataUrl: true,
+			states: {
+				browse: {
+					text: showShortLabels ?
+							Messages.SEARCH_PICTURE_SHORT :
+							Messages.SEARCH_PICTURE
+				},
+				ready: {
+					text: Messages.LOAD
+				},
+				uploading: {
+					text: Messages.LOADING,
+					loading: true
+				}
+			},
+			listeners: {
+				scope: this,
+				loadsuccess: function (dataurl, e) {
+			//		Ext.bind(this.getFsUploadHandler(), this.getHandlerScope())(dataurl, true);
+				},
+				loadfailure: function (message) {
+					Ext.Msg.alert(Messages.ERROR, Messages.GRID_ERROR_LOADING_IMAGE_FS);
+					console.log("Error while loading image: " + message);
+				}
+			}
+		});
+		
+		this.uploadTextfield = Ext.create('Ext.form.Text', {
+			label: Messages.SELECT_PICTURE_FS,
+			placeHolder: 'http://',
+			hidden: true,
+			flex: 3
+		});
+		
+		this.sendButton = Ext.create('Ext.Button', {
+			ui: 'action',
+			hidden: true,
+			text: Messages.SEND,
+			style: {
+				'height': '1em',
+				'margin-top': '7.5px',
+				'margin-left': '10px'
+			},
+			handler: Ext.bind(function () {
+				var url = this.uploadTextfield.getValue();							
+				Ext.bind(this.getUrlUploadHandler(), this.getHandlerScope())(url);
+			}, this)
+		});
+		
+		this.segmentButton = Ext.create('Ext.SegmentedButton', {
+			allowDepress: false,
+			cls: this.config.activateTemplates ? 'abcOptions' : 'yesnoOptions',
+			style: {
+				'margin-top': '0px',
+				'margin-bottom': '30px'
+			},
+			defaults: {
+				ui: 'action'
+			},
+			items: [{text: showShortLabels ?
+					Messages.SELECT_PICTURE_URL_SHORT :
+					Messages.SELECT_PICTURE_URL,
+					handler: this.toggleUploadTextfieldVisibility,
+					scope: this
+					} ,this.buttonUploadFromFS]
+		});
+		
 		this.exportOptions = Ext.create('Ext.form.FieldSet', {
 			title: Messages.SESSIONPOOL_AUTHORINFO,
 			text : Messages.EXPORT_MSG,
 			items : [ this.teacherName, this.university, this.logo,
-					this.licence, this.subject, this.email ]
+					this.licence, this.subject, this.email  ]
 		});
-
+		
+		this.exportOptionalOptions = Ext.create('Ext.form.FieldSet',{
+			title: 'Logo',
+			items: [{
+				xtype: 'fieldset',
+				layout: 'hbox',
+				cls: 'fileUploadFieldset',
+				items: [
+					this.uploadTextfield,
+					this.sendButton
+				]
+			},{xtype: 'fieldset',
+				cls: 'fileUploadButtonFieldset',
+				items: [this.segmentButton]}]
+		
+		});
+		
 		this.mainPart = Ext.create('Ext.form.FormPanel', {
 			cls : 'newQuestion',
 			scrollable : null,
-			items : [ this.exportOptions ]
+			items : [ this.exportOptions, this.exportOptionalOptions  ]
 		});
 		
-		this.add([ this.toolbar, this.mainPart ]);
+		this.add([ this.toolbar, this.mainPart]);
 	},
 
 	ValidateInput : function(button, e, options) {
@@ -157,7 +247,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		var validation = Ext.create('ARSnova.model.PublicPool', {
 			name:	    me.teacherName.getValue(),
 			hs:		    me.university.getValue(),
-			logo:	    me.logo.getValue(),
+			//logo:	    me.logo.getValue(),
 			subject:	me.subject.getValue(),
 			licence:	me.licence.getValue(),
 			email:		me.email.getValue()
@@ -192,5 +282,18 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			ARSnova.app.getController("SessionExport").exportSessionsToPublicPool(
 					me.getExportSessionMap(), publicPoolAttributes);
 		}
-	}
+	},
+	
+	toggleUploadTextfieldVisibility: function() {
+		this.uploadTextfield.setHidden(this.toggleUrl);
+		this.sendButton.setHidden(this.toggleUrl);
+			
+		if(this.toggleUrl) {
+			this.toggleUrl = false;
+			this.addCls('hiddenUrl');
+		} else {
+			this.toggleUrl = true;	
+			this.removeCls('hiddenUrl');
+		}
+	},
 });
