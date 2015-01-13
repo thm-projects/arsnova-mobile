@@ -89,7 +89,6 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		this.teacherName = Ext.create('Ext.field.Text', {
 			name : 'name',
 			label : Messages.EXPORT_FIELD_NAME,
-			// placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
 			maxLength : 50,
 			clearIcon : true
 		});
@@ -97,7 +96,6 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		this.university = Ext.create('Ext.field.Text', {
 			name : 'hs',
 			label : Messages.EXPORT_FIELD_UNI,
-			// placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
 			maxLength : 50,
 			clearIcon : true
 		});
@@ -105,9 +103,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		this.licence = Ext.create('Ext.field.Select', {
 			name : 'licence',
 			label : Messages.EXPORT_FIELD_LICENCE,
-			// placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
 			maxLength : 50,
-			clearIcon : true
 		});
 		this.licence.updateOptions(LicenceoptionsPP);
 		
@@ -115,7 +111,6 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			name : 'email',
 			label : Messages.EXPORT_FIELD_EMAIL,
 			vtype : 'email',
-			// placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
 			maxLength : 50,
 			clearIcon : true
 		});
@@ -131,7 +126,6 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		this.faculty = Ext.create('Ext.field.Text', {
 			name : 'faculty',
 			label : Messages.EXPORT_FIELD_SPECIAL_FIELD,
-			// placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
 			maxLength : 50,
 			clearIcon : true
 		});
@@ -139,9 +133,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		this.subject = Ext.create('Ext.field.Select', {
 			name : 'subject',
 			label : Messages.EXPORT_FIELD_SUBJECT,
-			// placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
 			maxLength : 50,
-			clearIcon : true
 		});
 
 		this.subject.updateOptions(SubjectoptionsPP);
