@@ -52,7 +52,9 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			ui: 'confirm',
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
-			handler: function () {},
+			handler: function () {
+				ARSnova.app.getController("SessionExport").cloneSessionFromPublicPool(me.getSession());
+			},
 			scope: this
 		});
 

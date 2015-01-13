@@ -24,6 +24,41 @@ Ext.define("ARSnova.controller.SessionExport", {
 	   'ARSnova.model.Question'
 	],
 	
+	cloneSessionFromPublicPool: function(session) {
+		var me = this;
+		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_PP_CLONE);
+		
+		// call exportSessions() with this session to get all necessary data
+		// remove pp-Attributes (public pool)
+		// set type = "session"
+		// call ImportCtrl to create new session (creator will be set by ImportCtrl)
+		
+		var sessions = [];
+		sessions.push(session);
+		
+		this.exportSessions(sessions, true, true)
+		.then(function(exportData) {
+			for (var i = 0; i < exportData.length; i++) {
+				// remove public pool attributes from session
+				console.log('session', exportData[i].session);
+				for (var attrname in exportData[i].session) {
+					if (attrname.lastIndexOf('pp', 0) === 0) {
+						exportData[i].session[attrname] = null;
+					}
+				}
+				// rewrite session type
+				exportData[i]['session']['sessionType'] = null;
+			
+				console.log('updated exportData', exportData[i]);
+				
+				// call import ctrl to save cloned session in db
+				ARSnova.app.getController("SessionImport").importSession(exportData[i]);
+			}
+			
+			hideLoadMask();
+		});
+	},
+	
 	/**
 	 * Exports selected sessions from the exportSessionMap to the public pool.
 	 * 
