@@ -378,6 +378,12 @@ switch (lang) {
 			SESSIONPOOL_SESSIONINFO: "Session information",
 			SESSIONPOOL_INFO: "Description",
 			SESSIONPOOL_COUNT_QUESTION: "Number of isssues",
+			SESSIONPOOL_NOTIFICATION_EMAIL: "Email format is invalid",
+			SESSIONPOOL_NOTIFICATION_LICENCE: "Must be present",
+			SESSIONPOOL_NOTIFICATION_SUBJECT: "Must be present",
+			SESSIONPOOL_NOTIFICATION_NAME:	"Must be present",
+			SESSIONPOOL_NOTIFICATION_UNIVERSITY: "Must be present",
+			SESSIONPOOL_NOTIFICATION:	"The formular is not complete",
 			
 			/* question types */
 			EVALUATION: "+-",
@@ -796,7 +802,12 @@ switch (lang) {
 			SESSIONPOOL_SESSIONINFO: "Sessioninformation",
 			SESSIONPOOL_INFO: "Beschreibung",
 			SESSIONPOOL_COUNT_QUESTION: "Anzahl Fragen",
-			
+			SESSIONPOOL_NOTIFICATION_EMAIL: "Invalides Format",
+			SESSIONPOOL_NOTIFICATION_LICENCE: "Keine gültige Lizenz",
+			SESSIONPOOL_NOTIFICATION_SUBJECT: "Kein gültiges Fach",
+			SESSIONPOOL_NOTIFICATION_NAME:	"Kein Name eingegeben",
+			SESSIONPOOL_NOTIFICATION_UNIVERSITY: "Keine Hochschule angegeben",
+			SESSIONPOOL_NOTIFICATION:	"Eingaben sind nicht korrekt",
 			/* question types */
 			EVALUATION: "+-",
 			SCHOOL: "1-6",

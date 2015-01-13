@@ -102,14 +102,6 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			clearIcon : true
 		});
 
-		/*this.logo = Ext.create('Ext.field.Text', {
-			name : 'logo',
-			label : Messages.EXPORT_FIELD_LOGO,
-			// placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
-			maxLength : 50,
-			clearIcon : true
-		});*/
-
 		this.licence = Ext.create('Ext.field.Select', {
 			name : 'licence',
 			label : Messages.EXPORT_FIELD_LICENCE,
@@ -261,7 +253,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 	ValidateInput : function(button, e, options) {
 		var scope = this;
 		var me = button.up('SessionExportToPublicPanel');
-		console.log(this.logo.getSrc());
+
 		var validation = Ext.create('ARSnova.model.PublicPool', {
 			name:	    me.teacherName.getValue(),
 			hs:		    me.university.getValue(),
@@ -278,11 +270,29 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		var msg = '';
 
 		if (!errs.isValid()) {
+			console.log('errors',errs);
 			errs.each(function(err) {
-				msg += err.getField() + ' : ' + err.getMessage() + '\n';
+				
+				if(err.getField() == 'name')
+					msg += Messages.EXPORT_FIELD_NAME; 
+				
+				else if(err.getField() == 'email')
+					msg += Messages.EXPORT_FIELD_EMAIL;
+				
+				if(err.getField() == 'hs')
+					msg += Messages.EXPORT_FIELD_UNI;
+				
+				if(err.getField() == 'subject')
+					msg += Messages.EXPORT_FIELD_SUBJECT;
+				
+				if(err.getField() == 'licence')
+					msg += Messages.EXPORT_FIELD_LICENCE;
+				
+				msg += ':\t' +err.getMessage();			
+				msg += '<br/>';
 			});
 
-			Ext.Msg.alert('The formular is not complete', msg);
+			Ext.Msg.alert(Messages.SESSIONPOOL_NOTIFICATION, msg);
 			
 		} else {
 			console.log(validation);

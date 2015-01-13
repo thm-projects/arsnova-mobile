@@ -44,24 +44,27 @@ Ext.define('ARSnova.model.PublicPool', {
 	              {
 	            	  type: 'presence',
 	                  field: 'name',
-	                  message: 'Not enter a name'
+	                  message: Messages.SESSIONPOOL_NOTIFICATION_NAME
 	              },
 	              {
 	            	  type: 'presence',
-	                  field: 'hs'
+	                  field: 'hs',
+	                  message: Messages.SESSIONPOOL_NOTIFICATION_UNIVERSITY
 	              },
 	              {
 	            	  type: 'presence',
-	                  field: 'subject'
+	                  field: 'subject',
+	                  message: Messages.SESSIONPOOL_NOTIFICATION_SUBJECT
 	              },	      
 	              {
 	            	  type: 'presence',
-	                  field: 'licence'
+	                  field: 'licence',
+	                  message: Messages.SESSIONPOOL_NOTIFICATION_LICENCE
 	              },
 	              {
 	            	  type: 'email',
 	                  field: 'email',
-	                  message: 'Email format is invalid'
+	                  message: Messages.SESSIONPOOL_NOTIFICATION_EMAIL
 	              }
 	            ]
 	}
