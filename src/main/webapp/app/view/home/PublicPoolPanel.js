@@ -94,6 +94,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		        	me.backButton.hide();
 		        },
 		        leafitemtap: function(nestedList, list, index, node, record, e) {
+		        	var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK);
 		        	var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 		        	ARSnova.app.restProxy.getSessionsByKeyword(record._data.keyword, {
 		    			success: function(remoteSession) {

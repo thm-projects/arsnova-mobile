@@ -196,6 +196,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			scope: this,
 			handler: function() {
 				// get public pool sessions from server
+				var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK);
 				ARSnova.app.restProxy.getPublicPoolSessions({
 					success: function(sessionList) {
 						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
