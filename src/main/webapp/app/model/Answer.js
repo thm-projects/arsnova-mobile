@@ -44,6 +44,10 @@ Ext.define('ARSnova.model.Answer', {
 	getUserAnswer: function (questionId, callbacks) {
 		return this.getProxy().getUserAnswer(questionId, callbacks);
 	},
+	
+	getAnswerCount: function (questionId, callbacks) {
+		return this.getProxy().getAnswerCount(questionId, callbacks);
+	},
 
 	getAnswerByUserAndSession: function (sessionKeyword, callbacks) {
 		return this.getProxy().getAnswerByUserAndSession(sessionKeyword, callbacks);

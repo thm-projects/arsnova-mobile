@@ -83,6 +83,7 @@ Ext.define('ARSnova.model.Question', {
 		audienceQuestionAvailable: "arsnova/question/audience/available",
 		unansweredLecturerQuestions: "arsnova/question/lecturer/lecture/unanswered",
 		unansweredPreparationQuestions: "arsnova/question/lecturer/preparation/unanswered",
+		countQuestionAnswersByQuestion: "arsnova/socket/question/lecturer/question/answercount",
 		countLectureQuestionAnswers: "arsnova/question/lecturer/lecture/answercount",
 		countPreparationQuestionAnswers: "arsnova/question/lecturer/preparation/answercount",
 		countQuestionsAndAnswers: "arsnova/question/unanswered-question-and-answer-count",
@@ -116,11 +117,23 @@ Ext.define('ARSnova.model.Question', {
 			this.fireEvent(this.events.unansweredPreparationQuestions, questionIds);
 			this.fireEvent(this.events.internalUpdate);
 		}, this);
-
+		
 		ARSnova.app.socket.on(ARSnova.app.socket.events.countLectureQuestionAnswers, function (count) {
 			this.numLectureQuestionAnswers = count;
 			this.fireEvent(this.events.countLectureQuestionAnswers, count);
 			this.fireEvent(this.events.internalUpdate);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.countQuestionAnswersByQuestion, function (object) {
+			var tP = ARSnova.app.mainTabPanel.tabPanel,
+				showcasePanel = tP.speakerTabPanel.showcaseQuestionPanel;
+			
+			if(tP.getActiveItem().getActiveItem() === showcasePanel) {
+				if(showcasePanel.getActiveItem().getItemId() === object.key) {
+					showcasePanel.toolbar.setAnswerCounter(object.value);
+				}
+			}
+			this.fireEvent(this.events.countQuestionAnswersByQuestion, object);
 		}, this);
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.countPreparationQuestionAnswers, function (count) {
