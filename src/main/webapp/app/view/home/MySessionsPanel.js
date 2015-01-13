@@ -210,15 +210,16 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						});
 					},
 					empty: function() {
-						
+						//TODO
 					},
 					failure: function() {
+						//TODO
 						
 					},
 					unauthenticated: function() {
+						//TODO
 						
 					}
-					
 				});
 			}
 		});

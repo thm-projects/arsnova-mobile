@@ -103,24 +103,28 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		        },
 		        leafitemtap: function(nestedList, list, index, node, record, e) {
 		        	var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-		        	var node = me.treeStore.getNodeById(record.getId())
-		        	var singleView = Ext.create("ARSnova.view.home.PublicPoolSingleItemPanel", {
-		        		title: node._data.text,
-		        		questionCount: node._data.itemCount,
-		        		backRef: me,
-		        		keyword: node._data.keyword
-		        	});
-		    		hTP.animateActiveItem(singleView, 'slide');
+		        	ARSnova.app.restProxy.getSessionsByKeyword(record._data.keyword, {
+		    			success: function(remoteSession) {
+		    				var singleView = Ext.create("ARSnova.view.home.PublicPoolSingleItemPanel", {
+		    					session: remoteSession,
+				        		backRef: me
+				        	});
+				    		hTP.animateActiveItem(singleView, 'slide');
+		    			},
+		    			empty: function() {
+		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_GET_NOTFOUND);
+		    			},
+		    			failure: function() {
+		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_GET_NOTFOUND);
+		    			},
+		    			unauthenticated: function() {
+		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_GET_SESSION);
+		    			}
+		    		});
 		        },
-				back: function(a1, a2, a3) {
-					if (me.nestedList.getActiveItem().getId() == "ext-list-1" ) {
-						var toolbar = me.nestedList.getToolbar();
-						toolbar.setTitle("Session Pool");
-						me.backButton.show();
-					}
-					else {
-						me.backButton.hide();
-					}
+				back: function(a1, a2, a3, a4) {
+					toolbar.setTitle(Messages.SESSIONPOOL_TITLE);
+					me.backButton.show();
 		        }
 		    },
 		    getItemTextTpl: function(node) {
@@ -132,7 +136,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
         });
 		
 		var toolbar = this.nestedList.getToolbar();
-		toolbar.setTitle("Session Pool");
+		toolbar.setTitle(Messages.SESSIONPOOL_TITLE);
 		toolbar.add(this.backButton);
 		
 		this.add([
@@ -141,34 +145,5 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 	  	]);
 		
 		this.toolbar.hide();
-	},
-	
-	parseSessions: function() {
-		var parsedSessions = [];
-		if (this.getSessions() !== null) {
-			Object.keys(this.getSessions()).forEach(function(key, index) {
-				if (!(key in parsedSessions)) {
-					
-				}
-				
-				var firstLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
-					text: key,
-					itemCount: this[key].length,
-					keyword: 0
-				});
-				// create node and append single sessions
-				var node = me.rootNode.appendChild(firstLevelEntry);
-				
-				this[key].forEach(function(session) {
-					node.appendChild(Ext.create('ARSnova.view.home.PPListItem', {
-						text: session.name,
-						itemCount: 0,
-						keyword: session.keyword,
-						leaf: true
-					}));
-				});
-			}, this.getSessions());
-		}
-		
 	}
 });
