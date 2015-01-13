@@ -125,11 +125,24 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		]);
 
 		this.on('activate', function () {
-			/*
-			 * Bugfix, because panel is normally disabled (isDisabled == true),
-			 * but is not rendered as 'disabled'
-			 */
 			if (this.isDisabled()) this.disableQuestion();
+			
+			if(this.viewOnly) {
+				this.setAnswerCount();
+			}
+		});
+	},
+	
+	setAnswerCount: function() {
+		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		ARSnova.app.answerModel.getAnswerCount(this.questionObj._id, {
+			success: function (response) {
+				var numAnswers = parseInt(response.responseText);
+				sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(numAnswers);
+			},
+			failure: function () {
+				console.log('server-side error');
+			}
 		});
 	},
 

@@ -502,9 +502,13 @@ Ext.define('ARSnova.view.Question', {
 
 		this.on('activate', function () {
 			this.answerList.addListener('itemtap', questionListener.itemtap);
-
+	
 			if (this.isDisabled()) {
 				this.disableQuestion();
+			}
+			
+			if(this.viewOnly) {
+				this.setAnswerCount();
 			}
 		});
 	},
@@ -516,6 +520,19 @@ Ext.define('ARSnova.view.Question', {
 			lastPanel: scope
 		});
 		ARSnova.app.mainTabPanel.animateActiveItem(panel.questionStatisticChart, 'slide');
+	},
+	
+	setAnswerCount: function() {
+		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		ARSnova.app.answerModel.getAnswerCount(this.questionObj._id, {
+			success: function (response) {
+				var numAnswers = parseInt(response.responseText);
+				sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(numAnswers);
+			},
+			failure: function () {
+				console.log('server-side error');
+			}
+		});
 	},
 
 	/*

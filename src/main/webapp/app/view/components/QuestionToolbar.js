@@ -24,6 +24,7 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 		docked: 'top',
 		ui: 'light',
 
+		showcase: false,
 		backButtonHandler: Ext.emptyFn,
 		statisticsButtonHandler: Ext.emptyFn
 	},
@@ -47,8 +48,12 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 		});
 
 		this.questionCounter = Ext.create('Ext.Component', {
-			cls: "x-toolbar-title alignRight counterText",
+			cls: "x-toolbar-title alignLeft counterText",
 			html: '0/0'
+		});
+		
+		this.answerCounter = Ext.create('Ext.Component', {
+			cls: "x-toolbar-title alignRight counterText"
 		});
 
 		this.statisticsButton = Ext.create('Ext.Button', {
@@ -59,8 +64,9 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 
 		this.add([
 			this.backButton,
-			{xtype: 'spacer'},
 			this.questionCounter,
+			{xtype: 'spacer'},
+			this.answerCounter,
 			this.statisticsButton
 		]);
 	},
@@ -89,11 +95,20 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 
 	setTitleOptions: function (longVersion, shortVersion) {
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-		if (screenWidth > 320 || this.backButton.isHidden()) {
-			this.setTitle(longVersion);
+		
+		if (screenWidth < 520 && this.getShowcase()) {
+			this.setTitle('');
 		} else {
-			this.setTitle(shortVersion);
+			if (screenWidth > 320 || this.backButton.isHidden()) {
+				this.setTitle(longVersion);
+			} else {
+				this.setTitle(shortVersion);
+			}
 		}
+	},
+	
+	setAnswerCounter: function(value) {
+		this.answerCounter.setHtml(value + ' ' + Messages.ANSWERS);
 	},
 
 	incrementQuestionCounter: function (activeIndex) {

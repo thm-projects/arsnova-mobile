@@ -51,6 +51,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 
 		this.toolbar = Ext.create('ARSnova.view.components.QuestionToolbar', {
 			cls: 'speakerTitleText',
+			showcase: true,
 			backButtonHandler: function (animation) {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				ARSnova.app.innerScrollPanel = false;
@@ -90,7 +91,6 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 
 	onActivate: function () {
 		this.getAllSkillQuestions();
-		
 	},
 
 	getAllSkillQuestions: function () {
@@ -135,11 +135,13 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		var questionPanel;
 		if (question.questionType === 'freetext') {
 			questionPanel = Ext.create('ARSnova.view.FreetextQuestion', {
+				itemId: question._id,
 				questionObj: question,
 				viewOnly: true
 			});
 		} else {
 			questionPanel = Ext.create('ARSnova.view.Question', {
+				itemId: question._id,
 				questionObj: question,
 				viewOnly: true
 			});
