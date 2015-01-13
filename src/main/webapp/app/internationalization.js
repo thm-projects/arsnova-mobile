@@ -380,6 +380,7 @@ switch (lang) {
 			SESSIONPOOL_COUNT_QUESTION: "Number of isssues",
 			SESSIONPOOL_ERR_GET_NOTFOUND: "Could not find session.",
 			SESSIONPOOL_ERR_GET_SESSION: "You do not have sufficient rights to see the session.",
+			SESSIONPOOL_TITLE: "Session Pool",
 			
 			/* question types */
 			EVALUATION: "+-",
@@ -800,6 +801,7 @@ switch (lang) {
 			SESSIONPOOL_COUNT_QUESTION: "Anzahl Fragen",
 			SESSIONPOOL_ERR_GET_NOTFOUND: "Session konnte nicht geladen werden.",
 			SESSIONPOOL_ERR_GET_SESSION: "Sie haben nicht die Recht, um die Session zu sehen.",
+			SESSIONPOOL_TITLE: "Session Pool",
 			
 			/* question types */
 			EVALUATION: "+-",

@@ -122,15 +122,9 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		    			}
 		    		});
 		        },
-				back: function(a1, a2, a3) {
-					if (me.nestedList.getActiveItem().getId() == "ext-list-1" ) {
-						var toolbar = me.nestedList.getToolbar();
-						toolbar.setTitle("Session Pool");
-						me.backButton.show();
-					}
-					else {
-						me.backButton.hide();
-					}
+				back: function(a1, a2, a3, a4) {
+					toolbar.setTitle(Messages.SESSIONPOOL_TITLE);
+					me.backButton.show();
 		        }
 		    },
 		    getItemTextTpl: function(node) {
@@ -142,7 +136,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
         });
 		
 		var toolbar = this.nestedList.getToolbar();
-		toolbar.setTitle("Session Pool");
+		toolbar.setTitle(Messages.SESSIONPOOL_TITLE);
 		toolbar.add(this.backButton);
 		
 		this.add([
@@ -151,34 +145,5 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 	  	]);
 		
 		this.toolbar.hide();
-	},
-	
-	parseSessions: function() {
-		var parsedSessions = [];
-		if (this.getSessions() !== null) {
-			Object.keys(this.getSessions()).forEach(function(key, index) {
-				if (!(key in parsedSessions)) {
-					
-				}
-				
-				var firstLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
-					text: key,
-					itemCount: this[key].length,
-					keyword: 0
-				});
-				// create node and append single sessions
-				var node = me.rootNode.appendChild(firstLevelEntry);
-				
-				this[key].forEach(function(session) {
-					node.appendChild(Ext.create('ARSnova.view.home.PPListItem', {
-						text: session.name,
-						itemCount: 0,
-						keyword: session.keyword,
-						leaf: true
-					}));
-				});
-			}, this.getSessions());
-		}
-		
 	}
 });
