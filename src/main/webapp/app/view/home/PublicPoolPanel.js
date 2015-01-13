@@ -78,16 +78,6 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 			}
 		});
 		
-		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: 'Session Pool',
-			docked: 'top',
-			ui: 'light',
-			items: [
-				this.backButton,
-				{xtype:'spacer'}
-			]
-		});
-		
 		this.nestedList = Ext.create('Ext.dataview.NestedList', {
 			store: this.treeStore,
 			fullscreen: true,
@@ -97,8 +87,10 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 				direction: 'vertical',
 				directionLock: true
 			},
+			useTitleAsBackText: false,
 			listeners: {
 		        itemtap: function(nestedList, list, index, target, record) {
+		        	// hide back button which just navigates to the mysession view
 		        	me.backButton.hide();
 		        },
 		        leafitemtap: function(nestedList, list, index, node, record, e) {
@@ -123,9 +115,10 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		    		});
 		        },
 				back: function(a1, a2, a3, a4) {
-					toolbar.setTitle(Messages.SESSIONPOOL_TITLE);
+		        	console.log("back");
+					me.nestedList.getToolbar().setTitle(Messages.SESSIONPOOL_TITLE);
 					me.backButton.show();
-		        }
+		        }		        
 		    },
 		    getItemTextTpl: function(node) {
 		    	if(typeof node.data.itemCount == "undefined" || node.data.itemCount == 0)
@@ -135,15 +128,14 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		    }
         });
 		
-		var toolbar = this.nestedList.getToolbar();
-		toolbar.setTitle(Messages.SESSIONPOOL_TITLE);
-		toolbar.add(this.backButton);
+		var nestedListToolbar = this.nestedList.getToolbar();
+		nestedListToolbar.setTitle(Messages.SESSIONPOOL_TITLE);
+		nestedListToolbar.add(this.backButton);
+		me.backButton.setText(Messages.BACK);
+		me.nestedList.getBackButton().setText(Messages.BACK);
 		
 		this.add([
-	          this.toolbar,
 	          this.nestedList
 	  	]);
-		
-		this.toolbar.hide();
 	}
 });
