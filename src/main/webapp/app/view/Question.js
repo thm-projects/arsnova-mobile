@@ -386,7 +386,7 @@ Ext.define('ARSnova.view.Question', {
 					self.getUserAnswer().then(function (answer) {
 						var answerObj = self.questionObj.possibleAnswers[0];
 						answer.set('answerText', answerObj.text);
-						saveAnswer(answer);
+						!self.viewOnly ? saveAnswer(answer) : Ext.emptyFn();
 					});
 				} else {
 					this.answerList.hide(true);
