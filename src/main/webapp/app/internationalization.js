@@ -386,6 +386,8 @@ switch (lang) {
 			SESSIONPOOL_NOTIFICATION_UNIVERSITY: "Must be present",
 			SESSIONPOOL_NOTIFICATION:	"The formular is not complete",
 			SESSIONPOOL_ERR_GET_NOTFOUND: "Could not find session.",
+			SESSIONPOOL_ERR_NO_PPSESSIONS: "No public pool sessions found.",
+			SESSIONPOOL_ERR_PPSESSION_RIGHTS: "You do not have sufficient rights to see the session.",
 			SESSIONPOOL_ERR_GET_SESSION: "You do not have sufficient rights to see the session.",
 			SESSIONPOOL_TITLE: "Session Pool",
 			
@@ -814,7 +816,9 @@ switch (lang) {
 			SESSIONPOOL_NOTIFICATION_UNIVERSITY: "Keine Hochschule angegeben",
 			SESSIONPOOL_NOTIFICATION:	"Eingaben sind nicht korrekt",
 			SESSIONPOOL_ERR_GET_NOTFOUND: "Session konnte nicht geladen werden.",
-			SESSIONPOOL_ERR_GET_SESSION: "Sie haben nicht die Recht, um die Session zu sehen.",
+			SESSIONPOOL_ERR_NO_PPSESSIONS: "Keine Public Pool Sessions gefunden.",
+			SESSIONPOOL_ERR_PPSESSION_RIGHTS: "Sie haben nicht die Berechtigung, um Public Pool Sessions zu sehen.",
+			SESSIONPOOL_ERR_GET_SESSION: "Sie haben nicht die Berechtigung, um die Session zu sehen.",
 			SESSIONPOOL_TITLE: "Session Pool",
 			
 			/* question types */

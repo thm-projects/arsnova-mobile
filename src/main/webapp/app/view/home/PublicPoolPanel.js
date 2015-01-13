@@ -102,15 +102,19 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 				        		backRef: me
 				        	});
 				    		hTP.animateActiveItem(singleView, 'slide');
+				    		hideLoadMask();
 		    			},
 		    			empty: function() {
-		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_GET_NOTFOUND);
+		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
+		    				hideLoadMask();
 		    			},
 		    			failure: function() {
-		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_GET_NOTFOUND);
+		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
+		    				hideLoadMask();
 		    			},
 		    			unauthenticated: function() {
-		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_GET_SESSION);
+		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
+		    				hideLoadMask();
 		    			}
 		    		});
 		        },

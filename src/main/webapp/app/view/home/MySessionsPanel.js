@@ -198,28 +198,31 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				// get public pool sessions from server
 				ARSnova.app.restProxy.getPublicPoolSessions({
 					success: function(sessionList) {
+						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 						me.publicPoolPanel = Ext.create('ARSnova.view.home.PublicPoolPanel',{
 							sessions: sessionList
 						});
 						
-						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 						hTP.animateActiveItem(me.publicPoolPanel, {
 							type: 'slide',
 							direction: 'left',
 							duration: 700
 						});
+						
+						hideLoadMask();
 					},
 					empty: function() {
-						//TODO
-					},
-					failure: function() {
-						//TODO
-						
-					},
-					unauthenticated: function() {
-						//TODO
-						
-					}
+	    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_GET_NOTFOUND);
+	    				hideLoadMask();
+	    			},
+	    			failure: function() {
+	    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_GET_NOTFOUND);
+	    				hideLoadMask();
+	    			},
+	    			unauthenticated: function() {
+	    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_GET_SESSION);
+	    				hideLoadMask();
+	    			}
 				});
 			}
 		});
