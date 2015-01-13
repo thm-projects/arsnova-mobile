@@ -38,6 +38,12 @@ Ext.define('ARSnova.model.PublicPool', {
 	          },
 	          {
 	        	 name:	'email' 
+	          },
+	          {
+	        	  name: 'description'
+	          },
+	          {
+	        	  name: 'faculty'
 	          }
 	         ],
 	 validations: [

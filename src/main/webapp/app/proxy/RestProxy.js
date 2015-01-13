@@ -494,6 +494,8 @@ Ext.define('ARSnova.proxy.RestProxy', {
 				"ppLogo": session.get("ppLogo"),
 				"ppSubject": session.get("ppSubject"),
 				"ppLicense": session.get("ppLicense"),
+				"ppDescription": session.get("ppDescription"),
+				"ppFaculty": session.get("ppFaculty"),
 				"sessionType": session.get("sessionType")
 			},			
 			success: callbacks.success,
