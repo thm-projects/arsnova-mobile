@@ -991,9 +991,13 @@ ol.standardList li {
 	padding-right: 10px;
 }
 
+.alignLeft {
+	text-align: left;
+	padding-left: 10px;
+}
+
 .counterText {
 	color: white;
-	text-shadow: rgba(0, 0, 0, 0.5) 0 -0.08em 0;
 }
 
 .actionsForm {
