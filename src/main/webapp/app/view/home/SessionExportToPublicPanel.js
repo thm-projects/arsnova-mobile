@@ -85,27 +85,13 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 				xtype : 'spacer'
 			}, this.exportButton ]
 		});
-
-		this.teacherName = Ext.create('Ext.field.Text', {
+		
+		this.creatorName = Ext.create('Ext.field.Text', {
 			name : 'name',
 			label : Messages.EXPORT_FIELD_NAME,
 			maxLength : 50,
 			clearIcon : true
 		});
-
-		this.university = Ext.create('Ext.field.Text', {
-			name : 'hs',
-			label : Messages.EXPORT_FIELD_UNI,
-			maxLength : 50,
-			clearIcon : true
-		});
-
-		this.licence = Ext.create('Ext.field.Select', {
-			name : 'licence',
-			label : Messages.EXPORT_FIELD_LICENCE,
-			maxLength : 50,
-		});
-		this.licence.updateOptions(LicenceoptionsPP);
 		
 		this.email = Ext.create('Ext.field.Text', {
 			name : 'email',
@@ -114,13 +100,12 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			maxLength : 50,
 			clearIcon : true
 		});
-
-		this.description = Ext.create('Ext.plugins.ResizableTextArea', {
-			name : 'description',
-			label : Messages.SESSIONPOOL_INFO,
-			disabledCls: 'disableDefault',
-			inputCls: 'thm-grey',
-			disabled: false
+		
+		this.university = Ext.create('Ext.field.Text', {
+			name : 'hs',
+			label : Messages.EXPORT_FIELD_UNI,
+			maxLength : 50,
+			clearIcon : true
 		});
 		
 		this.faculty = Ext.create('Ext.field.Text', {
@@ -130,14 +115,42 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			clearIcon : true
 		});
 		
+		this.creatorFieldSet = Ext.create('Ext.form.FieldSet', {
+			title: Messages.SESSIONPOOL_AUTHORINFO,
+			cls: 'standardFieldset',
+			itemId: 'contentFieldset',
+			items: [this.creatorName, this.email, this.university, this.faculty]
+		});
+		
+		this.description = Ext.create('Ext.plugins.ResizableTextArea', {
+			name : 'description',
+			label : Messages.SESSIONPOOL_INFO,
+			disabledCls: 'disableDefault',
+			inputCls: 'thm-grey',
+			disabled: false
+		});
+		
 		this.subject = Ext.create('Ext.field.Select', {
 			name : 'subject',
 			label : Messages.EXPORT_FIELD_SUBJECT,
 			maxLength : 50,
 		});
-
 		this.subject.updateOptions(SubjectoptionsPP);
-	
+		
+		this.licence = Ext.create('Ext.field.Select', {
+			name : 'licence',
+			label : Messages.EXPORT_FIELD_LICENCE,
+			maxLength : 50,
+		});
+		this.licence.updateOptions(LicenceoptionsPP);
+
+		this.sessionFieldSet = Ext.create('Ext.form.FieldSet', {
+			title: Messages.SESSIONPOOL_SESSIONINFO,
+			cls: 'standardFieldset',
+			itemId: 'contentFieldset',
+			items: [this.description, this.subject, this.licence]
+		});
+		
 		this.buttonUploadFromFS = Ext.create('Ext.ux.Fileup', {
 			xtype: 'fileupload',
 			autoUpload: true,
@@ -208,14 +221,6 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 					} ,this.buttonUploadFromFS]
 		});
 		
-		this.exportOptions = Ext.create('Ext.form.FieldSet', {
-			title: Messages.SESSIONPOOL_AUTHORINFO,
-			text : Messages.EXPORT_MSG,
-			items : [ this.teacherName, this.university,
-					this.licence, this.subject, this.email, 
-					this.description, this.faculty ]
-		});
-		
 		this.exportOptionalOptions = Ext.create('Ext.form.FieldSet',{
 			title: 'Logo',
 			items: [{
@@ -247,7 +252,8 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		this.mainPart = Ext.create('Ext.form.FormPanel', {
 			cls : 'newQuestion',
 			scrollable : null,
-			items : [ this.exportOptions, 
+			items : [ this.creatorFieldSet,
+			          this.sessionFieldSet,
 			          this.exportOptionalOptions, 
 			          {
 						xtype: 'fieldset',
@@ -264,7 +270,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		var me = button.up('SessionExportToPublicPanel');
 
 		var validation = Ext.create('ARSnova.model.PublicPool', {
-			name:	    me.teacherName.getValue(),
+			name:	    me.creatorName.getValue(),
 			hs:		    me.university.getValue(),
 			logo:	    me.logo.getSrc(),
 			subject:	me.subject.getValue(),
