@@ -257,6 +257,8 @@ Ext.define("ARSnova.controller.Sessions", {
 			ppLogo: options.ppLogo,
 			ppSubject: options.ppSubject,
 			ppLicense: options.ppLicense,
+			ppDescription: options.ppDescription,
+			ppFaculty: options.ppFaculty,
 			sessionType: options.sessionType
 		});
 		session.set('_id', undefined);

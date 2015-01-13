@@ -82,7 +82,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		this.sessionDescription = Ext.create('Ext.plugins.ResizableTextArea', {
 			label: Messages.SESSIONPOOL_INFO,
 			name: 'sessionDescription',
-			//value: this.getSession().ppDescription,
+			value: this.getSession().ppDescription,
 			disabledCls: 'disableDefault',
 			inputCls: 'thm-grey',
 			disabled: true
@@ -147,7 +147,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		this.creatorDep = Ext.create('Ext.field.Text', {
 			label: Messages.EXPORT_FIELD_SPECIAL_FIELD,
 			name: 'creatorDep',
-			//value: this.getSession().ppDepartment,
+			value: this.getSession().ppFaculty,
 			disabledCls: 'disableDefault',
 			inputCls: 'thm-grey',
 			disabled: true

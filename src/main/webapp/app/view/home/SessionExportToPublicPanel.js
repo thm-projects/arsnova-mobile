@@ -120,6 +120,22 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			clearIcon : true
 		});
 
+		this.description = Ext.create('Ext.plugins.ResizableTextArea', {
+			name : 'description',
+			label : Messages.SESSIONPOOL_INFO,
+			disabledCls: 'disableDefault',
+			inputCls: 'thm-grey',
+			disabled: false
+		});
+		
+		this.faculty = Ext.create('Ext.field.Text', {
+			name : 'faculty',
+			label : Messages.EXPORT_FIELD_SPECIAL_FIELD,
+			// placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+			maxLength : 50,
+			clearIcon : true
+		});
+		
 		this.subject = Ext.create('Ext.field.Select', {
 			name : 'subject',
 			label : Messages.EXPORT_FIELD_SUBJECT,
@@ -204,7 +220,8 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			title: Messages.SESSIONPOOL_AUTHORINFO,
 			text : Messages.EXPORT_MSG,
 			items : [ this.teacherName, this.university,
-					this.licence, this.subject, this.email  ]
+					this.licence, this.subject, this.email, 
+					this.description, this.faculty ]
 		});
 		
 		this.exportOptionalOptions = Ext.create('Ext.form.FieldSet',{
@@ -260,7 +277,9 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			logo:	    me.logo.getSrc(),
 			subject:	me.subject.getValue(),
 			licence:	me.licence.getValue(),
-			email:		me.email.getValue()
+			email:		me.email.getValue(),
+			description:me.description.getValue(),
+			faculty:	me.faculty.getValue()
 		});
 		
 		
@@ -303,6 +322,9 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			publicPoolAttributes['ppLogo'] 		 = validation.get('logo');
 			publicPoolAttributes['ppSubject'] 	 = validation.get('subject');
 			publicPoolAttributes['ppLicense'] 	 = validation.get('licence');
+			publicPoolAttributes['ppDescription']= validation.get('description');
+			publicPoolAttributes['ppFaculty']	 = validation.get('faculty');
+			
 			
 			console.log('ppAttributes', publicPoolAttributes);
 			

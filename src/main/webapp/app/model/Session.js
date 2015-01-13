@@ -42,6 +42,8 @@ Ext.define('ARSnova.model.Session', {
 			'ppLogo',
 			'ppSubject',
 			'ppLicense',
+			'ppDescription',
+			'ppFaculty',
 			'sessionType'
 		],
 
