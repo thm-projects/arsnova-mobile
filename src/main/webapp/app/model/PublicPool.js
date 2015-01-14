@@ -50,27 +50,27 @@ Ext.define('ARSnova.model.PublicPool', {
 	              {
 	            	  type: 'presence',
 	                  field: 'name',
-	                  message: Messages.SESSIONPOOL_NOTIFICATION_NAME
+	                  message: Messages.EXPORT_FIELD_NAME + ':\t' + Messages.SESSIONPOOL_NOTIFICATION_NAME
 	              },
 	              {
 	            	  type: 'presence',
 	                  field: 'hs',
-	                  message: Messages.SESSIONPOOL_NOTIFICATION_UNIVERSITY
+	                  message: Messages.EXPORT_FIELD_UNI + ':\t' + Messages.SESSIONPOOL_NOTIFICATION_UNIVERSITY
 	              },
 	              {
 	            	  type: 'presence',
 	                  field: 'subject',
-	                  message: Messages.SESSIONPOOL_NOTIFICATION_SUBJECT
+	                  message:Messages.EXPORT_FIELD_SUBJECT+ ':\t ' + Messages.SESSIONPOOL_NOTIFICATION_SUBJECT
 	              },	      
 	              {
 	            	  type: 'presence',
 	                  field: 'licence',
-	                  message: Messages.SESSIONPOOL_NOTIFICATION_LICENCE
+	                  message: Messages.EXPORT_FIELD_LICENCE + ':\t'+ Messages.SESSIONPOOL_NOTIFICATION_LICENCE
 	              },
 	              {
 	            	  type: 'email',
 	                  field: 'email',
-	                  message: Messages.SESSIONPOOL_NOTIFICATION_EMAIL
+	                  message:  Messages.EXPORT_FIELD_EMAIL + ': '+ Messages.SESSIONPOOL_NOTIFICATION_EMAIL
 	              }
 	            ]
 	}

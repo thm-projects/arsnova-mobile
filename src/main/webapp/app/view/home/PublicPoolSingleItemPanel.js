@@ -63,7 +63,16 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			ui: 'confirm',
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
-			handler: function () {
+			sessionObj: this.getSession(),
+			handler: function (options) {
+				var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
+				ARSnova.app.getController('Auth').roleSelect({
+					mode: ARSnova.app.USER_ROLE_STUDENT
+				});
+				ARSnova.app.getController('Sessions').login({
+					keyword: options.config.sessionObj.keyword
+				});
+				hideLoadMask();
 			},
 			scope: this
 		});
@@ -183,14 +192,6 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			this.toolbar,
 			this.contentForm
 		]);
-		
-		this.onBefore('painted', function () {
-			var me = this;
-			
-			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) {
-				console.log("login as user");
-			}
-		});
 	},
 	
 	getBack: function() {
