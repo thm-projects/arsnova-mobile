@@ -21,6 +21,11 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 	
 	config: {
 		exportSessionMap: null,
+		fullscreen: true,
+		scrollable: {
+			direction: 'vertical',
+			directionLock: true
+		},
 	},
 	
 	requires : [ 'Ext.ux.Fileup', 'ARSnova.model.PublicPool' ],
