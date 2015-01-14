@@ -60,7 +60,8 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 					Ext.apply(me.msgBox, {
 						YESNO: [
 						        { text: 'Dateisystem', itemId: 'yes', ui: 'action' }, 
-						        { text: 'Public Pool', itemId: 'no'}]//, ui: 'action' }]
+						        { text: 'Public Pool', itemId: 'no', ui: 'action'}
+				        ]
 					});
 
 					me.msgBox.show({
