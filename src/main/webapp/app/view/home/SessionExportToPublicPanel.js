@@ -246,12 +246,11 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		
 		 this.logo = Ext.create('Ext.Img', {
 	            id: 'logo',
+	            mode:'img', // not background 
 	            style: {
 					'margin': '0px auto',
-					'width': '50%'
 				},
 	            width: 100,
-	            height: 100,
 	            hidden: true
 	        });
 		 

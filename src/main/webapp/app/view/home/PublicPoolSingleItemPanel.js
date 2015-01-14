@@ -153,6 +153,18 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			disabled: true
 		});
 		
+		console.log('session:', this.getSession());
+		
+		this.logo = Ext.create('Ext.Img', { 
+            mode:'img', // not background 
+            style: {
+				'margin': '0px auto',
+			},
+            width: 100,
+            src:this.getSession().ppLogo
+        });
+		
+		
 		this.creatorFieldSet = Ext.create('Ext.form.FieldSet', {
 			title: Messages.SESSIONPOOL_AUTHORINFO,
 			cls: 'standardFieldset',
@@ -160,13 +172,22 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			items: [this.creatorName, this.creatorMail, this.creatorUni, this.creatorDep]
 		});
 
+		this.logoFieldSet = Ext.create('Ext.form.FieldSet', {
+			title: Messages.SESSIONPOOL_LOGOINFO,
+			cls: 'standardFieldset',
+			itemId: 'contentFieldset',
+			items: [this.logo]
+		});
+		
 		this.contentForm = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			itemId: 'contentForm',
 			style: {marginTop: '15px', marginLeft: '12px', marginRight: '12px'},
 			items: [
 			        this.sessionFieldSet,
-			        this.creatorFieldSet]
+			        this.creatorFieldSet,
+			        this.logoFieldSet
+			]
 		});
 
 		this.add([
