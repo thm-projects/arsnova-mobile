@@ -26,7 +26,6 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 			direction: 'vertical',
 			directionLock: true
 		},
-		error: true
 	},
 	
 	initialize: function () {
@@ -53,7 +52,7 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 			text: Messages.EXPORT_BUTTON_LABEL,
 			ui: 'confirm',
 			handler: function () {
-				if(me.getError()){
+				if(!me.checkSelectedSessions()){
 					Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_NOTIFICATION);
 				} else {
 					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
@@ -61,7 +60,8 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 					Ext.apply(me.msgBox, {
 						YESNO: [
 						        { text: 'Dateisystem', itemId: 'yes', ui: 'action' }, 
-						        { text: 'Public Pool', itemId: 'no'}]//, ui: 'action' }]
+						        { text: 'Public Pool', itemId: 'no', ui: 'action'}
+				        ]
 					});
 
 					me.msgBox.show({
@@ -125,10 +125,17 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 		// load user sessions before displaying the page
 		this.onBefore('painted', function () {
 			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
-				me.setError(true);
 				this.loadCreatedSessions();
 			}
 		});
+	},
+	
+	checkSelectedSessions: function() {
+		for (var i = 0; i < this.sessionMap.length; i++) {
+			if (this.sessionMap[i][1] == true)
+				return true;
+		}
+		return false;
 	},
 	
 	loadCreatedSessions: function () {
@@ -152,12 +159,10 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 				        	// TODO why is 0 toggle checked and 1 toggle unchecked?
 				            if (newValue == 0) { // true
 				                // Changing from off to on
-				            	me.setError(false);
 				            	var id = slider.id.split('_')[1];
 				            	me.sessionMap[id][1] = true;
 				            } else if (newValue == 1) { // false
 			            	   // Changing from on to off
-				            	me.setError(true);
 				            	var id = slider.id.split('_')[1];
 				            	me.sessionMap[id][1] = false;
 				            }

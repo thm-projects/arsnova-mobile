@@ -369,6 +369,8 @@ switch (lang) {
 			EXPORT_SESSION_INFORMATION: "The questions of selected sessions will be exported",
 			EXPORT_NOTIFICATION:	"There was no session selected",
 			EXPORT_IOS_NOTIFICATION: "An export can not be performed on iOS devices",
+			EXPORT_BUTTON_FS: "Filesystem",
+			EXPORT_BUTTON_PP: "Public Pool",
 			
 			/*Import session*/
 			IMPORT_IOS_NOTIFICATION: "An import can not be performed on iOS devices",
@@ -800,6 +802,9 @@ switch (lang) {
 			EXPORT_SESSION_INFORMATION: "Die Fragen der ausgewählten Sessions werden exportiert",
 			EXPORT_NOTIFICATION: "Es wurde keine Session ausgewählt",
 			EXPORT_IOS_NOTIFICATION: "Ein Export kann auf iOS Geräten nicht durchgeführt werden",
+			EXPORT_BUTTON_FS: "Dateisystem",
+			EXPORT_BUTTON_PP: "Public Pool",
+			
 			
 			/*Import session*/
 			IMPORT_IOS_NOTIFICATION: "Ein Import kann auf iOS Geräten nicht durchgeführt werden",

@@ -120,7 +120,6 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		    		});
 		        },
 				back: function(a1, a2, a3, a4) {
-		        	console.log("back");
 					me.nestedList.getToolbar().setTitle(Messages.SESSIONPOOL_TITLE);
 					me.backButton.show();
 		        }		        
