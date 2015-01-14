@@ -51,11 +51,11 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		});
 		
 		this.backButton = Ext.create('Ext.Button', {
-			text : Messages.SESSIONS,
+			text : Messages.BACK,
 			ui : 'back',
 			handler : function() {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				hTP.animateActiveItem(hTP.mySessionsPanel, {
+				hTP.animateActiveItem(hTP.exportSessionListPanel, {
 					type : 'slide',
 					direction : 'right',
 					duration : 700
