@@ -1318,6 +1318,10 @@ ol.standardList li {
 	width: 200px;
 }
 
+.previewButtonLong{
+	width: 300px;
+}
+
 .previewCarousel{
 	margin-bottom: 10px;
 }

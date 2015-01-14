@@ -625,9 +625,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		
 		// Preview button
 		this.previewButton = Ext.create('Ext.Button', {
-			text: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
+			text: Ext.os.is.Desktop ? 
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP:
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
-			style: 'width:200px;',
+			cls: Ext.os.is.Desktop ?
+				'previewButtonLong':
+				'previewButton',
 			scope: this,
 			handler: function () {
 				this.previewHandler();
