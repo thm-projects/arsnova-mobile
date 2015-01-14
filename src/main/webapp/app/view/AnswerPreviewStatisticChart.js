@@ -121,6 +121,15 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 			}]
 		});
 		
+		this.titlebar = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			cls: 'questionStatisticTitle',
+			docked: 'top',
+			baseCls: Ext.baseCSSPrefix + 'title',
+			style: ''
+		});
+		console.log(this.questionObj);
+		this.titlebar.setContent(this.questionObj.text, true, true);
+		
 		this.abstentionGradient = Ext.create('Ext.draw.gradient.Linear', {
 			degrees: 90,
 			stops: [
@@ -245,7 +254,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 			}]
 		});
 
-		this.add([this.toolbar, this.questionChart]);
+		this.add([this.toolbar, this.titlebar, this.questionChart]);
 		this.on('activate', this.calculateChartData);
 	},
 	

@@ -126,6 +126,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 	
 	showPreview: function (options) {
 		this.answers = options.answers;
+		this.content = options.content;
 		this.setQuestionPanelContent(options.title, options.content);
 
 		if (options.image) {
@@ -239,6 +240,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 	statisticsButtonHandler: function () {
 		var questionObj = {};
 		questionObj.possibleAnswers = this.answers;
+		questionObj.text = this.content;
 		
 		this.questionStatisticChart = Ext.create('ARSnova.view.AnswerPreviewStatisticChart', {
 			question: questionObj,

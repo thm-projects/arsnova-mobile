@@ -1254,9 +1254,10 @@ ol.standardList li {
 }
 
 .questionStatisticTitle .x-innerhtml {
-	font-weight: normal !important;
+	font-weight: normal;
 	white-space: normal;
 	color: #4a5c66;
+	text-align: left;
 	padding: 1em;
 }
 
