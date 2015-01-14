@@ -52,7 +52,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 				console.log('updated exportData', exportData[i]);
 				
 				// call import ctrl to save cloned session in db
-				ARSnova.app.getController("SessionImport").importSession(exportData[i]);
+				ARSnova.app.getController("SessionImport").importSession(exportData[i], true);
 			}
 			
 			hideLoadMask();
@@ -88,7 +88,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 				exportData[i]['session']['sessionType'] = 'public_pool';
 			
 				// call import ctrl to save public pool session in db
-				ARSnova.app.getController("SessionImport").importSession(exportData[i]);
+				ARSnova.app.getController("SessionImport").importSession(exportData[i], false);
 				hideLoadMask();
 			}
 		});
@@ -330,29 +330,30 @@ Ext.define("ARSnova.controller.SessionExport", {
 	},
 	
 	saveFileOnFileSystem: function(rawJson, filename) {
-		 var blob = new Blob([rawJson], {type: "text/plain;charset=utf-8"});
-		 var ua   = window.navigator.userAgent;
-	     var msie = ua.indexOf("MSIE ");
+		
+		var blob = new Blob([rawJson], {type: "text/plain;charset=utf-8"});
+		var ua   = window.navigator.userAgent;
+	    var msie = ua.indexOf("MSIE ");
 	     
-	     if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
-	    	 window.navigator.msSaveBlob(blob, filename);
-	     } else {
+	    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+	    	window.navigator.msSaveBlob(blob, filename);
+	    } else {
 	    	 
-			 var a = window.document.createElement('a');
-			 a.className = "session-export";
-			 a.href = window.URL.createObjectURL(blob);
-			 a.download = filename;
-
-			 // Append anchor to body.
-			 document.body.appendChild(a)
-			 console.log(a);
-			 a.click(); 
-	     }
-	     var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-			hTP.animateActiveItem(hTP.mySessionsPanel, {
-				type: 'slide',
-				direction: 'right',
-				duration: 700
-			});
+	    	var a = window.document.createElement('a');
+			a.className = "session-export";
+			a.href = window.URL.createObjectURL(blob);
+			a.download = filename;
+	
+			// Append anchor to body.
+			document.body.appendChild(a)
+			console.log(a);
+			a.click(); 
+	    }
+	    var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+		hTP.animateActiveItem(hTP.mySessionsPanel, {
+			type: 'slide',
+			direction: 'right',
+			duration: 700
+		});
 	},
 });

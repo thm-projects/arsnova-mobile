@@ -28,7 +28,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 	/**
 	 * Import a single session from a JSON file.
 	 */
-	importSession: function(jsonContent) {
+	importSession: function(jsonContent, loadSession) {
 		var me = this;
 		
 		if (typeof jsonContent === "undefined" || typeof jsonContent.session === "undefined") {
@@ -50,7 +50,16 @@ Ext.define("ARSnova.controller.SessionImport", {
 				success: function(response) {
 					var session = Ext.decode(response.responseText)
 					me.saveSessionAttachment(session, jsonContent);
-					me.loadSessionView(session);
+					
+					// forward to session panel
+					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+					hTP.animateActiveItem(hTP.mySessionsPanel, {
+						type: 'slide',
+						direction: 'right',
+						duration: 700
+					});
+					if (loadSession)
+						me.loadSessionView(session);						
 				},
 				failure: function(records, operation) {
 					Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_SAVE);
