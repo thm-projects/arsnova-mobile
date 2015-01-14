@@ -335,6 +335,14 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		}
 
 		this.on('activate', this.onActivate);
+		
+		this.on('hide', function() {
+			ARSnova.app.activePreviewPanel = false;
+		});
+		
+		this.on('painted', function() {
+			ARSnova.app.activePreviewPanel = this;
+		});
 	},
 	
 	onActivate: function () {
@@ -463,6 +471,28 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		users[1] = count;
 		users = users.join("/");
 		quote.setHtml(users);
+	},
+	
+	showEmbeddedPagePreview: function(embeddedPage) {
+		var controller = ARSnova.app.getController('Application'),
+			me = this;
+		
+		embeddedPage.setBackHandler(function() {
+			// remove & destroy embeddedPage and delete reference
+			delete controller.embeddedPage;
+			
+			ARSnova.app.mainTabPanel.animateActiveItem(me, {
+				type: 'slide',
+				direction: 'right',
+				duration: 700
+			});
+		});
+		
+		ARSnova.app.mainTabPanel.animateActiveItem(embeddedPage, {
+			type: 'slide',
+			direction: 'left',
+			duration: 700
+		});
 	},
 
 	setGradients: function () {
