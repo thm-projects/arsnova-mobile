@@ -86,7 +86,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 				}
 				// rewrite session type
 				exportData[i]['session']['sessionType'] = 'public_pool';
-			
+				
 				// call import ctrl to save public pool session in db
 				ARSnova.app.getController("SessionImport").importSession(exportData[i], false);
 				hideLoadMask();

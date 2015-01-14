@@ -393,6 +393,7 @@ switch (lang) {
 			SESSIONPOOL_ERR_PPSESSION_RIGHTS: "You do not have sufficient rights to see the session.",
 			SESSIONPOOL_ERR_GET_SESSION: "You do not have sufficient rights to see the session.",
 			SESSIONPOOL_TITLE: "Session Pool",
+			SESSIONPOOL_VISIT:	"Visit",
 			
 			/* question types */
 			EVALUATION: "+-",
@@ -827,6 +828,7 @@ switch (lang) {
 			SESSIONPOOL_ERR_PPSESSION_RIGHTS: "Sie haben nicht die Berechtigung, um Public Pool Sessions zu sehen.",
 			SESSIONPOOL_ERR_GET_SESSION: "Sie haben nicht die Berechtigung, um die Session zu sehen.",
 			SESSIONPOOL_TITLE: "Session Pool",
+			SESSIONPOOL_VISIT:	"Besuchen",
 			
 			/* question types */
 			EVALUATION: "+-",

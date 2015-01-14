@@ -295,22 +295,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			console.log('errors',errs);
 			errs.each(function(err) {
 				
-				if(err.getField() == 'name')
-					msg += Messages.EXPORT_FIELD_NAME; 
-				
-				else if(err.getField() == 'email')
-					msg += Messages.EXPORT_FIELD_EMAIL;
-				
-				if(err.getField() == 'hs')
-					msg += Messages.EXPORT_FIELD_UNI;
-				
-				if(err.getField() == 'subject')
-					msg += Messages.EXPORT_FIELD_SUBJECT;
-				
-				if(err.getField() == 'licence')
-					msg += Messages.EXPORT_FIELD_LICENCE;
-				
-				msg += ':\t' +err.getMessage();			
+				msg += err.getMessage();			
 				msg += '<br/>';
 			});
 
