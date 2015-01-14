@@ -35,12 +35,18 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		this.setStyle({
 			'font-size': '110%',
 			'border-color': 'black',
-			'maxHeight': '600px',
-			'maxWidth': '740px',
 			'margin-bottom': '18px',
 			'height': '79%',
 			'width': '95%'
 		});
+		
+		if(Ext.os.is.Desktop) {
+			this.setMaxWidth('320px');
+			this.setMaxHeight('640px');
+		} else {
+			this.setMaxWidth('740px');
+			this.setMaxHeight('600px');
+		}
 		
 		this.closeButton = Ext.create('Ext.Button', {
 			iconCls: 'icon-close',
