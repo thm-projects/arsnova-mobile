@@ -129,6 +129,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		});
 		question.set('_id', undefined);
 
+		var field;
 		var validation = question.validate();
 		if (!validation.isValid()) {
 			me.down('fieldset').items.items.forEach(function (el) {
@@ -137,9 +138,18 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			});
 
 			validation.items.forEach(function (el) {
-				me.down('textfield[name=' + el.getField() + ']').addCls("required");
+				field = me.down('textfield[name=' + el.getField() + ']');
+				field.addCls("required");
+				field.element.select(".x-input-text").addCls('formInvalid');
 			});
+			
+			Ext.Msg.alert(Messages.NOTIFICATION, Messages.INCOMPLETE_INPUTS);
 			return;
+		} else {
+			me.down('fieldset').items.items.forEach(function (el) {
+				el.removeCls("required");
+				el.element.select(".x-input-text").removeCls('formInvalid');
+			});
 		}
 
 		ARSnova.app.getController('Feedback').ask({
