@@ -36,7 +36,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		var LicenceoptionsPP = [];  // save loaded lincences
 		
 		var config = ARSnova.app.globalConfig;
-		var maxFileSize = config.publicPool.logoMaxFilesize / 1024;
+		var maxFileSize = config.publicPool.logoFilesize / 1024;
 				
 		var screenWidth = (window.innerWidth > 0) ?
 				window.innerWidth :	screen.width;
