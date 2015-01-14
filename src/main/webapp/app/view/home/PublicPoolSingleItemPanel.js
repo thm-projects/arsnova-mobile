@@ -53,11 +53,21 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
 			handler: function () {
-				ARSnova.app.getController("SessionExport").cloneSessionFromPublicPool(me.getSession());
+					ARSnova.app.getController("SessionExport").cloneSessionFromPublicPool(me.getSession());
 			},
 			scope: this
 		});
 
+		this.visitButton = Ext.create('Ext.Button', {
+			text: Messages.SESSIONPOOL_VISIT,
+			ui: 'confirm',
+			cls: 'saveQuestionButton',
+			style: 'width: 89px',
+			handler: function () {
+			},
+			scope: this
+		});
+		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: this.getSession().name,
 			docked: 'top',
@@ -65,7 +75,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			items: [
 				this.backButton,
 				{xtype:'spacer'},
-				this.exportButton
+				(ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) ? this.visitButton : this.exportButton 
 			]
 		});
 
@@ -173,6 +183,14 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			this.toolbar,
 			this.contentForm
 		]);
+		
+		this.onBefore('painted', function () {
+			var me = this;
+			
+			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) {
+				console.log("login as user");
+			}
+		});
 	},
 	
 	getBack: function() {
