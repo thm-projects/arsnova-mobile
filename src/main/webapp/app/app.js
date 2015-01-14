@@ -283,16 +283,18 @@ Ext.application({
 		return true;
 	},
 
-	setWindowTitle: function () {
+	setWindowTitle: function (addition) {
+		if(!addition) addition = '';
+		
 		switch (ARSnova.app.userRole) {
 			case ARSnova.app.USER_ROLE_SPEAKER:
-				window.document.title = "ARSnova: " + Messages.SPEAKER;
+				window.document.title = "ARSnova: " + Messages.SPEAKER + addition;
 				break;
 			case ARSnova.app.USER_ROLE_STUDENT:
-				window.document.title = "ARSnova: " + Messages.STUDENT;
+				window.document.title = "ARSnova: " + Messages.STUDENT + addition;
 				break;
 			default:
-				window.document.title = "ARSnova";
+				window.document.title = "ARSnova" + addition;
 				break;
 		}
 	},

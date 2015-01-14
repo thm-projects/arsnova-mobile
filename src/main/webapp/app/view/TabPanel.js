@@ -91,6 +91,8 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
 			ARSnova.app.innerScrollPanel = false;
 			ARSnova.app.lastActivePanel = oldCard;
+			
+			this.setWindowTitle(newCard);
 						
 			switch(oldCard) {			
 				case this.infoTabPanel:
@@ -113,7 +115,7 @@ Ext.define('ARSnova.view.TabPanel', {
 				this.infoTabPanel.tab.show();
 				this.blogTabPanel.tab.hide();
 			}
-			
+						
 			if(ARSnova.app.lastActiveMainTabPanel === this.rolePanel) {
 				if(	newCard === this.infoTabPanel ||
 					newCard === this.privacyTabPanel ||
@@ -153,6 +155,34 @@ Ext.define('ARSnova.view.TabPanel', {
 				direction: 'left',
 				duration: ARSnova.app.cardSwitchDuration
 			};
+		}
+	},
+	
+	setWindowTitle: function(newCard) {
+		switch(newCard) {
+			case this.loginPanel:
+				ARSnova.app.setWindowTitle(' - ' + Messages.LOGIN);
+				break;
+			case this.diagnosisPanel:
+				ARSnova.app.setWindowTitle(' - ' + Messages.DIAGNOSIS);
+				break;
+			case this.infoTabPanel:
+				ARSnova.app.setWindowTitle(' - ' + Messages.INFO);
+				break;
+			case this.feedbackTabPanel:
+				ARSnova.app.setWindowTitle(' - ' + Messages.FEEDBACK);
+				break;
+			case this.userQuestionsPanel:
+				ARSnova.app.setWindowTitle(' - ' + Messages.LECTURE_QUESTIONS_LONG);
+				break;
+			case this.feedbackQuestionsPanel:
+				ARSnova.app.setWindowTitle(' - ' + Messages.QUESTIONS_FROM_STUDENTS);
+				break;
+			case this.rolePanel: 
+				ARSnova.app.setWindowTitle();
+				break;
+			default:
+				ARSnova.app.setWindowTitle(' - ' + Messages.HOME);
 		}
 	},
 

@@ -95,8 +95,6 @@ Ext.define("ARSnova.controller.Auth", {
 		ARSnova.app.userRole = options.mode;
 		localStorage.setItem('role', options.mode);
 
-		ARSnova.app.setWindowTitle();
-
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) {
 			this.services.then(Ext.bind(function (services) {
 				var credibleLogins = services.filter(function (service) {
@@ -206,7 +204,6 @@ Ext.define("ARSnova.controller.Auth", {
 		}
 
 		ARSnova.app.userRole = "";
-		ARSnova.app.setWindowTitle();
 
 		/* redirect user:
 		 * a: to CAS if user is authorized
