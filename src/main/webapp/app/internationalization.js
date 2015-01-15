@@ -98,7 +98,7 @@ switch (lang) {
 			LOAD_MASK_SESSION_DELETE: "Deleting session data...",
 			LOAD_MASK_ACTIVATION: "Releasing question...",
 			LOAD_MASK_SESSION_EXPORT: "Exporting session data...",
-			LOAD_MASK_SESSION_PP_CLONE: "Cloning public pool session...",
+			LOAD_MASK_SESSION_PP_CLONE: "Copy public pool session...",
 
 			/* mySessionsPanel */
 			HOME: "Start",
@@ -376,7 +376,7 @@ switch (lang) {
 			IMPORT_IOS_NOTIFICATION: "An import can not be performed on iOS devices",
 			
 			/*Public pool*/
-			SESSIONPOOL_CLONE: "Clone",
+			SESSIONPOOL_CLONE: "Copy",
 			SESSIONPOOL_AUTHORINFO: "Author information",
 			SESSIONPOOL_SESSIONINFO: "Session information",
 			SESSIONPOOL_LOGOINFO: "Logo",
@@ -533,7 +533,7 @@ switch (lang) {
 			LOAD_MASK_SESSION_DELETE: "Lösche Session-Daten...",
 			LOAD_MASK_ACTIVATION: "Aktiviere die Freigabe...",
 			LOAD_MASK_SESSION_EXPORT: "Exportiere Session-Daten...",
-			LOAD_MASK_SESSION_PP_CLONE: "Klone Public Pool Session...",
+			LOAD_MASK_SESSION_PP_CLONE: "Kopiere Public Pool Session...",
 
 			/* mySessionsPanel */
 			HOME: "Start",
@@ -811,7 +811,7 @@ switch (lang) {
 			IMPORT_IOS_NOTIFICATION: "Ein Import kann auf iOS Geräten nicht durchgeführt werden",
 			
 			/*Public pool*/
-			SESSIONPOOL_CLONE: "Klonen",
+			SESSIONPOOL_CLONE: "Kopieren",
 			SESSIONPOOL_AUTHORINFO: "Verfasserinformation",
 			SESSIONPOOL_SESSIONINFO: "Sessioninformation",
 			SESSIONPOOL_LOGOINFO: "Logo",
