@@ -20,7 +20,7 @@ Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
 	
 	config: {
 		exportSessionMap: null,
-		backButtonHandler: null 
+		backReference: null,
 	},
 	
 	initialize: function () {
@@ -32,7 +32,7 @@ Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
 			ui: 'back',
 			handler: function () {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				hTP.animateActiveItem(hTP.exportSessionListPanel, {
+				hTP.animateActiveItem(me.getBackReference(), {
 					type: 'slide',
 					direction: 'right',
 					duration: 700

@@ -20,7 +20,8 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 	alias : 'widget.SessionExportToPublicPanel',
 	
 	config: {
-		exportSessionMap: null,
+		exportSession: null,
+		backReference: null,
 		fullscreen: true,
 		scrollable: {
 			direction: 'vertical',
@@ -32,6 +33,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 
 	initialize : function() {
 		this.callParent(arguments);
+		var me = this;
 		var SubjectoptionsPP = [];	// save loaded subjects
 		var LicenceoptionsPP = [];  // save loaded lincences
 		
@@ -43,14 +45,12 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		var showShortLabels = screenWidth < 480;
 				
 		var subjects = config.publicPool.subjects.split(',');
-		console.log('subjects:', subjects);
 		
 		subjects.forEach(function(entry){
 			SubjectoptionsPP.push({text: entry, value: entry})
 		});
 	
 		var licenses = config.publicPool.licenses.split(',');
-		console.log('licenses:', licenses);
 		
 		licenses.forEach(function(entry){
 			LicenceoptionsPP.push({text: entry, value: entry})
@@ -61,7 +61,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			ui : 'back',
 			handler : function() {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				hTP.animateActiveItem(hTP.exportSessionListPanel, {
+				hTP.animateActiveItem(me.getBackReference(), {
 					type : 'slide',
 					direction : 'right',
 					duration : 700
@@ -128,6 +128,22 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			items: [this.creatorName, this.email, this.university, this.faculty]
 		});
 		
+		this.sessionName = Ext.create('Ext.field.Text', {
+			name : 'sessionName',
+			label : Messages.SESSION_NAME,
+			maxLength : 50,
+			value: me.getExportSession().name,
+			clearIcon : true
+		});
+		
+		this.sessionShortName = Ext.create('Ext.field.Text', {
+			name : 'sessionShortName',
+			label : Messages.SESSION_SHORT_NAME,
+			maxLength : 8,
+			value: me.getExportSession().shortName,
+			clearIcon : true
+		});
+		
 		this.description = Ext.create('Ext.plugins.ResizableTextArea', {
 			name : 'description',
 			label : Messages.SESSIONPOOL_INFO,
@@ -154,7 +170,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			title: Messages.SESSIONPOOL_SESSIONINFO,
 			cls: 'standardFieldset',
 			itemId: 'contentFieldset',
-			items: [this.description, this.subject, this.licence]
+			items: [this.sessionName, this.sessionShortName, this.description, this.subject, this.licence]
 		});
 		
 		this.buttonUploadFromFS = Ext.create('Ext.ux.Fileup', {
@@ -275,34 +291,32 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		var me = button.up('SessionExportToPublicPanel');
 
 		var validation = Ext.create('ARSnova.model.PublicPool', {
-			name:	    me.creatorName.getValue(),
-			hs:		    me.university.getValue(),
-			logo:	    me.logo.getSrc(),
-			subject:	me.subject.getValue(),
-			licence:	me.licence.getValue(),
-			email:		me.email.getValue(),
-			description:me.description.getValue(),
-			faculty:	me.faculty.getValue()
+			name:	    		me.creatorName.getValue(),
+			hs:		    		me.university.getValue(),
+			logo:	    		me.logo.getSrc(),
+			subject:			me.subject.getValue(),
+			licence:			me.licence.getValue(),
+			email:				me.email.getValue(),
+			sessionName:		me.sessionName.getValue(),
+			sessionShortName: 	me.sessionShortName.getValue(),
+			description:		me.description.getValue(),
+			faculty:			me.faculty.getValue()
 		});
 		
-		
-		console.log('get fields',validation.getFields());
 		var errs = validation.validate();
-		console.log('errors',errs);
 		var msg = '';
 
 		if (!errs.isValid()) {
 			console.log('errors',errs);
 			errs.each(function(err) {
 				
-				msg += err.getMessage();			
+				msg += err.getMessage();
 				msg += '<br/>';
 			});
 
 			Ext.Msg.alert(Messages.SESSIONPOOL_NOTIFICATION, msg);
 			
 		} else {
-			console.log(validation);
 			var publicPoolAttributes = {};
 			publicPoolAttributes['ppAuthorName'] = validation.get('name');
 			publicPoolAttributes['ppAuthorMail'] = validation.get('email');
@@ -312,13 +326,16 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			publicPoolAttributes['ppLicense'] 	 = validation.get('licence');
 			publicPoolAttributes['ppDescription']= validation.get('description');
 			publicPoolAttributes['ppFaculty']	 = validation.get('faculty');
+			publicPoolAttributes['name']		 = me.sessionName.getValue();
+			publicPoolAttributes['shortName']	 = me.sessionShortName.getValue();
 			
-			
-			console.log('ppAttributes', publicPoolAttributes);
+			// create array for export
+			var sessions = [];
+			sessions.push(me.getExportSession());
 			
 			// export to public pool here
 			ARSnova.app.getController("SessionExport").exportSessionsToPublicPool(
-					me.getExportSessionMap(), publicPoolAttributes);
+					sessions, publicPoolAttributes);
 		}
 	},
 	

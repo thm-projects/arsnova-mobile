@@ -67,21 +67,15 @@ Ext.define("ARSnova.controller.SessionExport", {
 	/**
 	 * Exports selected sessions from the exportSessionMap to the public pool.
 	 * 
-	 * @param exportSessionMap		Mapping Session -> bool specifies which sessions the user wants to exort.
+	 * @param exportSessions		An array of sessions the user wants to exort.
 	 * @param publicPoolAttributes	An array of attributes to describe the sessions in the public pool.
 	 */
-	exportSessionsToPublicPool: function(exportSessionMap, publicPoolAttributes) {
+	exportSessionsToPublicPool: function(exportSessions, publicPoolAttributes) {
 		var me = this;
-		var sessions = [];
-		
-		for (var i = 0; i < exportSessionMap.length; i++) {
-			if (exportSessionMap[i][1])
-				sessions.push(exportSessionMap[i][0]);
-		}
 		
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_EXPORT);
 		
-		this.exportSessions(sessions, true, true)
+		this.exportSessions(exportSessions, true, true)
 		.then(function(exportData) {
 			
 			for (var i = 0; i < exportData.length; i++) {
@@ -91,6 +85,8 @@ Ext.define("ARSnova.controller.SessionExport", {
 				}
 				// rewrite session type
 				exportData[i]['session']['sessionType'] = 'public_pool';
+				
+				console.log('data for import', exportData[i]);
 				
 				// call import ctrl to save public pool session in db
 				ARSnova.app.getController("SessionImport").importSession(exportData[i], false);

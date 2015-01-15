@@ -132,12 +132,41 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				if(Ext.os.is.iOS){
 					Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_IOS_NOTIFICATION);
 				}else{
-				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				hTP.animateActiveItem(hTP.exportSessionListPanel, {
-					type: 'slide',
-					direction: 'left',
-					duration: 700
-				});
+					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+					
+					var msgBox = Ext.create('Ext.MessageBox');
+					
+					Ext.apply(msgBox, {
+						YESNO: [
+						        { text: 'Dateisystem', itemId: 'yes', ui: 'action' }, 
+						        { text: 'Public Pool', itemId: 'no', ui: 'action'}
+				        ]
+					});
+					
+					msgBox.show({
+						title: Messages.EXPORT_SELECTED_SESSIONS_TITLE,
+						message: Messages.EXPORT_SELECTED_SESSIONS_MSG,
+						buttons: msgBox.YESNO,
+						fn: function(btn) {
+							var dest = null;
+						    if (btn === 'yes') {
+						    	dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
+						    		exportType: 'filesystem'
+						    	});
+						    }  else {
+						    	dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
+						    		exportType: 'public_pool'
+						    	});
+						    }
+						    hTP.animateActiveItem(dest, 'slide');
+						}
+					});
+				
+//				hTP.animateActiveItem(hTP.exportSessionListPanel, {
+//					type: 'slide',
+//					direction: 'left',
+//					duration: 700
+//				});
 			  }
 			}	
 		});
