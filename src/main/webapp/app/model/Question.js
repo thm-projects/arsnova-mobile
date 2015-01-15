@@ -130,7 +130,7 @@ Ext.define('ARSnova.model.Question', {
 			
 			if(tP.getActiveItem().getActiveItem() === showcasePanel) {
 				if(showcasePanel.getActiveItem().getItemId() === object.key) {
-					showcasePanel.toolbar.setAnswerCounter(object.value);
+					showcasePanel.toolbar.updateAnswerCounter(object.value);
 				}
 			}
 			this.fireEvent(this.events.countQuestionAnswersByQuestion, object);

@@ -523,11 +523,17 @@ Ext.define('ARSnova.view.Question', {
 	},
 	
 	setAnswerCount: function() {
+		var questionType = this.questionObj.questionType;
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		ARSnova.app.answerModel.getAnswerCount(this.questionObj._id, {
 			success: function (response) {
 				var numAnswers = parseInt(response.responseText);
-				sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(numAnswers);
+				
+				if(questionType === 'flashcard') {
+					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(numAnswers, Messages.ANSWERS_SHOWN);
+				} else {
+					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(numAnswers);
+				}
 			},
 			failure: function () {
 				console.log('server-side error');

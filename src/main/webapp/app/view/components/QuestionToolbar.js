@@ -107,8 +107,27 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 		}
 	},
 	
-	setAnswerCounter: function(value) {
-		this.answerCounter.setHtml(value + ' ' + Messages.ANSWERS);
+	setAnswerCounter: function(value, option) {
+		if(!option) {
+			option = value === 1 ? Messages.ANSWER : Messages.ANSWERS;
+		}
+		
+		this.answerCounter.setHtml(value + ' ' + option);
+	},
+	
+	updateAnswerCounter: function(value) {
+		var counter = this.answerCounter.getHtml().split(" "),
+			lastString = counter[counter.length-1];
+		
+		switch(lastString) {
+			case Messages.ANSWER:
+			case Messages.ANSWERS:
+				this.setAnswerCounter(value);
+				break;
+			default:
+				counter[0] = value;
+				this.answerCounter.setHtml(counter.join(" "));	
+		}
 	},
 
 	incrementQuestionCounter: function (activeIndex) {
