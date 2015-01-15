@@ -220,8 +220,8 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 				'margin-left': '10px'
 			},
 			handler: Ext.bind(function () {
-				var url = this.uploadTextfield.getValue();							
-				this.drawLogo(url);
+				var url = me.uploadTextfield.getValue();
+				me.drawLogo(url);
 			}, this)
 		});
 		
@@ -230,7 +230,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			cls: this.config.activateTemplates ? 'abcOptions' : 'yesnoOptions',
 			style: {
 				'margin-top': '0px',
-				'margin-bottom': '30px'
+				'margin-bottom': '0px'
 			},
 			defaults: {
 				ui: 'action'
@@ -260,15 +260,13 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			]
 		});
 		
-		 this.logo = Ext.create('Ext.Img', {
-	            id: 'logo',
-	            mode:'img', // not background 
-	            style: {
-					'margin': '0px auto',
-				},
-	            width: 100,
-	            hidden: true
-	        });
+		this.logo = Ext.create('Ext.Img', {
+			style: 'margin: 0px auto; width : 100px; height: 100px; background-size: contain',
+			src: '',
+			width: 100,
+			height: 100,
+			hidden: true
+		});
 		 
 		this.mainPart = Ext.create('Ext.form.FormPanel', {
 			cls : 'newQuestion',
@@ -357,6 +355,6 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		this.logo.setSrc(logoImg);
 		this.uploadTextfield.setHidden(true);
 		this.sendButton.setHidden(true);	
-		this.toggleUrl = true;	
+		this.toggleUrl = true;
 	},
 });
