@@ -98,7 +98,7 @@ switch (lang) {
 			LOAD_MASK_SESSION_DELETE: "Deleting session data...",
 			LOAD_MASK_ACTIVATION: "Releasing question...",
 			LOAD_MASK_SESSION_EXPORT: "Exporting session data...",
-			LOAD_MASK_SESSION_PP_CLONE: "Cloning public pool session...",
+			LOAD_MASK_SESSION_PP_CLONE: "Copy public pool session...",
 
 			/* mySessionsPanel */
 			HOME: "Start",
@@ -364,7 +364,7 @@ switch (lang) {
 			EXPORT_FIELD_LICENCE: "OER Licence",
 			EXPORT_FIELD_EMAIL: "Email",
 			EXPORT_FIELD_SPECIAL_FIELD: "Faculty",
-			EXPORT_SELECTED_SESSIONS_TITLE : "Export selected sessions",
+			EXPORT_SELECTED_SESSIONS_TITLE : "Export sessions",
 			EXPORT_SELECTED_SESSIONS_MSG : "Where should the sessions be exported",
 			EXPORT_SESSION_INFORMATION: "Auditorium and prepare questions for the selected sessions will be exported.",
 			EXPORT_NOTIFICATION:	"There was no session selected",
@@ -376,7 +376,7 @@ switch (lang) {
 			IMPORT_IOS_NOTIFICATION: "An import can not be performed on iOS devices",
 			
 			/*Public pool*/
-			SESSIONPOOL_CLONE: "Clone",
+			SESSIONPOOL_CLONE: "Copy",
 			SESSIONPOOL_AUTHORINFO: "Author information",
 			SESSIONPOOL_SESSIONINFO: "Public Session information",
 			SESSIONPOOL_LOGOINFO: "Logo",
@@ -387,6 +387,9 @@ switch (lang) {
 			SESSIONPOOL_NOTIFICATION_SUBJECT: "Must be present",
 			SESSIONPOOL_NOTIFICATION_NAME:	"Must be present",
 			SESSIONPOOL_NOTIFICATION_UNIVERSITY: "Must be present",
+			SESSIONPOOL_NOTIFICATION_SESSION_NAME:	"Must be present",
+			SESSIONPOOL_NOTIFICATION_SESSION_SHORTNAME:	"Must be present",
+			SESSIONPOOL_NOTIFICATION_QUESTION_NUMBER: "Session must contain at least one question",
 			SESSIONPOOL_NOTIFICATION:	"The formular is not complete",
 			SESSIONPOOL_ERR_GET_NOTFOUND: "Could not find session.",
 			SESSIONPOOL_ERR_NO_PPSESSIONS: "No public pool sessions found.",
@@ -533,7 +536,7 @@ switch (lang) {
 			LOAD_MASK_SESSION_DELETE: "Lösche Session-Daten...",
 			LOAD_MASK_ACTIVATION: "Aktiviere die Freigabe...",
 			LOAD_MASK_SESSION_EXPORT: "Exportiere Session-Daten...",
-			LOAD_MASK_SESSION_PP_CLONE: "Klone Public Pool Session...",
+			LOAD_MASK_SESSION_PP_CLONE: "Kopiere Public Pool Session...",
 
 			/* mySessionsPanel */
 			HOME: "Start",
@@ -798,7 +801,7 @@ switch (lang) {
 			EXPORT_FIELD_LICENCE: "OER Lizenz",
 			EXPORT_FIELD_EMAIL: "Email",
 			EXPORT_FIELD_SPECIAL_FIELD: "Fachbereich",
-			EXPORT_SELECTED_SESSIONS_TITLE : "Ausgewählte Sessions exportieren",
+			EXPORT_SELECTED_SESSIONS_TITLE : "Sessions exportieren",
 			EXPORT_SELECTED_SESSIONS_MSG : "Wohin möchten Sie die Sessions exportieren",
 			EXPORT_SESSION_INFORMATION: "Hörsaal und Vorbereitungsfragen der ausgewählten Sessions werden exportiert",
 			EXPORT_NOTIFICATION: "Es wurde keine Session ausgewählt",
@@ -811,7 +814,7 @@ switch (lang) {
 			IMPORT_IOS_NOTIFICATION: "Ein Import kann auf iOS Geräten nicht durchgeführt werden",
 			
 			/*Public pool*/
-			SESSIONPOOL_CLONE: "Klonen",
+			SESSIONPOOL_CLONE: "Kopieren",
 			SESSIONPOOL_AUTHORINFO: "Verfasserinformation",
 			SESSIONPOOL_SESSIONINFO: "Public-Sessioninformation",
 			SESSIONPOOL_LOGOINFO: "Logo",
@@ -822,6 +825,9 @@ switch (lang) {
 			SESSIONPOOL_NOTIFICATION_SUBJECT: "Kein gültiges Fach",
 			SESSIONPOOL_NOTIFICATION_NAME:	"Kein Name eingegeben",
 			SESSIONPOOL_NOTIFICATION_UNIVERSITY: "Keine Hochschule angegeben",
+			SESSIONPOOL_NOTIFICATION_SESSION_NAME:	"Kein Name für die Session angegeben",
+			SESSIONPOOL_NOTIFICATION_SESSION_SHORTNAME:	"Kein Kürzel für die Session angegeben",
+			SESSIONPOOL_NOTIFICATION_QUESTION_NUMBER: "Session muss mindestens eine Frage beinhalten",
 			SESSIONPOOL_NOTIFICATION:	"Eingaben sind nicht korrekt",
 			SESSIONPOOL_ERR_GET_NOTFOUND: "Session konnte nicht geladen werden.",
 			SESSIONPOOL_ERR_NO_PPSESSIONS: "Keine Public Pool Sessions gefunden.",
