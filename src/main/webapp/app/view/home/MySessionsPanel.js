@@ -178,7 +178,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			this.matrixButtonPanel.add(this.publicPoolButton);
 		}
 		
-		if (false) {
+		if (config.features.sessionImportExport) {
 			this.importButtonClickable = Ext.create('Ext.ux.Fileup', {
 				xtype: 'fileupload',
 				autoUpload: true,
