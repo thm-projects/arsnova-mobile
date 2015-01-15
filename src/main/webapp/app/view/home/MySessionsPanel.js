@@ -46,6 +46,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		this.callParent(arguments);
 		
 		var me = this;
+		var config = ARSnova.app.globalConfig;
 
 		this.logoutButton = Ext.create('Ext.Button', {
 			text: Messages.LOGOUT,
@@ -122,156 +123,161 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			title: Messages.LAST_VISITED_SESSIONS_SPEAKER
 		});
 		
-		this.exportButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: 'Export', 
-			buttonConfig: 'icon',
-			imageCls: 'icon-cloud-download ',
-			scope: this,
-			hidden: true,
-			handler: function () {
-				if(Ext.os.is.iOS){
-					Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_IOS_NOTIFICATION);
-				}else{
-					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-					
-					var msgBox = Ext.create('Ext.MessageBox');
-					
-					Ext.apply(msgBox, {
-						YESNO: [
-						        { text: 'Dateisystem', itemId: 'yes', ui: 'action' }, 
-						        { text: 'Public Pool', itemId: 'no', ui: 'action'}
-				        ]
-					});
-					
-					msgBox.show({
-						title: Messages.EXPORT_SELECTED_SESSIONS_TITLE,
-						message: Messages.EXPORT_SELECTED_SESSIONS_MSG,
-						buttons: msgBox.YESNO,
-						fn: function(btn) {
-							var dest = null;
-						    if (btn === 'yes') {
-						    	dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
-						    		exportType: 'filesystem'
-						    	});
-						    }  else {
-						    	dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
-						    		exportType: 'public_pool'
-						    	});
-						    }
-						    hTP.animateActiveItem(dest, 'slide');
-						}
-					});
-				
-//				hTP.animateActiveItem(hTP.exportSessionListPanel, {
-//					type: 'slide',
-//					direction: 'left',
-//					duration: 700
-//				});
-			  }
-			}	
-		});
-		
-		this.importButtonClickable = Ext.create('Ext.ux.Fileup', {
-			xtype: 'fileupload',
-			autoUpload: true,
-			loadAsDataUrl: true,
-			baseCls: 'button',
-			style: 'background: transparent;position:absolute; width:100%; height: 100%; z-index: 100;border: none !important;font-size:0;',
-			states: {
-				browse: {
-					text: "Suchen"
-				},
-				ready: {
-					text: Messages.LOAD
-				},
-				uploading: {
-					text: Messages.LOADING,
-					loading: true
-				}
-			},
-			handler: function(){
-				if(Ext.os.is.iOS)
-					Ext.Msg.alert(Messages.NOTIFICATION, Messages.IMPORT_IOS_NOTIFICATION);
-			},
-			listeners: {
-				scope: this,
-				loadsuccess: function (data) {
-					if(!Ext.os.is.iOS){
-						var n = data.indexOf("base64,");
-						data = decodeURIComponent(escape(atob(data.substring(n+7)))); // remove disturbing prefix
-						var hideLoadMask = ARSnova.app.showLoadMask(Messages.IMP_LOADMSK);
-						var jsonContent = JSON.parse(data);
-						var ctrl = ARSnova.app.getController("SessionImport").importSession(jsonContent.exportData, true);
-						me.loadCreatedSessions();
-						hideLoadMask();
-					}	
-				},
-				loadfailure: function (message) {}
-			}
-		});
-		this.importButtonClickable.fileElement.dom.accept = ""; // enable all kinds of data for file input
-		
-		this.importButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.IMP_BUTTON_IMPORT,
-			buttonConfig: 'icon',
-			imageCls: 'icon-cloud-upload ',
-			scope: this
-		});
-
-		this.publicPoolButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: 'Pool',
-			buttonConfig: 'icon',
-			imageCls: 'icon-cloud thm-darkblue',
-			scope: this,
-			handler: function() {
-				// get public pool sessions from server
-				var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK);
-				ARSnova.app.restProxy.getPublicPoolSessions({
-					success: function(sessionList) {
-						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-						me.publicPoolPanel = Ext.create('ARSnova.view.home.PublicPoolPanel',{
-							sessions: sessionList
-						});
-						
-						hTP.animateActiveItem(me.publicPoolPanel, {
-							type: 'slide',
-							direction: 'left',
-							duration: 700
-						});
-						
-						hideLoadMask();
-					},
-					empty: function() {
-	    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_GET_NOTFOUND);
-	    				hideLoadMask();
-	    			},
-	    			failure: function() {
-	    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_GET_NOTFOUND);
-	    				hideLoadMask();
-	    			},
-	    			unauthenticated: function() {
-	    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_GET_SESSION);
-	    				hideLoadMask();
-	    			}
-				});
-			}
-		});
-		
-		this.importButtonPanel = Ext.create('Ext.Panel', {
-			items: [this.importButtonClickable, this.importButton]
-		});
-		
 		this.matrixButtonPanel = Ext.create('Ext.Panel', {
 			layout: {
 				type: 'hbox',
 				pack: 'center'
-			},
-			items: [
-				this.publicPoolButton,    
-				this.exportButton,
-				this.importButtonPanel
-			]
+			}
 		});
+
+		console.log("config");
+		console.log(config);
+
+		if (config.features.publicPool) {
+			this.publicPoolButton = Ext.create('ARSnova.view.MatrixButton', {
+				text: 'Pool',
+				buttonConfig: 'icon',
+				imageCls: 'icon-cloud thm-darkblue',
+				scope: this,
+				handler: function() {
+					// get public pool sessions from server
+					var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK);
+					ARSnova.app.restProxy.getPublicPoolSessions({
+						success: function(sessionList) {
+							var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+							me.publicPoolPanel = Ext.create('ARSnova.view.home.PublicPoolPanel',{
+								sessions: sessionList
+							});
+							
+							hTP.animateActiveItem(me.publicPoolPanel, {
+								type: 'slide',
+								direction: 'left',
+								duration: 700
+							});
+							
+							hideLoadMask();
+						},
+						empty: function() {
+		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
+		    				hideLoadMask();
+		    			},
+		    			failure: function() {
+		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
+		    				hideLoadMask();
+		    			},
+		    			unauthenticated: function() {
+		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
+		    				hideLoadMask();
+		    			}
+					});
+				}
+			});
+			this.matrixButtonPanel.add(this.publicPoolButton);
+		}
+		
+		if (config.features.sessionImportExport) {
+			this.importButtonClickable = Ext.create('Ext.ux.Fileup', {
+				xtype: 'fileupload',
+				autoUpload: true,
+				loadAsDataUrl: true,
+				baseCls: 'button',
+				style: 'background: transparent;position:absolute; width:100%; height: 100%; z-index: 100;border: none !important;font-size:0;',
+				states: {
+					browse: {
+						text: "Suchen"
+					},
+					ready: {
+						text: Messages.LOAD
+					},
+					uploading: {
+						text: Messages.LOADING,
+						loading: true
+					}
+				},
+				handler: function(){
+					if(Ext.os.is.iOS)
+						Ext.Msg.alert(Messages.NOTIFICATION, Messages.IMPORT_IOS_NOTIFICATION);
+				},
+				listeners: {
+					scope: this,
+					loadsuccess: function (data) {
+						if(!Ext.os.is.iOS){
+							var n = data.indexOf("base64,");
+							data = decodeURIComponent(escape(atob(data.substring(n+7)))); // remove disturbing prefix
+							var hideLoadMask = ARSnova.app.showLoadMask(Messages.IMP_LOADMSK);
+							var jsonContent = JSON.parse(data);
+							var ctrl = ARSnova.app.getController("SessionImport").importSession(jsonContent.exportData, true);
+							me.loadCreatedSessions();
+							hideLoadMask();
+						}	
+					},
+					loadfailure: function (message) {}
+				}
+			});
+			this.importButtonClickable.fileElement.dom.accept = ""; // enable all kinds of data for file input
+			
+			this.importButton = Ext.create('ARSnova.view.MatrixButton', {
+				text: Messages.IMP_BUTTON_IMPORT,
+				buttonConfig: 'icon',
+				imageCls: 'icon-cloud-upload ',
+				scope: this
+			});
+
+			this.importButtonPanel = Ext.create('Ext.Panel', {
+				items: [this.importButtonClickable, this.importButton]
+			});
+			
+			this.exportButton = Ext.create('ARSnova.view.MatrixButton', {
+				text: 'Export', 
+				buttonConfig: 'icon',
+				imageCls: 'icon-cloud-download ',
+				scope: this,
+				hidden: true,
+				handler: function () {
+					if(Ext.os.is.iOS){
+						Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_IOS_NOTIFICATION);
+					}else{
+						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+						
+						if (!config.features.publicPool) {
+							hTP.animateActiveItem(dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
+					    		exportType: 'filesystem'
+					    	}), 'slide');
+						} else {
+							var msgBox = Ext.create('Ext.MessageBox');
+							
+							Ext.apply(msgBox, {
+								YESNO: [
+								        { text: 'Dateisystem', itemId: 'yes', ui: 'action' }, 
+								        { text: 'Public Pool', itemId: 'no', ui: 'action'}
+						        ]
+							});
+							
+							msgBox.show({
+								title: Messages.EXPORT_SELECTED_SESSIONS_TITLE,
+								message: Messages.EXPORT_SELECTED_SESSIONS_MSG,
+								buttons: msgBox.YESNO,
+								fn: function(btn) {
+									var dest = null;
+								    if (btn === 'yes') {
+								    	dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
+								    		exportType: 'filesystem'
+								    	});
+								    }  else {
+								    	dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
+								    		exportType: 'public_pool'
+								    	});
+								    }
+								    hTP.animateActiveItem(dest, 'slide');
+								}
+							});
+						}
+				  }
+				}	
+			});
+			this.matrixButtonPanel.add(this.exportButton);
+			this.matrixButtonPanel.add(this.importButtonPanel);
+		} 
 
 		this.add([
 			this.toolbar,
