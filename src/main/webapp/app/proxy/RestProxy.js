@@ -177,7 +177,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			url: "session/publicpool/",
 			method: "GET",
 			params: {
-				myonly: true
+				statusonly: true
 			},
 
 			success: callbacks.success,
