@@ -24,7 +24,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 	   'ARSnova.model.Question'
 	],
 	
-	cloneSessionFromPublicPool: function(session) {
+	cloneSessionFromPublicPool: function(session, customSessionAttributes) {
 		var me = this;
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_PP_CLONE);
 		
@@ -39,6 +39,11 @@ Ext.define("ARSnova.controller.SessionExport", {
 		this.exportSessions(sessions, true, true)
 		.then(function(exportData) {
 			for (var i = 0; i < exportData.length; i++) {
+				// overwrite custom session attributes
+				for (var attrname in customSessionAttributes) {
+					exportData[i]['session'][attrname] = customSessionAttributes[attrname];
+				}
+				
 				// remove public pool attributes from session
 				console.log('session', exportData[i].session);
 				for (var attrname in exportData[i].session) {

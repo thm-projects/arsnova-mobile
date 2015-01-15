@@ -53,7 +53,10 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
 			handler: function () {
-					ARSnova.app.getController("SessionExport").cloneSessionFromPublicPool(me.getSession());
+				var customSessionAttributes = {};
+				customSessionAttributes['name'] = me.sessionName.getValue();
+				customSessionAttributes['shortName'] = me.sessionShortName.getValue();
+				ARSnova.app.getController("SessionExport").cloneSessionFromPublicPool(me.getSession(), customSessionAttributes);
 			},
 			scope: this
 		});
@@ -95,7 +98,18 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			value: this.getSession().name,
 			disabledCls: 'disableDefault',
 			inputCls: 'thm-grey',
-			disabled: true
+			maxLength : 50,
+			disabled: false
+		});
+		
+		this.sessionShortName = Ext.create('Ext.field.Text', {
+			label: Messages.SESSION_SHORT_NAME,
+			name: 'sessionShortName',
+			value: this.getSession().shortName,
+			disabledCls: 'disableDefault',
+			inputCls: 'thm-grey',
+			maxLength : 8,
+			disabled: false
 		});
 
 		this.sessionDescription = Ext.create('Ext.plugins.ResizableTextArea', {
@@ -129,7 +143,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			title: Messages.SESSIONPOOL_SESSIONINFO,
 			cls: 'standardFieldset',
 			itemId: 'contentFieldset',
-			items: [this.sessionName, this.sessionDescription, /*this.sessionQuestionCount,*/ this.sessionLicense]
+			items: [this.sessionName, this.sessionShortName, this.sessionDescription, /*this.sessionQuestionCount,*/ this.sessionLicense]
 		});
 		
 		//
