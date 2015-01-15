@@ -378,7 +378,7 @@ switch (lang) {
 			/*Public pool*/
 			SESSIONPOOL_CLONE: "Clone",
 			SESSIONPOOL_AUTHORINFO: "Author information",
-			SESSIONPOOL_SESSIONINFO: "Session information",
+			SESSIONPOOL_SESSIONINFO: "Public Session information",
 			SESSIONPOOL_LOGOINFO: "Logo",
 			SESSIONPOOL_INFO: "Description",
 			SESSIONPOOL_COUNT_QUESTION: "Number of isssues",
@@ -813,7 +813,7 @@ switch (lang) {
 			/*Public pool*/
 			SESSIONPOOL_CLONE: "Klonen",
 			SESSIONPOOL_AUTHORINFO: "Verfasserinformation",
-			SESSIONPOOL_SESSIONINFO: "Sessioninformation",
+			SESSIONPOOL_SESSIONINFO: "Public-Sessioninformation",
 			SESSIONPOOL_LOGOINFO: "Logo",
 			SESSIONPOOL_INFO: "Beschreibung",
 			SESSIONPOOL_COUNT_QUESTION: "Anzahl Fragen",
