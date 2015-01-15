@@ -278,6 +278,10 @@ Ext.define('ARSnova.model.Question', {
 	countAnswers: function (sessionKeyword, questionId, callbacks) {
 		return this.getProxy().countAnswers(sessionKeyword, questionId, callbacks);
 	},
+	
+	countPiAnswers: function (sessionKeyword, questionId, piRound, callbacks) {
+		return this.getProxy().countPiAnswers(sessionKeyword, questionId, piRound, callbacks);
+	},
 
 	countAnswersByQuestion: function (sessionKeyword, questionId, callbacks) {
 		return this.getProxy().countAnswersByQuestion(sessionKeyword, questionId, callbacks);

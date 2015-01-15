@@ -593,6 +593,16 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
+	
+	countPiAnswers: function (sessionKeyword, questionId, piRound, callbacks) {
+		if(!piRound) piRound = 0;
+		
+		this.arsjax.request({
+			url: "lecturerquestion/" + questionId + "/answer/?piround=" + piRound,
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
 
 	countAnswersByQuestion: function (sessionKeyword, questionId, callbacks) {
 		this.arsjax.request({
