@@ -192,7 +192,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		this.publicPoolButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: 'Pool',
 			buttonConfig: 'icon',
-			imageCls: 'icon-cloud',
+			imageCls: 'icon-cloud thm-darkblue',
 			scope: this,
 			handler: function() {
 				// get public pool sessions from server
@@ -238,9 +238,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				pack: 'center'
 			},
 			items: [
+				this.publicPoolButton,    
 				this.exportButton,
-				this.importButtonPanel,
-				this.publicPoolButton
+				this.importButtonPanel
 			]
 		});
 
