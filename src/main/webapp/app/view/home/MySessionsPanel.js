@@ -136,9 +136,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			}
 		});
 
-		console.log("config");
-		console.log(config);
-
 		if (config.features.publicPool) {
 			this.publicPoolButton = Ext.create('ARSnova.view.MatrixButton', {
 				text: 'Pool',
@@ -181,7 +178,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			this.matrixButtonPanel.add(this.publicPoolButton);
 		}
 		
-		if (config.features.sessionImportExport) {
+		if (false) {
 			this.importButtonClickable = Ext.create('Ext.ux.Fileup', {
 				xtype: 'fileupload',
 				autoUpload: true,
@@ -356,7 +353,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				panel.sessionsForm.show();
 				
 				if(sessions.length > 0){
-					me.exportButton.setHidden(false);
+					me.saveSetHidden(me.exportButton, false);
 				}
 								
 				var session;
@@ -409,7 +406,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			empty: Ext.bind(function () {
 				hideLoadMask();
 				this.sessionsForm.hide();
-				me.exportButton.setHidden(true);	
+				me.saveSetHidden(me.exportButton, true);
 				promise.reject();
 			}, this),
 			unauthenticated: function () {
@@ -492,7 +489,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			empty: Ext.bind(function () {
 				hideLoadMask();
 				this.myPpSessionsForm.hide();
-				me.exportButton.setHidden(true);	
+				me.saveSetHidden(me.exportButton, true);
 				promise.reject();
 			}, this),
 			unauthenticated: function () {
@@ -588,5 +585,13 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			}
 		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
 		return promise;
+	},
+	
+	/**
+	 * Save way to set an element hidden.
+	 */
+	saveSetHidden: function(element, hidden) {
+		if (typeof element !== undefined && element != null)
+			element.setHidden(hidden);
 	}
 });
