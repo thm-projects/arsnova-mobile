@@ -187,29 +187,12 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		});
 		
 		console.log('session:', this.getSession());
-		
-		this.logo = Ext.create('Ext.Img', { 
-            mode:'img', // not background 
-            style: {
-				'margin': '0px auto',
-			},
-            width: 100,
-            src:this.getSession().ppLogo
-        });
-		
-		
+
 		this.creatorFieldSet = Ext.create('Ext.form.FieldSet', {
 			title: Messages.SESSIONPOOL_AUTHORINFO,
 			cls: 'standardFieldset',
 			itemId: 'contentFieldset',
 			items: [this.creatorName, this.creatorMail, this.creatorUni, this.creatorDep]
-		});
-
-		this.logoFieldSet = Ext.create('Ext.form.FieldSet', {
-			title: Messages.SESSIONPOOL_LOGOINFO,
-			cls: 'standardFieldset',
-			itemId: 'contentFieldset',
-			items: [this.logo]
 		});
 		
 		this.contentForm = Ext.create('Ext.form.FormPanel', {
@@ -218,11 +201,28 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			style: {marginTop: '15px', marginLeft: '12px', marginRight: '12px'},
 			items: [
 			        this.sessionFieldSet,
-			        this.creatorFieldSet,
-			        this.logoFieldSet
+			        this.creatorFieldSet
 			]
 		});
 
+		if (this.getSession().ppLogo != null) {
+			this.logoFieldSet = Ext.create('Ext.form.FieldSet', {
+				title: Messages.SESSIONPOOL_LOGOINFO,
+				cls: 'standardFieldset',
+				itemId: 'contentFieldset',
+				items: [
+				        Ext.create('Ext.Img', { 
+				        	mode:'img', // not background 
+				        	style: {
+				        		'margin': '0px auto',
+				        	},
+				        	width: 100,
+				        	src:this.getSession().ppLogo
+				        })]
+			});
+			this.contentForm.add(this.logoFieldSet);
+		}
+		
 		this.add([
 			this.toolbar,
 			this.contentForm
