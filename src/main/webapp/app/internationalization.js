@@ -360,7 +360,7 @@ switch (lang) {
 			EXPORT_FIELD_NAME: "Name of teacher",
 			EXPORT_FIELD_UNI: "University",
 			EXPORT_FIELD_LOGO: "Logo",
-			EXPORT_FIELD_SUBJECT: "Subject",
+			EXPORT_FIELD_SUBJECT: "Course of studies",
 			EXPORT_FIELD_LICENCE: "OER Licence",
 			EXPORT_FIELD_EMAIL: "Email",
 			EXPORT_FIELD_SPECIAL_FIELD: "Faculty",
@@ -369,7 +369,7 @@ switch (lang) {
 			EXPORT_SESSION_INFORMATION: "Auditorium and prepare questions for the selected sessions will be exported.",
 			EXPORT_NOTIFICATION:	"There was no session selected",
 			EXPORT_IOS_NOTIFICATION: "An export can not be performed on iOS devices",
-			EXPORT_BUTTON_FS: "Filesystem",
+			EXPORT_BUTTON_FS: "My Filesystem",
 			EXPORT_BUTTON_PP: "Public Pool",
 			
 			/*Import session*/
@@ -794,7 +794,7 @@ switch (lang) {
 			EXPORT_FIELD_NAME: "Name des Dozenten",
 			EXPORT_FIELD_UNI: "Hochschule",
 			EXPORT_FIELD_LOGO: "Logo",
-			EXPORT_FIELD_SUBJECT: "Fach",
+			EXPORT_FIELD_SUBJECT: "Studiengang",
 			EXPORT_FIELD_LICENCE: "OER Lizenz",
 			EXPORT_FIELD_EMAIL: "Email",
 			EXPORT_FIELD_SPECIAL_FIELD: "Fachbereich",
@@ -803,7 +803,7 @@ switch (lang) {
 			EXPORT_SESSION_INFORMATION: "Hörsaal und Vorbereitungsfragen der ausgewählten Sessions werden exportiert",
 			EXPORT_NOTIFICATION: "Es wurde keine Session ausgewählt",
 			EXPORT_IOS_NOTIFICATION: "Ein Export kann auf iOS Geräten nicht durchgeführt werden",
-			EXPORT_BUTTON_FS: "Dateisystem",
+			EXPORT_BUTTON_FS: "Mein Dateisystem",
 			EXPORT_BUTTON_PP: "Public Pool",
 			
 			
