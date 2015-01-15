@@ -116,6 +116,12 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			scrollable: null,
 			title: Messages.MY_SESSIONS
 		});
+		
+		this.myPpSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
+			style: 'margin:0 3px',
+			scrollable: null,
+			title: Messages.MY_PUBLIC_POOL_SESSIONS
+		});
 
 		this.lastVisitedSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
 			style: 'margin:0 3px',
@@ -293,6 +299,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			},
 			this.newSessionButtonForm,
 			this.sessionsForm,
+			this.myPpSessionsForm,
 			this.matrixButtonPanel,
 			this.lastVisitedSessionsForm
 		]);
@@ -306,11 +313,13 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				};
 				var p1 = this.loadCreatedSessions();
 				var p2 = this.loadVisitedSessions();
+				var p3 = this.loadCreatedPublicPoolSessions();
 				// get the summary of all session lists
-				RSVP.all([p1, p2]).then(handler, function error() {
+				RSVP.all([p1, p2, p3]).then(handler, function error() {
 					// errors swallow results, retest each promise seperately to figure out if one succeeded
 					p1.then(handler);
 					p2.then(handler);
+					p3.then(handler);
 				});
 			}
 		});
@@ -352,6 +361,8 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 								
 				var session;
 				for (var i = 0, session; session = sessions[i]; i++) {
+					
+					console.log('session', session);
 					
 					var status = "";
 					var course = "icon-presenter";
@@ -398,6 +409,89 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			empty: Ext.bind(function () {
 				hideLoadMask();
 				this.sessionsForm.hide();
+				me.exportButton.setHidden(true);	
+				promise.reject();
+			}, this),
+			unauthenticated: function () {
+				hideLoadMask();
+				ARSnova.app.getController('Auth').login({
+					mode: ARSnova.app.loginMode
+				});
+				promise.reject();
+			},
+			failure: function () {
+				hideLoadMask();
+				console.log("my sessions request failure");
+				promise.reject();
+			}
+		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
+		return promise;
+	},
+	
+	loadCreatedPublicPoolSessions: function () {
+		var me = this;
+		var promise = new RSVP.Promise();
+
+		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
+		ARSnova.app.sessionModel.getMyPublicPoolSessions({
+			success: function (response) {
+				var sessions = Ext.decode(response.responseText);
+				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.mySessionsPanel;
+				var caption = panel.caption;
+
+				panel.myPpSessionsForm.removeAll();
+				panel.myPpSessionsForm.show();
+								
+				var session;
+				for (var i = 0, session; session = sessions[i]; i++) {
+					
+					console.log('ppSession', session);
+					
+					var status = "";
+					var course = "icon-presenter";
+
+					if (!session.active) {
+						status = " isInactive";
+					}
+
+					if (session.courseType && session.courseType.length > 0) {
+						course = "icon-prof";
+					}
+
+					// Minimum width of 321px equals at least landscape view
+					var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
+					var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+						ui: 'normal',
+						text: Ext.util.Format.htmlEncode(displaytext),
+						iconCls: course + " courseIcon",
+						cls: 'forwardListButton' + status,
+						sessionObj: session,
+						handler: function (options) {
+							console.log(options.config.sessionObj);
+							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
+							localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
+							ARSnova.app.setWindowTitle();
+							
+							ARSnova.app.getController('Sessions').login({
+								keyword: options.config.sessionObj.keyword
+							});
+							hideLoadMask();
+						}
+					});
+					sessionButton.setBadge([
+						{badgeText: session.numInterposed, badgeCls: "feedbackQuestionsBadgeIcon"},
+						{badgeText: session.numQuestions, badgeCls: "questionsBadgeIcon"},
+						{badgeText: session.numAnswers, badgeCls: "answersBadgeIcon"}
+					]);
+					panel.myPpSessionsForm.addEntry(sessionButton);
+				}
+
+				hideLoadMask();
+				promise.resolve(sessions);
+			},
+			empty: Ext.bind(function () {
+				hideLoadMask();
+				this.myPpSessionsForm.hide();
 				me.exportButton.setHidden(true);	
 				promise.reject();
 			}, this),

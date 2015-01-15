@@ -171,6 +171,23 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
+	
+	getMyPublicPoolSessions: function (callbacks) {
+		this.arsjax.request({
+			url: "session/publicpool/",
+			method: "GET",
+			params: {
+				myonly: true
+			},
+
+			success: callbacks.success,
+			204: callbacks.empty,
+
+			401: callbacks.unauthenticated,
+			404: callbacks.empty,
+			failure: callbacks.failure
+		});
+	},
 
 	getSessionsByKeyword: function (keyword, callbacks) {
 		this.arsjax.request({
