@@ -193,12 +193,19 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 								console.log('options', options.config.sessionObj);
 								var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 								
-								var exportToPublic = Ext.create('ARSnova.view.home.SessionExportToPublicPanel', {
-									exportSession: options.config.sessionObj,
-									backReference: me
-						    	});
-								
-								hTP.animateActiveItem(exportToPublic, 'slide');
+								var exportSession = options.config.sessionObj;
+			
+								// validate session for public pool
+								if (exportSession.numQuestions < 1) {									
+									Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSIONPOOL_NOTIFICATION_QUESTION_NUMBER);
+								} else {
+									var exportToPublic = Ext.create('ARSnova.view.home.SessionExportToPublicPanel', {
+										exportSession: exportSession,
+										backReference: me
+							    	});
+									
+									hTP.animateActiveItem(exportToPublic, 'slide');
+								}
 							}
 						});
 					}
