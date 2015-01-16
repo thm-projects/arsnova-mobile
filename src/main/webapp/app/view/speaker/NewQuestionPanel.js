@@ -519,6 +519,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		promise.then(function () {
 			panel.subject.reset();
 			panel.textarea.reset();
+			
+			if (panel.flashcardQuestion) {
+				panel.flashcardQuestion.answer.reset();
+			}
 
 			switch (panel.questionOptions.getPressedButtons()[0]._text) {
 				case Messages.GRID:
