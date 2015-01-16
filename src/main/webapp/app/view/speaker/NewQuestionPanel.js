@@ -464,7 +464,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		values.abstention = !panel.abstentionPart.isHidden() && panel.abstentionPart.getAbstention();
 		values.questionVariant = panel.getVariant();
 		values.image = this.image;
-		values.flashcardImage = this.fcImage;
+		values.flashcardImage = null;
 
 		if (localStorage.getItem('courseId') != null && localStorage.getItem('courseId').length > 0) {
 			values.releasedFor = 'courses';
@@ -520,6 +520,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			case Messages.FLASHCARD_SHORT:
 				values.questionType = "flashcard";
 
+				values.flashcardImage = this.fcImage;
 				Ext.apply(values, panel.flashcardQuestion.getQuestionValues());
 				break;
 
