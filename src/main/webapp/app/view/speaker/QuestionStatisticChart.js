@@ -59,14 +59,17 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	constructor: function (args) {
 		this.callParent(arguments);
 
+		var me = this;
 		this.questionObj = args.question;
 		this.lastPanel = args.lastPanel;
 
 		this.questionStore = Ext.create('Ext.data.Store', {
 			fields: [
 				{name: 'text', type: 'string'},
-				{name: 'value',  type: 'int'},
-				{name: 'percent',  type: 'int'}
+				{name: 'value-round1',  type: 'int'},
+				{name: 'value-round2', type: 'int'},
+				{name: 'percent-round1',  type: 'int'},
+				{name: 'percent-round2', type: 'int'}
 			]
 		});
 
@@ -171,6 +174,62 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				hidden: !hasCorrectAnswers() || this.questionObj.questionType === 'grid'
 			}]
 		});
+		
+		this.piBottomBar = Ext.create('Ext.Toolbar', {
+			docked: 'top',
+			style: 'background: transparent; border: none;',
+			defaults: {
+				xtype: 'button',
+				scope: this,
+				handler: function(button) {
+					this.modifyChart(button.config.value);
+				}
+			},
+			items:[{
+					xtype: 'spacer'
+				}, this.segmentedButton = Ext.create('Ext.SegmentedButton', {
+					allowDepress: false,
+					defaults: {
+						ui: 'action'
+					},
+					items: [{
+							text: 'Round 1',
+							itemId: '1'
+						}, {
+							text: 'Round 2',
+							itemId: '2'
+						}, {
+							text: 'Round 1/2',
+							itemId: '3'
+						}
+				    ],
+					listeners: {
+						toggle: function(container, button, pressed){
+							if(pressed && container.lastPressed !== button.getItemId()) {
+
+								if(button.getItemId() > 1 && this.questionObj.piRound === 1) {
+									Ext.Msg.confirm('title', 'text', function(id) {
+										if (id === 'yes') {
+											me.enablePiRoundElements();
+											me.modifyChart(button.getItemId());
+											container.lastPressed = button.getItemId();
+										} else {
+											container.setPressedButtons([0]);
+										}
+									});
+								} else {
+									this.modifyChart(button.getItemId());
+									container.lastPressed = button.getItemId();
+								}
+							}
+						},
+				        scope: this
+				    }
+				}), {
+					xtype: 'spacer'
+				}
+			]
+		});
 
 		this.titlebar = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			cls: 'questionStatisticTitle',
@@ -218,7 +277,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			axes: [{
 				type: 'numeric',
 				position: 'left',
-				fields: ['value'],
+				fields: ['value-round1'],
 				increment: 1,
 				minimum: 0,
 				majorTickSteps: 10,
@@ -271,14 +330,15 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			series: [{
 				type: 'bar',
 				xField: 'text',
-				yField: 'value',
+				yField: ['value-round1'],
+				stacked: false,
 				style: {
 					minGapWidth: 10,
 					maxBarWidth: 200
 				},
 				label: {
 					display: 'insideEnd',
-					field: 'percent',
+					field: ['percent-round1'],
 					color: '#fff',
 					calloutColor: 'transparent',
 					renderer: function (text, sprite, config, rendererData, index) {
@@ -312,7 +372,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		if (this.questionObj.questionType !== "grid") {
 
-			this.add([this.toolbar, this.titlebar, this.questionChart]);
+			this.add([this.toolbar, this.piBottomBar, this.titlebar, this.questionChart]);
 
 		} else {
 			this.setStyle('background-color: #E0E0E0');
@@ -342,119 +402,186 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		
 		this.on('painted', function() {
 			ARSnova.app.activePreviewPanel = this;
+			
+			if(this.questionObj.piRound === 1) {
+				this.disablePiRoundElements();
+			}
 		});
 	},
 	
 	onActivate: function () {
-		ARSnova.app.innerScrollPanel = this;
+		ARSnova.app.innerScrollPanel = this;		
+		this.modifyChart(this.questionObj.piRound);
+		this.segmentedButton.setPressedButtons([this.questionObj.piRound]);
 		ARSnova.app.taskManager.start(this.renewChartDataTask);
 		ARSnova.app.taskManager.start(this.countActiveUsersTask);
 	},
+	
+	enablePiRoundElements: function() {
+		var segmentButtons = this.segmentedButton.getInnerItems();
+		segmentButtons[segmentButtons.length-1].show();
+	},
+	
+	disablePiRoundElements: function() {
+		var segmentButtons = this.segmentedButton.getInnerItems();
+		segmentButtons[segmentButtons.length-1].hide();
+	},
+	
+	modifyChart: function(piRound) {
+		var fields, percentages,
+			isStacked = false,
+			me = this;
+		
+		switch(parseInt(piRound)) {
+			case 1:
+			case 2:
+				fields = ['value-round' + piRound];
+				percentages = ['percent-round' + piRound];
+				isStacked = true;
+				break;
+			case 3:
+			default:
+				fields = ['value-round1', 'value-round2'];
+				percentages = ['percent-round1', 'percent-round2'];
+		}
+				
+		// remove all data for a smooth "redraw"
+		this.questionStore.each(function (record) {
+			record.set('value-round1', 0);
+			record.set('value-round2', 0);
+			record.set('percent-round1', 0);
+			record.set('percent-round2', 0);
+		});
+		
+		this.questionChart.getAxes()[0].setFields(fields);
+		this.questionChart.getSeries()[0].setYField(fields);
+		this.questionChart.getSeries()[0].getLabel().getTemplate().setField(percentages);
+		this.questionChart.getSeries()[0].setStacked(isStacked);
+	
+		var updateDataTask = Ext.create('Ext.util.DelayedTask', function () {
+			me.getQuestionAnswers();
+		}); 
+		
+		updateDataTask.delay(1000);
+	},
 
 	getQuestionAnswers: function () {
-		ARSnova.app.questionModel.countAnswers(localStorage.getItem('keyword'), this.questionObj._id, {
-			success: function (response) {
-				var panel = ARSnova.app.mainTabPanel._activeItem;
-				var chart = panel.questionChart;
-				var store = chart.getStore();
+		var me = this;
+		
+		ARSnova.app.questionModel.countPiAnswers(localStorage.getItem('keyword'), me.questionObj._id, 1, {
+			success: function (piRound1) {
+				ARSnova.app.questionModel.countPiAnswers(localStorage.getItem('keyword'), me.questionObj._id, 2, {
+					success: function(piRound2) {
+						var panel = ARSnova.app.mainTabPanel._activeItem;
+						var chart = panel.questionChart;
+						var store = chart.getStore();
 
-				var answers = Ext.decode(response.responseText);
+						var answers = Ext.decode(piRound1.responseText);
+						var piAnswers = Ext.decode(piRound2.responseText);
 
-				var sum = 0;
-				var maxValue = 10;
+						var sum = 0;
+						var maxValue = 10;
+						
+						var calculate = function(answers, valuePattern) {
+							var tmpPossibleAnswers = [];
+							for (var i = 0; i < tmpPossibleAnswers.length; i++) {
+								var el = tmpPossibleAnswers[i];
+								var record = store.findRecord('text', el, 0, false, true, true);
+								record.set('value' + valuePattern, 0);
+							}
 
-				var tmpPossibleAnswers = [];
-				for (var i = 0; i < tmpPossibleAnswers.length; i++) {
-					var el = tmpPossibleAnswers[i];
-					var record = store.findRecord('text', el, 0, false, true, true);
-					record.set('value', 0);
-				}
+							for (var i = 0; i < panel.questionObj.possibleAnswers.length; i++) {
+								var el = panel.questionObj.possibleAnswers[i];
+								if (el.data)
+									tmpPossibleAnswers.push(el.data.text);
+								else
+									tmpPossibleAnswers.push(el.text);
+							}
 
-				for (var i = 0; i < panel.questionObj.possibleAnswers.length; i++) {
-					var el = panel.questionObj.possibleAnswers[i];
-					if (el.data)
-						tmpPossibleAnswers.push(el.data.text);
-					else
-						tmpPossibleAnswers.push(el.text);
-				}
+							var mcAnswerCount = [];
+							var abstentionCount = 0;
+							for (var i = 0, el; el = answers[i]; i++) {
+								if (panel.questionObj.questionType === "mc") {
+									if (!el.answerText) {
+										abstentionCount = el.abstentionCount;
+										continue;
+									}
+									var values = el.answerText.split(",").map(function (answered) {
+										return parseInt(answered, 10);
+									});
+									if (values.length !== panel.questionObj.possibleAnswers.length) {
+										return;
+									}
 
-				var mcAnswerCount = [];
-				var abstentionCount = 0;
-				for (var i = 0, el; el = answers[i]; i++) {
-					if (panel.questionObj.questionType === "mc") {
-						if (!el.answerText) {
-							abstentionCount = el.abstentionCount;
-							continue;
-						}
-						var values = el.answerText.split(",").map(function (answered) {
-							return parseInt(answered, 10);
-						});
-						if (values.length !== panel.questionObj.possibleAnswers.length) {
-							return;
-						}
-
-						for (var j = 0; j < el.answerCount; j++) {
-							values.forEach(function (selected, index) {
-								if (typeof mcAnswerCount[index] === "undefined") {
-									mcAnswerCount[index] = 0;
+									for (var j = 0; j < el.answerCount; j++) {
+										values.forEach(function (selected, index) {
+											if (typeof mcAnswerCount[index] === "undefined") {
+												mcAnswerCount[index] = 0;
+											}
+											if (selected === 1) {
+												mcAnswerCount[index] += 1;
+											}
+										});
+									}
+									store.each(function (record, index) {
+										record.set("value" + valuePattern, mcAnswerCount[index]);
+									});
+								} else if (panel.questionObj.questionType === "grid") {
+									panel.gridStatistic.answers = answers;
+									panel.gridStatistic.setQuestionObj = panel.questionObj;
+									panel.gridStatistic.updateGrid();
+								} else {
+									if (!el.answerText) {
+										abstentionCount = el.abstentionCount;
+										continue;
+									}
+									var record = store.findRecord('text', el.answerText, 0, false, true, true); // exact match
+									record.set('value' + valuePattern, el.answerCount);
 								}
-								if (selected === 1) {
-									mcAnswerCount[index] += 1;
+								sum += el.answerCount;
+
+								store.each(function (record, index) {
+									var max = Math.max(maxValue, record.get('value' + valuePattern));
+									// Scale axis to a bigger number. For example, 12 answers get a maximum scale of 20.
+									maxValue = Math.ceil(max / 10) * 10;
+								});
+
+								var idx = tmpPossibleAnswers.indexOf(el.answerText); // Find the index
+								if (idx != -1) tmpPossibleAnswers.splice(idx, 1); // Remove it if really found!
+							}
+							if (abstentionCount) {
+								var record = store.findRecord('text', Messages.ABSTENTION, 0, false, true, true); // exact match
+								if (!record) {
+									store.add({text: Messages.ABSTENTION, value: abstentionCount});
+								} else if (record.get('value' + valuePattern) != abstentionCount) {
+									record.set('value' + valuePattern, abstentionCount);
 								}
+							}
+
+							// Calculate percentages
+							var totalResults = store.sum('value' + valuePattern);
+							store.each(function (record) {
+								var percent = Math.round((record.get('value' + valuePattern) / totalResults) * 100);
+								record.set('percent' + valuePattern, percent);
 							});
-						}
-						store.each(function (record, index) {
-							record.set("value", mcAnswerCount[index]);
-						});
-					} else if (panel.questionObj.questionType === "grid") {
-						panel.gridStatistic.answers = answers;
-						panel.gridStatistic.setQuestionObj = panel.questionObj;
-						panel.gridStatistic.updateGrid();
-					} else {
-						if (!el.answerText) {
-							abstentionCount = el.abstentionCount;
-							continue;
-						}
-						var record = store.findRecord('text', el.answerText, 0, false, true, true); // exact match
-						record.set('value', el.answerCount);
+						};
+						
+						calculate(answers, '-round1');
+						calculate(piAnswers, '-round2');
+
+						chart.getAxes()[0].setMaximum(maxValue);
+
+						// renew the chart-data
+						chart.redraw();
+
+						// update quote in toolbar
+						var quote = panel.toolbar.items.items[2];
+						var users = quote.getHtml().split("/");
+						users[0] = sum;
+						users = users.join("/");
+						quote.setHtml(users);
 					}
-					sum += el.answerCount;
-
-					store.each(function (record, index) {
-						var max = Math.max(maxValue, record.get('value'));
-						// Scale axis to a bigger number. For example, 12 answers get a maximum scale of 20.
-						maxValue = Math.ceil(max / 10) * 10;
-					});
-
-					var idx = tmpPossibleAnswers.indexOf(el.answerText); // Find the index
-					if (idx != -1) tmpPossibleAnswers.splice(idx, 1); // Remove it if really found!
-				}
-				if (abstentionCount) {
-					var record = store.findRecord('text', Messages.ABSTENTION, 0, false, true, true); // exact match
-					if (!record) {
-						store.add({text: Messages.ABSTENTION, value: abstentionCount});
-					} else if (record.get('value') != abstentionCount) {
-						record.set('value', abstentionCount);
-					}
-				}
-
-				// Calculate percentages
-				var totalResults = store.sum('value');
-				store.each(function (record) {
-					var percent = Math.round((record.get('value') / totalResults) * 100);
-					record.set('percent', percent);
 				});
-				chart.getAxes()[0].setMaximum(maxValue);
-
-				// renew the chart-data
-				chart.redraw();
-
-				// update quote in toolbar
-				var quote = panel.toolbar.items.items[2];
-				var users = quote.getHtml().split("/");
-				users[0] = sum;
-				users = users.join("/");
-				quote.setHtml(users);
 			},
 			failure: function () {
 				console.log('server-side error');
