@@ -37,10 +37,16 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			fsUploadHandler: this.setImage
 		});
 		
-		this.uploadView.setUploadPanelConfig(
-			Messages.PICTURE_SOURCE + " " + 
-			Messages.FLASHCARD_FRONT_PAGE
-		);
+		if(this.config.editPanel) {
+			this.uploadView.setUploadPanelConfig(
+				Messages.PICTURE_SOURCE + " - " + Messages.FLASHCARD_BACK_PAGE,
+				this.setFcImage, this.setFcImage
+			);
+		} else {
+			this.uploadView.setUploadPanelConfig(
+				Messages.PICTURE_SOURCE + " - " + Messages.FLASHCARD_FRONT_PAGE
+			);
+		}
 		
 		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
 			editable: false,
@@ -74,6 +80,10 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 				items: [previewButton]
 			}, this.uploadView, this.grid]
 		}]);
+		
+		this.on('painted', function(){
+			
+		});
 	},
 
 	initWithQuestion: function (question) {
@@ -88,11 +98,22 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 		var newQuestionPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
 		newQuestionPanel.setImage(image);
 	},
+	
+	setFcImage: function(image) {
+		this.fcImage = image;
+		this.grid.setImage(image);
+		if(image) {
+			this.grid.show();
+		} else {
+			this.grid.hide();
+		}
+	},
 
 	getQuestionValues: function () {
 		var result = {};
 
 		result.possibleAnswers = [{text: this.answer.getValue(), correct: true}];
+		result.fcImage = this.fcImage;
 
 		return result;
 	},

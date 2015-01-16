@@ -210,6 +210,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		if (config.features.flashcard) {
 			formatItems.push({text: messageAppendix.length ? Messages.FLASHCARD : Messages.FLASHCARD_SHORT});
 			me.flashcardQuestion = Ext.create('ARSnova.view.speaker.form.FlashcardQuestion', {
+				editPanel: false,
 				hidden: true
 			});
 		}
