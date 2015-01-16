@@ -241,6 +241,18 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		this.add([this.toolbar, this.feedbackButtons, this.feedbackChart]);
 
 		this.onBefore('activate', function () {
+			var me = this;
+			
+			ARSnova.app.feedbackModel.getFeedback(localStorage.getItem('keyword'), {
+				success: function(response) {
+					var feedback = Ext.decode(response.responseText);
+					me.updateChart(feedback.values);
+				},
+				failure: function() {
+					console.log('server-side error');
+				}
+			});
+			
 			// remove x-axis ticks and labels at initialization
 			this.feedbackChart.getAxes()[1].sprites[0].attr.majorTicks = false;
 		});
