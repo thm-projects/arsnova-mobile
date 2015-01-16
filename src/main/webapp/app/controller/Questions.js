@@ -123,6 +123,7 @@ Ext.define("ARSnova.controller.Questions", {
 			offsetY: options.offsetY,
 			zoomLvl: options.zoomLvl,
 			image: options.image,
+			fcImage: options.fcImage,
 			gridOffsetX: options.gridOffsetX,
 			gridOffsetY: options.gridOffsetY,
 			gridZoomLvl: options.gridZoomLvl,

@@ -147,16 +147,15 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			xtype: 'formpanel',
 			width: '100%',
 			scrollable: null,
-			items: [{
-				xtype: 'fieldset',
-				layout: 'hbox',
-				cls: 'fileUploadFieldset',
-				title: Messages.PICTURE_SOURCE,	
-				items: [
-					this.uploadTextfield,
-					this.sendButton
-				]
-			}, {
+			items: [this.containerFieldSet = Ext.create('Ext.form.FieldSet', {
+					layout: 'hbox',
+					cls: 'fileUploadFieldset',
+					title: Messages.PICTURE_SOURCE,	
+					items: [
+						this.uploadTextfield,
+						this.sendButton
+					]
+			}), {
 				xtype: 'fieldset',
 				cls: showLongLabelsAndTemplate ? 
 				'fileUploadButtonFieldset longText' : 
@@ -164,6 +163,13 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				items: [this.segmentButton]
 			}]
 		}]);
+	},
+	
+	setUploadPanelConfig: function(title, urlHandler, fsUploadHandler) {
+		this.containerFieldSet.setTitle(title);
+		
+		if(urlHandler) this.setUrlUploadHandler(urlHandler);
+		if(fsUploadHandler) this.setFsUploadHandler(fsUploadHandler);
 	},
 	
 	toggleUploadTextfieldVisibility: function() {

@@ -25,9 +25,28 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 
 	constructor: function () {
 		this.callParent(arguments);
-
+		
 		this.answer = Ext.create('Ext.plugins.ResizableTextArea', {
 			placeHolder: Messages.FLASHCARD_BACK_PAGE
+		});
+		
+		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
+			handlerScope: this,
+			activateTemplates: false,
+			urlUploadHandler: this.setImage,
+			fsUploadHandler: this.setImage
+		});
+		
+		this.uploadView.setUploadPanelConfig(
+			Messages.PICTURE_SOURCE + " " + 
+			Messages.FLASHCARD_FRONT_PAGE
+		);
+		
+		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
+			editable: false,
+			gridIsHidden: true,
+			hidden: true,
+			style: "padding-top: 10px;"
 		});
 
 		var previewButton = Ext.create('Ext.Button', {
@@ -53,7 +72,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			}, {
 				xtype: 'fieldset',
 				items: [previewButton]
-			}]
+			}, this.uploadView, this.grid]
 		}]);
 	},
 
@@ -63,6 +82,11 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			return;
 		}
 		this.answer.setValue(possibleAnswers[0].text);
+	},
+	
+	setImage: function (image) {
+		var newQuestionPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
+		newQuestionPanel.setImage(image);
 	},
 
 	getQuestionValues: function () {

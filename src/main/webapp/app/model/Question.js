@@ -53,6 +53,7 @@ Ext.define('ARSnova.model.Question', {
 			'offsetY',
 			'zoomLvl',
 			'image',
+			'fcImage',
 			'gridOffsetX',
 			'gridOffsetY',
 			'gridZoomLvl',
