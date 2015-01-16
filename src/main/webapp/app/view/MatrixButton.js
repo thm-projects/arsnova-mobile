@@ -46,8 +46,6 @@ Ext.define('ARSnova.view.MatrixButton', {
 	
 	initialize: function() {
 		var me = this;
-		var buttonSpan = this.element.select(".x-button-label").elements;
-		var	buttonText = this.element.select(".buttonText").elements;
 		
 		switch(this.getButtonConfig()) {
 			case 'image':
@@ -62,13 +60,8 @@ Ext.define('ARSnova.view.MatrixButton', {
 			default:
 				this.useIconConfiguration();
 		}
-		
-		if(this.getText() === "") {
-			buttonSpan[0].removeChild(buttonText[0]);
-		} else {
-			buttonText[0].innerHTML = this.getText();
-		}
-		
+
+		this.setButtonText(this.getText());
 		this.callParent(arguments);
 		
 		this.element.on('touchstart', function() {
@@ -80,6 +73,17 @@ Ext.define('ARSnova.view.MatrixButton', {
 			var element = me.element.select(".iconBtn").elements[0];
 			element.className = "iconBtn";
 		});
+	},
+	
+	setButtonText: function(text) {
+		var buttonSpan = this.element.select(".x-button-label").elements;
+		var	buttonText = this.element.select(".buttonText").elements;
+		
+		if(text === "") {
+			buttonSpan[0].removeChild(buttonText[0]);
+		} else {
+			buttonText[0].innerHTML = text;
+		}
 	},
 	
 	/**

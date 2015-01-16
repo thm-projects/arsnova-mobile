@@ -305,7 +305,13 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		ARSnova.app.questionModel.countLectureQuestions(localStorage.getItem("keyword"), {
 			success: function (response) {
 				var numQuestions = parseInt(response.responseText);
-				if(numQuestions) me.showcaseActionButton.show();
+				
+				if(numQuestions) {
+					if(numQuestions === 1) me.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE);
+					else me.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE_PLURAL);
+					
+					me.showcaseActionButton.show();	
+				}
 				
 				ARSnova.app.questionModel.countLectureQuestionAnswers(localStorage.getItem("keyword"), {
 					success: function (response) {
