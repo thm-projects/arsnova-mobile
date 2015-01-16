@@ -88,6 +88,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 				
 				console.log('data for import', exportData[i]);
 				
+				
 				// call import ctrl to save public pool session in db
 				ARSnova.app.getController("SessionImport").importSession(exportData[i], false);
 				hideLoadMask();

@@ -1517,3 +1517,7 @@ ol.standardList li {
 	max-width: 500px;
 	width: 95.15%;
 }
+
+.x-list-item-leaf .feedbackQuestionsBadgeIcon {
+	display: none;
+}

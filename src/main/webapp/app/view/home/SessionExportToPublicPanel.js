@@ -36,6 +36,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		var me = this;
 		var SubjectoptionsPP = [];	// save loaded subjects
 		var LicenceoptionsPP = [];  // save loaded lincences
+		var levelsPP = [];  // save loaded levels
 		
 		var config = ARSnova.app.globalConfig;
 		var maxFileSize = config.publicPool.logoMaxFilesize / 1024;
@@ -54,6 +55,18 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		
 		licenses.forEach(function(entry){
 			LicenceoptionsPP.push({text: entry, value: entry})
+		});
+		
+		switch (lang) {
+			case 'en':case 'en-en':case 'en-us':case 'en-gb':
+				var levels = config.publicPool.levelsEn.split(',');
+				break;
+			default:
+				var levels = config.publicPool.levelsDe.split(',');
+		}
+		
+		levels.forEach(function(entry){
+			levelsPP.push({text: entry, value: entry})
 		});
 		
 		this.backButton = Ext.create('Ext.Button', {
@@ -165,12 +178,19 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			maxLength : 50,
 		});
 		this.licence.updateOptions(LicenceoptionsPP);
+		
+		this.level = Ext.create('Ext.field.Select', {
+			name : 'level',
+			label : Messages.EXPORT_FIELD_LEVEL,
+			maxLength : 50
+		});
+		this.level.updateOptions(levelsPP);
 
 		this.sessionFieldSet = Ext.create('Ext.form.FieldSet', {
 			title: Messages.SESSIONPOOL_SESSIONINFO,
 			cls: 'standardFieldset',
 			itemId: 'contentFieldset',
-			items: [this.sessionName, this.sessionShortName, this.description, this.subject, this.licence]
+			items: [this.sessionName, this.sessionShortName, this.description, this.subject, this.licence, this.level]
 		});
 		
 		this.buttonUploadFromFS = Ext.create('Ext.ux.Fileup', {
@@ -294,12 +314,16 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			logo:	    		me.logo.getSrc(),
 			subject:			me.subject.getValue(),
 			licence:			me.licence.getValue(),
+			level:				me.level.getValue(),
 			email:				me.email.getValue(),
 			sessionName:		me.sessionName.getValue(),
 			sessionShortName: 	me.sessionShortName.getValue(),
 			description:		me.description.getValue(),
 			faculty:			me.faculty.getValue()
 		});
+
+		console.log("validation");
+		console.log(validation);
 		
 		var errs = validation.validate();
 		var msg = '';
@@ -322,6 +346,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			publicPoolAttributes['ppLogo'] 		 = validation.get('logo');
 			publicPoolAttributes['ppSubject'] 	 = validation.get('subject');
 			publicPoolAttributes['ppLicense'] 	 = validation.get('licence');
+			publicPoolAttributes['ppLevel'] 	 = validation.get('level');
 			publicPoolAttributes['ppDescription']= validation.get('description');
 			publicPoolAttributes['ppFaculty']	 = validation.get('faculty');
 			publicPoolAttributes['name']		 = me.sessionName.getValue();
