@@ -161,8 +161,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			style: 'margin-top: 30px',
 
 			items: [
-				this.newQuestionButton,
-				this.showcaseActionButton
+				this.showcaseActionButton,
+				this.newQuestionButton
 			]
 		});
 

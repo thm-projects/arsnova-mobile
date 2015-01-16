@@ -125,8 +125,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			style: 'margin: 15px',
 
 			items: [
-				this.createAdHocQuestionButton,
-				this.showcaseActionButton
+				this.showcaseActionButton,
+				this.createAdHocQuestionButton
 			]
 		});
 
