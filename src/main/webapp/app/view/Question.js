@@ -260,6 +260,20 @@ Ext.define('ARSnova.view.Question', {
 				items: [answerPanel]
 			});
 			
+			if(this.questionObj.fcImage) {
+				this.flashcardGrid = Ext.create('ARSnova.view.components.GridImageContainer', {
+					id: 'flashcardGridImageContainer' + this.questionObj._id,
+					editable: false,
+					gridIsHidden: true,
+					style: 'margin-bottom: 20px'
+				});
+				
+				this.flashcardGrid.setImage(this.questionObj.fcImage);
+				this.answerList.add(this.flashcardGrid);	
+			}
+			
+			this.answerList.add(answerPanel);
+			
 			// remove padding around panel
 			this.answerList.bodyElement.dom.style.padding="0";
 			
