@@ -119,6 +119,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			}, {
 				xtype: 'container',
 				cls: "x-toolbar-title counterText",
+				hidden: ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT,
 				html: "0/0",
 				style: {paddingRight: '10px'}
 			}, {
@@ -349,7 +350,10 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	onActivate: function () {
 		ARSnova.app.innerScrollPanel = this;
 		ARSnova.app.taskManager.start(this.renewChartDataTask);
-		ARSnova.app.taskManager.start(this.countActiveUsersTask);
+
+		if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			ARSnova.app.taskManager.start(this.countActiveUsersTask);
+		}
 	},
 
 	getQuestionAnswers: function () {
@@ -450,12 +454,14 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				// renew the chart-data
 				chart.redraw();
 
-				// update quote in toolbar
-				var quote = panel.toolbar.items.items[2];
-				var users = quote.getHtml().split("/");
-				users[0] = sum;
-				users = users.join("/");
-				quote.setHtml(users);
+				if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+					// update quote in toolbar
+					var quote = panel.toolbar.items.items[2];
+					var users = quote.getHtml().split("/");
+					users[0] = sum;
+					users = users.join("/");
+					quote.setHtml(users);
+				}
 			},
 			failure: function () {
 				console.log('server-side error');
@@ -469,7 +475,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		// update quote in toolbar
 		var quote = ARSnova.app.mainTabPanel._activeItem.toolbar.items.items[2];
 		var users = quote.getHtml().split("/");
-		users[1] = count;
+		users[1] = count-1; // Do not count the speaker itself
 		users = users.join("/");
 		quote.setHtml(users);
 	},
