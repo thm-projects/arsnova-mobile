@@ -147,14 +147,55 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			}
 		}
 		
-		else if(options.questionType === 'flashcard') {
-			this.answerList = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-		    	style: 'min-height: 100px; word-wrap: break-word;'
+		else if(options.questionType === 'flashcard') {			
+			var answerPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+		    	style: 'word-wrap: break-word;',
+		    	cls: ''
 			});
 			
+			this.answerList = Ext.create('Ext.Container', {
+				layout: 'vbox',
+				cls: 'roundedBox',
+				hidden: true,
+				style: 'margin-bottom: 10px;',
+				styleHtmlContent: true
+			});
+			
+			if(options.fcImage) {
+				this.flashcardGrid = Ext.create('ARSnova.view.components.GridImageContainer', {
+					itemId: 'flashcardGridImageContainer',
+					editable: false,
+					gridIsHidden: true,
+					style: 'margin-bottom: 20px'
+				});
+				
+				this.flashcardGrid.setImage(options.fcImage);
+				this.answerList.add(this.flashcardGrid);	
+			}
+			
+			this.answerList.add(answerPanel);
+			
 			this.statisticButton.setHidden(true);
-			this.answerList.setContent(this.answers[0].text, true, true);
-			this.mainPanel.add([this.answerList]);
+			answerPanel.setContent(this.answers[0].text, true, true);
+			
+			var flashcardButton = {
+				xtype: 'button',
+				cls: 'login-button',
+				ui: 'confirm',
+				text: Messages.SHOW_FLASHCARD_ANSWER,
+				handler: function (button) {
+					if (this.answerList.isHidden()) {
+						this.answerList.show(true);
+						button.setText(Messages.HIDE_FLASHCARD_ANSWER);
+					} else {
+						this.answerList.hide(true);
+						button.setText(Messages.SHOW_FLASHCARD_ANSWER);
+					}
+				},
+				scope: this
+			};
+			
+			this.mainPanel.add([flashcardButton, this.answerList]);
 		}
 		
 		else {

@@ -119,6 +119,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			content: panel.textarea.getValue(),
 			questionType: 'flashcard',
 			answers: this.getValue(),
+			fcImage: panel.fcImage,
 			image: panel.image
 		});
 	},
