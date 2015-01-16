@@ -168,7 +168,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					setGradientTask.delay(me.chartRefreshDuration-200);
 				},
 				scope: this,
-				hidden: !hasCorrectAnswers() || this.questionObj.questionType === 'grid'
+				hidden: !hasCorrectAnswers() || this.questionObj.questionType === 'grid' ||
+						(ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT && !this.questionObj.showAnswer)
 			}]
 		});
 
