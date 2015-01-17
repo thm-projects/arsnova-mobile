@@ -251,6 +251,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					if (typeof questionValues.image !== "undefined") {
 						question.set("image", questionValues.image);
 					}
+					
+					if (typeof questionValues.fcImage !== "undefined") {
+						question.set("fcImage", questionValues.fcImage);
+					}
 
 					if (questionValues.gridSize != undefined) question.set("gridSize", questionValues.gridSize);
 					if (questionValues.offsetX != undefined)  question.set("offsetX", questionValues.offsetX);
@@ -290,6 +294,11 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								panel.answerListPanel.setContent(
 									panel.questionObj.possibleAnswers[0].text, true, true
 								);
+								
+								if(panel.answerEditForm.fcImage) {
+									panel.flashcardGrid.setImage(panel.answerEditForm.fcImage);
+									panel.flashcardGrid.show();
+								}
 							}
 						}
 					});
@@ -782,6 +791,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		}
 
 		this.answerEditForm = Ext.create(answerEditFormClass, {
+			editPanel: true,
 			hidden: true
 		});
 		this.answerEditForm.initWithQuestion(Ext.clone(this.questionObj));
@@ -849,13 +859,26 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		    	cls: ''
 			});
 			
+			this.flashcardGrid = Ext.create('ARSnova.view.components.GridImageContainer', {
+				itemId: 'flashcardGridImageContainer',
+				hidden: true,
+				editable: false,
+				gridIsHidden: true,
+				style: 'margin-bottom: 20px'
+			});
+			
 			this.answerList = Ext.create('Ext.Container', {
 				layout: 'vbox',
 				cls: 'roundedBox',
 				style: 'margin-bottom: 10px;',
 				styleHtmlContent: true,
-				items: [this.answerListPanel]
+				items: [this.flashcardGrid, this.answerListPanel]
 			});
+			
+			if(this.questionObj.fcImage) {
+				this.flashcardGrid.setImage(this.questionObj.fcImage);
+				this.flashcardGrid.show();
+			}
 			
 			// remove padding around panel
 			this.answerList.bodyElement.dom.style.padding="0";
@@ -929,7 +952,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			this.getQuestionAnswers();
 		} else if (this.questionObj.image) {
 			this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
-				id: 'gridImageContainer' + this.questionObj._id,
+				itemId: 'gridImageContainer' + this.questionObj._id,
 				editable: false,
 				gridIsHidden: true
 			});

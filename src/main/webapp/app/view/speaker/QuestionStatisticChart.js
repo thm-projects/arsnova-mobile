@@ -419,9 +419,12 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	
 	onActivate: function () {
 		ARSnova.app.innerScrollPanel = this;
-		this.segmentedButton.setPressedButtons([this.questionObj.piRound]);
 		ARSnova.app.taskManager.start(this.renewChartDataTask);
-		ARSnova.app.taskManager.start(this.countActiveUsersTask);
+		this.segmentedButton.setPressedButtons([this.questionObj.piRound]);
+		
+		if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			ARSnova.app.taskManager.start(this.countActiveUsersTask);
+		}
 	},
 	
 	enablePiRoundElements: function() {
@@ -585,12 +588,14 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			// renew the chart-data
 			chart.redraw();
 
-			// update quote in toolbar
-			var quote = me.toolbar.items.items[2];
-			var users = quote.getHtml().split("/");
-			users[0] = sum;
-			users = users.join("/");
-			quote.setHtml(users);
+			if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+				// update quote in toolbar
+				var quote = me.toolbar.items.items[2];
+				var users = quote.getHtml().split("/");
+				users[0] = sum;
+				users = users.join("/");
+				quote.setHtml(users);
+			}
 		};
 		
 		var countFirstRoundAnswers = function(countSecondRound) {

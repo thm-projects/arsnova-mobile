@@ -161,8 +161,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			style: 'margin-top: 30px',
 
 			items: [
-				this.newQuestionButton,
-				this.showcaseActionButton
+				this.showcaseActionButton,
+				this.newQuestionButton
 			]
 		});
 
@@ -284,7 +284,10 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.caption.show();
 				this.caption.explainStatus(questions);
 				this.handleAnswerCount();
-				
+			
+				if(questions.length === 1) this.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE);
+				else this.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE_PLURAL);
+
 				this.showcaseActionButton.show();
 				this.questionListContainer.show();
 				this.questionList.show();

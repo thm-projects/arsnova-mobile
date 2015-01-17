@@ -25,9 +25,34 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 
 	constructor: function () {
 		this.callParent(arguments);
-
+		
 		this.answer = Ext.create('Ext.plugins.ResizableTextArea', {
 			placeHolder: Messages.FLASHCARD_BACK_PAGE
+		});
+		
+		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
+			handlerScope: this,
+			activateTemplates: false,
+			urlUploadHandler: this.setImage,
+			fsUploadHandler: this.setImage
+		});
+		
+		if(this.config.editPanel) {
+			this.uploadView.setUploadPanelConfig(
+				Messages.PICTURE_SOURCE + " - " + Messages.FLASHCARD_BACK_PAGE,
+				this.setFcImage, this.setFcImage
+			);
+		} else {
+			this.uploadView.setUploadPanelConfig(
+				Messages.PICTURE_SOURCE + " - " + Messages.FLASHCARD_FRONT_PAGE
+			);
+		}
+		
+		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
+			editable: false,
+			gridIsHidden: true,
+			hidden: true,
+			style: "padding-top: 10px;"
 		});
 
 		var previewButton = Ext.create('Ext.Button', {
@@ -53,8 +78,12 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			}, {
 				xtype: 'fieldset',
 				items: [previewButton]
-			}]
+			}, this.uploadView, this.grid]
 		}]);
+		
+		this.on('painted', function(){
+			
+		});
 	},
 
 	initWithQuestion: function (question) {
@@ -64,11 +93,27 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 		}
 		this.answer.setValue(possibleAnswers[0].text);
 	},
+	
+	setImage: function (image) {
+		var newQuestionPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
+		newQuestionPanel.setImage(image);
+	},
+	
+	setFcImage: function(image) {
+		this.fcImage = image;
+		this.grid.setImage(image);
+		if(image) {
+			this.grid.show();
+		} else {
+			this.grid.hide();
+		}
+	},
 
 	getQuestionValues: function () {
 		var result = {};
 
 		result.possibleAnswers = [{text: this.answer.getValue(), correct: true}];
+		result.fcImage = this.fcImage;
 
 		return result;
 	},
@@ -95,6 +140,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			content: panel.textarea.getValue(),
 			questionType: 'flashcard',
 			answers: this.getValue(),
+			fcImage: panel.fcImage,
 			image: panel.image
 		});
 	},

@@ -72,7 +72,7 @@
 	}
 }
 
-.badgeicon, .questionsBadgeIcon, .feedbackQuestionsBadgeIcon, .answersBadgeIcon, .greybadgeicon, .bluebadgeicon, .redbadgeicon, .greenbadgeicon, .orangebadgeicon, .textbadgeicon {
+.badgeicon, .questionsBadgeIcon, .feedbackQuestionsBadgeIcon, .unreadFeedbackQuestionsBadgeIcon, .answersBadgeIcon, .greybadgeicon, .bluebadgeicon, .redbadgeicon, .greenbadgeicon, .orangebadgeicon, .textbadgeicon {
 	font-weight: normal;
 	background: $thm-grey;
 	color: white;
@@ -89,6 +89,10 @@
 
 .feedbackQuestionsBadgeIcon {
 	background: $thm-green;
+}
+
+.unreadFeedbackQuestionsBadgeIcon {
+	background: $thm-red;
 }
 
 .answersBadgeIcon {

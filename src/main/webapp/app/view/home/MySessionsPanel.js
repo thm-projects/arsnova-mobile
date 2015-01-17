@@ -200,7 +200,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						}
 					});
 					sessionButton.setBadge([
-						{badgeText: session.numInterposed, badgeCls: "feedbackQuestionsBadgeIcon"},
+						{badgeText: session.numInterposed, badgeCls: "unreadFeedbackQuestionsBadgeIcon"},
 						{badgeText: session.numQuestions, badgeCls: "questionsBadgeIcon"},
 						{badgeText: session.numAnswers, badgeCls: "answersBadgeIcon"}
 					]);

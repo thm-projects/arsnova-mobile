@@ -256,9 +256,22 @@ Ext.define('ARSnova.view.Question', {
 				layout: 'vbox',
 				cls: 'roundedBox',
 				style: 'margin-bottom: 10px;',
-				styleHtmlContent: true,
-				items: [answerPanel]
+				styleHtmlContent: true
 			});
+			
+			if(this.questionObj.fcImage) {
+				this.flashcardGrid = Ext.create('ARSnova.view.components.GridImageContainer', {
+					itemId: 'flashcardGridImageContainer' + this.questionObj._id,
+					editable: false,
+					gridIsHidden: true,
+					style: 'margin-bottom: 20px'
+				});
+				
+				this.flashcardGrid.setImage(this.questionObj.fcImage);
+				this.answerList.add(this.flashcardGrid);	
+			}
+			
+			this.answerList.add(answerPanel);
 			
 			// remove padding around panel
 			this.answerList.bodyElement.dom.style.padding="0";
