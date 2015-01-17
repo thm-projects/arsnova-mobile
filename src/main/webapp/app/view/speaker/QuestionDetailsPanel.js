@@ -330,6 +330,15 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					this.config.enableFields(panel);
 					this.config.setEnableAnswerEdit(panel, true);
 					
+					if(panel.questionObj.questionType === 'flashcard') {
+						panel.abstentionPart.hide();
+						panel.absteionAlternative.hide();
+						
+						if(panel.questionObj.fcImage) {
+							panel.answerEditForm.setFcImage(panel.questionObj.fcImage);
+						}
+					}
+					
 					if(questionValues.gridType == "moderation"){
 						panel.abstentionPart.setHidden(true);
 						panel.absteionAlternative.show();
@@ -1056,6 +1065,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								ARSnova.app.mainTabPanel.animateActiveItem(p, 'slide');
 							}
 						});
+						
 						answerCountButton.setBadge([{badgeText: answers.length + '', badgeCls: "answersBadgeIcon"}]);
 						self.answerFormFieldset.add([answerCountButton]);
 						if (self.questionObj.abstention) {
