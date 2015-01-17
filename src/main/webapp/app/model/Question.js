@@ -200,8 +200,8 @@ Ext.define('ARSnova.model.Question', {
 		return this.getProxy().publishSkillQuestion(this, callbacks);
 	},
 
-	publishAllSkillQuestions: function (sessionKeyword, active, callbacks) {
-		return this.getProxy().publishAllSkillQuestions(sessionKeyword, active, callbacks);
+	publishAllSkillQuestions: function (sessionKeyword, active, isLecture, isPreparation, callbacks) {
+		return this.getProxy().publishAllSkillQuestions(sessionKeyword, active, isLecture, isPreparation, callbacks);
 	},
 
 	publishSkillQuestionStatistics: function (callbacks) {

@@ -66,6 +66,7 @@ Ext.define("ARSnova.controller.Questions", {
 		sTP.audienceQuestionPanel.setController(this);
 		sTP.showcaseQuestionPanel.setController(this);
 		sTP.showcaseQuestionPanel.setLectureMode();
+		sTP.audienceQuestionPanel.questionStatusButton.setLecturerQuestionsMode();
 		sTP.audienceQuestionPanel.toolbar.getTitle().setTitle(Messages.LECTURE_QUESTIONS);
 		sTP.audienceQuestionPanel.newQuestionButton.text = Messages.NEW_LECTURE_QUESTION;
 		sTP.animateActiveItem(sTP.audienceQuestionPanel, 'slide');
@@ -274,7 +275,8 @@ Ext.define("ARSnova.controller.Questions", {
 	},
 
 	setAllActive: function (options) {
-		ARSnova.app.questionModel.publishAllSkillQuestions(localStorage.getItem("keyword"), options.active, {
+		ARSnova.app.questionModel.publishAllSkillQuestions(localStorage.getItem("keyword"),
+				options.active, options.isLectureMode, options.isPreparationMode, {
 			success: function () {
 				options.callback.apply(options.scope);
 			},

@@ -21,6 +21,8 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 
 	config: {
 		questionStore: null,
+		isLectureMode: false,
+		isPreparationMode: false,
 		wording: {
 			stop: Messages.STOP_ALL_QUESTIONS,
 			release: Messages.RELEASE_ALL_QUESTIONS,
@@ -52,6 +54,18 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 			this.questionIsOpenButton.hide();
 		}
 	},
+	
+	setLecturerQuestionsMode: function() {
+		this.setIsLectureMode(true);
+		this.setIsPreparationMode(false);
+		console.log('lec');
+	},
+	
+	setPreparationQuestionsMode: function() {
+		this.setIsLectureMode(false);
+		this.setIsPreparationMode(true);
+		console.log('prep');
+	},
 
 	changeStatus: function () {
 		if (!this.getQuestionStore()) {
@@ -76,6 +90,8 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 					/* close all questions */
 					ARSnova.app.getController('Questions').setAllActive({
 						active: false,
+						isLectureMode: this.getIsLectureMode(),
+						isPreparationMode: this.getIsPreparationMode(),
 						callback: Ext.Function.createSequence(this.questionClosedSuccessfully, function () {
 							updateQuestions(false);
 						}, this),
@@ -87,6 +103,8 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 			/* open all questions */
 			ARSnova.app.getController('Questions').setAllActive({
 				active: true,
+				isLectureMode: this.getIsLectureMode(),
+				isPreparationMode: this.getIsPreparationMode(),
 				callback: Ext.Function.createSequence(this.questionOpenedSuccessfully, function () {
 					updateQuestions(true);
 				}, this),

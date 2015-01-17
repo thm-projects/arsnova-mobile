@@ -410,9 +410,32 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	publishAllSkillQuestions: function (sessionKeyword, active, callbacks) {
+	publishAllSkillQuestions: function (sessionKeyword, active, isLecture, isPreparation, callbacks) {
 		this.arsjax.request({
-			url: "lecturerquestion/publish?sessionkey=" + encodeURIComponent(sessionKeyword) + "&publish=" + encodeURIComponent(active),
+			url: "lecturerquestion/publish?sessionkey=" + encodeURIComponent(sessionKeyword) + 
+				"&publish=" + encodeURIComponent(active) + 
+				"&lecturequestionsonly=" + encodeURIComponent(isLecture) +
+				"&preparationquestionsonly=" + encodeURIComponent(isPreparation),
+			method: "POST",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	publishAllLectureQuestions: function (sessionKeyword, active, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/publish?sessionkey=" + encodeURIComponent(sessionKeyword) + 
+					"&publish=" + encodeURIComponent(active) + "&lecturequestionsonly=true",
+			method: "POST",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	publishAllPreparationQuestions: function (sessionKeyword, active, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/publish?sessionkey=" + encodeURIComponent(sessionKeyword) + 
+					"&publish=" + encodeURIComponent(active) + "&preparationquestionsonly=true",
 			method: "POST",
 			success: callbacks.success,
 			failure: callbacks.failure
