@@ -31,19 +31,20 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 	
 	initialize: function () {
 		this.callParent(arguments);
-		
 		var me = this;
 		
 		this.treeStore = Ext.create('Ext.data.TreeStore', {
             model: 'ARSnova.view.home.PPListItem',
             defaultRootProperty: 'items'
         });
-		
 		this.rootNode = this.treeStore.getRoot();
+		
+		// ensure that objects are empty (is not ensured, even if they're just created)
+		this.treeStore.removeAll();
+		this.rootNode.removeAll();
 		
 		if (this.getSessions() !== null) {
 			Object.keys(this.getSessions()).forEach(function(key, index) {
-				
 				var firstLevelNode = me.rootNode.findChild("id", '1_' + this[key].ppSubject, false);
 				
 				if (firstLevelNode == null) {
@@ -55,6 +56,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 						id: '1_' + this[key].ppSubject
 					});
 					firstLevelNode = me.rootNode.appendChild(firstLevelEntry);
+					firstLevelNode.removeAll();
 				} else {
 					firstLevelNode._data.itemCount++;
 				}
@@ -69,10 +71,10 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 						id: '2_' + this[key].ppLevel
 					});
 					secLevelNode = firstLevelNode.appendChild(secondLevelEntry);
+					secLevelNode.removeAll();
 				} else {
 					secLevelNode._data.itemCount++;
 				}
-				
 				secLevelNode.appendChild(Ext.create('ARSnova.view.home.PPListItem', {
 					text: this[key].name,
 					itemCount: 0,
@@ -88,6 +90,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 			text: Messages.SESSIONS,
 			ui: 'back',
 			handler: function () {
+				me.treeStore.removeAll();
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 				hTP.animateActiveItem(hTP.mySessionsPanel, {
 					type: 'slide',
