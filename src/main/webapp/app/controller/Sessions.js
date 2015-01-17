@@ -302,11 +302,21 @@ Ext.define("ARSnova.controller.Sessions", {
 				/* activate inputElements in newSessionPanel */
 				options.newSessionPanel.enableInputElements();
 				
-				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				panel.setActiveItem(panel.mySessionsPanel);
-				
-				ARSnova.app.getController('Sessions').reloadData();
-				
+				Ext.Msg.show({
+					title: Messages.SESSION + ' ID: ' + fullSession.keyword,
+					message: Messages.ON_SESSION_CREATION_1 + fullSession.keyword + Messages.ON_SESSION_CREATION_2,
+					fn: function() {
+						var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+						panel.setActiveItem(panel.mySessionsPanel);
+						
+						ARSnova.app.getController('Sessions').reloadData();
+					},
+					buttons: [{
+						text: Messages.CONTINUE, 
+						itemId: 'continue', 
+						ui: 'action'
+					}]
+				});
 			},
 			failure: function (records, operation) {
 				Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
