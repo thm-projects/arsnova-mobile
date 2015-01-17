@@ -40,7 +40,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		this.callParent(arguments);
 
 		this.logoutButton = Ext.create('Ext.Button', {
-			text: Messages.CHANGE_ROLE,
+			text: Messages.LOGOUT,
 			ui: 'back',
 			hidden: true,
 			handler: function () {
