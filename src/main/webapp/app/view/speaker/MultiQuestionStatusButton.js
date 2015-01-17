@@ -58,13 +58,11 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 	setLecturerQuestionsMode: function() {
 		this.setIsLectureMode(true);
 		this.setIsPreparationMode(false);
-		console.log('lec');
 	},
 	
 	setPreparationQuestionsMode: function() {
 		this.setIsLectureMode(false);
 		this.setIsPreparationMode(true);
-		console.log('prep');
 	},
 
 	changeStatus: function () {
