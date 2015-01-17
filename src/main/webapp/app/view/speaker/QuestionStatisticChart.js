@@ -352,7 +352,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					renderer: function (text, sprite, config, rendererData, index) {
 						var barWidth = this.itemCfg.width;				
 						panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
-
+						
 						return {
 							text: panel.questionChart.showPercentage ? text : text + " %",
 							color: config.callout ? '#4a5c66' : '#fff',
@@ -471,11 +471,11 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			record.set('percent-round2', 0);
 		});
 		
+		this.questionChart.getSeries()[0].setStacked(isStacked);
 		this.questionChart.getAxes()[0].setFields(fields);
 		this.questionChart.getSeries()[0].setYField(fields);
 		this.questionChart.getSeries()[0].getLabel().getTemplate().setField(percentages);
-		this.questionChart.getSeries()[0].setStacked(isStacked);
-	
+		
 		var updateDataTask = Ext.create('Ext.util.DelayedTask', function () {
 			me.getQuestionAnswers();
 			
@@ -585,6 +585,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		};
 		
 		var afterCalculation = function() {
+			console.log(me.questionChart.showPercentage);
 			if(me.questionChart.showPercentage) {
 				chart.getAxes()[0].setMaximum(maxPercentage);
 			} else {
@@ -635,10 +636,10 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			});
 		};
 		
-		if(me.questionObj.piRound === 1) {
-			countFirstRoundAnswers(Ext.emptyFn);
-		} else if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+		if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			countFirstRoundAnswers(countSecondRoundAnswers);
+		} else if(me.questionObj.piRound === 1) {
+			countFirstRoundAnswers(Ext.emptyFn);
 		} else {
 			countSecondRoundAnswers();
 		}
