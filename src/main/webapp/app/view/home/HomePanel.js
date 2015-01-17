@@ -46,7 +46,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		this.callParent(arguments);
 
 		this.logoutButton = Ext.create('Ext.Button', {
-			text: Messages.LOGOUT,
+			text: Messages.CHANGE_ROLE,
 			ui: 'back',
 			handler: function () {
 				ARSnova.app.getController('Auth').logout();
