@@ -122,6 +122,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			}, {
 				xtype: 'container',
 				cls: "x-toolbar-title counterText",
+				hidden: ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT,
 				html: "0/0",
 				style: {paddingRight: '10px'}
 			}, {
@@ -171,7 +172,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					setGradientTask.delay(me.chartRefreshDuration-200);
 				},
 				scope: this,
-				hidden: !hasCorrectAnswers() || this.questionObj.questionType === 'grid'
+				hidden: !hasCorrectAnswers() || this.questionObj.questionType === 'grid' ||
+						(ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT && !this.questionObj.showAnswer)
 			}]
 		});
 		
@@ -285,6 +287,10 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				style: {
 					stroke: '#4a5c66',
 					lineWidth: 2
+				},
+				label: {
+					color: '#4a5c66',
+					fontWeight: 'bold'
 				},
 				renderer: function (label, layout, lastLabel) {
 					var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
@@ -644,7 +650,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		// update quote in toolbar
 		var quote = ARSnova.app.mainTabPanel._activeItem.toolbar.items.items[2];
 		var users = quote.getHtml().split("/");
-		users[1] = count;
+		users[1] = count-1;
 		users = users.join("/");
 		quote.setHtml(users);
 	},
