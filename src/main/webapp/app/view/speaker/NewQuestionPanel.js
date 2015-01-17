@@ -326,7 +326,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 								title = Messages.FLASHCARD;
 								
 								me.uploadView.setUploadPanelConfig(
-									Messages.PICTURE_SOURCE + " " + 
+									Messages.PICTURE_SOURCE + " - " + 
 									Messages.FLASHCARD_BACK_PAGE,
 									me.setFcImage, me.setFcImage
 								);
