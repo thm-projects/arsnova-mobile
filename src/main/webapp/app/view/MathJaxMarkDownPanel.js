@@ -38,7 +38,19 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		this.callParent(arguments);
 	},
 
-	setContent: function (content, mathJaxEnabled, markDownEnabled, mathjaxCallback) {
+	setContent: function (content, mathJaxEnabled, markDownEnabled, mathjaxCallback) {	
+		function urlify(text) {
+			text += " ";
+		    var urlDelimiter = /([^="\w]https?:\/\/[^\s<]+)/g;
+		    var urlRegex = /(https?:\/\/[^\s]+)/g;
+		    
+		    return text.replace(urlDelimiter, function(delUrl) {
+		    	return delUrl.replace(urlRegex, function(url) {
+		    		return '<a href="' + url + '">' + url + '</a>';
+		    	});
+		    });
+		}
+
 		var features = ARSnova.app.globalConfig.features;
 		if (markDownEnabled && features.markdown) {
 			if (mathJaxEnabled && features.mathJax && "undefined" !== typeof MathJax) {
@@ -68,6 +80,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 			content = Ext.util.Format.htmlEncode(content);
 			content = content.replace(/\n/g, "<br />");
 		}
+		content = urlify(content);
 		this.setHtml(content);
 
 		var callback = mathjaxCallback || Ext.emptyFn;
