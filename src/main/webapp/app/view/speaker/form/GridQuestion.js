@@ -621,6 +621,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		
 		this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
 			docked: 'top',
+			style: 'margin-top: 30px',
 			itemId: 'gridImageContainer'
 		});
 		

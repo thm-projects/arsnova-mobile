@@ -91,7 +91,10 @@ switch (lang) {
 			CLOSED_SESSION: "Closed Session",
 			CONFIRM_CLOSE_SESSION: "Are you sure to lock access to this session?",
 			CONFIRM_CLOSE_SESSION_MESSAGE: "If you lock the access, only students currently online will be able to participate.",
-
+			ON_SESSION_CREATION_1: "The access key «",
+			ON_SESSION_CREATION_2: "» to your session has been generated. Please give this key to your students.",
+			DEMO_SESSION: "Demo session: ",
+			
 			/* LOAD MASK */
 			LOAD_MASK: "Loading...",
 			LOAD_MASK_LOGIN: "Login...",
@@ -263,6 +266,7 @@ switch (lang) {
 			YES: "Yes",
 			NO: "No",
 			NONE: "None",
+			CONTINUE: 'Continue',
 			ANSWERS: "Answers",
 			ANSWERS_SHOWN: "x shown",
 			ANSWER_OPTIONS: "Answer options",
@@ -488,7 +492,10 @@ switch (lang) {
 			CLOSED_SESSION: "Gesperrte Session",
 			CONFIRM_CLOSE_SESSION: "Zugang wirklich sperren?",
 			CONFIRM_CLOSE_SESSION_MESSAGE: "Wenn Sie den Zugang sperren, können nur noch aktuell angemeldete Student/innen teilnehmen.",
-
+			ON_SESSION_CREATION_1: "Es wurde der Zugangsschlüssel «",
+			ON_SESSION_CREATION_2: "» für Ihre Session erzeugt. Bitte teilen Sie diesen Ihren Studierenden mit.",
+			DEMO_SESSION: "Demo-Session: ",
+			
 			/* LOAD MASK */
 			LOAD_MASK: "Lade Daten...",
 			LOAD_MASK_LOGIN: "Login...",
@@ -661,6 +668,7 @@ switch (lang) {
 			YES: "Ja",
 			NO: "Nein",
 			NONE: "Keine",
+			CONTINUE: 'Weiter',
 			ANSWERS: "Antworten",
 			ANSWERS_SHOWN: "x angezeigt",
 			ANSWER_OPTIONS: "Antwortmöglichkeiten",

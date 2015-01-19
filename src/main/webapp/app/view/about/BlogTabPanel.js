@@ -61,7 +61,7 @@ Ext.define('ARSnova.view.about.BlogTabPanel', {
 		this.add(this.toolbar);
 		
 		this.on("painted", function() {
-			var url = ARSnova.app.globalConfig.blogUrl || "https://arsnova.eu/blog/";	
+			var url = ARSnova.app.globalConfig.blogUrl || "https://arsnova.eu/blog/features/";	
 			
 			this.add(Ext.create('ARSnova.view.components.EmbeddedPage', {
 				src: url

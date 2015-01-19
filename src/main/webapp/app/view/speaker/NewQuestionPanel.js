@@ -197,25 +197,33 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		var messageAppendix = screenWidth >= 650 ? "_LONG" : "";
 
 		var formatItems = [
-			{text: Messages["MC" + messageAppendix]},
-			{text: Messages["ABCD" + messageAppendix]},
-			{text: Messages["YESNO" + messageAppendix]},
-			{text: Messages["FREETEXT" + messageAppendix]},
-			{text: Messages["EVALUATION" + messageAppendix]},
-			{text: Messages["SCHOOL" + messageAppendix]}
+			{text: Messages["MC" + messageAppendix], itemId: Messages.MC},
+			{text: Messages["ABCD" + messageAppendix], itemId: Messages.ABCD},
+			{text: Messages["YESNO" + messageAppendix], itemId: Messages.YESNO},
+			{text: Messages["FREETEXT" + messageAppendix], itemId: Messages.FREETEXT},
+			{text: Messages["EVALUATION" + messageAppendix], itemId: Messages.EVALUATION},
+			{text: Messages["SCHOOL" + messageAppendix], itemId: Messages.SCHOOL}
 		];
 
 		var me = this;
 		var config = ARSnova.app.globalConfig;
 		if (config.features.flashcard) {
-			formatItems.push({text: messageAppendix.length ? Messages.FLASHCARD : Messages.FLASHCARD_SHORT});
+			formatItems.push({
+				itemId: Messages.FLASHCARD,
+				text: messageAppendix.length ? 
+						Messages.FLASHCARD : 
+						Messages.FLASHCARD_SHORT
+			});
 			me.flashcardQuestion = Ext.create('ARSnova.view.speaker.form.FlashcardQuestion', {
 				editPanel: false,
 				hidden: true
 			});
 		}
 		if (config.features.gridSquare) {
-			formatItems.push({text: Messages["GRID" + messageAppendix]});
+			formatItems.push({
+				itemId: Messages.GRID,
+				text: Messages["GRID" + messageAppendix]
+			});
 			me.gridQuestion = Ext.create('ARSnova.view.speaker.form.GridQuestion', {
 				id: 'grid',
 				hidden: true
@@ -644,8 +652,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	 */
 	activateButtonWithText: function(text) {
 		var me = this;
+		
 		this.questionOptions.innerItems.forEach(function(item, index) {
-			if (item.getText() == text) {
+			if (item.getItemId() == text) {
 				me.questionOptions.setPressedButtons([index]);
 			}
 		});

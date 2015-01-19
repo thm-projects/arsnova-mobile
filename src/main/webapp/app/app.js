@@ -55,7 +55,8 @@ Ext.application({
 	icon: {
 		57: 'resources/icons/appicon_57x57px.png',
 		72: 'resources/icons/appicon_72x72px.png',
-		114: 'resources/icons/appicon_114x114px.png'
+		114: 'resources/icons/appicon_114x114px.png',
+		144: 'resources/icons/appicon_144x144px.png'
 	},
 
 	name: "ARSnova",
