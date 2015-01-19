@@ -177,7 +177,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			}]
 		});
 		
-		this.piBottomBar = Ext.create('Ext.Toolbar', {
+		this.piToolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			style: 'background: transparent; border: none;',
 			defaults: {
@@ -382,7 +382,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		if (this.questionObj.questionType !== "grid") {
 
-			this.add([this.toolbar, this.piBottomBar, this.titlebar, this.questionChart]);
+			this.add([this.toolbar, this.piToolbar, this.titlebar, this.questionChart]);
 
 		} else {
 			this.setStyle('background-color: #E0E0E0');
@@ -463,7 +463,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				this.questionChart.showPercentage = true;
 		}
 				
-		// remove all data for a smooth "redraw"
+		// remove all data for a "smooth" redraw
 		this.questionStore.each(function (record) {
 			record.set('value-round1', 0);
 			record.set('value-round2', 0);
@@ -471,19 +471,17 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			record.set('percent-round2', 0);
 		});
 		
-		this.questionChart.getSeries()[0].setStacked(isStacked);
+		// set fields, axes, labels and sprites for pi bar redraw
+		this.questionChart.getSeries()[0].sprites = [];
 		this.questionChart.getAxes()[0].setFields(fields);
 		this.questionChart.getSeries()[0].setYField(fields);
+		this.questionChart.getSeries()[0].setStacked(isStacked);
 		this.questionChart.getSeries()[0].getLabel().getTemplate().setField(percentages);
+		this.questionChart.redraw();
 		
+		// delayed answers update for a "smooth" redraw
 		var updateDataTask = Ext.create('Ext.util.DelayedTask', function () {
 			me.getQuestionAnswers();
-			
-			console.log(me.questionChart.getAxes()[0].getFields());
-			console.log(me.questionChart.getSeries()[0].getYField());
-			console.log(me.questionChart.getSeries()[0].getLabel().getTemplate().getField());
-			console.log(me.questionChart.getSeries()[0].getStacked());
-			console.log(me.questionChart);
 		}); 
 		
 		updateDataTask.delay(1000);
@@ -585,7 +583,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		};
 		
 		var afterCalculation = function() {
-			console.log(me.questionChart.showPercentage);
 			if(me.questionChart.showPercentage) {
 				chart.getAxes()[0].setMaximum(maxPercentage);
 			} else {
