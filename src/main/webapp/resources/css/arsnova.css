@@ -105,7 +105,7 @@ code {
 	height: 45px;
 	overflow: hidden;
 	border-radius: .4em;
-	margin: 10px 10px 30px!important;
+	margin: 10px 10px 30px;
 }
 
 .loginFieldSet .x-button-confirm {

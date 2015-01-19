@@ -93,6 +93,7 @@ switch (lang) {
 			CONFIRM_CLOSE_SESSION_MESSAGE: "If you lock the access, only students currently online will be able to participate.",
 			ON_SESSION_CREATION_1: "The access key «",
 			ON_SESSION_CREATION_2: "» to your session has been generated. Please give this key to your students.",
+			DEMO_SESSION: "Demo session: ",
 			
 			/* LOAD MASK */
 			LOAD_MASK: "Loading...",
@@ -493,6 +494,7 @@ switch (lang) {
 			CONFIRM_CLOSE_SESSION_MESSAGE: "Wenn Sie den Zugang sperren, können nur noch aktuell angemeldete Student/innen teilnehmen.",
 			ON_SESSION_CREATION_1: "Es wurde der Zugangsschlüssel «",
 			ON_SESSION_CREATION_2: "» für Ihre Session erzeugt. Bitte teilen Sie diesen Ihren Studierenden mit.",
+			DEMO_SESSION: "Demo-Session: ",
 			
 			/* LOAD MASK */
 			LOAD_MASK: "Lade Daten...",
