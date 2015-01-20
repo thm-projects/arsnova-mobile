@@ -89,7 +89,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				this.sessionLogoutButton
 			]
 		});
-		
+
 		this.voteButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.GIVE_FEEDBACK,
 			cls: 'actionButton',
@@ -99,7 +99,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			action: 'showVotePanel',
 			handler: this.buttonClicked
 		});
-		
+
 		this.feedbackButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.QUESTION_REQUEST_ADHOC,
 			cls: 'actionButton',
@@ -111,7 +111,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				});
 			}
 		});
-		
+
 		this.actionButtonPanel = Ext.create('Ext.Panel', {
 			layout: {
 				type: 'hbox',
@@ -125,7 +125,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				this.voteButton
 			]
 		});
-		
+
 		this.lectureQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			ui: 'normal',
 			text: Messages.LECTURE_QUESTIONS_LONG,
@@ -404,7 +404,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				var p = Ext.apply({myprogress: 0, courseprogress: 0}, Ext.decode(response.responseText));
 				var vsBadge = {badgeText: Messages.VERSUS, badgeCls: "textbadgeicon"};
 				var badgeColorCls = "redbadge";
-				
+
 				var getBadge = function (percentage) {
 					if (percentage >= goodProgressThreshold) {
 						badgeColorCls = "greenbadge";
@@ -413,7 +413,7 @@ Ext.define('ARSnova.view.user.InClass', {
 					} else {
 						badgeColorCls = "redbadge";
 					}
-					
+
 					return {badgeText: percentage+"%", badgeCls: badgeColorCls + "icon"};
 				};
 				if (p.myprogress === 0 && p.courseprogress === 0) {
@@ -423,7 +423,7 @@ Ext.define('ARSnova.view.user.InClass', {
 					me.myLearningProgressButton.setBadge([getBadge(p.myprogress), vsBadge, getBadge(p.courseprogress)]);
 					me.inClassButtons.add(me.myLearningProgressButton);
 				}
-				
+
 				getBadge(p.myprogress);
 				me.swotBadge.setCls('swotBadgeIcon ' + badgeColorCls + "color");
 				me.swotBadge.setHidden(p.myprogress < goodProgressThreshold);

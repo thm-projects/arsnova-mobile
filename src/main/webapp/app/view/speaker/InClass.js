@@ -96,7 +96,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				this.sessionLogoutButton
 			]
 		});
-		
+
 		this.createAdHocQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.NEW_QUESTION,
 			cls: 'actionButton',
@@ -106,7 +106,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			action: 'adHoc',
 			handler: this.buttonClicked
 		});
-		
+
 		this.showcaseActionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SHOWCASE_MODE,
 			cls: 'actionButton',
@@ -115,7 +115,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			handler: this.showcaseHandler,
 			hidden: true
 		});
-		
+
 		this.actionButtonPanel = Ext.create('Ext.Panel', {
 			layout: {
 				type: 'hbox',
@@ -252,7 +252,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	buttonClicked: function (button) {
 		ARSnova.app.getController(button.config.controller)[button.config.action]();
 	},
-	
+
 	showcaseHandler: function () {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.showcaseQuestionPanel.inclassBackButtonHandle = true;
@@ -290,13 +290,13 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.showcaseQuestionPanel.setController(ARSnova.app.getController('Questions'));
 		sTP.showcaseQuestionPanel.setLectureMode();
-		
+
 		sTP.inClassPanel.updateAudienceQuestionBadge();
 	},
 
 	updateAudienceQuestionBadge: function () {
 		var me = this;
-		
+
 		var failureCallback = function () {
 			console.log('server-side error');
 		};
@@ -304,19 +304,19 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		ARSnova.app.questionModel.countLectureQuestions(localStorage.getItem("keyword"), {
 			success: function (response) {
 				var numQuestions = parseInt(response.responseText);
-				
+
 				if(numQuestions) {
 					if(numQuestions === 1) me.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE);
 					else me.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE_PLURAL);
-					
-					me.showcaseActionButton.show();	
+
+					me.showcaseActionButton.show();
 				}
-				
+
 				ARSnova.app.questionModel.countLectureQuestionAnswers(localStorage.getItem("keyword"), {
 					success: function (response) {
 						var numAnswers = parseInt(response.responseText);
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
-						
+
 						panel.lectureQuestionButton.setBadge([
 							{badgeText: numQuestions, badgeCls: "questionsBadgeIcon"},
 							{badgeText: numAnswers, badgeCls: "answersBadgeIcon"}
