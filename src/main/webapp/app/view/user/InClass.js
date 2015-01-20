@@ -160,6 +160,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.myLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+				id: 'myLearningProgress',
 				ui: 'normal',
 				text: Messages.MY_LEARNING_PROGRESS,
 				cls: 'standardListButton',
@@ -177,21 +178,19 @@ Ext.define('ARSnova.view.user.InClass', {
 		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
 			buttons.push(this.myQuestionsButton);
 		}
-		if (ARSnova.app.globalConfig.features.learningProgress) {
-			buttons.push(this.myLearningProgressButton);
-		}
+
+		this.inClassButtons = Ext.create('Ext.form.FormPanel', {
+			cls: 'standardForm topPadding',
+			scrollable: null,
+			items: buttons
+		});
 
 		this.inClass = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			items: [{
 				cls: 'gravure',
 				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(localStorage.getItem("keyword"))
-			}, this.actionButtonPanel, {
-				xtype: 'formpanel',
-				cls: 'standardForm topPadding',
-				scrollable: null,
-				items: buttons
-			}]
+			}, this.actionButtonPanel, this.inClassButtons]
 		});
 
 		this.swotBadge = Ext.create('Ext.Panel', {
@@ -419,8 +418,10 @@ Ext.define('ARSnova.view.user.InClass', {
 				};
 				if (p.myprogress === 0 && p.courseprogress === 0) {
 					me.myLearningProgressButton.setBadge([{badgeText: "…"}, vsBadge, {badgeText: "…"}]);
+					me.inClassButtons.remove(me.myLearningProgressButton, false);
 				} else {
 					me.myLearningProgressButton.setBadge([getBadge(p.myprogress), vsBadge, getBadge(p.courseprogress)]);
+					me.inClassButtons.add(me.myLearningProgressButton);
 				}
 				
 				getBadge(p.myprogress);
@@ -429,6 +430,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			},
 			failure: function () {
 				me.myLearningProgressButton.setBadge([{badgeText: ""}]);
+				me.inClassButtons.remove(me.myLearningProgressButton, false);
 			}
 		});
 	}

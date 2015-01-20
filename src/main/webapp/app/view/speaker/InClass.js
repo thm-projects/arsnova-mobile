@@ -165,6 +165,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.courseLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+				id: "courseLearningProgress",
 				text: Messages.COURSES_LEARNING_PROGRESS,
 				cls: 'standardListButton',
 				disabledCls: '',
@@ -177,9 +178,12 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			this.lectureQuestionButton,
 			this.preparationQuestionButton
 		];
-		if (ARSnova.app.globalConfig.features.learningProgress) {
-			buttons.push(this.courseLearningProgressButton);
-		}
+
+		this.inClassButtons = Ext.create('Ext.form.FormPanel', {
+			cls: 'standardForm topPadding',
+			scrollable: null,
+			items: buttons
+		});
 
 		this.inClassItems = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
@@ -187,12 +191,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			items: [{
 				cls: 'gravure',
 				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(localStorage.getItem("keyword"))
-			}, this.actionButtonPanel, {
-				xtype: 'formpanel',
-				cls: 'standardForm topPadding',
-				scrollable: null,
-				items: buttons
-			}]
+			}, this.actionButtonPanel, this.inClassButtons]
 		});
 
 		this.sessionStatusButton = Ext.create('ARSnova.view.SessionStatusButton');
@@ -383,16 +382,21 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				var p = Ext.decode(response.responseText);
 				if (p >= 75) {
 					me.courseLearningProgressButton.setBadge([{badgeText: p + "%", badgeCls: "greenbadgeicon"}]);
+					me.inClassButtons.add(me.courseLearningProgressButton);
 				} else if (p >= 25) {
 					me.courseLearningProgressButton.setBadge([{badgeText: p + "%", badgeCls: "orangebadgeicon"}]);
+					me.inClassButtons.add(me.courseLearningProgressButton);
 				} else if (p === 0) {
 						me.courseLearningProgressButton.setBadge([{badgeText: "…", badgeCls: "badgeicon"}]);
+						me.inClassButtons.remove(me.courseLearningProgressButton, false);
 				} else {
 					me.courseLearningProgressButton.setBadge([{badgeText: p + "%", badgeCls: "redbadgeicon"}]);
+					me.inClassButtons.add(me.courseLearningProgressButton);
 				}
 			},
 			failure: function () {
 				me.courseLearningProgressButton.setBadge([{badgeText: ""}]);
+				me.inClassButtons.remove(me.courseLearningProgressButton, false);
 			}
 		});
 	}
