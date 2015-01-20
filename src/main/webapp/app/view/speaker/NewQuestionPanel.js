@@ -464,7 +464,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
 		var values = {};
-		console.log("SAVE HANDLER");
 		/* get text, subject of question from mainPart */
 		var mainPartValues = panel.mainPart.getValues();
 		values.text = mainPartValues.text;
