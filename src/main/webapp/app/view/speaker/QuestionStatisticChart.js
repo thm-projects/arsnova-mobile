@@ -211,14 +211,27 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 							if(pressed && container.lastPressed !== button.getItemId()) {
 
 								if(button.getItemId() > 1 && this.questionObj.piRound === 1) {
-									Ext.Msg.confirm('title', 'text', function(id) {
-										if (id === 'yes') {
-											me.enablePiRoundElements();
-											me.modifyChart(button.getItemId());
-											container.lastPressed = button.getItemId();
-										} else {
-											container.setPressedButtons([0]);
-										}
+									Ext.Msg.show({
+										title: Messages.PI,
+										message: Messages.PI_NEW_ROUND,
+										fn: function(buttonId) {
+											if (buttonId === 'continue') {
+												me.enablePiRoundElements();
+												me.modifyChart(button.getItemId());
+												container.lastPressed = button.getItemId();
+											} else {
+												container.setPressedButtons([0]);
+											}
+										},
+										buttons: [{
+											text: Messages.CONTINUE, 
+											itemId: 'continue', 
+											ui: 'action'
+										}, {
+											text: Messages.ABORT,
+											itemId: 'decline',
+											ui: 'decline'
+										}]
 									});
 								} else {
 									this.modifyChart(button.getItemId());

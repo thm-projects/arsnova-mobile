@@ -61,6 +61,8 @@ switch (lang) {
 			FEATURE_COMING_SOON: "This feature will be available soon.",
 			UNI_LOGIN_MSG: "Your University here?",
 			UNI_LOGIN_MSG_TEXT: "Would you like to use your university's account? Contact us @ <a href='http://www.transmit.de/zentren/tz.cfm?N=189' target='_blank'>transmit.de</a>.",
+			PI_NEW_ROUND: "Do you want to really start the next Peer Instruction round? Answers of the active round will be irrevocably locked.",
+			PI: "Peer Instruction",
 			
 			/* rolePanel */
 			BLOG: "Blog",
@@ -267,6 +269,7 @@ switch (lang) {
 			NO: "No",
 			NONE: "None",
 			CONTINUE: 'Continue',
+			ABORT: 'Abort',
 			ANSWERS: "Answers",
 			ANSWERS_SHOWN: "x shown",
 			ANSWER_OPTIONS: "Answer options",
@@ -340,7 +343,6 @@ switch (lang) {
 			SETTINGS_HINT_TEXT: "Hint <br>Maximal filesize is 1 MB.",
 			TEMPLATE_FOR_MODERATION: "Template for moderation question",
 			TEMPLATE:	"Template",
-			CONTINUE:	"Continue",
 			DOWNLOAD:	"Download",
 
 			/* question types */
@@ -462,7 +464,9 @@ switch (lang) {
 			FEATURE_COMING_SOON: "Feature kommt in Kürze.",
 			UNI_LOGIN_MSG: "Ihr Uni-Login an dieser Stelle?",
 			UNI_LOGIN_MSG_TEXT: "Möchten Sie Ihren hochschuleigenen Zugang verwenden? Sprechen Sie mit uns unter <a href='http://www.transmit.de/zentren/tz.cfm?N=189' target='_blank'>transmit.de</a>.",
-
+			PI_NEW_ROUND: "Möchten Sie wirklich die nächste Peer-Instruction-Runde starten? Antworten der aktiven Runde werden unwiderruflich gesperrt.",
+			PI: "Peer-Instruction",
+			
 			/* rolePanel */
 			BLOG: "Blog",
 			CHOOSE_ROLE: "Wählen Sie Ihre Rolle:",
@@ -668,7 +672,8 @@ switch (lang) {
 			YES: "Ja",
 			NO: "Nein",
 			NONE: "Keine",
-			CONTINUE: 'Weiter',
+			CONTINUE: 'Fortfahren',
+			ABORT: 'Abbrechen',
 			ANSWERS: "Antworten",
 			ANSWERS_SHOWN: "x angezeigt",
 			ANSWER_OPTIONS: "Antwortmöglichkeiten",
@@ -740,7 +745,6 @@ switch (lang) {
 			SETTINGS_HINT_TEXT: "Hinweis: <br>Maximale Dateigröße beträgt 1MB.",
 			TEMPLATE_FOR_MODERATION: "Vorlagenkatalog für Punktabfragen",
 			TEMPLATE:	"Vorlage",
-			CONTINUE:	"Übernehmen",
 			DOWNLOAD:	"Herunterladen",
 
 			/* question types */
