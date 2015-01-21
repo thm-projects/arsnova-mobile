@@ -98,11 +98,7 @@ Ext.define("ARSnova.controller.Questions", {
 	},
 
 	listFeedbackQuestions: function (animation) {
-		ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.backButton.show();
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel, animation || 'slide');
-		ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.addListener('deactivate', function (panel) {
-			panel.questionsPanel.backButton.hide();
-		}, this, {single: true});
 	},
 
 	add: function (options) {
