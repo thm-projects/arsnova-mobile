@@ -83,11 +83,11 @@ Ext.define('ARSnova.view.RolePanel', {
 				{
 					text: Messages.SPEAKER,
 					value: ARSnova.app.USER_ROLE_SPEAKER,
-					imageCls: "icon-presenter thm-green"
+					imageCls: "icon-presenter thm-grey"
 				}, {
 					text: Messages.STUDENT,
 					value: ARSnova.app.USER_ROLE_STUDENT,
-					imageCls: "icon-users thm-grey",
+					imageCls: "icon-users thm-green",
 					style: 'margin-left: 20px;'
 				}
 			]
