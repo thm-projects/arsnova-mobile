@@ -158,6 +158,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		this.onBefore('activate', function () {
 			this.getMyCourses();
 			this.setScrollable(true);
+
 		}, this);
 	},
 	

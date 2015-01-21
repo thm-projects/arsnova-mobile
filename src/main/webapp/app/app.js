@@ -304,7 +304,7 @@ Ext.application({
 	 * Wrapper for an invidivudal LoadMask
 	 */
 	showLoadMask: function (message, duration) {
-		var minimumDuration = 500;
+		var minimumDuration = 800;
 
 		Ext.Viewport.setMasked({
 			xtype: 'loadmask',
