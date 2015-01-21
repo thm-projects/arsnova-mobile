@@ -341,7 +341,7 @@ switch (lang) {
 			SETTINGS_HINT_TEXT: "Hint <br>Maximal filesize is 1 MB.",
 			TEMPLATE_FOR_MODERATION: "Template for moderation question",
 			TEMPLATE:	"Template",
-			CONTINUE:	"Continue",
+			APPLY:	"Apply",
 			DOWNLOAD:	"Download",
 
 			/* question types */
@@ -742,7 +742,7 @@ switch (lang) {
 			SETTINGS_HINT_TEXT: "Hinweis: <br>Maximale Dateigröße beträgt 1MB.",
 			TEMPLATE_FOR_MODERATION: "Vorlagenkatalog für Punktabfragen",
 			TEMPLATE:	"Vorlage",
-			CONTINUE:	"Übernehmen",
+			APPLY:		"Übernehmen",
 			DOWNLOAD:	"Herunterladen",
 
 			/* question types */

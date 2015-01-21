@@ -165,7 +165,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.courseLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-				id: "courseLearningProgress",
+				itemId: 'courseLearningProgress',
 				text: Messages.COURSES_LEARNING_PROGRESS,
 				cls: 'standardListButton',
 				disabledCls: '',

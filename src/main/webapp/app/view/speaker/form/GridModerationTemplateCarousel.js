@@ -62,7 +62,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 		});
 		
 		this.saveButtonToolbar = Ext.create('Ext.Button', {
-			text: Messages.CONTINUE,
+			text: Messages.APPLY,
 			ui: 'confirm',
 			cls: 'saveQuestionButton',
 			style: 'width: 99px',
