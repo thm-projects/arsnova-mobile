@@ -91,8 +91,9 @@ switch (lang) {
 			CLOSED_SESSION: "Closed Session",
 			CONFIRM_CLOSE_SESSION: "Are you sure to lock access to this session?",
 			CONFIRM_CLOSE_SESSION_MESSAGE: "If you lock the access, only students currently online will be able to participate.",
-			ON_SESSION_CREATION_1: "The access key «",
-			ON_SESSION_CREATION_2: "» to your session has been generated. Please give this key to your students.",
+			ON_SESSION_CREATION_1: "The access key «###» to your session has been generated. Please give this key to your students.",
+			ON_SESSION_CREATION_2: "You can manage this session only in the role of lecturer via ###.",
+			
 			DEMO_SESSION: "Demo session: ",
 			
 			/* LOAD MASK */
@@ -493,8 +494,8 @@ switch (lang) {
 			CLOSED_SESSION: "Gesperrte Session",
 			CONFIRM_CLOSE_SESSION: "Zugang wirklich sperren?",
 			CONFIRM_CLOSE_SESSION_MESSAGE: "Wenn Sie den Zugang sperren, können nur noch aktuell angemeldete Student/innen teilnehmen.",
-			ON_SESSION_CREATION_1: "Es wurde der Zugangsschlüssel «",
-			ON_SESSION_CREATION_2: "» für Ihre Session erzeugt. Bitte teilen Sie diesen Ihren Studierenden mit.",
+			ON_SESSION_CREATION_1: "Es wurde der Zugangsschlüssel «###» für Ihre Session erzeugt. Bitte teilen Sie diesen Ihren Studierenden mit.",
+			ON_SESSION_CREATION_2: "Sie können diese Session nur in der Rolle Dozent/in via ### verwalten.",
 			DEMO_SESSION: "Demo-Session: ",
 			
 			/* LOAD MASK */

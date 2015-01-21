@@ -265,23 +265,23 @@
 		margin: 9px 0 0 14px !important;
 		font-size: 60px !important;
 	}
+}
 
-	.login-icon-cas,
-	.login-icon-arsnova {
-		color: $thm-green;
-	}
+.login-icon-cas,
+.login-icon-arsnova {
+	color: $thm-green;
+}
 
-	.login-icon-twitter {
-		color: $twitter-color;
-	}
+.login-icon-twitter {
+	color: $twitter-color;
+}
 
-	.login-icon-facebook {
-		color: $facebook-color;
-	}
-
-	.login-icon-google {
-		color: $google-color;
-	}
+.login-icon-facebook {
+	color: $facebook-color;
+}
+	
+.login-icon-google {
+	color: $google-color;
 }
 
 .icon-happy, .icon-wink, .icon-sad,
@@ -308,4 +308,41 @@
 	display: inline-block;
 	border-radius: 50%/50%;
 	box-shadow: inset 50px 50px 50px #4a5c66;
+}
+
+.text-icons {
+	font-size: inherit !important;
+	line-height: initial !important;
+	line-height: 1em !important;
+	
+	font-family: "arsnova" !important;
+	font-size: 36px !important;
+	
+	&.login-icon-guest:before {
+		content: "\e616";
+	}
+	
+	&.login-icon-arsnova:before {
+		content: "\72";
+	}
+	
+	&.login-icon-cas:before {
+		content: "\74";
+	}
+	
+	&.login-icon-ldap:before {
+		content: "\e613";
+	}
+	
+	&.login-icon-twitter:before {
+		content: "\f081";
+	}	
+	
+	&.login-icon-facebook:before {
+		content: "\e60f";
+	}
+	
+	&.login-icon-google:before {
+		content: "\e611";
+	}
 }
