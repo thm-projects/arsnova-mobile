@@ -186,22 +186,23 @@
 		color: $thm-green !important;
 		margin-right: 16px;
 	}
-}
-
-.courseIcon {
-	&.icon-prof {
+	
+	.icon-prof {
 		font-size: 0.85em;
 		margin-right: 4px;
 		margin-bottom: -3px;
 	}
-	
-	&.icon-users {
-		margin-bottom: 5px;
+		
+	.icon-users {
+		font-size: 0.9em;
+		color: $thm-green !important;
+		margin-right: 1px;
+		margin-bottom: 4px;
 	}
-	
-	&.icon-presenter {
-		margin-left: 1.5px;
-		margin-right: -1.5px;
+		
+	.icon-presenter {
+		margin-left: 0.5px;
+		margin-right: -0.5px;
 	}
 }
 
@@ -220,7 +221,6 @@
 	line-height: initial !important; /* ie10+ fallback */
 	line-height: 1em !important;
 }
-
 
 .iconBtn {
 	border-color: transparent !important;

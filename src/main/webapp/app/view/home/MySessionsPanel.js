@@ -263,7 +263,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							ui: 'normal',
 							text: Ext.util.Format.htmlEncode(displaytext),
 							cls: 'forwardListButton',
-							iconCls: icon + ' courseIcon',
+							iconCls: icon + " courseIcon",
 							controller: 'sessions',
 							action: 'showDetails',
 							badgeCls: 'badgeicon',
