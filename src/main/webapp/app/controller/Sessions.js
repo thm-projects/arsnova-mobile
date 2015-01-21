@@ -301,35 +301,46 @@ Ext.define("ARSnova.controller.Sessions", {
 				
 				/* activate inputElements in newSessionPanel */
 				options.newSessionPanel.enableInputElements();
-								
-				var messageBox = Ext.create('Ext.MessageBox', {
-					title: Messages.SESSION + ' ID: ' + fullSession.keyword,
-					message: Messages.ON_SESSION_CREATION_1.replace(/###/, fullSession.keyword),
-					listeners: {
-						hide: function() {
-							ARSnova.app.getController('Sessions').reloadData();
-							var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-							panel.setActiveItem(panel.mySessionsPanel);
-							this.destroy();
+				
+				var loginName = "";
+				var loginMode = localStorage.getItem("loginMode");			
+				ARSnova.app.getController('Auth').services.then(function (services) {				
+					services.forEach(function(service){
+						console.log(service);
+						if(loginMode === service.id) {
+							loginName = service.name;
 						}
-					},
-					html: "<div class='x-msgbox-text x-layout-box-item'>" + 
-						Messages.ON_SESSION_CREATION_2.replace(/###/, 
-							"<div style='display: inline-block;' class='text-icons login-icon-" + 
-							localStorage.getItem('loginMode') + "'></div>"
-						)
+					});
+					
+					var messageBox = Ext.create('Ext.MessageBox', {
+						title: Messages.SESSION + ' ID: ' + fullSession.keyword,
+						message: Messages.ON_SESSION_CREATION_1.replace(/###/, fullSession.keyword),
+						listeners: {
+							hide: function() {
+								ARSnova.app.getController('Sessions').reloadData();
+								var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+								panel.setActiveItem(panel.mySessionsPanel);
+								this.destroy();
+							}
+						},
+						html: "<div class='x-msgbox-text x-layout-box-item'>" + 
+							Messages.ON_SESSION_CREATION_2.replace(/###/, 
+								loginName + "-Login ( " + "<div style='display: inline-block;'" +
+								"class='text-icons login-icon-" + loginMode + "'></div>)"
+							) + "</div>"
+					});
+					
+					messageBox.setButtons([{
+						text: Messages.CONTINUE, 
+						itemId: 'continue', 
+						ui: 'action',
+						handler: function() {
+							messageBox.hide();
+						}
+					}]);
+					
+					messageBox.show();
 				});
-				
-				messageBox.setButtons([{
-					text: Messages.CONTINUE, 
-					itemId: 'continue', 
-					ui: 'action',
-					handler: function() {
-						messageBox.hide();
-					}
-				}]);
-				
-				messageBox.show();
 			},
 			failure: function (records, operation) {
 				Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
