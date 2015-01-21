@@ -306,7 +306,6 @@ Ext.define("ARSnova.controller.Sessions", {
 				var loginMode = localStorage.getItem("loginMode");			
 				ARSnova.app.getController('Auth').services.then(function (services) {				
 					services.forEach(function(service){
-						console.log(service);
 						if(loginMode === service.id) {
 							loginName = service.name;
 						}
@@ -325,8 +324,8 @@ Ext.define("ARSnova.controller.Sessions", {
 						},
 						html: "<div class='x-msgbox-text x-layout-box-item'>" + 
 							Messages.ON_SESSION_CREATION_2.replace(/###/, 
-								loginName + "-Login ( " + "<div style='display: inline-block;'" +
-								"class='text-icons login-icon-" + loginMode + "'></div>)"
+								loginName + "-Login " + "<div style='display: inline-block;'" +
+								"class='text-icons login-icon-" + loginMode + "'></div>"
 							) + "</div>"
 					});
 					
