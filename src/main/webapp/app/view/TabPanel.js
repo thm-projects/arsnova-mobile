@@ -212,10 +212,6 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.privacyTabPanel.tab.show();
 		this.imprintTabPanel.tab.show();
 		this.blogTabPanel.tab.show();
-
-		// this.addClassToTab('infoButtonBeforeLogin', this.infoTabPanel);
-		// this.addClassToTab('infoButtonBeforeLogin', this.privacyTabPanel);
-		// this.addClassToTab('infoButtonBeforeLogin', this.imprintTabPanel);
 	},
 
 	deactivateAboutTabs: function() {
@@ -223,10 +219,6 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.imprintTabPanel.tab.hide();
 		this.blogTabPanel.tab.hide();
 		this.infoTabPanel.tab.show();
-
-		// this.removeClassFromTab('infoButtonBeforeLogin', this.infoTabPanel);
-		// this.removeClassFromTab('infoButtonBeforeLogin', this.privacyTabPanel);
-		// this.removeClassFromTab('infoButtonBeforeLogin', this.imprintTabPanel);
 	},
 
 	addClassToTab: function(addCls, panel) {
