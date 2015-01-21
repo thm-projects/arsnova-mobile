@@ -564,7 +564,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 					);
 					break;
 			}
-
+			
+			// animated scrolling to top
+			panel.getScrollable().getScroller().scrollTo(0, 0, true);
 		});
 		return promise;
 	},
