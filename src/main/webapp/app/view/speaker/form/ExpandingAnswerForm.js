@@ -131,7 +131,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 						},
 						change: function (field, newValue, oldValue) {
 							if (ARSnova.app.globalConfig.features.learningProgress) {
-								this.questionValueComponents[i].setLabel(newValue || Messages.ANSWER);
+								this.questionValueComponents[i].setLabel(newValue.substring(0, 25) || Messages.ANSWER);
 							}
 						}
 					}
