@@ -175,11 +175,16 @@ Ext.define("ARSnova.controller.Questions", {
 				});
 				break;
 			case 'mc':
-				panel.multipleChoiceQuestion.query('textfield').forEach(function (el) {
-					if (!el.getHidden() && el.getValue().toString().trim() == "") {
-						error = true;
+				var answerCount = 0;
+				panel.multipleChoiceQuestion.answerComponents.forEach(function (el) {
+					var value = el.getValue().toString().trim();
+					if (!el.getHidden() && value !== "") {
+						answerCount++;
 					}
 				});
+				if(answerCount < 2) {
+					error = true;
+				}
 				break;
 			case 'grid':
 				if(panel.gridQuestion.grid !== null) {

@@ -478,7 +478,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		} else {
 			values.releasedFor = panel.getReleasedFor();
 		}
-
+		
 		/* fetch the values */
 		switch (panel.questionOptions.getPressedButtons()[0]._text) {
 			case Messages.GRID:

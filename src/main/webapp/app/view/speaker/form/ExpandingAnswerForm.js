@@ -187,14 +187,16 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		var values = [], obj;
 		
 		for (var i = 0; i < this.selectAnswerCount.getValue(); i++) {
-			obj = {
-				text: this.answerComponents[i].getValue(),
-				correct: this.answerComponents[i].isChecked()
-			};
-			if (ARSnova.app.globalConfig.features.learningProgress) {
-				obj.value = this.questionValueComponents[i].getSliderValue();
+			if(this.answerComponents[i].getValue() !== "") {
+				obj = {
+					text: this.answerComponents[i].getValue(),
+					correct: this.answerComponents[i].isChecked()
+				};
+				if (ARSnova.app.globalConfig.features.learningProgress) {
+					obj.value = this.questionValueComponents[i].getSliderValue();
+				}
+				values.push(obj);
 			}
-			values.push(obj);
 		}
 		
 		return values;
