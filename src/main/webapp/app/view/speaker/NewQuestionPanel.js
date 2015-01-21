@@ -58,7 +58,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
-		
+
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
 		this.backButton = Ext.create('Ext.Button', {
@@ -101,7 +101,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 		// Preview button
 		this.previewButton = Ext.create('Ext.Button', {
-			text: Ext.os.is.Desktop ? 
+			text: Ext.os.is.Desktop ?
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP:
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
@@ -192,7 +192,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			submitOnAction: false,
 			items: []
 		});
-		
+
 		var messageAppendix = screenWidth >= 650 ? "_LONG" : "";
 
 		var formatItems = [
@@ -209,8 +209,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		if (config.features.flashcard) {
 			formatItems.push({
 				itemId: Messages.FLASHCARD,
-				text: messageAppendix.length ? 
-						Messages.FLASHCARD : 
+				text: messageAppendix.length ?
+						Messages.FLASHCARD :
 						Messages.FLASHCARD_SHORT
 			});
 			me.flashcardQuestion = Ext.create('ARSnova.view.speaker.form.FlashcardQuestion', {
@@ -244,7 +244,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 					}, me);
 
 					var title = '';
-					
+
 					me.previewPart.hide();
 					me.previewButton.setHandler(this.defaultPreviewHandler);
 
@@ -260,7 +260,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 								this.grid.hide();
 							} else {
 								me.gridQuestion.hide();
-								
+
 								this.uploadView.show();
 								if (this.grid.getImageFile()) {
 									this.grid.show();
@@ -331,9 +331,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 								me.flashcardQuestion.show();
 								me.abstentionPart.hide();
 								title = Messages.FLASHCARD;
-								
+
 								me.uploadView.setUploadPanelConfig(
-									Messages.PICTURE_SOURCE + " - " + 
+									Messages.PICTURE_SOURCE + " - " +
 									Messages.FLASHCARD_BACK_PAGE,
 									me.setFcImage, me.setFcImage
 								);
@@ -341,7 +341,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 								me.textarea.setPlaceHolder(Messages.FORMAT_PLACEHOLDER);
 								me.flashcardQuestion.hide();
 								me.abstentionPart.show();
-								
+
 								me.uploadView.setUploadPanelConfig(
 									Messages.PICTURE_SOURCE,
 									me.setImage, me.setImage
@@ -452,7 +452,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.questionOptions.setPressedButtons([0]);
 		this.releasePart.setHidden(localStorage.getItem('courseId') === null || localStorage.getItem('courseId').length === 0);
 	},
-	
+
 	defaultPreviewHandler: function() {
 		var questionPreview = Ext.create('ARSnova.view.QuestionPreviewBox');
 		questionPreview.showPreview(this.subject.getValue(), this.textarea.getValue());
@@ -461,10 +461,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	saveHandler: function (button) {
 		/* disable save button in order to avoid multiple question creation */
 		button.disable();
-		
+
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
 		var values = {};
-		console.log("SAVE HANDLER");
 		/* get text, subject of question from mainPart */
 		var mainPartValues = panel.mainPart.getValues();
 		values.text = mainPartValues.text;
@@ -540,7 +539,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		promise.then(function () {
 			panel.subject.reset();
 			panel.textarea.reset();
-			
+
 			if (panel.flashcardQuestion) {
 				panel.flashcardQuestion.answer.reset();
 				panel.setFcImage(null);
@@ -619,12 +618,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	setImage: function (image) {
 		var title = this.toolbar.getTitle().getTitle(),
 			isFlashcard = title === Messages.FLASHCARD;
-		
+
 		this.image = image;
-			
+
 		!isFlashcard ? this.grid.setImage(image) :
 			this.flashcardQuestion.grid.setImage(image);
-		
+
 		if (image) {
 			!isFlashcard ? this.grid.show() :
 				this.flashcardQuestion.grid.show();
@@ -633,7 +632,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				this.flashcardQuestion.grid.hide();
 		}
 	},
-	
+
 	setFcImage: function (image) {
 		this.fcImage = image;
 		this.grid.setImage(image);
@@ -643,15 +642,15 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			this.grid.hide();
 		}
 	},
-	
+
 	/**
 	 * Selects a button of the segmentation component with the given name.
-	 * 
+	 *
 	 * @param text The text of the button to be selected.
 	 */
 	activateButtonWithText: function(text) {
 		var me = this;
-		
+
 		this.questionOptions.innerItems.forEach(function(item, index) {
 			if (item.getItemId() == text) {
 				me.questionOptions.setPressedButtons([index]);
