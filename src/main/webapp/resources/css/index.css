@@ -42,7 +42,7 @@ html, body {
 }
 
 .appLoadingIndicator > * {
-	background-color: #FFFFFF;
+	background-color: #4a5c66;
 	display: inline-block;
 	height: 30px;
 	margin: 0 5px;
