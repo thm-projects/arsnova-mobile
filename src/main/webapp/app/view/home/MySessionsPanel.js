@@ -251,8 +251,19 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							
 							Ext.apply(msgBox, {
 								YESNO: [
-								        { text: 'Dateisystem', itemId: 'yes', ui: 'action' }, 
-								        { text: 'Public Pool', itemId: 'no', ui: 'action'}
+								        {	
+								        	xtype: 'matrixbutton',
+								        	text:	Messages.EXPORT_BUTTON_FS,
+								        	itemId: 'yes',
+								        	buttonConfig: 'icon',
+											imageCls: 'icon-cloud-download '},
+								         {
+												xtype: 'matrixbutton',
+											text: 'Pool',
+											itemId: 'no',
+											buttonConfig: 'icon',
+											imageCls: 'icon-cloud thm-darkblue'}
+															       // { text: 'Public Pool', itemId: 'no', ui: 'action'}
 						        ]
 							});
 							

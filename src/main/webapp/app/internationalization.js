@@ -367,11 +367,11 @@ switch (lang) {
 			EXPORT_FIELD_EMAIL: "Email",
 			EXPORT_FIELD_SPECIAL_FIELD: "Faculty",
 			EXPORT_SELECTED_SESSIONS_TITLE : "Export sessions",
-			EXPORT_SELECTED_SESSIONS_MSG : "Where should the sessions be exported",
+			EXPORT_SELECTED_SESSIONS_MSG : "Where should the session(s) be exported",
 			EXPORT_SESSION_INFORMATION: "Auditorium and prepare questions for the selected sessions will be exported.",
 			EXPORT_NOTIFICATION:	"There was no session selected",
 			EXPORT_IOS_NOTIFICATION: "An export can not be performed on iOS devices",
-			EXPORT_BUTTON_FS: "My Filesystem",
+			EXPORT_BUTTON_FS: "My System",
 			EXPORT_BUTTON_PP: "Public Pool",
 			
 			/*Import session*/
@@ -806,11 +806,11 @@ switch (lang) {
 			EXPORT_FIELD_EMAIL: "Email",
 			EXPORT_FIELD_SPECIAL_FIELD: "Fachbereich",
 			EXPORT_SELECTED_SESSIONS_TITLE : "Sessions exportieren",
-			EXPORT_SELECTED_SESSIONS_MSG : "Wohin möchten Sie die Sessions exportieren",
+			EXPORT_SELECTED_SESSIONS_MSG : "Wohin möchten Sie die Session(s) exportieren",
 			EXPORT_SESSION_INFORMATION: "Hörsaal und Vorbereitungsfragen der ausgewählten Sessions werden exportiert",
 			EXPORT_NOTIFICATION: "Es wurde keine Session ausgewählt",
 			EXPORT_IOS_NOTIFICATION: "Ein Export kann auf iOS Geräten nicht durchgeführt werden",
-			EXPORT_BUTTON_FS: "Mein Dateisystem",
+			EXPORT_BUTTON_FS: "Mein System",
 			EXPORT_BUTTON_PP: "Public Pool",
 			
 			
