@@ -167,6 +167,12 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			}]);
 		}
 	},
+	
+	resetFields: function() {
+		this.answerComponents.forEach(function(el) {
+			el.reset();
+		});
+	},
 
 	getEnumeration: function () {
 		switch (this.getWording().enumeration.toLowerCase()) {

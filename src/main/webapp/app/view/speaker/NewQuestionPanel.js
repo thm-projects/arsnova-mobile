@@ -545,10 +545,13 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				panel.setFcImage(null);
 			}
 
+			panel.multipleChoiceQuestion.resetFields();
+			panel.abcdQuestion.resetFields();
+
 			switch (panel.questionOptions.getPressedButtons()[0]._text) {
 				case Messages.GRID:
+				case Messages.GRID_LONG:
 					panel.gridQuestion.resetView();
-				break;
 				default:
 					panel.setImage(null);
 					me.uploadView.setUploadPanelConfig(
