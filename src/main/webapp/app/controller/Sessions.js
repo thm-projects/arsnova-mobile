@@ -298,35 +298,37 @@ Ext.define("ARSnova.controller.Sessions", {
 
 				/* deactivate several tab panels */
 				ARSnova.app.mainTabPanel.tabPanel.deactivateAboutTabs();
-				
-				/* activate inputElements in newSessionPanel */
-				options.newSessionPanel.enableInputElements();
-				
+								
 				var loginName = "";
 				var loginMode = localStorage.getItem("loginMode");			
 				ARSnova.app.getController('Auth').services.then(function (services) {				
 					services.forEach(function(service){
 						if(loginMode === service.id) {
-							loginName = service.name;
+							loginName = "guest" === service.id ? Messages.GUEST: service.name;
 						}
 					});
 					
 					var messageBox = Ext.create('Ext.MessageBox', {
 						title: Messages.SESSION + ' ID: ' + fullSession.keyword,
 						message: Messages.ON_SESSION_CREATION_1.replace(/###/, fullSession.keyword),
+						cls: 'newSessionMessageBox',
 						listeners: {
 							hide: function() {
 								ARSnova.app.getController('Sessions').reloadData();
 								var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 								panel.setActiveItem(panel.mySessionsPanel);
+								
+								/* activate inputElements in newSessionPanel */
+								options.newSessionPanel.enableInputElements();
+								
 								this.destroy();
 							}
 						},
-						html: "<div class='x-msgbox-text x-layout-box-item'>" + 
+						html: "<div class='x-msgbox-text x-layout-box-item' style='text-align: justify;'>" + 
 							Messages.ON_SESSION_CREATION_2.replace(/###/, 
 								loginName + "-Login " + "<div style='display: inline-block;'" +
-								"class='text-icons login-icon-" + loginMode + "'></div>"
-							) + "</div>"
+								"class='text-icons login-icon-" + loginMode + "'></div> " + 
+								(loginMode === "guest" ? Messages.ON_THIS_DEVICE : "")) + ".</div>"
 					});
 					
 					messageBox.setButtons([{
