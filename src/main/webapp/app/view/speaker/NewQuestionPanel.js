@@ -144,6 +144,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
 			handlerScope: this,
+			addRemoveButton: true,
 			activateTemplates: false,
 			urlUploadHandler: this.setImage,
 			fsUploadHandler: this.setImage
@@ -153,7 +154,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			editable: false,
 			gridIsHidden: true,
 			hidden: true,
-			style: "padding-top: 10px;"
+			style: "padding-top: 10px; margin-top: 30px"
 		});
 
 		this.releasePart = Ext.create('Ext.Panel', {
@@ -373,6 +374,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			ui: 'confirm',
 			cls: 'saveQuestionButton',
 			text: Messages.SAVE_AND_CONTINUE,
+			style: 'margin-top: 70px',
 			handler: function (button) {
 				me.saveHandler(button).then(function () {
 					var theNotificationBox = {};
@@ -542,6 +544,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 			if (panel.flashcardQuestion) {
 				panel.flashcardQuestion.answer.reset();
+				panel.flashcardQuestion.uploadView.resetButtons();
 				panel.setFcImage(null);
 			}
 
@@ -554,9 +557,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 					panel.gridQuestion.resetView();
 				default:
 					panel.setImage(null);
-					me.uploadView.setUploadPanelConfig(
+					panel.uploadView.resetButtons();
+					panel.uploadView.setUploadPanelConfig(
 						Messages.PICTURE_SOURCE,
-						me.setImage, me.setImage
+						panel.setImage, panel.setImage
 					);
 					break;
 			}

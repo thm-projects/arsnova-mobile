@@ -32,9 +32,11 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 		
 		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
 			handlerScope: this,
+			addRemoveButton: true,
 			activateTemplates: false,
 			urlUploadHandler: this.setImage,
-			fsUploadHandler: this.setImage
+			fsUploadHandler: this.setImage,
+			style: 'margin-bottom: 30px'
 		});
 		
 		if(this.config.editPanel) {
@@ -52,7 +54,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			editable: false,
 			gridIsHidden: true,
 			hidden: true,
-			style: "padding-top: 10px;"
+			style: "padding-top: 10px; margin-top: 30px;"
 		});
 
 		var previewButton = Ext.create('Ext.Button', {

@@ -30,6 +30,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		
 		handlerScope: null,
 		activateTemplates: true,
+		addRemoveButton: false,
 		urlUploadHandler: Ext.emptyFn,
 		fsUploadHandler: Ext.emptyFn,
 		toggleUrl: true,
@@ -76,6 +77,11 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			listeners: {
 				scope: this,
 				loadsuccess: function (dataurl, e) {
+					if(this.config.addRemoveButton) {
+						this.removeButton.show();
+						this.segmentButton.hide();
+					}
+
 					Ext.bind(this.getFsUploadHandler(), this.getHandlerScope())(dataurl, true);
 				},
 				loadfailure: function (message) {
@@ -93,10 +99,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		this.segmentButton = Ext.create('Ext.SegmentedButton', {
 			allowDepress: false,
 			cls: !this.config.activateTemplates ? 'yesnoOptions' : 'abcOptions',
-			style: {
-				'margin-top': '0px',
-				'margin-bottom': '30px'
-			},
+			style: 'margin-top: 0px; margin-bottom: 0px;',
 			defaults: {
 				ui: 'action'
 			},
@@ -138,9 +141,29 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				'margin-left': '10px'
 			},
 			handler: Ext.bind(function () {
-				var url = this.uploadTextfield.getValue();							
+				var url = this.uploadTextfield.getValue();		
+				if(this.config.addRemoveButton) {
+					this.removeButton.show();
+					this.segmentButton.hide();
+				}
 				Ext.bind(this.getUrlUploadHandler(), this.getHandlerScope())(url);
 			}, this)
+		});
+		
+		this.removeButton = Ext.create('Ext.Button', {
+			ui: 'action',
+			hidden: true,
+			text: Messages.REMOVE_PICTURE,
+			cls: 'yesnoOptions',
+			style: 'margin-top: 0px; margin-bottom: 0px;',
+			scope: this,
+			handler: function() {
+				if(this.config.addRemoveButton) {
+					this.removeButton.hide();
+					this.segmentButton.show();
+				}
+				Ext.bind(this.getFsUploadHandler(), this.getHandlerScope())(null, true);
+			}
 		});
 		
 		this.add([{
@@ -161,7 +184,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				'fileUploadButtonFieldset longText' : 
 				'fileUploadButtonFieldset',
 				items: [this.segmentButton]
-			}]
+			}, this.removeButton]
 		}]);
 	},
 	
@@ -170,6 +193,11 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		
 		if(urlHandler) this.setUrlUploadHandler(urlHandler);
 		if(fsUploadHandler) this.setFsUploadHandler(fsUploadHandler);
+	},
+	
+	resetButtons: function() {
+		this.removeButton.hide();
+		this.segmentButton.show();
 	},
 	
 	toggleUploadTextfieldVisibility: function() {
