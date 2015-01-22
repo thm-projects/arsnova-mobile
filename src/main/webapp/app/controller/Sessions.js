@@ -348,7 +348,7 @@ Ext.define("ARSnova.controller.Sessions", {
 			},
 			failure: function (records, operation) {
 				Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
-				options.submitButton.enable();
+				options.newSessionPanel.enableInputElements();
 			}
 		});
 	},
