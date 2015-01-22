@@ -54,7 +54,6 @@ Ext.define("ARSnova.controller.Sessions", {
 		var res = ARSnova.app.sessionModel.checkSessionLogin(options.keyword, {
 			success: function (response) {
 				var obj = Ext.decode(response.responseText);
-
 				// check if user is creator of this session
 				if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
 					ARSnova.app.isSessionOwner = true;
@@ -75,6 +74,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('courseId', obj.courseId === null ? "" : obj.courseId);
 				localStorage.setItem('courseType', obj.courseType === null ? "" : obj.courseType);
 				localStorage.setItem('active', obj.active ? 1 : 0);
+				localStorage.setItem('creationTime', obj.creationTime);
 				
 				// deactivate several about tabs
 				ARSnova.app.mainTabPanel.tabPanel.deactivateAboutTabs();
@@ -126,6 +126,7 @@ Ext.define("ARSnova.controller.Sessions", {
 		localStorage.removeItem("session");
 		localStorage.removeItem("courseId");
 		localStorage.removeItem("courseType");
+		localStorage.removeItem("creationTime");
 		ARSnova.app.isSessionOwner = false;
 		
 		/* show about tab panels */
@@ -257,7 +258,8 @@ Ext.define("ARSnova.controller.Sessions", {
 			shortName: options.shortName,
 			creator: localStorage.getItem('login'),
 			courseId: options.courseId,
-			courseType: options.courseType
+			courseType: options.courseType,
+			creationTime: Date.now()
 		});
 		session.set('_id', undefined);
 
@@ -289,6 +291,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('active', fullSession.active ? 1 : 0);
 				localStorage.setItem('courseId', fullSession.courseId === null ? "" : fullSession.courseId);
 				localStorage.setItem('courseType', fullSession.courseType === null ? "" : fullSession.courseType);
+				localStorage.setItem('creationTime', fullSession.creationTime);
 				ARSnova.app.isSessionOwner = true;
 
 				// start task to update the feedback tab in tabBar
