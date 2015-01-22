@@ -212,14 +212,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	getQuestionById: function (id, callbacks) {
-		this.arsjax.request({
-			url: "lecturerquestion/" + id,
-			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-
 	getSkillQuestion: function (id, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + id,
@@ -263,14 +255,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	countSkillQuestions: function (sessionKeyword, callbacks) {
-		this.arsjax.request({
-			url: "session/" + sessionKeyword + "/skillquestioncount",
-			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-
 	countPreparationQuestions: function (sessionKeyword, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/count?preparationquestionsonly=true&sessionkey=" + encodeURIComponent(sessionKeyword),
@@ -290,14 +274,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	countLectureQuestions: function (sessionKeyword, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/count?lecturequestionsonly=true&sessionkey=" + encodeURIComponent(sessionKeyword),
-			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-
-	countTotalAnswers: function (sessionKeyword, callbacks) {
-		this.arsjax.request({
-			url: "session/" + sessionKeyword + "/answercount",
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -487,15 +463,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	delAllQuestions: function (sessionKeyword, callbacks) {
-		this.arsjax.request({
-			url: "lecturerquestion/?sessionkey=" + sessionKeyword,
-			method: "DELETE",
-			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-
 	delAllPreparationQuestions: function (sessionKeyword, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/?sessionkey=" + sessionKeyword + "&preparationquestionsonly=true",
@@ -665,17 +632,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			method: 'GET',
 
 			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-
-	getSkillQuestionsForUser: function (sessionKeyword, callbacks) {
-		this.arsjax.request({
-			url: "session/" + sessionKeyword + "/skillquestions",
-			success: function (response) {
-				var json = response.responseText || "[]";
-				callbacks.success(Ext.decode(json));
-			},
 			failure: callbacks.failure
 		});
 	},
