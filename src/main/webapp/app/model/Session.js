@@ -34,7 +34,8 @@ Ext.define('ARSnova.model.Session', {
 			'creator',
 			'keyword',
 			'courseId',
-			'courseType'
+			'courseType',
+			'creationTime'
 		],
 
 		validations: [

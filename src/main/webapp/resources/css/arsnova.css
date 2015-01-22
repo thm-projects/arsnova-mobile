@@ -52,7 +52,9 @@ code {
 }
 
 .newSessionMessageBox .x-innerhtml {
-	text-align: justify;
+	text-align: left;
+	padding-left: 1em;
+	padding-right: 1em;
 }
 
 .myCoursesList .x-list-item-first .x-button {

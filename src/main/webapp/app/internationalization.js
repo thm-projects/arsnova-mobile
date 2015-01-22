@@ -104,6 +104,7 @@ switch (lang) {
 			LOAD_MASK_SEARCH_COURSES: "Looking for courses...",
 			LOAD_MASK_SESSION_DELETE: "Deleting session data...",
 			LOAD_MASK_ACTIVATION: "Releasing question...",
+			LOAD_MASK_SESSION_EXPORT: "Exporting session data...",
 
 			/* mySessionsPanel */
 			HOME: "Start",
@@ -272,6 +273,7 @@ switch (lang) {
 			ANSWERS: "Answers",
 			ANSWERS_SHOWN: "x shown",
 			ANSWER_OPTIONS: "Answer options",
+			ANSWERS_STATISTICS: "Answer statistics",
 			ENTER_ANSWER_OPTION: "Enter option",
 			ANSWERS_PER_QUESTION: "Answers per question",
 			ANSWER: "Answer",
@@ -282,6 +284,8 @@ switch (lang) {
 			WRONG_PLACEHOLDER: "Wrong answer",
 			OPTION_PLACEHOLDER: "Option",
 			STATISTIC: "Statistics",
+			STATISTICS: "Statistics",
+			LEARNING_STATUS: "Learning status of the course",
 			DELETE_ALL: "Delete all",
 			DELETE_ANSWERS_REQUEST: "Delete answers?",
 			DELETE_ALL_ANSWERS_REQUEST: "Delete all answers?",
@@ -340,12 +344,28 @@ switch (lang) {
 			ERROR: 'Error',
 			CORRECT_ANSWERS: "Correct answers",
 			SETTINGS: "Settings",
-			SETTINGS_HINT_TEXT: "Hint <br>Maximal filesize is 1 MB.",
+			SETTINGS_HINT_TEXT: "Hint <br>Maximal filesize is 150 KB.",
 			TEMPLATE_FOR_MODERATION: "Template for moderation question",
 			TEMPLATE:	"Template",
 			APPLY:	"Apply",
 			DOWNLOAD:	"Download",
-
+			EXPORT_MSG: "What should be exported?",
+			EXPORT_SESSION_TITLE: "Session Export",
+			EXPORT_BUTTON_LABEL: "Export",
+			EXPORT_SESSION_TO_PUBLIC_TITLE: "Public Pool Export",
+			EXPORT_FIELD_NAME: "Name",
+			EXPORT_FIELD_UNI: "University",
+			EXPORT_FIELD_LOGO: "Logo",
+			EXPORT_FIELD_SUBJECT: "Subject",
+			EXPORT_FIELD_LICENCE: "Licence",
+			EXPORT_FIELD_EMAIL: "Email",
+			EXPORT_SELECTED_SESSIONS_TITLE : "Export selected sessions",
+			EXPORT_SELECTED_SESSIONS_MSG : "Where should the sessions be exported",
+			EXPORT_SESSION_INFORMATION: "The questions of selected sessions will be exported",
+			EXPORT_NOTIFICATION:	"There was no session selected",
+			EXPORT_IOS_NOTIFICATION: "An export can not be performed on iOS devices",
+			IMPORT_IOS_NOTIFICATION: "An import can not be performed on iOS devices",
+			
 			/* question types */
 			EVALUATION: "+-",
 			SCHOOL: "A-F",
@@ -451,7 +471,15 @@ switch (lang) {
 			NEW_VERSION_AVAILABLE: "A new version of ARSnova is available. Do you want to update?",
 			PRESENTER: "Presenter",
 			UNI: "Uni",
-			SESSION_ID: "Session ID"
+			SESSION_ID: "Session ID",
+				
+			/* session import */
+			IMP_BUTTON_IMPORT: "Import",
+			IMP_LOADMSK: "Importing sessions",
+			IMP_LOADMSK: "Importing sessions",
+			IMP_ERROR: "Error while importing sessions",
+			IMP_ERROR_FORMAT: "JSON file is not formated correctly",
+			IMP_ERROR_SAVE: "Could not save session to database",
 		};
 
 		break;
@@ -508,6 +536,7 @@ switch (lang) {
 			LOAD_MASK_SEARCH_COURSES: "Suche Kurse...",
 			LOAD_MASK_SESSION_DELETE: "Lösche Session-Daten...",
 			LOAD_MASK_ACTIVATION: "Aktiviere die Freigabe...",
+			LOAD_MASK_SESSION_EXPORT: "Exportiere Session-Daten...",
 
 			/* mySessionsPanel */
 			HOME: "Start",
@@ -677,6 +706,7 @@ switch (lang) {
 			ANSWERS: "Antworten",
 			ANSWERS_SHOWN: "x angezeigt",
 			ANSWER_OPTIONS: "Antwortmöglichkeiten",
+			ANSWERS_STATISTICS: "Antwort-Statisiken",
 			ENTER_ANSWER_OPTION: "Antwortmöglichkeit",
 			ANSWERS_PER_QUESTION: "Antworten pro Frage",
 			ANSWER: "Antwort",
@@ -687,6 +717,8 @@ switch (lang) {
 			WRONG_PLACEHOLDER: "Falsche Antwort",
 			OPTION_PLACEHOLDER: "Option",
 			STATISTIC: "Statistik",
+			STATISTICS: "Statistiken",
+			LEARNING_STATUS:	"Lernstand des Kurses",
 			DELETE_ALL: "Alle löschen",
 			DELETE_ANSWERS_REQUEST: "Antworten löschen?",
 			DELETE_ALL_ANSWERS_REQUEST: "Alle Antworten löschen?",
@@ -743,12 +775,28 @@ switch (lang) {
 			ERROR: 'Fehler',
 			CORRECT_ANSWERS: "Richtige Antworten",
 			SETTINGS: "Einstellungen",
-			SETTINGS_HINT_TEXT: "Hinweis: <br>Maximale Dateigröße beträgt 1MB.",
+			SETTINGS_HINT_TEXT: "Hinweis: <br>Maximale Dateigröße beträgt 150 KB.",
 			TEMPLATE_FOR_MODERATION: "Vorlagenkatalog für Punktabfragen",
 			TEMPLATE:	"Vorlage",
 			APPLY:		"Übernehmen",
 			DOWNLOAD:	"Herunterladen",
-
+			EXPORT_MSG: "Was möchten Sie exportieren?",
+			EXPORT_SESSION_TITLE: "Session Export",
+			EXPORT_BUTTON_LABEL: "Exportieren",
+			EXPORT_SESSION_TO_PUBLIC_TITLE: "Public Pool Export",
+			EXPORT_FIELD_NAME: "Name",
+			EXPORT_FIELD_UNI: "Hochschule",
+			EXPORT_FIELD_LOGO: "Logo",
+			EXPORT_FIELD_SUBJECT: "Fach",
+			EXPORT_FIELD_LICENCE: "Lizenz",
+			EXPORT_FIELD_EMAIL: "Email",
+			EXPORT_SELECTED_SESSIONS_TITLE : "Ausgewählte Sessions exportieren",
+			EXPORT_SELECTED_SESSIONS_MSG : "Wohin möchten Sie die Sessions exportieren",
+			EXPORT_SESSION_INFORMATION: "Die Fragen der ausgewählten Sessions werden exportiert",
+			EXPORT_NOTIFICATION: "Es wurde keine Session ausgewählt",
+			EXPORT_IOS_NOTIFICATION: "Ein Export kann auf iOS Geräten nicht durchgeführt werden",
+			IMPORT_IOS_NOTIFICATION: "Ein Import kann auf iOS Geräten nicht durchgeführt werden",
+			
 			/* question types */
 			EVALUATION: "+-",
 			SCHOOL: "1-6",
@@ -853,7 +901,14 @@ switch (lang) {
 			NEW_VERSION_AVAILABLE: "Eine neue Version von ARSnova ist verfügbar. Möchten Sie aktualisieren?",
 			PRESENTER: "Presenter",
 			UNI: "Uni",
-			SESSION_ID: "Session-ID"
+			SESSION_ID: "Session-ID",
+			
+			/* session import */
+			IMP_BUTTON_IMPORT: "Import",
+			IMP_LOADMSK: "Importiere sessions",
+			IMP_ERROR: "Fehler bei Session-Import",
+			IMP_ERROR_FORMAT: "JSON Datei ist falsch formatiert.",
+			IMP_ERROR_SAVE: "Session konnte nicht gespeichert werden",
 	};
 	break;
 }
