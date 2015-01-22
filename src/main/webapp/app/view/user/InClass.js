@@ -195,6 +195,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 		this.swotBadge = Ext.create('Ext.Panel', {
 			cls: 'swotBadgeIcon',
+			hidden: true,
 			width: '100%',
 			height: '100px'
 		});
