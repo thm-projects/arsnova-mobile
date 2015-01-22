@@ -235,11 +235,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				buttonConfig: 'icon',
 				imageCls: 'icon-cloud-download ',
 				scope: this,
-				hidden: true,
+				hidden: false,
 				handler: function () {
-					if(Ext.os.is.iOS){
-						Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_IOS_NOTIFICATION);
-					}else{
+					
 						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 						
 						if (!config.features.publicPool) {
@@ -263,7 +261,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 											itemId: 'no',
 											buttonConfig: 'icon',
 											imageCls: 'icon-cloud thm-darkblue'}
-															       // { text: 'Public Pool', itemId: 'no', ui: 'action'}
 						        ]
 							});
 							
@@ -274,19 +271,26 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 								fn: function(btn) {
 									var dest = null;
 								    if (btn === 'yes') {
-								    	dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
-								    		exportType: 'filesystem'
-								    	});
-								    }  else {
+								    	if(Ext.os.is.iOS){
+											Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_IOS_NOTIFICATION);
+										}else{
+									    	dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
+									    		exportType: 'filesystem'
+									    	});
+									    	hTP.animateActiveItem(dest, 'slide');
+										}
+								    }  else {				    	
 								    	dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
 								    		exportType: 'public_pool'
-								    	});
+								    	
+								    	});	
+								    	hTP.animateActiveItem(dest, 'slide');
 								    }
-								    hTP.animateActiveItem(dest, 'slide');
+								  
 								}
 							});
 						}
-				  }
+				  
 				}	
 			});
 			this.matrixButtonPanel.add(this.exportButton);
@@ -417,7 +421,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			empty: Ext.bind(function () {
 				hideLoadMask();
 				this.sessionsForm.hide();
-				me.saveSetHidden(me.exportButton, true);
+				//me.saveSetHidden(me.exportButton, true);
 				promise.reject();
 			}, this),
 			unauthenticated: function () {
