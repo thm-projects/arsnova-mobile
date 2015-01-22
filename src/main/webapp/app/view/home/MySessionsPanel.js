@@ -366,9 +366,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				panel.sessionsForm.removeAll();
 				panel.sessionsForm.show();
 				
-				if(sessions.length > 0){
+				if(sessions.length > 0)
 					me.saveSetHidden(me.exportButton, false);
-				}
+				
 								
 				var session;
 				for (var i = 0, session; session = sessions[i]; i++) {
@@ -452,8 +452,12 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 				panel.myPpSessionsForm.removeAll();
 				panel.myPpSessionsForm.show();
-								
+									
 				var session;
+				
+				if(sessions.length > 0)
+					me.saveSetHidden(me.exportButton, false);
+				
 				for (var i = 0, session; session = sessions[i]; i++) {
 					
 					console.log('ppSession', session);
@@ -503,7 +507,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			empty: Ext.bind(function () {
 				hideLoadMask();
 				this.myPpSessionsForm.hide();
-				me.saveSetHidden(me.exportButton, true);
+				//me.saveSetHidden(me.exportButton, true);
 				promise.reject();
 			}, this),
 			unauthenticated: function () {
@@ -607,5 +611,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	saveSetHidden: function(element, hidden) {
 		if (typeof element !== undefined && element != null)
 			element.setHidden(hidden);
+		
 	}
 });
