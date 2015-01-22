@@ -155,14 +155,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			handler: this.buttonClicked
 		});
 
-		this.flashcardsButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			text: Messages.FLASHCARDS,
-			cls: 'forwardListButton',
-			controller: 'FlashcardQuestions',
-			action: 'listQuestions',
-			handler: this.buttonClicked
-		});
-
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.courseLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 				itemId: 'courseLearningProgress',
@@ -343,14 +335,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 					},
 					failure: failureCallback
 				});
-			},
-			failure: failureCallback
-		});
-		ARSnova.app.questionModel.countFlashcards(localStorage.getItem("keyword"), {
-			success: function (response) {
-				var numQuestions = parseInt(response.responseText);
-				var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
-				panel.flashcardsButton.setBadge([{badgeText: numQuestions, badgeCls: "questionsBadgeIcon"}]);
 			},
 			failure: failureCallback
 		});
