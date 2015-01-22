@@ -319,19 +319,15 @@ Ext.define("ARSnova.controller.Sessions", {
 							hide: function() {
 								ARSnova.app.getController('Sessions').reloadData();
 								var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-								panel.setActiveItem(panel.mySessionsPanel);
 								
+								panel.setActiveItem(panel.mySessionsPanel);
+									
 								/* activate inputElements in newSessionPanel */
 								options.newSessionPanel.enableInputElements();
-								
+									
 								this.destroy();
 							}
-						},
-						html: "<div class='x-msgbox-text x-layout-box-item' style='text-align: justify;'>" + 
-							Messages.ON_SESSION_CREATION_2.replace(/###/, 
-								loginName + "-Login " + "<div style='display: inline-block;'" +
-								"class='text-icons login-icon-" + loginMode + "'></div> " + 
-								(loginMode === "guest" ? Messages.ON_THIS_DEVICE : "")) + ".</div>"
+						}
 					});
 					
 					messageBox.setButtons([{
@@ -339,7 +335,21 @@ Ext.define("ARSnova.controller.Sessions", {
 						itemId: 'continue', 
 						ui: 'action',
 						handler: function() {
-							messageBox.hide();
+							if(!this.readyToClose) {
+								messageBox.setMessage('');
+								messageBox.setTitle(Messages.SESSION + ' ID: ' + fullSession.keyword);
+								messageBox.setHtml("<div class='x-msgbox-text x-layout-box-item' +" +
+									" style='margin-top: -10px;'>" + Messages.ON_SESSION_CREATION_2.replace(/###/, 
+											loginName + "-Login " + "<div style='display: inline-block;'" +
+											"class='text-icons login-icon-" + loginMode + "'></div> " + 
+											(loginMode === "guest" ? Messages.ON_THIS_DEVICE : "")) + 
+										".</div>");
+								
+								this.readyToClose = true;
+							}
+							else {
+								messageBox.hide();
+							}
 						}
 					}]);
 					
