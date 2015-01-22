@@ -288,6 +288,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						handler: function (options) {
 							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
 							localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
+							ARSnova.app.userRole = ARSnova.app.USER_ROLE_SPEAKER;
 							ARSnova.app.setWindowTitle();
 							
 							ARSnova.app.getController('Sessions').login({
@@ -369,9 +370,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							handler: function (options) {
 								var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
 								localStorage.setItem('lastVisitedRole', ARSnova.app.USER_ROLE_SPEAKER);
-								ARSnova.app.getController('Auth').roleSelect({
-									mode: ARSnova.app.USER_ROLE_STUDENT
-								});
+								localStorage.setItem('role', ARSnova.app.USER_ROLE_STUDENT);
+								ARSnova.app.userRole = ARSnova.app.USER_ROLE_STUDENT;
+								
 								ARSnova.app.getController('Sessions').login({
 									keyword: options.config.sessionObj.keyword
 								});
