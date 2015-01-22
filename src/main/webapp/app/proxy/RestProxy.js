@@ -388,8 +388,8 @@ Ext.define('ARSnova.proxy.RestProxy', {
 
 	publishAllSkillQuestions: function (sessionKeyword, active, isLecture, isPreparation, callbacks) {
 		this.arsjax.request({
-			url: "lecturerquestion/publish?sessionkey=" + encodeURIComponent(sessionKeyword) + 
-				"&publish=" + encodeURIComponent(active) + 
+			url: "lecturerquestion/publish?sessionkey=" + encodeURIComponent(sessionKeyword) +
+				"&publish=" + encodeURIComponent(active) +
 				"&lecturequestionsonly=" + encodeURIComponent(isLecture) +
 				"&preparationquestionsonly=" + encodeURIComponent(isPreparation),
 			method: "POST",
@@ -397,20 +397,20 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-	
+
 	publishAllLectureQuestions: function (sessionKeyword, active, callbacks) {
 		this.arsjax.request({
-			url: "lecturerquestion/publish?sessionkey=" + encodeURIComponent(sessionKeyword) + 
+			url: "lecturerquestion/publish?sessionkey=" + encodeURIComponent(sessionKeyword) +
 					"&publish=" + encodeURIComponent(active) + "&lecturequestionsonly=true",
 			method: "POST",
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
 	},
-	
+
 	publishAllPreparationQuestions: function (sessionKeyword, active, callbacks) {
 		this.arsjax.request({
-			url: "lecturerquestion/publish?sessionkey=" + encodeURIComponent(sessionKeyword) + 
+			url: "lecturerquestion/publish?sessionkey=" + encodeURIComponent(sessionKeyword) +
 					"&publish=" + encodeURIComponent(active) + "&preparationquestionsonly=true",
 			method: "POST",
 			success: callbacks.success,
@@ -592,7 +592,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-	
+
 	getAnswerCount: function(questionId, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/answercount",
@@ -617,7 +617,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-	
+
 	getFeedback: function(sessionKeyword, callbacks) {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/feedback/",

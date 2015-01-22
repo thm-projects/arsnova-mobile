@@ -118,7 +118,7 @@ Ext.define('ARSnova.model.Question', {
 			this.fireEvent(this.events.unansweredPreparationQuestions, questionIds);
 			this.fireEvent(this.events.internalUpdate);
 		}, this);
-		
+
 		ARSnova.app.socket.on(ARSnova.app.socket.events.countLectureQuestionAnswers, function (count) {
 			this.numLectureQuestionAnswers = count;
 			this.fireEvent(this.events.countLectureQuestionAnswers, count);
@@ -128,7 +128,7 @@ Ext.define('ARSnova.model.Question', {
 		ARSnova.app.socket.on(ARSnova.app.socket.events.countQuestionAnswersByQuestion, function (object) {
 			var tP = ARSnova.app.mainTabPanel.tabPanel,
 				showcasePanel = tP.speakerTabPanel.showcaseQuestionPanel;
-			
+
 			if(tP.getActiveItem().getActiveItem() === showcasePanel) {
 				if(showcasePanel.getActiveItem().getItemId() === object.key) {
 					showcasePanel.toolbar.updateAnswerCounter(object.value);
