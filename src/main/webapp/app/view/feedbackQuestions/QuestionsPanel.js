@@ -91,7 +91,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			ui: 'decline',
 			hidden: true,
 			handler: function () {
-				Ext.Msg.confirm(Messages.DELETE_ALL_QUESTIONS, Messages.ARE_YOU_SURE, function (answer) {
+				Ext.Msg.confirm(Messages.DELETE_QUESTIONS_TITLE, Messages.ARE_YOU_SURE, function (answer) {
 					if (answer === 'yes') {
 						ARSnova.app.getController('Questions').deleteAllInterposedQuestions({
 							success: function () {
