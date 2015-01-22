@@ -268,6 +268,15 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 								title: Messages.EXPORT_SELECTED_SESSIONS_TITLE,
 								message: Messages.EXPORT_SELECTED_SESSIONS_MSG,
 								buttons: msgBox.YESNO,
+								listeners:[ 
+								            {
+								                element: 'element',
+								                delegate: '',
+								                event: 'tap',
+								                fn: function() {
+								                    this.hide();
+								                } 
+								            }],
 								fn: function(btn) {
 									var dest = null;
 								    if (btn === 'yes') {
