@@ -173,6 +173,10 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			el.reset();
 			el.uncheck();
 		});
+		
+		this.questionValueComponents.forEach(function(el) {
+			el.reset();
+		});
 	},
 
 	getEnumeration: function () {
