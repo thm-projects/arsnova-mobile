@@ -399,7 +399,7 @@ switch (lang) {
 			SESSIONPOOL_ERR_GET_SESSION: "You do not have sufficient rights to see the session.",
 			SESSIONPOOL_TITLE: "Session Pool",
 			SESSIONPOOL_VISIT:	"Visit",
-			
+			SESSOPNPOOL_CHARACTERS:	'characters',
 			/* question types */
 			EVALUATION: "+-",
 			SCHOOL: "A-F",
@@ -839,6 +839,7 @@ switch (lang) {
 			SESSIONPOOL_ERR_GET_SESSION: "Sie haben nicht die Berechtigung, um die Session zu sehen.",
 			SESSIONPOOL_TITLE: "Session Pool",
 			SESSIONPOOL_VISIT:	"Besuchen",
+			SESSOPNPOOL_CHARACTERS: 'Zeichen',
 			
 			/* question types */
 			EVALUATION: "+-",

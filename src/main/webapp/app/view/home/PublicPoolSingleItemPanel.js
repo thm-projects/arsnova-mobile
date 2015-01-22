@@ -112,15 +112,44 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			disabled: false
 		});
 
-		this.sessionDescription = Ext.create('Ext.plugins.ResizableTextArea', {
-			label: Messages.SESSIONPOOL_INFO,
-			name: 'sessionDescription',
-			value: this.getSession().ppDescription,
-			disabledCls: 'disableDefault',
-			inputCls: 'thm-grey',
-			disabled: true
+		this.markdownPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			xtype: 'mathJaxMarkDownPanel',
+			id: 'questionContent',
+			style: 'background-color: transparent; color: black; '
+		});
+
+		this.markdownPanel.setContent( this.getSession().ppDescription, true, true);	 
+		
+		// panel for question subject
+		this.titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			xtype: 'mathJaxMarkDownPanel',
+			id: 'questionTitle',
+			style: 'background-color: transparent; padding: 0;font-weight: bold; font-size: 1.4em;'
+		});
+		this.titlePanel.setContent('Beschreibung', false, true);	
+		
+		this.singleTemplatePanel = Ext.create('Ext.Panel',{	
+			
+			layout:	{
+				type: 'vbox',
+				pack: 'center',
+				align: 'center' 
+			},
+			 items:[ this.titlePanel,
+			         this.markdownPanel
+			      ]
 		});
 		
+/*		this.sessionDescription = Ext.create('Ext.plugins.ResizableTextArea', {
+			label: Messages.SESSIONPOOL_INFO,
+			name: 'sessionDescription',
+			//value: this.markdownPanel,
+			disabledCls: 'disableDefault',
+			inputCls: 'thm-grey',
+			disabled: true,
+			item: [this.markdownPanel]
+		});
+*/
 //		this.sessionQuestionCount = Ext.create('Ext.field.Text', {
 //			label: Messages.SESSIONPOOL_COUNT_QUESTION,
 //			name: 'sessionQuestionCount',
@@ -143,7 +172,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			title: Messages.SESSIONPOOL_SESSIONINFO,
 			cls: 'standardFieldset',
 			itemId: 'contentFieldset',
-			items: [this.sessionName, this.sessionShortName, this.sessionDescription, /*this.sessionQuestionCount,*/ this.sessionLicense]
+			items: [this.sessionName, this.sessionShortName, /*this.sessionDescription,*/ /*this.sessionQuestionCount,*/ this.sessionLicense]
 		});
 		
 		//
@@ -200,6 +229,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			itemId: 'contentForm',
 			style: {marginTop: '15px', marginLeft: '12px', marginRight: '12px'},
 			items: [
+			        this.singleTemplatePanel,
 			        this.sessionFieldSet,
 			        this.creatorFieldSet
 			]
