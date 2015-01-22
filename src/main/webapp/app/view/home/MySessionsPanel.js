@@ -282,8 +282,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 								    }  else {				    	
 								    	dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
 								    		exportType: 'public_pool'
-								    		hTP.animateActiveItem(dest, 'slide');
 								    	});	
+
+							    		hTP.animateActiveItem(dest, 'slide');
 								    }
 								}
 							});
