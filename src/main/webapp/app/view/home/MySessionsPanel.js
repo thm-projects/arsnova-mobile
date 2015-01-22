@@ -235,7 +235,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				buttonConfig: 'icon',
 				imageCls: 'icon-cloud-download ',
 				scope: this,
-				hidden: false,
+				hidden: true,
 				handler: function () {
 					
 						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
@@ -282,11 +282,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 								    }  else {				    	
 								    	dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
 								    		exportType: 'public_pool'
-								    	
+								    		hTP.animateActiveItem(dest, 'slide');
 								    	});	
-								    	hTP.animateActiveItem(dest, 'slide');
 								    }
-								  
 								}
 							});
 						}
@@ -421,7 +419,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			empty: Ext.bind(function () {
 				hideLoadMask();
 				this.sessionsForm.hide();
-				//me.saveSetHidden(me.exportButton, true);
+				me.saveSetHidden(me.exportButton, true);
 				promise.reject();
 			}, this),
 			unauthenticated: function () {
