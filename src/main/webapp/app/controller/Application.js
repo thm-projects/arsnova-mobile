@@ -141,10 +141,18 @@ Ext.define("ARSnova.controller.Application", {
 	 * adds mouse scrolling feature if app is used in desktop browser
 	 */
 	initializeAdvancedScrolling: function() {
-		if(Ext.os.is.Desktop) {
+		if(Ext.os.is.Desktop) {			
 			var doScroll = function (e) {
 				e = window.event || e;
-				var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+				var direction = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+				var acceleration = 40;
+				var delta = 0;
+				
+				if (e.wheelDelta) {
+					delta = e.wheelDelta/120;
+				} else if (e.detail) {
+					delta = e.detail/3;
+				}
 
 				if(ARSnova.app.mainTabPanel == null) return;
 				
@@ -164,26 +172,29 @@ Ext.define("ARSnova.controller.Application", {
 					
 					if(scrollMe.getScrollable()) {
 						var scroller = scrollMe.getScrollable().getScroller();
+						var pixels = acceleration * (delta<0 ? -delta : delta);
 						var maxPosition = scroller.getMaxPosition().y;
-						var currentPos = scroller.position.y; 
-					
+						var currentPos = scroller.position.y;
+						
+						
 						var newPos = currentPos;
-						if (delta === 1) {
-							if (currentPos >= 10) {
-								newPos = currentPos - 10;
+						if (direction === 1) {
+							if (currentPos >= pixels) {
+								newPos = currentPos - pixels;
 							}
 							else {
 								newPos = 0;
 							}
 						}
-						else if (delta === -1) {
-							if (currentPos <= maxPosition - 10) {
-								newPos = currentPos + 10;
+						else if (direction === -1) {
+							if (currentPos <= maxPosition - pixels) {
+								newPos = currentPos + pixels ;
 							}
 							else {
 								newPos = maxPosition;
 							}
 						}
+
 						scroller.scrollTo(0, newPos);
 					}
 				}
