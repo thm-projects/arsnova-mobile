@@ -279,12 +279,19 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 									    	});
 									    	hTP.animateActiveItem(dest, 'slide');
 										}
-								    }  else {				    	
-								    	dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
-								    		exportType: 'public_pool'
-								    	});	
-
-							    		hTP.animateActiveItem(dest, 'slide');
+								    }  else {				  
+								    	if (ARSnova.app.loginMode == ARSnova.app.LOGIN_GUEST) {
+								    		Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_PP_NOTIFICATION);
+								    	}
+								    	else
+								    	{										
+									    	dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
+									    		exportType: 'public_pool'
+									    	});	
+	
+								    		hTP.animateActiveItem(dest, 'slide');
+									    	
+								    	}
 								    }
 								}
 							});
