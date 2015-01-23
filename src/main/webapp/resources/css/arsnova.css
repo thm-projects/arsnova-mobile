@@ -51,6 +51,12 @@ code {
 	word-wrap:break-word;
 }
 
+.newSessionMessageBox .x-innerhtml {
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+	padding-bottom: 0.5em;
+}
+
 .myCoursesList .x-list-item-first .x-button {
 	-moz-border-radius-topleft: .4em;
 	-moz-border-radius-topright: .4em;
@@ -105,7 +111,7 @@ code {
 	height: 45px;
 	overflow: hidden;
 	border-radius: .4em;
-	margin: 10px 10px 30px!important;
+	margin: 10px 10px 30px;
 }
 
 .loginFieldSet .x-button-confirm {
@@ -469,7 +475,7 @@ html,body {
 .matrixButton.feedbackOkBackground .buttonText,
 .matrixButton.feedbackBadBackground .buttonText,
 .matrixButton.feedbackNoneBackground .buttonText {
-	width: 135px !important;
+	width: 140px !important;
 	margin-left: 0px;
 	margin-right: 0px;
 }
@@ -644,11 +650,12 @@ html,body {
 }
 
 .standardForm {
-	margin-left: 12px;
-	margin-right: 12px;
+	margin-left: 12px !important;
+	margin-right: 12px !important;
 }
 
-.roundedCorners .x-list-item-first.x-list-header {
+.roundedCorners .x-list-item-first.x-list-header,
+.roundedCorners .x-list-header-swap {
 	-webkit-border-top-left-radius: 5px;
 	-webkit-border-top-right-radius: 5px;
 	border-top-left-radius: 5px;
@@ -934,6 +941,21 @@ span.bold {
 	opacity: 0.5;
 }
 
+.formInvalid:-moz-placeholder { /* Firefox 18- */
+	color: #900;
+	opacity: 0.5; 
+}
+
+.formInvalid::-moz-placeholder {  /* Firefox 19+ */
+	color: #900;
+	opacity: 0.5;
+}
+
+.formInvalid:-ms-input-placeholder {  
+	color: #900;
+	opacity: 0.5;
+}
+
 .isActive {
 	color: #00CD00;
 }
@@ -990,9 +1012,13 @@ ol.standardList li {
 	padding-right: 10px;
 }
 
+.alignLeft {
+	text-align: left;
+	padding-left: 10px;
+}
+
 .counterText {
 	color: white;
-	text-shadow: rgba(0, 0, 0, 0.5) 0 -0.08em 0;
 }
 
 .actionsForm {
@@ -1220,45 +1246,29 @@ ol.standardList li {
 	padding: 0 !important;
 }
 
-.voteButtonsPanel {
+.voteButtonsPanel,
+.speakerVoteButtonsPanel {
 	background: #E0E0E0;
 	padding-left: 10px;
 	padding-right: 10px;
-	margin-top: 15px;
-	margin-bottom: 5px;
+	margin-top: 10px;
 	border-bottom: none !important;
 }
 
+.speakerVoteButtonsPanel .iconBtn {
+	background: white !important;
+}
+
 .questionStatisticTitle .x-innerhtml {
-	font-weight: normal !important;
+	font-weight: normal;
+	white-space: normal;
 	color: #4a5c66;
+	text-align: left;
 	padding: 1em;
 }
 
 .questionStatisticTitle .x-innerhtml p {
 	margin: 0;
-}
-
-.feedbackStatisticButton {
-	padding-left: 0px !important;
-	padding-right: 0px !important;
-}
-
-.feedbackOkBackground .iconBtn {
-	background: #7ab844;
-}
-
-.feedbackGoodBackground .iconBtn {
-	background: #FFAE00;
-}
-
-.feedbackBadBackground .iconBtn {
-	background: #ed601c;
-}
-
-.feedbackNoneBackground .iconBtn {
-	background: #ebebeb;
-	color: #000;
 }
 
 .questionRequestButton {
@@ -1313,6 +1323,10 @@ ol.standardList li {
 
 .previewButton{
 	width: 200px;
+}
+
+.previewButtonLong{
+	width: 300px;
 }
 
 .previewCarousel{
@@ -1513,11 +1527,19 @@ ol.standardList li {
 }
 
 .fileUploadButtonFieldset {
-	margin: 0px auto 1.5em;
+	margin: 0px auto;
 	max-width: 500px;
 	width: 95.15%;
 }
 
 .x-list-item-leaf .feedbackQuestionsBadgeIcon {
+	display: none;
+}
+
+.fileUploadButtonFieldset.longText {
+	max-width: 604px; 
+}
+
+.hidden {
 	display: none;
 }

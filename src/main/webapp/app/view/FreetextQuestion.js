@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,13 +46,10 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		});
 
 		this.on('preparestatisticsbutton', function (button) {
+			var scope = self;
 			button.scope = this;
 			button.setHandler(function () {
-				var p = Ext.create('ARSnova.view.FreetextAnswerPanel', {
-					question: self.questionObj,
-					lastPanel: self
-				});
-				ARSnova.app.mainTabPanel.animateActiveItem(p, 'slide');
+				scope.statisticButtonHandler(scope);
 			});
 		});
 
@@ -64,7 +61,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		});
 
 		this.answerText = Ext.create('Ext.form.TextArea', {
-			placeHolder: Messages.QUESTION_TEXT_PLACEHOLDER,
+			placeHolder: Messages.FORMAT_PLACEHOLDER,
 			label: Messages.FREETEXT_ANSWER_TEXT,
 			name: 'text',
 			maxLength: 2500,
@@ -92,7 +89,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					margin: '10px'
 				}
 			},
-			hidden: !!this.questionObj.userAnswered || !!this.questionObj.isAbstentionAnswer,
+			hidden: this.viewOnly || !!this.questionObj.userAnswered || !!this.questionObj.isAbstentionAnswer,
 			items: [{
 				flex: 1,
 				xtype: 'button',
@@ -114,11 +111,11 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 		this.add([
 			Ext.create('Ext.Panel', {
-				items: [questionPanel, this.viewOnly ? {}: {
+				items: [{
 					xtype: 'formpanel',
 					scrollable: null,
 					submitOnAction: false,
-					items: [{
+					items: [questionPanel, this.viewOnly ? {} : {
 						xtype: 'fieldset',
 						items: [this.answerSubject, this.answerText]
 					}, 
@@ -128,11 +125,24 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		]);
 
 		this.on('activate', function () {
-			/*
-			 * Bugfix, because panel is normally disabled (isDisabled == true),
-			 * but is not rendered as 'disabled'
-			 */
 			if (this.isDisabled()) this.disableQuestion();
+			
+			if(this.viewOnly) {
+				this.setAnswerCount();
+			}
+		});
+	},
+	
+	setAnswerCount: function() {
+		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		ARSnova.app.answerModel.getAnswerCount(this.questionObj._id, {
+			success: function (response) {
+				var numAnswers = parseInt(response.responseText);
+				sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(numAnswers);
+			},
+			failure: function () {
+				console.log('server-side error');
+			}
 		});
 	},
 
@@ -148,6 +158,14 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				this.buttonContainer.setHidden(true);
 			}
 		}, this);
+	},
+	
+	statisticButtonHandler: function (scope) {
+		var p = Ext.create('ARSnova.view.FreetextAnswerPanel', {
+			question: scope.questionObj,
+			lastPanel: scope
+		});
+		ARSnova.app.mainTabPanel.animateActiveItem(p, 'slide');
 	},
 
 	abstentionHandler: function (button, event) {
@@ -177,6 +195,9 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				localStorage.setItem(self.questionObj.questionVariant + 'QuestionIds', Ext.encode(questionsArr));
 
 				self.disableQuestion();
+				if(typeof self.questionObj !== 'undefined' && !!self.questionObj.showStatistic && self.questionObj.questionType !== 'flashcard') {
+					self.statisticButtonHandler(self);
+				}
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
 			},

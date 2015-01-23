@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -89,7 +89,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				this.sessionLogoutButton
 			]
 		});
-		
+
 		this.voteButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.GIVE_FEEDBACK,
 			cls: 'actionButton',
@@ -99,9 +99,9 @@ Ext.define('ARSnova.view.user.InClass', {
 			action: 'showVotePanel',
 			handler: this.buttonClicked
 		});
-		
+
 		this.feedbackButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.QUESTION_REQUEST,
+			text: Messages.QUESTION_REQUEST_ADHOC,
 			cls: 'actionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-question thm-green',
@@ -111,7 +111,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				});
 			}
 		});
-		
+
 		this.actionButtonPanel = Ext.create('Ext.Panel', {
 			layout: {
 				type: 'hbox',
@@ -125,7 +125,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				this.voteButton
 			]
 		});
-		
+
 		this.lectureQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			ui: 'normal',
 			text: Messages.LECTURE_QUESTIONS_LONG,
@@ -160,6 +160,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.myLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+				id: 'myLearningProgress',
 				ui: 'normal',
 				text: Messages.MY_LEARNING_PROGRESS,
 				cls: 'standardListButton',
@@ -177,31 +178,33 @@ Ext.define('ARSnova.view.user.InClass', {
 		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
 			buttons.push(this.myQuestionsButton);
 		}
-		if (ARSnova.app.globalConfig.features.learningProgress) {
-			buttons.push(this.myLearningProgressButton);
-		}
+
+		this.inClassButtons = Ext.create('Ext.form.FormPanel', {
+			cls: 'standardForm topPadding',
+			scrollable: null,
+			items: buttons
+		});
 
 		this.inClass = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			items: [{
 				cls: 'gravure',
 				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(localStorage.getItem("keyword"))
-			}, this.actionButtonPanel, {
-				xtype: 'formpanel',
-				cls: 'standardForm topPadding',
-				scrollable: null,
-				items: buttons
-			}]
+			}, this.actionButtonPanel, this.inClassButtons]
 		});
 
 		this.swotBadge = Ext.create('Ext.Panel', {
 			cls: 'swotBadgeIcon',
+			hidden: true,
 			width: '100%',
-			height: '100%'
+			height: '100px'
 		});
 
 		this.userBadges = Ext.create('Ext.Panel', {
-			style: {marginTop: '20px'},
+			style: {
+				marginTop: '20px',
+				height: '100%'
+			},
 			layout: {
 				type: 'hbox',
 				pack: 'center'
@@ -402,7 +405,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				var p = Ext.apply({myprogress: 0, courseprogress: 0}, Ext.decode(response.responseText));
 				var vsBadge = {badgeText: Messages.VERSUS, badgeCls: "textbadgeicon"};
 				var badgeColorCls = "redbadge";
-				
+
 				var getBadge = function (percentage) {
 					if (percentage >= goodProgressThreshold) {
 						badgeColorCls = "greenbadge";
@@ -411,21 +414,24 @@ Ext.define('ARSnova.view.user.InClass', {
 					} else {
 						badgeColorCls = "redbadge";
 					}
-					
+
 					return {badgeText: percentage+"%", badgeCls: badgeColorCls + "icon"};
 				};
 				if (p.myprogress === 0 && p.courseprogress === 0) {
 					me.myLearningProgressButton.setBadge([{badgeText: "…"}, vsBadge, {badgeText: "…"}]);
+					me.inClassButtons.remove(me.myLearningProgressButton, false);
 				} else {
 					me.myLearningProgressButton.setBadge([getBadge(p.myprogress), vsBadge, getBadge(p.courseprogress)]);
+					me.inClassButtons.add(me.myLearningProgressButton);
 				}
-				
+
 				getBadge(p.myprogress);
 				me.swotBadge.setCls('swotBadgeIcon ' + badgeColorCls + "color");
 				me.swotBadge.setHidden(p.myprogress < goodProgressThreshold);
 			},
 			failure: function () {
 				me.myLearningProgressButton.setBadge([{badgeText: ""}]);
+				me.inClassButtons.remove(me.myLearningProgressButton, false);
 			}
 		});
 	}

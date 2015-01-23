@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -86,17 +86,10 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				pack: 'center',
 				align: 'center'
 			},
+			
+			style: 'marginTop: 15px',
 
 			items: [{
-					xtype: 'panel',
-					cls: null,
-					html: 	"<div class='icon-logo'>" +
-							"<span class='icon-logo-radar'>r</span>" +
-							"<span class='icon-logo-ars'>a</span>" +
-							"<span class='icon-logo-nova'>n</span>" +
-							"</div>",
-					style: {marginTop: '35px', marginBottom: '30px'}
-				}, {
 					submitOnAction: false,
 					xtype: 'formpanel',
 					cls: 'loginFieldSet',
@@ -113,11 +106,18 @@ Ext.define('ARSnova.view.home.HomePanel', {
 							maxLength: 16
 						},
 						name: 'keyword',
+						style: !!ARSnova.app.globalConfig.demoSessionKey ? 'margin-bottom: 5px' : '',
 						placeHolder: Messages.SESSIONID_PLACEHOLDER,
 						listeners: {
 							scope: this,
 							action: this.onSubmit
 						}
+					}, {
+						xtype: 'label',
+						cls: 'gravure',
+						style: 'margin-bottom: 15px; opacity: 0.9; font-size: 0.95em;',
+						hidden: !ARSnova.app.globalConfig.demoSessionKey,
+						html: Messages.DEMO_SESSION + ARSnova.app.globalConfig.demoSessionKey
 					}, {
 						xtype: 'button',
 						ui: 'confirm',
@@ -337,7 +337,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					ui: 'normal',
 					text: Ext.util.Format.htmlEncode(displaytext),
 					cls: 'forwardListButton',
-					iconCls: icon + ' courseIcon',
+					iconCls: icon + " courseIcon",
 					controller: 'sessions',
 					action: 'showDetails',
 					badgeCls: 'badgeicon',

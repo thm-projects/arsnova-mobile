@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,36 +23,62 @@ Ext.define('ARSnova.view.components.EmbeddedPage', {
 
 	config: {
 		title: 'EmbeddedPage',
-		width: '100%',
-		height: '100%',
 		scrollable: true,
-		fullscreen: false
+		fullscreen: false,
+		height: '100%',
+		width: '100%'
 	},
 	
 	disableScrolling: true,
 
 	initialize: function () {
 		this.callParent(arguments);
-    
+		
+		var self = this;
+		
+		this.frameContainer = Ext.DomHelper.append(this.element, {
+			tag: 'div',
+			scrolling: 'no',
+			cls: 'embeddedPageElement hidden',
+			style: Ext.os.is.iOS ? 'overflow: auto !important;' : ''
+		});
+		
+		this.loadingIndicator = Ext.DomHelper.append(this.element, {
+			tag: 'div',
+			cls: 'appLoadingIndicator',
+			id: this.id + '-appLoadingIndicator',
+			children: [{
+				tag: 'div'
+			}, {
+				tag: 'div'
+			}, {
+				tag: 'div'
+			}]
+		});
+		
+		this.on('resize', function(element) {
+			this.frame.width = element.getWidth() + 'px';
+		});
+		
 		this.on('painted', function () {
 			if(!this.defined) {
 				this.defined = true;
-
-				Ext.DomHelper.append(this.element, {
-					tag: 'div',
-					scrolling: 'no',
-					cls: 'embeddedPageElement',
-					style: Ext.os.is.iOS ? 'overflow: auto;' : '',
-					children: [this.iframe = {
-						tag: 'iframe',
-						src: this.config.src,
-						cls: 'embeddedPageElement',
-						id: this.id + '-iframe',
-						style: 'border: 0;',
-						scrolling: 'yes',
-						frameBorder: '0'
-					}]
+				
+				this.frame = Ext.DomHelper.append(this.frameContainer, {
+					tag: 'iframe',
+					src: this.config.src,
+					id: this.id + '-iframe',
+					style: 'border: 0;',
+					frameBorder: '0',
+					scrolling: Ext.os.is.iOS ? 'no' : 'yes',
+					width: self.element.getWidth() + 'px',
+					height: '100%'
 				});
+				
+				this.frame.onload = function() {
+					Ext.fly(self.id + '-appLoadingIndicator').destroy();
+					self.frameContainer.className = 'embeddedPageElement';
+				};
 			}
 		});
 	}

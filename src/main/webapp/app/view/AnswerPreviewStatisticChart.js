@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -120,6 +120,15 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 				scope: this
 			}]
 		});
+		
+		this.titlebar = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			cls: 'questionStatisticTitle',
+			docked: 'top',
+			baseCls: Ext.baseCSSPrefix + 'title',
+			style: ''
+		});
+		console.log(this.questionObj);
+		this.titlebar.setContent(this.questionObj.text, true, true);
 		
 		this.abstentionGradient = Ext.create('Ext.draw.gradient.Linear', {
 			degrees: 90,
@@ -245,7 +254,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 			}]
 		});
 
-		this.add([this.toolbar, this.questionChart]);
+		this.add([this.toolbar, this.titlebar, this.questionChart]);
 		this.on('activate', this.calculateChartData);
 	},
 	

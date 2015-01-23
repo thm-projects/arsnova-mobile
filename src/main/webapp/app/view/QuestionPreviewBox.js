@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,12 +35,18 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		this.setStyle({
 			'font-size': '110%',
 			'border-color': 'black',
-			'maxHeight': '600px',
-			'maxWidth': '1000px',
 			'margin-bottom': '18px',
 			'height': '79%',
 			'width': '95%'
 		});
+		
+		if(Ext.os.is.Desktop) {
+			this.setMaxWidth('320px');
+			this.setMaxHeight('640px');
+		} else {
+			this.setMaxWidth('740px');
+			this.setMaxHeight('600px');
+		}
 		
 		this.closeButton = Ext.create('Ext.Button', {
 			iconCls: 'icon-close',

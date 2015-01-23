@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -76,11 +76,11 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 		});
 		questionPanel.setContent(questionString, true, true);
 
-		this.add([this.toolbar,
-
-		questionPanel,
-
-		{
+		this.add([this.toolbar, {
+			xtype: 'formpanel',
+			scrollable: null,
+			items: [questionPanel]
+		}, {
 			xtype: 'button',
 			ui: 'decline',
 			cls: 'centerButton',

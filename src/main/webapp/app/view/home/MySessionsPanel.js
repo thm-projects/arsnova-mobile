@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -112,7 +112,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		});
 
 		this.sessionsForm = Ext.create('ARSnova.view.home.SessionList', {
-			style: 'margin:0 3px',
 			scrollable: null,
 			title: Messages.MY_SESSIONS
 		});
@@ -124,7 +123,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		});
 
 		this.lastVisitedSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
-			style: 'margin:0 3px',
 			scrollable: null,
 			title: Messages.LAST_VISITED_SESSIONS_SPEAKER
 		});
@@ -315,16 +313,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 		this.add([
 			this.toolbar,
-			{
-				xtype: 'panel',
-				cls: null,
-				html: 	"<div class='icon-logo'>" +
-						"<span class='icon-logo-radar'>r</span>" +
-						"<span class='icon-logo-ars'>a</span>" +
-						"<span class='icon-logo-nova'>n</span>" +
-						"</div>",
-				style: {marginTop: '35px', marginBottom: '30px'}
-			},
 			this.newSessionButtonForm,
 			this.sessionsForm,
 			this.myPpSessionsForm,
@@ -412,9 +400,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						cls: 'forwardListButton' + status,
 						sessionObj: session,
 						handler: function (options) {
-							console.log(options.config.sessionObj);
 							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
 							localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
+							ARSnova.app.userRole = ARSnova.app.USER_ROLE_SPEAKER;
 							ARSnova.app.setWindowTitle();
 							
 							ARSnova.app.getController('Sessions').login({
@@ -424,7 +412,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						}
 					});
 					sessionButton.setBadge([
-						{badgeText: session.numInterposed, badgeCls: "feedbackQuestionsBadgeIcon"},
+						{badgeText: session.numInterposed, badgeCls: "unreadFeedbackQuestionsBadgeIcon"},
 						{badgeText: session.numQuestions, badgeCls: "questionsBadgeIcon"},
 						{badgeText: session.numAnswers, badgeCls: "answersBadgeIcon"}
 					]);
@@ -575,16 +563,17 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							ui: 'normal',
 							text: Ext.util.Format.htmlEncode(displaytext),
 							cls: 'forwardListButton',
-							iconCls: icon + ' courseIcon',
+							iconCls: icon + " courseIcon",
 							controller: 'sessions',
 							action: 'showDetails',
 							badgeCls: 'badgeicon',
 							sessionObj: session,
 							handler: function (options) {
 								var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
-								ARSnova.app.getController('Auth').roleSelect({
-									mode: ARSnova.app.USER_ROLE_STUDENT
-								});
+								localStorage.setItem('lastVisitedRole', ARSnova.app.USER_ROLE_SPEAKER);
+								localStorage.setItem('role', ARSnova.app.USER_ROLE_STUDENT);
+								ARSnova.app.userRole = ARSnova.app.USER_ROLE_STUDENT;
+								
 								ARSnova.app.getController('Sessions').login({
 									keyword: options.config.sessionObj.keyword
 								});

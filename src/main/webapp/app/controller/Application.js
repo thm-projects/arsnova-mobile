@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,6 +45,10 @@ Ext.define("ARSnova.controller.Application", {
 	checkHrefProtocol: function(href) {
 		switch(href.split(":")[0]) {
 			case "http":
+				if(Ext.browser.is.IE || Ext.browser.is.Safari) {
+					return true;
+				}
+				break;
 			case "https":
 				return true;
 				break;
@@ -63,8 +67,8 @@ Ext.define("ARSnova.controller.Application", {
 			var controller = ARSnova.app.getController('Application');
 
 			if (element.tagName == 'A' && element.className != "session-export") {
-				if(!controller.hrefPanelActive) {
-					if(controller.checkHrefProtocol(element.href)) {
+				if(controller.checkHrefProtocol(element.href)) {
+					if(!controller.hrefPanelActive) {
 						controller.toggleHrefPanelActive();
 						
 						var previewPanel = ARSnova.app.activePreviewPanel;
@@ -80,21 +84,75 @@ Ext.define("ARSnova.controller.Application", {
 							ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(controller.embeddedPage, 'slide');
 						}
 					}
-				} 
 				
-				return false; // prevent default action and stop event propagation
+					return false; // prevent default action and stop event propagation
+				} else {
+					element.target = '_blank'; // open link in new tab
+				}
 			}
 		};
+	},
+	
+	/**
+	 * Checks availability of localStorage and cookies. Masks viewport if localStorage
+	 * or cookies are not supported.
+	 * 
+	 * @return true if localStorage/cookies are supported - returns false otherwise
+	 */
+	checkForPrivacyMode: function() {
+		var privacyMode = false,
+			cookieEnabled = (navigator.cookieEnabled) ? true : false;
+		
+		try {
+			localStorage.setItem('storageTest', 1);
+			localStorage.removeItem('storageTest');
+			
+			//if not IE4+ nor NS6+
+			if (typeof navigator.cookieEnabled=="undefined" && !cookieEnabled){ 
+				document.cookie= "cookieTest";
+				cookieEnabled= (document.cookie.indexOf("cookieTest") != -1) ? true : false;
+			}			
+		} catch (e) {	
+			privacyMode = true;
+		}
+		
+		if(privacyMode || !cookieEnabled) {
+			Ext.Viewport.setMasked({ 
+				xtype: 'mask',
+				listeners: {
+					tap: function() { 
+						Ext.Msg.alert(
+							Messages.PRIVACY_MODE_WARNING_TITLE, 
+							Messages.PRIVACY_MODE_WARNING_TEXT, 
+							Ext.emptyFn
+						); 
+					}
+				}
+			});
+			
+			Ext.Viewport.getMasked().fireEvent('tap');
+			return false;
+		}
+		
+		return true;
 	},
 	
 	/**
 	 * adds mouse scrolling feature if app is used in desktop browser
 	 */
 	initializeAdvancedScrolling: function() {
-		if(Ext.os.is.Desktop) {
+		if(Ext.os.is.Desktop) {			
 			var doScroll = function (e) {
 				e = window.event || e;
-				var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+				var direction = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+				var acceleration = 40;
+				var delta = 0;
+				
+				if (e.wheelDelta) {
+					delta = e.wheelDelta/120;
+				} else if (e.detail) {
+					delta = e.detail/3;
+				}
 
 				if(ARSnova.app.mainTabPanel == null) return;
 				
@@ -114,26 +172,29 @@ Ext.define("ARSnova.controller.Application", {
 					
 					if(scrollMe.getScrollable()) {
 						var scroller = scrollMe.getScrollable().getScroller();
+						var pixels = acceleration * (delta<0 ? -delta : delta);
 						var maxPosition = scroller.getMaxPosition().y;
-						var currentPos = scroller.position.y; 
-					
+						var currentPos = scroller.position.y;
+						
+						
 						var newPos = currentPos;
-						if (delta === 1) {
-							if (currentPos >= 10) {
-								newPos = currentPos - 10;
+						if (direction === 1) {
+							if (currentPos >= pixels) {
+								newPos = currentPos - pixels;
 							}
 							else {
 								newPos = 0;
 							}
 						}
-						else if (delta === -1) {
-							if (currentPos <= maxPosition - 10) {
-								newPos = currentPos + 10;
+						else if (direction === -1) {
+							if (currentPos <= maxPosition - pixels) {
+								newPos = currentPos + pixels ;
 							}
 							else {
 								newPos = maxPosition;
 							}
 						}
+
 						scroller.scrollTo(0, newPos);
 					}
 				}

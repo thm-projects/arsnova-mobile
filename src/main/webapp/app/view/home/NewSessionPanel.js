@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
  */
 Ext.define('ARSnova.view.home.NewSessionPanel', {
 	extend: 'Ext.Panel',
-
+	
 	config: {
 		fullscreen: true,
 		scrollable: null,
@@ -45,6 +45,11 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		});
 		
 		var htmlEncode = window.innerWidth > 321 ? "{fullname:htmlEncode}" : "{shortname:htmlEncode}"; 
+		
+		this.coursesFieldset = Ext.create('Ext.form.FieldSet', {
+			xtype: 'fieldset',
+			title: Messages.YOUR_COURSE_SESSIONS
+		});
 
 		this.mycourses = Ext.create('Ext.List', {
 			cls: 'myCoursesList',
@@ -52,8 +57,6 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			disableSelection: true,
 			hidden: true,
 			style: {
-				marginLeft: '12px',
-				marginRight: '12px',
 				backgroundColor: 'transparent'
 			},
 			itemTpl: 
@@ -63,6 +66,14 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			,
 			listeners: {
 				scope: this,
+				
+				hide: function() {
+					this.coursesFieldset.hide();
+				},
+				
+				show: function() {
+					this.coursesFieldset.show();
+				},
 
 				/**
 				 * The following event is used to get the computed height of all list items and
@@ -81,6 +92,8 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				}
 			}
 		});
+		
+		this.coursesFieldset.add(this.mycourses);
 
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.SESSIONS,
@@ -139,12 +152,13 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 					maxLength: 8,
 					clearIcon: true
 				}]
-			}, this.submitButton, this.mycourses]
+			}, this.submitButton, this.coursesFieldset]
 		}]);
 
 		this.onBefore('activate', function () {
 			this.getMyCourses();
 			this.setScrollable(true);
+
 		}, this);
 	},
 	

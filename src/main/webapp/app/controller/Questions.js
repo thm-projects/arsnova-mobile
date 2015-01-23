@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -66,6 +66,7 @@ Ext.define("ARSnova.controller.Questions", {
 		sTP.audienceQuestionPanel.setController(this);
 		sTP.showcaseQuestionPanel.setController(this);
 		sTP.showcaseQuestionPanel.setLectureMode();
+		sTP.audienceQuestionPanel.questionStatusButton.setLecturerQuestionsMode();
 		sTP.audienceQuestionPanel.toolbar.getTitle().setTitle(Messages.LECTURE_QUESTIONS);
 		sTP.audienceQuestionPanel.newQuestionButton.text = Messages.NEW_LECTURE_QUESTION;
 		sTP.animateActiveItem(sTP.audienceQuestionPanel, 'slide');
@@ -97,11 +98,7 @@ Ext.define("ARSnova.controller.Questions", {
 	},
 
 	listFeedbackQuestions: function (animation) {
-		ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.backButton.show();
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel, animation || 'slide');
-		ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.addListener('deactivate', function (panel) {
-			panel.questionsPanel.backButton.hide();
-		}, this, {single: true});
 	},
 
 	add: function (options) {
@@ -123,6 +120,7 @@ Ext.define("ARSnova.controller.Questions", {
 			offsetY: options.offsetY,
 			zoomLvl: options.zoomLvl,
 			image: options.image,
+			fcImage: options.fcImage,
 			gridOffsetX: options.gridOffsetX,
 			gridOffsetY: options.gridOffsetY,
 			gridZoomLvl: options.gridZoomLvl,
@@ -173,11 +171,16 @@ Ext.define("ARSnova.controller.Questions", {
 				});
 				break;
 			case 'mc':
-				panel.multipleChoiceQuestion.query('textfield').forEach(function (el) {
-					if (!el.getHidden() && el.getValue().toString().trim() == "") {
-						error = true;
+				var answerCount = 0;
+				panel.multipleChoiceQuestion.answerComponents.forEach(function (el) {
+					var value = el.getValue().toString().trim();
+					if (!el.getHidden() && value !== "") {
+						answerCount++;
 					}
 				});
+				if(answerCount < 2) {
+					error = true;
+				}
 				break;
 			case 'grid':
 				if(panel.gridQuestion.grid !== null) {
@@ -273,7 +276,8 @@ Ext.define("ARSnova.controller.Questions", {
 	},
 
 	setAllActive: function (options) {
-		ARSnova.app.questionModel.publishAllSkillQuestions(localStorage.getItem("keyword"), options.active, {
+		ARSnova.app.questionModel.publishAllSkillQuestions(localStorage.getItem("keyword"),
+				options.active, options.isLectureMode, options.isPreparationMode, {
 			success: function () {
 				options.callback.apply(options.scope);
 			},

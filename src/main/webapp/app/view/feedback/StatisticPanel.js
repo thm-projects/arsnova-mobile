@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,8 +41,6 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		this.callParent(arguments);
 
 		this.backButton = Ext.create('Ext.Button', {
-			text: ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER ?
-					Messages.HOME : Messages.FEEDBACK_VOTE,
 			ui: 'back',
 			handler: function() {
 				var	tabPanel = ARSnova.app.mainTabPanel.tabPanel,
@@ -64,42 +62,41 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			}
 		});
 
-		if (ARSnova.app.userRole != ARSnova.app.USER_ROLE_SPEAKER) {
-			this.buttonClicked = function (button) {
+		this.buttonClicked = function (button) {
+			if(ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
 				ARSnova.app.getController('Feedback').vote({
 					value: button.config.value
 				});
-			};
-		}
+			}
+		};
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			ui: 'light',
-			cls: ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER ? 'speakerTitleText' : '',
 			items: [this.backButton]
 		});
 
-		this.feedbackOkButton = Ext.create('Ext.Panel', {
-			flex: 1,
-
-			items: [{
-				xtype: 'button',
-				value: 'Kann folgen',
-				cls: 'feedbackStatisticButton voteButton',
-				iconCls: 'icon-happy',
-				handler: this.buttonClicked
-			}]
-		});
+//		this.feedbackOkButton = Ext.create('Ext.Panel', {
+//			flex: 1,
+//
+//			items: [{
+//				xtype: 'matrixbutton',
+//				value: 'Kann folgen',
+//				cls: 'feedbackStatisticButton voteButton feedbackOkBackground',
+//				imageCls: 'icon-happy',
+//				handler: this.buttonClicked
+//			}]
+//		});
 
 		this.feedbackGoodButton = Ext.create('Ext.Panel', {
 			cls: 'voteButtons',
 			flex: 1,
 
 			items: [{
-				xtype: 'button',
+				xtype: 'matrixbutton',
 				value: 'Bitte schneller',
-				cls: 'feedbackStatisticButton voteButton',
-				iconCls: 'icon-wink',
+				cls: 'feedbackStatisticButton voteButton feedbackGoodBackground',
+				imageCls: 'icon-wink',
 				handler: this.buttonClicked
 			}]
 		});
@@ -109,10 +106,10 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			flex: 1,
 
 			items: [{
-				xtype: 'button',
+				xtype: 'matrixbutton',
 				value: 'Zu schnell',
-				cls: 'feedbackStatisticButton voteButton',
-				iconCls: 'icon-shocked',
+				cls: 'feedbackStatisticButton voteButton feedbackBadBackground',
+				imageCls: 'icon-shocked',
 				handler: this.buttonClicked
 			}]
 		});
@@ -122,20 +119,19 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			flex: 1,
 
 			items: [{
-				xtype: 'button',
+				xtype: 'matrixbutton',
 				value: 'Nicht mehr dabei',
-				cls: 'feedbackStatisticButton voteButton',
-				iconCls: 'icon-sad',
+				cls: 'feedbackStatisticButton voteButton feedbackNoneBackground',
+				imageCls: 'icon-sad',
 				handler: this.buttonClicked
 			}]
 		});
 
 		this.feedbackButtons = Ext.create('Ext.Toolbar', {
-			cls: 'voteButtonsPanel',
 			docked: 'top',
 
 			items: [
-				this.feedbackOkButton,
+//				this.feedbackOkButton,
 				this.feedbackGoodButton,
 				this.feedbackBadButton,
 				this.feedbackNoneButton
@@ -143,36 +139,39 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		});
 
 		this.feedbackChartColors = [
-			Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [{offset: 0, color: 'rgb(122, 184, 68)'},
-						{offset: 100, color: 'rgb(82, 144, 28)'}
-				]
-			}),
-
-			Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [
-					{offset: 0, color: 'rgb(254, 201, 41)'},
-					{offset: 100, color: 'rgb(214, 161, 0)'}
-				]
-			}),
-
-			Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [
-					{offset: 0, color: 'rgb(237, 96, 28)'},
-					{offset: 100, color: 'rgb(197, 56, 0)'}
-				]
-			}),
-
-			Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [
-					{offset: 0, color: 'rgb(180, 180, 180)'},
-					{offset: 100, color: 'rgb(160, 160, 160)'}
-				]
-			})
+			'#f2a900', // thm-orange
+			'#971b2f', // thm-red
+			'#4a5c66'  // thm-grey
+//			Ext.create('Ext.draw.gradient.Linear', {
+//				degrees: 90,
+//				stops: [{offset: 0, color: 'rgb(122, 184, 68)'},
+//						{offset: 100, color: 'rgb(82, 144, 28)'}
+//				]
+//			}),
+//
+//			Ext.create('Ext.draw.gradient.Linear', {
+//				degrees: 90,
+//				stops: [
+//					{offset: 0, color: 'rgb(254, 201, 41)'},
+//					{offset: 100, color: 'rgb(214, 161, 0)'}
+//				]
+//			}),
+//
+//			Ext.create('Ext.draw.gradient.Linear', {
+//				degrees: 90,
+//				stops: [
+//					{offset: 0, color: 'rgb(237, 96, 28)'},
+//					{offset: 100, color: 'rgb(197, 56, 0)'}
+//				]
+//			}),
+//
+//			Ext.create('Ext.draw.gradient.Linear', {
+//				degrees: 90,
+//				stops: [
+//					{offset: 0, color: 'rgb(180, 180, 180)'},
+//					{offset: 100, color: 'rgb(160, 160, 160)'}
+//				]
+//			})
 		];
 
 		this.feedbackChart = Ext.create('Ext.chart.CartesianChart', {
@@ -180,7 +179,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			store: Ext.create('Ext.data.Store', {
 				fields: ['name', 'displayName', 'value', 'percent'],
 				data: [
-					{'name': 'Kann folgen', 'displayName': Messages.FEEDBACK_OKAY, 'value': 0, 'percent': 0.0},
+//					{'name': 'Kann folgen', 'displayName': Messages.FEEDBACK_OKAY, 'value': 0, 'percent': 0.0},
 					{'name': 'Bitte schneller', 'displayName': Messages.FEEDBACK_GOOD, 'value': 0, 'percent': 0.0},
 					{'name': 'Zu schnell', 'displayName': Messages.FEEDBACK_BAD, 'value': 0, 'percent': 0.0},
 					{'name': 'Nicht mehr dabei', 'displayName': Messages.FEEDBACK_NONE, 'value': 0, 'percent': 0.0}
@@ -242,23 +241,60 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		this.add([this.toolbar, this.feedbackButtons, this.feedbackChart]);
 
 		this.onBefore('activate', function () {
+			var me = this;
+			
+			ARSnova.app.feedbackModel.getFeedback(localStorage.getItem('keyword'), {
+				success: function(response) {
+					var feedback = Ext.decode(response.responseText);
+					me.updateChart(feedback.values);
+				},
+				failure: function() {
+					console.log('server-side error');
+				}
+			});
+			
 			// remove x-axis ticks and labels at initialization
 			this.feedbackChart.getAxes()[1].sprites[0].attr.majorTicks = false;
 		});
+		
+		this.onBefore('painted', function() {
+			if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+				this.prepareSpeakersView();
+			} else {
+				this.prepareStudentsView();
+			}
+		});
+	},
+	
+	prepareSpeakersView: function() {
+		this.backButton.setText(Messages.HOME);
+		this.feedbackButtons.setCls('speakerVoteButtonsPanel');
+		this.toolbar.setCls('speakerTitleBar');
+	},
+	
+	prepareStudentsView: function() {
+		this.backButton.setText(Messages.FEEDBACK_VOTE);
+		this.feedbackButtons.setCls('voteButtonsPanel');
+		this.toolbar.setCls('');
 	},
 
 	updateChart: function (feedbackValues) {
 		var chart = this.feedbackChart;
 		var store = chart.getStore();
 
-		/* Swap values for "can follow" and "faster, please" feedback
-		 * TODO: improve implementation, this is a quick hack for MoodleMoot 2013 */
-		var values = feedbackValues.slice();
-		var tmpValue = values[0];
-		values[0] = values[1];
-		values[1] = tmpValue;
-		if (!Ext.isArray(values) || values.length != store.getCount()) return;
+//		/* Swap values for "can follow" and "faster, please" feedback
+//		 * TODO: improve implementation, this is a quick hack for MoodleMoot 2013 */
+//		var values = feedbackValues.slice();
+//		var tmpValue = values[0];
+//		values[0] = values[1];
+//		values[1] = tmpValue;
 
+		/* Test vote with only three values (excluding "can follow") */
+		var values = feedbackValues.slice();
+		values.splice(1, 1); // remove "can fallow" from values
+	
+		if (!Ext.isArray(values) || values.length != store.getCount()) return;
+		
 		// Set chart data
 		store.each(function (record, index) {
 			record.set('value', values[index]);
@@ -269,7 +305,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		store.each(function (record) {
 			record.set('percent', sum > 0 ? (record.get('value') / sum) : 0.0);
 		});
-
+		
 		chart.getAxes()[0].setMaximum(Math.max.apply(null, values));
 		chart.redraw();
 	},
@@ -285,7 +321,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				tab.setIconCls("voteIcons icon-wink");
 				break;
 			case 1:
-				tab.setIconCls("voteIcons icon-happy");
+				tab.setIconCls("voteIcons icon-bullhorn");
 				break;
 			case 2:
 				tab.setIconCls("voteIcons icon-shocked");

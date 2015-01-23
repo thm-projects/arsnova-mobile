@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -155,6 +155,15 @@ Ext.define("ARSnova.controller.Sessions", {
 			tabPanel.userQuestionsPanel.tab.hide();
 			tabPanel.userTabPanel.tab.hide();
 			tabPanel.userTabPanel.inClassPanel.destroyListeners();
+			
+			if(localStorage.getItem('lastVisitedRole') === ARSnova.app.USER_ROLE_SPEAKER) {
+				localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
+				ARSnova.app.userRole = ARSnova.app.USER_ROLE_SPEAKER;
+				
+				/* refresh mySessionsPanel */
+				tabPanel.homeTabPanel.mySessionsPanel.loadCreatedSessions();
+				localStorage.removeItem('lastVisitedRole');
+			}
 		}
 
 		/* hide feedback statistic panel */
@@ -302,19 +311,64 @@ Ext.define("ARSnova.controller.Sessions", {
 
 				/* deactivate several tab panels */
 				ARSnova.app.mainTabPanel.tabPanel.deactivateAboutTabs();
-				
-				/* activate inputElements in newSessionPanel */
-				options.newSessionPanel.enableInputElements();
-				
-				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				panel.setActiveItem(panel.mySessionsPanel);
-				
-				ARSnova.app.getController('Sessions').reloadData();
-				
+								
+				var loginName = "";
+				var loginMode = localStorage.getItem("loginMode");			
+				ARSnova.app.getController('Auth').services.then(function (services) {				
+					services.forEach(function(service){
+						if(loginMode === service.id) {
+							loginName = "guest" === service.id ? Messages.GUEST: service.name;
+						}
+					});
+					
+					var messageBox = Ext.create('Ext.MessageBox', {
+						title: Messages.SESSION + ' ID: ' + fullSession.keyword,
+						message: Messages.ON_SESSION_CREATION_1.replace(/###/, fullSession.keyword),
+						cls: 'newSessionMessageBox',
+						listeners: {
+							hide: function() {
+								ARSnova.app.getController('Sessions').reloadData();
+								var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+								
+								panel.setActiveItem(panel.mySessionsPanel);
+									
+								/* activate inputElements in newSessionPanel */
+								options.newSessionPanel.enableInputElements();
+									
+								this.destroy();
+							}
+						}
+					});
+					
+					messageBox.setButtons([{
+						text: Messages.CONTINUE, 
+						itemId: 'continue', 
+						ui: 'action',
+						handler: function() {
+							if(!this.readyToClose) {
+								messageBox.setMessage('');
+								messageBox.setTitle(Messages.SESSION + ' ID: ' + fullSession.keyword);
+								messageBox.setHtml("<div class='x-msgbox-text x-layout-box-item' +" +
+									" style='margin-top: -10px;'>" + Messages.ON_SESSION_CREATION_2.replace(/###/, 
+											loginName + "-Login " + "<div style='display: inline-block;'" +
+											"class='text-icons login-icon-" + loginMode + "'></div> " + 
+											(loginMode === "guest" ? Messages.ON_THIS_DEVICE : "")) + 
+										".</div>");
+								
+								this.readyToClose = true;
+							}
+							else {
+								messageBox.hide();
+							}
+						}
+					}]);
+					
+					messageBox.show();
+				});
 			},
 			failure: function (records, operation) {
 				Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
-				options.submitButton.enable();
+				options.newSessionPanel.enableInputElements();
 			}
 		});
 	},

@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,7 +46,6 @@ Ext.define('ARSnova.view.MatrixButton', {
 	
 	initialize: function() {
 		var me = this;
-		var	buttonText = this.element.select(".buttonText").elements;
 		
 		switch(this.getButtonConfig()) {
 			case 'image':
@@ -61,8 +60,8 @@ Ext.define('ARSnova.view.MatrixButton', {
 			default:
 				this.useIconConfiguration();
 		}
-		
-		buttonText[0].innerHTML = this.getText();
+
+		this.setButtonText(this.getText());
 		this.callParent(arguments);
 		
 		this.element.on('touchstart', function() {
@@ -74,6 +73,17 @@ Ext.define('ARSnova.view.MatrixButton', {
 			var element = me.element.select(".iconBtn").elements[0];
 			element.className = "iconBtn";
 		});
+	},
+	
+	setButtonText: function(text) {
+		var buttonSpan = this.element.select(".x-button-label").elements;
+		var	buttonText = this.element.select(".buttonText").elements;
+		
+		if(text === "") {
+			buttonSpan[0].removeChild(buttonText[0]);
+		} else {
+			buttonText[0].innerHTML = text;
+		}
 	},
 	
 	/**

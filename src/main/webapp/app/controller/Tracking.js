@@ -16,16 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('ARSnova.view.PreviewMessageBox', {
-	override: 'Ext.MessageBox',
+Ext.define("ARSnova.controller.Tracking", {
+	extend: "Ext.app.Controller",
 
-	show: function (config) {
-		this.callParent(arguments);
-
-		//if (this.getTitle()) {
-		//	MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.getTitle().element.dom]);
-		//}
-		//MathJax.Hub.Queue(["Typeset", MathJax.Hub, this._message.element.dom]);
-		return this;
+	launch: function () {
+		ARSnova.app.configLoaded.then(function () {
+			var tracking = ARSnova.app.globalConfig.tracking;
+			if (tracking && "piwik" === tracking.provider) {
+				_paq = [
+					["trackPageView"],
+					["enableLinkTracking"],
+					["setTrackerUrl", tracking.trackerUrl + "piwik.php"],
+					["setSiteId", tracking.siteId]
+				];
+				var trackerScript = document.createElement("script");
+				trackerScript.src = tracking.trackerUrl + "piwik.js";
+				document.body.appendChild(trackerScript);
+			}
+		});
 	}
 });

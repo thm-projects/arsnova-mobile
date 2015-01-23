@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@ Ext.define('ARSnova.view.TabPanel', {
 		'ARSnova.view.RolePanel',
 		'ARSnova.view.home.TabPanel',
 		'ARSnova.view.diagnosis.TabPanel',
+		'ARSnova.view.about.BlogTabPanel',
 		'ARSnova.view.about.AboutTabPanel',
 		'ARSnova.view.about.ImprintTabPanel',
 		'ARSnova.view.about.PrivacyTabPanel'
@@ -72,6 +73,7 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.homeTabPanel = Ext.create('ARSnova.view.home.TabPanel');
 		this.diagnosisPanel = Ext.create('ARSnova.view.diagnosis.TabPanel');
 		this.infoTabPanel = Ext.create('ARSnova.view.about.AboutTabPanel');
+		this.blogTabPanel = Ext.create('ARSnova.view.about.BlogTabPanel');
 		this.privacyTabPanel = Ext.create('ARSnova.view.about.PrivacyTabPanel');
 		this.imprintTabPanel = Ext.create('ARSnova.view.about.ImprintTabPanel');
 
@@ -81,6 +83,7 @@ Ext.define('ARSnova.view.TabPanel', {
 			this.homeTabPanel,
 			this.diagnosisPanel,
 			this.infoTabPanel,
+			this.blogTabPanel,
 			this.privacyTabPanel,
 			this.imprintTabPanel
 		]);
@@ -88,12 +91,15 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
 			ARSnova.app.innerScrollPanel = false;
 			ARSnova.app.lastActivePanel = oldCard;
-
-			switch(oldCard) {
+			
+			this.setWindowTitle(newCard);
+						
+			switch(oldCard) {			
 				case this.infoTabPanel:
 				case this.privacyTabPanel:
 				case this.imprintTabPanel:
 				case this.diagnosisPanel:
+				case this.blogTabPanel:
 				case this.testTabPanel:
 				case ARSnova.app.getController('Application').embeddedPage:
 					break;
@@ -102,11 +108,23 @@ Ext.define('ARSnova.view.TabPanel', {
 					ARSnova.app.lastActiveMainTabPanel = oldCard;
 			}
 
-			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER
-				&& newCard !== this.loginPanel) {
-				this.addCls('speakerTabbar');
+			if(newCard === this.rolePanel) {
+				this.infoTabPanel.tab.hide();
+				this.blogTabPanel.tab.show();
 			} else {
-				this.removeCls('speakerTabbar');
+				this.infoTabPanel.tab.show();
+				this.blogTabPanel.tab.hide();
+			}
+						
+			if(ARSnova.app.lastActiveMainTabPanel === this.rolePanel) {
+				if(	newCard === this.infoTabPanel ||
+					newCard === this.privacyTabPanel ||
+					newCard === this.imprintTabPanel ||
+					newCard === this.blogTabPanel
+					) {
+						this.infoTabPanel.tab.hide();
+						this.blogTabPanel.tab.show();
+					}
 			}
 		}, this);
 
@@ -114,6 +132,7 @@ Ext.define('ARSnova.view.TabPanel', {
 			this.rolePanel.tab.hide();
 			this.loginPanel.tab.hide();
 			this.homeTabPanel.tab.hide();
+			this.infoTabPanel.tab.hide();
 			this.diagnosisPanel.tab.hide();
 		});
 		this.on('activate', this.onActivate);
@@ -136,6 +155,34 @@ Ext.define('ARSnova.view.TabPanel', {
 				direction: 'left',
 				duration: ARSnova.app.cardSwitchDuration
 			};
+		}
+	},
+	
+	setWindowTitle: function(newCard) {
+		switch(newCard) {
+			case this.loginPanel:
+				ARSnova.app.setWindowTitle(' - ' + Messages.LOGIN);
+				break;
+			case this.diagnosisPanel:
+				ARSnova.app.setWindowTitle(' - ' + Messages.DIAGNOSIS);
+				break;
+			case this.infoTabPanel:
+				ARSnova.app.setWindowTitle(' - ' + Messages.INFO);
+				break;
+			case this.feedbackTabPanel:
+				ARSnova.app.setWindowTitle(' - ' + Messages.FEEDBACK);
+				break;
+			case this.userQuestionsPanel:
+				ARSnova.app.setWindowTitle(' - ' + Messages.LECTURE_QUESTIONS_LONG);
+				break;
+			case this.feedbackQuestionsPanel:
+				ARSnova.app.setWindowTitle(' - ' + Messages.QUESTIONS_FROM_STUDENTS);
+				break;
+			case this.rolePanel: 
+				ARSnova.app.setWindowTitle();
+				break;
+			default:
+				ARSnova.app.setWindowTitle(' - ' + Messages.HOME);
 		}
 	},
 
@@ -164,19 +211,14 @@ Ext.define('ARSnova.view.TabPanel', {
 	activateAboutTabs: function() {
 		this.privacyTabPanel.tab.show();
 		this.imprintTabPanel.tab.show();
-
-		// this.addClassToTab('infoButtonBeforeLogin', this.infoTabPanel);
-		// this.addClassToTab('infoButtonBeforeLogin', this.privacyTabPanel);
-		// this.addClassToTab('infoButtonBeforeLogin', this.imprintTabPanel);
+		this.blogTabPanel.tab.show();
 	},
 
 	deactivateAboutTabs: function() {
 		this.privacyTabPanel.tab.hide();
 		this.imprintTabPanel.tab.hide();
-
-		// this.removeClassFromTab('infoButtonBeforeLogin', this.infoTabPanel);
-		// this.removeClassFromTab('infoButtonBeforeLogin', this.privacyTabPanel);
-		// this.removeClassFromTab('infoButtonBeforeLogin', this.imprintTabPanel);
+		this.blogTabPanel.tab.hide();
+		this.infoTabPanel.tab.show();
 	},
 
 	addClassToTab: function(addCls, panel) {

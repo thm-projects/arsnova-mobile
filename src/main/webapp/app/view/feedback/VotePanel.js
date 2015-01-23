@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -77,25 +77,22 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 				{
 					xtype: 'matrixbutton',
 					buttonConfig: 'icon',
-					text: Messages.FEEDBACK_OKAY,
-					cls: 'noPadding noBackground voteButton feedbackOkBackground',
-					value: 'Kann folgen',
-					image: "icons/48x48/smiley_happy",
-					imageCls: "icon-happy",
+					text: Messages.FEEDBACK_BAD,
+					cls: 'noPadding noBackground voteButton feedbackBadBackground',
+					value: 'Zu schnell',
+					imageCls: "icon-shocked",
 					handler: function (button) {
 						ARSnova.app.getController('Feedback').vote({
 							value: button.config.value
 						});
 					}
-				},
-				{
+				}, {
 					xtype: 'matrixbutton',
 					buttonConfig: 'icon',
-					text: Messages.FEEDBACK_GOOD,
-					cls: 'noPadding noBackground voteButton feedbackGoodBackground',
-					value: 'Bitte schneller',
-					image: "icons/48x48/smiley_wink",
-					imageCls: "icon-wink",
+					text: Messages.FEEDBACK_NONE,
+					cls: 'noPadding noBackground voteButton feedbackNoneBackground',
+					value: 'Nicht mehr dabei',
+					imageCls: "icon-sad",
 					handler: function (button) {
 						ARSnova.app.getController('Feedback').vote({
 							value: button.config.value
@@ -117,25 +114,22 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 				{
 					xtype: 'matrixbutton',
 					buttonConfig: 'icon',
-					text: Messages.FEEDBACK_BAD,
-					cls: 'noPadding noBackground voteButton feedbackBadBackground',
-					value: 'Zu schnell',
-					image: "icons/48x48/smiley_frown",
-					imageCls: "icon-shocked",
+					text: Messages.FEEDBACK_GOOD,
+					cls: 'noPadding noBackground voteButton feedbackGoodBackground',
+					value: 'Bitte schneller',
+					imageCls: "icon-wink",
 					handler: function (button) {
 						ARSnova.app.getController('Feedback').vote({
 							value: button.config.value
 						});
 					}
-				},
-				{
+				}, {
 					xtype: 'matrixbutton',
 					buttonConfig: 'icon',
-					text: Messages.FEEDBACK_NONE,
-					cls: 'noPadding noBackground voteButton feedbackNoneBackground',
-					value: 'Nicht mehr dabei',
-					image: "icons/48x48/smiley_angry",
-					imageCls: "icon-sad",
+					text: Messages.RESET_FEEDBACK,
+					cls: 'noPadding noBackground voteButton feedbackOkBackground',
+					value: 'Kann folgen',
+					imageCls: 'icon-renew',
 					handler: function (button) {
 						ARSnova.app.getController('Feedback').vote({
 							value: button.config.value

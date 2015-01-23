@@ -59,7 +59,7 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 .answerListButton .x-button-label,
 .forwardListButton .x-button-label,
 .standardListButton .x-button-label {
-	color: $thm-grey !important;
+	color: $thm-grey;
 }
 
 .x-segmentedbutton .x-button-normal {
@@ -241,32 +241,6 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 	.x-button, .x-button-back {
 		.x-button-label {
 			@include label-config;
-		}
-	}
-}
-
-.speakerTabbar {
-	.x-tab-icon .x-button-icon {
-		&:before,
-		&.voteIcons.icon-bullhorn:before {
-			color: $thm-green !important;
-		}
-		
-		&.voteIcons:before {
-			color: $thm-green !important;
-		}
-	}
-	
-	.x-tab-active {
-		.x-button-icon {
-			&:before,
-			&.voteIcons.icon-bullhorn:before {
-				color: white !important;
-			}
-			
-			&.voteIcons:before {
-				color: $smiley-color !important;
-			}
 		}
 	}
 }

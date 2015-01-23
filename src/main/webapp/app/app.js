@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,7 +56,8 @@ Ext.application({
 	icon: {
 		57: 'resources/icons/appicon_57x57px.png',
 		72: 'resources/icons/appicon_72x72px.png',
-		114: 'resources/icons/appicon_114x114px.png'
+		114: 'resources/icons/appicon_114x114px.png',
+		144: 'resources/icons/appicon_144x144px.png'
 	},
 
 	name: "ARSnova",
@@ -88,7 +89,7 @@ Ext.application({
 
 	views: ['MainTabPanel', 'MathJaxMarkDownPanel', 'QuestionPreviewBox', 'AnswerPreviewBox'],
 
-	controllers: ['Auth', 'Application', 'Feedback', 'Lang', 'Questions', 'FlashcardQuestions', 'PreparationQuestions', 'Sessions', 'SessionImport', 'SessionExport'],
+	controllers: ['Auth', 'Application', 'Feedback', 'Lang', 'Questions', 'FlashcardQuestions', 'PreparationQuestions', 'Sessions', 'SessionImport', 'SessionExport', 'Tracking'],
 
 	/* items */
 	mainTabPanel: null,
@@ -284,16 +285,18 @@ Ext.application({
 		return true;
 	},
 
-	setWindowTitle: function () {
+	setWindowTitle: function (addition) {
+		if(!addition) addition = '';
+		
 		switch (ARSnova.app.userRole) {
 			case ARSnova.app.USER_ROLE_SPEAKER:
-				window.document.title = "ARSnova: " + Messages.SPEAKER;
+				window.document.title = "ARSnova: " + Messages.SPEAKER + addition;
 				break;
 			case ARSnova.app.USER_ROLE_STUDENT:
-				window.document.title = "ARSnova: " + Messages.STUDENT;
+				window.document.title = "ARSnova: " + Messages.STUDENT + addition;
 				break;
 			default:
-				window.document.title = "ARSnova";
+				window.document.title = "ARSnova" + addition;
 				break;
 		}
 	},
@@ -302,7 +305,7 @@ Ext.application({
 	 * Wrapper for an invidivudal LoadMask
 	 */
 	showLoadMask: function (message, duration) {
-		var minimumDuration = 500;
+		var minimumDuration = 800;
 
 		Ext.Viewport.setMasked({
 			xtype: 'loadmask',
@@ -340,7 +343,7 @@ Ext.application({
 	 * make localStorage ready after checking availability of localStorage
 	 */
 	checkLocalStorage: function () {
-		if(!this.checkLocalStorageAvailability()) {
+		if(!this.getController('Application').checkForPrivacyMode()) {
 			return;
 		}
 		
@@ -365,37 +368,6 @@ Ext.application({
 		}
 
 		localStorage.setItem('sessionId', "");
-		return true;
-	},
-	
-	/**
-	 * Checks availability of localStorage. Masks viewport if localStorage
-	 * is not available and displays messagebox.
-	 * 
-	 * @return true if localStorage is available - returns false otherwise
-	 */
-	checkLocalStorageAvailability: function() {
-		try {
-			localStorage.setItem('storageTest', 1);
-			localStorage.removeItem('storageTest');
-		} catch (e) {			
-			Ext.Viewport.setMasked({ 
-				xtype: 'mask',
-				listeners: {
-					tap: function() { 
-						Ext.Msg.alert(
-							Messages.LOCALSTORAGE_NOT_AVAILABLE_TITLE, 
-							Messages.LOCALSTORAGE_NOT_AVAILABLE_TEXT, 
-							Ext.emptyFn
-						); 
-					}
-				}
-			});
-			
-			Ext.Viewport.getMasked().fireEvent('tap');
-			return false;
-		}
-		
 		return true;
 	},
 

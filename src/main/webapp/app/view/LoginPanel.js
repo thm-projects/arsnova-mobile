@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,24 +38,10 @@ Ext.define('ARSnova.view.LoginPanel', {
 		this.callParent(arguments);
 		var me = this;
 
-
 		this.arsLogo = {
-				xtype: 'panel',
-				cls: null,
-				html: 	"<div class='icon-logo'>" +
-						"<span class='icon-logo-radar'>r</span>" +
-						"<span class='icon-logo-ars'>a</span>" +
-						"<span class='icon-logo-nova'>n</span>" +
-						"</div>",
-				style: {marginTop: '35px', marginBottom: '35px'}
-			};
-
-		if (Ext.os.is.Phone) {
-			this.arsLogo = {
-					xtype: 'panel',
-					style: {marginTop: '35px'}
-				};
-		}
+			xtype: 'panel',
+			style: 'marginTop: 15px',
+		};
 
 		me.add([{
 			xtype: 'toolbar',
@@ -64,7 +50,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 			title: 'Login',
 			cls: null,
 			items: [{
-				text: Messages.BACK,
+				text: Messages.CHANGE_ROLE,
 				ui: 'back',
 				handler: function () {
 					ARSnova.app.userRole = "";

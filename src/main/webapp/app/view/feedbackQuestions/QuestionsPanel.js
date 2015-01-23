@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -64,11 +64,11 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 
 		var panel = this;
 		var isSpeakerView = !!ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
 			ui: 'back',
-			hidden: true,
 			handler: function () {
 				var target;
 				if (isSpeakerView) {
@@ -91,7 +91,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			ui: 'decline',
 			hidden: true,
 			handler: function () {
-				Ext.Msg.confirm(Messages.DELETE_ALL_QUESTIONS, Messages.ARE_YOU_SURE, function (answer) {
+				Ext.Msg.confirm(Messages.DELETE_QUESTIONS_TITLE, Messages.ARE_YOU_SURE, function (answer) {
 					if (answer === 'yes') {
 						ARSnova.app.getController('Questions').deleteAllInterposedQuestions({
 							success: function () {
@@ -107,9 +107,15 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				});
 			}
 		});
+		
+		var toolbarTitle = Messages.QUESTIONS;
+		
+		if(screenWidth > 380) {
+			toolbarTitle = isSpeakerView ? Messages.QUESTIONS_FROM_STUDENTS : Messages.MY_QUESTIONS;
+		}
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: '',
+			title: toolbarTitle,
 			docked: 'top',
 			ui: 'light',
 			items: [
@@ -127,7 +133,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		this.list = Ext.create('Ext.List', {
 			activeCls: 'search-item-active',
 			layout: 'fit',
-			flex: 1,
+			height: '100%',
 
 			style: {
 				backgroundColor: 'transparent'
@@ -202,9 +208,18 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 						});
 					});
 				}
-			},
-			this.noQuestionsFound,
-			this.list
+			}, this.noQuestionsFound, {
+				xtype: 'formpanel',
+				flex: 1,
+				style: {
+					marginTop: this.deleteAllButton.getHidden() ? '15px' : ''
+				},
+				cls: 'roundedCorners',
+				height: '100%',
+				width: '100%',
+				scrollable: null,
+				items: [this.list]
+			}
 		]);
 		
 		this.on('deactivate', function (panel) {

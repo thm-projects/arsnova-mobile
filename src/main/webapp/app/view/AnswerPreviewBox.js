@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,12 +35,18 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		this.setStyle({
 			'font-size': '110%',
 			'border-color': 'black',
-			'maxHeight': '600px',
-			'maxWidth': '1000px',
 			'margin-bottom': '18px',
 			'height': '79%',
 			'width': '95%'
 		});
+		
+		if(Ext.os.is.Desktop) {
+			this.setMaxWidth('320px');
+			this.setMaxHeight('640px');
+		} else {
+			this.setMaxWidth('740px');
+			this.setMaxHeight('600px');
+		}
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.ANSWER_PREVIEW_DIALOGBOX_TITLE,
@@ -120,6 +126,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 	
 	showPreview: function (options) {
 		this.answers = options.answers;
+		this.content = options.content;
 		this.setQuestionPanelContent(options.title, options.content);
 
 		if (options.image) {
@@ -140,14 +147,55 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			}
 		}
 		
-		else if(options.questionType === 'flashcard') {
-			this.answerList = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-		    	style: 'min-height: 100px; word-wrap: break-word;'
+		else if(options.questionType === 'flashcard') {			
+			var answerPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+		    	style: 'word-wrap: break-word;',
+		    	cls: ''
 			});
 			
+			this.answerList = Ext.create('Ext.Container', {
+				layout: 'vbox',
+				cls: 'roundedBox',
+				hidden: true,
+				style: 'margin-bottom: 10px;',
+				styleHtmlContent: true
+			});
+			
+			if(options.fcImage) {
+				this.flashcardGrid = Ext.create('ARSnova.view.components.GridImageContainer', {
+					itemId: 'flashcardGridImageContainer',
+					editable: false,
+					gridIsHidden: true,
+					style: 'margin-bottom: 20px'
+				});
+				
+				this.flashcardGrid.setImage(options.fcImage);
+				this.answerList.add(this.flashcardGrid);	
+			}
+			
+			this.answerList.add(answerPanel);
+			
 			this.statisticButton.setHidden(true);
-			this.answerList.setContent(this.answers[0].text, true, true);
-			this.mainPanel.add([this.answerList]);
+			answerPanel.setContent(this.answers[0].text, true, true);
+			
+			var flashcardButton = {
+				xtype: 'button',
+				cls: 'login-button',
+				ui: 'confirm',
+				text: Messages.SHOW_FLASHCARD_ANSWER,
+				handler: function (button) {
+					if (this.answerList.isHidden()) {
+						this.answerList.show(true);
+						button.setText(Messages.HIDE_FLASHCARD_ANSWER);
+					} else {
+						this.answerList.hide(true);
+						button.setText(Messages.SHOW_FLASHCARD_ANSWER);
+					}
+				},
+				scope: this
+			};
+			
+			this.mainPanel.add([flashcardButton, this.answerList]);
 		}
 		
 		else {
@@ -233,6 +281,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 	statisticsButtonHandler: function () {
 		var questionObj = {};
 		questionObj.possibleAnswers = this.answers;
+		questionObj.text = this.content;
 		
 		this.questionStatisticChart = Ext.create('ARSnova.view.AnswerPreviewStatisticChart', {
 			question: questionObj,

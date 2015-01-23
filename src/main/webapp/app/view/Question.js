@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -69,14 +69,10 @@ Ext.define('ARSnova.view.Question', {
 		});
 
 		this.on('preparestatisticsbutton', function (button) {
+			var scope = self;
 			button.scope = this;
-			button.setHandler(function () {
-				var panel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel || ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-				panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
-					question: self.questionObj,
-					lastPanel: self
-				});
-				ARSnova.app.mainTabPanel.animateActiveItem(panel.questionStatisticChart, 'slide');
+			button.setHandler(function() {
+				scope.statisticButtonHandler(scope);
 			});
 		});
 
@@ -91,6 +87,9 @@ Ext.define('ARSnova.view.Question', {
 
 					if (self.questionObj.questionType !== 'flashcard') {
 						self.disableQuestion();
+						if(typeof self.questionObj !== 'undefined' && !!self.questionObj.showStatistic && self.questionObj.questionType !== 'flashcard') {
+							self.statisticButtonHandler(self);
+						}
 						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
 						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
 					}
@@ -257,9 +256,22 @@ Ext.define('ARSnova.view.Question', {
 				layout: 'vbox',
 				cls: 'roundedBox',
 				style: 'margin-bottom: 10px;',
-				styleHtmlContent: true,
-				items: [answerPanel]
+				styleHtmlContent: true
 			});
+			
+			if(this.questionObj.fcImage) {
+				this.flashcardGrid = Ext.create('ARSnova.view.components.GridImageContainer', {
+					itemId: 'flashcardGridImageContainer' + this.questionObj._id,
+					editable: false,
+					gridIsHidden: true,
+					style: 'margin-bottom: 20px'
+				});
+				
+				this.flashcardGrid.setImage(this.questionObj.fcImage);
+				this.answerList.add(this.flashcardGrid);	
+			}
+			
+			this.answerList.add(answerPanel);
 			
 			// remove padding around panel
 			this.answerList.bodyElement.dom.style.padding="0";
@@ -357,6 +369,10 @@ Ext.define('ARSnova.view.Question', {
 			handler: this.mcAbstentionHandler,
 			scope: this
 		});
+		
+		this.formPanel = Ext.create('Ext.form.Panel', {
+			scrollable: null
+		});
 
 		this.buttonContainer = Ext.create('Ext.Container', {
 			layout: {
@@ -383,7 +399,7 @@ Ext.define('ARSnova.view.Question', {
 					self.getUserAnswer().then(function (answer) {
 						var answerObj = self.questionObj.possibleAnswers[0];
 						answer.set('answerText', answerObj.text);
-						saveAnswer(answer);
+						!self.viewOnly ? saveAnswer(answer) : Ext.emptyFn();
 					});
 				} else {
 					this.answerList.hide(true);
@@ -393,7 +409,7 @@ Ext.define('ARSnova.view.Question', {
 			scope: this
 		};
 
-		this.add([questionPanel]);
+		this.formPanel.add([questionPanel]);
 		
 		if (this.questionObj.image && this.questionObj.questionType !== "grid") {
 			this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
@@ -402,10 +418,10 @@ Ext.define('ARSnova.view.Question', {
 				gridIsHidden: true
 			});
 			this.grid.setImage(this.questionObj.image);
-			this.add(this.grid);
+			this.formPanel.add(this.grid);
 		}
 		
-		this.add(this.answerList);
+		this.formPanel.add(this.answerList);
 		
 		if(this.questionObj.questionType === "mc") {
 			this.buttonContainer.add([
@@ -413,11 +429,11 @@ Ext.define('ARSnova.view.Question', {
 				this.abstentionButton
 			]);
 			
-			this.add(!this.viewOnly ? this.buttonContainer: {});
+			this.formPanel.add(!this.viewOnly ? this.buttonContainer: {});
 			this.answerList.setHidden(false);
 		}
 		else if (this.questionObj.questionType === "flashcard") {
-			this.add([flashcardContainer]);
+			this.formPanel.add([flashcardContainer]);
 			this.answerList.setHidden(true);
 		} 
 		else if (this.questionObj.questionType === "grid") {
@@ -461,7 +477,7 @@ Ext.define('ARSnova.view.Question', {
 				disabled: false
 			});
 			
-			this.add([this.grid]);
+			this.formPanel.add([this.grid]);
 
 			if (this.questionObj.gridType === 'moderation') {
 
@@ -479,7 +495,7 @@ Ext.define('ARSnova.view.Question', {
 			        }]
 				});
 
-				this.add(panel);
+				this.formPanel.add(panel);
 			}
 
 			if (!this.viewOnly) {
@@ -488,19 +504,52 @@ Ext.define('ARSnova.view.Question', {
       				this.abstentionButton
       			]);
 				
-				this.add([this.buttonContainer]);
+				this.formPanel.add([this.buttonContainer]);
 			}
 			this.answerList.setHidden(true);
 		} else {
-			console.log()
 			this.answerList.setHidden(false);
 		}
+		
+		this.add(this.formPanel);
 
 		this.on('activate', function () {
 			this.answerList.addListener('itemtap', questionListener.itemtap);
-
+	
 			if (this.isDisabled()) {
 				this.disableQuestion();
+			}
+			
+			if(this.viewOnly) {
+				this.setAnswerCount();
+			}
+		});
+	},
+	
+	statisticButtonHandler: function (scope) {
+		var panel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel || ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
+			question: scope.questionObj,
+			lastPanel: scope
+		});
+		ARSnova.app.mainTabPanel.animateActiveItem(panel.questionStatisticChart, 'slide');
+	},
+	
+	setAnswerCount: function() {
+		var questionType = this.questionObj.questionType;
+		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		ARSnova.app.answerModel.getAnswerCount(this.questionObj._id, {
+			success: function (response) {
+				var numAnswers = parseInt(response.responseText);
+				
+				if(questionType === 'flashcard') {
+					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(numAnswers, Messages.ANSWERS_SHOWN);
+				} else {
+					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(numAnswers);
+				}
+			},
+			failure: function () {
+				console.log('server-side error');
 			}
 		});
 	},

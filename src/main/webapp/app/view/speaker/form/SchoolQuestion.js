@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,9 +44,14 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 		}
 
 		var previewButton = Ext.create('Ext.Button', {
-			text: Messages.ANSWER_PREVIEW_BUTTON_TITLE,
+			text: Ext.os.is.Desktop ? 
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP:
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
-			style: 'width:200px; margin-left: 8px; margin-top: 0px;',
+			cls: Ext.os.is.Desktop ?
+				'previewButtonLong':
+				'previewButton',
+			style: 'margin-left: 8px; margin-top: 0px;',
 			scope: this,
 			handler: function () {
 				this.previewHandler();
@@ -54,10 +59,14 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 		});
 
 		this.add([{
-			xtype: 'fieldset',
-			title: Messages.ANSWER_OPTIONS,
-			items: this.fields
-		}, previewButton]);
+			xtype: 'formpanel',
+			scrollable: null,
+			items:[{
+				xtype: 'fieldset',
+				title: Messages.ANSWER_OPTIONS,
+				items: this.fields
+			}, previewButton]
+		}]);
 	},
 
 	initWithQuestion: function (question) {

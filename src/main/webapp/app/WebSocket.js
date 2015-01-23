@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,6 +39,7 @@ Ext.define('ARSnova.WebSocket', {
 		audienceQuestionAvailable: "arsnova/socket/question/audience/available",
 		unansweredLecturerQuestions: "arsnova/socket/question/lecturer/lecture/unanswered",
 		unansweredPreparationQuestions: "arsnova/socket/question/lecturer/preparation/unanswered",
+		countQuestionAnswersByQuestion: "arsnova/socket/question/lecturer/question/answercount",
 		countLectureQuestionAnswers: "arsnova/socket/question/lecturer/lecture/answercount",
 		countPreparationQuestionAnswers: "arsnova/socket/question/lecturer/preparation/answercount"
 	},
@@ -133,7 +134,12 @@ Ext.define('ARSnova.WebSocket', {
 				console.debug("Socket.IO: unansweredPreparationQuestions", questionIds);
 				this.fireEvent(this.events.unansweredPreparationQuestions, questionIds);
 			}, this));
-
+			
+			socket.on('countQuestionAnswersByQuestion', Ext.bind(function (object) {
+				console.debug("Socket.IO: countQuestionAnswersByQuestion", object);
+				this.fireEvent(this.events.countQuestionAnswersByQuestion, object);
+			}, this));
+			
 			socket.on('countLectureQuestionAnswers', Ext.bind(function (count) {
 				console.debug("Socket.IO: countLectureQuestionAnswers", count);
 				this.fireEvent(this.events.countLectureQuestionAnswers, count);

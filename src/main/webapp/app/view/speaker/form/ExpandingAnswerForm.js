@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -59,9 +59,14 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		});
 
 		var previewButton = Ext.create('Ext.Button', {
-			text: Messages.ANSWER_PREVIEW_BUTTON_TITLE,
+			text: Ext.os.is.Desktop ? 
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP:
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
-			style: 'width:200px; margin-left: 8px; margin-top: 0px;',
+			cls: Ext.os.is.Desktop ?
+				'previewButtonLong':
+				'previewButton',
+			style: 'margin-left: 8px; margin-top: 0px;',
 			scope: this,
 			handler: function () {
 				this.previewHandler();
@@ -126,7 +131,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 						},
 						change: function (field, newValue, oldValue) {
 							if (ARSnova.app.globalConfig.features.learningProgress) {
-								this.questionValueComponents[i].setLabel(newValue || Messages.ANSWER);
+								this.questionValueComponents[i].setLabel(newValue.substring(0, 25) || Messages.ANSWER);
 							}
 						}
 					}
@@ -155,8 +160,23 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		}
 		this.add([answerOptions]);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
-			this.add([questionValueFieldset]);
+			this.add([{
+				xtype: 'formpanel',
+				scrollable: null,
+				items: [questionValueFieldset]
+			}]);
 		}
+	},
+	
+	resetFields: function() {
+		this.answerComponents.forEach(function(el) {
+			el.reset();
+			el.uncheck();
+		});
+		
+		this.questionValueComponents.forEach(function(el) {
+			el.reset();
+		});
 	},
 
 	getEnumeration: function () {
@@ -178,14 +198,16 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		var values = [], obj;
 		
 		for (var i = 0; i < this.selectAnswerCount.getValue(); i++) {
-			obj = {
-				text: this.answerComponents[i].getValue(),
-				correct: this.answerComponents[i].isChecked()
-			};
-			if (ARSnova.app.globalConfig.features.learningProgress) {
-				obj.value = this.questionValueComponents[i].getSliderValue();
+			if(this.answerComponents[i].getValue() !== "") {
+				obj = {
+					text: this.answerComponents[i].getValue(),
+					correct: this.answerComponents[i].isChecked()
+				};
+				if (ARSnova.app.globalConfig.features.learningProgress) {
+					obj.value = this.questionValueComponents[i].getSliderValue();
+				}
+				values.push(obj);
 			}
-			values.push(obj);
 		}
 		
 		return values;

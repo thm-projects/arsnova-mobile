@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -119,6 +119,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			}, {
 				xtype: 'container',
 				cls: "x-toolbar-title counterText",
+				hidden: ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT,
 				html: "0/0",
 				style: {paddingRight: '10px'}
 			}, {
@@ -168,7 +169,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					setGradientTask.delay(me.chartRefreshDuration-200);
 				},
 				scope: this,
-				hidden: !hasCorrectAnswers() || this.questionObj.questionType === 'grid'
+				hidden: !hasCorrectAnswers() || this.questionObj.questionType === 'grid' ||
+						(ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT && !this.questionObj.showAnswer)
 			}]
 		});
 
@@ -315,25 +317,43 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			this.add([this.toolbar, this.titlebar, this.questionChart]);
 
 		} else {
-			this.add([this.toolbar, this.titlebar, this.contentField, this.questionChart]);
-
 			this.setStyle('background-color: #E0E0E0');
 			// add statistic
 			this.gridStatistic = Ext.create('ARSnova.view.components.GridStatistic', {
 				questionObj: this.questionObj
 			});
-			//this.add({xtype: 'spacer', height:25, docked: 'top'});
-			this.add(this.gridStatistic);
+			
+			this.add([this.toolbar, {
+				xtype: 'formpanel',
+				scrollable: null,
+				items: [this.titlebar, 
+						this.contentField, 
+						this.questionChart,
+						this.gridStatistic
+				]}
+			]);
+			
 			this.getQuestionAnswers();
 		}
 
 		this.on('activate', this.onActivate);
+		
+		this.on('hide', function() {
+			ARSnova.app.activePreviewPanel = false;
+		});
+		
+		this.on('painted', function() {
+			ARSnova.app.activePreviewPanel = this;
+		});
 	},
 	
 	onActivate: function () {
 		ARSnova.app.innerScrollPanel = this;
 		ARSnova.app.taskManager.start(this.renewChartDataTask);
-		ARSnova.app.taskManager.start(this.countActiveUsersTask);
+
+		if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			ARSnova.app.taskManager.start(this.countActiveUsersTask);
+		}
 	},
 
 	getQuestionAnswers: function () {
@@ -434,12 +454,14 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				// renew the chart-data
 				chart.redraw();
 
-				// update quote in toolbar
-				var quote = panel.toolbar.items.items[2];
-				var users = quote.getHtml().split("/");
-				users[0] = sum;
-				users = users.join("/");
-				quote.setHtml(users);
+				if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+					// update quote in toolbar
+					var quote = panel.toolbar.items.items[2];
+					var users = quote.getHtml().split("/");
+					users[0] = sum;
+					users = users.join("/");
+					quote.setHtml(users);
+				}
 			},
 			failure: function () {
 				console.log('server-side error');
@@ -453,9 +475,31 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		// update quote in toolbar
 		var quote = ARSnova.app.mainTabPanel._activeItem.toolbar.items.items[2];
 		var users = quote.getHtml().split("/");
-		users[1] = count;
+		users[1] = count-1; // Do not count the speaker itself
 		users = users.join("/");
 		quote.setHtml(users);
+	},
+	
+	showEmbeddedPagePreview: function(embeddedPage) {
+		var controller = ARSnova.app.getController('Application'),
+			me = this;
+		
+		embeddedPage.setBackHandler(function() {
+			// remove & destroy embeddedPage and delete reference
+			delete controller.embeddedPage;
+			
+			ARSnova.app.mainTabPanel.animateActiveItem(me, {
+				type: 'slide',
+				direction: 'right',
+				duration: 700
+			});
+		});
+		
+		ARSnova.app.mainTabPanel.animateActiveItem(embeddedPage, {
+			type: 'slide',
+			direction: 'left',
+			duration: 700
+		});
 	},
 
 	setGradients: function () {

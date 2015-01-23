@@ -16,20 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('ARSnova.view.about.ImprintTabPanel', {
+
+Ext.define('ARSnova.view.about.BlogTabPanel', {
 	extend: 'Ext.tab.Panel',
 	
 	requires: ['ARSnova.view.components.EmbeddedPage'],
 
 	config: {
-		title: Messages.IMPRINT,
-		iconCls: 'icon-info',
-
+		title: Messages.BLOG,
+		iconCls: 'icon-blog',
+		
+		scrollable: {
+			direction: 'vertical',
+			directionLock: true
+		},
+		
 		tabBar: {
 			hidden: true
 		}
 	},
-
+	
 	initialize: function () {
 		this.callParent(arguments);
 		
@@ -53,9 +59,9 @@ Ext.define('ARSnova.view.about.ImprintTabPanel', {
 		});
 		
 		this.add(this.toolbar);
-
-		this.on("painted", function () {
-			var url = ARSnova.app.globalConfig.imprintUrl || "https://arsnova.eu/blog/impressum/";
+		
+		this.on("painted", function() {
+			var url = ARSnova.app.globalConfig.blogUrl || "https://arsnova.eu/blog/features/";	
 			
 			this.add(Ext.create('ARSnova.view.components.EmbeddedPage', {
 				src: url

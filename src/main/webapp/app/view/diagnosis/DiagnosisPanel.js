@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,69 +61,63 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 			ui: 'light',
 			items: [this.backButton]
 		});
-
-		this.add([this.toolbar, {
-			xtype: 'panel',
-			cls: null,
-			html: 	"<div class='icon-logo'>" +
-					"<span class='icon-logo-radar'>r</span>" +
-					"<span class='icon-logo-ars'>a</span>" +
-					"<span class='icon-logo-nova'>n</span>" +
-					"</div>",
-			style: {marginTop: '35px', marginBottom: '35px'}
-		},
-		{
-			xtype: 'formpanel',
-			cls: 'standardForm topPadding',
+		
+		this.inClass = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
-
-			defaults: {
-				xtype: 'button',
-				ui: 'normal',
-				cls: 'forwardListButton'
-			},
-
 			items: [{
-				text: Messages.STATISTIC,
-				handler: function () {
-					var me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel;
-					me.statisticsPanel = Ext.create('ARSnova.view.diagnosis.StatisticsPanel');
-					me.animateActiveItem(me.statisticsPanel, 'slide');
-				}
-			}, {
-				text: Messages.BROWSER_INFO,
-				handler: function (b) {
-					this.detect = Ext.create("ARSnova.BrowserDetect");
-					var browserInfo = new String(
-						"<b>Name:</b> " + this.detect.browser + "<br>" +
-						"<b>Engine:</b> " + Ext.browser.engineName +
-						" " + Ext.browser.engineVersion.version + "<br>" +
-						"<b>UA:</b> " + Ext.browser.userAgent + "<br>"
-					);
-					Ext.Msg.alert('Browser', browserInfo, Ext.emptyFn);
-				}
-			}, {
-				text: Messages.ARSNOVA_RELOAD,
-				handler: function (b) {
-					Ext.Msg.confirm(Messages.ARSNOVA_RELOAD, Messages.RELOAD_SURE, function (b) {
-						if (b == "yes") {
-							if (ARSnova.app.checkSessionLogin()) {
-								ARSnova.app.getController('Sessions').logout();
+				xtype: 'formpanel',
+				style: 'marginTop: 15px',
+				cls: 'standardForm topPadding',
+				scrollable: null,
+
+				defaults: {
+					xtype: 'button',
+					ui: 'normal',
+					cls: 'forwardListButton'
+				},
+
+				items: [{
+					text: Messages.STATISTIC,
+					handler: function () {
+						var me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel;
+						me.statisticsPanel = Ext.create('ARSnova.view.diagnosis.StatisticsPanel');
+						me.animateActiveItem(me.statisticsPanel, 'slide');
+					}
+				}, {
+					text: Messages.BROWSER_INFO,
+					handler: function (b) {
+						this.detect = Ext.create("ARSnova.BrowserDetect");
+						var browserInfo = new String(
+							"<b>Name:</b> " + this.detect.browser + "<br>" +
+							"<b>Engine:</b> " + Ext.browser.engineName +
+							" " + Ext.browser.engineVersion.version + "<br>" +
+							"<b>UA:</b> " + Ext.browser.userAgent + "<br>"
+						);
+						Ext.Msg.alert('Browser', browserInfo, Ext.emptyFn);
+					}
+				}, {
+					text: Messages.ARSNOVA_RELOAD,
+					handler: function (b) {
+						Ext.Msg.confirm(Messages.ARSNOVA_RELOAD, Messages.RELOAD_SURE, function (b) {
+							if (b == "yes") {
+								if (ARSnova.app.checkSessionLogin()) {
+									ARSnova.app.getController('Sessions').logout();
+								}
+								ARSnova.app.getController('Auth').logout();
+								window.location.reload(true);
 							}
-							ARSnova.app.getController('Auth').logout();
-							window.location.reload(true);
-						}
-					});
-				}
-			}]
-		},
-		{
-			xtype: 'panel',
-			style: {
-				marginTop: (Ext.os.is.Phone && Ext.os.is.iOS) ? '30px': '60px'
+						});
+					}
+				}]
 			},
-			html: "<div class='gravure'><a href='http://www.thm.de/' class='thmlink' target='_blank'>A <span style='color:#699824;'>THM</span> Product</a></div>",
-			cls: null
-		}]);
+			{
+				xtype: 'panel',
+				style: 'margin-top: 30px',
+				html: "<div class='gravure'>Made by <a href='http://www.thm.de/' class='thmlink' target='_blank'><span class='thm-lettering'>THM</span></a></div>",
+				cls: null
+			}]
+		});
+
+		this.add([this.toolbar, this.inClass]); 
 	}
 });

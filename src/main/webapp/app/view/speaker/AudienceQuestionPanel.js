@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -161,8 +161,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			style: 'margin-top: 30px',
 
 			items: [
-				this.newQuestionButton,
-				this.showcaseActionButton
+				this.showcaseActionButton,
+				this.newQuestionButton
 			]
 		});
 
@@ -187,10 +187,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			buttonConfig: 'icon',
 			text: Messages.DELETE_ANSWERS,
 			imageCls: 'icon-renew thm-orange',
-			imageStyle: {
-				'font-size': '56px',
-				'margin-top': '12px'
-			},
 			scope: this,
 			handler: function () {
 				var me = this;
@@ -214,7 +210,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			handler: function () {
 				var msg = Messages.ARE_YOU_SURE;
 					msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
-				Ext.Msg.confirm(Messages.DELETE_ALL_QUESTIONS, msg, function (answer) {
+				Ext.Msg.confirm(Messages.DELETE_QUESTIONS_TITLE, msg, function (answer) {
 					if (answer == 'yes') {
 						this.getController().destroyAll(localStorage.getItem("keyword"), {
 							success: Ext.bind(this.onActivate, this),
@@ -254,8 +250,11 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 		this.add([
 			this.toolbar,
-			this.actionButtonPanel,
-			this.questionListContainer,
+			this.actionButtonPanel, {
+				xtype: 'formpanel',
+				scrollable: null,
+				items: [this.questionListContainer]
+			},
 			this.caption,
 			this.inClassActions
 		]);
@@ -285,7 +284,10 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.caption.show();
 				this.caption.explainStatus(questions);
 				this.handleAnswerCount();
-				
+			
+				if(questions.length === 1) this.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE);
+				else this.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE_PLURAL);
+
 				this.showcaseActionButton.show();
 				this.questionListContainer.show();
 				this.questionList.show();

@@ -3,7 +3,24 @@ html, body {
 	background-color: #E0E0E0;
 }
 
-#appLoadingIndicator {
+.noScriptDiv {
+	text-align: center;
+	align-content: center;
+	top: 0px; 
+	left: 0px; 
+	position: fixed; 
+	z-index: 3000; 
+	height: 100%; 
+	width: 100%; 
+	background-color: #E0E0E0;
+}
+
+.noSriptLogo {
+	margin-top: 25px;
+	max-width: 300px;
+}
+
+.appLoadingIndicator {
 	position: absolute;
 	top: 50%;
 	margin-top: -15px;
@@ -24,8 +41,8 @@ html, body {
 	animation-duration: 0.8s;
 }
 
-#appLoadingIndicator > * {
-	background-color: #FFFFFF;
+.appLoadingIndicator > * {
+	background-color: #4a5c66;
 	display: inline-block;
 	height: 30px;
 	margin: 0 5px;

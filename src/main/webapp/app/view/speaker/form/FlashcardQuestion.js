@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,15 +25,46 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 
 	constructor: function () {
 		this.callParent(arguments);
-
+		
 		this.answer = Ext.create('Ext.plugins.ResizableTextArea', {
 			placeHolder: Messages.FLASHCARD_BACK_PAGE
 		});
+		
+		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
+			handlerScope: this,
+			addRemoveButton: true,
+			activateTemplates: false,
+			urlUploadHandler: this.setImage,
+			fsUploadHandler: this.setImage,
+			style: 'margin-bottom: 30px'
+		});
+		
+		if(this.config.editPanel) {
+			this.uploadView.setUploadPanelConfig(
+				Messages.PICTURE_SOURCE + " - " + Messages.FLASHCARD_BACK_PAGE,
+				this.setFcImage, this.setFcImage
+			);
+		} else {
+			this.uploadView.setUploadPanelConfig(
+				Messages.PICTURE_SOURCE + " - " + Messages.FLASHCARD_FRONT_PAGE
+			);
+		}
+		
+		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
+			editable: false,
+			gridIsHidden: true,
+			hidden: true,
+			style: "padding-top: 10px; margin-top: 30px;"
+		});
 
 		var previewButton = Ext.create('Ext.Button', {
-			text: Messages.ANSWER_PREVIEW_BUTTON_TITLE,
+			text: Ext.os.is.Desktop ? 
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP:
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
-			style: 'width:200px;',
+			cls: Ext.os.is.Desktop ?
+				'previewButtonLong':
+				'previewButton',
 			handler: function () {
 				this.previewHandler();
 			},
@@ -41,12 +72,20 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 		});
 
 		this.add([{
-			xtype: 'fieldset',
-			items: [this.answer]
-		}, {
-			xtype: 'fieldset',
-			items: [previewButton]
+			xtype: 'formpanel',
+			scrollable: null,
+			items: [{
+				xtype: 'fieldset',
+				items: [this.answer]
+			}, {
+				xtype: 'fieldset',
+				items: [previewButton]
+			}, this.uploadView, this.grid]
 		}]);
+		
+		this.on('painted', function(){
+			
+		});
 	},
 
 	initWithQuestion: function (question) {
@@ -56,11 +95,27 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 		}
 		this.answer.setValue(possibleAnswers[0].text);
 	},
+	
+	setImage: function (image) {
+		var newQuestionPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
+		newQuestionPanel.setImage(image);
+	},
+	
+	setFcImage: function(image) {
+		this.fcImage = image;
+		this.grid.setImage(image);
+		if(image) {
+			this.grid.show();
+		} else {
+			this.grid.hide();
+		}
+	},
 
 	getQuestionValues: function () {
 		var result = {};
 
 		result.possibleAnswers = [{text: this.answer.getValue(), correct: true}];
+		result.fcImage = this.fcImage;
 
 		return result;
 	},
@@ -87,6 +142,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			content: panel.textarea.getValue(),
 			questionType: 'flashcard',
 			answers: this.getValue(),
+			fcImage: panel.fcImage,
 			image: panel.image
 		});
 	},

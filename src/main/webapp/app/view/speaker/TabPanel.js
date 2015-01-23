@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,14 +48,6 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 			this.audienceQuestionPanel,
 			this.newQuestionPanel
 		]);
-		
-		this.on('activeitemchange', function (panel, newCard, oldCard) {
-			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
-				this.addCls('speakerTabbar');
-			} else {
-				this.removeCls('speakerTabbar');
-			}
-		});
 	},
 
 	renew: function () {

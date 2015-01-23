@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		this.subject = Ext.create('Ext.form.Text', {
 			label: Messages.QUESTION_SUBJECT,
 			name: 'subject',
-			maxLength: 140,
+			maxLength: 50,
 			placeHolder: Messages.QUESTION_SUBJECT_PLACEHOLDER
 		});
 
@@ -70,9 +70,13 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 
 		// Preview button
 		this.previewButton = Ext.create('Ext.Button', {
-			text: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
+			text: Ext.os.is.Desktop ? 
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP:
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
-			cls: 'previewButton',
+			cls: Ext.os.is.Desktop ?
+				'previewButtonLong':
+				'previewButton',
 			scope: this,
 			handler: function () {
 				this.previewHandler();
@@ -80,13 +84,19 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		});
 
 		// Preview panel with integrated button
-		this.previewPart = Ext.create('Ext.form.FormPanel', {
+		this.buttonPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
-			style: 'margin-left: 0',
 			scrollable: null,
 			items: [{
 				xtype: 'fieldset',
 				items: [this.previewButton]
+			}, {
+				xtype: 'button',
+				ui: 'confirm',
+				cls: 'login-button',
+				text: Messages.SEND,
+				handler: this.askQuestion,
+				scope: this
 			}]
 		});
 
@@ -98,7 +108,6 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			xtype: 'formpanel',
 			submitOnAction: false,
 			scrollable: null,
-			style: 'margin-bottom; 10px',
 
 			items: [{
 				xtype: 'fieldset',
@@ -109,14 +118,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			}
 				
 			]
-		}, this.previewPart, {
-			xtype: 'button',
-			ui: 'confirm',
-			cls: 'login-button',
-			text: Messages.SEND,
-			handler: this.askQuestion,
-			scope: this
-		}]);
+		}, this.buttonPart]);
 	},
 
 	askQuestion: function () {
@@ -131,6 +133,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		});
 		question.set('_id', undefined);
 
+		var field;
 		var validation = question.validate();
 		if (!validation.isValid()) {
 			me.down('fieldset').items.items.forEach(function (el) {
@@ -139,9 +142,18 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			});
 
 			validation.items.forEach(function (el) {
-				me.down('textfield[name=' + el.getField() + ']').addCls("required");
+				field = me.down('textfield[name=' + el.getField() + ']');
+				field.addCls("required");
+				field.element.select(".x-input-text").addCls('formInvalid');
 			});
+			
+			Ext.Msg.alert(Messages.NOTIFICATION, Messages.INCOMPLETE_INPUTS);
 			return;
+		} else {
+			me.down('fieldset').items.items.forEach(function (el) {
+				el.removeCls("required");
+				el.element.select(".x-input-text").removeCls('formInvalid');
+			});
 		}
 
 		ARSnova.app.getController('Feedback').ask({
