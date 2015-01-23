@@ -92,7 +92,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 			handler: function () {
 				me.treeStore.removeAll();
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				hTP.animateActiveItem(hTP.mySessionsPanel, {
+				hTP.animateActiveItem(hTP.homePanel, {
 					type: 'slide',
 					direction: 'right',
 					duration: 700
