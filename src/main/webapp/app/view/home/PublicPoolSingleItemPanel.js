@@ -126,7 +126,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			id: 'questionTitle',
 			style: 'background-color: transparent; padding: 0;font-weight: bold; font-size: 1.4em;'
 		});
-		this.titlePanel.setContent('Beschreibung', false, true);	
+		this.titlePanel.setContent('', false, true);	
 		
 		this.singleTemplatePanel = Ext.create('Ext.Panel',{	
 			
