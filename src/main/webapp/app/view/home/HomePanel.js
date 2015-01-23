@@ -195,6 +195,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					type: 'hbox',
 					pack: 'center'
 				},
+				style: 'margin-top:10px;',
 				items: [
 					this.publicPoolButton
 				]
