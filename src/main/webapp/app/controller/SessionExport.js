@@ -57,7 +57,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 				exportData[i]['session']['_rev'] = null;
 				
 				// call import ctrl to save cloned session in db
-				ARSnova.app.getController("SessionImport").importSession(exportData[i], true);
+				ARSnova.app.getController("SessionImport").importSession(exportData[i], false);
 			}
 			
 			hideLoadMask();
