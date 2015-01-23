@@ -849,7 +849,7 @@ switch (lang) {
 			/*Public pool*/
 			SESSIONPOOL_CLONE: "Kopieren",
 			SESSIONPOOL_AUTHORINFO: "Verfasserinformation",
-			SESSIONPOOL_SESSIONINFO: "Public-Sessioninformation",
+			SESSIONPOOL_SESSIONINFO: "Sessioninformation",
 			SESSIONPOOL_LOGOINFO: "Logo",
 			SESSIONPOOL_INFO: "Beschreibung",
 			SESSIONPOOL_COUNT_QUESTION: "Anzahl Fragen",
