@@ -52,8 +52,8 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 		
 		if (this.getExportType() == 'filesystem') {
 			this.exportButton = Ext.create('Ext.Button', {
-				text: Messages.EXPORT_BUTTON_LABEL,
-				ui: 'confirm',
+				text: Messages.CONTINUE,
+				itemId: 'continue',
 				handler: function () {
 					if(!me.checkSelectedSessions()){
 						Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_NOTIFICATION);
@@ -81,18 +81,46 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 		this.sessionsForm = Ext.create('ARSnova.view.home.SessionList', {
 			scrollable: null,
 			cls: 'standardForm',
-			title: Messages.MY_SESSIONS
+			title: Messages.EXPORT_SESSION_LABEL
 		});
 		
 		this.add([this.toolbar]);
-	
+		
+		this.matrixButtonPanel = Ext.create('Ext.Panel', {
+			layout: {
+				type: 'hbox',
+				pack: 'center'
+			}
+		});
+		
+		this.exportButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: 'Export', 
+			buttonConfig: 'icon',
+			imageCls: 'icon-cloud-download ',
+			scope: this,
+			handler: function () {
+				if(!me.checkSelectedSessions()){
+					Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_NOTIFICATION);
+				} else {
+					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+					var exportToFile = Ext.create('ARSnova.view.home.SessionExportToFilePanel', {
+						exportSessionMap: me.sessionMap,
+						backReference: me
+					});
+					hTP.animateActiveItem(exportToFile, 'slide');
+				}
+			}
+		});
 				
+		this.matrixButtonPanel.add(this.exportButton);
+		
 		this.mainPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
 			scrollable: null,
 
 			items: [  
-		        this.sessionsForm
+		        this.sessionsForm,
+		        this.matrixButtonPanel
 	        ]
 		});
 		
@@ -231,4 +259,6 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 			}
 		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
 	},
+	
+	
 });
