@@ -228,6 +228,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				text: Messages.IMP_BUTTON_IMPORT,
 				buttonConfig: 'icon',
 				imageCls: 'icon-cloud-upload ',
+				style: 'z-index:-1000',
 				scope: this
 			});
 
