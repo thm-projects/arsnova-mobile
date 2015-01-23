@@ -202,11 +202,11 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					scope: this,
 					loadsuccess: function (data) {
 						if(!Ext.os.is.iOS){
-							var n = data.indexOf("base64,");
-							data = decodeURIComponent(escape(atob(data.substring(n+7)))); // remove disturbing prefix
 							var hideLoadMask = ARSnova.app.showLoadMask(Messages.IMP_LOADMSK);
-							
 							try {
+								var n = data.indexOf("base64,");
+								data = decodeURIComponent(escape(atob(data.substring(n+7)))); // remove disturbing prefix
+								
 								var jsonContent = JSON.parse(data);
 						        if (jsonContent && typeof jsonContent === "object" && jsonContent !== null) {
 						        	var ctrl = ARSnova.app.getController("SessionImport").importSession(jsonContent.exportData, true);
