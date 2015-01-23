@@ -234,7 +234,6 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 
 		if (this.getSession().ppLogo != null) {
 			this.logoFieldSet = Ext.create('Ext.form.FieldSet', {
-				title: Messages.SESSIONPOOL_LOGOINFO,
 				cls: 'standardFieldset',
 				itemId: 'contentFieldset',
 				items: [
