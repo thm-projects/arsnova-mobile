@@ -225,7 +225,6 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		this.contentForm = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			itemId: 'contentForm',
-			style: {marginTop: '15px', marginLeft: '12px', marginRight: '12px'},
 			items: [
 			        this.singleTemplatePanel,
 			        this.sessionFieldSet,

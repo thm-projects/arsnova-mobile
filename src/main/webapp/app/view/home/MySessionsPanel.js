@@ -117,7 +117,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		});
 		
 		this.myPpSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
-			style: 'margin:0 3px',
 			scrollable: null,
 			title: Messages.MY_PUBLIC_POOL_SESSIONS
 		});
