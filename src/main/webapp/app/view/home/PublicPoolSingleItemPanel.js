@@ -215,8 +215,6 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			disabled: true
 		});
 		
-		console.log('session:', this.getSession());
-
 		this.creatorFieldSet = Ext.create('Ext.form.FieldSet', {
 			title: Messages.SESSIONPOOL_AUTHORINFO,
 			cls: 'standardFieldset',

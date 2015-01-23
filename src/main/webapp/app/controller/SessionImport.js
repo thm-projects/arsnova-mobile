@@ -98,7 +98,6 @@ Ext.define("ARSnova.controller.SessionImport", {
 		var me = this;
 		if (jsonContent.questions !== undefined) {
 			var storeQuestions = this.getElements(jsonContent.questions, "ARSnova.model.Question");
-
 			storeQuestions.each(function(q) {
 				q._data._id       		= undefined;
 				q._data._rev       		= undefined;
@@ -113,7 +112,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 						if (typeof q.raw.answers !== undefined) {
 							var answers = q.raw.answers;
 						 	var storeAnswers = me.getElements(q.raw.answers, "ARSnova.model.Answer");	
-							storeAnswers.each(function(a) {
+						 	storeAnswers.each(function(a) {
 								a.raw._id               = undefined;
 								a.raw._rev              = undefined;
 								a.raw.user       		= undefined;
@@ -172,8 +171,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 	getElements: function(json, className) {
 		var store = new Ext.data.Store({
 			model: className,
-			autoLoad: true, 
-			data: eval('(' + JSON.stringify(json).trim() + ')')
+			data: eval('(' + JSON.stringify(json).trim() + ')'),
 		});
 		return store;
 	}
