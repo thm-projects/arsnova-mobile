@@ -209,7 +209,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 								
 								var jsonContent = JSON.parse(data);
 						        if (jsonContent && typeof jsonContent === "object" && jsonContent !== null) {
-						        	var ctrl = ARSnova.app.getController("SessionImport").importSession(jsonContent.exportData, true);
+						        	var ctrl = ARSnova.app.getController("SessionImport").importSession(jsonContent.exportData, false);
 						        	me.loadCreatedSessions();
 						        }
 							} catch(e) {

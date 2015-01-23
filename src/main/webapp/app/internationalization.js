@@ -375,7 +375,7 @@ switch (lang) {
 			EXPORT_BUTTON_FS: "My System",
 			EXPORT_BUTTON_PP: "Public Pool",
 			EXPORT_PP_NOTIFICATION: 'As a "guest" you can not export a session in the public pool. Please log in using one of the other approaches.',
-			
+			EXPORT_SESSION_LABEL: 'Selection of sessions to be exported',
 			/*Import session*/
 			IMPORT_IOS_NOTIFICATION: "An import can not be performed on iOS devices",
 			
@@ -836,20 +836,20 @@ switch (lang) {
 			EXPORT_FIELD_SPECIAL_FIELD: "Fachbereich",
 			EXPORT_SELECTED_SESSIONS_TITLE : "Sessions exportieren",
 			EXPORT_SELECTED_SESSIONS_MSG : "Wohin möchten Sie die Session(s) exportieren?",
-			EXPORT_SESSION_INFORMATION: "Neben Hörsaal und Vorbereitungsfragen der ausgewählten Sessions werden zusätzlich exportiert...",
+			EXPORT_SESSION_INFORMATION: "Neben Hörsaal- und Vorbereitungsfragen der ausgewählten Sessions werden zusätzlich exportiert...",
 			EXPORT_NOTIFICATION: "Es wurde keine Session ausgewählt.",
 			EXPORT_IOS_NOTIFICATION: "Ein Export kann auf iOS Geräten nicht durchgeführt werden.",
 			EXPORT_BUTTON_FS: "Mein System",
 			EXPORT_BUTTON_PP: "Public Pool",
 			EXPORT_PP_NOTIFICATION: 'Als "Gast" können Sie keine Session in den Public Pool exportieren. Bitte melden Sie sich über einen der anderen Zugänge an.',
-			
+			EXPORT_SESSION_LABEL:	'Auswahl der Session(s), die exportiert werden', 
 			/*Import session*/
 			IMPORT_IOS_NOTIFICATION: "Ein Import kann auf iOS Geräten nicht durchgeführt werden",
 			
 			/*Public pool*/
 			SESSIONPOOL_CLONE: "Kopieren",
 			SESSIONPOOL_AUTHORINFO: "Verfasserinformation",
-			SESSIONPOOL_SESSIONINFO: "Public-Sessioninformation",
+			SESSIONPOOL_SESSIONINFO: "Sessioninformation",
 			SESSIONPOOL_LOGOINFO: "Logo",
 			SESSIONPOOL_INFO: "Beschreibung",
 			SESSIONPOOL_COUNT_QUESTION: "Anzahl Fragen",
