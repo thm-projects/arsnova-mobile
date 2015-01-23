@@ -202,7 +202,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					scope: this,
 					loadsuccess: function (data) {
 						if(!Ext.os.is.iOS){
-							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_IMPORT);
+							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_IMPORT, 240000);
 							try {
 								var n = data.indexOf("base64,");
 								data = decodeURIComponent(escape(atob(data.substring(n+7)))); // remove disturbing prefix
@@ -211,10 +211,8 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						        if (jsonContent && typeof jsonContent === "object" && jsonContent !== null) {
 						        	ARSnova.app.getController("SessionImport").importSession(jsonContent.exportData)
 						        		.then(function() {
-						        			console.log('after session import');
 						        			me.loadCreatedSessions()
 						        				.then(function() {
-						        					console.log('after reloading');
 						        					hideLoadMask();
 						        				});
 						        		});
