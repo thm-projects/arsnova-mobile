@@ -105,6 +105,7 @@ switch (lang) {
 			LOAD_MASK_SESSION_DELETE: "Deleting session data...",
 			LOAD_MASK_ACTIVATION: "Releasing question...",
 			LOAD_MASK_SESSION_EXPORT: "Exporting session data...",
+			LOAD_MASK_SESSION_IMPORT: "Importing session data...",
 			LOAD_MASK_SESSION_PP_CLONE: "Copy public pool session...",
 
 			/* mySessionsPanel */
@@ -573,6 +574,7 @@ switch (lang) {
 			LOAD_MASK_SESSION_DELETE: "Lösche Session-Daten...",
 			LOAD_MASK_ACTIVATION: "Aktiviere die Freigabe...",
 			LOAD_MASK_SESSION_EXPORT: "Exportiere Session-Daten...",
+			LOAD_MASK_SESSION_IMPORT: "Importiere Session-Daten...",
 			LOAD_MASK_SESSION_PP_CLONE: "Kopiere Public Pool Session...",
 
 			/* mySessionsPanel */

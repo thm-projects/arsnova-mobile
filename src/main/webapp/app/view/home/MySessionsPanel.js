@@ -202,21 +202,28 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					scope: this,
 					loadsuccess: function (data) {
 						if(!Ext.os.is.iOS){
-							var hideLoadMask = ARSnova.app.showLoadMask(Messages.IMP_LOADMSK);
+							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_IMPORT);
 							try {
 								var n = data.indexOf("base64,");
 								data = decodeURIComponent(escape(atob(data.substring(n+7)))); // remove disturbing prefix
 								
 								var jsonContent = JSON.parse(data);
 						        if (jsonContent && typeof jsonContent === "object" && jsonContent !== null) {
-						        	var ctrl = ARSnova.app.getController("SessionImport").importSession(jsonContent.exportData, false);
-						        	me.loadCreatedSessions();
+						        	ARSnova.app.getController("SessionImport").importSession(jsonContent.exportData)
+						        		.then(function() {
+						        			console.log('after session import');
+						        			me.loadCreatedSessions()
+						        				.then(function() {
+						        					console.log('after reloading');
+						        					hideLoadMask();
+						        				});
+						        		});
 						        }
 							} catch(e) {
 								console.log(e);
 								Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_FORMAT);
+								hideLoadMask();
 							}
-							hideLoadMask();
 						}	
 					},
 					loadfailure: function (message) {}
@@ -366,6 +373,8 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	},
 
 	loadCreatedSessions: function () {
+		
+		console.log('loadCreatedSessions()');
 		var me = this;
 		var promise = new RSVP.Promise();
 

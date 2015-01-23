@@ -5,8 +5,8 @@ Ext.define('ARSnova.utils.AsyncUtils', {
         	var promise = new RSVP.Promise();
         		
         	var loop = function(result) {
-        		if (result) {
-        			actionOnResult(result);
+        		if (result && actionOnResult) {
+    				actionOnResult(result);
         		}
         		if (!condition()) {
         			return promise.resolve();
