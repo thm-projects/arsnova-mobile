@@ -111,34 +111,49 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			maxLength : 8,
 			disabled: false
 		});
-
-		this.markdownPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			xtype: 'mathJaxMarkDownPanel',
-			id: 'questionContent',
-			style: 'background-color: transparent; color: black; '
-		});
-
-		this.markdownPanel.setContent( this.getSession().ppDescription, true, true);	 
 		
-		// panel for question subject
-		this.titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			xtype: 'mathJaxMarkDownPanel',
-			id: 'questionTitle',
-			style: 'background-color: transparent; padding: 0;font-weight: bold; font-size: 1.4em;'
-		});
-		this.titlePanel.setContent('', false, true);	
-		
-		this.singleTemplatePanel = Ext.create('Ext.Panel',{	
-			
+		this.descriptionPanel = Ext.create('Ext.Panel',{
 			layout:	{
-				type: 'vbox',
+				type: 'hbox',
 				pack: 'center',
-				align: 'center' 
+				align: 'start'
 			},
-			 items:[ this.titlePanel,
-			         this.markdownPanel
-			      ]
+			style: {
+				'margin-top': '30px'
+			}
 		});
+		
+		if (this.getSession().ppLogo != null && this.getSession().ppLogo != "") {
+			
+			this.logoContainer = Ext.create('Ext.Container', {
+				flex: 1,
+				layout: {
+					pack: 'center',
+					align: 'center'
+				},
+				style: {
+					'padding-top': '25px',
+					'text-align': 'center'
+				},
+				html: '<img src="' + this.getSession().ppLogo + '" style="width: 100%; max-width: 100px;"></img>',
+			});
+			
+			this.descriptionPanel.add(this.logoContainer);
+		}
+		
+		if (this.getSession().ppDescription != null && this.getSession().ppDescription != "") {
+			
+			this.markdownPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+				xtype: 'mathJaxMarkDownPanel',
+				id: 'questionContent',
+				style: 'background-color: transparent; color: black; ',
+				flex: 4
+			});
+
+			this.markdownPanel.setContent( this.getSession().ppDescription, true, true);
+			
+			this.descriptionPanel.add(this.markdownPanel);
+		}
 		
 /*		this.sessionDescription = Ext.create('Ext.plugins.ResizableTextArea', {
 			label: Messages.SESSIONPOOL_INFO,
@@ -226,29 +241,12 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			scrollable: null,
 			itemId: 'contentForm',
 			items: [
-			        this.singleTemplatePanel,
+			        this.descriptionPanel,
 			        this.sessionFieldSet,
 			        this.creatorFieldSet
 			]
 		});
 
-		if (this.getSession().ppLogo != null) {
-			this.logoFieldSet = Ext.create('Ext.form.FieldSet', {
-				cls: 'standardFieldset',
-				itemId: 'contentFieldset',
-				items: [
-				        Ext.create('Ext.Img', { 
-				        	mode:'img', // not background 
-				        	style: {
-				        		'margin': '0px auto',
-				        	},
-				        	width: 100,
-				        	src:this.getSession().ppLogo
-				        })]
-			});
-			this.contentForm.add(this.logoFieldSet);
-		}
-		
 		this.add([
 			this.toolbar,
 			this.contentForm
