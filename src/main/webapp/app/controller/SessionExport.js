@@ -44,8 +44,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 					exportData[i]['session'][attrname] = customSessionAttributes[attrname];
 				}
 				
-				// remove public pool attributes from session
-				console.log('session', exportData[i].session);
 				for (var attrname in exportData[i].session) {
 					if (attrname.lastIndexOf('pp', 0) === 0) {
 						exportData[i].session[attrname] = null;
@@ -53,8 +51,10 @@ Ext.define("ARSnova.controller.SessionExport", {
 				}
 				// rewrite session type
 				exportData[i]['session']['sessionType'] = null;
-			
-				console.log('updated exportData', exportData[i]);
+				
+				// avoid storage caching (otherwise pp sessions can only be cloned once per arsnova browsersession)
+				exportData[i]['session']['_id'] = null;
+				exportData[i]['session']['_rev'] = null;
 				
 				// call import ctrl to save cloned session in db
 				ARSnova.app.getController("SessionImport").importSession(exportData[i], true);
