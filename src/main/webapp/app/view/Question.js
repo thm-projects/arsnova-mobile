@@ -521,6 +521,7 @@ Ext.define('ARSnova.view.Question', {
 			}
 			
 			if(this.viewOnly) {
+				console.log('view');
 				this.setAnswerCount();
 			}
 		});
@@ -538,14 +539,19 @@ Ext.define('ARSnova.view.Question', {
 	setAnswerCount: function() {
 		var questionType = this.questionObj.questionType;
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-		ARSnova.app.answerModel.getAnswerCount(this.questionObj._id, {
+		
+		ARSnova.app.answerModel.getAnswerAndAbstentionCount(this.questionObj._id, {
 			success: function (response) {
-				var numAnswers = parseInt(response.responseText);
-				
+				var numAnswers = JSON.parse(response.responseText),
+					answerCount = parseInt(numAnswers[0]);
+					abstentionCount = parseInt(numAnswers[1]);
+					
 				if(questionType === 'flashcard') {
-					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(numAnswers, Messages.ANSWERS_SHOWN);
+					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(answerCount, Messages.ANSWERS_SHOWN);
+				} else if(answerCount === abstentionCount && answerCount !== 0) {
+					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(abstentionCount, Messages.ABSTENTION);
 				} else {
-					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(numAnswers);
+					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(answerCount);
 				}
 			},
 			failure: function () {

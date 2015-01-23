@@ -135,10 +135,18 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	
 	setAnswerCount: function() {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-		ARSnova.app.answerModel.getAnswerCount(this.questionObj._id, {
+
+		ARSnova.app.answerModel.getAnswerAndAbstentionCount(this.questionObj._id, {
 			success: function (response) {
-				var numAnswers = parseInt(response.responseText);
-				sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(numAnswers);
+				var numAnswers = JSON.parse(response.responseText),
+					answerCount = parseInt(numAnswers[0]);
+					abstentionCount = parseInt(numAnswers[1]);
+					
+				if(answerCount === abstentionCount && answerCount !== 0) {
+					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(abstentionCount, Messages.ABSTENTION);
+				} else {
+					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(answerCount);
+				}
 			},
 			failure: function () {
 				console.log('server-side error');
