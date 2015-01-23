@@ -69,6 +69,26 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			levelsPP.push({text: entry, value: entry})
 		});
 		
+		this.matrixButtonPanel = Ext.create('Ext.Panel', {
+			layout: {
+				type: 'hbox',
+				pack: 'center'
+			}
+		});
+		this.exportMatrixButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: 'Export', 
+			buttonConfig: 'icon',
+			imageCls: 'icon-cloud-download ',
+			scope: this,
+			handler: function(button, e, eOpts) {
+					var me = button.up('SessionExportToPublicPanel');
+					me.ValidateInput(button, e, eOpts);
+				}
+			
+		});
+
+		this.matrixButtonPanel.add(this.exportMatrixButton);
+		
 		this.backButton = Ext.create('Ext.Button', {
 			text : Messages.BACK,
 			ui : 'back',
@@ -309,7 +329,12 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 						xtype: 'fieldset',
 						layout: 'vbox',
 						items: [this.logo ]
-			          }]
+			          },{
+							xtype: 'fieldset',
+							layout: 'vbox',
+							items: [this.matrixButtonPanel]
+				          }
+			          ]
 		});
 		
 		this.add([ this.toolbar, this.mainPart]);

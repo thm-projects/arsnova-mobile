@@ -230,6 +230,27 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			disabled: true
 		});
 		
+		this.copyButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: Messages.SESSIONPOOL_CLONE,
+			buttonConfig: 'icon',
+			imageCls: 'icon-copy thm-grey',
+			scope: this,
+			handler: function () {
+				var customSessionAttributes = {};
+				customSessionAttributes['name'] = me.sessionName.getValue();
+				customSessionAttributes['shortName'] = me.sessionShortName.getValue();
+				ARSnova.app.getController("SessionExport").cloneSessionFromPublicPool(me.getSession(), customSessionAttributes);
+			}
+		});
+			
+		this.matrixButtonPanel = Ext.create('Ext.Panel', {
+			layout: {
+				type: 'hbox',
+				pack: 'center'
+			},
+			items: [this.copyButton]
+		});
+		
 		this.creatorFieldSet = Ext.create('Ext.form.FieldSet', {
 			title: Messages.SESSIONPOOL_AUTHORINFO,
 			cls: 'standardFieldset',
@@ -243,7 +264,8 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			items: [
 			        this.descriptionPanel,
 			        this.sessionFieldSet,
-			        this.creatorFieldSet
+			        this.creatorFieldSet,
+			        this.matrixButtonPanel 
 			]
 		});
 
