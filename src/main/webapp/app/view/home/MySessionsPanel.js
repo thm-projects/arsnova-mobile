@@ -206,9 +206,17 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							var n = data.indexOf("base64,");
 							data = decodeURIComponent(escape(atob(data.substring(n+7)))); // remove disturbing prefix
 							var hideLoadMask = ARSnova.app.showLoadMask(Messages.IMP_LOADMSK);
-							var jsonContent = JSON.parse(data);
-							var ctrl = ARSnova.app.getController("SessionImport").importSession(jsonContent.exportData, true);
-							me.loadCreatedSessions();
+							
+							try {
+								var jsonContent = JSON.parse(data);
+						        if (jsonContent && typeof jsonContent === "object" && jsonContent !== null) {
+						        	var ctrl = ARSnova.app.getController("SessionImport").importSession(jsonContent.exportData, true);
+						        	me.loadCreatedSessions();
+						        }
+							} catch(e) {
+								console.log(e);
+								Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_FORMAT);
+							}
 							hideLoadMask();
 						}	
 					},
