@@ -59,7 +59,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 						duration: 700
 					});
 					if (loadSession)
-						me.loadSessionView(session);						
+						me.loadSessionView(session);					
 				},
 				failure: function(records, operation) {
 					Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_SAVE);
