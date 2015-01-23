@@ -54,8 +54,9 @@ Ext.define("ARSnova.controller.Sessions", {
 		var res = ARSnova.app.sessionModel.checkSessionLogin(options.keyword, {
 			success: function (response) {
 				var obj = Ext.decode(response.responseText);
+				
 				// check if user is creator of this session
-				if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
+				if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER && obj.creator !== "NOT VISIBLE TO YOU") {
 					ARSnova.app.isSessionOwner = true;
 				} else {
 					// check if session is open
@@ -63,6 +64,7 @@ Ext.define("ARSnova.controller.Sessions", {
 						Ext.Msg.alert("Hinweis", "Die Session \"" + obj.name +"\” ist momentan geschlossen.");
 						return;
 					}
+					ARSnova.app.userRole = ARSnova.app.USER_ROLE_STUDENT;
 					ARSnova.app.isSessionOwner = false;
 				}
 
@@ -173,8 +175,8 @@ Ext.define("ARSnova.controller.Sessions", {
 	reloadData: function () {
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 		var hideLoadMask = Ext.emptyFn;
-
-		if (ARSnova.app.isSessionOwner) {
+		
+		if (ARSnova.app.isSessionOwner && ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
 			/* add speaker in class panel */
 			if (!tabPanel.speakerTabPanel) {
 				tabPanel.speakerTabPanel = Ext.create('ARSnova.view.speaker.TabPanel');
