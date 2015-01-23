@@ -266,7 +266,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 											text: 'Pool',
 											itemId: 'no',
 											buttonConfig: 'icon',
-											imageCls: 'icon-cloud thm-darkblue'}
+											imageCls: 'icon-cloud thm-lightblue'}
 						        ]
 							});
 							
