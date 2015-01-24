@@ -201,6 +201,8 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 						sessionEntry = Ext.create('Ext.field.Toggle', {
 							id: 'sessionToggle_' + i,
 							label: Ext.util.Format.htmlEncode(displaytext),
+							labelWidth:'auto',
+							labelCls: 'session-toggle-label',
 							cls: 'rightAligned',
 							sessionObj: session,
 							value: sessionChecked
@@ -208,17 +210,13 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 						
 						sessionEntry.setListeners(toggleListener);
 					} else if (me.getExportType() == 'public_pool') {
-
-						console.log('session', session);
 						
 						sessionEntry = Ext.create('ARSnova.view.MultiBadgeButton', {
 							ui: 'normal',
 							text: Ext.util.Format.htmlEncode(displaytext),
-//							iconCls: course + " courseIcon",
 							cls: 'forwardListButton',
 							sessionObj: session,
 							handler: function (options) {
-								console.log('options', options.config.sessionObj);
 								var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 								
 								var exportSession = options.config.sessionObj;
@@ -255,7 +253,7 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 			},
 			failure: function () {
 				hideLoadMask();
-				console.log("my sessions request failure");
+				console.log("Error while getting sessions.");
 			}
 		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
 	},
