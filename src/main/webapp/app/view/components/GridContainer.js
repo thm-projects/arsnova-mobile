@@ -24,6 +24,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	config: {
 		gridSize: 16, // Sqrt of the gridcount
 		canvasSize: 400, // Size of the canvas element (width and height).
+		customWindowWidth: null, // Width of innerPanel (null if grid is not in a innerPanel)
 		initCanvasSize: 400, // Should be same as canvasSize; for later reference.
 		canvas: null, // The canvas element.
 		imageFile: null, // The image file.
@@ -77,6 +78,11 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		// set canvas size depending on screen size
 		var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		var extraPadding = 40;
+		
+		if(this.getCustomWindowWidth()) {
+			width = this.getCustomWindowWidth();
+		}
+		
 		var canvasSize = (width < 400 + extraPadding) ? width - extraPadding : 400;
 		this.setCanvasSize(canvasSize);
 
@@ -196,6 +202,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		
 		if(calcWidth < this.getCanvasSize()) {
 			calcWidth = scaleWidth > 1 ? calcWidth * scaleWidth : calcWidth;
+			calcWidth = calcWidth > this.getCanvasSize() ? this.getCanvasSize() : calcWidth;
 			this.image.html.width = calcWidth;
 		} else {
 			this.image.html.width = this.getCanvasSize();

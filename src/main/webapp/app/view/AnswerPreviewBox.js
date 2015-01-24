@@ -25,6 +25,8 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			direction: 'vertical',
 			directionLock: true
 		},
+		maxWidth: 320,
+		maxHeight: 640,
 		hideOnMaskTap: true,
 		layout: 'vbox'
 	},
@@ -39,14 +41,6 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			'height': '79%',
 			'width': '95%'
 		});
-		
-		if(Ext.os.is.Desktop) {
-			this.setMaxWidth('320px');
-			this.setMaxHeight('640px');
-		} else {
-			this.setMaxWidth('740px');
-			this.setMaxHeight('600px');
-		}
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.ANSWER_PREVIEW_DIALOGBOX_TITLE,
@@ -128,10 +122,11 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		this.answers = options.answers;
 		this.content = options.content;
 		this.setQuestionPanelContent(options.title, options.content);
-
+		
 		if (options.image) {
 			this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
 				itemId: 'previewGridImageContainer',
+				customWindowWidth: this.getMaxWidth(),
 				gridIsHidden: true,
 				editable: false
 			});
