@@ -45,16 +45,22 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		this.rootNode.removeAll();
 		
 		if (this.getSessions() !== null) {
+			// sort sessions by subject name
+			this.getSessions().sort(function(a,b) {return a.ppSubject > b.ppSubject;});
+			
 			Object.keys(this.getSessions()).forEach(function(key, index) {
-				var firstLevelNode = me.rootNode.findChild("id", '1_' + this[key].ppSubject, false);
+				var firstLevelId = '1_' + this[key].ppSubject;
+				var secLevelId   = '2_' +  this[key].ppLevel + '_' + firstLevelId;
+				var thirdLevelId = '3_' +  this[key].name + '_' + index + '_' + secLevelId;
 				
+				var firstLevelNode = me.rootNode.findChild("id", firstLevelId, false);
 				if (firstLevelNode == null) {
 					var firstLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
 						text: this[key].ppSubject,
 						itemCount: 1,
 						keyword: 0,
 						leaf: false,
-						id: '1_' + this[key].ppSubject
+						id: firstLevelId
 					});
 					firstLevelNode = me.rootNode.appendChild(firstLevelEntry);
 					firstLevelNode.removeAll();
@@ -74,42 +80,38 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 							itemCount: 0,
 							keyword: 0,
 							leaf: false,
-							id: '2_' + entry,
-							badgeCls: 'hidden',
+							id: '2_' +  entry + '_' + firstLevelId,
+							badgeCls: 'hidden', 
 							itemCls: 'ppSingleItemBackground'
 						});
+						var thirdTemp = Ext.create('ARSnova.view.home.PPListItem');
+						
 						var secLevelNode = firstLevelNode.appendChild(secondLevelEntry);
 						secLevelNode.removeAll();
+						secLevelNode.appendChild(thirdTemp);
 					});
 					
 				} else {
 					firstLevelNode._data.itemCount++;
 				}
 				
-				var secLevelNode = firstLevelNode.findChild("id", '2_' + this[key].ppLevel, false);
-				if (secLevelNode == null) {
-					var secondLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
-						text: this[key].ppLevel,
-						itemCount: 1,
-						keyword: 0,
-						leaf: false,
-						id: '2_' + this[key].ppLevel
-					});
-					secLevelNode = firstLevelNode.appendChild(secondLevelEntry);
-					secLevelNode.removeAll();
-				} else {
+				var secLevelNode = firstLevelNode.findChild("id", secLevelId, false);
+				if (secLevelNode != null) {
+					if (secLevelNode._data.itemCount == 0)
+						secLevelNode.removeAll();
 					secLevelNode._data.badgeCls = '';
 					secLevelNode._data.itemCls = '';
 					secLevelNode._data.itemCount++;
+					
+					secLevelNode.appendChild(Ext.create('ARSnova.view.home.PPListItem', {
+						text: this[key].name,
+						itemCount: 0,
+						keyword: this[key].keyword,
+						leaf: true,
+						id: thirdLevelId,
+						badgeCls: 'hidden'
+					}));
 				}
-				secLevelNode.appendChild(Ext.create('ARSnova.view.home.PPListItem', {
-					text: this[key].name,
-					itemCount: 0,
-					keyword: this[key].keyword,
-					leaf: true,
-					id: '3_' + this[key].name,
-					badgeCls: 'hidden'
-				}));
 			}, this.getSessions());
 		}
 		
@@ -151,7 +153,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		        	me.backButton.hide();
 		        },
 		        activeitemchange: function(nestedList, value, oldValue, eOpts ) {
-		        	var record = nestedList.getActiveItem().getStore().getNode();
+		        	var record = me.nestedList.getActiveItem().getStore().getNode();
 		        	if (record._data.itemCount == 0) {
 		        		Ext.create('Ext.MessageBox').show({
 							title: Messages.SESSIONPOOL_TITLE,
@@ -159,7 +161,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 							buttons: this.OK,
 							hideOnMaskTap: true,
 							fn: function(btn) {
-								nestedList.onBackTap();
+								me.nestedList.onBackTap();
 							}
 						});
 		        		return false;
