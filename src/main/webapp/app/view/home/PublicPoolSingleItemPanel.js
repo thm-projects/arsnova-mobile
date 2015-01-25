@@ -57,6 +57,13 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 				customSessionAttributes['name'] = me.sessionName.getValue();
 				customSessionAttributes['shortName'] = me.sessionShortName.getValue();
 				ARSnova.app.getController("SessionExport").cloneSessionFromPublicPool(me.getSession(), customSessionAttributes);
+			
+				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+				hTP.animateActiveItem(hTP.mySessionsPanel, {
+					type: 'slide',
+					direction: 'right',
+					duration: 700
+				});
 			},
 			scope: this
 		});
@@ -155,25 +162,6 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			this.descriptionPanel.add(this.markdownPanel);
 		}
 		
-/*		this.sessionDescription = Ext.create('Ext.plugins.ResizableTextArea', {
-			label: Messages.SESSIONPOOL_INFO,
-			name: 'sessionDescription',
-			//value: this.markdownPanel,
-			disabledCls: 'disableDefault',
-			inputCls: 'thm-grey',
-			disabled: true,
-			item: [this.markdownPanel]
-		});
-*/
-//		this.sessionQuestionCount = Ext.create('Ext.field.Text', {
-//			label: Messages.SESSIONPOOL_COUNT_QUESTION,
-//			name: 'sessionQuestionCount',
-//			value: this.getQuestionCount(),
-//			disabledCls: 'disableDefault',
-//			inputCls: 'thm-grey',
-//			disabled: true
-//		});
-		
 		this.sessionLicense = Ext.create('Ext.field.Text', {
 			label: Messages.EXPORT_FIELD_LICENCE,
 			name: 'sessionLicense',
@@ -239,7 +227,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 				var customSessionAttributes = {};
 				customSessionAttributes['name'] = me.sessionName.getValue();
 				customSessionAttributes['shortName'] = me.sessionShortName.getValue();
-				ARSnova.app.getController("SessionExport").cloneSessionFromPublicPool(me.getSession(), customSessionAttributes);
+				ARSnova.app.getController("SessionExport").cloneSessionFromPublicPool(me.getSession(), customSessionAttributes);			
 			}
 		});
 			
@@ -268,7 +256,12 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			        this.matrixButtonPanel 
 			]
 		});
-
+		
+		 if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) 
+			 this.matrixButtonPanel.hide();
+		 else if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER)
+			 this.matrixButtonPanel.setHidden(false);
+		 
 		this.add([
 			this.toolbar,
 			this.contentForm
