@@ -188,8 +188,8 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 					var longDateString  = "";
 					if (session.creationTime != 0) {
 						var d               = new Date(session.creationTime);
-						var shortDateString = " ("+d.getDate()+"."+(parseInt(d.getMonth())+1)+"."+d.getFullYear()+")";
-						var longDateString  = " ("+d.getDate()+"."+(parseInt(d.getMonth())+1)+"."+d.getFullYear()+" "+d.getHours()+":"+('0'+d.getMinutes()).slice(-2)+")";
+						var shortDateString = " ("+moment(d).format('MMM Do YY') +")";
+						var longDateString  = " ("+ moment(d).format('lll') +")";
 					}
 					
 					// Minimum width of 321px equals at least landscape view

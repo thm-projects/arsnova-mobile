@@ -369,7 +369,7 @@ switch (lang) {
 			EXPORT_FIELD_EMAIL: "Email",
 			EXPORT_FIELD_SPECIAL_FIELD: "Faculty",
 			EXPORT_SELECTED_SESSIONS_TITLE : "Export sessions",
-			EXPORT_SELECTED_SESSIONS_MSG : "Where should the session(s) be exported",
+			EXPORT_SELECTED_SESSIONS_MSG : "Where should the session(s) be exported?",
 			EXPORT_SESSION_INFORMATION: "Auditorium and prepare questions for the selected sessions will be exported.",
 			EXPORT_NOTIFICATION:	"No session selected.",
 			EXPORT_IOS_NOTIFICATION: "An export can not be performed on iOS devices.",
