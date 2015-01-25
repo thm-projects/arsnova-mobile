@@ -18,7 +18,7 @@
 Ext.define('ARSnova.view.home.PPListItem', {
             extend: 'Ext.data.Model',
             config: {
-                fields: ['text', 'itemCount', 'keyword', 'id']
+                fields: ['text', 'itemCount', 'keyword', 'id', 'badgeCls', 'itemCls']
             }
         });
 
@@ -31,6 +31,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 	
 	initialize: function () {
 		this.callParent(arguments);
+		var config = ARSnova.app.globalConfig;
 		var me = this;
 		
 		this.treeStore = Ext.create('Ext.data.TreeStore', {
@@ -57,6 +58,30 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 					});
 					firstLevelNode = me.rootNode.appendChild(firstLevelEntry);
 					firstLevelNode.removeAll();
+					
+					// create all niveau entries
+					switch (lang) {
+					case 'en':case 'en-en':case 'en-us':case 'en-gb':
+						var levels = config.publicPool.levelsEn.split(',');
+						break;
+					default:
+						var levels = config.publicPool.levelsDe.split(',');
+					}
+					
+					levels.forEach(function(entry){
+						var secondLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
+							text: entry,
+							itemCount: 0,
+							keyword: 0,
+							leaf: false,
+							id: '2_' + entry,
+							badgeCls: 'hidden',
+							itemCls: 'ppSingleItemBackground'
+						});
+						var secLevelNode = firstLevelNode.appendChild(secondLevelEntry);
+						secLevelNode.removeAll();
+					});
+					
 				} else {
 					firstLevelNode._data.itemCount++;
 				}
@@ -73,6 +98,8 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 					secLevelNode = firstLevelNode.appendChild(secondLevelEntry);
 					secLevelNode.removeAll();
 				} else {
+					secLevelNode._data.badgeCls = '';
+					secLevelNode._data.itemCls = '';
 					secLevelNode._data.itemCount++;
 				}
 				secLevelNode.appendChild(Ext.create('ARSnova.view.home.PPListItem', {
@@ -80,7 +107,8 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 					itemCount: 0,
 					keyword: this[key].keyword,
 					leaf: true,
-					id: '3_' + this[key].name
+					id: '3_' + this[key].name,
+					badgeCls: 'hidden'
 				}));
 			}, this.getSessions());
 		}
@@ -114,6 +142,22 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		        itemtap: function(nestedList, list, index, target, record) {
 		        	// hide back button which just navigates to the mysession view
 		        	me.backButton.hide();
+		        },
+		        activeitemchange: function(nestedList, value, oldValue, eOpts ) {
+		        	var record = nestedList.getActiveItem().getStore().getNode();
+		        	if (record._data.itemCount == 0) {
+		        		Ext.create('Ext.MessageBox').show({
+							title: Messages.SESSIONPOOL_TITLE,
+							message: Messages.SESSIONPOOL_ERR_CAT_NOTFOUND,
+							buttons: this.OK,
+							hideOnMaskTap: true,
+							fn: function(btn) {
+								nestedList.onBackTap();
+							}
+						});
+		        		return false;
+		        	}
+		        	return true;
 		        },
 		        leafitemtap: function(nestedList, list, index, node, record, e) {
 		        	var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK);
@@ -149,7 +193,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		        }		        
 		    },
 		    getItemTextTpl: function(node) {
-		    	return '<div class="x-unsized x-button x-button-normal x-iconalign-left forwardListButton x-hasbadge"><span class="x-button-label">{text}</span><span class="feedbackQuestionsBadgeIcon">{itemCount}</span></div>';	
+		    	return '<div class="x-unsized x-button forwardListButton x-hasbadge {itemCls}"><span class="x-button-label">{text}</span><span class="feedbackQuestionsBadgeIcon {badgeCls}">{itemCount}</span></div>';	
 		    }
         });
 		

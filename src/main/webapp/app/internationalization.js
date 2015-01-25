@@ -377,10 +377,12 @@ switch (lang) {
 			EXPORT_BUTTON_PP: "Public Pool",
 			EXPORT_PP_NOTIFICATION: 'As a "guest" you can not export a session in the public pool. Please log in using one of the other approaches.',
 			EXPORT_SESSION_LABEL: 'Selection of sessions to be exported',
+			
 			/*Import session*/
 			IMPORT_IOS_NOTIFICATION: "An import can not be performed on iOS devices",
 			
 			/*Public pool*/
+			SESSIONPOOL_LEVEL: "Level",
 			SESSIONPOOL_CLONE: "Copy",
 			SESSIONPOOL_AUTHORINFO: "Author information",
 			SESSIONPOOL_SESSIONINFO: "Public Session information",
@@ -397,6 +399,7 @@ switch (lang) {
 			SESSIONPOOL_NOTIFICATION_QUESTION_NUMBER: "Session must contain at least one question",
 			SESSIONPOOL_NOTIFICATION:	"The formular is not complete",
 			SESSIONPOOL_ERR_GET_NOTFOUND: "Could not find session.",
+			SESSIONPOOL_ERR_CAT_NOTFOUND: "No sessions available for this category.",
 			SESSIONPOOL_ERR_NO_PPSESSIONS: "No public pool sessions found.",
 			SESSIONPOOL_ERR_PPSESSION_RIGHTS: "You do not have sufficient rights to see the session.",
 			SESSIONPOOL_ERR_GET_SESSION: "You do not have sufficient rights to see the session.",
@@ -849,6 +852,7 @@ switch (lang) {
 			IMPORT_IOS_NOTIFICATION: "Ein Import kann auf iOS Geräten nicht durchgeführt werden",
 			
 			/*Public pool*/
+			SESSIONPOOL_LEVEL: "Niveau",
 			SESSIONPOOL_CLONE: "Kopieren",
 			SESSIONPOOL_AUTHORINFO: "Verfasserinformation",
 			SESSIONPOOL_SESSIONINFO: "Sessioninformation",
@@ -864,6 +868,7 @@ switch (lang) {
 			SESSIONPOOL_NOTIFICATION_SESSION_SHORTNAME:	"Kein Kürzel für die Session angegeben",
 			SESSIONPOOL_NOTIFICATION_QUESTION_NUMBER: "Session muss mindestens eine Frage beinhalten",
 			SESSIONPOOL_NOTIFICATION:	"Eingaben sind nicht korrekt",
+			SESSIONPOOL_ERR_CAT_NOTFOUND: "Für diese Kategorie sind keine Sessions verfügbar.",
 			SESSIONPOOL_ERR_GET_NOTFOUND: "Session konnte nicht geladen werden.",
 			SESSIONPOOL_ERR_NO_PPSESSIONS: "Keine Public Pool Sessions gefunden.",
 			SESSIONPOOL_ERR_PPSESSION_RIGHTS: "Sie haben nicht die Berechtigung, um Public Pool Sessions zu sehen.",

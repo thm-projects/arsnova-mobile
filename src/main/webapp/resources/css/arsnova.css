@@ -1537,12 +1537,12 @@ ol.standardList li {
 	width: 95.15%;
 }
 
-.x-list-item-leaf .feedbackQuestionsBadgeIcon {
-	display: none;
-}
-
 .fileUploadButtonFieldset.longText {
 	max-width: 604px; 
+}
+
+.ppSingleItemBackground {
+	background: white !important;
 }
 
 .hidden {
