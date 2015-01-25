@@ -92,11 +92,18 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 			handler: function () {
 				me.treeStore.removeAll();
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				hTP.animateActiveItem(hTP.homePanel, {
-					type: 'slide',
-					direction: 'right',
-					duration: 700
-				});
+				var activeHTP;
+			
+				if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_STUDENT)
+					activeHTP = hTP.homePanel;
+				else if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER)
+					activeHTP = hTP.mySessionsPanel;
+				
+					hTP.animateActiveItem(activeHTP, {
+						type: 'slide',
+						direction: 'right',
+						duration: 700
+					});
 			}
 		});
 		
