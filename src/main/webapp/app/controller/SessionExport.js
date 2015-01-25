@@ -26,7 +26,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 	
 	cloneSessionFromPublicPool: function(session, customSessionAttributes) {
 		var me = this;
-		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_PP_CLONE);
+		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_PP_CLONE, 240000);
 		
 		// call exportSessions() with this session to get all necessary data
 		// remove pp-Attributes (public pool)
@@ -57,10 +57,19 @@ Ext.define("ARSnova.controller.SessionExport", {
 				exportData[i]['session']['_rev'] = null;
 				
 				// call import ctrl to save cloned session in db
-				ARSnova.app.getController("SessionImport").importSession(exportData[i]);
-			}
-			
-			hideLoadMask();
+				ARSnova.app.getController("SessionImport").importSession(exportData[i])
+					.then(function() {
+						// exportData contains only a single element, so this is only called once
+						hideLoadMask();
+						// forward to session panel
+						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+						hTP.animateActiveItem(hTP.mySessionsPanel, {
+							type: 'slide',
+							direction: 'right',
+							duration: 700
+						});
+					});
+			}			
 		});
 	},
 	
@@ -73,7 +82,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 	exportSessionsToPublicPool: function(exportSessions, publicPoolAttributes) {
 		var me = this;
 		
-		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_EXPORT);
+		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_EXPORT, 240000);
 		
 		this.exportSessions(exportSessions, true, true)
 		.then(function(exportData) {
@@ -90,8 +99,18 @@ Ext.define("ARSnova.controller.SessionExport", {
 				
 				
 				// call import ctrl to save public pool session in db
-				ARSnova.app.getController("SessionImport").importSession(exportData[i]);
-				hideLoadMask();
+				ARSnova.app.getController("SessionImport").importSession(exportData[i])
+					.then(function() {
+						console.log('after session import');
+						hideLoadMask();
+						// forward to session panel
+						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+						hTP.animateActiveItem(hTP.mySessionsPanel, {
+							type: 'slide',
+							direction: 'right',
+							duration: 700
+						});
+					});
 			}
 		});
 	},
@@ -112,7 +131,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 				sessions.push(exportSessionMap[i][0]);
 		}
 		
-		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_EXPORT);
+		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_EXPORT, 240000);
 		
 		this.exportSessions(sessions, withAnswerStatistics, withFeedbackQuestions)
 		.then(function(exportData) {
