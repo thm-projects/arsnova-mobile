@@ -255,7 +255,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				var sessions = Ext.decode(response.responseText);
 				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.mySessionsPanel;
 				var caption = panel.caption;
-
+				
 				panel.sessionsForm.removeAll();
 				panel.sessionsForm.show();
 				
@@ -265,7 +265,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 								
 				var session;
 				for (var i = 0, session; session = sessions[i]; i++) {
-					
 					var status = "";
 					var course = "icon-presenter";
 
@@ -298,7 +297,8 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						}
 					});
 					sessionButton.setBadge([
-						{badgeText: session.numInterposed, badgeCls: "unreadFeedbackQuestionsBadgeIcon"},
+						{badgeText: session.numInterposed, badgeCls: "feedbackQuestionsBadgeIcon"},
+						{badgeText: session.numUnredInterposed, badgeCls: "unreadFeedbackQuestionsBadgeIcon"},
 						{badgeText: session.numQuestions, badgeCls: "questionsBadgeIcon"},
 						{badgeText: session.numAnswers, badgeCls: "answersBadgeIcon"}
 					]);
