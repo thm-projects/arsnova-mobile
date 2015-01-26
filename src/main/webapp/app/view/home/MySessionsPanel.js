@@ -230,13 +230,14 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				imageCls: 'icon-cloud-upload ',
 				scope: this,
 				handler: function() {
-					if(Ext.os.is.iOS)
-						Ext.Msg.alert(Messages.NOTIFICATION, Messages.IMPORT_IOS_NOTIFICATION);
+					var msg = "";
+					if((msg = this.importSupport()) !== "")
+						Ext.Msg.alert(Messages.NOTIFICATION, msg);
 				},
 			});
 
 			this.importButtonPanel = Ext.create('Ext.Panel');
-			if(!Ext.os.is.iOS)
+			if(this.importSupport() === "")
 				this.importButtonPanel.add(this.importButtonClickable);
 			this.importButtonPanel.add(this.importButton);
 			
@@ -632,5 +633,20 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		if (typeof element !== undefined && element != null)
 			element.setHidden(hidden);
 		
+	},
+	
+	/**
+	 * Checks if the session import feature is available on that
+	 * device or browser.
+	 * 
+	 * @return An error message on failure or an empty string on success
+	 */
+	importSupport: function() {
+		if (Ext.os.is.iOS)
+			return Messages.IMPORT_IOS_NOTIFICATION;
+		else if (!window.FileReader)
+			return Messages.IMPORT_NOT_SUPPORTED;
+		else
+			return "";
 	}
 });

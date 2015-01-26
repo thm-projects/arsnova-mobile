@@ -379,7 +379,8 @@ switch (lang) {
 			EXPORT_SESSION_LABEL: 'Selection of sessions to be exported',
 			
 			/*Import session*/
-			IMPORT_IOS_NOTIFICATION: "An import can not be performed on iOS devices",
+			IMPORT_IOS_NOTIFICATION: "An import can not be performed on iOS devices.",
+			IMPORT_NOT_SUPPORTED: "Session Import is not supported for your browser.",
 			
 			/*Public pool*/
 			SESSIONPOOL_LEVEL: "Level",
@@ -850,6 +851,7 @@ switch (lang) {
 			EXPORT_SESSION_LABEL:	'Auswahl der Session(s), die exportiert werden', 
 			/*Import session*/
 			IMPORT_IOS_NOTIFICATION: "Ein Import kann auf iOS Geräten nicht durchgeführt werden",
+			IMPORT_NOT_SUPPORTED: "Der Session Import wird für Ihren Browser nicht unterstützt.",
 			
 			/*Public pool*/
 			SESSIONPOOL_LEVEL: "Niveau",
