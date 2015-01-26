@@ -312,6 +312,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	showNotification: function (questionIds, variant) {
+		var titleLabel;
 		var callback = Ext.bind(function (answer) {
 			if (answer == 'yes') {
 				if (variant === 'lecture') {
@@ -321,13 +322,19 @@ Ext.define('ARSnova.view.user.InClass', {
 				}
 			}
 		}, this);
+		
 		if (questionIds.length == 1) {
-			Ext.Msg.confirm(Messages.ONE_NEW_QUESTION, Messages.WANNA_ANSWER, callback);
+			titleLabel = variant === 'lecture' ? 
+				Messages.ONE_NEW_LECTURE_QUESTION : 
+				Messages.ONE_NEW_PREPARATION_QUESTION;
+			
+			Ext.Msg.confirm(titleLabel, Messages.WANNA_ANSWER, callback);
 		} else {
-			Ext.Msg.confirm(
-				Messages.THERE_ARE + ' ' + questionIds.length + ' ' + Messages.NEW_QUESTIONS, Messages.WANNA_ANSWER,
-				callback
-			);
+			titleLabel = variant === 'lecture' ? 
+				Messages.SEVERAL_NEW_LECTURE_QUESTIONS : 
+				Messages.SEVERAL_NEW_PREPARATION_QUESTIONS;
+			
+			Ext.Msg.confirm(titleLabel.replace('###', questionIds.length), Messages.WANNA_ANSWER, callback);
 		}
 	},
 
