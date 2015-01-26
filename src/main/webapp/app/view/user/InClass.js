@@ -189,7 +189,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			scrollable: null,
 			items: [{
 				cls: 'gravure',
-				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(localStorage.getItem("keyword"))
+				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(sessionStorage.getItem("keyword"))
 			}, this.actionButtonPanel, this.inClassButtons]
 		});
 
@@ -354,14 +354,14 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	checkFeedbackRemoved: function (sessions) {
-		if (Ext.Array.contains(sessions, localStorage.getItem("keyword"))) {
+		if (Ext.Array.contains(sessions, sessionStorage.getItem("keyword"))) {
 			Ext.Msg.alert(Messages.NOTICE, Messages.FEEDBACK_RESET);
 		}
 	},
 
 	countFeedbackQuestions: function () {
 		var me = this;
-		ARSnova.app.questionModel.countFeedbackQuestions(localStorage.getItem("keyword"), {
+		ARSnova.app.questionModel.countFeedbackQuestions(sessionStorage.getItem("keyword"), {
 			success: function (response) {
 				var questionCount = Ext.decode(response.responseText);
 
@@ -405,7 +405,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 	checkLearningProgress: function () {
 		var me = this;
-		ARSnova.app.sessionModel.getMyLearningProgress(localStorage.getItem("keyword"), {
+		ARSnova.app.sessionModel.getMyLearningProgress(sessionStorage.getItem("keyword"), {
 			success: function (response) {
 				var goodProgressThreshold = 75;
 				var avgProgressThreshold = 25;

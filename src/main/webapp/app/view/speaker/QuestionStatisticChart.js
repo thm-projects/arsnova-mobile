@@ -357,7 +357,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	},
 
 	getQuestionAnswers: function () {
-		ARSnova.app.questionModel.countAnswers(localStorage.getItem('keyword'), this.questionObj._id, {
+		ARSnova.app.questionModel.countAnswers(sessionStorage.getItem('keyword'), this.questionObj._id, {
 			success: function (response) {
 				var panel = ARSnova.app.mainTabPanel._activeItem;
 				var chart = panel.questionChart;

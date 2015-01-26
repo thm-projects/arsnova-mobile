@@ -84,7 +84,7 @@ Ext.define("ARSnova.controller.Questions", {
 
 	deleteAllQuestionsAnswers: function (callbacks) {
 		var question = Ext.create('ARSnova.model.Question');
-		question.deleteAllQuestionsAnswers(localStorage.getItem("keyword"), callbacks);
+		question.deleteAllQuestionsAnswers(sessionStorage.getItem("keyword"), callbacks);
 	},
 
 	destroyAll: function () {
@@ -285,7 +285,7 @@ Ext.define("ARSnova.controller.Questions", {
 	},
 
 	setAllActive: function (options) {
-		ARSnova.app.questionModel.publishAllSkillQuestions(localStorage.getItem("keyword"),
+		ARSnova.app.questionModel.publishAllSkillQuestions(sessionStorage.getItem("keyword"),
 				options.active, options.isLectureMode, options.isPreparationMode, {
 			success: function () {
 				options.callback.apply(options.scope);
@@ -332,6 +332,6 @@ Ext.define("ARSnova.controller.Questions", {
 	},
 
 	deleteAllInterposedQuestions: function (callbacks) {
-		ARSnova.app.questionModel.deleteAllInterposedQuestions(localStorage.getItem('keyword'), callbacks);
+		ARSnova.app.questionModel.deleteAllInterposedQuestions(sessionStorage.getItem('keyword'), callbacks);
 	}
 });

@@ -1028,7 +1028,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			if (this.questionObj.questionType === "freetext") {
 				var self = this;
 
-				ARSnova.app.questionModel.getAnsweredFreetextQuestions(localStorage.getItem("keyword"), this.questionObj._id, {
+				ARSnova.app.questionModel.getAnsweredFreetextQuestions(sessionStorage.getItem("keyword"), this.questionObj._id, {
 					success: function (response) {
 						var responseObj = Ext.decode(response.responseText);
 						var listItems = responseObj.map(function (item) {
@@ -1077,7 +1077,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					}
 				});
 			} else {
-				ARSnova.app.questionModel.countAnswers(localStorage.getItem('keyword'), this.questionObj._id, {
+				ARSnova.app.questionModel.countAnswers(sessionStorage.getItem('keyword'), this.questionObj._id, {
 					success: function (response) {
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
 						var answers = Ext.decode(response.responseText);

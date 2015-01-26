@@ -165,7 +165,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 	checkFreetextAnswers: function () {
 		var me = this;
 		
-		ARSnova.app.questionModel.getAnsweredFreetextQuestions(localStorage.getItem("keyword"), this.questionObj._id, {
+		ARSnova.app.questionModel.getAnsweredFreetextQuestions(sessionStorage.getItem("keyword"), this.questionObj._id, {
 			success: function (response) {
 				var responseObj = Ext.decode(response.responseText);
 				var answerLabel = me.noAnswersLabel.getInnerItems()[0];

@@ -243,7 +243,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		this.onBefore('activate', function () {
 			var me = this;
 			
-			ARSnova.app.feedbackModel.getFeedback(localStorage.getItem('keyword'), {
+			ARSnova.app.feedbackModel.getFeedback(sessionStorage.getItem('keyword'), {
 				success: function(response) {
 					var feedback = Ext.decode(response.responseText);
 					me.updateChart(feedback.values);

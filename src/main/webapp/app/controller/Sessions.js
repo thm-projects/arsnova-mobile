@@ -77,6 +77,8 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('courseType', obj.courseType === null ? "" : obj.courseType);
 				localStorage.setItem('active', obj.active ? 1 : 0);
 				localStorage.setItem('creationTime', obj.creationTime);
+			
+				sessionStorage.setItem('keyword', obj.keyword);
 				
 				// deactivate several about tabs
 				ARSnova.app.mainTabPanel.tabPanel.deactivateAboutTabs();
@@ -376,7 +378,7 @@ Ext.define("ARSnova.controller.Sessions", {
 	},
 
 	setActive: function (options) {
-		ARSnova.app.sessionModel.lock(localStorage.getItem("keyword"), options.active, {
+		ARSnova.app.sessionModel.lock(sessionStorage.getItem("keyword"), options.active, {
 			success: function () {
 				// update this session in localStorage
 				var sessions = Ext.decode(localStorage.getItem('lastVisitedSessions'));

@@ -212,7 +212,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 					msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
 				Ext.Msg.confirm(Messages.DELETE_QUESTIONS_TITLE, msg, function (answer) {
 					if (answer == 'yes') {
-						this.getController().destroyAll(localStorage.getItem("keyword"), {
+						this.getController().destroyAll(sessionStorage.getItem("keyword"), {
 							success: Ext.bind(this.onActivate, this),
 							failure: function () {
 								console.log("could not delete the questions.");
@@ -277,7 +277,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 		this.questionEntries = [];
 
-		this.getController().getQuestions(localStorage.getItem('keyword'), {
+		this.getController().getQuestions(sessionStorage.getItem('keyword'), {
 			success: Ext.bind(function (response) {
 				var questions = Ext.decode(response.responseText);
 				this.questionStore.add(questions);
@@ -327,7 +327,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	getQuestionAnswers: function () {
 		var me = this;
 		var getAnswerCount = function (questionRecord, promise) {
-			me.getController().countAnswersByQuestion(localStorage.getItem("keyword"), questionRecord.get('_id'), {
+			me.getController().countAnswersByQuestion(sessionStorage.getItem("keyword"), questionRecord.get('_id'), {
 				success: function (response) {
 					var numAnswers = Ext.decode(response.responseText);
 					questionRecord.set('numAnswers', numAnswers);
