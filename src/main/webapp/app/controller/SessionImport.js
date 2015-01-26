@@ -245,8 +245,8 @@ Ext.define("ARSnova.controller.SessionImport", {
 	getElements: function(json, className) {
 		var store = new Ext.data.Store({
 			model: className,
-			data: eval('(' + JSON.stringify(json).trim() + ')'),
-		});
+			data: json
+			});
 		
 		// return store data as array for use in promise-while-loops
 		var arrayStore = [];
