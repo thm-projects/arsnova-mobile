@@ -18,140 +18,202 @@
 Ext.define('ARSnova.view.home.PPListItem', {
             extend: 'Ext.data.Model',
             config: {
-                fields: ['text', 'itemCount']
+                fields: ['text', 'itemCount', 'keyword', 'id', 'badgeCls', 'itemCls']
             }
         });
 
 Ext.define('ARSnova.view.home.PublicPoolPanel', {
 	extend: 'Ext.Panel',
 	
+	config: {
+		sessions: null
+	},
 	
 	initialize: function () {
 		this.callParent(arguments);
-		
+		var config = ARSnova.app.globalConfig;
 		var me = this;
 		
 		this.treeStore = Ext.create('Ext.data.TreeStore', {
             model: 'ARSnova.view.home.PPListItem',
-            defaultRootProperty: 'items',
-            root: {
-                items: [{
-                    text: 'BWL',
-                    itemCount: '1',
-                    items: [{
-                        text: 'Makroökonomie',
-                        itemCount: '1',
-                        items: [{
-                            text: 'Super BWL Session',
-                            itemCount: '12',
-                            leaf: true
-                        }]
-                    }]
-                },
-                {
-                    text: 'Informatik',
-                    itemCount: '2',
-                    items: [{
-                        text: 'Softwaretechnik',
-                        itemCount: '1',
-                        items: [{
-                            text: 'Geniale Fragen für SWT',
-                            itemCount: '8',
-                            leaf: true
-                        }]
-                    }, {
-                        text: 'Compilerbau',
-                        itemCount: '2',
-                        items: [{
-                            text: 'Einführung Compilerbau',
-                            itemCount: '13',
-                            leaf: true
-                        },
-                        {
-                            text: 'Compileroptimierung',
-                            itemCount: '7',
-                            leaf: true
-                        }]
-                    }]
-                }]
-            }
+            defaultRootProperty: 'items'
         });
+		this.rootNode = this.treeStore.getRoot();
+		
+		// ensure that objects are empty (is not ensured, even if they're just created)
+		this.treeStore.removeAll();
+		this.rootNode.removeAll();
+		
+		if (this.getSessions() !== null) {
+			// sort sessions by subject name
+			this.getSessions().sort(function(a,b) {return a.ppSubject > b.ppSubject;});
+			
+			Object.keys(this.getSessions()).forEach(function(key, index) {
+				var firstLevelId = '1_' + this[key].ppSubject;
+				var secLevelId   = '2_' +  this[key].ppLevel + '_' + firstLevelId;
+				var thirdLevelId = '3_' +  this[key].name + '_' + index + '_' + secLevelId;
+				
+				var firstLevelNode = me.rootNode.findChild("id", firstLevelId, false);
+				if (firstLevelNode == null) {
+					var firstLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
+						text: this[key].ppSubject,
+						itemCount: 1,
+						keyword: 0,
+						leaf: false,
+						id: firstLevelId
+					});
+					firstLevelNode = me.rootNode.appendChild(firstLevelEntry);
+					firstLevelNode.removeAll();
+					
+					// create all niveau entries
+					switch (lang) {
+					case 'en':case 'en-en':case 'en-us':case 'en-gb':
+						var levels = config.publicPool.levelsEn.split(',');
+						break;
+					default:
+						var levels = config.publicPool.levelsDe.split(',');
+					}
+					
+					levels.forEach(function(entry){
+						var secondLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
+							text: entry,
+							itemCount: 0,
+							keyword: 0,
+							leaf: false,
+							id: '2_' +  entry + '_' + firstLevelId,
+							badgeCls: 'hidden', 
+							itemCls: 'ppSingleItemBackground'
+						});
+						var thirdTemp = Ext.create('ARSnova.view.home.PPListItem');
+						
+						var secLevelNode = firstLevelNode.appendChild(secondLevelEntry);
+						secLevelNode.removeAll();
+						secLevelNode.appendChild(thirdTemp);
+					});
+					
+				} else {
+					firstLevelNode._data.itemCount++;
+				}
+				
+				var secLevelNode = firstLevelNode.findChild("id", secLevelId, false);
+				if (secLevelNode != null) {
+					if (secLevelNode._data.itemCount == 0)
+						secLevelNode.removeAll();
+					secLevelNode._data.badgeCls = '';
+					secLevelNode._data.itemCls = '';
+					secLevelNode._data.itemCount++;
+					
+					secLevelNode.appendChild(Ext.create('ARSnova.view.home.PPListItem', {
+						text: this[key].name,
+						itemCount: 0,
+						keyword: this[key].keyword,
+						leaf: true,
+						id: thirdLevelId,
+						badgeCls: 'hidden'
+					}));
+				}
+			}, this.getSessions());
+		}
+		
 		
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.SESSIONS,
 			ui: 'back',
 			handler: function () {
+				me.treeStore.removeAll();
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				hTP.animateActiveItem(hTP.mySessionsPanel, {
-					type: 'slide',
-					direction: 'right',
-					duration: 700
-				});
+				var activeHTP;
+			
+				if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_STUDENT)
+					activeHTP = hTP.homePanel;
+				else if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER)
+					activeHTP = hTP.mySessionsPanel;
+				
+					hTP.animateActiveItem(activeHTP, {
+						type: 'slide',
+						direction: 'right',
+						duration: 700
+					});
 			}
-		});
-		
-		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: 'Session Pool',
-			docked: 'top',
-			ui: 'light',
-			items: [
-				this.backButton,
-				{xtype:'spacer'}
-			]
 		});
 		
 		this.nestedList = Ext.create('Ext.dataview.NestedList', {
 			store: this.treeStore,
 			fullscreen: true,
 			style: 'width:100%; height:100%;',
+			cls: 'standardFieldset',
 			scrollable: {
 				direction: 'vertical',
 				directionLock: true
 			},
+			useTitleAsBackText: false,
 			listeners: {
 		        itemtap: function(nestedList, list, index, target, record) {
+		        	// hide back button which just navigates to the mysession view
 		        	me.backButton.hide();
 		        },
-		        leafitemtap: function(nestedList, list, index, node, record, e) {
-		        	var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-		        	var node = me.treeStore.getNodeById(record.getId())
-		        	var singleView = Ext.create("ARSnova.view.home.PublicPoolSingleItemPanel", {
-		        		title: node._data.text,
-		        		questionCount: node._data.itemCount,
-		        		backRef: me
-		        	});
-		    		hTP.animateActiveItem(singleView, 'slide');
+		        activeitemchange: function(nestedList, value, oldValue, eOpts ) {
+		        	var record = me.nestedList.getActiveItem().getStore().getNode();
+		        	if (record._data.itemCount == 0) {
+		        		Ext.create('Ext.MessageBox').show({
+							title: Messages.SESSIONPOOL_TITLE,
+							message: Messages.SESSIONPOOL_ERR_CAT_NOTFOUND,
+							buttons: this.OK,
+							hideOnMaskTap: false,
+							fn: function(btn) {
+								me.nestedList.onBackTap();
+							}
+						});
+		        		return false;
+		        	}
+		        	return true;
 		        },
-				back: function(a1, a2, a3) {
-					if (me.nestedList.getActiveItem().getId() == "ext-list-1" ) {
-						var toolbar = me.nestedList.getToolbar();
-						toolbar.setTitle("Session Pool");
+		        leafitemtap: function(nestedList, list, index, node, record, e) {
+		        	var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK);
+		        	var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+		        	ARSnova.app.restProxy.getSessionsByKeyword(record._data.keyword, {
+		    			success: function(remoteSession) {
+		    				var singleView = Ext.create("ARSnova.view.home.PublicPoolSingleItemPanel", {
+		    					session: remoteSession,
+				        		backRef: me
+				        	});
+				    		hTP.animateActiveItem(singleView, 'slide');
+				    		hideLoadMask();
+		    			},
+		    			empty: function() {
+		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
+		    				hideLoadMask();
+		    			},
+		    			failure: function() {
+		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
+		    				hideLoadMask();
+		    			},
+		    			unauthenticated: function() {
+		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
+		    				hideLoadMask();
+		    			}
+		    		});
+		        },
+				back: function(nestedList, node, lastActiveList, detailCardActive, eOpts) {
+					if (node.internalId.indexOf("1_") == 0) {
+						me.nestedList.getToolbar().setTitle(Messages.SESSIONPOOL_TITLE);
 						me.backButton.show();
 					}
-					else {
-						me.backButton.hide();
-					}
-		        }
+		        }		        
 		    },
 		    getItemTextTpl: function(node) {
-		    	return '<span>{text}<div class="x-hasbadge"><span class="x-badge ">{itemCount}</span></div></span>';
-		    	//return '<span><img src="image_url" alt="alternative_text">{text}</span>';
+		    	return '<div class="x-unsized x-button forwardListButton x-hasbadge {itemCls}"><span class="x-button-label">{text}</span><span class="feedbackQuestionsBadgeIcon {badgeCls}">{itemCount}</span></div>';	
 		    }
         });
 		
-		
-		
-		var toolbar = this.nestedList.getToolbar();
-		toolbar.setTitle("Session Pool");
-		toolbar.add(this.backButton);
-		
-		console.log(toolbar);
+		var nestedListToolbar = this.nestedList.getToolbar();
+		nestedListToolbar.setTitle(Messages.SESSIONPOOL_TITLE);
+		nestedListToolbar.add(this.backButton);
+		me.backButton.setText(Messages.BACK);
+		me.nestedList.getBackButton().setText(Messages.BACK);
 		
 		this.add([
-	          this.toolbar,
 	          this.nestedList
 	  	]);
-		
-		this.toolbar.hide();
-	},
+	}
 });

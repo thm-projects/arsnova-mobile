@@ -66,7 +66,7 @@ Ext.define("ARSnova.controller.Application", {
 			var element = e.target || e.srcElement;
 			var controller = ARSnova.app.getController('Application');
 
-			if (element.tagName == 'A') {
+			if (element.tagName == 'A' && element.className != "session-export") {
 				if(controller.checkHrefProtocol(element.href)) {
 					if(!controller.hrefPanelActive) {
 						controller.toggleHrefPanelActive();

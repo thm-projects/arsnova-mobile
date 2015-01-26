@@ -21,12 +21,12 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 	requires: ['ARSnova.view.Caption', 'ARSnova.view.home.SessionList'],
 	
 	config: {
+		exportType: null,
 		fullscreen: true,
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
 		},
-		error: true
 	},
 	
 	initialize: function () {
@@ -46,68 +46,75 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 				});
 			}
 		});
-		
-		this.msgBox = Ext.create('Ext.MessageBox');
 	
-		this.exportButton = Ext.create('Ext.Button', {
-			text: Messages.EXPORT_BUTTON_LABEL,
-			ui: 'confirm',
-			handler: function () {
-				if(me.getError()){
-					Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_NOTIFICATION);
-				}else{
-					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-					var questionExportToFile = Ext.create('ARSnova.view.home.SessionExportToFilePanel', {
-			    		exportSessionMap: me.sessionMap,
-			    		backButtonHandler: me
-			    	});
-			    	hTP.animateActiveItem(questionExportToFile, 'slide');
-					}
-			}
-		});
+		var toolbarItems = [this.backButton, {xtype:'spacer'}];
 		
+		if (this.getExportType() == 'filesystem') {
+			this.ContinueToExport = Ext.create('Ext.Button', {
+				text: Messages.CONTINUE,
+				itemId: 'continue',
+				handler: function () {
+					if(!me.checkSelectedSessions()){
+						Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_NOTIFICATION);
+					} else {
+						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+						var exportToFile = Ext.create('ARSnova.view.home.SessionExportToFilePanel', {
+							exportSessionMap: me.sessionMap,
+							backReference: me
+						});
+						hTP.animateActiveItem(exportToFile, 'slide');
+					}
+				}
+			});
+			
+			toolbarItems.push(this.ContinueToExport);			
+		}
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.SESSIONS,	
 			docked: 'top',
 			ui: 'light',
-			items: [
-			     this.backButton, 
-				{xtype:'spacer'},
-				this.exportButton 
-			]
+			items: toolbarItems
 		});
+		
+		this.contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			xtype: 'mathJaxMarkDownPanel',
+			id: 'questionContent',
+			style: 'background-color: transparent; color: black; '
+		});
+		this.contentPanel.setContent(Messages.EXPORT_SESSION_LABEL, true, true);	 
+		
+		this.singleTemplatePanel = Ext.create('Ext.Panel',{	
+			
+			layout:	{
+				type: 'vbox',
+				pack: 'center',
+				align: 'center' 
+			},
+			 items:[this.contentPanel]
+		});
+		
 		
 		this.sessionsForm = Ext.create('ARSnova.view.home.SessionList', {
-			scrollable: null,
-			cls: 'standardForm',
-			title: Messages.MY_SESSIONS
+			scrollable: null
 		});
 		
-		this.add([this.toolbar]);
-	
-				
-		this.mainPart = Ext.create('Ext.form.FormPanel', {
-			cls: 'newQuestion',
-			scrollable: null,
-
-			items: [  
-		        this.sessionsForm
-	        ]
-		});
-		
-		this.add([
-	          this.toolbar,
-      		  this.mainPart
-	  	]);
+		this.add([this.toolbar, this.contentPanel, this.sessionsForm]);
 		
 		// load user sessions before displaying the page
 		this.onBefore('painted', function () {
 			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
-				me.setError(true);
 				this.loadCreatedSessions();
 			}
 		});
+	},
+	
+	checkSelectedSessions: function() {
+		for (var i = 0; i < this.sessionMap.length; i++) {
+			if (this.sessionMap[i][1] == true)
+				return true;
+		}
+		return false;
 	},
 	
 	loadCreatedSessions: function () {
@@ -122,28 +129,21 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 			
 				panel.sessionsForm.removeAll();
 				panel.sessionsForm.show();
-
+				
 				var toggleListener = {
 						beforechange: function (slider, thumb, newValue, oldValue) {
 							
 						},
 				        change: function (slider, thumb, newValue, oldValue) {
-				        	console.log(ARSnova.app);
 				        	// TODO why is 0 toggle checked and 1 toggle unchecked?
 				            if (newValue == 0) { // true
-				                // Changing from off to on...do something?
-				            	console.log('on');
-				            	me.setError(false);
+				                // Changing from off to on
 				            	var id = slider.id.split('_')[1];
 				            	me.sessionMap[id][1] = true;
-				            	console.log(me.sessionMap);
 				            } else if (newValue == 1) { // false
-			            	   // Changing from on to off...do something?
-				            	console.log('off');
-				            	me.setError(true);
+			            	   // Changing from on to off
 				            	var id = slider.id.split('_')[1];
 				            	me.sessionMap[id][1] = false;
-				            	console.log(me.sessionMap);
 				            }
 				        }
 				};
@@ -160,27 +160,57 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 					var longDateString  = "";
 					if (session.creationTime != 0) {
 						var d               = new Date(session.creationTime);
-						var shortDateString = " ("+d.getDate()+"."+(parseInt(d.getMonth())+1)+"."+d.getFullYear()+")";
-						var longDateString  = " ("+d.getDate()+"."+(parseInt(d.getMonth())+1)+"."+d.getFullYear()+" "+d.getHours()+":"+('0'+d.getMinutes()).slice(-2)+")";
+						var shortDateString = " ("+moment(d).format('MMM Do YY') +")";
+						var longDateString  = " ("+ moment(d).format('lll') +")";
 					}
 					
 					// Minimum width of 321px equals at least landscape view
 					var displaytext = window.innerWidth > 481 ? session.name + longDateString : session.shortName + shortDateString;
 					
-					var sessionToggle = Ext.create('Ext.field.Toggle', {
-						id: 'sessionToggle_' + i,
-						label: Ext.util.Format.htmlEncode(displaytext),
-						cls: 'rightAligned',
-						sessionObj: session,
-						value: sessionChecked
-					});
+					var sessionEntry = null;
 					
-					sessionToggle.setListeners(toggleListener);
+					if (me.getExportType() == 'filesystem') {
+						sessionEntry = Ext.create('Ext.field.Toggle', {
+							id: 'sessionToggle_' + i,
+							label: Ext.util.Format.htmlEncode(displaytext),
+							labelWidth:'auto',
+							labelCls: 'session-toggle-label',
+							cls: 'rightAligned',
+							sessionObj: session,
+							value: sessionChecked
+						});
+						
+						sessionEntry.setListeners(toggleListener);
+					} else if (me.getExportType() == 'public_pool') {
+						
+						sessionEntry = Ext.create('ARSnova.view.MultiBadgeButton', {
+							ui: 'normal',
+							text: Ext.util.Format.htmlEncode(displaytext),
+							cls: 'forwardListButton',
+							sessionObj: session,
+							handler: function (options) {
+								var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+								
+								var exportSession = options.config.sessionObj;
+			
+								// validate session for public pool
+								if (exportSession.numQuestions < 1) {									
+									Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSIONPOOL_NOTIFICATION_QUESTION_NUMBER);
+								} else {
+									var exportToPublic = Ext.create('ARSnova.view.home.SessionExportToPublicPanel', {
+										exportSession: exportSession,
+										backReference: me
+							    	});
+									
+									hTP.animateActiveItem(exportToPublic, 'slide');
+								}
+							}
+						});
+					}
 					
-					panel.sessionsForm.addEntry(sessionToggle);
+					panel.sessionsForm.addEntry(sessionEntry);
 				}
 
-				console.log(me.sessionMap);
 				hideLoadMask();
 			},
 			empty: Ext.bind(function () {
@@ -195,8 +225,10 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 			},
 			failure: function () {
 				hideLoadMask();
-				console.log("my sessions request failure");
+				console.log("Error while getting sessions.");
 			}
 		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
 	},
+	
+	
 });

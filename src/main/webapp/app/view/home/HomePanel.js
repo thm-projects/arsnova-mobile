@@ -43,6 +43,8 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	sessionLogoutButton: null,
 
 	initialize: function () {
+		var me = this;
+		var config = ARSnova.app.globalConfig;
 		this.callParent(arguments);
 
 		this.logoutButton = Ext.create('Ext.Button', {
@@ -147,6 +149,60 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			this.lastVisitedSessionsForm,
 			this.mySessionsForm
 		]);
+		
+		if (config.features.publicPool) {
+			this.publicPoolButton = Ext.create('ARSnova.view.MatrixButton', {
+				text: 'Pool',
+				buttonConfig: 'icon',
+				imageCls: 'icon-cloud thm-lightblue',
+				scope: this,
+				handler: function() {
+					// get public pool sessions from server
+					var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK);
+					ARSnova.app.restProxy.getPublicPoolSessions({
+						success: function(sessionList) {
+							var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+							me.publicPoolPanel = Ext.create('ARSnova.view.home.PublicPoolPanel',{
+								sessions: sessionList
+							});
+							
+							hTP.animateActiveItem(me.publicPoolPanel, {
+								type: 'slide',
+								direction: 'left',
+								duration: 700
+							});
+							
+							hideLoadMask();
+						},
+						empty: function() {
+		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
+		    				hideLoadMask();
+		    			},
+		    			failure: function() {
+		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
+		    				hideLoadMask();
+		    			},
+		    			unauthenticated: function() {
+		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
+		    				hideLoadMask();
+		    			}
+					});
+				}
+			});
+			
+			this.matrixButtonPanel = Ext.create('Ext.Panel', {
+				layout: {
+					type: 'hbox',
+					pack: 'center'
+				},
+				style: 'margin-top:10px;',
+				items: [
+					this.publicPoolButton
+				]
+			});
+			
+			this.add(this.matrixButtonPanel);
+		}
 
 		this.onBefore('painted', function() {
 			var me = this;

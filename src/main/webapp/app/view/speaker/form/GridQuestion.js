@@ -400,8 +400,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		// update answers counter
 		this.grid.setOnFieldClick(function (answerValue) {
 			me.answers.getComponent('fs_answers').getComponent('tf_answers').setValue(answerValue);
-			console.log(me.grid.getGridType());
-			//console.los(grid.gridType);
 			if (ARSnova.app.globalConfig.features.learningProgress) {
 				if(me.grid.getGridType() !== 'moderation'){
 					me.ValueOfCorrectAnswers.setMaxValue(me.correctValueComponent.getMaxValue() *me.grid.getChosenFields().length);

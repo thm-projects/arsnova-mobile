@@ -191,12 +191,8 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		panel.disableInputElements();
 		
 		var course = list.getStore().getAt(index);
-		
-		console.log(course);
 
 		var shortName = course.get('shortname');
-
-		console.log(shortName);
 
 		if (course.get('shortname').length > 12) {
 			shortName = course.get('shortname');
