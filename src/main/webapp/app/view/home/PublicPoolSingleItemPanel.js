@@ -57,13 +57,6 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 				customSessionAttributes['name'] = me.sessionName.getValue();
 				customSessionAttributes['shortName'] = me.sessionShortName.getValue();
 				ARSnova.app.getController("SessionExport").cloneSessionFromPublicPool(me.getSession(), customSessionAttributes);
-			
-				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				hTP.animateActiveItem(hTP.mySessionsPanel, {
-					type: 'slide',
-					direction: 'right',
-					duration: 700
-				});
 			},
 			scope: this
 		});
