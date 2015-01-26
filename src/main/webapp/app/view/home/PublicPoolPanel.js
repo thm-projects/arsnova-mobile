@@ -159,7 +159,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 							title: Messages.SESSIONPOOL_TITLE,
 							message: Messages.SESSIONPOOL_ERR_CAT_NOTFOUND,
 							buttons: this.OK,
-							hideOnMaskTap: true,
+							hideOnMaskTap: false,
 							fn: function(btn) {
 								me.nestedList.onBackTap();
 							}

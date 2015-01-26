@@ -194,10 +194,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						loading: true
 					}
 				},
-				handler: function(){
-					if(Ext.os.is.iOS)
-						Ext.Msg.alert(Messages.NOTIFICATION, Messages.IMPORT_IOS_NOTIFICATION);
-				},
 				listeners: {
 					scope: this,
 					loadsuccess: function (data) {
@@ -227,19 +223,22 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					loadfailure: function (message) {}
 				}
 			});
-			this.importButtonClickable.fileElement.dom.accept = ""; // enable all kinds of data for file input
-			
+			this.importButtonClickable.fileElement.dom.accept = "application/octet-stream"; // enable all kinds of data for file input
 			this.importButton = Ext.create('ARSnova.view.MatrixButton', {
 				text: Messages.IMP_BUTTON_IMPORT,
 				buttonConfig: 'icon',
 				imageCls: 'icon-cloud-upload ',
-				style: 'z-index:-1000',
-				scope: this
+				scope: this,
+				handler: function() {
+					if(Ext.os.is.iOS)
+						Ext.Msg.alert(Messages.NOTIFICATION, Messages.IMPORT_IOS_NOTIFICATION);
+				},
 			});
 
-			this.importButtonPanel = Ext.create('Ext.Panel', {
-				items: [this.importButtonClickable, this.importButton]
-			});
+			this.importButtonPanel = Ext.create('Ext.Panel');
+			if(!Ext.os.is.iOS)
+				this.importButtonPanel.add(this.importButtonClickable);
+			this.importButtonPanel.add(this.importButton);
 			
 			this.exportButton = Ext.create('ARSnova.view.MatrixButton', {
 				text: 'Export', 
