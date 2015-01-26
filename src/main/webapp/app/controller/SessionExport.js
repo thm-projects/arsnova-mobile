@@ -68,6 +68,8 @@ Ext.define("ARSnova.controller.SessionExport", {
 							direction: 'right',
 							duration: 700
 						});
+					}, function(error) {
+						hideLoadMask();
 					});
 			}			
 		});
@@ -98,15 +100,15 @@ Ext.define("ARSnova.controller.SessionExport", {
 				// call import ctrl to save public pool session in db
 				ARSnova.app.getController("SessionImport").importSession(exportData[i])
 					.then(function() {
-						if (arguments[0][0][0]) {
-							// forward to session panel
-							var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-							hTP.animateActiveItem(hTP.mySessionsPanel, {
-								type: 'slide',
-								direction: 'right',
-								duration: 700
-							});
-						}
+						// forward to session panel
+						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+						hTP.animateActiveItem(hTP.mySessionsPanel, {
+							type: 'slide',
+							direction: 'right',
+							duration: 700
+						});
+						hideLoadMask();
+					}, function(error) {
 						hideLoadMask();
 					});
 			}

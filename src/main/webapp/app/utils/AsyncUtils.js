@@ -9,11 +9,11 @@ Ext.define('ARSnova.utils.AsyncUtils', {
     				actionOnResult(result);
         		}
         		if (!condition()) {
-        			return promise.resolve(arguments);
+        			return promise.resolve();
         		}
         		return action().then(loop,
         				function(error) {
-							console.log(error);
+        					promise.reject();
         				}
         		);
         	}

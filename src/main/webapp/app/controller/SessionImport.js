@@ -55,7 +55,9 @@ Ext.define("ARSnova.controller.SessionImport", {
 				},
 				null // no action on result
 		).then(function() {
-			promise.resolve(arguments);			
+			promise.resolve();			
+		}, function() {
+			promise.reject(Messages.IMP_ERROR_SAVE);
 		});
 		return promise;
 	},
@@ -73,12 +75,12 @@ Ext.define("ARSnova.controller.SessionImport", {
 				var session = Ext.decode(response.responseText)
 				me.saveSessionAttachment(session, jsonContent)
 					.then(function() {
-						promise.resolve(true);
+						promise.resolve();
 					});
 			},
 			failure: function(records, operation) {
 				Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_SAVE);
-				promise.resolve(false);
+				promise.reject();
 			}
 		});
 		
