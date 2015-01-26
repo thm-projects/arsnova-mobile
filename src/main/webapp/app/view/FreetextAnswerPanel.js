@@ -85,7 +85,6 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		
 		this.noAnswersLabel = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
-			hidden: true,
 			items: {
 				cls: 'gravure',
 				html: Messages.NO_ANSWERS
@@ -202,23 +201,27 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 					me.freetextAbstentions.setBadgeText(abstentions.length);
 					me.freetextAbstentions.setHidden(abstentions.length === 0);	
 					
+					var abCount = abstentions.length;
+					var answersCount = answers.length;
+					var abstentionText = abCount === 1 ? Messages.ABSTENTION : Messages.ABSTENTIONS;
+					var answersText = answersCount === 1 ? Messages.ANSWER : Messages.ANSWERS;
+						
+					if(lang === "en") {
+						var verb = abCount === 1 ? 'is ' : 'are ';
+						abstentionText = verb + abCount + " " + abstentionText.toLowerCase();
+						answersText = answersCount + " " + answersText.toLowerCase();
+					} else {
+						abstentionText = abCount + " " + abstentionText;
+						answersText = answersCount + " " + answersText;
+					}
+					
 					if(abstentions.length === responseObj.length) {
-						var abCount = abstentions.length;
-						var abstentionText = abCount === 1 ? Messages.ABSTENTION : Messages.ABSTENTIONS;
-						
-						if(lang === "en") {
-							var verb = abCount === 1 ? 'is ' : 'are ';
-							abstentionText = verb + abCount + " " + abstentionText.toLowerCase();
-						} else {
-							abstentionText = abCount + " " + abstentionText;
-						}
-						
 						answerLabel.setHtml(Messages.ONLY_ABSTENTION_ANSWERS.replace(/###/, abstentionText));
 						me.freetextAnswerList.hide();
-						me.noAnswersLabel.show();
 					} else {
+						var tempLabel = Messages.FREETEXT_DETAIL_LABEL.replace(/###/, abstentionText);
+						answerLabel.setHtml(tempLabel.replace(/%%%/, answersText));
 						me.freetextAnswerList.show();
-						me.noAnswersLabel.hide();
 					}
 				}
 			},

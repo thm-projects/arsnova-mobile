@@ -623,32 +623,39 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		});
 		return promise;
 	},
-
-	setImage: function (image) {
-		var title = this.toolbar.getTitle().getTitle(),
-			isFlashcard = title === Messages.FLASHCARD;
-
-		this.image = image;
-
-		!isFlashcard ? this.grid.setImage(image) :
-			this.flashcardQuestion.grid.setImage(image);
-
-		if (image) {
-			!isFlashcard ? this.grid.show() :
-				this.flashcardQuestion.grid.show();
-		} else {
-			!isFlashcard ? this.grid.hide() :
-				this.flashcardQuestion.grid.hide();
-		}
+	
+	setGridConfiguration: function(grid) {
+		grid.setEditable(false);
+		grid.setGridIsHidden(true);
 	},
 
+	setImage: function (image, test) {
+		var title = this.toolbar.getTitle().getTitle(),
+			isFlashcard = title === Messages.FLASHCARD,
+			grid = isFlashcard ? this.flashcardQuestion.grid : this.grid;
+		
+		this.image = image;
+		grid.setImage(image);
+		
+		if (image) {
+			grid.show();
+		} else {
+			grid.hide();
+			grid.clearImage();
+			this.setGridConfiguration(grid);
+		}
+	},
+	
 	setFcImage: function (image) {
 		this.fcImage = image;
 		this.grid.setImage(image);
+		
 		if(image) {
 			this.grid.show();
 		} else {
 			this.grid.hide();
+			this.grid.clearImage();
+			this.setGridConfiguration(this.grid);
 		}
 	},
 

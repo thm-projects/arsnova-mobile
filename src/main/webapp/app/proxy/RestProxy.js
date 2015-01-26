@@ -666,6 +666,14 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
+	
+	getAnswerAndAbstentionCount: function(questionId, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/" + questionId + "/answerandabstentioncount",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
 
 	getAnsweredFreetextQuestions: function (sessionKeyword, questionId, callbacks) {
 		this.arsjax.request({

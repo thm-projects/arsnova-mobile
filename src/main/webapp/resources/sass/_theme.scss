@@ -225,6 +225,22 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 		}
 	}
 	
+	.x-button,
+	.x-button:after,
+	.x-button:before {
+		&.x-button-pressed,
+		&.x-button-pressing,
+		&.x-button-pressed:after,
+		&.x-button-pressed:before,
+		&.x-button-pressing:after,
+		&.x-button-pressing:before {
+			@include toolbar-button-config(
+				$button-action-active-bg-color,
+				$toolbar-button-txt-color
+			);
+		}
+	}
+	
 	.x-button-back,
 	.x-button.x-button-back:after, 
 	.x-button.x-button-back:before,
@@ -236,6 +252,19 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 			$toolbar-back-button-bg-color, 
 			$toolbar-back-button-txt-color
 		);
+		
+		/* todo: remove after css cleanup */
+		&.x-button-pressed,
+		&.x-button-pressing,
+		&.x-button-pressed:after,
+		&.x-button-pressed:before,
+		&.x-button-pressing:after,
+		&.x-button-pressing:before {
+			@include toolbar-button-config(
+				$button-action-active-bg-color,
+				$toolbar-button-txt-color
+			);
+		}
 	}
 	
 	.x-button, .x-button-back {
@@ -253,6 +282,10 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 	.voteIcons:before,
 	.x-button-icon:before {
 		color: #fff;
+	}
+	
+	.x-tab-pressed .x-button-icon:before {
+		color: $button-action-active-bg-color !important;
 	}
 	
 	.x-tab-active {
