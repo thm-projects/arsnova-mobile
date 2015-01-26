@@ -158,7 +158,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 		// save questions and check for answers if enabled
 		ARSnova.utils.AsyncUtils.promiseWhile(
 			function() {
-				console.log('condition', j, sessions.length);
 				// condition for stopping while loop
 				return j < sessions.length;
 			},
@@ -167,7 +166,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 				return me.exportSession(session, withAnswerStatistics, withFeedbackQuestions);
 			},
 			function(session) {
-				console.log('session', session);
 				exportData.push(session);
 			}
 		).then(function() {
@@ -185,7 +183,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 	 * @param withFeedbackQuestions	<code>true</code> if the feedbackQuestions should be exported, <code>false</code> otherwise.
 	 */
 	exportSession: function(session, withAnswerStatistics, withFeedbackQuestions) {
-		console.log('exportSession()');
 		var me = this;
 		var promise = new RSVP.Promise();
 		// create export data structure
@@ -205,7 +202,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 		var p2 = me.exportQuestions('PreparationQuestions', session.keyword, withAnswerStatistics);
 		
 		RSVP.all([p1, p2]).then(function(allQuestions) {
-			console.log('allQuestions', allQuestions);
 			var questions = allQuestions[0].concat(allQuestions[1]);
 			var j = 0;
 			
@@ -234,8 +230,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 							exportData['feedbackQuestions'] = feedbackQuestions;
 							
 							promise.resolve(exportData);
-							// create json file
-//							me.writeExportDataToFile(exportData);
 							
 						}, function(error) {
 							console.log(error);
@@ -243,15 +237,8 @@ Ext.define("ARSnova.controller.SessionExport", {
 						}
 					)
 				} else {
-					promise.resolve(exportData);
-					// write data without feedback questions
-//					me.writeExportDataToFile(exportData);	
+					promise.resolve(exportData);	
 				}
-				
-				// hide load mask after last iteration
-//				if (i == exportSessionMap.length - 1) {
-//					hideLoadMask();
-//				}
 			}, function(error) {
 				console.log(error);
 				promise.reject(error);

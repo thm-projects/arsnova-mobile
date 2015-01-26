@@ -376,11 +376,11 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	saveInterposedQuestion: function (subject, text, sessionKeyword, callbacks) {
+	saveInterposedQuestion: function (subject, text, sessionKeyword, timestamp, callbacks) {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/interposed",
 			method: "POST",
-			jsonData: {subject: subject, text: text, sessionId: sessionKeyword},
+			jsonData: {subject: subject, text: text, sessionId: sessionKeyword, timestamp: timestamp},
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
