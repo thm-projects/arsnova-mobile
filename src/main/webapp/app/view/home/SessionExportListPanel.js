@@ -106,28 +106,29 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 			items: toolbarItems
 		});
 		
+		this.contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			xtype: 'mathJaxMarkDownPanel',
+			id: 'questionContent',
+			style: 'background-color: transparent; color: black; '
+		});
+		this.contentPanel.setContent(Messages.EXPORT_SESSION_LABEL, true, true);	 
+		
+		this.singleTemplatePanel = Ext.create('Ext.Panel',{	
+			
+			layout:	{
+				type: 'vbox',
+				pack: 'center',
+				align: 'center' 
+			},
+			 items:[this.contentPanel]
+		});
+		
+		
 		this.sessionsForm = Ext.create('ARSnova.view.home.SessionList', {
-			scrollable: null,
-			cls: 'standardForm',
-			title: Messages.EXPORT_SESSION_LABEL
+			scrollable: null
 		});
 		
-		this.add([this.toolbar]);
-				
-		this.mainPart = Ext.create('Ext.form.FormPanel', {
-			cls: 'newQuestion',
-			scrollable: null,
-
-			items: [  
-		        this.sessionsForm,
-		        this.matrixButtonPanel
-	        ]
-		});
-		
-		this.add([
-	          this.toolbar,
-      		  this.mainPart
-	  	]);
+		this.add([this.toolbar, this.contentPanel, this.sessionsForm, this.matrixButtonPanel]);
 		
 		// load user sessions before displaying the page
 		this.onBefore('painted', function () {
