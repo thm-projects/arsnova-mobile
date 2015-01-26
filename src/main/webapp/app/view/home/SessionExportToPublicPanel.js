@@ -357,15 +357,11 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			description:		me.description.getValue(),
 			faculty:			me.faculty.getValue()
 		});
-
-		console.log("validation");
-		console.log(validation);
 		
 		var errs = validation.validate();
 		var msg = '';
 
 		if (!errs.isValid()) {
-			console.log('errors',errs);
 			errs.each(function(err) {
 				
 				msg += err.getMessage();
