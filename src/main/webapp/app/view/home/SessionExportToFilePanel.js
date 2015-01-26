@@ -69,12 +69,16 @@ Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
 		
 		this.exportAnswerToggle = Ext.create('Ext.field.Toggle', {
 			label: Messages.ANSWERS_STATISTICS,
+			labelWidth:'auto',
+			labelCls: 'session-toggle-label',
 			cls: 'rightAligned',
 			value: true
 		});
 		
 		this.exportStudentsQuestionToggle = Ext.create('Ext.field.Toggle', {
 			label: Messages.QUESTIONS_FROM_STUDENTS,
+			labelWidth:'auto',
+			labelCls: 'session-toggle-label',
 			cls: 'rightAligned',
 			value: true
 		});
@@ -94,14 +98,6 @@ Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
 		});
 		this.contentPanel.setContent(Messages.EXPORT_SESSION_INFORMATION, true, true);	 
 		
-		// panel for question subject
-		this.titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			xtype: 'mathJaxMarkDownPanel',
-			id: 'questionTitle',
-			style: 'background-color: transparent; padding: 0;font-weight: bold; font-size: 1.4em;'
-		});
-		this.titlePanel.setContent(Messages.NOTIFICATION, false, true);	
-		
 		this.singleTemplatePanel = Ext.create('Ext.Panel',{	
 			
 			layout:	{
@@ -109,9 +105,7 @@ Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
 				pack: 'center',
 				align: 'center' 
 			},
-			 items:[ this.titlePanel,
-			         this.contentPanel
-			      ]
+			 items:[this.contentPanel]
 		});
 		
 		this.mainPart = Ext.create('Ext.form.FormPanel', {
