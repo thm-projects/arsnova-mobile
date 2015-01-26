@@ -151,7 +151,63 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
+	
+	getPublicPoolSessions: function (callbacks) {
+		this.arsjax.request({
+			url: "session/publicpool?group_level=1",
+			method: "GET",
 
+			success: function (response) {
+				if (response.status === 204) {
+					callbacks.success.call(this, []);
+				} else {
+					callbacks.success.call(this, Ext.decode(response.responseText));
+				}
+			},
+			204: callbacks.empty,
+
+			401: callbacks.unauthenticated,
+			404: callbacks.empty,
+			failure: callbacks.failure
+		});
+	},
+	
+	getMyPublicPoolSessions: function (callbacks) {
+		this.arsjax.request({
+			url: "session/publicpool/",
+			method: "GET",
+			params: {
+				statusonly: true
+			},
+
+			success: callbacks.success,
+			204: callbacks.empty,
+
+			401: callbacks.unauthenticated,
+			404: callbacks.empty,
+			failure: callbacks.failure
+		});
+	},
+
+	getSessionsByKeyword: function (keyword, callbacks) {
+		this.arsjax.request({
+			url: "session/" + keyword,
+			method: "GET",
+
+			success: function (response) {
+				if (response.status === 204) {
+					callbacks.success.call(this, []);
+				} else {
+					callbacks.success.call(this, Ext.decode(response.responseText));
+				}
+			},
+			204: callbacks.empty,
+
+			401: callbacks.unauthenticated,
+			404: callbacks.empty,
+			failure: callbacks.failure
+		});
+	},
 	/**
 	 * Get the sessions where user is visitor
 	 * @param login from user
@@ -320,11 +376,11 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	saveInterposedQuestion: function (subject, text, sessionKeyword, callbacks) {
+	saveInterposedQuestion: function (subject, text, sessionKeyword, timestamp, callbacks) {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/interposed",
 			method: "POST",
-			jsonData: {subject: subject, text: text, sessionId: sessionKeyword},
+			jsonData: {subject: subject, text: text, sessionId: sessionKeyword, timestamp: timestamp},
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -447,7 +503,17 @@ Ext.define('ARSnova.proxy.RestProxy', {
 				"shortName": session.get("shortName"),
 				"courseId": session.get("courseId") ? session.get("courseId"): null,
 				"courseType": session.get("courseType") ? session.get("courseType"): null,
-				"creationTime": session.get("creationTime")
+				"creationTime": session.get("creationTime"),
+				"ppAuthorName": session.get("ppAuthorName"),
+				"ppAuthorMail": session.get("ppAuthorMail"),
+				"ppUniversity": session.get("ppUniversity"),
+				"ppLogo": session.get("ppLogo"),
+				"ppSubject": session.get("ppSubject"),
+				"ppLicense": session.get("ppLicense"),
+				"ppDescription": session.get("ppDescription"),
+				"ppFaculty": session.get("ppFaculty"),
+				"ppLevel": session.get("ppLevel"),
+				"sessionType": session.get("sessionType")
 			},			
 			success: callbacks.success,
 			failure: callbacks.failure

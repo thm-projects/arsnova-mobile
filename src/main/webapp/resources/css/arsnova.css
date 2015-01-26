@@ -1505,6 +1505,11 @@ ol.standardList li {
 	margin: 0;
 }
 
+/* No border inside toggle elements in the session export to filesystem list */
+.session-toggle-label {
+	border-right: none !important;
+}
+
 /* No linebreak after text in answer list formatted by markdown library */
 .answerListButton .x-innerhtml > p {
 	display: inline;
@@ -1534,6 +1539,10 @@ ol.standardList li {
 
 .fileUploadButtonFieldset.longText {
 	max-width: 604px; 
+}
+
+.ppSingleItemBackground {
+	background: white !important;
 }
 
 .hidden {

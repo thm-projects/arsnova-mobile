@@ -35,7 +35,17 @@ Ext.define('ARSnova.model.Session', {
 			'keyword',
 			'courseId',
 			'courseType',
-			'creationTime'
+			'creationTime',
+			'ppAuthorName',
+			'ppAuthorMail',
+			'ppUniversity',
+			'ppLogo',
+			'ppSubject',
+			'ppLicense',
+			'ppDescription',
+			'ppFaculty',
+			'ppLevel',
+			'sessionType'
 		],
 
 		validations: [
@@ -76,6 +86,14 @@ Ext.define('ARSnova.model.Session', {
 
 	getMySessions: function (callbacks, sortby) {
 		return this.getProxy().getMySessions(callbacks, sortby);
+	},
+	
+	getPublicPoolSessions: function (callbacks) {
+		return this.getProxy().getPublicPoolSessions(callbacks);
+	},
+	
+	getMyPublicPoolSessions: function (callbacks) {
+		return this.getProxy().getMyPublicPoolSessions(callbacks);
 	},
 
 	lock: function (sessionKeyword, theLock, callbacks) {
