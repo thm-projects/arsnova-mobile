@@ -371,8 +371,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	},
 
 	loadCreatedSessions: function () {
-		
-		console.log('loadCreatedSessions()');
 		var me = this;
 		var promise = new RSVP.Promise();
 
@@ -392,8 +390,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 								
 				var session;
 				for (var i = 0, session; session = sessions[i]; i++) {
-					
-					console.log('session', session);
 					
 					var status = "";
 					var course = "icon-presenter";
@@ -480,8 +476,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				
 				for (var i = 0, session; session = sessions[i]; i++) {
 					
-					console.log('ppSession', session);
-					
 					var status = "";
 					var course = "icon-presenter";
 
@@ -502,7 +496,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						cls: 'forwardListButton' + status,
 						sessionObj: session,
 						handler: function (options) {
-							console.log(options.config.sessionObj);
 							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
 							localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
 							ARSnova.app.setWindowTitle();

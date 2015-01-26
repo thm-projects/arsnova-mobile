@@ -269,7 +269,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 				promise.resolve([]);
 			}, this),
 			failure: function (response) {
-				console.log(response);
 				promise.reject('server-side error questionModel.getSkillQuestions');
 			}
 		});
@@ -354,7 +353,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 	
 			// Append anchor to body.
 			document.body.appendChild(a)
-			console.log(a);
 			a.click(); 
 	    }
 	    var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
