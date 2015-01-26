@@ -46,12 +46,7 @@ Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
 			handler: function () {
-				var withAnswerStatistics = me.exportAnswerToggle.getValue();
-				var withFeedbackQuestions = me.exportStudentsQuestionToggle.getValue();
-				
-				ARSnova.app.getController("SessionExport").exportSessionsToFile(
-						me.getExportSessionMap(), withAnswerStatistics, withFeedbackQuestions);
-				
+				me.handleExport();
 			},
 			scope: this
 		});
@@ -108,13 +103,33 @@ Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
 			 items:[this.contentPanel]
 		});
 		
+		this.matrixButtonPanel = Ext.create('Ext.Panel', {
+			layout: {
+				type: 'hbox',
+				pack: 'center'
+			}
+		});
+		
+		this.exportMatrixButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: 'Export', 
+			buttonConfig: 'icon',
+			imageCls: 'icon-cloud-download ',
+			scope: this,
+			handler: function () {
+				me.handleExport();
+			}
+		});
+				
+		this.matrixButtonPanel.add(this.exportMatrixButton);
+		
 		this.mainPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
 			scrollable: null,
 
 			items: [
 			    this.singleTemplatePanel,
-		        this.exportOptions
+		        this.exportOptions,
+		        this.matrixButtonPanel
 	        ]
 		});
 		
@@ -123,4 +138,12 @@ Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
       		  this.mainPart
 	  	]);
 	},
+	
+	handleExport: function() {
+		var withAnswerStatistics = this.exportAnswerToggle.getValue();
+		var withFeedbackQuestions = this.exportStudentsQuestionToggle.getValue();
+		
+		ARSnova.app.getController("SessionExport").exportSessionsToFile(
+				this.getExportSessionMap(), withAnswerStatistics, withFeedbackQuestions);
+	}
 });
