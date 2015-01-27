@@ -34,6 +34,12 @@ Ext.define('ARSnova.view.ShowcaseEditButtons', {
 		this.questionObj = this.config.questionObj;
 		var type = this.questionObj.questionType;
 		
+		this.hasCorrectAnswers = true;
+		if (['vote', 'school', 'freetext', 'flashcard'].indexOf(this.questionObj.questionType) !== -1
+				|| (['grid'].indexOf(this.questionObj.questionType) !== -1 && this.questionObj.gridType == 'moderation')) {
+			this.hasCorrectAnswers = false;
+		}
+		
 		this.releaseStatisticButton = Ext.create('ARSnova.view.MatrixButton', {
 			buttonConfig: 'togglefield',
 			text: Messages.RELEASE_STATISTIC,
@@ -129,7 +135,7 @@ Ext.define('ARSnova.view.ShowcaseEditButtons', {
 		
 		this.add([
 			type === "flashcard" ? {} : this.releaseStatisticButton,
-			type === "flashcard" || type === "freetext" ? {} : this.showCorrectAnswerButton, 
+			this.hasCorrectAnswers ? this.showCorrectAnswerButton : {}, 
 			this.questionStatusButton
 		]);
 	}
