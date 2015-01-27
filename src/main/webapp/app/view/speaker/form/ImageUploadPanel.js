@@ -77,12 +77,14 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			listeners: {
 				scope: this,
 				loadsuccess: function (dataurl, e) {
-					if(this.config.addRemoveButton) {
-						this.removeButton.show();
-						this.segmentButton.hide();
+					if(this.checkFilesize(dataurl)) {
+						if(this.config.addRemoveButton) {
+							this.removeButton.show();
+							this.segmentButton.hide();
+						}
+						
+						Ext.bind(this.getFsUploadHandler(), this.getHandlerScope())(dataurl, true);
 					}
-
-					Ext.bind(this.getFsUploadHandler(), this.getHandlerScope())(dataurl, true);
 				},
 				loadfailure: function (message) {
 					Ext.Msg.alert(Messages.ERROR, Messages.GRID_ERROR_LOADING_IMAGE_FS);
@@ -166,6 +168,8 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			}
 		});
 		
+		var filesizeString = Math.round((parseInt(ARSnova.app.globalConfig.maxUploadFilesize / 1024))) + "KB";
+		
 		this.add([{
 			xtype: 'formpanel',
 			width: '100%',
@@ -184,7 +188,12 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				'fileUploadButtonFieldset longText' : 
 				'fileUploadButtonFieldset',
 				items: [this.segmentButton]
-			}, this.removeButton]
+			}, this.removeButton, {
+				cls: 'gravure',
+				style: 'font-size: 0.9em;',
+				hidden: isNaN(ARSnova.app.globalConfig.maxUploadFilesize),
+				html: Messages.PICTURE_MAX_FILESIZE.replace(/###/, filesizeString)
+			}]
 		}]);
 	},
 	
@@ -198,6 +207,23 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	resetButtons: function() {
 		this.removeButton.hide();
 		this.segmentButton.show();
+	},
+	
+	checkFilesize: function(url) {
+		var head = 'data:image/png;base64,';
+		var imgFileSize = Math.round((url.length - head.length)*3/4);
+		
+		if(!isNaN(ARSnova.app.globalConfig.maxUploadFilesize)) {
+			if (imgFileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
+				var msgTemp = Messages.GRID_ERROR_FILE_SIZE.replace(/%%%/, Math.round((imgFileSize / 1024))+ "KB");
+				var filesizeString = Math.round(parseInt(ARSnova.app.globalConfig.maxUploadFilesize / 1024)) + "KB";
+				Ext.Msg.alert(Messages.GRID_ERROR_IMAGE_NOT_LOADED, msgTemp.replace(/###/, filesizeString));
+				
+				return false;
+			}
+		}
+		
+		return true;
 	},
 	
 	toggleUploadTextfieldVisibility: function() {
