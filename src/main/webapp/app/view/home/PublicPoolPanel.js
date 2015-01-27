@@ -169,7 +169,6 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		        	return true;
 		        },
 		        leafitemtap: function(nestedList, list, index, node, record, e) {
-		        	var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK);
 		        	var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 		        	ARSnova.app.restProxy.getSessionsByKeyword(record._data.keyword, {
 		    			success: function(remoteSession) {
@@ -178,19 +177,15 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 				        		backRef: me
 				        	});
 				    		hTP.animateActiveItem(singleView, 'slide');
-				    		hideLoadMask();
 		    			},
 		    			empty: function() {
 		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
-		    				hideLoadMask();
 		    			},
 		    			failure: function() {
 		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
-		    				hideLoadMask();
 		    			},
 		    			unauthenticated: function() {
 		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
-		    				hideLoadMask();
 		    			}
 		    		});
 		        },
