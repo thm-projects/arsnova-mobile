@@ -64,6 +64,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 		this.onBefore('activate', this.beforeActivate, this);
 		this.onAfter('activate', this.onActivate, this);
+		this.on('activeitemchange', this.onItemChange);
 		this.on('add', function (panel, component, index) {
 			component.doTypeset && component.doTypeset(panel);
 		});
@@ -76,6 +77,15 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 	onActivate: function () {
 		this.getUnansweredSkillQuestions();
+	},
+	
+	onItemChange: function(panel, newQuestion, oldQuestion) {
+		if(newQuestion.questionObj) {
+			var messageAppendix = screenWidth >= 500 ? "_LONG" : "",
+				message = newQuestion.getQuestionTypeMessage(messageAppendix);
+
+			this.toolbar.setTitle(message);
+		}
 	},
 
 	setPreparationMode: function () {

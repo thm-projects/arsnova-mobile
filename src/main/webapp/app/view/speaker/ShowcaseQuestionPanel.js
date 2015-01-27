@@ -77,6 +77,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 
 		this.on('activate', this.onActivate);
 		this.on('activate', this.beforeActivate, this, null, 'before');
+		this.on('activeitemchange', this.onItemChange);
 		this.on('painted', function() { ARSnova.app.innerScrollPanel = this; });
 		this.on('add', function (panel, component, index) {
 			component.doTypeset && component.doTypeset(panel);
@@ -86,13 +87,22 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	beforeActivate: function () {
 		this.removeAll();
 		this._indicator.show();
-		this.toolbar.setTitle(Messages.QUESTION);
+		this.toolbar.setTitle("");
 	},
 
 	onActivate: function () {
 		this.getAllSkillQuestions();
 	},
+	
+	onItemChange: function(panel, newQuestion, oldQuestion) {
+		if(newQuestion.questionObj) {
+			var messageAppendix = screenWidth >= 500 ? "_LONG" : "",
+				message = newQuestion.getQuestionTypeMessage(messageAppendix);
 
+			this.toolbar.setTitle(message);
+		}
+	},
+			
 	getAllSkillQuestions: function () {
 		var hideIndicator = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
 

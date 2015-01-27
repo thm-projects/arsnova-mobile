@@ -548,6 +548,28 @@ Ext.define('ARSnova.view.Question', {
 		ARSnova.app.mainTabPanel.animateActiveItem(panel.questionStatisticChart, 'slide');
 	},
 	
+	getQuestionTypeMessage: function(msgAppendix) {
+		var message;
+		msgAppendix = msgAppendix ? msgAppendix : "";
+		
+		switch (this.questionObj.questionType) {
+			case "vote":
+				message = "EVALUATION";
+				break;
+			case "flashcard":
+				msgAppendix = msgAppendix.length ? "" : "_SHORT";
+			default:
+				message = this.questionObj.questionType.toUpperCase();
+		}
+		
+		if(!Messages[message + msgAppendix]) {
+			message = "QUESTION";
+			msgAppendix = "";
+		}
+		
+		return Messages[message + msgAppendix];
+	},
+	
 	setAnswerCount: function() {
 		var questionType = this.questionObj.questionType;
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;

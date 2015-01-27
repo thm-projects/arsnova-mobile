@@ -139,6 +139,22 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		});
 	},
 	
+	getQuestionTypeMessage: function(msgAppendix) {
+		msgAppendix = msgAppendix ? msgAppendix : "";
+		var message;
+		
+		switch (this.questionObj.questionType) {
+			case "freetext":
+				message = this.questionObj.questionType.toUpperCase();
+				break;
+			default:
+				message = Messages.QUESTION;
+				msgAppendix = "";
+		}
+		
+		return Messages[message + msgAppendix];
+	},
+	
 	setAnswerCount: function() {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 
