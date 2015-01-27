@@ -115,11 +115,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			scrollable: null,
 			title: Messages.MY_SESSIONS
 		});
-		
-		this.myPpSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
-			scrollable: null,
-			title: Messages.MY_PUBLIC_POOL_SESSIONS
-		});
 
 		this.lastVisitedSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
 			scrollable: null,
@@ -134,6 +129,12 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		});
 
 		if (config.features.publicPool) {
+			
+			this.myPpSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
+				scrollable: null,
+				title: Messages.MY_PUBLIC_POOL_SESSIONS
+			});
+			
 			this.publicPoolButton = Ext.create('ARSnova.view.MatrixButton', {
 				text: 'Pool',
 				buttonConfig: 'icon',
@@ -321,8 +322,12 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		this.add([
 			this.toolbar,
 			this.newSessionButtonForm,
-			this.sessionsForm,
-			this.myPpSessionsForm,
+			this.sessionsForm]);
+		
+		if (config.features.publicPool)
+			this.add(this.myPpSessionsForm);
+		
+		this.add([
 			this.matrixButtonPanel,
 			this.lastVisitedSessionsForm
 		]);
@@ -452,6 +457,8 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	loadCreatedPublicPoolSessions: function () {
 		var me = this;
 		var promise = new RSVP.Promise();
+		if (!ARSnova.app.globalConfig.features.publicPool)
+			return promise;
 
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
 		ARSnova.app.sessionModel.getMyPublicPoolSessions({
