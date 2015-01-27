@@ -81,7 +81,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	
 	onItemChange: function(panel, newQuestion, oldQuestion) {
 		if(newQuestion.questionObj) {
-			var messageAppendix = screenWidth >= 500 ? "_LONG" : "",
+			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width,
+				messageAppendix = screenWidth >= 500 ? "_LONG" : "",
 				message = newQuestion.getQuestionTypeMessage(messageAppendix);
 
 			this.toolbar.setTitle(message);
