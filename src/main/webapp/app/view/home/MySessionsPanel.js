@@ -478,22 +478,17 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				for (var i = 0, session; session = sessions[i]; i++) {
 					
 					var status = "";
-					var course = "icon-presenter";
 
 					if (!session.active) {
 						status = " isInactive";
 					}
-
-					if (session.courseType && session.courseType.length > 0) {
-						course = "icon-prof";
-					}
-
+					
 					// Minimum width of 321px equals at least landscape view
 					var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
 					var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 						ui: 'normal',
 						text: Ext.util.Format.htmlEncode(displaytext),
-						iconCls: course + " courseIcon",
+						iconCls: "icon-cloud thm-green ",
 						cls: 'forwardListButton' + status,
 						sessionObj: session,
 						handler: function (options) {
