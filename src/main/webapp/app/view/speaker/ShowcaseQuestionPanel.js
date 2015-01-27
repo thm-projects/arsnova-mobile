@@ -21,6 +21,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 
 	requires: [
 		'ARSnova.view.Question',
+		'ARSnova.view.CustomCarouselIndicator',
 		'ARSnova.view.speaker.QuestionStatisticChart',
 		'ARSnova.view.components.QuestionToolbar'
 	],
