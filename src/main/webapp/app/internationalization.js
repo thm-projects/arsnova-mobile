@@ -521,7 +521,8 @@ switch (lang) {
 			IMP_LOADMSK: "Importing sessions",
 			IMP_ERROR: "Error while importing sessions",
 			IMP_ERROR_FORMAT: "JSON file is not formated correctly",
-			IMP_ERROR_SAVE: "Could not save session to database",
+			IMP_ERROR_SAVE: "Could not save session to database.",
+			IMP_ERROR_IMAGE: "Could not save session, image exceeds maximal size.",
 		};
 
 		break;
@@ -992,7 +993,8 @@ switch (lang) {
 			IMP_LOADMSK: "Importiere sessions",
 			IMP_ERROR: "Fehler bei Session-Import",
 			IMP_ERROR_FORMAT: "JSON Datei ist falsch formatiert.",
-			IMP_ERROR_SAVE: "Session konnte nicht gespeichert werden",
+			IMP_ERROR_SAVE: "Session konnte nicht gespeichert werden.",
+			IMP_ERROR_IMAGE: "Session konnte nicht gespeichert werden. Bild überschreitet maximale Größe.",
 	};
 	break;
 }
