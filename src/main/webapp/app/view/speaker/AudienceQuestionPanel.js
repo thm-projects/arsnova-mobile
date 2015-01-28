@@ -59,6 +59,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
+		
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+		var upperActionButtonCls = screenWidth < 410 ? 'smallerActionButton' : 'actionButton';
 
 		this.questionStore = Ext.create('Ext.data.JsonStore', {
 			model: 'ARSnova.model.Question',
@@ -135,10 +138,16 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			}
 		});
 		
+		this.questionStatusButton = Ext.create('ARSnova.view.speaker.MultiQuestionStatusButton', {
+			hidden: true,
+			cls: upperActionButtonCls,
+			questionStore: this.questionList.getStore()
+		});
+		
 		this.showcaseActionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SHOWCASE_MODE,
-			cls: 'actionButton',
 			buttonConfig: 'icon',
+			cls: upperActionButtonCls,
 			imageCls: 'icon-presenter thm-grey',
 			handler: this.showcaseHandler,
 			hidden: true
@@ -146,8 +155,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		
 		this.newQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.NEW_QUESTION,
-			cls: 'actionButton',
 			buttonConfig: 'icon',
+			cls: upperActionButtonCls,
 			imageCls: 'icon-question thm-green',
 			handler: this.newQuestionHandler
 		});
@@ -161,7 +170,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			style: 'margin-top: 30px',
 
 			items: [
-				this.showcaseActionButton,
+				this.questionStatusButton,
+				this.showcaseActionButton,	   
 				this.newQuestionButton
 			]
 		});
@@ -177,16 +187,12 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		});
 		this.caption.connectToStore(this.questionStore);
 
-		this.questionStatusButton = Ext.create('ARSnova.view.speaker.MultiQuestionStatusButton', {
-			hidden: true,
-			questionStore: this.questionList.getStore()
-		});
-
 		this.deleteAnswersButton = Ext.create('ARSnova.view.MatrixButton', {
 			hidden: true,
 			buttonConfig: 'icon',
 			text: Messages.DELETE_ANSWERS,
 			imageCls: 'icon-renew thm-orange',
+			cls: 'actionButton',
 			scope: this,
 			handler: function () {
 				var me = this;
@@ -206,6 +212,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			buttonConfig: 'icon',
 			text: Messages.DELETE_ALL_QUESTIONS,
 			imageCls: 'icon-close thm-red',
+			cls: 'actionButton',
 			scope: this,
 			handler: function () {
 				var msg = Messages.ARE_YOU_SURE;
@@ -231,7 +238,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			},
 
 			items: [
-			    this.questionStatusButton,
 			    this.deleteAnswersButton,
 			    this.deleteQuestionsButton
 			]
@@ -285,8 +291,14 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.caption.explainStatus(questions);
 				this.handleAnswerCount();
 			
-				if(questions.length === 1) this.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE);
-				else this.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE_PLURAL);
+				if(questions.length === 1) {
+					this.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE);
+					this.questionStatusButton.setSingleQuestionMode();
+				} 
+				else {
+					this.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE_PLURAL);
+					this.questionStatusButton.setMultiQuestionMode();
+				}
 
 				this.showcaseActionButton.show();
 				this.questionListContainer.show();

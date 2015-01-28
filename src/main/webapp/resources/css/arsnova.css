@@ -486,6 +486,17 @@ html,body {
 	margin-right: 0px;
 }
 
+.matrixButton.smallerActionButton {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.matrixButton.smallerActionButton .buttonText {
+	width: 105px !important;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
 .matrixButton.manualActionButton .buttonText {
 	display: compact;
 }

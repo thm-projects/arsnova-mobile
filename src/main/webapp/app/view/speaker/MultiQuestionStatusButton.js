@@ -24,8 +24,10 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 		isLectureMode: false,
 		isPreparationMode: false,
 		wording: {
-			stop: Messages.STOP_ALL_QUESTIONS,
-			release: Messages.RELEASE_ALL_QUESTIONS,
+			stop: Messages.STOP_QUESTION,
+			release: Messages.RELEASE_QUESTION,
+			stopAll: Messages.STOP_ALL_QUESTIONS,		
+			releaseAll: Messages.RELEASE_ALL_QUESTIONS,
 			confirm: Messages.CONFIRM_CLOSE_ALL_QUESTIONS,
 			confirmMessage: Messages.CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE
 		}
@@ -33,7 +35,7 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 
 	constructor: function () {
 		this.callParent(arguments);
-
+		
 		this.checkInitialStatus();
 	},
 
@@ -63,6 +65,16 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 	setPreparationQuestionsMode: function() {
 		this.setIsLectureMode(false);
 		this.setIsPreparationMode(true);
+	},
+	
+	setSingleQuestionMode: function() {
+		this.questionIsClosedButton.setButtonText(this.getWording().release);
+		this.questionIsOpenButton.setButtonText(this.getWording().stop);
+	},
+	
+	setMultiQuestionMode: function() {
+		this.questionIsClosedButton.setButtonText(this.getWording().releaseAll);
+		this.questionIsOpenButton.setButtonText(this.getWording().stopAll);
 	},
 
 	changeStatus: function () {

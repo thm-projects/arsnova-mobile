@@ -51,6 +51,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 				'margin-left': '18px'
 			},
 			scope: this,
+			cls: this.getCls(),
 			handler: function () {
 				this.changeStatus();
 			}
@@ -66,6 +67,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 				'margin-left': '18px'
 			},
 			scope: this,
+			cls: this.getCls(),
 			handler: function () {
 				this.changeStatus();
 			}
