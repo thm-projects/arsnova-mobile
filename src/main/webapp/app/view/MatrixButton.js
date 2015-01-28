@@ -101,10 +101,15 @@ Ext.define('ARSnova.view.MatrixButton', {
 	 * render Ext.field.Toggle to matrixbutton
 	 */
 	useToggleFieldConfiguration: function() {
-		var config = this.getToggleConfig();
-		config.renderTo = this.element.select(".iconBtn").elements[0];
-
-		this.toggleField = Ext.create('Ext.field.Toggle', config);
+		var me = this;
+		
+		this.getToggleConfig().renderTo = this.element.select(".iconBtn").elements[0];
+		this.toggleField = Ext.create('Ext.field.Toggle', this.getToggleConfig());
+		this.toggleField.getComponent().onTap = Ext.emptyFn;
+		
+		this.setHandler(function() {
+			me.toggleField.toggle();
+		});
 		
 		this.setToggleFieldValue = function(value) {
 			if(value) {
