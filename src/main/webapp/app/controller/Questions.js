@@ -172,14 +172,20 @@ Ext.define("ARSnova.controller.Questions", {
 				});
 				break;
 			case 'mc':
+			case 'abcd':
 				var answerCount = 0;
-				panel.multipleChoiceQuestion.answerComponents.forEach(function (el) {
+				var checkedCount = 0;
+				var questionComponent = question.get('questionType') === 'mc' ?
+						panel.multipleChoiceQuestion : panel.abcdQuestion;
+				
+				questionComponent.answerComponents.forEach(function (el) {
 					var value = el.getValue().toString().trim();
 					if (!el.getHidden() && value !== "") {
+						if(el.isChecked()) checkedCount++;
 						answerCount++;
 					}
 				});
-				if(answerCount < 2) {
+				if(answerCount < 2 || checkedCount === 0) {
 					error = true;
 				}
 				break;

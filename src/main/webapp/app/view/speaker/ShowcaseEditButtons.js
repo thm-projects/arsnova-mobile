@@ -34,7 +34,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 		this.questionObj = this.config.questionObj;
 		var type = this.questionObj.questionType;
 		
-		this.hasCorrectAnswers = true;
+		this.hasCorrectAnswers = !this.questionObj.noCorrect;
 		if (['vote', 'school', 'freetext', 'flashcard'].indexOf(this.questionObj.questionType) !== -1
 				|| (['grid'].indexOf(this.questionObj.questionType) !== -1 && this.questionObj.gridType == 'moderation')) {
 			this.hasCorrectAnswers = false;
