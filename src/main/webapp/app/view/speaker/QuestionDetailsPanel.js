@@ -694,6 +694,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			},
 
 			items: [
+				this.isFlashcard ? this.questionStatusButton : {},
 				this.questionObj.questionType !== "freetext" && !this.isFlashcard ? 
 				this.statisticButton : {},
 				this.deleteAnswersButton,
