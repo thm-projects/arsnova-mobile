@@ -32,7 +32,7 @@ Ext.define('ARSnova.view.Question', {
 	requires: ['ARSnova.model.Answer', 
 	           'ARSnova.view.CustomMask', 
 	           'ARSnova.view.MathJaxMarkDownPanel',
-	           'ARSnova.view.ShowcaseEditButtons'],
+	           'ARSnova.view.speaker.ShowcaseEditButtons'],
 
 	config: {
 		padding: '0 0 20 0',
@@ -58,7 +58,7 @@ Ext.define('ARSnova.view.Question', {
 		});
 		
 		if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
-			this.editButtons = Ext.create('ARSnova.view.ShowcaseEditButtons', {
+			this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
 				questionObj: this.questionObj
 			});
 		}

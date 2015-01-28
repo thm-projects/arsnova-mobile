@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('ARSnova.view.ShowcaseEditButtons', {
+Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 	extend: 'Ext.Panel',
 	
 	config: {
@@ -134,9 +134,9 @@ Ext.define('ARSnova.view.ShowcaseEditButtons', {
 		});
 		
 		this.add([
+			this.questionStatusButton,
 			type === "flashcard" ? {} : this.releaseStatisticButton,
-			this.hasCorrectAnswers ? this.showCorrectAnswerButton : {}, 
-			this.questionStatusButton
+			this.hasCorrectAnswers ? this.showCorrectAnswerButton : {}
 		]);
 	}
 });

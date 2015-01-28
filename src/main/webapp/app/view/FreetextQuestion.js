@@ -46,7 +46,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		});
 		
 		if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
-			this.editButtons = Ext.create('ARSnova.view.ShowcaseEditButtons', {
+			this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
 				questionObj: this.questionObj
 			});
 		}
