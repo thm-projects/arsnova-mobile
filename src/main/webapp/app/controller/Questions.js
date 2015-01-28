@@ -259,7 +259,7 @@ Ext.define("ARSnova.controller.Questions", {
 						var speakerTabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel,
 							panel = speakerTabPanel.getActiveItem(),
 							questionStatus;
-						
+
 						if(panel === speakerTabPanel.showcaseQuestionPanel) {
 							panel = panel.getActiveItem();
 							questionStatus = panel.editButtons.questionStatusButton;
@@ -333,5 +333,12 @@ Ext.define("ARSnova.controller.Questions", {
 
 	deleteAllInterposedQuestions: function (callbacks) {
 		ARSnova.app.questionModel.deleteAllInterposedQuestions(sessionStorage.getItem('keyword'), callbacks);
+	},
+
+	showLearningProgress: function () {
+		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		sTP.animateActiveItem(sTP.learningProgressPanel, {
+			type: 'slide'
+		});
 	}
 });
