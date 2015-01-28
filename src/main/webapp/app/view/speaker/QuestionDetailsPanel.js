@@ -1026,8 +1026,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	},
 
 	getQuestionAnswers: function () {
-		console.log('test');
-		console.log(this.questionObj.possibleAnswers);
 		if (this.questionObj.possibleAnswers) {
 			if (this.questionObj.questionType === "freetext") {
 				var self = this;
