@@ -67,6 +67,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 	},
 
 	changeStatus: function () {
+		var me = this;
 		var id = this.questionObj._id;
 
 		if (this.isOpen) {
@@ -78,6 +79,8 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 						active: 0,
 						callback: this.questionClosedSuccessfully
 					});
+				} else {
+					me.button.setToggleFieldValue(true);
 				}
 			}, this);
 		} else {

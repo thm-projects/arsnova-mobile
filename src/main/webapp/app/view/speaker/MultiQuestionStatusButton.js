@@ -72,6 +72,8 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 	},
 
 	changeStatus: function () {
+		var me = this;
+		
 		if (!this.getQuestionStore()) {
 			return;
 		}
@@ -101,6 +103,8 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 						}, this),
 						scope: this
 					});
+				} else {
+					me.button.setToggleFieldValue(true);
 				}
 			}, this);
 		} else {
