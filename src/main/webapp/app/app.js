@@ -246,10 +246,6 @@ Ext.application({
 			return ARSnova.app.getController('Sessions').login({
 				keyword: sessionStorage.getItem("keyword")
 			});
-		} else if (localStorage.getItem("keyword") !== null && localStorage.getItem("keyword") !== "") {
-			return ARSnova.app.getController('Sessions').login({
-				keyword: localStorage.getItem("keyword")
-			});
 		}
 	},
 

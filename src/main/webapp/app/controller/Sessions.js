@@ -31,7 +31,7 @@ Ext.define("ARSnova.controller.Sessions", {
 	launch: function () {
 		/* (Re)join session on Socket.IO connect event */
 		ARSnova.app.socket.addListener("arsnova/socket/connect", function () {
-			var keyword = localStorage.getItem('keyword');
+			var keyword = sessionStorage.getItem('keyword');
 
 			if (keyword) {
 				/* TODO: Use abstraction layer? */
@@ -71,7 +71,6 @@ Ext.define("ARSnova.controller.Sessions", {
 				// set local variables
 				localStorage.setItem('sessionId', obj._id);
 				localStorage.setItem('name', obj.name);
-				localStorage.setItem('keyword', obj.keyword);
 				localStorage.setItem('shortName', obj.shortName);
 				localStorage.setItem('courseId', obj.courseId === null ? "" : obj.courseId);
 				localStorage.setItem('courseType', obj.courseType === null ? "" : obj.courseType);
@@ -122,9 +121,10 @@ Ext.define("ARSnova.controller.Sessions", {
 		// online counter badge
 		ARSnova.app.taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
 
+		sessionStorage.removeItem("keyword");
+		
 		localStorage.removeItem("sessionId");
 		localStorage.removeItem("name");
-		localStorage.removeItem("keyword");
 		localStorage.removeItem("shortName");
 		localStorage.removeItem("active");
 		localStorage.removeItem("session");
