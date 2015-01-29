@@ -382,7 +382,7 @@ switch (lang) {
 			EXPORT_BUTTON_FS: "My System",
 			EXPORT_BUTTON_PP: "Public Pool",
 			EXPORT_PP_NOTIFICATION: 'As a "guest" you can not export a session in the public pool. Please log in using one of the other approaches.',
-			EXPORT_SESSION_LABEL: 'Selection of sessions to be exported',
+			EXPORT_SESSION_LABEL: 'Selection of sessions to be exported:',
 			
 			/*Import session*/
 			IMPORT_IOS_NOTIFICATION: "An import can not be performed on iOS devices.",
@@ -526,7 +526,8 @@ switch (lang) {
 			IMP_LOADMSK: "Importing sessions",
 			IMP_ERROR: "Error while importing sessions",
 			IMP_ERROR_FORMAT: "JSON file is not formated correctly",
-			IMP_ERROR_SAVE: "Could not save session to database",
+			IMP_ERROR_SAVE: "Could not save session to database.",
+			IMP_ERROR_IMAGE: "Could not save session, image exceeds maximal size.",
 		};
 
 		break;
@@ -860,7 +861,7 @@ switch (lang) {
 			EXPORT_BUTTON_FS: "Mein System",
 			EXPORT_BUTTON_PP: "Public Pool",
 			EXPORT_PP_NOTIFICATION: 'Als "Gast" können Sie keine Session in den Public Pool exportieren. Bitte melden Sie sich über einen der anderen Zugänge an.',
-			EXPORT_SESSION_LABEL:	'Auswahl der Session(s), die exportiert werden', 
+			EXPORT_SESSION_LABEL:	'Auswahl der Session(s), die exportiert werden:', 
 			/*Import session*/
 			IMPORT_IOS_NOTIFICATION: "Ein Import kann auf iOS Geräten nicht durchgeführt werden",
 			IMPORT_NOT_SUPPORTED: "Der Session Import wird für Ihren Browser nicht unterstützt.",
@@ -1002,7 +1003,8 @@ switch (lang) {
 			IMP_LOADMSK: "Importiere sessions",
 			IMP_ERROR: "Fehler bei Session-Import",
 			IMP_ERROR_FORMAT: "JSON Datei ist falsch formatiert.",
-			IMP_ERROR_SAVE: "Session konnte nicht gespeichert werden",
+			IMP_ERROR_SAVE: "Session konnte nicht gespeichert werden.",
+			IMP_ERROR_IMAGE: "Session konnte nicht gespeichert werden. Bild überschreitet maximale Größe.",
 	};
 	break;
 }

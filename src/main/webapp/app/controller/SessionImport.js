@@ -78,8 +78,11 @@ Ext.define("ARSnova.controller.SessionImport", {
 						promise.resolve();
 					});
 			},
-			failure: function(records, operation) {
-				Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_SAVE);
+			failure: function(response, operation) {
+				if (response.status == 413)
+					Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_IMAGE);
+				else
+					Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_SAVE);
 				promise.reject();
 			}
 		});

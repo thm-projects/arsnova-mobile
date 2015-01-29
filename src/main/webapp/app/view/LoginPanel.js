@@ -88,6 +88,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 				imageCls = "login-icon-" + service.id;
 				button = {
 					xtype: 'matrixbutton',
+					id: 'login-select-' + service.id,
 					text: "guest" === service.id ? Messages.GUEST: service.name,
 					value: service,
 					image: imageSrc,
