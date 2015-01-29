@@ -10,6 +10,16 @@
 	border-radius: 10px 10px 10px 10px;	
 }
 
+.x-carousel-indicator-horizontal {
+	margin-bottom: 10px;
+	
+	&.x-carousel-indicator span {
+		width: 0.9em;
+		height: 0.9em;
+		margin: 0.3em;
+	}
+}
+
 .x-list {
 	.x-scroll-container {
 		background: transparent;
