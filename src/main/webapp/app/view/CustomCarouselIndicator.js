@@ -72,5 +72,59 @@ Ext.define('ARSnova.view.CustomCarouselIndicator', {
 			carousel.setActiveItem(targetIndex);
 			carousel.previous();
 		}
+	},
+	
+	setActiveIndex: function(index) {
+		var indicators = this.indicators,
+			currentActiveIndex = this.activeIndex,
+			currentActiveItem = indicators[currentActiveIndex],
+			activeItem = indicators[index],
+			baseCls = this.getBaseCls();
+
+		if (currentActiveItem) {
+			currentActiveItem.removeCls(baseCls, null, 'active');
+		}
+
+		if (activeItem) {
+			activeItem.addCls(baseCls, null, 'active');
+		}
+
+		this.activeIndex = index;
+		
+		element = this.bodyElement.dom.children[0];
+		this.animationDirection = currentActiveIndex > index ? 0 : 1;
+		
+		if(element && activeItem && index !== currentActiveIndex) {
+			var lastElement = indicators[indicators.length-1],
+				lastElementRightPos = lastElement.dom.getBoundingClientRect().right,
+				maxRight = this.element.getPageBox().right;
+			
+			if(lastElementRightPos > maxRight) {
+				var itemRect = activeItem.dom.getBoundingClientRect(),
+					margins = parseFloat(window.getComputedStyle(activeItem.dom, "").getPropertyValue("margin"))*2,
+					elementWidth = itemRect.right - itemRect.left + margins,
+					leftPos = this.getLeft(),
+					offsetPos = 5;
+				
+				if (this.animationDirection) {
+					var position = itemRect.left + leftPos,
+						elementsTillMaxPos = Math.ceil((maxRight - position) / elementWidth);
+					
+					if(elementsTillMaxPos < offsetPos) {
+						// offsetPos is added in order to simulate a slight movement
+						this.setLeft(leftPos - (elementWidth * (offsetPos-elementsTillMaxPos)) + offsetPos);
+					}
+				} else {
+					if(itemRect.left < maxRight - (elementWidth * offsetPos)) {
+						this.setLeft(0);
+					} else if(leftPos < 0) {
+						// offsetPos is added in order to simulate a slight movement
+						this.setLeft(leftPos + (elementWidth * (currentActiveIndex - index)) - offsetPos);
+					}
+				}
+			}
+		}
+
+		return this;
 	}
 });
