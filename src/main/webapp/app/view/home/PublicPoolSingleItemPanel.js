@@ -80,6 +80,51 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			scope: this
 		});
 		
+		this.visitMatrixButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: Messages.SESSIONPOOL_VISIT,
+			buttonConfig: 'icon',
+			imageCls: 'icon-sign-in thm-grey',
+			scope: this,
+			sessionObj: this.getSession(),
+			handler: function (options) {
+				var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
+				ARSnova.app.getController('Auth').roleSelect({
+					mode: ARSnova.app.USER_ROLE_STUDENT
+				});
+				ARSnova.app.getController('Sessions').login({
+					keyword: options.config.sessionObj.keyword
+				});
+				hideLoadMask();
+			}
+		});
+			
+		this.visitMatrixButtonPanel = Ext.create('Ext.Panel', {
+			layout: {
+				type: 'hbox',
+				pack: 'center'
+			},
+			items: [this.visitMatrixButton]
+		});
+		
+		this.visitMatriButton = Ext.create('Ext.Button', {
+			text: Messages.SESSIONPOOL_VISIT,
+			ui: 'confirm',
+			cls: 'saveQuestionButton',
+			style: 'width: 89px',
+			sessionObj: this.getSession(),
+			handler: function (options) {
+				var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
+				ARSnova.app.getController('Auth').roleSelect({
+					mode: ARSnova.app.USER_ROLE_STUDENT
+				});
+				ARSnova.app.getController('Sessions').login({
+					keyword: options.config.sessionObj.keyword
+				});
+				hideLoadMask();
+			},
+			scope: this
+		});
+		
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: this.getSession().name,
 			docked: 'top',
@@ -246,7 +291,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			        this.descriptionPanel,
 			        this.sessionFieldSet,
 			        this.creatorFieldSet,
-			        this.matrixButtonPanel 
+			        (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) ? this.visitMatrixButtonPanel : this.matrixButtonPanel  
 			]
 		});
 		

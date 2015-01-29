@@ -154,11 +154,10 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			this.publicPoolButton = Ext.create('ARSnova.view.MatrixButton', {
 				text: 'Pool',
 				buttonConfig: 'icon',
-				imageCls: 'icon-cloud thm-lightblue',
+				imageCls: 'icon-cloud thm-green',
 				scope: this,
 				handler: function() {
 					// get public pool sessions from server
-					var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK);
 					ARSnova.app.restProxy.getPublicPoolSessions({
 						success: function(sessionList) {
 							var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
@@ -171,20 +170,15 @@ Ext.define('ARSnova.view.home.HomePanel', {
 								direction: 'left',
 								duration: 700
 							});
-							
-							hideLoadMask();
 						},
 						empty: function() {
 		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
-		    				hideLoadMask();
 		    			},
 		    			failure: function() {
 		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
-		    				hideLoadMask();
 		    			},
 		    			unauthenticated: function() {
 		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
-		    				hideLoadMask();
 		    			}
 					});
 				}

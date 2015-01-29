@@ -115,11 +115,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			scrollable: null,
 			title: Messages.MY_SESSIONS
 		});
-		
-		this.myPpSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
-			scrollable: null,
-			title: Messages.MY_PUBLIC_POOL_SESSIONS
-		});
 
 		this.lastVisitedSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
 			scrollable: null,
@@ -134,14 +129,19 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		});
 
 		if (config.features.publicPool) {
+			
+			this.myPpSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
+				scrollable: null,
+				title: Messages.MY_PUBLIC_POOL_SESSIONS
+			});
+			
 			this.publicPoolButton = Ext.create('ARSnova.view.MatrixButton', {
 				text: 'Pool',
 				buttonConfig: 'icon',
-				imageCls: 'icon-cloud thm-lightblue',
+				imageCls: 'icon-cloud thm-green',
 				scope: this,
 				handler: function() {
 					// get public pool sessions from server
-					var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK);
 					ARSnova.app.restProxy.getPublicPoolSessions({
 						success: function(sessionList) {
 							var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
@@ -154,20 +154,15 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 								direction: 'left',
 								duration: 700
 							});
-							
-							hideLoadMask();
 						},
 						empty: function() {
 		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
-		    				hideLoadMask();
 		    			},
 		    			failure: function() {
 		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
-		    				hideLoadMask();
 		    			},
 		    			unauthenticated: function() {
 		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
-		    				hideLoadMask();
 		    			}
 					});
 				}
@@ -223,7 +218,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					loadfailure: function (message) {}
 				}
 			});
-			this.importButtonClickable.fileElement.dom.accept = "application/octet-stream"; // enable all kinds of data for file input
+			this.importButtonClickable.fileElement.dom.accept = ""; // enable all kinds of data for file input
 			this.importButton = Ext.create('ARSnova.view.MatrixButton', {
 				text: Messages.IMP_BUTTON_IMPORT,
 				buttonConfig: 'icon',
@@ -271,7 +266,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 											text: 'Pool',
 											itemId: 'no',
 											buttonConfig: 'icon',
-											imageCls: 'icon-cloud thm-lightblue'}
+											imageCls: 'icon-cloud thm-green'}
 						        ]
 							});
 							
@@ -327,8 +322,12 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		this.add([
 			this.toolbar,
 			this.newSessionButtonForm,
-			this.sessionsForm,
-			this.myPpSessionsForm,
+			this.sessionsForm]);
+		
+		if (config.features.publicPool)
+			this.add(this.myPpSessionsForm);
+		
+		this.add([
 			this.matrixButtonPanel,
 			this.lastVisitedSessionsForm
 		]);
@@ -458,6 +457,8 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	loadCreatedPublicPoolSessions: function () {
 		var me = this;
 		var promise = new RSVP.Promise();
+		if (!ARSnova.app.globalConfig.features.publicPool)
+			return promise;
 
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
 		ARSnova.app.sessionModel.getMyPublicPoolSessions({
@@ -477,22 +478,17 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				for (var i = 0, session; session = sessions[i]; i++) {
 					
 					var status = "";
-					var course = "icon-presenter";
 
 					if (!session.active) {
 						status = " isInactive";
 					}
-
-					if (session.courseType && session.courseType.length > 0) {
-						course = "icon-prof";
-					}
-
+					
 					// Minimum width of 321px equals at least landscape view
 					var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
 					var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 						ui: 'normal',
 						text: Ext.util.Format.htmlEncode(displaytext),
-						iconCls: course + " courseIcon",
+						iconCls: "icon-cloud thm-green ",
 						cls: 'forwardListButton' + status,
 						sessionObj: session,
 						handler: function (options) {
