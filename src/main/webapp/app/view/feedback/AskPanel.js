@@ -126,7 +126,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		var question = Ext.create('ARSnova.model.Question', {
 			type: "interposed_question",
 			sessionId: localStorage.getItem("sessionId"),
-			sessionKeyword: localStorage.getItem("keyword"),
+			sessionKeyword: sessionStorage.getItem("keyword"),
 			subject: this.subject.getValue().trim(),
 			text: this.text.getValue().trim(),
 			timestamp: new Date().getTime()

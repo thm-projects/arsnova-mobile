@@ -182,7 +182,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 			items: [{
 				cls: 'gravure',
-				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(localStorage.getItem("keyword"))
+				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(sessionStorage.getItem("keyword"))
 			}, this.actionButtonPanel, this.inClassButtons]
 		});
 
@@ -200,7 +200,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				Ext.Msg.confirm(Messages.DELETE_SESSION_TITLE, msg, function (answer) {
 					if (answer == 'yes') {
 						ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_DELETE);
-						ARSnova.app.sessionModel.destroy(localStorage.getItem('keyword'), {
+						ARSnova.app.sessionModel.destroy(sessionStorage.getItem('keyword'), {
 							success: function () {
 								ARSnova.app.removeVisitedSession(localStorage.getItem('sessionId'));
 								ARSnova.app.mainTabPanel.tabPanel.on('activeitemchange', function () {
@@ -293,7 +293,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			console.log('server-side error');
 		};
 
-		ARSnova.app.questionModel.countLectureQuestions(localStorage.getItem("keyword"), {
+		ARSnova.app.questionModel.countLectureQuestions(sessionStorage.getItem("keyword"), {
 			success: function (response) {
 				var numQuestions = parseInt(response.responseText);
 
@@ -304,7 +304,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 					me.showcaseActionButton.show();
 				}
 
-				ARSnova.app.questionModel.countLectureQuestionAnswers(localStorage.getItem("keyword"), {
+				ARSnova.app.questionModel.countLectureQuestionAnswers(sessionStorage.getItem("keyword"), {
 					success: function (response) {
 						var numAnswers = parseInt(response.responseText);
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
@@ -319,10 +319,10 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			},
 			failure: failureCallback
 		});
-		ARSnova.app.questionModel.countPreparationQuestions(localStorage.getItem("keyword"), {
+		ARSnova.app.questionModel.countPreparationQuestions(sessionStorage.getItem("keyword"), {
 			success: function (response) {
 				var numQuestions = parseInt(response.responseText);
-				ARSnova.app.questionModel.countPreparationQuestionAnswers(localStorage.getItem("keyword"), {
+				ARSnova.app.questionModel.countPreparationQuestionAnswers(sessionStorage.getItem("keyword"), {
 					success: function (response) {
 						var numAnswers = parseInt(response.responseText);
 
@@ -341,7 +341,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	},
 
 	countFeedbackQuestions: function () {
-		ARSnova.app.questionModel.countFeedbackQuestions(localStorage.getItem("keyword"), {
+		ARSnova.app.questionModel.countFeedbackQuestions(sessionStorage.getItem("keyword"), {
 			success: function (response) {
 				var questionCount = Ext.decode(response.responseText);
 				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadgeText(questionCount.unread);
@@ -361,7 +361,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 	courseLearningProgress: function () {
 		var me = this;
-		ARSnova.app.sessionModel.getCourseLearningProgress(localStorage.getItem("keyword"), {
+		ARSnova.app.sessionModel.getCourseLearningProgress(sessionStorage.getItem("keyword"), {
 			success: function (response) {
 				var p = Ext.decode(response.responseText);
 				if (p >= 75) {

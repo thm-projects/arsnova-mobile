@@ -31,7 +31,7 @@ Ext.define("ARSnova.controller.Sessions", {
 	launch: function () {
 		/* (Re)join session on Socket.IO connect event */
 		ARSnova.app.socket.addListener("arsnova/socket/connect", function () {
-			var keyword = localStorage.getItem('keyword');
+			var keyword = sessionStorage.getItem('keyword');
 
 			if (keyword) {
 				/* TODO: Use abstraction layer? */
@@ -71,12 +71,13 @@ Ext.define("ARSnova.controller.Sessions", {
 				// set local variables
 				localStorage.setItem('sessionId', obj._id);
 				localStorage.setItem('name', obj.name);
-				localStorage.setItem('keyword', obj.keyword);
 				localStorage.setItem('shortName', obj.shortName);
 				localStorage.setItem('courseId', obj.courseId === null ? "" : obj.courseId);
 				localStorage.setItem('courseType', obj.courseType === null ? "" : obj.courseType);
 				localStorage.setItem('active', obj.active ? 1 : 0);
 				localStorage.setItem('creationTime', obj.creationTime);
+			
+				sessionStorage.setItem('keyword', obj.keyword);
 				
 				// deactivate several about tabs
 				ARSnova.app.mainTabPanel.tabPanel.deactivateAboutTabs();
@@ -120,9 +121,10 @@ Ext.define("ARSnova.controller.Sessions", {
 		// online counter badge
 		ARSnova.app.taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
 
+		sessionStorage.removeItem("keyword");
+		
 		localStorage.removeItem("sessionId");
 		localStorage.removeItem("name");
-		localStorage.removeItem("keyword");
 		localStorage.removeItem("shortName");
 		localStorage.removeItem("active");
 		localStorage.removeItem("session");
@@ -298,13 +300,14 @@ Ext.define("ARSnova.controller.Sessions", {
 				var fullSession = Ext.decode(response.responseText);
 				localStorage.setItem('sessionId', fullSession._id);
 				localStorage.setItem('name', fullSession.name);
-				localStorage.setItem('keyword', fullSession.keyword);
 				localStorage.setItem('shortName', fullSession.shortName);
 				localStorage.setItem('active', fullSession.active ? 1 : 0);
 				localStorage.setItem('courseId', fullSession.courseId === null ? "" : fullSession.courseId);
 				localStorage.setItem('courseType', fullSession.courseType === null ? "" : fullSession.courseType);
 				localStorage.setItem('creationTime', fullSession.creationTime);
 				ARSnova.app.isSessionOwner = true;
+				
+				sessionStorage.setItem('keyword', fullSession.keyword);
 
 				// start task to update the feedback tab in tabBar
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge, ARSnova.app.mainTabPanel.tabPanel);
@@ -376,7 +379,7 @@ Ext.define("ARSnova.controller.Sessions", {
 	},
 
 	setActive: function (options) {
-		ARSnova.app.sessionModel.lock(localStorage.getItem("keyword"), options.active, {
+		ARSnova.app.sessionModel.lock(sessionStorage.getItem("keyword"), options.active, {
 			success: function () {
 				// update this session in localStorage
 				var sessions = Ext.decode(localStorage.getItem('lastVisitedSessions'));

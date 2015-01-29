@@ -24,8 +24,8 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 		isLectureMode: false,
 		isPreparationMode: false,
 		wording: {
-			stop: Messages.STOP_ALL_QUESTIONS,
-			release: Messages.RELEASE_ALL_QUESTIONS,
+			release: Messages.RELEASE_QUESTION,	
+			releaseAll: Messages.RELEASE_ALL_QUESTIONS,
 			confirm: Messages.CONFIRM_CLOSE_ALL_QUESTIONS,
 			confirmMessage: Messages.CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE
 		}
@@ -33,7 +33,7 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 
 	constructor: function () {
 		this.callParent(arguments);
-
+		
 		this.checkInitialStatus();
 	},
 
@@ -43,15 +43,13 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 		this.getQuestionStore().each(function (item) {
 			hasActiveQuestions = hasActiveQuestions || item.get("active");
 		});
-
+		
 		if (hasActiveQuestions) {
 			this.isOpen = true;
-			this.questionIsClosedButton.hide();
-			this.questionIsOpenButton.show();
+			this.button.setToggleFieldValue(true);
 		} else {
 			this.isOpen = false;
-			this.questionIsClosedButton.show();
-			this.questionIsOpenButton.hide();
+			this.button.setToggleFieldValue(false);
 		}
 	},
 	
@@ -64,8 +62,18 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 		this.setIsLectureMode(false);
 		this.setIsPreparationMode(true);
 	},
+	
+	setSingleQuestionMode: function() {
+		this.button.setButtonText(this.getWording().release);
+	},
+	
+	setMultiQuestionMode: function() {
+		this.button.setButtonText(this.getWording().releaseAll);
+	},
 
 	changeStatus: function () {
+		var me = this;
+		
 		if (!this.getQuestionStore()) {
 			return;
 		}
@@ -95,6 +103,8 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 						}, this),
 						scope: this
 					});
+				} else {
+					me.button.setToggleFieldValue(true);
 				}
 			}, this);
 		} else {

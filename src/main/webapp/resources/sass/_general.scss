@@ -39,10 +39,6 @@
 
 .feedbackOkBackground .iconBtn {
 	background: $thm-green;
-	
-	.icon-renew {
-		color: white;
-	}
 }
 
 .feedbackGoodBackground .iconBtn {
@@ -58,11 +54,24 @@
 	color: #000;
 }
 
+.feedbackStatisticButton.voteButton.smallerMatrixButtons .iconBtn {
+	width: 70px;
+	height: 70px;
+	
+	.iconBtnImg {
+		margin: 11px 0 0 10.5px;
+	}
+}
+
 .x-container.x-form,
 .forwardListButton.caption {
 	max-width: 720px;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+.x-msgbox {
+	min-width: 310px;
 }
 
 .x-loading-mask {

@@ -574,7 +574,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	dispatch: function (values, button) {
 		var promise = new RSVP.Promise();
 		ARSnova.app.getController('Questions').add({
-			sessionKeyword: localStorage.getItem('keyword'),
+			sessionKeyword: sessionStorage.getItem('keyword'),
 			text: values.text,
 			subject: values.subject,
 			type: "skill_question",

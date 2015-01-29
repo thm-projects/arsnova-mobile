@@ -44,6 +44,12 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		this.customMask = Ext.create('ARSnova.view.CustomMask', {
 			mainPanel: this
 		});
+		
+		if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
+			this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
+				questionObj: this.questionObj
+			});
+		}
 
 		this.on('preparestatisticsbutton', function (button) {
 			var scope = self;
@@ -121,7 +127,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					}, 
 					this.buttonContainer]
 				}]
-			})
+			}), this.editButtons ? this.editButtons : {}
 		]);
 
 		this.on('activate', function () {
@@ -131,6 +137,22 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				this.setAnswerCount();
 			}
 		});
+	},
+	
+	getQuestionTypeMessage: function(msgAppendix) {
+		msgAppendix = msgAppendix ? msgAppendix : "";
+		var message;
+		
+		switch (this.questionObj.questionType) {
+			case "freetext":
+				message = this.questionObj.questionType.toUpperCase();
+				break;
+			default:
+				message = Messages.QUESTION;
+				msgAppendix = "";
+		}
+		
+		return Messages[message + msgAppendix];
 	},
 	
 	setAnswerCount: function() {

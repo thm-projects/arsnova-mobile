@@ -189,7 +189,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			scrollable: null,
 			items: [{
 				cls: 'gravure',
-				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(localStorage.getItem("keyword"))
+				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(sessionStorage.getItem("keyword"))
 			}, this.actionButtonPanel, this.inClassButtons]
 		});
 
@@ -312,6 +312,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	showNotification: function (questionIds, variant) {
+		var titleLabel;
 		var callback = Ext.bind(function (answer) {
 			if (answer == 'yes') {
 				if (variant === 'lecture') {
@@ -321,13 +322,19 @@ Ext.define('ARSnova.view.user.InClass', {
 				}
 			}
 		}, this);
+		
 		if (questionIds.length == 1) {
-			Ext.Msg.confirm(Messages.ONE_NEW_QUESTION, Messages.WANNA_ANSWER, callback);
+			titleLabel = variant === 'lecture' ? 
+				Messages.ONE_NEW_LECTURE_QUESTION : 
+				Messages.ONE_NEW_PREPARATION_QUESTION;
+			
+			Ext.Msg.confirm(titleLabel, Messages.WANNA_ANSWER, callback);
 		} else {
-			Ext.Msg.confirm(
-				Messages.THERE_ARE + ' ' + questionIds.length + ' ' + Messages.NEW_QUESTIONS, Messages.WANNA_ANSWER,
-				callback
-			);
+			titleLabel = variant === 'lecture' ? 
+				Messages.SEVERAL_NEW_LECTURE_QUESTIONS : 
+				Messages.SEVERAL_NEW_PREPARATION_QUESTIONS;
+			
+			Ext.Msg.confirm(titleLabel.replace('###', questionIds.length), Messages.WANNA_ANSWER, callback);
 		}
 	},
 
@@ -347,14 +354,14 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	checkFeedbackRemoved: function (sessions) {
-		if (Ext.Array.contains(sessions, localStorage.getItem("keyword"))) {
+		if (Ext.Array.contains(sessions, sessionStorage.getItem("keyword"))) {
 			Ext.Msg.alert(Messages.NOTICE, Messages.FEEDBACK_RESET);
 		}
 	},
 
 	countFeedbackQuestions: function () {
 		var me = this;
-		ARSnova.app.questionModel.countFeedbackQuestions(localStorage.getItem("keyword"), {
+		ARSnova.app.questionModel.countFeedbackQuestions(sessionStorage.getItem("keyword"), {
 			success: function (response) {
 				var questionCount = Ext.decode(response.responseText);
 
@@ -398,7 +405,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 	checkLearningProgress: function () {
 		var me = this;
-		ARSnova.app.sessionModel.getMyLearningProgress(localStorage.getItem("keyword"), {
+		ARSnova.app.sessionModel.getMyLearningProgress(sessionStorage.getItem("keyword"), {
 			success: function (response) {
 				var goodProgressThreshold = 75;
 				var avgProgressThreshold = 25;

@@ -113,7 +113,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			docked: 'top',
 			ui: 'light',
 			cls: ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER ? 'speakerTitleText' : '',
-			title: Messages.QUESTION,
+			title: Messages.STATISTIC,
 			items: [this.backButton, {
 				xtype: 'spacer'
 			}, {
@@ -357,7 +357,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	},
 
 	getQuestionAnswers: function () {
-		ARSnova.app.questionModel.countAnswers(localStorage.getItem('keyword'), this.questionObj._id, {
+		ARSnova.app.questionModel.countAnswers(sessionStorage.getItem('keyword'), this.questionObj._id, {
 			success: function (response) {
 				var panel = ARSnova.app.mainTabPanel._activeItem;
 				var chart = panel.questionChart;

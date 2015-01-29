@@ -77,7 +77,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: Messages.QUESTION,
+			title: Messages.STATISTIC,
 			docked: 'top',
 			ui: 'light',
 			items: [this.backButton]
@@ -165,7 +165,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 	checkFreetextAnswers: function () {
 		var me = this;
 		
-		ARSnova.app.questionModel.getAnsweredFreetextQuestions(localStorage.getItem("keyword"), this.questionObj._id, {
+		ARSnova.app.questionModel.getAnsweredFreetextQuestions(sessionStorage.getItem("keyword"), this.questionObj._id, {
 			success: function (response) {
 				var responseObj = Ext.decode(response.responseText);
 				var answerLabel = me.noAnswersLabel.getInnerItems()[0];
