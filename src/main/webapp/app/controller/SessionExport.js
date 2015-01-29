@@ -86,7 +86,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 		
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_EXPORT, 240000);
 		
-		this.exportSessions(exportSessions, true, true)
+		this.exportSessions(exportSessions, false, false)
 		.then(function(exportData) {
 			
 			for (var i = 0; i < exportData.length; i++) {
