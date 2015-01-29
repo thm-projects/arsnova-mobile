@@ -189,6 +189,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		this.sessionStatusButton = Ext.create('ARSnova.view.SessionStatusButton');
 
 		this.deleteSessionButton = Ext.create('ARSnova.view.MatrixButton', {
+			id: 'delete-session-button',
 			text: Messages.DELETE_SESSION,
 			buttonConfig: 'icon',
 			cls: 'actionButton',
