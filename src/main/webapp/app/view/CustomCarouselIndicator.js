@@ -37,12 +37,13 @@ Ext.define('ARSnova.view.CustomCarouselIndicator', {
 			this.marginLeftRight = parseFloat(window.getComputedStyle(indicator, "").getPropertyValue("margin-left"));
 			this.marginTopBottom = parseFloat(window.getComputedStyle(indicator, "").getPropertyValue("margin-top"));
 			this.elementWidth = itemRect.right - itemRect.left + (2 * this.marginLeftRight);
-			this.screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 			
 			var resizeTask = function() {
 				if(me.indicators.length && me.hasItems) {
 					var calcWidth = me.indicators.length * me.elementWidth;
-					me.setWidth(calcWidth < this.screenWidth ? this.screenWidth : calcWidth);
+					
+					me.screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+					me.setWidth(calcWidth < me.screenWidth ? me.screenWidth : calcWidth);
 				}
 			};
 			
@@ -117,7 +118,7 @@ Ext.define('ARSnova.view.CustomCarouselIndicator', {
 		element = this.bodyElement.dom.children[0];
 		this.animationDirection = currentActiveIndex > index ? 0 : 1;
 		
-		if(element && activeItem && index !== currentActiveIndex) {
+		if(element && activeItem && index !== currentActiveIndex && currentActiveIndex !== -1) {
 			var lastElement = indicators[indicators.length-1],
 				lastElementRightPos = lastElement.dom.getBoundingClientRect().right,
 				itemRect = activeItem.dom.getBoundingClientRect(),
