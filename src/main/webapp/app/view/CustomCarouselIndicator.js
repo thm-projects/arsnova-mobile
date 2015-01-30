@@ -126,7 +126,7 @@ Ext.define('ARSnova.view.CustomCarouselIndicator', {
 				leftPos = this.getLeft();
 			
 			if(lastElementRightPos + Math.abs(leftPos) > maxRight) {
-				var offsetPos = 4;
+				var offsetPos = 5;
 				
 				if (this.animationDirection) {
 					var position = itemRect.left,
