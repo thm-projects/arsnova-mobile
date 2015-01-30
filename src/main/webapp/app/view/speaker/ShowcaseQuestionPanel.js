@@ -99,7 +99,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		if(newQuestion.questionObj) {
 			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width,
 				messageAppendix = screenWidth >= 500 ? "_LONG" : "",
-				message = newQuestion.getQuestionTypeMessage(messageAppendix);
+				message = screenWidth > 420 ? 
+					newQuestion.getQuestionTypeMessage(messageAppendix) : "";
 
 			this.toolbar.setTitle(message);
 		}
