@@ -26,7 +26,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 	config: {
 		viewOnly: false,
-		padding: '0 0 20 0',
+		padding: '0 0 50 0',
 
 		scrollable: {
 			direction: 'vertical',
