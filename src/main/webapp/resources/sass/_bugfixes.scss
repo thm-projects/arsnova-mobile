@@ -28,3 +28,8 @@
 	-webkit-text-fill-color: initial !important;
 }
 
+/* remove "Sencha Touch GPL3" watermark from charts */
+.x-chart-watermark {
+	opacity: 0;
+}
+
