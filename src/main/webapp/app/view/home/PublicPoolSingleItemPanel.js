@@ -33,6 +33,9 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		this.callParent(arguments);
 
 		var me = this;
+		var screenWidth = (window.innerWidth > 0) ?
+				window.innerWidth :	screen.width;
+		var showShortLabels = screenWidth < 480;
 		
 		//
 		// Toolbar items
@@ -158,6 +161,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		});
 		
 		this.descriptionPanel = Ext.create('Ext.Panel',{
+			
 			layout:	{
 				type: 'hbox',
 				pack: 'center',
@@ -171,14 +175,14 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		if (this.getSession().ppLogo != null && this.getSession().ppLogo != "") {
 			
 			this.logoContainer = Ext.create('Ext.Container', {
-				flex: 1,
+				flex: showShortLabels ? 2 : 1,
 				layout: {
 					pack: 'center',
 					align: 'center'
 				},
 				style: {
 					'padding-top': '25px',
-					'text-align': 'center'
+					'text-align': 'left'
 				},
 				html: '<img src="' + this.getSession().ppLogo + '" style="width: 100%; max-width: 100px;"></img>',
 			});
@@ -192,7 +196,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 				xtype: 'mathJaxMarkDownPanel',
 				id: 'questionContent',
 				style: 'background-color: transparent; color: black; ',
-				flex: 4
+				flex: 4 
 			});
 
 			this.markdownPanel.setContent( this.getSession().ppDescription, true, true);
@@ -284,11 +288,18 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			items: [this.creatorName, this.creatorMail, this.creatorUni, this.creatorDep]
 		});
 		
+		this.descriptionFieldSet = Ext.create('Ext.form.FieldSet', {
+			cls: 'standardFieldset',
+			itemId: 'contentFieldset',
+			items: [this.descriptionPanel]
+		});
+		
+		
 		this.contentForm = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			itemId: 'contentForm',
 			items: [
-			        this.descriptionPanel,
+			        this.descriptionFieldSet,
 			        this.sessionFieldSet,
 			        this.creatorFieldSet,
 			        (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) ? this.visitMatrixButtonPanel : this.matrixButtonPanel  
