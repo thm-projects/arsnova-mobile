@@ -39,11 +39,24 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		//
 		
 		this.backButton = Ext.create('Ext.Button', {
-			text: Messages.BACK,
+			text: Messages.SESSIONS,
 			ui: 'back',
 			scope: this,
 			handler: function () {
-				me.getBack();
+				//me.getBack(); back to Session overview
+				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+				var activeHTP;
+			
+				if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_STUDENT)
+					activeHTP = hTP.homePanel;
+				else if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER)
+					activeHTP = hTP.mySessionsPanel;
+				
+					hTP.animateActiveItem(activeHTP, {
+						type: 'slide',
+						direction: 'right',
+						duration: 700
+					});
 			}
 		});
 		
