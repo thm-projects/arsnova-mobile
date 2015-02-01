@@ -53,6 +53,8 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 				var secLevelId   = '2_' +  this[key].ppLevel + '_' + firstLevelId;
 				var thirdLevelId = '3_' +  this[key].name + '_' + index + '_' + secLevelId;
 				
+				console.log('session', this[key]);
+				
 				var firstLevelNode = me.rootNode.findChild("id", firstLevelId, false);
 				if (firstLevelNode == null) {
 					var firstLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
@@ -105,7 +107,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 					
 					secLevelNode.appendChild(Ext.create('ARSnova.view.home.PPListItem', {
 						text: this[key].name,
-						itemCount: 0,
+						itemCount: this[key].numQuestions,
 						keyword: this[key].keyword,
 						leaf: true,
 						id: thirdLevelId,
@@ -170,8 +172,10 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		        },
 		        leafitemtap: function(nestedList, list, index, node, record, e) {
 		        	var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+		        	console.log('record', record);
 		        	ARSnova.app.restProxy.getSessionsByKeyword(record._data.keyword, {
 		    			success: function(remoteSession) {
+		    				remoteSession.numQuestions = record._data.itemCount;
 		    				var singleView = Ext.create("ARSnova.view.home.PublicPoolSingleItemPanel", {
 		    					session: remoteSession,
 				        		backRef: me

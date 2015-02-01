@@ -204,6 +204,15 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			this.descriptionPanel.add(this.markdownPanel);
 		}
 		
+		this.sessionNumQuestions = Ext.create('Ext.field.Text', {
+			label: Messages.QUESTIONS,
+			name: 'sessionNumQuestions',
+			value: this.getSession().numQuestions,
+			disabledCls: 'disableDefault',
+			inputCls: 'thm-grey',
+			disabled: true
+		});
+		
 		this.sessionLicense = Ext.create('Ext.field.Text', {
 			label: Messages.EXPORT_FIELD_LICENCE,
 			name: 'sessionLicense',
@@ -217,7 +226,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			title: Messages.SESSIONPOOL_SESSIONINFO,
 			cls: 'standardFieldset',
 			itemId: 'contentFieldset',
-			items: [this.sessionName, this.sessionShortName, /*this.sessionDescription,*/ /*this.sessionQuestionCount,*/ this.sessionLicense]
+			items: [this.sessionName, this.sessionShortName, this.sessionNumQuestions, this.sessionLicense]
 		});
 		
 		//
