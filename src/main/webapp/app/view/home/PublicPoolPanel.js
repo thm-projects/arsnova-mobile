@@ -204,7 +204,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		var nestedListToolbar = this.nestedList.getToolbar();
 		nestedListToolbar.setTitle(Messages.SESSIONPOOL_TITLE);
 		nestedListToolbar.add(this.backButton);
-		me.backButton.setText(Messages.BACK);
+		me.backButton.setText(Messages.SESSIONS);
 		me.nestedList.getBackButton().setText(Messages.BACK);
 		
 		this.add([
