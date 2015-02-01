@@ -28,6 +28,10 @@
 //
 // The following lines import the custom scss files.
 
+// components:
+@import 'components/loadingMask';
+
+// general:
 @import 'colors';
 @import 'general';
 @import 'badges';
