@@ -327,7 +327,13 @@ Ext.define("ARSnova.controller.SessionExport", {
 		var dateString = "";
 		if (exportData.session.creationTime != 0) {
 			var d = new Date(exportData.session.creationTime);
-			dateString = "-"+d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate()+"-"+d.getHours()+"-"+d.getMinutes();
+			console.log('date:', d);
+			
+			dateString = ('0' + d.getFullYear()).slice(-2) + '-'
+			+ ('0' + (d.getMonth()+1)).slice(-2) + '-'
+            + ('0' + d.getDate()).slice(-2) + '-'
+            + ('0' + d.getHours()).slice(-2) + '-'
+            + ('0' + d.getMinutes()).slice(-2);
 		}
 		
 		var filename = exportData.session.name + "-" + exportData.session.keyword + dateString + ".json";
