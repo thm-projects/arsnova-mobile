@@ -559,6 +559,12 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						if (session.courseType && session.courseType.length > 0) {
 							icon = "icon-prof";
 						}
+						
+						var iconCls = icon + " courseIcon";
+						
+						if (session.sessionType == 'public_pool') {
+							iconCls = "icon-cloud thm-green";
+						}
 
 						// Minimum width of 481px equals at least landscape view
 						var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
@@ -567,7 +573,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							ui: 'normal',
 							text: Ext.util.Format.htmlEncode(displaytext),
 							cls: 'forwardListButton',
-							iconCls: icon + " courseIcon",
+							iconCls: iconCls,
 							controller: 'sessions',
 							action: 'showDetails',
 							badgeCls: 'badgeicon',
