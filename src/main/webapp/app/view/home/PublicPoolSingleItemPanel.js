@@ -71,21 +71,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			style: 'width: 89px',
 			sessionObj: this.getSession(),
 			handler: function (options) {
-				// reset view stack of hometabpanel to ensure session overview will be shown onBack
-				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				hTP.animateActiveItem(hTP.homePanel, {
-					type: 'slide',
-					direction: 'right'
-				});
-				
-				var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
-				ARSnova.app.getController('Auth').roleSelect({
-					mode: ARSnova.app.USER_ROLE_STUDENT
-				});
-				ARSnova.app.getController('Sessions').login({
-					keyword: options.config.sessionObj.keyword
-				});
-				hideLoadMask();
+				me.visitSession(options);
 			},
 			scope: this
 		});
@@ -97,14 +83,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			scope: this,
 			sessionObj: this.getSession(),
 			handler: function (options) {
-				var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
-				ARSnova.app.getController('Auth').roleSelect({
-					mode: ARSnova.app.USER_ROLE_STUDENT
-				});
-				ARSnova.app.getController('Sessions').login({
-					keyword: options.config.sessionObj.keyword
-				});
-				hideLoadMask();
+				me.visitSession(options);
 			}
 		});
 			
@@ -114,25 +93,6 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 				pack: 'center'
 			},
 			items: [this.visitMatrixButton]
-		});
-		
-		this.visitMatriButton = Ext.create('Ext.Button', {
-			text: Messages.SESSIONPOOL_VISIT,
-			ui: 'confirm',
-			cls: 'saveQuestionButton',
-			style: 'width: 89px',
-			sessionObj: this.getSession(),
-			handler: function (options) {
-				var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
-				ARSnova.app.getController('Auth').roleSelect({
-					mode: ARSnova.app.USER_ROLE_STUDENT
-				});
-				ARSnova.app.getController('Sessions').login({
-					keyword: options.config.sessionObj.keyword
-				});
-				hideLoadMask();
-			},
-			scope: this
 		});
 		
 		this.toolbar = Ext.create('Ext.Toolbar', {
@@ -341,5 +301,23 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			direction: 'right',
 			duration: 700
 		});
+	},
+	
+	visitSession: function(options) {
+		// reset view stack of hometabpanel to ensure session overview will be shown onBack
+		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+		hTP.animateActiveItem(hTP.homePanel, {
+			type: 'slide',
+			direction: 'right'
+		});
+		
+		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
+		ARSnova.app.getController('Auth').roleSelect({
+			mode: ARSnova.app.USER_ROLE_STUDENT
+		});
+		ARSnova.app.getController('Sessions').login({
+			keyword: options.config.sessionObj.keyword
+		});
+		hideLoadMask();
 	}
 });
