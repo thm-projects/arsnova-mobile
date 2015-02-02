@@ -10,4 +10,5 @@ target/*
 src/main/webapp/.sencha_backup
 src/main/webapp/build
 /src/main/webapp/resources/css/app.css
+/src/main/webapp/resources/css/index.css
 /target
