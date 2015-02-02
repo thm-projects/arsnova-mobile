@@ -73,7 +73,10 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			handler: function (options) {
 				// reset view stack of hometabpanel to ensure session overview will be shown onBack
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				hTP.animateActiveItem(hTP.homePanel, {duration: 1});
+				hTP.animateActiveItem(hTP.homePanel, {
+					type: 'slide',
+					direction: 'right'
+				});
 				
 				var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
 				ARSnova.app.getController('Auth').roleSelect({
