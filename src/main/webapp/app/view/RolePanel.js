@@ -25,7 +25,7 @@ Ext.define('ARSnova.view.RolePanel', {
 			direction: 'vertical',
 			directionLock: true
 		},
-		
+
 		tab: {
 			hidden: true
 		},
@@ -35,11 +35,11 @@ Ext.define('ARSnova.view.RolePanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
-		
+
 		var isPhone = (Ext.os.is.Phone && Ext.os.is.iOS);
 		var smallHeight = document.body.clientHeight <= 460;
 		var mediumHeight = document.body.clientHeight >= 520;
-		
+
 		this.add([{
 			xtype: 'toolbar',
 			docked: 'top',
@@ -81,10 +81,12 @@ Ext.define('ARSnova.view.RolePanel', {
 			},
 			items: [
 				{
+					id: 'role-select-speaker',
 					text: Messages.SPEAKER,
 					value: ARSnova.app.USER_ROLE_SPEAKER,
 					imageCls: "icon-presenter thm-grey"
 				}, {
+					id: 'role-select-student',
 					text: Messages.STUDENT,
 					value: ARSnova.app.USER_ROLE_STUDENT,
 					imageCls: "icon-users thm-green",

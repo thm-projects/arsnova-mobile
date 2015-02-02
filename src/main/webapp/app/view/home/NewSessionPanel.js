@@ -18,7 +18,7 @@
  */
 Ext.define('ARSnova.view.home.NewSessionPanel', {
 	extend: 'Ext.Panel',
-	
+
 	config: {
 		fullscreen: true,
 		scrollable: null,
@@ -43,9 +43,9 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		this.mycoursesStore = new Ext.data.JsonStore({
 			model: 'ARSnova.model.Course'
 		});
-		
-		var htmlEncode = window.innerWidth > 321 ? "{fullname:htmlEncode}" : "{shortname:htmlEncode}"; 
-		
+
+		var htmlEncode = window.innerWidth > 321 ? "{fullname:htmlEncode}" : "{shortname:htmlEncode}";
+
 		this.coursesFieldset = Ext.create('Ext.form.FieldSet', {
 			xtype: 'fieldset',
 			title: Messages.YOUR_COURSE_SESSIONS
@@ -59,18 +59,18 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			style: {
 				backgroundColor: 'transparent'
 			},
-			itemTpl: 
+			itemTpl:
 				'<div class="x-unsized x-button x-button-normal x-iconalign-left forwardListButton">' +
 				'<span class="x-button-icon x-shown courseIcon icon-prof"></span>' +
-				'<span class="x-button-label">' + htmlEncode + '</span></div>' 
+				'<span class="x-button-label">' + htmlEncode + '</span></div>'
 			,
 			listeners: {
 				scope: this,
-				
+
 				hide: function() {
 					this.coursesFieldset.hide();
 				},
-				
+
 				show: function() {
 					this.coursesFieldset.show();
 				},
@@ -92,7 +92,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				}
 			}
 		});
-		
+
 		this.coursesFieldset.add(this.mycourses);
 
 		this.backButton = Ext.create('Ext.Button', {
@@ -107,8 +107,9 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				});
 			}
 		});
-		
+
 		this.submitButton =  Ext.create('Ext.Button', {
+			id: 'create-session-button',
 			cls: 'centerButton',
 			ui: 'confirm',
 			text: Messages.SESSION_SAVE,
@@ -161,12 +162,12 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 
 		}, this);
 	},
-	
+
 	enableInputElements: function() {
 		this.submitButton.enable();
 		this.mycourses.addListener('itemtap', this.onCourseSubmit);
 	},
-	
+
 	disableInputElements: function() {
 		this.submitButton.disable();
 		this.mycourses.removeListener('itemtap', this.onCourseSubmit);
@@ -175,7 +176,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 	onSubmit: function (button) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel,
 			values = this.up('panel').getValues();
-		
+
 		panel.disableInputElements();
 
 		ARSnova.app.getController('Sessions').create({
@@ -185,11 +186,11 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			creationTime: Date.now()
 		});
 	},
-	
+
 	onCourseSubmit: function (list, index, element, e) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel;
 		panel.disableInputElements();
-		
+
 		var course = list.getStore().getAt(index);
 
 		var shortName = course.get('shortname');
@@ -210,7 +211,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 
 	getMyCourses: function () {
 		this.mycourses.addListener('itemtap', this.onCourseSubmit);
-		
+
 		/* only allow auth services with fixed user names */
 		var allowedAuthServices = [
 			ARSnova.app.LOGIN_LDAP,
