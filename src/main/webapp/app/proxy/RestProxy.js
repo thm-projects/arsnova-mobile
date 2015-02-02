@@ -154,7 +154,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	
 	getPublicPoolSessions: function (callbacks) {
 		this.arsjax.request({
-			url: "session/publicpool?group_level=1",
+			url: "session/publicpool",
 			method: "GET",
 
 			success: function (response) {
