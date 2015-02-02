@@ -56,10 +56,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
 			handler: function () {
-				var customSessionAttributes = {};
-				customSessionAttributes['name'] = me.sessionName.getValue();
-				customSessionAttributes['shortName'] = me.sessionShortName.getValue();
-				ARSnova.app.getController("SessionExport").cloneSessionFromPublicPool(me.getSession(), customSessionAttributes);
+				me.cloneSession();
 			},
 			scope: this
 		});
@@ -242,10 +239,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			imageCls: 'icon-copy thm-grey',
 			scope: this,
 			handler: function () {
-				var customSessionAttributes = {};
-				customSessionAttributes['name'] = me.sessionName.getValue();
-				customSessionAttributes['shortName'] = me.sessionShortName.getValue();
-				ARSnova.app.getController("SessionExport").cloneSessionFromPublicPool(me.getSession(), customSessionAttributes);			
+				me.cloneSession();
 			}
 		});
 			
@@ -319,5 +313,12 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			keyword: options.config.sessionObj.keyword
 		});
 		hideLoadMask();
+	},
+	
+	cloneSession: function() {
+		var customSessionAttributes = {};
+		customSessionAttributes['name'] = this.sessionName.getValue();
+		customSessionAttributes['shortName'] = this.sessionShortName.getValue();
+		ARSnova.app.getController("SessionExport").cloneSessionFromPublicPool(this.getSession(), customSessionAttributes);
 	}
 });
