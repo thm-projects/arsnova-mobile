@@ -1,3 +1,21 @@
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 .embeddedPageElement {
 	width: 100%;
@@ -8,6 +26,19 @@
 
 .x-mask-inner {
 	border-radius: 10px 10px 10px 10px;	
+}
+
+.x-carousel-indicator-horizontal {
+	height: 3.5em;
+	
+	&.x-carousel-indicator span {
+		height: 30px;
+		margin: 15px 5px;
+		width: 30px;
+		-webkit-border-radius: 15px;
+		-moz-border-radius: 15px;
+		border-radius: 15px;
+	}
 }
 
 .x-list {
@@ -74,43 +105,31 @@
 	min-width: 310px;
 }
 
-.x-loading-mask {
-	background: transparent !important;
-	
-	.x-mask-inner {
-		background: rgba(0,0,0,0.3) center center no-repeat;
-		
-		.x-mask-message {
-			color: rgba(230,230,230,0.9);
-			font-weight: normal;
-		}
-		
-		.x-loading-spinner {
-			-webkit-animation-duration: .6s;
-			
-			.x-loading-top {
-				background: rgba(215,215,215,0.99);
-				&:before { background: rgba(215,215,215,0.15); }
-				&:after { background: rgba(215,215,215,0.9); }
-			}
-			
-			.x-loading-left {
-				background: rgba(215,215,215,0.7);
-				&:before { background: rgba(215,215,215,0.8); }
-				&:after { background: rgba(215,215,215,0.6); }
-			}
-			
-			.x-loading-right {
-				background: rgba(215,215,215,0.25);
-				&:before { background: rgba(215,215,215,0.3); }
-				&:after { background: rgba(215,215,215,0.2); }
-			}
-			
-			.x-loading-bottom {
-				background: rgba(215,215,215,0.4);
-				&:before { background: rgba(215,215,215,0.5); }
-				&:after { background: rgba(215,215,215,0.35); }
-			}
-		}
-	}
+.x-msgbox a, .x-msgbox a:visited {
+	color: rgba(190,224,247,0.9);
+}
+
+.statisticButton.x-item-disabled .x-button-label {
+	opacity: 1;
+}
+
+.centerFormTitle .x-form-fieldset-title {
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.centerFormTitle.hiddenUrl .x-form-fieldset-title {
+	margin-bottom: -9px;
+}
+
+.x-tabbar .x-tab .infoButtonBeforeLogin:before {
+	color: #80ba24;
+}
+
+.myCoursesList .x-innerhtml{
+	padding: 0 !important;
+}
+
+.myCoursesList .x-list-item {
+	border: none !important;
 }

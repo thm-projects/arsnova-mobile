@@ -53,6 +53,8 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 				var secLevelId   = '2_' +  this[key].ppLevel + '_' + firstLevelId;
 				var thirdLevelId = '3_' +  this[key].name + '_' + index + '_' + secLevelId;
 				
+				console.log('session', this[key]);
+				
 				var firstLevelNode = me.rootNode.findChild("id", firstLevelId, false);
 				if (firstLevelNode == null) {
 					var firstLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
@@ -60,7 +62,8 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 						itemCount: 1,
 						keyword: 0,
 						leaf: false,
-						id: firstLevelId
+						id: firstLevelId,
+						badgeCls: 'feedbackQuestionsBadgeIcon'
 					});
 					firstLevelNode = me.rootNode.appendChild(firstLevelEntry);
 					firstLevelNode.removeAll();
@@ -99,17 +102,18 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 				if (secLevelNode != null) {
 					if (secLevelNode._data.itemCount == 0)
 						secLevelNode.removeAll();
-					secLevelNode._data.badgeCls = '';
+					secLevelNode._data.badgeCls = 'feedbackQuestionsBadgeIcon';
 					secLevelNode._data.itemCls = '';
 					secLevelNode._data.itemCount++;
 					
 					secLevelNode.appendChild(Ext.create('ARSnova.view.home.PPListItem', {
 						text: this[key].name,
-						itemCount: 0,
+						itemCount: this[key].numQuestions,
+						badgeCls: 'questionsBadgeIcon',
+						itemCls: '',
 						keyword: this[key].keyword,
 						leaf: true,
-						id: thirdLevelId,
-						badgeCls: 'hidden'
+						id: thirdLevelId
 					}));
 				}
 			}, this.getSessions());
@@ -170,8 +174,10 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		        },
 		        leafitemtap: function(nestedList, list, index, node, record, e) {
 		        	var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+		        	console.log('record', record);
 		        	ARSnova.app.restProxy.getSessionsByKeyword(record._data.keyword, {
 		    			success: function(remoteSession) {
+		    				remoteSession.numQuestions = record._data.itemCount;
 		    				var singleView = Ext.create("ARSnova.view.home.PublicPoolSingleItemPanel", {
 		    					session: remoteSession,
 				        		backRef: me
@@ -197,14 +203,14 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		        }		        
 		    },
 		    getItemTextTpl: function(node) {
-		    	return '<div class="x-unsized x-button forwardListButton x-hasbadge {itemCls}"><span class="x-button-label">{text}</span><span class="feedbackQuestionsBadgeIcon {badgeCls}">{itemCount}</span></div>';	
+		    	return '<div class="x-unsized x-button forwardListButton x-hasbadge {itemCls}"><span class="x-button-label">{text}</span><span class="{badgeCls}">{itemCount}</span></div>';	
 		    }
         });
 		
 		var nestedListToolbar = this.nestedList.getToolbar();
 		nestedListToolbar.setTitle(Messages.SESSIONPOOL_TITLE);
 		nestedListToolbar.add(this.backButton);
-		me.backButton.setText(Messages.BACK);
+		me.backButton.setText(Messages.SESSIONS);
 		me.nestedList.getBackButton().setText(Messages.BACK);
 		
 		this.add([

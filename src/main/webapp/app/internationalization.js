@@ -413,6 +413,8 @@ switch (lang) {
 			SESSIONPOOL_TITLE: "Session Pool",
 			SESSIONPOOL_VISIT:	"Visit",
 			SESSOPNPOOL_CHARACTERS:	'characters',
+			SESSIONPOOL_INFOS:	'Infos',
+			
 			/* question types */
 			EVALUATION: "+-",
 			SCHOOL: "A-F",
@@ -891,6 +893,7 @@ switch (lang) {
 			SESSIONPOOL_TITLE: "Session Pool",
 			SESSIONPOOL_VISIT:	"Besuchen",
 			SESSOPNPOOL_CHARACTERS: 'Zeichen',
+			SESSIONPOOL_INFOS:	'Infos',
 			
 			/* question types */
 			EVALUATION: "+-",
