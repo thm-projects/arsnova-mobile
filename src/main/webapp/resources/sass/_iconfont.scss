@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 @include icon-font('arsnova', inline-font-files(
  'arsnova/arsnova.woff', woff,
  'arsnova/arsnova.ttf', truetype,
@@ -55,6 +55,11 @@
 @include icon("icon-book2" , "\e601", "arsnova");
 @include icon("icon-blog" , "\f0f6", "arsnova");
 @include icon("icon-newsession" , "\f044", "arsnova");
+@include icon("icon-cloud-download" , "\e2b6", "arsnova");
+@include icon("icon-cloud-upload " , "\e2b7", "arsnova");
+@include icon("icon-cloud" , "\e2b5", "arsnova");
+@include icon("icon-copy" , "\e92c", "arsnova");
+@include icon("icon-sign-in" , "\e604", "arsnova");
 
 @include icon("icon-check" , "3", "Pictos");
 @include icon('minus2');
@@ -100,62 +105,62 @@
 	.icon-gear {
 		font-size: 18px;
 	}
-	
+
 	.icon-questions,
 	.icon-gear {
 		margin-left: 17px !important;
 	}
-	
+
 	.icon-blog {
 		top: 4px;
 		left: 1px;
 		font-size: 0.8em;
 		margin-bottom: 5.5px !important;
 	}
-	
+
 	.icon-bullhorn {
 		top: 1px;
 		font-size: 0.9em;
 		margin-bottom: 2.5px !important;
 	}
-	
+
 	.icon-presenter {
 		top: 2.5px;
 		font-size: 0.9em;
 		margin-bottom: 2.5px !important;
 	}
-	
+
 	.icon-questions,
 	.icon-home {
 		top: -1px;
 		font-size: 1.1em;
 		margin-bottom: -3.5px !important;
 	}
-	
+
 	.icon-question {
 		font-size: 20px;
 		top: -2px;
 		margin-bottom: -3.5px!important;
 	}
-	
+
 	.icon-book {
 		top: 2px;
 		font-size: 17px;
 		margin-bottom: 2px!important;
 	}
-	
+
 	.icon-info {
 		top: 2px;
 		font-size: 18px;
 		margin-bottom: 0px!important;
 	}
-	
+
 	.icon-lock {
 		font-size: 19px;
 		top: 1px;
 		margin-bottom: -1.5px!important;
 	}
-	
+
 	.icon-users {
 		font-size: 18px;
 		top: -1.5px;
@@ -168,7 +173,7 @@
 	margin: 0 auto !important;
 	background: none !important;
 	font-size: 1.75em;
-	
+
 	.icon-happy, .icon-wink, .icon-sad, .icon-shocked {
 		color: $smiley-color;
 	}
@@ -181,27 +186,28 @@
    		width: 28px !important;
     	height: 28px !important;
 	}
-	
+
 	.icon-bullhorn {
 		color: $thm-green !important;
 		margin-right: 16px;
 	}
-}
 
-.courseIcon {
-	&.icon-prof {
+	.icon-prof {
 		font-size: 0.85em;
 		margin-right: 4px;
 		margin-bottom: -3px;
 	}
-	
-	&.icon-users {
-		margin-bottom: 5px;
+
+	.icon-users {
+		font-size: 0.9em;
+		color: $thm-green !important;
+		margin-right: 1px;
+		margin-bottom: 4px;
 	}
-	
-	&.icon-presenter {
-		margin-left: 1.5px;
-		margin-right: -1.5px;
+
+	.icon-presenter {
+		margin-left: 0.5px;
+		margin-right: -0.5px;
 	}
 }
 
@@ -221,67 +227,66 @@
 	line-height: 1em !important;
 }
 
-
 .iconBtn {
 	border-color: transparent !important;
-	
+
 	.icon-newsession {
 		margin-left: 19px !important;
 		margin-top: 15px !important;
 		font-size: 50px !important;
 	}
-	
+
 	.icon-chart {
 		margin-left: 13px !important;
 	}
-	
+
 	.icon-question {
 		font-size: 70px !important;
 		margin-top: 4px !important;
 	}
-	
+
 	.icon-group {
 		font-size: 44px !important;
 		margin-top: 18px !important;
 	}
-	
+
 	.icon-renew {
 		font-size: 56px !important;
 		margin-top: 12px !important;
 	}
-	
+
 	.icon-users {
 		margin-top: 14px !important;
 	}
-	
+
 	.login-icon-ldap {
 		margin: 16px 0 0 10px !important;
 		font-size: 46px !important;
 	}
-	
+
 	.login-icon-twitter,
 	.login-icon-facebook,
 	.login-icon-google {
 		margin: 9px 0 0 14px !important;
 		font-size: 60px !important;
 	}
+}
 
-	.login-icon-cas,
-	.login-icon-arsnova {
-		color: $thm-green;
-	}
+.login-icon-cas,
+.login-icon-arsnova {
+	color: $thm-green;
+}
 
-	.login-icon-twitter {
-		color: $twitter-color;
-	}
+.login-icon-twitter {
+	color: $twitter-color;
+}
 
-	.login-icon-facebook {
-		color: $facebook-color;
-	}
+.login-icon-facebook {
+	color: $facebook-color;
+}
 
-	.login-icon-google {
-		color: $google-color;
-	}
+.login-icon-google {
+	color: $google-color;
 }
 
 .icon-happy, .icon-wink, .icon-sad,
@@ -308,4 +313,41 @@
 	display: inline-block;
 	border-radius: 50%/50%;
 	box-shadow: inset 50px 50px 50px #4a5c66;
+}
+
+.text-icons {
+	font-size: inherit !important;
+	line-height: initial !important;
+	line-height: 1em !important;
+
+	font-family: "arsnova" !important;
+	font-size: 32px !important;
+
+	&.login-icon-guest:before {
+		content: "\e616";
+	}
+
+	&.login-icon-arsnova:before {
+		content: "\72";
+	}
+
+	&.login-icon-cas:before {
+		content: "\74";
+	}
+
+	&.login-icon-ldap:before {
+		content: "\e613";
+	}
+
+	&.login-icon-twitter:before {
+		content: "\f081";
+	}
+
+	&.login-icon-facebook:before {
+		content: "\e60f";
+	}
+
+	&.login-icon-google:before {
+		content: "\e611";
+	}
 }

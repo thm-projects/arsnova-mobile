@@ -1,3 +1,22 @@
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2014 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 $background-color: $background;
 $label-font-color: $thm-grey;
 $label-font-weight: normal;
@@ -59,7 +78,7 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 .answerListButton .x-button-label,
 .forwardListButton .x-button-label,
 .standardListButton .x-button-label {
-	color: $thm-grey !important;
+	color: $thm-grey;
 }
 
 .x-segmentedbutton .x-button-normal {
@@ -225,6 +244,22 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 		}
 	}
 	
+	.x-button,
+	.x-button:after,
+	.x-button:before {
+		&.x-button-pressed,
+		&.x-button-pressing,
+		&.x-button-pressed:after,
+		&.x-button-pressed:before,
+		&.x-button-pressing:after,
+		&.x-button-pressing:before {
+			@include toolbar-button-config(
+				$button-action-active-bg-color,
+				$toolbar-button-txt-color
+			);
+		}
+	}
+	
 	.x-button-back,
 	.x-button.x-button-back:after, 
 	.x-button.x-button-back:before,
@@ -236,6 +271,19 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 			$toolbar-back-button-bg-color, 
 			$toolbar-back-button-txt-color
 		);
+		
+		/* todo: remove after css cleanup */
+		&.x-button-pressed,
+		&.x-button-pressing,
+		&.x-button-pressed:after,
+		&.x-button-pressed:before,
+		&.x-button-pressing:after,
+		&.x-button-pressing:before {
+			@include toolbar-button-config(
+				$button-action-active-bg-color,
+				$toolbar-button-txt-color
+			);
+		}
 	}
 	
 	.x-button, .x-button-back {
@@ -253,6 +301,10 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 	.voteIcons:before,
 	.x-button-icon:before {
 		color: #fff;
+	}
+	
+	.x-tab-pressed .x-button-icon:before {
+		color: $button-action-active-bg-color !important;
 	}
 	
 	.x-tab-active {

@@ -131,7 +131,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 						},
 						change: function (field, newValue, oldValue) {
 							if (ARSnova.app.globalConfig.features.learningProgress) {
-								this.questionValueComponents[i].setLabel(newValue || Messages.ANSWER);
+								this.questionValueComponents[i].setLabel(newValue.substring(0, 25) || Messages.ANSWER);
 							}
 						}
 					}
@@ -167,6 +167,17 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			}]);
 		}
 	},
+	
+	resetFields: function() {
+		this.answerComponents.forEach(function(el) {
+			el.reset();
+			el.uncheck();
+		});
+		
+		this.questionValueComponents.forEach(function(el) {
+			el.reset();
+		});
+	},
 
 	getEnumeration: function () {
 		switch (this.getWording().enumeration.toLowerCase()) {
@@ -187,14 +198,16 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		var values = [], obj;
 		
 		for (var i = 0; i < this.selectAnswerCount.getValue(); i++) {
-			obj = {
-				text: this.answerComponents[i].getValue(),
-				correct: this.answerComponents[i].isChecked()
-			};
-			if (ARSnova.app.globalConfig.features.learningProgress) {
-				obj.value = this.questionValueComponents[i].getSliderValue();
+			if(this.answerComponents[i].getValue() !== "") {
+				obj = {
+					text: this.answerComponents[i].getValue(),
+					correct: this.answerComponents[i].isChecked()
+				};
+				if (ARSnova.app.globalConfig.features.learningProgress) {
+					obj.value = this.questionValueComponents[i].getSliderValue();
+				}
+				values.push(obj);
 			}
-			values.push(obj);
 		}
 		
 		return values;

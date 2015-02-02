@@ -69,7 +69,6 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
 			ui: 'back',
-			hidden: true,
 			handler: function () {
 				var target;
 				if (isSpeakerView) {
@@ -92,7 +91,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			ui: 'decline',
 			hidden: true,
 			handler: function () {
-				Ext.Msg.confirm(Messages.DELETE_ALL_QUESTIONS, Messages.ARE_YOU_SURE, function (answer) {
+				Ext.Msg.confirm(Messages.DELETE_QUESTIONS_TITLE, Messages.ARE_YOU_SURE, function (answer) {
 					if (answer === 'yes') {
 						ARSnova.app.getController('Questions').deleteAllInterposedQuestions({
 							success: function () {
@@ -238,7 +237,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 
 	getFeedbackQuestions: function () {
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOADING_NEW_QUESTIONS);
-		ARSnova.app.questionModel.getInterposedQuestions(localStorage.getItem('keyword'), {
+		ARSnova.app.questionModel.getInterposedQuestions(sessionStorage.getItem('keyword'), {
 			success: function (response) {
 				var questions = Ext.decode(response.responseText);
 				var fQP = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;

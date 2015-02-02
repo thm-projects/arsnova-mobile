@@ -61,22 +61,34 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			ui: 'back',
 			scope: this,
 			handler: function () {
-				ARSnova.app.mainTabPanel._activeItem.on('deactivate', function () {
-					this.destroy();
-				}, this, {single:true});
 				ARSnova.app.mainTabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel, {
 					type: 'slide',
 					direction: 'right',
-					duration: 700
+					duration: 700,
+					listeners: {
+						animationend: function() {
+							ARSnova.app.mainTabPanel._activeItem.on('deactivate', function () {
+							self.destroy();
+							}, self, {single:self});
+						}, scope: self
+					}
 				});
 			}
 		});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: Messages.QUESTION,
+			title: Messages.STATISTIC,
 			docked: 'top',
 			ui: 'light',
 			items: [this.backButton]
+		});
+		
+		this.noAnswersLabel = Ext.create('Ext.form.FormPanel', {
+			scrollable: null,
+			items: {
+				cls: 'gravure',
+				html: Messages.NO_ANSWERS
+			}
 		});
 
 		this.freetextAnswerList = Ext.create('Ext.List', {
@@ -132,7 +144,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			width: '100%',
 			flex: 1,
 			scrollable: null,
-			items: [this.freetextAnswerList]
+			items: [this.noAnswersLabel, this.freetextAnswerList]
 		}]);
 
 		this.on('activate', function () {
@@ -151,34 +163,67 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 	},
 
 	checkFreetextAnswers: function () {
-		ARSnova.app.questionModel.getAnsweredFreetextQuestions(localStorage.getItem("keyword"), this.questionObj._id, {
+		var me = this;
+		
+		ARSnova.app.questionModel.getAnsweredFreetextQuestions(sessionStorage.getItem("keyword"), this.questionObj._id, {
 			success: function (response) {
 				var responseObj = Ext.decode(response.responseText);
-				var listItems = responseObj.map(function (item) {
-					var v = item;
-					var date = new Date(v.timestamp);
-					return Ext.apply(item, {
-						formattedTime: Ext.Date.format(date, "H:i"),
-						groupDate: Ext.Date.format(date, "d.m.y")
+				var answerLabel = me.noAnswersLabel.getInnerItems()[0];
+
+				if(responseObj.length === 0) {
+					answerLabel.setHtml(Messages.NO_ANSWERS);
+					me.freetextAnswerList.hide();
+					me.noAnswersLabel.show();
+				} else {
+					me.freetextAnswerList.show();
+					var listItems = responseObj.map(function (item) {
+						var v = item;
+						var date = new Date(v.timestamp);
+						return Ext.apply(item, {
+							formattedTime: Ext.Date.format(date, "H:i"),
+							groupDate: Ext.Date.format(date, "d.m.y")
+						});
 					});
-				});
 
-				var self = ARSnova.app.mainTabPanel._activeItem;
-				var abstentions = listItems.filter(function (item) {
-					return item.abstention;
-				});
-				var answers = listItems.filter(function (item) {
-					return !item.abstention;
-				});
+					var abstentions = listItems.filter(function (item) {
+						return item.abstention;
+					});
+					var answers = listItems.filter(function (item) {
+						return !item.abstention;
+					});
 
-				self.freetextAnswerStore.removeAll();
-				self.freetextAnswerStore.add(answers);
-				self.freetextAnswerStore.sort([{
-					property: 'timestamp',
-					direction: 'DESC'
-				}]);
-				self.freetextAbstentions.setBadgeText(abstentions.length);
-				self.freetextAbstentions.setHidden(abstentions.length === 0);
+					me.freetextAnswerStore.removeAll();
+					me.freetextAnswerStore.add(answers);
+					me.freetextAnswerStore.sort([{
+						property: 'timestamp',
+						direction: 'DESC'
+					}]);
+					me.freetextAbstentions.setBadgeText(abstentions.length);
+					me.freetextAbstentions.setHidden(abstentions.length === 0);	
+					
+					var abCount = abstentions.length;
+					var answersCount = answers.length;
+					var abstentionText = abCount === 1 ? Messages.ABSTENTION : Messages.ABSTENTIONS;
+					var answersText = answersCount === 1 ? Messages.ANSWER : Messages.ANSWERS;
+						
+					if(lang === "en") {
+						var verb = abCount === 1 ? 'is ' : 'are ';
+						abstentionText = verb + abCount + " " + abstentionText.toLowerCase();
+						answersText = answersCount + " " + answersText.toLowerCase();
+					} else {
+						abstentionText = abCount + " " + abstentionText;
+						answersText = answersCount + " " + answersText;
+					}
+					
+					if(abstentions.length === responseObj.length) {
+						answerLabel.setHtml(Messages.ONLY_ABSTENTION_ANSWERS.replace(/###/, abstentionText));
+						me.freetextAnswerList.hide();
+					} else {
+						var tempLabel = Messages.FREETEXT_DETAIL_LABEL.replace(/###/, abstentionText);
+						answerLabel.setHtml(tempLabel.replace(/%%%/, answersText));
+						me.freetextAnswerList.show();
+					}
+				}
 			},
 			failure: function () {
 				console.log('server-side error');

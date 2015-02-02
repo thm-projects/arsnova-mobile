@@ -39,7 +39,7 @@ Ext.define('ARSnova.view.home.TabPanel', {
 		this.homePanel = Ext.create('ARSnova.view.home.HomePanel');
 		this.mySessionsPanel = Ext.create('ARSnova.view.home.MySessionsPanel');
 		this.newSessionPanel = Ext.create('ARSnova.view.home.NewSessionPanel');
-
+		
 		this.add([
 			this.homePanel,
 			this.mySessionsPanel,

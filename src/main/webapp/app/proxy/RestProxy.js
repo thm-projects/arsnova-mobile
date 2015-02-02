@@ -151,7 +151,63 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
+	
+	getPublicPoolSessions: function (callbacks) {
+		this.arsjax.request({
+			url: "session/publicpool?group_level=1",
+			method: "GET",
 
+			success: function (response) {
+				if (response.status === 204) {
+					callbacks.success.call(this, []);
+				} else {
+					callbacks.success.call(this, Ext.decode(response.responseText));
+				}
+			},
+			204: callbacks.empty,
+
+			401: callbacks.unauthenticated,
+			404: callbacks.empty,
+			failure: callbacks.failure
+		});
+	},
+	
+	getMyPublicPoolSessions: function (callbacks) {
+		this.arsjax.request({
+			url: "session/publicpool/",
+			method: "GET",
+			params: {
+				statusonly: true
+			},
+
+			success: callbacks.success,
+			204: callbacks.empty,
+
+			401: callbacks.unauthenticated,
+			404: callbacks.empty,
+			failure: callbacks.failure
+		});
+	},
+
+	getSessionsByKeyword: function (keyword, callbacks) {
+		this.arsjax.request({
+			url: "session/" + keyword,
+			method: "GET",
+
+			success: function (response) {
+				if (response.status === 204) {
+					callbacks.success.call(this, []);
+				} else {
+					callbacks.success.call(this, Ext.decode(response.responseText));
+				}
+			},
+			204: callbacks.empty,
+
+			401: callbacks.unauthenticated,
+			404: callbacks.empty,
+			failure: callbacks.failure
+		});
+	},
 	/**
 	 * Get the sessions where user is visitor
 	 * @param login from user
@@ -212,14 +268,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	getQuestionById: function (id, callbacks) {
-		this.arsjax.request({
-			url: "lecturerquestion/" + id,
-			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-
 	getSkillQuestion: function (id, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + id,
@@ -263,14 +311,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	countSkillQuestions: function (sessionKeyword, callbacks) {
-		this.arsjax.request({
-			url: "session/" + sessionKeyword + "/skillquestioncount",
-			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-
 	countPreparationQuestions: function (sessionKeyword, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/count?preparationquestionsonly=true&sessionkey=" + encodeURIComponent(sessionKeyword),
@@ -290,14 +330,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	countLectureQuestions: function (sessionKeyword, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/count?lecturequestionsonly=true&sessionkey=" + encodeURIComponent(sessionKeyword),
-			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-
-	countTotalAnswers: function (sessionKeyword, callbacks) {
-		this.arsjax.request({
-			url: "session/" + sessionKeyword + "/answercount",
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -344,11 +376,11 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	saveInterposedQuestion: function (subject, text, sessionKeyword, callbacks) {
+	saveInterposedQuestion: function (subject, text, sessionKeyword, timestamp, callbacks) {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/interposed",
 			method: "POST",
-			jsonData: {subject: subject, text: text, sessionId: sessionKeyword},
+			jsonData: {subject: subject, text: text, sessionId: sessionKeyword, timestamp: timestamp},
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -412,8 +444,8 @@ Ext.define('ARSnova.proxy.RestProxy', {
 
 	publishAllSkillQuestions: function (sessionKeyword, active, isLecture, isPreparation, callbacks) {
 		this.arsjax.request({
-			url: "lecturerquestion/publish?sessionkey=" + encodeURIComponent(sessionKeyword) + 
-				"&publish=" + encodeURIComponent(active) + 
+			url: "lecturerquestion/publish?sessionkey=" + encodeURIComponent(sessionKeyword) +
+				"&publish=" + encodeURIComponent(active) +
 				"&lecturequestionsonly=" + encodeURIComponent(isLecture) +
 				"&preparationquestionsonly=" + encodeURIComponent(isPreparation),
 			method: "POST",
@@ -421,20 +453,20 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-	
+
 	publishAllLectureQuestions: function (sessionKeyword, active, callbacks) {
 		this.arsjax.request({
-			url: "lecturerquestion/publish?sessionkey=" + encodeURIComponent(sessionKeyword) + 
+			url: "lecturerquestion/publish?sessionkey=" + encodeURIComponent(sessionKeyword) +
 					"&publish=" + encodeURIComponent(active) + "&lecturequestionsonly=true",
 			method: "POST",
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
 	},
-	
+
 	publishAllPreparationQuestions: function (sessionKeyword, active, callbacks) {
 		this.arsjax.request({
-			url: "lecturerquestion/publish?sessionkey=" + encodeURIComponent(sessionKeyword) + 
+			url: "lecturerquestion/publish?sessionkey=" + encodeURIComponent(sessionKeyword) +
 					"&publish=" + encodeURIComponent(active) + "&preparationquestionsonly=true",
 			method: "POST",
 			success: callbacks.success,
@@ -470,8 +502,19 @@ Ext.define('ARSnova.proxy.RestProxy', {
 				"name": session.get("name"),
 				"shortName": session.get("shortName"),
 				"courseId": session.get("courseId") ? session.get("courseId"): null,
-				"courseType": session.get("courseType") ? session.get("courseType"): null
-			},
+				"courseType": session.get("courseType") ? session.get("courseType"): null,
+				"creationTime": session.get("creationTime"),
+				"ppAuthorName": session.get("ppAuthorName"),
+				"ppAuthorMail": session.get("ppAuthorMail"),
+				"ppUniversity": session.get("ppUniversity"),
+				"ppLogo": session.get("ppLogo"),
+				"ppSubject": session.get("ppSubject"),
+				"ppLicense": session.get("ppLicense"),
+				"ppDescription": session.get("ppDescription"),
+				"ppFaculty": session.get("ppFaculty"),
+				"ppLevel": session.get("ppLevel"),
+				"sessionType": session.get("sessionType")
+			},			
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -480,15 +523,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	delQuestion: function (queObj, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + queObj._id,
-			method: "DELETE",
-			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-
-	delAllQuestions: function (sessionKeyword, callbacks) {
-		this.arsjax.request({
-			url: "lecturerquestion/?sessionkey=" + sessionKeyword,
 			method: "DELETE",
 			success: callbacks.success,
 			failure: callbacks.failure
@@ -634,10 +668,18 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-	
+
 	getAnswerCount: function(questionId, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/answercount",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	getAnswerAndAbstentionCount: function(questionId, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/" + questionId + "/answerandabstentioncount",
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -659,7 +701,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-	
+
 	getFeedback: function(sessionKeyword, callbacks) {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/feedback/",
@@ -674,17 +716,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			method: 'GET',
 
 			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-
-	getSkillQuestionsForUser: function (sessionKeyword, callbacks) {
-		this.arsjax.request({
-			url: "session/" + sessionKeyword + "/skillquestions",
-			success: function (response) {
-				var json = response.responseText || "[]";
-				callbacks.success(Ext.decode(json));
-			},
 			failure: callbacks.failure
 		});
 	},

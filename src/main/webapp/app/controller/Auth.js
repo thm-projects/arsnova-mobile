@@ -63,7 +63,7 @@ Ext.define("ARSnova.controller.Auth", {
 				'role',
 				"lecturer" === role ? ARSnova.app.USER_ROLE_SPEAKER: ARSnova.app.USER_ROLE_STUDENT
 			);
-			localStorage.setItem('keyword', sessionkey);
+			sessionStorage.setItem('keyword', sessionkey);
 			if (!ARSnova.app.checkPreviousLogin()) {
 				me.login();
 			}
@@ -83,7 +83,7 @@ Ext.define("ARSnova.controller.Auth", {
 		localStorage.setItem('loginMode', ARSnova.loginMode);
 		localStorage.setItem('role', ARSnova.userRole);
 		localStorage.setItem('ARSnovaCon', true);
-		localStorage.setItem('keyword', options.sessionid);
+		sessionStorage.setItem('keyword', options.sessionid);
 
 		ARSnova.afterLogin();
 

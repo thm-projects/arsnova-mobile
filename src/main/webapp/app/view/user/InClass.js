@@ -89,7 +89,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				this.sessionLogoutButton
 			]
 		});
-		
+
 		this.voteButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.GIVE_FEEDBACK,
 			cls: 'actionButton',
@@ -99,7 +99,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			action: 'showVotePanel',
 			handler: this.buttonClicked
 		});
-		
+
 		this.feedbackButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.QUESTION_REQUEST_ADHOC,
 			cls: 'actionButton',
@@ -111,7 +111,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				});
 			}
 		});
-		
+
 		this.actionButtonPanel = Ext.create('Ext.Panel', {
 			layout: {
 				type: 'hbox',
@@ -125,7 +125,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				this.voteButton
 			]
 		});
-		
+
 		this.lectureQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			ui: 'normal',
 			text: Messages.LECTURE_QUESTIONS_LONG,
@@ -160,6 +160,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.myLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+				id: 'myLearningProgress',
 				ui: 'normal',
 				text: Messages.MY_LEARNING_PROGRESS,
 				cls: 'standardListButton',
@@ -177,25 +178,24 @@ Ext.define('ARSnova.view.user.InClass', {
 		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
 			buttons.push(this.myQuestionsButton);
 		}
-		if (ARSnova.app.globalConfig.features.learningProgress) {
-			buttons.push(this.myLearningProgressButton);
-		}
+
+		this.inClassButtons = Ext.create('Ext.form.FormPanel', {
+			cls: 'standardForm topPadding',
+			scrollable: null,
+			items: buttons
+		});
 
 		this.inClass = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			items: [{
 				cls: 'gravure',
-				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(localStorage.getItem("keyword"))
-			}, this.actionButtonPanel, {
-				xtype: 'formpanel',
-				cls: 'standardForm topPadding',
-				scrollable: null,
-				items: buttons
-			}]
+				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(sessionStorage.getItem("keyword"))
+			}, this.actionButtonPanel, this.inClassButtons]
 		});
 
 		this.swotBadge = Ext.create('Ext.Panel', {
 			cls: 'swotBadgeIcon',
+			hidden: true,
 			width: '100%',
 			height: '100px'
 		});
@@ -312,6 +312,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	showNotification: function (questionIds, variant) {
+		var titleLabel;
 		var callback = Ext.bind(function (answer) {
 			if (answer == 'yes') {
 				if (variant === 'lecture') {
@@ -321,13 +322,19 @@ Ext.define('ARSnova.view.user.InClass', {
 				}
 			}
 		}, this);
+		
 		if (questionIds.length == 1) {
-			Ext.Msg.confirm(Messages.ONE_NEW_QUESTION, Messages.WANNA_ANSWER, callback);
+			titleLabel = variant === 'lecture' ? 
+				Messages.ONE_NEW_LECTURE_QUESTION : 
+				Messages.ONE_NEW_PREPARATION_QUESTION;
+			
+			Ext.Msg.confirm(titleLabel, Messages.WANNA_ANSWER, callback);
 		} else {
-			Ext.Msg.confirm(
-				Messages.THERE_ARE + ' ' + questionIds.length + ' ' + Messages.NEW_QUESTIONS, Messages.WANNA_ANSWER,
-				callback
-			);
+			titleLabel = variant === 'lecture' ? 
+				Messages.SEVERAL_NEW_LECTURE_QUESTIONS : 
+				Messages.SEVERAL_NEW_PREPARATION_QUESTIONS;
+			
+			Ext.Msg.confirm(titleLabel.replace('###', questionIds.length), Messages.WANNA_ANSWER, callback);
 		}
 	},
 
@@ -347,14 +354,14 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	checkFeedbackRemoved: function (sessions) {
-		if (Ext.Array.contains(sessions, localStorage.getItem("keyword"))) {
+		if (Ext.Array.contains(sessions, sessionStorage.getItem("keyword"))) {
 			Ext.Msg.alert(Messages.NOTICE, Messages.FEEDBACK_RESET);
 		}
 	},
 
 	countFeedbackQuestions: function () {
 		var me = this;
-		ARSnova.app.questionModel.countFeedbackQuestions(localStorage.getItem("keyword"), {
+		ARSnova.app.questionModel.countFeedbackQuestions(sessionStorage.getItem("keyword"), {
 			success: function (response) {
 				var questionCount = Ext.decode(response.responseText);
 
@@ -398,14 +405,14 @@ Ext.define('ARSnova.view.user.InClass', {
 
 	checkLearningProgress: function () {
 		var me = this;
-		ARSnova.app.sessionModel.getMyLearningProgress(localStorage.getItem("keyword"), {
+		ARSnova.app.sessionModel.getMyLearningProgress(sessionStorage.getItem("keyword"), {
 			success: function (response) {
 				var goodProgressThreshold = 75;
 				var avgProgressThreshold = 25;
 				var p = Ext.apply({myprogress: 0, courseprogress: 0}, Ext.decode(response.responseText));
 				var vsBadge = {badgeText: Messages.VERSUS, badgeCls: "textbadgeicon"};
 				var badgeColorCls = "redbadge";
-				
+
 				var getBadge = function (percentage) {
 					if (percentage >= goodProgressThreshold) {
 						badgeColorCls = "greenbadge";
@@ -414,21 +421,24 @@ Ext.define('ARSnova.view.user.InClass', {
 					} else {
 						badgeColorCls = "redbadge";
 					}
-					
+
 					return {badgeText: percentage+"%", badgeCls: badgeColorCls + "icon"};
 				};
 				if (p.myprogress === 0 && p.courseprogress === 0) {
 					me.myLearningProgressButton.setBadge([{badgeText: "…"}, vsBadge, {badgeText: "…"}]);
+					me.inClassButtons.remove(me.myLearningProgressButton, false);
 				} else {
 					me.myLearningProgressButton.setBadge([getBadge(p.myprogress), vsBadge, getBadge(p.courseprogress)]);
+					me.inClassButtons.add(me.myLearningProgressButton);
 				}
-				
+
 				getBadge(p.myprogress);
 				me.swotBadge.setCls('swotBadgeIcon ' + badgeColorCls + "color");
 				me.swotBadge.setHidden(p.myprogress < goodProgressThreshold);
 			},
 			failure: function () {
 				me.myLearningProgressButton.setBadge([{badgeText: ""}]);
+				me.inClassButtons.remove(me.myLearningProgressButton, false);
 			}
 		});
 	}

@@ -26,7 +26,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 	config: {
 		viewOnly: false,
-		padding: '0 0 20 0',
+		padding: '0 0 50 0',
 
 		scrollable: {
 			direction: 'vertical',
@@ -44,6 +44,12 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		this.customMask = Ext.create('ARSnova.view.CustomMask', {
 			mainPanel: this
 		});
+		
+		if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
+			this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
+				questionObj: this.questionObj
+			});
+		}
 
 		this.on('preparestatisticsbutton', function (button) {
 			var scope = self;
@@ -121,7 +127,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					}, 
 					this.buttonContainer]
 				}]
-			})
+			}), this.editButtons ? this.editButtons : {}
 		]);
 
 		this.on('activate', function () {
@@ -133,12 +139,36 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		});
 	},
 	
+	getQuestionTypeMessage: function(msgAppendix) {
+		msgAppendix = msgAppendix ? msgAppendix : "";
+		var message;
+		
+		switch (this.questionObj.questionType) {
+			case "freetext":
+				message = this.questionObj.questionType.toUpperCase();
+				break;
+			default:
+				message = Messages.QUESTION;
+				msgAppendix = "";
+		}
+		
+		return Messages[message + msgAppendix];
+	},
+	
 	setAnswerCount: function() {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-		ARSnova.app.answerModel.getAnswerCount(this.questionObj._id, {
+
+		ARSnova.app.answerModel.getAnswerAndAbstentionCount(this.questionObj._id, {
 			success: function (response) {
-				var numAnswers = parseInt(response.responseText);
-				sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(numAnswers);
+				var numAnswers = JSON.parse(response.responseText),
+					answerCount = parseInt(numAnswers[0]);
+					abstentionCount = parseInt(numAnswers[1]);
+					
+				if(answerCount === abstentionCount && answerCount !== 0) {
+					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(abstentionCount, Messages.ABSTENTION);
+				} else {
+					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(answerCount);
+				}
 			},
 			failure: function () {
 				console.log('server-side error');

@@ -9,4 +9,5 @@ target/*
 # Output files
 src/main/webapp/.sencha_backup
 src/main/webapp/build
+/src/main/webapp/resources/css/app.css
 /target

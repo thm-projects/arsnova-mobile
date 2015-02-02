@@ -111,23 +111,45 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 		if(!option) {
 			option = value === 1 ? Messages.ANSWER : Messages.ANSWERS;
 		}
+		else if(option === Messages.ABSTENTION) {
+			option = value === 1 ? Messages.ABSTENTION : Messages.ABSTENTIONS;
+			if(lang === "en") option = option.toLowerCase();
+		}
 		
 		this.answerCounter.setHtml(value + ' ' + option);
 	},
 	
 	updateAnswerCounter: function(value) {
 		var counter = this.answerCounter.getHtml().split(" "),
-			lastString = counter[counter.length-1];
+			counterText = this.getAnswerCounterText();
 		
-		switch(lastString) {
+		switch(counterText) {
 			case Messages.ANSWER:
 			case Messages.ANSWERS:
+			case Messages.ABSTENTION:
+			case Messages.ABSTENTIONS:
+			case Messages.ABSTENTION.toLowerCase():
+			case Messages.ABSTENTIONS.toLowerCase():
 				this.setAnswerCounter(value);
 				break;
 			default:
 				counter[0] = value;
 				this.answerCounter.setHtml(counter.join(" "));	
 		}
+	},
+	
+	getAnswerCounterText: function() {
+		var counter = this.answerCounter.getHtml().split(" "),
+		lastString = counter[counter.length-1];
+	
+		return lastString;
+	},
+	
+	setAnswerCounterText: function(text) {
+		var counter = this.answerCounter.getHtml().split(" ");
+		counter[counter.length-1] = text;
+	
+		this.answerCounter.setHtml(counter.join(" "));
 	},
 
 	incrementQuestionCounter: function (activeIndex) {

@@ -31,7 +31,7 @@ Ext.define("ARSnova.controller.Sessions", {
 	launch: function () {
 		/* (Re)join session on Socket.IO connect event */
 		ARSnova.app.socket.addListener("arsnova/socket/connect", function () {
-			var keyword = localStorage.getItem('keyword');
+			var keyword = sessionStorage.getItem('keyword');
 
 			if (keyword) {
 				/* TODO: Use abstraction layer? */
@@ -54,9 +54,9 @@ Ext.define("ARSnova.controller.Sessions", {
 		var res = ARSnova.app.sessionModel.checkSessionLogin(options.keyword, {
 			success: function (response) {
 				var obj = Ext.decode(response.responseText);
-
+				
 				// check if user is creator of this session
-				if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
+				if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER && obj.creator !== "NOT VISIBLE TO YOU") {
 					ARSnova.app.isSessionOwner = true;
 				} else {
 					// check if session is open
@@ -64,17 +64,20 @@ Ext.define("ARSnova.controller.Sessions", {
 						Ext.Msg.alert("Hinweis", "Die Session \"" + obj.name +"\” ist momentan geschlossen.");
 						return;
 					}
+					ARSnova.app.userRole = ARSnova.app.USER_ROLE_STUDENT;
 					ARSnova.app.isSessionOwner = false;
 				}
 
 				// set local variables
 				localStorage.setItem('sessionId', obj._id);
 				localStorage.setItem('name', obj.name);
-				localStorage.setItem('keyword', obj.keyword);
 				localStorage.setItem('shortName', obj.shortName);
 				localStorage.setItem('courseId', obj.courseId === null ? "" : obj.courseId);
 				localStorage.setItem('courseType', obj.courseType === null ? "" : obj.courseType);
 				localStorage.setItem('active', obj.active ? 1 : 0);
+				localStorage.setItem('creationTime', obj.creationTime);
+			
+				sessionStorage.setItem('keyword', obj.keyword);
 				
 				// deactivate several about tabs
 				ARSnova.app.mainTabPanel.tabPanel.deactivateAboutTabs();
@@ -118,14 +121,16 @@ Ext.define("ARSnova.controller.Sessions", {
 		// online counter badge
 		ARSnova.app.taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
 
+		sessionStorage.removeItem("keyword");
+		
 		localStorage.removeItem("sessionId");
 		localStorage.removeItem("name");
-		localStorage.removeItem("keyword");
 		localStorage.removeItem("shortName");
 		localStorage.removeItem("active");
 		localStorage.removeItem("session");
 		localStorage.removeItem("courseId");
 		localStorage.removeItem("courseType");
+		localStorage.removeItem("creationTime");
 		ARSnova.app.isSessionOwner = false;
 		
 		/* show about tab panels */
@@ -172,8 +177,8 @@ Ext.define("ARSnova.controller.Sessions", {
 	reloadData: function () {
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 		var hideLoadMask = Ext.emptyFn;
-
-		if (ARSnova.app.isSessionOwner) {
+		
+		if (ARSnova.app.isSessionOwner && ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
 			/* add speaker in class panel */
 			if (!tabPanel.speakerTabPanel) {
 				tabPanel.speakerTabPanel = Ext.create('ARSnova.view.speaker.TabPanel');
@@ -257,7 +262,18 @@ Ext.define("ARSnova.controller.Sessions", {
 			shortName: options.shortName,
 			creator: localStorage.getItem('login'),
 			courseId: options.courseId,
-			courseType: options.courseType
+			courseType: options.courseType,
+			creationTime: Date.now(),
+			ppAuthorName: options.ppAuthorName,
+			ppAuthorMail: options.ppAuthorMail,
+			ppUniversity: options.ppUniversity,
+			ppLogo: options.ppLogo,
+			ppSubject: options.ppSubject,
+			ppLicense: options.ppLicense,
+			ppDescription: options.ppDescription,
+			ppFaculty: options.ppFaculty,
+			ppLevel: options.ppLevel,
+			sessionType: options.sessionType
 		});
 		session.set('_id', undefined);
 
@@ -284,12 +300,14 @@ Ext.define("ARSnova.controller.Sessions", {
 				var fullSession = Ext.decode(response.responseText);
 				localStorage.setItem('sessionId', fullSession._id);
 				localStorage.setItem('name', fullSession.name);
-				localStorage.setItem('keyword', fullSession.keyword);
 				localStorage.setItem('shortName', fullSession.shortName);
 				localStorage.setItem('active', fullSession.active ? 1 : 0);
 				localStorage.setItem('courseId', fullSession.courseId === null ? "" : fullSession.courseId);
 				localStorage.setItem('courseType', fullSession.courseType === null ? "" : fullSession.courseType);
+				localStorage.setItem('creationTime', fullSession.creationTime);
 				ARSnova.app.isSessionOwner = true;
+				
+				sessionStorage.setItem('keyword', fullSession.keyword);
 
 				// start task to update the feedback tab in tabBar
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge, ARSnova.app.mainTabPanel.tabPanel);
@@ -298,35 +316,70 @@ Ext.define("ARSnova.controller.Sessions", {
 
 				/* deactivate several tab panels */
 				ARSnova.app.mainTabPanel.tabPanel.deactivateAboutTabs();
-				
-				/* activate inputElements in newSessionPanel */
-				options.newSessionPanel.enableInputElements();
-				
-				Ext.Msg.show({
-					title: Messages.SESSION + ' ID: ' + fullSession.keyword,
-					message: Messages.ON_SESSION_CREATION_1 + fullSession.keyword + Messages.ON_SESSION_CREATION_2,
-					fn: function() {
-						var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-						panel.setActiveItem(panel.mySessionsPanel);
-						
-						ARSnova.app.getController('Sessions').reloadData();
-					},
-					buttons: [{
+								
+				var loginName = "";
+				var loginMode = localStorage.getItem("loginMode");			
+				ARSnova.app.getController('Auth').services.then(function (services) {				
+					services.forEach(function(service){
+						if(loginMode === service.id) {
+							loginName = "guest" === service.id ? Messages.GUEST: service.name;
+						}
+					});
+					
+					var messageBox = Ext.create('Ext.MessageBox', {
+						title: Messages.SESSION + ' ID: ' + fullSession.keyword,
+						message: Messages.ON_SESSION_CREATION_1.replace(/###/, fullSession.keyword),
+						cls: 'newSessionMessageBox',
+						listeners: {
+							hide: function() {
+								ARSnova.app.getController('Sessions').reloadData();
+								var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+								
+								panel.setActiveItem(panel.mySessionsPanel);
+									
+								/* activate inputElements in newSessionPanel */
+								options.newSessionPanel.enableInputElements();
+									
+								this.destroy();
+							}
+						}
+					});
+					
+					messageBox.setButtons([{
 						text: Messages.CONTINUE, 
 						itemId: 'continue', 
-						ui: 'action'
-					}]
+						ui: 'action',
+						handler: function() {
+							if(!this.readyToClose) {
+								messageBox.setMessage('');
+								messageBox.setTitle(Messages.SESSION + ' ID: ' + fullSession.keyword);
+								messageBox.setHtml("<div class='x-msgbox-text x-layout-box-item' +" +
+									" style='margin-top: -10px;'>" + Messages.ON_SESSION_CREATION_2.replace(/###/, 
+											loginName + "-Login " + "<div style='display: inline-block;'" +
+											"class='text-icons login-icon-" + loginMode + "'></div> " + 
+											(loginMode === "guest" ? Messages.ON_THIS_DEVICE : "")) + 
+										".</div>");
+								
+								this.readyToClose = true;
+							}
+							else {
+								messageBox.hide();
+							}
+						}
+					}]);
+					
+					messageBox.show();
 				});
 			},
 			failure: function (records, operation) {
 				Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
-				options.submitButton.enable();
+				options.newSessionPanel.enableInputElements();
 			}
 		});
 	},
 
 	setActive: function (options) {
-		ARSnova.app.sessionModel.lock(localStorage.getItem("keyword"), options.active, {
+		ARSnova.app.sessionModel.lock(sessionStorage.getItem("keyword"), options.active, {
 			success: function () {
 				// update this session in localStorage
 				var sessions = Ext.decode(localStorage.getItem('lastVisitedSessions'));

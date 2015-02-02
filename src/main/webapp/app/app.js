@@ -21,6 +21,7 @@
  */
 //@require lib/moment.de.js
 //@requrie lib/moment.min.js
+//@requrie lib/rsvp.min.js
 //@require utils/Ext.util.TaskRunner.js
 //@require utils/Ext.util.ResizableTextArea.js
 //@require utils/Ext.Array.js
@@ -46,7 +47,7 @@ Ext.require([
 
 Ext.application({
 
-	requires: ['ARSnova.WebSocket', 'ARSnova.BrowserSupport', 'ARSnova.view.CustomMessageBox'],
+	requires: ['ARSnova.WebSocket', 'ARSnova.BrowserSupport', 'ARSnova.view.CustomMessageBox', 'ARSnova.utils.AsyncUtils'],
 
 	viewport: {
 		autoMaximize: Ext.os.is.iOS && Ext.browser.is.webview
@@ -88,7 +89,7 @@ Ext.application({
 
 	views: ['MainTabPanel', 'MathJaxMarkDownPanel', 'QuestionPreviewBox', 'AnswerPreviewBox'],
 
-	controllers: ['Auth', 'Application', 'Feedback', 'Lang', 'Questions', 'FlashcardQuestions', 'PreparationQuestions', 'Sessions', 'Tracking'],
+	controllers: ['Auth', 'Application', 'Feedback', 'Lang', 'Questions', 'FlashcardQuestions', 'PreparationQuestions', 'Sessions', 'SessionImport', 'SessionExport', 'Tracking'],
 
 	/* items */
 	mainTabPanel: null,
@@ -241,9 +242,9 @@ Ext.application({
 				break;
 		}
 
-		if (localStorage.getItem("keyword") !== null && localStorage.getItem("keyword") !== "") {
+		if (sessionStorage.getItem("keyword") !== null && sessionStorage.getItem("keyword") !== "") {
 			return ARSnova.app.getController('Sessions').login({
-				keyword: localStorage.getItem("keyword")
+				keyword: sessionStorage.getItem("keyword")
 			});
 		}
 	},
@@ -304,7 +305,7 @@ Ext.application({
 	 * Wrapper for an invidivudal LoadMask
 	 */
 	showLoadMask: function (message, duration) {
-		var minimumDuration = 500;
+		var minimumDuration = 800;
 
 		Ext.Viewport.setMasked({
 			xtype: 'loadmask',

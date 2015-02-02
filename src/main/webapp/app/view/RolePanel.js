@@ -25,7 +25,7 @@ Ext.define('ARSnova.view.RolePanel', {
 			direction: 'vertical',
 			directionLock: true
 		},
-		
+
 		tab: {
 			hidden: true
 		},
@@ -35,11 +35,11 @@ Ext.define('ARSnova.view.RolePanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
-		
+
 		var isPhone = (Ext.os.is.Phone && Ext.os.is.iOS);
 		var smallHeight = document.body.clientHeight <= 460;
 		var mediumHeight = document.body.clientHeight >= 520;
-		
+
 		this.add([{
 			xtype: 'toolbar',
 			docked: 'top',
@@ -62,7 +62,7 @@ Ext.define('ARSnova.view.RolePanel', {
 			style: {
 				marginBottom: isPhone && !mediumHeight ? (smallHeight ? '10px' : '15px') : '30px'
 			},
-			html: "<div class='gravure'>Made by <a href='http://www.thm.de/' class='thmlink' target='_blank'><span style='color:#699824;'>THM</span></a></div>",
+			html: "<div class='gravure'>Made by <a href='http://www.thm.de/' class='thmlink' target='_blank'><span class='thm-lettering'>THM</span></a></div>",
 			cls: null
 		}, {
 			xtype: 'container',
@@ -81,17 +81,16 @@ Ext.define('ARSnova.view.RolePanel', {
 			},
 			items: [
 				{
-					text: Messages.STUDENT,
-					value: ARSnova.app.USER_ROLE_STUDENT,
-					image: "login_student",
-					imageCls: "icon-users thm-grey",
-					imageStyle: {}
-				}, {
+					id: 'role-select-speaker',
 					text: Messages.SPEAKER,
 					value: ARSnova.app.USER_ROLE_SPEAKER,
-					image: "ars_logo",
-					style: 'margin-left: 20px;',
-					imageCls: "icon-presenter thm-green"
+					imageCls: "icon-presenter thm-grey"
+				}, {
+					id: 'role-select-student',
+					text: Messages.STUDENT,
+					value: ARSnova.app.USER_ROLE_STUDENT,
+					imageCls: "icon-users thm-green",
+					style: 'margin-left: 20px;'
 				}
 			]
 		}, {

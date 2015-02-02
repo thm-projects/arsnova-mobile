@@ -118,7 +118,7 @@ Ext.define('ARSnova.model.Question', {
 			this.fireEvent(this.events.unansweredPreparationQuestions, questionIds);
 			this.fireEvent(this.events.internalUpdate);
 		}, this);
-		
+
 		ARSnova.app.socket.on(ARSnova.app.socket.events.countLectureQuestionAnswers, function (count) {
 			this.numLectureQuestionAnswers = count;
 			this.fireEvent(this.events.countLectureQuestionAnswers, count);
@@ -128,10 +128,17 @@ Ext.define('ARSnova.model.Question', {
 		ARSnova.app.socket.on(ARSnova.app.socket.events.countQuestionAnswersByQuestion, function (object) {
 			var tP = ARSnova.app.mainTabPanel.tabPanel,
 				showcasePanel = tP.speakerTabPanel.showcaseQuestionPanel;
-			
+
 			if(tP.getActiveItem().getActiveItem() === showcasePanel) {
 				if(showcasePanel.getActiveItem().getItemId() === object.key) {
-					showcasePanel.toolbar.updateAnswerCounter(object.value);
+					var numAnswers = object.value[0],
+						numAbstentions = object.value[1];
+					
+					if(numAnswers === numAbstentions && numAnswers > 0) {
+						showcasePanel.toolbar.setAnswerCounter(numAbstentions, Messages.ABSTENTION);
+					} else {
+						showcasePanel.toolbar.updateAnswerCounter(numAnswers);
+					}
 				}
 			}
 			this.fireEvent(this.events.countQuestionAnswersByQuestion, object);
@@ -157,10 +164,6 @@ Ext.define('ARSnova.model.Question', {
 		return this.getProxy().delQuestion(queObj, callbacks);
 	},
 
-	destroyAll: function (sessionKeyword, callbacks) {
-		return this.getProxy().delAllQuestions(sessionKeyword, callbacks);
-	},
-
 	deleteAllPreparationQuestions: function (sessionKeyword, callbacks) {
 		return this.getProxy().delAllPreparationQuestions(sessionKeyword, callbacks);
 	},
@@ -179,10 +182,6 @@ Ext.define('ARSnova.model.Question', {
 
 	deleteAnswers: function (questionId, callbacks) {
 		return this.getProxy().delAnswers(questionId, callbacks);
-	},
-
-	getQuestionById: function (id, callbacks) {
-		return this.getProxy().getQuestionById(id, callbacks);
 	},
 
 	getSkillQuestion: function (id, callbacks) {
@@ -228,10 +227,6 @@ Ext.define('ARSnova.model.Question', {
 		return this.getProxy().getSkillQuestionsForDelete(sessionId, callbacks);
 	},
 
-	countSkillQuestions: function (sessionKeyword, callbacks) {
-		return this.getProxy().countSkillQuestions(sessionKeyword, callbacks);
-	},
-
 	countPreparationQuestions: function (sessionKeyword, callbacks) {
 		return this.getProxy().countPreparationQuestions(sessionKeyword, callbacks);
 	},
@@ -242,10 +237,6 @@ Ext.define('ARSnova.model.Question', {
 
 	countLectureQuestions: function (sessionKeyword, callbacks) {
 		return this.getProxy().countLectureQuestions(sessionKeyword, callbacks);
-	},
-
-	countTotalAnswers: function (sessionKeyword, callbacks) {
-		return this.getProxy().countTotalAnswers(sessionKeyword, callbacks);
 	},
 
 	countPreparationQuestionAnswers: function (sessionKeyword, callbacks) {
@@ -265,7 +256,7 @@ Ext.define('ARSnova.model.Question', {
 	},
 
 	saveInterposed: function (callbacks) {
-		return this.getProxy().saveInterposedQuestion(this.data.subject, this.data.text, this.data.sessionKeyword, callbacks);
+		return this.getProxy().saveInterposedQuestion(this.data.subject, this.data.text, this.data.sessionKeyword, this.data.timestamp, callbacks);
 	},
 
 	countFeedbackQuestions: function (sessionKeyword, callbacks) {
@@ -294,10 +285,6 @@ Ext.define('ARSnova.model.Question', {
 
 	deleteAnswer: function (questionId, answerId, callbacks) {
 		return this.getProxy().deleteAnswer(questionId, answerId, callbacks);
-	},
-
-	getSkillQuestionsForUser: function (sessionKeyword, callbacks) {
-		return this.getProxy().getSkillQuestionsForUser(sessionKeyword, callbacks);
 	},
 
 	getLectureQuestionsForUser: function (sessionKeyword, callbacks) {

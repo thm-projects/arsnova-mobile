@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'arsnova';
-	src:url('fonts/arsnova.eot?apy7w7');
-	src:url('fonts/arsnova.eot?#iefixapy7w7') format('embedded-opentype'),
-		url('fonts/arsnova.woff?apy7w7') format('woff'),
-		url('fonts/arsnova.ttf?apy7w7') format('truetype'),
-		url('fonts/arsnova.svg?apy7w7#arsnova') format('svg');
+	src:url('fonts/arsnova.eot?2lv68g');
+	src:url('fonts/arsnova.eot?#iefix2lv68g') format('embedded-opentype'),
+		url('fonts/arsnova.woff?2lv68g') format('woff'),
+		url('fonts/arsnova.ttf?2lv68g') format('truetype'),
+		url('fonts/arsnova.svg?2lv68g#arsnova') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -21,6 +21,10 @@
 	/* Better Font Rendering =========== */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-sign-in:before {
+	content: "\e604";
 }
 
 .icon-chart:before {
@@ -103,28 +107,20 @@
 	content: "\f0f6";
 }
 
-.icon-presenter:before {
-	content: "\e602";
+.icon-copy:before {
+	content: "\e92c";
 }
 
-.icon-ars:before {
-	content: "\61";
+.icon-cloud:before {
+	content: "\e2b5";
 }
 
-.icon-nova:before {
-	content: "\6e";
+.icon-cloud-download:before {
+	content: "\e2b6";
 }
 
-.icon-thm-full:before {
-	content: "\e603";
-}
-
-.icon-radar:before {
-	content: "\72";
-}
-
-.icon-thm:before {
-	content: "\74";
+.icon-cloud-upload:before {
+	content: "\e2b7";
 }
 
 .icon-user:before {
@@ -161,5 +157,29 @@
 
 .icon-book2:before {
 	content: "\e601";
+}
+
+.icon-presenter:before {
+	content: "\e602";
+}
+
+.icon-ars:before {
+	content: "\61";
+}
+
+.icon-nova:before {
+	content: "\6e";
+}
+
+.icon-thm-full:before {
+	content: "\e603";
+}
+
+.icon-radar:before {
+	content: "\72";
+}
+
+.icon-thm:before {
+	content: "\74";
 }
 

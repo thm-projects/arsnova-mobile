@@ -10,45 +10,17 @@
 	width: 0;
 }
 
-.x-msgbox a, .x-msgbox a:visited {
-	color: rgba(190,224,247,0.9);
-}
-
-/* remove "Sencha Touch GPL3" watermark from charts */
-.x-chart-watermark {
-	opacity: 0;
-}
-
-.statisticButton.x-item-disabled .x-button-label {
-	opacity: 1;
-}
-
-.centerFormTitle .x-form-fieldset-title {
-	text-align: center;
-	margin-bottom: 10px;
-}
-
-.centerFormTitle.hiddenUrl .x-form-fieldset-title {
-	margin-bottom: -9px;
-}
-
-.x-tabbar .x-tab .infoButtonBeforeLogin:before {
-	color: #80ba24;
-}
-
-.myCoursesList .x-innerhtml{
-	padding: 0 !important;
-}
-
-.myCoursesList .x-list-item {
-	border: none !important;
-}
-
 code {
 	white-space:pre;
 	white-space:pre-wrap;
 	word-break:break-all;
 	word-wrap:break-word;
+}
+
+.newSessionMessageBox .x-innerhtml {
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+	padding-bottom: 0.5em;
 }
 
 .myCoursesList .x-list-item-first .x-button {
@@ -476,6 +448,17 @@ html,body {
 
 .matrixButton.actionButton .buttonText {
 	width: 130px !important;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.matrixButton.smallerActionButton {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.matrixButton.smallerActionButton .buttonText {
+	width: 105px !important;
 	margin-left: 0px;
 	margin-right: 0px;
 }
@@ -1499,6 +1482,11 @@ ol.standardList li {
 	margin: 0;
 }
 
+/* No border inside toggle elements in the session export to filesystem list */
+.session-toggle-label {
+	border-right: none !important;
+}
+
 /* No linebreak after text in answer list formatted by markdown library */
 .answerListButton .x-innerhtml > p {
 	display: inline;
@@ -1521,13 +1509,17 @@ ol.standardList li {
 }
 
 .fileUploadButtonFieldset {
-	margin: 0px auto 1.5em;
+	margin: 0px auto;
 	max-width: 500px;
 	width: 95.15%;
 }
 
 .fileUploadButtonFieldset.longText {
 	max-width: 604px; 
+}
+
+.ppSingleItemBackground {
+	background: white !important;
 }
 
 .hidden {
