@@ -28,13 +28,12 @@
 //
 // The following lines import the custom scss files.
 
-// components:
-@import 'components/loadingMask';
+@import 'app/colors';
+@import 'app/general';
+@import 'app/iconfont';
+@import 'app/bugfixes';
+@import 'app/theme';
 
-// general:
-@import 'colors';
-@import 'general';
-@import 'badges';
-@import 'iconfont';
-@import 'bugfixes';
-@import 'theme';
+@import 'app/components/loadingMask';
+@import 'app/components/badges';
+
