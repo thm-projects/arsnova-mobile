@@ -70,7 +70,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 
 		// Preview button
 		this.previewButton = Ext.create('Ext.Button', {
-			text: Ext.os.is.Desktop ? 
+			text: Ext.os.is.Desktop ?
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP:
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
@@ -116,7 +116,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 					this.text
 				]
 			}
-				
+
 			]
 		}, this.buttonPart]);
 	},
@@ -146,7 +146,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 				field.addCls("required");
 				field.element.select(".x-input-text").addCls('formInvalid');
 			});
-			
+
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.INCOMPLETE_INPUTS);
 			return;
 		} else {

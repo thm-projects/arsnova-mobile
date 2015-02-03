@@ -44,7 +44,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		this.customMask = Ext.create('ARSnova.view.CustomMask', {
 			mainPanel: this
 		});
-		
+
 		if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
 			this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
 				questionObj: this.questionObj
@@ -84,7 +84,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			cls: "roundedBox allCapsHeader"
 		});
 		questionPanel.setContent(questionString, true, true);
-		
+
 		this.buttonContainer = Ext.create('Ext.Container', {
 			layout: {
 				type: 'hbox',
@@ -124,7 +124,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					items: [questionPanel, this.viewOnly ? {} : {
 						xtype: 'fieldset',
 						items: [this.answerSubject, this.answerText]
-					}, 
+					},
 					this.buttonContainer]
 				}]
 			}), this.editButtons ? this.editButtons : {}
@@ -132,17 +132,17 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 		this.on('activate', function () {
 			if (this.isDisabled()) this.disableQuestion();
-			
+
 			if(this.viewOnly) {
 				this.setAnswerCount();
 			}
 		});
 	},
-	
+
 	getQuestionTypeMessage: function(msgAppendix) {
 		msgAppendix = msgAppendix ? msgAppendix : "";
 		var message;
-		
+
 		switch (this.questionObj.questionType) {
 			case "freetext":
 				message = this.questionObj.questionType.toUpperCase();
@@ -151,10 +151,10 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				message = Messages.QUESTION;
 				msgAppendix = "";
 		}
-		
+
 		return Messages[message + msgAppendix];
 	},
-	
+
 	setAnswerCount: function() {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 
@@ -163,7 +163,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				var numAnswers = JSON.parse(response.responseText),
 					answerCount = parseInt(numAnswers[0]);
 					abstentionCount = parseInt(numAnswers[1]);
-					
+
 				if(answerCount === abstentionCount && answerCount !== 0) {
 					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(abstentionCount, Messages.ABSTENTION);
 				} else {
@@ -189,7 +189,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			}
 		}, this);
 	},
-	
+
 	statisticButtonHandler: function (scope) {
 		var p = Ext.create('ARSnova.view.FreetextAnswerPanel', {
 			question: scope.questionObj,

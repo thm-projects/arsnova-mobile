@@ -19,34 +19,34 @@
 
 Ext.define('ARSnova.view.components.GridImageContainer', {
 	extend: 'ARSnova.view.components.GridContainer',
-	
+
 	config: {
 		statisticWrongColor: '#971B2F', // Color for wrong fields in statistic.
 		statisticRightColor: '#80BA24', // Color for right fields in statistic.
 		gridType: 'image'
 	},
-	
+
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * Creates the canvas element and initializes all necessary variables.
 	 */
 	constructor: function(config) {
 		this.callParent(arguments);
 	},
-	
+
 	/**
 	 * Checks if there are fields left to be clicked.
 	 */
 	calculateFieldsLeft: function() {
-		
+
 		var numChosenFields = this.getChosenFields().length;
 		var numCorrectFields = this.getPossibleAnswers().filter(function isCorrect(e) {
 			return e.correct;
 		}).length;
 		return ((numChosenFields < numCorrectFields) || (numCorrectFields === 0) || this.getToggleFieldsLeft());
 	},
-	
+
 	/**
 	 * Marks all chosen fields.
 	 */
@@ -58,12 +58,12 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 					entry[1], thiz.getHighlightColor(), 0.5);
 				});
 	},
-	
+
 	/**
 	 * Marks the field by the position parameters.
 	 */
 	markField: function (x, y, color, alpha) {
-		
+
 		var ctx = this.getCanvas().getContext("2d");
 		var koord = this.getFieldKoord(x, y);
 		ctx.globalAlpha = alpha;
@@ -73,7 +73,7 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 
 		ctx.fillRect(koord[0], koord[1], width, width);
 	},
-	
+
 	/**
 	 * Updates the GridImageContainer with the given parameters.
 	 *
@@ -83,14 +83,14 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 	update: function (questionObj, mark) {
 		this.callParent(arguments);
 	},
-	
+
 	/**
 	 * Resets all necessary variables of the GridContainer.
 	 */
 	clearConfigs: function() {
 		this.callParent(arguments);
 	},
-	
+
 	/**
 	 * generates the statistic output.
 	 */
@@ -178,7 +178,7 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 			}
 		}
 	},
-	
+
 	generateUserViewWithAnswers: function (userAnswers, correctAnswers) {
 
 		var lowAlpha = 0.2;
@@ -197,7 +197,7 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 			}
 		}
 	},
-	
+
 	/**
 	 * Converts the chosen fields of the grid to objects
 	 * to be used as possible answers.
@@ -224,9 +224,8 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 		}
 		return values;
 	},
-	
+
 	createResult: function() {
 		return this.callParent(arguments);
 	}
 });
-

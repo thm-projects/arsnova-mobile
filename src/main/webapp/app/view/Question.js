@@ -29,14 +29,16 @@ Ext.define('ARSnova.view.PositionMap', {
 Ext.define('ARSnova.view.Question', {
 	extend: 'Ext.Panel',
 
-	requires: ['ARSnova.model.Answer', 
-	           'ARSnova.view.CustomMask', 
-	           'ARSnova.view.MathJaxMarkDownPanel',
-	           'ARSnova.view.speaker.ShowcaseEditButtons'],
+	requires: [
+		'ARSnova.model.Answer',
+		'ARSnova.view.CustomMask',
+		'ARSnova.view.MathJaxMarkDownPanel',
+		'ARSnova.view.speaker.ShowcaseEditButtons'
+	],
 
 	config: {
 		padding: '0 0 50 0',
-		
+
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
@@ -56,7 +58,7 @@ Ext.define('ARSnova.view.Question', {
 		this.customMask = Ext.create('ARSnova.view.CustomMask', {
 			mainPanel: this
 		});
-		
+
 		if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
 			this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
 				questionObj: this.questionObj
@@ -151,7 +153,7 @@ Ext.define('ARSnova.view.Question', {
 					answer.set('questionValue', questionValue);
 					saveAnswer(answer);
 				});
-				
+
 				this.buttonContainer.setHidden(true);
 			}, this);
 		};
@@ -181,7 +183,7 @@ Ext.define('ARSnova.view.Question', {
 					answer.set('questionValue', questionValue);
 					saveAnswer(answer);
 				});
-				
+
 				this.buttonContainer.setHidden(true);
 			}, this);
 		};
@@ -197,7 +199,7 @@ Ext.define('ARSnova.view.Question', {
 					self.answerList.deselectAll();
 					saveAnswer(answer);
 				});
-				
+
 				this.buttonContainer.setHidden(true);
 			}, this);
 		};
@@ -260,14 +262,14 @@ Ext.define('ARSnova.view.Question', {
 		    	style: 'word-wrap: break-word;',
 		    	cls: ''
 			});
-			
+
 			this.answerList = Ext.create('Ext.Container', {
 				layout: 'vbox',
 				cls: 'roundedBox',
 				style: 'margin-bottom: 10px;',
 				styleHtmlContent: true
 			});
-			
+
 			if(this.questionObj.fcImage) {
 				this.flashcardGrid = Ext.create('ARSnova.view.components.GridImageContainer', {
 					itemId: 'flashcardGridImageContainer' + this.questionObj._id,
@@ -275,28 +277,28 @@ Ext.define('ARSnova.view.Question', {
 					gridIsHidden: true,
 					style: 'margin-bottom: 20px'
 				});
-				
+
 				this.flashcardGrid.setImage(this.questionObj.fcImage);
-				this.answerList.add(this.flashcardGrid);	
+				this.answerList.add(this.flashcardGrid);
 			}
-			
+
 			this.answerList.add(answerPanel);
-			
+
 			// remove padding around panel
 			this.answerList.bodyElement.dom.style.padding="0";
-			
+
 			// set content
 			answerPanel.setContent(this.questionObj.possibleAnswers[0].text, true, true);
 		}
-		
+
 		else {
 			this.answerList = Ext.create('Ext.List', {
 				store: answerStore,
-	
+
 				cls: 'roundedBox',
 				variableHeights: true,
 				scrollable: {disabled: true},
-	
+
 				itemCls: 'arsnova-mathdown x-html answerListButton noPadding',
 				itemHeight: 32,
 				itemTpl: new Ext.XTemplate(
@@ -332,7 +334,7 @@ Ext.define('ARSnova.view.Question', {
 					},
 					resizeList: function (list) {
 						var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
-	
+
 						this.answerList.setHeight(
 							parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
 							parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
@@ -368,7 +370,7 @@ Ext.define('ARSnova.view.Question', {
 			scope: this,
 			disabled: true
 		});
-		
+
 		this.abstentionButton = !!!this.questionObj.abstention ? {hidden: true} : Ext.create('Ext.Button', {
 			flex: 1,
 			ui: 'action',
@@ -378,7 +380,7 @@ Ext.define('ARSnova.view.Question', {
 			handler: this.mcAbstentionHandler,
 			scope: this
 		});
-		
+
 		this.formPanel = Ext.create('Ext.form.Panel', {
 			scrollable: null
 		});
@@ -421,7 +423,7 @@ Ext.define('ARSnova.view.Question', {
 		};
 
 		this.formPanel.add([questionPanel]);
-		
+
 		if (this.questionObj.image && this.questionObj.questionType !== "grid") {
 			this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
 				id: 'gridImageContainer' + this.questionObj._id,
@@ -431,22 +433,22 @@ Ext.define('ARSnova.view.Question', {
 			this.grid.setImage(this.questionObj.image);
 			this.formPanel.add(this.grid);
 		}
-		
+
 		this.formPanel.add(this.answerList);
-		
+
 		if(this.questionObj.questionType === "mc") {
 			this.buttonContainer.add([
 				this.mcSaveButton,
 				this.abstentionButton
 			]);
-			
+
 			this.formPanel.add(!this.viewOnly ? this.buttonContainer: {});
 			this.answerList.setHidden(false);
 		}
 		else if (this.questionObj.questionType === "flashcard") {
 			this.formPanel.add([flashcardContainer]);
 			this.answerList.setHidden(true);
-		} 
+		}
 		else if (this.questionObj.questionType === "grid") {
 			if (this.questionObj.gridType === 'moderation') {
 
@@ -486,7 +488,7 @@ Ext.define('ARSnova.view.Question', {
 				scope: this,
 				disabled: false
 			});
-			
+
 			this.formPanel.add([this.grid]);
 
 			if (this.questionObj.gridType === 'moderation') {
@@ -513,7 +515,7 @@ Ext.define('ARSnova.view.Question', {
       				this.gridButton,
       				this.abstentionButton
       			]);
-				
+
 				this.formPanel.add([this.buttonContainer]);
 			}
 			this.answerList.setHidden(true);
@@ -528,17 +530,17 @@ Ext.define('ARSnova.view.Question', {
 
 		this.on('activate', function () {
 			this.answerList.addListener('itemtap', questionListener.itemtap);
-	
+
 			if (this.isDisabled()) {
 				this.disableQuestion();
 			}
-			
+
 			if(this.viewOnly) {
 				this.setAnswerCount();
 			}
 		});
 	},
-	
+
 	statisticButtonHandler: function (scope) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel || ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
@@ -547,11 +549,11 @@ Ext.define('ARSnova.view.Question', {
 		});
 		ARSnova.app.mainTabPanel.animateActiveItem(panel.questionStatisticChart, 'slide');
 	},
-	
+
 	getQuestionTypeMessage: function(msgAppendix) {
 		var message;
 		msgAppendix = msgAppendix ? msgAppendix : "";
-		
+
 		switch (this.questionObj.questionType) {
 			case "vote":
 				message = "EVALUATION";
@@ -561,25 +563,25 @@ Ext.define('ARSnova.view.Question', {
 			default:
 				message = this.questionObj.questionType.toUpperCase();
 		}
-		
+
 		if(!Messages[message + msgAppendix]) {
 			message = "QUESTION";
 			msgAppendix = "";
 		}
-		
+
 		return Messages[message + msgAppendix];
 	},
-	
+
 	setAnswerCount: function() {
 		var questionType = this.questionObj.questionType;
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-		
+
 		ARSnova.app.answerModel.getAnswerAndAbstentionCount(this.questionObj._id, {
 			success: function (response) {
 				var numAnswers = JSON.parse(response.responseText),
 					answerCount = parseInt(numAnswers[0]);
 					abstentionCount = parseInt(numAnswers[1]);
-					
+
 				if(questionType === 'flashcard') {
 					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(answerCount, Messages.ANSWERS_SHOWN);
 				} else if(answerCount === abstentionCount && answerCount !== 0) {

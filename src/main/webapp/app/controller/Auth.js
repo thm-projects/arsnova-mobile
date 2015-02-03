@@ -191,7 +191,7 @@ Ext.define("ARSnova.controller.Auth", {
 	logout: function () {
 		/* hide diagnosis panel */
 		ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.tab.hide();
-		
+
 		/* clear local storage */
 		localStorage.removeItem('sessions');
 		localStorage.removeItem('role');

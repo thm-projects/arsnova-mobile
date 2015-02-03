@@ -86,7 +86,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				pack: 'center',
 				align: 'center'
 			},
-			
+
 			style: 'marginTop: 15px',
 
 			items: [{
@@ -149,7 +149,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			this.lastVisitedSessionsForm,
 			this.mySessionsForm
 		]);
-		
+
 		if (config.features.publicPool) {
 			this.publicPoolButton = Ext.create('ARSnova.view.MatrixButton', {
 				text: 'Pool',
@@ -164,7 +164,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 							me.publicPoolPanel = Ext.create('ARSnova.view.home.PublicPoolPanel',{
 								sessions: sessionList
 							});
-							
+
 							hTP.animateActiveItem(me.publicPoolPanel, {
 								type: 'slide',
 								direction: 'left',
@@ -183,7 +183,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					});
 				}
 			});
-			
+
 			this.matrixButtonPanel = Ext.create('Ext.Panel', {
 				layout: {
 					type: 'hbox',
@@ -194,7 +194,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					this.publicPoolButton
 				]
 			});
-			
+
 			this.add(this.matrixButtonPanel);
 		}
 
@@ -324,9 +324,9 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				if (session.courseType && session.courseType.length > 0) {
 					icon = "icon-prof";
 				}
-				
+
 				var iconCls = icon + " courseIcon";
-				
+
 				if (session.sessionType == 'public_pool') {
 					iconCls = "icon-cloud thm-green";
 				}

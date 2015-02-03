@@ -54,7 +54,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
-		
+
 		var me = this;
 
 		this.statisticsStore = Ext.create('Ext.data.Store', {
@@ -94,14 +94,14 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 				disabled: true,
 				setInnerValue: function(value) {
 					var component = me.formpanel.getComponent(this.itemId);
-					
+
 					if(!component.innerValue) {
 						component.innerValue = Ext.DomHelper.append(component.element, {
 							tag: 'span',
 							cls: 'thm-grey'
 						});
 					}
-					
+
 					component.innerValue.innerHTML = value;
 				}
 			},
@@ -123,7 +123,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 					text: Messages.ANSWERS
 				}]
 		});
-		
+
 		this.inClass = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			items: [this.formpanel]

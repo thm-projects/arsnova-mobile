@@ -319,7 +319,7 @@ Ext.define('Ext.ux.Fileup', {
 			} else {
 				me.setUi('normal');
 			}
-			
+
 			// State specific tasks
 			switch (state) {
 				case 'browse':

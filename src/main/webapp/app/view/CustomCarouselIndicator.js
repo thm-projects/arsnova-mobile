@@ -18,43 +18,43 @@
  */
 Ext.define('ARSnova.view.CustomCarouselIndicator', {
 	override: 'Ext.carousel.Indicator',
-	
+
 	initialize: function() {
 		this.callParent();
 		this.hasItems = false;
 	},
-	
+
 	addIndicator: function() {
 		this.indicators.push(this.element.createChild({
 			tag: 'span'
 		}));
-		
+
 		if(!this.hasItems) {
 			var me = this;
 			var indicator = this.indicators[0].dom;
 			var itemRect = indicator.getBoundingClientRect();
-			
+
 			this.marginLeftRight = parseFloat(window.getComputedStyle(indicator, "").getPropertyValue("margin-left"));
 			this.marginTopBottom = parseFloat(window.getComputedStyle(indicator, "").getPropertyValue("margin-top"));
 			this.elementWidth = itemRect.right - itemRect.left + (2 * this.marginLeftRight);
-			
+
 			var resizeTask = function() {
 				if(me.indicators.length && me.hasItems) {
 					var calcWidth = me.indicators.length * me.elementWidth;
-					
+
 					me.screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 					me.setWidth(calcWidth < me.screenWidth ? me.screenWidth : calcWidth);
 				}
 			};
-			
+
 			this.parent.on('resize', resizeTask);
 			this.parent.on('indicatorAdd', resizeTask);
 			this.hasItems = true;
 		}
-		
+
 		this.parent.fireEvent('indicatorAdd');
 	},
-	
+
 	onTap: function(e) {
 		var carousel = this.parent,
 			target = e.touch.target,
@@ -62,42 +62,42 @@ Ext.define('ARSnova.view.CustomCarouselIndicator', {
 			itemList = this.bodyElement.dom.children,
 			itemArray = [].slice.call(itemList),
 			targetIndex = itemArray.indexOf(target);
-			
+
 		if(targetIndex === -1 || targetIndex === activeItem) {
 			var touch = e.touch,
 				firstElement = itemArray[0],
 				itemBounding = firstElement.getBoundingClientRect(),
 				index = Math.floor((touch.pageX - itemBounding.left + this.marginLeftRight) / this.elementWidth);
-			
+
 			if(itemArray[index]) targetIndex = index;
 			if(targetIndex === -1 || targetIndex === activeItem) {
 				return this;
 			}
 		}
-		
+
 		this.animationDirection = activeItem > targetIndex ? 0 : 1;
-		
+
 		if (this.animationDirection) {
 			targetIndex = targetIndex-1;
 			if (activeItem === carousel.getMaxItemIndex()) {
 				return this;
 			}
-	        
+
 			carousel.setActiveItem(targetIndex);
 			carousel.next();
 		}
-		
+
 		else {
 			targetIndex = targetIndex+1;
 			if (activeItem === 0) {
 				return this;
 			}
-	        
+
 			carousel.setActiveItem(targetIndex);
 			carousel.previous();
 		}
 	},
-	
+
 	setActiveIndex: function(index) {
 		var indicators = this.indicators,
 			currentActiveIndex = this.activeIndex,
@@ -114,24 +114,24 @@ Ext.define('ARSnova.view.CustomCarouselIndicator', {
 		}
 
 		this.activeIndex = index;
-		
+
 		element = this.bodyElement.dom.children[0];
 		this.animationDirection = currentActiveIndex > index ? 0 : 1;
-		
+
 		if(element && activeItem && index !== currentActiveIndex && currentActiveIndex !== -1) {
 			var lastElement = indicators[indicators.length-1],
 				lastElementRightPos = lastElement.dom.getBoundingClientRect().right,
 				itemRect = activeItem.dom.getBoundingClientRect(),
 				maxRight = this.screenWidth,
 				leftPos = this.getLeft();
-			
+
 			if(lastElementRightPos + Math.abs(leftPos) > maxRight) {
 				var offsetPos = 5;
-				
+
 				if (this.animationDirection) {
 					var position = itemRect.left,
 						elementsTillMaxPos = Math.ceil((maxRight - position) / this.elementWidth);
-					
+
 					if(elementsTillMaxPos < offsetPos) {
 						// offsetPos is added in order to simulate a slight movement
 						this.setLeft(leftPos - (this.elementWidth * (offsetPos-elementsTillMaxPos)) + offsetPos);

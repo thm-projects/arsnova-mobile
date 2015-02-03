@@ -63,7 +63,7 @@ Ext.define('ARSnova.view.components.ModerationToolbar', {
 	},
 
 	setQuestionTitle: function (question) {
-	
+
 	},
 
 	setTitleOptions: function (longVersion, shortVersion) {

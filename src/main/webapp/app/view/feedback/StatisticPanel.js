@@ -39,9 +39,9 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
-		
+
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-		var buttonCls = screenWidth < 400 ? 'smallerMatrixButtons' : ''; 
+		var buttonCls = screenWidth < 400 ? 'smallerMatrixButtons' : '';
 
 		this.backButton = Ext.create('Ext.Button', {
 			ui: 'back',
@@ -216,7 +216,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 
 		this.onBefore('activate', function () {
 			var me = this;
-			
+
 			ARSnova.app.feedbackModel.getFeedback(sessionStorage.getItem('keyword'), {
 				success: function(response) {
 					var feedback = Ext.decode(response.responseText);
@@ -226,11 +226,11 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 					console.log('server-side error');
 				}
 			});
-			
+
 			// remove x-axis ticks and labels at initialization
 			this.feedbackChart.getAxes()[1].sprites[0].attr.majorTicks = false;
 		});
-		
+
 		this.onBefore('painted', function() {
 			if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 				this.prepareSpeakersView();
@@ -239,13 +239,13 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			}
 		});
 	},
-	
+
 	prepareSpeakersView: function() {
 		this.backButton.setText(Messages.HOME);
 		this.feedbackButtons.setCls('speakerVoteButtonsPanel');
 		this.toolbar.setCls('speakerTitleBar');
 	},
-	
+
 	prepareStudentsView: function() {
 		this.backButton.setText(Messages.FEEDBACK_VOTE);
 		this.feedbackButtons.setCls('voteButtonsPanel');
@@ -262,9 +262,9 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		var tmpValue = values[0];
 		values[0] = values[1];
 		values[1] = tmpValue;
-	
+
 		if (!Ext.isArray(values) || values.length != store.getCount()) return;
-		
+
 		// Set chart data
 		store.each(function (record, index) {
 			record.set('value', values[index]);
@@ -275,7 +275,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		store.each(function (record) {
 			record.set('percent', sum > 0 ? (record.get('value') / sum) : 0.0);
 		});
-		
+
 		chart.getAxes()[0].setMaximum(Math.max.apply(null, values));
 		chart.redraw();
 	},

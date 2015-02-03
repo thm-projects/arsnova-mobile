@@ -16,28 +16,28 @@
 
 Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 	extend: 'Ext.Carousel',
-    
+
 	allTemplates: null,
-	
+
 	config: {
 		fullscreen: true,
 		title: Messages.TEMPLATE,
 	    direction: 'horizontal',
-		 
+
 		saveHandlerScope: null,
 		templateAdoptionHandler: Ext.emptyFn
 	},
-	
+
 	initialize: function () {
 		var me = this;
-		
+
 		this.callParent(arguments);
 		this.allTemplates = new Array();
-		
+
 		this.gridModeration = Ext.create('ARSnova.view.components.GridModerationContainer',{
 			itemId: 'gridModearionContainer'
 		});
-		
+
 		this.backButton = Ext.create('Ext.Button', {
 			ui: 'back',
 			text: Messages.BACK,
@@ -54,13 +54,13 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 					direction: 'right',
 					duration: 700
 				});
-				
+
 				// pre-select image question
 				var newQuestionPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
 				newQuestionPanel.activateButtonWithText(Messages.GRID);
 			}
 		});
-		
+
 		this.saveButtonToolbar = Ext.create('Ext.Button', {
 			text: Messages.APPLY,
 			ui: 'confirm',
@@ -72,29 +72,29 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 				Ext.bind(this.getTemplateAdoptionHandler(), this.getSaveHandlerScope())(this.allTemplates[me.getActiveIndex()]);
 			}
 		});
-		
+
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.TEMPLATE,
 			docked: 'top',
 			ui: 'light',
 			items: [
-			     this.backButton, 
+			     this.backButton,
 				{xtype:'spacer'},
 			     this.saveButtonToolbar
 			]
 		});
-		
+
 		this.add([this.toolbar]);
-		
+
 		this.on('activate', this.getTemplates, this, null, 'before');
 	},
-		
+
 	/**
-	 * Loads the templates to Carousel. 
+	 * Loads the templates to Carousel.
 	 */
-	setTemplates : function(templates) {	
+	setTemplates : function(templates) {
 		var me = this;
-		
+
 		templates.forEach(function(templateContainer) {
 			templateContainer.setEditable(false);
 
@@ -105,7 +105,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 				style: 'color: black;'
 			});
 			contentPanel.setContent(templateContainer.getDescription(), true, true);
-			
+
 			// panel for question subject
 			var titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 				xtype: 'mathJaxMarkDownPanel',
@@ -113,8 +113,8 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 				style: 'background-color: transparent; padding: 0;font-weight: bold; font-size: 1.4em;'
 			});
 			titlePanel.setContent(templateContainer.getName(), false, true);
-			
-			me.singleTemplatePanel = Ext.create('Ext.Panel',{	
+
+			me.singleTemplatePanel = Ext.create('Ext.Panel',{
 				scrollable: {
 					direction: 'vertical',
 					directionLock:true
@@ -122,7 +122,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 				layout:	{
 					type: 'vbox',
 					pack: 'center',
-					align: 'center' 
+					align: 'center'
 				},
 				 items:[titlePanel, {
 					xtype: 'formpanel',
@@ -138,7 +138,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 								var index = me.getActiveIndex();
 								var src = me.allTemplates[index].getImageFile().src;
 								window.open(src);
-							} 
+							}
 						}, {
 							xtype: 'spacer',
 							height: 25,
@@ -148,20 +148,20 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 				 }]
 			});
 			me.BtnSpacer = Ext.create('Ext.Spacer');
-			
+
 			me.add([me.singleTemplatePanel]);
 			me.allTemplates.push(templateContainer);
 			me.setActiveItem(0);
 		});
 	},
-	
+
 	/**
 	 * Loads the template JSON file and starts the configuration process on success.
-	 * 
+	 *
 	 * @param successCallback(templates) The function which gets called after the templates were
 	 * loaded successfully.
 	 */
-	getTemplates : function() {	
+	getTemplates : function() {
 		var me = this;
 		this.removeAll();
 		Ext.Ajax.request({

@@ -18,7 +18,7 @@
  */
 Ext.define('ARSnova.view.about.PrivacyTabPanel', {
 	extend: 'Ext.tab.Panel',
-	
+
 	requires: ['ARSnova.view.components.EmbeddedPage'],
 
 	config: {
@@ -32,7 +32,7 @@ Ext.define('ARSnova.view.about.PrivacyTabPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
-		
+
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			title: this.getTitle(),
@@ -51,12 +51,12 @@ Ext.define('ARSnova.view.about.PrivacyTabPanel', {
 				}
 			}]
 		});
-		
+
 		this.add(this.toolbar);
 
 		this.on("painted", function () {
 			var url = ARSnova.app.globalConfig.privacyPolicyUrl || "https://arsnova.eu/blog/datenschutzerklaerung/";
-			
+
 			this.add(Ext.create('ARSnova.view.components.EmbeddedPage', {
 				src: url
 			}));

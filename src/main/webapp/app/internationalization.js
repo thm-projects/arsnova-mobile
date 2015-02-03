@@ -36,7 +36,7 @@ if (isAndroid && !isChrome) {
 
 try {
 	var prefLang = localStorage.getItem("language");
-} catch (e) {			
+} catch (e) {
 	var prefLang = undefined;
 }
 
@@ -61,7 +61,7 @@ switch (lang) {
 			FEATURE_COMING_SOON: "This feature will be available soon.",
 			UNI_LOGIN_MSG: "Your University here?",
 			UNI_LOGIN_MSG_TEXT: "Would you like to use your university's account? Contact us @ <a href='http://www.transmit.de/zentren/tz.cfm?N=189' target='_blank'>transmit.de</a>.",
-			
+
 			/* rolePanel */
 			BLOG: "Blog",
 			CHOOSE_ROLE: "Choose your role:",
@@ -95,7 +95,7 @@ switch (lang) {
 			ON_SESSION_CREATION_2: "You can manage this session only in the role of lecturer via ###",
 			ON_THIS_DEVICE: "and on this device",
 			DEMO_SESSION: "Demo session: ",
-			
+
 			/* LOAD MASK */
 			LOAD_MASK: "Loading...",
 			LOAD_MASK_LOGIN: "Login...",
@@ -360,7 +360,7 @@ switch (lang) {
 			TEMPLATE:	"Template",
 			APPLY:	"Apply",
 			DOWNLOAD:	"Download",
-			
+
 			/*Export session*/
 			EXPORT_MSG: "What should be exported?",
 			EXPORT_SESSION_TITLE: "Session Export",
@@ -383,11 +383,11 @@ switch (lang) {
 			EXPORT_BUTTON_PP: "Public Pool",
 			EXPORT_PP_NOTIFICATION: 'As a "guest" you can not export a session in the public pool. Please log in using one of the other approaches.',
 			EXPORT_SESSION_LABEL: 'Selection of sessions to be exported:',
-			
+
 			/*Import session*/
 			IMPORT_IOS_NOTIFICATION: "An import can not be performed on iOS devices.",
 			IMPORT_NOT_SUPPORTED: "Session Import is not supported for your browser.",
-			
+
 			/*Public pool*/
 			SESSIONPOOL_LEVEL: "Level",
 			SESSIONPOOL_CLONE: "Copy",
@@ -414,7 +414,7 @@ switch (lang) {
 			SESSIONPOOL_VISIT:	"Visit",
 			SESSOPNPOOL_CHARACTERS:	'characters',
 			SESSIONPOOL_INFOS:	'Infos',
-			
+
 			/* question types */
 			EVALUATION: "+-",
 			SCHOOL: "A-F",
@@ -447,7 +447,7 @@ switch (lang) {
 			EVALUATION_NEUTRAL: "neutral",
 			EVALUATION_MINUS: "disagree",
 			EVALUATION_MINUSMINUS: "strongly disagree",
-			
+
 			/* action buttons - <br/> forces line break for consistent look */
 			CREATE_NEW_SESSION: "Create new<br/>session",
 			NEW_QUESTION: "Create new<br/>question",
@@ -521,7 +521,7 @@ switch (lang) {
 			PRESENTER: "Presenter",
 			UNI: "Uni",
 			SESSION_ID: "Session ID",
-				
+
 			/* session import */
 			IMP_BUTTON_IMPORT: "Import",
 			IMP_LOADMSK: "Importing sessions",
@@ -577,7 +577,7 @@ switch (lang) {
 			ON_SESSION_CREATION_2: "Sie können diese Session nur in der Rolle Dozent/in via ### verwalten",
 			ON_THIS_DEVICE: "auf diesem Gerät",
 			DEMO_SESSION: "Demo-Session: ",
-			
+
 			/* LOAD MASK */
 			LOAD_MASK: "Lade Daten...",
 			LOAD_MASK_LOGIN: "Login...",
@@ -841,7 +841,7 @@ switch (lang) {
 			TEMPLATE:	"Vorlage",
 			APPLY:		"Übernehmen",
 			DOWNLOAD:	"Herunterladen",
-			
+
 			/*Export session*/
 			EXPORT_MSG: "Was möchten Sie exportieren?",
 			EXPORT_SESSION_TITLE: "Session Export",
@@ -863,11 +863,11 @@ switch (lang) {
 			EXPORT_BUTTON_FS: "Mein System",
 			EXPORT_BUTTON_PP: "Public Pool",
 			EXPORT_PP_NOTIFICATION: 'Als "Gast" können Sie keine Session in den Public Pool exportieren. Bitte melden Sie sich über einen der anderen Zugänge an.',
-			EXPORT_SESSION_LABEL:	'Auswahl der Session(s), die exportiert werden:', 
+			EXPORT_SESSION_LABEL:	'Auswahl der Session(s), die exportiert werden:',
 			/*Import session*/
 			IMPORT_IOS_NOTIFICATION: "Ein Import kann auf iOS Geräten nicht durchgeführt werden",
 			IMPORT_NOT_SUPPORTED: "Der Session Import wird für Ihren Browser nicht unterstützt.",
-			
+
 			/*Public pool*/
 			SESSIONPOOL_LEVEL: "Niveau",
 			SESSIONPOOL_CLONE: "Kopieren",
@@ -894,7 +894,7 @@ switch (lang) {
 			SESSIONPOOL_VISIT:	"Besuchen",
 			SESSOPNPOOL_CHARACTERS: 'Zeichen',
 			SESSIONPOOL_INFOS:	'Infos',
-			
+
 			/* question types */
 			EVALUATION: "+-",
 			SCHOOL: "1-6",
@@ -927,7 +927,7 @@ switch (lang) {
 			EVALUATION_NEUTRAL: "weder noch",
 			EVALUATION_MINUS: "trifft eher nicht zu",
 			EVALUATION_MINUSMINUS: "trifft nicht zu",
-			
+
 			/* action buttons - <br/> forces line break for consistent look */
 			CREATE_NEW_SESSION: "Neue Session<br/>anlegen",
 			NEW_QUESTION: "Neue Frage<br/>anlegen",
@@ -1000,7 +1000,7 @@ switch (lang) {
 			PRESENTER: "Presenter",
 			UNI: "Uni",
 			SESSION_ID: "Session-ID",
-			
+
 			/* session import */
 			IMP_BUTTON_IMPORT: "Import",
 			IMP_LOADMSK: "Importiere sessions",

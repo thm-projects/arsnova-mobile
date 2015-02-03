@@ -19,26 +19,26 @@
 
 Ext.define('ARSnova.view.about.BlogTabPanel', {
 	extend: 'Ext.tab.Panel',
-	
+
 	requires: ['ARSnova.view.components.EmbeddedPage'],
 
 	config: {
 		title: Messages.BLOG,
 		iconCls: 'icon-blog',
-		
+
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
 		},
-		
+
 		tabBar: {
 			hidden: true
 		}
 	},
-	
+
 	initialize: function () {
 		this.callParent(arguments);
-		
+
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			title: this.getTitle(),
@@ -57,12 +57,12 @@ Ext.define('ARSnova.view.about.BlogTabPanel', {
 				}
 			}]
 		});
-		
+
 		this.add(this.toolbar);
-		
+
 		this.on("painted", function() {
-			var url = ARSnova.app.globalConfig.blogUrl || "https://arsnova.eu/blog/features/";	
-			
+			var url = ARSnova.app.globalConfig.blogUrl || "https://arsnova.eu/blog/features/";
+
 			this.add(Ext.create('ARSnova.view.components.EmbeddedPage', {
 				src: url
 			}));

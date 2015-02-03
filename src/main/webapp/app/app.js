@@ -143,7 +143,7 @@ Ext.application({
 	 * This is called automatically when the page loads. Here we set up the main component on the page
 	 */
 
-	launch: function () {		
+	launch: function () {
 		console.info("ARSnova.app.launch");
 		// Destroy the #appLoadingIndicator element
 		Ext.fly('appLoadingIndicator').destroy();
@@ -167,7 +167,7 @@ Ext.application({
 			if(ARSnova.app.getController('Lang').activateTestRoutine) {
 				ARSnova.app.getController('Lang').testRoutine(me.mainTabPanel.tabPanel);
 			}
-			
+
 			me.configLoaded.resolve();
 		}, function () {
 			console.error("Could not load configuration");
@@ -179,7 +179,7 @@ Ext.application({
 			me.configLoaded.reject();
 		});
 	},
-	
+
 	/**
 	 * reload application if manifest file is changed
 	 */
@@ -287,7 +287,7 @@ Ext.application({
 
 	setWindowTitle: function (addition) {
 		if(!addition) addition = '';
-		
+
 		switch (ARSnova.app.userRole) {
 			case ARSnova.app.USER_ROLE_SPEAKER:
 				window.document.title = "ARSnova: " + Messages.SPEAKER + addition;
@@ -346,7 +346,7 @@ Ext.application({
 		if(!this.getController('Application').checkForPrivacyMode()) {
 			return;
 		}
-		
+
 		if (localStorage.getItem('lastVisitedSessions') == null) {
 			localStorage.setItem('lastVisitedSessions', "[]");
 		}

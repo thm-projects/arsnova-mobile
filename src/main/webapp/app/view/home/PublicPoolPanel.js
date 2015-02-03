@@ -24,35 +24,35 @@ Ext.define('ARSnova.view.home.PPListItem', {
 
 Ext.define('ARSnova.view.home.PublicPoolPanel', {
 	extend: 'Ext.Panel',
-	
+
 	config: {
 		sessions: null
 	},
-	
+
 	initialize: function () {
 		this.callParent(arguments);
 		var config = ARSnova.app.globalConfig;
 		var me = this;
-		
+
 		this.treeStore = Ext.create('Ext.data.TreeStore', {
             model: 'ARSnova.view.home.PPListItem',
             defaultRootProperty: 'items'
         });
 		this.rootNode = this.treeStore.getRoot();
-		
+
 		// ensure that objects are empty (is not ensured, even if they're just created)
 		this.treeStore.removeAll();
 		this.rootNode.removeAll();
-		
+
 		if (this.getSessions() !== null) {
 			// sort sessions by subject name
 			this.getSessions().sort(function(a,b) {return a.ppSubject > b.ppSubject;});
-			
+
 			Object.keys(this.getSessions()).forEach(function(key, index) {
 				var firstLevelId = '1_' + this[key].ppSubject;
 				var secLevelId   = '2_' +  this[key].ppLevel + '_' + firstLevelId;
 				var thirdLevelId = '3_' +  this[key].name + '_' + index + '_' + secLevelId;
-				
+
 				var firstLevelNode = me.rootNode.findChild("id", firstLevelId, false);
 				if (firstLevelNode == null) {
 					var firstLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
@@ -65,7 +65,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 					});
 					firstLevelNode = me.rootNode.appendChild(firstLevelEntry);
 					firstLevelNode.removeAll();
-					
+
 					// create all niveau entries
 					switch (lang) {
 					case 'en':case 'en-en':case 'en-us':case 'en-gb':
@@ -74,7 +74,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 					default:
 						var levels = config.publicPool.levelsDe.split(',');
 					}
-					
+
 					levels.forEach(function(entry){
 						var secondLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
 							text: entry,
@@ -82,20 +82,20 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 							keyword: 0,
 							leaf: false,
 							id: '2_' +  entry + '_' + firstLevelId,
-							badgeCls: 'hidden', 
+							badgeCls: 'hidden',
 							itemCls: 'ppSingleItemBackground'
 						});
 						var thirdTemp = Ext.create('ARSnova.view.home.PPListItem');
-						
+
 						var secLevelNode = firstLevelNode.appendChild(secondLevelEntry);
 						secLevelNode.removeAll();
 						secLevelNode.appendChild(thirdTemp);
 					});
-					
+
 				} else {
 					firstLevelNode._data.itemCount++;
 				}
-				
+
 				var secLevelNode = firstLevelNode.findChild("id", secLevelId, false);
 				if (secLevelNode != null) {
 					if (secLevelNode._data.itemCount == 0)
@@ -103,7 +103,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 					secLevelNode._data.badgeCls = 'feedbackQuestionsBadgeIcon';
 					secLevelNode._data.itemCls = '';
 					secLevelNode._data.itemCount++;
-					
+
 					secLevelNode.appendChild(Ext.create('ARSnova.view.home.PPListItem', {
 						text: this[key].name,
 						itemCount: this[key].numQuestions,
@@ -116,8 +116,8 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 				}
 			}, this.getSessions());
 		}
-		
-		
+
+
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.SESSIONS,
 			ui: 'back',
@@ -125,12 +125,12 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 				me.treeStore.removeAll();
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 				var activeHTP;
-			
+
 				if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_STUDENT)
 					activeHTP = hTP.homePanel;
 				else if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER)
 					activeHTP = hTP.mySessionsPanel;
-				
+
 					hTP.animateActiveItem(activeHTP, {
 						type: 'slide',
 						direction: 'right',
@@ -138,7 +138,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 					});
 			}
 		});
-		
+
 		this.nestedList = Ext.create('Ext.dataview.NestedList', {
 			store: this.treeStore,
 			fullscreen: true,
@@ -197,19 +197,19 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 						me.nestedList.getToolbar().setTitle(Messages.SESSIONPOOL_TITLE);
 						me.backButton.show();
 					}
-		        }		        
+		        }
 		    },
 		    getItemTextTpl: function(node) {
-		    	return '<div class="x-unsized x-button forwardListButton x-hasbadge {itemCls}"><span class="x-button-label">{text}</span><span class="{badgeCls}">{itemCount}</span></div>';	
+		    	return '<div class="x-unsized x-button forwardListButton x-hasbadge {itemCls}"><span class="x-button-label">{text}</span><span class="{badgeCls}">{itemCount}</span></div>';
 		    }
         });
-		
+
 		var nestedListToolbar = this.nestedList.getToolbar();
 		nestedListToolbar.setTitle(Messages.SESSIONPOOL_TITLE);
 		nestedListToolbar.add(this.backButton);
 		me.backButton.setText(Messages.SESSIONS);
 		me.nestedList.getBackButton().setText(Messages.BACK);
-		
+
 		this.add([
 	          this.nestedList
 	  	]);

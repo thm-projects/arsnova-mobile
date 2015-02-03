@@ -18,18 +18,18 @@
  */
 Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 	extend: 'Ext.Container',
-	
+
 	config: {
 		cls: 'newQuestion'
 	},
 
 	constructor: function () {
 		this.callParent(arguments);
-		
+
 		this.answer = Ext.create('Ext.plugins.ResizableTextArea', {
 			placeHolder: Messages.FLASHCARD_BACK_PAGE
 		});
-		
+
 		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
 			handlerScope: this,
 			addRemoveButton: true,
@@ -38,7 +38,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			fsUploadHandler: this.setImage,
 			style: 'margin-bottom: 30px'
 		});
-		
+
 		if(this.config.editPanel) {
 			this.uploadView.setUploadPanelConfig(
 				Messages.PICTURE_SOURCE + " - " + Messages.FLASHCARD_BACK_PAGE,
@@ -49,7 +49,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 				Messages.PICTURE_SOURCE + " - " + Messages.FLASHCARD_FRONT_PAGE
 			);
 		}
-		
+
 		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
 			editable: false,
 			gridIsHidden: true,
@@ -58,7 +58,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 		});
 
 		var previewButton = Ext.create('Ext.Button', {
-			text: Ext.os.is.Desktop ? 
+			text: Ext.os.is.Desktop ?
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP:
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
@@ -82,9 +82,9 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 				items: [previewButton]
 			}, this.uploadView, this.grid]
 		}]);
-		
+
 		this.on('painted', function(){
-			
+
 		});
 	},
 
@@ -95,12 +95,12 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 		}
 		this.answer.setValue(possibleAnswers[0].text);
 	},
-	
+
 	setImage: function (image) {
 		var newQuestionPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
 		newQuestionPanel.setImage(image);
 	},
-	
+
 	setFcImage: function(image) {
 		this.fcImage = image;
 		this.grid.setImage(image);
@@ -132,13 +132,13 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 
 	previewHandler: function () {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
-		
+
 		var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox', {
 			xtype: 'answerPreview'
 		});
 
 		answerPreview.showPreview({
-			title: panel.subject.getValue(), 
+			title: panel.subject.getValue(),
 			content: panel.textarea.getValue(),
 			questionType: 'flashcard',
 			answers: this.getValue(),

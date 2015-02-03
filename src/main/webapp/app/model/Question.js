@@ -133,7 +133,7 @@ Ext.define('ARSnova.model.Question', {
 				if(showcasePanel.getActiveItem().getItemId() === object.key) {
 					var numAnswers = object.value[0],
 						numAbstentions = object.value[1];
-					
+
 					if(numAnswers === numAbstentions && numAnswers > 0) {
 						showcasePanel.toolbar.setAnswerCounter(numAbstentions, Messages.ABSTENTION);
 					} else {

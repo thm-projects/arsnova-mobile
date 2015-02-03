@@ -91,10 +91,10 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
 			ARSnova.app.innerScrollPanel = false;
 			ARSnova.app.lastActivePanel = oldCard;
-			
+
 			this.setWindowTitle(newCard);
-						
-			switch(oldCard) {			
+
+			switch(oldCard) {
 				case this.infoTabPanel:
 				case this.privacyTabPanel:
 				case this.imprintTabPanel:
@@ -103,7 +103,7 @@ Ext.define('ARSnova.view.TabPanel', {
 				case this.testTabPanel:
 				case ARSnova.app.getController('Application').embeddedPage:
 					break;
-				
+
 				default:
 					ARSnova.app.lastActiveMainTabPanel = oldCard;
 			}
@@ -115,7 +115,7 @@ Ext.define('ARSnova.view.TabPanel', {
 				this.infoTabPanel.tab.show();
 				this.blogTabPanel.tab.hide();
 			}
-						
+
 			if(ARSnova.app.lastActiveMainTabPanel === this.rolePanel) {
 				if(	newCard === this.infoTabPanel ||
 					newCard === this.privacyTabPanel ||
@@ -157,7 +157,7 @@ Ext.define('ARSnova.view.TabPanel', {
 			};
 		}
 	},
-	
+
 	setWindowTitle: function(newCard) {
 		switch(newCard) {
 			case this.loginPanel:
@@ -178,7 +178,7 @@ Ext.define('ARSnova.view.TabPanel', {
 			case this.feedbackQuestionsPanel:
 				ARSnova.app.setWindowTitle(' - ' + Messages.QUESTIONS_FROM_STUDENTS);
 				break;
-			case this.rolePanel: 
+			case this.rolePanel:
 				ARSnova.app.setWindowTitle();
 				break;
 			default:

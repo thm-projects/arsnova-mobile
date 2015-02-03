@@ -177,7 +177,7 @@ Ext.define("ARSnova.controller.Questions", {
 				var checkedCount = 0;
 				var questionComponent = question.get('questionType') === 'mc' ?
 						panel.multipleChoiceQuestion : panel.abcdQuestion;
-				
+
 				questionComponent.answerComponents.forEach(function (el) {
 					var value = el.getValue().toString().trim();
 					if (!el.getHidden() && value !== "") {
@@ -265,7 +265,7 @@ Ext.define("ARSnova.controller.Questions", {
 						var speakerTabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel,
 							panel = speakerTabPanel.getActiveItem(),
 							questionStatus;
-						
+
 						if(panel === speakerTabPanel.showcaseQuestionPanel) {
 							panel = panel.getActiveItem();
 							questionStatus = panel.editButtons.questionStatusButton;

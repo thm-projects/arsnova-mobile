@@ -20,7 +20,7 @@
 Ext.define('ARSnova.view.components.EmbeddedPageContainer', {
 	extend: 'Ext.Panel',
 	xtype: 'embeddedpagecontainer',
-	
+
 	requires: ['ARSnova.view.components.EmbeddedPage'],
 
 	config: {
@@ -31,25 +31,25 @@ Ext.define('ARSnova.view.components.EmbeddedPageContainer', {
 			hidden: true
 		}
 	},
-	
+
 	initialize: function () {
 		this.callParent(arguments);
 		var appController = ARSnova.app.getController('Application');
-		
+
 		this.backButton = Ext.create('Ext.Button', {
 			ui: 'back',
 			text: Messages.BACK,
 			handler: this.backHandler,
 			scope: this
 		});
-		
+
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			ui: 'light',
 			docked: 'top',
 			title: this.config.title,
 			items: [this.backButton]
 		});
-				
+
 		this.add(this.toolbar);
 
 		this.on('painted', function() {
@@ -58,11 +58,11 @@ Ext.define('ARSnova.view.components.EmbeddedPageContainer', {
 				src: url
 			}));
 		});
-		
+
 		this.onAfter('deactivate', function() {
 			appController.toggleHrefPanelActive();
 		});
-		
+
 		this.on('hide', function() {
 			if(!appController.hrefPanelActive) {
 				this.destroy();
@@ -70,7 +70,7 @@ Ext.define('ARSnova.view.components.EmbeddedPageContainer', {
 			}
 		});
 	},
-	
+
 	backHandler: function() {
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(
 				ARSnova.app.lastActiveMainTabPanel, {
@@ -79,7 +79,7 @@ Ext.define('ARSnova.view.components.EmbeddedPageContainer', {
 			duration: 700
 		});
 	},
-	
+
 	setBackHandler: function(handler) {
 		var me = this;
 		var previousHandler = me.backButton.getHandler();

@@ -151,7 +151,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-	
+
 	getPublicPoolSessions: function (callbacks) {
 		this.arsjax.request({
 			url: "session/publicpool",
@@ -171,7 +171,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-	
+
 	getMyPublicPoolSessions: function (callbacks) {
 		this.arsjax.request({
 			url: "session/publicpool/",
@@ -514,7 +514,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 				"ppFaculty": session.get("ppFaculty"),
 				"ppLevel": session.get("ppLevel"),
 				"sessionType": session.get("sessionType")
-			},			
+			},
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -666,7 +666,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-	
+
 	getAnswerAndAbstentionCount: function(questionId, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/answerandabstentioncount",

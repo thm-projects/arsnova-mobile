@@ -134,12 +134,12 @@ Ext.define('ARSnova.WebSocket', {
 				console.debug("Socket.IO: unansweredPreparationQuestions", questionIds);
 				this.fireEvent(this.events.unansweredPreparationQuestions, questionIds);
 			}, this));
-			
+
 			socket.on('countQuestionAnswersByQuestion', Ext.bind(function (object) {
 				console.debug("Socket.IO: countQuestionAnswersByQuestion", object);
 				this.fireEvent(this.events.countQuestionAnswersByQuestion, object);
 			}, this));
-			
+
 			socket.on('countLectureQuestionAnswers', Ext.bind(function (count) {
 				console.debug("Socket.IO: countLectureQuestionAnswers", count);
 				this.fireEvent(this.events.countLectureQuestionAnswers, count);

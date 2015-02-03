@@ -19,26 +19,26 @@
 
 Ext.define('ARSnova.view.about.TestTabPanel', {
 	extend: 'Ext.tab.Panel',
-	
+
 	requires: ['ARSnova.view.components.EmbeddedPage'],
 
 	config: {
 		title: 'TestManual',
 		iconCls: 'icon-book',
-		
+
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
 		},
-		
+
 		tabBar: {
 			hidden: true
 		}
 	},
-	
+
 	initialize: function () {
 		this.callParent(arguments);
-		
+
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			title: this.getTitle(),
@@ -57,9 +57,9 @@ Ext.define('ARSnova.view.about.TestTabPanel', {
 				}
 			}]
 		});
-		
+
 		this.add(this.toolbar);
-		
+
 		this.on("painted", function() {
 			var url = "https://arsnovamanual.cloudcontrolled.com";
 			this.add(Ext.create('ARSnova.view.components.EmbeddedPage', {

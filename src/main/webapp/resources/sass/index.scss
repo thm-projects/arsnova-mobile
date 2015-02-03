@@ -27,12 +27,12 @@ html, body {
 .noScriptDiv {
 	text-align: center;
 	align-content: center;
-	top: 0px; 
-	left: 0px; 
-	position: fixed; 
-	z-index: 3000; 
-	height: 100%; 
-	width: 100%; 
+	top: 0px;
+	left: 0px;
+	position: fixed;
+	z-index: 3000;
+	height: 100%;
+	width: 100%;
 	background-color: $background;
 }
 
@@ -60,7 +60,7 @@ html, body {
 	-webkit-border-radius: 15px;
 	-moz-border-radius: 15px;
 	border-radius: 15px;
-	
+
 	-webkit-animation-iteration-count: infinite;
 	-webkit-animation-direction: normal;
 	-webkit-animation-duration: 1.4s;

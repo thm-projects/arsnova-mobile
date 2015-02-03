@@ -71,7 +71,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 		var questionString = this.answer.answerSubject
 			+ '\n\n' // inserts one blank line between subject and text
 			+ this.answer.answerText;
-	
+
 		// Create standard panel with framework support
 		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
 		questionPanel.setContent(questionString, true, true);
@@ -123,14 +123,14 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			}
 		}]);
 	},
-	
+
 	initialize: function() {
 		this.callParent(arguments);
-		
+
 		this.on('painted', function() {
 			ARSnova.app.innerScrollPanel = this;
 		});
-		
+
 		this.on('deactivate', function() {
 			ARSnova.app.innerScrollPanel = false;
 		});

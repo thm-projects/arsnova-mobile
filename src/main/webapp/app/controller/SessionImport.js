@@ -30,20 +30,20 @@ Ext.define("ARSnova.controller.SessionImport", {
 	 */
 	importSession: function(jsonContent) {
 		var me = this;
-		
+
 		var promise = new RSVP.Promise();
-		
+
 		if (typeof jsonContent === "undefined" || typeof jsonContent.session === "undefined") {
 			Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_FORMAT);
 			console.log("Error while loading session json: content or session-attribute malformed or missing.");
 			return;
 		}
-		
+
 		// extract session and save it to the database
 		var storeSessions = this.getElements(jsonContent.session, "ARSnova.model.Session");
-		
+
 		var i = 0;
-		
+
 		ARSnova.utils.AsyncUtils.promiseWhile(
 				function() {
 					// condition for stopping while loop
@@ -55,17 +55,17 @@ Ext.define("ARSnova.controller.SessionImport", {
 				},
 				null // no action on result
 		).then(function() {
-			promise.resolve();			
+			promise.resolve();
 		}, function() {
 			promise.reject(Messages.IMP_ERROR_SAVE);
 		});
 		return promise;
 	},
-	
+
 	saveSession: function(s, jsonContent) {
 		var me = this;
 		var promise = new RSVP.Promise();
-		
+
 		s._id     = undefined;
 		s.creator = localStorage.getItem('login');
 		s.data.creationTime = Date.now();
@@ -86,13 +86,13 @@ Ext.define("ARSnova.controller.SessionImport", {
 				promise.reject();
 			}
 		});
-		
+
 		return promise;
 	},
-	
+
 	/**
 	 * Saves the answers, questions, etc. from a session.
-	 * 
+	 *
 	 * @param The
 	 *            session retrieved after saving to the db e.g. for id
 	 *            reference.
@@ -101,20 +101,20 @@ Ext.define("ARSnova.controller.SessionImport", {
 	 */
 	saveSessionAttachment: function(session, jsonContent) {
 		var me = this;
-		
+
 		var promise = new RSVP.Promise();
 
 		var storeQuestions = [];
 		var storeFeedbackQuestions = [];
-	
+
 		if (jsonContent.questions !== undefined) {
 			storeQuestions = this.getElements(jsonContent.questions, "ARSnova.model.Question");
 		}
-		
+
 		if (jsonContent.feedbackQuestions !== undefined) {
 			storeFeedbackQuestions = this.getElements(jsonContent.feedbackQuestions, "ARSnova.model.Question");
 		}
-		
+
 		var j = 0;
 		var p1 = ARSnova.utils.AsyncUtils.promiseWhile(
 			function() {
@@ -127,7 +127,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 			},
 			null // no action on result
 		);
-		
+
 		var k = 0;
 		var p2 = ARSnova.utils.AsyncUtils.promiseWhile(
 			function() {
@@ -140,14 +140,14 @@ Ext.define("ARSnova.controller.SessionImport", {
 			},
 			null // no action on result
 		);
-		
+
 		RSVP.all([p1, p2]).then(function() {
 			promise.resolve();
 		});
-		
+
 		return promise;
 	},
-	
+
 	saveFeedbackQuestion: function(q, session) {
 		var promise = new RSVP.Promise();
 		q._data._id       		= undefined;
@@ -169,27 +169,27 @@ Ext.define("ARSnova.controller.SessionImport", {
 		});
 		return promise;
 	},
-	
+
 	saveQuestion: function(q, session) {
 		var me = this;
 		var promise = new RSVP.Promise();
-		
+
 		q._data._id       		= undefined;
 		q._data._rev       		= undefined;
 		q._data.sessionId     	= session._id;
 		q._data.sessionKeyword 	= session.keyword;
 		q.sessionId				= session._id;
 		q.sessionKeyword 		= session.keyword;
-		
+
 		q.saveSkillQuestion({
 			success: function(response) {
 				var respQuestion = Ext.decode(response.responseText);
 				if (typeof q.raw.answers !== undefined) {
 					var answers = q.raw.answers;
-				 	var storeAnswers = me.getElements(q.raw.answers, "ARSnova.model.Answer");	
-				 					
+				 	var storeAnswers = me.getElements(q.raw.answers, "ARSnova.model.Answer");
+
 					var l = 0;
-					
+
 					ARSnova.utils.AsyncUtils.promiseWhile(
 						function() {
 							// condition for stopping while loop
@@ -203,7 +203,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 					).then(function() {
 						// all answers imported, resolve promise
 						promise.resolve();
-					});	
+					});
 				} else {
 					console.log("No answers to import");
 					promise.resolve();
@@ -214,13 +214,13 @@ Ext.define("ARSnova.controller.SessionImport", {
 				promise.reject();
 			}
 		});
-		
+
 		return promise;
 	},
-	
+
 	saveAnswer: function(a, respQuestion, session) {
 		var promise = new RSVP.Promise();
-		
+
 		a.raw._id               = undefined;
 		a.raw._rev              = undefined;
 		a.raw.user       		= undefined;
@@ -241,7 +241,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 		});
 		return promise;
 	},
-	
+
 	/**
 	 * Gets the ARSnova class objects from the json file.
 	 */
@@ -250,14 +250,14 @@ Ext.define("ARSnova.controller.SessionImport", {
 			model: className,
 			data: json
 			});
-		
+
 		// return store data as array for use in promise-while-loops
 		var arrayStore = [];
-		
+
 		store.each(function(q) {
 			arrayStore.push(q);
 		});
-		
+
 		return arrayStore;
 	}
 });

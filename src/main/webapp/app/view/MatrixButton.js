@@ -28,34 +28,34 @@ Ext.define('ARSnova.view.MatrixButton', {
 		image: '',
 		imageCls: '',
 		imageStyle: '',
-		
+
 		/**
 		 * possible configurations: icon, image, togglefield
 		 */
 		buttonConfig: '',
-		
+
 		/**
 		 * configuration of toggle field element
 		 */
 		toggleConfig: '',
 		toggleField: '',
-		
+
 		cls: 'noBackground noBorder matrixButton',
 		html: ['<span class="iconBtn"></span><span class="gravure buttonText" style="display:block"></span>']
 	},
-	
+
 	initialize: function() {
 		var me = this;
-		
+
 		switch(this.getButtonConfig()) {
 			case 'image':
 				this.useImageConfiguration();
 				break;
-				
+
 			case 'togglefield':
 				this.useToggleFieldConfiguration();
 				break;
-				
+
 			case 'icon':
 			default:
 				this.useIconConfiguration();
@@ -63,54 +63,54 @@ Ext.define('ARSnova.view.MatrixButton', {
 
 		this.setButtonText(this.getText());
 		this.callParent(arguments);
-		
+
 		this.element.on('touchstart', function() {
 			var element = me.element.select(".iconBtn").elements[0];
 			element.className = element.className + " x-button-pressing";
 		});
-		
+
 		this.element.on('touchend', function() {
 			var element = me.element.select(".iconBtn").elements[0];
 			element.className = "iconBtn";
 		});
 	},
-	
+
 	setButtonText: function(text) {
 		var buttonSpan = this.element.select(".x-button-label").elements;
 		var	buttonText = this.element.select(".buttonText").elements;
-		
+
 		if(text === "") {
 			buttonSpan[0].removeChild(buttonText[0]);
 		} else {
 			buttonText[0].innerHTML = text;
 		}
 	},
-	
+
 	/**
 	 * render icon font to matrixbutton
 	 */
 	useIconConfiguration: function() {
 		Ext.DomHelper.append(this.element.select(".iconBtn").elements[0], {
-			tag: 'div', 
+			tag: 'div',
 			cls: 'iconBtnImg x-button-icon ' + this.getImageCls(),
 			style: this.getImageStyle()
 		});
 	},
-	
+
 	/**
 	 * render Ext.field.Toggle to matrixbutton
 	 */
 	useToggleFieldConfiguration: function() {
 		var me = this;
-		
+
 		this.getToggleConfig().renderTo = this.element.select(".iconBtn").elements[0];
 		this.toggleField = Ext.create('Ext.field.Toggle', this.getToggleConfig());
 		this.toggleField.getComponent().onTap = Ext.emptyFn;
-		
+
 		this.setHandler(function() {
 			me.toggleField.toggle();
 		});
-		
+
 		this.setToggleFieldValue = function(value) {
 			if(value) {
 				this.toggleField.getComponent().setValue(1);
@@ -120,7 +120,7 @@ Ext.define('ARSnova.view.MatrixButton', {
 			}
 		};
 	},
-	
+
 	/**
 	 * render image to matrixbutton
 	 */
@@ -130,12 +130,12 @@ Ext.define('ARSnova.view.MatrixButton', {
 			retina = window.devicePixelRatio >= 2,
 			imagefile = this.getImage() + ".png",
 			imagefile2x = this.getImage() + "@2x.png";
-		
+
 		if (this.getImage().indexOf("/") !== 0) {
 			imagefile = "resources/images/" + imagefile;
 			imagefile2x = "resources/images/" + imagefile2x;
 		}
-		
+
 		if (retina) {
 			var img = new Image();
 			img.onload = function imageExists() {
@@ -148,7 +148,7 @@ Ext.define('ARSnova.view.MatrixButton', {
 		} else {
 			promise.resolve(imagefile);
 		}
-		
+
 		promise.then(function (theImage) {
 			Ext.create('Ext.Img', {
 				src: theImage,

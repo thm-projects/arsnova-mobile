@@ -38,12 +38,12 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		this.callParent(arguments);
 	},
 
-	setContent: function (content, mathJaxEnabled, markDownEnabled, mathjaxCallback) {	
+	setContent: function (content, mathJaxEnabled, markDownEnabled, mathjaxCallback) {
 		function urlify(text) {
 			text += " ";
 		    var urlDelimiter = /([^="\w]https?:\/\/[^\s<]+)/g;
 		    var urlRegex = /(https?:\/\/[^\s]+)/g;
-		    
+
 		    return text.replace(urlDelimiter, function(delUrl) {
 		    	return delUrl.replace(urlRegex, function(url) {
 		    		return '<a href="' + url + '">' + url + '</a>';
