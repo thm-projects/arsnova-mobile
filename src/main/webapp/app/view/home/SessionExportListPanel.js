@@ -85,7 +85,6 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 		this.hintPanel.setContent(Messages.EXPORT_SESSION_LABEL, true, true);
 
 		this.singleTemplatePanel = Ext.create('Ext.Panel', {
-
 			layout:	{
 				type: 'vbox',
 				pack: 'center',
@@ -118,7 +117,6 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 						} else {
 							me.ppSessionsForm.hide();
 						}
-
 					});
 			}
 		});
@@ -206,7 +204,6 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 
 		var session;
 		for (var i = 0, session; session = sessions[i]; i++) {
-
 			var sessionChecked = false;
 
 			me.sessionMap[me.mapCounter] = [session, sessionChecked];
@@ -225,10 +222,8 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 			var sessionEntry = null;
 
 			if (me.getExportType() === 'filesystem') {
-
 				var toggleListener = {
 					beforechange: function (slider, thumb, newValue, oldValue) {
-
 					},
 					change: function (slider, thumb, newValue, oldValue) {
 						// TODO why is 0 toggle checked and 1 toggle unchecked?
@@ -257,7 +252,6 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 
 				sessionEntry.setListeners(toggleListener);
 			} else if (me.getExportType() === 'public_pool') {
-
 				sessionEntry = Ext.create('ARSnova.view.MultiBadgeButton', {
 					ui: 'normal',
 					text: Ext.util.Format.htmlEncode(displaytext),

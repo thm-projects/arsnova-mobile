@@ -150,7 +150,6 @@ Ext.define('Ext.ux.Fileup', {
 					style: 'opacity:0;position:absolute;width:100%;top:0;right:0;bottom:0;left:0;z-index:16777270;height:100%;'
 				}
 			]
-
 		}
 	],
 
@@ -226,9 +225,7 @@ Ext.define('Ext.ux.Fileup', {
 		var me = this;
 
 		if (states) {
-
 			if (Ext.isObject(states)) {
-
 				// Merge custom config with default
 				return Ext.merge({}, me.defaultStates, states);
 			} else {
@@ -263,7 +260,6 @@ Ext.define('Ext.ux.Fileup', {
 		var me = this;
 
 		switch (me.currentState) {
-
 			// Currently we handle tap event while button in ready state
 			// because in all other states button is not accessible
 			case 'ready':
@@ -306,7 +302,6 @@ Ext.define('Ext.ux.Fileup', {
 		var states = me.getStates();
 
 		if (Ext.isDefined(states[state])) {
-
 			// Common tasks for all states
 			if (states[state].text) {
 				me.setText(states[state].text);
@@ -398,7 +393,6 @@ Ext.define('Ext.ux.Fileup', {
 		var http = new XMLHttpRequest();
 
 		if (http.upload && http.upload.addEventListener) {
-
 			// Uploading progress handler
 			http.upload.onprogress = function (e) {
 				if (e.lengthComputable) {
@@ -410,9 +404,7 @@ Ext.define('Ext.ux.Fileup', {
 			// Response handler
 			http.onreadystatechange = function (e) {
 				if (this.readyState === 4) {
-
 					if (Ext.Array.indexOf(me.getDefaultSuccessCodes(), parseInt(this.status)) !== -1) {
-
 						var response = me.decodeResponse(this);
 
 						if (response && response.success) {
@@ -425,9 +417,7 @@ Ext.define('Ext.ux.Fileup', {
 							// Failure
 							me.fireEvent('failure', 'Unknown error', response, this, e);
 						}
-
 					} else {
-
 						// Failure
 						me.fireEvent('failure', this.status + ' ' + this.statusText, response, this, e);
 					}
@@ -446,7 +436,6 @@ Ext.define('Ext.ux.Fileup', {
 		http.open('POST', me.getUrl());
 
 		if (me.getSignRequestEnabled()) {
-
 			// Sign the request and then send.
 			me.signRequest(http, function (http) {
 				// Send the form.
@@ -455,7 +444,6 @@ Ext.define('Ext.ux.Fileup', {
 		} else {
 			http.send(me.getForm(file));
 		}
-
 	},
 
 	/**

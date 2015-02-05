@@ -131,7 +131,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		});
 
 		if (config.features.publicPool) {
-
 			this.myPpSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
 				scrollable: null,
 				title: Messages.MY_PUBLIC_POOL_SESSIONS
@@ -245,7 +244,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				scope: this,
 				hidden: true,
 				handler: function () {
-
 					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 
 					if (!config.features.publicPool) {
@@ -351,7 +349,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		});
 
 		this.on('activate', function () {
-
 			switch (ARSnova.app.userRole) {
 				case ARSnova.app.USER_ROLE_SPEAKER:
 					this.backButton.hide();
@@ -474,7 +471,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					me.saveSetHidden(me.exportButton, false);
 
 				for (var i = 0, session; session = sessions[i]; i++) {
-
 					var status = "";
 
 					if (!session.active) {
@@ -625,7 +621,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	saveSetHidden: function (element, hidden) {
 		if (typeof element !== undefined && element != null)
 			element.setHidden(hidden);
-
 	},
 
 	/**

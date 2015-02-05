@@ -91,7 +91,6 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 						secLevelNode.removeAll();
 						secLevelNode.appendChild(thirdTemp);
 					});
-
 				} else {
 					firstLevelNode._data.itemCount++;
 				}

@@ -129,7 +129,6 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		var replaced = [];
 
 		for (var i = 0; i < dArr.length; ++i) {
-
 			var idxStart = dArr[i][0];
 			var idxEnd = dArr[i][1];
 

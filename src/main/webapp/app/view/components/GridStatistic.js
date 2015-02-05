@@ -114,7 +114,6 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				relItemRelative,
 				relItemNone
 			];
-
 		} else {
 			this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
 				docked: 'top',
@@ -238,7 +237,6 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		this.grid.setZoomLvl(questionObj.zoomLvl);
 
 		this.grid.setImage(questionObj.image, false, function () {
-
 			if (questionObj.showAnswer || questionObj.userAnswered == null) {
 				// Output WITH correct answers
 				me.grid.update(questionObj, true);
@@ -253,7 +251,6 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 			// parse answers
 
 			for (var i = 0; i < me.answers.length; i++) {
-
 				var el = me.answers[i];
 				if (!el.answerText) {
 					me.abstentionPanel.setValue(el.abstentionCount);
@@ -267,7 +264,6 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 
 				for (var j = 0; j < el.answerCount; j++) {
 					values.forEach(function (selected, index) {
-
 						if (typeof gridAnswers[values[index]] === "undefined") {
 							gridAnswers[values[index]] = 1;
 						} else {

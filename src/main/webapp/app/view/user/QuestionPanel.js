@@ -147,7 +147,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 						}
 					});
 					return;
-
 				} else {
 					userQuestionsPanel.toolbar.resetQuestionCounter(questions.length);
 				}

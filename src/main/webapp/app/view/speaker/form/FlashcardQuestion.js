@@ -84,7 +84,6 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 		}]);
 
 		this.on('painted', function () {
-
 		});
 	},
 

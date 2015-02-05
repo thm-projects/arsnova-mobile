@@ -40,7 +40,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		name: 'renew the chart data at question statistics charts',
 		run: function () {
 			ARSnova.app.mainTabPanel._activeItem.getQuestionAnswers();
-
 		},
 		interval: 10000 // 10 seconds
 	},
@@ -313,9 +312,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		});
 
 		if (this.questionObj.questionType !== "grid") {
-
 			this.add([this.toolbar, this.titlebar, this.questionChart]);
-
 		} else {
 			this.setStyle('background-color: #E0E0E0');
 			// add statistic

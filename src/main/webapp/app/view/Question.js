@@ -447,7 +447,6 @@ Ext.define('ARSnova.view.Question', {
 			this.answerList.setHidden(true);
 		} else if (this.questionObj.questionType === "grid") {
 			if (this.questionObj.gridType === 'moderation') {
-
 				this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
 					id: 'gridImageContainer' + this.questionObj._id,
 					handlerScope: self,
@@ -488,7 +487,6 @@ Ext.define('ARSnova.view.Question', {
 			this.formPanel.add([this.grid]);
 
 			if (this.questionObj.gridType === 'moderation') {
-
 				var panel = new Ext.Panel({
 					layout: {
 						type: 'vbox',
@@ -596,7 +594,6 @@ Ext.define('ARSnova.view.Question', {
 	 * function to set the users answers after setting the last answer.
 	 */
 	setGridAnswer: function (answerString) {
-
 		if (answerString === undefined)
 			return;
 
@@ -605,7 +602,6 @@ Ext.define('ARSnova.view.Question', {
 		var fields = answerString.split(",");
 
 		if (this.questionObj.showAnswer) {
-
 			var correctAnswers = [];
 			var userAnswers = [];
 
@@ -625,7 +621,6 @@ Ext.define('ARSnova.view.Question', {
 			});
 
 			grid.generateUserViewWithAnswers(userAnswers, correctAnswers);
-
 		} else {
 			fields.forEach(function (node) {
 				var entry = grid.getChosenFieldFromPossibleAnswer(node);

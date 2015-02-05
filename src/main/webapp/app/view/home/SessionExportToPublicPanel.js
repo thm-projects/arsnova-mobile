@@ -369,13 +369,11 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 
 		if (!errs.isValid()) {
 			errs.each(function (err) {
-
 				msg += err.getMessage();
 				msg += '<br/>';
 			});
 
 			Ext.Msg.alert(Messages.SESSIONPOOL_NOTIFICATION, msg);
-
 		} else {
 			var publicPoolAttributes = {};
 			publicPoolAttributes.ppAuthorName = validation.get('name');

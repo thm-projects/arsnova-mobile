@@ -43,7 +43,6 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	 * Checks if there are fields left to be clicked.
 	 */
 	calculateFieldsLeft: function () {
-
 		var numChosenFields = this.getChosenFields().length;
 
 		return numChosenFields < this.getNumberOfDots();
@@ -111,7 +110,6 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	 * generates the statistic output.
 	 */
 	generateStatisticOutput: function (tilesToFill, colorTiles, displayType, weakenSourceImage) {
-
 		// clear canvas
 		weakenSourceImage ? this.redrawWithAlpha(0.2, false) : this.redrawWithAlpha(1, false);
 
@@ -220,7 +218,6 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	 * param config The configuration structure. Attributes have to match gridContainter attibutes.
 	 */
 	setConfig: function (config) {
-
 		if (typeof(config.name) !== "undefined") this.setName(config.name);
 		if (typeof(config.description) !== "undefined") {this.setDescription(config.description);}
 
@@ -228,7 +225,6 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	},
 
 	updateFromTemplate: function (templateGrid) {
-
 		this.setGridSize(templateGrid.getGridSize());
 		this.setOffsetX(templateGrid.getOffsetX());
 		this.setOffsetY(templateGrid.getOffsetY());

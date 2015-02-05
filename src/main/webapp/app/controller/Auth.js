@@ -242,6 +242,5 @@ Ext.define("ARSnova.controller.Auth", {
 			/* desktop */
 			window.location = location;
 		}
-
 	}
 });

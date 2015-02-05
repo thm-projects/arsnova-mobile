@@ -112,8 +112,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Redraws the whole canvas element with default alpha value and marks the chosen fields.
 	 */
 	redraw: function () {
-
-
 		this.redrawWithAlpha(1.0, true);
 	},
 
@@ -169,7 +167,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		if (!this.getGridIsHidden()) {
 			this.createGrid();
 		}
-
 	},
 
 	/**
@@ -297,7 +294,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Draws the grid in the canvas element.
 	 */
 	createGrid: function () {
-
 		if ((this.getGridSizeX() * this.getGridSizeY()) === 0)
 			return;
 
@@ -326,7 +322,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 					this.getGridLineWidth(),
 					fieldsize * this.getGridSizeY());
 		}
-
 	},
 
 	/**
@@ -402,7 +397,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * @param event		The mouse click event.
 	 */
 	onclick: function (event) {
-
 		var container = this.parentContainer;
 
 		if (!container.getEditable()) {
@@ -463,7 +457,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * @param mark	<code>true</code> if the chosen fields should be marked, <code>false</code> otherwise.
 	 */
 	update: function (questionObj, mark) {
-
 		this.setGridSize(questionObj.gridSize);
 		this.setOffsetX(questionObj.offsetX);
 		this.setOffsetY(questionObj.offsetY);
@@ -484,7 +477,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		// converting from old version
 		if (questionObj.gridSize !== undefined && questionObj.gridSize > 0) {
-
 			if (questionObj.gridSizeX === undefined || questionObj.gridSizeX === 0) {
 				this.setGridSizeX(questionObj.gridSize);
 			}
@@ -492,7 +484,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			if (questionObj.gridSizeY === undefined || questionObj.gridSizeY === 0) {
 				this.setGridSizeY(questionObj.gridSize);
 			}
-
 		}
 
 		if (questionObj.scaleFactor === undefined) {
@@ -506,8 +497,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		} else {
 			this.setGridScaleFactor(questionObj.gridScaleFactor);
 		}
-
-
 
 
 		if (this.getGridOffsetX() === undefined) {
@@ -807,7 +796,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 
 
-
 	/**
 	 * Converts the chosen fields of the grid to objects
 	 * to be used as possible answers.
@@ -912,7 +900,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * param config The configuration structure. Attributes have to match gridContainter attibutes.
 	 */
 	setConfig: function (config) {
-
 		if (typeof(config) === "undefined") {
 			console.log("Could not set config due to undefined config attribute.");
 			return;

@@ -88,7 +88,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 
 		this.exportSessions(exportSessions, false, false)
 		.then(function (exportData) {
-
 			for (var i = 0; i < exportData.length; i++) {
 				// set public pool attributes in session
 				for (var attrname in publicPoolAttributes) {
@@ -232,7 +231,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 							exportData.feedbackQuestions = feedbackQuestions;
 
 							promise.resolve(exportData);
-
 						}, function (error) {
 							console.log(error);
 							promise.reject(error);
@@ -343,7 +341,6 @@ Ext.define("ARSnova.controller.SessionExport", {
 	},
 
 	saveFileOnFileSystem: function (rawJson, filename) {
-
 		var blob = new Blob([rawJson], {type: "text/plain;charset=utf-8"});
 		var ua = window.navigator.userAgent;
 		var msie = ua.indexOf("MSIE ");

@@ -89,7 +89,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	 * Initialize the form fields depending on the type of gridContainer loaded in this question.
 	 */
 	initializeFormFields: function () {
-
 		var me = this;
 		this.remove(this.imageArea);
 		this.remove(this.imageCnt);
@@ -293,7 +292,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 						this.setValue(Math.round(me.grid.getScale() * 100));
 					}
 				}
-
 			},
 			minValue: 1,
 			value: this.grid.getScale() * 100 // set value as default
@@ -388,7 +386,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		var thresholdAnswers = {
 				change: function (slider, thumb, newValue, oldValue) {
 					me.grid.setThresholdCorrectAnswers(newValue);
-
 				}
 		};
 
@@ -424,7 +421,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		var panelItems = [];
 		var abstention = Ext.getCmp('abstentionPart');
 		if (this.grid instanceof ARSnova.view.components.GridModerationContainer) {
-
 			// hide abstention panel
 			abstention.hide();
 
@@ -454,7 +450,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				handler: function () {
 					me.resetView();
 					Ext.getCmp('abstentionPart').show();
-
 				},
 				scope: me
 			});
@@ -616,7 +611,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	},
 
 	handleTemplate: function (templateGrid) {
-
 		this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
 			docked: 'top',
 			style: 'margin-top: 30px',
@@ -660,7 +654,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		} else {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.GRID_ERROR_URL_MISSING);
 		}
-
 	},
 
 	/**
@@ -792,7 +785,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		answerField.setValue(this.grid.getChosenFields().length); // set the spinner with correct values (last storage)
 
 		if (ARSnova.app.globalConfig.features.learningProgress) {
-
 			this.questionValueFieldset.setHidden(this.grid.getChosenFields().length === 0);
 			this.incorrectValueComponent.setSliderValue(minValue);
 			this.correctValueComponent.setSliderValue(maxValue);
@@ -800,7 +792,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			this.ValueOfCorrectAnswers.setMinValue(this.incorrectValueComponent.getMinValue() * this.grid.getChosenFields().length);
 			this.ValueOfCorrectAnswers.setSliderValue(this.grid.getThresholdCorrectAnswers());
 			this.cvBackgroundToggle.setValue(this.grid.getCvIsColored());
-
 		}
 	},
 

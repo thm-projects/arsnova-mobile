@@ -125,7 +125,6 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		});
 
 		this.descriptionPanel = Ext.create('Ext.Panel', {
-
 			layout:	{
 				type: 'hbox',
 				pack: 'center',
@@ -137,7 +136,6 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		});
 
 		if (this.getSession().ppLogo != null && this.getSession().ppLogo !== "") {
-
 			this.logoContainer = Ext.create('Ext.Container', {
 				flex: showShortLabels ? 2 : 1,
 				layout: {
@@ -155,7 +153,6 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		}
 
 		if (this.getSession().ppDescription != null && this.getSession().ppDescription !== "") {
-
 			this.markdownPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 				xtype: 'mathJaxMarkDownPanel',
 				id: 'questionContent',

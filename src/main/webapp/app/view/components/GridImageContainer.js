@@ -39,7 +39,6 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 	 * Checks if there are fields left to be clicked.
 	 */
 	calculateFieldsLeft: function () {
-
 		var numChosenFields = this.getChosenFields().length;
 		var numCorrectFields = this.getPossibleAnswers().filter(function isCorrect(e) {
 			return e.correct;
@@ -63,7 +62,6 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 	 * Marks the field by the position parameters.
 	 */
 	markField: function (x, y, color, alpha) {
-
 		var ctx = this.getCanvas().getContext("2d");
 		var koord = this.getFieldKoord(x, y);
 		ctx.globalAlpha = alpha;
@@ -173,27 +171,21 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 					var text = (typeof tilesToFill[key] !== "undefined") ? tilesToFill[key] : "";
 					this.addTextToField(coords[0], coords[1], text);
 				}
-
-
 			}
 		}
 	},
 
 	generateUserViewWithAnswers: function (userAnswers, correctAnswers) {
-
 		var lowAlpha = 0.2;
 		var highAlpha = 0.9;
 
 		for (var row = 0; row < this.getGridSizeX(); row++) {
 			for (var column = 0; column < this.getGridSizeY(); column++) {
-
 				var i = row * this.getGridSizeY() + column;
 				var color = correctAnswers[i] ? this.getStatisticRightColor() : this.getStatisticWrongColor();
 				var alpha = userAnswers[i] ? highAlpha : lowAlpha;
 
-
 				this.markField(row, column, color, alpha);
-
 			}
 		}
 	},
