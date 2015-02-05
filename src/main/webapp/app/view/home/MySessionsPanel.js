@@ -358,7 +358,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					this.logoutButton.show();
 					break;
 				default:
-				break;
+					break;
 			}
 
 			if (ARSnova.app.loginMode === ARSnova.app.LOGIN_THM) {

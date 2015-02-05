@@ -1,8 +1,9 @@
 (function () {
+/* jscs:disable validateIndentation */
 "use strict";
 // by http://www.quirksmode.org/js/detect.html
 Ext.define('ARSnova.BrowserDetect', {
-
+/* jscs:enable */
 	constructor: function () {
 		var browser = this.searchString(this.dataBrowser) || "An unknown browser",
 			userAgentVersion = this.searchVersion(navigator.userAgent),

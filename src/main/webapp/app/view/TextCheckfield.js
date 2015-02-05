@@ -56,7 +56,7 @@ Ext.define('ARSnova.view.TextCheckfield', {
 					} else {
 						this.toggleChecked();
 					}
-						this.fireEvent('checkchange', this, this.isChecked());
+					this.fireEvent('checkchange', this, this.isChecked());
 				}
 			}
 		}

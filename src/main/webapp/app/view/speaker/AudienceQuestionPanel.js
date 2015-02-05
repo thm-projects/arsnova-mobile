@@ -215,7 +215,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			scope: this,
 			handler: function () {
 				var msg = Messages.ARE_YOU_SURE;
-					msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
+				msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
 				Ext.Msg.confirm(Messages.DELETE_QUESTIONS_TITLE, msg, function (answer) {
 					if (answer === 'yes') {
 						this.getController().destroyAll(sessionStorage.getItem("keyword"), {

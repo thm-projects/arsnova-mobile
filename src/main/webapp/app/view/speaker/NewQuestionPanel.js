@@ -267,7 +267,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 									this.grid.show();
 								}
 							}
-						break;
+							break;
 						case Messages.EVALUATION:
 						case Messages.EVALUATION_LONG:
 							if (pressed) {
@@ -487,7 +487,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			case Messages.GRID_LONG:
 				values.questionType = "grid";
 				Ext.apply(values, panel.gridQuestion.getQuestionValues());
-			break;
+				break;
 			case Messages.EVALUATION:
 			case Messages.EVALUATION_LONG:
 				values.questionType = "vote";

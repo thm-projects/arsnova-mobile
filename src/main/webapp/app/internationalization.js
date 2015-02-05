@@ -1009,6 +1009,6 @@ switch (lang) {
 			IMP_ERROR_FORMAT: "JSON Datei ist falsch formatiert.",
 			IMP_ERROR_SAVE: "Session konnte nicht gespeichert werden.",
 			IMP_ERROR_IMAGE: "Session konnte nicht gespeichert werden. Bild überschreitet maximale Größe."
-	};
-	break;
+		};
+		break;
 }

@@ -121,10 +121,10 @@ Ext.define('ARSnova.view.TabPanel', {
 					newCard === this.privacyTabPanel ||
 					newCard === this.imprintTabPanel ||
 					newCard === this.blogTabPanel
-					) {
-						this.infoTabPanel.tab.hide();
-						this.blogTabPanel.tab.show();
-					}
+				) {
+					this.infoTabPanel.tab.hide();
+					this.blogTabPanel.tab.show();
+				}
 			}
 		}, this);
 

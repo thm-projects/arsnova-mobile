@@ -1,6 +1,8 @@
 (function () {
+/* jscs:disable validateIndentation */
 "use strict";
 Ext.define('ARSnova.BrowserSupport', {
+/* jscs:enable */
 	extend: 'Ext.Base',
 
 	requires: ['ARSnova.BrowserDetect'],
