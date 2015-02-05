@@ -41,7 +41,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 			for (var i = 0; i < exportData.length; i++) {
 				// overwrite custom session attributes
 				for (var attrname in customSessionAttributes) {
-					exportData[i]['session'][attrname] = customSessionAttributes[attrname];
+					exportData[i].session[attrname] = customSessionAttributes[attrname];
 				}
 
 				for (var attrname in exportData[i].session) {
@@ -50,11 +50,11 @@ Ext.define("ARSnova.controller.SessionExport", {
 					}
 				}
 				// rewrite session type
-				exportData[i]['session']['sessionType'] = null;
+				exportData[i].session.sessionType = null;
 
 				// avoid storage caching (otherwise pp sessions can only be cloned once per arsnova browsersession)
-				exportData[i]['session']['_id'] = null;
-				exportData[i]['session']['_rev'] = null;
+				exportData[i].session._id = null;
+				exportData[i].session._rev = null;
 
 				// call import ctrl to save cloned session in db
 				ARSnova.app.getController("SessionImport").importSession(exportData[i])
@@ -92,10 +92,10 @@ Ext.define("ARSnova.controller.SessionExport", {
 			for (var i = 0; i < exportData.length; i++) {
 				// set public pool attributes in session
 				for (var attrname in publicPoolAttributes) {
-					exportData[i]['session'][attrname] = publicPoolAttributes[attrname];
+					exportData[i].session[attrname] = publicPoolAttributes[attrname];
 				}
 				// rewrite session type
-				exportData[i]['session']['sessionType'] = 'public_pool';
+				exportData[i].session.sessionType = 'public_pool';
 
 				// call import ctrl to save public pool session in db
 				ARSnova.app.getController("SessionImport").importSession(exportData[i])
@@ -189,15 +189,15 @@ Ext.define("ARSnova.controller.SessionExport", {
 		var promise = new RSVP.Promise();
 		// create export data structure
 		var exportData = {};
-		exportData['session'] = null;
-		exportData['questions'] = [];
-		exportData['feedbackQuestions'] = [];
+		exportData.session = null;
+		exportData.questions = [];
+		exportData.feedbackQuestions = [];
 
 		// otherwise export this session
-		session['type'] = 'session';
+		session.type = 'session';
 
 		// set session in exportData
-		exportData['session'] = session;
+		exportData.session = session;
 
 		// get classroom and preparation questions
 		var p1 = me.exportQuestions('Questions', session.keyword, withAnswerStatistics);
@@ -218,7 +218,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 					return me.exportQuestionWithAnswerStatistics(session.keyword, question, withAnswerStatistics);
 				},
 				function(question) {
-					exportData['questions'].push(question);
+					exportData.questions.push(question);
 				}
 			).then(function() {
 				if (withFeedbackQuestions) {
@@ -226,10 +226,10 @@ Ext.define("ARSnova.controller.SessionExport", {
 						.then(function(feedbackQuestions) {
 							// set question type for export
 							for (var k = 0; k < feedbackQuestions.length; k++) {
-								feedbackQuestions[k]['type'] = 'interposed_question';
+								feedbackQuestions[k].type = 'interposed_question';
 							}
 							// set feedback questions in export data
-							exportData['feedbackQuestions'] = feedbackQuestions;
+							exportData.feedbackQuestions = feedbackQuestions;
 
 							promise.resolve(exportData);
 
@@ -284,7 +284,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 				success: function(response) {
 					var answers = Ext.decode(response.responseText);
 					// save answer data in question
-					question['answers'] = answers;
+					question.answers = answers;
 					// and return the updated question
 					promise.resolve(question);
 				},

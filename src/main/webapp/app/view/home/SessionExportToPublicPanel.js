@@ -373,17 +373,17 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 
 		} else {
 			var publicPoolAttributes = {};
-			publicPoolAttributes['ppAuthorName'] = validation.get('name');
-			publicPoolAttributes['ppAuthorMail'] = validation.get('email');
-			publicPoolAttributes['ppUniversity'] = validation.get('hs');
-			publicPoolAttributes['ppLogo'] 		 = validation.get('logo');
-			publicPoolAttributes['ppSubject'] 	 = validation.get('subject');
-			publicPoolAttributes['ppLicense'] 	 = validation.get('licence');
-			publicPoolAttributes['ppLevel'] 	 = validation.get('level');
-			publicPoolAttributes['ppDescription']= validation.get('description');
-			publicPoolAttributes['ppFaculty']	 = validation.get('faculty');
-			publicPoolAttributes['name']		 = me.sessionName.getValue();
-			publicPoolAttributes['shortName']	 = me.sessionShortName.getValue();
+			publicPoolAttributes.ppAuthorName = validation.get('name');
+			publicPoolAttributes.ppAuthorMail = validation.get('email');
+			publicPoolAttributes.ppUniversity = validation.get('hs');
+			publicPoolAttributes.ppLogo 		 = validation.get('logo');
+			publicPoolAttributes.ppSubject 	 = validation.get('subject');
+			publicPoolAttributes.ppLicense 	 = validation.get('licence');
+			publicPoolAttributes.ppLevel 	 = validation.get('level');
+			publicPoolAttributes.ppDescription = validation.get('description');
+			publicPoolAttributes.ppFaculty	 = validation.get('faculty');
+			publicPoolAttributes.name		 = me.sessionName.getValue();
+			publicPoolAttributes.shortName	 = me.sessionShortName.getValue();
 
 			// create array for export
 			var sessions = [];
