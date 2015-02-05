@@ -285,7 +285,7 @@ Ext.define('ARSnova.view.Question', {
 			this.answerList.add(answerPanel);
 
 			// remove padding around panel
-			this.answerList.bodyElement.dom.style.padding="0";
+			this.answerList.bodyElement.dom.style.padding = "0";
 
 			// set content
 			answerPanel.setContent(this.questionObj.possibleAnswers[0].text, true, true);
@@ -342,7 +342,7 @@ Ext.define('ARSnova.view.Question', {
 						);
 					}
 				},
-				mode: this.questionObj.questionType === "mc" ? 'MULTI': 'SINGLE'
+				mode: this.questionObj.questionType === "mc" ? 'MULTI' : 'SINGLE'
 			});
 		}
 
@@ -366,7 +366,7 @@ Ext.define('ARSnova.view.Question', {
 			ui: 'confirm',
 			cls: 'login-button noMargin',
 			text: Messages.SAVE,
-			handler: !this.viewOnly ? this.saveMcQuestionHandler: function () {},
+			handler: !this.viewOnly ? this.saveMcQuestionHandler : function () {},
 			scope: this,
 			disabled: true
 		});
@@ -442,7 +442,7 @@ Ext.define('ARSnova.view.Question', {
 				this.abstentionButton
 			]);
 
-			this.formPanel.add(!this.viewOnly ? this.buttonContainer: {});
+			this.formPanel.add(!this.viewOnly ? this.buttonContainer : {});
 			this.answerList.setHidden(false);
 		}
 		else if (this.questionObj.questionType === "flashcard") {
@@ -484,7 +484,7 @@ Ext.define('ARSnova.view.Question', {
 				ui: 'confirm',
 				cls: 'login-button noMargin',
 				text: Messages.SAVE,
-				handler: !this.viewOnly ? this.saveGridQuestionHandler: function () {},
+				handler: !this.viewOnly ? this.saveGridQuestionHandler : function () {},
 				scope: this,
 				disabled: false
 			});
@@ -500,7 +500,7 @@ Ext.define('ARSnova.view.Question', {
 						pack: 'center'
 					},
 					style: "margin-top: 15px",
-					items:[{
+					items: [{
 						xtype: 'label',
 						id: 'remainingDotsLabel' + this.getId(),
 						html: Messages.GRID_LABEL_REMAINING_DOTS + this.grid.getNumberOfDots()

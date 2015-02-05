@@ -117,7 +117,7 @@ Ext.define('ARSnova.view.TabPanel', {
 			}
 
 			if(ARSnova.app.lastActiveMainTabPanel === this.rolePanel) {
-				if(	newCard === this.infoTabPanel ||
+				if(newCard === this.infoTabPanel ||
 					newCard === this.privacyTabPanel ||
 					newCard === this.imprintTabPanel ||
 					newCard === this.blogTabPanel
@@ -269,7 +269,7 @@ Ext.define('ARSnova.view.TabPanel', {
 		var student = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
 
 		if (count > 0) {
-			speaker && speaker.tab.setBadgeText(count-1); // Do not count the speaker itself
+			speaker && speaker.tab.setBadgeText(count - 1); // Do not count the speaker itself
 			student && student.tab.setBadgeText(count); // Students will see all online users
 		}
 	}

@@ -156,7 +156,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 						} else if (tilesToFill[key] === 0) {
 							alpha = 0;
 						} else {
-							alpha = this.getHeatmapMinAlpha() + (((this.getHeatmapMaxAlpha() - this.getHeatmapMinAlpha())/(maxVotes - minVotes)) * (tilesToFill[key] - minVotes));
+							alpha = this.getHeatmapMinAlpha() + (((this.getHeatmapMaxAlpha() - this.getHeatmapMinAlpha()) / (maxVotes - minVotes)) * (tilesToFill[key] - minVotes));
 						}
 					}
 
@@ -219,10 +219,10 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	 *
 	 * param config The configuration structure. Attributes have to match gridContainter attibutes.
 	 */
-	setConfig : function(config) {
+	setConfig: function(config) {
 
 		if (typeof(config.name) !== "undefined") this.setName(config.name);
-		if (typeof(config.description) !== "undefined"){ this.setDescription(config.description);}
+		if (typeof(config.description) !== "undefined") {this.setDescription(config.description);}
 
 		this.callParent(arguments);
 	},

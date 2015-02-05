@@ -69,7 +69,7 @@ Ext.define('ARSnova.view.TextCheckfield', {
 		 * otherwise to this.config.uncheckedCls.
 		 */
 		this.label.addCls(
-			(this.isChecked() ? this.getCheckedCls(): this.getUncheckedCls())
+			(this.isChecked() ? this.getCheckedCls() : this.getUncheckedCls())
 		);
 
 		/**

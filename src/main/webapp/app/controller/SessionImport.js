@@ -66,7 +66,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 		var me = this;
 		var promise = new RSVP.Promise();
 
-		s._id     = undefined;
+		s._id = undefined;
 		s.creator = localStorage.getItem('login');
 		s.data.creationTime = Date.now();
 
@@ -150,12 +150,12 @@ Ext.define("ARSnova.controller.SessionImport", {
 
 	saveFeedbackQuestion: function(q, session) {
 		var promise = new RSVP.Promise();
-		q._data._id       		= undefined;
-		q._data._rev       		= undefined;
-		q._data.sessionId     	= session._id;
-		q._data.sessionKeyword 	= session.keyword;
-		q.sessionId				= session._id;
-		q.sessionKeyword 		= session.keyword;
+		q._data._id = undefined;
+		q._data._rev = undefined;
+		q._data.sessionId = session._id;
+		q._data.sessionKeyword = session.keyword;
+		q.sessionId = session._id;
+		q.sessionKeyword = session.keyword;
 
 		q.saveInterposed({
 			success: function(response) {
@@ -174,12 +174,12 @@ Ext.define("ARSnova.controller.SessionImport", {
 		var me = this;
 		var promise = new RSVP.Promise();
 
-		q._data._id       		= undefined;
-		q._data._rev       		= undefined;
-		q._data.sessionId     	= session._id;
-		q._data.sessionKeyword 	= session.keyword;
-		q.sessionId				= session._id;
-		q.sessionKeyword 		= session.keyword;
+		q._data._id = undefined;
+		q._data._rev = undefined;
+		q._data.sessionId = session._id;
+		q._data.sessionKeyword = session.keyword;
+		q.sessionId = session._id;
+		q.sessionKeyword = session.keyword;
 
 		q.saveSkillQuestion({
 			success: function(response) {
@@ -221,13 +221,13 @@ Ext.define("ARSnova.controller.SessionImport", {
 	saveAnswer: function(a, respQuestion, session) {
 		var promise = new RSVP.Promise();
 
-		a.raw._id               = undefined;
-		a.raw._rev              = undefined;
-		a.raw.user       		= undefined;
-		a.raw.questionId 		= respQuestion._id;
-		a.raw.questionVariant   = respQuestion.questionVariant;
-		a.raw.sessionId 		= session._id;
-		a.phantom               = true;
+		a.raw._id = undefined;
+		a.raw._rev = undefined;
+		a.raw.user = undefined;
+		a.raw.questionId = respQuestion._id;
+		a.raw.questionVariant = respQuestion.questionVariant;
+		a.raw.sessionId = session._id;
+		a.phantom = true;
 
 		a.saveAnswer({
 			success: function() {

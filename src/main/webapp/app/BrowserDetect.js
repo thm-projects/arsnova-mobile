@@ -19,7 +19,7 @@ Ext.define('ARSnova.BrowserDetect', {
 		}
 	},
 
-	extractAndroidVersion:        function () {
+	extractAndroidVersion: function () {
 		// Should match 'Android x.y'
 		var version = navigator.userAgent.match(/Android [1-9]+[0-9]*\.[0-9]+/);
 		if (version === null) {
@@ -43,7 +43,7 @@ Ext.define('ARSnova.BrowserDetect', {
 		}
 	},
 
-	searchVersion:        function (dataString) {
+	searchVersion: function (dataString) {
 		var index = dataString.indexOf(this.versionSearchString);
 		if (index === -1) {
 			// iOS WebView Fallback

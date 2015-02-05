@@ -142,7 +142,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			itemCls: 'forwardListButton',
 			itemTpl: Ext.create('Ext.XTemplate',
 				'<div class="search-item noOverflow">',
-					'<span style="color:gray;">{[ this.getFormattedTime(values.timestamp) ]}</span>',
+					'<span style="color:gray;">{[this.getFormattedTime(values.timestamp)]}</span>',
 					'<tpl if="read === true">',
 						'<span style="padding-left:30px;">{subject:htmlEncode}</span>',
 					'</tpl>',

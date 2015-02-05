@@ -266,7 +266,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				increment: 1
 			};
 
-			this.ValueOfCorrectAnswers=Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
+			this.ValueOfCorrectAnswers = Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
 				label: Messages.GRID_LABEL_THRESHOLD_CORRECT_ANSWERS
 			}));
 
@@ -276,7 +276,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			this.incorrectValueComponent = Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
 				label: Messages.ANSWER_POINTS_INCORRECT
 			}));
-			this.questionValueFieldset.add([this.correctValueComponent, this.incorrectValueComponent,this.ValueOfCorrectAnswers]);
+			this.questionValueFieldset.add([this.correctValueComponent, this.incorrectValueComponent, this.ValueOfCorrectAnswers]);
 		}
 
 		this.zoomSpinner = Ext.create('Ext.field.Spinner', {
@@ -401,8 +401,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.grid.setOnFieldClick(function (answerValue) {
 			me.answers.getComponent('fs_answers').getComponent('tf_answers').setValue(answerValue);
 			if (ARSnova.app.globalConfig.features.learningProgress) {
-				if(me.grid.getGridType() !== 'moderation'){
-					me.ValueOfCorrectAnswers.setMaxValue(me.correctValueComponent.getMaxValue() *me.grid.getChosenFields().length);
+				if(me.grid.getGridType() !== 'moderation') {
+					me.ValueOfCorrectAnswers.setMaxValue(me.correctValueComponent.getMaxValue() * me.grid.getChosenFields().length);
 					me.ValueOfCorrectAnswers.setMinValue(me.incorrectValueComponent.getMinValue() * me.grid.getChosenFields().length);
 					me.ValueOfCorrectAnswers.setSliderValue(me.correctValueComponent.getMaxValue() * me.grid.getChosenFields().length);
 
@@ -475,7 +475,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 			this.imageArea = Ext.create('Ext.Panel', {
 				itemId: 'imageArea',
-				layout:{
+				layout: {
 					type: 'vbox',
 					align: 'stretch'
 				},
@@ -520,7 +520,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 			this.imageArea = Ext.create('Ext.Panel', {
 				itemId: 'imageArea',
-				layout:{
+				layout: {
 					type: 'vbox',
 					align: 'center',
 					pack: 'center'
@@ -533,7 +533,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					},
 					{
 						xtype: 'panel',
-						layout:{
+						layout: {
 							type: 'hbox',
 							align: 'center',
 							pack: 'center'
@@ -555,7 +555,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 					},
 					{
 						xtype: 'panel',
-						layout:{
+						layout: {
 							type: 'hbox',
 							align: 'center',
 							pack: 'center'
@@ -793,7 +793,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			this.questionValueFieldset.setHidden(this.grid.getChosenFields().length === 0);
 			this.incorrectValueComponent.setSliderValue(minValue);
 			this.correctValueComponent.setSliderValue(maxValue);
-			this.ValueOfCorrectAnswers.setMaxValue(this.correctValueComponent.getMaxValue() *this.grid.getChosenFields().length);
+			this.ValueOfCorrectAnswers.setMaxValue(this.correctValueComponent.getMaxValue() * this.grid.getChosenFields().length);
 			this.ValueOfCorrectAnswers.setMinValue(this.incorrectValueComponent.getMinValue() * this.grid.getChosenFields().length);
 			this.ValueOfCorrectAnswers.setSliderValue(this.grid.getThresholdCorrectAnswers());
 			this.cvBackgroundToggle.setValue(this.grid.getCvIsColored());

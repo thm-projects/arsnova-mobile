@@ -46,11 +46,11 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 
 		if (this.getSessions() !== null) {
 			// sort sessions by subject name
-			this.getSessions().sort(function(a,b) {return a.ppSubject > b.ppSubject;});
+			this.getSessions().sort(function(a, b) {return a.ppSubject > b.ppSubject;});
 
 			Object.keys(this.getSessions()).forEach(function(key, index) {
 				var firstLevelId = '1_' + this[key].ppSubject;
-				var secLevelId   = '2_' +  this[key].ppLevel + '_' + firstLevelId;
+				var secLevelId = '2_' +  this[key].ppLevel + '_' + firstLevelId;
 				var thirdLevelId = '3_' +  this[key].name + '_' + index + '_' + secLevelId;
 
 				var firstLevelNode = me.rootNode.findChild("id", firstLevelId, false);
@@ -75,7 +75,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 						var levels = config.publicPool.levelsDe.split(',');
 					}
 
-					levels.forEach(function(entry){
+					levels.forEach(function(entry) {
 						var secondLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
 							text: entry,
 							itemCount: 0,
@@ -154,7 +154,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 					// hide back button which just navigates to the mysession view
 					me.backButton.hide();
 				},
-				activeitemchange: function(nestedList, value, oldValue, eOpts ) {
+				activeitemchange: function(nestedList, value, oldValue, eOpts) {
 					var record = me.nestedList.getActiveItem().getStore().getNode();
 					if (record._data.itemCount === 0) {
 						Ext.create('Ext.MessageBox').show({

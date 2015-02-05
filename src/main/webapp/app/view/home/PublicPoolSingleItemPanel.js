@@ -98,7 +98,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			ui: 'light',
 			items: [
 				this.backButton,
-				{xtype:'spacer'},
+				{xtype: 'spacer'},
 				(ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) ? this.visitButton : this.exportButton
 			]
 		});
@@ -110,7 +110,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			value: this.getSession().name,
 			disabledCls: 'disableDefault',
 			inputCls: 'thm-grey',
-			maxLength : 50,
+			maxLength: 50,
 			disabled: false
 		});
 
@@ -120,11 +120,11 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			value: this.getSession().shortName,
 			disabledCls: 'disableDefault',
 			inputCls: 'thm-grey',
-			maxLength : 8,
+			maxLength: 8,
 			disabled: false
 		});
 
-		this.descriptionPanel = Ext.create('Ext.Panel',{
+		this.descriptionPanel = Ext.create('Ext.Panel', {
 
 			layout:	{
 				type: 'hbox',
@@ -163,7 +163,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 				flex: 4
 			});
 
-			this.markdownPanel.setContent( this.getSession().ppDescription, true, true);
+			this.markdownPanel.setContent(this.getSession().ppDescription, true, true);
 
 			this.descriptionPanel.add(this.markdownPanel);
 		}

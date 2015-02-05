@@ -71,11 +71,11 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		// Preview button
 		this.previewButton = Ext.create('Ext.Button', {
 			text: Ext.os.is.Desktop ?
-				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP:
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
 			cls: Ext.os.is.Desktop ?
-				'previewButtonLong':
+				'previewButtonLong' :
 				'previewButton',
 			scope: this,
 			handler: function () {

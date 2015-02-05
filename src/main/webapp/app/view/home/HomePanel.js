@@ -161,7 +161,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					ARSnova.app.restProxy.getPublicPoolSessions({
 						success: function(sessionList) {
 							var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-							me.publicPoolPanel = Ext.create('ARSnova.view.home.PublicPoolPanel',{
+							me.publicPoolPanel = Ext.create('ARSnova.view.home.PublicPoolPanel', {
 								sessions: sessionList
 							});
 
@@ -202,7 +202,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			var me = this;
 			if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
 				var handler = function success(sessions) {
-					me.caption.summarize(sessions, { questions: false, answers: false, interposed: false, unanswered: true });
+					me.caption.summarize(sessions, {questions: false, answers: false, interposed: false, unanswered: true});
 					me.add(me.caption);
 				};
 				var p1 = this.loadVisitedSessions();

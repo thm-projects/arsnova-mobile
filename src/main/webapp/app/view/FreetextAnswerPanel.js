@@ -69,7 +69,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 						animationend: function() {
 							ARSnova.app.mainTabPanel._activeItem.on('deactivate', function () {
 							self.destroy();
-							}, self, {single:self});
+							}, self, {single: self});
 						}, scope: self
 					}
 				});

@@ -61,7 +61,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				} else {
 					// check if session is open
 					if (!obj.active) {
-						Ext.Msg.alert("Hinweis", "Die Session \"" + obj.name +"\” ist momentan geschlossen.");
+						Ext.Msg.alert("Hinweis", "Die Session \"" + obj.name + "\” ist momentan geschlossen.");
 						return;
 					}
 					ARSnova.app.userRole = ARSnova.app.USER_ROLE_STUDENT;
@@ -320,9 +320,9 @@ Ext.define("ARSnova.controller.Sessions", {
 				var loginName = "";
 				var loginMode = localStorage.getItem("loginMode");
 				ARSnova.app.getController('Auth').services.then(function (services) {
-					services.forEach(function(service){
+					services.forEach(function(service) {
 						if(loginMode === service.id) {
-							loginName = "guest" === service.id ? Messages.GUEST: service.name;
+							loginName = "guest" === service.id ? Messages.GUEST : service.name;
 						}
 					});
 

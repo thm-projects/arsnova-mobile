@@ -140,7 +140,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		 * Translate the image to x- and y-axis position for start (minus the half of the image (for rotating!!))
 		 * source: http://creativejs.com/2012/01/day-10-drawing-rotated-images-into-canvas/
 		 */
-		ctx.translate(this.getOffsetX()+(this.getImageFile().width / 2), this.getOffsetY() + (this.getImageFile().height / 2));
+		ctx.translate(this.getOffsetX() + (this.getImageFile().width / 2), this.getOffsetY() + (this.getImageFile().height / 2));
 
 		/*
 		 * rotates the image in 90� steps clockwise. Steps are in the variable imgRotation
@@ -185,7 +185,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			initialWidth = img.width;
 
 		/** is picture spinned? */
-		if(this.getImgRotation()%2) {
+		if(this.getImgRotation() % 2) {
 			initialHeight = img.width;
 			initialWidth = img.height;
 		}
@@ -405,7 +405,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		var container = this.parentContainer;
 
-		if (! container.getEditable()) {
+		if (!container.getEditable()) {
 			// click prevention for non-editable grids
 			return;
 		}
@@ -911,7 +911,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 *
 	 * param config The configuration structure. Attributes have to match gridContainter attibutes.
 	 */
-	setConfig : function(config) {
+	setConfig: function(config) {
 
 		if (typeof(config) === "undefined") {
 			console.log("Could not set config due to undefined config attribute.");

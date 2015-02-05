@@ -341,7 +341,7 @@ Ext.define('Ext.ux.Fileup', {
 			}
 		} else {
 			// <debug>
-			Ext.Logger.warn('Config for FileUp state "'+ state +'" not found!');
+			Ext.Logger.warn('Config for FileUp state "' + state + '" not found!');
 			// </debug>
 		}
 	},
@@ -411,7 +411,7 @@ Ext.define('Ext.ux.Fileup', {
 			http.onreadystatechange = function (e) {
 				if (this.readyState === 4) {
 
-					if(Ext.Array.indexOf(me.getDefaultSuccessCodes(), parseInt(this.status)) !== -1 ) {
+					if(Ext.Array.indexOf(me.getDefaultSuccessCodes(), parseInt(this.status)) !== -1) {
 
 						var response = me.decodeResponse(this);
 

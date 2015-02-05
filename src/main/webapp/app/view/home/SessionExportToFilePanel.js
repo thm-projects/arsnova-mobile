@@ -57,14 +57,14 @@ Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
 			ui: 'light',
 			items: [
 				this.backButton,
-				{xtype:'spacer'},
+				{xtype: 'spacer'},
 				this.exportButton
 			]
 		});
 
 		this.exportAnswerToggle = Ext.create('Ext.field.Toggle', {
 			label: Messages.ANSWERS_STATISTICS,
-			labelWidth:'auto',
+			labelWidth: 'auto',
 			labelCls: 'session-toggle-label',
 			cls: 'rightAligned',
 			value: true
@@ -72,7 +72,7 @@ Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
 
 		this.exportStudentsQuestionToggle = Ext.create('Ext.field.Toggle', {
 			label: Messages.QUESTIONS_FROM_STUDENTS,
-			labelWidth:'auto',
+			labelWidth: 'auto',
 			labelCls: 'session-toggle-label',
 			cls: 'rightAligned',
 			value: true
@@ -93,14 +93,14 @@ Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
 		});
 		this.contentPanel.setContent(Messages.EXPORT_SESSION_INFORMATION, true, true);
 
-		this.singleTemplatePanel = Ext.create('Ext.Panel',{
+		this.singleTemplatePanel = Ext.create('Ext.Panel', {
 
 			layout:	{
 				type: 'vbox',
 				pack: 'center',
 				align: 'center'
 			},
-			items:[this.contentPanel]
+			items: [this.contentPanel]
 		});
 
 		this.matrixButtonPanel = Ext.create('Ext.Panel', {

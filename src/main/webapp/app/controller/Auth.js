@@ -61,7 +61,7 @@ Ext.define("ARSnova.controller.Auth", {
 		ARSnova.app.configLoaded.then(function () {
 			localStorage.setItem(
 				'role',
-				"lecturer" === role ? ARSnova.app.USER_ROLE_SPEAKER: ARSnova.app.USER_ROLE_STUDENT
+				"lecturer" === role ? ARSnova.app.USER_ROLE_SPEAKER : ARSnova.app.USER_ROLE_STUDENT
 			);
 			sessionStorage.setItem('keyword', sessionkey);
 			if (!ARSnova.app.checkPreviousLogin()) {
@@ -88,7 +88,7 @@ Ext.define("ARSnova.controller.Auth", {
 		ARSnova.afterLogin();
 
 		window.location = window.location.pathname + "#";
-		Ext.dispatch({controller:'sessions', action:'login', keyword: options.sessionid});
+		Ext.dispatch({controller: 'sessions', action: 'login', keyword: options.sessionid});
 	},
 
 	roleSelect: function (options) {
@@ -106,7 +106,7 @@ Ext.define("ARSnova.controller.Auth", {
 				var guest;
 
 				if (credibleLogins.length === 0 && guestLogin.length > 0) {
-					this.login({ service: guestLogin[0] });
+					this.login({service: guestLogin[0]});
 				} else {
 					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(
 						ARSnova.app.mainTabPanel.tabPanel.loginPanel, 'slide'

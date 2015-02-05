@@ -1,5 +1,5 @@
 Ext.define('ARSnova.utils.AsyncUtils', {
-	singleton : true,
+	singleton: true,
 
 	promiseWhile: function(condition, action, actionOnResult) {
 		var promise = new RSVP.Promise();

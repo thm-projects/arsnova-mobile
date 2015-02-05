@@ -19,7 +19,7 @@
 
 Ext.define('ARSnova.model.PublicPool', {
 	extend: 'Ext.data.Model',
-	config:{
+	config: {
 		fields: [
 			{
 				name: 'name'
@@ -69,27 +69,27 @@ Ext.define('ARSnova.model.PublicPool', {
 			{
 				type: 'presence',
 				field: 'subject',
-				message:Messages.EXPORT_FIELD_SUBJECT+ ':\t ' + Messages.SESSIONPOOL_NOTIFICATION_SUBJECT
+				message: Messages.EXPORT_FIELD_SUBJECT + ':\t ' + Messages.SESSIONPOOL_NOTIFICATION_SUBJECT
 			},
 			{
 				type: 'presence',
 				field: 'licence',
-				message: Messages.EXPORT_FIELD_LICENCE + ':\t'+ Messages.SESSIONPOOL_NOTIFICATION_LICENCE
+				message: Messages.EXPORT_FIELD_LICENCE + ':\t' + Messages.SESSIONPOOL_NOTIFICATION_LICENCE
 			},
 			{
 				type: 'email',
 				field: 'email',
-				message:  Messages.EXPORT_FIELD_EMAIL + ': '+ Messages.SESSIONPOOL_NOTIFICATION_EMAIL
+				message: Messages.EXPORT_FIELD_EMAIL + ': ' + Messages.SESSIONPOOL_NOTIFICATION_EMAIL
 			},
 			{
 				type: 'presence',
 				field: 'sessionName',
-				message: Messages.SESSION_NAME + ':\t'+ Messages.SESSIONPOOL_NOTIFICATION_SESSION_NAME
+				message: Messages.SESSION_NAME + ':\t' + Messages.SESSIONPOOL_NOTIFICATION_SESSION_NAME
 			},
 			{
 				type: 'presence',
 				field: 'sessionShortName',
-				message: Messages.SESSION_SHORT_NAME + ':\t'+ Messages.SESSIONPOOL_NOTIFICATION_SESSION_SHORTNAME
+				message: Messages.SESSION_SHORT_NAME + ':\t' + Messages.SESSIONPOOL_NOTIFICATION_SESSION_SHORTNAME
 			}
 		]
 	}

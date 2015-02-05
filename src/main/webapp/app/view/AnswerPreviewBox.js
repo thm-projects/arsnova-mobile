@@ -99,7 +99,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		});
 
 		// remove padding around mainPanel
-		this.mainPanel.bodyElement.dom.style.padding="0";
+		this.mainPanel.bodyElement.dom.style.padding = "0";
 
 		this.on('hide', function() {
 			ARSnova.app.innerScrollPanel = false;
@@ -216,8 +216,8 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 					"</tpl>",
 					{
 						isFormattedStringEmpty: function(formattedString) {
-							if(formattedString === "") { return true; }
-							else { return false; }
+							if(formattedString === "") {return true;}
+							else {return false;}
 						}
 					}
 				),

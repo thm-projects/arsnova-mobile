@@ -28,8 +28,8 @@ Ext.define('ARSnova.model.FeedbackQuestion', {
 		],
 
 		validations: [
-			{ type: 'presence', field: 'subject' },
-			{ type: 'presence', field: 'text' }
+			{type: 'presence', field: 'subject'},
+			{type: 'presence', field: 'text'}
 		]
 	},
 

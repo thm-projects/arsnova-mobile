@@ -162,11 +162,11 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 						me.setGradients();
 
 						// delay till chart is redrawn
-						updateDataTask.delay(me.chartRefreshDuration-200);
+						updateDataTask.delay(me.chartRefreshDuration - 200);
 					});
 
 					// delay till chart is empty
-					setGradientTask.delay(me.chartRefreshDuration-200);
+					setGradientTask.delay(me.chartRefreshDuration - 200);
 				},
 				scope: this,
 				hidden: !hasCorrectAnswers() || this.questionObj.questionType === 'grid' ||
@@ -253,8 +253,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 							ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 
 					if(panel.toggleCorrect && label !== Messages.ABSTENTION
-						&&	Object.keys(panel.correctAnswers).length > 0) {
-						labelColor =  panel.correctAnswers[label] ?  '#80ba24' : '#971b2f';
+						&& Object.keys(panel.correctAnswers).length > 0) {
+						labelColor = panel.correctAnswers[label] ?  '#80ba24' : '#971b2f';
 					} else {
 						labelColor = '#4a5c66';
 					}
@@ -307,7 +307,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 							gradient = panel.abstentionGradient :
 							gradient = panel.gradients[i % panel.gradients.length];
 
-					return { fill: gradient};
+					return {fill: gradient};
 				}
 			}]
 		});
@@ -475,7 +475,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		// update quote in toolbar
 		var quote = ARSnova.app.mainTabPanel._activeItem.toolbar.items.items[2];
 		var users = quote.getHtml().split("/");
-		users[1] = count-1; // Do not count the speaker itself
+		users[1] = count - 1; // Do not count the speaker itself
 		users = users.join("/");
 		quote.setHtml(users);
 	},

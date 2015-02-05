@@ -108,7 +108,7 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		});
 
 		// remove padding around mainPanel
-		this.mainPanel.bodyElement.dom.style.padding="0";
+		this.mainPanel.bodyElement.dom.style.padding = "0";
 
 		this.on('hide', function() {
 			ARSnova.app.innerScrollPanel = false;

@@ -191,7 +191,7 @@ Ext.define("ARSnova.controller.Questions", {
 				break;
 			case 'grid':
 				if(panel.gridQuestion.grid !== null) {
-					if (! panel.gridQuestion.grid.getImageFile()) {
+					if (!panel.gridQuestion.grid.getImageFile()) {
 						error = true;
 					}
 				} else error = true;
@@ -334,7 +334,7 @@ Ext.define("ARSnova.controller.Questions", {
 				});
 			};
 			panel.backButton.setText("Fragen");
-		}, this, {single:true});
+		}, this, {single: true});
 	},
 
 	deleteAllInterposedQuestions: function (callbacks) {

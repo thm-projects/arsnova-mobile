@@ -47,14 +47,14 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 			}
 		});
 
-		var toolbarItems = [this.backButton, {xtype:'spacer'}];
+		var toolbarItems = [this.backButton, {xtype: 'spacer'}];
 
 		if (this.getExportType() === 'filesystem') {
 			this.ContinueToExport = Ext.create('Ext.Button', {
 				text: Messages.CONTINUE,
 				itemId: 'continue',
 				handler: function () {
-					if(!me.checkSelectedSessions()){
+					if(!me.checkSelectedSessions()) {
 						Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_NOTIFICATION);
 					} else {
 						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
@@ -84,14 +84,14 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 		});
 		this.hintPanel.setContent(Messages.EXPORT_SESSION_LABEL, true, true);
 
-		this.singleTemplatePanel = Ext.create('Ext.Panel',{
+		this.singleTemplatePanel = Ext.create('Ext.Panel', {
 
 			layout:	{
 				type: 'vbox',
 				pack: 'center',
 				align: 'center'
 			},
-			items:[this.hintPanel]
+			items: [this.hintPanel]
 		});
 
 		this.sessionsForm = Ext.create('ARSnova.view.home.SessionList', {
@@ -212,11 +212,11 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 			me.sessionMap[me.mapCounter] = [session, sessionChecked];
 
 			var shortDateString = "";
-			var longDateString  = "";
+			var longDateString = "";
 			if (session.creationTime !== 0) {
-				var d               = new Date(session.creationTime);
-				var shortDateString = " ("+moment(d).format('MMM Do YY') +")";
-				var longDateString  = " ("+ moment(d).format('lll') +")";
+				var d = new Date(session.creationTime);
+				var shortDateString = " (" + moment(d).format('MMM Do YY') + ")";
+				var longDateString = " (" + moment(d).format('lll') + ")";
 			}
 
 			// Minimum width of 321px equals at least landscape view
@@ -247,7 +247,7 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 				sessionEntry = Ext.create('Ext.field.Toggle', {
 					id: 'sessionToggle_' + me.mapCounter,
 					label: Ext.util.Format.htmlEncode(displaytext),
-					labelWidth:'auto',
+					labelWidth: 'auto',
 					labelCls: 'session-toggle-label',
 					cls: 'rightAligned',
 					iconCls: "icon-cloud thm-green",

@@ -213,11 +213,11 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 
 	checkFilesize: function(url) {
 		var head = 'data:image/png;base64,';
-		var imgFileSize = Math.round((url.length - head.length)*3/4);
+		var imgFileSize = Math.round((url.length - head.length) * 3 / 4);
 
 		if(!isNaN(ARSnova.app.globalConfig.maxUploadFilesize)) {
 			if (imgFileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
-				var msgTemp = Messages.GRID_ERROR_FILE_SIZE.replace(/%%%/, Math.round((imgFileSize / 1024))+ "KB");
+				var msgTemp = Messages.GRID_ERROR_FILE_SIZE.replace(/%%%/, Math.round((imgFileSize / 1024)) + "KB");
 				var filesizeString = Math.round(parseInt(ARSnova.app.globalConfig.maxUploadFilesize / 1024)) + "KB";
 				Ext.Msg.alert(Messages.GRID_ERROR_IMAGE_NOT_LOADED, msgTemp.replace(/###/, filesizeString));
 

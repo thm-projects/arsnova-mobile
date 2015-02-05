@@ -152,7 +152,7 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 						} else if (tilesToFill[key] === 0) {
 							alpha = 0;
 						} else {
-							alpha = this.getHeatmapMinAlpha() + (((this.getHeatmapMaxAlpha() - this.getHeatmapMinAlpha())/(maxVotes - minVotes)) * (tilesToFill[key] - minVotes));
+							alpha = this.getHeatmapMinAlpha() + (((this.getHeatmapMaxAlpha() - this.getHeatmapMinAlpha()) / (maxVotes - minVotes)) * (tilesToFill[key] - minVotes));
 						}
 					}
 

@@ -59,11 +59,11 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 
 		var previewButton = Ext.create('Ext.Button', {
 			text: Ext.os.is.Desktop ?
-				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP:
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
 			cls: Ext.os.is.Desktop ?
-				'previewButtonLong':
+				'previewButtonLong' :
 				'previewButton',
 			handler: function () {
 				this.previewHandler();
@@ -83,7 +83,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			}, this.uploadView, this.grid]
 		}]);
 
-		this.on('painted', function(){
+		this.on('painted', function() {
 
 		});
 	},

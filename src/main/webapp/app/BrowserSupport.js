@@ -22,7 +22,7 @@ Ext.define('ARSnova.BrowserSupport', {
 		this.detect = Ext.create("ARSnova.BrowserDetect");
 	},
 
-	getRequiredBrowserVersion:        function () {
+	getRequiredBrowserVersion: function () {
 		return this.getSupported()[this.detect.browser];
 	},
 

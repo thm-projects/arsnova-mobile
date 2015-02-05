@@ -140,14 +140,14 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 
 	getAnswerCounterText: function() {
 		var counter = this.answerCounter.getHtml().split(" "),
-		lastString = counter[counter.length-1];
+		lastString = counter[counter.length - 1];
 
 		return lastString;
 	},
 
 	setAnswerCounterText: function(text) {
 		var counter = this.answerCounter.getHtml().split(" ");
-		counter[counter.length-1] = text;
+		counter[counter.length - 1] = text;
 
 		this.answerCounter.setHtml(counter.join(" "));
 	},

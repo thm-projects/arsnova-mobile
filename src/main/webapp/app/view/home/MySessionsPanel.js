@@ -147,7 +147,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					ARSnova.app.restProxy.getPublicPoolSessions({
 						success: function(sessionList) {
 							var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-							me.publicPoolPanel = Ext.create('ARSnova.view.home.PublicPoolPanel',{
+							me.publicPoolPanel = Ext.create('ARSnova.view.home.PublicPoolPanel', {
 								sessions: sessionList
 							});
 
@@ -194,11 +194,11 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				listeners: {
 					scope: this,
 					loadsuccess: function (data) {
-						if(!Ext.os.is.iOS){
+						if(!Ext.os.is.iOS) {
 							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_IMPORT, 240000);
 							try {
 								var n = data.indexOf("base64,");
-								data = decodeURIComponent(escape(atob(data.substring(n+7)))); // remove disturbing prefix
+								data = decodeURIComponent(escape(atob(data.substring(n + 7)))); // remove disturbing prefix
 
 								var jsonContent = JSON.parse(data);
 								if (jsonContent && typeof jsonContent === "object" && jsonContent !== null) {
@@ -277,7 +277,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							message: Messages.EXPORT_SELECTED_SESSIONS_MSG,
 							buttons: msgBox.YESNO,
 							hideOnMaskTap: true,
-							listeners:[
+							listeners: [
 								{
 								element: 'element',
 								delegate: '',
@@ -289,9 +289,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							fn: function(btn) {
 								var dest = null;
 								if (btn === 'yes') {
-									if(Ext.os.is.iOS){
+									if(Ext.os.is.iOS) {
 										Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_IOS_NOTIFICATION);
-									}else{
+									} else {
 										dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
 											exportType: 'filesystem'
 										});

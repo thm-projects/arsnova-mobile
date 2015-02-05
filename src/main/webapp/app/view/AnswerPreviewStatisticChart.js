@@ -111,11 +111,11 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 						me.setGradients();
 
 						// delay till chart is redrawn
-						updateDataTask.delay(me.chartRefreshDuration-200);
+						updateDataTask.delay(me.chartRefreshDuration - 200);
 					});
 
 					// delay till chart is empty
-					setGradientTask.delay(me.chartRefreshDuration-200);
+					setGradientTask.delay(me.chartRefreshDuration - 200);
 				},
 				scope: this
 			}]
@@ -149,7 +149,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 				max = 10;
 
 			this.questionStore.add({
-				text: pA.text === "" ? i+1 : pA.text,
+				text: pA.text === "" ? i + 1 : pA.text,
 				value: Math.floor(Math.random() * (max - min + 1) + min)
 			});
 		}
@@ -195,9 +195,9 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 				renderer: function (label, layout, lastLabel) {
 					var panel, labelColor;
 
-					if(me.toggleCorrect && 	label !== Messages.ABSTENTION
-						&&	Object.keys(me.correctAnswers).length > 0) {
-						labelColor =  me.correctAnswers[label] ?  '#80ba24' : '#971b2f';
+					if(me.toggleCorrect && label !== Messages.ABSTENTION
+						&& Object.keys(me.correctAnswers).length > 0) {
+						labelColor = me.correctAnswers[label] ?  '#80ba24' : '#971b2f';
 					} else {
 						labelColor = '#4a5c66';
 					}
@@ -244,7 +244,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 						data = rendererData.store.getData().getAt(i).getData();
 
 					if(data.text === Messages.ABSTENTION) {
-						return { fill: me.abstentionGradient };
+						return {fill: me.abstentionGradient};
 					}
 
 					return rendererData = {
@@ -275,7 +275,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 			question = this.questionObj.possibleAnswers[i];
 			data = question.data ? question.data : question;
 
-			data.text = data.text === "" ? i+1 : data.text;
+			data.text = data.text === "" ? i + 1 : data.text;
 			this.correctAnswers[data.text] = data.correct;
 
 			if ((question.data && !question.data.correct) || (!question.data && !question.correct)) {

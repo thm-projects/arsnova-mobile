@@ -339,10 +339,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						}
 					}
 
-					if(questionValues.gridType === "moderation"){
+					if(questionValues.gridType === "moderation") {
 						panel.abstentionPart.setHidden(true);
 						panel.absteionAlternative.show();
-					}else{
+					} else {
 						panel.absteionAlternative.hide();
 					}
 				} else {
@@ -464,7 +464,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			items: [
 				this.backButton,
 				this.cancelButton,
-				{xtype:'spacer'},
+				{xtype: 'spacer'},
 				this.editButton
 			]
 		});
@@ -483,7 +483,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			toggleConfig: {
 				scope: this,
 				label: false,
-				value: this.questionObj.showStatistic? this.questionObj.showStatistic: 0,
+				value: this.questionObj.showStatistic ? this.questionObj.showStatistic : 0,
 				listeners: {
 					scope: this,
 					change: function(toggle, newValue, oldValue, eOpts) {
@@ -524,7 +524,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			toggleConfig: {
 				scope: this,
 				label: false,
-				value: this.questionObj.showAnswer? this.questionObj.showAnswer: 0,
+				value: this.questionObj.showAnswer ? this.questionObj.showAnswer : 0,
 				listeners: {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
@@ -644,11 +644,11 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		// Preview button
 		this.previewButton = Ext.create('Ext.Button', {
 			text: Ext.os.is.Desktop ?
-				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP:
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
 			cls: Ext.os.is.Desktop ?
-				'previewButtonLong':
+				'previewButtonLong' :
 				'previewButton',
 			scope: this,
 			handler: function () {
@@ -709,7 +709,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				{
 					cls: 'gravure icon',
 					style: {margin: '20px'},
-					html: '<span class="coursemembersonlymessage">' + Messages.MEMBERS_ONLY+'</span>'
+					html: '<span class="coursemembersonlymessage">' + Messages.MEMBERS_ONLY + '</span>'
 				}
 			],
 			hidden: localStorage.getItem('courseId') === null || localStorage.getItem('courseId').length === 0
@@ -761,7 +761,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			hidden: true
 		});
 
-		this.absteionAlternative = Ext.create('Ext.Spacer',{
+		this.absteionAlternative = Ext.create('Ext.Spacer', {
 			hidden:	true,
 			height: 40
 		});
@@ -775,7 +775,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 		this.answerFormFieldset = Ext.create('Ext.form.FieldSet', {
 			cls: 'standardFieldset centerFormTitle',
-			title: this.questionObj.questionType !== "flashcard" ? Messages.ANSWERS: Messages.ANSWER
+			title: this.questionObj.questionType !== "flashcard" ? Messages.ANSWERS : Messages.ANSWER
 		});
 
 		this.answerForm = Ext.create('Ext.form.FormPanel', {
@@ -892,7 +892,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			}
 
 			// remove padding around panel
-			this.answerList.bodyElement.dom.style.padding="0";
+			this.answerList.bodyElement.dom.style.padding = "0";
 
 			// set content
 			this.answerListPanel.setContent(this.questionObj.possibleAnswers[0].text, true, true);
@@ -946,7 +946,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						);
 					}
 				},
-				mode: this.questionObj.questionType === "mc" ? 'MULTI': 'SINGLE'
+				mode: this.questionObj.questionType === "mc" ? 'MULTI' : 'SINGLE'
 			});
 		}
 

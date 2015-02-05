@@ -34,7 +34,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 		this.callParent(arguments);
 		this.allTemplates = [];
 
-		this.gridModeration = Ext.create('ARSnova.view.components.GridModerationContainer',{
+		this.gridModeration = Ext.create('ARSnova.view.components.GridModerationContainer', {
 			itemId: 'gridModearionContainer'
 		});
 
@@ -79,7 +79,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 			ui: 'light',
 			items: [
 				this.backButton,
-				{xtype:'spacer'},
+				{xtype: 'spacer'},
 				this.saveButtonToolbar
 			]
 		});
@@ -92,7 +92,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 	/**
 	 * Loads the templates to Carousel.
 	 */
-	setTemplates : function(templates) {
+	setTemplates: function(templates) {
 		var me = this;
 
 		templates.forEach(function(templateContainer) {
@@ -114,17 +114,17 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 			});
 			titlePanel.setContent(templateContainer.getName(), false, true);
 
-			me.singleTemplatePanel = Ext.create('Ext.Panel',{
+			me.singleTemplatePanel = Ext.create('Ext.Panel', {
 				scrollable: {
 					direction: 'vertical',
-					directionLock:true
+					directionLock: true
 				},
 				layout:	{
 					type: 'vbox',
 					pack: 'center',
 					align: 'center'
 				},
-				items:[titlePanel, {
+				items: [titlePanel, {
 					xtype: 'formpanel',
 					scrollable: null,
 					items: [
@@ -134,7 +134,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 							ui: 'action',
 							xtype:	'button',
 							text:	Messages.DOWNLOAD,
-							handler : function(){
+							handler: function() {
 								var index = me.getActiveIndex();
 								var src = me.allTemplates[index].getImageFile().src;
 								window.open(src);
@@ -161,7 +161,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 	 * @param successCallback(templates) The function which gets called after the templates were
 	 * loaded successfully.
 	 */
-	getTemplates : function() {
+	getTemplates: function() {
 		var me = this;
 		this.removeAll();
 		Ext.Ajax.request({
@@ -192,7 +192,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 			},
 			failure: function(response, opts) {
 				// iOS in phonegap returns response.status=0 on success
-				if(response.status === 0 && response.responseText !== ''){
+				if(response.status === 0 && response.responseText !== '') {
 					console.log(response.responseText);
 				} else {
 					console.error('Could not find template.json');

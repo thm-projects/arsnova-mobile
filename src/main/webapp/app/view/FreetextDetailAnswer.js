@@ -47,7 +47,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 					handler: function () {
 						self.sTP.items.items.pop(); // Remove this panel from view stack
 						self.sTP.animateActiveItem(
-							self.sTP.items.items[self.sTP.items.items.length-1], // Switch back to top of view stack
+							self.sTP.items.items[self.sTP.items.items.length - 1], // Switch back to top of view stack
 							{
 								type: 'slide',
 								direction: 'right',
@@ -102,7 +102,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 					success: function () {
 						self.sTP.items.items.pop(); // Remove this panel from view stack
 						self.sTP.animateActiveItem(
-							self.sTP.items.items[self.sTP.items.items.length-1], // Switch back to top of view stack
+							self.sTP.items.items[self.sTP.items.items.length - 1], // Switch back to top of view stack
 							{
 								type: 'slide',
 								direction: 'right',

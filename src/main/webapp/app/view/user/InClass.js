@@ -59,7 +59,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 		var comingSoon = function (component) {
 			var comingSoonPanel = Ext.create('Ext.Panel', {
-				html: "<div style='padding: 0.5em'>" + Messages.FEATURE_COMING_SOON+"</div>"
+				html: "<div style='padding: 0.5em'>" + Messages.FEATURE_COMING_SOON + "</div>"
 			});
 			comingSoonPanel.showBy(component, 'tc-bc');
 			Ext.defer(function () {
@@ -316,9 +316,9 @@ Ext.define('ARSnova.view.user.InClass', {
 		var callback = Ext.bind(function (answer) {
 			if (answer === 'yes') {
 				if (variant === 'lecture') {
-					ARSnova.app.getController('Questions').lectureIndex({ renew: true });
+					ARSnova.app.getController('Questions').lectureIndex({renew: true});
 				} else {
-					ARSnova.app.getController('Questions').preparationIndex({ renew: true });
+					ARSnova.app.getController('Questions').preparationIndex({renew: true});
 				}
 			}
 		}, this);
@@ -422,7 +422,7 @@ Ext.define('ARSnova.view.user.InClass', {
 						badgeColorCls = "redbadge";
 					}
 
-					return {badgeText: percentage+"%", badgeCls: badgeColorCls + "icon"};
+					return {badgeText: percentage + "%", badgeCls: badgeColorCls + "icon"};
 				};
 				if (p.myprogress === 0 && p.courseprogress === 0) {
 					me.myLearningProgressButton.setBadge([{badgeText: "…"}, vsBadge, {badgeText: "…"}]);

@@ -46,7 +46,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			toggleConfig: {
 				scope: this,
 				label: false,
-				value: this.questionObj.showStatistic? this.questionObj.showStatistic: 0,
+				value: this.questionObj.showStatistic ? this.questionObj.showStatistic : 0,
 				listeners: {
 					scope: this,
 					change: function(toggle, newValue, oldValue, eOpts) {
@@ -90,7 +90,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 				toggleConfig: {
 					scope: this,
 					label: false,
-					value: this.questionObj.showAnswer? this.questionObj.showAnswer: 0,
+					value: this.questionObj.showAnswer ? this.questionObj.showAnswer : 0,
 					listeners: {
 						scope: this,
 						change: function (toggle, newValue, oldValue, eOpts) {

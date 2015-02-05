@@ -501,8 +501,8 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			jsonData: {
 				"name": session.get("name"),
 				"shortName": session.get("shortName"),
-				"courseId": session.get("courseId") ? session.get("courseId"): null,
-				"courseType": session.get("courseType") ? session.get("courseType"): null,
+				"courseId": session.get("courseId") ? session.get("courseId") : null,
+				"courseType": session.get("courseType") ? session.get("courseType") : null,
 				"creationTime": session.get("creationTime"),
 				"ppAuthorName": session.get("ppAuthorName"),
 				"ppAuthorMail": session.get("ppAuthorMail"),

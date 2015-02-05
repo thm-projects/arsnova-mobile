@@ -78,7 +78,7 @@ Ext.define('ARSnova.view.CustomCarouselIndicator', {
 		this.animationDirection = activeItem > targetIndex ? 0 : 1;
 
 		if (this.animationDirection) {
-			targetIndex = targetIndex-1;
+			targetIndex = targetIndex - 1;
 			if (activeItem === carousel.getMaxItemIndex()) {
 				return this;
 			}
@@ -88,7 +88,7 @@ Ext.define('ARSnova.view.CustomCarouselIndicator', {
 		}
 
 		else {
-			targetIndex = targetIndex+1;
+			targetIndex = targetIndex + 1;
 			if (activeItem === 0) {
 				return this;
 			}
@@ -119,7 +119,7 @@ Ext.define('ARSnova.view.CustomCarouselIndicator', {
 		this.animationDirection = currentActiveIndex > index ? 0 : 1;
 
 		if(element && activeItem && index !== currentActiveIndex && currentActiveIndex !== -1) {
-			var lastElement = indicators[indicators.length-1],
+			var lastElement = indicators[indicators.length - 1],
 				lastElementRightPos = lastElement.dom.getBoundingClientRect().right,
 				itemRect = activeItem.dom.getBoundingClientRect(),
 				maxRight = this.screenWidth,
@@ -134,7 +134,7 @@ Ext.define('ARSnova.view.CustomCarouselIndicator', {
 
 					if(elementsTillMaxPos < offsetPos) {
 						// offsetPos is added in order to simulate a slight movement
-						this.setLeft(leftPos - (this.elementWidth * (offsetPos-elementsTillMaxPos)) + offsetPos);
+						this.setLeft(leftPos - (this.elementWidth * (offsetPos - elementsTillMaxPos)) + offsetPos);
 					}
 				} else {
 					if(itemRect.left + Math.abs(leftPos) < maxRight) {

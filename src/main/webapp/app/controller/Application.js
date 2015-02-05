@@ -62,7 +62,7 @@ Ext.define("ARSnova.controller.Application", {
 	 */
 	initializeHrefOverride: function() {
 		document.onclick = function (e) {
-			e = e ||  window.event;
+			e = e || window.event;
 			var element = e.target || e.srcElement;
 			var controller = ARSnova.app.getController('Application');
 
@@ -108,9 +108,9 @@ Ext.define("ARSnova.controller.Application", {
 			localStorage.removeItem('storageTest');
 
 			//if not IE4+ nor NS6+
-			if (typeof navigator.cookieEnabled=="undefined" && !cookieEnabled){
-				document.cookie= "cookieTest";
-				cookieEnabled= (document.cookie.indexOf("cookieTest") !== -1) ? true : false;
+			if (typeof navigator.cookieEnabled == "undefined" && !cookieEnabled) {
+				document.cookie = "cookieTest";
+				cookieEnabled = (document.cookie.indexOf("cookieTest") !== -1) ? true : false;
 			}
 		} catch (e) {
 			privacyMode = true;
@@ -149,9 +149,9 @@ Ext.define("ARSnova.controller.Application", {
 				var delta = 0;
 
 				if (e.wheelDelta) {
-					delta = e.wheelDelta/120;
+					delta = e.wheelDelta / 120;
 				} else if (e.detail) {
-					delta = e.detail/3;
+					delta = e.detail / 3;
 				}
 
 				if(ARSnova.app.mainTabPanel == null) return;
@@ -172,7 +172,7 @@ Ext.define("ARSnova.controller.Application", {
 
 					if(scrollMe.getScrollable()) {
 						var scroller = scrollMe.getScrollable().getScroller();
-						var pixels = acceleration * (delta<0 ? -delta : delta);
+						var pixels = acceleration * (delta < 0 ? -delta : delta);
 						var maxPosition = scroller.getMaxPosition().y;
 						var currentPos = scroller.position.y;
 

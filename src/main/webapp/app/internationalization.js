@@ -53,8 +53,7 @@ if (lang != null) {
 var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
 switch (lang) {
-	case 'en':case 'en-en':case 'en-us':case 'en-gb':
-		moment.lang('en');
+	case 'en':case 'en-en':case 'en-us':case 'en-gb': moment.lang('en');
 		Messages = {
 			PRIVACY_MODE_WARNING_TITLE: "Privacy Mode",
 			PRIVACY_MODE_WARNING_TEXT: "Unfortunately ARSnova isn't working in Privacy Mode, as your browser denies to write to the application storage.\nPlease deactivate Privacy Mode for the period of usage of ARSnova and reload the page. Your anonymity is guaranteed even when private browsing mode is disabled.",
@@ -376,8 +375,8 @@ switch (lang) {
 			EXPORT_FIELD_LEVEL: "Level",
 			EXPORT_FIELD_EMAIL: "Email",
 			EXPORT_FIELD_SPECIAL_FIELD: "Faculty",
-			EXPORT_SELECTED_SESSIONS_TITLE : "Export sessions",
-			EXPORT_SELECTED_SESSIONS_MSG : "Where should the session(s) be exported?",
+			EXPORT_SELECTED_SESSIONS_TITLE: "Export sessions",
+			EXPORT_SELECTED_SESSIONS_MSG: "Where should the session(s) be exported?",
 			EXPORT_SESSION_INFORMATION: "Auditorium and prepare questions for the selected sessions will be exported.",
 			EXPORT_NOTIFICATION:	"No session selected.",
 			EXPORT_IOS_NOTIFICATION: "An export can not be performed on iOS devices.",
@@ -841,7 +840,7 @@ switch (lang) {
 			SETTINGS_HINT_TEXT: "Hinweis: <br>Maximale Dateigröße beträgt 150 KB.",
 			TEMPLATE_FOR_MODERATION: "Vorlagenkatalog für Punktabfragen",
 			TEMPLATE:	"Vorlage",
-			APPLY:		"Übernehmen",
+			APPLY: "Übernehmen",
 			DOWNLOAD:	"Herunterladen",
 
 			/*Export session*/
@@ -857,8 +856,8 @@ switch (lang) {
 			EXPORT_FIELD_LEVEL: "Niveau",
 			EXPORT_FIELD_EMAIL: "Email",
 			EXPORT_FIELD_SPECIAL_FIELD: "Fachbereich",
-			EXPORT_SELECTED_SESSIONS_TITLE : "Sessions exportieren",
-			EXPORT_SELECTED_SESSIONS_MSG : "Wohin möchten Sie die Session(s) exportieren?",
+			EXPORT_SELECTED_SESSIONS_TITLE: "Sessions exportieren",
+			EXPORT_SELECTED_SESSIONS_MSG: "Wohin möchten Sie die Session(s) exportieren?",
 			EXPORT_SESSION_INFORMATION: "Neben Hörsaal- und Vorbereitungsfragen der ausgewählten Sessions werden zusätzlich exportiert...",
 			EXPORT_NOTIFICATION: "Es wurde keine Session ausgewählt.",
 			EXPORT_IOS_NOTIFICATION: "Ein Export kann auf iOS Geräten nicht durchgeführt werden.",

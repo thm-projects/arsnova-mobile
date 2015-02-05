@@ -330,7 +330,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 			console.log('date:', d);
 
 			dateString = ('0' + d.getFullYear()).slice(-2) + '-'
-				+ ('0' + (d.getMonth()+1)).slice(-2) + '-'
+				+ ('0' + (d.getMonth() + 1)).slice(-2) + '-'
 				+ ('0' + d.getDate()).slice(-2) + '-'
 				+ ('0' + d.getHours()).slice(-2) + '-'
 				+ ('0' + d.getMinutes()).slice(-2);
@@ -345,7 +345,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 	saveFileOnFileSystem: function(rawJson, filename) {
 
 		var blob = new Blob([rawJson], {type: "text/plain;charset=utf-8"});
-		var ua   = window.navigator.userAgent;
+		var ua = window.navigator.userAgent;
 		var msie = ua.indexOf("MSIE ");
 
 		if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {

@@ -324,7 +324,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	showNextUnanswered: function () {
 		var questionPanels = this.items.items;
 		var activeQuestion = this.getActiveItem();
-		var lastQuestion = questionPanels[questionPanels.length-1];
+		var lastQuestion = questionPanels[questionPanels.length - 1];
 
 		if (!activeQuestion.isDisabled()) return;
 		this.checkStatisticsRelease();

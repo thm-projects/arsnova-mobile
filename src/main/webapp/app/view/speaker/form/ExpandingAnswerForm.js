@@ -60,11 +60,11 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 
 		var previewButton = Ext.create('Ext.Button', {
 			text: Ext.os.is.Desktop ?
-				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP:
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
 			cls: Ext.os.is.Desktop ?
-				'previewButtonLong':
+				'previewButtonLong' :
 				'previewButton',
 			style: 'margin-left: 8px; margin-top: 0px;',
 			scope: this,
@@ -104,7 +104,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 				this.answerComponents[i] = Ext.create('ARSnova.view.TextCheckfield', {
 					id: theComponentId,
 					name: theComponentId,
-					placeHolder: Messages.ENTER_ANSWER_OPTION + " " + (i+1),
+					placeHolder: Messages.ENTER_ANSWER_OPTION + " " + (i + 1),
 					hidden: this.getStart() <= i,
 					container: this,
 					listeners: {
