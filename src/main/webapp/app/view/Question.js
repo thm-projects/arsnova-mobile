@@ -579,7 +579,7 @@ Ext.define('ARSnova.view.Question', {
 		ARSnova.app.answerModel.getAnswerAndAbstentionCount(this.questionObj._id, {
 			success: function (response) {
 				var numAnswers = JSON.parse(response.responseText),
-					answerCount = parseInt(numAnswers[0]);
+					answerCount = parseInt(numAnswers[0]),
 					abstentionCount = parseInt(numAnswers[1]);
 
 				if(questionType === 'flashcard') {

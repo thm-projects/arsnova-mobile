@@ -68,7 +68,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 
 		var config = ARSnova.app.globalConfig;
 		ARSnova.app.getController('Auth').services.then(function (services) {
-			var i, buttonPanels = [], button, items = [], service, imagePath = "", imageSrc;
+			var i, buttonPanels = [], button, items = [], service, imagePath = "", imageSrc, imageCls;
 			if (config.customizationPath) {
 				imagePath = config.customizationPath + "/images/";
 			}

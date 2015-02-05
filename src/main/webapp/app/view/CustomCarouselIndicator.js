@@ -115,7 +115,7 @@ Ext.define('ARSnova.view.CustomCarouselIndicator', {
 
 		this.activeIndex = index;
 
-		element = this.bodyElement.dom.children[0];
+		var element = this.bodyElement.dom.children[0];
 		this.animationDirection = currentActiveIndex > index ? 0 : 1;
 
 		if(element && activeItem && index !== currentActiveIndex && currentActiveIndex !== -1) {

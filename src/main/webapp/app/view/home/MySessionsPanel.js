@@ -249,7 +249,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 
 					if (!config.features.publicPool) {
-						hTP.animateActiveItem(dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
+						hTP.animateActiveItem(Ext.create('ARSnova.view.home.SessionExportListPanel', {
 							exportType: 'filesystem'
 						}), 'slide');
 					} else {

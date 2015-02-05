@@ -74,9 +74,9 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		var width = this.getFieldSize() - this.getGridLineWidth();
 
 		// draw circle
-		centerX = koord[0] + width / 2;
-		centerY = koord[1] + width / 2;
-		radius = width / 2.75;
+		var centerX = koord[0] + width / 2;
+		var centerY = koord[1] + width / 2;
+		var radius = width / 2.75;
 
 		ctx.beginPath();
 		ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
@@ -204,7 +204,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	},
 
 	createResult: function() {
-		result = this.callParent(arguments);
+		var result = this.callParent(arguments);
 
 		result.numberOfDots = this.getNumberOfDots();
 

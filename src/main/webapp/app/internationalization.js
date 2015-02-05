@@ -21,10 +21,12 @@
 // that, we read here the user agent and we extract from there the phone language. For all the other devices,
 // "navigator.language" should give as the correct language.
 
+/* TODO: These variables are only used for internationalization and should not
+ * be exposed to global scope */
 var ua = navigator.userAgent.toLowerCase();
 var isAndroid = ua.indexOf("android") > -1;
 var isChrome = ua.indexOf("chrome") > -1;
-//var lang; // without declaration with "var" lang will be globally accessible
+var lang;
 
 if (isAndroid && !isChrome) {
 	if (navigator && navigator.userAgent && (lang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {

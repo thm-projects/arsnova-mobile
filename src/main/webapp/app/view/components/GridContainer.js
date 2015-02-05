@@ -176,7 +176,10 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Sets height and width of canvas according to images width/height ratio.
 	 */
 	setCanvasSizeAccordingToImg: function() {
-		var calcHeight,
+		var calcWidth,
+			calcHeight,
+			scaleWidth,
+			scaleHeight,
 			img = this.getImageFile(),
 			initialHeight = img.height,
 			initialWidth = img.width;
@@ -184,7 +187,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		/** is picture spinned? */
 		if(this.getImgRotation()%2) {
 			initialHeight = img.width;
-			initalWidth = img.height;
+			initialWidth = img.height;
 		}
 
 		scaleWidth = this.getCanvasSize() / initialHeight;
