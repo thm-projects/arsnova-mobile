@@ -1,7 +1,6 @@
 {
 	"browser": true,
 	"devel": true,
-	"camelcase": true,
 	"curly": true,
 	"eqeqeq": true,
 	"eqnull": true,
@@ -11,10 +10,20 @@
 	"laxbreak": true,
 	"noarg": true,
 	"noempty": true,
+	"nonbsp": true,
 	"quotmark": false,
 	"regexdash": true,
 	"strict": false,
-	"trailing": true,
 	"undef": true,
-	"white": false
+	"globals": {
+		"ARSnova": true,
+		"Ext": true,
+		"io": true,
+		"markdown": true,
+		"MathJax": true,
+		"Messages": true,
+		"moment": true,
+		"RSVP": true,
+		"TaskRunner": true
+	}
 }
