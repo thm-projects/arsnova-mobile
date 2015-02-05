@@ -92,7 +92,7 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 
 		if (this.isOpen) {
 			Ext.Msg.confirm(this.getWording().confirm, this.getWording().confirmMessage, function (buttonId) {
-				if (buttonId != "no") {
+				if (buttonId !== "no") {
 					/* close all questions */
 					ARSnova.app.getController('Questions').setAllActive({
 						active: false,

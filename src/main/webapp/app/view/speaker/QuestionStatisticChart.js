@@ -182,7 +182,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		});
 		this.titlebar.setContent(this.questionObj.text, true, true);
 
-		if (this.questionObj.questionType == "grid") {
+		if (this.questionObj.questionType === "grid") {
 			this.titlebar = Ext.create('Ext.Toolbar', {
 				cls: 'questionStatisticTitle',
 				docked: 'top',
@@ -248,7 +248,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				renderer: function (label, layout, lastLabel) {
 					var panel, labelColor;
 
-					panel = ARSnova.app.userRole == ARSnova.app.USER_ROLE_STUDENT ?
+					panel = ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT ?
 							ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart :
 							ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 
@@ -299,7 +299,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					var panel, gradient,
 						data = rendererData.store.getData().getAt(i).getData();
 
-					panel = ARSnova.app.userRole == ARSnova.app.USER_ROLE_STUDENT ?
+					panel = ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT ?
 							ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart :
 							ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 
@@ -432,13 +432,13 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					});
 
 					var idx = tmpPossibleAnswers.indexOf(el.answerText); // Find the index
-					if (idx != -1) tmpPossibleAnswers.splice(idx, 1); // Remove it if really found!
+					if (idx !== -1) tmpPossibleAnswers.splice(idx, 1); // Remove it if really found!
 				}
 				if (abstentionCount) {
 					var record = store.findRecord('text', Messages.ABSTENTION, 0, false, true, true); // exact match
 					if (!record) {
 						store.add({text: Messages.ABSTENTION, value: abstentionCount});
-					} else if (record.get('value') != abstentionCount) {
+					} else if (record.get('value') !== abstentionCount) {
 						record.set('value', abstentionCount);
 					}
 				}
@@ -505,8 +505,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	setGradients: function () {
 		this.correctAnswers = {};
 
-		if (this.questionObj.questionType == "yesno" || this.questionObj.questionType == "mc"
-				|| (this.questionObj.questionType == "abcd" && !this.questionObj.noCorrect)) {
+		if (this.questionObj.questionType === "yesno" || this.questionObj.questionType === "mc"
+				|| (this.questionObj.questionType === "abcd" && !this.questionObj.noCorrect)) {
 			if (this.toggleCorrect) {
 				this.gradients = this.getCorrectAnswerGradients();
 			} else {

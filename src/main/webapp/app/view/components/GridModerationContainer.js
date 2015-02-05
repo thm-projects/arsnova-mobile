@@ -131,7 +131,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 				if (typeof tilesToFill[key] !== "undefined") {
 					if (tilesToFill[key] > maxVotes) {
 						maxVotes = tilesToFill[key];
-						if (minVotes == 0) {
+						if (minVotes === 0) {
 							minVotes = maxVotes;
 						}
 					}
@@ -151,9 +151,9 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 					var alpha = 0;
 
 					if (typeof tilesToFill[key] !== "undefined") {
-						if (maxVotes == minVotes) {
+						if (maxVotes === minVotes) {
 							alpha = this.getHeatmapMaxAlpha();
-						} else if (tilesToFill[key] == 0) {
+						} else if (tilesToFill[key] === 0) {
 							alpha = 0;
 						} else {
 							alpha = this.getHeatmapMinAlpha() + (((this.getHeatmapMaxAlpha() - this.getHeatmapMinAlpha())/(maxVotes - minVotes)) * (tilesToFill[key] - minVotes));
@@ -167,10 +167,10 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 						this.markField(coords[0], coords[1], this.getHighlightColor(), 1.0);
 				}
 
-				if (displayType == Messages.GRID_LABEL_RELATIVE || displayType == Messages.GRID_LABEL_RELATIVE_SHORT) {
+				if (displayType === Messages.GRID_LABEL_RELATIVE || displayType === Messages.GRID_LABEL_RELATIVE_SHORT) {
 					var text = (typeof tilesToFill[key] !== "undefined") ? Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) + "%" : "";
 					this.addTextToField(coords[0], coords[1], text);
-				} else if (displayType == Messages.GRID_LABEL_ABSOLUTE || displayType == Messages.GRID_LABEL_ABSOLUTE_SHORT) {
+				} else if (displayType === Messages.GRID_LABEL_ABSOLUTE || displayType === Messages.GRID_LABEL_ABSOLUTE_SHORT) {
 					var text = (typeof tilesToFill[key] !== "undefined") ? tilesToFill[key] : "";
 					this.addTextToField(coords[0], coords[1], text);
 				}
@@ -221,8 +221,8 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	 */
 	setConfig : function(config) {
 
-		if (typeof(config.name) != "undefined") this.setName(config.name);
-		if (typeof(config.description) != "undefined"){ this.setDescription(config.description);}
+		if (typeof(config.name) !== "undefined") this.setName(config.name);
+		if (typeof(config.description) !== "undefined"){ this.setDescription(config.description);}
 
 		this.callParent(arguments);
 	},

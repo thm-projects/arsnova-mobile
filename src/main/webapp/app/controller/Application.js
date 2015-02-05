@@ -66,7 +66,7 @@ Ext.define("ARSnova.controller.Application", {
 			var element = e.target || e.srcElement;
 			var controller = ARSnova.app.getController('Application');
 
-			if (element.tagName == 'A' && element.className != "session-export") {
+			if (element.tagName === 'A' && element.className !== "session-export") {
 				if(controller.checkHrefProtocol(element.href)) {
 					if(!controller.hrefPanelActive) {
 						controller.toggleHrefPanelActive();
@@ -110,7 +110,7 @@ Ext.define("ARSnova.controller.Application", {
 			//if not IE4+ nor NS6+
 			if (typeof navigator.cookieEnabled=="undefined" && !cookieEnabled){
 				document.cookie= "cookieTest";
-				cookieEnabled= (document.cookie.indexOf("cookieTest") != -1) ? true : false;
+				cookieEnabled= (document.cookie.indexOf("cookieTest") !== -1) ? true : false;
 			}
 		} catch (e) {
 			privacyMode = true;

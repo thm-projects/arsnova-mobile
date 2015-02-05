@@ -114,7 +114,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				var questionsArr = [];
 				var questionIds = [];
 
-				if (questions.length == 0) {
+				if (questions.length === 0) {
 					// no available questions found
 
 					self.getQuestionCountLoader()(sessionStorage.getItem("keyword"), {
@@ -152,7 +152,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 					userQuestionsPanel.toolbar.resetQuestionCounter(questions.length);
 				}
 
-				if (questions.length == 1) {
+				if (questions.length === 1) {
 					userQuestionsPanel._indicator.hide();
 				}
 
@@ -331,7 +331,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 		var currentPosition = 0;
 		for (var i = 0, questionPanel; questionPanel = questionPanels[i]; i++) {
-			if (questionPanel == activeQuestion) {
+			if (questionPanel === activeQuestion) {
 				currentPosition = i;
 				break;
 			}
@@ -339,12 +339,12 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 		var spin = false;
 		for (var i = currentPosition, questionPanel; questionPanel = questionPanels[i]; i++) {
-			if (spin && i == currentPosition) {
+			if (spin && i === currentPosition) {
 				break;
 			}
 
 			if (questionPanel.isDisabled()) {
-				if (questionPanel == lastQuestion) {
+				if (questionPanel === lastQuestion) {
 					i = this.carouselOffset;
 					spin = true;
 				}

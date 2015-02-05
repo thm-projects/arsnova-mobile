@@ -74,7 +74,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		};
 
 		var loggedInCls = '';
-		if (ARSnova.app.loginMode == ARSnova.app.LOGIN_THM) {
+		if (ARSnova.app.loginMode === ARSnova.app.LOGIN_THM) {
 			loggedInCls = 'thm';
 		}
 
@@ -199,7 +199,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				var msg = Messages.ARE_YOU_SURE +
 						"<br>" + Messages.DELETE_SESSION_NOTICE;
 				Ext.Msg.confirm(Messages.DELETE_SESSION_TITLE, msg, function (answer) {
-					if (answer == 'yes') {
+					if (answer === 'yes') {
 						ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_DELETE);
 						ARSnova.app.sessionModel.destroy(sessionStorage.getItem('keyword'), {
 							success: function () {

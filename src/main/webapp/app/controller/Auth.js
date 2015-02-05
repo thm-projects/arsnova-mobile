@@ -105,7 +105,7 @@ Ext.define("ARSnova.controller.Auth", {
 				});
 				var guest;
 
-				if (credibleLogins.length == 0 && guestLogin.length > 0) {
+				if (credibleLogins.length === 0 && guestLogin.length > 0) {
 					this.login({ service: guestLogin[0] });
 				} else {
 					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(
@@ -209,7 +209,7 @@ Ext.define("ARSnova.controller.Auth", {
 		 * a: to CAS if user is authorized
 		 * b: to rolePanel if user was guest
 		 * */
-		if (ARSnova.app.loginMode == ARSnova.app.LOGIN_CAS) {
+		if (ARSnova.app.loginMode === ARSnova.app.LOGIN_CAS) {
 			/* update will be done when returning from CAS */
 			localStorage.removeItem('login');
 			var apiPath = ARSnova.app.globalConfig.apiPath;
@@ -223,7 +223,7 @@ Ext.define("ARSnova.controller.Auth", {
 				direction: 'right'
 			});
 			/* update manifest cache of new version is loaded */
-			if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+			if (window.applicationCache.status === window.applicationCache.UPDATEREADY) {
 				window.applicationCache.swapCache();
 				console.log('reload');
 				window.location.reload();

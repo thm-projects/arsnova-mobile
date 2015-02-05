@@ -99,7 +99,7 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 					text: Messages.ARSNOVA_RELOAD,
 					handler: function (b) {
 						Ext.Msg.confirm(Messages.ARSNOVA_RELOAD, Messages.RELOAD_SURE, function (b) {
-							if (b == "yes") {
+							if (b === "yes") {
 								if (ARSnova.app.checkSessionLogin()) {
 									ARSnova.app.getController('Sessions').logout();
 								}

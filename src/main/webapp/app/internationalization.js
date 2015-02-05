@@ -40,7 +40,7 @@ try {
 	var prefLang = undefined;
 }
 
-if (prefLang != undefined) {
+if (prefLang !== undefined) {
 	lang = prefLang;
 }
 

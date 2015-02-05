@@ -263,7 +263,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		values[0] = values[1];
 		values[1] = tmpValue;
 
-		if (!Ext.isArray(values) || values.length != store.getCount()) return;
+		if (!Ext.isArray(values) || values.length !== store.getCount()) return;
 
 		// Set chart data
 		store.each(function (record, index) {

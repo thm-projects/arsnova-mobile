@@ -325,7 +325,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 		var jsonData = JSON.stringify({exportData: exportData});
 
 		var dateString = "";
-		if (exportData.session.creationTime != 0) {
+		if (exportData.session.creationTime !== 0) {
 			var d = new Date(exportData.session.creationTime);
 			console.log('date:', d);
 

@@ -147,7 +147,7 @@ Ext.define('ARSnova.view.TabPanel', {
 
 		this.getTabBar().activeTab = card.tab;// for correct animation direction
 
-		if (typeof(animation) == 'object')
+		if (typeof(animation) === 'object')
 			animation.duration = ARSnova.app.cardSwitchDuration;
 		else {
 			animation = {
@@ -190,7 +190,7 @@ Ext.define('ARSnova.view.TabPanel', {
 		if (ARSnova.app.checkSessionLogin()) {
 			/* only start task if user/speaker is not(!) on feedbackTabPanel/statisticPanel (feedback chart)
 			 * because there is a own function which will check for new feedbacks and update the tab bar icon */
-			if (ARSnova.app.mainTabPanel.tabPanel._activeItem != ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel) {
+			if (ARSnova.app.mainTabPanel.tabPanel._activeItem !== ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel) {
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", this.updateFeedbackIcon, this);
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", this.updateFeedbackBadge, this);
 			}
@@ -200,7 +200,7 @@ Ext.define('ARSnova.view.TabPanel', {
 
 	onDeactivate: function () {
 		if (ARSnova.app.checkSessionLogin()) {
-			if (ARSnova.app.mainTabPanel.tabPanel._activeItem != ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel) {
+			if (ARSnova.app.mainTabPanel.tabPanel._activeItem !== ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel) {
 				ARSnova.app.feedbackModel.un("arsnova/session/feedback/average", this.updateFeedbackIcon);
 				ARSnova.app.feedbackModel.un("arsnova/session/feedback/count", this.updateFeedbackBadge);
 			}

@@ -116,7 +116,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 
 				panel.toolbar.resetQuestionCounter(questions.length);
 
-				if (questions.length == 1) {
+				if (questions.length === 1) {
 					panel._indicator.hide();
 				}
 

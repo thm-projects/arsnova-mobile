@@ -98,7 +98,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 
 				var secLevelNode = firstLevelNode.findChild("id", secLevelId, false);
 				if (secLevelNode != null) {
-					if (secLevelNode._data.itemCount == 0)
+					if (secLevelNode._data.itemCount === 0)
 						secLevelNode.removeAll();
 					secLevelNode._data.badgeCls = 'feedbackQuestionsBadgeIcon';
 					secLevelNode._data.itemCls = '';
@@ -126,9 +126,9 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 				var activeHTP;
 
-				if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_STUDENT)
+				if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT)
 					activeHTP = hTP.homePanel;
-				else if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER)
+				else if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER)
 					activeHTP = hTP.mySessionsPanel;
 
 				hTP.animateActiveItem(activeHTP, {
@@ -156,7 +156,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 				},
 				activeitemchange: function(nestedList, value, oldValue, eOpts ) {
 					var record = me.nestedList.getActiveItem().getStore().getNode();
-					if (record._data.itemCount == 0) {
+					if (record._data.itemCount === 0) {
 						Ext.create('Ext.MessageBox').show({
 					title: Messages.SESSIONPOOL_TITLE,
 					message: Messages.SESSIONPOOL_ERR_CAT_NOTFOUND,
@@ -193,7 +193,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 				});
 				},
 				back: function(nestedList, node, lastActiveList, detailCardActive, eOpts) {
-					if (node.internalId.indexOf("1_") == 0) {
+					if (node.internalId.indexOf("1_") === 0) {
 						me.nestedList.getToolbar().setTitle(Messages.SESSIONPOOL_TITLE);
 						me.backButton.show();
 					}

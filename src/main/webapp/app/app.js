@@ -253,7 +253,7 @@ Ext.application({
 	 * returns true if user is logged in a session
 	 */
 	checkSessionLogin: function () {
-		if (localStorage.getItem('sessionId') == undefined || localStorage.getItem('sessionId') == "")
+		if (localStorage.getItem('sessionId') === undefined || localStorage.getItem('sessionId') === "")
 			return false;
 		else
 			return true;
@@ -263,7 +263,7 @@ Ext.application({
 	 * returns true if device is a phone or a tablet
 	 */
 	checkMobileDeviceType: function () {
-		if (Ext.device.deviceType == 'Phone' || Ext.device.deviceType == 'Tablet') {
+		if (Ext.device.deviceType === 'Phone' || Ext.device.deviceType === 'Tablet') {
 			return true;
 		} else
 		return false;
@@ -395,7 +395,7 @@ Ext.application({
 		var sessions = Ext.decode(localStorage.getItem('lastVisitedSessions'));
 		for (var i = 0; i < sessions.length; i++) {
 			var session = sessions[i];
-			if (sessionId == session._id) {
+			if (sessionId === session._id) {
 				sessions.splice(i, 1);
 			}
 		}
@@ -405,7 +405,7 @@ Ext.application({
 
 function clone(obj) {
 	// Handle the 3 simple types, and null or undefined
-	if (null == obj || "object" != typeof obj) return obj;
+	if (null == obj || "object" !== typeof obj) return obj;
 
 	// Handle Date
 	if (obj instanceof Date) {

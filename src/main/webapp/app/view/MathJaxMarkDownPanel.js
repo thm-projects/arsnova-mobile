@@ -109,7 +109,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 			// end delimiter
 			idxEnd = input.indexOf(endDelimiter, idxStart + delimiter.length);
 
-			if (idxStart != -1 && idxEnd != -1) {
+			if (idxStart !== -1 && idxEnd !== -1) {
 				// add delimiter position values
 				result.push([idxStart, idxEnd + endDelimiter.length]);
 			} else {

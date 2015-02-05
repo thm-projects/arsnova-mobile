@@ -88,7 +88,7 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 			this.setTitleOptions(Messages.QUESTION_GRADE, Messages.QUESTION_GRADE_SHORT);
 		} else if (questionType === 'flashcard') {
 			this.setTitleOptions(Messages.FLASHCARD, Messages.FLASHCARD);
-		} else if (questionType == 'grid') {
+		} else if (questionType === 'grid') {
 			this.setTitleOptions(Messages.QUESTION_GRID, Messages.QUESTION_GRID_SHORT);
 		}
 	},

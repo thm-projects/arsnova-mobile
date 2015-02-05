@@ -54,7 +54,7 @@ Ext.define('ARSnova.view.feedback.TabPanel', {
 			ARSnova.app.feedbackModel.on('arsnova/session/feedback/update', this.statisticPanel.updateChart, this.statisticPanel);
 			ARSnova.app.feedbackModel.on('arsnova/session/feedback/average', this.statisticPanel.updateTabBar, this.statisticPanel);
 
-			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER && this.getActiveItem() == this.votePanel) {
+			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER && this.getActiveItem() === this.votePanel) {
 				this.setActiveItem(this.statisticPanel);
 			}
 		});

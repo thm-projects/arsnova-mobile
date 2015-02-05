@@ -49,7 +49,7 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 
 		var toolbarItems = [this.backButton, {xtype:'spacer'}];
 
-		if (this.getExportType() == 'filesystem') {
+		if (this.getExportType() === 'filesystem') {
 			this.ContinueToExport = Ext.create('Ext.Button', {
 				text: Messages.CONTINUE,
 				itemId: 'continue',
@@ -108,12 +108,12 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 
 		// load user sessions before displaying the page
 		this.onBefore('painted', function () {
-			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
+			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 				this.mapCounter = 0;
 				this.sessionMap = [];
 				this.loadCreatedSessions()
 					.then(function() {
-						if (me.getExportType() == 'filesystem') {
+						if (me.getExportType() === 'filesystem') {
 							me.loadCreatedPublicPoolSessions();
 						} else {
 							me.ppSessionsForm.hide();
@@ -126,7 +126,7 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 
 	checkSelectedSessions: function() {
 		for (var i = 0; i < this.sessionMap.length; i++) {
-			if (this.sessionMap[i][1] == true)
+			if (this.sessionMap[i][1])
 				return true;
 		}
 		return false;
@@ -213,7 +213,7 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 
 			var shortDateString = "";
 			var longDateString  = "";
-			if (session.creationTime != 0) {
+			if (session.creationTime !== 0) {
 				var d               = new Date(session.creationTime);
 				var shortDateString = " ("+moment(d).format('MMM Do YY') +")";
 				var longDateString  = " ("+ moment(d).format('lll') +")";
@@ -224,7 +224,7 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 
 			var sessionEntry = null;
 
-			if (me.getExportType() == 'filesystem') {
+			if (me.getExportType() === 'filesystem') {
 
 				var toggleListener = {
 					beforechange: function (slider, thumb, newValue, oldValue) {
@@ -232,11 +232,11 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 					},
 					change: function (slider, thumb, newValue, oldValue) {
 						// TODO why is 0 toggle checked and 1 toggle unchecked?
-						if (newValue == 0) { // true
+						if (newValue === 0) { // true
 							// Changing from off to on
 							var id = slider.id.split('_')[1];
 							me.sessionMap[id][1] = true;
-						} else if (newValue == 1) { // false
+						} else if (newValue === 1) { // false
 							// Changing from on to off
 							var id = slider.id.split('_')[1];
 							me.sessionMap[id][1] = false;
@@ -256,7 +256,7 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 				});
 
 				sessionEntry.setListeners(toggleListener);
-			} else if (me.getExportType() == 'public_pool') {
+			} else if (me.getExportType() === 'public_pool') {
 
 				sessionEntry = Ext.create('ARSnova.view.MultiBadgeButton', {
 					ui: 'normal',

@@ -668,7 +668,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		var me = this;
 
 		this.questionOptions.innerItems.forEach(function(item, index) {
-			if (item.getItemId() == text) {
+			if (item.getItemId() === text) {
 				me.questionOptions.setPressedButtons([index]);
 			}
 		});

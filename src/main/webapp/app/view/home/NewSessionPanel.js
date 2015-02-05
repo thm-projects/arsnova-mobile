@@ -223,7 +223,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		var newSessionPanel = this;
 		ARSnova.app.courseModel.getMyCourses({
 			success: Ext.bind(function (response) {
-				if (response.responseText == "[]") {
+				if (response.responseText === "[]") {
 					newSessionPanel.mycourses.hide();
 					newSessionPanel.setScrollable(null);
 				} else {

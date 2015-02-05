@@ -59,7 +59,7 @@ Ext.define('ARSnova.view.Question', {
 			mainPanel: this
 		});
 
-		if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
+		if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
 				questionObj: this.questionObj
 			});
@@ -91,7 +91,7 @@ Ext.define('ARSnova.view.Question', {
 			answer.saveAnswer({
 				success: function () {
 					var questionsArr = Ext.decode(localStorage.getItem(self.questionObj.questionVariant + 'QuestionIds'));
-					if (questionsArr.indexOf(self.questionObj._id) == -1) {
+					if (questionsArr.indexOf(self.questionObj._id) === -1) {
 						questionsArr.push(self.questionObj._id);
 					}
 					localStorage.setItem(self.questionObj.questionVariant + 'QuestionIds', Ext.encode(questionsArr));
@@ -231,7 +231,7 @@ Ext.define('ARSnova.view.Question', {
 				var theAnswer = answerObj.id || answerObj.text;
 
 				confirm(theAnswer, function (button) {
-					if (button == 'yes') {
+					if (button === 'yes') {
 						self.markCorrectAnswers();
 
 						self.getUserAnswer().then(function (answer) {
@@ -601,7 +601,7 @@ Ext.define('ARSnova.view.Question', {
 	 */
 	setGridAnswer: function (answerString) {
 
-		if (answerString == undefined)
+		if (answerString === undefined)
 			return;
 
 

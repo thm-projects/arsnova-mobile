@@ -157,7 +157,7 @@ Ext.define("ARSnova.controller.Questions", {
 		switch (question.get('questionType')) {
 			case 'vote':
 				panel.voteQuestion.query('textfield').forEach(function (el) {
-					if (el.getValue().trim() == "") {
+					if (el.getValue().trim() === "") {
 						el.addCls("required");
 						error = true;
 					}
@@ -165,7 +165,7 @@ Ext.define("ARSnova.controller.Questions", {
 				break;
 			case 'school':
 				panel.schoolQuestion.query('textfield').forEach(function (el) {
-					if (el.getValue().trim() == "") {
+					if (el.getValue().trim() === "") {
 						el.addCls("required");
 						error = true;
 					}
@@ -273,7 +273,7 @@ Ext.define("ARSnova.controller.Questions", {
 							questionStatus = panel.questionStatusButton;
 						}
 
-						if (options.active == 1) {
+						if (options.active === 1) {
 							questionStatus.questionOpenedSuccessfully();
 						} else {
 							questionStatus.questionClosedSuccessfully();

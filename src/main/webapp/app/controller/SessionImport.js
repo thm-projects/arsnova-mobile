@@ -79,7 +79,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 					});
 			},
 			failure: function(response, operation) {
-				if (response.status == 413)
+				if (response.status === 413)
 					Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_IMAGE);
 				else
 					Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_SAVE);

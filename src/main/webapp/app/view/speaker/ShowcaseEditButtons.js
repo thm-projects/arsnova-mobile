@@ -36,7 +36,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 
 		this.hasCorrectAnswers = !this.questionObj.noCorrect;
 		if (['vote', 'school', 'freetext', 'flashcard'].indexOf(this.questionObj.questionType) !== -1
-				|| (['grid'].indexOf(this.questionObj.questionType) !== -1 && this.questionObj.gridType == 'moderation')) {
+				|| (['grid'].indexOf(this.questionObj.questionType) !== -1 && this.questionObj.gridType === 'moderation')) {
 			this.hasCorrectAnswers = false;
 		}
 
@@ -50,8 +50,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 				listeners: {
 					scope: this,
 					change: function(toggle, newValue, oldValue, eOpts) {
-						if (newValue == 0 && typeof this.questionObj.showStatistic === "undefined" ||
-							newValue == this.questionObj.showStatistic) return;
+						if (newValue === 0 && typeof this.questionObj.showStatistic === "undefined" ||
+							newValue === this.questionObj.showStatistic) return;
 
 						var me = this;
 						var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_ACTIVATION);
@@ -94,8 +94,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 					listeners: {
 						scope: this,
 						change: function (toggle, newValue, oldValue, eOpts) {
-							if (newValue == 0 && typeof this.questionObj.showAnswer === "undefined" ||
-								newValue == this.questionObj.showAnswer) {
+							if (newValue === 0 && typeof this.questionObj.showAnswer === "undefined" ||
+								newValue === this.questionObj.showAnswer) {
 								return;
 							}
 

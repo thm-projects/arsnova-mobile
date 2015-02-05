@@ -45,7 +45,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			mainPanel: this
 		});
 
-		if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
+		if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
 				questionObj: this.questionObj
 			});
@@ -219,7 +219,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		answer.saveAnswer({
 			success: function () {
 				var questionsArr = Ext.decode(localStorage.getItem(self.questionObj.questionVariant + 'QuestionIds'));
-				if (questionsArr.indexOf(self.questionObj._id) == -1) {
+				if (questionsArr.indexOf(self.questionObj._id) === -1) {
 					questionsArr.push(self.questionObj._id);
 				}
 				localStorage.setItem(self.questionObj.questionVariant + 'QuestionIds', Ext.encode(questionsArr));

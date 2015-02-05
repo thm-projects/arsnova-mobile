@@ -68,7 +68,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		};
 
 		var loggedInCls = '';
-		if (ARSnova.app.loginMode == ARSnova.app.LOGIN_THM) {
+		if (ARSnova.app.loginMode === ARSnova.app.LOGIN_THM) {
 			loggedInCls = 'thm';
 		}
 
@@ -302,7 +302,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		// check for each question if exists a "dont-remind-me"-flag
 		for (var i = 0; i < questionIds.length; i++) {
 			var question = questionIds[i];
-			if (questionsArr.indexOf(question) == -1) {
+			if (questionsArr.indexOf(question) === -1) {
 				questionsArr.push(question);
 				showNotification = true;
 			}
@@ -314,7 +314,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	showNotification: function (questionIds, variant) {
 		var titleLabel;
 		var callback = Ext.bind(function (answer) {
-			if (answer == 'yes') {
+			if (answer === 'yes') {
 				if (variant === 'lecture') {
 					ARSnova.app.getController('Questions').lectureIndex({ renew: true });
 				} else {
@@ -323,7 +323,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			}
 		}, this);
 
-		if (questionIds.length == 1) {
+		if (questionIds.length === 1) {
 			titleLabel = variant === 'lecture' ?
 				Messages.ONE_NEW_LECTURE_QUESTION :
 				Messages.ONE_NEW_PREPARATION_QUESTION;

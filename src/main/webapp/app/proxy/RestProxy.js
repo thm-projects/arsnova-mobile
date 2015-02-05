@@ -39,7 +39,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			// I know it's bad, but I was not able to relay this event to other objects that would be better
 			// places to display an error message. Feel free to refactor this. ;-)
 			Ext.Msg.confirm(Messages.BROWSER_SESSION_EXPIRED, Messages.BROWSER_SESSION_EXPIRED_MSG, function (button) {
-				if (button == 'yes') {
+				if (button === 'yes') {
 					window.location.reload();
 				}
 			});

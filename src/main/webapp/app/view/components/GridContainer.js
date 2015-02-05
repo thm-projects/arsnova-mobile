@@ -295,7 +295,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	createGrid: function () {
 
-		if ((this.getGridSizeX() * this.getGridSizeY()) == 0)
+		if ((this.getGridSizeX() * this.getGridSizeY()) === 0)
 			return;
 
 		var ctx = this.getCanvas().getContext("2d");
@@ -420,8 +420,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var index = -1;
 		var fields = container.getChosenFields();
 		for (var i = 0; i < fields.length; i++) {
-			if (fields[i][0] == position[0]
-					&& fields[i][1] == position[1]) {
+			if (fields[i][0] === position[0]
+					&& fields[i][1] === position[1]) {
 				index = i;
 				break;
 			}
@@ -480,7 +480,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 
 		// converting from old version
-		if (questionObj.gridSize != undefined && questionObj.gridSize > 0) {
+		if (questionObj.gridSize !== undefined && questionObj.gridSize > 0) {
 
 			if (questionObj.gridSizeX === undefined || questionObj.gridSizeX === 0) {
 				this.setGridSizeX(questionObj.gridSize);
@@ -492,13 +492,13 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		}
 
-		if (questionObj.scaleFactor == undefined) {
+		if (questionObj.scaleFactor === undefined) {
 			this.setScaleFactor(this.getDefaultScaleFactor());
 		} else {
 			this.setScaleFactor(questionObj.scaleFactor);
 		}
 
-		if (questionObj.gridScaleFactor == undefined) {
+		if (questionObj.gridScaleFactor === undefined) {
 			this.setGridScaleFactor(this.getDefaultScaleFactor());
 		} else {
 			this.setGridScaleFactor(questionObj.gridScaleFactor);
@@ -794,7 +794,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Toggles the color of the grid.
 	 */
 	toggleBorderColor: function () {
-		if (this.getCurGridLineColor() == this.getGridLineColor()) {
+		if (this.getCurGridLineColor() === this.getGridLineColor()) {
 			this.setCurGridLineColor(this.getAlternativeGridLineColor());
 		} else {
 			this.setCurGridLineColor(this.getGridLineColor());
@@ -910,35 +910,35 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	setConfig : function(config) {
 
-		if (typeof(config) == "undefined") {
+		if (typeof(config) === "undefined") {
 			console.log("Could not set config due to undefined config attribute.");
 			return;
 		}
 
 		this.clearConfigs();
 
-		if (typeof(config.imageFile) != "undefined") {
+		if (typeof(config.imageFile) !== "undefined") {
 			// TODO: path-prefix to config
 			var url = "resources/gridTemplates/" + config.imageFile;
 			var me = this;
 			this.setImage(url, false,
 					function() {
 						// set optional attributes if defined
-						if (typeof(config.gridSize) != "undefined") me.setGridSize(config.gridSize);
-						if (typeof(config.scaleFactor) != "undefined") me.setScaleFactor(config.scaleFactor);
-						if (typeof(config.scale) != "undefined") me.setScale(config.scale);
-						if (typeof(config.zoomLvl) != "undefined") me.setZoomLvl(config.zoomLvl);
-						if (typeof(config.offsetX) != "undefined") me.setOffsetX(config.offsetX);
-						if (typeof(config.offsetY) != "undefined") me.setOffsetY(config.offsetY);
-						if (typeof(config.gridOffsetX) != "undefined") me.setGridOffsetX(config.gridOffsetX);
-						if (typeof(config.gridOffsetY) != "undefined") me.setGridOffsetY(config.gridOffsetY);
-						if (typeof(config.gridZoomLvl) != "undefined") me.setGridZoomLvl(config.gridZoomLvl);
-						if (typeof(config.gridSizeX) != "undefined") me.setGridSizeX(config.gridSizeX);
-						if (typeof(config.gridSizeY) != "undefined") me.setGridSizeY(config.gridSizeY);
-						if (typeof(config.gridScale) != "undefined") me.setGridScale(config.gridScale);
-						if (typeof(config.imgRotation) != "undefined") me.setImgRotation(config.imgRotation);
-						if (typeof(config.cvBackgroundColor) != "undefined") me.setCvBackgroundColor(config.cvBackgroundColor);
-						if (typeof(config.cvIsColored) != "undefined") me.setCvIsColored(config.cvIsColored);
+						if (typeof(config.gridSize) !== "undefined") me.setGridSize(config.gridSize);
+						if (typeof(config.scaleFactor) !== "undefined") me.setScaleFactor(config.scaleFactor);
+						if (typeof(config.scale) !== "undefined") me.setScale(config.scale);
+						if (typeof(config.zoomLvl) !== "undefined") me.setZoomLvl(config.zoomLvl);
+						if (typeof(config.offsetX) !== "undefined") me.setOffsetX(config.offsetX);
+						if (typeof(config.offsetY) !== "undefined") me.setOffsetY(config.offsetY);
+						if (typeof(config.gridOffsetX) !== "undefined") me.setGridOffsetX(config.gridOffsetX);
+						if (typeof(config.gridOffsetY) !== "undefined") me.setGridOffsetY(config.gridOffsetY);
+						if (typeof(config.gridZoomLvl) !== "undefined") me.setGridZoomLvl(config.gridZoomLvl);
+						if (typeof(config.gridSizeX) !== "undefined") me.setGridSizeX(config.gridSizeX);
+						if (typeof(config.gridSizeY) !== "undefined") me.setGridSizeY(config.gridSizeY);
+						if (typeof(config.gridScale) !== "undefined") me.setGridScale(config.gridScale);
+						if (typeof(config.imgRotation) !== "undefined") me.setImgRotation(config.imgRotation);
+						if (typeof(config.cvBackgroundColor) !== "undefined") me.setCvBackgroundColor(config.cvBackgroundColor);
+						if (typeof(config.cvIsColored) !== "undefined") me.setCvIsColored(config.cvIsColored);
 
 						// change background color itself if necessary
 						me.colorBackground();

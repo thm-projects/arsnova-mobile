@@ -101,7 +101,7 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 		var rightColor = this.getStatisticRightColor();
 
 
-		if (this.getChosenFields().length == 0) {
+		if (this.getChosenFields().length === 0) {
 			wrongColor = this.getHighlightColor();
 		}
 
@@ -127,7 +127,7 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 				if (typeof tilesToFill[key] !== "undefined") {
 					if (tilesToFill[key] > maxVotes) {
 						maxVotes = tilesToFill[key];
-						if (minVotes == 0) {
+						if (minVotes === 0) {
 							minVotes = maxVotes;
 						}
 					}
@@ -147,9 +147,9 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 					var alpha = 0;
 
 					if (typeof tilesToFill[key] !== "undefined") {
-						if (maxVotes == minVotes) {
+						if (maxVotes === minVotes) {
 							alpha = this.getHeatmapMaxAlpha();
-						} else if (tilesToFill[key] == 0) {
+						} else if (tilesToFill[key] === 0) {
 							alpha = 0;
 						} else {
 							alpha = this.getHeatmapMinAlpha() + (((this.getHeatmapMaxAlpha() - this.getHeatmapMinAlpha())/(maxVotes - minVotes)) * (tilesToFill[key] - minVotes));
@@ -158,7 +158,7 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 
 					var color = wrongColor;
 					for (var i = 0; i < this.getChosenFields().length; i++) {
-						if (this.getChosenFields()[i][0] == coords[0] && this.getChosenFields()[i][1] == coords[1]) {
+						if (this.getChosenFields()[i][0] === coords[0] && this.getChosenFields()[i][1] === coords[1]) {
 							color = rightColor;
 						}
 					}
@@ -166,10 +166,10 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 					this.markField(coords[0], coords[1], color, alpha);
 				}
 
-				if (displayType == Messages.GRID_LABEL_RELATIVE || displayType == Messages.GRID_LABEL_RELATIVE_SHORT) {
+				if (displayType === Messages.GRID_LABEL_RELATIVE || displayType === Messages.GRID_LABEL_RELATIVE_SHORT) {
 					var text = (typeof tilesToFill[key] !== "undefined") ? Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) + "%" : "";
 					this.addTextToField(coords[0], coords[1], text);
-				} else if (displayType == Messages.GRID_LABEL_ABSOLUTE || displayType == Messages.GRID_LABEL_ABSOLUTE_SHORT) {
+				} else if (displayType === Messages.GRID_LABEL_ABSOLUTE || displayType === Messages.GRID_LABEL_ABSOLUTE_SHORT) {
 					var text = (typeof tilesToFill[key] !== "undefined") ? tilesToFill[key] : "";
 					this.addTextToField(coords[0], coords[1], text);
 				}
@@ -214,7 +214,7 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 				// use chosenFields as right answers
 				for (var k = 0; k < this.getChosenFields().length; k++) {
 					var currentField = this.getChosenFields()[k];
-					if (currentField[0] == i && currentField[1] == j) {
+					if (currentField[0] === i && currentField[1] === j) {
 						obj.correct = true;
 						break;
 					}

@@ -197,7 +197,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			handler: function () {
 				var me = this;
 				Ext.Msg.confirm(Messages.DELETE_ALL_ANSWERS_REQUEST, Messages.ALL_QUESTIONS_REMAIN, function (answer) {
-					if (answer == 'yes') {
+					if (answer === 'yes') {
 						me.getController().deleteAllQuestionsAnswers({
 							success: Ext.bind(this.handleAnswerCount, this),
 							failure: Ext.emptyFn
@@ -218,7 +218,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				var msg = Messages.ARE_YOU_SURE;
 					msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
 				Ext.Msg.confirm(Messages.DELETE_QUESTIONS_TITLE, msg, function (answer) {
-					if (answer == 'yes') {
+					if (answer === 'yes') {
 						this.getController().destroyAll(sessionStorage.getItem("keyword"), {
 							success: Ext.bind(this.onActivate, this),
 							failure: function () {

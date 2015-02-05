@@ -298,7 +298,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 										hTP.animateActiveItem(dest, 'slide');
 									}
 								}  else {
-									if (ARSnova.app.loginMode == ARSnova.app.LOGIN_GUEST) {
+									if (ARSnova.app.loginMode === ARSnova.app.LOGIN_GUEST) {
 										Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_PP_NOTIFICATION);
 									}
 									else
@@ -334,7 +334,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 		this.onBefore('painted', function () {
 			var me = this;
-			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
+			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 				var handler = function success(sessions) {
 					me.caption.summarize(sessions);
 					me.add(me.caption);
@@ -363,7 +363,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				break;
 			}
 
-			if (ARSnova.app.loginMode == ARSnova.app.LOGIN_THM) {
+			if (ARSnova.app.loginMode === ARSnova.app.LOGIN_THM) {
 				this.logoutButton.addCls('thm');
 			}
 		});
@@ -562,7 +562,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 						var iconCls = icon + " courseIcon";
 
-						if (session.sessionType == 'public_pool') {
+						if (session.sessionType === 'public_pool') {
 							iconCls = "icon-cloud thm-green";
 						}
 

@@ -218,7 +218,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	},
 
 	checkLogin: function () {
-		if (ARSnova.app.loginMode == ARSnova.app.LOGIN_THM) {
+		if (ARSnova.app.loginMode === ARSnova.app.LOGIN_THM) {
 			this.logoutButton.addCls('thm');
 		}
 	},
@@ -241,7 +241,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	},
 
 	loadVisitedSessions: function () {
-		if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) return;
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) return;
 		var me = this;
 		var promise = new RSVP.Promise();
 
@@ -274,7 +274,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	},
 
 	loadMySessions: function () {
-		if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) return;
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) return;
 		var me = this;
 		var promise = new RSVP.Promise();
 
@@ -327,7 +327,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 
 				var iconCls = icon + " courseIcon";
 
-				if (session.sessionType == 'public_pool') {
+				if (session.sessionType === 'public_pool') {
 					iconCls = "icon-cloud thm-green";
 				}
 

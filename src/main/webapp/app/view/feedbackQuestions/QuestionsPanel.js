@@ -245,7 +245,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadgeText(questions.length);
 				panel.questionsCounter = questions.length;
 
-				if (panel.questionsCounter == 0) {
+				if (panel.questionsCounter === 0) {
 					panel.list.hide();
 					panel.noQuestionsFound.show();
 					panel.deleteAllButton.hide();
