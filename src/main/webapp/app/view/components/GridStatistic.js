@@ -35,7 +35,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 	questionOptionsSegment: null,
 	abstentionPanel: null,
 	optionsFieldSet: null,
-	answers: new Array(),
+	answers: [],
 
 	/**
 	 * Constructor.

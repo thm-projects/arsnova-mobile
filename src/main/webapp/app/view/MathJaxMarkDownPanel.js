@@ -96,7 +96,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 	// get all delimiter indices as array of [start(incl), end(excl)] elements
 	getDelimiter: function (input, delimiter, endDelimiter) {
 		// all lines between the tags to this array
-		var result = new Array(); // [start, end]
+		var result = []; // [start, end]
 
 		var idxStart = 0;
 		var idxEnd = -delimiter.length;
@@ -126,7 +126,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 
 		var start = 0;
 
-		var replaced = new Array();
+		var replaced = [];
 
 		for (var i = 0; i < dArr.length; ++i) {
 

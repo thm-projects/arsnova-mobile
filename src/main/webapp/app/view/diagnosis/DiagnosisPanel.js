@@ -87,12 +87,10 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 					text: Messages.BROWSER_INFO,
 					handler: function (b) {
 						this.detect = Ext.create("ARSnova.BrowserDetect");
-						var browserInfo = new String(
-							"<b>Name:</b> " + this.detect.browser + "<br>" +
+						var browserInfo = "<b>Name:</b> " + this.detect.browser + "<br>" +
 							"<b>Engine:</b> " + Ext.browser.engineName +
 							" " + Ext.browser.engineVersion.version + "<br>" +
-							"<b>UA:</b> " + Ext.browser.userAgent + "<br>"
-						);
+							"<b>UA:</b> " + Ext.browser.userAgent + "<br>";
 						Ext.Msg.alert('Browser', browserInfo, Ext.emptyFn);
 					}
 				}, {

@@ -32,7 +32,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 		var me = this;
 
 		this.callParent(arguments);
-		this.allTemplates = new Array();
+		this.allTemplates = [];
 
 		this.gridModeration = Ext.create('ARSnova.view.components.GridModerationContainer',{
 			itemId: 'gridModearionContainer'
@@ -168,7 +168,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 			url: 'resources/gridTemplates/templates.json',
 			success: function(response, opts) {
 				var config = JSON.parse(response.responseText);
-				var templates = new Array();
+				var templates = [];
 
 				// extract all the templates
 				if (typeof(config) !== "undefined") {

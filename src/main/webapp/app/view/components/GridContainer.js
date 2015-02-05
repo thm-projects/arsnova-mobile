@@ -242,7 +242,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			return null;
 		}
 
-		return new Array(xGrid, yGrid);
+		return [xGrid, yGrid];
 	},
 
 	/**
@@ -258,7 +258,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		x1 += this.getRelativeLength(this.getGridOffsetX(), false);
 		y1 += this.getRelativeLength(this.getGridOffsetY(), false);
 
-		return new Array(x1, y1);
+		return [x1, y1];
 	},
 
 	/**
@@ -523,7 +523,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		if (mark) {
 			this.getChosenFieldsFromPossibleAnswers(questionObj.possibleAnswers);
 		} else {
-			this.setChosenFields(new Array());
+			this.setChosenFields([]);
 		}
 		this.initZoom();
 		this.initGridZoom();
@@ -840,7 +840,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var coords = possibleAnswer.split(";");
 		var x = coords[0];
 		var y = coords[1];
-		return new Array(parseInt(x), parseInt(y));
+		return [parseInt(x), parseInt(y)];
 	},
 
 	/**
