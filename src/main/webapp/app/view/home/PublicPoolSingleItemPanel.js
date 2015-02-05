@@ -36,11 +36,11 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		var screenWidth = (window.innerWidth > 0) ?
 				window.innerWidth :	screen.width;
 		var showShortLabels = screenWidth < 480;
-		
+
 		//
 		// Toolbar items
 		//
-		
+
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
 			ui: 'back',
@@ -49,7 +49,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 				me.getBack();
 			}
 		});
-		
+
 		this.exportButton = Ext.create('Ext.Button', {
 			text: Messages.SESSIONPOOL_CLONE,
 			ui: 'confirm',
@@ -72,7 +72,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			},
 			scope: this
 		});
-		
+
 		this.visitMatrixButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SESSIONPOOL_VISIT,
 			buttonConfig: 'icon',
@@ -83,7 +83,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 				me.visitSession(options);
 			}
 		});
-			
+
 		this.visitMatrixButtonPanel = Ext.create('Ext.Panel', {
 			layout: {
 				type: 'hbox',
@@ -91,7 +91,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			},
 			items: [this.visitMatrixButton]
 		});
-		
+
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.SESSIONPOOL_INFOS,
 			docked: 'top',
@@ -99,7 +99,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			items: [
 				this.backButton,
 				{xtype:'spacer'},
-				(ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) ? this.visitButton : this.exportButton 
+				(ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) ? this.visitButton : this.exportButton
 			]
 		});
 
@@ -113,7 +113,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			maxLength : 50,
 			disabled: false
 		});
-		
+
 		this.sessionShortName = Ext.create('Ext.field.Text', {
 			label: Messages.SESSION_SHORT_NAME,
 			name: 'sessionShortName',
@@ -123,9 +123,9 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			maxLength : 8,
 			disabled: false
 		});
-		
+
 		this.descriptionPanel = Ext.create('Ext.Panel',{
-			
+
 			layout:	{
 				type: 'hbox',
 				pack: 'center',
@@ -135,9 +135,9 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 				'margin-top': '30px'
 			}
 		});
-		
+
 		if (this.getSession().ppLogo != null && this.getSession().ppLogo != "") {
-			
+
 			this.logoContainer = Ext.create('Ext.Container', {
 				flex: showShortLabels ? 2 : 1,
 				layout: {
@@ -150,24 +150,24 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 				},
 				html: '<img src="' + this.getSession().ppLogo + '" style="width: 100%; max-width: 100px;"></img>',
 			});
-			
+
 			this.descriptionPanel.add(this.logoContainer);
 		}
-		
+
 		if (this.getSession().ppDescription != null && this.getSession().ppDescription != "") {
-			
+
 			this.markdownPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 				xtype: 'mathJaxMarkDownPanel',
 				id: 'questionContent',
 				style: 'background-color: transparent; color: black; ',
-				flex: 4 
+				flex: 4
 			});
 
 			this.markdownPanel.setContent( this.getSession().ppDescription, true, true);
-			
+
 			this.descriptionPanel.add(this.markdownPanel);
 		}
-		
+
 		this.sessionNumQuestions = Ext.create('Ext.field.Text', {
 			label: Messages.QUESTIONS,
 			name: 'sessionNumQuestions',
@@ -176,7 +176,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			inputCls: 'thm-grey',
 			disabled: true
 		});
-		
+
 		this.sessionLicense = Ext.create('Ext.field.Text', {
 			label: Messages.EXPORT_FIELD_LICENCE,
 			name: 'sessionLicense',
@@ -185,18 +185,18 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			inputCls: 'thm-grey',
 			disabled: true
 		});
-		
+
 		this.sessionFieldSet = Ext.create('Ext.form.FieldSet', {
 			title: Messages.SESSIONPOOL_SESSIONINFO,
 			cls: 'standardFieldset',
 			itemId: 'contentFieldset',
 			items: [this.sessionName, this.sessionShortName, this.sessionNumQuestions, this.sessionLicense]
 		});
-		
+
 		//
 		// Create Creator Fieldset
 		//
-		
+
 		this.creatorName = Ext.create('Ext.field.Text', {
 			label: Messages.EXPORT_FIELD_NAME,
 			name: 'creatorName',
@@ -205,7 +205,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			inputCls: 'thm-grey',
 			disabled: true
 		});
-		
+
 		this.creatorMail = Ext.create('Ext.field.Text', {
 			label: Messages.EXPORT_FIELD_EMAIL,
 			name: 'creatorMail',
@@ -214,7 +214,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			inputCls: 'thm-grey',
 			disabled: true
 		});
-		
+
 		this.creatorUni = Ext.create('Ext.field.Text', {
 			label: Messages.EXPORT_FIELD_UNI,
 			name: 'creatorUni',
@@ -223,7 +223,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			inputCls: 'thm-grey',
 			disabled: true
 		});
-		
+
 		this.creatorDep = Ext.create('Ext.field.Text', {
 			label: Messages.EXPORT_FIELD_SPECIAL_FIELD,
 			name: 'creatorDep',
@@ -232,7 +232,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			inputCls: 'thm-grey',
 			disabled: true
 		});
-		
+
 		this.copyButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SESSIONPOOL_CLONE,
 			buttonConfig: 'icon',
@@ -242,7 +242,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 				me.cloneSession();
 			}
 		});
-			
+
 		this.matrixButtonPanel = Ext.create('Ext.Panel', {
 			layout: {
 				type: 'hbox',
@@ -250,43 +250,43 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			},
 			items: [this.copyButton]
 		});
-		
+
 		this.creatorFieldSet = Ext.create('Ext.form.FieldSet', {
 			title: Messages.SESSIONPOOL_AUTHORINFO,
 			cls: 'standardFieldset',
 			itemId: 'contentFieldset',
 			items: [this.creatorName, this.creatorMail, this.creatorUni, this.creatorDep]
 		});
-		
+
 		this.descriptionFieldSet = Ext.create('Ext.form.FieldSet', {
 			cls: 'standardFieldset',
 			itemId: 'contentFieldset',
 			items: [this.descriptionPanel]
 		});
-		
-		
+
+
 		this.contentForm = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			itemId: 'contentForm',
 			items: [
-			        this.descriptionFieldSet,
-			        this.sessionFieldSet,
-			        this.creatorFieldSet,
-			        (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) ? this.visitMatrixButtonPanel : this.matrixButtonPanel  
+				this.descriptionFieldSet,
+				this.sessionFieldSet,
+				this.creatorFieldSet,
+				(ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) ? this.visitMatrixButtonPanel : this.matrixButtonPanel
 			]
 		});
-		
-		 if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) 
-			 this.matrixButtonPanel.hide();
-		 else if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER)
-			 this.matrixButtonPanel.setHidden(false);
-		 
+
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT)
+			this.matrixButtonPanel.hide();
+		else if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER)
+			this.matrixButtonPanel.setHidden(false);
+
 		this.add([
 			this.toolbar,
 			this.contentForm
 		]);
 	},
-	
+
 	getBack: function() {
 		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 
@@ -296,7 +296,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			duration: 700
 		});
 	},
-	
+
 	visitSession: function(options) {
 		// reset view stack of hometabpanel to ensure session overview will be shown onBack
 		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
@@ -304,7 +304,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			type: 'slide',
 			direction: 'right'
 		});
-		
+
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
 		ARSnova.app.getController('Auth').roleSelect({
 			mode: ARSnova.app.USER_ROLE_STUDENT
@@ -314,7 +314,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		});
 		hideLoadMask();
 	},
-	
+
 	cloneSession: function() {
 		var customSessionAttributes = {};
 		customSessionAttributes['name'] = this.sessionName.getValue();

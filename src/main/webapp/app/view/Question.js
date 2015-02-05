@@ -259,8 +259,8 @@ Ext.define('ARSnova.view.Question', {
 
 		if(this.questionObj.questionType === 'flashcard') {
 			var answerPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-		    	style: 'word-wrap: break-word;',
-		    	cls: ''
+				style: 'word-wrap: break-word;',
+				cls: ''
 			});
 
 			this.answerList = Ext.create('Ext.Container', {
@@ -494,17 +494,17 @@ Ext.define('ARSnova.view.Question', {
 			if (this.questionObj.gridType === 'moderation') {
 
 				var panel = new Ext.Panel({
-				    layout: {
-		                type: 'vbox',
-		                align: 'center',
-		                pack: 'center'
-				    },
-				    style: "margin-top: 15px",
-			        items:[{
-			        	xtype: 'label',
+					layout: {
+						type: 'vbox',
+						align: 'center',
+						pack: 'center'
+					},
+					style: "margin-top: 15px",
+					items:[{
+						xtype: 'label',
 						id: 'remainingDotsLabel' + this.getId(),
 						html: Messages.GRID_LABEL_REMAINING_DOTS + this.grid.getNumberOfDots()
-			        }]
+					}]
 				});
 
 				this.formPanel.add(panel);
@@ -512,9 +512,9 @@ Ext.define('ARSnova.view.Question', {
 
 			if (!this.viewOnly) {
 				this.buttonContainer.add([
-      				this.gridButton,
-      				this.abstentionButton
-      			]);
+					this.gridButton,
+					this.abstentionButton
+				]);
 
 				this.formPanel.add([this.buttonContainer]);
 			}

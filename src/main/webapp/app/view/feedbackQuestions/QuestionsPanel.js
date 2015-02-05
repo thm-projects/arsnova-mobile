@@ -76,7 +76,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				} else {
 					target = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
 				}
-				
+
 				ARSnova.app.innerScrollPanel = false;
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(target, {
 					type: 'slide',
@@ -107,9 +107,9 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				});
 			}
 		});
-		
+
 		var toolbarTitle = Messages.QUESTIONS;
-		
+
 		if(screenWidth > 380) {
 			toolbarTitle = isSpeakerView ? Messages.QUESTIONS_FROM_STUDENTS : Messages.MY_QUESTIONS;
 		}
@@ -195,7 +195,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 						type: 'slide'
 					}, function closePanelHandler() {
 						var userTabPanel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
-						
+
 						ARSnova.app.getController('Questions').listFeedbackQuestions({
 							type: 'slide',
 							direction: 'right',
@@ -221,7 +221,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				items: [this.list]
 			}
 		]);
-		
+
 		this.on('deactivate', function (panel) {
 			this.list.deselect(this.list._lastSelected, true);
 		});
@@ -229,7 +229,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		this.on('activate', function () {
 			this.getCheckFeedbackQuestionsTask().taskRunTime = 0;
 		});
-		
+
 		this.on('painted', function() {
 			ARSnova.app.innerScrollPanel = this.list;
 		});

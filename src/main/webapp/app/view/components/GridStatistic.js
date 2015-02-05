@@ -63,7 +63,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				this.updateGrid();
 			}
 		};
-		
+
 		var relItemRelative = {
 			text: showShortLabels ?
 				Messages.GRID_LABEL_RELATIVE_SHORT :
@@ -75,7 +75,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				this.updateGrid();
 			}
 		};
-		
+
 		var relItemNone = {
 			text: showShortLabels ?
 				Messages.GRID_LABEL_NONE_SHORT :
@@ -88,15 +88,15 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				this.updateGrid();
 			}
 		};
-		
+
 		if (this.getQuestionObj().gridType == "moderation") {
 			this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
 				docked: 'top',
 				editable: false
 			});
-			
+
 			var relItemHeatmap = {
-				text: showShortLabels ? 
+				text: showShortLabels ?
 					Messages.GRID_LABEL_HEATMAP_SHORT :
 					Messages.GRID_LABEL_HEATMAP,
 				labelWidth: '100%',
@@ -107,28 +107,28 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 					this.updateGrid();
 				}
 			};
-			
+
 			this.releaseItems = [
-			    relItemHeatmap,
-     		    relItemAbsolut,
-     			relItemRelative,
-     			relItemNone
-     		];
-			
+				relItemHeatmap,
+				relItemAbsolut,
+				relItemRelative,
+				relItemNone
+			];
+
 		} else {
 			this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
 				docked: 'top',
 				editable: false
 			});
-			
+
 			relItemNone.pressed = true;
-			
+
 			this.releaseItems = [
-     		    relItemAbsolut,
-     			relItemRelative,
-     			relItemNone
-     		];
-			
+				relItemAbsolut,
+				relItemRelative,
+				relItemNone
+			];
+
 			// add toggles
 			this.gridWeakenImageToggle = Ext.create('Ext.field.Toggle', {
 				itemId: "toggleWeakenImage",
@@ -143,7 +143,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				label: Messages.GRID_LABEL_SHOW_HEATMAP,
 				value: (this.getQuestionObj().gridType != "moderation")
 			});
-			
+
 			this.abstentionPanel = Ext.create('Ext.field.Text', {
 				itemId: 'tf_abstenstion',
 				name: 'tf_abstenstion',
@@ -152,7 +152,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				readOnly: true,
 				hidden: true
 			});
-			
+
 			// set listeners to toggles
 			var listeners = {
 				beforechange: function (slider, thumb, newValue, oldValue) {
@@ -189,7 +189,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				items: [this.questionOptionsSegment]
 			}]
 		});
-		
+
 		this.optionsFieldSet = Ext.create('Ext.form.FieldSet', {
 			cls: 'standardFieldset gridQDSettingsPanel',
 			items: [
@@ -197,10 +197,10 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				{
 					xtype: 'spacer',
 					height: 25
-				}				
+				}
 			]
 		});
-	
+
 		if (this.getQuestionObj().gridType != 'moderation') {
 			this.optionsFieldSet.add(
 					[
@@ -210,7 +210,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		]
 			)
 		}
-		
+
 		// add components to panel
 		this.add(this.grid);
 		this.add({
@@ -278,10 +278,10 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 					});
 				}
 			}
-			
+
 			var showColors = false;
 			var weakenImage = false;
-			
+
 			if (me.getQuestionObj().gridType == 'moderation') {
 				showColors = me.questionOptionsSegment.getPressedButtons()[0].getText() == Messages.GRID_LABEL_HEATMAP_SHORT
 							|| me.questionOptionsSegment.getPressedButtons()[0].getText() == Messages.GRID_LABEL_HEATMAP;
@@ -289,7 +289,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				showColors = me.gridShowColors.getValue();
 				weakenImage = me.gridWeakenImageToggle.getValue();
 			}
-			
+
 			// generate output
 			me.grid.generateStatisticOutput(gridAnswers, showColors,
 					me.questionOptionsSegment.getPressedButtons()[0].getText(),

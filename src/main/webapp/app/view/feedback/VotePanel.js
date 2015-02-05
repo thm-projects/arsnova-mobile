@@ -136,8 +136,8 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 						});
 					},
 					style: "margin-left:10px"
-				} 
-				
+				}
+
 			]
 		});
 

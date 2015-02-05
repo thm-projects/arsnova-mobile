@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('ARSnova.view.home.SessionExportListPanel', { 
+Ext.define('ARSnova.view.home.SessionExportListPanel', {
 	extend: 'Ext.Panel',
 	requires: ['ARSnova.view.Caption', 'ARSnova.view.home.SessionList'],
-	
+
 	config: {
 		exportType: null,
 		fullscreen: true,
@@ -28,12 +28,12 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 			directionLock: true
 		},
 	},
-	
+
 	initialize: function () {
 		var me = this;
-		
+
 		this.callParent(arguments);
-		
+
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.SESSIONS,
 			ui: 'back',
@@ -46,9 +46,9 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 				});
 			}
 		});
-	
+
 		var toolbarItems = [this.backButton, {xtype:'spacer'}];
-		
+
 		if (this.getExportType() == 'filesystem') {
 			this.ContinueToExport = Ext.create('Ext.Button', {
 				text: Messages.CONTINUE,
@@ -66,46 +66,46 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 					}
 				}
 			});
-			
-			toolbarItems.push(this.ContinueToExport);			
+
+			toolbarItems.push(this.ContinueToExport);
 		}
-		
+
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: Messages.SESSIONS,	
+			title: Messages.SESSIONS,
 			docked: 'top',
 			ui: 'light',
 			items: toolbarItems
 		});
-		
+
 		this.hintPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			xtype: 'mathJaxMarkDownPanel',
 			id: 'questionContent',
 			style: 'background-color: transparent; color: black; '
 		});
-		this.hintPanel.setContent(Messages.EXPORT_SESSION_LABEL, true, true);	 
-		
-		this.singleTemplatePanel = Ext.create('Ext.Panel',{	
-			
+		this.hintPanel.setContent(Messages.EXPORT_SESSION_LABEL, true, true);
+
+		this.singleTemplatePanel = Ext.create('Ext.Panel',{
+
 			layout:	{
 				type: 'vbox',
 				pack: 'center',
-				align: 'center' 
+				align: 'center'
 			},
-			 items:[this.hintPanel]
+			items:[this.hintPanel]
 		});
-		
+
 		this.sessionsForm = Ext.create('ARSnova.view.home.SessionList', {
 			title: Messages.MY_SESSIONS,
 			scrollable: null
 		});
-		
+
 		this.ppSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
 			title: Messages.MY_PUBLIC_POOL_SESSIONS,
 			scrollable: null
 		});
-		
+
 		this.add([this.toolbar, this.singleTemplatePanel, this.sessionsForm, this.ppSessionsForm]);
-		
+
 		// load user sessions before displaying the page
 		this.onBefore('painted', function () {
 			if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
@@ -118,12 +118,12 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 						} else {
 							me.ppSessionsForm.hide();
 						}
-						
+
 					});
 			}
 		});
 	},
-	
+
 	checkSelectedSessions: function() {
 		for (var i = 0; i < this.sessionMap.length; i++) {
 			if (this.sessionMap[i][1] == true)
@@ -131,13 +131,13 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 		}
 		return false;
 	},
-	
+
 	loadCreatedSessions: function () {
 		var me = this;
 		var promise = new RSVP.Promise();
 
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
-		
+
 		ARSnova.app.sessionModel.getMySessions({
 			success: function (response) {
 				var sessions = Ext.decode(response.responseText);
@@ -161,16 +161,16 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 				promise.reject();
 			}
 		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
-		
+
 		return promise;
 	},
-	
+
 	loadCreatedPublicPoolSessions: function () {
 		var me = this;
 		var promise = new RSVP.Promise();
 
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
-		
+
 		ARSnova.app.sessionModel.getMyPublicPoolSessions({
 			success: function (response) {
 				var sessions = Ext.decode(response.responseText);
@@ -195,10 +195,10 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 				promise.reject();
 			}
 		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
-		
+
 		return promise;
 	},
-	
+
 	displaySessions: function (sessions, form, hideLoadMask) {
 		var me = this;
 		form.removeAll();
@@ -206,11 +206,11 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 
 		var session;
 		for (var i = 0, session; session = sessions[i]; i++) {
-			
+
 			var sessionChecked = false;
-			
+
 			me.sessionMap[me.mapCounter] = [session, sessionChecked];
-			
+
 			var shortDateString = "";
 			var longDateString  = "";
 			if (session.creationTime != 0) {
@@ -218,32 +218,32 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 				var shortDateString = " ("+moment(d).format('MMM Do YY') +")";
 				var longDateString  = " ("+ moment(d).format('lll') +")";
 			}
-			
+
 			// Minimum width of 321px equals at least landscape view
 			var displaytext = window.innerWidth > 481 ? session.name + longDateString : session.shortName + shortDateString;
-			
+
 			var sessionEntry = null;
-			
+
 			if (me.getExportType() == 'filesystem') {
-				
+
 				var toggleListener = {
-						beforechange: function (slider, thumb, newValue, oldValue) {
-							
-						},
-				        change: function (slider, thumb, newValue, oldValue) {
-				        	// TODO why is 0 toggle checked and 1 toggle unchecked?
-				            if (newValue == 0) { // true
-				                // Changing from off to on
-				            	var id = slider.id.split('_')[1];
-				            	me.sessionMap[id][1] = true;
-				            } else if (newValue == 1) { // false
-			            	   // Changing from on to off
-				            	var id = slider.id.split('_')[1];
-				            	me.sessionMap[id][1] = false;
-				            }
-				        }
+					beforechange: function (slider, thumb, newValue, oldValue) {
+
+					},
+					change: function (slider, thumb, newValue, oldValue) {
+						// TODO why is 0 toggle checked and 1 toggle unchecked?
+						if (newValue == 0) { // true
+							// Changing from off to on
+							var id = slider.id.split('_')[1];
+							me.sessionMap[id][1] = true;
+						} else if (newValue == 1) { // false
+							// Changing from on to off
+							var id = slider.id.split('_')[1];
+							me.sessionMap[id][1] = false;
+						}
+					}
 				};
-				
+
 				sessionEntry = Ext.create('Ext.field.Toggle', {
 					id: 'sessionToggle_' + me.mapCounter,
 					label: Ext.util.Format.htmlEncode(displaytext),
@@ -254,10 +254,10 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 					sessionObj: session,
 					value: sessionChecked
 				});
-				
+
 				sessionEntry.setListeners(toggleListener);
 			} else if (me.getExportType() == 'public_pool') {
-				
+
 				sessionEntry = Ext.create('ARSnova.view.MultiBadgeButton', {
 					ui: 'normal',
 					text: Ext.util.Format.htmlEncode(displaytext),
@@ -265,18 +265,18 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 					sessionObj: session,
 					handler: function (options) {
 						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-						
+
 						var exportSession = options.config.sessionObj;
-	
+
 						// validate session for public pool
-						if (exportSession.numQuestions < 1) {									
+						if (exportSession.numQuestions < 1) {
 							Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSIONPOOL_NOTIFICATION_QUESTION_NUMBER);
 						} else {
 							var exportToPublic = Ext.create('ARSnova.view.home.SessionExportToPublicPanel', {
 								exportSession: exportSession,
 								backReference: me
-					    	});
-							
+							});
+
 							hTP.animateActiveItem(exportToPublic, 'slide');
 						}
 					}
@@ -288,5 +288,5 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 
 		hideLoadMask();
 	}
-	
+
 });

@@ -79,7 +79,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	onActivate: function () {
 		this.getUnansweredSkillQuestions();
 	},
-	
+
 	onItemChange: function(panel, newQuestion, oldQuestion) {
 		if(newQuestion.questionObj) {
 			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width,

@@ -247,24 +247,24 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				},
 				renderer: function (label, layout, lastLabel) {
 					var panel, labelColor;
-					
+
 					panel = ARSnova.app.userRole == ARSnova.app.USER_ROLE_STUDENT ?
 							ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart :
 							ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
-					
-					if(panel.toggleCorrect && label !== Messages.ABSTENTION 
+
+					if(panel.toggleCorrect && label !== Messages.ABSTENTION
 						&&	Object.keys(panel.correctAnswers).length > 0) {
 						labelColor =  panel.correctAnswers[label] ?  '#80ba24' : '#971b2f';
 					} else {
 						labelColor = '#4a5c66';
 					}
-					
+
 					layout.segmenter.getAxis().setLabel({
 						color: labelColor,
 						fontWeight: 'bold',
 						rotate: {degrees: 315}
 					});
-					
+
 					return label.length < 30 ? label :
 						label.substring(0, 29) + "...";
 				}
@@ -290,7 +290,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 							color: config.callout ? '#4a5c66' : '#fff',
 							calloutVertical: barWidth > 40 ? false : true,
 							rotationRads: barWidth > 40 ? 0 : config.rotationRads,
-							calloutPlaceY: barWidth <= 40 ? config.calloutPlaceY : 
+							calloutPlaceY: barWidth <= 40 ? config.calloutPlaceY :
 								config.calloutPlaceY + 10
 						};
 					}
@@ -322,31 +322,31 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			this.gridStatistic = Ext.create('ARSnova.view.components.GridStatistic', {
 				questionObj: this.questionObj
 			});
-			
+
 			this.add([this.toolbar, {
 				xtype: 'formpanel',
 				scrollable: null,
-				items: [this.titlebar, 
-						this.contentField, 
+				items: [this.titlebar,
+						this.contentField,
 						this.questionChart,
 						this.gridStatistic
 				]}
 			]);
-			
+
 			this.getQuestionAnswers();
 		}
 
 		this.on('activate', this.onActivate);
-		
+
 		this.on('hide', function() {
 			ARSnova.app.activePreviewPanel = false;
 		});
-		
+
 		this.on('painted', function() {
 			ARSnova.app.activePreviewPanel = this;
 		});
 	},
-	
+
 	onActivate: function () {
 		ARSnova.app.innerScrollPanel = this;
 		ARSnova.app.taskManager.start(this.renewChartDataTask);
@@ -479,22 +479,22 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		users = users.join("/");
 		quote.setHtml(users);
 	},
-	
+
 	showEmbeddedPagePreview: function(embeddedPage) {
 		var controller = ARSnova.app.getController('Application'),
 			me = this;
-		
+
 		embeddedPage.setBackHandler(function() {
 			// remove & destroy embeddedPage and delete reference
 			delete controller.embeddedPage;
-			
+
 			ARSnova.app.mainTabPanel.animateActiveItem(me, {
 				type: 'slide',
 				direction: 'right',
 				duration: 700
 			});
 		});
-		
+
 		ARSnova.app.mainTabPanel.animateActiveItem(embeddedPage, {
 			type: 'slide',
 			direction: 'left',
@@ -504,7 +504,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 	setGradients: function () {
 		this.correctAnswers = {};
-		
+
 		if (this.questionObj.questionType == "yesno" || this.questionObj.questionType == "mc"
 				|| (this.questionObj.questionType == "abcd" && !this.questionObj.noCorrect)) {
 			if (this.toggleCorrect) {
@@ -527,13 +527,13 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 	getCorrectAnswerGradients: function () {
 		var data, question, gradients = [];
-		
+
 		for (var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
 			question = this.questionObj.possibleAnswers[i];
 			data = question.data ? question.data : question;
-			
+
 			this.correctAnswers[data.text] = data.correct;
-			
+
 			if ((question.data && !question.data.correct) || (!question.data && !question.correct)) {
 				gradients.push(
 					Ext.create('Ext.draw.gradient.Linear', {
@@ -556,13 +556,13 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				);
 			}
 		}
-		
+
 		return gradients;
 	},
 
 	getDefaultGradients: function () {
 		return [
-	        Ext.create('Ext.draw.gradient.Linear', {
+			Ext.create('Ext.draw.gradient.Linear', {
 				degrees: 90,
 				stops: [
 					{offset: 0, color: 'rgb(22, 64, 128)'},

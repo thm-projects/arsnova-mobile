@@ -37,7 +37,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 
 	initialize: function (arguments) {
 		this.callParent(arguments);
-		
+
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
 			this.toolbar.setTitleOptions(this.getQuestionTitleLong(), this.getQuestionTitleShort());
 			this.toolbar.incrementQuestionCounter(panel.activeIndex);
@@ -56,7 +56,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			backButtonHandler: function (animation) {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				ARSnova.app.innerScrollPanel = false;
-				
+
 				if(sTP.showcaseQuestionPanel.inclassBackButtonHandle) {
 					sTP.animateActiveItem(sTP.inClassPanel, animation);
 					sTP.showcaseQuestionPanel.inclassBackButtonHandle = false;
@@ -94,18 +94,18 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	onActivate: function () {
 		this.getAllSkillQuestions();
 	},
-	
+
 	onItemChange: function(panel, newQuestion, oldQuestion) {
 		if(newQuestion.questionObj) {
 			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width,
 				messageAppendix = screenWidth >= 500 ? "_LONG" : "",
-				message = screenWidth > 420 ? 
+				message = screenWidth > 420 ?
 					newQuestion.getQuestionTypeMessage(messageAppendix) : "";
 
 			this.toolbar.setTitle(message);
 		}
 	},
-			
+
 	getAllSkillQuestions: function () {
 		var hideIndicator = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
 

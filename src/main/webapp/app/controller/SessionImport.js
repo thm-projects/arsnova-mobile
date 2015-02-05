@@ -186,7 +186,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 				var respQuestion = Ext.decode(response.responseText);
 				if (typeof q.raw.answers !== undefined) {
 					var answers = q.raw.answers;
-				 	var storeAnswers = me.getElements(q.raw.answers, "ARSnova.model.Answer");
+					var storeAnswers = me.getElements(q.raw.answers, "ARSnova.model.Answer");
 
 					var l = 0;
 

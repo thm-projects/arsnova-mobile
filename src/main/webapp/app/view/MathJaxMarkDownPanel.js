@@ -41,14 +41,14 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 	setContent: function (content, mathJaxEnabled, markDownEnabled, mathjaxCallback) {
 		function urlify(text) {
 			text += " ";
-		    var urlDelimiter = /([^="\w]https?:\/\/[^\s<]+)/g;
-		    var urlRegex = /(https?:\/\/[^\s]+)/g;
+			var urlDelimiter = /([^="\w]https?:\/\/[^\s<]+)/g;
+			var urlRegex = /(https?:\/\/[^\s]+)/g;
 
-		    return text.replace(urlDelimiter, function(delUrl) {
-		    	return delUrl.replace(urlRegex, function(url) {
-		    		return '<a href="' + url + '">' + url + '</a>';
-		    	});
-		    });
+			return text.replace(urlDelimiter, function(delUrl) {
+				return delUrl.replace(urlRegex, function(url) {
+					return '<a href="' + url + '">' + url + '</a>';
+				});
+			});
 		}
 
 		var features = ARSnova.app.globalConfig.features;

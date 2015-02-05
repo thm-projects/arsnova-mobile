@@ -18,28 +18,28 @@
  */
 Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 	extend: 'Ext.Panel',
-	
+
 	config: {
 		layout: {
 			type: 'hbox',
 			pack: 'center'
 		},
-		
+
 		style: "margin: 10px"
 	},
 
 	initialize: function () {
 		this.callParent(arguments);
-		
+
 		this.questionObj = this.config.questionObj;
 		var type = this.questionObj.questionType;
-		
+
 		this.hasCorrectAnswers = !this.questionObj.noCorrect;
 		if (['vote', 'school', 'freetext', 'flashcard'].indexOf(this.questionObj.questionType) !== -1
 				|| (['grid'].indexOf(this.questionObj.questionType) !== -1 && this.questionObj.gridType == 'moderation')) {
 			this.hasCorrectAnswers = false;
 		}
-		
+
 		this.releaseStatisticButton = Ext.create('ARSnova.view.MatrixButton', {
 			buttonConfig: 'togglefield',
 			text: Messages.RELEASE_STATISTIC,
@@ -52,11 +52,11 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 					change: function(toggle, newValue, oldValue, eOpts) {
 						if (newValue == 0 && typeof this.questionObj.showStatistic === "undefined" ||
 							newValue == this.questionObj.showStatistic) return;
-						
+
 						var me = this;
 						var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_ACTIVATION);
 						var question = Ext.create('ARSnova.model.Question', this.questionObj);
-						
+
 						switch (newValue) {
 							case 0:
 								delete question.data.showStatistic;
@@ -67,7 +67,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 								question.raw.showStatistic = true;
 								break;
 						};
-						
+
 						question.publishSkillQuestionStatistics({
 							success: function (response) {
 								hideLoadMask();
@@ -82,7 +82,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 				}
 			}
 		});
-		
+
 		if(this.questionObj.questionType !== "freetext") {
 			this.showCorrectAnswerButton = Ext.create('ARSnova.view.MatrixButton', {
 				buttonConfig: 'togglefield',
@@ -98,11 +98,11 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 								newValue == this.questionObj.showAnswer) {
 								return;
 							}
-		
+
 							var me = this;
 							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_ACTIVATION);
 							var question = Ext.create('ARSnova.model.Question', this.questionObj);
-		
+
 							switch (newValue) {
 								case 0:
 									delete question.data.showAnswer;
@@ -132,7 +132,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 		this.questionStatusButton = Ext.create('ARSnova.view.QuestionStatusButton', {
 			questionObj: this.questionObj
 		});
-		
+
 		this.add([
 			this.questionStatusButton,
 			type === "flashcard" ? {} : this.releaseStatisticButton,

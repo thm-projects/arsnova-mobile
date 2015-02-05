@@ -20,11 +20,11 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	extend: 'Ext.Panel',
 
 	requires: [
-	           'ARSnova.view.Caption',
-	           'ARSnova.view.home.SessionList',
-	           'Ext.ux.Fileup',
-	           'ARSnova.view.home.SessionExportListPanel',
-	           'ARSnova.controller.SessionImport'
+		'ARSnova.view.Caption',
+		'ARSnova.view.home.SessionList',
+		'Ext.ux.Fileup',
+		'ARSnova.view.home.SessionExportListPanel',
+		'ARSnova.controller.SessionImport'
 	],
 
 	config: {
@@ -158,14 +158,14 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							});
 						},
 						empty: function() {
-		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
-		    			},
-		    			failure: function() {
-		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
-		    			},
-		    			unauthenticated: function() {
-		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
-		    			}
+							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
+						},
+						failure: function() {
+							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
+						},
+						unauthenticated: function() {
+							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
+						}
 					});
 				}
 			});
@@ -201,15 +201,15 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 								data = decodeURIComponent(escape(atob(data.substring(n+7)))); // remove disturbing prefix
 
 								var jsonContent = JSON.parse(data);
-						        if (jsonContent && typeof jsonContent === "object" && jsonContent !== null) {
-						        	ARSnova.app.getController("SessionImport").importSession(jsonContent.exportData)
-						        		.then(function() {
-						        			me.loadCreatedSessions()
-						        				.then(function() {
-						        					hideLoadMask();
-						        				});
-						        		});
-						        }
+								if (jsonContent && typeof jsonContent === "object" && jsonContent !== null) {
+									ARSnova.app.getController("SessionImport").importSession(jsonContent.exportData)
+										.then(function() {
+											me.loadCreatedSessions()
+												.then(function() {
+													hideLoadMask();
+												});
+										});
+								}
 							} catch(e) {
 								console.log(e);
 								Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_FORMAT);
@@ -246,75 +246,73 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				hidden: true,
 				handler: function () {
 
-						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 
-						if (!config.features.publicPool) {
-							hTP.animateActiveItem(dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
-					    		exportType: 'filesystem'
-					    	}), 'slide');
-						} else {
-							var msgBox = Ext.create('Ext.MessageBox');
+					if (!config.features.publicPool) {
+						hTP.animateActiveItem(dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
+							exportType: 'filesystem'
+						}), 'slide');
+					} else {
+						var msgBox = Ext.create('Ext.MessageBox');
 
-							Ext.apply(msgBox, {
-								YESNO: [
-								        {
-								        	xtype: 'matrixbutton',
-								        	text:	Messages.EXPORT_BUTTON_FS,
-								        	itemId: 'yes',
-								        	buttonConfig: 'icon',
-											imageCls: 'icon-cloud-download '},
-								         {
-												xtype: 'matrixbutton',
-											text: 'Pool',
-											itemId: 'no',
-											buttonConfig: 'icon',
-											imageCls: 'icon-cloud thm-green'}
-						        ]
-							});
+						Ext.apply(msgBox, {
+							YESNO: [
+								{
+									xtype: 'matrixbutton',
+									text:	Messages.EXPORT_BUTTON_FS,
+									itemId: 'yes',
+									buttonConfig: 'icon',
+									imageCls: 'icon-cloud-download '},
+								{
+									xtype: 'matrixbutton',
+									text: 'Pool',
+									itemId: 'no',
+									buttonConfig: 'icon',
+									imageCls: 'icon-cloud thm-green'}
+							]
+						});
 
-							msgBox.show({
-								title: Messages.EXPORT_SELECTED_SESSIONS_TITLE,
-								message: Messages.EXPORT_SELECTED_SESSIONS_MSG,
-								buttons: msgBox.YESNO,
-								hideOnMaskTap: true,
-								listeners:[
-								            {
-								                element: 'element',
-								                delegate: '',
-								                event: 'tap',
-								                fn: function() {
-								                    this.hide();
-								                }
-								            }],
-								fn: function(btn) {
-									var dest = null;
-								    if (btn === 'yes') {
-								    	if(Ext.os.is.iOS){
-											Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_IOS_NOTIFICATION);
-										}else{
-									    	dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
-									    		exportType: 'filesystem'
-									    	});
-									    	hTP.animateActiveItem(dest, 'slide');
-										}
-								    }  else {
-								    	if (ARSnova.app.loginMode == ARSnova.app.LOGIN_GUEST) {
-								    		Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_PP_NOTIFICATION);
-								    	}
-								    	else
-								    	{
-									    	dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
-									    		exportType: 'public_pool'
-									    	});
-
-								    		hTP.animateActiveItem(dest, 'slide');
-
-								    	}
-								    }
+						msgBox.show({
+							title: Messages.EXPORT_SELECTED_SESSIONS_TITLE,
+							message: Messages.EXPORT_SELECTED_SESSIONS_MSG,
+							buttons: msgBox.YESNO,
+							hideOnMaskTap: true,
+							listeners:[
+								{
+								element: 'element',
+								delegate: '',
+								event: 'tap',
+								fn: function() {
+									this.hide();
 								}
-							});
-						}
+							}],
+							fn: function(btn) {
+								var dest = null;
+								if (btn === 'yes') {
+									if(Ext.os.is.iOS){
+										Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_IOS_NOTIFICATION);
+									}else{
+										dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
+											exportType: 'filesystem'
+										});
+										hTP.animateActiveItem(dest, 'slide');
+									}
+								}  else {
+									if (ARSnova.app.loginMode == ARSnova.app.LOGIN_GUEST) {
+										Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_PP_NOTIFICATION);
+									}
+									else
+									{
+										dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
+											exportType: 'public_pool'
+										});
 
+										hTP.animateActiveItem(dest, 'slide');
+									}
+								}
+							}
+						});
+					}
 				}
 			});
 			this.matrixButtonPanel.add(this.exportButton);
@@ -561,9 +559,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						if (session.courseType && session.courseType.length > 0) {
 							icon = "icon-prof";
 						}
-						
+
 						var iconCls = icon + " courseIcon";
-						
+
 						if (session.sessionType == 'public_pool') {
 							iconCls = "icon-cloud thm-green";
 						}

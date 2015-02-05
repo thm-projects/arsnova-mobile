@@ -19,9 +19,9 @@ Ext.define("ARSnova.controller.SessionExport", {
 	extend: 'Ext.app.Controller',
 
 	requires: [
-	   'ARSnova.model.Session',
-	   'ARSnova.model.Answer',
-	   'ARSnova.model.Question'
+		'ARSnova.model.Session',
+		'ARSnova.model.Answer',
+		'ARSnova.model.Question'
 	],
 
 	cloneSessionFromPublicPool: function(session, customSessionAttributes) {
@@ -330,10 +330,10 @@ Ext.define("ARSnova.controller.SessionExport", {
 			console.log('date:', d);
 
 			dateString = ('0' + d.getFullYear()).slice(-2) + '-'
-			+ ('0' + (d.getMonth()+1)).slice(-2) + '-'
-            + ('0' + d.getDate()).slice(-2) + '-'
-            + ('0' + d.getHours()).slice(-2) + '-'
-            + ('0' + d.getMinutes()).slice(-2);
+				+ ('0' + (d.getMonth()+1)).slice(-2) + '-'
+				+ ('0' + d.getDate()).slice(-2) + '-'
+				+ ('0' + d.getHours()).slice(-2) + '-'
+				+ ('0' + d.getMinutes()).slice(-2);
 		}
 
 		var filename = exportData.session.name + "-" + exportData.session.keyword + dateString + ".json";
@@ -346,13 +346,12 @@ Ext.define("ARSnova.controller.SessionExport", {
 
 		var blob = new Blob([rawJson], {type: "text/plain;charset=utf-8"});
 		var ua   = window.navigator.userAgent;
-	    var msie = ua.indexOf("MSIE ");
+		var msie = ua.indexOf("MSIE ");
 
-	    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
-	    	window.navigator.msSaveBlob(blob, filename);
-	    } else {
-
-	    	var a = window.document.createElement('a');
+		if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+			window.navigator.msSaveBlob(blob, filename);
+		} else {
+			var a = window.document.createElement('a');
 			a.className = "session-export";
 			a.href = window.URL.createObjectURL(blob);
 			a.download = filename;
@@ -360,8 +359,8 @@ Ext.define("ARSnova.controller.SessionExport", {
 			// Append anchor to body.
 			document.body.appendChild(a)
 			a.click();
-	    }
-	    var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+		}
+		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 		hTP.animateActiveItem(hTP.mySessionsPanel, {
 			type: 'slide',
 			direction: 'right',

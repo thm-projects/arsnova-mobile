@@ -144,8 +144,8 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 
 		else if(options.questionType === 'flashcard') {
 			var answerPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-		    	style: 'word-wrap: break-word;',
-		    	cls: ''
+				style: 'word-wrap: break-word;',
+				cls: ''
 			});
 
 			this.answerList = Ext.create('Ext.Container', {
@@ -255,7 +255,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		}
 
 		this.mainPanel.add([
-    		this.confirmButton
+			this.confirmButton
 		]);
 
 		this.show();
@@ -288,7 +288,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		this.setScrollable(false);
 
 		this.add([
-	    	this.questionStatisticChart
+			this.questionStatisticChart
 		]);
 	},
 

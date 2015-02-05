@@ -172,14 +172,14 @@ Ext.define('ARSnova.view.home.HomePanel', {
 							});
 						},
 						empty: function() {
-		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
-		    			},
-		    			failure: function() {
-		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
-		    			},
-		    			unauthenticated: function() {
-		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
-		    			}
+							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
+						},
+						failure: function() {
+							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
+						},
+						unauthenticated: function() {
+							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
+						}
 					});
 				}
 			});

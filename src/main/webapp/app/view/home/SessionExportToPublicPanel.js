@@ -322,19 +322,20 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		this.mainPart = Ext.create('Ext.form.FormPanel', {
 			cls : 'newQuestion',
 			scrollable : null,
-			items : [ this.creatorFieldSet,
-			          this.sessionFieldSet,
-			          this.exportOptionalOptions,
-			          {
-						xtype: 'fieldset',
-						layout: 'vbox',
-						items: [this.logo ]
-			          },{
-							xtype: 'fieldset',
-							layout: 'vbox',
-							items: [this.matrixButtonPanel]
-				          }
-			          ]
+			items : [
+				this.creatorFieldSet,
+				this.sessionFieldSet,
+				this.exportOptionalOptions,
+				{
+					xtype: 'fieldset',
+					layout: 'vbox',
+					items: [this.logo ]
+				},{
+					xtype: 'fieldset',
+					layout: 'vbox',
+					items: [this.matrixButtonPanel]
+				}
+			]
 		});
 
 		this.add([ this.toolbar, this.mainPart]);

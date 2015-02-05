@@ -36,7 +36,7 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
-		
+
 		this.on('painted', function() {
 			// save last panel for backButton handler
 			this.lastActivePanel = ARSnova.app.lastActiveMainTabPanel;
@@ -61,7 +61,7 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 			ui: 'light',
 			items: [this.backButton]
 		});
-		
+
 		this.inClass = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			items: [{
@@ -118,6 +118,6 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 			}]
 		});
 
-		this.add([this.toolbar, this.inClass]); 
+		this.add([this.toolbar, this.inClass]);
 	}
 });

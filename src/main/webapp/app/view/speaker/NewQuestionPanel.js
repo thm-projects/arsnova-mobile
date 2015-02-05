@@ -233,9 +233,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		me.questionOptions = Ext.create('Ext.SegmentedButton', {
 			allowDepress: false,
 			items: formatItems,
-		    defaults: {
-		    	ui: 'action'
-		    },
+			defaults: {
+				ui: 'action'
+			},
 			listeners: {
 				scope: me,
 				toggle: function (container, button, pressed) {
@@ -480,7 +480,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		} else {
 			values.releasedFor = panel.getReleasedFor();
 		}
-		
+
 		/* fetch the values */
 		switch (panel.questionOptions.getPressedButtons()[0]._text) {
 			case Messages.GRID:
@@ -564,7 +564,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 					);
 					break;
 			}
-			
+
 			// animated scrolling to top
 			panel.getScrollable().getScroller().scrollTo(0, 0, true);
 		});
@@ -623,7 +623,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		});
 		return promise;
 	},
-	
+
 	setGridConfiguration: function(grid) {
 		grid.setEditable(false);
 		grid.setGridIsHidden(true);
@@ -633,10 +633,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		var title = this.toolbar.getTitle().getTitle(),
 			isFlashcard = title === Messages.FLASHCARD,
 			grid = isFlashcard ? this.flashcardQuestion.grid : this.grid;
-		
+
 		this.image = image;
 		grid.setImage(image);
-		
+
 		if (image) {
 			grid.show();
 		} else {
@@ -645,11 +645,11 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			this.setGridConfiguration(grid);
 		}
 	},
-	
+
 	setFcImage: function (image) {
 		this.fcImage = image;
 		this.grid.setImage(image);
-		
+
 		if(image) {
 			this.grid.show();
 		} else {

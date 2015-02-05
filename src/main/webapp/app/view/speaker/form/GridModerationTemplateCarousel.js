@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 	config: {
 		fullscreen: true,
 		title: Messages.TEMPLATE,
-	    direction: 'horizontal',
+		direction: 'horizontal',
 
 		saveHandlerScope: null,
 		templateAdoptionHandler: Ext.emptyFn
@@ -78,9 +78,9 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 			docked: 'top',
 			ui: 'light',
 			items: [
-			     this.backButton,
+				this.backButton,
 				{xtype:'spacer'},
-			     this.saveButtonToolbar
+				this.saveButtonToolbar
 			]
 		});
 
@@ -118,19 +118,19 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 				scrollable: {
 					direction: 'vertical',
 					directionLock:true
-			     },
+				},
 				layout:	{
 					type: 'vbox',
 					pack: 'center',
 					align: 'center'
 				},
-				 items:[titlePanel, {
+				items:[titlePanel, {
 					xtype: 'formpanel',
 					scrollable: null,
 					items: [
 						templateContainer,
 						contentPanel,
-				 		{
+						{
 							ui: 'action',
 							xtype:	'button',
 							text:	Messages.DOWNLOAD,
@@ -145,7 +145,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 							docked: 'bottom'
 						}
 					]
-				 }]
+				}]
 			});
 			me.BtnSpacer = Ext.create('Ext.Spacer');
 

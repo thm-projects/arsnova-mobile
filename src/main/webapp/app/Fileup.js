@@ -449,9 +449,8 @@ Ext.define('Ext.ux.Fileup', {
 
 			// Sign the request and then send.
 			me.signRequest(http, function (http) {
-
-			  // Send the form.
-			  http.send(me.getForm(file));
+				// Send the form.
+				http.send(me.getForm(file));
 			});
 		} else {
 			http.send(me.getForm(file));

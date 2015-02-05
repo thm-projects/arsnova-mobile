@@ -72,17 +72,17 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	constructor: function (config) {
 		this.callParent(arguments);
-		
+
 		this.initConfig(config);
 
 		// set canvas size depending on screen size
 		var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		var extraPadding = 40;
-		
+
 		if(this.getCustomWindowWidth()) {
 			width = this.getCustomWindowWidth();
 		}
-		
+
 		var canvasSize = (width < 400 + extraPadding) ? width - extraPadding : 400;
 		this.setCanvasSize(canvasSize);
 
@@ -112,8 +112,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Redraws the whole canvas element with default alpha value and marks the chosen fields.
 	 */
 	redraw: function () {
-		
-		
+
+
 		this.redrawWithAlpha(1.0, true);
 	},
 
@@ -126,7 +126,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	redrawWithAlpha: function (alpha, markChosenFields) {
 		var ctx = this.getCanvas().getContext('2d');
 		this.setCanvasSizeAccordingToImg();
-		
+
 		// save context
 		ctx.save();
 
@@ -171,7 +171,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		}
 
 	},
-	
+
 	/**
 	 * Sets height and width of canvas according to images width/height ratio.
 	 */
@@ -180,7 +180,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			img = this.getImageFile(),
 			initialHeight = img.height,
 			initialWidth = img.width;
-				
+
 		/** is picture spinned? */
 		if(this.getImgRotation()%2) {
 			initialHeight = img.width;
@@ -189,17 +189,17 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		scaleWidth = this.getCanvasSize() / initialHeight;
 		scaleHeight = this.getCanvasSize() / initialWidth;
-		
+
 		calcWidth = scaleWidth < 1 ? initialWidth * scaleWidth : initialWidth;
 		calcHeight = scaleHeight < 1 ? initialHeight * scaleHeight : initialHeight;
-		
+
 		if(calcHeight < this.getCanvasSize()) {
 			calcHeight = scaleHeight > 1 ? calcHeight * scaleHeight : calcHeight;
 			this.image.html.height = calcHeight;
 		} else {
 			this.image.html.height = this.getCanvasSize();
 		}
-		
+
 		if(calcWidth < this.getCanvasSize()) {
 			calcWidth = scaleWidth > 1 ? calcWidth * scaleWidth : calcWidth;
 			calcWidth = calcWidth > this.getCanvasSize() ? this.getCanvasSize() : calcWidth;
@@ -354,9 +354,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		// set font layout
 		ctx.globalAlpha = 1;
 		ctx.fillStyle = this.getCurGridLineColor();
-		
+
 		var minGridSize = Math.min(this.getGridSizeX(), this.getGridSizeY());
-		
+
 		ctx.font = this.getFontForGridSize(minGridSize);
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
@@ -385,7 +385,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			return "12pt bold";
 		}
 	},
-	
+
 	/**
 	 * Checks if there are fields left to be clicked.
 	 */
@@ -401,7 +401,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	onclick: function (event) {
 
 		var container = this.parentContainer;
-		
+
 		if (! container.getEditable()) {
 			// click prevention for non-editable grids
 			return;
@@ -449,7 +449,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			container.getOnFieldClick()(
 					container.getChosenFields().length);
 		}
-		
+
 		Ext.bind(container.getOnClickHandler(), container.getHandlerScope())();
 	},
 
@@ -477,7 +477,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setThresholdCorrectAnswers(questionObj.thresholdCorrectAnswers);
 		this.setCvIsColored(questionObj.cvIsColored);
 		this.setCurGridLineColor(questionObj.gridLineColor);
-		
+
 
 		// converting from old version
 		if (questionObj.gridSize != undefined && questionObj.gridSize > 0) {
@@ -491,20 +491,20 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			}
 
 		}
-		
+
 		if (questionObj.scaleFactor == undefined) {
 			this.setScaleFactor(this.getDefaultScaleFactor());
 		} else {
 			this.setScaleFactor(questionObj.scaleFactor);
 		}
-		
+
 		if (questionObj.gridScaleFactor == undefined) {
 			this.setGridScaleFactor(this.getDefaultScaleFactor());
 		} else {
 			this.setGridScaleFactor(questionObj.gridScaleFactor);
 		}
-		
-		
+
+
 
 
 		if (this.getGridOffsetX() === undefined) {
@@ -754,7 +754,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			cb();
 		};
 	},
-	
+
 	/**
 	 * Clears the image and resets all necessary configurations.
 	 */
@@ -899,29 +899,29 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setImgRotation((this.getImgRotation() + 1) % 4);
 		this.redraw();
 	},
-	
+
 	/**
 	 * Initialies this objects with the information given by the config structure.
 	 * Precondition is, that the "imageFile"-Attribute is set. Otherwise no other
 	 * options can be set.
 	 * The grid container is redrawn after configutarion.
-	 * 
+	 *
 	 * param config The configuration structure. Attributes have to match gridContainter attibutes.
 	 */
 	setConfig : function(config) {
-		
+
 		if (typeof(config) == "undefined") {
 			console.log("Could not set config due to undefined config attribute.");
 			return;
 		}
-		
+
 		this.clearConfigs();
-		
+
 		if (typeof(config.imageFile) != "undefined") {
 			// TODO: path-prefix to config
 			var url = "resources/gridTemplates/" + config.imageFile;
 			var me = this;
-			this.setImage(url, false, 
+			this.setImage(url, false,
 					function() {
 						// set optional attributes if defined
 						if (typeof(config.gridSize) != "undefined") me.setGridSize(config.gridSize);
@@ -939,13 +939,13 @@ Ext.define('ARSnova.view.components.GridContainer', {
 						if (typeof(config.imgRotation) != "undefined") me.setImgRotation(config.imgRotation);
 						if (typeof(config.cvBackgroundColor) != "undefined") me.setCvBackgroundColor(config.cvBackgroundColor);
 						if (typeof(config.cvIsColored) != "undefined") me.setCvIsColored(config.cvIsColored);
-						
+
 						// change background color itself if necessary
 						me.colorBackground();
-						
+
 						me.initZoom();
 						me.initGridZoom();
-						
+
 						me.redraw();
 					}, function() {
 						console.log("Could not set config. Error while loading image: '" + url + "'.");
@@ -955,7 +955,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			return;
 		}
 	},
-	
+
 	/**
 	 * Gets all relevant informations which have to be send to the backend.
 	 *
@@ -965,12 +965,12 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	createResult: function() {
 		var result = {};
-		
+
 		// get image data
 		if (this.getImageFile()) {
 			result.image = this.getImageFile().src;
 		}
-		
+
 		result.gridSize = this.getGridSize();
 		result.offsetX = this.getOffsetX();
 		result.offsetY = this.getOffsetY();
@@ -990,9 +990,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		result.gridType = this.getGridType();
 		result.scaleFactor = this.getScaleFactor() + "";
 		result.gridScaleFactor = this.getGridScaleFactor() + "";
-		
+
 		result.noCorrect = this.getChosenFields().length > 0 ? 0 : 1; // TODO: Check if really needed (and why numbers instead of bool)
-		
+
 		return result;
 	}
 });

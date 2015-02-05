@@ -322,18 +322,18 @@ Ext.define('ARSnova.view.user.InClass', {
 				}
 			}
 		}, this);
-		
+
 		if (questionIds.length == 1) {
-			titleLabel = variant === 'lecture' ? 
-				Messages.ONE_NEW_LECTURE_QUESTION : 
+			titleLabel = variant === 'lecture' ?
+				Messages.ONE_NEW_LECTURE_QUESTION :
 				Messages.ONE_NEW_PREPARATION_QUESTION;
-			
+
 			Ext.Msg.confirm(titleLabel, Messages.WANNA_ANSWER, callback);
 		} else {
-			titleLabel = variant === 'lecture' ? 
-				Messages.SEVERAL_NEW_LECTURE_QUESTIONS : 
+			titleLabel = variant === 'lecture' ?
+				Messages.SEVERAL_NEW_LECTURE_QUESTIONS :
 				Messages.SEVERAL_NEW_PREPARATION_QUESTIONS;
-			
+
 			Ext.Msg.confirm(titleLabel.replace('###', questionIds.length), Messages.WANNA_ANSWER, callback);
 		}
 	},

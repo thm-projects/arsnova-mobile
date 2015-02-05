@@ -59,7 +59,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
-		
+
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		var upperActionButtonCls = screenWidth < 410 ? 'smallerActionButton' : 'actionButton';
 
@@ -137,13 +137,13 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				});
 			}
 		});
-		
+
 		this.questionStatusButton = Ext.create('ARSnova.view.speaker.MultiQuestionStatusButton', {
 			hidden: true,
 			cls: upperActionButtonCls,
 			questionStore: this.questionList.getStore()
 		});
-		
+
 		this.showcaseActionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SHOWCASE_MODE,
 			buttonConfig: 'icon',
@@ -152,7 +152,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			handler: this.showcaseHandler,
 			hidden: true
 		});
-		
+
 		this.newQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.NEW_QUESTION,
 			buttonConfig: 'icon',
@@ -160,7 +160,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			imageCls: 'icon-question thm-green',
 			handler: this.newQuestionHandler
 		});
-		
+
 		this.actionButtonPanel = Ext.create('Ext.Panel', {
 			layout: {
 				type: 'hbox',
@@ -171,7 +171,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 			items: [
 				this.questionStatusButton,
-				this.showcaseActionButton,	   
+				this.showcaseActionButton,
 				this.newQuestionButton
 			]
 		});
@@ -238,10 +238,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			},
 
 			items: [
-			    this.deleteAnswersButton,
-			    this.deleteQuestionsButton
+				this.deleteAnswersButton,
+				this.deleteQuestionsButton
 			]
-
 		});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
@@ -290,11 +289,11 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.caption.show();
 				this.caption.explainStatus(questions);
 				this.handleAnswerCount();
-			
+
 				if(questions.length === 1) {
 					this.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE);
 					this.questionStatusButton.setSingleQuestionMode();
-				} 
+				}
 				else {
 					this.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE_PLURAL);
 					this.questionStatusButton.setMultiQuestionMode();

@@ -304,7 +304,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 
 	initializeDefaultGradients: function() {
 		this.defaultGradients = [
-	         Ext.create('Ext.draw.gradient.Linear', {
+			Ext.create('Ext.draw.gradient.Linear', {
 				degrees: 90,
 				stops: [
 					{offset: 0, color: 'rgb(22, 64, 128)'},
