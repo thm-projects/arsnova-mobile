@@ -79,7 +79,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		var extraPadding = 40;
 
-		if(this.getCustomWindowWidth()) {
+		if (this.getCustomWindowWidth()) {
 			width = this.getCustomWindowWidth();
 		}
 
@@ -185,7 +185,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			initialWidth = img.width;
 
 		/** is picture spinned? */
-		if(this.getImgRotation() % 2) {
+		if (this.getImgRotation() % 2) {
 			initialHeight = img.width;
 			initialWidth = img.height;
 		}
@@ -196,14 +196,14 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		calcWidth = scaleWidth < 1 ? initialWidth * scaleWidth : initialWidth;
 		calcHeight = scaleHeight < 1 ? initialHeight * scaleHeight : initialHeight;
 
-		if(calcHeight < this.getCanvasSize()) {
+		if (calcHeight < this.getCanvasSize()) {
 			calcHeight = scaleHeight > 1 ? calcHeight * scaleHeight : calcHeight;
 			this.image.html.height = calcHeight;
 		} else {
 			this.image.html.height = this.getCanvasSize();
 		}
 
-		if(calcWidth < this.getCanvasSize()) {
+		if (calcWidth < this.getCanvasSize()) {
 			calcWidth = scaleWidth > 1 ? calcWidth * scaleWidth : calcWidth;
 			calcWidth = calcWidth > this.getCanvasSize() ? this.getCanvasSize() : calcWidth;
 			this.image.html.width = calcWidth;
@@ -382,7 +382,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			return "6pt bold";
 		} else if (gridsize >= 12) {
 			return "7pt bold";
-		}  else if (gridsize >= 9) {
+		} else if (gridsize >= 9) {
 			return "10pt bold";
 		} else {
 			return "12pt bold";

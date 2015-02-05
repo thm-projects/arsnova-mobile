@@ -289,11 +289,10 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.caption.explainStatus(questions);
 				this.handleAnswerCount();
 
-				if(questions.length === 1) {
+				if (questions.length === 1) {
 					this.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE);
 					this.questionStatusButton.setSingleQuestionMode();
-				}
-				else {
+				} else {
 					this.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE_PLURAL);
 					this.questionStatusButton.setMultiQuestionMode();
 				}

@@ -298,9 +298,12 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			success: function (response) {
 				var numQuestions = parseInt(response.responseText);
 
-				if(numQuestions) {
-					if(numQuestions === 1) me.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE);
-					else me.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE_PLURAL);
+				if (numQuestions) {
+					if (numQuestions === 1) {
+						me.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE);
+					} else {
+						me.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE_PLURAL);
+					}
 
 					me.showcaseActionButton.show();
 				}

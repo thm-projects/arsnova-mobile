@@ -160,7 +160,7 @@ Ext.define("ARSnova.controller.Sessions", {
 			tabPanel.userTabPanel.tab.hide();
 			tabPanel.userTabPanel.inClassPanel.destroyListeners();
 
-			if(localStorage.getItem('lastVisitedRole') === ARSnova.app.USER_ROLE_SPEAKER) {
+			if (localStorage.getItem('lastVisitedRole') === ARSnova.app.USER_ROLE_SPEAKER) {
 				localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
 				ARSnova.app.userRole = ARSnova.app.USER_ROLE_SPEAKER;
 
@@ -321,7 +321,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				var loginMode = localStorage.getItem("loginMode");
 				ARSnova.app.getController('Auth').services.then(function (services) {
 					services.forEach(function(service) {
-						if(loginMode === service.id) {
+						if (loginMode === service.id) {
 							loginName = "guest" === service.id ? Messages.GUEST : service.name;
 						}
 					});
@@ -350,7 +350,7 @@ Ext.define("ARSnova.controller.Sessions", {
 						itemId: 'continue',
 						ui: 'action',
 						handler: function() {
-							if(!this.readyToClose) {
+							if (!this.readyToClose) {
 								messageBox.setMessage('');
 								messageBox.setTitle(Messages.SESSION + ' ID: ' + fullSession.keyword);
 								messageBox.setHtml("<div class='x-msgbox-text x-layout-box-item' +" +
@@ -361,8 +361,7 @@ Ext.define("ARSnova.controller.Sessions", {
 										".</div>");
 
 								this.readyToClose = true;
-							}
-							else {
+							} else {
 								messageBox.hide();
 							}
 						}

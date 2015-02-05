@@ -401,7 +401,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.grid.setOnFieldClick(function (answerValue) {
 			me.answers.getComponent('fs_answers').getComponent('tf_answers').setValue(answerValue);
 			if (ARSnova.app.globalConfig.features.learningProgress) {
-				if(me.grid.getGridType() !== 'moderation') {
+				if (me.grid.getGridType() !== 'moderation') {
 					me.ValueOfCorrectAnswers.setMaxValue(me.correctValueComponent.getMaxValue() * me.grid.getChosenFields().length);
 					me.ValueOfCorrectAnswers.setMinValue(me.incorrectValueComponent.getMinValue() * me.grid.getChosenFields().length);
 					me.ValueOfCorrectAnswers.setSliderValue(me.correctValueComponent.getMaxValue() * me.grid.getChosenFields().length);
@@ -722,8 +722,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	getQuestionValues: function () {
 		var result = {};
 
-		if(this.grid === null) return;
-		else result = this.grid.createResult();
+		if (this.grid === null) {
+			return;
+		} else {
+			result = this.grid.createResult();
+		}
 
 		var possibleAnswers = this.grid.getPossibleAnswersFromChosenFields();
 		if (ARSnova.app.globalConfig.features.learningProgress) {

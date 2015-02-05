@@ -650,7 +650,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.fcImage = image;
 		this.grid.setImage(image);
 
-		if(image) {
+		if (image) {
 			this.grid.show();
 		} else {
 			this.grid.hide();

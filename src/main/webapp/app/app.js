@@ -164,7 +164,7 @@ Ext.application({
 			me.globalConfig = globalConfig;
 			me.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
 
-			if(ARSnova.app.getController('Lang').activateTestRoutine) {
+			if (ARSnova.app.getController('Lang').activateTestRoutine) {
 				ARSnova.app.getController('Lang').testRoutine(me.mainTabPanel.tabPanel);
 			}
 
@@ -286,7 +286,7 @@ Ext.application({
 	},
 
 	setWindowTitle: function (addition) {
-		if(!addition) addition = '';
+		if (!addition) addition = '';
 
 		switch (ARSnova.app.userRole) {
 			case ARSnova.app.USER_ROLE_SPEAKER:
@@ -343,7 +343,7 @@ Ext.application({
 	 * make localStorage ready after checking availability of localStorage
 	 */
 	checkLocalStorage: function () {
-		if(!this.getController('Application').checkForPrivacyMode()) {
+		if (!this.getController('Application').checkForPrivacyMode()) {
 			return;
 		}
 

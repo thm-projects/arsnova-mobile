@@ -80,7 +80,7 @@ Ext.define("ARSnova.controller.Feedback", {
 		var tP = ARSnova.app.mainTabPanel.tabPanel;
 		var fP = tP.feedbackTabPanel;
 
-		if(closePanelHandler) fP.askPanel.setClosePanelHandler(closePanelHandler);
+		if (closePanelHandler) fP.askPanel.setClosePanelHandler(closePanelHandler);
 
 		if (tP.getActiveItem() === tP.userTabPanel) {
 			tP.userTabPanel.animateActiveItem(fP.askPanel, animation);

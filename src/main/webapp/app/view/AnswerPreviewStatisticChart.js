@@ -195,7 +195,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 				renderer: function (label, layout, lastLabel) {
 					var panel, labelColor;
 
-					if(me.toggleCorrect && label !== Messages.ABSTENTION
+					if (me.toggleCorrect && label !== Messages.ABSTENTION
 						&& Object.keys(me.correctAnswers).length > 0) {
 						labelColor = me.correctAnswers[label] ?  '#80ba24' : '#971b2f';
 					} else {
@@ -243,7 +243,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 					var panel, gradient,
 						data = rendererData.store.getData().getAt(i).getData();
 
-					if(data.text === Messages.ABSTENTION) {
+					if (data.text === Messages.ABSTENTION) {
 						return {fill: me.abstentionGradient};
 					}
 
@@ -384,7 +384,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 			percent = Math.round((value / totalResults) * 100);
 			record.set('percent', percent);
 
-			if(value > maxValue) {
+			if (value > maxValue) {
 				maxValue = Math.ceil(value / 10) * 10;
 			}
 		});

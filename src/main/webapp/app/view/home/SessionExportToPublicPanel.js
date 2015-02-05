@@ -404,7 +404,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		this.uploadTextfield.setHidden(this.toggleUrl);
 		this.sendButton.setHidden(this.toggleUrl);
 
-		if(this.toggleUrl) {
+		if (this.toggleUrl) {
 			this.toggleUrl = false;
 			this.addCls('hiddenUrl');
 		} else {

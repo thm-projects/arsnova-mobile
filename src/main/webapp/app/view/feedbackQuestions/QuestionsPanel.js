@@ -110,7 +110,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 
 		var toolbarTitle = Messages.QUESTIONS;
 
-		if(screenWidth > 380) {
+		if (screenWidth > 380) {
 			toolbarTitle = isSpeakerView ? Messages.QUESTIONS_FROM_STUDENTS : Messages.MY_QUESTIONS;
 		}
 

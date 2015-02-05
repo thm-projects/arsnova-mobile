@@ -64,7 +64,7 @@ Ext.define('ARSnova.view.components.EmbeddedPageContainer', {
 		});
 
 		this.on('hide', function() {
-			if(!appController.hrefPanelActive) {
+			if (!appController.hrefPanelActive) {
 				this.destroy();
 				delete appController.embeddedPage;
 			}

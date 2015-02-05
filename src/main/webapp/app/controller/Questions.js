@@ -181,16 +181,16 @@ Ext.define("ARSnova.controller.Questions", {
 				questionComponent.answerComponents.forEach(function (el) {
 					var value = el.getValue().toString().trim();
 					if (!el.getHidden() && value !== "") {
-						if(el.isChecked()) checkedCount++;
+						if (el.isChecked()) checkedCount++;
 						answerCount++;
 					}
 				});
-				if(answerCount < 2 || checkedCount === 0) {
+				if (answerCount < 2 || checkedCount === 0) {
 					error = true;
 				}
 				break;
 			case 'grid':
-				if(panel.gridQuestion.grid !== null) {
+				if (panel.gridQuestion.grid !== null) {
 					if (!panel.gridQuestion.grid.getImageFile()) {
 						error = true;
 					}
@@ -266,7 +266,7 @@ Ext.define("ARSnova.controller.Questions", {
 							panel = speakerTabPanel.getActiveItem(),
 							questionStatus;
 
-						if(panel === speakerTabPanel.showcaseQuestionPanel) {
+						if (panel === speakerTabPanel.showcaseQuestionPanel) {
 							panel = panel.getActiveItem();
 							questionStatus = panel.editButtons.questionStatusButton;
 						} else {

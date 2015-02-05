@@ -47,7 +47,7 @@ Ext.define('ARSnova.view.MatrixButton', {
 	initialize: function() {
 		var me = this;
 
-		switch(this.getButtonConfig()) {
+		switch (this.getButtonConfig()) {
 			case 'image':
 				this.useImageConfiguration();
 				break;
@@ -79,7 +79,7 @@ Ext.define('ARSnova.view.MatrixButton', {
 		var buttonSpan = this.element.select(".x-button-label").elements;
 		var	buttonText = this.element.select(".buttonText").elements;
 
-		if(text === "") {
+		if (text === "") {
 			buttonSpan[0].removeChild(buttonText[0]);
 		} else {
 			buttonText[0].innerHTML = text;
@@ -112,10 +112,9 @@ Ext.define('ARSnova.view.MatrixButton', {
 		});
 
 		this.setToggleFieldValue = function(value) {
-			if(value) {
+			if (value) {
 				this.toggleField.getComponent().setValue(1);
-			}
-			else {
+			} else {
 				this.toggleField.getComponent().setValue(0);
 			}
 		};

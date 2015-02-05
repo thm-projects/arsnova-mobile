@@ -276,10 +276,11 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			]
 		});
 
-		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT)
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) {
 			this.matrixButtonPanel.hide();
-		else if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER)
+		} else if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			this.matrixButtonPanel.setHidden(false);
+		}
 
 		this.add([
 			this.toolbar,

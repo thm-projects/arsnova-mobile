@@ -45,7 +45,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			mainPanel: this
 		});
 
-		if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
 				questionObj: this.questionObj
 			});
@@ -133,7 +133,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		this.on('activate', function () {
 			if (this.isDisabled()) this.disableQuestion();
 
-			if(this.viewOnly) {
+			if (this.viewOnly) {
 				this.setAnswerCount();
 			}
 		});
@@ -164,7 +164,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					answerCount = parseInt(numAnswers[0]),
 					abstentionCount = parseInt(numAnswers[1]);
 
-				if(answerCount === abstentionCount && answerCount !== 0) {
+				if (answerCount === abstentionCount && answerCount !== 0) {
 					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(abstentionCount, Messages.ABSTENTION);
 				} else {
 					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(answerCount);
@@ -225,7 +225,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				localStorage.setItem(self.questionObj.questionVariant + 'QuestionIds', Ext.encode(questionsArr));
 
 				self.disableQuestion();
-				if(typeof self.questionObj !== 'undefined' && !!self.questionObj.showStatistic && self.questionObj.questionType !== 'flashcard') {
+				if (typeof self.questionObj !== 'undefined' && !!self.questionObj.showStatistic && self.questionObj.questionType !== 'flashcard') {
 					self.statisticButtonHandler(self);
 				}
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();

@@ -95,7 +95,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 				setInnerValue: function(value) {
 					var component = me.formpanel.getComponent(this.itemId);
 
-					if(!component.innerValue) {
+					if (!component.innerValue) {
 						component.innerValue = Ext.DomHelper.append(component.element, {
 							tag: 'span',
 							cls: 'thm-grey'

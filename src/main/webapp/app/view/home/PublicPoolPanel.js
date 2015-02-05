@@ -126,10 +126,11 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 				var activeHTP;
 
-				if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT)
+				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) {
 					activeHTP = hTP.homePanel;
-				else if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER)
+				} else if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 					activeHTP = hTP.mySessionsPanel;
+				}
 
 				hTP.animateActiveItem(activeHTP, {
 					type: 'slide',

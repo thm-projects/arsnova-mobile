@@ -192,7 +192,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 			},
 			failure: function(response, opts) {
 				// iOS in phonegap returns response.status=0 on success
-				if(response.status === 0 && response.responseText !== '') {
+				if (response.status === 0 && response.responseText !== '') {
 					console.log(response.responseText);
 				} else {
 					console.error('Could not find template.json');

@@ -109,7 +109,7 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 			xtype: 'answerPreview'
 		});
 
-		if(!panel.abstentionPart.isHidden() && panel.abstentionPart.getAbstention()) {
+		if (!panel.abstentionPart.isHidden() && panel.abstentionPart.getAbstention()) {
 			answerValues.push({
 				text: Messages.ABSTENTION,
 				correct: false,

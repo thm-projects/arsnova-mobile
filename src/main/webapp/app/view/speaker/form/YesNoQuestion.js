@@ -189,7 +189,7 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 		var questionPreview = Ext.create('ARSnova.view.AnswerPreviewBox');
 		var answerValues = this.yesNoQuestion.getQuestionValues().possibleAnswers;
 
-		if(!this.abstentionPart.isHidden() && this.abstentionPart.getAbstention()) {
+		if (!this.abstentionPart.isHidden() && this.abstentionPart.getAbstention()) {
 			answerValues.push({
 				text: Messages.ABSTENTION,
 				correct: false,

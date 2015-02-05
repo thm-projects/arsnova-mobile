@@ -252,7 +252,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 							ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart :
 							ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 
-					if(panel.toggleCorrect && label !== Messages.ABSTENTION
+					if (panel.toggleCorrect && label !== Messages.ABSTENTION
 						&& Object.keys(panel.correctAnswers).length > 0) {
 						labelColor = panel.correctAnswers[label] ?  '#80ba24' : '#971b2f';
 					} else {
@@ -351,7 +351,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		ARSnova.app.innerScrollPanel = this;
 		ARSnova.app.taskManager.start(this.renewChartDataTask);
 
-		if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			ARSnova.app.taskManager.start(this.countActiveUsersTask);
 		}
 	},
@@ -454,7 +454,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				// renew the chart-data
 				chart.redraw();
 
-				if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 					// update quote in toolbar
 					var quote = panel.toolbar.items.items[2];
 					var users = quote.getHtml().split("/");

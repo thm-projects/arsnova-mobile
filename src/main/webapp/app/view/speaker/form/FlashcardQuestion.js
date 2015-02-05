@@ -39,7 +39,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			style: 'margin-bottom: 30px'
 		});
 
-		if(this.config.editPanel) {
+		if (this.config.editPanel) {
 			this.uploadView.setUploadPanelConfig(
 				Messages.PICTURE_SOURCE + " - " + Messages.FLASHCARD_BACK_PAGE,
 				this.setFcImage, this.setFcImage
@@ -104,7 +104,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 	setFcImage: function(image) {
 		this.fcImage = image;
 		this.grid.setImage(image);
-		if(image) {
+		if (image) {
 			this.grid.show();
 		} else {
 			this.grid.hide();

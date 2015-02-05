@@ -108,12 +108,11 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 	},
 
 	setAnswerCounter: function(value, option) {
-		if(!option) {
+		if (!option) {
 			option = value === 1 ? Messages.ANSWER : Messages.ANSWERS;
-		}
-		else if(option === Messages.ABSTENTION) {
+		} else if (option === Messages.ABSTENTION) {
 			option = value === 1 ? Messages.ABSTENTION : Messages.ABSTENTIONS;
-			if(lang === "en") option = option.toLowerCase();
+			if (lang === "en") option = option.toLowerCase();
 		}
 
 		this.answerCounter.setHtml(value + ' ' + option);
@@ -123,7 +122,7 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 		var counter = this.answerCounter.getHtml().split(" "),
 			counterText = this.getAnswerCounterText();
 
-		switch(counterText) {
+		switch (counterText) {
 			case Messages.ANSWER:
 			case Messages.ANSWERS:
 			case Messages.ABSTENTION:

@@ -61,7 +61,7 @@ Ext.define('ARSnova.view.components.EmbeddedPage', {
 		});
 
 		this.on('painted', function () {
-			if(!this.defined) {
+			if (!this.defined) {
 				this.defined = true;
 
 				this.frame = Ext.DomHelper.append(this.frameContainer, {

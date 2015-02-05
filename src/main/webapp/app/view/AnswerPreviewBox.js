@@ -135,14 +135,12 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			this.mainPanel.add(this.grid);
 		}
 
-		if(options.questionType === 'grid') {
-			if(options.image) {
+		if (options.questionType === 'grid') {
+			if (options.image) {
 				this.grid.setGridIsHidden(false);
 				this.grid.setEditable(true);
 			}
-		}
-
-		else if(options.questionType === 'flashcard') {
+		} else if (options.questionType === 'flashcard') {
 			var answerPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 				style: 'word-wrap: break-word;',
 				cls: ''
@@ -156,7 +154,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 				styleHtmlContent: true
 			});
 
-			if(options.fcImage) {
+			if (options.fcImage) {
 				this.flashcardGrid = Ext.create('ARSnova.view.components.GridImageContainer', {
 					itemId: 'flashcardGridImageContainer',
 					editable: false,
@@ -191,9 +189,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			};
 
 			this.mainPanel.add([flashcardButton, this.answerList]);
-		}
-
-		else {
+		} else {
 			this.answerList = Ext.create('Ext.List', {
 				store: Ext.create('Ext.data.Store', {
 					model: 'ARSnova.model.Answer'
@@ -216,8 +212,11 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 					"</tpl>",
 					{
 						isFormattedStringEmpty: function(formattedString) {
-							if(formattedString === "") {return true;}
-							else {return false;}
+							if (formattedString === "") {
+								return true;
+							} else {
+								return false;
+							}
 						}
 					}
 				),

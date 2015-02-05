@@ -290,12 +290,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							panel.addAbstentionAnswer();
 							panel.getQuestionAnswers();
 
-							if(panel.questionObj.questionType === 'flashcard') {
+							if (panel.questionObj.questionType === 'flashcard') {
 								panel.answerListPanel.setContent(
 									panel.questionObj.possibleAnswers[0].text, true, true
 								);
 
-								if(panel.answerEditForm.fcImage) {
+								if (panel.answerEditForm.fcImage) {
 									panel.flashcardGrid.setImage(panel.answerEditForm.fcImage);
 									panel.flashcardGrid.show();
 								}
@@ -330,16 +330,16 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					this.config.enableFields(panel);
 					this.config.setEnableAnswerEdit(panel, true);
 
-					if(panel.questionObj.questionType === 'flashcard') {
+					if (panel.questionObj.questionType === 'flashcard') {
 						panel.abstentionPart.hide();
 						panel.absteionAlternative.hide();
 
-						if(panel.questionObj.fcImage) {
+						if (panel.questionObj.fcImage) {
 							panel.answerEditForm.setFcImage(panel.questionObj.fcImage);
 						}
 					}
 
-					if(questionValues.gridType === "moderation") {
+					if (questionValues.gridType === "moderation") {
 						panel.abstentionPart.setHidden(true);
 						panel.absteionAlternative.show();
 					} else {
@@ -864,7 +864,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		var me = this;
 		var isGridQuestion = (['grid'].indexOf(this.questionObj.questionType) !== -1);
 
-		if(this.questionObj.questionType === 'flashcard') {
+		if (this.questionObj.questionType === 'flashcard') {
 			this.answerListPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 				style: 'word-wrap: break-word;',
 				cls: ''
@@ -886,7 +886,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				items: [this.flashcardGrid, this.answerListPanel]
 			});
 
-			if(this.questionObj.fcImage) {
+			if (this.questionObj.fcImage) {
 				this.flashcardGrid.setImage(this.questionObj.fcImage);
 				this.flashcardGrid.show();
 			}
@@ -896,9 +896,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 			// set content
 			this.answerListPanel.setContent(this.questionObj.possibleAnswers[0].text, true, true);
-		}
-
-		else {
+		} else {
 			this.answerList = Ext.create('Ext.List', {
 				hidden: isGridQuestion,
 				store: this.answerStore,
@@ -999,14 +997,14 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			 * only for older questions:
 			 * try to define the question type
 			 */
-			if (this.questionObj.possibleAnswers.length === 2)
+			if (this.questionObj.possibleAnswers.length === 2) {
 				return Messages.YESNO;
-			else if (this.questionObj.possibleAnswers[0].correct)
+			} else if (this.questionObj.possibleAnswers[0].correct) {
 				return Messages.MC;
-			else if (this.questionObj.possibleAnswers.length === 5)
+			} else if (this.questionObj.possibleAnswers.length === 5) {
 				return Messages.EVALUATION;
-			else
-				return Messages.SCHOOL;
+			}
+			return Messages.SCHOOL;
 		}
 	},
 

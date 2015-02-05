@@ -81,7 +81,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	},
 
 	onItemChange: function(panel, newQuestion, oldQuestion) {
-		if(newQuestion.questionObj) {
+		if (newQuestion.questionObj) {
 			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width,
 				messageAppendix = screenWidth >= 500 ? "_LONG" : "",
 				message = newQuestion.getQuestionTypeMessage(messageAppendix);
@@ -347,8 +347,9 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				if (questionPanel === lastQuestion) {
 					i = this.carouselOffset;
 					spin = true;
+				} else {
+					continue;
 				}
-				else continue;
 			}
 
 			this.setActiveItem(i - this.carouselOffset);

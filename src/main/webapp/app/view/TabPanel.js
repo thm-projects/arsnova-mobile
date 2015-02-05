@@ -94,7 +94,7 @@ Ext.define('ARSnova.view.TabPanel', {
 
 			this.setWindowTitle(newCard);
 
-			switch(oldCard) {
+			switch (oldCard) {
 				case this.infoTabPanel:
 				case this.privacyTabPanel:
 				case this.imprintTabPanel:
@@ -108,7 +108,7 @@ Ext.define('ARSnova.view.TabPanel', {
 					ARSnova.app.lastActiveMainTabPanel = oldCard;
 			}
 
-			if(newCard === this.rolePanel) {
+			if (newCard === this.rolePanel) {
 				this.infoTabPanel.tab.hide();
 				this.blogTabPanel.tab.show();
 			} else {
@@ -116,8 +116,8 @@ Ext.define('ARSnova.view.TabPanel', {
 				this.blogTabPanel.tab.hide();
 			}
 
-			if(ARSnova.app.lastActiveMainTabPanel === this.rolePanel) {
-				if(newCard === this.infoTabPanel ||
+			if (ARSnova.app.lastActiveMainTabPanel === this.rolePanel) {
+				if (newCard === this.infoTabPanel ||
 					newCard === this.privacyTabPanel ||
 					newCard === this.imprintTabPanel ||
 					newCard === this.blogTabPanel
@@ -147,9 +147,9 @@ Ext.define('ARSnova.view.TabPanel', {
 
 		this.getTabBar().activeTab = card.tab;// for correct animation direction
 
-		if (typeof(animation) === 'object')
+		if (typeof(animation) === 'object') {
 			animation.duration = ARSnova.app.cardSwitchDuration;
-		else {
+		} else {
 			animation = {
 				type: animation,
 				direction: 'left',
@@ -159,7 +159,7 @@ Ext.define('ARSnova.view.TabPanel', {
 	},
 
 	setWindowTitle: function(newCard) {
-		switch(newCard) {
+		switch (newCard) {
 			case this.loginPanel:
 				ARSnova.app.setWindowTitle(' - ' + Messages.LOGIN);
 				break;

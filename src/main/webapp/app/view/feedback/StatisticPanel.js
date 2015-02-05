@@ -49,7 +49,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				var	tabPanel = ARSnova.app.mainTabPanel.tabPanel,
 					feedbackTabPanel = tabPanel.feedbackTabPanel;
 
-				if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 					tabPanel.animateActiveItem(tabPanel.speakerTabPanel, {
 						type: 'slide',
 						direction: 'right',
@@ -66,7 +66,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		});
 
 		this.buttonClicked = function (button) {
-			if(ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
+			if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
 				ARSnova.app.getController('Feedback').vote({
 					value: button.config.value
 				});
@@ -232,7 +232,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		});
 
 		this.onBefore('painted', function() {
-			if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 				this.prepareSpeakersView();
 			} else {
 				this.prepareStudentsView();

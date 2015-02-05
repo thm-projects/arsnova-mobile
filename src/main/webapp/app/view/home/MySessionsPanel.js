@@ -194,7 +194,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				listeners: {
 					scope: this,
 					loadsuccess: function (data) {
-						if(!Ext.os.is.iOS) {
+						if (!Ext.os.is.iOS) {
 							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_IMPORT, 240000);
 							try {
 								var n = data.indexOf("base64,");
@@ -210,7 +210,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 												});
 										});
 								}
-							} catch(e) {
+							} catch (e) {
 								console.log(e);
 								Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_FORMAT);
 								hideLoadMask();
@@ -228,13 +228,13 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				scope: this,
 				handler: function() {
 					var msg = "";
-					if((msg = this.importSupport()) !== "")
+					if ((msg = this.importSupport()) !== "")
 						Ext.Msg.alert(Messages.NOTIFICATION, msg);
 				}
 			});
 
 			this.importButtonPanel = Ext.create('Ext.Panel');
-			if(this.importSupport() === "")
+			if (this.importSupport() === "")
 				this.importButtonPanel.add(this.importButtonClickable);
 			this.importButtonPanel.add(this.importButton);
 
@@ -289,7 +289,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							fn: function(btn) {
 								var dest = null;
 								if (btn === 'yes') {
-									if(Ext.os.is.iOS) {
+									if (Ext.os.is.iOS) {
 										Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_IOS_NOTIFICATION);
 									} else {
 										dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
@@ -297,12 +297,10 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 										});
 										hTP.animateActiveItem(dest, 'slide');
 									}
-								}  else {
+								} else {
 									if (ARSnova.app.loginMode === ARSnova.app.LOGIN_GUEST) {
 										Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_PP_NOTIFICATION);
-									}
-									else
-									{
+									} else {
 										dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
 											exportType: 'public_pool'
 										});
@@ -383,7 +381,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				panel.sessionsForm.removeAll();
 				panel.sessionsForm.show();
 
-				if(sessions.length > 0)
+				if (sessions.length > 0)
 					me.saveSetHidden(me.exportButton, false);
 
 
@@ -472,7 +470,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 				var session;
 
-				if(sessions.length > 0)
+				if (sessions.length > 0)
 					me.saveSetHidden(me.exportButton, false);
 
 				for (var i = 0, session; session = sessions[i]; i++) {
@@ -637,11 +635,11 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	 * @return An error message on failure or an empty string on success
 	 */
 	importSupport: function() {
-		if (Ext.os.is.iOS)
+		if (Ext.os.is.iOS) {
 			return Messages.IMPORT_IOS_NOTIFICATION;
-		else if (!window.FileReader)
+		} else if (!window.FileReader) {
 			return Messages.IMPORT_NOT_SUPPORTED;
-		else
-			return "";
+		}
+		return "";
 	}
 });

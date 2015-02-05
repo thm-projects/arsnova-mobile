@@ -198,7 +198,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		var values = [], obj;
 
 		for (var i = 0; i < this.selectAnswerCount.getValue(); i++) {
-			if(this.answerComponents[i].getValue() !== "") {
+			if (this.answerComponents[i].getValue() !== "") {
 				obj = {
 					text: this.answerComponents[i].getValue(),
 					correct: this.answerComponents[i].isChecked()
@@ -268,7 +268,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox'),
 			answerValues = this.getValues();
 
-		if(!panel.abstentionPart.isHidden() && panel.abstentionPart.getAbstention()) {
+		if (!panel.abstentionPart.isHidden() && panel.abstentionPart.getAbstention()) {
 			answerValues.push({
 				text: Messages.ABSTENTION,
 				correct: false,

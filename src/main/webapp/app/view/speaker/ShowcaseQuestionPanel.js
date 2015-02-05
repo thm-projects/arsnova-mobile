@@ -57,7 +57,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				ARSnova.app.innerScrollPanel = false;
 
-				if(sTP.showcaseQuestionPanel.inclassBackButtonHandle) {
+				if (sTP.showcaseQuestionPanel.inclassBackButtonHandle) {
 					sTP.animateActiveItem(sTP.inClassPanel, animation);
 					sTP.showcaseQuestionPanel.inclassBackButtonHandle = false;
 				} else {
@@ -96,7 +96,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	},
 
 	onItemChange: function(panel, newQuestion, oldQuestion) {
-		if(newQuestion.questionObj) {
+		if (newQuestion.questionObj) {
 			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width,
 				messageAppendix = screenWidth >= 500 ? "_LONG" : "",
 				message = screenWidth > 420 ?

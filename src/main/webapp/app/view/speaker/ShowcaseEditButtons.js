@@ -83,7 +83,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			}
 		});
 
-		if(this.questionObj.questionType !== "freetext") {
+		if (this.questionObj.questionType !== "freetext") {
 			this.showCorrectAnswerButton = Ext.create('ARSnova.view.MatrixButton', {
 				buttonConfig: 'togglefield',
 				text: Messages.MARK_CORRECT_ANSWER,

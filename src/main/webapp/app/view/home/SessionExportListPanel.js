@@ -54,7 +54,7 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 				text: Messages.CONTINUE,
 				itemId: 'continue',
 				handler: function () {
-					if(!me.checkSelectedSessions()) {
+					if (!me.checkSelectedSessions()) {
 						Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_NOTIFICATION);
 					} else {
 						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;

@@ -43,7 +43,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	initialize: function () {
 		this.callParent(arguments);
 
-		if(this.config.toggleUrl) {
+		if (this.config.toggleUrl) {
 			this.addCls('hiddenUrl');
 		}
 
@@ -79,8 +79,8 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			listeners: {
 				scope: this,
 				loadsuccess: function (dataurl, e) {
-					if(this.checkFilesize(dataurl)) {
-						if(this.config.addRemoveButton) {
+					if (this.checkFilesize(dataurl)) {
+						if (this.config.addRemoveButton) {
 							this.removeButton.show();
 							this.segmentButton.hide();
 						}
@@ -146,7 +146,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			},
 			handler: Ext.bind(function () {
 				var url = this.uploadTextfield.getValue();
-				if(this.config.addRemoveButton) {
+				if (this.config.addRemoveButton) {
 					this.removeButton.show();
 					this.segmentButton.hide();
 				}
@@ -162,7 +162,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			style: 'margin-top: 0px; margin-bottom: 0px;',
 			scope: this,
 			handler: function() {
-				if(this.config.addRemoveButton) {
+				if (this.config.addRemoveButton) {
 					this.removeButton.hide();
 					this.segmentButton.show();
 				}
@@ -202,8 +202,8 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	setUploadPanelConfig: function(title, urlHandler, fsUploadHandler) {
 		this.containerFieldSet.setTitle(title);
 
-		if(urlHandler) this.setUrlUploadHandler(urlHandler);
-		if(fsUploadHandler) this.setFsUploadHandler(fsUploadHandler);
+		if (urlHandler) this.setUrlUploadHandler(urlHandler);
+		if (fsUploadHandler) this.setFsUploadHandler(fsUploadHandler);
 	},
 
 	resetButtons: function() {
@@ -215,7 +215,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		var head = 'data:image/png;base64,';
 		var imgFileSize = Math.round((url.length - head.length) * 3 / 4);
 
-		if(!isNaN(ARSnova.app.globalConfig.maxUploadFilesize)) {
+		if (!isNaN(ARSnova.app.globalConfig.maxUploadFilesize)) {
 			if (imgFileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
 				var msgTemp = Messages.GRID_ERROR_FILE_SIZE.replace(/%%%/, Math.round((imgFileSize / 1024)) + "KB");
 				var filesizeString = Math.round(parseInt(ARSnova.app.globalConfig.maxUploadFilesize / 1024)) + "KB";
@@ -232,7 +232,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		this.uploadTextfield.setHidden(this.toggleUrl);
 		this.sendButton.setHidden(this.toggleUrl);
 
-		if(this.toggleUrl) {
+		if (this.toggleUrl) {
 			this.toggleUrl = false;
 			this.addCls('hiddenUrl');
 		} else {

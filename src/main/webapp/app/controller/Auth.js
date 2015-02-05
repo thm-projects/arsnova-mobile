@@ -235,17 +235,11 @@ Ext.define("ARSnova.controller.Auth", {
 	 * handles window.location change for desktop and mobile devices separately
 	 */
 	handleLocationChange: function (location) {
-		/**
-		 * mobile device
-		 */
 		if (ARSnova.app.checkMobileDeviceType()) {
+			/* mobile device */
 			ARSnova.app.restProxy.absoluteRequest(location);
-		}
-
-		/**
-		 * desktop
-		 */
-		else {
+		} else {
+			/* desktop */
 			window.location = location;
 		}
 
