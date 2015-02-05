@@ -288,7 +288,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		]);
 	},
 
-	getBack: function() {
+	getBack: function () {
 		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 
 		hTP.animateActiveItem(this.getBackRef(), {
@@ -298,7 +298,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		});
 	},
 
-	visitSession: function(options) {
+	visitSession: function (options) {
 		// reset view stack of hometabpanel to ensure session overview will be shown onBack
 		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 		hTP.animateActiveItem(hTP.homePanel, {
@@ -316,7 +316,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		hideLoadMask();
 	},
 
-	cloneSession: function() {
+	cloneSession: function () {
 		var customSessionAttributes = {};
 		customSessionAttributes.name = this.sessionName.getValue();
 		customSessionAttributes.shortName = this.sessionShortName.getValue();

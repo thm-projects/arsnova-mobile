@@ -52,18 +52,18 @@ Ext.define('ARSnova.view.components.EmbeddedPageContainer', {
 
 		this.add(this.toolbar);
 
-		this.on('painted', function() {
+		this.on('painted', function () {
 			var url = this.config.onClickElement.href;
 			this.add(Ext.create('ARSnova.view.components.EmbeddedPage', {
 				src: url
 			}));
 		});
 
-		this.onAfter('deactivate', function() {
+		this.onAfter('deactivate', function () {
 			appController.toggleHrefPanelActive();
 		});
 
-		this.on('hide', function() {
+		this.on('hide', function () {
 			if (!appController.hrefPanelActive) {
 				this.destroy();
 				delete appController.embeddedPage;
@@ -71,7 +71,7 @@ Ext.define('ARSnova.view.components.EmbeddedPageContainer', {
 		});
 	},
 
-	backHandler: function() {
+	backHandler: function () {
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(
 				ARSnova.app.lastActiveMainTabPanel, {
 			type: 'slide',
@@ -80,7 +80,7 @@ Ext.define('ARSnova.view.components.EmbeddedPageContainer', {
 		});
 	},
 
-	setBackHandler: function(handler) {
+	setBackHandler: function (handler) {
 		var me = this;
 		var previousHandler = me.backButton.getHandler();
 		// Restore previous back button handler after custom handler has been executed.

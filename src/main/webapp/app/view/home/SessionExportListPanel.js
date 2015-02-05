@@ -112,7 +112,7 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 				this.mapCounter = 0;
 				this.sessionMap = [];
 				this.loadCreatedSessions()
-					.then(function() {
+					.then(function () {
 						if (me.getExportType() === 'filesystem') {
 							me.loadCreatedPublicPoolSessions();
 						} else {
@@ -124,7 +124,7 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 		});
 	},
 
-	checkSelectedSessions: function() {
+	checkSelectedSessions: function () {
 		for (var i = 0; i < this.sessionMap.length; i++) {
 			if (this.sessionMap[i][1])
 				return true;

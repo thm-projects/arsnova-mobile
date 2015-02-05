@@ -168,13 +168,13 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		}
 	},
 
-	resetFields: function() {
-		this.answerComponents.forEach(function(el) {
+	resetFields: function () {
+		this.answerComponents.forEach(function (el) {
 			el.reset();
 			el.uncheck();
 		});
 
-		this.questionValueComponents.forEach(function(el) {
+		this.questionValueComponents.forEach(function (el) {
 			el.reset();
 		});
 	},

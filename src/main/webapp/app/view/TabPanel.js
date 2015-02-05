@@ -158,7 +158,7 @@ Ext.define('ARSnova.view.TabPanel', {
 		}
 	},
 
-	setWindowTitle: function(newCard) {
+	setWindowTitle: function (newCard) {
 		switch (newCard) {
 			case this.loginPanel:
 				ARSnova.app.setWindowTitle(' - ' + Messages.LOGIN);
@@ -208,27 +208,27 @@ Ext.define('ARSnova.view.TabPanel', {
 		}
 	},
 
-	activateAboutTabs: function() {
+	activateAboutTabs: function () {
 		this.privacyTabPanel.tab.show();
 		this.imprintTabPanel.tab.show();
 		this.blogTabPanel.tab.show();
 	},
 
-	deactivateAboutTabs: function() {
+	deactivateAboutTabs: function () {
 		this.privacyTabPanel.tab.hide();
 		this.imprintTabPanel.tab.hide();
 		this.blogTabPanel.tab.hide();
 		this.infoTabPanel.tab.show();
 	},
 
-	addClassToTab: function(addCls, panel) {
+	addClassToTab: function (addCls, panel) {
 		var tabbar = this.getTabBar().element,
 			selectCls = '.' + panel.getIconCls();
 
 		tabbar.select(selectCls).addCls(addCls);
 	},
 
-	removeClassFromTab: function(removeCls, panel) {
+	removeClassFromTab: function (removeCls, panel) {
 		var tabbar = this.getTabBar().element,
 			selectCls = '.' + panel.getIconCls();
 

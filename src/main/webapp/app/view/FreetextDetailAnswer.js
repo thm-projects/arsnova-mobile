@@ -124,14 +124,14 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 		}]);
 	},
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 
-		this.on('painted', function() {
+		this.on('painted', function () {
 			ARSnova.app.innerScrollPanel = this;
 		});
 
-		this.on('deactivate', function() {
+		this.on('deactivate', function () {
 			ARSnova.app.innerScrollPanel = false;
 		});
 	}

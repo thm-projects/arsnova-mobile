@@ -659,7 +659,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	getAnswerCount: function(questionId, callbacks) {
+	getAnswerCount: function (questionId, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/answercount",
 			success: callbacks.success,
@@ -667,7 +667,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	getAnswerAndAbstentionCount: function(questionId, callbacks) {
+	getAnswerAndAbstentionCount: function (questionId, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/answerandabstentioncount",
 			success: callbacks.success,
@@ -692,7 +692,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	getFeedback: function(sessionKeyword, callbacks) {
+	getFeedback: function (sessionKeyword, callbacks) {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/feedback/",
 			success: callbacks.success,

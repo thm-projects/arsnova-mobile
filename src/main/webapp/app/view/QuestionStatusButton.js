@@ -54,7 +54,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 				value: this.isOpen ? 1 : 0,
 				listeners: {
 					scope: this,
-					change: function(toggle, newValue, oldValue, eOpts) {
+					change: function (toggle, newValue, oldValue, eOpts) {
 						if (newValue && !this.isOpen || !newValue && this.isOpen) {
 							this.changeStatus();
 						}

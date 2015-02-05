@@ -127,7 +127,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				width: '55px',
 				iconCls: 'icon-check',
 				cls: 'toggleCorrectButton',
-				handler: function(button) {
+				handler: function (button) {
 					var me = this,
 					data = [];
 
@@ -338,11 +338,11 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		this.on('activate', this.onActivate);
 
-		this.on('hide', function() {
+		this.on('hide', function () {
 			ARSnova.app.activePreviewPanel = false;
 		});
 
-		this.on('painted', function() {
+		this.on('painted', function () {
 			ARSnova.app.activePreviewPanel = this;
 		});
 	},
@@ -480,11 +480,11 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		quote.setHtml(users);
 	},
 
-	showEmbeddedPagePreview: function(embeddedPage) {
+	showEmbeddedPagePreview: function (embeddedPage) {
 		var controller = ARSnova.app.getController('Application'),
 			me = this;
 
-		embeddedPage.setBackHandler(function() {
+		embeddedPage.setBackHandler(function () {
 			// remove & destroy embeddedPage and delete reference
 			delete controller.embeddedPage;
 

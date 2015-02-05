@@ -92,7 +92,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 				ui: 'normal',
 				cls: 'standardListButton statisticButton',
 				disabled: true,
-				setInnerValue: function(value) {
+				setInnerValue: function (value) {
 					var component = me.formpanel.getComponent(this.itemId);
 
 					if (!component.innerValue) {

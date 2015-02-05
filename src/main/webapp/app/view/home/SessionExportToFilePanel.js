@@ -139,7 +139,7 @@ Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
 		]);
 	},
 
-	handleExport: function() {
+	handleExport: function () {
 		var withAnswerStatistics = this.exportAnswerToggle.getValue();
 		var withFeedbackQuestions = this.exportStudentsQuestionToggle.getValue();
 

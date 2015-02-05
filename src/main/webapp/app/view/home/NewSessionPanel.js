@@ -66,11 +66,11 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			listeners: {
 				scope: this,
 
-				hide: function() {
+				hide: function () {
 					this.coursesFieldset.hide();
 				},
 
-				show: function() {
+				show: function () {
 					this.coursesFieldset.show();
 				},
 
@@ -162,12 +162,12 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		}, this);
 	},
 
-	enableInputElements: function() {
+	enableInputElements: function () {
 		this.submitButton.enable();
 		this.mycourses.addListener('itemtap', this.onCourseSubmit);
 	},
 
-	disableInputElements: function() {
+	disableInputElements: function () {
 		this.submitButton.disable();
 		this.mycourses.removeListener('itemtap', this.onCourseSubmit);
 	},

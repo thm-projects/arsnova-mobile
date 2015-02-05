@@ -175,7 +175,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	/**
 	 * Sets height and width of canvas according to images width/height ratio.
 	 */
-	setCanvasSizeAccordingToImg: function() {
+	setCanvasSizeAccordingToImg: function () {
 		var calcWidth,
 			calcHeight,
 			scaleWidth,
@@ -392,7 +392,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	/**
 	 * Checks if there are fields left to be clicked.
 	 */
-	calculateFieldsLeft: function() {
+	calculateFieldsLeft: function () {
 		// TODO make abstract method
 	},
 
@@ -911,7 +911,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 *
 	 * param config The configuration structure. Attributes have to match gridContainter attibutes.
 	 */
-	setConfig: function(config) {
+	setConfig: function (config) {
 
 		if (typeof(config) === "undefined") {
 			console.log("Could not set config due to undefined config attribute.");
@@ -925,7 +925,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			var url = "resources/gridTemplates/" + config.imageFile;
 			var me = this;
 			this.setImage(url, false,
-					function() {
+					function () {
 						// set optional attributes if defined
 						if (typeof(config.gridSize) !== "undefined") me.setGridSize(config.gridSize);
 						if (typeof(config.scaleFactor) !== "undefined") me.setScaleFactor(config.scaleFactor);
@@ -950,7 +950,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 						me.initGridZoom();
 
 						me.redraw();
-					}, function() {
+					}, function () {
 						console.log("Could not set config. Error while loading image: '" + url + "'.");
 					});
 		} else {
@@ -966,7 +966,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Base64 of the image in the client due to CORS denial. The image will be
 	 * transfered as a URL an will be converted directly on the server.
 	 */
-	createResult: function() {
+	createResult: function () {
 		var result = {};
 
 		// get image data

@@ -24,7 +24,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 		'ARSnova.model.Question'
 	],
 
-	cloneSessionFromPublicPool: function(session, customSessionAttributes) {
+	cloneSessionFromPublicPool: function (session, customSessionAttributes) {
 		var me = this;
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_PP_CLONE, 240000);
 
@@ -37,7 +37,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 		sessions.push(session);
 
 		this.exportSessions(sessions, true, true)
-		.then(function(exportData) {
+		.then(function (exportData) {
 			for (var i = 0; i < exportData.length; i++) {
 				// overwrite custom session attributes
 				for (var attrname in customSessionAttributes) {
@@ -58,7 +58,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 
 				// call import ctrl to save cloned session in db
 				ARSnova.app.getController("SessionImport").importSession(exportData[i])
-					.then(function() {
+					.then(function () {
 						// exportData contains only a single element, so this is only called once
 						hideLoadMask();
 						// forward to session panel
@@ -68,7 +68,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 							direction: 'right',
 							duration: 700
 						});
-					}, function(error) {
+					}, function (error) {
 						hideLoadMask();
 					});
 			}
@@ -81,13 +81,13 @@ Ext.define("ARSnova.controller.SessionExport", {
 	 * @param exportSessions		An array of sessions the user wants to exort.
 	 * @param publicPoolAttributes	An array of attributes to describe the sessions in the public pool.
 	 */
-	exportSessionsToPublicPool: function(exportSessions, publicPoolAttributes) {
+	exportSessionsToPublicPool: function (exportSessions, publicPoolAttributes) {
 		var me = this;
 
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_EXPORT, 240000);
 
 		this.exportSessions(exportSessions, false, false)
-		.then(function(exportData) {
+		.then(function (exportData) {
 
 			for (var i = 0; i < exportData.length; i++) {
 				// set public pool attributes in session
@@ -99,7 +99,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 
 				// call import ctrl to save public pool session in db
 				ARSnova.app.getController("SessionImport").importSession(exportData[i])
-					.then(function() {
+					.then(function () {
 						// forward to session panel
 						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 						hTP.animateActiveItem(hTP.mySessionsPanel, {
@@ -108,7 +108,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 							duration: 700
 						});
 						hideLoadMask();
-					}, function(error) {
+					}, function (error) {
 						hideLoadMask();
 					});
 			}
@@ -122,7 +122,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 	 * @param withAnswerStatistics	<code>true</code> if the answerStatistics should be exported, <code>false</code> otherwise.
 	 * @param withFeedbackQuestions	<code>true</code> if the feedbackQuestions should be exported, <code>false</code> otherwise.
 	 */
-	exportSessionsToFile: function(exportSessionMap, withAnswerStatistics, withFeedbackQuestions) {
+	exportSessionsToFile: function (exportSessionMap, withAnswerStatistics, withFeedbackQuestions) {
 		var me = this;
 		var sessions = [];
 
@@ -134,7 +134,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_EXPORT, 240000);
 
 		this.exportSessions(sessions, withAnswerStatistics, withFeedbackQuestions)
-		.then(function(exportData) {
+		.then(function (exportData) {
 			for (var i = 0; i < exportData.length; i++) {
 				me.writeExportDataToFile(exportData[i]);
 			}
@@ -149,7 +149,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 	 * @param withAnswerStatistics	<code>true</code> if the answerStatistics should be exported, <code>false</code> otherwise.
 	 * @param withFeedbackQuestions	<code>true</code> if the feedbackQuestions should be exported, <code>false</code> otherwise.
 	 */
-	exportSessions: function(sessions, withAnswerStatistics, withFeedbackQuestions) {
+	exportSessions: function (sessions, withAnswerStatistics, withFeedbackQuestions) {
 		var me = this;
 
 		var promise = new RSVP.Promise();
@@ -159,18 +159,18 @@ Ext.define("ARSnova.controller.SessionExport", {
 
 		// save questions and check for answers if enabled
 		ARSnova.utils.AsyncUtils.promiseWhile(
-			function() {
+			function () {
 				// condition for stopping while loop
 				return j < sessions.length;
 			},
-			function() {
+			function () {
 				var session = sessions[j++];
 				return me.exportSession(session, withAnswerStatistics, withFeedbackQuestions);
 			},
-			function(session) {
+			function (session) {
 				exportData.push(session);
 			}
-		).then(function() {
+		).then(function () {
 			promise.resolve(exportData);
 		});
 
@@ -184,7 +184,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 	 * @param withAnswerStatistics	<code>true</code> if the answerStatistics should be exported, <code>false</code> otherwise.
 	 * @param withFeedbackQuestions	<code>true</code> if the feedbackQuestions should be exported, <code>false</code> otherwise.
 	 */
-	exportSession: function(session, withAnswerStatistics, withFeedbackQuestions) {
+	exportSession: function (session, withAnswerStatistics, withFeedbackQuestions) {
 		var me = this;
 		var promise = new RSVP.Promise();
 		// create export data structure
@@ -203,27 +203,27 @@ Ext.define("ARSnova.controller.SessionExport", {
 		var p1 = me.exportQuestions('Questions', session.keyword, withAnswerStatistics);
 		var p2 = me.exportQuestions('PreparationQuestions', session.keyword, withAnswerStatistics);
 
-		RSVP.all([p1, p2]).then(function(allQuestions) {
+		RSVP.all([p1, p2]).then(function (allQuestions) {
 			var questions = allQuestions[0].concat(allQuestions[1]);
 			var j = 0;
 
 			// save questions and check for answers if enabled
 			ARSnova.utils.AsyncUtils.promiseWhile(
-				function() {
+				function () {
 					// condition for stopping while loop
 					return j < questions.length;
 				},
-				function() {
+				function () {
 					var question = questions[j++];
 					return me.exportQuestionWithAnswerStatistics(session.keyword, question, withAnswerStatistics);
 				},
-				function(question) {
+				function (question) {
 					exportData.questions.push(question);
 				}
-			).then(function() {
+			).then(function () {
 				if (withFeedbackQuestions) {
 					me.exportFeedbackQuestions(session.keyword)
-						.then(function(feedbackQuestions) {
+						.then(function (feedbackQuestions) {
 							// set question type for export
 							for (var k = 0; k < feedbackQuestions.length; k++) {
 								feedbackQuestions[k].type = 'interposed_question';
@@ -233,7 +233,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 
 							promise.resolve(exportData);
 
-						}, function(error) {
+						}, function (error) {
 							console.log(error);
 							promise.reject(error);
 						}
@@ -241,11 +241,11 @@ Ext.define("ARSnova.controller.SessionExport", {
 				} else {
 					promise.resolve(exportData);
 				}
-			}, function(error) {
+			}, function (error) {
 				console.log(error);
 				promise.reject(error);
 			});
-		}, function(error) {
+		}, function (error) {
 			console.log(error);
 			promise.reject(error);
 		});
@@ -253,7 +253,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 		return promise;
 	},
 
-	exportQuestions: function(controller, keyword, withAnswerStatistics) {
+	exportQuestions: function (controller, keyword, withAnswerStatistics) {
 		var me = this;
 
 		var promise = new RSVP.Promise();
@@ -275,24 +275,24 @@ Ext.define("ARSnova.controller.SessionExport", {
 		return promise;
 	},
 
-	exportQuestionWithAnswerStatistics: function(keyword, question, withAnswerStatistics) {
+	exportQuestionWithAnswerStatistics: function (keyword, question, withAnswerStatistics) {
 		var me = this;
 
 		var promise = new RSVP.Promise();
 		if (withAnswerStatistics) {
 			ARSnova.app.questionModel.countAnswers(keyword, question._id, {
-				success: function(response) {
+				success: function (response) {
 					var answers = Ext.decode(response.responseText);
 					// save answer data in question
 					question.answers = answers;
 					// and return the updated question
 					promise.resolve(question);
 				},
-				empty: function() {
+				empty: function () {
 					// return the question without answers
 					promise.resolve(question);
 				},
-				failure: function() {
+				failure: function () {
 					promise.reject('server-side error');
 				}
 			});
@@ -303,25 +303,25 @@ Ext.define("ARSnova.controller.SessionExport", {
 		return promise;
 	},
 
-	exportFeedbackQuestions: function(keyword) {
+	exportFeedbackQuestions: function (keyword) {
 		var me = this;
 		var promise = new RSVP.Promise();
 		ARSnova.app.questionModel.getInterposedQuestions(keyword, {
-			success: function(response) {
+			success: function (response) {
 				var feedbackQuestions = Ext.decode(response.responseText);
 				promise.resolve(feedbackQuestions);
 			},
-			empty: function() {
+			empty: function () {
 				promise.resolve([]);
 			},
-			failure: function() {
+			failure: function () {
 				promise.reject('server-side error');
 			}
 		});
 		return promise;
 	},
 
-	writeExportDataToFile: function(exportData) {
+	writeExportDataToFile: function (exportData) {
 		var jsonData = JSON.stringify({exportData: exportData});
 
 		var dateString = "";
@@ -342,7 +342,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 		return jsonData;
 	},
 
-	saveFileOnFileSystem: function(rawJson, filename) {
+	saveFileOnFileSystem: function (rawJson, filename) {
 
 		var blob = new Blob([rawJson], {type: "text/plain;charset=utf-8"});
 		var ua = window.navigator.userAgent;

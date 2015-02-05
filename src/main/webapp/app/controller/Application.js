@@ -35,14 +35,14 @@ Ext.define("ARSnova.controller.Application", {
 	/**
 	 * toggles boolean value of hrefPanelActive
 	 */
-	toggleHrefPanelActive: function() {
+	toggleHrefPanelActive: function () {
 		this.hrefPanelActive = !this.hrefPanelActive;
 	},
 
 	/**
 	 * check if used protocol is http/https
 	 */
-	checkHrefProtocol: function(href) {
+	checkHrefProtocol: function (href) {
 		switch (href.split(":")[0]) {
 			case "http":
 				if (Ext.browser.is.IE || Ext.browser.is.Safari) {
@@ -60,7 +60,7 @@ Ext.define("ARSnova.controller.Application", {
 	/**
 	 * overrides onclick event handler in order to change behavior when an a-tag is clicked
 	 */
-	initializeHrefOverride: function() {
+	initializeHrefOverride: function () {
 		document.onclick = function (e) {
 			e = e || window.event;
 			var element = e.target || e.srcElement;
@@ -99,7 +99,7 @@ Ext.define("ARSnova.controller.Application", {
 	 *
 	 * @return true if localStorage/cookies are supported - returns false otherwise
 	 */
-	checkForPrivacyMode: function() {
+	checkForPrivacyMode: function () {
 		var privacyMode = false,
 			cookieEnabled = (navigator.cookieEnabled) ? true : false;
 
@@ -120,7 +120,7 @@ Ext.define("ARSnova.controller.Application", {
 			Ext.Viewport.setMasked({
 				xtype: 'mask',
 				listeners: {
-					tap: function() {
+					tap: function () {
 						Ext.Msg.alert(
 							Messages.PRIVACY_MODE_WARNING_TITLE,
 							Messages.PRIVACY_MODE_WARNING_TEXT,
@@ -140,7 +140,7 @@ Ext.define("ARSnova.controller.Application", {
 	/**
 	 * adds mouse scrolling feature if app is used in desktop browser
 	 */
-	initializeAdvancedScrolling: function() {
+	initializeAdvancedScrolling: function () {
 		if (Ext.os.is.Desktop) {
 			var doScroll = function (e) {
 				e = window.event || e;

@@ -80,7 +80,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		this.getUnansweredSkillQuestions();
 	},
 
-	onItemChange: function(panel, newQuestion, oldQuestion) {
+	onItemChange: function (panel, newQuestion, oldQuestion) {
 		if (newQuestion.questionObj) {
 			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width,
 				messageAppendix = screenWidth >= 500 ? "_LONG" : "",
@@ -362,7 +362,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		this.getUnansweredSkillQuestions();
 	},
 
-	removeAll: function() {
+	removeAll: function () {
 		var result = this.callParent(arguments);
 		this.questions = [];
 		return result;

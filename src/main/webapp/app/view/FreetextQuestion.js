@@ -139,7 +139,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		});
 	},
 
-	getQuestionTypeMessage: function(msgAppendix) {
+	getQuestionTypeMessage: function (msgAppendix) {
 		msgAppendix = msgAppendix ? msgAppendix : "";
 		var message;
 
@@ -155,7 +155,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		return Messages[message + msgAppendix];
 	},
 
-	setAnswerCount: function() {
+	setAnswerCount: function () {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 
 		ARSnova.app.answerModel.getAnswerAndAbstentionCount(this.questionObj._id, {

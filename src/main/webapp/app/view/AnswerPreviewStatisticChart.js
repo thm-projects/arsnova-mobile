@@ -49,7 +49,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 			text: Messages.BACK,
 			ui: 'back',
 			scope: this,
-			handler: function() {
+			handler: function () {
 				var previewBox = this.lastPanel;
 
 				previewBox.removeAll(false);
@@ -76,7 +76,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 				width: '55px',
 				iconCls: 'icon-check',
 				cls: 'toggleCorrectButton',
-				handler: function(button) {
+				handler: function (button) {
 					var me = this,
 						data = [];
 
@@ -266,7 +266,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 		}
 	},
 
-	initializeCorrectAnswerGradients: function() {
+	initializeCorrectAnswerGradients: function () {
 		var data, question;
 		this.correctAnswers = {};
 		this.correctAnswerGradients = [];
@@ -302,7 +302,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 		}
 	},
 
-	initializeDefaultGradients: function() {
+	initializeDefaultGradients: function () {
 		this.defaultGradients = [
 			Ext.create('Ext.draw.gradient.Linear', {
 				degrees: 90,
@@ -379,7 +379,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 
 		// Calculate percentages
 		// determine max value
-		store.each(function(record) {
+		store.each(function (record) {
 			value = record.get('value');
 			percent = Math.round((value / totalResults) * 100);
 			record.set('percent', percent);

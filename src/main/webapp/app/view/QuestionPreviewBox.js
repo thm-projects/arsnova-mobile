@@ -29,7 +29,7 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		layout: 'vbox'
 	},
 
-	initialize: function(args) {
+	initialize: function (args) {
 		this.callParent(args);
 
 		this.setStyle({
@@ -110,13 +110,13 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		// remove padding around mainPanel
 		this.mainPanel.bodyElement.dom.style.padding = "0";
 
-		this.on('hide', function() {
+		this.on('hide', function () {
 			ARSnova.app.innerScrollPanel = false;
 			ARSnova.app.activePreviewPanel = false;
 			this.destroy();
 		});
 
-		this.on('painted', function() {
+		this.on('painted', function () {
 			ARSnova.app.innerScrollPanel = this;
 			ARSnova.app.activePreviewPanel = this;
 		});
@@ -139,7 +139,7 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		Ext.util.InputBlocker.unblockInputs();
 	},
 
-	showEmbeddedPagePreview: function(embeddedPage) {
+	showEmbeddedPagePreview: function (embeddedPage) {
 		var controller = ARSnova.app.getController('Application'),
 			me = this;
 
@@ -147,7 +147,7 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		this.remove(this.toolbar, false);
 		this.remove(this.mainPanel, false);
 
-		embeddedPage.setBackHandler(function() {
+		embeddedPage.setBackHandler(function () {
 			// toggle hrefPanelActive();
 			controller.toggleHrefPanelActive();
 

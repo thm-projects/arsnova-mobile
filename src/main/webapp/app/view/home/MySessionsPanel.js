@@ -142,10 +142,10 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				buttonConfig: 'icon',
 				imageCls: 'icon-cloud thm-green',
 				scope: this,
-				handler: function() {
+				handler: function () {
 					// get public pool sessions from server
 					ARSnova.app.restProxy.getPublicPoolSessions({
-						success: function(sessionList) {
+						success: function (sessionList) {
 							var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 							me.publicPoolPanel = Ext.create('ARSnova.view.home.PublicPoolPanel', {
 								sessions: sessionList
@@ -157,13 +157,13 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 								duration: 700
 							});
 						},
-						empty: function() {
+						empty: function () {
 							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
 						},
-						failure: function() {
+						failure: function () {
 							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
 						},
-						unauthenticated: function() {
+						unauthenticated: function () {
 							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
 						}
 					});
@@ -203,9 +203,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 								var jsonContent = JSON.parse(data);
 								if (jsonContent && typeof jsonContent === "object" && jsonContent !== null) {
 									ARSnova.app.getController("SessionImport").importSession(jsonContent.exportData)
-										.then(function() {
+										.then(function () {
 											me.loadCreatedSessions()
-												.then(function() {
+												.then(function () {
 													hideLoadMask();
 												});
 										});
@@ -226,7 +226,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				buttonConfig: 'icon',
 				imageCls: 'icon-cloud-upload ',
 				scope: this,
-				handler: function() {
+				handler: function () {
 					var msg = "";
 					if ((msg = this.importSupport()) !== "")
 						Ext.Msg.alert(Messages.NOTIFICATION, msg);
@@ -282,11 +282,11 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 								element: 'element',
 								delegate: '',
 								event: 'tap',
-								fn: function() {
+								fn: function () {
 									this.hide();
 								}
 							}],
-							fn: function(btn) {
+							fn: function (btn) {
 								var dest = null;
 								if (btn === 'yes') {
 									if (Ext.os.is.iOS) {
@@ -622,7 +622,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	/**
 	 * Save way to set an element hidden.
 	 */
-	saveSetHidden: function(element, hidden) {
+	saveSetHidden: function (element, hidden) {
 		if (typeof element !== undefined && element != null)
 			element.setHidden(hidden);
 
@@ -634,7 +634,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	 *
 	 * @return An error message on failure or an empty string on success
 	 */
-	importSupport: function() {
+	importSupport: function () {
 		if (Ext.os.is.iOS) {
 			return Messages.IMPORT_IOS_NOTIFICATION;
 		} else if (!window.FileReader) {

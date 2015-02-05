@@ -320,7 +320,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				var loginName = "";
 				var loginMode = localStorage.getItem("loginMode");
 				ARSnova.app.getController('Auth').services.then(function (services) {
-					services.forEach(function(service) {
+					services.forEach(function (service) {
 						if (loginMode === service.id) {
 							loginName = "guest" === service.id ? Messages.GUEST : service.name;
 						}
@@ -331,7 +331,7 @@ Ext.define("ARSnova.controller.Sessions", {
 						message: Messages.ON_SESSION_CREATION_1.replace(/###/, fullSession.keyword),
 						cls: 'newSessionMessageBox',
 						listeners: {
-							hide: function() {
+							hide: function () {
 								ARSnova.app.getController('Sessions').reloadData();
 								var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 
@@ -349,7 +349,7 @@ Ext.define("ARSnova.controller.Sessions", {
 						text: Messages.CONTINUE,
 						itemId: 'continue',
 						ui: 'action',
-						handler: function() {
+						handler: function () {
 							if (!this.readyToClose) {
 								messageBox.setMessage('');
 								messageBox.setTitle(Messages.SESSION + ' ID: ' + fullSession.keyword);

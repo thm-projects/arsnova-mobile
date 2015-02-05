@@ -19,12 +19,12 @@
 Ext.define('ARSnova.view.CustomCarouselIndicator', {
 	override: 'Ext.carousel.Indicator',
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent();
 		this.hasItems = false;
 	},
 
-	addIndicator: function() {
+	addIndicator: function () {
 		this.indicators.push(this.element.createChild({
 			tag: 'span'
 		}));
@@ -38,7 +38,7 @@ Ext.define('ARSnova.view.CustomCarouselIndicator', {
 			this.marginTopBottom = parseFloat(window.getComputedStyle(indicator, "").getPropertyValue("margin-top"));
 			this.elementWidth = itemRect.right - itemRect.left + (2 * this.marginLeftRight);
 
-			var resizeTask = function() {
+			var resizeTask = function () {
 				if (me.indicators.length && me.hasItems) {
 					var calcWidth = me.indicators.length * me.elementWidth;
 
@@ -55,7 +55,7 @@ Ext.define('ARSnova.view.CustomCarouselIndicator', {
 		this.parent.fireEvent('indicatorAdd');
 	},
 
-	onTap: function(e) {
+	onTap: function (e) {
 		var carousel = this.parent,
 			target = e.touch.target,
 			activeItem = this.activeIndex,
@@ -96,7 +96,7 @@ Ext.define('ARSnova.view.CustomCarouselIndicator', {
 		}
 	},
 
-	setActiveIndex: function(index) {
+	setActiveIndex: function (index) {
 		var indicators = this.indicators,
 			currentActiveIndex = this.activeIndex,
 			currentActiveItem = indicators[currentActiveIndex],

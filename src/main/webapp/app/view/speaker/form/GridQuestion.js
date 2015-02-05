@@ -88,7 +88,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	/**
 	 * Initialize the form fields depending on the type of gridContainer loaded in this question.
 	 */
-	initializeFormFields: function() {
+	initializeFormFields: function () {
 
 		var me = this;
 		this.remove(this.imageArea);
@@ -595,7 +595,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		}
 	},
 
-	handleFS: function(dataUrl, reload) {
+	handleFS: function (dataUrl, reload) {
 		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
 			docked: 'top',
 			itemId: 'gridImageContainer'
@@ -605,7 +605,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.image = dataUrl;
 	},
 
-	handleUrl: function(url) {
+	handleUrl: function (url) {
 		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
 			docked: 'top',
 			itemId: 'gridImageContainer'
@@ -615,7 +615,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.image = url;
 	},
 
-	handleTemplate: function(templateGrid) {
+	handleTemplate: function (templateGrid) {
 
 		this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
 			docked: 'top',

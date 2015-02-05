@@ -31,14 +31,14 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 	 *
 	 * Creates the canvas element and initializes all necessary variables.
 	 */
-	constructor: function(config) {
+	constructor: function (config) {
 		this.callParent(arguments);
 	},
 
 	/**
 	 * Checks if there are fields left to be clicked.
 	 */
-	calculateFieldsLeft: function() {
+	calculateFieldsLeft: function () {
 
 		var numChosenFields = this.getChosenFields().length;
 		var numCorrectFields = this.getPossibleAnswers().filter(function isCorrect(e) {
@@ -87,7 +87,7 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 	/**
 	 * Resets all necessary variables of the GridContainer.
 	 */
-	clearConfigs: function() {
+	clearConfigs: function () {
 		this.callParent(arguments);
 	},
 
@@ -225,7 +225,7 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 		return values;
 	},
 
-	createResult: function() {
+	createResult: function () {
 		return this.callParent(arguments);
 	}
 });

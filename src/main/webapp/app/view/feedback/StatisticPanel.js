@@ -45,7 +45,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 
 		this.backButton = Ext.create('Ext.Button', {
 			ui: 'back',
-			handler: function() {
+			handler: function () {
 				var	tabPanel = ARSnova.app.mainTabPanel.tabPanel,
 					feedbackTabPanel = tabPanel.feedbackTabPanel;
 
@@ -218,11 +218,11 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			var me = this;
 
 			ARSnova.app.feedbackModel.getFeedback(sessionStorage.getItem('keyword'), {
-				success: function(response) {
+				success: function (response) {
 					var feedback = Ext.decode(response.responseText);
 					me.updateChart(feedback.values);
 				},
-				failure: function() {
+				failure: function () {
 					console.log('server-side error');
 				}
 			});
@@ -231,7 +231,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			this.feedbackChart.getAxes()[1].sprites[0].attr.majorTicks = false;
 		});
 
-		this.onBefore('painted', function() {
+		this.onBefore('painted', function () {
 			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 				this.prepareSpeakersView();
 			} else {
@@ -240,13 +240,13 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		});
 	},
 
-	prepareSpeakersView: function() {
+	prepareSpeakersView: function () {
 		this.backButton.setText(Messages.HOME);
 		this.feedbackButtons.setCls('speakerVoteButtonsPanel');
 		this.toolbar.setCls('speakerTitleBar');
 	},
 
-	prepareStudentsView: function() {
+	prepareStudentsView: function () {
 		this.backButton.setText(Messages.FEEDBACK_VOTE);
 		this.feedbackButtons.setCls('voteButtonsPanel');
 		this.toolbar.setCls('');

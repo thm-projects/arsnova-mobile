@@ -49,7 +49,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 				value: this.questionObj.showStatistic ? this.questionObj.showStatistic : 0,
 				listeners: {
 					scope: this,
-					change: function(toggle, newValue, oldValue, eOpts) {
+					change: function (toggle, newValue, oldValue, eOpts) {
 						if (newValue === 0 && typeof this.questionObj.showStatistic === "undefined" ||
 							newValue === this.questionObj.showStatistic) return;
 

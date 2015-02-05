@@ -31,7 +31,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 
 	requires: ['Ext.ux.Fileup', 'ARSnova.model.PublicPool'],
 
-	initialize: function() {
+	initialize: function () {
 		this.callParent(arguments);
 		var me = this;
 		var SubjectoptionsPP = [];	// save loaded subjects
@@ -47,13 +47,13 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 
 		var subjects = config.publicPool.subjects.split(',');
 
-		subjects.forEach(function(entry) {
+		subjects.forEach(function (entry) {
 			SubjectoptionsPP.push({text: entry, value: entry});
 		});
 
 		var licenses = config.publicPool.licenses.split(',');
 
-		licenses.forEach(function(entry) {
+		licenses.forEach(function (entry) {
 			LicenceoptionsPP.push({text: entry, value: entry});
 		});
 
@@ -65,7 +65,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 				var levels = config.publicPool.levelsDe.split(',');
 		}
 
-		levels.forEach(function(entry) {
+		levels.forEach(function (entry) {
 			levelsPP.push({text: entry, value: entry});
 		});
 
@@ -80,7 +80,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			buttonConfig: 'icon',
 			imageCls: 'icon-cloud-download ',
 			scope: this,
-			handler: function(button, e, eOpts) {
+			handler: function (button, e, eOpts) {
 					var me = button.up('SessionExportToPublicPanel');
 					me.ValidateInput(button, e, eOpts);
 				}
@@ -92,7 +92,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
 			ui: 'back',
-			handler: function() {
+			handler: function () {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 				hTP.animateActiveItem(me.getBackReference(), {
 					type: 'slide',
@@ -108,7 +108,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
 			listeners: {
-				tap: function(button, e, eOpts) {
+				tap: function (button, e, eOpts) {
 					var me = button.up('SessionExportToPublicPanel');
 					me.ValidateInput(button, e, eOpts);
 				}
@@ -346,7 +346,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		this.add([this.toolbar, this.mainPart]);
 	},
 
-	ValidateInput: function(button, e, options) {
+	ValidateInput: function (button, e, options) {
 		var scope = this;
 		var me = button.up('SessionExportToPublicPanel');
 
@@ -368,7 +368,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		var msg = '';
 
 		if (!errs.isValid()) {
-			errs.each(function(err) {
+			errs.each(function (err) {
 
 				msg += err.getMessage();
 				msg += '<br/>';
@@ -400,7 +400,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		}
 	},
 
-	toggleUploadTextfieldVisibility: function() {
+	toggleUploadTextfieldVisibility: function () {
 		this.uploadTextfield.setHidden(this.toggleUrl);
 		this.sendButton.setHidden(this.toggleUrl);
 

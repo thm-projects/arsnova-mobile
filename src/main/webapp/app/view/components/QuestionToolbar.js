@@ -107,7 +107,7 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 		}
 	},
 
-	setAnswerCounter: function(value, option) {
+	setAnswerCounter: function (value, option) {
 		if (!option) {
 			option = value === 1 ? Messages.ANSWER : Messages.ANSWERS;
 		} else if (option === Messages.ABSTENTION) {
@@ -118,7 +118,7 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 		this.answerCounter.setHtml(value + ' ' + option);
 	},
 
-	updateAnswerCounter: function(value) {
+	updateAnswerCounter: function (value) {
 		var counter = this.answerCounter.getHtml().split(" "),
 			counterText = this.getAnswerCounterText();
 
@@ -137,14 +137,14 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 		}
 	},
 
-	getAnswerCounterText: function() {
+	getAnswerCounterText: function () {
 		var counter = this.answerCounter.getHtml().split(" "),
 		lastString = counter[counter.length - 1];
 
 		return lastString;
 	},
 
-	setAnswerCounterText: function(text) {
+	setAnswerCounterText: function (text) {
 		var counter = this.answerCounter.getHtml().split(" ");
 		counter[counter.length - 1] = text;
 

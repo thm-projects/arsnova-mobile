@@ -46,9 +46,9 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 
 		if (this.getSessions() !== null) {
 			// sort sessions by subject name
-			this.getSessions().sort(function(a, b) {return a.ppSubject > b.ppSubject;});
+			this.getSessions().sort(function (a, b) {return a.ppSubject > b.ppSubject;});
 
-			Object.keys(this.getSessions()).forEach(function(key, index) {
+			Object.keys(this.getSessions()).forEach(function (key, index) {
 				var firstLevelId = '1_' + this[key].ppSubject;
 				var secLevelId = '2_' +  this[key].ppLevel + '_' + firstLevelId;
 				var thirdLevelId = '3_' +  this[key].name + '_' + index + '_' + secLevelId;
@@ -75,7 +75,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 						var levels = config.publicPool.levelsDe.split(',');
 					}
 
-					levels.forEach(function(entry) {
+					levels.forEach(function (entry) {
 						var secondLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
 							text: entry,
 							itemCount: 0,
@@ -151,11 +151,11 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 			},
 			useTitleAsBackText: false,
 			listeners: {
-				itemtap: function(nestedList, list, index, target, record) {
+				itemtap: function (nestedList, list, index, target, record) {
 					// hide back button which just navigates to the mysession view
 					me.backButton.hide();
 				},
-				activeitemchange: function(nestedList, value, oldValue, eOpts) {
+				activeitemchange: function (nestedList, value, oldValue, eOpts) {
 					var record = me.nestedList.getActiveItem().getStore().getNode();
 					if (record._data.itemCount === 0) {
 						Ext.create('Ext.MessageBox').show({
@@ -163,7 +163,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 					message: Messages.SESSIONPOOL_ERR_CAT_NOTFOUND,
 					buttons: this.OK,
 					hideOnMaskTap: false,
-					fn: function(btn) {
+					fn: function (btn) {
 						me.nestedList.onBackTap();
 					}
 				});
@@ -171,10 +171,10 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 					}
 					return true;
 				},
-				leafitemtap: function(nestedList, list, index, node, record, e) {
+				leafitemtap: function (nestedList, list, index, node, record, e) {
 					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 					ARSnova.app.restProxy.getSessionsByKeyword(record._data.keyword, {
-					success: function(remoteSession) {
+					success: function (remoteSession) {
 						remoteSession.numQuestions = record._data.itemCount;
 						var singleView = Ext.create("ARSnova.view.home.PublicPoolSingleItemPanel", {
 							session: remoteSession,
@@ -182,25 +182,25 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 						});
 						hTP.animateActiveItem(singleView, 'slide');
 					},
-					empty: function() {
+					empty: function () {
 						Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
 					},
-					failure: function() {
+					failure: function () {
 						Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
 					},
-					unauthenticated: function() {
+					unauthenticated: function () {
 						Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
 					}
 				});
 				},
-				back: function(nestedList, node, lastActiveList, detailCardActive, eOpts) {
+				back: function (nestedList, node, lastActiveList, detailCardActive, eOpts) {
 					if (node.internalId.indexOf("1_") === 0) {
 						me.nestedList.getToolbar().setTitle(Messages.SESSIONPOOL_TITLE);
 						me.backButton.show();
 					}
 				}
 			},
-			getItemTextTpl: function(node) {
+			getItemTextTpl: function (node) {
 				return '<div class="x-unsized x-button forwardListButton x-hasbadge {itemCls}"><span class="x-button-label">{text}</span><span class="{badgeCls}">{itemCount}</span></div>';
 			}
 		});

@@ -53,21 +53,21 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 		}
 	},
 
-	setLecturerQuestionsMode: function() {
+	setLecturerQuestionsMode: function () {
 		this.setIsLectureMode(true);
 		this.setIsPreparationMode(false);
 	},
 
-	setPreparationQuestionsMode: function() {
+	setPreparationQuestionsMode: function () {
 		this.setIsLectureMode(false);
 		this.setIsPreparationMode(true);
 	},
 
-	setSingleQuestionMode: function() {
+	setSingleQuestionMode: function () {
 		this.button.setButtonText(this.getWording().release);
 	},
 
-	setMultiQuestionMode: function() {
+	setMultiQuestionMode: function () {
 		this.button.setButtonText(this.getWording().releaseAll);
 	},
 

@@ -35,14 +35,14 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	 *
 	 * Creates the canvas element and initializes all necessary variables.
 	 */
-	constructor: function(config) {
+	constructor: function (config) {
 		this.callParent(arguments);
 	},
 
 	/**
 	 * Checks if there are fields left to be clicked.
 	 */
-	calculateFieldsLeft: function() {
+	calculateFieldsLeft: function () {
 
 		var numChosenFields = this.getChosenFields().length;
 
@@ -102,7 +102,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	/**
 	 * Resets all necessary variables of the GridContainer.
 	 */
-	clearConfigs: function() {
+	clearConfigs: function () {
 		this.callParent(arguments);
 		this.setGridIsHidden(true);
 	},
@@ -203,7 +203,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		return values;
 	},
 
-	createResult: function() {
+	createResult: function () {
 		var result = this.callParent(arguments);
 
 		result.numberOfDots = this.getNumberOfDots();
@@ -219,7 +219,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	 *
 	 * param config The configuration structure. Attributes have to match gridContainter attibutes.
 	 */
-	setConfig: function(config) {
+	setConfig: function (config) {
 
 		if (typeof(config.name) !== "undefined") this.setName(config.name);
 		if (typeof(config.description) !== "undefined") {this.setDescription(config.description);}
@@ -227,7 +227,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		this.callParent(arguments);
 	},
 
-	updateFromTemplate: function(templateGrid) {
+	updateFromTemplate: function (templateGrid) {
 
 		this.setGridSize(templateGrid.getGridSize());
 		this.setOffsetX(templateGrid.getOffsetX());

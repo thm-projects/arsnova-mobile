@@ -56,7 +56,7 @@ Ext.define('ARSnova.view.components.EmbeddedPage', {
 			}]
 		});
 
-		this.on('resize', function(element) {
+		this.on('resize', function (element) {
 			this.frame.width = element.getWidth() + 'px';
 		});
 
@@ -75,7 +75,7 @@ Ext.define('ARSnova.view.components.EmbeddedPage', {
 					height: '100%'
 				});
 
-				this.frame.onload = function() {
+				this.frame.onload = function () {
 					Ext.fly(self.id + '-appLoadingIndicator').destroy();
 					self.frameContainer.className = 'embeddedPageElement';
 				};

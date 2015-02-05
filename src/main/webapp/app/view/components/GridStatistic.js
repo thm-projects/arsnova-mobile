@@ -103,7 +103,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				flex: 1,
 				scope: this,
 				pressed: true,
-				handler: function() {
+				handler: function () {
 					this.updateGrid();
 				}
 			};

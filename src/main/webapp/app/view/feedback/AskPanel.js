@@ -197,7 +197,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		questionPreview.showPreview(this.subject.getValue(), this.text.getValue());
 	},
 
-	setClosePanelHandler: function(handler) {
+	setClosePanelHandler: function (handler) {
 		var me = this;
 		var previousHandler = me.backButton.getHandler();
 		// Restore previous back button handler after custom handler has been executed.

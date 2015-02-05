@@ -83,7 +83,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			}, this.uploadView, this.grid]
 		}]);
 
-		this.on('painted', function() {
+		this.on('painted', function () {
 
 		});
 	},
@@ -101,7 +101,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 		newQuestionPanel.setImage(image);
 	},
 
-	setFcImage: function(image) {
+	setFcImage: function (image) {
 		this.fcImage = image;
 		this.grid.setImage(image);
 		if (image) {

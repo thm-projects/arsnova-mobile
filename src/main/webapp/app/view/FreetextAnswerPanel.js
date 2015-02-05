@@ -66,7 +66,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 					direction: 'right',
 					duration: 700,
 					listeners: {
-						animationend: function() {
+						animationend: function () {
 							ARSnova.app.mainTabPanel._activeItem.on('deactivate', function () {
 							self.destroy();
 							}, self, {single: self});
@@ -157,7 +157,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			ARSnova.app.taskManager.stop(this.checkFreetextAnswersTask);
 		}, this);
 
-		this.on('painted', function() {
+		this.on('painted', function () {
 			ARSnova.app.innerScrollPanel = this.freetextAnswerList;
 		});
 	},

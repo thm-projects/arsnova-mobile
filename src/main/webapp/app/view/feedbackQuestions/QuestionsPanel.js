@@ -230,7 +230,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			this.getCheckFeedbackQuestionsTask().taskRunTime = 0;
 		});
 
-		this.on('painted', function() {
+		this.on('painted', function () {
 			ARSnova.app.innerScrollPanel = this.list;
 		});
 	},

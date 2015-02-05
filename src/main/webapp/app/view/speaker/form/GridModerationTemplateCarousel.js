@@ -68,7 +68,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 			style: 'width: 99px',
 
 			scope: this,
-			handler: function() {
+			handler: function () {
 				Ext.bind(this.getTemplateAdoptionHandler(), this.getSaveHandlerScope())(this.allTemplates[me.getActiveIndex()]);
 			}
 		});
@@ -92,10 +92,10 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 	/**
 	 * Loads the templates to Carousel.
 	 */
-	setTemplates: function(templates) {
+	setTemplates: function (templates) {
 		var me = this;
 
-		templates.forEach(function(templateContainer) {
+		templates.forEach(function (templateContainer) {
 			templateContainer.setEditable(false);
 
 			// panel for question content
@@ -134,7 +134,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 							ui: 'action',
 							xtype:	'button',
 							text:	Messages.DOWNLOAD,
-							handler: function() {
+							handler: function () {
 								var index = me.getActiveIndex();
 								var src = me.allTemplates[index].getImageFile().src;
 								window.open(src);
@@ -161,18 +161,18 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 	 * @param successCallback(templates) The function which gets called after the templates were
 	 * loaded successfully.
 	 */
-	getTemplates: function() {
+	getTemplates: function () {
 		var me = this;
 		this.removeAll();
 		Ext.Ajax.request({
 			url: 'resources/gridTemplates/templates.json',
-			success: function(response, opts) {
+			success: function (response, opts) {
 				var config = JSON.parse(response.responseText);
 				var templates = [];
 
 				// extract all the templates
 				if (typeof(config) !== "undefined") {
-					config.forEach(function(entry) {
+					config.forEach(function (entry) {
 						var template = Ext.create('ARSnova.view.components.GridModerationContainer');
 						switch (lang) {
 							case 'en':case 'en-en':case 'en-us':case 'en-gb':
@@ -190,7 +190,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 				// add templates to Carousel
 				me.setTemplates(templates);
 			},
-			failure: function(response, opts) {
+			failure: function (response, opts) {
 				// iOS in phonegap returns response.status=0 on success
 				if (response.status === 0 && response.responseText !== '') {
 					console.log(response.responseText);

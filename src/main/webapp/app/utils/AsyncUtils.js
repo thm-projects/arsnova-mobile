@@ -1,10 +1,10 @@
 Ext.define('ARSnova.utils.AsyncUtils', {
 	singleton: true,
 
-	promiseWhile: function(condition, action, actionOnResult) {
+	promiseWhile: function (condition, action, actionOnResult) {
 		var promise = new RSVP.Promise();
 
-		var loop = function(result) {
+		var loop = function (result) {
 			if (result && actionOnResult) {
 				actionOnResult(result);
 			}
@@ -12,7 +12,7 @@ Ext.define('ARSnova.utils.AsyncUtils', {
 				return promise.resolve();
 			}
 			return action().then(loop,
-				function(error) {
+				function (error) {
 					promise.reject();
 				}
 			);

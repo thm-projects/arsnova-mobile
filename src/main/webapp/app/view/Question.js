@@ -82,7 +82,7 @@ Ext.define('ARSnova.view.Question', {
 		this.on('preparestatisticsbutton', function (button) {
 			var scope = self;
 			button.scope = this;
-			button.setHandler(function() {
+			button.setHandler(function () {
 				scope.statisticButtonHandler(scope);
 			});
 		});
@@ -451,7 +451,7 @@ Ext.define('ARSnova.view.Question', {
 				this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
 					id: 'gridImageContainer' + this.questionObj._id,
 					handlerScope: self,
-					onClickHandler: function() {
+					onClickHandler: function () {
 						var remainingDots = self.grid.getNumberOfDots() - self.grid.getChosenFields().length;
 						Ext.get('remainingDotsLabel' + self.getId()).setText(Messages.GRID_LABEL_REMAINING_DOTS + remainingDots);
 					}
@@ -546,7 +546,7 @@ Ext.define('ARSnova.view.Question', {
 		ARSnova.app.mainTabPanel.animateActiveItem(panel.questionStatisticChart, 'slide');
 	},
 
-	getQuestionTypeMessage: function(msgAppendix) {
+	getQuestionTypeMessage: function (msgAppendix) {
 		var message;
 		msgAppendix = msgAppendix ? msgAppendix : "";
 
@@ -568,7 +568,7 @@ Ext.define('ARSnova.view.Question', {
 		return Messages[message + msgAppendix];
 	},
 
-	setAnswerCount: function() {
+	setAnswerCount: function () {
 		var questionType = this.questionObj.questionType;
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 

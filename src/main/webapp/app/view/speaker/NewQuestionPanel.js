@@ -455,7 +455,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.releasePart.setHidden(localStorage.getItem('courseId') === null || localStorage.getItem('courseId').length === 0);
 	},
 
-	defaultPreviewHandler: function() {
+	defaultPreviewHandler: function () {
 		var questionPreview = Ext.create('ARSnova.view.QuestionPreviewBox');
 		questionPreview.showPreview(this.subject.getValue(), this.textarea.getValue());
 	},
@@ -624,7 +624,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		return promise;
 	},
 
-	setGridConfiguration: function(grid) {
+	setGridConfiguration: function (grid) {
 		grid.setEditable(false);
 		grid.setGridIsHidden(true);
 	},
@@ -664,10 +664,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	 *
 	 * @param text The text of the button to be selected.
 	 */
-	activateButtonWithText: function(text) {
+	activateButtonWithText: function (text) {
 		var me = this;
 
-		this.questionOptions.innerItems.forEach(function(item, index) {
+		this.questionOptions.innerItems.forEach(function (item, index) {
 			if (item.getItemId() === text) {
 				me.questionOptions.setPressedButtons([index]);
 			}

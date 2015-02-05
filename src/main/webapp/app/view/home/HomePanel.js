@@ -156,10 +156,10 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				buttonConfig: 'icon',
 				imageCls: 'icon-cloud thm-green',
 				scope: this,
-				handler: function() {
+				handler: function () {
 					// get public pool sessions from server
 					ARSnova.app.restProxy.getPublicPoolSessions({
-						success: function(sessionList) {
+						success: function (sessionList) {
 							var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 							me.publicPoolPanel = Ext.create('ARSnova.view.home.PublicPoolPanel', {
 								sessions: sessionList
@@ -171,13 +171,13 @@ Ext.define('ARSnova.view.home.HomePanel', {
 								duration: 700
 							});
 						},
-						empty: function() {
+						empty: function () {
 							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
 						},
-						failure: function() {
+						failure: function () {
 							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
 						},
-						unauthenticated: function() {
+						unauthenticated: function () {
 							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
 						}
 					});
@@ -198,7 +198,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			this.add(this.matrixButtonPanel);
 		}
 
-		this.onBefore('painted', function() {
+		this.onBefore('painted', function () {
 			var me = this;
 			if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
 				var handler = function success(sessions) {
