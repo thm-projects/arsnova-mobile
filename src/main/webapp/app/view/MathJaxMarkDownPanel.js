@@ -155,8 +155,12 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		var content = contentReplaced.content;
 		var replaced = contentReplaced.source;
 
-		for (var i = 0; i < replaced.length; ++i) {
-			content = this.replaceWithoutRegExp(content, contentReplaced.label + i + 'X', replaced[i]);
+		for (var i = replaced.length - 1; i >= 0; --i) {
+			content = this.replaceWithoutRegExp(
+				content,
+				contentReplaced.label + i + 'X',
+				Ext.util.Format.htmlEncode(replaced[i])
+			);
 		}
 
 		return content;
