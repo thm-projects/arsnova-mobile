@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.2
+This is a security and bug fix release. It introduces the following changes:
+* Fix XSS vulnerability in panels with Markdown and MathJax support
+* Fix rendering issue with MathJax caused by an updated version delivered via
+  CDN. ARSnova Mobile now explicitly requests MathJax 2.4.
+
 ## 2.0.1
 This is a security and bug fix release. It introduces the following changes:
 * HTML code is always filtered for skill questions
