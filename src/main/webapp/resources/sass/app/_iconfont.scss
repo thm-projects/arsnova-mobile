@@ -206,6 +206,7 @@
 	}
 
 	.icon-presenter {
+		color: $thm-green !important;
 		margin-left: 0.5px;
 		margin-right: -0.5px;
 	}
@@ -234,6 +235,10 @@
 		margin-left: 19px !important;
 		margin-top: 15px !important;
 		font-size: 50px !important;
+	}
+	
+	.icon-presenter {
+		color: $thm-green !important;
 	}
 
 	.icon-chart {
