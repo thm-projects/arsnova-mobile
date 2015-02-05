@@ -202,13 +202,11 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		});
 
 		if (this.getQuestionObj().gridType != 'moderation') {
-			this.optionsFieldSet.add(
-					[
-			this.gridShowColors,
-			this.gridWeakenImageToggle,
-			this.abstentionPanel
-		]
-			)
+			this.optionsFieldSet.add([
+				this.gridShowColors,
+				this.gridWeakenImageToggle,
+				this.abstentionPanel
+			]);
 		}
 
 		// add components to panel

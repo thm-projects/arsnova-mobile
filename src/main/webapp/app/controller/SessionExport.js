@@ -237,7 +237,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 							console.log(error);
 							promise.reject(error);
 						}
-					)
+					);
 				} else {
 					promise.resolve(exportData);
 				}
@@ -357,7 +357,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 			a.download = filename;
 
 			// Append anchor to body.
-			document.body.appendChild(a)
+			document.body.appendChild(a);
 			a.click();
 		}
 		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
@@ -366,5 +366,5 @@ Ext.define("ARSnova.controller.SessionExport", {
 			direction: 'right',
 			duration: 700
 		});
-	},
+	}
 });

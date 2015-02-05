@@ -87,5 +87,5 @@ Ext.define('ARSnova.view.components.EmbeddedPageContainer', {
 		me.backButton.setHandler(Ext.Function.createSequence(handler, function restoreHandler() {
 			me.backButton.setHandler(previousHandler);
 		}));
-	},
+	}
 });

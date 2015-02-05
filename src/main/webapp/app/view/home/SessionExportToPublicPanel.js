@@ -26,7 +26,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
-		},
+		}
 	},
 
 	requires : [ 'Ext.ux.Fileup', 'ARSnova.model.PublicPool' ],
@@ -48,13 +48,13 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		var subjects = config.publicPool.subjects.split(',');
 
 		subjects.forEach(function(entry){
-			SubjectoptionsPP.push({text: entry, value: entry})
+			SubjectoptionsPP.push({text: entry, value: entry});
 		});
 
 		var licenses = config.publicPool.licenses.split(',');
 
 		licenses.forEach(function(entry){
-			LicenceoptionsPP.push({text: entry, value: entry})
+			LicenceoptionsPP.push({text: entry, value: entry});
 		});
 
 		switch (lang) {
@@ -66,7 +66,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		}
 
 		levels.forEach(function(entry){
-			levelsPP.push({text: entry, value: entry})
+			levelsPP.push({text: entry, value: entry});
 		});
 
 		this.matrixButtonPanel = Ext.create('Ext.Panel', {
@@ -197,7 +197,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			name : 'subject',
 			label : Messages.EXPORT_FIELD_SUBJECT,
 			maxLength : 50,
-			placeHolder: 'max. 50 ' + Messages.SESSOPNPOOL_CHARACTERS,
+			placeHolder: 'max. 50 ' + Messages.SESSOPNPOOL_CHARACTERS
 		});
 		this.subject.updateOptions(SubjectoptionsPP);
 
@@ -205,7 +205,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			name : 'licence',
 			label : Messages.EXPORT_FIELD_LICENCE,
 			maxLength : 50,
-			placeHolder: 'max. 50 ' + Messages.SESSOPNPOOL_CHARACTERS,
+			placeHolder: 'max. 50 ' + Messages.SESSOPNPOOL_CHARACTERS
 		});
 		this.licence.updateOptions(LicenceoptionsPP);
 
@@ -213,7 +213,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			name : 'level',
 			label : Messages.EXPORT_FIELD_LEVEL,
 			maxLength : 50,
-			placeHolder: 'max. 50 ' + Messages.SESSOPNPOOL_CHARACTERS,
+			placeHolder: 'max. 50 ' + Messages.SESSOPNPOOL_CHARACTERS
 		});
 		this.level.updateOptions(levelsPP);
 
@@ -414,5 +414,5 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		this.uploadTextfield.setHidden(true);
 		this.sendButton.setHidden(true);
 		this.toggleUrl = true;
-	},
+	}
 });

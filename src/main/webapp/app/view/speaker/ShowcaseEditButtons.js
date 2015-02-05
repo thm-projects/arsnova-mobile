@@ -66,7 +66,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 								question.set('showStatistic', true);
 								question.raw.showStatistic = true;
 								break;
-						};
+						}
 
 						question.publishSkillQuestionStatistics({
 							success: function (response) {
@@ -112,7 +112,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 									question.set('showAnswer', 1);
 									question.raw.showAnswer = 1;
 									break;
-							};
+							}
 							question.publishCorrectSkillQuestionAnswer({
 								success: function (response) {
 									hideLoadMask();

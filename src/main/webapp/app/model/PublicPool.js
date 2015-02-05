@@ -90,7 +90,7 @@ Ext.define('ARSnova.model.PublicPool', {
 				type: 'presence',
 				field: 'sessionShortName',
 				message: Messages.SESSION_SHORT_NAME + ':\t'+ Messages.SESSIONPOOL_NOTIFICATION_SESSION_SHORTNAME
-			},
+			}
 		]
 	}
 });

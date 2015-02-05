@@ -230,7 +230,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					var msg = "";
 					if((msg = this.importSupport()) !== "")
 						Ext.Msg.alert(Messages.NOTIFICATION, msg);
-				},
+				}
 			});
 
 			this.importButtonPanel = Ext.create('Ext.Panel');

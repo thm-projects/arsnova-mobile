@@ -502,7 +502,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								question.set('showStatistic', true);
 								question.raw.showStatistic = true;
 								break;
-						};
+						}
 						question.publishSkillQuestionStatistics({
 							success: function (response) {
 								hideLoadMask();
@@ -547,7 +547,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								question.set('showAnswer', 1);
 								question.raw.showAnswer = 1;
 								break;
-						};
+						}
 						question.publishCorrectSkillQuestionAnswer({
 							success: function (response) {
 								hideLoadMask();

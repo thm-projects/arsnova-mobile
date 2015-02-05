@@ -72,7 +72,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 
 		s.create({
 			success: function(response) {
-				var session = Ext.decode(response.responseText)
+				var session = Ext.decode(response.responseText);
 				me.saveSessionAttachment(session, jsonContent)
 					.then(function() {
 						promise.resolve();

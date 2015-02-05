@@ -20,7 +20,7 @@ Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
 
 	config: {
 		exportSessionMap: null,
-		backReference: null,
+		backReference: null
 	},
 
 	initialize: function () {

@@ -148,7 +148,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 					'padding-top': '25px',
 					'text-align': 'left'
 				},
-				html: '<img src="' + this.getSession().ppLogo + '" style="width: 100%; max-width: 100px;"></img>',
+				html: '<img src="' + this.getSession().ppLogo + '" style="width: 100%; max-width: 100px;"></img>'
 			});
 
 			this.descriptionPanel.add(this.logoContainer);

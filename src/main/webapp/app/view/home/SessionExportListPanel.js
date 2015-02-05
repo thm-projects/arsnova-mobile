@@ -26,7 +26,7 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
-		},
+		}
 	},
 
 	initialize: function () {
