@@ -325,6 +325,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			
 			this.add([this.toolbar, {
 				xtype: 'formpanel',
+				style: 'margin-top: 10px',
 				scrollable: null,
 				items: [this.titlebar, 
 						this.contentField, 

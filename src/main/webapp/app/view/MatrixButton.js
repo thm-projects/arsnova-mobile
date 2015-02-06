@@ -119,6 +119,10 @@ Ext.define('ARSnova.view.MatrixButton', {
 				this.toggleField.getComponent().setValue(0);
 			}
 		};
+		
+		this.getToggleFieldValue = function() {
+			return this.toggleField.getComponent().getValue()[0];
+		};
 	},
 
 	/**
