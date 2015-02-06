@@ -50,7 +50,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			ui: 'light',
 			title: Messages.QUESTION_TO_SPEAKER,
 			items: [this.backButton]
-		}),
+		});
 
 		this.subject = Ext.create('Ext.form.Text', {
 			label: Messages.QUESTION_SUBJECT,

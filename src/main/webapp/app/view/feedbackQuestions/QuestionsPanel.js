@@ -176,7 +176,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					});
 				}
 			}
-		}),
+		});
 
 		this.add([
 			this.toolbar,

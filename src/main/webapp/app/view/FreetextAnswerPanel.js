@@ -47,7 +47,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				this.checkFreetextAnswers();
 			},
 			interval: 15000
-		},
+		};
 
 		this.freetextAnswerStore = Ext.create('Ext.data.JsonStore', {
 			model: 'FreetextAnswer',
