@@ -39,6 +39,7 @@ Ext.define('ARSnova.view.RolePanel', {
 		var isPhone = (Ext.os.is.Phone && Ext.os.is.iOS);
 		var smallHeight = document.body.clientHeight <= 460;
 		var mediumHeight = document.body.clientHeight >= 520;
+		var slogan = ARSnova.app.globalConfig.arsnovaSlogan ? ARSnova.app.globalConfig.arsnovaSlogan : "";
 
 		this.add([{
 			xtype: 'toolbar',
@@ -62,7 +63,7 @@ Ext.define('ARSnova.view.RolePanel', {
 			style: {
 				marginBottom: isPhone && !mediumHeight ? (smallHeight ? '10px' : '15px') : '30px'
 			},
-			html: "<div class='gravure'>Made by <a href='http://www.thm.de/' class='thmlink' target='_blank'><span class='thm-lettering'>THM</span></a></div>",
+			html: "<div class='gravure'>" + slogan + "</div>",
 			cls: null
 		}, {
 			xtype: 'container',
