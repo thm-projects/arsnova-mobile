@@ -33,6 +33,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		highlightColor: '#FFFF00', // Color of highlighted fields.
 		curGridLineColor: '#000000', // Current color of the grid lines.
 		gridLineColor: '#000000', // Default color of the grid lines.
+		gridTextColor: '#4a5c66', // Default color of the grid text.
 		alternativeGridLineColor: '#FFFFFF', // Alternative color of the grid lines.
 		scaleFactor: 1.05, // Zoom level scale factor.
 		defaultScaleFactor: 1.2,
@@ -353,11 +354,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		// set font layout
 		ctx.globalAlpha = 1;
-		ctx.fillStyle = this.getCurGridLineColor();
-		
-		var minGridSize = Math.min(this.getGridSizeX(), this.getGridSizeY());
-		
-		ctx.font = this.getFontForGridSize(minGridSize);
+		ctx.fillStyle = this.getGridTextColor();
+		ctx.font = this.getFontForGridSize();
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
 
@@ -368,22 +366,15 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 
 	/**
-	 * Gets the font size relative to the size of the grid.
-	 *
-	 * @param	int gridsize	The gridsize specifying the number of fields.
-	 *
+	 * Gets the font size relative to the grid scale.
+	 * 
 	 *  @return	String	The String information of the font size.
 	 */
-	getFontForGridSize: function (gridsize) {
-		if (gridsize >= 14) {
-			return "6pt bold";
-		} else if (gridsize >= 12) {
-			return "7pt bold";
-		}  else if (gridsize >= 9) {
-			return "10pt bold";
-		} else {
-			return "12pt bold";
-		}
+	getFontForGridSize: function () {
+		var scale = this.getGridScale(),
+			fontSize = 8 * scale;
+		
+		return fontSize + "pt bold";
 	},
 	
 	/**
