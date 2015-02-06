@@ -526,7 +526,6 @@ switch (lang) {
 			/* session import */
 			IMP_BUTTON_IMPORT: "Import",
 			IMP_LOADMSK: "Importing sessions",
-			IMP_LOADMSK: "Importing sessions",
 			IMP_ERROR: "Error while importing sessions",
 			IMP_ERROR_FORMAT: "JSON file is not formated correctly",
 			IMP_ERROR_SAVE: "Could not save session to database.",
