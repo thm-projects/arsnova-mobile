@@ -614,9 +614,9 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	saveAnswer: function (answer, callbacks) {
+	saveAnswer: function (answer, questionId, callbacks) {
 		this.arsjax.request({
-			url: "lecturerquestion/" + answer.get('questionId') + "/answer/",
+			url: "lecturerquestion/" + encodeURIComponent(questionId) + "/answer/",
 			method: "POST",
 			jsonData: answer.raw,
 			success: callbacks.success,
@@ -624,9 +624,9 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	updateAnswer: function (answer, callbacks) {
+	updateAnswer: function (answer, questionId, callbacks) {
 		this.arsjax.request({
-			url: "lecturerquestion/" + answer.get('questionId') + "/answer/" + answer.get('_id'),
+			url: "lecturerquestion/" + encodeURIComponent(questionId) + "/answer/" + answer.get('_id'),
 			method: "PUT",
 			jsonData: answer.raw,
 			success: callbacks.success,

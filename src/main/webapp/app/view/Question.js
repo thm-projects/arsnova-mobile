@@ -88,7 +88,7 @@ Ext.define('ARSnova.view.Question', {
 		});
 
 		var saveAnswer = function (answer) {
-			answer.saveAnswer({
+			answer.saveAnswer(self.questionObj._id, {
 				success: function () {
 					var questionsArr = Ext.decode(localStorage.getItem(self.questionObj.questionVariant + 'QuestionIds'));
 					if (questionsArr.indexOf(self.questionObj._id) == -1) {
@@ -143,14 +143,9 @@ Ext.define('ARSnova.view.Question', {
 				for (var i = 0; i < this.answerList.getStore().getCount(); i++) {
 					answerValues.push(selectedIndexes.indexOf(i) !== -1 ? "1" : "0");
 				}
-				var questionValue = 0;
-				this.answerList.getSelection().forEach(function (node) {
-					questionValue += (node.get('value') || 0);
-				});
 
 				self.getUserAnswer().then(function (answer) {
 					answer.set('answerText', answerValues.join(","));
-					answer.set('questionValue', questionValue);
 					saveAnswer(answer);
 				});
 
@@ -171,16 +166,8 @@ Ext.define('ARSnova.view.Question', {
 				this.questionObj.userAnswered = selectedIndexes.join(",");
 				this.markCorrectAnswers();
 
-				var questionValue = 0;
-				this.questionObj.possibleAnswers.forEach(function (node) {
-					if (selectedIndexes.indexOf(node.text) !== -1) {
-						questionValue += (node.value || 0);
-					}
-				});
-
 				self.getUserAnswer().then(function (answer) {
 					answer.set('answerText', selectedIndexes.join(","));
-					answer.set('questionValue', questionValue);
 					saveAnswer(answer);
 				});
 
@@ -236,7 +223,6 @@ Ext.define('ARSnova.view.Question', {
 
 						self.getUserAnswer().then(function (answer) {
 							answer.set('answerText', answerObj.text);
-							answer.set('questionValue', answerObj.value);
 							saveAnswer(answer);
 						});
 					} else {
@@ -655,14 +641,7 @@ Ext.define('ARSnova.view.Question', {
 		var promise = new RSVP.Promise();
 		ARSnova.app.answerModel.getUserAnswer(self.questionObj._id, {
 			empty: function () {
-				var answer = Ext.create('ARSnova.model.Answer', {
-					type: "skill_question_answer",
-					sessionId: localStorage.getItem("sessionId"),
-					questionId: self.questionObj._id,
-					user: localStorage.getItem("login"),
-					timestamp: Date.now(),
-					questionVariant: self.questionObj.questionVariant
-				});
+				var answer = Ext.create('ARSnova.model.Answer');
 				promise.resolve(answer);
 			},
 			success: function (response) {

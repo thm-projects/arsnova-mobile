@@ -216,7 +216,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	saveAnswer: function (answer) {
 		var self = this;
 
-		answer.saveAnswer({
+		answer.saveAnswer(self.questionObj._id, {
 			success: function () {
 				var questionsArr = Ext.decode(localStorage.getItem(self.questionObj.questionVariant + 'QuestionIds'));
 				if (questionsArr.indexOf(self.questionObj._id) == -1) {
@@ -245,14 +245,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		ARSnova.app.answerModel.getUserAnswer(this.questionObj._id, {
 			empty: function () {
 				var answer = Ext.create('ARSnova.model.Answer', {
-					type: "skill_question_answer",
-					sessionId: localStorage.getItem("sessionId"),
-					questionId: self.questionObj._id,
 					answerSubject: self.answerSubject.getValue(),
 					answerText: self.answerText.getValue(),
-					timestamp: Date.now(),
-					user: localStorage.getItem("login"),
-					questionVariant: self.questionObj.questionVariant
 				});
 
 				self.saveAnswer(answer);
@@ -263,7 +257,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				var answer = Ext.create('ARSnova.model.Answer', theAnswer);
 				answer.set('answerSubject', self.answerSubject.getValue());
 				answer.set('answerText', self.answerText.getValue());
-				answer.set('timestamp', Date.now());
 				answer.set('abstention', false);
 
 				self.saveAnswer(answer);
@@ -280,13 +273,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		ARSnova.app.answerModel.getUserAnswer(this.questionObj._id, {
 			empty: function () {
 				var answer = Ext.create('ARSnova.model.Answer', {
-					type: "skill_question_answer",
-					sessionId: localStorage.getItem("sessionId"),
-					questionId: self.questionObj._id,
-					timestamp: Date.now(),
-					user: localStorage.getItem("login"),
 					abstention: true,
-					questionVariant: self.questionObj.questionVariant
 				});
 
 				self.saveAnswer(answer);
@@ -295,7 +282,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				var theAnswer = Ext.decode(response.responseText);
 
 				var answer = Ext.create('ARSnova.model.Answer', theAnswer);
-				answer.set('timestamp', Date.now());
 				answer.set('abstention', true);
 
 				self.saveAnswer(answer);
