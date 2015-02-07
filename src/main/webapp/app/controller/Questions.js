@@ -203,7 +203,8 @@ Ext.define("ARSnova.controller.Questions", {
 			options.saveButton.enable();
 			return;
 		}
-
+		console.log(options);
+		console.log(question);
 		question.saveSkillQuestion({
 			success: options.successFunc,
 			failure: options.failureFunc

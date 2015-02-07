@@ -486,7 +486,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			case Messages.GRID:
 			case Messages.GRID_LONG:
 				values.questionType = "grid";
-				console.log(values);
 				Ext.apply(values, panel.gridQuestion.getQuestionValues());
 				break;
 			case Messages.EVALUATION:
@@ -537,8 +536,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			default:
 				break;
 		}
-		
-		console.log(values);
 
 		var promise = panel.dispatch(values, button);
 		promise.then(function () {
