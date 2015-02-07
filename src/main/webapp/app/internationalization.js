@@ -22,11 +22,14 @@
 // "navigator.language" should give as the correct language.
 
 /* TODO: These variables are only used for internationalization and should not
- * be exposed to global scope */
+ * be exposed to global scope. It seems like Sencha CMD removed gloabally
+ * declared variables form global scope but this is not documented and might
+ * cause problems with future versions of Sencha CMD. */
 var ua = navigator.userAgent.toLowerCase();
 var isAndroid = ua.indexOf("android") > -1;
 var isChrome = ua.indexOf("chrome") > -1;
-var lang;
+/* Without declaration with "var" lang will be globally accessible. */
+//var lang;
 
 if (isAndroid && !isChrome) {
 	if (navigator && navigator.userAgent && (lang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {
