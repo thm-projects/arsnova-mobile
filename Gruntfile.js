@@ -20,14 +20,18 @@ module.exports = function (grunt) {
 		},
 
 		jscs: {
-			src: lintJs,
+			all: {
+				src: lintJs
+			},
 			options: {
 				config: ".jscs.json"
 			}
 		},
 
 		jshint: {
-			src: lintJs,
+			all: {
+				src: lintJs
+			},
 			options: {
 				jshintrc: ".jshintrc"
 			}
@@ -60,6 +64,13 @@ module.exports = function (grunt) {
 					}
 				}
 			}
+		},
+
+		watch: {
+			js: {
+				files: [lintJs, ".jscs.json", ".jshintrc"],
+				tasks: ["newer:jscs", "newer:jshint"]
+			}
 		}
 	});
 
@@ -82,12 +93,24 @@ module.exports = function (grunt) {
 	grunt.registerTask("run", function (env) {
 		/* use dev env by default for run task */
 		setSenchaEnv(env ? env : "dev");
-		grunt.task.run("shell:watch");
+		grunt.util.spawn({
+			cmd: "sencha",
+			args: ["app", "watch", "-e", grunt.config("senchaEnv")],
+			opts: {
+				cwd: appPath
+			}
+		});
+		/* we want Grunt for this task to continue even if QA checks fail */
+		grunt.option("force", true);
+		grunt.task.run(["newer:jscs", "newer:jshint"]);
+		grunt.task.run("watch");
 	});
 
 	grunt.loadNpmTasks("grunt-contrib-clean");
 	grunt.loadNpmTasks("grunt-contrib-jshint");
+	grunt.loadNpmTasks("grunt-contrib-watch");
 	grunt.loadNpmTasks("grunt-jscs");
+	grunt.loadNpmTasks("grunt-newer");
 	grunt.loadNpmTasks("grunt-shell");
 
 	grunt.registerTask("lint", ["jscs", "jshint"]);
