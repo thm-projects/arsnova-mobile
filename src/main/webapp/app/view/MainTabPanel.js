@@ -37,7 +37,7 @@ Ext.define('ARSnova.view.MainTabPanel', {
 	setActiveItem: function (card, animation) {
 		this.callParent(arguments);
 
-		if (typeof(animation) == 'object') {
+		if (typeof(animation) === 'object') {
 			animation.duration = ARSnova.app.cardSwitchDuration;
 		} else {
 			animation = {

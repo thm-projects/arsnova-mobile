@@ -49,7 +49,7 @@ Ext.define('ARSnova.model.Answer', {
 		return this.getProxy().getAnswerCount(questionId, callbacks);
 	},
 
-	getAnswerAndAbstentionCount: function(questionId, callbacks) {
+	getAnswerAndAbstentionCount: function (questionId, callbacks) {
 		return this.getProxy().getAnswerAndAbstentionCount(questionId, callbacks);
 	},
 

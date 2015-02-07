@@ -21,10 +21,15 @@
 // that, we read here the user agent and we extract from there the phone language. For all the other devices,
 // "navigator.language" should give as the correct language.
 
+/* TODO: These variables are only used for internationalization and should not
+ * be exposed to global scope. It seems like Sencha CMD removed gloabally
+ * declared variables form global scope but this is not documented and might
+ * cause problems with future versions of Sencha CMD. */
 var ua = navigator.userAgent.toLowerCase();
 var isAndroid = ua.indexOf("android") > -1;
 var isChrome = ua.indexOf("chrome") > -1;
-//var lang; // without declaration with "var" lang will be globally accessible
+/* Without declaration with "var" lang will be globally accessible. */
+//var lang;
 
 if (isAndroid && !isChrome) {
 	if (navigator && navigator.userAgent && (lang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {
@@ -40,7 +45,7 @@ try {
 	var prefLang = undefined;
 }
 
-if (prefLang != undefined) {
+if (prefLang !== undefined) {
 	lang = prefLang;
 }
 
@@ -51,8 +56,7 @@ if (lang != null) {
 var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
 switch (lang) {
-	case 'en':case 'en-en':case 'en-us':case 'en-gb':
-		moment.lang('en');
+	case 'en':case 'en-en':case 'en-us':case 'en-gb': moment.lang('en');
 		Messages = {
 			PRIVACY_MODE_WARNING_TITLE: "Privacy Mode",
 			PRIVACY_MODE_WARNING_TEXT: "Unfortunately ARSnova isn't working in Privacy Mode, as your browser denies to write to the application storage.\nPlease deactivate Privacy Mode for the period of usage of ARSnova and reload the page. Your anonymity is guaranteed even when private browsing mode is disabled.",
@@ -374,8 +378,8 @@ switch (lang) {
 			EXPORT_FIELD_LEVEL: "Level",
 			EXPORT_FIELD_EMAIL: "Email",
 			EXPORT_FIELD_SPECIAL_FIELD: "Faculty",
-			EXPORT_SELECTED_SESSIONS_TITLE : "Export sessions",
-			EXPORT_SELECTED_SESSIONS_MSG : "Where should the session(s) be exported?",
+			EXPORT_SELECTED_SESSIONS_TITLE: "Export sessions",
+			EXPORT_SELECTED_SESSIONS_MSG: "Where should the session(s) be exported?",
 			EXPORT_SESSION_INFORMATION: "Auditorium and prepare questions for the selected sessions will be exported.",
 			EXPORT_NOTIFICATION:	"No session selected.",
 			EXPORT_IOS_NOTIFICATION: "An export can not be performed on iOS devices.",
@@ -525,11 +529,10 @@ switch (lang) {
 			/* session import */
 			IMP_BUTTON_IMPORT: "Import",
 			IMP_LOADMSK: "Importing sessions",
-			IMP_LOADMSK: "Importing sessions",
 			IMP_ERROR: "Error while importing sessions",
 			IMP_ERROR_FORMAT: "JSON file is not formated correctly",
 			IMP_ERROR_SAVE: "Could not save session to database.",
-			IMP_ERROR_IMAGE: "Could not save session, image exceeds maximal size.",
+			IMP_ERROR_IMAGE: "Could not save session, image exceeds maximal size."
 		};
 
 		break;
@@ -839,7 +842,7 @@ switch (lang) {
 			SETTINGS_HINT_TEXT: "Hinweis: <br>Maximale Dateigröße beträgt 150 KB.",
 			TEMPLATE_FOR_MODERATION: "Vorlagenkatalog für Punktabfragen",
 			TEMPLATE:	"Vorlage",
-			APPLY:		"Übernehmen",
+			APPLY: "Übernehmen",
 			DOWNLOAD:	"Herunterladen",
 
 			/*Export session*/
@@ -855,8 +858,8 @@ switch (lang) {
 			EXPORT_FIELD_LEVEL: "Niveau",
 			EXPORT_FIELD_EMAIL: "Email",
 			EXPORT_FIELD_SPECIAL_FIELD: "Fachbereich",
-			EXPORT_SELECTED_SESSIONS_TITLE : "Sessions exportieren",
-			EXPORT_SELECTED_SESSIONS_MSG : "Wohin möchten Sie die Session(s) exportieren?",
+			EXPORT_SELECTED_SESSIONS_TITLE: "Sessions exportieren",
+			EXPORT_SELECTED_SESSIONS_MSG: "Wohin möchten Sie die Session(s) exportieren?",
 			EXPORT_SESSION_INFORMATION: "Neben Hörsaal- und Vorbereitungsfragen der ausgewählten Sessions werden zusätzlich exportiert...",
 			EXPORT_NOTIFICATION: "Es wurde keine Session ausgewählt.",
 			EXPORT_IOS_NOTIFICATION: "Ein Export kann auf iOS Geräten nicht durchgeführt werden.",
@@ -1007,7 +1010,7 @@ switch (lang) {
 			IMP_ERROR: "Fehler bei Session-Import",
 			IMP_ERROR_FORMAT: "JSON Datei ist falsch formatiert.",
 			IMP_ERROR_SAVE: "Session konnte nicht gespeichert werden.",
-			IMP_ERROR_IMAGE: "Session konnte nicht gespeichert werden. Bild überschreitet maximale Größe.",
-	};
-	break;
+			IMP_ERROR_IMAGE: "Session konnte nicht gespeichert werden. Bild überschreitet maximale Größe."
+		};
+		break;
 }

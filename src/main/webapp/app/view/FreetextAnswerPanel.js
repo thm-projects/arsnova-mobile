@@ -47,7 +47,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				this.checkFreetextAnswers();
 			},
 			interval: 15000
-		},
+		};
 
 		this.freetextAnswerStore = Ext.create('Ext.data.JsonStore', {
 			model: 'FreetextAnswer',
@@ -66,10 +66,10 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 					direction: 'right',
 					duration: 700,
 					listeners: {
-						animationend: function() {
+						animationend: function () {
 							ARSnova.app.mainTabPanel._activeItem.on('deactivate', function () {
-							self.destroy();
-							}, self, {single:self});
+								self.destroy();
+							}, self, {single: self});
 						}, scope: self
 					}
 				});
@@ -157,7 +157,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			ARSnova.app.taskManager.stop(this.checkFreetextAnswersTask);
 		}, this);
 
-		this.on('painted', function() {
+		this.on('painted', function () {
 			ARSnova.app.innerScrollPanel = this.freetextAnswerList;
 		});
 	},
@@ -170,7 +170,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				var responseObj = Ext.decode(response.responseText);
 				var answerLabel = me.noAnswersLabel.getInnerItems()[0];
 
-				if(responseObj.length === 0) {
+				if (responseObj.length === 0) {
 					answerLabel.setHtml(Messages.NO_ANSWERS);
 					me.freetextAnswerList.hide();
 					me.noAnswersLabel.show();
@@ -206,7 +206,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 					var abstentionText = abCount === 1 ? Messages.ABSTENTION : Messages.ABSTENTIONS;
 					var answersText = answersCount === 1 ? Messages.ANSWER : Messages.ANSWERS;
 
-					if(lang === "en") {
+					if (lang === "en") {
 						var verb = abCount === 1 ? 'is ' : 'are ';
 						abstentionText = verb + abCount + " " + abstentionText.toLowerCase();
 						answersText = answersCount + " " + answersText.toLowerCase();
@@ -215,7 +215,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 						answersText = answersCount + " " + answersText;
 					}
 
-					if(abstentions.length === responseObj.length) {
+					if (abstentions.length === responseObj.length) {
 						answerLabel.setHtml(Messages.ONLY_ABSTENTION_ANSWERS.replace(/###/, abstentionText));
 						me.freetextAnswerList.hide();
 					} else {

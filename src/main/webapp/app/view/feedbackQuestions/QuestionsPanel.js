@@ -76,7 +76,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				} else {
 					target = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
 				}
-				
+
 				ARSnova.app.innerScrollPanel = false;
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(target, {
 					type: 'slide',
@@ -107,10 +107,10 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				});
 			}
 		});
-		
+
 		var toolbarTitle = Messages.QUESTIONS;
-		
-		if(screenWidth > 380) {
+
+		if (screenWidth > 380) {
 			toolbarTitle = isSpeakerView ? Messages.QUESTIONS_FROM_STUDENTS : Messages.MY_QUESTIONS;
 		}
 
@@ -142,7 +142,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			itemCls: 'forwardListButton',
 			itemTpl: Ext.create('Ext.XTemplate',
 				'<div class="search-item noOverflow">',
-					'<span style="color:gray;">{[ this.getFormattedTime(values.timestamp) ]}</span>',
+					'<span style="color:gray;">{[this.getFormattedTime(values.timestamp)]}</span>',
 					'<tpl if="read === true">',
 						'<span style="padding-left:30px;">{subject:htmlEncode}</span>',
 					'</tpl>',
@@ -176,7 +176,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					});
 				}
 			}
-		}),
+		});
 
 		this.add([
 			this.toolbar,
@@ -195,7 +195,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 						type: 'slide'
 					}, function closePanelHandler() {
 						var userTabPanel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
-						
+
 						ARSnova.app.getController('Questions').listFeedbackQuestions({
 							type: 'slide',
 							direction: 'right',
@@ -221,7 +221,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				items: [this.list]
 			}
 		]);
-		
+
 		this.on('deactivate', function (panel) {
 			this.list.deselect(this.list._lastSelected, true);
 		});
@@ -229,8 +229,8 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		this.on('activate', function () {
 			this.getCheckFeedbackQuestionsTask().taskRunTime = 0;
 		});
-		
-		this.on('painted', function() {
+
+		this.on('painted', function () {
 			ARSnova.app.innerScrollPanel = this.list;
 		});
 	},
@@ -245,7 +245,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadgeText(questions.length);
 				panel.questionsCounter = questions.length;
 
-				if (panel.questionsCounter == 0) {
+				if (panel.questionsCounter === 0) {
 					panel.list.hide();
 					panel.noQuestionsFound.show();
 					panel.deleteAllButton.hide();

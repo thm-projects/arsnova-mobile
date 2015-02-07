@@ -164,7 +164,7 @@ Ext.application({
 			me.globalConfig = globalConfig;
 			me.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
 
-			if(ARSnova.app.getController('Lang').activateTestRoutine) {
+			if (ARSnova.app.getController('Lang').activateTestRoutine) {
 				ARSnova.app.getController('Lang').testRoutine(me.mainTabPanel.tabPanel);
 			}
 
@@ -253,7 +253,7 @@ Ext.application({
 	 * returns true if user is logged in a session
 	 */
 	checkSessionLogin: function () {
-		if (localStorage.getItem('sessionId') == undefined || localStorage.getItem('sessionId') == "")
+		if (localStorage.getItem('sessionId') === undefined || localStorage.getItem('sessionId') === "")
 			return false;
 		else
 			return true;
@@ -263,7 +263,7 @@ Ext.application({
 	 * returns true if device is a phone or a tablet
 	 */
 	checkMobileDeviceType: function () {
-		if (Ext.device.deviceType == 'Phone' || Ext.device.deviceType == 'Tablet') {
+		if (Ext.device.deviceType === 'Phone' || Ext.device.deviceType === 'Tablet') {
 			return true;
 		} else
 		return false;
@@ -286,7 +286,7 @@ Ext.application({
 	},
 
 	setWindowTitle: function (addition) {
-		if(!addition) addition = '';
+		if (!addition) addition = '';
 
 		switch (ARSnova.app.userRole) {
 			case ARSnova.app.USER_ROLE_SPEAKER:
@@ -343,7 +343,7 @@ Ext.application({
 	 * make localStorage ready after checking availability of localStorage
 	 */
 	checkLocalStorage: function () {
-		if(!this.getController('Application').checkForPrivacyMode()) {
+		if (!this.getController('Application').checkForPrivacyMode()) {
 			return;
 		}
 
@@ -395,7 +395,7 @@ Ext.application({
 		var sessions = Ext.decode(localStorage.getItem('lastVisitedSessions'));
 		for (var i = 0; i < sessions.length; i++) {
 			var session = sessions[i];
-			if (sessionId == session._id) {
+			if (sessionId === session._id) {
 				sessions.splice(i, 1);
 			}
 		}
@@ -405,7 +405,7 @@ Ext.application({
 
 function clone(obj) {
 	// Handle the 3 simple types, and null or undefined
-	if (null == obj || "object" != typeof obj) return obj;
+	if (null == obj || "object" !== typeof obj) return obj;
 
 	// Handle Date
 	if (obj instanceof Date) {

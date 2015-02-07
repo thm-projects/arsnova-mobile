@@ -16,11 +16,11 @@
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('ARSnova.view.home.PPListItem', {
-            extend: 'Ext.data.Model',
-            config: {
-                fields: ['text', 'itemCount', 'keyword', 'id', 'badgeCls', 'itemCls']
-            }
-        });
+	extend: 'Ext.data.Model',
+	config: {
+		fields: ['text', 'itemCount', 'keyword', 'id', 'badgeCls', 'itemCls']
+	}
+});
 
 Ext.define('ARSnova.view.home.PublicPoolPanel', {
 	extend: 'Ext.Panel',
@@ -35,9 +35,9 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		var me = this;
 
 		this.treeStore = Ext.create('Ext.data.TreeStore', {
-            model: 'ARSnova.view.home.PPListItem',
-            defaultRootProperty: 'items'
-        });
+			model: 'ARSnova.view.home.PPListItem',
+			defaultRootProperty: 'items'
+		});
 		this.rootNode = this.treeStore.getRoot();
 
 		// ensure that objects are empty (is not ensured, even if they're just created)
@@ -46,11 +46,11 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 
 		if (this.getSessions() !== null) {
 			// sort sessions by subject name
-			this.getSessions().sort(function(a,b) {return a.ppSubject > b.ppSubject;});
+			this.getSessions().sort(function (a, b) {return a.ppSubject > b.ppSubject;});
 
-			Object.keys(this.getSessions()).forEach(function(key, index) {
+			Object.keys(this.getSessions()).forEach(function (key, index) {
 				var firstLevelId = '1_' + this[key].ppSubject;
-				var secLevelId   = '2_' +  this[key].ppLevel + '_' + firstLevelId;
+				var secLevelId = '2_' +  this[key].ppLevel + '_' + firstLevelId;
 				var thirdLevelId = '3_' +  this[key].name + '_' + index + '_' + secLevelId;
 
 				var firstLevelNode = me.rootNode.findChild("id", firstLevelId, false);
@@ -75,7 +75,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 						var levels = config.publicPool.levelsDe.split(',');
 					}
 
-					levels.forEach(function(entry){
+					levels.forEach(function (entry) {
 						var secondLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
 							text: entry,
 							itemCount: 0,
@@ -91,14 +91,13 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 						secLevelNode.removeAll();
 						secLevelNode.appendChild(thirdTemp);
 					});
-
 				} else {
 					firstLevelNode._data.itemCount++;
 				}
 
 				var secLevelNode = firstLevelNode.findChild("id", secLevelId, false);
 				if (secLevelNode != null) {
-					if (secLevelNode._data.itemCount == 0)
+					if (secLevelNode._data.itemCount === 0)
 						secLevelNode.removeAll();
 					secLevelNode._data.badgeCls = 'feedbackQuestionsBadgeIcon';
 					secLevelNode._data.itemCls = '';
@@ -126,16 +125,17 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 				var activeHTP;
 
-				if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_STUDENT)
+				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) {
 					activeHTP = hTP.homePanel;
-				else if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER)
+				} else if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 					activeHTP = hTP.mySessionsPanel;
+				}
 
-					hTP.animateActiveItem(activeHTP, {
-						type: 'slide',
-						direction: 'right',
-						duration: 700
-					});
+				hTP.animateActiveItem(activeHTP, {
+					type: 'slide',
+					direction: 'right',
+					duration: 700
+				});
 			}
 		});
 
@@ -150,59 +150,59 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 			},
 			useTitleAsBackText: false,
 			listeners: {
-		        itemtap: function(nestedList, list, index, target, record) {
-		        	// hide back button which just navigates to the mysession view
-		        	me.backButton.hide();
-		        },
-		        activeitemchange: function(nestedList, value, oldValue, eOpts ) {
-		        	var record = me.nestedList.getActiveItem().getStore().getNode();
-		        	if (record._data.itemCount == 0) {
-		        		Ext.create('Ext.MessageBox').show({
-							title: Messages.SESSIONPOOL_TITLE,
-							message: Messages.SESSIONPOOL_ERR_CAT_NOTFOUND,
-							buttons: this.OK,
-							hideOnMaskTap: false,
-							fn: function(btn) {
-								me.nestedList.onBackTap();
-							}
+				itemtap: function (nestedList, list, index, target, record) {
+					// hide back button which just navigates to the mysession view
+					me.backButton.hide();
+				},
+				activeitemchange: function (nestedList, value, oldValue, eOpts) {
+					var record = me.nestedList.getActiveItem().getStore().getNode();
+					if (record._data.itemCount === 0) {
+						Ext.create('Ext.MessageBox').show({
+					title: Messages.SESSIONPOOL_TITLE,
+					message: Messages.SESSIONPOOL_ERR_CAT_NOTFOUND,
+					buttons: this.OK,
+					hideOnMaskTap: false,
+					fn: function (btn) {
+						me.nestedList.onBackTap();
+					}
+				});
+						return false;
+					}
+					return true;
+				},
+				leafitemtap: function (nestedList, list, index, node, record, e) {
+					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+					ARSnova.app.restProxy.getSessionsByKeyword(record._data.keyword, {
+					success: function (remoteSession) {
+						remoteSession.numQuestions = record._data.itemCount;
+						var singleView = Ext.create("ARSnova.view.home.PublicPoolSingleItemPanel", {
+							session: remoteSession,
+							backRef: me
 						});
-		        		return false;
-		        	}
-		        	return true;
-		        },
-		        leafitemtap: function(nestedList, list, index, node, record, e) {
-		        	var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-		        	ARSnova.app.restProxy.getSessionsByKeyword(record._data.keyword, {
-		    			success: function(remoteSession) {
-		    				remoteSession.numQuestions = record._data.itemCount;
-		    				var singleView = Ext.create("ARSnova.view.home.PublicPoolSingleItemPanel", {
-		    					session: remoteSession,
-				        		backRef: me
-				        	});
-				    		hTP.animateActiveItem(singleView, 'slide');
-		    			},
-		    			empty: function() {
-		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
-		    			},
-		    			failure: function() {
-		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
-		    			},
-		    			unauthenticated: function() {
-		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
-		    			}
-		    		});
-		        },
-				back: function(nestedList, node, lastActiveList, detailCardActive, eOpts) {
-					if (node.internalId.indexOf("1_") == 0) {
+						hTP.animateActiveItem(singleView, 'slide');
+					},
+					empty: function () {
+						Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
+					},
+					failure: function () {
+						Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
+					},
+					unauthenticated: function () {
+						Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
+					}
+				});
+				},
+				back: function (nestedList, node, lastActiveList, detailCardActive, eOpts) {
+					if (node.internalId.indexOf("1_") === 0) {
 						me.nestedList.getToolbar().setTitle(Messages.SESSIONPOOL_TITLE);
 						me.backButton.show();
 					}
-		        }
-		    },
-		    getItemTextTpl: function(node) {
-		    	return '<div class="x-unsized x-button forwardListButton x-hasbadge {itemCls}"><span class="x-button-label">{text}</span><span class="{badgeCls}">{itemCount}</span></div>';
-		    }
-        });
+				}
+			},
+			getItemTextTpl: function (node) {
+				return '<div class="x-unsized x-button forwardListButton x-hasbadge {itemCls}"><span class="x-button-label">{text}</span><span class="{badgeCls}">{itemCount}</span></div>';
+			}
+		});
 
 		var nestedListToolbar = this.nestedList.getToolbar();
 		nestedListToolbar.setTitle(Messages.SESSIONPOOL_TITLE);
@@ -211,7 +211,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		me.nestedList.getBackButton().setText(Messages.BACK);
 
 		this.add([
-	          this.nestedList
-	  	]);
+			this.nestedList
+		]);
 	}
 });

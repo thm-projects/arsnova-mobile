@@ -31,7 +31,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		layout: 'vbox'
 	},
 
-	initialize: function(args) {
+	initialize: function (args) {
 		this.callParent(args);
 
 		this.setStyle({
@@ -99,15 +99,15 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		});
 
 		// remove padding around mainPanel
-		this.mainPanel.bodyElement.dom.style.padding="0";
+		this.mainPanel.bodyElement.dom.style.padding = "0";
 
-		this.on('hide', function() {
+		this.on('hide', function () {
 			ARSnova.app.innerScrollPanel = false;
 			ARSnova.app.activePreviewPanel = false;
 			this.destroy();
 		});
 
-		this.on('painted', function() {
+		this.on('painted', function () {
 			ARSnova.app.innerScrollPanel = this;
 			ARSnova.app.activePreviewPanel = this;
 		});
@@ -135,17 +135,15 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			this.mainPanel.add(this.grid);
 		}
 
-		if(options.questionType === 'grid') {
-			if(options.image) {
+		if (options.questionType === 'grid') {
+			if (options.image) {
 				this.grid.setGridIsHidden(false);
 				this.grid.setEditable(true);
 			}
-		}
-
-		else if(options.questionType === 'flashcard') {
+		} else if (options.questionType === 'flashcard') {
 			var answerPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-		    	style: 'word-wrap: break-word;',
-		    	cls: ''
+				style: 'word-wrap: break-word;',
+				cls: ''
 			});
 
 			this.answerList = Ext.create('Ext.Container', {
@@ -156,7 +154,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 				styleHtmlContent: true
 			});
 
-			if(options.fcImage) {
+			if (options.fcImage) {
 				this.flashcardGrid = Ext.create('ARSnova.view.components.GridImageContainer', {
 					itemId: 'flashcardGridImageContainer',
 					editable: false,
@@ -191,9 +189,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			};
 
 			this.mainPanel.add([flashcardButton, this.answerList]);
-		}
-
-		else {
+		} else {
 			this.answerList = Ext.create('Ext.List', {
 				store: Ext.create('Ext.data.Store', {
 					model: 'ARSnova.model.Answer'
@@ -215,9 +211,12 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 						"&nbsp;<span class='listCorrectItem x-list-item-correct'>&#10003; </span>",
 					"</tpl>",
 					{
-						isFormattedStringEmpty: function(formattedString) {
-							if(formattedString === "") { return true; }
-							else { return false; }
+						isFormattedStringEmpty: function (formattedString) {
+							if (formattedString === "") {
+								return true;
+							} else {
+								return false;
+							}
 						}
 					}
 				),
@@ -255,7 +254,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		}
 
 		this.mainPanel.add([
-    		this.confirmButton
+			this.confirmButton
 		]);
 
 		this.show();
@@ -264,7 +263,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		Ext.util.InputBlocker.unblockInputs();
 	},
 
-	setQuestionPanelContent: function(title, content) {
+	setQuestionPanelContent: function (title, content) {
 		// Setup question title and text to display in the same field; markdown handles HTML encoding
 		var questionString = title.replace(/\./, "\\.")
 			+ '\n\n' // inserts one blank line between subject and text
@@ -288,11 +287,11 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		this.setScrollable(false);
 
 		this.add([
-	    	this.questionStatisticChart
+			this.questionStatisticChart
 		]);
 	},
 
-	showEmbeddedPagePreview: function(embeddedPage) {
+	showEmbeddedPagePreview: function (embeddedPage) {
 		var controller = ARSnova.app.getController('Application'),
 			me = this;
 
@@ -300,7 +299,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		this.remove(this.toolbar, false);
 		this.remove(this.mainPanel, false);
 
-		embeddedPage.setBackHandler(function() {
+		embeddedPage.setBackHandler(function () {
 			// toggle hrefPanelActive();
 			controller.toggleHrefPanelActive();
 

@@ -40,7 +40,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 
 		this.arsLogo = {
 			xtype: 'panel',
-			style: 'marginTop: 15px',
+			style: 'marginTop: 15px'
 		};
 
 		me.add([{
@@ -68,7 +68,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 
 		var config = ARSnova.app.globalConfig;
 		ARSnova.app.getController('Auth').services.then(function (services) {
-			var i, buttonPanels = [], button, items = [], service, imagePath = "", imageSrc;
+			var i, buttonPanels = [], button, items = [], service, imagePath = "", imageSrc, imageCls;
 			if (config.customizationPath) {
 				imagePath = config.customizationPath + "/images/";
 			}
@@ -89,7 +89,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 				button = {
 					xtype: 'matrixbutton',
 					id: 'login-select-' + service.id,
-					text: "guest" === service.id ? Messages.GUEST: service.name,
+					text: "guest" === service.id ? Messages.GUEST : service.name,
 					value: service,
 					image: imageSrc,
 					imageCls: imageCls,

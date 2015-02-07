@@ -49,7 +49,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 			text: Messages.BACK,
 			ui: 'back',
 			scope: this,
-			handler: function() {
+			handler: function () {
 				var previewBox = this.lastPanel;
 
 				previewBox.removeAll(false);
@@ -76,7 +76,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 				width: '55px',
 				iconCls: 'icon-check',
 				cls: 'toggleCorrectButton',
-				handler: function(button) {
+				handler: function (button) {
 					var me = this,
 						data = [];
 
@@ -111,11 +111,11 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 						me.setGradients();
 
 						// delay till chart is redrawn
-						updateDataTask.delay(me.chartRefreshDuration-200);
+						updateDataTask.delay(me.chartRefreshDuration - 200);
 					});
 
 					// delay till chart is empty
-					setGradientTask.delay(me.chartRefreshDuration-200);
+					setGradientTask.delay(me.chartRefreshDuration - 200);
 				},
 				scope: this
 			}]
@@ -149,7 +149,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 				max = 10;
 
 			this.questionStore.add({
-				text: pA.text === "" ? i+1 : pA.text,
+				text: pA.text === "" ? i + 1 : pA.text,
 				value: Math.floor(Math.random() * (max - min + 1) + min)
 			});
 		}
@@ -195,9 +195,9 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 				renderer: function (label, layout, lastLabel) {
 					var panel, labelColor;
 
-					if(me.toggleCorrect && 	label !== Messages.ABSTENTION
-						&&	Object.keys(me.correctAnswers).length > 0) {
-						labelColor =  me.correctAnswers[label] ?  '#80ba24' : '#971b2f';
+					if (me.toggleCorrect && label !== Messages.ABSTENTION
+						&& Object.keys(me.correctAnswers).length > 0) {
+						labelColor = me.correctAnswers[label] ?  '#80ba24' : '#971b2f';
 					} else {
 						labelColor = '#4a5c66';
 					}
@@ -243,8 +243,8 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 					var panel, gradient,
 						data = rendererData.store.getData().getAt(i).getData();
 
-					if(data.text === Messages.ABSTENTION) {
-						return { fill: me.abstentionGradient };
+					if (data.text === Messages.ABSTENTION) {
+						return {fill: me.abstentionGradient};
 					}
 
 					return rendererData = {
@@ -266,7 +266,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 		}
 	},
 
-	initializeCorrectAnswerGradients: function() {
+	initializeCorrectAnswerGradients: function () {
 		var data, question;
 		this.correctAnswers = {};
 		this.correctAnswerGradients = [];
@@ -275,7 +275,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 			question = this.questionObj.possibleAnswers[i];
 			data = question.data ? question.data : question;
 
-			data.text = data.text === "" ? i+1 : data.text;
+			data.text = data.text === "" ? i + 1 : data.text;
 			this.correctAnswers[data.text] = data.correct;
 
 			if ((question.data && !question.data.correct) || (!question.data && !question.correct)) {
@@ -302,9 +302,9 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 		}
 	},
 
-	initializeDefaultGradients: function() {
+	initializeDefaultGradients: function () {
 		this.defaultGradients = [
-	         Ext.create('Ext.draw.gradient.Linear', {
+			Ext.create('Ext.draw.gradient.Linear', {
 				degrees: 90,
 				stops: [
 					{offset: 0, color: 'rgb(22, 64, 128)'},
@@ -379,12 +379,12 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 
 		// Calculate percentages
 		// determine max value
-		store.each(function(record) {
+		store.each(function (record) {
 			value = record.get('value');
 			percent = Math.round((value / totalResults) * 100);
 			record.set('percent', percent);
 
-			if(value > maxValue) {
+			if (value > maxValue) {
 				maxValue = Math.ceil(value / 10) * 10;
 			}
 		});

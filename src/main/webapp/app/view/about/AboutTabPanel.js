@@ -48,7 +48,7 @@ Ext.define('ARSnova.view.about.AboutTabPanel', {
 				text: Messages.BACK,
 				ui: 'back',
 				scope: this,
-				handler: function() {
+				handler: function () {
 					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.lastActiveMainTabPanel, {
 						type: 'slide',
 						direction: 'right',
@@ -60,8 +60,8 @@ Ext.define('ARSnova.view.about.AboutTabPanel', {
 
 		this.add(this.toolbar);
 
-		this.on("painted", function() {
-			var url = ARSnova.app.globalConfig.documentationUrl || "https://arsnova.eu/manual/index.php/" + encodeURIComponent(moment.lang())+"/";
+		this.on("painted", function () {
+			var url = ARSnova.app.globalConfig.documentationUrl || "https://arsnova.eu/manual/index.php/" + encodeURIComponent(moment.lang()) + "/";
 
 			this.add(Ext.create('ARSnova.view.components.EmbeddedPage', {
 				src: url

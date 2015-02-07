@@ -39,7 +39,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			// I know it's bad, but I was not able to relay this event to other objects that would be better
 			// places to display an error message. Feel free to refactor this. ;-)
 			Ext.Msg.confirm(Messages.BROWSER_SESSION_EXPIRED, Messages.BROWSER_SESSION_EXPIRED_MSG, function (button) {
-				if (button == 'yes') {
+				if (button === 'yes') {
 					window.location.reload();
 				}
 			});
@@ -501,8 +501,8 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			jsonData: {
 				"name": session.get("name"),
 				"shortName": session.get("shortName"),
-				"courseId": session.get("courseId") ? session.get("courseId"): null,
-				"courseType": session.get("courseType") ? session.get("courseType"): null,
+				"courseId": session.get("courseId") ? session.get("courseId") : null,
+				"courseType": session.get("courseType") ? session.get("courseType") : null,
 				"creationTime": session.get("creationTime"),
 				"ppAuthorName": session.get("ppAuthorName"),
 				"ppAuthorMail": session.get("ppAuthorMail"),
@@ -659,7 +659,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	getAnswerCount: function(questionId, callbacks) {
+	getAnswerCount: function (questionId, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/answercount",
 			success: callbacks.success,
@@ -667,7 +667,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	getAnswerAndAbstentionCount: function(questionId, callbacks) {
+	getAnswerAndAbstentionCount: function (questionId, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/answerandabstentioncount",
 			success: callbacks.success,
@@ -692,7 +692,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	getFeedback: function(sessionKeyword, callbacks) {
+	getFeedback: function (sessionKeyword, callbacks) {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/feedback/",
 			success: callbacks.success,
