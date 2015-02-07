@@ -49,13 +49,13 @@ Ext.define('ARSnova.view.RolePanel', {
 		}, {
 			xtype: 'panel',
 			cls: null,
-			html: 	"<div class='icon-logo'>" +
+			html: "<div class='icon-logo'>" +
 					"<span class='icon-logo-radar'>r</span>" +
 					"<span class='icon-logo-ars'>a</span>" +
 					"<span class='icon-logo-nova'>n</span>" +
 					"</div>",
 			style: {
-				marginTop: isPhone && !mediumHeight ? (smallHeight ? '5px' : '10px')  : '25px'
+				marginTop: isPhone && !mediumHeight ? (smallHeight ? '5px' : '10px') : '25px'
 			}
 		}, {
 			xtype: 'panel',
@@ -104,7 +104,7 @@ Ext.define('ARSnova.view.RolePanel', {
 				xtype: 'matrixbutton',
 				text: Messages.INFO,
 				imageCls: "icon-book",
-				handler: function() {
+				handler: function () {
 					var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 					tabPanel.setActiveItem(tabPanel.infoTabPanel);
 				}

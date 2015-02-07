@@ -62,7 +62,7 @@ Ext.define('ARSnova.model.Feedback', {
 		}
 	},
 
-	getFeedback: function(sessionKeyword, callbacks) {
+	getFeedback: function (sessionKeyword, callbacks) {
 		this.getProxy().getFeedback(sessionKeyword, callbacks);
 	}
 });

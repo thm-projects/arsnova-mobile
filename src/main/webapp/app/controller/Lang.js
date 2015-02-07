@@ -37,11 +37,11 @@ Ext.define("ARSnova.controller.Lang", {
 		this.switchTo('de');
 	},
 
-	onTest: function() {
+	onTest: function () {
 		this.activateTestRoutine = true;
 	},
 
-	testRoutine: function(tabPanel) {
+	testRoutine: function (tabPanel) {
 		tabPanel.testTabPanel = Ext.create('ARSnova.view.about.TestTabPanel');
 		tabPanel.add(tabPanel.testTabPanel);
 	},

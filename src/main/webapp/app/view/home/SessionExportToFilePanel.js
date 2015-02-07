@@ -17,16 +17,16 @@
  */
 Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
 	extend: 'Ext.Panel',
-	
+
 	config: {
 		exportSessionMap: null,
-		backReference: null,
+		backReference: null
 	},
-	
+
 	initialize: function () {
 		this.callParent(arguments);
 		var me = this;
-		
+
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
 			ui: 'back',
@@ -50,68 +50,68 @@ Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
 			},
 			scope: this
 		});
-		
+
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.EXPORT_SESSION_TITLE,
 			docked: 'top',
 			ui: 'light',
 			items: [
 				this.backButton,
-				{xtype:'spacer'},
+				{xtype: 'spacer'},
 				this.exportButton
 			]
 		});
-		
+
 		this.exportAnswerToggle = Ext.create('Ext.field.Toggle', {
 			label: Messages.ANSWERS_STATISTICS,
-			labelWidth:'auto',
+			labelWidth: 'auto',
 			labelCls: 'session-toggle-label',
 			cls: 'rightAligned',
 			value: true
 		});
-		
+
 		this.exportStudentsQuestionToggle = Ext.create('Ext.field.Toggle', {
 			label: Messages.QUESTIONS_FROM_STUDENTS,
-			labelWidth:'auto',
+			labelWidth: 'auto',
 			labelCls: 'session-toggle-label',
 			cls: 'rightAligned',
 			value: true
 		});
-		
+
 		this.exportOptions = Ext.create('Ext.form.FieldSet', {
 			text: Messages.EXPORT_MSG,
 			items: [
-		        this.exportAnswerToggle,
-		        this.exportStudentsQuestionToggle
-	        ]
+				this.exportAnswerToggle,
+				this.exportStudentsQuestionToggle
+			]
 		});
-		
+
 		this.contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			xtype: 'mathJaxMarkDownPanel',
 			id: 'questionContent',
 			style: 'background-color: transparent; color: black; '
 		});
-		this.contentPanel.setContent(Messages.EXPORT_SESSION_INFORMATION, true, true);	 
-		
-		this.singleTemplatePanel = Ext.create('Ext.Panel',{	
-			
+		this.contentPanel.setContent(Messages.EXPORT_SESSION_INFORMATION, true, true);
+
+		this.singleTemplatePanel = Ext.create('Ext.Panel', {
+
 			layout:	{
 				type: 'vbox',
 				pack: 'center',
-				align: 'center' 
+				align: 'center'
 			},
-			 items:[this.contentPanel]
+			items: [this.contentPanel]
 		});
-		
+
 		this.matrixButtonPanel = Ext.create('Ext.Panel', {
 			layout: {
 				type: 'hbox',
 				pack: 'center'
 			}
 		});
-		
+
 		this.exportMatrixButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: 'Export', 
+			text: 'Export',
 			buttonConfig: 'icon',
 			imageCls: 'icon-cloud-download ',
 			scope: this,
@@ -119,30 +119,30 @@ Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
 				me.handleExport();
 			}
 		});
-				
+
 		this.matrixButtonPanel.add(this.exportMatrixButton);
-		
+
 		this.mainPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
 			scrollable: null,
 
 			items: [
-			    this.singleTemplatePanel,
-		        this.exportOptions,
-		        this.matrixButtonPanel
-	        ]
+				this.singleTemplatePanel,
+				this.exportOptions,
+				this.matrixButtonPanel
+			]
 		});
-		
+
 		this.add([
-	          this.toolbar,
-      		  this.mainPart
-	  	]);
+			this.toolbar,
+			this.mainPart
+		]);
 	},
-	
-	handleExport: function() {
+
+	handleExport: function () {
 		var withAnswerStatistics = this.exportAnswerToggle.getValue();
 		var withFeedbackQuestions = this.exportStudentsQuestionToggle.getValue();
-		
+
 		ARSnova.app.getController("SessionExport").exportSessionsToFile(
 				this.getExportSessionMap(), withAnswerStatistics, withFeedbackQuestions);
 	}

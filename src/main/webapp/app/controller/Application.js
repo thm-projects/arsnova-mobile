@@ -35,17 +35,17 @@ Ext.define("ARSnova.controller.Application", {
 	/**
 	 * toggles boolean value of hrefPanelActive
 	 */
-	toggleHrefPanelActive: function() {
+	toggleHrefPanelActive: function () {
 		this.hrefPanelActive = !this.hrefPanelActive;
 	},
 
 	/**
 	 * check if used protocol is http/https
 	 */
-	checkHrefProtocol: function(href) {
-		switch(href.split(":")[0]) {
+	checkHrefProtocol: function (href) {
+		switch (href.split(":")[0]) {
 			case "http":
-				if(Ext.browser.is.IE || Ext.browser.is.Safari) {
+				if (Ext.browser.is.IE || Ext.browser.is.Safari) {
 					return true;
 				}
 				break;
@@ -60,15 +60,15 @@ Ext.define("ARSnova.controller.Application", {
 	/**
 	 * overrides onclick event handler in order to change behavior when an a-tag is clicked
 	 */
-	initializeHrefOverride: function() {
+	initializeHrefOverride: function () {
 		document.onclick = function (e) {
-			e = e ||  window.event;
+			e = e || window.event;
 			var element = e.target || e.srcElement;
 			var controller = ARSnova.app.getController('Application');
 
-			if (element.tagName == 'A' && element.className != "session-export") {
-				if(controller.checkHrefProtocol(element.href)) {
-					if(!controller.hrefPanelActive) {
+			if (element.tagName === 'A' && element.className !== "session-export") {
+				if (controller.checkHrefProtocol(element.href)) {
+					if (!controller.hrefPanelActive) {
 						controller.toggleHrefPanelActive();
 
 						var previewPanel = ARSnova.app.activePreviewPanel;
@@ -78,7 +78,7 @@ Ext.define("ARSnova.controller.Application", {
 							onClickElement: element
 						});
 
-						if(previewPanel) {
+						if (previewPanel) {
 							previewPanel.showEmbeddedPagePreview(controller.embeddedPage);
 						} else {
 							ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(controller.embeddedPage, 'slide');
@@ -99,7 +99,7 @@ Ext.define("ARSnova.controller.Application", {
 	 *
 	 * @return true if localStorage/cookies are supported - returns false otherwise
 	 */
-	checkForPrivacyMode: function() {
+	checkForPrivacyMode: function () {
 		var privacyMode = false,
 			cookieEnabled = (navigator.cookieEnabled) ? true : false;
 
@@ -108,19 +108,19 @@ Ext.define("ARSnova.controller.Application", {
 			localStorage.removeItem('storageTest');
 
 			//if not IE4+ nor NS6+
-			if (typeof navigator.cookieEnabled=="undefined" && !cookieEnabled){
-				document.cookie= "cookieTest";
-				cookieEnabled= (document.cookie.indexOf("cookieTest") != -1) ? true : false;
+			if (typeof navigator.cookieEnabled == "undefined" && !cookieEnabled) {
+				document.cookie = "cookieTest";
+				cookieEnabled = (document.cookie.indexOf("cookieTest") !== -1) ? true : false;
 			}
 		} catch (e) {
 			privacyMode = true;
 		}
 
-		if(privacyMode || !cookieEnabled) {
+		if (privacyMode || !cookieEnabled) {
 			Ext.Viewport.setMasked({
 				xtype: 'mask',
 				listeners: {
-					tap: function() {
+					tap: function () {
 						Ext.Msg.alert(
 							Messages.PRIVACY_MODE_WARNING_TITLE,
 							Messages.PRIVACY_MODE_WARNING_TEXT,
@@ -140,8 +140,8 @@ Ext.define("ARSnova.controller.Application", {
 	/**
 	 * adds mouse scrolling feature if app is used in desktop browser
 	 */
-	initializeAdvancedScrolling: function() {
-		if(Ext.os.is.Desktop) {
+	initializeAdvancedScrolling: function () {
+		if (Ext.os.is.Desktop) {
 			var doScroll = function (e) {
 				e = window.event || e;
 				var direction = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
@@ -149,30 +149,30 @@ Ext.define("ARSnova.controller.Application", {
 				var delta = 0;
 
 				if (e.wheelDelta) {
-					delta = e.wheelDelta/120;
+					delta = e.wheelDelta / 120;
 				} else if (e.detail) {
-					delta = e.detail/3;
+					delta = e.detail / 3;
 				}
 
-				if(ARSnova.app.mainTabPanel == null) return;
+				if (ARSnova.app.mainTabPanel == null) return;
 
 				/** check if previewBox is activeItem */
 				var scrollMe = ARSnova.app.innerScrollPanel ? ARSnova.app.innerScrollPanel :
 					ARSnova.app.mainTabPanel.tabPanel.getActiveItem();
 
-				if(scrollMe) {
+				if (scrollMe) {
 					var scrollable = scrollMe.getActiveItem().getScrollable();
 
 					/** check if tabPanel is activeItem */
-					if(scrollable && typeof scrollable.getScroller === 'function') {
+					if (scrollable && typeof scrollable.getScroller === 'function') {
 						scrollMe = scrollMe.getActiveItem();
 					}
 
-					if(scrollMe.disableScrolling) return;
+					if (scrollMe.disableScrolling) return;
 
-					if(scrollMe.getScrollable()) {
+					if (scrollMe.getScrollable()) {
 						var scroller = scrollMe.getScrollable().getScroller();
-						var pixels = acceleration * (delta<0 ? -delta : delta);
+						var pixels = acceleration * (delta < 0 ? -delta : delta);
 						var maxPosition = scroller.getMaxPosition().y;
 						var currentPos = scroller.position.y;
 
@@ -181,16 +181,13 @@ Ext.define("ARSnova.controller.Application", {
 						if (direction === 1) {
 							if (currentPos >= pixels) {
 								newPos = currentPos - pixels;
-							}
-							else {
+							} else {
 								newPos = 0;
 							}
-						}
-						else if (direction === -1) {
+						} else if (direction === -1) {
 							if (currentPos <= maxPosition - pixels) {
 								newPos = currentPos + pixels ;
-							}
-							else {
+							} else {
 								newPos = maxPosition;
 							}
 						}

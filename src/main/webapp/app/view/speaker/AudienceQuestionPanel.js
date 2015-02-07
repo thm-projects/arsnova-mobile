@@ -59,7 +59,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
-		
+
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		var upperActionButtonCls = screenWidth < 410 ? 'smallerActionButton' : 'actionButton';
 
@@ -88,8 +88,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			itemTpl: '<tpl if="active"><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
 				'<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
 				'<div class="x-button x-hasbadge audiencePanelListBadge">' +
-				'<tpl if="numAnswers &gt; 0"><span class="answersBadgeIcon badgefixed">{numAnswers}</span></tpl></div>'
-			,
+				'<tpl if="numAnswers &gt; 0"><span class="answersBadgeIcon badgefixed">{numAnswers}</span></tpl></div>',
 			grouped: true,
 			store: this.questionStore,
 
@@ -137,13 +136,13 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				});
 			}
 		});
-		
+
 		this.questionStatusButton = Ext.create('ARSnova.view.speaker.MultiQuestionStatusButton', {
 			hidden: true,
 			cls: upperActionButtonCls,
 			questionStore: this.questionList.getStore()
 		});
-		
+
 		this.showcaseActionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SHOWCASE_MODE,
 			buttonConfig: 'icon',
@@ -152,7 +151,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			handler: this.showcaseHandler,
 			hidden: true
 		});
-		
+
 		this.newQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.NEW_QUESTION,
 			buttonConfig: 'icon',
@@ -160,7 +159,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			imageCls: 'icon-question thm-green',
 			handler: this.newQuestionHandler
 		});
-		
+
 		this.actionButtonPanel = Ext.create('Ext.Panel', {
 			layout: {
 				type: 'hbox',
@@ -171,7 +170,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 			items: [
 				this.questionStatusButton,
-				this.showcaseActionButton,	   
+				this.showcaseActionButton,
 				this.newQuestionButton
 			]
 		});
@@ -197,7 +196,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			handler: function () {
 				var me = this;
 				Ext.Msg.confirm(Messages.DELETE_ALL_ANSWERS_REQUEST, Messages.ALL_QUESTIONS_REMAIN, function (answer) {
-					if (answer == 'yes') {
+					if (answer === 'yes') {
 						me.getController().deleteAllQuestionsAnswers({
 							success: Ext.bind(this.handleAnswerCount, this),
 							failure: Ext.emptyFn
@@ -216,9 +215,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			scope: this,
 			handler: function () {
 				var msg = Messages.ARE_YOU_SURE;
-					msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
+				msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
 				Ext.Msg.confirm(Messages.DELETE_QUESTIONS_TITLE, msg, function (answer) {
-					if (answer == 'yes') {
+					if (answer === 'yes') {
 						this.getController().destroyAll(sessionStorage.getItem("keyword"), {
 							success: Ext.bind(this.onActivate, this),
 							failure: function () {
@@ -238,10 +237,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			},
 
 			items: [
-			    this.deleteAnswersButton,
-			    this.deleteQuestionsButton
+				this.deleteAnswersButton,
+				this.deleteQuestionsButton
 			]
-
 		});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
@@ -290,12 +288,11 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.caption.show();
 				this.caption.explainStatus(questions);
 				this.handleAnswerCount();
-			
-				if(questions.length === 1) {
+
+				if (questions.length === 1) {
 					this.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE);
 					this.questionStatusButton.setSingleQuestionMode();
-				} 
-				else {
+				} else {
 					this.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE_PLURAL);
 					this.questionStatusButton.setMultiQuestionMode();
 				}

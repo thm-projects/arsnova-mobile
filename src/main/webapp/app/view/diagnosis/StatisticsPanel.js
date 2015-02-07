@@ -59,7 +59,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 
 		this.statisticsStore = Ext.create('Ext.data.Store', {
 			model: 'ARSnova.model.Statistic'
-		}),
+		});
 
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
@@ -92,10 +92,10 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 				ui: 'normal',
 				cls: 'standardListButton statisticButton',
 				disabled: true,
-				setInnerValue: function(value) {
+				setInnerValue: function (value) {
 					var component = me.formpanel.getComponent(this.itemId);
 
-					if(!component.innerValue) {
+					if (!component.innerValue) {
 						component.innerValue = Ext.DomHelper.append(component.element, {
 							tag: 'span',
 							cls: 'thm-grey'

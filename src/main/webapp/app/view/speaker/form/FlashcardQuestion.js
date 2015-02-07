@@ -39,7 +39,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			style: 'margin-bottom: 30px'
 		});
 
-		if(this.config.editPanel) {
+		if (this.config.editPanel) {
 			this.uploadView.setUploadPanelConfig(
 				Messages.PICTURE_SOURCE + " - " + Messages.FLASHCARD_BACK_PAGE,
 				this.setFcImage, this.setFcImage
@@ -59,11 +59,11 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 
 		var previewButton = Ext.create('Ext.Button', {
 			text: Ext.os.is.Desktop ?
-				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP:
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
 			cls: Ext.os.is.Desktop ?
-				'previewButtonLong':
+				'previewButtonLong' :
 				'previewButton',
 			handler: function () {
 				this.previewHandler();
@@ -83,8 +83,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			}, this.uploadView, this.grid]
 		}]);
 
-		this.on('painted', function(){
-
+		this.on('painted', function () {
 		});
 	},
 
@@ -101,10 +100,10 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 		newQuestionPanel.setImage(image);
 	},
 
-	setFcImage: function(image) {
+	setFcImage: function (image) {
 		this.fcImage = image;
 		this.grid.setImage(image);
-		if(image) {
+		if (image) {
 			this.grid.show();
 		} else {
 			this.grid.hide();

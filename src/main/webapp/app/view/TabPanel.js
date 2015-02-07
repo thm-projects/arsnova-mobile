@@ -94,7 +94,7 @@ Ext.define('ARSnova.view.TabPanel', {
 
 			this.setWindowTitle(newCard);
 
-			switch(oldCard) {
+			switch (oldCard) {
 				case this.infoTabPanel:
 				case this.privacyTabPanel:
 				case this.imprintTabPanel:
@@ -108,7 +108,7 @@ Ext.define('ARSnova.view.TabPanel', {
 					ARSnova.app.lastActiveMainTabPanel = oldCard;
 			}
 
-			if(newCard === this.rolePanel) {
+			if (newCard === this.rolePanel) {
 				this.infoTabPanel.tab.hide();
 				this.blogTabPanel.tab.show();
 			} else {
@@ -116,15 +116,15 @@ Ext.define('ARSnova.view.TabPanel', {
 				this.blogTabPanel.tab.hide();
 			}
 
-			if(ARSnova.app.lastActiveMainTabPanel === this.rolePanel) {
-				if(	newCard === this.infoTabPanel ||
+			if (ARSnova.app.lastActiveMainTabPanel === this.rolePanel) {
+				if (newCard === this.infoTabPanel ||
 					newCard === this.privacyTabPanel ||
 					newCard === this.imprintTabPanel ||
 					newCard === this.blogTabPanel
-					) {
-						this.infoTabPanel.tab.hide();
-						this.blogTabPanel.tab.show();
-					}
+				) {
+					this.infoTabPanel.tab.hide();
+					this.blogTabPanel.tab.show();
+				}
 			}
 		}, this);
 
@@ -147,9 +147,9 @@ Ext.define('ARSnova.view.TabPanel', {
 
 		this.getTabBar().activeTab = card.tab;// for correct animation direction
 
-		if (typeof(animation) == 'object')
+		if (typeof(animation) === 'object') {
 			animation.duration = ARSnova.app.cardSwitchDuration;
-		else {
+		} else {
 			animation = {
 				type: animation,
 				direction: 'left',
@@ -158,8 +158,8 @@ Ext.define('ARSnova.view.TabPanel', {
 		}
 	},
 
-	setWindowTitle: function(newCard) {
-		switch(newCard) {
+	setWindowTitle: function (newCard) {
+		switch (newCard) {
 			case this.loginPanel:
 				ARSnova.app.setWindowTitle(' - ' + Messages.LOGIN);
 				break;
@@ -190,7 +190,7 @@ Ext.define('ARSnova.view.TabPanel', {
 		if (ARSnova.app.checkSessionLogin()) {
 			/* only start task if user/speaker is not(!) on feedbackTabPanel/statisticPanel (feedback chart)
 			 * because there is a own function which will check for new feedbacks and update the tab bar icon */
-			if (ARSnova.app.mainTabPanel.tabPanel._activeItem != ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel) {
+			if (ARSnova.app.mainTabPanel.tabPanel._activeItem !== ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel) {
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", this.updateFeedbackIcon, this);
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", this.updateFeedbackBadge, this);
 			}
@@ -200,7 +200,7 @@ Ext.define('ARSnova.view.TabPanel', {
 
 	onDeactivate: function () {
 		if (ARSnova.app.checkSessionLogin()) {
-			if (ARSnova.app.mainTabPanel.tabPanel._activeItem != ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel) {
+			if (ARSnova.app.mainTabPanel.tabPanel._activeItem !== ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel) {
 				ARSnova.app.feedbackModel.un("arsnova/session/feedback/average", this.updateFeedbackIcon);
 				ARSnova.app.feedbackModel.un("arsnova/session/feedback/count", this.updateFeedbackBadge);
 			}
@@ -208,27 +208,27 @@ Ext.define('ARSnova.view.TabPanel', {
 		}
 	},
 
-	activateAboutTabs: function() {
+	activateAboutTabs: function () {
 		this.privacyTabPanel.tab.show();
 		this.imprintTabPanel.tab.show();
 		this.blogTabPanel.tab.show();
 	},
 
-	deactivateAboutTabs: function() {
+	deactivateAboutTabs: function () {
 		this.privacyTabPanel.tab.hide();
 		this.imprintTabPanel.tab.hide();
 		this.blogTabPanel.tab.hide();
 		this.infoTabPanel.tab.show();
 	},
 
-	addClassToTab: function(addCls, panel) {
+	addClassToTab: function (addCls, panel) {
 		var tabbar = this.getTabBar().element,
 			selectCls = '.' + panel.getIconCls();
 
 		tabbar.select(selectCls).addCls(addCls);
 	},
 
-	removeClassFromTab: function(removeCls, panel) {
+	removeClassFromTab: function (removeCls, panel) {
 		var tabbar = this.getTabBar().element,
 			selectCls = '.' + panel.getIconCls();
 
@@ -269,7 +269,7 @@ Ext.define('ARSnova.view.TabPanel', {
 		var student = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
 
 		if (count > 0) {
-			speaker && speaker.tab.setBadgeText(count-1); // Do not count the speaker itself
+			speaker && speaker.tab.setBadgeText(count - 1); // Do not count the speaker itself
 			student && student.tab.setBadgeText(count); // Students will see all online users
 		}
 	}

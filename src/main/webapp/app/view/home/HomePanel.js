@@ -156,12 +156,12 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				buttonConfig: 'icon',
 				imageCls: 'icon-cloud thm-green',
 				scope: this,
-				handler: function() {
+				handler: function () {
 					// get public pool sessions from server
 					ARSnova.app.restProxy.getPublicPoolSessions({
-						success: function(sessionList) {
+						success: function (sessionList) {
 							var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-							me.publicPoolPanel = Ext.create('ARSnova.view.home.PublicPoolPanel',{
+							me.publicPoolPanel = Ext.create('ARSnova.view.home.PublicPoolPanel', {
 								sessions: sessionList
 							});
 
@@ -171,15 +171,15 @@ Ext.define('ARSnova.view.home.HomePanel', {
 								duration: 700
 							});
 						},
-						empty: function() {
-		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
-		    			},
-		    			failure: function() {
-		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
-		    			},
-		    			unauthenticated: function() {
-		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
-		    			}
+						empty: function () {
+							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
+						},
+						failure: function () {
+							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
+						},
+						unauthenticated: function () {
+							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
+						}
 					});
 				}
 			});
@@ -198,11 +198,11 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			this.add(this.matrixButtonPanel);
 		}
 
-		this.onBefore('painted', function() {
+		this.onBefore('painted', function () {
 			var me = this;
 			if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
 				var handler = function success(sessions) {
-					me.caption.summarize(sessions, { questions: false, answers: false, interposed: false, unanswered: true });
+					me.caption.summarize(sessions, {questions: false, answers: false, interposed: false, unanswered: true});
 					me.add(me.caption);
 				};
 				var p1 = this.loadVisitedSessions();
@@ -218,7 +218,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	},
 
 	checkLogin: function () {
-		if (ARSnova.app.loginMode == ARSnova.app.LOGIN_THM) {
+		if (ARSnova.app.loginMode === ARSnova.app.LOGIN_THM) {
 			this.logoutButton.addCls('thm');
 		}
 	},
@@ -241,7 +241,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	},
 
 	loadVisitedSessions: function () {
-		if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) return;
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) return;
 		var me = this;
 		var promise = new RSVP.Promise();
 
@@ -274,7 +274,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	},
 
 	loadMySessions: function () {
-		if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) return;
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) return;
 		var me = this;
 		var promise = new RSVP.Promise();
 
@@ -327,7 +327,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 
 				var iconCls = icon + " courseIcon";
 
-				if (session.sessionType == 'public_pool') {
+				if (session.sessionType === 'public_pool') {
 					iconCls = "icon-cloud thm-green";
 				}
 

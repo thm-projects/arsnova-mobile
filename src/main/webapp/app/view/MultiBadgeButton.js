@@ -42,7 +42,7 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 		if (!innerHtmlElement || !innerHtmlElement.dom || !innerHtmlElement.dom.parentNode) {
 			this.innerHtmlElement = innerHtmlElement = this.innerElement.createChild({
 				cls: 'x-innerhtml ',
-				style: {display:'none'}
+				style: {display: 'none'}
 			});
 
 			if (this.getStyleHtmlContent()) {

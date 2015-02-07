@@ -44,10 +44,10 @@ Ext.define('ARSnova.view.MatrixButton', {
 		html: ['<span class="iconBtn"></span><span class="gravure buttonText" style="display:block"></span>']
 	},
 
-	initialize: function() {
+	initialize: function () {
 		var me = this;
 
-		switch(this.getButtonConfig()) {
+		switch (this.getButtonConfig()) {
 			case 'image':
 				this.useImageConfiguration();
 				break;
@@ -64,22 +64,22 @@ Ext.define('ARSnova.view.MatrixButton', {
 		this.setButtonText(this.getText());
 		this.callParent(arguments);
 
-		this.element.on('touchstart', function() {
+		this.element.on('touchstart', function () {
 			var element = me.element.select(".iconBtn").elements[0];
 			element.className = element.className + " x-button-pressing";
 		});
 
-		this.element.on('touchend', function() {
+		this.element.on('touchend', function () {
 			var element = me.element.select(".iconBtn").elements[0];
 			element.className = "iconBtn";
 		});
 	},
 
-	setButtonText: function(text) {
+	setButtonText: function (text) {
 		var buttonSpan = this.element.select(".x-button-label").elements;
 		var	buttonText = this.element.select(".buttonText").elements;
 
-		if(text === "") {
+		if (text === "") {
 			buttonSpan[0].removeChild(buttonText[0]);
 		} else {
 			buttonText[0].innerHTML = text;
@@ -89,7 +89,7 @@ Ext.define('ARSnova.view.MatrixButton', {
 	/**
 	 * render icon font to matrixbutton
 	 */
-	useIconConfiguration: function() {
+	useIconConfiguration: function () {
 		Ext.DomHelper.append(this.element.select(".iconBtn").elements[0], {
 			tag: 'div',
 			cls: 'iconBtnImg x-button-icon ' + this.getImageCls(),
@@ -100,22 +100,21 @@ Ext.define('ARSnova.view.MatrixButton', {
 	/**
 	 * render Ext.field.Toggle to matrixbutton
 	 */
-	useToggleFieldConfiguration: function() {
+	useToggleFieldConfiguration: function () {
 		var me = this;
 
 		this.getToggleConfig().renderTo = this.element.select(".iconBtn").elements[0];
 		this.toggleField = Ext.create('Ext.field.Toggle', this.getToggleConfig());
 		this.toggleField.getComponent().onTap = Ext.emptyFn;
 
-		this.setHandler(function() {
+		this.setHandler(function () {
 			me.toggleField.toggle();
 		});
 
-		this.setToggleFieldValue = function(value) {
-			if(value) {
+		this.setToggleFieldValue = function (value) {
+			if (value) {
 				this.toggleField.getComponent().setValue(1);
-			}
-			else {
+			} else {
 				this.toggleField.getComponent().setValue(0);
 			}
 		};
@@ -124,7 +123,7 @@ Ext.define('ARSnova.view.MatrixButton', {
 	/**
 	 * render image to matrixbutton
 	 */
-	useImageConfiguration: function() {
+	useImageConfiguration: function () {
 		var me = this,
 			promise = new RSVP.Promise(),
 			retina = window.devicePixelRatio >= 2,

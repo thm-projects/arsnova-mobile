@@ -36,8 +36,8 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
-		
-		this.on('painted', function() {
+
+		this.on('painted', function () {
 			// save last panel for backButton handler
 			this.lastActivePanel = ARSnova.app.lastActiveMainTabPanel;
 		});
@@ -61,7 +61,7 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 			ui: 'light',
 			items: [this.backButton]
 		});
-		
+
 		this.inClass = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			items: [{
@@ -87,19 +87,17 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 					text: Messages.BROWSER_INFO,
 					handler: function (b) {
 						this.detect = Ext.create("ARSnova.BrowserDetect");
-						var browserInfo = new String(
-							"<b>Name:</b> " + this.detect.browser + "<br>" +
+						var browserInfo = "<b>Name:</b> " + this.detect.browser + "<br>" +
 							"<b>Engine:</b> " + Ext.browser.engineName +
 							" " + Ext.browser.engineVersion.version + "<br>" +
-							"<b>UA:</b> " + Ext.browser.userAgent + "<br>"
-						);
+							"<b>UA:</b> " + Ext.browser.userAgent + "<br>";
 						Ext.Msg.alert('Browser', browserInfo, Ext.emptyFn);
 					}
 				}, {
 					text: Messages.ARSNOVA_RELOAD,
 					handler: function (b) {
 						Ext.Msg.confirm(Messages.ARSNOVA_RELOAD, Messages.RELOAD_SURE, function (b) {
-							if (b == "yes") {
+							if (b === "yes") {
 								if (ARSnova.app.checkSessionLogin()) {
 									ARSnova.app.getController('Sessions').logout();
 								}
@@ -118,6 +116,6 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 			}]
 		});
 
-		this.add([this.toolbar, this.inClass]); 
+		this.add([this.toolbar, this.inClass]);
 	}
 });

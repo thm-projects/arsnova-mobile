@@ -42,7 +42,7 @@ Ext.define('ARSnova.view.about.ImprintTabPanel', {
 				text: Messages.BACK,
 				ui: 'back',
 				scope: this,
-				handler: function() {
+				handler: function () {
 					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.lastActiveMainTabPanel, {
 						type: 'slide',
 						direction: 'right',
