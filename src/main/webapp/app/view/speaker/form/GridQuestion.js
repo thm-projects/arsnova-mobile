@@ -630,7 +630,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		var newQuestionPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
 		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.setActiveItem(newQuestionPanel);
 		newQuestionPanel.activateButtonWithText(Messages.GRID);
-		this.image = this.grid.getDataURL();
+		this.image = templateGrid.getImageFile().src;
 	},
 
 	/**
