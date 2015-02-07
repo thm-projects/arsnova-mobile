@@ -210,6 +210,8 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		var result = this.callParent(arguments);
 
 		result.numberOfDots = this.getNumberOfDots();
+		console.log(this.getDataURL());
+		console.log(result);
 
 		return result;
 	},
