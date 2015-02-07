@@ -37,7 +37,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 
 		this.questionObj = args.questionObj;
 
-		if (this.questionObj && this.questionObj.active === 1) {
+		if (this.questionObj && this.questionObj.active) {
 			this.isOpen = true;
 		} else {
 			this.isOpen = false;
@@ -96,7 +96,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 	checkInitialStatus: function () {
 		if (this.isRendered) return;
 
-		if (localStorage.getItem('active') === 1) {
+		if (localStorage.getItem('active') === "1") {
 			this.isOpen = true;
 			this.button.setToggleFieldValue(true);
 		} else {

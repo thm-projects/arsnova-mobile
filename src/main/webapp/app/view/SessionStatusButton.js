@@ -62,7 +62,7 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 
 		this.add([this.sessionIsClosed, this.sessionIsOpen]);
 
-		if (localStorage.getItem('active') === 1) {
+		if (localStorage.getItem('active') === "1") {
 			this.isOpen = true;
 			this.sessionIsClosed.hide();
 		} else {
@@ -94,7 +94,7 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 	checkInitialStatus: function () {
 		if (this.isRendered) return;
 
-		if (localStorage.getItem('active') === 1) {
+		if (localStorage.getItem('active') === "1") {
 			this.isOpen = true;
 		} else {
 			this.isOpen = false;
