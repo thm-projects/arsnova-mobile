@@ -4,14 +4,23 @@
 module.exports = function (grunt) {
 	require("time-grunt")(grunt);
 
+	var appPath = "src/main/webapp";
+	var buildPath = appPath + "/build";
+
 	/* Files matching the following patterns will be checked by JSHint and JSCS */
 	var lintJs = [
 		"Gruntfile.js",
-		"src/main/webapp/app/**/*.js",
-		"!src/main/webapp/app/utils/Ext.*.js"
+		appPath + "/app/**/*.js",
+		"!" + appPath + "/app/utils/Ext.*.js"
 	];
 
 	grunt.initConfig({
+		senchaEnv: "production",
+
+		clean: {
+			build: buildPath
+		},
+
 		jscs: {
 			src: lintJs,
 			options: {
@@ -24,11 +33,42 @@ module.exports = function (grunt) {
 			options: {
 				jshintrc: ".jshintrc"
 			}
+		},
+
+		shell: {
+			build: {
+				command: "sencha app build <%= senchaEnv %>",
+				options: {
+					execOptions: {
+						cwd: appPath
+					}
+				}
+			},
+
+			refresh: {
+				command: "sencha app refresh",
+				options: {
+					execOptions: {
+						cwd: appPath
+					}
+				}
+			},
+
+			watch: {
+				command: "sencha app watch -e <%= senchaEnv %>",
+				options: {
+					execOptions: {
+						cwd: appPath
+					}
+				}
+			}
 		}
 	});
 
+	grunt.loadNpmTasks("grunt-contrib-clean");
 	grunt.loadNpmTasks("grunt-contrib-jshint");
 	grunt.loadNpmTasks("grunt-jscs");
+	grunt.loadNpmTasks("grunt-shell");
 
 	grunt.registerTask("lint", ["jscs", "jshint"]);
 	grunt.registerTask("default", ["lint"]);
