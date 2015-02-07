@@ -474,8 +474,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		values.questionVariant = panel.getVariant();
 		values.image = this.image;
 		values.flashcardImage = null;
-		
-		console.log(values.image);
 
 		if (localStorage.getItem('courseId') != null && localStorage.getItem('courseId').length > 0) {
 			values.releasedFor = 'courses';

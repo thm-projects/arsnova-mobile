@@ -87,6 +87,11 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		ctx.stroke();
 	},
 
+	getDataURL: function() {
+		var ctx = this.getCanvas().getContext("2d");
+		return ctx.canvas.toDataURL();
+	},
+
 	/**
 	 * Updates the GridImageContainer with the given parameters.
 	 *
