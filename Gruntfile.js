@@ -15,8 +15,6 @@ module.exports = function (grunt) {
 	];
 
 	grunt.initConfig({
-		senchaEnv: "production",
-
 		clean: {
 			build: buildPath
 		},
@@ -65,11 +63,34 @@ module.exports = function (grunt) {
 		}
 	});
 
+	function setSenchaEnv(env) {
+		/* shortcuts */
+		if ("prod" === env) {
+			env = "production";
+		} else if ("dev" === env) {
+			env = "testing";
+		}
+		grunt.config("senchaEnv", env);
+	}
+
+	grunt.registerTask("build", function (env) {
+		/* use prod env by default for build task */
+		setSenchaEnv(env ? env : "prod");
+		grunt.task.run("shell:build");
+	});
+
+	grunt.registerTask("run", function (env) {
+		/* use dev env by default for run task */
+		setSenchaEnv(env ? env : "dev");
+		grunt.task.run("shell:watch");
+	});
+
 	grunt.loadNpmTasks("grunt-contrib-clean");
 	grunt.loadNpmTasks("grunt-contrib-jshint");
 	grunt.loadNpmTasks("grunt-jscs");
 	grunt.loadNpmTasks("grunt-shell");
 
 	grunt.registerTask("lint", ["jscs", "jshint"]);
-	grunt.registerTask("default", ["lint"]);
+	grunt.registerTask("refresh", "shell:refresh");
+	grunt.registerTask("default", ["lint", "build"]);
 };
