@@ -96,6 +96,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			text: Messages.BACK,
 			ui: 'back',
 			scope: this,
+			style: 'min-width: 60px;',
 			handler: function () {
 				ARSnova.app.innerScrollPanel = false;
 				ARSnova.app.taskManager.stop(this.renewChartDataTask);
@@ -111,16 +112,21 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			ui: 'light',
-			cls: ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER ? 'speakerTitleText' : '',
-			title: Messages.STATISTIC,
+			cls: 'answerStatisticToolbar',
 			items: [this.backButton, {
+				xtype: 'spacer'
+			}, {
+				flex: 99,
+				xtype: 'title',
+				title: this.questionObj.subject
+			}, {
 				xtype: 'spacer'
 			}, {
 				xtype: 'container',
 				cls: "x-toolbar-title counterText",
 				hidden: ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT,
 				html: "0/0",
-				style: {paddingRight: '10px'}
+				style: {paddingRight: '20px'}
 			}, {
 				xtype: 'button',
 				width: '55px',
@@ -454,7 +460,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 					// update quote in toolbar
-					var quote = panel.toolbar.items.items[2];
+					var quote = panel.toolbar.items.items[4];
 					var users = quote.getHtml().split("/");
 					users[0] = sum;
 					users = users.join("/");
@@ -471,7 +477,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		var count = ARSnova.app.loggedInModel.countActiveUsersBySession();
 
 		// update quote in toolbar
-		var quote = ARSnova.app.mainTabPanel._activeItem.toolbar.items.items[2];
+		var quote = ARSnova.app.mainTabPanel._activeItem.toolbar.items.items[4];
 		var users = quote.getHtml().split("/");
 		users[1] = count - 1; // Do not count the speaker itself
 		users = users.join("/");

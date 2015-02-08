@@ -133,3 +133,13 @@
 .myCoursesList .x-list-item {
 	border: none !important;
 }
+
+.answerStatisticToolbar {
+	.x-toolbar-inner {
+		display: flex !important;
+		
+		.x-title {
+			flex: 1;
+		}
+	}
+}
