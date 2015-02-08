@@ -33,6 +33,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 	/* toolbar items */
 	toolbar: null,
+	piTimer: false,
 	toggleCorrect: false,
 	chartRefreshDuration: 1000,
 
@@ -132,7 +133,28 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				style: {paddingRight: '20px'}
 			}, {
 				xtype: 'button',
-				width: '55px',
+				iconCls: 'icon-timer',
+				cls: 'toggleCorrectButton',
+				handler: function (button) {
+					var me = this;
+
+					if (this.piTimer) {
+						button.removeCls('x-button-pressed');
+						if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+							me.segmentedButton.hide();
+						}
+					} else {
+						button.addCls('x-button-pressed');
+						if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+							me.segmentedButton.show();
+						}
+					}
+					this.piTimer = !this.piTimer;
+				}, 				
+				scope: this,
+				hidden: this.questionObj.questionType === 'grid' || (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT)
+			}, {
+				xtype: 'button',
 				iconCls: 'icon-check',
 				cls: 'toggleCorrectButton',
 				handler: function (button) {
@@ -432,10 +454,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			
 			if(this.questionObj.piRound === 1) {
 				this.disablePiRoundElements();
-			}
-			
-			if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-				this.segmentedButton.show();
 			}
 		});
 	},
