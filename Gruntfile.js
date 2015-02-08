@@ -19,6 +19,45 @@ module.exports = function (grunt) {
 			build: buildPath
 		},
 
+		connect: {
+			server: {
+				options: {
+					base: buildPath + "/<%= senchaEnv %>/ARSnova",
+					hostname: "localhost",
+					port: 8081,
+					useAvailablePort: true,
+					open: true,
+					middleware: function (connect, options) {
+						var proxy = require("grunt-connect-proxy/lib/utils").proxyRequest;
+
+						return [
+							["/", function (req, res, next) {
+								if ("/" === req.url) {
+									res.writeHead(301, {Location: "/mobile"});
+									res.end();
+								} else {
+									/* Let the proxy middleware handle this request */
+									next();
+								}
+							}],
+							/* Serve static files */
+							["/mobile", connect.static(options.base[0])],
+							/* Proxy for backend API */
+							proxy
+						];
+					}
+				},
+				proxies: [
+					{
+						context: ["/", "/api", "/arsnova-config"],
+						host: "localhost",
+						port: 8080,
+						xforward: true
+					}
+				]
+			}
+		},
+
 		jscs: {
 			all: {
 				src: lintJs
@@ -102,11 +141,18 @@ module.exports = function (grunt) {
 		});
 		/* we want Grunt for this task to continue even if QA checks fail */
 		grunt.option("force", true);
-		grunt.task.run(["newer:jscs", "newer:jshint"]);
+		grunt.task.run([
+			"newer:jscs",
+			"newer:jshint",
+			"configureProxies:server",
+			"connect"
+		]);
 		grunt.task.run("watch");
 	});
 
+	grunt.loadNpmTasks("grunt-connect-proxy");
 	grunt.loadNpmTasks("grunt-contrib-clean");
+	grunt.loadNpmTasks("grunt-contrib-connect");
 	grunt.loadNpmTasks("grunt-contrib-jshint");
 	grunt.loadNpmTasks("grunt-contrib-watch");
 	grunt.loadNpmTasks("grunt-jscs");
