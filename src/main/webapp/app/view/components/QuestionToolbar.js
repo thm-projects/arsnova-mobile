@@ -51,7 +51,7 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 			cls: "x-toolbar-title alignLeft counterText",
 			html: '0/0'
 		});
-		
+
 		this.answerCounter = Ext.create('Ext.Component', {
 			cls: "x-toolbar-title alignRight counterText"
 		});
@@ -88,14 +88,14 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 			this.setTitleOptions(Messages.QUESTION_GRADE, Messages.QUESTION_GRADE_SHORT);
 		} else if (questionType === 'flashcard') {
 			this.setTitleOptions(Messages.FLASHCARD, Messages.FLASHCARD);
-		} else if (questionType == 'grid') {
+		} else if (questionType === 'grid') {
 			this.setTitleOptions(Messages.QUESTION_GRID, Messages.QUESTION_GRID_SHORT);
 		}
 	},
 
 	setTitleOptions: function (longVersion, shortVersion) {
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-		
+
 		if (screenWidth < 520 && this.getShowcase()) {
 			this.setTitle('');
 		} else {
@@ -106,24 +106,23 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 			}
 		}
 	},
-	
-	setAnswerCounter: function(value, option) {
-		if(!option) {
+
+	setAnswerCounter: function (value, option) {
+		if (!option) {
 			option = value === 1 ? Messages.ANSWER : Messages.ANSWERS;
-		}
-		else if(option === Messages.ABSTENTION) {
+		} else if (option === Messages.ABSTENTION) {
 			option = value === 1 ? Messages.ABSTENTION : Messages.ABSTENTIONS;
-			if(lang === "en") option = option.toLowerCase();
+			if (lang === "en") option = option.toLowerCase();
 		}
-		
+
 		this.answerCounter.setHtml(value + ' ' + option);
 	},
-	
-	updateAnswerCounter: function(value) {
+
+	updateAnswerCounter: function (value) {
 		var counter = this.answerCounter.getHtml().split(" "),
 			counterText = this.getAnswerCounterText();
-		
-		switch(counterText) {
+
+		switch (counterText) {
 			case Messages.ANSWER:
 			case Messages.ANSWERS:
 			case Messages.ABSTENTION:
@@ -134,21 +133,21 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 				break;
 			default:
 				counter[0] = value;
-				this.answerCounter.setHtml(counter.join(" "));	
+				this.answerCounter.setHtml(counter.join(" "));
 		}
 	},
-	
-	getAnswerCounterText: function() {
+
+	getAnswerCounterText: function () {
 		var counter = this.answerCounter.getHtml().split(" "),
-		lastString = counter[counter.length-1];
-	
+		lastString = counter[counter.length - 1];
+
 		return lastString;
 	},
-	
-	setAnswerCounterText: function(text) {
+
+	setAnswerCounterText: function (text) {
 		var counter = this.answerCounter.getHtml().split(" ");
-		counter[counter.length-1] = text;
-	
+		counter[counter.length - 1] = text;
+
 		this.answerCounter.setHtml(counter.join(" "));
 	},
 

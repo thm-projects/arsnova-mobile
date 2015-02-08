@@ -54,12 +54,12 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
-		
+
 		var me = this;
 
 		this.statisticsStore = Ext.create('Ext.data.Store', {
 			model: 'ARSnova.model.Statistic'
-		}),
+		});
 
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
@@ -92,16 +92,16 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 				ui: 'normal',
 				cls: 'standardListButton statisticButton',
 				disabled: true,
-				setInnerValue: function(value) {
+				setInnerValue: function (value) {
 					var component = me.formpanel.getComponent(this.itemId);
-					
-					if(!component.innerValue) {
+
+					if (!component.innerValue) {
 						component.innerValue = Ext.DomHelper.append(component.element, {
 							tag: 'span',
 							cls: 'thm-grey'
 						});
 					}
-					
+
 					component.innerValue.innerHTML = value;
 				}
 			},
@@ -123,7 +123,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 					text: Messages.ANSWERS
 				}]
 		});
-		
+
 		this.inClass = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			items: [this.formpanel]

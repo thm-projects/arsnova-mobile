@@ -44,12 +44,12 @@ Ext.define('ARSnova.model.Answer', {
 	getUserAnswer: function (questionId, callbacks) {
 		return this.getProxy().getUserAnswer(questionId, callbacks);
 	},
-	
+
 	getAnswerCount: function (questionId, callbacks) {
 		return this.getProxy().getAnswerCount(questionId, callbacks);
 	},
-	
-	getAnswerAndAbstentionCount: function(questionId, callbacks) {
+
+	getAnswerAndAbstentionCount: function (questionId, callbacks) {
 		return this.getProxy().getAnswerAndAbstentionCount(questionId, callbacks);
 	},
 
@@ -57,10 +57,10 @@ Ext.define('ARSnova.model.Answer', {
 		return this.getProxy().getAnswerByUserAndSession(sessionKeyword, callbacks);
 	},
 
-	saveAnswer: function (callbacks) {
+	saveAnswer: function (questionId, callbacks) {
 		if (!this.phantom) {
-			return this.getProxy().updateAnswer(this, callbacks);
+			return this.getProxy().updateAnswer(this, questionId, callbacks);
 		}
-		return this.getProxy().saveAnswer(this, callbacks);
+		return this.getProxy().saveAnswer(this, questionId, callbacks);
 	}
 });

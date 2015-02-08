@@ -59,12 +59,12 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		});
 
 		var previewButton = Ext.create('Ext.Button', {
-			text: Ext.os.is.Desktop ? 
-				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP:
+			text: Ext.os.is.Desktop ?
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
 			cls: Ext.os.is.Desktop ?
-				'previewButtonLong':
+				'previewButtonLong' :
 				'previewButton',
 			style: 'margin-left: 8px; margin-top: 0px;',
 			scope: this,
@@ -104,7 +104,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 				this.answerComponents[i] = Ext.create('ARSnova.view.TextCheckfield', {
 					id: theComponentId,
 					name: theComponentId,
-					placeHolder: Messages.ENTER_ANSWER_OPTION + " " + (i+1),
+					placeHolder: Messages.ENTER_ANSWER_OPTION + " " + (i + 1),
 					hidden: this.getStart() <= i,
 					container: this,
 					listeners: {
@@ -122,7 +122,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 									});
 								} else if (checked.length > 0) {
 									this.questionValueComponents.forEach(function (c, j) {
-											c.setSliderValue(this.answerComponents[j].isChecked() ? c.getMaxValue() : c.getMinValue());
+										c.setSliderValue(this.answerComponents[j].isChecked() ? c.getMaxValue() : c.getMinValue());
 									}, this);
 								} else {
 									component.setSliderValue(isChecked ? component.getMaxValue() : component.getMinValue());
@@ -167,14 +167,14 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			}]);
 		}
 	},
-	
-	resetFields: function() {
-		this.answerComponents.forEach(function(el) {
+
+	resetFields: function () {
+		this.answerComponents.forEach(function (el) {
 			el.reset();
 			el.uncheck();
 		});
-		
-		this.questionValueComponents.forEach(function(el) {
+
+		this.questionValueComponents.forEach(function (el) {
 			el.reset();
 		});
 	},
@@ -196,9 +196,9 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 
 	getValues: function () {
 		var values = [], obj;
-		
+
 		for (var i = 0; i < this.selectAnswerCount.getValue(); i++) {
-			if(this.answerComponents[i].getValue() !== "") {
+			if (this.answerComponents[i].getValue() !== "") {
 				obj = {
 					text: this.answerComponents[i].getValue(),
 					correct: this.answerComponents[i].isChecked()
@@ -209,7 +209,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 				values.push(obj);
 			}
 		}
-		
+
 		return values;
 	},
 
@@ -267,8 +267,8 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel,
 			answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox'),
 			answerValues = this.getValues();
-		
-		if(!panel.abstentionPart.isHidden() && panel.abstentionPart.getAbstention()) {
+
+		if (!panel.abstentionPart.isHidden() && panel.abstentionPart.getAbstention()) {
 			answerValues.push({
 				text: Messages.ABSTENTION,
 				correct: false,
@@ -277,7 +277,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		}
 
 		answerPreview.showPreview({
-			title: panel.subject.getValue(), 
+			title: panel.subject.getValue(),
 			content: panel.textarea.getValue(),
 			answers: answerValues,
 			image: panel.image

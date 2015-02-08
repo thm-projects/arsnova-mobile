@@ -39,7 +39,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			// I know it's bad, but I was not able to relay this event to other objects that would be better
 			// places to display an error message. Feel free to refactor this. ;-)
 			Ext.Msg.confirm(Messages.BROWSER_SESSION_EXPIRED, Messages.BROWSER_SESSION_EXPIRED_MSG, function (button) {
-				if (button == 'yes') {
+				if (button === 'yes') {
 					window.location.reload();
 				}
 			});
@@ -151,10 +151,10 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-	
+
 	getPublicPoolSessions: function (callbacks) {
 		this.arsjax.request({
-			url: "session/publicpool?group_level=1",
+			url: "session/publicpool",
 			method: "GET",
 
 			success: function (response) {
@@ -171,7 +171,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-	
+
 	getMyPublicPoolSessions: function (callbacks) {
 		this.arsjax.request({
 			url: "session/publicpool/",
@@ -501,8 +501,8 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			jsonData: {
 				"name": session.get("name"),
 				"shortName": session.get("shortName"),
-				"courseId": session.get("courseId") ? session.get("courseId"): null,
-				"courseType": session.get("courseType") ? session.get("courseType"): null,
+				"courseId": session.get("courseId") ? session.get("courseId") : null,
+				"courseType": session.get("courseType") ? session.get("courseType") : null,
 				"creationTime": session.get("creationTime"),
 				"ppAuthorName": session.get("ppAuthorName"),
 				"ppAuthorMail": session.get("ppAuthorMail"),
@@ -514,7 +514,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 				"ppFaculty": session.get("ppFaculty"),
 				"ppLevel": session.get("ppLevel"),
 				"sessionType": session.get("sessionType")
-			},			
+			},
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -614,9 +614,9 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	saveAnswer: function (answer, callbacks) {
+	saveAnswer: function (answer, questionId, callbacks) {
 		this.arsjax.request({
-			url: "lecturerquestion/" + answer.get('questionId') + "/answer/",
+			url: "lecturerquestion/" + encodeURIComponent(questionId) + "/answer/",
 			method: "POST",
 			jsonData: answer.raw,
 			success: callbacks.success,
@@ -624,9 +624,9 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	updateAnswer: function (answer, callbacks) {
+	updateAnswer: function (answer, questionId, callbacks) {
 		this.arsjax.request({
-			url: "lecturerquestion/" + answer.get('questionId') + "/answer/" + answer.get('_id'),
+			url: "lecturerquestion/" + encodeURIComponent(questionId) + "/answer/" + answer.get('_id'),
 			method: "PUT",
 			jsonData: answer.raw,
 			success: callbacks.success,
@@ -669,15 +669,15 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	getAnswerCount: function(questionId, callbacks) {
+	getAnswerCount: function (questionId, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/answercount",
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
 	},
-	
-	getAnswerAndAbstentionCount: function(questionId, callbacks) {
+
+	getAnswerAndAbstentionCount: function (questionId, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/answerandabstentioncount",
 			success: callbacks.success,
@@ -702,7 +702,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	getFeedback: function(sessionKeyword, callbacks) {
+	getFeedback: function (sessionKeyword, callbacks) {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/feedback/",
 			success: callbacks.success,

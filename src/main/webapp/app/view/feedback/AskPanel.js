@@ -50,7 +50,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			ui: 'light',
 			title: Messages.QUESTION_TO_SPEAKER,
 			items: [this.backButton]
-		}),
+		});
 
 		this.subject = Ext.create('Ext.form.Text', {
 			label: Messages.QUESTION_SUBJECT,
@@ -70,12 +70,12 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 
 		// Preview button
 		this.previewButton = Ext.create('Ext.Button', {
-			text: Ext.os.is.Desktop ? 
-				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP:
+			text: Ext.os.is.Desktop ?
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
 			cls: Ext.os.is.Desktop ?
-				'previewButtonLong':
+				'previewButtonLong' :
 				'previewButton',
 			scope: this,
 			handler: function () {
@@ -116,7 +116,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 					this.text
 				]
 			}
-				
+
 			]
 		}, this.buttonPart]);
 	},
@@ -137,7 +137,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		var validation = question.validate();
 		if (!validation.isValid()) {
 			me.down('fieldset').items.items.forEach(function (el) {
-				if (el.xtype == 'textfield')
+				if (el.xtype === 'textfield')
 					el.removeCls("required");
 			});
 
@@ -146,7 +146,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 				field.addCls("required");
 				field.element.select(".x-input-text").addCls('formInvalid');
 			});
-			
+
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.INCOMPLETE_INPUTS);
 			return;
 		} else {
@@ -197,7 +197,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		questionPreview.showPreview(this.subject.getValue(), this.text.getValue());
 	},
 
-	setClosePanelHandler: function(handler) {
+	setClosePanelHandler: function (handler) {
 		var me = this;
 		var previousHandler = me.backButton.getHandler();
 		// Restore previous back button handler after custom handler has been executed.

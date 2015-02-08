@@ -129,12 +129,12 @@ Ext.define('ARSnova.model.Question', {
 			var tP = ARSnova.app.mainTabPanel.tabPanel,
 				showcasePanel = tP.speakerTabPanel.showcaseQuestionPanel;
 
-			if(tP.getActiveItem().getActiveItem() === showcasePanel) {
-				if(showcasePanel.getActiveItem().getItemId() === object.key) {
+			if (tP.getActiveItem().getActiveItem() === showcasePanel) {
+				if (showcasePanel.getActiveItem().getItemId() === object.key) {
 					var numAnswers = object.value[0],
 						numAbstentions = object.value[1];
-					
-					if(numAnswers === numAbstentions && numAnswers > 0) {
+
+					if (numAnswers === numAbstentions && numAnswers > 0) {
 						showcasePanel.toolbar.setAnswerCounter(numAbstentions, Messages.ABSTENTION);
 					} else {
 						showcasePanel.toolbar.updateAnswerCounter(numAnswers);

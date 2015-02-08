@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,13 +28,12 @@
 //
 // The following lines import the custom scss files.
 
-// components:
-@import 'components/loadingMask';
+@import 'app/colors';
+@import 'app/general';
+@import 'app/iconfont';
+@import 'app/bugfixes';
+@import 'app/theme';
 
-// general:
-@import 'colors';
-@import 'general';
-@import 'badges';
-@import 'iconfont';
-@import 'bugfixes';
-@import 'theme';
+@import 'app/components/loadingMask';
+@import 'app/components/badges';
+

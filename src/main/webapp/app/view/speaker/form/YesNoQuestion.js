@@ -26,7 +26,7 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 
 		cls: 'newQuestionOptions centerFormTitle',
 		scrollable: null,
-		
+
 		/**
 		 * Which button should be pressed initially? 'yes', 'no', or 'none'
 		 */
@@ -184,12 +184,12 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 
 		return result;
 	},
-	
+
 	previewHandler: function () {
 		var questionPreview = Ext.create('ARSnova.view.AnswerPreviewBox');
 		var answerValues = this.yesNoQuestion.getQuestionValues().possibleAnswers;
-		
-		if(!this.abstentionPart.isHidden() && this.abstentionPart.getAbstention()) {
+
+		if (!this.abstentionPart.isHidden() && this.abstentionPart.getAbstention()) {
 			answerValues.push({
 				text: Messages.ABSTENTION,
 				correct: false,
@@ -198,7 +198,7 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 		}
 
 		questionPreview.showPreview({
-			title: this.subject.getValue(), 
+			title: this.subject.getValue(),
 			content: this.textarea.getValue(),
 			answers: answerValues
 		});

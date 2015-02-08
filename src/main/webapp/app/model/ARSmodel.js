@@ -25,7 +25,6 @@ Ext.define('ARSnova.model.ARSmodel', {
 	 * @param {Object} value The value to set.
 	 */
 	set: function (fieldName, value) {
-
 		var me = this,
 			// We are using the fields map since it saves lots of function calls
 			fieldMap = me.fields.map,
@@ -39,7 +38,7 @@ Ext.define('ARSnova.model.ARSmodel', {
 		 * If we're passed an object, iterate over that object. NOTE: we pull out fields with a convert function and
 		 * set those last so that all other possible data is set before the convert function is called
 		 */
-		if (arguments.length == 1) {
+		if (arguments.length === 1) {
 			for (key in fieldName) {
 				if (fieldName.hasOwnProperty(key)) {
 					// here we check for the custom convert function. Note that if a field doesn't have a convert function,

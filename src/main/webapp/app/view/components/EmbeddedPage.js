@@ -28,21 +28,21 @@ Ext.define('ARSnova.view.components.EmbeddedPage', {
 		height: '100%',
 		width: '100%'
 	},
-	
+
 	disableScrolling: true,
 
 	initialize: function () {
 		this.callParent(arguments);
-		
+
 		var self = this;
-		
+
 		this.frameContainer = Ext.DomHelper.append(this.element, {
 			tag: 'div',
 			scrolling: 'no',
 			cls: 'embeddedPageElement hidden',
 			style: Ext.os.is.iOS ? 'overflow: auto !important;' : ''
 		});
-		
+
 		this.loadingIndicator = Ext.DomHelper.append(this.element, {
 			tag: 'div',
 			cls: 'appLoadingIndicator',
@@ -55,15 +55,15 @@ Ext.define('ARSnova.view.components.EmbeddedPage', {
 				tag: 'div'
 			}]
 		});
-		
-		this.on('resize', function(element) {
+
+		this.on('resize', function (element) {
 			this.frame.width = element.getWidth() + 'px';
 		});
-		
+
 		this.on('painted', function () {
-			if(!this.defined) {
+			if (!this.defined) {
 				this.defined = true;
-				
+
 				this.frame = Ext.DomHelper.append(this.frameContainer, {
 					tag: 'iframe',
 					src: this.config.src,
@@ -74,8 +74,8 @@ Ext.define('ARSnova.view.components.EmbeddedPage', {
 					width: self.element.getWidth() + 'px',
 					height: '100%'
 				});
-				
-				this.frame.onload = function() {
+
+				this.frame.onload = function () {
 					Ext.fly(self.id + '-appLoadingIndicator').destroy();
 					self.frameContainer.className = 'embeddedPageElement';
 				};

@@ -47,7 +47,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				this.checkFreetextAnswers();
 			},
 			interval: 15000
-		},
+		};
 
 		this.freetextAnswerStore = Ext.create('Ext.data.JsonStore', {
 			model: 'FreetextAnswer',
@@ -66,10 +66,10 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 					direction: 'right',
 					duration: 700,
 					listeners: {
-						animationend: function() {
+						animationend: function () {
 							ARSnova.app.mainTabPanel._activeItem.on('deactivate', function () {
-							self.destroy();
-							}, self, {single:self});
+								self.destroy();
+							}, self, {single: self});
 						}, scope: self
 					}
 				});
@@ -82,7 +82,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			ui: 'light',
 			items: [this.backButton]
 		});
-		
+
 		this.noAnswersLabel = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			items: {
@@ -97,7 +97,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			height: '100%',
 			layout: 'fit',
 			flex: 1,
-			
+
 			style: {
 				backgroundColor: 'transparent'
 			},
@@ -156,21 +156,21 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			ARSnova.app.innerScrollPanel = false;
 			ARSnova.app.taskManager.stop(this.checkFreetextAnswersTask);
 		}, this);
-		
-		this.on('painted', function() {
+
+		this.on('painted', function () {
 			ARSnova.app.innerScrollPanel = this.freetextAnswerList;
 		});
 	},
 
 	checkFreetextAnswers: function () {
 		var me = this;
-		
+
 		ARSnova.app.questionModel.getAnsweredFreetextQuestions(sessionStorage.getItem("keyword"), this.questionObj._id, {
 			success: function (response) {
 				var responseObj = Ext.decode(response.responseText);
 				var answerLabel = me.noAnswersLabel.getInnerItems()[0];
 
-				if(responseObj.length === 0) {
+				if (responseObj.length === 0) {
 					answerLabel.setHtml(Messages.NO_ANSWERS);
 					me.freetextAnswerList.hide();
 					me.noAnswersLabel.show();
@@ -199,14 +199,14 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 						direction: 'DESC'
 					}]);
 					me.freetextAbstentions.setBadgeText(abstentions.length);
-					me.freetextAbstentions.setHidden(abstentions.length === 0);	
-					
+					me.freetextAbstentions.setHidden(abstentions.length === 0);
+
 					var abCount = abstentions.length;
 					var answersCount = answers.length;
 					var abstentionText = abCount === 1 ? Messages.ABSTENTION : Messages.ABSTENTIONS;
 					var answersText = answersCount === 1 ? Messages.ANSWER : Messages.ANSWERS;
-						
-					if(lang === "en") {
+
+					if (lang === "en") {
 						var verb = abCount === 1 ? 'is ' : 'are ';
 						abstentionText = verb + abCount + " " + abstentionText.toLowerCase();
 						answersText = answersCount + " " + answersText.toLowerCase();
@@ -214,8 +214,8 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 						abstentionText = abCount + " " + abstentionText;
 						answersText = answersCount + " " + answersText;
 					}
-					
-					if(abstentions.length === responseObj.length) {
+
+					if (abstentions.length === responseObj.length) {
 						answerLabel.setHtml(Messages.ONLY_ABSTENTION_ANSWERS.replace(/###/, abstentionText));
 						me.freetextAnswerList.hide();
 					} else {

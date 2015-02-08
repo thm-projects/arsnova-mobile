@@ -36,13 +36,13 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		this.callParent(arguments);
 
 		this.questionObj = args.questionObj;
-		
-		if (this.questionObj && this.questionObj.active == 1) {
+
+		if (this.questionObj && this.questionObj.active) {
 			this.isOpen = true;
 		} else {
 			this.isOpen = false;
 		}
-		
+
 		this.button = Ext.create('ARSnova.view.MatrixButton', {
 			buttonConfig: 'togglefield',
 			text: this.getWording().release,
@@ -54,8 +54,8 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 				value: this.isOpen ? 1 : 0,
 				listeners: {
 					scope: this,
-					change: function(toggle, newValue, oldValue, eOpts) {	
-						if(newValue && !this.isOpen || !newValue && this.isOpen) {
+					change: function (toggle, newValue, oldValue, eOpts) {
+						if (newValue && !this.isOpen || !newValue && this.isOpen) {
 							this.changeStatus();
 						}
 					}
@@ -72,7 +72,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 
 		if (this.isOpen) {
 			Ext.Msg.confirm(this.getWording().confirm, this.getWording().confirmMessage, function (buttonId) {
-				if (buttonId != "no") {
+				if (buttonId !== "no") {
 					/* close this question */
 					ARSnova.app.getController('Questions').setActive({
 						questionId: id,
@@ -96,7 +96,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 	checkInitialStatus: function () {
 		if (this.isRendered) return;
 
-		if (localStorage.getItem('active') == 1) {
+		if (localStorage.getItem('active') === "1") {
 			this.isOpen = true;
 			this.button.setToggleFieldValue(true);
 		} else {

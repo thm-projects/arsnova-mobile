@@ -61,8 +61,8 @@ Ext.define('ARSnova.model.Feedback', {
 			socket.emit("setFeedback", {value: feedbackValue});
 		}
 	},
-	
-	getFeedback: function(sessionKeyword, callbacks) {
+
+	getFeedback: function (sessionKeyword, callbacks) {
 		this.getProxy().getFeedback(sessionKeyword, callbacks);
 	}
 });

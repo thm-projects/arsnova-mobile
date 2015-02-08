@@ -62,16 +62,15 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			itemTpl:
 				'<div class="x-unsized x-button x-button-normal x-iconalign-left forwardListButton">' +
 				'<span class="x-button-icon x-shown courseIcon icon-prof"></span>' +
-				'<span class="x-button-label">' + htmlEncode + '</span></div>'
-			,
+				'<span class="x-button-label">' + htmlEncode + '</span></div>',
 			listeners: {
 				scope: this,
 
-				hide: function() {
+				hide: function () {
 					this.coursesFieldset.hide();
 				},
 
-				show: function() {
+				show: function () {
 					this.coursesFieldset.show();
 				},
 
@@ -108,7 +107,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			}
 		});
 
-		this.submitButton =  Ext.create('Ext.Button', {
+		this.submitButton = Ext.create('Ext.Button', {
 			id: 'create-session-button',
 			cls: 'centerButton',
 			ui: 'confirm',
@@ -159,16 +158,15 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		this.onBefore('activate', function () {
 			this.getMyCourses();
 			this.setScrollable(true);
-
 		}, this);
 	},
 
-	enableInputElements: function() {
+	enableInputElements: function () {
 		this.submitButton.enable();
 		this.mycourses.addListener('itemtap', this.onCourseSubmit);
 	},
 
-	disableInputElements: function() {
+	disableInputElements: function () {
 		this.submitButton.disable();
 		this.mycourses.removeListener('itemtap', this.onCourseSubmit);
 	},
@@ -197,7 +195,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 
 		if (course.get('shortname').length > 12) {
 			shortName = course.get('shortname');
-			shortName = shortName.substr(0,7);
+			shortName = shortName.substr(0, 7);
 		}
 
 		ARSnova.app.getController('Sessions').create({
@@ -223,7 +221,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		var newSessionPanel = this;
 		ARSnova.app.courseModel.getMyCourses({
 			success: Ext.bind(function (response) {
-				if (response.responseText == "[]") {
+				if (response.responseText === "[]") {
 					newSessionPanel.mycourses.hide();
 					newSessionPanel.setScrollable(null);
 				} else {

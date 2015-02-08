@@ -44,12 +44,12 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 		}
 
 		var previewButton = Ext.create('Ext.Button', {
-			text: Ext.os.is.Desktop ? 
-				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP:
+			text: Ext.os.is.Desktop ?
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
 			cls: Ext.os.is.Desktop ?
-				'previewButtonLong':
+				'previewButtonLong' :
 				'previewButton',
 			style: 'margin-left: 8px; margin-top: 0px;',
 			scope: this,
@@ -61,7 +61,7 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 		this.add([{
 			xtype: 'formpanel',
 			scrollable: null,
-			items:[{
+			items: [{
 				xtype: 'fieldset',
 				title: Messages.ANSWER_OPTIONS,
 				items: this.fields
@@ -104,19 +104,19 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 	previewHandler: function () {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel,
 			answerValues = this.getValues();
-		
+
 		var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox', {
 			xtype: 'answerPreview'
 		});
-		
-		if(!panel.abstentionPart.isHidden() && panel.abstentionPart.getAbstention()) {
+
+		if (!panel.abstentionPart.isHidden() && panel.abstentionPart.getAbstention()) {
 			answerValues.push({
 				text: Messages.ABSTENTION,
 				correct: false,
 				value: 0
 			});
 		}
-		
+
 		answerPreview.showPreview({
 			title: panel.subject.getValue(),
 			content: panel.textarea.getValue(),

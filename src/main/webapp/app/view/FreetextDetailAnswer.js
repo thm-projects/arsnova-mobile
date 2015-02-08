@@ -47,7 +47,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 					handler: function () {
 						self.sTP.items.items.pop(); // Remove this panel from view stack
 						self.sTP.animateActiveItem(
-							self.sTP.items.items[self.sTP.items.items.length-1], // Switch back to top of view stack
+							self.sTP.items.items[self.sTP.items.items.length - 1], // Switch back to top of view stack
 							{
 								type: 'slide',
 								direction: 'right',
@@ -71,7 +71,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 		var questionString = this.answer.answerSubject
 			+ '\n\n' // inserts one blank line between subject and text
 			+ this.answer.answerText;
-	
+
 		// Create standard panel with framework support
 		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
 		questionPanel.setContent(questionString, true, true);
@@ -102,7 +102,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 					success: function () {
 						self.sTP.items.items.pop(); // Remove this panel from view stack
 						self.sTP.animateActiveItem(
-							self.sTP.items.items[self.sTP.items.items.length-1], // Switch back to top of view stack
+							self.sTP.items.items[self.sTP.items.items.length - 1], // Switch back to top of view stack
 							{
 								type: 'slide',
 								direction: 'right',
@@ -123,15 +123,15 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			}
 		}]);
 	},
-	
-	initialize: function() {
+
+	initialize: function () {
 		this.callParent(arguments);
-		
-		this.on('painted', function() {
+
+		this.on('painted', function () {
 			ARSnova.app.innerScrollPanel = this;
 		});
-		
-		this.on('deactivate', function() {
+
+		this.on('deactivate', function () {
 			ARSnova.app.innerScrollPanel = false;
 		});
 	}

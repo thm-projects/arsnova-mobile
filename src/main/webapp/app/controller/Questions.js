@@ -157,7 +157,7 @@ Ext.define("ARSnova.controller.Questions", {
 		switch (question.get('questionType')) {
 			case 'vote':
 				panel.voteQuestion.query('textfield').forEach(function (el) {
-					if (el.getValue().trim() == "") {
+					if (el.getValue().trim() === "") {
 						el.addCls("required");
 						error = true;
 					}
@@ -165,7 +165,7 @@ Ext.define("ARSnova.controller.Questions", {
 				break;
 			case 'school':
 				panel.schoolQuestion.query('textfield').forEach(function (el) {
-					if (el.getValue().trim() == "") {
+					if (el.getValue().trim() === "") {
 						el.addCls("required");
 						error = true;
 					}
@@ -177,21 +177,21 @@ Ext.define("ARSnova.controller.Questions", {
 				var checkedCount = 0;
 				var questionComponent = question.get('questionType') === 'mc' ?
 						panel.multipleChoiceQuestion : panel.abcdQuestion;
-				
+
 				questionComponent.answerComponents.forEach(function (el) {
 					var value = el.getValue().toString().trim();
 					if (!el.getHidden() && value !== "") {
-						if(el.isChecked()) checkedCount++;
+						if (el.isChecked()) checkedCount++;
 						answerCount++;
 					}
 				});
-				if(answerCount < 2 || checkedCount === 0) {
+				if (answerCount < 2 || checkedCount === 0) {
 					error = true;
 				}
 				break;
 			case 'grid':
-				if(panel.gridQuestion.grid !== null) {
-					if (! panel.gridQuestion.grid.getImageFile()) {
+				if (panel.gridQuestion.grid !== null) {
+					if (!panel.gridQuestion.grid.getImageFile()) {
 						error = true;
 					}
 				} else error = true;
@@ -265,15 +265,15 @@ Ext.define("ARSnova.controller.Questions", {
 						var speakerTabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel,
 							panel = speakerTabPanel.getActiveItem(),
 							questionStatus;
-						
-						if(panel === speakerTabPanel.showcaseQuestionPanel) {
+
+						if (panel === speakerTabPanel.showcaseQuestionPanel) {
 							panel = panel.getActiveItem();
 							questionStatus = panel.editButtons.questionStatusButton;
 						} else {
 							questionStatus = panel.questionStatusButton;
 						}
 
-						if (options.active == 1) {
+						if (options.active === 1) {
 							questionStatus.questionOpenedSuccessfully();
 						} else {
 							questionStatus.questionClosedSuccessfully();
@@ -334,7 +334,7 @@ Ext.define("ARSnova.controller.Questions", {
 				});
 			};
 			panel.backButton.setText("Fragen");
-		}, this, {single:true});
+		}, this, {single: true});
 	},
 
 	deleteAllInterposedQuestions: function (callbacks) {

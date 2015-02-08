@@ -36,7 +36,7 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 			buttonConfig: 'icon',
 			cls: 'actionButton',
 			text: Messages.START_SESSION,
-			imageCls: 'icon-unlock',
+			imageCls: 'icon-unlock thm-red',
 			imageStyle: {
 				'font-size': '64px',
 				'margin-top': '9px !important'
@@ -62,7 +62,7 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 
 		this.add([this.sessionIsClosed, this.sessionIsOpen]);
 
-		if (localStorage.getItem('active') == 1) {
+		if (localStorage.getItem('active') === "1") {
 			this.isOpen = true;
 			this.sessionIsClosed.hide();
 		} else {
@@ -74,7 +74,7 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 	changeStatus: function () {
 		if (this.isOpen) {
 			Ext.Msg.confirm(Messages.CONFIRM_CLOSE_SESSION, Messages.CONFIRM_CLOSE_SESSION_MESSAGE, function (buttonId) {
-				if (buttonId != "no") {
+				if (buttonId !== "no") {
 					/* close this session */
 					ARSnova.app.getController('Sessions').setActive({
 						active: 0,
@@ -94,7 +94,7 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 	checkInitialStatus: function () {
 		if (this.isRendered) return;
 
-		if (localStorage.getItem('active') == 1) {
+		if (localStorage.getItem('active') === "1") {
 			this.isOpen = true;
 		} else {
 			this.isOpen = false;

@@ -1,0 +1,141 @@
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2015 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+@import 'app/colors';
+
+html, body {
+	height: 100%;
+	background-color: $background;
+}
+
+.noScriptDiv {
+	text-align: center;
+	align-content: center;
+	top: 0px;
+	left: 0px;
+	position: fixed;
+	z-index: 3000;
+	height: 100%;
+	width: 100%;
+	background-color: $background;
+}
+
+.noSriptLogo {
+	margin-top: 25px;
+	max-width: 300px;
+}
+
+.appLoadingIndicator {
+	position: absolute;
+	top: 50%;
+	margin-top: -15px;
+	text-align: center;
+	width: 100%;
+	height: 30px;
+}
+
+.appLoadingIndicator > * {
+	background-color: $thm-grey;
+	display: inline-block;
+	height: 30px;
+	margin: 0 5px;
+	width: 30px;
+	opacity: 1.0;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-direction: normal;
+	-webkit-animation-duration: 1.4s;
+
+	/* other */
+	animation-iteration-count: infinite;
+	animation-direction: normal;
+	animation-duration: 1.4s;
+}
+
+.appLoadingIndicator div:nth-child(1) {
+	-webkit-animation-name: appLoadingColorsFirstDiv;
+	animation-name: appLoadingColorsFirstDiv;
+}
+
+.appLoadingIndicator div:nth-child(2) {
+	-webkit-animation-name: appLoadingColorsSecondDiv;
+	animation-name: appLoadingColorsSecondDiv;
+}
+
+.appLoadingIndicator div:nth-child(3) {
+	-webkit-animation-name: appLoadingColorsLastDiv;
+	animation-name: appLoadingColorsLastDiv;
+}
+
+@keyframes appLoadingColorsFirstDiv {
+	from { background: $thm-green }
+	16.50% { background: $thm-green }
+	16.51% { background: $thm-grey }
+	82.50% { background: $thm-grey }
+	82.51% { background: $thm-green}
+	to { background: $thm-green }
+}
+
+@keyframes appLoadingColorsSecondDiv {
+	from { background: $thm-grey }
+	21.99% { background: $thm-grey }
+	22.00% { background: $thm-green }
+	44.00% { background: $thm-green }
+	44.01% { background: $thm-grey}
+	to { background: $thm-grey }
+}
+
+@keyframes appLoadingColorsLastDiv {
+	from { background: $thm-grey }
+	49.49% { background: $thm-grey }
+	49.50% { background: $thm-green }
+	82.50% { background: $thm-green }
+	82.51% { background: $thm-grey}
+	to { background: $thm-grey }
+}
+
+@-webkit-keyframes appLoadingColorsFirstDiv {
+	from { background: $thm-green }
+	16.50% { background: $thm-green }
+	16.51% { background: $thm-grey }
+	88.00% { background: $thm-grey }
+	88.01% { background: $thm-green}
+	to { background: $thm-green }
+}
+
+@-webkit-keyframes appLoadingColorsSecondDiv {
+	from { background: $thm-grey }
+	21.99% { background: $thm-grey }
+	22.00% { background: $thm-green }
+	44.00% { background: $thm-green }
+	44.01% { background: $thm-grey}
+	to { background: $thm-grey }
+}
+
+@-webkit-keyframes appLoadingColorsLastDiv {
+	from { background: $thm-grey }
+	49.49% { background: $thm-grey }
+	49.50% { background: $thm-green }
+	82.50% { background: $thm-green }
+	82.51% { background: $thm-grey}
+	to { background: $thm-grey }
+}
