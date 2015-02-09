@@ -98,9 +98,6 @@ Ext.define('ARSnova.view.Question', {
 
 					if (self.questionObj.questionType !== 'flashcard') {
 						self.disableQuestion();
-						if (typeof self.questionObj !== 'undefined' && !!self.questionObj.showStatistic && self.questionObj.questionType !== 'flashcard') {
-							self.statisticButtonHandler(self);
-						}
 						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
 						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
 					}
