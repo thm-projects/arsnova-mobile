@@ -200,13 +200,11 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			this.setScrollable(true);
 
 			// Setup question title and text to disply in the same field; markdown handles HTML encoding
-			var questionString = this.questionObj.subject
-				+ '\n\n' // inserts one blank line between subject and text
-				+ this.questionObj.text;
+			var questionString = '' + '\n' + this.questionObj.text;
 
 			// Create standard panel with framework support
 			this.contentField = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-				cls: "roundedBox allCapsHeader"
+				cls: "roundedBox"
 			});
 			this.contentField.setContent(questionString, true, true);
 		}
