@@ -115,7 +115,7 @@ switch (lang) {
 			/* mySessionsPanel */
 			HOME: "Start",
 			SESSION: "Session",
-			NEW_SESSIONS: "New session",
+			NEW_SESSION: "New session",
 			MY_SESSIONS: "My sessions",
 			MY_PUBLIC_POOL_SESSIONS: "My pool sessions",
 			SESSIONS: "Sessions",
@@ -596,7 +596,7 @@ switch (lang) {
 			/* mySessionsPanel */
 			HOME: "Start",
 			SESSION: "Session",
-			NEW_SESSIONS: "Neue Session",
+			NEW_SESSION: "Neue Session",
 			MY_SESSIONS: "Meine Sessions",
 			MY_PUBLIC_POOL_SESSIONS: "Meine Pool Sessions",
 			SESSIONS: "Sessions",
