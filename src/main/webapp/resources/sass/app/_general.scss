@@ -143,3 +143,34 @@
 		}
 	}
 }
+
+.carouselNavigationElement {
+	top: 0;
+	bottom: 0;
+	width: 0; 
+	height: 0; 
+	margin: auto;
+	position: absolute;
+	border-top: 45px solid transparent;
+	border-bottom: 45px solid transparent;
+	
+	&.arrow-right {
+		right: 0;
+		margin-right: 10px;
+		border-left: 45px solid $thm-grey;
+		
+		&.x-button-pressing {
+			border-left-color: $thm-lightgrey !important;
+		}
+	}
+	
+	&.arrow-left {
+		left: 0;
+		margin-left: 10px;
+		border-right: 45px solid $thm-grey;
+		
+		&.x-button-pressing {
+			border-right-color: $thm-lightgrey !important;
+		}
+	}
+}
