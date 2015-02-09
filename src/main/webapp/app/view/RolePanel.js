@@ -89,7 +89,7 @@ Ext.define('ARSnova.view.RolePanel', {
 					id: 'role-select-student',
 					text: Messages.STUDENT,
 					value: ARSnova.app.USER_ROLE_STUDENT,
-					imageCls: "icon-users thm-green",
+					imageCls: "icon-users thm-grey",
 					style: 'margin-left: 20px;'
 				}
 			]
