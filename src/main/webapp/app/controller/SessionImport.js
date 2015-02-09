@@ -222,15 +222,20 @@ Ext.define("ARSnova.controller.SessionImport", {
 	saveAnswer: function (a, respQuestion, session) {
 		var promise = new RSVP.Promise();
 
-		a.raw._id = undefined;
-		a.raw._rev = undefined;
-		a.raw.user = undefined;
-		a.raw.questionId = respQuestion._id;
-		a.raw.questionVariant = respQuestion.questionVariant;
-		a.raw.sessionId = session._id;
-		a.phantom = true;
+		if (a.get('answerSubject') === null && a.get('answerText') === null && a.get('abstention') === false) {
+			// This is an empty answer! Nothing to import...
+			// However, we need to resolve the promise to keep things going.
+			promise.resolve();
+			return promise;
+		}
 
-		a.saveAnswer({
+		var theAnswer = Ext.create('ARSnova.model.Answer', {
+			answerSubject: a.get('answerSubject'),
+			answerText: a.get('answerText'),
+			abstention: a.get('abstention')
+		});
+
+		theAnswer.saveAnswer(respQuestion._id, {
 			success: function () {
 				console.log("Answer saved successfully.");
 				promise.resolve();
