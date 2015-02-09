@@ -39,56 +39,56 @@ Ext.define('ARSnova.view.CustomCarousel', {
 		this.on('add', this.checkNavigationElements);
 		this.on('resize', this.checkNavigationElements);
 	},
-	
-	doSetActiveItem: function() {
+
+	doSetActiveItem: function () {
 		this.callParent(arguments);
-		
-		if(this.getMaxItemIndex() > 0) {
+
+		if (this.getMaxItemIndex() > 0) {
 			this.checkNavigationElements();
 		}
 	},
-	
-	initializeNavigationListeners: function() {
+
+	initializeNavigationListeners: function () {
 		var self = this;
 
-		this.leftArrow.on('tap', function() {
+		this.leftArrow.on('tap', function () {
 			self.previous();
 		});
-		
-		this.rightArrow.on('tap', function() {
+
+		this.rightArrow.on('tap', function () {
 			self.next();
 		});
 
-		this.leftArrow.on('touchstart', function() {
+		this.leftArrow.on('touchstart', function () {
 			self.leftArrow.addCls('x-button-pressing');
 		});
 
-		this.rightArrow.on('touchstart', function() {
+		this.rightArrow.on('touchstart', function () {
 			self.rightArrow.addCls('x-button-pressing');
 		});
 
-		this.leftArrow.on('touchend', function() {
+		this.leftArrow.on('touchend', function () {
 			self.leftArrow.removeCls('x-button-pressing');
 		});
 
-		this.rightArrow.on('touchend', function() {
+		this.rightArrow.on('touchend', function () {
 			self.rightArrow.removeCls('x-button-pressing');
 		});
 	},
-	
-	checkNavigationElements: function() {
+
+	checkNavigationElements: function () {
 		var activeIndex = this.getActiveIndex(),
 			innerItemCount = this.getInnerItems().length,
 			screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width,
 			showNavigationElements = screenWidth >= 840 && innerItemCount > 0 && activeIndex !== -1;
 
-		if(showNavigationElements && activeIndex !== 0) {
+		if (showNavigationElements && activeIndex !== 0) {
 			this.leftArrow.removeCls('hidden');
 		} else {
 			this.leftArrow.addCls('hidden');
 		}
 
-		if(showNavigationElements && activeIndex !== this.getMaxItemIndex()) {
+		if (showNavigationElements && activeIndex !== this.getMaxItemIndex()) {
 			this.rightArrow.removeCls('hidden');
 		} else {
 			this.rightArrow.addCls('hidden');
