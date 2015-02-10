@@ -361,7 +361,8 @@ Ext.define('ARSnova.view.user.InClass', {
 
 	countFeedbackQuestions: function () {
 		var me = this;
-		ARSnova.app.questionModel.countFeedbackQuestions(sessionStorage.getItem("keyword"), {
+		var username = localStorage.getItem("login");
+		ARSnova.app.questionModel.countFeedbackQuestions(sessionStorage.getItem("keyword"), username, {
 			success: function (response) {
 				var questionCount = Ext.decode(response.responseText);
 

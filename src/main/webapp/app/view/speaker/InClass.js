@@ -345,7 +345,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	},
 
 	countFeedbackQuestions: function () {
-		ARSnova.app.questionModel.countFeedbackQuestions(sessionStorage.getItem("keyword"), {
+		ARSnova.app.questionModel.countFeedbackQuestions(sessionStorage.getItem("keyword"), null, {
 			success: function (response) {
 				var questionCount = Ext.decode(response.responseText);
 				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadgeText(questionCount.unread);
