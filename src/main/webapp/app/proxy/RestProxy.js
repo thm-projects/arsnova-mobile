@@ -404,9 +404,10 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	countFeedbackQuestions: function (sessionKeyword, callbacks) {
+	countFeedbackQuestions: function (sessionKeyword, username, callbacks) {
+		var queryStr = username ? "?user=" + username : "";
 		this.arsjax.request({
-			url: "session/" + sessionKeyword + "/interposedreadingcount",
+			url: "session/" + sessionKeyword + "/interposedreadingcount" + queryStr,
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
