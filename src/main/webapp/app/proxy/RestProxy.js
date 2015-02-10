@@ -60,7 +60,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: function (response) {
 				if (response.status === 404) {
 					callbacks.notFound.apply(this, arguments);
-				} else if (response.status = 403) {
+				} else if (response.status === 403) {
 					callbacks.forbidden.apply(this, arguments);
 				} else {
 					callbacks.failure.apply(this, arguments);
@@ -115,7 +115,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		this.arsjax.request({
 			url: "socket/assign",
 			method: "POST",
-			jsonData: {session: socket.io.engine.id},
+			jsonData: {session: window.socket.io.engine.id},
 			success: function () {
 				promise.resolve();
 			},
@@ -784,6 +784,16 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: function (response) {
 				callbacks.failure(response);
 			}
+		});
+	},
+
+	importSession: function (jsonData, callbacks) {
+		this.arsjax.request({
+			url: "session/import",
+			method: "POST",
+			jsonData: jsonData,
+			success: callbacks.success,
+			failure: callbacks.failure
 		});
 	}
 });
