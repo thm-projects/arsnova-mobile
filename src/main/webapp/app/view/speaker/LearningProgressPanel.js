@@ -74,7 +74,7 @@ Ext.define('ARSnova.view.speaker.LearningProgressPanel', {
 			hidden: true
 		});
 		this.pointBasedExplanation.setContent([
-			'Der punktbasierte Lernstand gewichtet Fragen mit vielen richtigen Antwortoptionen stärker als Fragen mit nur einer richtigen Option. Der Lernstand berechnet sich beispielhaft wie folgt:\n',
+			'Der punktbasierte Lernstand gewichtet Fragen mit mehreren richtigen Antwortoptionen stärker als Fragen mit nur einer richtigen Option. Der Lernstand berechnet sich beispielhaft wie folgt:\n',
 			'Es sind 3 Fragen vorhanden, die jeweils eine maximalmögliche Punktzahl haben. Die Punkte seien 10, 20 und 30.',
 			'Das bedeutet, dass ein Studierender für die Beantwortung der 3 Fragen insgesamt 60 Punkte erreichen kann.',
 			'Bei Auswahl von falschen Antwortmöglichkeiten reduziert sich die erreichte Punktzahl, z.B. auf 30.',
@@ -140,6 +140,10 @@ Ext.define('ARSnova.view.speaker.LearningProgressPanel', {
 				}]
 			}, this.courseLearningProgressButton, this.pointBasedExplanation, this.questionBasedExplanation]
 		});
+
+		this.on('show', function () {
+			this.showRealProgressValue(ARSnova.app.getController('Sessions').getLearningProgressType());
+		}, this);
 
 		this.add([this.toolbar, this.learningProgressChooser]);
 	},
