@@ -116,7 +116,14 @@ Ext.define('ARSnova.model.Session', {
 	},
 
 	getMyLearningProgress: function (sessionKeyword, callbacks) {
-		return this.getProxy().getMyLearningProgress(sessionKeyword, callbacks);
+		var me = this;
+		return this.getProxy().getMyLearningProgress(sessionKeyword, this.getLearningProgress(), {
+			success: function (progress) {
+				var myself = me.progressDescription(progress.myprogress);
+				var course = me.progressDescription(progress.courseprogress);
+				callbacks.success.call(callbacks.scope, myself, course, progress, me.getLearningProgress());
+			}
+		});
 	},
 
 	getCourseLearningProgress: function (sessionKeyword, callbacks) {
@@ -124,24 +131,33 @@ Ext.define('ARSnova.model.Session', {
 	},
 
 	getCourseLearningProgressByType: function (sessionKeyword, progressType, callbacks) {
+		var me = this;
 		return this.getProxy().getCourseLearningProgress(sessionKeyword, progressType, {
 			success: function (progress) {
-				var color;
-				var text = progress + "%";
-				if (progress >= 75) {
-					color = "green";
-				} else if (progress >= 25) {
-					color = "orange";
-				} else if (progress === 0) {
-					color = "";
-					text = "…";
-				} else {
-					color = "red";
-				}
-				callbacks.success.call(callbacks.scope, text, color, progress, progressType);
+				var desc = me.progressDescription(progress);
+				callbacks.success.call(callbacks.scope, desc.text, desc.color, progress, progressType);
 			},
 			failure: callbacks.failure
 		});
+	},
+
+	progressDescription: function (progress) {
+		var color;
+		var text = progress + "%";
+		if (progress >= 75) {
+			color = "green";
+		} else if (progress >= 25) {
+			color = "orange";
+		} else if (progress === 0) {
+			color = "";
+			text = "…";
+		} else {
+			color = "red";
+		}
+		return {
+			color: color,
+			text: text
+		};
 	},
 
 	setLearningProgressType: function (sessionKeyword, progressType) {
