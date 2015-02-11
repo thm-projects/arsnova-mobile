@@ -43,7 +43,6 @@ Ext.define('ARSnova.view.speaker.LearningProgressPanel', {
 			scope: this,
 			handler: function () {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-				sTP.inClassPanel.updateAudienceQuestionBadge();
 				sTP.animateActiveItem(sTP.inClassPanel, {
 					type: 'slide',
 					direction: 'right'

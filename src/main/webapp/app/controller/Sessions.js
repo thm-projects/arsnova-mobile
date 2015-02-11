@@ -401,5 +401,9 @@ Ext.define("ARSnova.controller.Sessions", {
 				Ext.Msg.alert("Hinweis!", "Session speichern war nicht erfolgreich");
 			}
 		});
+	},
+
+	setLearningProgressType: function (options) {
+		ARSnova.app.sessionModel.setLearningProgressType(sessionStorage.getItem("keyword"), options.progressType);
 	}
 });

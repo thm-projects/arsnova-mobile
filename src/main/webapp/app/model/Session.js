@@ -36,6 +36,7 @@ Ext.define('ARSnova.model.Session', {
 			'courseId',
 			'courseType',
 			'creationTime',
+			'learningProgressType',
 			'ppAuthorName',
 			'ppAuthorMail',
 			'ppUniversity',
@@ -106,5 +107,9 @@ Ext.define('ARSnova.model.Session', {
 
 	getCourseLearningProgress: function (sessionKeyword, callbacks) {
 		return this.getProxy().getCourseLearningProgress(sessionKeyword, callbacks);
+	},
+
+	setLearningProgressType: function (sessionKeyword, progressType) {
+		ARSnova.app.socket.setLearningProgressType({ sessionKeyword: sessionKeyword, learningProgressType: progressType });
 	}
 });
