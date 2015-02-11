@@ -53,7 +53,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 
 		var features = ARSnova.app.globalConfig.features;
 		if (markDownEnabled && features.markdown) {
-			if (mathJaxEnabled && features.mathJax && "undefined" !== typeof MathJax) {
+			if (mathJaxEnabled && features.mathJax && !!window.MathJax) {
 				var replStack = [], repl;
 
 				// replace MathJax delimiters
