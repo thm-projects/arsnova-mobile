@@ -79,6 +79,9 @@ Ext.define("ARSnova.controller.Sessions", {
 
 				sessionStorage.setItem('keyword', obj.keyword);
 
+				// initialize MathJax
+				ARSnova.app.getController('Application').initializeMathJax();
+
 				// deactivate several about tabs
 				ARSnova.app.mainTabPanel.tabPanel.deactivateAboutTabs();
 
