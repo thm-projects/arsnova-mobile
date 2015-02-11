@@ -347,11 +347,21 @@ Ext.define("ARSnova.controller.SessionExport", {
 		var blob = new Blob([rawJson], {type: "text/plain;charset=utf-8"});
 		var ua   = window.navigator.userAgent;
 	    var msie = ua.indexOf("MSIE ");
+	    var safari = ua.indexOf("Safari");
 	     
 	    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
 	    	window.navigator.msSaveBlob(blob, filename);
+	    } else if (safari > 0) {
+	    	var a = window.document.createElement('a');
+	    	a.className = "session-export";
+	    	// set data url as target
+	    	a.href = "data:application/json," + encodeURIComponent(rawJson);
+			a.download = filename;
+	
+			// Append anchor to body.
+			document.body.appendChild(a)
+			a.click();
 	    } else {
-	    	 
 	    	var a = window.document.createElement('a');
 			a.className = "session-export";
 			a.href = window.URL.createObjectURL(blob);
@@ -359,8 +369,9 @@ Ext.define("ARSnova.controller.SessionExport", {
 	
 			// Append anchor to body.
 			document.body.appendChild(a)
-			a.click(); 
+			a.click();
 	    }
+	    
 	    var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 		hTP.animateActiveItem(hTP.mySessionsPanel, {
 			type: 'slide',
