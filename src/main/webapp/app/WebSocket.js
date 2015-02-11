@@ -41,10 +41,13 @@ Ext.define('ARSnova.WebSocket', {
 		unansweredPreparationQuestions: "arsnova/socket/question/lecturer/preparation/unanswered",
 		countQuestionAnswersByQuestion: "arsnova/socket/question/lecturer/question/answercount",
 		countLectureQuestionAnswers: "arsnova/socket/question/lecturer/lecture/answercount",
-		countPreparationQuestionAnswers: "arsnova/socket/question/lecturer/preparation/answercount"
+		countPreparationQuestionAnswers: "arsnova/socket/question/lecturer/preparation/answercount",
+		learningProgressType: "arsnova/socket/session/learningprogress/type"
 	},
 
 	memoization: {},
+
+	socket: null,
 
 	connect: function () {
 		this.initSocket().then(Ext.bind(function (socketUrl) {
@@ -66,88 +69,95 @@ Ext.define('ARSnova.WebSocket', {
 			var transports = hasWs ? ["websocket"] : ["polling"];
 			console.debug("Socket.IO transports", transports);
 
-			socket = io.connect(socketUrl, {
+			this.socket = io.connect(socketUrl, {
 				reconnect: true,
 				secure: window.location.protocol === 'http:' ? false : true,
 				transports: transports
 			});
+			// FIXME: Remove once no code relies on a global 'socket' object.
+			window.socket = this.socket;
 
-			socket.on('connect', Ext.bind(function () {
+			this.socket.on('connect', Ext.bind(function () {
 				console.debug("Socket.IO connection established");
 				ARSnova.app.restProxy.connectWebSocket().then(Ext.bind(function () {
 					this.fireEvent("arsnova/socket/connect");
 				}, this));
 			}, this));
 
-			socket.on('disconnect', Ext.bind(function () {
+			this.socket.on('disconnect', Ext.bind(function () {
 				console.debug("Socket.IO connection lost");
 				this.fireEvent("arsnova/socket/disconnect");
 			}, this));
 
-			socket.on('reconnect', Ext.bind(function () {
+			this.socket.on('reconnect', Ext.bind(function () {
 				console.debug("Socket.IO connection restored");
 				this.fireEvent("arsnova/socket/reconnect");
 			}, this));
 
-			socket.on('activeUserCountData', Ext.bind(function (data) {
+			this.socket.on('activeUserCountData', Ext.bind(function (data) {
 				console.debug("Socket.IO: activeUserCountData", data);
 				this.fireEvent("arsnova/socket/activeusercount/update", data);
 			}, this));
 
-			socket.on('feedbackData', Ext.bind(function (data) {
+			this.socket.on('feedbackData', Ext.bind(function (data) {
 				console.debug("Socket.IO: feedbackData", data);
 				this.fireEvent("arsnova/socket/feedback/update", data);
 			}, this));
 
-			socket.on('feedbackDataRoundedAverage', Ext.bind(function (average) {
+			this.socket.on('feedbackDataRoundedAverage', Ext.bind(function (average) {
 				console.debug("Socket.IO: feedbackDataRoundedAverage", average);
 				this.fireEvent(this.events.feedbackAverage, average);
 			}, this));
 
-			socket.on('feedbackReset', Ext.bind(function (affectedSessions) {
+			this.socket.on('feedbackReset', Ext.bind(function (affectedSessions) {
 				console.debug("Socket.IO: feedbackReset", affectedSessions);
 				this.fireEvent(this.events.feedbackReset, affectedSessions);
 			}, this));
 
-			socket.on('setSessionActive', Ext.bind(function (active) {
+			this.socket.on('setSessionActive', Ext.bind(function (active) {
 				this.memoization[this.events.setSessionActive] = active;
 				this.fireEvent(this.events.setSessionActive, active);
 			}, this));
 
-			socket.on('lecturerQuestionAvailable', Ext.bind(function (question) {
+			this.socket.on('lecturerQuestionAvailable', Ext.bind(function (question) {
 				console.debug("Socket.IO: lecturerQuestionAvailable", question);
 				this.fireEvent(this.events.lecturerQuestionAvailable, question);
 			}, this));
 
-			socket.on('audQuestionAvail', Ext.bind(function (questionId) {
+			this.socket.on('audQuestionAvail', Ext.bind(function (questionId) {
 				console.debug("Socket.IO: audQuestionAvail", questionId);
 				this.fireEvent(this.events.audienceQuestionAvailable, questionId);
 			}, this));
 
-			socket.on('unansweredLecturerQuestions', Ext.bind(function (questionIds) {
+			this.socket.on('unansweredLecturerQuestions', Ext.bind(function (questionIds) {
 				console.debug("Socket.IO: unansweredLecturerQuestions", questionIds);
 				this.memoization[this.events.unansweredLecturerQuestions] = questionIds;
 				this.fireEvent(this.events.unansweredLecturerQuestions, questionIds);
 			}, this));
 
-			socket.on('unansweredPreparationQuestions', Ext.bind(function (questionIds) {
+			this.socket.on('unansweredPreparationQuestions', Ext.bind(function (questionIds) {
 				console.debug("Socket.IO: unansweredPreparationQuestions", questionIds);
 				this.fireEvent(this.events.unansweredPreparationQuestions, questionIds);
 			}, this));
 
-			socket.on('countQuestionAnswersByQuestion', Ext.bind(function (object) {
+			this.socket.on('countQuestionAnswersByQuestion', Ext.bind(function (object) {
 				console.debug("Socket.IO: countQuestionAnswersByQuestion", object);
 				this.fireEvent(this.events.countQuestionAnswersByQuestion, object);
 			}, this));
 
-			socket.on('countLectureQuestionAnswers', Ext.bind(function (count) {
+			this.socket.on('countLectureQuestionAnswers', Ext.bind(function (count) {
 				console.debug("Socket.IO: countLectureQuestionAnswers", count);
 				this.fireEvent(this.events.countLectureQuestionAnswers, count);
 			}, this));
 
-			socket.on('countPreparationQuestionAnswers', Ext.bind(function (count) {
+			this.socket.on('countPreparationQuestionAnswers', Ext.bind(function (count) {
 				console.debug("Socket.IO: countPreparationQuestionAnswers", count);
 				this.fireEvent(this.events.countPreparationQuestionAnswers, count);
+			}, this));
+
+			this.socket.on('learningProgressType', Ext.bind(function (progressType) {
+				console.debug("Socket.IO: learningProgressType", progressType);
+				this.fireEvent(this.events.learningProgressType, progressType);
 			}, this));
 		}, this));
 	},
@@ -159,17 +169,19 @@ Ext.define('ARSnova.WebSocket', {
 	},
 
 	setSession: function (sessionKey) {
-		socket.emit("setSession", sessionKey);
+		var data = {keyword: sessionKey};
+		console.debug("Socket.IO.emit: setSession", data);
+		this.socket.emit("setSession", data);
 	},
 
 	readInterposedQuestion: function (question) {
 		console.debug("Socket.IO.emit: readInterposedQuestion", question.getData());
-		socket.emit("readInterposedQuestion", question.getData());
+		this.socket.emit("readInterposedQuestion", question.getData());
 	},
 
 	setLearningProgressType: function (data) {
 		console.debug("Socket.IO.emit: setLearningProgressType", data);
-		socket.emit("setLearningProgressType", data);
+		this.socket.emit("setLearningProgressType", data);
 	},
 
 	doAddListener: function (name, fn, scope, options, order) {

@@ -751,10 +751,17 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	getCourseLearningProgress: function (sessionKeyword, callbacks) {
+	getCourseLearningProgress: function (sessionKeyword, progressType, callbacks) {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/learningprogress",
-			success: callbacks.success,
+			method: "GET",
+			params: {
+				type: progressType
+			},
+			success: function (response) {
+				var progress = Ext.decode(response.responseText) || 0;
+				callbacks.success(progress);
+			},
 			failure: callbacks.failure
 		});
 	},
