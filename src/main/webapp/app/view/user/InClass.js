@@ -59,7 +59,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 		var comingSoon = function (component) {
 			var comingSoonPanel = Ext.create('Ext.Panel', {
-				html: "<div style='padding: 0.5em'>" + Messages.FEATURE_COMING_SOON+"</div>"
+				html: "<div style='padding: 0.5em'>" + Messages.FEATURE_COMING_SOON + "</div>"
 			});
 			comingSoonPanel.showBy(component, 'tc-bc');
 			Ext.defer(function () {
@@ -68,7 +68,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		};
 
 		var loggedInCls = '';
-		if (ARSnova.app.loginMode == ARSnova.app.LOGIN_THM) {
+		if (ARSnova.app.loginMode === ARSnova.app.LOGIN_THM) {
 			loggedInCls = 'thm';
 		}
 
@@ -302,7 +302,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		// check for each question if exists a "dont-remind-me"-flag
 		for (var i = 0; i < questionIds.length; i++) {
 			var question = questionIds[i];
-			if (questionsArr.indexOf(question) == -1) {
+			if (questionsArr.indexOf(question) === -1) {
 				questionsArr.push(question);
 				showNotification = true;
 			}
@@ -314,26 +314,26 @@ Ext.define('ARSnova.view.user.InClass', {
 	showNotification: function (questionIds, variant) {
 		var titleLabel;
 		var callback = Ext.bind(function (answer) {
-			if (answer == 'yes') {
+			if (answer === 'yes') {
 				if (variant === 'lecture') {
-					ARSnova.app.getController('Questions').lectureIndex({ renew: true });
+					ARSnova.app.getController('Questions').lectureIndex({renew: true});
 				} else {
-					ARSnova.app.getController('Questions').preparationIndex({ renew: true });
+					ARSnova.app.getController('Questions').preparationIndex({renew: true});
 				}
 			}
 		}, this);
-		
-		if (questionIds.length == 1) {
-			titleLabel = variant === 'lecture' ? 
-				Messages.ONE_NEW_LECTURE_QUESTION : 
+
+		if (questionIds.length === 1) {
+			titleLabel = variant === 'lecture' ?
+				Messages.ONE_NEW_LECTURE_QUESTION :
 				Messages.ONE_NEW_PREPARATION_QUESTION;
-			
+
 			Ext.Msg.confirm(titleLabel, Messages.WANNA_ANSWER, callback);
 		} else {
-			titleLabel = variant === 'lecture' ? 
-				Messages.SEVERAL_NEW_LECTURE_QUESTIONS : 
+			titleLabel = variant === 'lecture' ?
+				Messages.SEVERAL_NEW_LECTURE_QUESTIONS :
 				Messages.SEVERAL_NEW_PREPARATION_QUESTIONS;
-			
+
 			Ext.Msg.confirm(titleLabel.replace('###', questionIds.length), Messages.WANNA_ANSWER, callback);
 		}
 	},
@@ -361,7 +361,8 @@ Ext.define('ARSnova.view.user.InClass', {
 
 	countFeedbackQuestions: function () {
 		var me = this;
-		ARSnova.app.questionModel.countFeedbackQuestions(sessionStorage.getItem("keyword"), {
+		var username = localStorage.getItem("login");
+		ARSnova.app.questionModel.countFeedbackQuestions(sessionStorage.getItem("keyword"), username, {
 			success: function (response) {
 				var questionCount = Ext.decode(response.responseText);
 
@@ -422,7 +423,7 @@ Ext.define('ARSnova.view.user.InClass', {
 						badgeColorCls = "redbadge";
 					}
 
-					return {badgeText: percentage+"%", badgeCls: badgeColorCls + "icon"};
+					return {badgeText: percentage + "%", badgeCls: badgeColorCls + "icon"};
 				};
 				if (p.myprogress === 0 && p.courseprogress === 0) {
 					me.myLearningProgressButton.setBadge([{badgeText: "…"}, vsBadge, {badgeText: "…"}]);

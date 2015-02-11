@@ -86,7 +86,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				pack: 'center',
 				align: 'center'
 			},
-			
+
 			style: 'marginTop: 15px',
 
 			items: [{
@@ -149,47 +149,41 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			this.lastVisitedSessionsForm,
 			this.mySessionsForm
 		]);
-		
+
 		if (config.features.publicPool) {
 			this.publicPoolButton = Ext.create('ARSnova.view.MatrixButton', {
 				text: 'Pool',
 				buttonConfig: 'icon',
-				imageCls: 'icon-cloud thm-lightblue',
+				imageCls: 'icon-cloud thm-green',
 				scope: this,
-				handler: function() {
+				handler: function () {
 					// get public pool sessions from server
-					var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK);
 					ARSnova.app.restProxy.getPublicPoolSessions({
-						success: function(sessionList) {
+						success: function (sessionList) {
 							var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-							me.publicPoolPanel = Ext.create('ARSnova.view.home.PublicPoolPanel',{
+							me.publicPoolPanel = Ext.create('ARSnova.view.home.PublicPoolPanel', {
 								sessions: sessionList
 							});
-							
+
 							hTP.animateActiveItem(me.publicPoolPanel, {
 								type: 'slide',
 								direction: 'left',
 								duration: 700
 							});
-							
-							hideLoadMask();
 						},
-						empty: function() {
-		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
-		    				hideLoadMask();
-		    			},
-		    			failure: function() {
-		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
-		    				hideLoadMask();
-		    			},
-		    			unauthenticated: function() {
-		    				Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
-		    				hideLoadMask();
-		    			}
+						empty: function () {
+							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
+						},
+						failure: function () {
+							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
+						},
+						unauthenticated: function () {
+							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
+						}
 					});
 				}
 			});
-			
+
 			this.matrixButtonPanel = Ext.create('Ext.Panel', {
 				layout: {
 					type: 'hbox',
@@ -200,15 +194,15 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					this.publicPoolButton
 				]
 			});
-			
+
 			this.add(this.matrixButtonPanel);
 		}
 
-		this.onBefore('painted', function() {
+		this.onBefore('painted', function () {
 			var me = this;
 			if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
 				var handler = function success(sessions) {
-					me.caption.summarize(sessions, { questions: false, answers: false, interposed: false, unanswered: true });
+					me.caption.summarize(sessions, {questions: false, answers: false, interposed: false, unanswered: true});
 					me.add(me.caption);
 				};
 				var p1 = this.loadVisitedSessions();
@@ -224,7 +218,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	},
 
 	checkLogin: function () {
-		if (ARSnova.app.loginMode == ARSnova.app.LOGIN_THM) {
+		if (ARSnova.app.loginMode === ARSnova.app.LOGIN_THM) {
 			this.logoutButton.addCls('thm');
 		}
 	},
@@ -247,7 +241,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	},
 
 	loadVisitedSessions: function () {
-		if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) return;
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) return;
 		var me = this;
 		var promise = new RSVP.Promise();
 
@@ -280,7 +274,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	},
 
 	loadMySessions: function () {
-		if (ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) return;
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) return;
 		var me = this;
 		var promise = new RSVP.Promise();
 
@@ -331,6 +325,12 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					icon = "icon-prof";
 				}
 
+				var iconCls = icon + " courseIcon";
+
+				if (session.sessionType === 'public_pool') {
+					iconCls = "icon-cloud thm-green";
+				}
+
 				// Minimum width of 481px equals at least landscape view
 				var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
 				var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
@@ -338,7 +338,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					ui: 'normal',
 					text: Ext.util.Format.htmlEncode(displaytext),
 					cls: 'forwardListButton',
-					iconCls: icon + " courseIcon",
+					iconCls: iconCls,
 					controller: 'sessions',
 					action: 'showDetails',
 					badgeCls: 'badgeicon',

@@ -65,7 +65,7 @@
         supportsSome = 'some' in arrayPrototype,
         supportsFilter = 'filter' in arrayPrototype,
         supportsSort = function () {
-            var a = [1,2,3,4,5].sort(function () { return 0; });
+            var a = [1,2,3,4,5].sort(function () {return 0;});
             return a[0] === 1 && a[1] === 2 && a[2] === 3 && a[3] === 4 && a[4] === 5;
         }(),
         supportsSliceOnNodeList = true,

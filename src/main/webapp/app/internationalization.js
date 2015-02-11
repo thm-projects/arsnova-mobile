@@ -21,10 +21,15 @@
 // that, we read here the user agent and we extract from there the phone language. For all the other devices,
 // "navigator.language" should give as the correct language.
 
+/* TODO: These variables are only used for internationalization and should not
+ * be exposed to global scope. It seems like Sencha CMD removed gloabally
+ * declared variables form global scope but this is not documented and might
+ * cause problems with future versions of Sencha CMD. */
 var ua = navigator.userAgent.toLowerCase();
 var isAndroid = ua.indexOf("android") > -1;
 var isChrome = ua.indexOf("chrome") > -1;
-//var lang; // without declaration with "var" lang will be globally accessible
+/* Without declaration with "var" lang will be globally accessible. */
+//var lang;
 
 if (isAndroid && !isChrome) {
 	if (navigator && navigator.userAgent && (lang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {
@@ -36,11 +41,11 @@ if (isAndroid && !isChrome) {
 
 try {
 	var prefLang = localStorage.getItem("language");
-} catch (e) {			
+} catch (e) {
 	var prefLang = undefined;
 }
 
-if (prefLang != undefined) {
+if (prefLang !== undefined) {
 	lang = prefLang;
 }
 
@@ -51,8 +56,7 @@ if (lang != null) {
 var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
 switch (lang) {
-	case 'en':case 'en-en':case 'en-us':case 'en-gb':
-		moment.lang('en');
+	case 'en':case 'en-en':case 'en-us':case 'en-gb': moment.lang('en');
 		Messages = {
 			PRIVACY_MODE_WARNING_TITLE: "Privacy Mode",
 			PRIVACY_MODE_WARNING_TEXT: "Unfortunately ARSnova isn't working in Privacy Mode, as your browser denies to write to the application storage.\nPlease deactivate Privacy Mode for the period of usage of ARSnova and reload the page. Your anonymity is guaranteed even when private browsing mode is disabled.",
@@ -61,7 +65,7 @@ switch (lang) {
 			FEATURE_COMING_SOON: "This feature will be available soon.",
 			UNI_LOGIN_MSG: "Your University here?",
 			UNI_LOGIN_MSG_TEXT: "Would you like to use your university's account? Contact us @ <a href='http://www.transmit.de/zentren/tz.cfm?N=189' target='_blank'>transmit.de</a>.",
-			
+
 			/* rolePanel */
 			BLOG: "Blog",
 			CHOOSE_ROLE: "Choose your role:",
@@ -95,7 +99,7 @@ switch (lang) {
 			ON_SESSION_CREATION_2: "You can manage this session only in the role of lecturer via ###",
 			ON_THIS_DEVICE: "and on this device",
 			DEMO_SESSION: "Demo session: ",
-			
+
 			/* LOAD MASK */
 			LOAD_MASK: "Loading...",
 			LOAD_MASK_LOGIN: "Login...",
@@ -111,7 +115,7 @@ switch (lang) {
 			/* mySessionsPanel */
 			HOME: "Start",
 			SESSION: "Session",
-			NEW_SESSIONS: "New session",
+			NEW_SESSION: "New session",
 			MY_SESSIONS: "My sessions",
 			MY_PUBLIC_POOL_SESSIONS: "My pool sessions",
 			SESSIONS: "Sessions",
@@ -360,7 +364,7 @@ switch (lang) {
 			TEMPLATE:	"Template",
 			APPLY:	"Apply",
 			DOWNLOAD:	"Download",
-			
+
 			/*Export session*/
 			EXPORT_MSG: "What should be exported?",
 			EXPORT_SESSION_TITLE: "Session Export",
@@ -374,20 +378,20 @@ switch (lang) {
 			EXPORT_FIELD_LEVEL: "Level",
 			EXPORT_FIELD_EMAIL: "Email",
 			EXPORT_FIELD_SPECIAL_FIELD: "Faculty",
-			EXPORT_SELECTED_SESSIONS_TITLE : "Export sessions",
-			EXPORT_SELECTED_SESSIONS_MSG : "Where should the session(s) be exported?",
+			EXPORT_SELECTED_SESSIONS_TITLE: "Export sessions",
+			EXPORT_SELECTED_SESSIONS_MSG: "Where should the session(s) be exported?",
 			EXPORT_SESSION_INFORMATION: "Auditorium and prepare questions for the selected sessions will be exported.",
 			EXPORT_NOTIFICATION:	"No session selected.",
 			EXPORT_IOS_NOTIFICATION: "An export can not be performed on iOS devices.",
 			EXPORT_BUTTON_FS: "My System",
 			EXPORT_BUTTON_PP: "Public Pool",
 			EXPORT_PP_NOTIFICATION: 'As a "guest" you can not export a session in the public pool. Please log in using one of the other approaches.',
-			EXPORT_SESSION_LABEL: 'Selection of sessions to be exported',
-			
+			EXPORT_SESSION_LABEL: 'Selection of sessions to be exported:',
+
 			/*Import session*/
 			IMPORT_IOS_NOTIFICATION: "An import can not be performed on iOS devices.",
 			IMPORT_NOT_SUPPORTED: "Session Import is not supported for your browser.",
-			
+
 			/*Public pool*/
 			SESSIONPOOL_LEVEL: "Level",
 			SESSIONPOOL_CLONE: "Copy",
@@ -413,6 +417,8 @@ switch (lang) {
 			SESSIONPOOL_TITLE: "Session Pool",
 			SESSIONPOOL_VISIT:	"Visit",
 			SESSOPNPOOL_CHARACTERS:	'characters',
+			SESSIONPOOL_INFOS:	'Infos',
+
 			/* question types */
 			EVALUATION: "+-",
 			SCHOOL: "A-F",
@@ -445,7 +451,7 @@ switch (lang) {
 			EVALUATION_NEUTRAL: "neutral",
 			EVALUATION_MINUS: "disagree",
 			EVALUATION_MINUSMINUS: "strongly disagree",
-			
+
 			/* action buttons - <br/> forces line break for consistent look */
 			CREATE_NEW_SESSION: "Create new<br/>session",
 			NEW_QUESTION: "Create new<br/>question",
@@ -519,14 +525,14 @@ switch (lang) {
 			PRESENTER: "Presenter",
 			UNI: "Uni",
 			SESSION_ID: "Session ID",
-				
+
 			/* session import */
 			IMP_BUTTON_IMPORT: "Import",
 			IMP_LOADMSK: "Importing sessions",
-			IMP_LOADMSK: "Importing sessions",
 			IMP_ERROR: "Error while importing sessions",
 			IMP_ERROR_FORMAT: "JSON file is not formated correctly",
-			IMP_ERROR_SAVE: "Could not save session to database",
+			IMP_ERROR_SAVE: "Could not save session to database.",
+			IMP_ERROR_IMAGE: "Could not save session, image exceeds maximal size."
 		};
 
 		break;
@@ -574,7 +580,7 @@ switch (lang) {
 			ON_SESSION_CREATION_2: "Sie können diese Session nur in der Rolle Dozent/in via ### verwalten",
 			ON_THIS_DEVICE: "auf diesem Gerät",
 			DEMO_SESSION: "Demo-Session: ",
-			
+
 			/* LOAD MASK */
 			LOAD_MASK: "Lade Daten...",
 			LOAD_MASK_LOGIN: "Login...",
@@ -590,7 +596,7 @@ switch (lang) {
 			/* mySessionsPanel */
 			HOME: "Start",
 			SESSION: "Session",
-			NEW_SESSIONS: "Neue Session",
+			NEW_SESSION: "Neue Session",
 			MY_SESSIONS: "Meine Sessions",
 			MY_PUBLIC_POOL_SESSIONS: "Meine Pool Sessions",
 			SESSIONS: "Sessions",
@@ -836,9 +842,9 @@ switch (lang) {
 			SETTINGS_HINT_TEXT: "Hinweis: <br>Maximale Dateigröße beträgt 150 KB.",
 			TEMPLATE_FOR_MODERATION: "Vorlagenkatalog für Punktabfragen",
 			TEMPLATE:	"Vorlage",
-			APPLY:		"Übernehmen",
+			APPLY: "Übernehmen",
 			DOWNLOAD:	"Herunterladen",
-			
+
 			/*Export session*/
 			EXPORT_MSG: "Was möchten Sie exportieren?",
 			EXPORT_SESSION_TITLE: "Session Export",
@@ -852,19 +858,19 @@ switch (lang) {
 			EXPORT_FIELD_LEVEL: "Niveau",
 			EXPORT_FIELD_EMAIL: "Email",
 			EXPORT_FIELD_SPECIAL_FIELD: "Fachbereich",
-			EXPORT_SELECTED_SESSIONS_TITLE : "Sessions exportieren",
-			EXPORT_SELECTED_SESSIONS_MSG : "Wohin möchten Sie die Session(s) exportieren?",
+			EXPORT_SELECTED_SESSIONS_TITLE: "Sessions exportieren",
+			EXPORT_SELECTED_SESSIONS_MSG: "Wohin möchten Sie die Session(s) exportieren?",
 			EXPORT_SESSION_INFORMATION: "Neben Hörsaal- und Vorbereitungsfragen der ausgewählten Sessions werden zusätzlich exportiert...",
 			EXPORT_NOTIFICATION: "Es wurde keine Session ausgewählt.",
 			EXPORT_IOS_NOTIFICATION: "Ein Export kann auf iOS Geräten nicht durchgeführt werden.",
 			EXPORT_BUTTON_FS: "Mein System",
 			EXPORT_BUTTON_PP: "Public Pool",
 			EXPORT_PP_NOTIFICATION: 'Als "Gast" können Sie keine Session in den Public Pool exportieren. Bitte melden Sie sich über einen der anderen Zugänge an.',
-			EXPORT_SESSION_LABEL:	'Auswahl der Session(s), die exportiert werden', 
+			EXPORT_SESSION_LABEL:	'Auswahl der Session(s), die exportiert werden:',
 			/*Import session*/
 			IMPORT_IOS_NOTIFICATION: "Ein Import kann auf iOS Geräten nicht durchgeführt werden",
 			IMPORT_NOT_SUPPORTED: "Der Session Import wird für Ihren Browser nicht unterstützt.",
-			
+
 			/*Public pool*/
 			SESSIONPOOL_LEVEL: "Niveau",
 			SESSIONPOOL_CLONE: "Kopieren",
@@ -890,7 +896,8 @@ switch (lang) {
 			SESSIONPOOL_TITLE: "Session Pool",
 			SESSIONPOOL_VISIT:	"Besuchen",
 			SESSOPNPOOL_CHARACTERS: 'Zeichen',
-			
+			SESSIONPOOL_INFOS:	'Infos',
+
 			/* question types */
 			EVALUATION: "+-",
 			SCHOOL: "1-6",
@@ -923,7 +930,7 @@ switch (lang) {
 			EVALUATION_NEUTRAL: "weder noch",
 			EVALUATION_MINUS: "trifft eher nicht zu",
 			EVALUATION_MINUSMINUS: "trifft nicht zu",
-			
+
 			/* action buttons - <br/> forces line break for consistent look */
 			CREATE_NEW_SESSION: "Neue Session<br/>anlegen",
 			NEW_QUESTION: "Neue Frage<br/>anlegen",
@@ -996,13 +1003,14 @@ switch (lang) {
 			PRESENTER: "Presenter",
 			UNI: "Uni",
 			SESSION_ID: "Session-ID",
-			
+
 			/* session import */
 			IMP_BUTTON_IMPORT: "Import",
 			IMP_LOADMSK: "Importiere sessions",
 			IMP_ERROR: "Fehler bei Session-Import",
 			IMP_ERROR_FORMAT: "JSON Datei ist falsch formatiert.",
-			IMP_ERROR_SAVE: "Session konnte nicht gespeichert werden",
-	};
-	break;
+			IMP_ERROR_SAVE: "Session konnte nicht gespeichert werden.",
+			IMP_ERROR_IMAGE: "Session konnte nicht gespeichert werden. Bild überschreitet maximale Größe."
+		};
+		break;
 }

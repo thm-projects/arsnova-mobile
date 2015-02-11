@@ -26,7 +26,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 	config: {
 		viewOnly: false,
-		padding: '0 0 20 0',
+		padding: '0 0 50 0',
 
 		scrollable: {
 			direction: 'vertical',
@@ -44,9 +44,9 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		this.customMask = Ext.create('ARSnova.view.CustomMask', {
 			mainPanel: this
 		});
-		
-		if(ARSnova.app.userRole == ARSnova.app.USER_ROLE_SPEAKER) {
-			this.editButtons = Ext.create('ARSnova.view.ShowcaseEditButtons', {
+
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
 				questionObj: this.questionObj
 			});
 		}
@@ -84,7 +84,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			cls: "roundedBox allCapsHeader"
 		});
 		questionPanel.setContent(questionString, true, true);
-		
+
 		this.buttonContainer = Ext.create('Ext.Container', {
 			layout: {
 				type: 'hbox',
@@ -104,7 +104,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				text: Messages.SAVE,
 				handler: this.saveHandler,
 				scope: this
-			}, !!!this.questionObj.abstention ? {hidden: true}: {
+			}, !!!this.questionObj.abstention ? {hidden: true} : {
 				flex: 1,
 				xtype: 'button',
 				ui: 'action',
@@ -124,7 +124,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					items: [questionPanel, this.viewOnly ? {} : {
 						xtype: 'fieldset',
 						items: [this.answerSubject, this.answerText]
-					}, 
+					},
 					this.buttonContainer]
 				}]
 			}), this.editButtons ? this.editButtons : {}
@@ -132,17 +132,17 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 		this.on('activate', function () {
 			if (this.isDisabled()) this.disableQuestion();
-			
-			if(this.viewOnly) {
+
+			if (this.viewOnly) {
 				this.setAnswerCount();
 			}
 		});
 	},
-	
-	getQuestionTypeMessage: function(msgAppendix) {
+
+	getQuestionTypeMessage: function (msgAppendix) {
 		msgAppendix = msgAppendix ? msgAppendix : "";
 		var message;
-		
+
 		switch (this.questionObj.questionType) {
 			case "freetext":
 				message = this.questionObj.questionType.toUpperCase();
@@ -151,20 +151,20 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				message = Messages.QUESTION;
 				msgAppendix = "";
 		}
-		
+
 		return Messages[message + msgAppendix];
 	},
-	
-	setAnswerCount: function() {
+
+	setAnswerCount: function () {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 
 		ARSnova.app.answerModel.getAnswerAndAbstentionCount(this.questionObj._id, {
 			success: function (response) {
 				var numAnswers = JSON.parse(response.responseText),
-					answerCount = parseInt(numAnswers[0]);
+					answerCount = parseInt(numAnswers[0]),
 					abstentionCount = parseInt(numAnswers[1]);
-					
-				if(answerCount === abstentionCount && answerCount !== 0) {
+
+				if (answerCount === abstentionCount && answerCount !== 0) {
 					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(abstentionCount, Messages.ABSTENTION);
 				} else {
 					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(answerCount);
@@ -189,7 +189,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			}
 		}, this);
 	},
-	
+
 	statisticButtonHandler: function (scope) {
 		var p = Ext.create('ARSnova.view.FreetextAnswerPanel', {
 			question: scope.questionObj,
@@ -216,18 +216,15 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	saveAnswer: function (answer) {
 		var self = this;
 
-		answer.saveAnswer({
+		answer.saveAnswer(self.questionObj._id, {
 			success: function () {
 				var questionsArr = Ext.decode(localStorage.getItem(self.questionObj.questionVariant + 'QuestionIds'));
-				if (questionsArr.indexOf(self.questionObj._id) == -1) {
+				if (questionsArr.indexOf(self.questionObj._id) === -1) {
 					questionsArr.push(self.questionObj._id);
 				}
 				localStorage.setItem(self.questionObj.questionVariant + 'QuestionIds', Ext.encode(questionsArr));
 
 				self.disableQuestion();
-				if(typeof self.questionObj !== 'undefined' && !!self.questionObj.showStatistic && self.questionObj.questionType !== 'flashcard') {
-					self.statisticButtonHandler(self);
-				}
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
 			},
@@ -245,14 +242,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		ARSnova.app.answerModel.getUserAnswer(this.questionObj._id, {
 			empty: function () {
 				var answer = Ext.create('ARSnova.model.Answer', {
-					type: "skill_question_answer",
-					sessionId: localStorage.getItem("sessionId"),
-					questionId: self.questionObj._id,
 					answerSubject: self.answerSubject.getValue(),
-					answerText: self.answerText.getValue(),
-					timestamp: Date.now(),
-					user: localStorage.getItem("login"),
-					questionVariant: self.questionObj.questionVariant
+					answerText: self.answerText.getValue()
 				});
 
 				self.saveAnswer(answer);
@@ -263,7 +254,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				var answer = Ext.create('ARSnova.model.Answer', theAnswer);
 				answer.set('answerSubject', self.answerSubject.getValue());
 				answer.set('answerText', self.answerText.getValue());
-				answer.set('timestamp', Date.now());
 				answer.set('abstention', false);
 
 				self.saveAnswer(answer);
@@ -280,13 +270,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		ARSnova.app.answerModel.getUserAnswer(this.questionObj._id, {
 			empty: function () {
 				var answer = Ext.create('ARSnova.model.Answer', {
-					type: "skill_question_answer",
-					sessionId: localStorage.getItem("sessionId"),
-					questionId: self.questionObj._id,
-					timestamp: Date.now(),
-					user: localStorage.getItem("login"),
-					abstention: true,
-					questionVariant: self.questionObj.questionVariant
+					abstention: true
 				});
 
 				self.saveAnswer(answer);
@@ -295,7 +279,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				var theAnswer = Ext.decode(response.responseText);
 
 				var answer = Ext.create('ARSnova.model.Answer', theAnswer);
-				answer.set('timestamp', Date.now());
 				answer.set('abstention', true);
 
 				self.saveAnswer(answer);

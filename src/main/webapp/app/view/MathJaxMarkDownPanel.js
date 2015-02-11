@@ -38,17 +38,17 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		this.callParent(arguments);
 	},
 
-	setContent: function (content, mathJaxEnabled, markDownEnabled, mathjaxCallback) {	
+	setContent: function (content, mathJaxEnabled, markDownEnabled, mathjaxCallback) {
 		function urlify(text) {
 			text += " ";
-		    var urlDelimiter = /([^="\w]https?:\/\/[^\s<]+)/g;
-		    var urlRegex = /(https?:\/\/[^\s]+)/g;
-		    
-		    return text.replace(urlDelimiter, function(delUrl) {
-		    	return delUrl.replace(urlRegex, function(url) {
-		    		return '<a href="' + url + '">' + url + '</a>';
-		    	});
-		    });
+			var urlDelimiter = /([^="\w]https?:\/\/[^\s<]+)/g;
+			var urlRegex = /(https?:\/\/[^\s]+)/g;
+
+			return text.replace(urlDelimiter, function (delUrl) {
+				return delUrl.replace(urlRegex, function (url) {
+					return '<a href="' + url + '">' + url + '</a>';
+				});
+			});
 		}
 
 		var features = ARSnova.app.globalConfig.features;
@@ -96,7 +96,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 	// get all delimiter indices as array of [start(incl), end(excl)] elements
 	getDelimiter: function (input, delimiter, endDelimiter) {
 		// all lines between the tags to this array
-		var result = new Array(); // [start, end]
+		var result = []; // [start, end]
 
 		var idxStart = 0;
 		var idxEnd = -delimiter.length;
@@ -109,7 +109,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 			// end delimiter
 			idxEnd = input.indexOf(endDelimiter, idxStart + delimiter.length);
 
-			if (idxStart != -1 && idxEnd != -1) {
+			if (idxStart !== -1 && idxEnd !== -1) {
 				// add delimiter position values
 				result.push([idxStart, idxEnd + endDelimiter.length]);
 			} else {
@@ -126,10 +126,9 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 
 		var start = 0;
 
-		var replaced = new Array();
+		var replaced = [];
 
 		for (var i = 0; i < dArr.length; ++i) {
-
 			var idxStart = dArr[i][0];
 			var idxEnd = dArr[i][1];
 
@@ -155,8 +154,12 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		var content = contentReplaced.content;
 		var replaced = contentReplaced.source;
 
-		for (var i = 0; i < replaced.length; ++i) {
-			content = this.replaceWithoutRegExp(content, contentReplaced.label + i + 'X', replaced[i]);
+		for (var i = replaced.length - 1; i >= 0; --i) {
+			content = this.replaceWithoutRegExp(
+				content,
+				contentReplaced.label + i + 'X',
+				Ext.util.Format.htmlEncode(replaced[i])
+			);
 		}
 
 		return content;

@@ -44,7 +44,7 @@ Ext.define('ARSnova.view.Caption', {
 				fontSize: "0.6em"
 			},
 			html: Messages.LEGEND
-		}, this.listButton]: []));
+		}, this.listButton] : []));
 	},
 
 	explainStatus: function (items) {

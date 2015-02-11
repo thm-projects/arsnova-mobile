@@ -89,7 +89,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	renewAnswerDataTask: {
 		name: 'renew the answer table data at question details panel',
 		run: function () {
-
 			ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel.getQuestionAnswers();
 		},
 		interval: 20000 // 20 seconds
@@ -103,7 +102,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 		this.hasCorrectAnswers = true;
 		if (['vote', 'school', 'freetext'].indexOf(this.questionObj.questionType) !== -1
-				|| (['grid'].indexOf(this.questionObj.questionType) !== -1 && this.questionObj.gridType == 'moderation')) {
+				|| (['grid'].indexOf(this.questionObj.questionType) !== -1 && this.questionObj.gridType === 'moderation')) {
 			this.hasCorrectAnswers = false;
 		}
 
@@ -158,7 +157,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			handler: function () {
 				var panel = this.up('panel');
 				var answersChanged = function (prevAnswers, newAnswers) {
-
 					if (prevAnswers.length !== newAnswers.length) {
 						return true;
 					}
@@ -174,7 +172,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 
 				var contentChanged = function (prevContent, newContent) {
-
 					if (newContent.gridSize !== prevContent.get("gridSize"))
 						return true;
 
@@ -184,13 +181,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					if (newContent.offsetX !== prevContent.get("offsetX"))
 						return true;
 
-					if (newContent.offsetY != prevContent.get("offsetY"))
+					if (newContent.offsetY !== prevContent.get("offsetY"))
 						return true;
 
 					if (newContent.gridOffsetX !== prevContent.get("gridOffsetX"))
 						return true;
 
-					if (newContent.gridOffsetY != prevContent.get("gridOffsetY"))
+					if (newContent.gridOffsetY !== prevContent.get("gridOffsetY"))
 						return true;
 
 					if (newContent.gridZoomLvl !== prevContent.get("gridZoomLvl"))
@@ -219,28 +216,25 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 					if (newContent.cvIsColored !== prevContent.get("cvIsColored"))
 						return true;
-					
+
 					if (newContent.gridLineColor !== prevContent.get("gridLineColor"))
 						return true;
-					
+
 					if (newContent.numberOfDots !== prevContent.get("numberOfDots"))
 						return true;
-					
+
 					if (newContent.gridType !== prevContent.get("gridType"))
 						return true;
-					
+
 					var changed = false;
 					prevContent.get("possibleAnswers").forEach(function (answer, i) {
 						if (answer.correct !== newContent.possibleAnswers[i].correct) {
 							changed = true;
-
 						}
 
 						if (answer.value !== newContent.possibleAnswers[i].value) {
 							changed = true;
-
 						}
-
 					});
 					return changed;
 				};
@@ -251,32 +245,32 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					if (typeof questionValues.image !== "undefined") {
 						question.set("image", questionValues.image);
 					}
-					
+
 					if (typeof questionValues.fcImage !== "undefined") {
 						question.set("fcImage", questionValues.fcImage);
 					}
 
-					if (questionValues.gridSize != undefined) question.set("gridSize", questionValues.gridSize);
-					if (questionValues.offsetX != undefined)  question.set("offsetX", questionValues.offsetX);
-					if (questionValues.offsetY != undefined)  question.set("offsetY", questionValues.offsetY);
-					if (questionValues.zoomLvl != undefined)  question.set("zoomLvl", questionValues.zoomLvl);
-					if (questionValues.gridOffsetX != undefined)  question.set("gridOffsetX", questionValues.gridOffsetX);
-					if (questionValues.gridOffsetY != undefined)  question.set("gridOffsetY", questionValues.gridOffsetY);
-					if (questionValues.gridZoomLvl != undefined)  question.set("gridZoomLvl", questionValues.gridZoomLvl);
-					if (questionValues.gridSizeX != undefined)  question.set("gridSizeX", questionValues.gridSizeX);
-					if (questionValues.gridSizeY != undefined)  question.set("gridSizeY", questionValues.gridSizeY);
-					if (questionValues.gridIsHidden != undefined)  question.set("gridIsHidden", questionValues.gridIsHidden);
-					if (questionValues.imgRotation != undefined)  question.set("imgRotation", questionValues.imgRotation);
-					if (questionValues.toggleFieldsLeft != undefined)  question.set("toggleFieldsLeft", questionValues.toggleFieldsLeft);
-					if (questionValues.numClickableFields != undefined)  question.set("numClickableFields", questionValues.numClickableFields);
-					if (questionValues.thresholdCorrectAnswers != undefined)  question.set("thresholdCorrectAnswers", questionValues.thresholdCorrectAnswers);
-					if (questionValues.cvIsColored != undefined)  question.set("cvIsColored", questionValues.cvIsColored);
-					if (questionValues.gridLineColor != undefined)  question.set("gridLineColor", questionValues.gridLineColor);
-					if (questionValues.numberOfDots != undefined)  question.set("numberOfDots", questionValues.numberOfDots);
-					if (questionValues.gridType != undefined)  question.set("gridType", questionValues.gridType);
-					if (questionValues.scaleFactor != undefined)  question.set("scaleFactor", questionValues.scaleFactor);
-					if (questionValues.gridScaleFactor != undefined)  question.set("gridScaleFactor", questionValues.gridScaleFactor);
-					
+					if (questionValues.gridSize !== undefined) question.set("gridSize", questionValues.gridSize);
+					if (questionValues.offsetX !== undefined)  question.set("offsetX", questionValues.offsetX);
+					if (questionValues.offsetY !== undefined)  question.set("offsetY", questionValues.offsetY);
+					if (questionValues.zoomLvl !== undefined)  question.set("zoomLvl", questionValues.zoomLvl);
+					if (questionValues.gridOffsetX !== undefined)  question.set("gridOffsetX", questionValues.gridOffsetX);
+					if (questionValues.gridOffsetY !== undefined)  question.set("gridOffsetY", questionValues.gridOffsetY);
+					if (questionValues.gridZoomLvl !== undefined)  question.set("gridZoomLvl", questionValues.gridZoomLvl);
+					if (questionValues.gridSizeX !== undefined)  question.set("gridSizeX", questionValues.gridSizeX);
+					if (questionValues.gridSizeY !== undefined)  question.set("gridSizeY", questionValues.gridSizeY);
+					if (questionValues.gridIsHidden !== undefined)  question.set("gridIsHidden", questionValues.gridIsHidden);
+					if (questionValues.imgRotation !== undefined)  question.set("imgRotation", questionValues.imgRotation);
+					if (questionValues.toggleFieldsLeft !== undefined)  question.set("toggleFieldsLeft", questionValues.toggleFieldsLeft);
+					if (questionValues.numClickableFields !== undefined)  question.set("numClickableFields", questionValues.numClickableFields);
+					if (questionValues.thresholdCorrectAnswers !== undefined)  question.set("thresholdCorrectAnswers", questionValues.thresholdCorrectAnswers);
+					if (questionValues.cvIsColored !== undefined)  question.set("cvIsColored", questionValues.cvIsColored);
+					if (questionValues.gridLineColor !== undefined)  question.set("gridLineColor", questionValues.gridLineColor);
+					if (questionValues.numberOfDots !== undefined)  question.set("numberOfDots", questionValues.numberOfDots);
+					if (questionValues.gridType !== undefined)  question.set("gridType", questionValues.gridType);
+					if (questionValues.scaleFactor !== undefined)  question.set("scaleFactor", questionValues.scaleFactor);
+					if (questionValues.gridScaleFactor !== undefined)  question.set("gridScaleFactor", questionValues.gridScaleFactor);
+
 					question.set("possibleAnswers", questionValues.possibleAnswers);
 					question.set("noCorrect", !!questionValues.noCorrect);
 					Ext.apply(question.raw, questionValues);
@@ -289,13 +283,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							panel.formatAnswerText();
 							panel.addAbstentionAnswer();
 							panel.getQuestionAnswers();
-							
-							if(panel.questionObj.questionType === 'flashcard') {
+
+							if (panel.questionObj.questionType === 'flashcard') {
 								panel.answerListPanel.setContent(
 									panel.questionObj.possibleAnswers[0].text, true, true
 								);
-								
-								if(panel.answerEditForm.fcImage) {
+
+								if (panel.answerEditForm.fcImage) {
 									panel.flashcardGrid.setImage(panel.answerEditForm.fcImage);
 									panel.flashcardGrid.show();
 								}
@@ -318,31 +312,31 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					});
 					return empty;
 				};
-				if (this.getText() == Messages.EDIT) {
+				if (this.getText() === Messages.EDIT) {
 					var questionValues = panel.answerEditForm.getQuestionValues();
 
 					panel.cancelButton.show();
-					panel.backButton.hide(); 
+					panel.backButton.hide();
 
 					this.setText(Messages.SAVE);
 					this.addCls('x-button-action');
-													
+
 					this.config.enableFields(panel);
 					this.config.setEnableAnswerEdit(panel, true);
-					
-					if(panel.questionObj.questionType === 'flashcard') {
+
+					if (panel.questionObj.questionType === 'flashcard') {
 						panel.abstentionPart.hide();
 						panel.absteionAlternative.hide();
-						
-						if(panel.questionObj.fcImage) {
+
+						if (panel.questionObj.fcImage) {
 							panel.answerEditForm.setFcImage(panel.questionObj.fcImage);
 						}
 					}
-					
-					if(questionValues.gridType == "moderation"){
+
+					if (questionValues.gridType === "moderation") {
 						panel.abstentionPart.setHidden(true);
 						panel.absteionAlternative.show();
-					}else{
+					} else {
 						panel.absteionAlternative.hide();
 					}
 				} else {
@@ -371,7 +365,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							empty = true;
 						}
 
-						if (question.get("questionType") == 'grid') {
+						if (question.get("questionType") === 'grid') {
 							if (contentChanged(question, questionValues)) {
 								needsConfirmation = true;
 							}
@@ -464,7 +458,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			items: [
 				this.backButton,
 				this.cancelButton,
-				{xtype:'spacer'},
+				{xtype: 'spacer'},
 				this.editButton
 			]
 		});
@@ -472,6 +466,119 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		/* END TOOLBAR OBJECTS */
 
 		/* BEGIN ACTIONS PANEL */
+
+		this.questionStatusButton = Ext.create('ARSnova.view.QuestionStatusButton', {
+			questionObj: this.questionObj
+		});
+
+		this.releaseStatisticButton = Ext.create('ARSnova.view.MatrixButton', {
+			buttonConfig: 'togglefield',
+			text: Messages.RELEASE_STATISTIC,
+			toggleConfig: {
+				scope: this,
+				label: false,
+				value: this.questionObj.showStatistic ? this.questionObj.showStatistic : 0,
+				listeners: {
+					scope: this,
+					change: function (toggle, newValue, oldValue, eOpts) {
+						if (newValue === 0 && typeof this.questionObj.showStatistic === "undefined" ||
+							newValue === this.questionObj.showStatistic) return;
+
+						var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_ACTIVATION);
+						var question = Ext.create('ARSnova.model.Question', this.questionObj);
+
+						switch (newValue) {
+							case 0:
+								delete question.data.showStatistic;
+								delete question.raw.showStatistic;
+								break;
+							case 1:
+								question.set('showStatistic', true);
+								question.raw.showStatistic = true;
+								break;
+						}
+						question.publishSkillQuestionStatistics({
+							success: function (response) {
+								hideLoadMask();
+								me.questionObj = question.getData();
+							},
+							failure: function () {
+								hideLoadMask();
+								console.log('could not save showStatistic flag');
+							}
+						});
+					}
+				}
+			}
+		});
+
+		this.showCorrectAnswerButton = Ext.create('ARSnova.view.MatrixButton', {
+			buttonConfig: 'togglefield',
+			text: Messages.MARK_CORRECT_ANSWER,
+			toggleConfig: {
+				scope: this,
+				label: false,
+				value: this.questionObj.showAnswer ? this.questionObj.showAnswer : 0,
+				listeners: {
+					scope: this,
+					change: function (toggle, newValue, oldValue, eOpts) {
+						var panel = this;
+
+						if (newValue === 0 && typeof this.questionObj.showAnswer === "undefined" ||
+							newValue === this.questionObj.showAnswer) {
+							return;
+						}
+
+						var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_ACTIVATION);
+						var question = Ext.create('ARSnova.model.Question', this.questionObj);
+
+						switch (newValue) {
+							case 0:
+								delete question.data.showAnswer;
+								delete question.raw.showAnswer;
+								break;
+							case 1:
+								question.set('showAnswer', 1);
+								question.raw.showAnswer = 1;
+								break;
+						}
+						question.publishCorrectSkillQuestionAnswer({
+							success: function (response) {
+								hideLoadMask();
+								panel.questionObj = question.getData();
+							},
+							failure: function () {
+								hideLoadMask();
+								console.log('could not save showAnswer flag');
+							}
+						});
+					}
+				}
+			}
+		});
+
+		this.deleteAnswersButton = Ext.create('ARSnova.view.MatrixButton', {
+			hidden: this.isFlashcard,
+			buttonConfig: 'icon',
+			text: Messages.DELETE_ANSWERS,
+			imageCls: 'icon-renew thm-orange',
+			scope: this,
+			handler: function () {
+				Ext.Msg.confirm(Messages.DELETE_ANSWERS_REQUEST, Messages.QUESTION_REMAINS, function (answer) {
+					if (answer === 'yes') {
+						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
+						ARSnova.app.questionModel.deleteAnswers(panel.questionObj._id, {
+							success: function () {
+								panel.getQuestionAnswers();
+							},
+							failure: function (response) {
+								console.log('server-side error delete question');
+							}
+						});
+					}
+				});
+			}
+		});
 
 		this.statisticButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SHOW_STATISTIC,
@@ -489,119 +596,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			}
 		});
 
-		this.releaseStatisticButton = Ext.create('ARSnova.view.MatrixButton', {
-			buttonConfig: 'togglefield',
-			text: Messages.RELEASE_STATISTIC,
-			toggleConfig: {
-				scope: this,
-				label: false,
-				value: this.questionObj.showStatistic? this.questionObj.showStatistic: 0,
-				listeners: {
-					scope: this,
-					change: function(toggle, newValue, oldValue, eOpts) {
-						if (newValue == 0 && typeof this.questionObj.showStatistic === "undefined" ||
-							newValue == this.questionObj.showStatistic) return;
-						
-						var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_ACTIVATION);
-						var question = Ext.create('ARSnova.model.Question', this.questionObj);
-						
-						switch (newValue) {
-							case 0:
-								delete question.data.showStatistic;
-								delete question.raw.showStatistic;
-								break;
-							case 1:
-								question.set('showStatistic', true);
-								question.raw.showStatistic = true;
-								break;
-						};
-						question.publishSkillQuestionStatistics({
-							success: function (response) {
-								hideLoadMask();
-								me.questionObj = question.getData();
-							},
-							failure: function () {
-								hideLoadMask();
-								console.log('could not save showStatistic flag');
-							}
-						});
-					}
-				}
-			}
-		});
-		
-		this.showCorrectAnswerButton = Ext.create('ARSnova.view.MatrixButton', {
-			buttonConfig: 'togglefield',
-			text: Messages.MARK_CORRECT_ANSWER,
-			toggleConfig: {
-				scope: this,
-				label: false,
-				value: this.questionObj.showAnswer? this.questionObj.showAnswer: 0,
-				listeners: {
-					scope: this,
-					change: function (toggle, newValue, oldValue, eOpts) {
-						var panel = this;
-
-						if (newValue == 0 && typeof this.questionObj.showAnswer === "undefined" ||
-							newValue == this.questionObj.showAnswer) {
-							return;
-						}
-
-						var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_ACTIVATION);
-						var question = Ext.create('ARSnova.model.Question', this.questionObj);
-
-						switch (newValue) {
-							case 0:
-								delete question.data.showAnswer;
-								delete question.raw.showAnswer;
-								break;
-							case 1:
-								question.set('showAnswer', 1);
-								question.raw.showAnswer = 1;
-								break;
-						};
-						question.publishCorrectSkillQuestionAnswer({
-							success: function (response) {
-								hideLoadMask();
-								panel.questionObj = question.getData();
-							},
-							failure: function () {
-								hideLoadMask();
-								console.log('could not save showAnswer flag');
-							}
-						});
-					}
-				}
-			}
-		});
-
-		this.questionStatusButton = Ext.create('ARSnova.view.QuestionStatusButton', {
-			questionObj: this.questionObj
-		});
-
-		this.deleteAnswersButton = Ext.create('ARSnova.view.MatrixButton', {
-			hidden: this.isFlashcard,
-			buttonConfig: 'icon',
-			text: Messages.DELETE_ANSWERS,
-			imageCls: 'icon-renew thm-orange',
-			scope: this,
-			handler: function () {
-				Ext.Msg.confirm(Messages.DELETE_ANSWERS_REQUEST, Messages.QUESTION_REMAINS, function (answer) {
-					if (answer == 'yes') {
-						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
-						ARSnova.app.questionModel.deleteAnswers(panel.questionObj._id, {
-							success: function () {
-								panel.getQuestionAnswers();
-							},
-							failure: function (response) {
-								console.log('server-side error delete question');
-							}
-						});
-					}
-				});
-			}
-		});
-
 		this.deleteQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
 			xtype: 'button',
 			buttonConfig: 'icon',
@@ -610,10 +604,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			scope: this,
 			handler: function () {
 				var msg = Messages.ARE_YOU_SURE;
-				if (this.questionObj.active && this.questionObj.active == 1)
+				if (this.questionObj.active && this.questionObj.active === 1)
 					msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
 				Ext.Msg.confirm(Messages.DELETE_QUESTION_TITLE, msg, function (answer) {
-					if (answer == 'yes') {
+					if (answer === 'yes') {
 						var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 						ARSnova.app.questionModel.destroy(sTP.questionDetailsPanel.questionObj, {
 							success: function () {
@@ -635,20 +629,19 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								console.log('server-side error delete question');
 							}
 						});
-
 					}
 				});
 			}
 		});
-		
+
 		// Preview button
 		this.previewButton = Ext.create('Ext.Button', {
-			text: Ext.os.is.Desktop ? 
-				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP:
+			text: Ext.os.is.Desktop ?
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
 			cls: Ext.os.is.Desktop ?
-				'previewButtonLong':
+				'previewButtonLong' :
 				'previewButton',
 			scope: this,
 			handler: function () {
@@ -677,9 +670,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				marginTop: '30px'
 			},
 
-			items: [].concat(
-				this.questionObj.questionType !== "freetext" ? [this.statisticButton, this.releaseStatisticButton]: [this.releaseStatisticButton]
-			)
+			items: [
+				this.questionStatusButton,
+				this.releaseStatisticButton
+			]
 		});
 
 		this.secondRow = Ext.create('Ext.Panel', {
@@ -687,13 +681,15 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				type: 'hbox',
 				pack: 'center'
 			},
-			
+
 			style: {
 				marginTop: '15px'
 			},
 
 			items: [
-				this.questionStatusButton,
+				this.isFlashcard ? this.questionStatusButton : {},
+				this.questionObj.questionType !== "freetext" && !this.isFlashcard ?
+				this.statisticButton : {},
 				this.deleteAnswersButton,
 				this.deleteQuestionButton
 			]
@@ -706,7 +702,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				{
 					cls: 'gravure icon',
 					style: {margin: '20px'},
-					html: '<span class="coursemembersonlymessage">' + Messages.MEMBERS_ONLY+'</span>'
+					html: '<span class="coursemembersonlymessage">' + Messages.MEMBERS_ONLY + '</span>'
 				}
 			],
 			hidden: localStorage.getItem('courseId') === null || localStorage.getItem('courseId').length === 0
@@ -721,7 +717,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 
 		/* BEGIN QUESTION DETAILS */
-		
+
 		this.subject = Ext.create('Ext.field.Text', {
 			label: Messages.CATEGORY,
 			name: 'subject',
@@ -739,7 +735,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			inputCls: 'thm-grey',
 			disabled: true
 		});
-		
+
 		this.contentFieldset = Ext.create('Ext.form.FieldSet', {
 			cls: 'standardFieldset',
 			itemId: 'contentFieldset',
@@ -757,8 +753,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			abstention: this.questionObj.abstention,
 			hidden: true
 		});
-		
-		this.absteionAlternative = Ext.create('Ext.Spacer',{
+
+		this.absteionAlternative = Ext.create('Ext.Spacer', {
 			hidden:	true,
 			height: 40
 		});
@@ -772,7 +768,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 		this.answerFormFieldset = Ext.create('Ext.form.FieldSet', {
 			cls: 'standardFieldset centerFormTitle',
-			title: this.questionObj.questionType !== "flashcard" ? Messages.ANSWERS: Messages.ANSWER
+			title: this.questionObj.questionType !== "flashcard" ? Messages.ANSWERS : Messages.ANSWER
 		});
 
 		this.answerForm = Ext.create('Ext.form.FormPanel', {
@@ -795,7 +791,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			answerEditFormClass = 'ARSnova.view.speaker.form.VoteQuestion';
 		} else if (this.questionObj.questionType === 'flashcard') {
 			answerEditFormClass = 'ARSnova.view.speaker.form.FlashcardQuestion';
-		} else if (this.questionObj.questionType == 'grid') {
+		} else if (this.questionObj.questionType === 'grid') {
 			answerEditFormClass = 'ARSnova.view.speaker.form.GridQuestion';
 		}
 
@@ -845,9 +841,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		if (this.hasCorrectAnswers) {
 			this.firstRow.add(this.showCorrectAnswerButton);
 		}
-		if (this.questionObj.active) {
-			ARSnova.app.taskManager.start(this.renewAnswerDataTask);
-		}
+
+		ARSnova.app.taskManager.start(this.renewAnswerDataTask);
 
 		ARSnova.app.mainTabPanel.on('cardswitch', this.cardSwitchHandler, this);
 		this.on('beforedestroy', function () {
@@ -861,13 +856,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	getPossibleAnswers: function () {
 		var me = this;
 		var isGridQuestion = (['grid'].indexOf(this.questionObj.questionType) !== -1);
-		
-		if(this.questionObj.questionType === 'flashcard') {
+
+		if (this.questionObj.questionType === 'flashcard') {
 			this.answerListPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-		    	style: 'word-wrap: break-word;',
-		    	cls: ''
+				style: 'word-wrap: break-word;',
+				cls: ''
 			});
-			
+
 			this.flashcardGrid = Ext.create('ARSnova.view.components.GridImageContainer', {
 				itemId: 'flashcardGridImageContainer',
 				hidden: true,
@@ -875,7 +870,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				gridIsHidden: true,
 				style: 'margin-bottom: 20px'
 			});
-			
+
 			this.answerList = Ext.create('Ext.Container', {
 				layout: 'vbox',
 				cls: 'roundedBox',
@@ -883,28 +878,26 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				styleHtmlContent: true,
 				items: [this.flashcardGrid, this.answerListPanel]
 			});
-			
-			if(this.questionObj.fcImage) {
+
+			if (this.questionObj.fcImage) {
 				this.flashcardGrid.setImage(this.questionObj.fcImage);
 				this.flashcardGrid.show();
 			}
-			
+
 			// remove padding around panel
-			this.answerList.bodyElement.dom.style.padding="0";
-			
+			this.answerList.bodyElement.dom.style.padding = "0";
+
 			// set content
 			this.answerListPanel.setContent(this.questionObj.possibleAnswers[0].text, true, true);
-		}
-	
-		else {
+		} else {
 			this.answerList = Ext.create('Ext.List', {
 				hidden: isGridQuestion,
 				store: this.answerStore,
-		
+
 				cls: 'roundedBox',
 				variableHeights: true,
 				scrollable: {disabled: true},
-		
+
 				itemCls: 'arsnova-mathdown x-html answerListButton noPadding',
 				itemTpl: new Ext.XTemplate(
 					'{formattedText}',
@@ -936,7 +929,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					},
 					resizeList: function (list) {
 						var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
-		
+
 						this.answerList.setHeight(
 							parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
 							parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
@@ -944,10 +937,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						);
 					}
 				},
-				mode: this.questionObj.questionType === "mc" ? 'MULTI': 'SINGLE'
+				mode: this.questionObj.questionType === "mc" ? 'MULTI' : 'SINGLE'
 			});
 		}
-		
+
 		if (this.questionObj.questionType !== "freetext") {
 			this.answerFormFieldset.add(this.answerList);
 		}
@@ -997,14 +990,14 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			 * only for older questions:
 			 * try to define the question type
 			 */
-			if (this.questionObj.possibleAnswers.length == 2)
+			if (this.questionObj.possibleAnswers.length === 2) {
 				return Messages.YESNO;
-			else if (this.questionObj.possibleAnswers[0].correct)
+			} else if (this.questionObj.possibleAnswers[0].correct) {
 				return Messages.MC;
-			else if (this.questionObj.possibleAnswers.length == 5)
+			} else if (this.questionObj.possibleAnswers.length === 5) {
 				return Messages.EVALUATION;
-			else
-				return Messages.SCHOOL;
+			}
+			return Messages.SCHOOL;
 		}
 	},
 
@@ -1024,7 +1017,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	},
 
 	getQuestionAnswers: function () {
-		if (this.questionObj.active == "1" && this.questionObj.possibleAnswers) {
+		if (this.questionObj.possibleAnswers) {
 			if (this.questionObj.questionType === "freetext") {
 				var self = this;
 
@@ -1065,7 +1058,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								ARSnova.app.mainTabPanel.animateActiveItem(p, 'slide');
 							}
 						});
-						
+
 						answerCountButton.setBadge([{badgeText: answers.length + '', badgeCls: "answersBadgeIcon"}]);
 						self.answerFormFieldset.add([answerCountButton]);
 						if (self.questionObj.abstention) {
@@ -1119,7 +1112,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							if (abstentionIndex !== -1) {
 								panel.answerStore.getAt(abstentionIndex).set('answerCount', abstentionCount);
 							}
-
 						} else if (panel.questionObj.questionType === "grid") {
 							panel.gridStatistic.answers = answers;
 							panel.gridStatistic.setQuestionObj = panel.questionObj;
@@ -1131,13 +1123,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 									abstentionCount = el.abstentionCount;
 									continue;
 								}
-								
+
 								var answerIndex = panel.answerStore.find('text', el.answerText);
 								if (answerIndex !== -1) {
 									panel.answerStore.getAt(answerIndex).set('answerCount', el.answerCount);
 								}
 							}
-							
+
 							if (abstentionIndex !== -1) {
 								panel.answerStore.getAt(abstentionIndex).set('answerCount', abstentionCount);
 							}

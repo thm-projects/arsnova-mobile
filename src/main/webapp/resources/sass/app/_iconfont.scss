@@ -1,7 +1,7 @@
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
- * Copyright (C) 2012-2014 The ARSnova Team
+ * Copyright (C) 2012-2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -59,6 +59,7 @@
 @include icon("icon-cloud-upload " , "\e2b7", "arsnova");
 @include icon("icon-cloud" , "\e2b5", "arsnova");
 @include icon("icon-copy" , "\e92c", "arsnova");
+@include icon("icon-sign-in" , "\e604", "arsnova");
 
 @include icon("icon-check" , "3", "Pictos");
 @include icon('minus2');
@@ -75,6 +76,7 @@
 	font-size: 3em;
 	text-align: center;
 	font-family: "arsnova";
+	margin-left: -0.2em;
 }
 
 .icon-logo-radar {
@@ -199,12 +201,12 @@
 
 	.icon-users {
 		font-size: 0.9em;
-		color: $thm-green !important;
 		margin-right: 1px;
 		margin-bottom: 4px;
 	}
 
 	.icon-presenter {
+		color: $thm-green !important;
 		margin-left: 0.5px;
 		margin-right: -0.5px;
 	}
@@ -233,6 +235,10 @@
 		margin-left: 19px !important;
 		margin-top: 15px !important;
 		font-size: 50px !important;
+	}
+	
+	.icon-presenter {
+		color: $thm-green !important;
 	}
 
 	.icon-chart {

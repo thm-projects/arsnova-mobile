@@ -138,6 +138,7 @@
             "app/utils/Ext.util.TaskRunner.js",
 
             /* lib */
+            "lib/mathjax/MathJax.js",
             "lib/markdown/markdown.js",
             "lib/moment.de.js",
             "lib/moment.min.js",
@@ -172,6 +173,7 @@
         "resources/gridTemplates",
         "favicon.png",
         "lib/socket.io.min.js",
+        "lib/mathjax",
         "WEB-INF"
     ],
 

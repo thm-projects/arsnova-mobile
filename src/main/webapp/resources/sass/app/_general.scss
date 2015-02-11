@@ -1,0 +1,176 @@
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2015 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+.embeddedPageElement {
+	width: 100%;
+	height:100%; 
+	overflow: hidden; 
+	-webkit-overflow-scrolling: touch;
+}
+
+.x-mask-inner {
+	border-radius: 10px 10px 10px 10px;	
+}
+
+.x-carousel-indicator-horizontal {
+	height: 3.5em;
+	
+	&.x-carousel-indicator span {
+		height: 30px;
+		margin: 15px 5px;
+		width: 30px;
+		-webkit-border-radius: 15px;
+		-moz-border-radius: 15px;
+		border-radius: 15px;
+	}
+}
+
+.x-list {
+	.x-scroll-container {
+		background: transparent;
+	}
+}
+
+.listCorrectItem {
+	padding: 0 0.25em 0 0.2em;
+}
+
+.x-list-item-correct {
+	color: white !important;
+	background: $thm-green;
+	border-radius: 10px;
+}
+
+.thm-lettering {
+	color: $thm-green;
+	font-weight: bold;
+}
+
+.feedbackStatisticButton {
+	min-height: 0px !important;
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+}
+
+.feedbackOkBackground .iconBtn {
+	background: $thm-green;
+}
+
+.feedbackGoodBackground .iconBtn {
+	background: $thm-orange;
+}
+
+.feedbackBadBackground .iconBtn {
+	background: $thm-red;
+}
+
+.feedbackNoneBackground .iconBtn {
+	background: $thm-grey;
+	color: #000;
+}
+
+.feedbackStatisticButton.voteButton.smallerMatrixButtons .iconBtn {
+	width: 70px;
+	height: 70px;
+	
+	.iconBtnImg {
+		margin: 11px 0 0 10.5px;
+	}
+}
+
+.x-container.x-form,
+.forwardListButton.caption {
+	max-width: 720px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.x-msgbox {
+	min-width: 310px;
+}
+
+.x-msgbox a, .x-msgbox a:visited {
+	color: rgba(190,224,247,0.9);
+}
+
+.statisticButton.x-item-disabled .x-button-label {
+	opacity: 1;
+}
+
+.centerFormTitle .x-form-fieldset-title {
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.centerFormTitle.hiddenUrl .x-form-fieldset-title {
+	margin-bottom: -9px;
+}
+
+.x-tabbar .x-tab .infoButtonBeforeLogin:before {
+	color: #80ba24;
+}
+
+.myCoursesList .x-innerhtml{
+	padding: 0 !important;
+}
+
+.myCoursesList .x-list-item {
+	border: none !important;
+}
+
+.answerStatisticToolbar {
+	.x-toolbar-inner {
+		display: flex !important;
+		
+		.x-title {
+			flex: 1;
+		}
+	}
+}
+
+.carouselNavigationElement {
+	top: 0;
+	bottom: 0;
+	width: 0; 
+	height: 0; 
+	margin: auto;
+	position: absolute;
+	border-top: 45px solid transparent;
+	border-bottom: 45px solid transparent;
+	
+	&.arrow-right {
+		right: 0;
+		margin-right: 10px;
+		border-left: 45px solid $thm-grey;
+		
+		&.x-button-pressing {
+			border-left-color: $thm-lightgrey !important;
+		}
+	}
+	
+	&.arrow-left {
+		left: 0;
+		margin-left: 10px;
+		border-right: 45px solid $thm-grey;
+		
+		&.x-button-pressing {
+			border-right-color: $thm-lightgrey !important;
+		}
+	}
+}

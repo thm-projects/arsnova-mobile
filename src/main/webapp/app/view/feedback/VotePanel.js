@@ -77,6 +77,43 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 				{
 					xtype: 'matrixbutton',
 					buttonConfig: 'icon',
+					text: Messages.FEEDBACK_OKAY,
+					cls: 'noPadding noBackground voteButton feedbackOkBackground',
+					value: 'Kann folgen',
+					imageCls: 'icon-happy',
+					handler: function (button) {
+						ARSnova.app.getController('Feedback').vote({
+							value: button.config.value
+						});
+					}
+				}, {
+					xtype: 'matrixbutton',
+					buttonConfig: 'icon',
+					text: Messages.FEEDBACK_GOOD,
+					cls: 'noPadding noBackground voteButton feedbackGoodBackground',
+					value: 'Bitte schneller',
+					imageCls: "icon-wink",
+					handler: function (button) {
+						ARSnova.app.getController('Feedback').vote({
+							value: button.config.value
+						});
+					},
+					style: "margin-left:10px"
+				}
+			]
+		});
+
+		this.buttonPanelBottom = Ext.create('Ext.Panel', {
+			xtype: 'container',
+			layout: {
+				type: 'hbox',
+				pack: 'center'
+			},
+			style: "margin-top:10px",
+			items: [
+				{
+					xtype: 'matrixbutton',
+					buttonConfig: 'icon',
 					text: Messages.FEEDBACK_BAD,
 					cls: 'noPadding noBackground voteButton feedbackBadBackground',
 					value: 'Zu schnell',
@@ -100,43 +137,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 					},
 					style: "margin-left:10px"
 				}
-			]
-		});
 
-		this.buttonPanelBottom = Ext.create('Ext.Panel', {
-			xtype: 'container',
-			layout: {
-				type: 'hbox',
-				pack: 'center'
-			},
-			style: "margin-top:10px",
-			items: [
-				{
-					xtype: 'matrixbutton',
-					buttonConfig: 'icon',
-					text: Messages.FEEDBACK_GOOD,
-					cls: 'noPadding noBackground voteButton feedbackGoodBackground',
-					value: 'Bitte schneller',
-					imageCls: "icon-wink",
-					handler: function (button) {
-						ARSnova.app.getController('Feedback').vote({
-							value: button.config.value
-						});
-					}
-				}, {
-					xtype: 'matrixbutton',
-					buttonConfig: 'icon',
-					text: Messages.RESET_FEEDBACK,
-					cls: 'noPadding noBackground voteButton feedbackOkBackground',
-					value: 'Kann folgen',
-					imageCls: 'icon-renew',
-					handler: function (button) {
-						ARSnova.app.getController('Feedback').vote({
-							value: button.config.value
-						});
-					},
-					style: "margin-left:10px"
-				}
 			]
 		});
 

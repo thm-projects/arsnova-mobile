@@ -129,12 +129,12 @@ Ext.define('ARSnova.model.Question', {
 			var tP = ARSnova.app.mainTabPanel.tabPanel,
 				showcasePanel = tP.speakerTabPanel.showcaseQuestionPanel;
 
-			if(tP.getActiveItem().getActiveItem() === showcasePanel) {
-				if(showcasePanel.getActiveItem().getItemId() === object.key) {
+			if (tP.getActiveItem().getActiveItem() === showcasePanel) {
+				if (showcasePanel.getActiveItem().getItemId() === object.key) {
 					var numAnswers = object.value[0],
 						numAbstentions = object.value[1];
-					
-					if(numAnswers === numAbstentions && numAnswers > 0) {
+
+					if (numAnswers === numAbstentions && numAnswers > 0) {
 						showcasePanel.toolbar.setAnswerCounter(numAbstentions, Messages.ABSTENTION);
 					} else {
 						showcasePanel.toolbar.updateAnswerCounter(numAnswers);
@@ -259,8 +259,8 @@ Ext.define('ARSnova.model.Question', {
 		return this.getProxy().saveInterposedQuestion(this.data.subject, this.data.text, this.data.sessionKeyword, this.data.timestamp, callbacks);
 	},
 
-	countFeedbackQuestions: function (sessionKeyword, callbacks) {
-		return this.getProxy().countFeedbackQuestions(sessionKeyword, callbacks);
+	countFeedbackQuestions: function (sessionKeyword, username, callbacks) {
+		return this.getProxy().countFeedbackQuestions(sessionKeyword, username, callbacks);
 	},
 
 	changeQuestionType: function (sessionId, callbacks) {

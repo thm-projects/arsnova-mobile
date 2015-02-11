@@ -21,7 +21,6 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 
 	config: {
 		wording: {
-			stop: Messages.STOP_QUESTION,
 			release: Messages.RELEASE_QUESTION,
 			confirm: Messages.CONFIRM_CLOSE_QUESTION,
 			confirmMessage: Messages.CONFIRM_CLOSE_QUESTION_MESSAGE
@@ -33,67 +32,55 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 
 	questionObj: null,
 
-	questionIsOpenButton: null,
-	questionIsClosedButton: null,
-
 	constructor: function (args) {
 		this.callParent(arguments);
 
 		this.questionObj = args.questionObj;
-		
-		this.questionIsClosedButton = Ext.create('ARSnova.view.MatrixButton', {
-			buttonConfig: 'icon',
-			text: this.getWording().release,
-			imageCls: 'icon-play thm-green',
-			imageStyle: {
-				'font-size': '52px',
-				'margin-top': '14px',
-				'margin-left': '18px'
-			},
-			scope: this,
-			handler: function () {
-				this.changeStatus();
-			}
-		});
 
-		this.questionIsOpenButton = Ext.create('ARSnova.view.MatrixButton', {
-			buttonConfig: 'icon',
-			text: this.getWording().stop,
-			imageCls: 'icon-pause thm-lightgrey',
-			imageStyle: {
-				'font-size': '52px',
-				'margin-top': '14px',
-				'margin-left': '18px'
-			},
-			scope: this,
-			handler: function () {
-				this.changeStatus();
-			}
-		});
-
-		this.add([this.questionIsClosedButton, this.questionIsOpenButton]);
-
-		if (this.questionObj && this.questionObj.active == 1) {
+		if (this.questionObj && this.questionObj.active) {
 			this.isOpen = true;
-			this.questionIsClosedButton.hide();
 		} else {
 			this.isOpen = false;
-			this.questionIsOpenButton.hide();
 		}
+
+		this.button = Ext.create('ARSnova.view.MatrixButton', {
+			buttonConfig: 'togglefield',
+			text: this.getWording().release,
+			scope: this,
+			cls: this.getCls(),
+			toggleConfig: {
+				scope: this,
+				label: false,
+				value: this.isOpen ? 1 : 0,
+				listeners: {
+					scope: this,
+					change: function (toggle, newValue, oldValue, eOpts) {
+						if (newValue && !this.isOpen || !newValue && this.isOpen) {
+							this.changeStatus();
+						}
+					}
+				}
+			}
+		});
+
+		this.add([this.button]);
 	},
 
 	changeStatus: function () {
+		var me = this;
 		var id = this.questionObj._id;
 
 		if (this.isOpen) {
 			Ext.Msg.confirm(this.getWording().confirm, this.getWording().confirmMessage, function (buttonId) {
-				if (buttonId != "no") {
+				if (buttonId !== "no") {
 					/* close this question */
 					ARSnova.app.getController('Questions').setActive({
 						questionId: id,
 						active: 0,
 						callback: this.questionClosedSuccessfully
 					});
+				} else {
+					me.button.setToggleFieldValue(true);
 				}
 			}, this);
 		} else {
@@ -109,23 +96,21 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 	checkInitialStatus: function () {
 		if (this.isRendered) return;
 
-		if (localStorage.getItem('active') == 1) {
+		if (localStorage.getItem('active') === "1") {
 			this.isOpen = true;
+			this.button.setToggleFieldValue(true);
 		} else {
 			this.isOpen = false;
+			this.button.setToggleFieldValue(false);
 		}
 		this.isRendered = true;
 	},
 
 	questionClosedSuccessfully: function () {
 		this.isOpen = false;
-		this.questionIsClosedButton.show();
-		this.questionIsOpenButton.hide();
 	},
 
 	questionOpenedSuccessfully: function () {
 		this.isOpen = true;
-		this.questionIsOpenButton.show();
-		this.questionIsClosedButton.hide();
 	}
 });

@@ -61,9 +61,9 @@ Ext.define("ARSnova.controller.Auth", {
 		ARSnova.app.configLoaded.then(function () {
 			localStorage.setItem(
 				'role',
-				"lecturer" === role ? ARSnova.app.USER_ROLE_SPEAKER: ARSnova.app.USER_ROLE_STUDENT
+				"lecturer" === role ? ARSnova.app.USER_ROLE_SPEAKER : ARSnova.app.USER_ROLE_STUDENT
 			);
-			localStorage.setItem('keyword', sessionkey);
+			sessionStorage.setItem('keyword', sessionkey);
 			if (!ARSnova.app.checkPreviousLogin()) {
 				me.login();
 			}
@@ -83,12 +83,12 @@ Ext.define("ARSnova.controller.Auth", {
 		localStorage.setItem('loginMode', ARSnova.loginMode);
 		localStorage.setItem('role', ARSnova.userRole);
 		localStorage.setItem('ARSnovaCon', true);
-		localStorage.setItem('keyword', options.sessionid);
+		sessionStorage.setItem('keyword', options.sessionid);
 
 		ARSnova.afterLogin();
 
 		window.location = window.location.pathname + "#";
-		Ext.dispatch({controller:'sessions', action:'login', keyword: options.sessionid});
+		Ext.dispatch({controller: 'sessions', action: 'login', keyword: options.sessionid});
 	},
 
 	roleSelect: function (options) {
@@ -105,8 +105,8 @@ Ext.define("ARSnova.controller.Auth", {
 				});
 				var guest;
 
-				if (credibleLogins.length == 0 && guestLogin.length > 0) {
-					this.login({ service: guestLogin[0] });
+				if (credibleLogins.length === 0 && guestLogin.length > 0) {
+					this.login({service: guestLogin[0]});
 				} else {
 					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(
 						ARSnova.app.mainTabPanel.tabPanel.loginPanel, 'slide'
@@ -191,7 +191,7 @@ Ext.define("ARSnova.controller.Auth", {
 	logout: function () {
 		/* hide diagnosis panel */
 		ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.tab.hide();
-		
+
 		/* clear local storage */
 		localStorage.removeItem('sessions');
 		localStorage.removeItem('role');
@@ -209,7 +209,7 @@ Ext.define("ARSnova.controller.Auth", {
 		 * a: to CAS if user is authorized
 		 * b: to rolePanel if user was guest
 		 * */
-		if (ARSnova.app.loginMode == ARSnova.app.LOGIN_CAS) {
+		if (ARSnova.app.loginMode === ARSnova.app.LOGIN_CAS) {
 			/* update will be done when returning from CAS */
 			localStorage.removeItem('login');
 			var apiPath = ARSnova.app.globalConfig.apiPath;
@@ -223,7 +223,7 @@ Ext.define("ARSnova.controller.Auth", {
 				direction: 'right'
 			});
 			/* update manifest cache of new version is loaded */
-			if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+			if (window.applicationCache.status === window.applicationCache.UPDATEREADY) {
 				window.applicationCache.swapCache();
 				console.log('reload');
 				window.location.reload();
@@ -235,19 +235,12 @@ Ext.define("ARSnova.controller.Auth", {
 	 * handles window.location change for desktop and mobile devices separately
 	 */
 	handleLocationChange: function (location) {
-		/**
-		 * mobile device
-		 */
 		if (ARSnova.app.checkMobileDeviceType()) {
+			/* mobile device */
 			ARSnova.app.restProxy.absoluteRequest(location);
-		}
-
-		/**
-		 * desktop
-		 */
-		else {
+		} else {
+			/* desktop */
 			window.location = location;
 		}
-
 	}
 });

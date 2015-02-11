@@ -10,40 +10,6 @@
 	width: 0;
 }
 
-.x-msgbox a, .x-msgbox a:visited {
-	color: rgba(190,224,247,0.9);
-}
-
-/* remove "Sencha Touch GPL3" watermark from charts */
-.x-chart-watermark {
-	opacity: 0;
-}
-
-.statisticButton.x-item-disabled .x-button-label {
-	opacity: 1;
-}
-
-.centerFormTitle .x-form-fieldset-title {
-	text-align: center;
-	margin-bottom: 10px;
-}
-
-.centerFormTitle.hiddenUrl .x-form-fieldset-title {
-	margin-bottom: -9px;
-}
-
-.x-tabbar .x-tab .infoButtonBeforeLogin:before {
-	color: #80ba24;
-}
-
-.myCoursesList .x-innerhtml{
-	padding: 0 !important;
-}
-
-.myCoursesList .x-list-item {
-	border: none !important;
-}
-
 code {
 	white-space:pre;
 	white-space:pre-wrap;
@@ -482,6 +448,17 @@ html,body {
 
 .matrixButton.actionButton .buttonText {
 	width: 130px !important;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.matrixButton.smallerActionButton {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.matrixButton.smallerActionButton .buttonText {
+	width: 105px !important;
 	margin-left: 0px;
 	margin-right: 0px;
 }

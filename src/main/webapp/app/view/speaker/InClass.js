@@ -74,7 +74,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		};
 
 		var loggedInCls = '';
-		if (ARSnova.app.loginMode == ARSnova.app.LOGIN_THM) {
+		if (ARSnova.app.loginMode === ARSnova.app.LOGIN_THM) {
 			loggedInCls = 'thm';
 		}
 
@@ -190,6 +190,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		this.sessionStatusButton = Ext.create('ARSnova.view.SessionStatusButton');
 
 		this.deleteSessionButton = Ext.create('ARSnova.view.MatrixButton', {
+			id: 'delete-session-button',
 			text: Messages.DELETE_SESSION,
 			buttonConfig: 'icon',
 			cls: 'actionButton',
@@ -199,14 +200,14 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				var msg = Messages.ARE_YOU_SURE +
 						"<br>" + Messages.DELETE_SESSION_NOTICE;
 				Ext.Msg.confirm(Messages.DELETE_SESSION_TITLE, msg, function (answer) {
-					if (answer == 'yes') {
+					if (answer === 'yes') {
 						ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_DELETE);
 						ARSnova.app.sessionModel.destroy(sessionStorage.getItem('keyword'), {
 							success: function () {
 								ARSnova.app.removeVisitedSession(localStorage.getItem('sessionId'));
 								ARSnova.app.mainTabPanel.tabPanel.on('activeitemchange', function () {
 									ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.mySessionsPanel.loadCreatedSessions();
-								}, this, {single:true});
+								}, this, {single: true});
 								ARSnova.app.getController('Sessions').logout();
 							},
 							failure: function (response) {
@@ -298,9 +299,12 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			success: function (response) {
 				var numQuestions = parseInt(response.responseText);
 
-				if(numQuestions) {
-					if(numQuestions === 1) me.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE);
-					else me.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE_PLURAL);
+				if (numQuestions) {
+					if (numQuestions === 1) {
+						me.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE);
+					} else {
+						me.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE_PLURAL);
+					}
 
 					me.showcaseActionButton.show();
 				}
@@ -342,7 +346,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	},
 
 	countFeedbackQuestions: function () {
-		ARSnova.app.questionModel.countFeedbackQuestions(sessionStorage.getItem("keyword"), {
+		ARSnova.app.questionModel.countFeedbackQuestions(sessionStorage.getItem("keyword"), null, {
 			success: function (response) {
 				var questionCount = Ext.decode(response.responseText);
 				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadgeText(questionCount.unread);
@@ -372,8 +376,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 					me.courseLearningProgressButton.setBadge([{badgeText: p + "%", badgeCls: "orangebadgeicon"}]);
 					me.inClassButtons.add(me.courseLearningProgressButton);
 				} else if (p === 0) {
-						me.courseLearningProgressButton.setBadge([{badgeText: "…", badgeCls: "badgeicon"}]);
-						me.inClassButtons.remove(me.courseLearningProgressButton, false);
+					me.courseLearningProgressButton.setBadge([{badgeText: "…", badgeCls: "badgeicon"}]);
+					me.inClassButtons.remove(me.courseLearningProgressButton, false);
 				} else {
 					me.courseLearningProgressButton.setBadge([{badgeText: p + "%", badgeCls: "redbadgeicon"}]);
 					me.inClassButtons.add(me.courseLearningProgressButton);

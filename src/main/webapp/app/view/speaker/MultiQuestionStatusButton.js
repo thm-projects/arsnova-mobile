@@ -24,8 +24,8 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 		isLectureMode: false,
 		isPreparationMode: false,
 		wording: {
-			stop: Messages.STOP_ALL_QUESTIONS,
-			release: Messages.RELEASE_ALL_QUESTIONS,
+			release: Messages.RELEASE_QUESTION,
+			releaseAll: Messages.RELEASE_ALL_QUESTIONS,
 			confirm: Messages.CONFIRM_CLOSE_ALL_QUESTIONS,
 			confirmMessage: Messages.CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE
 		}
@@ -46,26 +46,34 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 
 		if (hasActiveQuestions) {
 			this.isOpen = true;
-			this.questionIsClosedButton.hide();
-			this.questionIsOpenButton.show();
+			this.button.setToggleFieldValue(true);
 		} else {
 			this.isOpen = false;
-			this.questionIsClosedButton.show();
-			this.questionIsOpenButton.hide();
+			this.button.setToggleFieldValue(false);
 		}
 	},
-	
-	setLecturerQuestionsMode: function() {
+
+	setLecturerQuestionsMode: function () {
 		this.setIsLectureMode(true);
 		this.setIsPreparationMode(false);
 	},
-	
-	setPreparationQuestionsMode: function() {
+
+	setPreparationQuestionsMode: function () {
 		this.setIsLectureMode(false);
 		this.setIsPreparationMode(true);
 	},
 
+	setSingleQuestionMode: function () {
+		this.button.setButtonText(this.getWording().release);
+	},
+
+	setMultiQuestionMode: function () {
+		this.button.setButtonText(this.getWording().releaseAll);
+	},
+
 	changeStatus: function () {
+		var me = this;
+
 		if (!this.getQuestionStore()) {
 			return;
 		}
@@ -84,7 +92,7 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 
 		if (this.isOpen) {
 			Ext.Msg.confirm(this.getWording().confirm, this.getWording().confirmMessage, function (buttonId) {
-				if (buttonId != "no") {
+				if (buttonId !== "no") {
 					/* close all questions */
 					ARSnova.app.getController('Questions').setAllActive({
 						active: false,
@@ -95,6 +103,8 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 						}, this),
 						scope: this
 					});
+				} else {
+					me.button.setToggleFieldValue(true);
 				}
 			}, this);
 		} else {

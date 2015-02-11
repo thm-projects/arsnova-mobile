@@ -19,12 +19,15 @@
 			},
 			tex2jax: {
 				inlineMath: [['\\(', '\\)'], ['\[\[', '\]\]']],
-				processEscapes: true
+				processEscapes: true,
+				preview: 'none'
 			},
+			messageStyle: 'none',
+			showProcessingMessages: false,
 			showMathMenu: false
 		});
 		</script>
-		<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+		<script type="text/javascript" src="lib/mathjax/MathJax.js"></script>
 
 		<!-- Socket.IO -->
 		<script type="text/javascript" src="lib/socket.io.min.js"></script>
@@ -33,7 +36,7 @@
 		<script id="microloader" type="text/javascript" src=".sencha/app/microloader/development.js"></script>
 
 		<!-- The line below has to be listed after the microloader include in order to work properly -->
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">	
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
 	</head>
 	<body>
 		<div class="appLoadingIndicator" id="appLoadingIndicator">

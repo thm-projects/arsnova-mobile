@@ -25,7 +25,7 @@ Ext.define('ARSnova.view.RolePanel', {
 			direction: 'vertical',
 			directionLock: true
 		},
-		
+
 		tab: {
 			hidden: true
 		},
@@ -35,11 +35,12 @@ Ext.define('ARSnova.view.RolePanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
-		
+
 		var isPhone = (Ext.os.is.Phone && Ext.os.is.iOS);
 		var smallHeight = document.body.clientHeight <= 460;
 		var mediumHeight = document.body.clientHeight >= 520;
-		
+		var slogan = ARSnova.app.globalConfig.arsnovaSlogan ? ARSnova.app.globalConfig.arsnovaSlogan : "";
+
 		this.add([{
 			xtype: 'toolbar',
 			docked: 'top',
@@ -49,20 +50,20 @@ Ext.define('ARSnova.view.RolePanel', {
 		}, {
 			xtype: 'panel',
 			cls: null,
-			html: 	"<div class='icon-logo'>" +
+			html: "<div class='icon-logo'>" +
 					"<span class='icon-logo-radar'>r</span>" +
 					"<span class='icon-logo-ars'>a</span>" +
 					"<span class='icon-logo-nova'>n</span>" +
 					"</div>",
 			style: {
-				marginTop: isPhone && !mediumHeight ? (smallHeight ? '5px' : '10px')  : '25px'
+				marginTop: isPhone && !mediumHeight ? (smallHeight ? '5px' : '10px') : '25px'
 			}
 		}, {
 			xtype: 'panel',
 			style: {
 				marginBottom: isPhone && !mediumHeight ? (smallHeight ? '10px' : '15px') : '30px'
 			},
-			html: "<div class='gravure'>Made by <a href='http://www.thm.de/' class='thmlink' target='_blank'><span class='thm-lettering'>THM</span></a></div>",
+			html: "<div class='gravure'>" + slogan + "</div>",
 			cls: null
 		}, {
 			xtype: 'container',
@@ -81,13 +82,15 @@ Ext.define('ARSnova.view.RolePanel', {
 			},
 			items: [
 				{
+					id: 'role-select-speaker',
 					text: Messages.SPEAKER,
 					value: ARSnova.app.USER_ROLE_SPEAKER,
-					imageCls: "icon-presenter thm-grey"
+					imageCls: "icon-presenter"
 				}, {
+					id: 'role-select-student',
 					text: Messages.STUDENT,
 					value: ARSnova.app.USER_ROLE_STUDENT,
-					imageCls: "icon-users thm-green",
+					imageCls: "icon-users",
 					style: 'margin-left: 20px;'
 				}
 			]
@@ -102,7 +105,7 @@ Ext.define('ARSnova.view.RolePanel', {
 				xtype: 'matrixbutton',
 				text: Messages.INFO,
 				imageCls: "icon-book",
-				handler: function() {
+				handler: function () {
 					var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 					tabPanel.setActiveItem(tabPanel.infoTabPanel);
 				}

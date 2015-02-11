@@ -1,3 +1,22 @@
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2015 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 $background-color: $background;
 $label-font-color: $thm-grey;
 $label-font-weight: normal;
@@ -25,7 +44,7 @@ $button-decline-txt-color: #fff;
 
 $toolbar-bg-color: $thm-grey;
 $toolbar-title-txt-color: #fff;
-$toolbar-speaker-title-color: $thm-green;
+$toolbar-speaker-title-color: #fff;
 $toolbar-button-bg-color: $thm-green;
 $toolbar-button-txt-color: #fff;
 $toolbar-back-button-bg-color: #fff;
@@ -54,7 +73,6 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 	}
 }
 
-.thmlink,
 .x-button .courseIcon,
 .answerListButton .x-button-label,
 .forwardListButton .x-button-label,

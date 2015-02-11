@@ -102,11 +102,11 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		// Preview button
 		this.previewButton = Ext.create('Ext.Button', {
 			text: Ext.os.is.Desktop ?
-				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP:
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
 			cls: Ext.os.is.Desktop ?
-				'previewButtonLong':
+				'previewButtonLong' :
 				'previewButton',
 			scope: this,
 			handler: function () {
@@ -233,9 +233,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		me.questionOptions = Ext.create('Ext.SegmentedButton', {
 			allowDepress: false,
 			items: formatItems,
-		    defaults: {
-		    	ui: 'action'
-		    },
+			defaults: {
+				ui: 'action'
+			},
 			listeners: {
 				scope: me,
 				toggle: function (container, button, pressed) {
@@ -267,7 +267,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 									this.grid.show();
 								}
 							}
-						break;
+							break;
 						case Messages.EVALUATION:
 						case Messages.EVALUATION_LONG:
 							if (pressed) {
@@ -365,7 +365,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			ui: 'light',
 			items: [
 				me.backButton,
-				{xtype:'spacer'},
+				{xtype: 'spacer'},
 				me.saveButtonToolbar
 			]
 		});
@@ -455,7 +455,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.releasePart.setHidden(localStorage.getItem('courseId') === null || localStorage.getItem('courseId').length === 0);
 	},
 
-	defaultPreviewHandler: function() {
+	defaultPreviewHandler: function () {
 		var questionPreview = Ext.create('ARSnova.view.QuestionPreviewBox');
 		questionPreview.showPreview(this.subject.getValue(), this.textarea.getValue());
 	},
@@ -480,14 +480,14 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		} else {
 			values.releasedFor = panel.getReleasedFor();
 		}
-		
+
 		/* fetch the values */
 		switch (panel.questionOptions.getPressedButtons()[0]._text) {
 			case Messages.GRID:
 			case Messages.GRID_LONG:
 				values.questionType = "grid";
 				Ext.apply(values, panel.gridQuestion.getQuestionValues());
-			break;
+				break;
 			case Messages.EVALUATION:
 			case Messages.EVALUATION_LONG:
 				values.questionType = "vote";
@@ -564,7 +564,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 					);
 					break;
 			}
-			
+
 			// animated scrolling to top
 			panel.getScrollable().getScroller().scrollTo(0, 0, true);
 		});
@@ -623,8 +623,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		});
 		return promise;
 	},
-	
-	setGridConfiguration: function(grid) {
+
+	setGridConfiguration: function (grid) {
 		grid.setEditable(false);
 		grid.setGridIsHidden(true);
 	},
@@ -633,10 +633,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		var title = this.toolbar.getTitle().getTitle(),
 			isFlashcard = title === Messages.FLASHCARD,
 			grid = isFlashcard ? this.flashcardQuestion.grid : this.grid;
-		
+
 		this.image = image;
 		grid.setImage(image);
-		
+
 		if (image) {
 			grid.show();
 		} else {
@@ -645,12 +645,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			this.setGridConfiguration(grid);
 		}
 	},
-	
+
 	setFcImage: function (image) {
 		this.fcImage = image;
 		this.grid.setImage(image);
-		
-		if(image) {
+
+		if (image) {
 			this.grid.show();
 		} else {
 			this.grid.hide();
@@ -664,11 +664,11 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	 *
 	 * @param text The text of the button to be selected.
 	 */
-	activateButtonWithText: function(text) {
+	activateButtonWithText: function (text) {
 		var me = this;
 
-		this.questionOptions.innerItems.forEach(function(item, index) {
-			if (item.getItemId() == text) {
+		this.questionOptions.innerItems.forEach(function (item, index) {
+			if (item.getItemId() === text) {
 				me.questionOptions.setPressedButtons([index]);
 			}
 		});

@@ -19,7 +19,7 @@
 
 Ext.define('ARSnova.view.QuestionPreviewBox', {
 	extend: 'Ext.MessageBox',
-	
+
 	config: {
 		scrollable: {
 			direction: 'vertical',
@@ -28,10 +28,10 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		hideOnMaskTap: true,
 		layout: 'vbox'
 	},
-	
-	initialize: function(args) {
+
+	initialize: function (args) {
 		this.callParent(args);
-		
+
 		this.setStyle({
 			'font-size': '110%',
 			'border-color': 'black',
@@ -39,15 +39,15 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 			'height': '79%',
 			'width': '95%'
 		});
-		
-		if(Ext.os.is.Desktop) {
+
+		if (Ext.os.is.Desktop) {
 			this.setMaxWidth('320px');
 			this.setMaxHeight('640px');
 		} else {
 			this.setMaxWidth('740px');
 			this.setMaxHeight('600px');
 		}
-		
+
 		this.closeButton = Ext.create('Ext.Button', {
 			iconCls: 'icon-close',
 			handler: this.hide,
@@ -58,24 +58,24 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 				'padding': '0 0.4em'
 			}
 		});
-		
+
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.QUESTION_PREVIEW_DIALOGBOX_TITLE,
 			docked: 'top',
 			ui: 'light',
 			items: [this.closeButton]
 		});
-		
+
 		// panel for question subject
 		this.titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			style: 'min-height: 50px'
 		});
-		
+
 		// panel for question content
-		this.contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', { 
+		this.contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			style: 'min-height: 150px'
 		});
-		
+
 		// question preview confirm button
 		this.confirmButton = Ext.create('Ext.Container', {
 			layout: {
@@ -94,7 +94,7 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 				})
 			]
 		});
-		
+
 		// answer preview box content panel
 		this.mainPanel = Ext.create('Ext.Container', {
 			layout: 'vbox',
@@ -106,60 +106,60 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 				this.confirmButton
 			]
 		});
-		
+
 		// remove padding around mainPanel
-		this.mainPanel.bodyElement.dom.style.padding="0";
-		
-		this.on('hide', function() {
+		this.mainPanel.bodyElement.dom.style.padding = "0";
+
+		this.on('hide', function () {
 			ARSnova.app.innerScrollPanel = false;
 			ARSnova.app.activePreviewPanel = false;
 			this.destroy();
 		});
-		
-		this.on('painted', function() {
+
+		this.on('painted', function () {
 			ARSnova.app.innerScrollPanel = this;
 			ARSnova.app.activePreviewPanel = this;
 		});
 	},
 
-	showPreview: function (title, content) {	
+	showPreview: function (title, content) {
 		ARSnova.app.innerScrollPanel = this;
 		ARSnova.app.activePreviewPanel = true;
 		this.titlePanel.setContent(title.replace(/\./, "\\."), false, true);
 		this.contentPanel.setContent(content, true, true);
-		
+
 		this.add([
 			this.toolbar,
 			this.mainPanel
 		]);
-		
+
 		this.show();
 
 		// for IE: unblock input fields
 		Ext.util.InputBlocker.unblockInputs();
 	},
-	
-	showEmbeddedPagePreview: function(embeddedPage) {
+
+	showEmbeddedPagePreview: function (embeddedPage) {
 		var controller = ARSnova.app.getController('Application'),
 			me = this;
-		
+
 		// remove default elements from preview
 		this.remove(this.toolbar, false);
 		this.remove(this.mainPanel, false);
-		
-		embeddedPage.setBackHandler(function() {
+
+		embeddedPage.setBackHandler(function () {
 			// toggle hrefPanelActive();
 			controller.toggleHrefPanelActive();
-			
+
 			// remove & destroy embeddedPage and delete reference
 			me.remove(embeddedPage, true);
 			delete controller.embeddedPage;
-			
+
 			// add default elements to preview
 			me.add(me.toolbar);
 			me.add(me.mainPanel);
 		});
-		
+
 		// add embeddedPage to preview
 		this.add(embeddedPage);
 	}
