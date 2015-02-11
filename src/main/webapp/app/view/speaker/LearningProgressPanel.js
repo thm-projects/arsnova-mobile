@@ -65,7 +65,7 @@ Ext.define('ARSnova.view.speaker.LearningProgressPanel', {
 		this.courseLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			itemId: 'courseLearningProgressExample',
 			text: Messages.CURRENT_VALUE,
-			cls: 'standardListButton roundedBox',
+			cls: 'standardListButton roundedBox x-html',
 			disabledCls: '',
 			disabled: true
 		});
