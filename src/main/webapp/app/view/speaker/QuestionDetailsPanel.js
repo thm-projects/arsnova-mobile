@@ -926,6 +926,15 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					 */
 					painted: function (list, eOpts) {
 						this.answerList.fireEvent("resizeList", list);
+
+						if(window.MathJax) {
+							MathJax.Hub.Queue(
+								["Delay",MathJax.Callback,700],
+								function() {
+									me.answerList.fireEvent('resizeList', me.answerList.element);
+								}
+							);
+						}
 					},
 					resizeList: function (list) {
 						var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
