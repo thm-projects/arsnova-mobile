@@ -258,6 +258,10 @@ switch (lang) {
 			/* speaker */
 			LIVE_FEEDBACK: "Instant feedback",
 			COURSES_LEARNING_PROGRESS: "Class progress",
+			CURRENT_VALUE: "Current value",
+			HOW_TO_CALCULATE_LEARNING_PROGRESS: "How to calculate the learning progress?",
+			QUESTION_BASED_PROGRESS: "Question based",
+			SCORE_BASED_PROGRESS: "Score based",
 			NEW_LECTURE_QUESTION: "New lecture question",
 			NEW_PREPARATION_QUESTION: "New preparation question",
 			NEW_QUESTION_TITLE: "Question",
@@ -741,6 +745,10 @@ switch (lang) {
 			/* speaker */
 			LIVE_FEEDBACK: "Live-Feedback",
 			COURSES_LEARNING_PROGRESS: "Lernstand des Kurses",
+			CURRENT_VALUE: "Aktueller Wert",
+			HOW_TO_CALCULATE_LEARNING_PROGRESS: "Wie soll der Lernstand berechnet werden?",
+			QUESTION_BASED_PROGRESS: "Fragenbasiert",
+			SCORE_BASED_PROGRESS: "Punktbasiert",
 			NEW_LECTURE_QUESTION: "Neue Hörsaalfrage",
 			NEW_PREPARATION_QUESTION: "Neue Vorbereitungsfrage",
 			NEW_QUESTION_TITLE: "Frage",

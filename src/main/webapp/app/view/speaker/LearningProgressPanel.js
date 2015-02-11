@@ -64,7 +64,7 @@ Ext.define('ARSnova.view.speaker.LearningProgressPanel', {
 
 		this.courseLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			itemId: 'courseLearningProgressExample',
-			text: "Aktueller Wert",
+			text: Messages.CURRENT_VALUE,
 			cls: 'standardListButton roundedBox',
 			disabledCls: '',
 			disabled: true
@@ -109,12 +109,12 @@ Ext.define('ARSnova.view.speaker.LearningProgressPanel', {
 			scrollable: null,
 			items: [{
 				xtype: 'fieldset',
-				title: "Wie soll der Lernstand berechnet werden?",
+				title: Messages.HOW_TO_CALCULATE_LEARNING_PROGRESS,
 				items: [{
 					xtype: 'radiofield',
 					name: 'progressType',
 					value: 'questions',
-					label: 'Fragenbasiert',
+					label: Messages.QUESTION_BASED_PROGRESS,
 					checked: true,
 					listeners: {
 						scope: this,
@@ -128,7 +128,7 @@ Ext.define('ARSnova.view.speaker.LearningProgressPanel', {
 					xtype: 'radiofield',
 					name: 'progressType',
 					value: 'points',
-					label: 'Punktbasiert',
+					label: Messages.SCORE_BASED_PROGRESS,
 					listeners: {
 						scope: this,
 						check: function (field) {
