@@ -36,6 +36,7 @@ Ext.define('ARSnova.model.Session', {
 			'courseId',
 			'courseType',
 			'creationTime',
+			'learningProgressType',
 			'ppAuthorName',
 			'ppAuthorMail',
 			'ppUniversity',
@@ -53,7 +54,9 @@ Ext.define('ARSnova.model.Session', {
 			{type: 'presence', field: 'name', min: 1, max: 50},
 			{type: 'length', field: 'shortName', min: 1, max: 12},
 			{type: 'presence', field: 'creator'}
-		]
+		],
+
+		learningProgress: "questions"
 	},
 
 	sessionIsActive: true,
@@ -70,6 +73,10 @@ Ext.define('ARSnova.model.Session', {
 
 			this.fireEvent(this.events.sessionActive, active);
 		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.learningProgressType, function (progressType) {
+			this.setLearningProgress(progressType);
+		}, this);
 	},
 
 	destroy: function (sessionId, creator, callbacks) {
@@ -81,7 +88,15 @@ Ext.define('ARSnova.model.Session', {
 	},
 
 	checkSessionLogin: function (keyword, callbacks) {
-		return this.getProxy().checkSessionLogin(keyword, callbacks);
+		var me = this;
+		return this.getProxy().checkSessionLogin(keyword, {
+			success: function (response) {
+				var obj = Ext.decode(response.responseText);
+				me.setLearningProgress(obj.learningProgressType);
+				callbacks.success(obj);
+			},
+			failure: callbacks.failure
+		});
 	},
 
 	getMySessions: function (callbacks, sortby) {
@@ -101,10 +116,52 @@ Ext.define('ARSnova.model.Session', {
 	},
 
 	getMyLearningProgress: function (sessionKeyword, callbacks) {
-		return this.getProxy().getMyLearningProgress(sessionKeyword, callbacks);
+		var me = this;
+		return this.getProxy().getMyLearningProgress(sessionKeyword, this.getLearningProgress(), {
+			success: function (progress) {
+				var myself = me.progressDescription(progress.myprogress);
+				var course = me.progressDescription(progress.courseprogress);
+				callbacks.success.call(callbacks.scope, myself, course, progress, me.getLearningProgress());
+			}
+		});
 	},
 
 	getCourseLearningProgress: function (sessionKeyword, callbacks) {
-		return this.getProxy().getCourseLearningProgress(sessionKeyword, callbacks);
+		return this.getCourseLearningProgressByType(sessionKeyword, this.getLearningProgress(), callbacks);
+	},
+
+	getCourseLearningProgressByType: function (sessionKeyword, progressType, callbacks) {
+		var me = this;
+		return this.getProxy().getCourseLearningProgress(sessionKeyword, progressType, {
+			success: function (progress) {
+				var desc = me.progressDescription(progress);
+				callbacks.success.call(callbacks.scope, desc.text, desc.color, progress, progressType);
+			},
+			failure: callbacks.failure
+		});
+	},
+
+	progressDescription: function (progress) {
+		var color;
+		var text = progress + "%";
+		if (progress >= 75) {
+			color = "green";
+		} else if (progress >= 25) {
+			color = "orange";
+		} else if (progress === 0) {
+			color = "";
+			text = "…";
+		} else {
+			color = "red";
+		}
+		return {
+			color: color,
+			text: text
+		};
+	},
+
+	setLearningProgressType: function (sessionKeyword, progressType) {
+		ARSnova.app.socket.setLearningProgressType({sessionKeyword: sessionKeyword, learningProgressType: progressType});
+		this.setLearningProgress(progressType);
 	}
 });

@@ -339,5 +339,12 @@ Ext.define("ARSnova.controller.Questions", {
 
 	deleteAllInterposedQuestions: function (callbacks) {
 		ARSnova.app.questionModel.deleteAllInterposedQuestions(sessionStorage.getItem('keyword'), callbacks);
+	},
+
+	showLearningProgress: function () {
+		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		sTP.animateActiveItem(sTP.learningProgressPanel, {
+			type: 'slide'
+		});
 	}
 });

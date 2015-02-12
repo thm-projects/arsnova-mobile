@@ -253,20 +253,18 @@ Ext.application({
 	 * returns true if user is logged in a session
 	 */
 	checkSessionLogin: function () {
-		if (localStorage.getItem('sessionId') === undefined || localStorage.getItem('sessionId') === "")
+		if (localStorage.getItem('sessionId') === undefined || localStorage.getItem('sessionId') === "") {
 			return false;
-		else
+		} else {
 			return true;
+		}
 	},
 
 	/**
 	 * returns true if device is a phone or a tablet
 	 */
 	checkMobileDeviceType: function () {
-		if (Ext.device.deviceType === 'Phone' || Ext.device.deviceType === 'Tablet') {
-			return true;
-		} else
-		return false;
+		return Ext.device.deviceType === 'Phone' || Ext.device.deviceType === 'Tablet';
 	},
 
 	checkPreviousLogin: function () {
@@ -274,7 +272,9 @@ Ext.application({
 		var isLocalStorageUninitialized = localStorage.getItem('role') == null
 			|| localStorage.getItem('loginMode') == null
 			|| localStorage.getItem('login') == null;
-		if (isLocalStorageUninitialized) return false;
+		if (isLocalStorageUninitialized) {
+			return false;
+		}
 
 		ARSnova.app.loggedIn = true;
 		ARSnova.app.loginMode = localStorage.getItem('loginMode');
@@ -286,7 +286,9 @@ Ext.application({
 	},
 
 	setWindowTitle: function (addition) {
-		if (!addition) addition = '';
+		if (!addition) {
+			addition = '';
+		}
 
 		switch (ARSnova.app.userRole) {
 			case ARSnova.app.USER_ROLE_SPEAKER:
@@ -347,10 +349,6 @@ Ext.application({
 			return;
 		}
 
-		if (localStorage.getItem('lastVisitedSessions') == null) {
-			localStorage.setItem('lastVisitedSessions', "[]");
-		}
-
 		if (localStorage.getItem('lectureQuestionIds') == null) {
 			localStorage.setItem('lectureQuestionIds', "[]");
 		}
@@ -387,50 +385,9 @@ Ext.application({
 				tmp.push(sessionID.substr(i - 1, 2));
 			}
 		}
-		if (tmp.length * 2 < sessionID.length) tmp.push(sessionID[tmp.length * 2]);
-		return tmp.join(" ");
-	},
-
-	removeVisitedSession: function (sessionId) {
-		var sessions = Ext.decode(localStorage.getItem('lastVisitedSessions'));
-		for (var i = 0; i < sessions.length; i++) {
-			var session = sessions[i];
-			if (sessionId === session._id) {
-				sessions.splice(i, 1);
-			}
+		if (tmp.length * 2 < sessionID.length) {
+			tmp.push(sessionID[tmp.length * 2]);
 		}
-		localStorage.setItem('lastVisitedSessions', Ext.encode(sessions));
+		return tmp.join(" ");
 	}
 });
-
-function clone(obj) {
-	// Handle the 3 simple types, and null or undefined
-	if (null == obj || "object" !== typeof obj) return obj;
-
-	// Handle Date
-	if (obj instanceof Date) {
-		var copy = new Date();
-		copy.setTime(obj.getTime());
-		return copy;
-	}
-
-	// Handle Array
-	if (obj instanceof Array) {
-		var copy = [];
-		for (var i = 0; i < obj.length; ++i) {
-			copy[i] = clone(obj[i]);
-		}
-		return copy;
-	}
-
-	// Handle Object
-	if (obj instanceof Object) {
-		var copy = {};
-		for (var attr in obj) {
-			if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
-		}
-		return copy;
-	}
-
-	throw new Error("Unable to copy obj! Its type isn't supported.");
-}
