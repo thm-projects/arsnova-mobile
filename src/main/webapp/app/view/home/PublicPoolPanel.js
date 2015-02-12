@@ -148,6 +148,11 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 				direction: 'vertical',
 				directionLock: true
 			},
+			listConfig: {
+				grouped: true,
+				indexBar: true,
+				pinHeaders: false
+			},
 			useTitleAsBackText: false,
 			listeners: {
 				itemtap: function (nestedList, list, index, target, record) {
