@@ -128,18 +128,13 @@
     </target>
     
     <target name="-copy-app-resources" depends="-init-compiler">
-        <if>
-            <x-is-false value="${build.output.markuponly}"/>
-            <then>
-                <x-compile refid="${compiler.ref.id}">
-                    <![CDATA[
-                    app-resources
-                        -compress=${enable.resource.compression}
-                        -out=${build.dir}
-                    ]]>
-                </x-compile>
-            </then>
-        </if>
+        <x-compile refid="${compiler.ref.id}">
+            <![CDATA[
+            app-resources
+                -compress=${enable.resource.compression}
+                -out=${build.dir}
+            ]]>
+        </x-compile>
     </target>
     
     <target name="-generate-deltas" depends="-init-compiler">
