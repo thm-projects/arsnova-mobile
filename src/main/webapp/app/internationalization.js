@@ -221,6 +221,9 @@ switch (lang) {
 			ANSWER_POINTS: "Answer points",
 			ANSWER_POINTS_CORRECT: "Correct",
 			ANSWER_POINTS_INCORRECT: "Incorrect",
+			NO_ANSWER_MARKED_CORRECT_MESSAGE: "You have not marked any answer option as correct.",
+			NO_ANSWER_MARKED_CORRECT_OPTION_YES: "Save anyway",
+			NO_ANSWER_MARKED_CORRECT_OPTION_NO: "Abort",
 
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
@@ -704,6 +707,9 @@ switch (lang) {
 			ANSWER_POINTS: "Antwortpunkte",
 			ANSWER_POINTS_CORRECT: "Richtig",
 			ANSWER_POINTS_INCORRECT: "Falsch",
+			NO_ANSWER_MARKED_CORRECT_MESSAGE: "Sie haben keine Antwortoption als richtig markiert.",
+			NO_ANSWER_MARKED_CORRECT_OPTION_YES: "Trotzdem speichern",
+			NO_ANSWER_MARKED_CORRECT_OPTION_NO: "Abbrechen",
 
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",

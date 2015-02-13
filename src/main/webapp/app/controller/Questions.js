@@ -147,6 +147,7 @@ Ext.define("ARSnova.controller.Questions", {
 		});
 
 		var error = false;
+		var checkedError = false;
 		var validation = question.validate();
 		if (!validation.isValid()) {
 			validation.items.forEach(function (el) {
@@ -185,8 +186,10 @@ Ext.define("ARSnova.controller.Questions", {
 						answerCount++;
 					}
 				});
-				if (answerCount < 2 || checkedCount === 0) {
+				if (answerCount < 2) {
 					error = true;
+				} else if (checkedCount === 0) {
+					checkedError = true;
 				}
 				break;
 			case 'grid':
@@ -195,12 +198,38 @@ Ext.define("ARSnova.controller.Questions", {
 						error = true;
 					}
 				} else error = true;
-
 				break;
 		}
+
 		if (error) {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.INCOMPLETE_INPUTS);
 			options.saveButton.enable();
+			return;
+		} else if (checkedError) {
+			Ext.Msg.show({
+				title: Messages.NOTIFICATION,
+				message: Messages.NO_ANSWER_MARKED_CORRECT_MESSAGE,
+				buttons: [{
+					text: Messages.NO_ANSWER_MARKED_CORRECT_OPTION_YES,
+					itemId: 'yes',
+					ui: 'action'
+				}, {
+					text: Messages.NO_ANSWER_MARKED_CORRECT_OPTION_NO,
+					itemId: 'no',
+					ui: 'decline'
+				}],
+				fn: function(buttonId) {
+					if(buttonId === 'yes') {
+						question.saveSkillQuestion({
+							success: options.successFunc,
+							failure: options.failureFunc
+						});
+					} else {
+						options.saveButton.enable();
+					}
+				}
+			});
+
 			return;
 		}
 
