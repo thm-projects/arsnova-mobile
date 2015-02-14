@@ -221,6 +221,9 @@ switch (lang) {
 			ANSWER_POINTS: "Answer points",
 			ANSWER_POINTS_CORRECT: "Correct",
 			ANSWER_POINTS_INCORRECT: "Incorrect",
+			NO_ANSWER_MARKED_CORRECT_MESSAGE: "You have not marked any answer option as correct.",
+			NO_ANSWER_MARKED_CORRECT_OPTION_YES: "Save anyway",
+			NO_ANSWER_MARKED_CORRECT_OPTION_NO: "Abort",
 
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
@@ -258,6 +261,10 @@ switch (lang) {
 			/* speaker */
 			LIVE_FEEDBACK: "Instant feedback",
 			COURSES_LEARNING_PROGRESS: "Class progress",
+			CURRENT_VALUE: "Current value",
+			HOW_TO_CALCULATE_LEARNING_PROGRESS: "How to calculate the learning progress?",
+			QUESTION_BASED_PROGRESS: "Question based",
+			SCORE_BASED_PROGRESS: "Score based",
 			NEW_LECTURE_QUESTION: "New lecture question",
 			NEW_PREPARATION_QUESTION: "New preparation question",
 			NEW_QUESTION_TITLE: "Question",
@@ -704,6 +711,9 @@ switch (lang) {
 			ANSWER_POINTS: "Antwortpunkte",
 			ANSWER_POINTS_CORRECT: "Richtig",
 			ANSWER_POINTS_INCORRECT: "Falsch",
+			NO_ANSWER_MARKED_CORRECT_MESSAGE: "Sie haben keine Antwortoption als richtig markiert.",
+			NO_ANSWER_MARKED_CORRECT_OPTION_YES: "Trotzdem speichern",
+			NO_ANSWER_MARKED_CORRECT_OPTION_NO: "Abbrechen",
 
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
@@ -741,6 +751,10 @@ switch (lang) {
 			/* speaker */
 			LIVE_FEEDBACK: "Live-Feedback",
 			COURSES_LEARNING_PROGRESS: "Lernstand des Kurses",
+			CURRENT_VALUE: "Aktueller Wert",
+			HOW_TO_CALCULATE_LEARNING_PROGRESS: "Wie soll der Lernstand berechnet werden?",
+			QUESTION_BASED_PROGRESS: "Fragenbasiert",
+			SCORE_BASED_PROGRESS: "Punktbasiert",
 			NEW_LECTURE_QUESTION: "Neue Hörsaalfrage",
 			NEW_PREPARATION_QUESTION: "Neue Vorbereitungsfrage",
 			NEW_QUESTION_TITLE: "Frage",

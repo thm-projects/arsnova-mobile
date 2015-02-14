@@ -34,8 +34,7 @@ Ext.define("ARSnova.controller.Sessions", {
 			var keyword = sessionStorage.getItem('keyword');
 
 			if (keyword) {
-				/* TODO: Use abstraction layer? */
-				socket.emit("setSession", {keyword: keyword});
+				ARSnova.app.socket.setSession(keyword);
 			}
 		});
 	},
@@ -52,11 +51,9 @@ Ext.define("ARSnova.controller.Sessions", {
 		}
 		/* do login stuff */
 		var res = ARSnova.app.sessionModel.checkSessionLogin(options.keyword, {
-			success: function (response) {
-				var obj = Ext.decode(response.responseText);
-
+			success: function (obj) {
 				// check if user is creator of this session
-				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER && obj.creator !== "NOT VISIBLE TO YOU") {
+				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 					ARSnova.app.isSessionOwner = true;
 				} else {
 					// check if session is open
@@ -79,13 +76,13 @@ Ext.define("ARSnova.controller.Sessions", {
 
 				sessionStorage.setItem('keyword', obj.keyword);
 
+				// initialize MathJax
+				ARSnova.app.getController('Application').initializeMathJax();
+
 				// deactivate several about tabs
 				ARSnova.app.mainTabPanel.tabPanel.deactivateAboutTabs();
 
-				/* TODO: Use abstraction layer? */
-				if (window.socket) {
-					socket.emit("setSession", {keyword: obj.keyword});
-				}
+				ARSnova.app.socket.setSession(obj.keyword);
 
 				// start task to update the feedback tab in tabBar
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge, ARSnova.app.mainTabPanel.tabPanel);
@@ -108,10 +105,7 @@ Ext.define("ARSnova.controller.Sessions", {
 	},
 
 	logout: function () {
-		/* TODO: Use abstraction layer? */
-		if (window.socket) {
-			socket.emit("setSession", {keyword: null});
-		}
+		ARSnova.app.socket.setSession(null);
 
 		ARSnova.app.loggedInModel.resetActiveUserCount();
 
@@ -282,8 +276,9 @@ Ext.define("ARSnova.controller.Sessions", {
 			Ext.Msg.alert('Hinweis', 'Bitte alle markierten Felder ausfüllen.');
 			var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel;
 			panel.down('fieldset').items.items.forEach(function (el) {
-				if (el.xtype === 'textfield')
+				if (el.xtype === 'textfield') {
 					el.removeCls("required");
+				}
 			});
 			validation.items.forEach(function (el) {
 				panel.down('textfield[name=' + el.getField() + ']').addCls("required");
@@ -380,15 +375,6 @@ Ext.define("ARSnova.controller.Sessions", {
 	setActive: function (options) {
 		ARSnova.app.sessionModel.lock(sessionStorage.getItem("keyword"), options.active, {
 			success: function () {
-				// update this session in localStorage
-				var sessions = Ext.decode(localStorage.getItem('lastVisitedSessions'));
-				sessions.forEach(function (el) {
-					/* FIXME: ref to global `session` variable? why? */
-					if (el._id === session.data._id)
-						el.active = session.data.active;
-				});
-				localStorage.setItem('lastVisitedSessions', Ext.encode(sessions));
-
 				var sessionStatus = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton;
 
 				if (options.active === 1) {
@@ -401,5 +387,19 @@ Ext.define("ARSnova.controller.Sessions", {
 				Ext.Msg.alert("Hinweis!", "Session speichern war nicht erfolgreich");
 			}
 		});
+	},
+
+	setLearningProgressType: function (options) {
+		if (this.getLearningProgressType() !== options.progressType) {
+			ARSnova.app.sessionModel.setLearningProgressType(sessionStorage.getItem("keyword"), options.progressType);
+		}
+	},
+
+	getLearningProgressType: function () {
+		return ARSnova.app.sessionModel.getLearningProgress();
+	},
+
+	getCourseLearningProgressByType: function (options) {
+		ARSnova.app.sessionModel.getCourseLearningProgressByType(sessionStorage.getItem("keyword"), options.progressType, options.callbacks);
 	}
 });

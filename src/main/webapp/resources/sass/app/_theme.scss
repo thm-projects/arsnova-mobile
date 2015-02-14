@@ -78,6 +78,10 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 .forwardListButton .x-button-label,
 .standardListButton .x-button-label {
 	color: $thm-grey;
+	
+	&.thm-green {
+		color: $thm-green !important;
+	}
 }
 
 .x-segmentedbutton .x-button-normal {

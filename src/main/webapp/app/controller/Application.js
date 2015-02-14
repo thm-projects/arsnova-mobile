@@ -40,6 +40,39 @@ Ext.define("ARSnova.controller.Application", {
 	},
 
 	/**
+	 * initializes mathjax if feature is activated in configuration
+	 */
+	initializeMathJax: function() {
+		var config = ARSnova.app.globalConfig;
+
+		if(config.features.mathJax && !window.MathJax) {
+			var head = document.getElementsByTagName("head")[0], script;
+			var mathJaxSrc = config.mathJaxSrc || "//cdn.mathjax.org/mathjax/2.4-latest/MathJax.js";
+
+			window.MathJax = {
+				jax: ["input/TeX","output/HTML-CSS"],
+				extensions: ["tex2jax.js","Safe.js"],
+				TeX: {
+					extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]
+				},
+				tex2jax: {
+					inlineMath: [['\\(', '\\)'], ['\[\[', '\]\]']],
+					processEscapes: true,
+					preview: 'none'
+				},
+				messageStyle: 'none',
+				showProcessingMessages: false,
+				showMathMenu: false
+			};
+			
+			script = document.createElement("script");
+			script.type = "text/javascript";
+			script.src = mathJaxSrc;
+			head.appendChild(script);
+		}
+	},
+
+	/**
 	 * check if used protocol is http/https
 	 */
 	checkHrefProtocol: function (href) {
