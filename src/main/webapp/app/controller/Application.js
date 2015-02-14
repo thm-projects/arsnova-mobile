@@ -269,7 +269,9 @@ Ext.define("ARSnova.controller.Application", {
 		messageBox.element.on('*', function(e) {
 			switch(e.type) {
 				case 'mouseup':
-				case 'mousedown': {
+				case 'mousedown':
+				case 'touchstart':
+				case 'touchend': {
 					messageBox.hide();
 				}
 			}
