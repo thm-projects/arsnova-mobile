@@ -282,8 +282,8 @@ Ext.define("ARSnova.controller.Application", {
 		    text: url,
 		    width: width,
 		    height: height,
-		    colorDark : "#000000",
-		    colorLight : "#ffffff"
+		    colorDark : "#4A5C66",
+		    colorLight : "#E0E0E0"
 		});
 
 		messageBox.setMessage(window.location + 'id/&#8203;' + sessionStorage.getItem('keyword'));
