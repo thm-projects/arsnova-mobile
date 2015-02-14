@@ -174,3 +174,20 @@
 		}
 	}
 }
+
+.qr-code {
+	width:90%;
+	height:90%;
+	max-width: 700px !important;
+	max-height: 90% !important;
+	
+	.x-msgbox-inner {
+		-webkit-box-align: center;
+		-ms-flex-align: center;
+		align-items: center;
+		
+		img {
+			margin: 10px;
+		}
+	}
+}
