@@ -71,7 +71,7 @@ switch (lang) {
 			CHOOSE_ROLE: "Choose your role:",
 			STUDENT: "Student",
 			SPEAKER: "Teacher",
-			TITLE_ROLE: "Audience Response System",
+			TITLE_ROLE: "Feedback & Interaction",
 			/* loginPanel */
 			CHOOSE_LOGIN: "Login as:",
 			GUEST: "Guest",
