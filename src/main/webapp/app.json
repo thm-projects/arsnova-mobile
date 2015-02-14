@@ -148,6 +148,7 @@
             "lib/moment.min.js",
             "lib/rsvp.min.js",
             "lib/socket.io.min.js",
+            "lib/qrcode.min.js",
 
             /* resources */
             "resources/css/app.css",
@@ -177,6 +178,7 @@
         "resources/gridTemplates",
         "favicon.png",
         "lib/socket.io.min.js",
+        "lib/qrcode.min.js",
         "lib/mathjax",
         "WEB-INF"
     ],
