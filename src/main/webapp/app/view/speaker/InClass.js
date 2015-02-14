@@ -93,7 +93,16 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			ui: 'light',
 			docked: 'top',
 			items: [
-				this.sessionLogoutButton
+				this.sessionLogoutButton, 
+				{ xtype: 'spacer' },
+				{
+					xtype: 'button',
+					iconCls: 'icon-qrcode',
+					cls: 'toggleCorrectButton',
+					handler: function (button) {
+						ARSnova.app.getController('Application').showQRCode();
+					}
+				}
 			]
 		});
 

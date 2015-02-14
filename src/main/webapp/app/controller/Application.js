@@ -239,5 +239,51 @@ Ext.define("ARSnova.controller.Application", {
 				window.attachEvent("onmousewheel", doScroll);
 			}
 		}
+	}, 
+	
+	showQRCode: function() {
+		var url = window.location + 'id/' + sessionStorage.getItem('keyword'),
+			heightOffset = 110, widthOffset = 60;
+
+		var messageBox = Ext.create('Ext.MessageBox', {
+			cls: 'qr-code',
+			title: 'QR-Code',
+			hideOnMaskTap: true,
+			listeners: {
+				hide: function() {
+					this.destroy();
+				}
+			}
+		}).show();
+
+		var messageBoxCS = window.getComputedStyle(messageBox.element.dom, "");
+		var height = parseFloat(messageBoxCS.getPropertyValue("height")) - heightOffset;
+		var width = parseFloat(messageBoxCS.getPropertyValue("width")) - widthOffset;
+
+		if(width > height) width = height;
+		else if (height > width) {
+			height = width;
+			messageBox.setHeight(width + heightOffset);
+		}
+
+		messageBox.element.on('*', function(e) {
+			switch(e.type) {
+				case 'mouseup':
+				case 'mousedown': {
+					messageBox.hide();
+				}
+			}
+		});
+
+		var messageInner = messageBox.element.select('.x-msgbox-inner').elements[0];
+		new QRCode(document.getElementById(messageInner.id), {
+		    text: url,
+		    width: width,
+		    height: height,
+		    colorDark : "#000000",
+		    colorLight : "#ffffff"
+		});
+
+		messageBox.setMessage(window.location + 'id/&#8203;' + sessionStorage.getItem('keyword'));
 	}
 });
