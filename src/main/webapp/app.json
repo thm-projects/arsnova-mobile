@@ -77,6 +77,10 @@
       		"update": "full"
         },
         {
+    	 	"path": "lib/qrcode.min.js",
+      		"update": "full"
+        },
+        {
         	"path": "app/internationalization.js",
         	"update": "full"
         },
