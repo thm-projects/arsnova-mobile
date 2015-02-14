@@ -77,10 +77,6 @@
       		"update": "full"
         },
         {
-    	 	"path": "lib/qrcode.min.js",
-      		"update": "full"
-        },
-        {
         	"path": "app/internationalization.js",
         	"update": "full"
         },
@@ -142,7 +138,6 @@
             "app/utils/Ext.util.TaskRunner.js",
 
             /* lib */
-            "lib/mathjax/MathJax.js",
             "lib/markdown/markdown.js",
             "lib/moment.de.js",
             "lib/moment.min.js",
@@ -179,7 +174,6 @@
         "favicon.png",
         "lib/socket.io.min.js",
         "lib/qrcode.min.js",
-        "lib/mathjax",
         "WEB-INF"
     ],
 
