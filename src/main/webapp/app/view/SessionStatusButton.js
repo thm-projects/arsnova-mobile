@@ -36,7 +36,7 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 			buttonConfig: 'icon',
 			cls: 'actionButton',
 			text: Messages.START_SESSION,
-			imageCls: 'icon-lock thm-red',
+			imageCls: 'icon-lock thm-orange',
 			imageStyle: {
 				'font-size': '64px',
 				'margin-top': '9px !important'
@@ -50,7 +50,7 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 			buttonConfig: 'icon',
 			cls: 'actionButton',
 			text: Messages.STOP_SESSION,
-			imageCls: 'icon-unlock thm-green',
+			imageCls: 'icon-unlock',
 			imageStyle: {
 				'font-size': '64px',
 				'margin-top': '9px !important'
