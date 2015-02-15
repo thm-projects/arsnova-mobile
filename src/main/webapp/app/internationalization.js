@@ -717,7 +717,7 @@ switch (lang) {
 
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
-			QUESTIONS_FROM_STUDENTS: "Fragen der Studenten",
+			QUESTIONS_FROM_STUDENTS: "Fragen der Studierenden",
 			PREPARATION_QUESTIONS: "Vorbereitung",
 			PREPARATION_QUESTIONS_LONG: "Vorbereitungsfragen",
 			PREPARATION_QUESTION_SHORT: "Vorbereitung",
