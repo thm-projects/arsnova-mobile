@@ -247,7 +247,6 @@ Ext.define("ARSnova.controller.Application", {
 
 		var messageBox = Ext.create('Ext.MessageBox', {
 			cls: 'qr-code',
-			title: 'QR-Code',
 			hideOnMaskTap: true,
 			listeners: {
 				hide: function() {
@@ -282,8 +281,8 @@ Ext.define("ARSnova.controller.Application", {
 		    text: url,
 		    width: width,
 		    height: height,
-		    colorDark : "#4A5C66",
-		    colorLight : "#E0E0E0"
+		    colorDark : "#000000",
+		    colorLight : "#FFFFFF"
 		});
 
 		messageBox.setMessage(window.location + 'id/&#8203;' + sessionStorage.getItem('keyword'));
