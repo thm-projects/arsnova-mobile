@@ -28,13 +28,14 @@ Ext.define("ARSnova.controller.SessionImport", {
 	/**
 	 * Import a single session from a JSON file.
 	 */
-	importSession: function (jsonContent) {
+	importSession: function (jsonContent, publicPoolAttributes) {
 		var me = this;
 
 		var session = {
 			name: jsonContent.session.name,
 			shortName: jsonContent.session.shortName,
-			active: jsonContent.session.active
+			active: jsonContent.session.active,
+			publicPool: publicPoolAttributes
 		};
 
 		jsonContent.questions.forEach(function (q) {
