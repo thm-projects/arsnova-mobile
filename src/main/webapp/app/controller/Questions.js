@@ -218,8 +218,8 @@ Ext.define("ARSnova.controller.Questions", {
 					itemId: 'no',
 					ui: 'decline'
 				}],
-				fn: function(buttonId) {
-					if(buttonId === 'yes') {
+				fn: function (buttonId) {
+					if (buttonId === 'yes') {
 						question.saveSkillQuestion({
 							success: options.successFunc,
 							failure: options.failureFunc
