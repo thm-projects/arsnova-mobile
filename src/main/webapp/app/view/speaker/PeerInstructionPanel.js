@@ -28,11 +28,26 @@ Ext.define('ARSnova.view.speaker.PeerInstructionPanel', {
 	initialize: function (arguments) {
 		this.callParent(arguments);
 		
+		this.toolbar = Ext.create('Ext.Toolbar', {
+			docked: 'top',
+			title: this.getTitle(),
+			ui: 'light',
+			items: [{
+				xtype: 'button',
+				text: Messages.STATISTIC,
+				ui: 'back',
+				scope: this,
+				handler: function () {
+					ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.statisticTabPanel.setActiveItem(0);
+				}
+			}]
+		});
+		
 		this.countdownTimer = Ext.create('ARSnova.view.components.CountdownTimer', {
 			sliderDefaultValue: 1,
 		});
 
-		this.add([this.countdownTimer]);
+		this.add([this.toolbar, this.countdownTimer]);
 
 		this.on('activate', this.onActivate);
 		this.on('activate', this.beforeActivate, this, null, 'before');
