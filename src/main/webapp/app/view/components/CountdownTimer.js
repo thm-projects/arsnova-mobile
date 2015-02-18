@@ -56,8 +56,19 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			this.initializeTimeValues();
 			this.showTimer();
 		});
+		
+		this.canvas.on('tap', function() {
+			if(!this.running) {
+				this.start();
+				this.slider.disable();
+			} else {
+				this.running = false;
+				this.slider.enable();
+			}
+		}, this);
 
 		this.slider = Ext.create('Ext.field.Slider', {
+			width: this.config.width - 25,
 			value: this.getSliderDefaultValue(),
 			minValue: this.getSliderMinValue(),
 			maxValue: this.getSliderMaxValue(),
