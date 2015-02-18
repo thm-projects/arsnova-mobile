@@ -21,6 +21,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 	config: {
 		title: Messages.STATISTIC,
+		iconCls: 'icon-chart',
 		layout: 'fit'
 	},
 
@@ -40,7 +41,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	renewChartDataTask: {
 		name: 'renew the chart data at question statistics charts',
 		run: function () {
-			ARSnova.app.mainTabPanel._activeItem.getQuestionAnswers();
+			var tP = ARSnova.app.mainTabPanel.tabPanel;
+			var panel = tP.userQuestionsPanel || tP.speakerTabPanel;
+			panel.questionStatisticChart.getQuestionAnswers();
 		},
 		interval: 10000 // 10 seconds
 	},
@@ -51,7 +54,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	countActiveUsersTask: {
 		name: 'count the actually logged in users',
 		run: function () {
-			ARSnova.app.mainTabPanel._activeItem.countActiveUsers();
+			var tP = ARSnova.app.mainTabPanel.tabPanel;
+			var panel = tP.userQuestionsPanel || tP.speakerTabPanel;
+			panel.questionStatisticChart.countActiveUsers(panel.questionStatisticChart);
 		},
 		interval: 15000
 	},
@@ -108,7 +113,13 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				ARSnova.app.mainTabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel, {
 					type: 'slide',
 					direction: 'right',
-					duration: 700
+					duration: 700,
+					listeners: {
+						scope: this,
+						animationend: function () {
+							this.destroy();
+						}
+					}
 				});
 			}
 		});
@@ -677,11 +688,11 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		}
 	},
 
-	countActiveUsers: function () {
+	countActiveUsers: function (panel) {
 		var count = ARSnova.app.loggedInModel.countActiveUsersBySession();
 
 		// update quote in toolbar
-		var quote = ARSnova.app.mainTabPanel._activeItem.toolbar.items.items[4];
+		var quote = panel.toolbar.items.items[4];
 		var users = quote.getHtml().split("/");
 		users[1] = count-1;
 		users = users.join("/");
