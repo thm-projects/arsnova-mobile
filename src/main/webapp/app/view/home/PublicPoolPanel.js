@@ -49,8 +49,22 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 			this.getSessions().sort(function (a, b) {return a.ppSubject > b.ppSubject;});
 
 			Object.keys(this.getSessions()).forEach(function (key, index) {
+				// get niveaus
+				var levelsDe = config.publicPool.levelsDe.split(',');
+				var levelsEn = config.publicPool.levelsEn.split(',');
+				
+				switch (lang) {
+				case 'en':case 'en-en':case 'en-us':case 'en-gb':
+					var levels = levelsEn;
+					break;
+				default:
+					var levels = levelsDe;
+				}
+				
+				var ppLevelId = levelsDe.indexOf(this[key].ppLevel) != -1 ? levelsDe.indexOf(this[key].ppLevel) : levelsEn.indexOf(this[key].ppLevel)
+				
 				var firstLevelId = '1_' + this[key].ppSubject;
-				var secLevelId = '2_' +  this[key].ppLevel + '_' + firstLevelId;
+				var secLevelId = '2_' +  me.getLevelId(this[key].ppLevel,[levelsDe,levelsEn]) + '_' + firstLevelId;
 				var thirdLevelId = '3_' +  this[key].name + '_' + index + '_' + secLevelId;
 
 				var firstLevelNode = me.rootNode.findChild("id", firstLevelId, false);
@@ -67,21 +81,13 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 					firstLevelNode.removeAll();
 
 					// create all niveau entries
-					switch (lang) {
-					case 'en':case 'en-en':case 'en-us':case 'en-gb':
-						var levels = config.publicPool.levelsEn.split(',');
-						break;
-					default:
-						var levels = config.publicPool.levelsDe.split(',');
-					}
-
 					levels.forEach(function (entry) {
 						var secondLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
 							text: entry,
 							itemCount: 0,
 							keyword: 0,
 							leaf: false,
-							id: '2_' +  entry + '_' + firstLevelId,
+							id: '2_' +  me.getLevelId(entry,[levelsDe,levelsEn]) + '_' + firstLevelId,
 							badgeCls: 'hidden',
 							itemCls: 'ppSingleItemBackground'
 						});
@@ -213,5 +219,23 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 		this.add([
 			this.nestedList
 		]);
+	},
+	
+	/**
+	 * Calculates the index of a public pool session level.
+	 * For proper functioning it has to be ensured that the order of the different levels
+	 * in each language is the same.
+	 * 
+	 * @param levelname The current language specific level name.
+	 * @param langArray An array of languages in which the name should be searched.
+	 * @return The index of the level on success, otherwise -1.
+	 */
+	getLevelId : function(levelname, langArray) {
+		for (index = 0; index < langArray.length; ++index) {
+			var entry = langArray[index];
+			if (entry.indexOf(levelname) != -1)
+				return entry.indexOf(levelname);
+		}
+		return -1;
 	}
 });
