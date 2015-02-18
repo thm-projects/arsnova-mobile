@@ -144,28 +144,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				style: {paddingRight: '20px'}
 			}, {
 				xtype: 'button',
-				iconCls: 'icon-timer',
-				cls: 'toggleCorrectButton',
-				handler: function (button) {
-					var me = this;
-
-					if (this.piTimer) {
-						button.removeCls('x-button-pressed');
-						if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-							me.segmentedButton.hide();
-						}
-					} else {
-						button.addCls('x-button-pressed');
-						if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-							me.segmentedButton.show();
-						}
-					}
-					this.piTimer = !this.piTimer;
-				}, 				
-				scope: this,
-				hidden: this.questionObj.questionType === 'grid' || (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT)
-			}, {
-				xtype: 'button',
 				iconCls: 'icon-check',
 				cls: 'toggleCorrectButton',
 				handler: function (button) {
@@ -628,7 +606,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			});
 		};
 		
-		var afterCalculation = function() {
+		var afterCalculation = function(round) {
 			if(me.questionChart.showPercentage) {
 				chart.getAxes()[0].setMaximum(maxPercentage);
 			} else {
@@ -645,6 +623,11 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				users[0] = sum;
 				users = users.join("/");
 				quote.setHtml(users);
+
+				if(round > 1) {
+					// show change round segmentbutton
+					me.segmentedButton.show();
+				}
 			}
 		};
 		
@@ -653,7 +636,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				success: function (piRound1) {
 					var answers = Ext.decode(piRound1.responseText);
 					calculation(answers, '-round1');
-					
+
 					if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 						countSecondRound();
 					} else {
@@ -671,7 +654,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				success: function(piRound2) {
 					var piAnswers = Ext.decode(piRound2.responseText);
 					calculation(piAnswers, '-round2');
-					afterCalculation();
+					afterCalculation(me.questionObj.piRound);
 				},
 				failure: function() {
 					console.log('server-side error');
