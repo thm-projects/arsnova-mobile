@@ -523,11 +523,22 @@ Ext.define('ARSnova.view.Question', {
 
 	statisticButtonHandler: function (scope) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel || ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-		panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
-			question: scope.questionObj,
-			lastPanel: scope
-		});
-		ARSnova.app.mainTabPanel.animateActiveItem(panel.questionStatisticChart, 'slide');
+		
+		if(panel === ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel) {
+			panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
+				question: panel._activeItem._activeItem.questionObj,
+				lastPanel: this
+			});
+			panel.statisticTabPanel.insert(0, panel.questionStatisticChart);
+			panel.statisticTabPanel.setActiveItem(0);
+			ARSnova.app.mainTabPanel.animateActiveItem(panel.statisticTabPanel, 'slide');
+		} else {
+			panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
+				question: scope.questionObj,
+				lastPanel: scope
+			});
+			ARSnova.app.mainTabPanel.animateActiveItem(panel.questionStatisticChart, 'slide');
+		}
 	},
 
 	getQuestionTypeMessage: function (msgAppendix) {

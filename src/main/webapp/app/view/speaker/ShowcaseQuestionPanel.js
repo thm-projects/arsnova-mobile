@@ -70,7 +70,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 					question: ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel._activeItem._activeItem.questionObj,
 					lastPanel: this
 				});
-				ARSnova.app.mainTabPanel.animateActiveItem(sTP.questionStatisticChart, 'slide');
+				sTP.animateActiveItem(sTP.questionStatisticChart, 'slide');
 			}
 		});
 
