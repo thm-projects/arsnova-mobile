@@ -191,3 +191,13 @@
 		}
 	}
 }
+
+.newQuestionWarning {
+	list-style-type: disc;
+	margin-left: 30px;
+	text-align: left;
+	
+	li {
+		list-style: initial;
+	}
+}

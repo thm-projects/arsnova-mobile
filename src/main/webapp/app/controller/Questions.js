@@ -147,11 +147,23 @@ Ext.define("ARSnova.controller.Questions", {
 		});
 
 		var error = false;
+		var gridError = false;
+		var answersError = false;
+		var subjectError = false;
 		var checkedError = false;
+		var questionError = false;
+
 		var validation = question.validate();
 		if (!validation.isValid()) {
 			validation.items.forEach(function (el) {
 				panel.down('textfield[name=' + el.getField() + ']').addCls("required");
+
+				if(el._field === "subject") {
+					subjectError = true;
+				} else if(el._field === "text") {
+					questionError = true;
+				}
+
 				error = true;
 			});
 		}
@@ -160,6 +172,15 @@ Ext.define("ARSnova.controller.Questions", {
 				panel.voteQuestion.query('textfield').forEach(function (el) {
 					if (el.getValue().trim() === "") {
 						el.addCls("required");
+						error = true;
+					}
+				});
+				break;
+			case 'flashcard': 
+				panel.flashcardQuestion.query('textfield').forEach(function (el) {
+					if(el.getValue().trim() === "") {
+						el.addCls("required");
+						answersError = true;
 						error = true;
 					}
 				});
@@ -188,6 +209,7 @@ Ext.define("ARSnova.controller.Questions", {
 				});
 				if (answerCount < 2) {
 					error = true;
+					answersError = true;
 				} else if (checkedCount === 0) {
 					checkedError = true;
 				}
@@ -196,13 +218,35 @@ Ext.define("ARSnova.controller.Questions", {
 				if (panel.gridQuestion.grid !== null) {
 					if (!panel.gridQuestion.grid.getImageFile()) {
 						error = true;
+						gridError = true;
 					}
-				} else error = true;
+				} else {
+					error = true;
+					gridError = true;
+				}
 				break;
 		}
 
 		if (error) {
-			Ext.Msg.alert(Messages.NOTIFICATION, Messages.INCOMPLETE_INPUTS);
+			var message = Messages.MISSING_INPUTS + '<ul class="newQuestionWarning"><br>';
+
+			if(subjectError) {
+				message += '<li>' + Messages.MISSING_SUBJECT + '</li>';
+			}
+			if(questionError) {
+				message += '<li>' + Messages.MISSING_QUESTION + '</li>';
+			}
+			if(gridError) {
+				message += '<li>' + Messages.MISSING_IMAGE + '</li>';
+			}
+			if(answersError && question.get('questionType') === 'flashcard') {
+				message += '<li>' + Messages.MISSING_FLASHCARD + '</li>';
+			}
+			else if(answersError) {
+				message += '<li>' + Messages.MISSING_ANSWERS + '</li>';
+			}
+
+			Ext.Msg.alert(Messages.NOTIFICATION, message + '</ul>');
 			options.saveButton.enable();
 			return;
 		} else if (checkedError) {
