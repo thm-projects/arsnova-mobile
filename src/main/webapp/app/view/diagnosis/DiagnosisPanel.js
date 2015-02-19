@@ -107,12 +107,14 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 						});
 					}
 				}]
-			},
-			{
-				xtype: 'panel',
+			}, {
 				style: 'margin-top: 30px',
 				html: "<div class='gravure'>Made by <a href='http://www.thm.de/' class='thmlink' target='_blank'><span class='thm-lettering'>THM</span></a></div>",
 				cls: null
+			}, {
+				width: 150,
+				style: 'margin: 30px auto',
+				html: "<a href='http://www.gnu.org/licenses/agpl-3.0.de.html' target='_blank'><img src='resources/images/agpl_logo.svg' width='150' height='60'></a>"
 			}]
 		});
 
