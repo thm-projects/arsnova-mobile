@@ -27,7 +27,7 @@ Ext.define('ARSnova.view.speaker.PeerInstructionPanel', {
 
 	initialize: function (arguments) {
 		this.callParent(arguments);
-		
+
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			title: this.getTitle(),
@@ -42,7 +42,7 @@ Ext.define('ARSnova.view.speaker.PeerInstructionPanel', {
 				}
 			}]
 		});
-		
+
 		this.countdownTimer = Ext.create('ARSnova.view.components.CountdownTimer', {
 			sliderDefaultValue: 1,
 		});
@@ -54,8 +54,27 @@ Ext.define('ARSnova.view.speaker.PeerInstructionPanel', {
 	},
 
 	beforeActivate: function () {
+		this.remove(this.editButtons);
+
+		this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
+			style: 'margin: 30px',
+			speakerStatistics: true,
+			questionObj: this.cleanupQuestionObj(ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart.questionObj)
+		});
+
+		this.add(this.editButtons);
 	},
 
 	onActivate: function () {
+	},
+
+	cleanupQuestionObj: function(questionObj) {
+		if(questionObj) {
+			questionObj.possibleAnswers.forEach(function(answer) {
+				delete answer.formattedText;
+			});
+		}
+
+		return questionObj;
 	}
 });

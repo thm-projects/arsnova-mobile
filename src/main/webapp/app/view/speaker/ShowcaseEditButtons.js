@@ -25,6 +25,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			pack: 'center'
 		},
 
+		speakerStatistics: false,
 		style: "margin: 10px"
 	},
 
@@ -46,7 +47,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			toggleConfig: {
 				scope: this,
 				label: false,
-				value: this.questionObj.showStatistic ? this.questionObj.showStatistic : 0,
+				value: this.questionObj.showStatistic ? 1 : 0,
 				listeners: {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
@@ -94,6 +95,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 					listeners: {
 						scope: this,
 						change: function (toggle, newValue, oldValue, eOpts) {
+							console.log('showAnswerChange');
 							if (newValue === 0 && typeof this.questionObj.showAnswer === "undefined" ||
 								newValue === this.questionObj.showAnswer) {
 								return;
@@ -136,7 +138,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 		this.add([
 			this.questionStatusButton,
 			type === "flashcard" ? {} : this.releaseStatisticButton,
-			this.hasCorrectAnswers ? this.showCorrectAnswerButton : {}
+			this.hasCorrectAnswers && !this.config.speakerStatistics ? this.showCorrectAnswerButton : {}
 		]);
 	}
 });
