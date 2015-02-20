@@ -440,7 +440,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		this.on('painted', function () {
 			ARSnova.app.activePreviewPanel = this;
-			
+
 			if(this.questionObj.piRound === 1) {
 				this.disablePiRoundElements();
 			}
@@ -451,7 +451,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		ARSnova.app.innerScrollPanel = this;
 		ARSnova.app.taskManager.start(this.renewChartDataTask);
 		this.segmentedButton.setPressedButtons([this.questionObj.piRound]);
-		
+
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			ARSnova.app.taskManager.start(this.countActiveUsersTask);
 		}

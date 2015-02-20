@@ -42,13 +42,11 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 		this.audienceQuestionPanel = Ext.create('ARSnova.view.speaker.AudienceQuestionPanel');
 		this.newQuestionPanel = Ext.create('ARSnova.view.speaker.NewQuestionPanel');
 		this.showcaseQuestionPanel = Ext.create('ARSnova.view.speaker.ShowcaseQuestionPanel');
-		this.statisticTabPanel = Ext.create('ARSnova.view.speaker.StatisticTabPanel');
 
 		this.add([
 			this.inClassPanel,
 			this.audienceQuestionPanel,
-			this.newQuestionPanel,
-			this.statisticTabPanel
+			this.newQuestionPanel
 		]);
 	},
 
