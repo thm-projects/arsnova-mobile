@@ -102,6 +102,13 @@ Ext.define('ARSnova.view.MatrixButton', {
 	 */
 	useToggleFieldConfiguration: function () {
 		var me = this;
+		var listeners = this.getToggleConfig().listeners;
+
+		this.getToggleConfig().listeners = {
+			initialize: function() {
+				this.setListeners(listeners);
+			}
+		},
 
 		this.getToggleConfig().renderTo = this.element.select(".iconBtn").elements[0];
 		this.toggleField = Ext.create('Ext.field.Toggle', this.getToggleConfig());
