@@ -95,7 +95,6 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 					listeners: {
 						scope: this,
 						change: function (toggle, newValue, oldValue, eOpts) {
-							console.log('showAnswerChange');
 							if (newValue === 0 && typeof this.questionObj.showAnswer === "undefined" ||
 								newValue === this.questionObj.showAnswer) {
 								return;
@@ -140,5 +139,15 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			type === "flashcard" ? {} : this.releaseStatisticButton,
 			this.hasCorrectAnswers && !this.config.speakerStatistics ? this.showCorrectAnswerButton : {}
 		]);
+	},
+
+	updateData: function(questionObj) {
+		var active = this.questionObj.active ? 1 : 0,
+			showAnswer = questionObj.showAnswer ? 1 : 0,
+			showStatistic = questionObj.showStatistic ? 1 : 0;
+
+		this.questionStatusButton.button.setToggleFieldValue(active);
+		this.showCorrectAnswerButton.setToggleFieldValue(showAnswer);
+		this.releaseStatisticButton.setToggleFieldValue(showStatistic);
 	}
 });

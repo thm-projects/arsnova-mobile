@@ -519,10 +519,14 @@ Ext.define('ARSnova.view.Question', {
 				this.setAnswerCount();
 			}
 		});
+
+		this.on('painted', function() {
+			this.editButtons.updateData(this.questionObj);
+		});
 	},
 
 	statisticButtonHandler: function (scope) {
-		ARSnova.app.getController('Statistics').prepareStatistics();
+		ARSnova.app.getController('Statistics').prepareStatistics(scope);
 	},
 
 	getQuestionTypeMessage: function (msgAppendix) {

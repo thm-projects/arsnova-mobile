@@ -19,20 +19,19 @@
 Ext.define("ARSnova.controller.Statistics", {
 	extend: 'Ext.app.Controller',
 	
-	prepareStatistics: function() {
+	prepareStatistics: function(scope) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel || ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 
 		if(panel === ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel) {
 			ARSnova.app.getController('Statistics').prepareSpeakerStatistics(panel);
 		} else {
-			ARSnova.app.getController('Statistics').prepareStudentStatistics(panel);
+			ARSnova.app.getController('Statistics').prepareStudentStatistics(panel, scope);
 		}
 	},
 
 	prepareStudentStatistics: function(panel) {
 		panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
-			question: scope.questionObj,
-			lastPanel: scope
+			question: scope.questionObj
 		});
 
 		ARSnova.app.mainTabPanel.animateActiveItem(panel.questionStatisticChart, 'slide');
@@ -40,8 +39,7 @@ Ext.define("ARSnova.controller.Statistics", {
 
 	prepareSpeakerStatistics: function(panel) {
 		panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
-			question: panel._activeItem._activeItem.questionObj,
-			lastPanel: this
+			question: panel._activeItem._activeItem.questionObj
 		});
 
 		if(!panel.statisticTabPanel) {

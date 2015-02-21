@@ -50,22 +50,23 @@ Ext.define('ARSnova.view.speaker.PeerInstructionPanel', {
 		this.add([this.toolbar, this.countdownTimer]);
 
 		this.on('activate', this.onActivate);
-		this.on('activate', this.beforeActivate, this, null, 'before');
+		this.onBefore('activate', this.beforeActivate);
 	},
 
 	beforeActivate: function () {
-		this.remove(this.editButtons);
+		var statisticChart = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 
-		this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
-			style: 'margin: 30px',
-			speakerStatistics: true,
-			questionObj: this.cleanupQuestionObj(ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart.questionObj)
-		});
+		if(!this.editButtons) {
+			this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
+				style: 'margin: 30px',
+				speakerStatistics: true,
+				questionObj: this.cleanupQuestionObj(statisticChart.questionObj)
+			});
 
-		this.add(this.editButtons);
-	},
-
-	onActivate: function () {
+			this.add(this.editButtons);
+		} else {
+			this.editButtons.updateData(statisticChart.questionObj);
+		}
 	},
 
 	cleanupQuestionObj: function(questionObj) {

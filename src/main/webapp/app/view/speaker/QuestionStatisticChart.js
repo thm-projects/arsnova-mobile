@@ -29,12 +29,12 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	questionObj: null,
 	questionChart: null,
 	questionStore: null,
-	lastPanel: null,
 	gridStatistic: null,
 
 	/* toolbar items */
 	toolbar: null,
 	piTimer: false,
+	editButtons: null,
 	toggleCorrect: false,
 	chartRefreshDuration: 1000,
 
@@ -66,7 +66,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		var me = this;
 		this.questionObj = args.question;
-		this.lastPanel = args.lastPanel;
 
 		this.questionStore = Ext.create('Ext.data.Store', {
 			fields: [
@@ -107,10 +106,18 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			scope: this,
 			style: 'min-width: 60px;',
 			handler: function () {
+				var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+
 				ARSnova.app.innerScrollPanel = false;
 				ARSnova.app.taskManager.stop(this.renewChartDataTask);
 				ARSnova.app.taskManager.stop(this.countActiveUsersTask);
-				ARSnova.app.mainTabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel, {
+
+				if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER && this.editButtons) {
+					var showcasePanel = tabPanel.speakerTabPanel.showcaseQuestionPanel;
+					showcasePanel.getActiveItem().editButtons.updateData(this.editButtons.questionObj);
+				}
+
+				ARSnova.app.mainTabPanel.animateActiveItem(tabPanel, {
 					type: 'slide',
 					direction: 'right',
 					duration: 700,
