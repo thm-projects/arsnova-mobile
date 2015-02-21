@@ -327,7 +327,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					fontWeight: 'bold'
 				},
 				renderer: function (label, layout, lastLabel) {
-					var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
+					panel = ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT ?
+							ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart :
+							ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 
 					return panel.questionChart.showPercentage ? Math.round(label) + " %" : Math.round(label);
 				}
@@ -385,7 +387,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					calloutColor: 'transparent',
 					renderer: function (text, sprite, config, rendererData, index) {
 						var barWidth = this.itemCfg.width;				
-						panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
+						panel = ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT ?
+								ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart :
+								ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 						
 						return {
 							text: panel.questionChart.showPercentage ? text : text + " %",

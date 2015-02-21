@@ -527,7 +527,9 @@ Ext.define('ARSnova.view.Question', {
 		});
 
 		this.on('painted', function() {
-			this.editButtons.updateData(this.questionObj);
+			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+				this.editButtons.updateData(this.questionObj);	
+			}
 		});
 	},
 

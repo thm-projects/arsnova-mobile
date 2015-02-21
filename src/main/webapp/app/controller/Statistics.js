@@ -29,7 +29,7 @@ Ext.define("ARSnova.controller.Statistics", {
 		}
 	},
 
-	prepareStudentStatistics: function(panel) {
+	prepareStudentStatistics: function(panel, scope) {
 		panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
 			question: scope.questionObj
 		});
