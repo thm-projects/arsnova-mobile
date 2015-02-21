@@ -300,7 +300,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 		hTP.animateActiveItem(hTP.homePanel, {
 			type: 'slide',
-			direction: 'right'
+			duration: 700
 		});
 
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);

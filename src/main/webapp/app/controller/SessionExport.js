@@ -344,28 +344,41 @@ Ext.define("ARSnova.controller.SessionExport", {
 		return jsonData;
 	},
 
-	saveFileOnFileSystem: function (rawJson, filename) {
+	saveFileOnFileSystem: function(rawJson, filename) {
+		
 		var blob = new Blob([rawJson], {type: "text/plain;charset=utf-8"});
-		var ua = window.navigator.userAgent;
-		var msie = ua.indexOf("MSIE ");
-
-		if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
-			window.navigator.msSaveBlob(blob, filename);
-		} else {
-			var a = window.document.createElement('a');
+		var ua   = window.navigator.userAgent;
+	    var msie = ua.indexOf("MSIE ");
+	    var safari = ua.indexOf("Safari");
+	     
+	    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+	    	window.navigator.msSaveBlob(blob, filename);
+	    } else if (safari > 0) {
+	    	var a = window.document.createElement('a');
+	    	a.className = "session-export";
+	    	// set data url as target
+	    	a.href = "data:application/json," + encodeURIComponent(rawJson);
+			a.download = filename;
+	
+			// Append anchor to body.
+			document.body.appendChild(a)
+			a.click();
+	    } else {
+	    	var a = window.document.createElement('a');
 			a.className = "session-export";
 			a.href = window.URL.createObjectURL(blob);
 			a.download = filename;
-
+	
 			// Append anchor to body.
-			document.body.appendChild(a);
+			document.body.appendChild(a)
 			a.click();
-		}
-		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+	    }
+	    
+	    var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 		hTP.animateActiveItem(hTP.mySessionsPanel, {
 			type: 'slide',
 			direction: 'right',
 			duration: 700
 		});
-	}
+	},
 });
