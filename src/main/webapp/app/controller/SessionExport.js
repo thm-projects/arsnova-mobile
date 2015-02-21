@@ -28,6 +28,21 @@ Ext.define("ARSnova.controller.SessionExport", {
 		var me = this;
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_PP_CLONE, 240000);
 
+		var showMySessionsPanel = function () {
+			// exportData contains only a single element, so this is only called once
+			hideLoadMask();
+			// forward to session panel
+			var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+			hTP.animateActiveItem(hTP.mySessionsPanel, {
+				type: 'slide',
+				direction: 'right',
+				duration: 700
+			});
+		};
+		var errorHandler = function (error) {
+			hideLoadMask();
+		};
+
 		// call exportSessions() with this session to get all necessary data
 		// remove pp-Attributes (public pool)
 		// set type = "session"
@@ -36,17 +51,22 @@ Ext.define("ARSnova.controller.SessionExport", {
 		var sessions = [];
 		sessions.push(session);
 
+		var attrname;
 		this.exportSessions(sessions, true, true)
 		.then(function (exportData) {
 			for (var i = 0; i < exportData.length; i++) {
 				// overwrite custom session attributes
-				for (var attrname in customSessionAttributes) {
-					exportData[i].session[attrname] = customSessionAttributes[attrname];
+				for (attrname in customSessionAttributes) {
+					if (customSessionAttributes.hasOwnProperty(attrname)) {
+						exportData[i].session[attrname] = customSessionAttributes[attrname];
+					}
 				}
 
-				for (var attrname in exportData[i].session) {
-					if (attrname.lastIndexOf('pp', 0) === 0) {
-						exportData[i].session[attrname] = null;
+				for (attrname in exportData[i].session) {
+					if (exportData[i].session.hasOwnProperty(attrname)) {
+						if (attrname.lastIndexOf('pp', 0) === 0) {
+							exportData[i].session[attrname] = null;
+						}
 					}
 				}
 				// rewrite session type
@@ -58,19 +78,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 
 				// call import ctrl to save cloned session in db
 				ARSnova.app.getController("SessionImport").importSession(exportData[i])
-					.then(function () {
-						// exportData contains only a single element, so this is only called once
-						hideLoadMask();
-						// forward to session panel
-						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-						hTP.animateActiveItem(hTP.mySessionsPanel, {
-							type: 'slide',
-							direction: 'right',
-							duration: 700
-						});
-					}, function (error) {
-						hideLoadMask();
-					});
+					.then(showMySessionsPanel, errorHandler);
 			}
 		});
 	},
@@ -85,31 +93,26 @@ Ext.define("ARSnova.controller.SessionExport", {
 		var me = this;
 
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_EXPORT, 240000);
+		var showMySessionsPanel = function () {
+			// forward to session panel
+			var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+			hTP.animateActiveItem(hTP.mySessionsPanel, {
+				type: 'slide',
+				direction: 'right',
+				duration: 700
+			});
+			hideLoadMask();
+		};
+		var errorHandler = function (error) {
+			hideLoadMask();
+		};
 
 		this.exportSessions(exportSessions, false, false)
 		.then(function (exportData) {
 			for (var i = 0; i < exportData.length; i++) {
-				// set public pool attributes in session
-				for (var attrname in publicPoolAttributes) {
-					exportData[i].session[attrname] = publicPoolAttributes[attrname];
-				}
-				// rewrite session type
-				exportData[i].session.sessionType = 'public_pool';
-
 				// call import ctrl to save public pool session in db
-				ARSnova.app.getController("SessionImport").importSession(exportData[i])
-					.then(function () {
-						// forward to session panel
-						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-						hTP.animateActiveItem(hTP.mySessionsPanel, {
-							type: 'slide',
-							direction: 'right',
-							duration: 700
-						});
-						hideLoadMask();
-					}, function (error) {
-						hideLoadMask();
-					});
+				ARSnova.app.getController("SessionImport").importSession(exportData[i], publicPoolAttributes)
+					.then(showMySessionsPanel, errorHandler);
 			}
 		});
 	},
@@ -126,8 +129,9 @@ Ext.define("ARSnova.controller.SessionExport", {
 		var sessions = [];
 
 		for (var i = 0; i < exportSessionMap.length; i++) {
-			if (exportSessionMap[i][1])
+			if (exportSessionMap[i][1]) {
 				sessions.push(exportSessionMap[i][0]);
+			}
 		}
 
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_EXPORT, 240000);

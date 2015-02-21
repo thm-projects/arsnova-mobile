@@ -93,7 +93,16 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			ui: 'light',
 			docked: 'top',
 			items: [
-				this.sessionLogoutButton
+				this.sessionLogoutButton, 
+				{ xtype: 'spacer' },
+				{
+					xtype: 'button',
+					iconCls: 'icon-qrcode',
+					cls: 'toggleCorrectButton',
+					handler: function (button) {
+						ARSnova.app.getController('Application').showQRCode();
+					}
+				}
 			]
 		});
 
@@ -159,9 +168,10 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			this.courseLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 				itemId: 'courseLearningProgress',
 				text: Messages.COURSES_LEARNING_PROGRESS,
-				cls: 'standardListButton',
-				disabledCls: '',
-				disabled: true
+				cls: 'forwardListButton',
+				controller: 'Questions',
+				action: 'showLearningProgress',
+				handler: this.buttonClicked
 			});
 		}
 
@@ -203,7 +213,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 						ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_DELETE);
 						ARSnova.app.sessionModel.destroy(sessionStorage.getItem('keyword'), {
 							success: function () {
-								ARSnova.app.removeVisitedSession(localStorage.getItem('sessionId'));
 								ARSnova.app.mainTabPanel.tabPanel.on('activeitemchange', function () {
 									ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.mySessionsPanel.loadCreatedSessions();
 								}, this, {single: true});
@@ -345,7 +354,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	},
 
 	countFeedbackQuestions: function () {
-		ARSnova.app.questionModel.countFeedbackQuestions(sessionStorage.getItem("keyword"), {
+		ARSnova.app.questionModel.countFeedbackQuestions(sessionStorage.getItem("keyword"), null, {
 			success: function (response) {
 				var questionCount = Ext.decode(response.responseText);
 				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadgeText(questionCount.unread);
@@ -366,19 +375,11 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	courseLearningProgress: function () {
 		var me = this;
 		ARSnova.app.sessionModel.getCourseLearningProgress(sessionStorage.getItem("keyword"), {
-			success: function (response) {
-				var p = Ext.decode(response.responseText);
-				if (p >= 75) {
-					me.courseLearningProgressButton.setBadge([{badgeText: p + "%", badgeCls: "greenbadgeicon"}]);
-					me.inClassButtons.add(me.courseLearningProgressButton);
-				} else if (p >= 25) {
-					me.courseLearningProgressButton.setBadge([{badgeText: p + "%", badgeCls: "orangebadgeicon"}]);
-					me.inClassButtons.add(me.courseLearningProgressButton);
-				} else if (p === 0) {
-					me.courseLearningProgressButton.setBadge([{badgeText: "…", badgeCls: "badgeicon"}]);
+			success: function (text, color, value) {
+				me.courseLearningProgressButton.setBadge([{badgeText: text, badgeCls: color + "badgeicon"}]);
+				if (value === 0) {
 					me.inClassButtons.remove(me.courseLearningProgressButton, false);
 				} else {
-					me.courseLearningProgressButton.setBadge([{badgeText: p + "%", badgeCls: "redbadgeicon"}]);
 					me.inClassButtons.add(me.courseLearningProgressButton);
 				}
 			},

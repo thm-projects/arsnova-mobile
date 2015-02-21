@@ -84,7 +84,7 @@ Ext.define('ARSnova.model.Question', {
 		audienceQuestionAvailable: "arsnova/question/audience/available",
 		unansweredLecturerQuestions: "arsnova/question/lecturer/lecture/unanswered",
 		unansweredPreparationQuestions: "arsnova/question/lecturer/preparation/unanswered",
-		countQuestionAnswersByQuestion: "arsnova/socket/question/lecturer/question/answercount",
+		countQuestionAnswersByQuestion: "arsnova/question/lecturer/question/answercount",
 		countLectureQuestionAnswers: "arsnova/question/lecturer/lecture/answercount",
 		countPreparationQuestionAnswers: "arsnova/question/lecturer/preparation/answercount",
 		countQuestionsAndAnswers: "arsnova/question/unanswered-question-and-answer-count",
@@ -259,8 +259,8 @@ Ext.define('ARSnova.model.Question', {
 		return this.getProxy().saveInterposedQuestion(this.data.subject, this.data.text, this.data.sessionKeyword, this.data.timestamp, callbacks);
 	},
 
-	countFeedbackQuestions: function (sessionKeyword, callbacks) {
-		return this.getProxy().countFeedbackQuestions(sessionKeyword, callbacks);
+	countFeedbackQuestions: function (sessionKeyword, username, callbacks) {
+		return this.getProxy().countFeedbackQuestions(sessionKeyword, username, callbacks);
 	},
 
 	changeQuestionType: function (sessionId, callbacks) {

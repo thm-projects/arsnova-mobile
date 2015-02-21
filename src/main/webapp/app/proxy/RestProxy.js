@@ -60,7 +60,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: function (response) {
 				if (response.status === 404) {
 					callbacks.notFound.apply(this, arguments);
-				} else if (response.status = 403) {
+				} else if (response.status === 403) {
 					callbacks.forbidden.apply(this, arguments);
 				} else {
 					callbacks.failure.apply(this, arguments);
@@ -115,7 +115,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		this.arsjax.request({
 			url: "socket/assign",
 			method: "POST",
-			jsonData: {session: socket.io.engine.id},
+			jsonData: {session: window.socket.io.engine.id},
 			success: function () {
 				promise.resolve();
 			},
@@ -404,9 +404,10 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	countFeedbackQuestions: function (sessionKeyword, callbacks) {
+	countFeedbackQuestions: function (sessionKeyword, username, callbacks) {
+		var queryStr = username ? "?user=" + username : "";
 		this.arsjax.request({
-			url: "session/" + sessionKeyword + "/interposedreadingcount",
+			url: "session/" + sessionKeyword + "/interposedreadingcount" + queryStr,
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -752,18 +753,32 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	getMyLearningProgress: function (sessionKeyword, callbacks) {
+	getMyLearningProgress: function (sessionKeyword, progressType, callbacks) {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/mylearningprogress",
-			success: callbacks.success,
+			method: "GET",
+			params: {
+				type: progressType
+			},
+			success: function (response) {
+				var progress = Ext.apply({myprogress: 0, courseprogress: 0}, Ext.decode(response.responseText));
+				callbacks.success(progress);
+			},
 			failure: callbacks.failure
 		});
 	},
 
-	getCourseLearningProgress: function (sessionKeyword, callbacks) {
+	getCourseLearningProgress: function (sessionKeyword, progressType, callbacks) {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/learningprogress",
-			success: callbacks.success,
+			method: "GET",
+			params: {
+				type: progressType
+			},
+			success: function (response) {
+				var progress = Ext.decode(response.responseText) || 0;
+				callbacks.success(progress);
+			},
 			failure: callbacks.failure
 		});
 	},
@@ -794,6 +809,16 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: function (response) {
 				callbacks.failure(response);
 			}
+		});
+	},
+
+	importSession: function (jsonData, callbacks) {
+		this.arsjax.request({
+			url: "session/import",
+			method: "POST",
+			jsonData: jsonData,
+			success: callbacks.success,
+			failure: callbacks.failure
 		});
 	}
 });

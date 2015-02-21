@@ -43,7 +43,7 @@
 				{}
 			],
 			"properties": {
-				"order": 41,
+				"order": 40,
 				"id": 0,
 				"prevSize": 28,
 				"name": "sign-in",
@@ -75,7 +75,11 @@
 				"code": 61458,
 				"name": "chart"
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 1
 		},
 		{
@@ -99,7 +103,11 @@
 				"code": 61601,
 				"name": "bullhorn"
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 2
 		},
 		{
@@ -124,7 +132,11 @@
 				"code": 61485,
 				"name": "book"
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 3
 		},
 		{
@@ -149,7 +161,11 @@
 				"code": 61596,
 				"name": "unlock"
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 4
 		},
 		{
@@ -174,7 +190,11 @@
 				"code": 61736,
 				"name": "question"
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 5
 		},
 		{
@@ -199,7 +219,11 @@
 				"code": 61737,
 				"name": "info"
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 6
 		},
 		{
@@ -224,7 +248,11 @@
 				"code": 61738,
 				"name": "exclamation"
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 7
 		},
 		{
@@ -249,7 +277,11 @@
 				"name": "twitter",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 8
 		},
 		{
@@ -275,7 +307,11 @@
 				"name": "gear",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 9
 		},
 		{
@@ -301,7 +337,11 @@
 				"name": "home",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 10
 		},
 		{
@@ -327,7 +367,11 @@
 				"name": "renew",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 11
 		},
 		{
@@ -353,7 +397,11 @@
 				"name": "lock",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 12
 		},
 		{
@@ -379,7 +427,11 @@
 				"name": "play",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 13
 		},
 		{
@@ -404,7 +456,11 @@
 				"name": "pause",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 14
 		},
 		{
@@ -429,7 +485,11 @@
 				"name": "facebook",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 15
 		},
 		{
@@ -454,7 +514,11 @@
 				"name": "googleplus",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 16
 		},
 		{
@@ -480,7 +544,11 @@
 				"name": "unlock2",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 17
 		},
 		{
@@ -507,7 +575,11 @@
 				"name": "prof",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 18
 		},
 		{
@@ -532,7 +604,11 @@
 				"code": 61508,
 				"name": "newsession"
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 19
 		},
 		{
@@ -556,7 +632,11 @@
 				"code": 61686,
 				"name": "blog"
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 20
 		},
 		{
@@ -586,7 +666,11 @@
 				"ligatures": "copy, duplicate",
 				"name": "copy"
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 21
 		},
 		{
@@ -611,7 +695,11 @@
 				"name": "cloud",
 				"code": 58037
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 22
 		},
 		{
@@ -638,7 +726,11 @@
 				"name": "cloud-download",
 				"code": 58038
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 23
 		},
 		{
@@ -665,7 +757,11 @@
 				"name": "cloud-upload",
 				"code": 58039
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 24
 		},
 		{
@@ -694,7 +790,11 @@
 				"name": "user",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 25
 		},
 		{
@@ -726,7 +826,11 @@
 				"name": "speaker",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 26
 		},
 		{
@@ -753,7 +857,11 @@
 				"name": "happy",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 27
 		},
 		{
@@ -780,7 +888,11 @@
 				"name": "sad",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 28
 		},
 		{
@@ -807,7 +919,11 @@
 				"name": "wink",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 29
 		},
 		{
@@ -834,7 +950,11 @@
 				"name": "shocked",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 30
 		},
 		{
@@ -862,7 +982,11 @@
 				"name": "close",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 31
 		},
 		{
@@ -891,7 +1015,11 @@
 				"name": "users",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 32
 		},
 		{
@@ -915,8 +1043,37 @@
 				"code": 58881,
 				"name": "book2"
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
 			"iconIdx": 33
+=======
+			"setIdx": 0,
+			"iconIdx": 33
+		},
+		{
+			"icon": {
+				"paths": [
+					"M320 64h-256v256h256v-256zM384 0v0 384h-384v-384h384zM128 128h128v128h-128zM960 64h-256v256h256v-256zM1024 0v0 384h-384v-384h384zM768 128h128v128h-128zM320 704h-256v256h256v-256zM384 640v0 384h-384v-384h384zM128 768h128v128h-128zM448 0h64v64h-64zM512 64h64v64h-64zM448 128h64v64h-64zM512 192h64v64h-64zM448 256h64v64h-64zM512 320h64v64h-64zM448 384h64v64h-64zM448 512h64v64h-64zM512 576h64v64h-64zM448 640h64v64h-64zM512 704h64v64h-64zM448 768h64v64h-64zM512 832h64v64h-64zM448 896h64v64h-64zM512 960h64v64h-64zM960 512h64v64h-64zM64 512h64v64h-64zM128 448h64v64h-64zM0 448h64v64h-64zM256 448h64v64h-64zM320 512h64v64h-64zM384 448h64v64h-64zM576 512h64v64h-64zM640 448h64v64h-64zM704 512h64v64h-64zM768 448h64v64h-64zM832 512h64v64h-64zM896 448h64v64h-64zM960 640h64v64h-64zM576 640h64v64h-64zM640 576h64v64h-64zM704 640h64v64h-64zM832 640h64v64h-64zM896 576h64v64h-64zM960 768h64v64h-64zM576 768h64v64h-64zM640 704h64v64h-64zM768 704h64v64h-64zM832 768h64v64h-64zM896 704h64v64h-64zM960 896h64v64h-64zM640 832h64v64h-64zM704 896h64v64h-64zM768 832h64v64h-64zM832 896h64v64h-64zM640 960h64v64h-64zM768 960h64v64h-64zM896 960h64v64h-64z"
+				],
+				"attrs": [],
+				"tags": [
+					"qrcode"
+				],
+				"defaultCode": 57535,
+				"grid": 16
+			},
+			"attrs": [],
+			"properties": {
+				"id": 256,
+				"order": 41,
+				"prevSize": 32,
+				"code": 59704,
+				"ligatures": "qrcode",
+				"name": "qrcode"
+			},
+			"setIdx": 3,
+			"iconIdx": 56
+>>>>>>> refs/heads/master
 		},
 		{
 			"icon": {
@@ -960,7 +1117,11 @@
 				"code": 58882,
 				"name": "presenter"
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 34
 		},
 		{
@@ -987,7 +1148,11 @@
 				"name": "ars",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 35
 		},
 		{
@@ -1015,7 +1180,11 @@
 				"name": "nova",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 36
 		},
 		{
@@ -1055,7 +1224,11 @@
 				"name": "thm-full",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 37
 		},
 		{
@@ -1079,7 +1252,11 @@
 				"name": "radar",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 38
 		},
 		{
@@ -1113,7 +1290,11 @@
 				"name": "thm",
 				"ligatures": ""
 			},
+<<<<<<< HEAD
 			"setIdx": 1,
+=======
+			"setIdx": 0,
+>>>>>>> refs/heads/master
 			"iconIdx": 39
 		}
 	],

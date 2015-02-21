@@ -280,7 +280,9 @@ Ext.define('ARSnova.view.user.InClass', {
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.tab.setBadgeText(questionIds.length);
 		if (questionIds.length > 0) {
 			var hasUnreadQuestions = this.markQuestionsAsRead(questionIds, "lecture");
-			if (!hasUnreadQuestions) return;
+			if (!hasUnreadQuestions) {
+				return;
+			}
 
 			this.showNotification(questionIds, "lecture");
 		}
@@ -289,7 +291,9 @@ Ext.define('ARSnova.view.user.InClass', {
 	checkPreparationQuestions: function (questionIds) {
 		if (questionIds.length > 0) {
 			var hasUnreadQuestions = this.markQuestionsAsRead(questionIds, "preparation");
-			if (!hasUnreadQuestions) return;
+			if (!hasUnreadQuestions) {
+				return;
+			}
 
 			this.showNotification(questionIds, "preparation");
 		}
@@ -361,7 +365,8 @@ Ext.define('ARSnova.view.user.InClass', {
 
 	countFeedbackQuestions: function () {
 		var me = this;
-		ARSnova.app.questionModel.countFeedbackQuestions(sessionStorage.getItem("keyword"), {
+		var username = localStorage.getItem("login");
+		ARSnova.app.questionModel.countFeedbackQuestions(sessionStorage.getItem("keyword"), username, {
 			success: function (response) {
 				var questionCount = Ext.decode(response.responseText);
 
@@ -406,34 +411,23 @@ Ext.define('ARSnova.view.user.InClass', {
 	checkLearningProgress: function () {
 		var me = this;
 		ARSnova.app.sessionModel.getMyLearningProgress(sessionStorage.getItem("keyword"), {
-			success: function (response) {
+			success: function (myprogressDescription, courseprogressDescription, p, progressType) {
 				var goodProgressThreshold = 75;
-				var avgProgressThreshold = 25;
-				var p = Ext.apply({myprogress: 0, courseprogress: 0}, Ext.decode(response.responseText));
 				var vsBadge = {badgeText: Messages.VERSUS, badgeCls: "textbadgeicon"};
-				var badgeColorCls = "redbadge";
 
-				var getBadge = function (percentage) {
-					if (percentage >= goodProgressThreshold) {
-						badgeColorCls = "greenbadge";
-					} else if (percentage >= avgProgressThreshold) {
-						badgeColorCls = "orangebadge";
-					} else {
-						badgeColorCls = "redbadge";
-					}
-
-					return {badgeText: percentage + "%", badgeCls: badgeColorCls + "icon"};
+				var getBadge = function (progress) {
+					return {badgeText: progress.text, badgeCls: progress.color + "badgeicon"};
 				};
 				if (p.myprogress === 0 && p.courseprogress === 0) {
 					me.myLearningProgressButton.setBadge([{badgeText: "…"}, vsBadge, {badgeText: "…"}]);
 					me.inClassButtons.remove(me.myLearningProgressButton, false);
 				} else {
-					me.myLearningProgressButton.setBadge([getBadge(p.myprogress), vsBadge, getBadge(p.courseprogress)]);
+					me.myLearningProgressButton.setBadge([getBadge(myprogressDescription), vsBadge, getBadge(courseprogressDescription)]);
 					me.inClassButtons.add(me.myLearningProgressButton);
 				}
 
 				getBadge(p.myprogress);
-				me.swotBadge.setCls('swotBadgeIcon ' + badgeColorCls + "color");
+				me.swotBadge.setCls('swotBadgeIcon redbadgecolor');
 				me.swotBadge.setHidden(p.myprogress < goodProgressThreshold);
 			},
 			failure: function () {

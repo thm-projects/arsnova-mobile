@@ -320,7 +320,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			for (var i = 0; i < sessions.length; i++) {
 				var session = sessions[i];
 
-				var icon = "icon-users";
+				var icon = "icon-users thm-green";
 				if (session.courseType && session.courseType.length > 0) {
 					icon = "icon-prof";
 				}

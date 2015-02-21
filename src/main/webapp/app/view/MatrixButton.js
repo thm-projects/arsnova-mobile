@@ -90,11 +90,12 @@ Ext.define('ARSnova.view.MatrixButton', {
 	 * render icon font to matrixbutton
 	 */
 	useIconConfiguration: function () {
-		Ext.DomHelper.append(this.element.select(".iconBtn").elements[0], {
+		var element = this.element.select(".iconBtn").elements[0];
+		this.iconBtnImg = Ext.DomHelper.append(element, {
 			tag: 'div',
 			cls: 'iconBtnImg x-button-icon ' + this.getImageCls(),
 			style: this.getImageStyle()
-		});
+		}, true);
 	},
 
 	/**
@@ -160,11 +161,23 @@ Ext.define('ARSnova.view.MatrixButton', {
 		}
 
 		promise.then(function (theImage) {
-			Ext.create('Ext.Img', {
+			this.iconBtnImg = Ext.create('Ext.Img', {
 				src: theImage,
-				renderTo: me.element.select(".iconBtn").elements[0],
-				cls: "iconBtnImg"
+				cls: "iconBtnImg",
+				renderTo: me.element.select(".iconBtn").elements[0]
 			});
 		});
+	},
+
+	addImageCls: function(cls) {
+		if(this.getButtonConfig() !== 'togglefield') {
+			this.iconBtnImg.addCls(cls);
+		}
+	},
+
+	removeImageCls: function(cls) {
+		if(this.getButtonConfig() !== 'togglefield') {
+			this.iconBtnImg.removeCls(cls);
+		}
 	}
 });

@@ -61,6 +61,7 @@
 @include icon("icon-copy" , "\e92c", "arsnova");
 @include icon("icon-sign-in" , "\e604", "arsnova");
 @include icon("icon-timer" , "\f017", "arsnova");
+@include icon("icon-qrcode" , "\e938", "arsnova");
 
 @include icon("icon-check" , "3", "Pictos");
 @include icon('minus2');
@@ -202,7 +203,6 @@
 
 	.icon-users {
 		font-size: 0.9em;
-		color: $thm-green !important;
 		margin-right: 1px;
 		margin-bottom: 4px;
 	}
@@ -237,10 +237,6 @@
 		margin-left: 19px !important;
 		margin-top: 15px !important;
 		font-size: 50px !important;
-	}
-	
-	.icon-presenter {
-		color: $thm-green !important;
 	}
 
 	.icon-chart {

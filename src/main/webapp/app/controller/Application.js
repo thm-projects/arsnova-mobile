@@ -40,6 +40,39 @@ Ext.define("ARSnova.controller.Application", {
 	},
 
 	/**
+	 * initializes mathjax if feature is activated in configuration
+	 */
+	initializeMathJax: function() {
+		var config = ARSnova.app.globalConfig;
+
+		if(config.features.mathJax && !window.MathJax) {
+			var head = document.getElementsByTagName("head")[0], script;
+			var mathJaxSrc = config.mathJaxSrc || "//cdn.mathjax.org/mathjax/2.4-latest/MathJax.js";
+
+			window.MathJax = {
+				jax: ["input/TeX","output/HTML-CSS"],
+				extensions: ["tex2jax.js","Safe.js"],
+				TeX: {
+					extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]
+				},
+				tex2jax: {
+					inlineMath: [['\\(', '\\)'], ['\[\[', '\]\]']],
+					processEscapes: true,
+					preview: 'none'
+				},
+				messageStyle: 'none',
+				showProcessingMessages: false,
+				showMathMenu: false
+			};
+			
+			script = document.createElement("script");
+			script.type = "text/javascript";
+			script.src = mathJaxSrc;
+			head.appendChild(script);
+		}
+	},
+
+	/**
 	 * check if used protocol is http/https
 	 */
 	checkHrefProtocol: function (href) {
@@ -206,5 +239,52 @@ Ext.define("ARSnova.controller.Application", {
 				window.attachEvent("onmousewheel", doScroll);
 			}
 		}
+	}, 
+	
+	showQRCode: function() {
+		var url = window.location + 'id/' + sessionStorage.getItem('keyword'),
+			heightOffset = 110, widthOffset = 60;
+
+		var messageBox = Ext.create('Ext.MessageBox', {
+			cls: 'qr-code',
+			hideOnMaskTap: true,
+			listeners: {
+				hide: function() {
+					this.destroy();
+				}
+			}
+		}).show();
+
+		var messageBoxCS = window.getComputedStyle(messageBox.element.dom, "");
+		var height = parseFloat(messageBoxCS.getPropertyValue("height")) - heightOffset;
+		var width = parseFloat(messageBoxCS.getPropertyValue("width")) - widthOffset;
+
+		if(width > height) width = height;
+		else if (height > width) {
+			height = width;
+			messageBox.setHeight(width + heightOffset);
+		}
+
+		messageBox.element.on('*', function(e) {
+			switch(e.type) {
+				case 'mouseup':
+				case 'mousedown':
+				case 'touchstart':
+				case 'touchend': {
+					messageBox.hide();
+				}
+			}
+		});
+
+		var messageInner = messageBox.element.select('.x-msgbox-inner').elements[0];
+		new QRCode(document.getElementById(messageInner.id), {
+		    text: url,
+		    width: width,
+		    height: height,
+		    colorDark : "#000000",
+		    colorLight : "#FFFFFF"
+		});
+
+		messageBox.setMessage(window.location + 'id/&#8203;' + sessionStorage.getItem('keyword'));
 	}
 });
