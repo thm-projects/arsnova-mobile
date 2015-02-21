@@ -65,6 +65,7 @@ Ext.define('ARSnova.view.speaker.PeerInstructionPanel', {
 
 			this.add(this.editButtons);
 		} else {
+			this.editButtons.questionObj = statisticChart.questionObj;
 			this.editButtons.updateData(statisticChart.questionObj);
 		}
 	},

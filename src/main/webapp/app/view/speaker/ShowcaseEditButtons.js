@@ -131,7 +131,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 		}
 
 		this.questionStatusButton = Ext.create('ARSnova.view.QuestionStatusButton', {
-			questionObj: this.questionObj
+			questionObj: this.questionObj,
+			parentPanel: this
 		});
 
 		this.add([
@@ -142,7 +143,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 	},
 
 	updateData: function(questionObj) {
-		var active = this.questionObj.active ? 1 : 0,
+		var active = questionObj.active,
 			showAnswer = questionObj.showAnswer ? 1 : 0,
 			showStatistic = questionObj.showStatistic ? 1 : 0;
 

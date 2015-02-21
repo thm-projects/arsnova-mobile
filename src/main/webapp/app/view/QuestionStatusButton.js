@@ -31,11 +31,13 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 	isOpen: false,
 
 	questionObj: null,
+	parentPanel: null,
 
 	constructor: function (args) {
 		this.callParent(arguments);
 
 		this.questionObj = args.questionObj;
+		this.parentPanel = args.parentPanel;
 
 		if (this.questionObj && this.questionObj.active) {
 			this.isOpen = true;
@@ -108,9 +110,17 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 
 	questionClosedSuccessfully: function () {
 		this.isOpen = false;
+
+		if(this.parentPanel) {
+			this.parentPanel.questionObj.active = this.isOpen;
+		}
 	},
 
 	questionOpenedSuccessfully: function () {
 		this.isOpen = true;
+
+		if(this.parentPanel) {
+			this.parentPanel.questionObj.active = this.isOpen;
+		}
 	}
 });

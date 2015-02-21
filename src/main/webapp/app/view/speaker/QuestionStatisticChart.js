@@ -112,9 +112,10 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				ARSnova.app.taskManager.stop(this.renewChartDataTask);
 				ARSnova.app.taskManager.stop(this.countActiveUsersTask);
 
-				if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER && this.editButtons) {
+				if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 					var showcasePanel = tabPanel.speakerTabPanel.showcaseQuestionPanel;
-					showcasePanel.getActiveItem().editButtons.updateData(this.editButtons.questionObj);
+					var obj = tabPanel.speakerTabPanel.statisticTabPanel.peerInstructionPanel.editButtons.questionObj;
+					showcasePanel.getActiveItem().questionObj = obj;
 				}
 
 				ARSnova.app.mainTabPanel.animateActiveItem(tabPanel, {

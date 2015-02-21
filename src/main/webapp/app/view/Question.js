@@ -534,6 +534,7 @@ Ext.define('ARSnova.view.Question', {
 	},
 
 	statisticButtonHandler: function (scope) {
+		this.questionObj = this.editButtons.questionObj;
 		ARSnova.app.getController('Statistics').prepareStatistics(scope);
 	},
 
