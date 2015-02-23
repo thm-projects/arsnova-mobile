@@ -335,16 +335,7 @@ Ext.define("ARSnova.controller.Questions", {
 
 				question.publishSkillQuestion({
 					success: function (response) {
-						var speakerTabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel,
-							panel = speakerTabPanel.getActiveItem(),
-							questionStatus;
-
-						if (panel === speakerTabPanel.showcaseQuestionPanel) {
-							panel = panel.getActiveItem();
-							questionStatus = panel.editButtons.questionStatusButton;
-						} else {
-							questionStatus = panel.questionStatusButton;
-						}
+						var questionStatus = options.statusButton;
 
 						if (options.active === 1) {
 							questionStatus.questionOpenedSuccessfully();

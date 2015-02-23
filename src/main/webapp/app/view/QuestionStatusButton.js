@@ -79,7 +79,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 					ARSnova.app.getController('Questions').setActive({
 						questionId: id,
 						active: 0,
-						callback: this.questionClosedSuccessfully
+						statusButton: me
 					});
 				} else {
 					me.button.setToggleFieldValue(true);
@@ -90,7 +90,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 			ARSnova.app.getController('Questions').setActive({
 				questionId: id,
 				active: 1,
-				callback: this.questionOpenedSuccessfully
+				statusButton: me
 			});
 		}
 	},
