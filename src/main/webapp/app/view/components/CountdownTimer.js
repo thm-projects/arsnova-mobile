@@ -35,11 +35,11 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		title: 'timer',
 		cls: 'ars-countdown-timer',
 		scrollable: false,
-		width: 300,
-		height: 300,
+		width: 260,
+		height: 260,
 		
-		defaultMin: 2,
-		defaultSec: 60,
+		defaultMinutes: 2,
+		defaultSeconds: 60,
 		sliderDefaultValue: 2,
 		sliderMinValue: 1,
 		sliderMaxValue: 10
@@ -54,21 +54,10 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 
 		this.on('painted', function() {
 			this.initializeTimeValues();
-			this.showTimer();
 		});
-		
-		this.canvas.on('tap', function() {
-			if(!this.running) {
-				this.start();
-				this.slider.disable();
-			} else {
-				this.running = false;
-				this.slider.enable();
-			}
-		}, this);
 
 		this.slider = Ext.create('Ext.field.Slider', {
-			width: this.config.width - 25,
+			width: this.getWidth() - 25,
 			value: this.getSliderDefaultValue(),
 			minValue: this.getSliderMinValue(),
 			maxValue: this.getSliderMaxValue(),
@@ -83,7 +72,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
             dragend: 'onSliderDragEnd'
         });
 	},
-	
+
 	onSliderChange: function (me, thumb, newValue, oldValue) {
 		this.initializeTimeValues(newValue);
 		this.fireEvent('change', this, thumb, newValue, oldValue);
@@ -103,8 +92,10 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 	},
 
 	initializeTimeValues: function(mins, secs) {
-		if(!mins) mins = this.config.defaultMin;
-		if(!secs) secs = this.config.defaultSec;
+		this.setDefaultMinutes(this.slider.getValue());
+		
+		if(!mins) mins = this.getDefaultMinutes();
+		if(!secs) secs = this.getDefaultSeconds();
 
 		this.maxSeconds = this.seconds = secs * this.milliseconds;
 		this.maxMinutes = this.minutes = mins * this.maxSeconds;
@@ -114,6 +105,8 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 	start: function() {
 		var me = this;
 
+		this.slider.hide();
+		this.slider.disable();
 		this.starttime = new Date().getTime();
 		this.endtime = this.starttime + this.minutes;
 
@@ -126,10 +119,15 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		}
 	},
 
-//	stop: function() {
-//		clearTimeout(update);
-//		this.running = false;
-//	},
+	stop: function() {
+		clearTimeout(this.update);
+		this.running = false;
+
+		this.initializeTimeValues();
+		this.showTimer();
+		this.slider.enable();
+		this.slider.show();
+	},
 
 	update: function(panel) {
 		var me = panel;
@@ -173,11 +171,11 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		var counterClockwise = false;
 
 		canvas.width = this.getWidth();
-		canvas.height = this.getHeight();
+		canvas.height = this.getHeight() - 40;
 
 		var x = canvas.width / 2;
 		var y = canvas.height / 2;
-		var radius = 100;
+		var radius = 85;
 
 		var startAngle = 0 * Math.PI;
 		var endAngle = (2 * Math.PI) / (this.maxMinutes / this.minutes);
@@ -213,7 +211,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		if (this.minutes > 0) {
 			context.beginPath();
 			context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
-			context.lineWidth = 25;
+			context.lineWidth = 20;
 			context.strokeStyle = "#4A5C66";
 			context.stroke();
 		}
@@ -225,14 +223,14 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			context.stroke();
 		}
 
-		radius = 76;
+		radius = 66;
 		startAngle = 0 * Math.PI;
 		endAngle = ((2 * Math.PI) / (this.maxSeconds / this.seconds));
 
 		if (this.minutes > 0) {
 			context.beginPath();
 			context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
-			context.lineWidth = 25;
+			context.lineWidth = 20;
 			context.strokeStyle = "#F2A900";
 			context.stroke();
 		}

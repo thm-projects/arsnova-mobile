@@ -20,9 +20,13 @@ Ext.define('ARSnova.view.speaker.PeerInstructionPanel', {
 	extend: 'Ext.Panel',
 
 	config: {
+		title: "Peer-Instruction",
+		iconCls: 'icon-timer',
 		fullscreen: true,
-		title: Messages.PI,
-		iconCls: 'icon-timer'
+		scrollable: {
+			direction: 'vertical',
+			directionLock: true
+		}
 	},
 
 	initialize: function (arguments) {
@@ -39,31 +43,123 @@ Ext.define('ARSnova.view.speaker.PeerInstructionPanel', {
 				scope: this,
 				handler: function () {
 					ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.statisticTabPanel.setActiveItem(0);
+					ARSnova.app.innerScrollPanel = false;
 				}
 			}]
 		});
 
 		this.countdownTimer = Ext.create('ARSnova.view.components.CountdownTimer', {
-			sliderDefaultValue: 1,
+			sliderDefaultValue: 2,
+			//hidden: true
+		});
+		
+		this.startRoundButton = Ext.create('Ext.Button', {
+			text: 'Erste Runde starten',
+			style: 'margin: 0 auto;',
+			ui: 'confirm',
+			width: 220,
+			scope: this,
+			handler: function() {
+				this.countdownTimer.start();
+				this.startRoundButton.hide();
+				this.endRoundButton.show();
+			}
+		});
+		
+		this.endRoundButton = Ext.create('Ext.Button', {
+			text: 'Runde sofort beenden',
+			style: 'margin: 0 auto;',
+			ui: 'decline',
+			hidden: true,
+			width: 220,
+			scope: this,
+			handler: function() {
+				Ext.Msg.confirm('Beenden der Abstimmungsrunde', 'Wenn die Runde beendet wird, sind keine Abstimmungen mehr möglich bis eine neue Runde gestartet wird oder die Frage manuell entsperrt wird. Möchten Sie fortfahren?', function(id) {
+					if(id === 'yes') {
+						this.countdownTimer.stop();
+						this.endRoundButton.hide();
+						this.startRoundButton.setText('Zweite Runde starten');
+						ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart.enablePiRoundElements();
+						ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart.questionObj.piRound++;
+						if(this.round < 2) {
+							this.startRoundButton.show();
+						} else {
+							this.countdownTimer.minutes = 0;
+							this.countdownTimer.seconds = 0;
+							this.countdownTimer.showTimer();
+							this.countdownTimer.slider.hide();
+						}
+						
+						this.round++;
+						
+						ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.statisticTabPanel.setActiveItem(0);
+						ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart.activatePreviousSegmentButton();
+					}
+				}, this);
+			}
+		});
+		
+		this.questionManagementContainer = Ext.create('Ext.form.FieldSet', {
+			title: Messages.QUESTION_MANAGEMENT,
+			cls: 'centerFormTitle',
+			hidden: true
+		});
+		
+		this.roundManagementContainer = Ext.create('Ext.form.FieldSet', {
+			title: 'Abstimmungsverwaltung',
+			cls: 'centerFormTitle',
+			items: [
+				this.countdownTimer,
+				this.startRoundButton,
+				this.endRoundButton
+			]
 		});
 
-		this.add([this.toolbar, this.countdownTimer]);
+		this.add([
+			this.toolbar, 
+			{
+				xtype: 'formpanel',
+				scrollable: null,
+				items: [
+					this.roundManagementContainer, 
+					this.questionManagementContainer
+				]
+			}
+
+		]);
 
 		this.on('activate', this.onActivate);
 		this.onBefore('activate', this.beforeActivate);
 	},
 
+	onActivate: function () {
+		ARSnova.app.innerScrollPanel = this;
+	},
+
 	beforeActivate: function () {
 		var statisticChart = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
+		this.round = statisticChart.questionObj.piRound;
+
+		if(this.round === 1) {
+			this.startRoundButton.setText('Erste Runde starten');
+			this.countdownTimer.slider.show();
+			this.startRoundButton.show();
+		} else if (this.round === 2) {
+			this.startRoundButton.setText('Zweite Runde starten');
+			this.countdownTimer.slider.show();
+			this.startRoundButton.show();
+		} else {
+			this.startRoundButton.hide();
+		}
 
 		if(!this.editButtons) {
 			this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
-				style: 'margin: 30px',
 				speakerStatistics: true,
 				questionObj: this.cleanupQuestionObj(statisticChart.questionObj)
 			});
 
-			this.add(this.editButtons);
+			this.questionManagementContainer.add(this.editButtons);
+			this.questionManagementContainer.show();
 		} else {
 			this.editButtons.questionObj = statisticChart.questionObj;
 			this.editButtons.updateData(statisticChart.questionObj);

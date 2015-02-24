@@ -233,34 +233,34 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					listeners: {
 						toggle: function(container, button, pressed){
 							if(pressed && container.lastPressed !== button.getItemId()) {
-
-								if(button.getItemId() > 1 && this.questionObj.piRound === 1) {
-									Ext.Msg.show({
-										title: Messages.PI,
-										message: Messages.PI_NEW_ROUND,
-										fn: function(buttonId) {
-											if (buttonId === 'continue') {
-												me.enablePiRoundElements();
-												me.modifyChart(button.getItemId());
-												container.lastPressed = button.getItemId();
-											} else {
-												container.setPressedButtons([0]);
-											}
-										},
-										buttons: [{
-											text: Messages.CONTINUE, 
-											itemId: 'continue', 
-											ui: 'action'
-										}, {
-											text: Messages.ABORT,
-											itemId: 'decline',
-											ui: 'decline'
-										}]
-									});
-								} else {
-									this.modifyChart(button.getItemId());
-									container.lastPressed = button.getItemId();
-								}
+								me.modifyChart(button.getItemId());
+								container.lastPressed = button.getItemId();							
+//
+//								if(button.getItemId() > 1 && this.questionObj.piRound === 1) {
+//									Ext.Msg.show({
+//										title: Messages.PI,
+//										message: Messages.PI_NEW_ROUND,
+//										fn: function(buttonId) {
+//											if (buttonId === 'continue') {
+//
+//											} else {
+//												container.setPressedButtons([0]);
+//											}
+//										},
+//										buttons: [{
+//											text: Messages.CONTINUE, 
+//											itemId: 'continue', 
+//											ui: 'action'
+//										}, {
+//											text: Messages.ABORT,
+//											itemId: 'decline',
+//											ui: 'decline'
+//										}]
+//									});
+//								} else {
+//									this.modifyChart(button.getItemId());
+//									container.lastPressed = button.getItemId();
+//								}
 							}
 						},
 				        scope: this
@@ -391,7 +391,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 						panel = ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT ?
 								ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart :
 								ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
-						
+
 						return {
 							text: panel.questionChart.showPercentage ? text : text + " %",
 							color: config.callout ? '#4a5c66' : '#fff',
@@ -452,7 +452,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			ARSnova.app.activePreviewPanel = this;
 
 			if(this.questionObj.piRound === 1) {
-				this.disablePiRoundElements();
+				//this.disablePiRoundElements();
 			}
 		});
 	},
@@ -466,15 +466,20 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			ARSnova.app.taskManager.start(this.countActiveUsersTask);
 		}
 	},
-	
+
+	activatePreviousSegmentButton: function() {
+		this.segmentedButton.setPressedButtons([this.questionObj.piRound-1]);
+	},
+
 	enablePiRoundElements: function() {
 		var segmentButtons = this.segmentedButton.getInnerItems();
-		segmentButtons[segmentButtons.length-1].show();
+		//segmentButtons[segmentButtons.length-1].show();
+		this.segmentedButton.show();
 	},
 	
 	disablePiRoundElements: function() {
-		var segmentButtons = this.segmentedButton.getInnerItems();
-		segmentButtons[segmentButtons.length-1].hide();
+		//var segmentButtons = this.segmentedButton.getInnerItems();
+		//segmentButtons[segmentButtons.length-1].hide();
 	},
 	
 	modifyChart: function(piRound) {
