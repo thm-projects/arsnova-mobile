@@ -117,8 +117,9 @@ Ext.define('ARSnova.model.Session', {
 		var me = this;
 		return this.getProxy().getMyLearningProgress(sessionKeyword, this.getLearningProgress(), {
 			success: function (progress) {
-				var myself = me.progressDescription(progress.myProgress);
-				var course = me.progressDescription(progress.courseProgress);
+				var progressDescription = me.progressDescription(progress);
+				var myself = progressDescription.myself;
+				var course = progressDescription.course;
 				callbacks.success.call(callbacks.scope, myself, course, progress, me.getLearningProgress());
 			}
 		});
@@ -132,29 +133,43 @@ Ext.define('ARSnova.model.Session', {
 		var me = this;
 		return this.getProxy().getCourseLearningProgress(sessionKeyword, progressType, {
 			success: function (progress) {
-				var desc = me.progressDescription(progress.courseProgress);
+				var progressDescription = me.progressDescription(progress);
+				var desc = progressDescription.course;
 				callbacks.success.call(callbacks.scope, desc.text, desc.color, progress, progressType);
 			},
 			failure: callbacks.failure
 		});
 	},
 
-	progressDescription: function (progress) {
-		var color;
-		var text = progress + "%";
-		if (progress >= 75) {
-			color = "green";
-		} else if (progress >= 25) {
-			color = "orange";
-		} else if (progress === 0) {
-			color = "";
-			text = "…";
-		} else {
-			color = "red";
+	progressDescription: function (learningProgress) {
+		var desc = function (progress) {
+			var color;
+			var text = progress + "%";
+			if (progress >= 75) {
+				color = "green";
+			} else if (progress >= 25) {
+				color = "orange";
+			} else if (progress === 0) {
+				color = "";
+				text = "…";
+			} else {
+				color = "red";
+			}
+			return {
+				color: color,
+				text: text
+			};
+		};
+		myProgress = desc(learningProgress.myProgress);
+		courseProgress = desc(learningProgress.courseProgress);
+		// if the user has some progress, do not deactivate the the course progress if it currently has no value
+		if (learningProgress.myProgress > 0 && learningProgress.courseProgress === 0) {
+			courseProgress.color = "red";
+			courseProgress.text = learningProgress.courseProgress + "%";
 		}
 		return {
-			color: color,
-			text: text
+			myself: myProgress,
+			course: courseProgress
 		};
 	},
 
