@@ -56,7 +56,7 @@ if (lang != null) {
 var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
 switch (lang) {
-	case 'de': case 'de-de': 
+	case 'de': case 'de-de':
 		moment.lang('de');
 		Messages = {
 			PRIVACY_MODE_WARNING_TITLE: "Privater Modus",
@@ -66,7 +66,7 @@ switch (lang) {
 			FEATURE_COMING_SOON: "Feature kommt in Kürze.",
 			UNI_LOGIN_MSG: "Ihr Uni-Login an dieser Stelle?",
 			UNI_LOGIN_MSG_TEXT: "Möchten Sie Ihren hochschuleigenen Zugang verwenden? Sprechen Sie mit uns unter <a href='http://www.transmit.de/zentren/tz.cfm?N=189' target='_blank'>transmit.de</a>.",
-		
+
 			/* rolePanel */
 			BLOG: "Blog",
 			CHOOSE_ROLE: "Wählen Sie Ihre Rolle:",
@@ -81,7 +81,7 @@ switch (lang) {
 			CONFIRM_GUEST_SPEAKER: "Wenn Sie sich als Gast anmelden, ist die ARSnova-Session nur auf dem aktuellen Gerät verwaltbar. Dennoch als Gast anmelden?",
 			GUEST_LOGIN: "Gast-Anmeldung",
 			BACK_TO_ROLEPANEL: "Rollen",
-		
+
 			/* homePanel */
 			LOGOUT: "Log out",
 			LOGOUT_REQUEST: "Möchten Sie sich wirklich von ARSnova abmelden?",
@@ -100,7 +100,7 @@ switch (lang) {
 			ON_SESSION_CREATION_2: "Sie können diese Session nur in der Rolle Dozent/in via ### verwalten",
 			ON_THIS_DEVICE: "auf diesem Gerät",
 			DEMO_SESSION: "Demo-Session: ",
-		
+
 			/* LOAD MASK */
 			LOAD_MASK: "Lade Daten...",
 			LOAD_MASK_LOGIN: "Login...",
@@ -112,7 +112,7 @@ switch (lang) {
 			LOAD_MASK_SESSION_EXPORT: "Exportiere Session-Daten...",
 			LOAD_MASK_SESSION_IMPORT: "Importiere Session-Daten...",
 			LOAD_MASK_SESSION_PP_CLONE: "Kopiere Public Pool Session...",
-		
+
 			/* mySessionsPanel */
 			HOME: "Start",
 			SESSION: "Session",
@@ -127,13 +127,13 @@ switch (lang) {
 			SESSION_SHORT_NAME_PLACEHOLDER: "max. 8 Zeichen",
 			SESSION_SAVE: "Session anlegen",
 			SAVE: 'Speichern',
-		
+
 			/* canteen */
 			CANTEEN: 'Mensa',
 			I_RECOMMEND: "Ich empfehle...",
 			LOGIN: "Login",
 			CANTEEN_MENU: "Speiseplan",
-		
+
 			/* feedback */
 			FEEDBACK: "Feedback",
 			MY_FEEDBACK: "Mein Feedback",
@@ -157,7 +157,7 @@ switch (lang) {
 			QUESTION_EDIT_ERROR: "Das Editieren der Frage war leider nicht erfolgreich.",
 			ANSWER_CREATION_ERROR: "Die Antwort konnte nicht gespeichert werden",
 			SEND: "Abschicken",
-		
+
 			/* questions */
 			QUESTION: "Frage",
 			QUESTION_PLACEHOLDER: "Frage eingeben",
@@ -227,7 +227,7 @@ switch (lang) {
 			NO_ANSWER_MARKED_CORRECT_MESSAGE: "Sie haben keine Antwortoption als richtig markiert.",
 			NO_ANSWER_MARKED_CORRECT_OPTION_YES: "Trotzdem speichern",
 			NO_ANSWER_MARKED_CORRECT_OPTION_NO: "Abbrechen",
-		
+
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
 			QUESTIONS_FROM_STUDENTS: "Fragen der Studierenden",
@@ -260,7 +260,7 @@ switch (lang) {
 			RESET_ALL_ANSWERS: "Alle Antworten zurücksetzen",
 			SHOW_FLASHCARD_ANSWER: "Antwort anzeigen",
 			HIDE_FLASHCARD_ANSWER: "Antwort ausblenden",
-		
+
 			/* speaker */
 			LIVE_FEEDBACK: "Live-Feedback",
 			COURSES_LEARNING_PROGRESS: "Lernstand des Kurses",
@@ -394,7 +394,7 @@ switch (lang) {
 			MISSING_ANSWERS: "Es fehlen Antwortoptionen",
 			MISSING_IMAGE: "Es wurde kein Bild hochgeladen",
 			MISSING_FLASHCARD: "Die Rückseite ist leer",
-		
+
 			/*Export session*/
 			EXPORT_MSG: "Was möchten Sie exportieren?",
 			EXPORT_SESSION_TITLE: "Session Export",
@@ -420,7 +420,7 @@ switch (lang) {
 			/*Import session*/
 			IMPORT_IOS_NOTIFICATION: "Ein Import kann auf iOS Geräten nicht durchgeführt werden",
 			IMPORT_NOT_SUPPORTED: "Der Session Import wird für Ihren Browser nicht unterstützt.",
-		
+
 			/*Public pool*/
 			SESSIONPOOL_LEVEL: "Niveau",
 			SESSIONPOOL_CLONE: "Kopieren",
@@ -447,7 +447,7 @@ switch (lang) {
 			SESSIONPOOL_VISIT:	"Besuchen",
 			SESSOPNPOOL_CHARACTERS: 'Zeichen',
 			SESSIONPOOL_INFOS:	'Infos',
-		
+
 			/* question types */
 			EVALUATION: "+-",
 			SCHOOL: "1-6",
@@ -480,7 +480,7 @@ switch (lang) {
 			EVALUATION_NEUTRAL: "weder noch",
 			EVALUATION_MINUS: "trifft eher nicht zu",
 			EVALUATION_MINUSMINUS: "trifft nicht zu",
-		
+
 			/* action buttons - <br/> forces line break for consistent look */
 			CREATE_NEW_SESSION: "Neue Session<br/>anlegen",
 			NEW_QUESTION: "Neue Frage<br/>anlegen",
@@ -501,7 +501,7 @@ switch (lang) {
 			DELETE_SESSION: "Session<br/>löschen",
 			GIVE_FEEDBACK: "Feedback<br/>geben",
 			QUESTION_REQUEST_ADHOC: 'Ich habe eine<br/>Frage',
-		
+
 			/* about */
 			INFO: "Handbuch",
 			ABOUT: "Über",
@@ -519,12 +519,12 @@ switch (lang) {
 			NOT_RELEASED_YET: "Der Dozent hat die richtige Antwort noch nicht freigegeben.",
 			STUDENTS_USE_CASES: "Für Studenten",
 			TEACHERS_USE_CASES: "Für Dozenten",
-		
+
 			/* diagnosis */
 			DIAGNOSIS: "System",
 			BROWSER_INFO: "Browser-Informationen",
 			ARSNOVA_RELOAD: "ARSnova neu laden",
-		
+
 			/* credits */
 			HMWK: "HMWK",
 			ELEARNINGHESSEN: "Kompetenznetz E-Learning Hessen",
@@ -535,7 +535,7 @@ switch (lang) {
 			COUCHDB: "NoSQL Datenbank: CouchDB",
 			XEN: "Virtualisierung: Xen",
 			DEBIAN: "Betriebssystem: Debian",
-		
+
 			/* errors */
 			SESSION_NOT_FOUND: "Diese Session existiert nicht.",
 			SESSION_LOCKED: "Die Session ist derzeit gesperrt.",
@@ -545,7 +545,7 @@ switch (lang) {
 			BROWSER_SESSION_EXPIRED: "Browsersitzung abgelaufen",
 			BROWSER_SESSION_EXPIRED_MSG: "Ihre Browsersitzung ist abgelaufen. Möchten Sie ARSnova neustarten?",
 			QUESTION_COULD_NOT_BE_SAVED: "Speichern der Frage war nicht erfolgreich",
-		
+
 			/* misc */
 			SUPPORTED_BROWSERES: "Für eine korrekte Darstellung von ARSnova benutzen Sie bitte einen WebKit-Browser, z.B. Apple Safari oder Google Chrome!",
 			NEW_VERSION_TITLE: "Neue Version",
@@ -553,7 +553,7 @@ switch (lang) {
 			PRESENTER: "Presenter",
 			UNI: "Uni",
 			SESSION_ID: "Session-ID",
-		
+
 			/* session import */
 			IMP_BUTTON_IMPORT: "Import",
 			IMP_LOADMSK: "Importiere sessions",
