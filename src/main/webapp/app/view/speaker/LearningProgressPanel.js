@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.speaker.LearningProgressPanel', {
 	requires: ['Ext.field.Radio'],
 
 	config: {
-		title: 'AudienceQuestionPanel',
+		title: 'LearningProgressPanel',
 		fullscreen: true,
 		scrollable: {
 			direction: 'vertical',
