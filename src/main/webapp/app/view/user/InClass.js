@@ -163,10 +163,12 @@ Ext.define('ARSnova.view.user.InClass', {
 				id: 'myLearningProgress',
 				ui: 'normal',
 				text: Messages.MY_LEARNING_PROGRESS,
-				cls: 'standardListButton',
+				cls: 'forwardListButton',
 				badgeCls: 'badgeicon',
 				disabledCls: '',
-				disabled: true
+				controller: 'Questions',
+				action: 'showLearningProgress',
+				handler: this.buttonClicked
 			});
 		}
 

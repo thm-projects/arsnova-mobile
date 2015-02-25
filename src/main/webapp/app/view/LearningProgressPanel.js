@@ -16,7 +16,7 @@
 * You should have received a copy of the GNU General Public License
 * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
 */
-Ext.define('ARSnova.view.speaker.LearningProgressPanel', {
+Ext.define('ARSnova.view.LearningProgressPanel', {
 	extend: 'Ext.Panel',
 
 	requires: ['Ext.field.Radio'],
@@ -40,11 +40,7 @@ Ext.define('ARSnova.view.speaker.LearningProgressPanel', {
 			handler: function () {
 				// store the learning progress type when we leave this panel
 				ARSnova.app.getController('Sessions').setLearningProgressType(this.learningProgressChooser.getValues());
-				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-				sTP.animateActiveItem(sTP.inClassPanel, {
-					type: 'slide',
-					direction: 'right'
-				});
+				ARSnova.app.getController('Questions').leaveLearningProgress();
 			}
 		});
 

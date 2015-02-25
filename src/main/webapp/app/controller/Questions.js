@@ -158,9 +158,9 @@ Ext.define("ARSnova.controller.Questions", {
 			validation.items.forEach(function (el) {
 				panel.down('textfield[name=' + el.getField() + ']').addCls("required");
 
-				if(el._field === "subject") {
+				if (el._field === "subject") {
 					subjectError = true;
-				} else if(el._field === "text") {
+				} else if (el._field === "text") {
 					questionError = true;
 				}
 
@@ -176,9 +176,9 @@ Ext.define("ARSnova.controller.Questions", {
 					}
 				});
 				break;
-			case 'flashcard': 
+			case 'flashcard':
 				panel.flashcardQuestion.query('textfield').forEach(function (el) {
-					if(el.getValue().trim() === "") {
+					if (el.getValue().trim() === "") {
 						el.addCls("required");
 						answersError = true;
 						error = true;
@@ -203,7 +203,9 @@ Ext.define("ARSnova.controller.Questions", {
 				questionComponent.answerComponents.forEach(function (el) {
 					var value = el.getValue().toString().trim();
 					if (!el.getHidden() && value !== "") {
-						if (el.isChecked()) checkedCount++;
+						if (el.isChecked()) {
+							checkedCount++;
+						}
 						answerCount++;
 					}
 				});
@@ -230,19 +232,18 @@ Ext.define("ARSnova.controller.Questions", {
 		if (error) {
 			var message = Messages.MISSING_INPUTS + '<ul class="newQuestionWarning"><br>';
 
-			if(subjectError) {
+			if (subjectError) {
 				message += '<li>' + Messages.MISSING_SUBJECT + '</li>';
 			}
-			if(questionError) {
+			if (questionError) {
 				message += '<li>' + Messages.MISSING_QUESTION + '</li>';
 			}
-			if(gridError) {
+			if (gridError) {
 				message += '<li>' + Messages.MISSING_IMAGE + '</li>';
 			}
-			if(answersError && question.get('questionType') === 'flashcard') {
+			if (answersError && question.get('questionType') === 'flashcard') {
 				message += '<li>' + Messages.MISSING_FLASHCARD + '</li>';
-			}
-			else if(answersError) {
+			} else if (answersError) {
 				message += '<li>' + Messages.MISSING_ANSWERS + '</li>';
 			}
 
@@ -262,8 +263,8 @@ Ext.define("ARSnova.controller.Questions", {
 					itemId: 'no',
 					ui: 'decline'
 				}],
-				fn: function(buttonId) {
-					if(buttonId === 'yes') {
+				fn: function (buttonId) {
+					if (buttonId === 'yes') {
 						question.saveSkillQuestion({
 							success: options.successFunc,
 							failure: options.failureFunc
@@ -416,8 +417,20 @@ Ext.define("ARSnova.controller.Questions", {
 
 	showLearningProgress: function () {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-		sTP.animateActiveItem(sTP.learningProgressPanel, {
+		var uTP = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
+		var tapPanel = sTP || uTP;
+		tapPanel.animateActiveItem(tapPanel.learningProgressPanel, {
 			type: 'slide'
+		});
+	},
+
+	leaveLearningProgress: function () {
+		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		var uTP = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
+		var tapPanel = sTP || uTP;
+		tapPanel.animateActiveItem(tapPanel.inClassPanel, {
+			type: 'slide',
+			direction: 'right'
 		});
 	}
 });
