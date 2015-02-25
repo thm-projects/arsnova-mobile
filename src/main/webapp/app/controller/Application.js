@@ -42,18 +42,18 @@ Ext.define("ARSnova.controller.Application", {
 	/**
 	 * initializes mathjax if feature is activated in configuration
 	 */
-	initializeMathJax: function() {
+	initializeMathJax: function () {
 		var config = ARSnova.app.globalConfig;
 
-		if(config.features.mathJax && !window.MathJax) {
+		if (config.features.mathJax && !window.MathJax) {
 			var head = document.getElementsByTagName("head")[0], script;
 			var mathJaxSrc = config.mathJaxSrc || "//cdn.mathjax.org/mathjax/2.4-latest/MathJax.js";
 
 			window.MathJax = {
-				jax: ["input/TeX","output/HTML-CSS"],
-				extensions: ["tex2jax.js","Safe.js"],
+				jax: ["input/TeX", "output/HTML-CSS"],
+				extensions: ["tex2jax.js", "Safe.js"],
 				TeX: {
-					extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]
+					extensions: ["AMSmath.js", "AMSsymbols.js", "noErrors.js", "noUndefined.js"]
 				},
 				tex2jax: {
 					inlineMath: [['\\(', '\\)'], ['\[\[', '\]\]']],
@@ -64,7 +64,7 @@ Ext.define("ARSnova.controller.Application", {
 				showProcessingMessages: false,
 				showMathMenu: false
 			};
-			
+
 			script = document.createElement("script");
 			script.type = "text/javascript";
 			script.src = mathJaxSrc;
@@ -84,7 +84,6 @@ Ext.define("ARSnova.controller.Application", {
 				break;
 			case "https":
 				return true;
-				break;
 		}
 
 		return false;
@@ -141,7 +140,7 @@ Ext.define("ARSnova.controller.Application", {
 			localStorage.removeItem('storageTest');
 
 			//if not IE4+ nor NS6+
-			if (typeof navigator.cookieEnabled == "undefined" && !cookieEnabled) {
+			if (typeof navigator.cookieEnabled === "undefined" && !cookieEnabled) {
 				document.cookie = "cookieTest";
 				cookieEnabled = (document.cookie.indexOf("cookieTest") !== -1) ? true : false;
 			}
@@ -187,7 +186,9 @@ Ext.define("ARSnova.controller.Application", {
 					delta = e.detail / 3;
 				}
 
-				if (ARSnova.app.mainTabPanel == null) return;
+				if (ARSnova.app.mainTabPanel == null) {
+					return;
+				}
 
 				/** check if previewBox is activeItem */
 				var scrollMe = ARSnova.app.innerScrollPanel ? ARSnova.app.innerScrollPanel :
@@ -201,7 +202,9 @@ Ext.define("ARSnova.controller.Application", {
 						scrollMe = scrollMe.getActiveItem();
 					}
 
-					if (scrollMe.disableScrolling) return;
+					if (scrollMe.disableScrolling) {
+						return;
+					}
 
 					if (scrollMe.getScrollable()) {
 						var scroller = scrollMe.getScrollable().getScroller();
@@ -239,9 +242,9 @@ Ext.define("ARSnova.controller.Application", {
 				window.attachEvent("onmousewheel", doScroll);
 			}
 		}
-	}, 
-	
-	showQRCode: function() {
+	},
+
+	showQRCode: function () {
 		var url = window.location + 'id/' + sessionStorage.getItem('keyword'),
 			heightOffset = 110, widthOffset = 60;
 
@@ -249,7 +252,7 @@ Ext.define("ARSnova.controller.Application", {
 			cls: 'qr-code',
 			hideOnMaskTap: true,
 			listeners: {
-				hide: function() {
+				hide: function () {
 					this.destroy();
 				}
 			}
@@ -259,14 +262,15 @@ Ext.define("ARSnova.controller.Application", {
 		var height = parseFloat(messageBoxCS.getPropertyValue("height")) - heightOffset;
 		var width = parseFloat(messageBoxCS.getPropertyValue("width")) - widthOffset;
 
-		if(width > height) width = height;
-		else if (height > width) {
+		if (width > height) {
+			width = height;
+		} else if (height > width) {
 			height = width;
 			messageBox.setHeight(width + heightOffset);
 		}
 
-		messageBox.element.on('*', function(e) {
-			switch(e.type) {
+		messageBox.element.on('*', function (e) {
+			switch (e.type) {
 				case 'mouseup':
 				case 'mousedown':
 				case 'touchstart':
@@ -277,12 +281,12 @@ Ext.define("ARSnova.controller.Application", {
 		});
 
 		var messageInner = messageBox.element.select('.x-msgbox-inner').elements[0];
-		new QRCode(document.getElementById(messageInner.id), {
-		    text: url,
-		    width: width,
-		    height: height,
-		    colorDark : "#000000",
-		    colorLight : "#FFFFFF"
+		new window.QRCode(document.getElementById(messageInner.id), {
+			text: url,
+			width: width,
+			height: height,
+			colorDark: "#000000",
+			colorLight: "#FFFFFF"
 		});
 
 		messageBox.setMessage(window.location + 'id/&#8203;' + sessionStorage.getItem('keyword'));
