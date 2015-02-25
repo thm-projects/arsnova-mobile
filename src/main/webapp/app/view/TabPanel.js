@@ -269,8 +269,14 @@ Ext.define('ARSnova.view.TabPanel', {
 		var student = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
 
 		if (count > 0) {
-			speaker && speaker.tab.setBadgeText(count - 1); // Do not count the speaker itself
-			student && student.tab.setBadgeText(count); // Students will see all online users
+			if (speaker) {
+				// Do not count the speaker itself
+				speaker.tab.setBadgeText(count - 1);
+			}
+			if (student) {
+				// Students will see all online users
+				student.tab.setBadgeText(count);
+			}
 		}
 	}
 });

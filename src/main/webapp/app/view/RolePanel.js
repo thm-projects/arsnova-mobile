@@ -32,22 +32,22 @@ Ext.define('ARSnova.view.RolePanel', {
 
 		title: 'RolePanel'
 	},
-	
-	buttonColorChange: {		
-	    run: function(){
-	    	var panel = ARSnova.app.mainTabPanel.tabPanel.rolePanel;
-	    	
-	    	if(panel.selectState) {
+
+	buttonColorChange: {
+		run: function () {
+			var panel = ARSnova.app.mainTabPanel.tabPanel.rolePanel;
+
+			if (panel.selectState) {
 				panel.studentButton.addImageCls('thm-green');
 				panel.speakerButton.removeImageCls('thm-green');
-	    	} else {
+			} else {
 				panel.speakerButton.addImageCls('thm-green');
 				panel.studentButton.removeImageCls('thm-green');
-	    	}
-	    	
-	    	panel.selectState = !panel.selectState;
-	    },
-	    interval: 2000
+			}
+
+			panel.selectState = !panel.selectState;
+		},
+		interval: 2000
 	},
 
 	initialize: function () {
@@ -57,14 +57,14 @@ Ext.define('ARSnova.view.RolePanel', {
 		var smallHeight = document.body.clientHeight <= 460;
 		var mediumHeight = document.body.clientHeight >= 520;
 		var slogan = ARSnova.app.globalConfig.arsnovaSlogan ? ARSnova.app.globalConfig.arsnovaSlogan : "";
-		
+
 		this.speakerButton = Ext.create('ARSnova.view.MatrixButton', {
 			id: 'role-select-speaker',
 			text: Messages.SPEAKER,
 			value: ARSnova.app.USER_ROLE_SPEAKER,
 			imageCls: "icon-presenter"
 		});
-		
+
 		this.studentButton = Ext.create('ARSnova.view.MatrixButton', {
 			id: 'role-select-student',
 			text: Messages.STUDENT,
@@ -133,13 +133,13 @@ Ext.define('ARSnova.view.RolePanel', {
 				}
 			}]
 		}]);
-		
-		this.on('activate', function() {
+
+		this.on('activate', function () {
 			this.selectState = false;
 			ARSnova.app.taskManager.start(this.buttonColorChange);
 		});
-		
-		this.on('deactivate', function() {
+
+		this.on('deactivate', function () {
 			ARSnova.app.taskManager.stop(this.buttonColorChange);
 		});
 	}

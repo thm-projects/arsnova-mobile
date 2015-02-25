@@ -227,14 +227,16 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				scope: this,
 				handler: function () {
 					var msg = "";
-					if ((msg = this.importSupport()) !== "")
+					if ((msg = this.importSupport()) !== "") {
 						Ext.Msg.alert(Messages.NOTIFICATION, msg);
+					}
 				}
 			});
 
 			this.importButtonPanel = Ext.create('Ext.Panel');
-			if (this.importSupport() === "")
+			if (this.importSupport() === "") {
 				this.importButtonPanel.add(this.importButtonClickable);
+			}
 			this.importButtonPanel.add(this.importButton);
 
 			this.exportButton = Ext.create('ARSnova.view.MatrixButton', {
@@ -320,8 +322,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			this.newSessionButtonForm,
 			this.sessionsForm]);
 
-		if (config.features.publicPool)
+		if (config.features.publicPool) {
 			this.add(this.myPpSessionsForm);
+		}
 
 		this.add([
 			this.matrixButtonPanel,
@@ -378,9 +381,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				panel.sessionsForm.removeAll();
 				panel.sessionsForm.show();
 
-				if (sessions.length > 0)
+				if (sessions.length > 0) {
 					me.saveSetHidden(me.exportButton, false);
-
+				}
 
 				var session;
 				for (var i = 0, session; session = sessions[i]; i++) {
@@ -452,8 +455,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	loadCreatedPublicPoolSessions: function () {
 		var me = this;
 		var promise = new RSVP.Promise();
-		if (!ARSnova.app.globalConfig.features.publicPool)
+		if (!ARSnova.app.globalConfig.features.publicPool) {
 			return promise;
+		}
 
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
 		ARSnova.app.sessionModel.getMyPublicPoolSessions({
@@ -467,8 +471,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 				var session;
 
-				if (sessions.length > 0)
+				if (sessions.length > 0) {
 					me.saveSetHidden(me.exportButton, false);
+				}
 
 				for (var i = 0, session; session = sessions[i]; i++) {
 					var status = "";
@@ -619,8 +624,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	 * Save way to set an element hidden.
 	 */
 	saveSetHidden: function (element, hidden) {
-		if (typeof element !== undefined && element != null)
+		if (typeof element !== undefined && element != null) {
 			element.setHidden(hidden);
+		}
 	},
 
 	/**

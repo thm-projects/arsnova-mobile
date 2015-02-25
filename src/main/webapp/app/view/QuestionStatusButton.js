@@ -94,7 +94,9 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 	},
 
 	checkInitialStatus: function () {
-		if (this.isRendered) return;
+		if (this.isRendered) {
+			return;
+		}
 
 		if (localStorage.getItem('active') === "1") {
 			this.isOpen = true;
