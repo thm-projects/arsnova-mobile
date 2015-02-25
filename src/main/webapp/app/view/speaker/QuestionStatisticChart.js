@@ -370,24 +370,31 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				var sum = 0;
 				var maxValue = 10;
 
+				var i, el, record;
 				var tmpPossibleAnswers = [];
-				for (var i = 0; i < tmpPossibleAnswers.length; i++) {
-					var el = tmpPossibleAnswers[i];
-					var record = store.findRecord('text', el, 0, false, true, true);
+				for (i = 0; i < tmpPossibleAnswers.length; i++) {
+					el = tmpPossibleAnswers[i];
+					record = store.findRecord('text', el, 0, false, true, true);
 					record.set('value', 0);
 				}
 
-				for (var i = 0; i < panel.questionObj.possibleAnswers.length; i++) {
-					var el = panel.questionObj.possibleAnswers[i];
-					if (el.data)
+				for (i = 0; i < panel.questionObj.possibleAnswers.length; i++) {
+					el = panel.questionObj.possibleAnswers[i];
+					if (el.data) {
 						tmpPossibleAnswers.push(el.data.text);
-					else
+					} else {
 						tmpPossibleAnswers.push(el.text);
+					}
 				}
 
 				var mcAnswerCount = [];
 				var abstentionCount = 0;
-				for (var i = 0, el; el = answers[i]; i++) {
+				var mcTotalAnswerCount = 0;
+				for (i = 0; i < answers.length; i++) {
+					el = answers[i];
+
+					mcTotalAnswerCount += el.answerCount;
+
 					if (panel.questionObj.questionType === "mc") {
 						if (!el.answerText) {
 							abstentionCount = el.abstentionCount;
@@ -422,7 +429,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 							abstentionCount = el.abstentionCount;
 							continue;
 						}
-						var record = store.findRecord('text', el.answerText, 0, false, true, true); // exact match
+						record = store.findRecord('text', el.answerText, 0, false, true, true); // exact match
 						record.set('value', el.answerCount);
 					}
 					sum += el.answerCount;
@@ -434,10 +441,13 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					});
 
 					var idx = tmpPossibleAnswers.indexOf(el.answerText); // Find the index
-					if (idx !== -1) tmpPossibleAnswers.splice(idx, 1); // Remove it if really found!
+					if (idx !== -1) {
+						// Remove it if really found!
+						tmpPossibleAnswers.splice(idx, 1);
+					}
 				}
 				if (abstentionCount) {
-					var record = store.findRecord('text', Messages.ABSTENTION, 0, false, true, true); // exact match
+					record = store.findRecord('text', Messages.ABSTENTION, 0, false, true, true); // exact match
 					if (!record) {
 						store.add({text: Messages.ABSTENTION, value: abstentionCount});
 					} else if (record.get('value') !== abstentionCount) {
@@ -446,11 +456,18 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				}
 
 				// Calculate percentages
-				var totalResults = store.sum('value');
-				store.each(function (record) {
-					var percent = Math.round((record.get('value') / totalResults) * 100);
-					record.set('percent', percent);
-				});
+				if (panel.questionObj.questionType === "mc") {
+					store.each(function (record) {
+						var percent = Math.round((record.get('value') / mcTotalAnswerCount) * 100);
+						record.set('percent', percent);
+					});
+				} else {
+					var totalResults = store.sum('value');
+					store.each(function (record) {
+						var percent = Math.round((record.get('value') / totalResults) * 100);
+						record.set('percent', percent);
+					});
+				}
 				chart.getAxes()[0].setMaximum(maxValue);
 
 				// renew the chart-data
