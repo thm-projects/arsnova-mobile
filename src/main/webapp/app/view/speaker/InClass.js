@@ -93,8 +93,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			ui: 'light',
 			docked: 'top',
 			items: [
-				this.sessionLogoutButton, 
-				{ xtype: 'spacer' },
+				this.sessionLogoutButton,
+				{xtype: 'spacer'},
 				{
 					xtype: 'button',
 					iconCls: 'icon-qrcode',
@@ -375,9 +375,9 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	courseLearningProgress: function () {
 		var me = this;
 		ARSnova.app.sessionModel.getCourseLearningProgress(sessionStorage.getItem("keyword"), {
-			success: function (text, color, value) {
+			success: function (text, color, progress) {
 				me.courseLearningProgressButton.setBadge([{badgeText: text, badgeCls: color + "badgeicon"}]);
-				if (value === 0) {
+				if (progress.courseProgress === 0 && progress.numQuestions === 0) {
 					me.inClassButtons.remove(me.courseLearningProgressButton, false);
 				} else {
 					me.inClassButtons.add(me.courseLearningProgressButton);

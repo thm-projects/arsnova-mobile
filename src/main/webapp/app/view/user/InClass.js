@@ -418,8 +418,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				var getBadge = function (progress) {
 					return {badgeText: progress.text, badgeCls: progress.color + "badgeicon"};
 				};
-				if (p.myprogress === 0 && p.courseprogress === 0) {
-					me.myLearningProgressButton.setBadge([{badgeText: "…"}, vsBadge, {badgeText: "…"}]);
+				if (p.myProgress === 0 && p.courseProgress === 0 && p.numQuestions === 0) {
 					me.inClassButtons.remove(me.myLearningProgressButton, false);
 				} else {
 					me.myLearningProgressButton.setBadge([getBadge(myprogressDescription), vsBadge, getBadge(courseprogressDescription)]);

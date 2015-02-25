@@ -119,8 +119,8 @@ Ext.define('ARSnova.model.Session', {
 		var me = this;
 		return this.getProxy().getMyLearningProgress(sessionKeyword, this.getLearningProgress(), {
 			success: function (progress) {
-				var myself = me.progressDescription(progress.myprogress);
-				var course = me.progressDescription(progress.courseprogress);
+				var myself = me.progressDescription(progress.myProgress);
+				var course = me.progressDescription(progress.courseProgress);
 				callbacks.success.call(callbacks.scope, myself, course, progress, me.getLearningProgress());
 			}
 		});
@@ -134,7 +134,7 @@ Ext.define('ARSnova.model.Session', {
 		var me = this;
 		return this.getProxy().getCourseLearningProgress(sessionKeyword, progressType, {
 			success: function (progress) {
-				var desc = me.progressDescription(progress);
+				var desc = me.progressDescription(progress.courseProgress);
 				callbacks.success.call(callbacks.scope, desc.text, desc.color, progress, progressType);
 			},
 			failure: callbacks.failure
