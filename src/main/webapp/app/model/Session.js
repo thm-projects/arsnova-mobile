@@ -74,9 +74,7 @@ Ext.define('ARSnova.model.Session', {
 			this.fireEvent(this.events.sessionActive, active);
 		}, this);
 
-		ARSnova.app.socket.on(ARSnova.app.socket.events.learningProgressType, function (progressType) {
-			this.setLearningProgress(progressType);
-		}, this);
+		ARSnova.app.socket.on(ARSnova.app.socket.events.learningProgressType, this.setUserBasedProgressType, this);
 	},
 
 	destroy: function (sessionId, creator, callbacks) {
@@ -92,7 +90,7 @@ Ext.define('ARSnova.model.Session', {
 		return this.getProxy().checkSessionLogin(keyword, {
 			success: function (response) {
 				var obj = Ext.decode(response.responseText);
-				me.setLearningProgress(obj.learningProgressType);
+				me.setUserBasedProgressType(obj.learningProgressType);
 				callbacks.success(obj);
 			},
 			failure: callbacks.failure
@@ -161,7 +159,22 @@ Ext.define('ARSnova.model.Session', {
 	},
 
 	setLearningProgressType: function (sessionKeyword, progressType) {
+		localStorage.setItem("progressType-" + sessionStorage.getItem("keyword"), progressType);
 		ARSnova.app.socket.setLearningProgressType({sessionKeyword: sessionKeyword, learningProgressType: progressType});
 		this.setLearningProgress(progressType);
+	},
+
+	getUserBasedProgressType: function () {
+		return localStorage.getItem("progressType-" + sessionStorage.getItem("keyword")) || this.getLearningProgress();
+	},
+
+	setUserBasedProgressType: function (progressType) {
+		// for students, progress stored in localStorage will always take priority
+		if (ARSnova.app.isSessionOwner) {
+			this.setLearningProgress(progressType);
+		} else {
+			// overwrite server-based progress type for students with their own selection (if available)
+			this.setLearningProgress(this.getUserBasedProgressType() || progressType);
+		}
 	}
 });
