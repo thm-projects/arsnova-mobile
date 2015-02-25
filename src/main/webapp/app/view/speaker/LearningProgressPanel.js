@@ -27,10 +27,6 @@ Ext.define('ARSnova.view.speaker.LearningProgressPanel', {
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
-		},
-		layout: 'vbox',
-		defaults: {
-			flex: 1
 		}
 	},
 
