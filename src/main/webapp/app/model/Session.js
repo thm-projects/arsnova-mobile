@@ -160,12 +160,24 @@ Ext.define('ARSnova.model.Session', {
 				text: text
 			};
 		};
-		myProgress = desc(learningProgress.myProgress);
-		courseProgress = desc(learningProgress.courseProgress);
+		var myProgress = desc(learningProgress.myProgress);
+		var courseProgress = desc(learningProgress.courseProgress);
 		// if the user has some progress, do not deactivate the the course progress if it currently has no value
 		if (learningProgress.myProgress > 0 && learningProgress.courseProgress === 0) {
 			courseProgress.color = "red";
 			courseProgress.text = learningProgress.courseProgress + "%";
+		}
+		// similarly, do not deactivate my progres if the course has some values
+		if (learningProgress.myProgress === 0 && learningProgress.courseProgress > 0) {
+			myProgress.color = "red";
+			myProgress.text = learningProgress.myProgress + "%";
+		}
+		// once somebody has answered a question, always show percentages
+		if (learningProgress.myProgress === 0 && learningProgress.courseProgress === 0 && learningProgress.numUsers > 0) {
+			courseProgress.color = "red";
+			courseProgress.text = learningProgress.courseProgress + "%";
+			myProgress.color = "red";
+			myProgress.text = learningProgress.myProgress + "%";
 		}
 		return {
 			myself: myProgress,
