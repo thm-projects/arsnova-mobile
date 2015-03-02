@@ -161,5 +161,5 @@ module.exports = function (grunt) {
 
 	grunt.registerTask("lint", ["jscs", "jshint"]);
 	grunt.registerTask("refresh", "shell:refresh");
-	grunt.registerTask("default", ["lint", "build"]);
+	grunt.registerTask("default", ["lint", "refresh", "build"]);
 };
