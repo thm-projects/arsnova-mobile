@@ -225,10 +225,10 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 					painted: function (list, eOpts) {
 						this.answerList.fireEvent("resizeList", list);
 
-						if(window.MathJax) {
+						if (window.MathJax) {
 							MathJax.Hub.Queue(
-								["Delay",MathJax.Callback,700],
-								function() {
+								["Delay", MathJax.Callback, 700],
+								function () {
 									me.answerList.fireEvent('resizeList', me.answerList.element);
 								}
 							);

@@ -162,14 +162,14 @@ Ext.define('ARSnova.view.MatrixButton', {
 		});
 	},
 
-	addImageCls: function(cls) {
-		if(this.getButtonConfig() !== 'togglefield') {
+	addImageCls: function (cls) {
+		if (this.getButtonConfig() !== 'togglefield') {
 			this.iconBtnImg.addCls(cls);
 		}
 	},
 
-	removeImageCls: function(cls) {
-		if(this.getButtonConfig() !== 'togglefield') {
+	removeImageCls: function (cls) {
+		if (this.getButtonConfig() !== 'togglefield') {
 			this.iconBtnImg.removeCls(cls);
 		}
 	}
