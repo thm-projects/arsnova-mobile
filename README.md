@@ -78,7 +78,7 @@ ensure that the server part has been arranged completely.
 The mobile client uses Sencha Touch 2 as application framework. In order to work
 with the client you have to install Sencha Cmd. The basic requirement for
 installing and using Sencha Cmd is the presence of Ruby 1.9.3 and Java Runtime
-Environment in Version 1.7. Before you continue, please ensure that all
+Environment in version 1.7. Before you continue, please ensure that all
 requirements are installed properly.
 
 The download links to the referred requirements, as well as the installation
@@ -92,7 +92,7 @@ guide for Sencha Cmd can be found here:
 
 ARSnova consists of two main projects: ARSnova Mobile (this repository) and
 ARSnova Backend. You have to build both projects separately, in order to work
-with the mobile client. If you need informations regarding the installation of
+with the mobile client. If you need information regarding the installation of
 ARSnova Backend, please look up the read me at
 [thm-projects/arsnova-backend](https://github.com/thm-projects/arsnova-backend).
 
@@ -136,7 +136,7 @@ second terminal and execute the following command:
 
 By default, all JavaScript and CSS files are minified and put into the browser's
 cache. This is good to make your changes ready for production, but you might
-want to have a faster build including proper stack traces while your still
+want to have a faster build including proper stack traces while you are still
 coding your feature. This is where the `testing` environment comes in.
 
 The build commands change in the following way:
