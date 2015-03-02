@@ -6,6 +6,7 @@ module.exports = function (grunt) {
 
 	var appPath = "src/main/webapp";
 	var buildPath = appPath + "/build";
+	var warPath = "target";
 
 	/* Files matching the following patterns will be checked by JSHint and JSCS */
 	var lintJs = [
@@ -105,6 +106,22 @@ module.exports = function (grunt) {
 			}
 		},
 
+		war: {
+			dist: {
+				/* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
+				options: {
+					war_dist_folder: warPath,
+					war_name: "arsnova-mobile",
+					webxml_display_name: "ARSnova Mobile"
+				},
+				/* jscs:enable requireCamelCaseOrUpperCaseIdentifiers */
+				expand: true,
+				cwd: buildPath + "/<%= senchaEnv %>/ARSnova",
+				src: "**",
+				dest: ""
+			}
+		},
+
 		watch: {
 			js: {
 				files: [lintJs, ".jscs.json", ".jshintrc"],
@@ -158,8 +175,10 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-jscs");
 	grunt.loadNpmTasks("grunt-newer");
 	grunt.loadNpmTasks("grunt-shell");
+	grunt.loadNpmTasks("grunt-war");
 
 	grunt.registerTask("lint", ["jscs", "jshint"]);
 	grunt.registerTask("refresh", "shell:refresh");
+	grunt.registerTask("package", ["refresh", "build", "war"]);
 	grunt.registerTask("default", ["lint", "refresh", "build"]);
 };
