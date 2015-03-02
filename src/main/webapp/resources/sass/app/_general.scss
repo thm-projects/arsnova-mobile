@@ -19,18 +19,18 @@
 
 .embeddedPageElement {
 	width: 100%;
-	height:100%; 
-	overflow: hidden; 
+	height:100%;
+	overflow: hidden;
 	-webkit-overflow-scrolling: touch;
 }
 
 .x-mask-inner {
-	border-radius: 10px 10px 10px 10px;	
+	border-radius: 10px 10px 10px 10px;
 }
 
 .x-carousel-indicator-horizontal {
 	height: 3.5em;
-	
+
 	&.x-carousel-indicator span {
 		height: 30px;
 		margin: 15px 5px;
@@ -88,7 +88,7 @@
 .feedbackStatisticButton.voteButton.smallerMatrixButtons .iconBtn {
 	width: 70px;
 	height: 70px;
-	
+
 	.iconBtnImg {
 		margin: 11px 0 0 10.5px;
 	}
@@ -109,7 +109,7 @@
 	color: rgba(190,224,247,0.9);
 }
 
-.statisticButton.x-item-disabled .x-button-label {
+.statisticsButton.x-item-disabled .x-button-label {
 	opacity: 1;
 }
 
@@ -137,7 +137,7 @@
 .answerStatisticToolbar {
 	.x-toolbar-inner {
 		display: flex !important;
-		
+
 		.x-title {
 			flex: 1;
 		}
@@ -147,28 +147,28 @@
 .carouselNavigationElement {
 	top: 0;
 	bottom: 0;
-	width: 0; 
-	height: 0; 
+	width: 0;
+	height: 0;
 	margin: auto;
 	position: absolute;
 	border-top: 45px solid transparent;
 	border-bottom: 45px solid transparent;
-	
+
 	&.arrow-right {
 		right: 0;
 		margin-right: 10px;
 		border-left: 45px solid $thm-grey;
-		
+
 		&.x-button-pressing {
 			border-left-color: $thm-lightgrey !important;
 		}
 	}
-	
+
 	&.arrow-left {
 		left: 0;
 		margin-left: 10px;
 		border-right: 45px solid $thm-grey;
-		
+
 		&.x-button-pressing {
 			border-right-color: $thm-lightgrey !important;
 		}
@@ -180,12 +180,12 @@
 	height:90%;
 	max-width: 700px !important;
 	max-height: 90% !important;
-	
+
 	.x-msgbox-inner {
 		-webkit-box-align: center;
 		-ms-flex-align: center;
 		align-items: center;
-		
+
 		img {
 			margin: 10px;
 		}
@@ -196,7 +196,7 @@
 	list-style-type: disc;
 	margin-left: 30px;
 	text-align: left;
-	
+
 	li {
 		list-style: initial;
 	}

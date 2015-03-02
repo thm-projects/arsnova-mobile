@@ -19,7 +19,7 @@
 Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 	extend: 'Ext.Container',
 
-	requires: ['Ext.form.Panel', 'Ext.form.FieldSet', 'ARSnova.model.Statistic'],
+	requires: ['Ext.form.Panel', 'Ext.form.FieldSet', 'ARSnova.model.Statistics'],
 
 	config: {
 		fullscreen: true,
@@ -45,7 +45,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 	 * update the statistics table
 	 */
 	updateDataTask: {
-		name: 'update the statistic table',
+		name: 'update the statistics table',
 		run: function () {
 			ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.statisticsPanel.updateData();
 		},
@@ -58,7 +58,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 		var me = this;
 
 		this.statisticsStore = Ext.create('Ext.data.Store', {
-			model: 'ARSnova.model.Statistic'
+			model: 'ARSnova.model.Statistics'
 		});
 
 		this.backButton = Ext.create('Ext.Button', {
@@ -90,7 +90,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 			defaults: {
 				xtype: 'button',
 				ui: 'normal',
-				cls: 'standardListButton statisticButton',
+				cls: 'standardListButton statisticsButton',
 				disabled: true,
 				setInnerValue: function (value) {
 					var component = me.formpanel.getComponent(this.itemId);
@@ -107,20 +107,23 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 			},
 
 			items: [{
-					itemId: 'statisticUsersOnline',
+					itemId: 'statisticsActiveUsers',
 					text: 'Users online'
 				}, {
-					itemId: 'statisticOpenSessions',
+					itemId: 'statisticsOpenSessions',
 					text: Messages.OPEN_SESSIONS
 				}, {
-					itemId: 'statisticClosedSessions',
+					itemId: 'statisticsClosedSessions',
 					text: Messages.CLOSED_SESSIONS
 				}, {
-					itemId: 'statisticQuestions',
+					itemId: 'statisticsQuestions',
 					text: Messages.QUESTIONS
 				}, {
-					itemId: 'statisticAnswers',
+					itemId: 'statisticsAnswers',
 					text: Messages.ANSWERS
+				}, {
+					itemId: 'statisticsInterposedQuestions',
+					text: Messages.QUESTIONS_FROM_STUDENTS
 				}]
 		});
 
@@ -132,7 +135,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 		this.add([this.toolbar, this.inClass]);
 
 		this.on('activate', this.onActivate);
-		this.on('activate', this.beforeActivate, this, null, 'before');
+		this.onBefore('activate', this.beforeActivate);
 		this.on('deactivate', this.onDeactivate);
 	},
 
@@ -150,12 +153,12 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 
 	setNumbers: function () {
 		if (this.statistics != null) {
-			this.formpanel.getComponent('statisticUsersOnline').config.setInnerValue(this.statistics.activeUsers);
-			this.formpanel.getComponent('statisticOpenSessions').config.setInnerValue(this.statistics.openSessions);
-			this.formpanel.getComponent('statisticClosedSessions').config.setInnerValue(this.statistics.closedSessions);
-			this.formpanel.getComponent('statisticQuestions').config.setInnerValue(this.statistics.questions);
-			this.formpanel.getComponent('statisticAnswers').config.setInnerValue(this.statistics.answers);
-			// this.formpanel.getComponent('statisticAnswersPerQuestion').config.setInnerValue(this.statistics.averageAnswersPerQuestion);
+			this.formpanel.getComponent('statisticsActiveUsers').config.setInnerValue(this.statistics.activeUsers);
+			this.formpanel.getComponent('statisticsOpenSessions').config.setInnerValue(this.statistics.openSessions);
+			this.formpanel.getComponent('statisticsClosedSessions').config.setInnerValue(this.statistics.closedSessions);
+			this.formpanel.getComponent('statisticsQuestions').config.setInnerValue(this.statistics.questions);
+			this.formpanel.getComponent('statisticsAnswers').config.setInnerValue(this.statistics.answers);
+			this.formpanel.getComponent('statisticsInterposedQuestions').config.setInnerValue(this.statistics.interposedQuestions);
 		}
 	},
 
@@ -164,7 +167,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 	 */
 	getStatistics: function () {
 		var promise = new RSVP.Promise();
-		ARSnova.app.statisticModel.getStatistics({
+		ARSnova.app.statisticsModel.getStatistics({
 			success: function (response) {
 				var statistics = Ext.decode(response.responseText);
 
@@ -172,16 +175,18 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 					var me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.statisticsPanel;
 					me.statistics = statistics;
 					me.setNumbers();
+					console.log(me.statistics);
 				}
 				promise.resolve(statistics);
 			},
-			failure: function (response) {
-				console.log('server-side error, countOpenSessions');
+			failure: function () {
+				console.log('server-side error, getStatistics');
 				promise.reject();
 			}
 		});
 		return promise;
 	},
+
 	updateData: function () {
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK);
 		this.statisticsStore.clearData();
