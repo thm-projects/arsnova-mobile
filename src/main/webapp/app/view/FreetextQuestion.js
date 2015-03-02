@@ -131,7 +131,9 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		]);
 
 		this.on('activate', function () {
-			if (this.isDisabled()) this.disableQuestion();
+			if (this.isDisabled()) {
+				this.disableQuestion();
+			}
 
 			if (this.viewOnly) {
 				this.setAnswerCount();
@@ -298,13 +300,4 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		this.answerSubject.setValue(subject);
 		this.answerText.setValue(answer);
 	}
-
-	/*doTypeset: function (parent) {
-		if (typeof this.questionTitle.element !== "undefined") {
-			MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.questionTitle.element.dom]);
-		} else {
-			// If the element has not been drawn yet, we need to retry later
-			Ext.defer(Ext.bind(this.doTypeset, this), 100);
-		}
-	}*/
 });

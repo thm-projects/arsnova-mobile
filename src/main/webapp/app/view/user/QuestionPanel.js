@@ -66,9 +66,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		this.onBefore('activate', this.beforeActivate, this);
 		this.onAfter('activate', this.onActivate, this);
 		this.on('activeitemchange', this.onItemChange);
-		this.on('add', function (panel, component, index) {
-			component.doTypeset && component.doTypeset(panel);
-		});
 	},
 
 	beforeActivate: function () {
@@ -219,7 +216,9 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	checkAnswer: function () {
 		this.getInnerItems().forEach(function (questionPanel) {
 			var questionObj = questionPanel.questionObj;
-			if (!questionObj.userAnswered && !questionObj.isAbstentionAnswer) return;
+			if (!questionObj.userAnswered && !questionObj.isAbstentionAnswer) {
+				return;
+			}
 
 			if (questionObj.isAbstentionAnswer && "mc" !== questionObj.questionType) {
 				questionPanel.selectAbstentionAnswer();
@@ -296,7 +295,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		var questionPanels = this.items.items;
 		var allAnswered = true;
 
-		for (var i = this.carouselOffset, questionPanel; questionPanel = questionPanels[i]; i++) {
+		for (var i = this.carouselOffset, questionPanel; i < questionPanels.length; i++) {
+			questionPanel = questionPanels[i];
 			if (questionPanel.isDisabled()) {
 				continue;
 			}
@@ -325,11 +325,15 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		var activeQuestion = this.getActiveItem();
 		var lastQuestion = questionPanels[questionPanels.length - 1];
 
-		if (!activeQuestion.isDisabled()) return;
+		if (!activeQuestion.isDisabled()) {
+			return;
+		}
 		this.checkStatisticsRelease();
 
+		var i, questionPanel;
 		var currentPosition = 0;
-		for (var i = 0, questionPanel; questionPanel = questionPanels[i]; i++) {
+		for (i = 0; i < questionPanels.length; i++) {
+			questionPanel = questionPanels[i];
 			if (questionPanel === activeQuestion) {
 				currentPosition = i;
 				break;
@@ -337,7 +341,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		}
 
 		var spin = false;
-		for (var i = currentPosition, questionPanel; questionPanel = questionPanels[i]; i++) {
+		for (i = currentPosition; i < questionPanels.length; i++) {
+			questionPanel = questionPanels[i];
 			if (spin && i === currentPosition) {
 				break;
 			}
