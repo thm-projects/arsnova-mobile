@@ -1,9 +1,8 @@
 # Note: YAML does not allow Tabs for indentation!
 
-language: java
+language: node_js
 env:
   global:
-    - ARSNOVA_URL="http://localhost:8080/mobile/"
     - ARSNOVA_SENCHA_CMD_VERSION="4.0.5.87"
     # Sauce Labs: (thm-projects/arsnova-mobile) 1. User, 2. Access-Key
     - secure: "h9KHs5w6EiNsMrVgEqgnMla0N0W5YNdWKSnEcJ+j+9vKK/+dRPXiFz9jdi8ZhpgD5GZN5zeZE2BUBJ6eypLg3rElT9Lw/x8kFbLsOiIrw0YeE4Csd4wBHNbrLL4/MEXECkOUh3QN+5Kc0RKt1juDkK1Wn8a33J5n4r382XdsGSM="
@@ -11,12 +10,6 @@ env:
     # Sauce Labs: (commana/arsnova-mobile) 1. User, 2. Access-Key
     - secure: "dUrgRZ1EhUiFXQmF0wIjyQDl88FeKjjysC7SVTh2y7TOtASNqEuPXycsWSxP3jQUL3Yk1V5rw0wrwUhQ1Am9dajOeverl7Zs2ivJFYJGfYOvPWZWgutvpIize7Kuu6gK/tv35Mb68UlYFx/9BMzZDPxHQhYvy8l9QBHbw0mipow="
     - secure: "D3BDV2SOCrg7vNtRyg+5FRKAxDTFpnediQswMO2phGNMtkK2uHNxXe0ltHGVqULkuvvk3NMleOFR3vDZ4Qea9ylG0ewYACxc14H3qrozJm1c1eHkJv5fhOqxS9OvRNd7c2/16eu+D1VuPGvIoh2fyrTalU3USJHvkiy0Hvse4AM="
-  matrix:
-    - "BROWSER='firefox::Windows 7'"
-    - "BROWSER='chrome::Windows 7'"
-    #- "BROWSER='internet_explorer::Windows 7'" # Deactivated: IE WebDriver doesn't work like it should :'-(
-services:
-  - couchdb
 before_install:
   # Install Sencha Command (taken from deftjs/DeftJS)
   - "wget http://cdn.sencha.com/cmd/$ARSNOVA_SENCHA_CMD_VERSION/SenchaCmd-$ARSNOVA_SENCHA_CMD_VERSION-linux-x64.run.zip"
@@ -26,29 +19,10 @@ before_install:
   # Configure Sencha, add to PATH
   - "echo 'build.options.custom=selenium:true' > ~/bin/Sencha/Cmd/sencha.cfg"
   - "export PATH=~/bin/Sencha/Cmd/$ARSNOVA_SENCHA_CMD_VERSION/:$PATH"
-  # Download ARSnova-war, CouchDB init
-  - "git clone https://github.com/thm-projects/arsnova-war"
-  - "git clone https://github.com/thm-projects/setuptool"
-  # Install tools required for GUI testing
-  - "gem install selenium-webdriver"
-  - "curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash"
-  # Setup CouchDB
-  - "sudo mkdir /etc/arsnova"
-  - "wget https://gist.githubusercontent.com/commana/d33799546479a2a10fbc/raw/9549d1f41a53bc86bb58e11ed86b6d41ae599360/arsnova.properties"
-  - "sudo cp arsnova.properties /etc/arsnova/arsnova.properties"
-  - "cd setuptool"
-  - "python tool.py"
-  - "cd .."
-before_script:
-  # Download dependencies, install packages, run server
-  - "mvn install"
-  - "cd arsnova-war"
-  - "mvn install -DskipTests=true"
-  - "ARSNOVA_MOBILE_PATH=../src/main/webapp/build/production/ARSnova/ bash ../src/test/runserver.sh"
-  - "cd .."
+  - "npm install -g grunt-cli"
 script:
-  # Run tests
-  - "ruby src/test/saucelabs.rb"
+  # Run code style checks
+  - "grunt jscs"
 notifications:
   slack: f112a:GOZb6ewuAf2AVxduDXzdiCTG
   email: admin@ecollab.eu
