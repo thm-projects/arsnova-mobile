@@ -175,7 +175,6 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 					var me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.statisticsPanel;
 					me.statistics = statistics;
 					me.setNumbers();
-					console.log(me.statistics);
 				}
 				promise.resolve(statistics);
 			},
