@@ -76,17 +76,17 @@ ensure that the server part has been arranged completely.
 ### Requirements
 
 The mobile client uses Sencha Touch 2 as application framework. In order to work
-with the client you have to install Sencha Cmd. The basic requirement for
-installing and using Sencha Cmd is the presence of Ruby 1.9.3 and Java Runtime
-Environment in version 1.7. Before you continue, please ensure that all
-requirements are installed properly.
+with the client you have to install Sencha Cmd 4 (version 5 is currently not
+compatible with ARSnova). The basic requirement for installing and using Sencha
+Cmd is the presence of Ruby and Java Runtime Environment 1.7 (or newer). Before
+you continue, please ensure that all requirements are installed properly.
 
 The download links to the referred requirements, as well as the installation
 guide for Sencha Cmd can be found here:
 
 - [Download Sencha Cmd](http://www.sencha.com/products/sencha-cmd/)
-- [Sencha Cmd documentation](http://docs.sencha.com/cmd/4.0.0/#!/guide/command_whats_new)
-  (see subsection "Installing Sencha Cmd")
+- [Sencha Cmd documentation](http://docs.sencha.com/cmd/5.x/intro_to_cmd.html)
+  (see subsection "System Setup")
 
 ### Building
 
