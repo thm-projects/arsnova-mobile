@@ -63,8 +63,10 @@ get an idea.
 
 Our official build status provided by Travis CI:
 
-- [![Build Status](https://travis-ci.org/thm-projects/arsnova-backend.svg?branch=master)](https://travis-ci.org/thm-projects/arsnova-backend) for ARSnova Backend
-- [![Build Status](https://travis-ci.org/thm-projects/arsnova-mobile.svg?branch=master)](https://travis-ci.org/thm-projects/arsnova-mobile) for ARSnova Mobile
+- [![Build Status](https://travis-ci.org/thm-projects/arsnova-backend.svg?branch=master)](https://travis-ci.org/thm-projects/arsnova-backend)
+  for ARSnova Backend
+- [![Build Status](https://travis-ci.org/thm-projects/arsnova-mobile.svg?branch=master)](https://travis-ci.org/thm-projects/arsnova-mobile)
+  for ARSnova Mobile
 
 ## Development
 
@@ -78,8 +80,10 @@ ensure that the server part has been arranged completely.
 The mobile client uses Sencha Touch 2 as application framework. In order to work
 with the client you have to install Sencha Cmd 4 (version 5 is currently not
 compatible with ARSnova). The basic requirement for installing and using Sencha
-Cmd is the presence of Ruby and Java Runtime Environment 1.7 (or newer). Before
-you continue, please ensure that all requirements are installed properly.
+Cmd is the presence of Ruby and Java Runtime Environment 1.7 (or newer).
+Additionally, you need [Grunt](http://gruntjs.com/) to build the frontend which
+runs on top of NodeJS. Before you continue, please ensure that all requirements
+are installed properly.
 
 The download links to the referred requirements, as well as the installation
 guide for Sencha Cmd can be found here:
@@ -96,9 +100,18 @@ with the mobile client. If you need information regarding the installation of
 ARSnova Backend, please look up the read me at
 [thm-projects/arsnova-backend](https://github.com/thm-projects/arsnova-backend).
 
-Basically a complete build for both projects is done with:
+ARSnova Mobile is built by the Grunt task runner. When building the frontend for
+the first time, you need to install the build dependencies via NPM:
 
-	mvn clean install
+	npm install -g grunt-cli
+	cd /path/to/arsnova-mobile
+	npm install
+
+Afterwards, you can create a web archive for a servlet container by running:
+
+	grunt package
+
+This creates the archive `arsnova-mobile.war` in the `target` directory.
 
 #### Continuous Build
 
@@ -110,47 +123,46 @@ on Sencha Cmd.
 Before you call any build command, you have to refresh your Sencha Cmd project:
 
 	cd /path/to/arsnova-mobile
-	ant sencha:refresh
+	grunt refresh
 
 After that you can use the following command to build the mobile client for
 production deployment:
 
 	cd /path/to/arsnova-mobile
-	ant sencha:build:production
+	grunt build
 
-In order to develop and test on your local machine, you can use Jetty to deploy
-ARSnova:
+To ensure quality of the code, JSCS and JSHint are used. You can run both of
+them via `grunt lint` or run the tools separately via `grunt jscs` and
+`grunt jshint`. By just calling `grunt` the code checks are performed before a
+build.
+
+In order to develop and test on your local machine, you additionally need to run
+the ARSnova backend. You can use Jetty to start it:
 
 	cd /path/to/arsnova-backend
 	mvn jetty:run
 
 If you do not want to manually rebuild the client after every change, you can
-use Sencha Cmd's watching feature. Then ARSnova will be built continuously,
-while Jetty will pick up and redeploy the changes. To do so you have to open a
-second terminal and execute the following command:
+use Sencha Cmd's watching feature. Then ARSnova will be built continuously. To
+do so you have to open a second terminal and execute the following command:
 
 	cd /path/to/arsnova-mobile
-	ant sencha:app:watch
+	grunt run
 
-#### The "testing" environment
+`grunt run` will automatically inform you about code issues detected by JSCS and
+JSHint in files you modify.
 
-By default, all JavaScript and CSS files are minified and put into the browser's
-cache. This is good to make your changes ready for production, but you might
-want to have a faster build including proper stack traces while you are still
-coding your feature. This is where the `testing` environment comes in.
+#### Build Environments
 
-The build commands change in the following way:
+For `production`, all JavaScript and CSS files are minified and put into the
+browser's cache. This is good to make your changes ready for production, but you
+might want to have a faster build including proper stack traces while you are
+still coding your feature. This is where the `testing` environment comes in.
 
-	cd /path/to/arsnova-mobile
-	ant sencha:build:testing
-
-	cd /path/to/arsnova-backend
-	mvn jetty:run -Dmobile.path=\${mobile.testing.path}
-
-For using the watching functionality, run:
-
-	cd /path/to/arsnova-mobile
-	ant sencha:watch:testing
+By default, the `production` environment is used for `grunt build` while the
+`testing` environment is used for `grunt run`. You can change this behavior by
+appending `:<environment>` to the task name where `<environment>` can be one of
+Sencha's environments or one of the shortcuts `prod` and `dev`.
 
 ## Credits
 
