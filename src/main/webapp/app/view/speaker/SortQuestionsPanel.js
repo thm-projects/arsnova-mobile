@@ -2,6 +2,7 @@
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
  * Copyright (C) 2012-2015 The ARSnova Team
+ * Copyright (C) 2015 Simeon Perlov
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,18 +17,17 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
+Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	extend: 'Ext.Panel',
 
 	requires: [
 		'ARSnova.view.Caption',
 		'ARSnova.model.Question',
-		'ARSnova.view.speaker.MultiQuestionStatusButton',
-		'ARSnova.view.speaker.SortQuestionsPanel'
+		'ARSnova.view.speaker.MultiQuestionStatusButton'
 	],
 
 	config: {
-		title: 'AudienceQuestionPanel',
+		title: 'SortQuestionsPanel',
 		fullscreen: true,
 		scrollable: {
 			direction: 'vertical',
@@ -129,8 +129,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			ui: 'back',
 			handler: function () {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-				sTP.inClassPanel.updateAudienceQuestionBadge();
-				sTP.animateActiveItem(sTP.inClassPanel, {
+				sTP.animateActiveItem(sTP.audienceQuestionPanel, {
 					type: 'slide',
 					direction: 'right',
 					duration: 700
@@ -191,13 +190,12 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			hidden: true,
 			buttonConfig: 'icon',
 			text: Messages.SORT_QUESTIONS,
-			imageCls: 'icon-sort thm-green',
+			imageCls: 'icon-renew thm-green',
 			cls: 'actionButton',
 			scope: this,
 			handler: function () {
 				var me = this;
-				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-				sTP.animateActiveItem(sTP.sortQuestionsPanel, 'slide');
+				alert('New Page here.');
 			}
 		});
 		
@@ -389,4 +387,4 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			this.deleteAnswersButton.setHidden(hasAnswers.length === 0);
 		}, this));
 	}
-});
+}); 
