@@ -189,7 +189,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		this.sortQuestionsButton = Ext.create('ARSnova.view.MatrixButton', {
 			hidden: true,
 			buttonConfig: 'icon',
-			text: Messages.DELETE_ANSWERS,
+			text: Messages.SORT_QUESTIONS,
 			imageCls: 'icon-renew thm-green',
 			cls: 'actionButton',
 			scope: this,
