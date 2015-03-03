@@ -24,7 +24,7 @@ module.exports = function (grunt) {
 			server: {
 				options: {
 					base: buildPath + "/<%= senchaEnv %>/ARSnova",
-					hostname: "localhost",
+					hostname: "<%= hostname %>",
 					port: 8081,
 					useAvailablePort: true,
 					open: true,
@@ -146,9 +146,10 @@ module.exports = function (grunt) {
 		grunt.task.run("shell:build");
 	});
 
-	grunt.registerTask("run", function (env) {
+	grunt.registerTask("run", function (env, host) {
 		/* use dev env by default for run task */
 		setSenchaEnv(env ? env : "dev");
+		grunt.config("hostname", host || "localhost");
 		grunt.util.spawn({
 			cmd: "sencha",
 			args: ["app", "watch", "-e", grunt.config("senchaEnv")],
