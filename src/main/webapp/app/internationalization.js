@@ -525,6 +525,7 @@ switch (lang) {
 			BROWSER_INFO: "Browser-Informationen",
 			ARSNOVA_RELOAD: "ARSnova neu laden",
 			VOTINGS: "Abstimmungen",
+			SESSION_OWNERS: "Session-Inhaber",
 
 			/* credits */
 			HMWK: "HMWK",
@@ -1036,6 +1037,7 @@ switch (lang) {
 			BROWSER_INFO: "Browser information",
 			ARSNOVA_RELOAD: "Reload ARSnova",
 			VOTINGS: "Votings",
+			SESSION_OWNERS: "Session owners",
 
 			/* credits */
 			HMWK: "HMWK",
