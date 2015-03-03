@@ -42,7 +42,8 @@ Ext.require([
 	'Ext.chart.CartesianChart',
 	'Ext.SegmentedButton',
 	'Ext.data.JsonStore',
-	'Ext.device.Device'
+	'Ext.device.Device',
+	'Ext.plugin.SortableList'
 ]);
 
 Ext.application({
