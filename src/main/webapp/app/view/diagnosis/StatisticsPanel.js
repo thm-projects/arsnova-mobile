@@ -110,6 +110,9 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 					itemId: 'statisticsActiveUsers',
 					text: 'Users online'
 				}, {
+					itemId: 'statisticsCreators',
+					text: Messages.SESSION_OWNERS
+				}, {
 					itemId: 'statisticsSessions',
 					text: Messages.SESSIONS
 				}, {
@@ -153,12 +156,13 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 
 	setNumbers: function () {
 		if (this.statistics != null) {
-			this.formpanel.getComponent('statisticsActiveUsers').config.setInnerValue(this.statistics.activeUsers);
-			this.formpanel.getComponent('statisticsSessions').config.setInnerValue(this.statistics.sessions);
-			this.formpanel.getComponent('statisticsLectureQuestions').config.setInnerValue(this.statistics.lectureQuestions);
-			this.formpanel.getComponent('statisticsPreparationQuestions').config.setInnerValue(this.statistics.preparationQuestions);
-			this.formpanel.getComponent('statisticsInterposedQuestions').config.setInnerValue(this.statistics.interposedQuestions);
-			this.formpanel.getComponent('statisticsAnswers').config.setInnerValue(this.statistics.answers);
+			this.formpanel.getComponent('statisticsSessions').config.setInnerValue(this.formatNumber(this.statistics.sessions));
+			this.formpanel.getComponent('statisticsActiveUsers').config.setInnerValue(this.formatNumber(this.statistics.activeUsers));
+			this.formpanel.getComponent('statisticsCreators').config.setInnerValue(this.formatNumber(this.statistics.creators));
+			this.formpanel.getComponent('statisticsLectureQuestions').config.setInnerValue(this.formatNumber(this.statistics.lectureQuestions));
+			this.formpanel.getComponent('statisticsPreparationQuestions').config.setInnerValue(this.formatNumber(this.statistics.preparationQuestions));
+			this.formpanel.getComponent('statisticsInterposedQuestions').config.setInnerValue(this.formatNumber(this.statistics.interposedQuestions));
+			this.formpanel.getComponent('statisticsAnswers').config.setInnerValue(this.formatNumber(this.statistics.answers));
 		}
 	},
 
@@ -190,5 +194,11 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK);
 		this.statisticsStore.clearData();
 		this.getStatistics().then(hideLoadMask, hideLoadMask); // hide mask on success and on error
+	},
+
+	// http://stackoverflow.com/a/2901298
+	formatNumber: function (x) {
+		var separator = moment.lang() === "en" ? "," : ".";
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator);
 	}
 });
