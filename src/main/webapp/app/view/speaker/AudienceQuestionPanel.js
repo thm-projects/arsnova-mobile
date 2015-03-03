@@ -22,7 +22,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	requires: [
 		'ARSnova.view.Caption',
 		'ARSnova.model.Question',
-		'ARSnova.view.speaker.MultiQuestionStatusButton'
+		'ARSnova.view.speaker.MultiQuestionStatusButton',
+		'ARSnova.view.speaker.SortQuestionsPanel'
 	],
 
 	config: {
@@ -190,12 +191,13 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			hidden: true,
 			buttonConfig: 'icon',
 			text: Messages.SORT_QUESTIONS,
-			imageCls: 'icon-renew thm-green',
+			imageCls: 'icon-sort thm-green',
 			cls: 'actionButton',
 			scope: this,
 			handler: function () {
 				var me = this;
-				alert('New Page here.');
+				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+				sTP.animateActiveItem(sTP.sortQuestionsPanel, 'slide');
 			}
 		});
 		

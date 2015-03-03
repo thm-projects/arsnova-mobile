@@ -129,8 +129,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			ui: 'back',
 			handler: function () {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-				sTP.inClassPanel.updateAudienceQuestionBadge();
-				sTP.animateActiveItem(sTP.inClassPanel, {
+				sTP.animateActiveItem(sTP.audienceQuestionPanel, {
 					type: 'slide',
 					direction: 'right',
 					duration: 700
