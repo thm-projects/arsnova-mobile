@@ -110,20 +110,20 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 					itemId: 'statisticsActiveUsers',
 					text: 'Users online'
 				}, {
-					itemId: 'statisticsOpenSessions',
-					text: Messages.OPEN_SESSIONS
+					itemId: 'statisticsSessions',
+					text: Messages.SESSIONS
 				}, {
-					itemId: 'statisticsClosedSessions',
-					text: Messages.CLOSED_SESSIONS
+					itemId: 'statisticsLectureQuestions',
+					text: Messages.LECTURE_QUESTIONS_LONG
 				}, {
-					itemId: 'statisticsQuestions',
-					text: Messages.QUESTIONS
-				}, {
-					itemId: 'statisticsAnswers',
-					text: Messages.ANSWERS
+					itemId: 'statisticsPreparationQuestions',
+					text: Messages.PREPARATION_QUESTIONS_LONG
 				}, {
 					itemId: 'statisticsInterposedQuestions',
 					text: Messages.QUESTIONS_FROM_STUDENTS
+				}, {
+					itemId: 'statisticsAnswers',
+					text: Messages.VOTINGS
 				}]
 		});
 
@@ -154,11 +154,11 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 	setNumbers: function () {
 		if (this.statistics != null) {
 			this.formpanel.getComponent('statisticsActiveUsers').config.setInnerValue(this.statistics.activeUsers);
-			this.formpanel.getComponent('statisticsOpenSessions').config.setInnerValue(this.statistics.openSessions);
-			this.formpanel.getComponent('statisticsClosedSessions').config.setInnerValue(this.statistics.closedSessions);
-			this.formpanel.getComponent('statisticsQuestions').config.setInnerValue(this.statistics.questions);
-			this.formpanel.getComponent('statisticsAnswers').config.setInnerValue(this.statistics.answers);
+			this.formpanel.getComponent('statisticsSessions').config.setInnerValue(this.statistics.sessions);
+			this.formpanel.getComponent('statisticsLectureQuestions').config.setInnerValue(this.statistics.lectureQuestions);
+			this.formpanel.getComponent('statisticsPreparationQuestions').config.setInnerValue(this.statistics.preparationQuestions);
 			this.formpanel.getComponent('statisticsInterposedQuestions').config.setInnerValue(this.statistics.interposedQuestions);
+			this.formpanel.getComponent('statisticsAnswers').config.setInnerValue(this.statistics.answers);
 		}
 	},
 
