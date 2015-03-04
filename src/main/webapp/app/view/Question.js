@@ -400,7 +400,9 @@ Ext.define('ARSnova.view.Question', {
 					self.getUserAnswer().then(function (answer) {
 						var answerObj = self.questionObj.possibleAnswers[0];
 						answer.set('answerText', answerObj.text);
-						!self.viewOnly ? saveAnswer(answer) : Ext.emptyFn();
+						if (!self.viewOnly) {
+							saveAnswer(answer);
+						}
 					});
 				} else {
 					this.answerList.hide(true);
@@ -546,6 +548,7 @@ Ext.define('ARSnova.view.Question', {
 				break;
 			case "flashcard":
 				msgAppendix = msgAppendix.length ? "" : "_SHORT";
+				/* fall through */
 			default:
 				message = this.questionObj.questionType.toUpperCase();
 		}
@@ -586,8 +589,9 @@ Ext.define('ARSnova.view.Question', {
 	 * function to set the users answers after setting the last answer.
 	 */
 	setGridAnswer: function (answerString) {
-		if (answerString === undefined)
+		if (answerString === undefined) {
 			return;
+		}
 
 
 		var grid = this.grid;

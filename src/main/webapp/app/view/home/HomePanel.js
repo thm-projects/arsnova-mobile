@@ -241,7 +241,9 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	},
 
 	loadVisitedSessions: function () {
-		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) return;
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			return;
+		}
 		var me = this;
 		var promise = new RSVP.Promise();
 
@@ -274,7 +276,9 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	},
 
 	loadMySessions: function () {
-		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) return;
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			return;
+		}
 		var me = this;
 		var promise = new RSVP.Promise();
 
@@ -317,6 +321,13 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			form.removeAll();
 			form.show();
 
+			var buttonHandler = function (options) {
+				var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
+				ARSnova.app.getController('Sessions').login({
+					keyword: options.config.sessionObj.keyword
+				});
+				hideLoadMask();
+			};
 			for (var i = 0; i < sessions.length; i++) {
 				var session = sessions[i];
 
@@ -343,13 +354,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					action: 'showDetails',
 					badgeCls: 'badgeicon',
 					sessionObj: session,
-					handler: function (options) {
-						var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
-						ARSnova.app.getController('Sessions').login({
-							keyword: options.config.sessionObj.keyword
-						});
-						hideLoadMask();
-					}
+					handler: buttonHandler
 				});
 				sessionButton.setBadge([{badgeText: session.numUnanswered}]);
 				form.addEntry(sessionButton);

@@ -247,7 +247,9 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				if (!el.answerText) {
 					me.abstentionLabel.getInnerItems()[0].setHtml(Messages.ABSTENTIONS + ": " + el.abstentionCount);
 
-					if (el.abstentionCount > 0) me.abstentionLabel.show();
+					if (el.abstentionCount > 0) {
+						me.abstentionLabel.show();
+					}
 					continue;
 				}
 

@@ -184,6 +184,11 @@ Ext.define('ARSnova.WebSocket', {
 		this.socket.emit("setLearningProgressType", data);
 	},
 
+	setFeedback: function (data) {
+		console.debug("Socket.IO.emit: setFeedback", data);
+		this.socket.emit("setFeedback", data);
+	},
+
 	doAddListener: function (name, fn, scope, options, order) {
 		var result = this.callParent(arguments);
 		if (this.memoization.hasOwnProperty(name)) {

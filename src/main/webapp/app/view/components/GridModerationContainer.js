@@ -110,22 +110,29 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	 * generates the statistic output.
 	 */
 	generateStatisticOutput: function (tilesToFill, colorTiles, displayType, weakenSourceImage) {
+		var key, row, column;
 		// clear canvas
-		weakenSourceImage ? this.redrawWithAlpha(0.2, false) : this.redrawWithAlpha(1, false);
+		if (weakenSourceImage) {
+			this.redrawWithAlpha(0.2, false);
+		} else {
+			this.redrawWithAlpha(1, false);
+		}
 
 		// count answers
 		var totalAnswers = 0;
-		for (var key in tilesToFill) {
-			totalAnswers += tilesToFill[key];
+		for (key in tilesToFill) {
+			if (tilesToFill.hasOwnProperty(key)) {
+				totalAnswers += tilesToFill[key];
+			}
 		}
 
 		// pre-iterate through answers to get min and max value, used to define the alpha value
 		// TODO: find a more elagant way than iterating twice through all tiles.
 		var maxVotes = 0;
 		var minVotes = 0;
-		for (var row = 0; row < this.getGridSizeX(); row++) {
-			for (var column = 0; column < this.getGridSizeY(); column++) {
-				var key = row + ";" + column;
+		for (row = 0; row < this.getGridSizeX(); row++) {
+			for (column = 0; column < this.getGridSizeY(); column++) {
+				key = row + ";" + column;
 				if (typeof tilesToFill[key] !== "undefined") {
 					if (tilesToFill[key] > maxVotes) {
 						maxVotes = tilesToFill[key];
@@ -138,9 +145,9 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 			}
 		}
 
-		for (var row = 0; row < this.getGridSizeX(); row++) {
-			for (var column = 0; column < this.getGridSizeY(); column++) {
-				var key = row + ";" + column;
+		for (row = 0; row < this.getGridSizeX(); row++) {
+			for (column = 0; column < this.getGridSizeY(); column++) {
+				key = row + ";" + column;
 				var coords = this.getChosenFieldFromPossibleAnswer(key);
 
 				if (colorTiles) {
@@ -161,15 +168,17 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 					this.markField(coords[0], coords[1], this.getHighlightColor(), alpha);
 				} else {
 					// mark field
-					if (typeof tilesToFill[key] !== "undefined")
+					if (typeof tilesToFill[key] !== "undefined") {
 						this.markField(coords[0], coords[1], this.getHighlightColor(), 1.0);
+					}
 				}
 
+				var text;
 				if (displayType === Messages.GRID_LABEL_RELATIVE || displayType === Messages.GRID_LABEL_RELATIVE_SHORT) {
-					var text = (typeof tilesToFill[key] !== "undefined") ? Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) : "";
+					text = (typeof tilesToFill[key] !== "undefined") ? Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) : "";
 					this.addTextToField(coords[0], coords[1], text);
 				} else if (displayType === Messages.GRID_LABEL_ABSOLUTE || displayType === Messages.GRID_LABEL_ABSOLUTE_SHORT) {
-					var text = (typeof tilesToFill[key] !== "undefined") ? tilesToFill[key] : "";
+					text = (typeof tilesToFill[key] !== "undefined") ? tilesToFill[key] : "";
 					this.addTextToField(coords[0], coords[1], text);
 				}
 			}
@@ -218,8 +227,12 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	 * param config The configuration structure. Attributes have to match gridContainter attibutes.
 	 */
 	setConfig: function (config) {
-		if (typeof(config.name) !== "undefined") this.setName(config.name);
-		if (typeof(config.description) !== "undefined") {this.setDescription(config.description);}
+		if (typeof(config.name) !== "undefined") {
+			this.setName(config.name);
+		}
+		if (typeof(config.description) !== "undefined") {
+			this.setDescription(config.description);
+		}
 
 		this.callParent(arguments);
 	},
