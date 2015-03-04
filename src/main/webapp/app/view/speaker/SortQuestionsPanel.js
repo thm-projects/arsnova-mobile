@@ -42,6 +42,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	/* toolbar items */
 	toolbar: null,
 	backButton: null,
+	saveButton: null,
 
 	questions: null,
 
@@ -135,6 +136,19 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 				});
 			}
 		});
+		
+		this.saveButtonToolbar = Ext.create('Ext.Button', {
+			text: Messages.SAVE,
+			ui: 'confirm',
+			cls: 'saveQuestionButton',
+			style: 'width: 89px',
+			handler: function (button) {
+				this.saveHandler(button).then(function (response) {
+					ARSnova.app.getController('Questions').listQuestions();
+				});
+			},
+			scope: this
+		});
 
 		this.questionStatusButton = Ext.create('ARSnova.view.speaker.MultiQuestionStatusButton', {
 			hidden: true,
@@ -183,6 +197,44 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 				items: [this.questionListContainer]
 			},
 			this.caption
+		]);
+		
+		var me = this;
+		this.saveButton = Ext.create('Ext.Button', {
+			ui: 'confirm',
+			cls: 'saveQuestionButton',
+			text: Messages.SAVE,
+			style: 'margin-top: 70px',
+			handler: function (button) {
+				me.saveHandler(button).then(function () {
+					var theNotificationBox = {};
+					theNotificationBox = Ext.create('Ext.Panel', {
+						cls: 'notificationBox',
+						name: 'notificationBox',
+						showAnimation: 'pop',
+						modal: true,
+						centered: true,
+						width: 300,
+						styleHtmlContent: true,
+						styleHtmlCls: 'notificationBoxText',
+						html: Messages.SORT_SAVED
+					});
+					Ext.Viewport.add(theNotificationBox);
+					theNotificationBox.show();
+
+					/* Workaround for Chrome 34+ */
+					Ext.defer(function () {
+						theNotificationBox.destroy();
+					}, 3000);
+				}).then(Ext.bind(function (response) {
+					me.getScrollable().getScroller().scrollTo(0, 0, true);
+				}, me));
+			},
+			scope: me
+		});
+		
+		this.add([
+			this.saveButton
 		]);
 
 		this.on('activate', this.onActivate);
@@ -270,5 +322,9 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			}, this);
 			this.deleteAnswersButton.setHidden(hasAnswers.length === 0);
 		}, this));
+	},
+	
+	saveHandler: function () {
+		return true;
 	}
 }); 
