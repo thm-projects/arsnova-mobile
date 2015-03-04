@@ -185,7 +185,9 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			ui: 'light',
 			docked: 'top',
 			items: [
-				this.backButton
+				this.backButton,
+				{xtype: 'spacer'},
+				this.saveButtonToolbar
 			]
 		});
 
