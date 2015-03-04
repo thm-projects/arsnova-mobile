@@ -191,7 +191,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			hidden: true,
 			buttonConfig: 'icon',
 			text: Messages.SORT_QUESTIONS,
-			imageCls: 'icon-sort thm-green',
+			imageCls: 'icon-sort thm-grey',
 			cls: 'actionButton',
 			scope: this,
 			handler: function () {
@@ -200,7 +200,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				sTP.animateActiveItem(sTP.sortQuestionsPanel, 'slide');
 			}
 		});
-		
+
 		this.deleteAnswersButton = Ext.create('ARSnova.view.MatrixButton', {
 			hidden: true,
 			buttonConfig: 'icon',
