@@ -44,7 +44,6 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	backButton: null,
 
 	questions: null,
-	newQuestionButton: null,
 
 	questionStore: null,
 	questionEntries: [],
@@ -52,7 +51,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	updateAnswerCount: {
 		name: 'refresh the number of answers inside the badges',
 		run: function () {
-			var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.audienceQuestionPanel;
+			var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
 			panel.handleAnswerCount();
 		},
 		interval: 10000 // 10 seconds
@@ -143,23 +142,6 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			questionStore: this.questionList.getStore()
 		});
 
-		this.showcaseActionButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.SHOWCASE_MODE,
-			buttonConfig: 'icon',
-			cls: upperActionButtonCls,
-			imageCls: 'icon-presenter thm-grey',
-			handler: this.showcaseHandler,
-			hidden: true
-		});
-
-		this.newQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.NEW_QUESTION,
-			buttonConfig: 'icon',
-			cls: upperActionButtonCls,
-			imageCls: 'icon-question thm-green',
-			handler: this.newQuestionHandler
-		});
-
 		this.actionButtonPanel = Ext.create('Ext.Panel', {
 			layout: {
 				type: 'hbox',
@@ -169,12 +151,9 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			style: 'margin-top: 30px',
 
 			items: [
-				this.questionStatusButton,
-				this.showcaseActionButton,
-				this.newQuestionButton
 			]
 		});
-
+		
 		this.caption = Ext.create('ARSnova.view.Caption', {
 			translation: {
 				active: Messages.OPEN_QUESTION,
@@ -185,76 +164,6 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			hidden: true
 		});
 		this.caption.connectToStore(this.questionStore);
-
-		this.sortQuestionsButton = Ext.create('ARSnova.view.MatrixButton', {
-			hidden: true,
-			buttonConfig: 'icon',
-			text: Messages.SORT_QUESTIONS,
-			imageCls: 'icon-renew thm-green',
-			cls: 'actionButton',
-			scope: this,
-			handler: function () {
-				var me = this;
-				alert('New Page here.');
-			}
-		});
-		
-		this.deleteAnswersButton = Ext.create('ARSnova.view.MatrixButton', {
-			hidden: true,
-			buttonConfig: 'icon',
-			text: Messages.DELETE_ANSWERS,
-			imageCls: 'icon-renew thm-orange',
-			cls: 'actionButton',
-			scope: this,
-			handler: function () {
-				var me = this;
-				Ext.Msg.confirm(Messages.DELETE_ALL_ANSWERS_REQUEST, Messages.ALL_QUESTIONS_REMAIN, function (answer) {
-					if (answer === 'yes') {
-						me.getController().deleteAllQuestionsAnswers({
-							success: Ext.bind(this.handleAnswerCount, this),
-							failure: Ext.emptyFn
-						});
-					}
-				}, this);
-			}
-		});
-
-		this.deleteQuestionsButton = Ext.create('ARSnova.view.MatrixButton', {
-			hidden: true,
-			buttonConfig: 'icon',
-			text: Messages.DELETE_ALL_QUESTIONS,
-			imageCls: 'icon-close thm-red',
-			cls: 'actionButton',
-			scope: this,
-			handler: function () {
-				var msg = Messages.ARE_YOU_SURE;
-				msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
-				Ext.Msg.confirm(Messages.DELETE_QUESTIONS_TITLE, msg, function (answer) {
-					if (answer === 'yes') {
-						this.getController().destroyAll(sessionStorage.getItem("keyword"), {
-							success: Ext.bind(this.onActivate, this),
-							failure: function () {
-								console.log("could not delete the questions.");
-							}
-						});
-					}
-				}, this);
-			}
-		});
-
-		this.inClassActions = Ext.create('Ext.Panel', {
-			style: {marginTop: '20px'},
-			layout: {
-				type: 'hbox',
-				pack: 'center'
-			},
-
-			items: [
-				this.sortQuestionsButton,
-				this.deleteAnswersButton,
-				this.deleteQuestionsButton
-			]
-		});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.QUESTIONS,
@@ -273,8 +182,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 				scrollable: null,
 				items: [this.questionListContainer]
 			},
-			this.caption,
-			this.inClassActions
+			this.caption
 		]);
 
 		this.on('activate', this.onActivate);
@@ -303,30 +211,16 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 				this.caption.explainStatus(questions);
 				this.handleAnswerCount();
 
-				if (questions.length === 1) {
-					this.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE);
-					this.questionStatusButton.setSingleQuestionMode();
-				} else {
-					this.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE_PLURAL);
-					this.questionStatusButton.setMultiQuestionMode();
-				}
-
-				this.showcaseActionButton.show();
 				this.questionListContainer.show();
 				this.questionList.show();
 				this.questionStatusButton.checkInitialStatus();
 				this.questionStatusButton.show();
-				this.sortQuestionsButton.show();
-				this.deleteQuestionsButton.show();
 			}, this),
 			empty: Ext.bind(function () {
-				this.showcaseActionButton.hide();
 				this.questionListContainer.hide();
 				this.questionList.show();
 				this.caption.hide();
 				this.questionStatusButton.hide();
-				this.sortQuestionsButton.hide();
-				this.deleteQuestionsButton.hide();
 			}, this),
 			failure: function (response) {
 				console.log('server-side error questionModel.getSkillQuestions');
@@ -337,16 +231,6 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	onDeactivate: function () {
 		this.questionList.hide();
 		ARSnova.app.taskManager.stop(this.updateAnswerCount);
-	},
-
-	newQuestionHandler: function () {
-		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-		sTP.animateActiveItem(sTP.newQuestionPanel, 'slide');
-	},
-
-	showcaseHandler: function () {
-		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-		sTP.animateActiveItem(sTP.showcaseQuestionPanel, 'slide');
 	},
 
 	getQuestionAnswers: function () {
