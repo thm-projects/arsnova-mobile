@@ -785,7 +785,7 @@
 					'A question is treated as corretly answered if their respective maximum value is scored.',
 					'If an incorrect answer option is chosen, negative points are scored and the maximum value cannot be reached anymore.',
 					'If a student scores 10, 20, and 20 points, this will mean the last question was not answered correctly.',
-					'The individual learning progress is calculated using this formula: \\\\[ l_{\\text{Stud}} = \\frac{\\text{Number of correcht answers}}{\\text{Number of questions}} = \\frac{2}{3} \\hat{=}\\, 67\\%\\\\]\n',
+					'The individual learning progress is calculated using this formula: \\\\[ l_{\\text{Stud}} = \\frac{\\text{Number of correct answers}}{\\text{Number of questions}} = \\frac{2}{3} \\hat{=}\\, 67\\%\\\\]\n',
 					'For the whole course, the progress is calculated using the total number of students: \\\\[l_{\\text{Course}} = \\frac{\\text{Number of correct answers of all students}}{\\text{Number of questions} \\cdot \\text{Number of students}}\\\\]'
 				].join('\n'),
 				SCORE_BASED_PROGRESS_EXPLANATION: [
