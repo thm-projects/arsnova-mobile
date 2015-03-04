@@ -119,6 +119,9 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 					itemId: 'statisticsLectureQuestions',
 					text: Messages.LECTURE_QUESTIONS_LONG
 				}, {
+					itemId: 'statisticsConceptQuestions',
+					text: Messages.PEER_INSTRUCTION_QUESTIONS
+				}, {
 					itemId: 'statisticsPreparationQuestions',
 					text: Messages.PREPARATION_QUESTIONS_LONG
 				}, {
@@ -160,6 +163,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 			this.formpanel.getComponent('statisticsActiveUsers').config.setInnerValue(this.formatNumber(this.statistics.activeUsers));
 			this.formpanel.getComponent('statisticsCreators').config.setInnerValue(this.formatNumber(this.statistics.creators));
 			this.formpanel.getComponent('statisticsLectureQuestions').config.setInnerValue(this.formatNumber(this.statistics.lectureQuestions));
+			this.formpanel.getComponent('statisticsConceptQuestions').config.setInnerValue(this.formatNumber(this.statistics.conceptQuestions));
 			this.formpanel.getComponent('statisticsPreparationQuestions').config.setInnerValue(this.formatNumber(this.statistics.preparationQuestions));
 			this.formpanel.getComponent('statisticsInterposedQuestions').config.setInnerValue(this.formatNumber(this.statistics.interposedQuestions));
 			this.formpanel.getComponent('statisticsAnswers').config.setInnerValue(this.formatNumber(this.statistics.answers));

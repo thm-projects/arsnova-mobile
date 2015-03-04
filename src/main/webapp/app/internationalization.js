@@ -537,6 +537,7 @@ switch (lang) {
 			ARSNOVA_RELOAD: "ARSnova neu laden",
 			VOTINGS: "Abstimmungen",
 			SESSION_OWNERS: "Session-Inhaber",
+			PEER_INSTRUCTION_QUESTIONS: "Peer Instruction Konzeptfragen",
 
 			/* credits */
 			HMWK: "HMWK",
@@ -1060,6 +1061,7 @@ switch (lang) {
 			ARSNOVA_RELOAD: "Reload ARSnova",
 			VOTINGS: "Votings",
 			SESSION_OWNERS: "Session owners",
+			PEER_INSTRUCTION_QUESTIONS: "Peer Instruction questions",
 
 			/* credits */
 			HMWK: "HMWK",
