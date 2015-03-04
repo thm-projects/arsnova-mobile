@@ -23,7 +23,8 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	requires: [
 		'ARSnova.view.Caption',
 		'ARSnova.model.Question',
-		'ARSnova.view.speaker.MultiQuestionStatusButton'
+		'ARSnova.view.speaker.MultiQuestionStatusButton',
+		'ARSnova.controller.Questions'
 	],
 
 	config: {
@@ -34,7 +35,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			directionLock: true
 		},
 
-		controller: null
+		controller: ARSnova.app.getController('Questions')
 	},
 
 	monitorOrientation: true,
