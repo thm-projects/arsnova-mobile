@@ -174,14 +174,12 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 				if (typeof(config) !== "undefined") {
 					config.forEach(function (entry) {
 						var template = Ext.create('ARSnova.view.components.GridModerationContainer');
-						switch (lang) {
-							case 'en':case 'en-en':case 'en-us':case 'en-gb':
-								entry.name = entry.name.en;
-								entry.description = entry.description.en;
-								break;
-							default:
-								entry.name = entry.name.de;
-								entry.description = entry.description.de;
+						if (moment.lang() === "en") {
+							entry.name = entry.name.en;
+							entry.description = entry.description.en;
+						} else {
+							entry.name = entry.name.de;
+							entry.description = entry.description.de;
 						}
 						template.setConfig(entry);
 						templates.push(template);
