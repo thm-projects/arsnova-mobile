@@ -63,7 +63,6 @@ Ext.define("ARSnova.controller.Questions", {
 	listQuestions: function () {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.newQuestionPanel.setVariant('lecture');
-		sTP.sortQuestionsPanel.setController(this);
 		sTP.audienceQuestionPanel.setController(this);
 		sTP.showcaseQuestionPanel.setController(this);
 		sTP.showcaseQuestionPanel.setLectureMode();
@@ -139,7 +138,8 @@ Ext.define("ARSnova.controller.Questions", {
 			showStatistic: 1,
 			scaleFactor: options.scaleFactor,
 			gridScaleFactor: options.gridScaleFactor,
-			timestamp: options.timestamp
+			timestamp: options.timestamp,
+			sequenceNr: options.sequenceNr
 		});
 		question.set('_id', undefined);
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
