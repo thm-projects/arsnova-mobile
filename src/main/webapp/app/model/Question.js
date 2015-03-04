@@ -69,7 +69,8 @@ Ext.define('ARSnova.model.Question', {
 			'numberOfDots',
 			'gridType',
 			'scaleFactor',
-			'gridScaleFactor'
+			'gridScaleFactor',
+			'sequenceNr'
 		],
 
 		validations: [
