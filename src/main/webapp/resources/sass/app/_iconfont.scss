@@ -23,6 +23,12 @@
  'arsnova/arsnova.svg', svg
 ));
 
+@include icon-font('fontawesome', inline-font-files(
+				'fontawesome/fontawesome-webfont.woff', woff,
+				'fontawesome/fontawesome-webfont.ttf', truetype,
+				'fontawesome/fontawesome-webfont.svg', svg
+));
+
 @include icon("icon-ars" , "\61", "arsnova");
 @include icon("icon-radar" , "\72", "arsnova");
 @include icon("icon-nova" , "\6e", "arsnova");
@@ -61,7 +67,7 @@
 @include icon("icon-copy" , "\e92c", "arsnova");
 @include icon("icon-sign-in" , "\e604", "arsnova");
 @include icon("icon-qrcode" , "\e938", "arsnova");
-@include icon("icon-sort" , "\f0dc", "arsnova");
+@include icon("icon-sort" , "\f160", "fontawesome");
 
 @include icon("icon-check" , "3", "Pictos");
 @include icon('minus2');
