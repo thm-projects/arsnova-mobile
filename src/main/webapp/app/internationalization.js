@@ -1084,7 +1084,6 @@
 			break;
 	}
 
-	// make "lang" and "Messages" globally accessible
-	exports.lang = lang;
+	// make Messages" globally accessible
 	exports.Messages = Messages;
 })(window);
