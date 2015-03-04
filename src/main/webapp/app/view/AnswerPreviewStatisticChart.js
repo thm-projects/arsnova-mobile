@@ -127,7 +127,6 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 			baseCls: Ext.baseCSSPrefix + 'title',
 			style: ''
 		});
-		console.log(this.questionObj);
 		this.titlebar.setContent(this.questionObj.text, true, true);
 
 		this.abstentionGradient = Ext.create('Ext.draw.gradient.Linear', {
@@ -247,9 +246,10 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 						return {fill: me.abstentionGradient};
 					}
 
-					return rendererData = {
+					rendererData = {
 						fill: me.gradients[i % me.gradients.length]
 					};
+					return rendererData;
 				}
 			}]
 		});

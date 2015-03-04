@@ -56,10 +56,7 @@ Ext.define('ARSnova.model.Feedback', {
 	},
 
 	postFeedback: function (feedbackValue) {
-		/* TODO: Use abstraction layer? */
-		if (window.socket) {
-			socket.emit("setFeedback", {value: feedbackValue});
-		}
+		ARSnova.app.socket.setFeedback({value: feedbackValue});
 	},
 
 	getFeedback: function (sessionKeyword, callbacks) {

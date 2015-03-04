@@ -187,6 +187,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 					return alphabet[index];
 				};
 			case 'arabic':
+				/* fall through */
 			default:
 				return function (index) {
 					return index + 1;
@@ -242,7 +243,9 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 	initAnswerComponents: function (possibleAnswers) {
 		possibleAnswers.forEach(function (answer, index) {
 			this.answerComponents[index].setValue(answer.text);
-			if (answer.correct) this.answerComponents[index].check();
+			if (answer.correct) {
+				this.answerComponents[index].check();
+			}
 		}, this);
 	},
 

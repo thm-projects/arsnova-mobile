@@ -224,6 +224,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 					scope: this,
 					painted: function (list, eOpts) {
 						this.answerList.fireEvent("resizeList", list);
+						var me = this;
 
 						if (window.MathJax) {
 							MathJax.Hub.Queue(
