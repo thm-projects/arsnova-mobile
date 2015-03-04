@@ -476,7 +476,7 @@
 				EVALUATION_PLUS: "trifft eher zu",
 				EVALUATION_NEUTRAL: "weder noch",
 				EVALUATION_MINUS: "trifft eher nicht zu",
-				EVALUATION_MINUSMINUS: "trifft nicht zu",
+				EVALUATION_MINUSMINUS: "trifft gar nicht zu",
 
 				/* action buttons - <br/> forces line break for consistent look */
 				CREATE_NEW_SESSION: "Neue Session<br/>anlegen",
