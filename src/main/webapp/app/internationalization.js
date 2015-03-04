@@ -496,7 +496,7 @@ switch (lang) {
 			STOP_SESSION: "Zugang<br/>sperren",
 			MARK_CORRECT_ANSWER: "Richtig<br/>markieren",
 			DELETE_QUESTION: "Frage<br/>löschen",
-			SORT_QUESTIONS: "Sortierung<br/>bearbeiten",
+			SORT_QUESTIONS: "Fragen<br/>sortieren",
 			DELETE_ALL_QUESTIONS: "Fragen<br/>löschen",
 			DELETE_ANSWERS: "Antworten<br/>löschen",
 			DELETE_SESSION: "Session<br/>löschen",
