@@ -32,7 +32,9 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
-		}
+		},
+		
+		controller: null
 	},
 
 	monitorOrientation: true,
