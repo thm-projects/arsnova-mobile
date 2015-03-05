@@ -140,7 +140,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		});
 		
 		this.sortAlphabetButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.SORT_DEFAULT,
+			text: Messages.SORT_ALPHABET,
 			cls: 'actionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-sort-alpha thm-grey',
@@ -148,7 +148,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		});
 		
 		this.sortTimeButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.SORT_DEFAULT,
+			text: Messages.SORT_TIME,
 			cls: 'actionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-sort-alpha thm-grey',
@@ -156,7 +156,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		});
 		
 		this.sortRandomButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.SORT_DEFAULT,
+			text: Messages.SORT_RANDOM,
 			cls: 'actionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-sort-alpha thm-grey',
