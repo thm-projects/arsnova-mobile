@@ -48,15 +48,6 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	questionStore: null,
 	questionEntries: [],
 
-	updateAnswerCount: {
-		name: 'refresh the number of answers inside the badges',
-		run: function () {
-			var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
-			panel.handleAnswerCount();
-		},
-		interval: 10000 // 10 seconds
-	},
-
 	initialize: function () {
 		this.callParent(arguments);
 
@@ -87,8 +78,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			itemCls: 'forwardListButton',
 			itemTpl: '<tpl if="active"><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
 				'<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
-				'<div class="x-button x-hasbadge audiencePanelListBadge">' +
-				'<tpl if="numAnswers &gt; 0"><span class="answersBadgeIcon badgefixed">{numAnswers}</span></tpl></div>',
+				'<div class="x-button x-hasbadge audiencePanelListBadge"></div>',
 			grouped: true,
 			store: this.questionStore,
 
@@ -216,7 +206,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		this.saveButton = Ext.create('Ext.Button', {
 			ui: 'confirm',
 			cls: 'saveQuestionButton',
-			text: Messages.SAVE,
+			text: Messages.SORT_SAVE_AND_CONTINUE,
 			style: 'margin-top: 70px',
 			handler: function (button) {
 				me.saveHandler(button).then(function () {
@@ -263,9 +253,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			 */
 			return;
 		}
-		ARSnova.app.taskManager.start(this.updateAnswerCount);
 		this.questionStore.removeAll();
-
 		this.questionEntries = [];
 
 		this.getController().getQuestions(sessionStorage.getItem('keyword'), {
@@ -292,48 +280,8 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 
 	onDeactivate: function () {
 		this.questionList.hide();
-		ARSnova.app.taskManager.stop(this.updateAnswerCount);
 	},
 
-	getQuestionAnswers: function () {
-		var me = this;
-		var getAnswerCount = function (questionRecord, promise) {
-			me.getController().countAnswersByQuestion(sessionStorage.getItem("keyword"), questionRecord.get('_id'), {
-				success: function (response) {
-					var numAnswers = Ext.decode(response.responseText);
-					questionRecord.set('numAnswers', numAnswers);
-					promise.resolve({
-						hasAnswers: numAnswers > 0
-					});
-				},
-				failure: function () {
-					console.log("Could not update answer count");
-					promise.reject();
-				}
-			});
-		};
-
-		var promises = [];
-		this.questionStore.each(function (questionRecord) {
-			var promise = new RSVP.Promise();
-			getAnswerCount(questionRecord, promise);
-			promises.push(promise);
-		}, this);
-
-		return promises;
-	},
-
-	handleAnswerCount: function () {
-		RSVP.all(this.getQuestionAnswers())
-		.then(Ext.bind(this.caption.explainBadges, this.caption))
-		.then(Ext.bind(function (badgeInfos) {
-			var hasAnswers = badgeInfos.filter(function (item) {
-				return item.hasAnswers;
-			}, this);
-			this.deleteAnswersButton.setHidden(hasAnswers.length === 0);
-		}, this));
-	},
-	
 	saveHandler: function (button) {
 	
 		button.disable();

@@ -151,7 +151,6 @@ switch (lang) {
 			QUESTION_SUBJECT: "Thema",
 			QUESTION_SUBJECT_PLACEHOLDER: "max. 50 Zeichen",
 			QUESTION_SAVED: 'Ihre Frage wurde gespeichert',
-			SORT_SAVED: "Sortierung wurde gespeichert.",
 			NOTIFICATION: "Hinweis",
 			TRANSMISSION_ERROR: "Die Übermittlung der Frage war leider nicht erfolgreich",
 			QUESTION_CREATION_ERROR: "Das Erstellen der Frage war leider nicht erfolgreich",
@@ -228,6 +227,9 @@ switch (lang) {
 			NO_ANSWER_MARKED_CORRECT_MESSAGE: "Sie haben keine Antwortoption als richtig markiert.",
 			NO_ANSWER_MARKED_CORRECT_OPTION_YES: "Trotzdem speichern",
 			NO_ANSWER_MARKED_CORRECT_OPTION_NO: "Abbrechen",
+			
+			SORT_SAVED: "Sortierung wurde gespeichert.",
+			SORT_SAVE_AND_CONTINUE: "Speichern und fortfahren",
 
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
@@ -663,7 +665,6 @@ switch (lang) {
 			QUESTION_SUBJECT: "Subject",
 			QUESTION_SUBJECT_PLACEHOLDER: "max. 50 characters",
 			QUESTION_SAVED: 'Your question has been saved.',
-			SORT_SAVED: "Your sort order has been saved.",
 			NOTIFICATION: "Notice",
 			TRANSMISSION_ERROR: "The question's transmission was unsuccessful.",
 			QUESTION_CREATION_ERROR: "Failed creating the question.",
@@ -739,6 +740,9 @@ switch (lang) {
 			NO_ANSWER_MARKED_CORRECT_OPTION_YES: "Save anyway",
 			NO_ANSWER_MARKED_CORRECT_OPTION_NO: "Abort",
 
+			SORT_SAVED: "Your sort order has been saved.",
+			SORT_SAVE_AND_CONTINUE: "Save and continue",
+			
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
 			QUESTIONS_FROM_STUDENTS: "Student questions",
