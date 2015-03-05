@@ -326,7 +326,26 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		}, this));
 	},
 	
-	saveHandler: function () {
-		return true;
+	saveHandler: function (button) {
+	
+		button.disable();
+
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
+		var values = {};
+		
+		var promise = panel.dispatch(values, button);
+		promise.then(function () {
+			// animated scrolling to top
+			panel.getScrollable().getScroller().scrollTo(0, 0, true);
+		});
+		return promise;
+	},
+	
+	
+	dispatch: function (values, button) {
+		var promise = new RSVP.Promise();
+		promise.resolve(true);
+		button.enable();
+		return promise;
 	}
 }); 
