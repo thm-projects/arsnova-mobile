@@ -151,7 +151,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			text: Messages.SORT_TIME,
 			cls: 'actionButton',
 			buttonConfig: 'icon',
-			imageCls: 'icon-sort-alpha thm-grey',
+			imageCls: 'icon-sort-time thm-grey',
 			handler: this.sortTimeHandler
 		});
 		
@@ -159,7 +159,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			text: Messages.SORT_RANDOM,
 			cls: 'actionButton',
 			buttonConfig: 'icon',
-			imageCls: 'icon-sort-alpha thm-grey',
+			imageCls: 'icon-sort-random thm-grey',
 			handler: this.sortRandomHandler
 		});
 
