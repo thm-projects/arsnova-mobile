@@ -22,8 +22,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 
 	requires: [
 		'ARSnova.view.Caption',
-		'ARSnova.model.Question',
-		'ARSnova.view.speaker.MultiQuestionStatusButton'
+		'ARSnova.model.Question'
 	],
 
 	config: {
@@ -149,11 +148,21 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			},
 			scope: this
 		});
+		
+		this.sortDefaultButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: Messages.SORT_DEFAULT,
+			cls: 'actionButton',
+			buttonConfig: 'icon',
+			imageCls: 'icon-sort-alpha thm-grey',
+			handler: this.sortDefaultHandler
+		});
 
-		this.questionStatusButton = Ext.create('ARSnova.view.speaker.MultiQuestionStatusButton', {
-			hidden: true,
-			cls: upperActionButtonCls,
-			questionStore: this.questionList.getStore()
+		this.sortRevertButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: Messages.SORT_REVERT,
+			cls: 'actionButton',
+			buttonConfig: 'icon',
+			imageCls: 'icon-undo thm-orange',
+			handler: this.sortRevertHandler
 		});
 
 		this.actionButtonPanel = Ext.create('Ext.Panel', {
@@ -162,9 +171,11 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 				pack: 'center'
 			},
 
-			style: 'margin-top: 30px',
+			style: 'margin: 15px',
 
 			items: [
+				this.showcaseActionButton,
+				this.createAdHocQuestionButton
 			]
 		});
 		
@@ -267,14 +278,11 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 
 				this.questionListContainer.show();
 				this.questionList.show();
-				this.questionStatusButton.checkInitialStatus();
-				this.questionStatusButton.show();
 			}, this),
 			empty: Ext.bind(function () {
 				this.questionListContainer.hide();
 				this.questionList.show();
 				this.caption.hide();
-				this.questionStatusButton.hide();
 			}, this),
 			failure: function (response) {
 				console.log('server-side error questionModel.getSkillQuestions');
@@ -341,11 +349,18 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		return promise;
 	},
 	
-	
 	dispatch: function (values, button) {
 		var promise = new RSVP.Promise();
 		promise.resolve(true);
 		button.enable();
 		return promise;
+	},
+	
+	sortDefaultHandler: function (button) {
+	
+	},
+	
+	sortReverthandler: function (button) {
+	
 	}
 }); 
