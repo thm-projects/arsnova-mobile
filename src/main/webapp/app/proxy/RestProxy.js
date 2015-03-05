@@ -815,7 +815,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	
 	sortQuestions: function (questionIDs, callbacks) {
 		this.arsjax.request({
-			url: "sort/",
+			url: "lecturerquestion/sort",
 			method: "POST",
 			jsonData: questionIDs,
 			success: callbacks.success,

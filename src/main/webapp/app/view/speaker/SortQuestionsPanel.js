@@ -286,7 +286,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		button.disable();
 
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
-		var values = {1,2,3,4,5};
+		var values = [1,2,3,4,5];
 		
 		var promise = panel.dispatch(values, button);
 		promise.then(function () {
