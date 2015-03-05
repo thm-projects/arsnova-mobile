@@ -65,7 +65,8 @@ Ext.define('ARSnova.model.Session', {
 		sessionActive: "arsnova/session/active",
 		sessionJoinAsSpeaker: "arsnova/session/join/speaker",
 		sessionJoinAsStudent: "arsnova/session/join/student",
-		sessionLeave: "arsnova/session/leave"
+		sessionLeave: "arsnova/session/leave",
+		learningProgressChange: "arsnova/session/learningprogress/change"
 	},
 
 	constructor: function () {
@@ -75,6 +76,10 @@ Ext.define('ARSnova.model.Session', {
 			this.sessionIsActive = active;
 
 			this.fireEvent(this.events.sessionActive, active);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.learningProgressChange, function () {
+			this.fireEvent(this.events.learningProgressChange);
 		}, this);
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.learningProgressType, this.setUserBasedProgressType, this);

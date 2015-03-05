@@ -266,6 +266,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		var inClassPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 		ARSnova.app.taskManager.start(inClassPanel.countFeedbackQuestionsTask);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
+			ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.learningProgressChange, this.learningProgressChange, this);
 			ARSnova.app.taskManager.start(inClassPanel.courseLearningProgressTask);
 		}
 	},
@@ -284,6 +285,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		var inClassPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 		ARSnova.app.taskManager.stop(inClassPanel.countFeedbackQuestionsTask);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
+			ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.learningProgressChange, this.learningProgressChange, this);
 			ARSnova.app.taskManager.stop(inClassPanel.courseLearningProgressTask);
 		}
 	},
@@ -388,5 +390,18 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				me.inClassButtons.remove(me.courseLearningProgressButton, false);
 			}
 		});
+	},
+
+	learningProgressChange: function () {
+		// Reload learning progress, but do it using a random delay.
+		// We do not want to initiate a DDoS if every user is trying to reload at the same time.
+		var min = 500;
+		var max = 2500;
+		// http://stackoverflow.com/a/1527820
+		var delay = Math.random() * (max - min) + min;
+		Ext.defer(function () {
+			// Reset run-time to enforce reload of learning progress
+			this.courseLearningProgressTask.taskRunTime = 0;
+		}, delay, this);
 	}
 });
