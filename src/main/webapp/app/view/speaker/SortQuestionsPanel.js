@@ -298,7 +298,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	
 	dispatch: function (values, button) {
 		var promise = new RSVP.Promise();
-		ARSnova.app.getController('Questions').sort(values, {
+		ARSnova.app.getController('Questions').sortQuestions(values, {
 			success: function (response, opts) {
 				promise.resolve(response);
 				button.enable();
