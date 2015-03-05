@@ -139,8 +139,7 @@ Ext.define("ARSnova.controller.Questions", {
 			showStatistic: 1,
 			scaleFactor: options.scaleFactor,
 			gridScaleFactor: options.gridScaleFactor,
-			timestamp: options.timestamp,
-			sequenceNr: options.sequenceNr
+			timestamp: options.timestamp
 		});
 		question.set('_id', undefined);
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
