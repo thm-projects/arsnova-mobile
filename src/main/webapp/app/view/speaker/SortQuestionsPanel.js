@@ -90,11 +90,6 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			listeners: {
 				scope: this,
 				itemtap: function (list, index, element) {
-				
-					if (element.isFirst) {
-						return;
-					}
-				
 					this.getController().details({
 						question: list.getStore().getAt(index).data
 					});
