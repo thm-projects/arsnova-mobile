@@ -286,7 +286,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		button.disable();
 
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
-		var values = {};
+		var values = {1,2,3,4,5};
 		
 		var promise = panel.dispatch(values, button);
 		promise.then(function () {
@@ -298,8 +298,17 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	
 	dispatch: function (values, button) {
 		var promise = new RSVP.Promise();
-		promise.resolve(true);
-		button.enable();
+		ARSnova.app.getController('Questions').sort(values, {
+			success: function (response, opts) {
+				promise.resolve(response);
+				button.enable();
+			},
+			failure: function (response, opts) {
+				Ext.Msg.alert(Messages.NOTICE, Messages.SORT_TRANSMISSION_ERROR);
+				promise.reject(response);
+				button.enable();
+			}
+		});
 		return promise;
 	},
 	
