@@ -75,7 +75,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 				backgroundColor: 'transparent'
 			},
 
-			itemCls: 'forwardListButton',
+			itemCls: 'standardListButton',
 			itemTpl: '<tpl if="active"><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
 				'<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
 				'<div class="x-button x-hasbadge audiencePanelListBadge"></div>',
