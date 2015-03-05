@@ -233,34 +233,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					listeners: {
 						toggle: function(container, button, pressed){
 							if(pressed && container.lastPressed !== button.getItemId()) {
-								me.modifyChart(button.getItemId());
-								container.lastPressed = button.getItemId();							
-//
-//								if(button.getItemId() > 1 && this.questionObj.piRound === 1) {
-//									Ext.Msg.show({
-//										title: Messages.PI,
-//										message: Messages.PI_NEW_ROUND,
-//										fn: function(buttonId) {
-//											if (buttonId === 'continue') {
-//
-//											} else {
-//												container.setPressedButtons([0]);
-//											}
-//										},
-//										buttons: [{
-//											text: Messages.CONTINUE, 
-//											itemId: 'continue', 
-//											ui: 'action'
-//										}, {
-//											text: Messages.ABORT,
-//											itemId: 'decline',
-//											ui: 'decline'
-//										}]
-//									});
-//								} else {
-//									this.modifyChart(button.getItemId());
-//									container.lastPressed = button.getItemId();
-//								}
+								this.modifyChart(button.getItemId());
+								container.lastPressed = button.getItemId();
 							}
 						},
 				        scope: this
@@ -450,38 +424,30 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		this.on('painted', function () {
 			ARSnova.app.activePreviewPanel = this;
-
-			if(this.questionObj.piRound === 1) {
-				//this.disablePiRoundElements();
-			}
 		});
 	},
 
 	onActivate: function () {
 		ARSnova.app.innerScrollPanel = this;
 		ARSnova.app.taskManager.start(this.renewChartDataTask);
-		this.segmentedButton.setPressedButtons([this.questionObj.piRound]);
 
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			ARSnova.app.taskManager.start(this.countActiveUsersTask);
 		}
 	},
 
-	activatePreviousSegmentButton: function() {
-		this.segmentedButton.setPressedButtons([this.questionObj.piRound-1]);
+	activateFirstSegmentButton: function() {
+		this.segmentedButton.setPressedButtons([1]);
+	},
+
+	activateSecondSegmentButton: function() {
+		this.segmentedButton.setPressedButtons([2]);
 	},
 
 	enablePiRoundElements: function() {
-		var segmentButtons = this.segmentedButton.getInnerItems();
-		//segmentButtons[segmentButtons.length-1].show();
 		this.segmentedButton.show();
 	},
-	
-	disablePiRoundElements: function() {
-		//var segmentButtons = this.segmentedButton.getInnerItems();
-		//segmentButtons[segmentButtons.length-1].hide();
-	},
-	
+
 	modifyChart: function(piRound) {
 		var fields, percentages,
 			isStacked = false,
@@ -620,16 +586,13 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				maxPercentage = Math.ceil(max / 10) * 10;
 			});
 		};
-		
+
 		var afterCalculation = function(round) {
 			if(me.questionChart.showPercentage) {
 				chart.getAxes()[0].setMaximum(maxPercentage);
 			} else {
 				chart.getAxes()[0].setMaximum(maxValue);
 			}
-
-			// renew the chart-data
-			chart.redraw();
 
 			if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 				// update quote in toolbar
@@ -640,12 +603,14 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				quote.setHtml(users);
 
 				if(round > 1) {
-					// show change round segmentbutton
 					me.segmentedButton.show();
 				}
 			}
+
+			// renew the chart-data
+			chart.redraw();
 		};
-		
+
 		var countFirstRoundAnswers = function(countSecondRound) {
 			ARSnova.app.questionModel.countPiAnswers(localStorage.getItem('keyword'), me.questionObj._id, 1, {
 				success: function (piRound1) {
@@ -663,11 +628,12 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				}
 			});
 		};
-		
+
 		var countSecondRoundAnswers = function() {
 			ARSnova.app.questionModel.countPiAnswers(localStorage.getItem('keyword'), me.questionObj._id, 2, {
 				success: function(piRound2) {
 					var piAnswers = Ext.decode(piRound2.responseText);
+
 					calculation(piAnswers, '-round2');
 					afterCalculation(me.questionObj.piRound);
 				},
@@ -676,7 +642,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				}
 			});
 		};
-		
+
 		if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			countFirstRoundAnswers(countSecondRoundAnswers);
 		} else if(me.questionObj.piRound === 1) {
