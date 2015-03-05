@@ -174,8 +174,8 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			style: 'margin: 15px',
 
 			items: [
-				this.showcaseActionButton,
-				this.createAdHocQuestionButton
+				this.sortDefaultButton,
+				this.sortRevertButton
 			]
 		});
 		
