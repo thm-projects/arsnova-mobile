@@ -556,8 +556,6 @@ switch (lang) {
 			FEATURE_COMING_SOON: "This feature will be available soon.",
 			UNI_LOGIN_MSG: "Your University here?",
 			UNI_LOGIN_MSG_TEXT: "Would you like to use your university's account? Contact us @ <a href='http://www.transmit.de/zentren/tz.cfm?N=189' target='_blank'>transmit.de</a>.",
-			PI_NEW_ROUND: "Do you want to really start the next Peer Instruction round? Answers of the active round will be irrevocably locked.",
-			PI: "Peer Instruction",
 
 			/* rolePanel */
 			BLOG: "Blog",
