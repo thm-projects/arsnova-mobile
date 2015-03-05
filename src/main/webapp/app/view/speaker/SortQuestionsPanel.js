@@ -262,7 +262,6 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 				this.questionStore.add(questions);
 				this.caption.show();
 				this.caption.explainStatus(questions);
-				this.handleAnswerCount();
 
 				this.questionListContainer.show();
 				this.questionList.show();
