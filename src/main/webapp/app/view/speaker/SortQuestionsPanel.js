@@ -92,6 +92,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 					var backButton = sTP.newQuestionPanel.down('button[ui=back]');
 					backButton.setHandler(function () {
+						var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 						sTP.animateActiveItem(sTP.sortQuestionsPanel, {
 							type: 'slide',
 							direction: 'right',
@@ -100,6 +101,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 					});
 					sTP.newQuestionPanel.on('deactivate', function (panel) {
 						panel.backButton.handler = function () {
+							var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 							sTP.animateActiveItem(sTP.audienceQuestionPanel, {
 								type: 'slide',
 								direction: 'right',
