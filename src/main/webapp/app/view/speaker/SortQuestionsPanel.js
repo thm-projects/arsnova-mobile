@@ -22,7 +22,8 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 
 	requires: [
 		'ARSnova.view.Caption',
-		'ARSnova.model.Question'
+		'ARSnova.model.Question',
+		'Ext.plugin.SortableList'
 	],
 
 	config: {
@@ -32,7 +33,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			direction: 'vertical',
 			directionLock: true
 		},
-		
+
 		controller: null
 	},
 
@@ -70,13 +71,17 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 
 			scrollable: {disabled: true},
 			hidden: true,
+			plugins: 'sortablelist', 
 
 			style: {
 				backgroundColor: 'transparent'
 			},
 
+
 			itemCls: 'forwardListButton',
-			itemTpl: '<tpl if="active"><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
+			itemTpl:
+				'<div class="icon-drag thm-grey dragStyle x-list-sortablehandle">&#xf0dc;</div>' + 
+				'<tpl if="active"><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
 				'<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
 				'<div class="x-button x-hasbadge audiencePanelListBadge"></div>',
 			grouped: true,
@@ -88,7 +93,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 					this.getController().details({
 						question: list.getStore().getAt(index).data
 					});
-					
+
 					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 					var backButton = sTP.questionDetailsPanel.down('button[ui=back]');
 					backButton.setHandler(function () {
@@ -146,7 +151,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 				});
 			}
 		});
-		
+
 		this.saveButtonToolbar = Ext.create('Ext.Button', {
 			text: Messages.SAVE,
 			ui: 'confirm',
@@ -159,7 +164,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			},
 			scope: this
 		});
-		
+
 		this.sortAlphabetButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SORT_ALPHABET,
 			cls: 'actionButton',
@@ -167,7 +172,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			imageCls: 'icon-sort-alpha thm-grey',
 			handler: this.sortAlphabetHandler
 		});
-		
+
 		this.sortTimeButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SORT_TIME,
 			cls: 'actionButton',
@@ -175,7 +180,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			imageCls: 'icon-sort-time thm-grey',
 			handler: this.sortTimeHandler
 		});
-		
+
 		this.sortRandomButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SORT_RANDOM,
 			cls: 'actionButton',
@@ -207,7 +212,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 				this.sortRevertButton
 			]
 		});
-		
+
 		this.caption = Ext.create('ARSnova.view.Caption', {
 			translation: {
 				active: Messages.OPEN_QUESTION,
@@ -240,7 +245,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			},
 			this.caption
 		]);
-		
+
 		var me = this;
 		this.saveButton = Ext.create('Ext.Button', {
 			ui: 'confirm',
@@ -274,7 +279,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			},
 			scope: me
 		});
-		
+
 		this.add([
 			this.saveButton
 		]);
@@ -321,12 +326,12 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	},
 
 	saveHandler: function (button) {
-	
+
 		button.disable();
 
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
 		var values = document.getElementsByClassName("example");
-		
+
 		var promise = panel.dispatch(values, button);
 		promise.then(function () {
 			// animated scrolling to top
@@ -334,7 +339,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		});
 		return promise;
 	},
-	
+
 	dispatch: function (values, button) {
 		var promise = new RSVP.Promise();
 		ARSnova.app.getController('Questions').sortQuestions(values, {
@@ -350,17 +355,17 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		});
 		return promise;
 	},
-	
+
 	sortAlphabetHandler: function (button) {
-	
+
 	},
 	sortTimeHandler: function (button) {
-	
+
 	},
 	sortRandomHandler: function (button) {
-	
+
 	},
 	sortReverthandler: function (button) {
-	
+
 	}
-}); 
+});

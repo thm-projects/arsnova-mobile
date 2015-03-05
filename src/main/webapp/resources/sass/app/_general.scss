@@ -203,9 +203,13 @@
 }
 
 .dragStyle {
-  width:30px;
-  height:20px;
-  background-color:gray;
+  width:42px;
+  height:42px;
+  line-height: 42px;
+  margin: -12px 0 0 -15px;
+  text-align: center;
+  font-size: 1.3em;
+  font-family: "arsnova";
   display:block;
   float:left;
 }
