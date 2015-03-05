@@ -195,6 +195,10 @@ Ext.define('ARSnova.model.Question', {
 		return this.getProxy().saveSkillQuestion(this, callbacks);
 	},
 
+	startNewPiRound: function (time, callbacks) {
+		return this.getProxy().startNewPiRound(this.get('_id'), time, callbacks);
+	},
+
 	publishSkillQuestion: function (callbacks) {
 		return this.getProxy().publishSkillQuestion(this, callbacks);
 	},
