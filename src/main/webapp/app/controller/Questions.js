@@ -434,5 +434,10 @@ Ext.define("ARSnova.controller.Questions", {
 			type: 'slide',
 			direction: 'right'
 		});
+	},
+	
+	sortQuestions: function () {
+		var question = Ext.create('ARSnova.model.Question');
+		question.sortQuestions.apply(question, arguments);
 	}
 });
