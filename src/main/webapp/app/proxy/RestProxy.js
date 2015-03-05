@@ -811,5 +811,15 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
+	},
+	
+	sortQuestions: function (questionIDs, callbacks) {
+		this.arsjax.request({
+			url: "sort/",
+			method: "POST",
+			jsonData: questionIDs,
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
 	}
 });

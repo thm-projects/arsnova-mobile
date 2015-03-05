@@ -305,5 +305,9 @@ Ext.define('ARSnova.model.Question', {
 
 	deleteAllPreparationAnswers: function (sessionKeyword, callbacks) {
 		return this.getProxy().delAllPreparationAnswers(sessionKeyword, callbacks);
+	},
+
+	sortQuestions: function (questionIDs, callbacks) {
+		return this.getProxy().sortQuestions(questionIDs, callbacks);
 	}
 });
