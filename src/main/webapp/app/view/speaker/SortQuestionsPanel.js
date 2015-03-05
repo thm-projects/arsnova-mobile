@@ -75,7 +75,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 				backgroundColor: 'transparent'
 			},
 
-			itemCls: 'standardListButton',
+			itemCls: 'forwardListButton',
 			itemTpl: '<tpl if="active"><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
 				'<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
 				'<div class="x-button x-hasbadge audiencePanelListBadge"></div>',
@@ -85,6 +85,30 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			listeners: {
 				scope: this,
 				itemtap: function (list, index, element) {
+					this.getController().details({
+						question: list.getStore().getAt(index).data
+					});
+					
+					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+					var backButton = sTP.questionDetailsPanel.down('button[ui=back]');
+					backButton.setHandler(function () {
+						var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+						sTP.animateActiveItem(sTP.sortQuestionsPanel, {
+							type: 'slide',
+							direction: 'right',
+							duration: 700
+						});
+					});
+					sTP.questionDetailsPanel.on('deactivate', function (panel) {
+						panel.backButton.handler = function () {
+							var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+							sTP.animateActiveItem(sTP.audienceQuestionPanel, {
+								type: 'slide',
+								direction: 'right',
+								duration: 700
+							});
+						};
+					}, this, {single: true});
 				},
 				/**
 				 * The following event is used to get the computed height of all list items and
