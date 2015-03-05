@@ -724,6 +724,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		this.arsjax.request({
 			url: "statistics/",
 			method: 'GET',
+			disableCaching: false,
 
 			success: callbacks.success,
 			failure: callbacks.failure

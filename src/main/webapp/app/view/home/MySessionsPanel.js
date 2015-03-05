@@ -100,7 +100,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					cls: 'actionButton',
 					imageCls: 'icon-newsession thm-green',
 					scope: this,
-					handler: function (options) {
+					handler: function () {
 						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 						hTP.animateActiveItem(hTP.newSessionPanel, 'slide');
 					}
@@ -197,7 +197,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_IMPORT, 240000);
 							try {
 								var n = data.indexOf("base64,");
-								data = decodeURIComponent(escape(atob(data.substring(n + 7)))); // remove disturbing prefix
+								data = decodeURIComponent(window.escape(atob(data.substring(n + 7)))); // remove disturbing prefix
 
 								var jsonContent = JSON.parse(data);
 								if (jsonContent && typeof jsonContent === "object" && jsonContent !== null) {
@@ -227,14 +227,16 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				scope: this,
 				handler: function () {
 					var msg = "";
-					if ((msg = this.importSupport()) !== "")
+					if ((msg = this.importSupport()) !== "") {
 						Ext.Msg.alert(Messages.NOTIFICATION, msg);
+					}
 				}
 			});
 
 			this.importButtonPanel = Ext.create('Ext.Panel');
-			if (this.importSupport() === "")
+			if (this.importSupport() === "") {
 				this.importButtonPanel.add(this.importButtonClickable);
+			}
 			this.importButtonPanel.add(this.importButton);
 
 			this.exportButton = Ext.create('ARSnova.view.MatrixButton', {
@@ -320,8 +322,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			this.newSessionButtonForm,
 			this.sessionsForm]);
 
-		if (config.features.publicPool)
+		if (config.features.publicPool) {
 			this.add(this.myPpSessionsForm);
+		}
 
 		this.add([
 			this.matrixButtonPanel,
@@ -378,12 +381,25 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				panel.sessionsForm.removeAll();
 				panel.sessionsForm.show();
 
-				if (sessions.length > 0)
+				if (sessions.length > 0) {
 					me.saveSetHidden(me.exportButton, false);
+				}
 
+				var sessionButtonHandler = function (options) {
+					var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
+					localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
+					ARSnova.app.userRole = ARSnova.app.USER_ROLE_SPEAKER;
+					ARSnova.app.setWindowTitle();
+
+					ARSnova.app.getController('Sessions').login({
+						keyword: options.config.sessionObj.keyword
+					});
+					hideLoadMask();
+				};
 
 				var session;
-				for (var i = 0, session; session = sessions[i]; i++) {
+				for (var i = 0; i < sessions.length; i++) {
+					session = sessions[i];
 					var status = "";
 					var course = "icon-presenter";
 
@@ -403,17 +419,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						iconCls: course + " courseIcon",
 						cls: 'forwardListButton' + status,
 						sessionObj: session,
-						handler: function (options) {
-							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
-							localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
-							ARSnova.app.userRole = ARSnova.app.USER_ROLE_SPEAKER;
-							ARSnova.app.setWindowTitle();
-
-							ARSnova.app.getController('Sessions').login({
-								keyword: options.config.sessionObj.keyword
-							});
-							hideLoadMask();
-						}
+						handler: sessionButtonHandler
 					});
 					sessionButton.setBadge([
 						{badgeText: session.numInterposed, badgeCls: "feedbackQuestionsBadgeIcon"},
@@ -452,8 +458,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	loadCreatedPublicPoolSessions: function () {
 		var me = this;
 		var promise = new RSVP.Promise();
-		if (!ARSnova.app.globalConfig.features.publicPool)
+		if (!ARSnova.app.globalConfig.features.publicPool) {
 			return promise;
+		}
 
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
 		ARSnova.app.sessionModel.getMyPublicPoolSessions({
@@ -465,12 +472,24 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				panel.myPpSessionsForm.removeAll();
 				panel.myPpSessionsForm.show();
 
-				var session;
-
-				if (sessions.length > 0)
+				if (sessions.length > 0) {
 					me.saveSetHidden(me.exportButton, false);
+				}
 
-				for (var i = 0, session; session = sessions[i]; i++) {
+				var sessionButtonHandler = function (options) {
+					var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
+					localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
+					ARSnova.app.setWindowTitle();
+
+					ARSnova.app.getController('Sessions').login({
+						keyword: options.config.sessionObj.keyword
+					});
+					hideLoadMask();
+				};
+
+				var session;
+				for (var i = 0; i < sessions.length; i++) {
+					session = sessions[i];
 					var status = "";
 
 					if (!session.active) {
@@ -485,16 +504,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						iconCls: "icon-cloud thm-green ",
 						cls: 'forwardListButton' + status,
 						sessionObj: session,
-						handler: function (options) {
-							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
-							localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
-							ARSnova.app.setWindowTitle();
-
-							ARSnova.app.getController('Sessions').login({
-								keyword: options.config.sessionObj.keyword
-							});
-							hideLoadMask();
-						}
+						handler: sessionButtonHandler
 					});
 					sessionButton.setBadge([
 						{badgeText: session.numInterposed, badgeCls: "feedbackQuestionsBadgeIcon"},
@@ -543,6 +553,18 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					panel.lastVisitedSessionsForm.removeAll();
 					panel.lastVisitedSessionsForm.show();
 
+					var sessionButtonHandler = function (options) {
+						var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
+						localStorage.setItem('lastVisitedRole', ARSnova.app.USER_ROLE_SPEAKER);
+						localStorage.setItem('role', ARSnova.app.USER_ROLE_STUDENT);
+						ARSnova.app.userRole = ARSnova.app.USER_ROLE_STUDENT;
+
+						ARSnova.app.getController('Sessions').login({
+							keyword: options.config.sessionObj.keyword
+						});
+						hideLoadMask();
+					};
+
 					for (var i = 0; i < sessions.length; i++) {
 						var session = sessions[i];
 
@@ -572,17 +594,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							action: 'showDetails',
 							badgeCls: 'badgeicon',
 							sessionObj: session,
-							handler: function (options) {
-								var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
-								localStorage.setItem('lastVisitedRole', ARSnova.app.USER_ROLE_SPEAKER);
-								localStorage.setItem('role', ARSnova.app.USER_ROLE_STUDENT);
-								ARSnova.app.userRole = ARSnova.app.USER_ROLE_STUDENT;
-
-								ARSnova.app.getController('Sessions').login({
-									keyword: options.config.sessionObj.keyword
-								});
-								hideLoadMask();
-							}
+							handler: sessionButtonHandler
 						});
 						sessionButton.setBadge([{badgeText: session.numUnanswered, badgeCls: "questionsBadgeIcon"}]);
 						panel.lastVisitedSessionsForm.addEntry(sessionButton);
@@ -619,8 +631,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	 * Save way to set an element hidden.
 	 */
 	saveSetHidden: function (element, hidden) {
-		if (typeof element !== undefined && element != null)
+		if (typeof element !== undefined && element != null) {
 			element.setHidden(hidden);
+		}
 	},
 
 	/**

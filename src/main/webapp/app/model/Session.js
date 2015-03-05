@@ -74,9 +74,7 @@ Ext.define('ARSnova.model.Session', {
 			this.fireEvent(this.events.sessionActive, active);
 		}, this);
 
-		ARSnova.app.socket.on(ARSnova.app.socket.events.learningProgressType, function (progressType) {
-			this.setLearningProgress(progressType);
-		}, this);
+		ARSnova.app.socket.on(ARSnova.app.socket.events.learningProgressType, this.setUserBasedProgressType, this);
 	},
 
 	destroy: function (sessionId, creator, callbacks) {
@@ -92,7 +90,7 @@ Ext.define('ARSnova.model.Session', {
 		return this.getProxy().checkSessionLogin(keyword, {
 			success: function (response) {
 				var obj = Ext.decode(response.responseText);
-				me.setLearningProgress(obj.learningProgressType);
+				me.setUserBasedProgressType(obj.learningProgressType);
 				callbacks.success(obj);
 			},
 			failure: callbacks.failure
@@ -119,8 +117,9 @@ Ext.define('ARSnova.model.Session', {
 		var me = this;
 		return this.getProxy().getMyLearningProgress(sessionKeyword, this.getLearningProgress(), {
 			success: function (progress) {
-				var myself = me.progressDescription(progress.myprogress);
-				var course = me.progressDescription(progress.courseprogress);
+				var progressDescription = me.progressDescription(progress);
+				var myself = progressDescription.myself;
+				var course = progressDescription.course;
 				callbacks.success.call(callbacks.scope, myself, course, progress, me.getLearningProgress());
 			}
 		});
@@ -134,34 +133,75 @@ Ext.define('ARSnova.model.Session', {
 		var me = this;
 		return this.getProxy().getCourseLearningProgress(sessionKeyword, progressType, {
 			success: function (progress) {
-				var desc = me.progressDescription(progress);
+				var progressDescription = me.progressDescription(progress);
+				var desc = progressDescription.course;
 				callbacks.success.call(callbacks.scope, desc.text, desc.color, progress, progressType);
 			},
 			failure: callbacks.failure
 		});
 	},
 
-	progressDescription: function (progress) {
-		var color;
-		var text = progress + "%";
-		if (progress >= 75) {
-			color = "green";
-		} else if (progress >= 25) {
-			color = "orange";
-		} else if (progress === 0) {
-			color = "";
-			text = "…";
-		} else {
-			color = "red";
+	progressDescription: function (learningProgress) {
+		var desc = function (progress) {
+			var color;
+			var text = progress + "%";
+			if (progress >= 75) {
+				color = "green";
+			} else if (progress >= 25) {
+				color = "orange";
+			} else if (progress === 0) {
+				color = "";
+				text = "…";
+			} else {
+				color = "red";
+			}
+			return {
+				color: color,
+				text: text
+			};
+		};
+		var myProgress = desc(learningProgress.myProgress);
+		var courseProgress = desc(learningProgress.courseProgress);
+		// if the user has some progress, do not deactivate the the course progress if it currently has no value
+		if (learningProgress.myProgress > 0 && learningProgress.courseProgress === 0) {
+			courseProgress.color = "red";
+			courseProgress.text = learningProgress.courseProgress + "%";
+		}
+		// similarly, do not deactivate my progres if the course has some values
+		if (learningProgress.myProgress === 0 && learningProgress.courseProgress > 0) {
+			myProgress.color = "red";
+			myProgress.text = learningProgress.myProgress + "%";
+		}
+		// once somebody has answered a question, always show percentages
+		if (learningProgress.myProgress === 0 && learningProgress.courseProgress === 0 && learningProgress.numUsers > 0) {
+			courseProgress.color = "red";
+			courseProgress.text = learningProgress.courseProgress + "%";
+			myProgress.color = "red";
+			myProgress.text = learningProgress.myProgress + "%";
 		}
 		return {
-			color: color,
-			text: text
+			myself: myProgress,
+			course: courseProgress
 		};
 	},
 
 	setLearningProgressType: function (sessionKeyword, progressType) {
+		localStorage.setItem("progressType-" + sessionStorage.getItem("keyword"), progressType);
 		ARSnova.app.socket.setLearningProgressType({sessionKeyword: sessionKeyword, learningProgressType: progressType});
 		this.setLearningProgress(progressType);
+	},
+
+	getUserBasedProgressType: function () {
+		return localStorage.getItem("progressType-" + sessionStorage.getItem("keyword")) || this.getLearningProgress();
+	},
+
+	setUserBasedProgressType: function (progressType) {
+		// for students, progress stored in localStorage will always take priority
+		if (ARSnova.app.isSessionOwner) {
+			this.setLearningProgress(progressType);
+		} else {
+			// overwrite server-based progress type for students with their own selection (if available)
+			this.setLearningProgress(this.getUserBasedProgressType() || progressType);
+		}
 	}
 });

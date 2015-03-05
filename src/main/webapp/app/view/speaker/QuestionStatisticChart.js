@@ -436,8 +436,139 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		}
 	},
 
+<<<<<<< HEAD
 	activateFirstSegmentButton: function() {
 		this.segmentedButton.setPressedButtons([1]);
+=======
+	getQuestionAnswers: function () {
+		ARSnova.app.questionModel.countAnswers(sessionStorage.getItem('keyword'), this.questionObj._id, {
+			success: function (response) {
+				var panel = ARSnova.app.mainTabPanel._activeItem;
+				var chart = panel.questionChart;
+				var store = chart.getStore();
+
+				var answers = Ext.decode(response.responseText);
+
+				var sum = 0;
+				var maxValue = 10;
+
+				var i, el, record;
+				var tmpPossibleAnswers = [];
+				for (i = 0; i < tmpPossibleAnswers.length; i++) {
+					el = tmpPossibleAnswers[i];
+					record = store.findRecord('text', el, 0, false, true, true);
+					record.set('value', 0);
+				}
+
+				for (i = 0; i < panel.questionObj.possibleAnswers.length; i++) {
+					el = panel.questionObj.possibleAnswers[i];
+					if (el.data) {
+						tmpPossibleAnswers.push(el.data.text);
+					} else {
+						tmpPossibleAnswers.push(el.text);
+					}
+				}
+
+				var mcAnswerCount = [];
+				var abstentionCount = 0;
+				var mcTotalAnswerCount = 0;
+				for (i = 0; i < answers.length; i++) {
+					el = answers[i];
+
+					mcTotalAnswerCount += el.answerCount;
+
+					if (panel.questionObj.questionType === "mc") {
+						if (!el.answerText) {
+							abstentionCount = el.abstentionCount;
+							continue;
+						}
+						var values = el.answerText.split(",").map(function (answered) {
+							return parseInt(answered, 10);
+						});
+						if (values.length !== panel.questionObj.possibleAnswers.length) {
+							return;
+						}
+
+						for (var j = 0; j < el.answerCount; j++) {
+							values.forEach(function (selected, index) {
+								if (typeof mcAnswerCount[index] === "undefined") {
+									mcAnswerCount[index] = 0;
+								}
+								if (selected === 1) {
+									mcAnswerCount[index] += 1;
+								}
+							});
+						}
+						store.each(function (record, index) {
+							record.set("value", mcAnswerCount[index]);
+						});
+					} else if (panel.questionObj.questionType === "grid") {
+						panel.gridStatistic.answers = answers;
+						panel.gridStatistic.setQuestionObj = panel.questionObj;
+						panel.gridStatistic.updateGrid();
+					} else {
+						if (!el.answerText) {
+							abstentionCount = el.abstentionCount;
+							continue;
+						}
+						record = store.findRecord('text', el.answerText, 0, false, true, true); // exact match
+						record.set('value', el.answerCount);
+					}
+					sum += el.answerCount;
+
+					store.each(function (record, index) {
+						var max = Math.max(maxValue, record.get('value'));
+						// Scale axis to a bigger number. For example, 12 answers get a maximum scale of 20.
+						maxValue = Math.ceil(max / 10) * 10;
+					});
+
+					var idx = tmpPossibleAnswers.indexOf(el.answerText); // Find the index
+					if (idx !== -1) {
+						// Remove it if really found!
+						tmpPossibleAnswers.splice(idx, 1);
+					}
+				}
+				if (abstentionCount) {
+					record = store.findRecord('text', Messages.ABSTENTION, 0, false, true, true); // exact match
+					if (!record) {
+						store.add({text: Messages.ABSTENTION, value: abstentionCount});
+					} else if (record.get('value') !== abstentionCount) {
+						record.set('value', abstentionCount);
+					}
+				}
+
+				// Calculate percentages
+				if (panel.questionObj.questionType === "mc") {
+					store.each(function (record) {
+						var percent = Math.round((record.get('value') / mcTotalAnswerCount) * 100);
+						record.set('percent', percent);
+					});
+				} else {
+					var totalResults = store.sum('value');
+					store.each(function (record) {
+						var percent = Math.round((record.get('value') / totalResults) * 100);
+						record.set('percent', percent);
+					});
+				}
+				chart.getAxes()[0].setMaximum(maxValue);
+
+				// renew the chart-data
+				chart.redraw();
+
+				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+					// update quote in toolbar
+					var quote = panel.toolbar.items.items[4];
+					var users = quote.getHtml().split("/");
+					users[0] = sum;
+					users = users.join("/");
+					quote.setHtml(users);
+				}
+			},
+			failure: function () {
+				console.log('server-side error');
+			}
+		});
+>>>>>>> refs/remotes/origin/master
 	},
 
 	activateSecondSegmentButton: function() {

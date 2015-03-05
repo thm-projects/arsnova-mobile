@@ -25,9 +25,10 @@ Ext.define("ARSnova.controller.Feedback", {
 	},
 
 	vote: function (options) {
+		var fP;
 		if (!ARSnova.app.checkSessionLogin()) {
 			Ext.Msg.alert('Hinweis', 'Bitte loggen Sie sich erst in einen Kurs ein, bevor Sie diese Funktion nutzen!');
-			var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
+			fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 			fP.animateActiveItem(fP.statisticPanel, {
 				type: 'slide',
 				direction: 'right'
@@ -62,7 +63,7 @@ Ext.define("ARSnova.controller.Feedback", {
 
 		ARSnova.app.feedbackModel.postFeedback(feedbackValue);
 
-		var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
+		fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 		fP.animateActiveItem(fP.statisticPanel, {
 			type: 'slide',
 			direction: 'up'
@@ -80,7 +81,9 @@ Ext.define("ARSnova.controller.Feedback", {
 		var tP = ARSnova.app.mainTabPanel.tabPanel;
 		var fP = tP.feedbackTabPanel;
 
-		if (closePanelHandler) fP.askPanel.setClosePanelHandler(closePanelHandler);
+		if (closePanelHandler) {
+			fP.askPanel.setClosePanelHandler(closePanelHandler);
+		}
 
 		if (tP.getActiveItem() === tP.userTabPanel) {
 			tP.userTabPanel.animateActiveItem(fP.askPanel, animation);

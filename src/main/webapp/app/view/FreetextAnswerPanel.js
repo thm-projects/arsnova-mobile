@@ -206,7 +206,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 					var abstentionText = abCount === 1 ? Messages.ABSTENTION : Messages.ABSTENTIONS;
 					var answersText = answersCount === 1 ? Messages.ANSWER : Messages.ANSWERS;
 
-					if (lang === "en") {
+					if (moment.lang() === "en") {
 						var verb = abCount === 1 ? 'is ' : 'are ';
 						abstentionText = verb + abCount + " " + abstentionText.toLowerCase();
 						answersText = answersCount + " " + answersText.toLowerCase();

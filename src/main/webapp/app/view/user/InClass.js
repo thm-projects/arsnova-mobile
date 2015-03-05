@@ -163,10 +163,12 @@ Ext.define('ARSnova.view.user.InClass', {
 				id: 'myLearningProgress',
 				ui: 'normal',
 				text: Messages.MY_LEARNING_PROGRESS,
-				cls: 'standardListButton',
+				cls: 'forwardListButton',
 				badgeCls: 'badgeicon',
 				disabledCls: '',
-				disabled: true
+				controller: 'Questions',
+				action: 'showLearningProgress',
+				handler: this.buttonClicked
 			});
 		}
 
@@ -418,8 +420,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				var getBadge = function (progress) {
 					return {badgeText: progress.text, badgeCls: progress.color + "badgeicon"};
 				};
-				if (p.myprogress === 0 && p.courseprogress === 0) {
-					me.myLearningProgressButton.setBadge([{badgeText: "…"}, vsBadge, {badgeText: "…"}]);
+				if (p.myProgress === 0 && p.courseProgress === 0 && p.numQuestions === 0) {
 					me.inClassButtons.remove(me.myLearningProgressButton, false);
 				} else {
 					me.myLearningProgressButton.setBadge([getBadge(myprogressDescription), vsBadge, getBadge(courseprogressDescription)]);
@@ -428,7 +429,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 				getBadge(p.myprogress);
 				me.swotBadge.setCls('swotBadgeIcon redbadgecolor');
-				me.swotBadge.setHidden(p.myprogress < goodProgressThreshold);
+				me.swotBadge.setHidden(p.myProgress < goodProgressThreshold);
 			},
 			failure: function () {
 				me.myLearningProgressButton.setBadge([{badgeText: ""}]);

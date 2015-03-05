@@ -46,6 +46,7 @@ Ext.define('ARSnova.proxy.ARSJax', {
 			params: options.params,
 			jsonData: options.jsonData,
 			headers: options.headers,
+			disableCaching: options.disableCaching,
 
 			success: function (response) {
 				me.handleCode(response.status);

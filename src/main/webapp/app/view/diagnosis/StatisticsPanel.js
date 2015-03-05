@@ -19,7 +19,7 @@
 Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 	extend: 'Ext.Container',
 
-	requires: ['Ext.form.Panel', 'Ext.form.FieldSet', 'ARSnova.model.Statistic'],
+	requires: ['Ext.form.Panel', 'Ext.form.FieldSet', 'ARSnova.model.Statistics'],
 
 	config: {
 		fullscreen: true,
@@ -45,7 +45,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 	 * update the statistics table
 	 */
 	updateDataTask: {
-		name: 'update the statistic table',
+		name: 'update the statistics table',
 		run: function () {
 			ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel.statisticsPanel.updateData();
 		},
@@ -58,7 +58,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 		var me = this;
 
 		this.statisticsStore = Ext.create('Ext.data.Store', {
-			model: 'ARSnova.model.Statistic'
+			model: 'ARSnova.model.Statistics'
 		});
 
 		this.backButton = Ext.create('Ext.Button', {
@@ -90,7 +90,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 			defaults: {
 				xtype: 'button',
 				ui: 'normal',
-				cls: 'standardListButton statisticButton',
+				cls: 'standardListButton statisticsButton',
 				disabled: true,
 				setInnerValue: function (value) {
 					var component = me.formpanel.getComponent(this.itemId);
@@ -107,20 +107,29 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 			},
 
 			items: [{
-					itemId: 'statisticUsersOnline',
+					itemId: 'statisticsActiveUsers',
 					text: 'Users online'
 				}, {
-					itemId: 'statisticOpenSessions',
-					text: Messages.OPEN_SESSIONS
+					itemId: 'statisticsCreators',
+					text: Messages.SESSION_OWNERS
 				}, {
-					itemId: 'statisticClosedSessions',
-					text: Messages.CLOSED_SESSIONS
+					itemId: 'statisticsSessions',
+					text: Messages.SESSIONS
 				}, {
-					itemId: 'statisticQuestions',
-					text: Messages.QUESTIONS
+					itemId: 'statisticsLectureQuestions',
+					text: Messages.LECTURE_QUESTIONS_LONG
 				}, {
-					itemId: 'statisticAnswers',
-					text: Messages.ANSWERS
+					itemId: 'statisticsConceptQuestions',
+					text: Messages.PEER_INSTRUCTION_QUESTIONS
+				}, {
+					itemId: 'statisticsPreparationQuestions',
+					text: Messages.PREPARATION_QUESTIONS_LONG
+				}, {
+					itemId: 'statisticsInterposedQuestions',
+					text: Messages.QUESTIONS_FROM_STUDENTS
+				}, {
+					itemId: 'statisticsAnswers',
+					text: Messages.VOTINGS
 				}]
 		});
 
@@ -132,7 +141,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 		this.add([this.toolbar, this.inClass]);
 
 		this.on('activate', this.onActivate);
-		this.on('activate', this.beforeActivate, this, null, 'before');
+		this.onBefore('activate', this.beforeActivate);
 		this.on('deactivate', this.onDeactivate);
 	},
 
@@ -150,12 +159,14 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 
 	setNumbers: function () {
 		if (this.statistics != null) {
-			this.formpanel.getComponent('statisticUsersOnline').config.setInnerValue(this.statistics.activeUsers);
-			this.formpanel.getComponent('statisticOpenSessions').config.setInnerValue(this.statistics.openSessions);
-			this.formpanel.getComponent('statisticClosedSessions').config.setInnerValue(this.statistics.closedSessions);
-			this.formpanel.getComponent('statisticQuestions').config.setInnerValue(this.statistics.questions);
-			this.formpanel.getComponent('statisticAnswers').config.setInnerValue(this.statistics.answers);
-			// this.formpanel.getComponent('statisticAnswersPerQuestion').config.setInnerValue(this.statistics.averageAnswersPerQuestion);
+			this.formpanel.getComponent('statisticsSessions').config.setInnerValue(this.formatNumber(this.statistics.sessions));
+			this.formpanel.getComponent('statisticsActiveUsers').config.setInnerValue(this.formatNumber(this.statistics.activeUsers));
+			this.formpanel.getComponent('statisticsCreators').config.setInnerValue(this.formatNumber(this.statistics.creators));
+			this.formpanel.getComponent('statisticsLectureQuestions').config.setInnerValue(this.formatNumber(this.statistics.lectureQuestions));
+			this.formpanel.getComponent('statisticsConceptQuestions').config.setInnerValue(this.formatNumber(this.statistics.conceptQuestions));
+			this.formpanel.getComponent('statisticsPreparationQuestions').config.setInnerValue(this.formatNumber(this.statistics.preparationQuestions));
+			this.formpanel.getComponent('statisticsInterposedQuestions').config.setInnerValue(this.formatNumber(this.statistics.interposedQuestions));
+			this.formpanel.getComponent('statisticsAnswers').config.setInnerValue(this.formatNumber(this.statistics.answers));
 		}
 	},
 
@@ -164,7 +175,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 	 */
 	getStatistics: function () {
 		var promise = new RSVP.Promise();
-		ARSnova.app.statisticModel.getStatistics({
+		ARSnova.app.statisticsModel.getStatistics({
 			success: function (response) {
 				var statistics = Ext.decode(response.responseText);
 
@@ -175,16 +186,23 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 				}
 				promise.resolve(statistics);
 			},
-			failure: function (response) {
-				console.log('server-side error, countOpenSessions');
+			failure: function () {
+				console.log('server-side error, getStatistics');
 				promise.reject();
 			}
 		});
 		return promise;
 	},
+
 	updateData: function () {
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK);
 		this.statisticsStore.clearData();
 		this.getStatistics().then(hideLoadMask, hideLoadMask); // hide mask on success and on error
+	},
+
+	// http://stackoverflow.com/a/2901298
+	formatNumber: function (x) {
+		var separator = moment.lang() === "en" ? "," : ".";
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator);
 	}
 });
