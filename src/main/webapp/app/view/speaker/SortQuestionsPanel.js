@@ -88,6 +88,26 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 					this.getController().details({
 						question: list.getStore().getAt(index).data
 					});
+					
+					var backButton = sTP.newQuestionPanel.down('button[ui=back]');
+					backButton.setHandler(function () {
+						var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+						sTP.animateActiveItem(sTP.sortQuestionsPanel, {
+							type: 'slide',
+							direction: 'right',
+							duration: 700
+						});
+					});
+					sTP.newQuestionPanel.on('deactivate', function (panel) {
+						panel.backButton.handler = function () {
+							var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+							sTP.animateActiveItem(sTP.audienceQuestionPanel, {
+								type: 'slide',
+								direction: 'right',
+								duration: 700
+							});
+						};
+					}, this, {single: true});
 				},
 				/**
 				 * The following event is used to get the computed height of all list items and
