@@ -71,7 +71,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 
 			scrollable: {disabled: true},
 			hidden: true,
-			plugins: 'sortablelist', 
+			plugins: 'sortablelist',
 
 			style: {
 				backgroundColor: 'transparent'
@@ -80,7 +80,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 
 			itemCls: 'forwardListButton',
 			itemTpl:
-				'<div class="icon-drag thm-grey dragStyle x-list-sortablehandle">&#xf0dc;</div>' + 
+				'<div class="icon-drag thm-grey dragStyle x-list-sortablehandle">&#xf0dc;</div>' +
 				'<tpl if="active"><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
 				'<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
 				'<div class="x-button x-hasbadge audiencePanelListBadge"></div>',
