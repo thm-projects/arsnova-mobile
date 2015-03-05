@@ -38,6 +38,10 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		width: 260,
 		height: 260,
 		
+		onTimerStart: Ext.emptyFn,
+		onTimerStop: Ext.emptyFn,
+		startStopScope: this,
+		
 		defaultMinutes: 2,
 		defaultSeconds: 60,
 		sliderDefaultValue: 2,
@@ -116,6 +120,8 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			setTimeout(function() {
 				me.update(me);
 			}, this.msTillUpdate);
+
+			this.getOnTimerStart().call(this.getStartStopScope());
 		}
 	},
 
@@ -125,8 +131,9 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 
 		this.initializeTimeValues();
 		this.showTimer();
-		this.slider.enable();
 		this.slider.show();
+		this.slider.enable();
+		this.getOnTimerStop().call(this.getStartStopScope());
 	},
 
 	update: function(panel) {
@@ -159,8 +166,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 				}, me.msTillUpdate);
 			}
 			else {
-				me.running = false;
-				//TODO: alarm
+				me.stop();
 			}
 		}
 	},
