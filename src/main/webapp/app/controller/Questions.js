@@ -436,8 +436,8 @@ Ext.define("ARSnova.controller.Questions", {
 		});
 	},
 	
-	sortQuestions: function () {
-		var question = Ext.create('ARSnova.model.Question');
-		question.sortQuestions.apply(question, arguments);
+	sortQuestions: function (options) {
+		ARSnova.app.questionModel.sortQuestions(sessionStorage.getItem('keyword'),
+			options.sortType, options.questionIDs, options.callbacks);
 	}
 });
