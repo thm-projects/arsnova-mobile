@@ -77,7 +77,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 
 			style: {
 				backgroundColor: 'transparent',
-				height: '1280px'
+				height: '660px'
 			},
 
 
