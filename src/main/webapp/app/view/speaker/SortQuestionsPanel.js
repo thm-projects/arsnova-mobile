@@ -31,7 +31,8 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		fullscreen: true,
 		scrollable: {
 			direction: 'vertical',
-			directionLock: true
+			directionLock: true,
+			disabled: true
 		},
 
 		controller: null
@@ -69,12 +70,14 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			activeCls: 'search-item-active',
 			cls: 'roundedCorners allCapsHeader',
 
-			scrollable: {disabled: true},
+			scrollable: {disabled: false},
 			hidden: true,
-			plugins: 'sortablelist',
+			infinite: true,
+			plugins: {xclass: 'Ext.plugin.SortableList', handleSelector: '.dragStyle'},
 
 			style: {
-				backgroundColor: 'transparent'
+				backgroundColor: 'transparent',
+				height: '1280px'
 			},
 
 
