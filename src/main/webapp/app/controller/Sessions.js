@@ -106,6 +106,7 @@ Ext.define("ARSnova.controller.Sessions", {
 
 	logout: function () {
 		ARSnova.app.socket.setSession(null);
+		ARSnova.app.sessionModel.fireEvent(ARSnova.app.sessionModel.events.sessionLeave);
 
 		ARSnova.app.loggedInModel.resetActiveUserCount();
 
@@ -173,6 +174,7 @@ Ext.define("ARSnova.controller.Sessions", {
 		var hideLoadMask = Ext.emptyFn;
 
 		if (ARSnova.app.isSessionOwner && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			ARSnova.app.sessionModel.fireEvent(ARSnova.app.sessionModel.events.sessionJoinAsSpeaker);
 			/* add speaker in class panel */
 			if (!tabPanel.speakerTabPanel) {
 				tabPanel.speakerTabPanel = Ext.create('ARSnova.view.speaker.TabPanel');
@@ -197,6 +199,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				tabPanel.feedbackTabPanel.renew();
 			}
 		} else {
+			ARSnova.app.sessionModel.fireEvent(ARSnova.app.sessionModel.events.sessionJoinAsStudent);
 			/* add user in class panel */
 			if (!tabPanel.userTabPanel) {
 				tabPanel.userTabPanel = Ext.create('ARSnova.view.user.TabPanel');
