@@ -496,34 +496,43 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		var me = this;
 		var chart = me.questionChart;
 		var store = chart.getStore();
-		
+
 		var sum = 0;
 		var maxValue = 10;
-		var maxPercentage = 50;
-		
+		var maxPercentage = 100;
+
 		var calculation = function(answers, valuePattern) {
+			var i, el, record;
 			var tmpPossibleAnswers = [];
-			for (var i = 0; i < tmpPossibleAnswers.length; i++) {
-				var el = tmpPossibleAnswers[i];
-				var record = store.findRecord('text', el, 0, false, true, true);
+			for (i = 0; i < tmpPossibleAnswers.length; i++) {
+				el = tmpPossibleAnswers[i];
+				record = store.findRecord('text', el, 0, false, true, true);
 				record.set('value' + valuePattern, 0);
 			}
 
-			for (var i = 0; i < me.questionObj.possibleAnswers.length; i++) {
-				var el = me.questionObj.possibleAnswers[i];
-				if (el.data) tmpPossibleAnswers.push(el.data.text);
-				else tmpPossibleAnswers.push(el.text);
+			for (i = 0; i < panel.questionObj.possibleAnswers.length; i++) {
+				el = panel.questionObj.possibleAnswers[i];
+				if (el.data) {
+					tmpPossibleAnswers.push(el.data.text);
+				} else {
+					tmpPossibleAnswers.push(el.text);
+				}
 			}
 
 			var mcAnswerCount = [];
 			var abstentionCount = 0;
-			for (var i = 0, el; el = answers[i]; i++) {
+			var mcTotalAnswerCount = 0;
+			for (i = 0; i < answers.length; i++) {
+				el = answers[i];
+
+				mcTotalAnswerCount += el.answerCount;
+
 				if (me.questionObj.questionType === "mc") {
 					if (!el.answerText) {
 						abstentionCount = el.abstentionCount;
 						continue;
 					}
-					var values = el.answerText.split(",").map(function (answered) {
+					values = el.answerText.split(",").map(function (answered) {
 						return parseInt(answered, 10);
 					});
 					if (values.length !== me.questionObj.possibleAnswers.length) {
@@ -564,10 +573,13 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				});
 
 				var idx = tmpPossibleAnswers.indexOf(el.answerText); // Find the index
-				if (idx != -1) tmpPossibleAnswers.splice(idx, 1); // Remove it if really found!
+				if (idx != -1) {
+					// Remove it if really found!
+					tmpPossibleAnswers.splice(idx, 1);
+				}
 			}
 			if (abstentionCount) {
-				var record = store.findRecord('text', Messages.ABSTENTION, 0, false, true, true); // exact match
+				record = store.findRecord('text', Messages.ABSTENTION, 0, false, true, true); // exact match
 				if (!record) {
 					store.add({text: Messages.ABSTENTION, value: abstentionCount});
 				} else if (record.get('value' + valuePattern) != abstentionCount) {
@@ -576,15 +588,26 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			}
 
 			// Calculate percentages
-			var totalResults = store.sum('value' + valuePattern);
-			store.each(function (record) {
-				var percent = Math.round((record.get('value' + valuePattern) / totalResults) * 100);
-				var max = Math.max(maxPercentage, percent);
-				record.set('percent' + valuePattern, percent);
-				
-				// Scale axis to a bigger number. For example, 12 answers get a maximum scale of 20.
-				maxPercentage = Math.ceil(max / 10) * 10;
-			});
+			if (panel.questionObj.questionType === "mc") {
+				store.each(function (record) {
+					var percent = Math.round((record.get('value' + valuePattern) / mcTotalAnswerCount) * 100);
+					var max = Math.max(maxPercentage, percent);
+					record.set('percent' + valuePattern, percent);
+					
+					// Scale axis to a bigger number. For example, 12 answers get a maximum scale of 20.
+					maxPercentage = Math.ceil(max / 10) * 10;
+				});
+			} else {
+				var totalResults = store.sum('value' + valuePattern);
+				store.each(function (record) {
+					var percent = Math.round((record.get('value' + valuePattern) / totalResults) * 100);
+					var max = Math.max(maxPercentage, percent);
+					record.set('percent' + valuePattern, percent);
+					
+					// Scale axis to a bigger number. For example, 12 answers get a maximum scale of 20.
+					maxPercentage = Math.ceil(max / 10) * 10;
+				});
+			}
 		};
 
 		var afterCalculation = function(round) {
