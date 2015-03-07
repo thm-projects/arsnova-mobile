@@ -523,7 +523,10 @@
 				ARSNOVA_RELOAD: "ARSnova neu laden",
 				VOTINGS: "Abstimmungen",
 				SESSION_OWNERS: "Session-Inhaber",
+				LEARNING_PROGRESS: "Lernstand",
 				PEER_INSTRUCTION_QUESTIONS: "Peer Instruction Konzeptfragen",
+				FEATURES: "Features",
+				ACTIVATE_FEATURES: "Features aktivieren",
 
 				/* credits */
 				HMWK: "HMWK",
@@ -1043,6 +1046,9 @@
 				VOTINGS: "Votings",
 				SESSION_OWNERS: "Session owners",
 				PEER_INSTRUCTION_QUESTIONS: "Peer Instruction questions",
+				LEARNING_PROGRESS: "Learning progress",
+				FEATURES: "Features",
+				ACTIVATE_FEATURES: "Activate features",
 
 				/* credits */
 				HMWK: "HMWK",

@@ -62,7 +62,10 @@ Ext.define('ARSnova.model.Session', {
 	sessionIsActive: true,
 
 	events: {
-		sessionActive: "arsnova/session/active"
+		sessionActive: "arsnova/session/active",
+		sessionJoinAsSpeaker: "arsnova/session/join/speaker",
+		sessionJoinAsStudent: "arsnova/session/join/student",
+		sessionLeave: "arsnova/session/leave"
 	},
 
 	constructor: function () {
