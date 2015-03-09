@@ -29,6 +29,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		'ARSnova.view.speaker.form.YesNoQuestion',
 		'ARSnova.view.speaker.form.NullQuestion',
 		'ARSnova.view.speaker.form.GridQuestion',
+		'ARSnova.view.speaker.form.FreeTextQuestion',
 		'ARSnova.view.speaker.form.ImageUploadPanel'
 	],
 
@@ -96,7 +97,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 		this.textarea = Ext.create('Ext.plugins.ResizableTextArea', {
 			name: 'text',
-			placeHolder: Messages.FORMAT_PLACEHOLDER
+			placeHolder: Messages.FORMAT_PLACEHOLDER,
+
 		});
 
 		// Preview button
@@ -187,11 +189,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true
 		});
 
-		this.freetextQuestion = Ext.create('Ext.form.FormPanel', {
-			hidden: true,
-			scrollable: null,
-			submitOnAction: false,
-			items: []
+		this.freetextQuestion = Ext.create('ARSnova.view.speaker.form.FreeTextQuestion', {
+			hidden: true
 		});
 
 		var messageAppendix = screenWidth >= 650 ? "_LONG" : "";
@@ -555,6 +554,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				case Messages.GRID:
 				case Messages.GRID_LONG:
 					panel.gridQuestion.resetView();
+					/* fall through */
 				default:
 					panel.setImage(null);
 					panel.uploadView.resetButtons();
