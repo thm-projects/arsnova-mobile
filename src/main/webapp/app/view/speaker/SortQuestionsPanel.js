@@ -46,6 +46,8 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	saveButton: null,
 
 	questions: null,
+	
+	sortType: 'custom',
 
 	questionStore: null,
 	questionEntries: [],
@@ -300,6 +302,17 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			 */
 			return;
 		}
+		this.getController().getSort({
+			callbacks: {
+				success: Ext.bind(function (response) {
+					this.sortType = response.sortType;
+				}, this),
+				failure: function (response) {
+					console.log('getSortType failed');
+				}
+			}
+		});
+		
 		this.questionStore.removeAll();
 		this.questionEntries = [];
 
@@ -329,46 +342,43 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	},
 
 	saveHandler: function (button) {
-
-		button.disable();
-
+		var questionElements = document.getElementsByClassName("example");
+		
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
-		var values = document.getElementsByClassName("example");
-
-		var promise = panel.dispatch(values, button);
-		promise.then(function () {
-			// animated scrolling to top
-			panel.getScrollable().getScroller().scrollTo(0, 0, true);
-		});
+		var promise = panel.dispatch(button, this.sortType, [1,2,3]);
+		
 		return promise;
 	},
-
-	dispatch: function (values, button) {
+	
+	sortAlphabetHandler: function (button) {
+		this.sortType = 'alphabet';
+	},
+	sortTimeHandler: function (button) {
+		this.sortType = 'time';
+	},
+	sortRandomHandler: function (button) {
+		this.sortType = 'random';
+	},
+	sortRevertHandler: function (button) {
+	},
+	dispatch: function (button, sortType, questionIDs) {
+		button.disable();
 		var promise = new RSVP.Promise();
-		ARSnova.app.getController('Questions').sortQuestions(values, {
-			success: function (response, opts) {
-				promise.resolve(response);
-				button.enable();
-			},
-			failure: function (response, opts) {
-				Ext.Msg.alert(Messages.NOTICE, Messages.SORT_TRANSMISSION_ERROR);
-				promise.reject(response);
-				button.enable();
+		ARSnova.app.getController('Questions').setSort({
+			sortType: sortType,
+			questionIDs: questionIDs,
+			callbacks: {
+				success: function (response, opts) {
+					promise.resolve(response);
+					button.enable();
+				},
+				failure: function (response, opts) {
+					Ext.Msg.alert(Messages.NOTICE, Messages.SORT_TRANSMISSION_ERROR);
+					promise.reject(response);
+					button.enable();
+				}
 			}
 		});
 		return promise;
-	},
-
-	sortAlphabetHandler: function (button) {
-
-	},
-	sortTimeHandler: function (button) {
-
-	},
-	sortRandomHandler: function (button) {
-
-	},
-	sortReverthandler: function (button) {
-
 	}
 });

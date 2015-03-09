@@ -436,8 +436,13 @@ Ext.define("ARSnova.controller.Questions", {
 		});
 	},
 	
-	sortQuestions: function (options) {
-		ARSnova.app.questionModel.sortQuestions(sessionStorage.getItem('keyword'),
+	getSort: function (options) {
+		ARSnova.app.questionModel.getLectureSort(sessionStorage.getItem('keyword'),
+			options.callbacks);
+	},
+	
+	setSort: function (options) {
+		ARSnova.app.questionModel.setLectureSort(sessionStorage.getItem('keyword'),
 			options.sortType, options.questionIDs, options.callbacks);
 	}
 });

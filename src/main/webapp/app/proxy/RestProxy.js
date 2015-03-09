@@ -813,18 +813,23 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 	
-	/**
-	 * Set a sort type for a list of questions.
-	 * @param sessionKeyword
-	 * @param sort type as string: 'custom', 'alphabet', 'time' or 'random'
-	 * @param list of question IDs to be sorted
-	 * @return false, if a question ID does not exist or does not belong to the session
-	 */
-	sortQuestions: function (sessionKeyword, sortType, questionIDs, callbacks) {
+	getSort: function (sessionKeyword, isPreparation, callbacks) {
 		this.arsjax.request({
-			url: "lecturerquestion/sort?sessionkey=" + sessionKeyword,
+			url: "lecturerquestion/getsort?sessionkey=" + sessionKeyword +
+				"&ispreparation=" + encodeURIComponent(isPreparation),
+			method: "GET",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	setSort: function (sessionKeyword, isPreparation, sortType, questionIDs, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/setsort?sessionkey=" + sessionKeyword + 
+				"&sorttype=" + sortType +
+				"&ispreparation=" + encodeURIComponent(isPreparation),
 			method: "POST",
-			jsonData: {"type" : sortType, "questions": questionIDs},
+			jsonData: questionIDs,
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
