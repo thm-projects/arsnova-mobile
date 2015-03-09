@@ -523,9 +523,13 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			case Messages.FREETEXT_LONG:
 				values.questionType = "freetext";
 				values.possibleAnswers = [];
+<<<<<<< HEAD
 				Ext.apply(values, panel.freetextQuestion.getQuestionValues());
 				break;
+=======
+>>>>>>> 886eb60... worked on ticket #15230 with Dennis Schönhof
 
+				break;
 			case Messages.FLASHCARD:
 			case Messages.FLASHCARD_SHORT:
 				values.questionType = "flashcard";
