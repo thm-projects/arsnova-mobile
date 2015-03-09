@@ -227,6 +227,7 @@ switch (lang) {
 			NO_ANSWER_MARKED_CORRECT_MESSAGE: "Sie haben keine Antwortoption als richtig markiert.",
 			NO_ANSWER_MARKED_CORRECT_OPTION_YES: "Trotzdem speichern",
 			NO_ANSWER_MARKED_CORRECT_OPTION_NO: "Abbrechen",
+			IMG_UPLOAD_TOGGLE_BUTTON:"Bildantwort",
 
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
@@ -732,6 +733,7 @@ switch (lang) {
 			NO_ANSWER_MARKED_CORRECT_MESSAGE: "You have not marked any answer option as correct.",
 			NO_ANSWER_MARKED_CORRECT_OPTION_YES: "Save anyway",
 			NO_ANSWER_MARKED_CORRECT_OPTION_NO: "Abort",
+			IMG_UPLOAD_TOGGLE_BUTTON:"Picture upload",
 
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
