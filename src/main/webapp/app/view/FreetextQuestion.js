@@ -232,11 +232,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		var self = this;
 
 		if (!answer.answerImage) {
-			Ext.Msg.prompt('', Messages.MISSING_IMAGE, function(btn, text){
-			    if (btn == 'ok'){
-			        return;
-			    }
-			});
+			Ext.Msg.alert('', Messages.MISSING_IMAGE);
 			return;
 		}
 
