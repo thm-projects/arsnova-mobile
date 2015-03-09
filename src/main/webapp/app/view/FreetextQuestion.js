@@ -225,7 +225,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	selectAbstentionAnswer: function () {},
 
 	isEmptyAnswer: function () {
-		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || !answerImage;
+		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || !this.answerImage;
 	},
 
 	saveAnswer: function (answer) {
