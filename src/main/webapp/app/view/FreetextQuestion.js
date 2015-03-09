@@ -77,7 +77,10 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		});
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> a6411e3... added upload button #15218
 		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
 			handlerScope: this,
 			addRemoveButton: true,
@@ -87,6 +90,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			style: 'margin-bottom: 30px'
 		});
 
+<<<<<<< HEAD
 		if(!this.questionObj.imageQuestion) {
 			this.uploadView.hide();
 		}
@@ -113,6 +117,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		});
 
 >>>>>>> 1e36745... added image preview #15236
+=======
+>>>>>>> a6411e3... added upload button #15218
 		// Setup question title and text to disply in the same field; markdown handles HTML encoding
 		var questionString = this.questionObj.subject.replace(/\./, "\\.")
 			+ '\n\n' // inserts one blank line between subject and text
@@ -163,10 +169,14 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					items: [questionPanel, this.viewOnly ? {} : {
 						xtype: 'fieldset',
 <<<<<<< HEAD
+<<<<<<< HEAD
 						items: [this.answerSubject, this.answerText]
 =======
 						items: [this.answerSubject, this.answerText, this.uploadView, this.gridQuestion, this.needImageLabel]
 >>>>>>> 1e36745... added image preview #15236
+=======
+						items: [this.answerSubject, this.answerText, this.uploadView]
+>>>>>>> a6411e3... added upload button #15218
 					},
 					this.buttonContainer]
 				}]
