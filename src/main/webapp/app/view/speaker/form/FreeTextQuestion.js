@@ -25,6 +25,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 	],
 	config: {
 <<<<<<< HEAD
+<<<<<<< HEAD
 				cls: 'newQuestionOptions',
 				scrollable: null
 	},
@@ -36,6 +37,9 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 
 =======
 				cls: 'newQuestionOptions centerFormTitle',
+=======
+				cls: 'newQuestionOptions',
+>>>>>>> e417753... Changed alignment of "Antwortmoeglichkeiten" to left. #15216
 				scrollable: null
 	},
 	initialize: function () {
