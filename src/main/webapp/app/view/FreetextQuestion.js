@@ -296,10 +296,14 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 	isEmptyAnswer: function () {
 <<<<<<< HEAD
+<<<<<<< HEAD
 		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || (!this.answerImage && this.questionObj.imageQuestion);
 =======
 		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || !answerImage;
 >>>>>>> 530b3e3... worked on ticket #15219 with Jan Sladek
+=======
+		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || !this.answerImage;
+>>>>>>> 499d4ca... worked on ticket #15219 with Jan Sladek
 	},
 
 	saveAnswer: function (answer) {
