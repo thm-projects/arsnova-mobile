@@ -225,16 +225,16 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	selectAbstentionAnswer: function () {},
 
 	isEmptyAnswer: function () {
-		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "";
+		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || !answerImage;
 	},
 
 	saveAnswer: function (answer) {
 		var self = this;
 
-		if (!answer.answerImage) {
+	/*	if (!answer.answerImage) {
 			Ext.Msg.alert('', Messages.MISSING_IMAGE);
 			return;
-		}
+		}*/
 
 		answer.saveAnswer(self.questionObj._id, {
 			success: function () {
