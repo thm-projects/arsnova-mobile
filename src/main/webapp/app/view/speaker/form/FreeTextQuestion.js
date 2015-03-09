@@ -97,6 +97,16 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 >>>>>>> 8a9bbc2... Added ToggleButton for imagequestion to freetext question. #15216
 =======
 		return isImageQuestion;
+<<<<<<< HEAD
 >>>>>>> 57fb4dc... Added isImageQuestion()-function #15217
+=======
+	},
+	getQuestionValues: function () {
+		var result = {};
+		result.isImageQuestion = this.isImageQuestion();
+		console.log(result.isImageQuestion);
+
+		return result;
+>>>>>>> dea8be2... Added handler for saving imagequestions. #15217
 	}
 });
