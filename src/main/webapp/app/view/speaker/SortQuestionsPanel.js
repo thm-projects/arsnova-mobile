@@ -61,12 +61,12 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 
 		this.questionStore = Ext.create('Ext.data.JsonStore', {
 			model: 'ARSnova.model.Question',
-			sorters: 'text' /*,
+			sorters: 'text',
 			grouper: {
 				groupFn: function (record) {
 					return Ext.util.Format.htmlEncode(record.get('subject'));
 				}
-			} */
+			}
 		});
 
 		this.questionList = Ext.create('Ext.List', {
@@ -165,7 +165,8 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			style: 'width: 89px',
 			handler: function (button) {
 				this.saveHandler(button).then(function (response) {
-					ARSnova.app.getController('Questions').listQuestions();
+					var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
+					panel.getController().listQuestions();
 				});
 			},
 			scope: this
@@ -394,7 +395,8 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	dispatch: function (button, sortType, questionIDs) {
 		button.disable();
 		var promise = new RSVP.Promise();
-		ARSnova.app.getController('Questions').setSort({
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
+		panel.getController().setSort({
 			sortType: sortType,
 			questionIDs: questionIDs,
 			callbacks: {
