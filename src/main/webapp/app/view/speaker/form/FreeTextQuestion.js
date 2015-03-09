@@ -24,6 +24,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		'Ext.form.FieldSet'
 	],
 	config: {
+<<<<<<< HEAD
 				cls: 'newQuestionOptions',
 				scrollable: null
 	},
@@ -33,6 +34,14 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 
 		var me = this;
 
+=======
+				cls: 'newQuestionOptions centerFormTitle',
+				scrollable: null
+	},
+	initialize: function () {
+		this.callParent(arguments);
+
+>>>>>>> 8a9bbc2... Added ToggleButton for imagequestion to freetext question. #15216
 		this.imgUploadBtn = Ext.create('Ext.field.Toggle', {
 				name:'image-upload-button',
 				label:Messages.IMG_UPLOAD_TOGGLE_BUTTON,
@@ -40,7 +49,11 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 				listeners: {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
+<<<<<<< HEAD
 						me.imageQuestion = newValue == 0 ? false : true;
+=======
+						console.log("toggled");
+>>>>>>> 8a9bbc2... Added ToggleButton for imagequestion to freetext question. #15216
 					}
 				}
 		});
@@ -57,10 +70,16 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		});
 
 		this.add([answerOptions]);
+<<<<<<< HEAD
   	},
 	getQuestionValues: function () {
 		var result = {};
 		result.imageQuestion = this.imageQuestion;
 		return result;
+=======
+  },
+	isImageQuestion: function() {
+
+>>>>>>> 8a9bbc2... Added ToggleButton for imagequestion to freetext question. #15216
 	}
 });
