@@ -29,7 +29,11 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 				cls: 'newQuestionOptions',
 				scrollable: null
 	},
+<<<<<<< HEAD
 	imageQuestion: false,
+=======
+	isImageQuestion: false,
+>>>>>>> 57fb4dc... Added isImageQuestion()-function #15217
 	initialize: function () {
 		this.callParent(arguments);
 
@@ -57,7 +61,12 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 						me.imageQuestion = newValue == 0 ? false : true;
 =======
 						console.log("toggled");
+<<<<<<< HEAD
 >>>>>>> 8a9bbc2... Added ToggleButton for imagequestion to freetext question. #15216
+=======
+						isImageQuestion = newValue;
+						console.log(isImageQuestion);
+>>>>>>> 57fb4dc... Added isImageQuestion()-function #15217
 					}
 				}
 		});
@@ -83,7 +92,11 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 =======
   },
 	isImageQuestion: function() {
+<<<<<<< HEAD
 
 >>>>>>> 8a9bbc2... Added ToggleButton for imagequestion to freetext question. #15216
+=======
+		return isImageQuestion;
+>>>>>>> 57fb4dc... Added isImageQuestion()-function #15217
 	}
 });
