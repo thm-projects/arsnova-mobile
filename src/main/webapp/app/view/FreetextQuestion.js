@@ -295,16 +295,20 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	selectAbstentionAnswer: function () {},
 
 	isEmptyAnswer: function () {
+<<<<<<< HEAD
 		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || (!this.answerImage && this.questionObj.imageQuestion);
+=======
+		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || !answerImage;
+>>>>>>> 530b3e3... worked on ticket #15219 with Jan Sladek
 	},
 
 	saveAnswer: function (answer) {
 		var self = this;
 
-		if (!answer.answerImage) {
+	/*	if (!answer.answerImage) {
 			Ext.Msg.alert('', Messages.MISSING_IMAGE);
 			return;
-		}
+		}*/
 
 		answer.saveAnswer(self.questionObj._id, {
 			success: function () {
