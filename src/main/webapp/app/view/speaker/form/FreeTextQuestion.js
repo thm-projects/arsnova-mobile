@@ -27,6 +27,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 				cls: 'newQuestionOptions',
 				scrollable: null
 	},
+	isImageQuestion: false,
 	initialize: function () {
 		this.callParent(arguments);
 
@@ -38,6 +39,8 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
 						console.log("toggled");
+						isImageQuestion = newValue;
+						console.log(isImageQuestion);
 					}
 				}
 		});
@@ -56,6 +59,6 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		this.add([answerOptions]);
   },
 	isImageQuestion: function() {
-
+		return isImageQuestion;
 	}
 });
