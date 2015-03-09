@@ -523,8 +523,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			case Messages.FREETEXT_LONG:
 				values.questionType = "freetext";
 				values.possibleAnswers = [];
-				break;
 
+				break;
 			case Messages.FLASHCARD:
 			case Messages.FLASHCARD_SHORT:
 				values.questionType = "flashcard";

@@ -150,6 +150,10 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		});
 	},
 
+	setImage: function(image) {
+		this.answerImage = image;
+	},
+
 	getQuestionTypeMessage: function (msgAppendix) {
 		msgAppendix = msgAppendix ? msgAppendix : "";
 		var message;
@@ -254,7 +258,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			empty: function () {
 				var answer = Ext.create('ARSnova.model.Answer', {
 					answerSubject: self.answerSubject.getValue(),
-					answerText: self.answerText.getValue()
+					answerText: self.answerText.getValue(),
+					answerImage: self.answerImage
 				});
 
 				self.saveAnswer(answer);
@@ -265,6 +270,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				var answer = Ext.create('ARSnova.model.Answer', theAnswer);
 				answer.set('answerSubject', self.answerSubject.getValue());
 				answer.set('answerText', self.answerText.getValue());
+				answer.set('answerImage', self.answerImage);
 				answer.set('abstention', false);
 
 				self.saveAnswer(answer);
