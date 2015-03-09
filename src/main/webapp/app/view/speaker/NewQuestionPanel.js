@@ -520,10 +520,18 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 			case Messages.FREETEXT:
 			case Messages.FREETEXT_LONG:
+				//TODO: wenn toggled -> im model isImageQuestion = true
+				if(this.freetextQuestion.isImageQuestion()) {
+					
+				}
+				else {
+
+				}
+
 				values.questionType = "freetext";
 				values.possibleAnswers = [];
-
 				break;
+
 			case Messages.FLASHCARD:
 			case Messages.FLASHCARD_SHORT:
 				values.questionType = "flashcard";
