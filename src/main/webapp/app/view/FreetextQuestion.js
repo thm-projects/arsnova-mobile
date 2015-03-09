@@ -231,6 +231,11 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	saveAnswer: function (answer) {
 		var self = this;
 
+		if (!answer.answerImage) {
+			Ext.Msg.alert('', Messages.MISSING_IMAGE);
+			return;
+		}
+
 		answer.saveAnswer(self.questionObj._id, {
 			success: function () {
 				var questionsArr = Ext.decode(localStorage.getItem(self.questionObj.questionVariant + 'QuestionIds'));
