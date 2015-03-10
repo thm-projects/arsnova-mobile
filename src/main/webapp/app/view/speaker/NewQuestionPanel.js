@@ -29,7 +29,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		'ARSnova.view.speaker.form.YesNoQuestion',
 		'ARSnova.view.speaker.form.NullQuestion',
 		'ARSnova.view.speaker.form.GridQuestion',
-		'ARSnova.view.speaker.form.ImageUploadPanel'
+		'ARSnova.view.speaker.form.ImageUploadPanel',
+		'ARSnova.view.speaker.form.FreetextQuestion'
 	],
 
 	config: {
@@ -187,11 +188,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true
 		});
 
-		this.freetextQuestion = Ext.create('Ext.form.FormPanel', {
-			hidden: true,
-			scrollable: null,
-			submitOnAction: false,
-			items: []
+		this.freetextQuestion = Ext.create('ARSnova.view.speaker.form.FreetextQuestion', {
+			hidden: true
 		});
 
 		var messageAppendix = screenWidth >= 650 ? "_LONG" : "";
