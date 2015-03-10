@@ -21,9 +21,13 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 	requires: [
 		'ARSnova.model.Answer',
+<<<<<<< HEAD
 		'ARSnova.view.CustomMask',
 		'ARSnova.view.components.GridImageContainer',
 		'ARSnova.view.speaker.form.ImageUploadPanel'
+=======
+		'ARSnova.view.CustomMask'
+>>>>>>> e7a0217... Fixed Bug after adding right information
 	],
 
 	config: {
@@ -85,6 +89,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			style: 'margin-bottom: 30px'
 		});
 
+<<<<<<< HEAD
 		if(!this.questionObj.imageQuestion) {
 			this.uploadView.hide();
 		}
@@ -101,6 +106,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			editable: false
 		});
 
+=======
+>>>>>>> e7a0217... Fixed Bug after adding right information
 		// Setup question title and text to disply in the same field; markdown handles HTML encoding
 		var questionString = this.questionObj.subject.replace(/\./, "\\.")
 			+ '\n\n' // inserts one blank line between subject and text
@@ -150,7 +157,11 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					submitOnAction: false,
 					items: [questionPanel, this.viewOnly ? {} : {
 						xtype: 'fieldset',
+<<<<<<< HEAD
 						items: [this.answerSubject, this.answerText, this.uploadView, this.gridQuestion, this.needImageLabel]
+=======
+						items: [this.answerSubject, this.answerText, this.uploadView]
+>>>>>>> e7a0217... Fixed Bug after adding right information
 					},
 					this.buttonContainer]
 				}]
@@ -170,6 +181,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 	setImage: function(image) {
 		this.answerImage = image;
+<<<<<<< HEAD
 		this.gridQuestion.setImage(image);
 		var self = this;
 		if(this.answerImage) {
@@ -187,6 +199,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	setGridConfiguration: function(image){
 		this.gridQuestion.setEditable(false);
 		this.gridQuestion.setGridIsHidden(true);
+=======
+>>>>>>> e7a0217... Fixed Bug after adding right information
 	},
 
 	getQuestionTypeMessage: function (msgAppendix) {
@@ -227,12 +241,21 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	},
 
 	saveHandler: function (button, event) {
+<<<<<<< HEAD
+=======
+		console.log("new3");		
+		
+>>>>>>> e7a0217... Fixed Bug after adding right information
 		if (this.isEmptyAnswer()) {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.MISSING_INPUT);
 			return;
 		}
 
+<<<<<<< HEAD
 		Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
+=======
+		Ext.Msg.confirm('', Messages.PICTURE_RIGHT_INFORMATION, function (button) {
+>>>>>>> e7a0217... Fixed Bug after adding right information
 			if (button === "yes") {
 				this.storeAnswer();
 				this.buttonContainer.setHidden(true);
@@ -260,12 +283,24 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	selectAbstentionAnswer: function () {},
 
 	isEmptyAnswer: function () {
+<<<<<<< HEAD
 		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || (!this.answerImage && this.questionObj.imageQuestion);
+=======
+		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || !this.answerImage;
+>>>>>>> e7a0217... Fixed Bug after adding right information
 	},
 
 	saveAnswer: function (answer) {
 		var self = this;
 
+<<<<<<< HEAD
+=======
+	/*	if (!answer.answerImage) {
+			Ext.Msg.alert('', Messages.MISSING_IMAGE);
+			return;
+		}*/
+
+>>>>>>> e7a0217... Fixed Bug after adding right information
 		answer.saveAnswer(self.questionObj._id, {
 			success: function () {
 				var questionsArr = Ext.decode(localStorage.getItem(self.questionObj.questionVariant + 'QuestionIds'));
