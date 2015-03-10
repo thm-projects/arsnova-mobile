@@ -473,6 +473,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		values.questionVariant = panel.getVariant();
 		values.image = this.image;
 		values.flashcardImage = null;
+		values.imageQuestion = false;
 
 		if (localStorage.getItem('courseId') != null && localStorage.getItem('courseId').length > 0) {
 			values.releasedFor = 'courses';
@@ -520,16 +521,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 			case Messages.FREETEXT:
 			case Messages.FREETEXT_LONG:
-				//TODO: wenn toggled -> im model isImageQuestion = true
-				if(this.freetextQuestion.isImageQuestion()) {
-					
-				}
-				else {
-
-				}
-
 				values.questionType = "freetext";
 				values.possibleAnswers = [];
+				Ext.apply(values, panel.freetextQuestion.getQuestionValues());
+				console.log(values);
 				break;
 
 			case Messages.FLASHCARD:
@@ -618,6 +613,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			gridType: values.gridType,
 			scaleFactor: values.scaleFactor,
 			gridScaleFactor: values.gridScaleFactor,
+			imageQuestion: values.imageQuestion,
 			saveButton: button,
 			successFunc: function (response, opts) {
 				promise.resolve(response);

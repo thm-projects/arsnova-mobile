@@ -70,7 +70,7 @@ Ext.define('ARSnova.model.Question', {
 			'gridType',
 			'scaleFactor',
 			'gridScaleFactor',
-			'isImageQuestion'
+			'imageQuestion'
 		],
 
 		validations: [
