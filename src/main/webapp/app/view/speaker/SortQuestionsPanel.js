@@ -23,7 +23,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	requires: [
 		'ARSnova.view.Caption',
 		'ARSnova.model.Question',
-		'Ext.plugin.SortableList'
+		'Ext.plugin.SortableQuestionList'
 	],
 
 	config: {
@@ -31,8 +31,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		fullscreen: true,
 		scrollable: {
 			direction: 'vertical',
-			directionLock: true,
-			disabled: true
+			directionLock: true
 		},
 
 		controller: null
@@ -47,6 +46,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 
 	questions: null,
 
+	questionList: null,
 	questionStore: null,
 	questionEntries: [],
 
@@ -69,15 +69,15 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		this.questionList = Ext.create('Ext.List', {
 			activeCls: 'search-item-active',
 			cls: 'roundedCorners allCapsHeader',
-
-			scrollable: {disabled: false},
+			scrollable: {disabled: true},
 			hidden: true,
 			infinite: true,
-			plugins: {xclass: 'Ext.plugin.SortableList', handleSelector: '.dragStyle'},
+			variableHeights: true,
+			plugins: 'sortablequestionlist',
 
 			style: {
 				backgroundColor: 'transparent',
-				height: '660px'
+				//height: '660px'
 			},
 
 
@@ -85,9 +85,10 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			itemTpl:
 				'<div class="icon-drag thm-grey dragStyle x-list-sortablehandle">&#xf0dc;</div>' +
 				'<tpl if="active"><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
+				'<tpl if="x-list-header-wrap"><div style="padding-top: 20px"></div></tpl>'+
 				'<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
 				'<div class="x-button x-hasbadge audiencePanelListBadge"></div>',
-			grouped: true,
+			//grouped: true,
 			store: this.questionStore,
 
 			listeners: {
@@ -135,6 +136,11 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 				}
 			}
 		});
+
+		var itemCount = this.questionStore.getCount();
+		var height = 42 * itemCount;
+		var heightString = height + "px";
+		this.questionList.setHeight(660);
 
 		this.questionListContainer = Ext.create('Ext.form.FieldSet', {
 			title: Messages.QUESTION_MANAGEMENT,
