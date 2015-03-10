@@ -84,16 +84,22 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 						if (fileSizeCheck !== true) {
 							//The response of checkFilesize was the compressed base64 encoded String, see doc of checkFilesize
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 76679fd... worked on ticket #15221, added debug output (temporary)
 							console.log("Image was compressed to " + fileSizeCheck);
 							dataurl = fileSizeCheck;
 						}
 						else {
 							console.log("Image wasn't compressed!");
 						}
+<<<<<<< HEAD
 =======
 							dataurl = fileSizeCheck;
 						}
 >>>>>>> 0241e98... worked on ticket #15221
+=======
+>>>>>>> 76679fd... worked on ticket #15221, added debug output (temporary)
 						if (this.config.addRemoveButton) {
 							this.removeButton.show();
 							this.segmentButton.hide();
@@ -234,10 +240,14 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	 * @return true if the given base64 encoded String is smaller than the allowed file size, otherwise false
 	 * @note This function returns a compressed version of the given base64 encoded String if the file size was greater
 <<<<<<< HEAD
+<<<<<<< HEAD
 	 * than the allowed size and the compression was successfully (On check with less typesafety this will be true)
 =======
 	 * than the allowed size and the compression was successfully
 >>>>>>> 0241e98... worked on ticket #15221
+=======
+	 * than the allowed size and the compression was successfully (On check with less typesafety this will be true)
+>>>>>>> 76679fd... worked on ticket #15221, added debug output (temporary)
 	 */
 	checkFilesize: function (url) {
 		var head = 'data:image/png;base64,';
