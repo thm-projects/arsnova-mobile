@@ -813,9 +813,21 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 	
-	sortQuestions: function (questionIDs, callbacks) {
+	getSort: function (sessionKeyword, isPreparation, callbacks) {
 		this.arsjax.request({
-			url: "lecturerquestion/sort",
+			url: "lecturerquestion/getsort?sessionkey=" + sessionKeyword +
+				"&ispreparation=" + encodeURIComponent(isPreparation),
+			method: "GET",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+	
+	setSort: function (sessionKeyword, isPreparation, sortType, questionIDs, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/setsort?sessionkey=" + sessionKeyword + 
+				"&sorttype=" + sortType +
+				"&ispreparation=" + encodeURIComponent(isPreparation),
 			method: "POST",
 			jsonData: questionIDs,
 			success: callbacks.success,

@@ -21,7 +21,6 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	extend: 'Ext.Panel',
 
 	requires: [
-		'ARSnova.view.Caption',
 		'ARSnova.model.Question',
 		'Ext.plugin.SortableList'
 	],
@@ -46,8 +45,12 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	saveButton: null,
 
 	questions: null,
+	
+	sortType: 'custom',
+	sortTypeBackup: 'custom',
 
 	questionStore: null,
+	questionStoreBackup: null,
 	questionEntries: [],
 
 	initialize: function () {
@@ -56,15 +59,8 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		var upperActionButtonCls = screenWidth < 410 ? 'smallerActionButton' : 'actionButton';
 
-		this.questionStore = Ext.create('Ext.data.JsonStore', {
-			model: 'ARSnova.model.Question',
-			sorters: 'text',
-			grouper: {
-				groupFn: function (record) {
-					return Ext.util.Format.htmlEncode(record.get('subject'));
-				}
-			}
-		});
+		this.questionStore = this.createStore();
+		this.questionStoreBackup = this.createStore();
 
 		this.questionList = Ext.create('Ext.List', {
 			activeCls: 'search-item-active',
@@ -162,7 +158,8 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			style: 'width: 89px',
 			handler: function (button) {
 				this.saveHandler(button).then(function (response) {
-					ARSnova.app.getController('Questions').listQuestions();
+					var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
+					panel.getController().listQuestions();
 				});
 			},
 			scope: this
@@ -175,7 +172,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			imageCls: 'icon-sort-alpha thm-grey',
 			handler: this.sortAlphabetHandler
 		});
-
+		
 		this.sortTimeButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SORT_TIME,
 			cls: 'actionButton',
@@ -183,7 +180,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			imageCls: 'icon-sort-time thm-grey',
 			handler: this.sortTimeHandler
 		});
-
+		
 		this.sortRandomButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SORT_RANDOM,
 			cls: 'actionButton',
@@ -216,17 +213,6 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			]
 		});
 
-		this.caption = Ext.create('ARSnova.view.Caption', {
-			translation: {
-				active: Messages.OPEN_QUESTION,
-				inactive: Messages.CLOSED_QUESTION
-			},
-			cls: "x-form-fieldset",
-			style: "border-radius: 15px",
-			hidden: true
-		});
-		this.caption.connectToStore(this.questionStore);
-
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.QUESTIONS,
 			cls: 'speakerTitleText',
@@ -245,8 +231,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 				xtype: 'formpanel',
 				scrollable: null,
 				items: [this.questionListContainer]
-			},
-			this.caption
+			}
 		]);
 
 		var me = this;
@@ -291,6 +276,19 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		this.on('deactivate', this.onDeactivate);
 		this.on('orientationchange', this.onOrientationChange);
 	},
+	
+	createStore: function () {
+		var store = Ext.create('Ext.data.JsonStore', {
+			model: 'ARSnova.model.Question',
+			sorters: 'text',
+			grouper: {
+				groupFn: function (record) {
+					return Ext.util.Format.htmlEncode(record.get('subject'));
+				}
+			}
+		});
+		return store;
+	},
 
 	onActivate: function () {
 		if (!this.getController()) {
@@ -300,15 +298,27 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			 */
 			return;
 		}
+		this.getController().getSort({
+			callbacks: {
+				success: Ext.bind(function (response) {
+					this.sortType = response.sortType;
+					this.sortTypeBackup = response.sortType;
+				}, this),
+				failure: function (response) {
+					console.log('getSortType failed');
+				}
+			}
+		});
+		
 		this.questionStore.removeAll();
+		this.questionStoreBackup.removeAll();
 		this.questionEntries = [];
 
 		this.getController().getQuestions(sessionStorage.getItem('keyword'), {
 			success: Ext.bind(function (response) {
 				var questions = Ext.decode(response.responseText);
 				this.questionStore.add(questions);
-				this.caption.show();
-				this.caption.explainStatus(questions);
+				this.questionStoreBackup.add(questions);
 
 				this.questionListContainer.show();
 				this.questionList.show();
@@ -316,7 +326,6 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			empty: Ext.bind(function () {
 				this.questionListContainer.hide();
 				this.questionList.show();
-				this.caption.hide();
 			}, this),
 			failure: function (response) {
 				console.log('server-side error questionModel.getSkillQuestions');
@@ -329,46 +338,73 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	},
 
 	saveHandler: function (button) {
-
-		button.disable();
-
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
-		var values = document.getElementsByClassName("example");
-
-		var promise = panel.dispatch(values, button);
-		promise.then(function () {
-			// animated scrolling to top
-			panel.getScrollable().getScroller().scrollTo(0, 0, true);
+		
+		var questionIDs = [];
+		panel.questionStore.each(function (record) {
+			questionIDs.push(record.getId());
 		});
+		
+		var promise = panel.dispatch(button, panel.sortType, questionIDs);
 		return promise;
 	},
-
-	dispatch: function (values, button) {
+	sortAlphabetHandler: function (button) {
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
+		panel.sortType = 'alphabet';
+		panel.questionStore.sort([
+			{
+				property : 'text',
+				direction: 'ASC'
+			}
+		]);
+	},
+	sortTimeHandler: function (button) {
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
+		panel.sortType = 'time';
+		panel.questionStore.sort([
+			{
+				property : 'timestamp',
+				direction: 'DESC'
+			}
+		]);
+	},
+	sortRandomHandler: function (button) {
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
+		panel.sortType = 'random';
+		panel.questionStore.sort([
+			{
+				property : 'text',
+				direction: 'DESC'
+			}
+		]);
+	},
+	sortRevertHandler: function (button) {
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
+		panel.sortType = panel.sortTypeBackup;
+		panel.questionStore.removeAll();
+		panel.questionStoreBackup.each(function (record) {
+			panel.questionStore.add(record);
+		});
+	},
+	dispatch: function (button, sortType, questionIDs) {
+		button.disable();
 		var promise = new RSVP.Promise();
-		ARSnova.app.getController('Questions').sortQuestions(values, {
-			success: function (response, opts) {
-				promise.resolve(response);
-				button.enable();
-			},
-			failure: function (response, opts) {
-				Ext.Msg.alert(Messages.NOTICE, Messages.SORT_TRANSMISSION_ERROR);
-				promise.reject(response);
-				button.enable();
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
+		panel.getController().setSort({
+			sortType: sortType,
+			questionIDs: questionIDs,
+			callbacks: {
+				success: function (response, opts) {
+					promise.resolve(response);
+					button.enable();
+				},
+				failure: function (response, opts) {
+					Ext.Msg.alert(Messages.NOTICE, Messages.SORT_TRANSMISSION_ERROR);
+					promise.reject(response);
+					button.enable();
+				}
 			}
 		});
 		return promise;
-	},
-
-	sortAlphabetHandler: function (button) {
-
-	},
-	sortTimeHandler: function (button) {
-
-	},
-	sortRandomHandler: function (button) {
-
-	},
-	sortReverthandler: function (button) {
-
 	}
 });

@@ -51,5 +51,15 @@ Ext.define("ARSnova.controller.PreparationQuestions", {
 	getQuestions: function () {
 		var question = Ext.create('ARSnova.model.Question');
 		question.getPreparationQuestions.apply(question, arguments);
+	},
+	
+	getSort: function (options) {
+		ARSnova.app.questionModel.getPreparationSort(sessionStorage.getItem('keyword'),
+			options.callbacks);
+	},
+	
+	setSort: function (options) {
+		ARSnova.app.questionModel.setPreparationSort(sessionStorage.getItem('keyword'),
+			options.sortType, options.questionIDs, options.callbacks);
 	}
 });
