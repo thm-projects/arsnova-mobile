@@ -527,7 +527,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 <<<<<<< HEAD
 <<<<<<< HEAD
 				Ext.apply(values, panel.freetextQuestion.getQuestionValues());
-				console.log(values);
 				break;
 =======
 >>>>>>> 886eb60... worked on ticket #15230 with Dennis Schönhof

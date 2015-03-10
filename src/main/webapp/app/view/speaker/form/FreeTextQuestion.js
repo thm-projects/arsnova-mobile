@@ -117,7 +117,6 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 	getQuestionValues: function () {
 		var result = {};
 		result.imageQuestion = this.imageQuestion();
-		console.log(result);
 		return result;
 >>>>>>> dea8be2... Added handler for saving imagequestions. #15217
 	}

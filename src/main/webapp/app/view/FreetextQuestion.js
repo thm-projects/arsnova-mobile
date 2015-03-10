@@ -91,10 +91,14 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		});
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 7f99aed... disabled image upload view #15323
 		if(!this.questionObj.imageQuestion) {
 			this.uploadView.hide();
 		}
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 8341fdb... disabled image upload view #15323
 =======
@@ -119,6 +123,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 >>>>>>> 1e36745... added image preview #15236
 =======
 >>>>>>> a6411e3... added upload button #15218
+=======
+>>>>>>> 7f99aed... disabled image upload view #15323
 		// Setup question title and text to disply in the same field; markdown handles HTML encoding
 		var questionString = this.questionObj.subject.replace(/\./, "\\.")
 			+ '\n\n' // inserts one blank line between subject and text
@@ -129,8 +135,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			cls: "roundedBox allCapsHeader"
 		});
 		questionPanel.setContent(questionString, true, true);
-
-		console.log('imageQuestion ' + this.questionObj.imageQuestion);
 
 		this.buttonContainer = Ext.create('Ext.Container', {
 			layout: {
@@ -303,6 +307,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	isEmptyAnswer: function () {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || (!this.answerImage && this.questionObj.imageQuestion);
 =======
 		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || !answerImage;
@@ -310,6 +315,9 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 =======
 		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || !this.answerImage;
 >>>>>>> 499d4ca... worked on ticket #15219 with Jan Sladek
+=======
+		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || (!this.answerImage && this.questionObj.imageQuestion);
+>>>>>>> 7f99aed... disabled image upload view #15323
 	},
 
 	saveAnswer: function (answer) {
