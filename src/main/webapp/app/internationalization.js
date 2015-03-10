@@ -1061,6 +1061,9 @@ switch (lang) {
 			SHOW_FLASHCARD_ANSWER: "Antwort anzeigen",
 			HIDE_FLASHCARD_ANSWER: "Antwort ausblenden",
 			IMAGE_NEEDED: "Es wird ein Bild benötigt",
+			PICTURE_RIGHT_INFORMATION: ['Bitte beachten Sie, dass Sie keine Bilder verwenden für deren Verwendung Sie keine Rechte haben (Urheberrechtsgesetz) oder die pornografische oder volksverhetzende(§130 StGB) Inhalte bergen!\n',
+					'Antwort abschicken?'
+				].join('\n'),
 
 			/* speaker */
 			LIVE_FEEDBACK: "Live-Feedback",
@@ -1195,9 +1198,6 @@ switch (lang) {
 			MISSING_ANSWERS: "Es fehlen Antwortoptionen",
 			MISSING_IMAGE: "Es wurde kein Bild hochgeladen",
 			MISSING_FLASHCARD: "Die Rückseite ist leer",
-			PICTURE_RIGHT_INFORMATION: ['Bitte beachten Sie, dass Sie keine Bilder verwenden für deren Verwendung Sie keine Rechte haben (Urheberrechtsgesetz) oder die pornografische oder volksverhetzende(§130 StGB) Inhalte bergen\n',
-					'Antwort abschicken?'
-				].join('\n'),
 
 			/*Export session*/
 			EXPORT_MSG: "Was möchten Sie exportieren?",
@@ -1821,7 +1821,7 @@ switch (lang) {
 			MISSING_ANSWERS: "Some answer options are missing",
 			MISSING_IMAGE: "No picture has been uploaded",
 			MISSING_FLASHCARD: "The back page text is missing",
-			PICTURE_RIGHT_INFORMATION: ['Please note, that you must not use pictures for which you do not have the rights to use(copyright) or that extend pornographic or inciting(§130 StGB) content\n', 
+			PICTURE_RIGHT_INFORMATION: ['Please note, that you must not use pictures for which you do not have the rights to use(copyright) or that extend pornographic or inciting(§130 StGB) content!\n', 
 					'Submit answer?'
 				].join('\n'),
 
