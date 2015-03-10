@@ -203,6 +203,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 	setImage: function(image) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 		this.answerImage = image;
 <<<<<<< HEAD
 		this.gridQuestion.setImage(image);
@@ -232,6 +233,9 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 =======
 		this.answerImage = jic.compress(image, 10, "jpg");
 >>>>>>> 2f4f943... worked on ticket #15221, added JIC library
+=======
+		this.answerImage = image;
+>>>>>>> 0241e98... worked on ticket #15221
 	},
 
 	getQuestionTypeMessage: function (msgAppendix) {

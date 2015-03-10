@@ -83,12 +83,17 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 					if (fileSizeCheck) {
 						if (fileSizeCheck !== true) {
 							//The response of checkFilesize was the compressed base64 encoded String, see doc of checkFilesize
+<<<<<<< HEAD
 							console.log("Image was compressed to " + fileSizeCheck);
 							dataurl = fileSizeCheck;
 						}
 						else {
 							console.log("Image wasn't compressed!");
 						}
+=======
+							dataurl = fileSizeCheck;
+						}
+>>>>>>> 0241e98... worked on ticket #15221
 						if (this.config.addRemoveButton) {
 							this.removeButton.show();
 							this.segmentButton.hide();
@@ -228,7 +233,11 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	 * @param url The base64 encoded String
 	 * @return true if the given base64 encoded String is smaller than the allowed file size, otherwise false
 	 * @note This function returns a compressed version of the given base64 encoded String if the file size was greater
+<<<<<<< HEAD
 	 * than the allowed size and the compression was successfully (On check with less typesafety this will be true)
+=======
+	 * than the allowed size and the compression was successfully
+>>>>>>> 0241e98... worked on ticket #15221
 	 */
 	checkFilesize: function (url) {
 		var head = 'data:image/png;base64,';
@@ -237,11 +246,18 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 
 		if (!isNaN(ARSnova.app.globalConfig.maxUploadFilesize)) {
 			if (imgFileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
+<<<<<<< HEAD
 				url = this.compress(url, (Math.max(1.0, Math.min(100.0, 100.0 / (imgFileSize / ARSnova.app.globalConfig.maxUploadFileSize)))).toFixed(2));
 				imgFileSize = Math.round((url.length - head.length) * 3 / 4);
 				compressed = true;
 			}
 			//2nd check if the compression didn't succeed (maximal compression = 1% of the original)
+=======
+				url = jic.compress(url, (Math.max(1.0, Math.min(100.0, 100.0 * (1.0 / (imgFileSize / ARSnova.app.globalConfig.maxUploadFileSize))))).toFixed(2), "png");
+				imgFileSize = Math.round((url.length - head.length) * 3 / 4);
+				compressed = true;
+			}
+>>>>>>> 0241e98... worked on ticket #15221
 			if (imgFileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
 				var msgTemp = Messages.GRID_ERROR_FILE_SIZE.replace(/%%%/, Math.round((imgFileSize / 1024)) + "KB");
 				var filesizeString = Math.round(parseInt(ARSnova.app.globalConfig.maxUploadFilesize / 1024)) + "KB";
@@ -251,6 +267,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		}
 
 		return compressed ? url : true;
+<<<<<<< HEAD
 	},
 
 	compress: function(source, quality) {
@@ -261,6 +278,8 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		var result = new Image();
 		result.src = cvs.toDataURL("png", quality / 100);
 		return result;
+=======
+>>>>>>> 0241e98... worked on ticket #15221
 	},
 
 	toggleUploadTextfieldVisibility: function () {
