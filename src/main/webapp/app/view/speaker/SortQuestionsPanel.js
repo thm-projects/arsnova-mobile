@@ -354,7 +354,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		panel.questionStore.sort([
 			{
 				property : 'text',
-				direction: 'DESC'
+				direction: 'ASC'
 			}
 		]);
 	},
