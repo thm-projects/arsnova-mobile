@@ -344,11 +344,14 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	},
 
 	saveHandler: function (button) {
-		var questionElements = document.getElementsByClassName("example");
-		
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
-		var promise = panel.dispatch(button, this.sortType, [1,2,3]);
 		
+		var questionIDs = [];
+		panel.questionStore.each(function (record) {
+			questionIDs.push(record.get('_rev'));
+		});
+		
+		var promise = panel.dispatch(button, panel.sortType, questionIDs);
 		return promise;
 	},
 	
@@ -372,7 +375,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		panel.questionStore.sort([
 			{
 				property : 'timestamp',
-				direction: 'DESC'
+				direction: 'ASC'
 			}
 		]);
 	},
