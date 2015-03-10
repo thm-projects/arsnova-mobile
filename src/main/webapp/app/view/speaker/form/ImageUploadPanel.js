@@ -79,7 +79,12 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			listeners: {
 				scope: this,
 				loadsuccess: function (dataurl, e) {
-					if (this.checkFilesize(dataurl)) {
+					var fileSizeCheck = this.checkFilesize(dataurl);
+					if (fileSizeCheck) {
+						if (fileSizeCheck !== true) {
+							//The response of checkFilesize was the compressed base64 encoded String, see doc of checkFilesize
+							dataurl = fileSizeCheck;
+						}
 						if (this.config.addRemoveButton) {
 							this.removeButton.show();
 							this.segmentButton.hide();
@@ -215,21 +220,33 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		this.segmentButton.show();
 	},
 
+	/**
+	 * Checks the file size of the given base64 encoded String
+	 * @param url The base64 encoded String
+	 * @return true if the given base64 encoded String is smaller than the allowed file size, otherwise false
+	 * @note This function returns a compressed version of the given base64 encoded String if the file size was greater
+	 * than the allowed size and the compression was successfully
+	 */
 	checkFilesize: function (url) {
 		var head = 'data:image/png;base64,';
 		var imgFileSize = Math.round((url.length - head.length) * 3 / 4);
+		var compressed = false;
 
 		if (!isNaN(ARSnova.app.globalConfig.maxUploadFilesize)) {
+			if (imgFileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
+				url = jic.compress(url, (Math.max(1.0, Math.min(100.0, 100.0 * (1.0 / (imgFileSize / ARSnova.app.globalConfig.maxUploadFileSize))))).toFixed(2), "png");
+				imgFileSize = Math.round((url.length - head.length) * 3 / 4);
+				compressed = true;
+			}
 			if (imgFileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
 				var msgTemp = Messages.GRID_ERROR_FILE_SIZE.replace(/%%%/, Math.round((imgFileSize / 1024)) + "KB");
 				var filesizeString = Math.round(parseInt(ARSnova.app.globalConfig.maxUploadFilesize / 1024)) + "KB";
 				Ext.Msg.alert(Messages.GRID_ERROR_IMAGE_NOT_LOADED, msgTemp.replace(/###/, filesizeString));
-
 				return false;
 			}
 		}
 
-		return true;
+		return compressed ? url : true;
 	},
 
 	toggleUploadTextfieldVisibility: function () {
