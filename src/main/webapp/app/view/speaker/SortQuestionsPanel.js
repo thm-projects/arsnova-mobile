@@ -383,7 +383,8 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		panel.sortType = panel.sortTypeBackup;
 		panel.questionStore.removeAll();
 		panel.questionStore.each(function (record) {
-			panel.questionStore.add([record]);
+			var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
+			panel.questionStore.add(record);
 		});
 	},
 	dispatch: function (button, sortType, questionIDs) {
