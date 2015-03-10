@@ -180,7 +180,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 	setImage: function(image) {
 		this.answerImage = image;
-<<<<<<< HEAD
 		this.gridQuestion.setImage(image);
 		var self = this;
 		if(this.answerImage) {
@@ -198,8 +197,11 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	setGridConfiguration: function(image){
 		this.gridQuestion.setEditable(false);
 		this.gridQuestion.setGridIsHidden(true);
+<<<<<<< HEAD
 =======
 >>>>>>> de6724e... worked on ticket #15221
+=======
+>>>>>>> 7d44dcf... force merge
 	},
 
 	getQuestionTypeMessage: function (msgAppendix) {
