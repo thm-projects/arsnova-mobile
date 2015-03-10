@@ -360,12 +360,8 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		panel.sortType = 'alphabet';
 		panel.questionStore.sort([
 			{
-				property : 'subject',
-				direction: 'ASC'
-			},
-			{
 				property : 'text',
-				direction: 'DESC'
+				direction: 'ASC'
 			}
 		]);
 	},
@@ -383,10 +379,6 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
 		panel.sortType = 'random';
 		panel.questionStore.sort([
-			{
-				property : 'subject',
-				direction: 'ASC'
-			},
 			{
 				property : 'text',
 				direction: 'DESC'
