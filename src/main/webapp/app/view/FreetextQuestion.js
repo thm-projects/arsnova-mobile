@@ -262,12 +262,14 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	},
 
 	saveHandler: function (button, event) {
+		console.log("new3");		
+		
 		if (this.isEmptyAnswer()) {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.MISSING_INPUT);
 			return;
 		}
 
-		Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
+		Ext.Msg.confirm('', Messages.PICTURE_RIGHT_INFORMATION, function (button) {
 			if (button === "yes") {
 				this.storeAnswer();
 				this.buttonContainer.setHidden(true);
