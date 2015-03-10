@@ -35,28 +35,31 @@ Ext.define('ARSnova.view.speaker.form.FreetextQuestion', {
 
 		this.textarea = Ext.create('Ext.plugins.ResizableTextArea', {
 			name: 'text',
-			placeHolder: Messages.FREETEXT_TEST
+			placeHolder: Messages.FREETEXT_
 		});
 
 		//Siehe yesno question
-		this.yesButton = Ext.create('Ext.Button', {
-			text: Messages.GRAMMAR_YES//this.getTextYes(),
-			//pressed: this.getPressed() === 'yes'
+		var case_sensitive_Button = Ext.create('Ext.Button', {
+			text: Messages.GRAMMAR_CASE_SENSITIVE
 		});
 
-		this.noButton = Ext.create('Ext.Button', {
-			text: Messages.GRAMMAR_NO//this.getTextNo(),
-			//pressed: this.getPressed() === 'no'
+		var space_Button = Ext.create('Ext.Button', {
+			text: Messages.GRAMMAR_SPACE
+		});
+
+		var punctuation_Button = Ext.create('Ext.Button', {
+			text: Messages.GRAMMAR_PUNCTUATION
 		});
 
 		this.segmentButton = Ext.create('Ext.SegmentedButton', {
 			style: 'margin: auto;',
 			defaults: {
 				ui: 'action',
-				style: 'width: 50%'
+				style: 'width: 33.3%'
 			},
-			allowDepress: false,
-			items:[this.yesButton, this.noButton]
+			allowDepress: true,
+			allowMultiple: true,
+			items:[case_sensitive_Button, space_Button, punctuation_Button]
 		});
 
 		this.mainPart = Ext.create('Ext.form.FormPanel', {

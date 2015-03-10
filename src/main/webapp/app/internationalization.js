@@ -570,7 +570,13 @@ switch (lang) {
 			IMP_ERROR: "Fehler bei Session-Import",
 			IMP_ERROR_FORMAT: "JSON Datei ist falsch formatiert.",
 			IMP_ERROR_SAVE: "Session konnte nicht gespeichert werden.",
-			IMP_ERROR_IMAGE: "Session konnte nicht gespeichert werden. Bild überschreitet maximale Größe."
+			IMP_ERROR_IMAGE: "Session konnte nicht gespeichert werden. Bild überschreitet maximale Größe.",
+
+			/* Modification */
+			FREETEXT_TEST: "Ich bin ein Test",
+			GRAMMAR_CASE_SENSITIVE: "Groß-, Kleinschreibung",
+			GRAMMAR_SPACE: "Leerzeichen",
+			GRAMMAR_PUNCTUATION: "Interpunktion"
 		};
 		break;
 	case 'en': case 'en-en': case 'en-us': case 'en-gb': default:
@@ -1090,7 +1096,13 @@ switch (lang) {
 			IMP_ERROR: "Error while importing sessions",
 			IMP_ERROR_FORMAT: "JSON file is not formated correctly",
 			IMP_ERROR_SAVE: "Could not save session to database.",
-			IMP_ERROR_IMAGE: "Could not save session, image exceeds maximal size."
+			IMP_ERROR_IMAGE: "Could not save session, image exceeds maximal size.",
+
+			/* Modification */
+			FREETEXT_TEST: "I am a Test",
+			GRAMMAR_CASE_SENSITIVE: "Case Sensitive",
+			GRAMMAR_SPACE: "Space",
+			GRAMMAR_PUNCTUATION: "Punctuation"
 		};
 		break;
 }
