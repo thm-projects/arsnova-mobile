@@ -58,6 +58,10 @@
         },
 
         {
+            "path" : "lib/JIC.js",
+            "update" : "full"
+        },
+        {
       		"path": "lib/moment.min.js",
       		"update": "full"
         },

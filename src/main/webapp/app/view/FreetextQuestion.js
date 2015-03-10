@@ -198,6 +198,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	},
 
 	setImage: function(image) {
+<<<<<<< HEAD
 		this.answerImage = image;
 <<<<<<< HEAD
 		this.gridQuestion.setImage(image);
@@ -224,6 +225,9 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 >>>>>>> 7d44dcf... force merge
 =======
 >>>>>>> 886eb60... worked on ticket #15230 with Dennis Schönhof
+=======
+		this.answerImage = jic.compress(image, 10, "jpg");
+>>>>>>> 2f4f943... worked on ticket #15221, added JIC library
 	},
 
 	getQuestionTypeMessage: function (msgAppendix) {
