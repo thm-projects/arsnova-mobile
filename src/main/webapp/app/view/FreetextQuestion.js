@@ -232,7 +232,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			return;
 		}
 
-		Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
+		Ext.Msg.confirm('', Messages.PICTURE_RIGHT_INFORMATION, function (button) {
 			if (button === "yes") {
 				this.storeAnswer();
 				this.buttonContainer.setHidden(true);
