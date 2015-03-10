@@ -289,7 +289,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			}
 		});
 		return store;
-	}
+	},
 
 	onActivate: function () {
 		if (!this.getController()) {
