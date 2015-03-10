@@ -710,7 +710,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	 *
 	 * Hint: If the canvas contains an image gotten from url we cannot access the
 	 * Base64 of the image in the client due to CORS denial. The image will be
-	 * transferred as an URL and will be converted directly on the server.
+	 * transfered as a URL an will be converted directly on the server.
 	 */
 	getQuestionValues: function () {
 		var result = {};
