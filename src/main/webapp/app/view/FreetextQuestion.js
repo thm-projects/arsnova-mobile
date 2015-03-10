@@ -74,6 +74,22 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			maxRows: 7
 		});
 
+<<<<<<< HEAD
+=======
+		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
+			handlerScope: this,
+			addRemoveButton: true,
+			activateTemplates: false,
+			urlUploadHandler: this.setImage,
+			fsUploadHandler: this.setImage,
+			style: 'margin-bottom: 30px'
+		});
+
+		if(!this.questionObj.imageQuestion) {
+			this.uploadView.hide();
+		}
+
+>>>>>>> 8341fdb... disabled image upload view #15323
 		// Setup question title and text to disply in the same field; markdown handles HTML encoding
 		var questionString = this.questionObj.subject.replace(/\./, "\\.")
 			+ '\n\n' // inserts one blank line between subject and text
@@ -84,8 +100,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			cls: "roundedBox allCapsHeader"
 		});
 		questionPanel.setContent(questionString, true, true);
-
-		console.log('imageQuestion ' + this.questionObj.imageQuestion);
 
 		this.buttonContainer = Ext.create('Ext.Container', {
 			layout: {
@@ -218,7 +232,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	selectAbstentionAnswer: function () {},
 
 	isEmptyAnswer: function () {
-		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || !this.answerImage;
+		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || (!this.answerImage && this.questionObj.imageQuestion);
 	},
 
 	saveAnswer: function (answer) {
