@@ -473,6 +473,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		values.questionVariant = panel.getVariant();
 		values.image = this.image;
 		values.flashcardImage = null;
+		values.imageQuestion = false;
 
 		if (localStorage.getItem('courseId') != null && localStorage.getItem('courseId').length > 0) {
 			values.releasedFor = 'courses';
@@ -523,6 +524,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				values.questionType = "freetext";
 				values.possibleAnswers = [];
 				Ext.apply(values, panel.freetextQuestion.getQuestionValues());
+				console.log(values);
 				break;
 
 			case Messages.FLASHCARD:
