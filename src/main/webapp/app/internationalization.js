@@ -260,6 +260,7 @@ switch (lang) {
 			RESET_ALL_ANSWERS: "Alle Antworten zurücksetzen",
 			SHOW_FLASHCARD_ANSWER: "Antwort anzeigen",
 			HIDE_FLASHCARD_ANSWER: "Antwort ausblenden",
+			IMAGE_NEEDED: "Es wird ein Bild benötigt",
 
 			/* speaker */
 			LIVE_FEEDBACK: "Live-Feedback",
@@ -770,6 +771,7 @@ switch (lang) {
 			RESET_ALL_ANSWERS: "Reset all answers",
 			SHOW_FLASHCARD_ANSWER: "Show answer",
 			HIDE_FLASHCARD_ANSWER: "Hide answer",
+			IMAGE_NEEDED: "An image is needed",
 
 			/* speaker */
 			LIVE_FEEDBACK: "Instant feedback",

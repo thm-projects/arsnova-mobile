@@ -21,7 +21,9 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 	requires: [
 		'ARSnova.model.Answer',
-		'ARSnova.view.CustomMask'
+		'ARSnova.view.CustomMask',
+		'ARSnova.view.components.GridImageContainer',
+		'ARSnova.view.speaker.form.ImageUploadPanel'
 	],
 
 	config: {
@@ -87,6 +89,18 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			this.uploadView.hide();
 		}
 
+		this.needImageLabel = Ext.create('Ext.Label', {
+			html: Messages.IMAGE_NEEDED,
+			style: "width: 100%; text-align: center;"
+		});
+
+		this.gridQuestion = Ext.create('ARSnova.view.components.GridImageContainer', {
+			id: 'grid',
+			hidden: 'true',
+			gridIsHidden: true,
+			editable: false
+		});
+
 		// Setup question title and text to disply in the same field; markdown handles HTML encoding
 		var questionString = this.questionObj.subject.replace(/\./, "\\.")
 			+ '\n\n' // inserts one blank line between subject and text
@@ -136,7 +150,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					submitOnAction: false,
 					items: [questionPanel, this.viewOnly ? {} : {
 						xtype: 'fieldset',
-						items: [this.answerSubject, this.answerText, this.uploadView]
+						items: [this.answerSubject, this.answerText, this.uploadView, this.gridQuestion, this.needImageLabel]
 					},
 					this.buttonContainer]
 				}]
@@ -155,7 +169,24 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	},
 
 	setImage: function(image) {
-		this.answerImage = jic.compress(image, 10, "jpg");
+		this.answerImage = image;
+		this.gridQuestion.setImage(image);
+		var self = this;
+		if(this.answerImage) {
+			self.gridQuestion.show();
+			self.needImageLabel.hide();
+			self.setGridConfiguration(self.gridQuestion);
+		} else {
+			self.needImageLabel.show();
+			self.gridQuestion.hide();
+			self.gridQuestion.clearImage();
+			self.setGridConfiguration(self.gridQuestion);
+		}
+	},
+
+	setGridConfiguration: function(image){
+		this.gridQuestion.setEditable(false);
+		this.gridQuestion.setGridIsHidden(true);
 	},
 
 	getQuestionTypeMessage: function (msgAppendix) {
