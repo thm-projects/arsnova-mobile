@@ -30,10 +30,14 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 				scrollable: null
 	},
 <<<<<<< HEAD
+<<<<<<< HEAD
 	imageQuestion: false,
 =======
 	isImageQuestion: false,
 >>>>>>> 57fb4dc... Added isImageQuestion()-function #15217
+=======
+	imageQuestion: false,
+>>>>>>> 34cbe25... added new field to model #15268
 	initialize: function () {
 		this.callParent(arguments);
 
@@ -58,6 +62,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 						me.imageQuestion = newValue == 0 ? false : true;
 =======
 						console.log("toggled");
@@ -67,6 +72,9 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 						isImageQuestion = newValue;
 						console.log(isImageQuestion);
 >>>>>>> 57fb4dc... Added isImageQuestion()-function #15217
+=======
+						imageQuestion = newValue == 0 ? false : true;
+>>>>>>> 34cbe25... added new field to model #15268
 					}
 				}
 		});
@@ -91,6 +99,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		return result;
 =======
   },
+<<<<<<< HEAD
 	isImageQuestion: function() {
 <<<<<<< HEAD
 
@@ -100,12 +109,15 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 <<<<<<< HEAD
 >>>>>>> 57fb4dc... Added isImageQuestion()-function #15217
 =======
+=======
+	imageQuestion: function() {
+		return imageQuestion;
+>>>>>>> 34cbe25... added new field to model #15268
 	},
 	getQuestionValues: function () {
 		var result = {};
-		result.isImageQuestion = this.isImageQuestion();
-		console.log(result.isImageQuestion);
-
+		result.imageQuestion = this.imageQuestion();
+		console.log(result);
 		return result;
 >>>>>>> dea8be2... Added handler for saving imagequestions. #15217
 	}

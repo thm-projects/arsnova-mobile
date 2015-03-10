@@ -72,6 +72,7 @@ Ext.define('ARSnova.model.Question', {
 			'gridScaleFactor',
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 			'imageQuestion'
 =======
 			'isImageQuestion'
@@ -79,6 +80,9 @@ Ext.define('ARSnova.model.Question', {
 =======
 			//'isImageQuestion'
 >>>>>>> 10408ee... Fixed bug by removing the isImageQUestion-Field from the model. #15238
+=======
+			'imageQuestion'
+>>>>>>> 34cbe25... added new field to model #15268
 		],
 
 		validations: [
