@@ -360,7 +360,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	},
 	sortRandomHandler: function (button) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
-		panel.sortType = 'random';
+		panel.sortType = 'custom';
 		panel.sortQuestions();
 	},
 	sortRevertHandler: function (button) {
@@ -388,14 +388,6 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 				panel.questionStore.sort([
 					{
 						property : '_id',
-						direction: 'ASC'
-					}
-				]);
-				break;
-			case 'random':
-				panel.questionStore.sort([
-					{
-						property : 'text',
 						direction: 'ASC'
 					}
 				]);
