@@ -231,8 +231,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 				xtype: 'formpanel',
 				scrollable: null,
 				items: [this.questionListContainer]
-			},
-			this.caption
+			}
 		]);
 
 		var me = this;
@@ -327,7 +326,6 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			empty: Ext.bind(function () {
 				this.questionListContainer.hide();
 				this.questionList.show();
-				this.caption.hide();
 			}, this),
 			failure: function (response) {
 				console.log('server-side error questionModel.getSkillQuestions');
