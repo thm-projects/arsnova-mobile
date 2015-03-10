@@ -35,19 +35,19 @@ Ext.define('ARSnova.view.speaker.form.FreetextQuestion', {
 
 		this.textarea = Ext.create('Ext.plugins.ResizableTextArea', {
 			name: 'text',
-			placeHolder: Messages.FREETEXT_
+			placeHolder: Messages.FORMAT_PLACEHOLDER
 		});
 
 		//Siehe yesno question
-		var case_sensitive_Button = Ext.create('Ext.Button', {
+		var caseSensitiveButton = Ext.create('Ext.Button', {
 			text: Messages.GRAMMAR_CASE_SENSITIVE
 		});
 
-		var space_Button = Ext.create('Ext.Button', {
+		var spaceButton = Ext.create('Ext.Button', {
 			text: Messages.GRAMMAR_SPACE
 		});
 
-		var punctuation_Button = Ext.create('Ext.Button', {
+		var punctuationButton = Ext.create('Ext.Button', {
 			text: Messages.GRAMMAR_PUNCTUATION
 		});
 
@@ -59,18 +59,37 @@ Ext.define('ARSnova.view.speaker.form.FreetextQuestion', {
 			},
 			allowDepress: true,
 			allowMultiple: true,
-			items:[case_sensitive_Button, space_Button, punctuation_Button]
+			items:[caseSensitiveButton, spaceButton, punctuationButton]
+		});
+
+		var grammarField = Ext.create('Ext.form.FieldSet', {
+			xtype: 'fieldset',
+			title: Messages.GRAMMAR_PLACEHOLDER,
+			items: [this.segmentButton]
+		});
+
+		var sizearea = Ext.create('Ext.field.Text', {
+			name: 'size',
+			placeHolder: Messages.FREETEXT_SIZE
+		});
+
+		var countButton = Ext.create('Ext.Button', {
+			ui: 'action',
+			text: Messages.FREETEXT_COUNT,
+			style: 'margin: auto; width: 69%'
 		});
 
 		this.mainPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newTest',
 			scrollable: null,
-
 			items: [{
 				xtype: 'fieldset',
-				items: [this.textarea]
+				title: Messages.CORRECT_PLACEHOLDER,
+				items: [this.textarea, sizearea]
 			}]
 		});
+
+		
 //-----------
 
 		this.add([{
@@ -78,7 +97,8 @@ Ext.define('ARSnova.view.speaker.form.FreetextQuestion', {
 			scrollable: null,
 			items: [
 					this.mainPart,
-					this.segmentButton
+					countButton,
+					grammarField
 			]
 		}]);
 	}
