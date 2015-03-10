@@ -155,7 +155,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	},
 
 	setImage: function(image) {
-		this.answerImage = jic.compress(image, 10, "jpg");
+		this.answerImage = image;
 	},
 
 	getQuestionTypeMessage: function (msgAppendix) {
