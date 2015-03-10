@@ -351,32 +351,17 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	sortAlphabetHandler: function (button) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
 		panel.sortType = 'alphabet';
-		panel.questionStore.sort([
-			{
-				property : 'text',
-				direction: 'ASC'
-			}
-		]);
+		panel.sortQuestions();
 	},
 	sortTimeHandler: function (button) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
 		panel.sortType = 'time';
-		panel.questionStore.sort([
-			{
-				property : 'timestamp',
-				direction: 'DESC'
-			}
-		]);
+		panel.sortQuestions();
 	},
 	sortRandomHandler: function (button) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
 		panel.sortType = 'random';
-		panel.questionStore.sort([
-			{
-				property : 'text',
-				direction: 'DESC'
-			}
-		]);
+		panel.sortQuestions();
 	},
 	sortRevertHandler: function (button) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
@@ -385,6 +370,37 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		panel.questionStoreBackup.each(function (record) {
 			panel.questionStore.add(record);
 		});
+		panel.sortQuestions();
+	},
+	
+	sortQuestions: function () {
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
+		switch (panel.sortType) {
+			case 'alphabet':
+				panel.questionStore.sort([
+					{
+						property : 'text',
+						direction: 'ASC'
+					}
+				]);
+				break;
+			case 'time':
+				panel.questionStore.sort([
+					{
+						property : '_id',
+						direction: 'ASC'
+					}
+				]);
+				break;
+			case 'random':
+				panel.questionStore.sort([
+					{
+						property : 'text',
+						direction: 'ASC'
+					}
+				]);
+				break;
+		}
 	},
 	dispatch: function (button, sortType, questionIDs) {
 		button.disable();
