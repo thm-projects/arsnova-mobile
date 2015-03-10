@@ -574,6 +574,9 @@ switch (lang) {
 
 			/* Modification */
 			FREETEXT_TEST: "Ich bin ein Test",
+			FREETEXT_COUNT: "Wörterzählen",
+			FREETEXT_SIZE: "Zeichenanzahl",
+			GRAMMAR_PLACEHOLDER: "Worauf soll man achten?",
 			GRAMMAR_CASE_SENSITIVE: "Groß-, Kleinschreibung",
 			GRAMMAR_SPACE: "Leerzeichen",
 			GRAMMAR_PUNCTUATION: "Interpunktion"
@@ -1100,6 +1103,9 @@ switch (lang) {
 
 			/* Modification */
 			FREETEXT_TEST: "I am a Test",
+			FREETEXT_COUNT: "Count words",
+			FREETEXT_SIZE: "Count signs",
+			GRAMMAR_PLACEHOLDER: "What should be checked?",
 			GRAMMAR_CASE_SENSITIVE: "Case Sensitive",
 			GRAMMAR_SPACE: "Space",
 			GRAMMAR_PUNCTUATION: "Punctuation"
