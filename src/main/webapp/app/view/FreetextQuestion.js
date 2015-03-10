@@ -151,7 +151,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	},
 
 	setImage: function(image) {
-		this.answerImage = image;
+		this.answerImage = jic.compress(image, 10, "jpg");
 	},
 
 	getQuestionTypeMessage: function (msgAppendix) {
@@ -230,11 +230,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 	saveAnswer: function (answer) {
 		var self = this;
-
-	/*	if (!answer.answerImage) {
-			Ext.Msg.alert('', Messages.MISSING_IMAGE);
-			return;
-		}*/
 
 		answer.saveAnswer(self.questionObj._id, {
 			success: function () {
