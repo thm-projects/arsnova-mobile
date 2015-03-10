@@ -524,7 +524,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				values.questionType = "freetext";
 				values.possibleAnswers = [];
 				Ext.apply(values, panel.freetextQuestion.getQuestionValues());
-				console.log(values);
 				break;
 
 			case Messages.FLASHCARD:
