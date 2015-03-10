@@ -22,12 +22,18 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	requires: [
 		'ARSnova.model.Answer',
 <<<<<<< HEAD
+<<<<<<< HEAD
 		'ARSnova.view.CustomMask',
 		'ARSnova.view.components.GridImageContainer',
 		'ARSnova.view.speaker.form.ImageUploadPanel'
 =======
 		'ARSnova.view.CustomMask'
 >>>>>>> e7a0217... Fixed Bug after adding right information
+=======
+		'ARSnova.view.CustomMask',
+		'ARSnova.view.components.GridImageContainer',
+		'ARSnova.view.speaker.form.ImageUploadPanel'
+>>>>>>> 73ab9bd... Fixed not showing of rights information for #15220
 	],
 
 	config: {
@@ -90,6 +96,9 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		});
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 73ab9bd... Fixed not showing of rights information for #15220
 		if(!this.questionObj.imageQuestion) {
 			this.uploadView.hide();
 		}
@@ -106,8 +115,11 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			editable: false
 		});
 
+<<<<<<< HEAD
 =======
 >>>>>>> e7a0217... Fixed Bug after adding right information
+=======
+>>>>>>> 73ab9bd... Fixed not showing of rights information for #15220
 		// Setup question title and text to disply in the same field; markdown handles HTML encoding
 		var questionString = this.questionObj.subject.replace(/\./, "\\.")
 			+ '\n\n' // inserts one blank line between subject and text
@@ -158,10 +170,14 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					items: [questionPanel, this.viewOnly ? {} : {
 						xtype: 'fieldset',
 <<<<<<< HEAD
+<<<<<<< HEAD
 						items: [this.answerSubject, this.answerText, this.uploadView, this.gridQuestion, this.needImageLabel]
 =======
 						items: [this.answerSubject, this.answerText, this.uploadView]
 >>>>>>> e7a0217... Fixed Bug after adding right information
+=======
+						items: [this.answerSubject, this.answerText, this.uploadView, this.gridQuestion, this.needImageLabel]
+>>>>>>> 73ab9bd... Fixed not showing of rights information for #15220
 					},
 					this.buttonContainer]
 				}]
@@ -182,6 +198,9 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	setImage: function(image) {
 		this.answerImage = image;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 73ab9bd... Fixed not showing of rights information for #15220
 		this.gridQuestion.setImage(image);
 		var self = this;
 		if(this.answerImage) {
@@ -199,8 +218,11 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	setGridConfiguration: function(image){
 		this.gridQuestion.setEditable(false);
 		this.gridQuestion.setGridIsHidden(true);
+<<<<<<< HEAD
 =======
 >>>>>>> e7a0217... Fixed Bug after adding right information
+=======
+>>>>>>> 73ab9bd... Fixed not showing of rights information for #15220
 	},
 
 	getQuestionTypeMessage: function (msgAppendix) {
@@ -242,20 +264,27 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 	saveHandler: function (button, event) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 		console.log("new3");		
 		
 >>>>>>> e7a0217... Fixed Bug after adding right information
+=======
+>>>>>>> 73ab9bd... Fixed not showing of rights information for #15220
 		if (this.isEmptyAnswer()) {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.MISSING_INPUT);
 			return;
 		}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 		Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
 =======
 		Ext.Msg.confirm('', Messages.PICTURE_RIGHT_INFORMATION, function (button) {
 >>>>>>> e7a0217... Fixed Bug after adding right information
+=======
+		Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
+>>>>>>> 73ab9bd... Fixed not showing of rights information for #15220
 			if (button === "yes") {
 				this.storeAnswer();
 				this.buttonContainer.setHidden(true);
@@ -284,15 +313,20 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 	isEmptyAnswer: function () {
 <<<<<<< HEAD
+<<<<<<< HEAD
 		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || (!this.answerImage && this.questionObj.imageQuestion);
 =======
 		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || !this.answerImage;
 >>>>>>> e7a0217... Fixed Bug after adding right information
+=======
+		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || (!this.answerImage && this.questionObj.imageQuestion);
+>>>>>>> 73ab9bd... Fixed not showing of rights information for #15220
 	},
 
 	saveAnswer: function (answer) {
 		var self = this;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 	/*	if (!answer.answerImage) {
@@ -301,6 +335,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		}*/
 
 >>>>>>> e7a0217... Fixed Bug after adding right information
+=======
+>>>>>>> 73ab9bd... Fixed not showing of rights information for #15220
 		answer.saveAnswer(self.questionObj._id, {
 			success: function () {
 				var questionsArr = Ext.decode(localStorage.getItem(self.questionObj.questionVariant + 'QuestionIds'));

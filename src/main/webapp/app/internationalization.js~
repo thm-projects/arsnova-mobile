@@ -261,12 +261,18 @@ switch (lang) {
 			SHOW_FLASHCARD_ANSWER: "Antwort anzeigen",
 			HIDE_FLASHCARD_ANSWER: "Antwort ausblenden",
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 73ab9bd... Fixed not showing of rights information for #15220
 			IMAGE_NEEDED: "Es wird ein Bild benötigt",
 			PICTURE_RIGHT_INFORMATION: ['Bitte beachten Sie, dass Sie keine Bilder verwenden für deren Verwendung Sie keine Rechte haben (Urheberrechtsgesetz) oder die pornografische oder volksverhetzende(§130 StGB) Inhalte bergen!\n',
 					'Antwort abschicken?'
 				].join('\n'),
+<<<<<<< HEAD
 =======
 >>>>>>> e7a0217... Fixed Bug after adding right information
+=======
+>>>>>>> 73ab9bd... Fixed not showing of rights information for #15220
 
 			/* speaker */
 			LIVE_FEEDBACK: "Live-Feedback",
@@ -402,11 +408,14 @@ switch (lang) {
 			MISSING_IMAGE: "Es wurde kein Bild hochgeladen",
 			MISSING_FLASHCARD: "Die Rückseite ist leer",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 			PICTURE_RIGHT_INFORMATION: ['Bitte beachten Sie, dass Sie keine Bilder verwenden für deren Verwendung Sie keine Rechte haben (Urheberrechtsgesetz) oder die pornografische oder volksverhetzende(§130 StGB) Inhalte bergen\n',
 					'Antwort abschicken?'
 				].join('\n'),
 >>>>>>> e7a0217... Fixed Bug after adding right information
+=======
+>>>>>>> 73ab9bd... Fixed not showing of rights information for #15220
 
 			/*Export session*/
 			EXPORT_MSG: "Was möchten Sie exportieren?",
@@ -781,9 +790,13 @@ switch (lang) {
 			SHOW_FLASHCARD_ANSWER: "Show answer",
 			HIDE_FLASHCARD_ANSWER: "Hide answer",
 <<<<<<< HEAD
+<<<<<<< HEAD
 			IMAGE_NEEDED: "An image is needed",
 =======
 >>>>>>> e7a0217... Fixed Bug after adding right information
+=======
+			IMAGE_NEEDED: "An image is needed",
+>>>>>>> 73ab9bd... Fixed not showing of rights information for #15220
 
 			/* speaker */
 			LIVE_FEEDBACK: "Instant feedback",
@@ -922,10 +935,14 @@ switch (lang) {
 			MISSING_IMAGE: "No picture has been uploaded",
 			MISSING_FLASHCARD: "The back page text is missing",
 <<<<<<< HEAD
+<<<<<<< HEAD
 			PICTURE_RIGHT_INFORMATION: ['Please note, that you must not use pictures for which you do not have the rights to use(copyright) or that extend pornographic or inciting(§130 StGB) content!\n', 
 =======
 			PICTURE_RIGHT_INFORMATION: ['Please note, that you must not use pictures for which you do not have the rights to use(copyright) or that extend pornographic or inciting(§130 StGB) content\n', 
 >>>>>>> e7a0217... Fixed Bug after adding right information
+=======
+			PICTURE_RIGHT_INFORMATION: ['Please note, that you must not use pictures for which you do not have the rights to use(copyright) or that extend pornographic or inciting(§130 StGB) content!\n', 
+>>>>>>> 73ab9bd... Fixed not showing of rights information for #15220
 					'Submit answer?'
 				].join('\n'),
 
