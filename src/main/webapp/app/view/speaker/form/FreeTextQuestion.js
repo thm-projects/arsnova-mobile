@@ -31,6 +31,8 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 	initialize: function () {
 		this.callParent(arguments);
 
+		var me = this;
+
 		this.imgUploadBtn = Ext.create('Ext.field.Toggle', {
 				name:'image-upload-button',
 				label:Messages.IMG_UPLOAD_TOGGLE_BUTTON,
@@ -38,7 +40,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 				listeners: {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
-						imageQuestion = newValue == 0 ? false : true;
+						me.imageQuestion = newValue == 0 ? false : true;
 					}
 				}
 		});
@@ -55,13 +57,10 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		});
 
 		this.add([answerOptions]);
-  },
-	imageQuestion: function() {
-		return this.imageQuestion;
-	},
+  	},
 	getQuestionValues: function () {
 		var result = {};
-		result.imageQuestion = this.imageQuestion();
+		result.imageQuestion = this.imageQuestion;
 		return result;
 	}
 });
