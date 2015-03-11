@@ -179,6 +179,7 @@ Ext.define('Ext.plugin.SortableListExtended', {
 				this.currentDragRowIndex = targetIndex;
 			}
 		}
+		
 	},
 
 	onDragEnd: function() {
