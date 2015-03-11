@@ -101,6 +101,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
   },
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	isImageQuestion: function() {
 <<<<<<< HEAD
 
@@ -116,12 +117,15 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 >>>>>>> 34cbe25... added new field to model #15268
 =======
 	isImageQuestion: function() {
+=======
+	imageQuestion: function() {
+>>>>>>> 348d8ae... Fixed bug #15341
 		return this.imageQuestion;
 >>>>>>> f4a8fa6... Fixed bug "Uncaught ReferenceError.." #15341
 	},
 	getQuestionValues: function () {
 		var result = {};
-		result.imageQuestion = this.isImageQuestion();
+		result.imageQuestion = this.imageQuestion();
 		return result;
 >>>>>>> dea8be2... Added handler for saving imagequestions. #15217
 	}
