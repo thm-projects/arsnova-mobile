@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 
 	requires: [
 		'ARSnova.model.Question',
-		'Ext.plugin.SortableList'
+		'Ext.plugin.SortableListExtended'
 	],
 
 	config: {
@@ -70,7 +70,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			scrollable: {disabled: false},
 			hidden: true,
 			infinite: true,
-			plugins: {xclass: 'Ext.plugin.SortableList', handleSelector: '.dragStyle'},
+			plugins: 'sortablelistextended',
 
 			style: {
 				backgroundColor: 'transparent'

@@ -179,20 +179,6 @@ Ext.define('Ext.plugin.SortableListExtended', {
 				this.currentDragRowIndex = targetIndex;
 			}
 		}
-		console.log("1");
-		var x = window.innerHeight - 50,
-			y = window.scrollX + 50,
-			scrollerElement = list.getScrollable().getScroller();
-		console.log(scrollerElement);
-		console.log("2");
-		if(document.getElementsByClassName('.dragStyle').offset().top > x) {
-			console.log("21");
-			scrollerElement.scrollBy(0, 100);
-		}
-		if(document.getElementsByClassName('.dragStyle').offset().top < y) {
-			console.log("22");
-			scrollerElement.scrollBy(0, 200);
-		}
 	},
 
 	onDragEnd: function() {
