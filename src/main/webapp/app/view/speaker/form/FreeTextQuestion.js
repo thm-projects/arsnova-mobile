@@ -56,12 +56,12 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 
 		this.add([answerOptions]);
   },
-	imageQuestion: function() {
-		return imageQuestion;
+	isImageQuestion: function() {
+		return this.imageQuestion;
 	},
 	getQuestionValues: function () {
 		var result = {};
-		result.imageQuestion = this.imageQuestion();
+		result.imageQuestion = this.isImageQuestion();
 		return result;
 	}
 });
