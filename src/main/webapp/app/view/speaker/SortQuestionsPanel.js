@@ -338,7 +338,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			questionIDs.push(record.getId());
 		});
 		
-		var promise = panel.dispatch(button, panel.sortType, questionIDs);
+		var promise = panel.dispatch(button, panel.subject, panel.sortType, questionIDs);
 		return promise;
 	},
 	sortAlphabetHandler: function (button) {
