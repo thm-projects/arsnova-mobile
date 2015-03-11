@@ -973,6 +973,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	},
 
 	getType: function () {
+		var self = this;
 		if (this.questionObj.questionType) {
 			switch (this.questionObj.questionType) {
 				case "vote":
@@ -986,7 +987,11 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				case "yesno":
 					return Messages.YESNO;
 				case "freetext":
-					return Messages.FREETEXT;
+					if(self.questionObj.imageQuestion){
+						return Messages.IMAGE_ANSWER_LONG;
+					}else {
+						return Messages.FREETEXT;
+					}
 				case "flashcard":
 					return Messages.FLASHCARD;
 				case "grid":
