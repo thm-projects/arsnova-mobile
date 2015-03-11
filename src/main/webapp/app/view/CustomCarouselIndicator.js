@@ -69,7 +69,9 @@ Ext.define('ARSnova.view.CustomCarouselIndicator', {
 				itemBounding = firstElement.getBoundingClientRect(),
 				index = Math.floor((touch.pageX - itemBounding.left + this.marginLeftRight) / this.elementWidth);
 
-			if (itemArray[index]) targetIndex = index;
+			if (itemArray[index]) {
+				targetIndex = index;
+			}
 			if (targetIndex === -1 || targetIndex === activeItem) {
 				return this;
 			}

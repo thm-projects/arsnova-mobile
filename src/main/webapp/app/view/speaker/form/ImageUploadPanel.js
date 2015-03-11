@@ -210,8 +210,12 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	setUploadPanelConfig: function (title, urlHandler, fsUploadHandler) {
 		this.containerFieldSet.setTitle(title);
 
-		if (urlHandler) this.setUrlUploadHandler(urlHandler);
-		if (fsUploadHandler) this.setFsUploadHandler(fsUploadHandler);
+		if (urlHandler) {
+			this.setUrlUploadHandler(urlHandler);
+		}
+		if (fsUploadHandler) {
+			this.setFsUploadHandler(fsUploadHandler);
+		}
 	},
 
 	resetButtons: function () {

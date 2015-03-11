@@ -82,6 +82,22 @@ Ext.define('ARSnova.view.LoginPanel', {
 
 				return 0;
 			});
+			var buttonHandler = function (b) {
+				var service = b.config.value;
+				if ("guest" === service.id && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+					Ext.Msg.confirm(Messages.GUEST_LOGIN, Messages.CONFIRM_GUEST_SPEAKER, function (answer) {
+						if ('yes' === answer) {
+							ARSnova.app.getController('Auth').login({
+								service: service
+							});
+						}
+					});
+				} else {
+					ARSnova.app.getController('Auth').login({
+						service: service
+					});
+				}
+			};
 			for (i = 0; i < services.length; i++) {
 				service = services[i];
 				imageSrc = service.image ? imagePath + service.image : "btn_" + service.id;
@@ -93,22 +109,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 					value: service,
 					image: imageSrc,
 					imageCls: imageCls,
-					handler: function (b) {
-						var service = b.config.value;
-						if ("guest" === service.id && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-							Ext.Msg.confirm(Messages.GUEST_LOGIN, Messages.CONFIRM_GUEST_SPEAKER, function (answer) {
-								if ('yes' === answer) {
-									ARSnova.app.getController('Auth').login({
-										service: service
-									});
-								}
-							});
-						} else {
-							ARSnova.app.getController('Auth').login({
-								service: service
-							});
-						}
-					}
+					handler: buttonHandler
 				};
 				if (i % 2 === 1) {
 					button.style = "margin-left: 20px";

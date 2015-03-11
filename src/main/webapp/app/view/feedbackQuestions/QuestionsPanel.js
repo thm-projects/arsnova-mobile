@@ -255,7 +255,8 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					panel.noQuestionsFound.hide();
 					panel.deleteAllButton.show();
 					var unread = 0;
-					for (var i = 0, question; question = questions[i]; i++) {
+					for (var i = 0, question; i < questions.length; i++) {
+						question = questions[i];
 						if (!question.read) {
 							unread++;
 						}

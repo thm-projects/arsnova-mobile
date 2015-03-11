@@ -42,7 +42,8 @@ Ext.define('ARSnova.WebSocket', {
 		countQuestionAnswersByQuestion: "arsnova/socket/question/lecturer/question/answercount",
 		countLectureQuestionAnswers: "arsnova/socket/question/lecturer/lecture/answercount",
 		countPreparationQuestionAnswers: "arsnova/socket/question/lecturer/preparation/answercount",
-		learningProgressType: "arsnova/socket/session/learningprogress/type"
+		learningProgressType: "arsnova/socket/session/learningprogress/type",
+		learningProgressChange: "arsnova/socket/session/learningprogress/change"
 	},
 
 	memoization: {},
@@ -159,6 +160,11 @@ Ext.define('ARSnova.WebSocket', {
 				console.debug("Socket.IO: learningProgressType", progressType);
 				this.fireEvent(this.events.learningProgressType, progressType);
 			}, this));
+
+			this.socket.on('learningProgressChange', Ext.bind(function () {
+				console.debug("Socket.IO: learningProgressChange");
+				this.fireEvent(this.events.learningProgressChange);
+			}, this));
 		}, this));
 	},
 
@@ -182,6 +188,11 @@ Ext.define('ARSnova.WebSocket', {
 	setLearningProgressType: function (data) {
 		console.debug("Socket.IO.emit: setLearningProgressType", data);
 		this.socket.emit("setLearningProgressType", data);
+	},
+
+	setFeedback: function (data) {
+		console.debug("Socket.IO.emit: setFeedback", data);
+		this.socket.emit("setFeedback", data);
 	},
 
 	doAddListener: function (name, fn, scope, options, order) {

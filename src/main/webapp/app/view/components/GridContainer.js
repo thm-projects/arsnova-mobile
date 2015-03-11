@@ -142,7 +142,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		ctx.translate(this.getOffsetX() + (this.getImageFile().width / 2), this.getOffsetY() + (this.getImageFile().height / 2));
 
 		/*
-		 * rotates the image in 90� steps clockwise. Steps are in the variable imgRotation
+		 * rotates the image in 90 degree steps clockwise. Steps are in the variable imgRotation
 		 */
 		ctx.rotate(90 * this.getImgRotation() * Math.PI / 180);
 
@@ -295,8 +295,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 * Draws the grid in the canvas element.
 	 */
 	createGrid: function () {
-		if ((this.getGridSizeX() * this.getGridSizeY()) === 0)
+		if ((this.getGridSizeX() * this.getGridSizeY()) === 0) {
 			return;
+		}
 
 		var ctx = this.getCanvas().getContext("2d");
 
@@ -305,18 +306,17 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		var fieldsize = this.getFieldSize();
 
+		var i;
 		// all horizontal lines
-		for (var i = 0; i <= this.getGridSizeY(); i++) {
+		for (i = 0; i <= this.getGridSizeY(); i++) {
 			ctx.fillRect(
 					this.getRelativeLength(this.getGridOffsetX(), false),
 					this.getRelativeLength(this.getGridOffsetY(), false)  + i * fieldsize,
 					fieldsize * this.getGridSizeX(),
 					this.getGridLineWidth());
 		}
-
-
 		// all vertical lines
-		for (var i = 0; i <= this.getGridSizeX(); i++) {
+		for (i = 0; i <= this.getGridSizeX(); i++) {
 			ctx.fillRect(
 					this.getRelativeLength(this.getGridOffsetX(), false) + i * fieldsize,
 					this.getRelativeLength(this.getGridOffsetY(), false),
@@ -570,10 +570,11 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	},
 
 	colorBackground: function () {
-		if (this.getCvIsColored())
+		if (this.getCvIsColored()) {
 			this.getCanvas().style.backgroundColor = this.getCvBackgroundColor();
-		else
+		} else {
 			this.getCanvas().style.backgroundColor = 'transparent';
+		}
 	},
 
 	/**

@@ -238,6 +238,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.countQuestionsAndAnswers, panel.countQuestionsAndAnswers, panel);
 		ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.sessionActive, panel.checkSessionStatus, panel);
 		ARSnova.app.feedbackModel.on(ARSnova.app.feedbackModel.events.feedbackReset, panel.checkFeedbackRemoved, panel);
+		ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.learningProgressChange, panel.learningProgressChange, panel);
 		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
 			ARSnova.app.taskManager.start(panel.countFeedbackQuestionsTask);
 		}
@@ -266,6 +267,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.countQuestionsAndAnswers, panel.countQuestionsAndAnswers, panel);
 		ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.sessionActive, panel.checkSessionStatus, panel);
 		ARSnova.app.feedbackModel.un(ARSnova.app.feedbackModel.events.feedbackReset, panel.checkFeedbackRemoved, panel);
+		ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.learningProgressChange, panel.learningProgressChange, panel);
 		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
 			ARSnova.app.taskManager.stop(panel.countFeedbackQuestionsTask);
 		}
@@ -436,5 +438,18 @@ Ext.define('ARSnova.view.user.InClass', {
 				me.inClassButtons.remove(me.myLearningProgressButton, false);
 			}
 		});
+	},
+
+	learningProgressChange: function () {
+		// Reload learning progress, but do it using a random delay.
+		// We do not want to initiate a DDoS if every user is trying to reload at the same time.
+		var min = 500;
+		var max = 2500;
+		// http://stackoverflow.com/a/1527820
+		var delay = Math.random() * (max - min) + min;
+		Ext.defer(function () {
+			// Reset run-time to enforce reload of learning progress
+			this.checkLearningProgressTask.taskRunTime = 0;
+		}, delay, this);
 	}
 });

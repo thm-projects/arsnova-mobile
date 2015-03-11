@@ -124,8 +124,9 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 
 	checkSelectedSessions: function () {
 		for (var i = 0; i < this.sessionMap.length; i++) {
-			if (this.sessionMap[i][1])
+			if (this.sessionMap[i][1]) {
 				return true;
+			}
 		}
 		return false;
 	},
@@ -202,8 +203,41 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 		form.removeAll();
 		form.show();
 
+		var toggleListener = {
+			change: function (slider, thumb, newValue, oldValue) {
+				var id;
+				var toggleChecked = newValue === 0;
+				if (toggleChecked) {
+					// Changing from off to on
+					id = slider.id.split('_')[1];
+					me.sessionMap[id][1] = true;
+				} else {
+					// Changing from on to off
+					id = slider.id.split('_')[1];
+					me.sessionMap[id][1] = false;
+				}
+			}
+		};
+
+		var buttonHandler = function (options) {
+			var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+			var exportSession = options.config.sessionObj;
+
+			// validate session for public pool
+			if (exportSession.numQuestions < 1) {
+				Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSIONPOOL_NOTIFICATION_QUESTION_NUMBER);
+			} else {
+				var exportToPublic = Ext.create('ARSnova.view.home.SessionExportToPublicPanel', {
+					exportSession: exportSession,
+					backReference: me
+				});
+				hTP.animateActiveItem(exportToPublic, 'slide');
+			}
+		};
+
 		var session;
-		for (var i = 0, session; session = sessions[i]; i++) {
+		for (var i = 0; i < sessions.length; i++) {
+			session = sessions[i];
 			var sessionChecked = false;
 
 			me.sessionMap[me.mapCounter] = [session, sessionChecked];
@@ -212,33 +246,15 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 			var longDateString = "";
 			if (session.creationTime !== 0) {
 				var d = new Date(session.creationTime);
-				var shortDateString = " (" + moment(d).format('MMM Do YY') + ")";
-				var longDateString = " (" + moment(d).format('lll') + ")";
+				shortDateString = " (" + moment(d).format('MMM Do YY') + ")";
+				longDateString = " (" + moment(d).format('lll') + ")";
 			}
 
 			// Minimum width of 321px equals at least landscape view
 			var displaytext = window.innerWidth > 481 ? session.name + longDateString : session.shortName + shortDateString;
 
 			var sessionEntry = null;
-
 			if (me.getExportType() === 'filesystem') {
-				var toggleListener = {
-					beforechange: function (slider, thumb, newValue, oldValue) {
-					},
-					change: function (slider, thumb, newValue, oldValue) {
-						// TODO why is 0 toggle checked and 1 toggle unchecked?
-						if (newValue === 0) { // true
-							// Changing from off to on
-							var id = slider.id.split('_')[1];
-							me.sessionMap[id][1] = true;
-						} else if (newValue === 1) { // false
-							// Changing from on to off
-							var id = slider.id.split('_')[1];
-							me.sessionMap[id][1] = false;
-						}
-					}
-				};
-
 				sessionEntry = Ext.create('Ext.field.Toggle', {
 					id: 'sessionToggle_' + me.mapCounter,
 					label: Ext.util.Format.htmlEncode(displaytext),
@@ -249,7 +265,6 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 					sessionObj: session,
 					value: sessionChecked
 				});
-
 				sessionEntry.setListeners(toggleListener);
 			} else if (me.getExportType() === 'public_pool') {
 				sessionEntry = Ext.create('ARSnova.view.MultiBadgeButton', {
@@ -257,23 +272,7 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 					text: Ext.util.Format.htmlEncode(displaytext),
 					cls: 'forwardListButton',
 					sessionObj: session,
-					handler: function (options) {
-						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-
-						var exportSession = options.config.sessionObj;
-
-						// validate session for public pool
-						if (exportSession.numQuestions < 1) {
-							Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSIONPOOL_NOTIFICATION_QUESTION_NUMBER);
-						} else {
-							var exportToPublic = Ext.create('ARSnova.view.home.SessionExportToPublicPanel', {
-								exportSession: exportSession,
-								backReference: me
-							});
-
-							hTP.animateActiveItem(exportToPublic, 'slide');
-						}
-					}
+					handler: buttonHandler
 				});
 			}
 			me.mapCounter++;

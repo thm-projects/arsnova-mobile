@@ -110,20 +110,26 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 					itemId: 'statisticsActiveUsers',
 					text: 'Users online'
 				}, {
-					itemId: 'statisticsOpenSessions',
-					text: Messages.OPEN_SESSIONS
+					itemId: 'statisticsCreators',
+					text: Messages.SESSION_OWNERS
 				}, {
-					itemId: 'statisticsClosedSessions',
-					text: Messages.CLOSED_SESSIONS
+					itemId: 'statisticsSessions',
+					text: Messages.SESSIONS
 				}, {
-					itemId: 'statisticsQuestions',
-					text: Messages.QUESTIONS
+					itemId: 'statisticsLectureQuestions',
+					text: Messages.LECTURE_QUESTIONS_LONG
 				}, {
-					itemId: 'statisticsAnswers',
-					text: Messages.ANSWERS
+					itemId: 'statisticsConceptQuestions',
+					text: Messages.PEER_INSTRUCTION_QUESTIONS
+				}, {
+					itemId: 'statisticsPreparationQuestions',
+					text: Messages.PREPARATION_QUESTIONS_LONG
 				}, {
 					itemId: 'statisticsInterposedQuestions',
 					text: Messages.QUESTIONS_FROM_STUDENTS
+				}, {
+					itemId: 'statisticsAnswers',
+					text: Messages.VOTINGS
 				}]
 		});
 
@@ -153,12 +159,14 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 
 	setNumbers: function () {
 		if (this.statistics != null) {
-			this.formpanel.getComponent('statisticsActiveUsers').config.setInnerValue(this.statistics.activeUsers);
-			this.formpanel.getComponent('statisticsOpenSessions').config.setInnerValue(this.statistics.openSessions);
-			this.formpanel.getComponent('statisticsClosedSessions').config.setInnerValue(this.statistics.closedSessions);
-			this.formpanel.getComponent('statisticsQuestions').config.setInnerValue(this.statistics.questions);
-			this.formpanel.getComponent('statisticsAnswers').config.setInnerValue(this.statistics.answers);
-			this.formpanel.getComponent('statisticsInterposedQuestions').config.setInnerValue(this.statistics.interposedQuestions);
+			this.formpanel.getComponent('statisticsSessions').config.setInnerValue(this.formatNumber(this.statistics.sessions));
+			this.formpanel.getComponent('statisticsActiveUsers').config.setInnerValue(this.formatNumber(this.statistics.activeUsers));
+			this.formpanel.getComponent('statisticsCreators').config.setInnerValue(this.formatNumber(this.statistics.creators));
+			this.formpanel.getComponent('statisticsLectureQuestions').config.setInnerValue(this.formatNumber(this.statistics.lectureQuestions));
+			this.formpanel.getComponent('statisticsConceptQuestions').config.setInnerValue(this.formatNumber(this.statistics.conceptQuestions));
+			this.formpanel.getComponent('statisticsPreparationQuestions').config.setInnerValue(this.formatNumber(this.statistics.preparationQuestions));
+			this.formpanel.getComponent('statisticsInterposedQuestions').config.setInnerValue(this.formatNumber(this.statistics.interposedQuestions));
+			this.formpanel.getComponent('statisticsAnswers').config.setInnerValue(this.formatNumber(this.statistics.answers));
 		}
 	},
 
@@ -190,5 +198,11 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK);
 		this.statisticsStore.clearData();
 		this.getStatistics().then(hideLoadMask, hideLoadMask); // hide mask on success and on error
+	},
+
+	// http://stackoverflow.com/a/2901298
+	formatNumber: function (x) {
+		var separator = moment.lang() === "en" ? "," : ".";
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator);
 	}
 });

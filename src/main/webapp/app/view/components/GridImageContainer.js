@@ -94,10 +94,10 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 	 */
 	generateStatisticOutput: function (tilesToFill, colorTiles, displayType, weakenSourceImage) {
 		var totalAnswers = 0;
+		var key, row, column;
 
 		var wrongColor = this.getStatisticWrongColor();
 		var rightColor = this.getStatisticRightColor();
-
 
 		if (this.getChosenFields().length === 0) {
 			wrongColor = this.getHighlightColor();
@@ -108,20 +108,26 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 		}
 
 		// clear canvas
-		weakenSourceImage ? this.redrawWithAlpha(0.2, false) : this.redrawWithAlpha(1, false);
+		if (weakenSourceImage) {
+			this.redrawWithAlpha(0.2, false);
+		} else {
+			this.redrawWithAlpha(1, false);
+		}
 
 		// count answers
-		for (var key in tilesToFill) {
-			totalAnswers += tilesToFill[key];
+		for (key in tilesToFill) {
+			if (tilesToFill.hasOwnProperty(key)) {
+				totalAnswers += tilesToFill[key];
+			}
 		}
 
 		// pre-iterate through answers to get min and max value, used to define the alpha value
 		// TODO: find a more elagant way than iterating twice through all tiles.
 		var maxVotes = 0;
 		var minVotes = 0;
-		for (var row = 0; row < this.getGridSizeX(); row++) {
-			for (var column = 0; column < this.getGridSizeY(); column++) {
-				var key = row + ";" + column;
+		for (row = 0; row < this.getGridSizeX(); row++) {
+			for (column = 0; column < this.getGridSizeY(); column++) {
+				key = row + ";" + column;
 				if (typeof tilesToFill[key] !== "undefined") {
 					if (tilesToFill[key] > maxVotes) {
 						maxVotes = tilesToFill[key];
@@ -134,9 +140,9 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 			}
 		}
 
-		for (var row = 0; row < this.getGridSizeX(); row++) {
-			for (var column = 0; column < this.getGridSizeY(); column++) {
-				var key = row + ";" + column;
+		for (row = 0; row < this.getGridSizeX(); row++) {
+			for (column = 0; column < this.getGridSizeY(); column++) {
+				key = row + ";" + column;
 				var coords = this.getChosenFieldFromPossibleAnswer(key);
 
 				if (colorTiles) {
@@ -164,11 +170,12 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 					this.markField(coords[0], coords[1], color, alpha);
 				}
 
+				var text;
 				if (displayType === Messages.GRID_LABEL_RELATIVE || displayType === Messages.GRID_LABEL_RELATIVE_SHORT) {
-					var text = (typeof tilesToFill[key] !== "undefined") ? Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) : "";
+					text = (typeof tilesToFill[key] !== "undefined") ? Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) : "";
 					this.addTextToField(coords[0], coords[1], text);
 				} else if (displayType === Messages.GRID_LABEL_ABSOLUTE || displayType === Messages.GRID_LABEL_ABSOLUTE_SHORT) {
-					var text = (typeof tilesToFill[key] !== "undefined") ? tilesToFill[key] : "";
+					text = (typeof tilesToFill[key] !== "undefined") ? tilesToFill[key] : "";
 					this.addTextToField(coords[0], coords[1], text);
 				}
 			}
