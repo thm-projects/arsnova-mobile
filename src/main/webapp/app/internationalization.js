@@ -574,8 +574,13 @@ switch (lang) {
 
 			/* Modification */
 			FREETEXT_TEST: "Ich bin ein Test",
-			FREETEXT_COUNT: "Wörterzählen",
-			FREETEXT_SIZE: "Zeichenanzahl",
+			FREETEXT_QUESTION_TYPE: "Wählen Sie den Fragentyp:",
+			FREETEXT_SIZE: "Zu verwendende Anzahl Zeichen",
+			FREETEXT_CHECK: "Wie soll der Text geprüft werden?",
+			FREETEXT_BUTTON_EASY: "Einfach",
+			FREETEXT_BUTTON_STRICT: "Strikt",
+			FREETEXT_BUTTON_FREE: "Freitext",
+			FREETEXT_BUTTON_FIX: "Fixtext",
 			GRAMMAR_PLACEHOLDER: "Worauf soll man achten?",
 			GRAMMAR_CASE_SENSITIVE: "Groß-, Kleinschreibung",
 			GRAMMAR_SPACE: "Leerzeichen",
@@ -1103,8 +1108,13 @@ switch (lang) {
 
 			/* Modification */
 			FREETEXT_TEST: "I am a Test",
-			FREETEXT_COUNT: "Count words",
-			FREETEXT_SIZE: "Count signs",
+			FREETEXT_QUESTION_TYPE: "Select a Questiontype:",
+			FREETEXT_SIZE: "Amount of letters",
+			FREETEXT_CHECK: "How do you want to check the Text?",
+			FREETEXT_BUTTON_EASY: "Easy",
+			FREETEXT_BUTTON_STRICT: "Strict",
+			FREETEXT_BUTTON_FREE: "Freetext",
+			FREETEXT_BUTTON_FIX: "Fixtext",
 			GRAMMAR_PLACEHOLDER: "What should be checked?",
 			GRAMMAR_CASE_SENSITIVE: "Case Sensitive",
 			GRAMMAR_SPACE: "Space",
