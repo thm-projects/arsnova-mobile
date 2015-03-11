@@ -24,35 +24,38 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		'Ext.form.FieldSet'
 	],
 	config: {
-				cls: 'newQuestionOptions',
+				//cls: 'newQuestionOptions',
 				scrollable: null
 	},
 	imageQuestion: false,
 	initialize: function () {
 		this.callParent(arguments);
 
-		this.imgUploadBtn = Ext.create('Ext.field.Toggle', {
-				name:'image-upload-button',
-				label:Messages.IMG_UPLOAD_TOGGLE_BUTTON,
-				labelCls:'imageUploadButtonLabel',
+		this.imgUploadBtn = Ext.create('ARSnova.view.MatrixButton', {
+			cls: 'actionButton',
+			buttonConfig: 'togglefield',
+			text: Messages.IMAGE_ANSWER_LONG,
+			toggleConfig: {
+				scope: this,
+				label: false,
+				value: 0,
 				listeners: {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
 						imageQuestion = newValue == 0 ? false : true;
 					}
 				}
+			}
 		});
 
-		var answerFieldset = Ext.create('Ext.form.FieldSet', {
-			title: Messages.ANSWER_OPTIONS,
-			items: [this.imgUploadBtn]
-		});
-
-		var answerOptions = Ext.create('Ext.form.FormPanel', {
-			scrollable: null,
-			submitOnAction: false,
-			items: [answerFieldset]
-		});
+		var answerOptions = Ext.create('Ext.Panel', {
+				scrollable: null,
+				layout: {
+					type:'hbox',
+					pack:'center'
+				},
+				items: [this.imgUploadBtn]
+			});
 
 		this.add([answerOptions]);
   },
