@@ -257,10 +257,11 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		this.sendButton.setHidden(this.toggleUrl);
 
 		if (this.toggleUrl) {
-			this.toggleUrl = false;
+//			this.toggleUrl = false;
 			this.addCls('hiddenUrl');
+			console.log('toggleUrl');
 		} else {
-			this.toggleUrl = true;
+//			this.toggleUrl = true;
 			this.removeCls('hiddenUrl');
 		}
 	},
