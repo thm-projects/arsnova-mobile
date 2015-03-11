@@ -417,7 +417,8 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						ui: 'normal',
 						text: Ext.util.Format.htmlEncode(displaytext),
 						iconCls: course + " courseIcon",
-						cls: 'forwardListButton' + status,
+						cls: 'forwardSessionListButton' + status,
+						width: '93%',
 						sessionObj: session,
 						handler: sessionButtonHandler
 					});
@@ -427,7 +428,32 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						{badgeText: session.numQuestions, badgeCls: "questionsBadgeIcon"},
 						{badgeText: session.numAnswers, badgeCls: "answersBadgeIcon"}
 					]);
-					panel.sessionsForm.addEntry(sessionButton);
+					
+					var sessionInfoButton = Ext.create('Ext.Button', {
+						cls: 'sessionInfoIconList',
+						iconCls: 'info',
+						width: '7%',
+
+						handler: function (button) {
+							console.log("info seite für sessions");
+						}
+					});
+					
+					// Container to show the Session-Info-Button aside the List
+					var sessionButtonwithInfo = Ext.create('Ext.Container', {
+						layout: {
+							type: 'hbox',
+							pack: 'center'
+						},
+						cls: 'forwardSessionListBg',
+
+						items: [
+							sessionInfoButton,
+							sessionButton
+						]
+					});
+					
+					panel.sessionsForm.addEntry(sessionButtonwithInfo);
 				}
 
 				hideLoadMask();

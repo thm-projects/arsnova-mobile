@@ -42,6 +42,8 @@ Ext.define('ARSnova.view.speaker.SortQuestionPanel', {
 	/* toolbar items */
 	toolbar: null,
 	backButton: null,
+	sortQuestionButton: null,
+	
 	
 	saveButtonToolbar: null,
 
@@ -210,9 +212,10 @@ Ext.define('ARSnova.view.speaker.SortQuestionPanel', {
 		
 		this.saveButtonToolbar = Ext.create('Ext.Button', {
 			text: Messages.SAVE,
-			ui: 'confirm',
+			ui: 'normal',
 			cls: 'saveQuestionButton',
-			style: 'width: 89px',
+			imageCls: 'info thm-grey',
+			style: 'width: 150px',
 			/*handler: function (button) {
 				this.saveHandler(button).then(function (response) {
 					ARSnova.app.getController('Questions').details({
@@ -249,8 +252,24 @@ Ext.define('ARSnova.view.speaker.SortQuestionPanel', {
 			items: [
 				this.backButton,
 				{xtype: 'spacer'},
-				this.saveButtonToolbar
+				{
+					xtype: 'button',
+					iconCls: 'icon-info',
+					cls: 'toggleCorrectButton',
+					handler: function (button) {
+						ARSnova.app.getController('Application').showQRCode();
+					}
+				}
 			]
+		});
+		
+		this.sortQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: 'Fragen sortieren',//Messages.SORT_QUESTIONS,
+			buttonConfig: 'icon',
+			cls: upperActionButtonCls,
+			imageCls: 'info thm-grey',
+			hidden: false,
+			handler: this.sortQuestionHandler
 		});
 
 		this.add([
@@ -259,7 +278,8 @@ Ext.define('ARSnova.view.speaker.SortQuestionPanel', {
 				xtype: 'formpanel',
 				scrollable: null,
 				items: [this.questionListContainer]
-			}
+			},
+			this.sortQuestionButton
 			//this.caption
 		]);
 
@@ -285,9 +305,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionPanel', {
 		this.getController().getQuestions(sessionStorage.getItem('keyword'), {
 			success: Ext.bind(function (response) {
 				var questions = Ext.decode(response.responseText);
-				
-				console.log("response:  "+response.responseText);
-				
+								
 				this.questionStore.add(questions);
 				this.caption.show();
 				this.caption.explainStatus(questions);
