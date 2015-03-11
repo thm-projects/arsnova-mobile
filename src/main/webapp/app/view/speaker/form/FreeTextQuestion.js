@@ -26,7 +26,11 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 	config: {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 				cls: 'newQuestionOptions',
+=======
+				//cls: 'newQuestionOptions',
+>>>>>>> 2691e71... Fixed style for the togglebutton. #15325
 				scrollable: null
 	},
 <<<<<<< HEAD
@@ -41,6 +45,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 	initialize: function () {
 		this.callParent(arguments);
 
+<<<<<<< HEAD
 		var me = this;
 
 <<<<<<< HEAD
@@ -61,6 +66,16 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 				name:'image-upload-button',
 				label:Messages.IMG_UPLOAD_TOGGLE_BUTTON,
 				labelCls:'imageUploadButtonLabel',
+=======
+		this.imgUploadBtn = Ext.create('ARSnova.view.MatrixButton', {
+			cls: 'actionButton',
+			buttonConfig: 'togglefield',
+			text: Messages.IMAGE_ANSWER_LONG,
+			toggleConfig: {
+				scope: this,
+				label: false,
+				value: 0,
+>>>>>>> 2691e71... Fixed style for the togglebutton. #15325
 				listeners: {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
@@ -84,18 +99,17 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 >>>>>>> af8610a... fixed toggle button
 					}
 				}
+			}
 		});
 
-		var answerFieldset = Ext.create('Ext.form.FieldSet', {
-			title: Messages.ANSWER_OPTIONS,
-			items: [this.imgUploadBtn]
-		});
-
-		var answerOptions = Ext.create('Ext.form.FormPanel', {
-			scrollable: null,
-			submitOnAction: false,
-			items: [answerFieldset]
-		});
+		var answerOptions = Ext.create('Ext.Panel', {
+				scrollable: null,
+				layout: {
+					type:'hbox',
+					pack:'center'
+				},
+				items: [this.imgUploadBtn]
+			});
 
 		this.add([answerOptions]);
 <<<<<<< HEAD
