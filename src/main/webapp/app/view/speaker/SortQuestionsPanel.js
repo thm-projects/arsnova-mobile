@@ -367,6 +367,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
 		panel.sortType = panel.sortTypeBackup;
 		panel.questionStore.removeAll();
+		panel.questionStore.sort([]);
 		panel.questionStoreBackup.each(function (record) {
 			panel.questionStore.add(record);
 		});
@@ -398,7 +399,8 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		button.disable();
 		var promise = new RSVP.Promise();
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
-		panel.getController().setSort({
+		panel.getController().setQuestionSort({
+			subject: "",
 			sortType: sortType,
 			questionIDs: questionIDs,
 			callbacks: {

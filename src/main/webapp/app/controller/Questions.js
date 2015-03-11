@@ -436,13 +436,23 @@ Ext.define("ARSnova.controller.Questions", {
 		});
 	},
 	
-	getSort: function (options) {
-		ARSnova.app.questionModel.getLectureSort(sessionStorage.getItem('keyword'),
+	getSubjectSort: function (options) {
+		ARSnova.app.questionModel.getSubjectLectureSort(sessionStorage.getItem('keyword'),
 			options.callbacks);
 	},
 	
-	setSort: function (options) {
-		ARSnova.app.questionModel.setLectureSort(sessionStorage.getItem('keyword'),
-			options.sortType, options.questionIDs, options.callbacks);
+	setSubjectSort: function (options) {
+		ARSnova.app.questionModel.setSubjectLectureSort(sessionStorage.getItem('keyword'),
+			options.sortType, options.subjects, options.callbacks);
+	},
+	
+	getQuestionSort: function (options) {
+		ARSnova.app.questionModel.getQuestionLectureSort(sessionStorage.getItem('keyword'),
+			options.subject, options.callbacks);
+	},
+	
+	setQuestionSort: function (options) {
+		ARSnova.app.questionModel.setQuestionLectureSort(sessionStorage.getItem('keyword'),
+			options.subject, options.sortType, options.questionIDs, options.callbacks);
 	}
 });
