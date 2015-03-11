@@ -91,14 +91,20 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 		this.needImageLabel = Ext.create('Ext.Label', {
 			html: Messages.IMAGE_NEEDED,
-			style: "width: 100%; text-align: center;"
+			style: "width: 100%; text-align: center;",
+			hidden: true
 		});
+
+		if(this.questionObj.imageQuestion) {
+			this.needImageLabel.show();
+		}
 
 		this.gridQuestion = Ext.create('ARSnova.view.components.GridImageContainer', {
 			id: 'grid',
 			hidden: 'true',
 			gridIsHidden: true,
-			editable: false
+			editable: false,
+			style: "margin-top: 5px;"
 		});
 
 		// Setup question title and text to disply in the same field; markdown handles HTML encoding
@@ -159,6 +165,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 		this.on('activate', function () {
 			if (this.isDisabled()) {
+				this.uploadView.hide();
 				this.disableQuestion();
 			}
 
@@ -232,7 +239,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			return;
 		}
 
-		Ext.Msg.confirm('', Messages.PICTURE_RIGHT_INFORMATION, function (button) {
+		Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
 			if (button === "yes") {
 				this.storeAnswer();
 				this.buttonContainer.setHidden(true);
@@ -274,6 +281,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				}
 				localStorage.setItem(self.questionObj.questionVariant + 'QuestionIds', Ext.encode(questionsArr));
 
+				self.uploadView.hide();
 				self.disableQuestion();
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
