@@ -45,7 +45,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	saveButton: null,
 
 	questions: null,
-	
+
 	subject: null,
 	sortType: 'custom',
 	sortTypeBackup: 'custom',
@@ -73,8 +73,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			plugins: {xclass: 'Ext.plugin.SortableList', handleSelector: '.dragStyle'},
 
 			style: {
-				backgroundColor: 'transparent',
-				height: '660px'
+				backgroundColor: 'transparent'
 			},
 
 
@@ -84,7 +83,6 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 				'<tpl if="active"><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
 				'<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
 				'<div class="x-button x-hasbadge audiencePanelListBadge"></div>',
-			grouped: true,
 			store: this.questionStore,
 
 			listeners: {
@@ -115,20 +113,10 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 						};
 					}, this, {single: true});
 				},
-				/**
-				 * The following event is used to get the computed height of all list items and
-				 * finally to set this value to the list DataView. In order to ensure correct rendering
-				 * it is also necessary to get the properties "padding-top" and "padding-bottom" and
-				 * add them to the height of the list DataView.
-				 */
 				painted: function (list, eOpts) {
-					var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
-
-					this.questionList.setHeight(
-						parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
-						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
-						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
-					);
+					var count = this.questionStore.getCount(),
+						height = 42 * count;
+					this.questionList.setHeight(height);
 				}
 			}
 		});
@@ -173,7 +161,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			imageCls: 'icon-sort-alpha thm-grey',
 			handler: this.sortAlphabetHandler
 		});
-		
+
 		this.sortTimeButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SORT_TIME,
 			cls: 'actionButton',
@@ -268,16 +256,11 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		this.on('deactivate', this.onDeactivate);
 		this.on('orientationchange', this.onOrientationChange);
 	},
-	
+
 	createStore: function () {
 		var store = Ext.create('Ext.data.JsonStore', {
 			model: 'ARSnova.model.Question',
-			sorters: 'text',
-			grouper: {
-				groupFn: function (record) {
-					return Ext.util.Format.htmlEncode(record.get('subject'));
-				}
-			}
+			sorters: 'text'
 		});
 		return store;
 	},
@@ -302,7 +285,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 				}
 			}
 		});
-		
+
 		this.questionStore.removeAll();
 		this.questionStoreBackup.removeAll();
 		this.questionEntries = [];
@@ -332,12 +315,12 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 
 	saveHandler: function (button) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
-		
+
 		var questionIDs = [];
 		panel.questionStore.each(function (record) {
 			questionIDs.push(record.getId());
 		});
-		
+
 		var promise = panel.dispatch(button, panel.subject, panel.sortType, questionIDs);
 		return promise;
 	},
@@ -361,7 +344,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		});
 		panel.sortQuestions();
 	},
-	
+
 	sortQuestions: function () {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
 		switch (panel.sortType) {
