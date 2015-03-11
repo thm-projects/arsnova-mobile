@@ -46,7 +46,13 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			ui: 'back',
 			scope: this,
 			handler: function () {
-				me.getBack();
+				var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+				/* show home Panel */
+				tabPanel.animateActiveItem(tabPanel.homeTabPanel, {
+					type: 'slide',
+					direction: 'right',
+					duration: 700
+				});
 			}
 		});
 

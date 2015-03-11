@@ -23,7 +23,8 @@ Ext.define('ARSnova.view.home.TabPanel', {
 	requires: [
 		'ARSnova.view.home.HomePanel',
 		'ARSnova.view.home.MySessionsPanel',
-		'ARSnova.view.home.NewSessionPanel'
+		'ARSnova.view.home.NewSessionPanel',
+		'ARSnova.view.home.SessionInfoPanel'
 	],
 
 	config: {
@@ -39,11 +40,13 @@ Ext.define('ARSnova.view.home.TabPanel', {
 		this.homePanel = Ext.create('ARSnova.view.home.HomePanel');
 		this.mySessionsPanel = Ext.create('ARSnova.view.home.MySessionsPanel');
 		this.newSessionPanel = Ext.create('ARSnova.view.home.NewSessionPanel');
+		this.sessionInfoPanel = Ext.create('ARSnova.view.home.SessionInfoPanel');
 
 		this.add([
 			this.homePanel,
 			this.mySessionsPanel,
-			this.newSessionPanel
+			this.newSessionPanel,
+			this.sessionInfoPanel
 		]);
 	}
 });

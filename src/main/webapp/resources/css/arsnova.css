@@ -531,7 +531,8 @@ html,body {
 	border-radius: 0;
 	height: 45px !important;
 	border-width: 0px;
-	margin: 0px; 
+	margin: 0px;
+	text-align: left;
 }
 
 .forwardSessionListBg {

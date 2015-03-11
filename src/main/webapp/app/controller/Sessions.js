@@ -58,7 +58,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				} else {
 					// check if session is open
 					if (!obj.active) {
-						Ext.Msg.alert("Hinweis", "Die Session \"" + obj.name + "\” ist momentan geschlossen.");
+						Ext.Msg.alert("Hinweis", "Die Session \"" + obj.name + "\Ã¢â‚¬ï¿½ ist momentan geschlossen.");
 						return;
 					}
 					ARSnova.app.userRole = ARSnova.app.USER_ROLE_STUDENT;
@@ -69,6 +69,11 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('sessionId', obj._id);
 				localStorage.setItem('name', obj.name);
 				localStorage.setItem('shortName', obj.shortName);
+				localStorage.setItem('ppAuthorName', obj.ppAuthorName);
+				localStorage.setItem('ppAuthorMail', obj.ppAuthorMail);
+				localStorage.setItem('ppUniversity', obj.ppUniversity);
+				localStorage.setItem('ppFaculty', obj.ppFaculty);
+				localStorage.setItem('ppLicense', obj.ppLicense);
 				localStorage.setItem('courseId', obj.courseId === null ? "" : obj.courseId);
 				localStorage.setItem('courseType', obj.courseType === null ? "" : obj.courseType);
 				localStorage.setItem('active', obj.active ? 1 : 0);
@@ -120,6 +125,11 @@ Ext.define("ARSnova.controller.Sessions", {
 		localStorage.removeItem("sessionId");
 		localStorage.removeItem("name");
 		localStorage.removeItem("shortName");
+		localStorage.removeItem("ppAuthorName");
+		localStorage.removeItem("ppAuthorMail");
+		localStorage.removeItem("ppUniversity");
+		localStorage.removeItem("ppFaculty");
+		localStorage.removeItem("ppLicense");
 		localStorage.removeItem("active");
 		localStorage.removeItem("session");
 		localStorage.removeItem("courseId");
@@ -273,7 +283,7 @@ Ext.define("ARSnova.controller.Sessions", {
 
 		var validation = session.validate();
 		if (!validation.isValid()) {
-			Ext.Msg.alert('Hinweis', 'Bitte alle markierten Felder ausfüllen.');
+			Ext.Msg.alert('Hinweis', 'Bitte alle markierten Felder ausfÃƒÂ¼llen.');
 			var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel;
 			panel.down('fieldset').items.items.forEach(function (el) {
 				if (el.xtype === 'textfield') {
@@ -296,6 +306,11 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('sessionId', fullSession._id);
 				localStorage.setItem('name', fullSession.name);
 				localStorage.setItem('shortName', fullSession.shortName);
+				localStorage.setItem('ppAuthorName', fullSession.ppAuthorName);
+				localStorage.setItem('ppAuthorMail', fullSession.ppAuthorMail);
+				localStorage.setItem('ppUniversity', fullSession.ppUniversity);
+				localStorage.setItem('ppFaculty', fullSession.ppFaculty);
+				localStorage.setItem('ppLicense', fullSession.ppLicense);
 				localStorage.setItem('active', fullSession.active ? 1 : 0);
 				localStorage.setItem('courseId', fullSession.courseId === null ? "" : fullSession.courseId);
 				localStorage.setItem('courseType', fullSession.courseType === null ? "" : fullSession.courseType);

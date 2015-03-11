@@ -396,6 +396,28 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					});
 					hideLoadMask();
 				};
+				
+				var sessionInfoButtonHandler = function (options) {
+					
+					sessionStorage.setItem('keyword', options.config.sessionObj.keyword);
+					
+					localStorage.setItem('name', options.config.sessionObj.name);
+					localStorage.setItem('shortName', options.config.sessionObj.shortName);
+					
+					localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
+					ARSnova.app.userRole = ARSnova.app.USER_ROLE_SPEAKER;
+					
+					
+					// change to session info
+					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+					var sessionInfoPanel = Ext.create('ARSnova.view.home.SessionInfoPanel');
+
+					hTP.animateActiveItem(sessionInfoPanel, {
+						type: 'slide',
+						direction: 'left',
+						duration: 700
+					});
+				};
 
 				var session;
 				for (var i = 0; i < sessions.length; i++) {
@@ -433,10 +455,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						cls: 'sessionInfoIconList',
 						iconCls: 'info',
 						width: '7%',
+						sessionObj: session,
 
-						handler: function (button) {
-							console.log("info seite für sessions");
-						}
+						handler: sessionInfoButtonHandler 
 					});
 					
 					// Container to show the Session-Info-Button aside the List

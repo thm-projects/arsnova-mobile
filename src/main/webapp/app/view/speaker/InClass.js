@@ -39,6 +39,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	sessionStatusButton: null,
 	createAdHocQuestionButton: null,
 	inClassIdInfo: null,
+	sessionInfoButton: null,
 
 	/**
 	 * task for speakers in a session
@@ -188,6 +189,22 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			items: buttons
 		});
 		
+		this.sessionInfoButton = Ext.create('Ext.Button', {
+			cls: 'sessionInfoIconId',
+			iconCls: 'info',
+			padding: '0',
+			margin: '0',
+
+			handler: function (button) {
+				console.log("zeuch");
+				// change to session info
+				var sessionInfoPanel = Ext.create('ARSnova.view.home.SessionInfoPanel');
+				
+				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+				sTP.animateActiveItem(sessionInfoPanel, 'slide');
+			}
+		});
+		
 		this.inClassIdInfo = Ext.create('Ext.Panel', {
 			style: {marginTop: '20px'},
 			layout: {
@@ -200,17 +217,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 					cls: 'gravure',
 					html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(sessionStorage.getItem("keyword"))
 				},
-				{
-					xtype: 'button',
-					cls: 'sessionInfoIconId',
-					iconCls: 'info',
-					padding: '0',
-					margin: '0',
-
-					handler: function (button) {
-						console.log("info seite für sessions");
-					}
-				}
+				this.sessionInfoButton
 			]
 		});
 
