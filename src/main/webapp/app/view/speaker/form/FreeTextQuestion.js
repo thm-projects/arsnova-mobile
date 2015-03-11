@@ -43,6 +43,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 
 		var me = this;
 
+<<<<<<< HEAD
 =======
 				cls: 'newQuestionOptions centerFormTitle',
 =======
@@ -54,6 +55,8 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		this.callParent(arguments);
 
 >>>>>>> 8a9bbc2... Added ToggleButton for imagequestion to freetext question. #15216
+=======
+>>>>>>> af8610a... fixed toggle button
 		this.imgUploadBtn = Ext.create('Ext.field.Toggle', {
 				name:'image-upload-button',
 				label:Messages.IMG_UPLOAD_TOGGLE_BUTTON,
@@ -61,6 +64,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 				listeners: {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 						me.imageQuestion = newValue == 0 ? false : true;
@@ -75,6 +79,9 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 =======
 						imageQuestion = newValue == 0 ? false : true;
 >>>>>>> 34cbe25... added new field to model #15268
+=======
+						me.imageQuestion = newValue == 0 ? false : true;
+>>>>>>> af8610a... fixed toggle button
 					}
 				}
 		});
@@ -91,6 +98,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		});
 
 		this.add([answerOptions]);
+<<<<<<< HEAD
 <<<<<<< HEAD
   	},
 	getQuestionValues: function () {
@@ -123,9 +131,12 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		return this.imageQuestion;
 >>>>>>> f4a8fa6... Fixed bug "Uncaught ReferenceError.." #15341
 	},
+=======
+  	},
+>>>>>>> af8610a... fixed toggle button
 	getQuestionValues: function () {
 		var result = {};
-		result.imageQuestion = this.imageQuestion();
+		result.imageQuestion = this.imageQuestion;
 		return result;
 >>>>>>> dea8be2... Added handler for saving imagequestions. #15217
 	}
