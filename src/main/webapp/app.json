@@ -39,6 +39,13 @@
      *      }
      */
     "js": [
+<<<<<<< HEAD
+=======
+        {
+            "path" : "lib/JIC.js",
+            "update" : "full"
+        },
+>>>>>>> 3253d9d... Added JIC-Library to app.json, #15221
     	  {
     			"path": "phonegap.js",
     			"x-bootstrap": true,
@@ -57,10 +64,13 @@
             "update": "full"
         },
 
+<<<<<<< HEAD
         {
             "path" : "lib/JIC.js",
             "update" : "full"
         },
+=======
+>>>>>>> 3253d9d... Added JIC-Library to app.json, #15221
         {
       		"path": "lib/moment.min.js",
       		"update": "full"
