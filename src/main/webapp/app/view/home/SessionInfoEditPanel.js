@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('ARSnova.view.home.SessionInfoPanel', {
+Ext.define('ARSnova.view.home.SessionInfoEditPanel', {
 	extend : 'Ext.Panel',
 
 	config : {
@@ -47,7 +47,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				scope : this,
 				handler : function () {
 					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-					hTP.animateActiveItem(hTP.mySessionsPanel, {
+					hTP.animateActiveItem(hTP.sessionInfoPanel, {
 						type : 'slide',
 						direction : 'right',
 						duration : 700
@@ -55,18 +55,13 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				}
 			});
 		
-		this.editButton = Ext.create('Ext.Button', {
-			text: Messages.EDIT,
+		this.saveButton = Ext.create('Ext.Button', {
+			text: Messages.SAVE,
 			ui: 'confirm',
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
 			handler : function () {
-					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				hTP.animateActiveItem(hTP.sessionInfoEditPanel, {
-					type : 'slide',
-					direction : 'left',
-					duration : 700
-				});
+				console.log("Speichern");	
 			}
 		});
 
@@ -75,28 +70,22 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				docked : 'top',
 				ui : 'light',
 				items : [this.backButton,
-				         { xtype: 'spacer'},
-				         this.editButton]
+				        {xtype: 'spacer'},
+				         this.saveButton]
 			});
 
 		this.sessionName = Ext.create('Ext.field.Text', {
 				label : Messages.SESSION_NAME,
-				name : 'sessionName',
-				disabled: true
+				name : 'sessionName'
 			});
-		
 		this.sessionShortName = Ext.create('Ext.field.Text', {
 				label : Messages.SESSION_SHORT_NAME,
-				name : 'sessionShortName',
-				disabled: true
+				name : 'sessionShortName'
 			});
 		this.sessionNumQuestions = Ext.create('Ext.field.Text', {
 				label : Messages.QUESTIONS,
-				name : 'sessionNumQuestions',
-				disabled: true
+				name : 'sessionNumQuestions'
 			});
-
-
 		
 		this.sessionFieldSet = Ext.create('Ext.form.FieldSet', {
 				title : Messages.SESSIONPOOL_SESSIONINFO,
@@ -106,29 +95,22 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 
 		this.creatorName = Ext.create('Ext.field.Text', {
 				label : Messages.EXPORT_FIELD_NAME,
-				name : 'creatorName',
-				disabled: true
+				name : 'creatorName'
 			});
 
 		this.creatorMail = Ext.create('Ext.field.Text', {
 				label : Messages.EXPORT_FIELD_EMAIL,
-				name : 'creatorMail',
-				disabled: true
+				name : 'creatorMail'
 			});
-
-		
-		
 		
 		this.creatorUni = Ext.create('Ext.field.Text', {
 				label : Messages.EXPORT_FIELD_UNI,
-				name : 'creatorUni',
-				disabled: true
+				name : 'creatorUni'
 			});
 
 		this.creatorDep = Ext.create('Ext.field.Text', {
 				label : Messages.EXPORT_FIELD_SPECIAL_FIELD,
-				name : 'creatorDep',
-				disabled: true
+				name : 'creatorDep'
 			});
 
 		this.creatorFieldSet = Ext.create('Ext.form.FieldSet', {
@@ -136,6 +118,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				items : [this.creatorName, this.creatorMail, this.creatorUni,
 					this.creatorDep]
 			});
+		
 		this.descriptionPanel = Ext.create('Ext.Panel', {
 				layout : {
 					type : 'hbox',
