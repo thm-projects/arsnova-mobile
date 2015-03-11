@@ -26,7 +26,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 	],
 
 	config: {
-		title: 'SortQuestionsPanel',
+		title: 'SortSubjectsPanel',
 		fullscreen: true,
 		scrollable: {
 			direction: 'vertical',
@@ -46,7 +46,6 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 
 	questions: null,
 	
-	subject: null,
 	sortType: 'custom',
 	sortTypeBackup: 'custom',
 
@@ -90,37 +89,14 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 			listeners: {
 				scope: this,
 				itemtap: function (list, index, element) {
-					this.getController().details({
-						question: list.getStore().getAt(index).data
-					});
-
 					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-					var backButton = sTP.questionDetailsPanel.down('button[ui=back]');
-					backButton.setHandler(function () {
-						var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-						sTP.animateActiveItem(sTP.sortQuestionsPanel, {
-							type: 'slide',
-							direction: 'right',
-							duration: 700
-						});
+					sTP.sortQuestionsPanel.subject = list.getStore().getAt(index).data;
+					sTP.animateActiveItem(sTP.sortQuestionsPanel, {
+						type: 'slide',
+						direction: 'right',
+						duration: 700
 					});
-					sTP.questionDetailsPanel.on('deactivate', function (panel) {
-						panel.backButton.handler = function () {
-							var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-							sTP.animateActiveItem(sTP.audienceQuestionPanel, {
-								type: 'slide',
-								direction: 'right',
-								duration: 700
-							});
-						};
-					}, this, {single: true});
 				},
-				/**
-				 * The following event is used to get the computed height of all list items and
-				 * finally to set this value to the list DataView. In order to ensure correct rendering
-				 * it is also necessary to get the properties "padding-top" and "padding-bottom" and
-				 * add them to the height of the list DataView.
-				 */
 				painted: function (list, eOpts) {
 					var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
 
@@ -159,7 +135,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 			style: 'width: 89px',
 			handler: function (button) {
 				this.saveHandler(button).then(function (response) {
-					var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
+					var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel;
 					panel.getController().listQuestions();
 				});
 			},
@@ -331,7 +307,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 	},
 
 	saveHandler: function (button) {
-		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel;
 		
 		var questionIDs = [];
 		panel.questionStore.each(function (record) {
@@ -342,17 +318,17 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 		return promise;
 	},
 	sortAlphabetHandler: function (button) {
-		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel;
 		panel.sortType = 'alphabet';
 		panel.sortQuestions();
 	},
 	sortTimeHandler: function (button) {
-		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel;
 		panel.sortType = 'time';
 		panel.sortQuestions();
 	},
 	sortRevertHandler: function (button) {
-		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel;
 		panel.sortType = panel.sortTypeBackup;
 		panel.questionStore.removeAll();
 		panel.questionStore.sort([]);
@@ -363,7 +339,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 	},
 	
 	sortQuestions: function () {
-		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel;
 		switch (panel.sortType) {
 			case 'alphabet':
 				panel.questionStore.sort([
@@ -383,14 +359,13 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 				break;
 		}
 	},
-	dispatch: function (button, subject, sortType, questionIDs) {
+	dispatch: function (button, sortType, subjects) {
 		button.disable();
 		var promise = new RSVP.Promise();
-		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
-		panel.getController().setQuestionSort({
-			subject: subject,
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel;
+		panel.getController().setSubjectSort({
 			sortType: sortType,
-			questionIDs: questionIDs,
+			subjects: subjects,
 			callbacks: {
 				success: function (response, opts) {
 					promise.resolve(response);

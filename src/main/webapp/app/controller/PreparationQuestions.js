@@ -29,6 +29,7 @@ Ext.define("ARSnova.controller.PreparationQuestions", {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.newQuestionPanel.setVariant('preparation');
 		sTP.sortQuestionsPanel.setController(this);
+		sTP.sortSubjectsPanel.setController(this);
 		sTP.audienceQuestionPanel.setController(this);
 		sTP.showcaseQuestionPanel.setController(this);
 		sTP.showcaseQuestionPanel.setPreparationMode();

@@ -157,7 +157,7 @@ switch (lang) {
 			QUESTION_EDIT_ERROR: "Das Editieren der Frage war leider nicht erfolgreich.",
 			ANSWER_CREATION_ERROR: "Die Antwort konnte nicht gespeichert werden",
 			SEND: "Abschicken",
-			SORT_TRANSMISSION_ERROR: "Das Sortieren der Fragen war leider nicht erfolgreich.",
+			SORT_TRANSMISSION_ERROR: "Das Sortieren war leider nicht erfolgreich.",
 
 			/* questions */
 			QUESTION: "Frage",
@@ -674,7 +674,7 @@ switch (lang) {
 			QUESTION_EDIT_ERROR: "Failed editing the question.",
 			ANSWER_CREATION_ERROR: "Your answer could not be saved.",
 			SEND: "Send",
-			SORT_TRANSMISSION_ERROR: "Failed to sort the questions.",
+			SORT_TRANSMISSION_ERROR: "Sort failed.",
 
 			/* questions */
 			QUESTION: "Question",

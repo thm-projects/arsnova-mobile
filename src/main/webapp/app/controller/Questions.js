@@ -64,6 +64,7 @@ Ext.define("ARSnova.controller.Questions", {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.newQuestionPanel.setVariant('lecture');
 		sTP.sortQuestionsPanel.setController(this);
+		sTP.sortSubjectsPanel.setController(this);
 		sTP.audienceQuestionPanel.setController(this);
 		sTP.showcaseQuestionPanel.setController(this);
 		sTP.showcaseQuestionPanel.setLectureMode();
