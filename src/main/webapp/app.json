@@ -39,11 +39,15 @@
      *      }
      */
     "js": [
-    	{
-			"path": "phonegap.js",
-			"x-bootstrap": true,
-			"remote": true
-		},
+        {
+            "path" : "lib/JIC.js",
+            "update" : "full"
+        },
+    	  {
+    			"path": "phonegap.js",
+    			"x-bootstrap": true,
+    			"remote": true
+		    },
         {
             "path": "touch/sencha-touch.js",
             "x-bootstrap": true
@@ -56,10 +60,7 @@
             "path": "lib/markdown/markdown.js",
             "update": "full"
         },
-        {
-            "path" : "lib/JIC.js",
-            "update" : "full"
-        },
+
         {
       		"path": "lib/moment.min.js",
       		"update": "full"
