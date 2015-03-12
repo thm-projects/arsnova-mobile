@@ -27,12 +27,12 @@ Ext.define('FreetextAnswer', {
 		'ARSnova.view.speaker.form.VoteQuestion',
 		'ARSnova.view.speaker.form.YesNoQuestion',
 		'ARSnova.view.speaker.form.FlashcardQuestion',
-		'ARSnova.view.speaker.form.GridStatistic'
+		'ARSnova.view.speaker.form.GridStatistic',
+		'ARSnova.view.speaker.form.FreetextQuestion'
 	],
 
 	config: {
 		idProperty: "_id",
-
 		fields: [
 			'answerSubject',
 			'timestamp',
@@ -146,9 +146,21 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				eb.removeCls('x-button-action');
 
 				this.hide();
+				/* MOD: If you press Cancel, the Buttons should hide */
+				ffSegmentedButton.setPressedButtons(0);
+				esSegmentedButton.setPressedButtons(0);
+				checkSegmentedButton.setPressedButtons();
+				mainFormPanel.hide();
+				selectField.hide();
+				ratingField.hide();
+				grammarField.hide();
+				freefixField.hide();
+				// ----------------------------------------
 				panel.backButton.show();
 				panel.resetFields();
 				panel.editButton.config.setEnableAnswerEdit(panel, false);
+
+
 			}
 		});
 
@@ -339,9 +351,26 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					} else {
 						panel.absteionAlternative.hide();
 					}
+
+					/* MOD: If you press Edit, the Menu should open*/
+					if (panel.questionObj.questionType === 'freetext') {
+						freefixField.show();
+					}
+					// ----------------------------------------
+
 				} else {
+					/* MOD: Reset the selection, if you press the Save Button */
+					ffSegmentedButton.setPressedButtons(0);
+					esSegmentedButton.setPressedButtons(0);
+					checkSegmentedButton.setPressedButtons();
+					freefixField.hide();
+					mainFormPanel.hide();
+					selectField.hide();
+					ratingField.hide();
+					grammarField.hide();
 					panel.cancelButton.hide();
 					panel.backButton.show();
+					// ----------------------------------------
 
 					var values = this.up('panel').down('#contentForm').getValues();
 					var question = Ext.create('ARSnova.model.Question', panel.questionObj);
@@ -794,6 +823,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		} else if (this.questionObj.questionType === 'grid') {
 			answerEditFormClass = 'ARSnova.view.speaker.form.GridQuestion';
 		}
+		// EDIT_THIS ???
 
 		this.answerEditForm = Ext.create(answerEditFormClass, {
 			editPanel: true,
@@ -805,12 +835,194 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 		/* END QUESTION DETAILS */
 
+		/* FreetextQuestion Start */
+
+		// Freetext or Fixtext
+
+		var freeButton = Ext.create('Ext.Button', {
+			text: Messages.FREETEXT_BUTTON_FREE,
+			handler: function () {
+				mainFormPanel.hide();
+				selectField.hide();
+				ratingField.hide();
+				grammarField.hide();
+				esSegmentedButton.setPressedButtons(0);
+				checkSegmentedButton.setPressedButtons();
+			},
+			pressed: true
+		});
+
+		var fixButton = Ext.create('Ext.Button', {
+			text: Messages.FREETEXT_BUTTON_FIX,
+			handler: function () {
+				mainFormPanel.show();
+				selectField.show();
+				ratingField.show();
+			}
+		});
+
+		var ffSegmentedButton = Ext.create('Ext.SegmentedButton', {
+			style: 'margin: auto;',
+			layout: {
+				pack: 'center'
+			},
+			defaults: {
+				ui: 'action',
+				style: 'width: 250px'
+			},
+			items:[freeButton, fixButton]
+		});
+
+		var freefixField = Ext.create('Ext.form.FieldSet', {
+			xtype: 'fieldset',
+			cls: 'centerFormTitle',
+			title: Messages.FREETEXT_QUESTION_TYPE,
+			items: [ffSegmentedButton],
+			hidden: true
+		});
+
+		// ----------------------------------------
+
+		// Case-Sensitive, Punctuation, ...
+
+		var easyButton = Ext.create('Ext.Button', {
+			text: Messages.FREETEXT_BUTTON_EASY,
+			handler: function () {
+				grammarField.hide();
+				checkSegmentedButton.setPressedButtons();
+			},
+			pressed: true
+		});
+
+		var strictButton = Ext.create('Ext.Button', {
+			text: Messages.FREETEXT_BUTTON_STRICT,
+			handler: function () {
+				grammarField.show();
+			}
+		});
+
+		var esSegmentedButton = Ext.create('Ext.SegmentedButton', {
+			style: 'margin: auto;',
+			layout: {
+				pack: 'center'
+			},
+			defaults: {
+				ui: 'action',
+				style: 'width: 250px'
+			},
+			items:[easyButton, strictButton]
+		});
+
+		var selectField = Ext.create('Ext.form.FieldSet', {
+			xtype: 'fieldset',
+			cls: 'centerFormTitle',
+			title: Messages.FREETEXT_CHECK, 
+			items: [esSegmentedButton],
+			hidden: true
+		});
+
+		/* How should it be checked? */
+
+		var caseSensitiveButton = Ext.create('Ext.Button', {
+			text: Messages.GRAMMAR_CASE_SENSITIVE
+		});
+
+		var spaceButton = Ext.create('Ext.Button', {
+			text: Messages.GRAMMAR_SPACE
+		});
+
+		var punctuationButton = Ext.create('Ext.Button', {
+			text: Messages.GRAMMAR_PUNCTUATION
+		});
+
+		var checkSegmentedButton = Ext.create('Ext.SegmentedButton', {
+			style: 'margin: auto;',
+			layout: {
+				pack: 'center'
+			},
+			defaults: {
+				ui: 'action',
+				style: 'width: 166.66px'
+			},
+			allowDepress: true,
+			allowMultiple: true,
+			items:[caseSensitiveButton, spaceButton, punctuationButton]
+		});
+
+		var grammarField = Ext.create('Ext.form.FieldSet', {
+			xtype: 'fieldset',
+			cls: 'centerFormTitle',
+			title: Messages.GRAMMAR_PLACEHOLDER,
+			items: [checkSegmentedButton],
+			hidden: true
+		});
+
+		// ----------------------------------------
+
+		// Points
+
+		var rating = Ext.create("ARSnova.view.CustomSliderField", {
+			style: 'margin: auto;',
+			layout: {
+				pack: 'center'
+			},
+			width: '500px',
+			minValue: 0,
+			maxValue: 10,
+			value: 0,
+			increment: 1
+		});
+
+		var ratingField = Ext.create('Ext.form.FieldSet', {
+			xtype: 'fieldset',
+			cls: 'centerFormTitle',
+			title: Messages.ANSWER_POINTS,
+			items: [rating],
+			hidden: true
+		});
+
+		// ----------------------------------------
+
+		// TextArea
+
+		var textarea = Ext.create('Ext.plugins.ResizableTextArea', {
+			name: 'text',
+			placeHolder: Messages.FORMAT_PLACEHOLDER
+		});
+
+		var sizearea = Ext.create('Ext.field.Text', {
+			name: 'size',
+			placeHolder: Messages.FREETEXT_SIZE
+		});
+
+		var mainFormPanel = Ext.create('Ext.form.FormPanel', {
+			cls: 'newTest',
+			scrollable: null,
+			items: [{
+				xtype: 'fieldset',
+				title: Messages.CORRECT_PLACEHOLDER,
+				items: [textarea, sizearea]
+			}],
+			hidden: true
+		});
+
+		// ----------------------------------------
+
+		/* FreetextQuestion End */
+
 		this.add([
 			this.toolbar, {
 				xtype: 'formpanel',
 				scrollable: null,
 				items: [this.contentForm]
 			},
+			/* MOD: Add new Components */
+			freefixField,
+			mainFormPanel,
+			selectField,
+			grammarField,
+			ratingField,
+			// ----------------------------------------
 			this.actionsPanel,
 			this.abstentionPart,
 			this.absteionAlternative,
@@ -1166,10 +1378,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			field.setDisabled(true);
 		});
 
-		// reset image view if grid question
 		if (this.questionObj.questionType === 'grid') {
 			this.answerEditForm.initWithQuestion(Ext.clone(this.questionObj));
-		}
+		} 
 	},
 
 	formatAnswerText: function () {

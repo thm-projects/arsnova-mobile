@@ -20,54 +20,43 @@ Ext.define('ARSnova.view.speaker.form.FreetextQuestion', {
 	extend: 'Ext.Container',
 	config: {
 		cls: 'newQuestionOptions centerFormTitle',
-		scrollable: null,
-		pressed: 'free'
+		scrollable: null
 	},
 
 	constructor: function () {
 		this.callParent(arguments);
 
-		// Freitext oder Fixtext
+		// Freetext or Fixtext
+
 		var freeButton = Ext.create('Ext.Button', {
 			text: Messages.FREETEXT_BUTTON_FREE,
-		    handler: function () {
-            	mainFormPanel.hide();
-            	selectField.hide();
-            	ratingField.hide();
-            	grammarField.hide();
-            },
-            pressed: this.getPressed() === 'free'
+			handler: function () {
+				mainFormPanel.hide();
+				selectField.hide();
+				ratingField.hide();
+				grammarField.hide();
+				esSegmentedButton.setPressedButtons(0);
+				checkSegmentedButton.setPressedButtons();
+			},
+			pressed: true
 		});
-		
-        var fixButton = Ext.create('Ext.Button', {
+
+		var fixButton = Ext.create('Ext.Button', {
 			text: Messages.FREETEXT_BUTTON_FIX,
 			handler: function () {
 				mainFormPanel.show();
 				selectField.show();
 				ratingField.show();
-            },
-            pressed: this.getPressed() === 'fix'
+			}
 		});
-        
+
 		var ffSegmentedButton = Ext.create('Ext.SegmentedButton', {
 			style: 'margin: auto;',
 			defaults: {
 				ui: 'action',
 				style: 'width: 50%'
 			},
-			items:[freeButton, fixButton],
-			/*listeners: {
-				scope: this,
-				toggle: function (container, button, pressed) {
-					if (pressed) {
-						if (button === this.fixButton) {
-							this.setPressed('fix');
-						} else {
-							this.setPressed('free');
-						} 
-					}
-				}
-			}*/
+			items:[freeButton, fixButton]
 		});
 
 		var freefixField = Ext.create('Ext.form.FieldSet', {
@@ -75,48 +64,36 @@ Ext.define('ARSnova.view.speaker.form.FreetextQuestion', {
 			title: Messages.FREETEXT_QUESTION_TYPE,
 			items: [ffSegmentedButton]
 		});
-		
+
 		// ----------------------------------------
 
-		// Groß-, Kleinschreibung, Interpunktion, usw.
-		
-        var easyButton = Ext.create('Ext.Button', {
+		// Case-Sensitive, Punctuation, ...
+
+		var easyButton = Ext.create('Ext.Button', {
 			text: Messages.FREETEXT_BUTTON_EASY,
 			handler: function () {
-            	grammarField.hide();
-            },
-            pressed: true
+				grammarField.hide();
+				checkSegmentedButton.setPressedButtons();
+			},
+			pressed: true
 		});
-        
-        var strictButton = Ext.create('Ext.Button', {
+
+		var strictButton = Ext.create('Ext.Button', {
 			text: Messages.FREETEXT_BUTTON_STRICT,
 			handler: function () {
-            	grammarField.show();
-            },
-            pressed: this.getPressed() === 'strict'
+				grammarField.show();
+			}
 		});
-        
+
 		var esSegmentedButton = Ext.create('Ext.SegmentedButton', {
 			style: 'margin: auto;',
 			defaults: {
 				ui: 'action',
 				style: 'width: 50%'
 			},
-			items:[easyButton, strictButton],
-			/*listeners: {
-				scope: this,
-				toggle: function (container, button, pressed) {
-					if (pressed) {
-						if (button === this.easyButton) {
-							this.setPressed('easy');
-						} else {
-							this.setPressed('strict');
-						} 
-					}
-				}
-			}*/
+			items:[easyButton, strictButton]
 		});
-		
+
 		var selectField = Ext.create('Ext.form.FieldSet', {
 			xtype: 'fieldset',
 			title: Messages.FREETEXT_CHECK, 
@@ -124,12 +101,12 @@ Ext.define('ARSnova.view.speaker.form.FreetextQuestion', {
 			hidden: true
 		});
 
-		/* Selektion der Prüfung */
+		/* How should it be checked? */
 
 		var caseSensitiveButton = Ext.create('Ext.Button', {
 			text: Messages.GRAMMAR_CASE_SENSITIVE
 		});
-		
+
 		var spaceButton = Ext.create('Ext.Button', {
 			text: Messages.GRAMMAR_SPACE
 		});
@@ -155,11 +132,11 @@ Ext.define('ARSnova.view.speaker.form.FreetextQuestion', {
 			items: [checkSegmentedButton],
 			hidden: true
 		});
-		
+
 		// ----------------------------------------
 
-		// Bewertung der Antwort
-		
+		// Points
+
 		var rating = Ext.create("ARSnova.view.CustomSliderField", {
 			minValue: 0,
 			maxValue: 10,
@@ -173,11 +150,11 @@ Ext.define('ARSnova.view.speaker.form.FreetextQuestion', {
 			items: [rating],
 			hidden: true
 		});
-		
+
 		// ----------------------------------------
 
-		// Eingabefeld
-		
+		// TextArea
+
 		var textarea = Ext.create('Ext.plugins.ResizableTextArea', {
 			name: 'text',
 			placeHolder: Messages.FORMAT_PLACEHOLDER
@@ -198,9 +175,9 @@ Ext.define('ARSnova.view.speaker.form.FreetextQuestion', {
 			}],
 			hidden: true
 		});
-		
+
 		// ----------------------------------------
-		
+
 		this.add([{
 			xtype: 'formpanel',
 			scrollable: null,
