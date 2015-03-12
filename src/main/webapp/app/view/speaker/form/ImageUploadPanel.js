@@ -233,10 +233,11 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 
 		if (!isNaN(ARSnova.app.globalConfig.maxUploadFilesize)) {
 			if (imgFileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
-				url = jic.compress(url, (Math.max(1.0, Math.min(100.0, 100.0 * (1.0 / (imgFileSize / ARSnova.app.globalConfig.maxUploadFileSize))))).toFixed(2), "png");
+				url = this.compress(url, (Math.max(1.0, Math.min(100.0, 100.0 / (imgFileSize / ARSnova.app.globalConfig.maxUploadFileSize)))).toFixed(2));
 				imgFileSize = Math.round((url.length - head.length) * 3 / 4);
 				compressed = true;
 			}
+			//2nd check if the compression didn't succeed (maximal compression = 1% of the original)
 			if (imgFileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
 				var msgTemp = Messages.GRID_ERROR_FILE_SIZE.replace(/%%%/, Math.round((imgFileSize / 1024)) + "KB");
 				var filesizeString = Math.round(parseInt(ARSnova.app.globalConfig.maxUploadFilesize / 1024)) + "KB";
@@ -246,6 +247,16 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		}
 
 		return compressed ? url : true;
+	},
+
+	compress: function(source, quality) {
+		var cvs = document.createElement('canvas');
+		cvs.width = source.naturalWidth;
+		cvs.height = source.naturalHeight;
+		cvs.getContext("2d").drawImage(source, 0, 0);
+		var result = new Image();
+		result.src = cvs.toDataURL("png", quality / 100);
+		return result;
 	},
 
 	toggleUploadTextfieldVisibility: function () {
