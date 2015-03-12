@@ -88,6 +88,8 @@ Ext.define('Ext.plugin.SortableListExtended', {
 	},
 
 	onDragStart: function(e) {
+		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel.setScrollable(false);
+		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel.setScrollable(false);
 		var row = Ext.getCmp(e.getTarget('.' + Ext.baseCSSPrefix + 'list-item').id),
 			list = this.getList(),
 			store = list.getStore();
@@ -179,10 +181,11 @@ Ext.define('Ext.plugin.SortableListExtended', {
 				this.currentDragRowIndex = targetIndex;
 			}
 		}
-		
 	},
 
 	onDragEnd: function() {
+		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel.setScrollable(true);
+		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel.setScrollable(true);
 		var me = this,
 			row = this.dragRow,
 			list = this.getList(),

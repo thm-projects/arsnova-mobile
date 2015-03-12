@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 
 	requires: [
 		'ARSnova.model.Question',
-		'Ext.plugin.SortableList'
+		'Ext.plugin.SortableListExtended'
 	],
 
 	config: {
@@ -30,8 +30,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 		fullscreen: true,
 		scrollable: {
 			direction: 'vertical',
-			directionLock: true,
-			disabled: true
+			directionLock: true
 		},
 
 		controller: null
@@ -39,10 +38,10 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
-		
+
 		this.toolbar.setTitle(Messages.SORT_CATEGORIES_TITLE);
 	},
-	
+
 	initializeQuestionList: function () {
 		this.questionList = Ext.create('Ext.List', {
 			activeCls: 'search-item-active',
@@ -81,11 +80,11 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 			}
 		});
 	},
-	
+
 	createStore: function () {
 		var store = Ext.create('Ext.data.JsonStore', {
 			model: 'ARSnova.model.Question'
-			
+
 		});
 		return store;
 	},
@@ -106,7 +105,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 				}
 			}
 		});
-		
+
 		this.questionStore.removeAll();
 		this.questionStoreBackup.removeAll();
 		this.questionEntries = [];
@@ -133,7 +132,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 	onDeactivate: function () {
 		this.questionList.hide();
 	},
-	
+
 	backButtonHandler: function () {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.animateActiveItem(sTP.audienceQuestionPanel, {
@@ -145,12 +144,12 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 
 	saveHandler: function (button) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel;
-		
+
 		var subjects = [];
 		panel.questionStore.each(function (record) {
 			subjects.push(record.get('subject'));
 		});
-		
+
 		var promise = panel.dispatch(button, panel.sortType, subjects);
 		return promise;
 	},
@@ -174,7 +173,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 		});
 		panel.sortQuestions();
 	},
-	
+
 	sortQuestions: function () {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel;
 		switch (panel.sortType) {

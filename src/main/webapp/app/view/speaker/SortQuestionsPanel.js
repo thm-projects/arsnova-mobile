@@ -30,8 +30,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		fullscreen: true,
 		scrollable: {
 			direction: 'vertical',
-			directionLock: true,
-			disabled: true
+			directionLock: true
 		},
 
 		controller: null
@@ -193,7 +192,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		this.on('deactivate', this.onDeactivate);
 		this.on('orientationchange', this.onOrientationChange);
 	},
-	
+
 	initializeQuestionList: function () {
 		this.questionList = Ext.create('Ext.List', {
 			activeCls: 'search-item-active',
@@ -304,7 +303,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	onDeactivate: function () {
 		this.questionList.hide();
 	},
-	
+
 	backButtonHandler: function () {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.animateActiveItem(sTP.sortSubjectsPanel, {
