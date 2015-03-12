@@ -66,7 +66,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		this.initializeQuestionList();
 
 		this.questionListContainer = Ext.create('Ext.form.FieldSet', {
-			title: Messages.QUESTION_MANAGEMENT,
+			title: Messages.SORT_QUESTIONS_TITLE,
 			hidden: true,
 			items: [this.questionList]
 		});

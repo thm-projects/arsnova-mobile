@@ -40,6 +40,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 	initialize: function () {
 		this.callParent(arguments);
 		
+		this.questionListContainer.setTitle(Messages.SORT_CATEGORIES_TITLE);
 		this.toolbar.setTitle(Messages.SORT_CATEGORIES_TITLE);
 	},
 	
