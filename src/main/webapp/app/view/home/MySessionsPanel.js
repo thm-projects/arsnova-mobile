@@ -399,6 +399,10 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				
 				var sessionInfoButtonHandler = function (options) {
 					
+					ARSnova.app.getController('Sessions').getSession({
+						keyword: options.config.sessionObj.keyword
+					});
+					
 					sessionStorage.setItem('keyword', options.config.sessionObj.keyword);
 					
 					localStorage.setItem('name', options.config.sessionObj.name);

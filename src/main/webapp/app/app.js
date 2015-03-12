@@ -144,7 +144,6 @@ Ext.application({
 	 */
 
 	launch: function () {
-		console.log("new panel_");
 		console.info("ARSnova.app.launch");
 		// Destroy the #appLoadingIndicator element
 		Ext.fly('appLoadingIndicator').destroy();

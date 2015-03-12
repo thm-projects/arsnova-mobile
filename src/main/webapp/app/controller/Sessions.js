@@ -74,6 +74,10 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('ppUniversity', obj.ppUniversity);
 				localStorage.setItem('ppFaculty', obj.ppFaculty);
 				localStorage.setItem('ppLicense', obj.ppLicense);
+				localStorage.setItem('ppSubject', obj.ppSubject);
+				localStorage.setItem('ppLevel', obj.ppLevel);
+				localStorage.setItem('ppDescription', obj.ppDescription);
+				localStorage.setItem('ppLogo', obj.ppLogo);
 				localStorage.setItem('courseId', obj.courseId === null ? "" : obj.courseId);
 				localStorage.setItem('courseType', obj.courseType === null ? "" : obj.courseType);
 				localStorage.setItem('active', obj.active ? 1 : 0);
@@ -108,6 +112,64 @@ Ext.define("ARSnova.controller.Sessions", {
 			}
 		});
 	},
+	
+	// get session info
+	getSession: function (options) {
+		console.debug("Controller: Sessions.getSession INFO", options);
+		if (options.keyword.length !== 8) {
+			Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_ID_INVALID_LENGTH);
+			return;
+		}
+		if (options.keyword.match(/[^0-9]/)) {
+			Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_ID_INVALID);
+			return;
+		}
+
+		var res = ARSnova.app.sessionModel.getSessionInfo(options.keyword, {
+			success: function (obj) {
+				// check if user is creator of this session
+				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+					ARSnova.app.isSessionOwner = true;
+				} else {
+					
+					ARSnova.app.userRole = ARSnova.app.USER_ROLE_STUDENT;
+					ARSnova.app.isSessionOwner = false;
+				}
+
+				// set local variables
+				localStorage.setItem('sessionId', obj._id);
+				localStorage.setItem('name', obj.name);
+				localStorage.setItem('shortName', obj.shortName);
+				localStorage.setItem('ppAuthorName', obj.ppAuthorName);
+				localStorage.setItem('ppAuthorMail', obj.ppAuthorMail);
+				localStorage.setItem('ppUniversity', obj.ppUniversity);
+				localStorage.setItem('ppFaculty', obj.ppFaculty);
+				localStorage.setItem('ppLicense', obj.ppLicense);
+				localStorage.setItem('ppSubject', obj.ppSubject);
+				localStorage.setItem('ppLevel', obj.ppLevel);
+				localStorage.setItem('ppDescription', obj.ppDescription);
+				localStorage.setItem('ppLogo', obj.ppLogo);
+				localStorage.setItem('courseId', obj.courseId === null ? "" : obj.courseId);
+				localStorage.setItem('courseType', obj.courseType === null ? "" : obj.courseType);
+				localStorage.setItem('active', obj.active ? 1 : 0);
+				localStorage.setItem('creationTime', obj.creationTime);
+
+
+
+				ARSnova.app.socket.setSession(obj.keyword);
+
+			},
+			notFound: function () {
+				Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_NOT_FOUND);
+			},
+			forbidden: function () {
+				Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_LOCKED);
+			},
+			failure: function () {
+				Ext.Msg.alert(Messages.NOTIFICATION, Messages.CONNECTION_PROBLEM);
+			}
+		});
+	},
 
 	logout: function () {
 		ARSnova.app.socket.setSession(null);
@@ -130,6 +192,10 @@ Ext.define("ARSnova.controller.Sessions", {
 		localStorage.removeItem("ppUniversity");
 		localStorage.removeItem("ppFaculty");
 		localStorage.removeItem("ppLicense");
+		localStorage.removeItem("ppSubject");
+		localStorage.removeItem("ppLevel");
+		localStorage.removeItem("ppDescription");
+		localStorage.removeItem("ppLogo");
 		localStorage.removeItem("active");
 		localStorage.removeItem("session");
 		localStorage.removeItem("courseId");
@@ -283,7 +349,7 @@ Ext.define("ARSnova.controller.Sessions", {
 
 		var validation = session.validate();
 		if (!validation.isValid()) {
-			Ext.Msg.alert('Hinweis', 'Bitte alle markierten Felder ausfÃƒÂ¼llen.');
+			Ext.Msg.alert('Hinweis', 'Bitte alle markierten Felder ausfüllen.');
 			var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel;
 			panel.down('fieldset').items.items.forEach(function (el) {
 				if (el.xtype === 'textfield') {
@@ -311,6 +377,10 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('ppUniversity', fullSession.ppUniversity);
 				localStorage.setItem('ppFaculty', fullSession.ppFaculty);
 				localStorage.setItem('ppLicense', fullSession.ppLicense);
+				localStorage.setItem('ppSubject', fullSession.ppSubject);
+				localStorage.setItem('ppLevel', fullSession.ppLevel);
+				localStorage.setItem('ppDescription', fullSession.ppDescription);
+				localStorage.setItem('ppLogo', fullSession.ppLogo);
 				localStorage.setItem('active', fullSession.active ? 1 : 0);
 				localStorage.setItem('courseId', fullSession.courseId === null ? "" : fullSession.courseId);
 				localStorage.setItem('courseType', fullSession.courseType === null ? "" : fullSession.courseType);

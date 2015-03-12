@@ -146,9 +146,9 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			}]
 		});
 		
-		this.additionalFormFields = Ext.create('Ext.form.FieldSet', {
+		this.additionalFormCreator = Ext.create('Ext.form.FieldSet', {
 			hidden: true,
-			title: 'Dozent Angaben',
+			title: 'Verfasserinformationen',
 			showAnimation: 'fade',
 			hideAnimation: 'fadeOut',
 			items: [{
@@ -182,36 +182,22 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			}]
 		});
 		
-		this.additionalFormFields = Ext.create('Ext.form.FieldSet', {
+		this.additionalFormSession = Ext.create('Ext.form.FieldSet', {
 			hidden: true,
-			title: 'Session Angaben',
+			title: 'Sessioninformationen',
 			showAnimation: 'fade',
 			hideAnimation: 'fadeOut',
 			items: [{
-				xtype: 'textareafield',
-				name: 'description',
-				label: "Beschreibung",
-				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
-				maxLength: 150,
-				clearIcon: true
-			},{
 				xtype: 'textfield',
-				name: 'ppAuthorMail',
-				label: "Email",
+				name: 'ppSubject',
+				label: "Studiengang",
 				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
 				maxLength: 50,
 				clearIcon: true
 			},{
 				xtype: 'textfield',
-				name: 'ppUniversity',
-				label: "Hochschule",
-				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
-				maxLength: 50,
-				clearIcon: true
-			},{
-				xtype: 'textfield',
-				name: 'ppFaculty',
-				label: "Fachbereich",
+				name: 'ppLevel',
+				label: "Niveau",
 				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
 				maxLength: 50,
 				clearIcon: true
@@ -221,6 +207,13 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				label: "Beschreibung",
 				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
 				maxLength: 150,
+				clearIcon: true
+			},{
+				xtype: 'textfield',
+				name: 'ppLogo',
+				label: "logo test#",
+				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+				maxLength: 50,
 				clearIcon: true
 			}]
 		});
@@ -235,9 +228,14 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				scope: this,
 				change: function (toggle, newValue, oldValue, eOpts) {
 					if (newValue && !this.isOpen || !newValue && this.isOpen) {
-						this.additionalFormFields.show();
+						this.additionalFormCreator.show();
+						this.additionalFormSession.show();
+
 					}
-					else this.additionalFormFields.hide();
+					else {
+						this.additionalFormCreator.hide();
+						this.additionalFormSession.hide();
+					}
 				}
 			}
 		});
@@ -259,7 +257,8 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		    	items: [
 			    
 			    this.formFields,
-			    this.additionalFormFields,
+			    this.additionalFormSession,
+			    this.additionalFormCreator,
 			    {	// Toggle additional Fields on/off
 			    	xtype: 'fieldset',
 			    	items: [this.toggleButton]
@@ -300,6 +299,10 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			ppUniversity: values.ppUniversity,
 			ppFaculty: values.ppFaculty,
 			ppLicense: values.ppLicense,
+			ppSubject: values.ppSubject,
+			ppLevel: values.ppLevel,
+			ppDescription: values.ppDescription,
+			ppLogo: values.ppLogo,
 			newSessionPanel: panel,
 			creationTime: Date.now()
 		});
