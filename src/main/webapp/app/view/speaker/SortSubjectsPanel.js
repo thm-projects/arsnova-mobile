@@ -149,7 +149,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 		
 		var subjects = [];
 		panel.questionStore.each(function (record) {
-			subjects.push(record.getField('subject'));
+			subjects.push(record.get('subject'));
 		});
 		
 		var promise = panel.dispatch(button, panel.sortType, subjects);
