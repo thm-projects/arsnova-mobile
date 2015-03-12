@@ -162,7 +162,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 	sortAlphabetHandler: function (button) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel;
 		panel.sortType = 'alphabet';
-		panel.sortSubjects();
+		panel.sortQuestions();
 	},
 	sortTimeHandler: function (button) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel;
