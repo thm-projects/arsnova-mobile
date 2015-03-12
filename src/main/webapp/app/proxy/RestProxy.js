@@ -815,7 +815,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	
 	getSubjectSort: function (sessionKeyword, isPreparation, callbacks) {
 		this.arsjax.request({
-			url: "lecturerquestion/getsubjectsorttype?sessionkey=" + sessionKeyword +
+			url: "lecturerquestion/getsubjectsort?sessionkey=" + sessionKeyword +
 				"&ispreparation=" + encodeURIComponent(isPreparation),
 			method: "GET",
 			success: callbacks.success,
