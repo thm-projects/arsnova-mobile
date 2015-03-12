@@ -319,7 +319,7 @@ Ext.define('ARSnova.model.Question', {
 		return this.getProxy().getSubjectSort(sessionKeyword, false, callbacks);
 	},
 
-	setSubjectLectureSort: function (sessionKeyword, subject, sortType, subjects, callbacks) {
+	setSubjectLectureSort: function (sessionKeyword, sortType, subjects, callbacks) {
 		return this.getProxy().setSubjectSort(sessionKeyword, false, sortType, subjects, callbacks);
 	},
 	
