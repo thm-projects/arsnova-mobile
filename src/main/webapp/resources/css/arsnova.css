@@ -1525,8 +1525,9 @@ ol.standardList li {
 .hidden {
 	display: none;
 }
-.x-input-radio:checked + .x-field-mask::after,
+.x-input-radio:checked + .x-field-mask::after {
+	background: #80ba24; /* thm green */
+}
 .x-input-el:checked + .x-field-mask::after {
 	color: #80ba24; /* thm green */
-	background: #80ba24; /* thm green */
 }

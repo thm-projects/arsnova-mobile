@@ -57,6 +57,7 @@ Ext.define('ARSnova.view.MatrixButton', {
 				break;
 
 			case 'icon':
+				/* fall through */
 			default:
 				this.useIconConfiguration();
 		}
