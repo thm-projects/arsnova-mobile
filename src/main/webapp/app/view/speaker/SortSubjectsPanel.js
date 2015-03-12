@@ -69,11 +69,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 				itemtap: function (list, index, element) {
 					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 					sTP.sortQuestionsPanel.subject = list.getStore().getAt(index).data;
-					sTP.animateActiveItem(sTP.sortQuestionsPanel, {
-						type: 'slide',
-						direction: 'right',
-						duration: 700
-					});
+					sTP.animateActiveItem(sTP.sortQuestionsPanel, 'slide');
 				},
 				painted: function (list, eOpts) {
 					var count = this.questionStore.getCount(),
