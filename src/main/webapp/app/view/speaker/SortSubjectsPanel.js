@@ -186,7 +186,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 			case 'alphabet':
 				panel.questionStore.sort([
 					{
-						property : 'text',
+						property : 'subject',
 						direction: 'ASC'
 					}
 				]);
