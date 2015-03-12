@@ -380,7 +380,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/interposed",
 			method: "POST",
-			jsonData: {subject: subject, text: text, sessionId: sessionKeyword, timestamp: timestamp},
+			 f: {subject: subject, text: text, sessionId: sessionKeyword, timestamp: timestamp},
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -679,6 +679,15 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	getAnsweredFreetextQuestions: function (sessionKeyword, questionId, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/freetextanswer/",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
+	getImageAnswerThumbnails: function (sessionKeyword, questionId, answerIds, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/" + questionId + "/thumbs?" + answerIds,
+			method: "GET",
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
