@@ -256,8 +256,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 
 	createStore: function () {
 		var store = Ext.create('Ext.data.JsonStore', {
-			model: 'ARSnova.model.Question',
-			sorters: 'text'
+			model: 'ARSnova.model.Question'
 		});
 		return store;
 	},
