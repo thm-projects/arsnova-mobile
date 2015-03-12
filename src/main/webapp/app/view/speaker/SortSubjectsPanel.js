@@ -140,6 +140,15 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 	onDeactivate: function () {
 		this.questionList.hide();
 	},
+	
+	backButtonHandler: function () {
+		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		sTP.animateActiveItem(sTP.audienceQuestionPanel, {
+			type: 'slide',
+			direction: 'right',
+			duration: 700
+		});
+	},
 
 	saveHandler: function (button) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel;

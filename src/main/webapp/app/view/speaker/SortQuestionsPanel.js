@@ -74,14 +74,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
 			ui: 'back',
-			handler: function () {
-				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-				sTP.animateActiveItem(sTP.audienceQuestionPanel, {
-					type: 'slide',
-					direction: 'right',
-					duration: 700
-				});
-			}
+			handler: backButtonHandler
 		});
 
 		this.saveButtonToolbar = Ext.create('Ext.Button', {
@@ -315,6 +308,15 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 
 	onDeactivate: function () {
 		this.questionList.hide();
+	},
+	
+	backButtonHandler: function () {
+		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		sTP.animateActiveItem(sTP.sortSubjectsPanel, {
+			type: 'slide',
+			direction: 'right',
+			duration: 700
+		});
 	},
 
 	saveHandler: function (button) {
