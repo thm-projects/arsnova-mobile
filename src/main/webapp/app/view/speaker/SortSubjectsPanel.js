@@ -121,7 +121,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 
 				this.questionStore.each(function (record) {
 					var subject = record.get('subject'), time = record.get('timestamp');
-					var index = uniqueQuestions.indexOf(subject);
+					var index = questionSubjects.indexOf(subject);
 					if (index < 0) {
 						questionRecords.push(record);
 						questionSubjects.push(subject);
