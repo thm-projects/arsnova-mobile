@@ -70,7 +70,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 				scope: this,
 				itemtap: function (list, index, element) {
 					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-					sTP.sortQuestionsPanel.subject = list.getStore().getAt(index).data;
+					sTP.sortQuestionsPanel.subject = list.getStore().getAt(index).data.subject;
 					sTP.animateActiveItem(sTP.sortQuestionsPanel, 'slide');
 				},
 				painted: function (list, eOpts) {
