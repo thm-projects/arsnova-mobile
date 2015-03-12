@@ -48,7 +48,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 			activeCls: 'search-item-active',
 			cls: 'roundedCorners allCapsHeader',
 
-			scrollable: {disabled: false},
+			scrollable: {disabled: true},
 			hidden: true,
 			infinite: true,
 			plugins: 'sortablelistextended',
@@ -86,11 +86,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 		var store = Ext.create('Ext.data.JsonStore', {
 			model: 'ARSnova.model.Question',
 			sorters: 'text',
-			grouper: {
-				groupFn: function (record) {
-					return Ext.util.Format.htmlEncode(record.get('subject'));
-				}
-			}
+			
 		});
 		return store;
 	},

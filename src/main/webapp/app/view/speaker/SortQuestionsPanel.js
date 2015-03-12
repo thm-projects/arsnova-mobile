@@ -199,7 +199,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			activeCls: 'search-item-active',
 			cls: 'roundedCorners allCapsHeader',
 
-			scrollable: {disabled: false},
+			scrollable: {disabled: true},
 			hidden: true,
 			infinite: true,
 			plugins: 'sortablelistextended',
