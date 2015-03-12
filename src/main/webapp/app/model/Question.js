@@ -321,6 +321,6 @@ Ext.define('ARSnova.model.Question', {
 	},
 
 	getImageAnswerThumbnails: function (sessionKeyword, questionId, answerIds, callbacks) {
-		return this.getProxy.getImageAnswerThumbnails(sessionKeyword, questionId, answerIds, callbacks);
+		return this.getProxy().getImageAnswerThumbnails(sessionKeyword, questionId, answerIds, callbacks);
 	}
 });
