@@ -74,7 +74,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
 			ui: 'back',
-			handler: backButtonHandler
+			handler: this.backButtonHandler
 		});
 
 		this.saveButtonToolbar = Ext.create('Ext.Button', {
