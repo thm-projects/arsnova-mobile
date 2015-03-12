@@ -63,63 +63,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		this.questionStore = this.createStore();
 		this.questionStoreBackup = this.createStore();
 
-		this.questionList = Ext.create('Ext.List', {
-			activeCls: 'search-item-active',
-			cls: 'roundedCorners allCapsHeader',
-
-			scrollable: {disabled: false},
-			hidden: true,
-			infinite: true,
-			plugins: 'sortablelistextended',
-
-			style: {
-				backgroundColor: 'transparent'
-			},
-
-
-			itemCls: 'forwardListButton',
-			itemTpl:
-				'<div class="icon-drag thm-grey dragStyle x-list-sortablehandle">&#xf0dc;</div>' +
-				'<tpl if="active"><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
-				'<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
-				'<div class="x-button x-hasbadge audiencePanelListBadge"></div>',
-			store: this.questionStore,
-
-			listeners: {
-				scope: this,
-				itemtap: function (list, index, element) {
-					this.getController().details({
-						question: list.getStore().getAt(index).data
-					});
-
-					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-					var backButton = sTP.questionDetailsPanel.down('button[ui=back]');
-					backButton.setHandler(function () {
-						var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-						sTP.animateActiveItem(sTP.sortQuestionsPanel, {
-							type: 'slide',
-							direction: 'right',
-							duration: 700
-						});
-					});
-					sTP.questionDetailsPanel.on('deactivate', function (panel) {
-						panel.backButton.handler = function () {
-							var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-							sTP.animateActiveItem(sTP.audienceQuestionPanel, {
-								type: 'slide',
-								direction: 'right',
-								duration: 700
-							});
-						};
-					}, this, {single: true});
-				},
-				painted: function (list, eOpts) {
-					var count = this.questionStore.getCount(),
-						height = 42 * count;
-					this.questionList.setHeight(height);
-				}
-			}
-		});
+		this.initializeQuestionList();
 
 		this.questionListContainer = Ext.create('Ext.form.FieldSet', {
 			title: Messages.QUESTION_MANAGEMENT,
@@ -255,6 +199,66 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		this.on('activate', this.onActivate);
 		this.on('deactivate', this.onDeactivate);
 		this.on('orientationchange', this.onOrientationChange);
+	},
+	
+	initializeQuestionList: function () {
+		this.questionList = Ext.create('Ext.List', {
+			activeCls: 'search-item-active',
+			cls: 'roundedCorners allCapsHeader',
+
+			scrollable: {disabled: false},
+			hidden: true,
+			infinite: true,
+			plugins: 'sortablelistextended',
+
+			style: {
+				backgroundColor: 'transparent'
+			},
+
+
+			itemCls: 'forwardListButton',
+			itemTpl:
+				'<div class="icon-drag thm-grey dragStyle x-list-sortablehandle">&#xf0dc;</div>' +
+				'<tpl if="active"><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
+				'<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
+				'<div class="x-button x-hasbadge audiencePanelListBadge"></div>',
+			store: this.questionStore,
+
+			listeners: {
+				scope: this,
+				itemtap: function (list, index, element) {
+					this.getController().details({
+						question: list.getStore().getAt(index).data
+					});
+
+					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+					var backButton = sTP.questionDetailsPanel.down('button[ui=back]');
+					backButton.setHandler(function () {
+						var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+						sTP.animateActiveItem(sTP.sortQuestionsPanel, {
+							type: 'slide',
+							direction: 'right',
+							duration: 700
+						});
+					});
+					sTP.questionDetailsPanel.on('deactivate', function (panel) {
+						panel.backButton.handler = function () {
+							var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+							sTP.animateActiveItem(sTP.audienceQuestionPanel, {
+								type: 'slide',
+								direction: 'right',
+								duration: 700
+							});
+						};
+					}, this, {single: true});
+				},
+				painted: function (list, eOpts) {
+					var count = this.questionStore.getCount(),
+						height = 42 * count;
+					this.questionList.setHeight(height);
+				}
+			}
+		});
 	},
 
 	createStore: function () {
