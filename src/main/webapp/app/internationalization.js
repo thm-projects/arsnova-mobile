@@ -231,6 +231,8 @@ switch (lang) {
 			
 			SORT_SAVED: "Sortierung wurde gespeichert.",
 			SORT_SAVE_AND_CONTINUE: "Speichern und fortfahren",
+			SORT_QUESTIONS: "Fragen sortieren",
+			SORT_CATEGORIES: "Kategorien suchen",
 
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
@@ -746,6 +748,8 @@ switch (lang) {
 
 			SORT_SAVED: "Your sort order has been saved.",
 			SORT_SAVE_AND_CONTINUE: "Save and continue",
+			SORT_QUESTIONS: "Sort Questions",
+			SORT_CATEGORIES: "Sort Categories",
 			
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",

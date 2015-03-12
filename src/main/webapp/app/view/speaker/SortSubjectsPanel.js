@@ -39,6 +39,8 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
+		
+		this.toolbar.setTitle(Messages.SORT_CATEGORIES);
 	},
 	
 	initializeQuestionList: function () {
@@ -95,13 +97,9 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 
 	onActivate: function () {
 		if (!this.getController()) {
-			/*
-			 * Somewhere, in ARSnova's endless depths, this method gets called before this panel is ready.
-			 * This happens for a returning user who was logged in previously, and is redirected into his session.
-			 */
 			return;
 		}
-		this.getController().getQuestionSort({
+		this.getController().getSubjectSort({
 			subject: this.subject,
 			callbacks: {
 				success: Ext.bind(function (response) {
@@ -109,7 +107,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 					this.sortTypeBackup = response.sortType;
 				}, this),
 				failure: function (response) {
-					console.log('getSortType failed');
+					console.log('getSubjectSort failed');
 				}
 			}
 		});
@@ -164,7 +162,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 	sortAlphabetHandler: function (button) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel;
 		panel.sortType = 'alphabet';
-		panel.sortQuestions();
+		panel.sortSubjects();
 	},
 	sortTimeHandler: function (button) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel;

@@ -131,7 +131,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: Messages.QUESTIONS,
+			title: Messages.SORT_QUESTIONS,
 			cls: 'speakerTitleText',
 			ui: 'light',
 			docked: 'top',
@@ -264,10 +264,6 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 
 	onActivate: function () {
 		if (!this.getController()) {
-			/*
-			 * Somewhere, in ARSnova's endless depths, this method gets called before this panel is ready.
-			 * This happens for a returning user who was logged in previously, and is redirected into his session.
-			 */
 			return;
 		}
 		this.getController().getQuestionSort({
@@ -278,7 +274,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 					this.sortTypeBackup = response.sortType;
 				}, this),
 				failure: function (response) {
-					console.log('getSortType failed');
+					console.log('getQuestionSort failed');
 				}
 			}
 		});
