@@ -39,10 +39,6 @@
      *      }
      */
     "js": [
-        {
-            "path" : "lib/JIC.js",
-            "update" : "full"
-        },
     	  {
     			"path": "phonegap.js",
     			"x-bootstrap": true,
