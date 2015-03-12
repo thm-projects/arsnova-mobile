@@ -115,7 +115,26 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 			success: Ext.bind(function (response) {
 				var questions = Ext.decode(response.responseText);
 				this.questionStore.add(questions);
-				this.questionStoreBackup.add(questions);
+
+				var questionRecords = [];
+				var questionSubjects = [];
+
+				this.questionStore.each(function (record) {
+					var subject = record.get('subject'), time = record.get('timestamp');
+					var index = uniqueQuestions.indexOf(subject);
+					if (index < 0) {
+						questionRecords.push(record);
+						questionSubjects.push(subject);
+					} else if (questionRecords[index].get('timestamp') > time) {
+						questionRecords[index] = record;
+					}
+				});
+				
+				this.questionStore.removeAll();
+				for (var i = 0; i < questionRecords.length; i++) {
+					this.questionStore.addData(questionRecords[i]);
+					this.questionStoreBackup.addData(questionRecords[i]);
+				}
 
 				this.questionListContainer.show();
 				this.questionList.show();
