@@ -65,7 +65,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		this.initializeQuestionList();
 
 		this.questionListContainer = Ext.create('Ext.form.FieldSet', {
-			title: Messages.QUESTION_MANAGEMENT,
+			title: Messages.SORT_QUESTIONS_TITLE,
 			hidden: true,
 			items: [this.questionList]
 		});
@@ -286,6 +286,10 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 				var questions = Ext.decode(response.responseText);
 				this.questionStore.add(questions);
 				this.questionStoreBackup.add(questions);
+				
+				this.questionStore.filerBy(function (record, id) {
+					return record.get('subject') == this.subject;
+				}, this);
 
 				this.questionListContainer.show();
 				this.questionList.show();
