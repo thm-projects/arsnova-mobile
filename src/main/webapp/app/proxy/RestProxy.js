@@ -684,6 +684,15 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
+	getImageAnswerImage: function (questionId, answerId, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/" + questionId + "/answer/" + answerId + '/image',
+			method: "GET",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
 	lock: function (sessionKeyword, theLock, callbacks) {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/lock?lock=" + !!theLock,
