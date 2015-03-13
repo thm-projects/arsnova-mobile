@@ -44,7 +44,8 @@ Ext.define('FreetextAnswer', {
 			'piRound',
 			'sessionId',
 			'type',
-			'_rev'
+			'_rev',
+			'answerThumbnailImage'
 		]
 	}
 });
