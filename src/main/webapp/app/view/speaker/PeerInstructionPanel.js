@@ -62,7 +62,7 @@ Ext.define('ARSnova.view.speaker.PeerInstructionPanel', {
 			width: 220,
 			scope: this,
 			handler: function() {
-				this.countdownTimer.start();
+				this.startNewPiRound(this.countdownTimer.slider.getValue() * 60);
 				this.startRoundButton.hide();
 				this.endRoundButton.show();
 			}
@@ -79,6 +79,7 @@ Ext.define('ARSnova.view.speaker.PeerInstructionPanel', {
 				Ext.Msg.confirm('Beenden der Abstimmungsrunde', 'Wenn die Runde beendet wird, sind keine Abstimmungen mehr möglich bis eine neue Runde gestartet wird oder die Frage manuell entsperrt wird. Möchten Sie fortfahren?', function(id) {
 					if(id === 'yes') {
 						this.countdownTimer.stop();
+						this.startNewPiRound();
 					}
 				}, this);
 			}
@@ -121,69 +122,84 @@ Ext.define('ARSnova.view.speaker.PeerInstructionPanel', {
 	},
 
 	beforeActivate: function () {
-		var statisticChart = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
-		this.round = statisticChart.questionObj.piRound;
+		this.statisticChart = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
+		this.round = this.statisticChart.questionObj.piRound;
 
-		this.prepareQuestionManagementContainer(statisticChart);		
-		this.prepareCountdownButtons();
+		this.prepareQuestionManagementContainer();
+		this.prepareCountdownTimer();
 	},
 
 	onTimerStart: function() {
 		this.questionManagementContainer.hide();
-
 		// activate question
 		// delete all answers
 	},
 
 	onTimerStop: function() {
-		var statisticChart = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
-		statisticChart.enablePiRoundElements();
-
-		if(this.round === 1) {
-			statisticChart.activateFirstSegmentButton();
-		} else {
-			statisticChart.activateSecondSegmentButton();
-		}
-
-		// deactivate question
-
-		this.questionManagementContainer.show();
-		this.startRoundButton.show();
-		this.endRoundButton.hide();
-
-		this.round++;
-		statisticChart.questionObj.piRound++;
-		this.startNewPiRound(statisticChart);
-		this.prepareCountdownButtons();
 	},
 
-	startNewPiRound: function(statisticChart) {
-		var question = Ext.create('ARSnova.model.Question', statisticChart.questionObj);
+	changePiRound: function(questionId) {
+		if(this.statisticChart.questionObj._id === questionId) {
+			this.statisticChart.enablePiRoundElements();
 
-		question.startNewPiRound(50, {
-			success: function() {
-				console.log('yay');
+			if(this.round === 1) {
+				this.statisticChart.activateFirstSegmentButton();
+			} else {
+				this.statisticChart.activateSecondSegmentButton();
+			}
+
+			this.questionManagementContainer.show();
+			this.startRoundButton.show();
+			this.endRoundButton.hide();
+
+			this.round++;
+			this.statisticChart.questionObj.piRound++;
+			this.prepareCountdownButtons();
+		}
+	},
+
+	startNewPiRound: function(delay) {
+		var question = Ext.create('ARSnova.model.Question', this.statisticChart.questionObj);
+
+		if(!delay || delay < 0) {
+			delay = 0;
+		}
+
+		question.startNewPiRound(delay, {
+			success: function(response) {
+				console.debug('Pi Round started.');
 			}
 		});
 	},
 
-	prepareQuestionManagementContainer: function(statisticChart) {
+	prepareCountdownTimer: function() {
+		var obj = this.statisticChart.questionObj;
+
+		if(obj.piRoundActive) {
+			this.countdownTimer.start(obj.piRoundStartTime, obj.piRoundEndTime);
+		} else {
+			this.countdownTimer.stop();
+		}
+
+		this.prepareCountdownButtons();
+	},
+
+	prepareQuestionManagementContainer: function() {
 		if(!this.editButtons) {
 			this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
 				speakerStatistics: true,
-				questionObj: this.cleanupQuestionObj(statisticChart.questionObj)
+				questionObj: this.cleanupQuestionObj(this.statisticChart.questionObj)
 			});
 
 			this.questionManagementContainer.add(this.editButtons);
 			this.questionManagementContainer.show();
 		} else {
-			this.editButtons.questionObj = statisticChart.questionObj;
-			this.editButtons.updateData(statisticChart.questionObj);
+			this.updateEditButtons();
 		}
 	},
 
 	prepareCountdownButtons: function() {
-		if(!this.countdownTimer.running) {
+		if(!this.statisticChart.questionObj.piRoundActive) {
 			if(this.round === 1) {
 				this.startRoundButton.setText('Erste Runde starten');
 				this.countdownTimer.slider.show();
@@ -193,11 +209,22 @@ Ext.define('ARSnova.view.speaker.PeerInstructionPanel', {
 				this.countdownTimer.slider.show();
 				this.startRoundButton.show();
 			} else {
+				this.countdownTimer.slider.hide();
 				this.startRoundButton.hide();
-			}	
+			}
+			this.endRoundButton.hide();
+			this.questionManagementContainer.show();
+			
 		} else {
+			this.endRoundButton.show();
+			this.startRoundButton.hide();
 			this.questionManagementContainer.hide();
 		}
+	},
+
+	updateEditButtons: function() {
+		this.editButtons.questionObj = this.statisticChart.questionObj;
+		this.editButtons.updateData(this.statisticChart.questionObj);
 	},
 
 	cleanupQuestionObj: function(questionObj) {
