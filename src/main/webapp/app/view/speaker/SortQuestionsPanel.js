@@ -49,7 +49,6 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	sortType: 'custom',
 	sortTypeBackup: 'custom',
 
-	questionList: null,
 	questionStore: null,
 	questionStoreBackup: null,
 	questionEntries: [],
@@ -64,7 +63,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		this.questionStoreBackup = this.createStore();
 
 		this.initializeQuestionList();
-		
+
 		this.questionListContainer = Ext.create('Ext.form.FieldSet', {
 			title: Messages.SORT_QUESTIONS_TITLE,
 			hidden: true,

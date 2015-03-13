@@ -233,10 +233,10 @@
 				SORT_SAVE_AND_CONTINUE: "Speichern und fortfahren",
 				SORT_TRANSMISSION_ERROR: "Das Sortieren war leider nicht erfolgreich.",
 				SORT_QUESTIONS: "Fragen<br/>sortieren",
-				SORT_ALPHABET: "Alphabet<br/>Sortierung",
-				SORT_TIME: "Zeitliche<br/>Sortierung",
+				SORT_ALPHABET: "Alphabetisch<br/>sortieren",
+				SORT_TIME: "Zeitlich<br/>sortieren",
 				SORT_RANDOM: "Zufällig<br/>anordnen",
-				SORT_REVERT: "Änderung<br/>verwerfen",
+				SORT_REVERT: "Rückgängig<br/>machen",
 
 				/* user */
 				QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
@@ -576,22 +576,7 @@
 				IMP_ERROR: "Fehler bei Session-Import",
 				IMP_ERROR_FORMAT: "JSON Datei ist falsch formatiert.",
 				IMP_ERROR_SAVE: "Session konnte nicht gespeichert werden.",
-				IMP_ERROR_IMAGE: "Session konnte nicht gespeichert werden. Bild überschreitet maximale Größe.",
-
-				/* Modification */
-				FREETEXT_TEST: "Ich bin ein Test",
-				FREETEXT_QUESTION_TYPE: "Wählen Sie den Fragentyp:",
-				FREETEXT_SIZE: "Zu verwendende Anzahl Zeichen",
-				FREETEXT_CHECK: "Wie soll der Text geprüft werden?",
-				FREETEXT_BUTTON_EASY: "Einfach",
-				FREETEXT_BUTTON_STRICT: "Strikt",
-				FREETEXT_BUTTON_FREE: "Freitext",
-				FREETEXT_BUTTON_FIX: "Lösung vorgeben",
-				FREETEXT_BUTTON_FIX_SHORT: "Vorgabe",
-				GRAMMAR_PLACEHOLDER: "Worauf soll man achten?",
-				GRAMMAR_CASE_SENSITIVE: "Groß-, Kleinschreibung",
-				GRAMMAR_SPACE: "Leerzeichen",
-				GRAMMAR_PUNCTUATION: "Interpunktion"
+				IMP_ERROR_IMAGE: "Session konnte nicht gespeichert werden. Bild überschreitet maximale Größe."
 			};
 			break;
 
@@ -1125,24 +1110,11 @@
 				IMP_ERROR: "Error while importing sessions",
 				IMP_ERROR_FORMAT: "JSON file is not formated correctly",
 				IMP_ERROR_SAVE: "Could not save session to database.",
-				IMP_ERROR_IMAGE: "Could not save session, image exceeds maximal size.",
-
-				/* Modification */
-				FREETEXT_TEST: "I am a Test",
-				FREETEXT_QUESTION_TYPE: "Select a Questiontype:",
-				FREETEXT_SIZE: "Amount of letters",
-				FREETEXT_CHECK: "How do you want to check the Text?",
-				FREETEXT_BUTTON_EASY: "Easy",
-				FREETEXT_BUTTON_STRICT: "Strict",
-				FREETEXT_BUTTON_FREE: "Freetext",
-				FREETEXT_BUTTON_FIX: "Add Solution",
-				GRAMMAR_PLACEHOLDER: "What should be checked?",
-				GRAMMAR_CASE_SENSITIVE: "Case Sensitive",
-				GRAMMAR_SPACE: "Space",
-				GRAMMAR_PUNCTUATION: "Punctuation"
+				IMP_ERROR_IMAGE: "Could not save session, image exceeds maximal size."
 			};
 			break;
 	}
+
 	// make Messages" globally accessible
 	exports.Messages = Messages;
 })(window);
