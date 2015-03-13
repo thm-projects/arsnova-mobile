@@ -318,9 +318,5 @@ Ext.define('ARSnova.model.Question', {
 
 	deleteAllPreparationAnswers: function (sessionKeyword, callbacks) {
 		return this.getProxy().delAllPreparationAnswers(sessionKeyword, callbacks);
-	},
-
-	getImageAnswerThumbnails: function (sessionKeyword, questionId, answerIds, callbacks) {
-		return this.getProxy().getImageAnswerThumbnails(sessionKeyword, questionId, answerIds, callbacks);
 	}
 });

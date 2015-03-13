@@ -23,7 +23,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		'ARSnova.model.Answer',
 		'ARSnova.view.CustomMask',
 		'ARSnova.view.components.GridImageContainer',
-		'ARSnova.view.speaker.form.ImageUploadPanel'
+		'ARSnova.view.speaker.form.ImageUploadPanel',
+		'ARSnova.view.ImageAnswerPanel'
 	],
 
 	config: {
@@ -290,7 +291,12 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	},
 
 	statisticButtonHandler: function (scope) {
-		var p = Ext.create('ARSnova.view.FreetextAnswerPanel', {
+		var p = Ext.create(
+			!this.questionObj.imageQuestion ? 
+			'ARSnova.view.FreetextAnswerPanel' 
+			: 
+			'ARSnova.view.ImageAnswerPanel', 
+		{
 			question: scope.questionObj,
 			lastPanel: scope
 		});
