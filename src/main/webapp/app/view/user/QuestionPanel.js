@@ -204,10 +204,12 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		 */
 		if (question.questionType === 'freetext') {
 			this.add(Ext.create('ARSnova.view.FreetextQuestion', {
+				itemId: question._id,
 				questionObj: question
 			}));
 		} else {
 			this.add(Ext.create('ARSnova.view.Question', {
+				itemId: question._id,
 				questionObj: question
 			}));
 		}

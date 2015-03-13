@@ -65,7 +65,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 					sTP.animateActiveItem(sTP.audienceQuestionPanel, animation);
 				}
 			},
-			statisticsButtonHandler: function () {
+			statisticsButtonHandler: function (button) {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				sTP.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
 					question: ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel._activeItem._activeItem.questionObj,
@@ -80,7 +80,10 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		this.on('activate', this.onActivate);
 		this.on('activate', this.beforeActivate, this, null, 'before');
 		this.on('activeitemchange', this.onItemChange);
-		this.on('painted', function () {ARSnova.app.innerScrollPanel = this;});
+		this.onAfter('painted', function () {
+			ARSnova.app.innerScrollPanel = this;
+			this.getActiveItem().checkPiRoundActivation();
+		});
 	},
 
 	beforeActivate: function () {
