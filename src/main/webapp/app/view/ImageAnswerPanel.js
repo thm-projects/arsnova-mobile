@@ -75,7 +75,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 		});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: 'GARSnova',
+			title: Messages.STATISTIC,
 			docked: 'top',
 			ui: 'light',
 			items: [this.backButton]

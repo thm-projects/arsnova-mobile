@@ -80,6 +80,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				scope: this,
 				loadsuccess: function (dataurl, e) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 					var fileSizeCheck = this.checkFilesize(dataurl);
 					if (fileSizeCheck) {
 						if (fileSizeCheck !== true) {
@@ -91,17 +92,20 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 							console.log("Image was compressed to " + fileSizeCheck);
 							dataurl = fileSizeCheck;
 =======
+=======
+					var self = this;
+>>>>>>> 4f40083... fixed a compression bug (Björn Pfarr) on Dennis' Latop
 					this.tryToCompress(dataurl, function(response) {
 						if (!response) {
 							//error
 >>>>>>> f8ee45a... Bug fixed,  worked on ticket #15221
 						}
-						else if (this.checkFilesize(response))
-							if (this.config.addRemoveButton) {
-								this.removeButton.show();
-								this.segmentButton.hide();
+						else if (self.checkFilesize(response)) {
+							if (self.config.addRemoveButton) {
+								self.removeButton.show();
+								self.segmentButton.hide();
 							}
-							Ext.bind(this.getFsUploadHandler(), this.getHandlerScope())(response, true);
+							Ext.bind(self.getFsUploadHandler(), self.getHandlerScope())(response, true);
 						}
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -280,8 +284,8 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	 */
 	tryToCompress: function(url, callback) {
 		var fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
-		console.log("trying to compress ...");
 		if (!isNaN(ARSnova.app.globalConfig.maxUploadFilesize) && typeof ARSnova.app.globalConfig.maxUploadFilesize !== 'undefined') {
+<<<<<<< HEAD
 <<<<<<< HEAD
 			if (imgFileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
 <<<<<<< HEAD
@@ -292,6 +296,8 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 =======
 =======
 			console.log("checking file size ...");
+=======
+>>>>>>> 4f40083... fixed a compression bug (Björn Pfarr) on Dennis' Latop
 			if (fileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
 >>>>>>> f8ee45a... Bug fixed,  worked on ticket #15221
 				var img = new Image();
@@ -299,9 +305,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				var me = this;
 				img.onload = function() {
 					var quality = Math.max(1, 100.0 / (fileSize / ARSnova.app.globalConfig.maxUploadFilesize));
-					console.log("compressing ...");
 					url = me.compress(img, quality);
-					console.log("After compression: " + Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4));
 					callback(url);
 				};
 >>>>>>> bc3d4ca... Fixed client-side image compression,  worked on ticket #15221
@@ -316,12 +320,10 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 >>>>>>> 0241e98... worked on ticket #15221
 =======
 			else {
-				console.log("No compression necessery: " + fileSize);
 				callback(url);
 			}
 		}
 		else {
-			console.log("Error occured, returning false!");
 			callback(false);
 		}
 	},
