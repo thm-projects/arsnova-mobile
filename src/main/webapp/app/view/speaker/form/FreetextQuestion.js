@@ -37,6 +37,7 @@ Ext.define('ARSnova.view.speaker.form.FreetextQuestion', {
 				grammarField.hide();
 				esSegmentedButton.setPressedButtons(0);
 				checkSegmentedButton.setPressedButtons();
+				answerPreviewButton.hide();
 			},
 			pressed: true
 		});
@@ -47,6 +48,7 @@ Ext.define('ARSnova.view.speaker.form.FreetextQuestion', {
 				mainFormPanel.show();
 				selectField.show();
 				ratingField.show();
+				answerPreviewButton.show();
 			}
 		});
 
@@ -150,8 +152,8 @@ Ext.define('ARSnova.view.speaker.form.FreetextQuestion', {
 			items: [rating],
 			hidden: true
 		});
-
 		// ----------------------------------------
+
 
 		// TextArea
 
@@ -160,6 +162,24 @@ Ext.define('ARSnova.view.speaker.form.FreetextQuestion', {
 			placeHolder: Messages.FORMAT_PLACEHOLDER
 		});
 
+		// Preview button
+
+		var answerPreviewButton = Ext.create('Ext.Button', {
+			style: 'margin-left: 0px; margin-top: 8px; width: 300px',
+			text: Ext.os.is.Desktop ?
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
+			ui: 'action',
+			cls: Ext.os.is.Desktop ?
+				'previewButtonLong' :
+				'previewButton',
+			scope: this,
+			handler: function () {
+				this.previewHandler(textarea);
+			}
+		});
+
+		// ----------------------------------------
 		var sizearea = Ext.create('Ext.field.Text', {
 			name: 'size',
 			placeHolder: Messages.FREETEXT_SIZE
@@ -171,7 +191,7 @@ Ext.define('ARSnova.view.speaker.form.FreetextQuestion', {
 			items: [{
 				xtype: 'fieldset',
 				title: Messages.CORRECT_PLACEHOLDER,
-				items: [textarea, sizearea]
+				items: [textarea, sizearea, answerPreviewButton]
 			}],
 			hidden: true
 		});
@@ -186,8 +206,22 @@ Ext.define('ARSnova.view.speaker.form.FreetextQuestion', {
 				mainFormPanel,
 				selectField,
 				grammarField,
-				ratingField
+				ratingField,
 			]
 		}]);
+	},
+	previewHandler: function(textarea){
+		// Create standard panel with framework support
+		/*var answerPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			xtype: 'mathJaxMarkDownPanel',
+			ui: 'normal',
+
+		});
+		answerPanel.setContent(textarea.getValue(), true, true);
+		answerPanel.show();*/
+
+		var solutionPreview = Ext.create('ARSnova.view.SolutionPreviewBox');
+		solutionPreview.showPreview(textarea.getValue());
+	
 	}
 });
