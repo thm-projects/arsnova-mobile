@@ -368,9 +368,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					selectField.hide();
 					ratingField.hide();
 					grammarField.hide();
+					// ----------------------------------------
 					panel.cancelButton.hide();
 					panel.backButton.show();
-					// ----------------------------------------
 
 					var values = this.up('panel').down('#contentForm').getValues();
 					var question = Ext.create('ARSnova.model.Question', panel.questionObj);
@@ -823,7 +823,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		} else if (this.questionObj.questionType === 'grid') {
 			answerEditFormClass = 'ARSnova.view.speaker.form.GridQuestion';
 		}
-		// EDIT_THIS ???
 
 		this.answerEditForm = Ext.create(answerEditFormClass, {
 			editPanel: true,
@@ -868,14 +867,14 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			},
 			defaults: {
 				ui: 'action',
-				style: 'width: 250px'
+				style: 'width: 50%'
 			},
 			items:[freeButton, fixButton]
 		});
 
 		var freefixField = Ext.create('Ext.form.FieldSet', {
 			xtype: 'fieldset',
-			cls: 'centerFormTitle',
+			cls: 'yesnoOptions centerFormTitle',
 			title: Messages.FREETEXT_QUESTION_TYPE,
 			items: [ffSegmentedButton],
 			hidden: true
@@ -908,14 +907,14 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			},
 			defaults: {
 				ui: 'action',
-				style: 'width: 250px'
+				style: 'width: 50%'
 			},
 			items:[easyButton, strictButton]
 		});
 
 		var selectField = Ext.create('Ext.form.FieldSet', {
 			xtype: 'fieldset',
-			cls: 'centerFormTitle',
+			cls: 'yesnoOptions centerFormTitle',
 			title: Messages.FREETEXT_CHECK, 
 			items: [esSegmentedButton],
 			hidden: true
@@ -942,7 +941,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			},
 			defaults: {
 				ui: 'action',
-				style: 'width: 166.66px'
+				style: 'width: 33.3%'
 			},
 			allowDepress: true,
 			allowMultiple: true,
@@ -951,7 +950,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 		var grammarField = Ext.create('Ext.form.FieldSet', {
 			xtype: 'fieldset',
-			cls: 'centerFormTitle',
+			cls: 'yesnoOptions centerFormTitle',
 			title: Messages.GRAMMAR_PLACEHOLDER,
 			items: [checkSegmentedButton],
 			hidden: true
@@ -966,7 +965,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			layout: {
 				pack: 'center'
 			},
-			width: '500px',
 			minValue: 0,
 			maxValue: 10,
 			value: 0,
@@ -975,7 +973,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 		var ratingField = Ext.create('Ext.form.FieldSet', {
 			xtype: 'fieldset',
-			cls: 'centerFormTitle',
+			cls: 'yesnoOptions centerFormTitle',
 			title: Messages.ANSWER_POINTS,
 			items: [rating],
 			hidden: true
@@ -996,7 +994,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 
 		var mainFormPanel = Ext.create('Ext.form.FormPanel', {
-			cls: 'newTest',
+			cls: 'centerFormTitle',
 			scrollable: null,
 			items: [{
 				xtype: 'fieldset',
