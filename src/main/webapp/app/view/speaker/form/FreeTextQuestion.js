@@ -27,11 +27,16 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 				cls: 'newQuestionOptions',
 =======
 				//cls: 'newQuestionOptions',
 >>>>>>> 2691e71... Fixed style for the togglebutton. #15325
 				scrollable: null
+=======
+				scrollable: null,
+				cls:'centerFormTitle'
+>>>>>>> a3061cf... Set the title of the ToggleButton on-top the button.
 	},
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -70,7 +75,9 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		this.imgUploadBtn = Ext.create('ARSnova.view.MatrixButton', {
 			cls: 'actionButton',
 			buttonConfig: 'togglefield',
-			text: Messages.IMAGE_ANSWER_LONG,
+			style:'margin-top:-20px',
+			//would be displayed below the button
+			//text: Messages.IMAGE_ANSWER_LONG,
 			toggleConfig: {
 				scope: this,
 				label: false,
@@ -111,6 +118,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 				items: [this.imgUploadBtn]
 			});
 
+<<<<<<< HEAD
 		this.add([answerOptions]);
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -120,6 +128,16 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		result.imageQuestion = this.imageQuestion;
 		return result;
 =======
+=======
+		var answerFieldset = Ext.create('Ext.form.FieldSet', {
+			//displayed on-top of the button
+			title:Messages.IMAGE_ANSWER_LONG,
+			style:'margin-top:45px;',
+			items:[this.imgUploadBtn]
+		});
+
+		this.add([answerFieldset]);
+>>>>>>> a3061cf... Set the title of the ToggleButton on-top the button.
   },
 <<<<<<< HEAD
 <<<<<<< HEAD
