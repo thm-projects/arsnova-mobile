@@ -154,9 +154,9 @@ Ext.define('Ext.plugin.SortableListExtended', {
 					}
 
 					swapPosition = positionMap.map[swapIndex];
-
+console.log(swapPosition);
 					item.translate(0, swapPosition);
-
+console.log(item);
 					record = item.getRecord();
 					swapKey = collection.getKey(record);
 
@@ -185,7 +185,9 @@ Ext.define('Ext.plugin.SortableListExtended', {
 
 	onDragEnd: function() {
 		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel.setScrollable(true);
+		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel.sortType = "custom";
 		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel.setScrollable(true);
+		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel.sortType = "custom";
 		var me = this,
 			row = this.dragRow,
 			list = this.getList(),
