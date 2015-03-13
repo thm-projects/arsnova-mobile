@@ -42,7 +42,7 @@ Ext.define('ARSnova.view.speaker.form.FreetextQuestion', {
 		});
 
 		var fixButton = Ext.create('Ext.Button', {
-			text: Messages.FREETEXT_BUTTON_FIX,
+			text: Ext.os.is.Desktop ? Messages.FREETEXT_BUTTON_FIX : FREETEXT_BUTTON_FIX_SHORT,
 			handler: function () {
 				mainFormPanel.show();
 				selectField.show();
@@ -166,7 +166,7 @@ Ext.define('ARSnova.view.speaker.form.FreetextQuestion', {
 		});
 
 		var mainFormPanel = Ext.create('Ext.form.FormPanel', {
-			cls: 'newTest',
+			cls: 'centerFormTitle',
 			scrollable: null,
 			items: [{
 				xtype: 'fieldset',
