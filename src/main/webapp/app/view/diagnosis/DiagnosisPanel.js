@@ -19,7 +19,7 @@
 Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 	extend: 'Ext.Container',
 
-	requires: ['ARSnova.view.diagnosis.StatisticsPanel'],
+	requires: ['ARSnova.view.diagnosis.StatisticsPanel', 'ARSnova.view.diagnosis.AddOnsPanel'],
 
 	config: {
 		fullscreen: true,
@@ -42,6 +42,16 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 			this.lastActivePanel = ARSnova.app.lastActiveMainTabPanel;
 		});
 
+		this.on('activate', function () {
+			ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.sessionJoinAsSpeaker, this.joinSessionEvent, this);
+			ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.sessionLeave, this.leaveSessionEvent, this);
+		}, this);
+
+		this.on('deactivate', function () {
+			ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.sessionJoinAsSpeaker, this.joinSessionEvent);
+			ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.sessionLeave, this.leaveSessionEvent);
+		}, this);
+
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
 			ui: 'back',
@@ -60,6 +70,16 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 			docked: 'top',
 			ui: 'light',
 			items: [this.backButton]
+		});
+
+		this.addOnsButton = Ext.create('Ext.Button', {
+			text: Messages.ACTIVATE_FEATURES,
+			disabled: true,
+			handler: function () {
+				var me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel;
+				me.addOnsPanel = Ext.create('ARSnova.view.diagnosis.AddOnsPanel');
+				me.animateActiveItem(me.addOnsPanel, 'slide');
+			}
 		});
 
 		this.inClass = Ext.create('Ext.form.FormPanel', {
@@ -119,5 +139,15 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 		});
 
 		this.add([this.toolbar, this.inClass]);
+	},
+
+	joinSessionEvent: function () {
+		this.addOnsButton.setDisabled(false);
+		this.inClass.down('formpanel').insert(0, this.addOnsButton);
+	},
+
+	leaveSessionEvent: function () {
+		this.addOnsButton.setDisabled(true);
+		this.inClass.down('formpanel').remove(this.addOnsButton, false);
 	}
 });

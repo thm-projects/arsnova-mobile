@@ -307,19 +307,35 @@ Ext.define('ARSnova.model.Question', {
 		return this.getProxy().delAllPreparationAnswers(sessionKeyword, callbacks);
 	},
 	
-	getPreparationSort: function (sessionKeyword, callbacks) {
-		return this.getProxy().getSort(sessionKeyword, true, callbacks);
+	getSubjectPreparationSort: function (sessionKeyword, callbacks) {
+		return this.getProxy().getSubjectSort(sessionKeyword, true, callbacks);
 	},
 
-	setPreparationSort: function (sessionKeyword, sortType, questionIDs, callbacks) {
-		return this.getProxy().setSort(sessionKeyword, true, sortType, questionIDs, callbacks);
+	setSubjectPreparationSort: function (sessionKeyword, sortType, subjects, callbacks) {
+		return this.getProxy().setSubjectSort(sessionKeyword, true, sortType, subjects, callbacks);
 	},
 	
-	getLectureSort: function (sessionKeyword, callbacks) {
-		return this.getProxy().getSort(sessionKeyword, false, callbacks);
+	getSubjectLectureSort: function (sessionKeyword, callbacks) {
+		return this.getProxy().getSubjectSort(sessionKeyword, false, callbacks);
 	},
 
-	setLectureSort: function (sessionKeyword, sortType, questionIDs, callbacks) {
-		return this.getProxy().setSort(sessionKeyword, false, sortType, questionIDs, callbacks);
+	setSubjectLectureSort: function (sessionKeyword, sortType, subjects, callbacks) {
+		return this.getProxy().setSubjectSort(sessionKeyword, false, sortType, subjects, callbacks);
+	},
+	
+	getQuestionPreparationSort: function (sessionKeyword, subject, callbacks) {
+		return this.getProxy().getQuestionSort(sessionKeyword, subject, true, callbacks);
+	},
+
+	setQuestionPreparationSort: function (sessionKeyword, subject, sortType, questionIDs, callbacks) {
+		return this.getProxy().setQuestionSort(sessionKeyword, subject, true, sortType, questionIDs, callbacks);
+	},
+	
+	getQuestionLectureSort: function (sessionKeyword, subject, callbacks) {
+		return this.getProxy().getQuestionSort(sessionKeyword, subject, false, callbacks);
+	},
+
+	setQuestionLectureSort: function (sessionKeyword, subject, sortType, questionIDs, callbacks) {
+		return this.getProxy().setQuestionSort(sessionKeyword, subject, false, sortType, questionIDs, callbacks);
 	}
 });

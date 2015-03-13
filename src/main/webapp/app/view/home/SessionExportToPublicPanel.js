@@ -58,12 +58,11 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			LicenceoptionsPP.push({text: entry, value: entry});
 		});
 
-		switch (lang) {
-			case 'en':case 'en-en':case 'en-us':case 'en-gb':
-				var levels = config.publicPool.levelsEn.split(',');
-				break;
-			default:
-				var levels = config.publicPool.levelsDe.split(',');
+		var levels;
+		if (moment.lang() === "en") {
+			levels = config.publicPool.levelsEn.split(',');
+		} else {
+			levels = config.publicPool.levelsDe.split(',');
 		}
 
 		levels.forEach(function (entry) {

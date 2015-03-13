@@ -553,6 +553,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				case Messages.GRID:
 				case Messages.GRID_LONG:
 					panel.gridQuestion.resetView();
+					/* fall through */
 				default:
 					panel.setImage(null);
 					panel.uploadView.resetButtons();

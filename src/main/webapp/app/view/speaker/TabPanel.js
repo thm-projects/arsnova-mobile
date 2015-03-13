@@ -23,6 +23,7 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 		'ARSnova.view.speaker.InClass',
 		'ARSnova.view.speaker.AudienceQuestionPanel',
 		'ARSnova.view.speaker.SortQuestionsPanel',
+		'ARSnova.view.speaker.SortSubjectsPanel',
 		'ARSnova.view.speaker.NewQuestionPanel',
 		'ARSnova.view.speaker.ShowcaseQuestionPanel',
 		'ARSnova.view.LearningProgressPanel'
@@ -43,6 +44,7 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 		this.inClassPanel = Ext.create('ARSnova.view.speaker.InClass');
 		this.audienceQuestionPanel = Ext.create('ARSnova.view.speaker.AudienceQuestionPanel');
 		this.sortQuestionsPanel = Ext.create('ARSnova.view.speaker.SortQuestionsPanel');
+		this.sortSubjectsPanel = Ext.create('ARSnova.view.speaker.SortSubjectsPanel');
 		this.newQuestionPanel = Ext.create('ARSnova.view.speaker.NewQuestionPanel');
 		this.showcaseQuestionPanel = Ext.create('ARSnova.view.speaker.ShowcaseQuestionPanel');
 		this.learningProgressPanel = Ext.create('ARSnova.view.LearningProgressPanel');

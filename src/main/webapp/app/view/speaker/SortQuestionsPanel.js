@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 
 	requires: [
 		'ARSnova.model.Question',
-		'Ext.plugin.SortableQuestionList'
+		'Ext.plugin.SortableListExtended'
 	],
 
 	config: {
@@ -44,7 +44,8 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	saveButton: null,
 
 	questions: null,
-	
+
+	subject: null,
 	sortType: 'custom',
 	sortTypeBackup: 'custom',
 
@@ -62,84 +63,10 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		this.questionStore = this.createStore();
 		this.questionStoreBackup = this.createStore();
 
-		this.questionList = Ext.create('Ext.List', {
-			activeCls: 'search-item-active',
-			cls: 'roundedCorners allCapsHeader',
-			scrollable: {disabled: true},
-			hidden: true,
-			infinite: true,
-			variableHeights: true,
-			plugins: 'sortablequestionlist',
-
-			style: {
-				backgroundColor: 'transparent',
-				//height: '660px'
-			},
-
-
-			itemCls: 'forwardListButton',
-			itemTpl:
-				'<div class="icon-drag thm-grey dragStyle x-list-sortablehandle">&#xf0dc;</div>' +
-				'<tpl if="active"><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
-				'<tpl if="x-list-header-wrap"><div style="padding-top: 20px"></div></tpl>'+
-				'<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
-				'<div class="x-button x-hasbadge audiencePanelListBadge"></div>',
-			//grouped: true,
-			store: this.questionStore,
-
-			listeners: {
-				scope: this,
-				itemtap: function (list, index, element) {
-					this.getController().details({
-						question: list.getStore().getAt(index).data
-					});
-
-					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-					var backButton = sTP.questionDetailsPanel.down('button[ui=back]');
-					backButton.setHandler(function () {
-						var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-						sTP.animateActiveItem(sTP.sortQuestionsPanel, {
-							type: 'slide',
-							direction: 'right',
-							duration: 700
-						});
-					});
-					sTP.questionDetailsPanel.on('deactivate', function (panel) {
-						panel.backButton.handler = function () {
-							var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-							sTP.animateActiveItem(sTP.audienceQuestionPanel, {
-								type: 'slide',
-								direction: 'right',
-								duration: 700
-							});
-						};
-					}, this, {single: true});
-				},
-				/**
-				 * The following event is used to get the computed height of all list items and
-				 * finally to set this value to the list DataView. In order to ensure correct rendering
-				 * it is also necessary to get the properties "padding-top" and "padding-bottom" and
-				 * add them to the height of the list DataView.
-				 */
-				painted: function (list, eOpts) {
-					var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
-
-					this.questionList.setHeight(
-						parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
-						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
-						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
-					);
-				}
-			}
-		});
-
-		var itemCount = this.questionStore.getCount();
-		var height = 42 * itemCount;
-		var heightString = height + "px";
-		this.questionList.setHeight(660);
-
+		this.initializeQuestionList();
+		
 		this.questionListContainer = Ext.create('Ext.form.FieldSet', {
-			title: Messages.QUESTION_MANAGEMENT,
+			title: Messages.SORT_QUESTIONS_TITLE,
 			hidden: true,
 			items: [this.questionList]
 		});
@@ -147,14 +74,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
 			ui: 'back',
-			handler: function () {
-				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-				sTP.animateActiveItem(sTP.audienceQuestionPanel, {
-					type: 'slide',
-					direction: 'right',
-					duration: 700
-				});
-			}
+			handler: this.backButtonHandler
 		});
 
 		this.saveButtonToolbar = Ext.create('Ext.Button', {
@@ -173,31 +93,23 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 
 		this.sortAlphabetButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SORT_ALPHABET,
-			cls: 'actionButton',
+			cls: 'upperActionButtonCls',
 			buttonConfig: 'icon',
 			imageCls: 'icon-sort-alpha thm-grey',
 			handler: this.sortAlphabetHandler
 		});
-		
+
 		this.sortTimeButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SORT_TIME,
-			cls: 'actionButton',
+			cls: 'upperActionButtonCls',
 			buttonConfig: 'icon',
 			imageCls: 'icon-sort-time thm-grey',
 			handler: this.sortTimeHandler
 		});
-		
-		this.sortRandomButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.SORT_RANDOM,
-			cls: 'actionButton',
-			buttonConfig: 'icon',
-			imageCls: 'icon-sort-random thm-grey',
-			handler: this.sortRandomHandler
-		});
 
 		this.sortRevertButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SORT_REVERT,
-			cls: 'actionButton',
+			cls: 'upperActionButtonCls',
 			buttonConfig: 'icon',
 			imageCls: 'icon-undo thm-orange',
 			handler: this.sortRevertHandler
@@ -209,12 +121,11 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 				pack: 'center'
 			},
 
-			style: 'margin: 15px',
+			style: 'margin-top: 30px',
 
 			items: [
 				this.sortAlphabetButton,
 				this.sortTimeButton,
-				this.sortRandomButton,
 				this.sortRevertButton
 			]
 		});
@@ -282,40 +193,91 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		this.on('deactivate', this.onDeactivate);
 		this.on('orientationchange', this.onOrientationChange);
 	},
-	
-	createStore: function () {
-		var store = Ext.create('Ext.data.JsonStore', {
-			model: 'ARSnova.model.Question',
-			sorters: 'text',
-			grouper: {
-				groupFn: function (record) {
-					return Ext.util.Format.htmlEncode(record.get('subject'));
+
+	initializeQuestionList: function () {
+		this.questionList = Ext.create('Ext.List', {
+			activeCls: 'search-item-active',
+			cls: 'roundedCorners allCapsHeader',
+
+			scrollable: {disabled: true},
+			hidden: true,
+			infinite: true,
+			plugins: 'sortablelistextended',
+
+			style: {
+				backgroundColor: 'transparent'
+			},
+
+
+			itemCls: 'forwardListButton',
+			itemTpl:
+				'<div class="icon-drag thm-grey dragStyle x-list-sortablehandle">&#xf0dc;</div>' +
+				'<tpl if="active"><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
+				'<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
+				'<div class="x-button x-hasbadge audiencePanelListBadge"></div>',
+			store: this.questionStore,
+
+			listeners: {
+				scope: this,
+				itemtap: function (list, index, element) {
+					this.getController().details({
+						question: list.getStore().getAt(index).data
+					});
+
+					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+					var backButton = sTP.questionDetailsPanel.down('button[ui=back]');
+					backButton.setHandler(function () {
+						var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+						sTP.animateActiveItem(sTP.sortQuestionsPanel, {
+							type: 'slide',
+							direction: 'right',
+							duration: 700
+						});
+					});
+					sTP.questionDetailsPanel.on('deactivate', function (panel) {
+						panel.backButton.handler = function () {
+							var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+							sTP.animateActiveItem(sTP.audienceQuestionPanel, {
+								type: 'slide',
+								direction: 'right',
+								duration: 700
+							});
+						};
+					}, this, {single: true});
+				},
+				painted: function (list, eOpts) {
+					var count = this.questionStore.getCount(),
+						height = 42 * count;
+					this.questionList.setHeight(height);
 				}
 			}
+		});
+	},
+
+	createStore: function () {
+		var store = Ext.create('Ext.data.JsonStore', {
+			model: 'ARSnova.model.Question'
 		});
 		return store;
 	},
 
 	onActivate: function () {
 		if (!this.getController()) {
-			/*
-			 * Somewhere, in ARSnova's endless depths, this method gets called before this panel is ready.
-			 * This happens for a returning user who was logged in previously, and is redirected into his session.
-			 */
 			return;
 		}
-		this.getController().getSort({
+		this.getController().getQuestionSort({
+			subject: this.subject,
 			callbacks: {
 				success: Ext.bind(function (response) {
 					this.sortType = response.sortType;
 					this.sortTypeBackup = response.sortType;
 				}, this),
 				failure: function (response) {
-					console.log('getSortType failed');
+					console.log('getQuestionSort failed');
 				}
 			}
 		});
-		
+
 		this.questionStore.removeAll();
 		this.questionStoreBackup.removeAll();
 		this.questionEntries = [];
@@ -325,6 +287,13 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 				var questions = Ext.decode(response.responseText);
 				this.questionStore.add(questions);
 				this.questionStoreBackup.add(questions);
+
+				this.questionStore.filterBy(function (record, id) {
+					return record.get('subject') == this.subject;
+				}, this);
+				this.questionStoreBackup.filterBy(function (record, id) {
+					return record.get('subject') == this.subject;
+				}, this);
 
 				this.questionListContainer.show();
 				this.questionList.show();
@@ -343,60 +312,77 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		this.questionList.hide();
 	},
 
+	backButtonHandler: function () {
+		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		sTP.animateActiveItem(sTP.sortSubjectsPanel, {
+			type: 'slide',
+			direction: 'right',
+			duration: 700
+		});
+	},
+
 	saveHandler: function (button) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
-		
+
 		var questionIDs = [];
 		panel.questionStore.each(function (record) {
 			questionIDs.push(record.getId());
 		});
-		
-		var promise = panel.dispatch(button, panel.sortType, questionIDs);
+
+		var promise = panel.dispatch(button, panel.subject, panel.sortType, questionIDs);
 		return promise;
 	},
 	sortAlphabetHandler: function (button) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
 		panel.sortType = 'alphabet';
-		panel.questionStore.sort([
-			{
-				property : 'text',
-				direction: 'ASC'
-			}
-		]);
+		panel.sortQuestions();
 	},
 	sortTimeHandler: function (button) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
 		panel.sortType = 'time';
-		panel.questionStore.sort([
-			{
-				property : 'timestamp',
-				direction: 'DESC'
-			}
-		]);
-	},
-	sortRandomHandler: function (button) {
-		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
-		panel.sortType = 'random';
-		panel.questionStore.sort([
-			{
-				property : 'text',
-				direction: 'DESC'
-			}
-		]);
+		panel.sortQuestions();
 	},
 	sortRevertHandler: function (button) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
 		panel.sortType = panel.sortTypeBackup;
 		panel.questionStore.removeAll();
+		panel.questionStore.sort([]);
 		panel.questionStoreBackup.each(function (record) {
 			panel.questionStore.add(record);
 		});
+		panel.sortQuestions();
 	},
-	dispatch: function (button, sortType, questionIDs) {
+
+	sortQuestions: function () {
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
+		switch (panel.sortType) {
+			case 'alphabet':
+				panel.questionStore.sort([{
+					sorterFn: function(a, b) {
+						var as = a.get('text'), bs = b.get('text');
+						if (as.toLowerCase() < bs.toLowerCase()) return -1;
+						if (as.toLowerCase() > bs.toLowerCase()) return 1;
+						return 0;
+					},
+					direction: 'ASC'
+				}]);
+				break;
+			case 'time':
+				panel.questionStore.sort([
+					{
+						property : '_id',
+						direction: 'ASC'
+					}
+				]);
+				break;
+		}
+	},
+	dispatch: function (button, subject, sortType, questionIDs) {
 		button.disable();
 		var promise = new RSVP.Promise();
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
-		panel.getController().setSort({
+		panel.getController().setQuestionSort({
+			subject: subject,
 			sortType: sortType,
 			questionIDs: questionIDs,
 			callbacks: {

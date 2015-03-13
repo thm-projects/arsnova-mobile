@@ -129,6 +129,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					this.buttonContainer]
 				}]
 			}), this.editButtons ? this.editButtons : {}
+			// Add new Component
 		]);
 
 		this.on('activate', function () {

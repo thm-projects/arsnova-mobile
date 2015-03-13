@@ -51,7 +51,9 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
 						if (newValue === 0 && typeof this.questionObj.showStatistic === "undefined" ||
-							newValue === this.questionObj.showStatistic) return;
+								newValue === this.questionObj.showStatistic) {
+							return;
+						}
 
 						var me = this;
 						var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_ACTIVATION);

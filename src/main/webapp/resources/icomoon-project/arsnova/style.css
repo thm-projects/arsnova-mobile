@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'arsnova';
-	src:url('fonts/arsnova.eot?-9i4jqe');
-	src:url('fonts/arsnova.eot?#iefix-9i4jqe') format('embedded-opentype'),
-		url('fonts/arsnova.woff?-9i4jqe') format('woff'),
-		url('fonts/arsnova.ttf?-9i4jqe') format('truetype'),
-		url('fonts/arsnova.svg?-9i4jqe#arsnova') format('svg');
+	src:url('fonts/arsnova.eot?-7m59xh');
+	src:url('fonts/arsnova.eot?#iefix-7m59xh') format('embedded-opentype'),
+		url('fonts/arsnova.woff?-7m59xh') format('woff'),
+		url('fonts/arsnova.ttf?-7m59xh') format('truetype'),
+		url('fonts/arsnova.svg?-7m59xh#arsnova') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -125,10 +125,6 @@
 
 .icon-clock-o:before {
 	content: "\f017";
-}
-
-.icon-random:before {
-	content: "\f074";
 }
 
 .icon-copy:before {
