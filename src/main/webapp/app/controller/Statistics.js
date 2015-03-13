@@ -38,6 +38,7 @@ Ext.define("ARSnova.controller.Statistics", {
 	},
 
 	prepareSpeakerStatistics: function(panel) {
+		panel.showcaseQuestionPanel.toolbar.statisticsButton.disable();
 		panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
 			question: panel._activeItem._activeItem.questionObj
 		});
@@ -49,6 +50,15 @@ Ext.define("ARSnova.controller.Statistics", {
 		panel.statisticTabPanel.insert(0, panel.questionStatisticChart);
 		panel.statisticTabPanel.setActiveItem(0);
 
-		ARSnova.app.mainTabPanel.animateActiveItem(panel.statisticTabPanel, 'slide');
+		ARSnova.app.mainTabPanel.animateActiveItem(panel.statisticTabPanel, {
+			type: 'slide',
+			direction: 'left',
+			duration: 700,
+			listeners: {
+				animationend: function () {
+					panel.showcaseQuestionPanel.toolbar.statisticsButton.enable();
+				}
+			}
+		});	
 	}
 });
