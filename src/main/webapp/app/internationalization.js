@@ -910,7 +910,7 @@ switch (lang) {
 			MISSING_ANSWERS: "Some answer options are missing",
 			MISSING_IMAGE: "No picture has been uploaded",
 			MISSING_FLASHCARD: "The back page text is missing",
-			PICTURE_RIGHT_INFORMATION: ['Please note, that you must not use pictures for which you do not have the rights to use(copyright) or that extend pornographic or inciting(§130 StGB) content!\n', 
+			PICTURE_RIGHT_INFORMATION: ['Please note, that you must not use pictures for which you do not have the rights to use(copyright) or that extend pornographic or inciting(§130 StGB) content!\n',
 					'Submit answer?'
 				].join('\n'),
 

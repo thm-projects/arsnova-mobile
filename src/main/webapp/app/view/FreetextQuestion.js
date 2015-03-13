@@ -240,20 +240,29 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			return;
 		}
 
-		Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
-			if (button === "yes") {
-				this.storeAnswer();
-				this.buttonContainer.setHidden(true);
-			}
-		}, this);
+		if(this.questionObj.imageQuestion) {
+			Ext.Msg.confirm('', Messages.PICTURE_RIGHT_INFORMATION, function (button) {
+				if (button === "yes") {
+					this.storeAnswer();
+					this.buttonContainer.setHidden(true);
+				}
+			}, this);
+		} else {
+			Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
+				if (button === "yes") {
+					this.storeAnswer();
+					this.buttonContainer.setHidden(true);
+				}
+			}, this);
+		}
 	},
 
 	statisticButtonHandler: function (scope) {
 		var p = Ext.create(
-			!this.questionObj.imageQuestion ? 
-			'ARSnova.view.FreetextAnswerPanel' 
-			: 
-			'ARSnova.view.ImageAnswerPanel', 
+			!this.questionObj.imageQuestion ?
+			'ARSnova.view.FreetextAnswerPanel'
+			:
+			'ARSnova.view.ImageAnswerPanel',
 		{
 			question: scope.questionObj,
 			lastPanel: scope
