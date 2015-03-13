@@ -95,9 +95,14 @@ Ext.define('ARSnova.model.Session', {
 
 	checkSessionLogin: function (keyword, callbacks) {
 		var me = this;
+
 		return this.getProxy().checkSessionLogin(keyword, {
 			success: function (response) {
+				var localTime = new Date().getTime();
 				var obj = Ext.decode(response.responseText);
+				var serverTime = new Date(response.getResponseHeader("Date")).getTime();
+
+				sessionStorage.setItem("serverTimeDiff", serverTime - localTime);
 				me.setUserBasedProgressType(obj.learningProgressType);
 				callbacks.success(obj);
 			},
