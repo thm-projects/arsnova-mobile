@@ -84,6 +84,35 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 	}
 }
 
+.thumbnail-image .wrapper {
+	width: auto !important;
+	height: auto !important;
+	display: inline-block;
+	position: relative;
+}
+
+.thumbnail-image img {
+	display: inline-block;
+	border: 10px solid #fff;
+	border-bottom-width: 30px;
+}
+
+.thumbnail-image span {
+	display: inline-block;
+	width: 100%;
+	position: absolute;
+	text-align: center;
+	bottom: 9px;
+	left: 0;
+	top: auto;
+	right: auto;
+	overflow: hidden;
+}
+
+.gallery-dataview div {
+	background-color: #e0e0e0 !important;
+}
+
 .x-segmentedbutton .x-button-normal {
 	background-image: none !important;
 }
