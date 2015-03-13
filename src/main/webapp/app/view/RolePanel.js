@@ -116,22 +116,6 @@ Ext.define('ARSnova.view.RolePanel', {
 				this.speakerButton,
 				this.studentButton
 			]
-		}, {
-			xtype: 'container',
-			layout: {
-				type: 'hbox',
-				pack: 'center'
-			},
-			style: 'margin-top: 15px',
-			items: [{
-				xtype: 'matrixbutton',
-				text: Messages.INFO,
-				imageCls: "icon-book",
-				handler: function () {
-					var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
-					tabPanel.setActiveItem(tabPanel.infoTabPanel);
-				}
-			}]
 		}]);
 
 		this.on('activate', function () {
