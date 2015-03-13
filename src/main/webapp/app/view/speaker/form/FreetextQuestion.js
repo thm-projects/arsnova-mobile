@@ -162,6 +162,12 @@ Ext.define('ARSnova.view.speaker.form.FreetextQuestion', {
 			placeHolder: Messages.FORMAT_PLACEHOLDER
 		});
 
+		
+		var sizearea = Ext.create('Ext.field.Text', {
+			name: 'size',
+			placeHolder: Messages.FREETEXT_SIZE
+		});
+		
 		// Preview button
 
 		var answerPreviewButton = Ext.create('Ext.Button', {
@@ -180,11 +186,6 @@ Ext.define('ARSnova.view.speaker.form.FreetextQuestion', {
 		});
 
 		// ----------------------------------------
-		var sizearea = Ext.create('Ext.field.Text', {
-			name: 'size',
-			placeHolder: Messages.FREETEXT_SIZE
-		});
-
 		var mainFormPanel = Ext.create('Ext.form.FormPanel', {
 			cls: 'centerFormTitle',
 			scrollable: null,
@@ -211,17 +212,7 @@ Ext.define('ARSnova.view.speaker.form.FreetextQuestion', {
 		}]);
 	},
 	previewHandler: function(textarea){
-		// Create standard panel with framework support
-		/*var answerPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			xtype: 'mathJaxMarkDownPanel',
-			ui: 'normal',
-
-		});
-		answerPanel.setContent(textarea.getValue(), true, true);
-		answerPanel.show();*/
-
 		var solutionPreview = Ext.create('ARSnova.view.SolutionPreviewBox');
 		solutionPreview.showPreview(textarea.getValue());
-	
 	}
 });

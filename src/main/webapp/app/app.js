@@ -87,7 +87,7 @@ Ext.application({
 
 	models: ['Answer', 'Feedback', 'LoggedIn', 'Question', 'Session', 'Statistics', 'Course', 'Auth', 'FeedbackQuestion'],
 
-	views: ['MainTabPanel', 'MathJaxMarkDownPanel', 'QuestionPreviewBox', 'AnswerPreviewBox', 'SolutionPreviewBox'],
+	views: ['MainTabPanel', 'MathJaxMarkDownPanel', 'QuestionPreviewBox', 'AnswerPreviewBox','SolutionPreviewBox'],
 
 	controllers: ['Auth', 'Application', 'Feedback', 'Lang', 'Questions', 'FlashcardQuestions', 'PreparationQuestions', 'Sessions', 'SessionImport', 'SessionExport', 'Tracking'],
 
