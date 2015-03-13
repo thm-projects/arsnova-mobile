@@ -993,13 +993,30 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			placeHolder: Messages.FREETEXT_SIZE
 		});
 
+		/* Preview button */
+
+		var answerPreviewButton = Ext.create('Ext.Button', {
+			style: 'margin-left: 0px; margin-top: 8px; width: 300px',
+			text: Ext.os.is.Desktop ?
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
+			ui: 'action',
+			cls: Ext.os.is.Desktop ?
+				'previewButtonLong' :
+				'previewButton',
+			scope: this,
+			handler: function () {
+				this.previewHandler(textarea);
+			}
+		});
+
 		var mainFormPanel = Ext.create('Ext.form.FormPanel', {
 			cls: 'centerFormTitle',
 			scrollable: null,
 			items: [{
 				xtype: 'fieldset',
 				title: Messages.CORRECT_PLACEHOLDER,
-				items: [textarea, sizearea]
+				items: [textarea, sizearea, answerPreviewButton]
 			}],
 			hidden: true
 		});
@@ -1406,5 +1423,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			// has to be set this way as it does not conform to the model
 			this.abstentionAnswer.set('formattedText', Messages.ABSTENTION);
 		}
+	},
+	previewHandler: function(textarea){
+		var solutionPreview = Ext.create('ARSnova.view.SolutionPreviewBox');
+		solutionPreview.showPreview(textarea.getValue());
 	}
 });
