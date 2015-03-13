@@ -80,6 +80,8 @@ Ext.define('ARSnova.model.Question', {
 	},
 
 	events: {
+		endPiRound: "arsnova/question/lecturer/endPiRound",
+		startDelayedPiRound: "arsnova/question/lecturer/delayedPiRound",
 		lecturerQuestionAvailable: "arsnova/question/lecturer/available",
 		audienceQuestionAvailable: "arsnova/question/audience/available",
 		unansweredLecturerQuestions: "arsnova/question/lecturer/lecture/unanswered",
@@ -123,6 +125,20 @@ Ext.define('ARSnova.model.Question', {
 			this.numLectureQuestionAnswers = count;
 			this.fireEvent(this.events.countLectureQuestionAnswers, count);
 			this.fireEvent(this.events.internalUpdate);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.endPiRound, function (questionId) {
+			if(ARSnova.app.questionModel === this) {
+				ARSnova.app.getController('RoundManagement').handleRoundEnd(questionId);
+			}
+			this.fireEvent(this.events.endPiRound, questionId);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.startDelayedPiRound, function (object) {
+			if(ARSnova.app.questionModel === this) {
+				ARSnova.app.getController('RoundManagement').handleRoundStart(object);
+			}
+			this.fireEvent(this.events.startDelayedPiRound, object);
 		}, this);
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.countQuestionAnswersByQuestion, function (object) {

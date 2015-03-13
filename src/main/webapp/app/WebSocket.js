@@ -35,6 +35,8 @@ Ext.define('ARSnova.WebSocket', {
 		setSessionActive: "arsnova/socket/session/active",
 		feedbackReset: "arsnova/socket/feedback/reset",
 		feedbackAverage: "arsnova/socket/feedback/average",
+		endPiRound: "arsnova/question/lecturer/endPiRound",
+		startDelayedPiRound: "arsnova/question/lecturer/delayedPiRound",
 		lecturerQuestionAvailable: "arsnova/socket/question/lecturer/available",
 		audienceQuestionAvailable: "arsnova/socket/question/audience/available",
 		unansweredLecturerQuestions: "arsnova/socket/question/lecturer/lecture/unanswered",
@@ -118,6 +120,16 @@ Ext.define('ARSnova.WebSocket', {
 			this.socket.on('setSessionActive', Ext.bind(function (active) {
 				this.memoization[this.events.setSessionActive] = active;
 				this.fireEvent(this.events.setSessionActive, active);
+			}, this));
+
+			this.socket.on('endPiRound', Ext.bind(function (questionId) {
+				console.debug("Socket.IO: endPiRound", questionId);
+				this.fireEvent(this.events.endPiRound, questionId);
+			}, this));
+
+			this.socket.on('startDelayedPiRound', Ext.bind(function (object) {
+				console.debug("Socket.IO: startDelayedPiRound", object);
+				this.fireEvent(this.events.startDelayedPiRound, object);
 			}, this));
 
 			this.socket.on('lecturerQuestionAvailable', Ext.bind(function (question) {
