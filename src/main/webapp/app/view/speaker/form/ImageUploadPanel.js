@@ -223,6 +223,15 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		this.segmentButton.show();
 	},
 
+	compress: function(source, quality) {
+		var cvs = document.createElement('canvas');
+		cvs.width = source.naturalWidth;
+		cvs.height = source.naturalHeight;
+		cvs.getContext("2d").drawImage(source, 0, 0);
+		console.log(quality / 100);
+		return cvs.toDataURL("image/jpeg", quality / 100);
+	},
+
 	/**
 	 * Checks the file size of the given base64 encoded String
 	 * @param url The base64 encoded String
@@ -235,11 +244,17 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		var imgFileSize = Math.round((url.length - head.length) * 3 / 4);
 		var compressed = false;
 
-		if (!isNaN(ARSnova.app.globalConfig.maxUploadFilesize)) {
+		if (!isNaN(ARSnova.app.globalConfig.maxUploadFilesize) && typeof ARSnova.app.globalConfig.maxUploadFilesize !== 'undefined') {
 			if (imgFileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
-				url = this.compress(url, (Math.max(1.0, Math.min(100.0, 100.0 / (imgFileSize / ARSnova.app.globalConfig.maxUploadFileSize)))).toFixed(2));
-				imgFileSize = Math.round((url.length - head.length) * 3 / 4);
-				compressed = true;
+				var img = new Image();
+				img.src = url;
+				var me = this;
+				img.onload = function() {
+					var quality = Math.max(1, 100.0 / (imgFileSize / ARSnova.app.globalConfig.maxUploadFilesize));
+					url = me.compress(img, quality);
+					imgFileSize = Math.round((url.length - head.length) * 3 / 4);
+					compressed = true;
+				};
 			}
 			//2nd check if the compression didn't succeed (maximal compression = 1% of the original)
 			if (imgFileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
@@ -251,16 +266,6 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		}
 
 		return compressed ? url : true;
-	},
-
-	compress: function(source, quality) {
-		var cvs = document.createElement('canvas');
-		cvs.width = source.naturalWidth;
-		cvs.height = source.naturalHeight;
-		cvs.getContext("2d").drawImage(source, 0, 0);
-		var result = new Image();
-		result.src = cvs.toDataURL("png", quality / 100);
-		return result;
 	},
 
 	toggleUploadTextfieldVisibility: function () {
