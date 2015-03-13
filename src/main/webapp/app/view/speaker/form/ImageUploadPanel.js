@@ -79,16 +79,17 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			listeners: {
 				scope: this,
 				loadsuccess: function (dataurl, e) {
+					var self = this;
 					this.tryToCompress(dataurl, function(response) {
 						if (!response) {
 							//error
 						}
-						else if (this.checkFilesize(response))
-							if (this.config.addRemoveButton) {
-								this.removeButton.show();
-								this.segmentButton.hide();
+						else if (self.checkFilesize(response)) {
+							if (self.config.addRemoveButton) {
+								self.removeButton.show();
+								self.segmentButton.hide();
 							}
-							Ext.bind(this.getFsUploadHandler(), this.getHandlerScope())(response, true);
+							Ext.bind(self.getFsUploadHandler(), self.getHandlerScope())(response, true);
 						}
 					});
 				},
@@ -235,28 +236,22 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	 */
 	tryToCompress: function(url, callback) {
 		var fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
-		console.log("trying to compress ...");
 		if (!isNaN(ARSnova.app.globalConfig.maxUploadFilesize) && typeof ARSnova.app.globalConfig.maxUploadFilesize !== 'undefined') {
-			console.log("checking file size ...");
 			if (fileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
 				var img = new Image();
 				img.src = url;
 				var me = this;
 				img.onload = function() {
 					var quality = Math.max(1, 100.0 / (fileSize / ARSnova.app.globalConfig.maxUploadFilesize));
-					console.log("compressing ...");
 					url = me.compress(img, quality);
-					console.log("After compression: " + Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4));
 					callback(url);
 				};
 			}
 			else {
-				console.log("No compression necessery: " + fileSize);
 				callback(url);
 			}
 		}
 		else {
-			console.log("Error occured, returning false!");
 			callback(false);
 		}
 	},
