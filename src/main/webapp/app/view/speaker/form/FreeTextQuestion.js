@@ -24,7 +24,8 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		'Ext.form.FieldSet'
 	],
 	config: {
-				scrollable: null
+				scrollable: null,
+				cls:'centerFormTitle'
 	},
 	imageQuestion: false,
 	initialize: function () {
@@ -34,7 +35,9 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		this.imgUploadBtn = Ext.create('ARSnova.view.MatrixButton', {
 			cls: 'actionButton',
 			buttonConfig: 'togglefield',
-			text: Messages.IMAGE_ANSWER_LONG,
+			style:'margin-top:-20px',
+			//would be displayed below the button
+			//text: Messages.IMAGE_ANSWER_LONG,
 			toggleConfig: {
 				scope: this,
 				label: false,
@@ -57,7 +60,14 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 			items: [this.imgUploadBtn]
 		});
 
-		this.add([answerOptions]);
+		var answerFieldset = Ext.create('Ext.form.FieldSet', {
+			//displayed on-top of the button
+			title:Messages.IMAGE_ANSWER_LONG,
+			style:'margin-top:45px;',
+			items:[this.imgUploadBtn]
+		});
+
+		this.add([answerFieldset]);
   },
 	getQuestionValues: function () {
 		var result = {};
