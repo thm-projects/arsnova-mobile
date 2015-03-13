@@ -1285,6 +1285,7 @@ switch (lang) {
 			EVALUATION_NEUTRAL: "weder noch",
 			EVALUATION_MINUS: "trifft eher nicht zu",
 			EVALUATION_MINUSMINUS: "trifft nicht zu",
+			IMAGE_QUESTION_LBL: "Antwort als Bild",
 
 			/* action buttons - <br/> forces line break for consistent look */
 			CREATE_NEW_SESSION: "Neue Session<br/>anlegen",
@@ -1913,6 +1914,7 @@ switch (lang) {
 			EVALUATION_NEUTRAL: "neutral",
 			EVALUATION_MINUS: "disagree",
 			EVALUATION_MINUSMINUS: "strongly disagree",
+			IMAGE_QUESTION_LBL: "Image as answer",
 
 			/* action buttons - <br/> forces line break for consistent look */
 			CREATE_NEW_SESSION: "Create new<br/>session",
