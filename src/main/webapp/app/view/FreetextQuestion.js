@@ -141,6 +141,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		});
 	},
 
+	checkPiRoundActivation : function() {},
+
 	getQuestionTypeMessage: function (msgAppendix) {
 		msgAppendix = msgAppendix ? msgAppendix : "";
 		var message;
