@@ -228,6 +228,7 @@
 				/* sort */
 				SORT_QUESTIONS_TITLE: "Fragen sortieren",
 				SORT_CATEGORIES_TITLE: "Kategorien suchen",
+				SORT_CATEGORIES: "Kategorien",
 				SORT_SAVED: "Sortierung wurde gespeichert.",
 				SORT_SAVE_AND_CONTINUE: "Speichern und fortfahren",
 				SORT_TRANSMISSION_ERROR: "Das Sortieren war leider nicht erfolgreich.",
@@ -757,6 +758,7 @@
 				/* sort */
 				SORT_QUESTIONS_TITLE: "Sort Questions",
 				SORT_CATEGORIES_TITLE: "Sort Categories",
+				SORT_CATEGORIES: "Categories",
 				SORT_SAVED: "Your sort order has been saved.",
 				SORT_SAVE_AND_CONTINUE: "Save and continue",
 				SORT_TRANSMISSION_ERROR: "Sort failed.",

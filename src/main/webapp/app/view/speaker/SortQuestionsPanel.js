@@ -130,7 +130,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: Messages.SORT_QUESTIONS_TITLE,
+			title: Messages.QUESTIONS,
 			cls: 'speakerTitleText',
 			ui: 'light',
 			docked: 'top',
