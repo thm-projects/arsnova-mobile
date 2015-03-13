@@ -129,7 +129,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 						questionRecords[index] = record;
 					}
 				});
-				
+
 				this.questionStore.removeAll();
 				for (var i = 0; i < questionRecords.length; i++) {
 					this.questionStore.addData(questionRecords[i]);
@@ -198,12 +198,15 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel;
 		switch (panel.sortType) {
 			case 'alphabet':
-				panel.questionStore.sort([
-					{
-						property : 'subject',
-						direction: 'ASC'
-					}
-				]);
+				panel.questionStore.sort([{
+					sorterFn: function(a, b) {
+						var as = a.get('subject'), bs = b.get('subject');
+						if (as.toLowerCase() < bs.toLowerCase()) return -1;
+						if (as.toLowerCase() > bs.toLowerCase()) return 1;
+						return 0;
+					},
+					direction: 'ASC'
+				}]);
 				break;
 			case 'time':
 				panel.questionStore.sort([
