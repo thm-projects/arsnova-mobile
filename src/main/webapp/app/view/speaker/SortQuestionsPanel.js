@@ -106,14 +106,6 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			handler: this.sortTimeHandler
 		});
 
-		this.sortRevertButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.SORT_REVERT,
-			cls: 'upperActionButtonCls',
-			buttonConfig: 'icon',
-			imageCls: 'icon-undo thm-orange',
-			handler: this.sortRevertHandler
-		});
-
 		this.actionButtonPanel = Ext.create('Ext.Panel', {
 			layout: {
 				type: 'hbox',
@@ -124,8 +116,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 
 			items: [
 				this.sortAlphabetButton,
-				this.sortTimeButton,
-				this.sortRevertButton
+				this.sortTimeButton
 			]
 		});
 
@@ -141,13 +132,33 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			]
 		});
 
+		this.sortRevertButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: Messages.SORT_REVERT,
+			cls: 'upperActionButtonCls',
+			buttonConfig: 'icon',
+			imageCls: 'icon-undo thm-orange',
+			handler: this.sortRevertHandler
+		});
+
+		this.bottomButtonPanel = Ext.create('Ext.Panel', {
+			layout: {
+				type: 'hbox',
+				pack: 'center'
+			},
+			style: 'margin-top: 30px',
+			items: [
+				this.sortRevertButton
+			]
+		});
+
 		this.add([
 			this.toolbar,
 			this.actionButtonPanel, {
 				xtype: 'formpanel',
 				scrollable: null,
 				items: [this.questionListContainer]
-			}
+			},
+			this.bottomButtonPanel
 		]);
 
 		var me = this;
