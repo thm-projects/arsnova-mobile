@@ -79,9 +79,14 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> a6411e3... added upload button #15218
+=======
+		this.answerText.setHidden(!this.questionObj.textAnswerEnabled);
+
+>>>>>>> 25ce6bf... Simon added toggle button disabling freetext answer test #15377
 		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
 			handlerScope: this,
 			addRemoveButton: true,
@@ -336,6 +341,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || (!this.answerImage && this.questionObj.imageQuestion);
 =======
 		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || !answerImage;
@@ -346,6 +352,9 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 =======
 		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || (!this.answerImage && this.questionObj.imageQuestion);
 >>>>>>> 7f99aed... disabled image upload view #15323
+=======
+		return this.answerSubject.getValue().trim() === "" || (this.answerText.getValue().trim() === "" && this.questionObj.textAnswerEnabled) || (!this.answerImage && this.questionObj.imageQuestion);
+>>>>>>> 25ce6bf... Simon added toggle button disabling freetext answer test #15377
 	},
 
 	saveAnswer: function (answer) {

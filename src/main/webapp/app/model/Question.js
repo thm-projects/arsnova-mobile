@@ -73,6 +73,7 @@ Ext.define('ARSnova.model.Question', {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 			'imageQuestion'
 =======
 			'isImageQuestion'
@@ -83,6 +84,10 @@ Ext.define('ARSnova.model.Question', {
 =======
 			'imageQuestion'
 >>>>>>> 34cbe25... added new field to model #15268
+=======
+			'imageQuestion',
+			'textAnswerEnabled'
+>>>>>>> 25ce6bf... Simon added toggle button disabling freetext answer test #15377
 		],
 
 		validations: [

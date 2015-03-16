@@ -1286,6 +1286,7 @@ switch (lang) {
 			EVALUATION_MINUS: "trifft eher nicht zu",
 			EVALUATION_MINUSMINUS: "trifft nicht zu",
 			IMAGE_QUESTION_LBL: "Antwort als Bild",
+			EXPECT_ANSWER_TEXT:"Wollen Sie einen Antworttext?",
 
 			/* action buttons - <br/> forces line break for consistent look */
 			CREATE_NEW_SESSION: "Neue Session<br/>anlegen",
@@ -1915,6 +1916,7 @@ switch (lang) {
 			EVALUATION_MINUS: "disagree",
 			EVALUATION_MINUSMINUS: "strongly disagree",
 			IMAGE_QUESTION_LBL: "Image as answer",
+			EXPECT_ANSWER_TEXT:"Do you also want a text?",
 
 			/* action buttons - <br/> forces line break for consistent look */
 			CREATE_NEW_SESSION: "Create new<br/>session",

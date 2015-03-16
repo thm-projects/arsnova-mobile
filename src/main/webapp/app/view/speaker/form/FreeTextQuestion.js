@@ -41,18 +41,23 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 <<<<<<< HEAD
 <<<<<<< HEAD
 	imageQuestion: false,
+<<<<<<< HEAD
 =======
 	isImageQuestion: false,
 >>>>>>> 57fb4dc... Added isImageQuestion()-function #15217
 =======
 	imageQuestion: false,
 >>>>>>> 34cbe25... added new field to model #15268
+=======
+	textAnswerEnabled: false,
+>>>>>>> 25ce6bf... Simon added toggle button disabling freetext answer test #15377
 	initialize: function () {
 		this.callParent(arguments);
 
 <<<<<<< HEAD
 		var me = this;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 				cls: 'newQuestionOptions centerFormTitle',
@@ -72,6 +77,42 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 				label:Messages.IMG_UPLOAD_TOGGLE_BUTTON,
 				labelCls:'imageUploadButtonLabel',
 =======
+=======
+		this.expectAnswerText = Ext.create('ARSnova.view.MatrixButton', {
+			cls: 'actionButton',
+			buttonConfig: 'togglefield',
+			style:'margin-top:-20px',
+			toggleConfig: {
+				scope: this,
+				label: true,
+				value: 0,
+				listeners: {
+					scope: this,
+					change: function (toggle, newValue, oldValue, eOpts) {
+						me.textAnswerEnabled = newValue == 0 ? true : false;
+
+					}
+				}
+			}
+		});
+
+		var wantText = Ext.create('Ext.Panel', {
+			scrollable: null,
+			layout: {
+				type:'hbox',
+				pack:'center'
+			},
+			items: [this.expectAnswerText]
+		});
+
+		this.textAnswerFieldSet = Ext.create('Ext.form.FieldSet', {
+			title:Messages.EXPECT_ANSWER_TEXT,
+			style:'margin-top:45px;',
+			hidden: true,
+			items:[this.expectAnswerText]
+		});
+
+>>>>>>> 25ce6bf... Simon added toggle button disabling freetext answer test #15377
 		this.imgUploadBtn = Ext.create('ARSnova.view.MatrixButton', {
 			cls: 'actionButton',
 			buttonConfig: 'togglefield',
@@ -90,6 +131,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 <<<<<<< HEAD
 <<<<<<< HEAD
 						me.imageQuestion = newValue == 0 ? false : true;
+<<<<<<< HEAD
 =======
 						console.log("toggled");
 <<<<<<< HEAD
@@ -104,6 +146,13 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 =======
 						me.imageQuestion = newValue == 0 ? false : true;
 >>>>>>> af8610a... fixed toggle button
+=======
+						if(me.textAnswerFieldSet.isHidden()) {
+							me.textAnswerFieldSet.show();
+						} else {
+							me.textAnswerFieldSet.hide();
+						}
+>>>>>>> 25ce6bf... Simon added toggle button disabling freetext answer test #15377
 					}
 				}
 			}
@@ -136,8 +185,12 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 			items:[this.imgUploadBtn]
 		});
 
+<<<<<<< HEAD
 		this.add([answerFieldset]);
 >>>>>>> a3061cf... Set the title of the ToggleButton on-top the button.
+=======
+		this.add([answerFieldset, this.textAnswerFieldSet]);
+>>>>>>> 25ce6bf... Simon added toggle button disabling freetext answer test #15377
   },
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -169,6 +222,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 	getQuestionValues: function () {
 		var result = {};
 		result.imageQuestion = this.imageQuestion;
+		result.textAnswerEnabled = this.textAnswerEnabled;
 		return result;
 >>>>>>> dea8be2... Added handler for saving imagequestions. #15217
 	}

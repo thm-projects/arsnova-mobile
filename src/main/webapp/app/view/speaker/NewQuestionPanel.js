@@ -625,6 +625,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			scaleFactor: values.scaleFactor,
 			gridScaleFactor: values.gridScaleFactor,
 			imageQuestion: values.imageQuestion,
+			textAnswerEnabled: values.textAnswerEnabled,
 			saveButton: button,
 			successFunc: function (response, opts) {
 				promise.resolve(response);
