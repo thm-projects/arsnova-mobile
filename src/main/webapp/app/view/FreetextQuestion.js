@@ -138,7 +138,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				text: Messages.SAVE,
 				handler: this.saveHandler,
 				scope: this
-			}, !!!this.questionObj.abstention ? {hidden: true} : {
+			}, !!!this.questionObj.abstention ? {hidden: true} : { //What the hell?! !!! === !
 				flex: 1,
 				xtype: 'button',
 				ui: 'action',
