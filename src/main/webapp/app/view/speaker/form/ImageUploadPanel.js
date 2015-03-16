@@ -235,8 +235,34 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	 * @return -
 	 */
 	tryToCompress: function(url, callback) {
-		var fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
 		if (!isNaN(ARSnova.app.globalConfig.maxUploadFilesize) && typeof ARSnova.app.globalConfig.maxUploadFilesize !== 'undefined') {
+			var fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
+			function recursive(url) {
+				if (fileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
+					var img = new Image();
+					img.src = url;
+					var me = this;
+					img.onload = function() {
+						var quality = Math.max(1, 99);
+						url = me.compress(img, quality);
+						fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
+						if (fileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
+							recursive(url);
+						}
+						else {
+							callback(url);
+						}
+					};
+				}
+				else {
+					callback(url);
+				}
+			})(url);
+		}
+		else {
+			callback(url);
+		}
+/*
 			if (fileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
 				var img = new Image();
 				img.src = url;
@@ -253,7 +279,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		}
 		else {
 			callback(false);
-		}
+		}*/
 	},
 
 	checkFilesize: function (url) {
