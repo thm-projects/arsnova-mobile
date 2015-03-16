@@ -486,6 +486,9 @@ switch (lang) {
 			EVALUATION_MINUS: "trifft eher nicht zu",
 			EVALUATION_MINUSMINUS: "trifft nicht zu",
 			IMAGE_QUESTION_LBL: "Antwort als Bild",
+			IMAGE_QUESTION_MINIATUR_VIEW: "Miniaturen<br/>ansicht",
+			IMAGE_QUESTION_HORIZONTAL_VIEW: "Horizontale<br/>Liste",
+			IMAGE_QUESTION_VERTICAL_VIEW: "Vertikale<br/>Liste",
 
 			/* action buttons - <br/> forces line break for consistent look */
 			CREATE_NEW_SESSION: "Neue Session<br/>anlegen",
@@ -1003,6 +1006,9 @@ switch (lang) {
 			EVALUATION_MINUS: "disagree",
 			EVALUATION_MINUSMINUS: "strongly disagree",
 			IMAGE_QUESTION_LBL: "Image as answer",
+			IMAGE_QUESTION_MINIATUR_VIEW: "miniature<br/>view",
+			IMAGE_QUESTION_HORIZONTAL_VIEW: "horizontal<br/>list",
+			IMAGE_QUESTION_VERTICAL_VIEW: "vertical<br/>list",
 
 			/* action buttons - <br/> forces line break for consistent look */
 			CREATE_NEW_SESSION: "Create new<br/>session",

@@ -32,7 +32,6 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 
 		freetextAnswerStore: null
 	},
-
 	constructor: function (args) {
 		this.callParent(arguments);
 
@@ -79,6 +78,48 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			docked: 'top',
 			ui: 'light',
 			items: [this.backButton]
+		});
+
+
+		//sort buttons
+		this.miniaturBtn = Ext.create('ARSnova.view.MatrixButton', {
+			text: Messages.IMAGE_QUESTION_MINIATUR_VIEW,
+			cls: 'actionButton',
+			buttonConfig: 'icon',
+			imageCls: 'icon-question thm-grey',
+			scope:this,
+			handler: this.miniaturClicked
+		});
+
+		this.horizontalListBtn = Ext.create('ARSnova.view.MatrixButton', {
+			text: Messages.IMAGE_QUESTION_HORIZONTAL_VIEW,
+			cls: 'actionButton',
+			buttonConfig: 'icon',
+			imageCls: 'icon-question thm-grey',
+			scope:this,
+			handler: this.horizontalListClicked
+		});
+
+		this.verticalListBtn = Ext.create('ARSnova.view.MatrixButton', {
+			text: Messages.IMAGE_QUESTION_VERTICAL_VIEW,
+			cls: 'actionButton',
+			buttonConfig: 'icon',
+			imageCls: 'icon-question thm-grey',
+			scope:this,
+			handler: this.verticalListClicked
+		});
+
+		this.sortPanel = Ext.create('Ext.Panel', {
+			scrollable: null,
+			layout: {
+				type:'hbox',
+				pack:'center'
+			},
+			items: [
+				this.miniaturBtn,
+				this.horizontalListBtn,
+				this.verticalListBtn
+			]
 		});
 
 		this.noAnswersLabel = Ext.create('Ext.form.FormPanel', {
@@ -138,7 +179,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			width: '100%',
 			flex: 1,
 			scrollable: null,
-			items: [this.noAnswersLabel, this.imageAnswerList]
+			items: [this.sortPanel, this.noAnswersLabel, this.imageAnswerList]
 		}]);
 
 		this.on('activate', function () {
@@ -226,5 +267,25 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 				console.log('server-side error');
 			}
 		});
+	},
+
+	//sorthandlers
+	miniaturClicked: function() {
+		console.log("miniatur clicked");
+		this.imageAnswerList.setCls("dataview-inline gallery-dataview");
+		this.imageAnswerList.setInline(true);
+		this.imageAnswerList.setScrollable(true);
+	},
+	horizontalListClicked: function() {
+		console.log("horizontal clicked");
+		this.imageAnswerList.setCls("dataview-horizontal gallery-dataview");
+		this.imageAnswerList.setInline({wrap: false});
+		this.imageAnswerList.setScrollable('horizontal');
+
+	},
+	verticalListClicked: function() {
+		console.log("vertical clicked");
+		this.imageAnswerList.setCls("dataview-basic gallery-dataview");
+		this.imageAnswerList.setScrollable({direction:'vertical'});
 	}
 });
