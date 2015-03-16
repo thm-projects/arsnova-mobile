@@ -1286,7 +1286,13 @@ switch (lang) {
 			EVALUATION_MINUS: "trifft eher nicht zu",
 			EVALUATION_MINUSMINUS: "trifft nicht zu",
 			IMAGE_QUESTION_LBL: "Antwort als Bild",
+<<<<<<< HEAD
 			EXPECT_ANSWER_TEXT:"Wollen Sie einen Antworttext?",
+=======
+			IMAGE_QUESTION_MINIATUR_VIEW: "Miniaturen<br/>ansicht",
+			IMAGE_QUESTION_HORIZONTAL_VIEW: "Horizontale<br/>Liste",
+			IMAGE_QUESTION_VERTICAL_VIEW: "Vertikale<br/>Liste",
+>>>>>>> 19aa182... Added sortbtns to the freetext-statistics-view. #15316
 
 			/* action buttons - <br/> forces line break for consistent look */
 			CREATE_NEW_SESSION: "Neue Session<br/>anlegen",
@@ -1916,7 +1922,13 @@ switch (lang) {
 			EVALUATION_MINUS: "disagree",
 			EVALUATION_MINUSMINUS: "strongly disagree",
 			IMAGE_QUESTION_LBL: "Image as answer",
+<<<<<<< HEAD
 			EXPECT_ANSWER_TEXT:"Do you also want a text?",
+=======
+			IMAGE_QUESTION_MINIATUR_VIEW: "miniature<br/>view",
+			IMAGE_QUESTION_HORIZONTAL_VIEW: "horizontal<br/>list",
+			IMAGE_QUESTION_VERTICAL_VIEW: "vertical<br/>list",
+>>>>>>> 19aa182... Added sortbtns to the freetext-statistics-view. #15316
 
 			/* action buttons - <br/> forces line break for consistent look */
 			CREATE_NEW_SESSION: "Create new<br/>session",
