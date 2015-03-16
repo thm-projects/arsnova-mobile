@@ -1061,6 +1061,10 @@ switch (lang) {
 			SHOW_FLASHCARD_ANSWER: "Antwort anzeigen",
 			HIDE_FLASHCARD_ANSWER: "Antwort ausblenden",
 			IMAGE_NEEDED: "Es wird ein Bild benötigt",
+<<<<<<< HEAD
+=======
+			EXPECT_ANSWER_TEXT: "Wollen Sie einen Text als Antwort verbieten?",
+>>>>>>> dc25235... fixed small issue  #15377
 			COMPRESSING_MASK: "Ihr Bild wird komprimiert ...",
 			PICTURE_RIGHT_INFORMATION: ['Bitte beachten Sie, dass Sie keine Bilder verwenden für deren Verwendung Sie keine Rechte haben (Urheberrechtsgesetz) oder die pornografische oder volksverhetzende(§130 StGB) Inhalte bergen!\n',
 					'Antwort abschicken?'
@@ -1697,7 +1701,11 @@ switch (lang) {
 			COMPRESSING_MASK: "Your image will be compressed ...",
 >>>>>>> 38fed32... worked on ticket #15379, bug fixed, loading mask added
 			IMAGE_NEEDED: "An image is needed",
+<<<<<<< HEAD
 >>>>>>> 1e36745... added image preview #15236
+=======
+			EXPECT_ANSWER_TEXT: "Do you want to forbid text answers?",
+>>>>>>> dc25235... fixed small issue  #15377
 
 			/* speaker */
 			LIVE_FEEDBACK: "Instant feedback",

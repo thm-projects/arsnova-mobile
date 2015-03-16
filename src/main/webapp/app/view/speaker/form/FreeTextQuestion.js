@@ -42,6 +42,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 <<<<<<< HEAD
 	imageQuestion: false,
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	isImageQuestion: false,
 >>>>>>> 57fb4dc... Added isImageQuestion()-function #15217
@@ -51,6 +52,9 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 =======
 	textAnswerEnabled: false,
 >>>>>>> 25ce6bf... Simon added toggle button disabling freetext answer test #15377
+=======
+	textAnswerEnabled: true,
+>>>>>>> dc25235... fixed small issue  #15377
 	initialize: function () {
 		this.callParent(arguments);
 
@@ -84,8 +88,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 			style:'margin-top:-20px',
 			toggleConfig: {
 				scope: this,
-				label: true,
-				value: 0,
+				value: true,
 				listeners: {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
@@ -94,15 +97,6 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 					}
 				}
 			}
-		});
-
-		var wantText = Ext.create('Ext.Panel', {
-			scrollable: null,
-			layout: {
-				type:'hbox',
-				pack:'center'
-			},
-			items: [this.expectAnswerText]
 		});
 
 		this.textAnswerFieldSet = Ext.create('Ext.form.FieldSet', {
@@ -158,6 +152,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 			}
 		});
 
+<<<<<<< HEAD
 		var answerOptions = Ext.create('Ext.Panel', {
 				scrollable: null,
 				layout: {
@@ -166,6 +161,8 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 				},
 				items: [this.imgUploadBtn]
 			});
+=======
+>>>>>>> dc25235... fixed small issue  #15377
 
 <<<<<<< HEAD
 		this.add([answerOptions]);
