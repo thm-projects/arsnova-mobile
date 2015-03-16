@@ -89,6 +89,11 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 	height: auto !important;
 	display: inline-block;
 	position: relative;
+	margin: 8px;
+}
+
+.thumbnail-image .wrapper:hover {
+	transform:scale(1.1);
 }
 
 .thumbnail-image img {
@@ -122,6 +127,10 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 	position:relative;
 	text-align: left;
 	width: 100%;
+}
+
+.gallery-dataview {
+
 }
 
 .gallery-dataview div {
