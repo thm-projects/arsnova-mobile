@@ -538,6 +538,7 @@
 				SESSION_OWNERS: "Session-Inhaber",
 				LEARNING_PROGRESS: "Lernstand",
 				PEER_INSTRUCTION_QUESTIONS: "Peer Instruction Konzeptfragen",
+				ACTIVE_STUDENT_USERS: "Aktive User in der Rolle Student/in",
 				FEATURES: "Features",
 				ACTIVATE_FEATURES: "Features aktivieren",
 
@@ -1071,6 +1072,7 @@
 				VOTINGS: "Votings",
 				SESSION_OWNERS: "Session owners",
 				PEER_INSTRUCTION_QUESTIONS: "Peer Instruction questions",
+				ACTIVE_STUDENT_USERS: "Active users in a student's role",
 				LEARNING_PROGRESS: "Learning progress",
 				FEATURES: "Features",
 				ACTIVATE_FEATURES: "Activate features",
