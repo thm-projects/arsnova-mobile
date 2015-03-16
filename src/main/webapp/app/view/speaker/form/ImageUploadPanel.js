@@ -283,8 +283,8 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 >>>>>>> f8ee45a... Bug fixed,  worked on ticket #15221
 	 */
 	tryToCompress: function(url, callback) {
-		var fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
 		if (!isNaN(ARSnova.app.globalConfig.maxUploadFilesize) && typeof ARSnova.app.globalConfig.maxUploadFilesize !== 'undefined') {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 			if (imgFileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
@@ -298,6 +298,35 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			console.log("checking file size ...");
 =======
 >>>>>>> 4f40083... fixed a compression bug (Björn Pfarr) on Dennis' Latop
+=======
+			var fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
+			function recursive(url) {
+				if (fileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
+					var img = new Image();
+					img.src = url;
+					var me = this;
+					img.onload = function() {
+						var quality = Math.max(1, 99);
+						url = me.compress(img, quality);
+						fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
+						if (fileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
+							recursive(url);
+						}
+						else {
+							callback(url);
+						}
+					};
+				}
+				else {
+					callback(url);
+				}
+			})(url);
+		}
+		else {
+			callback(url);
+		}
+/*
+>>>>>>> de2c6da... worked on ticket #15379, implemented a better compression algorithm
 			if (fileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
 >>>>>>> f8ee45a... Bug fixed,  worked on ticket #15221
 				var img = new Image();
@@ -325,7 +354,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		}
 		else {
 			callback(false);
-		}
+		}*/
 	},
 
 	checkFilesize: function (url) {
