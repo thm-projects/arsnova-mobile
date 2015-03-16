@@ -237,7 +237,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	tryToCompress: function(url, callback) {
 		if (!isNaN(ARSnova.app.globalConfig.maxUploadFilesize) && typeof ARSnova.app.globalConfig.maxUploadFilesize !== 'undefined') {
 			var fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
-			function recursive(url) {
+			(function recursive(url) {
 				if (fileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
 					var img = new Image();
 					img.src = url;
