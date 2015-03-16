@@ -96,7 +96,9 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			cls: 'actionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-horizontallist thm-grey',
-			imageStyle:'transform: rotateZ(90deg); -webkit-transform: rotateZ(90deg);',
+			imageStyle:'transform: rotateZ(90deg);'+
+									'-webkit-transform: rotateZ(90deg);'+
+									'margin-top:20px;',
 			scope:this,
 			handler: this.horizontalListClicked
 		});
@@ -106,6 +108,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			cls: 'actionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-horizontallist thm-grey',
+			imageStyle:'margin-top:14px;',
 			scope:this,
 			handler: this.verticalListClicked
 		});
