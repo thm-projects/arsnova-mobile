@@ -1061,6 +1061,7 @@ switch (lang) {
 			SHOW_FLASHCARD_ANSWER: "Antwort anzeigen",
 			HIDE_FLASHCARD_ANSWER: "Antwort ausblenden",
 			IMAGE_NEEDED: "Es wird ein Bild benötigt",
+			COMPRESSING_MASK: "Ihr Bild wird komprimiert ...",
 			PICTURE_RIGHT_INFORMATION: ['Bitte beachten Sie, dass Sie keine Bilder verwenden für deren Verwendung Sie keine Rechte haben (Urheberrechtsgesetz) oder die pornografische oder volksverhetzende(§130 StGB) Inhalte bergen!\n',
 					'Antwort abschicken?'
 				].join('\n'),
@@ -1689,8 +1690,12 @@ switch (lang) {
 			SHOW_FLASHCARD_ANSWER: "Show answer",
 			HIDE_FLASHCARD_ANSWER: "Hide answer",
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> af15a4b... Fixed Bug after adding right information
 =======
+=======
+			COMPRESSING_MASK: "Your image will be compressed ...",
+>>>>>>> 38fed32... worked on ticket #15379, bug fixed, loading mask added
 			IMAGE_NEEDED: "An image is needed",
 >>>>>>> 1e36745... added image preview #15236
 

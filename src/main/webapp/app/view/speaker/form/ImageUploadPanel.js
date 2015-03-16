@@ -94,8 +94,14 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 =======
 =======
 					var self = this;
+<<<<<<< HEAD
 >>>>>>> 4f40083... fixed a compression bug (Björn Pfarr) on Dennis' Latop
+=======
+					var mask = new Ext.LoadMask(Ext.getBody(), {msg: Messages.COMPRESSING_MASK});
+					mask.show();
+>>>>>>> 38fed32... worked on ticket #15379, bug fixed, loading mask added
 					this.tryToCompress(dataurl, function(response) {
+						mask.hide();
 						if (!response) {
 							//error
 >>>>>>> f8ee45a... Bug fixed,  worked on ticket #15221
@@ -287,6 +293,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 			if (imgFileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -299,30 +306,31 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 =======
 >>>>>>> 4f40083... fixed a compression bug (Björn Pfarr) on Dennis' Latop
 =======
+=======
+			var me = this;
+>>>>>>> 38fed32... worked on ticket #15379, bug fixed, loading mask added
 			var fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
 			(function recursive(url) {
 				if (fileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
+					console.log("Trying to compress the image ...")
 					var img = new Image();
 					img.src = url;
-					var me = this;
 					img.onload = function() {
-						var quality = Math.max(1, 99);
+						var quality = Math.max(1, 95);
 						url = me.compress(img, quality);
 						fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
-						if (fileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
-							recursive(url);
-						}
-						else {
-							callback(url);
-						}
+						console.log("Image compressed to 95% of its source quality! (Now: " + fileSize + " Bytes)");
+						recursive(url);
 					};
 				}
 				else {
+					console.log("Image was successfully compressed!");
 					callback(url);
 				}
 			})(url);
 		}
 		else {
+			console.log("Source image is already small enough!");
 			callback(url);
 		}
 /*
