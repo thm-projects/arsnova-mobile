@@ -233,10 +233,10 @@
 				SORT_SAVE_AND_CONTINUE: "Speichern und fortfahren",
 				SORT_TRANSMISSION_ERROR: "Das Sortieren war leider nicht erfolgreich.",
 				SORT_QUESTIONS: "Fragen<br/>sortieren",
-				SORT_ALPHABET: "Alphabetisch<br/>sortieren",
-				SORT_TIME: "Zeitlich<br/>sortieren",
+				SORT_ALPHABET: "Alphabet<br/>Sortierung",
+				SORT_TIME: "Zeitliche<br/>Sortierung",
 				SORT_RANDOM: "Zufällig<br/>anordnen",
-				SORT_REVERT: "Rückgängig<br/>machen",
+				SORT_REVERT: "Änderung<br/>verwerfen",
 
 				/* user */
 				QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
