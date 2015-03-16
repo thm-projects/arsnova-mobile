@@ -80,7 +80,10 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				scope: this,
 				loadsuccess: function (dataurl, e) {
 					var self = this;
+					var mask = new Ext.LoadMask(Ext.getBody(), {msg: Messages.COMPRESSING_MASK});
+					mask.show();
 					this.tryToCompress(dataurl, function(response) {
+						mask.hide();
 						if (!response) {
 							//error
 						}
@@ -236,30 +239,29 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	 */
 	tryToCompress: function(url, callback) {
 		if (!isNaN(ARSnova.app.globalConfig.maxUploadFilesize) && typeof ARSnova.app.globalConfig.maxUploadFilesize !== 'undefined') {
+			var me = this;
 			var fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
 			(function recursive(url) {
 				if (fileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
+					console.log("Trying to compress the image ...")
 					var img = new Image();
 					img.src = url;
-					var me = this;
 					img.onload = function() {
-						var quality = Math.max(1, 99);
+						var quality = Math.max(1, 95);
 						url = me.compress(img, quality);
 						fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
-						if (fileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
-							recursive(url);
-						}
-						else {
-							callback(url);
-						}
+						console.log("Image compressed to 95% of its source quality! (Now: " + fileSize + " Bytes)");
+						recursive(url);
 					};
 				}
 				else {
+					console.log("Image was successfully compressed!");
 					callback(url);
 				}
 			})(url);
 		}
 		else {
+			console.log("Source image is already small enough!");
 			callback(url);
 		}
 /*
