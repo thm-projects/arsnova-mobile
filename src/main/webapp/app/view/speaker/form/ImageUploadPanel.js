@@ -95,13 +95,17 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 =======
 					var self = this;
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 4f40083... fixed a compression bug (Björn Pfarr) on Dennis' Latop
 =======
 					var mask = new Ext.LoadMask(Ext.getBody(), {msg: Messages.COMPRESSING_MASK});
 					mask.show();
 >>>>>>> 38fed32... worked on ticket #15379, bug fixed, loading mask added
+=======
+					var mask = ARSnova.app.showLoadMask(Messages.COMPRESSING_MASK);
+>>>>>>> 79b552b... worked on ticket #15379, compression algorithm changed
 					this.tryToCompress(dataurl, function(response) {
-						mask.hide();
+						mask();
 						if (!response) {
 							//error
 >>>>>>> f8ee45a... Bug fixed,  worked on ticket #15221
@@ -308,29 +312,29 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 =======
 =======
 			var me = this;
+<<<<<<< HEAD
 >>>>>>> 38fed32... worked on ticket #15379, bug fixed, loading mask added
+=======
+			var calls = 0;
+>>>>>>> 79b552b... worked on ticket #15379, compression algorithm changed
 			var fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
 			(function recursive(url) {
+				calls++;
 				if (fileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
-					console.log("Trying to compress the image ...")
 					var img = new Image();
 					img.src = url;
 					img.onload = function() {
-						var quality = Math.max(1, 95);
-						url = me.compress(img, quality);
+						url = me.compress(img, Math.max(1, 100 - calls));
 						fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
-						console.log("Image compressed to 95% of its source quality! (Now: " + fileSize + " Bytes)");
 						recursive(url);
 					};
 				}
 				else {
-					console.log("Image was successfully compressed!");
 					callback(url);
 				}
 			})(url);
 		}
 		else {
-			console.log("Source image is already small enough!");
 			callback(url);
 		}
 /*
