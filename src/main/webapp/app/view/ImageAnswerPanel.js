@@ -279,7 +279,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 	miniaturClicked: function() {
 		console.log("miniatur clicked");
 		this.imageAnswerList.setCls("dataview-inline gallery-dataview");
-		this.imageAnswerList.setInline(true);
+		this.imageAnswerList.setInline({wrap:true});
 		this.imageAnswerList.setScrollable({direction:'vertical'});
 	},
 	horizontalListClicked: function() {
