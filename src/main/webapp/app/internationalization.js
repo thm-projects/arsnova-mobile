@@ -261,6 +261,8 @@ switch (lang) {
 			SHOW_FLASHCARD_ANSWER: "Antwort anzeigen",
 			HIDE_FLASHCARD_ANSWER: "Antwort ausblenden",
 			IMAGE_NEEDED: "Es wird ein Bild benötigt",
+			EXPECT_ANSWER_TEXT: "Wollen Sie einen Antwort- Text?",
+			COMPRESSING_MASK: "Ihr Bild wird komprimiert ...",
 			PICTURE_RIGHT_INFORMATION: ['Bitte beachten Sie, dass Sie keine Bilder verwenden für deren Verwendung Sie keine Rechte haben (Urheberrechtsgesetz) oder die pornografische oder volksverhetzende(§130 StGB) Inhalte bergen!\n',
 					'Antwort abschicken?'
 				].join('\n'),
@@ -486,7 +488,9 @@ switch (lang) {
 			EVALUATION_MINUS: "trifft eher nicht zu",
 			EVALUATION_MINUSMINUS: "trifft nicht zu",
 			IMAGE_QUESTION_LBL: "Antwort als Bild",
-			EXPECT_ANSWER_TEXT:"Wollen Sie einen Antworttext?",
+			IMAGE_QUESTION_MINIATUR_VIEW: "Miniaturen<br/>ansicht",
+			IMAGE_QUESTION_HORIZONTAL_VIEW: "Horizontale<br/>Liste",
+			IMAGE_QUESTION_VERTICAL_VIEW: "Vertikale<br/>Liste",
 
 			/* action buttons - <br/> forces line break for consistent look */
 			CREATE_NEW_SESSION: "Neue Session<br/>anlegen",
@@ -774,7 +778,9 @@ switch (lang) {
 			RESET_ALL_ANSWERS: "Reset all answers",
 			SHOW_FLASHCARD_ANSWER: "Show answer",
 			HIDE_FLASHCARD_ANSWER: "Hide answer",
+			COMPRESSING_MASK: "Your image will be compressed ...",
 			IMAGE_NEEDED: "An image is needed",
+			EXPECT_ANSWER_TEXT: "Do you also want a text?",
 
 			/* speaker */
 			LIVE_FEEDBACK: "Instant feedback",
@@ -1004,7 +1010,9 @@ switch (lang) {
 			EVALUATION_MINUS: "disagree",
 			EVALUATION_MINUSMINUS: "strongly disagree",
 			IMAGE_QUESTION_LBL: "Image as answer",
-			EXPECT_ANSWER_TEXT:"Do you also want a text?",
+			IMAGE_QUESTION_MINIATUR_VIEW: "miniature<br/>view",
+			IMAGE_QUESTION_HORIZONTAL_VIEW: "horizontal<br/>list",
+			IMAGE_QUESTION_VERTICAL_VIEW: "vertical<br/>list",
 
 			/* action buttons - <br/> forces line break for consistent look */
 			CREATE_NEW_SESSION: "Create new<br/>session",
