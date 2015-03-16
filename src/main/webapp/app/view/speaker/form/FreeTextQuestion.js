@@ -37,7 +37,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 			buttonConfig: 'togglefield',
 			style:'margin-top:-20px',
 			//would be displayed below the button
-			//text: Messages.IMAGE_ANSWER_LONG,
+			//text: Messages.IMAGE_QUESTION_LBL,
 			toggleConfig: {
 				scope: this,
 				label: false,
@@ -62,7 +62,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 
 		var answerFieldset = Ext.create('Ext.form.FieldSet', {
 			//displayed on-top of the button
-			title:Messages.IMAGE_ANSWER_LONG,
+			title:Messages.IMAGE_QUESTION_LBL,
 			style:'margin-top:45px;',
 			items:[this.imgUploadBtn]
 		});
