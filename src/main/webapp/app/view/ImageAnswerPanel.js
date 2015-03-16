@@ -96,6 +96,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			cls: 'actionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-horizontallist thm-grey',
+			imageStyle:'transform: rotateZ(90deg); -webkit-transform: rotateZ(90deg);',
 			scope:this,
 			handler: this.horizontalListClicked
 		});
@@ -105,7 +106,6 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			cls: 'actionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-horizontallist thm-grey',
-			imageStyle:'transform: rotateZ(90deg); -webkit-transform: rotateZ(90deg);',
 			scope:this,
 			handler: this.verticalListClicked
 		});
@@ -137,7 +137,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			height: '100%',
 			flex: 1,
 
-			cls: 'dataview-horizontal gallery-dataview',
+			cls: 'dataview-inline gallery-dataview',
 
 			itemCls: 'thumbnail-image',
 			itemTpl: [
@@ -146,6 +146,8 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 				'<span>{answerSubject:htmlEncode}</span>',
 				'</div>'
 			],
+			inline:true,
+			scrollable:true,
 			deferEmptyText: false,
 			emptyText: Messages.NO_ANSWERS,
 
