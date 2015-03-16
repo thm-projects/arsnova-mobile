@@ -106,6 +106,14 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			handler: this.sortTimeHandler
 		});
 
+		this.sortRandomButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: Messages.SORT_RANDOM,
+			cls: 'upperActionButtonCls',
+			buttonConfig: 'icon',
+			imageCls: 'icon-sort-random thm-grey',
+			handler: this.sortRandomHandler
+		});
+
 		this.actionButtonPanel = Ext.create('Ext.Panel', {
 			layout: {
 				type: 'hbox',
@@ -116,7 +124,8 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 
 			items: [
 				this.sortAlphabetButton,
-				this.sortTimeButton
+				this.sortTimeButton,
+				this.sortRandomButton
 			]
 		});
 
@@ -351,6 +360,16 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
 		panel.sortType = 'time';
 		panel.sortQuestions();
+	},
+	sortRandomHandler: function (button) {
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
+		panel.sortType = 'custom';
+		panel.questionStore.sort([{
+			sorterFn: function(a, b) {
+				return 0.5 - Math.random();
+			},
+			direction: 'ASC'
+		}]);
 	},
 	sortRevertHandler: function (button) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
