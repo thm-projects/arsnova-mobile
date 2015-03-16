@@ -300,7 +300,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 >>>>>>> 4f40083... fixed a compression bug (Björn Pfarr) on Dennis' Latop
 =======
 			var fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
-			function recursive(url) {
+			(function recursive(url) {
 				if (fileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
 					var img = new Image();
 					img.src = url;
