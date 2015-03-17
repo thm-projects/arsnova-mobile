@@ -90,16 +90,39 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 	display: inline-block;
 	position: relative;
 	margin: 8px;
+	transition: scale ease 0.25s;
+	-webkit-transition: scale ease 0.25s;
+	-o-transition: scale ease 0.25s;
+	-moz-transition: scale ease 0.25s;
+	-ms-transition: scale ease 0.25s;
 }
 
 .thumbnail-image .wrapper:hover {
 	transform:scale(1.1);
 }
 
+.thumbnail-image .wrapper-list {
+	width: 100%;
+	height: 100%;
+	display:inline-block;
+	position: relative;
+	margin-bottom: 25px;
+	overflow:hidden;
+}
+
 .thumbnail-image img {
 	display: inline-block;
 	border: 10px solid #fff;
 	border-bottom-width: 30px;
+}
+
+.thumbnail-image .image-list {
+	display:inline;
+	position:relative;
+	float:left;
+	margin-right:10px;
+	border-bottom-width: 10px;
+	border-right-width: 10000px;
 }
 
 .thumbnail-image span {
@@ -114,19 +137,29 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 	overflow: hidden;
 }
 
-.thumbnail-image span.answerSubject {
+.thumbnail-image span.answer-subject {
 	display: inline-block;
-	text-align: left;
-	position:relative;
+	text-align: center;
 	font-weight:bold;
-	width: 100%;
+	font-size:32px;
+	position: absolute;
+	top:50%;
+	width: auto !important;
+	height: auto !important;
+	margin-top: -40px;
+	margin-left:300px;
+	color: $thm-grey;
 }
 
-.thumbnail-image span.answerText {
+.thumbnail-image span.answer-text {
 	display: inline-block;
-	position:relative;
 	text-align: left;
-	width: 100%;
+	width: auto !important;
+	height: auto !important;
+	top: 50%;
+	font-size: 20px;
+	margin-left: 300px;
+	color: $thm-grey;
 }
 
 .gallery-dataview {
