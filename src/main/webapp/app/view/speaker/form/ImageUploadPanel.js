@@ -269,15 +269,13 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	tryToCompress: function(url, callback) {
 		if (!isNaN(ARSnova.app.globalConfig.maxUploadFilesize) && typeof ARSnova.app.globalConfig.maxUploadFilesize !== 'undefined') {
 			var me = this;
-			var calls = 0;
 			var fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
 			(function recursive(url) {
-				calls++;
 				if (fileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
 					var img = new Image();
 					img.src = url;
 					img.onload = function() {
-						url = me.compress(img, Math.max(1, 100 - calls));
+						url = me.compress(img, Math.max(1, 100 / (fileSize / ARSnova.app.globalConfig.maxUploadFilesize)));
 						fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
 						recursive(url);
 					};
