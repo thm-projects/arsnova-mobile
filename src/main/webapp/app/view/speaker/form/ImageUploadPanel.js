@@ -116,29 +116,54 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			width: showLongLabelsAndTemplate ? '25%' : '',
 			handler: this.toggleUploadTextfieldVisibility,
 			scope: this,
-			style: this.config.disableURLUpload ? 'width: 0%; margin: 0; padding: 0; border 0;' : ''
 		};
-		
-		this.segmentButton = Ext.create('Ext.SegmentedButton', {
-			allowDepress: false,
-			cls: !this.config.activateTemplates ? 'yesnoOptions' : 'abcOptions',
-			style: 'margin-top: 0px; margin-bottom: 0px;',
-			defaults: {
-				ui: 'action'
-			},
-			items: [this.webAdressButton, this.buttonUploadFromFS, {
-				text: showShortLabels ?
-				Messages.TEMPLATE :
-				Messages.TEMPLATE_FOR_MODERATION,
-				width: showLongLabelsAndTemplate ? '55%' : '',
-				hidden: !this.config.activateTemplates,
-				scope: this,
-				handler: function () {
-					var tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-					tabPanel.setActiveItem(this.gridMod);
-				}
-			}]
-		});
+
+		this.segmentButton = null;
+		if (this.config.disableURLUpload) {
+			this.segmentButton = Ext.create('Ext.SegmentedButton', {
+				allowDepress: false,
+				cls: !this.config.activateTemplates ? 'yesnoOptions' : 'abcOptions',
+				style: 'margin-top: 0px; margin-bottom: 0px;',
+				defaults: {
+					ui: 'action'
+				},
+				items: [this.buttonUploadFromFS, {
+					text: showShortLabels ?
+					Messages.TEMPLATE :
+					Messages.TEMPLATE_FOR_MODERATION,
+					width: showLongLabelsAndTemplate ? '55%' : '',
+					hidden: !this.config.activateTemplates,
+					scope: this,
+					handler: function () {
+						var tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+						tabPanel.setActiveItem(this.gridMod);
+					}
+				}]
+			});
+		}
+		else {
+			this.segmentButton = Ext.create('Ext.SegmentedButton', {
+				allowDepress: false,
+				cls: !this.config.activateTemplates ? 'yesnoOptions' : 'abcOptions',
+				style: 'margin-top: 0px; margin-bottom: 0px;',
+				defaults: {
+					ui: 'action'
+				},
+				items: [this.webAdressButton, this.buttonUploadFromFS, {
+					text: showShortLabels ?
+					Messages.TEMPLATE :
+					Messages.TEMPLATE_FOR_MODERATION,
+					width: showLongLabelsAndTemplate ? '55%' : '',
+					hidden: !this.config.activateTemplates,
+					scope: this,
+					handler: function () {
+						var tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+						tabPanel.setActiveItem(this.gridMod);
+					}
+				}]
+			});
+		}
+
 
 		this.uploadTextfield = Ext.create('Ext.form.Text', {
 			label: Messages.SELECT_PICTURE_FS,
