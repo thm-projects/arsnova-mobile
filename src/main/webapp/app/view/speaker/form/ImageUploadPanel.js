@@ -343,18 +343,20 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 =======
 			var me = this;
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 38fed32... worked on ticket #15379, bug fixed, loading mask added
 =======
 			var calls = 0;
 >>>>>>> 79b552b... worked on ticket #15379, compression algorithm changed
+=======
+>>>>>>> e9cbbd0... worked on ticket #15438
 			var fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
 			(function recursive(url) {
-				calls++;
 				if (fileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
 					var img = new Image();
 					img.src = url;
 					img.onload = function() {
-						url = me.compress(img, Math.max(1, 100 - calls));
+						url = me.compress(img, Math.max(1, 100 / (fileSize / ARSnova.app.globalConfig.maxUploadFilesize)));
 						fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
 						recursive(url);
 					};
