@@ -37,7 +37,8 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		fsUploadHandler: Ext.emptyFn,
 		toggleUrl: true,
 		gridMod: null,
-		templateHandler: Ext.emptyFn
+		templateHandler: Ext.emptyFn,
+		disableURLUpload: false
 	},
 
 	initialize: function () {
@@ -62,6 +63,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			autoUpload: true,
 			loadAsDataUrl: true,
 			width: showLongLabelsAndTemplate ? '20%' : '',
+			style: this.config.disableURLUpload ? 'margin: 0 auto 0 auto; border-radius:5px;' : '',
 			states: {
 				browse: {
 					text: showShortLabels ?
@@ -107,21 +109,26 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			loadfailure: 'onFileLoadFailure'
 		});
 
-		this.segmentButton = Ext.create('Ext.SegmentedButton', {
+		this.webAdressButton = {
+			text: showShortLabels ?
+			Messages.SELECT_PICTURE_URL_SHORT :
+			Messages.SELECT_PICTURE_URL,
+			width: showLongLabelsAndTemplate ? '25%' : '',
+			handler: this.toggleUploadTextfieldVisibility,
+			scope: this,
+			style: this.config.disableURLUpload ? 'width: 0%; margin: 0; padding: 0; border 0;' : ''
+		};
+
+		console.log("asd: " + this.config.disableURLUpload);
+
+		this.segmentButton = Ext.create('Ext.SegmentedButton', { //HIER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			allowDepress: false,
 			cls: !this.config.activateTemplates ? 'yesnoOptions' : 'abcOptions',
 			style: 'margin-top: 0px; margin-bottom: 0px;',
 			defaults: {
 				ui: 'action'
 			},
-			items: [{
-				text: showShortLabels ?
-				Messages.SELECT_PICTURE_URL_SHORT :
-				Messages.SELECT_PICTURE_URL,
-				width: showLongLabelsAndTemplate ? '25%' : '',
-				handler: this.toggleUploadTextfieldVisibility,
-				scope: this
-			}, this.buttonUploadFromFS, {
+			items: [this.webAdressButton, this.buttonUploadFromFS, {
 				text: showShortLabels ?
 				Messages.TEMPLATE :
 				Messages.TEMPLATE_FOR_MODERATION,
