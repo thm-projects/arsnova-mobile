@@ -30,12 +30,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 		 */
 		checkFreetextAnswersTask: null,
 
-		freetextAnswerStore: null,
-
-		scrollable: {
-			direction: 'vertical',
-			directionLock: true
-		}
+		freetextAnswerStore: null
 	},
 		//flag for vertical or horizontal list
 	isVertical: false,
@@ -172,7 +167,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 				}
 			),
 			inline:true,
-			scrollable:null,
+			scrollable:'vertical',
 			deferEmptyText: false,
 			emptyText: Messages.NO_ANSWERS,
 			listeners: {
