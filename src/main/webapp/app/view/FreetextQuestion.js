@@ -93,7 +93,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			activateTemplates: false,
 			urlUploadHandler: this.setImage,
 			fsUploadHandler: this.setImage,
-			style: 'margin-bottom: 30px'
+			style: 'margin-bottom: 30px',
+			disableURLUpload: true
 		});
 
 <<<<<<< HEAD
