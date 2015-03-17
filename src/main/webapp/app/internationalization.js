@@ -261,7 +261,7 @@ switch (lang) {
 			SHOW_FLASHCARD_ANSWER: "Antwort anzeigen",
 			HIDE_FLASHCARD_ANSWER: "Antwort ausblenden",
 			IMAGE_NEEDED: "Es wird ein Bild benötigt",
-			EXPECT_ANSWER_TEXT: "Wollen Sie einen Antwort- Text?",
+			EXPECT_ANSWER_TEXT: "Wollen Sie einen Text als Antwort verbieten?",
 			COMPRESSING_MASK: "Ihr Bild wird komprimiert ...",
 			PICTURE_RIGHT_INFORMATION: ['Bitte beachten Sie, dass Sie keine Bilder verwenden für deren Verwendung Sie keine Rechte haben (Urheberrechtsgesetz) oder die pornografische oder volksverhetzende(§130 StGB) Inhalte bergen!\n',
 					'Antwort abschicken?'
@@ -780,7 +780,7 @@ switch (lang) {
 			HIDE_FLASHCARD_ANSWER: "Hide answer",
 			COMPRESSING_MASK: "Your image will be compressed ...",
 			IMAGE_NEEDED: "An image is needed",
-			EXPECT_ANSWER_TEXT: "Do you also want a text?",
+			EXPECT_ANSWER_TEXT: "Do you want to forbid text answers?",
 
 			/* speaker */
 			LIVE_FEEDBACK: "Instant feedback",

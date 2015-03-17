@@ -28,7 +28,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 				cls:'centerFormTitle'
 	},
 	imageQuestion: false,
-	textAnswerEnabled: false,
+	textAnswerEnabled: true,
 	initialize: function () {
 		this.callParent(arguments);
 		var me = this;
@@ -39,8 +39,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 			style:'margin-top:-20px',
 			toggleConfig: {
 				scope: this,
-				label: true,
-				value: 0,
+				value: true,
 				listeners: {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
@@ -49,15 +48,6 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 					}
 				}
 			}
-		});
-
-		var wantText = Ext.create('Ext.Panel', {
-			scrollable: null,
-			layout: {
-				type:'hbox',
-				pack:'center'
-			},
-			items: [this.expectAnswerText]
 		});
 
 		this.textAnswerFieldSet = Ext.create('Ext.form.FieldSet', {
@@ -91,14 +81,6 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 			}
 		});
 
-		var answerOptions = Ext.create('Ext.Panel', {
-			scrollable: null,
-			layout: {
-				type:'hbox',
-				pack:'center'
-			},
-			items: [this.imgUploadBtn]
-		});
 
 		var answerFieldset = Ext.create('Ext.form.FieldSet', {
 			//displayed on-top of the button
