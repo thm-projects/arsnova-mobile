@@ -98,7 +98,11 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 }
 
 .thumbnail-image .wrapper:hover {
-	transform:scale(1.1);
+	transform: scale(1.1);
+	-webkit-transform: scale(1.1);
+	-o-transition: scale(1.1);
+	-moz-transition: scale(1.1);
+	-ms-transition: scale(1.1);
 }
 
 .thumbnail-image .wrapper-list {
