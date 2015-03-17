@@ -372,8 +372,9 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		this.mask(this.customMask);
 	},
 
-	setAnswerText: function (subject, answer) {
+	setAnswerText: function (subject, answer, answerThumbnailImage) {
 		this.answerSubject.setValue(subject);
 		this.answerText.setValue(answer);
+		this.setImage(answerThumbnailImage);
 	}
 });
