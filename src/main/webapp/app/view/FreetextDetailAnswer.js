@@ -80,6 +80,24 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 
 		var image = null;
 
+		function switchToFullScreen() {
+				if (image !== null) {
+					var img = document.getElementById("img").querySelector("canvas");
+					if (img.requestFullscreen) {
+						img.requestFullscreen();
+					}
+					else if (img.msRequestFullscreen) {
+						img.msRequestFullscreen();
+					}
+					else if (img.mozRequestFullScreen) {
+						img.mozRequestFullScreen();
+					}
+					else if (img.webkitRequestFullscreen) {
+						img.webkitRequestFullscreen();
+					}
+				}
+		}
+
 		var imgContainer = Ext.create('ARSnova.view.components.GridImageContainer', {
 			id: 'img',
 			hidden: 'true',
@@ -87,15 +105,11 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			editable: false,
 			listeners: {
 		    tap: {
-	        fn: function() {
-						alert("OK");
-					},
+	        fn: switchToFullScreen,
 	        element: 'element'
 		    },
 				click: {
-	        fn: function() {
-						alert("OK");
-					},
+	        fn: switchToFullScreen,
 	        element: 'element'
 		    }
 			}
