@@ -158,10 +158,8 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			scope: this,
 			style: this.config.disableURLUpload ? 'width: 0%; margin: 0; padding: 0; border 0;' : ''
 		};
-
-		console.log("asd: " + this.config.disableURLUpload);
-
-		this.segmentButton = Ext.create('Ext.SegmentedButton', { //HIER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		
+		this.segmentButton = Ext.create('Ext.SegmentedButton', {
 			allowDepress: false,
 			cls: !this.config.activateTemplates ? 'yesnoOptions' : 'abcOptions',
 			style: 'margin-top: 0px; margin-bottom: 0px;',
@@ -344,6 +342,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		else {
 			callback(url);
 		}
+<<<<<<< HEAD
 /*
 >>>>>>> de2c6da... worked on ticket #15379, implemented a better compression algorithm
 			if (fileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
@@ -374,6 +373,8 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		else {
 			callback(false);
 		}*/
+=======
+>>>>>>> 75d7b95... modified uploadPanel so that URLUpload is only shown when needed #15431
 	},
 
 	checkFilesize: function (url) {
