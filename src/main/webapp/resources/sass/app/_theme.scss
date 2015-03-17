@@ -90,11 +90,11 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 	display: inline-block;
 	position: relative;
 	margin: 8px;
-	transition: scale ease 0.25s;
-	-webkit-transition: scale ease 0.25s;
-	-o-transition: scale ease 0.25s;
-	-moz-transition: scale ease 0.25s;
-	-ms-transition: scale ease 0.25s;
+	transition: 0.25s;
+	-webkit-transition: 0.25s;
+	-o-transition: 0.25s;
+	-moz-transition: 0.25s;
+	-ms-transition: 0.25s;
 }
 
 .thumbnail-image .wrapper:hover {
