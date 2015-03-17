@@ -183,6 +183,16 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 		panel.sortType = 'time';
 		panel.sortQuestions();
 	},
+	sortRandomHandler: function (button) {
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel;
+		panel.sortType = 'custom';
+		panel.questionStore.sort([{
+			sorterFn: function(a, b) {
+				return 0.5 - Math.random();
+			},
+			direction: 'ASC'
+		}]);
+	},
 	sortRevertHandler: function (button) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel;
 		panel.sortType = panel.sortTypeBackup;
