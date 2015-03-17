@@ -78,14 +78,30 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
 		questionPanel.setContent(questionString, true, true);
 
+		var image = null;
+
 		var imgContainer = Ext.create('ARSnova.view.components.GridImageContainer', {
 			id: 'img',
 			hidden: 'true',
 			gridIsHidden: true,
 			editable: false,
+			listeners: {
+		    tap: {
+	        fn: function() {
+						alert("OK");
+					},
+	        element: 'element'
+		    },
+				click: {
+	        fn: function() {
+						alert("OK");
+					},
+	        element: 'element'
+		    }
+			}
 		});
 
-		var image = null;
+
 
 		ARSnova.app.questionModel.getImageAnswerImage(self.answer.questionId, self.answer._id, {
 			success: function(response) {
