@@ -118,10 +118,8 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			scope: this,
 			style: this.config.disableURLUpload ? 'width: 0%; margin: 0; padding: 0; border 0;' : ''
 		};
-
-		console.log("asd: " + this.config.disableURLUpload);
-
-		this.segmentButton = Ext.create('Ext.SegmentedButton', { //HIER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		
+		this.segmentButton = Ext.create('Ext.SegmentedButton', {
 			allowDepress: false,
 			cls: !this.config.activateTemplates ? 'yesnoOptions' : 'abcOptions',
 			style: 'margin-top: 0px; margin-bottom: 0px;',
@@ -267,24 +265,6 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		else {
 			callback(url);
 		}
-/*
-			if (fileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
-				var img = new Image();
-				img.src = url;
-				var me = this;
-				img.onload = function() {
-					var quality = Math.max(1, 100.0 / (fileSize / ARSnova.app.globalConfig.maxUploadFilesize));
-					url = me.compress(img, quality);
-					callback(url);
-				};
-			}
-			else {
-				callback(url);
-			}
-		}
-		else {
-			callback(false);
-		}*/
 	},
 
 	checkFilesize: function (url) {
