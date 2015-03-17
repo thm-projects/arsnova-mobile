@@ -78,14 +78,44 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
 		questionPanel.setContent(questionString, true, true);
 
+		var image = null;
+
+		function switchToFullScreen() {
+				if (image !== null) {
+					var img = document.getElementById("img").querySelector("canvas");
+					if (img.requestFullscreen) {
+						img.requestFullscreen();
+					}
+					else if (img.msRequestFullscreen) {
+						img.msRequestFullscreen();
+					}
+					else if (img.mozRequestFullScreen) {
+						img.mozRequestFullScreen();
+					}
+					else if (img.webkitRequestFullscreen) {
+						img.webkitRequestFullscreen();
+					}
+				}
+		}
+
 		var imgContainer = Ext.create('ARSnova.view.components.GridImageContainer', {
 			id: 'img',
 			hidden: 'true',
 			gridIsHidden: true,
 			editable: false,
+			listeners: {
+		    tap: {
+	        fn: switchToFullScreen,
+	        element: 'element'
+		    },
+				click: {
+	        fn: switchToFullScreen,
+	        element: 'element'
+		    }
+			}
 		});
 
-		var image = null;
+
 
 		ARSnova.app.questionModel.getImageAnswerImage(self.answer.questionId, self.answer._id, {
 			success: function(response) {
