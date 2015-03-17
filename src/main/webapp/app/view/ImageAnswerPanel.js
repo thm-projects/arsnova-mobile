@@ -32,7 +32,10 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 
 		freetextAnswerStore: null
 	},
+		//flag for vertical or horizontal list
+	isVertical: false,
 	constructor: function (args) {
+		var me = this;
 		this.callParent(arguments);
 
 		this.questionObj = args.question;
@@ -96,6 +99,9 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			cls: 'actionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-horizontallist thm-grey',
+			imageStyle:'transform: rotateZ(90deg);'+
+									'-webkit-transform: rotateZ(90deg);'+
+									'margin-top:20px;',
 			scope:this,
 			handler: this.horizontalListClicked
 		});
@@ -105,7 +111,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			cls: 'actionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-horizontallist thm-grey',
-			imageStyle:'transform: rotateZ(90deg); -webkit-transform: rotateZ(90deg);',
+			imageStyle:'margin-top:14px;',
 			scope:this,
 			handler: this.verticalListClicked
 		});
@@ -137,18 +143,33 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			height: '100%',
 			flex: 1,
 
-			cls: 'dataview-horizontal gallery-dataview',
+			cls: 'dataview-inline gallery-dataview',
 
 			itemCls: 'thumbnail-image',
-			itemTpl: [
-				'<div class="wrapper">',
-				'<img src="{answerThumbnailImage}"/>',
-				'<span>{answerSubject:htmlEncode}</span>',
-				'</div>'
-			],
+			itemTpl: new Ext.XTemplate(
+				'<tpl if="this.isVertical() === false">',
+					'<div class="wrapper">',
+						'<img src="{answerThumbnailImage}"/>',
+						'<span>{answerSubject:htmlEncode}</span>',
+					'</div>',
+				'</tpl>',
+				'<tpl if="this.isVertical() === true">',
+					'<div class="wrapper">',
+						'<img src="{answerThumbnailImage}"/>',
+						'<span class="answerSubject">{answerSubject:htmlEncode}</span>',
+						'<span class="answerText">{answerText:htmlEncode}</span>',
+					'</div>',
+				'</tpl>',
+				 {
+						isVertical: function() {
+							return me.isVertical;
+						}
+				}
+			),
+			inline:true,
+			scrollable:true,
 			deferEmptyText: false,
 			emptyText: Messages.NO_ANSWERS,
-
 			listeners: {
 				itemtap: function (list, index, element) {
 					var answer = list.getStore().getAt(index).data;
@@ -274,8 +295,11 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 	miniaturClicked: function() {
 		console.log("miniatur clicked");
 		this.imageAnswerList.setCls("dataview-inline gallery-dataview");
-		this.imageAnswerList.setInline(true);
-		this.imageAnswerList.setScrollable(true);
+		this.imageAnswerList.setInline({wrap:true});
+		this.imageAnswerList.setScrollable({direction:'vertical'});
+
+		this.isVertical = false;
+		this.imageAnswerList.refresh();
 	},
 	horizontalListClicked: function() {
 		console.log("horizontal clicked");
@@ -283,10 +307,15 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 		this.imageAnswerList.setInline({wrap: false});
 		this.imageAnswerList.setScrollable('horizontal');
 
+		this.isVertical = false;
+		this.imageAnswerList.refresh();
 	},
 	verticalListClicked: function() {
 		console.log("vertical clicked");
 		this.imageAnswerList.setCls("dataview-basic gallery-dataview");
 		this.imageAnswerList.setScrollable({direction:'vertical'});
+
+		this.isVertical = true;
+		this.imageAnswerList.refresh();
 	}
 });
