@@ -70,24 +70,8 @@ Ext.define('ARSnova.model.Question', {
 			'gridType',
 			'scaleFactor',
 			'gridScaleFactor',
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-			'imageQuestion'
-=======
-			'isImageQuestion'
->>>>>>> 0046bf4... Added field for imagequestions. #15217
-=======
-			//'isImageQuestion'
->>>>>>> 10408ee... Fixed bug by removing the isImageQUestion-Field from the model. #15238
-=======
-			'imageQuestion'
->>>>>>> 34cbe25... added new field to model #15268
-=======
 			'imageQuestion',
 			'textAnswerEnabled'
->>>>>>> 25ce6bf... Simon added toggle button disabling freetext answer test #15377
 		],
 
 		validations: [

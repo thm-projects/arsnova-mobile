@@ -523,21 +523,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			case Messages.FREETEXT_LONG:
 				values.questionType = "freetext";
 				values.possibleAnswers = [];
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 				Ext.apply(values, panel.freetextQuestion.getQuestionValues());
 				break;
-=======
->>>>>>> 886eb60... worked on ticket #15230 with Dennis Schönhof
-
-=======
->>>>>>> 04f003f... Added condition for isImageQuestion-test. #15217
-=======
-				Ext.apply(values, panel.freetextQuestion.getQuestionValues());
->>>>>>> dea8be2... Added handler for saving imagequestions. #15217
-				break;
-
 			case Messages.FLASHCARD:
 			case Messages.FLASHCARD_SHORT:
 				values.questionType = "flashcard";

@@ -77,16 +77,9 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			maxRows: 7
 		});
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> a6411e3... added upload button #15218
-=======
+
 		this.answerText.setHidden(!this.questionObj.textAnswerEnabled);
 
->>>>>>> 25ce6bf... Simon added toggle button disabling freetext answer test #15377
 		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
 			handlerScope: this,
 			addRemoveButton: true,
@@ -97,18 +90,10 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			disableURLUpload: true
 		});
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 7f99aed... disabled image upload view #15323
 		if(!this.questionObj.imageQuestion) {
 			this.uploadView.hide();
 		}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 8341fdb... disabled image upload view #15323
-=======
 		this.needImageLabel = Ext.create('Ext.Label', {
 			html: Messages.IMAGE_NEEDED,
 			style: "width: 100%; text-align: center;",
@@ -127,11 +112,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			style: "margin-top: 5px;"
 		});
 
->>>>>>> 1e36745... added image preview #15236
-=======
->>>>>>> a6411e3... added upload button #15218
-=======
->>>>>>> 7f99aed... disabled image upload view #15323
 		// Setup question title and text to disply in the same field; markdown handles HTML encoding
 		var questionString = this.questionObj.subject.replace(/\./, "\\.")
 			+ '\n\n' // inserts one blank line between subject and text
@@ -181,15 +161,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					submitOnAction: false,
 					items: [questionPanel, this.viewOnly ? {} : {
 						xtype: 'fieldset',
-<<<<<<< HEAD
-<<<<<<< HEAD
-						items: [this.answerSubject, this.answerText]
-=======
 						items: [this.answerSubject, this.answerText, this.uploadView, this.gridQuestion, this.needImageLabel]
->>>>>>> 1e36745... added image preview #15236
-=======
-						items: [this.answerSubject, this.answerText, this.uploadView]
->>>>>>> a6411e3... added upload button #15218
 					},
 					this.buttonContainer]
 				}]
@@ -209,10 +181,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	},
 
 	setImage: function(image) {
-<<<<<<< HEAD
-<<<<<<< HEAD
 		this.answerImage = image;
-<<<<<<< HEAD
 		this.gridQuestion.setImage(image);
 		var self = this;
 		if(this.answerImage) {
@@ -230,19 +199,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	setGridConfiguration: function(image){
 		this.gridQuestion.setEditable(false);
 		this.gridQuestion.setGridIsHidden(true);
-<<<<<<< HEAD
-=======
->>>>>>> de6724e... worked on ticket #15221
-=======
->>>>>>> 7d44dcf... force merge
-=======
->>>>>>> 886eb60... worked on ticket #15230 with Dennis Schönhof
-=======
-		this.answerImage = jic.compress(image, 10, "jpg");
->>>>>>> 2f4f943... worked on ticket #15221, added JIC library
-=======
-		this.answerImage = image;
->>>>>>> 0241e98... worked on ticket #15221
 	},
 
 	getQuestionTypeMessage: function (msgAppendix) {
@@ -288,14 +244,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			return;
 		}
 
-<<<<<<< HEAD
-		Ext.Msg.confirm('', Messages.PICTURE_RIGHT_INFORMATION, function (button) {
-			if (button === "yes") {
-				this.storeAnswer();
-				this.buttonContainer.setHidden(true);
-			}
-		}, this);
-=======
 		if(this.questionObj.imageQuestion) {
 			Ext.Msg.confirm('', Messages.PICTURE_RIGHT_INFORMATION, function (button) {
 				if (button === "yes") {
@@ -311,7 +259,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				}
 			}, this);
 		}
->>>>>>> 2a78f88... Added Image view to Image Answer Details #15359
 	},
 
 	statisticButtonHandler: function (scope) {
@@ -339,23 +286,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	selectAbstentionAnswer: function () {},
 
 	isEmptyAnswer: function () {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || (!this.answerImage && this.questionObj.imageQuestion);
-=======
-		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || !answerImage;
->>>>>>> 530b3e3... worked on ticket #15219 with Jan Sladek
-=======
-		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || !this.answerImage;
->>>>>>> 499d4ca... worked on ticket #15219 with Jan Sladek
-=======
-		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "" || (!this.answerImage && this.questionObj.imageQuestion);
->>>>>>> 7f99aed... disabled image upload view #15323
-=======
-		return this.answerSubject.getValue().trim() === "" || (this.answerText.getValue().trim() === "" && this.questionObj.textAnswerEnabled) || (!this.answerImage && this.questionObj.imageQuestion);
->>>>>>> 25ce6bf... Simon added toggle button disabling freetext answer test #15377
+        return this.answerSubject.getValue().trim() === "" || (this.answerText.getValue().trim() === "" && this.questionObj.textAnswerEnabled) || (!this.answerImage && this.questionObj.imageQuestion);
 	},
 
 	saveAnswer: function (answer) {
