@@ -35,7 +35,7 @@
  * Note: You must have infinite set to 'true' when using the SortableList plugin.
  *
  */
-Ext.define('Ext.plugin.SortableListExtended', {
+Ext.define('ARSnova.view.speaker.SortableListExtended', {
 	extend: 'Ext.Component',
 
 	alias: 'plugin.sortablelistextended',
@@ -154,9 +154,7 @@ Ext.define('Ext.plugin.SortableListExtended', {
 					}
 
 					swapPosition = positionMap.map[swapIndex];
-console.log(swapPosition);
 					item.translate(0, swapPosition);
-console.log(item);
 					record = item.getRecord();
 					swapKey = collection.getKey(record);
 

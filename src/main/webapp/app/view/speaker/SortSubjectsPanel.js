@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 
 	requires: [
 		'ARSnova.model.Question',
-		'Ext.plugin.SortableListExtended'
+		'ARSnova.view.speaker.SortableListExtended'
 	],
 
 	config: {
