@@ -399,7 +399,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			case 'time':
 				panel.questionStore.sort([
 					{
-						property : '_id',
+						property : 'timestamp',
 						direction: 'ASC'
 					}
 				]);
