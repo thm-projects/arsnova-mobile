@@ -766,6 +766,7 @@
 				SORT_QUESTIONS: "Sort<br/>questions",
 				SORT_ALPHABET: "Alphabetic<br/>sort",
 				SORT_TIME: "Time<br/>sort",
+				SORT_RANDOM: "Random<br/>sort",
 				SORT_REVERT: "Revert<br/>changes",
 
 				/* user */
