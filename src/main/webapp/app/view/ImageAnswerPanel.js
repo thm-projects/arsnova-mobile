@@ -99,7 +99,6 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			cls: 'actionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-vertical-list thm-grey',
-			//imageStyle:'margin-top:20px;',
 			scope:this,
 			handler: this.horizontalListClicked
 		});
@@ -109,7 +108,8 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			cls: 'actionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-horizontal-list thm-grey',
-			imageStyle:'margin-top:14px;',
+			imageStyle:'margin-top:15px;'+
+									'margin-left: 18px;',
 			scope:this,
 			handler: this.verticalListClicked
 		});
@@ -204,7 +204,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 
 		this.on('activate', function () {
 			ARSnova.app.innerScrollPanel = this.imageAnswerList;
-			ARSnova.app.taskManager.start(this.checkFreetextAnswersTask);
+			ARSnova.app.taskManager.start(this.checkFreetextAnswersTask);			
 		}, this);
 
 		this.on('deactivate', function () {
