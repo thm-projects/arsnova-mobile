@@ -44,8 +44,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 	questions: null,
 	newQuestionButton: null,
-	
-	sortQuestionButton: null,
 
 	questionStore: null,
 	questionEntries: [],
@@ -230,15 +228,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				}, this);
 			}
 		});
-		
-		this.sortQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: 'Fragen sortieren',//Messages.SORT_QUESTIONS,
-			buttonConfig: 'icon',
-			cls: upperActionButtonCls,
-			imageCls: 'list thm-grey',
-			hidden: true,
-			handler: this.sortQuestionHandler
-		});
 
 		this.inClassActions = Ext.create('Ext.Panel', {
 			style: {marginTop: '20px'},
@@ -248,7 +237,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			},
 
 			items: [
-			    this.sortQuestionButton,
 				this.deleteAnswersButton,
 				this.deleteQuestionsButton
 			]
@@ -308,12 +296,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 					this.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE_PLURAL);
 					this.questionStatusButton.setMultiQuestionMode();
 				}
-				
-				if (questions.length > 1) {
-					this.sortQuestionButton.show();
-				} else {
-					this.sortQuestionButton.hide();
-				}
 
 				this.showcaseActionButton.show();
 				this.questionListContainer.show();
@@ -334,14 +316,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				console.log('server-side error questionModel.getSkillQuestions');
 			}
 		});
-	},
-	
-	sortQuestionHandler: function () {
-		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-		sTP.animateActiveItem(sTP.sortQuestionPanel, 'slide');
-		
-		//var sortQuestionPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionPanel;
-		//console.log("klick "+sortQuestionPanel );
 	},
 
 	onDeactivate: function () {

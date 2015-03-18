@@ -151,6 +151,41 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 					placeHolder: Messages.SESSION_SHORT_NAME_PLACEHOLDER,
 					maxLength: 8,
 					clearIcon: true
+				},{
+					xtype: 'textfield',
+					name: 'ppAuthorName',
+					label: "Name des Dozenten",
+					placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+					maxLength: 50,
+					clearIcon: true
+				},{
+					xtype: 'textfield',
+					name: 'ppAuthorMail',
+					label: "Email",
+					placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+					maxLength: 50,
+					clearIcon: true
+				},{
+					xtype: 'textfield',
+					name: 'ppUniversity',
+					label: "Hochschule",
+					placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+					maxLength: 50,
+					clearIcon: true
+				},{
+					xtype: 'textfield',
+					name: 'ppFaculty',
+					label: "Fachbereich",
+					placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+					maxLength: 50,
+					clearIcon: true
+				},{
+					xtype: 'textfield',
+					name: 'ppLicense',
+					label: "Lizenz",
+					placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+					maxLength: 50,
+					clearIcon: true
 				}]
 			}, this.submitButton, this.coursesFieldset]
 		}]);
@@ -180,6 +215,11 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		ARSnova.app.getController('Sessions').create({
 			name: values.name,
 			shortName: values.shortName,
+			ppAuthorName: values.ppAuthorName,
+			ppAuthorMail: values.ppAuthorMail,
+			ppUniversity: values.ppUniversity,
+			ppFaculty: values.ppFaculty,
+			ppLicense: values.ppLicense,
 			newSessionPanel: panel,
 			creationTime: Date.now()
 		});
@@ -201,6 +241,11 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		ARSnova.app.getController('Sessions').create({
 			name: course.get('fullname'),
 			shortName: shortName,
+			ppAuthorName: course.get('ppAuthorName'),
+			ppAuthorMail: course.get('ppAuthorMail'),
+			ppUniversity: curse.get('ppUniversity'),
+			ppFaculty: course.get('ppFaculty'),
+			ppLicense: course.get('ppLicense'),
 			courseId: course.get('id'),
 			courseType: course.get('type'),
 			newSessionPanel: panel

@@ -125,11 +125,12 @@ Ext.define('ARSnova.view.RolePanel', {
 			style: 'margin-top: 15px',
 			items: [{
 				xtype: 'matrixbutton',
-				text: Messages.INFO,
+				text: Messages.ABOUT,
 				imageCls: "icon-book",
 				handler: function () {
-					var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
-					tabPanel.setActiveItem(tabPanel.infoTabPanel);
+					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(
+							ARSnova.app.mainTabPanel.tabPanel.aboutUniTabPanel, 'slide'
+						);
 				}
 			}]
 		}]);
