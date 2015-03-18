@@ -24,36 +24,32 @@
 	var ua = navigator.userAgent.toLowerCase();
 	var isAndroid = ua.indexOf("android") > -1;
 	var isChrome = ua.indexOf("chrome") > -1;
-	var prefLang;
 	var lang;
 	var Messages;
 
-	if (isAndroid && !isChrome) {
-		if (navigator && navigator.userAgent && (lang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {
-			lang = lang[1];
-		}
-	} else {
-		lang = navigator.language;
-	}
-
 	try {
-		prefLang = localStorage.getItem("language");
-	} catch (e) {
-		prefLang = null;
+		lang = localStorage.getItem("language");
+	} catch (e) {}
+
+	if (!lang && isAndroid && !isChrome && navigator.userAgent &&
+			(lang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {
+		lang = lang[1];
+	} else {
+		/* navigator.languages is preferred since navigator.language stores the UI
+		 * language instead of the user preference in some browsers. */
+		lang = navigator.languages && navigator.languages.length > 0 ?
+			navigator.languages[0] :
+			navigator.language;
 	}
 
-	if (prefLang !== null) {
-		lang = prefLang;
-	}
-
-	if (lang != null) {
-		lang = lang.toLowerCase();
+	if (lang) {
+		lang = lang.substr(0, 2).toLowerCase();
 	}
 
 	var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
 	switch (lang) {
-		case 'de': case 'de-de':
+		case 'de':
 			moment.lang('de');
 			Messages = {
 				PRIVACY_MODE_WARNING_TITLE: "Privater Modus",
@@ -569,9 +565,6 @@
 			break;
 
 		case 'en':
-		case 'en-en':
-		case 'en-us':
-		case 'en-gb':
 			/* falls through */
 		default:
 			moment.lang('en');
