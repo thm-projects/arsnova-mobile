@@ -203,7 +203,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				clearIcon: true
 			},{
 				xtype: 'textareafield',
-				name: 'description',
+				name: 'ppDescription',
 				label: "Beschreibung",
 				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
 				maxLength: 150,

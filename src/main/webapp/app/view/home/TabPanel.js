@@ -24,8 +24,8 @@ Ext.define('ARSnova.view.home.TabPanel', {
 		'ARSnova.view.home.HomePanel',
 		'ARSnova.view.home.MySessionsPanel',
 		'ARSnova.view.home.NewSessionPanel',
-		'ARSnova.view.home.SessionInfoPanel',
-		'ARSnova.view.home.SessionInfoEditPanel'
+        'ARSnova.view.home.SessionInfoPanel',
+        'ARSnova.view.home.SessionInfoEditPanel'
 	],
 
 	config: {
@@ -41,15 +41,15 @@ Ext.define('ARSnova.view.home.TabPanel', {
 		this.homePanel = Ext.create('ARSnova.view.home.HomePanel');
 		this.mySessionsPanel = Ext.create('ARSnova.view.home.MySessionsPanel');
 		this.newSessionPanel = Ext.create('ARSnova.view.home.NewSessionPanel');
-		this.sessionInfoPanel = Ext.create('ARSnova.view.home.SessionInfoPanel');
-		this.sessionInfoEditPanel = Ext.create('ARSnova.view.home.SessionInfoEditPanel');
+        this.sessionInfoPanel = Ext.create('ARSnova.view.home.SessionInfoPanel');
+        this.sessionInfoEditPanel = Ext.create('ARSnova.view.home.SessionInfoEditPanel');
 
 		this.add([
 			this.homePanel,
 			this.mySessionsPanel,
 			this.newSessionPanel,
-			this.sessionInfoPanel,
-			this.sessionInfoEditPanel
+            this.sessionInfoPanel,
+            this.sessionInfoEditPanel
 		]);
 	}
 });

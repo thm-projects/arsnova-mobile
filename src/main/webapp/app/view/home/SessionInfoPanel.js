@@ -83,11 +83,14 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
 			handler : function () {
-					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				hTP.animateActiveItem(hTP.sessionInfoEditPanel, {
-					type : 'slide',
-					direction : 'left',
-					duration : 700
+				// change to session info panel
+				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+				var sessionInfoPanel = Ext.create('ARSnova.view.home.SessionInfoEditPanel');
+
+				hTP.animateActiveItem(sessionInfoPanel, {
+					type: 'slide',
+					direction: 'left',
+					duration: 700
 				});
 			}
 		});
@@ -101,22 +104,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				         this.editButton]
 			});
 		
-		this.infoFormName = Ext.create('Ext.form.FieldSet', {
-			title: 'Allgemein',
-			items: [{
-				xtype: 'textfield',
-				name: 'name',
-				label: "Name",
-				disabled: true,
-				value: localStorage.getItem('name')
-			},{
-				xtype: 'textfield',
-				name: 'shortName',
-				label: "Kürzel",
-				disabled: true,
-				value: localStorage.getItem('shortName')
-			}]
-		});
 		
 		this.infoFormCreator = Ext.create('Ext.form.FieldSet', {
 			title: 'Verfasserinformationen',
@@ -151,6 +138,18 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			title: 'Sessioninformationen',
 			items: [{
 				xtype: 'textfield',
+				name: 'name',
+				label: "Name",
+				disabled: true,
+				value: localStorage.getItem('name')
+			},{
+				xtype: 'textfield',
+				name: 'shortName',
+				label: "Kürzel",
+				disabled: true,
+				value: localStorage.getItem('shortName')
+			},{
+				xtype: 'textfield',
 				name: 'ppSubject',
 				label: "Studiengang",
 				disabled: true,
@@ -161,22 +160,49 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				label: "Niveau",
 				disabled: true,
 				value: localStorage.getItem('ppLevel')
-			},{
-				xtype: 'textareafield',
-				name: 'ppdescription',
-				label: "Beschreibung",
-				disabled: true,
-				value: localStorage.getItem('ppdescription')
-			},{
-				xtype: 'textfield',
-				name: 'ppLogo',
-				label: "logo test#",
-				disabled: true,
-				value: localStorage.getItem('ppLogo')
 			}]
 		});
 		
-		
+		this.descriptionPanel = Ext.create('Ext.Panel', {
+			layout:	{
+				type: 'hbox',
+				pack: 'center',
+				align: 'center'
+			},
+			style: {
+				'margin-top': '30px'
+			}
+		});
+
+		if (localStorage.getItem('ppLogo') !== "" && localStorage.getItem('ppLogo') != null) {
+			this.logoContainer = Ext.create('Ext.Container', {
+				flex: showShortLabels ? 2 : 1,
+				layout: {
+					pack: 'center',
+					align: 'center'
+				},
+				style: {
+					'padding-top': '25px',
+					'text-align': 'left'
+				},
+				html: '<img src="' + "http://www.thm.de/site/images/stories/AG_Kommunikation/logo/logo-thm.jpg"/*localStorage.getItem('ppLogo')*/ + '" style="width: 100%; max-width: 100px;"></img>'
+			});
+
+			this.descriptionPanel.add(this.logoContainer);
+		}
+
+		if (localStorage.getItem('ppDescription') !== "" && localStorage.getItem('ppDescription') != null) {
+			this.markdownPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+				xtype: 'mathJaxMarkDownPanel',
+				id: 'questionContent',
+				style: 'background-color: transparent; color: black; ',
+				flex: 4
+			});
+
+			this.markdownPanel.setContent(localStorage.getItem('ppDescription'), true, true);
+
+			this.descriptionPanel.add(this.markdownPanel);
+		}
 		
 		
 		
@@ -239,25 +265,15 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				items : [this.creatorName, this.creatorMail, this.creatorUni,
 					this.creatorDep]
 			});
-		this.descriptionPanel = Ext.create('Ext.Panel', {
-				layout : {
-					type : 'hbox',
-					pack : 'center',
-					align : 'start'
-				},
-				style : {
-					'margin-top' : '30px'
-				}
-			});
-		this.descriptionFieldSet = Ext.create('Ext.form.FieldSet', {
-				items : [this.descriptionPanel]
-			});
+		
+		// ######################
+		
 		this.contentForm = Ext.create('Ext.form.FormPanel', {
 				scrollable : null,
 				items : [
-						 this.infoFormName,
-				         this.infoFormCreator,
-				         this.infoFormSession
+				         this.descriptionPanel,
+				         this.infoFormSession,
+				         this.infoFormCreator
 				        ]
 			});
 		this.add([this.toolbar, this.contentForm]);

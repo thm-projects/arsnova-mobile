@@ -48,7 +48,7 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 		this.add([
 			this.inClassPanel,
 			this.audienceQuestionPanel,
-			this.newQuestionPanel,
+			this.newQuestionPanel
 		]);
 	},
 

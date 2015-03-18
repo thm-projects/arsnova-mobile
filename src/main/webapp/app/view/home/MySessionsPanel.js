@@ -399,28 +399,23 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				
 				var sessionInfoButtonHandler = function (options) {
 					
+					var hideLoadMask = ARSnova.app.showLoadMask("Lade Sessioninfo...");
+					
+					ARSnova.app.setWindowTitle();
+					
 					ARSnova.app.getController('Sessions').getSession({
 						keyword: options.config.sessionObj.keyword
 					});
 					
+					hideLoadMask();
+					
 					sessionStorage.setItem('keyword', options.config.sessionObj.keyword);
-					
-					localStorage.setItem('name', options.config.sessionObj.name);
-					localStorage.setItem('shortName', options.config.sessionObj.shortName);
-					
+										
 					localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
 					ARSnova.app.userRole = ARSnova.app.USER_ROLE_SPEAKER;
 					
 					
-					// change to session info
-					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-					var sessionInfoPanel = Ext.create('ARSnova.view.home.SessionInfoPanel');
-
-					hTP.animateActiveItem(sessionInfoPanel, {
-						type: 'slide',
-						direction: 'left',
-						duration: 700
-					});
+					
 				};
 
 				var session;

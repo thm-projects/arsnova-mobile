@@ -46,11 +46,14 @@ Ext.define('ARSnova.view.home.SessionInfoEditPanel', {
 				ui : 'back',
 				scope : this,
 				handler : function () {
+					// change to session info panel
 					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-					hTP.animateActiveItem(hTP.sessionInfoPanel, {
-						type : 'slide',
-						direction : 'right',
-						duration : 700
+					var sessionInfoPanel = Ext.create('ARSnova.view.home.SessionInfoPanel');
+
+					hTP.animateActiveItem(sessionInfoPanel, {
+						type: 'slide',
+						direction: 'right',
+						duration: 700
 					});
 				}
 			});
@@ -60,10 +63,13 @@ Ext.define('ARSnova.view.home.SessionInfoEditPanel', {
 			ui: 'confirm',
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
-			handler : function () {
-				console.log("Speichern");	
-			}
+			handler: this.onSubmit
 		});
+		
+		
+		
+		
+		
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
 				title : "Session Info",
@@ -74,69 +80,92 @@ Ext.define('ARSnova.view.home.SessionInfoEditPanel', {
 				         this.saveButton]
 			});
 
-		this.sessionName = Ext.create('Ext.field.Text', {
-				label : Messages.SESSION_NAME,
-				name : 'sessionName'
-			});
-		this.sessionShortName = Ext.create('Ext.field.Text', {
-				label : Messages.SESSION_SHORT_NAME,
-				name : 'sessionShortName'
-			});
-		this.sessionNumQuestions = Ext.create('Ext.field.Text', {
-				label : Messages.QUESTIONS,
-				name : 'sessionNumQuestions'
-			});
-		
-		this.sessionFieldSet = Ext.create('Ext.form.FieldSet', {
-				title : Messages.SESSIONPOOL_SESSIONINFO,
-				items : [this.sessionName, this.sessionShortName,
-					this.sessionNumQuestions]
+		this.infoFormCreator = Ext.create('Ext.form.FieldSet', {
+			title: 'Verfasserinformationen',
+			items: [{
+				xtype: 'textfield',
+				name: 'ppAuthorName',
+				label: "Name des Dozenten",
+				value: localStorage.getItem('ppAuthorName')
+			},{
+				xtype: 'textfield',
+				name: 'ppAuthorMail',
+				label: "Email",
+				value: localStorage.getItem('ppAuthorMail')
+			},{
+				xtype: 'textfield',
+				name: 'ppUniversity',
+				label: "Hochschule",
+				value: localStorage.getItem('ppUniversity')
+			},{
+				xtype: 'textfield',
+				name: 'ppFaculty',
+				label: "Fachbereich",
+				value: localStorage.getItem('ppFaculty')
+			}]
 		});
-
-		this.creatorName = Ext.create('Ext.field.Text', {
-				label : Messages.EXPORT_FIELD_NAME,
-				name : 'creatorName'
-			});
-
-		this.creatorMail = Ext.create('Ext.field.Text', {
-				label : Messages.EXPORT_FIELD_EMAIL,
-				name : 'creatorMail'
-			});
 		
-		this.creatorUni = Ext.create('Ext.field.Text', {
-				label : Messages.EXPORT_FIELD_UNI,
-				name : 'creatorUni'
-			});
-
-		this.creatorDep = Ext.create('Ext.field.Text', {
-				label : Messages.EXPORT_FIELD_SPECIAL_FIELD,
-				name : 'creatorDep'
-			});
-
-		this.creatorFieldSet = Ext.create('Ext.form.FieldSet', {
-				title : Messages.SESSIONPOOL_AUTHORINFO,
-				items : [this.creatorName, this.creatorMail, this.creatorUni,
-					this.creatorDep]
-			});
+		this.infoFormSession = Ext.create('Ext.form.FieldSet', {
+			title: 'Sessioninformationen',
+			items: [{
+				xtype: 'textfield',
+				name: 'name',
+				label: "Name",
+				value: localStorage.getItem('name')
+			},{
+				xtype: 'textfield',
+				name: 'shortName',
+				label: "Kürzel",
+				value: localStorage.getItem('shortName')
+			},{
+				xtype: 'textfield',
+				name: 'ppSubject',
+				label: "Studiengang",
+				value: localStorage.getItem('ppSubject')
+			},{
+				xtype: 'textfield',
+				name: 'ppLevel',
+				label: "Niveau",
+				value: localStorage.getItem('ppLevel')
+			},{
+				xtype: 'textareafield',
+				name: 'ppDescription',
+				label: "Beschreibung",
+				value: localStorage.getItem('ppDescription')
+			}]
+		});
 		
-		this.descriptionPanel = Ext.create('Ext.Panel', {
-				layout : {
-					type : 'hbox',
-					pack : 'center',
-					align : 'start'
-				},
-				style : {
-					'margin-top' : '30px'
-				}
-			});
-		this.descriptionFieldSet = Ext.create('Ext.form.FieldSet', {
-				items : [this.descriptionPanel]
-			});
 		this.contentForm = Ext.create('Ext.form.FormPanel', {
-				scrollable : null,
-				items : [this.descriptionFieldSet, this.sessionFieldSet,
-					this.creatorFieldSet]
-			});
+			scrollable : null,
+			id: "sessionInfoForm",
+			items : [
+			         this.infoFormSession,
+			         this.infoFormCreator
+			        ]
+		});
+		
 		this.add([this.toolbar, this.contentForm]);
+	},
+	
+	onSubmit: function (button) {
+		
+		/*var values = Ext.getCmp('sessionInfoForm').getValues();
+		
+		ARSnova.app.getController('Sessions').updateSession({
+			name: values.name,
+			shortName: values.shortName,
+			ppAuthorName: values.ppAuthorName,
+			ppAuthorMail: values.ppAuthorMail,
+			ppUniversity: values.ppUniversity,
+			ppFaculty: values.ppFaculty,
+			ppLicense: values.ppLicense,
+			ppSubject: values.ppSubject,
+			ppLevel: values.ppLevel,
+			ppDescription: values.ppDescription,
+			ppLogo: values.ppLogo
+		});*/
+		
+		console.log("Speichern");
+		Ext.Msg.alert(Messages.NOTIFICATION, "Sessioninformationen geändert");
 	}
 });
