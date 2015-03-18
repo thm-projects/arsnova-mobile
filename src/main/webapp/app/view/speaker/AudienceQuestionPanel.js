@@ -66,8 +66,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 		this.questionStore = Ext.create('Ext.data.JsonStore', {
 			model: 'ARSnova.model.Question',
+			sorters: 'sequenceNo',
 			grouper: {
-				property: 'sequenceNo',
 				groupFn: function (record) {
 					return Ext.util.Format.htmlEncode(record.get('subject'));
 				}
