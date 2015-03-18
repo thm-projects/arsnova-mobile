@@ -125,7 +125,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 					if (index < 0) {
 						questionRecords.push(record);
 						questionSubjects.push(subject);
-					} else if (questionRecords[index].get('timestamp') > time) {
+					} else if (questionRecords[index].get('timestamp') < time) {
 						questionRecords[index] = record;
 					}
 				});
