@@ -25,7 +25,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 	],
 	config: {
 				scrollable: null,
-				cls:'centerFormTitle'
+				cls: 'centerFormTitle'
 	},
 
 	imageQuestion: false,
@@ -38,7 +38,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		this.expectAnswerText = Ext.create('ARSnova.view.MatrixButton', {
 			cls: 'actionButton',
 			buttonConfig: 'togglefield',
-			style:'margin-top:-20px',
+			style: 'margin-top:-20px',
 			toggleConfig: {
 				scope: this,
 				value: true,
@@ -46,23 +46,22 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
 						me.textAnswerEnabled = newValue == 0 ? true : false;
-
 					}
 				}
 			}
 		});
 
 		this.textAnswerFieldSet = Ext.create('Ext.form.FieldSet', {
-			title:Messages.EXPECT_ANSWER_TEXT,
-			style:'margin-top:45px;',
+			title: Messages.EXPECT_ANSWER_TEXT,
+			style: 'margin-top:45px;',
 			hidden: true,
-			items:[this.expectAnswerText]
+			items: [this.expectAnswerText]
 		});
 
 		this.imgUploadBtn = Ext.create('ARSnova.view.MatrixButton', {
 			cls: 'actionButton',
 			buttonConfig: 'togglefield',
-			style:'margin-top:-20px',
+			style: 'margin-top:-20px',
 			toggleConfig: {
 				scope: this,
 				label: false,
@@ -71,7 +70,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
 						me.imageQuestion = newValue == 0 ? false : true;
-						if(me.textAnswerFieldSet.isHidden()) {
+						if (me.textAnswerFieldSet.isHidden()) {
 							me.textAnswerFieldSet.show();
 						} else {
 							me.textAnswerFieldSet.hide();
@@ -83,14 +82,13 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 
 		var answerFieldset = Ext.create('Ext.form.FieldSet', {
 			//displayed on-top of the button
-			title:Messages.IMAGE_QUESTION_LBL,
-			style:'margin-top:45px;',
-			items:[this.imgUploadBtn]
+			title: Messages.IMAGE_QUESTION_LBL,
+			style: 'margin-top:45px;',
+			items: [this.imgUploadBtn]
 		});
 
 		this.add([answerFieldset, this.textAnswerFieldSet]);
-    },
-
+		},
 	getQuestionValues: function () {
 		var result = {};
 		result.imageQuestion = this.imageQuestion;

@@ -228,7 +228,7 @@ switch (lang) {
 			NO_ANSWER_MARKED_CORRECT_MESSAGE: "Sie haben keine Antwortoption als richtig markiert.",
 			NO_ANSWER_MARKED_CORRECT_OPTION_YES: "Trotzdem speichern",
 			NO_ANSWER_MARKED_CORRECT_OPTION_NO: "Abbrechen",
-			IMG_UPLOAD_TOGGLE_BUTTON:"Bildantwort",
+			IMG_UPLOAD_TOGGLE_BUTTON: "Bildantwort",
 
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
@@ -754,7 +754,7 @@ switch (lang) {
 			NO_ANSWER_MARKED_CORRECT_MESSAGE: "You have not marked any answer option as correct.",
 			NO_ANSWER_MARKED_CORRECT_OPTION_YES: "Save anyway",
 			NO_ANSWER_MARKED_CORRECT_OPTION_NO: "Abort",
-			IMG_UPLOAD_TOGGLE_BUTTON:"Picture upload",
+			IMG_UPLOAD_TOGGLE_BUTTON: "Picture upload",
 
 			/* user */
 			QUESTIONS_TO_STUDENTS: "Teacher's questions",
@@ -1020,7 +1020,7 @@ switch (lang) {
 			EVALUATION_MINUS: "disagree",
 			EVALUATION_MINUSMINUS: "strongly disagree",
 			IMAGE_QUESTION_LBL: "Image as answer",
-			EXPECT_ANSWER_TEXT:"Do you also want a text?",
+			EXPECT_ANSWER_TEXT: "Do you also want a text?",
 
 			IMAGE_QUESTION_MINIATUR_VIEW: "miniature<br/>view",
 			IMAGE_QUESTION_HORIZONTAL_VIEW: "horizontal<br/>list",

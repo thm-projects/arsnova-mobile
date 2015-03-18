@@ -83,19 +83,17 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				loadsuccess: function (dataurl, e) {
 					var self = this;
 					var mask = ARSnova.app.showLoadMask(Messages.COMPRESSING_MASK);
-					self.tryToCompress(dataurl, function(response) {
+					self.tryToCompress(dataurl, function (response) {
 						mask();
 						if (!response) {
 							//error
-						}
-						else if (self.checkFilesize(response)) {
+						} else if (self.checkFilesize(response)) {
 							if (self.config.addRemoveButton) {
 								self.removeButton.show();
 								self.segmentButton.hide();
 							}
 							Ext.bind(self.getFsUploadHandler(), self.getHandlerScope())(response, true);
 						}
-
 					});
 				},
 				loadfailure: function (message) {
@@ -116,7 +114,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			Messages.SELECT_PICTURE_URL,
 			width: showLongLabelsAndTemplate ? '25%' : '',
 			handler: this.toggleUploadTextfieldVisibility,
-			scope: this,
+			scope: this
 		};
 
 		this.segmentButton = null;
@@ -141,8 +139,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 					}
 				}]
 			});
-		}
-		else {
+		} else {
 			this.segmentButton = Ext.create('Ext.SegmentedButton', {
 				allowDepress: false,
 				cls: !this.config.activateTemplates ? 'yesnoOptions' : 'abcOptions',
@@ -253,7 +250,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		this.segmentButton.show();
 	},
 
-	compress: function(source, quality) {
+	compress: function (source, quality) {
 		var cvs = document.createElement('canvas');
 		cvs.width = source.naturalWidth;
 		cvs.height = source.naturalHeight;
@@ -267,7 +264,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	 * @param callback The callback, the response can be either false or the (un)compressed base64 image
 	 * @return -
 	 */
-    tryToCompress: function(url, callback) {
+    tryToCompress: function (url, callback) {
 		if (!isNaN(ARSnova.app.globalConfig.maxUploadFilesize) && typeof ARSnova.app.globalConfig.maxUploadFilesize !== 'undefined') {
 			var me = this;
 			var fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
@@ -275,18 +272,16 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				if (fileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
 					var img = new Image();
 					img.src = url;
-					img.onload = function() {
+					img.onload = function () {
 						url = me.compress(img, Math.max(1, 100 / (fileSize / ARSnova.app.globalConfig.maxUploadFilesize)));
 						fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
 						recursive(url);
 					};
-				}
-				else {
+				} else {
 					callback(url);
 				}
 			})(url);
-		}
-		else {
+		} else {
 			callback(url);
 		}
 	},
@@ -302,7 +297,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				return false;
 			}
 		}
-        return true;
+		return true;
 	},
 
 	toggleUploadTextfieldVisibility: function () {

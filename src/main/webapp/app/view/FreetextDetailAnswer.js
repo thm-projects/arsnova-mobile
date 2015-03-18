@@ -1,4 +1,4 @@
-/*
+G/*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
  * Copyright (C) 2012-2015 The ARSnova Team
@@ -81,21 +81,18 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 		var image = null;
 
 		function switchToFullScreen() {
-				if (image !== null) {
-					var img = document.getElementById("img").querySelector("canvas");
-					if (img.requestFullscreen) {
-						img.requestFullscreen();
-					}
-					else if (img.msRequestFullscreen) {
-						img.msRequestFullscreen();
-					}
-					else if (img.mozRequestFullScreen) {
-						img.mozRequestFullScreen();
-					}
-					else if (img.webkitRequestFullscreen) {
-						img.webkitRequestFullscreen();
-					}
+			if (image !== null) {
+				var img = document.getElementById("img").querySelector("canvas");
+				if (img.requestFullscreen) {
+					img.requestFullscreen();
+				} else if (img.msRequestFullscreen) {
+					img.msRequestFullscreen();
+				} else if (img.mozRequestFullScreen) {
+					img.mozRequestFullScreen();
+				} else if (img.webkitRequestFullscreen) {
+					img.webkitRequestFullscreen();
 				}
+			}
 		}
 
 		var imgContainer = Ext.create('ARSnova.view.components.GridImageContainer', {
@@ -104,26 +101,26 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			gridIsHidden: true,
 			editable: false,
 			listeners: {
-		    tap: {
-	        fn: switchToFullScreen,
-	        element: 'element'
-		    },
+				tap: {
+					fn: switchToFullScreen,
+					element: 'element'
+				},
 				click: {
-	        fn: switchToFullScreen,
-	        element: 'element'
-		    }
+					fn: switchToFullScreen,
+					element: 'element'
+				}
 			}
 		});
 
 
 
 		ARSnova.app.questionModel.getImageAnswerImage(self.answer.questionId, self.answer._id, {
-			success: function(response) {
+			success: function (response) {
 				image = response.responseText;
 				imgContainer.setImage(image);
 				imgContainer.show();
 			},
-			failure: function() {
+			failure: function () {
 				image = null;
 				imgContainer.hide();
 			}
@@ -144,7 +141,8 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 				}, questionPanel
 			]
 		},
-		imgContainer,{
+		imgContainer,
+		{
 			xtype: 'button',
 			ui: 'decline',
 			cls: 'centerButton',

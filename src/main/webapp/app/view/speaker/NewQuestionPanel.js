@@ -97,8 +97,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 		this.textarea = Ext.create('Ext.plugins.ResizableTextArea', {
 			name: 'text',
-			placeHolder: Messages.FORMAT_PLACEHOLDER,
-
+			placeHolder: Messages.FORMAT_PLACEHOLDER
 		});
 
 		// Preview button

@@ -90,7 +90,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			disableURLUpload: true
 		});
 
-		if(!this.questionObj.imageQuestion) {
+		if (!this.questionObj.imageQuestion) {
 			this.uploadView.hide();
 		}
 
@@ -100,7 +100,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			hidden: true
 		});
 
-		if(this.questionObj.imageQuestion) {
+		if (this.questionObj.imageQuestion) {
 			this.needImageLabel.show();
 		}
 
@@ -180,11 +180,11 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		});
 	},
 
-	setImage: function(image) {
+	setImage: function (image) {
 		this.answerImage = image;
 		this.gridQuestion.setImage(image);
 		var self = this;
-		if(this.answerImage) {
+		if (this.answerImage) {
 			self.gridQuestion.show();
 			self.needImageLabel.hide();
 			self.setGridConfiguration(self.gridQuestion);
@@ -196,7 +196,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		}
 	},
 
-	setGridConfiguration: function(image){
+	setGridConfiguration: function (image) {
 		this.gridQuestion.setEditable(false);
 		this.gridQuestion.setGridIsHidden(true);
 	},
@@ -244,7 +244,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			return;
 		}
 
-		if(this.questionObj.imageQuestion) {
+		if (this.questionObj.imageQuestion) {
 			Ext.Msg.confirm('', Messages.PICTURE_RIGHT_INFORMATION, function (button) {
 				if (button === "yes") {
 					this.storeAnswer();
@@ -286,7 +286,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	selectAbstentionAnswer: function () {},
 
 	isEmptyAnswer: function () {
-        return this.answerSubject.getValue().trim() === "" || (this.answerText.getValue().trim() === "" && this.questionObj.textAnswerEnabled) || (!this.answerImage && this.questionObj.imageQuestion);
+		return this.answerSubject.getValue().trim() === "" || (this.answerText.getValue().trim() === "" && this.questionObj.textAnswerEnabled) || (!this.answerImage && this.questionObj.imageQuestion);
 	},
 
 	saveAnswer: function (answer) {

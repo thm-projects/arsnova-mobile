@@ -90,7 +90,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			cls: 'actionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-miniatur thm-grey',
-			scope:this,
+			scope: this,
 			handler: this.miniaturClicked
 		});
 
@@ -99,7 +99,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			cls: 'actionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-vertical-list thm-grey',
-			scope:this,
+			scope: this,
 			handler: this.horizontalListClicked
 		});
 
@@ -108,17 +108,17 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			cls: 'actionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-horizontal-list thm-grey',
-			imageStyle:'margin-top:15px;'+
+			imageStyle: 'margin-top:15px;' +
 									'margin-left: 18px;',
-			scope:this,
+			scope: this,
 			handler: this.verticalListClicked
 		});
 
 		this.sortPanel = Ext.create('Ext.Panel', {
 			scrollable: null,
 			layout: {
-				type:'hbox',
-				pack:'center'
+				type: 'hbox',
+				pack: 'center'
 			},
 			items: [
 				this.miniaturBtn,
@@ -159,13 +159,13 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 					'</div>',
 				'</tpl>',
 				 {
-						isVertical: function() {
+						isVertical: function () {
 							return me.isVertical;
 						}
 				}
 			),
-			inline:true,
-			scrollable:'vertical',
+			inline: true,
+			scrollable: 'vertical',
 			deferEmptyText: false,
 			emptyText: Messages.NO_ANSWERS,
 			listeners: {
@@ -204,7 +204,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 
 		this.on('activate', function () {
 			ARSnova.app.innerScrollPanel = this.imageAnswerList;
-			ARSnova.app.taskManager.start(this.checkFreetextAnswersTask);			
+			ARSnova.app.taskManager.start(this.checkFreetextAnswersTask);
 		}, this);
 
 		this.on('deactivate', function () {
@@ -215,7 +215,6 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 		this.on('painted', function () {
 			ARSnova.app.innerScrollPanel = this.imageAnswerList;
 		});
-
 	},
 
 	checkFreetextAnswers: function () {
@@ -290,16 +289,16 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 	},
 
 	//sorthandlers
-	miniaturClicked: function() {
+	miniaturClicked: function () {
 		console.log("miniatur clicked");
 		this.imageAnswerList.setCls("dataview-inline gallery-dataview");
-		this.imageAnswerList.setInline({wrap:true});
-		this.imageAnswerList.setScrollable({direction:'vertical'});
+		this.imageAnswerList.setInline({wrap: true});
+		this.imageAnswerList.setScrollable({direction: 'vertical'});
 
 		this.isVertical = false;
 		this.imageAnswerList.refresh();
 	},
-	horizontalListClicked: function() {
+	horizontalListClicked: function () {
 		console.log("horizontal clicked");
 		this.imageAnswerList.setCls("dataview-horizontal gallery-dataview");
 		this.imageAnswerList.setInline({wrap: false});
@@ -308,10 +307,10 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 		this.isVertical = false;
 		this.imageAnswerList.refresh();
 	},
-	verticalListClicked: function() {
+	verticalListClicked: function () {
 		console.log("vertical clicked");
 		this.imageAnswerList.setCls("dataview-basic gallery-dataview");
-		this.imageAnswerList.setScrollable({direction:'vertical'});
+		this.imageAnswerList.setScrollable({direction: 'vertical'});
 
 		this.isVertical = true;
 		this.imageAnswerList.refresh();

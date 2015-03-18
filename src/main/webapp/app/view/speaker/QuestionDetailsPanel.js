@@ -988,9 +988,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				case "yesno":
 					return Messages.YESNO;
 				case "freetext":
-					if(self.questionObj.imageQuestion){
+					if (self.questionObj.imageQuestion){
 						return Messages.IMAGE_ANSWER_LONG;
-					}else {
+					} else {
 						return Messages.FREETEXT;
 					}
 				case "flashcard":
@@ -1067,18 +1067,17 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							text: Messages.ANSWERS,
 							handler: function () {
 								var p;
-								if(self.questionObj.imageQuestion){
+								if (self.questionObj.imageQuestion){
 									p = Ext.create('ARSnova.view.ImageAnswerPanel', {
 									question: self.questionObj,
 									lastPanel: self
 									});
-								}else {
+								} else {
 									p = Ext.create('ARSnova.view.FreetextAnswerPanel', {
 									question: self.questionObj,
 									lastPanel: self
 									});
 								}
-								
 								ARSnova.app.mainTabPanel.animateActiveItem(p, 'slide');
 							}
 						});
