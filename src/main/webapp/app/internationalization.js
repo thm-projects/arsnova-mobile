@@ -46,8 +46,6 @@
 		lang = lang.substr(0, 2).toLowerCase();
 	}
 
-	var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-
 	switch (lang) {
 		case 'de':
 			moment.lang('de');
