@@ -67,6 +67,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		this.questionStore = Ext.create('Ext.data.JsonStore', {
 			model: 'ARSnova.model.Question',
 			grouper: {
+				sortProperty: 'sequenceNo',
 				groupFn: function (record) {
 					return Ext.util.Format.htmlEncode(record.get('subject'));
 				}
@@ -299,6 +300,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		this.getController().getQuestions(sessionStorage.getItem('keyword'), {
 			success: Ext.bind(function (response) {
 				var questions = Ext.decode(response.responseText);
+				for (var i = 0; i < questions.length; i++) {
+					question.sequenceNo = i;
+				}
 				this.questionStore.add(questions);
 				this.caption.show();
 				this.caption.explainStatus(questions);
