@@ -24,36 +24,30 @@
 	var ua = navigator.userAgent.toLowerCase();
 	var isAndroid = ua.indexOf("android") > -1;
 	var isChrome = ua.indexOf("chrome") > -1;
-	var prefLang;
 	var lang;
 	var Messages;
 
-	if (isAndroid && !isChrome) {
-		if (navigator && navigator.userAgent && (lang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {
-			lang = lang[1];
-		}
-	} else {
-		lang = navigator.language;
-	}
-
 	try {
-		prefLang = localStorage.getItem("language");
-	} catch (e) {
-		prefLang = null;
+		lang = localStorage.getItem("language");
+	} catch (e) {}
+
+	if (!lang && isAndroid && !isChrome && navigator.userAgent &&
+			(lang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {
+		lang = lang[1];
+	} else {
+		/* navigator.languages is preferred since navigator.language stores the UI
+		 * language instead of the user preference in some browsers. */
+		lang = navigator.languages && navigator.languages.length > 0 ?
+			navigator.languages[0] :
+			navigator.language;
 	}
 
-	if (prefLang !== null) {
-		lang = prefLang;
+	if (lang) {
+		lang = lang.substr(0, 2).toLowerCase();
 	}
-
-	if (lang != null) {
-		lang = lang.toLowerCase();
-	}
-
-	var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
 	switch (lang) {
-		case 'de': case 'de-de':
+		case 'de':
 			moment.lang('de');
 			Messages = {
 				PRIVACY_MODE_WARNING_TITLE: "Privater Modus",
@@ -61,8 +55,6 @@
 				BROWSER_NOT_SUPPORTED_MESSAGE: "Bitte verwenden Sie einen der folgenden Browser für ARSnova: ###.",
 				UPDATE_BROWSER_MESSAGE: "Bitte aktualisieren Sie Ihren ###-Browser, um ARSnova verwenden zu können.",
 				FEATURE_COMING_SOON: "Feature kommt in Kürze.",
-				UNI_LOGIN_MSG: "Ihr Uni-Login an dieser Stelle?",
-				UNI_LOGIN_MSG_TEXT: "Möchten Sie Ihren hochschuleigenen Zugang verwenden? Sprechen Sie mit uns unter <a href='http://www.transmit.de/zentren/tz.cfm?N=189' target='_blank'>transmit.de</a>.",
 
 				/* rolePanel */
 				BLOG: "Blog",
@@ -124,12 +116,6 @@
 				SESSION_SHORT_NAME_PLACEHOLDER: "max. 8 Zeichen",
 				SESSION_SAVE: "Session anlegen",
 				SAVE: 'Speichern',
-
-				/* canteen */
-				CANTEEN: 'Mensa',
-				I_RECOMMEND: "Ich empfehle...",
-				LOGIN: "Login",
-				CANTEEN_MENU: "Speiseplan",
 
 				/* feedback */
 				FEEDBACK: "Feedback",
@@ -305,11 +291,6 @@
 				DELETE_SESSION_NOTICE: "Es werden alle Fragen und Antworten der Session gelöscht.",
 				CATEGORY: "Thema",
 				CATEGORY_PLACEHOLDER: "Thema eingeben",
-				ALL_SHORT: 'Alle',
-				ONLY_THM_SHORT: 'Nur Uni',
-				ALL_LONG: 'Alle (auch Gäste)',
-				ONLY_THM_LONG: 'Nur Uni-Mitglieder',
-				RELEASE_FOR: 'Freigeben für',
 				ABSTENTION: 'Enthaltung',
 				ABSTENTIONS: 'Enthaltungen',
 				ABSTENTION_POSSIBLE: 'Enthaltung möglich?',
@@ -345,8 +326,6 @@
 				DELETE_ALL_ANSWERS_INFO: "Es werden auch alle bisher gegebenen Antworten gelöscht.",
 				CHANGE_RELEASE: "Ändere die Freigabe...",
 				TYPE: 'Typ',
-				RELEASED: "Freigegeben",
-				NOT_RELEASED: "Nicht freigegeben",
 				INFINITE: "unbegrenzt",
 				MINUTE: "Minute",
 				MINUTES: "Minuten",
@@ -526,7 +505,6 @@
 				OPEN_SESSIONS: "Sessions: offen",
 				ACTIVE_SESSIONS: "Sessions: aktiv",
 				CLOSED_SESSIONS: "Sessions: geschlossen",
-				NOT_RELEASED_YET: "Der Dozent hat die richtige Antwort noch nicht freigegeben.",
 				STUDENTS_USE_CASES: "Für Studenten",
 				TEACHERS_USE_CASES: "Für Dozenten",
 
@@ -542,17 +520,6 @@
 				FEATURES: "Features",
 				ACTIVATE_FEATURES: "Features aktivieren",
 
-				/* credits */
-				HMWK: "HMWK",
-				ELEARNINGHESSEN: "Kompetenznetz E-Learning Hessen",
-				AGQLS: "AG QLS",
-				SENCHA_TOUCH: "UI Library: Sencha Touch",
-				NGINX: "Webserver: nginx",
-				CAS: "Single Sign-On: CAS",
-				COUCHDB: "NoSQL Datenbank: CouchDB",
-				XEN: "Virtualisierung: Xen",
-				DEBIAN: "Betriebssystem: Debian",
-
 				/* errors */
 				SESSION_NOT_FOUND: "Diese Session existiert nicht.",
 				SESSION_LOCKED: "Die Session ist derzeit gesperrt.",
@@ -564,11 +531,9 @@
 				QUESTION_COULD_NOT_BE_SAVED: "Speichern der Frage war nicht erfolgreich",
 
 				/* misc */
-				SUPPORTED_BROWSERES: "Für eine korrekte Darstellung von ARSnova benutzen Sie bitte einen WebKit-Browser, z.B. Apple Safari oder Google Chrome!",
 				NEW_VERSION_TITLE: "Neue Version",
 				NEW_VERSION_AVAILABLE: "Eine neue Version von ARSnova ist verfügbar. Möchten Sie aktualisieren?",
 				PRESENTER: "Presenter",
-				UNI: "Uni",
 				SESSION_ID: "Session-ID",
 
 				/* session import */
@@ -582,9 +547,6 @@
 			break;
 
 		case 'en':
-		case 'en-en':
-		case 'en-us':
-		case 'en-gb':
 			/* falls through */
 		default:
 			moment.lang('en');
@@ -594,8 +556,6 @@
 				BROWSER_NOT_SUPPORTED_MESSAGE: "Please use one of the following officially supported browsers: ###.",
 				UPDATE_BROWSER_MESSAGE: "Please update your ### browser in order to use ARSnova.",
 				FEATURE_COMING_SOON: "This feature will be available soon.",
-				UNI_LOGIN_MSG: "Your University here?",
-				UNI_LOGIN_MSG_TEXT: "Would you like to use your university's account? Contact us @ <a href='http://www.transmit.de/zentren/tz.cfm?N=189' target='_blank'>transmit.de</a>.",
 
 				/* rolePanel */
 				BLOG: "Blog",
@@ -657,12 +617,6 @@
 				SESSION_SHORT_NAME_PLACEHOLDER: "max. 8 digits",
 				SESSION_SAVE: "Create Session",
 				SAVE: 'Save',
-
-				/* canteen */
-				CANTEEN: 'Canteen',
-				I_RECOMMEND: "I recommend...",
-				LOGIN: "Login",
-				CANTEEN_MENU: "Menu",
 
 				/* feedback */
 				FEEDBACK: "Feedback",
@@ -836,11 +790,6 @@
 				DELETE_SESSION_NOTICE: "All questions and answers of this session will be deleted.",
 				CATEGORY: "Subject",
 				CATEGORY_PLACEHOLDER: "Enter subject",
-				ALL_SHORT: 'All',
-				ONLY_THM_SHORT: 'Uni only',
-				ALL_LONG: 'All (incl. guest)',
-				ONLY_THM_LONG: 'Only university members',
-				RELEASE_FOR: 'Release for',
 				ABSTENTION: 'Abstention',
 				ABSTENTIONS: 'Abstentions',
 				ABSTENTION_POSSIBLE: 'Abstention possible?',
@@ -876,8 +825,6 @@
 				DELETE_ALL_ANSWERS_INFO: "This will also delete all previously given answers.",
 				CHANGE_RELEASE: "Changing the release...",
 				TYPE: 'Type',
-				RELEASED: "Released",
-				NOT_RELEASED: "Not released",
 				INFINITE: "infinite",
 				MINUTE: "Minute",
 				MINUTES: "Minutes",
@@ -1062,7 +1009,6 @@
 				OPEN_SESSIONS: "Sessions: open",
 				ACTIVE_SESSIONS: "Sessions: active",
 				CLOSED_SESSIONS: "Sessions: closed",
-				NOT_RELEASED_YET: "The instructor has not yet released the correct answer.",
 				STUDENTS_USE_CASES: "Student's Use Cases",
 				TEACHERS_USE_CASES: "Teacher's Use Cases",
 
@@ -1078,17 +1024,6 @@
 				FEATURES: "Features",
 				ACTIVATE_FEATURES: "Activate features",
 
-				/* credits */
-				HMWK: "HMWK",
-				ELEARNINGHESSEN: "Kompetenznetz E-Learning Hessen",
-				AGQLS: "AG QLS",
-				SENCHA_TOUCH: "UI Library: Sencha Touch",
-				NGINX: "Webserver: nginx",
-				CAS: "Single Sign-On: CAS",
-				COUCHDB: "NoSQL Database: CouchDB",
-				XEN: "Virtualization: Xen",
-				DEBIAN: "Operating System: Debian",
-
 				/* errors */
 				SESSION_NOT_FOUND: "This session does not seem to exist.",
 				SESSION_LOCKED: "This session is currently locked.",
@@ -1100,11 +1035,9 @@
 				QUESTION_COULD_NOT_BE_SAVED: "Could not save question",
 
 				/* misc */
-				SUPPORTED_BROWSERES: "ARSnova is best-viewed in a WebKit browser, e.g. Apple Safari or Google Chrome!",
 				NEW_VERSION_TITLE: "New Version",
 				NEW_VERSION_AVAILABLE: "A new version of ARSnova is available. Do you want to update?",
 				PRESENTER: "Presenter",
-				UNI: "Uni",
 				SESSION_ID: "Session ID",
 
 				/* session import */
