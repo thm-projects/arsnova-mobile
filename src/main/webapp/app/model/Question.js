@@ -306,7 +306,7 @@ Ext.define('ARSnova.model.Question', {
 	deleteAllPreparationAnswers: function (sessionKeyword, callbacks) {
 		return this.getProxy().delAllPreparationAnswers(sessionKeyword, callbacks);
 	},
-	
+
 	getSubjectPreparationSort: function (sessionKeyword, callbacks) {
 		return this.getProxy().getSubjectSort(sessionKeyword, true, callbacks);
 	},
@@ -314,7 +314,7 @@ Ext.define('ARSnova.model.Question', {
 	setSubjectPreparationSort: function (sessionKeyword, sortType, subjects, callbacks) {
 		return this.getProxy().setSubjectSort(sessionKeyword, true, sortType, subjects, callbacks);
 	},
-	
+
 	getSubjectLectureSort: function (sessionKeyword, callbacks) {
 		return this.getProxy().getSubjectSort(sessionKeyword, false, callbacks);
 	},
@@ -322,7 +322,7 @@ Ext.define('ARSnova.model.Question', {
 	setSubjectLectureSort: function (sessionKeyword, sortType, subjects, callbacks) {
 		return this.getProxy().setSubjectSort(sessionKeyword, false, sortType, subjects, callbacks);
 	},
-	
+
 	getQuestionPreparationSort: function (sessionKeyword, subject, callbacks) {
 		return this.getProxy().getQuestionSort(sessionKeyword, subject, true, callbacks);
 	},
@@ -330,7 +330,7 @@ Ext.define('ARSnova.model.Question', {
 	setQuestionPreparationSort: function (sessionKeyword, subject, sortType, questionIDs, callbacks) {
 		return this.getProxy().setQuestionSort(sessionKeyword, subject, true, sortType, questionIDs, callbacks);
 	},
-	
+
 	getQuestionLectureSort: function (sessionKeyword, subject, callbacks) {
 		return this.getProxy().getQuestionSort(sessionKeyword, subject, false, callbacks);
 	},

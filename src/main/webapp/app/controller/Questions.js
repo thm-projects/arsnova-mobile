@@ -436,22 +436,22 @@ Ext.define("ARSnova.controller.Questions", {
 			direction: 'right'
 		});
 	},
-	
+
 	getSubjectSort: function (options) {
 		ARSnova.app.questionModel.getSubjectLectureSort(sessionStorage.getItem('keyword'),
 			options.callbacks);
 	},
-	
+
 	setSubjectSort: function (options) {
 		ARSnova.app.questionModel.setSubjectLectureSort(sessionStorage.getItem('keyword'),
 			options.sortType, options.subjects, options.callbacks);
 	},
-	
+
 	getQuestionSort: function (options) {
 		ARSnova.app.questionModel.getQuestionLectureSort(sessionStorage.getItem('keyword'),
 			options.subject, options.callbacks);
 	},
-	
+
 	setQuestionSort: function (options) {
 		ARSnova.app.questionModel.setQuestionLectureSort(sessionStorage.getItem('keyword'),
 			options.subject, options.sortType, options.questionIDs, options.callbacks);

@@ -812,7 +812,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-	
+
 	getSubjectSort: function (sessionKeyword, isPreparation, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/getsubjectsort?sessionkey=" + sessionKeyword +
@@ -822,10 +822,10 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-	
+
 	setSubjectSort: function (sessionKeyword, isPreparation, sortType, subjects, callbacks) {
 		this.arsjax.request({
-			url: "lecturerquestion/setsubjectsort?sessionkey=" + sessionKeyword + 
+			url: "lecturerquestion/setsubjectsort?sessionkey=" + sessionKeyword +
 				"&sorttype=" + encodeURIComponent(sortType) +
 				"&ispreparation=" + encodeURIComponent(isPreparation),
 			method: "POST",
@@ -834,7 +834,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-	
+
 	getQuestionSort: function (sessionKeyword, subject, isPreparation, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/getquestionsort?sessionkey=" + sessionKeyword +
@@ -845,10 +845,10 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-	
+
 	setQuestionSort: function (sessionKeyword, subject, isPreparation, sortType, questionIDs, callbacks) {
 		this.arsjax.request({
-			url: "lecturerquestion/setquestionsort?sessionkey=" + sessionKeyword + 
+			url: "lecturerquestion/setquestionsort?sessionkey=" + sessionKeyword +
 				"&subject=" + encodeURIComponent(subject) +
 				"&sorttype=" + encodeURIComponent(sortType) +
 				"&ispreparation=" + encodeURIComponent(isPreparation),
