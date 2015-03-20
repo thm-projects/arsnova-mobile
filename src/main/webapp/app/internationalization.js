@@ -375,7 +375,7 @@
 				MISSING_ANSWERS: "Es fehlen Antwortoptionen",
 				MISSING_IMAGE: "Es wurde kein Bild hochgeladen",
 				MISSING_FLASHCARD: "Die Rückseite ist leer",
-				EXPECT_ANSWER_TEXT: "Wollen Sie einen Text als Antwort verbieten?",
+				EXPECT_ANSWER_TEXT: "Lange Beschreibung zulassen?",
 
 				/*Export session*/
 				EXPORT_MSG: "Was möchten Sie exportieren?",
@@ -462,10 +462,10 @@
 				EVALUATION_NEUTRAL: "weder noch",
 				EVALUATION_MINUS: "trifft eher nicht zu",
 				EVALUATION_MINUSMINUS: "trifft gar nicht zu",
-				IMAGE_QUESTION_LBL: "Antwort als Bild",
-				IMAGE_QUESTION_MINIATUR_VIEW: "Miniaturen<br/>ansicht",
-				IMAGE_QUESTION_HORIZONTAL_VIEW: "Horizontale<br/>Liste",
-				IMAGE_QUESTION_VERTICAL_VIEW: "Vertikale<br/>Liste",
+				IMAGE_QUESTION_LBL: "Foto/Bild als Antwort hochladen?",
+				IMAGE_QUESTION_MINIATUR_VIEW: "Raster",
+				IMAGE_QUESTION_HORIZONTAL_VIEW: "Horizontal",
+				IMAGE_QUESTION_VERTICAL_VIEW: "Vertikal",
 
 				/* action buttons - <br/> forces line break for consistent look */
 				CREATE_NEW_SESSION: "Neue Session<br/>anlegen",
@@ -961,11 +961,11 @@
 				EVALUATION_NEUTRAL: "neutral",
 				EVALUATION_MINUS: "disagree",
 				EVALUATION_MINUSMINUS: "strongly disagree",
-				IMAGE_QUESTION_LBL: "Image as answer",
-				EXPECT_ANSWER_TEXT: "Do you want to forbid text answers?",
-				IMAGE_QUESTION_MINIATUR_VIEW: "miniature<br/>view",
-				IMAGE_QUESTION_HORIZONTAL_VIEW: "horizontal<br/>list",
-				IMAGE_QUESTION_VERTICAL_VIEW: "vertical<br/>list",
+				IMAGE_QUESTION_LBL: "Upload image/photo as answer?",
+				EXPECT_ANSWER_TEXT: "Allow long description?",
+				IMAGE_QUESTION_MINIATUR_VIEW: "Grid",
+				IMAGE_QUESTION_HORIZONTAL_VIEW: "Horizontal",
+				IMAGE_QUESTION_VERTICAL_VIEW: "Vertical",
 
 				/* action buttons - <br/> forces line break for consistent look */
 				CREATE_NEW_SESSION: "Create new<br/>session",
@@ -1044,7 +1044,6 @@
 			};
 			break;
 	}
-
-	// make Messages" globally accessible
+	// make Messages globally accessible
 	exports.Messages = Messages;
 })(window);

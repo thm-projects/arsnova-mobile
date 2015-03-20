@@ -41,13 +41,14 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 			style: 'margin-top:-20px',
 			toggleConfig: {
 				scope: this,
-				value: true,
 				listeners: {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
-						me.textAnswerEnabled = newValue == 0 ? true : false;
+						alert(newValue);
+						me.textAnswerEnabled = newValue == 0 ? false : true;
 					}
-				}
+				},
+				value: true
 			}
 		});
 
@@ -88,11 +89,15 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		});
 
 		this.add([answerFieldset, this.textAnswerFieldSet]);
-		},
+
+	},
+
 	getQuestionValues: function () {
 		var result = {};
 		result.imageQuestion = this.imageQuestion;
 		result.textAnswerEnabled = this.textAnswerEnabled;
+		alert(result.textAnswerEnabled);
 		return result;
 	}
+
 });
