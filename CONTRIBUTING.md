@@ -48,7 +48,7 @@ Is every file present that has seen some changes? Are there any files that appea
 
 ![List of files that have been changed](src/main/webapp/resources/images/documentation/affected_files.png "Output of `git diff --summary`")
 
-Addtionally, watch out for mode changes using `git diff --summary`. A file's should not be changed without a reason. As a default, all files should have mode `644`:
+Addtionally, watch out for mode changes using `git diff --summary`. A file's mode should not be changed without a reason. As a default, all files should have mode `644`:
 
 ![Mode of four files has been changed](src/main/webapp/resources/images/documentation/mode_changes.png "Output of `git diff --summary`")
 
