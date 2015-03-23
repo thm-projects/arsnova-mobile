@@ -506,6 +506,7 @@
 				ACTIVE_STUDENT_USERS: "Aktive User in der Rolle Student/in",
 				FEATURES: "Features",
 				ACTIVATE_FEATURES: "Features aktivieren",
+				SETTINGS_SAVED: 'Ihre Einstellungen wurden gespeichert',
 
 				/* errors */
 				SESSION_NOT_FOUND: "Diese Session existiert nicht.",
@@ -516,6 +517,7 @@
 				BROWSER_SESSION_EXPIRED: "Browsersitzung abgelaufen",
 				BROWSER_SESSION_EXPIRED_MSG: "Ihre Browsersitzung ist abgelaufen. Möchten Sie ARSnova neustarten?",
 				QUESTION_COULD_NOT_BE_SAVED: "Speichern der Frage war nicht erfolgreich",
+				SETTINGS_COULD_NOT_BE_SAVED: "Speichern der Einstellungen war nicht erfolgreich",
 
 				/* misc */
 				NEW_VERSION_TITLE: "Neue Version",
@@ -997,6 +999,7 @@
 				LEARNING_PROGRESS: "Learning progress",
 				FEATURES: "Features",
 				ACTIVATE_FEATURES: "Activate features",
+				SETTINGS_SAVED: 'Your settings have been saved.',
 
 				/* errors */
 				SESSION_NOT_FOUND: "This session does not seem to exist.",
@@ -1007,6 +1010,7 @@
 				BROWSER_SESSION_EXPIRED: "Browser Session Expired",
 				BROWSER_SESSION_EXPIRED_MSG: "Your current browser session is expired. Do you want to restart ARSnova?",
 				QUESTION_COULD_NOT_BE_SAVED: "Could not save question",
+				SETTINGS_COULD_NOT_BE_SAVED: "Could not save settings",
 
 				/* misc */
 				NEW_VERSION_TITLE: "New Version",

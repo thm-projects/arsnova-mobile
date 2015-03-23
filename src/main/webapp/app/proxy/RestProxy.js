@@ -811,5 +811,30 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
+	},
+
+	changeFeatures: function (keyword, features, callbacks) {
+		this.arsjax.request({
+			url: "session/" + encodeURIComponent(keyword) + "/features",
+			method: "PATCH",
+			jsonData: features,
+			success: function (response) {
+				var json = response.responseText || "{}";
+				callbacks.success(Ext.decode(json));
+			},
+			failure: callbacks.failure
+		});
+	},
+
+	getFeatures: function (keyword, callbacks) {
+		this.arsjax.request({
+			url: "session/" + encodeURIComponent(keyword) + "/features",
+			method: "GET",
+			success: function (response) {
+				var json = response.responseText || "{}";
+				callbacks.success(Ext.decode(json));
+			},
+			failure: callbacks.failure
+		});
 	}
 });
