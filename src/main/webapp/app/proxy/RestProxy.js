@@ -380,7 +380,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/interposed",
 			method: "POST",
-			jsonData: {subject: subject, text: text, sessionId: sessionKeyword, timestamp: timestamp},
+				f: {subject: subject, text: text, sessionId: sessionKeyword, timestamp: timestamp},
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -684,6 +684,15 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
+	getImageAnswerImage: function (questionId, answerId, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/" + questionId + "/answer/" + answerId + '/image',
+			method: "GET",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
 	lock: function (sessionKeyword, theLock, callbacks) {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/lock?lock=" + !!theLock,
@@ -809,6 +818,31 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			method: "POST",
 			jsonData: jsonData,
 			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
+	changeFeatures: function (keyword, features, callbacks) {
+		this.arsjax.request({
+			url: "session/" + encodeURIComponent(keyword) + "/features",
+			method: "PATCH",
+			jsonData: features,
+			success: function (response) {
+				var json = response.responseText || "{}";
+				callbacks.success(Ext.decode(json));
+			},
+			failure: callbacks.failure
+		});
+	},
+
+	getFeatures: function (keyword, callbacks) {
+		this.arsjax.request({
+			url: "session/" + encodeURIComponent(keyword) + "/features",
+			method: "GET",
+			success: function (response) {
+				var json = response.responseText || "{}";
+				callbacks.success(Ext.decode(json));
+			},
 			failure: callbacks.failure
 		});
 	}

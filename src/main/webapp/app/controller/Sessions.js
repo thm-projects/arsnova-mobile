@@ -80,6 +80,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('creationTime', obj.creationTime);
 
 				sessionStorage.setItem('keyword', obj.keyword);
+				sessionStorage.setItem('features', Ext.encode(obj.features));
 
 				// initialize MathJax
 				ARSnova.app.getController('Application').initializeMathJax();
@@ -121,6 +122,7 @@ Ext.define("ARSnova.controller.Sessions", {
 		ARSnova.app.taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
 
 		sessionStorage.removeItem("keyword");
+		sessionStorage.removeItem("features");
 
 		localStorage.removeItem("sessionId");
 		localStorage.removeItem("name");

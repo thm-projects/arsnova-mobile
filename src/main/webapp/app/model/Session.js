@@ -62,7 +62,21 @@ Ext.define('ARSnova.model.Session', {
 	sessionIsActive: true,
 
 	events: {
+<<<<<<< HEAD
 		sessionActive: "arsnova/session/active"
+=======
+		sessionActive: "arsnova/session/active",
+		sessionJoinAsSpeaker: "arsnova/session/join/speaker",
+		sessionJoinAsStudent: "arsnova/session/join/student",
+		sessionLeave: "arsnova/session/leave",
+		learningProgressChange: "arsnova/session/learningprogress/change",
+		featureChange: "arsnova/session/features/change",
+		featureChangeLearningProgress: "arsnova/session/features/learningprogress/change",
+		featureChangeFeedback: "arsnova/session/features/feedback/change",
+		featureChangeJITT: "arsnova/session/features/jitt/change",
+		featureChangePI: "arsnova/session/features/pi/change",
+		featureChangeInterposed: "arsnova/session/features/interposed/change"
+>>>>>>> master
 	},
 
 	constructor: function () {
@@ -203,5 +217,42 @@ Ext.define('ARSnova.model.Session', {
 			// overwrite server-based progress type for students with their own selection (if available)
 			this.setLearningProgress(this.getUserBasedProgressType() || progressType);
 		}
+	},
+
+	changeFeatures: function (keyword, features, callbacks) {
+		var me = this;
+		return this.getProxy().changeFeatures(keyword, features, {
+			success: function (features) {
+				var prev = Ext.decode(sessionStorage.getItem("features"));
+				var notifyChange = function (prop, fireEvent) {
+					if (prev[prop] !== features[prop]) {
+						me.fireEvent(me.events[fireEvent], features[prop]);
+					}
+				};
+				// Check if the features have actually changed...
+				var same = true;
+				for (var k in prev) {
+					if (prev.hasOwnProperty(k)) {
+						same = same && (prev[k] === features[k]);
+					}
+				}
+				if (!same) {
+					sessionStorage.setItem("features", Ext.encode(features));
+					// report changes
+					me.fireEvent(me.events.featureChange, features);
+					notifyChange("jitt", "featureChangeJITT");
+					notifyChange("learningProgress", "featureChangeLearningProgress");
+					notifyChange("feedback", "featureChangeFeedback");
+					notifyChange("interposed", "featureChangeInterposed");
+					notifyChange("pi", "featureChangePI");
+				}
+				callbacks.success.apply(callbacks.scope, arguments);
+			},
+			failure: callbacks.failure
+		});
+	},
+
+	getFeatures: function (keyword, callbacks) {
+		return this.getProxy().getFeatures(keyword, callbacks);
 	}
 });
