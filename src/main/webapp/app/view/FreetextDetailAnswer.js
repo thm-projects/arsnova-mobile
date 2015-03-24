@@ -177,7 +177,6 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 	},
 
 	initialize: function () {
-		console.log("initialized4");
 		this.callParent(arguments);
 
 		this.on('painted', function () {
