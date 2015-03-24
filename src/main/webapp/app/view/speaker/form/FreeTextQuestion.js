@@ -44,7 +44,6 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 				listeners: {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
-						alert(newValue);
 						me.textAnswerEnabled = newValue == 0 ? false : true;
 					}
 				},
@@ -96,7 +95,6 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		var result = {};
 		result.imageQuestion = this.imageQuestion;
 		result.textAnswerEnabled = this.textAnswerEnabled;
-		alert(result.textAnswerEnabled);
 		return result;
 	}
 
