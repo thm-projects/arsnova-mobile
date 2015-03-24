@@ -505,6 +505,15 @@
 				CLOSED_SESSIONS: "Sessions: geschlossen",
 				STUDENTS_USE_CASES: "Für Studenten",
 				TEACHERS_USE_CASES: "Für Dozenten",
+				
+				/* help */
+				HELP_ROLEPANEL: "Placeholder for Rolepanel Helptext",
+				HELP_AUTABPANEL: "Placeholder for About Uni Helptext",
+				HELP_HOMETABPANEL: "Placeholder for Homepanel Helptext",
+				HELP_DIAGNOSISPANEL: "Placeholder for Diagnosispanel Helptext",
+				HELP_BLOGTABPANEL: "Placeholder for Blogpanel Helptext",
+				HELP_PRIVACYTABPANEL: "Placeholder for Privacypanel Helptext",
+				HELP_IMRPINTTABPANEL: "Placeholder for Imprintpanel Helptext",
 
 				/* diagnosis */
 				DIAGNOSIS: "System",
@@ -513,7 +522,7 @@
 				VOTINGS: "Abstimmungen",
 				SESSION_OWNERS: "Session-Inhaber",
 				PEER_INSTRUCTION_QUESTIONS: "Peer Instruction Konzeptfragen",
-<<<<<<< HEAD
+
 
 				/* credits */
 				HMWK: "HMWK",
@@ -525,12 +534,12 @@
 				COUCHDB: "NoSQL Datenbank: CouchDB",
 				XEN: "Virtualisierung: Xen",
 				DEBIAN: "Betriebssystem: Debian",
-=======
+
 				ACTIVE_STUDENT_USERS: "Aktive User in der Rolle Student/in",
 				FEATURES: "Features",
 				ACTIVATE_FEATURES: "Features aktivieren",
 				SETTINGS_SAVED: 'Ihre Einstellungen wurden gespeichert',
->>>>>>> master
+
 
 				/* errors */
 				SESSION_NOT_FOUND: "Diese Session existiert nicht.",
@@ -1012,6 +1021,15 @@
 				PRIVACY: "Privacy Policy",
 				ARSNOVA_MANUAL: "Manual",
 				ARSNOVA_FAQ: "FAQ | Helpdesk",
+				
+				/* help */
+				HELP_ROLEPANEL: "Platzhalter fuer Rolepanel Hilfetext",
+				HELP_AUTABPANEL: "Platzhalter fuer About Uni Hilfetext",
+				HELP_HOMETABPANEL: "Platzhalter fuer Homepanel Hilfetext",
+				HELP_DIAGNOSISPANEL: "Platzhalter fuer Diagnosispanel Hilfetext",
+				HELP_BLOGTABPANEL: "Platzhalter fuer Blogpanel Hilfetext",
+				HELP_PRIVACYTABPANEL: "Platzhalter fuer Privacypanel Hilfetext",
+				HELP_IMRPINTTABPANEL: "Platzhalter fuer Imprintpanel Hilfetext",
 
 				OPINION: "Your opinion matters",
 				WIDGET_IS_LOADING: 'Widget is loading...',
@@ -1030,7 +1048,7 @@
 				VOTINGS: "Votings",
 				SESSION_OWNERS: "Session owners",
 				PEER_INSTRUCTION_QUESTIONS: "Peer Instruction questions",
-<<<<<<< HEAD
+
 
 				/* credits */
 				HMWK: "HMWK",
@@ -1042,13 +1060,12 @@
 				COUCHDB: "NoSQL Database: CouchDB",
 				XEN: "Virtualization: Xen",
 				DEBIAN: "Operating System: Debian",
-=======
+
 				ACTIVE_STUDENT_USERS: "Active users in a student's role",
 				LEARNING_PROGRESS: "Learning progress",
 				FEATURES: "Features",
 				ACTIVATE_FEATURES: "Activate features",
 				SETTINGS_SAVED: 'Your settings have been saved.',
->>>>>>> master
 
 				/* errors */
 				SESSION_NOT_FOUND: "This session does not seem to exist.",
