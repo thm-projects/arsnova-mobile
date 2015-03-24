@@ -151,6 +151,24 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
+	
+	/**
+	 * Update Session by ID
+	 * @param session object
+	 * @param session id to update
+	 * @param object with success-, failure-, unauthenticated and empty-callbacks
+	 * @return success or failure
+	 */
+	updateSession: function (session, sessionId, callbacks) {
+
+		this.arsjax.request({
+			url: "session/" + sessionId,//encodeURIComponent(sessionId),
+			method: "PUT",
+			jsonData: session,
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
 
 	getPublicPoolSessions: function (callbacks) {
 		this.arsjax.request({

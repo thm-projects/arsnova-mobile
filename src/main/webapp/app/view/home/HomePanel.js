@@ -328,6 +328,28 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				});
 				hideLoadMask();
 			};
+			
+			var sessionInfoButtonHandler = function (options) {
+				
+				var hideLoadMask = ARSnova.app.showLoadMask("Lade Sessioninfo...");
+				
+				ARSnova.app.setWindowTitle();
+				
+				ARSnova.app.getController('Sessions').getSession({
+					keyword: options.config.sessionObj.keyword
+				});
+				
+				hideLoadMask();
+				
+				sessionStorage.setItem('keyword', options.config.sessionObj.keyword);
+									
+				localStorage.setItem('role', ARSnova.app.USER_ROLE_STUDENT);
+				ARSnova.app.userRole = ARSnova.app.USER_ROLE_STUDENT;
+				
+				
+				
+			};
+			
 			for (var i = 0; i < sessions.length; i++) {
 				var session = sessions[i];
 
@@ -341,23 +363,50 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				if (session.sessionType === 'public_pool') {
 					iconCls = "icon-cloud thm-green";
 				}
-
+				
 				// Minimum width of 481px equals at least landscape view
 				var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
 				var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 					xtype: 'button',
 					ui: 'normal',
 					text: Ext.util.Format.htmlEncode(displaytext),
-					cls: 'forwardListButton',
+					cls: 'forwardSessionListButton',
 					iconCls: iconCls,
 					controller: 'sessions',
 					action: 'showDetails',
 					badgeCls: 'badgeicon',
+					width: '93%',
 					sessionObj: session,
 					handler: buttonHandler
 				});
 				sessionButton.setBadge([{badgeText: session.numUnanswered}]);
-				form.addEntry(sessionButton);
+				
+				// Info Icon 
+				var sessionInfoButton = Ext.create('Ext.Button', {
+					cls: 'sessionInfoIconList',
+					iconCls: 'info',
+					width: '7%',
+					sessionObj: session,
+
+					handler: sessionInfoButtonHandler 
+				});
+				
+				// Container to show the Session-Info-Button aside the List
+				var sessionButtonwithInfo = Ext.create('Ext.Container', {
+					layout: {
+						type: 'hbox',
+						pack: 'center'
+					},
+					cls: 'forwardSessionListBg',
+
+					items: [
+						sessionInfoButton,
+						sessionButton
+					]
+				});
+				
+				
+				form.addEntry(sessionButtonwithInfo);
 
 				if (!session.active) {
 					this.down('button[text=' + displaytext + ']').addCls("isInactive");

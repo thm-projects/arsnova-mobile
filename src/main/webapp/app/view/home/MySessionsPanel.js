@@ -396,6 +396,27 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					});
 					hideLoadMask();
 				};
+				
+				var sessionInfoButtonHandler = function (options) {
+					
+					var hideLoadMask = ARSnova.app.showLoadMask("Lade Sessioninfo...");
+					
+					ARSnova.app.setWindowTitle();
+					
+					ARSnova.app.getController('Sessions').getSession({
+						keyword: options.config.sessionObj.keyword
+					});
+					
+					hideLoadMask();
+					
+					sessionStorage.setItem('keyword', options.config.sessionObj.keyword);
+										
+					localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
+					ARSnova.app.userRole = ARSnova.app.USER_ROLE_SPEAKER;
+					
+					
+					
+				};
 
 				var session;
 				for (var i = 0; i < sessions.length; i++) {
@@ -417,7 +438,8 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						ui: 'normal',
 						text: Ext.util.Format.htmlEncode(displaytext),
 						iconCls: course + " courseIcon",
-						cls: 'forwardListButton' + status,
+						cls: 'forwardSessionListButton' + status,
+						width: '93%',
 						sessionObj: session,
 						handler: sessionButtonHandler
 					});
@@ -427,7 +449,31 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						{badgeText: session.numQuestions, badgeCls: "questionsBadgeIcon"},
 						{badgeText: session.numAnswers, badgeCls: "answersBadgeIcon"}
 					]);
-					panel.sessionsForm.addEntry(sessionButton);
+					
+					var sessionInfoButton = Ext.create('Ext.Button', {
+						cls: 'sessionInfoIconList',
+						iconCls: 'info',
+						width: '7%',
+						sessionObj: session,
+
+						handler: sessionInfoButtonHandler 
+					});
+					
+					// Container to show the Session-Info-Button aside the List
+					var sessionButtonwithInfo = Ext.create('Ext.Container', {
+						layout: {
+							type: 'hbox',
+							pack: 'center'
+						},
+						cls: 'forwardSessionListBg',
+
+						items: [
+							sessionInfoButton,
+							sessionButton
+						]
+					});
+					
+					panel.sessionsForm.addEntry(sessionButtonwithInfo);
 				}
 
 				hideLoadMask();
