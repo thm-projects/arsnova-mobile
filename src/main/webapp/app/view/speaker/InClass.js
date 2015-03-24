@@ -196,32 +196,12 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			margin: '0',
 
 			handler: function (button) {
-				console.log("zeuch");
-				// change to session info
-				/*var sessionInfoPanel = Ext.create('ARSnova.view.home.SessionInfoPanel');
-				
-				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-				sTP.animateActiveItem(sessionInfoPanel, 'slide');*/
-				
-				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-				var sessionInfoPanel = Ext.create('ARSnova.view.home.SessionInfoPanel');
-				sTP.animateActiveItem(sessionInfoPanel, {
-					type: 'slide',
-					direction: 'left',
-					duration: 700
-				});
-				
-				/*sTP.animateActiveItem(sTP.newQuestionPanel, 'slide');
-				
-				// change to session info
-				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				var sessionInfoPanel = Ext.create('ARSnova.view.home.SessionInfoPanel');
 
-				hTP.animateActiveItem(sessionInfoPanel, {
-					type: 'slide',
-					direction: 'left',
-					duration: 700
-				});*/
+				// change to session info
+				
+				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+				var sessionInfoPanel = Ext.create('ARSnova.view.home.SessionInfoPanel');
+				sTP.animateActiveItem(sessionInfoPanel, 'slide');
 			}
 		});
 		

@@ -149,7 +149,7 @@ Ext.define('ARSnova.view.home.SessionInfoEditPanel', {
 	
 	onSubmit: function (button) {
 		
-		/*var values = Ext.getCmp('sessionInfoForm').getValues();
+		var values = Ext.getCmp('sessionInfoForm').getValues();
 		
 		ARSnova.app.getController('Sessions').updateSession({
 			name: values.name,
@@ -163,9 +163,9 @@ Ext.define('ARSnova.view.home.SessionInfoEditPanel', {
 			ppLevel: values.ppLevel,
 			ppDescription: values.ppDescription,
 			ppLogo: values.ppLogo
-		});*/
+		});
 		
 		console.log("Speichern");
-		Ext.Msg.alert(Messages.NOTIFICATION, "Sessioninformationen geändert");
+		//Ext.Msg.alert(Messages.NOTIFICATION, "Sessioninformationen geändert");
 	}
 });

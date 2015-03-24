@@ -33,9 +33,18 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		this.callParent(arguments);
 
 		var me = this;
-		var screenWidth = (window.innerWidth > 0) ? window.innerWidth
-		 : screen.width;
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		var showShortLabels = screenWidth < 480;
+		
+		// show or hide edit button
+		if(localStorage.getItem('role') === "1") {
+			var hideEdit = false;
+			var backBtn = this.backSpeaker;
+		}
+		else {
+			var hideEdit = true;
+			var backBtn = this.backUser;
+		}
 
 		//
 		// Toolbar items
@@ -45,40 +54,12 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				text : Messages.BACK,
 				ui : 'back',
 				scope : this,
-				handler : function () {
-					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-					hTP.animateActiveItem(hTP.mySessionsPanel, {
-						type : 'slide',
-						direction : 'right',
-						duration : 700
-					});
-					
-					// remove session/local storage
-					sessionStorage.removeItem("keyword");
-
-					localStorage.removeItem("sessionId");
-					localStorage.removeItem("name");
-					localStorage.removeItem("shortName");
-					localStorage.removeItem("ppAuthorName");
-					localStorage.removeItem("ppAuthorMail");
-					localStorage.removeItem("ppUniversity");
-					localStorage.removeItem("ppFaculty");
-					localStorage.removeItem("ppLicense");
-					localStorage.removeItem("ppSubject");
-					localStorage.removeItem("ppLevel");
-					localStorage.removeItem("ppDescription");
-					localStorage.removeItem("ppLogo");
-					localStorage.removeItem("active");
-					localStorage.removeItem("session");
-					localStorage.removeItem("courseId");
-					localStorage.removeItem("courseType");
-					localStorage.removeItem("creationTime");
-					ARSnova.app.isSessionOwner = false;
-				}
+				handler : backBtn
 			});
 		
 		this.editButton = Ext.create('Ext.Button', {
 			text: Messages.EDIT,
+			hidden: hideEdit,
 			ui: 'confirm',
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
@@ -139,13 +120,13 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			items: [{
 				xtype: 'textfield',
 				name: 'name',
-				label: "Name",
+				label: Messages.SESSION_NAME,
 				disabled: true,
 				value: localStorage.getItem('name')
 			},{
 				xtype: 'textfield',
 				name: 'shortName',
-				label: "Kürzel",
+				label: Messages.SESSION_SHORT_NAME,
 				disabled: true,
 				value: localStorage.getItem('shortName')
 			},{
@@ -185,7 +166,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 					'padding-top': '25px',
 					'text-align': 'left'
 				},
-				html: '<img src="' + "http://www.thm.de/site/images/stories/AG_Kommunikation/logo/logo-thm.jpg"/*localStorage.getItem('ppLogo')*/ + '" style="width: 100%; max-width: 100px;"></img>'
+				html: '<img src="' + localStorage.getItem('ppLogo') + '" style="width: 100%; max-width: 100px;"></img>'
 			});
 
 			this.descriptionPanel.add(this.logoContainer);
@@ -204,69 +185,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			this.descriptionPanel.add(this.markdownPanel);
 		}
 		
-		
-		
-		// #################
 
-		this.sessionName = Ext.create('Ext.field.Text', {
-				label : Messages.SESSION_NAME,
-				name : 'sessionName',
-				disabled: true
-			});
-		
-		this.sessionShortName = Ext.create('Ext.field.Text', {
-				label : Messages.SESSION_SHORT_NAME,
-				name : 'sessionShortName',
-				disabled: true
-			});
-		this.sessionNumQuestions = Ext.create('Ext.field.Text', {
-				label : Messages.QUESTIONS,
-				name : 'sessionNumQuestions',
-				disabled: true
-			});
-
-
-		
-		this.sessionFieldSet = Ext.create('Ext.form.FieldSet', {
-				title : Messages.SESSIONPOOL_SESSIONINFO,
-				items : [this.sessionName, this.sessionShortName,
-					this.sessionNumQuestions]
-		});
-
-		this.creatorName = Ext.create('Ext.field.Text', {
-				label : Messages.EXPORT_FIELD_NAME,
-				name : 'creatorName',
-				disabled: true
-			});
-
-		this.creatorMail = Ext.create('Ext.field.Text', {
-				label : Messages.EXPORT_FIELD_EMAIL,
-				name : 'creatorMail',
-				disabled: true
-			});
-
-		
-		
-		
-		this.creatorUni = Ext.create('Ext.field.Text', {
-				label : Messages.EXPORT_FIELD_UNI,
-				name : 'creatorUni',
-				disabled: true
-			});
-
-		this.creatorDep = Ext.create('Ext.field.Text', {
-				label : Messages.EXPORT_FIELD_SPECIAL_FIELD,
-				name : 'creatorDep',
-				disabled: true
-			});
-
-		this.creatorFieldSet = Ext.create('Ext.form.FieldSet', {
-				title : Messages.SESSIONPOOL_AUTHORINFO,
-				items : [this.creatorName, this.creatorMail, this.creatorUni,
-					this.creatorDep]
-			});
-		
-		// ######################
 		
 		this.contentForm = Ext.create('Ext.form.FormPanel', {
 				scrollable : null,
@@ -276,6 +195,74 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				         this.infoFormCreator
 				        ]
 			});
+		
+		
 		this.add([this.toolbar, this.contentForm]);
+	},
+	
+	backSpeaker: function () {
+		
+		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+				
+		hTP.animateActiveItem(hTP.mySessionsPanel, {
+			type: 'slide',
+			direction: 'right',
+			duration: 700
+		});
+		
+		// remove session/local storage
+		sessionStorage.removeItem("keyword");
+
+		localStorage.removeItem("sessionId");
+		localStorage.removeItem("name");
+		localStorage.removeItem("shortName");
+		localStorage.removeItem("ppAuthorName");
+		localStorage.removeItem("ppAuthorMail");
+		localStorage.removeItem("ppUniversity");
+		localStorage.removeItem("ppFaculty");
+		localStorage.removeItem("ppLicense");
+		localStorage.removeItem("ppSubject");
+		localStorage.removeItem("ppLevel");
+		localStorage.removeItem("ppDescription");
+		localStorage.removeItem("ppLogo");
+		localStorage.removeItem("active");
+		localStorage.removeItem("session");
+		localStorage.removeItem("courseId");
+		localStorage.removeItem("courseType");
+		localStorage.removeItem("creationTime");
+		ARSnova.app.isSessionOwner = false;
+	},
+	
+	backUser: function () {
+
+		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+		
+		hTP.animateActiveItem(hTP.homePanel, {
+			type: 'slide',
+			direction: 'right',
+			duration: 700
+		});
+		
+		// remove session/local storage
+		sessionStorage.removeItem("keyword");
+
+		localStorage.removeItem("sessionId");
+		localStorage.removeItem("name");
+		localStorage.removeItem("shortName");
+		localStorage.removeItem("ppAuthorName");
+		localStorage.removeItem("ppAuthorMail");
+		localStorage.removeItem("ppUniversity");
+		localStorage.removeItem("ppFaculty");
+		localStorage.removeItem("ppLicense");
+		localStorage.removeItem("ppSubject");
+		localStorage.removeItem("ppLevel");
+		localStorage.removeItem("ppDescription");
+		localStorage.removeItem("ppLogo");
+		localStorage.removeItem("active");
+		localStorage.removeItem("session");
+		localStorage.removeItem("courseId");
+		localStorage.removeItem("courseType");
+		localStorage.removeItem("creationTime");
+		ARSnova.app.isSessionOwner = false;
 	}
 });
