@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'arsnova';
-	src:url('fonts/arsnova.eot?md50t3');
-	src:url('fonts/arsnova.eot?#iefixmd50t3') format('embedded-opentype'),
-		url('fonts/arsnova.woff?md50t3') format('woff'),
-		url('fonts/arsnova.ttf?md50t3') format('truetype'),
-		url('fonts/arsnova.svg?md50t3#arsnova') format('svg');
+	src:url('fonts/arsnova.eot?-sehayn');
+	src:url('fonts/arsnova.eot?#iefix-sehayn') format('embedded-opentype'),
+		url('fonts/arsnova.woff?-sehayn') format('woff'),
+		url('fonts/arsnova.ttf?-sehayn') format('truetype'),
+		url('fonts/arsnova.svg?-sehayn#arsnova') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -37,6 +37,26 @@
 
 .icon-sort-amount-asc:before {
 	content: "\f160";
+}
+
+.icon-clock-o:before {
+	content: "\f017";
+}
+
+.icon-random:before {
+	content: "\f074";
+}
+
+.icon-ellipsis-v:before {
+	content: "\f142";
+}
+
+.icon-th:before {
+	content: "\f00a";
+}
+
+.icon-bars:before {
+	content: "\f0c9";
 }
 
 .icon-sign-in:before {
@@ -121,14 +141,6 @@
 
 .icon-blog:before {
 	content: "\f0f6";
-}
-
-.icon-clock-o:before {
-	content: "\f017";
-}
-
-.icon-random:before {
-	content: "\f074";
 }
 
 .icon-copy:before {

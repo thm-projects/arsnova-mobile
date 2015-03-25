@@ -256,6 +256,11 @@
 				RESET_ALL_ANSWERS: "Alle Antworten zurücksetzen",
 				SHOW_FLASHCARD_ANSWER: "Antwort anzeigen",
 				HIDE_FLASHCARD_ANSWER: "Antwort ausblenden",
+				IMAGE_NEEDED: "Es wird ein Bild benötigt",
+				COMPRESSING_MASK: "Ihr Bild wird komprimiert ...",
+				PICTURE_RIGHT_INFORMATION: ['Bitte beachten Sie, dass Sie keine Bilder verwenden für deren Verwendung Sie keine Rechte haben (Urheberrechtsgesetz) oder die pornografische oder volksverhetzende(§130 StGB) Inhalte bergen!\n',
+						'Antwort abschicken?'
+				].join('\n'),
 
 				/* speaker */
 				LIVE_FEEDBACK: "Live-Feedback",
@@ -383,6 +388,7 @@
 				MISSING_ANSWERS: "Es fehlen Antwortoptionen",
 				MISSING_IMAGE: "Es wurde kein Bild hochgeladen",
 				MISSING_FLASHCARD: "Die Rückseite ist leer",
+				EXPECT_ANSWER_TEXT: "Lange Beschreibung zulassen?",
 
 				/*Export session*/
 				EXPORT_MSG: "Was möchten Sie exportieren?",
@@ -469,6 +475,10 @@
 				EVALUATION_NEUTRAL: "weder noch",
 				EVALUATION_MINUS: "trifft eher nicht zu",
 				EVALUATION_MINUSMINUS: "trifft gar nicht zu",
+				IMAGE_QUESTION_LBL: "Foto/Bild als Antwort hochladen?",
+				IMAGE_QUESTION_MINIATUR_VIEW: "Raster",
+				IMAGE_QUESTION_HORIZONTAL_VIEW: "Horizontal",
+				IMAGE_QUESTION_VERTICAL_VIEW: "Vertikal",
 
 				/* action buttons - <br/> forces line break for consistent look */
 				CREATE_NEW_SESSION: "Neue Session<br/>anlegen",
@@ -519,6 +529,7 @@
 				ACTIVE_STUDENT_USERS: "Aktive User in der Rolle Student/in",
 				FEATURES: "Features",
 				ACTIVATE_FEATURES: "Features aktivieren",
+				SETTINGS_SAVED: 'Ihre Einstellungen wurden gespeichert',
 
 				/* errors */
 				SESSION_NOT_FOUND: "Diese Session existiert nicht.",
@@ -529,6 +540,7 @@
 				BROWSER_SESSION_EXPIRED: "Browsersitzung abgelaufen",
 				BROWSER_SESSION_EXPIRED_MSG: "Ihre Browsersitzung ist abgelaufen. Möchten Sie ARSnova neustarten?",
 				QUESTION_COULD_NOT_BE_SAVED: "Speichern der Frage war nicht erfolgreich",
+				SETTINGS_COULD_NOT_BE_SAVED: "Speichern der Einstellungen war nicht erfolgreich",
 
 				/* misc */
 				NEW_VERSION_TITLE: "Neue Version",
@@ -755,6 +767,11 @@
 				RESET_ALL_ANSWERS: "Reset all answers",
 				SHOW_FLASHCARD_ANSWER: "Show answer",
 				HIDE_FLASHCARD_ANSWER: "Hide answer",
+				COMPRESSING_MASK: "Your image will be compressed ...",
+				IMAGE_NEEDED: "An image is needed",
+				PICTURE_RIGHT_INFORMATION: ['Please note, that you must not use pictures for which you do not have the rights to use(copyright) or that extend pornographic or inciting(§130 StGB) content!\n',
+					'Submit answer?'
+				].join('\n'),
 
 				/* speaker */
 				LIVE_FEEDBACK: "Instant feedback",
@@ -972,6 +989,11 @@
 				EVALUATION_NEUTRAL: "neutral",
 				EVALUATION_MINUS: "disagree",
 				EVALUATION_MINUSMINUS: "strongly disagree",
+				IMAGE_QUESTION_LBL: "Upload image/photo as answer?",
+				EXPECT_ANSWER_TEXT: "Allow long description?",
+				IMAGE_QUESTION_MINIATUR_VIEW: "Grid",
+				IMAGE_QUESTION_HORIZONTAL_VIEW: "Horizontal",
+				IMAGE_QUESTION_VERTICAL_VIEW: "Vertical",
 
 				/* action buttons - <br/> forces line break for consistent look */
 				CREATE_NEW_SESSION: "Create new<br/>session",
@@ -1023,6 +1045,7 @@
 				LEARNING_PROGRESS: "Learning progress",
 				FEATURES: "Features",
 				ACTIVATE_FEATURES: "Activate features",
+				SETTINGS_SAVED: 'Your settings have been saved.',
 
 				/* errors */
 				SESSION_NOT_FOUND: "This session does not seem to exist.",
@@ -1033,6 +1056,7 @@
 				BROWSER_SESSION_EXPIRED: "Browser Session Expired",
 				BROWSER_SESSION_EXPIRED_MSG: "Your current browser session is expired. Do you want to restart ARSnova?",
 				QUESTION_COULD_NOT_BE_SAVED: "Could not save question",
+				SETTINGS_COULD_NOT_BE_SAVED: "Could not save settings",
 
 				/* misc */
 				NEW_VERSION_TITLE: "New Version",
@@ -1050,7 +1074,6 @@
 			};
 			break;
 	}
-
-	// make Messages" globally accessible
+	// make Messages globally accessible
 	exports.Messages = Messages;
 })(window);

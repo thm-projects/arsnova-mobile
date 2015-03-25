@@ -69,7 +69,9 @@ Ext.define('ARSnova.model.Question', {
 			'numberOfDots',
 			'gridType',
 			'scaleFactor',
-			'gridScaleFactor'
+			'gridScaleFactor',
+			'imageQuestion',
+			'textAnswerEnabled'
 		],
 
 		validations: [
@@ -337,5 +339,9 @@ Ext.define('ARSnova.model.Question', {
 
 	setQuestionLectureSort: function (sessionKeyword, subject, sortType, questionIDs, callbacks) {
 		return this.getProxy().setQuestionSort(sessionKeyword, subject, false, sortType, questionIDs, callbacks);
+	},
+
+	getImageAnswerImage: function (questionId, answerId, callbacks) {
+		return this.getProxy().getImageAnswerImage(questionId, answerId, callbacks);
 	}
 });
