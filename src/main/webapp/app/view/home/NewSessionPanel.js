@@ -32,6 +32,9 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 	unavailableSessionIds: [],
 	mycourses: [],
 	mycoursesStore: null,
+	toggleButton: null,
+	additionalFormFields: null,
+	formFields: null,
 
 	/* toolbar items */
 	toolbar: null,
@@ -124,36 +127,147 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				this.backButton
 			]
 		});
-
-		this.add([this.toolbar, {
-			title: 'createSession',
-			style: {
-				marginTop: '15px'
-			},
-			xtype: 'formpanel',
-			scrollable: null,
-			id: 'createSession',
-			submitOnAction: false,
-
+		
+		this.formFields = Ext.create('Ext.form.FieldSet', {
 			items: [{
-				xtype: 'fieldset',
-				items: [{
-					xtype: 'textfield',
-					name: 'name',
-					label: Messages.SESSION_NAME,
-					placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
-					maxLength: 50,
-					clearIcon: true
-				}, {
-					xtype: 'textfield',
-					name: 'shortName',
-					label: Messages.SESSION_SHORT_NAME,
-					placeHolder: Messages.SESSION_SHORT_NAME_PLACEHOLDER,
-					maxLength: 8,
-					clearIcon: true
-				}]
-			}, this.submitButton, this.coursesFieldset]
-		}]);
+				xtype: 'textfield',
+				name: 'name',
+				label: Messages.SESSION_NAME+'*',
+				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+				maxLength: 50,
+				clearIcon: true
+			}, {
+				xtype: 'textfield',
+				name: 'shortName',
+				label: Messages.SESSION_SHORT_NAME+'*',
+				placeHolder: Messages.SESSION_SHORT_NAME_PLACEHOLDER,
+				maxLength: 8,
+				clearIcon: true
+			}]
+		});
+		
+		this.additionalFormCreator = Ext.create('Ext.form.FieldSet', {
+			hidden: true,
+			title: 'Verfasserinformationen',
+			showAnimation: 'fade',
+			hideAnimation: 'fadeOut',
+			items: [{
+				xtype: 'textfield',
+				name: 'ppAuthorName',
+				label: "Name des Dozenten",
+				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+				maxLength: 50,
+				clearIcon: true
+			},{
+				xtype: 'textfield',
+				name: 'ppAuthorMail',
+				label: "Email",
+				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+				maxLength: 50,
+				clearIcon: true
+			},{
+				xtype: 'textfield',
+				name: 'ppUniversity',
+				label: "Hochschule",
+				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+				maxLength: 50,
+				clearIcon: true
+			},{
+				xtype: 'textfield',
+				name: 'ppFaculty',
+				label: "Fachbereich",
+				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+				maxLength: 50,
+				clearIcon: true
+			}]
+		});
+		
+		this.additionalFormSession = Ext.create('Ext.form.FieldSet', {
+			hidden: true,
+			title: 'Sessioninformationen',
+			showAnimation: 'fade',
+			hideAnimation: 'fadeOut',
+			items: [{
+				xtype: 'textfield',
+				name: 'ppSubject',
+				label: "Studiengang",
+				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+				maxLength: 50,
+				clearIcon: true
+			},{
+				xtype: 'textfield',
+				name: 'ppLevel',
+				label: "Niveau",
+				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+				maxLength: 50,
+				clearIcon: true
+			},{
+				xtype: 'textareafield',
+				name: 'ppDescription',
+				label: "Beschreibung",
+				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+				maxLength: 150,
+				clearIcon: true
+			},{
+				xtype: 'textfield',
+				name: 'ppLogo',
+				label: "logo test#",
+				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+				maxLength: 50,
+				clearIcon: true
+			}]
+		});
+		
+
+				
+		this.toggleButton = Ext.create('Ext.field.Toggle', {
+			
+			label: 'Weitere Angaben?',
+			scope: this,
+			listeners: {
+				scope: this,
+				change: function (toggle, newValue, oldValue, eOpts) {
+					if (newValue && !this.isOpen || !newValue && this.isOpen) {
+						this.additionalFormCreator.show();
+						this.additionalFormSession.show();
+
+					}
+					else {
+						this.additionalFormCreator.hide();
+						this.additionalFormSession.hide();
+					}
+				}
+			}
+		});
+
+			
+		
+		this.add([
+		    this.toolbar, 
+		    {
+		    	title: 'createSession',
+		    	style: {
+		    		marginTop: '15px'
+		    	},
+		    	xtype: 'formpanel',
+		    	scrollable: null,
+		    	id: 'createSession',
+		    	submitOnAction: false,
+
+		    	items: [
+			    
+			    this.formFields,
+			    this.additionalFormSession,
+			    this.additionalFormCreator,
+			    {	// Toggle additional Fields on/off
+			    	xtype: 'fieldset',
+			    	items: [this.toggleButton]
+			    },
+			    this.submitButton,
+			    this.coursesFieldset
+			    ]
+		    }
+		]);
 
 		this.onBefore('activate', function () {
 			this.getMyCourses();
@@ -180,6 +294,15 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		ARSnova.app.getController('Sessions').create({
 			name: values.name,
 			shortName: values.shortName,
+			ppAuthorName: values.ppAuthorName,
+			ppAuthorMail: values.ppAuthorMail,
+			ppUniversity: values.ppUniversity,
+			ppFaculty: values.ppFaculty,
+			ppLicense: values.ppLicense,
+			ppSubject: values.ppSubject,
+			ppLevel: values.ppLevel,
+			ppDescription: values.ppDescription,
+			ppLogo: values.ppLogo,
 			newSessionPanel: panel,
 			creationTime: Date.now()
 		});
@@ -201,6 +324,11 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		ARSnova.app.getController('Sessions').create({
 			name: course.get('fullname'),
 			shortName: shortName,
+			ppAuthorName: course.get('ppAuthorName'),
+			ppAuthorMail: course.get('ppAuthorMail'),
+			ppUniversity: curse.get('ppUniversity'),
+			ppFaculty: course.get('ppFaculty'),
+			ppLicense: course.get('ppLicense'),
 			courseId: course.get('id'),
 			courseType: course.get('type'),
 			newSessionPanel: panel

@@ -489,7 +489,7 @@
 				QUESTION_REQUEST_ADHOC: 'Ich habe eine<br/>Frage',
 
 				/* about */
-				INFO: "Handbuch",
+				INFO: "Hilfe",
 				ABOUT: "Über",
 				IMPRINT: "Impressum",
 				PRIVACY: "Datenschutz",
@@ -991,7 +991,7 @@
 				QUESTION_REQUEST_ADHOC: "I've got a<br/>question",
 
 				/* about */
-				INFO: "Manual",
+				INFO: "Help",
 				ABOUT: "About",
 				IMPRINT: "Imprint",
 				PRIVACY: "Privacy Policy",

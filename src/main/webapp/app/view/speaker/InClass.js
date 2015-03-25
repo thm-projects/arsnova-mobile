@@ -38,6 +38,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	inClassActions: null,
 	sessionStatusButton: null,
 	createAdHocQuestionButton: null,
+	inClassIdInfo: null,
+	sessionInfoButton: null,
 
 	/**
 	 * task for speakers in a session
@@ -186,14 +188,47 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			scrollable: null,
 			items: buttons
 		});
+		
+		this.sessionInfoButton = Ext.create('Ext.Button', {
+			cls: 'sessionInfoIconId',
+			iconCls: 'info',
+			padding: '0',
+			margin: '0',
+
+			handler: function (button) {
+
+				// change to session info
+				
+				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+				var sessionInfoPanel = Ext.create('ARSnova.view.home.SessionInfoPanel');
+				sTP.animateActiveItem(sessionInfoPanel, 'slide');
+			}
+		});
+		
+		this.inClassIdInfo = Ext.create('Ext.Panel', {
+			style: {marginTop: '20px'},
+			layout: {
+				type: 'hbox',
+				pack: 'center'
+			},
+
+			items: [
+				{
+					cls: 'gravure',
+					html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(sessionStorage.getItem("keyword"))
+				},
+				this.sessionInfoButton
+			]
+		});
 
 		this.inClassItems = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 
-			items: [{
-				cls: 'gravure',
-				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(sessionStorage.getItem("keyword"))
-			}, this.actionButtonPanel, this.inClassButtons]
+			items: [
+			    this.inClassIdInfo,
+				this.actionButtonPanel,
+				this.inClassButtons
+			]
 		});
 
 		this.sessionStatusButton = Ext.create('ARSnova.view.SessionStatusButton');

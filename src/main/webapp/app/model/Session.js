@@ -110,6 +110,33 @@ Ext.define('ARSnova.model.Session', {
 			failure: callbacks.failure
 		});
 	},
+	
+	// get session infos
+	getSessionInfo: function (keyword, callbacks) {
+
+		return this.getProxy().checkSessionLogin(keyword, {
+			success: function (response) {
+				var obj = Ext.decode(response.responseText);
+				callbacks.success(obj);
+			},
+			failure: callbacks.failure
+		});
+	},
+	
+	// update session infos
+	updateSessionInfo: function (session, sessionId, callbacks) {
+		
+		console.log("model: "+session);
+
+		return this.getProxy().updateSession(session, sessionId, {
+			success: function (response) {
+				//var obj = Ext.decode(response.responseText);
+				console.log("update war erfolgreich");
+				callbacks.success(obj);
+			},
+			failure: callbacks.failure
+		});
+	},
 
 	getMySessions: function (callbacks, sortby) {
 		return this.getProxy().getMySessions(callbacks, sortby);
