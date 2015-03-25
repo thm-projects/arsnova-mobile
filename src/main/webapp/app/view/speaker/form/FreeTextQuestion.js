@@ -44,8 +44,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 				listeners: {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
-						alert(newValue);
-						me.textAnswerEnabled = newValue == 0 ? false : true;
+						me.textAnswerEnabled = newValue !== 0;
 					}
 				},
 				value: true
@@ -70,7 +69,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 				listeners: {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
-						me.imageQuestion = newValue == 0 ? false : true;
+						me.imageQuestion = newValue !== 0;
 						if (me.textAnswerFieldSet.isHidden()) {
 							me.textAnswerFieldSet.show();
 						} else {
@@ -89,14 +88,12 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		});
 
 		this.add([answerFieldset, this.textAnswerFieldSet]);
-
 	},
 
 	getQuestionValues: function () {
 		var result = {};
 		result.imageQuestion = this.imageQuestion;
 		result.textAnswerEnabled = this.textAnswerEnabled;
-		alert(result.textAnswerEnabled);
 		return result;
 	}
 
