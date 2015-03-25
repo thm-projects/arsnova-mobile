@@ -455,8 +455,8 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						iconCls: 'info',
 						width: '7%',
 						sessionObj: session,
-
 						handler: sessionInfoButtonHandler 
+
 					});
 					
 					// Container to show the Session-Info-Button aside the List

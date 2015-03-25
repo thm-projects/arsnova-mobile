@@ -24,7 +24,9 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 		'ARSnova.view.speaker.AudienceQuestionPanel',
 		'ARSnova.view.speaker.NewQuestionPanel',
 		'ARSnova.view.speaker.ShowcaseQuestionPanel',
-		'ARSnova.view.LearningProgressPanel'
+		'ARSnova.view.LearningProgressPanel',
+		'ARSnova.view.speaker.SortQuestionPanel',
+		'ARSnova.view.about.AboutTabPanel'
 	],
 
 	config: {
@@ -44,11 +46,41 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 		this.newQuestionPanel = Ext.create('ARSnova.view.speaker.NewQuestionPanel');
 		this.showcaseQuestionPanel = Ext.create('ARSnova.view.speaker.ShowcaseQuestionPanel');
 		this.learningProgressPanel = Ext.create('ARSnova.view.LearningProgressPanel');
+		this.infoTabPanel = Ext.create('ARSnova.view.about.AboutTabPanel');
+		this.sortQuestionPanel = Ext.create('ARSnova.view.speaker.SortQuestionPanel');
 
+		
+		
+		
+		this.on('activeitemchange', function (panel, newCard, oldCard) {
+			ARSnova.app.innerScrollPanel = false;
+			ARSnova.app.lastActivePanel = oldCard;
+
+			this.setWindowTitle(newCard);
+
+			switch (oldCard) {
+				case this.infoTabPanel:
+				case this.audienceQuestionPanel:
+				case this.newQuestionPanel:
+				case this.showcaseQuestionPanel:
+				case this.learningProgressPanel:
+				case ARSnova.app.getController('Application').embeddedPage:
+					break;
+
+				default:
+					ARSnova.app.lastActiveMainTabPanel = oldCard;
+			}
+
+	}, this);
+		
+		
+		
 		this.add([
 			this.inClassPanel,
 			this.audienceQuestionPanel,
-			this.newQuestionPanel
+			this.newQuestionPanel,
+			this.sortQuestionPanel,
+			this.infoTabPanel
 		]);
 	},
 

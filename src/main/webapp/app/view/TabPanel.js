@@ -27,7 +27,8 @@ Ext.define('ARSnova.view.TabPanel', {
 		'ARSnova.view.about.BlogTabPanel',
 		'ARSnova.view.about.AboutTabPanel',
 		'ARSnova.view.about.ImprintTabPanel',
-		'ARSnova.view.about.PrivacyTabPanel'
+		'ARSnova.view.about.PrivacyTabPanel',
+		'ARSnova.view.about.AboutUniTabPanel'
 	],
 
 	config: {
@@ -76,6 +77,7 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.blogTabPanel = Ext.create('ARSnova.view.about.BlogTabPanel');
 		this.privacyTabPanel = Ext.create('ARSnova.view.about.PrivacyTabPanel');
 		this.imprintTabPanel = Ext.create('ARSnova.view.about.ImprintTabPanel');
+		this.aboutUniTabPanel = Ext.create('ARSnova.view.about.AboutUniTabPanel');
 
 		this.add([
 			this.rolePanel,
@@ -85,7 +87,8 @@ Ext.define('ARSnova.view.TabPanel', {
 			this.infoTabPanel,
 			this.blogTabPanel,
 			this.privacyTabPanel,
-			this.imprintTabPanel
+			this.imprintTabPanel,
+			this.aboutUniTabPanel
 		]);
 
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
@@ -109,10 +112,8 @@ Ext.define('ARSnova.view.TabPanel', {
 			}
 
 			if (newCard === this.rolePanel) {
-				this.infoTabPanel.tab.hide();
 				this.blogTabPanel.tab.show();
 			} else {
-				this.infoTabPanel.tab.show();
 				this.blogTabPanel.tab.hide();
 			}
 
@@ -122,17 +123,29 @@ Ext.define('ARSnova.view.TabPanel', {
 					newCard === this.imprintTabPanel ||
 					newCard === this.blogTabPanel
 				) {
-					this.infoTabPanel.tab.hide();
 					this.blogTabPanel.tab.show();
+					this.infoTabPanel.setHtml("<div class='gravure'>" + Messages.HELP_ROLEPANEL+ "</div>");
 				}
+			}
+			if (ARSnova.app.lastActiveMainTabPanel === this.homeTabPanel) {
+				
+				if (newCard === this.infoTabPanel) {
+						this.infoTabPanel.setHtml("<div class='gravure'>" + Messages.HELP_HOMETABPANEL+ "</div>");
+					}
+			}
+			if (ARSnova.app.lastActiveMainTabPanel === this.loginPanel) {
+				
+				if (newCard === this.infoTabPanel) {
+						this.infoTabPanel.setHtml("<div class='gravure'>" + Messages.HELP_LOGINPANEL+ "</div>");
+					}
 			}
 		}, this);
 
 		this.on('initialize', function () {
 			this.rolePanel.tab.hide();
 			this.loginPanel.tab.hide();
+			this.aboutUniTabPanel.tab.hide();
 			this.homeTabPanel.tab.hide();
-			this.infoTabPanel.tab.hide();
 			this.diagnosisPanel.tab.hide();
 		});
 		this.on('activate', this.onActivate);
@@ -163,11 +176,14 @@ Ext.define('ARSnova.view.TabPanel', {
 			case this.loginPanel:
 				ARSnova.app.setWindowTitle(' - ' + Messages.LOGIN);
 				break;
+			case this.aboutUniTabPanel:
+				ARSnova.app.setWindowTitle(' - ' + Messages.ABOUT);
+				break;
 			case this.diagnosisPanel:
 				ARSnova.app.setWindowTitle(' - ' + Messages.DIAGNOSIS);
 				break;
 			case this.infoTabPanel:
-				ARSnova.app.setWindowTitle(' - ' + Messages.INFO);
+				ARSnova.app.setWindowTitle(' - ' + Messages.HELP);
 				break;
 			case this.feedbackTabPanel:
 				ARSnova.app.setWindowTitle(' - ' + Messages.FEEDBACK);

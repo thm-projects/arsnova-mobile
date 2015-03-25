@@ -29,7 +29,6 @@ Ext.define('ARSnova.model.Answer', {
 			'user',
 			'answerSubject',
 			'answerText',
-			'answerImage',
 			'questionId',
 			'sessionId',
 			'abstention',

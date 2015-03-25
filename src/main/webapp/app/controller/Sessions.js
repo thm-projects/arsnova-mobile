@@ -74,17 +74,18 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('ppUniversity', obj.ppUniversity);
 				localStorage.setItem('ppFaculty', obj.ppFaculty);
 				localStorage.setItem('ppLicense', obj.ppLicense);
+
 				localStorage.setItem('ppSubject', obj.ppSubject);
 				localStorage.setItem('ppLevel', obj.ppLevel);
 				localStorage.setItem('ppDescription', obj.ppDescription);
 				localStorage.setItem('ppLogo', obj.ppLogo);
+
 				localStorage.setItem('courseId', obj.courseId === null ? "" : obj.courseId);
 				localStorage.setItem('courseType', obj.courseType === null ? "" : obj.courseType);
 				localStorage.setItem('active', obj.active ? 1 : 0);
 				localStorage.setItem('creationTime', obj.creationTime);
 
 				sessionStorage.setItem('keyword', obj.keyword);
-				sessionStorage.setItem('features', Ext.encode(obj.features));
 
 				// initialize MathJax
 				ARSnova.app.getController('Application').initializeMathJax();
@@ -182,7 +183,6 @@ Ext.define("ARSnova.controller.Sessions", {
 
 	logout: function () {
 		ARSnova.app.socket.setSession(null);
-		ARSnova.app.sessionModel.fireEvent(ARSnova.app.sessionModel.events.sessionLeave);
 
 		ARSnova.app.loggedInModel.resetActiveUserCount();
 
@@ -193,7 +193,6 @@ Ext.define("ARSnova.controller.Sessions", {
 		ARSnova.app.taskManager.stop(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
 
 		sessionStorage.removeItem("keyword");
-		sessionStorage.removeItem("features");
 
 		localStorage.removeItem("sessionId");
 		localStorage.removeItem("name");
@@ -203,10 +202,12 @@ Ext.define("ARSnova.controller.Sessions", {
 		localStorage.removeItem("ppUniversity");
 		localStorage.removeItem("ppFaculty");
 		localStorage.removeItem("ppLicense");
+
 		localStorage.removeItem("ppSubject");
 		localStorage.removeItem("ppLevel");
 		localStorage.removeItem("ppDescription");
 		localStorage.removeItem("ppLogo");
+
 		localStorage.removeItem("active");
 		localStorage.removeItem("session");
 		localStorage.removeItem("courseId");
@@ -260,7 +261,6 @@ Ext.define("ARSnova.controller.Sessions", {
 		var hideLoadMask = Ext.emptyFn;
 
 		if (ARSnova.app.isSessionOwner && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-			ARSnova.app.sessionModel.fireEvent(ARSnova.app.sessionModel.events.sessionJoinAsSpeaker);
 			/* add speaker in class panel */
 			if (!tabPanel.speakerTabPanel) {
 				tabPanel.speakerTabPanel = Ext.create('ARSnova.view.speaker.TabPanel');
@@ -285,7 +285,6 @@ Ext.define("ARSnova.controller.Sessions", {
 				tabPanel.feedbackTabPanel.renew();
 			}
 		} else {
-			ARSnova.app.sessionModel.fireEvent(ARSnova.app.sessionModel.events.sessionJoinAsStudent);
 			/* add user in class panel */
 			if (!tabPanel.userTabPanel) {
 				tabPanel.userTabPanel = Ext.create('ARSnova.view.user.TabPanel');
@@ -383,7 +382,7 @@ Ext.define("ARSnova.controller.Sessions", {
 
 		var validation = session.validate();
 		if (!validation.isValid()) {
-			Ext.Msg.alert('Hinweis', 'Bitte alle markierten Felder ausfüllen.');
+			Ext.Msg.alert('Hinweis', 'Bitte alle markierten Felder ausfÃƒÂ¼llen.');
 			var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel;
 			panel.down('fieldset').items.items.forEach(function (el) {
 				if (el.xtype === 'textfield') {
@@ -411,10 +410,12 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('ppUniversity', fullSession.ppUniversity);
 				localStorage.setItem('ppFaculty', fullSession.ppFaculty);
 				localStorage.setItem('ppLicense', fullSession.ppLicense);
+
 				localStorage.setItem('ppSubject', fullSession.ppSubject);
 				localStorage.setItem('ppLevel', fullSession.ppLevel);
 				localStorage.setItem('ppDescription', fullSession.ppDescription);
 				localStorage.setItem('ppLogo', fullSession.ppLogo);
+
 				localStorage.setItem('active', fullSession.active ? 1 : 0);
 				localStorage.setItem('courseId', fullSession.courseId === null ? "" : fullSession.courseId);
 				localStorage.setItem('courseType', fullSession.courseType === null ? "" : fullSession.courseType);

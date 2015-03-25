@@ -16,44 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-Ext.define('ARSnova.view.about.AboutTabPanel', {
-	extend: 'Ext.tab.Panel',
-
-	requires: ['ARSnova.view.components.EmbeddedPage'],
+Ext.define('ARSnova.view.home.SessionList', {
+	extend: 'Ext.form.FormPanel',
 
 	config: {
-		title: Messages.HELP,
-		iconCls: 'icon-book',
+		title: ""
+	},
 
-		scrollable: {
-			direction: 'vertical',
-			directionLock: true
-		},
-		tabBar: {
-			hidden: true
-		}
-		},
-	initialize: function () {
+	constructor: function () {
 		this.callParent(arguments);
-		this.toolbar = Ext.create('Ext.Toolbar', {
-			docked: 'top',
-			title: this.getTitle(),
-			ui: 'light',
-			items: [{
-				xtype: 'button',
-				text: Messages.BACK,
-				ui: 'back',
-				scope: this,
-				handler: function () {
-					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.lastActiveMainTabPanel, {
-						type: 'slide',
-						direction: 'right',
-						duration: 700
-					});
-				}
-			}]
+
+		this.content = Ext.create('Ext.form.FieldSet', {
+			cls: 'standardFieldset',
+			title: this.getTitle()
 		});
-		this.add(this.toolbar);
+
+		this.add(this.content);
+	},
+
+	addEntry: function (element) {
+		this.content.add(element);
+	},
+
+	removeAll: function () {
+		this.content.removeAll();
 	}
 });
