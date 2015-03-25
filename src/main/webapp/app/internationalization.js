@@ -252,6 +252,7 @@
 				/* speaker */
 				LIVE_FEEDBACK: "Live-Feedback",
 				COURSES_LEARNING_PROGRESS: "Lernstand des Kurses",
+				COURSES_LEARNING_PROGRESS_SHORT: "Lernstand",
 				CURRENT_VALUE: "Aktueller Wert",
 				HOW_TO_CALCULATE_LEARNING_PROGRESS: "Wie soll der Lernstand berechnet werden?",
 				QUESTION_BASED_PROGRESS: "Fragenbasiert",
@@ -262,16 +263,16 @@
 					'Eine Frage gilt als korrekt beantwortet, wenn die jeweilige Maximalpunktzahl erreicht ist. Das heißt, wenn eine',
 					'falsche Antwortoption gewählt wurde, werden Punkte abgezogen und die Maximalpunktzahl kann nicht mehr erreicht werden.',
 					'Erreicht ein Studierender für die drei Fragen eine Punktzahl von 10, 20 und 20 wurde demnach die letzte Frage falsch beantwortet.',
-					'Der individuelle Lernstand berechnet sich nach der Formel: \\\\[ l_{\\text{Stud}} = \\frac{\\text{Anzahl richtiger Antworten}}{\\text{Anzahl Fragen}} = \\frac{2}{3} \\hat{=}\\, 67\\%\\\\]\n',
-					'Für den Kurs ergibt sich der Lernstand über die Anzahl der Studierenden: \\\\[l_{\\text{Kurs}} = \\frac{\\text{Richtige Antworten aller Studierender}}{\\text{Anzahl Fragen} \\cdot \\text{Anzahl Studierende}}\\\\]'
+					'Der individuelle Lernstand berechnet sich nach der Formel: \\\\[ l_{\\text{S}} = \\frac{\\text{Richtige Antw.}}{\\text{Fragen}} = \\frac{2}{3} \\hat{=}\\, 67\\%\\\\]\n',
+					'Für den Kurs ergibt sich der Lernstand über die Anzahl der Studierenden: \\\\[l_{\\text{K}} = \\frac{\\text{Richtige Antworten}}{\\text{Fragen} \\cdot \\text{Studierende}}\\\\]'
 				].join('\n'),
 				SCORE_BASED_PROGRESS_EXPLANATION: [
 					'Der punktbasierte Lernstand gewichtet Fragen mit mehreren richtigen Antwortoptionen stärker als Fragen mit nur einer richtigen Option. Der Lernstand berechnet sich beispielhaft wie folgt:\n',
 					'Es sind 3 Fragen vorhanden, die jeweils eine maximalmögliche Punktzahl haben. Die Punkte seien 10, 20 und 30.',
 					'Das bedeutet, dass ein Studierender für die Beantwortung der 3 Fragen insgesamt 60 Punkte erreichen kann.',
 					'Bei Auswahl von falschen Antwortmöglichkeiten reduziert sich die erreichte Punktzahl, z.B. auf 30.',
-					'Der individuelle Lernstand berechnet sich also nach der Formel: \\\\[ l_{\\text{Stud}} = \\frac{\\text{Erreichte Punkte}}{\\text{Mögliche Punkte}} = \\frac{30}{60} \\hat{=}\\, 50\\%\\\\]\n',
-					'Für den Kurs ergibt sich der Lernstand über die Anzahl der Studierenden: \\\\[l_{\\text{Kurs}} = \\frac{\\text{Erreichte Punkte aller Studierender}}{\\text{Mögliche Punkte} \\cdot \\text{Anzahl Studierende}}\\\\]'
+					'Der individuelle Lernstand berechnet sich also nach der Formel: \\\\[ l_{\\text{S}} = \\frac{\\text{Erreichte Punkte}}{\\text{Mögliche Punkte}} = \\frac{30}{60} \\hat{=}\\, 50\\%\\\\]\n',
+					'Für den Kurs ergibt sich der Lernstand über die Anzahl der Studierenden: \\\\[l_{\\text{K}} = \\frac{\\text{Gesamtzahl erreichter Punkte}}{\\text{Mögliche Punkte} \\cdot \\text{Studierende}}\\\\]'
 				].join('\n'),
 				NEW_LECTURE_QUESTION: "Neue Hörsaalfrage",
 				NEW_PREPARATION_QUESTION: "Neue Vorbereitungsfrage",
@@ -750,6 +751,7 @@
 				/* speaker */
 				LIVE_FEEDBACK: "Instant feedback",
 				COURSES_LEARNING_PROGRESS: "Class progress",
+				COURSES_LEARNING_PROGRESS_SHORT: "Class progress",
 				CURRENT_VALUE: "Current value",
 				HOW_TO_CALCULATE_LEARNING_PROGRESS: "How to calculate the learning progress?",
 				QUESTION_BASED_PROGRESS: "Question based",
@@ -760,16 +762,16 @@
 					'A question is treated as corretly answered if their respective maximum value is scored.',
 					'If an incorrect answer option is chosen, negative points are scored and the maximum value cannot be reached anymore.',
 					'If a student scores 10, 20, and 20 points, this will mean the last question was not answered correctly.',
-					'The individual learning progress is calculated using this formula: \\\\[ l_{\\text{Stud}} = \\frac{\\text{Number of correct answers}}{\\text{Number of questions}} = \\frac{2}{3} \\hat{=}\\, 67\\%\\\\]\n',
-					'For the whole course, the progress is calculated using the total number of students: \\\\[l_{\\text{Course}} = \\frac{\\text{Number of correct answers of all students}}{\\text{Number of questions} \\cdot \\text{Number of students}}\\\\]'
+					'The individual learning progress is calculated using this formula: \\\\[ l_{\\text{S}} = \\frac{\\text{Correct answers}}{\\text{Questions}} = \\frac{2}{3} \\hat{=}\\, 67\\%\\\\]\n',
+					'For the whole course, the progress is calculated using the total number of students: \\\\[l_{\\text{C}} = \\frac{\\text{Correct answers}}{\\text{Questions} \\cdot \\text{Students}}\\\\]'
 				].join('\n'),
 				SCORE_BASED_PROGRESS_EXPLANATION: [
 					'The score-based learning progress puts more weight on questions with many correct answer options compared to questions with only one correct option. For example, the learning progress is calculated as follows:\n',
 					'There are 3 questions which have a maximum value of 10, 20, and 30.',
 					'This means that students can score a total of 60 points for all three questions.',
 					'If an incorrect answer option is chosen, the score will be reduced, e.g., to 30.',
-					'The individual learning progress is calculated using this formula: \\\\[ l_{\\text{Stud}} = \\frac{\\text{Points scored}}{\\text{Points achievable}} = \\frac{30}{60} \\hat{=}\\, 50\\%\\\\]\n',
-					'For the whole course, the progress is calculated using the total number of students: \\\\[l_{\\text{Course}} = \\frac{\\text{Points scored by all students}}{\\text{Points achievable} \\cdot \\text{Number of students}}\\\\]'
+					'The individual learning progress is calculated using this formula: \\\\[ l_{\\text{S}} = \\frac{\\text{Points scored}}{\\text{Points achievable}} = \\frac{30}{60} \\hat{=}\\, 50\\%\\\\]\n',
+					'For the whole course, the progress is calculated using the total number of students: \\\\[l_{\\text{C}} = \\frac{\\text{Points scored by all students}}{\\text{Points achievable} \\cdot \\text{Students}}\\\\]'
 				].join('\n'),
 				NEW_LECTURE_QUESTION: "New lecture question",
 				NEW_PREPARATION_QUESTION: "New preparation question",
