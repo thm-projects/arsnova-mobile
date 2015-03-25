@@ -365,7 +365,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
 		panel.sortType = 'custom';
 		panel.questionStore.sort([{
-			sorterFn: function(a, b) {
+			sorterFn: function (a, b) {
 				return 0.5 - Math.random();
 			},
 			direction: 'ASC'
@@ -387,7 +387,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		switch (panel.sortType) {
 			case 'alphabet':
 				panel.questionStore.sort([{
-					sorterFn: function(a, b) {
+					sorterFn: function (a, b) {
 						var as = a.get('text'), bs = b.get('text');
 						if (as.toLowerCase() < bs.toLowerCase()) return -1;
 						if (as.toLowerCase() > bs.toLowerCase()) return 1;
@@ -399,7 +399,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			case 'time':
 				panel.questionStore.sort([
 					{
-						property : 'timestamp',
+						property: 'timestamp',
 						direction: 'ASC'
 					}
 				]);

@@ -47,16 +47,15 @@ Ext.define('ARSnova.view.speaker.SortableListExtended', {
 		handleSelector: '.' + Ext.baseCSSPrefix + 'list-sortablehandle'
 	},
 
-	init: function(list) {
+	init: function (list) {
 		this.setList(list);
 	},
 
-	updateList: function(list) {
+	updateList: function (list) {
 		if (list) {
 			if (list.initialized) {
 				this.attachListeners();
-			}
-			else {
+			} else {
 				list.on({
 					initialize: 'attachListeners',
 					scope: this,
@@ -66,7 +65,7 @@ Ext.define('ARSnova.view.speaker.SortableListExtended', {
 		}
 	},
 
-	attachListeners: function() {
+	attachListeners: function () {
 		var list = this.getList(),
 			scrollerElement = list.getScrollable().getScroller().getContainer();
 
@@ -78,7 +77,7 @@ Ext.define('ARSnova.view.speaker.SortableListExtended', {
 		});
 	},
 
-	onScrollerDragStart: function(e, target) {
+	onScrollerDragStart: function (e, target) {
 		if (Ext.DomQuery.is(target, this.getHandleSelector())) {
 			if (!this.animating) {
 				this.onDragStart(e, target);
@@ -87,7 +86,7 @@ Ext.define('ARSnova.view.speaker.SortableListExtended', {
 		}
 	},
 
-	onDragStart: function(e) {
+	onDragStart: function (e) {
 		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel.setScrollable(false);
 		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel.setScrollable(false);
 		var row = Ext.getCmp(e.getTarget('.' + Ext.baseCSSPrefix + 'list-item').id),
@@ -120,7 +119,7 @@ Ext.define('ARSnova.view.speaker.SortableListExtended', {
 		row.addCls(Ext.baseCSSPrefix + 'list-item-dragging');
 	},
 
-	onDrag: function(e) {
+	onDrag: function (e) {
 		var list = this.getList(),
 			listItems = list.listItems,
 			collection = list.getStore().data,
@@ -181,7 +180,7 @@ Ext.define('ARSnova.view.speaker.SortableListExtended', {
 		}
 	},
 
-	onDragEnd: function() {
+	onDragEnd: function () {
 		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel.setScrollable(true);
 		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortSubjectsPanel.sortType = "custom";
 		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel.setScrollable(true);
@@ -200,7 +199,7 @@ Ext.define('ARSnova.view.speaker.SortableListExtended', {
 
 		this.animating = true;
 
-		row.getTranslatable().on('animationend', function() {
+		row.getTranslatable().on('animationend', function () {
 			row.removeCls(Ext.baseCSSPrefix + 'list-item-dragging');
 
 			list.updateListItem(row, row.$dataIndex, listItemInfo);
