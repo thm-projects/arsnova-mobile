@@ -44,8 +44,7 @@ Ext.define('FreetextAnswer', {
 			'piRound',
 			'sessionId',
 			'type',
-			'_rev',
-			'answerThumbnailImage'
+			'_rev'
 		]
 	}
 });
@@ -974,7 +973,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	},
 
 	getType: function () {
-		var self = this;
 		if (this.questionObj.questionType) {
 			switch (this.questionObj.questionType) {
 				case "vote":
@@ -988,11 +986,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				case "yesno":
 					return Messages.YESNO;
 				case "freetext":
-					if (self.questionObj.imageQuestion){
-						return Messages.IMAGE_ANSWER_LONG;
-					} else {
-						return Messages.FREETEXT;
-					}
+					return Messages.FREETEXT;
 				case "flashcard":
 					return Messages.FLASHCARD;
 				case "grid":
@@ -1066,18 +1060,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							cls: 'forwardListButton',
 							text: Messages.ANSWERS,
 							handler: function () {
-								var p;
-								if (self.questionObj.imageQuestion){
-									p = Ext.create('ARSnova.view.ImageAnswerPanel', {
+								var p = Ext.create('ARSnova.view.FreetextAnswerPanel', {
 									question: self.questionObj,
 									lastPanel: self
-									});
-								} else {
-									p = Ext.create('ARSnova.view.FreetextAnswerPanel', {
-									question: self.questionObj,
-									lastPanel: self
-									});
-								}
+								});
 								ARSnova.app.mainTabPanel.animateActiveItem(p, 'slide');
 							}
 						});

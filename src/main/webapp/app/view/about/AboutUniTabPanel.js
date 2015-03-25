@@ -46,7 +46,7 @@ Ext.define('ARSnova.view.about.AboutUniTabPanel', {
 			};
 
 			me.add([{
-				html: unitext
+				html: "<div class='gravure'>" +unitext + "</div>"
 			},{
 				xtype: 'toolbar',
 				docked: 'top',

@@ -295,10 +295,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	registerListeners: function () {
 		var inClassPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 		ARSnova.app.taskManager.start(inClassPanel.countFeedbackQuestionsTask);
-		ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.featureChangeLearningProgress, Ext.emptyFn);
-		ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.featureChangeInterposed, Ext.emptyFn);
-		ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.featureChangeFeedback, Ext.emptyFn);
-		ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.featureChangeJITT, Ext.emptyFn);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			ARSnova.app.taskManager.start(inClassPanel.courseLearningProgressTask);
 		}
@@ -317,10 +313,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	destroyListeners: function () {
 		var inClassPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 		ARSnova.app.taskManager.stop(inClassPanel.countFeedbackQuestionsTask);
-		ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.featureChangeLearningProgress, Ext.emptyFn);
-		ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.featureChangeInterposed, Ext.emptyFn);
-		ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.featureChangeFeedback, Ext.emptyFn);
-		ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.featureChangeJITT, Ext.emptyFn);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			ARSnova.app.taskManager.stop(inClassPanel.courseLearningProgressTask);
 		}

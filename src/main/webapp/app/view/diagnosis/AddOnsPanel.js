@@ -66,19 +66,19 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 				},
 
 				items: [{
-					name: 'jitt',
+					name: 'featureJITT',
 					label: Messages.PREPARATION_QUESTIONS_LONG
 				}, {
-					name: 'interposed',
+					name: 'featureInterposedQuestions',
 					label: Messages.QUESTIONS_FROM_STUDENTS
 				}, {
-					name: 'feedback',
+					name: 'featureFeedback',
 					label: Messages.LIVE_FEEDBACK
 				}, {
-					name: 'pi',
+					name: 'featurePeerInstruction',
 					label: Messages.PEER_INSTRUCTION_QUESTIONS
 				}, {
-					name: 'learningProgress',
+					name: 'featureLearningProgress',
 					label: Messages.LEARNING_PROGRESS
 				}]
 			}]
@@ -88,37 +88,8 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 			cls: 'centerButton',
 			ui: 'confirm',
 			text: Messages.SAVE,
-			scope: this,
-			handler: function (button) {
-				button.disable();
-				ARSnova.app.sessionModel.changeFeatures(sessionStorage.getItem("keyword"), this.featureFormPanel.getValues(), {
-					success: function () {
-						button.enable();
-						var theNotificationBox = {};
-						theNotificationBox = Ext.create('Ext.Panel', {
-							cls: 'notificationBox',
-							name: 'notificationBox',
-							showAnimation: 'pop',
-							modal: true,
-							centered: true,
-							width: 300,
-							styleHtmlContent: true,
-							styleHtmlCls: 'notificationBoxText',
-							html: Messages.SETTINGS_SAVED
-						});
-						Ext.Viewport.add(theNotificationBox);
-						theNotificationBox.show();
-
-						/* Workaround for Chrome 34+ */
-						Ext.defer(function () {
-							theNotificationBox.destroy();
-						}, 3000);
-					},
-					failure: function () {
-						button.enable();
-						Ext.Msg.alert("", Messages.SETTINGS_COULD_NOT_BE_SAVED);
-					}
-				});
+			handler: function () {
+				// TODO
 			}
 		});
 
@@ -128,9 +99,5 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 		});
 
 		this.add([this.toolbar, this.formPanel]);
-
-		this.on('activate', function () {
-			this.featureFormPanel.setValues(Ext.decode(sessionStorage.getItem("features")));
-		}, this);
 	}
 });

@@ -19,8 +19,6 @@
 Ext.define('ARSnova.view.FreetextDetailAnswer', {
 	extend: 'Ext.Panel',
 
-	requires: ['ARSnova.view.components.GridImageContainer'],
-
 	config: {
 		title: 'FreetextDetailAnswer',
 		fullscreen: true,
@@ -78,54 +76,6 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
 		questionPanel.setContent(questionString, true, true);
 
-		var image = null;
-
-		function switchToFullScreen() {
-			if (image !== null) {
-				var img = document.getElementById("img").querySelector("canvas");
-				if (img.requestFullscreen) {
-					img.requestFullscreen();
-				} else if (img.msRequestFullscreen) {
-					img.msRequestFullscreen();
-				} else if (img.mozRequestFullScreen) {
-					img.mozRequestFullScreen();
-				} else if (img.webkitRequestFullscreen) {
-					img.webkitRequestFullscreen();
-				}
-			}
-		}
-
-		var imgContainer = Ext.create('ARSnova.view.components.GridImageContainer', {
-			id: 'img',
-			hidden: 'true',
-			gridIsHidden: true,
-			editable: false,
-			listeners: {
-				tap: {
-					fn: switchToFullScreen,
-					element: 'element'
-				},
-				click: {
-					fn: switchToFullScreen,
-					element: 'element'
-				}
-			}
-		});
-
-
-
-		ARSnova.app.questionModel.getImageAnswerImage(self.answer.questionId, self.answer._id, {
-			success: function (response) {
-				image = response.responseText;
-				imgContainer.setImage(image);
-				imgContainer.show();
-			},
-			failure: function () {
-				image = null;
-				imgContainer.hide();
-			}
-		});
-
 		this.add([this.toolbar, {
 			xtype: 'formpanel',
 			scrollable: null,
@@ -140,9 +90,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 				disabled: true
 				}, questionPanel
 			]
-		},
-		imgContainer,
-		{
+		}, {
 			xtype: 'button',
 			ui: 'decline',
 			cls: 'centerButton',
@@ -177,7 +125,6 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 	},
 
 	initialize: function () {
-		console.log("initialized4");
 		this.callParent(arguments);
 
 		this.on('painted', function () {

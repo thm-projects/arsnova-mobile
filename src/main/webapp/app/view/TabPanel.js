@@ -124,7 +124,20 @@ Ext.define('ARSnova.view.TabPanel', {
 					newCard === this.blogTabPanel
 				) {
 					this.blogTabPanel.tab.show();
+					this.infoTabPanel.setHtml("<div class='gravure'>" + Messages.HELP_ROLEPANEL+ "</div>");
 				}
+			}
+			if (ARSnova.app.lastActiveMainTabPanel === this.homeTabPanel) {
+				
+				if (newCard === this.infoTabPanel) {
+						this.infoTabPanel.setHtml("<div class='gravure'>" + Messages.HELP_HOMETABPANEL+ "</div>");
+					}
+			}
+			if (ARSnova.app.lastActiveMainTabPanel === this.loginPanel) {
+				
+				if (newCard === this.infoTabPanel) {
+						this.infoTabPanel.setHtml("<div class='gravure'>" + Messages.HELP_LOGINPANEL+ "</div>");
+					}
 			}
 		}, this);
 

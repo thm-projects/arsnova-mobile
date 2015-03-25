@@ -51,8 +51,9 @@ Ext.define('ARSnova.view.RolePanel', {
 	},
 
 	initialize: function () {
+		var uniEnabled = ARSnova.app.globalConfig.uniEnabled ? ARSnova.app.globalConfig.uniEnabled : "";
+		
 		this.callParent(arguments);
-
 		var isPhone = (Ext.os.is.Phone && Ext.os.is.iOS);
 		var smallHeight = document.body.clientHeight <= 460;
 		var mediumHeight = document.body.clientHeight >= 520;
@@ -125,6 +126,7 @@ Ext.define('ARSnova.view.RolePanel', {
 			style: 'margin-top: 15px',
 			items: [{
 				xtype: 'matrixbutton',
+				hidden: (uniEnabled !== 'true'),
 				text: Messages.ABOUT,
 				imageCls: "icon-book",
 				handler: function () {
