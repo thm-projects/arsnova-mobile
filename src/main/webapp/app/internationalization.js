@@ -211,6 +211,19 @@
 				NO_ANSWER_MARKED_CORRECT_OPTION_YES: "Trotzdem speichern",
 				NO_ANSWER_MARKED_CORRECT_OPTION_NO: "Abbrechen",
 
+				/* sort */
+				SORT_QUESTIONS_TITLE: "Fragen sortieren",
+				SORT_CATEGORIES_TITLE: "Kategorien suchen",
+				SORT_CATEGORIES: "Kategorien",
+				SORT_SAVED: "Sortierung wurde gespeichert.",
+				SORT_SAVE_AND_CONTINUE: "Speichern und fortfahren",
+				SORT_TRANSMISSION_ERROR: "Das Sortieren war leider nicht erfolgreich.",
+				SORT_QUESTIONS: "Fragen<br/>sortieren",
+				SORT_ALPHABET: "Alphabet<br/>Sortierung",
+				SORT_TIME: "Zeitliche<br/>Sortierung",
+				SORT_RANDOM: "Zufällig<br/>anordnen",
+				SORT_REVERT: "Änderung<br/>verwerfen",
+
 				/* user */
 				QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
 				QUESTIONS_FROM_STUDENTS: "Fragen der Studierenden",
@@ -709,6 +722,19 @@
 				NO_ANSWER_MARKED_CORRECT_MESSAGE: "You have not marked any answer option as correct.",
 				NO_ANSWER_MARKED_CORRECT_OPTION_YES: "Save anyway",
 				NO_ANSWER_MARKED_CORRECT_OPTION_NO: "Abort",
+
+				/* sort */
+				SORT_QUESTIONS_TITLE: "Sort Questions",
+				SORT_CATEGORIES_TITLE: "Sort Categories",
+				SORT_CATEGORIES: "Categories",
+				SORT_SAVED: "Your sort order has been saved.",
+				SORT_SAVE_AND_CONTINUE: "Save and continue",
+				SORT_TRANSMISSION_ERROR: "Sort failed.",
+				SORT_QUESTIONS: "Sort<br/>questions",
+				SORT_ALPHABET: "Alphabetic<br/>sort",
+				SORT_TIME: "Time<br/>sort",
+				SORT_RANDOM: "Random<br/>sort",
+				SORT_REVERT: "Revert<br/>changes",
 
 				/* user */
 				QUESTIONS_TO_STUDENTS: "Teacher's questions",
