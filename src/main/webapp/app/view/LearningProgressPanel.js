@@ -45,7 +45,7 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 		});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: Messages.COURSES_LEARNING_PROGRESS,
+			title: Messages.COURSES_LEARNING_PROGRESS_SHORT,
 			cls: 'speakerTitleText',
 			ui: 'light',
 			docked: 'top',
@@ -86,6 +86,7 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 			scrollable: null,
 			items: [{
 				xtype: 'fieldset',
+				cls: 'learningprogress-title',
 				title: Messages.HOW_TO_CALCULATE_LEARNING_PROGRESS,
 				items: [{
 					xtype: 'radiofield',
@@ -93,6 +94,7 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 					value: 'questions',
 					label: Messages.QUESTION_BASED_PROGRESS,
 					checked: true,
+					labelWidth: '50%',
 					listeners: {
 						scope: this,
 						check: function (field) {
@@ -106,6 +108,7 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 					name: 'progressType',
 					value: 'points',
 					label: Messages.SCORE_BASED_PROGRESS,
+					labelWidth: '50%',
 					listeners: {
 						scope: this,
 						check: function (field) {
