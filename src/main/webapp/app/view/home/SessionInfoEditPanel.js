@@ -147,7 +147,6 @@ Ext.define('ARSnova.view.home.SessionInfoEditPanel', {
 			ppDescription: values.ppDescription,
 			ppLogo: values.ppLogo
 		});
-		console.log("Speichern");
 		//Ext.Msg.alert(Messages.NOTIFICATION, "Sessioninformationen geändert");
 	}
 });

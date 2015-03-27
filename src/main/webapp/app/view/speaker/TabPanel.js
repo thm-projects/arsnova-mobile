@@ -25,7 +25,6 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 		'ARSnova.view.speaker.NewQuestionPanel',
 		'ARSnova.view.speaker.ShowcaseQuestionPanel',
 		'ARSnova.view.LearningProgressPanel',
-		'ARSnova.view.speaker.SortQuestionPanel',
 		'ARSnova.view.about.AboutTabPanel'
 	],
 
@@ -47,7 +46,6 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 		this.showcaseQuestionPanel = Ext.create('ARSnova.view.speaker.ShowcaseQuestionPanel');
 		this.learningProgressPanel = Ext.create('ARSnova.view.LearningProgressPanel');
 		this.infoTabPanel = Ext.create('ARSnova.view.about.AboutTabPanel');
-		this.sortQuestionPanel = Ext.create('ARSnova.view.speaker.SortQuestionPanel');
 
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
 			ARSnova.app.innerScrollPanel = false;
@@ -73,7 +71,6 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 				this.inClassPanel,
 				this.audienceQuestionPanel,
 				this.newQuestionPanel,
-				this.sortQuestionPanel,
 				this.infoTabPanel
 			]);
 	},

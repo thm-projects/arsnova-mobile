@@ -238,7 +238,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			},
 
 			items: [
-				this.sortQuestionButton,
 				this.deleteAnswersButton,
 				this.deleteQuestionsButton
 			]

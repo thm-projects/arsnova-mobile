@@ -335,12 +335,9 @@ Ext.define("ARSnova.controller.Sessions", {
 	// update session infos
 	updateSession: function (options) {
 		var sessionId = localStorage.getItem('sessionId');
-		console.log(sessionId);
 		var sessionInfo = Ext.encode(options);
-		console.log(sessionInfo);
 		ARSnova.app.sessionModel.updateSessionInfo(sessionInfo, sessionId, {
 			success: function () {
-				console.log("update in controller war erfolgreich");
 			},
 			failure: function (records, operation) {
 				Ext.Msg.alert("Hinweis!", "Session updaten war nicht erfolgreich");
