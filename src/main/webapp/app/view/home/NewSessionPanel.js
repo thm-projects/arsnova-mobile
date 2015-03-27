@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
  * Copyright (C) 2012-2015 The ARSnova Team
@@ -222,22 +222,21 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 
 		this.toggleButton = Ext.create('Ext.field.Toggle', {
 
-				label: 'Weitere Angaben?',
-				scope: this,
-				listeners: {
+			label: 'Weitere Angaben?',
+			scope: this,
+			listeners: {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
 						if (newValue && !this.isOpen || !newValue && this.isOpen) {
 							this.additionalFormCreator.show();
 							this.additionalFormSession.show();
-
 						} else {
 							this.additionalFormCreator.hide();
 							this.additionalFormSession.hide();
 						}
 					}
 				}
-			});
+		});
 
 		this.add([
 				this.toolbar, {

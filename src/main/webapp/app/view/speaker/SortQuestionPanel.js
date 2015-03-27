@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
  * Copyright (C) 2012-2015 The ARSnova Team
@@ -84,35 +84,35 @@ Ext.define('ARSnova.view.speaker.SortQuestionPanel', {
 
 		this.sortedList = Ext.create('Ext.List', {
 
-				plugins: [{
+			plugins: [{
 						xclass: 'Ext.plugin.SortableList',
 						handleSelector: 'dragfav'
 
 					}
 				],
-				height: '100%',
-				width: '100%',
-				activeCls: 'search-item-active',
-				cls: 'roundedCorners allCapsHeader',
+			height: '100%',
+			width: '100%',
+			activeCls: 'search-item-active',
+			cls: 'roundedCorners allCapsHeader',
 
-				scrollable: {
+			scrollable: {
 					disabled: true
 				},
-				hidden: false,
+			hidden: false,
 
-				style: {
+			style: {
 					backgroundColor: 'transparent'
 				},
 
-				itemCls: 'forwardListButton',
-				itemTpl: '<tpl if="active"><div name="dragfav" id="dragfav" class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
+			itemCls: 'forwardListButton',
+			itemTpl: '<tpl if="active"><div name="dragfav" id="dragfav" class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
 				'<tpl if="!active"><div name="dragfav" id="dragfav" class="isInactive buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
 				'<div class="x-button x-hasbadge audiencePanelListBadge">' +
 				'<tpl if="numAnswers &gt; 0"><span class="answersBadgeIcon badgefixed">{numAnswers}</span></tpl></div>',
-				grouped: true,
-				store: this.questionStore,
+			grouped: true,
+			store: this.questionStore,
 
-				listeners: {
+			listeners: {
 					scope: this,
 					itemtap: function (list, index, element) {
 						this.getController().details({
@@ -134,7 +134,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionPanel', {
 							parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom")));
 					}
 				}
-			});
+		});
 
 		//#######################################
 

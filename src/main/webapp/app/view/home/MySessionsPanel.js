@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
  * Copyright (C) 2012-2015 The ARSnova Team
@@ -406,7 +406,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					sessionStorage.setItem('keyword', options.config.sessionObj.keyword);
 					localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
 					ARSnova.app.userRole = ARSnova.app.USER_ROLE_SPEAKER;
-
 				};
 
 				var session;

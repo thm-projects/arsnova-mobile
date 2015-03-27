@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
  * Copyright (C) 2012-2015 The ARSnova Team

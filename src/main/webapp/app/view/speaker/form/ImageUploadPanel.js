@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
  * Copyright (C) 2012-2015 The ARSnova Team
@@ -65,7 +65,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				states: {
 					browse: {
 						text: showShortLabels ?
-						Messages.SEARCH_PICTURE_SHORT:
+						Messages.SEARCH_PICTURE_SHORT: 
 						Messages.SEARCH_PICTURE
 					},
 					ready: {
@@ -109,14 +109,14 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				},
 				items: [{
 						text: showShortLabels ?
-						Messages.SELECT_PICTURE_URL_SHORT:
+						Messages.SELECT_PICTURE_URL_SHORT: 
 						Messages.SELECT_PICTURE_URL,
 						width: showLongLabelsAndTemplate ? '25%': '',
 						handler: this.toggleUploadTextfieldVisibility,
 						scope: this
 					}, this.buttonUploadFromFS, {
 						text: showShortLabels ?
-						Messages.TEMPLATE:
+						Messages.TEMPLATE: 
 						Messages.TEMPLATE_FOR_MODERATION,
 						width: showLongLabelsAndTemplate ? '55%': '',
 						hidden: !this.config.activateTemplates,
@@ -188,7 +188,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 							}), {
 							xtype: 'fieldset',
 							cls: showLongLabelsAndTemplate ?
-							'fileUploadButtonFieldset longText':
+							'fileUploadButtonFieldset longText': 
 							'fileUploadButtonFieldset',
 							items: [this.segmentButton]
 						}, this.removeButton, {
