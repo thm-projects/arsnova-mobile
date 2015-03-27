@@ -17,9 +17,9 @@
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('ARSnova.view.speaker.TabPanel', {
-	extend : 'Ext.tab.Panel',
+	extend: 'Ext.tab.Panel',
 
-	requires : [
+	requires: [
 		'ARSnova.view.speaker.InClass',
 		'ARSnova.view.speaker.AudienceQuestionPanel',
 		'ARSnova.view.speaker.NewQuestionPanel',
@@ -29,16 +29,16 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 		'ARSnova.view.about.AboutTabPanel'
 	],
 
-	config : {
-		title : Messages.HOME,
-		iconCls : 'icon-home',
+	config: {
+		title: Messages.HOME,
+		iconCls: 'icon-home',
 
-		tabBar : {
-			hidden : true
+		tabBar: {
+			hidden: true
 		}
 	},
 
-	initialize : function () {
+	initialize: function () {
 		this.callParent(arguments);
 
 		this.inClassPanel = Ext.create('ARSnova.view.speaker.InClass');
@@ -79,7 +79,7 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 			]);
 	},
 
-	renew : function () {
+	renew: function () {
 		this.remove(this.inClassPanel);
 		this.inClassPanel = Ext.create('ARSnova.view.speaker.InClass');
 		this.insert(0, this.inClassPanel);

@@ -44,230 +44,225 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 		this.callParent(arguments);
 
 		this.mycoursesStore = new Ext.data.JsonStore({
-			model: 'ARSnova.model.Course'
-		});
+				model: 'ARSnova.model.Course'
+			});
 
-		var htmlEncode = window.innerWidth > 321 ? "{fullname:htmlEncode}" : "{shortname:htmlEncode}";
+		var htmlEncode = window.innerWidth > 321 ? "{fullname:htmlEncode}": "{shortname:htmlEncode}";
 
 		this.coursesFieldset = Ext.create('Ext.form.FieldSet', {
-			xtype: 'fieldset',
-			title: Messages.YOUR_COURSE_SESSIONS
-		});
+				xtype: 'fieldset',
+				title: Messages.YOUR_COURSE_SESSIONS
+			});
 
 		this.mycourses = Ext.create('Ext.List', {
-			cls: 'myCoursesList',
-			store: this.mycoursesStore,
-			disableSelection: true,
-			hidden: true,
-			style: {
-				backgroundColor: 'transparent'
-			},
-			itemTpl:
+				cls: 'myCoursesList',
+				store: this.mycoursesStore,
+				disableSelection: true,
+				hidden: true,
+				style: {
+					backgroundColor: 'transparent'
+				},
+				itemTpl:
 				'<div class="x-unsized x-button x-button-normal x-iconalign-left forwardListButton">' +
 				'<span class="x-button-icon x-shown courseIcon icon-prof"></span>' +
 				'<span class="x-button-label">' + htmlEncode + '</span></div>',
-			listeners: {
-				scope: this,
+				listeners: {
+					scope: this,
 
-				hide: function () {
-					this.coursesFieldset.hide();
-				},
+					hide: function () {
+						this.coursesFieldset.hide();
+					},
 
-				show: function () {
-					this.coursesFieldset.show();
-				},
+					show: function () {
+						this.coursesFieldset.show();
+					},
 
-				/**
-				 * The following event is used to get the computed height of all list items and
-				 * finally to set this value to the list DataView. In order to ensure correct rendering
-				 * it is also necessary to get the properties "padding-top" and "padding-bottom" and
-				 * add them to the height of the list DataView.
-				 */
-				resize: function (list, eOpts) {
-					var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
+					/**
+					 * The following event is used to get the computed height of all list items and
+					 * finally to set this value to the list DataView. In order to ensure correct rendering
+					 * it is also necessary to get the properties "padding-top" and "padding-bottom" and
+					 * add them to the height of the list DataView.
+					 */
+					resize: function (list, eOpts) {
+						var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
 
-					this.mycourses.setHeight(
-						parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
-						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
-						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
-					);
+						this.mycourses.setHeight(
+							parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
+							parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
+							parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom")));
+					}
 				}
-			}
-		});
+			});
 
 		this.coursesFieldset.add(this.mycourses);
 
 		this.backButton = Ext.create('Ext.Button', {
-			text: Messages.SESSIONS,
-			ui: 'back',
-			handler: function () {
-				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				hTP.animateActiveItem(hTP.mySessionsPanel, {
-					type: 'slide',
-					direction: 'right',
-					duration: 700
-				});
-			}
-		});
+				text: Messages.SESSIONS,
+				ui: 'back',
+				handler: function () {
+					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+					hTP.animateActiveItem(hTP.mySessionsPanel, {
+						type: 'slide',
+						direction: 'right',
+						duration: 700
+					});
+				}
+			});
 
 		this.submitButton = Ext.create('Ext.Button', {
-			id: 'create-session-button',
-			cls: 'centerButton',
-			ui: 'confirm',
-			text: Messages.SESSION_SAVE,
-			handler: this.onSubmit
-		});
+				id: 'create-session-button',
+				cls: 'centerButton',
+				ui: 'confirm',
+				text: Messages.SESSION_SAVE,
+				handler: this.onSubmit
+			});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: Messages.NEW_SESSION,
-			cls: 'titlePaddingLeft',
-			docked: 'top',
-			ui: 'light',
-			items: [
-				this.backButton
-			]
-		});
-		
+				title: Messages.NEW_SESSION,
+				cls: 'titlePaddingLeft',
+				docked: 'top',
+				ui: 'light',
+				items: [
+					this.backButton
+				]
+			});
+
 		this.formFields = Ext.create('Ext.form.FieldSet', {
-			items: [{
-				xtype: 'textfield',
-				name: 'name',
-				label: Messages.SESSION_NAME+'*',
-				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
-				maxLength: 50,
-				clearIcon: true
-			}, {
-				xtype: 'textfield',
-				name: 'shortName',
-				label: Messages.SESSION_SHORT_NAME+'*',
-				placeHolder: Messages.SESSION_SHORT_NAME_PLACEHOLDER,
-				maxLength: 8,
-				clearIcon: true
-			}]
-		});
-		
-		this.additionalFormCreator = Ext.create('Ext.form.FieldSet', {
-			hidden: true,
-			title: 'Verfasserinformationen',
-			showAnimation: 'fade',
-			hideAnimation: 'fadeOut',
-			items: [{
-				xtype: 'textfield',
-				name: 'ppAuthorName',
-				label: "Name des Dozenten",
-				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
-				maxLength: 50,
-				clearIcon: true
-			},{
-				xtype: 'textfield',
-				name: 'ppAuthorMail',
-				label: "Email",
-				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
-				maxLength: 50,
-				clearIcon: true
-			},{
-				xtype: 'textfield',
-				name: 'ppUniversity',
-				label: "Hochschule",
-				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
-				maxLength: 50,
-				clearIcon: true
-			},{
-				xtype: 'textfield',
-				name: 'ppFaculty',
-				label: "Fachbereich",
-				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
-				maxLength: 50,
-				clearIcon: true
-			}]
-		});
-		
-		this.additionalFormSession = Ext.create('Ext.form.FieldSet', {
-			hidden: true,
-			title: 'Sessioninformationen',
-			showAnimation: 'fade',
-			hideAnimation: 'fadeOut',
-			items: [{
-				xtype: 'textfield',
-				name: 'ppSubject',
-				label: "Studiengang",
-				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
-				maxLength: 50,
-				clearIcon: true
-			},{
-				xtype: 'textfield',
-				name: 'ppLevel',
-				label: "Niveau",
-				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
-				maxLength: 50,
-				clearIcon: true
-			},{
-				xtype: 'textareafield',
-				name: 'ppDescription',
-				label: "Beschreibung",
-				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
-				maxLength: 150,
-				clearIcon: true
-			},{
-				xtype: 'textfield',
-				name: 'ppLogo',
-				label: "logo test#",
-				placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
-				maxLength: 50,
-				clearIcon: true
-			}]
-		});
-		
-
-				
-		this.toggleButton = Ext.create('Ext.field.Toggle', {
-			
-			label: 'Weitere Angaben?',
-			scope: this,
-			listeners: {
-				scope: this,
-				change: function (toggle, newValue, oldValue, eOpts) {
-					if (newValue && !this.isOpen || !newValue && this.isOpen) {
-						this.additionalFormCreator.show();
-						this.additionalFormSession.show();
-
+				items: [{
+						xtype: 'textfield',
+						name: 'name',
+						label: Messages.SESSION_NAME + '*',
+						placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+						maxLength: 50,
+						clearIcon: true
+					}, {
+						xtype: 'textfield',
+						name: 'shortName',
+						label: Messages.SESSION_SHORT_NAME + '*',
+						placeHolder: Messages.SESSION_SHORT_NAME_PLACEHOLDER,
+						maxLength: 8,
+						clearIcon: true
 					}
-					else {
-						this.additionalFormCreator.hide();
-						this.additionalFormSession.hide();
+				]
+			});
+
+		this.additionalFormCreator = Ext.create('Ext.form.FieldSet', {
+				hidden: true,
+				title: 'Verfasserinformationen',
+				showAnimation: 'fade',
+				hideAnimation: 'fadeOut',
+				items: [{
+						xtype: 'textfield',
+						name: 'ppAuthorName',
+						label: "Name des Dozenten",
+						placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+						maxLength: 50,
+						clearIcon: true
+					}, {
+						xtype: 'textfield',
+						name: 'ppAuthorMail',
+						label: "Email",
+						placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+						maxLength: 50,
+						clearIcon: true
+					}, {
+						xtype: 'textfield',
+						name: 'ppUniversity',
+						label: "Hochschule",
+						placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+						maxLength: 50,
+						clearIcon: true
+					}, {
+						xtype: 'textfield',
+						name: 'ppFaculty',
+						label: "Fachbereich",
+						placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+						maxLength: 50,
+						clearIcon: true
+					}
+				]
+			});
+
+		this.additionalFormSession = Ext.create('Ext.form.FieldSet', {
+				hidden: true,
+				title: 'Sessioninformationen',
+				showAnimation: 'fade',
+				hideAnimation: 'fadeOut',
+				items: [{
+						xtype: 'textfield',
+						name: 'ppSubject',
+						label: "Studiengang",
+						placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+						maxLength: 50,
+						clearIcon: true
+					}, {
+						xtype: 'textfield',
+						name: 'ppLevel',
+						label: "Niveau",
+						placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+						maxLength: 50,
+						clearIcon: true
+					}, {
+						xtype: 'textareafield',
+						name: 'ppDescription',
+						label: "Beschreibung",
+						placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+						maxLength: 150,
+						clearIcon: true
+					}, {
+						xtype: 'textfield',
+						name: 'ppLogo',
+						label: "logo test#",
+						placeHolder: Messages.SESSION_NAME_PLACEHOLDER,
+						maxLength: 50,
+						clearIcon: true
+					}
+				]
+			});
+
+		this.toggleButton = Ext.create('Ext.field.Toggle', {
+
+				label: 'Weitere Angaben?',
+				scope: this,
+				listeners: {
+					scope: this,
+					change: function (toggle, newValue, oldValue, eOpts) {
+						if (newValue && !this.isOpen || !newValue && this.isOpen) {
+							this.additionalFormCreator.show();
+							this.additionalFormSession.show();
+
+						} else {
+							this.additionalFormCreator.hide();
+							this.additionalFormSession.hide();
+						}
 					}
 				}
-			}
-		});
+			});
 
-			
-		
 		this.add([
-		    this.toolbar, 
-		    {
-		    	title: 'createSession',
-		    	style: {
-		    		marginTop: '15px'
-		    	},
-		    	xtype: 'formpanel',
-		    	scrollable: null,
-		    	id: 'createSession',
-		    	submitOnAction: false,
+				this.toolbar, {
+					title: 'createSession',
+					style: {
+						marginTop: '15px'
+					},
+					xtype: 'formpanel',
+					scrollable: null,
+					id: 'createSession',
+					submitOnAction: false,
 
-		    	items: [
-			    
-			    this.formFields,
-			    this.additionalFormSession,
-			    this.additionalFormCreator,
-			    {	// Toggle additional Fields on/off
-			    	xtype: 'fieldset',
-			    	items: [this.toggleButton]
-			    },
-			    this.submitButton,
-			    this.coursesFieldset
-			    ]
-		    }
-		]);
+					items: [
+
+						this.formFields,
+						this.additionalFormSession,
+						this.additionalFormCreator, { // Toggle additional Fields on/off
+							xtype: 'fieldset',
+							items: [this.toggleButton]
+						},
+						this.submitButton,
+						this.coursesFieldset
+					]
+				}
+			]);
 		this.onBefore('activate', function () {
 			this.getMyCourses();
 			this.setScrollable(true);
@@ -286,7 +281,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 
 	onSubmit: function (button) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel,
-			values = this.up('panel').getValues();
+		values = this.up('panel').getValues();
 
 		panel.disableInputElements();
 
@@ -375,6 +370,6 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			failure: function () {
 				console.log("my courses request failure");
 			}
-		}, (window.innerWidth > 321 ? 'name' : 'shortname'));
+		}, (window.innerWidth > 321 ? 'name': 'shortname'));
 	}
 });

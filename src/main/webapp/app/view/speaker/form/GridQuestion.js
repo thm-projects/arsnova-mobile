@@ -54,7 +54,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	rotateButton: null,
 	hideGridButton: null,
 
-
 	/**
 	 * Initializes the grid question area and the needed
 	 * form elements.
@@ -64,25 +63,25 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.callParent(arguments);
 
 		this.grid = null;
-//		this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
-//			docked: 'top',
-//			itemId: 'gridImageContainer'
-//		});
+		//		this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
+		//			docked: 'top',
+		//			itemId: 'gridImageContainer'
+		//		});
 
 		/**
 		 * The view containing the url textfield and the
 		 * functionality to load an image into the canvas
 		 */
 		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
-			handlerScope: me,
-			urlUploadHandler: me.handleFS,
-			fsUploadHandler: me.handleUrl,
-			templateHandler: me.handleTemplate
-		});
+				handlerScope: me,
+				urlUploadHandler: me.handleFS,
+				fsUploadHandler: me.handleUrl,
+				templateHandler: me.handleTemplate
+			});
 
 		this.add([
-			this.uploadView
-		]);
+				this.uploadView
+			]);
 	},
 
 	/**
@@ -94,115 +93,131 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.remove(this.imageCnt);
 
 		// TODO check if necessary
-//		if (this.imageCnt) {
-//			this.remove(this.imageCnt);
-//		}
+		//		if (this.imageCnt) {
+		//			this.remove(this.imageCnt);
+		//		}
 
 		this.infoPanel = Ext.create('Ext.Panel', {
-			cls: 'infoPanel',
-			html: Messages.SETTINGS_HINT_TEXT,
-			hideOnMaskTap: true,
-			modal: true
-		});
+				cls: 'infoPanel',
+				html: Messages.SETTINGS_HINT_TEXT,
+				hideOnMaskTap: true,
+				modal: true
+			});
 
 		this.infoButton = Ext.create('Ext.Button', {
-			ui: 'action',
-			iconCls: 'info',
-			iconMask: true,
-			handler: function () {me.onInfoButton();}
-		});
+				ui: 'action',
+				iconCls: 'info',
+				iconMask: true,
+				handler: function () {
+					me.onInfoButton();
+				}
+			});
 
 		this.btnMoveLeft = Ext.create('Ext.Button', {
-			ui: 'action',
-			iconCls: 'arrow_left',
-			iconMask: true
-		});
+				ui: 'action',
+				iconCls: 'arrow_left',
+				iconMask: true
+			});
 
 		this.btnMoveRight = Ext.create('Ext.Button', {
-			ui: 'action',
-			iconCls: 'arrow_right',
-			iconMask: true
-		});
+				ui: 'action',
+				iconCls: 'arrow_right',
+				iconMask: true
+			});
 
 		this.btnMoveUp = Ext.create('Ext.Button', {
-			ui: 'action',
-			iconCls: 'arrow_up',
-			iconMask: true
-		});
+				ui: 'action',
+				iconCls: 'arrow_up',
+				iconMask: true
+			});
 
 		this.btnMoveDown = Ext.create('Ext.Button', {
-			ui: 'action',
-			iconCls: 'arrow_down',
-			iconMask: true
-		});
+				ui: 'action',
+				iconCls: 'arrow_down',
+				iconMask: true
+			});
 
 		this.deleteButton = Ext.create('Ext.Button', {
-			ui: 'action',
-			iconCls: 'delete',
-			iconMask: true,
-			handler: function () {me.resetView();}
-		});
+				ui: 'action',
+				iconCls: 'delete',
+				iconMask: true,
+				handler: function () {
+					me.resetView();
+				}
+			});
 
 		this.rotateButton = Ext.create('Ext.Button', {
-			ui: 'action',
-			iconCls: 'refresh',
-			iconMask: true,
-			handler: function () {
-				me.grid.spinRight();
-			}
-		});
+				ui: 'action',
+				iconCls: 'refresh',
+				iconMask: true,
+				handler: function () {
+					me.grid.spinRight();
+				}
+			});
 
 		this.btnZoomInGrid = Ext.create('Ext.Button', {
-			ui: 'action',
-			iconCls: 'add',
-			iconMask: true,
-			handler: function () {me.grid.zoomInGrid();}
-		});
+				ui: 'action',
+				iconCls: 'add',
+				iconMask: true,
+				handler: function () {
+					me.grid.zoomInGrid();
+				}
+			});
 
 		this.btnZoomOutGrid = Ext.create('Ext.Button', {
-			ui: 'action',
-			iconCls: 'minus2',
-			iconMask: true,
-			handler: function () {me.grid.zoomOutGrid();}
-		});
+				ui: 'action',
+				iconCls: 'minus2',
+				iconMask: true,
+				handler: function () {
+					me.grid.zoomOutGrid();
+				}
+			});
 
 		this.btnMoveGridLeft = Ext.create('Ext.Button', {
-			ui: 'action',
-			iconCls: 'arrow_left',
-			iconMask: true,
-			handler: function () {me.grid.moveGridLeft();}
-		});
+				ui: 'action',
+				iconCls: 'arrow_left',
+				iconMask: true,
+				handler: function () {
+					me.grid.moveGridLeft();
+				}
+			});
 
 		this.btnMoveGridRight = Ext.create('Ext.Button', {
-			ui: 'action',
-			iconCls: 'arrow_right',
-			iconMask: true,
-			handler: function () {me.grid.moveGridRight();}
-		});
+				ui: 'action',
+				iconCls: 'arrow_right',
+				iconMask: true,
+				handler: function () {
+					me.grid.moveGridRight();
+				}
+			});
 
 		this.btnMoveGridUp = Ext.create('Ext.Button', {
-			ui: 'action',
-			iconCls: 'arrow_up',
-			iconMask: true,
-			handler: function () {me.grid.moveGridUp();}
-		});
+				ui: 'action',
+				iconCls: 'arrow_up',
+				iconMask: true,
+				handler: function () {
+					me.grid.moveGridUp();
+				}
+			});
 
 		this.btnMoveGridDown = Ext.create('Ext.Button', {
-			ui: 'action',
-			iconCls: 'arrow_down',
-			iconMask: true,
-			handler: function () {me.grid.moveGridDown();}
-		});
+				ui: 'action',
+				iconCls: 'arrow_down',
+				iconMask: true,
+				handler: function () {
+					me.grid.moveGridDown();
+				}
+			});
 
 		this.hideGridButton = Ext.create('Ext.Button', {
-			ui: 'action',
-			iconCls: 'delete',
-			iconMask: true,
-			handler: function () {
-				me.grid.setGridIsHidden(!me.grid.getGridIsHidden());
-				me.grid.redraw();
-			}
-		});
+				ui: 'action',
+				iconCls: 'delete',
+				iconMask: true,
+				handler: function () {
+					me.grid.setGridIsHidden(!me.grid.getGridIsHidden());
+					me.grid.redraw();
+				}
+			});
 
 		// initialize tap repeater for move buttons
 		// TapRepeater for left button
@@ -234,29 +249,31 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		}, me);
 
 		this.answers = Ext.create('Ext.Panel', {
-			items: [{
-				xtype: 'fieldset',
-				itemId: 'fs_answers',
-				style: 'margin-bottom: 0',
-				name: 'fs_answers',
-				title: Messages.CORRECT_ANSWERS,
 				items: [{
-					xtype: 'textfield',
-					itemId: 'tf_answers',
-					cls: 'centerAligned',
-					label: Messages.COUNT,
-					name: Messages.COUNT,
-					placeHolder: '0',
-					readOnly: true
-				}]
-			}]
-		});
+						xtype: 'fieldset',
+						itemId: 'fs_answers',
+						style: 'margin-bottom: 0',
+						name: 'fs_answers',
+						title: Messages.CORRECT_ANSWERS,
+						items: [{
+								xtype: 'textfield',
+								itemId: 'tf_answers',
+								cls: 'centerAligned',
+								label: Messages.COUNT,
+								name: Messages.COUNT,
+								placeHolder: '0',
+								readOnly: true
+							}
+						]
+					}
+				]
+			});
 
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.questionValueFieldset = Ext.create('Ext.form.FieldSet', {
-				title: Messages.ANSWER_POINTS,
-				hidden: true
-			});
+					title: Messages.ANSWER_POINTS,
+					hidden: true
+				});
 
 			var questionValueOptions = {
 				minValue: -10,
@@ -266,117 +283,116 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			};
 
 			this.ValueOfCorrectAnswers = Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
-				label: Messages.GRID_LABEL_THRESHOLD_CORRECT_ANSWERS
-			}));
+						label: Messages.GRID_LABEL_THRESHOLD_CORRECT_ANSWERS
+					}));
 
 			this.correctValueComponent = Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
-				label: Messages.ANSWER_POINTS_CORRECT
-			}));
+						label: Messages.ANSWER_POINTS_CORRECT
+					}));
 			this.incorrectValueComponent = Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
-				label: Messages.ANSWER_POINTS_INCORRECT
-			}));
+						label: Messages.ANSWER_POINTS_INCORRECT
+					}));
 			this.questionValueFieldset.add([this.correctValueComponent, this.incorrectValueComponent, this.ValueOfCorrectAnswers]);
 		}
 
 		this.zoomSpinner = Ext.create('Ext.field.Spinner', {
-			xtype: 'spinnerfield',
-			label: Messages.GRID_LABEL_ZOOM,
-			listeners: {
-				spinup: function () {
-					me.grid.zoomIn();
-					this.setValue(Math.round(me.grid.getScale() * 100));
-				},
-				spindown: function () {
-					if (this.getValue() > 1) {
-						me.grid.zoomOut();
+				xtype: 'spinnerfield',
+				label: Messages.GRID_LABEL_ZOOM,
+				listeners: {
+					spinup: function () {
+						me.grid.zoomIn();
 						this.setValue(Math.round(me.grid.getScale() * 100));
+					},
+					spindown: function () {
+						if (this.getValue() > 1) {
+							me.grid.zoomOut();
+							this.setValue(Math.round(me.grid.getScale() * 100));
+						}
 					}
-				}
-			},
-			minValue: 1,
-			value: this.grid.getScale() * 100 // set value as default
-		});
+				},
+				minValue: 1,
+				value: this.grid.getScale() * 100 // set value as default
+			});
 
 		this.gridXSpinner = Ext.create('Ext.field.Spinner', {
-			xtype: 'spinnerfield',
-			label: Messages.GRID_LABEL_FIELD_X,
-			listeners: {
-				spin: function (spinner, value) {
-					me.grid.setGridSizeX(value); // update grid count
-					me.grid.setChosenFields(Array());
-					me.grid.redraw();
-					me.grid.getOnFieldClick()(0);
-				}
-			},
-			minValue: 1,
-			maxValue: 16,
-			value: this.grid.getGridSizeX(),
-			stepValue: 1,
-			cycle: true
-		});
+				xtype: 'spinnerfield',
+				label: Messages.GRID_LABEL_FIELD_X,
+				listeners: {
+					spin: function (spinner, value) {
+						me.grid.setGridSizeX(value); // update grid count
+						me.grid.setChosenFields(Array());
+						me.grid.redraw();
+						me.grid.getOnFieldClick()(0);
+					}
+				},
+				minValue: 1,
+				maxValue: 16,
+				value: this.grid.getGridSizeX(),
+				stepValue: 1,
+				cycle: true
+			});
 
 		this.gridYSpinner = Ext.create('Ext.field.Spinner', {
-			xtype: 'spinnerfield',
-			label: Messages.GRID_LABEL_FIELD_Y,
-			listeners: {
-				spin: function (spinner, value) {
-					me.grid.setGridSizeY(value); // update grid count
-					me.grid.setChosenFields(Array());
-					me.grid.redraw();
-					me.grid.getOnFieldClick()(0);
-				}
-			},
-			minValue: 1,
-			maxValue: 16,
-			value: this.grid.getGridSizeY(),
-			stepValue: 1,
-			cycle: true
-		});
-
+				xtype: 'spinnerfield',
+				label: Messages.GRID_LABEL_FIELD_Y,
+				listeners: {
+					spin: function (spinner, value) {
+						me.grid.setGridSizeY(value); // update grid count
+						me.grid.setChosenFields(Array());
+						me.grid.redraw();
+						me.grid.getOnFieldClick()(0);
+					}
+				},
+				minValue: 1,
+				maxValue: 16,
+				value: this.grid.getGridSizeY(),
+				stepValue: 1,
+				cycle: true
+			});
 
 		this.gridColorsToggle = Ext.create('Ext.field.Toggle', {
-			label: Messages.GRID_LABEL_INVERT_GRIDCOLORS,
-			cls: 'rightAligned',
-			value: false
-		});
+				label: Messages.GRID_LABEL_INVERT_GRIDCOLORS,
+				cls: 'rightAligned',
+				value: false
+			});
 
 		this.cvBackgroundToggle = Ext.create('Ext.field.Toggle', {
-			label: Messages.GRID_LABEL_CV_TRANSPARENCY,
-			cls: 'rightAligned',
-			value: false
-		});
+				label: Messages.GRID_LABEL_CV_TRANSPARENCY,
+				cls: 'rightAligned',
+				value: false
+			});
 
 		this.toggleAnswers = Ext.create('Ext.field.Toggle', {
-			label: Messages.GRID_LABEL_MARK_TOGGLE_ANSWERS,
-			cls: 'rightAligned',
-			value: false
-		});
+				label: Messages.GRID_LABEL_MARK_TOGGLE_ANSWERS,
+				cls: 'rightAligned',
+				value: false
+			});
 
 		var toggleColorListener = {
-				beforechange: function (slider, thumb, newValue, oldValue) {
-					me.grid.toggleBorderColor();
-				},
-				change: function (slider, thumb, newValue, oldValue) {
-					me.grid.toggleBorderColor();
-				}
+			beforechange: function (slider, thumb, newValue, oldValue) {
+				me.grid.toggleBorderColor();
+			},
+			change: function (slider, thumb, newValue, oldValue) {
+				me.grid.toggleBorderColor();
+			}
 		};
 
 		var toggleCvBackgroundListener = {
-				beforechange: function (slider, thumb, newValue, oldValue) {
-					me.grid.toggleCvBackground(newValue);
-				},
-				change: function (slider, thumb, newValue, oldValue) {
-					me.grid.toggleCvBackground(this.getValue());
-				}
+			beforechange: function (slider, thumb, newValue, oldValue) {
+				me.grid.toggleCvBackground(newValue);
+			},
+			change: function (slider, thumb, newValue, oldValue) {
+				me.grid.toggleCvBackground(this.getValue());
+			}
 		};
 
 		var toggleMarkAnswers = {
-				beforechange: function (slider, thumb, newValue, oldValue) {
-					me.grid.setToggleFieldsLeft(this.getValue());
-				},
-				change: function (slider, thumb, newValue, oldValue) {
-					me.grid.setToggleFieldsLeft(this.getValue());
-				}
+			beforechange: function (slider, thumb, newValue, oldValue) {
+				me.grid.setToggleFieldsLeft(this.getValue());
+			},
+			change: function (slider, thumb, newValue, oldValue) {
+				me.grid.setToggleFieldsLeft(this.getValue());
+			}
 		};
 
 		this.gridColorsToggle.setListeners(toggleColorListener);
@@ -384,9 +400,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.toggleAnswers.setListeners(toggleMarkAnswers);
 
 		var thresholdAnswers = {
-				change: function (slider, thumb, newValue, oldValue) {
-					me.grid.setThresholdCorrectAnswers(newValue);
-				}
+			change: function (slider, thumb, newValue, oldValue) {
+				me.grid.setThresholdCorrectAnswers(newValue);
+			}
 		};
 
 		if (ARSnova.app.globalConfig.features.learningProgress) {
@@ -425,149 +441,147 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			abstention.hide();
 
 			this.numberOfDotsSpinner = Ext.create('Ext.field.Spinner', {
-				xtype: 'spinnerfield',
-				label: Messages.GRID_LABEL_NUMBER_OF_DOTS,
-				listeners: {
-					spin: function (spinner, value) {
-						me.grid.setNumberOfDots(value); // update value in grid
-						me.grid.setChosenFields(Array());
-						me.grid.redraw();
-						me.grid.getOnFieldClick()(0);
-					}
-				},
-				minValue: 1,
-				maxValue: Math.min(this.grid.getGridSizeX() * this.grid.getGridSizeY(), 8),
-				value: this.grid.getNumberOfDots(),
-				stepValue: 1,
-				cycle: true
-			});
+					xtype: 'spinnerfield',
+					label: Messages.GRID_LABEL_NUMBER_OF_DOTS,
+					listeners: {
+						spin: function (spinner, value) {
+							me.grid.setNumberOfDots(value); // update value in grid
+							me.grid.setChosenFields(Array());
+							me.grid.redraw();
+							me.grid.getOnFieldClick()(0);
+						}
+					},
+					minValue: 1,
+					maxValue: Math.min(this.grid.getGridSizeX() * this.grid.getGridSizeY(), 8),
+					value: this.grid.getNumberOfDots(),
+					stepValue: 1,
+					cycle: true
+				});
 
 			this.deleteModerationButton = Ext.create('Ext.Button', {
-				ui: 'action',
-				cls: 'saveQuestionButton',
-				style: 'margin-top: 30px',
-				text: Messages.GRID_LABEL_DELETE_MODERATION,
-				handler: function () {
-					me.resetView();
-					Ext.getCmp('abstentionPart').show();
-				},
-				scope: me
-			});
+					ui: 'action',
+					cls: 'saveQuestionButton',
+					style: 'margin-top: 30px',
+					text: Messages.GRID_LABEL_DELETE_MODERATION,
+					handler: function () {
+						me.resetView();
+						Ext.getCmp('abstentionPart').show();
+					},
+					scope: me
+				});
 
 			panelItems = [
 				this.imageSettings = Ext.create('Ext.Panel', {
-					itemId: 'answerField',
-					items: [{
-						xtype: 'fieldset',
-						itemId: 'fs_imagesettings',
-						title: Messages.SETTINGS,
-						items: [
-							this.numberOfDotsSpinner
+						itemId: 'answerField',
+						items: [{
+								xtype: 'fieldset',
+								itemId: 'fs_imagesettings',
+								title: Messages.SETTINGS,
+								items: [
+									this.numberOfDotsSpinner
+								]
+							}
 						]
-					}]
-				})
+					})
 			];
 
 			this.imageArea = Ext.create('Ext.Panel', {
-				itemId: 'imageArea',
-				layout: {
-					type: 'vbox',
-					align: 'stretch'
-				},
-				items: [
-					this.grid,
-					this.deleteModerationButton
-//				    {
-//						xtype: 'container',
-//						layout:{
-//							type: 'hbox',
-//							align: 'stretch',
-////							pack: 'stretch',
-//						},
-//						items: [
-//
-//						]
-//					}
-				],
-				hidden: true
-			});
+					itemId: 'imageArea',
+					layout: {
+						type: 'vbox',
+						align: 'stretch'
+					},
+					items: [
+						this.grid,
+						this.deleteModerationButton
+						//				    {
+						//						xtype: 'container',
+						//						layout:{
+						//							type: 'hbox',
+						//							align: 'stretch',
+						////							pack: 'stretch',
+						//						},
+						//						items: [
+						//
+						//						]
+						//					}
+					],
+					hidden: true
+				});
 		} else {
 			abstention.show();
 			panelItems = [
 				this.imageSettings = Ext.create('Ext.Panel', {
-					itemId: 'answerField',
-					items: [{
-						xtype: 'fieldset',
-						itemId: 'fs_imagesettings',
-						title: Messages.SETTINGS,
-						items: [
-							this.zoomSpinner,
-							this.gridXSpinner,
-							this.gridYSpinner,
-							this.gridColorsToggle,
-							this.cvBackgroundToggle,
-							this.toggleAnswers
+						itemId: 'answerField',
+						items: [{
+								xtype: 'fieldset',
+								itemId: 'fs_imagesettings',
+								title: Messages.SETTINGS,
+								items: [
+									this.zoomSpinner,
+									this.gridXSpinner,
+									this.gridYSpinner,
+									this.gridColorsToggle,
+									this.cvBackgroundToggle,
+									this.toggleAnswers
+								]
+							}
 						]
-					}]
-				}),
+					}),
 				this.answers
 			];
 
 			this.imageArea = Ext.create('Ext.Panel', {
-				itemId: 'imageArea',
-				layout: {
-					type: 'vbox',
-					align: 'center',
-					pack: 'center'
-				},
-				items: [
-					this.grid,
-					{
-						xtype: 'label',
-						html: Messages.GRID_CONFIG_IMAGE
+					itemId: 'imageArea',
+					layout: {
+						type: 'vbox',
+						align: 'center',
+						pack: 'center'
 					},
-					{
-						xtype: 'panel',
-						layout: {
-							type: 'hbox',
-							align: 'center',
-							pack: 'center'
-						},
-						items: [
-							this.infoButton,
-							this.btnMoveLeft,
-							this.btnMoveRight,
-							this.btnMoveUp,
-							this.btnMoveDown,
-							this.deleteButton,
-							this.rotateButton
-						]
-					},
-					{
-						xtype: 'label',
-						html: Messages.GRID_CONFIG_GRID,
-						style: "margin-top: 15px"
-					},
-					{
-						xtype: 'panel',
-						layout: {
-							type: 'hbox',
-							align: 'center',
-							pack: 'center'
-						},
-						items: [
-							this.btnZoomInGrid,
-							this.btnZoomOutGrid,
-							this.btnMoveGridLeft,
-							this.btnMoveGridRight,
-							this.btnMoveGridUp,
-							this.btnMoveGridDown,
-							this.hideGridButton
-						]
-					}
-				],
-				hidden: true
-			});
+					items: [
+						this.grid, {
+							xtype: 'label',
+							html: Messages.GRID_CONFIG_IMAGE
+						}, {
+							xtype: 'panel',
+							layout: {
+								type: 'hbox',
+								align: 'center',
+								pack: 'center'
+							},
+							items: [
+								this.infoButton,
+								this.btnMoveLeft,
+								this.btnMoveRight,
+								this.btnMoveUp,
+								this.btnMoveDown,
+								this.deleteButton,
+								this.rotateButton
+							]
+						}, {
+							xtype: 'label',
+							html: Messages.GRID_CONFIG_GRID,
+							style: "margin-top: 15px"
+						}, {
+							xtype: 'panel',
+							layout: {
+								type: 'hbox',
+								align: 'center',
+								pack: 'center'
+							},
+							items: [
+								this.btnZoomInGrid,
+								this.btnZoomOutGrid,
+								this.btnMoveGridLeft,
+								this.btnMoveGridRight,
+								this.btnMoveGridUp,
+								this.btnMoveGridDown,
+								this.hideGridButton
+							]
+						}
+					],
+					hidden: true
+				});
 		}
 
 		this.add(this.imageArea);
@@ -577,11 +591,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		}
 
 		this.imageCnt = Ext.create('Ext.form.FormPanel', {
-			scrollable: null,
-			itemId: 'imageControls',
-			hidden: true,
-			items: panelItems
-		});
+				scrollable: null,
+				itemId: 'imageControls',
+				hidden: true,
+				items: panelItems
+			});
 
 		this.add(this.imageCnt);
 
@@ -592,9 +606,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 	handleFS: function (dataUrl, reload) {
 		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
-			docked: 'top',
-			itemId: 'gridImageContainer'
-		});
+				docked: 'top',
+				itemId: 'gridImageContainer'
+			});
 		this.initializeFormFields();
 		this.updateCanvas(dataUrl, reload);
 		this.image = dataUrl;
@@ -602,9 +616,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 	handleUrl: function (url) {
 		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
-			docked: 'top',
-			itemId: 'gridImageContainer'
-		});
+				docked: 'top',
+				itemId: 'gridImageContainer'
+			});
 		this.initializeFormFields();
 		this.updateCanvasWithUrl(url);
 		this.image = url;
@@ -612,10 +626,10 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 	handleTemplate: function (templateGrid) {
 		this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
-			docked: 'top',
-			style: 'margin-top: 30px',
-			itemId: 'gridImageContainer'
-		});
+				docked: 'top',
+				style: 'margin-top: 30px',
+				itemId: 'gridImageContainer'
+			});
 
 		this.grid.setImageFile(templateGrid.getImageFile());
 
@@ -639,8 +653,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	updateCanvas: function (dataUrl, reload) {
 		// update canvas
 		this.grid.setImage(dataUrl, reload, Ext.bind(function validImage() {
-			this.showImageView();
-		}, this), function invalidImage() {
+				this.showImageView();
+			}, this), function invalidImage() {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.GRID_ERROR_IMAGE_NOT_LOADED);
 		});
 	},
@@ -662,7 +676,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	onInfoButton: function () {
 		this.infoPanel.showBy(this.infoButton);
 	},
-
 
 	/**
 	 * Shows the image view and hides the upload view.
@@ -746,14 +759,14 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		// reinstantiate grid if necessary
 		if (question.gridType === 'moderation') {
 			this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
-				docked: 'top',
-				itemId: 'gridImageContainer'
-			});
+					docked: 'top',
+					itemId: 'gridImageContainer'
+				});
 		} else {
 			this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
-				docked: 'top',
-				itemId: 'gridImageContainer'
-			});
+					docked: 'top',
+					itemId: 'gridImageContainer'
+				});
 		}
 
 		this.initializeFormFields();
@@ -776,11 +789,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 		var answerField = this.answers.getComponent('fs_answers').getComponent('tf_answers');
 		var minValue = question.possibleAnswers.reduce(function (a, b) {
-			return a < b.value ? a : b.value;
-		}, 0);
+				return a < b.value ? a: b.value;
+			}, 0);
 		var maxValue = question.possibleAnswers.reduce(function (a, b) {
-			return a < b.value ? b.value : a;
-		}, 0);
+				return a < b.value ? b.value: a;
+			}, 0);
 
 		answerField.setValue(this.grid.getChosenFields().length); // set the spinner with correct values (last storage)
 
@@ -797,8 +810,8 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 	previewHandler: function () {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel,
-			answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox'),
-			answerValues = [];
+		answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox'),
+		answerValues = [];
 
 		answerPreview.showPreview({
 			title: panel.subject.getValue(),

@@ -41,8 +41,8 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 	calculateFieldsLeft: function () {
 		var numChosenFields = this.getChosenFields().length;
 		var numCorrectFields = this.getPossibleAnswers().filter(function isCorrect(e) {
-			return e.correct;
-		}).length;
+				return e.correct;
+			}).length;
 		return ((numChosenFields < numCorrectFields) || (numCorrectFields === 0) || this.getToggleFieldsLeft());
 	},
 
@@ -52,10 +52,10 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 	markChosenFields: function () {
 		var thiz = this;
 		this.getChosenFields().forEach(
-				function (entry) {
-					thiz.markField(entry[0],
-					entry[1], thiz.getHighlightColor(), 0.5);
-				});
+			function (entry) {
+			thiz.markField(entry[0],
+				entry[1], thiz.getHighlightColor(), 0.5);
+		});
 	},
 
 	/**
@@ -94,7 +94,9 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 	 */
 	generateStatisticOutput: function (tilesToFill, colorTiles, displayType, weakenSourceImage) {
 		var totalAnswers = 0;
-		var key, row, column;
+		var key,
+		row,
+		column;
 
 		var wrongColor = this.getStatisticWrongColor();
 		var rightColor = this.getStatisticRightColor();
@@ -135,7 +137,7 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 							minVotes = maxVotes;
 						}
 					}
-					minVotes = (tilesToFill[key] > 0 && tilesToFill[key] < minVotes) ? tilesToFill[key] : minVotes;
+					minVotes = (tilesToFill[key] > 0 && tilesToFill[key] < minVotes) ? tilesToFill[key]: minVotes;
 				}
 			}
 		}
@@ -172,10 +174,10 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 
 				var text;
 				if (displayType === Messages.GRID_LABEL_RELATIVE || displayType === Messages.GRID_LABEL_RELATIVE_SHORT) {
-					text = (typeof tilesToFill[key] !== "undefined") ? Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) : "";
+					text = (typeof tilesToFill[key] !== "undefined") ? Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)): "";
 					this.addTextToField(coords[0], coords[1], text);
 				} else if (displayType === Messages.GRID_LABEL_ABSOLUTE || displayType === Messages.GRID_LABEL_ABSOLUTE_SHORT) {
-					text = (typeof tilesToFill[key] !== "undefined") ? tilesToFill[key] : "";
+					text = (typeof tilesToFill[key] !== "undefined") ? tilesToFill[key]: "";
 					this.addTextToField(coords[0], coords[1], text);
 				}
 			}
@@ -189,8 +191,8 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 		for (var row = 0; row < this.getGridSizeX(); row++) {
 			for (var column = 0; column < this.getGridSizeY(); column++) {
 				var i = row * this.getGridSizeY() + column;
-				var color = correctAnswers[i] ? this.getStatisticRightColor() : this.getStatisticWrongColor();
-				var alpha = userAnswers[i] ? highAlpha : lowAlpha;
+				var color = correctAnswers[i] ? this.getStatisticRightColor(): this.getStatisticWrongColor();
+				var alpha = userAnswers[i] ? highAlpha: lowAlpha;
 
 				this.markField(row, column, color, alpha);
 			}
@@ -202,13 +204,14 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 	 * to be used as possible answers.
 	 */
 	getPossibleAnswersFromChosenFields: function () {
-		var values = [], obj;
+		var values = [],
+		obj;
 
 		for (var i = 0; i < this.getGridSizeX(); i++) {
 			for (var j = 0; j < this.getGridSizeY(); j++) {
 				obj = {
-						text: i + ";" + j,
-						correct: false
+					text: i + ";" + j,
+					correct: false
 				};
 				// use chosenFields as right answers
 				for (var k = 0; k < this.getChosenFields().length; k++) {

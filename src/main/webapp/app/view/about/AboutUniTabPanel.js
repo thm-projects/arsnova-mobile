@@ -18,48 +18,48 @@
  */
 
 Ext.define('ARSnova.view.about.AboutUniTabPanel', {
-	extend : 'Ext.Container',
+	extend: 'Ext.Container',
 
-	requires : ['ARSnova.view.MatrixButton'],
+	requires: ['ARSnova.view.MatrixButton'],
 
-	config : {
-		fullscreen : true,
-		scrollable : {
-			direction : 'vertical',
-			directionLock : true
+	config: {
+		fullscreen: true,
+		scrollable: {
+			direction: 'vertical',
+			directionLock: true
 		},
 
-		layoutOnOrientationChange : false,
-		monitorOrientation : false,
+		layoutOnOrientationChange: false,
+		monitorOrientation: false,
 
-		title : Messages.ABOUT
+		title: Messages.ABOUT
 	},
 
-	initialize : function () {
+	initialize: function () {
 		this.callParent(arguments);
-		var unitext = ARSnova.app.globalConfig.uniPanelText ? ARSnova.app.globalConfig.uniPanelText : "";
+		var unitext = ARSnova.app.globalConfig.uniPanelText ? ARSnova.app.globalConfig.uniPanelText: "";
 		var me = this;
 		this.arsLogo = {
-			xtype : 'panel',
-			style : 'marginTop: 15px'
+			xtype: 'panel',
+			style: 'marginTop: 15px'
 		};
 
 		me.add([{
-					html : "<div class='gravure'>" + unitext + "</div>"
+					html: "<div class='gravure'>" + unitext + "</div>"
 				}, {
-					xtype : 'toolbar',
-					docked : 'top',
-					ui : 'light',
-					title : this.getTitle(),
-					cls : null,
-					items : [{
-							text : Messages.BACK,
-							ui : 'back',
-							handler : function () {
+					xtype: 'toolbar',
+					docked: 'top',
+					ui: 'light',
+					title: this.getTitle(),
+					cls: null,
+					items: [{
+							text: Messages.BACK,
+							ui: 'back',
+							handler: function () {
 								ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
-									type : 'slide',
-									direction : 'right',
-									duration : 500
+									type: 'slide',
+									direction: 'right',
+									duration: 500
 								});
 							}
 						}

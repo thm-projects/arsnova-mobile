@@ -33,27 +33,28 @@ Ext.define('ARSnova.view.about.AboutTabPanel', {
 		tabBar: {
 			hidden: true
 		}
-		},
+	},
 	initialize: function () {
 		this.callParent(arguments);
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			docked: 'top',
-			title: this.getTitle(),
-			ui: 'light',
-			items: [{
-				xtype: 'button',
-				text: Messages.BACK,
-				ui: 'back',
-				scope: this,
-				handler: function () {
-					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.lastActiveMainTabPanel, {
-						type: 'slide',
-						direction: 'right',
-						duration: 700
-					});
-				}
-			}]
-		});
+				docked: 'top',
+				title: this.getTitle(),
+				ui: 'light',
+				items: [{
+						xtype: 'button',
+						text: Messages.BACK,
+						ui: 'back',
+						scope: this,
+						handler: function () {
+							ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.lastActiveMainTabPanel, {
+								type: 'slide',
+								direction: 'right',
+								duration: 700
+							});
+						}
+					}
+				]
+			});
 		this.add(this.toolbar);
 	}
 });
