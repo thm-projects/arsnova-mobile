@@ -1,10 +1,18 @@
 @font-face {
 	font-family: 'arsnova';
-	src:url('fonts/arsnova.eot?-5ozrxo');
-	src:url('fonts/arsnova.eot?#iefix-5ozrxo') format('embedded-opentype'),
-		url('fonts/arsnova.woff?-5ozrxo') format('woff'),
-		url('fonts/arsnova.ttf?-5ozrxo') format('truetype'),
-		url('fonts/arsnova.svg?-5ozrxo#arsnova') format('svg');
+<<<<<<< HEAD
+	src:url('fonts/arsnova.eot?-1vv3r6');
+	src:url('fonts/arsnova.eot?#iefix-1vv3r6') format('embedded-opentype'),
+		url('fonts/arsnova.woff?-1vv3r6') format('woff'),
+		url('fonts/arsnova.ttf?-1vv3r6') format('truetype'),
+		url('fonts/arsnova.svg?-1vv3r6#arsnova') format('svg');
+=======
+	src:url('fonts/arsnova.eot?at58hm');
+	src:url('fonts/arsnova.eot?#iefixat58hm') format('embedded-opentype'),
+		url('fonts/arsnova.woff?at58hm') format('woff'),
+		url('fonts/arsnova.ttf?at58hm') format('truetype'),
+		url('fonts/arsnova.svg?at58hm#arsnova') format('svg');
+>>>>>>> refs/heads/master
 	font-weight: normal;
 	font-style: normal;
 }
@@ -21,6 +29,10 @@
 	/* Better Font Rendering =========== */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-timer:before {
+	content: "\f017";
 }
 
 .icon-sign-in:before {
@@ -161,10 +173,6 @@
 
 .icon-qrcode:before {
 	content: "\e938";
-}
-
-.icon-stopwatch:before {
-	content: "\e952";
 }
 
 .icon-presenter:before {
