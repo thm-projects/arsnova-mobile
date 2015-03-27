@@ -108,7 +108,6 @@ Ext.define('ARSnova.model.Session', {
 	},
 	// update session infos
 	updateSessionInfo: function (session, sessionId, callbacks) {
-
 		return this.getProxy().updateSession(session, sessionId, {
 			success: function (response) {
 				callbacks.success(obj);
