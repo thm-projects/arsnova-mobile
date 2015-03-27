@@ -142,7 +142,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 							minVotes = maxVotes;
 						}
 					}
-					minVotes = (tilesToFill[key] > 0 && tilesToFill[key] < minVotes) ? tilesToFill[key]: minVotes;
+					minVotes = (tilesToFill[key] > 0 && tilesToFill[key] < minVotes) ? tilesToFill[key] : minVotes;
 				}
 			}
 		}
@@ -177,10 +177,10 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 
 				var text;
 				if (displayType === Messages.GRID_LABEL_RELATIVE || displayType === Messages.GRID_LABEL_RELATIVE_SHORT) {
-					text = (typeof tilesToFill[key] !== "undefined") ? Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)): "";
+					text = (typeof tilesToFill[key] !== "undefined") ? Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) : "";
 					this.addTextToField(coords[0], coords[1], text);
 				} else if (displayType === Messages.GRID_LABEL_ABSOLUTE || displayType === Messages.GRID_LABEL_ABSOLUTE_SHORT) {
-					text = (typeof tilesToFill[key] !== "undefined") ? tilesToFill[key]: "";
+					text = (typeof tilesToFill[key] !== "undefined") ? tilesToFill[key] : "";
 					this.addTextToField(coords[0], coords[1], text);
 				}
 			}

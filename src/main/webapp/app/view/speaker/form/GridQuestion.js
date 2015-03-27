@@ -789,10 +789,10 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 		var answerField = this.answers.getComponent('fs_answers').getComponent('tf_answers');
 		var minValue = question.possibleAnswers.reduce(function (a, b) {
-				return a < b.value ? a: b.value;
+				return a < b.value ? a : b.value;
 			}, 0);
 		var maxValue = question.possibleAnswers.reduce(function (a, b) {
-				return a < b.value ? b.value: a;
+				return a < b.value ? b.value : a;
 			}, 0);
 
 		answerField.setValue(this.grid.getChosenFields().length); // set the spinner with correct values (last storage)

@@ -37,7 +37,7 @@ Ext.define('ARSnova.view.about.AboutUniTabPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
-		var unitext = ARSnova.app.globalConfig.uniPanelText ? ARSnova.app.globalConfig.uniPanelText: "";
+		var unitext = ARSnova.app.globalConfig.uniPanelText ? ARSnova.app.globalConfig.uniPanelText : "";
 		var me = this;
 		this.arsLogo = {
 			xtype: 'panel',

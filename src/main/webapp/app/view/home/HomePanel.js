@@ -107,7 +107,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 									maxLength: 16
 								},
 								name: 'keyword',
-								style: !!ARSnova.app.globalConfig.demoSessionKey ? 'margin-bottom: 5px': '',
+								style: !!ARSnova.app.globalConfig.demoSessionKey ? 'margin-bottom: 5px' : '',
 								placeHolder: Messages.SESSIONID_PLACEHOLDER,
 								listeners: {
 									scope: this,
@@ -279,7 +279,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.homePanel.lastVisitedSessionsForm.hide();
 				promise.reject();
 			}
-		}, (window.innerWidth > 481 ? 'name': 'shortname'));
+		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
 		return promise;
 	},
 
@@ -320,7 +320,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.homePanel.mySessionsForm.hide();
 				promise.reject();
 			}
-		}, (window.innerWidth > 481 ? 'name': 'shortname'));
+		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
 		return promise;
 	},
 
@@ -361,7 +361,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					iconCls = "icon-cloud thm-green";
 				}
 				// Minimum width of 481px equals at least landscape view
-				var displaytext = window.innerWidth > 481 ? session.name: session.shortName;
+				var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
 				var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 						xtype: 'button',
 						ui: 'normal',

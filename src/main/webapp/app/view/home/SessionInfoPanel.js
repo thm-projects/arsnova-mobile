@@ -30,7 +30,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 	constructor: function (args) {
 		this.callParent(arguments);
 		var me = this;
-		var screenWidth = (window.innerWidth > 0) ? window.innerWidth: screen.width;
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		var showShortLabels = screenWidth < 480;
 		// show or hide edit button
 		if (localStorage.getItem('role') === "1") {
@@ -145,7 +145,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			});
 		if (localStorage.getItem('ppLogo') !== "" && localStorage.getItem('ppLogo') != null) {
 			this.logoContainer = Ext.create('Ext.Container', {
-					flex: showShortLabels ? 2: 1,
+					flex: showShortLabels ? 2 : 1,
 					layout: {
 						pack: 'center',
 						align: 'center'

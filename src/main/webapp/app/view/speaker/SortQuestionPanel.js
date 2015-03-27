@@ -65,8 +65,8 @@ Ext.define('ARSnova.view.speaker.SortQuestionPanel', {
 	initialize: function () {
 		this.callParent(arguments);
 
-		var screenWidth = (window.innerWidth > 0) ? window.innerWidth: screen.width;
-		var upperActionButtonCls = screenWidth < 410 ? 'smallerActionButton': 'actionButton';
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+		var upperActionButtonCls = screenWidth < 410 ? 'smallerActionButton' : 'actionButton';
 
 		this.questionStore = Ext.create('Ext.data.JsonStore', {
 				model: 'ARSnova.model.Question',

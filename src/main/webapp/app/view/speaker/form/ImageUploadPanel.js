@@ -48,7 +48,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		}
 
 		var screenWidth = (window.innerWidth > 0) ?
-		window.innerWidth: screen.width;
+		window.innerWidth : screen.width;
 		var showShortLabels = screenWidth < 590;
 		var showLongLabelsAndTemplate = !showShortLabels && this.config.activateTemplates;
 
@@ -61,11 +61,11 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				xtype: 'fileupload',
 				autoUpload: true,
 				loadAsDataUrl: true,
-				width: showLongLabelsAndTemplate ? '20%': '',
+				width: showLongLabelsAndTemplate ? '20%' : '',
 				states: {
 					browse: {
 						text: showShortLabels ?
-						Messages.SEARCH_PICTURE_SHORT: 
+						Messages.SEARCH_PICTURE_SHORT :
 						Messages.SEARCH_PICTURE
 					},
 					ready: {
@@ -102,23 +102,23 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 
 		this.segmentButton = Ext.create('Ext.SegmentedButton', {
 				allowDepress: false,
-				cls: !this.config.activateTemplates ? 'yesnoOptions': 'abcOptions',
+				cls: !this.config.activateTemplates ? 'yesnoOptions' : 'abcOptions',
 				style: 'margin-top: 0px; margin-bottom: 0px;',
 				defaults: {
 					ui: 'action'
 				},
 				items: [{
 						text: showShortLabels ?
-						Messages.SELECT_PICTURE_URL_SHORT: 
+						Messages.SELECT_PICTURE_URL_SHORT :
 						Messages.SELECT_PICTURE_URL,
-						width: showLongLabelsAndTemplate ? '25%': '',
+						width: showLongLabelsAndTemplate ? '25%' : '',
 						handler: this.toggleUploadTextfieldVisibility,
 						scope: this
 					}, this.buttonUploadFromFS, {
 						text: showShortLabels ?
-						Messages.TEMPLATE: 
+						Messages.TEMPLATE :
 						Messages.TEMPLATE_FOR_MODERATION,
-						width: showLongLabelsAndTemplate ? '55%': '',
+						width: showLongLabelsAndTemplate ? '55%' : '',
 						hidden: !this.config.activateTemplates,
 						scope: this,
 						handler: function () {
@@ -188,7 +188,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 							}), {
 							xtype: 'fieldset',
 							cls: showLongLabelsAndTemplate ?
-							'fileUploadButtonFieldset longText': 
+							'fileUploadButtonFieldset longText' :
 							'fileUploadButtonFieldset',
 							items: [this.segmentButton]
 						}, this.removeButton, {

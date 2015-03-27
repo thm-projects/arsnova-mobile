@@ -44,7 +44,7 @@ Ext.define('ARSnova.view.Caption', {
 							fontSize: "0.6em"
 						},
 						html: Messages.LEGEND
-					}, this.listButton]: []));
+					}, this.listButton] : []));
 	},
 
 	explainStatus: function (items) {
@@ -100,13 +100,13 @@ Ext.define('ARSnova.view.Caption', {
 			}
 		});
 		this.listButton.setBadge([{
-					badgeText: options.interposed && hasFeedbackQuestions ? Messages.QUESTIONS_FROM_STUDENTS: "",
+					badgeText: options.interposed && hasFeedbackQuestions ? Messages.QUESTIONS_FROM_STUDENTS : "",
 					badgeCls: "feedbackQuestionsBadgeIcon"
 				}, {
-					badgeText: (options.questions && hasQuestions) || (options.unanswered && hasUnansweredQuestions) ? Messages.QUESTIONS: "",
+					badgeText: (options.questions && hasQuestions) || (options.unanswered && hasUnansweredQuestions) ? Messages.QUESTIONS : "",
 					badgeCls: "questionsBadgeIcon"
 				}, {
-					badgeText: options.answers && hasAnswers ? Messages.ANSWERS: "",
+					badgeText: options.answers && hasAnswers ? Messages.ANSWERS : "",
 					badgeCls: "answersBadgeIcon"
 				}
 			]);

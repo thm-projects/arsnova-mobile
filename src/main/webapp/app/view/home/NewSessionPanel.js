@@ -47,7 +47,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				model: 'ARSnova.model.Course'
 			});
 
-		var htmlEncode = window.innerWidth > 321 ? "{fullname:htmlEncode}": "{shortname:htmlEncode}";
+		var htmlEncode = window.innerWidth > 321 ? "{fullname:htmlEncode}" : "{shortname:htmlEncode}";
 
 		this.coursesFieldset = Ext.create('Ext.form.FieldSet', {
 				xtype: 'fieldset',
@@ -369,6 +369,6 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			failure: function () {
 				console.log("my courses request failure");
 			}
-		}, (window.innerWidth > 321 ? 'name': 'shortname'));
+		}, (window.innerWidth > 321 ? 'name' : 'shortname'));
 	}
 });

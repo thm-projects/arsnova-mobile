@@ -423,7 +423,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					}
 
 					// Minimum width of 321px equals at least landscape view
-					var displaytext = window.innerWidth > 481 ? session.name: session.shortName;
+					var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
 					var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 							ui: 'normal',
 							text: Ext.util.Format.htmlEncode(displaytext),
@@ -492,7 +492,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				console.log("my sessions request failure");
 				promise.reject();
 			}
-		}, (window.innerWidth > 481 ? 'name': 'shortname'));
+		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
 		return promise;
 	},
 
@@ -538,7 +538,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					}
 
 					// Minimum width of 321px equals at least landscape view
-					var displaytext = window.innerWidth > 481 ? session.name: session.shortName;
+					var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
 					var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 							ui: 'normal',
 							text: Ext.util.Format.htmlEncode(displaytext),
@@ -582,7 +582,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				console.log("my sessions request failure");
 				promise.reject();
 			}
-		}, (window.innerWidth > 481 ? 'name': 'shortname'));
+		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
 		return promise;
 	},
 
@@ -630,7 +630,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						}
 
 						// Minimum width of 481px equals at least landscape view
-						var displaytext = window.innerWidth > 481 ? session.name: session.shortName;
+						var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
 						var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 								xtype: 'button',
 								ui: 'normal',
@@ -674,7 +674,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				me.lastVisitedSessionsForm.hide();
 				promise.reject();
 			}
-		}, (window.innerWidth > 481 ? 'name': 'shortname'));
+		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
 		return promise;
 	},
 
