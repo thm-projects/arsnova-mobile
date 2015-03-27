@@ -17,37 +17,37 @@
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('ARSnova.view.Caption', {
-	extend: 'Ext.Container',
+	extend : 'Ext.Container',
 
-	requires: ['ARSnova.view.MultiBadgeButton'],
+	requires : ['ARSnova.view.MultiBadgeButton'],
 
-	config: {
-		translation: {
-			active: Messages.OPEN_SESSION,
-			inactive: Messages.CLOSED_SESSION
+	config : {
+		translation : {
+			active : Messages.OPEN_SESSION,
+			inactive : Messages.CLOSED_SESSION
 		}
 	},
 
-	constructor: function () {
+	constructor : function () {
 		this.callParent(arguments);
 
 		this.listButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			ui: 'small',
-			text: "",
-			cls: 'forwardListButton caption',
-			style: this.getStyle()
-		});
+				ui : 'small',
+				text : "",
+				cls : 'forwardListButton caption',
+				style : this.getStyle()
+			});
 
 		this.add([].concat(window.innerWidth > 320 ? [{
-			cls: 'gravure',
-			style: {
-				fontSize: "0.6em"
-			},
-			html: Messages.LEGEND
-		}, this.listButton] : []));
+						cls : 'gravure',
+						style : {
+							fontSize : "0.6em"
+						},
+						html : Messages.LEGEND
+					}, this.listButton] : []));
 	},
 
-	explainStatus: function (items) {
+	explainStatus : function (items) {
 		var hasActiveItems = false;
 		items.forEach(function (item) {
 			hasActiveItems = hasActiveItems || !!item.active;
@@ -72,19 +72,19 @@ Ext.define('ARSnova.view.Caption', {
 		}
 	},
 
-	summarize: function (sessions, options) {
+	summarize : function (sessions, options) {
 		var flat = [].concat.apply([], sessions);
 		this.explainBadges(flat, options);
 		this.explainStatus(flat);
 	},
 
-	explainBadges: function (badges, opt) {
+	explainBadges : function (badges, opt) {
 		var options = Ext.apply({}, opt, {
-			questions: true,
-			answers: true,
-			interposed: true,
-			unanswered: false
-		});
+				questions : true,
+				answers : true,
+				interposed : true,
+				unanswered : false
+			});
 		var hasFeedbackQuestions = false;
 		var hasQuestions = false;
 		var hasUnansweredQuestions = false;
@@ -100,19 +100,20 @@ Ext.define('ARSnova.view.Caption', {
 			}
 		});
 		this.listButton.setBadge([{
-				badgeText: options.interposed && hasFeedbackQuestions ? Messages.QUESTIONS_FROM_STUDENTS : "",
-				badgeCls: "feedbackQuestionsBadgeIcon"
-			}, {
-				badgeText: (options.questions && hasQuestions) || (options.unanswered && hasUnansweredQuestions) ? Messages.QUESTIONS : "",
-				badgeCls: "questionsBadgeIcon"
-			}, {
-				badgeText: options.answers && hasAnswers ? Messages.ANSWERS : "",
-				badgeCls: "answersBadgeIcon"
-		}]);
+					badgeText : options.interposed && hasFeedbackQuestions ? Messages.QUESTIONS_FROM_STUDENTS : "",
+					badgeCls : "feedbackQuestionsBadgeIcon"
+				}, {
+					badgeText : (options.questions && hasQuestions) || (options.unanswered && hasUnansweredQuestions) ? Messages.QUESTIONS : "",
+					badgeCls : "questionsBadgeIcon"
+				}, {
+					badgeText : options.answers && hasAnswers ? Messages.ANSWERS : "",
+					badgeCls : "answersBadgeIcon"
+				}
+			]);
 		return badges;
 	},
 
-	connectToStore: function (store) {
+	connectToStore : function (store) {
 		store.on('updaterecord', function (theStore, record) {
 			var records = [];
 			store.each(function (r) {

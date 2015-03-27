@@ -51,8 +51,7 @@ Ext.define('ARSnova.view.RolePanel', {
 	},
 
 	initialize: function () {
-		var uniEnabled = ARSnova.app.globalConfig.uniEnabled ? ARSnova.app.globalConfig.uniEnabled : "";
-		
+		var uniEnabled = ARSnova.app.globalConfig.uniPanelEnabled ? ARSnova.app.globalConfig.uniPanelEnabled : "";
 		this.callParent(arguments);
 		var isPhone = (Ext.os.is.Phone && Ext.os.is.iOS);
 		var smallHeight = document.body.clientHeight <= 460;

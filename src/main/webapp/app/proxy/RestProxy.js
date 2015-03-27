@@ -151,7 +151,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
-	
 	/**
 	 * Update Session by ID
 	 * @param session object
@@ -160,7 +159,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	 * @return success or failure
 	 */
 	updateSession: function (session, sessionId, callbacks) {
-
 		this.arsjax.request({
 			url: "session/" + sessionId,//encodeURIComponent(sessionId),
 			method: "PUT",

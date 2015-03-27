@@ -17,9 +17,9 @@
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('ARSnova.view.speaker.TabPanel', {
-	extend: 'Ext.tab.Panel',
+	extend : 'Ext.tab.Panel',
 
-	requires: [
+	requires : [
 		'ARSnova.view.speaker.InClass',
 		'ARSnova.view.speaker.AudienceQuestionPanel',
 		'ARSnova.view.speaker.NewQuestionPanel',
@@ -29,16 +29,16 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 		'ARSnova.view.about.AboutTabPanel'
 	],
 
-	config: {
-		title: Messages.HOME,
-		iconCls: 'icon-home',
+	config : {
+		title : Messages.HOME,
+		iconCls : 'icon-home',
 
-		tabBar: {
-			hidden: true
+		tabBar : {
+			hidden : true
 		}
 	},
 
-	initialize: function () {
+	initialize : function () {
 		this.callParent(arguments);
 
 		this.inClassPanel = Ext.create('ARSnova.view.speaker.InClass');
@@ -49,9 +49,6 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 		this.infoTabPanel = Ext.create('ARSnova.view.about.AboutTabPanel');
 		this.sortQuestionPanel = Ext.create('ARSnova.view.speaker.SortQuestionPanel');
 
-		
-		
-		
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
 			ARSnova.app.innerScrollPanel = false;
 			ARSnova.app.lastActivePanel = oldCard;
@@ -59,32 +56,30 @@ Ext.define('ARSnova.view.speaker.TabPanel', {
 			this.setWindowTitle(newCard);
 
 			switch (oldCard) {
-				case this.infoTabPanel:
-				case this.audienceQuestionPanel:
-				case this.newQuestionPanel:
-				case this.showcaseQuestionPanel:
-				case this.learningProgressPanel:
-				case ARSnova.app.getController('Application').embeddedPage:
-					break;
+			case this.infoTabPanel:
+			case this.audienceQuestionPanel:
+			case this.newQuestionPanel:
+			case this.showcaseQuestionPanel:
+			case this.learningProgressPanel:
+			case ARSnova.app.getController('Application').embeddedPage:
+				break;
 
-				default:
-					ARSnova.app.lastActiveMainTabPanel = oldCard;
+			default:
+				ARSnova.app.lastActiveMainTabPanel = oldCard;
 			}
 
-	}, this);
-		
-		
-		
+		}, this);
+
 		this.add([
-			this.inClassPanel,
-			this.audienceQuestionPanel,
-			this.newQuestionPanel,
-			this.sortQuestionPanel,
-			this.infoTabPanel
-		]);
+				this.inClassPanel,
+				this.audienceQuestionPanel,
+				this.newQuestionPanel,
+				this.sortQuestionPanel,
+				this.infoTabPanel
+			]);
 	},
 
-	renew: function () {
+	renew : function () {
 		this.remove(this.inClassPanel);
 		this.inClassPanel = Ext.create('ARSnova.view.speaker.InClass');
 		this.insert(0, this.inClassPanel);

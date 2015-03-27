@@ -114,11 +114,10 @@ Ext.define("ARSnova.controller.Sessions", {
 			}
 		});
 	},
-	
 	// get session info
 	getSession: function (options) {
 		console.debug("Controller: Sessions.getSession INFO", options);
-			if (options.keyword.length !== 8) {
+		if (options.keyword.length !== 8) {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_ID_INVALID_LENGTH);
 			return;
 		}
@@ -133,7 +132,6 @@ Ext.define("ARSnova.controller.Sessions", {
 				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 					ARSnova.app.isSessionOwner = true;
 				} else {
-					
 					ARSnova.app.userRole = ARSnova.app.USER_ROLE_STUDENT;
 					ARSnova.app.isSessionOwner = false;
 				}
@@ -157,7 +155,6 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('creationTime', obj.creationTime);
 
 				ARSnova.app.socket.setSession(obj.keyword);
-				
 				// change to session info panel
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 				var sessionInfoPanel = Ext.create('ARSnova.view.home.SessionInfoPanel');
@@ -167,7 +164,6 @@ Ext.define("ARSnova.controller.Sessions", {
 					direction: 'left',
 					duration: 700
 				});
-				
 			},
 			notFound: function () {
 				Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_NOT_FOUND);
@@ -336,18 +332,12 @@ Ext.define("ARSnova.controller.Sessions", {
 
 		hideLoadMask();
 	},
-	
 	// update session infos
 	updateSession: function (options) {
-		
 		var sessionId = localStorage.getItem('sessionId');
-		
 		console.log(sessionId);
-		
 		var sessionInfo = Ext.encode(options);
-		
 		console.log(sessionInfo);
-		
 		ARSnova.app.sessionModel.updateSessionInfo(sessionInfo, sessionId, {
 			success: function () {
 				console.log("update in controller war erfolgreich");

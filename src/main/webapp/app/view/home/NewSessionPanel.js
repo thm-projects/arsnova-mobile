@@ -298,13 +298,10 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			ppUniversity: values.ppUniversity,
 			ppFaculty: values.ppFaculty,
 			ppLicense: values.ppLicense,
-<<<<<<< HEAD
 			ppSubject: values.ppSubject,
 			ppLevel: values.ppLevel,
 			ppDescription: values.ppDescription,
 			ppLogo: values.ppLogo,
-=======
->>>>>>> InfoAndHelp
 			newSessionPanel: panel,
 			creationTime: Date.now()
 		});

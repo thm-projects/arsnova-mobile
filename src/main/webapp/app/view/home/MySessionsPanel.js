@@ -396,25 +396,16 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					});
 					hideLoadMask();
 				};
-				
 				var sessionInfoButtonHandler = function (options) {
-					
 					var hideLoadMask = ARSnova.app.showLoadMask("Lade Sessioninfo...");
-					
 					ARSnova.app.setWindowTitle();
-					
 					ARSnova.app.getController('Sessions').getSession({
 						keyword: options.config.sessionObj.keyword
 					});
-					
 					hideLoadMask();
-					
 					sessionStorage.setItem('keyword', options.config.sessionObj.keyword);
-										
 					localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
 					ARSnova.app.userRole = ARSnova.app.USER_ROLE_SPEAKER;
-					
-					
 					
 				};
 
@@ -449,16 +440,14 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						{badgeText: session.numQuestions, badgeCls: "questionsBadgeIcon"},
 						{badgeText: session.numAnswers, badgeCls: "answersBadgeIcon"}
 					]);
-					
 					var sessionInfoButton = Ext.create('Ext.Button', {
 						cls: 'sessionInfoIconList',
 						iconCls: 'info',
 						width: '7%',
 						sessionObj: session,
-						handler: sessionInfoButtonHandler 
+						handler: sessionInfoButtonHandler
 
 					});
-					
 					// Container to show the Session-Info-Button aside the List
 					var sessionButtonwithInfo = Ext.create('Ext.Container', {
 						layout: {
@@ -472,7 +461,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							sessionButton
 						]
 					});
-					
 					panel.sessionsForm.addEntry(sessionButtonwithInfo);
 				}
 

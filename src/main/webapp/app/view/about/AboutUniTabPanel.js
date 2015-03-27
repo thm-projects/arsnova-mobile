@@ -18,52 +18,53 @@
  */
 
 Ext.define('ARSnova.view.about.AboutUniTabPanel', {
-		extend: 'Ext.Container',
+	extend : 'Ext.Container',
 
-		requires: ['ARSnova.view.MatrixButton'],
+	requires : ['ARSnova.view.MatrixButton'],
 
-		config: {
-			fullscreen: true,
-			scrollable: {
-				direction: 'vertical',
-				directionLock: true
-			},
-
-			layoutOnOrientationChange: false,
-			monitorOrientation: false,
-
-			title: Messages.ABOUT
+	config : {
+		fullscreen : true,
+		scrollable : {
+			direction : 'vertical',
+			directionLock : true
 		},
 
-		initialize: function () {
-			this.callParent(arguments);
-			var unitext = ARSnova.app.globalConfig.uniText ? ARSnova.app.globalConfig.uniText : "";
-			var me = this;
-			
-			this.arsLogo = {
-				xtype: 'panel',
-				style: 'marginTop: 15px'
-			};
+		layoutOnOrientationChange : false,
+		monitorOrientation : false,
 
-			me.add([{
-				html: "<div class='gravure'>" +unitext + "</div>"
-			},{
-				xtype: 'toolbar',
-				docked: 'top',
-				ui: 'light',
-				title: this.getTitle(),
-				cls: null,
-				items: [{
-					text: Messages.BACK,
-					ui: 'back',
-					handler: function () {
-						ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
-							type: 'slide',
-							direction: 'right',
-							duration: 500
-						});
-					}
-				}]}
+		title : Messages.ABOUT
+	},
+
+	initialize : function () {
+		this.callParent(arguments);
+		var unitext = ARSnova.app.globalConfig.uniPanelText ? ARSnova.app.globalConfig.uniPanelText : "";
+		var me = this;
+		this.arsLogo = {
+			xtype : 'panel',
+			style : 'marginTop: 15px'
+		};
+
+		me.add([{
+					html : "<div class='gravure'>" + unitext + "</div>"
+				}, {
+					xtype : 'toolbar',
+					docked : 'top',
+					ui : 'light',
+					title : this.getTitle(),
+					cls : null,
+					items : [{
+							text : Messages.BACK,
+							ui : 'back',
+							handler : function () {
+								ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
+									type : 'slide',
+									direction : 'right',
+									duration : 500
+								});
+							}
+						}
+					]
+				}
 			]);
-		}
-	});
+	}
+});

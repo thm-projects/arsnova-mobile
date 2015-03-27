@@ -18,7 +18,6 @@
  */
 Ext.define('ARSnova.view.home.SessionInfoPanel', {
 	extend : 'Ext.Panel',
-
 	config : {
 		backRef : null,
 		fullscreen : true,
@@ -28,191 +27,166 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		},
 		session : null
 	},
-
 	constructor : function (args) {
 		this.callParent(arguments);
-
 		var me = this;
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		var showShortLabels = screenWidth < 480;
-		
 		// show or hide edit button
-		if(localStorage.getItem('role') === "1") {
+		if (localStorage.getItem('role') === "1") {
 			var hideEdit = false;
 			var backBtn = this.backSpeaker;
-		}
-		else {
+		} else {
 			var hideEdit = true;
 			var backBtn = this.backUser;
 		}
-
 		//
 		// Toolbar items
 		//
-
 		this.backButton = Ext.create('Ext.Button', {
 				text : Messages.BACK,
 				ui : 'back',
 				scope : this,
 				handler : backBtn
 			});
-		
 		this.editButton = Ext.create('Ext.Button', {
-			text: Messages.EDIT,
-			hidden: hideEdit,
-			ui: 'confirm',
-			cls: 'saveQuestionButton',
-			style: 'width: 89px',
-			handler : function () {
-				// change to session info panel
-				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				var sessionInfoPanel = Ext.create('ARSnova.view.home.SessionInfoEditPanel');
-
-				hTP.animateActiveItem(sessionInfoPanel, {
-					type: 'slide',
-					direction: 'left',
-					duration: 700
-				});
-			}
-		});
-
+				text : Messages.EDIT,
+				hidden : hideEdit,
+				ui : 'confirm',
+				cls : 'saveQuestionButton',
+				style : 'width: 89px',
+				handler : function () {
+					// change to session info panel
+					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+					var sessionInfoPanel = Ext.create('ARSnova.view.home.SessionInfoEditPanel');
+					hTP.animateActiveItem(sessionInfoPanel, {
+						type : 'slide',
+						direction : 'left',
+						duration : 700
+					});
+				}
+			});
 		this.toolbar = Ext.create('Ext.Toolbar', {
 				title : "Session Info",
 				docked : 'top',
 				ui : 'light',
-				items : [this.backButton,
-				         { xtype: 'spacer'},
-				         this.editButton]
+				items : [this.backButton, {
+						xtype : 'spacer'
+					},
+					this.editButton]
 			});
-		
-		
 		this.infoFormCreator = Ext.create('Ext.form.FieldSet', {
-			title: 'Verfasserinformationen',
-			items: [{
-				xtype: 'textfield',
-				name: 'ppAuthorName',
-				label: "Name des Dozenten",
-				disabled: true,
-				value: localStorage.getItem('ppAuthorName')
-			},{
-				xtype: 'textfield',
-				name: 'ppAuthorMail',
-				label: "Email",
-				disabled: true,
-				value: localStorage.getItem('ppAuthorMail')
-			},{
-				xtype: 'textfield',
-				name: 'ppUniversity',
-				label: "Hochschule",
-				disabled: true,
-				value: localStorage.getItem('ppUniversity')
-			},{
-				xtype: 'textfield',
-				name: 'ppFaculty',
-				label: "Fachbereich",
-				disabled: true,
-				value: localStorage.getItem('ppFaculty')
-			}]
-		});
-		
+				title : 'Verfasserinformationen',
+				items : [{
+						xtype : 'textfield',
+						name : 'ppAuthorName',
+						label : "Name des Dozenten",
+						disabled : true,
+						value : localStorage.getItem('ppAuthorName')
+					}, {
+						xtype : 'textfield',
+						name : 'ppAuthorMail',
+						label : "Email",
+						disabled : true,
+						value : localStorage.getItem('ppAuthorMail')
+					}, {
+						xtype : 'textfield',
+						name : 'ppUniversity',
+						label : "Hochschule",
+						disabled : true,
+						value : localStorage.getItem('ppUniversity')
+					}, {
+						xtype : 'textfield',
+						name : 'ppFaculty',
+						label : "Fachbereich",
+						disabled : true,
+						value : localStorage.getItem('ppFaculty')
+					}
+				]
+			});
 		this.infoFormSession = Ext.create('Ext.form.FieldSet', {
-			title: 'Sessioninformationen',
-			items: [{
-				xtype: 'textfield',
-				name: 'name',
-				label: Messages.SESSION_NAME,
-				disabled: true,
-				value: localStorage.getItem('name')
-			},{
-				xtype: 'textfield',
-				name: 'shortName',
-				label: Messages.SESSION_SHORT_NAME,
-				disabled: true,
-				value: localStorage.getItem('shortName')
-			},{
-				xtype: 'textfield',
-				name: 'ppSubject',
-				label: "Studiengang",
-				disabled: true,
-				value: localStorage.getItem('ppSubject')
-			},{
-				xtype: 'textfield',
-				name: 'ppLevel',
-				label: "Niveau",
-				disabled: true,
-				value: localStorage.getItem('ppLevel')
-			}]
-		});
-		
+				title : 'Sessioninformationen',
+				items : [{
+						xtype : 'textfield',
+						name : 'name',
+						label : Messages.SESSION_NAME,
+						disabled : true,
+						value : localStorage.getItem('name')
+					}, {
+						xtype : 'textfield',
+						name : 'shortName',
+						label : Messages.SESSION_SHORT_NAME,
+						disabled : true,
+						value : localStorage.getItem('shortName')
+					}, {
+						xtype : 'textfield',
+						name : 'ppSubject',
+						label : "Studiengang",
+						disabled : true,
+						value : localStorage.getItem('ppSubject')
+					}, {
+						xtype : 'textfield',
+						name : 'ppLevel',
+						label : "Niveau",
+						disabled : true,
+						value : localStorage.getItem('ppLevel')
+					}
+				]
+			});
 		this.descriptionPanel = Ext.create('Ext.Panel', {
-			layout:	{
-				type: 'hbox',
-				pack: 'center',
-				align: 'center'
-			},
-			style: {
-				'margin-top': '30px'
-			}
-		});
-
+				layout : {
+					type : 'hbox',
+					pack : 'center',
+					align : 'center'
+				},
+				style : {
+					'margin-top' : '30px'
+				}
+			});
 		if (localStorage.getItem('ppLogo') !== "" && localStorage.getItem('ppLogo') != null) {
 			this.logoContainer = Ext.create('Ext.Container', {
-				flex: showShortLabels ? 2 : 1,
-				layout: {
-					pack: 'center',
-					align: 'center'
-				},
-				style: {
-					'padding-top': '25px',
-					'text-align': 'left'
-				},
-				html: '<img src="' + localStorage.getItem('ppLogo') + '" style="width: 100%; max-width: 100px;"></img>'
-			});
-
+					flex : showShortLabels ? 2 : 1,
+					layout : {
+						pack : 'center',
+						align : 'center'
+					},
+					style : {
+						'padding-top' : '25px',
+						'text-align' : 'left'
+					},
+					html : '<img src="' + localStorage.getItem('ppLogo') + '" style="width: 100%; max-width: 100px;"></img>'
+				});
 			this.descriptionPanel.add(this.logoContainer);
 		}
-
 		if (localStorage.getItem('ppDescription') !== "" && localStorage.getItem('ppDescription') != null) {
 			this.markdownPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-				xtype: 'mathJaxMarkDownPanel',
-				id: 'questionContent',
-				style: 'background-color: transparent; color: black; ',
-				flex: 4
-			});
-
+					xtype : 'mathJaxMarkDownPanel',
+					id : 'questionContent',
+					style : 'background-color: transparent; color: black; ',
+					flex : 4
+				});
 			this.markdownPanel.setContent(localStorage.getItem('ppDescription'), true, true);
-
 			this.descriptionPanel.add(this.markdownPanel);
 		}
-		
-
-		
 		this.contentForm = Ext.create('Ext.form.FormPanel', {
 				scrollable : null,
 				items : [
-				         this.descriptionPanel,
-				         this.infoFormSession,
-				         this.infoFormCreator
-				        ]
+					this.descriptionPanel,
+					this.infoFormSession,
+					this.infoFormCreator
+				]
 			});
-		
-		
 		this.add([this.toolbar, this.contentForm]);
 	},
-	
-	backSpeaker: function () {
-		
+	backSpeaker : function () {
 		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				
 		hTP.animateActiveItem(hTP.mySessionsPanel, {
-			type: 'slide',
-			direction: 'right',
-			duration: 700
+			type : 'slide',
+			direction : 'right',
+			duration : 700
 		});
-		
 		// remove session/local storage
 		sessionStorage.removeItem("keyword");
-
 		localStorage.removeItem("sessionId");
 		localStorage.removeItem("name");
 		localStorage.removeItem("shortName");
@@ -232,20 +206,15 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		localStorage.removeItem("creationTime");
 		ARSnova.app.isSessionOwner = false;
 	},
-	
-	backUser: function () {
-
+	backUser : function () {
 		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-		
 		hTP.animateActiveItem(hTP.homePanel, {
-			type: 'slide',
-			direction: 'right',
-			duration: 700
+			type : 'slide',
+			direction : 'right',
+			duration : 700
 		});
-		
 		// remove session/local storage
 		sessionStorage.removeItem("keyword");
-
 		localStorage.removeItem("sessionId");
 		localStorage.removeItem("name");
 		localStorage.removeItem("shortName");

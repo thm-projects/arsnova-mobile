@@ -518,7 +518,7 @@
 				NOT_RELEASED_YET: "Der Dozent hat die richtige Antwort noch nicht freigegeben.",
 				STUDENTS_USE_CASES: "Für Studenten",
 				TEACHERS_USE_CASES: "Für Dozenten",
-				
+
 				/* help */
 				HELP_ROLEPANEL: "Platzhalter fuer Rolepanel Hilfetext",
 				HELP_AUTABPANEL: "Platzhalter fuer About Uni Hilfetext",
@@ -528,7 +528,7 @@
 				HELP_PRIVACYTABPANEL: "Platzhalter fuer Privacypanel Hilfetext",
 				HELP_IMRPINTTABPANEL: "Platzhalter fuer Imprintpanel Hilfetext",
 				HELP_LOGINPANEL: "Platzhalter fuer LoginPanel Hilfetext",
-				
+
 				/* diagnosis */
 				DIAGNOSIS: "System",
 				BROWSER_INFO: "Browser-Informationen",
@@ -1038,7 +1038,7 @@
 				PRIVACY: "Privacy Policy",
 				ARSNOVA_MANUAL: "Manual",
 				ARSNOVA_FAQ: "FAQ | Helpdesk",
-				
+
 				/* help */
 				HELP_ROLEPANEL: "Placeholder for Rolepanel Helptext",
 				HELP_AUTABPANEL: "Placeholder for About Uni Helptext",
@@ -1048,7 +1048,7 @@
 				HELP_PRIVACYTABPANEL: "Placeholder for Privacypanel Helptext",
 				HELP_IMRPINTTABPANEL: "Placeholder for Imprintpanel Helptext",
 				HELP_LOGINPANEL: "Placeholder for LoginPanel Helptext",
-				
+
 
 				OPINION: "Your opinion matters",
 				WIDGET_IS_LOADING: 'Widget is loading...',

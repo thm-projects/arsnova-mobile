@@ -44,7 +44,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 	questions: null,
 	newQuestionButton: null,
-	
 
 	questionStore: null,
 	questionEntries: [],
@@ -229,7 +228,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				}, this);
 			}
 		});
-		
 
 
 		this.inClassActions = Ext.create('Ext.Panel', {
@@ -240,7 +238,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			},
 
 			items: [
-			    this.sortQuestionButton,
+				this.sortQuestionButton,
 				this.deleteAnswersButton,
 				this.deleteQuestionsButton
 			]
@@ -300,7 +298,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 					this.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE_PLURAL);
 					this.questionStatusButton.setMultiQuestionMode();
 				}
-				
 
 				this.showcaseActionButton.show();
 				this.questionListContainer.show();
@@ -322,7 +319,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			}
 		});
 	},
-	
 
 	onDeactivate: function () {
 		this.questionList.hide();

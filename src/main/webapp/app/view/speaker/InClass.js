@@ -188,7 +188,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			scrollable: null,
 			items: buttons
 		});
-		
 		this.sessionInfoButton = Ext.create('Ext.Button', {
 			cls: 'sessionInfoIconId',
 			iconCls: 'info',
@@ -196,15 +195,12 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			margin: '0',
 
 			handler: function (button) {
-
 				// change to session info
-				
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				var sessionInfoPanel = Ext.create('ARSnova.view.home.SessionInfoPanel');
 				sTP.animateActiveItem(sessionInfoPanel, 'slide');
 			}
 		});
-		
 		this.inClassIdInfo = Ext.create('Ext.Panel', {
 			style: {marginTop: '20px'},
 			layout: {
@@ -225,7 +221,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			scrollable: null,
 
 			items: [
-			    this.inClassIdInfo,
+				this.inClassIdInfo,
 				this.actionButtonPanel,
 				this.inClassButtons
 			]
