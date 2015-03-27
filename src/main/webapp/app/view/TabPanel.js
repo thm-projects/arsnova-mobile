@@ -27,7 +27,8 @@ Ext.define('ARSnova.view.TabPanel', {
 		'ARSnova.view.about.BlogTabPanel',
 		'ARSnova.view.about.AboutTabPanel',
 		'ARSnova.view.about.ImprintTabPanel',
-		'ARSnova.view.about.PrivacyTabPanel'
+		'ARSnova.view.about.PrivacyTabPanel',
+		'ARSnova.view.about.AboutUniTabPanel'
 	],
 
 	config: {
@@ -76,17 +77,19 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.blogTabPanel = Ext.create('ARSnova.view.about.BlogTabPanel');
 		this.privacyTabPanel = Ext.create('ARSnova.view.about.PrivacyTabPanel');
 		this.imprintTabPanel = Ext.create('ARSnova.view.about.ImprintTabPanel');
+		this.aboutUniTabPanel = Ext.create('ARSnova.view.about.AboutUniTabPanel');
 
 		this.add([
-			this.rolePanel,
-			this.loginPanel,
-			this.homeTabPanel,
-			this.diagnosisPanel,
-			this.infoTabPanel,
-			this.blogTabPanel,
-			this.privacyTabPanel,
-			this.imprintTabPanel
-		]);
+				this.rolePanel,
+				this.loginPanel,
+				this.homeTabPanel,
+				this.diagnosisPanel,
+				this.infoTabPanel,
+				this.blogTabPanel,
+				this.privacyTabPanel,
+				this.imprintTabPanel,
+				this.aboutUniTabPanel
+			]);
 
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
 			ARSnova.app.innerScrollPanel = false;
@@ -95,24 +98,22 @@ Ext.define('ARSnova.view.TabPanel', {
 			this.setWindowTitle(newCard);
 
 			switch (oldCard) {
-				case this.infoTabPanel:
-				case this.privacyTabPanel:
-				case this.imprintTabPanel:
-				case this.diagnosisPanel:
-				case this.blogTabPanel:
-				case this.testTabPanel:
-				case ARSnova.app.getController('Application').embeddedPage:
-					break;
+			case this.infoTabPanel:
+			case this.privacyTabPanel:
+			case this.imprintTabPanel:
+			case this.diagnosisPanel:
+			case this.blogTabPanel:
+			case this.testTabPanel:
+			case ARSnova.app.getController('Application').embeddedPage:
+				break;
 
-				default:
-					ARSnova.app.lastActiveMainTabPanel = oldCard;
+			default:
+				ARSnova.app.lastActiveMainTabPanel = oldCard;
 			}
 
 			if (newCard === this.rolePanel) {
-				this.infoTabPanel.tab.hide();
 				this.blogTabPanel.tab.show();
 			} else {
-				this.infoTabPanel.tab.show();
 				this.blogTabPanel.tab.hide();
 			}
 
@@ -120,10 +121,19 @@ Ext.define('ARSnova.view.TabPanel', {
 				if (newCard === this.infoTabPanel ||
 					newCard === this.privacyTabPanel ||
 					newCard === this.imprintTabPanel ||
-					newCard === this.blogTabPanel
-				) {
-					this.infoTabPanel.tab.hide();
+					newCard === this.blogTabPanel) {
 					this.blogTabPanel.tab.show();
+					this.infoTabPanel.setHtml("<div class='gravure'>" + Messages.HELP_ROLEPANEL + "</div>");
+				}
+			}
+			if (ARSnova.app.lastActiveMainTabPanel === this.homeTabPanel) {
+				if (newCard === this.infoTabPanel) {
+					this.infoTabPanel.setHtml("<div class='gravure'>" + Messages.HELP_HOMETABPANEL + "</div>");
+				}
+			}
+			if (ARSnova.app.lastActiveMainTabPanel === this.loginPanel) {
+				if (newCard === this.infoTabPanel) {
+					this.infoTabPanel.setHtml("<div class='gravure'>" + Messages.HELP_LOGINPANEL + "</div>");
 				}
 			}
 		}, this);
@@ -131,8 +141,8 @@ Ext.define('ARSnova.view.TabPanel', {
 		this.on('initialize', function () {
 			this.rolePanel.tab.hide();
 			this.loginPanel.tab.hide();
+			this.aboutUniTabPanel.tab.hide();
 			this.homeTabPanel.tab.hide();
-			this.infoTabPanel.tab.hide();
 			this.diagnosisPanel.tab.hide();
 		});
 		this.on('activate', this.onActivate);
@@ -145,7 +155,7 @@ Ext.define('ARSnova.view.TabPanel', {
 	setActiveItem: function (card, animation) {
 		this.callParent(arguments);
 
-		this.getTabBar().activeTab = card.tab;// for correct animation direction
+		this.getTabBar().activeTab = card.tab; // for correct animation direction
 
 		if (typeof(animation) === 'object') {
 			animation.duration = ARSnova.app.cardSwitchDuration;
@@ -160,29 +170,32 @@ Ext.define('ARSnova.view.TabPanel', {
 
 	setWindowTitle: function (newCard) {
 		switch (newCard) {
-			case this.loginPanel:
-				ARSnova.app.setWindowTitle(' - ' + Messages.LOGIN);
-				break;
-			case this.diagnosisPanel:
-				ARSnova.app.setWindowTitle(' - ' + Messages.DIAGNOSIS);
-				break;
-			case this.infoTabPanel:
-				ARSnova.app.setWindowTitle(' - ' + Messages.INFO);
-				break;
-			case this.feedbackTabPanel:
-				ARSnova.app.setWindowTitle(' - ' + Messages.FEEDBACK);
-				break;
-			case this.userQuestionsPanel:
-				ARSnova.app.setWindowTitle(' - ' + Messages.LECTURE_QUESTIONS_LONG);
-				break;
-			case this.feedbackQuestionsPanel:
-				ARSnova.app.setWindowTitle(' - ' + Messages.QUESTIONS_FROM_STUDENTS);
-				break;
-			case this.rolePanel:
-				ARSnova.app.setWindowTitle();
-				break;
-			default:
-				ARSnova.app.setWindowTitle(' - ' + Messages.HOME);
+		case this.loginPanel:
+			ARSnova.app.setWindowTitle(' - ' + Messages.LOGIN);
+			break;
+		case this.aboutUniTabPanel:
+			ARSnova.app.setWindowTitle(' - ' + Messages.ABOUT);
+			break;
+		case this.diagnosisPanel:
+			ARSnova.app.setWindowTitle(' - ' + Messages.DIAGNOSIS);
+			break;
+		case this.infoTabPanel:
+			ARSnova.app.setWindowTitle(' - ' + Messages.HELP);
+			break;
+		case this.feedbackTabPanel:
+			ARSnova.app.setWindowTitle(' - ' + Messages.FEEDBACK);
+			break;
+		case this.userQuestionsPanel:
+			ARSnova.app.setWindowTitle(' - ' + Messages.LECTURE_QUESTIONS_LONG);
+			break;
+		case this.feedbackQuestionsPanel:
+			ARSnova.app.setWindowTitle(' - ' + Messages.QUESTIONS_FROM_STUDENTS);
+			break;
+		case this.rolePanel:
+			ARSnova.app.setWindowTitle();
+			break;
+		default:
+			ARSnova.app.setWindowTitle(' - ' + Messages.HOME);
 		}
 	},
 
@@ -223,14 +236,14 @@ Ext.define('ARSnova.view.TabPanel', {
 
 	addClassToTab: function (addCls, panel) {
 		var tabbar = this.getTabBar().element,
-			selectCls = '.' + panel.getIconCls();
+		selectCls = '.' + panel.getIconCls();
 
 		tabbar.select(selectCls).addCls(addCls);
 	},
 
 	removeClassFromTab: function (removeCls, panel) {
 		var tabbar = this.getTabBar().element,
-			selectCls = '.' + panel.getIconCls();
+		selectCls = '.' + panel.getIconCls();
 
 		tabbar.select(selectCls).removeCls(removeCls);
 	},
@@ -240,20 +253,20 @@ Ext.define('ARSnova.view.TabPanel', {
 
 		switch (averageFeedback) {
 			/* 0: faster, please!; 1: can follow; 2: to fast!; 3: you have lost me */
-			case 0:
-				panel.tab.setIconCls("voteIcons icon-wink");
-				break;
-			case 1:
-				panel.tab.setIconCls("voteIcons icon-happy");
-				break;
-			case 2:
-				panel.tab.setIconCls("voteIcons icon-shocked");
-				break;
-			case 3:
-				panel.tab.setIconCls("voteIcons icon-sad");
-				break;
-			default:
-				break;
+		case 0:
+			panel.tab.setIconCls("voteIcons icon-wink");
+			break;
+		case 1:
+			panel.tab.setIconCls("voteIcons icon-happy");
+			break;
+		case 2:
+			panel.tab.setIconCls("voteIcons icon-shocked");
+			break;
+		case 3:
+			panel.tab.setIconCls("voteIcons icon-sad");
+			break;
+		default:
+			break;
 		}
 	},
 

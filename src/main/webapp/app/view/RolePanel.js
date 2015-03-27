@@ -51,8 +51,8 @@ Ext.define('ARSnova.view.RolePanel', {
 	},
 
 	initialize: function () {
+		var uniEnabled = ARSnova.app.globalConfig.uniPanelEnabled ? ARSnova.app.globalConfig.uniPanelEnabled : "";
 		this.callParent(arguments);
-
 		var isPhone = (Ext.os.is.Phone && Ext.os.is.iOS);
 		var smallHeight = document.body.clientHeight <= 460;
 		var mediumHeight = document.body.clientHeight >= 520;
@@ -125,11 +125,13 @@ Ext.define('ARSnova.view.RolePanel', {
 			style: 'margin-top: 15px',
 			items: [{
 				xtype: 'matrixbutton',
-				text: Messages.INFO,
+				hidden: (uniEnabled !== 'true'),
+				text: Messages.ABOUT,
 				imageCls: "icon-book",
 				handler: function () {
-					var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
-					tabPanel.setActiveItem(tabPanel.infoTabPanel);
+					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(
+							ARSnova.app.mainTabPanel.tabPanel.aboutUniTabPanel, 'slide'
+						);
 				}
 			}]
 		}]);

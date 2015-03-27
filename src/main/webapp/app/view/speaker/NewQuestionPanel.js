@@ -29,7 +29,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		'ARSnova.view.speaker.form.YesNoQuestion',
 		'ARSnova.view.speaker.form.NullQuestion',
 		'ARSnova.view.speaker.form.GridQuestion',
-		'ARSnova.view.speaker.form.FreeTextQuestion',
 		'ARSnova.view.speaker.form.ImageUploadPanel'
 	],
 
@@ -188,8 +187,11 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true
 		});
 
-		this.freetextQuestion = Ext.create('ARSnova.view.speaker.form.FreeTextQuestion', {
-			hidden: true
+		this.freetextQuestion = Ext.create('Ext.form.FormPanel', {
+			hidden: true,
+			scrollable: null,
+			submitOnAction: false,
+			items: []
 		});
 
 		var messageAppendix = screenWidth >= 650 ? "_LONG" : "";
@@ -472,7 +474,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		values.questionVariant = panel.getVariant();
 		values.image = this.image;
 		values.flashcardImage = null;
-		values.imageQuestion = false;
 
 		if (localStorage.getItem('courseId') != null && localStorage.getItem('courseId').length > 0) {
 			values.releasedFor = 'courses';
@@ -522,8 +523,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			case Messages.FREETEXT_LONG:
 				values.questionType = "freetext";
 				values.possibleAnswers = [];
-				Ext.apply(values, panel.freetextQuestion.getQuestionValues());
 				break;
+
 			case Messages.FLASHCARD:
 			case Messages.FLASHCARD_SHORT:
 				values.questionType = "flashcard";
@@ -610,8 +611,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			gridType: values.gridType,
 			scaleFactor: values.scaleFactor,
 			gridScaleFactor: values.gridScaleFactor,
-			imageQuestion: values.imageQuestion,
-			textAnswerEnabled: values.textAnswerEnabled,
 			saveButton: button,
 			successFunc: function (response, opts) {
 				promise.resolve(response);

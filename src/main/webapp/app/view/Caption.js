@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
  * Copyright (C) 2012-2015 The ARSnova Team
@@ -32,19 +32,19 @@ Ext.define('ARSnova.view.Caption', {
 		this.callParent(arguments);
 
 		this.listButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-			ui: 'small',
-			text: "",
-			cls: 'forwardListButton caption',
-			style: this.getStyle()
-		});
+				ui: 'small',
+				text: "",
+				cls: 'forwardListButton caption',
+				style: this.getStyle()
+			});
 
 		this.add([].concat(window.innerWidth > 320 ? [{
-			cls: 'gravure',
-			style: {
-				fontSize: "0.6em"
-			},
-			html: Messages.LEGEND
-		}, this.listButton] : []));
+						cls: 'gravure',
+						style: {
+							fontSize: "0.6em"
+						},
+						html: Messages.LEGEND
+					}, this.listButton] : []));
 	},
 
 	explainStatus: function (items) {
@@ -80,11 +80,11 @@ Ext.define('ARSnova.view.Caption', {
 
 	explainBadges: function (badges, opt) {
 		var options = Ext.apply({}, opt, {
-			questions: true,
-			answers: true,
-			interposed: true,
-			unanswered: false
-		});
+				questions: true,
+				answers: true,
+				interposed: true,
+				unanswered: false
+			});
 		var hasFeedbackQuestions = false;
 		var hasQuestions = false;
 		var hasUnansweredQuestions = false;
@@ -100,15 +100,16 @@ Ext.define('ARSnova.view.Caption', {
 			}
 		});
 		this.listButton.setBadge([{
-				badgeText: options.interposed && hasFeedbackQuestions ? Messages.QUESTIONS_FROM_STUDENTS : "",
-				badgeCls: "feedbackQuestionsBadgeIcon"
-			}, {
-				badgeText: (options.questions && hasQuestions) || (options.unanswered && hasUnansweredQuestions) ? Messages.QUESTIONS : "",
-				badgeCls: "questionsBadgeIcon"
-			}, {
-				badgeText: options.answers && hasAnswers ? Messages.ANSWERS : "",
-				badgeCls: "answersBadgeIcon"
-		}]);
+					badgeText: options.interposed && hasFeedbackQuestions ? Messages.QUESTIONS_FROM_STUDENTS : "",
+					badgeCls: "feedbackQuestionsBadgeIcon"
+				}, {
+					badgeText: (options.questions && hasQuestions) || (options.unanswered && hasUnansweredQuestions) ? Messages.QUESTIONS : "",
+					badgeCls: "questionsBadgeIcon"
+				}, {
+					badgeText: options.answers && hasAnswers ? Messages.ANSWERS : "",
+					badgeCls: "answersBadgeIcon"
+				}
+			]);
 		return badges;
 	},
 

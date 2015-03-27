@@ -130,9 +130,6 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 				}, {
 					itemId: 'statisticsAnswers',
 					text: Messages.VOTINGS
-				}, {
-					itemId: 'statisticsActiveStudents',
-					text: Messages.ACTIVE_STUDENT_USERS
 				}]
 		});
 
@@ -170,7 +167,6 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 			this.formpanel.getComponent('statisticsPreparationQuestions').config.setInnerValue(this.formatNumber(this.statistics.preparationQuestions));
 			this.formpanel.getComponent('statisticsInterposedQuestions').config.setInnerValue(this.formatNumber(this.statistics.interposedQuestions));
 			this.formpanel.getComponent('statisticsAnswers').config.setInnerValue(this.formatNumber(this.statistics.answers));
-			this.formpanel.getComponent('statisticsActiveStudents').config.setInnerValue(this.formatNumber(this.statistics.activeStudents));
 		}
 	},
 

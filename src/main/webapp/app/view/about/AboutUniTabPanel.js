@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
  * Copyright (C) 2012-2015 The ARSnova Team
@@ -17,44 +17,54 @@
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('ARSnova.view.about.AboutTabPanel', {
-	extend: 'Ext.tab.Panel',
+Ext.define('ARSnova.view.about.AboutUniTabPanel', {
+	extend: 'Ext.Container',
 
-	requires: ['ARSnova.view.components.EmbeddedPage'],
+	requires: ['ARSnova.view.MatrixButton'],
 
 	config: {
-		title: Messages.HELP,
-		iconCls: 'icon-book',
-
+		fullscreen: true,
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
 		},
-		tabBar: {
-			hidden: true
-		}
+
+		layoutOnOrientationChange: false,
+		monitorOrientation: false,
+
+		title: Messages.ABOUT
 	},
+
 	initialize: function () {
 		this.callParent(arguments);
-		this.toolbar = Ext.create('Ext.Toolbar', {
-				docked: 'top',
-				title: this.getTitle(),
-				ui: 'light',
-				items: [{
-						xtype: 'button',
-						text: Messages.BACK,
-						ui: 'back',
-						scope: this,
-						handler: function () {
-							ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.lastActiveMainTabPanel, {
-								type: 'slide',
-								direction: 'right',
-								duration: 700
-							});
+		var unitext = ARSnova.app.globalConfig.uniPanelText ? ARSnova.app.globalConfig.uniPanelText : "";
+		var me = this;
+		this.arsLogo = {
+			xtype: 'panel',
+			style: 'marginTop: 15px'
+		};
+
+		me.add([{
+					html: "<div class='gravure'>" + unitext + "</div>"
+				}, {
+					xtype: 'toolbar',
+					docked: 'top',
+					ui: 'light',
+					title: this.getTitle(),
+					cls: null,
+					items: [{
+							text: Messages.BACK,
+							ui: 'back',
+							handler: function () {
+								ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
+									type: 'slide',
+									direction: 'right',
+									duration: 500
+								});
+							}
 						}
-					}
-				]
-			});
-		this.add(this.toolbar);
+					]
+				}
+			]);
 	}
 });

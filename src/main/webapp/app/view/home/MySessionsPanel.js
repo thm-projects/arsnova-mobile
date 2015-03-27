@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
  * Copyright (C) 2012-2015 The ARSnova Team
@@ -49,189 +49,189 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		var config = ARSnova.app.globalConfig;
 
 		this.logoutButton = Ext.create('Ext.Button', {
-			id: 'logout-button',
-			text: Messages.LOGOUT,
-			ui: 'back',
-			hidden: true,
-			handler: function () {
-				ARSnova.app.getController('Auth').logout();
-			}
-		});
-
-		this.backButton = Ext.create('Ext.Button', {
-			text: Messages.HOME,
-			ui: 'back',
-			handler: function () {
-				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-				hTP.animateActiveItem(hTP.homePanel, {
-					type: 'slide',
-					direction: 'right',
-					duration: 700
-				});
-			}
-		});
-
-		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: Messages.SESSIONS,
-			cls: 'speakerTitleText',
-			docked: 'top',
-			ui: 'light',
-			items: [
-				this.backButton,
-				this.logoutButton
-			]
-		});
-
-		this.newSessionButtonForm = Ext.create('Ext.Panel', {
-			layout: {
-				type: 'hbox',
-				pack: 'center'
-			},
-
-			style: {
-				marginTop: '30px'
-			},
-
-			items: [
-				Ext.create('ARSnova.view.MatrixButton', {
-					id: 'new-session-button',
-					text: Messages.CREATE_NEW_SESSION,
-					buttonConfig: 'icon',
-					cls: 'actionButton',
-					imageCls: 'icon-newsession thm-green',
-					scope: this,
-					handler: function () {
-						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-						hTP.animateActiveItem(hTP.newSessionPanel, 'slide');
-					}
-				})
-			]
-		});
-
-		this.caption = Ext.create('ARSnova.view.Caption', {
-			cls: 'x-form-fieldset',
-			style: "border-radius: 15px"
-		});
-
-		this.sessionsForm = Ext.create('ARSnova.view.home.SessionList', {
-			scrollable: null,
-			title: Messages.MY_SESSIONS
-		});
-
-		this.lastVisitedSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
-			scrollable: null,
-			title: Messages.LAST_VISITED_SESSIONS_SPEAKER
-		});
-
-		this.matrixButtonPanel = Ext.create('Ext.Panel', {
-			layout: {
-				type: 'hbox',
-				pack: 'center'
-			}
-		});
-
-		if (config.features.publicPool) {
-			this.myPpSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
-				scrollable: null,
-				title: Messages.MY_PUBLIC_POOL_SESSIONS
+				id: 'logout-button',
+				text: Messages.LOGOUT,
+				ui: 'back',
+				hidden: true,
+				handler: function () {
+					ARSnova.app.getController('Auth').logout();
+				}
 			});
 
-			this.publicPoolButton = Ext.create('ARSnova.view.MatrixButton', {
-				text: 'Pool',
-				buttonConfig: 'icon',
-				imageCls: 'icon-cloud thm-green',
-				scope: this,
+		this.backButton = Ext.create('Ext.Button', {
+				text: Messages.HOME,
+				ui: 'back',
 				handler: function () {
-					// get public pool sessions from server
-					ARSnova.app.restProxy.getPublicPoolSessions({
-						success: function (sessionList) {
-							var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-							me.publicPoolPanel = Ext.create('ARSnova.view.home.PublicPoolPanel', {
-								sessions: sessionList
-							});
-
-							hTP.animateActiveItem(me.publicPoolPanel, {
-								type: 'slide',
-								direction: 'left',
-								duration: 700
-							});
-						},
-						empty: function () {
-							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
-						},
-						failure: function () {
-							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
-						},
-						unauthenticated: function () {
-							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
-						}
+					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+					hTP.animateActiveItem(hTP.homePanel, {
+						type: 'slide',
+						direction: 'right',
+						duration: 700
 					});
 				}
 			});
+
+		this.toolbar = Ext.create('Ext.Toolbar', {
+				title: Messages.SESSIONS,
+				cls: 'speakerTitleText',
+				docked: 'top',
+				ui: 'light',
+				items: [
+					this.backButton,
+					this.logoutButton
+				]
+			});
+
+		this.newSessionButtonForm = Ext.create('Ext.Panel', {
+				layout: {
+					type: 'hbox',
+					pack: 'center'
+				},
+
+				style: {
+					marginTop: '30px'
+				},
+
+				items: [
+					Ext.create('ARSnova.view.MatrixButton', {
+						id: 'new-session-button',
+						text: Messages.CREATE_NEW_SESSION,
+						buttonConfig: 'icon',
+						cls: 'actionButton',
+						imageCls: 'icon-newsession thm-green',
+						scope: this,
+						handler: function () {
+							var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+							hTP.animateActiveItem(hTP.newSessionPanel, 'slide');
+						}
+					})
+				]
+			});
+
+		this.caption = Ext.create('ARSnova.view.Caption', {
+				cls: 'x-form-fieldset',
+				style: "border-radius: 15px"
+			});
+
+		this.sessionsForm = Ext.create('ARSnova.view.home.SessionList', {
+				scrollable: null,
+				title: Messages.MY_SESSIONS
+			});
+
+		this.lastVisitedSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
+				scrollable: null,
+				title: Messages.LAST_VISITED_SESSIONS_SPEAKER
+			});
+
+		this.matrixButtonPanel = Ext.create('Ext.Panel', {
+				layout: {
+					type: 'hbox',
+					pack: 'center'
+				}
+			});
+
+		if (config.features.publicPool) {
+			this.myPpSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
+					scrollable: null,
+					title: Messages.MY_PUBLIC_POOL_SESSIONS
+				});
+
+			this.publicPoolButton = Ext.create('ARSnova.view.MatrixButton', {
+					text: 'Pool',
+					buttonConfig: 'icon',
+					imageCls: 'icon-cloud thm-green',
+					scope: this,
+					handler: function () {
+						// get public pool sessions from server
+						ARSnova.app.restProxy.getPublicPoolSessions({
+							success: function (sessionList) {
+								var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+								me.publicPoolPanel = Ext.create('ARSnova.view.home.PublicPoolPanel', {
+										sessions: sessionList
+									});
+
+								hTP.animateActiveItem(me.publicPoolPanel, {
+									type: 'slide',
+									direction: 'left',
+									duration: 700
+								});
+							},
+							empty: function () {
+								Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
+							},
+							failure: function () {
+								Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
+							},
+							unauthenticated: function () {
+								Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
+							}
+						});
+					}
+				});
 			this.matrixButtonPanel.add(this.publicPoolButton);
 		}
 
 		if (config.features.sessionImportExport) {
 			this.importButtonClickable = Ext.create('Ext.ux.Fileup', {
-				xtype: 'fileupload',
-				autoUpload: true,
-				loadAsDataUrl: true,
-				baseCls: 'button',
-				style: 'background: transparent;position:absolute; width:100%; height: 100%; z-index: 100;border: none !important;font-size:0;',
-				states: {
-					browse: {
-						text: "Suchen"
-					},
-					ready: {
-						text: Messages.LOAD
-					},
-					uploading: {
-						text: Messages.LOADING,
-						loading: true
-					}
-				},
-				listeners: {
-					scope: this,
-					loadsuccess: function (data) {
-						if (!Ext.os.is.iOS) {
-							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_IMPORT, 240000);
-							try {
-								var n = data.indexOf("base64,");
-								data = decodeURIComponent(window.escape(atob(data.substring(n + 7)))); // remove disturbing prefix
-
-								var jsonContent = JSON.parse(data);
-								if (jsonContent && typeof jsonContent === "object" && jsonContent !== null) {
-									ARSnova.app.getController("SessionImport").importSession(jsonContent.exportData)
-										.then(function () {
-											me.loadCreatedSessions()
-												.then(function () {
-													hideLoadMask();
-												});
-										});
-								}
-							} catch (e) {
-								console.log(e);
-								Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_FORMAT);
-								hideLoadMask();
-							}
+					xtype: 'fileupload',
+					autoUpload: true,
+					loadAsDataUrl: true,
+					baseCls: 'button',
+					style: 'background: transparent;position:absolute; width:100%; height: 100%; z-index: 100;border: none !important;font-size:0;',
+					states: {
+						browse: {
+							text: "Suchen"
+						},
+						ready: {
+							text: Messages.LOAD
+						},
+						uploading: {
+							text: Messages.LOADING,
+							loading: true
 						}
 					},
-					loadfailure: function (message) {}
-				}
-			});
+					listeners: {
+						scope: this,
+						loadsuccess: function (data) {
+							if (!Ext.os.is.iOS) {
+								var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_IMPORT, 240000);
+								try {
+									var n = data.indexOf("base64,");
+									data = decodeURIComponent(window.escape(atob(data.substring(n + 7)))); // remove disturbing prefix
+
+									var jsonContent = JSON.parse(data);
+									if (jsonContent && typeof jsonContent === "object" && jsonContent !== null) {
+										ARSnova.app.getController("SessionImport").importSession(jsonContent.exportData)
+										.then(function () {
+											me.loadCreatedSessions()
+											.then(function () {
+												hideLoadMask();
+											});
+										});
+									}
+								} catch (e) {
+									console.log(e);
+									Ext.Msg.alert(Messages.IMP_ERROR, Messages.IMP_ERROR_FORMAT);
+									hideLoadMask();
+								}
+							}
+						},
+						loadfailure: function (message) {}
+					}
+				});
 			this.importButtonClickable.fileElement.dom.accept = ""; // enable all kinds of data for file input
 			this.importButton = Ext.create('ARSnova.view.MatrixButton', {
-				text: Messages.IMP_BUTTON_IMPORT,
-				buttonConfig: 'icon',
-				imageCls: 'icon-cloud-upload ',
-				scope: this,
-				handler: function () {
-					var msg = "";
-					if ((msg = this.importSupport()) !== "") {
-						Ext.Msg.alert(Messages.NOTIFICATION, msg);
+					text: Messages.IMP_BUTTON_IMPORT,
+					buttonConfig: 'icon',
+					imageCls: 'icon-cloud-upload ',
+					scope: this,
+					handler: function () {
+						var msg = "";
+						if ((msg = this.importSupport()) !== "") {
+							Ext.Msg.alert(Messages.NOTIFICATION, msg);
+						}
 					}
-				}
-			});
+				});
 
 			this.importButtonPanel = Ext.create('Ext.Panel');
 			if (this.importSupport() === "") {
@@ -240,96 +240,96 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			this.importButtonPanel.add(this.importButton);
 
 			this.exportButton = Ext.create('ARSnova.view.MatrixButton', {
-				text: 'Export',
-				buttonConfig: 'icon',
-				imageCls: 'icon-cloud-download ',
-				scope: this,
-				hidden: true,
-				handler: function () {
-					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+					text: 'Export',
+					buttonConfig: 'icon',
+					imageCls: 'icon-cloud-download ',
+					scope: this,
+					hidden: true,
+					handler: function () {
+						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 
-					if (!config.features.publicPool) {
-						hTP.animateActiveItem(Ext.create('ARSnova.view.home.SessionExportListPanel', {
-							exportType: 'filesystem'
-						}), 'slide');
-					} else {
-						var msgBox = Ext.create('Ext.MessageBox');
+						if (!config.features.publicPool) {
+							hTP.animateActiveItem(Ext.create('ARSnova.view.home.SessionExportListPanel', {
+									exportType: 'filesystem'
+								}), 'slide');
+						} else {
+							var msgBox = Ext.create('Ext.MessageBox');
 
-						Ext.apply(msgBox, {
-							YESNO: [
-								{
-									xtype: 'matrixbutton',
-									text:	Messages.EXPORT_BUTTON_FS,
-									itemId: 'yes',
-									buttonConfig: 'icon',
-									imageCls: 'icon-cloud-download '},
-								{
-									xtype: 'matrixbutton',
-									text: 'Pool',
-									itemId: 'no',
-									buttonConfig: 'icon',
-									imageCls: 'icon-cloud thm-green'}
-							]
-						});
-
-						msgBox.show({
-							title: Messages.EXPORT_SELECTED_SESSIONS_TITLE,
-							message: Messages.EXPORT_SELECTED_SESSIONS_MSG,
-							buttons: msgBox.YESNO,
-							hideOnMaskTap: true,
-							listeners: [
-								{
-								element: 'element',
-								delegate: '',
-								event: 'tap',
-								fn: function () {
-									this.hide();
-								}
-							}],
-							fn: function (btn) {
-								var dest = null;
-								if (btn === 'yes') {
-									if (Ext.os.is.iOS) {
-										Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_IOS_NOTIFICATION);
-									} else {
-										dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
-											exportType: 'filesystem'
-										});
-										hTP.animateActiveItem(dest, 'slide');
+							Ext.apply(msgBox, {
+								YESNO: [{
+										xtype: 'matrixbutton',
+										text: Messages.EXPORT_BUTTON_FS,
+										itemId: 'yes',
+										buttonConfig: 'icon',
+										imageCls: 'icon-cloud-download '
+									}, {
+										xtype: 'matrixbutton',
+										text: 'Pool',
+										itemId: 'no',
+										buttonConfig: 'icon',
+										imageCls: 'icon-cloud thm-green'
 									}
-								} else {
-									if (ARSnova.app.loginMode === ARSnova.app.LOGIN_GUEST) {
-										Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_PP_NOTIFICATION);
-									} else {
-										dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
-											exportType: 'public_pool'
-										});
+								]
+							});
 
-										hTP.animateActiveItem(dest, 'slide');
+							msgBox.show({
+								title: Messages.EXPORT_SELECTED_SESSIONS_TITLE,
+								message: Messages.EXPORT_SELECTED_SESSIONS_MSG,
+								buttons: msgBox.YESNO,
+								hideOnMaskTap: true,
+								listeners: [{
+										element: 'element',
+										delegate: '',
+										event: 'tap',
+										fn: function () {
+											this.hide();
+										}
+									}
+								],
+								fn: function (btn) {
+									var dest = null;
+									if (btn === 'yes') {
+										if (Ext.os.is.iOS) {
+											Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_IOS_NOTIFICATION);
+										} else {
+											dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
+													exportType: 'filesystem'
+												});
+											hTP.animateActiveItem(dest, 'slide');
+										}
+									} else {
+										if (ARSnova.app.loginMode === ARSnova.app.LOGIN_GUEST) {
+											Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_PP_NOTIFICATION);
+										} else {
+											dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
+													exportType: 'public_pool'
+												});
+
+											hTP.animateActiveItem(dest, 'slide');
+										}
 									}
 								}
-							}
-						});
+							});
+						}
 					}
-				}
-			});
+				});
 			this.matrixButtonPanel.add(this.exportButton);
 			this.matrixButtonPanel.add(this.importButtonPanel);
 		}
 
 		this.add([
-			this.toolbar,
-			this.newSessionButtonForm,
-			this.sessionsForm]);
+				this.toolbar,
+				this.newSessionButtonForm,
+				this.sessionsForm]);
 
 		if (config.features.publicPool) {
 			this.add(this.myPpSessionsForm);
 		}
 
 		this.add([
-			this.matrixButtonPanel,
-			this.lastVisitedSessionsForm
-		]);
+				this.matrixButtonPanel,
+				this.lastVisitedSessionsForm
+			]);
 
 		this.onBefore('painted', function () {
 			var me = this;
@@ -353,12 +353,12 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 		this.on('activate', function () {
 			switch (ARSnova.app.userRole) {
-				case ARSnova.app.USER_ROLE_SPEAKER:
-					this.backButton.hide();
-					this.logoutButton.show();
-					break;
-				default:
-					break;
+			case ARSnova.app.USER_ROLE_SPEAKER:
+				this.backButton.hide();
+				this.logoutButton.show();
+				break;
+			default:
+				break;
 			}
 
 			if (ARSnova.app.loginMode === ARSnova.app.LOGIN_THM) {
@@ -396,6 +396,17 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					});
 					hideLoadMask();
 				};
+				var sessionInfoButtonHandler = function (options) {
+					var hideLoadMask = ARSnova.app.showLoadMask("Lade Sessioninfo...");
+					ARSnova.app.setWindowTitle();
+					ARSnova.app.getController('Sessions').getSession({
+						keyword: options.config.sessionObj.keyword
+					});
+					hideLoadMask();
+					sessionStorage.setItem('keyword', options.config.sessionObj.keyword);
+					localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
+					ARSnova.app.userRole = ARSnova.app.USER_ROLE_SPEAKER;
+				};
 
 				var session;
 				for (var i = 0; i < sessions.length; i++) {
@@ -414,20 +425,50 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					// Minimum width of 321px equals at least landscape view
 					var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
 					var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-						ui: 'normal',
-						text: Ext.util.Format.htmlEncode(displaytext),
-						iconCls: course + " courseIcon",
-						cls: 'forwardListButton' + status,
-						sessionObj: session,
-						handler: sessionButtonHandler
-					});
-					sessionButton.setBadge([
-						{badgeText: session.numInterposed, badgeCls: "feedbackQuestionsBadgeIcon"},
-						{badgeText: session.numUnredInterposed, badgeCls: "unreadFeedbackQuestionsBadgeIcon"},
-						{badgeText: session.numQuestions, badgeCls: "questionsBadgeIcon"},
-						{badgeText: session.numAnswers, badgeCls: "answersBadgeIcon"}
-					]);
-					panel.sessionsForm.addEntry(sessionButton);
+							ui: 'normal',
+							text: Ext.util.Format.htmlEncode(displaytext),
+							iconCls: course + " courseIcon",
+							cls: 'forwardSessionListButton' + status,
+							width: '93%',
+							sessionObj: session,
+							handler: sessionButtonHandler
+						});
+					sessionButton.setBadge([{
+								badgeText: session.numInterposed,
+								badgeCls: "feedbackQuestionsBadgeIcon"
+							}, {
+								badgeText: session.numUnredInterposed,
+								badgeCls: "unreadFeedbackQuestionsBadgeIcon"
+							}, {
+								badgeText: session.numQuestions,
+								badgeCls: "questionsBadgeIcon"
+							}, {
+								badgeText: session.numAnswers,
+								badgeCls: "answersBadgeIcon"
+							}
+						]);
+					var sessionInfoButton = Ext.create('Ext.Button', {
+							cls: 'sessionInfoIconList',
+							iconCls: 'info',
+							width: '7%',
+							sessionObj: session,
+							handler: sessionInfoButtonHandler
+
+						});
+					// Container to show the Session-Info-Button aside the List
+					var sessionButtonwithInfo = Ext.create('Ext.Container', {
+							layout: {
+								type: 'hbox',
+								pack: 'center'
+							},
+							cls: 'forwardSessionListBg',
+
+							items: [
+								sessionInfoButton,
+								sessionButton
+							]
+						});
+					panel.sessionsForm.addEntry(sessionButtonwithInfo);
 				}
 
 				hideLoadMask();
@@ -499,18 +540,24 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					// Minimum width of 321px equals at least landscape view
 					var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
 					var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-						ui: 'normal',
-						text: Ext.util.Format.htmlEncode(displaytext),
-						iconCls: "icon-cloud thm-green ",
-						cls: 'forwardListButton' + status,
-						sessionObj: session,
-						handler: sessionButtonHandler
-					});
-					sessionButton.setBadge([
-						{badgeText: session.numInterposed, badgeCls: "feedbackQuestionsBadgeIcon"},
-						{badgeText: session.numQuestions, badgeCls: "questionsBadgeIcon"},
-						{badgeText: session.numAnswers, badgeCls: "answersBadgeIcon"}
-					]);
+							ui: 'normal',
+							text: Ext.util.Format.htmlEncode(displaytext),
+							iconCls: "icon-cloud thm-green ",
+							cls: 'forwardListButton' + status,
+							sessionObj: session,
+							handler: sessionButtonHandler
+						});
+					sessionButton.setBadge([{
+								badgeText: session.numInterposed,
+								badgeCls: "feedbackQuestionsBadgeIcon"
+							}, {
+								badgeText: session.numQuestions,
+								badgeCls: "questionsBadgeIcon"
+							}, {
+								badgeText: session.numAnswers,
+								badgeCls: "answersBadgeIcon"
+							}
+						]);
 					panel.myPpSessionsForm.addEntry(sessionButton);
 				}
 
@@ -585,18 +632,22 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						// Minimum width of 481px equals at least landscape view
 						var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
 						var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-							xtype: 'button',
-							ui: 'normal',
-							text: Ext.util.Format.htmlEncode(displaytext),
-							cls: 'forwardListButton',
-							iconCls: iconCls,
-							controller: 'sessions',
-							action: 'showDetails',
-							badgeCls: 'badgeicon',
-							sessionObj: session,
-							handler: sessionButtonHandler
-						});
-						sessionButton.setBadge([{badgeText: session.numUnanswered, badgeCls: "questionsBadgeIcon"}]);
+								xtype: 'button',
+								ui: 'normal',
+								text: Ext.util.Format.htmlEncode(displaytext),
+								cls: 'forwardListButton',
+								iconCls: iconCls,
+								controller: 'sessions',
+								action: 'showDetails',
+								badgeCls: 'badgeicon',
+								sessionObj: session,
+								handler: sessionButtonHandler
+							});
+						sessionButton.setBadge([{
+									badgeText: session.numUnanswered,
+									badgeCls: "questionsBadgeIcon"
+								}
+							]);
 						panel.lastVisitedSessionsForm.addEntry(sessionButton);
 
 						if (!session.active) {

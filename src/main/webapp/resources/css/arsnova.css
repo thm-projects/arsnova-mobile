@@ -509,7 +509,7 @@ html,body {
 }
 
 /* homePanel */
-.forwardListButton { /* apple-like forward arrow*/
+.forwardListButton { /* apple-like forward arrow */
 	background: white
 		url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IArs4c6QAAAAZiS0dEALgAuAC41wNsvAAAAAlwSFlzAAALEgAACxIB0t1+/AAAAAd0SU1FB9sGEQk7MbF1V5sAAAENSURBVCjPY2CgNigtLS0pKyubSEgdMxqfsbS0tJuRkbGBgYHB3NLS8s+xY8cO49LMhC7AyMgoA5dkYmopLS1NIVbz//v378f///9/D5LYjLKysgCibF69evWvr1+/Bv7///8M1CXMDAwMy0tLS20xXInLSbm5uaIcHBxHGRkZVaFCH//9+2fX09NzCafNMDB58uTXjIyM6UhC/ExMTPPwOhvZ5v///89EEvr479+/JIKas7KyeDg4OLYhOfnH////fZGdjFVzaGgoGw8PzzpGRkYTBgYGhv////9lYGCI7O7uPkwotBkVFRUXMjAwuCKJZXR1dW0gKqr+////BMb+9+9fTXd39xyapG2KAAAvqFz8khrpYwAAAABJRU5ErkJggg==")
 		no-repeat;
@@ -520,6 +520,7 @@ html,body {
 	border-color: lightgray;
 	border-width: thin;
 }
+
 
 .caption {
 	height: 40px;
@@ -1532,6 +1533,47 @@ ol.standardList li {
 	color: #80ba24; /* thm green */
 }
 
+
+.forwardSessionListButton { /* apple-like forward arrow*/
+	background: transparent
+		url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IArs4c6QAAAAZiS0dEALgAuAC41wNsvAAAAAlwSFlzAAALEgAACxIB0t1+/AAAAAd0SU1FB9sGEQk7MbF1V5sAAAENSURBVCjPY2CgNigtLS0pKyubSEgdMxqfsbS0tJuRkbGBgYHB3NLS8s+xY8cO49LMhC7AyMgoA5dkYmopLS1NIVbz//v378f///9/D5LYjLKysgCibF69evWvr1+/Bv7///8M1CXMDAwMy0tLS20xXInLSbm5uaIcHBxHGRkZVaFCH//9+2fX09NzCafNMDB58uTXjIyM6UhC/ExMTPPwOhvZ5v///89EEvr479+/JIKas7KyeDg4OLYhOfnH////fZGdjFVzaGgoGw8PzzpGRkYTBgYGhv////9lYGCI7O7uPkwotBkVFRUXMjAwuCKJZXR1dW0gKqr+////BMb+9+9fTXd39xyapG2KAAAvqFz8khrpYwAAAABJRU5ErkJggg==")
+		no-repeat;
+	color:#4a5c66;
+	background-position: 100%;
+	border-radius: 0;
+	height: 45px !important;
+	border-width: 0px;
+	margin: 0px;
+	text-align: left !important;
+}
+
+.forwardSessionListBg {
+	background: white;
+	border-radius: 0;
+	height: 47px !important;
+	border-style: solid;
+	border-color: lightgray;
+	border-width: thin;
+}
+
+.sessionInfoIconList {
+	background: transparent;
+	color: #4a5c66;
+	vertical-align: middle;
+	border-width: 0px;
+	border-radius: 0;
+	border-right-style: solid;
+	border-right-color: lightgray;
+	border-right-width: thin;
+}
+
+.sessionInfoIconId {
+	background: transparent;
+	color: #4a5c66;
+	vertical-align: top;
+	border-width: 0px;
+	padding: 0px;
+}
 .learningprogress-title .x-form-fieldset-title .x-innerhtml {
 	white-space: normal;
 }

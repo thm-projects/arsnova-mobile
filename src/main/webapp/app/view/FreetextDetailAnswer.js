@@ -19,8 +19,6 @@
 Ext.define('ARSnova.view.FreetextDetailAnswer', {
 	extend: 'Ext.Panel',
 
-	requires: ['ARSnova.view.components.GridImageContainer'],
-
 	config: {
 		title: 'FreetextDetailAnswer',
 		fullscreen: true,
@@ -39,17 +37,17 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 		var self = this;
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: Messages.FREETEXT_DETAIL_HEADER,
-			docked: 'top',
-			ui: 'light',
-			items: [
-				Ext.create('Ext.Button', {
-					text: Messages.BACK,
-					ui: 'back',
-					handler: function () {
-						self.sTP.items.items.pop(); // Remove this panel from view stack
-						self.sTP.animateActiveItem(
-							self.sTP.items.items[self.sTP.items.items.length - 1], // Switch back to top of view stack
+				title: Messages.FREETEXT_DETAIL_HEADER,
+				docked: 'top',
+				ui: 'light',
+				items: [
+					Ext.create('Ext.Button', {
+						text: Messages.BACK,
+						ui: 'back',
+						handler: function () {
+							self.sTP.items.items.pop(); // Remove this panel from view stack
+							self.sTP.animateActiveItem(
+								self.sTP.items.items[self.sTP.items.items.length - 1], // Switch back to top of view stack
 							{
 								type: 'slide',
 								direction: 'right',
@@ -62,12 +60,11 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 									},
 									scope: this
 								}
-							}
-						);
-					}
-				})
-			]
-		});
+							});
+						}
+					})
+				]
+			});
 
 		// Setup question title and text to disply in the same field; markdown handles HTML encoding
 		var questionString = this.answer.answerSubject
@@ -78,102 +75,52 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
 		questionPanel.setContent(questionString, true, true);
 
-		var image = null;
-
-		function switchToFullScreen() {
-			if (image !== null) {
-				var img = document.getElementById("img").querySelector("canvas");
-				if (img.requestFullscreen) {
-					img.requestFullscreen();
-				} else if (img.msRequestFullscreen) {
-					img.msRequestFullscreen();
-				} else if (img.mozRequestFullScreen) {
-					img.mozRequestFullScreen();
-				} else if (img.webkitRequestFullscreen) {
-					img.webkitRequestFullscreen();
-				}
-			}
-		}
-
-		var imgContainer = Ext.create('ARSnova.view.components.GridImageContainer', {
-			id: 'img',
-			hidden: 'true',
-			gridIsHidden: true,
-			editable: false,
-			listeners: {
-				tap: {
-					fn: switchToFullScreen,
-					element: 'element'
-				},
-				click: {
-					fn: switchToFullScreen,
-					element: 'element'
-				}
-			}
-		});
-
-
-
-		ARSnova.app.questionModel.getImageAnswerImage(self.answer.questionId, self.answer._id, {
-			success: function (response) {
-				image = response.responseText;
-				imgContainer.setImage(image);
-				imgContainer.show();
-			},
-			failure: function () {
-				image = null;
-				imgContainer.hide();
-			}
-		});
-
 		this.add([this.toolbar, {
-			xtype: 'formpanel',
-			scrollable: null,
+					xtype: 'formpanel',
+					scrollable: null,
 
-			items: [{
-				xtype: 'textfield',
-				cls: 'roundedBox',
-				label: Messages.QUESTION_DATE,
-				value: this.answer.formattedTime + " Uhr am " + this.answer.groupDate,
-				disabledCls: 'disableDefault',
-				inputCls: 'thm-grey',
-				disabled: true
-				}, questionPanel
-			]
-		},
-		imgContainer,
-		{
-			xtype: 'button',
-			ui: 'decline',
-			cls: 'centerButton',
-			text: Messages.DELETE,
-			scope: this,
-			hidden: !this.answer.deletable,
-			handler: function () {
-				ARSnova.app.questionModel.deleteAnswer(self.answer.questionId, self.answer._id, {
-					success: function () {
-						self.sTP.items.items.pop(); // Remove this panel from view stack
-						self.sTP.animateActiveItem(
-							self.sTP.items.items[self.sTP.items.items.length - 1], // Switch back to top of view stack
-							{
-								type: 'slide',
-								direction: 'right',
-								duration: 700,
-								scope: this,
-								listeners: {
-									animationend: function () {
-										self.destroy();
+					items: [{
+							xtype: 'textfield',
+							cls: 'roundedBox',
+							label: Messages.QUESTION_DATE,
+							value: this.answer.formattedTime + " Uhr am " + this.answer.groupDate,
+							disabledCls: 'disableDefault',
+							inputCls: 'thm-grey',
+							disabled: true
+						}, questionPanel
+					]
+				}, {
+					xtype: 'button',
+					ui: 'decline',
+					cls: 'centerButton',
+					text: Messages.DELETE,
+					scope: this,
+					hidden: !this.answer.deletable,
+					handler: function () {
+						ARSnova.app.questionModel.deleteAnswer(self.answer.questionId, self.answer._id, {
+							success: function () {
+								self.sTP.items.items.pop(); // Remove this panel from view stack
+								self.sTP.animateActiveItem(
+									self.sTP.items.items[self.sTP.items.items.length - 1], // Switch back to top of view stack
+								{
+									type: 'slide',
+									direction: 'right',
+									duration: 700,
+									scope: this,
+									listeners: {
+										animationend: function () {
+											self.destroy();
+										}
 									}
-								}
+								});
+							},
+							failure: function () {
+								console.log('server-side error: deletion of freetext answer failed');
 							}
-						);
-					},
-					failure: function () {
-						console.log('server-side error: deletion of freetext answer failed');
+						});
 					}
-				});
-			}
-		}]);
+				}
+			]);
 	},
 
 	initialize: function () {

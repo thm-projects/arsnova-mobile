@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
+Ext.define('ARSnova.view.home.SessionInfo', {
 	extend: 'Ext.Panel',
 
 	config: {
@@ -46,13 +46,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			ui: 'back',
 			scope: this,
 			handler: function () {
-				var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
-				/* show home Panel */
-				tabPanel.animateActiveItem(tabPanel.homeTabPanel, {
-					type: 'slide',
-					direction: 'right',
-					duration: 700
-				});
+				me.getBack();
 			}
 		});
 

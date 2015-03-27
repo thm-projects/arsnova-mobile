@@ -151,6 +151,22 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
+	/**
+	 * Update Session by ID
+	 * @param session object
+	 * @param session id to update
+	 * @param object with success-, failure-, unauthenticated and empty-callbacks
+	 * @return success or failure
+	 */
+	updateSession: function (session, sessionId, callbacks) {
+		this.arsjax.request({
+			url: "session/" + sessionId,//encodeURIComponent(sessionId),
+			method: "PUT",
+			jsonData: session,
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
 
 	getPublicPoolSessions: function (callbacks) {
 		this.arsjax.request({
@@ -380,7 +396,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/interposed",
 			method: "POST",
-				f: {subject: subject, text: text, sessionId: sessionKeyword, timestamp: timestamp},
+			jsonData: {subject: subject, text: text, sessionId: sessionKeyword, timestamp: timestamp},
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -684,15 +700,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	getImageAnswerImage: function (questionId, answerId, callbacks) {
-		this.arsjax.request({
-			url: "lecturerquestion/" + questionId + "/answer/" + answerId + '/image',
-			method: "GET",
-			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-
 	lock: function (sessionKeyword, theLock, callbacks) {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/lock?lock=" + !!theLock,
@@ -818,31 +825,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			method: "POST",
 			jsonData: jsonData,
 			success: callbacks.success,
-			failure: callbacks.failure
-		});
-	},
-
-	changeFeatures: function (keyword, features, callbacks) {
-		this.arsjax.request({
-			url: "session/" + encodeURIComponent(keyword) + "/features",
-			method: "PATCH",
-			jsonData: features,
-			success: function (response) {
-				var json = response.responseText || "{}";
-				callbacks.success(Ext.decode(json));
-			},
-			failure: callbacks.failure
-		});
-	},
-
-	getFeatures: function (keyword, callbacks) {
-		this.arsjax.request({
-			url: "session/" + encodeURIComponent(keyword) + "/features",
-			method: "GET",
-			success: function (response) {
-				var json = response.responseText || "{}";
-				callbacks.success(Ext.decode(json));
-			},
 			failure: callbacks.failure
 		});
 	}

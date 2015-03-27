@@ -24,8 +24,8 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		'Ext.form.FieldSet'
 	],
 	config: {
-				scrollable: null,
-				cls: 'centerFormTitle'
+		scrollable: null,
+		cls: 'centerFormTitle'
 	},
 
 	imageQuestion: false,
@@ -36,56 +36,56 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		var me = this;
 
 		this.expectAnswerText = Ext.create('ARSnova.view.MatrixButton', {
-			cls: 'actionButton',
-			buttonConfig: 'togglefield',
-			style: 'margin-top:-20px',
-			toggleConfig: {
-				scope: this,
-				listeners: {
+				cls: 'actionButton',
+				buttonConfig: 'togglefield',
+				style: 'margin-top:-20px',
+				toggleConfig: {
 					scope: this,
-					change: function (toggle, newValue, oldValue, eOpts) {
-						me.textAnswerEnabled = newValue !== 0;
-					}
-				},
-				value: true
-			}
-		});
+					listeners: {
+						scope: this,
+						change: function (toggle, newValue, oldValue, eOpts) {
+							me.textAnswerEnabled = newValue !== 0;
+						}
+					},
+					value: true
+				}
+			});
 
 		this.textAnswerFieldSet = Ext.create('Ext.form.FieldSet', {
-			title: Messages.EXPECT_ANSWER_TEXT,
-			style: 'margin-top:45px;',
-			hidden: true,
-			items: [this.expectAnswerText]
-		});
+				title: Messages.EXPECT_ANSWER_TEXT,
+				style: 'margin-top:45px;',
+				hidden: true,
+				items: [this.expectAnswerText]
+			});
 
 		this.imgUploadBtn = Ext.create('ARSnova.view.MatrixButton', {
-			cls: 'actionButton',
-			buttonConfig: 'togglefield',
-			style: 'margin-top:-20px',
-			toggleConfig: {
-				scope: this,
-				label: false,
-				value: 0,
-				listeners: {
+				cls: 'actionButton',
+				buttonConfig: 'togglefield',
+				style: 'margin-top:-20px',
+				toggleConfig: {
 					scope: this,
-					change: function (toggle, newValue, oldValue, eOpts) {
-						me.imageQuestion = newValue !== 0;
-						if (me.textAnswerFieldSet.isHidden()) {
-							me.textAnswerFieldSet.show();
-						} else {
-							me.textAnswerFieldSet.hide();
+					label: false,
+					value: 0,
+					listeners: {
+						scope: this,
+						change: function (toggle, newValue, oldValue, eOpts) {
+							me.imageQuestion = newValue !== 0;
+							if (me.textAnswerFieldSet.isHidden()) {
+								me.textAnswerFieldSet.show();
+							} else {
+								me.textAnswerFieldSet.hide();
+							}
 						}
 					}
 				}
-			}
-		});
+			});
 
 		var answerFieldset = Ext.create('Ext.form.FieldSet', {
-			//displayed on-top of the button
-			title: Messages.IMAGE_QUESTION_LBL,
-			style: 'margin-top:45px;',
-			items: [this.imgUploadBtn]
-		});
+				//displayed on-top of the button
+				title: Messages.IMAGE_QUESTION_LBL,
+				style: 'margin-top:45px;',
+				items: [this.imgUploadBtn]
+			});
 
 		this.add([answerFieldset, this.textAnswerFieldSet]);
 	},

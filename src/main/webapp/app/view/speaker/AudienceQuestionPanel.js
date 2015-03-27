@@ -190,7 +190,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			hidden: true,
 			buttonConfig: 'icon',
 			text: Messages.DELETE_ANSWERS,
-			imageCls: 'icon-close thm-orange',
+			imageCls: 'icon-renew thm-orange',
 			cls: 'actionButton',
 			scope: this,
 			handler: function () {
@@ -228,6 +228,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				}, this);
 			}
 		});
+
 
 		this.inClassActions = Ext.create('Ext.Panel', {
 			style: {marginTop: '20px'},

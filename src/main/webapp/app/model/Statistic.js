@@ -16,45 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-Ext.define('ARSnova.view.about.AboutTabPanel', {
-	extend: 'Ext.tab.Panel',
-
-	requires: ['ARSnova.view.components.EmbeddedPage'],
+Ext.define('ARSnova.model.Statistic', {
+	extend: 'Ext.data.Model',
 
 	config: {
-		title: Messages.HELP,
-		iconCls: 'icon-book',
+		proxy: {type: 'restProxy'},
 
-		scrollable: {
-			direction: 'vertical',
-			directionLock: true
-		},
-		tabBar: {
-			hidden: true
-		}
+		fields: [
+			'category',
+			'counter'
+		]
 	},
-	initialize: function () {
-		this.callParent(arguments);
-		this.toolbar = Ext.create('Ext.Toolbar', {
-				docked: 'top',
-				title: this.getTitle(),
-				ui: 'light',
-				items: [{
-						xtype: 'button',
-						text: Messages.BACK,
-						ui: 'back',
-						scope: this,
-						handler: function () {
-							ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.lastActiveMainTabPanel, {
-								type: 'slide',
-								direction: 'right',
-								duration: 700
-							});
-						}
-					}
-				]
-			});
-		this.add(this.toolbar);
+
+	getStatistics: function (callbacks) {
+		return this.getProxy().getStatistics(callbacks);
 	}
 });

@@ -38,6 +38,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	inClassActions: null,
 	sessionStatusButton: null,
 	createAdHocQuestionButton: null,
+	inClassIdInfo: null,
+	sessionInfoButton: null,
 
 	/**
 	 * task for speakers in a session
@@ -186,14 +188,43 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			scrollable: null,
 			items: buttons
 		});
+		this.sessionInfoButton = Ext.create('Ext.Button', {
+			cls: 'sessionInfoIconId',
+			iconCls: 'info',
+			padding: '0',
+			margin: '0',
+
+			handler: function (button) {
+				// change to session info
+				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+				var sessionInfoPanel = Ext.create('ARSnova.view.home.SessionInfoPanel');
+				sTP.animateActiveItem(sessionInfoPanel, 'slide');
+			}
+		});
+		this.inClassIdInfo = Ext.create('Ext.Panel', {
+			style: {marginTop: '20px'},
+			layout: {
+				type: 'hbox',
+				pack: 'center'
+			},
+
+			items: [
+				{
+					cls: 'gravure',
+					html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(sessionStorage.getItem("keyword"))
+				},
+				this.sessionInfoButton
+			]
+		});
 
 		this.inClassItems = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 
-			items: [{
-				cls: 'gravure',
-				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(sessionStorage.getItem("keyword"))
-			}, this.actionButtonPanel, this.inClassButtons]
+			items: [
+				this.inClassIdInfo,
+				this.actionButtonPanel,
+				this.inClassButtons
+			]
 		});
 
 		this.sessionStatusButton = Ext.create('ARSnova.view.SessionStatusButton');
@@ -265,12 +296,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	registerListeners: function () {
 		var inClassPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 		ARSnova.app.taskManager.start(inClassPanel.countFeedbackQuestionsTask);
-		ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.featureChangeLearningProgress, Ext.emptyFn);
-		ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.featureChangeInterposed, Ext.emptyFn);
-		ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.featureChangeFeedback, Ext.emptyFn);
-		ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.featureChangeJITT, Ext.emptyFn);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
-			ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.learningProgressChange, this.learningProgressChange, this);
 			ARSnova.app.taskManager.start(inClassPanel.courseLearningProgressTask);
 		}
 	},
@@ -288,12 +314,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	destroyListeners: function () {
 		var inClassPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 		ARSnova.app.taskManager.stop(inClassPanel.countFeedbackQuestionsTask);
-		ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.featureChangeLearningProgress, Ext.emptyFn);
-		ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.featureChangeInterposed, Ext.emptyFn);
-		ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.featureChangeFeedback, Ext.emptyFn);
-		ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.featureChangeJITT, Ext.emptyFn);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
-			ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.learningProgressChange, this.learningProgressChange, this);
 			ARSnova.app.taskManager.stop(inClassPanel.courseLearningProgressTask);
 		}
 	},
@@ -398,18 +419,5 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				me.inClassButtons.remove(me.courseLearningProgressButton, false);
 			}
 		});
-	},
-
-	learningProgressChange: function () {
-		// Reload learning progress, but do it using a random delay.
-		// We do not want to initiate a DDoS if every user is trying to reload at the same time.
-		var min = 500;
-		var max = 2500;
-		// http://stackoverflow.com/a/1527820
-		var delay = Math.random() * (max - min) + min;
-		Ext.defer(function () {
-			// Reset run-time to enforce reload of learning progress
-			this.courseLearningProgressTask.taskRunTime = 0;
-		}, delay, this);
 	}
 });

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
  * Copyright (C) 2012-2015 The ARSnova Team
@@ -54,10 +54,10 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	markChosenFields: function () {
 		var thiz = this;
 		this.getChosenFields().forEach(
-				function (entry) {
-					thiz.markField(entry[0],
-					entry[1], thiz.getHighlightColor(), 1.0);
-				});
+			function (entry) {
+			thiz.markField(entry[0],
+				entry[1], thiz.getHighlightColor(), 1.0);
+		});
 	},
 
 	/**
@@ -110,7 +110,9 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	 * generates the statistic output.
 	 */
 	generateStatisticOutput: function (tilesToFill, colorTiles, displayType, weakenSourceImage) {
-		var key, row, column;
+		var key,
+		row,
+		column;
 		// clear canvas
 		if (weakenSourceImage) {
 			this.redrawWithAlpha(0.2, false);
@@ -195,13 +197,14 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	 *
 	 */
 	getPossibleAnswersFromChosenFields: function () {
-		var values = [], obj;
+		var values = [],
+		obj;
 
 		for (var i = 0; i < this.getGridSizeX(); i++) {
 			for (var j = 0; j < this.getGridSizeY(); j++) {
 				obj = {
-						text: i + ";" + j,
-						correct: false
+					text: i + ";" + j,
+					correct: false
 				};
 				// do not use chosenFields as right answers
 				values.push(obj);

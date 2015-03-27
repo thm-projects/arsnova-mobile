@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
  * Copyright (C) 2012-2015 The ARSnova Team
@@ -48,152 +48,155 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		this.callParent(arguments);
 
 		this.logoutButton = Ext.create('Ext.Button', {
-			text: Messages.LOGOUT,
-			ui: 'back',
-			handler: function () {
-				ARSnova.app.getController('Auth').logout();
-			}
-		});
-
-		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: 'Session',
-			docked: 'top',
-			ui: 'light',
-			items: [
-				this.logoutButton
-			]
-		});
-
-		this.outOfClass = Ext.create('Ext.form.FormPanel', {
-			title: 'Out of class',
-			cls: 'standardForm',
-			scrollable: null,
-
-			items: [{
-				xtype: 'button',
-				ui: 'normal',
-				text: 'Sessions',
-				cls: 'forwardListButton',
-				controller: 'user',
-				action: 'index',
-				handler: this.buttonClicked
-			}]
-		});
-
-		this.sessionLoginForm = Ext.create('Ext.Panel', {
-			layout: {
-				type: 'vbox',
-				pack: 'center',
-				align: 'center'
-			},
-
-			style: 'marginTop: 15px',
-
-			items: [{
-					submitOnAction: false,
-					xtype: 'formpanel',
-					cls: 'loginFieldSet',
-					scrollable: null,
-					width: '310px',
-					margin: '0 auto',
-
-					items: [{
-						xtype: 'textfield',
-						component: {
-							xtype: 'input',
-							cls: 'joinSessionInput',
-							type: 'tel',
-							maxLength: 16
-						},
-						name: 'keyword',
-						style: !!ARSnova.app.globalConfig.demoSessionKey ? 'margin-bottom: 5px' : '',
-						placeHolder: Messages.SESSIONID_PLACEHOLDER,
-						listeners: {
-							scope: this,
-							action: this.onSubmit
-						}
-					}, {
-						xtype: 'label',
-						cls: 'gravure',
-						style: 'margin-bottom: 15px; opacity: 0.9; font-size: 0.95em;',
-						hidden: !ARSnova.app.globalConfig.demoSessionKey,
-						html: Messages.DEMO_SESSION + ARSnova.app.globalConfig.demoSessionKey
-					}, {
-						xtype: 'button',
-						ui: 'confirm',
-						text: Messages.GO,
-						handler: this.onSubmit,
-						scope: this
-					}]
-			}]
-		});
-
-		this.caption = Ext.create('ARSnova.view.Caption', {
-			cls: 'x-form-fieldset',
-			style: "border-radius: 15px"
-		});
-
-		this.lastVisitedSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
-			scrollable: null,
-			title: Messages.LAST_VISITED_SESSIONS_STUDENT
-		});
-
-		this.mySessionsForm = Ext.create('ARSnova.view.home.SessionList', {
-			scrollable: null,
-			title: Messages.MY_SESSIONS
-		});
-
-		this.add([
-			this.toolbar,
-			this.sessionLoginForm,
-			this.lastVisitedSessionsForm,
-			this.mySessionsForm
-		]);
-
-		if (config.features.publicPool) {
-			this.publicPoolButton = Ext.create('ARSnova.view.MatrixButton', {
-				text: 'Pool',
-				buttonConfig: 'icon',
-				imageCls: 'icon-cloud thm-green',
-				scope: this,
+				text: Messages.LOGOUT,
+				ui: 'back',
 				handler: function () {
-					// get public pool sessions from server
-					ARSnova.app.restProxy.getPublicPoolSessions({
-						success: function (sessionList) {
-							var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-							me.publicPoolPanel = Ext.create('ARSnova.view.home.PublicPoolPanel', {
-								sessions: sessionList
-							});
-
-							hTP.animateActiveItem(me.publicPoolPanel, {
-								type: 'slide',
-								direction: 'left',
-								duration: 700
-							});
-						},
-						empty: function () {
-							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
-						},
-						failure: function () {
-							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
-						},
-						unauthenticated: function () {
-							Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
-						}
-					});
+					ARSnova.app.getController('Auth').logout();
 				}
 			});
 
-			this.matrixButtonPanel = Ext.create('Ext.Panel', {
-				layout: {
-					type: 'hbox',
-					pack: 'center'
-				},
-				style: 'margin-top:10px;',
+		this.toolbar = Ext.create('Ext.Toolbar', {
+				title: 'Session',
+				docked: 'top',
+				ui: 'light',
 				items: [
-					this.publicPoolButton
+					this.logoutButton
 				]
 			});
+
+		this.outOfClass = Ext.create('Ext.form.FormPanel', {
+				title: 'Out of class',
+				cls: 'standardForm',
+				scrollable: null,
+
+				items: [{
+						xtype: 'button',
+						ui: 'normal',
+						text: 'Sessions',
+						cls: 'forwardListButton',
+						controller: 'user',
+						action: 'index',
+						handler: this.buttonClicked
+					}
+				]
+			});
+
+		this.sessionLoginForm = Ext.create('Ext.Panel', {
+				layout: {
+					type: 'vbox',
+					pack: 'center',
+					align: 'center'
+				},
+
+				style: 'marginTop: 15px',
+
+				items: [{
+						submitOnAction: false,
+						xtype: 'formpanel',
+						cls: 'loginFieldSet',
+						scrollable: null,
+						width: '310px',
+						margin: '0 auto',
+
+						items: [{
+								xtype: 'textfield',
+								component: {
+									xtype: 'input',
+									cls: 'joinSessionInput',
+									type: 'tel',
+									maxLength: 16
+								},
+								name: 'keyword',
+								style: !!ARSnova.app.globalConfig.demoSessionKey ? 'margin-bottom: 5px' : '',
+								placeHolder: Messages.SESSIONID_PLACEHOLDER,
+								listeners: {
+									scope: this,
+									action: this.onSubmit
+								}
+							}, {
+								xtype: 'label',
+								cls: 'gravure',
+								style: 'margin-bottom: 15px; opacity: 0.9; font-size: 0.95em;',
+								hidden: !ARSnova.app.globalConfig.demoSessionKey,
+								html: Messages.DEMO_SESSION + ARSnova.app.globalConfig.demoSessionKey
+							}, {
+								xtype: 'button',
+								ui: 'confirm',
+								text: Messages.GO,
+								handler: this.onSubmit,
+								scope: this
+							}
+						]
+					}
+				]
+			});
+
+		this.caption = Ext.create('ARSnova.view.Caption', {
+				cls: 'x-form-fieldset',
+				style: "border-radius: 15px"
+			});
+
+		this.lastVisitedSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
+				scrollable: null,
+				title: Messages.LAST_VISITED_SESSIONS_STUDENT
+			});
+
+		this.mySessionsForm = Ext.create('ARSnova.view.home.SessionList', {
+				scrollable: null,
+				title: Messages.MY_SESSIONS
+			});
+
+		this.add([
+				this.toolbar,
+				this.sessionLoginForm,
+				this.lastVisitedSessionsForm,
+				this.mySessionsForm
+			]);
+
+		if (config.features.publicPool) {
+			this.publicPoolButton = Ext.create('ARSnova.view.MatrixButton', {
+					text: 'Pool',
+					buttonConfig: 'icon',
+					imageCls: 'icon-cloud thm-green',
+					scope: this,
+					handler: function () {
+						// get public pool sessions from server
+						ARSnova.app.restProxy.getPublicPoolSessions({
+							success: function (sessionList) {
+								var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+								me.publicPoolPanel = Ext.create('ARSnova.view.home.PublicPoolPanel', {
+										sessions: sessionList
+									});
+
+								hTP.animateActiveItem(me.publicPoolPanel, {
+									type: 'slide',
+									direction: 'left',
+									duration: 700
+								});
+							},
+							empty: function () {
+								Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
+							},
+							failure: function () {
+								Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_NO_PPSESSIONS);
+							},
+							unauthenticated: function () {
+								Ext.Msg.alert(Messages.ERROR, Messages.SESSIONPOOL_ERR_PPSESSION_RIGHTS);
+							}
+						});
+					}
+				});
+
+			this.matrixButtonPanel = Ext.create('Ext.Panel', {
+					layout: {
+						type: 'hbox',
+						pack: 'center'
+					},
+					style: 'margin-top:10px;',
+					items: [
+						this.publicPoolButton
+					]
+				});
 
 			this.add(this.matrixButtonPanel);
 		}
@@ -202,7 +205,12 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			var me = this;
 			if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
 				var handler = function success(sessions) {
-					me.caption.summarize(sessions, {questions: false, answers: false, interposed: false, unanswered: true});
+					me.caption.summarize(sessions, {
+						questions: false,
+						answers: false,
+						interposed: false,
+						unanswered: true
+					});
 					me.add(me.caption);
 				};
 				var p1 = this.loadVisitedSessions();
@@ -328,6 +336,17 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				});
 				hideLoadMask();
 			};
+			var sessionInfoButtonHandler = function (options) {
+				var hideLoadMask = ARSnova.app.showLoadMask("Lade Sessioninfo...");
+				ARSnova.app.setWindowTitle();
+				ARSnova.app.getController('Sessions').getSession({
+					keyword: options.config.sessionObj.keyword
+				});
+				hideLoadMask();
+				sessionStorage.setItem('keyword', options.config.sessionObj.keyword);
+				localStorage.setItem('role', ARSnova.app.USER_ROLE_STUDENT);
+				ARSnova.app.userRole = ARSnova.app.USER_ROLE_STUDENT;
+			};
 			for (var i = 0; i < sessions.length; i++) {
 				var session = sessions[i];
 
@@ -341,23 +360,48 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				if (session.sessionType === 'public_pool') {
 					iconCls = "icon-cloud thm-green";
 				}
-
 				// Minimum width of 481px equals at least landscape view
 				var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
 				var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-					xtype: 'button',
-					ui: 'normal',
-					text: Ext.util.Format.htmlEncode(displaytext),
-					cls: 'forwardListButton',
-					iconCls: iconCls,
-					controller: 'sessions',
-					action: 'showDetails',
-					badgeCls: 'badgeicon',
-					sessionObj: session,
-					handler: buttonHandler
-				});
-				sessionButton.setBadge([{badgeText: session.numUnanswered}]);
-				form.addEntry(sessionButton);
+						xtype: 'button',
+						ui: 'normal',
+						text: Ext.util.Format.htmlEncode(displaytext),
+						cls: 'forwardSessionListButton',
+						iconCls: iconCls,
+						controller: 'sessions',
+						action: 'showDetails',
+						badgeCls: 'badgeicon',
+						width: '93%',
+						sessionObj: session,
+						handler: buttonHandler
+					});
+				sessionButton.setBadge([{
+							badgeText: session.numUnanswered
+						}
+					]);
+				// Info Icon
+				var sessionInfoButton = Ext.create('Ext.Button', {
+						cls: 'sessionInfoIconList',
+						iconCls: 'info',
+						width: '7%',
+						sessionObj: session,
+
+						handler: sessionInfoButtonHandler
+					});
+				// Container to show the Session-Info-Button aside the List
+				var sessionButtonwithInfo = Ext.create('Ext.Container', {
+						layout: {
+							type: 'hbox',
+							pack: 'center'
+						},
+						cls: 'forwardSessionListBg',
+
+						items: [
+							sessionInfoButton,
+							sessionButton
+						]
+					});
+				form.addEntry(sessionButtonwithInfo);
 
 				if (!session.active) {
 					this.down('button[text=' + displaytext + ']').addCls("isInactive");

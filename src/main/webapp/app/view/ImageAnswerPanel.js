@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2011-2012 Christian Thomas Weber
  * Copyright (C) 2012-2015 The ARSnova Team
@@ -32,7 +32,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 
 		freetextAnswerStore: null
 	},
-		//flag for vertical or horizontal list
+	//flag for vertical or horizontal list
 	isVertical: false,
 	constructor: function (args) {
 		var me = this;
@@ -50,157 +50,170 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 		};
 
 		this.freetextAnswerStore = Ext.create('Ext.data.JsonStore', {
-			model: 'FreetextAnswer',
-			sorters: [{property: 'timestamp', direction: 'DESC'}],
-			groupField: 'groupDate',
-			grouper: {property: 'timestamp', direction: 'DESC'}
-		});
+				model: 'FreetextAnswer',
+				sorters: [{
+						property: 'timestamp',
+						direction: 'DESC'
+					}
+				],
+				groupField: 'groupDate',
+				grouper: {
+					property: 'timestamp',
+					direction: 'DESC'
+				}
+			});
 
 		this.backButton = Ext.create('Ext.Button', {
-			text: Messages.BACK,
-			ui: 'back',
-			scope: this,
-			handler: function () {
-				ARSnova.app.mainTabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel, {
-					type: 'slide',
-					direction: 'right',
-					duration: 700,
-					listeners: {
-						animationend: function () {
-							ARSnova.app.mainTabPanel._activeItem.on('deactivate', function () {
-								self.destroy();
-							}, self, {single: self});
-						}, scope: self
-					}
-				});
-			}
-		});
+				text: Messages.BACK,
+				ui: 'back',
+				scope: this,
+				handler: function () {
+					ARSnova.app.mainTabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel, {
+						type: 'slide',
+						direction: 'right',
+						duration: 700,
+						listeners: {
+							animationend: function () {
+								ARSnova.app.mainTabPanel._activeItem.on('deactivate', function () {
+									self.destroy();
+								}, self, {
+									single: self
+								});
+							},
+							scope: self
+						}
+					});
+				}
+			});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: Messages.STATISTIC,
-			docked: 'top',
-			ui: 'light',
-			items: [this.backButton]
-		});
-
+				title: Messages.STATISTIC,
+				docked: 'top',
+				ui: 'light',
+				items: [this.backButton]
+			});
 
 		//sort buttons
 		this.miniaturBtn = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.IMAGE_QUESTION_MINIATUR_VIEW,
-			cls: 'actionButton',
-			buttonConfig: 'icon',
-			imageCls: 'icon-miniatur thm-grey',
-			scope: this,
-			handler: this.miniaturClicked
-		});
+				text: Messages.IMAGE_QUESTION_MINIATUR_VIEW,
+				cls: 'actionButton',
+				buttonConfig: 'icon',
+				imageCls: 'icon-miniatur thm-grey',
+				scope: this,
+				handler: this.miniaturClicked
+			});
 
 		this.horizontalListBtn = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.IMAGE_QUESTION_HORIZONTAL_VIEW,
-			cls: 'actionButton',
-			buttonConfig: 'icon',
-			imageCls: 'icon-vertical-list thm-grey',
-			scope: this,
-			handler: this.horizontalListClicked
-		});
+				text: Messages.IMAGE_QUESTION_HORIZONTAL_VIEW,
+				cls: 'actionButton',
+				buttonConfig: 'icon',
+				imageCls: 'icon-vertical-list thm-grey',
+				scope: this,
+				handler: this.horizontalListClicked
+			});
 
 		this.verticalListBtn = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.IMAGE_QUESTION_VERTICAL_VIEW,
-			cls: 'actionButton',
-			buttonConfig: 'icon',
-			imageCls: 'icon-horizontal-list thm-grey',
-			imageStyle: 'margin-top:15px;' +
-									'margin-left: 18px;',
-			scope: this,
-			handler: this.verticalListClicked
-		});
+				text: Messages.IMAGE_QUESTION_VERTICAL_VIEW,
+				cls: 'actionButton',
+				buttonConfig: 'icon',
+				imageCls: 'icon-horizontal-list thm-grey',
+				imageStyle: 'margin-top:15px;' +
+				'margin-left: 18px;',
+				scope: this,
+				handler: this.verticalListClicked
+			});
 
 		this.sortPanel = Ext.create('Ext.Panel', {
-			scrollable: null,
-			layout: {
-				type: 'hbox',
-				pack: 'center'
-			},
-			items: [
-				this.miniaturBtn,
-				this.horizontalListBtn,
-				this.verticalListBtn
-			]
-		});
+				scrollable: null,
+				layout: {
+					type: 'hbox',
+					pack: 'center'
+				},
+				items: [
+					this.miniaturBtn,
+					this.horizontalListBtn,
+					this.verticalListBtn
+				]
+			});
 
 		this.noAnswersLabel = Ext.create('Ext.form.FormPanel', {
-			scrollable: null,
-			items: {
-				cls: 'gravure',
-				html: Messages.NO_ANSWERS
-			}
-		});
+				scrollable: null,
+				items: {
+					cls: 'gravure',
+					html: Messages.NO_ANSWERS
+				}
+			});
 
 		this.imageAnswerList = Ext.create('Ext.DataView', {
-			activeCls: 'search-item-active',
-			store: this.freetextAnswerStore,
-			height: '100%',
-			flex: 1,
+				activeCls: 'search-item-active',
+				store: this.freetextAnswerStore,
+				height: '100%',
+				flex: 1,
 
-			cls: 'dataview-inline gallery-dataview',
+				cls: 'dataview-inline gallery-dataview',
 
-			itemCls: 'thumbnail-image',
-			itemTpl: new Ext.XTemplate(
-				'<tpl if="this.isVertical() === false">',
+				itemCls: 'thumbnail-image',
+				itemTpl: new Ext.XTemplate(
+					'<tpl if="this.isVertical() === false">',
 					'<div class="wrapper">',
-						'<img src="{answerThumbnailImage}"/>',
-						'<span>{answerSubject:htmlEncode}</span>',
+					'<img src="{answerThumbnailImage}"/>',
+					'<span>{answerSubject:htmlEncode}</span>',
 					'</div>',
-				'</tpl>',
-				'<tpl if="this.isVertical() === true">',
+					'</tpl>',
+					'<tpl if="this.isVertical() === true">',
 					'<div class="wrapper-list">',
-						'<img src="{answerThumbnailImage}" class="image-list"/>',
-						'<span class="answer-subject">{answerSubject:htmlEncode}</span>',
-						'<span class="answer-text">{answerText:htmlEncode}</span>',
+					'<img src="{answerThumbnailImage}" class="image-list"/>',
+					'<span class="answer-subject">{answerSubject:htmlEncode}</span>',
+					'<span class="answer-text">{answerText:htmlEncode}</span>',
 					'</div>',
-				'</tpl>',
-				{
-						isVertical: function () {
-							return me.isVertical;
-						}
+					'</tpl>', {
+					isVertical: function () {
+						return me.isVertical;
+					}
+				}),
+				inline: true,
+				scrollable: 'vertical',
+				deferEmptyText: false,
+				emptyText: Messages.NO_ANSWERS,
+				listeners: {
+					itemtap: function (list, index, element) {
+						var answer = list.getStore().getAt(index).data;
+						ARSnova.app.getController('Questions').freetextDetailAnswer({
+							answer: Ext.apply(answer, {
+								deselectItem: function () {
+									list.deselect(index);
+								},
+								removeItem: function () {
+									list.getStore().remove(list.getStore().getAt(index));
+								}
+							}),
+							panel: self
+						});
+					}
 				}
-			),
-			inline: true,
-			scrollable: 'vertical',
-			deferEmptyText: false,
-			emptyText: Messages.NO_ANSWERS,
-			listeners: {
-				itemtap: function (list, index, element) {
-					var answer = list.getStore().getAt(index).data;
-					ARSnova.app.getController('Questions').freetextDetailAnswer({
-						answer: Ext.apply(answer, {
-							deselectItem: function () {list.deselect(index);},
-							removeItem: function () {list.getStore().remove(list.getStore().getAt(index));}
-						}), panel: self
-					});
-				}
-			}
-		});
+			});
 
 		this.freetextAbstentions = Ext.create('Ext.Button', {
-			hidden: true,
-			ui: 'normal',
-			text: Messages.ABSTENTION,
-			disabled: true,
-			cls: 'answerListButton',
-			badgeText: '0',
-			badgeCls: 'badgeicon'
-		});
+				hidden: true,
+				ui: 'normal',
+				text: Messages.ABSTENTION,
+				disabled: true,
+				cls: 'answerListButton',
+				badgeText: '0',
+				badgeCls: 'badgeicon'
+			});
 
 		this.add([this.toolbar, {
-			xtype: 'formpanel',
-			style: 'margin-top: 15px',
-			cls: 'roundedCorners',
-			height: '100%',
-			width: '100%',
-			flex: 1,
-			scrollable: null,
-			items: [this.sortPanel, this.noAnswersLabel, this.imageAnswerList]
-		}]);
+					xtype: 'formpanel',
+					style: 'margin-top: 15px',
+					cls: 'roundedCorners',
+					height: '100%',
+					width: '100%',
+					flex: 1,
+					scrollable: null,
+					items: [this.sortPanel, this.noAnswersLabel, this.imageAnswerList]
+				}
+			]);
 
 		this.on('activate', function () {
 			ARSnova.app.innerScrollPanel = this.imageAnswerList;
@@ -232,27 +245,28 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 				} else {
 					me.imageAnswerList.show();
 					var listItems = responseObj.map(function (item) {
-						var v = item;
-						var date = new Date(v.timestamp);
-						return Ext.apply(item, {
-							formattedTime: Ext.Date.format(date, "H:i"),
-							groupDate: Ext.Date.format(date, "d.m.y")
+							var v = item;
+							var date = new Date(v.timestamp);
+							return Ext.apply(item, {
+								formattedTime: Ext.Date.format(date, "H:i"),
+								groupDate: Ext.Date.format(date, "d.m.y")
+							});
 						});
-					});
 
 					var abstentions = listItems.filter(function (item) {
-						return item.abstention;
-					});
+							return item.abstention;
+						});
 					var answers = listItems.filter(function (item) {
-						return !item.abstention;
-					});
+							return !item.abstention;
+						});
 
 					me.freetextAnswerStore.removeAll();
 					me.freetextAnswerStore.add(answers);
 					me.freetextAnswerStore.sort([{
-						property: 'timestamp',
-						direction: 'DESC'
-					}]);
+								property: 'timestamp',
+								direction: 'DESC'
+							}
+						]);
 					me.freetextAbstentions.setBadgeText(abstentions.length);
 					me.freetextAbstentions.setHidden(abstentions.length === 0);
 
@@ -289,15 +303,21 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 	//sorthandlers
 	miniaturClicked: function () {
 		this.imageAnswerList.setCls("dataview-inline gallery-dataview");
-		this.imageAnswerList.setInline({wrap: true});
-		this.imageAnswerList.setScrollable({direction: 'vertical'});
+		this.imageAnswerList.setInline({
+			wrap: true
+		});
+		this.imageAnswerList.setScrollable({
+			direction: 'vertical'
+		});
 
 		this.isVertical = false;
 		this.imageAnswerList.refresh();
 	},
 	horizontalListClicked: function () {
 		this.imageAnswerList.setCls("dataview-horizontal gallery-dataview");
-		this.imageAnswerList.setInline({wrap: false});
+		this.imageAnswerList.setInline({
+			wrap: false
+		});
 		this.imageAnswerList.setScrollable('horizontal');
 
 		this.isVertical = false;
@@ -305,7 +325,9 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 	},
 	verticalListClicked: function () {
 		this.imageAnswerList.setCls("dataview-basic gallery-dataview");
-		this.imageAnswerList.setScrollable({direction: 'vertical'});
+		this.imageAnswerList.setScrollable({
+			direction: 'vertical'
+		});
 
 		this.isVertical = true;
 		this.imageAnswerList.refresh();
