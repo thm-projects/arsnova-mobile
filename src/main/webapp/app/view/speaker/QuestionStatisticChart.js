@@ -65,6 +65,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		this.callParent(arguments);
 
 		var me = this;
+		var features = Ext.decode(sessionStorage.getItem('features'));
+		this.piActivated = features.pi;
 		this.questionObj = args.question;
 
 		this.questionStore = Ext.create('Ext.data.Store', {
@@ -112,7 +114,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				ARSnova.app.taskManager.stop(this.renewChartDataTask);
 				ARSnova.app.taskManager.stop(this.countActiveUsersTask);
 
-				if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+				if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER && this.piActivated) {
 					var showcasePanel = tabPanel.speakerTabPanel.showcaseQuestionPanel;
 					var obj = tabPanel.speakerTabPanel.statisticTabPanel.peerInstructionPanel.editButtons.questionObj;
 					showcasePanel.getActiveItem().questionObj = obj;

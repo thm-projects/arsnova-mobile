@@ -38,19 +38,10 @@ Ext.define("ARSnova.controller.Statistics", {
 	},
 
 	prepareSpeakerStatistics: function(panel) {
-		panel.showcaseQuestionPanel.toolbar.statisticsButton.disable();
-		panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
-			question: panel._activeItem._activeItem.questionObj
-		});
+		var target;
+		var features = Ext.decode(sessionStorage.getItem("features"));
 
-		if(!panel.statisticTabPanel) {
-			panel.statisticTabPanel = Ext.create('ARSnova.view.speaker.StatisticTabPanel');
-		}
-
-		panel.statisticTabPanel.insert(0, panel.questionStatisticChart);
-		panel.statisticTabPanel.setActiveItem(0);
-
-		ARSnova.app.mainTabPanel.animateActiveItem(panel.statisticTabPanel, {
+		var animation = {
 			type: 'slide',
 			direction: 'left',
 			duration: 700,
@@ -59,6 +50,24 @@ Ext.define("ARSnova.controller.Statistics", {
 					panel.showcaseQuestionPanel.toolbar.statisticsButton.enable();
 				}
 			}
-		});	
+		};
+
+		panel.showcaseQuestionPanel.toolbar.statisticsButton.disable();
+		target = panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
+			question: panel._activeItem._activeItem.questionObj
+		});
+
+		if(features && features.pi) {
+
+			if(!panel.statisticTabPanel) {
+				panel.statisticTabPanel = Ext.create('ARSnova.view.speaker.StatisticTabPanel');
+			}
+
+			panel.statisticTabPanel.insert(0, panel.questionStatisticChart);
+			panel.statisticTabPanel.setActiveItem(0);
+			target = panel.statisticTabPanel; 
+		}
+
+		ARSnova.app.mainTabPanel.animateActiveItem(target, animation);
 	}
 });
