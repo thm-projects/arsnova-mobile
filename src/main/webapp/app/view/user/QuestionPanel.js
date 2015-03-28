@@ -166,6 +166,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 								questionsArr[answer.questionId].userAnswered = answer.answerText;
 								questionsArr[answer.questionId].answerSubject = answer.answerSubject;
 								questionsArr[answer.questionId].isAbstentionAnswer = answer.abstention;
+								questionsArr[answer.questionId].answerThumbnailImage = answer.answerThumbnailImage;
 							}
 						});
 						questionIds.forEach(function (questionId) {
@@ -229,7 +230,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			}
 
 			if (questionObj.questionType === "freetext") {
-				questionPanel.setAnswerText(questionObj.answerSubject, questionObj.userAnswered);
+				questionPanel.setAnswerText(questionObj.answerSubject, questionObj.userAnswered, questionObj.answerThumbnailImage);
 				questionPanel.disableQuestion();
 				return;
 			}

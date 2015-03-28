@@ -24,36 +24,30 @@
 	var ua = navigator.userAgent.toLowerCase();
 	var isAndroid = ua.indexOf("android") > -1;
 	var isChrome = ua.indexOf("chrome") > -1;
-	var prefLang;
 	var lang;
 	var Messages;
 
-	if (isAndroid && !isChrome) {
-		if (navigator && navigator.userAgent && (lang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {
-			lang = lang[1];
-		}
-	} else {
-		lang = navigator.language;
-	}
-
 	try {
-		prefLang = localStorage.getItem("language");
-	} catch (e) {
-		prefLang = null;
+		lang = localStorage.getItem("language");
+	} catch (e) {}
+
+	if (!lang && isAndroid && !isChrome && navigator.userAgent &&
+			(lang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {
+		lang = lang[1];
+	} else {
+		/* navigator.languages is preferred since navigator.language stores the UI
+		 * language instead of the user preference in some browsers. */
+		lang = navigator.languages && navigator.languages.length > 0 ?
+			navigator.languages[0] :
+			navigator.language;
 	}
 
-	if (prefLang !== null) {
-		lang = prefLang;
+	if (lang) {
+		lang = lang.substr(0, 2).toLowerCase();
 	}
-
-	if (lang != null) {
-		lang = lang.toLowerCase();
-	}
-
-	var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
 	switch (lang) {
-		case 'de': case 'de-de':
+		case 'de':
 			moment.lang('de');
 			Messages = {
 				PRIVACY_MODE_WARNING_TITLE: "Privater Modus",
@@ -61,8 +55,6 @@
 				BROWSER_NOT_SUPPORTED_MESSAGE: "Bitte verwenden Sie einen der folgenden Browser für ARSnova: ###.",
 				UPDATE_BROWSER_MESSAGE: "Bitte aktualisieren Sie Ihren ###-Browser, um ARSnova verwenden zu können.",
 				FEATURE_COMING_SOON: "Feature kommt in Kürze.",
-				UNI_LOGIN_MSG: "Ihr Uni-Login an dieser Stelle?",
-				UNI_LOGIN_MSG_TEXT: "Möchten Sie Ihren hochschuleigenen Zugang verwenden? Sprechen Sie mit uns unter <a href='http://www.transmit.de/zentren/tz.cfm?N=189' target='_blank'>transmit.de</a>.",
 
 				/* rolePanel */
 				BLOG: "Blog",
@@ -124,12 +116,6 @@
 				SESSION_SHORT_NAME_PLACEHOLDER: "max. 8 Zeichen",
 				SESSION_SAVE: "Session anlegen",
 				SAVE: 'Speichern',
-
-				/* canteen */
-				CANTEEN: 'Mensa',
-				I_RECOMMEND: "Ich empfehle...",
-				LOGIN: "Login",
-				CANTEEN_MENU: "Speiseplan",
 
 				/* feedback */
 				FEEDBACK: "Feedback",
@@ -257,10 +243,16 @@
 				RESET_ALL_ANSWERS: "Alle Antworten zurücksetzen",
 				SHOW_FLASHCARD_ANSWER: "Antwort anzeigen",
 				HIDE_FLASHCARD_ANSWER: "Antwort ausblenden",
+				IMAGE_NEEDED: "Es wird ein Bild benötigt",
+				COMPRESSING_MASK: "Ihr Bild wird komprimiert ...",
+				PICTURE_RIGHT_INFORMATION: ['Bitte beachten Sie, dass Sie keine Bilder verwenden für deren Verwendung Sie keine Rechte haben (Urheberrechtsgesetz) oder die pornografische oder volksverhetzende(§130 StGB) Inhalte bergen!\n',
+						'Antwort abschicken?'
+				].join('\n'),
 
 				/* speaker */
 				LIVE_FEEDBACK: "Live-Feedback",
 				COURSES_LEARNING_PROGRESS: "Lernstand des Kurses",
+				COURSES_LEARNING_PROGRESS_SHORT: "Lernstand",
 				CURRENT_VALUE: "Aktueller Wert",
 				HOW_TO_CALCULATE_LEARNING_PROGRESS: "Wie soll der Lernstand berechnet werden?",
 				QUESTION_BASED_PROGRESS: "Fragenbasiert",
@@ -271,16 +263,16 @@
 					'Eine Frage gilt als korrekt beantwortet, wenn die jeweilige Maximalpunktzahl erreicht ist. Das heißt, wenn eine',
 					'falsche Antwortoption gewählt wurde, werden Punkte abgezogen und die Maximalpunktzahl kann nicht mehr erreicht werden.',
 					'Erreicht ein Studierender für die drei Fragen eine Punktzahl von 10, 20 und 20 wurde demnach die letzte Frage falsch beantwortet.',
-					'Der individuelle Lernstand berechnet sich nach der Formel: \\\\[ l_{\\text{Stud}} = \\frac{\\text{Anzahl richtiger Antworten}}{\\text{Anzahl Fragen}} = \\frac{2}{3} \\hat{=}\\, 67\\%\\\\]\n',
-					'Für den Kurs ergibt sich der Lernstand über die Anzahl der Studierenden: \\\\[l_{\\text{Kurs}} = \\frac{\\text{Richtige Antworten aller Studierender}}{\\text{Anzahl Fragen} \\cdot \\text{Anzahl Studierende}}\\\\]'
+					'Der individuelle Lernstand berechnet sich nach der Formel: \\\\[ l_{\\text{S}} = \\frac{\\text{Richtige Antw.}}{\\text{Fragen}} = \\frac{2}{3} \\hat{=}\\, 67\\%\\\\]\n',
+					'Für den Kurs ergibt sich der Lernstand über die Anzahl der Studierenden: \\\\[l_{\\text{K}} = \\frac{\\text{Richtige Antworten}}{\\text{Fragen} \\cdot \\text{Studierende}}\\\\]'
 				].join('\n'),
 				SCORE_BASED_PROGRESS_EXPLANATION: [
 					'Der punktbasierte Lernstand gewichtet Fragen mit mehreren richtigen Antwortoptionen stärker als Fragen mit nur einer richtigen Option. Der Lernstand berechnet sich beispielhaft wie folgt:\n',
 					'Es sind 3 Fragen vorhanden, die jeweils eine maximalmögliche Punktzahl haben. Die Punkte seien 10, 20 und 30.',
 					'Das bedeutet, dass ein Studierender für die Beantwortung der 3 Fragen insgesamt 60 Punkte erreichen kann.',
 					'Bei Auswahl von falschen Antwortmöglichkeiten reduziert sich die erreichte Punktzahl, z.B. auf 30.',
-					'Der individuelle Lernstand berechnet sich also nach der Formel: \\\\[ l_{\\text{Stud}} = \\frac{\\text{Erreichte Punkte}}{\\text{Mögliche Punkte}} = \\frac{30}{60} \\hat{=}\\, 50\\%\\\\]\n',
-					'Für den Kurs ergibt sich der Lernstand über die Anzahl der Studierenden: \\\\[l_{\\text{Kurs}} = \\frac{\\text{Erreichte Punkte aller Studierender}}{\\text{Mögliche Punkte} \\cdot \\text{Anzahl Studierende}}\\\\]'
+					'Der individuelle Lernstand berechnet sich also nach der Formel: \\\\[ l_{\\text{S}} = \\frac{\\text{Erreichte Punkte}}{\\text{Mögliche Punkte}} = \\frac{30}{60} \\hat{=}\\, 50\\%\\\\]\n',
+					'Für den Kurs ergibt sich der Lernstand über die Anzahl der Studierenden: \\\\[l_{\\text{K}} = \\frac{\\text{Gesamtzahl erreichter Punkte}}{\\text{Mögliche Punkte} \\cdot \\text{Studierende}}\\\\]'
 				].join('\n'),
 				NEW_LECTURE_QUESTION: "Neue Hörsaalfrage",
 				NEW_PREPARATION_QUESTION: "Neue Vorbereitungsfrage",
@@ -292,11 +284,6 @@
 				DELETE_SESSION_NOTICE: "Es werden alle Fragen und Antworten der Session gelöscht.",
 				CATEGORY: "Thema",
 				CATEGORY_PLACEHOLDER: "Thema eingeben",
-				ALL_SHORT: 'Alle',
-				ONLY_THM_SHORT: 'Nur Uni',
-				ALL_LONG: 'Alle (auch Gäste)',
-				ONLY_THM_LONG: 'Nur Uni-Mitglieder',
-				RELEASE_FOR: 'Freigeben für',
 				ABSTENTION: 'Enthaltung',
 				ABSTENTIONS: 'Enthaltungen',
 				ABSTENTION_POSSIBLE: 'Enthaltung möglich?',
@@ -332,8 +319,6 @@
 				DELETE_ALL_ANSWERS_INFO: "Es werden auch alle bisher gegebenen Antworten gelöscht.",
 				CHANGE_RELEASE: "Ändere die Freigabe...",
 				TYPE: 'Typ',
-				RELEASED: "Freigegeben",
-				NOT_RELEASED: "Nicht freigegeben",
 				INFINITE: "unbegrenzt",
 				MINUTE: "Minute",
 				MINUTES: "Minuten",
@@ -391,6 +376,7 @@
 				MISSING_ANSWERS: "Es fehlen Antwortoptionen",
 				MISSING_IMAGE: "Es wurde kein Bild hochgeladen",
 				MISSING_FLASHCARD: "Die Rückseite ist leer",
+				EXPECT_ANSWER_TEXT: "Lange Beschreibung zulassen?",
 
 				/*Export session*/
 				EXPORT_MSG: "Was möchten Sie exportieren?",
@@ -477,6 +463,10 @@
 				EVALUATION_NEUTRAL: "weder noch",
 				EVALUATION_MINUS: "trifft eher nicht zu",
 				EVALUATION_MINUSMINUS: "trifft gar nicht zu",
+				IMAGE_QUESTION_LBL: "Foto/Bild als Antwort hochladen?",
+				IMAGE_QUESTION_MINIATUR_VIEW: "Raster",
+				IMAGE_QUESTION_HORIZONTAL_VIEW: "Horizontal",
+				IMAGE_QUESTION_VERTICAL_VIEW: "Vertikal",
 
 				/* action buttons - <br/> forces line break for consistent look */
 				CREATE_NEW_SESSION: "Neue Session<br/>anlegen",
@@ -513,7 +503,6 @@
 				OPEN_SESSIONS: "Sessions: offen",
 				ACTIVE_SESSIONS: "Sessions: aktiv",
 				CLOSED_SESSIONS: "Sessions: geschlossen",
-				NOT_RELEASED_YET: "Der Dozent hat die richtige Antwort noch nicht freigegeben.",
 				STUDENTS_USE_CASES: "Für Studenten",
 				TEACHERS_USE_CASES: "Für Dozenten",
 
@@ -525,19 +514,10 @@
 				SESSION_OWNERS: "Session-Inhaber",
 				LEARNING_PROGRESS: "Lernstand",
 				PEER_INSTRUCTION_QUESTIONS: "Peer Instruction Konzeptfragen",
+				ACTIVE_STUDENT_USERS: "Aktive User in der Rolle Student/in",
 				FEATURES: "Features",
 				ACTIVATE_FEATURES: "Features aktivieren",
-
-				/* credits */
-				HMWK: "HMWK",
-				ELEARNINGHESSEN: "Kompetenznetz E-Learning Hessen",
-				AGQLS: "AG QLS",
-				SENCHA_TOUCH: "UI Library: Sencha Touch",
-				NGINX: "Webserver: nginx",
-				CAS: "Single Sign-On: CAS",
-				COUCHDB: "NoSQL Datenbank: CouchDB",
-				XEN: "Virtualisierung: Xen",
-				DEBIAN: "Betriebssystem: Debian",
+				SETTINGS_SAVED: 'Ihre Einstellungen wurden gespeichert',
 
 				/* errors */
 				SESSION_NOT_FOUND: "Diese Session existiert nicht.",
@@ -548,13 +528,12 @@
 				BROWSER_SESSION_EXPIRED: "Browsersitzung abgelaufen",
 				BROWSER_SESSION_EXPIRED_MSG: "Ihre Browsersitzung ist abgelaufen. Möchten Sie ARSnova neustarten?",
 				QUESTION_COULD_NOT_BE_SAVED: "Speichern der Frage war nicht erfolgreich",
+				SETTINGS_COULD_NOT_BE_SAVED: "Speichern der Einstellungen war nicht erfolgreich",
 
 				/* misc */
-				SUPPORTED_BROWSERES: "Für eine korrekte Darstellung von ARSnova benutzen Sie bitte einen WebKit-Browser, z.B. Apple Safari oder Google Chrome!",
 				NEW_VERSION_TITLE: "Neue Version",
 				NEW_VERSION_AVAILABLE: "Eine neue Version von ARSnova ist verfügbar. Möchten Sie aktualisieren?",
 				PRESENTER: "Presenter",
-				UNI: "Uni",
 				SESSION_ID: "Session-ID",
 
 				/* session import */
@@ -568,9 +547,6 @@
 			break;
 
 		case 'en':
-		case 'en-en':
-		case 'en-us':
-		case 'en-gb':
 			/* falls through */
 		default:
 			moment.lang('en');
@@ -580,8 +556,6 @@
 				BROWSER_NOT_SUPPORTED_MESSAGE: "Please use one of the following officially supported browsers: ###.",
 				UPDATE_BROWSER_MESSAGE: "Please update your ### browser in order to use ARSnova.",
 				FEATURE_COMING_SOON: "This feature will be available soon.",
-				UNI_LOGIN_MSG: "Your University here?",
-				UNI_LOGIN_MSG_TEXT: "Would you like to use your university's account? Contact us @ <a href='http://www.transmit.de/zentren/tz.cfm?N=189' target='_blank'>transmit.de</a>.",
 
 				/* rolePanel */
 				BLOG: "Blog",
@@ -643,12 +617,6 @@
 				SESSION_SHORT_NAME_PLACEHOLDER: "max. 8 digits",
 				SESSION_SAVE: "Create Session",
 				SAVE: 'Save',
-
-				/* canteen */
-				CANTEEN: 'Canteen',
-				I_RECOMMEND: "I recommend...",
-				LOGIN: "Login",
-				CANTEEN_MENU: "Menu",
 
 				/* feedback */
 				FEEDBACK: "Feedback",
@@ -774,10 +742,16 @@
 				RESET_ALL_ANSWERS: "Reset all answers",
 				SHOW_FLASHCARD_ANSWER: "Show answer",
 				HIDE_FLASHCARD_ANSWER: "Hide answer",
+				COMPRESSING_MASK: "Your image will be compressed ...",
+				IMAGE_NEEDED: "An image is needed",
+				PICTURE_RIGHT_INFORMATION: ['Please note, that you must not use pictures for which you do not have the rights to use(copyright) or that extend pornographic or inciting(§130 StGB) content!\n',
+					'Submit answer?'
+				].join('\n'),
 
 				/* speaker */
 				LIVE_FEEDBACK: "Instant feedback",
 				COURSES_LEARNING_PROGRESS: "Class progress",
+				COURSES_LEARNING_PROGRESS_SHORT: "Class progress",
 				CURRENT_VALUE: "Current value",
 				HOW_TO_CALCULATE_LEARNING_PROGRESS: "How to calculate the learning progress?",
 				QUESTION_BASED_PROGRESS: "Question based",
@@ -788,16 +762,16 @@
 					'A question is treated as corretly answered if their respective maximum value is scored.',
 					'If an incorrect answer option is chosen, negative points are scored and the maximum value cannot be reached anymore.',
 					'If a student scores 10, 20, and 20 points, this will mean the last question was not answered correctly.',
-					'The individual learning progress is calculated using this formula: \\\\[ l_{\\text{Stud}} = \\frac{\\text{Number of correct answers}}{\\text{Number of questions}} = \\frac{2}{3} \\hat{=}\\, 67\\%\\\\]\n',
-					'For the whole course, the progress is calculated using the total number of students: \\\\[l_{\\text{Course}} = \\frac{\\text{Number of correct answers of all students}}{\\text{Number of questions} \\cdot \\text{Number of students}}\\\\]'
+					'The individual learning progress is calculated using this formula: \\\\[ l_{\\text{S}} = \\frac{\\text{Correct answers}}{\\text{Questions}} = \\frac{2}{3} \\hat{=}\\, 67\\%\\\\]\n',
+					'For the whole course, the progress is calculated using the total number of students: \\\\[l_{\\text{C}} = \\frac{\\text{Correct answers}}{\\text{Questions} \\cdot \\text{Students}}\\\\]'
 				].join('\n'),
 				SCORE_BASED_PROGRESS_EXPLANATION: [
 					'The score-based learning progress puts more weight on questions with many correct answer options compared to questions with only one correct option. For example, the learning progress is calculated as follows:\n',
 					'There are 3 questions which have a maximum value of 10, 20, and 30.',
 					'This means that students can score a total of 60 points for all three questions.',
 					'If an incorrect answer option is chosen, the score will be reduced, e.g., to 30.',
-					'The individual learning progress is calculated using this formula: \\\\[ l_{\\text{Stud}} = \\frac{\\text{Points scored}}{\\text{Points achievable}} = \\frac{30}{60} \\hat{=}\\, 50\\%\\\\]\n',
-					'For the whole course, the progress is calculated using the total number of students: \\\\[l_{\\text{Course}} = \\frac{\\text{Points scored by all students}}{\\text{Points achievable} \\cdot \\text{Number of students}}\\\\]'
+					'The individual learning progress is calculated using this formula: \\\\[ l_{\\text{S}} = \\frac{\\text{Points scored}}{\\text{Points achievable}} = \\frac{30}{60} \\hat{=}\\, 50\\%\\\\]\n',
+					'For the whole course, the progress is calculated using the total number of students: \\\\[l_{\\text{C}} = \\frac{\\text{Points scored by all students}}{\\text{Points achievable} \\cdot \\text{Students}}\\\\]'
 				].join('\n'),
 				NEW_LECTURE_QUESTION: "New lecture question",
 				NEW_PREPARATION_QUESTION: "New preparation question",
@@ -809,11 +783,6 @@
 				DELETE_SESSION_NOTICE: "All questions and answers of this session will be deleted.",
 				CATEGORY: "Subject",
 				CATEGORY_PLACEHOLDER: "Enter subject",
-				ALL_SHORT: 'All',
-				ONLY_THM_SHORT: 'Uni only',
-				ALL_LONG: 'All (incl. guest)',
-				ONLY_THM_LONG: 'Only university members',
-				RELEASE_FOR: 'Release for',
 				ABSTENTION: 'Abstention',
 				ABSTENTIONS: 'Abstentions',
 				ABSTENTION_POSSIBLE: 'Abstention possible?',
@@ -849,8 +818,6 @@
 				DELETE_ALL_ANSWERS_INFO: "This will also delete all previously given answers.",
 				CHANGE_RELEASE: "Changing the release...",
 				TYPE: 'Type',
-				RELEASED: "Released",
-				NOT_RELEASED: "Not released",
 				INFINITE: "infinite",
 				MINUTE: "Minute",
 				MINUTES: "Minutes",
@@ -998,6 +965,11 @@
 				EVALUATION_NEUTRAL: "neutral",
 				EVALUATION_MINUS: "disagree",
 				EVALUATION_MINUSMINUS: "strongly disagree",
+				IMAGE_QUESTION_LBL: "Upload image/photo as answer?",
+				EXPECT_ANSWER_TEXT: "Allow long description?",
+				IMAGE_QUESTION_MINIATUR_VIEW: "Grid",
+				IMAGE_QUESTION_HORIZONTAL_VIEW: "Horizontal",
+				IMAGE_QUESTION_VERTICAL_VIEW: "Vertical",
 
 				/* action buttons - <br/> forces line break for consistent look */
 				CREATE_NEW_SESSION: "Create new<br/>session",
@@ -1035,7 +1007,6 @@
 				OPEN_SESSIONS: "Sessions: open",
 				ACTIVE_SESSIONS: "Sessions: active",
 				CLOSED_SESSIONS: "Sessions: closed",
-				NOT_RELEASED_YET: "The instructor has not yet released the correct answer.",
 				STUDENTS_USE_CASES: "Student's Use Cases",
 				TEACHERS_USE_CASES: "Teacher's Use Cases",
 
@@ -1046,20 +1017,11 @@
 				VOTINGS: "Votings",
 				SESSION_OWNERS: "Session owners",
 				PEER_INSTRUCTION_QUESTIONS: "Peer Instruction questions",
+				ACTIVE_STUDENT_USERS: "Active users in a student's role",
 				LEARNING_PROGRESS: "Learning progress",
 				FEATURES: "Features",
 				ACTIVATE_FEATURES: "Activate features",
-
-				/* credits */
-				HMWK: "HMWK",
-				ELEARNINGHESSEN: "Kompetenznetz E-Learning Hessen",
-				AGQLS: "AG QLS",
-				SENCHA_TOUCH: "UI Library: Sencha Touch",
-				NGINX: "Webserver: nginx",
-				CAS: "Single Sign-On: CAS",
-				COUCHDB: "NoSQL Database: CouchDB",
-				XEN: "Virtualization: Xen",
-				DEBIAN: "Operating System: Debian",
+				SETTINGS_SAVED: 'Your settings have been saved.',
 
 				/* errors */
 				SESSION_NOT_FOUND: "This session does not seem to exist.",
@@ -1070,13 +1032,12 @@
 				BROWSER_SESSION_EXPIRED: "Browser Session Expired",
 				BROWSER_SESSION_EXPIRED_MSG: "Your current browser session is expired. Do you want to restart ARSnova?",
 				QUESTION_COULD_NOT_BE_SAVED: "Could not save question",
+				SETTINGS_COULD_NOT_BE_SAVED: "Could not save settings",
 
 				/* misc */
-				SUPPORTED_BROWSERES: "ARSnova is best-viewed in a WebKit browser, e.g. Apple Safari or Google Chrome!",
 				NEW_VERSION_TITLE: "New Version",
 				NEW_VERSION_AVAILABLE: "A new version of ARSnova is available. Do you want to update?",
 				PRESENTER: "Presenter",
-				UNI: "Uni",
 				SESSION_ID: "Session ID",
 
 				/* session import */
@@ -1089,7 +1050,6 @@
 			};
 			break;
 	}
-
-	// make Messages" globally accessible
+	// make Messages globally accessible
 	exports.Messages = Messages;
 })(window);

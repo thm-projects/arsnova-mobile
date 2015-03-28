@@ -1531,3 +1531,7 @@ ol.standardList li {
 .x-input-el:checked + .x-field-mask::after {
 	color: #80ba24; /* thm green */
 }
+
+.learningprogress-title .x-form-fieldset-title .x-innerhtml {
+	white-space: normal;
+}

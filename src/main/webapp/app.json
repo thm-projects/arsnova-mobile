@@ -39,11 +39,11 @@
      *      }
      */
     "js": [
-    	{
-			"path": "phonegap.js",
-			"x-bootstrap": true,
-			"remote": true
-		},
+    	  {
+    			"path": "phonegap.js",
+    			"x-bootstrap": true,
+    			"remote": true
+		    },
         {
             "path": "touch/sencha-touch.js",
             "x-bootstrap": true

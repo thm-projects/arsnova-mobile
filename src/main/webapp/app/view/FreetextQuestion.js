@@ -21,7 +21,10 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 	requires: [
 		'ARSnova.model.Answer',
-		'ARSnova.view.CustomMask'
+		'ARSnova.view.CustomMask',
+		'ARSnova.view.components.GridImageContainer',
+		'ARSnova.view.speaker.form.ImageUploadPanel',
+		'ARSnova.view.ImageAnswerPanel'
 	],
 
 	config: {
@@ -74,6 +77,41 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			maxRows: 7
 		});
 
+
+		this.answerText.setHidden(!this.questionObj.textAnswerEnabled);
+
+		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
+			handlerScope: this,
+			addRemoveButton: true,
+			activateTemplates: false,
+			urlUploadHandler: this.setImage,
+			fsUploadHandler: this.setImage,
+			style: 'margin-bottom: 30px',
+			disableURLUpload: true
+		});
+
+		if (!this.questionObj.imageQuestion) {
+			this.uploadView.hide();
+		}
+
+		this.needImageLabel = Ext.create('Ext.Label', {
+			html: Messages.IMAGE_NEEDED,
+			style: "width: 100%; text-align: center;",
+			hidden: true
+		});
+
+		if (this.questionObj.imageQuestion) {
+			this.needImageLabel.show();
+		}
+
+		this.gridQuestion = Ext.create('ARSnova.view.components.GridImageContainer', {
+			id: 'grid',
+			hidden: 'true',
+			gridIsHidden: true,
+			editable: false,
+			style: "margin-top: 5px;"
+		});
+
 		// Setup question title and text to disply in the same field; markdown handles HTML encoding
 		var questionString = this.questionObj.subject.replace(/\./, "\\.")
 			+ '\n\n' // inserts one blank line between subject and text
@@ -104,7 +142,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				text: Messages.SAVE,
 				handler: this.saveHandler,
 				scope: this
-			}, !!!this.questionObj.abstention ? {hidden: true} : {
+			}, !!!this.questionObj.abstention ? {hidden: true} : { //What the hell?! !!! === !
 				flex: 1,
 				xtype: 'button',
 				ui: 'action',
@@ -123,7 +161,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					submitOnAction: false,
 					items: [questionPanel, this.viewOnly ? {} : {
 						xtype: 'fieldset',
-						items: [this.answerSubject, this.answerText]
+						items: [this.answerSubject, this.answerText, this.uploadView, this.gridQuestion, this.needImageLabel]
 					},
 					this.buttonContainer]
 				}]
@@ -132,6 +170,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 		this.on('activate', function () {
 			if (this.isDisabled()) {
+				this.uploadView.hide();
 				this.disableQuestion();
 			}
 
@@ -139,6 +178,27 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				this.setAnswerCount();
 			}
 		});
+	},
+
+	setImage: function (image) {
+		this.answerImage = image;
+		this.gridQuestion.setImage(image);
+		var self = this;
+		if (this.answerImage) {
+			self.gridQuestion.show();
+			self.needImageLabel.hide();
+			self.setGridConfiguration(self.gridQuestion);
+		} else {
+			self.needImageLabel.show();
+			self.gridQuestion.hide();
+			self.gridQuestion.clearImage();
+			self.setGridConfiguration(self.gridQuestion);
+		}
+	},
+
+	setGridConfiguration: function (image) {
+		this.gridQuestion.setEditable(false);
+		this.gridQuestion.setGridIsHidden(true);
 	},
 
 	checkPiRoundActivation : function() {},
@@ -186,16 +246,30 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			return;
 		}
 
-		Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
-			if (button === "yes") {
-				this.storeAnswer();
-				this.buttonContainer.setHidden(true);
-			}
-		}, this);
+		if (this.questionObj.imageQuestion) {
+			Ext.Msg.confirm('', Messages.PICTURE_RIGHT_INFORMATION, function (button) {
+				if (button === "yes") {
+					this.storeAnswer();
+					this.buttonContainer.setHidden(true);
+				}
+			}, this);
+		} else {
+			Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
+				if (button === "yes") {
+					this.storeAnswer();
+					this.buttonContainer.setHidden(true);
+				}
+			}, this);
+		}
 	},
 
 	statisticButtonHandler: function (scope) {
-		var p = Ext.create('ARSnova.view.FreetextAnswerPanel', {
+		var p = Ext.create(
+			!this.questionObj.imageQuestion ?
+			'ARSnova.view.FreetextAnswerPanel'
+			:
+			'ARSnova.view.ImageAnswerPanel',
+		{
 			question: scope.questionObj,
 			lastPanel: scope
 		});
@@ -214,7 +288,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	selectAbstentionAnswer: function () {},
 
 	isEmptyAnswer: function () {
-		return this.answerSubject.getValue().trim() === "" || this.answerText.getValue().trim() === "";
+		return this.answerSubject.getValue().trim() === "" || (this.answerText.getValue().trim() === "" && this.questionObj.textAnswerEnabled) || (!this.answerImage && this.questionObj.imageQuestion);
 	},
 
 	saveAnswer: function (answer) {
@@ -228,6 +302,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				}
 				localStorage.setItem(self.questionObj.questionVariant + 'QuestionIds', Ext.encode(questionsArr));
 
+				self.uploadView.hide();
 				self.disableQuestion();
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
@@ -247,7 +322,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			empty: function () {
 				var answer = Ext.create('ARSnova.model.Answer', {
 					answerSubject: self.answerSubject.getValue(),
-					answerText: self.answerText.getValue()
+					answerText: self.answerText.getValue(),
+					answerImage: self.answerImage
 				});
 
 				self.saveAnswer(answer);
@@ -258,6 +334,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				var answer = Ext.create('ARSnova.model.Answer', theAnswer);
 				answer.set('answerSubject', self.answerSubject.getValue());
 				answer.set('answerText', self.answerText.getValue());
+				answer.set('answerImage', self.answerImage);
 				answer.set('abstention', false);
 
 				self.saveAnswer(answer);
@@ -298,8 +375,9 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		this.mask(this.customMask);
 	},
 
-	setAnswerText: function (subject, answer) {
+	setAnswerText: function (subject, answer, answerThumbnailImage) {
 		this.answerSubject.setValue(subject);
 		this.answerText.setValue(answer);
+		this.setImage(answerThumbnailImage);
 	}
 });

@@ -24,7 +24,7 @@ $label-text-shadow: none;
 
 @mixin label-config {
 	font-weight: $label-font-weight;
-	text-shadow: $label-text-shadow !important; 
+	text-shadow: $label-text-shadow !important;
 }
 
 $button-confirm-bg-color: $thm-green;
@@ -66,7 +66,7 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 .iconBtn {
 	background: white;
 	color: $thm-grey !important;
-	
+
 	&.x-button-pressing {
 		background-image: none;
 		background-color: #c4c4c4;
@@ -78,10 +78,100 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 .forwardListButton .x-button-label,
 .standardListButton .x-button-label {
 	color: $thm-grey;
-	
+
 	&.thm-green {
 		color: $thm-green !important;
 	}
+}
+
+.thumbnail-image .wrapper {
+	width: auto !important;
+	height: auto !important;
+	display: inline-block;
+	position: relative;
+	margin: 8px;
+	transition: 0.25s;
+	-webkit-transition: 0.25s;
+	-o-transition: 0.25s;
+	-moz-transition: 0.25s;
+	-ms-transition: 0.25s;
+}
+
+.thumbnail-image .wrapper:hover {
+	transform: scale(1.1);
+	-webkit-transform: scale(1.1);
+	-o-transition: scale(1.1);
+	-moz-transition: scale(1.1);
+	-ms-transition: scale(1.1);
+}
+
+.thumbnail-image .wrapper-list {
+	width: 100%;
+	height: 100%;
+	display:inline-block;
+	position: relative;
+	margin-bottom: 25px;
+	overflow:hidden;
+}
+
+.thumbnail-image img {
+	display: inline-block;
+	border: 10px solid #fff;
+	border-bottom-width: 30px;
+}
+
+.thumbnail-image .image-list {
+	display:inline;
+	position:relative;
+	float:left;
+	margin-right:10px;
+	border-bottom-width: 10px;
+	border-right-width: 10000px;
+}
+
+.thumbnail-image span {
+	display: inline-block;
+	width: 100%;
+	position: absolute;
+	text-align: center;
+	bottom: 9px;
+	left: 0;
+	top: auto;
+	right: auto;
+	overflow: hidden;
+}
+
+.thumbnail-image span.answer-subject {
+	display: inline-block;
+	text-align: center;
+	font-weight:bold;
+	font-size:32px;
+	position: absolute;
+	top:50%;
+	width: auto !important;
+	height: auto !important;
+	margin-top: -40px;
+	margin-left:300px;
+	color: $thm-grey;
+}
+
+.thumbnail-image span.answer-text {
+	display: inline-block;
+	text-align: left;
+	width: auto !important;
+	height: auto !important;
+	top: 50%;
+	font-size: 20px;
+	margin-left: 300px;
+	color: $thm-grey;
+}
+
+.gallery-dataview {
+
+}
+
+.gallery-dataview div {
+	background-color: #e0e0e0 !important;
 }
 
 .x-segmentedbutton .x-button-normal {
@@ -115,13 +205,13 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 	color: $label-font-color;
 	background-color: white;
 	border-right: 1px solid $background;
-	
+
 	&.checkItem {
 		border-right: none;
 	}
-	
+
 	& span {
-		font-weight: normal;	
+		font-weight: normal;
 	}
 }
 
@@ -131,11 +221,11 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 
 .x-list-item, .x-form-fieldset-title, .x-label, .roundedBox, .centerText {
 	text-shadow: none !important;
-	
+
 	.x-innerhtml {
 		color: $thm-grey !important;
 	}
-} 
+}
 
 .x-field-input .x-input-el {
 	color: $thm-grey !important;
@@ -155,13 +245,13 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 	background: $background;
 	border-color: $thm-grey;
 	max-width: 21em;
-	
-	.x-title, 
+
+	.x-title,
 	.x-msgbox-text {
 		color: $thm-grey;
 		text-shadow: none;
 	}
-	
+
 	.x-msgbox-buttons .x-button-normal span {
 		opacity: 1;
 	}
@@ -170,35 +260,35 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 .x-button {
 	&.x-button-confirm {
 		@include button-decoration-config(
-			$button-confirm-bg-color !important, 
+			$button-confirm-bg-color !important,
 			$button-confirm-txt-color !important
 		);
 	}
-	
+
 	&.x-button-action,
 	&.x-button-filebrowse {
 		@include button-decoration-config(
-			$button-action-bg-color !important, 
+			$button-action-bg-color !important,
 			$button-action-txt-color !important
 		);
-		
+
 		&.x-button-pressed,
 		&.x-button-pressing {
 			background-color: $button-action-active-bg-color !important;
 		}
 	}
-	
+
 	&.x-button-decline {
 		@include button-decoration-config(
-			$button-decline-bg-color !important, 
+			$button-decline-bg-color !important,
 			$button-decline-txt-color !important
 		);
 	}
-	
+
 	.x-button-label {
 		@include label-config;
 	}
-	
+
 	&.isInactive .x-button-label {
 		color: $thm-red !important;
 	}
@@ -220,23 +310,23 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 	.x-title {
 		@include toolbar-title-config;
 	}
-	
+
 	&.speakerTitleText .x-title {
 		color: $toolbar-speaker-title-color;
 	}
-	
+
 	.x-button-normal {
 		@include toolbar-button-config(
-			$toolbar-button-bg-color, 
+			$toolbar-button-bg-color,
 			$toolbar-button-txt-color
 		);
-		
+
 		&.toggleCorrectButton {
 			@include toolbar-button-config(
 				$toolbar-toogleCorrect-button-inactive-color,
 				$toolbar-button-txt-color
 			);
-			
+
 			&.x-button-pressed,
 			&.x-button-pressing {
 				@include toolbar-button-config(
@@ -246,7 +336,7 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 			}
 		}
 	}
-	
+
 	.x-button,
 	.x-button:after,
 	.x-button:before {
@@ -262,19 +352,19 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 			);
 		}
 	}
-	
+
 	.x-button-back,
-	.x-button.x-button-back:after, 
+	.x-button.x-button-back:after,
 	.x-button.x-button-back:before,
 	.x-button.x-button-forward:after,
-	.x-button.x-button-forward:before, 
-	.x-field-select .x-input-text.x-button-back:after, 
+	.x-button.x-button-forward:before,
+	.x-field-select .x-input-text.x-button-back:after,
 	.x-field-select .x-input-text.x-button-forward:after {
 		@include toolbar-button-config(
-			$toolbar-back-button-bg-color, 
+			$toolbar-back-button-bg-color,
 			$toolbar-back-button-txt-color
 		);
-		
+
 		/* todo: remove after css cleanup */
 		&.x-button-pressed,
 		&.x-button-pressing,
@@ -288,7 +378,7 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 			);
 		}
 	}
-	
+
 	.x-button, .x-button-back {
 		.x-button-label {
 			@include label-config;
@@ -300,27 +390,27 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 	.x-tab {
 		text-shadow: none !important;
 	}
-	
+
 	.voteIcons:before,
 	.x-button-icon:before {
 		color: #fff;
 	}
-	
+
 	.x-tab-pressed .x-button-icon:before {
 		color: $button-action-active-bg-color !important;
 	}
-	
+
 	.x-tab-active {
 		box-shadow: none;
 		background-image: none !important;
 		background-color: transparent;
-		
+
 		.x-button-icon {
 			&:before,
 			&.voteIcons.icon-bullhorn:before {
 				color: $thm-green;
 			}
-			
+
 			&.voteIcons:before {
 				color: $smiley-color;
 			}
@@ -338,18 +428,18 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 		background-image: none !important;
 		-webkit-box-shadow: none !important;
 	}
-	
+
 	.x-list-item.x-item-selected.x-list-item-tpl,
 	.x-list-item.x-item-selected .x-dock-horizontal {
 		border-color: white;
 		background-image: none;
 		background-color: $thm-orange;
-		
+
 		.search-item span {
 			color: white;
 		}
 	}
-} 
+}
 
 .x-form-fieldset-title {
 	font-weight: normal;
@@ -357,7 +447,7 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 
 .x-carousel-indicator span {
 	background-color: $thm-grey;
-	
+
 	&.x-carousel-indicator-active {
 		background-color: $thm-green;
 	}
