@@ -396,7 +396,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		});
 
 		if (this.questionObj.questionType !== "grid") {
-			this.add([this.toolbar, this.piToolbar, this.titlebar, this.questionChart]);
+			this.add([this.toolbar, this.piActivated ? this.piToolbar : {}, this.titlebar, this.questionChart]);
 		} else {
 			this.setStyle('background-color: #E0E0E0');
 			// add statistic
