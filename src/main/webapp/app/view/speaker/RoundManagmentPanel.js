@@ -16,11 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('ARSnova.view.speaker.PeerInstructionPanel', {
+Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 	extend: 'Ext.Panel',
 
 	config: {
-		title: "Peer-Instruction",
+		title: "Round-Mangement",
 		iconCls: 'icon-timer',
 		fullscreen: true,
 		scrollable: {
@@ -167,7 +167,7 @@ Ext.define('ARSnova.view.speaker.PeerInstructionPanel', {
 
 		question.startNewPiRound(delay, {
 			success: function(response) {
-				console.debug('Pi Round started.');
+				console.debug('New question round started.');
 			}
 		});
 	},

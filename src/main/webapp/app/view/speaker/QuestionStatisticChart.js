@@ -116,7 +116,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 				if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER && this.piActivated) {
 					var showcasePanel = tabPanel.speakerTabPanel.showcaseQuestionPanel;
-					var obj = tabPanel.speakerTabPanel.statisticTabPanel.peerInstructionPanel.editButtons.questionObj;
+					var obj = tabPanel.speakerTabPanel.statisticTabPanel.roundManagementPanel.editButtons.questionObj;
 					showcasePanel.getActiveItem().questionObj = obj;
 				}
 

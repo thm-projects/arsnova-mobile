@@ -28,10 +28,10 @@ Ext.define('ARSnova.view.speaker.StatisticTabPanel', {
 	initialize: function () {
 		this.callParent(arguments);
 
-		this.peerInstructionPanel = Ext.create('ARSnova.view.speaker.PeerInstructionPanel');
+		this.roundManagementPanel = Ext.create('ARSnova.view.speaker.RoundManagementPanel');
 
 		this.add([
-			this.peerInstructionPanel
+			this.roundManagementPanel
 		]);
 	}
 });
