@@ -123,8 +123,6 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 
 	beforeActivate: function () {
 		this.statisticChart = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
-		this.round = this.statisticChart.questionObj.piRound;
-
 		this.prepareQuestionManagementContainer();
 		this.prepareCountdownTimer();
 	},
@@ -142,7 +140,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		if(this.statisticChart.questionObj._id === questionId) {
 			this.statisticChart.enablePiRoundElements();
 
-			if(this.round === 1) {
+			if(this.statisticChart.questionObj.piRound === 1) {
 				this.statisticChart.activateFirstSegmentButton();
 			} else {
 				this.statisticChart.activateSecondSegmentButton();
@@ -151,9 +149,6 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 			this.questionManagementContainer.show();
 			this.startRoundButton.show();
 			this.endRoundButton.hide();
-
-			this.round++;
-			this.statisticChart.questionObj.piRound++;
 			this.prepareCountdownButtons();
 		}
 	},
@@ -199,15 +194,18 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 	},
 
 	prepareCountdownButtons: function() {
-		if(!this.statisticChart.questionObj.piRoundActive) {
-			if(this.round === 1) {
-				this.startRoundButton.setText('Erste Runde starten');
-				this.countdownTimer.slider.show();
-				this.startRoundButton.show();
-			} else if (this.round === 2) {
-				this.startRoundButton.setText('Zweite Runde starten');
-				this.countdownTimer.slider.show();
-				this.startRoundButton.show();
+		var questionObj = this.statisticChart.questionObj;
+		if(!questionObj.piRoundActive) {
+			if(questionObj.piRound === 1) {
+				if(!questionObj.piRoundFinished) {
+					this.startRoundButton.setText('Erste Runde starten');
+					this.countdownTimer.slider.show();
+					this.startRoundButton.show();
+				} else if(questionObj.piRoundFinished) {
+					this.startRoundButton.setText('Zweite Runde starten');
+					this.countdownTimer.slider.show();
+					this.startRoundButton.show();
+				}
 			} else {
 				this.countdownTimer.slider.hide();
 				this.startRoundButton.hide();
