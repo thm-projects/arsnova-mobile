@@ -40,8 +40,13 @@ Ext.define("ARSnova.controller.RoundManagement", {
 	},
 
 	updateQuestionOnRoundStart: function(question, object) {
+		if(question.questionObj.piRoundFinished && question.questionObj.piRound == 1) {
+			question.questionObj.piRound = 2;
+		}
+
 		question.questionObj.active = true;
 		question.questionObj.piRoundActive = true;
+		question.questionObj.piRoundFinished = false;
 		question.questionObj.piRoundStartTime = object.startTime;
 		question.questionObj.piRoundEndTime = object.endTime;
 	},
@@ -49,6 +54,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 	updateQuestionOnRoundEnd: function(question) {
 		question.questionObj.active = false;
 		question.questionObj.piRoundActive = false;
+		question.questionObj.piRoundFinished = true;
 		question.questionObj.piRoundStartTime = 0;
 		question.questionObj.piRoundEndTime = 0;
 	},
@@ -97,8 +103,8 @@ Ext.define("ARSnova.controller.RoundManagement", {
 
 			if(question.questionObj._id === object.id) {
 				ARSnova.app.getController('RoundManagement').updateQuestionOnRoundStart(question, object);
-				statisticTabPanel.peerInstructionPanel.countdownTimer.start(object.startTime, object.endTime);
-				statisticTabPanel.peerInstructionPanel.updateEditButtons();
+				statisticTabPanel.roundManagementPanel.countdownTimer.start(object.startTime, object.endTime);
+				statisticTabPanel.roundManagementPanel.updateEditButtons();
 			}
 		}
 	},
