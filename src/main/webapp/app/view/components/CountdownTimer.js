@@ -225,75 +225,77 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 	},
 
 	showTimer: function() {
-		var canvas = this.canvas.dom;
-		var context = canvas.getContext("2d");
-		var counterClockwise = false;
+		if(this.canvas) {
+			var canvas = this.canvas.dom;
+			var context = canvas.getContext("2d");
+			var counterClockwise = false;
 
-		canvas.width = this.getWidth();
-		canvas.height = this.getHeight() - 40;
+			canvas.width = this.getWidth();
+			canvas.height = this.getHeight() - 40;
 
-		var x = canvas.width / 2;
-		var y = canvas.height / 2;
-		var radius = 85;
+			var x = canvas.width / 2;
+			var y = canvas.height / 2;
+			var radius = 85;
 
-		var startAngle = 0 * Math.PI;
-		var endAngle = (2 * Math.PI) / (this.maxMinutes / this.minutes);
-		var minutes = Math.ceil(this.minutes / this.maxSeconds);
+			var startAngle = 0 * Math.PI;
+			var endAngle = (2 * Math.PI) / (this.maxMinutes / this.minutes);
+			var minutes = Math.ceil(this.minutes / this.maxSeconds);
 
-		context.save();
-		context.clearRect(0, 0, 600, 600);
+			context.save();
+			context.clearRect(0, 0, 600, 600);
 
-		context.fillStyle = "#4a5c66";
-		context.font = "50px Segoe UI";
-		context.textAlign = "center";
-		context.textBaseline = "middle";
+			context.fillStyle = "#4a5c66";
+			context.font = "50px Segoe UI";
+			context.textAlign = "center";
+			context.textBaseline = "middle";
 
-		if(minutes > 1) {
-			context.fillText(minutes.toString(), x, y-10);
-			context.font = "20px Segoe UI";
-			context.fillText('Minuten', x, y+20);
-		} else if(minutes > 0) {
-			var seconds = Math.ceil(this.seconds / this.milliseconds);
-			context.fillText(seconds.toString(), x, y-10);
-			context.font = "20px Segoe UI";
-			context.fillText('Sekunden', x, y+20);
-		} else {
-			context.fillText(0, x, y-10);
-			context.font = "20px Segoe UI";
-			context.fillText('Sekunden', x, y+20);
+			if(minutes > 1) {
+				context.fillText(minutes.toString(), x, y-10);
+				context.font = "20px Segoe UI";
+				context.fillText('Minuten', x, y+20);
+			} else if(minutes > 0) {
+				var seconds = Math.ceil(this.seconds / this.milliseconds);
+				context.fillText(seconds.toString(), x, y-10);
+				context.font = "20px Segoe UI";
+				context.fillText('Sekunden', x, y+20);
+			} else {
+				context.fillText(0, x, y-10);
+				context.font = "20px Segoe UI";
+				context.fillText('Sekunden', x, y+20);
+			}
+
+			context.translate(x, y);
+			context.rotate(-Math.PI / 2);
+			context.translate(-x, -y);
+
+			if (this.minutes > 0) {
+				context.beginPath();
+				context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
+				context.lineWidth = 20;
+				context.strokeStyle = "#4A5C66";
+				context.stroke();
+			}
+			else {
+				context.beginPath();
+				context.arc(x, y, radius, 0 * Math.PI, 2 * Math.PI, counterClockwise);
+				context.lineWidth = 25;
+				context.strokeStyle = "#971B2F";
+				context.stroke();
+			}
+
+			radius = 66;
+			startAngle = 0 * Math.PI;
+			endAngle = ((2 * Math.PI) / (this.maxSeconds / this.seconds));
+
+			if (this.minutes > 0) {
+				context.beginPath();
+				context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
+				context.lineWidth = 20;
+				context.strokeStyle = "#F2A900";
+				context.stroke();
+			}
+
+			context.restore();	
 		}
-
-		context.translate(x, y);
-		context.rotate(-Math.PI / 2);
-		context.translate(-x, -y);
-
-		if (this.minutes > 0) {
-			context.beginPath();
-			context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
-			context.lineWidth = 20;
-			context.strokeStyle = "#4A5C66";
-			context.stroke();
-		}
-		else {
-			context.beginPath();
-			context.arc(x, y, radius, 0 * Math.PI, 2 * Math.PI, counterClockwise);
-			context.lineWidth = 25;
-			context.strokeStyle = "#971B2F";
-			context.stroke();
-		}
-
-		radius = 66;
-		startAngle = 0 * Math.PI;
-		endAngle = ((2 * Math.PI) / (this.maxSeconds / this.seconds));
-
-		if (this.minutes > 0) {
-			context.beginPath();
-			context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
-			context.lineWidth = 20;
-			context.strokeStyle = "#F2A900";
-			context.stroke();
-		}
-
-		context.restore();
 	}
 });
