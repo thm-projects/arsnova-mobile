@@ -232,7 +232,10 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 				} else {
 					me.imageAnswerList.show();
 					var listItems = responseObj.map(function (item) {
+						var me = this;
 						var v = item;
+						//console.log(v);
+
 						var date = new Date(v.timestamp);
 						return Ext.apply(item, {
 							formattedTime: Ext.Date.format(date, "H:i"),
@@ -249,6 +252,21 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 
 					me.freetextAnswerStore.removeAll();
 					me.freetextAnswerStore.add(answers);
+
+					me.freetextAnswerStore.each(function(entry) {
+						//create an markdown-panel for rendering the answers.
+						var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+						md.setContent(entry.get('answerSubject'), true, true, function (html) {
+							entry.set('formattedAnswerSubject', html.getHtml());
+						});
+
+						md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+						md.setContent(entry.get('answerText'), true, true, function (html) {
+							entry.set('formattedAnswerText', html.getHtml());
+							//console.log(entry.get('formattedAnswerText'));
+						});
+					});
+
 					me.freetextAnswerStore.sort([{
 						property: 'timestamp',
 						direction: 'DESC'
