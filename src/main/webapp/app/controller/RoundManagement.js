@@ -148,8 +148,8 @@ Ext.define("ARSnova.controller.RoundManagement", {
 
 			if(question.questionObj._id === questionId) {
 				ARSnova.app.getController('RoundManagement').updateQuestionOnRoundEnd(question);
-				statisticTabPanel.peerInstructionPanel.changePiRound(questionId);
-				statisticTabPanel.peerInstructionPanel.updateEditButtons();
+				statisticTabPanel.roundManagementPanel.changePiRound(questionId);
+				statisticTabPanel.roundManagementPanel.updateEditButtons();
 			}
 		}
 	}
