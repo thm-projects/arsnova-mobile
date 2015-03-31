@@ -435,6 +435,12 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			ARSnova.app.taskManager.start(this.countActiveUsersTask);
+
+			if(this.questionObj.piRound === 1) {
+				this.activateFirstSegmentButton();
+			} else {
+				this.activateSecondSegmentButton();
+			}
 		}
 	},
 
