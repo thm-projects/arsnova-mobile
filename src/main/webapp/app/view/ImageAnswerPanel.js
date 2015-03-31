@@ -98,7 +98,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			text: Messages.IMAGE_QUESTION_HORIZONTAL_VIEW,
 			cls: 'actionButton',
 			buttonConfig: 'icon',
-			imageCls: 'icon-vertical-list thm-grey',
+			imageCls: 'icon-vertical-list icon-horizontal-list-config thm-grey',
 			scope: this,
 			handler: this.horizontalListClicked
 		});
