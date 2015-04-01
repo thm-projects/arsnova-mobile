@@ -98,6 +98,7 @@ Ext.define('ARSnova.view.Question', {
 
 					if (self.questionObj.questionType !== 'flashcard') {
 						self.disableQuestion();
+						self.checkPiRoundActivation();
 						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
 						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
 					}
@@ -523,7 +524,6 @@ Ext.define('ARSnova.view.Question', {
 
 		this.on('activate', function () {
 			this.answerList.addListener('itemtap', questionListener.itemtap);
-			this.checkPiRoundActivation();
 
 			if (this.viewOnly) {
 				this.setAnswerCount();
@@ -543,6 +543,8 @@ Ext.define('ARSnova.view.Question', {
 		});
 
 		this.on('painted', function() {
+			this.checkPiRoundActivation();
+
 			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 				this.updateEditButtons();
 			}
@@ -554,7 +556,7 @@ Ext.define('ARSnova.view.Question', {
 	},
 
 	checkPiRoundActivation: function() {
-		if(this.questionObj.piRoundActive) {
+		if(this.questionObj.piRoundActive && !this.isDisabled()) {
 			this.countdownTimer.start(this.questionObj.piRoundStartTime, this.questionObj.piRoundEndTime);
 			this.countdownTimer.show();
 		} else {
