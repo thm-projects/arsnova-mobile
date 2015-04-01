@@ -32,7 +32,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 
 		freetextAnswerStore: null
 	},
-		//flag for vertical or horizontal list
+	//flag for vertical or horizontal list
 	isVertical: false,
 	constructor: function (args) {
 		var me = this;
@@ -159,9 +159,9 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 					'</div>',
 				'</tpl>',
 				{
-						isVertical: function () {
-							return me.isVertical;
-						}
+					isVertical: function () {
+						return me.isVertical;
+					}
 				}
 			),
 			inline: true,

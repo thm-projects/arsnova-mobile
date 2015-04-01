@@ -24,8 +24,8 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		'Ext.form.FieldSet'
 	],
 	config: {
-				scrollable: null,
-				cls: 'centerFormTitle'
+		scrollable: null,
+		cls: 'centerFormTitle'
 	},
 
 	imageQuestion: false,

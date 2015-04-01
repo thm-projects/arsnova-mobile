@@ -211,7 +211,8 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			xtype: 'formpanel',
 			width: '100%',
 			scrollable: null,
-			items: [this.containerFieldSet = Ext.create('Ext.form.FieldSet', {
+			items: [
+				this.containerFieldSet = Ext.create('Ext.form.FieldSet', {
 					layout: 'hbox',
 					cls: 'fileUploadFieldset',
 					title: Messages.PICTURE_SOURCE,
@@ -219,7 +220,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 						this.uploadTextfield,
 						this.sendButton
 					]
-			}), {
+				}), {
 				xtype: 'fieldset',
 				cls: showLongLabelsAndTemplate ?
 				'fileUploadButtonFieldset longText' :
@@ -264,7 +265,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	 * @param callback The callback, the response can be either false or the (un)compressed base64 image
 	 * @return -
 	 */
-    tryToCompress: function (url, callback) {
+	tryToCompress: function (url, callback) {
 		if (!isNaN(ARSnova.app.globalConfig.maxUploadFilesize) && typeof ARSnova.app.globalConfig.maxUploadFilesize !== 'undefined') {
 			var me = this;
 			var fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
@@ -305,11 +306,8 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		this.sendButton.setHidden(this.toggleUrl);
 
 		if (this.toggleUrl) {
-//			this.toggleUrl = false;
 			this.addCls('hiddenUrl');
-			console.log('toggleUrl');
 		} else {
-//			this.toggleUrl = true;
 			this.removeCls('hiddenUrl');
 		}
 	},
