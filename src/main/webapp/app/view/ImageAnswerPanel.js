@@ -143,19 +143,19 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 
 			cls: 'dataview-inline gallery-dataview',
 
-			itemCls: 'thumbnail-image',
+			itemCls: 'arsnova-mathdown x-html thumbnail-image',
 			itemTpl: new Ext.XTemplate(
 				'<tpl if="this.isVertical() === false">',
 					'<div class="wrapper">',
 						'<img src="{answerThumbnailImage}"/>',
-						'<span>{answerSubject:htmlEncode}</span>',
+						'<span>{formattedAnswerSubject}</span>', //formatted = markdown-rendered
 					'</div>',
 				'</tpl>',
 				'<tpl if="this.isVertical() === true">',
 					'<div class="wrapper-list">',
 						'<img src="{answerThumbnailImage}" class="image-list"/>',
-						'<span class="answer-subject">{answerSubject:htmlEncode}</span>',
-						'<span class="answer-text">{answerText:htmlEncode}</span>',
+						'<span class="answer-subject">{formattedAnswerSubject}</span>',
+						'<span class="answer-text">{formattedAnswerText}</span>',
 					'</div>',
 				'</tpl>',
 				{
@@ -257,13 +257,18 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 						//create an markdown-panel for rendering the answers.
 						var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
 						md.setContent(entry.get('answerSubject'), true, true, function (html) {
-							entry.set('formattedAnswerSubject', html.getHtml());
+							//delete all <p>-tags in the subject so span's aren't overwritten
+							var plane = html.getHtml().replace("<p>", "").replace("</p>", "").
+													replace("<P>", "").replace("</P>", "");
+
+							entry.set('formattedAnswerSubject', plane);
+							md.destroy();
 						});
 
 						md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
 						md.setContent(entry.get('answerText'), true, true, function (html) {
 							entry.set('formattedAnswerText', html.getHtml());
-							//console.log(entry.get('formattedAnswerText'));
+							md.destroy();
 						});
 					});
 
