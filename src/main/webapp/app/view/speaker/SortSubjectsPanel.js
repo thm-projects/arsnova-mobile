@@ -114,6 +114,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 		this.getController().getQuestions(sessionStorage.getItem('keyword'), {
 			success: Ext.bind(function (response) {
 				var questions = Ext.decode(response.responseText);
+				this.questionStore.sort([]);
 				this.questionStore.add(questions);
 
 				var questionRecords = [];
