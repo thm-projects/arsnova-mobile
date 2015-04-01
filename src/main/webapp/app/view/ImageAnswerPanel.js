@@ -234,7 +234,6 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 					var listItems = responseObj.map(function (item) {
 						var me = this;
 						var v = item;
-						//console.log(v);
 
 						var date = new Date(v.timestamp);
 						return Ext.apply(item, {
@@ -258,8 +257,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 						var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
 						md.setContent(entry.get('answerSubject'), true, true, function (html) {
 							//delete all <p>-tags in the subject so span's aren't overwritten
-							var plane = html.getHtml().replace("<p>", "").replace("</p>", "").
-													replace("<P>", "").replace("</P>", "");
+							var plane = html.getHtml().replace(/<\/?[pP]>/g, "");
 
 							entry.set('formattedAnswerSubject', plane);
 							md.destroy();
