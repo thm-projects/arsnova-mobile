@@ -822,6 +822,27 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
+	getSubjectSort: function (sessionKeyword, isPreparation, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/subjectsort?sessionkey=" + sessionKeyword +
+				"&ispreparation=" + encodeURIComponent(isPreparation),
+			method: "GET",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
+	setSubjectSort: function (sessionKeyword, isPreparation, sortType, subjects, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/subjectsort?sessionkey=" + sessionKeyword +
+			"&sorttype=" + encodeURIComponent(sortType) +
+			"&ispreparation=" + encodeURIComponent(isPreparation),
+			method: "POST",
+			jsonData: subjects,
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
 	changeFeatures: function (keyword, features, callbacks) {
 		this.arsjax.request({
 			url: "session/" + encodeURIComponent(keyword) + "/features",
@@ -831,6 +852,30 @@ Ext.define('ARSnova.proxy.RestProxy', {
 				var json = response.responseText || "{}";
 				callbacks.success(Ext.decode(json));
 			},
+			failure: callbacks.failure
+		});
+	},
+
+	getQuestionSort: function (sessionKeyword, subject, isPreparation, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/questionsort?sessionkey=" + sessionKeyword +
+				"&subject=" + encodeURIComponent(subject) +
+				"&ispreparation=" + encodeURIComponent(isPreparation),
+			method: "GET",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
+	setQuestionSort: function (sessionKeyword, subject, isPreparation, sortType, questionIDs, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/questionsort?sessionkey=" + sessionKeyword +
+			"&subject=" + encodeURIComponent(subject) +
+			"&sorttype=" + encodeURIComponent(sortType) +
+			"&ispreparation=" + encodeURIComponent(isPreparation),
+			method: "POST",
+			jsonData: questionIDs,
+			success: callbacks.success,
 			failure: callbacks.failure
 		});
 	},
