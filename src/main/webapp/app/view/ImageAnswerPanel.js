@@ -252,7 +252,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 					me.freetextAnswerStore.removeAll();
 					me.freetextAnswerStore.add(answers);
 
-					me.freetextAnswerStore.each(function(entry) {
+					me.freetextAnswerStore.each(function (entry) {
 						//create an markdown-panel for rendering the answers.
 						var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
 						md.setContent(entry.get('answerSubject'), true, true, function (html) {
