@@ -45,6 +45,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 		}
 
 		question.questionObj.active = true;
+		question.questionObj.showStatistic = false;
 		question.questionObj.piRoundActive = true;
 		question.questionObj.piRoundFinished = false;
 		question.questionObj.piRoundStartTime = object.startTime;
