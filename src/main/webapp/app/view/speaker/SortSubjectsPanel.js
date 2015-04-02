@@ -40,6 +40,16 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 		this.callParent(arguments);
 
 		this.questionListContainer.setTitle(Messages.SORT_CATEGORIES_TITLE);
+		this.saveButtonToolbar.setHandler(function (button) {
+			this.saveHandler(button).then(function (response) {
+				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+				sTP.animateActiveItem(sTP.audienceQuestionPanel, {
+					type: 'slide',
+					direction: 'right',
+					duration: 700
+				});
+			});
+		});
 		this.toolbar.setTitle(Messages.SORT_CATEGORIES);
 	},
 

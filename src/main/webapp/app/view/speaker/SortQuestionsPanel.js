@@ -83,8 +83,12 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			style: 'width: 89px',
 			handler: function (button) {
 				this.saveHandler(button).then(function (response) {
-					var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.sortQuestionsPanel;
-					panel.getController().listQuestions();
+					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+					sTP.animateActiveItem(sTP.sortSubjectsPanel, {
+						type: 'slide',
+						direction: 'right',
+						duration: 700
+					});
 				});
 			},
 			scope: this
