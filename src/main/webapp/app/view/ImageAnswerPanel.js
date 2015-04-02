@@ -32,7 +32,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 
 		freetextAnswerStore: null
 	},
-		//flag for vertical or horizontal list
+	//flag for vertical or horizontal list
 	isVertical: false,
 	constructor: function (args) {
 		var me = this;
@@ -98,7 +98,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			text: Messages.IMAGE_QUESTION_HORIZONTAL_VIEW,
 			cls: 'actionButton',
 			buttonConfig: 'icon',
-			imageCls: 'icon-vertical-list thm-grey',
+			imageCls: 'icon-vertical-list icon-horizontal-list-config thm-grey',
 			scope: this,
 			handler: this.horizontalListClicked
 		});
@@ -143,25 +143,25 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 
 			cls: 'dataview-inline gallery-dataview',
 
-			itemCls: 'thumbnail-image',
+			itemCls: 'arsnova-mathdown x-html thumbnail-image',
 			itemTpl: new Ext.XTemplate(
 				'<tpl if="this.isVertical() === false">',
 					'<div class="wrapper">',
 						'<img src="{answerThumbnailImage}"/>',
-						'<span>{answerSubject:htmlEncode}</span>',
+						'<span>{formattedAnswerSubject}</span>', //formatted = markdown-rendered
 					'</div>',
 				'</tpl>',
 				'<tpl if="this.isVertical() === true">',
 					'<div class="wrapper-list">',
 						'<img src="{answerThumbnailImage}" class="image-list"/>',
-						'<span class="answer-subject">{answerSubject:htmlEncode}</span>',
-						'<span class="answer-text">{answerText:htmlEncode}</span>',
+						'<span class="answer-subject">{formattedAnswerSubject}</span>',
+						'<span class="answer-text">{formattedAnswerText}</span>',
 					'</div>',
 				'</tpl>',
 				{
-						isVertical: function () {
-							return me.isVertical;
-						}
+					isVertical: function () {
+						return me.isVertical;
+					}
 				}
 			),
 			inline: true,
@@ -232,7 +232,9 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 				} else {
 					me.imageAnswerList.show();
 					var listItems = responseObj.map(function (item) {
+						var me = this;
 						var v = item;
+
 						var date = new Date(v.timestamp);
 						return Ext.apply(item, {
 							formattedTime: Ext.Date.format(date, "H:i"),
@@ -249,6 +251,25 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 
 					me.freetextAnswerStore.removeAll();
 					me.freetextAnswerStore.add(answers);
+
+					me.freetextAnswerStore.each(function (entry) {
+						//create an markdown-panel for rendering the answers.
+						var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+						md.setContent(entry.get('answerSubject'), true, true, function (html) {
+							//delete all <p>-tags in the subject so span's aren't overwritten
+							var plane = html.getHtml().replace(/<\/?[pP]>/g, "");
+
+							entry.set('formattedAnswerSubject', plane);
+							md.destroy();
+						});
+
+						md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+						md.setContent(entry.get('answerText'), true, true, function (html) {
+							entry.set('formattedAnswerText', html.getHtml());
+							md.destroy();
+						});
+					});
+
 					me.freetextAnswerStore.sort([{
 						property: 'timestamp',
 						direction: 'DESC'

@@ -90,41 +90,41 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			style: 'marginTop: 15px',
 
 			items: [{
-					submitOnAction: false,
-					xtype: 'formpanel',
-					cls: 'loginFieldSet',
-					scrollable: null,
-					width: '310px',
-					margin: '0 auto',
+				submitOnAction: false,
+				xtype: 'formpanel',
+				cls: 'loginFieldSet',
+				scrollable: null,
+				width: '310px',
+				margin: '0 auto',
 
-					items: [{
-						xtype: 'textfield',
-						component: {
-							xtype: 'input',
-							cls: 'joinSessionInput',
-							type: 'tel',
-							maxLength: 16
-						},
-						name: 'keyword',
-						style: !!ARSnova.app.globalConfig.demoSessionKey ? 'margin-bottom: 5px' : '',
-						placeHolder: Messages.SESSIONID_PLACEHOLDER,
-						listeners: {
-							scope: this,
-							action: this.onSubmit
-						}
-					}, {
-						xtype: 'label',
-						cls: 'gravure',
-						style: 'margin-bottom: 15px; opacity: 0.9; font-size: 0.95em;',
-						hidden: !ARSnova.app.globalConfig.demoSessionKey,
-						html: Messages.DEMO_SESSION + ARSnova.app.globalConfig.demoSessionKey
-					}, {
-						xtype: 'button',
-						ui: 'confirm',
-						text: Messages.GO,
-						handler: this.onSubmit,
-						scope: this
-					}]
+				items: [{
+					xtype: 'textfield',
+					component: {
+						xtype: 'input',
+						cls: 'joinSessionInput',
+						type: 'tel',
+						maxLength: 16
+					},
+					name: 'keyword',
+					style: !!ARSnova.app.globalConfig.demoSessionKey ? 'margin-bottom: 5px' : '',
+					placeHolder: Messages.SESSIONID_PLACEHOLDER,
+					listeners: {
+						scope: this,
+						action: this.onSubmit
+					}
+				}, {
+					xtype: 'label',
+					cls: 'gravure',
+					style: 'margin-bottom: 15px; opacity: 0.9; font-size: 0.95em;',
+					hidden: !ARSnova.app.globalConfig.demoSessionKey,
+					html: Messages.DEMO_SESSION + ARSnova.app.globalConfig.demoSessionKey
+				}, {
+					xtype: 'button',
+					ui: 'confirm',
+					text: Messages.GO,
+					handler: this.onSubmit,
+					scope: this
+				}]
 			}]
 		});
 

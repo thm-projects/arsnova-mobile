@@ -1069,13 +1069,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								var p;
 								if (self.questionObj.imageQuestion){
 									p = Ext.create('ARSnova.view.ImageAnswerPanel', {
-									question: self.questionObj,
-									lastPanel: self
+										question: self.questionObj,
+										lastPanel: self
 									});
 								} else {
 									p = Ext.create('ARSnova.view.FreetextAnswerPanel', {
-									question: self.questionObj,
-									lastPanel: self
+										question: self.questionObj,
+										lastPanel: self
 									});
 								}
 								ARSnova.app.mainTabPanel.animateActiveItem(p, 'slide');

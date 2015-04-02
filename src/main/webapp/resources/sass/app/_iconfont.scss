@@ -364,3 +364,11 @@
 		content: "\e611";
 	}
 }
+
+.icon-horizontal-list-config {
+  -moz-transform:rotate(90deg); /* Firefox */
+  -webkit-transform:rotate(90deg); /* Safari */
+  -o-transform:rotate(90deg); /* Opera */
+  -ms-transform:rotate(90deg); /* IE9 */
+  transform:rotate(90deg); /* W3C */
+}

@@ -24,8 +24,8 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		'Ext.form.FieldSet'
 	],
 	config: {
-				scrollable: null,
-				cls: 'centerFormTitle'
+		scrollable: null,
+		cls: 'centerFormTitle'
 	},
 
 	imageQuestion: false,
@@ -44,7 +44,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 				listeners: {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
-						me.textAnswerEnabled = newValue !== 0;
+						me.textAnswerEnabled = newValue == 0 ? false : true;
 					}
 				},
 				value: true
