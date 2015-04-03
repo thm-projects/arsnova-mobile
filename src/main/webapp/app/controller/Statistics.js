@@ -39,7 +39,9 @@ Ext.define("ARSnova.controller.Statistics", {
 
 	prepareSpeakerStatistics: function(panel) {
 		var target;
+		var activePanel = panel.getActiveItem();
 		var features = Ext.decode(sessionStorage.getItem("features"));
+		var questionObj = panel.getActiveItem().questionObj;
 
 		var animation = {
 			type: 'slide',
@@ -52,13 +54,24 @@ Ext.define("ARSnova.controller.Statistics", {
 			}
 		};
 
-		panel.showcaseQuestionPanel.toolbar.statisticsButton.disable();
+		switch(activePanel) {
+			case panel.showcaseQuestionPanel: 
+				questionObj = activePanel.getActiveItem().questionObj;	
+				panel.showcaseQuestionPanel.toolbar.statisticsButton.disable();
+				break;
+
+			case panel.questionDetailsPanel:
+				questionObj = activePanel.questionObj;
+				break;
+
+			default:
+		}
+
 		target = panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
-			question: panel._activeItem._activeItem.questionObj
+			question: questionObj
 		});
 
 		if(features && features.pi) {
-
 			if(!panel.statisticTabPanel) {
 				panel.statisticTabPanel = Ext.create('ARSnova.view.speaker.StatisticTabPanel');
 			}
