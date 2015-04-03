@@ -850,6 +850,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	},
 
 	onPainted: function () {
+		this.updateActionButtons();
+	},
+
+	updateActionButtons: function() {
 		var active = this.questionObj.active,
 		showAnswer = this.questionObj.showAnswer ? 1 : 0,
 		showStatistic = this.questionObj.showStatistic ? 1 : 0;
@@ -857,6 +861,14 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.questionStatusButton.button.setToggleFieldValue(active);
 		this.showCorrectAnswerButton.setToggleFieldValue(showAnswer);
 		this.releaseStatisticButton.setToggleFieldValue(showStatistic);
+
+		if(this.questionObj.piRoundActive) {
+			this.firstRow.hide();
+			this.deleteAnswersButton.hide();
+		} else {
+			this.firstRow.show();
+			this.deleteAnswersButton.show();
+		}
 	},
 
 	getPossibleAnswers: function () {
