@@ -588,12 +588,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			scope: this,
 			handler: function () {
 				ARSnova.app.taskManager.stop(this.renewAnswerDataTask);
-				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-				sTP.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
-					question: this.questionObj,
-					lastPanel: this
-				});
-				ARSnova.app.mainTabPanel.animateActiveItem(sTP.questionStatisticChart, 'slide');
+				ARSnova.app.getController('Statistics').prepareStatistics(this);
 			}
 		});
 
@@ -822,6 +817,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 		this.on('activate', this.onActivate);
 		this.on('deactivate', this.onDeactivate);
+		this.on('painted', this.onPainted);
 	},
 
 	prevNewCard: null,
@@ -836,7 +832,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	},
 
 	onActivate: function () {
-		var panel = this;
 		this.getPossibleAnswers();
 
 		if (this.hasCorrectAnswers) {
@@ -852,6 +847,16 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	},
 
 	onDeactivate: function () {
+	},
+
+	onPainted: function () {
+		var active = this.questionObj.active,
+		showAnswer = this.questionObj.showAnswer ? 1 : 0,
+		showStatistic = this.questionObj.showStatistic ? 1 : 0;
+
+		this.questionStatusButton.button.setToggleFieldValue(active);
+		this.showCorrectAnswerButton.setToggleFieldValue(showAnswer);
+		this.releaseStatisticButton.setToggleFieldValue(showStatistic);
 	},
 
 	getPossibleAnswers: function () {
