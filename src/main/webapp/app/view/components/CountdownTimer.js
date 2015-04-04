@@ -83,7 +83,8 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 				position: 'absolute',
 				right: 0,
 				top: 0,
-				opacity: 0.75
+				opacity: 0.75,
+				pointerEvents: 'none'
 			});
 
 			this.canvas.setStyle({

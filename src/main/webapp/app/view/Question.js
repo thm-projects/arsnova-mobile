@@ -522,7 +522,7 @@ Ext.define('ARSnova.view.Question', {
 			this.editButtons ? this.editButtons : {}
 		]);
 
-		this.on('activate', function () {
+		this.on('activate', function() {
 			this.answerList.addListener('itemtap', questionListener.itemtap);
 
 			if (this.viewOnly) {
@@ -542,16 +542,16 @@ Ext.define('ARSnova.view.Question', {
 			}
 		});
 
+		this.on('deactivate', function() {
+			this.countdownTimer.hide();
+		});
+
 		this.on('painted', function() {
 			this.checkPiRoundActivation();
 
 			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 				this.updateEditButtons();
 			}
-		});
-
-		this.on('deactivate', function() {
-			this.countdownTimer.hide();
 		});
 	},
 
