@@ -134,14 +134,14 @@ Ext.define('ARSnova.model.Question', {
 		}, this);
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.endPiRound, function (questionId) {
-			if(ARSnova.app.questionModel === this) {
+			if (ARSnova.app.questionModel === this) {
 				ARSnova.app.getController('RoundManagement').handleRoundEnd(questionId);
 			}
 			this.fireEvent(this.events.endPiRound, questionId);
 		}, this);
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.startDelayedPiRound, function (object) {
-			if(ARSnova.app.questionModel === this) {
+			if (ARSnova.app.questionModel === this) {
 				ARSnova.app.getController('RoundManagement').handleRoundStart(object);
 			}
 			this.fireEvent(this.events.startDelayedPiRound, object);
@@ -296,7 +296,7 @@ Ext.define('ARSnova.model.Question', {
 	countAnswers: function (sessionKeyword, questionId, callbacks) {
 		return this.getProxy().countAnswers(sessionKeyword, questionId, callbacks);
 	},
-	
+
 	countPiAnswers: function (sessionKeyword, questionId, piRound, callbacks) {
 		return this.getProxy().countPiAnswers(sessionKeyword, questionId, piRound, callbacks);
 	},

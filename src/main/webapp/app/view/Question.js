@@ -522,7 +522,7 @@ Ext.define('ARSnova.view.Question', {
 			this.editButtons ? this.editButtons : {}
 		]);
 
-		this.on('activate', function() {
+		this.on('activate', function () {
 			this.answerList.addListener('itemtap', questionListener.itemtap);
 			this.checkPiRoundActivation();
 
@@ -535,7 +535,7 @@ Ext.define('ARSnova.view.Question', {
 			}
 
 			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-				if(this.questionObj.piRoundActive) {
+				if (this.questionObj.piRoundActive) {
 					this.editButtons.hide();
 				} else {
 					this.editButtons.show();
@@ -543,19 +543,19 @@ Ext.define('ARSnova.view.Question', {
 			}
 		});
 
-		this.on('deactivate', function() {
+		this.on('deactivate', function () {
 			this.countdownTimer.hide();
 		});
 
-		this.on('painted', function() {
+		this.on('painted', function () {
 			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 				this.updateEditButtons();
 			}
 		});
 	},
 
-	checkPiRoundActivation: function() {
-		if(this.questionObj.piRoundActive && !this.isDisabled()) {
+	checkPiRoundActivation: function () {
+		if (this.questionObj.piRoundActive && !this.isDisabled()) {
 			this.countdownTimer.start(this.questionObj.piRoundStartTime, this.questionObj.piRoundEndTime);
 			this.countdownTimer.show();
 		} else {
@@ -563,13 +563,13 @@ Ext.define('ARSnova.view.Question', {
 		}
 	},
 
-	updateEditButtons: function() {
+	updateEditButtons: function () {
 		this.editButtons.questionObj = this.questionObj;
 		this.editButtons.updateData(this.questionObj);
 	},
 
 	statisticButtonHandler: function (scope) {
-		if(ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			this.questionObj = this.editButtons.questionObj;
 		}
 

@@ -66,17 +66,17 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		this.callParent(arguments);
 		this.viewOnly = this.config.viewOnly;
 
-		this.on('painted', function() {
-			if(!this.starttime && !this.endtime) {
+		this.on('painted', function () {
+			if (!this.starttime && !this.endtime) {
 				this.initializeTimeValues();
 			}
 		});
 
-		this.on('hide', function() {
-			this.stop();		
+		this.on('hide', function () {
+			this.stop();
 		});
 
-		if(!this.viewOnly) {
+		if (!this.viewOnly) {
 			this.initializeSlider();
 		} else {
 			this.setStyle({
@@ -93,7 +93,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		}
 	},
 
-	initializeSlider: function() {
+	initializeSlider: function () {
 		this.slider = Ext.create('Ext.field.Slider', {
 			width: this.getWidth() - 25,
 			value: this.getSliderDefaultValue(),
@@ -129,31 +129,31 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		this.fireEvent('dragend', this, thumb, newValue, oldValue);
 	},
 
-	initializeTimeValues: function(mins, secs) {
-		if(!this.viewOnly) {
+	initializeTimeValues: function (mins, secs) {
+		if (!this.viewOnly) {
 			this.setDefaultMinutes(this.slider.getValue());
 		}
 
-		if(!mins) mins = this.getDefaultMinutes();
-		if(!secs) secs = this.getDefaultSeconds();
+		if (!mins) mins = this.getDefaultMinutes();
+		if (!secs) secs = this.getDefaultSeconds();
 
 		this.maxSeconds = this.seconds = secs * this.milliseconds;
 		this.maxMinutes = this.minutes = mins * this.maxSeconds;
 		this.showTimer();
 	},
 
-	start: function(startTime, endTime) {
+	start: function (startTime, endTime) {
 		var me = this;
 
 		startTime = parseInt(startTime);
 		endTime = parseInt(endTime);
 
-		if(!this.viewOnly) {
+		if (!this.viewOnly) {
 			this.slider.hide();
 			this.slider.disable();
 		}
 
-		if(startTime && endTime) {
+		if (startTime && endTime) {
 			var minutes = ((endTime - startTime) / 60) / 1000;
 			this.initializeTimeValues(minutes);
 			this.starttime = startTime - parseInt(sessionStorage.getItem("serverTimeDiff"));
@@ -166,7 +166,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		if (this.minutes > 0) {
 			this.showTimer();
 			this.running = true;
-			setTimeout(function() {
+			setTimeout(function () {
 				me.update(me);
 			}, this.msTillUpdate);
 
@@ -174,14 +174,14 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		}
 	},
 
-	stop: function() {
+	stop: function () {
 		clearTimeout(this.update);
 		this.running = false;
 
 		this.initializeTimeValues();
 		this.showTimer();
 
-		if(!this.viewOnly) {
+		if (!this.viewOnly) {
 			this.slider.show();
 			this.slider.enable();
 		}
@@ -189,7 +189,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		this.getOnTimerStop().call(this.getStartStopScope());
 	},
 
-	update: function(panel) {
+	update: function (panel) {
 		var me = panel;
 
 		if (!me.running) return;
@@ -209,24 +209,23 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 
 		me.showTimer();
 
-		if(me.minutes < me.maxMinutes / 2) {
+		if (me.minutes < me.maxMinutes / 2) {
 			// todo: beep
 		}
 
 		if (me.running) {
 			if (me.minutes > 0) {
-				setTimeout(function() {
+				setTimeout(function () {
 					me.update(me);
 				}, me.msTillUpdate);
-			}
-			else {
+			} else {
 				me.stop();
 			}
 		}
 	},
 
-	showTimer: function() {
-		if(this.canvas) {
+	showTimer: function () {
+		if (this.canvas) {
 			var canvas = this.canvas.dom;
 			var context = canvas.getContext("2d");
 			var counterClockwise = false;
@@ -250,19 +249,19 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			context.textAlign = "center";
 			context.textBaseline = "middle";
 
-			if(minutes > 1) {
-				context.fillText(minutes.toString(), x, y-10);
+			if (minutes > 1) {
+				context.fillText(minutes.toString(), x, y - 10);
 				context.font = "20px Segoe UI";
-				context.fillText('Minuten', x, y+20);
-			} else if(minutes > 0) {
+				context.fillText('Minuten', x, y + 20);
+			} else if (minutes > 0) {
 				var seconds = Math.ceil(this.seconds / this.milliseconds);
-				context.fillText(seconds.toString(), x, y-10);
+				context.fillText(seconds.toString(), x, y - 10);
 				context.font = "20px Segoe UI";
-				context.fillText('Sekunden', x, y+20);
+				context.fillText('Sekunden', x, y + 20);
 			} else {
-				context.fillText(0, x, y-10);
+				context.fillText(0, x, y - 10);
 				context.font = "20px Segoe UI";
-				context.fillText('Sekunden', x, y+20);
+				context.fillText('Sekunden', x, y + 20);
 			}
 
 			context.translate(x, y);
@@ -275,8 +274,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 				context.lineWidth = 20;
 				context.strokeStyle = "#4A5C66";
 				context.stroke();
-			}
-			else {
+			} else {
 				context.beginPath();
 				context.arc(x, y, radius, 0 * Math.PI, 2 * Math.PI, counterClockwise);
 				context.lineWidth = 25;
@@ -296,7 +294,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 				context.stroke();
 			}
 
-			context.restore();	
+			context.restore();
 		}
 	}
 });

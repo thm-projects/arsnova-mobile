@@ -60,7 +60,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 			ui: 'confirm',
 			width: 220,
 			scope: this,
-			handler: function(button) {
+			handler: function (button) {
 				button.disable();
 				this.startNewPiRound(this.countdownTimer.slider.getValue() * 60);
 				this.startRoundButton.hide();
@@ -76,10 +76,10 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 			hidden: true,
 			width: 220,
 			scope: this,
-			handler: function(button) {
+			handler: function (button) {
 				button.disable();
-				Ext.Msg.confirm(Messages.END_ROUND, Messages.END_ROUND_WARNING, function(id) {
-					if(id === 'yes') {
+				Ext.Msg.confirm(Messages.END_ROUND, Messages.END_ROUND_WARNING, function (id) {
+					if (id === 'yes') {
 						this.countdownTimer.stop();
 						this.startNewPiRound();
 					}
@@ -106,12 +106,12 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		});
 
 		this.add([
-			this.toolbar, 
+			this.toolbar,
 			{
 				xtype: 'formpanel',
 				scrollable: null,
 				items: [
-					this.roundManagementContainer, 
+					this.roundManagementContainer,
 					this.questionManagementContainer
 				]
 			}
@@ -163,7 +163,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		}
 
 		question.startNewPiRound(delay, {
-			success: function(response) {
+			success: function (response) {
 				console.debug('New question round started.');
 			}
 		});
@@ -214,7 +214,6 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 			}
 			this.endRoundButton.hide();
 			this.questionManagementContainer.show();
-			
 		} else {
 			this.endRoundButton.show();
 			this.startRoundButton.hide();
@@ -229,7 +228,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 
 	cleanupQuestionObj: function (questionObj) {
 		if (questionObj) {
-			questionObj.possibleAnswers.forEach(function(answer) {
+			questionObj.possibleAnswers.forEach(function (answer) {
 				delete answer.formattedText;
 			});
 		}

@@ -18,18 +18,18 @@
  */
 Ext.define("ARSnova.controller.Statistics", {
 	extend: 'Ext.app.Controller',
-	
-	prepareStatistics: function(scope) {
+
+	prepareStatistics: function (scope) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel || ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 
-		if(panel === ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel) {
+		if (panel === ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel) {
 			ARSnova.app.getController('Statistics').prepareSpeakerStatistics(panel);
 		} else {
 			ARSnova.app.getController('Statistics').prepareStudentStatistics(panel, scope);
 		}
 	},
 
-	prepareStudentStatistics: function(panel, scope) {
+	prepareStudentStatistics: function (panel, scope) {
 		panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
 			question: scope.questionObj
 		});
@@ -37,7 +37,7 @@ Ext.define("ARSnova.controller.Statistics", {
 		ARSnova.app.mainTabPanel.animateActiveItem(panel.questionStatisticChart, 'slide');
 	},
 
-	prepareSpeakerStatistics: function(panel) {
+	prepareSpeakerStatistics: function (panel) {
 		var target;
 		var activePanel = panel.getActiveItem();
 		var features = Ext.decode(sessionStorage.getItem("features"));
@@ -55,9 +55,9 @@ Ext.define("ARSnova.controller.Statistics", {
 			}
 		};
 
-		switch(activePanel) {
-			case panel.showcaseQuestionPanel: 
-				questionObj = activePanel.getActiveItem().questionObj;	
+		switch (activePanel) {
+			case panel.showcaseQuestionPanel:
+				questionObj = activePanel.getActiveItem().questionObj;
 				panel.showcaseQuestionPanel.toolbar.statisticsButton.disable();
 				break;
 
@@ -73,14 +73,14 @@ Ext.define("ARSnova.controller.Statistics", {
 			question: questionObj
 		});
 
-		if(enableRoundManagement) {
-			if(!panel.statisticTabPanel) {
+		if (enableRoundManagement) {
+			if (!panel.statisticTabPanel) {
 				panel.statisticTabPanel = Ext.create('ARSnova.view.speaker.StatisticTabPanel');
 			}
 
 			panel.statisticTabPanel.insert(0, panel.questionStatisticChart);
 			panel.statisticTabPanel.setActiveItem(0);
-			target = panel.statisticTabPanel; 
+			target = panel.statisticTabPanel;
 		}
 
 		ARSnova.app.mainTabPanel.animateActiveItem(target, animation);

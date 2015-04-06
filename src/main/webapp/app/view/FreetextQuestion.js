@@ -201,7 +201,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		this.gridQuestion.setGridIsHidden(true);
 	},
 
-	checkPiRoundActivation : function() {},
+	checkPiRoundActivation: function () {},
 
 	getQuestionTypeMessage: function (msgAppendix) {
 		msgAppendix = msgAppendix ? msgAppendix : "";

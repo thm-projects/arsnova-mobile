@@ -78,7 +78,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			this.alreadyRenewed = false;
 		} else {
 			this.activeQuestionId = 0;
-			this.getUnansweredSkillQuestions();	
+			this.getUnansweredSkillQuestions();
 		}
 	},
 

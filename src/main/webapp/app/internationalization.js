@@ -955,7 +955,7 @@
 				FIRST_ROUND: "Round 1",
 				SECOND_ROUND: "Round 2",
 				BOTH_ROUNDS: "Round 1/2",
-				
+
 				/*Public pool*/
 				SESSIONPOOL_LEVEL: "Level",
 				SESSIONPOOL_CLONE: "Copy",

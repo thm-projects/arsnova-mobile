@@ -107,7 +107,7 @@ Ext.define('ARSnova.view.MatrixButton', {
 		var listeners = this.getToggleConfig().listeners;
 
 		this.getToggleConfig().listeners = {
-			initialize: function() {
+			initialize: function () {
 				this.setListeners(listeners);
 			}
 		},
