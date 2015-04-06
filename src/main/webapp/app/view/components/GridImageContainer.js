@@ -51,11 +51,9 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 	 */
 	markChosenFields: function () {
 		var thiz = this;
-		this.getChosenFields().forEach(
-				function (entry) {
-					thiz.markField(entry[0],
-					entry[1], thiz.getHighlightColor(), 0.5);
-				});
+		this.getChosenFields().forEach(function (entry) {
+			thiz.markField(entry[0], entry[1], thiz.getHighlightColor(), 0.5);
+		});
 	},
 
 	/**
@@ -207,8 +205,8 @@ Ext.define('ARSnova.view.components.GridImageContainer', {
 		for (var i = 0; i < this.getGridSizeX(); i++) {
 			for (var j = 0; j < this.getGridSizeY(); j++) {
 				obj = {
-						text: i + ";" + j,
-						correct: false
+					text: i + ";" + j,
+					correct: false
 				};
 				// use chosenFields as right answers
 				for (var k = 0; k < this.getChosenFields().length; k++) {

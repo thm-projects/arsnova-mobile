@@ -138,7 +138,8 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 				disabledCls: 'disableDefault',
 				inputCls: 'thm-grey',
 				disabled: true
-				}, questionPanel
+			},
+			questionPanel
 			]
 		},
 		imgContainer,

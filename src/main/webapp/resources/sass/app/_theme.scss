@@ -137,8 +137,12 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 	bottom: 9px;
 	left: 0;
 	top: auto;
+	padding-left: 10px;
+	padding-right: 15px;
 	right: auto;
 	overflow: hidden;
+	box-sizing: border-box;
+	text-overflow: ellipsis;
 }
 
 .thumbnail-image span.answer-subject {
@@ -148,10 +152,13 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 	font-size:32px;
 	position: absolute;
 	top:50%;
+	padding: 0;
 	width: auto !important;
 	height: auto !important;
-	margin-top: -40px;
-	margin-left:300px;
+	text-overflow: ellipsis;
+	max-width: 350px;
+	margin-top: -80px;
+	margin-left: 280px;
 	color: $thm-grey;
 }
 
@@ -161,8 +168,14 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 	width: auto !important;
 	height: auto !important;
 	top: 50%;
+	word-wrap: break-word;
 	font-size: 20px;
-	margin-left: 300px;
+	margin-top: -20px;
+	max-width: 350px;
+	max-height: 90px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	margin-left: 280px;
 	color: $thm-grey;
 }
 
@@ -215,7 +228,7 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 	}
 }
 
-.x-form-fieldset .x-field {
+.x-form-fieldset .x-field {
 	border-bottom: 1px solid $background;
 }
 

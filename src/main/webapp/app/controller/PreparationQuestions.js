@@ -28,6 +28,8 @@ Ext.define("ARSnova.controller.PreparationQuestions", {
 	listQuestions: function () {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.newQuestionPanel.setVariant('preparation');
+		sTP.sortQuestionsPanel.setController(this);
+		sTP.sortSubjectsPanel.setController(this);
 		sTP.audienceQuestionPanel.setController(this);
 		sTP.showcaseQuestionPanel.setController(this);
 		sTP.showcaseQuestionPanel.setPreparationMode();
@@ -50,5 +52,25 @@ Ext.define("ARSnova.controller.PreparationQuestions", {
 	getQuestions: function () {
 		var question = Ext.create('ARSnova.model.Question');
 		question.getPreparationQuestions.apply(question, arguments);
+	},
+
+	getSubjectSort: function (options) {
+		ARSnova.app.questionModel.getSubjectPreparationSort(sessionStorage.getItem('keyword'),
+			options.callbacks);
+	},
+
+	setSubjectSort: function (options) {
+		ARSnova.app.questionModel.setSubjectPreparationSort(sessionStorage.getItem('keyword'),
+			options.sortType, options.subjects, options.callbacks);
+	},
+
+	getQuestionSort: function (options) {
+		ARSnova.app.questionModel.getQuestionPreparationSort(sessionStorage.getItem('keyword'),
+			options.subject, options.callbacks);
+	},
+
+	setQuestionSort: function (options) {
+		ARSnova.app.questionModel.setQuestionPreparationSort(sessionStorage.getItem('keyword'),
+			options.subject, options.sortType, options.questionIDs, options.callbacks);
 	}
 });

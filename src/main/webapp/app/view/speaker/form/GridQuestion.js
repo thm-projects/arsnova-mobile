@@ -64,10 +64,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.callParent(arguments);
 
 		this.grid = null;
-//		this.grid = Ext.create('ARSnova.view.components.GridModerationContainer', {
-//			docked: 'top',
-//			itemId: 'gridImageContainer'
-//		});
 
 		/**
 		 * The view containing the url textfield and the
@@ -92,11 +88,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		var me = this;
 		this.remove(this.imageArea);
 		this.remove(this.imageCnt);
-
-		// TODO check if necessary
-//		if (this.imageCnt) {
-//			this.remove(this.imageCnt);
-//		}
 
 		this.infoPanel = Ext.create('Ext.Panel', {
 			cls: 'infoPanel',
@@ -353,30 +344,30 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		});
 
 		var toggleColorListener = {
-				beforechange: function (slider, thumb, newValue, oldValue) {
-					me.grid.toggleBorderColor();
-				},
-				change: function (slider, thumb, newValue, oldValue) {
-					me.grid.toggleBorderColor();
-				}
+			beforechange: function (slider, thumb, newValue, oldValue) {
+				me.grid.toggleBorderColor();
+			},
+			change: function (slider, thumb, newValue, oldValue) {
+				me.grid.toggleBorderColor();
+			}
 		};
 
 		var toggleCvBackgroundListener = {
-				beforechange: function (slider, thumb, newValue, oldValue) {
-					me.grid.toggleCvBackground(newValue);
-				},
-				change: function (slider, thumb, newValue, oldValue) {
-					me.grid.toggleCvBackground(this.getValue());
-				}
+			beforechange: function (slider, thumb, newValue, oldValue) {
+				me.grid.toggleCvBackground(newValue);
+			},
+			change: function (slider, thumb, newValue, oldValue) {
+				me.grid.toggleCvBackground(this.getValue());
+			}
 		};
 
 		var toggleMarkAnswers = {
-				beforechange: function (slider, thumb, newValue, oldValue) {
-					me.grid.setToggleFieldsLeft(this.getValue());
-				},
-				change: function (slider, thumb, newValue, oldValue) {
-					me.grid.setToggleFieldsLeft(this.getValue());
-				}
+			beforechange: function (slider, thumb, newValue, oldValue) {
+				me.grid.setToggleFieldsLeft(this.getValue());
+			},
+			change: function (slider, thumb, newValue, oldValue) {
+				me.grid.setToggleFieldsLeft(this.getValue());
+			}
 		};
 
 		this.gridColorsToggle.setListeners(toggleColorListener);
@@ -384,13 +375,12 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.toggleAnswers.setListeners(toggleMarkAnswers);
 
 		var thresholdAnswers = {
-				change: function (slider, thumb, newValue, oldValue) {
-					me.grid.setThresholdCorrectAnswers(newValue);
-				}
+			change: function (slider, thumb, newValue, oldValue) {
+				me.grid.setThresholdCorrectAnswers(newValue);
+			}
 		};
 
 		if (ARSnova.app.globalConfig.features.learningProgress) {
-			//this.correctValueComponent.setListeners(thresholdAnswers);
 			this.ValueOfCorrectAnswers.setListeners(thresholdAnswers);
 		}
 

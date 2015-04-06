@@ -200,8 +200,8 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		for (var i = 0; i < this.getGridSizeX(); i++) {
 			for (var j = 0; j < this.getGridSizeY(); j++) {
 				obj = {
-						text: i + ";" + j,
-						correct: false
+					text: i + ";" + j,
+					correct: false
 				};
 				// do not use chosenFields as right answers
 				values.push(obj);

@@ -22,7 +22,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	requires: [
 		'ARSnova.view.Caption',
 		'ARSnova.model.Question',
-		'ARSnova.view.speaker.MultiQuestionStatusButton'
+		'ARSnova.view.speaker.MultiQuestionStatusButton',
+		'ARSnova.view.speaker.SortQuestionsPanel'
 	],
 
 	config: {
@@ -65,10 +66,12 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 		this.questionStore = Ext.create('Ext.data.JsonStore', {
 			model: 'ARSnova.model.Question',
-			sorters: 'text',
 			grouper: {
 				groupFn: function (record) {
 					return Ext.util.Format.htmlEncode(record.get('subject'));
+				},
+				sorterFn: function (a, b) {
+					return a.raw.sequenceNo - b.raw.sequenceNo;
 				}
 			}
 		});
@@ -186,6 +189,20 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		});
 		this.caption.connectToStore(this.questionStore);
 
+		this.sortQuestionsButton = Ext.create('ARSnova.view.MatrixButton', {
+			hidden: true,
+			buttonConfig: 'icon',
+			text: Messages.SORT_QUESTIONS,
+			imageCls: 'icon-sort thm-grey',
+			cls: 'actionButton',
+			scope: this,
+			handler: function () {
+				var me = this;
+				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+				sTP.animateActiveItem(sTP.sortSubjectsPanel, 'slide');
+			}
+		});
+
 		this.deleteAnswersButton = Ext.create('ARSnova.view.MatrixButton', {
 			hidden: true,
 			buttonConfig: 'icon',
@@ -237,6 +254,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			},
 
 			items: [
+				this.sortQuestionsButton,
 				this.deleteAnswersButton,
 				this.deleteQuestionsButton
 			]
@@ -284,6 +302,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		this.getController().getQuestions(sessionStorage.getItem('keyword'), {
 			success: Ext.bind(function (response) {
 				var questions = Ext.decode(response.responseText);
+				for (var i = 0; i < questions.length; i++) {
+					questions[i].sequenceNo = i;
+				}
 				this.questionStore.add(questions);
 				this.caption.show();
 				this.caption.explainStatus(questions);
@@ -302,6 +323,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.questionList.show();
 				this.questionStatusButton.checkInitialStatus();
 				this.questionStatusButton.show();
+				this.sortQuestionsButton.show();
 				this.deleteQuestionsButton.show();
 			}, this),
 			empty: Ext.bind(function () {
@@ -310,6 +332,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.questionList.show();
 				this.caption.hide();
 				this.questionStatusButton.hide();
+				this.sortQuestionsButton.hide();
 				this.deleteQuestionsButton.hide();
 			}, this),
 			failure: function (response) {
