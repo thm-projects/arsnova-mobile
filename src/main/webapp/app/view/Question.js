@@ -524,6 +524,7 @@ Ext.define('ARSnova.view.Question', {
 
 		this.on('activate', function() {
 			this.answerList.addListener('itemtap', questionListener.itemtap);
+			this.checkPiRoundActivation();
 
 			if (this.viewOnly) {
 				this.setAnswerCount();
@@ -547,8 +548,6 @@ Ext.define('ARSnova.view.Question', {
 		});
 
 		this.on('painted', function() {
-			this.checkPiRoundActivation();
-
 			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 				this.updateEditButtons();
 			}
