@@ -103,12 +103,12 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		});
 
 		this.slider.getComponent().on({
-            scope: this,
-            change: 'onSliderChange',
-            dragstart: 'onSliderDragStart',
-            drag: 'onSliderDrag',
-            dragend: 'onSliderDragEnd'
-        });
+			scope: this,
+			change: 'onSliderChange',
+			dragstart: 'onSliderDragStart',
+			drag: 'onSliderDrag',
+			dragend: 'onSliderDragEnd'
+		});
 	},
 
 	onSliderChange: function (me, thumb, newValue, oldValue) {
