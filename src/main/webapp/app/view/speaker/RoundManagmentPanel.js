@@ -43,7 +43,6 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 				scope: this,
 				handler: function () {
 					ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.statisticTabPanel.setActiveItem(0);
-					ARSnova.app.innerScrollPanel = false;
 				}
 			}]
 		});
@@ -113,11 +112,11 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 			}
 		]);
 
-		this.on('activate', this.onActivate);
+		this.on('painted', this.onPainted);
 		this.onBefore('activate', this.beforeActivate);
 	},
 
-	onActivate: function () {
+	onPainted: function () {
 		ARSnova.app.innerScrollPanel = this;
 	},
 
@@ -129,8 +128,6 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 
 	onTimerStart: function() {
 		this.questionManagementContainer.hide();
-		// activate question
-		// delete all answers
 	},
 
 	onTimerStop: function() {
