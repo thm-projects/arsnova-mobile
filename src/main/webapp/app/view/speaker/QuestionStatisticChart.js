@@ -478,7 +478,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		var fields, percentages,
 			isStacked = false,
 			me = this;
-		
+
 		switch(parseInt(piRound)) {
 			case 1:
 			case 2:
@@ -493,7 +493,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				percentages = ['value-round1', 'value-round2'];
 				this.questionChart.showPercentage = true;
 		}
-				
+
 		// remove all data for a "smooth" redraw
 		this.questionStore.each(function (record) {
 			record.set('value-round1', 0);
@@ -501,7 +501,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			record.set('percent-round1', 0);
 			record.set('percent-round2', 0);
 		});
-		
+
 		// set fields, axes, labels and sprites for pi bar redraw
 		this.questionChart.getSeries()[0].sprites = [];
 		this.questionChart.getAxes()[0].setFields(fields);
@@ -514,7 +514,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		var updateDataTask = Ext.create('Ext.util.DelayedTask', function () {
 			me.getQuestionAnswers();
 		}); 
-		
+
 		updateDataTask.delay(1000);
 	},
 
@@ -616,7 +616,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			// Calculate percentages
 			if (panel.questionObj.questionType === "mc") {
 				store.each(function (record) {
-					var percent = Math.round((record.get('value' + valuePattern) / mcTotalAnswerCount) * 100);
+					var dividend = mcTotalAnswerCount === 0 ? 1 : mcTotalAnswerCount;
+					var percent = Math.round((record.get('value' + valuePattern) / dividend) * 100);
 					var max = Math.max(maxPercentage, percent);
 					record.set('percent' + valuePattern, percent);
 					
@@ -626,7 +627,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			} else {
 				var totalResults = store.sum('value' + valuePattern);
 				store.each(function (record) {
-					var percent = Math.round((record.get('value' + valuePattern) / totalResults) * 100);
+					var dividend = totalResults === 0 ? 1 : totalResults;
+					var percent = Math.round((record.get('value' + valuePattern) / dividend) * 100);
 					var max = Math.max(maxPercentage, percent);
 					record.set('percent' + valuePattern, percent);
 					
