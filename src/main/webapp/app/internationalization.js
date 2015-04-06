@@ -417,6 +417,18 @@
 				IMPORT_IOS_NOTIFICATION: "Ein Import kann auf iOS Geräten nicht durchgeführt werden",
 				IMPORT_NOT_SUPPORTED: "Der Session Import wird für Ihren Browser nicht unterstützt.",
 
+				/*Round managmenet*/
+				POLL_MANAGEMENT: "Abstimmungsverwaltung",
+				ROUND_MANAGEMENT: "Rundenverwaltung",
+				START_FIRST_ROUND: "Starte Runde 1",
+				START_SECOND_ROUND: "Starte Runde 2",
+				END_ROUND_IMMEDIATELY: "Runde sofort beenden",
+				END_ROUND: "Beenden der Abstimmungsrunde",
+				END_ROUND_WARNING: "Wenn die Runde beendet wird, sind keine Abstimmungen mehr möglich bis eine neue Runde gestartet wird oder die Frage manuell entsperrt wird. Möchten Sie fortfahren?",
+				FIRST_ROUND: "Runde 1",
+				SECOND_ROUND: "Runde 2",
+				BOTH_ROUNDS: "Runde 1/2",
+
 				/*Public pool*/
 				SESSIONPOOL_LEVEL: "Niveau",
 				SESSIONPOOL_CLONE: "Kopieren",
@@ -932,6 +944,16 @@
 				IMPORT_IOS_NOTIFICATION: "An import can not be performed on iOS devices.",
 				IMPORT_NOT_SUPPORTED: "Session Import is not supported for your browser.",
 
+				/*Round managmenet*/
+				POLL_MANAGEMENT: "Polling Management",
+				ROUND_MANAGEMENT: "Round Management",
+				END_ROUND_IMMEDIATELY: "Close round immediately",
+				END_ROUND: "Close polling round",
+				END_ROUND_WARNING: "If the current polling round is closed, no more polls are possible until a new round is started or the question is unlocked manually. Would you like to continue?",
+				FIRST_ROUND: "Round 1",
+				SECOND_ROUND: "Round 2",
+				BOTH_ROUNDS: "Round 1/2",
+				
 				/*Public pool*/
 				SESSIONPOOL_LEVEL: "Level",
 				SESSIONPOOL_CLONE: "Copy",

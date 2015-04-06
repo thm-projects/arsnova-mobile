@@ -20,7 +20,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 	extend: 'Ext.Panel',
 
 	config: {
-		title: "Round-Mangement",
+		title: Messages.ROUND_MANAGEMENT,
 		iconCls: 'icon-timer',
 		fullscreen: true,
 		scrollable: {
@@ -55,7 +55,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		});
 
 		this.startRoundButton = Ext.create('Ext.Button', {
-			text: 'Erste Runde starten',
+			text: Messages.START_FIRST_ROUND,
 			style: 'margin: 0 auto;',
 			ui: 'confirm',
 			width: 220,
@@ -68,14 +68,14 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		});
 
 		this.endRoundButton = Ext.create('Ext.Button', {
-			text: 'Runde sofort beenden',
+			text: Messages.END_ROUND_IMMEDIATELY,
 			style: 'margin: 0 auto;',
 			ui: 'decline',
 			hidden: true,
 			width: 220,
 			scope: this,
 			handler: function() {
-				Ext.Msg.confirm('Beenden der Abstimmungsrunde', 'Wenn die Runde beendet wird, sind keine Abstimmungen mehr möglich bis eine neue Runde gestartet wird oder die Frage manuell entsperrt wird. Möchten Sie fortfahren?', function(id) {
+				Ext.Msg.confirm(Messages.END_ROUND, Messages.END_ROUND_WARNING, function(id) {
 					if(id === 'yes') {
 						this.countdownTimer.stop();
 						this.startNewPiRound();
@@ -91,7 +91,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		});
 
 		this.roundManagementContainer = Ext.create('Ext.form.FieldSet', {
-			title: 'Abstimmungsverwaltung',
+			title: Messages.POLL_MANAGEMENT,
 			cls: 'centerFormTitle',
 			items: [
 				this.countdownTimer,
@@ -195,11 +195,11 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		if(!questionObj.piRoundActive) {
 			if(questionObj.piRound === 1) {
 				if(!questionObj.piRoundFinished) {
-					this.startRoundButton.setText('Erste Runde starten');
+					this.startRoundButton.setText(Messages.START_FIRST_ROUND);
 					this.countdownTimer.slider.show();
 					this.startRoundButton.show();
 				} else if(questionObj.piRoundFinished) {
-					this.startRoundButton.setText('Zweite Runde starten');
+					this.startRoundButton.setText(Messages.START_SECOND_ROUND);
 					this.countdownTimer.slider.show();
 					this.startRoundButton.show();
 				}

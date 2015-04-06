@@ -234,13 +234,13 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					},
 					hidden: true,
 					items: [{
-							text: 'Round 1',
+							text: Messages.FIRST_ROUND,
 							itemId: '1'
 						}, {
-							text: 'Round 2',
+							text: Messages.SECOND_ROUND,
 							itemId: '2'
 						}, {
-							text: 'Round 1/2',
+							text: Messages.BOTH_ROUNDS,
 							itemId: '3'
 						}
 				    ],
