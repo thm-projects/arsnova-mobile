@@ -402,6 +402,12 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 							gradient = panel.abstentionGradient :
 							gradient = panel.gradients[i % panel.gradients.length];
 
+					if(panel.questionChart.showPercentage) {
+						if(sprite.getField() === "percent-round1") {
+							gradient = panel.alternativeGradients[i % panel.alternativeGradients.length];
+						}
+					}
+
 					return {fill: gradient};
 				}
 			}]
@@ -503,7 +509,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		this.questionChart.getSeries()[0].setStacked(isStacked);
 		this.questionChart.getSeries()[0].getLabel().getTemplate().setField(percentages);
 		this.questionChart.redraw();
-		
+
 		// delayed answers update for a "smooth" redraw
 		var updateDataTask = Ext.create('Ext.util.DelayedTask', function () {
 			me.getQuestionAnswers();
@@ -742,6 +748,10 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			this.gradients = this.getDefaultGradients();
 		}
 
+		if(!this.alternativeGradients) {
+			this.alternativeGradients = this.createLighterGradients(this.getDefaultGradients());
+		}
+
 		this.abstentionGradient = Ext.create('Ext.draw.gradient.Linear', {
 			degrees: 90,
 			stops: [
@@ -845,5 +855,36 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				]
 			})
 		];
-	}
+	},
+
+	createLighterGradients: function (gradients) {
+		var lum = 0.15;
+		var lighterGradients = [];
+
+		gradients.forEach(function(gradient) {
+			var hex = String(gradient.getStops()[0].color).replace(/[^0-9a-f]/gi, '');
+			if (hex.length < 6) {
+				hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+			}
+			lum = lum || 0;
+
+			// convert to decimal and change luminosity
+			var stopColor = "#", c, i;
+			for (i = 0; i < 3; i++) {
+				c = parseInt(hex.substr(i*2,2), 16);
+				c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+				stopColor += ("00"+c).substr(c.length);
+			}
+
+			lighterGradients.push(Ext.create('Ext.draw.gradient.Linear', {
+				degrees: 90,
+				stops: [
+					{offset: 0, color: stopColor},
+					{offset: 100, color: stopColor}
+				]
+			}));
+		});
+
+		return lighterGradients;
+	},
 });
