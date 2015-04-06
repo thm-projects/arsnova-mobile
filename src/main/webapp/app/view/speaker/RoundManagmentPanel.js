@@ -60,10 +60,12 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 			ui: 'confirm',
 			width: 220,
 			scope: this,
-			handler: function() {
+			handler: function(button) {
+				button.disable();
 				this.startNewPiRound(this.countdownTimer.slider.getValue() * 60);
 				this.startRoundButton.hide();
 				this.endRoundButton.show();
+				button.enable();
 			}
 		});
 
@@ -74,12 +76,15 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 			hidden: true,
 			width: 220,
 			scope: this,
-			handler: function() {
+			handler: function(button) {
+				button.disable();
 				Ext.Msg.confirm(Messages.END_ROUND, Messages.END_ROUND_WARNING, function(id) {
 					if(id === 'yes') {
 						this.countdownTimer.stop();
 						this.startNewPiRound();
 					}
+
+					button.enable();
 				}, this);
 			}
 		});
