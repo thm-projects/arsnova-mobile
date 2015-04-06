@@ -232,6 +232,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	/* will be called on session login */
 	registerListeners: function () {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
+		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.startDelayedPiRound, panel.delayedPiRound, panel);
 		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.lecturerQuestionAvailable, panel.questionAvailable, panel);
 		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.unansweredLecturerQuestions, panel.checkLecturerQuestions, panel);
 		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.unansweredPreparationQuestions, panel.checkPreparationQuestions, panel);
@@ -261,6 +262,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	/* will be called on session logout */
 	destroyListeners: function () {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
+		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.startDelayedPiRound, panel.delayedPiRound, panel);
 		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.lecturerQuestionAvailable, panel.questionAvailable, panel);
 		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.unansweredLecturerQuestions, panel.checkLecturerQuestions, panel);
 		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.unansweredPreparationQuestions, panel.checkPreparationQuestions, panel);
@@ -278,6 +280,10 @@ Ext.define('ARSnova.view.user.InClass', {
 
 	questionAvailable: function (question) {
 		this.showNotification([question._id], question.variant);
+	},
+
+	delayedPiRound: function (question) {
+		this.showNotification([question.id], question.variant, true);
 	},
 
 	checkLecturerQuestions: function (questionIds) {
@@ -319,14 +325,14 @@ Ext.define('ARSnova.view.user.InClass', {
 		return showNotification;
 	},
 
-	showNotification: function (questionIds, variant) {
+	showNotification: function (questionIds, variant, newRound) {
 		var titleLabel;
 		var callback = Ext.bind(function (answer) {
 			if (answer === 'yes') {
 				if (variant === 'lecture') {
-					ARSnova.app.getController('Questions').lectureIndex({renew: true});
+					ARSnova.app.getController('Questions').lectureIndex({renew: true, id: questionIds[0]});
 				} else {
-					ARSnova.app.getController('Questions').preparationIndex({renew: true});
+					ARSnova.app.getController('Questions').preparationIndex({renew: true, id: questionIds[0]});
 				}
 			}
 		}, this);
@@ -336,7 +342,11 @@ Ext.define('ARSnova.view.user.InClass', {
 				Messages.ONE_NEW_LECTURE_QUESTION :
 				Messages.ONE_NEW_PREPARATION_QUESTION;
 
-			Ext.Msg.confirm(titleLabel, Messages.WANNA_ANSWER, callback);
+			if(newRound) {
+				Ext.Msg.confirm(titleLabel, Messages.ONE_NEW_DELAYED_QUESTION + "<br>" + Messages.WANNA_ANSWER, callback);
+			} else {
+				Ext.Msg.confirm(titleLabel, Messages.WANNA_ANSWER, callback);	
+			}
 		} else {
 			titleLabel = variant === 'lecture' ?
 				Messages.SEVERAL_NEW_LECTURE_QUESTIONS :

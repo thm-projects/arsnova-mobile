@@ -74,7 +74,12 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	},
 
 	onActivate: function () {
-		this.getUnansweredSkillQuestions();
+		if(this.alreadyRenewed) {
+			this.alreadyRenewed = false;
+		} else {
+			this.activeQuestionId = 0;
+			this.getUnansweredSkillQuestions();	
+		}
 	},
 
 	onItemChange: function (panel, newQuestion, oldQuestion) {
@@ -160,6 +165,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				ARSnova.app.answerModel.getAnswerByUserAndSession(sessionStorage.getItem("keyword"), {
 					success: function (response) {
 						var answers = Ext.decode(response.responseText);
+						var activeIndex = -1;
+						var index = 0;
 
 						answers.forEach(function (answer) {
 							if (questionsArr[answer.questionId]) {
@@ -171,15 +178,25 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 						});
 						questionIds.forEach(function (questionId) {
 							userQuestionsPanel.addQuestion(questionsArr[questionId]);
+
+							if(questionId === self.activeQuestionId) {
+								activeIndex = index;
+							}
+
+							index++;
 						});
 
 						// bugfix (workaround): after removing all items from carousel the active index
 						// is set to -1. To fix that you have manually  set the activeItem on the first
 						// question.
 						self.setActiveItem(0);
-
 						userQuestionsPanel.checkAnswer();
-						userQuestionsPanel.showNextUnanswered();
+
+						if(activeIndex !== -1) {
+							userQuestionsPanel.setActiveItem(activeIndex);
+						} else {
+							userQuestionsPanel.showNextUnanswered();
+						}
 					},
 					failure: function (response) {
 						console.log('error');
@@ -364,8 +381,10 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		}
 	},
 
-	renew: function () {
+	renew: function (questionId) {
 		this.removeAll();
+		this.alreadyRenewed = true;
+		this.activeQuestionId = questionId;
 		this.getUnansweredSkillQuestions();
 	},
 

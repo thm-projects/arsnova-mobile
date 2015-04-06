@@ -39,7 +39,7 @@ Ext.define("ARSnova.controller.Questions", {
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.backButton.show();
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.setTitle(Messages.LECTURE_QUESTIONS);
 		if (options && options.renew) {
-			ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.renew();
+			ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.renew(options.id);
 		}
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.addListener('deactivate', function (panel) {
@@ -52,7 +52,7 @@ Ext.define("ARSnova.controller.Questions", {
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.backButton.show();
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.setTitle(Messages.PREPARATION_QUESTIONS);
 		if (options && options.renew) {
-			ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.renew();
+			ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.renew(options.id);
 		}
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.addListener('deactivate', function (panel) {
