@@ -833,6 +833,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 	onActivate: function () {
 		this.getPossibleAnswers();
+		this.updateActionButtons();
 
 		if (this.hasCorrectAnswers) {
 			this.firstRow.add(this.showCorrectAnswerButton);
