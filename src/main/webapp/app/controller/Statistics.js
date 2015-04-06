@@ -42,6 +42,7 @@ Ext.define("ARSnova.controller.Statistics", {
 		var activePanel = panel.getActiveItem();
 		var features = Ext.decode(sessionStorage.getItem("features"));
 		var questionObj = panel.getActiveItem().questionObj;
+		var enableRoundManagement = features && features.pi;
 
 		var animation = {
 			type: 'slide',
@@ -67,11 +68,12 @@ Ext.define("ARSnova.controller.Statistics", {
 			default:
 		}
 
+		enableRoundManagement = enableRoundManagement && questionObj.questionType !== 'grid';
 		target = panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
 			question: questionObj
 		});
 
-		if(features && features.pi) {
+		if(enableRoundManagement) {
 			if(!panel.statisticTabPanel) {
 				panel.statisticTabPanel = Ext.create('ARSnova.view.speaker.StatisticTabPanel');
 			}
