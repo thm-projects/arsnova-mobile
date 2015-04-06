@@ -487,7 +487,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				this.questionChart.showPercentage = false;
 				isStacked = true;
 				break;
-			case 3:
 			default:
 				fields = ['percent-round1', 'percent-round2'];
 				percentages = ['value-round1', 'value-round2'];

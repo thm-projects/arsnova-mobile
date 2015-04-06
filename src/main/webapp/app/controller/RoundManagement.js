@@ -40,7 +40,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 	},
 
 	updateQuestionOnRoundStart: function (question, object) {
-		if (question.questionObj.piRoundFinished && question.questionObj.piRound == 1) {
+		if (question.questionObj.piRoundFinished && question.questionObj.piRound === 1) {
 			question.questionObj.piRound = 2;
 		}
 
