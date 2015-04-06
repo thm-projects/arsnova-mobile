@@ -83,7 +83,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		this.onAfter('painted', function () {
 			ARSnova.app.innerScrollPanel = this;
 
-			if(this.getActiveItem()) {
+			if (this.getActiveItem()) {
 				this.getActiveItem().checkPiRoundActivation();
 			}
 		});

@@ -144,7 +144,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 		]);
 	},
 
-	updateData: function(questionObj) {
+	updateData: function (questionObj) {
 		var active = questionObj.active,
 			showAnswer = questionObj.showAnswer ? 1 : 0,
 			showStatistic = questionObj.showStatistic ? 1 : 0;

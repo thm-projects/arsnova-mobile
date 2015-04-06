@@ -342,10 +342,10 @@ Ext.define('ARSnova.view.user.InClass', {
 				Messages.ONE_NEW_LECTURE_QUESTION :
 				Messages.ONE_NEW_PREPARATION_QUESTION;
 
-			if(newRound) {
+			if (newRound) {
 				Ext.Msg.confirm(titleLabel, Messages.ONE_NEW_DELAYED_QUESTION + "<br>" + Messages.WANNA_ANSWER, callback);
 			} else {
-				Ext.Msg.confirm(titleLabel, Messages.WANNA_ANSWER, callback);	
+				Ext.Msg.confirm(titleLabel, Messages.WANNA_ANSWER, callback);
 			}
 		} else {
 			titleLabel = variant === 'lecture' ?

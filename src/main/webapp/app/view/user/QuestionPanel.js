@@ -74,7 +74,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	},
 
 	onActivate: function () {
-		if(this.alreadyRenewed) {
+		if (this.alreadyRenewed) {
 			this.alreadyRenewed = false;
 		} else {
 			this.activeQuestionId = 0;
@@ -179,7 +179,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 						questionIds.forEach(function (questionId) {
 							userQuestionsPanel.addQuestion(questionsArr[questionId]);
 
-							if(questionId === self.activeQuestionId) {
+							if (questionId === self.activeQuestionId) {
 								activeIndex = index;
 							}
 
@@ -192,7 +192,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 						self.setActiveItem(0);
 						userQuestionsPanel.checkAnswer();
 
-						if(activeIndex !== -1) {
+						if (activeIndex !== -1) {
 							userQuestionsPanel.setActiveItem(activeIndex);
 						} else {
 							userQuestionsPanel.showNextUnanswered();
