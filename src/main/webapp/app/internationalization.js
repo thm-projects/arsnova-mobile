@@ -27,19 +27,21 @@
 	var lang;
 	var Messages;
 
-	try {
-		lang = localStorage.getItem("language");
-	} catch (e) {}
-
-	if (!lang && isAndroid && !isChrome && navigator.userAgent &&
+	if (isAndroid && !isChrome && navigator.userAgent &&
 			(lang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i))) {
 		lang = lang[1];
 	} else {
-		/* navigator.languages is preferred since navigator.language stores the UI
-		 * language instead of the user preference in some browsers. */
-		lang = navigator.languages && navigator.languages.length > 0 ?
-			navigator.languages[0] :
-			navigator.language;
+		try {
+			lang = localStorage.getItem("language");
+		} catch (e) {}
+
+		if (!lang) {
+			/* navigator.languages is preferred since navigator.language stores the UI
+			 * language instead of the user preference in some browsers. */
+			lang = navigator.languages && navigator.languages.length > 0 ?
+				navigator.languages[0] :
+				navigator.language;
+		}
 	}
 
 	if (lang) {
