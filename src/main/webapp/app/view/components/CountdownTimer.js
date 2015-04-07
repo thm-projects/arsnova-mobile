@@ -253,16 +253,16 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			if (minutes > 1) {
 				context.fillText(minutes.toString(), x, y - 10);
 				context.font = "20px Segoe UI";
-				context.fillText('Minuten', x, y + 20);
+				context.fillText(Messages.MINUTES, x, y + 20);
 			} else if (minutes > 0) {
 				var seconds = Math.ceil(this.seconds / this.milliseconds);
 				context.fillText(seconds.toString(), x, y - 10);
 				context.font = "20px Segoe UI";
-				context.fillText('Sekunden', x, y + 20);
+				context.fillText(Messages.SECONDS, x, y + 20);
 			} else {
 				context.fillText(0, x, y - 10);
 				context.font = "20px Segoe UI";
-				context.fillText('Sekunden', x, y + 20);
+				context.fillText(Messages.SECONDS, x, y + 20);
 			}
 
 			context.translate(x, y);
