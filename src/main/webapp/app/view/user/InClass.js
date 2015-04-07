@@ -190,7 +190,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		this.inClass = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			items: [{
-				cls: 'gravure',
+				cls: 'gravure selectable',
 				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(sessionStorage.getItem("keyword"))
 			}, this.actionButtonPanel, this.inClassButtons]
 		});
