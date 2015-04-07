@@ -65,9 +65,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		this.callParent(arguments);
 
 		var me = this;
-		var features = Ext.decode(sessionStorage.getItem('features'));
-		this.piActivated = features.pi;
 		this.questionObj = args.question;
+		var features = Ext.decode(sessionStorage.getItem('features'));
+		this.piActivated = features && features.pi && this.questionObj.questionType !== 'grid';
 
 		this.questionStore = Ext.create('Ext.data.Store', {
 			fields: [
@@ -535,8 +535,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				record.set('value' + valuePattern, 0);
 			}
 
-			for (i = 0; i < panel.questionObj.possibleAnswers.length; i++) {
-				el = panel.questionObj.possibleAnswers[i];
+			for (i = 0; i < me.questionObj.possibleAnswers.length; i++) {
+				el = me.questionObj.possibleAnswers[i];
 				if (el.data) {
 					tmpPossibleAnswers.push(el.data.text);
 				} else {
@@ -613,7 +613,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			}
 
 			// Calculate percentages
-			if (panel.questionObj.questionType === "mc") {
+			if (me.questionObj.questionType === "mc") {
 				store.each(function (record) {
 					var dividend = mcTotalAnswerCount === 0 ? 1 : mcTotalAnswerCount;
 					var percent = Math.round((record.get('value' + valuePattern) / dividend) * 100);
