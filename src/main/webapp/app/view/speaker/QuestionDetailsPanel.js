@@ -284,6 +284,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							panel.formatAnswerText();
 							panel.addAbstentionAnswer();
 							panel.getQuestionAnswers();
+							panel.setCorrectAnswerToggleState();
 
 							if (panel.questionObj.questionType === 'flashcard') {
 								panel.answerListPanel.setContent(
@@ -834,6 +835,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	onActivate: function () {
 		this.getPossibleAnswers();
 		this.updateActionButtons();
+		this.setCorrectAnswerToggleState();
 
 		if (this.hasCorrectAnswers) {
 			this.firstRow.add(this.showCorrectAnswerButton);
@@ -852,6 +854,14 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 	onPainted: function () {
 		this.updateActionButtons();
+	},
+
+	setCorrectAnswerToggleState: function () {
+		if (this.questionObj.noCorrect) {
+			this.showCorrectAnswerButton.hide();
+		} else {
+			this.showCorrectAnswerButton.show();
+		}
 	},
 
 	updateActionButtons: function () {
