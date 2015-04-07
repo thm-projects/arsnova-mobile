@@ -174,6 +174,7 @@ Ext.define('ARSnova.view.Question', {
 		};
 
 		this.mcAbstentionHandler = function () {
+			self.answerList.deselectAll();
 			Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
 				if (button !== 'yes') {
 					return;
