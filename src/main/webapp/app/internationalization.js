@@ -951,6 +951,8 @@
 				/*Round managmenet*/
 				POLL_MANAGEMENT: "Polling Management",
 				ROUND_MANAGEMENT: "Round Management",
+				START_FIRST_ROUND: "Start round 1",
+				START_SECOND_ROUND: "Start round 2",
 				END_ROUND_IMMEDIATELY: "Close round immediately",
 				END_ROUND: "Close polling round",
 				END_ROUND_WARNING: "If the current polling round is closed, no more polls are possible until a new round is started or the question is unlocked manually. Would you like to continue?",
