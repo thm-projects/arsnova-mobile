@@ -358,8 +358,6 @@
 				GRID_LABEL_ZOOM: "Zoom (in %)",
 				GRID_LABEL_FIELD_X: "Anzahl Felder an x-Achse",
 				GRID_LABEL_FIELD_Y: "Anzahl Felder an y-Achse",
-				GRID_LABEL_WEAKEN_IMAGE: "Bild abschwächen",
-				GRID_LABEL_SHOW_HEATMAP: "Heatmap anzeigen",
 				GRID_LABEL_HEATMAP: "Heatmap",
 				GRID_LABEL_HEATMAP_SHORT: "HM",
 				GRID_LABEL_SHOW_PERCENT: "Zeige Resultate",
@@ -517,6 +515,8 @@
 				DELETE_SESSION: "Session<br/>löschen",
 				GIVE_FEEDBACK: "Feedback<br/>geben",
 				QUESTION_REQUEST_ADHOC: 'Ich habe eine<br/>Frage',
+				GRID_LABEL_WEAKEN_IMAGE: "Bild<br>abschwächen",
+				GRID_LABEL_SHOW_HEATMAP: "Heatmap<br>anzeigen",
 
 				/* about */
 				INFO: "Handbuch",
@@ -887,8 +887,6 @@
 				GRID_LABEL_SQUARES: "Squares per edge",
 				GRID_LABEL_FIELD_X: "Number of fields on x-axis",
 				GRID_LABEL_FIELD_Y: "Number of fields on y-axis",
-				GRID_LABEL_WEAKEN_IMAGE: "Transparent image",
-				GRID_LABEL_SHOW_HEATMAP: "Show heatmap",
 				GRID_LABEL_HEATMAP: "Heatmap",
 				GRID_LABEL_HEATMAP_SHORT: "HM",
 				GRID_LABEL_SHOW_PERCENT: "Show results",
@@ -1045,6 +1043,8 @@
 				DELETE_SESSION: "Delete<br/>session",
 				GIVE_FEEDBACK: "Give instant<br/>feedback",
 				QUESTION_REQUEST_ADHOC: "I've got a<br/>question",
+				GRID_LABEL_WEAKEN_IMAGE: "Transparent<br>image",
+				GRID_LABEL_SHOW_HEATMAP: "Show<br>heatmap",
 
 				/* about */
 				INFO: "Manual",
