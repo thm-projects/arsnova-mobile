@@ -203,7 +203,11 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 		}]);
 
 		this.on('activate', function () {
-			ARSnova.app.innerScrollPanel = this.imageAnswerList;
+			// This disables mouse scrolling until there are answers available.
+			// As long as the answer list is empty, it does not have a scrollable!
+			if (this.imageAnswerList.getActiveItem().getScrollable) {
+				ARSnova.app.innerScrollPanel = this.imageAnswerList;
+			}
 			ARSnova.app.taskManager.start(this.checkFreetextAnswersTask);
 		}, this);
 
@@ -213,8 +217,10 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 		}, this);
 
 		this.on('painted', function () {
-			ARSnova.app.innerScrollPanel = this.imageAnswerList;
-		});
+			if (this.imageAnswerList.getActiveItem().getScrollable) {
+				ARSnova.app.innerScrollPanel = this.imageAnswerList;
+			}
+		}, this);
 	},
 
 	checkFreetextAnswers: function () {
