@@ -330,9 +330,9 @@ Ext.define('ARSnova.view.user.InClass', {
 		var callback = Ext.bind(function (answer) {
 			if (answer === 'yes') {
 				if (variant === 'lecture') {
-					ARSnova.app.getController('Questions').lectureIndex({renew: true, id: questionIds[0]});
+					ARSnova.app.getController('Questions').lectureIndex({renew: true, ids: questionIds});
 				} else {
-					ARSnova.app.getController('Questions').preparationIndex({renew: true, id: questionIds[0]});
+					ARSnova.app.getController('Questions').preparationIndex({renew: true, ids: questionIds});
 				}
 			}
 		}, this);

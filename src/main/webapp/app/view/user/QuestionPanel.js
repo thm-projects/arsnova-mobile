@@ -77,7 +77,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		if (this.alreadyRenewed) {
 			this.alreadyRenewed = false;
 		} else {
-			this.activeQuestionId = 0;
+			this.activeQuestionIds = [];
 			this.getUnansweredSkillQuestions();
 		}
 	},
@@ -179,7 +179,10 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 						questionIds.forEach(function (questionId) {
 							userQuestionsPanel.addQuestion(questionsArr[questionId]);
 
-							if (questionId === self.activeQuestionId) {
+							// Select one of the new questions that have been added by the lecturer.
+							// The list of new questions is not sorted, so we select the first question that
+							// matches the ID of one of the new questions.
+							if (self.activeQuestionIds.indexOf(questionId) !== -1 && activeIndex === -1) {
 								activeIndex = index;
 							}
 
@@ -381,10 +384,10 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		}
 	},
 
-	renew: function (questionId) {
+	renew: function (questionIds) {
 		this.removeAll();
 		this.alreadyRenewed = true;
-		this.activeQuestionId = questionId;
+		this.activeQuestionIds = questionIds;
 		this.getUnansweredSkillQuestions();
 	},
 
