@@ -185,12 +185,16 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					this.questionStore.each(function (record) {
 						data.push({
 							text: record.get('text'),
-							value: record.get('value'),
-							percent: record.get('percent')
+							"value-round1": record.get('value-round1'),
+							"value-round2": record.get('value-round2'),
+							"percent-round1": record.get('percent-round1'),
+							"percent-round2": record.get('percent-round2')
 						});
 
-						record.set('value', 0);
-						record.set('percent', 0);
+						record.set('value-round1', 0);
+						record.set('value-round2', 0);
+						record.set('percent-round1', 0);
+						record.set('percent-round2', 0);
 					});
 
 					var updateDataTask = Ext.create('Ext.util.DelayedTask', function () {
