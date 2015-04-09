@@ -77,11 +77,26 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: Messages.STATISTIC,
+			cls: 'answerStatisticToolbar',
 			docked: 'top',
 			ui: 'light',
-			items: [this.backButton]
+			items: [this.backButton, {
+				xtype: 'spacer'
+			}, {
+				flex: 99,
+				xtype: 'title',
+				title: this.questionObj.subject
+			}, {
+				xtype: 'spacer'
+			}]
 		});
+
+		// Create standard panel with framework support
+		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			cls: "roundedBox center"
+		});
+
+		questionPanel.setContent(this.questionObj.text, true, true);
 
 		this.noAnswersLabel = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
@@ -144,7 +159,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			width: '100%',
 			flex: 1,
 			scrollable: null,
-			items: [this.noAnswersLabel, this.freetextAnswerList]
+			items: [questionPanel, this.noAnswersLabel, this.freetextAnswerList]
 		}]);
 
 		this.on('activate', function () {
