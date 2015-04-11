@@ -30,7 +30,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 
 		this.boldButton = Ext.create('Ext.Button', {
             cls: 'markdownButton',
-            iconCls: 'fa-bold thm-grey',
+            iconCls: 'icon-editor-bold',
             tooltip: 'Bold',
             scope: this,
             handler: function () {
@@ -56,7 +56,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 
         this.headerButton = Ext.create('Ext.Button', {
             cls: 'markdownButton',
-            iconCls: 'fa-header thm-grey',
+            iconCls: 'icon-editor-header',
             tooltip: 'Header 1-3',
             scope: this,
             handler: function () {
@@ -81,7 +81,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
         });
 
         this.linkButton = Ext.create('Ext.Button', {
-            iconCls: 'fa-link thm-grey',
+            iconCls: 'icon-editor-hyperlink',
             cls: 'markdownButton',
             tooltip: 'HyperLink',
             scope: this,
@@ -109,7 +109,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
         });
         
         this.ulButton = Ext.create('Ext.Button', {
-            iconCls: 'fa-ul thm-grey',
+            iconCls: 'icon-editor-ul',
             cls: 'markdownButton',
             tooltip: 'Unordered List',
             scope: this,
@@ -135,7 +135,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
         });
         
         this.olButton = Ext.create('Ext.Button', {
-            iconCls: 'fa-ol thm-grey',
+            iconCls: 'icon-editor-ol',
             cls: 'markdownButton',
             tooltip: 'Ordered List',
             scope: this,
@@ -161,7 +161,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
         });
         
         this.latexButton = Ext.create('Ext.Button', {
-            iconCls: 'fa-latex thm-grey',
+            iconCls: 'icon-editor-script',
             cls: 'markdownButton',
             tooltip: 'LaTeX-Formula',
             scope: this,
@@ -187,7 +187,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
         });
         
         this.codeButton = Ext.create('Ext.Button', {
-            iconCls: 'fa-code thm-grey',
+            iconCls: 'icon-editor-code',
             cls: 'markdownButton',
             tooltip: 'Source Code Highlighter',
             scope: this,
@@ -213,7 +213,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
         });
         
         this.quoteButton = Ext.create('Ext.Button', {
-            iconCls: 'fa-quote thm-grey',
+            iconCls: 'icon-editor-quote',
             cls: 'markdownButton',
             tooltip: 'Quotation',
             scope: this,
@@ -239,7 +239,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
         });
         
         this.picButton = Ext.create('Ext.Button', {
-            iconCls: 'fa-pic thm-grey',
+            iconCls: 'icon-editor-image',
             cls: 'markdownButton',
             tooltip: 'Picture Upload',
             scope: this,
@@ -265,9 +265,9 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
             this.textarea.focus();
             }
         });
-        
+
         this.youtubeButton = Ext.create('Ext.Button', {
-            iconCls: 'fa-youtube thm-grey',
+            iconCls: 'icon-editor-youtube',
             cls: 'markdownButton',
             tooltip: 'Embed Video',
             scope: this,
@@ -277,7 +277,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
         });
 
         this.vimeoButton = Ext.create('Ext.Button', {
-            iconCls: 'fa-vimeo thm-grey',
+            iconCls: 'icon-editor-vimeo',
             cls: 'markdownButton',
             tooltip: 'Embed Video',
             scope: this,
@@ -314,7 +314,8 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
         });
         this.add(this.editorPanel);
     },
-    setAreas: function (text) {
-        this.textarea=text;
-    }
+
+	setAreas: function (text) {
+		this.textarea=text;
+	}
 });
