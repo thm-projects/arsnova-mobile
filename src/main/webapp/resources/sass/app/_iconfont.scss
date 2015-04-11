@@ -85,6 +85,18 @@
 @include icon("icon-horizontal-list" , "\f0c9", "arsnova");
 @include icon("icon-vertical-list" , "\f142", "arsnova");
 
+@include icon("icon-editor-bold" , "\f032", "arsnova");
+@include icon("icon-editor-header" , "\f1dc", "arsnova");
+@include icon("icon-editor-hyperlink" , "\f0ac", "arsnova");
+@include icon("icon-editor-ul" , "\f0ca", "arsnova");
+@include icon("icon-editor-ol" , "\f0cb", "arsnova");
+@include icon("icon-editor-script" , "\f12b", "arsnova");
+@include icon("icon-editor-code" , "\f121", "arsnova");
+@include icon("icon-editor-quote" , "\f10e", "arsnova");
+@include icon("icon-editor-image" , "\f1c5", "arsnova");
+@include icon("icon-editor-youtube" , "\f167", "arsnova");
+@include icon("icon-editor-vimeo" , "\f194", "arsnova");
+
 .icon-logo {
 	font-size: 3em;
 	text-align: center;
