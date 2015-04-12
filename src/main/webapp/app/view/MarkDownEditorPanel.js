@@ -20,230 +20,83 @@
 Ext.define('ARSnova.view.MarkDownEditorPanel', {
 	extend: 'Ext.Panel',
 
-	textarea: null,
-
-	constructor: function (config) {
-		this.callParent(config);
+	config: {
+		processElement: null
 	},
 
-	initialize: function () {
+	initialize: function (args) {
+		this.callParent(args);
 
 		this.boldButton = Ext.create('Ext.Button', {
-            cls: 'markdownButton',
-            iconCls: 'icon-editor-bold',
-            tooltip: 'Bold',
-            scope: this,
-            handler: function () {
-                this.textarea.focus();
-                var start = this.textarea.getComponent().input.dom.selectionStart;
-                var end = this.textarea.getComponent().input.dom.selectionEnd;
-                var sel = this.textarea.getValue().substring(start, end);
-                var preSel = this.textarea.getValue().substring(0, start);
-                var postSel = this.textarea.getValue().substring(end, this.textarea.getValue().length);
-                if (this.textarea.getValue().substring(start - 2, start) == "**" && this.textarea.getValue().substring(end, end + 2) == "**") {
-                    preSel = this.textarea.getValue().substring(0, start - 2);
-                    postSel = this.textarea.getValue().substring(end + 2, this.textarea.getValue().length);
-                    this.textarea.setValue(preSel + sel + postSel);
-                    this.textarea.getComponent().input.dom.selectionStart = start - 2;
-                    this.textarea.getComponent().input.dom.selectionEnd = end - 2;
-                } else {
-                    this.textarea.setValue(preSel + "**" + sel + "**" + postSel);
-                    this.textarea.getComponent().input.dom.selectionStart = start + 2;
-                    this.textarea.getComponent().input.dom.selectionEnd = end + 2;
-                }
-            }
-        });
+			cls: 'markdownButton',
+			iconCls: 'icon-editor-bold',
+			escapeString: '**',
+			biliteral: true,
+			tooltip: 'Bold',
+			handler: this.formatHandler
+		});
 
-        this.headerButton = Ext.create('Ext.Button', {
-            cls: 'markdownButton',
-            iconCls: 'icon-editor-header',
-            tooltip: 'Header 1-3',
-            scope: this,
-            handler: function () {
-                this.textarea.focus();
-                var start = this.textarea.getComponent().input.dom.selectionStart;
-                var end = this.textarea.getComponent().input.dom.selectionEnd;
-                var sel = this.textarea.getValue().substring(start, end);
-                var preSel = this.textarea.getValue().substring(0, start);
-                var postSel = this.textarea.getValue().substring(end, this.textarea.getValue().length);
-                if (this.textarea.getValue().substring(start - 3, start) == "###" && this.textarea.getValue().substring(end, end + 3) == "###") {
-                    preSel = this.textarea.getValue().substring(0, start - 3);
-                    postSel = this.textarea.getValue().substring(end + 3, this.textarea.getValue().length);
-                    this.textarea.setValue(preSel + sel + postSel);
-                    this.textarea.getComponent().input.dom.selectionStart = start - 3;
-                    this.textarea.getComponent().input.dom.selectionEnd = end - 3;
-                } else {
-                    this.textarea.setValue(preSel + "#" + sel + "#" + postSel);
-                    this.textarea.getComponent().input.dom.selectionStart = start + 1;
-                    this.textarea.getComponent().input.dom.selectionEnd = end + 1;
-                }
-            }
-        });
+		this.headerButton = Ext.create('Ext.Button', {
+			cls: 'markdownButton',
+			iconCls: 'icon-editor-header',
+			applyString: '#',
+			escapeString: '###',
+			biliteral: true,
+			tooltip: 'Header 1-3',
+			handler: this.formatHandler
+		});
 
-        this.linkButton = Ext.create('Ext.Button', {
-            iconCls: 'icon-editor-hyperlink',
-            cls: 'markdownButton',
-            tooltip: 'HyperLink',
-            scope: this,
-            handler: function () {
-                var me = this;
-                var inputLink = Ext.create('ARSnova.view.Hyperlink', {
-                    name: 'hyperlink',
-                    height: '40%',
-                    scope: me,
-                    listeners: {
-                        hide: function () {
-                            console.log("hided");
-                            var start = me.textarea.getComponent().input.dom.selectionStart;
-                            var end = me.textarea.getComponent().input.dom.selectionEnd;
-                            var formatUrl = this.getFormatUrl();
-                            var preSel = me.textarea.getValue().substring(0, start);
-                            var postSel = me.textarea.getValue().substring(end, me.textarea.getValue().length);
-                            me.textarea.setValue(preSel + formatUrl + postSel);
-                        }
-                    }
-                });
-                inputLink.showPreview();
-                this.textarea.focus();
-            }
-        });
-        
-        this.ulButton = Ext.create('Ext.Button', {
-            iconCls: 'icon-editor-ul',
-            cls: 'markdownButton',
-            tooltip: 'Unordered List',
-            scope: this,
-            handler: function () {
-                this.textarea.focus();
-                var start = this.textarea.getComponent().input.dom.selectionStart;
-                var end = this.textarea.getComponent().input.dom.selectionEnd;
-                var sel = this.textarea.getValue().substring(start, end);
-                var preSel = this.textarea.getValue().substring(0, start);
-                var postSel = this.textarea.getValue().substring(end, this.textarea.getValue().length);
-                if (this.textarea.getValue().substring(start - 2, start) == "- ") {
-                    preSel = this.textarea.getValue().substring(0, start - 2);
-                    postSel = this.textarea.getValue().substring(end, this.textarea.getValue().length);
-                    this.textarea.setValue(preSel + sel + postSel);
-                    this.textarea.getComponent().input.dom.selectionStart = start - 2;
-                    this.textarea.getComponent().input.dom.selectionEnd = end - 2;
-                } else {
-                    this.textarea.setValue(preSel + "- " + sel + postSel);
-                    document.getElementsByName("text")[0].selectionStart = start + 2;
-                    document.getElementsByName("text")[0].selectionEnd = end + 2;
-                }
-            }
-        });
-        
-        this.olButton = Ext.create('Ext.Button', {
-            iconCls: 'icon-editor-ol',
-            cls: 'markdownButton',
-            tooltip: 'Ordered List',
-            scope: this,
-            handler: function () {
-                this.textarea.focus();
-                var start = this.textarea.getComponent().input.dom.selectionStart;
-                var end = this.textarea.getComponent().input.dom.selectionEnd;
-                var sel = this.textarea.getValue().substring(start, end);
-                var preSel = this.textarea.getValue().substring(0, start);
-                var postSel = this.textarea.getValue().substring(end, this.textarea.getValue().length);
-                if (this.textarea.getValue().substring(start - 3, start) == "1. ") {
-                    preSel = this.textarea.getValue().substring(0, start - 3);
-                    postSel = this.textarea.getValue().substring(end, this.textarea.getValue().length);
-                    this.textarea.setValue(preSel + sel + postSel);
-                    this.textarea.getComponent().input.dom.selectionStart = start - 3;
-                    this.textarea.getComponent().input.dom.selectionEnd = end - 3;
-                } else {
-                    this.textarea.setValue(preSel + "1. " + sel + postSel);
-                    this.textarea.getComponent().input.dom.selectionStart = start + 3;
-                    this.textarea.getComponent().input.dom.selectionEnd = end + 3;
-                }
-            }
-        });
-        
-        this.latexButton = Ext.create('Ext.Button', {
-            iconCls: 'icon-editor-script',
-            cls: 'markdownButton',
-            tooltip: 'LaTeX-Formula',
-            scope: this,
-            handler: function () {
-                this.textarea.focus();
-                var start = this.textarea.getComponent().input.dom.selectionStart;
-                var end = this.textarea.getComponent().input.dom.selectionEnd;
-                var sel = this.textarea.getValue().substring(start, end);
-                var preSel = this.textarea.getValue().substring(0, start);
-                var postSel = this.textarea.getValue().substring(end, this.textarea.getValue().length);
-                if (this.textarea.getValue().substring(start - 2, start) == "$$" && this.textarea.getValue().substring(end, end + 2) == "$$") {
-                    preSel = this.textarea.getValue().substring(0, start - 2);
-                    postSel = this.textarea.getValue().substring(end + 2, this.textarea.getValue().length);
-                    this.textarea.setValue(preSel + sel + postSel);
-                    this.textarea.getComponent().input.dom.selectionStart = start - 2;
-                    this.textarea.getComponent().input.dom.selectionEnd = end - 2;
-                } else {
-                    this.textarea.setValue(preSel + "$$" + sel + "$$" + postSel);
-                    this.textarea.getComponent().input.dom.selectionStart = start + 2;
-                    this.textarea.getComponent().input.dom.selectionEnd = end + 2;
-                }
-            }
-        });
-        
-        this.codeButton = Ext.create('Ext.Button', {
-            iconCls: 'icon-editor-code',
-            cls: 'markdownButton',
-            tooltip: 'Source Code Highlighter',
-            scope: this,
-            handler: function () {
-                this.textarea.focus();
-                var start = this.textarea.getComponent().input.dom.selectionStart;
-                var end = this.textarea.getComponent().input.dom.selectionEnd;
-                var sel = this.textarea.getValue().substring(start, end);
-                var preSel = this.textarea.getValue().substring(0, start);
-                var postSel = this.textarea.getValue().substring(end, this.textarea.getValue().length);
-                if (this.textarea.getValue().substring(start - 1, start) == "`" && this.textarea.getValue().substring(end, end + 1) == "`") {
-                    preSel = this.textarea.getValue().substring(0, start - 1);
-                    postSel = this.textarea.getValue().substring(end + 1, this.textarea.getValue().length);
-                    this.textarea.setValue(preSel + sel + postSel);
-                    this.textarea.getComponent().input.dom.selectionStart = start - 1;
-                    this.textarea.getComponent().input.dom.selectionEnd = end - 1;
-                } else {
-                    this.textarea.setValue(preSel + "`" + sel + "`" + postSel);
-                    this.textarea.getComponent().input.dom.selectionStart = start + 1;
-                    this.textarea.getComponent().input.dom.selectionEnd = end + 1;
-                }
-            }
-        });
-        
-        this.quoteButton = Ext.create('Ext.Button', {
-            iconCls: 'icon-editor-quote',
-            cls: 'markdownButton',
-            tooltip: 'Quotation',
-            scope: this,
-            handler: function () {
-                this.textarea.focus();
-                var start = this.textarea.getComponent().input.dom.selectionStart;
-                var end = this.textarea.getComponent().input.dom.selectionEnd;
-                var sel = this.textarea.getValue().substring(start, end);
-                var preSel = this.textarea.getValue().substring(0, start);
-                var postSel = this.textarea.getValue().substring(end, this.textarea.getValue().length);
-                if (this.textarea.getValue().substring(start - 1, start) == ">") {
-                    preSel = this.textarea.getValue().substring(0, start - 1);
-                    postSel = this.textarea.getValue().substring(end, this.textarea.getValue().length);
-                    this.textarea.setValue(preSel + sel + postSel);
-                    this.textarea.getComponent().input.dom.selectionStart = start - 1;
-                    this.textarea.getComponent().input.dom.selectionEnd = end - 1;
-                } else {
-                    this.textarea.setValue(preSel + ">" + sel + postSel);
-                    this.textarea.getComponent().input.dom.selectionStart = start + 1;
-                    this.textarea.getComponent().input.dom.selectionEnd = end + 1;
-                }
-            }
-        });
-        
-        this.picButton = Ext.create('Ext.Button', {
-            iconCls: 'icon-editor-image',
-            cls: 'markdownButton',
-            tooltip: 'Picture Upload',
-            scope: this,
-            handler: function () {
+		this.ulButton = Ext.create('Ext.Button', {
+			cls: 'markdownButton',
+			iconCls: 'icon-editor-ul',
+			escapeString: '- ',
+			biliteral: false,
+			tooltip: 'Unordered List',
+			handler: this.formatHandler
+		});
+
+		this.olButton = Ext.create('Ext.Button', {
+			cls: 'markdownButton',
+			iconCls: 'icon-editor-ol',
+			escapeString: '1. ',
+			biliteral: false,
+			tooltip: 'Ordered List',
+			handler: this.formatHandler
+		});
+
+		this.latexButton = Ext.create('Ext.Button', {
+			cls: 'markdownButton',
+			iconCls: 'icon-editor-script',
+			escapeString: '$$',
+			biliteral: true,
+			tooltip: 'LaTeX-Formula',
+			handler: this.formatHandler
+		});
+
+		this.codeButton = Ext.create('Ext.Button', {
+			cls: 'markdownButton',
+			iconCls: 'icon-editor-code',
+			escapeString: '`',
+			biliteral: true,
+			tooltip: 'Source Code Highlighter',
+			handler: this.formatHandler
+		});
+
+		this.quoteButton = Ext.create('Ext.Button', {
+			cls: 'markdownButton',
+			iconCls: 'icon-editor-quote',
+			escapeString: '>',
+			biliteral: false,
+			tooltip: 'Quotation',
+			handler: this.formatHandler
+		});
+
+		this.picButton = Ext.create('Ext.Button', {
+			cls: 'markdownButton',
+			iconCls: 'icon-editor-image',
+			tooltip: 'Picture Upload',
+			scope: this,
+			handler: function () {
                 var me = this;
                 var inputLink = Ext.create('ARSnova.view.AddPicturePanel', {
                     name: 'picupload',
@@ -266,56 +119,140 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
             }
         });
 
-        this.youtubeButton = Ext.create('Ext.Button', {
-            iconCls: 'icon-editor-youtube',
-            cls: 'markdownButton',
-            tooltip: 'Embed Video',
-            scope: this,
-            handler: function () {
+		this.linkButton = Ext.create('Ext.Button', {
+			cls: 'markdownButton',
+			iconCls: 'icon-editor-hyperlink',
+			tooltip: 'HyperLink',
+			scope: this,
+			handler: function () {
+				var me = this;
+				var inputLink = Ext.create('ARSnova.view.Hyperlink', {
+					name: 'hyperlink',
+					height: '40%',
+					scope: me,
+					listeners: {
+						hide: function () {
+							var start = me.textarea.getComponent().input.dom.selectionStart;
+							var end = me.textarea.getComponent().input.dom.selectionEnd;
+							var formatUrl = this.getFormatUrl();
+							var preSel = me.textarea.getValue().substring(0, start);
+							var postSel = me.textarea.getValue().substring(end, me.textarea.getValue().length);
+							me.textarea.setValue(preSel + formatUrl + postSel);
+						}
+					}
+				});
+				inputLink.showPreview();
+				this.textarea.focus();
+			}
+		});
 
-            }
-        });
+		this.youtubeButton = Ext.create('Ext.Button', {
+			cls: 'markdownButton',
+			iconCls: 'icon-editor-youtube',
+			tooltip: 'Embed Video',
+			scope: this,
+			handler: function () {
+			
+			}
+		});
 
-        this.vimeoButton = Ext.create('Ext.Button', {
-            iconCls: 'icon-editor-vimeo',
-            cls: 'markdownButton',
-            tooltip: 'Embed Video',
-            scope: this,
-            handler: function () {
+		this.vimeoButton = Ext.create('Ext.Button', {
+			cls: 'markdownButton',
+			iconCls: 'icon-editor-vimeo',
+			tooltip: 'Embed Video',
+			scope: this,
+			handler: function () {
 
-            }
-        });
+			}
+		});
 
-        this.editorPanel = Ext.create('Ext.Panel',{
-            padding: '5px 0px 0px 0px',
-            minHeight: '60px',
-            scrollable: {
-                direction: 'horizontal',
-                directionLock: 'true'
-            },
-            layout: {
-                type: 'hbox',
-                pack: 'center'
-            },
-                
-            items: [
-                this.boldButton,
-                this.headerButton,
-                this.linkButton,
-                this.ulButton,
-                this.olButton,
-                this.latexButton,
-                this.codeButton,
-                this.quoteButton,
-                this.picButton,
-                this.youtubeButton,
-                this.vimeoButton
-            ]
-        });
-        this.add(this.editorPanel);
-    },
+		this.editorPanel = Ext.create('Ext.Panel',{
+			padding: '5px 0px 0px 0px',
+			minHeight: '60px',
+			scrollable: {
+				direction: 'horizontal',
+				directionLock: 'true'
+			},
+			layout: {
+				type: 'hbox',
+				pack: 'center'
+			},
 
-	setAreas: function (text) {
-		this.textarea=text;
+			items: [
+				this.boldButton,
+				this.headerButton,
+				this.linkButton,
+				this.ulButton,
+				this.olButton,
+				this.latexButton,
+				this.codeButton,
+				this.quoteButton,
+				this.picButton,
+				this.youtubeButton,
+				this.vimeoButton
+			]
+		});
+		this.add(this.editorPanel);
+	},
+
+	getProcessVariables: function () {
+		var processElement = this.getProcessElement();
+		var component = processElement.getComponent();
+		var value = processElement.getValue();
+		var start = component.input.dom.selectionStart;
+		var end = component.input.dom.selectionEnd;
+
+		return {
+			end: end,
+			start: start,
+			sel: value.substring(start, end),
+			preSel: value.substring(0, start),
+			postSel: value.substring(end, value.length),
+			element: processElement,
+			component: component,
+			value: value
+		};
+	},
+
+	applyFormatting: function (processObj, escapeString, biliteral) {
+		var value, length = escapeString.length;
+		var esc = biliteral ? escapeString : "";
+
+		value = processObj.preSel + escapeString + processObj.sel + esc + processObj.postSel;
+
+		processObj.element.setValue(value);
+		processObj.component.input.dom.selectionStart = processObj.start + length;
+		processObj.component.input.dom.selectionEnd = processObj.end + length;
+	},
+
+	removeFormatting: function (processObj, escapeString) {
+		var length = escapeString.length;
+
+		processObj.preSel = processObj.value.substring(0, processObj.start - length);
+		processObj.postSel = processObj.value.substring(processObj.end + length, processObj.value.length);
+		processObj.element.setValue(processObj.preSel + processObj.sel + processObj.postSel);
+		processObj.component.input.dom.selectionStart = processObj.start - length;
+		processObj.component.input.dom.selectionEnd = processObj.end - length;
+	},
+
+	formatHandler: function () {
+		var parent = this.getParent().getParent();
+		var escapeString = this.config.escapeString;
+		var length = escapeString.length;
+		var processObj = parent.getProcessVariables();
+		var removal = processObj.value.substring(processObj.start - length, processObj.start) === escapeString; 
+
+		processObj.element.focus();
+
+		if(this.config.biliteral) {
+			removal = removal && processObj.value.substring(processObj.end, processObj.end + length) === escapeString;
+		}
+
+		if(removal) {
+			parent.removeFormatting(processObj, escapeString);
+		} else {
+			applyString = this.config.applyString ? this.config.applyString : escapeString;
+			parent.applyFormatting(processObj, applyString, this.config.biliteral);
+		}
 	}
 });
