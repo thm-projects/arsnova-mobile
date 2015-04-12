@@ -17,23 +17,13 @@
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-// The following two lines import the default Sencha Touch theme. If you are building
-// a new theme, remove them and the add your own CSS on top of the base CSS (which
-// is already included in your app.json file).
-
-@import 'sencha-touch/default';
-@import 'sencha-touch/default/all';
-
-//
-// The following lines import the custom scss files.
-
-@import 'app/colors';
-@import 'app/general';
-@import 'app/iconfont';
-@import 'app/bugfixes';
-@import 'app/theme';
-
-@import 'app/components/badges';
-@import 'app/components/loadingMask';
-@import 'app/components/markdownEditor'
+.markdownButton {
+	background: white;
+	border-radius: 7px 7px 7px 7px !important;
+	border-style: solid !important;
+	border-width: 1px !important;
+	border-color: #9CACC0 !important;
+	height: 50px;
+	width: 50px;
+	margin-right: 2px;
+}
