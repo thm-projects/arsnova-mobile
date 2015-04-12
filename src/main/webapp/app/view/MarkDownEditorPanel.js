@@ -126,23 +126,11 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			scope: this,
 			handler: function () {
 				var me = this;
-				var inputLink = Ext.create('ARSnova.view.Hyperlink', {
-					name: 'hyperlink',
-					height: '40%',
-					scope: me,
-					listeners: {
-						hide: function () {
-							var start = me.textarea.getComponent().input.dom.selectionStart;
-							var end = me.textarea.getComponent().input.dom.selectionEnd;
-							var formatUrl = this.getFormatUrl();
-							var preSel = me.textarea.getValue().substring(0, start);
-							var postSel = me.textarea.getValue().substring(end, me.textarea.getValue().length);
-							me.textarea.setValue(preSel + formatUrl + postSel);
-						}
-					}
+				this.showInputPanel("URL", "TEXT", function (urlValue, textValue) {
+					var processObj = me.getProcessVariables();
+					var formattedUrl = "[" + textValue + "]" + "(" + urlValue + ")";
+					processObj.element.setValue(processObj.preSel + formattedUrl + processObj.postSel);
 				});
-				inputLink.showPreview();
-				this.textarea.focus();
 			}
 		});
 
@@ -244,15 +232,43 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 
 		processObj.element.focus();
 
-		if(this.config.biliteral) {
+		if (this.config.biliteral) {
 			removal = removal && processObj.value.substring(processObj.end, processObj.end + length) === escapeString;
 		}
 
-		if(removal) {
+		if (removal) {
 			parent.removeFormatting(processObj, escapeString);
 		} else {
 			applyString = this.config.applyString ? this.config.applyString : escapeString;
 			parent.applyFormatting(processObj, applyString, this.config.biliteral);
 		}
+	},
+
+	showInputPanel: function (firstFieldText, secondFieldText, returnFn) {
+		var firstField = Ext.create('Ext.field.Text', {
+			placeHolder: firstFieldText
+		});
+
+		var secondField = Ext.create('Ext.field.Text', {
+			placeHolder: secondFieldText
+		});
+
+        var saveButton = Ext.create('Ext.Button', {
+			xtype: 'button',
+			ui: 'confirm',
+			text: Messages.SAVE,
+			handler: function () {
+				returnFn(firstField.getValue(), secondField.getValue());
+				this.getParent().hide();
+			}
+		});
+
+		var panel = Ext.create('Ext.MessageBox', {
+			hideOnMaskTap: true,
+			layout: 'vbox'
+		});
+
+		panel.add([firstField, secondField, saveButton]);
+		panel.show();
 	}
-});
+ });
