@@ -129,7 +129,22 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			tooltip: 'Embed Video',
 			scope: this,
 			handler: function () {
+				var me = this;
+				this.showInputPanel("TEXT", "URL", function (textValue, urlValue) {
+					var processObj = me.getProcessVariables();
+					var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+					var match = urlValue.match(regExp);
+					if (match && match[7].length == 11){
+						var videoId = match[7];
+						var formatted = "[![" + textValue + "](https://img.youtube.com/vi/" + videoId + 
+							"/0.jpg)](http://www.youtube.com/watch?v=" + videoId + ")";
 
+						processObj.element.setValue(processObj.preSel + formatted + processObj.postSel);
+						processObj.element.focus();
+					} else {
+						Ext.toast('Incorrect URL', 2000);
+					}
+				});
 			}
 		});
 
