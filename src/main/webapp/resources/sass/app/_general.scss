@@ -238,3 +238,25 @@
 		-webkit-user-select: text;
 	}
 }
+
+div[id^=ext-mathJaxMarkDownPanel] * {
+	width: 100%;
+}
+
+.videoImageContainer {
+	position: relative;
+	display: inline-block;
+
+	&:before {
+		color: white;
+		position: absolute;
+		top: 25%;
+		left: 5%;
+		right: 0;
+		bottom: 0;
+		text-align: center;
+		font-family: "arsnova";
+		content: "\f01d";
+		font-size: 60px;
+	}
+}
