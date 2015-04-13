@@ -51,6 +51,15 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 			});
 		}
 
+		function replaceVideoElements(content) {
+			var elementDelimiter = /<img[^<>]*(youtube)[^<>]*>/g;
+
+			return content.replace(elementDelimiter, function (element) {
+				console.log(element);
+				return '<span class="videoImageContainer">' + element + '</span>';
+			});
+		}
+
 		var features = ARSnova.app.globalConfig.features;
 		if (markDownEnabled && features.markdown) {
 			if (mathJaxEnabled && features.mathJax && !!window.MathJax && MathJax.Hub) {
@@ -81,6 +90,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 			content = content.replace(/\n/g, "<br />");
 		}
 		content = urlify(content);
+		content = replaceVideoElements(content);
 		this.setHtml(content);
 
 		var callback = mathjaxCallback || Ext.emptyFn;
