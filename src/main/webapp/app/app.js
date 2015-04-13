@@ -33,6 +33,7 @@ Ext.require(["ARSnova.test.Slide", "ARSnova.test.MessageBox", "ARSnova.test.Cont
 
 Ext.require([
 	'Ext.Label',
+	'Ext.Toast',
 	'Ext.TitleBar',
 	'Ext.field.Toggle',
 	'Ext.dataview.List',
