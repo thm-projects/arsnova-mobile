@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'arsnova';
-	src:url('fonts/arsnova.eot?v24kfz');
-	src:url('fonts/arsnova.eot?#iefixv24kfz') format('embedded-opentype'),
-		url('fonts/arsnova.woff?v24kfz') format('woff'),
-		url('fonts/arsnova.ttf?v24kfz') format('truetype'),
-		url('fonts/arsnova.svg?v24kfz#arsnova') format('svg');
+	src:url('fonts/arsnova.eot?scvwiu');
+	src:url('fonts/arsnova.eot?#iefixscvwiu') format('embedded-opentype'),
+		url('fonts/arsnova.woff?scvwiu') format('woff'),
+		url('fonts/arsnova.ttf?scvwiu') format('truetype'),
+		url('fonts/arsnova.svg?scvwiu#arsnova') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -83,7 +83,7 @@
 	content: "\f160";
 }
 
-.icon-clock-o:before {
+.icon-clock:before {
 	content: "\f017";
 }
 
@@ -185,6 +185,14 @@
 
 .icon-blog:before {
 	content: "\f0f6";
+}
+
+.icon-play-circle:before {
+	content: "\f01d";
+}
+
+.icon-timer:before {
+	content: "\f1da";
 }
 
 .icon-copy:before {
