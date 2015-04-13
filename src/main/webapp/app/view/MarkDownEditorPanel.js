@@ -97,25 +97,13 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			tooltip: 'Picture Upload',
 			scope: this,
 			handler: function () {
-                var me = this;
-                var inputLink = Ext.create('ARSnova.view.AddPicturePanel', {
-                    name: 'picupload',
-                    height: '40%',
-                    scope: me,
-                    listeners: {
-                        hide: function () {
-                            console.log("hided");
-                            var start = me.textarea.getComponent().input.dom.selectionStart;
-                            var end = me.textarea.getComponent().input.dom.selectionEnd;
-                            var formatUrl = this.getFormatUrl();
-                            var preSel = me.textarea.getValue().substring(0, start);
-                            var postSel = me.textarea.getValue().substring(end, me.textarea.getValue().length);
-                            me.textarea.setValue(preSel + formatUrl + postSel);
-                        }
-                    }
-                });
-            inputLink.showPreview();
-            this.textarea.focus();
+				var me = this;
+				this.showInputPanel("TEXT", "URL", function (textValue, urlValue) {
+					var processObj = me.getProcessVariables();
+					var formattedUrl = "![" + textValue + "]" + "(" + urlValue + ")";
+					processObj.element.setValue(processObj.preSel + formattedUrl + processObj.postSel);
+					processObj.element.focus();
+				});
             }
         });
 
@@ -126,10 +114,11 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			scope: this,
 			handler: function () {
 				var me = this;
-				this.showInputPanel("URL", "TEXT", function (urlValue, textValue) {
+				this.showInputPanel("TEXT", "URL", function (textValue, urlValue) {
 					var processObj = me.getProcessVariables();
 					var formattedUrl = "[" + textValue + "]" + "(" + urlValue + ")";
 					processObj.element.setValue(processObj.preSel + formattedUrl + processObj.postSel);
+					processObj.element.focus();
 				});
 			}
 		});
@@ -140,7 +129,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			tooltip: 'Embed Video',
 			scope: this,
 			handler: function () {
-			
+
 			}
 		});
 
@@ -253,22 +242,22 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			placeHolder: secondFieldText
 		});
 
-        var saveButton = Ext.create('Ext.Button', {
-			xtype: 'button',
-			ui: 'confirm',
-			text: Messages.SAVE,
-			handler: function () {
-				returnFn(firstField.getValue(), secondField.getValue());
-				this.getParent().hide();
-			}
-		});
-
 		var panel = Ext.create('Ext.MessageBox', {
 			hideOnMaskTap: true,
-			layout: 'vbox'
+			layout: 'vbox',
+			items: [{
+				xtype: 'button',
+				ui: 'confirm',
+				text: Messages.SAVE,
+				handler: function () {
+					returnFn(firstField.getValue(), secondField.getValue());
+					this.getParent().hide();
+				}
+			}]
 		});
 
-		panel.add([firstField, secondField, saveButton]);
+		panel.insert(0, firstField);
+		panel.insert(1, secondField);
 		panel.show();
 	}
  });
