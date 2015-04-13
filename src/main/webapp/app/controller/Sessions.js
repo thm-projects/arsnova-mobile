@@ -394,17 +394,19 @@ Ext.define("ARSnova.controller.Sessions", {
 		});
 	},
 
-	setLearningProgressType: function (options) {
-		if (this.getLearningProgressType() !== options.progressType) {
-			ARSnova.app.sessionModel.setLearningProgressType(sessionStorage.getItem("keyword"), options.progressType);
-		}
+	setLearningProgressOptions: function (options) {
+		ARSnova.app.sessionModel.setLearningProgressOptions(options);
 	},
 
-	getLearningProgressType: function () {
+	getLearningProgressOptions: function () {
 		return ARSnova.app.sessionModel.getLearningProgress();
 	},
 
-	getCourseLearningProgressByType: function (options) {
-		ARSnova.app.sessionModel.getCourseLearningProgressByType(sessionStorage.getItem("keyword"), options.progressType, options.callbacks);
+	getCourseLearningProgress: function (options) {
+		ARSnova.app.sessionModel.getCourseLearningProgressWithOptions(
+			sessionStorage.getItem("keyword"),
+			options.progress,
+			options.callbacks
+		);
 	}
 });

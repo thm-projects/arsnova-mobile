@@ -357,6 +357,15 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	countQuestionsAndAnswers: function (data) {
+		var hasData = data.unansweredLectureQuestions
+			|| data.lectureQuestionAnswers
+			|| data.unansweredPreparationQuestions
+			|| data.preparationQuestionAnswers;
+		if (hasData) {
+			this.inClassButtons.add(this.myLearningProgressButton);
+		} else {
+			this.inClassButtons.remove(this.myLearningProgressButton, false);
+		}
 		this.lectureQuestionButton.setBadge([
 			{badgeText: data.unansweredLectureQuestions, badgeCls: "questionsBadgeIcon"},
 			{badgeText: data.lectureQuestionAnswers, badgeCls: "answersBadgeIcon"}
@@ -432,14 +441,8 @@ Ext.define('ARSnova.view.user.InClass', {
 				var getBadge = function (progress) {
 					return {badgeText: progress.text, badgeCls: progress.color + "badgeicon"};
 				};
-				if (p.myProgress === 0 && p.courseProgress === 0 && p.numQuestions === 0) {
-					me.inClassButtons.remove(me.myLearningProgressButton, false);
-				} else {
-					me.myLearningProgressButton.setBadge([getBadge(myprogressDescription), vsBadge, getBadge(courseprogressDescription)]);
-					me.inClassButtons.add(me.myLearningProgressButton);
-				}
+				me.myLearningProgressButton.setBadge([getBadge(myprogressDescription), vsBadge, getBadge(courseprogressDescription)]);
 
-				getBadge(p.myprogress);
 				me.swotBadge.setCls('swotBadgeIcon redbadgecolor');
 				me.swotBadge.setHidden(p.myProgress < goodProgressThreshold);
 			},

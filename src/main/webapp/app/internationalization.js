@@ -273,6 +273,8 @@
 				HOW_TO_CALCULATE_LEARNING_PROGRESS: "Wie soll der Lernstand berechnet werden?",
 				QUESTION_BASED_PROGRESS: "Fragenbasiert",
 				SCORE_BASED_PROGRESS: "Punktbasiert",
+				WHICH_QUESTIONS_TO_USE_FOR_LEARNING_PROGRESS: "Welche Fragen sollen bei der Berechnung berücksichtigt werden?",
+				BOTH: "Beides",
 				QUESTION_BASED_PROGRESS_EXPLANATION: [
 					'Mit dem fragenbasierten Lernstand sind alle Fragen gleich gewichtet, selbst wenn es für sie unterschiedliche Höchstpunktzahlen gibt. Der Lernstand berechnet sich beispielhaft wie folgt:\n',
 					'Es sind 3 Fragen vorhanden, die jeweils eine maximalmögliche Punktzahl haben. Die Punkte seien 10, 20 und 30.',
@@ -799,6 +801,8 @@
 				HOW_TO_CALCULATE_LEARNING_PROGRESS: "How to calculate the learning progress?",
 				QUESTION_BASED_PROGRESS: "Question based",
 				SCORE_BASED_PROGRESS: "Score based",
+				WHICH_QUESTIONS_TO_USE_FOR_LEARNING_PROGRESS: "Which questions should be used for the calculation?",
+				BOTH: "Both",
 				QUESTION_BASED_PROGRESS_EXPLANATION: [
 					'With the question-based learning progress, all questions are weighted equally even if they have a different maximum value. For example, the progress is calculated as follows:\n',
 					'There are 3 questions which have a maximum value of 10, 20, and 30.',

@@ -323,6 +323,9 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			console.log('server-side error');
 		};
 
+		var lecturePromise = new RSVP.Promise();
+		var prepPromise = new RSVP.Promise();
+
 		ARSnova.app.questionModel.countLectureQuestions(sessionStorage.getItem("keyword"), {
 			success: function (response) {
 				var numQuestions = parseInt(response.responseText);
@@ -333,9 +336,10 @@ Ext.define('ARSnova.view.speaker.InClass', {
 					} else {
 						me.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE_PLURAL);
 					}
-
 					me.showcaseActionButton.show();
 				}
+
+				lecturePromise.resolve(numQuestions);
 
 				ARSnova.app.questionModel.countLectureQuestionAnswers(sessionStorage.getItem("keyword"), {
 					success: function (response) {
@@ -355,6 +359,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		ARSnova.app.questionModel.countPreparationQuestions(sessionStorage.getItem("keyword"), {
 			success: function (response) {
 				var numQuestions = parseInt(response.responseText);
+				prepPromise.resolve(numQuestions);
 				ARSnova.app.questionModel.countPreparationQuestionAnswers(sessionStorage.getItem("keyword"), {
 					success: function (response) {
 						var numAnswers = parseInt(response.responseText);
@@ -370,6 +375,17 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				});
 			},
 			failure: failureCallback
+		});
+
+		RSVP.all([lecturePromise, prepPromise]).then(function (questions) {
+			var numQuestions = questions.reduce(function (a, b) {
+				return a + b;
+			}, 0);
+			if (numQuestions === 0) {
+				me.inClassButtons.remove(me.courseLearningProgressButton, false);
+			} else {
+				me.inClassButtons.add(me.courseLearningProgressButton);
+			}
 		});
 	},
 
@@ -397,11 +413,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		ARSnova.app.sessionModel.getCourseLearningProgress(sessionStorage.getItem("keyword"), {
 			success: function (text, color, progress) {
 				me.courseLearningProgressButton.setBadge([{badgeText: text, badgeCls: color + "badgeicon"}]);
-				if (progress.courseProgress === 0 && progress.numQuestions === 0) {
-					me.inClassButtons.remove(me.courseLearningProgressButton, false);
-				} else {
-					me.inClassButtons.add(me.courseLearningProgressButton);
-				}
 			},
 			failure: function () {
 				me.courseLearningProgressButton.setBadge([{badgeText: ""}]);

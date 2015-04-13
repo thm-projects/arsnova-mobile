@@ -44,7 +44,7 @@ Ext.define('ARSnova.WebSocket', {
 		countQuestionAnswersByQuestion: "arsnova/socket/question/lecturer/question/answercount",
 		countLectureQuestionAnswers: "arsnova/socket/question/lecturer/lecture/answercount",
 		countPreparationQuestionAnswers: "arsnova/socket/question/lecturer/preparation/answercount",
-		learningProgressType: "arsnova/socket/session/learningprogress/type",
+		learningProgressOptions: "arsnova/socket/session/learningprogress/options",
 		learningProgressChange: "arsnova/socket/session/learningprogress/change"
 	},
 
@@ -168,9 +168,9 @@ Ext.define('ARSnova.WebSocket', {
 				this.fireEvent(this.events.countPreparationQuestionAnswers, count);
 			}, this));
 
-			this.socket.on('learningProgressType', Ext.bind(function (progressType) {
-				console.debug("Socket.IO: learningProgressType", progressType);
-				this.fireEvent(this.events.learningProgressType, progressType);
+			this.socket.on('learningProgressOptions', Ext.bind(function (options) {
+				console.debug("Socket.IO: learningProgressOptions", options);
+				this.fireEvent(this.events.learningProgressOptions, options);
 			}, this));
 
 			this.socket.on('learningProgressChange', Ext.bind(function () {
@@ -197,9 +197,9 @@ Ext.define('ARSnova.WebSocket', {
 		this.socket.emit("readInterposedQuestion", question.getData());
 	},
 
-	setLearningProgressType: function (data) {
-		console.debug("Socket.IO.emit: setLearningProgressType", data);
-		this.socket.emit("setLearningProgressType", data);
+	setLearningProgressOptions: function (data) {
+		console.debug("Socket.IO.emit: setLearningProgressOptions", data);
+		this.socket.emit("setLearningProgressOptions", data);
 	},
 
 	setFeedback: function (data) {

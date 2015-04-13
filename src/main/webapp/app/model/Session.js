@@ -56,7 +56,10 @@ Ext.define('ARSnova.model.Session', {
 			{type: 'presence', field: 'creator'}
 		],
 
-		learningProgress: "questions"
+		learningProgress: {
+			type: "questions",
+			questionVariant: ""
+		}
 	},
 
 	sessionIsActive: true,
@@ -88,7 +91,7 @@ Ext.define('ARSnova.model.Session', {
 			this.fireEvent(this.events.learningProgressChange);
 		}, this);
 
-		ARSnova.app.socket.on(ARSnova.app.socket.events.learningProgressType, this.setUserBasedProgressType, this);
+		ARSnova.app.socket.on(ARSnova.app.socket.events.learningProgressOptions, this.setUserBasedProgressOptions, this);
 	},
 
 	destroy: function (sessionId, creator, callbacks) {
@@ -109,7 +112,7 @@ Ext.define('ARSnova.model.Session', {
 				var serverTime = new Date(response.getResponseHeader("Date")).getTime();
 
 				sessionStorage.setItem("serverTimeDiff", serverTime - localTime);
-				me.setUserBasedProgressType(obj.learningProgressType);
+				me.setUserBasedProgressOptions(obj.learningProgressOptions);
 				callbacks.success(obj);
 			},
 			failure: callbacks.failure
@@ -145,16 +148,16 @@ Ext.define('ARSnova.model.Session', {
 	},
 
 	getCourseLearningProgress: function (sessionKeyword, callbacks) {
-		return this.getCourseLearningProgressByType(sessionKeyword, this.getLearningProgress(), callbacks);
+		return this.getCourseLearningProgressWithOptions(sessionKeyword, this.getLearningProgress(), callbacks);
 	},
 
-	getCourseLearningProgressByType: function (sessionKeyword, progressType, callbacks) {
+	getCourseLearningProgressWithOptions: function (sessionKeyword, options, callbacks) {
 		var me = this;
-		return this.getProxy().getCourseLearningProgress(sessionKeyword, progressType, {
+		return this.getProxy().getCourseLearningProgress(sessionKeyword, options, {
 			success: function (progress) {
 				var progressDescription = me.progressDescription(progress);
 				var desc = progressDescription.course;
-				callbacks.success.call(callbacks.scope, desc.text, desc.color, progress, progressType);
+				callbacks.success.call(callbacks.scope, desc.text, desc.color, progress, me.getLearningProgress());
 			},
 			failure: callbacks.failure
 		});
@@ -204,23 +207,35 @@ Ext.define('ARSnova.model.Session', {
 		};
 	},
 
-	setLearningProgressType: function (sessionKeyword, progressType) {
-		localStorage.setItem("progressType-" + sessionStorage.getItem("keyword"), progressType);
-		ARSnova.app.socket.setLearningProgressType({sessionKeyword: sessionKeyword, learningProgressType: progressType});
-		this.setLearningProgress(progressType);
+	setLearningProgressOptions: function (options) {
+		var current = this.getLearningProgress();
+		if (current.type === options.type && current.questionVariant === options.questionVariant) {
+			return;
+		}
+		this.setLearningProgress(options);
+		localStorage.setItem("learningProgressOptions-" + sessionStorage.getItem("keyword"), JSON.stringify(options));
+		ARSnova.app.socket.setLearningProgressOptions({
+			sessionKeyword: sessionStorage.getItem("keyword"),
+			type: options.type,
+			questionVariant: options.questionVariant
+		});
 	},
 
-	getUserBasedProgressType: function () {
-		return localStorage.getItem("progressType-" + sessionStorage.getItem("keyword")) || this.getLearningProgress();
+	getUserBasedProgressOptions: function () {
+		var data = localStorage.getItem("learningProgressOptions-" + sessionStorage.getItem("keyword"));
+		if (data) {
+			return JSON.parse(data);
+		}
+		return this.getLearningProgress();
 	},
 
-	setUserBasedProgressType: function (progressType) {
+	setUserBasedProgressOptions: function (options) {
 		// for students, progress stored in localStorage will always take priority
 		if (ARSnova.app.isSessionOwner) {
-			this.setLearningProgress(progressType);
+			this.setLearningProgressOptions(options);
 		} else {
 			// overwrite server-based progress type for students with their own selection (if available)
-			this.setLearningProgress(this.getUserBasedProgressType() || progressType);
+			this.setLearningProgress(this.getUserBasedProgressOptions() || options);
 		}
 	},
 

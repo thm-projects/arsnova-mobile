@@ -39,7 +39,7 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 			scope: this,
 			handler: function () {
 				// store the learning progress type when we leave this panel
-				ARSnova.app.getController('Sessions').setLearningProgressType(this.learningProgressChooser.getValues());
+				ARSnova.app.getController('Sessions').setLearningProgressOptions(this.learningProgressChooser.getValues());
 				ARSnova.app.getController('Questions').leaveLearningProgress();
 			}
 		});
@@ -73,13 +73,21 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 		});
 		this.questionBasedExplanation.setContent(Messages.QUESTION_BASED_PROGRESS_EXPLANATION, true, true);
 
-		var initializer = function (field) {
-			if (field.getValue() === ARSnova.app.getController('Sessions').getLearningProgressType()) {
+		var typeInitializer = function (field) {
+			var options = ARSnova.app.getController('Sessions').getLearningProgressOptions();
+			if (field.getValue() === options.type) {
 				field.check();
 			}
-			if (field.isChecked()) {
-				this.showRealProgressValue(field.getValue());
+			this.showProgress(options);
+		};
+
+		var variantInitializer = function (field) {
+			var options = ARSnova.app.getController('Sessions').getLearningProgressOptions();
+			if (field.getValue() === options.questionVariant) {
+				field.check();
+				console.log(field.getValue(), options);
 			}
+			this.showProgress(options);
 		};
 
 		this.learningProgressChooser = Ext.create('Ext.form.Panel', {
@@ -90,7 +98,7 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 				title: Messages.HOW_TO_CALCULATE_LEARNING_PROGRESS,
 				items: [{
 					xtype: 'radiofield',
-					name: 'progressType',
+					name: 'type',
 					value: 'questions',
 					label: Messages.QUESTION_BASED_PROGRESS,
 					checked: true,
@@ -99,13 +107,13 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 						scope: this,
 						check: function (field) {
 							this.showQuestionBasedCalculation();
-							this.showRealProgressValue(field.getValue());
+							this.showProgress(this.learningProgressChooser.getValues());
 						},
-						initialize: initializer
+						initialize: typeInitializer
 					}
 				}, {
 					xtype: 'radiofield',
-					name: 'progressType',
+					name: 'type',
 					value: 'points',
 					label: Messages.SCORE_BASED_PROGRESS,
 					labelWidth: '50%',
@@ -113,16 +121,61 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 						scope: this,
 						check: function (field) {
 							this.showPointBasedCalculation();
-							this.showRealProgressValue(field.getValue());
+							this.showProgress(this.learningProgressChooser.getValues());
 						},
-						initialize: initializer
+						initialize: typeInitializer
+					}
+				}]
+			}, {
+				xtype: 'fieldset',
+				cls: 'learningprogress-title',
+				title: Messages.WHICH_QUESTIONS_TO_USE_FOR_LEARNING_PROGRESS,
+				items: [{
+					xtype: 'radiofield',
+					name: 'questionVariant',
+					value: 'lecture',
+					label: Messages.LECTURE_QUESTIONS_LONG,
+					labelWidth: '50%',
+					listeners: {
+						scope: this,
+						check: function (field) {
+							this.showProgress(this.learningProgressChooser.getValues());
+						},
+						initialize: variantInitializer
+					}
+				}, {
+					xtype: 'radiofield',
+					name: 'questionVariant',
+					value: 'preparation',
+					label: Messages.PREPARATION_QUESTIONS_LONG,
+					labelWidth: '50%',
+					listeners: {
+						scope: this,
+						check: function (field) {
+							this.showProgress(this.learningProgressChooser.getValues());
+						},
+						initialize: variantInitializer
+					}
+				}, {
+					xtype: 'radiofield',
+					name: 'questionVariant',
+					value: '',
+					checked: true,
+					label: Messages.BOTH,
+					labelWidth: '50%',
+					listeners: {
+						scope: this,
+						check: function (field) {
+							this.showProgress(this.learningProgressChooser.getValues());
+						},
+						initialize: variantInitializer
 					}
 				}]
 			}, this.courseLearningProgressButton, this.pointBasedExplanation, this.questionBasedExplanation]
 		});
 
 		this.on('show', function () {
-			this.showRealProgressValue(ARSnova.app.getController('Sessions').getLearningProgressType());
+			this.showProgress(ARSnova.app.getController('Sessions').getLearningProgressOptions());
 		}, this);
 
 		this.add([this.toolbar, this.learningProgressChooser]);
@@ -138,12 +191,12 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 		this.pointBasedExplanation.hide();
 	},
 
-	showRealProgressValue: function (type) {
-		ARSnova.app.getController('Sessions').getCourseLearningProgressByType({
-			progressType: type,
+	showProgress: function (options) {
+		ARSnova.app.getController('Sessions').getCourseLearningProgress({
+			progress: options,
 			callbacks: {
 				scope: this,
-				success: function (text, color, progress, progressType) {
+				success: function (text, color) {
 					this.courseLearningProgressButton.setBadge([{badgeText: text, badgeCls: color + "badgeicon"}]);
 				},
 				failure: Ext.emptyFn
