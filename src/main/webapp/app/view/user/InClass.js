@@ -234,6 +234,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
 		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.startDelayedPiRound, panel.delayedPiRound, panel);
 		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.lecturerQuestionAvailable, panel.questionAvailable, panel);
+		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.lecturerQuestionLocked, panel.questionLocked, panel);
 		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.unansweredLecturerQuestions, panel.checkLecturerQuestions, panel);
 		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.unansweredPreparationQuestions, panel.checkPreparationQuestions, panel);
 		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.countQuestionsAndAnswers, panel.countQuestionsAndAnswers, panel);
@@ -264,6 +265,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
 		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.startDelayedPiRound, panel.delayedPiRound, panel);
 		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.lecturerQuestionAvailable, panel.questionAvailable, panel);
+		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.lecturerQuestionLocked, panel.questionLocked, panel);
 		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.unansweredLecturerQuestions, panel.checkLecturerQuestions, panel);
 		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.unansweredPreparationQuestions, panel.checkPreparationQuestions, panel);
 		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.countQuestionsAndAnswers, panel.countQuestionsAndAnswers, panel);
@@ -278,8 +280,29 @@ Ext.define('ARSnova.view.user.InClass', {
 		}
 	},
 
-	questionAvailable: function (question) {
-		this.showNotification([question._id], question.variant);
+	questionAvailable: function (questions) {
+		var lectureQuestions = questions.filter(function (q) {
+			return q.variant === "lecture";
+		});
+		var prepQuestions = questions.filter(function (q) {
+			return q.variant === "preparation";
+		});
+		if (lectureQuestions.length > 0) {
+			this.showNotification(lectureQuestions, lectureQuestions[0].variant);
+		}
+		if (prepQuestions.length > 0) {
+			this.showNotification(prepQuestions, prepQuestions[0].variant);
+		}
+	},
+
+	questionLocked: function (questions) {
+		var lectureQuestions = questions.filter(function (q) {
+			return q.variant === "lecture";
+		});
+		var prepQuestions = questions.filter(function (q) {
+			return q.variant === "preparation";
+		});
+		// TODO: Force reload of questions panel
 	},
 
 	delayedPiRound: function (question) {

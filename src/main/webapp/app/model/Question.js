@@ -89,6 +89,7 @@ Ext.define('ARSnova.model.Question', {
 		endPiRound: "arsnova/question/lecturer/endPiRound",
 		startDelayedPiRound: "arsnova/question/lecturer/delayedPiRound",
 		lecturerQuestionAvailable: "arsnova/question/lecturer/available",
+		lecturerQuestionLocked: "arsnova/question/lecturer/locked",
 		audienceQuestionAvailable: "arsnova/question/audience/available",
 		unansweredLecturerQuestions: "arsnova/question/lecturer/lecture/unanswered",
 		unansweredPreparationQuestions: "arsnova/question/lecturer/preparation/unanswered",
@@ -107,8 +108,12 @@ Ext.define('ARSnova.model.Question', {
 	constructor: function () {
 		this.callParent(arguments);
 
-		ARSnova.app.socket.on(ARSnova.app.socket.events.lecturerQuestionAvailable, function (question) {
-			this.fireEvent(this.events.lecturerQuestionAvailable, question);
+		ARSnova.app.socket.on(ARSnova.app.socket.events.lecturerQuestionAvailable, function (questions) {
+			this.fireEvent(this.events.lecturerQuestionAvailable, questions);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.lecturerQuestionLocked, function (questions) {
+			this.fireEvent(this.events.lecturerQuestionLocked, questions);
 		}, this);
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.audienceQuestionAvailable, function (question) {
