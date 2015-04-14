@@ -247,6 +247,8 @@ div[id^=ext-mathJaxMarkDownPanel] * {
 	position: relative;
 	display: inline-block;
 	max-width: 320px;
+	display: block;
+    margin: auto;
 
 	&:before {
 		content: "";
