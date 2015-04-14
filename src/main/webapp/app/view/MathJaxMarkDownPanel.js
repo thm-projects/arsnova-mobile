@@ -53,10 +53,15 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 
 		function replaceVideoElements(content) {
 			var elementDelimiter = /<img[^<>]*(youtube)[^<>]*>/g;
+			var videoIdDelimiter = /^.*vi\/?([^\/]*)/;
+			var titleDelimiter = /^.*alt="([^"]*)/;
 
 			return content.replace(elementDelimiter, function (element) {
-				console.log(element);
-				return '<span class="videoImageContainer">' + element + '</span>';
+				var title = element.match(titleDelimiter)[1];
+				var videoId = element.match(videoIdDelimiter)[1];
+
+				return '<span class="videoImageContainer" id="' + videoId
+					+ '" title="' + title + '">' + element + '</span>';
 			});
 		}
 

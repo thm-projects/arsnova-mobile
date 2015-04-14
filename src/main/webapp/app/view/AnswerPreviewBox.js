@@ -306,7 +306,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			me = this;
 
 		this.setHideOnMaskTap(false);
-		
+
 		// remove default elements from preview
 		this.remove(this.toolbar, false);
 		this.remove(this.mainPanel, false);
