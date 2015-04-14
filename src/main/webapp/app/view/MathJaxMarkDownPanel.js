@@ -52,15 +52,30 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		}
 
 		function replaceVideoElements(content) {
-			var elementDelimiter = /<img[^<>]*(youtube)[^<>]*>/g;
-			var videoIdDelimiter = /^.*vi\/?([^\/]*)/;
+			var vimeoElementDelimiter = /<a[^<>]*(vimeo\.com\/video).+a>/;
+			var vimeoVideoIdDelimiter = /href.+vimeo.com\/video\/([^"]*)/;
+			var vimeoImageDelimiter = /<img[^<>]*(vimeo)[^<>]*>/g;
+
+			var youtubeElementDelimiter = /<img[^<>]*(youtube)[^<>]*>/g;
+			var youtubeVideoIdDelimiter = /^.*vi\/?([^\/]*)/;
 			var titleDelimiter = /^.*alt="([^"]*)/;
 
-			return content.replace(elementDelimiter, function (element) {
-				var title = element.match(titleDelimiter)[1];
-				var videoId = element.match(videoIdDelimiter)[1];
+			content = content.replace(vimeoElementDelimiter, function (element) {
+				var videoId = element.match(vimeoVideoIdDelimiter)[1];
 
-				return '<span class="videoImageContainer" id="' + videoId
+				return element.replace(vimeoImageDelimiter, function (element) {
+					var title = element.match(titleDelimiter)[1];
+
+					return '<span class="videoImageContainer" id="' + videoId + '" accesskey="vimeo"'
+						+ '" title="' + title + '">' + element + '</span>';
+				});
+			});
+
+			return content.replace(youtubeElementDelimiter, function (element) {
+				var title = element.match(titleDelimiter)[1];
+				var videoId = element.match(youtubeVideoIdDelimiter)[1];
+
+				return '<span class="videoImageContainer" id="' + videoId + '" accesskey="youtube"'
 					+ '" title="' + title + '">' + element + '</span>';
 			});
 		}
