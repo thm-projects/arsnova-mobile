@@ -99,15 +99,24 @@ Ext.define("ARSnova.controller.Application", {
 			var controller = ARSnova.app.getController('Application');
 			var url = "", title = "", isVideoLink = false;
 
-			if(element.tagName === 'SPAN' && element.className === 'videoImageContainer') {
-				url = "https://www.youtube.com/embed/" + element.id;
+			if (element.tagName === 'SPAN' && element.className === 'videoImageContainer') {
+				switch (element.accessKey) {
+					case 'vimeo':
+						url = "https://player.vimeo.com/video/" + element.id;
+						break;
+					case 'youtube':
+						url = "https://www.youtube.com/embed/" + element.id;
+						break;
+					default:
+						return false;
+				}
+
 				title = element.title;
 				isVideoLink = true;
 			}
 
 			if (element.tagName === 'A' && element.className !== "session-export" || isVideoLink) {
-
-				if(!isVideoLink) {
+				if (!isVideoLink) {
 					url = element.href;
 					title = element.innerHTML;
 				}
@@ -117,7 +126,6 @@ Ext.define("ARSnova.controller.Application", {
 						controller.toggleHrefPanelActive();
 
 						var previewPanel = ARSnova.app.activePreviewPanel;
-
 						controller.embeddedPage = Ext.create('ARSnova.view.components.EmbeddedPageContainer', {
 							title: title,
 							url: url
