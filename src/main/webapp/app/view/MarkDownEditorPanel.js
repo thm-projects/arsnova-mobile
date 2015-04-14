@@ -120,8 +120,8 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 					processObj.element.setValue(processObj.preSel + formattedUrl + processObj.postSel);
 					processObj.element.focus();
 				});
-            }
-        });
+			}
+		});
 
 		this.linkButton = Ext.create('Ext.Button', {
 			cls: 'markdownButton',
@@ -139,7 +139,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			}
 		});
 
-		this.editorPanel = Ext.create('Ext.Panel',{
+		this.editorPanel = Ext.create('Ext.Panel', {
 			padding: '5px 0px 0px 0px',
 			minHeight: '60px',
 			scrollable: {
@@ -213,7 +213,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 		var escapeString = this.config.escapeString;
 		var length = escapeString.length;
 		var processObj = parent.getProcessVariables();
-		var removal = processObj.value.substring(processObj.start - length, processObj.start) === escapeString; 
+		var removal = processObj.value.substring(processObj.start - length, processObj.start) === escapeString;
 
 		processObj.element.focus();
 
@@ -265,10 +265,10 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
 			var match = urlValue.match(regExp);
 
-			if (match && match[7].length == 11){
+			if (match && match[7].length == 11) {
 				var videoId = match[7];
-				var formatted = "[![" + textValue + "](https://img.youtube.com/vi/" + videoId + 
-					"/0.jpg)](https://www.youtube.com/watch?v=" + videoId + ")";
+				var formatted = "[![" + textValue + "](https://img.youtube.com/vi/" + videoId
+					+ "/0.jpg)](https://www.youtube.com/watch?v=" + videoId + ")";
 
 				processObj.element.setValue(processObj.preSel + formatted + processObj.postSel);
 				processObj.element.focus();
@@ -289,19 +289,18 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			var onFailure = function () {
 				Ext.toast('Incorrect URL', 2000);
 			};
-			
-			if (match && match[2].length == 8){
+
+			if (match && match[2].length == 8) {
 				ARSnova.app.restProxy.getVimeoThumbnailUrl(match[2], {
 					success: function (thumbnailUrl) {
-						var formatted = "[![" + textValue + "](" + thumbnailUrl +
-							")](https://player.vimeo.com/video/" + match[2] + ")";
+						var formatted = "[![" + textValue + "](" + thumbnailUrl
+							+ ")](https://player.vimeo.com/video/" + match[2] + ")";
 
 						processObj.element.setValue(processObj.preSel + formatted + processObj.postSel);
 						processObj.element.focus();
 					},
 					failure: onFailure
 				});
-
 			} else {
 				onFailure();
 			}
