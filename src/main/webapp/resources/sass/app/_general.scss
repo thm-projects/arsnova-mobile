@@ -246,8 +246,18 @@ div[id^=ext-mathJaxMarkDownPanel] * {
 .videoImageContainer {
 	position: relative;
 	display: inline-block;
+	max-width: 320px;
 
 	&:before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+
+	&:after {
 		color: white;
 		position: absolute;
 		top: 25%;
@@ -257,6 +267,10 @@ div[id^=ext-mathJaxMarkDownPanel] * {
 		text-align: center;
 		font-family: "arsnova";
 		content: "\f01d";
-		font-size: 60px;
+		font-size: 70px;
+	}
+
+	img {
+		max-width: 320px;
 	}
 }
