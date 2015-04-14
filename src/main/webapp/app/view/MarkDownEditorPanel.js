@@ -91,6 +91,22 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			handler: this.formatHandler
 		});
 
+		this.youtubeButton = Ext.create('Ext.Button', {
+			cls: 'markdownButton',
+			iconCls: 'icon-editor-youtube',
+			tooltip: 'Embed Video',
+			scope: this,
+			handler: this.youtubeButtonHandler
+		});
+
+		this.vimeoButton = Ext.create('Ext.Button', {
+			cls: 'markdownButton',
+			iconCls: 'icon-editor-vimeo',
+			tooltip: 'Embed Video',
+			scope: this,
+			handler: this.vimeoButtonHandler
+		});
+
 		this.picButton = Ext.create('Ext.Button', {
 			cls: 'markdownButton',
 			iconCls: 'icon-editor-image',
@@ -120,41 +136,6 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 					processObj.element.setValue(processObj.preSel + formattedUrl + processObj.postSel);
 					processObj.element.focus();
 				});
-			}
-		});
-
-		this.youtubeButton = Ext.create('Ext.Button', {
-			cls: 'markdownButton',
-			iconCls: 'icon-editor-youtube',
-			tooltip: 'Embed Video',
-			scope: this,
-			handler: function () {
-				var me = this;
-				this.showInputPanel("TEXT", "URL", function (textValue, urlValue) {
-					var processObj = me.getProcessVariables();
-					var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-					var match = urlValue.match(regExp);
-					if (match && match[7].length == 11){
-						var videoId = match[7];
-						var formatted = "[![" + textValue + "](https://img.youtube.com/vi/" + videoId + 
-							"/0.jpg)](https://www.youtube.com/watch?v=" + videoId + ")";
-
-						processObj.element.setValue(processObj.preSel + formatted + processObj.postSel);
-						processObj.element.focus();
-					} else {
-						Ext.toast('Incorrect URL', 2000);
-					}
-				});
-			}
-		});
-
-		this.vimeoButton = Ext.create('Ext.Button', {
-			cls: 'markdownButton',
-			iconCls: 'icon-editor-vimeo',
-			tooltip: 'Embed Video',
-			scope: this,
-			handler: function () {
-
 			}
 		});
 
@@ -274,5 +255,56 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 		panel.insert(0, firstField);
 		panel.insert(1, secondField);
 		panel.show();
+	},
+
+	youtubeButtonHandler: function () {
+		var me = this;
+
+		this.showInputPanel("TEXT", "URL", function (textValue, urlValue) {
+			var processObj = me.getProcessVariables();
+			var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+			var match = urlValue.match(regExp);
+
+			if (match && match[7].length == 11){
+				var videoId = match[7];
+				var formatted = "[![" + textValue + "](https://img.youtube.com/vi/" + videoId + 
+					"/0.jpg)](https://www.youtube.com/watch?v=" + videoId + ")";
+
+				processObj.element.setValue(processObj.preSel + formatted + processObj.postSel);
+				processObj.element.focus();
+			} else {
+				Ext.toast('Incorrect URL', 2000);
+			}
+		});
+	},
+
+	vimeoButtonHandler: function () {
+		var me = this;
+
+		this.showInputPanel("TEXT", "URL", function (textValue, urlValue) {
+			var processObj = me.getProcessVariables();
+			var regExp = /^.+vimeo.com\/(.*\/)?([^#\?]*)/;
+			var match = urlValue.match(regExp);
+
+			var onFailure = function () {
+				Ext.toast('Incorrect URL', 2000);
+			};
+			
+			if (match && match[2].length == 8){
+				ARSnova.app.restProxy.getVimeoThumbnailUrl(match[2], {
+					success: function (thumbnailUrl) {
+						var formatted = "[![" + textValue + "](" + thumbnailUrl +
+							")](https://player.vimeo.com/video/" + match[2] + ")";
+
+						processObj.element.setValue(processObj.preSel + formatted + processObj.postSel);
+						processObj.element.focus();
+					},
+					failure: onFailure
+				});
+
+			} else {
+				onFailure();
+			}
+		});
 	}
  });
