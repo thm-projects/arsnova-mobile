@@ -907,5 +907,19 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			},
 			failure: callbacks.failure
 		});
+	},
+
+	getVimeoThumbnailUrl: function (videoId, callbacks) {
+		Ext.Ajax.request({
+			type:'GET',
+			url: 'http://vimeo.com/api/v2/video/' + videoId + '.json',
+			useDefaultXhrHeader : false,
+			success: function(response){
+				var json = response.responseText || "{}";
+				var data = Ext.decode(json)[0];
+				callbacks.success(data.thumbnail_medium);
+			},
+			failure: callbacks.failure
+		});
 	}
 });
