@@ -137,7 +137,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 					if (match && match[7].length == 11){
 						var videoId = match[7];
 						var formatted = "[![" + textValue + "](https://img.youtube.com/vi/" + videoId + 
-							"/0.jpg)](http://www.youtube.com/watch?v=" + videoId + ")";
+							"/0.jpg)](https://www.youtube.com/watch?v=" + videoId + ")";
 
 						processObj.element.setValue(processObj.preSel + formatted + processObj.postSel);
 						processObj.element.focus();
