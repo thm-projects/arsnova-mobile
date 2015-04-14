@@ -72,6 +72,16 @@ Ext.define('ARSnova.view.user.InClass', {
 			loggedInCls = 'thm';
 		}
 
+		// Reload learning progress, but do it using a random delay.
+		// We do not want to initiate a DDoS if every user is trying to reload at the same time.
+		// http://stackoverflow.com/a/1527820
+		var min = 500;
+		var max = 2500;
+		this.learningProgressChange = Ext.Function.createBuffered(function () {
+			// Reset run-time to enforce reload of learning progress
+			this.courseLearningProgressTask.taskRunTime = 0;
+		}, Math.random() * (max - min) + min, this);
+
 		this.sessionLogoutButton = Ext.create('Ext.Button', {
 			text: Messages.SESSIONS,
 			ui: 'back',
@@ -474,18 +484,5 @@ Ext.define('ARSnova.view.user.InClass', {
 				me.inClassButtons.remove(me.myLearningProgressButton, false);
 			}
 		});
-	},
-
-	learningProgressChange: function () {
-		// Reload learning progress, but do it using a random delay.
-		// We do not want to initiate a DDoS if every user is trying to reload at the same time.
-		var min = 500;
-		var max = 2500;
-		// http://stackoverflow.com/a/1527820
-		var delay = Math.random() * (max - min) + min;
-		Ext.defer(function () {
-			// Reset run-time to enforce reload of learning progress
-			this.checkLearningProgressTask.taskRunTime = 0;
-		}, delay, this);
 	}
 });
