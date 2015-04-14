@@ -305,11 +305,15 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		var controller = ARSnova.app.getController('Application'),
 			me = this;
 
+		this.setHideOnMaskTap(false);
+		
 		// remove default elements from preview
 		this.remove(this.toolbar, false);
 		this.remove(this.mainPanel, false);
 
 		embeddedPage.setBackHandler(function () {
+			me.setHideOnMaskTap(true);
+
 			// toggle hrefPanelActive();
 			controller.toggleHrefPanelActive();
 
