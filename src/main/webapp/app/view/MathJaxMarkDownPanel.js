@@ -52,32 +52,43 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		}
 
 		function replaceVideoElements(content) {
-			var vimeoElementDelimiter = /<a[^<>]*(vimeo\.com\/video).+a>/;
-			var vimeoVideoIdDelimiter = /href.+vimeo.com\/video\/([^"]*)/;
-			var vimeoImageDelimiter = /<img[^<>]*(vimeo)[^<>]*>/g;
-
-			var youtubeElementDelimiter = /<img[^<>]*(youtube)[^<>]*>/g;
-			var youtubeVideoIdDelimiter = /^.*vi\/?([^\/]*)/;
 			var titleDelimiter = /^.*alt="([^"]*)/;
 
-			content = content.replace(vimeoElementDelimiter, function (element) {
-				var videoId = element.match(vimeoVideoIdDelimiter)[1];
+			var youtubeDelimiters = {
+				accessKey: 'youtube',
+				elementDel: /<a href="https:\/\/.+(src="https:\/\/img.youtube\.com\/vi)[^<>]*><\/a>/g,
+				imageDel: /<img[^<>]*(img.youtube\.com\/vi)[^<>]*><\/a>/,
+				videoIdDel: /^.*vi\/?([^\/]*)/,
+				titleDel: titleDelimiter
+			};
 
-				return element.replace(vimeoImageDelimiter, function (element) {
-					var title = element.match(titleDelimiter)[1];
+			var vimeoDelimiters = {
+				accessKey: 'vimeo',
+				elementDel: /<a[^<>]*(vimeo\.com\/video).+a>/g,
+				imageDel: /<img[^<>]*(vimeo)[^<>]*>/,
+				videoIdDel: /href.+vimeo.com\/video\/([^"]*)/,
+				titleDel: titleDelimiter
+			};
 
-					return '<span class="videoImageContainer" id="' + videoId + '" accesskey="vimeo"'
-						+ '" title="' + title + '">' + element + '</span>';
+			var videoElementReplace = function (content, delimiters) {
+				return content.replace(delimiters.elementDel, function (element) {
+					var videoId = element.match(delimiters.videoIdDel)[1];
+
+					element = '<p class="videoImageParagraph">' + element + '</p>';
+
+					return element.replace(delimiters.imageDel, function (imageEl) {
+						var title = element.match(delimiters.titleDel)[1];
+
+						return '<span class="videoImageContainer" id="' + videoId + '" accesskey="'
+							+ delimiters.accessKey + '" title="' + title + '">' + imageEl + '</span';
+					});
 				});
-			});
+			};
 
-			return content.replace(youtubeElementDelimiter, function (element) {
-				var title = element.match(titleDelimiter)[1];
-				var videoId = element.match(youtubeVideoIdDelimiter)[1];
+			content = videoElementReplace(content, youtubeDelimiters);
+			content = videoElementReplace(content, vimeoDelimiters);
 
-				return '<span class="videoImageContainer" id="' + videoId + '" accesskey="youtube"'
-					+ '" title="' + title + '">' + element + '</span>';
-			});
+			return content;
 		}
 
 		var features = ARSnova.app.globalConfig.features;

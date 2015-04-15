@@ -243,6 +243,10 @@ div[id^=ext-mathJaxMarkDownPanel] * {
 	width: 100%;
 }
 
+.videoImageParagraph {
+	pointer-events: none;
+}
+
 .videoImageContainer {
 	position: relative;
 	display: inline-block;
@@ -257,6 +261,7 @@ div[id^=ext-mathJaxMarkDownPanel] * {
 		left: 0;
 		right: 0;
 		bottom: 0;
+		pointer-events: all;
 	}
 
 	&:after {
