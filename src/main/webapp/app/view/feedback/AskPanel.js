@@ -69,7 +69,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		});
 
 		this.markdownEditPanel = Ext.create('ARSnova.view.MarkDownEditorPanel', {
-			processElement: this.text,
+			processElement: this.text
 		});
 
 		// Preview button

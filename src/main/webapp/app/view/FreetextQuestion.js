@@ -170,7 +170,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				this.previewHandler();
 			}
 		});
-		
+
 		this.buttonPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
 			scrollable: null,
@@ -420,5 +420,5 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			xtype: 'questionPreview'
 		});
 		questionPreview.showPreview(this.answerSubject.getValue(), this.answerText.getValue());
-	},
+	}
 });
