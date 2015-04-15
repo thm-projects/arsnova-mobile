@@ -26,3 +26,52 @@
 	width: 50px;
 	margin-right: 2px;
 }
+
+.markDownEditorPanel {
+	.x-scroll-container {
+		background-color: white;
+	}	
+}
+
+div[id^=ext-mathJaxMarkDownPanel] * {
+	width: 100%;
+}
+
+.videoImageParagraph {
+	pointer-events: none;
+}
+
+.videoImageContainer {
+	position: relative;
+	display: inline-block;
+	max-width: 320px;
+	display: block;
+    margin: auto;
+
+	&:before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		pointer-events: all;
+	}
+
+	&:after {
+		color: white;
+		position: absolute;
+		top: 25%;
+		left: 5%;
+		right: 0;
+		bottom: 0;
+		text-align: center;
+		font-family: "arsnova";
+		content: "\f01d";
+		font-size: 70px;
+	}
+
+	img {
+		max-width: 320px;
+	}
+}

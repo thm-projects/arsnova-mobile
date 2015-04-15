@@ -21,7 +21,8 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 	extend: 'Ext.Panel',
 
 	config: {
-		processElement: null
+		processElement: null,
+		cls: 'markDownEditorPanel'
 	},
 
 	initialize: function (args) {
