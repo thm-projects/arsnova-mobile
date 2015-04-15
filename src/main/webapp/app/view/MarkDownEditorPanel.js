@@ -33,7 +33,6 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			iconCls: 'icon-editor-bold',
 			escapeString: '**',
 			biliteral: true,
-			tooltip: 'Bold',
 			handler: this.formatHandler
 		});
 
@@ -43,7 +42,6 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			applyString: '#',
 			escapeString: '###',
 			biliteral: true,
-			tooltip: 'Header 1-3',
 			handler: this.formatHandler
 		});
 
@@ -52,7 +50,6 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			iconCls: 'icon-editor-ul',
 			escapeString: '- ',
 			biliteral: false,
-			tooltip: 'Unordered List',
 			handler: this.formatHandler
 		});
 
@@ -61,7 +58,6 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			iconCls: 'icon-editor-ol',
 			escapeString: '1. ',
 			biliteral: false,
-			tooltip: 'Ordered List',
 			handler: this.formatHandler
 		});
 
@@ -70,7 +66,6 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			iconCls: 'icon-editor-script',
 			escapeString: '$$',
 			biliteral: true,
-			tooltip: 'LaTeX-Formula',
 			handler: this.formatHandler
 		});
 
@@ -79,7 +74,6 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			iconCls: 'icon-editor-code',
 			escapeString: '`',
 			biliteral: true,
-			tooltip: 'Source Code Highlighter',
 			handler: this.formatHandler
 		});
 
@@ -88,14 +82,12 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			iconCls: 'icon-editor-quote',
 			escapeString: '>',
 			biliteral: false,
-			tooltip: 'Quotation',
 			handler: this.formatHandler
 		});
 
 		this.youtubeButton = Ext.create('Ext.Button', {
 			cls: 'markdownButton',
 			iconCls: 'icon-editor-youtube',
-			tooltip: 'Embed Video',
 			scope: this,
 			handler: this.youtubeButtonHandler
 		});
@@ -103,7 +95,6 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 		this.vimeoButton = Ext.create('Ext.Button', {
 			cls: 'markdownButton',
 			iconCls: 'icon-editor-vimeo',
-			tooltip: 'Embed Video',
 			scope: this,
 			handler: this.vimeoButtonHandler
 		});
@@ -111,11 +102,16 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 		this.picButton = Ext.create('Ext.Button', {
 			cls: 'markdownButton',
 			iconCls: 'icon-editor-image',
-			tooltip: 'Picture Upload',
 			scope: this,
 			handler: function () {
 				var me = this;
-				this.showInputPanel("TEXT", "URL", "Pic", function (textValue, urlValue) {
+				this.showInputPanel({
+					firstFieldText: Messages.EDITOR_TITLE,
+					secondFieldText: Messages.EDITOR_URL,
+					firstFieldPlaceholder: Messages.EDITOR_TITLE_PLACEHOLDER,
+					secondFieldPlaceholder: Messages.EDITOR_URL_PLACEHOLDER,
+					title: Messages.EDITOR_PICTURE
+				}, function (textValue, urlValue) {
 					var processObj = me.getProcessVariables();
 					var formattedUrl = "![" + textValue + "]" + "(" + urlValue + ")";
 					processObj.element.setValue(processObj.preSel + formattedUrl + processObj.postSel);
@@ -131,7 +127,13 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			scope: this,
 			handler: function () {
 				var me = this;
-				this.showInputPanel("TEXT", "URL", "Link", function (textValue, urlValue) {
+				this.showInputPanel({
+					firstFieldText: Messages.EDITOR_TITLE,
+					secondFieldText: Messages.EDITOR_URL,
+					firstFieldPlaceholder: Messages.EDITOR_TITLE_PLACEHOLDER,
+					secondFieldPlaceholder: Messages.EDITOR_URL_PLACEHOLDER,
+					title: Messages.EDITOR_HYPERLINK
+				}, function (textValue, urlValue) {
 					var processObj = me.getProcessVariables();
 					var formattedUrl = "[" + textValue + "]" + "(" + urlValue + ")";
 					processObj.element.setValue(processObj.preSel + formattedUrl + processObj.postSel);
@@ -230,20 +232,20 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 		}
 	},
 
-	showInputPanel: function (firstFieldText, firstFieldPlaceholder, secondFieldText,
-			secondFieldPlaceholder, title, returnFn) {
+	showInputPanel: function (textConfig, returnFn) {
 		var firstField = Ext.create('Ext.field.Text', {
-			label: firstFieldText,
-			placeholder: firstFieldPlaceholder
+			label: textConfig.firstFieldText,
+			placeHolder: textConfig.firstFieldPlaceholder
 		});
 
 		var secondField = Ext.create('Ext.field.Text', {
-			label: secondFieldText,
-			placeholder: secondFieldPlaceholder
+			label: textConfig.secondFieldText,
+			placeHolder: textConfig.secondFieldPlaceholder
 		});
 
 		var mainPart = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
+			cls: 'inputPanel',
 
 			items: [{
 				xtype: 'fieldset',
@@ -263,7 +265,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 		});
 
 		var toolbar = Ext.create('Ext.Toolbar', {
-			title: title,
+			title: textConfig.title,
 			docked: 'top',
 			ui: 'light',
 			items: [{
@@ -295,7 +297,13 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 	youtubeButtonHandler: function () {
 		var me = this;
 
-		this.showInputPanel("TEXT", "URL", "youtube", function (textValue, urlValue) {
+		this.showInputPanel({
+			firstFieldText: Messages.EDITOR_TITLE,
+			secondFieldText: Messages.EDITOR_URL,
+			firstFieldPlaceholder: Messages.EDITOR_TITLE_PLACEHOLDER,
+			secondFieldPlaceholder: Messages.EDITOR_URL_PLACEHOLDER,
+			title: Messages.EDITOR_YOUTUBE
+		}, function (textValue, urlValue) {
 			var processObj = me.getProcessVariables();
 			var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
 			var match = urlValue.match(regExp);
@@ -316,7 +324,13 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 	vimeoButtonHandler: function () {
 		var me = this;
 
-		this.showInputPanel("TEXT", "URL", "vimeo", function (textValue, urlValue) {
+		this.showInputPanel({
+			firstFieldText: Messages.EDITOR_TITLE,
+			secondFieldText: Messages.EDITOR_URL,
+			firstFieldPlaceholder: Messages.EDITOR_TITLE_PLACEHOLDER,
+			secondFieldPlaceholder: Messages.EDITOR_URL_PLACEHOLDER,
+			title: Messages.EDITOR_VIMEO
+		}, function (textValue, urlValue) {
 			var processObj = me.getProcessVariables();
 			var regExp = /^.+vimeo.com\/(.*\/)?([^#\?]*)/;
 			var match = urlValue.match(regExp);
