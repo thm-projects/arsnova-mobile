@@ -20,11 +20,17 @@
 .markdownButton {
 	color: $thm-grey;
 	background: white;
-	border-radius: 7px 7px 7px 7px !important;
-	border-style: 1px solid #e0e0e0;
-	height: 50px;
-	width: 50px;
+	border-radius: 5px 5px 5px 5px !important;
+	border: 1px solid $thm-grey;
+	height: 40px;
+	width: 40px;
 	margin-right: 2px;
+
+	.x-button-icon {
+		font-size: 0.85em;
+		margin-left: -4px;
+		margin-top: 1px;
+	}
 }
 
 .markDownEditorPanel {
@@ -79,14 +85,9 @@ div[id^=ext-mathJaxMarkDownPanel] * {
 .icon-editor-ul,
 .icon-editor-ol,
 .icon-editor-code {
-	margin-left: -4px;
-}
-
-.icon-editor-header {
-	margin-left: -2px;
+	margin-left: -5px !important;
 }
 
 .icon-editor-quote {
-	font-size: 0.9em;
-	margin-bottom: -5px;
+	margin-bottom: -5px !important;
 }
