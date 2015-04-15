@@ -77,6 +77,10 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			maxRows: 7
 		});
 
+		this.markdownEditPanel = Ext.create('ARSnova.view.MarkDownEditorPanel', {
+			processElement: this.answerText,
+			hidden: !this.questionObj.textAnswerEnabled
+		});
 
 		this.answerText.setHidden(!this.questionObj.textAnswerEnabled);
 
@@ -161,7 +165,14 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					submitOnAction: false,
 					items: [questionPanel, this.viewOnly ? {} : {
 						xtype: 'fieldset',
-						items: [this.answerSubject, this.answerText, this.uploadView, this.gridQuestion, this.needImageLabel]
+						items: [
+							this.answerSubject,
+							this.markdownEditPanel,
+							this.answerText,
+							this.uploadView,
+							this.gridQuestion,
+							this.needImageLabel
+						]
 					},
 					this.buttonContainer]
 				}]
