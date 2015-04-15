@@ -21,12 +21,13 @@
 	color: $thm-grey;
 	background: white;
 	border-radius: 5px 5px 5px 5px !important;
-	border: 1px solid $thm-grey;
+	border: 1px double $thm-lightgrey;
 	height: 40px;
 	width: 40px;
 	margin-right: 2px;
 
 	.x-button-icon {
+		opacity: 0.85;
 		font-size: 0.85em;
 		margin-left: -4px;
 		margin-top: 1px;
@@ -36,7 +37,7 @@
 .markDownEditorPanel {
 	.x-scroll-container {
 		background-color: white;
-	}	
+	}
 }
 
 div[id^=ext-mathJaxMarkDownPanel] * {
