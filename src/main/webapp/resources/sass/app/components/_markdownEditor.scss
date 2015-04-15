@@ -75,3 +75,18 @@ div[id^=ext-mathJaxMarkDownPanel] * {
 		max-width: 320px;
 	}
 }
+
+.icon-editor-ul,
+.icon-editor-ol,
+.icon-editor-code {
+	margin-left: -4px;
+}
+
+.icon-editor-header {
+	margin-left: -2px;
+}
+
+.icon-editor-quote {
+	font-size: 0.9em;
+	margin-bottom: -5px;
+}
