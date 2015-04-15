@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 
 	config: {
 		processElement: null,
-		cls: 'markDownEditorPanel'
+		cls: 'markDownEditorPanel x-field'
 	},
 
 	initialize: function (args) {
@@ -115,7 +115,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			scope: this,
 			handler: function () {
 				var me = this;
-				this.showInputPanel("TEXT", "URL", function (textValue, urlValue) {
+				this.showInputPanel("TEXT", "URL", "Pic", function (textValue, urlValue) {
 					var processObj = me.getProcessVariables();
 					var formattedUrl = "![" + textValue + "]" + "(" + urlValue + ")";
 					processObj.element.setValue(processObj.preSel + formattedUrl + processObj.postSel);
@@ -131,7 +131,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			scope: this,
 			handler: function () {
 				var me = this;
-				this.showInputPanel("TEXT", "URL", function (textValue, urlValue) {
+				this.showInputPanel("TEXT", "URL", "Link", function (textValue, urlValue) {
 					var processObj = me.getProcessVariables();
 					var formattedUrl = "[" + textValue + "]" + "(" + urlValue + ")";
 					processObj.element.setValue(processObj.preSel + formattedUrl + processObj.postSel);
@@ -142,7 +142,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 
 		this.editorPanel = Ext.create('Ext.Panel', {
 			padding: '5px 0px 0px 0px',
-			minHeight: '60px',
+			minHeight: '50px',
 			scrollable: {
 				direction: 'horizontal',
 				directionLock: 'true'
@@ -230,38 +230,72 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 		}
 	},
 
-	showInputPanel: function (firstFieldText, secondFieldText, returnFn) {
+	showInputPanel: function (firstFieldText, firstFieldPlaceholder, secondFieldText,
+			secondFieldPlaceholder, title, returnFn) {
 		var firstField = Ext.create('Ext.field.Text', {
-			placeHolder: firstFieldText
+			label: firstFieldText,
+			placeholder: firstFieldPlaceholder
 		});
 
 		var secondField = Ext.create('Ext.field.Text', {
-			placeHolder: secondFieldText
+			label: secondFieldText,
+			placeholder: secondFieldPlaceholder
+		});
+
+		var mainPart = Ext.create('Ext.form.FormPanel', {
+			scrollable: null,
+
+			items: [{
+				xtype: 'fieldset',
+				items: [firstField, secondField]
+			}, {
+				xtype: 'fieldset',
+				items: [{
+					xtype: 'button',
+					ui: 'confirm',
+					text: Messages.SAVE,
+					handler: function () {
+						returnFn(firstField.getValue(), secondField.getValue());
+						this.getParent().getParent().getParent().hide();
+					}
+				}]
+			}]
+		});
+
+		var toolbar = Ext.create('Ext.Toolbar', {
+			title: title,
+			docked: 'top',
+			ui: 'light',
+			items: [{
+				xtype: 'button',
+				iconCls: 'icon-close',
+				handler: function () {
+					this.getParent().getParent().hide();
+				},
+				style: {
+					'height': '36px',
+					'font-size': '0.9em',
+					'padding': '0 0.4em'
+				}
+			}]
 		});
 
 		var panel = Ext.create('Ext.MessageBox', {
 			hideOnMaskTap: true,
 			layout: 'vbox',
-			items: [{
-				xtype: 'button',
-				ui: 'confirm',
-				text: Messages.SAVE,
-				handler: function () {
-					returnFn(firstField.getValue(), secondField.getValue());
-					this.getParent().hide();
-				}
-			}]
+			items: [
+				toolbar,
+				mainPart
+			]
 		});
 
-		panel.insert(0, firstField);
-		panel.insert(1, secondField);
 		panel.show();
 	},
 
 	youtubeButtonHandler: function () {
 		var me = this;
 
-		this.showInputPanel("TEXT", "URL", function (textValue, urlValue) {
+		this.showInputPanel("TEXT", "URL", "youtube", function (textValue, urlValue) {
 			var processObj = me.getProcessVariables();
 			var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
 			var match = urlValue.match(regExp);
@@ -282,7 +316,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 	vimeoButtonHandler: function () {
 		var me = this;
 
-		this.showInputPanel("TEXT", "URL", function (textValue, urlValue) {
+		this.showInputPanel("TEXT", "URL", "vimeo", function (textValue, urlValue) {
 			var processObj = me.getProcessVariables();
 			var regExp = /^.+vimeo.com\/(.*\/)?([^#\?]*)/;
 			var match = urlValue.match(regExp);
