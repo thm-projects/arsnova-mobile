@@ -433,6 +433,16 @@
 				SECOND_ROUND: "Runde 2",
 				BOTH_ROUNDS: "Runde 1/2",
 
+				/*Markdown Editor*/
+				EDITOR_VIMEO: "Vimeo",
+				EDITOR_YOUTUBE: "Youtube",
+				EDITOR_HYPERLINK: "Hyperlink",
+				EDITOR_PICTURE: "Bild",
+				EDITOR_URL: "URL",
+				EDITOR_TITLE: "Titel",
+				EDITOR_URL_PLACEHOLDER: "https://",
+				EDITOR_TITLE_PLACEHOLDER: "Titel eingeben",
+
 				/*Public pool*/
 				SESSIONPOOL_LEVEL: "Niveau",
 				SESSIONPOOL_CLONE: "Kopieren",
@@ -963,6 +973,16 @@
 				FIRST_ROUND: "Round 1",
 				SECOND_ROUND: "Round 2",
 				BOTH_ROUNDS: "Round 1/2",
+
+				/*Markdown Editor*/
+				EDITOR_VIMEO: "Vimeo",
+				EDITOR_YOUTUBE: "Youtube",
+				EDITOR_HYPERLINK: "Hyperlink",
+				EDITOR_PICTURE: "Picture",
+				EDITOR_URL: "URL",
+				EDITOR_TITLE: "Title",
+				EDITOR_URL_PLACEHOLDER: "https://",
+				EDITOR_TITLE_PLACEHOLDER: "Enter title",
 
 				/*Public pool*/
 				SESSIONPOOL_LEVEL: "Level",

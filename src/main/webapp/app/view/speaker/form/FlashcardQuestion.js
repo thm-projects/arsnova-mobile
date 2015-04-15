@@ -30,6 +30,10 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			placeHolder: Messages.FLASHCARD_BACK_PAGE
 		});
 
+		this.markdownEditPanel = Ext.create('ARSnova.view.MarkDownEditorPanel', {
+			processElement: this.answer
+		});
+
 		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
 			handlerScope: this,
 			addRemoveButton: true,
@@ -76,7 +80,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			scrollable: null,
 			items: [{
 				xtype: 'fieldset',
-				items: [this.answer]
+				items: [this.markdownEditPanel, this.answer]
 			}, {
 				xtype: 'fieldset',
 				items: [previewButton]

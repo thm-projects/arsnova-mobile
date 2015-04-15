@@ -77,6 +77,10 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			maxRows: 7
 		});
 
+		this.markdownEditPanel = Ext.create('ARSnova.view.MarkDownEditorPanel', {
+			processElement: this.answerText,
+			hidden: !this.questionObj.textAnswerEnabled
+		});
 
 		this.answerText.setHidden(!this.questionObj.textAnswerEnabled);
 
@@ -153,6 +157,29 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			}]
 		});
 
+		this.previewButton = Ext.create('Ext.Button', {
+			text: Ext.os.is.Desktop ?
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
+			ui: 'action',
+			cls: Ext.os.is.Desktop ?
+				'previewButtonLong' :
+				'previewButton',
+			scope: this,
+			handler: function () {
+				this.previewHandler();
+			}
+		});
+
+		this.buttonPart = Ext.create('Ext.form.FormPanel', {
+			cls: 'newQuestion',
+			scrollable: null,
+			items: [{
+				xtype: 'fieldset',
+				items: [this.previewButton]
+			}, this.buttonContainer]
+		});
+
 		this.add([
 			Ext.create('Ext.Panel', {
 				items: [{
@@ -161,9 +188,16 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					submitOnAction: false,
 					items: [questionPanel, this.viewOnly ? {} : {
 						xtype: 'fieldset',
-						items: [this.answerSubject, this.answerText, this.uploadView, this.gridQuestion, this.needImageLabel]
+						items: [
+							this.markdownEditPanel,
+							this.answerSubject,
+							this.answerText,
+							this.uploadView,
+							this.gridQuestion,
+							this.needImageLabel
+						]
 					},
-					this.buttonContainer]
+					this.buttonPart]
 				}]
 			}), this.editButtons ? this.editButtons : {}
 		]);
@@ -379,5 +413,12 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		this.answerSubject.setValue(subject);
 		this.answerText.setValue(answer);
 		this.setImage(answerThumbnailImage);
+	},
+
+	previewHandler: function () {
+		var questionPreview = Ext.create('ARSnova.view.QuestionPreviewBox', {
+			xtype: 'questionPreview'
+		});
+		questionPreview.showPreview(this.answerSubject.getValue(), this.answerText.getValue());
 	}
 });

@@ -51,6 +51,46 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 			});
 		}
 
+		function replaceVideoElements(content) {
+			var titleDelimiter = /^.*alt="([^"]*)/;
+
+			var youtubeDelimiters = {
+				accessKey: 'youtube',
+				elementDel: /<a href="https:\/\/.+(src="https:\/\/img.youtube\.com\/vi)[^<>]*><\/a>/g,
+				imageDel: /<img[^<>]*(img.youtube\.com\/vi)[^<>]*><\/a>/,
+				videoIdDel: /^.*vi\/?([^\/]*)/,
+				titleDel: titleDelimiter
+			};
+
+			var vimeoDelimiters = {
+				accessKey: 'vimeo',
+				elementDel: /<a[^<>]*(vimeo\.com\/video).+a>/g,
+				imageDel: /<img[^<>]*(vimeo)[^<>]*>/,
+				videoIdDel: /href.+vimeo.com\/video\/([^"]*)/,
+				titleDel: titleDelimiter
+			};
+
+			var videoElementReplace = function (content, delimiters) {
+				return content.replace(delimiters.elementDel, function (element) {
+					var videoId = element.match(delimiters.videoIdDel)[1];
+
+					element = '<p class="videoImageParagraph">' + element + '</p>';
+
+					return element.replace(delimiters.imageDel, function (imageEl) {
+						var title = element.match(delimiters.titleDel)[1];
+
+						return '<span class="videoImageContainer" id="' + videoId + '" accesskey="'
+							+ delimiters.accessKey + '" title="' + title + '">' + imageEl + '</span';
+					});
+				});
+			};
+
+			content = videoElementReplace(content, youtubeDelimiters);
+			content = videoElementReplace(content, vimeoDelimiters);
+
+			return content;
+		}
+
 		var features = ARSnova.app.globalConfig.features;
 		if (markDownEnabled && features.markdown) {
 			if (mathJaxEnabled && features.mathJax && !!window.MathJax && MathJax.Hub) {
@@ -81,6 +121,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 			content = content.replace(/\n/g, "<br />");
 		}
 		content = urlify(content);
+		content = replaceVideoElements(content);
 		this.setHtml(content);
 
 		var callback = mathjaxCallback || Ext.emptyFn;

@@ -53,7 +53,7 @@ Ext.define('ARSnova.view.components.EmbeddedPageContainer', {
 		this.add(this.toolbar);
 
 		this.on('painted', function () {
-			var url = this.config.onClickElement.href;
+			var url = this.config.url;
 			this.add(Ext.create('ARSnova.view.components.EmbeddedPage', {
 				src: url
 			}));

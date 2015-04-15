@@ -317,6 +317,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				if (this.getText() === Messages.EDIT) {
 					var questionValues = panel.answerEditForm.getQuestionValues();
 
+					panel.markdownEditPanel.show();
 					panel.cancelButton.show();
 					panel.backButton.hide();
 
@@ -342,6 +343,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						panel.absteionAlternative.hide();
 					}
 				} else {
+					panel.markdownEditPanel.hide();
 					panel.cancelButton.hide();
 					panel.backButton.show();
 
@@ -733,10 +735,15 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			disabled: true
 		});
 
+		this.markdownEditPanel = Ext.create('ARSnova.view.MarkDownEditorPanel', {
+			processElement: this.textarea,
+			hidden: true
+		});
+
 		this.contentFieldset = Ext.create('Ext.form.FieldSet', {
 			cls: 'standardFieldset',
 			itemId: 'contentFieldset',
-			items: [this.subject, this.textarea, {
+			items: [this.markdownEditPanel, this.subject, this.textarea, {
 				xtype: 'textfield',
 				label: Messages.TYPE,
 				value: this.getType(),

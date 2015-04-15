@@ -90,24 +90,45 @@ Ext.define("ARSnova.controller.Application", {
 	},
 
 	/**
-	 * overrides onclick event handler in order to change behavior when an a-tag is clicked
+	 * overrides onclick event handler in order to change behavior when an tag is clicked
 	 */
 	initializeHrefOverride: function () {
 		document.onclick = function (e) {
 			e = e || window.event;
 			var element = e.target || e.srcElement;
 			var controller = ARSnova.app.getController('Application');
+			var url = "", title = "", isVideoLink = false;
 
-			if (element.tagName === 'A' && element.className !== "session-export") {
-				if (controller.checkHrefProtocol(element.href)) {
+			if (element.tagName === 'SPAN' && element.className === 'videoImageContainer') {
+				switch (element.accessKey) {
+					case 'vimeo':
+						url = "https://player.vimeo.com/video/" + element.id;
+						break;
+					case 'youtube':
+						url = "https://www.youtube.com/embed/" + element.id;
+						break;
+					default:
+						return false;
+				}
+
+				title = element.title;
+				isVideoLink = true;
+			}
+
+			if (element.tagName === 'A' && element.className !== "session-export" || isVideoLink) {
+				if (!isVideoLink) {
+					url = element.href;
+					title = element.innerHTML;
+				}
+
+				if (controller.checkHrefProtocol(url)) {
 					if (!controller.hrefPanelActive) {
 						controller.toggleHrefPanelActive();
 
 						var previewPanel = ARSnova.app.activePreviewPanel;
-
 						controller.embeddedPage = Ext.create('ARSnova.view.components.EmbeddedPageContainer', {
-							title: element.innerHTML,
-							onClickElement: element
+							title: title,
+							url: url
 						});
 
 						if (previewPanel) {

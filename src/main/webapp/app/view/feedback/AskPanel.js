@@ -68,6 +68,10 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			placeHolder: Messages.QUESTION_TEXT_PLACEHOLDER
 		});
 
+		this.markdownEditPanel = Ext.create('ARSnova.view.MarkDownEditorPanel', {
+			processElement: this.text
+		});
+
 		// Preview button
 		this.previewButton = Ext.create('Ext.Button', {
 			text: Ext.os.is.Desktop ?
@@ -112,6 +116,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			items: [{
 				xtype: 'fieldset',
 				items: [
+					this.markdownEditPanel,
 					this.subject,
 					this.text
 				]

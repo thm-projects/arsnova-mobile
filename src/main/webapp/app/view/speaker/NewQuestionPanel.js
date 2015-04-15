@@ -30,7 +30,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		'ARSnova.view.speaker.form.NullQuestion',
 		'ARSnova.view.speaker.form.GridQuestion',
 		'ARSnova.view.speaker.form.FreeTextQuestion',
-		'ARSnova.view.speaker.form.ImageUploadPanel'
+		'ARSnova.view.speaker.form.ImageUploadPanel',
+		'ARSnova.view.MarkDownEditorPanel'
 	],
 
 	config: {
@@ -100,6 +101,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			placeHolder: Messages.FORMAT_PLACEHOLDER
 		});
 
+		this.markdownEditPanel = Ext.create('ARSnova.view.MarkDownEditorPanel', {
+			processElement: this.textarea
+		});
+
 		// Preview button
 		this.previewButton = Ext.create('Ext.Button', {
 			text: Ext.os.is.Desktop ?
@@ -135,7 +140,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				items: [this.subject]
 			}, {
 				xtype: 'fieldset',
-				items: [this.textarea]
+				items: [this.markdownEditPanel, this.textarea]
 			}]
 		});
 

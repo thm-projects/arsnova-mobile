@@ -1,0 +1,98 @@
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2015 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+.markdownButton {
+	color: $thm-grey;
+	background: white;
+	border-radius: 5px 5px 5px 5px !important;
+	border: 1px double $thm-lightgrey;
+	height: 40px;
+	width: 40px;
+	margin-right: 2px;
+
+	.x-button-icon {
+		opacity: 0.85;
+		font-size: 0.86em;
+		margin-left: -4px;
+		margin-top: -1px;
+	}
+}
+
+.markDownEditorPanel {
+	.x-scroll-container {
+		background-color: white;
+	}
+}
+
+.inputPanel .x-form-field {
+	min-height: 2.5em;
+}
+
+div[id^=ext-mathJaxMarkDownPanel] * {
+	width: 100%;
+}
+
+.videoImageParagraph {
+	pointer-events: none;
+}
+
+.videoImageContainer {
+	position: relative;
+	display: inline-block;
+	max-width: 320px;
+	display: block;
+    margin: auto;
+
+	&:before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		pointer-events: all;
+	}
+
+	&:after {
+		color: white;
+		position: absolute;
+		top: 25%;
+		left: 5%;
+		right: 0;
+		bottom: 0;
+		text-align: center;
+		font-family: "arsnova";
+		content: "\f01d";
+		font-size: 70px;
+	}
+
+	img {
+		max-width: 320px;
+	}
+}
+
+.icon-editor-ul,
+.icon-editor-ol,
+.icon-editor-code {
+	margin-left: -5px !important;
+}
+
+.icon-editor-quote {
+	margin-bottom: -5px !important;
+}
