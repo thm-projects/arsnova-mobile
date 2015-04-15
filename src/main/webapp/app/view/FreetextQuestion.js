@@ -189,8 +189,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					items: [questionPanel, this.viewOnly ? {} : {
 						xtype: 'fieldset',
 						items: [
-							this.answerSubject,
 							this.markdownEditPanel,
+							this.answerSubject,
 							this.answerText,
 							this.uploadView,
 							this.gridQuestion,

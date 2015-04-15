@@ -743,7 +743,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.contentFieldset = Ext.create('Ext.form.FieldSet', {
 			cls: 'standardFieldset',
 			itemId: 'contentFieldset',
-			items: [this.subject, this.markdownEditPanel, this.textarea, {
+			items: [this.markdownEditPanel, this.subject, this.textarea, {
 				xtype: 'textfield',
 				label: Messages.TYPE,
 				value: this.getType(),
