@@ -150,8 +150,12 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 		});
 	},
 
+	isEmpty: function () {
+		return this.answer.getValue().trim() === "";
+	},
+
 	markEmptyFields: function () {
-		if (this.answer.getValue().trim() === "") {
+		if (this.isEmpty()) {
 			this.answer.addCls("required");
 		}
 	}

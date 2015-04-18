@@ -181,13 +181,11 @@ Ext.define("ARSnova.controller.Questions", {
 				});
 				break;
 			case 'flashcard':
-				panel.flashcardQuestion.query('textfield').forEach(function (el) {
-					if (el.getValue().trim() === "") {
-						el.addCls("required");
-						answersError = true;
-						error = true;
-					}
-				});
+				if (panel.flashcardQuestion.isEmpty()) {
+					panel.flashcardQuestion.markEmptyFields();
+					answersError = true;
+					error = true;
+				}
 				break;
 			case 'school':
 				panel.schoolQuestion.query('textfield').forEach(function (el) {
