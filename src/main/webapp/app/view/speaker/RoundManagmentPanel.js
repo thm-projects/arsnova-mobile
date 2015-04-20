@@ -139,7 +139,6 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 
 	changePiRound: function (questionId) {
 		if (this.statisticChart.questionObj._id === questionId) {
-
 			if (this.statisticChart.questionObj.piRound === 1) {
 				this.statisticChart.activateFirstSegmentButton();
 			} else {

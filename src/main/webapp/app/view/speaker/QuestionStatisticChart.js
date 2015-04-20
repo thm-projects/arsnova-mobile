@@ -238,7 +238,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 							itemId: '2'
 						}, {
 							text: Messages.BOTH_ROUNDS,
-							itemId: '3'
+							itemId: '0'
 						}
 					],
 					listeners: {
@@ -526,6 +526,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		var calculation = function (answers, valuePattern) {
 			var i, el, record;
 			var tmpPossibleAnswers = [];
+
+			sum = 0;
+
 			for (i = 0; i < tmpPossibleAnswers.length; i++) {
 				el = tmpPossibleAnswers[i];
 				record = store.findRecord('text', el, 0, false, true, true);
@@ -642,12 +645,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			}
 
 			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-				// update quote in toolbar
-				var quote = me.toolbar.items.items[4];
-				var users = quote.getHtml().split("/");
-				users[0] = sum;
-				users = users.join("/");
-				quote.setHtml(users);
+				me.updateAnswerCount(me.questionObj.piRound);
 
 				if (round > 1) {
 					me.piToolbar.show();
@@ -663,6 +661,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				success: function (piRound1) {
 					var answers = Ext.decode(piRound1.responseText);
 					calculation(answers, '-round1');
+					me.answerCountFirstRound = sum;
 
 					if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 						countSecondRound();
@@ -683,6 +682,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 					calculation(piAnswers, '-round2');
 					afterCalculation(me.questionObj.piRound);
+					me.answerCountSecondRound = sum;
 				},
 				failure: function () {
 					console.log('server-side error');
@@ -706,6 +706,29 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		var quote = panel.toolbar.items.items[4];
 		var users = quote.getHtml().split("/");
 		users[1] = count - 1;
+		users = users.join("/");
+		quote.setHtml(users);
+	},
+
+	updateAnswerCount: function (round) {
+		var count = 0;
+
+		switch (this.segmentedButton.lastPressed) {
+			case '1':
+				count = this.answerCountFirstRound;
+				break;
+			case '2':
+				count = this.answerCountSecondRound;
+				break;
+			default:
+				count = this.answerCountFirstRound + this.answerCountSecondRound;
+				break;
+		}
+
+		// update quote in toolbar
+		var quote = this.toolbar.items.items[4];
+		var users = quote.getHtml().split("/");
+		users[0] = count;
 		users = users.join("/");
 		quote.setHtml(users);
 	},
