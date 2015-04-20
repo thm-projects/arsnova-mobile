@@ -96,7 +96,6 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		});
 
 		this.roundManagementContainer = Ext.create('Ext.form.FieldSet', {
-			title: Messages.POLL_MANAGEMENT,
 			cls: 'centerFormTitle',
 			items: [
 				this.countdownTimer,
@@ -140,12 +139,12 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 
 	changePiRound: function (questionId) {
 		if (this.statisticChart.questionObj._id === questionId) {
-			this.statisticChart.enablePiRoundElements();
 
 			if (this.statisticChart.questionObj.piRound === 1) {
 				this.statisticChart.activateFirstSegmentButton();
 			} else {
 				this.statisticChart.activateSecondSegmentButton();
+				this.statisticChart.enablePiRoundElements();
 			}
 
 			this.questionManagementContainer.show();

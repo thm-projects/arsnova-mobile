@@ -431,7 +431,7 @@
 				END_ROUND_WARNING: "Wenn die Runde beendet wird, sind keine Abstimmungen mehr möglich bis eine neue Runde gestartet wird oder die Frage manuell entsperrt wird. Möchten Sie fortfahren?",
 				FIRST_ROUND: "Runde 1",
 				SECOND_ROUND: "Runde 2",
-				BOTH_ROUNDS: "Runde 1/2",
+				BOTH_ROUNDS: "Runde 1|2",
 
 				/*Markdown Editor*/
 				EDITOR_VIMEO: "Vimeo",
@@ -972,7 +972,7 @@
 				END_ROUND_WARNING: "If the current polling round is closed, no more polls are possible until a new round is started or the question is unlocked manually. Would you like to continue?",
 				FIRST_ROUND: "Round 1",
 				SECOND_ROUND: "Round 2",
-				BOTH_ROUNDS: "Round 1/2",
+				BOTH_ROUNDS: "Round 1|2",
 
 				/*Markdown Editor*/
 				EDITOR_VIMEO: "Vimeo",

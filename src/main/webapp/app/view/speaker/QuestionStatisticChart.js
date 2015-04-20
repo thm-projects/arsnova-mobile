@@ -222,13 +222,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		this.piToolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			style: 'background: transparent; border: none;',
-			defaults: {
-				xtype: 'button',
-				scope: this,
-				handler: function (button) {
-					this.modifyChart(button.config.value);
-				}
-			},
+			hidden: true,
 			items: [{
 					xtype: 'spacer'
 				}, this.segmentedButton = Ext.create('Ext.SegmentedButton', {
@@ -236,7 +230,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					defaults: {
 						ui: 'action'
 					},
-					hidden: true,
 					items: [{
 							text: Messages.FIRST_ROUND,
 							itemId: '1'
@@ -475,7 +468,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	},
 
 	enablePiRoundElements: function () {
-		this.segmentedButton.show();
+		this.piToolbar.show();
 	},
 
 	modifyChart: function (piRound) {
@@ -657,7 +650,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				quote.setHtml(users);
 
 				if (round > 1) {
-					me.segmentedButton.show();
+					me.piToolbar.show();
 				}
 			}
 
