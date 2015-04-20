@@ -514,6 +514,7 @@ Ext.define('ARSnova.view.Question', {
 		}
 
 		this.countdownTimer = Ext.create('ARSnova.view.components.CountdownTimer', {
+			docked: 'top',
 			viewOnly: true,
 			hidden: true
 		});

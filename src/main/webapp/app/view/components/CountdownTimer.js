@@ -33,7 +33,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 
 	config: {
 		title: 'timer',
-		cls: 'ars-countdown-timer',
+		cls: 'countdownTimerContainer',
 		scrollable: false,
 		width: 260,
 		height: 260,
