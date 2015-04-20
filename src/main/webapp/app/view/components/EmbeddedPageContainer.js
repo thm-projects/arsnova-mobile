@@ -46,8 +46,15 @@ Ext.define('ARSnova.view.components.EmbeddedPageContainer', {
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			ui: 'light',
 			docked: 'top',
-			title: this.config.title,
-			items: [this.backButton]
+			items: [this.backButton, {
+				xtype: 'spacer'
+			}, {
+				flex: 99,
+				xtype: 'title',
+				title: this.config.title
+			}, {
+				xtype: 'spacer'
+			}]
 		});
 
 		this.add(this.toolbar);
