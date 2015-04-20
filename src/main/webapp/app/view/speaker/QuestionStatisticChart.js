@@ -526,13 +526,15 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		var calculation = function (answers, valuePattern) {
 			var i, el, record;
 			var tmpPossibleAnswers = [];
+			var valueString = 'value' + valuePattern;
+			var percentString = 'percent' + valuePattern;
 
 			sum = 0;
 
 			for (i = 0; i < tmpPossibleAnswers.length; i++) {
 				el = tmpPossibleAnswers[i];
 				record = store.findRecord('text', el, 0, false, true, true);
-				record.set('value' + valuePattern, 0);
+				record.set(valueString, 0);
 			}
 
 			for (i = 0; i < me.questionObj.possibleAnswers.length; i++) {
@@ -575,7 +577,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 						});
 					}
 					store.each(function (record, index) {
-						record.set("value" + valuePattern, mcAnswerCount[index]);
+						record.set(valueString, mcAnswerCount[index]);
 					});
 				} else if (me.questionObj.questionType === "grid") {
 					me.gridStatistic.answers = answers;
@@ -587,12 +589,12 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 						continue;
 					}
 					var record = store.findRecord('text', el.answerText, 0, false, true, true); // exact match
-					record.set('value' + valuePattern, el.answerCount);
+					record.set(valueString, el.answerCount);
 				}
 				sum += el.answerCount;
 
 				store.each(function (record, index) {
-					var max = Math.max(maxValue, record.get('value' + valuePattern));
+					var max = Math.max(maxValue, record.get(valueString));
 					// Scale axis to a bigger number. For example, 12 answers get a maximum scale of 20.
 					maxValue = Math.ceil(max / 10) * 10;
 				});
@@ -606,9 +608,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			if (abstentionCount) {
 				record = store.findRecord('text', Messages.ABSTENTION, 0, false, true, true); // exact match
 				if (!record) {
-					store.add({text: Messages.ABSTENTION, value: abstentionCount});
-				} else if (record.get('value' + valuePattern) != abstentionCount) {
-					record.set('value' + valuePattern, abstentionCount);
+					store.add({text: Messages.ABSTENTION, valueString: abstentionCount});
+				} else if (record.get(valueString) != abstentionCount) {
+					record.set(valueString, abstentionCount);
 				}
 			}
 
@@ -616,20 +618,20 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			if (me.questionObj.questionType === "mc") {
 				store.each(function (record) {
 					var dividend = mcTotalAnswerCount === 0 ? 1 : mcTotalAnswerCount;
-					var percent = Math.round((record.get('value' + valuePattern) / dividend) * 100);
+					var percent = Math.round((record.get(valueString) / dividend) * 100);
 					var max = Math.max(maxPercentage, percent);
-					record.set('percent' + valuePattern, percent);
+					record.set(percentString, percent);
 
 					// Scale axis to a bigger number. For example, 12 answers get a maximum scale of 20.
 					maxPercentage = Math.ceil(max / 10) * 10;
 				});
 			} else {
-				var totalResults = store.sum('value' + valuePattern);
+				var totalResults = store.sum(valueString);
 				store.each(function (record) {
 					var dividend = totalResults === 0 ? 1 : totalResults;
-					var percent = Math.round((record.get('value' + valuePattern) / dividend) * 100);
+					var percent = Math.round((record.get(valueString) / dividend) * 100);
 					var max = Math.max(maxPercentage, percent);
-					record.set('percent' + valuePattern, percent);
+					record.set(percentString, percent);
 
 					// Scale axis to a bigger number. For example, 12 answers get a maximum scale of 20.
 					maxPercentage = Math.ceil(max / 10) * 10;
