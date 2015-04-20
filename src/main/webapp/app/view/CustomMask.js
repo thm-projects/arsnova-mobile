@@ -64,6 +64,7 @@ Ext.define('ARSnova.view.CustomMask', {
 
 		if (controller.info.eventName === 'tap') {
 			this.fireEvent('tap', this, e);
+			this.performClickOnVideoContainer(e);
 		}
 
 		return false;
@@ -82,6 +83,38 @@ Ext.define('ARSnova.view.CustomMask', {
 		}
 
 		return false;
+	},
+
+	performClickOnVideoContainer: function (event) {
+		var x = event.pageX, y = event.pageY;
+		var containers = [], clicked = false;
+		var el = document.elementFromPoint(x, y);
+
+		while (el && el.tagName !== "BODY" && el.tagName !== "HTML") {
+			containers.push(el);
+			el.style.display = "none";
+			el = document.elementFromPoint(x, y);
+		}
+
+		for (var i = 0; i < containers.length; i++){
+			var container = containers[i];
+			container.style.display = "";
+
+			// perform fake click on videoImageContainer
+			if (!clicked && container.className === 'videoImageContainer') {
+				if (container.click) {
+					container.click();
+				} else if (document.createEvent) {
+					if (event.target !== container) {
+						var evt = document.createEvent("MouseEvents");
+						evt.initMouseEvent("click", true, true, window,
+							0, 0, 0, 0, 0, false, false, false, false, 0, null);
+						container.dispatchEvent(evt);
+					}
+				}
+				clicked = true;
+			}
+		}
 	},
 
 	overwriteScrollerMaxPosition: function (scroller, mainPanel) {
