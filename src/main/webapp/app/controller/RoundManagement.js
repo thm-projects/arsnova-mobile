@@ -39,6 +39,16 @@ Ext.define("ARSnova.controller.RoundManagement", {
 		}
 	},
 
+	handleRoundCancel: function (questionId) {
+		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+
+		if (tabPanel.userTabPanel) {
+			ARSnova.app.getController('RoundManagement').handleUserRoundCancel(questionId);
+		} else if (tabPanel.speakerTabPanel) {
+			ARSnova.app.getController('RoundManagement').handleSpeakerRoundCancel(questionId);
+		}
+	},
+
 	updateQuestionOnRoundStart: function (question, object) {
 		if (question.questionObj.piRoundFinished && question.questionObj.piRound === 1) {
 			question.questionObj.piRound = 2;
@@ -56,6 +66,20 @@ Ext.define("ARSnova.controller.RoundManagement", {
 		question.questionObj.active = false;
 		question.questionObj.piRoundActive = false;
 		question.questionObj.piRoundFinished = true;
+		question.questionObj.piRoundStartTime = 0;
+		question.questionObj.piRoundEndTime = 0;
+	},
+
+	updateQuestionOnRoundCancel: function (question) {
+		if (question.questionObj.piRound === 1) {
+			question.questionObj.piRoundFinished = false;
+		} else {
+			question.questionObj.piRound = 1;
+			question.questionObj.piRoundFinished = true;
+		}
+
+		question.questionObj.active = true;
+		question.questionObj.piRoundActive = false;
 		question.questionObj.piRoundStartTime = 0;
 		question.questionObj.piRoundEndTime = 0;
 	},
@@ -81,7 +105,8 @@ Ext.define("ARSnova.controller.RoundManagement", {
 			speakerTabPanel = mainTabPanel.tabPanel.speakerTabPanel,
 			statisticTabPanel = speakerTabPanel.statisticTabPanel;
 
-		if (speakerTabPanel.getActiveItem() === speakerTabPanel.showcaseQuestionPanel) {
+		if (mainTabPanel.getActiveItem() === speakerTabPanel
+			&& speakerTabPanel.getActiveItem() === speakerTabPanel.showcaseQuestionPanel) {
 			var questions = speakerTabPanel.showcaseQuestionPanel.getInnerItems();
 
 			questions.forEach(function (question) {
@@ -131,7 +156,8 @@ Ext.define("ARSnova.controller.RoundManagement", {
 			speakerTabPanel = mainTabPanel.tabPanel.speakerTabPanel,
 			statisticTabPanel = speakerTabPanel.statisticTabPanel;
 
-		if (speakerTabPanel.getActiveItem() === speakerTabPanel.showcaseQuestionPanel) {
+		if (mainTabPanel.getActiveItem() === speakerTabPanel
+			&& speakerTabPanel.getActiveItem() === speakerTabPanel.showcaseQuestionPanel) {
 			var questions = speakerTabPanel.showcaseQuestionPanel.getInnerItems();
 
 			questions.forEach(function (question) {
@@ -149,6 +175,51 @@ Ext.define("ARSnova.controller.RoundManagement", {
 
 			if (question.questionObj._id === questionId) {
 				ARSnova.app.getController('RoundManagement').updateQuestionOnRoundEnd(question);
+				statisticTabPanel.roundManagementPanel.changePiRound(questionId);
+				statisticTabPanel.roundManagementPanel.updateEditButtons();
+			}
+		}
+	},
+
+	handleUserRoundCancel: function (questionId) {
+		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+
+		if (tabPanel.getActiveItem() === tabPanel.userQuestionsPanel) {
+			var questions = tabPanel.userQuestionsPanel.getInnerItems();
+
+			questions.forEach(function (question) {
+				if (question.getItemId() === questionId) {
+					ARSnova.app.getController('RoundManagement').updateQuestionOnRoundCancel(question);
+					question.countdownTimer.hide();
+				}
+			});
+		}
+	},
+
+	handleSpeakerRoundCancel: function (questionId) {
+		var mainTabPanel = ARSnova.app.mainTabPanel,
+			speakerTabPanel = mainTabPanel.tabPanel.speakerTabPanel,
+			statisticTabPanel = speakerTabPanel.statisticTabPanel;
+
+		if (mainTabPanel.getActiveItem() === speakerTabPanel
+			&& speakerTabPanel.getActiveItem() === speakerTabPanel.showcaseQuestionPanel) {
+			var questions = speakerTabPanel.showcaseQuestionPanel.getInnerItems();
+
+			questions.forEach(function (question) {
+				if (question.getItemId() === questionId) {
+					ARSnova.app.getController('RoundManagement').updateQuestionOnRoundCancel(question);
+					question.countdownTimer.hide();
+					question.updateEditButtons();
+					question.editButtons.show();
+				}
+			});
+		}
+
+		if (mainTabPanel.getActiveItem() === statisticTabPanel) {
+			var question = speakerTabPanel.questionStatisticChart;
+
+			if (question.questionObj._id === questionId) {
+				ARSnova.app.getController('RoundManagement').updateQuestionOnRoundCancel(question);
 				statisticTabPanel.roundManagementPanel.changePiRound(questionId);
 				statisticTabPanel.roundManagementPanel.updateEditButtons();
 			}

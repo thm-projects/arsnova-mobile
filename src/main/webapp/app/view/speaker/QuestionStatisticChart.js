@@ -471,6 +471,10 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		this.piToolbar.show();
 	},
 
+	disablePiRoundElements: function () {
+		this.piToolbar.hide();
+	},
+
 	modifyChart: function (piRound) {
 		var fields, percentages,
 			isStacked = false,

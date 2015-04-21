@@ -323,7 +323,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.questionList.show();
 				this.questionStatusButton.checkInitialStatus();
 				this.questionStatusButton.show();
-//				this.sortQuestionsButton.show();
+				// this.sortQuestionsButton.show();
 				this.deleteQuestionsButton.show();
 			}, this),
 			empty: Ext.bind(function () {

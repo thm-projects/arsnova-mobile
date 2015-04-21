@@ -421,14 +421,15 @@
 				IMPORT_IOS_NOTIFICATION: "Ein Import kann auf iOS Geräten nicht durchgeführt werden",
 				IMPORT_NOT_SUPPORTED: "Der Session Import wird für Ihren Browser nicht unterstützt.",
 
-				/*Round managmenet*/
+				/*Round management*/
 				POLL_MANAGEMENT: "Abstimmungsverwaltung",
 				ROUND_MANAGEMENT: "Rundenverwaltung",
 				START_FIRST_ROUND: "Starte Runde 1",
 				START_SECOND_ROUND: "Starte Runde 2",
+				CANCEL_DELAYED_ROUND: "Runde abbrechen",
 				END_ROUND_IMMEDIATELY: "Runde sofort beenden",
 				END_ROUND: "Beenden der Abstimmungsrunde",
-				END_ROUND_WARNING: "Wenn die Runde beendet wird, sind keine Abstimmungen mehr möglich bis eine neue Runde gestartet wird oder die Frage manuell entsperrt wird. Möchten Sie fortfahren?",
+				END_ROUND_WARNING: "Wenn die Runde beendet wird, sind keine Abstimmungen mehr möglich, bis eine neue Runde gestartet wird oder die Frage manuell entsperrt wird. Möchten Sie fortfahren?",
 				FIRST_ROUND: "Runde 1",
 				SECOND_ROUND: "Runde 2",
 				BOTH_ROUNDS: "Runde 1|2",
@@ -962,11 +963,12 @@
 				IMPORT_IOS_NOTIFICATION: "An import can not be performed on iOS devices.",
 				IMPORT_NOT_SUPPORTED: "Session Import is not supported for your browser.",
 
-				/*Round managmenet*/
+				/*Round management*/
 				POLL_MANAGEMENT: "Polling Management",
 				ROUND_MANAGEMENT: "Round Management",
 				START_FIRST_ROUND: "Start round 1",
 				START_SECOND_ROUND: "Start round 2",
+				CANCEL_DELAYED_ROUND: "Cancel round",
 				END_ROUND_IMMEDIATELY: "Close round immediately",
 				END_ROUND: "Close polling round",
 				END_ROUND_WARNING: "If the current polling round is closed, no more polls are possible until a new round is started or the question is unlocked manually. Would you like to continue?",
