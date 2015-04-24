@@ -148,7 +148,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 						if (answer === 'yes') {
 							ARSnova.app.questionModel.deleteAnswers(me.questionObj._id, {
 								success: function () {
-									Ext.toast(Messages.DELETE_ROUND_ANSWERS_COMPLETED, 2000);
+									Ext.toast(Messages.DELETE_ROUND_ANSWERS_COMPLETED, 3000);
 									me.deleteAnswersButton.hide();
 								},
 								failure: function (response) {
@@ -168,12 +168,12 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 				scope: this,
 				handler: function () {
 					var me = this;
-					Ext.Msg.confirm(Messages.DELETE_ANSWERS_REQUEST, Messages.QUESTION_REMAINS, function (answer) {
+					Ext.Msg.confirm(Messages.RESET_ROUND, Messages.RESET_ROUND_WARNING, function (answer) {
 						if (answer === 'yes') {
 							ARSnova.app.questionModel.resetPiRoundState(me.questionObj._id, {
 								success: function () {
-									//Ext.toast(Messages.DELETE_ROUND_ANSWERS_COMPLETED, 2000);
-									//me.questionResetButton.hide();
+									Ext.toast(Messages.RESET_ROUND_COMPLETED, 3000);
+									me.questionResetButton.hide();
 								},
 								failure: function (response) {
 									console.log('server-side error');

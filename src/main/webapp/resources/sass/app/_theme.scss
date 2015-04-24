@@ -473,3 +473,12 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 .isInactive {
 	color: $thm-red;
 }
+
+.x-toast {
+	color: #4a5c66;
+	box-shadow: 0 0 8px 0;
+	background: #e0e0e0;
+	border-color: #4a5c66;
+	max-width: 21em;
+	top: -70px;
+}
