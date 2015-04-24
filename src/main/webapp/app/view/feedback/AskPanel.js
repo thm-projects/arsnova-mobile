@@ -165,29 +165,18 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		ARSnova.app.getController('Feedback').ask({
 			question: question,
 			success: function () {
-				var theNotificationBox = {};
-				theNotificationBox = Ext.create('Ext.Panel', {
-					cls: 'notificationBox',
-					name: 'notificationBox',
-					showAnimation: 'pop',
-					modal: true,
-					centered: true,
-					width: 300,
-					styleHtmlContent: true,
-					styleHtmlCls: 'notificationBoxText',
-					html: Messages.QUESTION_SAVED
+				Ext.toast({
+					message: Messages.QUESTION_SAVED, 
+					timeout: 3000,
+					listeners: {
+						animationend: function () {
+							// Use back button for closing this panel because we may override the button's behaviour.
+							(me.backButton.getHandler())();
+							me.subject.setValue('');
+							me.text.setValue('');
+						}
+					}
 				});
-				Ext.Viewport.add(theNotificationBox);
-				theNotificationBox.show();
-
-				/* Workaround for Chrome 34+ */
-				Ext.defer(function chromeWorkaround() {
-					theNotificationBox.destroy();
-					// Use back button for closing this panel because we may override the button's behaviour.
-					(me.backButton.getHandler())();
-					me.subject.setValue('');
-					me.text.setValue('');
-				}, 3000);
 			},
 			failure: function (records, operation) {
 				Ext.Msg.alert(Messages.NOTIFICATION, Messages.TRANSMISSION_ERROR);

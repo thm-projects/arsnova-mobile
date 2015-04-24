@@ -1338,19 +1338,6 @@ ol.standardList li {
 	text-align: center;
 }
 
-.notificationBox {
-	background-color: black !important;
-	border-radius: 0.3em;
-	border: 0.15em solid #354F6E;
-}
-
-.notificationBoxText {
-	background-color: black !important;
-	text-align: center;
-	color: rgba(186, 202, 222, 0.9);
-	font-size: .9em;
-}
-
 .statsPanel {
 	width: 312px;
 	margin: 0 auto;
