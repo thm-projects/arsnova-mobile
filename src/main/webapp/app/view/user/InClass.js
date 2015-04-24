@@ -79,7 +79,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		var max = 2500;
 		this.learningProgressChange = Ext.Function.createBuffered(function () {
 			// Reset run-time to enforce reload of learning progress
-			this.courseLearningProgressTask.taskRunTime = 0;
+			this.checkLearningProgressTask.taskRunTime = 0;
 		}, Math.random() * (max - min) + min, this);
 
 		this.sessionLogoutButton = Ext.create('Ext.Button', {

@@ -36,6 +36,7 @@ Ext.define('ARSnova.WebSocket', {
 		feedbackReset: "arsnova/socket/feedback/reset",
 		feedbackAverage: "arsnova/socket/feedback/average",
 		endPiRound: "arsnova/question/lecturer/endPiRound",
+		resetPiRound: "arsnova/question/lecturer/resetPiRound",
 		cancelPiRound: "arsnova/question/lecturer/cancelPiRound",
 		startDelayedPiRound: "arsnova/question/lecturer/delayedPiRound",
 		lecturerQuestionAvailable: "arsnova/socket/question/lecturer/available",
@@ -132,6 +133,11 @@ Ext.define('ARSnova.WebSocket', {
 			this.socket.on('cancelPiRound', Ext.bind(function (questionId) {
 				console.debug("Socket.IO: cancelPiRound", questionId);
 				this.fireEvent(this.events.cancelPiRound, questionId);
+			}, this));
+
+			this.socket.on('resetPiRound', Ext.bind(function (questionId) {
+				console.debug("Socket.IO: resetPiRound", questionId);
+				this.fireEvent(this.events.resetPiRound, questionId);
 			}, this));
 
 			this.socket.on('startDelayedPiRound', Ext.bind(function (object) {

@@ -335,6 +335,7 @@
 				QUESTION_REMAINS: "Die Frage bleibt erhalten.",
 				INCOMPLETE_INPUTS: "Ihre Eingaben sind unvollständig.",
 				DELETE_ALL_ANSWERS_INFO: "Es werden auch alle bisher gegebenen Antworten gelöscht.",
+				DELETE_ROUND_ANSWERS_COMPLETED: "Die Antworten der aktuellen Runde wurden gelöscht.",
 				CHANGE_RELEASE: "Ändere die Freigabe...",
 				TYPE: 'Typ',
 				INFINITE: "unbegrenzt",
@@ -422,7 +423,6 @@
 				IMPORT_NOT_SUPPORTED: "Der Session Import wird für Ihren Browser nicht unterstützt.",
 
 				/*Round management*/
-				POLL_MANAGEMENT: "Abstimmungsverwaltung",
 				ROUND_MANAGEMENT: "Rundenverwaltung",
 				START_FIRST_ROUND: "Starte Runde 1",
 				START_SECOND_ROUND: "Starte Runde 2",
@@ -530,6 +530,7 @@
 				QUESTION_REQUEST_ADHOC: 'Ich habe eine<br/>Frage',
 				GRID_LABEL_WEAKEN_IMAGE: "Bild<br>abschwächen",
 				GRID_LABEL_SHOW_HEATMAP: "Heatmap<br>anzeigen",
+				RESET_QUESTION: "Frage<br>zurücksetzen",
 
 				/* about */
 				INFO: "Handbuch",
@@ -870,6 +871,7 @@
 				DELETE_ALL: "Delete all",
 				DELETE_ANSWERS_REQUEST: "Delete answers?",
 				DELETE_ALL_ANSWERS_REQUEST: "Delete all answers?",
+				DELETE_ROUND_ANSWERS_COMPLETED: "All answers of the actual round have been deleted.",
 				QUESTION_REMAINS: "The question itself stays unaffected.",
 				INCOMPLETE_INPUTS: "Your inputs are incomplete.",
 				ALL_QUESTIONS_REMAIN: "The questions themselves stay unaffected.",
@@ -964,7 +966,6 @@
 				IMPORT_NOT_SUPPORTED: "Session Import is not supported for your browser.",
 
 				/*Round management*/
-				POLL_MANAGEMENT: "Polling Management",
 				ROUND_MANAGEMENT: "Round Management",
 				START_FIRST_ROUND: "Start round 1",
 				START_SECOND_ROUND: "Start round 2",
@@ -1073,6 +1074,7 @@
 				QUESTION_REQUEST_ADHOC: "I've got a<br/>question",
 				GRID_LABEL_WEAKEN_IMAGE: "Transparent<br>image",
 				GRID_LABEL_SHOW_HEATMAP: "Show<br>heatmap",
+				RESET_QUESTION: "Reset<br>question",
 
 				/* about */
 				INFO: "Manual",

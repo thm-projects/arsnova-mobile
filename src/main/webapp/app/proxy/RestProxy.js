@@ -575,6 +575,15 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
+	resetPiRoundState: function (questionId, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/" + questionId + "/resetPiRoundState",
+			method: "GET",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
 	delAnswers: function (questionId, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/answer/",

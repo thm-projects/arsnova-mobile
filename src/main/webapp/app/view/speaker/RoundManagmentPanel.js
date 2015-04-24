@@ -77,7 +77,11 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 			hidden: true,
 			width: 240,
 			scope: this,
-			handler: this.cancelPiRound
+			handler: function (button) {
+				button.disable();
+				this.cancelPiRound();
+				button.enable();
+			}
 		});
 
 		this.endRoundButton = Ext.create('Ext.Button', {
@@ -132,7 +136,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		this.onBefore('activate', this.beforeActivate);
 	},
 
-	onPainted: function () {
+	onPainted: function () {console.log(this.statisticChart.questionObj);
 		ARSnova.app.innerScrollPanel = this;
 	},
 
@@ -208,14 +212,15 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		if (!this.editButtons) {
 			this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
 				speakerStatistics: true,
+				buttonClass: 'smallerActionButton',
 				questionObj: this.cleanupQuestionObj(this.statisticChart.questionObj)
 			});
 
 			this.questionManagementContainer.add(this.editButtons);
 			this.questionManagementContainer.show();
-		} else {
-			this.updateEditButtons();
 		}
+
+		this.updateEditButtons();
 	},
 
 	prepareCountdownButtons: function () {
@@ -248,8 +253,12 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 	},
 
 	updateEditButtons: function () {
+		var hasAnswers = this.statisticChart.hasAnswers;
+
 		this.editButtons.questionObj = this.statisticChart.questionObj;
 		this.editButtons.updateData(this.statisticChart.questionObj);
+		this.editButtons.updateDeleteButtonState(hasAnswers);
+		this.editButtons.updateQuestionResetButtonState();
 	},
 
 	cleanupQuestionObj: function (questionObj) {

@@ -49,6 +49,16 @@ Ext.define("ARSnova.controller.RoundManagement", {
 		}
 	},
 
+	handleQuestionReset: function (questionId) {
+		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+
+		if (tabPanel.userTabPanel) {
+			ARSnova.app.getController('RoundManagement').handleUserRoundReset(questionId);
+		} else if (tabPanel.speakerTabPanel) {
+			ARSnova.app.getController('RoundManagement').handleSpeakerRoundReset(questionId);
+		}
+	},
+
 	updateQuestionOnRoundStart: function (question, object) {
 		if (question.questionObj.piRoundFinished && question.questionObj.piRound === 1) {
 			question.questionObj.piRound = 2;
@@ -78,8 +88,18 @@ Ext.define("ARSnova.controller.RoundManagement", {
 			question.questionObj.piRoundFinished = true;
 		}
 
-		question.questionObj.active = true;
+		question.questionObj.active = false;
 		question.questionObj.piRoundActive = false;
+		question.questionObj.piRoundStartTime = 0;
+		question.questionObj.piRoundEndTime = 0;
+	},
+
+	updateQuestionOnRoundReset: function (question) {
+		question.questionObj.piRound = 1;
+		question.questionObj.active = false;
+		question.questionObj.showStatistic = false;
+		question.questionObj.piRoundActive = false;
+		question.questionObj.piRoundFinished = false;
 		question.questionObj.piRoundStartTime = 0;
 		question.questionObj.piRoundEndTime = 0;
 	},
@@ -220,6 +240,51 @@ Ext.define("ARSnova.controller.RoundManagement", {
 
 			if (question.questionObj._id === questionId) {
 				ARSnova.app.getController('RoundManagement').updateQuestionOnRoundCancel(question);
+				statisticTabPanel.roundManagementPanel.changePiRound(questionId);
+				statisticTabPanel.roundManagementPanel.updateEditButtons();
+			}
+		}
+	},
+
+	handleUserRoundReset: function (questionId) {
+		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+
+		if (tabPanel.getActiveItem() === tabPanel.userQuestionsPanel) {
+			var questions = tabPanel.userQuestionsPanel.getInnerItems();
+
+			questions.forEach(function (question) {
+				if (question.getItemId() === questionId) {
+					ARSnova.app.getController('RoundManagement').updateQuestionOnRoundReset(question);
+					question.countdownTimer.hide();
+				}
+			});
+		}
+	},
+
+	handleSpeakerRoundReset: function (questionId) {
+		var mainTabPanel = ARSnova.app.mainTabPanel,
+			speakerTabPanel = mainTabPanel.tabPanel.speakerTabPanel,
+			statisticTabPanel = speakerTabPanel.statisticTabPanel;
+
+		if (mainTabPanel.getActiveItem() === speakerTabPanel
+			&& speakerTabPanel.getActiveItem() === speakerTabPanel.showcaseQuestionPanel) {
+			var questions = speakerTabPanel.showcaseQuestionPanel.getInnerItems();
+
+			questions.forEach(function (question) {
+				if (question.getItemId() === questionId) {
+					ARSnova.app.getController('RoundManagement').updateQuestionOnRoundReset(question);
+					question.countdownTimer.hide();
+					question.updateEditButtons();
+					question.editButtons.show();
+				}
+			});
+		}
+
+		if (mainTabPanel.getActiveItem() === statisticTabPanel) {
+			var question = speakerTabPanel.questionStatisticChart;
+
+			if (question.questionObj._id === questionId) {
+				ARSnova.app.getController('RoundManagement').updateQuestionOnRoundReset(question);
 				statisticTabPanel.roundManagementPanel.changePiRound(questionId);
 				statisticTabPanel.roundManagementPanel.updateEditButtons();
 			}

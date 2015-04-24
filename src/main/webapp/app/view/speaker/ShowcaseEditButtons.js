@@ -25,6 +25,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			pack: 'center'
 		},
 
+		buttonClass: '',
 		speakerStatistics: false,
 		style: "margin: 10px"
 	},
@@ -44,6 +45,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 		this.releaseStatisticButton = Ext.create('ARSnova.view.MatrixButton', {
 			buttonConfig: 'togglefield',
 			text: Messages.RELEASE_STATISTIC,
+			cls: this.config.buttonClass,
 			toggleConfig: {
 				scope: this,
 				label: false,
@@ -90,6 +92,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			this.showCorrectAnswerButton = Ext.create('ARSnova.view.MatrixButton', {
 				buttonConfig: 'togglefield',
 				text: Messages.MARK_CORRECT_ANSWER,
+				cls: this.config.buttonClass,
 				toggleConfig: {
 					scope: this,
 					label: false,
@@ -132,16 +135,89 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			});
 		}
 
+		if (this.config.speakerStatistics) {
+			this.deleteAnswersButton = Ext.create('ARSnova.view.MatrixButton', {
+				buttonConfig: 'icon',
+				text: Messages.DELETE_ANSWERS,
+				imageCls: 'icon-close thm-orange',
+				cls: this.config.buttonClass,
+				scope: this,
+				handler: function () {
+					var me = this;
+					Ext.Msg.confirm(Messages.DELETE_ANSWERS_REQUEST, Messages.QUESTION_REMAINS, function (answer) {
+						if (answer === 'yes') {
+							ARSnova.app.questionModel.deleteAnswers(me.questionObj._id, {
+								success: function () {
+									Ext.toast(Messages.DELETE_ROUND_ANSWERS_COMPLETED, 2000);
+									me.deleteAnswersButton.hide();
+								},
+								failure: function (response) {
+									console.log('server-side error delete question');
+								}
+							});
+						}
+					});
+				}
+			});
+
+			this.questionResetButton = Ext.create('ARSnova.view.MatrixButton', {
+				buttonConfig: 'icon',
+				text: Messages.RESET_QUESTION,
+				imageCls: 'icon-renew thm-orange',
+				cls: this.config.buttonClass,
+				scope: this,
+				handler: function () {
+					var me = this;
+					Ext.Msg.confirm(Messages.DELETE_ANSWERS_REQUEST, Messages.QUESTION_REMAINS, function (answer) {
+						if (answer === 'yes') {
+							ARSnova.app.questionModel.resetPiRoundState(me.questionObj._id, {
+								success: function () {
+									//Ext.toast(Messages.DELETE_ROUND_ANSWERS_COMPLETED, 2000);
+									//me.questionResetButton.hide();
+								},
+								failure: function (response) {
+									console.log('server-side error');
+								}
+							});
+						}
+					});
+				}
+			});
+		}
+
 		this.questionStatusButton = Ext.create('ARSnova.view.QuestionStatusButton', {
+			cls: this.config.buttonClass,
 			questionObj: this.questionObj,
 			parentPanel: this
 		});
 
 		this.add([
 			this.questionStatusButton,
-			type === "flashcard" ? {} : this.releaseStatisticButton,
-			this.hasCorrectAnswers && !this.config.speakerStatistics ? this.showCorrectAnswerButton : {}
+			this.config.speakerStatistics ? this.questionResetButton : {},
+			this.config.speakerStatistics || type === "flashcard" ? {} : this.releaseStatisticButton,
+			this.hasCorrectAnswers && !this.config.speakerStatistics ? this.showCorrectAnswerButton : {},
+			this.config.speakerStatistics ? this.deleteAnswersButton : {}
 		]);
+	},
+
+	updateDeleteButtonState: function (hasAnswers) {
+		if (this.config.speakerStatistics) {
+			if (hasAnswers) {
+				this.deleteAnswersButton.show();
+			} else {
+				this.deleteAnswersButton.hide();
+			}
+		}
+	},
+
+	updateQuestionResetButtonState: function () {
+		if (this.config.speakerStatistics) {
+			if (this.questionObj.piRound === 1 && !this.questionObj.piRoundFinished) {
+				this.questionResetButton.hide();
+			} else {
+				this.questionResetButton.show();
+			}
+		}
 	},
 
 	updateData: function (questionObj) {

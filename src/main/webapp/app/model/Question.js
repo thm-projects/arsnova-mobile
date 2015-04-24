@@ -87,6 +87,7 @@ Ext.define('ARSnova.model.Question', {
 
 	events: {
 		endPiRound: "arsnova/question/lecturer/endPiRound",
+		resetPiRound: "arsnova/question/lecturer/resetPiRound",
 		cancelPiRound: "arsnova/question/lecturer/cancelPiRound",
 		startDelayedPiRound: "arsnova/question/lecturer/delayedPiRound",
 		lecturerQuestionAvailable: "arsnova/question/lecturer/available",
@@ -158,6 +159,13 @@ Ext.define('ARSnova.model.Question', {
 				ARSnova.app.getController('RoundManagement').handleRoundCancel(questionId);
 			}
 			this.fireEvent(this.events.cancelPiRound, questionId);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.resetPiRound, function (questionId) {
+			if (ARSnova.app.questionModel === this) {
+				ARSnova.app.getController('RoundManagement').handleQuestionReset(questionId);
+			}
+			this.fireEvent(this.events.resetPiRound, questionId);
 		}, this);
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.countQuestionAnswersByQuestion, function (object) {
@@ -236,6 +244,10 @@ Ext.define('ARSnova.model.Question', {
 
 	cancelDelayedPiRound: function (callbacks) {
 		return this.getProxy().cancelDelayedPiRound(this.get('_id'), callbacks);
+	},
+
+	resetPiRoundState: function (questionId, callbacks) {
+		return this.getProxy().resetPiRoundState(questionId, callbacks);
 	},
 
 	publishSkillQuestion: function (callbacks) {
