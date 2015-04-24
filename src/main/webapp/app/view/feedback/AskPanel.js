@@ -166,7 +166,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			question: question,
 			success: function () {
 				Ext.toast({
-					message: Messages.QUESTION_SAVED, 
+					message: Messages.QUESTION_SAVED,
 					timeout: 3000,
 					listeners: {
 						animationend: function () {
