@@ -98,7 +98,7 @@ Ext.define('ARSnova.view.Question', {
 
 					if (self.questionObj.questionType !== 'flashcard') {
 						self.disableQuestion();
-						if(!self.questionObj.piRoundActive) {
+						if (!self.questionObj.piRoundActive) {
 							ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
 							ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
 						}
