@@ -533,7 +533,7 @@ Ext.define('ARSnova.view.Question', {
 				this.setAnswerCount();
 			}
 
-			if (this.isDisabled()) {
+			if (this.isDisabled() || this.questionObj.votingDisabled) {
 				this.disableQuestion();
 			}
 
@@ -669,6 +669,13 @@ Ext.define('ARSnova.view.Question', {
 	disableQuestion: function () {
 		this.setDisabled(true);
 		this.mask(this.customMask);
+	},
+
+	enableQuestion: function () {
+		if (!this.questionObj.userAnswered) {
+			this.setDisabled(false);
+			this.setMasked(false);
+		}
 	},
 
 	selectAbstentionAnswer: function () {
