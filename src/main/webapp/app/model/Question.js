@@ -39,6 +39,7 @@ Ext.define('ARSnova.model.Question', {
 			'piRoundStartTime',
 			'piRoundEndTime',
 			'piRoundFinished',
+			'votingDisabled',
 			'possibleAnswers',
 			'questionType',
 			'questionVariant',
@@ -86,6 +87,7 @@ Ext.define('ARSnova.model.Question', {
 	},
 
 	events: {
+		lockVoting: "arsnova/question/lecturer/lockVoting",
 		endPiRound: "arsnova/question/lecturer/endPiRound",
 		resetPiRound: "arsnova/question/lecturer/resetPiRound",
 		cancelPiRound: "arsnova/question/lecturer/cancelPiRound",
@@ -166,6 +168,13 @@ Ext.define('ARSnova.model.Question', {
 				ARSnova.app.getController('RoundManagement').handleQuestionReset(questionId);
 			}
 			this.fireEvent(this.events.resetPiRound, questionId);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.lockVoting, function (object) {
+			if (ARSnova.app.questionModel === this) {
+				ARSnova.app.getController('Questions').handleVotingLock(object._id, object.disable, object.variant);
+			}
+			this.fireEvent(this.events.lockVoting, object);
 		}, this);
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.countQuestionAnswersByQuestion, function (object) {
@@ -264,6 +273,10 @@ Ext.define('ARSnova.model.Question', {
 
 	publishCorrectSkillQuestionAnswer: function (callbacks) {
 		return this.getProxy().publishCorrectSkillQuestionAnswer(this, callbacks);
+	},
+
+	disableQuestionVoting: function (questionId, disable, callbacks) {
+		return this.getProxy().disableQuestionVoting(questionId, disable, callbacks);
 	},
 
 	getLectureQuestions: function (sessionKeyword, callbacks) {

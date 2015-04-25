@@ -495,6 +495,15 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
+	disableQuestionVoting: function (questionId, disable, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/" + questionId + "/disableVoting?disable=" + encodeURIComponent(disable),
+			method: "GET",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
 	createSession: function (session, callbacks) {
 		this.arsjax.request({
 			url: "session/",

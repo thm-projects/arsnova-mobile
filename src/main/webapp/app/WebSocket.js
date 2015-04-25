@@ -35,6 +35,7 @@ Ext.define('ARSnova.WebSocket', {
 		setSessionActive: "arsnova/socket/session/active",
 		feedbackReset: "arsnova/socket/feedback/reset",
 		feedbackAverage: "arsnova/socket/feedback/average",
+		lockVoting: "arsnova/socket/lecturer/lockVoting",
 		endPiRound: "arsnova/question/lecturer/endPiRound",
 		resetPiRound: "arsnova/question/lecturer/resetPiRound",
 		cancelPiRound: "arsnova/question/lecturer/cancelPiRound",
@@ -153,6 +154,11 @@ Ext.define('ARSnova.WebSocket', {
 			this.socket.on('lecturerQuestionLocked', Ext.bind(function (questions) {
 				console.debug("Socket.IO: lecturerQuestionLocked", questions);
 				this.fireEvent(this.events.lecturerQuestionLocked, questions);
+			}, this));
+
+			this.socket.on('lockVoting', Ext.bind(function (object) {
+				console.debug("Socket.IO: lockVoting", object);
+				this.fireEvent(this.events.lockVoting, object);
 			}, this));
 
 			this.socket.on('audQuestionAvail', Ext.bind(function (questionId) {
