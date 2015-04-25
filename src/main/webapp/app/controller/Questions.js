@@ -369,6 +369,26 @@ Ext.define("ARSnova.controller.Questions", {
 		});
 	},
 
+	handleVotingLock: function (questionId, disable) {
+		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+
+		if (tabPanel.getActiveItem() === tabPanel.userQuestionsPanel) {
+			var questions = tabPanel.userQuestionsPanel.getInnerItems();
+
+			questions.forEach(function (question) {
+				if (question.getItemId() === questionId) {
+					question.questionObj.votingDisabled = disable;
+
+					if (disable) {
+						question.disableQuestion();
+					} else {
+						question.enableQuestion();
+					}
+				}
+			});
+		}
+	},
+
 	adHoc: function () {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.sortQuestionsPanel.setController(this);
