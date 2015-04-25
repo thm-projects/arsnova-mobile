@@ -19,6 +19,8 @@
 Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 	extend: 'Ext.Panel',
 
+	requires: ['ARSnova.view.VoteStatusButton'],
+
 	config: {
 		layout: {
 			type: 'hbox',
@@ -183,16 +185,22 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 					});
 				}
 			});
+
+			this.statusButton = Ext.create('ARSnova.view.VoteStatusButton', {
+				cls: this.config.buttonClass,
+				questionObj: this.questionObj,
+				parentPanel: this
+			});
+		} else {
+			this.statusButton = Ext.create('ARSnova.view.QuestionStatusButton', {
+				cls: this.config.buttonClass,
+				questionObj: this.questionObj,
+				parentPanel: this
+			});
 		}
 
-		this.questionStatusButton = Ext.create('ARSnova.view.QuestionStatusButton', {
-			cls: this.config.buttonClass,
-			questionObj: this.questionObj,
-			parentPanel: this
-		});
-
 		this.add([
-			this.questionStatusButton,
+			this.statusButton,
 			this.config.speakerStatistics ? this.questionResetButton : {},
 			this.config.speakerStatistics || type === "flashcard" ? {} : this.releaseStatisticButton,
 			this.hasCorrectAnswers && !this.config.speakerStatistics ? this.showCorrectAnswerButton : {},
@@ -221,11 +229,11 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 	},
 
 	updateData: function (questionObj) {
-		var active = questionObj.active,
+		var active = this.config.speakerStatistics ? !questionObj.votingDisabled : questionObj.active,
 			showAnswer = questionObj.showAnswer ? 1 : 0,
 			showStatistic = questionObj.showStatistic ? 1 : 0;
 
-		this.questionStatusButton.button.setToggleFieldValue(active);
+		this.statusButton.button.setToggleFieldValue(active);
 		this.showCorrectAnswerButton.setToggleFieldValue(showAnswer);
 		this.releaseStatisticButton.setToggleFieldValue(showStatistic);
 	}
