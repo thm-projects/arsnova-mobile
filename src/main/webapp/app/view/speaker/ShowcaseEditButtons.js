@@ -233,7 +233,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			showAnswer = questionObj.showAnswer ? 1 : 0,
 			showStatistic = questionObj.showStatistic ? 1 : 0;
 
-		this.statusButton.button.setToggleFieldValue(active);
+		this.statusButton.toggleStatusButton(active);
 		this.showCorrectAnswerButton.setToggleFieldValue(showAnswer);
 		this.releaseStatisticButton.setToggleFieldValue(showStatistic);
 	}

@@ -150,6 +150,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 	start: function (startTime, endTime) {
 		var me = this;
 
+		me.setHidden(false);
 		startTime = parseInt(startTime);
 		endTime = parseInt(endTime);
 

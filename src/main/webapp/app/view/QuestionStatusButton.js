@@ -110,6 +110,11 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		this.isRendered = true;
 	},
 
+	toggleStatusButton: function (active) {
+		this.button.setToggleFieldValue(active);
+		this.isOpen = active;
+	},
+
 	questionClosedSuccessfully: function () {
 		this.isOpen = false;
 

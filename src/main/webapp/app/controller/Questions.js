@@ -378,6 +378,7 @@ Ext.define("ARSnova.controller.Questions", {
 			questions.forEach(function (question) {
 				if (question.getItemId() === questionId) {
 					question.questionObj.votingDisabled = disable;
+					question.countdownTimer.hide();
 
 					if (disable) {
 						question.disableQuestion();
