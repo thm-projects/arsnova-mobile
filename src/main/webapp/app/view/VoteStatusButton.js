@@ -48,6 +48,7 @@ Ext.define('ARSnova.view.VoteStatusButton', {
 		this.button = Ext.create('ARSnova.view.MatrixButton', {
 			buttonConfig: 'togglefield',
 			text: this.getWording().release,
+			disabledCls: '',
 			scope: this,
 			cls: this.getCls(),
 			toggleConfig: {
@@ -71,6 +72,7 @@ Ext.define('ARSnova.view.VoteStatusButton', {
 	changeStatus: function () {
 		var me = this;
 		var id = this.questionObj._id;
+		this.button.disable();
 
 		if (this.isOpen) {
 			Ext.Msg.confirm(this.getWording().confirm, this.getWording().confirmMessage, function (buttonId) {
@@ -82,10 +84,12 @@ Ext.define('ARSnova.view.VoteStatusButton', {
 						},
 						failure: function (records, operation) {
 							Ext.Msg.alert(Messages.NOTIFICATION, Messages.QUESTION_COULD_NOT_BE_SAVED);
+							this.button.enable();
 						}
 					});
 				} else {
 					me.button.setToggleFieldValue(true);
+					this.button.enable();
 				}
 			}, this);
 		} else {
@@ -96,6 +100,7 @@ Ext.define('ARSnova.view.VoteStatusButton', {
 				},
 				failure: function (records, operation) {
 					Ext.Msg.alert(Messages.NOTIFICATION, Messages.QUESTION_COULD_NOT_BE_SAVED);
+					this.button.enable();
 				}
 			});
 		}
@@ -118,6 +123,7 @@ Ext.define('ARSnova.view.VoteStatusButton', {
 
 	votingClosedSuccessfully: function () {
 		this.isOpen = false;
+		this.button.enable();
 
 		if (this.parentPanel) {
 			this.parentPanel.questionObj.votingDisabled = true;
@@ -126,6 +132,7 @@ Ext.define('ARSnova.view.VoteStatusButton', {
 
 	votingOpenedSuccessfully: function () {
 		this.isOpen = true;
+		this.button.enable();
 
 		if (this.parentPanel) {
 			this.parentPanel.questionObj.votingDisabled = false;
