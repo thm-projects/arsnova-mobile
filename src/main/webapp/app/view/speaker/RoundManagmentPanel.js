@@ -61,11 +61,21 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 			width: 240,
 			scope: this,
 			handler: function (button) {
+				var me = this;
+
 				button.disable();
 				this.startNewPiRound(this.countdownTimer.slider.getValue() * 60);
 				this.startRoundButton.hide();
 				this.endRoundButton.show();
 				this.cancelRoundButton.show();
+				this.endRoundButton.disable();
+				this.cancelRoundButton.disable();
+
+				Ext.create('Ext.util.DelayedTask', function () {
+					me.endRoundButton.enable();
+					me.cancelRoundButton.enable();
+				}).delay(1000);
+
 				button.enable();
 			}
 		});
@@ -154,6 +164,8 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 	},
 
 	changePiRound: function (questionId) {
+		var me = this;
+
 		if (this.statisticChart.questionObj._id === questionId) {
 			if (this.statisticChart.questionObj.piRound === 1) {
 				this.statisticChart.activateFirstSegmentButton();
@@ -164,9 +176,15 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 			}
 
 			this.questionManagementContainer.show();
-			this.startRoundButton.show();
+			this.startRoundButton.disable();
 			this.endRoundButton.hide();
 			this.cancelRoundButton.hide();
+			this.startRoundButton.show();
+
+			Ext.create('Ext.util.DelayedTask', function () {
+				me.startRoundButton.enable();
+			}).delay(1000);
+
 			this.prepareCountdownButtons();
 		}
 	},
