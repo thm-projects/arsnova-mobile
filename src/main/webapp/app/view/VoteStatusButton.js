@@ -21,9 +21,9 @@ Ext.define('ARSnova.view.VoteStatusButton', {
 
 	config: {
 		wording: {
-			release: "Abstimmung freigeben",
-			confirm: Messages.CONFIRM_CLOSE_QUESTION,
-			confirmMessage: Messages.CONFIRM_CLOSE_QUESTION_MESSAGE
+			release: Messages.RELEASE_VOTE,
+			confirm: Messages.CONFIRM_CLOSE_VOTE,
+			confirmMessage: Messages.CONFIRM_CLOSE_VOTE_MESSAGE
 		}
 	},
 

@@ -667,8 +667,10 @@ Ext.define('ARSnova.view.Question', {
 	},
 
 	disableQuestion: function () {
-		this.setDisabled(true);
-		this.mask(this.customMask);
+		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
+			this.setDisabled(true);
+			this.mask(this.customMask);
+		}
 	},
 
 	enableQuestion: function () {
