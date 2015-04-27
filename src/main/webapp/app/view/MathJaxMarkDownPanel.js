@@ -39,6 +39,8 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 	},
 
 	setContent: function (content, mathJaxEnabled, markDownEnabled, mathjaxCallback) {
+		var hideVideoElements = this.config.hideVideoElements;
+
 		function urlify(text) {
 			text += " ";
 			var urlDelimiter = /([^="\w]https?:\/\/[^\s<]+)/g;
@@ -74,7 +76,11 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 				return content.replace(delimiters.elementDel, function (element) {
 					var videoId = element.match(delimiters.videoIdDel)[1];
 
-					element = '<p class="videoImageParagraph">' + element + '</p>';
+					if (hideVideoElements) {
+						element = '<p class="videoImageParagraph hidden">' + element + '</p>';
+					} else {
+						element = '<p class="videoImageParagraph">' + element + '</p>';
+					}
 
 					return element.replace(delimiters.imageDel, function (imageEl) {
 						var title = element.match(delimiters.titleDel)[1];
