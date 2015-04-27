@@ -64,19 +64,20 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 				var me = this;
 
 				button.disable();
-				this.startNewPiRound(this.countdownTimer.slider.getValue() * 60);
-				this.startRoundButton.hide();
-				this.endRoundButton.show();
-				this.cancelRoundButton.show();
-				this.endRoundButton.disable();
-				this.cancelRoundButton.disable();
+				this.startNewPiRound(this.countdownTimer.slider.getValue() * 60, function () {
+					me.startRoundButton.hide();
+					me.endRoundButton.show();
+					me.cancelRoundButton.show();
+					me.endRoundButton.disable();
+					me.cancelRoundButton.disable();
 
-				Ext.create('Ext.util.DelayedTask', function () {
-					me.endRoundButton.enable();
-					me.cancelRoundButton.enable();
-				}).delay(1000);
+					Ext.create('Ext.util.DelayedTask', function () {
+						me.endRoundButton.enable();
+						me.cancelRoundButton.enable();
+					}).delay(1000);
 
-				button.enable();
+					button.enable();
+				});
 			}
 		});
 
@@ -89,8 +90,9 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 			scope: this,
 			handler: function (button) {
 				button.disable();
-				this.cancelPiRound();
-				button.enable();
+				this.cancelPiRound(function () {
+					button.enable();
+				});
 			}
 		});
 
@@ -189,26 +191,32 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		}
 	},
 
-	cancelPiRound: function () {
+	cancelPiRound: function (afterCancelFunction) {
 		var question = Ext.create('ARSnova.model.Question', this.statisticChart.questionObj);
 		this.countdownTimer.stop();
 
 		question.cancelDelayedPiRound({
 			success: function (response) {
+				afterCancelFunction();
 				console.debug('New question round canceled');
 			}
 		});
 	},
 
-	startNewPiRound: function (delay) {
+	startNewPiRound: function (delay, afterStartFunction) {
 		var question = Ext.create('ARSnova.model.Question', this.statisticChart.questionObj);
 
 		if (!delay || delay < 0) {
 			delay = 0;
 		}
 
+		if (!afterStartFunction) {
+			afterStartFunction = Ext.emptyFn;
+		}
+
 		question.startNewPiRound(delay, {
 			success: function (response) {
+				afterStartFunction();
 				console.debug('New question round started.');
 			}
 		});
