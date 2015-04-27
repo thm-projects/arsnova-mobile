@@ -105,11 +105,19 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 			}
 		}]);
 
+		this.on('painted', this.onPainted);
 		this.on('deactivate', this.onDeactivate);
+	},
+
+	onPainted: function () {
+		ARSnova.app.innerScrollPanel = this;
 	},
 
 	onDeactivate: function () {
 		// reload questions
 		ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.getCheckFeedbackQuestionsTask().taskRunTime = 0;
+
+		// disable innerScrollPanel
+		ARSnova.app.innerScrollPanel = false;
 	}
 });
