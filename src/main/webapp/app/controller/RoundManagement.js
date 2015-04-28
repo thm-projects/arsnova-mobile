@@ -67,6 +67,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 		question.questionObj.active = true;
 		question.questionObj.votingDisabled = false;
 		question.questionObj.showStatistic = false;
+		question.questionObj.showAnswer = false;
 		question.questionObj.piRoundActive = true;
 		question.questionObj.piRoundFinished = false;
 		question.questionObj.piRoundStartTime = object.startTime;
@@ -89,6 +90,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 			question.questionObj.piRoundFinished = true;
 		}
 
+		question.questionObj.showAnswer = false;
 		question.questionObj.votingDisabled = true;
 		question.questionObj.piRoundActive = false;
 		question.questionObj.piRoundStartTime = 0;
@@ -222,8 +224,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 			speakerTabPanel = mainTabPanel.tabPanel.speakerTabPanel,
 			statisticTabPanel = speakerTabPanel.statisticTabPanel;
 
-		if (mainTabPanel.getActiveItem() === speakerTabPanel
-			&& speakerTabPanel.getActiveItem() === speakerTabPanel.showcaseQuestionPanel) {
+		if (speakerTabPanel.getActiveItem() === speakerTabPanel.showcaseQuestionPanel) {
 			var questions = speakerTabPanel.showcaseQuestionPanel.getInnerItems();
 
 			questions.forEach(function (question) {
