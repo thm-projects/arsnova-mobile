@@ -44,12 +44,11 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			var mainTabPanel = ARSnova.app.mainTabPanel;
 			var tP = mainTabPanel.tabPanel;
 			var panel = tP.userQuestionsPanel || tP.speakerTabPanel;
-			var statisticTabPanel = tP.speakerTabPanel.statisticTabPanel;
 
 			panel.questionStatisticChart.getQuestionAnswers();
 
-			if (mainTabPanel.getActiveItem() === statisticTabPanel) {
-				statisticTabPanel.roundManagementPanel.updateEditButtons();
+			if (mainTabPanel.getActiveItem() === tP.speakerTabPanel) {
+				tP.speakerTabPanel.statisticTabPanel.roundManagementPanel.updateEditButtons();
 			}
 		},
 		interval: 10000 // 10 seconds
@@ -459,14 +458,14 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		ARSnova.app.innerScrollPanel = this;
 		ARSnova.app.taskManager.start(this.renewChartDataTask);
 
+		if (this.questionObj.piRound === 1) {
+			this.activateFirstSegmentButton();
+		} else {
+			this.activateSecondSegmentButton();
+		}
+
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			ARSnova.app.taskManager.start(this.countActiveUsersTask);
-
-			if (this.questionObj.piRound === 1) {
-				this.activateFirstSegmentButton();
-			} else {
-				this.activateSecondSegmentButton();
-			}
 		}
 	},
 
@@ -670,12 +669,12 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				chart.getAxes()[0].setMaximum(maxValue);
 			}
 
+			if (round > 1) {
+				me.piToolbar.show();
+			}
+
 			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 				me.updateAnswerCount(me.questionObj.piRound);
-
-				if (round > 1) {
-					me.piToolbar.show();
-				}
 			}
 
 			// renew the chart-data
@@ -689,7 +688,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					calculation(answers, '-round1');
 					me.answerCountFirstRound = sum;
 
-					if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+					if (countSecondRound !== Ext.emptyFn) {
 						countSecondRound();
 					} else {
 						afterCalculation();
@@ -715,12 +714,10 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			});
 		};
 
-		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER || me.questionObj.piRound !== 1) {
 			countFirstRoundAnswers(countSecondRoundAnswers);
 		} else if (me.questionObj.piRound === 1) {
 			countFirstRoundAnswers(Ext.emptyFn);
-		} else {
-			countSecondRoundAnswers();
 		}
 	},
 
