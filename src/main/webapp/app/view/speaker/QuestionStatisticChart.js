@@ -372,7 +372,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				stacked: false,
 				style: {
 					minGapWidth: 10,
-					maxBarWidth: 200
+					maxBarWidth: 200,
+					inGroupGapWidth: 0
 				},
 				label: {
 					display: 'insideEnd',
@@ -409,7 +410,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 					if (panel.questionChart.showPercentage) {
 						if (sprite.getField() === "percent-round1") {
-							gradient = panel.alternativeGradients[i % panel.alternativeGradients.length];
+							gradient = data.text === Messages.ABSTENTION ?
+									gradient = panel.alternateAbstentionGradient :
+									gradient = panel.alternativeGradients[i % panel.alternativeGradients.length];
 						}
 					}
 
@@ -797,17 +800,23 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			this.gradients = this.getDefaultGradients();
 		}
 
-		if (!this.alternativeGradients) {
-			this.alternativeGradients = this.createLighterGradients(this.getDefaultGradients());
-		}
-
 		this.abstentionGradient = Ext.create('Ext.draw.gradient.Linear', {
+			degrees: 90,
+			stops: [
+				{offset: 0, color: 'rgb(150, 150, 150)'},
+				{offset: 100, color: 'rgb(120, 120, 120)'}
+			]
+		});
+
+		this.alternateAbstentionGradient = Ext.create('Ext.draw.gradient.Linear', {
 			degrees: 90,
 			stops: [
 				{offset: 0, color: 'rgb(180, 180, 180)'},
 				{offset: 100, color: 'rgb(150, 150, 150)'}
 			]
 		});
+
+		this.alternativeGradients = this.createLighterGradients(this.gradients);
 	},
 
 	getCorrectAnswerGradients: function () {
