@@ -148,7 +148,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		this.onBefore('activate', this.beforeActivate);
 	},
 
-	onPainted: function () {console.log(this.statisticChart.questionObj);
+	onPainted: function () {
 		ARSnova.app.innerScrollPanel = this;
 	},
 
@@ -279,11 +279,8 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 	},
 
 	updateEditButtons: function () {
-		var hasAnswers = this.statisticChart.hasAnswers;
-
 		this.editButtons.questionObj = this.statisticChart.questionObj;
 		this.editButtons.updateData(this.statisticChart.questionObj);
-		this.editButtons.updateDeleteButtonState(hasAnswers);
 		this.editButtons.updateQuestionResetButtonState();
 	},
 

@@ -138,30 +138,6 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 		}
 
 		if (this.config.speakerStatistics) {
-			this.deleteAnswersButton = Ext.create('ARSnova.view.MatrixButton', {
-				buttonConfig: 'icon',
-				text: Messages.DELETE_ANSWERS,
-				imageCls: 'icon-close thm-orange',
-				cls: this.config.buttonClass,
-				scope: this,
-				handler: function () {
-					var me = this;
-					Ext.Msg.confirm(Messages.DELETE_ANSWERS_REQUEST, Messages.QUESTION_REMAINS, function (answer) {
-						if (answer === 'yes') {
-							ARSnova.app.questionModel.deleteAnswers(me.questionObj._id, {
-								success: function () {
-									Ext.toast(Messages.DELETE_ROUND_ANSWERS_COMPLETED, 3000);
-									me.deleteAnswersButton.hide();
-								},
-								failure: function (response) {
-									console.log('server-side error delete question');
-								}
-							});
-						}
-					});
-				}
-			});
-
 			this.questionResetButton = Ext.create('ARSnova.view.MatrixButton', {
 				buttonConfig: 'icon',
 				text: Messages.RESET_QUESTION,
@@ -203,19 +179,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			this.statusButton,
 			this.config.speakerStatistics ? this.questionResetButton : {},
 			this.config.speakerStatistics || type === "flashcard" ? {} : this.releaseStatisticButton,
-			this.hasCorrectAnswers && !this.config.speakerStatistics ? this.showCorrectAnswerButton : {},
-			this.config.speakerStatistics ? this.deleteAnswersButton : {}
+			this.hasCorrectAnswers && !this.config.speakerStatistics ? this.showCorrectAnswerButton : {}
 		]);
-	},
-
-	updateDeleteButtonState: function (hasAnswers) {
-		if (this.config.speakerStatistics) {
-			if (hasAnswers) {
-				this.deleteAnswersButton.show();
-			} else {
-				this.deleteAnswersButton.hide();
-			}
-		}
 	},
 
 	updateQuestionResetButtonState: function () {
