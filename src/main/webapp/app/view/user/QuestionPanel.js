@@ -386,9 +386,12 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 	renew: function (questionIds) {
 		this.removeAll();
-		this.alreadyRenewed = true;
 		this.activeQuestionIds = questionIds;
 		this.getUnansweredSkillQuestions();
+
+		if (ARSnova.app.mainTabPanel.tabPanel.getActiveItem() !== this) {
+			this.alreadyRenewed = true;
+		}
 	},
 
 	removeAll: function () {
