@@ -498,7 +498,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	disableQuestionVoting: function (questionId, disable, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/disableVoting?disable=" + encodeURIComponent(disable),
-			method: "GET",
+			method: "POST",
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -569,7 +569,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	startNewPiRound: function (questionId, time, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/startNewPiRound" + "?time=" + time,
-			method: "GET",
+			method: "POST",
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -578,7 +578,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	cancelDelayedPiRound: function (questionId, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/cancelDelayedPiRound",
-			method: "GET",
+			method: "POST",
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -587,7 +587,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	resetPiRoundState: function (questionId, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/resetPiRoundState",
-			method: "GET",
+			method: "POST",
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
