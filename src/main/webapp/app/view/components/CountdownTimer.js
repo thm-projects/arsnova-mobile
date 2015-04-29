@@ -21,6 +21,8 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 	extend: 'Ext.Component',
 	xtype: 'countdown',
 
+	requires: ['Ext.Audio'],
+
 	template: [{
 		reference: 'canvas',
 		tag: 'canvas',
@@ -48,6 +50,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		sliderDefaultValue: 2,
 		sliderMinValue: 1,
 		sliderMaxValue: 10,
+		soundStartTimeSeconds: 30,
 
 		showAnimation: {
 			type: "pop"
@@ -75,6 +78,8 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		this.on('hide', function () {
 			this.stop();
 		});
+
+		this.initializeSound();
 
 		if (!this.viewOnly) {
 			this.initializeSlider();
@@ -108,6 +113,14 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			dragstart: 'onSliderDragStart',
 			drag: 'onSliderDrag',
 			dragend: 'onSliderDragEnd'
+		});
+	},
+
+	initializeSound: function () {
+		this.sound = Ext.create('Ext.Audio', {
+			hidden: true,
+			loop: true,
+			url: 'resources/sounds/timer_sound.mp3'
 		});
 	},
 
@@ -260,6 +273,12 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 				context.fillText(seconds.toString(), x, y - 10);
 				context.font = "20px Segoe UI";
 				context.fillText(Messages.SECONDS, x, y + 20);
+
+				if (!this.sound.isPlaying() && this.running) {
+					if (this.seconds < this.getSoundStartTimeSeconds() * 1000) {
+						//this.sound.play();
+					}
+				}
 			} else {
 				context.fillText(0, x, y - 10);
 				context.font = "20px Segoe UI";

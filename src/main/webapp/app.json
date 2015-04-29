@@ -171,6 +171,7 @@
         "resources/icons",
         "resources/startup",
         "resources/gridTemplates",
+        "resources/sounds",
         "favicon.png",
         "lib/socket.io.min.js",
         "lib/qrcode.min.js",
