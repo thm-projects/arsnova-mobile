@@ -28,5 +28,49 @@ Ext.define('ARSnova.view.speaker.form.VoteQuestion', {
 			Messages.EVALUATION_MINUS,
 			Messages.EVALUATION_MINUSMINUS
 		]
+	},
+
+	constructor: function () {
+		this.callParent(arguments);
+
+		this.sliderComponents = [];
+		var questionValueFieldset = null;
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			questionValueFieldset = Ext.create('Ext.form.FieldSet', {
+				title: Messages.ANSWER_POINTS,
+				hidden: false
+			});
+
+			var questionValueOptions = {
+				minValue: -10,
+				maxValue: 10,
+				value: 0,
+				increment: 1
+			};
+
+			for (var i = 0; i < this.getMaxAnswers(); i++) {
+				this.sliderComponents.push(Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
+					label: (i + 1) + '. '
+				})));
+			}
+
+			questionValueFieldset.add(this.sliderComponents);
+
+			this.add([{
+				xtype: 'formpanel',
+				scrollable: null,
+				items: [questionValueFieldset]
+			}]);
+		}
+	},
+
+	getValues: function () {
+		return this.fields.map(function (item, index) {
+			return {
+				text: item.getValue(),
+				correct: false,
+				value: ARSnova.app.globalConfig.features.learningProgress ? this.sliderComponents[index].getSliderValue() : 0
+			};
+		}, this);
 	}
 });
