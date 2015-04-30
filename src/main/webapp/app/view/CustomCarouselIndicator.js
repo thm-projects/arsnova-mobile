@@ -57,10 +57,13 @@ Ext.define('ARSnova.view.CustomCarouselIndicator', {
 				}
 			};
 
+			this.hasItems = true;
+			this.setHidden(hiddenState);
 			this.parent.on('resize', resizeTask);
 			this.parent.on('indicatorAdd', resizeTask);
-			this.setHidden(hiddenState);
-			this.hasItems = true;
+			this.parent.on('deactivate', function () {
+				me.setLeft(0);
+			});
 		}
 
 		this.parent.fireEvent('indicatorAdd');
