@@ -100,6 +100,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 	updateQuestionOnRoundReset: function (question) {
 		question.questionObj.piRound = 1;
 		question.questionObj.active = false;
+		question.questionObj.votingDisabled = true;
 		question.questionObj.showStatistic = false;
 		question.questionObj.piRoundActive = false;
 		question.questionObj.piRoundFinished = false;
