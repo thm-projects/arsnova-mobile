@@ -70,7 +70,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 	beforeActivate: function () {
 		this.removeAll();
-		this._indicator.show();
+		this.getIndicator().hide();
 	},
 
 	onActivate: function () {
@@ -200,6 +200,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 						} else {
 							userQuestionsPanel.showNextUnanswered();
 						}
+
+						userQuestionsPanel.getIndicator().show();
 					},
 					failure: function (response) {
 						console.log('error');

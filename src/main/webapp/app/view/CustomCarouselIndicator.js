@@ -22,6 +22,14 @@ Ext.define('ARSnova.view.CustomCarouselIndicator', {
 	initialize: function () {
 		this.callParent();
 		this.hasItems = false;
+
+		this.on('show', function () {
+			this.allowIndicatorMovement = true;
+		});
+
+		this.on('hide', function () {
+			this.allowIndicatorMovement = false;
+		});
 	},
 
 	addIndicator: function () {
@@ -118,30 +126,32 @@ Ext.define('ARSnova.view.CustomCarouselIndicator', {
 		var element = this.bodyElement.dom.children[0];
 		this.animationDirection = currentActiveIndex > index ? 0 : 1;
 
-		if (element && activeItem && index !== currentActiveIndex && currentActiveIndex !== -1) {
-			var lastElement = indicators[indicators.length - 1],
-				lastElementRightPos = lastElement.dom.getBoundingClientRect().right,
-				itemRect = activeItem.dom.getBoundingClientRect(),
-				maxRight = this.screenWidth,
-				leftPos = this.getLeft();
+		if(this.allowIndicatorMovement) {
+			if (element && activeItem && index !== currentActiveIndex && currentActiveIndex !== -1) {
+				var lastElement = indicators[indicators.length - 1],
+					lastElementRightPos = lastElement.dom.getBoundingClientRect().right,
+					itemRect = activeItem.dom.getBoundingClientRect(),
+					maxRight = this.screenWidth,
+					leftPos = this.getLeft();
 
-			if (lastElementRightPos + Math.abs(leftPos) > maxRight) {
-				var offsetPos = 5;
+				if (lastElementRightPos + Math.abs(leftPos) > maxRight) {
+					var offsetPos = 5;
 
-				if (this.animationDirection) {
-					var position = itemRect.left,
-						elementsTillMaxPos = Math.ceil((maxRight - position) / this.elementWidth);
+					if (this.animationDirection) {
+						var position = itemRect.left,
+							elementsTillMaxPos = Math.ceil((maxRight - position) / this.elementWidth);
 
-					if (elementsTillMaxPos < offsetPos) {
-						// offsetPos is added in order to simulate a slight movement
-						this.setLeft(leftPos - (this.elementWidth * (offsetPos - elementsTillMaxPos)) + offsetPos);
-					}
-				} else {
-					if (itemRect.left + Math.abs(leftPos) < maxRight) {
-						this.setLeft(0);
-					} else if (leftPos < 0) {
-						// offsetPos is added in order to simulate a slight movement
-						this.setLeft(leftPos + (this.elementWidth * (currentActiveIndex - index)) - offsetPos);
+						if (elementsTillMaxPos < offsetPos) {
+							// offsetPos is added in order to simulate a slight movement
+							this.setLeft(leftPos - (this.elementWidth * (offsetPos - elementsTillMaxPos)) + offsetPos);
+						}
+					} else {
+						if (itemRect.left + Math.abs(leftPos) < maxRight) {
+							this.setLeft(0);
+						} else if (leftPos < 0) {
+							// offsetPos is added in order to simulate a slight movement
+							this.setLeft(leftPos + (this.elementWidth * (currentActiveIndex - index)) - offsetPos);
+						}
 					}
 				}
 			}
