@@ -137,64 +137,21 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			});
 		}
 
-		if (this.config.speakerStatistics) {
-			this.questionResetButton = Ext.create('ARSnova.view.MatrixButton', {
-				buttonConfig: 'icon',
-				text: Messages.RESET_QUESTION,
-				imageCls: 'icon-renew thm-orange',
-				cls: this.config.buttonClass,
-				scope: this,
-				handler: function () {
-					var me = this;
-					Ext.Msg.confirm(Messages.RESET_ROUND, Messages.RESET_ROUND_WARNING, function (answer) {
-						if (answer === 'yes') {
-							ARSnova.app.questionModel.resetPiRoundState(me.questionObj._id, {
-								success: function () {
-									Ext.toast(Messages.RESET_ROUND_COMPLETED, 3000);
-									me.questionResetButton.hide();
-								},
-								failure: function (response) {
-									console.log('server-side error');
-								}
-							});
-						}
-					});
-				}
-			});
-
-			this.statusButton = Ext.create('ARSnova.view.VoteStatusButton', {
-				cls: this.config.buttonClass,
-				questionObj: this.questionObj,
-				parentPanel: this
-			});
-		} else {
-			this.statusButton = Ext.create('ARSnova.view.QuestionStatusButton', {
-				cls: this.config.buttonClass,
-				questionObj: this.questionObj,
-				parentPanel: this
-			});
-		}
+		this.statusButton = Ext.create('ARSnova.view.QuestionStatusButton', {
+			cls: this.config.buttonClass,
+			questionObj: this.questionObj,
+			parentPanel: this
+		});
 
 		this.add([
 			this.statusButton,
-			this.config.speakerStatistics ? this.questionResetButton : {},
-			this.config.speakerStatistics || type === "flashcard" ? {} : this.releaseStatisticButton,
-			this.hasCorrectAnswers && !this.config.speakerStatistics ? this.showCorrectAnswerButton : {}
+			type === "flashcard" ? {} : this.releaseStatisticButton,
+			this.hasCorrectAnswers ? this.showCorrectAnswerButton : {}
 		]);
 	},
 
-	updateQuestionResetButtonState: function () {
-		if (this.config.speakerStatistics) {
-			if (this.questionObj.piRound === 1 && !this.questionObj.piRoundFinished) {
-				this.questionResetButton.hide();
-			} else {
-				this.questionResetButton.show();
-			}
-		}
-	},
-
 	updateData: function (questionObj) {
-		var active = this.config.speakerStatistics ? !questionObj.votingDisabled : questionObj.active,
+		var active = questionObj.active,
 			showAnswer = questionObj.showAnswer ? 1 : 0,
 			showStatistic = questionObj.showStatistic ? 1 : 0;
 

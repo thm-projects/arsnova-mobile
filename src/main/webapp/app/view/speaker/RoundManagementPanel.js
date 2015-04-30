@@ -236,8 +236,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 
 	prepareQuestionManagementContainer: function () {
 		if (!this.editButtons) {
-			this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
-				speakerStatistics: true,
+			this.editButtons = Ext.create('ARSnova.view.speaker.RoundManagementEditButtons', {
 				buttonClass: 'smallerActionButton',
 				questionObj: this.cleanupQuestionObj(this.statisticChart.questionObj)
 			});
@@ -281,7 +280,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 	updateEditButtons: function () {
 		this.editButtons.questionObj = this.statisticChart.questionObj;
 		this.editButtons.updateData(this.statisticChart.questionObj);
-		this.editButtons.updateQuestionResetButtonState();
+		this.editButtons.updateQuestionResetButtonState(this.statisticChart.hasAnswers);
 	},
 
 	cleanupQuestionObj: function (questionObj) {
