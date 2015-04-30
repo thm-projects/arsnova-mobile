@@ -47,8 +47,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 			panel.questionStatisticChart.getQuestionAnswers();
 
-			if (mainTabPanel.getActiveItem() === tP.speakerTabPanel) {
-				tP.speakerTabPanel.statisticTabPanel.roundManagementPanel.updateEditButtons();
+			if (mainTabPanel.getActiveItem() === panel.statisticTabPanel) {
+				panel.statisticTabPanel.roundManagementPanel.updateEditButtons();
 			}
 		},
 		interval: 10000 // 10 seconds
