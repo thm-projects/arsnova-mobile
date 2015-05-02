@@ -99,6 +99,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 
 		function replaceImageElements(content) {
 			var imageDelimiter = /<img[^<>]*>/g;
+			var urlDelimiter = /src="[^"]*/g;
 
 			if (hideMediaElements) {
 				return content.replace(imageDelimiter, function (element) {

@@ -295,6 +295,12 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		this.setGradients();
 
+		this.countdownTimer = Ext.create('ARSnova.view.components.CountdownTimer', {
+			docked: 'top',
+			viewOnly: true,
+			hidden: true
+		});
+
 		this.questionChart = Ext.create('Ext.chart.CartesianChart', {
 			store: this.questionStore,
 			hidden: this.questionObj.questionType === "grid",
@@ -421,7 +427,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		});
 
 		if (this.questionObj.questionType !== "grid") {
-			this.add([this.toolbar, this.piActivated ? this.piToolbar : {}, this.titlebar, this.questionChart]);
+			this.add([this.toolbar, this.countdownTimer, this.piActivated ? this.piToolbar : {}, this.titlebar, this.questionChart]);
 		} else {
 			this.setStyle('background-color: #E0E0E0');
 			// add statistic
@@ -447,6 +453,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		this.on('hide', function () {
 			ARSnova.app.activePreviewPanel = false;
+			this.countdownTimer.hide();
 		});
 
 		this.on('painted', function () {
@@ -457,6 +464,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	onActivate: function () {
 		ARSnova.app.innerScrollPanel = this;
 		ARSnova.app.taskManager.start(this.renewChartDataTask);
+		this.checkPiRoundActivation();
 
 		if (this.questionObj.piRound === 1) {
 			this.activateFirstSegmentButton();
@@ -466,6 +474,16 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			ARSnova.app.taskManager.start(this.countActiveUsersTask);
+		}
+	},
+
+	checkPiRoundActivation: function () {
+		console.log(this.questionObj);
+		if (this.questionObj.piRoundActive) {
+			this.countdownTimer.start(this.questionObj.piRoundStartTime, this.questionObj.piRoundEndTime);
+			this.countdownTimer.show();
+		} else {
+			this.countdownTimer.hide();
 		}
 	},
 
