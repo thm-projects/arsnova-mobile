@@ -378,6 +378,21 @@ Ext.define("ARSnova.controller.Questions", {
 		}
 	},
 
+	handleAnswerCountChange: function (id, answerCount, abstentionCount) {
+		var tP = ARSnova.app.mainTabPanel.tabPanel,
+			showcasePanel = tP.speakerTabPanel.showcaseQuestionPanel;
+
+		if (tP.getActiveItem().getActiveItem() === showcasePanel) {
+			if (showcasePanel.getActiveItem().getItemId() === id) {
+				if (answerCount === abstentionCount && answerCount > 0) {
+					showcasePanel.toolbar.setAnswerCounter(abstentionCount, Messages.ABSTENTION);
+				} else {
+					showcasePanel.toolbar.updateAnswerCounter(answerCount);
+				}
+			}
+		}
+	},
+
 	adHoc: function () {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.sortQuestionsPanel.setController(this);

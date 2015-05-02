@@ -97,7 +97,7 @@ Ext.define('ARSnova.model.Question', {
 		audienceQuestionAvailable: "arsnova/question/audience/available",
 		unansweredLecturerQuestions: "arsnova/question/lecturer/lecture/unanswered",
 		unansweredPreparationQuestions: "arsnova/question/lecturer/preparation/unanswered",
-		countQuestionAnswersByQuestion: "arsnova/question/lecturer/question/answercount",
+		countQuestionAnswersByQuestionId: "arsnova/question/lecturer/question/answer-and-abstention-count",
 		countLectureQuestionAnswers: "arsnova/question/lecturer/lecture/answercount",
 		countPreparationQuestionAnswers: "arsnova/question/lecturer/preparation/answercount",
 		countQuestionsAndAnswers: "arsnova/question/unanswered-question-and-answer-count",
@@ -177,23 +177,11 @@ Ext.define('ARSnova.model.Question', {
 			this.fireEvent(this.events.lockVoting, object);
 		}, this);
 
-		ARSnova.app.socket.on(ARSnova.app.socket.events.countQuestionAnswersByQuestion, function (object) {
-			var tP = ARSnova.app.mainTabPanel.tabPanel,
-				showcasePanel = tP.speakerTabPanel.showcaseQuestionPanel;
-
-			if (tP.getActiveItem().getActiveItem() === showcasePanel) {
-				if (showcasePanel.getActiveItem().getItemId() === object.key) {
-					var numAnswers = object.value[0],
-						numAbstentions = object.value[1];
-
-					if (numAnswers === numAbstentions && numAnswers > 0) {
-						showcasePanel.toolbar.setAnswerCounter(numAbstentions, Messages.ABSTENTION);
-					} else {
-						showcasePanel.toolbar.updateAnswerCounter(numAnswers);
-					}
-				}
+		ARSnova.app.socket.on(ARSnova.app.socket.events.countQuestionAnswersByQuestionId, function (object) {
+			if (ARSnova.app.questionModel === this) {
+				ARSnova.app.getController('Questions').handleAnswerCountChange(object._id, object.answers, object.abstentions);
 			}
-			this.fireEvent(this.events.countQuestionAnswersByQuestion, object);
+			this.fireEvent(this.events.countQuestionAnswersByQuestionId, object);
 		}, this);
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.countPreparationQuestionAnswers, function (count) {

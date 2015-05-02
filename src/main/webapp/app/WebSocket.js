@@ -45,7 +45,7 @@ Ext.define('ARSnova.WebSocket', {
 		audienceQuestionAvailable: "arsnova/socket/question/audience/available",
 		unansweredLecturerQuestions: "arsnova/socket/question/lecturer/lecture/unanswered",
 		unansweredPreparationQuestions: "arsnova/socket/question/lecturer/preparation/unanswered",
-		countQuestionAnswersByQuestion: "arsnova/socket/question/lecturer/question/answercount",
+		countQuestionAnswersByQuestionId: "arsnova/socket/question/lecturer/question/answer-and-abstention-count",
 		countLectureQuestionAnswers: "arsnova/socket/question/lecturer/lecture/answercount",
 		countPreparationQuestionAnswers: "arsnova/socket/question/lecturer/preparation/answercount",
 		learningProgressOptions: "arsnova/socket/session/learningprogress/options",
@@ -177,9 +177,9 @@ Ext.define('ARSnova.WebSocket', {
 				this.fireEvent(this.events.unansweredPreparationQuestions, questionIds);
 			}, this));
 
-			this.socket.on('countQuestionAnswersByQuestion', Ext.bind(function (object) {
-				console.debug("Socket.IO: countQuestionAnswersByQuestion", object);
-				this.fireEvent(this.events.countQuestionAnswersByQuestion, object);
+			this.socket.on('countQuestionAnswersByQuestionId', Ext.bind(function (object) {
+				console.debug("Socket.IO: countQuestionAnswersByQuestionId", object);
+				this.fireEvent(this.events.countQuestionAnswersByQuestionId, object);
 			}, this));
 
 			this.socket.on('countLectureQuestionAnswers', Ext.bind(function (count) {
