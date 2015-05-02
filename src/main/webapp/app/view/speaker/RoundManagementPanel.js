@@ -20,7 +20,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 	extend: 'Ext.Panel',
 
 	config: {
-		title: Messages.ROUND_MANAGEMENT,
+		title: Messages.POLL_MANAGEMENT,
 		iconCls: 'icon-timer',
 		fullscreen: true,
 		scrollable: {
@@ -117,7 +117,6 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		});
 
 		this.questionManagementContainer = Ext.create('Ext.form.FieldSet', {
-			title: Messages.QUESTION_MANAGEMENT,
 			cls: 'centerFormTitle',
 			hidden: true
 		});

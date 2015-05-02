@@ -425,10 +425,11 @@
 				IMPORT_NOT_SUPPORTED: "Der Session Import wird für Ihren Browser nicht unterstützt.",
 
 				/*Round management*/
+				POLL_MANAGEMENT: "Abstimmungsverwaltung",
 				ROUND_MANAGEMENT: "Rundenverwaltung",
 				START_FIRST_ROUND: "Starte Runde 1",
 				START_SECOND_ROUND: "Starte Runde 2",
-				CANCEL_DELAYED_ROUND: "Einstellungen anpassen",
+				CANCEL_DELAYED_ROUND: "Timer neu einstellen",
 				END_ROUND_IMMEDIATELY: "Runde vorzeitig schließen",
 				END_ROUND: "Beenden der Abstimmungsrunde",
 				END_ROUND_WARNING: "Wenn die Runde beendet wird sind keine Abstimmungen mehr möglich, bis eine neue Runde gestartet wird oder die Frage manuell entsperrt wird. Möchten Sie fortfahren?",
@@ -974,6 +975,7 @@
 				IMPORT_NOT_SUPPORTED: "Session Import is not supported for your browser.",
 
 				/*Round management*/
+				POLL_MANAGEMENT: "Poll Management",
 				ROUND_MANAGEMENT: "Round Management",
 				START_FIRST_ROUND: "Start round 1",
 				START_SECOND_ROUND: "Start round 2",

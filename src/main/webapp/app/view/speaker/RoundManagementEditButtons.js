@@ -74,7 +74,6 @@ Ext.define('ARSnova.view.speaker.RoundManagementEditButtons', {
 	},
 
 	updateQuestionResetButtonState: function (hasAnswers) {
-		console.log(hasAnswers);
 		if (this.questionObj.piRound === 1 && !this.questionObj.piRoundFinished && !hasAnswers) {
 			this.questionResetButton.hide();
 		} else {

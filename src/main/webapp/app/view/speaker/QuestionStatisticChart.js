@@ -478,7 +478,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	},
 
 	checkPiRoundActivation: function () {
-		console.log(this.questionObj);
 		if (this.questionObj.piRoundActive) {
 			this.countdownTimer.start(this.questionObj.piRoundStartTime, this.questionObj.piRoundEndTime);
 			this.countdownTimer.show();
