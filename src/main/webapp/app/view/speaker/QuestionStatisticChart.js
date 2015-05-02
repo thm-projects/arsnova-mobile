@@ -264,7 +264,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		this.titlebar = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			cls: 'questionStatisticTitle',
-			hideVideoElements: true,
+			hideMediaElements: true,
 			baseCls: Ext.baseCSSPrefix + 'title',
 			docked: 'top',
 			style: ''
