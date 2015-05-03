@@ -91,6 +91,18 @@ Ext.define("ARSnova.controller.Questions", {
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel, animation || 'slide');
 	},
 
+	saveUnansweredLectureQuestions: function (questionIds) {
+		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
+			sessionStorage.setItem('unansweredLectureQuestions', JSON.stringify(questionIds));
+		}
+	},
+
+	saveUnansweredPreparationQuestions: function (questionIds) {
+		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
+			sessionStorage.setItem('unansweredPreparationQuestions', JSON.stringify(questionIds));
+		}
+	},
+
 	add: function (options) {
 		var question = Ext.create('ARSnova.model.Question', {
 			type: options.type,
@@ -379,10 +391,13 @@ Ext.define("ARSnova.controller.Questions", {
 	},
 
 	handleAnswerCountChange: function (id, answerCount, abstentionCount) {
-		var tP = ARSnova.app.mainTabPanel.tabPanel,
-			showcasePanel = tP.speakerTabPanel.showcaseQuestionPanel;
+		var mainTabPanel = ARSnova.app.mainTabPanel;
+		var tP = mainTabPanel.tabPanel;
+		var panel = tP.userQuestionsPanel || tP.speakerTabPanel;
 
-		if (tP.getActiveItem().getActiveItem() === showcasePanel) {
+		if (tP.getActiveItem() === tP.speakerTabPanel) {
+			var showcasePanel = panel.showcaseQuestionPanel;
+
 			if (showcasePanel.getActiveItem().getItemId() === id) {
 				if (answerCount === abstentionCount && answerCount > 0) {
 					showcasePanel.toolbar.setAnswerCounter(abstentionCount, Messages.ABSTENTION);

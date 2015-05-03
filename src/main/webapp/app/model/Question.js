@@ -126,12 +126,22 @@ Ext.define('ARSnova.model.Question', {
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.unansweredLecturerQuestions, function (questionIds) {
 			this.numUnanswerdLectureQuestions = questionIds.length;
+
+			if (ARSnova.app.questionModel === this) {
+				ARSnova.app.getController('Questions').saveUnansweredLectureQuestions(questionIds);
+			}
+
 			this.fireEvent(this.events.unansweredLecturerQuestions, questionIds);
 			this.fireEvent(this.events.internalUpdate);
 		}, this);
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.unansweredPreparationQuestions, function (questionIds) {
 			this.numUnansweredPreparationQuestions = questionIds.length;
+
+			if (ARSnova.app.questionModel === this) {
+				ARSnova.app.getController('Questions').saveUnansweredPreparationQuestions(questionIds);
+			}
+
 			this.fireEvent(this.events.unansweredPreparationQuestions, questionIds);
 			this.fireEvent(this.events.internalUpdate);
 		}, this);
@@ -235,12 +245,12 @@ Ext.define('ARSnova.model.Question', {
 		return this.getProxy().saveSkillQuestion(this, callbacks);
 	},
 
-	startNewPiRound: function (time, callbacks) {
-		return this.getProxy().startNewPiRound(this.get('_id'), time, callbacks);
+	startNewPiRound: function (questionId, time, callbacks) {
+		return this.getProxy().startNewPiRound(questionId, time, callbacks);
 	},
 
-	cancelDelayedPiRound: function (callbacks) {
-		return this.getProxy().cancelDelayedPiRound(this.get('_id'), callbacks);
+	cancelDelayedPiRound: function (questionId, callbacks) {
+		return this.getProxy().cancelDelayedPiRound(questionId, callbacks);
 	},
 
 	resetPiRoundState: function (questionId, callbacks) {
