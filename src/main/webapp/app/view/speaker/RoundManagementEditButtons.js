@@ -82,8 +82,8 @@ Ext.define('ARSnova.view.speaker.RoundManagementEditButtons', {
 	},
 
 	updateData: function (questionObj) {
-		var active = !questionObj.votingDisabled;
-
-		this.statusButton.toggleStatusButton(active);
+		this.questionObj = questionObj;
+		this.config.questionObj = questionObj;
+		this.statusButton.updateData(questionObj);
 	}
 });

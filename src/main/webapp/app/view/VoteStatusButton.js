@@ -121,6 +121,11 @@ Ext.define('ARSnova.view.VoteStatusButton', {
 		this.isRendered = true;
 	},
 
+	updateData: function (questionObj) {
+		this.questionObj = questionObj;
+		this.toggleStatusButton(!questionObj.votingDisabled);
+	},
+
 	toggleStatusButton: function (active) {
 		this.button.setToggleFieldValue(active);
 		this.isOpen = active;
