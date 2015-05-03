@@ -191,32 +191,31 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 	},
 
 	cancelPiRound: function (afterCancelFunction) {
-		var question = Ext.create('ARSnova.model.Question', this.statisticChart.questionObj);
+		afterCancelFuction = !!afterCancelFunction ? afterCancelFunction : Ext.emptyFn;
 		this.countdownTimer.stop();
 
-		question.cancelDelayedPiRound({
+		ARSnova.app.questionModel.cancelDelayedPiRound(this.statisticChart.questionObj._id, {
 			success: function (response) {
 				afterCancelFunction();
 				console.debug('New question round canceled');
+			},
+			failure: function (response) {
+				console.log('server-side error');
 			}
 		});
 	},
 
 	startNewPiRound: function (delay, afterStartFunction) {
-		var question = Ext.create('ARSnova.model.Question', this.statisticChart.questionObj);
+		delay = !!delay || delay > 0 ? delay : 0;
+		afterStartFunction = !!afterStartFunction ? afterStartFunction : Ext.emptyFn;
 
-		if (!delay || delay < 0) {
-			delay = 0;
-		}
-
-		if (!afterStartFunction) {
-			afterStartFunction = Ext.emptyFn;
-		}
-
-		question.startNewPiRound(delay, {
+		ARSnova.app.questionModel.startNewPiRound(this.statisticChart.questionObj._id, delay, {
 			success: function (response) {
 				afterStartFunction();
 				console.debug('New question round started.');
+			},
+			failure: function (response) {
+				console.log('server-side error');
 			}
 		});
 	},
@@ -277,7 +276,6 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 	},
 
 	updateEditButtons: function () {
-		this.editButtons.questionObj = this.statisticChart.questionObj;
 		this.editButtons.updateData(this.statisticChart.questionObj);
 		this.editButtons.updateQuestionResetButtonState(this.statisticChart.hasAnswers);
 	},
