@@ -77,10 +77,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		});
 
 		this.saveButtonToolbar = Ext.create('Ext.Button', {
-			text: Messages.SAVE,
+			text: Messages.SAVE_QUESTION,
 			ui: 'confirm',
 			cls: 'saveQuestionButton',
-			style: 'width: 89px',
+			style: 'width: 115px',
 			handler: function (button) {
 				this.saveHandler(button).then(function (response) {
 					ARSnova.app.getController('Questions').details({

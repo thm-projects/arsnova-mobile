@@ -199,6 +199,7 @@
 				CONFIRM_CLOSE_VOTE_MESSAGE: "Wenn Sie die Abstimmung sperren, können Student/innen die Frage nicht mehr beantworten.",
 				CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE: "Wenn Sie die Fragen sperren, können Student/innen die Fragen weder sehen noch beantworten.",
 				SAVE_AND_CONTINUE: 'Speichern und neue Frage stellen',
+				SAVE_QUESTION: 'Frage speichern',
 				PICTURE_MAX_FILESIZE: "Maximale Bilddateigröße: ###",
 				CONFIRM_ANSWERS_CHANGED: "Bereits gegebene Antworten gehen verloren.",
 				QUESTION_PREVIEW_BUTTON_TITLE: "Vorschau",
