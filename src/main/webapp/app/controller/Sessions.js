@@ -119,6 +119,7 @@ Ext.define("ARSnova.controller.Sessions", {
 
 		sessionStorage.removeItem("keyword");
 		sessionStorage.removeItem("features");
+		sessionStorage.removeItem("answeredCanceledPiQuestions");
 
 		localStorage.removeItem("sessionId");
 		localStorage.removeItem("name");

@@ -152,16 +152,18 @@ Ext.define('ARSnova.model.Question', {
 			this.fireEvent(this.events.internalUpdate);
 		}, this);
 
-		ARSnova.app.socket.on(ARSnova.app.socket.events.endPiRound, function (questionId) {
+		ARSnova.app.socket.on(ARSnova.app.socket.events.endPiRound, function (object) {
 			if (ARSnova.app.questionModel === this) {
-				ARSnova.app.getController('RoundManagement').handleRoundEnd(questionId);
+				ARSnova.app.getController('RoundManagement').handleRoundEnd(object._id, object.variant);
 			}
-			this.fireEvent(this.events.endPiRound, questionId);
+			this.fireEvent(this.events.endPiRound, object);
 		}, this);
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.startDelayedPiRound, function (object) {
 			if (ARSnova.app.questionModel === this) {
-				ARSnova.app.getController('RoundManagement').handleRoundStart(object);
+				ARSnova.app.getController('RoundManagement').handleRoundStart(
+					object._id, object.variant, object.round, object.startTime, object.endTime
+				);
 			}
 			this.fireEvent(this.events.startDelayedPiRound, object);
 		}, this);
@@ -173,11 +175,11 @@ Ext.define('ARSnova.model.Question', {
 			this.fireEvent(this.events.cancelPiRound, questionId);
 		}, this);
 
-		ARSnova.app.socket.on(ARSnova.app.socket.events.resetPiRound, function (questionId) {
+		ARSnova.app.socket.on(ARSnova.app.socket.events.resetPiRound, function (object) {
 			if (ARSnova.app.questionModel === this) {
-				ARSnova.app.getController('RoundManagement').handleQuestionReset(questionId);
+				ARSnova.app.getController('RoundManagement').handleQuestionReset(object._id, object.variant);
 			}
-			this.fireEvent(this.events.resetPiRound, questionId);
+			this.fireEvent(this.events.resetPiRound, object);
 		}, this);
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.lockVoting, function (object) {
