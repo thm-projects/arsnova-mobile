@@ -222,11 +222,6 @@
 				SORT_SAVED: "Sortierung wurde gespeichert.",
 				SORT_SAVE_AND_CONTINUE: "Speichern und fortfahren",
 				SORT_TRANSMISSION_ERROR: "Das Sortieren war leider nicht erfolgreich.",
-				SORT_QUESTIONS: "Fragen<br/>sortieren",
-				SORT_ALPHABET: "Alphabet<br/>Sortierung",
-				SORT_TIME: "Zeitliche<br/>Sortierung",
-				SORT_RANDOM: "Zufällig<br/>anordnen",
-				SORT_REVERT: "Änderung<br/>verwerfen",
 
 				/* user */
 				QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
@@ -243,7 +238,6 @@
 				FLASHCARDS: "Lernkarten",
 				FLASHCARD: "Lernkarte",
 				ONE_NEW_LECTURE_QUESTION: 'Es gibt eine neue Hörsaalfrage.',
-				ONE_NEW_DELAYED_QUESTION: 'Es gibt eine neue zeitlich begrenzte Frage.',
 				ONE_NEW_PREPARATION_QUESTION: 'Es gibt eine neue Vorbereitungsaufgabe.',
 				SEVERAL_NEW_LECTURE_QUESTIONS: 'Es gibt ### neue Hörsaalfragen.',
 				SEVERAL_PREPARATION_QUESTIONS: 'Es gibt ### neue Vorbereitungsaufgaben.',
@@ -436,6 +430,9 @@
 				RESET_ROUND: "Abstimmung zurücksetzen",
 				RESET_ROUND_WARNING: "Wenn die Abstimmung zurückgesetzt wird, werden alle Antworten gelöscht und der Rundenzähler zurückgesetzt. Möchten Sie fortfahren?",
 				RESET_ROUND_COMPLETED: "Die Abstimmung wurde zurückgesetzt.",
+				ONE_NEW_DELAYED_QUESTION: 'Neue zeitlich begrenzte Frage',
+				ONE_NEW_DELAYED_QUESTION_ROUND1: 'Es gibt eine neue zeitlich begrenzte Frage.',
+				ONE_NEW_DELAYED_QUESTION_ROUND2: 'Eine Frage wurde zur zweiten Abstimmungsrunde freigegeben.',
 				FIRST_ROUND: "Runde 1",
 				SECOND_ROUND: "Runde 2",
 				BOTH_ROUNDS: "Runde 1|2",
@@ -538,6 +535,11 @@
 				GRID_LABEL_WEAKEN_IMAGE: "Bild<br>abschwächen",
 				GRID_LABEL_SHOW_HEATMAP: "Heatmap<br>anzeigen",
 				RESET_QUESTION: "Abstimmung<br>zurücksetzen",
+				SORT_QUESTIONS: "Fragen<br/>sortieren",
+				SORT_ALPHABET: "Alphabet<br/>Sortierung",
+				SORT_TIME: "Zeitliche<br/>Sortierung",
+				SORT_RANDOM: "Zufällig<br/>anordnen",
+				SORT_REVERT: "Änderung<br/>verwerfen",
 
 				/* about */
 				INFO: "Handbuch",
@@ -769,11 +771,6 @@
 				SORT_SAVED: "Your sort order has been saved.",
 				SORT_SAVE_AND_CONTINUE: "Save and continue",
 				SORT_TRANSMISSION_ERROR: "Sort failed.",
-				SORT_QUESTIONS: "Sort<br/>questions",
-				SORT_ALPHABET: "Alphabetic<br/>sort",
-				SORT_TIME: "Time<br/>sort",
-				SORT_RANDOM: "Random<br/>sort",
-				SORT_REVERT: "Revert<br/>changes",
 
 				/* user */
 				QUESTIONS_TO_STUDENTS: "Teacher's questions",
@@ -790,7 +787,6 @@
 				FLASHCARDS: "Flashcards",
 				FLASHCARD: "Flashcard",
 				ONE_NEW_LECTURE_QUESTION: 'There is one new lecture question.',
-				ONE_NEW_DELAYED_QUESTION: 'There is one new time-limited question.',
 				ONE_NEW_PREPARATION_QUESTION: 'There is one new preparation task.',
 				SEVERAL_NEW_LECTURE_QUESTIONS: 'There are ### new lecture questions.',
 				SEVERAL_PREPARATION_QUESTIONS: 'There are ### new preparation tasks.',
@@ -986,6 +982,9 @@
 				RESET_ROUND: "Reset polling",
 				RESET_ROUND_WARNING: "All answers of all rounds will be reset. Would you like to continue?",
 				RESET_ROUND_COMPLETED: "Polling reset completed.",
+				ONE_NEW_DELAYED_QUESTION: 'New time-limited question',
+				ONE_NEW_DELAYED_QUESTION_ROUND1: 'There is one new time-limited question.',
+				ONE_NEW_DELAYED_QUESTION_ROUND2: 'A question has been released for the second round of voting.',
 				FIRST_ROUND: "Round 1",
 				SECOND_ROUND: "Round 2",
 				BOTH_ROUNDS: "Round 1|2",
@@ -1089,6 +1088,11 @@
 				GRID_LABEL_WEAKEN_IMAGE: "Transparent<br>image",
 				GRID_LABEL_SHOW_HEATMAP: "Show<br>heatmap",
 				RESET_QUESTION: "Reset<br>polling",
+				SORT_QUESTIONS: "Sort<br/>questions",
+				SORT_ALPHABET: "Alphabetic<br/>sort",
+				SORT_TIME: "Time<br/>sort",
+				SORT_RANDOM: "Random<br/>sort",
+				SORT_REVERT: "Revert<br/>changes",
 
 				/* about */
 				INFO: "Manual",
