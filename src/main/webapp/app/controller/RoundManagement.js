@@ -19,23 +19,27 @@
 Ext.define("ARSnova.controller.RoundManagement", {
 	extend: 'Ext.app.Controller',
 
-	handleRoundStart: function (object) {
+	handleRoundStart: function (questionId, variant, round, startTime, endTime) {
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 
 		if (tabPanel.userTabPanel) {
-			ARSnova.app.getController('RoundManagement').handleUserRoundStart(object);
+			ARSnova.app.getController('RoundManagement').handleUserRoundStart(
+				questionId, variant, round, startTime, endTime
+			);
 		} else if (tabPanel.speakerTabPanel) {
-			ARSnova.app.getController('RoundManagement').handleSpeakerRoundStart(object);
+			ARSnova.app.getController('RoundManagement').handleSpeakerRoundStart(
+				questionId, variant, round, startTime, endTime
+			);
 		}
 	},
 
-	handleRoundEnd: function (questionId) {
+	handleRoundEnd: function (questionId, variant) {
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 
 		if (tabPanel.userTabPanel) {
-			ARSnova.app.getController('RoundManagement').handleUserRoundEnd(questionId);
+			ARSnova.app.getController('RoundManagement').handleUserRoundEnd(questionId, variant);
 		} else if (tabPanel.speakerTabPanel) {
-			ARSnova.app.getController('RoundManagement').handleSpeakerRoundEnd(questionId);
+			ARSnova.app.getController('RoundManagement').handleSpeakerRoundEnd(questionId, variant);
 		}
 	},
 
@@ -49,30 +53,27 @@ Ext.define("ARSnova.controller.RoundManagement", {
 		}
 	},
 
-	handleQuestionReset: function (questionId) {
+	handleQuestionReset: function (questionId, variant) {
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 
 		if (tabPanel.userTabPanel) {
-			ARSnova.app.getController('RoundManagement').handleUserRoundReset(questionId);
+			ARSnova.app.getController('RoundManagement').handleUserRoundReset(questionId, variant);
 		} else if (tabPanel.speakerTabPanel) {
-			ARSnova.app.getController('RoundManagement').handleSpeakerRoundReset(questionId);
+			ARSnova.app.getController('RoundManagement').handleSpeakerRoundReset(questionId, variant);
 		}
 	},
 
-	updateQuestionOnRoundStart: function (question, object, questionObj) {
+	updateQuestionOnRoundStart: function (question, startTime, endTime, round, questionObj) {
 		if (!questionObj) {
-			if (question.questionObj.piRoundFinished && question.questionObj.piRound === 1) {
-				question.questionObj.piRound = 2;
-			}
-
+			question.questionObj.piRound = round;
 			question.questionObj.active = true;
 			question.questionObj.votingDisabled = false;
 			question.questionObj.showStatistic = false;
 			question.questionObj.showAnswer = false;
 			question.questionObj.piRoundActive = true;
 			question.questionObj.piRoundFinished = false;
-			question.questionObj.piRoundStartTime = object.startTime;
-			question.questionObj.piRoundEndTime = object.endTime;
+			question.questionObj.piRoundStartTime = startTime;
+			question.questionObj.piRoundEndTime = endTime;
 		} else {
 			question.questionObj = questionObj;
 		}
@@ -124,16 +125,19 @@ Ext.define("ARSnova.controller.RoundManagement", {
 		}
 	},
 
-	handleUserRoundStart: function (object) {
+	handleUserRoundStart: function (questionId, variant, round, startTime, endTime) {
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+
+		ARSnova.app.getController('RoundManagement').checkAndRemoveCanceledQuestionAnswers(questionId, variant);
 
 		if (tabPanel.getActiveItem() === tabPanel.userQuestionsPanel) {
 			var questions = tabPanel.userQuestionsPanel.getInnerItems();
 
 			questions.forEach(function (question) {
-				if (question.getItemId() === object.id) {
-					ARSnova.app.getController('RoundManagement').updateQuestionOnRoundStart(question, object);
-					question.countdownTimer.start(object.startTime, object.endTime);
+				if (question.getItemId() === questionId) {
+					ARSnova.app.getController('RoundManagement').updateQuestionOnRoundStart(
+						question, startTime, endTime, round);
+					question.countdownTimer.start(startTime, endTime);
 					question.countdownTimer.show();
 					question.enableQuestion();
 				}
@@ -141,7 +145,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 		}
 	},
 
-	handleSpeakerRoundStart: function (object) {
+	handleSpeakerRoundStart: function (questionId, variant, round, startTime, endTime) {
 		var mainTabPanel = ARSnova.app.mainTabPanel,
 			speakerTabPanel = mainTabPanel.tabPanel.speakerTabPanel,
 			statisticTabPanel = speakerTabPanel.statisticTabPanel,
@@ -151,14 +155,15 @@ Ext.define("ARSnova.controller.RoundManagement", {
 			var questions = speakerTabPanel.showcaseQuestionPanel.getInnerItems();
 
 			questions.forEach(function (question) {
-				if (question.getItemId() === object.id) {
-					ARSnova.app.getController('RoundManagement').updateQuestionOnRoundStart(question, object);
+				if (question.getItemId() === questionId) {
+					ARSnova.app.getController('RoundManagement').updateQuestionOnRoundStart(
+						question, startTime, endTime, round);
 					question.updateEditButtons();
 					question.editButtons.hide();
 
 					if (speakerTabPanel.showcaseQuestionPanel.getActiveItem() === question &&
 						mainTabPanel.getActiveItem() === mainTabPanel.tabPanel) {
-						question.countdownTimer.start(object.startTime, object.endTime);
+						question.countdownTimer.start(startTime, endTime);
 						question.countdownTimer.show();
 					}
 				}
@@ -168,15 +173,16 @@ Ext.define("ARSnova.controller.RoundManagement", {
 		if (mainTabPanel.getActiveItem() === statisticTabPanel) {
 			var question = speakerTabPanel.questionStatisticChart;
 
-			if (question.questionObj._id === object.id) {
-				ARSnova.app.getController('RoundManagement').updateQuestionOnRoundStart(question, object, questionObj);
-				statisticTabPanel.roundManagementPanel.countdownTimer.start(object.startTime, object.endTime);
+			if (question.questionObj._id === questionId) {
+				ARSnova.app.getController('RoundManagement').updateQuestionOnRoundStart(
+					question, startTime, endTime, round, questionObj);
+				statisticTabPanel.roundManagementPanel.countdownTimer.start(startTime, endTime);
 				statisticTabPanel.roundManagementPanel.updateEditButtons();
 			}
 		}
 	},
 
-	handleUserRoundEnd: function (questionId) {
+	handleUserRoundEnd: function (questionId, variant) {
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 
 		if (tabPanel.getActiveItem() === tabPanel.userQuestionsPanel) {
@@ -192,7 +198,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 		}
 	},
 
-	handleSpeakerRoundEnd: function (questionId) {
+	handleSpeakerRoundEnd: function (questionId, variant) {
 		var mainTabPanel = ARSnova.app.mainTabPanel,
 			speakerTabPanel = mainTabPanel.tabPanel.speakerTabPanel,
 			statisticTabPanel = speakerTabPanel.statisticTabPanel,
@@ -224,6 +230,8 @@ Ext.define("ARSnova.controller.RoundManagement", {
 
 	handleUserRoundCancel: function (questionId) {
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+
+		ARSnova.app.getController('RoundManagement').storeAnsweredQuestionInformation(questionId);
 
 		if (tabPanel.getActiveItem() === tabPanel.userQuestionsPanel) {
 			var questions = tabPanel.userQuestionsPanel.getInnerItems();
@@ -269,8 +277,11 @@ Ext.define("ARSnova.controller.RoundManagement", {
 		}
 	},
 
-	handleUserRoundReset: function (questionId) {
+	handleUserRoundReset: function (questionId, variant) {
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+
+		ARSnova.app.getController('RoundManagement').checkAndRemoveCanceledQuestionAnswers(questionId, variant);
+		ARSnova.app.getController('RoundManagement').addUnansweredQuestion(questionId, variant);
 
 		if (tabPanel.getActiveItem() === tabPanel.userQuestionsPanel) {
 			var questions = tabPanel.userQuestionsPanel.getInnerItems();
@@ -285,7 +296,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 		}
 	},
 
-	handleSpeakerRoundReset: function (questionId) {
+	handleSpeakerRoundReset: function (questionId, variant) {
 		var mainTabPanel = ARSnova.app.mainTabPanel,
 			speakerTabPanel = mainTabPanel.tabPanel.speakerTabPanel,
 			statisticTabPanel = speakerTabPanel.statisticTabPanel,
@@ -313,6 +324,50 @@ Ext.define("ARSnova.controller.RoundManagement", {
 				statisticTabPanel.roundManagementPanel.changePiRound(questionId);
 				statisticTabPanel.roundManagementPanel.updateEditButtons();
 			}
+		}
+	},
+
+	addUnansweredQuestion: function (questionId, variant) {
+		var storageKey = variant === 'lecture' ? 'unansweredLectureQuestions' : 'unansweredPreparationQuestions';
+		var unansweredQuestionIds = JSON.parse(sessionStorage.getItem(storageKey));
+
+		if (!Ext.Array.contains(unansweredQuestionIds, questionId)) {
+			unansweredQuestionIds.push(questionId);
+			sessionStorage.setItem(storageKey, JSON.stringify(unansweredQuestionIds));
+		}
+	},
+
+	checkAndRemoveCanceledQuestionAnswers: function (questionId, variant) {
+		var answeredCanceledPiQuestions = JSON.parse(sessionStorage.getItem('answeredCanceledPiQuestions'));
+
+		if (!!answeredCanceledPiQuestions && Array.isArray(answeredCanceledPiQuestions) &&
+			Ext.Array.contains(answeredCanceledPiQuestions, questionId)) {
+			Ext.Array.remove(answeredCanceledPiQuestions, questionId);
+
+			if (answeredCanceledPiQuestions.length === 0) {
+				sessionStorage.removeItem('answeredCanceledPiQuestions');
+			} else {
+				sessionStorage.setItem('answeredCanceledPiQuestions', JSON.stringify(answeredCanceledPiQuestions));
+			}
+		} else {
+			ARSnova.app.getController('RoundManagement').addUnansweredQuestion(questionId, variant);
+		}
+	},
+
+	storeAnsweredQuestionInformation: function (questionId) {
+		var answeredCanceledPiQuestions = JSON.parse(sessionStorage.getItem('answeredCanceledPiQuestions'));
+		var unansweredLecQuestionIds = JSON.parse(sessionStorage.getItem('unansweredLectureQuestions'));
+		var unansweredPrepQuestionIds = JSON.parse(sessionStorage.getItem('unansweredPreparationQuestions'));
+
+		if (!!unansweredLecQuestionIds && !Ext.Array.contains(unansweredLecQuestionIds, questionId) &&
+			!!unansweredPrepQuestionIds && !Ext.Array.contains(unansweredPrepQuestionIds, questionId)) {
+			if (!!answeredCanceledPiQuestions && Array.isArray(answeredCanceledPiQuestions)) {
+				answeredCanceledPiQuestions.push(questionId);
+			} else {
+				answeredCanceledPiQuestions = [questionId];
+			}
+
+			sessionStorage.setItem('answeredCanceledPiQuestions', JSON.stringify(answeredCanceledPiQuestions));
 		}
 	}
 });
