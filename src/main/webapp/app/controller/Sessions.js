@@ -40,6 +40,7 @@ Ext.define("ARSnova.controller.Sessions", {
 	},
 
 	login: function (options) {
+		console.debug("Controller: Sessions.login", options);
 		if (options.keyword.length !== 8) {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_ID_INVALID_LENGTH);
 			return;

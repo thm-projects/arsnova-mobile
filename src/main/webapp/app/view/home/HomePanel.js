@@ -242,7 +242,6 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		 */
 		var _demoSessionKey = ARSnova.app.globalConfig.demoSessionKey || '71073692';
 
-		// console.log(ARSnova.app.globalConfig.demoSessionKey);
 		ARSnova.app.getController('Sessions').login({
 			keyword: this.down('textfield').getValue().replace(/ /g, "") || _demoSessionKey,
 			destroy: false,
