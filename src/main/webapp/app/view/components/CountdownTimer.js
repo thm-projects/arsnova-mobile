@@ -274,11 +274,10 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 				context.fillText(Messages.MINUTES, x, y + 20);
 			} else if (minutes > 0) {
 				var seconds = Math.ceil(this.seconds / this.milliseconds);
-				context.fillText(seconds.toString(), x, y - 10);
-				context.font = "20px Segoe UI";
-				context.fillText(Messages.SECONDS, x, y + 20);
 
 				if (this.seconds < this.getSoundStartTimeSeconds() * 1000) {
+					context.fillStyle = (this.seconds / 1000) % 2 > 1 ? "#971b2f" : "#4a5c66";
+
 					if (!this.sound.isPlaying() && this.running) {
 						this.sound.setVolume(0);
 						this.sound.play();
@@ -288,8 +287,8 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 						this.sound.setVolume(volume / 100);
 					}
 				}
-			} else {
-				context.fillText(0, x, y - 10);
+
+				context.fillText(seconds.toString(), x, y - 10);
 				context.font = "20px Segoe UI";
 				context.fillText(Messages.SECONDS, x, y + 20);
 			}
@@ -298,31 +297,29 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			context.rotate(-Math.PI / 2);
 			context.translate(-x, -y);
 
-			if (this.minutes > 0) {
-				context.beginPath();
-				context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
-				context.lineWidth = 20;
-				context.strokeStyle = "#4A5C66";
-				context.stroke();
-			} else {
-				context.beginPath();
-				context.arc(x, y, radius, 0 * Math.PI, 2 * Math.PI, counterClockwise);
-				context.lineWidth = 25;
-				context.strokeStyle = "#971B2F";
-				context.stroke();
-			}
+			context.strokeStyle =
+				(this.seconds < this.getSoundStartTimeSeconds() * 1000) &&
+				((this.seconds / 1000) % 2 > 1) && !(minutes > 1) ?
+					"#971b2f" : "#4a5c66";
+
+			context.beginPath();
+			context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
+			context.lineWidth = 20;
+			context.stroke();
 
 			radius = 66;
 			startAngle = 0 * Math.PI;
 			endAngle = ((2 * Math.PI) / (this.maxSeconds / this.seconds));
 
-			if (this.minutes > 0) {
-				context.beginPath();
-				context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
-				context.lineWidth = 20;
-				context.strokeStyle = "#F2A900";
-				context.stroke();
-			}
+			context.strokeStyle =
+				(this.seconds < this.getSoundStartTimeSeconds() * 1000) &&
+				((this.seconds / 1000) % 2 > 1) && !(minutes > 1) ?
+					"#971b2f" : "#F2A900";
+
+			context.beginPath();
+			context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
+			context.lineWidth = 20;
+			context.stroke();
 
 			context.restore();
 		}
