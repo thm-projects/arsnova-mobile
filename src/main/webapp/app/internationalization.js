@@ -735,6 +735,7 @@
 				MISSING_INPUT: "Please fill out all required fields.",
 				SHOWCASE: "Showcase",
 				LEAVE: "Leave",
+				SAVE_QUESTION: 'Save question',
 				MEMBERS_ONLY: "This question is visible to course members only.",
 				QUESTION_RATING: "Likert-type Scale",
 				QUESTION_RATING_SHORT: "Rating",
