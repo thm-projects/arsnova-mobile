@@ -452,7 +452,14 @@ html,body {
 	margin-right: 0px;
 }
 
-.matrixButton.smallerActionButton {
+.matrixButton.mediumActionButton .buttonText {
+	width: 120px !important;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.matrixButton.smallerActionButton,
+.matrixButton.mediumActionButton {
 	padding-left: 0px;
 	padding-right: 0px;
 }
