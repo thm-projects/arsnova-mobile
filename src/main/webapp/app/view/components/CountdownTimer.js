@@ -29,6 +29,10 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		id: 'countdown-timer',
 		classList: [Ext.baseCSSPrefix + 'countdown-timer']
 	}, {
+		reference: 'timerLabel',
+		cls: 'gravure selectable',
+		tag: 'div'
+	}, {
 		reference: 'sliderContainer',
 		tag: 'div'
 	}],
@@ -37,7 +41,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		title: 'timer',
 		cls: 'countdownTimerContainer',
 		scrollable: false,
-		width: 260,
+		width: 320,
 		height: 260,
 
 		viewOnly: false,
@@ -68,6 +72,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 	initialize: function () {
 		this.callParent(arguments);
 		this.viewOnly = this.config.viewOnly;
+		this.disableTimerLabel();
 
 		this.on('painted', function () {
 			if (!this.starttime && !this.endtime) {
@@ -140,6 +145,17 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 
 	onSliderDragEnd: function (me, thumb, newValue, oldValue) {
 		this.fireEvent('dragend', this, thumb, newValue, oldValue);
+	},
+
+	setTimerLabelText: function (text) {
+		this.timerLabel.setHtml(text);
+		this.sliderContainer.hide();
+		this.timerLabel.show();
+	},
+
+	disableTimerLabel: function () {
+		this.timerLabel.html = '';
+		this.timerLabel.hide();
 	},
 
 	initializeTimeValues: function (mins, secs) {
