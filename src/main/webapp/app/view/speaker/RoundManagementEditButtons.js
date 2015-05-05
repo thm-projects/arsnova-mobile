@@ -32,6 +32,11 @@ Ext.define('ARSnova.view.speaker.RoundManagementEditButtons', {
 		style: "margin: 10px"
 	},
 
+	modes: {
+		STOP_TIMER: 0,
+		ROUND_MANAGEMENT: 1
+	},
+
 	initialize: function () {
 		this.callParent(arguments);
 
@@ -61,6 +66,39 @@ Ext.define('ARSnova.view.speaker.RoundManagementEditButtons', {
 			}
 		});
 
+		this.enableRoundManagementButton = Ext.create('ARSnova.view.MatrixButton', {
+			buttonConfig: 'togglefield',
+			cls: this.config.buttonClass,
+			text: Messages.SWITCH_VOTING_MODE,
+			toggleConfig: {
+				scope: this,
+				label: false,
+				value: this.isRoundManagementActive,
+				listeners: {
+					scope: this,
+					change: function (toggle, newValue, oldValue) {
+						var panel = this.getParent().getParent().getParent();
+						var storedVotingModes = JSON.parse(localStorage.getItem("storedVotingModes"));
+						storedVotingModes = !!storedVotingModes ? storedVotingModes : {};
+
+						if (newValue === 1 && oldValue === 0) {
+							panel.prepareRoundManagementButtons();
+							storedVotingModes[this.questionObj._id] = this.modes.ROUND_MANAGEMENT;
+						} else {
+							panel.prepareStopTimerButtons();
+							delete storedVotingModes[this.questionObj._id];
+						}
+
+						if (Object.keys(storedVotingModes).length) {
+							localStorage.setItem("storedVotingModes", JSON.stringify(storedVotingModes));
+						} else {
+							localStorage.removeItem("storedVotingModes");
+						}
+					}
+				}
+			}
+		});
+
 		this.statusButton = Ext.create('ARSnova.view.VoteStatusButton', {
 			cls: this.config.buttonClass,
 			questionObj: this.questionObj,
@@ -69,6 +107,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementEditButtons', {
 
 		this.add([
 			this.statusButton,
+			this.enableRoundManagementButton,
 			this.questionResetButton
 		]);
 	},
