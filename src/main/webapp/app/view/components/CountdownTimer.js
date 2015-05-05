@@ -205,6 +205,10 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			this.slider.enable();
 		}
 
+		if (this.sound.isPlaying()) {
+			this.sound.pause();
+		}
+
 		this.getOnTimerStop().call(this.getStartStopScope());
 	},
 
@@ -274,9 +278,14 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 				context.font = "20px Segoe UI";
 				context.fillText(Messages.SECONDS, x, y + 20);
 
-				if (!this.sound.isPlaying() && this.running) {
-					if (this.seconds < this.getSoundStartTimeSeconds() * 1000) {
-						//this.sound.play();
+				if (this.seconds < this.getSoundStartTimeSeconds() * 1000) {
+					if (!this.sound.isPlaying() && this.running) {
+						this.sound.setVolume(0);
+						this.sound.play();
+					} else {
+						var tick = 100 / this.getSoundStartTimeSeconds();
+						var volume = (this.getSoundStartTimeSeconds() - (this.seconds / 1000)) * tick;
+						this.sound.setVolume(volume / 100);
 					}
 				}
 			} else {
