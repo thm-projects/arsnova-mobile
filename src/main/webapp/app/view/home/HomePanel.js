@@ -103,7 +103,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 						xtype: 'input',
 						cls: 'joinSessionInput',
 						type: 'tel',
-						maxLength: 16
+						maxLength: 16,
 					},
 					name: 'keyword',
 					style: !!ARSnova.app.globalConfig.demoSessionKey ? 'margin-bottom: 5px' : '',
@@ -233,8 +233,18 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		// delete the textfield-focus, to hide the numeric keypad on phones
 		this.down('textfield').blur();
 
+		/**
+		 * The global property "ARSnova.app.globalConfig.demoSessionKey" is always undefined.
+		 * Seems like a bug ?
+		 * So i have temporarily put this variable on here to avoid magic numbers.
+		 * This has to be changed later on !
+		 * - March, 5th/2005, m. schaefer -
+		 */
+		var _demoSessionKey = ARSnova.app.globalConfig.demoSessionKey || '71073692';
+
+		// console.log(ARSnova.app.globalConfig.demoSessionKey);
 		ARSnova.app.getController('Sessions').login({
-			keyword: this.down('textfield').getValue().replace(/ /g, ""),
+			keyword: this.down('textfield').getValue().replace(/ /g, "") || _demoSessionKey,
 			destroy: false,
 			panel: this
 		});
