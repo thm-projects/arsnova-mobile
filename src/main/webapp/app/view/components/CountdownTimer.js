@@ -206,7 +206,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		}
 
 		if (this.sound.isPlaying()) {
-			this.sound.pause();
+			this.sound.setLoop(false);
 		}
 
 		this.getOnTimerStop().call(this.getStartStopScope());
