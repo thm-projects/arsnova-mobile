@@ -29,6 +29,11 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		}
 	},
 
+	modes: {
+		STOP_TIMER: 0,
+		ROUND_MANAGEMENT: 1
+	},
+
 	initialize: function (arguments) {
 		this.callParent(arguments);
 
@@ -97,7 +102,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		});
 
 		this.endRoundButton = Ext.create('Ext.Button', {
-			text: Messages.END_ROUND_IMMEDIATELY,
+			text: Messages.END_VOTE_IMMEDIATELY,
 			style: 'margin: 0 auto; margin-top: 20px;',
 			ui: 'decline',
 			hidden: true,
@@ -132,8 +137,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		});
 
 		this.add([
-			this.toolbar,
-			{
+			this.toolbar, {
 				xtype: 'formpanel',
 				scrollable: null,
 				items: [
@@ -154,7 +158,91 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 	beforeActivate: function () {
 		this.statisticChart = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 		this.prepareQuestionManagementContainer();
+		this.checkStoredVotingMode();
 		this.prepareCountdownTimer();
+	},
+
+	checkStoredVotingMode: function () {
+		var questionId = this.statisticChart.questionObj._id;
+		var storedVotingModes = JSON.parse(localStorage.getItem("storedVotingModes"));
+
+		if (!!storedVotingModes && storedVotingModes[questionId] === this.modes.ROUND_MANAGEMENT) {
+			this.activeMode = this.modes.ROUND_MANAGEMENT;
+			this.editButtons.enableRoundManagementButton.setToggleFieldValue(1);
+		} else {
+			this.activeMode = this.modes.STOP_TIMER;
+			this.editButtons.enableRoundManagementButton.setToggleFieldValue(0);
+		}
+	},
+
+	prepareCountdownButtons: function () {
+		if (this.activeMode === this.modes.STOP_TIMER) {
+			this.prepareStopTimerButtons();
+		} else {
+			this.prepareRoundManagementButtons();
+		}
+	},
+
+	prepareStopTimerButtons: function () {
+		var questionObj = this.statisticChart.questionObj;
+
+		this.activeMode = this.modes.STOP_TIMER;
+		this.startRoundButton.setText(Messages.START_VOTING);
+		this.endRoundButton.setText(Messages.END_VOTE_IMMEDIATELY);
+		this.countdownTimer.disableTimerLabel();
+
+		if (!questionObj.piRoundActive) {
+			if (questionObj.piRound === 1 && !questionObj.piRoundFinished) {
+				this.countdownTimer.slider.show();
+				this.startRoundButton.show();
+			} else {
+				this.countdownTimer.setTimerLabelText(Messages.VOTING_CLOSED);
+				this.countdownTimer.slider.hide();
+				this.startRoundButton.hide();
+			}
+			this.cancelRoundButton.hide();
+			this.endRoundButton.hide();
+			this.questionManagementContainer.show();
+		} else {
+			this.endRoundButton.show();
+			this.cancelRoundButton.show();
+			this.startRoundButton.hide();
+			this.questionManagementContainer.hide();
+		}
+	},
+
+	prepareRoundManagementButtons: function () {
+		var questionObj = this.statisticChart.questionObj;
+
+		this.activeMode = this.modes.ROUND_MANAGEMENT;
+		this.endRoundButton.setText(Messages.END_ROUND_IMMEDIATELY);
+		this.countdownTimer.disableTimerLabel();
+
+		if (!questionObj.piRoundActive) {
+			if (questionObj.piRound === 1) {
+				if (!questionObj.piRoundFinished) {
+					this.startRoundButton.setText(Messages.START_FIRST_ROUND);
+					this.countdownTimer.slider.show();
+					this.startRoundButton.show();
+				} else if (questionObj.piRoundFinished) {
+					this.startRoundButton.setText(Messages.START_SECOND_ROUND);
+					this.countdownTimer.slider.show();
+					this.startRoundButton.show();
+				}
+			} else {
+				this.countdownTimer.setTimerLabelText(Messages.VOTING_CLOSED);
+				this.countdownTimer.slider.hide();
+				this.startRoundButton.hide();
+			}
+			this.cancelRoundButton.hide();
+			this.endRoundButton.hide();
+			this.questionManagementContainer.show();
+		} else {
+			this.endRoundButton.show();
+			this.cancelRoundButton.show();
+			this.startRoundButton.hide();
+			this.questionManagementContainer.hide();
+		}
 	},
 
 	onTimerStart: function () {
@@ -178,8 +266,8 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 
 			this.questionManagementContainer.show();
 			this.startRoundButton.disable();
-			this.endRoundButton.hide();
 			this.cancelRoundButton.hide();
+			this.endRoundButton.hide();
 			this.startRoundButton.show();
 
 			Ext.create('Ext.util.DelayedTask', function () {
@@ -197,7 +285,6 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		ARSnova.app.questionModel.cancelDelayedPiRound(this.statisticChart.questionObj._id, {
 			success: function (response) {
 				afterCancelFunction();
-				console.debug('New question round canceled');
 			},
 			failure: function (response) {
 				console.log('server-side error');
@@ -212,7 +299,6 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		ARSnova.app.questionModel.startNewPiRound(this.statisticChart.questionObj._id, delay, {
 			success: function (response) {
 				afterStartFunction();
-				console.debug('New question round started.');
 			},
 			failure: function (response) {
 				console.log('server-side error');
@@ -223,10 +309,10 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 	prepareCountdownTimer: function () {
 		var obj = this.statisticChart.questionObj;
 
-		if (obj.piRoundActive) {
-			this.countdownTimer.start(obj.piRoundStartTime, obj.piRoundEndTime);
-		} else {
+		if (!obj.piRoundActive) {
 			this.countdownTimer.stop();
+		} else {
+			this.countdownTimer.start(obj.piRoundStartTime, obj.piRoundEndTime);
 		}
 
 		this.prepareCountdownButtons();
@@ -235,8 +321,8 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 	prepareQuestionManagementContainer: function () {
 		if (!this.editButtons) {
 			this.editButtons = Ext.create('ARSnova.view.speaker.RoundManagementEditButtons', {
-				buttonClass: 'smallerActionButton',
-				questionObj: this.cleanupQuestionObj(this.statisticChart.questionObj)
+				questionObj: this.cleanupQuestionObj(this.statisticChart.questionObj),
+				buttonClass: 'mediumActionButton'
 			});
 
 			this.questionManagementContainer.add(this.editButtons);
@@ -246,38 +332,11 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		this.updateEditButtons();
 	},
 
-	prepareCountdownButtons: function () {
-		var questionObj = this.statisticChart.questionObj;
-
-		if (!questionObj.piRoundActive) {
-			if (questionObj.piRound === 1) {
-				if (!questionObj.piRoundFinished) {
-					this.startRoundButton.setText(Messages.START_FIRST_ROUND);
-					this.countdownTimer.slider.show();
-					this.startRoundButton.show();
-				} else if (questionObj.piRoundFinished) {
-					this.startRoundButton.setText(Messages.START_SECOND_ROUND);
-					this.countdownTimer.slider.show();
-					this.startRoundButton.show();
-				}
-			} else {
-				this.countdownTimer.slider.hide();
-				this.startRoundButton.hide();
-			}
-			this.cancelRoundButton.hide();
-			this.endRoundButton.hide();
-			this.questionManagementContainer.show();
-		} else {
-			this.endRoundButton.show();
-			this.cancelRoundButton.show();
-			this.startRoundButton.hide();
-			this.questionManagementContainer.hide();
-		}
-	},
-
 	updateEditButtons: function () {
 		this.editButtons.updateData(this.statisticChart.questionObj);
-		this.editButtons.updateQuestionResetButtonState(this.statisticChart.hasAnswers);
+		this.editButtons.updateQuestionResetButtonState(
+			this.statisticChart.hasAnswers
+		);
 	},
 
 	cleanupQuestionObj: function (questionObj) {
