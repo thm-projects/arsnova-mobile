@@ -220,7 +220,6 @@ Ext.define("ARSnova.controller.Sessions", {
 				tabPanel.insert(1, tabPanel.userQuestionsPanel);
 			} else {
 				tabPanel.userQuestionsPanel.tab.show();
-				tabPanel.userQuestionsPanel.renew();
 			}
 
 			/* add feedback statistic panel*/

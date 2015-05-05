@@ -347,7 +347,8 @@ Ext.define("ARSnova.controller.RoundManagement", {
 			if (answeredCanceledPiQuestions.length === 0) {
 				sessionStorage.removeItem('answeredCanceledPiQuestions');
 			} else {
-				sessionStorage.setItem('answeredCanceledPiQuestions', JSON.stringify(answeredCanceledPiQuestions));
+				sessionStorage.setItem('answeredCanceledPiQuestions',
+					JSON.stringify(answeredCanceledPiQuestions));
 			}
 		} else {
 			ARSnova.app.getController('RoundManagement').addUnansweredQuestion(questionId, variant);
