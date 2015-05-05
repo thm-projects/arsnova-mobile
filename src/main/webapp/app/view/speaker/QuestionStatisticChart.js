@@ -296,6 +296,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		this.setGradients();
 
 		this.countdownTimer = Ext.create('ARSnova.view.components.CountdownTimer', {
+			style: 'margin-top: 40px',
 			docked: 'top',
 			viewOnly: true,
 			hidden: true
