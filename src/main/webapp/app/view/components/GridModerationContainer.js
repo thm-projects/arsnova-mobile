@@ -23,7 +23,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	config: {
 		name: "",
 		description: "",
-		highlightColor: '#f2a900', // Color of the highlighted fields.
+		highlightColor: '#f28a00', // Color of the highlighted fields.
 		numberOfDots: 1,
 		gridType: 'moderation',
 		gridIsHidden: true,

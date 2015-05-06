@@ -291,7 +291,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 				context.beginPath();
 				context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
 				context.lineWidth = 20;
-				context.strokeStyle = "#F2A900";
+				context.strokeStyle = "#F28A00";
 				context.stroke();
 			}
 
