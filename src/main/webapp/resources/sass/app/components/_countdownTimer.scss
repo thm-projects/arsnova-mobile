@@ -17,24 +17,22 @@
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+.x-countdown-timer {
+	padding-left: 0;
+	padding-right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
 
-// The following two lines import the default Sencha Touch theme. If you are building
-// a new theme, remove them and the add your own CSS on top of the base CSS (which
-// is already included in your app.json file).
+.countdownTimerContainer {	
+	width: 320px;
+	height: 260px;
+	margin: 0 auto;
+	z-index: 999;
 
-@import 'sencha-touch/default';
-@import 'sencha-touch/default/all';
-
-//
-// The following lines import the custom scss files.
-
-@import 'app/colors';
-@import 'app/general';
-@import 'app/iconfont';
-@import 'app/bugfixes';
-@import 'app/theme';
-
-@import 'app/components/badges';
-@import 'app/components/loadingMask';
-@import 'app/components/markdownEditor';
-@import 'app/components/countdownTimer';
+	.x-slider-field {
+		background: transparent !important;
+		margin: -30px auto;
+	}
+}

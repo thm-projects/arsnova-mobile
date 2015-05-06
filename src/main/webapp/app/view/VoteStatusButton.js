@@ -16,14 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('ARSnova.view.QuestionStatusButton', {
+Ext.define('ARSnova.view.VoteStatusButton', {
 	extend: 'Ext.Panel',
 
 	config: {
 		wording: {
-			release: Messages.RELEASE_QUESTION,
-			confirm: Messages.CONFIRM_CLOSE_QUESTION,
-			confirmMessage: Messages.CONFIRM_CLOSE_QUESTION_MESSAGE
+			release: Messages.RELEASE_VOTE,
+			confirm: Messages.CONFIRM_CLOSE_VOTE,
+			confirmMessage: Messages.CONFIRM_CLOSE_VOTE_MESSAGE
 		}
 	},
 
@@ -39,15 +39,16 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		this.questionObj = args.questionObj;
 		this.parentPanel = args.parentPanel;
 
-		if (this.questionObj && this.questionObj.active) {
-			this.isOpen = true;
-		} else {
+		if (this.questionObj && this.questionObj.votingDisabled) {
 			this.isOpen = false;
+		} else {
+			this.isOpen = true;
 		}
 
 		this.button = Ext.create('ARSnova.view.MatrixButton', {
 			buttonConfig: 'togglefield',
 			text: this.getWording().release,
+			disabledCls: '',
 			scope: this,
 			cls: this.getCls(),
 			toggleConfig: {
@@ -71,26 +72,36 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 	changeStatus: function () {
 		var me = this;
 		var id = this.questionObj._id;
+		this.button.disable();
 
 		if (this.isOpen) {
 			Ext.Msg.confirm(this.getWording().confirm, this.getWording().confirmMessage, function (buttonId) {
 				if (buttonId !== "no") {
-					/* close this question */
-					ARSnova.app.getController('Questions').setActive({
-						questionId: id,
-						active: 0,
-						statusButton: me
+					/* close voting */
+					ARSnova.app.questionModel.disableQuestionVoting(id, 1, {
+						success: function (response) {
+							me.votingClosedSuccessfully();
+						},
+						failure: function (records, operation) {
+							Ext.Msg.alert(Messages.NOTIFICATION, Messages.QUESTION_COULD_NOT_BE_SAVED);
+							this.button.enable();
+						}
 					});
 				} else {
 					me.button.setToggleFieldValue(true);
+					this.button.enable();
 				}
 			}, this);
 		} else {
-			/* open this question */
-			ARSnova.app.getController('Questions').setActive({
-				questionId: id,
-				active: 1,
-				statusButton: me
+			/* open voting */
+			ARSnova.app.questionModel.disableQuestionVoting(id, 0, {
+				success: function (response) {
+					me.votingOpenedSuccessfully();
+				},
+				failure: function (records, operation) {
+					Ext.Msg.alert(Messages.NOTIFICATION, Messages.QUESTION_COULD_NOT_BE_SAVED);
+					this.button.enable();
+				}
 			});
 		}
 	},
@@ -100,7 +111,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 			return;
 		}
 
-		if (localStorage.getItem('active') === "1") {
+		if (!this.questionObj.votingDisabled) {
 			this.isOpen = true;
 			this.button.setToggleFieldValue(true);
 		} else {
@@ -110,24 +121,31 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		this.isRendered = true;
 	},
 
+	updateData: function (questionObj) {
+		this.questionObj = questionObj;
+		this.toggleStatusButton(!questionObj.votingDisabled);
+	},
+
 	toggleStatusButton: function (active) {
 		this.button.setToggleFieldValue(active);
 		this.isOpen = active;
 	},
 
-	questionClosedSuccessfully: function () {
+	votingClosedSuccessfully: function () {
 		this.isOpen = false;
+		this.button.enable();
 
 		if (this.parentPanel) {
-			this.parentPanel.questionObj.active = this.isOpen;
+			this.parentPanel.questionObj.votingDisabled = true;
 		}
 	},
 
-	questionOpenedSuccessfully: function () {
+	votingOpenedSuccessfully: function () {
 		this.isOpen = true;
+		this.button.enable();
 
 		if (this.parentPanel) {
-			this.parentPanel.questionObj.active = this.isOpen;
+			this.parentPanel.questionObj.votingDisabled = false;
 		}
 	}
 });

@@ -121,7 +121,11 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 			items: [this.segmentedButton]
 		}]);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
-			this.add([questionValueFieldset]);
+			this.add([{
+				xtype: 'formpanel',
+				scrollable: null,
+				items: [questionValueFieldset]
+			}]);
 		}
 	},
 

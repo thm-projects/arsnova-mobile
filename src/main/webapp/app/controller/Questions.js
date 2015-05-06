@@ -27,37 +27,25 @@ Ext.define("ARSnova.controller.Questions", {
 	],
 
 	index: function (options) {
-		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.backButton.show();
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');
-		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.addListener('deactivate', function (panel) {
-			panel.toolbar.backButton.hide();
-		}, this, {single: true});
 	},
 
 	lectureIndex: function (options) {
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.setLectureMode();
-		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.backButton.show();
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.setTitle(Messages.LECTURE_QUESTIONS);
 		if (options && options.renew) {
 			ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.renew(options.ids);
 		}
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');
-		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.addListener('deactivate', function (panel) {
-			panel.toolbar.backButton.hide();
-		}, this, {single: true});
 	},
 
 	preparationIndex: function (options) {
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.setPreparationMode();
-		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.backButton.show();
 		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.setTitle(Messages.PREPARATION_QUESTIONS);
 		if (options && options.renew) {
 			ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.renew(options.ids);
 		}
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');
-		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.addListener('deactivate', function (panel) {
-			panel.toolbar.backButton.hide();
-		}, this, {single: true});
 	},
 
 	listQuestions: function () {
@@ -101,6 +89,18 @@ Ext.define("ARSnova.controller.Questions", {
 
 	listFeedbackQuestions: function (animation) {
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel, animation || 'slide');
+	},
+
+	saveUnansweredLectureQuestions: function (questionIds) {
+		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
+			sessionStorage.setItem('unansweredLectureQuestions', JSON.stringify(questionIds));
+		}
+	},
+
+	saveUnansweredPreparationQuestions: function (questionIds) {
+		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
+			sessionStorage.setItem('unansweredPreparationQuestions', JSON.stringify(questionIds));
+		}
 	},
 
 	add: function (options) {
@@ -367,6 +367,45 @@ Ext.define("ARSnova.controller.Questions", {
 				Ext.Msg.alert(Messages.NOTIFICATION, Messages.QUESTION_COULD_NOT_BE_SAVED);
 			}
 		});
+	},
+
+	handleVotingLock: function (questionId, disable) {
+		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+
+		if (tabPanel.getActiveItem() === tabPanel.userQuestionsPanel) {
+			var questions = tabPanel.userQuestionsPanel.getInnerItems();
+
+			questions.forEach(function (question) {
+				if (question.getItemId() === questionId) {
+					question.questionObj.votingDisabled = disable;
+					question.countdownTimer.hide();
+
+					if (disable) {
+						question.disableQuestion();
+					} else {
+						question.enableQuestion();
+					}
+				}
+			});
+		}
+	},
+
+	handleAnswerCountChange: function (id, answerCount, abstentionCount) {
+		var mainTabPanel = ARSnova.app.mainTabPanel;
+		var tP = mainTabPanel.tabPanel;
+		var panel = tP.userQuestionsPanel || tP.speakerTabPanel;
+
+		if (tP.getActiveItem() === tP.speakerTabPanel) {
+			var showcasePanel = panel.showcaseQuestionPanel;
+
+			if (showcasePanel.getActiveItem().getItemId() === id) {
+				if (answerCount === abstentionCount && answerCount > 0) {
+					showcasePanel.toolbar.setAnswerCounter(abstentionCount, Messages.ABSTENTION);
+				} else {
+					showcasePanel.toolbar.updateAnswerCounter(answerCount);
+				}
+			}
+		}
 	},
 
 	adHoc: function () {

@@ -35,14 +35,17 @@ Ext.define('ARSnova.WebSocket', {
 		setSessionActive: "arsnova/socket/session/active",
 		feedbackReset: "arsnova/socket/feedback/reset",
 		feedbackAverage: "arsnova/socket/feedback/average",
+		lockVoting: "arsnova/socket/lecturer/lockVoting",
 		endPiRound: "arsnova/question/lecturer/endPiRound",
+		resetPiRound: "arsnova/question/lecturer/resetPiRound",
+		cancelPiRound: "arsnova/question/lecturer/cancelPiRound",
 		startDelayedPiRound: "arsnova/question/lecturer/delayedPiRound",
 		lecturerQuestionAvailable: "arsnova/socket/question/lecturer/available",
 		lecturerQuestionLocked: "arsnova/socket/question/lecturer/locked",
 		audienceQuestionAvailable: "arsnova/socket/question/audience/available",
 		unansweredLecturerQuestions: "arsnova/socket/question/lecturer/lecture/unanswered",
 		unansweredPreparationQuestions: "arsnova/socket/question/lecturer/preparation/unanswered",
-		countQuestionAnswersByQuestion: "arsnova/socket/question/lecturer/question/answercount",
+		countQuestionAnswersByQuestionId: "arsnova/socket/question/lecturer/question/answer-and-abstention-count",
 		countLectureQuestionAnswers: "arsnova/socket/question/lecturer/lecture/answercount",
 		countPreparationQuestionAnswers: "arsnova/socket/question/lecturer/preparation/answercount",
 		learningProgressOptions: "arsnova/socket/session/learningprogress/options",
@@ -128,6 +131,16 @@ Ext.define('ARSnova.WebSocket', {
 				this.fireEvent(this.events.endPiRound, questionId);
 			}, this));
 
+			this.socket.on('cancelPiRound', Ext.bind(function (questionId) {
+				console.debug("Socket.IO: cancelPiRound", questionId);
+				this.fireEvent(this.events.cancelPiRound, questionId);
+			}, this));
+
+			this.socket.on('resetPiRound', Ext.bind(function (questionId) {
+				console.debug("Socket.IO: resetPiRound", questionId);
+				this.fireEvent(this.events.resetPiRound, questionId);
+			}, this));
+
 			this.socket.on('startDelayedPiRound', Ext.bind(function (object) {
 				console.debug("Socket.IO: startDelayedPiRound", object);
 				this.fireEvent(this.events.startDelayedPiRound, object);
@@ -141,6 +154,11 @@ Ext.define('ARSnova.WebSocket', {
 			this.socket.on('lecturerQuestionLocked', Ext.bind(function (questions) {
 				console.debug("Socket.IO: lecturerQuestionLocked", questions);
 				this.fireEvent(this.events.lecturerQuestionLocked, questions);
+			}, this));
+
+			this.socket.on('lockVoting', Ext.bind(function (object) {
+				console.debug("Socket.IO: lockVoting", object);
+				this.fireEvent(this.events.lockVoting, object);
 			}, this));
 
 			this.socket.on('audQuestionAvail', Ext.bind(function (questionId) {
@@ -159,9 +177,9 @@ Ext.define('ARSnova.WebSocket', {
 				this.fireEvent(this.events.unansweredPreparationQuestions, questionIds);
 			}, this));
 
-			this.socket.on('countQuestionAnswersByQuestion', Ext.bind(function (object) {
-				console.debug("Socket.IO: countQuestionAnswersByQuestion", object);
-				this.fireEvent(this.events.countQuestionAnswersByQuestion, object);
+			this.socket.on('countQuestionAnswersByQuestionId', Ext.bind(function (object) {
+				console.debug("Socket.IO: countQuestionAnswersByQuestionId", object);
+				this.fireEvent(this.events.countQuestionAnswersByQuestionId, object);
 			}, this));
 
 			this.socket.on('countLectureQuestionAnswers', Ext.bind(function (count) {

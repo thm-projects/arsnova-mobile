@@ -79,7 +79,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		var max = 2500;
 		this.learningProgressChange = Ext.Function.createBuffered(function () {
 			// Reset run-time to enforce reload of learning progress
-			this.courseLearningProgressTask.taskRunTime = 0;
+			this.checkLearningProgressTask.taskRunTime = 0;
 		}, Math.random() * (max - min) + min, this);
 
 		this.sessionLogoutButton = Ext.create('Ext.Button', {
@@ -242,6 +242,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	/* will be called on session login */
 	registerListeners: function () {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
+		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.lockVoting, panel.changeVoteActivation, panel);
 		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.startDelayedPiRound, panel.delayedPiRound, panel);
 		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.lecturerQuestionAvailable, panel.questionAvailable, panel);
 		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.lecturerQuestionLocked, panel.questionLocked, panel);
@@ -273,6 +274,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	/* will be called on session logout */
 	destroyListeners: function () {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
+		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.lockVoting, panel.changeVoteActivation, panel);
 		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.startDelayedPiRound, panel.delayedPiRound, panel);
 		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.lecturerQuestionAvailable, panel.questionAvailable, panel);
 		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.lecturerQuestionLocked, panel.questionLocked, panel);
@@ -287,6 +289,19 @@ Ext.define('ARSnova.view.user.InClass', {
 		}
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			ARSnova.app.taskManager.stop(panel.checkLearningProgressTask);
+		}
+	},
+
+	changeVoteActivation: function (object) {
+		var question = {
+			"_id": object._id,
+			"variant": object.variant
+		};
+
+		if (object.disable) {
+			this.questionLocked([question]);
+		} else {
+			this.questionAvailable([question]);
 		}
 	},
 
@@ -315,8 +330,8 @@ Ext.define('ARSnova.view.user.InClass', {
 		// TODO: Force reload of questions panel
 	},
 
-	delayedPiRound: function (question) {
-		this.showNotification([question.id], question.variant, true);
+	delayedPiRound: function (object) {
+		this.showNotification([object._id], object.variant, true, object.round);
 	},
 
 	checkLecturerQuestions: function (questionIds) {
@@ -358,8 +373,12 @@ Ext.define('ARSnova.view.user.InClass', {
 		return showNotification;
 	},
 
-	showNotification: function (questionIds, variant, newRound) {
-		var titleLabel;
+	showNotification: function (questionIds, variant, newRound, round) {
+		var titleLabel, messageLabel;
+		var unansweredQuestionIds = variant === 'lecture' ?
+			JSON.parse(sessionStorage.getItem('unansweredLectureQuestions')) :
+			JSON.parse(sessionStorage.getItem('unansweredPreparationQuestions'));
+
 		var callback = Ext.bind(function (answer) {
 			if (answer === 'yes') {
 				if (variant === 'lecture') {
@@ -371,14 +390,23 @@ Ext.define('ARSnova.view.user.InClass', {
 		}, this);
 
 		if (questionIds.length === 1) {
-			titleLabel = variant === 'lecture' ?
-				Messages.ONE_NEW_LECTURE_QUESTION :
-				Messages.ONE_NEW_PREPARATION_QUESTION;
+			if (Ext.Array.contains(unansweredQuestionIds, questionIds[0])) {
+				if (newRound) {
+					titleLabel = Messages.ONE_NEW_DELAYED_QUESTION;
+					messageLabel = round === 2 ?
+						Messages.ONE_NEW_DELAYED_QUESTION_ROUND2 :
+						Messages.ONE_NEW_DELAYED_QUESTION_ROUND1;
 
-			if (newRound) {
-				Ext.Msg.confirm(titleLabel, Messages.ONE_NEW_DELAYED_QUESTION + "<br>" + Messages.WANNA_ANSWER, callback);
-			} else {
-				Ext.Msg.confirm(titleLabel, Messages.WANNA_ANSWER, callback);
+					messageLabel = messageLabel + "<br>" + Messages.WANNA_ANSWER;
+				} else {
+					titleLabel = variant === 'lecture' ?
+						Messages.ONE_NEW_LECTURE_QUESTION :
+						Messages.ONE_NEW_PREPARATION_QUESTION;
+
+					messageLabel = Messages.WANNA_ANSWER;
+				}
+
+				Ext.Msg.confirm(titleLabel, messageLabel, callback);
 			}
 		} else {
 			titleLabel = variant === 'lecture' ?

@@ -98,9 +98,10 @@ Ext.define('ARSnova.view.Question', {
 
 					if (self.questionObj.questionType !== 'flashcard') {
 						self.disableQuestion();
-						self.checkPiRoundActivation();
-						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
-						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
+						if (!self.questionObj.piRoundActive) {
+							ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
+							ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
+						}
 					}
 				},
 				failure: function (response, opts) {
@@ -532,7 +533,7 @@ Ext.define('ARSnova.view.Question', {
 				this.setAnswerCount();
 			}
 
-			if (this.isDisabled()) {
+			if (this.isDisabled() || this.questionObj.votingDisabled) {
 				this.disableQuestion();
 			}
 
@@ -557,7 +558,7 @@ Ext.define('ARSnova.view.Question', {
 	},
 
 	checkPiRoundActivation: function () {
-		if (this.questionObj.piRoundActive && !this.isDisabled()) {
+		if (this.questionObj.piRoundActive) {
 			this.countdownTimer.start(this.questionObj.piRoundStartTime, this.questionObj.piRoundEndTime);
 			this.countdownTimer.show();
 		} else {
@@ -666,8 +667,17 @@ Ext.define('ARSnova.view.Question', {
 	},
 
 	disableQuestion: function () {
-		this.setDisabled(true);
-		this.mask(this.customMask);
+		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
+			this.setDisabled(true);
+			this.mask(this.customMask);
+		}
+	},
+
+	enableQuestion: function () {
+		if (!this.questionObj.userAnswered) {
+			this.setDisabled(false);
+			this.setMasked(false);
+		}
 	},
 
 	selectAbstentionAnswer: function () {

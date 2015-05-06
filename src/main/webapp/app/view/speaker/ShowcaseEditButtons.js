@@ -19,12 +19,15 @@
 Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 	extend: 'Ext.Panel',
 
+	requires: ['ARSnova.view.VoteStatusButton'],
+
 	config: {
 		layout: {
 			type: 'hbox',
 			pack: 'center'
 		},
 
+		buttonClass: '',
 		speakerStatistics: false,
 		style: "margin: 10px"
 	},
@@ -44,6 +47,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 		this.releaseStatisticButton = Ext.create('ARSnova.view.MatrixButton', {
 			buttonConfig: 'togglefield',
 			text: Messages.RELEASE_STATISTIC,
+			cls: this.config.buttonClass,
 			toggleConfig: {
 				scope: this,
 				label: false,
@@ -90,6 +94,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			this.showCorrectAnswerButton = Ext.create('ARSnova.view.MatrixButton', {
 				buttonConfig: 'togglefield',
 				text: Messages.MARK_CORRECT_ANSWER,
+				cls: this.config.buttonClass,
 				toggleConfig: {
 					scope: this,
 					label: false,
@@ -132,15 +137,16 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			});
 		}
 
-		this.questionStatusButton = Ext.create('ARSnova.view.QuestionStatusButton', {
+		this.statusButton = Ext.create('ARSnova.view.QuestionStatusButton', {
+			cls: this.config.buttonClass,
 			questionObj: this.questionObj,
 			parentPanel: this
 		});
 
 		this.add([
-			this.questionStatusButton,
+			this.statusButton,
 			type === "flashcard" ? {} : this.releaseStatisticButton,
-			this.hasCorrectAnswers && !this.config.speakerStatistics ? this.showCorrectAnswerButton : {}
+			this.hasCorrectAnswers ? this.showCorrectAnswerButton : {}
 		]);
 	},
 
@@ -149,7 +155,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			showAnswer = questionObj.showAnswer ? 1 : 0,
 			showStatistic = questionObj.showStatistic ? 1 : 0;
 
-		this.questionStatusButton.button.setToggleFieldValue(active);
+		this.statusButton.toggleStatusButton(active);
 		this.showCorrectAnswerButton.setToggleFieldValue(showAnswer);
 		this.releaseStatisticButton.setToggleFieldValue(showStatistic);
 	}

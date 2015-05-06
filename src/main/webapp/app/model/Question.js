@@ -39,6 +39,7 @@ Ext.define('ARSnova.model.Question', {
 			'piRoundStartTime',
 			'piRoundEndTime',
 			'piRoundFinished',
+			'votingDisabled',
 			'possibleAnswers',
 			'questionType',
 			'questionVariant',
@@ -86,14 +87,17 @@ Ext.define('ARSnova.model.Question', {
 	},
 
 	events: {
+		lockVoting: "arsnova/question/lecturer/lockVoting",
 		endPiRound: "arsnova/question/lecturer/endPiRound",
+		resetPiRound: "arsnova/question/lecturer/resetPiRound",
+		cancelPiRound: "arsnova/question/lecturer/cancelPiRound",
 		startDelayedPiRound: "arsnova/question/lecturer/delayedPiRound",
 		lecturerQuestionAvailable: "arsnova/question/lecturer/available",
 		lecturerQuestionLocked: "arsnova/question/lecturer/locked",
 		audienceQuestionAvailable: "arsnova/question/audience/available",
 		unansweredLecturerQuestions: "arsnova/question/lecturer/lecture/unanswered",
 		unansweredPreparationQuestions: "arsnova/question/lecturer/preparation/unanswered",
-		countQuestionAnswersByQuestion: "arsnova/question/lecturer/question/answercount",
+		countQuestionAnswersByQuestionId: "arsnova/question/lecturer/question/answer-and-abstention-count",
 		countLectureQuestionAnswers: "arsnova/question/lecturer/lecture/answercount",
 		countPreparationQuestionAnswers: "arsnova/question/lecturer/preparation/answercount",
 		countQuestionsAndAnswers: "arsnova/question/unanswered-question-and-answer-count",
@@ -122,12 +126,22 @@ Ext.define('ARSnova.model.Question', {
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.unansweredLecturerQuestions, function (questionIds) {
 			this.numUnanswerdLectureQuestions = questionIds.length;
+
+			if (ARSnova.app.questionModel === this) {
+				ARSnova.app.getController('Questions').saveUnansweredLectureQuestions(questionIds);
+			}
+
 			this.fireEvent(this.events.unansweredLecturerQuestions, questionIds);
 			this.fireEvent(this.events.internalUpdate);
 		}, this);
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.unansweredPreparationQuestions, function (questionIds) {
 			this.numUnansweredPreparationQuestions = questionIds.length;
+
+			if (ARSnova.app.questionModel === this) {
+				ARSnova.app.getController('Questions').saveUnansweredPreparationQuestions(questionIds);
+			}
+
 			this.fireEvent(this.events.unansweredPreparationQuestions, questionIds);
 			this.fireEvent(this.events.internalUpdate);
 		}, this);
@@ -138,37 +152,48 @@ Ext.define('ARSnova.model.Question', {
 			this.fireEvent(this.events.internalUpdate);
 		}, this);
 
-		ARSnova.app.socket.on(ARSnova.app.socket.events.endPiRound, function (questionId) {
+		ARSnova.app.socket.on(ARSnova.app.socket.events.endPiRound, function (object) {
 			if (ARSnova.app.questionModel === this) {
-				ARSnova.app.getController('RoundManagement').handleRoundEnd(questionId);
+				ARSnova.app.getController('RoundManagement').handleRoundEnd(object._id, object.variant);
 			}
-			this.fireEvent(this.events.endPiRound, questionId);
+			this.fireEvent(this.events.endPiRound, object);
 		}, this);
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.startDelayedPiRound, function (object) {
 			if (ARSnova.app.questionModel === this) {
-				ARSnova.app.getController('RoundManagement').handleRoundStart(object);
+				ARSnova.app.getController('RoundManagement').handleRoundStart(
+					object._id, object.variant, object.round, object.startTime, object.endTime
+				);
 			}
 			this.fireEvent(this.events.startDelayedPiRound, object);
 		}, this);
 
-		ARSnova.app.socket.on(ARSnova.app.socket.events.countQuestionAnswersByQuestion, function (object) {
-			var tP = ARSnova.app.mainTabPanel.tabPanel,
-				showcasePanel = tP.speakerTabPanel.showcaseQuestionPanel;
-
-			if (tP.getActiveItem().getActiveItem() === showcasePanel) {
-				if (showcasePanel.getActiveItem().getItemId() === object.key) {
-					var numAnswers = object.value[0],
-						numAbstentions = object.value[1];
-
-					if (numAnswers === numAbstentions && numAnswers > 0) {
-						showcasePanel.toolbar.setAnswerCounter(numAbstentions, Messages.ABSTENTION);
-					} else {
-						showcasePanel.toolbar.updateAnswerCounter(numAnswers);
-					}
-				}
+		ARSnova.app.socket.on(ARSnova.app.socket.events.cancelPiRound, function (questionId) {
+			if (ARSnova.app.questionModel === this) {
+				ARSnova.app.getController('RoundManagement').handleRoundCancel(questionId);
 			}
-			this.fireEvent(this.events.countQuestionAnswersByQuestion, object);
+			this.fireEvent(this.events.cancelPiRound, questionId);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.resetPiRound, function (object) {
+			if (ARSnova.app.questionModel === this) {
+				ARSnova.app.getController('RoundManagement').handleQuestionReset(object._id, object.variant);
+			}
+			this.fireEvent(this.events.resetPiRound, object);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.lockVoting, function (object) {
+			if (ARSnova.app.questionModel === this) {
+				ARSnova.app.getController('Questions').handleVotingLock(object._id, object.disable, object.variant);
+			}
+			this.fireEvent(this.events.lockVoting, object);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.countQuestionAnswersByQuestionId, function (object) {
+			if (ARSnova.app.questionModel === this) {
+				ARSnova.app.getController('Questions').handleAnswerCountChange(object._id, object.answers, object.abstentions);
+			}
+			this.fireEvent(this.events.countQuestionAnswersByQuestionId, object);
 		}, this);
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.countPreparationQuestionAnswers, function (count) {
@@ -222,8 +247,16 @@ Ext.define('ARSnova.model.Question', {
 		return this.getProxy().saveSkillQuestion(this, callbacks);
 	},
 
-	startNewPiRound: function (time, callbacks) {
-		return this.getProxy().startNewPiRound(this.get('_id'), time, callbacks);
+	startNewPiRound: function (questionId, time, callbacks) {
+		return this.getProxy().startNewPiRound(questionId, time, callbacks);
+	},
+
+	cancelDelayedPiRound: function (questionId, callbacks) {
+		return this.getProxy().cancelDelayedPiRound(questionId, callbacks);
+	},
+
+	resetPiRoundState: function (questionId, callbacks) {
+		return this.getProxy().resetPiRoundState(questionId, callbacks);
 	},
 
 	publishSkillQuestion: function (callbacks) {
@@ -240,6 +273,10 @@ Ext.define('ARSnova.model.Question', {
 
 	publishCorrectSkillQuestionAnswer: function (callbacks) {
 		return this.getProxy().publishCorrectSkillQuestionAnswer(this, callbacks);
+	},
+
+	disableQuestionVoting: function (questionId, disable, callbacks) {
+		return this.getProxy().disableQuestionVoting(questionId, disable, callbacks);
 	},
 
 	getLectureQuestions: function (sessionKeyword, callbacks) {

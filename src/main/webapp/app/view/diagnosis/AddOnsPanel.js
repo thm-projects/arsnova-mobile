@@ -94,25 +94,7 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 				ARSnova.app.sessionModel.changeFeatures(sessionStorage.getItem("keyword"), this.featureFormPanel.getValues(), {
 					success: function () {
 						button.enable();
-						var theNotificationBox = {};
-						theNotificationBox = Ext.create('Ext.Panel', {
-							cls: 'notificationBox',
-							name: 'notificationBox',
-							showAnimation: 'pop',
-							modal: true,
-							centered: true,
-							width: 300,
-							styleHtmlContent: true,
-							styleHtmlCls: 'notificationBoxText',
-							html: Messages.SETTINGS_SAVED
-						});
-						Ext.Viewport.add(theNotificationBox);
-						theNotificationBox.show();
-
-						/* Workaround for Chrome 34+ */
-						Ext.defer(function () {
-							theNotificationBox.destroy();
-						}, 3000);
+						Ext.toast(Messages.SETTINGS_SAVED, 3000);
 					},
 					failure: function () {
 						button.enable();

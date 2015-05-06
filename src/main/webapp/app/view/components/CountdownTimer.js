@@ -21,11 +21,17 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 	extend: 'Ext.Component',
 	xtype: 'countdown',
 
+	requires: ['Ext.Audio'],
+
 	template: [{
 		reference: 'canvas',
 		tag: 'canvas',
 		id: 'countdown-timer',
 		classList: [Ext.baseCSSPrefix + 'countdown-timer']
+	}, {
+		reference: 'timerLabel',
+		cls: 'gravure selectable',
+		tag: 'div'
 	}, {
 		reference: 'sliderContainer',
 		tag: 'div'
@@ -35,7 +41,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		title: 'timer',
 		cls: 'countdownTimerContainer',
 		scrollable: false,
-		width: 260,
+		width: 320,
 		height: 260,
 
 		viewOnly: false,
@@ -48,6 +54,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		sliderDefaultValue: 2,
 		sliderMinValue: 1,
 		sliderMaxValue: 10,
+		soundStartTimeSeconds: 30,
 
 		showAnimation: {
 			type: "pop"
@@ -65,6 +72,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 	initialize: function () {
 		this.callParent(arguments);
 		this.viewOnly = this.config.viewOnly;
+		this.disableTimerLabel();
 
 		this.on('painted', function () {
 			if (!this.starttime && !this.endtime) {
@@ -75,6 +83,8 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		this.on('hide', function () {
 			this.stop();
 		});
+
+		this.initializeSound();
 
 		if (!this.viewOnly) {
 			this.initializeSlider();
@@ -111,6 +121,14 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		});
 	},
 
+	initializeSound: function () {
+		this.sound = Ext.create('Ext.Audio', {
+			hidden: true,
+			loop: true,
+			url: 'resources/sounds/timer_sound.mp3'
+		});
+	},
+
 	onSliderChange: function (me, thumb, newValue, oldValue) {
 		this.initializeTimeValues(newValue);
 		this.fireEvent('change', this, thumb, newValue, oldValue);
@@ -127,6 +145,17 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 
 	onSliderDragEnd: function (me, thumb, newValue, oldValue) {
 		this.fireEvent('dragend', this, thumb, newValue, oldValue);
+	},
+
+	setTimerLabelText: function (text) {
+		this.timerLabel.setHtml(text);
+		this.sliderContainer.hide();
+		this.timerLabel.show();
+	},
+
+	disableTimerLabel: function () {
+		this.timerLabel.html = '';
+		this.timerLabel.hide();
 	},
 
 	initializeTimeValues: function (mins, secs) {
@@ -150,6 +179,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 	start: function (startTime, endTime) {
 		var me = this;
 
+		me.setHidden(false);
 		startTime = parseInt(startTime);
 		endTime = parseInt(endTime);
 
@@ -189,6 +219,10 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		if (!this.viewOnly) {
 			this.slider.show();
 			this.slider.enable();
+		}
+
+		if (this.sound.isPlaying()) {
+			this.sound.setLoop(false);
 		}
 
 		this.getOnTimerStop().call(this.getStartStopScope());
@@ -256,11 +290,21 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 				context.fillText(Messages.MINUTES, x, y + 20);
 			} else if (minutes > 0) {
 				var seconds = Math.ceil(this.seconds / this.milliseconds);
+
+				if (this.seconds < this.getSoundStartTimeSeconds() * 1000) {
+					context.fillStyle = (this.seconds / 1000) % 2 > 1 ? "#971b2f" : "#4a5c66";
+
+					if (!this.sound.isPlaying() && this.running) {
+						this.sound.setVolume(0);
+						this.sound.play();
+					} else {
+						var tick = 100 / this.getSoundStartTimeSeconds();
+						var volume = (this.getSoundStartTimeSeconds() - (this.seconds / 1000)) * tick;
+						this.sound.setVolume(volume / 100);
+					}
+				}
+
 				context.fillText(seconds.toString(), x, y - 10);
-				context.font = "20px Segoe UI";
-				context.fillText(Messages.SECONDS, x, y + 20);
-			} else {
-				context.fillText(0, x, y - 10);
 				context.font = "20px Segoe UI";
 				context.fillText(Messages.SECONDS, x, y + 20);
 			}
@@ -269,31 +313,29 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			context.rotate(-Math.PI / 2);
 			context.translate(-x, -y);
 
-			if (this.minutes > 0) {
-				context.beginPath();
-				context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
-				context.lineWidth = 20;
-				context.strokeStyle = "#4A5C66";
-				context.stroke();
-			} else {
-				context.beginPath();
-				context.arc(x, y, radius, 0 * Math.PI, 2 * Math.PI, counterClockwise);
-				context.lineWidth = 25;
-				context.strokeStyle = "#971B2F";
-				context.stroke();
-			}
+			context.strokeStyle =
+				(this.seconds < this.getSoundStartTimeSeconds() * 1000) &&
+				((this.seconds / 1000) % 2 > 1) && !(minutes > 1) ?
+					"#971b2f" : "#4a5c66";
+
+			context.beginPath();
+			context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
+			context.lineWidth = 20;
+			context.stroke();
 
 			radius = 66;
 			startAngle = 0 * Math.PI;
 			endAngle = ((2 * Math.PI) / (this.maxSeconds / this.seconds));
 
-			if (this.minutes > 0) {
-				context.beginPath();
-				context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
-				context.lineWidth = 20;
-				context.strokeStyle = "#F2A900";
-				context.stroke();
-			}
+			context.strokeStyle =
+				(this.seconds < this.getSoundStartTimeSeconds() * 1000) &&
+				((this.seconds / 1000) % 2 > 1) && !(minutes > 1) ?
+					"#971b2f" : "#F2A900";
+
+			context.beginPath();
+			context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
+			context.lineWidth = 20;
+			context.stroke();
 
 			context.restore();
 		}

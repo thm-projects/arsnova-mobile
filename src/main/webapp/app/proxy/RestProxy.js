@@ -495,6 +495,15 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
+	disableQuestionVoting: function (questionId, disable, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/" + questionId + "/disableVoting?disable=" + encodeURIComponent(disable),
+			method: "POST",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
 	createSession: function (session, callbacks) {
 		this.arsjax.request({
 			url: "session/",
@@ -560,7 +569,25 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	startNewPiRound: function (questionId, time, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/startNewPiRound" + "?time=" + time,
-			method: "GET",
+			method: "POST",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
+	cancelDelayedPiRound: function (questionId, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/" + questionId + "/cancelDelayedPiRound",
+			method: "POST",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
+	resetPiRoundState: function (questionId, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/" + questionId + "/resetPiRoundState",
+			method: "POST",
 			success: callbacks.success,
 			failure: callbacks.failure
 		});

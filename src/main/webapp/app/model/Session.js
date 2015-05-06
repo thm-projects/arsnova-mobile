@@ -115,6 +115,8 @@ Ext.define('ARSnova.model.Session', {
 				me.setUserBasedProgressOptions(obj.learningProgressOptions);
 				callbacks.success(obj);
 			},
+			forbidden: callbacks.forbidden ? callbacks.forbidden : Ext.emptyFn,
+			notFound: callbacks.notFound ? callbacks.notFound : Ext.emptyFn,
 			failure: callbacks.failure
 		});
 	},

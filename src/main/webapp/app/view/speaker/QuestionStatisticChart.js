@@ -41,9 +41,15 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	renewChartDataTask: {
 		name: 'renew the chart data at question statistics charts',
 		run: function () {
-			var tP = ARSnova.app.mainTabPanel.tabPanel;
+			var mainTabPanel = ARSnova.app.mainTabPanel;
+			var tP = mainTabPanel.tabPanel;
 			var panel = tP.userQuestionsPanel || tP.speakerTabPanel;
+
 			panel.questionStatisticChart.getQuestionAnswers();
+
+			if (mainTabPanel.getActiveItem() === panel.statisticTabPanel) {
+				panel.statisticTabPanel.roundManagementPanel.updateEditButtons();
+			}
 		},
 		interval: 10000 // 10 seconds
 	},
@@ -258,8 +264,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		this.titlebar = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			cls: 'questionStatisticTitle',
-			docked: 'top',
+			hideMediaElements: true,
 			baseCls: Ext.baseCSSPrefix + 'title',
+			docked: 'top',
 			style: ''
 		});
 		this.titlebar.setContent(this.questionObj.text, true, true);
@@ -287,6 +294,13 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		}
 
 		this.setGradients();
+
+		this.countdownTimer = Ext.create('ARSnova.view.components.CountdownTimer', {
+			style: 'margin-top: 40px',
+			docked: 'top',
+			viewOnly: true,
+			hidden: true
+		});
 
 		this.questionChart = Ext.create('Ext.chart.CartesianChart', {
 			store: this.questionStore,
@@ -364,7 +378,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				stacked: false,
 				style: {
 					minGapWidth: 10,
-					maxBarWidth: 200
+					maxBarWidth: 200,
+					inGroupGapWidth: 0
 				},
 				label: {
 					display: 'insideEnd',
@@ -401,7 +416,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 					if (panel.questionChart.showPercentage) {
 						if (sprite.getField() === "percent-round1") {
-							gradient = panel.alternativeGradients[i % panel.alternativeGradients.length];
+							gradient = data.text === Messages.ABSTENTION ?
+									gradient = panel.alternateAbstentionGradient :
+									gradient = panel.alternativeGradients[i % panel.alternativeGradients.length];
 						}
 					}
 
@@ -411,7 +428,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		});
 
 		if (this.questionObj.questionType !== "grid") {
-			this.add([this.toolbar, this.piActivated ? this.piToolbar : {}, this.titlebar, this.questionChart]);
+			this.add([this.toolbar, this.countdownTimer, this.piActivated ? this.piToolbar : {}, this.titlebar, this.questionChart]);
 		} else {
 			this.setStyle('background-color: #E0E0E0');
 			// add statistic
@@ -437,6 +454,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		this.on('hide', function () {
 			ARSnova.app.activePreviewPanel = false;
+			this.countdownTimer.hide();
 		});
 
 		this.on('painted', function () {
@@ -447,15 +465,25 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	onActivate: function () {
 		ARSnova.app.innerScrollPanel = this;
 		ARSnova.app.taskManager.start(this.renewChartDataTask);
+		this.checkPiRoundActivation();
+
+		if (this.questionObj.piRound === 1) {
+			this.activateFirstSegmentButton();
+		} else {
+			this.activateSecondSegmentButton();
+		}
 
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			ARSnova.app.taskManager.start(this.countActiveUsersTask);
+		}
+	},
 
-			if (this.questionObj.piRound === 1) {
-				this.activateFirstSegmentButton();
-			} else {
-				this.activateSecondSegmentButton();
-			}
+	checkPiRoundActivation: function () {
+		if (this.questionObj.piRoundActive) {
+			this.countdownTimer.start(this.questionObj.piRoundStartTime, this.questionObj.piRoundEndTime);
+			this.countdownTimer.show();
+		} else {
+			this.countdownTimer.hide();
 		}
 	},
 
@@ -469,6 +497,10 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 	enablePiRoundElements: function () {
 		this.piToolbar.show();
+	},
+
+	disablePiRoundElements: function () {
+		this.piToolbar.hide();
 	},
 
 	modifyChart: function (piRound) {
@@ -549,62 +581,71 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			var mcAnswerCount = [];
 			var abstentionCount = 0;
 			var mcTotalAnswerCount = 0;
-			for (i = 0; i < answers.length; i++) {
-				el = answers[i];
 
-				mcTotalAnswerCount += el.answerCount;
-
-				if (me.questionObj.questionType === "mc") {
-					if (!el.answerText) {
-						abstentionCount = el.abstentionCount;
-						continue;
-					}
-					values = el.answerText.split(",").map(function (answered) {
-						return parseInt(answered, 10);
-					});
-					if (values.length !== me.questionObj.possibleAnswers.length) {
-						return;
-					}
-
-					for (var j = 0; j < el.answerCount; j++) {
-						values.forEach(function (selected, index) {
-							if (typeof mcAnswerCount[index] === "undefined") {
-								mcAnswerCount[index] = 0;
-							}
-							if (selected === 1) {
-								mcAnswerCount[index] += 1;
-							}
-						});
-					}
-					store.each(function (record, index) {
-						record.set(valueString, mcAnswerCount[index]);
-					});
-				} else if (me.questionObj.questionType === "grid") {
-					me.gridStatistic.answers = answers;
-					me.gridStatistic.setQuestionObj = me.questionObj;
-					me.gridStatistic.updateGrid();
-				} else {
-					if (!el.answerText) {
-						abstentionCount = el.abstentionCount;
-						continue;
-					}
-					var record = store.findRecord('text', el.answerText, 0, false, true, true); // exact match
-					record.set(valueString, el.answerCount);
-				}
-				sum += el.answerCount;
-
-				store.each(function (record, index) {
-					var max = Math.max(maxValue, record.get(valueString));
-					// Scale axis to a bigger number. For example, 12 answers get a maximum scale of 20.
-					maxValue = Math.ceil(max / 10) * 10;
+			if (answers.length === 0) {
+				store.each(function (record) {
+					record.set(valueString, 0);
+					record.set(percentString, 0);
 				});
+			} else {
+				for (i = 0; i < answers.length; i++) {
+					el = answers[i];
 
-				var idx = tmpPossibleAnswers.indexOf(el.answerText); // Find the index
-				if (idx != -1) {
-					// Remove it if really found!
-					tmpPossibleAnswers.splice(idx, 1);
+					mcTotalAnswerCount += el.answerCount;
+
+					if (me.questionObj.questionType === "mc") {
+						if (!el.answerText) {
+							abstentionCount = el.abstentionCount;
+							continue;
+						}
+						values = el.answerText.split(",").map(function (answered) {
+							return parseInt(answered, 10);
+						});
+						if (values.length !== me.questionObj.possibleAnswers.length) {
+							return;
+						}
+
+						for (var j = 0; j < el.answerCount; j++) {
+							values.forEach(function (selected, index) {
+								if (typeof mcAnswerCount[index] === "undefined") {
+									mcAnswerCount[index] = 0;
+								}
+								if (selected === 1) {
+									mcAnswerCount[index] += 1;
+								}
+							});
+						}
+						store.each(function (record, index) {
+							record.set(valueString, mcAnswerCount[index]);
+						});
+					} else if (me.questionObj.questionType === "grid") {
+						me.gridStatistic.answers = answers;
+						me.gridStatistic.setQuestionObj = me.questionObj;
+						me.gridStatistic.updateGrid();
+					} else {
+						if (!el.answerText) {
+							abstentionCount = el.abstentionCount;
+							continue;
+						}
+						var record = store.findRecord('text', el.answerText, 0, false, true, true); // exact match
+						record.set(valueString, el.answerCount);
+					}
+					sum += el.answerCount;
+
+					store.each(function (record, index) {
+						var max = Math.max(maxValue, record.get(valueString));
+						// Scale axis to a bigger number. For example, 12 answers get a maximum scale of 20.
+						maxValue = Math.ceil(max / 10) * 10;
+					});
+
+					var idx = tmpPossibleAnswers.indexOf(el.answerText); // Find the index
+					if (idx != -1) {
+						// Remove it if really found!
+						tmpPossibleAnswers.splice(idx, 1);
+					}
 				}
 			}
+
 			if (abstentionCount) {
 				record = store.findRecord('text', Messages.ABSTENTION, 0, false, true, true); // exact match
 				if (!record) {
@@ -646,12 +687,12 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				chart.getAxes()[0].setMaximum(maxValue);
 			}
 
+			if (round > 1) {
+				me.piToolbar.show();
+			}
+
 			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 				me.updateAnswerCount(me.questionObj.piRound);
-
-				if (round > 1) {
-					me.piToolbar.show();
-				}
 			}
 
 			// renew the chart-data
@@ -665,7 +706,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					calculation(answers, '-round1');
 					me.answerCountFirstRound = sum;
 
-					if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+					if (countSecondRound !== Ext.emptyFn) {
 						countSecondRound();
 					} else {
 						afterCalculation();
@@ -681,10 +722,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			ARSnova.app.questionModel.countPiAnswers(localStorage.getItem('keyword'), me.questionObj._id, 2, {
 				success: function (piRound2) {
 					var piAnswers = Ext.decode(piRound2.responseText);
-
 					calculation(piAnswers, '-round2');
-					afterCalculation(me.questionObj.piRound);
 					me.answerCountSecondRound = sum;
+					afterCalculation(me.questionObj.piRound);
 				},
 				failure: function () {
 					console.log('server-side error');
@@ -692,12 +732,10 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			});
 		};
 
-		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER || me.questionObj.piRound !== 1) {
 			countFirstRoundAnswers(countSecondRoundAnswers);
 		} else if (me.questionObj.piRound === 1) {
 			countFirstRoundAnswers(Ext.emptyFn);
-		} else {
-			countSecondRoundAnswers();
 		}
 	},
 
@@ -725,6 +763,12 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			default:
 				count = this.answerCountFirstRound + this.answerCountSecondRound;
 				break;
+		}
+
+		if (this.questionObj.piRound === 1) {
+			this.hasAnswers = this.answerCountFirstRound > 0;
+		} else {
+			this.hasAnswers = this.answerCountSecondRound > 0;
 		}
 
 		// update quote in toolbar
@@ -771,17 +815,23 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			this.gradients = this.getDefaultGradients();
 		}
 
-		if (!this.alternativeGradients) {
-			this.alternativeGradients = this.createLighterGradients(this.getDefaultGradients());
-		}
-
 		this.abstentionGradient = Ext.create('Ext.draw.gradient.Linear', {
+			degrees: 90,
+			stops: [
+				{offset: 0, color: 'rgb(150, 150, 150)'},
+				{offset: 100, color: 'rgb(120, 120, 120)'}
+			]
+		});
+
+		this.alternateAbstentionGradient = Ext.create('Ext.draw.gradient.Linear', {
 			degrees: 90,
 			stops: [
 				{offset: 0, color: 'rgb(180, 180, 180)'},
 				{offset: 100, color: 'rgb(150, 150, 150)'}
 			]
 		});
+
+		this.alternativeGradients = this.createLighterGradients(this.gradients);
 	},
 
 	getCorrectAnswerGradients: function () {

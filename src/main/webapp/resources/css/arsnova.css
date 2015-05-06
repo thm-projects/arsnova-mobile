@@ -452,13 +452,20 @@ html,body {
 	margin-right: 0px;
 }
 
-.matrixButton.smallerActionButton {
+.matrixButton.mediumActionButton .buttonText {
+	width: 120px !important;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.matrixButton.smallerActionButton,
+.matrixButton.mediumActionButton {
 	padding-left: 0px;
 	padding-right: 0px;
 }
 
 .matrixButton.smallerActionButton .buttonText {
-	width: 105px !important;
+	width: 110px !important;
 	margin-left: 0px;
 	margin-right: 0px;
 }
@@ -1336,19 +1343,6 @@ ol.standardList li {
 	font-weight: normal;
 	font-size: 1em;
 	text-align: center;
-}
-
-.notificationBox {
-	background-color: black !important;
-	border-radius: 0.3em;
-	border: 0.15em solid #354F6E;
-}
-
-.notificationBoxText {
-	background-color: black !important;
-	text-align: center;
-	color: rgba(186, 202, 222, 0.9);
-	font-size: .9em;
 }
 
 .statsPanel {
