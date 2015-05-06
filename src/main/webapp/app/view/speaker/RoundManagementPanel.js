@@ -60,7 +60,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		});
 
 		this.startRoundButton = Ext.create('Ext.Button', {
-			text: Messages.START_FIRST_ROUND,
+			text: Messages.START_VOTING,
 			style: 'margin: 0 auto;',
 			ui: 'confirm',
 			width: 240,
@@ -165,13 +165,22 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 	checkStoredVotingMode: function () {
 		var questionId = this.statisticChart.questionObj._id;
 		var storedVotingModes = JSON.parse(localStorage.getItem("storedVotingModes"));
+		var features = Ext.decode(sessionStorage.getItem("features"));
+		var enableRoundManagement = features && features.pi;
 
-		if (!!storedVotingModes && storedVotingModes[questionId] === this.modes.ROUND_MANAGEMENT) {
-			this.activeMode = this.modes.ROUND_MANAGEMENT;
-			this.editButtons.enableRoundManagementButton.setToggleFieldValue(1);
+		this.activeMode = this.modes.STOP_TIMER;
+
+		if (enableRoundManagement) {
+			this.editButtons.enableRoundManagementButton.show();
+
+			if (!!storedVotingModes && storedVotingModes[questionId] === this.modes.ROUND_MANAGEMENT) {
+				this.activeMode = this.modes.ROUND_MANAGEMENT;
+				this.editButtons.enableRoundManagementButton.setToggleFieldValue(1);
+			} else {
+				this.editButtons.enableRoundManagementButton.setToggleFieldValue(0);
+			}
 		} else {
-			this.activeMode = this.modes.STOP_TIMER;
-			this.editButtons.enableRoundManagementButton.setToggleFieldValue(0);
+			this.editButtons.enableRoundManagementButton.hide();
 		}
 	},
 

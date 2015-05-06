@@ -41,6 +41,8 @@ Ext.define('ARSnova.view.speaker.RoundManagementEditButtons', {
 		this.callParent(arguments);
 
 		this.questionObj = this.config.questionObj;
+		var features = Ext.decode(sessionStorage.getItem("features"));
+		var enableRoundManagement = features && features.pi;
 
 		this.questionResetButton = Ext.create('ARSnova.view.MatrixButton', {
 			buttonConfig: 'icon',
@@ -107,7 +109,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementEditButtons', {
 
 		this.add([
 			this.statusButton,
-			this.enableRoundManagementButton,
+			enableRoundManagement ? this.enableRoundManagementButton : {},
 			this.questionResetButton
 		]);
 	},
