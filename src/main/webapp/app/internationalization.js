@@ -300,7 +300,7 @@
 				CATEGORY_PLACEHOLDER: "Thema eingeben",
 				ABSTENTION: 'Enthaltung',
 				ABSTENTIONS: 'Enthaltungen',
-				ABSTENTION_POSSIBLE: 'Enthaltung möglich?',
+				ABSTENTION_POSSIBLE: 'Enthaltung möglich? <i>(Pflichtangabe)</i>',
 				MY_COURSES: "Meine Kurse:",
 				NO_COURSES_FOUND: "Es konnten keine Kurse gesucht werden.",
 				CORRECT_ANSWER: 'Richtige Antwort',
