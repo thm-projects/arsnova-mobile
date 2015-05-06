@@ -154,6 +154,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 	},
 
 	disableTimerLabel: function () {
+		this.sliderContainer.show();
 		this.timerLabel.html = '';
 		this.timerLabel.hide();
 	},

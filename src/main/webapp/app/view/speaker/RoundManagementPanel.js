@@ -231,13 +231,11 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 			if (questionObj.piRound === 1) {
 				if (!questionObj.piRoundFinished) {
 					this.startRoundButton.setText(Messages.START_FIRST_ROUND);
-					this.countdownTimer.slider.show();
-					this.startRoundButton.show();
 				} else if (questionObj.piRoundFinished) {
 					this.startRoundButton.setText(Messages.START_SECOND_ROUND);
-					this.countdownTimer.slider.show();
-					this.startRoundButton.show();
 				}
+				this.countdownTimer.slider.show();
+				this.startRoundButton.show();
 			} else {
 				this.countdownTimer.setTimerLabelText(Messages.VOTING_CLOSED);
 				this.countdownTimer.slider.hide();
