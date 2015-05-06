@@ -98,6 +98,12 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				margin: '0 auto',
 
 				items: [{
+					xtype: 'label',
+					cls: 'gravure',
+					text: Messages.ENTER_SESSIONID,
+					html: Messages.ENTER_SESSIONID
+				},
+					{
 					xtype: 'textfield',
 					component: {
 						xtype: 'input',
