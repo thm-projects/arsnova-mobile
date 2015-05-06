@@ -299,6 +299,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			style: 'margin-top: 40px',
 			docked: 'top',
 			viewOnly: true,
+			viewOnlyOpacity: 1,
 			hidden: true
 		});
 

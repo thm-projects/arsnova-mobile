@@ -53,7 +53,6 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		});
 
 		this.countdownTimer = Ext.create('ARSnova.view.components.CountdownTimer', {
-			sliderDefaultValue: 2,
 			onTimerStart: this.onTimerStart,
 			onTimerStop: this.onTimerStop,
 			startStopScope: this

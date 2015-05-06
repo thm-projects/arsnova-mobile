@@ -516,8 +516,10 @@ Ext.define('ARSnova.view.Question', {
 
 		this.countdownTimer = Ext.create('ARSnova.view.components.CountdownTimer', {
 			docked: 'top',
+			hidden: true,
 			viewOnly: true,
-			hidden: true
+			viewOnlyOpacity: ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER ?
+				0.9 : 0.75
 		});
 
 		this.add([

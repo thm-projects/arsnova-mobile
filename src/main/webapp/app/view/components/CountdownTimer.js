@@ -49,12 +49,13 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		onTimerStop: Ext.emptyFn,
 		startStopScope: this,
 
-		defaultMinutes: 2,
+		defaultMinutes: 3,
 		defaultSeconds: 60,
-		sliderDefaultValue: 2,
+		sliderDefaultValue: 3,
 		sliderMinValue: 1,
 		sliderMaxValue: 10,
 		soundStartTimeSeconds: 30,
+		viewOnlyOpacity: 0.75,
 
 		showAnimation: {
 			type: "pop"
@@ -93,12 +94,12 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 				position: 'absolute',
 				right: 0,
 				top: 0,
-				opacity: 0.75,
+				opacity: this.config.viewOnlyOpacity,
 				pointerEvents: 'none'
 			});
 
 			this.canvas.setStyle({
-				opacity: 0.75
+				opacity: this.config.viewOnlyOpacity
 			});
 		}
 	},
