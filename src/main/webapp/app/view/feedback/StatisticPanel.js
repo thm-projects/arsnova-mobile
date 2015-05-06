@@ -144,7 +144,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		});
 
 		this.feedbackChartColors = [
-			'#f2a900', // thm-orange			
+			'#f2a900', // thm-orange
 			'#80ba24', // thm-green
 			'#971b2f', // thm-red
 			'#4a5c66'  // thm-grey

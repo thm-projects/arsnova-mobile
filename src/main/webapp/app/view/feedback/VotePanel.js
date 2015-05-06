@@ -97,7 +97,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 					handler: function (button) {
 						ARSnova.app.getController('Feedback').vote({
 							value: button.config.value
-						});					
+						});
 					},
 					style: "margin-left:10px"
 				}
