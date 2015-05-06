@@ -40,9 +40,7 @@ Ext.define("ARSnova.controller.Statistics", {
 	prepareSpeakerStatistics: function (panel) {
 		var target;
 		var activePanel = panel.getActiveItem();
-		var features = Ext.decode(sessionStorage.getItem("features"));
 		var questionObj = panel.getActiveItem().questionObj;
-		var enableRoundManagement = features && features.pi;
 
 		var animation = {
 			type: 'slide',
@@ -68,7 +66,7 @@ Ext.define("ARSnova.controller.Statistics", {
 			default:
 		}
 
-		enableRoundManagement = enableRoundManagement && questionObj.questionType !== 'grid';
+		var enableRoundManagement = questionObj.questionType !== 'grid';
 		target = panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
 			question: questionObj
 		});

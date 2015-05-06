@@ -73,7 +73,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		var me = this;
 		this.questionObj = args.question;
 		var features = Ext.decode(sessionStorage.getItem('features'));
-		this.piActivated = features && features.pi && this.questionObj.questionType !== 'grid';
+		this.enableRoundManagement = this.questionObj.questionType !== 'grid';
 
 		this.questionStore = Ext.create('Ext.data.Store', {
 			fields: [
@@ -122,7 +122,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				ARSnova.app.taskManager.stop(this.renewChartDataTask);
 				ARSnova.app.taskManager.stop(this.countActiveUsersTask);
 
-				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER && this.piActivated) {
+				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER && this.enableRoundManagement) {
 					object = speakerTabPanel.statisticTabPanel.roundManagementPanel.editButtons.questionObj;
 
 					switch (speakerTabPanel) {
@@ -428,7 +428,13 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		});
 
 		if (this.questionObj.questionType !== "grid") {
-			this.add([this.toolbar, this.countdownTimer, this.piActivated ? this.piToolbar : {}, this.titlebar, this.questionChart]);
+			this.add([
+				this.toolbar,
+				this.countdownTimer,
+				this.enableRoundManagement ? this.piToolbar : {},
+				this.titlebar,
+				this.questionChart
+			]);
 		} else {
 			this.setStyle('background-color: #E0E0E0');
 			// add statistic
