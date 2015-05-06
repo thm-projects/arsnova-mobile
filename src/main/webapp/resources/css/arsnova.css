@@ -390,6 +390,7 @@ html,body {
 	text-align: center;
 	vertical-align: middle;
 	width: 80px;
+	background: transparent;
 }
 
 .iconBtn .iconBtnImg {
