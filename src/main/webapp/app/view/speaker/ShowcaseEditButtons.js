@@ -27,8 +27,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			pack: 'center'
 		},
 
-		buttonClass: '',
-		speakerStatistics: false
+		buttonClass: ''
 	},
 
 	initialize: function () {
