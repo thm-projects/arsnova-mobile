@@ -392,6 +392,10 @@ html,body {
 	width: 80px;
 }
 
+.iconBtn:hover {
+	cursor:pointer;
+}
+
 .iconBtn .iconBtnImg {
 	width: 48px;
 	height: 48px;

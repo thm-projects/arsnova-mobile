@@ -31,7 +31,7 @@
 Ext.require(["ARSnova.test.Slide", "ARSnova.test.MessageBox", "ARSnova.test.Container"]);
 //</if>
 
-Ext.require([
+Ext.require([ 
 	'Ext.Label',
 	'Ext.Toast',
 	'Ext.TitleBar',
