@@ -22,25 +22,25 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 	requires: ['ARSnova.view.VoteStatusButton'],
 
 	config: {
-		layout: {
+		layoutTemplate: {
 			type: 'hbox',
 			pack: 'center'
 		},
 
 		buttonClass: '',
-		speakerStatistics: false,
-		style: "margin: 10px"
+		speakerStatistics: false
 	},
 
 	initialize: function () {
 		this.callParent(arguments);
 
 		this.questionObj = this.config.questionObj;
-		var type = this.questionObj.questionType;
+		type = this.questionObj.questionType;
+		this.barChartCompatible = type !== "freetext" && type !== "grid";
 
 		this.hasCorrectAnswers = !this.questionObj.noCorrect;
-		if (['vote', 'school', 'freetext', 'flashcard'].indexOf(this.questionObj.questionType) !== -1
-				|| (['grid'].indexOf(this.questionObj.questionType) !== -1 && this.questionObj.gridType === 'moderation')) {
+		if (['vote', 'school', 'freetext', 'flashcard'].indexOf(type) !== -1
+				|| (['grid'].indexOf(type) !== -1 && type === 'moderation')) {
 			this.hasCorrectAnswers = false;
 		}
 
@@ -135,6 +135,17 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 					}
 				}
 			});
+
+			if (this.barChartCompatible) {
+				this.voteManagementButton = Ext.create('ARSnova.view.MatrixButton', {
+					text: "Abstimmungs-<br>verwaltung",
+					cls: this.config.buttonClass,
+					imageCls: 'icon-timer',
+					handler: function () {
+						console.log('timer!');
+					}
+				});
+			}
 		}
 
 		this.statusButton = Ext.create('ARSnova.view.QuestionStatusButton', {
@@ -143,11 +154,85 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			parentPanel: this
 		});
 
-		this.add([
+		this.voteStatusButton = Ext.create('ARSnova.view.VoteStatusButton', {
+			cls: this.config.buttonClass,
+			questionObj: this.questionObj,
+			parentPanel: this
+		});
+
+		this.on('resize', this.onResize);
+		this.addComponents();
+	},
+
+	addComponents: function () {
+		this.twoRows = document.body.clientWidth < 620;
+		var components;
+
+		if (this.questionObj.questionType === "freetext") {
+			components = [this.statusButton];
+		} else {
+			components = this.twoRows ?
+				this.getTwoRowedComponents() :
+				this.getOneRowedComponents();
+		}
+
+		this.add(components);
+	},
+
+	onResize: function () {
+		var clientWidth = document.body.clientWidth;
+
+		if (clientWidth >= 620 && this.twoRows ||
+			clientWidth < 620 && !this.twoRows) {
+			this.removeAll(false);
+			this.addComponents();
+		}
+	},
+
+	getOneRowedComponents: function () {
+		this.statusButton.button.setCls(this.config.buttonClass);
+		this.releaseStatisticButton.setCls(this.config.buttonClass);
+		this.showCorrectAnswerButton.setCls(this.config.buttonClass);
+
+		return [{
+			xtype: 'panel',
+			layout:  this.config.layoutTemplate,
+			items: [
+				this.statusButton,
+				this.voteStatusButton,
+				this.barChartCompatible ? this.voteManagementButton : {},
+				this.releaseStatisticButton,
+				this.hasCorrectAnswers ? this.showCorrectAnswerButton : {}
+			]
+		}];
+	},
+
+	getTwoRowedComponents: function () {
+		var firstRowComponents = [
 			this.statusButton,
-			type === "flashcard" ? {} : this.releaseStatisticButton,
+			this.releaseStatisticButton,
 			this.hasCorrectAnswers ? this.showCorrectAnswerButton : {}
-		]);
+		];
+
+		this.statusButton.button.removeCls(this.config.buttonClass);
+		this.releaseStatisticButton.removeCls(this.config.buttonClass);
+		this.showCorrectAnswerButton.removeCls(this.config.buttonClass);
+
+		var secondRowComponents = [
+			this.voteStatusButton,
+			this.barChartCompatible ? this.voteManagementButton : {}
+		];
+
+		return [{
+			xtype: 'panel',
+			layout: this.config.layoutTemplate,
+			items: firstRowComponents
+		}, {
+			xtype: 'panel',
+			style: 'margin-top: 10px',
+			layout:  this.config.layoutTemplate,
+			items: secondRowComponents
+		}];
 	},
 
 	updateData: function (questionObj) {
@@ -156,6 +241,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			showStatistic = questionObj.showStatistic ? 1 : 0;
 
 		this.statusButton.toggleStatusButton(active);
+		this.voteStatusButton.updateData(questionObj);
 		this.showCorrectAnswerButton.setToggleFieldValue(showAnswer);
 		this.releaseStatisticButton.setToggleFieldValue(showStatistic);
 	}
