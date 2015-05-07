@@ -121,7 +121,6 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		});
 
 		this.questionManagementContainer = Ext.create('Ext.Panel', {
-			style: 'margin-top: 25px',
 			cls: 'centerFormTitle',
 			hidden: true
 		});

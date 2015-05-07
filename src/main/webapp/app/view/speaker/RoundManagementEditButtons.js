@@ -27,6 +27,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementEditButtons', {
 			pack: 'center'
 		},
 
+		style: 'margin-top: 25px; margin-bottom: 25px',
 		buttonClass: ''
 	},
 
