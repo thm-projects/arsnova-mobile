@@ -111,46 +111,36 @@ Afterwards, you can create a web archive for a servlet container by running:
 
 	grunt package
 
-This creates the archive `arsnova-mobile.war` in the `target` directory.
+This creates the archive `arsnova-mobile.war` in the `target` directory. If you
+just wish to build the production system without creating an archive, you can use
+
+	grunt build
 
 #### Continuous Build
 
-The command above builds the software in such a way that it can be put into
+The commands above build the software in such a way that it can be put into
 production immediately. However, this is not the best way to develop a feature
-or to fix a bug. Instead, we provide several fine-grained build commands, based
-on Sencha Cmd.
+or to fix a bug. Instead, we provide several build commands, based on Sencha Cmd.
 
-Before you call any build command, you have to refresh your Sencha Cmd project:
-
-	cd /path/to/arsnova-mobile
-	grunt refresh
-
-After that you can use the following command to build the mobile client for
-production deployment:
-
-	cd /path/to/arsnova-mobile
-	grunt build
-
-To ensure quality of the code, JSCS and JSHint are used. You can run both of
-them via `grunt lint` or run the tools separately via `grunt jscs` and
-`grunt jshint`. By just calling `grunt` the code checks are performed before a
-build.
-
-In order to develop and test on your local machine, you additionally need to run
+In order to develop and test on your local machine, you first need to run
 the ARSnova backend. You can use Jetty to start it:
 
 	cd /path/to/arsnova-backend
 	mvn jetty:run
 
-If you do not want to manually rebuild the client after every change, you can
-use Sencha Cmd's watching feature. Then ARSnova will be built continuously. To
-do so you have to open a second terminal and execute the following command:
+Then, and before you call any build command, you have to refresh your Sencha Cmd project.
+To do so, open a second terminal and execute the following command:
 
 	cd /path/to/arsnova-mobile
+	grunt refresh
+
+Next, we continously build ARSnova:
+
 	grunt run
 
 `grunt run` will automatically inform you about code issues detected by JSCS and
-JSHint in files you modify.
+JSHint in files you modify. You can also run both code checkers via `grunt lint`,
+or separately via `grunt jscs` and `grunt jshint`.
 
 #### Build Environments
 
