@@ -120,19 +120,10 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 			}
 		});
 
-		this.questionManagementContainer = Ext.create('Ext.form.FieldSet', {
+		this.questionManagementContainer = Ext.create('Ext.Panel', {
+			style: 'margin-top: 25px',
 			cls: 'centerFormTitle',
 			hidden: true
-		});
-
-		this.roundManagementContainer = Ext.create('Ext.form.FieldSet', {
-			cls: 'centerFormTitle',
-			items: [
-				this.countdownTimer,
-				this.startRoundButton,
-				this.cancelRoundButton,
-				this.endRoundButton
-			]
 		});
 
 		this.add([
@@ -140,7 +131,10 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 				xtype: 'formpanel',
 				scrollable: null,
 				items: [
-					this.roundManagementContainer,
+					this.countdownTimer,
+					this.startRoundButton,
+					this.cancelRoundButton,
+					this.endRoundButton,
 					this.questionManagementContainer
 				]
 			}

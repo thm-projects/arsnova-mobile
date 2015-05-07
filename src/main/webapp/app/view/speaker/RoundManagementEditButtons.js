@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementEditButtons', {
 	requires: ['ARSnova.view.VoteStatusButton'],
 
 	config: {
-		layout: {
+		layoutTemplate: {
 			type: 'hbox',
 			pack: 'center'
 		},
@@ -104,11 +104,61 @@ Ext.define('ARSnova.view.speaker.RoundManagementEditButtons', {
 			parentPanel: this
 		});
 
-		this.add([
+		this.on('resize', this.onResize);
+		this.addComponents();
+	},
+
+	addComponents: function () {
+		this.twoRows = document.body.clientWidth < 380;
+		var	components = this.twoRows ?
+			this.getTwoRowedComponents() :
+			this.getOneRowedComponents();
+
+		this.add(components);
+	},
+
+	onResize: function () {
+		var clientWidth = document.body.clientWidth;
+
+		if (clientWidth >= 380 && this.twoRows ||
+			clientWidth < 380 && !this.twoRows) {
+			this.removeAll(false);
+			this.addComponents();
+		}
+	},
+
+	getOneRowedComponents: function () {
+		return [{
+			xtype: 'panel',
+			layout:  this.config.layoutTemplate,
+			items: [
+				this.statusButton,
+				this.enableRoundManagementButton,
+				this.questionResetButton
+			]
+		}];
+	},
+
+	getTwoRowedComponents: function () {
+		var firstRowComponents = [
 			this.statusButton,
-			this.enableRoundManagementButton,
+			this.enableRoundManagementButton
+		];
+
+		var secondRowComponents = [
 			this.questionResetButton
-		]);
+		];
+
+		return [{
+			xtype: 'panel',
+			layout: this.config.layoutTemplate,
+			items: firstRowComponents
+		}, {
+			xtype: 'panel',
+			style: 'margin-top: 10px',
+			layout:  this.config.layoutTemplate,
+			items: secondRowComponents
+		}];
 	},
 
 	updateQuestionResetButtonState: function (hasAnswers) {
