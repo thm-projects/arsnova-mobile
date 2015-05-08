@@ -72,7 +72,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		var me = this;
 		this.questionObj = args.question;
-		var features = Ext.decode(sessionStorage.getItem('features'));
 		this.enableRoundManagement = this.questionObj.questionType !== 'grid';
 
 		this.questionStore = Ext.create('Ext.data.Store', {
@@ -114,20 +113,21 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			scope: this,
 			style: 'min-width: 60px;',
 			handler: function () {
-				var object;
+				var object, me = this;
 				var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 				var speakerTabPanel = tabPanel.speakerTabPanel;
 
 				ARSnova.app.innerScrollPanel = false;
-				ARSnova.app.taskManager.stop(this.renewChartDataTask);
-				ARSnova.app.taskManager.stop(this.countActiveUsersTask);
+				ARSnova.app.taskManager.stop(me.renewChartDataTask);
+				ARSnova.app.taskManager.stop(me.countActiveUsersTask);
 
-				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER && this.enableRoundManagement) {
+				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER && me.enableRoundManagement) {
 					object = speakerTabPanel.statisticTabPanel.roundManagementPanel.editButtons.questionObj;
 
-					switch (speakerTabPanel) {
+					switch (speakerTabPanel.getActiveItem()) {
 						case speakerTabPanel.showcaseQuestionPanel:
-							speakerTabPanel.showcaseQuestionPanel.getActiveItem().questionObj = object;
+							var activeItem = speakerTabPanel.showcaseQuestionPanel.getActiveItem();
+							activeItem.questionObj = object;
 							break;
 
 						case speakerTabPanel.questionDetailsPanel:
@@ -143,9 +143,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					direction: 'right',
 					duration: 700,
 					listeners: {
-						scope: this,
 						animationend: function () {
-							this.destroy();
+							me.destroy();
 						}
 					}
 				});

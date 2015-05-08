@@ -140,8 +140,11 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 					text: "Abstimmungs-<br>verwaltung",
 					cls: this.config.buttonClass,
 					imageCls: 'icon-timer',
+					scope: this,
 					handler: function () {
-						console.log('timer!');
+						ARSnova.app.getController('Statistics').prepareSpeakerStatistics(
+							ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel, true
+						);
 					}
 				});
 			}
@@ -186,6 +189,13 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			this.removeAll(false);
 			this.addComponents();
 		}
+	},
+
+	hideElements: function (isHidden) {
+		this.statusButton.setHidden(isHidden);
+		this.releaseStatisticButton.setHidden(isHidden);
+		this.showCorrectAnswerButton.setHidden(isHidden);
+		this.voteStatusButton.setHidden(isHidden);
 	},
 
 	getOneRowedComponents: function () {

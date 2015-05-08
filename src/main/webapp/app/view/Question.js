@@ -541,11 +541,7 @@ Ext.define('ARSnova.view.Question', {
 			}
 
 			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-				if (this.questionObj.piRoundActive) {
-					this.editButtons.hide();
-				} else {
-					this.editButtons.show();
-				}
+				this.editButtons.hideElements(this.questionObj.piRoundActive);
 			}
 		});
 

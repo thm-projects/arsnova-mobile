@@ -37,19 +37,18 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 	initialize: function (arguments) {
 		this.callParent(arguments);
 
+		this.backButton = Ext.create('Ext.Button', {
+			text: Messages.STATISTIC,
+			ui: 'back',
+			scope: this,
+			handler: this.defaultBackHandler
+		});
+
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			title: this.getTitle(),
 			ui: 'light',
-			items: [{
-				xtype: 'button',
-				text: Messages.STATISTIC,
-				ui: 'back',
-				scope: this,
-				handler: function () {
-					ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.statisticTabPanel.setActiveItem(0);
-				}
-			}]
+			items: [this.backButton]
 		});
 
 		this.countdownTimer = Ext.create('ARSnova.view.components.CountdownTimer', {
@@ -74,6 +73,10 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 					me.cancelRoundButton.show();
 					me.endRoundButton.disable();
 					me.cancelRoundButton.disable();
+
+					if (me.enableReturnOnRoundStart) {
+						me.showcaseBackHandler();
+					}
 
 					Ext.create('Ext.util.DelayedTask', function () {
 						me.endRoundButton.enable();
@@ -141,6 +144,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 
 		this.on('painted', this.onPainted);
 		this.onBefore('activate', this.beforeActivate);
+		this.on('deactivate', this.setDefaultBackButtonHandler);
 	},
 
 	onPainted: function () {
@@ -152,6 +156,28 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		this.prepareQuestionManagementContainer();
 		this.checkStoredVotingMode();
 		this.prepareCountdownTimer();
+	},
+
+	defaultBackHandler: function () {
+		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.statisticTabPanel.setActiveItem(0);
+	},
+
+	showcaseBackHandler: function () {
+		this.statisticChart.backButton.getHandler().apply(
+			ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart
+		);
+	},
+
+	setDefaultBackButtonHandler: function () {
+		this.enableReturnOnRoundStart = false;
+		this.backButton.setText(Messages.STATISTIC);
+		this.backButton.setHandler(this.defaultBackHandler);
+	},
+
+	setShowcaseBackButtonHandler: function () {
+		this.enableReturnOnRoundStart = true;
+		this.backButton.setText(Messages.BACK);
+		this.backButton.setHandler(this.showcaseBackHandler);
 	},
 
 	checkStoredVotingMode: function () {
