@@ -34,8 +34,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 		this.callParent(arguments);
 
 		this.questionObj = this.config.questionObj;
-		type = this.questionObj.questionType;
-		this.barChartCompatible = type !== "freetext" && type !== "grid";
+		var type = this.questionObj.questionType;
+		this.barChartCompatible = type !== "freetext" && type !== "grid" && type !== 'flashcard';
 
 		this.hasCorrectAnswers = !this.questionObj.noCorrect;
 		if (['vote', 'school', 'freetext', 'flashcard'].indexOf(type) !== -1
@@ -137,7 +137,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 
 			if (this.barChartCompatible) {
 				this.voteManagementButton = Ext.create('ARSnova.view.MatrixButton', {
-					text: "Abstimmungs-<br>verwaltung",
+					text: Messages.RELEASE_VOTE,
 					cls: this.config.buttonClass,
 					imageCls: 'icon-timer',
 					scope: this,
@@ -156,12 +156,6 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			parentPanel: this
 		});
 
-		this.voteStatusButton = Ext.create('ARSnova.view.VoteStatusButton', {
-			cls: this.config.buttonClass,
-			questionObj: this.questionObj,
-			parentPanel: this
-		});
-
 		this.on('resize', this.onResize);
 		this.addComponents();
 	},
@@ -170,8 +164,12 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 		this.twoRows = document.body.clientWidth < 620;
 		var components;
 
-		if (this.questionObj.questionType === "freetext") {
-			components = [this.statusButton];
+		if (this.questionObj.questionType === 'flashcard') {
+			components = [{
+				xtype: 'panel',
+				layout: this.config.layoutTemplate,
+				items: [this.statusButton]
+			}];
 		} else {
 			components = this.twoRows ?
 				this.getTwoRowedComponents() :
@@ -194,24 +192,28 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 	hideElements: function (isHidden) {
 		this.statusButton.setHidden(isHidden);
 		this.releaseStatisticButton.setHidden(isHidden);
-		this.showCorrectAnswerButton.setHidden(isHidden);
-		this.voteStatusButton.setHidden(isHidden);
+
+		if (this.showCorrectAnswerButton) {
+			this.showCorrectAnswerButton.setHidden(isHidden);
+		}
 	},
 
 	getOneRowedComponents: function () {
+		if (this.showCorrectAnswerButton) {
+			this.showCorrectAnswerButton.setCls(this.config.buttonClass);
+		}
+
 		this.statusButton.button.setCls(this.config.buttonClass);
 		this.releaseStatisticButton.setCls(this.config.buttonClass);
-		this.showCorrectAnswerButton.setCls(this.config.buttonClass);
 
 		return [{
 			xtype: 'panel',
 			layout:  this.config.layoutTemplate,
 			items: [
 				this.statusButton,
-				this.voteStatusButton,
-				this.barChartCompatible ? this.voteManagementButton : {},
 				this.releaseStatisticButton,
-				this.hasCorrectAnswers ? this.showCorrectAnswerButton : {}
+				this.hasCorrectAnswers ? this.showCorrectAnswerButton : {},
+				this.barChartCompatible ? this.voteManagementButton : {}
 			]
 		}];
 	},
@@ -220,17 +222,21 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 		var firstRowComponents = [
 			this.statusButton,
 			this.releaseStatisticButton,
-			this.hasCorrectAnswers ? this.showCorrectAnswerButton : {}
+			this.hasCorrectAnswers ? this.showCorrectAnswerButton :
+				this.barChartCompatible ? this.voteManagementButton : {}
 		];
+
+		var secondRowComponents = [
+			this.hasCorrectAnswers && this.barChartCompatible ?
+				this.voteManagementButton : {}
+		];
+
+		if (this.showCorrectAnswerButton) {
+			this.showCorrectAnswerButton.removeCls(this.config.buttonClass);
+		}
 
 		this.statusButton.button.removeCls(this.config.buttonClass);
 		this.releaseStatisticButton.removeCls(this.config.buttonClass);
-		this.showCorrectAnswerButton.removeCls(this.config.buttonClass);
-
-		var secondRowComponents = [
-			this.voteStatusButton,
-			this.barChartCompatible ? this.voteManagementButton : {}
-		];
 
 		return [{
 			xtype: 'panel',
@@ -250,7 +256,6 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			showStatistic = questionObj.showStatistic ? 1 : 0;
 
 		this.statusButton.toggleStatusButton(active);
-		this.voteStatusButton.updateData(questionObj);
 		this.showCorrectAnswerButton.setToggleFieldValue(showAnswer);
 		this.releaseStatisticButton.setToggleFieldValue(showStatistic);
 	}

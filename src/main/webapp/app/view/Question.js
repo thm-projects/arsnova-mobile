@@ -62,7 +62,7 @@ Ext.define('ARSnova.view.Question', {
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
 				questionObj: this.questionObj,
-				buttonClass: 'mediumActionButton'
+				buttonClass: 'smallerActionButton'
 			});
 		}
 

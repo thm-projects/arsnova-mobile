@@ -419,7 +419,7 @@
 				IMPORT_NOT_SUPPORTED: "Der Session Import wird für Ihren Browser nicht unterstützt.",
 
 				/*Round management*/
-				POLL_MANAGEMENT: "Abstimmungsverwaltung",
+				POLL_MANAGEMENT: "Abstimmung",
 				ROUND_MANAGEMENT: "Rundenverwaltung",
 				START_FIRST_ROUND: "Starte Runde 1",
 				START_SECOND_ROUND: "Starte Runde 2",
@@ -975,18 +975,18 @@
 				IMPORT_NOT_SUPPORTED: "Session Import is not supported for your browser.",
 
 				/*Round management*/
-				POLL_MANAGEMENT: "Poll Management",
+				POLL_MANAGEMENT: "Vote",
 				ROUND_MANAGEMENT: "Round Management",
 				START_FIRST_ROUND: "Start round 1",
 				START_SECOND_ROUND: "Start round 2",
 				CANCEL_DELAYED_ROUND: "Modify settings",
 				END_ROUND_IMMEDIATELY: "Close round immediately",
 				END_VOTE_IMMEDIATELY: "Close vote immediately",
-				END_ROUND: "Close polling round",
-				END_ROUND_WARNING: "If the current polling round is closed, no more polls are possible until a new round is started or the question is unlocked manually. Would you like to continue?",
-				RESET_ROUND: "Reset polling",
+				END_ROUND: "Close vote round",
+				END_ROUND_WARNING: "If the current vote round is closed, no more polls are possible until a new round is started or the question is unlocked manually. Would you like to continue?",
+				RESET_ROUND: "Reset vote",
 				RESET_ROUND_WARNING: "All answers of all rounds will be reset. Would you like to continue?",
-				RESET_ROUND_COMPLETED: "Polling reset completed.",
+				RESET_ROUND_COMPLETED: "Vote reset completed.",
 				ONE_NEW_DELAYED_QUESTION: 'New time-limited question',
 				ONE_NEW_DELAYED_QUESTION_ROUND1: 'There is one new time-limited question.',
 				ONE_NEW_DELAYED_QUESTION_ROUND2: 'A question has been released for the second round of voting.',

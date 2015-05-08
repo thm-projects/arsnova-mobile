@@ -92,12 +92,13 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		} else {
 			this.setStyle({
 				position: 'absolute',
-				right: 0,
-				top: 0,
 				opacity: this.config.viewOnlyOpacity,
-				pointerEvents: 'none'
+				pointerEvents: 'none',
+				right: 0,
+				top: 0
 			});
 
+			this.setWidth(240);
 			this.canvas.setStyle({
 				opacity: this.config.viewOnlyOpacity
 			});
