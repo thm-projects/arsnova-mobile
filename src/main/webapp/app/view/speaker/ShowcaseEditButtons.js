@@ -161,7 +161,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 	},
 
 	addComponents: function () {
-		this.twoRows = document.body.clientWidth < 620;
+		this.twoRows = document.body.clientWidth < 450;
 		var components;
 
 		if (this.questionObj.questionType === 'flashcard') {
@@ -182,8 +182,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 	onResize: function () {
 		var clientWidth = document.body.clientWidth;
 
-		if (clientWidth >= 620 && this.twoRows ||
-			clientWidth < 620 && !this.twoRows) {
+		if (clientWidth >= 450 && this.twoRows ||
+			clientWidth < 450 && !this.twoRows) {
 			this.removeAll(false);
 			this.addComponents();
 		}
