@@ -321,17 +321,29 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	questionLocked: function (questions) {
+		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+
 		var lectureQuestions = questions.filter(function (q) {
 			return q.variant === "lecture";
 		});
 		var prepQuestions = questions.filter(function (q) {
 			return q.variant === "preparation";
 		});
-		// TODO: Force reload of questions panel
+		if (lectureQuestions.length > 0) {
+			tabPanel.userQuestionsPanel.removeQuestions(lectureQuestions);
+		}
+		if (prepQuestions.length > 0) {
+			tabPanel.userQuestionsPanel.removeQuestions(prepQuestions);
+		}
 	},
 
-	delayedPiRound: function (object) {
-		this.showNotification([object._id], object.variant, true, object.round);
+	delayedPiRound: function (roundObject) {
+		var object = [{
+			'_id': roundObject._id,
+			variant: roundObject.variant
+		}];
+
+		this.showNotification(object, roundObject.variant, true, roundObject.round);
 	},
 
 	checkLecturerQuestions: function (questionIds) {
@@ -390,22 +402,22 @@ Ext.define('ARSnova.view.user.InClass', {
 		}, this);
 
 		if (questionIds.length === 1) {
-			if (Ext.Array.contains(unansweredQuestionIds, questionIds[0])) {
-				if (newRound) {
+			if (newRound) {
+				if (Ext.Array.contains(unansweredQuestionIds, questionIds[0]._id)) {
 					titleLabel = Messages.ONE_NEW_DELAYED_QUESTION;
 					messageLabel = round === 2 ?
 						Messages.ONE_NEW_DELAYED_QUESTION_ROUND2 :
 						Messages.ONE_NEW_DELAYED_QUESTION_ROUND1;
 
 					messageLabel = messageLabel + "<br>" + Messages.WANNA_ANSWER;
-				} else {
-					titleLabel = variant === 'lecture' ?
-						Messages.ONE_NEW_LECTURE_QUESTION :
-						Messages.ONE_NEW_PREPARATION_QUESTION;
-
-					messageLabel = Messages.WANNA_ANSWER;
+					Ext.Msg.confirm(titleLabel, messageLabel, callback);
 				}
+			} else {
+				titleLabel = variant === 'lecture' ?
+					Messages.ONE_NEW_LECTURE_QUESTION :
+					Messages.ONE_NEW_PREPARATION_QUESTION;
 
+				messageLabel = Messages.WANNA_ANSWER;
 				Ext.Msg.confirm(titleLabel, messageLabel, callback);
 			}
 		} else {

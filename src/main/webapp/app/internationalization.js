@@ -214,6 +214,8 @@
 				NO_ANSWER_MARKED_CORRECT_MESSAGE: "Sie haben keine Antwortoption als richtig markiert.",
 				NO_ANSWER_MARKED_CORRECT_OPTION_YES: "Trotzdem speichern",
 				NO_ANSWER_MARKED_CORRECT_OPTION_NO: "Abbrechen",
+				ACTIVE_QUESTION_CLOSED: "Die aktive Frage wurde gesperrt",
+				ACTIVE_QUESTION_VOTING_CLOSED: "Die Abstimmung für die aktive Frage wurde gesperrt",
 
 				/* sort */
 				SORT_QUESTIONS_TITLE: "Fragen sortieren",
@@ -767,6 +769,8 @@
 				NO_ANSWER_MARKED_CORRECT_MESSAGE: "You have not marked any answer option as correct.",
 				NO_ANSWER_MARKED_CORRECT_OPTION_YES: "Save anyway",
 				NO_ANSWER_MARKED_CORRECT_OPTION_NO: "Abort",
+				ACTIVE_QUESTION_CLOSED: "The active question has been locked",
+				ACTIVE_QUESTION_VOTING_CLOSED: "Voting for the active question has been closed",
 
 				/* sort */
 				SORT_QUESTIONS_TITLE: "Sort Questions",

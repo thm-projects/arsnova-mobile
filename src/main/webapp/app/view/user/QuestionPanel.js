@@ -238,6 +238,39 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		}
 	},
 
+	removeQuestions: function (questions) {
+		var me = this;
+		var index, activeIndex;
+
+		questions.forEach(function (question) {
+			index = me.questions.indexOf(question._id);
+			activeIndex = me.getActiveIndex();
+
+			if (index !== -1) {
+				delete me.questions[index];
+				me.removeInnerAt(index);
+
+				if (activeIndex === index) {
+					Ext.toast(Messages.ACTIVE_QUESTION_CLOSED, 2000);
+				}
+			}
+		});
+
+		// show message if no question available
+		if (this.getInnerItems().length === 0) {
+			this.add({
+				cls: 'centerText',
+				html: Messages.NO_UNLOCKED_QUESTIONS
+			});
+
+			this.setActiveItem(0);
+			this.getIndicator().hide();
+		}
+
+		// remove empty fields
+		this.questions = Ext.Array.clean(me.questions);
+	},
+
 	checkAnswer: function () {
 		this.getInnerItems().forEach(function (questionPanel) {
 			var questionObj = questionPanel.questionObj;
@@ -387,10 +420,12 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	},
 
 	renew: function (questionIds) {
-		this.removeAll();
-		this.activeQuestionIds = questionIds;
-		this.getUnansweredSkillQuestions();
+		this.activeQuestionIds = questionIds.map(function (question) {
+			return question._id;
+		});
 
+		this.removeAll();
+		this.getUnansweredSkillQuestions();
 		if (ARSnova.app.mainTabPanel.tabPanel.getActiveItem() !== this) {
 			this.alreadyRenewed = true;
 		}
