@@ -116,7 +116,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			success: function (response) {
 				image = response.responseText;
 
-				if(!!image) {
+				if (!!image) {
 					imgContainer.setImage(image);
 					imgContainer.show();
 				} else {

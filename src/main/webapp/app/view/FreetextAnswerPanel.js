@@ -119,6 +119,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			layout: 'fit',
 
 			style: {
+				marginBottom: '20px',
 				backgroundColor: 'transparent'
 			},
 
@@ -144,7 +145,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 						}), panel: self
 					});
 				},
-				
+
 				/**
 				 * The following events are used to get the computed height of
 				 * all list items and finally to set this value to the list
@@ -200,7 +201,6 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		}]);
 
 		this.on('activate', function () {
-			ARSnova.app.innerScrollPanel = this.freetextAnswerList;
 			ARSnova.app.taskManager.start(this.checkFreetextAnswersTask);
 		}, this);
 
@@ -210,7 +210,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		}, this);
 
 		this.on('painted', function () {
-			ARSnova.app.innerScrollPanel = this.freetextAnswerList;
+			ARSnova.app.innerScrollPanel = this;
 		});
 	},
 
