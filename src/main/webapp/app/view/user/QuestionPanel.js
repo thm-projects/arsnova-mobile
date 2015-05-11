@@ -242,19 +242,23 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		var me = this;
 		var index, activeIndex;
 
-		questions.forEach(function (question) {
-			index = me.questions.indexOf(question._id);
-			activeIndex = me.getActiveIndex();
+		if (questions.length === me.questions.length) {
+			this.removeAll();
+		} else {
+			questions.forEach(function (question) {
+				index = me.questions.indexOf(question._id);
+				activeIndex = me.getActiveIndex();
 
-			if (index !== -1) {
-				delete me.questions[index];
-				me.removeInnerAt(index);
+				if (index !== -1) {
+					delete me.questions[index];
+					me.removeInnerAt(index);
 
-				if (activeIndex === index) {
-					Ext.toast(Messages.ACTIVE_QUESTION_CLOSED, 2000);
+					if (activeIndex === index) {
+						Ext.toast(Messages.ACTIVE_QUESTION_CLOSED, 2000);
+					}
 				}
-			}
-		});
+			});
+		}
 
 		// show message if no question available
 		if (this.getInnerItems().length === 0) {
