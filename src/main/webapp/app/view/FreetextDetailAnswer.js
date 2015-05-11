@@ -97,7 +97,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 
 		var imgContainer = Ext.create('ARSnova.view.components.GridImageContainer', {
 			id: 'img',
-			hidden: 'true',
+			hidden: true,
 			gridIsHidden: true,
 			editable: false,
 			listeners: {
@@ -112,13 +112,17 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			}
 		});
 
-
-
 		ARSnova.app.questionModel.getImageAnswerImage(self.answer.questionId, self.answer._id, {
 			success: function (response) {
 				image = response.responseText;
-				imgContainer.setImage(image);
-				imgContainer.show();
+
+				if(!!image) {
+					imgContainer.setImage(image);
+					imgContainer.show();
+				} else {
+					image = null;
+					imgContainer.hide();
+				}
 			},
 			failure: function () {
 				image = null;
