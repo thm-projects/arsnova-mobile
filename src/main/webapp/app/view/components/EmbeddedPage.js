@@ -57,25 +57,27 @@ Ext.define('ARSnova.view.components.EmbeddedPage', {
 		});
 
 		this.on('resize', function (element) {
-			this.frame.width = element.getWidth() + 'px';
+			if (!!this.frame) {
+				this.frame.width = element.getWidth() + 'px';
+			}
 		});
 
 		this.on('painted', function () {
 			if (!this.defined) {
 				this.defined = true;
 
-				this.frame = Ext.DomHelper.append(this.frameContainer, {
+				self.frame = Ext.DomHelper.append(self.frameContainer, {
 					tag: 'iframe',
-					src: this.config.src,
-					id: this.id + '-iframe',
-					style: 'border: 0;',
+					src: self.config.src,
 					frameBorder: '0',
+					style: 'border: 0;',
+					id: self.id + '-iframe',
 					scrolling: Ext.os.is.iOS ? 'no' : 'yes',
 					width: self.element.getWidth() + 'px',
 					height: '100%'
 				});
 
-				this.frame.onload = function () {
+				self.frame.onload = function () {
 					Ext.fly(self.id + '-appLoadingIndicator').destroy();
 					self.frameContainer.className = 'embeddedPageElement';
 				};

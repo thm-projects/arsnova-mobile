@@ -28,7 +28,7 @@ Ext.define("ARSnova.controller.Application", {
 		var me = this;
 		this.hrefPanelActive = false;
 
-		me.initializeHrefOverride();
+		me.initializeOnClickOverride();
 		me.initializeAdvancedScrolling();
 	},
 
@@ -73,26 +73,9 @@ Ext.define("ARSnova.controller.Application", {
 	},
 
 	/**
-	 * check if used protocol is http/https
-	 */
-	checkHrefProtocol: function (href) {
-		switch (href.split(":")[0]) {
-			case "http":
-				if (Ext.browser.is.IE || Ext.browser.is.Safari) {
-					return true;
-				}
-				break;
-			case "https":
-				return true;
-		}
-
-		return false;
-	},
-
-	/**
 	 * overrides onclick event handler in order to change behavior when an tag is clicked
 	 */
-	initializeHrefOverride: function () {
+	initializeOnClickOverride: function () {
 		document.onclick = function (e) {
 			e = e || window.event;
 			var element = e.target || e.srcElement;
@@ -131,11 +114,13 @@ Ext.define("ARSnova.controller.Application", {
 							url: url
 						});
 
-						if (previewPanel) {
-							previewPanel.showEmbeddedPagePreview(controller.embeddedPage);
-						} else {
-							ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(controller.embeddedPage, 'slide');
-						}
+						controller.checkFrameOptionsHeader(url, controller, function () {
+							if (previewPanel) {
+								previewPanel.showEmbeddedPagePreview(controller.embeddedPage);
+							} else {
+								ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(controller.embeddedPage, 'slide');
+							}
+						});
 					}
 
 					return false; // prevent default action and stop event propagation
@@ -144,6 +129,61 @@ Ext.define("ARSnova.controller.Application", {
 				}
 			}
 		};
+	},
+
+	showNewWindowWarning: function (url) {
+		var messageBox = Ext.create('Ext.MessageBox', {
+			title: Messages.NOTIFICATION,
+			message: Messages.URL_COULD_NOT_BE_FRAMED,
+			listeners: {
+				hide: function () {
+					this.destroy();
+				}
+			}
+		});
+
+		messageBox.setButtons([{
+			text: Messages.CONTINUE,
+			ui: 'action',
+			handler: function () {
+				window.open(url, '_blank');
+				messageBox.hide();
+			}
+		}, {
+			text: Messages.CANCEL,
+			ui: 'action',
+			handler: function () {
+				messageBox.hide();
+			}
+		}]);
+
+		messageBox.show();
+	},
+
+	/**
+	 * check if used protocol is suitable for embeddedPage
+	 */
+	checkHrefProtocol: function (href) {
+		var protocol = href.split(":")[0];
+
+		if (protocol === "http" && (Ext.browser.is.IE || Ext.browser.is.Safari) ||
+			protocol === "https") {
+			return true;
+		}
+
+		return false;
+	},
+
+	checkFrameOptionsHeader: function (url, controller, callback) {
+		ARSnova.app.restProxy.checkFrameOptionsHeader(url, {
+			success: function () {
+				callback.call();
+			},
+			failure: function () {
+				controller.toggleHrefPanelActive();
+				controller.showNewWindowWarning(url);
+			}
+		});
 	},
 
 	/**

@@ -587,6 +587,7 @@
 				BROWSER_SESSION_EXPIRED_MSG: "Ihre Browsersitzung ist abgelaufen. Möchten Sie ARSnova neustarten?",
 				QUESTION_COULD_NOT_BE_SAVED: "Speichern der Frage war nicht erfolgreich",
 				SETTINGS_COULD_NOT_BE_SAVED: "Speichern der Einstellungen war nicht erfolgreich",
+				URL_COULD_NOT_BE_FRAMED: "Der gewünschte Hyperlink wird in einem neuen Browserfenster geöffnet.",
 
 				/* misc */
 				NEW_VERSION_TITLE: "Neue Version",
@@ -1147,6 +1148,7 @@
 				BROWSER_SESSION_EXPIRED_MSG: "Your current browser session is expired. Do you want to restart ARSnova?",
 				QUESTION_COULD_NOT_BE_SAVED: "Could not save question",
 				SETTINGS_COULD_NOT_BE_SAVED: "Could not save settings",
+				URL_COULD_NOT_BE_FRAMED: "The selected hyperlink opens in a new browser window.",
 
 				/* misc */
 				NEW_VERSION_TITLE: "New Version",

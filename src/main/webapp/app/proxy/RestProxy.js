@@ -951,5 +951,15 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			},
 			failure: callbacks.failure
 		});
+	},
+
+	checkFrameOptionsHeader: function (url, callbacks) {
+		this.arsjax.request({
+			url: "checkFrameOptionsHeader?url=" + encodeURIComponent(url),
+			method: "GET",
+			success: callbacks.success,
+			204: callbacks.failure,
+			failure: callbacks.failure
+		});
 	}
 });
