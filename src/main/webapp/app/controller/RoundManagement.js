@@ -212,7 +212,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 					ARSnova.app.getController('RoundManagement').updateQuestionOnRoundEnd(question);
 					question.countdownTimer.hide();
 					question.updateEditButtons();
-					question.editButtons.hideElements(false);
+					question.editButtons.changeHiddenState();
 				}
 			});
 		}
@@ -261,7 +261,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 					questionObj = question.questionObj;
 					question.countdownTimer.hide();
 					question.updateEditButtons();
-					question.editButtons.hideElements(false);
+					question.editButtons.changeHiddenState();
 				}
 			});
 		}
@@ -311,7 +311,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 					ARSnova.app.getController('RoundManagement').updateQuestionOnRoundReset(question);
 					question.countdownTimer.hide();
 					question.updateEditButtons();
-					question.editButtons.hideElements(false);
+					question.editButtons.changeHiddenState();
 				}
 			});
 		}

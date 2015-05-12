@@ -528,7 +528,7 @@ Ext.define('ARSnova.view.Question', {
 			this.editButtons ? this.editButtons : {}
 		]);
 
-		this.on('activate', function () {
+		this.onBefore('activate', function () {
 			this.answerList.addListener('itemtap', questionListener.itemtap);
 			this.checkPiRoundActivation();
 
@@ -541,7 +541,7 @@ Ext.define('ARSnova.view.Question', {
 			}
 
 			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-				this.editButtons.hideElements(this.questionObj.piRoundActive);
+				this.editButtons.changeHiddenState();
 			}
 		});
 

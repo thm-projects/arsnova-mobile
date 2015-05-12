@@ -157,6 +157,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 		});
 
 		this.on('resize', this.onResize);
+		this.changeHiddenState();
 		this.addComponents();
 	},
 
@@ -186,6 +187,15 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			clientWidth < 450 && !this.twoRows) {
 			this.removeAll(false);
 			this.addComponents();
+		}
+	},
+
+	changeHiddenState: function () {
+		if (this.questionObj.piRound === 1 && !this.questionObj.piRoundFinished ||
+			this.questionObj.piRoundActive) {
+			this.hideElements(true);
+		} else {
+			this.hideElements(false);
 		}
 	},
 
@@ -251,10 +261,12 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 	},
 
 	updateVoteManagementButtonState: function () {
-		if (this.questionObj.piRoundActive) {
-			this.voteManagementButton.setButtonText(Messages.READJUST_TIMER);
-		} else {
-			this.voteManagementButton.setButtonText(Messages.RELEASE_VOTE);
+		if (this.voteManagementButton) {
+			if (this.questionObj.piRoundActive) {
+				this.voteManagementButton.setButtonText(Messages.READJUST_TIMER);
+			} else {
+				this.voteManagementButton.setButtonText(Messages.RELEASE_VOTE);
+			}
 		}
 	},
 

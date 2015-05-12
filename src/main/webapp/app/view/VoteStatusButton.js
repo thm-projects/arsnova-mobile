@@ -145,6 +145,7 @@ Ext.define('ARSnova.view.VoteStatusButton', {
 		this.button.enable();
 
 		if (this.parentPanel) {
+			this.parentPanel.questionObj.active = true;
 			this.parentPanel.questionObj.votingDisabled = false;
 		}
 	}
