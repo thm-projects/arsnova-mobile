@@ -139,7 +139,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 				this.voteManagementButton = Ext.create('ARSnova.view.MatrixButton', {
 					text: Messages.RELEASE_VOTE,
 					cls: this.config.buttonClass,
-					imageCls: 'icon-timer',
+					imageCls: 'icon-timer thm-green',
 					scope: this,
 					handler: function () {
 						ARSnova.app.getController('Statistics').prepareSpeakerStatistics(
@@ -250,11 +250,20 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 		}];
 	},
 
+	updateVoteManagementButtonState: function () {
+		if (this.questionObj.piRoundActive) {
+			this.voteManagementButton.setButtonText(Messages.READJUST_TIMER);
+		} else {
+			this.voteManagementButton.setButtonText(Messages.RELEASE_VOTE);
+		}
+	},
+
 	updateData: function (questionObj) {
 		var active = questionObj.active,
 			showAnswer = questionObj.showAnswer ? 1 : 0,
 			showStatistic = questionObj.showStatistic ? 1 : 0;
 
+		this.updateVoteManagementButtonState();
 		this.statusButton.toggleStatusButton(active);
 		this.showCorrectAnswerButton.setToggleFieldValue(showAnswer);
 		this.releaseStatisticButton.setToggleFieldValue(showStatistic);
