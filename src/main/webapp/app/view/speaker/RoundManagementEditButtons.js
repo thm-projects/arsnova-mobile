@@ -78,21 +78,11 @@ Ext.define('ARSnova.view.speaker.RoundManagementEditButtons', {
 					scope: this,
 					change: function (toggle, newValue, oldValue) {
 						var panel = this.getParent().getParent().getParent();
-						var storedVotingModes = JSON.parse(localStorage.getItem("storedVotingModes"));
-						storedVotingModes = !!storedVotingModes ? storedVotingModes : {};
 
 						if (newValue === 1 && oldValue === 0) {
 							panel.prepareRoundManagementButtons();
-							storedVotingModes[this.questionObj._id] = this.modes.ROUND_MANAGEMENT;
 						} else {
 							panel.prepareStopTimerButtons();
-							delete storedVotingModes[this.questionObj._id];
-						}
-
-						if (Object.keys(storedVotingModes).length) {
-							localStorage.setItem("storedVotingModes", JSON.stringify(storedVotingModes));
-						} else {
-							localStorage.removeItem("storedVotingModes");
 						}
 					}
 				}
@@ -133,8 +123,8 @@ Ext.define('ARSnova.view.speaker.RoundManagementEditButtons', {
 			xtype: 'panel',
 			layout:  this.config.layoutTemplate,
 			items: [
-				this.statusButton,
 				this.enableRoundManagementButton,
+				this.statusButton,
 				this.questionResetButton
 			]
 		}];
@@ -142,8 +132,8 @@ Ext.define('ARSnova.view.speaker.RoundManagementEditButtons', {
 
 	getTwoRowedComponents: function () {
 		var firstRowComponents = [
-			this.statusButton,
-			this.enableRoundManagementButton
+			this.enableRoundManagementButton,
+			this.statusButton
 		];
 
 		var secondRowComponents = [
@@ -160,6 +150,15 @@ Ext.define('ARSnova.view.speaker.RoundManagementEditButtons', {
 			layout:  this.config.layoutTemplate,
 			items: secondRowComponents
 		}];
+	},
+
+	updateEnableRoundManagementButtonState: function () {
+		if (this.questionObj.piRound === 1 && !this.questionObj.piRoundFinished ||
+			!this.enableRoundManagementButton.active) {
+			this.enableRoundManagementButton.hide();
+		} else {
+			this.enableRoundManagementButton.show();
+		}
 	},
 
 	updateQuestionResetButtonState: function (hasAnswers) {

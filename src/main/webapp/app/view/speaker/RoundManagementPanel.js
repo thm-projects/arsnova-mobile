@@ -154,8 +154,8 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 	beforeActivate: function () {
 		this.statisticChart = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 		this.prepareQuestionManagementContainer();
-		this.checkStoredVotingMode();
 		this.prepareCountdownTimer();
+		this.checkRoundFeature();
 	},
 
 	defaultBackHandler: function () {
@@ -180,33 +180,24 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		this.backButton.setHandler(this.showcaseBackHandler);
 	},
 
-	checkStoredVotingMode: function () {
-		var questionId = this.statisticChart.questionObj._id;
-		var storedVotingModes = JSON.parse(localStorage.getItem("storedVotingModes"));
+	checkRoundFeature: function () {
 		var features = Ext.decode(sessionStorage.getItem("features"));
 		var enableRoundManagement = features && features.pi;
 
-		this.activeMode = this.modes.STOP_TIMER;
-
 		if (enableRoundManagement) {
-			this.editButtons.enableRoundManagementButton.show();
-
-			if (!!storedVotingModes && storedVotingModes[questionId] === this.modes.ROUND_MANAGEMENT) {
-				this.activeMode = this.modes.ROUND_MANAGEMENT;
-				this.editButtons.enableRoundManagementButton.setToggleFieldValue(1);
-			} else {
-				this.editButtons.enableRoundManagementButton.setToggleFieldValue(0);
-			}
+			this.editButtons.enableRoundManagementButton.active = true;
 		} else {
-			this.editButtons.enableRoundManagementButton.hide();
+			this.editButtons.enableRoundManagementButton.active = false;
 		}
 	},
 
 	prepareCountdownButtons: function () {
-		if (this.activeMode === this.modes.STOP_TIMER) {
-			this.prepareStopTimerButtons();
-		} else {
+		if (this.activeMode === this.modes.ROUND_MANAGEMENT) {
 			this.prepareRoundManagementButtons();
+			this.editButtons.enableRoundManagementButton.setToggleFieldValue(1);
+		} else {
+			this.prepareStopTimerButtons();
+			this.editButtons.enableRoundManagementButton.setToggleFieldValue(0);
 		}
 	},
 
@@ -359,6 +350,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 
 	updateEditButtons: function () {
 		this.editButtons.updateData(this.statisticChart.questionObj);
+		this.editButtons.updateEnableRoundManagementButtonState();
 		this.editButtons.updateQuestionResetButtonState(
 			this.statisticChart.hasAnswers
 		);
