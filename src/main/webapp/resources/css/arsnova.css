@@ -21,6 +21,10 @@ code {
 	padding-left: 0.5em;
 	padding-right: 0.5em;
 	padding-bottom: 0.5em;
+	-webkit-user-select: text;
+	-moz-user-select: text;
+	-ms-user-select: text;
+	user-select: text;
 }
 
 .myCoursesList .x-list-item-first .x-button {
