@@ -412,15 +412,20 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					}
 
 					// Minimum width of 321px equals at least landscape view
-					var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
+					var sessionkey = '<span class="sessionButtonKeyword"> (' + session.keyword + ')</span>';
+					var displaytext = window.innerWidth > 481 ?
+						Ext.util.Format.htmlEncode(session.name) + sessionkey :
+						Ext.util.Format.htmlEncode(session.shortName);
+
 					var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 						ui: 'normal',
-						text: Ext.util.Format.htmlEncode(displaytext),
+						text: displaytext,
 						iconCls: course + " courseIcon",
 						cls: 'forwardListButton' + status,
 						sessionObj: session,
 						handler: sessionButtonHandler
 					});
+
 					sessionButton.setBadge([
 						{badgeText: session.numInterposed, badgeCls: "feedbackQuestionsBadgeIcon"},
 						{badgeText: session.numUnredInterposed, badgeCls: "unreadFeedbackQuestionsBadgeIcon"},

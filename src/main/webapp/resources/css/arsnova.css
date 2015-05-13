@@ -27,7 +27,12 @@ code {
 	user-select: text;
 }
 
-.myCoursesList .x-list-item-first .x-button {
+.sessionButtonKeyword {
+	font-style: italic;
+	opacity: 0.5;
+}
+
+.myCorsesList .x-list-item-first .x-button {
 	-moz-border-radius-topleft: .4em;
 	-moz-border-radius-topright: .4em;
 	-webkit-border-top-left-radius: .4em;
