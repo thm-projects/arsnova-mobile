@@ -37,7 +37,7 @@ Ext.define('ARSnova.view.Question', {
 	],
 
 	config: {
-		padding: '0 0 50 0',
+		padding: '0 0 20 0',
 
 		scrollable: {
 			direction: 'vertical',

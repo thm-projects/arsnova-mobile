@@ -35,9 +35,20 @@ Ext.define('ARSnova.view.CustomCarousel', {
 		/** initialize navigation listeners */
 		this.initializeNavigationListeners();
 
+		/** dock indicator bar to top */
+		this.dockIndicatorBarToTop();
+
 		/** initialize carousel listeners */
 		this.on('add', this.checkNavigationElements);
 		this.on('resize', this.checkNavigationElements);
+	},
+
+	dockIndicatorBarToTop: function () {
+		this.getIndicator().setBottom('initial');
+
+		this.on('add', function (carousel, item, index) {
+			item.getActiveItem().setStyle('margin-top: 3em');
+		});
 	},
 
 	doSetActiveItem: function () {

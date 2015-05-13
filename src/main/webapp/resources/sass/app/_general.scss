@@ -29,15 +29,23 @@
 }
 
 .x-carousel-indicator-horizontal {
-	height: 3.5em;
+	height: 3em;
 
 	&.x-carousel-indicator span {
 		height: 30px;
-		margin: 15px 5px;
+		margin: 7.5px 5px;
 		width: 30px;
 		-webkit-border-radius: 15px;
 		-moz-border-radius: 15px;
 		border-radius: 15px;
+
+		& p {
+			margin-left: auto;
+			margin-right: auto;
+			margin-top: 4px;
+			display: table;
+			color: white;
+		}
 	}
 }
 

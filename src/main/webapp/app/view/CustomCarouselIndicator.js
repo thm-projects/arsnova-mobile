@@ -33,8 +33,10 @@ Ext.define('ARSnova.view.CustomCarouselIndicator', {
 	},
 
 	addIndicator: function () {
+		var index = this.indicators.length;
 		this.indicators.push(this.element.createChild({
-			tag: 'span'
+			tag: 'span',
+			html: '<p>' + (index + 1) + '</p>'
 		}));
 
 		if (!this.hasItems) {
