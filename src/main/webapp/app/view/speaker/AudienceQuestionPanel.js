@@ -359,7 +359,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	getQuestionAnswers: function () {
 		var me = this;
 		var getAnswerCount = function (questionRecord, promise) {
-			me.getController().countAnswersByQuestion(sessionStorage.getItem("keyword"), questionRecord.get('_id'), {
+			me.getController().getTotalAnswerCountByQuestion(questionRecord.get('_id'), {
 				success: function (response) {
 					var numAnswers = Ext.decode(response.responseText);
 					questionRecord.set('numAnswers', numAnswers);

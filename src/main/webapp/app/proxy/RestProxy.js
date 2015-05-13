@@ -688,6 +688,14 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
+	countAllAnswers: function (sessionKeyword, questionId, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/" + questionId + "/answer/?all=true",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
 	countPiAnswers: function (sessionKeyword, questionId, piRound, callbacks) {
 		if (!piRound) {
 			piRound = 0;
@@ -700,17 +708,17 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	countAnswersByQuestion: function (sessionKeyword, questionId, callbacks) {
+	getAnswerCount: function (questionId, callbacks) {
 		this.arsjax.request({
-			url: "session/" + sessionKeyword + "/question/" + questionId + "/answercount",
+			url: "lecturerquestion/" + questionId + "/answercount",
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
 	},
 
-	getAnswerCount: function (questionId, callbacks) {
+	getTotalAnswerCountByQuestion: function (questionId, callbacks) {
 		this.arsjax.request({
-			url: "lecturerquestion/" + questionId + "/answercount",
+			url: "lecturerquestion/" + questionId + "/totalanswercount",
 			success: callbacks.success,
 			failure: callbacks.failure
 		});

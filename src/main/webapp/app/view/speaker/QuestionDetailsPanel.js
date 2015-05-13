@@ -1128,7 +1128,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					}
 				});
 			} else {
-				ARSnova.app.questionModel.countAnswers(sessionStorage.getItem('keyword'), this.questionObj._id, {
+				ARSnova.app.questionModel.countAllAnswers(sessionStorage.getItem('keyword'), this.questionObj._id, {
 					success: function (response) {
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
 						var answers = Ext.decode(response.responseText);

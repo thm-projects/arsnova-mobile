@@ -82,9 +82,9 @@ Ext.define("ARSnova.controller.Questions", {
 		question.deleteAllLectureQuestions.apply(question, arguments);
 	},
 
-	countAnswersByQuestion: function () {
+	getTotalAnswerCountByQuestion: function () {
 		var question = Ext.create('ARSnova.model.Question');
-		question.countAnswersByQuestion.apply(question, arguments);
+		question.getTotalAnswerCountByQuestion.apply(question, arguments);
 	},
 
 	listFeedbackQuestions: function (animation) {
