@@ -48,7 +48,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
 			this.toolbar.setTitleOptions(this.getQuestionTitle(), this.getQuestionTitleShort());
-			this.toolbar.incrementQuestionCounter(panel.activeIndex);
 			this.toolbar.checkStatistics(newCard.questionObj, newCard.isDisabled());
 
 			newCard.fireEvent('preparestatisticsbutton', this.toolbar.statisticsButton);
@@ -124,7 +123,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 							var questionsInCourse = Ext.decode(response.responseText);
 
 							if (questionsInCourse > 0) {
-								userQuestionsPanel.toolbar.questionCounter.hide();
 								userQuestionsPanel.add({
 									cls: 'centerText',
 									html: Messages.NO_UNLOCKED_QUESTIONS
@@ -133,7 +131,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 								userQuestionsPanel.toolbar.statisticsButton.hide();
 								userQuestionsPanel._indicator.hide();
 							} else {
-								userQuestionsPanel.toolbar.questionCounter.hide();
 								userQuestionsPanel.add({
 									cls: 'centerText',
 									html: Messages.NO_QUESTIONS
@@ -149,8 +146,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 						}
 					});
 					return;
-				} else {
-					userQuestionsPanel.toolbar.resetQuestionCounter(questions.length);
 				}
 
 				if (questions.length === 1) {
