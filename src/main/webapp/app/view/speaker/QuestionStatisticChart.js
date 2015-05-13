@@ -166,7 +166,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			}, {
 				xtype: 'container',
 				cls: "x-toolbar-title counterText",
-				hidden: ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT,
 				html: "0/0",
 				style: {paddingRight: '20px'}
 			}, {
@@ -471,16 +470,13 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	onActivate: function () {
 		ARSnova.app.innerScrollPanel = this;
 		ARSnova.app.taskManager.start(this.renewChartDataTask);
+		ARSnova.app.taskManager.start(this.countActiveUsersTask);
 		this.checkPiRoundActivation();
 
 		if (this.questionObj.piRound === 1) {
 			this.activateFirstSegmentButton();
 		} else {
 			this.activateSecondSegmentButton();
-		}
-
-		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-			ARSnova.app.taskManager.start(this.countActiveUsersTask);
 		}
 	},
 
@@ -697,9 +693,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				me.piToolbar.show();
 			}
 
-			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-				me.updateAnswerCount(me.questionObj.piRound);
-			}
+			me.updateAnswerCount(me.questionObj.piRound);
 
 			// renew the chart-data
 			chart.redraw();
