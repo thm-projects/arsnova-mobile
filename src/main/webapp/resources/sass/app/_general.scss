@@ -40,11 +40,11 @@
 		border-radius: 15px;
 
 		& p {
-			margin-left: auto;
-			margin-right: auto;
-			margin-top: 4px;
-			display: table;
+			width: 30px;
+			padding: 4px 4px 4px 4.5px;
+			display: block;
 			color: white;
+			text-align: center;
 		}
 	}
 }
