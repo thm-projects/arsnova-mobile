@@ -87,6 +87,8 @@ Ext.define("ARSnova.controller.Feedback", {
 
 		if (tP.getActiveItem() === tP.userTabPanel) {
 			tP.userTabPanel.animateActiveItem(fP.askPanel, animation);
+		} else if (tP.getActiveItem() === fP) {
+			fP.animateActiveItem(fP.askPanel, animation);
 		} else {
 			tP.userTabPanel.setActiveItem(fP.askPanel);
 			tP.animateActiveItem(tP.userTabPanel, animation);

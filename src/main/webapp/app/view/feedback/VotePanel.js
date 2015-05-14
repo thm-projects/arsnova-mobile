@@ -141,10 +141,28 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 			]
 		});
 
+		this.questionRequestButton = Ext.create('Ext.Button', {
+			text: Messages.QUESTION_REQUEST,
+			cls: 'questionRequestButton',
+			ui: 'action',
+			width: '235px',
+			handler: function () {
+				ARSnova.app.getController('Feedback').showAskPanel('slide', function () {
+					var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
+					fP.animateActiveItem(fP.votePanel, {
+						type: 'slide',
+						direction: 'right',
+						duration: 700
+					});
+				});
+			}
+		});
+
 		this.add([
 			this.toolbar,
 			this.buttonPanelTop,
-			this.buttonPanelBottom
+			this.buttonPanelBottom,
+			this.questionRequestButton
 		]);
 	}
 });
