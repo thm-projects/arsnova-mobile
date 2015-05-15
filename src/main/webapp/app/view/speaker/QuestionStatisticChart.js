@@ -54,19 +54,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		interval: 10000 // 10 seconds
 	},
 
-	/**
-	 * count every 15 seconds all actually logged-in users for this sessions
-	 */
-	countActiveUsersTask: {
-		name: 'count the actually logged in users',
-		run: function () {
-			var tP = ARSnova.app.mainTabPanel.tabPanel;
-			var panel = tP.userQuestionsPanel || tP.speakerTabPanel;
-			panel.questionStatisticChart.countActiveUsers(panel.questionStatisticChart);
-		},
-		interval: 15000
-	},
-
 	constructor: function (args) {
 		this.callParent(arguments);
 
@@ -119,7 +106,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 				ARSnova.app.innerScrollPanel = false;
 				ARSnova.app.taskManager.stop(me.renewChartDataTask);
-				ARSnova.app.taskManager.stop(me.countActiveUsersTask);
 
 				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER && me.enableRoundManagement) {
 					object = speakerTabPanel.statisticTabPanel.roundManagementPanel.editButtons.questionObj;
@@ -151,6 +137,10 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			}
 		});
 
+		this.answerCounter = Ext.create('Ext.Component', {
+			cls: "x-toolbar-title alignRight counterText"
+		});
+
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			docked: 'top',
 			ui: 'light',
@@ -163,12 +153,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				title: this.questionObj.subject
 			}, {
 				xtype: 'spacer'
-			}, {
-				xtype: 'container',
-				cls: "x-toolbar-title counterText",
-				html: "0/0",
-				style: {paddingRight: '20px'}
-			}, {
+			}, this.answerCounter, {
 				xtype: 'button',
 				iconCls: 'icon-check',
 				cls: 'toggleCorrectButton',
@@ -470,7 +455,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	onActivate: function () {
 		ARSnova.app.innerScrollPanel = this;
 		ARSnova.app.taskManager.start(this.renewChartDataTask);
-		ARSnova.app.taskManager.start(this.countActiveUsersTask);
 		this.checkPiRoundActivation();
 
 		if (this.questionObj.piRound === 1) {
@@ -739,15 +723,25 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		}
 	},
 
-	countActiveUsers: function (panel) {
-		var count = ARSnova.app.loggedInModel.countActiveUsersBySession();
+	setAnswerCounter: function (value, option) {
+		if (!option) {
+			option = value === 1 ? Messages.ANSWER : Messages.ANSWERS;
+		} else if (option === Messages.ABSTENTION) {
+			option = value === 1 ? Messages.ABSTENTION : Messages.ABSTENTIONS;
+			if (moment.lang() === "en") {
+				option = option.toLowerCase();
+			}
+		}
 
-		// update quote in toolbar
-		var quote = panel.toolbar.items.items[4];
-		var users = quote.getHtml().split("/");
-		users[1] = count - 1;
-		users = users.join("/");
-		quote.setHtml(users);
+		this.answerCounter.setHtml(value + ' ' + option);
+	},
+
+	setAnswerCounter: function (value, message) {
+		if (!message) {
+			message = value === 1 ? Messages.ANSWER : Messages.ANSWERS;
+		}
+
+		this.answerCounter.setHtml(value + ' ' + message);
 	},
 
 	updateAnswerCount: function (round) {
@@ -756,12 +750,15 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		switch (this.segmentedButton.lastPressed) {
 			case '1':
 				count = this.answerCountFirstRound;
+				this.setAnswerCounter(count);
 				break;
 			case '2':
 				count = this.answerCountSecondRound;
+				this.setAnswerCounter(count);
 				break;
 			default:
-				count = this.answerCountFirstRound + this.answerCountSecondRound;
+				count = this.answerCountFirstRound + " | " + this.answerCountSecondRound;
+				this.setAnswerCounter(count, " ");
 				break;
 		}
 
@@ -770,13 +767,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		} else {
 			this.hasAnswers = this.answerCountSecondRound > 0;
 		}
-
-		// update quote in toolbar
-		var quote = this.toolbar.items.items[4];
-		var users = quote.getHtml().split("/");
-		users[0] = count;
-		users = users.join("/");
-		quote.setHtml(users);
 	},
 
 	showEmbeddedPagePreview: function (embeddedPage) {
