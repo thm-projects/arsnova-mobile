@@ -255,8 +255,13 @@
 	}
 }
 
-.displayBlock {
-	display: block !important;	
+.canvasConfiguration {
+	display: block;
+	margin: 0px auto;
+}
+
+.displayInherit {
+	display: inherit;	
 }
 
 .customMaskTextElement {

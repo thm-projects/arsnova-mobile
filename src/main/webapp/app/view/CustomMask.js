@@ -22,7 +22,7 @@ Ext.define('ARSnova.view.CustomMask', {
 
 	config: {
 		baseCls: Ext.baseCSSPrefix + 'mask',
-		cls: 'displayBlock',
+		cls: 'displayInherit',
 		transparent: false,
 		top: 0,
 		left: 0,
@@ -102,11 +102,17 @@ Ext.define('ARSnova.view.CustomMask', {
 		var x = event.pageX, y = event.pageY;
 		var containers = [], clicked = false;
 		var el = document.elementFromPoint(x, y);
+		var timeoutTries = 30, counter = 0;
 
-		while (el && el.tagName !== "BODY" && el.tagName !== "HTML") {
+		while (el && el.tagName !== "BODY" && el.tagName !== "HTML" && counter < timeoutTries) {
 			containers.push(el);
 			el.style.display = "none";
+			if (el.className === 'videoImageContainer') {
+				break;
+			}
+
 			el = document.elementFromPoint(x, y);
+			counter++;
 		}
 
 		for (var i = 0; i < containers.length; i++){
