@@ -237,3 +237,20 @@
 		-webkit-user-select: text;
 	}
 }
+
+.matrixButton.roleIconBtn {
+	margin-bottom: 40px;
+	background: transparent !important;
+	width: 70px;
+	padding: 0px !important;
+
+	.iconBtn {
+		width: 70px;
+		background: transparent !important;
+
+		.iconBtnImg {
+			font-size: 70px !important;
+			margin: 5px 0px 0px 0px;
+		}
+	}
+}

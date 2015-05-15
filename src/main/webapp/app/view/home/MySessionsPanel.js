@@ -365,6 +365,39 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				this.logoutButton.addCls('thm');
 			}
 		});
+
+		this.on('resize', function () {
+			this.resizeMySessionsButtons();
+			this.resizeLastVisitedSessionButtons();
+		});
+	},
+
+	resizeMySessionsButtons: function () {
+		var buttons = this.sessionsForm.getInnerItems()[0].getInnerItems();
+		var offset = this.sessionsForm.bodyElement.dom.firstChild.offsetLeft * 2;
+		var width = this.element.dom.clientWidth;
+
+		buttons.forEach(function (button) {
+			if (width < 720) {
+				button.setWidth(width - offset);
+			} else {
+				button.setWidth('100%');
+			}
+		});
+	},
+
+	resizeLastVisitedSessionButtons: function () {
+		var buttons = this.lastVisitedSessionsForm.getInnerItems()[0].getInnerItems();
+		var offset = this.lastVisitedSessionsForm.bodyElement.dom.firstChild.offsetLeft * 2;
+		var width = this.element.dom.clientWidth;
+
+		buttons.forEach(function (button) {
+			if (width < 720) {
+				button.setWidth(width - offset);
+			} else {
+				button.setWidth('100%');
+			}
+		});
 	},
 
 	loadCreatedSessions: function () {
@@ -436,6 +469,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				}
 
 				hideLoadMask();
+				me.resizeMySessionsButtons();
 				promise.resolve(sessions);
 			},
 			empty: Ext.bind(function () {
@@ -587,12 +621,15 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							iconCls = "icon-cloud thm-green";
 						}
 
-						// Minimum width of 481px equals at least landscape view
-						var displaytext = window.innerWidth > 481 ? session.name : session.shortName;
+						var sessionkey = '<span class="sessionButtonKeyword"> (' + session.keyword + ')</span>';
+						var displaytext = window.innerWidth > 481 ?
+							Ext.util.Format.htmlEncode(session.name) + sessionkey :
+							Ext.util.Format.htmlEncode(session.shortName);
+
 						var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 							xtype: 'button',
 							ui: 'normal',
-							text: Ext.util.Format.htmlEncode(displaytext),
+							text: displaytext,
 							cls: 'forwardListButton',
 							iconCls: iconCls,
 							controller: 'sessions',
@@ -603,6 +640,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						});
 						sessionButton.setBadge([{badgeText: session.numUnanswered, badgeCls: "questionsBadgeIcon"}]);
 						panel.lastVisitedSessionsForm.addEntry(sessionButton);
+						panel.resizeLastVisitedSessionButtons();
 
 						if (!session.active) {
 							panel.down('button[text=' + displaytext + ']').addCls("isInactive");

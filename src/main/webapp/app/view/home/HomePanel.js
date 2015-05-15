@@ -215,6 +215,11 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				});
 			}
 		});
+
+		this.on('resize', function () {
+			this.resizeSessionButtons();
+			this.resizeLastVisitedSessionButtons();
+		});
 	},
 
 	checkLogin: function () {
@@ -240,6 +245,34 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		});
 	},
 
+	resizeSessionButtons: function () {
+		var buttons = this.mySessionsForm.getInnerItems()[0].getInnerItems();
+		var offset = this.mySessionsForm.bodyElement.dom.firstChild.offsetLeft * 2;
+		var width = this.element.dom.clientWidth;
+
+		buttons.forEach(function (button) {
+			if (width < 720) {
+				button.setWidth(width - offset);
+			} else {
+				button.setWidth('100%');
+			}
+		});
+	},
+
+	resizeLastVisitedSessionButtons: function () {
+		var buttons = this.lastVisitedSessionsForm.getInnerItems()[0].getInnerItems();
+		var offset = this.lastVisitedSessionsForm.bodyElement.dom.firstChild.offsetLeft * 2;
+		var width = this.element.dom.clientWidth;
+
+		buttons.forEach(function (button) {
+			if (width < 720) {
+				button.setWidth(width - offset);
+			} else {
+				button.setWidth('100%');
+			}
+		});
+	},
+
 	loadVisitedSessions: function () {
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			return;
@@ -252,6 +285,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		ARSnova.app.restProxy.getMyVisitedSessions({
 			success: function (sessions) {
 				me.displaySessions(sessions, me.lastVisitedSessionsForm, hideLoadingMask);
+				me.resizeLastVisitedSessionButtons();
 				if (sessions.length > 0) {
 					promise.resolve(sessions);
 				} else {
@@ -288,6 +322,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			success: function (response) {
 				var sessions = Ext.decode(response.responseText);
 				me.displaySessions(sessions, me.mySessionsForm, hideLoadingMask);
+				me.resizeSessionButtons();
 				if (sessions.length > 0) {
 					promise.resolve(sessions);
 				} else {
