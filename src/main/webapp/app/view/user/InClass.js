@@ -298,9 +298,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			"variant": object.variant
 		};
 
-		if (object.disable) {
-			this.questionLocked([question]);
-		} else {
+		if (!object.disable) {
 			this.questionAvailable([question]);
 		}
 	},
