@@ -395,7 +395,13 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					sessionObj: session,
 					handler: buttonHandler
 				});
-				sessionButton.setBadge([{badgeText: session.numUnanswered}]);
+
+				sessionButton.setBadge([
+					{badgeText: session.numInterposed, badgeCls: "feedbackQuestionsBadgeIcon"},
+					{badgeText: session.numQuestions, badgeCls: "questionsBadgeIcon"},
+					{badgeText: session.numAnswers, badgeCls: "answersBadgeIcon"}
+				]);
+
 				form.addEntry(sessionButton);
 
 				if (!session.active) {
