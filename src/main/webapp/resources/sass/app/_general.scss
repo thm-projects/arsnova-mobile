@@ -254,3 +254,24 @@
 		}
 	}
 }
+
+.displayBlock {
+	display: block !important;	
+}
+
+.customMaskTextElement {
+	position: absolute;
+	text-align: center;
+	font-size: 28px;
+	color: white;
+	width: 100%;
+	top: 100px;
+
+ 	&.voteClosed {
+ 		text-shadow: 1px 1px 5px $thm-red;
+ 	}
+ 
+ 	&.alreadyAnswered {
+ 		text-shadow: 1px 1px 5px $thm-green;
+ 	}
+}

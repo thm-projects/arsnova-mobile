@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.CustomMask', {
 
 	config: {
 		baseCls: Ext.baseCSSPrefix + 'mask',
+		cls: 'displayBlock',
 		transparent: false,
 		top: 0,
 		left: 0,
@@ -43,9 +44,21 @@ Ext.define('ARSnova.view.CustomMask', {
 		this.overwriteScrollerMaxPosition(scroller, this.config.mainPanel);
 		this.element.down('.x-mask-inner').removeCls('x-mask-inner');
 
+		this.textElement = Ext.DomHelper.append(this.element, {
+			tag: 'div',
+			cls: 'customMaskTextElement'
+		});
+
 		scroller.on('*', 'onScrollEvent', this);
 		this.element.on('*', 'onEvent', this);
 		this.on({hide: 'onHide'});
+	},
+
+	setTextMessage: function (text, cls) {
+		this.textElement.innerHTML = text;
+		if (cls) {
+			this.textElement.className = 'customMaskTextElement ' + cls;
+		}
 	},
 
 	onHide: function () {

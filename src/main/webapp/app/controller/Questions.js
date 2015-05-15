@@ -385,6 +385,10 @@ Ext.define("ARSnova.controller.Questions", {
 					} else {
 						question.enableQuestion();
 					}
+
+					if (tabPanel.userQuestionsPanel.getActiveItem() === question && disable) {
+						Ext.toast(Messages.ACTIVE_QUESTION_VOTING_CLOSED, 2000);
+					}
 				}
 			});
 		}

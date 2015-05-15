@@ -98,6 +98,7 @@ Ext.define('ARSnova.view.Question', {
 					localStorage.setItem(self.questionObj.questionVariant + 'QuestionIds', Ext.encode(questionsArr));
 
 					if (self.questionObj.questionType !== 'flashcard') {
+						self.questionObj.userAnswered = true;
 						self.disableQuestion();
 						if (!self.questionObj.piRoundActive) {
 							ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
@@ -669,6 +670,12 @@ Ext.define('ARSnova.view.Question', {
 		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
 			this.setDisabled(true);
 			this.mask(this.customMask);
+
+			if (!!this.questionObj.userAnswered) {
+				this.customMask.setTextMessage(Messages.MASK_ALREADY_ANSWERED, 'alreadyAnswered');
+			} else if (!!this.questionObj.votingDisabled) {
+				this.customMask.setTextMessage(Messages.MASK_VOTE_CLOSED, 'voteClosed');
+			}
 		}
 	},
 

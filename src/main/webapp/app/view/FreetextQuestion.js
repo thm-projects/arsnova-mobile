@@ -336,7 +336,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					questionsArr.push(self.questionObj._id);
 				}
 				localStorage.setItem(self.questionObj.questionVariant + 'QuestionIds', Ext.encode(questionsArr));
-
+				self.questionObj.userAnswered = true;
 				self.uploadView.hide();
 				self.disableQuestion();
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
@@ -408,6 +408,12 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	disableQuestion: function () {
 		this.setDisabled(true);
 		this.mask(this.customMask);
+
+		if (!!this.questionObj.userAnswered) {
+			this.customMask.setTextMessage(Messages.MASK_ALREADY_ANSWERED, 'alreadyAnswered');
+		} else if (!!this.questionObj.votingDisabled) {
+			this.customMask.setTextMessage(Messages.MASK_VOTE_CLOSED, 'voteClosed');
+		}
 	},
 
 	setAnswerText: function (subject, answer, answerThumbnailImage) {
