@@ -118,7 +118,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 		this.createAdHocQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.NEW_QUESTION,
-			cls: 'actionButton',
+			cls: 'smallerActionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-question thm-green',
 			controller: 'Questions',
@@ -128,7 +128,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 		this.showcaseActionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SHOWCASE_MODE,
-			cls: 'actionButton',
+			cls: 'smallerActionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-presenter thm-grey',
 			handler: this.showcaseHandler,
