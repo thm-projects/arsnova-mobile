@@ -135,6 +135,13 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			hidden: true
 		});
 
+		this.roleIconButton = Ext.create('ARSnova.view.MatrixButton', {
+			cls: 'roleIconBtn',
+			buttonConfig: 'icon',
+			imageCls: 'icon-speaker',
+			hidden: true
+		});
+
 		this.actionButtonPanel = Ext.create('Ext.Panel', {
 			layout: {
 				type: 'hbox',
@@ -142,11 +149,23 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			},
 
 			style: 'margin: 15px',
-
-			items: [
-				this.showcaseActionButton,
-				this.createAdHocQuestionButton
-			]
+			items: [{
+				xtype: 'spacer',
+				flex: '3',
+				width: true,
+				hidden: true
+			}, this.showcaseActionButton, {
+				xtype: 'spacer',
+				hidden: true
+			}, this.roleIconButton, {
+				xtype: 'spacer',
+				hidden: true
+			}, this.createAdHocQuestionButton, {
+				xtype: 'spacer',
+				flex: '3',
+				width: true,
+				hidden: true
+			}]
 		});
 
 		this.preparationQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
@@ -271,6 +290,15 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		sTP.animateActiveItem(sTP.showcaseQuestionPanel, 'slide');
 	},
 
+	showShowcaseActionElements: function (show) {
+		var me = this;
+		this.actionButtonPanel.getInnerItems().forEach(function (element) {
+			if (element !== me.createAdHocQuestionButton) {
+				element.setHidden(!show);
+			}
+		});
+	},
+
 	/* will be called on session login */
 	registerListeners: function () {
 		var inClassPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
@@ -313,6 +341,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		sTP.showcaseQuestionPanel.setController(ARSnova.app.getController('Questions'));
 		sTP.showcaseQuestionPanel.setLectureMode();
 
+		sTP.inClassPanel.showShowcaseActionElements(false);
 		sTP.inClassPanel.updateAudienceQuestionBadge();
 	},
 
@@ -336,7 +365,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 					} else {
 						me.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE_PLURAL);
 					}
-					me.showcaseActionButton.show();
+					me.showShowcaseActionElements(true);
 				}
 
 				lecturePromise.resolve(numQuestions);

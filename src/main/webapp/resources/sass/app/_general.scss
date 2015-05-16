@@ -239,18 +239,21 @@
 }
 
 .matrixButton.roleIconBtn {
-	margin-bottom: 40px;
 	background: transparent !important;
-	width: 70px;
-	padding: 0px !important;
+	padding: 0px 0px 40px 0px !important;
+	width: 72px;
 
 	.iconBtn {
-		width: 70px;
+		width: 72px;
 		background: transparent !important;
 
 		.iconBtnImg {
 			font-size: 70px !important;
 			margin: 5px 0px 0px 0px;
+
+			&.icon-users {
+				margin-top: 0px !important;
+			}
 		}
 	}
 }
@@ -270,7 +273,7 @@
 	font-size: 28px;
 	color: white;
 	width: 100%;
-	top: 100px;
+	top: 80px;
 
  	&.voteClosed {
  		text-shadow: 1px 1px 5px $thm-red;

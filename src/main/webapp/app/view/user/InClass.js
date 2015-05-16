@@ -102,7 +102,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 		this.voteButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.GIVE_FEEDBACK,
-			cls: 'actionButton',
+			cls: 'smallerActionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-bullhorn',
 			controller: 'Feedback',
@@ -112,7 +112,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 		this.feedbackButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.QUESTION_REQUEST_ADHOC,
-			cls: 'actionButton',
+			cls: 'smallerActionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-question thm-green',
 			handler: function () {
@@ -120,6 +120,12 @@ Ext.define('ARSnova.view.user.InClass', {
 					type: 'slide'
 				});
 			}
+		});
+
+		this.roleIconButton = Ext.create('ARSnova.view.MatrixButton', {
+			cls: 'roleIconBtn',
+			buttonConfig: 'icon',
+			imageCls: 'icon-users'
 		});
 
 		this.actionButtonPanel = Ext.create('Ext.Panel', {
@@ -130,9 +136,19 @@ Ext.define('ARSnova.view.user.InClass', {
 
 			style: 'margin: 15px',
 
-			items: [
-				this.feedbackButton,
-				this.voteButton
+			items: [{
+					xtype: 'spacer',
+					flex: '3',
+					width: true
+				}, this.feedbackButton, {
+					xtype: 'spacer'
+				}, this.roleIconButton, {
+					xtype: 'spacer'
+				}, this.voteButton, {
+					xtype: 'spacer',
+					flex: '3',
+					width: true
+				}
 			]
 		});
 
