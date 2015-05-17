@@ -38,7 +38,7 @@ Ext.define('ARSnova.view.Caption', {
 			style: this.getStyle()
 		});
 
-		this.add([].concat(window.innerWidth > 320 ? [{
+		this.add([].concat(window.innerWidth > 410 ? [{
 			cls: 'gravure',
 			style: {
 				fontSize: "0.6em"
@@ -48,6 +48,8 @@ Ext.define('ARSnova.view.Caption', {
 	},
 
 	explainStatus: function (items) {
+		var listButtonText = "";
+
 		var hasActiveItems = false;
 		items.forEach(function (item) {
 			hasActiveItems = hasActiveItems || !!item.active;
@@ -55,6 +57,10 @@ Ext.define('ARSnova.view.Caption', {
 		var hasInactiveItems = false;
 		items.forEach(function (item) {
 			hasInactiveItems = hasInactiveItems || !!!item.active;
+		});
+		var hasVotingDisabledItems = false;
+		items.forEach(function (item) {
+			hasVotingDisabledItems = hasVotingDisabledItems || !!item.votingDisabled;
 		});
 
 		var activeText = "";
@@ -65,11 +71,26 @@ Ext.define('ARSnova.view.Caption', {
 		if (hasInactiveItems) {
 			inactiveText = "<span class='isInactive'>" + this.getTranslation().inactive + "</span>";
 		}
-		if (hasActiveItems && hasInactiveItems) {
-			this.listButton.setText(inactiveText + " / " + activeText);
-		} else {
-			this.listButton.setText(activeText || inactiveText);
+		var votingDisabledText = "";
+		if (hasVotingDisabledItems) {
+			votingDisabledText = "<span class='isVoteInactive'>" + this.getTranslation().disabledVote + "</span>";
 		}
+
+		if (hasActiveItems) {
+			listButtonText = activeText;
+		}
+		if (hasVotingDisabledItems) {
+			listButtonText = listButtonText.length !== 0 ?
+				listButtonText + " / " + votingDisabledText :
+				votingDisabledText;
+		}
+		if (hasInactiveItems) {
+			listButtonText = listButtonText.length !== 0 ?
+				listButtonText + " / " + inactiveText :
+				inactiveText;
+		}
+
+		this.listButton.setText(listButtonText);
 	},
 
 	summarize: function (sessions, options) {

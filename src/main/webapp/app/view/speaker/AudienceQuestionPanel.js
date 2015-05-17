@@ -88,8 +88,12 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			},
 
 			itemCls: 'forwardListButton',
-			itemTpl: '<tpl if="active"><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
-				'<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
+			itemTpl:
+				'<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div>' +
+				'<tpl else>' +
+					'<tpl if="votingDisabled"><div class="isVoteInactive buttontext noOverflow">{text:htmlEncode}</div>' +
+					'<tpl else><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
+				'</tpl>' +
 				'<div class="x-button x-hasbadge audiencePanelListBadge">' +
 				'<tpl if="numAnswers &gt; 0"><span class="answersBadgeIcon badgefixed">{numAnswers}</span></tpl></div>',
 			grouped: true,
@@ -181,7 +185,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		this.caption = Ext.create('ARSnova.view.Caption', {
 			translation: {
 				active: Messages.OPEN_QUESTION,
-				inactive: Messages.CLOSED_QUESTION
+				inactive: Messages.CLOSED_QUESTION,
+				disabledVote: Messages.CLOSED_VOTING
 			},
 			cls: "x-form-fieldset",
 			style: "border-radius: 15px",
