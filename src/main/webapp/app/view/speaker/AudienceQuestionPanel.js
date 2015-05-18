@@ -220,7 +220,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				Ext.Msg.confirm(Messages.DELETE_ALL_ANSWERS_REQUEST, Messages.ALL_QUESTIONS_REMAIN, function (answer) {
 					if (answer === 'yes') {
 						me.getController().deleteAllQuestionsAnswers({
-							success: Ext.bind(this.handleAnswerCount, this),
+							success: Ext.bind(this.handleDeleteAnswers, this),
 							failure: Ext.emptyFn
 						});
 					}
@@ -387,6 +387,15 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		}, this);
 
 		return promises;
+	},
+
+	handleDeleteAnswers: function () {
+		this.handleAnswerCount();
+
+		this.questionStore.each(function (question) {
+			question.set("votingDisabled", false);
+			question.raw.votingDisabled = false;
+		});
 	},
 
 	handleAnswerCount: function () {
