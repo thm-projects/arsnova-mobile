@@ -113,6 +113,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				 * add them to the height of the list DataView.
 				 */
 				painted: function (list, eOpts) {
+					this.questionList.fireEvent("resizeList", list);
+				},
+				resizeList: function (list) {
 					var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
 
 					this.questionList.setHeight(
@@ -123,6 +126,10 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				}
 			}
 		});
+
+		this.questionList.updateList = function () {
+			this.fireEvent("resizeList", this.element);
+		};
 
 		this.questionListContainer = Ext.create('Ext.form.FieldSet', {
 			title: Messages.QUESTION_MANAGEMENT,
@@ -325,6 +332,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 				this.showcaseActionButton.show();
 				this.questionListContainer.show();
+				this.questionList.updateList();
 				this.questionList.show();
 				this.questionStatusButton.checkInitialStatus();
 				this.questionStatusButton.show();
@@ -334,6 +342,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			empty: Ext.bind(function () {
 				this.showcaseActionButton.hide();
 				this.questionListContainer.hide();
+				this.questionList.updateList();
 				this.questionList.show();
 				this.caption.hide();
 				this.questionStatusButton.hide();
