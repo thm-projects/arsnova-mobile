@@ -539,7 +539,7 @@
 				DELETE_ANSWERS: "Antworten<br/>löschen",
 				DELETE_SESSION: "Session<br/>löschen",
 				GIVE_FEEDBACK: "Feedback<br/>geben",
-				QUESTION_REQUEST_ADHOC: 'Ich habe eine<br/>Frage',
+				QUESTION_REQUEST_ADHOC: 'Ich habe<br/>eine Frage',
 				GRID_LABEL_WEAKEN_IMAGE: "Bild<br>abschwächen",
 				GRID_LABEL_SHOW_HEATMAP: "Heatmap<br>anzeigen",
 				RESET_QUESTION: "Abstimmung<br>zurücksetzen",
