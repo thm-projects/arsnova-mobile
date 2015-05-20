@@ -406,11 +406,13 @@ Ext.define("ARSnova.controller.Questions", {
 		if (tP.getActiveItem() === tP.speakerTabPanel) {
 			var showcasePanel = panel.showcaseQuestionPanel;
 
-			if (showcasePanel.getActiveItem().getItemId() === id) {
-				if (answerCount === abstentionCount && answerCount > 0) {
-					showcasePanel.toolbar.setAnswerCounter(abstentionCount, Messages.ABSTENTION);
-				} else {
-					showcasePanel.toolbar.updateAnswerCounter(answerCount);
+			if (tP.speakerTabPanel.getActiveItem() === showcasePanel) {
+				if (showcasePanel.getActiveItem().getItemId() === id) {
+					if (answerCount === abstentionCount && answerCount > 0) {
+						showcasePanel.toolbar.setAnswerCounter(abstentionCount, Messages.ABSTENTION);
+					} else {
+						showcasePanel.toolbar.updateAnswerCounter(answerCount);
+					}
 				}
 			}
 		}
