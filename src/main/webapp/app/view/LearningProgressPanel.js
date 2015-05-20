@@ -85,7 +85,6 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 			var options = ARSnova.app.getController('Sessions').getLearningProgressOptions();
 			if (field.getValue() === options.questionVariant) {
 				field.check();
-				console.log(field.getValue(), options);
 			}
 			this.showProgress(options);
 		};

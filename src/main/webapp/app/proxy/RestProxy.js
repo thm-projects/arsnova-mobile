@@ -716,6 +716,14 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
+	getAllRoundAnswerCountByQuestion: function (questionId, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/" + questionId + "/allroundanswercount",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
 	getTotalAnswerCountByQuestion: function (questionId, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/totalanswercount",

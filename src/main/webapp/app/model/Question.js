@@ -351,6 +351,10 @@ Ext.define('ARSnova.model.Question', {
 		return this.getProxy().getTotalAnswerCountByQuestion(questionId, callbacks);
 	},
 
+	getAllRoundAnswerCountByQuestion: function (questionId, callbacks) {
+		return this.getProxy().getAllRoundAnswerCountByQuestion(questionId, callbacks);
+	},
+
 	getAnsweredFreetextQuestions: function (sessionKeyword, questionId, callbacks) {
 		return this.getProxy().getAnsweredFreetextQuestions(sessionKeyword, questionId, callbacks);
 	},

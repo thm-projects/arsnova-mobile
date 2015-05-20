@@ -88,14 +88,36 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			},
 
 			itemCls: 'forwardListButton',
-			itemTpl:
-				'<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div>' +
-				'<tpl else>' +
-					'<tpl if="votingDisabled"><div class="isVoteInactive buttontext noOverflow">{text:htmlEncode}</div>' +
-					'<tpl else><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
-				'</tpl>' +
-				'<div class="x-button x-hasbadge audiencePanelListBadge">' +
-				'<tpl if="numAnswers &gt; 0"><span class="answersBadgeIcon badgefixed">{numAnswers}</span></tpl></div>',
+			itemTpl: Ext.create('Ext.XTemplate',
+				'<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div>',
+				'<tpl else>',
+					'<tpl if="votingDisabled"><div class="isVoteInactive buttontext noOverflow">{text:htmlEncode}</div>',
+					'<tpl else><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>',
+				'</tpl>',
+				'<div class="x-button x-hasbadge audiencePanelListBadge">',
+				'<tpl if="this.hasAnswers(values.numAnswers)"><span class="answersBadgeIcon badgefixed">',
+					'{[this.getFormattedCount(values)]}</span>',
+				'</tpl></div>',
+				{
+					hasAnswers: function (numAnswers) {
+						if (!!numAnswers) {
+							return numAnswers.reduce(function(ro, rt) { 
+								return ro + rt; 
+							}, 0) > 0;
+						}
+
+						return false;
+					},
+
+					getFormattedCount: function (questionObj) {
+						if (questionObj.piRound === 2) {
+							return questionObj.numAnswers[0] + ' | ' + questionObj.numAnswers[1];
+						} else {
+							return questionObj.numAnswers[0];
+						}
+					}
+				}
+			),
 			grouped: true,
 			store: this.questionStore,
 
@@ -373,12 +395,14 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	getQuestionAnswers: function () {
 		var me = this;
 		var getAnswerCount = function (questionRecord, promise) {
-			me.getController().getTotalAnswerCountByQuestion(questionRecord.get('_id'), {
+			me.getController().getAllRoundAnswerCountByQuestion(questionRecord.get('_id'), {
 				success: function (response) {
 					var numAnswers = Ext.decode(response.responseText);
 					questionRecord.set('numAnswers', numAnswers);
 					promise.resolve({
-						hasAnswers: numAnswers > 0
+						hasAnswers: numAnswers.reduce(function(ro, rt) { 
+							return ro + rt; 
+						}, 0) > 0
 					});
 				},
 				failure: function () {

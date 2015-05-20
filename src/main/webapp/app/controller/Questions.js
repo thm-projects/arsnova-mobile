@@ -87,6 +87,10 @@ Ext.define("ARSnova.controller.Questions", {
 		question.getTotalAnswerCountByQuestion.apply(question, arguments);
 	},
 
+	getAllRoundAnswerCountByQuestion: function (questionId, callbacks) {
+		ARSnova.app.questionModel.getAllRoundAnswerCountByQuestion(questionId, callbacks);
+	},
+
 	listFeedbackQuestions: function (animation) {
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel, animation || 'slide');
 	},
