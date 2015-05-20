@@ -101,8 +101,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				{
 					hasAnswers: function (numAnswers) {
 						if (!!numAnswers) {
-							return numAnswers.reduce(function(ro, rt) { 
-								return ro + rt; 
+							return numAnswers.reduce(function (ro, rt) {
+								return ro + rt;
 							}, 0) > 0;
 						}
 
@@ -400,8 +400,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 					var numAnswers = Ext.decode(response.responseText);
 					questionRecord.set('numAnswers', numAnswers);
 					promise.resolve({
-						hasAnswers: numAnswers.reduce(function(ro, rt) { 
-							return ro + rt; 
+						hasAnswers: numAnswers.reduce(function (ro, rt) {
+							return ro + rt;
 						}, 0) > 0
 					});
 				},
