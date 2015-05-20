@@ -51,16 +51,15 @@ Ext.define('ARSnova.view.Caption', {
 		var listButtonText = "";
 
 		var hasActiveItems = false;
-		items.forEach(function (item) {
-			hasActiveItems = hasActiveItems || !!item.active;
-		});
 		var hasInactiveItems = false;
-		items.forEach(function (item) {
-			hasInactiveItems = hasInactiveItems || !!!item.active;
-		});
 		var hasVotingDisabledItems = false;
 		items.forEach(function (item) {
-			hasVotingDisabledItems = hasVotingDisabledItems || !!item.votingDisabled;
+			hasActiveItems = hasActiveItems || !!item.active;
+			hasInactiveItems = hasInactiveItems || !!!item.active;
+
+			if (!!item.active && !!item.votingDisabled) {
+				hasVotingDisabledItems = hasVotingDisabledItems || !!item.votingDisabled;
+			}
 		});
 
 		var activeText = "";
