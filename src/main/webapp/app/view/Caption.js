@@ -38,7 +38,10 @@ Ext.define('ARSnova.view.Caption', {
 			style: this.getStyle()
 		});
 
-		this.add([].concat(window.innerWidth > 410 ? [{
+		var minScreenWidth = !!this.config.minScreenWidth ?
+			this.config.minScreenWidth : 410;
+
+		this.add([].concat(window.innerWidth > minScreenWidth ? [{
 			cls: 'gravure',
 			style: {
 				fontSize: "0.6em"
@@ -103,9 +106,12 @@ Ext.define('ARSnova.view.Caption', {
 			questions: true,
 			answers: true,
 			interposed: true,
+			unredInterposed: true,
 			unanswered: false
 		});
+
 		var hasFeedbackQuestions = false;
+		var hasUnredFeedbackQuestions = false;
 		var hasQuestions = false;
 		var hasUnansweredQuestions = false;
 		var hasAnswers = false;
@@ -114,6 +120,7 @@ Ext.define('ARSnova.view.Caption', {
 				hasQuestions = hasQuestions || item > 0;
 			} else {
 				hasFeedbackQuestions = hasFeedbackQuestions || item.hasFeedbackQuestions || item.numInterposed > 0;
+				hasUnredFeedbackQuestions = hasUnredFeedbackQuestions || item.hasUnredFeedbackQuestions || item.numUnredInterposed > 0;
 				hasQuestions = hasQuestions || item.hasQuestions || item.numQuestions > 0;
 				hasUnansweredQuestions = hasUnansweredQuestions || item.hasUnansweredQuestions || item.numUnanswered > 0;
 				hasAnswers = hasAnswers || item.hasAnswers || item.numAnswers > 0;
@@ -122,6 +129,9 @@ Ext.define('ARSnova.view.Caption', {
 		this.listButton.setBadge([{
 				badgeText: options.interposed && hasFeedbackQuestions ? Messages.QUESTIONS_FROM_STUDENTS : "",
 				badgeCls: "feedbackQuestionsBadgeIcon"
+			}, {
+				badgeText: (options.unredInterposed && hasUnredFeedbackQuestions) ? Messages.UNRED_QUESTIONS_FROM_STUDENTS : "",
+				badgeCls: "unreadFeedbackQuestionsBadgeIcon"
 			}, {
 				badgeText: (options.questions && hasQuestions) || (options.unanswered && hasUnansweredQuestions) ? Messages.QUESTIONS : "",
 				badgeCls: "questionsBadgeIcon"

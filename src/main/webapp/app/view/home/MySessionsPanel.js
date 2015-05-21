@@ -335,7 +335,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			var me = this;
 			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 				var handler = function success(sessions) {
-					me.caption.summarize(sessions);
+					me.caption.summarize(sessions, {
+						unredInterposed: false
+					});
 					me.add(me.caption);
 				};
 				var p1 = this.loadCreatedSessions();

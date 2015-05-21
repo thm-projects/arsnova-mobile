@@ -58,11 +58,12 @@
 }
 
 .caption {
-	.questionsBadgeIcon, .feedbackQuestionsBadgeIcon,
-	.answersBadgeIcon, .bluebadgeicon, .redbadgeicon,
-	.badgeicon, .greybadgeicon,  .greenbadgeicon, .orangebadgeicon,
+	.questionsBadgeIcon, .feedbackQuestionsBadgeIcon, .answersBadgeIcon,
+	.bluebadgeicon, .redbadgeicon, .unreadFeedbackQuestionsBadgeIcon,
+	.badgeicon, .greybadgeicon, .greenbadgeicon, .orangebadgeicon,
 	.bluebadgeiconfixed, .textbadgeicon {
 		font-size: 0.6em;
+		display: block;
 	}
 }
 
