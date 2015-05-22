@@ -111,7 +111,7 @@ Ext.define('ARSnova.view.Caption', {
 		});
 
 		var hasFeedbackQuestions = false;
-		var hasUnredFeedbackQuestions = false;
+		var hasUnreadFeedbackQuestions = false;
 		var hasQuestions = false;
 		var hasUnansweredQuestions = false;
 		var hasAnswers = false;
@@ -120,7 +120,7 @@ Ext.define('ARSnova.view.Caption', {
 				hasQuestions = hasQuestions || item > 0;
 			} else {
 				hasFeedbackQuestions = hasFeedbackQuestions || item.hasFeedbackQuestions || item.numInterposed > 0;
-				hasUnredFeedbackQuestions = hasUnredFeedbackQuestions || item.hasUnredFeedbackQuestions || item.numUnredInterposed > 0;
+				hasUnreadFeedbackQuestions = hasUnreadFeedbackQuestions || item.hasUnredFeedbackQuestions || item.numUnredInterposed > 0;
 				hasQuestions = hasQuestions || item.hasQuestions || item.numQuestions > 0;
 				hasUnansweredQuestions = hasUnansweredQuestions || item.hasUnansweredQuestions || item.numUnanswered > 0;
 				hasAnswers = hasAnswers || item.hasAnswers || item.numAnswers > 0;
@@ -130,7 +130,7 @@ Ext.define('ARSnova.view.Caption', {
 				badgeText: options.interposed && hasFeedbackQuestions ? Messages.QUESTIONS_FROM_STUDENTS : "",
 				badgeCls: "feedbackQuestionsBadgeIcon"
 			}, {
-				badgeText: (options.unredInterposed && hasUnredFeedbackQuestions) ? Messages.UNRED_QUESTIONS_FROM_STUDENTS : "",
+				badgeText: (options.unredInterposed && hasUnreadFeedbackQuestions) ? Messages.UNREAD_QUESTIONS_FROM_STUDENTS : "",
 				badgeCls: "unreadFeedbackQuestionsBadgeIcon"
 			}, {
 				badgeText: (options.questions && hasQuestions) || (options.unanswered && hasUnansweredQuestions) ? Messages.QUESTIONS : "",

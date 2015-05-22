@@ -218,7 +218,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 		this.caption = Ext.create('ARSnova.view.Caption', {
 			style: "border-radius: 15px",
-			minScreenWidth: 440
+			minScreenWidth: 440,
+			hidden: true
 		});
 
 		this.inClassItems = Ext.create('Ext.form.FormPanel', {
@@ -363,13 +364,12 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 	updateCaption: function () {
 		var me = this;
-		var hasOptions = function (badges) {
-			return Ext.Object.getValues(badges).reduce(function (a, b) {
-				return a + b;
-			}, 0) > 0;
-		};
+		var hasOptions = this.badgeOptions.numAnswers ||
+			this.badgeOptions.numUnredInterposed ||
+			this.badgeOptions.numInterposed ||
+			this.badgeOptions.numQuestions;
 
-		if (hasOptions(this.badgeOptions)) {
+		if (hasOptions) {
 			me.caption.explainBadges([me.badgeOptions]);
 			me.caption.listButton.setText(' ');
 			me.caption.show();

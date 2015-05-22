@@ -229,7 +229,7 @@
 				/* user */
 				QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
 				QUESTIONS_FROM_STUDENTS: "Fragen der Studierenden",
-				UNRED_QUESTIONS_FROM_STUDENTS: "Ungelesene Fragen",
+				UNREAD_QUESTIONS_FROM_STUDENTS: "Ungelesene Fragen",
 				PREPARATION_QUESTIONS: "Vorbereitung",
 				PREPARATION_QUESTIONS_LONG: "Vorbereitungsaufgaben",
 				PREPARATION_QUESTION_SHORT: "Vorbereitung",
@@ -790,7 +790,7 @@
 				/* user */
 				QUESTIONS_TO_STUDENTS: "Teacher's questions",
 				QUESTIONS_FROM_STUDENTS: "Student questions",
-				UNRED_QUESTIONS_FROM_STUDENTS: "Unread student questions",
+				UNREAD_QUESTIONS_FROM_STUDENTS: "Unread questions",
 				PREPARATION_QUESTIONS: "Prep tasks",
 				PREPARATION_QUESTIONS_LONG: "Preparation tasks",
 				PREPARATION_QUESTION_SHORT: "Prep task",
