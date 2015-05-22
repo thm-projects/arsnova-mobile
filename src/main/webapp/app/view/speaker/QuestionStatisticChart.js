@@ -59,7 +59,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		var me = this;
 		this.questionObj = args.question;
-		this.enableRoundManagement = this.questionObj.questionType !== 'grid';
 
 		this.questionStore = Ext.create('Ext.data.Store', {
 			fields: [
@@ -107,7 +106,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				ARSnova.app.innerScrollPanel = false;
 				ARSnova.app.taskManager.stop(me.renewChartDataTask);
 
-				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER && me.enableRoundManagement) {
+				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 					object = speakerTabPanel.statisticTabPanel.roundManagementPanel.editButtons.questionObj;
 
 					switch (speakerTabPanel.getActiveItem()) {
@@ -415,7 +414,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			this.add([
 				this.toolbar,
 				this.countdownTimer,
-				this.enableRoundManagement ? this.piToolbar : {},
+				this.piToolbar,
 				this.titlebar,
 				this.questionChart
 			]);
@@ -431,6 +430,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				style: 'margin-top: 10px',
 				scrollable: null,
 				items: [this.titlebar,
+						this.countdownTimer,
 						this.contentField,
 						this.questionChart,
 						this.gridStatistic

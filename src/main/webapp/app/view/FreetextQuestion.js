@@ -50,7 +50,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
-				questionObj: this.questionObj
+				questionObj: this.questionObj,
+				buttonClass: 'smallerActionButton'
 			});
 		}
 
@@ -181,7 +182,16 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			}, this.buttonContainer]
 		});
 
+		this.countdownTimer = Ext.create('ARSnova.view.components.CountdownTimer', {
+			docked: 'top',
+			hidden: true,
+			viewOnly: true,
+			viewOnlyOpacity: ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER ?
+				0.9 : 0.75
+		});
+
 		this.add([
+			this.countdownTimer,
 			Ext.create('Ext.Panel', {
 				items: [{
 					xtype: 'formpanel',
@@ -203,16 +213,36 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			}), this.editButtons ? this.editButtons : {}
 		]);
 
+		this.on('painted', function () {
+			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+				this.updateEditButtons();
+			}
+		});
+
+		this.on('hide', function () {
+			this.countdownTimer.hide();
+		});
+
 		this.on('activate', function () {
-			if (this.isDisabled()) {
-				this.uploadView.hide();
+			this.checkPiRoundActivation();
+
+			if (this.isDisabled() || this.questionObj.votingDisabled) {
 				this.disableQuestion();
 			}
 
 			if (this.viewOnly) {
 				this.setAnswerCount();
 			}
+
+			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+				this.editButtons.changeHiddenState();
+			}
 		});
+	},
+
+	updateEditButtons: function () {
+		this.editButtons.questionObj = this.questionObj;
+		this.editButtons.updateData(this.questionObj);
 	},
 
 	setImage: function (image) {
@@ -236,7 +266,14 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		this.gridQuestion.setGridIsHidden(true);
 	},
 
-	checkPiRoundActivation: function () {},
+	checkPiRoundActivation: function () {
+		if (this.questionObj.piRoundActive) {
+			this.countdownTimer.start(this.questionObj.piRoundStartTime, this.questionObj.piRoundEndTime);
+			this.countdownTimer.show();
+		} else {
+			this.countdownTimer.hide();
+		}
+	},
 
 	getQuestionTypeMessage: function (msgAppendix) {
 		msgAppendix = msgAppendix ? msgAppendix : "";
@@ -299,16 +336,11 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	},
 
 	statisticButtonHandler: function (scope) {
-		var p = Ext.create(
-			!this.questionObj.imageQuestion ?
-			'ARSnova.view.FreetextAnswerPanel'
-			:
-			'ARSnova.view.ImageAnswerPanel',
-		{
-			question: scope.questionObj,
-			lastPanel: scope
-		});
-		ARSnova.app.mainTabPanel.animateActiveItem(p, 'slide');
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			this.questionObj = this.editButtons.questionObj;
+		}
+
+		ARSnova.app.getController('Statistics').prepareStatistics(scope);
 	},
 
 	abstentionHandler: function (button, event) {
@@ -406,13 +438,30 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	},
 
 	disableQuestion: function () {
-		this.setDisabled(true);
-		this.mask(this.customMask);
+		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
+			this.setDisabled(true);
+			this.mask(this.customMask);
 
-		if (!!this.questionObj.userAnswered) {
-			this.customMask.setTextMessage(Messages.MASK_ALREADY_ANSWERED, 'alreadyAnswered');
-		} else if (!!this.questionObj.votingDisabled) {
-			this.customMask.setTextMessage(Messages.MASK_VOTE_CLOSED, 'voteClosed');
+			if (this.questionObj.imageQuestion) {
+				this.uploadView.hide();
+			}
+
+			if (!!this.questionObj.userAnswered) {
+				this.customMask.setTextMessage(Messages.MASK_ALREADY_ANSWERED, 'alreadyAnswered');
+			} else if (!!this.questionObj.votingDisabled) {
+				this.customMask.setTextMessage(Messages.MASK_VOTE_CLOSED, 'voteClosed');
+			}
+		}
+	},
+
+	enableQuestion: function () {
+		if (!this.questionObj.userAnswered) {
+			this.setDisabled(false);
+			this.setMasked(false);
+
+			if (this.questionObj.imageQuestion) {
+				this.uploadView.show();
+			}
 		}
 	},
 

@@ -1101,19 +1101,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							cls: 'forwardListButton',
 							text: Messages.ANSWERS,
 							handler: function () {
-								var p;
-								if (self.questionObj.imageQuestion){
-									p = Ext.create('ARSnova.view.ImageAnswerPanel', {
-										question: self.questionObj,
-										lastPanel: self
-									});
-								} else {
-									p = Ext.create('ARSnova.view.FreetextAnswerPanel', {
-										question: self.questionObj,
-										lastPanel: self
-									});
-								}
-								ARSnova.app.mainTabPanel.animateActiveItem(p, 'slide');
+								ARSnova.app.getController('Statistics').prepareStatistics(self);
 							}
 						});
 

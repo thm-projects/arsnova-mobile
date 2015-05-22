@@ -33,5 +33,9 @@ Ext.define('ARSnova.view.speaker.StatisticTabPanel', {
 		this.add([
 			this.roundManagementPanel
 		]);
+
+		this.on('painted', function () {
+			this.roundManagementPanel.updateEditButtons();
+		});
 	}
 });

@@ -93,7 +93,8 @@ Ext.define("ARSnova.controller.RoundManagement", {
 
 	updateQuestionOnRoundCancel: function (question, questionObj) {
 		if (!questionObj) {
-			if (question.questionObj.piRound === 1) {
+			if (question.questionObj.piRound === 0 ||
+				question.questionObj.piRound === 1) {
 				question.questionObj.piRoundFinished = false;
 			} else {
 				question.questionObj.piRound = 1;
@@ -120,6 +121,10 @@ Ext.define("ARSnova.controller.RoundManagement", {
 			question.questionObj.piRoundFinished = false;
 			question.questionObj.piRoundStartTime = 0;
 			question.questionObj.piRoundEndTime = 0;
+
+			if (question.questionObj.questionType === 'freetext') {
+				question.questionObj.piRound = 0;
+			}
 		} else {
 			question.questionObj = questionObj;
 		}

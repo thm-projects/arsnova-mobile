@@ -184,7 +184,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		var features = Ext.decode(sessionStorage.getItem("features"));
 		var enableRoundManagement = features && features.pi;
 
-		if (enableRoundManagement) {
+		if (enableRoundManagement && this.isBarChartQuestion()) {
 			this.editButtons.enableRoundManagementButton.active = true;
 		} else {
 			this.editButtons.enableRoundManagementButton.active = false;
@@ -210,7 +210,8 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		this.countdownTimer.disableTimerLabel();
 
 		if (!questionObj.piRoundActive) {
-			if (questionObj.piRound === 1 && !questionObj.piRoundFinished) {
+			if (questionObj.piRound === 0 && !questionObj.piRoundFinished ||
+				questionObj.piRound === 1 && !questionObj.piRoundFinished) {
 				this.countdownTimer.slider.show();
 				this.startRoundButton.show();
 			} else {
@@ -268,16 +269,27 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 	onTimerStop: function () {
 	},
 
+	isBarChartQuestion: function () {
+		var type = this.statisticChart.questionObj.questionType;
+		if (type === 'grid' || type === 'freetext') {
+			return false;
+		}
+
+		return true;
+	},
+
 	changePiRound: function (questionId) {
 		var me = this;
 
 		if (this.statisticChart.questionObj._id === questionId) {
-			if (this.statisticChart.questionObj.piRound === 1) {
-				this.statisticChart.activateFirstSegmentButton();
-				this.statisticChart.disablePiRoundElements();
-			} else {
-				this.statisticChart.activateSecondSegmentButton();
-				this.statisticChart.enablePiRoundElements();
+			if (this.isBarChartQuestion()) {
+				if (this.statisticChart.questionObj.piRound === 1) {
+					this.statisticChart.activateFirstSegmentButton();
+					this.statisticChart.disablePiRoundElements();
+				} else {
+					this.statisticChart.activateSecondSegmentButton();
+					this.statisticChart.enablePiRoundElements();
+				}
 			}
 
 			this.questionManagementContainer.show();

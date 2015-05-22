@@ -23,6 +23,8 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 	config: {
 		layout: 'vbox',
 		fullscreen: true,
+		title: Messages.STATISTIC,
+		iconCls: 'icon-chart',
 
 		/**
 		 * task for speakers in a session
@@ -39,13 +41,22 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 		this.callParent(arguments);
 
 		this.questionObj = args.question;
-		this.lastPanel = args.lastPanel;
 		var self = this;
 
 		this.checkFreetextAnswersTask = {
 			name: 'check for new freetext answers',
 			scope: this,
-			run: this.checkFreetextAnswers,
+			run: function () {
+				var mainTabPanel = ARSnova.app.mainTabPanel;
+				var tP = mainTabPanel.tabPanel;
+				var panel = tP.userQuestionsPanel || tP.speakerTabPanel;
+
+				panel.questionStatisticChart.checkFreetextAnswers();
+
+				if (mainTabPanel.getActiveItem() === panel.statisticTabPanel) {
+					panel.statisticTabPanel.roundManagementPanel.updateEditButtons();
+				}
+			},
 			interval: 15000
 		};
 
@@ -61,16 +72,38 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			ui: 'back',
 			scope: this,
 			handler: function () {
-				ARSnova.app.mainTabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel, {
+				var object, me = this;
+				var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+				var speakerTabPanel = tabPanel.speakerTabPanel;
+
+				ARSnova.app.innerScrollPanel = false;
+				ARSnova.app.taskManager.stop(me.checkFreetextAnswersTask);
+
+				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+					object = speakerTabPanel.statisticTabPanel.roundManagementPanel.editButtons.questionObj;
+
+					switch (speakerTabPanel.getActiveItem()) {
+						case speakerTabPanel.showcaseQuestionPanel:
+							var activeItem = speakerTabPanel.showcaseQuestionPanel.getActiveItem();
+							activeItem.questionObj = object;
+							break;
+
+						case speakerTabPanel.questionDetailsPanel:
+							speakerTabPanel.questionDetailsPanel.questionObj = object;
+							break;
+
+						default:
+					}
+				}
+
+				ARSnova.app.mainTabPanel.animateActiveItem(tabPanel, {
 					type: 'slide',
 					direction: 'right',
 					duration: 700,
 					listeners: {
 						animationend: function () {
-							ARSnova.app.mainTabPanel._activeItem.on('deactivate', function () {
-								self.destroy();
-							}, self, {single: self});
-						}, scope: self
+							me.destroy();
+						}
 					}
 				});
 			}
@@ -82,7 +115,6 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			ui: 'light',
 			items: [this.backButton]
 		});
-
 
 		//sort buttons
 		this.miniaturBtn = Ext.create('ARSnova.view.MatrixButton', {
@@ -191,16 +223,30 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			badgeCls: 'badgeicon'
 		});
 
-		this.add([this.toolbar, {
-			xtype: 'formpanel',
-			style: 'margin-top: 15px',
-			cls: 'roundedCorners',
-			height: '100%',
-			width: '100%',
-			flex: 1,
-			scrollable: null,
-			items: [this.sortPanel, this.noAnswersLabel, this.imageAnswerList]
-		}]);
+		this.countdownTimer = Ext.create('ARSnova.view.components.CountdownTimer', {
+			style: 'margin-top: 40px',
+			docked: 'top',
+			viewOnly: true,
+			viewOnlyOpacity: 1,
+			hidden: true
+		});
+
+		this.add([this.toolbar,
+			this.countdownTimer, {
+				xtype: 'formpanel',
+				style: 'margin-top: 15px',
+				cls: 'roundedCorners',
+				height: '100%',
+				width: '100%',
+				flex: 1,
+				scrollable: null,
+				items: [
+					this.sortPanel,
+					this.noAnswersLabel,
+					this.imageAnswerList
+				]
+			}
+		]);
 
 		this.on('activate', function () {
 			// This disables mouse scrolling until there are answers available.
@@ -209,7 +255,12 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 				ARSnova.app.innerScrollPanel = this.imageAnswerList;
 			}
 			ARSnova.app.taskManager.start(this.checkFreetextAnswersTask);
+			this.checkPiRoundActivation();
 		}, this);
+
+		this.on('hide', function () {
+			this.countdownTimer.hide();
+		});
 
 		this.on('deactivate', function () {
 			ARSnova.app.innerScrollPanel = false;
@@ -221,6 +272,15 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 				ARSnova.app.innerScrollPanel = this.imageAnswerList;
 			}
 		}, this);
+	},
+
+	checkPiRoundActivation: function () {
+		if (this.questionObj.piRoundActive) {
+			this.countdownTimer.start(this.questionObj.piRoundStartTime, this.questionObj.piRoundEndTime);
+			this.countdownTimer.show();
+		} else {
+			this.countdownTimer.hide();
+		}
 	},
 
 	checkFreetextAnswers: function () {

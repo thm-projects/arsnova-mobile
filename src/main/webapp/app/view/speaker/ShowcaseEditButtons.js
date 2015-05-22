@@ -35,7 +35,6 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 
 		this.questionObj = this.config.questionObj;
 		var type = this.questionObj.questionType;
-		this.barChartCompatible = type !== "freetext" && type !== "grid" && type !== 'flashcard';
 
 		this.hasCorrectAnswers = !this.questionObj.noCorrect;
 		if (['vote', 'school', 'freetext', 'flashcard'].indexOf(type) !== -1
@@ -89,7 +88,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			}
 		});
 
-		if (this.questionObj.questionType !== "freetext") {
+		if (!this.isFreetextType) {
 			this.showCorrectAnswerButton = Ext.create('ARSnova.view.MatrixButton', {
 				buttonConfig: 'togglefield',
 				text: Messages.MARK_CORRECT_ANSWER,
@@ -134,21 +133,19 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 					}
 				}
 			});
-
-			if (this.barChartCompatible) {
-				this.voteManagementButton = Ext.create('ARSnova.view.MatrixButton', {
-					text: Messages.RELEASE_VOTE,
-					cls: this.config.buttonClass,
-					imageCls: 'icon-timer thm-green',
-					scope: this,
-					handler: function () {
-						ARSnova.app.getController('Statistics').prepareSpeakerStatistics(
-							ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel, true
-						);
-					}
-				});
-			}
 		}
+
+		this.voteManagementButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: Messages.RELEASE_VOTE,
+			cls: this.config.buttonClass,
+			imageCls: 'icon-timer thm-green',
+			scope: this,
+			handler: function () {
+				ARSnova.app.getController('Statistics').prepareSpeakerStatistics(
+					ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel, true
+				);
+			}
+		});
 
 		this.statusButton = Ext.create('ARSnova.view.QuestionStatusButton', {
 			cls: this.config.buttonClass,
@@ -220,25 +217,23 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			xtype: 'panel',
 			layout:  this.config.layoutTemplate,
 			items: [
+				this.voteManagementButton,
 				this.statusButton,
 				this.releaseStatisticButton,
-				this.hasCorrectAnswers ? this.showCorrectAnswerButton : {},
-				this.barChartCompatible ? this.voteManagementButton : {}
+				this.hasCorrectAnswers ? this.showCorrectAnswerButton : {}
 			]
 		}];
 	},
 
 	getTwoRowedComponents: function () {
 		var firstRowComponents = [
+			this.voteManagementButton,
 			this.statusButton,
-			this.releaseStatisticButton,
-			this.hasCorrectAnswers ? this.showCorrectAnswerButton :
-				this.barChartCompatible ? this.voteManagementButton : {}
+			this.releaseStatisticButton
 		];
 
 		var secondRowComponents = [
-			this.hasCorrectAnswers && this.barChartCompatible ?
-				this.voteManagementButton : {}
+			this.hasCorrectAnswers ? this.showCorrectAnswerButton : {}
 		];
 
 		if (this.showCorrectAnswerButton) {
@@ -277,7 +272,10 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 
 		this.updateVoteManagementButtonState();
 		this.statusButton.toggleStatusButton(active);
-		this.showCorrectAnswerButton.setToggleFieldValue(showAnswer);
 		this.releaseStatisticButton.setToggleFieldValue(showStatistic);
+
+		if (this.showCorrectAnswerButton) {
+			this.showCorrectAnswerButton.setToggleFieldValue(showAnswer);
+		}
 	}
 });

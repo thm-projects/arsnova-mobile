@@ -35,7 +35,6 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 
 		this.answer = args.answer;
 		this.sTP = args.sTP;
-
 		var self = this;
 
 		this.toolbar = Ext.create('Ext.Toolbar', {

@@ -299,27 +299,15 @@ Ext.define("ARSnova.controller.Questions", {
 	},
 
 	freetextDetailAnswer: function (options) {
-		var parentPanel;
-
-		var isFromFreetextAnswerPanel = false;
-		if (typeof options.panel !== 'undefined') {
-			isFromFreetextAnswerPanel = ARSnova.app.mainTabPanel.getActiveItem().constructor === options.panel.constructor;
-		}
-
-		// This gets called either by the speaker or by a student
-		if (ARSnova.app.isSessionOwner && !isFromFreetextAnswerPanel) {
-			parentPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-		} else {
-			parentPanel = ARSnova.app.mainTabPanel;
-		}
+		var mainTabPanel = ARSnova.app.mainTabPanel;
 
 		options.answer.deletable = ARSnova.app.isSessionOwner;
 		var freetextDetailAnswerPanel = Ext.create('ARSnova.view.FreetextDetailAnswer', {
-			sTP: parentPanel,
+			sTP: mainTabPanel,
 			answer: options.answer
 		});
 
-		parentPanel.animateActiveItem(freetextDetailAnswerPanel, {
+		mainTabPanel.animateActiveItem(freetextDetailAnswerPanel, {
 			type: 'slide',
 			direction: 'left',
 			duration: 700

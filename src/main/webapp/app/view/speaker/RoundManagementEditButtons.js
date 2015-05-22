@@ -153,7 +153,8 @@ Ext.define('ARSnova.view.speaker.RoundManagementEditButtons', {
 	},
 
 	updateEnableRoundManagementButtonState: function () {
-		if (this.questionObj.piRound === 1 && !this.questionObj.piRoundFinished ||
+		if (this.questionObj.piRound === 0 && !this.questionObj.piRoundFinished ||
+			this.questionObj.piRound === 1 && !this.questionObj.piRoundFinished ||
 			!this.enableRoundManagementButton.active) {
 			this.enableRoundManagementButton.hide();
 		} else {
@@ -162,7 +163,8 @@ Ext.define('ARSnova.view.speaker.RoundManagementEditButtons', {
 	},
 
 	updateQuestionResetButtonState: function (hasAnswers) {
-		if (this.questionObj.piRound === 1 && !this.questionObj.piRoundFinished && !hasAnswers) {
+		if (this.questionObj.piRound === 0 && !this.questionObj.piRoundFinished && !hasAnswers ||
+			this.questionObj.piRound === 1 && !this.questionObj.piRoundFinished && !hasAnswers) {
 			this.questionResetButton.hide();
 		} else {
 			this.questionResetButton.show();
