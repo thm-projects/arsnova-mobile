@@ -213,12 +213,23 @@ Ext.define('ARSnova.view.user.InClass', {
 			items: buttons
 		});
 
+		this.caption = Ext.create('ARSnova.view.Caption', {
+			style: "border-radius: 15px",
+			minScreenWidth: 440,
+			hidden: true
+		});
+
 		this.inClass = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			items: [{
 				cls: 'gravure selectable',
 				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(sessionStorage.getItem("keyword"))
-			}, this.actionButtonPanel, this.inClassButtons]
+			}, this.actionButtonPanel, this.inClassButtons, {
+				xtype: 'formpanel',
+				cls: 'standardForm topPadding',
+				scrollable: null,
+				items: this.caption
+			}]
 		});
 
 		this.swotBadge = Ext.create('Ext.Panel', {
@@ -242,8 +253,14 @@ Ext.define('ARSnova.view.user.InClass', {
 			items: [
 				this.swotBadge
 			]
-
 		});
+
+		this.badgeOptions = {
+			numAnswers: 0,
+			numQuestions: 0,
+			numInterposed: 0,
+			numUnredInterposed: 0
+		};
 
 		this.add([this.toolbar, this.inClass, this.userBadges]);
 
@@ -305,6 +322,21 @@ Ext.define('ARSnova.view.user.InClass', {
 		}
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			ARSnova.app.taskManager.stop(panel.checkLearningProgressTask);
+		}
+	},
+
+	updateCaption: function () {
+		var hasOptions = this.badgeOptions.numAnswers ||
+			this.badgeOptions.numQuestions ||
+			this.badgeOptions.numInterposed ||
+			this.badgeOptions.numUnredInterposed;
+
+		if (hasOptions) {
+			this.caption.explainBadges([this.badgeOptions]);
+			this.caption.listButton.setText(' ');
+			this.caption.show();
+		} else {
+			this.caption.hide();
 		}
 	},
 
@@ -453,6 +485,11 @@ Ext.define('ARSnova.view.user.InClass', {
 		} else {
 			this.inClassButtons.remove(this.myLearningProgressButton, false);
 		}
+
+		this.badgeOptions.numQuestions = data.unansweredLectureQuestions || data.unansweredPreparationQuestions;
+		this.badgeOptions.numAnswers = data.lectureQuestionAnswers || data.preparationQuestionAnswers;
+		this.updateCaption();
+
 		this.lectureQuestionButton.setBadge([
 			{badgeText: data.unansweredLectureQuestions, badgeCls: "questionsBadgeIcon"},
 			{badgeText: data.lectureQuestionAnswers, badgeCls: "answersBadgeIcon"}
@@ -479,7 +516,6 @@ Ext.define('ARSnova.view.user.InClass', {
 		ARSnova.app.questionModel.countFeedbackQuestions(sessionStorage.getItem("keyword"), username, {
 			success: function (response) {
 				var questionCount = Ext.decode(response.responseText);
-
 				var myQuestionsButton = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.myQuestionsButton;
 				myQuestionsButton.setBadge([{
 					badgeText: questionCount.total
@@ -487,6 +523,10 @@ Ext.define('ARSnova.view.user.InClass', {
 					badgeText: questionCount.unread,
 					badgeCls: "redbadgeicon"
 				}]);
+
+				me.badgeOptions.numQuestions = questionCount.total || me.badgeOptions.numQuestions;
+				me.badgeOptions.numUnredInterposed = questionCount.unread;
+				me.updateCaption();
 
 				if (questionCount.total === 0) {
 					myQuestionsButton.setHandler(Ext.bind(function () {
