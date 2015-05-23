@@ -87,7 +87,10 @@ Ext.define('ARSnova.model.Question', {
 	},
 
 	events: {
-		lockVoting: "arsnova/question/lecturer/lockVoting",
+		lockVote: "arsnova/question/lecturer/lockVote",
+		lockVotes: "arsnova/socket/lecturer/lockVotes",
+		unlockVote: "arsnova/socket/lecturer/unlockVote",
+		unlockVotes: "arsnova/socket/lecturer/unlockVotes",
 		endPiRound: "arsnova/question/lecturer/endPiRound",
 		resetPiRound: "arsnova/question/lecturer/resetPiRound",
 		cancelPiRound: "arsnova/question/lecturer/cancelPiRound",
@@ -182,11 +185,32 @@ Ext.define('ARSnova.model.Question', {
 			this.fireEvent(this.events.resetPiRound, object);
 		}, this);
 
-		ARSnova.app.socket.on(ARSnova.app.socket.events.lockVoting, function (object) {
+		ARSnova.app.socket.on(ARSnova.app.socket.events.lockVote, function (object) {
 			if (ARSnova.app.questionModel === this) {
-				ARSnova.app.getController('Questions').handleVotingLock(object._id, object.disable, object.variant);
+				ARSnova.app.getController('Questions').handleVotingLock([object], true);
 			}
-			this.fireEvent(this.events.lockVoting, object);
+			this.fireEvent(this.events.lockVote, object);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.lockVotes, function (object) {
+			if (ARSnova.app.questionModel === this) {
+				ARSnova.app.getController('Questions').handleVotingLock(object, true);
+			}
+			this.fireEvent(this.events.lockVotes, object);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.unlockVote, function (object) {
+			if (ARSnova.app.questionModel === this) {
+				ARSnova.app.getController('Questions').handleVotingLock([object], false);
+			}
+			this.fireEvent(this.events.unlockVote, object);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.unlockVotes, function (object) {
+			if (ARSnova.app.questionModel === this) {
+				ARSnova.app.getController('Questions').handleVotingLock(object, false);
+			}
+			this.fireEvent(this.events.unlockVotes, object);
 		}, this);
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.countQuestionAnswersByQuestionId, function (object) {
@@ -277,6 +301,10 @@ Ext.define('ARSnova.model.Question', {
 
 	disableQuestionVoting: function (questionId, disable, callbacks) {
 		return this.getProxy().disableQuestionVoting(questionId, disable, callbacks);
+	},
+
+	disableAllQuestionVotings: function (sessionKeyword, disable, isLecture, isPreparation, callbacks) {
+		return this.getProxy().disableAllQuestionVotings(sessionKeyword, disable, isLecture, isPreparation, callbacks);
 	},
 
 	getLectureQuestions: function (sessionKeyword, callbacks) {

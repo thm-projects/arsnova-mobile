@@ -63,7 +63,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		this.callParent(arguments);
 
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-		var upperActionButtonCls = screenWidth < 410 ? 'smallerActionButton' : 'actionButton';
+		var actionButtonCls = screenWidth < 410 ? 'smallerActionButton' : 'actionButton';
 
 		this.questionStore = Ext.create('Ext.data.JsonStore', {
 			model: 'ARSnova.model.Question',
@@ -174,20 +174,20 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 		this.questionStatusButton = Ext.create('ARSnova.view.speaker.MultiQuestionStatusButton', {
 			hidden: true,
-			cls: upperActionButtonCls,
+			cls: actionButtonCls,
 			questionStore: this.questionList.getStore()
 		});
 
 		this.voteStatusButton = Ext.create('ARSnova.view.speaker.MultiVoteStatusButton', {
 			hidden: true,
-			cls: upperActionButtonCls,
+			cls: actionButtonCls,
 			questionStore: this.questionList.getStore()
 		});
 
 		this.showcaseActionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SHOWCASE_MODE,
 			buttonConfig: 'icon',
-			cls: upperActionButtonCls,
+			cls: actionButtonCls,
 			imageCls: 'icon-presenter thm-grey',
 			handler: this.showcaseHandler,
 			hidden: true
@@ -196,7 +196,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		this.newQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.NEW_QUESTION,
 			buttonConfig: 'icon',
-			cls: upperActionButtonCls,
+			cls: actionButtonCls,
 			imageCls: 'icon-question thm-green',
 			handler: this.newQuestionHandler
 		});
@@ -247,7 +247,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			buttonConfig: 'icon',
 			text: Messages.DELETE_ANSWERS,
 			imageCls: 'icon-close thm-orange',
-			cls: 'actionButton',
+			cls: actionButtonCls,
 			scope: this,
 			handler: function () {
 				var me = this;
@@ -267,7 +267,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			buttonConfig: 'icon',
 			text: Messages.DELETE_ALL_QUESTIONS,
 			imageCls: 'icon-close thm-red',
-			cls: 'actionButton',
+			cls: actionButtonCls,
 			scope: this,
 			handler: function () {
 				var msg = Messages.ARE_YOU_SURE;

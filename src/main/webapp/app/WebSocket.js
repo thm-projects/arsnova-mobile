@@ -35,7 +35,10 @@ Ext.define('ARSnova.WebSocket', {
 		setSessionActive: "arsnova/socket/session/active",
 		feedbackReset: "arsnova/socket/feedback/reset",
 		feedbackAverage: "arsnova/socket/feedback/average",
-		lockVoting: "arsnova/socket/lecturer/lockVoting",
+		lockVote: "arsnova/socket/lecturer/lockVote",
+		lockVotes: "arsnova/socket/lecturer/lockVotes",
+		unlockVote: "arsnova/socket/lecturer/unlockVote",
+		unlockVotes: "arsnova/socket/lecturer/unlockVotes",
 		endPiRound: "arsnova/question/lecturer/endPiRound",
 		resetPiRound: "arsnova/question/lecturer/resetPiRound",
 		cancelPiRound: "arsnova/question/lecturer/cancelPiRound",
@@ -156,9 +159,24 @@ Ext.define('ARSnova.WebSocket', {
 				this.fireEvent(this.events.lecturerQuestionLocked, questions);
 			}, this));
 
-			this.socket.on('lockVoting', Ext.bind(function (object) {
-				console.debug("Socket.IO: lockVoting", object);
-				this.fireEvent(this.events.lockVoting, object);
+			this.socket.on('lockVote', Ext.bind(function (object) {
+				console.debug("Socket.IO: lockVote", object);
+				this.fireEvent(this.events.lockVote, object);
+			}, this));
+
+			this.socket.on('lockVotes', Ext.bind(function (object) {
+				console.debug("Socket.IO: lockVotes", object);
+				this.fireEvent(this.events.lockVotes, object);
+			}, this));
+
+			this.socket.on('unlockVote', Ext.bind(function (object) {
+				console.debug("Socket.IO: unlockVote", object);
+				this.fireEvent(this.events.unlockVote, object);
+			}, this));
+
+			this.socket.on('unlockVotes', Ext.bind(function (object) {
+				console.debug("Socket.IO: unlockVotes", object);
+				this.fireEvent(this.events.unlockVotes, object);
 			}, this));
 
 			this.socket.on('audQuestionAvail', Ext.bind(function (questionId) {

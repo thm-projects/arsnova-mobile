@@ -25,7 +25,7 @@ Ext.define('ARSnova.view.speaker.MultiVoteStatusButton', {
 		isPreparationMode: false,
 		wording: {
 			release: Messages.RELEASE_VOTE,
-			releaseAll: Messages.RELEASE_ALL_VOTES,
+			releaseAll: Messages.RELEASE_VOTE,
 			confirm: Messages.CONFIRM_CLOSE_ALL_VOTES,
 			confirmMessage: Messages.CONFIRM_CLOSE_ALL_VOTES_MESSAGE
 		}
@@ -73,6 +73,7 @@ Ext.define('ARSnova.view.speaker.MultiVoteStatusButton', {
 	changeStatus: function () {
 		var me = this;
 
+		me.button.disable();
 		if (!this.getQuestionStore()) {
 			return;
 		}
@@ -102,14 +103,17 @@ Ext.define('ARSnova.view.speaker.MultiVoteStatusButton', {
 							success: function () {
 								me.isOpen = false;
 								updateQuestions(true);
+								me.button.enable();
 							},
 							failure: function () {
 								Ext.Msg.alert(Messages.NOTIFICATION, Messages.QUESTION_COULD_NOT_BE_SAVED);
+								me.button.enable();
 							}
 						}
 					);
 				} else {
 					me.button.setToggleFieldValue(true);
+					me.button.enable();
 				}
 			}, this);
 		} else {
@@ -121,9 +125,11 @@ Ext.define('ARSnova.view.speaker.MultiVoteStatusButton', {
 					success: function () {
 						me.isOpen = true;
 						updateQuestions(false);
+						me.button.enable();
 					},
 					failure: function () {
 						Ext.Msg.alert(Messages.NOTIFICATION, Messages.QUESTION_COULD_NOT_BE_SAVED);
+						me.button.enable();
 					}
 				}
 			);

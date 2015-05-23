@@ -362,14 +362,20 @@ Ext.define("ARSnova.controller.Questions", {
 		});
 	},
 
-	handleVotingLock: function (questionId, disable) {
+	handleVotingLock: function (lockedQuestions, disable) {
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 
 		if (tabPanel.getActiveItem() === tabPanel.userQuestionsPanel) {
 			var questions = tabPanel.userQuestionsPanel.getInnerItems();
+			var questionIds = new Array(lockedQuestions.length);
+
+			lockedQuestions.forEach(function (q) {
+				questionIds.push(q._id);
+			});
 
 			questions.forEach(function (question) {
-				if (question.getItemId() === questionId) {
+				if (questionIds.indexOf(question.getItemId()) !== -1 &&
+					question.questionObj.questionType !== 'flashcard') {
 					question.questionObj.votingDisabled = disable;
 					question.countdownTimer.hide();
 
