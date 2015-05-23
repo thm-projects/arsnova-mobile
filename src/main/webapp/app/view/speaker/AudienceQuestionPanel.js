@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	requires: [
 		'ARSnova.view.Caption',
 		'ARSnova.model.Question',
+		'ARSnova.view.speaker.MultiVoteStatusButton',
 		'ARSnova.view.speaker.MultiQuestionStatusButton',
 		'ARSnova.view.speaker.SortQuestionsPanel'
 	],
@@ -100,13 +101,11 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				'</tpl></div>',
 				{
 					hasAnswers: function (numAnswers) {
-						if (!!numAnswers) {
+						if (Array.isArray(numAnswers)) {
 							return numAnswers.reduce(function (ro, rt) {
 								return ro + rt;
 							}, 0) > 0;
 						}
-
-						return false;
 					},
 
 					getFormattedCount: function (questionObj) {
@@ -174,6 +173,12 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		});
 
 		this.questionStatusButton = Ext.create('ARSnova.view.speaker.MultiQuestionStatusButton', {
+			hidden: true,
+			cls: upperActionButtonCls,
+			questionStore: this.questionList.getStore()
+		});
+
+		this.voteStatusButton = Ext.create('ARSnova.view.speaker.MultiVoteStatusButton', {
 			hidden: true,
 			cls: upperActionButtonCls,
 			questionStore: this.questionList.getStore()
@@ -288,7 +293,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			},
 
 			items: [
-				this.sortQuestionsButton,
+				this.voteStatusButton,
 				this.deleteAnswersButton,
 				this.deleteQuestionsButton
 			]
@@ -347,9 +352,11 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				if (questions.length === 1) {
 					this.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE);
 					this.questionStatusButton.setSingleQuestionMode();
+					this.voteStatusButton.setSingleQuestionMode();
 				} else {
 					this.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE_PLURAL);
 					this.questionStatusButton.setMultiQuestionMode();
+					this.voteStatusButton.setMultiQuestionMode();
 				}
 
 				this.showcaseActionButton.show();
@@ -357,7 +364,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.questionList.updateList();
 				this.questionList.show();
 				this.questionStatusButton.checkInitialStatus();
+				this.voteStatusButton.checkInitialStatus();
 				this.questionStatusButton.show();
+				this.voteStatusButton.show();
 				// this.sortQuestionsButton.show();
 				this.deleteQuestionsButton.show();
 			}, this),
@@ -367,6 +376,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.questionList.updateList();
 				this.questionList.show();
 				this.caption.hide();
+				this.voteStatusButton.hide();
 				this.questionStatusButton.hide();
 				this.sortQuestionsButton.hide();
 				this.deleteQuestionsButton.hide();
@@ -395,21 +405,37 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	getQuestionAnswers: function () {
 		var me = this;
 		var getAnswerCount = function (questionRecord, promise) {
-			me.getController().getAllRoundAnswerCountByQuestion(questionRecord.get('_id'), {
-				success: function (response) {
-					var numAnswers = Ext.decode(response.responseText);
-					questionRecord.set('numAnswers', numAnswers);
-					promise.resolve({
-						hasAnswers: numAnswers.reduce(function (ro, rt) {
-							return ro + rt;
-						}, 0) > 0
-					});
-				},
-				failure: function () {
-					console.log("Could not update answer count");
-					promise.reject();
-				}
-			});
+			if (questionRecord.get('questionType') === 'freetext') {
+				me.getController().getTotalAnswerCountByQuestion(questionRecord.get('_id'), {
+					success: function (response) {
+						var numAnswers = Ext.decode(response.responseText);
+						questionRecord.set('numAnswers', [numAnswers]);
+						promise.resolve({
+							hasAnswers: numAnswers > 0
+						});
+					},
+					failure: function () {
+						console.log("Could not update answer count");
+						promise.reject();
+					}
+				});
+			} else {
+				me.getController().getAllRoundAnswerCountByQuestion(questionRecord.get('_id'), {
+					success: function (response) {
+						var numAnswers = Ext.decode(response.responseText);
+						questionRecord.set('numAnswers', numAnswers);
+						promise.resolve({
+							hasAnswers: numAnswers.reduce(function (ro, rt) {
+								return ro + rt;
+							}, 0) > 0
+						});
+					},
+					failure: function () {
+						console.log("Could not update answer count");
+						promise.reject();
+					}
+				});
+			}
 		};
 
 		var promises = [];
