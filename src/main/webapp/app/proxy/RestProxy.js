@@ -497,7 +497,39 @@ Ext.define('ARSnova.proxy.RestProxy', {
 
 	disableQuestionVoting: function (questionId, disable, callbacks) {
 		this.arsjax.request({
-			url: "lecturerquestion/" + questionId + "/disableVoting?disable=" + encodeURIComponent(disable),
+			url: "lecturerquestion/" + questionId + "/disablevote?disable=" + encodeURIComponent(disable),
+			method: "POST",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
+	disableAllQuestionVotings: function (sessionKeyword, disable, isLecture, isPreparation, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/disablevote?sessionkey=" + encodeURIComponent(sessionKeyword) +
+				"&disable=" + encodeURIComponent(disable) +
+				"&lecturequestionsonly=" + encodeURIComponent(isLecture) +
+				"&preparationquestionsonly=" + encodeURIComponent(isPreparation),
+			method: "POST",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
+	disableQuestionVotingForAllLectureQuestions: function (sessionKeyword, disable, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/disablevote?sessionkey=" + encodeURIComponent(sessionKeyword) +
+					"&disable=" + encodeURIComponent(disable) + "&lecturequestionsonly=true",
+			method: "POST",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
+	disableQuestionVotingForAllPreparationQuestions: function (sessionKeyword, disable, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/disablevote?sessionkey=" + encodeURIComponent(sessionKeyword) +
+					"&disable=" + encodeURIComponent(disable) + "&preparationquestionsonly=true",
 			method: "POST",
 			success: callbacks.success,
 			failure: callbacks.failure

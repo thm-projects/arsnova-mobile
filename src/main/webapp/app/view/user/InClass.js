@@ -275,7 +275,8 @@ Ext.define('ARSnova.view.user.InClass', {
 	/* will be called on session login */
 	registerListeners: function () {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
-		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.lockVoting, panel.changeVoteActivation, panel);
+		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.unlockVote, panel.unlockQuestionVote, panel);
+		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.unlockVotes, panel.questionAvailable, panel);
 		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.startDelayedPiRound, panel.delayedPiRound, panel);
 		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.lecturerQuestionAvailable, panel.questionAvailable, panel);
 		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.lecturerQuestionLocked, panel.questionLocked, panel);
@@ -307,7 +308,8 @@ Ext.define('ARSnova.view.user.InClass', {
 	/* will be called on session logout */
 	destroyListeners: function () {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
-		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.lockVoting, panel.changeVoteActivation, panel);
+		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.unlockVote, panel.unlockQuestionVote, panel);
+		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.unlockVotes, panel.questionAvailable, panel);
 		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.startDelayedPiRound, panel.delayedPiRound, panel);
 		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.lecturerQuestionAvailable, panel.questionAvailable, panel);
 		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.lecturerQuestionLocked, panel.questionLocked, panel);
@@ -340,15 +342,13 @@ Ext.define('ARSnova.view.user.InClass', {
 		}
 	},
 
-	changeVoteActivation: function (object) {
+	unlockQuestionVote: function (object) {
 		var question = {
 			"_id": object._id,
 			"variant": object.variant
 		};
 
-		if (!object.disable) {
-			this.questionAvailable([question]);
-		}
+		this.questionAvailable([question]);
 	},
 
 	questionAvailable: function (questions) {
