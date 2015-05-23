@@ -23,6 +23,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		'ARSnova.view.Question',
 		'ARSnova.view.CustomCarousel',
 		'ARSnova.view.CustomCarouselIndicator',
+		'ARSnova.view.ImageAnswerPanel',
+		'ARSnova.view.FreetextAnswerPanel',
 		'ARSnova.view.speaker.QuestionStatisticChart',
 		'ARSnova.view.components.QuestionToolbar'
 	],

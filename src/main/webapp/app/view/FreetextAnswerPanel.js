@@ -21,7 +21,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 	extend: 'Ext.Panel',
 
 	config: {
-		title: Messages.STATISTIC,
+		title: Messages.ANSWERS,
 		iconCls: 'icon-chart',
 		fullscreen: true,
 		scrollable: {

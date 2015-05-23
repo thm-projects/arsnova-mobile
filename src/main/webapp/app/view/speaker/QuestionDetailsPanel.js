@@ -20,6 +20,8 @@ Ext.define('FreetextAnswer', {
 	extend: 'Ext.data.Model',
 
 	require: [
+  		'ARSnova.view.ImageAnswerPanel',
+		'ARSnova.view.FreetextAnswerPanel',
 		'ARSnova.view.speaker.form.ExpandingAnswerForm',
 		'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
 		'ARSnova.view.speaker.form.NullQuestion',

@@ -21,6 +21,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 	requires: [
 		'ARSnova.view.Question',
+		'ARSnova.view.ImageAnswerPanel',
+		'ARSnova.view.FreetextAnswerPanel',
 		'ARSnova.view.CustomCarouselIndicator',
 		'ARSnova.view.components.QuestionToolbar'
 	],

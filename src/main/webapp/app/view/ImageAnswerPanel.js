@@ -23,7 +23,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 	config: {
 		layout: 'vbox',
 		fullscreen: true,
-		title: Messages.STATISTIC,
+		title: Messages.ANSWERS,
 		iconCls: 'icon-chart',
 
 		/**
