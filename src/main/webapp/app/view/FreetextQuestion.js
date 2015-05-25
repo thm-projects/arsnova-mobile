@@ -117,16 +117,11 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			style: "margin-top: 5px;"
 		});
 
-		// Setup question title and text to disply in the same field; markdown handles HTML encoding
-		var questionString = this.questionObj.subject.replace(/\./, "\\.")
-			+ '\n\n' // inserts one blank line between subject and text
-			+ this.questionObj.text;
-
 		// Create standard panel with framework support
-		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			cls: "roundedBox allCapsHeader"
+		this.questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			cls: "roundedBox questionPanel"
 		});
-		questionPanel.setContent(questionString, true, true);
+		this.updateQuestionText();
 
 		this.buttonContainer = Ext.create('Ext.Container', {
 			layout: {
@@ -197,7 +192,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					xtype: 'formpanel',
 					scrollable: null,
 					submitOnAction: false,
-					items: [questionPanel, this.viewOnly ? {} : {
+					items: [this.questionPanel, this.viewOnly ? {} : {
 						xtype: 'fieldset',
 						items: [
 							this.markdownEditPanel,
@@ -275,20 +270,24 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		}
 	},
 
-	getQuestionTypeMessage: function (msgAppendix) {
-		msgAppendix = msgAppendix ? msgAppendix : "";
-		var message;
+	updateQuestionText: function () {
+		var questionString = '\n' + this.questionObj.text + '\n';
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
-		switch (this.questionObj.questionType) {
-			case "freetext":
-				message = this.questionObj.questionType.toUpperCase();
-				break;
-			default:
-				message = Messages.QUESTION;
-				msgAppendix = "";
+		if (screenWidth < 520 && this.viewOnly) {
+			this.questionPanel.addCls('allCapsHeader');
+			questionString = this.questionObj.subject.replace(/\./, "\\.")
+			+ '\n\n' // inserts one blank line between subject and text
+			+ this.questionObj.text;
+		} else {
+			this.questionPanel.removeCls('allCapsHeader');
 		}
 
-		return Messages[message + msgAppendix];
+		this.questionPanel.setContent(questionString, true, true);
+	},
+
+	getQuestionTypeMessage: function () {
+		return this.questionObj.subject;
 	},
 
 	setAnswerCount: function () {

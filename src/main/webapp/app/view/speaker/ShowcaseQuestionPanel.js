@@ -42,7 +42,6 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		this.callParent(arguments);
 
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
-			this.toolbar.setTitleOptions(this.getQuestionTitleLong(), this.getQuestionTitleShort());
 			if (newCard.questionObj.questionType !== 'flashcard') {
 				this.toolbar.statisticsButton.show();
 			} else {
@@ -101,13 +100,16 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	},
 
 	onItemChange: function (panel, newQuestion, oldQuestion) {
-		if (newQuestion.questionObj) {
-			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width,
-				messageAppendix = screenWidth >= 500 ? "_LONG" : "",
-				message = screenWidth > 420 ?
-					newQuestion.getQuestionTypeMessage(messageAppendix) : "";
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
-			this.toolbar.setTitle(message);
+		if (newQuestion.questionObj) {
+			if (screenWidth >= 520) {
+				this.toolbar.setTitle(newQuestion.getQuestionTypeMessage());
+			} else {
+				this.toolbar.setTitle('');
+			}
+
+			newQuestion.updateQuestionText();
 		}
 	},
 

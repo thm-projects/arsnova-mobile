@@ -49,7 +49,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		this.setLectureMode();
 
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
-			this.toolbar.setTitleOptions(this.getQuestionTitle(), this.getQuestionTitleShort());
 			this.toolbar.checkStatistics(newCard.questionObj, newCard.isDisabled());
 
 			newCard.fireEvent('preparestatisticsbutton', this.toolbar.statisticsButton);
@@ -85,11 +84,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 	onItemChange: function (panel, newQuestion, oldQuestion) {
 		if (newQuestion.questionObj) {
-			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width,
-				messageAppendix = screenWidth >= 500 ? "_LONG" : "",
-				message = newQuestion.getQuestionTypeMessage(messageAppendix);
-
-			this.toolbar.setTitle(message);
+			this.toolbar.setTitle(newQuestion.getQuestionTypeMessage());
+			newQuestion.updateQuestionText();
 		}
 	},
 

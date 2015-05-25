@@ -234,16 +234,11 @@ Ext.define('ARSnova.view.Question', {
 			}
 		};
 
-		// Setup question title and text to display in the same field; markdown handles HTML encoding
-		var questionString = this.questionObj.subject.replace(/\./, "\\.")
-			+ '\n\n' // inserts one blank line between subject and text
-			+ this.questionObj.text;
-
 		// Create standard panel with framework support
-		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			cls: "roundedBox allCapsHeader"
+		this.questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			cls: "roundedBox questionPanel"
 		});
-		questionPanel.setContent(questionString, true, true);
+		this.updateQuestionText();
 
 		if (this.questionObj.questionType === 'flashcard') {
 			var answerPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
@@ -419,7 +414,7 @@ Ext.define('ARSnova.view.Question', {
 			scope: this
 		};
 
-		this.formPanel.add([questionPanel]);
+		this.formPanel.add([this.questionPanel]);
 
 		if (this.questionObj.image && this.questionObj.questionType !== "grid") {
 			this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
@@ -571,6 +566,22 @@ Ext.define('ARSnova.view.Question', {
 		this.editButtons.updateData(this.questionObj);
 	},
 
+	updateQuestionText: function () {
+		var questionString = '\n' + this.questionObj.text + '\n';
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+
+		if (screenWidth < 520 && this.viewOnly) {
+			this.questionPanel.addCls('allCapsHeader');
+			questionString = this.questionObj.subject.replace(/\./, "\\.")
+			+ '\n\n' // inserts one blank line between subject and text
+			+ this.questionObj.text;
+		} else {
+			this.questionPanel.removeCls('allCapsHeader');
+		}
+
+		this.questionPanel.setContent(questionString, true, true);
+	},
+
 	statisticButtonHandler: function (scope) {
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			this.questionObj = this.editButtons.questionObj;
@@ -579,27 +590,8 @@ Ext.define('ARSnova.view.Question', {
 		ARSnova.app.getController('Statistics').prepareStatistics(scope);
 	},
 
-	getQuestionTypeMessage: function (msgAppendix) {
-		var message;
-		msgAppendix = msgAppendix ? msgAppendix : "";
-
-		switch (this.questionObj.questionType) {
-			case "vote":
-				message = "EVALUATION";
-				break;
-			case "flashcard":
-				msgAppendix = msgAppendix.length ? "" : "_SHORT";
-				/* fall through */
-			default:
-				message = this.questionObj.questionType.toUpperCase();
-		}
-
-		if (!Messages[message + msgAppendix]) {
-			message = "QUESTION";
-			msgAppendix = "";
-		}
-
-		return Messages[message + msgAppendix];
+	getQuestionTypeMessage: function () {
+		return this.questionObj.subject;
 	},
 
 	setAnswerCount: function () {

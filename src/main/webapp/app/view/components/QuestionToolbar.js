@@ -17,7 +17,7 @@
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('ARSnova.view.components.QuestionToolbar', {
-	extend: 'Ext.Toolbar',
+	extend: 'Ext.TitleBar',
 
 	config: {
 		title: Messages.QUESTION,
@@ -34,6 +34,7 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 
 		this.backButton = Ext.create('Ext.Button', {
 			ui: 'back',
+			align: 'left',
 			text: Messages.BACK,
 			scope: this,
 			handler: function () {
@@ -48,57 +49,22 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 		});
 
 		this.answerCounter = Ext.create('Ext.Component', {
-			cls: "x-toolbar-title alignRight counterText"
+			cls: "x-toolbar-title alignRight counterText",
+			align: 'right'
 		});
 
 		this.statisticsButton = Ext.create('Ext.Button', {
 			iconCls: 'icon-chart',
 			style: 'padding: 0 0.4em',
-			handler: this.getStatisticsButtonHandler()
+			handler: this.getStatisticsButtonHandler(),
+			align: 'right'
 		});
 
 		this.add([
 			this.backButton,
-			{xtype: 'spacer'},
 			this.answerCounter,
 			this.statisticsButton
 		]);
-	},
-
-	setQuestionTitle: function (question) {
-		var questionType = question ? question.questionType : "";
-
-		if (questionType === 'abcd') {
-			this.setTitleOptions(Messages.QUESTION_SINGLE_CHOICE, Messages.QUESTION_SINGLE_CHOICE_SHORT);
-		} else if (questionType === 'freetext') {
-			this.setTitleOptions(Messages.QUESTION_FREETEXT, Messages.QUESTION_FREETEXT_SHORT);
-		} else if (questionType === 'mc') {
-			this.setTitleOptions(Messages.QUESTION_MC, Messages.QUESTION_MC_SHORT);
-		} else if (questionType === 'vote') {
-			this.setTitleOptions(Messages.QUESTION_RATING, Messages.QUESTION_RATING_SHORT);
-		} else if (questionType === 'yesno') {
-			this.setTitleOptions(Messages.QUESTION_YESNO, Messages.QUESTION_YESNO);
-		} else if (questionType === 'school') {
-			this.setTitleOptions(Messages.QUESTION_GRADE, Messages.QUESTION_GRADE_SHORT);
-		} else if (questionType === 'flashcard') {
-			this.setTitleOptions(Messages.FLASHCARD, Messages.FLASHCARD);
-		} else if (questionType === 'grid') {
-			this.setTitleOptions(Messages.QUESTION_GRID, Messages.QUESTION_GRID_SHORT);
-		}
-	},
-
-	setTitleOptions: function (longVersion, shortVersion) {
-		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-
-		if (screenWidth < 520 && this.getShowcase()) {
-			this.setTitle('');
-		} else {
-			if (screenWidth > 320 || this.backButton.isHidden()) {
-				this.setTitle(longVersion);
-			} else {
-				this.setTitle(shortVersion);
-			}
-		}
 	},
 
 	setAnswerCounter: function (value, option) {
