@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'arsnova';
-	src:url('fonts/arsnova.eot?scvwiu');
-	src:url('fonts/arsnova.eot?#iefixscvwiu') format('embedded-opentype'),
-		url('fonts/arsnova.woff?scvwiu') format('woff'),
-		url('fonts/arsnova.ttf?scvwiu') format('truetype'),
-		url('fonts/arsnova.svg?scvwiu#arsnova') format('svg');
+	src:url('fonts/arsnova.eot?-g17otb');
+	src:url('fonts/arsnova.eot?#iefix-g17otb') format('embedded-opentype'),
+		url('fonts/arsnova.ttf?-g17otb') format('truetype'),
+		url('fonts/arsnova.woff?-g17otb') format('woff'),
+		url('fonts/arsnova.svg?-g17otb#arsnova') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,255 +23,195 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon-trophy:before {
+	content: "\f091";
+}
 .icon-editor-bold:before {
 	content: "\f032";
 }
-
 .icon-editor-hyperlink:before {
 	content: "\f0ac";
 }
-
 .icon-editor-ul:before {
 	content: "\f0ca";
 }
-
 .icon-editor-ol:before {
 	content: "\f0cb";
 }
-
 .icon-editor-quote:before {
 	content: "\f10e";
 }
-
 .icon-editor-code:before {
 	content: "\f121";
 }
-
 .icon-editor-script:before {
 	content: "\f12b";
 }
-
 .icon-editor-youtube:before {
 	content: "\f167";
 }
-
 .icon-editor-vimeo:before {
 	content: "\f194";
 }
-
 .icon-editor-image:before {
 	content: "\f1c5";
 }
-
 .icon-editor-header:before {
 	content: "\f1dc";
 }
-
 .icon-sort:before {
 	content: "\f0dc";
 }
-
 .icon-rotate-left:before {
 	content: "\f0e2";
 }
-
 .icon-sort-alpha-asc:before {
 	content: "\f15d";
 }
-
 .icon-sort-amount-asc:before {
 	content: "\f160";
 }
-
 .icon-clock:before {
 	content: "\f017";
 }
-
 .icon-random:before {
 	content: "\f074";
 }
-
 .icon-ellipsis-v:before {
 	content: "\f142";
 }
-
 .icon-th:before {
 	content: "\f00a";
 }
-
 .icon-bars:before {
 	content: "\f0c9";
 }
-
 .icon-sign-in:before {
 	content: "\e604";
 }
-
 .icon-chart:before {
 	content: "\f012";
 }
-
 .icon-bullhorn:before {
 	content: "\f0a1";
 }
-
 .icon-book:before {
 	content: "\f02d";
 }
-
 .icon-unlock:before {
 	content: "\f09c";
 }
-
 .icon-question:before {
 	content: "\f128";
 }
-
 .icon-info:before {
 	content: "\f129";
 }
-
 .icon-exclamation:before {
 	content: "\f12a";
 }
-
 .icon-twitter:before {
 	content: "\f081";
 }
-
 .icon-gear:before {
 	content: "\e605";
 }
-
 .icon-home:before {
 	content: "\e606";
 }
-
 .icon-renew:before {
 	content: "\e608";
 }
-
 .icon-lock:before {
 	content: "\e609";
 }
-
 .icon-play:before {
 	content: "\e60a";
 }
-
 .icon-pause:before {
 	content: "\e60b";
 }
-
 .icon-facebook:before {
 	content: "\e60f";
 }
-
 .icon-googleplus:before {
 	content: "\e611";
 }
-
 .icon-unlock2:before {
 	content: "\e612";
 }
-
 .icon-prof:before {
 	content: "\e613";
 }
-
 .icon-newsession:before {
 	content: "\f044";
 }
-
 .icon-blog:before {
 	content: "\f0f6";
 }
-
 .icon-play-circle:before {
 	content: "\f01d";
 }
-
 .icon-timer:before {
 	content: "\f1da";
 }
-
-.icon-copy:before {
-	content: "\e92c";
-}
-
-.icon-cloud:before {
-	content: "\e2b5";
-}
-
-.icon-cloud-download:before {
-	content: "\e2b6";
-}
-
-.icon-cloud-upload:before {
-	content: "\e2b7";
-}
-
-.icon-user:before {
-	content: "\e614";
-}
-
-.icon-speaker:before {
-	content: "\e615";
-}
-
-.icon-happy:before {
-	content: "\e616";
-}
-
-.icon-sad:before {
-	content: "\e617";
-}
-
-.icon-wink:before {
-	content: "\e618";
-}
-
-.icon-shocked:before {
-	content: "\e619";
-}
-
-.icon-close:before {
-	content: "\e61a";
-}
-
-.icon-users:before {
-	content: "\e600";
-}
-
-.icon-book2:before {
-	content: "\e601";
-}
-
-.icon-qrcode:before {
-	content: "\e938";
-}
-
 .icon-presenter:before {
 	content: "\e602";
 }
-
 .icon-ars:before {
 	content: "\61";
 }
-
 .icon-nova:before {
 	content: "\6e";
 }
-
 .icon-thm-full:before {
 	content: "\e603";
 }
-
 .icon-radar:before {
 	content: "\72";
 }
-
 .icon-thm:before {
 	content: "\74";
 }
-
+.icon-copy:before {
+	content: "\e92c";
+}
+.icon-cloud:before {
+	content: "\e2b5";
+}
+.icon-cloud-download:before {
+	content: "\e2b6";
+}
+.icon-cloud-upload:before {
+	content: "\e2b7";
+}
+.icon-user:before {
+	content: "\e614";
+}
+.icon-speaker:before {
+	content: "\e615";
+}
+.icon-happy:before {
+	content: "\e616";
+}
+.icon-sad:before {
+	content: "\e617";
+}
+.icon-wink:before {
+	content: "\e618";
+}
+.icon-shocked:before {
+	content: "\e619";
+}
+.icon-close:before {
+	content: "\e61a";
+}
+.icon-users:before {
+	content: "\e600";
+}
+.icon-book2:before {
+	content: "\e601";
+}
+.icon-qrcode:before {
+	content: "\e938";
+}

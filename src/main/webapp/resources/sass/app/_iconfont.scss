@@ -64,6 +64,7 @@
 @include icon("icon-qrcode" , "\e938", "arsnova");
 @include icon("icon-play-circle" , "\f01d", "arsnova");
 @include icon("icon-timer" , "\f1da", "arsnova");
+@include icon("icon-trophy" , "\f091", "arsnova");
 
 @include icon("icon-undo", "\f0e2", "arsnova");
 @include icon("icon-drag", "\f0dc", "arsnova");
@@ -388,6 +389,18 @@
 	&.login-icon-google:before {
 		content: "\e611";
 	}
+}
+
+.swotBadgeIcon:before {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	text-align: center;
+	font-family: "arsnova";
+	content: "\f091";
+	font-size: 100px;
 }
 
 .icon-horizontal-list-config {
