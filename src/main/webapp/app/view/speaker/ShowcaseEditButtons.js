@@ -260,7 +260,11 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			if (this.questionObj.piRoundActive) {
 				this.voteManagementButton.setButtonText(Messages.READJUST_TIMER);
 			} else {
-				this.voteManagementButton.setButtonText(Messages.RELEASE_VOTE);
+				if (this.questionObj.votingDisabled) {
+					this.voteManagementButton.setButtonText(Messages.RELEASE_VOTE);
+				} else {
+					this.voteManagementButton.setButtonText(Messages.ACTIVATE_TIMER);
+				}
 			}
 		}
 	},

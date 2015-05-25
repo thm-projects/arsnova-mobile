@@ -531,6 +531,7 @@
 				RELEASE_STATISTIC: "Statistik<br/>freigeben",
 				RELEASE_QUESTION: "Frage<br/>freigeben",
 				RELEASE_VOTE: "Abstimmung<br/>freigeben",
+				ACTIVATE_TIMER: "Timer<br/>aktivieren",
 				RELEASE_ALL_VOTES: "Abstimmungen<br/>freigeben",
 				RELEASE_ALL_QUESTIONS: "Fragen<br/>freigeben",
 				STOP_QUESTION: "Frage<br/>sperren",
