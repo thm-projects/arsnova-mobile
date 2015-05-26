@@ -118,6 +118,15 @@ Ext.define("ARSnova.controller.Application", {
 							if (previewPanel) {
 								previewPanel.showEmbeddedPagePreview(controller.embeddedPage);
 							} else {
+								var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+								var speakerTP = tabPanel.speakerTabPanel;
+								var activePanel = speakerTP ? speakerTP.getActiveItem() : tabPanel.getActiveItem();
+
+								if (tabPanel.userTabPanel && activePanel === tabPanel.userQuestionsPanel ||
+									speakerTP && activePanel === speakerTP.showcaseQuestionPanel) {
+									activePanel.saveActiveIndex();
+								}
+
 								ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(controller.embeddedPage, 'slide');
 							}
 						});

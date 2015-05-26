@@ -76,6 +76,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		});
 
 		this.add([this.toolbar]);
+		this.lastActiveIndex = -1;
 
 		this.on('activate', this.onActivate);
 		this.on('activate', this.beforeActivate, this, null, 'before');
@@ -118,6 +119,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 
 		this.getController().getQuestions(sessionStorage.getItem("keyword"), {
 			success: function (response) {
+				var activeIndex = 0;
 				var questions = Ext.decode(response.responseText);
 				var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.showcaseQuestionPanel;
 
@@ -135,10 +137,11 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 					panel.addQuestion(questionsArr[questionId]);
 				});
 
-				// bugfix (workaround): after removing all items from carousel the active index
-				// is set to -1. To fix that you have manually  set the activeItem on the first
-				// question.
-				panel.setActiveItem(0);
+				if (panel.lastActiveIndex !== -1) {
+					activeIndex = panel.lastActiveIndex;
+					panel.lastActiveIndex = -1;
+				}
+				panel.setActiveItem(activeIndex);
 				panel.checkFirstQuestion();
 				hideIndicator();
 			},
@@ -165,6 +168,10 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			});
 		}
 		this.add(questionPanel);
+	},
+
+	saveActiveIndex: function () {
+		this.lastActiveIndex = this.getActiveIndex();
 	},
 
 	checkFirstQuestion: function () {

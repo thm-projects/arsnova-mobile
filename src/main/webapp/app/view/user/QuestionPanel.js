@@ -62,6 +62,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		});
 
 		this.add([this.toolbar]);
+		this.lastActiveIndex = -1;
 
 		this.onBefore('activate', this.beforeActivate, this);
 		this.onAfter('activate', this.onActivate, this);
@@ -187,6 +188,11 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 						// question.
 						self.setActiveItem(0);
 						userQuestionsPanel.checkAnswer();
+
+						if (self.lastActiveIndex !== -1) {
+							activeIndex = self.lastActiveIndex;
+							self.lastActiveIndex = -1;
+						}
 
 						if (activeIndex !== -1) {
 							userQuestionsPanel.setActiveItem(activeIndex);
@@ -414,6 +420,10 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			this.setActiveItem(i - this.carouselOffset);
 			break;
 		}
+	},
+
+	saveActiveIndex: function () {
+		this.lastActiveIndex = this.getActiveIndex();
 	},
 
 	renew: function (questionIds) {
