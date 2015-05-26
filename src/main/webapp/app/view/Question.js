@@ -283,10 +283,12 @@ Ext.define('ARSnova.view.Question', {
 				itemCls: 'arsnova-mathdown x-html answerListButton noPadding',
 				itemHeight: 32,
 				itemTpl: new Ext.XTemplate(
-					'{formattedText}',
 					'<tpl if="correct === true && this.isQuestionAnswered(values)">',
-						'&nbsp;<span class="listCorrectItem x-list-item-correct">&#10003; </span>',
+						'<span class="answerOptionItem answerOptionCorrectItem">&nbsp;</span>',
+					'<tpl else>',
+						'<span class="answerOptionItem">&nbsp;</span>',
 					'</tpl>',
+					'<span class="answerOptionText">{formattedText}</span>',
 					{
 						isQuestionAnswered: function (values) {
 							return values.questionAnswered === true;

@@ -65,6 +65,42 @@
 	border-radius: 10px;
 }
 
+.answerOptionCorrectItem:after {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	font-family: "Pictos";
+	content: "3";
+	font-size: 32px;
+	margin: -3px 0px 0px 8px;
+	color: $thm-green;
+	text-shadow: 1px;
+	text-shadow: 0px 0px 1px $thm-grey;
+}
+
+.answerOptionItem:before {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	font-family: "arsnova";
+	content: "\f096";
+	font-size: 18px;
+	margin: 11.65px 0px 0px 12px;
+}
+
+.answerOptionText {
+	position: absolute;
+	margin: 13px 40px;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
 .thm-lettering {
 	color: $thm-green;
 	font-weight: bold;

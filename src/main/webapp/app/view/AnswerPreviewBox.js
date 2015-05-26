@@ -205,10 +205,12 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 					"<tpl if='this.isFormattedStringEmpty(formattedText) === true'>",
 						"&nbsp;",
 					"<tpl else>",
-						"{formattedText}",
-					"</tpl>",
-					"<tpl if='correct === true'>",
-						"&nbsp;<span class='listCorrectItem x-list-item-correct'>&#10003; </span>",
+						'<tpl if="correct === true">',
+							'<span class="answerOptionItem answerOptionCorrectItem">&nbsp;</span>',
+						'<tpl else>',
+							'<span class="answerOptionItem">&nbsp;</span>',
+						'</tpl>',
+						'<span class="answerOptionText">{formattedText}</span>',
 					"</tpl>",
 					{
 						isFormattedStringEmpty: function (formattedString) {
