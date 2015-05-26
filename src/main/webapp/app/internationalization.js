@@ -77,7 +77,7 @@
 				LOGOUT: "Log out",
 				LOGOUT_REQUEST: "Möchten Sie sich wirklich von ARSnova abmelden?",
 				SESSIONID_PLACEHOLDER: "Zugangsschlüssel (8 Ziffern)",
-				ENTER_SESSIONID: "Bitte Session-ID eingeben",
+				ENTER_SESSIONID: "Bitte Session-ID eingeben:",
 				GO: "Session betreten",
 				YOUR_COURSE_SESSIONS: "Auswählbare Moodle-Kurse",
 				LAST_VISITED_SESSIONS_SPEAKER: "Als Student/in besuchte Sessions",
