@@ -42,8 +42,8 @@ Ext.define('ARSnova.view.feedback.TabPanel', {
 		this.askPanel = Ext.create('ARSnova.view.feedback.AskPanel');
 
 		this.add([
-			this.statisticPanel,
 			this.votePanel,
+			this.statisticPanel,
 			this.askPanel
 		]);
 
