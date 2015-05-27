@@ -699,10 +699,12 @@ Ext.define('ARSnova.view.Question', {
 		if (!me.resizeListFlag && this.questionObj.questionType !== 'grid') {
 			me.resizeListFlag = true;
 			Ext.create('Ext.util.DelayedTask', function () {
-				me.answerList.element.dom.style.display = 'none';
-				me.answerList.fireEvent('resizeList', me.answerList.element);
-				me.answerList.element.dom.style.display = '';
-				me.resizeListFlag = false;
+				if (me.answerList.element.dom.style.display !== 'none') {
+					me.answerList.element.dom.style.display = 'none';
+					me.answerList.fireEvent('resizeList', me.answerList.element);
+					me.answerList.element.dom.style.display = '';
+					me.resizeListFlag = false;	
+				}
 			}).delay(2000);
 		}
 	},
