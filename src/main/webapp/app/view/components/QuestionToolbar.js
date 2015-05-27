@@ -48,6 +48,12 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 			}
 		});
 
+		this.clockElement = Ext.create('Ext.Component', {
+			cls: 'x-toolbar-title x-title',
+			hidden: true,
+			align: 'left'
+		});
+
 		this.answerCounter = Ext.create('Ext.Component', {
 			cls: "x-toolbar-title alignRight counterText",
 			align: 'right'
@@ -62,6 +68,7 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 
 		this.add([
 			this.backButton,
+			this.clockElement,
 			this.answerCounter,
 			this.statisticsButton
 		]);
@@ -111,6 +118,12 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 		counter[counter.length - 1] = text;
 
 		this.answerCounter.setHtml(counter.join(" "));
+	},
+
+	updateTime: function () {
+		var actualTime = new Date().toTimeString().substring(0, 8);
+		this.clockElement.setHtml(actualTime);
+		this.clockElement.setHidden(false);
 	},
 
 	checkStatistics: function (question, isDisabled) {
