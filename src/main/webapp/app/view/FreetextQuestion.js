@@ -464,6 +464,10 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		}
 	},
 
+	setZoomLevel: function (size) {
+		this.questionPanel.setStyle('font-size: ' + size + '%;');
+	},
+
 	setAnswerText: function (subject, answer, answerThumbnailImage) {
 		this.answerSubject.setValue(subject);
 		this.answerText.setValue(answer);

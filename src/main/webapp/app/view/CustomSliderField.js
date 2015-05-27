@@ -24,7 +24,8 @@ Ext.define('ARSnova.view.CustomSliderField', {
 	config: {
 		cls: 'sliderField',
 		labelWidth: '28%',
-		tabIndex: -1
+		tabIndex: -1,
+		suffix: ''
 	},
 
 	proxyConfig: {
@@ -100,7 +101,7 @@ Ext.define('ARSnova.view.CustomSliderField', {
 	},
 
 	setInputValue: function (value) {
-		this.inputValue.dom.value = value;
+		this.inputValue.dom.value = value + this.getSuffix();
 	},
 
 	setSliderValue: function (value) {

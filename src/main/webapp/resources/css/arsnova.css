@@ -58,7 +58,7 @@ code {
 .sliderField .sliderInputField {
 	width: 15%;
 	float: right;
-	margin-right: 5px;
+	margin: 5px;
 }
 
 .sliderField .x-slider {

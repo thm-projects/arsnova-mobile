@@ -73,7 +73,7 @@
 	left: 0;
 	font-family: "Pictos";
 	content: "3";
-	font-size: 32px;
+	font-size: 1.5em;
 	margin: -3px 0px 0px 8px;
 	color: $thm-green;
 	text-shadow: 1px;
@@ -88,13 +88,13 @@
 	left: 0;
 	font-family: "arsnova";
 	content: "\f096";
-	font-size: 18px;
+	font-size: 1.2em;
 	margin: 11.65px 0px 0px 12px;
 }
 
 .answerOptionText {
 	position: absolute;
-	margin: 13px 40px;
+	margin: 13px 2.5em;
 	top: 0;
 	right: 0;
 	bottom: 0;
@@ -300,7 +300,36 @@
 }
 
 .displayInherit {
-	display: inherit;	
+	display: inherit;
+}
+
+.zoomButton {
+	width: 44px;
+	height: 33px;
+	font-size: 16px;
+	position: absolute;
+	margin: 6px;
+	bottom: 0;
+	right: 0;
+
+	&.zoomSheetActive {
+		z-index: 999;
+		font-size: 14px;
+
+		.x-button-icon {
+			margin-right: 1px;
+		}
+	}
+}
+
+.zoomActionSheet {
+	padding: 0;
+	border: 1px solid $background;
+
+	.sliderField {
+		padding-right: 2em;
+		text-align: center;
+	}
 }
 
 .customMaskTextElement {

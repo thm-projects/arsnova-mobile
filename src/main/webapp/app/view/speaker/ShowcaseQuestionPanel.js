@@ -20,6 +20,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	extend: 'Ext.Carousel',
 
 	requires: [
+		'Ext.Sheet',
+		'Ext.ActionSheet',
 		'ARSnova.view.Question',
 		'ARSnova.view.CustomCarousel',
 		'ARSnova.view.CustomCarouselIndicator',
@@ -36,6 +38,14 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		controller: null,
 		questionTitleLong: Messages.LECTURE_QUESTION_LONG,
 		questionTitleShort: Messages.LECTURE_QUESTIONS
+	},
+
+	updateClockTask: {
+		name: 'renew the actual time at the titlebar',
+		run: function () {
+			ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.showcaseQuestionPanel.toolbar.updateTime();
+		},
+		interval: 1000 // 1 second
 	},
 
 	initialize: function () {
@@ -57,6 +67,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			backButtonHandler: function (animation) {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				ARSnova.app.innerScrollPanel = false;
+				ARSnova.app.taskManager.stop(sTP.showcaseQuestionPanel.updateClockTask);
+				sTP.showcaseQuestionPanel.initializeZoomComponents();
 
 				if (sTP.showcaseQuestionPanel.inclassBackButtonHandle) {
 					sTP.animateActiveItem(sTP.inClassPanel, animation);
@@ -75,7 +87,51 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			}
 		});
 
-		this.add([this.toolbar]);
+		this.zoomButton = Ext.create('Ext.Button', {
+			ui: 'action',
+			hidden: true,
+			cls: 'zoomButton',
+			docked: 'bottom',
+			iconCls: 'icon-text-height',
+			handler: this.zoomButtonHandler,
+			scope: this
+		});
+
+		this.zoomSlider = Ext.create('ARSnova.view.CustomSliderField', {
+			label: 'Zoom',
+			labelWidth: '15%',
+			value: 100,
+			minValue: 75,
+			maxValue: 150,
+			increment: 5,
+			suffix: '%',
+			setZoomLevel: function (sliderField, slider, newValue) {
+				newValue = Array.isArray(newValue) ? newValue[0] : newValue;
+				if (!sliderField.actualValue || sliderField.actualValue !== newValue) {
+					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+					sTP.showcaseQuestionPanel.getActiveItem().setZoomLevel(newValue);
+					sliderField.actualValue = newValue;
+				}
+			}
+		});
+
+		this.zoomSlider.setListeners({
+			drag: this.zoomSlider.config.setZoomLevel,
+			change: this.zoomSlider.config.setZoomLevel
+		});
+
+		this.actionSheet = Ext.create('Ext.Sheet', {
+			left: 0,
+			right: 0,
+			bottom: 0,
+			modal: false,
+			centered: false,
+			height: 'auto',
+			cls: 'zoomActionSheet',
+			items: [this.zoomSlider]
+		});
+
+		this.add([this.toolbar, this.zoomButton]);
 		this.lastActiveIndex = -1;
 
 		this.on('activate', this.onActivate);
@@ -97,20 +153,28 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	},
 
 	onActivate: function () {
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		this.getAllSkillQuestions();
+
+		if (screenWidth >= 700) {
+			ARSnova.app.taskManager.start(this.updateClockTask);
+		}
 	},
 
 	onItemChange: function (panel, newQuestion, oldQuestion) {
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
 		if (newQuestion.questionObj) {
-			if (screenWidth >= 520) {
-				this.toolbar.setTitle(newQuestion.getQuestionTypeMessage());
-			} else {
-				this.toolbar.setTitle('');
+			var title = screenWidth >= 520 ? newQuestion.getQuestionTypeMessage() : '';
+
+			if (panel.zoomButton.isActive) {
+				newQuestion.setPadding('0 0 50 0');
 			}
 
+			panel.zoomButton.setHidden(screenWidth < 700);
+			newQuestion.setZoomLevel(this.zoomSlider.getValue());
 			newQuestion.updateQuestionText();
+			this.toolbar.setTitle(title);
 		}
 	},
 
@@ -168,6 +232,28 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			});
 		}
 		this.add(questionPanel);
+	},
+
+	initializeZoomComponents: function () {
+		this.actionSheet.hide();
+		this.getParent().remove(this.actionSheet, false);
+		this.zoomButton.setIconCls('icon-text-height');
+		this.zoomButton.removeCls('zoomSheetActive');
+		this.getActiveItem().setPadding('0 0 20 0');
+		this.zoomButton.isActive = false;
+	},
+
+	zoomButtonHandler: function () {
+		if (this.zoomButton.isActive) {
+			this.initializeZoomComponents();
+		} else {
+			this.getParent().add(this.actionSheet);
+			this.zoomButton.setIconCls('icon-close');
+			this.zoomButton.addCls('zoomSheetActive');
+			this.getActiveItem().setPadding('0 0 50 0');
+			this.zoomButton.isActive = true;
+			this.actionSheet.show();
+		}
 	},
 
 	saveActiveIndex: function () {

@@ -48,7 +48,7 @@ Ext.define('ARSnova.view.CustomCarousel', {
 
 		this.on('add', function (carousel, item, index) {
 			if (item.getActiveItem()) {
-				item.getActiveItem().setStyle('margin-top: 3em');
+				item.getActiveItem().setStyle('margin-top: 56px');
 			}
 		});
 	},
