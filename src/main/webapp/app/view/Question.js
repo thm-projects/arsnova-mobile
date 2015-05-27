@@ -409,8 +409,11 @@ Ext.define('ARSnova.view.Question', {
 				} else {
 					this.answerList.hide(true);
 					button.setText(Messages.SHOW_FLASHCARD_ANSWER);
-					ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.next();
-					ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
+					
+					if (!this.viewOnly) {
+						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.next();
+						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
+					}
 				}
 			},
 			scope: this
