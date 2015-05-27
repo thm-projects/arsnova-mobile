@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'arsnova';
-	src:url('fonts/arsnova.eot?hhc1rg');
-	src:url('fonts/arsnova.eot?#iefixhhc1rg') format('embedded-opentype'),
-		url('fonts/arsnova.ttf?hhc1rg') format('truetype'),
-		url('fonts/arsnova.woff?hhc1rg') format('woff'),
-		url('fonts/arsnova.svg?hhc1rg#arsnova') format('svg');
+	src:url('fonts/arsnova.eot?9xwfqz');
+	src:url('fonts/arsnova.eot?#iefix9xwfqz') format('embedded-opentype'),
+		url('fonts/arsnova.ttf?9xwfqz') format('truetype'),
+		url('fonts/arsnova.woff?9xwfqz') format('woff'),
+		url('fonts/arsnova.svg?9xwfqz#arsnova') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,6 +23,9 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon-text-height:before {
+	content: "\f034";
+}
 .icon-square:before {
 	content: "\f096";
 }
