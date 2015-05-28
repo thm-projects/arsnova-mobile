@@ -309,10 +309,26 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					color: '#4a5c66',
 					fontWeight: 'bold'
 				},
+				grid: {
+					odd: {
+						opacity: 1,
+						stroke: '#bbb',
+						'lineWidth': 1
+					},
+					even: {
+						opacity: 1,
+						stroke: '#bbb',
+						'lineWidth': 1
+					}
+				},
 				renderer: function (label, layout, lastLabel) {
 					panel = ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT ?
-							ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart :
-							ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
+						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart :
+						ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
+
+					if (layout.attr.grid !== panel.questionChart.showPercentage) {
+						layout.attr.grid = panel.questionChart.showPercentage;
+					}
 
 					return panel.questionChart.showPercentage ? Math.round(label) + " %" : Math.round(label);
 				}
@@ -333,8 +349,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					var panel, labelColor;
 
 					panel = ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT ?
-							ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart :
-							ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
+						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart :
+						ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 
 					if (panel.toggleCorrect && label !== Messages.ABSTENTION
 						&& Object.keys(panel.correctAnswers).length > 0) {
@@ -497,10 +513,10 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		switch (parseInt(piRound)) {
 			case 1:
 			case 2:
+				isStacked = true;
 				fields = ['value-round' + piRound];
 				percentages = ['percent-round' + piRound];
 				this.questionChart.showPercentage = false;
-				isStacked = true;
 				break;
 			default:
 				fields = ['percent-round1', 'percent-round2'];
