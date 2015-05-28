@@ -90,19 +90,37 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		if (!this.viewOnly) {
 			this.initializeSlider();
 		} else {
-			this.setStyle({
-				position: 'absolute',
-				opacity: this.config.viewOnlyOpacity,
-				pointerEvents: 'none',
-				right: 0,
-				top: 0
-			});
-
-			this.setWidth(240);
+			this.applyViewOnlyCounterStyle();
 			this.canvas.setStyle({
 				opacity: this.config.viewOnlyOpacity
 			});
 		}
+	},
+
+	applyViewOnlyCounterStyle: function () {
+		this.setWidth(240);
+		this.setHeight(260);
+		this.setStyle({
+			position: 'absolute',
+			opacity: this.config.viewOnlyOpacity,
+			pointerEvents: 'none',
+			marginTop: '40px',
+			right: 0,
+			top: 0
+		});
+	},
+
+	applySmallViewOnlyCounterStyle: function () {
+		this.setWidth(180);
+		this.setHeight(200);
+		this.setStyle({
+			position: 'absolute',
+			opacity: this.config.viewOnlyOpacity,
+			pointerEvents: 'none',
+			marginTop: '50px',
+			right: 0,
+			top: 0
+		});
 	},
 
 	initializeSlider: function () {
@@ -269,17 +287,33 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 
 	showTimer: function () {
 		if (this.canvas) {
+			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+
 			var canvas = this.canvas.dom;
 			var context = canvas.getContext("2d");
 			var counterClockwise = false;
+			var unitFont = "50px Segoe UI";
+			var numberFont =  "20px Segoe UI";
+			var outerRadius = 85;
+			var innerRadius = 66;
+			var lineWidth = 20;
+
+			if (this.viewOnly && screenWidth < 500) {
+				unitFont = "40px Segoe UI";
+				numberFont = "18px Segoe UI";
+				lineWidth = lineWidth / 1.25;
+				outerRadius = outerRadius / 1.25;
+				innerRadius = innerRadius / 1.25;
+				this.applySmallViewOnlyCounterStyle();
+			} else if (this.viewOnly && screenWidth >= 500) {
+				this.applyViewOnlyCounterStyle();
+			}
 
 			canvas.width = this.getWidth();
 			canvas.height = this.getHeight() - 40;
 
 			var x = canvas.width / 2;
 			var y = canvas.height / 2;
-			var radius = 85;
-
 			var startAngle = 0 * Math.PI;
 			var endAngle = (2 * Math.PI) / (this.maxMinutes / this.minutes);
 			var minutes = Math.ceil(this.minutes / this.maxSeconds);
@@ -288,13 +322,13 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			context.clearRect(0, 0, 600, 600);
 
 			context.fillStyle = "#4a5c66";
-			context.font = "50px Segoe UI";
+			context.font = unitFont;
 			context.textAlign = "center";
 			context.textBaseline = "middle";
 
 			if (minutes > 1) {
 				context.fillText(minutes.toString(), x, y - 10);
-				context.font = "20px Segoe UI";
+				context.font = numberFont;
 				context.fillText(Messages.MINUTES, x, y + 20);
 			} else if (minutes > 0) {
 				var seconds = Math.ceil(this.seconds / this.milliseconds);
@@ -313,36 +347,32 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 				}
 
 				context.fillText(seconds.toString(), x, y - 10);
-				context.font = "20px Segoe UI";
+				context.font = numberFont;
 				context.fillText(Messages.SECONDS, x, y + 20);
 			}
 
 			context.translate(x, y);
 			context.rotate(-Math.PI / 2);
 			context.translate(-x, -y);
-
 			context.strokeStyle =
 				(this.seconds < this.getSecondsLeftTillAlert() * 1000) &&
 				((this.seconds / 1000) % 2 > 1) && !(minutes > 1) ?
 					"#971b2f" : "#4a5c66";
 
 			context.beginPath();
-			context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
-			context.lineWidth = 20;
+			context.arc(x, y, outerRadius, startAngle, endAngle, counterClockwise);
+			context.lineWidth = lineWidth;
 			context.stroke();
-
-			radius = 66;
-			startAngle = 0 * Math.PI;
-			endAngle = ((2 * Math.PI) / (this.maxSeconds / this.seconds));
 
 			context.strokeStyle =
 				(this.seconds < this.getSecondsLeftTillAlert() * 1000) &&
 				((this.seconds / 1000) % 2 > 1) && !(minutes > 1) ?
 					"#971b2f" : "#F2A900";
-
+			startAngle = 0 * Math.PI;
+			endAngle = ((2 * Math.PI) / (this.maxSeconds / this.seconds));
 			context.beginPath();
-			context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
-			context.lineWidth = 20;
+			context.arc(x, y, innerRadius, startAngle, endAngle, counterClockwise);
+			context.lineWidth = lineWidth;
 			context.stroke();
 
 			context.restore();
