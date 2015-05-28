@@ -47,7 +47,8 @@ Ext.define('FreetextAnswer', {
 			'sessionId',
 			'type',
 			'_rev',
-			'answerThumbnailImage'
+			'answerThumbnailImage',
+			'read'
 		]
 	}
 });

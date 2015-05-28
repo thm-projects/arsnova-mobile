@@ -155,11 +155,23 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			},
 
 			itemCls: 'forwardListButton',
-			itemTpl: [
+			// Display unread answers for teachers only
+			itemTpl: Ext.create('Ext.XTemplate',
 				'<div class="search-item noOverflow">',
-				'<span style="color:gray">{formattedTime}</span><span style="padding-left:30px">{answerSubject:htmlEncode}</span>',
-				'</div>'
-			],
+				'<span style="color:gray">{formattedTime}</span>',
+				'<tpl if="read === true || this.isStudent()">',
+					'<span style="padding-left:30px">{answerSubject:htmlEncode}</span>',
+				'</tpl>',
+				'<tpl if="read === false && !this.isStudent()">',
+					'<span class="thm-red" style="padding-left:30px">{answerSubject:htmlEncode}</span>',
+				'</tpl>',
+				'</div>',
+				{
+					isStudent: function () {
+						return ARSnova.app.isSessionOwner !== true;
+					}
+				}
+			),
 			grouped: true,
 
 			deferEmptyText: false,
