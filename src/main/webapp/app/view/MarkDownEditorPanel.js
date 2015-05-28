@@ -332,18 +332,18 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			title: Messages.EDITOR_VIMEO
 		}, function (textValue, urlValue) {
 			var processObj = me.getProcessVariables();
-			var regExp = /^.+vimeo.com\/(.*\/)?([^#\?]*)/;
+			var regExp = /^.*(vimeo\.com\/)((channels\/[A-z]+\/)|(groups\/[A-z]+\/videos\/))?([0-9]+)/;
 			var match = urlValue.match(regExp);
 
 			var onFailure = function () {
 				Ext.toast('Incorrect URL', 2000);
 			};
 
-			if (match && match[2].length == 8) {
-				ARSnova.app.restProxy.getVimeoThumbnailUrl(match[2], {
+			if (match && match.length > 5 && !isNaN(match[5])) {
+				ARSnova.app.restProxy.getVimeoThumbnailUrl(match[5], {
 					success: function (thumbnailUrl) {
 						var formatted = "[![" + textValue + "](" + thumbnailUrl
-							+ ")](https://player.vimeo.com/video/" + match[2] + ")";
+							+ ")](https://player.vimeo.com/video/" + match[5] + ")";
 
 						processObj.element.setValue(processObj.preSel + formatted + processObj.postSel);
 						processObj.element.focus();
