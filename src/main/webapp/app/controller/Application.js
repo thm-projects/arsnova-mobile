@@ -85,10 +85,10 @@ Ext.define("ARSnova.controller.Application", {
 			if (element.tagName === 'SPAN' && element.className === 'videoImageContainer') {
 				switch (element.accessKey) {
 					case 'vimeo':
-						url = "https://player.vimeo.com/video/" + element.id;
+						url = "https://player.vimeo.com/video/" + element.id + "?autoplay=1";
 						break;
 					case 'youtube':
-						url = "https://www.youtube.com/embed/" + element.id;
+						url = "https://www.youtube.com/embed/" + element.id + "?autoplay=1";
 						break;
 					default:
 						return false;
