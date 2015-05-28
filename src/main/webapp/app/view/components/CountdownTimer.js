@@ -51,10 +51,10 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 
 		defaultMinutes: 3,
 		defaultSeconds: 60,
-		sliderDefaultValue: 3,
+		sliderDefaultValue: 2,
 		sliderMinValue: 1,
 		sliderMaxValue: 10,
-		soundStartTimeSeconds: 30,
+		secondsLeftTillAlert: 16,
 		viewOnlyOpacity: 0.75,
 
 		showAnimation: {
@@ -147,6 +147,11 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 
 	onSliderDragEnd: function (me, thumb, newValue, oldValue) {
 		this.fireEvent('dragend', this, thumb, newValue, oldValue);
+	},
+
+	setSliderValue: function (value) {
+		this.slider.setValue(value);
+		this.initializeTimeValues(value);
 	},
 
 	setTimerLabelText: function (text) {
@@ -294,15 +299,15 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			} else if (minutes > 0) {
 				var seconds = Math.ceil(this.seconds / this.milliseconds);
 
-				if (this.seconds < this.getSoundStartTimeSeconds() * 1000) {
+				if (this.seconds < this.getSecondsLeftTillAlert() * 1000) {
 					context.fillStyle = (this.seconds / 1000) % 2 > 1 ? "#971b2f" : "#4a5c66";
 
 					if (!this.sound.isPlaying() && this.running) {
 						this.sound.setVolume(0);
 						this.sound.play();
 					} else {
-						var tick = 100 / this.getSoundStartTimeSeconds();
-						var volume = (this.getSoundStartTimeSeconds() - (this.seconds / 1000)) * tick;
+						var tick = 100 / this.getSecondsLeftTillAlert();
+						var volume = (this.getSecondsLeftTillAlert() - (this.seconds / 1000)) * tick;
 						this.sound.setVolume(volume / 100);
 					}
 				}
@@ -317,7 +322,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			context.translate(-x, -y);
 
 			context.strokeStyle =
-				(this.seconds < this.getSoundStartTimeSeconds() * 1000) &&
+				(this.seconds < this.getSecondsLeftTillAlert() * 1000) &&
 				((this.seconds / 1000) % 2 > 1) && !(minutes > 1) ?
 					"#971b2f" : "#4a5c66";
 
@@ -331,7 +336,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			endAngle = ((2 * Math.PI) / (this.maxSeconds / this.seconds));
 
 			context.strokeStyle =
-				(this.seconds < this.getSoundStartTimeSeconds() * 1000) &&
+				(this.seconds < this.getSecondsLeftTillAlert() * 1000) &&
 				((this.seconds / 1000) % 2 > 1) && !(minutes > 1) ?
 					"#971b2f" : "#F2A900";
 

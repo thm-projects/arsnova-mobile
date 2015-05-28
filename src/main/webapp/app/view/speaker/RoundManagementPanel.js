@@ -243,6 +243,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 					this.startRoundButton.setText(Messages.START_FIRST_ROUND);
 				} else if (questionObj.piRoundFinished) {
 					this.startRoundButton.setText(Messages.START_SECOND_ROUND);
+					this.countdownTimer.setSliderValue(10);
 				}
 				this.countdownTimer.slider.show();
 				this.startRoundButton.show();
