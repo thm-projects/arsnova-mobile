@@ -73,11 +73,10 @@
 	left: 0;
 	font-family: "Pictos";
 	content: "3";
-	font-size: 1.5em;
-	margin: -3px 0px 0px 8px;
+	font-size: 2em;
+	margin: 1px 0px 0px 8px;
 	color: $thm-green;
-	text-shadow: 1px;
-	text-shadow: 0px 0px 1px $thm-grey;
+	text-shadow: 0px 0px 1px white;
 }
 
 .answerOptionItem:before {
