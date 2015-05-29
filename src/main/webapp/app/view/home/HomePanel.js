@@ -114,7 +114,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					}
 				}, {
 					xtype: 'label',
-					cls: 'gravure',
+					cls: 'gravure selectable',
 					style: 'margin-bottom: 15px; opacity: 0.9; font-size: 0.95em;',
 					hidden: !ARSnova.app.globalConfig.demoSessionKey,
 					html: Messages.DEMO_SESSION + ARSnova.app.globalConfig.demoSessionKey
