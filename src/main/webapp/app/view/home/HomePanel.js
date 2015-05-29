@@ -108,7 +108,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				var controller = arguments[arguments.length - 1];
 				if (controller.info.eventName === 'tap') {
 					me.sessionInput.setValue(ARSnova.app.globalConfig.demoSessionKey);
-				}	
+				}
 			}
 		});
 

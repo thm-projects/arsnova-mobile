@@ -64,9 +64,10 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 		this.latexButton = Ext.create('Ext.Button', {
 			cls: 'markdownButton',
 			iconCls: 'icon-editor-script',
+			applyStrings: ['\\(', '\\)'],
 			escapeString: '$$',
 			biliteral: true,
-			handler: this.formatHandler
+			handler: this.latexHandler
 		});
 
 		this.codeButton = Ext.create('Ext.Button', {
@@ -194,16 +195,16 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 		var value, length = escapeString.length;
 		var esc = biliteral ? escapeString : "";
 
-		value = processObj.preSel + escapeString + processObj.sel + esc + processObj.postSel;
+		value = !Array.isArray(escapeString) ?
+			processObj.preSel + escapeString + processObj.sel + esc + processObj.postSel :
+			processObj.preSel + escapeString[0] + processObj.sel + escapeString[1] + processObj.postSel;
 
 		processObj.element.setValue(value);
 		processObj.component.input.dom.selectionStart = processObj.start + length;
 		processObj.component.input.dom.selectionEnd = processObj.end + length;
 	},
 
-	removeFormatting: function (processObj, escapeString) {
-		var length = escapeString.length;
-
+	removeFormatting: function (processObj, length) {
 		processObj.preSel = processObj.value.substring(0, processObj.start - length);
 		processObj.postSel = processObj.value.substring(processObj.end + length, processObj.value.length);
 		processObj.element.setValue(processObj.preSel + processObj.sel + processObj.postSel);
@@ -225,7 +226,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 		}
 
 		if (removal) {
-			parent.removeFormatting(processObj, escapeString);
+			parent.removeFormatting(processObj, escapeString.length);
 		} else {
 			applyString = this.config.applyString ? this.config.applyString : escapeString;
 			parent.applyFormatting(processObj, applyString, this.config.biliteral);
@@ -292,6 +293,35 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 		});
 
 		panel.show();
+	},
+
+	latexHandler: function () {
+		var parent = this.getParent().getParent();
+		var applyStrings = this.config.applyStrings;
+		var escapeString = this.config.escapeString;
+		var processObj = parent.getProcessVariables();
+		var length = escapeString.length;
+		var start = processObj.start;
+		var end = processObj.end;
+
+		var isTex = processObj.value.substring(end, end + length) === escapeString &&
+			processObj.value.substring(start - length, start) === escapeString;
+
+		var isInlineTex = processObj.value.substring(start - length, start) === applyStrings[0] &&
+			processObj.value.substring(end, end + length) === applyStrings[1];
+
+		processObj.element.focus();
+		if (isTex || isInlineTex) {
+			parent.removeFormatting(processObj, length);
+
+			if (isInlineTex) {
+				parent.applyFormatting(processObj, escapeString, true);
+				processObj.component.input.dom.selectionStart = start;
+				processObj.component.input.dom.selectionEnd = end;
+			}
+		} else {
+			parent.applyFormatting(processObj, applyStrings, true);
+		}
 	},
 
 	youtubeButtonHandler: function () {
