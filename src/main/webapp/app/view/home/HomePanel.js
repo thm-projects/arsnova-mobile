@@ -80,6 +80,38 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			}]
 		});
 
+		this.sessionInput = Ext.create('Ext.field.Text', {
+			component: {
+				xtype: 'input',
+				cls: 'joinSessionInput',
+				type: 'tel',
+				maxLength: 16
+			},
+			name: 'keyword',
+			style: !!ARSnova.app.globalConfig.demoSessionKey ? 'margin-bottom: 5px' : '',
+			placeHolder: Messages.SESSIONID_PLACEHOLDER,
+			listeners: {
+				scope: this,
+				action: this.onSubmit
+			}
+		});
+
+		this.demoSessionLabel = Ext.create('Ext.Label', {
+			cls: 'gravure selectable',
+			style: 'margin-bottom: 15px; opacity: 0.9; font-size: 0.95em;',
+			hidden: !ARSnova.app.globalConfig.demoSessionKey,
+			html: Messages.DEMO_SESSION + ARSnova.app.globalConfig.demoSessionKey
+		});
+
+		this.demoSessionLabel.element.on('*', function () {
+			if (ARSnova.app.globalConfig.demoSessionKey) {
+				var controller = arguments[arguments.length - 1];
+				if (controller.info.eventName === 'tap') {
+					me.sessionInput.setValue(ARSnova.app.globalConfig.demoSessionKey);
+				}	
+			}
+		});
+
 		this.sessionLoginForm = Ext.create('Ext.Panel', {
 			layout: {
 				type: 'vbox',
@@ -97,28 +129,8 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				width: '310px',
 				margin: '0 auto',
 
-				items: [{
-					xtype: 'textfield',
-					component: {
-						xtype: 'input',
-						cls: 'joinSessionInput',
-						type: 'tel',
-						maxLength: 16
-					},
-					name: 'keyword',
-					style: !!ARSnova.app.globalConfig.demoSessionKey ? 'margin-bottom: 5px' : '',
-					placeHolder: Messages.SESSIONID_PLACEHOLDER,
-					listeners: {
-						scope: this,
-						action: this.onSubmit
-					}
-				}, {
-					xtype: 'label',
-					cls: 'gravure selectable',
-					style: 'margin-bottom: 15px; opacity: 0.9; font-size: 0.95em;',
-					hidden: !ARSnova.app.globalConfig.demoSessionKey,
-					html: Messages.DEMO_SESSION + ARSnova.app.globalConfig.demoSessionKey
-				}, {
+				items: [this.sessionInput,
+					this.demoSessionLabel, {
 					xtype: 'button',
 					ui: 'confirm',
 					text: Messages.GO,
