@@ -53,7 +53,7 @@
 			moment.lang('de');
 			Messages = {
 				PRIVACY_MODE_WARNING_TITLE: "Privater Modus",
-				PRIVACY_MODE_WARNING_TEXT: "Im Privaten Modus Ihres Browsers funktioniert ARSnova leider nicht, da Ihr Browser das Beschreiben des App-Speichers verweigert. Bitte für die Dauer der Nutzung von ARSnova den Privaten Modus deaktivieren und ARSnova erneut aufrufen. Ihre Anonymität bleibt auch im deaktivierten Privaten Modus gewahrt.",
+				PRIVACY_MODE_WARNING_TEXT: "Im Privaten Modus Ihres Browsers funktioniert ARSnova leider nicht, da Ihr Browser das Beschreiben des App-Speichers verweigert. Bitte für die Dauer der Nutzung von ARSnova den Privaten Modus deaktivieren und ARSnova erneut aufrufen. Ihre Anonymität bleibt auch bei deaktiviertem Privaten Modus gewahrt.",
 				BROWSER_NOT_SUPPORTED_MESSAGE: "Bitte verwenden Sie einen der folgenden Browser für ARSnova: ###.",
 				UPDATE_BROWSER_MESSAGE: "Bitte aktualisieren Sie Ihren ###-Browser, um ARSnova verwenden zu können.",
 				FEATURE_COMING_SOON: "Feature kommt in Kürze.",
