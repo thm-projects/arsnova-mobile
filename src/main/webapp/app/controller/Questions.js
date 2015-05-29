@@ -308,6 +308,11 @@ Ext.define("ARSnova.controller.Questions", {
 			answer: options.answer
 		});
 
+		if (ARSnova.app.isSessionOwner && options.answer.read === false) {
+			options.answer.read = true;
+			ARSnova.app.socket.readFreetextAnswer(options.answer);
+		}
+
 		mainTabPanel.animateActiveItem(freetextDetailAnswerPanel, {
 			type: 'slide',
 			direction: 'left',

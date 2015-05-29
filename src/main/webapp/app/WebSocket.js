@@ -239,6 +239,11 @@ Ext.define('ARSnova.WebSocket', {
 		this.socket.emit("readInterposedQuestion", question.getData());
 	},
 
+	readFreetextAnswer: function (answer) {
+		console.debug("Socket.IO.emit: readFreetextAnswer", answer._id);
+		this.socket.emit("readFreetextAnswer", answer._id);
+	},
+
 	setLearningProgressOptions: function (data) {
 		console.debug("Socket.IO.emit: setLearningProgressOptions", data);
 		this.socket.emit("setLearningProgressOptions", data);
