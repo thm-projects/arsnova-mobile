@@ -350,7 +350,7 @@ Ext.define('ARSnova.view.Question', {
 				correct: false
 			})[0];
 			// has to be set this way as it does not conform to the model
-			this.abstentionAnswer.set('formattedText', Messages.ABSTENTION);
+			this.abstentionAnswer.set('formattedText', '<p>' + Messages.ABSTENTION + '</p>');
 		}
 
 		this.mcSaveButton = Ext.create('Ext.Button', {
