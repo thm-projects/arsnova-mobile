@@ -362,3 +362,10 @@
  		text-shadow: 1px 1px 5px $thm-green;
  	}
 }
+
+.largeImageWindow {
+	max-width: 95% !important;
+	max-height: 95% !important;
+	min-height: 0% !important;
+	min-width: 0% !important;
+}

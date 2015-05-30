@@ -99,15 +99,14 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 
 		function replaceImageElements(content) {
 			var imageDelimiter = /<img[^<>]*>/g;
-			var urlDelimiter = /src="[^"]*/g;
 
-			if (hideMediaElements) {
-				return content.replace(imageDelimiter, function (element) {
+			return content.replace(imageDelimiter, function (element) {
+				if (hideMediaElements) {
 					return '<img class="hidden"' + element.substr(4, element.length - 1);
-				});
-			}
-
-			return content;
+				} else {
+					return '<img class="resizeableImage"' + element.substr(4, element.length - 1);
+				}
+			});
 		}
 
 		var features = ARSnova.app.globalConfig.features;

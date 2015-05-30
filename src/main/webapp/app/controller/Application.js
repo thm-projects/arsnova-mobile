@@ -27,7 +27,6 @@ Ext.define("ARSnova.controller.Application", {
 	launch: function () {
 		var me = this;
 		this.hrefPanelActive = false;
-
 		me.initializeOnClickOverride();
 		me.initializeAdvancedScrolling();
 	},
@@ -80,56 +79,24 @@ Ext.define("ARSnova.controller.Application", {
 			e = e || window.event;
 			var element = e.target || e.srcElement;
 			var controller = ARSnova.app.getController('Application');
-			var url = "", title = "", isVideoLink = false;
+			var videoLink = false;
 
-			if (element.tagName === 'SPAN' && element.className === 'videoImageContainer') {
-				switch (element.accessKey) {
-					case 'vimeo':
-						url = "https://player.vimeo.com/video/" + element.id + "?autoplay=1";
-						break;
-					case 'youtube':
-						url = "https://www.youtube.com/embed/" + element.id + "?autoplay=1";
-						break;
-					default:
-						return false;
-				}
-
-				title = element.title;
-				isVideoLink = true;
+			if (element.tagName === 'IMG' && element.className === 'resizeableImage') {
+				controller.showLargerImage(element);
 			}
 
-			if (element.tagName === 'A' && element.className !== "session-export" || isVideoLink) {
-				if (!isVideoLink) {
-					url = element.href;
-					title = element.innerHTML;
-				}
+			if (element.tagName === 'SPAN' && element.className === 'videoImageContainer') {
+				videoLink = controller.checkVideoContent(element);
+			}
+
+			if (element.tagName === 'A' && element.className !== "session-export" || videoLink) {
+				var url = !!videoLink ? videoLink : element.href;
+				var title = !!videoLink ? element.title : element.innerHTML;
 
 				if (controller.checkHrefProtocol(url)) {
 					if (!controller.hrefPanelActive) {
 						controller.toggleHrefPanelActive();
-
-						var previewPanel = ARSnova.app.activePreviewPanel;
-						controller.embeddedPage = Ext.create('ARSnova.view.components.EmbeddedPageContainer', {
-							title: title,
-							url: url
-						});
-
-						controller.checkFrameOptionsHeader(url, controller, function () {
-							if (previewPanel) {
-								previewPanel.showEmbeddedPagePreview(controller.embeddedPage);
-							} else {
-								var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
-								var speakerTP = tabPanel.speakerTabPanel;
-								var activePanel = speakerTP ? speakerTP.getActiveItem() : tabPanel.getActiveItem();
-
-								if (tabPanel.userTabPanel && activePanel === tabPanel.userQuestionsPanel ||
-									speakerTP && activePanel === speakerTP.showcaseQuestionPanel) {
-									activePanel.saveActiveIndex();
-								}
-
-								ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(controller.embeddedPage, 'slide');
-							}
-						});
+						controller.handleInternEmbeddedPageLoading(controller, title, url);
 					}
 
 					return false; // prevent default action and stop event propagation
@@ -138,6 +105,88 @@ Ext.define("ARSnova.controller.Application", {
 				}
 			}
 		};
+	},
+
+	checkVideoContent: function (element) {
+		var url = false;
+
+		switch (element.accessKey) {
+			case 'vimeo':
+				url = "https://player.vimeo.com/video/" + element.id + "?autoplay=1";
+				break;
+			case 'youtube':
+				url = "https://www.youtube.com/embed/" + element.id + "?autoplay=1";
+				break;
+		}
+
+		return url;
+	},
+
+	handleInternEmbeddedPageLoading: function (controller, title, url) {
+		var previewPanel = ARSnova.app.activePreviewPanel;
+		controller.embeddedPage = Ext.create('ARSnova.view.components.EmbeddedPageContainer', {
+			title: title,
+			url: url
+		});
+
+		controller.checkFrameOptionsHeader(url, controller, function () {
+			if (previewPanel) {
+				previewPanel.showEmbeddedPagePreview(controller.embeddedPage);
+			} else {
+				var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+				var speakerTP = tabPanel.speakerTabPanel;
+				var activePanel = speakerTP ? speakerTP.getActiveItem() : tabPanel.getActiveItem();
+
+				if (tabPanel.userTabPanel && activePanel === tabPanel.userQuestionsPanel ||
+					speakerTP && activePanel === speakerTP.showcaseQuestionPanel) {
+					activePanel.saveActiveIndex();
+				}
+
+				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(controller.embeddedPage, 'slide');
+			}
+		});
+	},
+
+	showLargerImage: function (element) {
+		var heightOffset = 15;
+		var messageBox = Ext.create('Ext.MessageBox', {
+			width: '100%',
+			height: '100%',
+			hideOnMaskTap: true,
+			cls: 'largeImageWindow',
+			listeners: {
+				hide: function () {
+					this.destroy();
+				}
+			}
+		});
+
+		var img = Ext.create('Ext.Img', {
+			src: element.src,
+			mode: 'image',
+			width: '100%',
+			height: 'auto',
+			listeners: {
+				load: function () {
+					messageBox.show();
+					var height = parseInt(this.element.getStyle('height'), 10);
+					var parentHeight = parseInt(this.getParent().element.getStyle('height'), 10);
+
+					if (height > parentHeight) {
+						this.getParent().setWidth('auto');
+						this.setHeight(parentHeight - heightOffset);
+						this.setWidth('auto');
+					} else {
+						this.getParent().setHeight('auto');
+					}
+				}
+			}
+		});
+
+		messageBox.add(img);
+		messageBox.element.on('tap', function () {
+			messageBox.hide();
+		});
 	},
 
 	showNewWindowWarning: function (url) {
