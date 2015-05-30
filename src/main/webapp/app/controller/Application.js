@@ -191,6 +191,7 @@ Ext.define("ARSnova.controller.Application", {
 
 	showNewWindowWarning: function (url) {
 		var messageBox = Ext.create('Ext.MessageBox', {
+			zIndex: 9999,
 			title: Messages.NOTIFICATION,
 			message: Messages.URL_COULD_NOT_BE_FRAMED,
 			listeners: {
