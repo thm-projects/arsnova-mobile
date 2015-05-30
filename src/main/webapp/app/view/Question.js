@@ -693,6 +693,7 @@ Ext.define('ARSnova.view.Question', {
 	setZoomLevel: function (size) {
 		this.formPanel.setStyle('font-size: ' + size + '%;');
 		this.answerList.fireEvent('resizeList', this.answerList.element);
+		ARSnova.app.getController('Application').setGlobalZoomLevel(size);
 		this.updateListHeight();
 	},
 

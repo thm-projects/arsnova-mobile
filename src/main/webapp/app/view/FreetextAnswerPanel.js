@@ -240,35 +240,88 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			hidden: true
 		});
 
-		this.add([this.toolbar,
-			this.countdownTimer, {
-				xtype: 'formpanel',
-				style: 'margin-top: 15px',
-				cls: 'roundedCorners',
-				height: '100%',
-				width: '100%',
-				flex: 1,
-				scrollable: null,
-				items: [
-					questionPanel,
-					this.noAnswersLabel,
-					this.freetextAnswerList
-				]
+		this.zoomButton = Ext.create('Ext.Button', {
+			ui: 'action',
+			hidden: true,
+			cls: 'zoomButton',
+			docked: 'bottom',
+			iconCls: 'icon-text-height',
+			handler: this.zoomButtonHandler,
+			scope: this
+		});
+
+		this.zoomSlider = Ext.create('ARSnova.view.CustomSliderField', {
+			label: 'Zoom',
+			labelWidth: '15%',
+			value: 100,
+			minValue: 75,
+			maxValue: 150,
+			increment: 5,
+			suffix: '%',
+			setZoomLevel: function (sliderField, slider, newValue) {
+				newValue = Array.isArray(newValue) ? newValue[0] : newValue;
+				if (!sliderField.actualValue || sliderField.actualValue !== newValue) {
+					self.setZoomLevel(newValue);
+					sliderField.actualValue = newValue;
+				}
 			}
+		});
+
+		this.zoomSlider.setListeners({
+			drag: this.zoomSlider.config.setZoomLevel,
+			change: this.zoomSlider.config.setZoomLevel
+		});
+
+		this.actionSheet = Ext.create('Ext.Sheet', {
+			left: 0,
+			right: 0,
+			bottom: 0,
+			hidden: true,
+			modal: false,
+			centered: false,
+			height: 'auto',
+			cls: 'zoomActionSheet',
+			items: [this.zoomSlider]
+		});
+
+		this.formPanel = Ext.create('Ext.form.Panel', {
+			style: 'margin-top: 15px',
+			cls: 'roundedCorners',
+			height: '100%',
+			width: '100%',
+			flex: 1,
+			scrollable: null,
+			items: [
+				questionPanel,
+				this.noAnswersLabel,
+				this.freetextAnswerList
+			]
+		});
+
+		this.add([this.toolbar,
+			this.zoomButton,
+			this.actionSheet,
+			this.countdownTimer,
+			this.formPanel
 		]);
 
 		this.on('activate', function () {
-			ARSnova.app.taskManager.start(this.checkFreetextAnswersTask);
 			this.checkPiRoundActivation();
+			ARSnova.app.taskManager.start(this.checkFreetextAnswersTask);
 		}, this);
 
 		this.on('deactivate', function () {
-			ARSnova.app.innerScrollPanel = false;
 			ARSnova.app.taskManager.stop(this.checkFreetextAnswersTask);
 		}, this);
 
 		this.on('painted', function () {
+			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 			ARSnova.app.innerScrollPanel = this;
+
+			if (screenWidth > 700) {
+				this.zoomButton.show();
+				this.initializeZoomComponents();
+			}
 		});
 
 		this.on('hide', function () {
@@ -282,6 +335,53 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			this.countdownTimer.show();
 		} else {
 			this.countdownTimer.hide();
+		}
+	},
+
+	initializeZoomComponents: function () {
+		this.actionSheet.hide();
+		this.getParent().remove(this.actionSheet, false);
+		this.zoomButton.setIconCls('icon-text-height');
+		this.zoomButton.removeCls('zoomSheetActive');
+		this.getActiveItem().setPadding('0 0 20 0');
+		this.setZoomLevel(ARSnova.app.globalZoomLevel);
+		this.zoomSlider.setSliderValue(ARSnova.app.globalZoomLevel);
+		this.zoomButton.isActive = false;
+	},
+
+	zoomButtonHandler: function () {
+		console.log('here?');
+		if (this.zoomButton.isActive) {
+			this.initializeZoomComponents();
+		} else {
+			this.zoomButton.setIconCls('icon-close');
+			this.zoomButton.addCls('zoomSheetActive');
+			this.getActiveItem().setPadding('0 0 50 0');
+			this.zoomButton.isActive = true;
+			this.actionSheet.show();
+		}
+	},
+
+	setZoomLevel: function (size) {
+		this.formPanel.setStyle('font-size: ' + size + '%;');
+		this.freetextAnswerList.fireEvent('resizeList', this.freetextAnswerList.element);
+		ARSnova.app.getController('Application').setGlobalZoomLevel(size);
+		this.updateListHeight();
+	},
+
+	updateListHeight: function () {
+		var me = this;
+
+		if (!me.resizeListFlag) {
+			me.resizeListFlag = true;
+			Ext.create('Ext.util.DelayedTask', function () {
+				if (me.freetextAnswerList.element.dom.style.display !== 'none') {
+					me.freetextAnswerList.element.dom.style.display = 'none';
+					me.freetextAnswerList.fireEvent('resizeList', me.freetextAnswerList.element);
+					me.freetextAnswerList.element.dom.style.display = '';
+					me.resizeListFlag = false;
+				}
+			}).delay(2000);
 		}
 	},
 

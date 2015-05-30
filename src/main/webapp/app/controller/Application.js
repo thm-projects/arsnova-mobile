@@ -26,9 +26,10 @@ Ext.define("ARSnova.controller.Application", {
 
 	launch: function () {
 		var me = this;
-		this.hrefPanelActive = false;
+		me.hrefPanelActive = false;
 		me.initializeOnClickOverride();
 		me.initializeAdvancedScrolling();
+		ARSnova.app.globalZoomLevel = 100;
 	},
 
 	/**
@@ -36,6 +37,10 @@ Ext.define("ARSnova.controller.Application", {
 	 */
 	toggleHrefPanelActive: function () {
 		this.hrefPanelActive = !this.hrefPanelActive;
+	},
+
+	setGlobalZoomLevel: function (zoomLevel) {
+		ARSnova.app.globalZoomLevel = zoomLevel;
 	},
 
 	/**

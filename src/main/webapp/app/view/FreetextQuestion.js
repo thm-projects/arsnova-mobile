@@ -466,6 +466,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 	setZoomLevel: function (size) {
 		this.questionPanel.setStyle('font-size: ' + size + '%;');
+		ARSnova.app.getController('Application').setGlobalZoomLevel(size);
 	},
 
 	setAnswerText: function (subject, answer, answerThumbnailImage) {

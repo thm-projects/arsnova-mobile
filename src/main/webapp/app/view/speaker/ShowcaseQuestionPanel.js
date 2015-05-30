@@ -139,6 +139,12 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		this.on('activeitemchange', this.onItemChange);
 		this.onAfter('painted', function () {
 			ARSnova.app.innerScrollPanel = this;
+			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+
+			console.log('painted');
+			if (screenWidth > 700) {
+				this.getActiveItem().setZoomLevel(ARSnova.app.globalZoomLevel);
+			}
 
 			if (this.getActiveItem()) {
 				this.getActiveItem().checkPiRoundActivation();
@@ -172,7 +178,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			}
 
 			panel.zoomButton.setHidden(screenWidth < 700);
-			newQuestion.setZoomLevel(this.zoomSlider.getValue());
+			newQuestion.setZoomLevel(ARSnova.app.globalZoomLevel);
 			newQuestion.updateQuestionText();
 			this.toolbar.setTitle(title);
 		}
@@ -251,6 +257,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			this.zoomButton.setIconCls('icon-close');
 			this.zoomButton.addCls('zoomSheetActive');
 			this.getActiveItem().setPadding('0 0 50 0');
+			this.zoomSlider.setSliderValue(ARSnova.app.globalZoomLevel);
 			this.zoomButton.isActive = true;
 			this.actionSheet.show();
 		}
