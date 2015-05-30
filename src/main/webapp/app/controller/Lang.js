@@ -24,8 +24,7 @@ Ext.define("ARSnova.controller.Lang", {
 	config: {
 		routes: {
 			'en': 'switchToEnglish',
-			'de': 'switchToGerman',
-			'test': 'onTest'
+			'de': 'switchToGerman'
 		}
 	},
 
@@ -35,15 +34,6 @@ Ext.define("ARSnova.controller.Lang", {
 
 	switchToGerman: function () {
 		this.switchTo('de');
-	},
-
-	onTest: function () {
-		this.activateTestRoutine = true;
-	},
-
-	testRoutine: function (tabPanel) {
-		tabPanel.testTabPanel = Ext.create('ARSnova.view.about.TestTabPanel');
-		tabPanel.add(tabPanel.testTabPanel);
 	},
 
 	switchTo: function (lang) {

@@ -1099,7 +1099,7 @@
 				SHOW_STATISTIC: "Show<br/>statistics",
 				RELEASE_STATISTIC: "Release<br/>statistics",
 				RELEASE_QUESTION: "Release<br/>question",
-				ACTIVATE_TIMER: "Activate<br/>Timer",
+				ACTIVATE_TIMER: "Activate<br/>timer",
 				RELEASE_ALL_QUESTIONS: "Release<br/>questions",
 				RELEASE_VOTE: "Release<br/>vote",
 				RELEASE_ALL_VOTES: "Release<br/>all votes",
