@@ -141,7 +141,6 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			ARSnova.app.innerScrollPanel = this;
 			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
-			console.log('painted');
 			if (screenWidth > 700) {
 				this.getActiveItem().setZoomLevel(ARSnova.app.globalZoomLevel);
 			}

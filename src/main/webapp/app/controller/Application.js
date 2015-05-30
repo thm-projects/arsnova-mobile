@@ -80,36 +80,72 @@ Ext.define("ARSnova.controller.Application", {
 	 * overrides onclick event handler in order to change behavior when an tag is clicked
 	 */
 	initializeOnClickOverride: function () {
+		var touchStarted = false,
+			currX = 0,
+			currY = 0,
+			cachedX = 0,
+			cachedY = 0;
+
 		document.onclick = function (e) {
-			e = e || window.event;
-			var element = e.target || e.srcElement;
-			var controller = ARSnova.app.getController('Application');
-			var videoLink = false;
-
-			if (element.tagName === 'IMG' && element.className === 'resizeableImage') {
-				controller.showLargerImage(element);
-			}
-
-			if (element.tagName === 'SPAN' && element.className === 'videoImageContainer') {
-				videoLink = controller.checkVideoContent(element);
-			}
-
-			if (element.tagName === 'A' && element.className !== "session-export" || videoLink) {
-				var url = !!videoLink ? videoLink : element.href;
-				var title = !!videoLink ? element.title : element.innerHTML;
-
-				if (controller.checkHrefProtocol(url)) {
-					if (!controller.hrefPanelActive) {
-						controller.toggleHrefPanelActive();
-						controller.handleInternEmbeddedPageLoading(controller, title, url);
-					}
-
-					return false; // prevent default action and stop event propagation
-				} else {
-					element.target = '_blank'; // open link in new tab
-				}
-			}
+			return false;
 		};
+
+		Ext.get(document).on('touchend', function (e) {
+			e.preventDefault();
+			touchStarted = false;
+		});
+
+		Ext.get(document).on('touchmove', function (e) {
+			e.preventDefault();
+			var pointer = e.targetTouches ? e.targetTouches[0] : e;
+			currX = pointer.pageX;
+			currY = pointer.pageY;
+		});
+
+		Ext.get(document).on('touchstart', function (e) {
+			e.preventDefault();
+			var pointer = e.targetTouches ? e.targetTouches[0] : e;
+			cachedX = currX = pointer.pageX;
+			cachedY = currY = pointer.pageY;
+			touchStarted = true;
+
+			setTimeout(function () {
+				if ((cachedX === currX) && !touchStarted && (cachedY === currY)) {
+					ARSnova.app.getController('Application').internalElementRefHandler(e);
+				}
+			}, 200);
+		});
+	},
+
+	internalElementRefHandler: function (e) {
+		e = e || window.event;
+		var element = e.target || e.srcElement;
+		var controller = ARSnova.app.getController('Application');
+		var videoLink = false;
+
+		if (element.tagName === 'IMG' && element.className === 'resizeableImage') {
+			controller.showLargerImage(element);
+		}
+
+		if (element.tagName === 'SPAN' && element.className === 'videoImageContainer') {
+			videoLink = controller.checkVideoContent(element);
+		}
+
+		if (element.tagName === 'A' && element.className !== "session-export" || videoLink) {
+			var url = !!videoLink ? videoLink : element.href;
+			var title = !!videoLink ? element.title : element.innerHTML;
+
+			if (controller.checkHrefProtocol(url)) {
+				if (!controller.hrefPanelActive) {
+					controller.toggleHrefPanelActive();
+					controller.handleInternEmbeddedPageLoading(controller, title, url);
+				}
+
+				return false; // prevent default action and stop event propagation
+			} else {
+				element.target = '_blank'; // open link in new tab
+			}
+		}
 	},
 
 	checkVideoContent: function (element) {

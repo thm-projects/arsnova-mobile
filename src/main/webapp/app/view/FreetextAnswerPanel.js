@@ -350,7 +350,6 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 	},
 
 	zoomButtonHandler: function () {
-		console.log('here?');
 		if (this.zoomButton.isActive) {
 			this.initializeZoomComponents();
 		} else {

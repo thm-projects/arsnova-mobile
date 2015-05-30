@@ -154,9 +154,7 @@ Ext.application({
 
 		this.checkLocalStorage();
 		this.checkBrowser();
-
 		this.taskManager = new TaskRunner();
-
 		this.initRestProxy();
 		this.initSocket();
 		this.initModels();
