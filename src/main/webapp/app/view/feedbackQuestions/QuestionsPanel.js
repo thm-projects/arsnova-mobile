@@ -67,7 +67,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.updateTime();
 			},
 			interval: 1000 // 1 second
-		},
+		}
 	},
 
 	toolbar: null,

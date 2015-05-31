@@ -318,7 +318,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 			ARSnova.app.innerScrollPanel = this;
 
-			if (screenWidth > 700) {
+			if (screenWidth > 700 && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 				this.zoomButton.show();
 				this.initializeZoomComponents();
 			}

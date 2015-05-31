@@ -138,7 +138,6 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 				scope: this,
 				handler: function () {
 					var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
-	
 					ARSnova.app.questionModel.deleteInterposed(this.questionObj, {
 						success: function () {
 							me.questionObj.destroy();
