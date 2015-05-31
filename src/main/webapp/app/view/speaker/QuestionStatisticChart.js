@@ -326,10 +326,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart :
 						ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 
-					if (layout.attr.grid !== panel.questionChart.showPercentage) {
-						layout.attr.grid = panel.questionChart.showPercentage;
-					}
-
 					return panel.questionChart.showPercentage ? Math.round(label) + " %" : Math.round(label);
 				}
 			}, {
