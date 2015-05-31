@@ -141,12 +141,12 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			ARSnova.app.innerScrollPanel = this;
 			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
-			if (screenWidth > 700) {
-				this.getActiveItem().setZoomLevel(ARSnova.app.globalZoomLevel);
-			}
-
 			if (this.getActiveItem()) {
 				this.getActiveItem().checkPiRoundActivation();
+
+				if (screenWidth > 700) {
+					this.getActiveItem().setZoomLevel(ARSnova.app.globalZoomLevel);
+				}
 			}
 		});
 	},

@@ -76,48 +76,128 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 		});
 		questionPanel.setContent(questionString, true, true);
 
-		this.add([this.toolbar, {
-			xtype: 'formpanel',
+		this.zoomButton = Ext.create('Ext.Button', {
+			ui: 'action',
+			hidden: true,
+			cls: 'zoomButton',
+			docked: 'bottom',
+			iconCls: 'icon-text-height',
+			handler: this.zoomButtonHandler,
+			scope: this
+		});
+
+		this.zoomSlider = Ext.create('ARSnova.view.CustomSliderField', {
+			label: 'Zoom',
+			labelWidth: '15%',
+			value: 100,
+			minValue: 75,
+			maxValue: 150,
+			increment: 5,
+			suffix: '%',
+			setZoomLevel: function (sliderField, slider, newValue) {
+				newValue = Array.isArray(newValue) ? newValue[0] : newValue;
+				if (!sliderField.actualValue || sliderField.actualValue !== newValue) {
+					me.setZoomLevel(newValue);
+					sliderField.actualValue = newValue;
+				}
+			}
+		});
+
+		this.zoomSlider.setListeners({
+			drag: this.zoomSlider.config.setZoomLevel,
+			change: this.zoomSlider.config.setZoomLevel
+		});
+
+		this.actionSheet = Ext.create('Ext.Sheet', {
+			left: 0,
+			right: 0,
+			bottom: 0,
+			hidden: true,
+			modal: false,
+			centered: false,
+			height: 'auto',
+			cls: 'zoomActionSheet',
+			items: [this.zoomSlider]
+		});
+
+		this.formPanel = Ext.create('Ext.form.Panel', {
 			scrollable: null,
 			items: [questionPanel]
-		}, {
-			xtype: 'button',
-			ui: 'decline',
-			cls: 'centerButton',
-			text: Messages.DELETE,
-			scope: this,
-			handler: function () {
-				var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
+		});
 
-				ARSnova.app.questionModel.deleteInterposed(this.questionObj, {
-					success: function () {
-						me.questionObj.destroy();
-						panel.animateActiveItem(panel.questionsPanel, {
-							type: 'slide',
-							direction: 'right',
-							duration: 700
-						});
-					},
-					failure: function (response) {
-						console.log('server-side error delete question');
-					}
-				});
+		this.add([
+			this.toolbar,
+			this.zoomButton,
+			this.actionSheet,
+			this.formPanel,
+			{
+				xtype: 'button',
+				ui: 'decline',
+				cls: 'centerButton',
+				text: Messages.DELETE,
+				scope: this,
+				handler: function () {
+					var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
+	
+					ARSnova.app.questionModel.deleteInterposed(this.questionObj, {
+						success: function () {
+							me.questionObj.destroy();
+							panel.animateActiveItem(panel.questionsPanel, {
+								type: 'slide',
+								direction: 'right',
+								duration: 700
+							});
+						},
+						failure: function (response) {
+							console.log('server-side error delete question');
+						}
+					});
+				}
 			}
-		}]);
+		]);
 
 		this.on('painted', this.onPainted);
 		this.on('deactivate', this.onDeactivate);
 	},
 
 	onPainted: function () {
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		ARSnova.app.innerScrollPanel = this;
+
+		if (screenWidth > 700 && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			this.zoomButton.show();
+			this.initializeZoomComponents();
+		}
 	},
 
 	onDeactivate: function () {
-		// reload questions
 		ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.getCheckFeedbackQuestionsTask().taskRunTime = 0;
-
-		// disable innerScrollPanel
 		ARSnova.app.innerScrollPanel = false;
+	},
+
+	initializeZoomComponents: function () {
+		this.actionSheet.hide();
+		this.getParent().remove(this.actionSheet, false);
+		this.zoomButton.setIconCls('icon-text-height');
+		this.zoomButton.removeCls('zoomSheetActive');
+		this.zoomSlider.setSliderValue(ARSnova.app.globalZoomLevel);
+		this.setZoomLevel(ARSnova.app.globalZoomLevel);
+		this.zoomButton.isActive = false;
+	},
+
+	zoomButtonHandler: function () {
+		if (this.zoomButton.isActive) {
+			this.initializeZoomComponents();
+		} else {
+			this.zoomButton.setIconCls('icon-close');
+			this.zoomButton.addCls('zoomSheetActive');
+			this.zoomButton.isActive = true;
+			this.actionSheet.show();
+		}
+	},
+
+	setZoomLevel: function (size) {
+		this.formPanel.setStyle('font-size: ' + size + '%;');
+		ARSnova.app.getController('Application').setGlobalZoomLevel(size);
 	}
 });

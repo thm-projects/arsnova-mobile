@@ -24,7 +24,10 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 	config: {
 		title: 'QuestionsPanel',
 		fullscreen: true,
-		layout: 'vbox',
+		scrollable: {
+			direction: 'vertical',
+			directionLock: true
+		},
 
 		store: Ext.create('Ext.data.JsonStore', {
 			model: 'ARSnova.model.FeedbackQuestion',
@@ -52,7 +55,19 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.getFeedbackQuestions();
 			},
 			interval: 15000
-		}
+		},
+
+		/**
+		 * task for speakers in a session
+		 * update clock element
+		 */
+		updateClockTask: {
+			name: 'renew the actual time at the titlebar',
+			run: function () {
+				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.updateTime();
+			},
+			interval: 1000 // 1 second
+		},
 	},
 
 	toolbar: null,
@@ -68,16 +83,17 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
+			align: 'left',
 			ui: 'back',
+			scope: this,
 			handler: function () {
 				var target;
 				if (isSpeakerView) {
 					target = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+					ARSnova.app.taskManager.stop(this.getUpdateClockTask());
 				} else {
 					target = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
 				}
-
-				ARSnova.app.innerScrollPanel = false;
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(target, {
 					type: 'slide',
 					direction: 'right',
@@ -88,6 +104,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 
 		this.deleteAllButton = Ext.create('Ext.Button', {
 			text: Messages.DELETE_ALL,
+			align: 'right',
 			ui: 'decline',
 			hidden: true,
 			handler: function () {
@@ -114,13 +131,19 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			toolbarTitle = isSpeakerView ? Messages.QUESTIONS_FROM_STUDENTS : Messages.MY_QUESTIONS;
 		}
 
-		this.toolbar = Ext.create('Ext.Toolbar', {
+		this.clockElement = Ext.create('Ext.Component', {
+			cls: 'x-toolbar-title x-title',
+			hidden: true,
+			align: 'left'
+		});
+
+		this.toolbar = Ext.create('Ext.TitleBar', {
 			title: toolbarTitle,
 			docked: 'top',
 			ui: 'light',
 			items: [
 				this.backButton,
-				{xtype: 'spacer'},
+				this.clockElement,
 				this.deleteAllButton
 			]
 		});
@@ -132,10 +155,13 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 
 		this.list = Ext.create('Ext.List', {
 			activeCls: 'search-item-active',
+			scrollable: {disabled: true},
+			variableHeights: true,
 			layout: 'fit',
 			height: '100%',
 
 			style: {
+				marginBottom: '20px',
 				backgroundColor: 'transparent'
 			},
 
@@ -160,6 +186,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			grouped: true,
 			store: this.getStore(),
 			listeners: {
+				scope: this,
 				itemswipe: function (list, index, target) {
 					var el = target.element,
 						hasClass = el.hasCls(this.activeCls);
@@ -174,12 +201,100 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					ARSnova.app.getController('Questions').detailsFeedbackQuestion({
 						question: record
 					});
+				},
+				/**
+				 * The following events are used to get the computed height of
+				 * all list items and finally to set this value to the list
+				 * DataView. In order to ensure correct rendering it is also
+				 * necessary to get the properties "padding-top" and
+				 * "padding-bottom" and add them to the height of the list
+				 * DataView.
+				 */
+				painted: function (list, eOpts) {
+					var me = this;
+					this.list.fireEvent("resizeList", list);
+
+					if (window.MathJax) {
+						MathJax.Hub.Queue(
+							["Delay", MathJax.Callback, 700],
+							function () {
+								me.list.fireEvent('resizeList', me.list.element);
+							}
+						);
+					}
+				},
+				resizeList: function (list) {
+					var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
+
+					this.list.setHeight(
+						parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
+						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
+						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
+					);
 				}
 			}
 		});
 
+		this.zoomButton = Ext.create('Ext.Button', {
+			ui: 'action',
+			hidden: true,
+			cls: 'zoomButton',
+			docked: 'bottom',
+			iconCls: 'icon-text-height',
+			handler: this.zoomButtonHandler,
+			scope: this
+		});
+
+		this.zoomSlider = Ext.create('ARSnova.view.CustomSliderField', {
+			label: 'Zoom',
+			labelWidth: '15%',
+			value: 100,
+			minValue: 75,
+			maxValue: 150,
+			increment: 5,
+			suffix: '%',
+			setZoomLevel: function (sliderField, slider, newValue) {
+				newValue = Array.isArray(newValue) ? newValue[0] : newValue;
+				if (!sliderField.actualValue || sliderField.actualValue !== newValue) {
+					panel.setZoomLevel(newValue);
+					sliderField.actualValue = newValue;
+				}
+			}
+		});
+
+		this.zoomSlider.setListeners({
+			drag: this.zoomSlider.config.setZoomLevel,
+			change: this.zoomSlider.config.setZoomLevel
+		});
+
+		this.actionSheet = Ext.create('Ext.Sheet', {
+			left: 0,
+			right: 0,
+			bottom: 0,
+			hidden: true,
+			modal: false,
+			centered: false,
+			height: 'auto',
+			cls: 'zoomActionSheet',
+			items: [this.zoomSlider]
+		});
+
+		this.formPanel = Ext.create('Ext.form.Panel', {
+			cls: 'roundedCorners',
+			height: '100%',
+			width: '100%',
+			scrollable: null,
+			flex: 1,
+			style: {
+				marginTop: this.deleteAllButton.getHidden() ? '15px' : ''
+			},
+			items: [this.list]
+		});
+
 		this.add([
 			this.toolbar,
+			this.zoomButton,
+			this.actionSheet,
 			{
 				xtype: 'button',
 				text: Messages.QUESTION_REQUEST,
@@ -190,7 +305,6 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				width: '235px',
 				hidden: ARSnova.app.isSessionOwner,
 				handler: function () {
-					ARSnova.app.innerScrollPanel = false;
 					ARSnova.app.getController('Feedback').showAskPanel({
 						type: 'slide'
 					}, function closePanelHandler() {
@@ -208,18 +322,8 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 						});
 					});
 				}
-			}, this.noQuestionsFound, {
-				xtype: 'formpanel',
-				flex: 1,
-				style: {
-					marginTop: this.deleteAllButton.getHidden() ? '15px' : ''
-				},
-				cls: 'roundedCorners',
-				height: '100%',
-				width: '100%',
-				scrollable: null,
-				items: [this.list]
-			}
+			}, this.noQuestionsFound,
+			this.formPanel
 		]);
 
 		this.on('deactivate', function (panel) {
@@ -231,8 +335,49 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		});
 
 		this.on('painted', function () {
-			ARSnova.app.innerScrollPanel = this.list;
+			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+
+			if (screenWidth > 700 && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+				this.zoomButton.show();
+				this.initializeZoomComponents();
+				ARSnova.app.taskManager.start(this.getUpdateClockTask());
+			}
 		});
+	},
+
+	initializeZoomComponents: function () {
+		this.actionSheet.hide();
+		this.getParent().remove(this.actionSheet, false);
+		this.zoomButton.setIconCls('icon-text-height');
+		this.zoomButton.removeCls('zoomSheetActive');
+		this.getActiveItem().setPadding('0 0 20 0');
+		this.setZoomLevel(ARSnova.app.globalZoomLevel);
+		this.zoomSlider.setSliderValue(ARSnova.app.globalZoomLevel);
+		this.zoomButton.isActive = false;
+	},
+
+	zoomButtonHandler: function () {
+		if (this.zoomButton.isActive) {
+			this.initializeZoomComponents();
+		} else {
+			this.zoomButton.setIconCls('icon-close');
+			this.zoomButton.addCls('zoomSheetActive');
+			this.getActiveItem().setPadding('0 0 50 0');
+			this.zoomButton.isActive = true;
+			this.actionSheet.show();
+		}
+	},
+
+	setZoomLevel: function (size) {
+		this.formPanel.setStyle('font-size: ' + size + '%;');
+		this.list.fireEvent('resizeList', this.list.element);
+		ARSnova.app.getController('Application').setGlobalZoomLevel(size);
+	},
+
+	updateTime: function () {
+		var actualTime = new Date().toTimeString().substring(0, 8);
+		this.clockElement.setHtml(actualTime);
+		this.clockElement.setHidden(false);
 	},
 
 	getFeedbackQuestions: function () {
@@ -262,7 +407,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 						}
 						panel.getStore().add(Ext.create('ARSnova.model.FeedbackQuestion', question));
 					}
-
+					panel.list.fireEvent('resizeList', panel.list.element);
 					fQP.tab.setBadgeText(unread);
 					if (ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel) {
 						ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge([{

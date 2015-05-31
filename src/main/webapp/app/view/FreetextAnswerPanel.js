@@ -365,23 +365,6 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		this.formPanel.setStyle('font-size: ' + size + '%;');
 		this.freetextAnswerList.fireEvent('resizeList', this.freetextAnswerList.element);
 		ARSnova.app.getController('Application').setGlobalZoomLevel(size);
-		this.updateListHeight();
-	},
-
-	updateListHeight: function () {
-		var me = this;
-
-		if (!me.resizeListFlag) {
-			me.resizeListFlag = true;
-			Ext.create('Ext.util.DelayedTask', function () {
-				if (me.freetextAnswerList.element.dom.style.display !== 'none') {
-					me.freetextAnswerList.element.dom.style.display = 'none';
-					me.freetextAnswerList.fireEvent('resizeList', me.freetextAnswerList.element);
-					me.freetextAnswerList.element.dom.style.display = '';
-					me.resizeListFlag = false;
-				}
-			}).delay(2000);
-		}
 	},
 
 	checkFreetextAnswers: function () {
