@@ -148,6 +148,35 @@ Ext.define("ARSnova.controller.Auth", {
 		}
 	},
 
+	changeRole: function (role) {
+		console.debug("Controller: Auth.changeRole", role);
+		var mainTabPanel = ARSnova.app.mainTabPanel.tabPanel;
+		var hTP = mainTabPanel.homeTabPanel;
+
+		ARSnova.app.userRole =
+			role === ARSnova.app.USER_ROLE_STUDENT ||
+			role === ARSnova.app.USER_ROLE_SPEAKER ?
+			role : ARSnova.app.userRole;
+
+		switch (ARSnova.app.userRole) {
+			case ARSnova.app.USER_ROLE_STUDENT:
+				hTP.homePanel.checkLogin();
+				hTP.animateActiveItem(hTP.homePanel, {
+					type: 'flip',
+					direction: 'left'
+				});
+				break;
+			case ARSnova.app.USER_ROLE_SPEAKER:
+				hTP.animateActiveItem(hTP.mySessionsPanel, {
+					type: 'flip',
+					direction: 'right'
+				});
+				break;
+		}
+
+		localStorage.setItem('role', ARSnova.app.userRole);
+	},
+
 	checkLogin: function () {
 		console.debug("Controller: Auth.checkLogin");
 		var promise = new RSVP.Promise();

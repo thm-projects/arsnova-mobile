@@ -47,10 +47,12 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 		var me = this;
 		var config = ARSnova.app.globalConfig;
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
 		this.logoutButton = Ext.create('Ext.Button', {
 			id: 'logout-button',
 			text: Messages.LOGOUT,
+			align: 'left',
 			ui: 'back',
 			hidden: true,
 			handler: function () {
@@ -60,6 +62,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.HOME,
+			align: 'left',
 			ui: 'back',
 			handler: function () {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
@@ -71,14 +74,33 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			}
 		});
 
-		this.toolbar = Ext.create('Ext.Toolbar', {
+		this.roleIcon = Ext.create('Ext.Component', {
+			cls: 'roleIcon speakerRole',
+			hidden: (screenWidth < 370),
+			align: 'left'
+		});
+
+		this.changeRoleButton = Ext.create('Ext.Button', {
+			text: Messages.CHANGE_ROLE,
+			align: 'right',
+			ui: 'confirm',
+			handler: function () {
+				ARSnova.app.getController('Auth').changeRole(
+					ARSnova.app.USER_ROLE_STUDENT
+				);
+			}
+		});
+
+		this.toolbar = Ext.create('Ext.TitleBar', {
 			title: Messages.SESSIONS,
 			cls: 'speakerTitleText',
 			docked: 'top',
 			ui: 'light',
 			items: [
 				this.backButton,
-				this.logoutButton
+				this.logoutButton,
+				this.roleIcon,
+				this.changeRoleButton
 			]
 		});
 

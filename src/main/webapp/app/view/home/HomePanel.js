@@ -45,22 +45,43 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	initialize: function () {
 		var me = this;
 		var config = ARSnova.app.globalConfig;
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		this.callParent(arguments);
 
 		this.logoutButton = Ext.create('Ext.Button', {
 			text: Messages.LOGOUT,
+			align: 'left',
 			ui: 'back',
 			handler: function () {
 				ARSnova.app.getController('Auth').logout();
 			}
 		});
 
-		this.toolbar = Ext.create('Ext.Toolbar', {
+		this.roleIcon = Ext.create('Ext.Component', {
+			cls: 'roleIcon userRole',
+			hidden: (screenWidth < 370),
+			align: 'left'
+		});
+
+		this.changeRoleButton = Ext.create('Ext.Button', {
+			text: Messages.CHANGE_ROLE,
+			align: 'right',
+			ui: 'confirm',
+			handler: function () {
+				ARSnova.app.getController('Auth').changeRole(
+					ARSnova.app.USER_ROLE_SPEAKER
+				);
+			}
+		});
+
+		this.toolbar = Ext.create('Ext.TitleBar', {
 			title: 'Session',
 			docked: 'top',
 			ui: 'light',
 			items: [
-				this.logoutButton
+				this.logoutButton,
+				this.roleIcon,
+				this.changeRoleButton
 			]
 		});
 
