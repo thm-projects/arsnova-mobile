@@ -225,15 +225,38 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		this.inClassItems = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 
-			items: [{
-				cls: 'gravure selectable',
-				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(sessionStorage.getItem("keyword"))
-			}, this.actionButtonPanel, this.inClassButtons, {
-				xtype: 'formpanel',
-				cls: 'standardForm topPadding',
-				scrollable: null,
-				items: this.caption
-			}]
+			items: [
+				{
+					xtype: 'panel',
+					margin: '10 0 0 0',
+					layout: {
+						type: 'hbox',
+						pack: 'center'
+					},
+					items: [
+						{
+							cls: 'gravure selectable',
+							html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(sessionStorage.getItem("keyword"))
+						},
+						{
+							xtype: 'button',
+							padding: '3px',
+							iconCls: 'info',
+							handler: function () {
+								alert('Session-Info');
+							}
+						}
+					]
+				},
+				this.actionButtonPanel,
+				this.inClassButtons,
+				{
+					xtype: 'formpanel',
+					cls: 'standardForm topPadding',
+					scrollable: null,
+					items: this.caption
+				}
+			]
 		});
 
 		this.sessionStatusButton = Ext.create('ARSnova.view.SessionStatusButton');
