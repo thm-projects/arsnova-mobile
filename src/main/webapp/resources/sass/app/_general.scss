@@ -369,3 +369,16 @@
 	min-height: 0% !important;
 	min-width: 0% !important;
 }
+
+.gallery-dataview {
+	div {
+		background-color: $background !important;
+	}
+}
+
+.myCoursesList {
+	.x-inner,
+	.x-scroll-container {
+		background-color: $background;
+	}
+}
