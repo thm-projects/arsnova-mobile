@@ -74,13 +74,13 @@
 
 	.x-innerhtml {
 		display: table;
-	
+
 		.answerOptionItem {
 			width: 2em;
 			display: table-cell;
 			vertical-align: middle;
 		}
-	
+
 		.answerOptionText {
 			width: 100%;
 			display: table-cell;
@@ -101,7 +101,7 @@
 				content: "\f096";
 				font-size: 1.2em;
 			}
-	
+
 			&.answerOptionCorrectItem:after {
 				font-family: "Pictos";
 				content: "3";
@@ -308,6 +308,12 @@
 	}
 }
 
+.sessionInfoButton{
+	width: 40px;
+	color: #4a5c66;
+	background: transparent !important;
+}
+
 .canvasConfiguration {
 	display: block;
 	margin: 0px auto;
@@ -357,7 +363,7 @@
  	&.voteClosed {
  		text-shadow: 1px 1px 5px $thm-red;
  	}
- 
+
  	&.alreadyAnswered {
  		text-shadow: 1px 1px 5px $thm-green;
  	}

@@ -221,15 +221,38 @@ Ext.define('ARSnova.view.user.InClass', {
 
 		this.inClass = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
-			items: [{
-				cls: 'gravure selectable',
-				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(sessionStorage.getItem("keyword"))
-			}, this.actionButtonPanel, this.inClassButtons, {
-				xtype: 'formpanel',
-				cls: 'standardForm topPadding',
-				scrollable: null,
-				items: this.caption
-			}]
+			items: [
+				{
+					xtype: 'panel',
+					margin: '10 0 0 0',
+					layout: {
+						type: 'hbox',
+						pack: 'center'
+					},
+					items: [
+						{
+							cls: 'gravure selectable',
+							html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(sessionStorage.getItem("keyword"))
+						},
+						{
+							xtype: 'button',
+							cls: 'sessionInfoButton',
+							padding: '3px',
+							iconCls: 'info',
+							handler: function () {
+								alert('Session-Info');
+							}
+						}
+					]
+				},
+				this.actionButtonPanel, this.inClassButtons,
+				{
+					xtype: 'formpanel',
+					cls: 'standardForm topPadding',
+					scrollable: null,
+					items: this.caption
+				}
+			]
 		});
 
 		this.swotBadge = Ext.create('Ext.Panel', {
