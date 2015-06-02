@@ -67,9 +67,13 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			text: Messages.CHANGE_ROLE,
 			align: 'right',
 			ui: 'confirm',
-			handler: function () {
+			scope: this,
+			handler: function (button) {
+				button.disable();
 				ARSnova.app.getController('Auth').changeRole(
-					ARSnova.app.USER_ROLE_SPEAKER
+					ARSnova.app.USER_ROLE_SPEAKER, function () {
+						button.enable();
+					}
 				);
 			}
 		});
@@ -231,34 +235,36 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			this.add(this.matrixButtonPanel);
 		}
 
-		this.onBefore('painted', function () {
-			var me = this;
-			if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
-				var handler = function success(sessions) {
-					me.caption.summarize(sessions, {
-						questions: true,
-						unanswered: false,
-						unredInterposed: false,
-						interposed: true,
-						answers: true
-					});
-					me.add(me.caption);
-				};
-				var p1 = this.loadVisitedSessions();
-				var p2 = this.loadMySessions();
-				// get the summary of all session lists
-				RSVP.all([p1, p2]).then(handler, function error() {
-					// errors swallow results, retest each promise seperately to figure out if one succeeded
-					p1.then(handler);
-					p2.then(handler);
-				});
-			}
-		});
+		this.on('activate', this.onActivate);
 
 		this.on('resize', function () {
 			this.resizeSessionButtons();
 			this.resizeLastVisitedSessionButtons();
 		});
+	},
+
+	onActivate: function () {
+		var me = this;
+		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
+			var handler = function success(sessions) {
+				me.caption.summarize(sessions, {
+					questions: true,
+					unanswered: false,
+					unredInterposed: false,
+					interposed: true,
+					answers: true
+				});
+				me.add(me.caption);
+			};
+			var p1 = this.loadVisitedSessions();
+			var p2 = this.loadMySessions();
+			// get the summary of all session lists
+			RSVP.all([p1, p2]).then(handler, function error() {
+				// errors swallow results, retest each promise seperately to figure out if one succeeded
+				p1.then(handler);
+				p2.then(handler);
+			});
+		}
 	},
 
 	checkLogin: function () {

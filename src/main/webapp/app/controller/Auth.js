@@ -148,7 +148,7 @@ Ext.define("ARSnova.controller.Auth", {
 		}
 	},
 
-	changeRole: function (role) {
+	changeRole: function (role, callback) {
 		console.debug("Controller: Auth.changeRole", role);
 		var mainTabPanel = ARSnova.app.mainTabPanel.tabPanel;
 		var hTP = mainTabPanel.homeTabPanel;
@@ -158,19 +158,21 @@ Ext.define("ARSnova.controller.Auth", {
 			role === ARSnova.app.USER_ROLE_SPEAKER ?
 			role : ARSnova.app.userRole;
 
+		var animation = {
+			type: 'flip',
+			direction: role ? 'right' : left,
+			listeners: !callback ? {} : {
+				animationend: callback
+			}
+		};
+
 		switch (ARSnova.app.userRole) {
 			case ARSnova.app.USER_ROLE_STUDENT:
 				hTP.homePanel.checkLogin();
-				hTP.animateActiveItem(hTP.homePanel, {
-					type: 'flip',
-					direction: 'left'
-				});
+				hTP.animateActiveItem(hTP.homePanel, animation);
 				break;
 			case ARSnova.app.USER_ROLE_SPEAKER:
-				hTP.animateActiveItem(hTP.mySessionsPanel, {
-					type: 'flip',
-					direction: 'right'
-				});
+				hTP.animateActiveItem(hTP.mySessionsPanel, animation);
 				break;
 		}
 

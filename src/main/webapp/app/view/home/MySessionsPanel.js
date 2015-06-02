@@ -84,9 +84,12 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			text: Messages.CHANGE_ROLE,
 			align: 'right',
 			ui: 'confirm',
-			handler: function () {
+			handler: function (button) {
+				button.disable();
 				ARSnova.app.getController('Auth').changeRole(
-					ARSnova.app.USER_ROLE_STUDENT
+					ARSnova.app.USER_ROLE_STUDENT, function () {
+						button.enable();
+					}
 				);
 			}
 		});
@@ -353,47 +356,41 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			this.lastVisitedSessionsForm
 		]);
 
-		this.onBefore('painted', function () {
-			var me = this;
-			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-				var handler = function success(sessions) {
-					me.caption.summarize(sessions, {
-						unredInterposed: false
-					});
-					me.add(me.caption);
-				};
-				var p1 = this.loadCreatedSessions();
-				var p2 = this.loadVisitedSessions();
-				var p3 = this.loadCreatedPublicPoolSessions();
-				// get the summary of all session lists
-				RSVP.all([p1, p2, p3]).then(handler, function error() {
-					// errors swallow results, retest each promise seperately to figure out if one succeeded
-					p1.then(handler);
-					p2.then(handler);
-					p3.then(handler);
-				});
-			}
-		});
-
-		this.on('activate', function () {
-			switch (ARSnova.app.userRole) {
-				case ARSnova.app.USER_ROLE_SPEAKER:
-					this.backButton.hide();
-					this.logoutButton.show();
-					break;
-				default:
-					break;
-			}
-
-			if (ARSnova.app.loginMode === ARSnova.app.LOGIN_THM) {
-				this.logoutButton.addCls('thm');
-			}
-		});
+		this.on('activate', this.onActivate);
 
 		this.on('resize', function () {
 			this.resizeMySessionsButtons();
 			this.resizeLastVisitedSessionButtons();
 		});
+	},
+
+	onActivate: function () {
+		var me = this;
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			this.backButton.hide();
+			this.logoutButton.show();
+
+			if (ARSnova.app.loginMode === ARSnova.app.LOGIN_THM) {
+				this.logoutButton.addCls('thm');
+			}
+
+			var handler = function success(sessions) {
+				me.caption.summarize(sessions, {
+					unredInterposed: false
+				});
+				me.add(me.caption);
+			};
+			var p1 = this.loadCreatedSessions();
+			var p2 = this.loadVisitedSessions();
+			var p3 = this.loadCreatedPublicPoolSessions();
+			// get the summary of all session lists
+			RSVP.all([p1, p2, p3]).then(handler, function error() {
+				// errors swallow results, retest each promise seperately to figure out if one succeeded
+				p1.then(handler);
+				p2.then(handler);
+				p3.then(handler);
+			});
+		}
 	},
 
 	resizeMySessionsButtons: function () {
