@@ -83,9 +83,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			docked: 'top',
 			ui: 'light',
 			items: [
-				this.logoutButton,
-				this.roleIcon,
-				this.changeRoleButton
+				this.logoutButton
 			]
 		});
 
@@ -235,7 +233,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			this.add(this.matrixButtonPanel);
 		}
 
-		this.on('activate', this.onActivate);
+		this.on('painted', this.onActivate);
 
 		this.on('resize', function () {
 			this.resizeSessionButtons();

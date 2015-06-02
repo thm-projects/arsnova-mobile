@@ -101,9 +101,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			ui: 'light',
 			items: [
 				this.backButton,
-				this.logoutButton,
-				this.roleIcon,
-				this.changeRoleButton
+				this.logoutButton
 			]
 		});
 
@@ -356,7 +354,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			this.lastVisitedSessionsForm
 		]);
 
-		this.on('activate', this.onActivate);
+		this.on('painted', this.onActivate);
 
 		this.on('resize', function () {
 			this.resizeMySessionsButtons();
