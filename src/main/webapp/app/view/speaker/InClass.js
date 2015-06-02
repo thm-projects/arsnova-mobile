@@ -241,7 +241,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 						{
 							xtype: 'button',
 							cls: 'sessionInfoButton',
-							padding: '3px',
 							iconCls: 'info',
 							handler: function () {
 								alert('Session-Info');
