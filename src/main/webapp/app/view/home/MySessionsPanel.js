@@ -47,10 +47,12 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 		var me = this;
 		var config = ARSnova.app.globalConfig;
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
 		this.logoutButton = Ext.create('Ext.Button', {
 			id: 'logout-button',
 			text: Messages.LOGOUT,
+			align: 'left',
 			ui: 'back',
 			hidden: true,
 			handler: function () {
@@ -60,6 +62,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.HOME,
+			align: 'left',
 			ui: 'back',
 			handler: function () {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
@@ -71,7 +74,27 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			}
 		});
 
-		this.toolbar = Ext.create('Ext.Toolbar', {
+		this.roleIcon = Ext.create('Ext.Component', {
+			cls: 'roleIcon speakerRole',
+			hidden: (screenWidth < 370),
+			align: 'left'
+		});
+
+		this.changeRoleButton = Ext.create('Ext.Button', {
+			text: Messages.CHANGE_ROLE,
+			align: 'right',
+			ui: 'confirm',
+			handler: function (button) {
+				button.disable();
+				ARSnova.app.getController('Auth').changeRole(
+					ARSnova.app.USER_ROLE_STUDENT, function () {
+						button.enable();
+					}
+				);
+			}
+		});
+
+		this.toolbar = Ext.create('Ext.TitleBar', {
 			title: Messages.SESSIONS,
 			cls: 'speakerTitleText',
 			docked: 'top',
@@ -331,47 +354,41 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			this.lastVisitedSessionsForm
 		]);
 
-		this.onBefore('painted', function () {
-			var me = this;
-			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-				var handler = function success(sessions) {
-					me.caption.summarize(sessions, {
-						unredInterposed: false
-					});
-					me.add(me.caption);
-				};
-				var p1 = this.loadCreatedSessions();
-				var p2 = this.loadVisitedSessions();
-				var p3 = this.loadCreatedPublicPoolSessions();
-				// get the summary of all session lists
-				RSVP.all([p1, p2, p3]).then(handler, function error() {
-					// errors swallow results, retest each promise seperately to figure out if one succeeded
-					p1.then(handler);
-					p2.then(handler);
-					p3.then(handler);
-				});
-			}
-		});
-
-		this.on('activate', function () {
-			switch (ARSnova.app.userRole) {
-				case ARSnova.app.USER_ROLE_SPEAKER:
-					this.backButton.hide();
-					this.logoutButton.show();
-					break;
-				default:
-					break;
-			}
-
-			if (ARSnova.app.loginMode === ARSnova.app.LOGIN_THM) {
-				this.logoutButton.addCls('thm');
-			}
-		});
+		this.on('painted', this.onActivate);
 
 		this.on('resize', function () {
 			this.resizeMySessionsButtons();
 			this.resizeLastVisitedSessionButtons();
 		});
+	},
+
+	onActivate: function () {
+		var me = this;
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			this.backButton.hide();
+			this.logoutButton.show();
+
+			if (ARSnova.app.loginMode === ARSnova.app.LOGIN_THM) {
+				this.logoutButton.addCls('thm');
+			}
+
+			var handler = function success(sessions) {
+				me.caption.summarize(sessions, {
+					unredInterposed: false
+				});
+				me.add(me.caption);
+			};
+			var p1 = this.loadCreatedSessions();
+			var p2 = this.loadVisitedSessions();
+			var p3 = this.loadCreatedPublicPoolSessions();
+			// get the summary of all session lists
+			RSVP.all([p1, p2, p3]).then(handler, function error() {
+				// errors swallow results, retest each promise seperately to figure out if one succeeded
+				p1.then(handler);
+				p2.then(handler);
+				p3.then(handler);
+			});
+		}
 	},
 
 	resizeMySessionsButtons: function () {

@@ -103,7 +103,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 		this.voteButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.GIVE_FEEDBACK,
-			cls: 'smallerActionButton',
+			cls: ARSnova.app.isSessionOwner ? 'smallerActionButton' : 'actionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-bullhorn',
 			controller: 'Feedback',
@@ -113,7 +113,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 		this.feedbackButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.QUESTION_REQUEST_ADHOC,
-			cls: 'smallerActionButton',
+			cls: ARSnova.app.isSessionOwner ? 'smallerActionButton' : 'actionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-question thm-green',
 			handler: function () {
@@ -126,7 +126,11 @@ Ext.define('ARSnova.view.user.InClass', {
 		this.roleIconButton = Ext.create('ARSnova.view.MatrixButton', {
 			cls: 'roleIconBtn',
 			buttonConfig: 'icon',
-			imageCls: 'icon-users'
+			imageCls: 'icon-users',
+			hidden: !ARSnova.app.isSessionOwner,
+			handler: function () {
+				ARSnova.app.getController('Sessions').changeRole();
+			}
 		});
 
 		this.actionButtonPanel = Ext.create('Ext.Panel', {
@@ -139,16 +143,20 @@ Ext.define('ARSnova.view.user.InClass', {
 
 			items: [{
 					xtype: 'spacer',
+					width: true,
 					flex: '3',
-					width: true
+					hidden: !ARSnova.app.isSessionOwner
 				}, this.feedbackButton, {
-					xtype: 'spacer'
+					xtype: 'spacer',
+					hidden: !ARSnova.app.isSessionOwner
 				}, this.roleIconButton, {
-					xtype: 'spacer'
+					xtype: 'spacer',
+					hidden: !ARSnova.app.isSessionOwner
 				}, this.voteButton, {
 					xtype: 'spacer',
+					width: true,
 					flex: '3',
-					width: true
+					hidden: !ARSnova.app.isSessionOwner
 				}
 			]
 		});

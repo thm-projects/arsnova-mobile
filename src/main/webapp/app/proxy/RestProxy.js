@@ -987,7 +987,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	getVimeoThumbnailUrl: function (videoId, callbacks) {
 		Ext.Ajax.request({
 			type: 'GET',
-			url: 'http://vimeo.com/api/v2/video/' + videoId + '.json',
+			url: '//vimeo.com/api/v2/video/' + videoId + '.json',
 			useDefaultXhrHeader: false,
 			success: function (response) {
 				var json = response.responseText || "{}";

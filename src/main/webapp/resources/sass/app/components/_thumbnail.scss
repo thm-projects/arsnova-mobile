@@ -1,0 +1,115 @@
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2015 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+.thumbnail-image {
+	.wrapper {
+		width: auto !important;
+		height: auto !important;
+		display: inline-block;
+		position: relative;
+		margin: 8px;
+		transition: 0.25s;
+		-webkit-transition: 0.25s;
+		-o-transition: 0.25s;
+		-moz-transition: 0.25s;
+		-ms-transition: 0.25s;
+		
+		&:hover {
+			transform: scale(1.1);
+			-webkit-transform: scale(1.1);
+			-o-transition: scale(1.1);
+			-moz-transition: scale(1.1);
+			-ms-transition: scale(1.1);
+		}
+	}
+
+	.wrapper-list {
+		width: 100%;
+		height: 100%;
+		display:inline-block;
+		position: relative;
+		margin-bottom: 25px;
+		overflow:hidden;
+	}
+
+	.img {
+		display: inline-block;
+		border: 10px solid #fff;
+		border-bottom-width: 30px;
+	}
+
+	.image-list {
+		display:inline;
+		position:relative;
+		float:left;
+		margin-right:10px;
+		border-bottom-width: 10px;
+		border-right-width: 10000px;
+	}
+
+	span {
+		display: inline-block;
+		width: 100%;
+		position: absolute;
+		text-align: center;
+		bottom: 9px;
+		left: 0;
+		top: auto;
+		padding-left: 10px;
+		padding-right: 15px;
+		right: auto;
+		overflow: hidden;
+		box-sizing: border-box;
+		text-overflow: ellipsis;
+
+		&.answer-subject {
+			display: inline-block;
+			text-align: center;
+			font-weight:bold;
+			font-size:32px;
+			position: absolute;
+			top:50%;
+			padding: 0;
+			width: auto !important;
+			height: auto !important;
+			text-overflow: ellipsis;
+			max-width: 350px;
+			margin-top: -80px;
+			margin-left: 280px;
+			color: $thm-grey;
+		}
+
+		&.answer-text {
+			display: inline-block;
+			text-align: left;
+			width: auto !important;
+			height: auto !important;
+			top: 50%;
+			word-wrap: break-word;
+			font-size: 20px;
+			margin-top: -20px;
+			max-width: 350px;
+			max-height: 90px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			margin-left: 280px;
+			color: $thm-grey;
+		}
+	}
+}

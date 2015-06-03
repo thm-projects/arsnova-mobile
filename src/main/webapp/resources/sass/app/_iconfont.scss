@@ -406,6 +406,23 @@
 	font-size: 100px;
 }
 
+.roleIcon {
+	font-size: 1.5em;
+	color: white;
+	font-family: "arsnova";
+	margin-left: 10px;
+
+	&.userRole:before {
+		content: "\e600";
+		margin-bottom: 2px;
+	}
+	
+	&.speakerRole:before {
+		content: "\e615";
+		margin-bottom: 0px;
+	}
+}
+
 .icon-horizontal-list-config {
   -moz-transform:rotate(90deg); /* Firefox */
   -webkit-transform:rotate(90deg); /* Safari */

@@ -45,17 +45,40 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	initialize: function () {
 		var me = this;
 		var config = ARSnova.app.globalConfig;
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		this.callParent(arguments);
 
 		this.logoutButton = Ext.create('Ext.Button', {
 			text: Messages.LOGOUT,
+			align: 'left',
 			ui: 'back',
 			handler: function () {
 				ARSnova.app.getController('Auth').logout();
 			}
 		});
 
-		this.toolbar = Ext.create('Ext.Toolbar', {
+		this.roleIcon = Ext.create('Ext.Component', {
+			cls: 'roleIcon userRole',
+			hidden: (screenWidth < 370),
+			align: 'left'
+		});
+
+		this.changeRoleButton = Ext.create('Ext.Button', {
+			text: Messages.CHANGE_ROLE,
+			align: 'right',
+			ui: 'confirm',
+			scope: this,
+			handler: function (button) {
+				button.disable();
+				ARSnova.app.getController('Auth').changeRole(
+					ARSnova.app.USER_ROLE_SPEAKER, function () {
+						button.enable();
+					}
+				);
+			}
+		});
+
+		this.toolbar = Ext.create('Ext.TitleBar', {
 			title: 'Session',
 			docked: 'top',
 			ui: 'light',
@@ -210,34 +233,36 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			this.add(this.matrixButtonPanel);
 		}
 
-		this.onBefore('painted', function () {
-			var me = this;
-			if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
-				var handler = function success(sessions) {
-					me.caption.summarize(sessions, {
-						questions: true,
-						unanswered: false,
-						unredInterposed: false,
-						interposed: true,
-						answers: true
-					});
-					me.add(me.caption);
-				};
-				var p1 = this.loadVisitedSessions();
-				var p2 = this.loadMySessions();
-				// get the summary of all session lists
-				RSVP.all([p1, p2]).then(handler, function error() {
-					// errors swallow results, retest each promise seperately to figure out if one succeeded
-					p1.then(handler);
-					p2.then(handler);
-				});
-			}
-		});
+		this.on('painted', this.onActivate);
 
 		this.on('resize', function () {
 			this.resizeSessionButtons();
 			this.resizeLastVisitedSessionButtons();
 		});
+	},
+
+	onActivate: function () {
+		var me = this;
+		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
+			var handler = function success(sessions) {
+				me.caption.summarize(sessions, {
+					questions: true,
+					unanswered: false,
+					unredInterposed: false,
+					interposed: true,
+					answers: true
+				});
+				me.add(me.caption);
+			};
+			var p1 = this.loadVisitedSessions();
+			var p2 = this.loadMySessions();
+			// get the summary of all session lists
+			RSVP.all([p1, p2]).then(handler, function error() {
+				// errors swallow results, retest each promise seperately to figure out if one succeeded
+				p1.then(handler);
+				p2.then(handler);
+			});
+		}
 	},
 
 	checkLogin: function () {

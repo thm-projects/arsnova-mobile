@@ -140,7 +140,10 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			cls: 'roleIconBtn',
 			buttonConfig: 'icon',
 			imageCls: 'icon-speaker',
-			hidden: true
+			hidden: true,
+			handler: function () {
+				ARSnova.app.getController('Sessions').changeRole();
+			}
 		});
 
 		this.actionButtonPanel = Ext.create('Ext.Panel', {
@@ -223,6 +226,62 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			hidden: true
 		});
 
+		this.sessionStatusButton = Ext.create('ARSnova.view.SessionStatusButton');
+
+		this.deleteSessionButton = Ext.create('ARSnova.view.MatrixButton', {
+			id: 'delete-session-button',
+			text: Messages.DELETE_SESSION,
+			buttonConfig: 'icon',
+			cls: 'smallerActionButton',
+			imageCls: 'icon-close thm-red',
+			scope: this,
+			handler: function () {
+				var msg = Messages.ARE_YOU_SURE +
+						"<br>" + Messages.DELETE_SESSION_NOTICE;
+				Ext.Msg.confirm(Messages.DELETE_SESSION_TITLE, msg, function (answer) {
+					if (answer === 'yes') {
+						ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_DELETE);
+						ARSnova.app.sessionModel.destroy(sessionStorage.getItem('keyword'), {
+							success: function () {
+								ARSnova.app.mainTabPanel.tabPanel.on('activeitemchange', function () {
+									ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.mySessionsPanel.loadCreatedSessions();
+								}, this, {single: true});
+								ARSnova.app.getController('Sessions').logout();
+							},
+							failure: function (response) {
+								console.log('server-side error delete session');
+							}
+						});
+					}
+				});
+			}
+		});
+
+		this.inClassActions = Ext.create('Ext.Panel', {
+			style: {marginTop: '20px'},
+			layout: {
+				type: 'hbox',
+				pack: 'center'
+			},
+			items: [{
+				xtype: 'spacer',
+				flex: '3',
+				width: true,
+				hidden: true
+			}, this.sessionStatusButton, {
+				xtype: 'spacer',
+				hidden: true
+			}, this.roleIconButton, {
+				xtype: 'spacer',
+				hidden: true
+			}, this.deleteSessionButton, {
+				xtype: 'spacer',
+				flex: '3',
+				width: true,
+				hidden: true
+			}]
+		});
+
 		this.inClassItems = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 
@@ -275,53 +334,11 @@ Ext.define('ARSnova.view.speaker.InClass', {
 					cls: 'standardForm topPadding',
 					scrollable: null,
 					items: this.caption
-				}
+				},
+				this.inClassActions
 			]
 		});
 
-		this.sessionStatusButton = Ext.create('ARSnova.view.SessionStatusButton');
-
-		this.deleteSessionButton = Ext.create('ARSnova.view.MatrixButton', {
-			id: 'delete-session-button',
-			text: Messages.DELETE_SESSION,
-			buttonConfig: 'icon',
-			cls: 'actionButton',
-			imageCls: 'icon-close thm-red',
-			scope: this,
-			handler: function () {
-				var msg = Messages.ARE_YOU_SURE +
-						"<br>" + Messages.DELETE_SESSION_NOTICE;
-				Ext.Msg.confirm(Messages.DELETE_SESSION_TITLE, msg, function (answer) {
-					if (answer === 'yes') {
-						ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_DELETE);
-						ARSnova.app.sessionModel.destroy(sessionStorage.getItem('keyword'), {
-							success: function () {
-								ARSnova.app.mainTabPanel.tabPanel.on('activeitemchange', function () {
-									ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.mySessionsPanel.loadCreatedSessions();
-								}, this, {single: true});
-								ARSnova.app.getController('Sessions').logout();
-							},
-							failure: function (response) {
-								console.log('server-side error delete session');
-							}
-						});
-					}
-				});
-			}
-		});
-
-		this.inClassActions = Ext.create('Ext.Panel', {
-			style: {marginTop: '20px'},
-			layout: {
-				type: 'hbox',
-				pack: 'center'
-			},
-
-			items: [
-				this.sessionStatusButton,
-				this.deleteSessionButton
-			]
-		});
 
 		this.badgeOptions = {
 			numAnswers: 0,
@@ -330,7 +347,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			numUnredInterposed: 0
 		};
 
-		this.add([this.toolbar, this.inClassItems, this.inClassActions]);
+		this.add([this.toolbar, this.inClassItems]);
 		this.on('destroy', this.destroyListeners);
 
 		this.onBefore('painted', function () {
@@ -350,11 +367,27 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		sTP.animateActiveItem(sTP.showcaseQuestionPanel, 'slide');
 	},
 
-	showShowcaseActionElements: function (show) {
+	updateActionButtonElements: function (showElements) {
+		var buttonCls = showElements ? 'actionButton' : 'smallerActionButton';
 		var me = this;
+
+		if (showElements) {
+			this.actionButtonPanel.insert(3, me.roleIconButton);
+		} else {
+			this.inClassActions.insert(3, me.roleIconButton);
+		}
 		this.actionButtonPanel.getInnerItems().forEach(function (element) {
 			if (element !== me.createAdHocQuestionButton) {
-				element.setHidden(!show);
+				element.setHidden(!showElements);
+			}
+		});
+		this.inClassActions.getInnerItems().forEach(function (element) {
+			if (!(element === me.sessionStatusButton ||
+				element === me.deleteSessionButton)) {
+				element.setHidden(showElements);
+			} else {
+				me.sessionStatusButton.setActionButtonCls(buttonCls);
+				me.deleteSessionButton.setCls(buttonCls);
 			}
 		});
 	},
@@ -401,7 +434,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		sTP.showcaseQuestionPanel.setController(ARSnova.app.getController('Questions'));
 		sTP.showcaseQuestionPanel.setLectureMode();
 
-		sTP.inClassPanel.showShowcaseActionElements(false);
+		sTP.inClassPanel.updateActionButtonElements(false);
 		sTP.inClassPanel.updateAudienceQuestionBadge();
 	},
 
@@ -443,7 +476,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 					} else {
 						me.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE_PLURAL);
 					}
-					me.showShowcaseActionElements(true);
+					me.updateActionButtonElements(!!numQuestions);
 				}
 
 				ARSnova.app.questionModel.countLectureQuestionAnswers(sessionStorage.getItem("keyword"), {
