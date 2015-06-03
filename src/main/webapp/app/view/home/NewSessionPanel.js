@@ -107,6 +107,16 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			}
 		});
 
+		this.sessionInfoButton = Ext.create('Ext.Button', {
+			id: 'session-info-button',
+			cls: 'x-button-label centerButton',
+			ui: 'action',
+			text: Messages.SESSION_OPTIONAL_INFO,
+			handler: function () {
+				alert('neu');
+			}
+		});
+
 		this.submitButton = Ext.create('Ext.Button', {
 			id: 'create-session-button',
 			cls: 'centerButton',
@@ -152,7 +162,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 					maxLength: 8,
 					clearIcon: true
 				}]
-			}, this.submitButton, this.coursesFieldset]
+			}, this.sessionInfoButton, this.submitButton, this.coursesFieldset]
 		}]);
 
 		this.onBefore('activate', function () {
@@ -163,11 +173,13 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 
 	enableInputElements: function () {
 		this.submitButton.enable();
+		this.sessionInfoButton.enable();
 		this.mycourses.addListener('itemtap', this.onCourseSubmit);
 	},
 
 	disableInputElements: function () {
 		this.submitButton.disable();
+		this.sessionInfoButton.disable();
 		this.mycourses.removeListener('itemtap', this.onCourseSubmit);
 	},
 

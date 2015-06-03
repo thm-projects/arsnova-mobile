@@ -117,6 +117,7 @@
 				SESSION_SHORT_NAME: "Kürzel",
 				SESSION_SHORT_NAME_PLACEHOLDER: "max. 8 Zeichen",
 				SESSION_SAVE: "Session anlegen",
+				SESSION_OPTIONAL_INFO: "Optionale Informationen",
 				SAVE: 'Speichern',
 
 				/* feedback */
@@ -684,6 +685,7 @@
 				SESSION_SHORT_NAME: "Short name",
 				SESSION_SHORT_NAME_PLACEHOLDER: "max. 8 digits",
 				SESSION_SAVE: "Create Session",
+				SESSION_OPTIONAL_INFO: "Optional Information",
 				SAVE: 'Save',
 
 				/* feedback */
