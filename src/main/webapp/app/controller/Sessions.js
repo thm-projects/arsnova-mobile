@@ -257,8 +257,8 @@ Ext.define("ARSnova.controller.Sessions", {
 	create: function (options) {
 		var session = Ext.create('ARSnova.model.Session', {
 			type: 'session',
-			name: options.name,
-			shortName: options.shortName,
+			name: options.name.trim(),
+			shortName: options.shortName.trim(),
 			creator: localStorage.getItem('login'),
 			courseId: options.courseId,
 			courseType: options.courseType,
