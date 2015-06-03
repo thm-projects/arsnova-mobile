@@ -61,7 +61,7 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 
 		this.statisticsButton = Ext.create('Ext.Button', {
 			iconCls: 'icon-chart',
-			style: 'padding: 0 0.4em',
+			style: 'padding: 0; width: 44px',
 			handler: this.getStatisticsButtonHandler(),
 			align: 'right'
 		});
