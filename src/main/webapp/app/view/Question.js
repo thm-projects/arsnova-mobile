@@ -71,7 +71,7 @@ Ext.define('ARSnova.view.Question', {
 		answerStore.each(function (item) {
 			if (ARSnova.app.globalConfig.parseAnswerOptionFormatting) {
 				var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
-				md.setContent(item.get('text'), true, true, function (html) {
+				md.setContent(item.get('text'), true, false, function (html) {
 					item.set('formattedText', html.getHtml());
 					md.destroy();
 				});
