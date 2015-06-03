@@ -160,7 +160,7 @@ Ext.define("ARSnova.controller.Auth", {
 
 		var animation = {
 			type: 'flip',
-			direction: role ? 'right' : left,
+			direction: role ? 'right' : 'left',
 			listeners: !callback ? {} : {
 				animationend: callback
 			}

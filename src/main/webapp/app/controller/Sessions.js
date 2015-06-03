@@ -172,9 +172,14 @@ Ext.define("ARSnova.controller.Sessions", {
 		tabPanel.feedbackTabPanel.tab.hide();
 	},
 
-	reloadData: function () {
+	reloadData: function (animation) {
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 		var hideLoadMask = Ext.emptyFn;
+
+		animation = !!animation ? animation : {
+			type: 'slide',
+			duration: 700
+		};
 
 		if (ARSnova.app.isSessionOwner && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			ARSnova.app.sessionModel.fireEvent(ARSnova.app.sessionModel.events.sessionJoinAsSpeaker);
@@ -187,10 +192,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				tabPanel.speakerTabPanel.tab.show();
 				tabPanel.speakerTabPanel.renew();
 			}
-			tabPanel.animateActiveItem(tabPanel.speakerTabPanel, {
-				type: 'slide',
-				duration: 700
-			});
+			tabPanel.animateActiveItem(tabPanel.speakerTabPanel, animation);
 			tabPanel.speakerTabPanel.inClassPanel.registerListeners();
 
 			/* add feedback statistic panel*/
@@ -231,21 +233,22 @@ Ext.define("ARSnova.controller.Sessions", {
 				tabPanel.feedbackTabPanel.renew();
 			}
 
-			tabPanel.animateActiveItem(tabPanel.userTabPanel, {
-				type: 'slide',
-				duration: 700
-			});
+			tabPanel.animateActiveItem(tabPanel.userTabPanel, animation);
 		}
 
 		/* add feedback questions panel*/
 		if (!tabPanel.feedbackQuestionsPanel) {
 			tabPanel.feedbackQuestionsPanel = Ext.create('ARSnova.view.feedbackQuestions.TabPanel');
+
+			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+				tabPanel.insert(2, tabPanel.feedbackQuestionsPanel);
+			} else {
+				tabPanel.insert(4, tabPanel.feedbackQuestionsPanel);
+			}
 		}
-		if (!tabPanel.userTabPanel) {
-			tabPanel.insert(2, tabPanel.feedbackQuestionsPanel);
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			tabPanel.feedbackQuestionsPanel.tab.show();
 		} else {
-			tabPanel.insert(4, tabPanel.feedbackQuestionsPanel);
 			tabPanel.feedbackQuestionsPanel.tab.hide();
 		}
 
@@ -375,6 +378,59 @@ Ext.define("ARSnova.controller.Sessions", {
 				options.newSessionPanel.enableInputElements();
 			}
 		});
+	},
+
+	changeRole: function () {
+		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
+
+		var reloadSession = function (animationDirection) {
+			ARSnova.app.socket.setSession(null);
+			ARSnova.app.socket.setSession(sessionStorage.getItem('keyword'));
+			ARSnova.app.mainTabPanel.tabPanel.updateHomeBadge();
+			ARSnova.app.getController('Sessions').reloadData({
+				direction: animationDirection,
+				type: 'flip'
+			});
+			hideLoadMask();
+		};
+
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			localStorage.setItem('lastVisitedRole', ARSnova.app.USER_ROLE_SPEAKER);
+			localStorage.setItem('role', ARSnova.app.USER_ROLE_STUDENT);
+			ARSnova.app.userRole = ARSnova.app.USER_ROLE_STUDENT;
+
+			/* hide speaker tab panel and destroy listeners */
+			tabPanel.speakerTabPanel.tab.hide();
+			tabPanel.speakerTabPanel.inClassPanel.destroyListeners();
+			reloadSession('right');
+		} else {
+			if (localStorage.getItem('lastVisitedRole') === ARSnova.app.USER_ROLE_SPEAKER) {
+				localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
+				ARSnova.app.userRole = ARSnova.app.USER_ROLE_SPEAKER;
+				localStorage.removeItem('lastVisitedRole');
+
+				/* hide user tab panel and destroy listeners */
+				tabPanel.userTabPanel.tab.hide();
+				tabPanel.userQuestionsPanel.tab.hide();
+				tabPanel.userTabPanel.inClassPanel.destroyListeners();
+				reloadSession('left');
+			}
+		}
+	},
+
+	checkExistingSessionLogin: function () {
+		if (localStorage.getItem('lastVisitedRole') === ARSnova.app.USER_ROLE_SPEAKER) {
+			localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
+			ARSnova.app.userRole = ARSnova.app.USER_ROLE_SPEAKER;
+			localStorage.removeItem('lastVisitedRole');
+		} else {
+			if (sessionStorage.getItem("keyword") !== null && sessionStorage.getItem("keyword") !== "") {
+				ARSnova.app.getController('Sessions').login({
+					keyword: sessionStorage.getItem("keyword")
+				});
+			}
+		}
 	},
 
 	setActive: function (options) {

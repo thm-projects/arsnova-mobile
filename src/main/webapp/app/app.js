@@ -224,6 +224,9 @@ Ext.application({
 		/* show diagnosis tab panel */
 		mainTabPanel.diagnosisPanel.tab.show();
 
+		/* check existing login in stored session */
+		ARSnova.app.getController('Sessions').checkExistingSessionLogin();
+
 		mainTabPanel.animateActiveItem(mainTabPanel.homeTabPanel, 'slide');
 		var hTP = mainTabPanel.homeTabPanel;
 		switch (ARSnova.app.userRole) {
@@ -236,12 +239,6 @@ Ext.application({
 				break;
 			default:
 				break;
-		}
-
-		if (sessionStorage.getItem("keyword") !== null && sessionStorage.getItem("keyword") !== "") {
-			return ARSnova.app.getController('Sessions').login({
-				keyword: sessionStorage.getItem("keyword")
-			});
 		}
 	},
 
