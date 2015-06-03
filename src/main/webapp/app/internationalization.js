@@ -107,6 +107,7 @@
 				/* mySessionsPanel */
 				HOME: "Start",
 				SESSION: "Session",
+				SESSION_INFO_TITLE: "Session Informationen",
 				NEW_SESSION: "Neue Session",
 				MY_SESSIONS: "Meine Sessions",
 				MY_PUBLIC_POOL_SESSIONS: "Meine Pool Sessions",
@@ -675,6 +676,7 @@
 				/* mySessionsPanel */
 				HOME: "Start",
 				SESSION: "Session",
+				SESSION_INFO_TITLE: "Session Informations",
 				NEW_SESSION: "New session",
 				MY_SESSIONS: "My sessions",
 				MY_PUBLIC_POOL_SESSIONS: "My pool sessions",

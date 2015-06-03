@@ -55,6 +55,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	initialize: function () {
+		var me = this;
 		this.callParent(arguments);
 
 		var comingSoon = function (component) {
@@ -239,7 +240,26 @@ Ext.define('ARSnova.view.user.InClass', {
 							cls: 'sessionInfoButton',
 							iconCls: 'info',
 							handler: function () {
-								alert('Session-Info');
+								ARSnova.app.sessionModel.getMySessions({
+									success: function (answer) {
+										var session;
+										var sessions = Ext.decode(answer.responseText);
+										for (var i = 0; i < sessions.length; i++) {
+											var value = sessions[i];
+											if (value.keyword == sessionStorage.getItem("keyword")) {
+												session = value;
+												break;
+											}
+										}
+										var uTP = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
+										var sessionForm = Ext.create('ARSnova.view.home.SessionInfoPanel', {
+											sessionInfo: session,
+											backReference: me,
+											referencePanel: uTP
+										});
+										uTP.animateActiveItem(sessionForm, 'slide');
+									}
+								});
 							}
 						}
 					]
