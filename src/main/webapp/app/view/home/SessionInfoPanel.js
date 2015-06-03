@@ -353,6 +353,18 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			]
 		});
 
+		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
+			me.creatorName.disable();
+			me.sessionName.disable();
+			me.sessionShortName.disable();
+			me.description.disable();
+			me.creatorFieldSet.disable();
+			me.university.disable();
+			me.faculty.disable();
+			me.saveButton.hide();
+			me.segmentButton.hide();
+		}
+
 		this.add([this.toolbar, this.mainPart]);
 	},
 
