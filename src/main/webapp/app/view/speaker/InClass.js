@@ -303,17 +303,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 							cls: 'sessionInfoButton',
 							iconCls: 'info',
 							handler: function () {
-								ARSnova.app.sessionModel.getMySessions({
-									success: function (answer) {
-										var session;
-										var sessions = Ext.decode(answer.responseText);
-										for (var i = 0; i < sessions.length; i++) {
-											var value = sessions[i];
-											if (value.keyword == sessionStorage.getItem("keyword")) {
-												session = value;
-												break;
-											}
-										}
+								ARSnova.app.sessionModel.checkSessionLogin(sessionStorage.getItem("keyword"), {
+									success: function (session) {
 										var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 										var sessionForm = Ext.create('ARSnova.view.home.SessionInfoPanel', {
 											sessionInfo: session,
