@@ -205,6 +205,10 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			disabled: false
 		});
 
+		this.markdownEditPanel = Ext.create('ARSnova.view.MarkDownEditorPanel', {
+			processElement: this.description
+		});
+
 		if (config.features.publicPool) {
 			this.subject = Ext.create('Ext.field.Select', {
 				name: 'subject',
@@ -238,14 +242,14 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				title: Messages.SESSIONPOOL_SESSIONINFO,
 				cls: 'standardFieldset',
 				itemId: 'contentFieldset',
-				items: [this.sessionName, this.sessionShortName, this.description, this.subject, this.licence, this.level]
+				items: [this.sessionName, this.sessionShortName, this.markdownEditPanel, this.description, this.subject, this.licence, this.level]
 			});
 		} else {
 			this.sessionFieldSet = Ext.create('Ext.form.FieldSet', {
 				title: Messages.SESSIONPOOL_SESSIONINFO,
 				cls: 'standardFieldset',
 				itemId: 'contentFieldset',
-				items: [this.sessionName, this.sessionShortName, this.description]
+				items: [this.sessionName, this.sessionShortName, this.markdownEditPanel, this.description]
 			});
 		}
 
