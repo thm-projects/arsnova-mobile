@@ -308,6 +308,11 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('courseId', fullSession.courseId === null ? "" : fullSession.courseId);
 				localStorage.setItem('courseType', fullSession.courseType === null ? "" : fullSession.courseType);
 				localStorage.setItem('creationTime', fullSession.creationTime);
+				localStorage.setItem('ppAuthorName', fullSession.ppAuthorName);
+				localStorage.setItem('ppAuthorMail', fullSession.ppAuthorMail);
+				localStorage.setItem('ppUniversity', fullSession.ppUniversity);
+				localStorage.setItem('ppFaculty', fullSession.ppFaculty);
+				localStorage.setItem('ppDescription', fullSession.ppDescription);
 				ARSnova.app.isSessionOwner = true;
 
 				sessionStorage.setItem('keyword', fullSession.keyword);

@@ -101,10 +101,20 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			ui: 'confirm',
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
-			listeners: {
-				tap: function (button, e, eOpts) {
-					alert("Save");
-				}
+			handler: function () {
+				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel;
+
+				ARSnova.app.getController('Sessions').create({
+					name: me.sessionName.getValue(),
+					shortName: me.sessionShortName.getValue(),
+					ppAuthorName: me.creatorName.getValue(),
+					ppAuthorMail: me.email.getValue(),
+					ppUniversity: me.university.getValue(),
+					ppFaculty: me.faculty.getValue(),
+					ppDescription: me.description.getValue(),
+					newSessionPanel: panel,
+					creationTime: Date.now()
+				});
 			},
 			scope: this
 		});
@@ -127,6 +137,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			label: Messages.EXPORT_FIELD_NAME,
 			maxLength: 50,
 			placeHolder: 'max. 50 ' + Messages.SESSOPNPOOL_CHARACTERS,
+			value: me.getSessionInfo().ppAuthorName,
 			clearIcon: true
 		});
 
@@ -136,6 +147,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			vtype: 'email',
 			maxLength: 50,
 			placeHolder: 'max. 50 ' + Messages.SESSOPNPOOL_CHARACTERS,
+			value: me.getSessionInfo().ppAuthorMail,
 			clearIcon: true
 		});
 
@@ -144,6 +156,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			label: Messages.EXPORT_FIELD_UNI,
 			maxLength: 50,
 			placeHolder: 'max. 50 ' + Messages.SESSOPNPOOL_CHARACTERS,
+			value: me.getSessionInfo().ppUniversity,
 			clearIcon: true
 		});
 
@@ -151,6 +164,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			name: 'faculty',
 			label: Messages.EXPORT_FIELD_SPECIAL_FIELD,
 			placeHolder: 'max. 50 ' + Messages.SESSOPNPOOL_CHARACTERS,
+			value: me.getSessionInfo().ppFaculty,
 			maxLength: 50,
 			clearIcon: true
 		});
@@ -187,6 +201,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			inputCls: 'thm-grey',
 			maxLength: 150,
 			placeHolder: 'max. 150 ' + Messages.SESSOPNPOOL_CHARACTERS,
+			value: me.getSessionInfo().ppDescription,
 			disabled: false
 		});
 

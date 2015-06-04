@@ -38,6 +38,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 	backButton: null,
 
 	constructor: function (args) {
+		var me = this;
 		this.callParent(arguments);
 
 		this.mycoursesStore = new Ext.data.JsonStore({
@@ -113,7 +114,18 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			ui: 'action',
 			text: Messages.SESSION_OPTIONAL_INFO,
 			handler: function () {
-				alert('neu');
+				ARSnova.app.sessionModel.getMySessions({
+					success: function (answer) {
+						var session = {};
+						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+						var sessionForm = Ext.create('ARSnova.view.home.SessionInfoPanel', {
+							sessionInfo: session,
+							backReference: me,
+							referencePanel: hTP
+						});
+						hTP.animateActiveItem(sessionForm, 'slide');
+					}
+				});
 			}
 		});
 
