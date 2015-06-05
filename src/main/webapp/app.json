@@ -69,6 +69,10 @@
       		"update": "full"
         },
         {
+            "path": "lib/papaparse.min.js",
+            "update": "full"
+        },
+        {
       		"path": "app/utils/Ext.util.TaskRunner.js",
       		"update": "full"
         },
