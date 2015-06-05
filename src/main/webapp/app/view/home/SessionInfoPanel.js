@@ -197,7 +197,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		this.description = Ext.create('Ext.plugins.ResizableTextArea', {
 			name: 'description',
 			label: Messages.SESSIONPOOL_INFO,
-			disabledCls: 'disableDefault',
 			inputCls: 'thm-grey',
 			maxLength: 150,
 			placeHolder: 'max. 150 ' + Messages.SESSOPNPOOL_CHARACTERS,
@@ -374,12 +373,20 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 
 		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
 			me.creatorName.disable();
+			me.creatorName.setPlaceHolder('');
+			me.email.setPlaceHolder('');
 			me.sessionName.disable();
+			me.sessionName.setPlaceHolder('');
 			me.sessionShortName.disable();
+			me.sessionShortName.setPlaceHolder('');
 			me.description.disable();
+			me.description.setPlaceHolder('');
+			me.markdownEditPanel.hide();
 			me.creatorFieldSet.disable();
 			me.university.disable();
+			me.university.setPlaceHolder('');
 			me.faculty.disable();
+			me.faculty.setPlaceHolder('');
 			me.saveButton.hide();
 			me.segmentButton.hide();
 		}
