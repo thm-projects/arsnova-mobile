@@ -484,7 +484,7 @@
 				SESSIONPOOL_ERR_GET_SESSION: "Sie haben nicht die Berechtigung, um die Session zu sehen.",
 				SESSIONPOOL_TITLE: "Session Pool",
 				SESSIONPOOL_VISIT:	"Besuchen",
-				SESSOPNPOOL_CHARACTERS: 'Zeichen',
+				SESSIONPOOL_CHARACTERS: 'Zeichen',
 				SESSIONPOOL_INFOS:	'Infos',
 
 				/* question types */
@@ -1054,7 +1054,7 @@
 				SESSIONPOOL_ERR_GET_SESSION: "You do not have sufficient rights to see the session.",
 				SESSIONPOOL_TITLE: "Session Pool",
 				SESSIONPOOL_VISIT:	"Visit",
-				SESSOPNPOOL_CHARACTERS:	'characters',
+				SESSIONPOOL_CHARACTERS:	'characters',
 				SESSIONPOOL_INFOS:	'Infos',
 
 				/* question types */
