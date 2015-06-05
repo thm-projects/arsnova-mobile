@@ -36,8 +36,8 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 	initialize: function () {
 		this.callParent(arguments);
 		var me = this;
-
 		var config = ARSnova.app.globalConfig;
+
 		// Check if this feauture is enabled - if not do not use these fields
 		if (config.features.publicPool) {
 			var SubjectoptionsPP = [];	// save loaded subjects
@@ -181,7 +181,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			label: Messages.SESSION_NAME,
 			maxLength: 50,
 			placeHolder: 'max. 50 ' + Messages.SESSOPNPOOL_CHARACTERS,
-			value: me.getSessionInfo().name,
+			value: localStorage.getItem('name'), //me.getSessionInfo().name,
 			clearIcon: true
 		});
 
@@ -190,7 +190,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			label: Messages.SESSION_SHORT_NAME,
 			maxLength: 8,
 			placeHolder: 'max. 8 ' + Messages.SESSOPNPOOL_CHARACTERS,
-			value: me.getSessionInfo().shortName,
+			value: localStorage.getItem('shortName'), //me.getSessionInfo().shortName,
 			clearIcon: true
 		});
 
@@ -389,8 +389,8 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			me.faculty.setPlaceHolder('');
 			me.saveButton.hide();
 			me.segmentButton.hide();
+			me.exportOptionalOptions.hide();
 		}
-
 		this.add([this.toolbar, this.mainPart]);
 	},
 

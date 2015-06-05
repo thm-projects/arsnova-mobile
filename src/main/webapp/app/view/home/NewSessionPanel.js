@@ -114,6 +114,10 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			ui: 'action',
 			text: Messages.SESSION_OPTIONAL_INFO,
 			handler: function () {
+				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel;
+				var values = this.up('panel').getValues();
+				localStorage.setItem('name', values.name);
+				localStorage.setItem('shortName', values.shortName);
 				ARSnova.app.sessionModel.getMySessions({
 					success: function (answer) {
 						var session = {};
