@@ -257,6 +257,34 @@ Ext.define("ARSnova.controller.Sessions", {
 		hideLoadMask();
 	},
 
+	update: function (sessionInfo) {
+		var session = Ext.create('ARSnova.model.Session', sessionInfo);
+
+		var validation = session.validate();
+		session.update({
+			success: function (response) {
+				var fullSession = Ext.decode(response.responseText);
+				localStorage.setItem('sessionId', fullSession._id);
+				localStorage.setItem('name', fullSession.name);
+				localStorage.setItem('shortName', fullSession.shortName);
+				localStorage.setItem('active', fullSession.active ? 1 : 0);
+				localStorage.setItem('courseId', fullSession.courseId === null ? "" : fullSession.courseId);
+				localStorage.setItem('courseType', fullSession.courseType === null ? "" : fullSession.courseType);
+				localStorage.setItem('creationTime', fullSession.creationTime);
+				localStorage.setItem('ppAuthorName', fullSession.ppAuthorName);
+				localStorage.setItem('ppAuthorMail', fullSession.ppAuthorMail);
+				localStorage.setItem('ppUniversity', fullSession.ppUniversity);
+				localStorage.setItem('ppFaculty', fullSession.ppFaculty);
+				localStorage.setItem('ppDescription', fullSession.ppDescription);
+				localStorage.setItem('keyword', fullSession.keyword);
+				ARSnova.app.isSessionOwner = true;
+			},
+			failure: function (response) {
+				Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
+			}
+		});
+	},
+
 	create: function (options) {
 		var session = Ext.create('ARSnova.model.Session', {
 			type: 'session',

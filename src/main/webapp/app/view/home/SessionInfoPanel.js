@@ -103,18 +103,39 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			style: 'width: 89px',
 			handler: function () {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel;
+				me.Validate();
+				if (me.getSessionInfo().keyword) {
+					var sessionInfo = me.getSessionInfo();
+					sessionInfo.name = me.sessionName.getValue();
+					sessionInfo.shortName = me.sessionShortName.getValue();
+					sessionInfo.ppAuthorName = me.creatorName.getValue();
+					sessionInfo.ppAuthorMail = me.email.getValue();
+					sessionInfo.ppUniversity = me.university.getValue();
+					sessionInfo.ppFaculty = me.faculty.getValue();
+					sessionInfo.ppLogo = me.logo.getSrc();
+					sessionInfo.ppDescription = me.description.getValue();
+					ARSnova.app.getController('Sessions').update(sessionInfo);
 
-				ARSnova.app.getController('Sessions').create({
-					name: me.sessionName.getValue(),
-					shortName: me.sessionShortName.getValue(),
-					ppAuthorName: me.creatorName.getValue(),
-					ppAuthorMail: me.email.getValue(),
-					ppUniversity: me.university.getValue(),
-					ppFaculty: me.faculty.getValue(),
-					ppDescription: me.description.getValue(),
-					newSessionPanel: panel,
-					creationTime: Date.now()
-				});
+					var xTP = me.getReferencePanel();
+					xTP.animateActiveItem(me.getBackReference(), {
+						type: 'slide',
+						direction: 'right',
+						duration: 700
+					});
+				} else {
+					ARSnova.app.getController('Sessions').create({
+						name: me.sessionName.getValue(),
+						shortName: me.sessionShortName.getValue(),
+						ppAuthorName: me.creatorName.getValue(),
+						ppAuthorMail: me.email.getValue(),
+						ppUniversity: me.university.getValue(),
+						ppFaculty: me.faculty.getValue(),
+						ppLogo: me.logo.getSrc(),
+						ppDescription: me.description.getValue(),
+						newSessionPanel: panel,
+						creationTime: Date.now()
+					});
+				}
 			},
 			scope: this
 		});
@@ -225,7 +246,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		if (config.features.publicPool) {
 			this.subject = Ext.create('Ext.field.Select', {
 				name: 'subject',
-				disabled: true,
 				label: Messages.EXPORT_FIELD_SUBJECT,
 				maxLength: 50,
 				placeHolder: 'max. 50 ' + Messages.SESSIONPOOL_CHARACTERS
@@ -235,7 +255,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 
 			this.licence = Ext.create('Ext.field.Select', {
 				name: 'licence',
-				disabled: true,
 				label: Messages.EXPORT_FIELD_LICENCE,
 				maxLength: 50,
 				placeHolder: 'max. 50 ' + Messages.SESSIONPOOL_CHARACTERS
@@ -244,7 +263,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 
 			this.level = Ext.create('Ext.field.Select', {
 				name: 'level',
-				disabled: true,
 				label: Messages.EXPORT_FIELD_LEVEL,
 				maxLength: 50,
 				placeHolder: 'max. 50 ' + Messages.SESSIONPOOL_CHARACTERS
@@ -403,6 +421,9 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			me.university.setPlaceHolder('');
 			me.faculty.disable();
 			me.faculty.setPlaceHolder('');
+			me.subject.disable();
+			me.licence.disable();
+			me.level.disable();
 			me.saveButton.hide();
 			me.segmentButton.hide();
 			me.exportOptionalOptions.hide();
@@ -410,55 +431,16 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		this.add([this.toolbar, this.mainPart]);
 	},
 
-	ValidateInput: function (button, e, options) {
-		var scope = this;
-		var me = button.up('SessionExportToPublicPanel');
-
-		var validation = Ext.create('ARSnova.model.PublicPool', {
-			name: me.creatorName.getValue(),
-			hs: me.university.getValue(),
-			logo: me.logo.getSrc(),
-			subject: me.subject.getValue(),
-			licence: me.licence.getValue(),
-			level: me.level.getValue(),
-			email: me.email.getValue(),
-			sessionName: me.sessionName.getValue(),
-			sessionShortName: me.sessionShortName.getValue(),
-			description: me.description.getValue(),
-			faculty: me.faculty.getValue()
-		});
-
-		var errs = validation.validate();
-		var msg = '';
-
-		if (!errs.isValid()) {
-			errs.each(function (err) {
-				msg += err.getMessage();
-				msg += '<br/>';
-			});
-
-			Ext.Msg.alert(Messages.SESSIONPOOL_NOTIFICATION, msg);
+	Validate: function () {
+		if (this.sessionName.getValue() === "") {
+			this.sessionName.addCls("required");
 		} else {
-			var publicPoolAttributes = {};
-			publicPoolAttributes.ppAuthorName = validation.get('name');
-			publicPoolAttributes.ppAuthorMail = validation.get('email');
-			publicPoolAttributes.ppUniversity = validation.get('hs');
-			publicPoolAttributes.ppLogo = validation.get('logo');
-			publicPoolAttributes.ppSubject = validation.get('subject');
-			publicPoolAttributes.ppLicense = validation.get('licence');
-			publicPoolAttributes.ppLevel = validation.get('level');
-			publicPoolAttributes.ppDescription = validation.get('description');
-			publicPoolAttributes.ppFaculty = validation.get('faculty');
-			publicPoolAttributes.name = me.sessionName.getValue();
-			publicPoolAttributes.shortName = me.sessionShortName.getValue();
-
-			// create array for export
-			var sessions = [];
-			sessions.push(me.getSessionInfo());
-
-			// export to public pool here
-			ARSnova.app.getController("SessionExport").exportSessionsToPublicPool(
-					sessions, publicPoolAttributes);
+			this.sessionName.removeCls("required");
+		}
+		if (this.sessionShortName.getValue() === "") {
+			this.sessionShortName.addCls("required");
+		} else {
+			this.sessionShortName.removeCls("required");
 		}
 	},
 
