@@ -56,6 +56,74 @@ Ext.define("ARSnova.controller.QuestionExport", {
         var csv = ARSnova.utils.CsvUtil.jsonToCsv(json);
         this.saveFileOnFileSystem(csv, this.filename());
     },
+
+    getActualDate: function(){
+       var d = new Date();
+       return ('0' + d.getFullYear()).slice(-2) + '-'
+       + ('0' + (d.getMonth() + 1)).slice(-2) + '-'
+       + ('0' + d.getDate()).slice(-2) + '-'
+       + ('0' + d.getHours()).slice(-2) + '-'
+       + ('0' + d.getMinutes()).slice(-2);
+    },
+
+
+    getQuestionType: function(questionTypeModel){
+        switch (questionTypeModel){
+            case 'mc' : return 'MC';
+            case 'abcd' : return 'SC';
+            case 'freetext' : return 'TXT';
+            case 'yesno' :  return 'YN';
+        }
+    },
+
+    formatQuestion: function(questionModel){
+        var questionTypeModel = questionModel.questionType;
+        var rightAnswer ='';
+        var question = '{';
+            question += '"questionType":' +'"'+this.getQuestionType(questionTypeModel)+'"';
+            question += ',"questionSubject":' +'"'+ questionModel.subject+'"';
+            question += ',"question":' +'"'+ questionModel.text+'"';
+
+        if(questionTypeModel === 'mc' ||  questionTypeModel === 'abcd'){
+
+            for(var i=0 ; i < questionModel.possibleAnswers.length ; i++){
+                question += ',"answer'+(i+1)+'":'+'"'+ questionModel.possibleAnswers[i].text+'"';
+                if(questionModel.possibleAnswers[i].correct === true){
+                    rightAnswer += (i+1)+',';
+                }
+            }
+            question += ',"RightAnswer":' +'"'+ rightAnswer.slice(0,rightAnswer.length-1)+'"';
+
+        } else if(questionTypeModel === 'yesno'){
+            rightAnswer='n';
+            if(questionModel.possibleAnswers[0].correct) {
+                rightAnswer = 'y';
+            }
+            question += ',"RightAnswer":' +'"'+ rightAnswer+'"';
+        }
+        question += '}';
+
+        console.log('end format');
+        console.log(question);
+        return JSON.parse(question);
+    },
+
+    preparseJSONtoCSV: function(records){
+        var fileName = localStorage.getItem('shortName')+
+                       '-'+sessionStorage.getItem('keyword')+'-'+
+                        this.getActualDate();
+        var questions = [];
+        for (var i=0 ; i < records.length ; i++) {
+            questions[i] = this.formatQuestion(records[i].data);
+        }
+        console.log(records);
+        console.log(questions);
+        console.log(fileName);
+
+        // csv datei bauen mit ARSnova.utils.CsvUtil.jsonToCsv
+        ARSnova.app.getController("SessionExport").saveFileOnFileSystem(JSON.stringify(questions),fileName+'.json');
+    },
+
     saveFileOnFileSystem: function (csv, filename) {
         var blob = new Blob([csv], {type: "application/csv;charset=utf-8"});
         var ua = window.navigator.userAgent;
