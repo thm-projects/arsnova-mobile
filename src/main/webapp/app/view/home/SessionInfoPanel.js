@@ -103,60 +103,61 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			style: 'width: 89px',
 			handler: function () {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel;
-				me.Validate();
-				if (me.getSessionInfo().keyword) {
-					var sessionInfo = me.getSessionInfo();
-					sessionInfo.name = me.sessionName.getValue();
-					sessionInfo.shortName = me.sessionShortName.getValue();
-					sessionInfo.ppAuthorName = me.creatorName.getValue();
-					sessionInfo.ppAuthorMail = me.email.getValue();
-					sessionInfo.ppUniversity = me.university.getValue();
-					sessionInfo.ppFaculty = me.faculty.getValue();
-					sessionInfo.ppLogo = me.logo.getSrc();
-					sessionInfo.ppDescription = me.description.getValue();
-					if (config.features.publicPool) {
-						sessionInfo.ppLevel = me.level.getValue();
-						sessionInfo.ppSubject = me.subject.getValue();
-						sessionInfo.ppLicense = me.licence.getValue();
-					}
-					ARSnova.app.getController('Sessions').update(sessionInfo);
+				if (me.Validate()){
+					if (me.getSessionInfo().keyword) {
+						var sessionInfo = me.getSessionInfo();
+						sessionInfo.name = me.sessionName.getValue();
+						sessionInfo.shortName = me.sessionShortName.getValue();
+						sessionInfo.ppAuthorName = me.creatorName.getValue();
+						sessionInfo.ppAuthorMail = me.email.getValue();
+						sessionInfo.ppUniversity = me.university.getValue();
+						sessionInfo.ppFaculty = me.faculty.getValue();
+						sessionInfo.ppLogo = me.logo.getSrc();
+						sessionInfo.ppDescription = me.description.getValue();
+						if (config.features.publicPool) {
+							sessionInfo.ppLevel = me.level.getValue();
+							sessionInfo.ppSubject = me.subject.getValue();
+							sessionInfo.ppLicense = me.licence.getValue();
+						}
+						ARSnova.app.getController('Sessions').update(sessionInfo);
 
-					var xTP = me.getReferencePanel();
-					xTP.animateActiveItem(me.getBackReference(), {
-						type: 'slide',
-						direction: 'right',
-						duration: 700
-					});
-				} else {
-					if (config.features.publicPool) {
-						ARSnova.app.getController('Sessions').create({
-							name: me.sessionName.getValue(),
-							shortName: me.sessionShortName.getValue(),
-							ppAuthorName: me.creatorName.getValue(),
-							ppAuthorMail: me.email.getValue(),
-							ppUniversity: me.university.getValue(),
-							ppFaculty: me.faculty.getValue(),
-							ppLevel: me.level.getValue(),
-							ppSubject: me.subject.getValue(),
-							ppLicense: me.licence.getValue(),
-							ppLogo: me.logo.getSrc(),
-							ppDescription: me.description.getValue(),
-							newSessionPanel: panel,
-							creationTime: Date.now()
+						var xTP = me.getReferencePanel();
+						xTP.animateActiveItem(me.getBackReference(), {
+							type: 'slide',
+							direction: 'right',
+							duration: 700
 						});
 					} else {
-						ARSnova.app.getController('Sessions').create({
-							name: me.sessionName.getValue(),
-							shortName: me.sessionShortName.getValue(),
-							ppAuthorName: me.creatorName.getValue(),
-							ppAuthorMail: me.email.getValue(),
-							ppUniversity: me.university.getValue(),
-							ppFaculty: me.faculty.getValue(),
-							ppLogo: me.logo.getSrc(),
-							ppDescription: me.description.getValue(),
-							newSessionPanel: panel,
-							creationTime: Date.now()
-						});
+						if (config.features.publicPool) {
+							ARSnova.app.getController('Sessions').create({
+								name: me.sessionName.getValue(),
+								shortName: me.sessionShortName.getValue(),
+								ppAuthorName: me.creatorName.getValue(),
+								ppAuthorMail: me.email.getValue(),
+								ppUniversity: me.university.getValue(),
+								ppFaculty: me.faculty.getValue(),
+								ppLevel: me.level.getValue(),
+								ppSubject: me.subject.getValue(),
+								ppLicense: me.licence.getValue(),
+								ppLogo: me.logo.getSrc(),
+								ppDescription: me.description.getValue(),
+								newSessionPanel: panel,
+								creationTime: Date.now()
+							});
+						} else {
+							ARSnova.app.getController('Sessions').create({
+								name: me.sessionName.getValue(),
+								shortName: me.sessionShortName.getValue(),
+								ppAuthorName: me.creatorName.getValue(),
+								ppAuthorMail: me.email.getValue(),
+								ppUniversity: me.university.getValue(),
+								ppFaculty: me.faculty.getValue(),
+								ppLogo: me.logo.getSrc(),
+								ppDescription: me.description.getValue(),
+								newSessionPanel: panel,
+								creationTime: Date.now()
+							});
+						}
 					}
 				}
 			},
@@ -466,16 +467,23 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 	},
 
 	Validate: function () {
+		var isValid = true;
 		if (this.sessionName.getValue() === "") {
 			this.sessionName.addCls("required");
+			isValid = false;
 		} else {
 			this.sessionName.removeCls("required");
 		}
 		if (this.sessionShortName.getValue() === "") {
 			this.sessionShortName.addCls("required");
+			isValid = false;
 		} else {
 			this.sessionShortName.removeCls("required");
 		}
+		if (!isValid){
+			Ext.Msg.alert('Hinweis', 'Bitte alle markierten Felder ausfüllen.');
+		}
+		return isValid;
 	},
 
 	toggleUploadTextfieldVisibility: function () {
