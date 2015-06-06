@@ -103,7 +103,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			style: 'width: 89px',
 			handler: function () {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel;
-
+				me.Validate();
 				if (me.getSessionInfo().keyword) {
 					var sessionInfo = me.getSessionInfo();
 					sessionInfo.name = me.sessionName.getValue();
@@ -413,55 +413,16 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		this.add([this.toolbar, this.mainPart]);
 	},
 
-	ValidateInput: function (button, e, options) {
-		var scope = this;
-		var me = button.up('SessionExportToPublicPanel');
-
-		var validation = Ext.create('ARSnova.model.PublicPool', {
-			name: me.creatorName.getValue(),
-			hs: me.university.getValue(),
-			logo: me.logo.getSrc(),
-			subject: me.subject.getValue(),
-			licence: me.licence.getValue(),
-			level: me.level.getValue(),
-			email: me.email.getValue(),
-			sessionName: me.sessionName.getValue(),
-			sessionShortName: me.sessionShortName.getValue(),
-			description: me.description.getValue(),
-			faculty: me.faculty.getValue()
-		});
-
-		var errs = validation.validate();
-		var msg = '';
-
-		if (!errs.isValid()) {
-			errs.each(function (err) {
-				msg += err.getMessage();
-				msg += '<br/>';
-			});
-
-			Ext.Msg.alert(Messages.SESSIONPOOL_NOTIFICATION, msg);
+	Validate: function () {
+		if (this.sessionName.getValue() === "") {
+			this.sessionName.addCls("required");
 		} else {
-			var publicPoolAttributes = {};
-			publicPoolAttributes.ppAuthorName = validation.get('name');
-			publicPoolAttributes.ppAuthorMail = validation.get('email');
-			publicPoolAttributes.ppUniversity = validation.get('hs');
-			publicPoolAttributes.ppLogo = validation.get('logo');
-			publicPoolAttributes.ppSubject = validation.get('subject');
-			publicPoolAttributes.ppLicense = validation.get('licence');
-			publicPoolAttributes.ppLevel = validation.get('level');
-			publicPoolAttributes.ppDescription = validation.get('description');
-			publicPoolAttributes.ppFaculty = validation.get('faculty');
-			publicPoolAttributes.name = me.sessionName.getValue();
-			publicPoolAttributes.shortName = me.sessionShortName.getValue();
-
-			// create array for export
-			var sessions = [];
-			sessions.push(me.getSessionInfo());
-
-			// export to public pool here
-			ARSnova.app.getController("SessionExport").exportSessionsToPublicPool(
-					sessions, publicPoolAttributes);
+			this.sessionName.removeCls("required");
+		}
+		if (this.sessionShortName.getValue() === "") {
+			this.sessionShortName.addCls("required");
+		} else {
+			this.sessionShortName.removeCls("required");
 		}
 	},
 
