@@ -208,6 +208,20 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			processElement: this.description
 		});
 
+		this.descriptionText = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			label: Messages.SESSIONPOOL_INFO
+		});
+		this.descriptionText.setContent(me.description.getValue(), true, true);
+
+		this.descriptionFieldSet = Ext.create('Ext.form.FieldSet', {
+			hidden: true,
+			title: Messages.SESSIONPOOL_INFO,
+			cls: 'standardFieldset',
+			items: [
+				this.descriptionText
+			]
+		});
+
 		if (config.features.publicPool) {
 			this.subject = Ext.create('Ext.field.Select', {
 				name: 'subject',
@@ -358,6 +372,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			items: [
 				this.creatorFieldSet,
 				this.sessionFieldSet,
+				this.descriptionFieldSet,
 				this.exportOptionalOptions,
 				{
 					xtype: 'fieldset',
@@ -380,8 +395,9 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			me.sessionShortName.disable();
 			me.sessionShortName.setPlaceHolder('');
 			me.description.disable();
-			me.description.setPlaceHolder('');
+			me.description.hide();
 			me.markdownEditPanel.hide();
+			me.descriptionFieldSet.show();
 			me.creatorFieldSet.disable();
 			me.university.disable();
 			me.university.setPlaceHolder('');
