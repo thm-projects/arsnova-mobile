@@ -633,7 +633,12 @@
 				IMP_ERROR: "Fehler bei Session-Import",
 				IMP_ERROR_FORMAT: "JSON Datei ist falsch formatiert.",
 				IMP_ERROR_SAVE: "Session konnte nicht gespeichert werden.",
-				IMP_ERROR_IMAGE: "Session konnte nicht gespeichert werden. Bild überschreitet maximale Größe."
+				IMP_ERROR_IMAGE: "Session konnte nicht gespeichert werden. Bild überschreitet maximale Größe.",
+
+				/* CSV export*/
+				QUESTIONS_CSV_EXPORT_BUTTON: "CSV<br>exportieren",
+				QUESTIONS_CSV_EXPORT_MSBOX_TITLE:"Fragen Exportieren",
+				QUESTIONS_CSV_EXPORT_MSBOX_INFO:"Die Fragen werden in einen CSV Datei exportiert"
 			};
 			break;
 
@@ -1226,7 +1231,13 @@
 				IMP_ERROR: "Error while importing sessions",
 				IMP_ERROR_FORMAT: "JSON file is not formated correctly",
 				IMP_ERROR_SAVE: "Could not save session to database.",
-				IMP_ERROR_IMAGE: "Could not save session, image exceeds maximal size."
+				IMP_ERROR_IMAGE: "Could not save session, image exceeds maximal size.",
+
+
+				/* CSV export */
+				QUESTIONS_CSV_EXPORT_BUTTON: "Export<br>CSV",
+				QUESTIONS_CSV_EXPORT_MSBOX_TITLE:"Export Questions",
+				QUESTIONS_CSV_EXPORT_MSBOX_INFO:"The questions will be in a CSV file exported"
 			};
 			break;
 	}
