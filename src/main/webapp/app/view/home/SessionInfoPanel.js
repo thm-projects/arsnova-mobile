@@ -104,17 +104,29 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			handler: function () {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel;
 
-				ARSnova.app.getController('Sessions').create({
-					name: me.sessionName.getValue(),
-					shortName: me.sessionShortName.getValue(),
-					ppAuthorName: me.creatorName.getValue(),
-					ppAuthorMail: me.email.getValue(),
-					ppUniversity: me.university.getValue(),
-					ppFaculty: me.faculty.getValue(),
-					ppDescription: me.description.getValue(),
-					newSessionPanel: panel,
-					creationTime: Date.now()
-				});
+				if (me.getSessionInfo().keyword) {
+					var sessionInfo = me.getSessionInfo();
+					sessionInfo.name = me.sessionName.getValue();
+					sessionInfo.shortName = me.sessionShortName.getValue();
+					sessionInfo.ppAuthorName = me.creatorName.getValue();
+					sessionInfo.ppAuthorMail = me.email.getValue();
+					sessionInfo.ppUniversity = me.university.getValue();
+					sessionInfo.ppFaculty = me.faculty.getValue();
+					sessionInfo.ppDescription = me.description.getValue();
+					ARSnova.app.getController('Sessions').update(sessionInfo);
+				} else {
+					ARSnova.app.getController('Sessions').create({
+						name: me.sessionName.getValue(),
+						shortName: me.sessionShortName.getValue(),
+						ppAuthorName: me.creatorName.getValue(),
+						ppAuthorMail: me.email.getValue(),
+						ppUniversity: me.university.getValue(),
+						ppFaculty: me.faculty.getValue(),
+						ppDescription: me.description.getValue(),
+						newSessionPanel: panel,
+						creationTime: Date.now()
+					});
+				}
 			},
 			scope: this
 		});
