@@ -114,6 +114,13 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 					sessionInfo.ppFaculty = me.faculty.getValue();
 					sessionInfo.ppDescription = me.description.getValue();
 					ARSnova.app.getController('Sessions').update(sessionInfo);
+
+					var xTP = me.getReferencePanel();
+					xTP.animateActiveItem(me.getBackReference(), {
+						type: 'slide',
+						direction: 'right',
+						duration: 700
+					});
 				} else {
 					ARSnova.app.getController('Sessions').create({
 						name: me.sessionName.getValue(),
