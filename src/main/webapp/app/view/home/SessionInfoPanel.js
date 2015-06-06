@@ -211,7 +211,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		if (config.features.publicPool) {
 			this.subject = Ext.create('Ext.field.Select', {
 				name: 'subject',
-				disabled: true,
 				label: Messages.EXPORT_FIELD_SUBJECT,
 				maxLength: 50,
 				placeHolder: 'max. 50 ' + Messages.SESSOPNPOOL_CHARACTERS
@@ -221,7 +220,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 
 			this.licence = Ext.create('Ext.field.Select', {
 				name: 'licence',
-				disabled: true,
 				label: Messages.EXPORT_FIELD_LICENCE,
 				maxLength: 50,
 				placeHolder: 'max. 50 ' + Messages.SESSOPNPOOL_CHARACTERS
@@ -230,7 +228,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 
 			this.level = Ext.create('Ext.field.Select', {
 				name: 'level',
-				disabled: true,
 				label: Messages.EXPORT_FIELD_LEVEL,
 				maxLength: 50,
 				placeHolder: 'max. 50 ' + Messages.SESSOPNPOOL_CHARACTERS
@@ -387,6 +384,9 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			me.university.setPlaceHolder('');
 			me.faculty.disable();
 			me.faculty.setPlaceHolder('');
+			me.subject.disable();
+			me.licence.disable();
+			me.level.disable();
 			me.saveButton.hide();
 			me.segmentButton.hide();
 			me.exportOptionalOptions.hide();
