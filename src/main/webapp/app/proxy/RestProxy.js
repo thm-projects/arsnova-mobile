@@ -562,6 +562,16 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
+	updateSession: function (session, callbacks) {
+		this.arsjax.request({
+				url: "session/" + session.get("keyword"),
+				method: "PUT",
+				jsonData: session.data,
+				success: callbacks.success,
+				failure: callbacks.failure
+			});
+	},
+
 	delQuestion: function (queObj, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + queObj._id,

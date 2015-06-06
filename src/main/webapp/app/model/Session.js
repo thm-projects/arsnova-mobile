@@ -102,6 +102,10 @@ Ext.define('ARSnova.model.Session', {
 		return this.getProxy().createSession(this, callbacks);
 	},
 
+	update: function (callbacks) {
+		return this.getProxy().updateSession(this, callbacks);
+	},
+
 	checkSessionLogin: function (keyword, callbacks) {
 		var me = this;
 
