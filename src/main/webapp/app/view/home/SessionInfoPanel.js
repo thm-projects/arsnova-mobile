@@ -409,6 +409,9 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			height: 100,
 			hidden: true
 		});
+		if (me.getSessionInfo().ppLogo) {
+			me.drawLogo(me.getSessionInfo().ppLogo);
+		}
 
 		this.mainPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
