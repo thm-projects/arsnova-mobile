@@ -444,7 +444,9 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			me.description.disable();
 			me.description.hide();
 			me.markdownEditPanel.hide();
-			me.descriptionFieldSet.show();
+			if (me.getSessionInfo().ppDescription) {
+				me.descriptionFieldSet.show();
+			}
 			me.creatorFieldSet.disable();
 			me.university.disable();
 			me.university.setPlaceHolder('');
