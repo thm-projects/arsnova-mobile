@@ -258,7 +258,8 @@ Ext.define("ARSnova.controller.Sessions", {
 	},
 
 	update: function (sessionInfo) {
-		var session = Ext.create('ARSnova.model.Session', sessionInfo);
+		var session = Ext.create('ARSnova.model.Session');
+		session.setData(sessionInfo);
 
 		var validation = session.validate();
 		session.update({
@@ -274,6 +275,9 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('ppAuthorName', fullSession.ppAuthorName);
 				localStorage.setItem('ppAuthorMail', fullSession.ppAuthorMail);
 				localStorage.setItem('ppUniversity', fullSession.ppUniversity);
+				localStorage.setItem('ppLicense', fullSession.ppLicense);
+				localStorage.setItem('ppLevel', fullSession.ppLevel);
+				localStorage.setItem('ppSubject', fullSession.ppSubject);
 				localStorage.setItem('ppFaculty', fullSession.ppFaculty);
 				localStorage.setItem('ppDescription', fullSession.ppDescription);
 				localStorage.setItem('keyword', fullSession.keyword);
@@ -339,6 +343,9 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('ppAuthorName', fullSession.ppAuthorName);
 				localStorage.setItem('ppAuthorMail', fullSession.ppAuthorMail);
 				localStorage.setItem('ppUniversity', fullSession.ppUniversity);
+				localStorage.setItem('ppLicense', fullSession.ppLicense);
+				localStorage.setItem('ppLevel', fullSession.ppLevel);
+				localStorage.setItem('ppSubject', fullSession.ppSubject);
 				localStorage.setItem('ppFaculty', fullSession.ppFaculty);
 				localStorage.setItem('ppDescription', fullSession.ppDescription);
 				ARSnova.app.isSessionOwner = true;
