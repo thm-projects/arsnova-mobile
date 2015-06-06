@@ -112,6 +112,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 					sessionInfo.ppAuthorMail = me.email.getValue();
 					sessionInfo.ppUniversity = me.university.getValue();
 					sessionInfo.ppFaculty = me.faculty.getValue();
+					sessionInfo.ppLogo = me.logo.getSrc();
 					sessionInfo.ppDescription = me.description.getValue();
 					ARSnova.app.getController('Sessions').update(sessionInfo);
 
@@ -129,6 +130,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 						ppAuthorMail: me.email.getValue(),
 						ppUniversity: me.university.getValue(),
 						ppFaculty: me.faculty.getValue(),
+						ppLogo: me.logo.getSrc(),
 						ppDescription: me.description.getValue(),
 						newSessionPanel: panel,
 						creationTime: Date.now()
