@@ -66,7 +66,6 @@ Ext.define("ARSnova.controller.QuestionExport", {
        + ('0' + d.getMinutes()).slice(-2);
     },
 
-
     getQuestionType: function(questionTypeModel){
         switch (questionTypeModel){
             case 'mc' : return 'MC';
@@ -76,6 +75,14 @@ Ext.define("ARSnova.controller.QuestionExport", {
         }
     },
 
+	getOption: function(answer,type){
+		if(answer && type !== 'yesno'){
+		 return	answer.text;
+		}
+
+	  return '';
+   },
+
     formatQuestion: function(questionModel){
         var questionTypeModel = questionModel.questionType;
         var rightAnswer ='';
@@ -84,44 +91,36 @@ Ext.define("ARSnova.controller.QuestionExport", {
             question += ',"questionSubject":' +'"'+ questionModel.subject+'"';
             question += ',"question":' +'"'+ questionModel.text+'"';
 
-        if(questionTypeModel === 'mc' ||  questionTypeModel === 'abcd'){
-
-            for(var i=0 ; i < questionModel.possibleAnswers.length ; i++){
-                question += ',"answer'+(i+1)+'":'+'"'+ questionModel.possibleAnswers[i].text+'"';
-                if(questionModel.possibleAnswers[i].correct === true){
+            for(var i=0 ; i < 8 ; i++){
+                question += ',"answer'+(i+1)+'":'+'"'+this.getOption(questionModel.possibleAnswers[i],questionTypeModel) +'"';
+                if(questionModel.possibleAnswers[i] && questionModel.possibleAnswers[i].correct){
                     rightAnswer += (i+1)+',';
                 }
             }
-            question += ',"RightAnswer":' +'"'+ rightAnswer.slice(0,rightAnswer.length-1)+'"';
+            question += ',"rightAnswer":' +'"'+ rightAnswer.slice(0,rightAnswer.length-1)+'"';
 
-        } else if(questionTypeModel === 'yesno'){
+          if(questionTypeModel === 'yesno'){
             rightAnswer='n';
             if(questionModel.possibleAnswers[0].correct) {
                 rightAnswer = 'y';
             }
-            question += ',"RightAnswer":' +'"'+ rightAnswer+'"';
-        }
+            question += ',"rightAnswer":' +'"'+ rightAnswer+'"';
+           }else if(questionTypeModel === 'freetext'){
+			  question += ',"rightAnswer":' +'""';
+		   }
         question += '}';
 
-        console.log('end format');
-        console.log(question);
         return JSON.parse(question);
     },
 
     preparseJSONtoCSV: function(records){
-        var fileName = localStorage.getItem('shortName')+
-                       '-'+sessionStorage.getItem('keyword')+'-'+
-                        this.getActualDate();
+
         var questions = [];
         for (var i=0 ; i < records.length ; i++) {
             questions[i] = this.formatQuestion(records[i].data);
         }
-        console.log(records);
-        console.log(questions);
-        console.log(fileName);
 
-        // csv datei bauen mit ARSnova.utils.CsvUtil.jsonToCsv
-        ARSnova.app.getController("SessionExport").saveFileOnFileSystem(JSON.stringify(questions),fileName+'.json');
+         return questions;
     },
 
     saveFileOnFileSystem: function (csv, filename) {
@@ -147,6 +146,9 @@ Ext.define("ARSnova.controller.QuestionExport", {
             direction: 'right',
             duration: 700
         });
+    },
+
+    parseJSONtoCSV: function (records) {
         var preparsedQuestion = this.preparseJSONtoCSV(records);
         var csv = ARSnova.utils.CsvUtil.jsonToCsv(preparsedQuestion);
         this.saveFileOnFileSystem(csv, this.filename());
