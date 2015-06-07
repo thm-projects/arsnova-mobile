@@ -387,15 +387,18 @@ Ext.define("ARSnova.controller.Sessions", {
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.CHANGE_ROLE + '...', 2000);
 
-		var reloadSession = function (animationDirection) {
+		var reloadSession = function (animationDirection, onAnimationEnd) {
+			tabPanel.updateHomeBadge();
 			ARSnova.app.socket.setSession(null);
 			ARSnova.app.socket.setSession(sessionStorage.getItem('keyword'));
-			ARSnova.app.mainTabPanel.tabPanel.updateHomeBadge();
+			onAnimationEnd = (typeof onAnimationEnd === 'function') ?
+				onAnimationEnd : hideLoadMask;
+
 			ARSnova.app.getController('Sessions').reloadData({
+				listeners: {animationend: onAnimationEnd},
 				direction: animationDirection,
 				type: 'flip'
 			});
-			hideLoadMask();
 		};
 
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
@@ -413,11 +416,19 @@ Ext.define("ARSnova.controller.Sessions", {
 				ARSnova.app.userRole = ARSnova.app.USER_ROLE_SPEAKER;
 				localStorage.removeItem('lastVisitedRole');
 
-				/* hide user tab panel and destroy listeners */
+				/* hide user tab panels and destroy listeners */
 				tabPanel.userTabPanel.tab.hide();
 				tabPanel.userQuestionsPanel.tab.hide();
 				tabPanel.userTabPanel.inClassPanel.destroyListeners();
-				reloadSession('left');
+
+				reloadSession('left', function () {
+					/* remove user tab panel and user questions panel*/
+					tabPanel.remove(tabPanel.userQuestionsPanel);
+					tabPanel.remove(tabPanel.userTabPanel);
+					delete tabPanel.userQuestionsPanel;
+					delete tabPanel.userTabPanel;
+					hideLoadMask();
+				});
 			}
 		}
 	},
