@@ -95,6 +95,7 @@
 				/* LOAD MASK */
 				LOAD_MASK: "Lade Daten...",
 				LOAD_MASK_LOGIN: "Login...",
+				LOAD_MASK_SAVE: 'Speichern...',
 				LOAD_MASK_SEARCH: "Suche Sessions...",
 				LOAD_MASK_SEARCH_QUESTIONS: "Suche Fragen...",
 				LOAD_MASK_SEARCH_COURSES: "Suche Kurse...",
@@ -662,6 +663,7 @@
 				/* LOAD MASK */
 				LOAD_MASK: "Loading...",
 				LOAD_MASK_LOGIN: "Login...",
+				LOAD_MASK_SAVE: 'Saving...',
 				LOAD_MASK_SEARCH: "Looking for sessions...",
 				LOAD_MASK_SEARCH_QUESTIONS: "Looking for questions...",
 				LOAD_MASK_SEARCH_COURSES: "Looking for courses...",

@@ -107,7 +107,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	getUnansweredSkillQuestions: function () {
 		var self = this;
 
-		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
+		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SEARCH_QUESTIONS);
 		this.getQuestionLoader()(sessionStorage.getItem("keyword"), {
 			success: function (questions) {
 				var userQuestionsPanel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel;

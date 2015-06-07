@@ -105,16 +105,5 @@ Ext.define("ARSnova.controller.Feedback", {
 			fP.activeItem = 1;
 		}
 		tP.setActiveItem(fP);
-	},
-
-	statistic: function () {
-		ARSnova.app.showLoadMask("Erzeuge die Grafik...");
-		var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
-		fP.statisticPanel.backButton.show();
-		ARSnova.app.mainTabPanel.tabPanel.setActiveItem(fP);
-
-		ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.addListener('deactivate', function (panel) {
-			panel.statisticPanel.backButton.hide();
-		}, this, {single: true});
 	}
 });

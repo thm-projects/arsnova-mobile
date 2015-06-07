@@ -276,7 +276,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	},
 
 	onSubmit: function () {
-		ARSnova.app.showLoadMask(Messages.LOGIN_LOAD_MASK);
+		ARSnova.app.showLoadIndicator(Messages.LOGIN_LOAD_MASK);
 
 		// delete the textfield-focus, to hide the numeric keypad on phones
 		this.down('textfield').blur();
@@ -323,7 +323,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		var me = this;
 		var promise = new RSVP.Promise();
 
-		var hideLoadingMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
+		var hideLoadingMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SEARCH);
 
 		ARSnova.app.restProxy.getMyVisitedSessions({
 			success: function (sessions) {
@@ -359,7 +359,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		var me = this;
 		var promise = new RSVP.Promise();
 
-		var hideLoadingMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
+		var hideLoadingMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SEARCH);
 
 		ARSnova.app.sessionModel.getMySessions({
 			success: function (response) {
@@ -400,7 +400,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			form.show();
 
 			var buttonHandler = function (options) {
-				var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
+				var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_LOGIN);
 				ARSnova.app.getController('Sessions').login({
 					keyword: options.config.sessionObj.keyword
 				});

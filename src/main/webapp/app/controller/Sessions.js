@@ -50,6 +50,7 @@ Ext.define("ARSnova.controller.Sessions", {
 			return;
 		}
 		/* do login stuff */
+		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_LOGIN);
 		var res = ARSnova.app.sessionModel.checkSessionLogin(options.keyword, {
 			success: function (obj) {
 				// check if user is creator of this session
@@ -95,12 +96,15 @@ Ext.define("ARSnova.controller.Sessions", {
 			},
 			notFound: function () {
 				Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_NOT_FOUND);
+				hideLoadMask();
 			},
 			forbidden: function () {
 				Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_LOCKED);
+				hideLoadMask();
 			},
 			failure: function () {
 				Ext.Msg.alert(Messages.NOTIFICATION, Messages.CONNECTION_PROBLEM);
+				hideLoadMask();
 			}
 		});
 	},
@@ -188,7 +192,6 @@ Ext.define("ARSnova.controller.Sessions", {
 				tabPanel.speakerTabPanel = Ext.create('ARSnova.view.speaker.TabPanel');
 				tabPanel.insert(1, tabPanel.speakerTabPanel);
 			} else {
-				hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN, 3000);
 				tabPanel.speakerTabPanel.tab.show();
 				tabPanel.speakerTabPanel.renew();
 			}
@@ -382,7 +385,7 @@ Ext.define("ARSnova.controller.Sessions", {
 
 	changeRole: function () {
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
-		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
+		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.CHANGE_ROLE + '...', 2000);
 
 		var reloadSession = function (animationDirection) {
 			ARSnova.app.socket.setSession(null);

@@ -303,7 +303,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			duration: 700
 		});
 
-		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
+		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_LOGIN);
 		ARSnova.app.getController('Auth').roleSelect({
 			mode: ARSnova.app.USER_ROLE_STUDENT
 		});

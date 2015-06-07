@@ -47,6 +47,15 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	},
 
 	/**
+	 * @param start index
+	 * @param end index
+	 * @return  formatted range header string
+	 */
+	constructRangeRequestString: function (offset, limit) {
+		return 'items=' + offset + '-' + limit;
+	},
+
+	/**
 	 * Search for a session with specified keyword
 	 * @param keyword of session
 	 * @param object with success- and failure-callbacks
@@ -134,7 +143,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	 * @return session-objects, if found
 	 * @return false, if nothing found
 	 */
-	getMySessions: function (callbacks, sortby) {
+	getMySessions: function (callbacks, sortby, offset, limit) {
 		this.arsjax.request({
 			url: "session/",
 			method: "GET",
@@ -142,7 +151,6 @@ Ext.define('ARSnova.proxy.RestProxy', {
 				statusonly: true,
 				sortby: sortby
 			},
-
 			success: callbacks.success,
 			204: callbacks.empty,
 

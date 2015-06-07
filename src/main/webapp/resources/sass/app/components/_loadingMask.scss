@@ -24,44 +24,89 @@
 		background: rgba(0,0,0,0.3) center center no-repeat;
 		
 		.x-mask-message {
-			color: rgba(230,230,230,0.9);
+			color: rgba(255,255,255,0.9);
 			font-weight: normal;
 		}
 		
 		.x-loading-spinner {
-			-webkit-animation-duration: 0.6s;
+			-webkit-animation-duration: 0.8s;
 		    -webkit-animation-name: x-loading-spinner-rotate;
 		    -webkit-animation-iteration-count: infinite;
 		    -webkit-animation-timing-function: linear;
 		    
-		    animation-duration: 0.6s;
+		    animation-duration: 0.8s;
 		    animation-name: x-loading-spinner-rotate;
 		    animation-iteration-count: infinite;
 		    animation-timing-function: linear;
 			
 			&> span.x-loading-top {
-				background-color: rgba(215,215,215,0.99);
-				&:before { background-color: rgba(215,215,215,0.15); }
-				&:after { background-color: rgba(215,215,215,0.9); }
+				background-color: rgba(255,255,255,0.99);
+				&:before { background-color: rgba(255,255,255,0.15); }
+				&:after { background-color: rgba(255,255,255,0.9); }
 			}
 			
 			&> span.x-loading-right {
-				background-color: rgba(215,215,215,0.25);
-				&:before { background-color: rgba(215,215,215,0.3); }
-				&:after { background-color: rgba(215,215,215,0.2); }
+				background-color: rgba(255,255,255,0.25);
+				&:before { background-color: rgba(255,255,255,0.3); }
+				&:after { background-color: rgba(255,255,255,0.2); }
 			}
 			
 			&> span.x-loading-left {
-				background-color: rgba(215,215,215,0.7);
-				&:before { background-color: rgba(215,215,215,0.8); }
-				&:after { background-color: rgba(215,215,215,0.6); }
+				background-color: rgba(255,255,255,0.7);
+				&:before { background-color: rgba(255,255,255,0.8); }
+				&:after { background-color: rgba(255,255,255,0.6); }
 			}
 			
 			&> span.x-loading-bottom {
-				background-color: rgba(215,215,215,0.4);
-				&:before { background-color: rgba(215,215,215,0.5); }
-				&:after { background-color: rgba(215,215,215,0.35); }
+				background-color: rgba(255,255,255,0.4);
+				&:before { background-color: rgba(255,255,255,0.5); }
+				&:after { background-color: rgba(255,255,255,0.35); }
 			}
+		}
+	}
+}
+
+.x-loading-mask.customLoadingIndicator {
+	margin-left: 5px;
+
+	&.toolbarLoadingIndicator {
+		.x-mask-inner {
+			background: none;
+		}
+	}
+
+	&.overlayLoadingIndicator {
+		.x-mask-message {
+			color: white;
+		}
+	}
+
+	.x-mask-inner {
+		height: 45px;
+
+		.x-mask-message {
+			display: inline-block;
+			position: relative;
+			margin-right: 10px;
+			margin-left: 50px;
+			top: 12.5px;
+		}
+
+		.x-loading-spinner-outer {
+			display: inline-block;
+			position: absolute;
+			top: 4px;
+
+			.x-loading-spinner {
+				-webkit-transform-origin: 0.5em 0.4em;
+				transform-origin: 0.5em 0.4em;
+
+				span, span:before, span:after {
+					-webkit-transform-origin: 0.05em 0.4em;
+					transform-origin: 0.05em 0.4em;
+					height: 0.2em;
+				}
+	 		}
 		}
 	}
 }

@@ -296,23 +296,48 @@ Ext.application({
 		}
 	},
 
+	showMask: function (mask, duration) {
+		var minimumDuration =  800;
+
+		Ext.Viewport.setMasked(mask);
+		this.maskedMessage = mask.message;
+		var hideLoadMask = Ext.Function.createDelayed(function (message) {
+			if (this.maskedMessage === message) {
+				Ext.Viewport.setMasked(false);
+			}
+		}, minimumDuration, this, [mask.message]);
+
+		Ext.defer(hideLoadMask, (duration || 5000) - minimumDuration);
+		return hideLoadMask;
+	},
+
 	/**
-	 * Wrapper for an invidivudal LoadMask
+	 * Wrapper for an individual loading mask
 	 */
 	showLoadMask: function (message, duration) {
-		var minimumDuration = 800;
-
-		Ext.Viewport.setMasked({
+		return this.showMask({
 			xtype: 'loadmask',
 			message: message || ""
-		});
+		}, duration);
+	},
 
-		var hideLoadMask = Ext.Function.createDelayed(function () {
-			Ext.Viewport.setMasked(false);
-		}, minimumDuration);
-		Ext.defer(hideLoadMask, (duration || 5000) - minimumDuration);
+	/**
+	 * Wrapper for an individual load indicator
+	 */
+	showLoadIndicator: function (message, duration) {
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+		var indicatorCls = 'x-loading-mask customLoadingIndicator ' +
+			(screenWidth < 720 ? 'overlayLoadingIndicator' : 'toolbarLoadingIndicator');
 
-		return hideLoadMask;
+		return this.showMask({
+			xtype: 'loadmask',
+			baseCls: '',
+			top: 'initial',
+			right: 'initial',
+			cls: indicatorCls,
+			message: message || '',
+			bottom: screenWidth < 720 ? '60px' : '4px'
+		}, duration);
 	},
 
 	/**

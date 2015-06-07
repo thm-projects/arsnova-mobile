@@ -82,7 +82,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 				scope: this,
 				loadsuccess: function (dataurl, e) {
 					var self = this;
-					var mask = ARSnova.app.showLoadMask(Messages.COMPRESSING_MASK);
+					var mask = ARSnova.app.showLoadIndicator(Messages.COMPRESSING_MASK);
 					self.tryToCompress(dataurl, function (response) {
 						mask();
 						if (!response) {
