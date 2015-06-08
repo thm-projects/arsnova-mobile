@@ -75,6 +75,10 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		var screenWidth = (window.innerWidth > 0) ?
 				window.innerWidth :	screen.width;
 		var showShortLabels = screenWidth < 480;
+		var title = Messages.SESSION_INFO_TITLE ;
+		if (showShortLabels){
+			title = Messages.SESSION_INFO_TITLE_SHORT;
+		}
 
 		this.matrixButtonPanel = Ext.create('Ext.Panel', {
 			layout: {
@@ -165,7 +169,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: Messages.SESSION_INFO_TITLE,
+			title: title,
 			docked: 'top',
 			ui: 'light',
 			items: [
