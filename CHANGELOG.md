@@ -61,7 +61,7 @@ Contributions: Colin Appel, Sören Gutzeit, Julian Hochstetter, Jan Kammer,
 Daniel Knapp, Alexander Nadler, Julian Rossback, Karolina Rozanka, Jannik
 Schaaf, Felix Schmidt, Artjom Siebert, Daniel Vogel  
 Testing & Feedback: Kevin Atkins, Kathrin Jäger  
-Sponsoring: [AG QLS](https://www.thm.de/zqe/qmnetzwerk/agqls),
+Sponsoring: [AG QLS](https://www.thm.de/site/en/hochschule/service/ag-qls.html),
 [HMWK](https://wissenschaft.hessen.de/wissenschaft/it-neue-medien/kompetenznetz-e-learning-hessen),
 [@LLZ](http://llz.uni-halle.de/)  
 
