@@ -381,7 +381,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 	},
 
 	getFeedbackQuestions: function () {
-		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOADING_NEW_QUESTIONS);
+		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOADING_NEW_QUESTIONS);
 		ARSnova.app.questionModel.getInterposedQuestions(sessionStorage.getItem('keyword'), {
 			success: function (response) {
 				var questions = Ext.decode(response.responseText);

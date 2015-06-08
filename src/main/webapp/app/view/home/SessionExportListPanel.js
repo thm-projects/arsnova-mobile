@@ -135,7 +135,7 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 		var me = this;
 		var promise = new RSVP.Promise();
 
-		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
+		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SEARCH);
 
 		ARSnova.app.sessionModel.getMySessions({
 			success: function (response) {
@@ -168,7 +168,7 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 		var me = this;
 		var promise = new RSVP.Promise();
 
-		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
+		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SEARCH);
 
 		ARSnova.app.sessionModel.getMyPublicPoolSessions({
 			success: function (response) {

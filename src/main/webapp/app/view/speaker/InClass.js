@@ -240,7 +240,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 						"<br>" + Messages.DELETE_SESSION_NOTICE;
 				Ext.Msg.confirm(Messages.DELETE_SESSION_TITLE, msg, function (answer) {
 					if (answer === 'yes') {
-						ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_DELETE);
+						ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SESSION_DELETE);
 						ARSnova.app.sessionModel.destroy(sessionStorage.getItem('keyword'), {
 							success: function () {
 								ARSnova.app.mainTabPanel.tabPanel.on('activeitemchange', function () {

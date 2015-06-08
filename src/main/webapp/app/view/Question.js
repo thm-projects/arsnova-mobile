@@ -524,6 +524,11 @@ Ext.define('ARSnova.view.Question', {
 				0.9 : 0.75
 		});
 
+		/* update disabled state on initialize */
+		if (this.questionObj.votingDisabled) {
+			this.disableQuestion();
+		}
+
 		this.add([
 			this.formPanel, this.countdownTimer,
 			this.editButtons ? this.editButtons : {}

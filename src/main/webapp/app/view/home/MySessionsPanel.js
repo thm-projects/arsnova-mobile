@@ -217,7 +217,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					scope: this,
 					loadsuccess: function (data) {
 						if (!Ext.os.is.iOS) {
-							var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_IMPORT, 240000);
+							var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SESSION_IMPORT, 240000);
 							try {
 								var n = data.indexOf("base64,");
 								data = decodeURIComponent(window.escape(atob(data.substring(n + 7)))); // remove disturbing prefix
@@ -423,7 +423,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		var me = this;
 		var promise = new RSVP.Promise();
 
-		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
+		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SEARCH);
 		ARSnova.app.sessionModel.getMySessions({
 			success: function (response) {
 				var sessions = Ext.decode(response.responseText);
@@ -438,7 +438,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				}
 
 				var sessionButtonHandler = function (options) {
-					var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
+					var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_LOGIN);
 					localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
 					ARSnova.app.userRole = ARSnova.app.USER_ROLE_SPEAKER;
 					ARSnova.app.setWindowTitle();
@@ -520,7 +520,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			return promise;
 		}
 
-		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
+		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SEARCH);
 		ARSnova.app.sessionModel.getMyPublicPoolSessions({
 			success: function (response) {
 				var sessions = Ext.decode(response.responseText);
@@ -535,7 +535,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				}
 
 				var sessionButtonHandler = function (options) {
-					var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
+					var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_LOGIN);
 					localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
 					ARSnova.app.setWindowTitle();
 
@@ -599,7 +599,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 	loadVisitedSessions: function () {
 		var me = this;
-		var hideLoadingMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH);
+		var hideLoadingMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SEARCH);
 		var promise = new RSVP.Promise();
 
 		ARSnova.app.restProxy.getMyVisitedSessions({
@@ -612,7 +612,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					panel.lastVisitedSessionsForm.show();
 
 					var sessionButtonHandler = function (options) {
-						var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_LOGIN);
+						var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_LOGIN);
 						localStorage.setItem('lastVisitedRole', ARSnova.app.USER_ROLE_SPEAKER);
 						localStorage.setItem('role', ARSnova.app.USER_ROLE_STUDENT);
 						ARSnova.app.userRole = ARSnova.app.USER_ROLE_STUDENT;

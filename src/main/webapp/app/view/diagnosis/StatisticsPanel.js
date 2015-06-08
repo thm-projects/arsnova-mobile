@@ -199,7 +199,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 	},
 
 	updateData: function () {
-		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK);
+		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK);
 		this.statisticsStore.clearData();
 		this.getStatistics().then(hideLoadMask, hideLoadMask); // hide mask on success and on error
 	},

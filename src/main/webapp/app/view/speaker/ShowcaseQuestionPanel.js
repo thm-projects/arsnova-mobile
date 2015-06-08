@@ -184,7 +184,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	},
 
 	getAllSkillQuestions: function () {
-		var hideIndicator = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SEARCH_QUESTIONS);
+		var hideIndicator = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SEARCH_QUESTIONS);
 
 		this.getController().getQuestions(sessionStorage.getItem("keyword"), {
 			success: function (response) {

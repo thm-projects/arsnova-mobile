@@ -491,7 +491,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						if (newValue === 0 && typeof this.questionObj.showStatistic === "undefined" ||
 							newValue === this.questionObj.showStatistic) return;
 
-						var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_ACTIVATION);
+						var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_ACTIVATION);
 						var question = Ext.create('ARSnova.model.Question', this.questionObj);
 
 						switch (newValue) {
@@ -536,7 +536,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							return;
 						}
 
-						var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_ACTIVATION);
+						var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_ACTIVATION);
 						var question = Ext.create('ARSnova.model.Question', this.questionObj);
 
 						switch (newValue) {
