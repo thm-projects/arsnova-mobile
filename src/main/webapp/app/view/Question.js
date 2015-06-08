@@ -697,24 +697,17 @@ Ext.define('ARSnova.view.Question', {
 
 	setZoomLevel: function (size) {
 		this.formPanel.setStyle('font-size: ' + size + '%;');
-		this.answerList.fireEvent('resizeList', this.answerList.element);
 		ARSnova.app.getController('Application').setGlobalZoomLevel(size);
 		this.updateListHeight();
 	},
 
 	updateListHeight: function () {
-		var me = this;
-
-		if (!me.resizeListFlag && this.questionObj.questionType !== 'grid') {
-			me.resizeListFlag = true;
-			Ext.create('Ext.util.DelayedTask', function () {
-				if (me.answerList.element.dom.style.display !== 'none') {
-					me.answerList.element.dom.style.display = 'none';
-					me.answerList.fireEvent('resizeList', me.answerList.element);
-					me.answerList.element.dom.style.display = '';
-					me.resizeListFlag = false;
-				}
-			}).delay(2000);
+		if (this.questionObj.questionType !== 'grid') {
+			var listItemsDom = this.answerList.element.select(".x-list .x-inner .x-inner").elements[0];
+			listItemsDom.style.display = 'none';
+			this.answerList.fireEvent('resizeList', this.answerList.element);
+			listItemsDom.style.display = '';
+			this.answerList.fireEvent('resizeList', this.answerList.element);
 		}
 	},
 
