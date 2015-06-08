@@ -637,8 +637,8 @@
 
 				/* CSV export*/
 				QUESTIONS_CSV_EXPORT_BUTTON: "CSV<br>exportieren",
-				QUESTIONS_CSV_EXPORT_MSBOX_TITLE:"Fragen Exportieren",
-				QUESTIONS_CSV_EXPORT_MSBOX_INFO:"Die Fragen werden in einen CSV Datei exportiert"
+				QUESTIONS_CSV_EXPORT_MSBOX_TITLE: "Fragen Exportieren",
+				QUESTIONS_CSV_EXPORT_MSBOX_INFO: "Die Fragen werden in einen CSV Datei exportiert"
 			};
 			break;
 
@@ -1236,8 +1236,8 @@
 
 				/* CSV export */
 				QUESTIONS_CSV_EXPORT_BUTTON: "Export<br>CSV",
-				QUESTIONS_CSV_EXPORT_MSBOX_TITLE:"Export Questions",
-				QUESTIONS_CSV_EXPORT_MSBOX_INFO:"The questions will be in a CSV file exported"
+				QUESTIONS_CSV_EXPORT_MSBOX_TITLE: "Export Questions",
+				QUESTIONS_CSV_EXPORT_MSBOX_INFO: "The questions will be in a CSV file exported"
 			};
 			break;
 	}

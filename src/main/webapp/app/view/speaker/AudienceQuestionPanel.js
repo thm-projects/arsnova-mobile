@@ -276,10 +276,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			}
 		});
 
-               /*
-
-
-		 */
 		this.exportCVSQuestionsButton = Ext.create('ARSnova.view.MatrixButton', {
 			hidden: true,
 			buttonConfig: 'icon',
@@ -288,8 +284,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			cls: 'actionButton',
 			scope: this,
 			handler: function () {
-				var msg = Messages.ARE_YOU_SURE +"<br>"+
-					      Messages.QUESTIONS_CSV_EXPORT_MSBOX_INFO;
+				var msg = Messages.ARE_YOU_SURE + "<br>" + Messages.QUESTIONS_CSV_EXPORT_MSBOX_INFO;
 
 				Ext.Msg.confirm(Messages.QUESTIONS_CSV_EXPORT_MSBOX_TITLE, msg, function (answer) {
 					if (answer === 'yes') {

@@ -24,29 +24,28 @@
  * so other controllers using csv <-> json coversion won't be affected.
  */
 Ext.define('ARSnova.utils.CsvUtil', {
-    singleton: true,
+	singleton: true,
 
-    /**
-     * Convert a csv string to json
-     * @param  {String} csv The csv string to parse.
-     * @return {String}     The parsed csv string as json.
-     */
-    csvToJson: function(csv) {
-        if (!csv) { return undefined; }
-        var parsed = Papa.parse(csv);
-        if (parsed.errors.length > 0) { return undefined; }
-        return JSON.stringify(parsed.data);
-    },
+	/**
+	* Convert a csv string to json
+	* @param  {String} csv The csv string to parse.
+	* @return {String}     The parsed csv string as json.
+	*/
+	csvToJson: function (csv) {
+		if (!csv) { return undefined; }
+		var parsed = Papa.parse(csv);
+		if (parsed.errors.length > 0) { return undefined; }
+		return JSON.stringify(parsed.data);
+	},
 
-    /**
-     * Parse a json object to a csv string.
-     * @param  {Object} json Json object to parse.
-     * @return {String}      Parsed json object as csv string.
-     */
-    jsonToCsv: function(json) {
-        if (!json) { return undefined; }
-        var unparsed = Papa.unparse(json);
-        return unparsed;
-    }
-
+	/**
+	* Parse a json object to a csv string.
+	* @param  {Object} json Json object to parse.
+	* @return {String}      Parsed json object as csv string.
+	*/
+	jsonToCsv: function (json) {
+		if (!json) { return undefined; }
+		var unparsed = Papa.unparse(json);
+		return unparsed;
+	}
 });
