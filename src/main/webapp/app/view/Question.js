@@ -72,11 +72,11 @@ Ext.define('ARSnova.view.Question', {
 			if (ARSnova.app.globalConfig.parseAnswerOptionFormatting) {
 				var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
 				md.setContent(item.get('text'), true, false, function (html) {
-					item.set('formattedText', html.getHtml());
+					item.set('formattedText', '<p>' + html.getHtml() + '</p>');
 					md.destroy();
 				});
 			} else {
-				item.set('formattedText', Ext.util.Format.htmlEncode(item.get('text')));
+				item.set('formattedText', '<p>' + Ext.util.Format.htmlEncode(item.get('text')) + '</p>');
 			}
 		});
 
