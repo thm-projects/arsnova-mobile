@@ -34,6 +34,8 @@ Ext.define('ARSnova.view.Caption', {
 		this.listButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			ui: 'small',
 			text: "",
+			disabled: true,
+			disabledCls: '',
 			cls: 'forwardListButton caption',
 			style: this.getStyle()
 		});

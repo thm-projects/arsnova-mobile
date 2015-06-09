@@ -87,14 +87,23 @@ Ext.define("ARSnova.controller.Application", {
 			cachedY = 0;
 
 		var preventClick = function (e) {
+			var prevent = false;
 			e = e || window.event;
 			var element = e.target || e.srcElement;
+
 			if (element.tagName === 'IMG' && element.className === 'resizeableImage' ||
 				element.tagName === 'SPAN' && element.className === 'videoImageContainer' ||
-				element.tagName === 'A' && element.className !== "session-export") {
-				return true;
+				element.tagName === 'A' && element.className !== 'session-export') {
+				prevent = true;
+
+				if (element.tagName === 'A' &&
+					!ARSnova.app.getController('Application').checkHrefProtocol(element.href)) {
+					element.target = '_blank'; // open link in new tab
+					prevent = false;
+				}
 			}
-			return false;
+
+			return prevent;
 		};
 
 		document.onclick = function (e) {
@@ -156,10 +165,6 @@ Ext.define("ARSnova.controller.Application", {
 					controller.toggleHrefPanelActive();
 					controller.handleInternEmbeddedPageLoading(controller, title, url);
 				}
-
-				return false; // prevent default action and stop event propagation
-			} else {
-				element.target = '_blank'; // open link in new tab
 			}
 		}
 	},
