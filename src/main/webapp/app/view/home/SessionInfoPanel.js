@@ -107,7 +107,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			style: 'width: 89px',
 			handler: function () {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel;
-				if (me.Validate()){
+				if (me.validate()){
 					if (me.getSessionInfo().keyword) {
 						var sessionInfo = me.getSessionInfo();
 						sessionInfo.name = me.sessionName.getValue();
@@ -470,22 +470,33 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		this.add([this.toolbar, this.mainPart]);
 	},
 
-	Validate: function () {
+	validate: function () {
 		var isValid = true;
-		if (this.sessionName.getValue() === "") {
-			this.sessionName.addCls("required");
+		var me = this ;
+		var validation = Ext.create('ARSnova.model.PublicPool', {
+			name: me.creatorName.getValue(),
+			hs: me.university.getValue(),
+			logo: me.logo.getSrc(),
+			subject: me.subject.getValue(),
+			licence: me.licence.getValue(),
+			level: me.level.getValue(),
+			email: me.email.getValue(),
+			sessionName: me.sessionName.getValue(),
+			sessionShortName: me.sessionShortName.getValue(),
+			description: me.description.getValue(),
+			faculty: me.faculty.getValue()
+		});
+
+		var errs = validation.validate();
+		var msg = '';
+
+		if (!errs.isValid()) {
+			errs.each(function (err) {
+				msg += err.getMessage();
+				msg += '<br/>';
+			});
 			isValid = false;
-		} else {
-			this.sessionName.removeCls("required");
-		}
-		if (this.sessionShortName.getValue() === "") {
-			this.sessionShortName.addCls("required");
-			isValid = false;
-		} else {
-			this.sessionShortName.removeCls("required");
-		}
-		if (!isValid){
-			Ext.Msg.alert('Hinweis', 'Bitte alle markierten Felder ausfüllen.');
+			Ext.Msg.alert(Messages.SESSIONPOOL_NOTIFICATION, msg);
 		}
 		return isValid;
 	},
