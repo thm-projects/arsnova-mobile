@@ -40,6 +40,8 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 
 	setContent: function (content, mathJaxEnabled, markDownEnabled, mathjaxCallback) {
 		var hideMediaElements = this.config.hideMediaElements;
+		var contentCodeBlocks = [];
+		var me = this;
 
 		function urlify(text) {
 			text += " ";
@@ -50,6 +52,29 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 				return delUrl.replace(urlRegex, function (url) {
 					return '<a href="' + url + '">' + url + '</a>';
 				});
+			});
+		}
+
+		function removeCodeBlockFromContent(content) {
+			return content.replace(/<hlcode>([\s\S]*?)<\/hlcode>/g, function (element) {
+				contentCodeBlocks.push(element);
+				return '&!highlightJSBlock!&';
+			});
+		}
+
+		function applySyntaxHighlight(content) {
+			contentCodeBlocks.reverse();
+			var codeDelimiter = /&amp;!highlightJSBlock!&amp;/g;
+			return content.replace(codeDelimiter, function (element) {
+				element = contentCodeBlocks.pop();
+
+				if (typeof element === 'string') {
+					element = element.match(/<hlcode>([\s\S]*?)<\/hlcode>/);
+					if (element !== null &&  Array.isArray(element)) {
+						return "<pre class='hljs-pre'><code class='hljs-highlight'>" +
+							hljs.highlightAuto(element[1]).value + "</pre></code>";
+					}
+				}
 			});
 		}
 
@@ -111,7 +136,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 
 		var features = ARSnova.app.globalConfig.features;
 		if (markDownEnabled && features.markdown) {
-			if (mathJaxEnabled && features.mathJax && !!window.MathJax && MathJax.Hub) {
+			if (mathJaxEnabled && features.mathJax && !!window.MathJax && MathJax.Hub && false) {
 				var replStack = [], repl;
 
 				// replace MathJax delimiters
@@ -122,6 +147,9 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 					content = repl.content;
 				}, this);
 
+				// remove code block before markdown parsing
+				repl.content = removeCodeBlockFromContent(repl.content);
+
 				// converted MarkDown to HTML
 				repl.content = markdown.toHTML(repl.content);
 
@@ -131,6 +159,9 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 				}
 				content = this.replaceBack(replStack[0]);
 			} else {
+				// remove code block before markdown parsing
+				content = removeCodeBlockFromContent(content);
+
 				// directly convert Markdown if MathJax is disabled
 				content = markdown.toHTML(content);
 			}
@@ -141,7 +172,10 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		content = urlify(content);
 		content = replaceVideoElements(content);
 		content = replaceImageElements(content);
+		content = applySyntaxHighlight(content);
 		this.setHtml(content);
+
+		this.addSyntaxHighlightLineNumbers();
 
 		var callback = mathjaxCallback || Ext.emptyFn;
 		if (mathJaxEnabled && features.mathJax && !!window.MathJax && MathJax.Hub) {
@@ -228,5 +262,16 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 	// replace given variable with the replacement in input without using regular expressions
 	replaceWithoutRegExp: function (input, find, replacement) {
 		return input.split(find).join(replacement);
+	},
+
+	// add line numbers for syntax highlighted text
+	addSyntaxHighlightLineNumbers: function () {
+		this.element.select('.hljs-line-numbers').elements.forEach(function (el) {
+			el.parentNode.removeChild(el);
+		});
+
+		this.element.select('.hljs-highlight').elements.forEach(function (el) {
+			hljs.lineNumbersBlock(el);
+		});
 	}
 });
