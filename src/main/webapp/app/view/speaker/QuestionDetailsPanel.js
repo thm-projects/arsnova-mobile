@@ -389,8 +389,17 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					if (needsConfirmation) {
 						Ext.Msg.confirm(Messages.ARE_YOU_SURE, Messages.CONFIRM_ANSWERS_CHANGED, function (answer) {
 							if (answer === "yes") {
-								saveQuestion(question);
-								finishEdit();
+								ARSnova.app.questionModel.deleteAnswers(panel.questionObj._id, {
+									success: function () {
+										saveQuestion(question);
+										finishEdit();
+									},
+									failure: function (response) {
+										console.log('server-side error delete question');
+										Ext.Msg.alert(Messages.ERROR, Messages.QUESTION_COULD_NOT_BE_SAVED);
+										finishEdit();
+									}
+								});
 							}
 						}, this);
 					} else {
@@ -1216,7 +1225,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.answerStore.each(function (item) {
 			if (ARSnova.app.globalConfig.parseAnswerOptionFormatting) {
 				var md = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
-				md.setContent(item.get('text'), true, true, function (html) {
+				md.setContent(item.get('text'), true, false, function (html) {
 					item.set('formattedText', html.getHtml());
 					md.destroy();
 				});
