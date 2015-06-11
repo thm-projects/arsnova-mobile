@@ -72,6 +72,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			text: Messages.BACK,
 			ui: 'back',
 			scope: this,
+			align: 'left',
 			handler: function () {
 				var object, me = this;
 				var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
@@ -110,19 +111,11 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			}
 		});
 
-		this.toolbar = Ext.create('Ext.Toolbar', {
-			cls: 'answerStatisticToolbar',
+		this.toolbar = Ext.create('Ext.TitleBar', {
 			docked: 'top',
 			ui: 'light',
-			items: [this.backButton, {
-				xtype: 'spacer'
-			}, {
-				flex: 99,
-				xtype: 'title',
-				title: this.questionObj.subject
-			}, {
-				xtype: 'spacer'
-			}]
+			title: Ext.util.Format.htmlEncode(this.questionObj.subject),
+			items: [this.backButton]
 		});
 
 		// Create standard panel with framework support

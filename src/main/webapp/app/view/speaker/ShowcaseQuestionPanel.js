@@ -179,7 +179,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			panel.zoomButton.setHidden(screenWidth < 700);
 			newQuestion.setZoomLevel(ARSnova.app.globalZoomLevel);
 			newQuestion.updateQuestionText();
-			this.toolbar.setTitle(title);
+			this.toolbar.setTitle(Ext.util.Format.htmlEncode(title));
 		}
 	},
 
