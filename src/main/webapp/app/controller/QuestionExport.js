@@ -88,70 +88,39 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		var rightAnswer = '';
 		var options = [];
 		var question = {};
-		    question.questionType=this.getQuestionType(questionTypeModel);
-            question.questionSubject=questionModel.subject;
-		    question.question=questionModel.text;
+		question.questionType = this.getQuestionType(questionTypeModel);
+		question.questionSubject = questionModel.subject;
+		question.question = questionModel.text;
 		for (var i = 0 ; i < 8 ; i++){
 			options[i] = this.getOption(questionModel.possibleAnswers[i], questionTypeModel);
-			if (questionModel.possibleAnswers[i] && questionModel.possibleAnswers[i].correct){
+			if (questionModel.possibleAnswers[i] && questionModel.possibleAnswers[i].correct) {
 				rightAnswer += (i + 1) + ',';
 			}
 		}
-		question.answer1=options[0];
-		question.answer2=options[1];
-		question.answer3=options[2];
-		question.answer4=options[3];
-		question.answer5=options[4];
-		question.answer6=options[5];
-		question.answer7=options[6];
-		question.answer8=options[7];
-		if(questionTypeModel === 'mc' || questionTypeModel === 'abcd'){
-			question.rightAnswer=rightAnswer.slice(0, rightAnswer.length - 1);
-		}else if (questionTypeModel === 'yesno') {
+		question.answer1 = options[0];
+		question.answer2 = options[1];
+		question.answer3 = options[2];
+		question.answer4 = options[3];
+		question.answer5 = options[4];
+		question.answer6 = options[5];
+		question.answer7 = options[6];
+		question.answer8 = options[7];
+		if (questionTypeModel === 'mc' || questionTypeModel === 'abcd') {
+			question.rightAnswer = rightAnswer.slice(0, rightAnswer.length - 1);
+		} else if (questionTypeModel === 'yesno') {
 			rightAnswer = 'n';
 			if (questionModel.possibleAnswers[0].correct) {
 				rightAnswer = 'y';
 			}
-			question.rightAnswer=rightAnswer;
+			question.rightAnswer = rightAnswer;
 		} else if (questionTypeModel === 'freetext') {
-			question.rightAnswer='';
+			question.rightAnswer = '';
 		}
 
-			return question;
+		return question;
 	},
 
-	formatQuestion2: function (questionModel) {
-		var questionTypeModel = questionModel.questionType;
-		var rightAnswer = '';
-		var question = '{';
-		question += '"questionType":' + '"' + this.getQuestionType(questionTypeModel) + '"';
-		question += ',"questionSubject":' + '"' + questionModel.subject + '"';
-		question += ',"question":' + '"' + questionModel.text + '"';
-
-		for (var i = 0 ; i < 8 ; i++){
-			question += ',"answer' + (i + 1) + '":' + '"' +
-				this.getOption(questionModel.possibleAnswers[i], questionTypeModel) + '"';
-			if (questionModel.possibleAnswers[i] && questionModel.possibleAnswers[i].correct){
-				rightAnswer += (i + 1) + ',';
-			}
-		}
-		question += ',"rightAnswer":' + '"' + rightAnswer.slice(0, rightAnswer.length - 1) + '"';
-
-		if (questionTypeModel === 'yesno') {
-			rightAnswer = 'n';
-			if (questionModel.possibleAnswers[0].correct) {
-				rightAnswer = 'y';
-			}
-			question += ',"rightAnswer":' + '"' + rightAnswer + '"';
-		} else if (questionTypeModel === 'freetext') {
-			question += ',"rightAnswer":' + '""';
-		}
-		question += '}';
-
-		return JSON.parse(question);
-	},
-
-	preparseJSONtoCSV: function (records) {
+	preparseJsontoCsv: function (records) {
 		var questions = [];
 		for (var i = 0 ; i < records.length ; i++) {
 			questions[i] = this.formatQuestion(records[i].data);
@@ -164,7 +133,7 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		var ua = window.navigator.userAgent;
 		var msie = ua.indexOf("MSIE ");
 
-		if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+		if (msie > 0 || navigator.userAgent.match(/Trident.*rv\:11\./)) {
 			window.navigator.msSaveBlob(blob, filename);
 		} else {
 			var a = window.document.createElement('a');
@@ -184,8 +153,8 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		});
 	},
 
-	parseJSONtoCSV: function (records) {
-		var preparsedQuestion = this.preparseJSONtoCSV(records);
+	parseJsonToCsv: function (records) {
+		var preparsedQuestion = this.preparseJsontoCsv(records);
 		var csv = ARSnova.utils.CsvUtil.jsonToCsv(preparsedQuestion);
 		this.saveFileOnFileSystem(csv, this.filename());
 	}

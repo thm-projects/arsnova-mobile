@@ -276,7 +276,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			}
 		});
 
-		this.exportCVSQuestionsButton = Ext.create('ARSnova.view.MatrixButton', {
+		this.exportCsvQuestionsButton = Ext.create('ARSnova.view.MatrixButton', {
 			hidden: true,
 			buttonConfig: 'icon',
 			text: Messages.QUESTIONS_CSV_EXPORT_BUTTON,
@@ -288,7 +288,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 				Ext.Msg.confirm(Messages.QUESTIONS_CSV_EXPORT_MSBOX_TITLE, msg, function (answer) {
 					if (answer === 'yes') {
-						ARSnova.app.getController('QuestionExport').parseJSONtoCSV(this.questionStore.getData().items);
+						ARSnova.app.getController('QuestionExport').parseJsonToCsv(this.questionStore.getData().items);
 					}
 				}, this);
 			}
@@ -306,7 +306,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.voteStatusButton,
 				this.deleteAnswersButton,
 				this.deleteQuestionsButton,
-				this.exportCVSQuestionsButton
+				this.exportCsvQuestionsButton
 			]
 		});
 
@@ -388,7 +388,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.voteStatusButton.show();
 				// this.sortQuestionsButton.show();
 				this.deleteQuestionsButton.show();
-				this.exportCVSQuestionsButton.show();
+				this.exportCsvQuestionsButton.show();
 			}, this),
 			empty: Ext.bind(function () {
 				this.showcaseActionButton.hide();
@@ -399,7 +399,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.questionStatusButton.hide();
 				this.sortQuestionsButton.hide();
 				this.deleteQuestionsButton.hide();
-				this.exportCVSQuestionsButton.hide();
+				this.exportCsvQuestionsButton.hide();
 			}, this),
 			failure: function (response) {
 				console.log('server-side error questionModel.getSkillQuestions');
