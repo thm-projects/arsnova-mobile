@@ -702,7 +702,7 @@ Ext.define('ARSnova.view.Question', {
 	},
 
 	updateListHeight: function () {
-		if (this.questionObj.questionType !== 'grid') {
+		if (this.questionObj.questionType !== 'grid' && this.answerList && this.answerList.element) {
 			var listItemsDom = this.answerList.element.select(".x-list .x-inner .x-inner").elements[0];
 			listItemsDom.style.display = 'none';
 			this.answerList.fireEvent('resizeList', this.answerList.element);

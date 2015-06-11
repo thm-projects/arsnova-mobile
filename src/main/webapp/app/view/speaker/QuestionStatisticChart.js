@@ -626,7 +626,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 							continue;
 						}
 						var record = store.findRecord('text', el.answerText, 0, false, true, true); // exact match
-						record.set(valueString, el.answerCount);
+						if (record) {
+							record.set(valueString, el.answerCount);
+						}
 					}
 					sum += el.answerCount;
 
