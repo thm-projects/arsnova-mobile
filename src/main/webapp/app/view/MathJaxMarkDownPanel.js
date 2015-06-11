@@ -66,6 +66,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 
 		function applySyntaxHighlight(content) {
 			var codeDelimiter = /&amp;!highlightJSBlock!&amp;/g;
+			var hiddenCls = hideMediaElements ? ' hidden' : '';
 
 			if (!!hljs) {
 				contentCodeBlocks.reverse();
@@ -74,7 +75,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 					if (typeof element === 'string') {
 						element = element.match(/<hlcode>([\s\S]*?)<\/hlcode>/);
 						if (element !== null &&  Array.isArray(element)) {
-							return "<pre class='hljs-pre'><code class='hljs-highlight'>" +
+							return "<pre class='hljs-pre" + hiddenCls + "'><code class='hljs-highlight'>" +
 								hljs.highlightAuto(element[1]).value + "</pre></code>";
 						}
 					}
