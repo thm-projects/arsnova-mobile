@@ -41,7 +41,6 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 	setContent: function (content, mathJaxEnabled, markDownEnabled, mathjaxCallback) {
 		var hideMediaElements = this.config.hideMediaElements;
 		var contentCodeBlocks = [];
-		var me = this;
 
 		function urlify(text) {
 			text += " ";
@@ -56,26 +55,32 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		}
 
 		function removeCodeBlockFromContent(content) {
-			return content.replace(/<hlcode>([\s\S]*?)<\/hlcode>/g, function (element) {
-				contentCodeBlocks.push(element);
-				return '&!highlightJSBlock!&';
-			});
+			if (!!hljs) {
+				return content.replace(/<hlcode>([\s\S]*?)<\/hlcode>/g, function (element) {
+					contentCodeBlocks.push(element);
+					return '&!highlightJSBlock!&';
+				});
+			}
+			return content;
 		}
 
 		function applySyntaxHighlight(content) {
-			contentCodeBlocks.reverse();
 			var codeDelimiter = /&amp;!highlightJSBlock!&amp;/g;
-			return content.replace(codeDelimiter, function (element) {
-				element = contentCodeBlocks.pop();
 
-				if (typeof element === 'string') {
-					element = element.match(/<hlcode>([\s\S]*?)<\/hlcode>/);
-					if (element !== null &&  Array.isArray(element)) {
-						return "<pre class='hljs-pre'><code class='hljs-highlight'>" +
-							hljs.highlightAuto(element[1]).value + "</pre></code>";
+			if (!!hljs) {
+				contentCodeBlocks.reverse();
+				return content.replace(codeDelimiter, function (element) {
+					element = contentCodeBlocks.pop();
+					if (typeof element === 'string') {
+						element = element.match(/<hlcode>([\s\S]*?)<\/hlcode>/);
+						if (element !== null &&  Array.isArray(element)) {
+							return "<pre class='hljs-pre'><code class='hljs-highlight'>" +
+								hljs.highlightAuto(element[1]).value + "</pre></code>";
+						}
 					}
-				}
-			});
+				});
+			}
+			return content;
 		}
 
 		function replaceVideoElements(content) {
@@ -136,7 +141,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 
 		var features = ARSnova.app.globalConfig.features;
 		if (markDownEnabled && features.markdown) {
-			if (mathJaxEnabled && features.mathJax && !!window.MathJax && MathJax.Hub && false) {
+			if (mathJaxEnabled && features.mathJax && !!window.MathJax && MathJax.Hub) {
 				var replStack = [], repl;
 
 				// replace MathJax delimiters
