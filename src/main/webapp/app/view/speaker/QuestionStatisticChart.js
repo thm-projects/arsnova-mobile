@@ -97,6 +97,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			text: Messages.BACK,
 			ui: 'back',
 			scope: this,
+			align: 'left',
 			style: 'min-width: 60px;',
 			handler: function () {
 				var object, me = this;
@@ -137,73 +138,25 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		});
 
 		this.answerCounter = Ext.create('Ext.Component', {
-			cls: "x-toolbar-title alignRight counterText"
+			cls: "x-toolbar-title alignRight counterText",
+			align: 'right'
 		});
 
-		this.toolbar = Ext.create('Ext.Toolbar', {
+		this.toolbar = Ext.create('Ext.TitleBar', {
 			docked: 'top',
 			ui: 'light',
-			cls: 'answerStatisticToolbar',
-			items: [this.backButton, {
-				xtype: 'spacer'
-			}, {
-				flex: 99,
-				xtype: 'title',
-				title: this.questionObj.subject
-			}, {
-				xtype: 'spacer'
-			}, this.answerCounter, {
+			title: Ext.util.Format.htmlEncode(this.questionObj.subject),
+			items: [
+				this.backButton,
+				this.answerCounter, {
 				xtype: 'button',
+				align: 'right',
 				iconCls: 'icon-check',
 				cls: 'toggleCorrectButton',
-				handler: function (button) {
-					var me = this,
-					data = [];
-
-					button.disable();
-
-					if (this.toggleCorrect) {
-						button.removeCls('x-button-pressed');
-					} else {
-						button.addCls('x-button-pressed');
-					}
-					this.toggleCorrect = !this.toggleCorrect;
-
-					// remove all data for a smooth "redraw"
-					this.questionStore.each(function (record) {
-						data.push({
-							text: record.get('text'),
-							"value-round1": record.get('value-round1'),
-							"value-round2": record.get('value-round2'),
-							"percent-round1": record.get('percent-round1'),
-							"percent-round2": record.get('percent-round2')
-						});
-
-						record.set('value-round1', 0);
-						record.set('value-round2', 0);
-						record.set('percent-round1', 0);
-						record.set('percent-round2', 0);
-					});
-
-					var updateDataTask = Ext.create('Ext.util.DelayedTask', function () {
-						me.questionStore.setData(data);
-						button.enable();
-					});
-
-					var setGradientTask = Ext.create('Ext.util.DelayedTask', function () {
-						// updates the chart's colors
-						me.setGradients();
-
-						// delay till chart is redrawn
-						updateDataTask.delay(me.chartRefreshDuration - 200);
-					});
-
-					// delay till chart is empty
-					setGradientTask.delay(me.chartRefreshDuration - 200);
-				},
 				scope: this,
+				handler: this.toggleCorrectHandler,
 				hidden: !hasCorrectAnswers() || this.questionObj.questionType === 'grid' ||
-						(ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT && !this.questionObj.showAnswer)
+					(ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT && !this.questionObj.showAnswer)
 			}]
 		});
 
@@ -244,17 +197,17 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			]
 		});
 
-		this.titlebar = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+		this.titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			cls: 'questionStatisticTitle',
 			hideMediaElements: true,
 			baseCls: Ext.baseCSSPrefix + 'title',
 			docked: 'top',
 			style: ''
 		});
-		this.titlebar.setContent(this.questionObj.text, true, true);
+		this.titlePanel.setContent(this.questionObj.text, true, true);
 
 		if (this.questionObj.questionType === "grid") {
-			this.titlebar = Ext.create('Ext.Toolbar', {
+			this.titlePanel = Ext.create('Ext.Toolbar', {
 				cls: 'questionStatisticTitle',
 				docked: 'top',
 				title: '',
@@ -427,7 +380,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				this.toolbar,
 				this.countdownTimer,
 				this.piToolbar,
-				this.titlebar,
+				this.titlePanel,
 				this.questionChart
 			]);
 		} else {
@@ -441,7 +394,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				xtype: 'formpanel',
 				style: 'margin-top: 10px',
 				scrollable: null,
-				items: [this.titlebar,
+				items: [this.titlePanel,
 						this.countdownTimer,
 						this.contentField,
 						this.questionChart,
@@ -626,7 +579,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 							continue;
 						}
 						var record = store.findRecord('text', el.answerText, 0, false, true, true); // exact match
-						record.set(valueString, el.answerCount);
+						if (record) {
+							record.set(valueString, el.answerCount);
+						}
 					}
 					sum += el.answerCount;
 
@@ -779,6 +734,52 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		} else {
 			this.hasAnswers = this.answerCountSecondRound > 0;
 		}
+	},
+
+	toggleCorrectHandler: function (button) {
+		var me = this,
+		data = [];
+
+		button.disable();
+
+		if (this.toggleCorrect) {
+			button.removeCls('x-button-pressed');
+		} else {
+			button.addCls('x-button-pressed');
+		}
+		this.toggleCorrect = !this.toggleCorrect;
+
+		// remove all data for a smooth "redraw"
+		this.questionStore.each(function (record) {
+			data.push({
+				text: record.get('text'),
+				"value-round1": record.get('value-round1'),
+				"value-round2": record.get('value-round2'),
+				"percent-round1": record.get('percent-round1'),
+				"percent-round2": record.get('percent-round2')
+			});
+
+			record.set('value-round1', 0);
+			record.set('value-round2', 0);
+			record.set('percent-round1', 0);
+			record.set('percent-round2', 0);
+		});
+
+		var updateDataTask = Ext.create('Ext.util.DelayedTask', function () {
+			me.questionStore.setData(data);
+			button.enable();
+		});
+
+		var setGradientTask = Ext.create('Ext.util.DelayedTask', function () {
+			// updates the chart's colors
+			me.setGradients();
+
+			// delay till chart is redrawn
+			updateDataTask.delay(me.chartRefreshDuration - 200);
+		});
+
+		// delay till chart is empty
+		setGradientTask.delay(me.chartRefreshDuration - 200);
 	},
 
 	showEmbeddedPagePreview: function (embeddedPage) {

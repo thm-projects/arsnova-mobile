@@ -73,9 +73,10 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 		this.codeButton = Ext.create('Ext.Button', {
 			cls: 'markdownButton',
 			iconCls: 'icon-editor-code',
-			escapeString: '`',
+			applyString: '<hlcode>',
+			escapeString: '</hlcode>',
 			biliteral: true,
-			handler: this.formatHandler
+			handler: this.codeHandler
 		});
 
 		this.quoteButton = Ext.create('Ext.Button', {
@@ -293,6 +294,32 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 		});
 
 		panel.show();
+	},
+
+	codeHandler: function () {
+		var value = "";
+		var parent = this.getParent().getParent();
+		var applyString = this.config.applyString;
+		var escapeString = this.config.escapeString;
+		var applyLength = applyString.length;
+		var escapeLength = escapeString.length;
+		var processObj = parent.getProcessVariables();
+		var removal = processObj.value.substring(processObj.start - applyLength, processObj.start) === applyString &&
+			processObj.value.substring(processObj.end, processObj.end + escapeLength) === escapeString;
+		processObj.element.focus();
+
+		if (removal) {
+			processObj.preSel = processObj.value.substring(0, processObj.start - applyLength);
+			processObj.postSel = processObj.value.substring(processObj.end + escapeLength, processObj.value.length);
+			processObj.element.setValue(processObj.preSel + processObj.sel + processObj.postSel);
+			processObj.component.input.dom.selectionStart = processObj.start - applyLength;
+			processObj.component.input.dom.selectionEnd = processObj.end - applyLength;
+		} else {
+			value = processObj.preSel + applyString + processObj.sel + escapeString + processObj.postSel;
+			processObj.element.setValue(value);
+			processObj.component.input.dom.selectionStart = processObj.start + applyLength;
+			processObj.component.input.dom.selectionEnd = processObj.end + applyLength;
+		}
 	},
 
 	latexHandler: function () {
