@@ -44,7 +44,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			var LicenceoptionsPP = [];  // save loaded lincences
 			var levelsPP = [];  // save loaded levels
 
-			var maxFileSize = config.publicPool.logoMaxFilesize / 1024;
 
 			var subjects = config.publicPool.subjects.split(',');
 
@@ -68,8 +67,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			levels.forEach(function (entry) {
 				levelsPP.push({text: entry, value: entry});
 			});
-		} else {
-			var maxFileSize = 100; // Just a placeholder - not final
 		}
 
 		var screenWidth = (window.innerWidth > 0) ?
@@ -116,7 +113,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 						sessionInfo.ppAuthorMail = me.email.getValue();
 						sessionInfo.ppUniversity = me.university.getValue();
 						sessionInfo.ppFaculty = me.faculty.getValue();
-						sessionInfo.ppLogo = me.logo.getSrc();
 						sessionInfo.ppDescription = me.description.getValue();
 						if (config.features.publicPool) {
 							sessionInfo.ppLevel = me.level.getValue();
@@ -143,7 +139,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 								ppLevel: me.level.getValue(),
 								ppSubject: me.subject.getValue(),
 								ppLicense: me.licence.getValue(),
-								ppLogo: me.logo.getSrc(),
 								ppDescription: me.description.getValue(),
 								newSessionPanel: panel,
 								creationTime: Date.now()
@@ -156,7 +151,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 								ppAuthorMail: me.email.getValue(),
 								ppUniversity: me.university.getValue(),
 								ppFaculty: me.faculty.getValue(),
-								ppLogo: me.logo.getSrc(),
 								ppDescription: me.description.getValue(),
 								newSessionPanel: panel,
 								creationTime: Date.now()
@@ -315,43 +309,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			});
 		}
 
-		this.buttonUploadFromFS = Ext.create('Ext.ux.Fileup', {
-			xtype: 'fileupload',
-			autoUpload: true,
-			loadAsDataUrl: true,
-			states: {
-				browse: {
-					text: showShortLabels ?
-							Messages.SEARCH_PICTURE_SHORT :
-							Messages.SEARCH_PICTURE
-				},
-				ready: {
-					text: Messages.LOAD
-				},
-				uploading: {
-					text: Messages.LOADING,
-					loading: true
-				}
-			},
-			listeners: {
-				scope: this,
-				loadsuccess: function (dataurl, e) {
-					this.drawLogo(dataurl);
-				},
-				loadfailure: function (message) {
-					Ext.Msg.alert(Messages.ERROR, Messages.GRID_ERROR_LOADING_IMAGE_FS);
-					console.log("Error while loading image: " + message);
-				}
-			}
-		});
-
-		this.uploadTextfield = Ext.create('Ext.form.Text', {
-			label: Messages.SELECT_PICTURE_FS,
-			placeHolder: 'http://',
-			hidden: true,
-			flex: 3
-		});
-
 		this.sendButton = Ext.create('Ext.Button', {
 			ui: 'action',
 			hidden: true,
@@ -360,63 +317,8 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				'height': '1em',
 				'margin-top': '7.5px',
 				'margin-left': '10px'
-			},
-			handler: Ext.bind(function () {
-				var url = me.uploadTextfield.getValue();
-				me.drawLogo(url);
-			}, this)
-		});
-
-		this.segmentButton = Ext.create('Ext.SegmentedButton', {
-			allowDepress: false,
-			cls: this.config.activateTemplates ? 'abcOptions' : 'yesnoOptions',
-			style: {
-				'margin-top': '0px',
-				'margin-bottom': '0px'
-			},
-			defaults: {
-				ui: 'action'
-			},
-			items: [
-				{
-					text: showShortLabels ?
-						Messages.SELECT_PICTURE_URL_SHORT :
-						Messages.SELECT_PICTURE_URL,
-					handler: this.toggleUploadTextfieldVisibility,
-					scope: this
-				},
-				this.buttonUploadFromFS
-			]
-		});
-
-		this.exportOptionalOptions = Ext.create('Ext.form.FieldSet', {
-			title: 'Logo (max. ' + maxFileSize + ' kb)',
-			items: [{
-				xtype: 'fieldset',
-				layout: 'hbox',
-				cls: 'fileUploadFieldset',
-				items: [
-					this.uploadTextfield,
-					this.sendButton
-				]
-			}, {
-				xtype: 'fieldset',
-				cls: 'fileUploadButtonFieldset',
-				items: [this.segmentButton]
 			}
-			]
 		});
-
-		this.logo = Ext.create('Ext.Img', {
-			style: 'margin: 0px auto; width: 100px; height: 100px; background-size: contain',
-			src: '',
-			width: 100,
-			height: 100,
-			hidden: true
-		});
-		if (me.getSessionInfo().ppLogo) {
-			me.drawLogo(me.getSessionInfo().ppLogo);
-		}
 
 		this.mainPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
@@ -425,12 +327,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				this.creatorFieldSet,
 				this.sessionFieldSet,
 				this.descriptionFieldSet,
-				this.exportOptionalOptions,
 				{
-					xtype: 'fieldset',
-					layout: 'vbox',
-					items: [this.logo]
-				}, {
 					xtype: 'fieldset',
 					layout: 'vbox',
 					items: [this.matrixButtonPanel]
@@ -458,9 +355,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			me.faculty.disable();
 			me.faculty.setPlaceHolder('');
 			me.saveButton.hide();
-			me.segmentButton.hide();
-			me.exportOptionalOptions.hide();
-
 			if (config.features.publicPool) {
 				me.subject.disable();
 				me.licence.disable();
@@ -476,7 +370,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		var validation = Ext.create('ARSnova.model.PublicPool', {
 			name: me.creatorName.getValue(),
 			hs: me.university.getValue(),
-			logo: me.logo.getSrc(),
 			subject: me.subject.getValue(),
 			licence: me.licence.getValue(),
 			level: me.level.getValue(),
@@ -499,26 +392,5 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			Ext.Msg.alert(Messages.SESSIONPOOL_NOTIFICATION, msg);
 		}
 		return isValid;
-	},
-
-	toggleUploadTextfieldVisibility: function () {
-		this.uploadTextfield.setHidden(this.toggleUrl);
-		this.sendButton.setHidden(this.toggleUrl);
-
-		if (this.toggleUrl) {
-			this.toggleUrl = false;
-			this.addCls('hiddenUrl');
-		} else {
-			this.toggleUrl = true;
-			this.removeCls('hiddenUrl');
-		}
-	},
-
-	drawLogo: function (logoImg) {
-		this.logo.setHidden(false);
-		this.logo.setSrc(logoImg);
-		this.uploadTextfield.setHidden(true);
-		this.sendButton.setHidden(true);
-		this.toggleUrl = true;
 	}
 });
