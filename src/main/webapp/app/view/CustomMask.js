@@ -107,7 +107,9 @@ Ext.define('ARSnova.view.CustomMask', {
 		while (el && el.tagName !== "BODY" && el.tagName !== "HTML" && counter < timeoutTries) {
 			containers.push(el);
 			el.style.display = "none";
-			if (el.className === 'videoImageContainer') {
+			if (el.tagName === 'IMG' && el.className === 'resizeableImage' ||
+				el.tagName === 'SPAN' && el.className === 'videoImageContainer' ||
+				el.tagName === 'A' && el.className === 'hyperlink') {
 				break;
 			}
 
@@ -120,18 +122,23 @@ Ext.define('ARSnova.view.CustomMask', {
 			container.style.display = "";
 
 			// perform fake click on videoImageContainer
-			if (!clicked && container.className === 'videoImageContainer') {
-				if (container.click) {
-					container.click();
-				} else if (document.createEvent) {
-					if (event.target !== container) {
-						var evt = document.createEvent("MouseEvents");
-						evt.initMouseEvent("click", true, true, window,
-							0, 0, 0, 0, 0, false, false, false, false, 0, null);
-						container.dispatchEvent(evt);
+			if (!clicked) {
+				if (container.tagName === 'IMG' && container.className === 'resizeableImage' ||
+					container.tagName === 'SPAN' && container.className === 'videoImageContainer' ||
+					container.tagName === 'A' && container.className === 'hyperlink') {
+					container.customMaskClick = true;
+					if (container.click) {
+						container.click();
+					} else if (document.createEvent) {
+						if (event.target !== container) {
+							var evt = document.createEvent("MouseEvents");
+							evt.initMouseEvent("click", true, true, window,
+								0, 0, 0, 0, 0, false, false, false, false, 0, null);
+							container.dispatchEvent(evt);
+						}
 					}
+					clicked = true;
 				}
-				clicked = true;
 			}
 		}
 	},

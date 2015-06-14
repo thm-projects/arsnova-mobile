@@ -45,12 +45,17 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		function urlify(text) {
 			text += " ";
 			var urlDelimiter = /([^="\w]https?:\/\/[^\s<]+)/g;
+			var htmlUrlDelimiter = /[^<a](href="[^\s<]+)[^<]/g;
 			var urlRegex = /(https?:\/\/[^\s]+)/g;
 
-			return text.replace(urlDelimiter, function (delUrl) {
+			text = text.replace(urlDelimiter, function (delUrl) {
 				return delUrl.replace(urlRegex, function (url) {
 					return '<a href="' + url + '">' + url + '</a>';
 				});
+			});
+
+			return text.replace(htmlUrlDelimiter, function (url) {
+				return ' class="customHyperlink"' + url;
 			});
 		}
 
@@ -89,7 +94,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 
 			var youtubeDelimiters = {
 				accessKey: 'youtube',
-				elementDel: /<a href="https:\/\/.+(src="https:\/\/img.youtube\.com\/vi)[^<>]*><\/a>/g,
+				elementDel: /<a[^<>]*href="https:\/\/.+(src="https:\/\/img.youtube\.com\/vi)[^<>]*><\/a>/g,
 				imageDel: /<img[^<>]*(img.youtube\.com\/vi)[^<>]*><\/a>/,
 				videoIdDel: /^.*vi\/?([^\/]*)/,
 				titleDel: titleDelimiter
@@ -107,15 +112,12 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 				return content.replace(delimiters.elementDel, function (element) {
 					var videoId = element.match(delimiters.videoIdDel)[1];
 
-					if (hideMediaElements) {
-						element = '<p class="videoImageParagraph hidden">' + element + '</p>';
-					} else {
-						element = '<p class="videoImageParagraph">' + element + '</p>';
-					}
+					element = hideMediaElements ?
+						'<p class="videoImageParagraph hidden">' + element + '</p>' :
+						'<p class="videoImageParagraph">' + element + '</p>';
 
 					return element.replace(delimiters.imageDel, function (imageEl) {
 						var title = element.match(delimiters.titleDel)[1];
-
 						return '<span class="videoImageContainer" id="' + videoId + '" accesskey="'
 							+ delimiters.accessKey + '" title="' + title + '">' + imageEl + '</span';
 					});
@@ -124,7 +126,6 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 
 			content = videoElementReplace(content, youtubeDelimiters);
 			content = videoElementReplace(content, vimeoDelimiters);
-
 			return content;
 		}
 
