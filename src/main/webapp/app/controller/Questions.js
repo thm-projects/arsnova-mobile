@@ -94,7 +94,7 @@ Ext.define("ARSnova.controller.Questions", {
 
 	listFeedbackQuestions: function (animation) {
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(
-			ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel, 
+			ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel,
 			animation || 'slide'
 		);
 	},
