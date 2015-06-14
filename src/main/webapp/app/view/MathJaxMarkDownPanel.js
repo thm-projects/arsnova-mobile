@@ -272,12 +272,14 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 
 	// add line numbers for syntax highlighted text
 	addSyntaxHighlightLineNumbers: function () {
-		this.element.select('.hljs-line-numbers').elements.forEach(function (el) {
-			el.parentNode.removeChild(el);
-		});
+		if (!!hljs) {
+			this.element.select('.hljs-line-numbers').elements.forEach(function (el) {
+				el.parentNode.removeChild(el);
+			});
 
-		this.element.select('.hljs-highlight').elements.forEach(function (el) {
-			hljs.lineNumbersBlock(el);
-		});
+			this.element.select('.hljs-highlight').elements.forEach(function (el) {
+				hljs.lineNumbersBlock(el);
+			});
+		}
 	}
 });
