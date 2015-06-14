@@ -265,6 +265,21 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			]
 		});
 
+		this.previewButton = Ext.create('Ext.Button', {
+			text: Ext.os.is.Desktop ?
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
+				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
+			ui: 'action',
+			//hidden: this.viewOnly,
+			cls: Ext.os.is.Desktop ?
+				'previewButtonLong' :
+				'previewButton',
+			scope: this,
+			handler: function () {
+				this.previewHandler();
+			}
+		});
+
 		if (config.features.publicPool) {
 			this.subject = Ext.create('Ext.field.Select', {
 				name: 'subject',
@@ -298,14 +313,14 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				title: Messages.SESSIONPOOL_SESSIONINFO,
 				cls: 'standardFieldset',
 				itemId: 'contentFieldset',
-				items: [this.sessionName, this.sessionShortName, this.markdownEditPanel, this.description, this.subject, this.licence, this.level]
+				items: [this.sessionName, this.sessionShortName, this.markdownEditPanel, this.description, this.previewButton, this.subject, this.licence, this.level]
 			});
 		} else {
 			this.sessionFieldSet = Ext.create('Ext.form.FieldSet', {
 				title: Messages.SESSIONPOOL_SESSIONINFO,
 				cls: 'standardFieldset',
 				itemId: 'contentFieldset',
-				items: [this.sessionName, this.sessionShortName, this.markdownEditPanel, this.description]
+				items: [this.sessionName, this.sessionShortName, this.markdownEditPanel, this.description, this.previewButton]
 			});
 		}
 
@@ -335,6 +350,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			]
 		});
 
+
 		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
 			me.creatorName.disable();
 			me.creatorName.setPlaceHolder('');
@@ -346,6 +362,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			me.description.disable();
 			me.description.hide();
 			me.markdownEditPanel.hide();
+			me.previewButton.hide();
 			if (me.getSessionInfo().ppDescription) {
 				me.descriptionFieldSet.show();
 			}
@@ -362,6 +379,13 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			}
 		}
 		this.add([this.toolbar, this.mainPart]);
+	},
+
+	previewHandler: function () {
+		var questionPreview = Ext.create('ARSnova.view.QuestionPreviewBox', {
+			xtype: 'questionPreview'
+		});
+		questionPreview.showPreview("", this.description.getValue());
 	},
 
 	validate: function () {
