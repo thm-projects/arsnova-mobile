@@ -153,9 +153,6 @@ Ext.define("ARSnova.controller.Sessions", {
 
 			/* hide feedback questions panel */
 			tabPanel.feedbackQuestionsPanel.tab.hide();
-
-			/* refresh mySessionsPanel */
-			tabPanel.homeTabPanel.mySessionsPanel.loadCreatedSessions();
 		} else {
 			/* hide user tab panel and destroy listeners */
 			tabPanel.userQuestionsPanel.tab.hide();
