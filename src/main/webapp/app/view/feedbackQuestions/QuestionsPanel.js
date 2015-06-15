@@ -78,7 +78,6 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		this.callParent(arguments);
 
 		var panel = this;
-		var isSpeakerView = !!ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
 		this.backButton = Ext.create('Ext.Button', {
@@ -88,7 +87,9 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			scope: this,
 			handler: function () {
 				var target;
-				if (isSpeakerView) {
+
+				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER &&
+					!!ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel) {
 					target = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 					ARSnova.app.taskManager.stop(this.getUpdateClockTask());
 				} else {
@@ -126,10 +127,6 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		});
 
 		var toolbarTitle = Messages.QUESTIONS;
-
-		if (screenWidth > 380) {
-			toolbarTitle = isSpeakerView ? Messages.QUESTIONS_FROM_STUDENTS : Messages.MY_QUESTIONS;
-		}
 
 		this.clockElement = Ext.create('Ext.Component', {
 			cls: 'x-toolbar-title x-title',
@@ -336,6 +333,12 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 
 		this.on('painted', function () {
 			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+
+			if (screenWidth > 380) {
+				toolbarTitle = ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER &&
+					!!ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel ?
+					Messages.QUESTIONS_FROM_STUDENTS : Messages.MY_QUESTIONS;
+			}
 
 			if (screenWidth > 700 && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 				this.zoomButton.show();

@@ -100,6 +100,9 @@ Ext.define("ARSnova.controller.Application", {
 					!ARSnova.app.getController('Application').checkHrefProtocol(element.href)) {
 					element.target = '_blank'; // open link in new tab
 					prevent = false;
+				} else if (!!element.customMaskClick) {
+					ARSnova.app.getController('Application').internalElementRefHandler(e);
+					prevent = true;
 				}
 			}
 

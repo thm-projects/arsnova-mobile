@@ -208,6 +208,11 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			}), this.editButtons ? this.editButtons : {}
 		]);
 
+		/* update disabled state on initialize */
+		if (this.questionObj.votingDisabled) {
+			this.disableQuestion();
+		}
+
 		this.on('painted', function () {
 			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 				this.updateEditButtons();
@@ -367,7 +372,12 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					questionsArr.push(self.questionObj._id);
 				}
 				localStorage.setItem(self.questionObj.questionVariant + 'QuestionIds', Ext.encode(questionsArr));
-				self.questionObj.userAnswered = true;
+				if (!!answer.get('abstention')) {
+					self.questionObj.isAbstentionAnswer = true;
+				} else {
+					self.questionObj.userAnswered = true;
+				}
+
 				self.uploadView.hide();
 				self.disableQuestion();
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
@@ -447,6 +457,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 			if (!!this.questionObj.userAnswered) {
 				this.customMask.setTextMessage(Messages.MASK_ALREADY_ANSWERED, 'alreadyAnswered');
+			} else if (!!this.questionObj.isAbstentionAnswer) {
+				this.customMask.setTextMessage(Messages.MASK_IS_ABSTENTION_ANSWER, 'alreadyAnswered');
 			} else if (!!this.questionObj.votingDisabled) {
 				this.customMask.setTextMessage(Messages.MASK_VOTE_CLOSED, 'voteClosed');
 			}

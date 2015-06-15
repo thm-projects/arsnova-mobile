@@ -93,7 +93,10 @@ Ext.define("ARSnova.controller.Questions", {
 	},
 
 	listFeedbackQuestions: function (animation) {
-		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel, animation || 'slide');
+		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(
+			ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel,
+			animation || 'slide'
+		);
 	},
 
 	saveUnansweredLectureQuestions: function (questionIds) {
@@ -468,7 +471,12 @@ Ext.define("ARSnova.controller.Questions", {
 	showLearningProgress: function () {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		var uTP = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
-		var tapPanel = sTP || uTP;
+		var tapPanel = uTP;
+
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER && sTP) {
+			tapPanel = sTP;
+		}
+
 		tapPanel.animateActiveItem(tapPanel.learningProgressPanel, {
 			type: 'slide'
 		});
@@ -477,7 +485,12 @@ Ext.define("ARSnova.controller.Questions", {
 	leaveLearningProgress: function () {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		var uTP = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
-		var tapPanel = sTP || uTP;
+		var tapPanel = uTP;
+
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER && sTP) {
+			tapPanel = sTP;
+		}
+
 		tapPanel.animateActiveItem(tapPanel.inClassPanel, {
 			type: 'slide',
 			direction: 'right'
