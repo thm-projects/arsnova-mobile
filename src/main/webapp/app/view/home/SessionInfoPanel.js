@@ -270,10 +270,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
-			//hidden: this.viewOnly,
-			cls: Ext.os.is.Desktop ?
-				'previewButtonLong' :
-				'previewButton',
+			cls: 'centerButton',
 			scope: this,
 			handler: function () {
 				this.previewHandler();
@@ -313,7 +310,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				title: Messages.SESSIONPOOL_SESSIONINFO,
 				cls: 'standardFieldset',
 				itemId: 'contentFieldset',
-				items: [this.sessionName, this.sessionShortName, this.markdownEditPanel, this.description, this.previewButton, this.subject, this.licence, this.level]
+				items: [this.sessionName, this.sessionShortName, this.markdownEditPanel, this.description, this.subject, this.licence, this.level, this.previewButton]
 			});
 		} else {
 			this.sessionFieldSet = Ext.create('Ext.form.FieldSet', {
@@ -350,7 +347,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			]
 		});
 
-
 		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
 			me.creatorName.disable();
 			me.creatorName.setPlaceHolder('');
@@ -382,10 +378,9 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 	},
 
 	previewHandler: function () {
-		var questionPreview = Ext.create('ARSnova.view.QuestionPreviewBox', {
-			xtype: 'questionPreview'
+		var descriptionPreview = Ext.create('ARSnova.view.PreviewBox', {
 		});
-		questionPreview.showPreview("", this.description.getValue());
+		descriptionPreview.showPreview(this.description.getValue());
 	},
 
 	validate: function () {
