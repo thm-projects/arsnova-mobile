@@ -336,9 +336,9 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			cls: 'newQuestion',
 			scrollable: null,
 			items: [
+				this.descriptionFieldSet,
 				this.creatorFieldSet,
 				this.sessionFieldSet,
-				this.descriptionFieldSet,
 				{
 					xtype: 'fieldset',
 					layout: 'vbox',
