@@ -223,6 +223,7 @@
 				NO_ANSWER_MARKED_CORRECT_OPTION_NO: "Abbrechen",
 				ACTIVE_QUESTION_CLOSED: "Die aktive Frage wurde gesperrt",
 				ACTIVE_QUESTION_VOTING_CLOSED: "Die Abstimmung für die aktive Frage wurde gesperrt",
+				SESSION_PREVIEW_BUTTON_TITLE_DESKTOP: 'Vorschau Beschreibung 320x640',
 
 				/* sort */
 				SORT_QUESTIONS_TITLE: "Fragen sortieren",
@@ -792,6 +793,7 @@
 				NO_ANSWER_MARKED_CORRECT_OPTION_NO: "Abort",
 				ACTIVE_QUESTION_CLOSED: "The active question has been locked",
 				ACTIVE_QUESTION_VOTING_CLOSED: "Voting for the active question has been closed",
+				SESSION_PREVIEW_BUTTON_TITLE_DESKTOP: 'Description preview 320x640',
 
 				/* sort */
 				SORT_QUESTIONS_TITLE: "Sort Questions",

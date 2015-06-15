@@ -267,7 +267,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 
 		this.previewButton = Ext.create('Ext.Button', {
 			text: Ext.os.is.Desktop ?
-				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
+				Messages.SESSION_PREVIEW_BUTTON_TITLE_DESKTOP :
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
 			cls: 'centerButton',
