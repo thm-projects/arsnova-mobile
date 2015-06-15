@@ -290,12 +290,12 @@ Ext.define("ARSnova.controller.Questions", {
 
 		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SAVE);
 		question.saveSkillQuestion({
-			success: function () {
-				options.successFunc();
+			success: function (response, eOpts) {
+				options.successFunc(response, eOpts);
 				hideLoadMask();
 			},
-			failure: function () {
-				options.failureFunc();
+			failure: function (response, eOpts) {
+				options.failureFunc(response, eOpts);
 				hideLoadMask();
 			}
 		});
