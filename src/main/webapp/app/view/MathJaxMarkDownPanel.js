@@ -55,7 +55,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 			});
 
 			return text.replace(htmlUrlDelimiter, function (url) {
-				return ' class="customHyperlink"' + url;
+				return ' class="hyperlink"' + url;
 			});
 		}
 
