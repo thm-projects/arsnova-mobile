@@ -81,10 +81,6 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			}
 		});
 
-		this.on('hide', function () {
-			this.stop();
-		});
-
 		this.initializeSound();
 
 		if (!this.viewOnly) {
@@ -152,6 +148,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 	onSliderChange: function (me, thumb, newValue, oldValue) {
 		this.initializeTimeValues(newValue);
 		this.fireEvent('change', this, thumb, newValue, oldValue);
+		this.showTimer();
 	},
 
 	onSliderDragStart: function (me, thumb, newValue, oldValue) {
@@ -161,6 +158,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 	onSliderDrag: function (me, thumb, newValue, oldValue) {
 		this.initializeTimeValues(newValue);
 		this.fireEvent('drag', this, thumb, newValue, oldValue);
+		this.showTimer();
 	},
 
 	onSliderDragEnd: function (me, thumb, newValue, oldValue) {
@@ -170,6 +168,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 	setSliderValue: function (value) {
 		this.slider.setValue(value);
 		this.initializeTimeValues(value);
+		this.showTimer();
 	},
 
 	setTimerLabelText: function (text) {
@@ -189,17 +188,10 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			this.setDefaultMinutes(this.slider.getValue());
 		}
 
-		if (!mins) {
-			mins = this.getDefaultMinutes();
-		}
-
-		if (!secs) {
-			secs = this.getDefaultSeconds();
-		}
-
+		mins = !mins ? this.getDefaultMinutes() : mins;
+		secs = !secs ? this.getDefaultSeconds() : secs;
 		this.maxSeconds = this.seconds = secs * this.milliseconds;
 		this.maxMinutes = this.minutes = mins * this.maxSeconds;
-		this.showTimer();
 	},
 
 	start: function (startTime, endTime) {
@@ -239,12 +231,13 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		clearTimeout(this.update);
 		this.running = false;
 
-		this.initializeTimeValues();
-		this.showTimer();
-
 		if (!this.viewOnly) {
 			this.slider.show();
 			this.slider.enable();
+			this.initializeTimeValues();
+			this.showTimer();
+		} else {
+			this.hide();
 		}
 
 		if (this.sound.isPlaying()) {
@@ -262,33 +255,35 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		}
 
 		var time = new Date().getTime();
-
 		me.minutes = me.endtime - time;
 		me.seconds = me.minutes - Math.floor(me.minutes / me.maxSeconds) * me.maxSeconds;
 
-		if (me.seconds === 0) {
-			if (me.minutes > 0) {
-				me.seconds = me.maxSeconds;
-			}
+		if (me.seconds === 0 && me.minutes > 0) {
+			me.seconds = me.maxSeconds;
 		}
 
 		me.showTimer();
-
 		if (me.running) {
 			if (me.minutes > 0) {
+				me.show();
 				setTimeout(function () {
 					me.update(me);
 				}, me.msTillUpdate);
 			} else {
 				me.stop();
 			}
+		} else {
+			me.stop();
 		}
 	},
 
 	showTimer: function () {
 		if (this.canvas) {
-			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+			if (this.viewOnly && !this.running) {
+				return;
+			}
 
+			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 			var canvas = this.canvas.dom;
 			var context = canvas.getContext("2d");
 			var counterClockwise = false;
@@ -374,7 +369,6 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			context.arc(x, y, innerRadius, startAngle, endAngle, counterClockwise);
 			context.lineWidth = lineWidth;
 			context.stroke();
-
 			context.restore();
 		}
 	}

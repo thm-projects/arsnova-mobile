@@ -259,7 +259,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 		}, this);
 
 		this.on('hide', function () {
-			this.countdownTimer.hide();
+			this.countdownTimer.stop();
 		});
 
 		this.on('deactivate', function () {
@@ -279,7 +279,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			this.countdownTimer.start(this.questionObj.piRoundStartTime, this.questionObj.piRoundEndTime);
 			this.countdownTimer.show();
 		} else {
-			this.countdownTimer.hide();
+			this.countdownTimer.stop();
 		}
 	},
 
