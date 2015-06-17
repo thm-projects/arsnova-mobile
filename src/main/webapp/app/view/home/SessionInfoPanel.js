@@ -241,8 +241,8 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			name: 'description',
 			label: Messages.SESSIONPOOL_INFO,
 			inputCls: 'thm-grey',
-			maxLength: 150,
-			placeHolder: 'max. 150 ' + Messages.SESSIONPOOL_CHARACTERS,
+			maxLength: 5000,
+			placeHolder: 'max. 5000 ' + Messages.SESSIONPOOL_CHARACTERS,
 			value: me.getSessionInfo().ppDescription,
 			disabled: false
 		});
