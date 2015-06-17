@@ -108,6 +108,8 @@
 				/* mySessionsPanel */
 				HOME: "Start",
 				SESSION: "Session",
+				SESSION_INFO_TITLE: "Session Informationen",
+				SESSION_INFO_TITLE_SHORT: "Infos",
 				NEW_SESSION: "Neue Session",
 				MY_SESSIONS: "Meine Sessions",
 				MY_PUBLIC_POOL_SESSIONS: "Meine Pool Sessions",
@@ -118,6 +120,7 @@
 				SESSION_SHORT_NAME: "Kürzel",
 				SESSION_SHORT_NAME_PLACEHOLDER: "max. 8 Zeichen",
 				SESSION_SAVE: "Session anlegen",
+				SESSION_OPTIONAL_INFO: "Optionale Informationen",
 				SAVE: 'Speichern',
 
 				/* feedback */
@@ -220,6 +223,7 @@
 				NO_ANSWER_MARKED_CORRECT_OPTION_NO: "Abbrechen",
 				ACTIVE_QUESTION_CLOSED: "Die aktive Frage wurde gesperrt",
 				ACTIVE_QUESTION_VOTING_CLOSED: "Die Abstimmung für die aktive Frage wurde gesperrt",
+				SESSION_PREVIEW_BUTTON_TITLE_DESKTOP: 'Vorschau Beschreibung 320x640',
 
 				/* sort */
 				SORT_QUESTIONS_TITLE: "Fragen sortieren",
@@ -484,7 +488,7 @@
 				SESSIONPOOL_ERR_GET_SESSION: "Sie haben nicht die Berechtigung, um die Session zu sehen.",
 				SESSIONPOOL_TITLE: "Session Pool",
 				SESSIONPOOL_VISIT:	"Besuchen",
-				SESSOPNPOOL_CHARACTERS: 'Zeichen',
+				SESSIONPOOL_CHARACTERS: 'Zeichen',
 				SESSIONPOOL_INFOS:	'Infos',
 
 				/* question types */
@@ -677,6 +681,8 @@
 				/* mySessionsPanel */
 				HOME: "Start",
 				SESSION: "Session",
+				SESSION_INFO_TITLE: "Session Informations",
+				SESSION_INFO_TITLE_SHORT: "Infos",
 				NEW_SESSION: "New session",
 				MY_SESSIONS: "My sessions",
 				MY_PUBLIC_POOL_SESSIONS: "My pool sessions",
@@ -687,6 +693,7 @@
 				SESSION_SHORT_NAME: "Short name",
 				SESSION_SHORT_NAME_PLACEHOLDER: "max. 8 digits",
 				SESSION_SAVE: "Create Session",
+				SESSION_OPTIONAL_INFO: "Optional Information",
 				SAVE: 'Save',
 
 				/* feedback */
@@ -787,6 +794,7 @@
 				NO_ANSWER_MARKED_CORRECT_OPTION_NO: "Abort",
 				ACTIVE_QUESTION_CLOSED: "The active question has been locked",
 				ACTIVE_QUESTION_VOTING_CLOSED: "Voting for the active question has been closed",
+				SESSION_PREVIEW_BUTTON_TITLE_DESKTOP: 'Description preview 320x640',
 
 				/* sort */
 				SORT_QUESTIONS_TITLE: "Sort Questions",
@@ -1054,7 +1062,7 @@
 				SESSIONPOOL_ERR_GET_SESSION: "You do not have sufficient rights to see the session.",
 				SESSIONPOOL_TITLE: "Session Pool",
 				SESSIONPOOL_VISIT:	"Visit",
-				SESSOPNPOOL_CHARACTERS:	'characters',
+				SESSIONPOOL_CHARACTERS:	'characters',
 				SESSIONPOOL_INFOS:	'Infos',
 
 				/* question types */

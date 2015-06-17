@@ -55,6 +55,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	initialize: function () {
+		var me = this;
 		this.callParent(arguments);
 
 		var comingSoon = function (component) {
@@ -229,15 +230,47 @@ Ext.define('ARSnova.view.user.InClass', {
 
 		this.inClass = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
-			items: [{
-				cls: 'gravure selectable',
-				html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(sessionStorage.getItem("keyword"))
-			}, this.actionButtonPanel, this.inClassButtons, {
-				xtype: 'formpanel',
-				cls: 'standardForm topPadding',
-				scrollable: null,
-				items: this.caption
-			}]
+			items: [
+				{
+					xtype: 'panel',
+					margin: '10 0 0 0',
+					layout: {
+						type: 'hbox',
+						pack: 'center'
+					},
+					items: [
+						{
+							cls: 'gravure selectable',
+							html: Messages.SESSION_ID + ": " + ARSnova.app.formatSessionID(sessionStorage.getItem("keyword"))
+						},
+						{
+							xtype: 'button',
+							cls: 'sessionInfoButton',
+							iconCls: 'info',
+							handler: function () {
+								ARSnova.app.sessionModel.checkSessionLogin(sessionStorage.getItem("keyword"), {
+									success: function (session) {
+										var uTP = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
+										var sessionForm = Ext.create('ARSnova.view.home.SessionInfoPanel', {
+											sessionInfo: session,
+											backReference: me,
+											referencePanel: uTP
+										});
+										uTP.animateActiveItem(sessionForm, 'slide');
+									}
+								});
+							}
+						}
+					]
+				},
+				this.actionButtonPanel, this.inClassButtons,
+				{
+					xtype: 'formpanel',
+					cls: 'standardForm topPadding',
+					scrollable: null,
+					items: this.caption
+				}
+			]
 		});
 
 		this.swotBadge = Ext.create('Ext.Panel', {

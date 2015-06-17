@@ -6,6 +6,7 @@ target/*
 .sonar
 .sass-cache
 node_modules/
+*~
 
 # Output files
 src/main/webapp/.sencha_backup

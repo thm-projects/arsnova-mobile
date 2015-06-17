@@ -129,7 +129,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			name: 'name',
 			label: Messages.EXPORT_FIELD_NAME,
 			maxLength: 50,
-			placeHolder: 'max. 50 ' + Messages.SESSOPNPOOL_CHARACTERS,
+			placeHolder: 'max. 50 ' + Messages.SESSIONPOOL_CHARACTERS,
 			clearIcon: true
 		});
 
@@ -138,7 +138,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			label: Messages.EXPORT_FIELD_EMAIL,
 			vtype: 'email',
 			maxLength: 50,
-			placeHolder: 'max. 50 ' + Messages.SESSOPNPOOL_CHARACTERS,
+			placeHolder: 'max. 50 ' + Messages.SESSIONPOOL_CHARACTERS,
 			clearIcon: true
 		});
 
@@ -146,14 +146,14 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			name: 'hs',
 			label: Messages.EXPORT_FIELD_UNI,
 			maxLength: 50,
-			placeHolder: 'max. 50 ' + Messages.SESSOPNPOOL_CHARACTERS,
+			placeHolder: 'max. 50 ' + Messages.SESSIONPOOL_CHARACTERS,
 			clearIcon: true
 		});
 
 		this.faculty = Ext.create('Ext.field.Text', {
 			name: 'faculty',
 			label: Messages.EXPORT_FIELD_SPECIAL_FIELD,
-			placeHolder: 'max. 50 ' + Messages.SESSOPNPOOL_CHARACTERS,
+			placeHolder: 'max. 50 ' + Messages.SESSIONPOOL_CHARACTERS,
 			maxLength: 50,
 			clearIcon: true
 		});
@@ -169,7 +169,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			name: 'sessionName',
 			label: Messages.SESSION_NAME,
 			maxLength: 50,
-			placeHolder: 'max. 50 ' + Messages.SESSOPNPOOL_CHARACTERS,
+			placeHolder: 'max. 50 ' + Messages.SESSIONPOOL_CHARACTERS,
 			value: me.getExportSession().name,
 			clearIcon: true
 		});
@@ -178,7 +178,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			name: 'sessionShortName',
 			label: Messages.SESSION_SHORT_NAME,
 			maxLength: 8,
-			placeHolder: 'max. 8 ' + Messages.SESSOPNPOOL_CHARACTERS,
+			placeHolder: 'max. 8 ' + Messages.SESSIONPOOL_CHARACTERS,
 			value: me.getExportSession().shortName,
 			clearIcon: true
 		});
@@ -189,7 +189,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			disabledCls: 'disableDefault',
 			inputCls: 'thm-grey',
 			maxLength: 150,
-			placeHolder: 'max. 150 ' + Messages.SESSOPNPOOL_CHARACTERS,
+			placeHolder: 'max. 150 ' + Messages.SESSIONPOOL_CHARACTERS,
 			disabled: false
 		});
 
@@ -197,7 +197,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			name: 'subject',
 			label: Messages.EXPORT_FIELD_SUBJECT,
 			maxLength: 50,
-			placeHolder: 'max. 50 ' + Messages.SESSOPNPOOL_CHARACTERS
+			placeHolder: 'max. 50 ' + Messages.SESSIONPOOL_CHARACTERS
 		});
 		this.subject.updateOptions(SubjectoptionsPP);
 
@@ -205,7 +205,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			name: 'licence',
 			label: Messages.EXPORT_FIELD_LICENCE,
 			maxLength: 50,
-			placeHolder: 'max. 50 ' + Messages.SESSOPNPOOL_CHARACTERS
+			placeHolder: 'max. 50 ' + Messages.SESSIONPOOL_CHARACTERS
 		});
 		this.licence.updateOptions(LicenceoptionsPP);
 
@@ -213,7 +213,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			name: 'level',
 			label: Messages.EXPORT_FIELD_LEVEL,
 			maxLength: 50,
-			placeHolder: 'max. 50 ' + Messages.SESSOPNPOOL_CHARACTERS
+			placeHolder: 'max. 50 ' + Messages.SESSIONPOOL_CHARACTERS
 		});
 		this.level.updateOptions(levelsPP);
 
