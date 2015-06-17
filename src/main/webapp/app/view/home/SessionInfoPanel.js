@@ -42,6 +42,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		var SubjectoptionsPP = [];	// save loaded subjects
 		var LicenceoptionsPP = [];  // save loaded lincences
 		var levelsPP = [];  // save loaded levels
+		
 		// Check if this feauture is enabled - if not do not use these fields
 		if (config.features.publicPool) {
 			var subjects = config.publicPool.subjects.split(',');
