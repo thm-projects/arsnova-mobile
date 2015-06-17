@@ -382,6 +382,19 @@
 }
 
 .loadMoreButton {
-	margin: 10px auto;
-	border-radius: 0.4em !important;
+	width: 300px;
+	margin: 0 auto;
+	border-radius: 0px 0px 15px 15px !important;
+
+	.x-button-label {
+		text-align: center !important;
+	}
+}
+
+.paginationSessionList {
+	margin-bottom: 1.5em;
+
+	.x-form-fieldset {
+		margin-bottom: 0px !important;
+	}
 }
