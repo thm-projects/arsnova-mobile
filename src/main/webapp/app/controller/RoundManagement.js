@@ -196,7 +196,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 			questions.forEach(function (question) {
 				if (question.getItemId() === questionId) {
 					ARSnova.app.getController('RoundManagement').updateQuestionOnRoundEnd(question);
-					question.countdownTimer.hide();
+					question.countdownTimer.stop();
 					question.disableQuestion();
 				}
 			});
@@ -215,7 +215,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 			questions.forEach(function (question) {
 				if (question.getItemId() === questionId) {
 					ARSnova.app.getController('RoundManagement').updateQuestionOnRoundEnd(question);
-					question.countdownTimer.hide();
+					question.countdownTimer.stop();
 					question.updateEditButtons();
 					question.editButtons.changeHiddenState();
 				}
@@ -244,7 +244,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 			questions.forEach(function (question) {
 				if (question.getItemId() === questionId) {
 					ARSnova.app.getController('RoundManagement').updateQuestionOnRoundCancel(question);
-					question.countdownTimer.hide();
+					question.countdownTimer.stop();
 					question.disableQuestion();
 				}
 			});
@@ -264,7 +264,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 				if (question.getItemId() === questionId) {
 					ARSnova.app.getController('RoundManagement').updateQuestionOnRoundCancel(question);
 					questionObj = question.questionObj;
-					question.countdownTimer.hide();
+					question.countdownTimer.stop();
 					question.updateEditButtons();
 					question.editButtons.changeHiddenState();
 				}
@@ -294,7 +294,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 			questions.forEach(function (question) {
 				if (question.getItemId() === questionId) {
 					ARSnova.app.getController('RoundManagement').updateQuestionOnRoundReset(question);
-					question.countdownTimer.hide();
+					question.countdownTimer.stop();
 					question.disableQuestion();
 				}
 			});
@@ -314,7 +314,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 			questions.forEach(function (question) {
 				if (question.getItemId() === questionId) {
 					ARSnova.app.getController('RoundManagement').updateQuestionOnRoundReset(question);
-					question.countdownTimer.hide();
+					question.countdownTimer.stop();
 					question.updateEditButtons();
 					question.editButtons.changeHiddenState();
 				}

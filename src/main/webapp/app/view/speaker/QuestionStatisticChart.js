@@ -409,7 +409,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		this.on('hide', function () {
 			ARSnova.app.activePreviewPanel = false;
-			this.countdownTimer.hide();
+			this.countdownTimer.stop();
 		});
 
 		this.on('painted', function () {
@@ -434,7 +434,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			this.countdownTimer.start(this.questionObj.piRoundStartTime, this.questionObj.piRoundEndTime);
 			this.countdownTimer.show();
 		} else {
-			this.countdownTimer.hide();
+			this.countdownTimer.stop();
 		}
 	},
 

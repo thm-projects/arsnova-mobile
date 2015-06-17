@@ -318,7 +318,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		});
 
 		this.on('hide', function () {
-			this.countdownTimer.hide();
+			this.countdownTimer.stop();
 		});
 	},
 
@@ -327,7 +327,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			this.countdownTimer.start(this.questionObj.piRoundStartTime, this.questionObj.piRoundEndTime);
 			this.countdownTimer.show();
 		} else {
-			this.countdownTimer.hide();
+			this.countdownTimer.stop();
 		}
 	},
 

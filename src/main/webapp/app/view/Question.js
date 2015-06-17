@@ -557,7 +557,7 @@ Ext.define('ARSnova.view.Question', {
 		});
 
 		this.on('deactivate', function () {
-			this.countdownTimer.hide();
+			this.countdownTimer.stop();
 		});
 
 		this.on('painted', function () {
@@ -570,9 +570,8 @@ Ext.define('ARSnova.view.Question', {
 	checkPiRoundActivation: function () {
 		if (this.questionObj.piRoundActive) {
 			this.countdownTimer.start(this.questionObj.piRoundStartTime, this.questionObj.piRoundEndTime);
-			this.countdownTimer.show();
 		} else {
-			this.countdownTimer.hide();
+			this.countdownTimer.stop();
 		}
 	},
 

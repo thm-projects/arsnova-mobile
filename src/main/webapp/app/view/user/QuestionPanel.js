@@ -84,6 +84,10 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	},
 
 	onItemChange: function (panel, newQuestion, oldQuestion) {
+		if (!!oldQuestion && oldQuestion.questionObj && oldQuestion.countdownTimer) {
+			oldQuestion.countdownTimer.stop();
+		}
+
 		if (newQuestion.questionObj) {
 			newQuestion.updateQuestionText();
 			this.toolbar.setTitle(Ext.util.Format.htmlEncode(newQuestion.getQuestionTypeMessage()));
