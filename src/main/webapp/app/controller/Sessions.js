@@ -258,7 +258,7 @@ Ext.define("ARSnova.controller.Sessions", {
 		var session = Ext.create('ARSnova.model.Session');
 		session.setData(sessionInfo);
 
-		var validation = session.validate();
+		session.validate();
 		session.update({
 			success: function (response) {
 				var fullSession = Ext.decode(response.responseText);
@@ -269,14 +269,6 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('courseId', fullSession.courseId === null ? "" : fullSession.courseId);
 				localStorage.setItem('courseType', fullSession.courseType === null ? "" : fullSession.courseType);
 				localStorage.setItem('creationTime', fullSession.creationTime);
-				localStorage.setItem('ppAuthorName', fullSession.ppAuthorName);
-				localStorage.setItem('ppAuthorMail', fullSession.ppAuthorMail);
-				localStorage.setItem('ppUniversity', fullSession.ppUniversity);
-				localStorage.setItem('ppLicense', fullSession.ppLicense);
-				localStorage.setItem('ppLevel', fullSession.ppLevel);
-				localStorage.setItem('ppSubject', fullSession.ppSubject);
-				localStorage.setItem('ppFaculty', fullSession.ppFaculty);
-				localStorage.setItem('ppDescription', fullSession.ppDescription);
 				localStorage.setItem('keyword', fullSession.keyword);
 				ARSnova.app.isSessionOwner = true;
 			},
@@ -337,14 +329,6 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('courseId', fullSession.courseId === null ? "" : fullSession.courseId);
 				localStorage.setItem('courseType', fullSession.courseType === null ? "" : fullSession.courseType);
 				localStorage.setItem('creationTime', fullSession.creationTime);
-				localStorage.setItem('ppAuthorName', fullSession.ppAuthorName);
-				localStorage.setItem('ppAuthorMail', fullSession.ppAuthorMail);
-				localStorage.setItem('ppUniversity', fullSession.ppUniversity);
-				localStorage.setItem('ppLicense', fullSession.ppLicense);
-				localStorage.setItem('ppLevel', fullSession.ppLevel);
-				localStorage.setItem('ppSubject', fullSession.ppSubject);
-				localStorage.setItem('ppFaculty', fullSession.ppFaculty);
-				localStorage.setItem('ppDescription', fullSession.ppDescription);
 				ARSnova.app.isSessionOwner = true;
 
 				sessionStorage.setItem('keyword', fullSession.keyword);
