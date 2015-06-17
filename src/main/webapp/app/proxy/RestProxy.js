@@ -49,9 +49,9 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	/**
 	 * @param start index
 	 * @param end index
-	 * @return  formatted range header string
+	 * @return formatted range header string
 	 */
-	constructRangeRequestString: function (offset, limit) {
+	constructRangeString: function (offset, limit) {
 		return 'items=' + offset + '-' + limit;
 	},
 
@@ -151,6 +151,10 @@ Ext.define('ARSnova.proxy.RestProxy', {
 				statusonly: true,
 				sortby: sortby
 			},
+			headers: {
+				Range: this.constructRangeString(offset, limit)
+			},
+
 			success: callbacks.success,
 			204: callbacks.empty,
 
@@ -180,12 +184,15 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	getMyPublicPoolSessions: function (callbacks) {
+	getMyPublicPoolSessions: function (callbacks, offset, limit) {
 		this.arsjax.request({
 			url: "session/publicpool/",
 			method: "GET",
 			params: {
 				statusonly: true
+			},
+			headers: {
+				Range: this.constructRangeString(offset, limit)
 			},
 
 			success: callbacks.success,
@@ -223,7 +230,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	 * @return session-objects, if found
 	 * @return false, if nothing found
 	 */
-	getMyVisitedSessions: function (callbacks, sortby) {
+	getMyVisitedSessions: function (callbacks, sortby, offset, limit) {
 		this.arsjax.request({
 			url: "session/",
 			method: "GET",
@@ -232,13 +239,13 @@ Ext.define('ARSnova.proxy.RestProxy', {
 				statusonly: true,
 				sortby: sortby
 			},
-			success: function (response) {
-				if (response.status === 204) {
-					callbacks.success.call(this, []);
-				} else {
-					callbacks.success.call(this, Ext.decode(response.responseText));
-				}
+			headers: {
+				Range: this.constructRangeString(offset, limit)
 			},
+
+			success: callbacks.success,
+			204: callbacks.empty,
+
 			failure: function (response) {
 				if (response.status === 401) {
 					callbacks.unauthenticated.apply(this, arguments);

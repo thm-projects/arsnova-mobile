@@ -137,7 +137,7 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 
 		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SEARCH);
 
-		ARSnova.app.sessionModel.getMySessions({
+		ARSnova.app.sessionModel.getMySessions(-1, -1, {
 			success: function (response) {
 				var sessions = Ext.decode(response.responseText);
 				me.displaySessions(sessions, me.sessionsForm, hideLoadMask);
@@ -170,7 +170,7 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 
 		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SEARCH);
 
-		ARSnova.app.sessionModel.getMyPublicPoolSessions({
+		ARSnova.app.sessionModel.getMyPublicPoolSessions(-1, -1, {
 			success: function (response) {
 				var sessions = Ext.decode(response.responseText);
 				me.displaySessions(sessions, me.ppSessionsForm, hideLoadMask);
