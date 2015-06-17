@@ -114,22 +114,19 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			ui: 'action',
 			text: Messages.SESSION_OPTIONAL_INFO,
 			handler: function () {
+				var session = {};
+				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel;
 				var values = this.up('panel').getValues();
 				localStorage.setItem('name', values.name);
 				localStorage.setItem('shortName', values.shortName);
-				ARSnova.app.sessionModel.getMySessions({
-					success: function (answer) {
-						var session = {};
-						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-						var sessionForm = Ext.create('ARSnova.view.home.SessionInfoPanel', {
-							sessionInfo: session,
-							backReference: me,
-							referencePanel: hTP
-						});
-						hTP.animateActiveItem(sessionForm, 'slide');
-					}
+
+				var sessionForm = Ext.create('ARSnova.view.home.SessionInfoPanel', {
+					sessionInfo: session,
+					backReference: panel,
+					referencePanel: hTP
 				});
+				hTP.animateActiveItem(sessionForm, 'slide');
 			}
 		});
 
