@@ -35,12 +35,14 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		}
 	},
 
+	listOffset: 10,
+	createdSessionsObject: null,
+	visitedSessionsObject: null,
+	publicPoolSessionsObject: null,
+
 	/* toolbar items */
 	toolbar: null,
 	backButton: null,
-
-	/* items */
-	createdSessions: null,
 
 	initialize: function () {
 		this.callParent(arguments);
@@ -343,7 +345,8 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		this.add([
 			this.toolbar,
 			this.newSessionButtonForm,
-			this.sessionsForm]);
+			this.sessionsForm]
+		);
 
 		if (config.features.publicPool) {
 			this.add(this.myPpSessionsForm);
@@ -354,16 +357,20 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			this.lastVisitedSessionsForm
 		]);
 
+		this.initializePaginationVariables();
 		this.on('painted', this.onActivate);
 
 		this.on('resize', function () {
 			this.resizeMySessionsButtons();
+			this.resizePublicPoolSessionButtons();
 			this.resizeLastVisitedSessionButtons();
 		});
 	},
 
 	onActivate: function () {
 		var me = this;
+		this.resetPaginationState();
+
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			this.backButton.hide();
 			this.logoutButton.show();
@@ -397,10 +404,12 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		var width = this.element.dom.clientWidth;
 
 		buttons.forEach(function (button) {
-			if (width < 720) {
-				button.setWidth(width - offset);
-			} else {
-				button.setWidth('100%');
+			if (button.element.hasCls('forwardListButton')) {
+				if (width < 720) {
+					button.setWidth(width - offset);
+				} else {
+					button.setWidth('100%');
+				}
 			}
 		});
 	},
@@ -411,12 +420,32 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		var width = this.element.dom.clientWidth;
 
 		buttons.forEach(function (button) {
-			if (width < 720) {
-				button.setWidth(width - offset);
-			} else {
-				button.setWidth('100%');
+			if (button.element.hasCls('forwardListButton')) {
+				if (width < 720) {
+					button.setWidth(width - offset);
+				} else {
+					button.setWidth('100%');
+				}
 			}
 		});
+	},
+
+	resizePublicPoolSessionButtons: function () {
+		if (!!this.myPpSessionsForm) {
+			var buttons = this.myPpSessionsForm.getInnerItems()[0].getInnerItems();
+			var offset = this.myPpSessionsForm.bodyElement.dom.firstChild.offsetLeft * 2;
+			var width = this.element.dom.clientWidth;
+
+			buttons.forEach(function (button) {
+				if (button.element.hasCls('forwardListButton')) {
+					if (width < 720) {
+						button.setWidth(width - offset);
+					} else {
+						button.setWidth('100%');
+					}
+				}
+			});
+		}
 	},
 
 	loadCreatedSessions: function () {
@@ -424,16 +453,17 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		var promise = new RSVP.Promise();
 
 		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SEARCH);
-		ARSnova.app.sessionModel.getMySessions({
+		ARSnova.app.sessionModel.getMySessions(
+			me.createdSessionsObject.getStartIndex(),
+			me.createdSessionsObject.offset, {
 			success: function (response) {
 				var sessions = Ext.decode(response.responseText);
 				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.mySessionsPanel;
-				var caption = panel.caption;
-
+				var length = sessions.length;
 				panel.sessionsForm.removeAll();
 				panel.sessionsForm.show();
 
-				if (sessions.length > 0) {
+				if (length > 0) {
 					me.saveSetHidden(me.exportButton, false);
 				}
 
@@ -449,9 +479,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					hideLoadMask();
 				};
 
-				var session;
-				for (var i = 0; i < sessions.length; i++) {
-					session = sessions[i];
+				me.createdSessionsObject.updatePagination(sessions);
+				for (var i = 0; i < me.createdSessionsObject.sessions.length; i++) {
+					session = me.createdSessionsObject.sessions[i];
 					var status = "";
 					var course = "icon-presenter";
 
@@ -485,6 +515,15 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						{badgeText: session.numAnswers, badgeCls: "answersBadgeIcon"}
 					]);
 					panel.sessionsForm.addEntry(sessionButton);
+				}
+
+				if (me.createdSessionsObject.offset === -1) {
+					panel.sessionsForm.removeLoadMoreButton();
+				} else {
+					panel.sessionsForm.addLoadMoreButton({
+						handler: me.loadCreatedSessions,
+						scope: me
+					});
 				}
 
 				hideLoadMask();
@@ -521,11 +560,12 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		}
 
 		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SEARCH);
-		ARSnova.app.sessionModel.getMyPublicPoolSessions({
+		ARSnova.app.sessionModel.getMyPublicPoolSessions(
+			me.publicPoolSessionsObject.getStartIndex(),
+			me.publicPoolSessionsObject.offset, {
 			success: function (response) {
 				var sessions = Ext.decode(response.responseText);
-				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.mySessionsPanel;
-				var caption = panel.caption;
+				var panel = me;
 
 				panel.myPpSessionsForm.removeAll();
 				panel.myPpSessionsForm.show();
@@ -546,8 +586,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				};
 
 				var session;
-				for (var i = 0; i < sessions.length; i++) {
-					session = sessions[i];
+				me.publicPoolSessionsObject.updatePagination(sessions);
+				for (var i = 0; i < me.publicPoolSessionsObject.sessions.length; i++) {
+					session = me.publicPoolSessionsObject.sessions[i];
 					var status = "";
 
 					if (!session.active) {
@@ -572,7 +613,17 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					panel.myPpSessionsForm.addEntry(sessionButton);
 				}
 
+				if (me.publicPoolSessionsObject.offset === -1) {
+					panel.myPpSessionsForm.removeLoadMoreButton();
+				} else {
+					panel.myPpSessionsForm.addLoadMoreButton({
+						handler: me.loadCreatedPublicPoolSessions,
+						scope: me
+					});
+				}
+
 				hideLoadMask();
+				panel.resizePublicPoolSessionButtons();
 				promise.resolve(sessions);
 			},
 			empty: Ext.bind(function () {
@@ -601,11 +652,12 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		var me = this;
 		var hideLoadingMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SEARCH);
 		var promise = new RSVP.Promise();
-
-		ARSnova.app.restProxy.getMyVisitedSessions({
-			success: function (sessions) {
+		ARSnova.app.sessionModel.getMyVisitedSessions(
+			me.visitedSessionsObject.getStartIndex(),
+			me.visitedSessionsObject.offset, {
+			success: function (response) {
+				var sessions = Ext.decode(response.responseText);
 				var panel = me;
-				var caption = panel.caption;
 
 				if (sessions && sessions.length !== 0) {
 					panel.lastVisitedSessionsForm.removeAll();
@@ -623,8 +675,9 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						hideLoadMask();
 					};
 
-					for (var i = 0; i < sessions.length; i++) {
-						var session = sessions[i];
+					me.visitedSessionsObject.updatePagination(sessions);
+					for (var i = 0; i < me.visitedSessionsObject.sessions.length; i++) {
+						var session = me.visitedSessionsObject.sessions[i];
 
 						var icon = "icon-users";
 						if (session.creator === localStorage.getItem("login")) {
@@ -665,6 +718,16 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							panel.down('button[text=' + displaytext + ']').addCls("isInactive");
 						}
 					}
+
+					if (me.visitedSessionsObject.offset === -1) {
+						panel.lastVisitedSessionsForm.removeLoadMoreButton();
+					} else {
+						panel.lastVisitedSessionsForm.addLoadMoreButton({
+							handler: me.loadVisitedSessions,
+							scope: me
+						});
+					}
+
 					promise.resolve(sessions);
 				} else {
 					panel.lastVisitedSessionsForm.hide();
@@ -687,6 +750,53 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			}
 		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
 		return promise;
+	},
+
+	initializePaginationVariables: function () {
+		var panel = this;
+
+		var pageNumObject = {
+			sessions: [],
+			offset: this.listOffset,
+			lastOffset: this.listOffset,
+			resetOffsetState: function () {
+				this.offset = this.lastOffset;
+			},
+			getStartIndex: function () {
+				var length = this.sessions.length;
+				return this.offset !== -1 ? length : -1;
+			},
+			updatePagination: function (sessions) {
+				if (Array.isArray(sessions)) {
+					var length = sessions.length;
+					if (this.offset !== -1 &&
+						length > panel.listOffset) {
+						length = panel.listOffset;
+						sessions.pop();
+					} else {
+						this.offset = -1;
+					}
+
+					this.lastOffset = this.offset;
+					this.sessions = this.sessions.concat(sessions);
+					this.offset = this.offset !== -1 ?
+						this.sessions.length + length : -1;
+				}
+			}
+		};
+
+		this.createdSessionsObject = Object.create(pageNumObject);
+		this.visitedSessionsObject = Object.create(pageNumObject);
+		this.publicPoolSessionsObject = Object.create(pageNumObject);
+	},
+
+	resetPaginationState: function () {
+		this.createdSessionsObject.sessions = [];
+		this.visitedSessionsObject.sessions = [];
+		this.publicPoolSessionsObject.sessions = [];
+		this.createdSessionsObject.resetOffsetState();
+		this.visitedSessionsObject.resetOffsetState();
+		this.publicPoolSessionsObject.resetOffsetState();
 	},
 
 	/**
