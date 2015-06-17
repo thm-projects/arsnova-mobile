@@ -21,6 +21,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 	alias: 'widget.SessionInfoPanel',
 
 	config: {
+		title: Messages.SESSION_INFO_TITLE,
 		sessionInfo: null,
 		backReference: null,
 		referencePanel: null,
@@ -38,13 +39,11 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		var me = this;
 		var config = ARSnova.app.globalConfig;
 
+		var SubjectoptionsPP = [];	// save loaded subjects
+		var LicenceoptionsPP = [];  // save loaded lincences
+		var levelsPP = [];  // save loaded levels
 		// Check if this feauture is enabled - if not do not use these fields
 		if (config.features.publicPool) {
-			var SubjectoptionsPP = [];	// save loaded subjects
-			var LicenceoptionsPP = [];  // save loaded lincences
-			var levelsPP = [];  // save loaded levels
-
-
 			var subjects = config.publicPool.subjects.split(',');
 
 			subjects.forEach(function (entry) {
@@ -72,10 +71,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		var screenWidth = (window.innerWidth > 0) ?
 				window.innerWidth :	screen.width;
 		var showShortLabels = screenWidth < 480;
-		var title = Messages.SESSION_INFO_TITLE ;
-		if (showShortLabels){
-			title = Messages.SESSION_INFO_TITLE_SHORT;
-		}
 
 		this.matrixButtonPanel = Ext.create('Ext.Panel', {
 			layout: {
@@ -163,7 +158,9 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: title,
+			title: Ext.os.is.Desktop ?
+				Messages.SESSION_INFO_TITLE :
+				Messages.SESSION_INFO_TITLE_SHORT,
 			docked: 'top',
 			ui: 'light',
 			items: [
