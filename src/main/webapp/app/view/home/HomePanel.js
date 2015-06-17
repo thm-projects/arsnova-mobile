@@ -42,6 +42,10 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	logoutButton: null,
 	sessionLogoutButton: null,
 
+	listOffset: 10,
+	mySessionsObject: null,
+	visitedSessionsObject: null,
+
 	initialize: function () {
 		var me = this;
 		var config = ARSnova.app.globalConfig;
@@ -233,6 +237,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			this.add(this.matrixButtonPanel);
 		}
 
+		this.initializePaginationVariables();
 		this.on('painted', this.onActivate);
 
 		this.on('resize', function () {
@@ -243,6 +248,8 @@ Ext.define('ARSnova.view.home.HomePanel', {
 
 	onActivate: function () {
 		var me = this;
+		this.resetPaginationState();
+
 		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
 			var handler = function success(sessions) {
 				me.caption.summarize(sessions, {
@@ -324,10 +331,15 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		var promise = new RSVP.Promise();
 
 		var hideLoadingMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SEARCH);
-
-		ARSnova.app.restProxy.getMyVisitedSessions({
-			success: function (sessions) {
-				me.displaySessions(sessions, me.lastVisitedSessionsForm, hideLoadingMask);
+		ARSnova.app.sessionModel.getMyVisitedSessions(
+			me.visitedSessionsObject.getStartIndex(),
+			me.visitedSessionsObject.offset, {
+			success: function (response) {
+				var sessions = Ext.decode(response.responseText);
+				me.displaySessions(
+					sessions, me.lastVisitedSessionsForm, me.visitedSessionsObject, hideLoadingMask,
+					me.loadVisitedSessions
+				);
 				me.resizeLastVisitedSessionButtons();
 				if (sessions.length > 0) {
 					promise.resolve(sessions);
@@ -360,11 +372,16 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		var promise = new RSVP.Promise();
 
 		var hideLoadingMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SEARCH);
-
-		ARSnova.app.sessionModel.getMySessions({
+		ARSnova.app.sessionModel.getMySessions(
+			me.mySessionsObject.getStartIndex(),
+			me.mySessionsObject.offset, {
 			success: function (response) {
 				var sessions = Ext.decode(response.responseText);
-				me.displaySessions(sessions, me.mySessionsForm, hideLoadingMask);
+
+				me.displaySessions(
+					sessions, me.mySessionsForm, me.mySessionsObject, hideLoadingMask,
+					me.loadMySessions
+				);
 				me.resizeSessionButtons();
 				if (sessions.length > 0) {
 					promise.resolve(sessions);
@@ -394,7 +411,8 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		return promise;
 	},
 
-	displaySessions: function (sessions, form, hideLoadingMask) {
+	displaySessions: function (sessions, form, pageNumObject, hideLoadingMask, callerFn) {
+		var me = this;
 		if (sessions && sessions.length !== 0) {
 			form.removeAll();
 			form.show();
@@ -406,8 +424,10 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				});
 				hideLoadMask();
 			};
-			for (var i = 0; i < sessions.length; i++) {
-				var session = sessions[i];
+
+			pageNumObject.updatePagination(sessions);
+			for (var i = 0; i < pageNumObject.sessions.length; i++) {
+				var session = pageNumObject.sessions[i];
 
 				var icon = "icon-users thm-green";
 				if (session.courseType && session.courseType.length > 0) {
@@ -451,9 +471,71 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					this.down('button[text=' + displaytext + ']').addCls("isInactive");
 				}
 			}
+
+			if (pageNumObject.offset === -1) {
+				form.removeLoadMoreButton();
+			} else {
+				form.addLoadMoreButton({
+					handler: callerFn,
+					scope: me
+				});
+			}
 		} else {
 			form.hide();
 		}
 		hideLoadingMask();
+	},
+
+	initializePaginationVariables: function () {
+		var panel = this;
+
+		var pageNumObject = {
+			sessions: [],
+			offset: this.listOffset,
+			lastOffset: this.listOffset,
+			resetOffsetState: function () {
+				this.offset = this.lastOffset;
+			},
+			getStartIndex: function () {
+				var length = this.sessions.length;
+				return this.offset !== -1 ? length : -1;
+			},
+			updatePagination: function (sessions) {
+				if (Array.isArray(sessions)) {
+					var length = sessions.length;
+					if (this.offset !== -1 &&
+						length > panel.listOffset) {
+						length = panel.listOffset;
+						sessions.pop();
+					} else {
+						this.offset = -1;
+					}
+
+					this.lastOffset = this.offset;
+					this.sessions = this.sessions.concat(sessions);
+					this.offset = this.offset !== -1 ?
+						this.sessions.length + length : -1;
+				}
+			}
+		};
+
+		this.mySessionsObject = Object.create(pageNumObject);
+		this.visitedSessionsObject = Object.create(pageNumObject);
+	},
+
+	resetPaginationState: function () {
+		this.mySessionsObject.sessions = [];
+		this.visitedSessionsObject.sessions = [];
+		this.mySessionsObject.resetOffsetState();
+		this.visitedSessionsObject.resetOffsetState();
+	},
+
+	/**
+	 * Save way to set an element hidden.
+	 */
+	saveSetHidden: function (element, hidden) {
+		if (typeof element !== undefined && element != null) {
+			element.setHidden(hidden);
+		}
 	}
 });
