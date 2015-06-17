@@ -125,16 +125,20 @@ Ext.define('ARSnova.model.Session', {
 		});
 	},
 
-	getMySessions: function (callbacks, sortby) {
-		return this.getProxy().getMySessions(callbacks, sortby);
+	getMySessions: function (offset, limit, callbacks, sortby) {
+		return this.getProxy().getMySessions(callbacks, sortby, offset, limit);
+	},
+
+	getMyPublicPoolSessions: function (offset, limit, callbacks) {
+		return this.getProxy().getMyPublicPoolSessions(callbacks, offset, limit);
+	},
+
+	getMyVisitedSessions: function (offset, limit, callbacks, sortby) {
+		return this.getProxy().getMyVisitedSessions(callbacks, sortby, offset, limit);
 	},
 
 	getPublicPoolSessions: function (callbacks) {
 		return this.getProxy().getPublicPoolSessions(callbacks);
-	},
-
-	getMyPublicPoolSessions: function (callbacks) {
-		return this.getProxy().getMyPublicPoolSessions(callbacks);
 	},
 
 	lock: function (sessionKeyword, theLock, callbacks) {
