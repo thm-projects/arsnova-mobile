@@ -308,14 +308,14 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				title: Messages.SESSIONPOOL_SESSIONINFO,
 				cls: 'standardFieldset',
 				itemId: 'contentFieldset',
-				items: [this.sessionName, this.sessionShortName, this.markdownEditPanel, this.description, this.subject, this.licence, this.level, this.previewButton]
+				items: [this.sessionName, this.sessionShortName, this.markdownEditPanel, this.description, this.subject, this.licence, this.level]
 			});
 		} else {
 			this.sessionFieldSet = Ext.create('Ext.form.FieldSet', {
 				title: Messages.SESSIONPOOL_SESSIONINFO,
 				cls: 'standardFieldset',
 				itemId: 'contentFieldset',
-				items: [this.sessionName, this.sessionShortName, this.markdownEditPanel, this.description, this.previewButton]
+				items: [this.sessionName, this.sessionShortName, this.markdownEditPanel, this.description]
 			});
 		}
 
@@ -337,6 +337,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				this.descriptionFieldSet,
 				this.creatorFieldSet,
 				this.sessionFieldSet,
+				this.previewButton,
 				{
 					xtype: 'fieldset',
 					layout: 'vbox',
@@ -376,8 +377,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 	},
 
 	previewHandler: function () {
-		var descriptionPreview = Ext.create('ARSnova.view.PreviewBox', {
-		});
+		var descriptionPreview = Ext.create('ARSnova.view.PreviewBox', {});
 		descriptionPreview.showPreview(this.description.getValue());
 	},
 
