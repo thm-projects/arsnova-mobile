@@ -39,22 +39,22 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		var me = this;
 		var config = ARSnova.app.globalConfig;
 
-		var SubjectoptionsPP = [];	// save loaded subjects
-		var LicenceoptionsPP = [];  // save loaded lincences
+		var subjectOptionsPP = [];	// save loaded subjects
+		var licenceOptionsPP = [];  // save loaded lincences
 		var levelsPP = [];  // save loaded levels
-		
+
 		// Check if this feauture is enabled - if not do not use these fields
 		if (config.features.publicPool) {
 			var subjects = config.publicPool.subjects.split(',');
 
 			subjects.forEach(function (entry) {
-				SubjectoptionsPP.push({text: entry, value: entry});
+				subjectOptionsPP.push({text: entry, value: entry});
 			});
 
 			var licenses = config.publicPool.licenses.split(',');
 
 			licenses.forEach(function (entry) {
-				LicenceoptionsPP.push({text: entry, value: entry});
+				licenceOptionsPP.push({text: entry, value: entry});
 			});
 
 			var levels;
@@ -283,7 +283,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				value: me.getSessionInfo().ppSubject,
 				placeHolder: 'max. 50 ' + Messages.SESSIONPOOL_CHARACTERS
 			});
-			this.subject.updateOptions(SubjectoptionsPP);
+			this.subject.updateOptions(subjectOptionsPP);
 
 
 			this.licence = Ext.create('Ext.field.Select', {
@@ -293,7 +293,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				value: me.getSessionInfo().ppLicense,
 				placeHolder: 'max. 50 ' + Messages.SESSIONPOOL_CHARACTERS
 			});
-			this.licence.updateOptions(LicenceoptionsPP);
+			this.licence.updateOptions(licenceOptionsPP);
 
 			this.level = Ext.create('Ext.field.Select', {
 				name: 'level',
