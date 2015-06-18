@@ -75,15 +75,16 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			label: Messages.FREETEXT_ANSWER_TEXT,
 			name: 'text',
 			maxLength: 2500,
-			maxRows: 7
+			maxRows: 7,
+			hidden: !!this.questionObj.imageQuestion &&
+				!this.questionObj.textAnswerEnabled
 		});
 
 		this.markdownEditPanel = Ext.create('ARSnova.view.MarkDownEditorPanel', {
 			processElement: this.answerText,
-			hidden: !this.questionObj.textAnswerEnabled
+			hidden: !!this.questionObj.imageQuestion &&
+				!this.questionObj.textAnswerEnabled
 		});
-
-		this.answerText.setHidden(!this.questionObj.textAnswerEnabled);
 
 		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
 			handlerScope: this,
@@ -92,22 +93,15 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			urlUploadHandler: this.setImage,
 			fsUploadHandler: this.setImage,
 			style: 'margin-bottom: 30px',
-			disableURLUpload: true
+			disableURLUpload: true,
+			hidden: !this.questionObj.imageQuestion
 		});
-
-		if (!this.questionObj.imageQuestion) {
-			this.uploadView.hide();
-		}
 
 		this.needImageLabel = Ext.create('Ext.Label', {
 			html: Messages.IMAGE_NEEDED,
 			style: "width: 100%; text-align: center;",
-			hidden: true
+			hidden: !this.questionObj.imageQuestion
 		});
-
-		if (this.questionObj.imageQuestion) {
-			this.needImageLabel.show();
-		}
 
 		this.gridQuestion = Ext.create('ARSnova.view.components.GridImageContainer', {
 			id: 'grid',
