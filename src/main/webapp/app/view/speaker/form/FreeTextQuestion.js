@@ -91,11 +91,16 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		this.add([answerFieldset, this.textAnswerFieldSet]);
 	},
 
+	resetFields: function () {
+		this.textAnswerFieldSet.hide();
+		this.imgUploadBtn.setToggleFieldValue(false);
+		this.expectAnswerText.setToggleFieldValue(true);
+	},
+
 	getQuestionValues: function () {
 		var result = {};
 		result.imageQuestion = this.imageQuestion;
 		result.textAnswerEnabled = this.textAnswerEnabled;
 		return result;
 	}
-
 });

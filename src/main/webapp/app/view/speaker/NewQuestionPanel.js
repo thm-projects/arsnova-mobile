@@ -534,6 +534,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				panel.setFcImage(null);
 			}
 
+			panel.freetextQuestion.resetFields();
 			panel.multipleChoiceQuestion.resetFields();
 			panel.abcdQuestion.resetFields();
 
