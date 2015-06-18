@@ -213,7 +213,7 @@ Ext.define("ARSnova.controller.Application", {
 	},
 
 	showLargerImage: function (element) {
-		var heightOffset = 15;
+		var offset = 15;
 		var messageBox = Ext.create('Ext.MessageBox', {
 			width: '100%',
 			height: '100%',
@@ -229,20 +229,34 @@ Ext.define("ARSnova.controller.Application", {
 		var img = Ext.create('Ext.Img', {
 			src: element.src,
 			mode: 'image',
-			width: '100%',
-			height: 'auto',
 			listeners: {
 				load: function () {
 					messageBox.show();
-					var height = parseInt(this.element.getStyle('height'), 10);
-					var parentHeight = parseInt(this.getParent().element.getStyle('height'), 10);
+					var parent = this.getParent();
+					var parentWidth = parseInt(parent.element.getStyle('width'), 10);
+					var parentHeight = parseInt(parent.element.getStyle('height'), 10);
+					var imgComputedStyle = window.getComputedStyle(this.element.dom.firstChild, "");
+					var width = parseFloat(imgComputedStyle.getPropertyValue("width"));
+					var height = parseFloat(imgComputedStyle.getPropertyValue("height"));
 
-					if (height > parentHeight) {
-						this.getParent().setWidth('auto');
-						this.setHeight(parentHeight - heightOffset);
+					if (height === width) {
+						if (parentHeight > parentWidth) {
+							parent.setHeight(parentWidth);
+							this.setWidth(parentWidth - offset);
+							this.setHeight(parentWidth - offset);
+						} else {
+							parent.setWidth(parentHeight);
+							this.setWidth(parentHeight - offset);
+							this.setHeight(parentHeight - offset);
+						}
+					} else if (height > width) {
 						this.setWidth('auto');
+						parent.setWidth('auto');
+						this.setHeight(parentHeight - offset);
 					} else {
-						this.getParent().setHeight('auto');
+						this.setHeight('auto');
+						parent.setHeight('auto');
+						this.setWidth(parentWidth - offset);
 					}
 				}
 			}
