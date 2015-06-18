@@ -53,7 +53,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 
 		this.textAnswerFieldSet = Ext.create('Ext.form.FieldSet', {
 			title: Messages.EXPECT_ANSWER_TEXT,
-			style: 'margin-top:45px;',
+			style: 'margin-top:-20px; margin-bottom: 0px;',
 			hidden: true,
 			items: [this.expectAnswerText]
 		});
@@ -74,6 +74,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 							me.textAnswerFieldSet.show();
 						} else {
 							me.textAnswerFieldSet.hide();
+							me.expectAnswerText.setToggleFieldValue(true);
 						}
 					}
 				}
@@ -83,7 +84,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		var answerFieldset = Ext.create('Ext.form.FieldSet', {
 			//displayed on-top of the button
 			title: Messages.IMAGE_QUESTION_LBL,
-			style: 'margin-top:45px;',
+			style: 'margin-top:40px;',
 			items: [this.imgUploadBtn]
 		});
 
