@@ -405,7 +405,7 @@
 				MISSING_ANSWERS: "Es fehlen Antwortoptionen",
 				MISSING_IMAGE: "Es wurde kein Bild hochgeladen",
 				MISSING_FLASHCARD: "Die Rückseite ist leer",
-				EXPECT_ANSWER_TEXT: "Lange Beschreibung zulassen?",
+				EXPECT_ANSWER_TEXT: "Textantwort zulassen?",
 
 				/*Export session*/
 				EXPORT_MSG: "Was möchten Sie exportieren?",
@@ -1100,7 +1100,7 @@
 				EVALUATION_MINUS: "disagree",
 				EVALUATION_MINUSMINUS: "strongly disagree",
 				IMAGE_QUESTION_LBL: "Upload image/photo as answer?",
-				EXPECT_ANSWER_TEXT: "Allow long description?",
+				EXPECT_ANSWER_TEXT: "Allow text answer?",
 				IMAGE_QUESTION_MINIATUR_VIEW: "Grid",
 				IMAGE_QUESTION_HORIZONTAL_VIEW: "Horizontal",
 				IMAGE_QUESTION_VERTICAL_VIEW: "Vertical",
