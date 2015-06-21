@@ -315,35 +315,6 @@
 	display: inherit;
 }
 
-.zoomButton {
-	width: 44px;
-	height: 33px;
-	font-size: 16px;
-	position: absolute;
-	margin: 7px;
-	bottom: 0;
-	right: 0;
-
-	&.zoomSheetActive {
-		z-index: 999;
-		font-size: 14px;
-
-		.x-button-icon {
-			margin-right: 1px;
-		}
-	}
-}
-
-.zoomActionSheet {
-	padding: 0;
-	border: 1px solid $background;
-
-	.sliderField {
-		padding-right: 2em;
-		text-align: center;
-	}
-}
-
 .customMaskTextElement {
 	position: absolute;
 	text-align: center;

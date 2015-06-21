@@ -17,27 +17,45 @@
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+.x-speaker-utils {
+	width: 100px;
+	right: 0;
+	bottom: 0;
+	position: absolute;
+	background: transparent;
+	border: none !important;
+}
 
-// The following two lines import the default Sencha Touch theme. If you are building
-// a new theme, remove them and the add your own CSS on top of the base CSS (which
-// is already included in your app.json file).
+.zoomButton {
+	width: 44px;
+	height: 33px;
+	font-size: 1em;
+	position: absolute;
+	bottom: 0;
+	right: 0;
 
-@import 'sencha-touch/default';
-@import 'sencha-touch/default/all';
+	.icon-text-height::before {
+		top: -1px !important;
+		right: 3px !important;
+	}
 
-//
-// The following lines import the custom scss files.
+	&.zoomSheetActive {
+		z-index: 999;
+		font-size: 0.9em;
+		margin-right: 4px;
 
-@import 'app/colors';
-@import 'app/general';
-@import 'app/iconfont';
-@import 'app/bugfixes';
-@import 'app/theme';
+		.x-button-icon {
+			margin-right: 1px;
+		}
+	}
+}
 
-@import 'app/components/highlighter';
-@import 'app/components/badges';
-@import 'app/components/loadingMask';
-@import 'app/components/markdownEditor';
-@import 'app/components/countdownTimer';
-@import 'app/components/thumbnail';
-@import 'app/components/speakerUtils';
+.zoomActionSheet {
+	padding: 0;
+	border: 1px solid $background;
+
+	.sliderField {
+		padding-right: 2em;
+		text-align: center;
+	}
+}
