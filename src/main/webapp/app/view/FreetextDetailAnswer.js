@@ -46,9 +46,17 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 					text: Messages.BACK,
 					ui: 'back',
 					handler: function () {
-						self.sTP.items.items.pop(); // Remove this panel from view stack
-						self.sTP.animateActiveItem(
-							self.sTP.items.items[self.sTP.items.items.length - 1], // Switch back to top of view stack
+						var me = self;
+						var panel = me.sTP.items.items[me.sTP.items.items.length - 1];
+						me.speakerUtilities.initializeZoomComponents();
+
+						if (panel.xtype === 'sheet') {
+							me.sTP.items.items.pop();
+						}
+
+						me.sTP.items.items.pop(); // Remove this panel from view stack
+						me.sTP.animateActiveItem(
+							me.sTP.items.items[me.sTP.items.items.length - 1], // Switch back to top of view stack
 							{
 								type: 'slide',
 								direction: 'right',
@@ -56,8 +64,8 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 								scope: this,
 								listeners: {
 									animationend: function () {
-										self.answer.deselectItem();
-										self.hide();
+										me.answer.deselectItem();
+										me.destroy();
 									},
 									scope: this
 								}
@@ -142,18 +150,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			}, questionPanel]
 		});
 
-		this.zoomButton = Ext.create('Ext.Button', {
-			ui: 'action',
-			hidden: true,
-			cls: 'zoomButton',
-			docked: 'bottom',
-			iconCls: 'icon-text-height',
-			handler: this.zoomButtonHandler,
-			scope: this
-		});
-
 		this.add([this.toolbar,
-			this.zoomButton,
 			this.formPanel,
 			imgContainer, {
 			xtype: 'button',
@@ -165,6 +162,14 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			handler: function () {
 				ARSnova.app.questionModel.deleteAnswer(self.answer.questionId, self.answer._id, {
 					success: function () {
+						var me = self;
+						var panel = me.sTP.items.items[me.sTP.items.items.length - 1];
+						me.speakerUtilities.initializeZoomComponents();
+
+						if (panel.xtype === 'sheet') {
+							me.sTP.items.items.pop();
+						}
+
 						self.sTP.items.items.pop(); // Remove this panel from view stack
 						self.sTP.animateActiveItem(
 							self.sTP.items.items[self.sTP.items.items.length - 1], // Switch back to top of view stack
@@ -192,78 +197,29 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 	initialize: function () {
 		this.callParent(arguments);
 
-		var self = this;
-
-		this.zoomSlider = Ext.create('ARSnova.view.CustomSliderField', {
-			label: 'Zoom',
-			labelWidth: '15%',
-			value: 100,
-			minValue: 75,
-			maxValue: 150,
-			increment: 5,
-			suffix: '%',
-			setZoomLevel: function (sliderField, slider, newValue) {
-				newValue = Array.isArray(newValue) ? newValue[0] : newValue;
-				if (!sliderField.actualValue || sliderField.actualValue !== newValue) {
-					self.setZoomLevel(newValue);
-					sliderField.actualValue = newValue;
-				}
-			}
+		this.speakerUtilities = Ext.create('ARSnova.view.speaker.SpeakerUtilities', {
+			parentReference: this,
+			autoApplyBottomPadding: false,
+			hidden: true
 		});
 
-		this.zoomSlider.setListeners({
-			drag: this.zoomSlider.config.setZoomLevel,
-			change: this.zoomSlider.config.setZoomLevel
-		});
-
-		this.actionSheet = Ext.create('Ext.Sheet', {
-			left: 0,
-			right: 0,
-			bottom: 0,
-			hidden: true,
-			modal: false,
-			centered: false,
-			height: 'auto',
-			cls: 'zoomActionSheet',
-			items: [this.zoomSlider]
-		});
-
-		this.add(this.actionSheet);
+		this.add(this.speakerUtilities);
 
 		this.on('painted', function () {
 			ARSnova.app.innerScrollPanel = this;
-			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+		});
 
+		this.on('activate', function () {
+			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 			if (screenWidth > 700 && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-				this.zoomButton.show();
-				this.initializeZoomComponents();
+				this.speakerUtilities.initializeZoomComponents();
+				this.speakerUtilities.show();
 			}
 		});
 
 		this.on('deactivate', function () {
 			ARSnova.app.innerScrollPanel = false;
 		});
-	},
-
-	initializeZoomComponents: function () {
-		this.actionSheet.hide();
-		this.getParent().remove(this.actionSheet, false);
-		this.zoomButton.setIconCls('icon-text-height');
-		this.zoomButton.removeCls('zoomSheetActive');
-		this.zoomSlider.setSliderValue(ARSnova.app.globalZoomLevel);
-		this.setZoomLevel(ARSnova.app.globalZoomLevel);
-		this.zoomButton.isActive = false;
-	},
-
-	zoomButtonHandler: function () {
-		if (this.zoomButton.isActive) {
-			this.initializeZoomComponents();
-		} else {
-			this.zoomButton.setIconCls('icon-close');
-			this.zoomButton.addCls('zoomSheetActive');
-			this.zoomButton.isActive = true;
-			this.actionSheet.show();
-		}
 	},
 
 	setZoomLevel: function (size) {

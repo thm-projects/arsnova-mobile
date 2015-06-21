@@ -48,6 +48,7 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 			scope: this,
 			handler: function () {
 				var sQP = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
+				me.speakerUtilities.initializeZoomComponents();
 				sQP.animateActiveItem(sQP.questionsPanel, {
 					type: 'slide',
 					direction: 'right',
@@ -76,59 +77,20 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 		});
 		questionPanel.setContent(questionString, true, true);
 
-		this.zoomButton = Ext.create('Ext.Button', {
-			ui: 'action',
-			hidden: true,
-			cls: 'zoomButton',
-			docked: 'bottom',
-			iconCls: 'icon-text-height',
-			handler: this.zoomButtonHandler,
-			scope: this
-		});
-
-		this.zoomSlider = Ext.create('ARSnova.view.CustomSliderField', {
-			label: 'Zoom',
-			labelWidth: '15%',
-			value: 100,
-			minValue: 75,
-			maxValue: 150,
-			increment: 5,
-			suffix: '%',
-			setZoomLevel: function (sliderField, slider, newValue) {
-				newValue = Array.isArray(newValue) ? newValue[0] : newValue;
-				if (!sliderField.actualValue || sliderField.actualValue !== newValue) {
-					me.setZoomLevel(newValue);
-					sliderField.actualValue = newValue;
-				}
-			}
-		});
-
-		this.zoomSlider.setListeners({
-			drag: this.zoomSlider.config.setZoomLevel,
-			change: this.zoomSlider.config.setZoomLevel
-		});
-
-		this.actionSheet = Ext.create('Ext.Sheet', {
-			left: 0,
-			right: 0,
-			bottom: 0,
-			hidden: true,
-			modal: false,
-			centered: false,
-			height: 'auto',
-			cls: 'zoomActionSheet',
-			items: [this.zoomSlider]
-		});
-
 		this.formPanel = Ext.create('Ext.form.Panel', {
 			scrollable: null,
 			items: [questionPanel]
 		});
 
+		this.speakerUtilities = Ext.create('ARSnova.view.speaker.SpeakerUtilities', {
+			parentReference: this,
+			autoApplyBottomPadding: false,
+			hidden: true
+		});
+
 		this.add([
 			this.toolbar,
-			this.zoomButton,
-			this.actionSheet,
+			this.speakerUtilities,
 			this.formPanel,
 			{
 				xtype: 'button',
@@ -141,6 +103,7 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 					ARSnova.app.questionModel.deleteInterposed(this.questionObj, {
 						success: function () {
 							me.questionObj.destroy();
+							me.speakerUtilities.initializeZoomComponents();
 							panel.animateActiveItem(panel.questionsPanel, {
 								type: 'slide',
 								direction: 'right',
@@ -155,18 +118,22 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 			}
 		]);
 
+		this.on('activate', this.onActivate);
 		this.on('painted', this.onPainted);
 		this.on('deactivate', this.onDeactivate);
 	},
 
-	onPainted: function () {
+	onActivate: function () {
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-		ARSnova.app.innerScrollPanel = this;
 
 		if (screenWidth > 700 && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-			this.zoomButton.show();
-			this.initializeZoomComponents();
+			this.speakerUtilities.initializeZoomComponents();
+			this.speakerUtilities.show();
 		}
+	},
+
+	onPainted: function () {
+		ARSnova.app.innerScrollPanel = this;
 	},
 
 	onDeactivate: function () {

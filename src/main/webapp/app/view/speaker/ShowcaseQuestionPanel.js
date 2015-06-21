@@ -51,6 +51,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	initialize: function () {
 		this.callParent(arguments);
 
+		var me = this;
 		this.on('activeitemchange', function (panel, newCard, oldCard) {
 			if (newCard.questionObj.questionType !== 'flashcard') {
 				this.toolbar.statisticsButton.show();
@@ -68,7 +69,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				ARSnova.app.innerScrollPanel = false;
 				ARSnova.app.taskManager.stop(sTP.showcaseQuestionPanel.updateClockTask);
-				sTP.showcaseQuestionPanel.initializeZoomComponents();
+				sTP.showcaseQuestionPanel.speakerUtilities.initializeZoomComponents();
 
 				if (sTP.showcaseQuestionPanel.inclassBackButtonHandle) {
 					sTP.animateActiveItem(sTP.inClassPanel, animation);
@@ -87,51 +88,13 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			}
 		});
 
-		this.zoomButton = Ext.create('Ext.Button', {
-			ui: 'action',
-			hidden: true,
-			cls: 'zoomButton',
-			docked: 'bottom',
-			iconCls: 'icon-text-height',
-			handler: this.zoomButtonHandler,
-			scope: this
+		this.speakerUtilities = Ext.create('ARSnova.view.speaker.SpeakerUtilities', {
+			parentReference: this,
+			panelConfiguration: 'carousel',
+			hidden: true
 		});
 
-		this.zoomSlider = Ext.create('ARSnova.view.CustomSliderField', {
-			label: 'Zoom',
-			labelWidth: '15%',
-			value: 100,
-			minValue: 75,
-			maxValue: 150,
-			increment: 5,
-			suffix: '%',
-			setZoomLevel: function (sliderField, slider, newValue) {
-				newValue = Array.isArray(newValue) ? newValue[0] : newValue;
-				if (!sliderField.actualValue || sliderField.actualValue !== newValue) {
-					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-					sTP.showcaseQuestionPanel.getActiveItem().setZoomLevel(newValue);
-					sliderField.actualValue = newValue;
-				}
-			}
-		});
-
-		this.zoomSlider.setListeners({
-			drag: this.zoomSlider.config.setZoomLevel,
-			change: this.zoomSlider.config.setZoomLevel
-		});
-
-		this.actionSheet = Ext.create('Ext.Sheet', {
-			left: 0,
-			right: 0,
-			bottom: 0,
-			modal: false,
-			centered: false,
-			height: 'auto',
-			cls: 'zoomActionSheet',
-			items: [this.zoomSlider]
-		});
-
-		this.add([this.toolbar, this.zoomButton]);
+		this.add([this.toolbar, this.speakerUtilities]);
 		this.lastActiveIndex = -1;
 
 		this.on('activate', this.onActivate);
@@ -141,11 +104,13 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			ARSnova.app.innerScrollPanel = this;
 			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
-			if (this.getActiveItem()) {
+			if (this.getActiveItem() && this.getActiveItem().questionObj) {
 				this.getActiveItem().checkPiRoundActivation();
 
 				if (screenWidth > 700) {
-					this.getActiveItem().setZoomLevel(ARSnova.app.globalZoomLevel);
+					this.speakerUtilities.show();
+				} else {
+					this.speakerUtilities.hide();
 				}
 			}
 		});
@@ -163,6 +128,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 
 		if (screenWidth >= 700) {
 			ARSnova.app.taskManager.start(this.updateClockTask);
+			this.speakerUtilities.initializeZoomComponents();
 		}
 	},
 
@@ -176,11 +142,11 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		if (newQuestion.questionObj) {
 			var title = screenWidth >= 520 ? newQuestion.getQuestionTypeMessage() : '';
 
-			if (panel.zoomButton.isActive) {
+			if (panel.speakerUtilities.isZoomElementActive()) {
 				newQuestion.setPadding('0 0 50 0');
 			}
 
-			panel.zoomButton.setHidden(screenWidth < 700);
+			panel.speakerUtilities.setHidden(screenWidth < 700);
 			newQuestion.setZoomLevel(ARSnova.app.globalZoomLevel);
 			newQuestion.updateQuestionText();
 			this.toolbar.setTitle(Ext.util.Format.htmlEncode(title));
@@ -241,29 +207,6 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			});
 		}
 		this.add(questionPanel);
-	},
-
-	initializeZoomComponents: function () {
-		this.actionSheet.hide();
-		this.getParent().remove(this.actionSheet, false);
-		this.zoomButton.setIconCls('icon-text-height');
-		this.zoomButton.removeCls('zoomSheetActive');
-		this.getActiveItem().setPadding('0 0 20 0');
-		this.zoomButton.isActive = false;
-	},
-
-	zoomButtonHandler: function () {
-		if (this.zoomButton.isActive) {
-			this.initializeZoomComponents();
-		} else {
-			this.getParent().add(this.actionSheet);
-			this.zoomButton.setIconCls('icon-close');
-			this.zoomButton.addCls('zoomSheetActive');
-			this.getActiveItem().setPadding('0 0 50 0');
-			this.zoomSlider.setSliderValue(ARSnova.app.globalZoomLevel);
-			this.zoomButton.isActive = true;
-			this.actionSheet.show();
-		}
 	},
 
 	saveActiveIndex: function () {
