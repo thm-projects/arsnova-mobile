@@ -28,6 +28,7 @@
 	"requireSpaceAfterBinaryOperators": true,
 	"requireSpaceAfterKeywords": ["if", "else", "for", "while", "do", "switch", "return", "try", "catch"],
 	"requireSpaceBeforeBinaryOperators": true,
+	"requireSpaceBeforeBlockStatements": true,
 	"requireSpaceBeforeKeywords": ["else", "while", "catch"],
 	"requireSpaceBeforeObjectValues": true,
 	"requireSpacesInAnonymousFunctionExpression": {

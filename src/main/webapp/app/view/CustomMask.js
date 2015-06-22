@@ -117,7 +117,7 @@ Ext.define('ARSnova.view.CustomMask', {
 			counter++;
 		}
 
-		for (var i = 0; i < containers.length; i++){
+		for (var i = 0; i < containers.length; i++) {
 			var container = containers[i];
 			container.style.display = "";
 

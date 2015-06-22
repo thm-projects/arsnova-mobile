@@ -1035,7 +1035,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				case "yesno":
 					return Messages.YESNO;
 				case "freetext":
-					if (self.questionObj.imageQuestion){
+					if (self.questionObj.imageQuestion) {
 						return Messages.IMAGE_ANSWER_LONG;
 					} else {
 						return Messages.FREETEXT;

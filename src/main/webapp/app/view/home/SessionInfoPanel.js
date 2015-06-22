@@ -100,7 +100,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			style: 'width: 89px',
 			handler: function () {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel;
-				if (me.validate()){
+				if (me.validate()) {
 					if (me.getSessionInfo().keyword) {
 						var sessionInfo = me.getSessionInfo();
 						sessionInfo.name = me.sessionName.getValue();
