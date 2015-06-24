@@ -31,6 +31,14 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	questionStore: null,
 	gridStatistic: null,
 
+	/**
+	 * For some questions we add some more bars to the chart which contain information like the number of answers
+	 * that only have correct answer options.
+	*/
+	summaryBarIndexes: [],
+	mcAllCorrect: {},
+	mcAllWrong: {},
+
 	/* toolbar items */
 	toolbar: null,
 	piTimer: false,
@@ -308,9 +316,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart :
 						ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 
-					if (panel.toggleCorrect && label !== Messages.ABSTENTION
+					if (panel.toggleCorrect && [Messages.ALL_CORRECT, Messages.ALL_WRONG, Messages.ABSTENTION].indexOf(label) === -1
 						&& Object.keys(panel.correctAnswers).length > 0) {
-						labelColor = panel.correctAnswers[label] ?  '#80ba24' : '#971b2f';
+						labelColor = panel.correctAnswers[label] ? '#80ba24' : '#971b2f';
 					} else {
 						labelColor = statisticColor;
 					}
@@ -359,7 +367,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				},
 				renderer: function (sprite, config, rendererData, i) {
 					var panel, gradient,
-						data = rendererData.store.getData().getAt(i).getData();
+						record = rendererData.store.getAt(i),
+						data = record ? record.getData() : {};
 
 					panel = ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT ?
 							ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart :
@@ -539,6 +548,12 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			var abstentionCount = 0;
 			var mcTotalAnswerCount = 0;
 
+			var mcAnswersWithCorrectAnswersOnly = 0;
+			var mcAnswersWithWrongAnswersOnly = 0;
+			var mcAnswerHasOnlyCorrectAnswers = true;
+			var mcAnswerHasOnlyWrongAnswers = true;
+			var recordAllCorrect, recordAllWrong;
+
 			if (answers.length === 0) {
 				store.each(function (record) {
 					record.set(valueString, 0);
@@ -563,14 +578,28 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 						}
 
 						for (var j = 0; j < el.answerCount; j++) {
+							mcAnswerHasOnlyCorrectAnswers = true;
+							mcAnswerHasOnlyWrongAnswers = true;
 							values.forEach(function (selected, index) {
 								if (typeof mcAnswerCount[index] === "undefined") {
 									mcAnswerCount[index] = 0;
 								}
 								if (selected === 1) {
 									mcAnswerCount[index] += 1;
+									if (me.questionObj.possibleAnswers[index].correct) {
+										mcAnswerHasOnlyCorrectAnswers = mcAnswerHasOnlyCorrectAnswers && true;
+										mcAnswerHasOnlyWrongAnswers = false;
+									} else {
+										mcAnswerHasOnlyWrongAnswers = mcAnswerHasOnlyWrongAnswers && true;
+										mcAnswerHasOnlyCorrectAnswers = false;
+									}
 								}
 							});
+							if (mcAnswerHasOnlyCorrectAnswers) {
+								mcAnswersWithCorrectAnswersOnly++;
+							} else if (mcAnswerHasOnlyWrongAnswers) {
+								mcAnswersWithWrongAnswersOnly++;
+							}
 						}
 						store.each(function (record, index) {
 							record.set(valueString, mcAnswerCount[index]);
@@ -603,6 +632,16 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 						tmpPossibleAnswers.splice(idx, 1);
 					}
 				}
+				recordAllCorrect = store.findRecord('text', Messages.ALL_CORRECT, 0, false, true, true); // exact match
+				recordAllWrong = store.findRecord('text', Messages.ALL_WRONG, 0, false, true, true); // exact match
+				if (recordAllCorrect) {
+					recordAllCorrect.set(valueString, mcAnswersWithCorrectAnswersOnly);
+				}
+				if (recordAllWrong) {
+					recordAllWrong.set(valueString, mcAnswersWithWrongAnswersOnly);
+				}
+				me.mcAllCorrect[valueString] = mcAnswersWithCorrectAnswersOnly;
+				me.mcAllWrong[valueString] = mcAnswersWithWrongAnswersOnly;
 			}
 
 			if (abstentionCount) {
@@ -625,6 +664,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					// Scale axis to a bigger number. For example, 12 answers get a maximum scale of 20.
 					maxPercentage = Math.ceil(max / 10) * 10;
 				});
+				me.mcAllCorrect[percentString] = me.mcAllCorrect[valueString] / (mcTotalAnswerCount || 1) * 100;
+				me.mcAllWrong[percentString] = me.mcAllWrong[valueString] / (mcTotalAnswerCount || 1) * 100;
 			} else {
 				var totalResults = store.sum(valueString);
 				store.each(function (record) {
@@ -744,14 +785,62 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 	toggleCorrectHandler: function (button) {
 		var me = this,
-		data = [];
+		data = [],
+		entries;
 
 		button.disable();
 
 		if (this.toggleCorrect) {
 			button.removeCls('x-button-pressed');
+			// Remove summary bars/captions from the chart.
+			// The array contains indexes in reverse order so that the first
+			// removal does not change any existing indexes in the store.
+			for (var i = 0; i < this.summaryBarIndexes.length; i++) {
+				var record = this.questionStore.getAt(this.summaryBarIndexes[i]);
+				if (record.get("text") === Messages.ALL_CORRECT) {
+					this.mcAllCorrect = record.getData();
+				} else {
+					this.mcAllWrong = record.getData();
+				}
+				this.questionStore.removeAt(this.summaryBarIndexes[i]);
+			}
+			this.summaryBarIndexes = [];
 		} else {
 			button.addCls('x-button-pressed');
+
+			if (this.questionObj.questionType === 'mc') {
+				// Add summary bars/captions while in 'toggle correct answers' mode for MC questions
+				entries = this.questionStore.add([{
+					text: Messages.ALL_CORRECT,
+					"value-round1": this.mcAllCorrect['value-round1'],
+					"value-round2": this.mcAllCorrect['value-round2'],
+					"percent-round1": this.mcAllCorrect['percent-round1'],
+					"percent-round2": this.mcAllCorrect['percent-round2']
+				}, {
+					text: Messages.ALL_WRONG,
+					"value-round1": this.mcAllWrong['value-round1'],
+					"value-round2": this.mcAllWrong['value-round2'],
+					"percent-round1": this.mcAllWrong['percent-round1'],
+					"percent-round2": this.mcAllWrong['percent-round2']
+				}]);
+				entries = entries.map(function (record) {
+					return record.getId();
+				});
+				// The whole process is complicated because we somehow cannot
+				// remove elements from the store simply by passing in the
+				// records. Instead, we need to find the indexes of those entries
+				// and use them for deletion later on.
+				this.questionStore.each(function (record, index) {
+					if (entries.indexOf(record.getId()) !== -1) {
+						this.summaryBarIndexes.push(index);
+					}
+				}, this);
+				// Reverse so that we remove the elements without changing the indexes.
+				// We need to remove the highest index first. For example, if our array
+				// contains [3, 4] and we would delete index 3 first, then index 4 would
+				// not exist since the next element would get its index reduced to 3...
+				this.summaryBarIndexes.reverse();
+			}
 		}
 		this.toggleCorrect = !this.toggleCorrect;
 
@@ -844,7 +933,21 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	},
 
 	getCorrectAnswerGradients: function () {
-		var data, question, gradients = [];
+		var data, question, gradients = [],
+			correctColorGradient = Ext.create('Ext.draw.gradient.Linear', {
+				degrees: 90,
+				stops: [
+					{offset: 0, color: 'rgb(128, 186, 36)'},
+					{offset: 100, color: 'rgb(88, 146, 0)'}
+				]
+			}),
+			incorrectColorGradient = Ext.create('Ext.draw.gradient.Linear', {
+				degrees: 90,
+				stops: [
+					{offset: 0, color: 'rgb(151, 27, 47);'},
+					{offset: 100, color: 'rgb(111, 7, 27)'}
+				]
+			});
 
 		for (var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
 			question = this.questionObj.possibleAnswers[i];
@@ -853,27 +956,14 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			this.correctAnswers[data.text] = data.correct;
 
 			if ((question.data && !question.data.correct) || (!question.data && !question.correct)) {
-				gradients.push(
-					Ext.create('Ext.draw.gradient.Linear', {
-						degrees: 90,
-						stops: [
-							{offset: 0, color: 'rgb(151, 27, 47);'},
-							{offset: 100, color: 'rgb(111, 7, 27)'}
-						]
-					})
-				);
+				gradients.push(incorrectColorGradient);
 			} else {
-				gradients.push(
-					Ext.create('Ext.draw.gradient.Linear', {
-						degrees: 90,
-						stops: [
-							{offset: 0, color: 'rgb(128, 186, 36)'},
-							{offset: 100, color: 'rgb(88, 146, 0)'}
-						]
-					})
-				);
+				gradients.push(correctColorGradient);
 			}
 		}
+		// Add two more gradients for the summary bars
+		gradients.push(correctColorGradient);
+		gradients.push(incorrectColorGradient);
 
 		return gradients;
 	},
