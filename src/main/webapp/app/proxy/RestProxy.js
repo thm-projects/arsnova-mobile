@@ -1029,7 +1029,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	checkFrameOptionsHeader: function (url, callbacks) {
 		this.arsjax.request({
 			url: "checkframeoptionsheader?url=" + encodeURIComponent(url),
-			method: "GET",
+			method: "POST",
 			success: callbacks.success,
 			204: callbacks.failure,
 			failure: callbacks.failure
