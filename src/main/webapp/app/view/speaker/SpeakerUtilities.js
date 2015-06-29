@@ -24,6 +24,9 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 		parentReference: null,
 		panelConfiguration: 'default',
 		autoApplyBottomPadding: true,
+		showProjectorButton: false,
+		projectorHandler: Ext.emptyFn,
+		projectorHandlerScope: null,
 		cls: Ext.baseCSSPrefix + 'speaker-utils'
 	},
 
@@ -31,6 +34,21 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 		this.callParent(arguments);
 
 		var me = this;
+
+		this.setShowProjectorButton(
+			this.getShowProjectorButton() &&
+			typeof this.getProjectorHandler() === 'function'
+		);
+
+		this.projectorButton = Ext.create('Ext.Button', {
+			ui: 'action',
+			docked: 'bottom',
+			cls: 'projectorButton',
+			iconCls: 'icon-projector',
+			handler: this.projectorHandler,
+			hidden: !this.getShowProjectorButton(),
+			scope: this
+		});
 
 		this.zoomButton = Ext.create('Ext.Button', {
 			ui: 'action',
@@ -76,7 +94,18 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 			change: this.zoomSlider.config.setZoomLevel
 		});
 
-		this.add(this.zoomButton);
+		this.on('projectorModeActivateChange', function () {
+			if (ARSnova.app.projectorModeActive) {
+				this.projectorButton.addCls('x-button-pressed');
+			} else {
+				this.projectorButton.removeCls('x-button-pressed');
+			}
+		});
+
+		this.add([
+			this.projectorButton,
+			this.zoomButton
+		]);
 	},
 
 	isZoomElementActive: function () {
@@ -121,6 +150,50 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 				this.getParentReference().getActiveItem().setPadding('0 0 50 0');
 			}
 		}
+	},
+
+	projectorHandler: function () {
+		var projectorHandler = this.getProjectorHandler();
+
+		if (ARSnova.app.projectorModeActive) {
+			ARSnova.app.getController('Application').setGlobalZoomLevel(
+				ARSnova.app.storedZoomLevel || ARSnova.app.globalZoomLevel);
+			ARSnova.app.storedZoomLevel = null;
+		} else {
+			ARSnova.app.getController('Application').storeGlobalZoomLevel();
+		}
+
+		if (projectorHandler === Ext.emptyFn) {
+			projectorHandler = this.setProjectorMode;
+		}
+
+		projectorHandler.call(this,
+			this.getProjectorHandlerScope() ||
+			this.getParentReference()
+		);
+	},
+
+	setProjectorMode: function (panel, enable) {
+		var activeMode = ARSnova.app.projectorModeActive;
+		var activate = !activeMode;
+
+		if (typeof enable === 'boolean') {
+			activate = enable;
+		}
+
+		if (activate) {
+			panel.addCls('projector-mode');
+			ARSnova.app.getController('Application').setGlobalZoomLevel(130);
+		} else {
+			panel.removeCls('projector-mode');
+			ARSnova.app.getController('Application').setGlobalZoomLevel(ARSnova.app.globalZoomLevel);
+		}
+
+		ARSnova.app.projectorModeActive = activate;
+		panel.setZoomLevel(ARSnova.app.globalZoomLevel);
+		ARSnova.app.mainTabPanel.tabPanel.getTabBar().setHidden(activate);
+		ARSnova.app.getController('Application').toggleFullScreen(activate);
+		this.fireEvent('projectorModeActivateChange');
 	},
 
 	getActivePanel: function () {

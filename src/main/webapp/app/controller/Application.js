@@ -30,6 +30,7 @@ Ext.define("ARSnova.controller.Application", {
 		me.initializeOnClickOverride();
 		me.initializeAdvancedScrolling();
 		ARSnova.app.globalZoomLevel = 100;
+		ARSnova.app.storedZoomLevel = null;
 	},
 
 	/**
@@ -41,6 +42,10 @@ Ext.define("ARSnova.controller.Application", {
 
 	setGlobalZoomLevel: function (zoomLevel) {
 		ARSnova.app.globalZoomLevel = zoomLevel;
+	},
+
+	storeGlobalZoomLevel: function () {
+		ARSnova.app.storedZoomLevel = ARSnova.app.globalZoomLevel;
 	},
 
 	/**
@@ -210,6 +215,38 @@ Ext.define("ARSnova.controller.Application", {
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(controller.embeddedPage, 'slide');
 			}
 		});
+	},
+
+	toggleFullScreen: function (activate) {
+		var isFullscreenModeDisabled =
+			!document.fullscreenElement &&
+			!document.mozFullScreenElement &&
+			!document.webkitFullscreenElement &&
+			!document.msFullscreenElement;
+
+		if (activate && !isFullscreenModeDisabled) {
+			return;
+		} else if (activate && isFullscreenModeDisabled) {
+			if (document.documentElement.requestFullscreen) {
+				document.documentElement.requestFullscreen();
+			} else if (document.documentElement.msRequestFullscreen) {
+				document.documentElement.msRequestFullscreen();
+			} else if (document.documentElement.mozRequestFullScreen) {
+				document.documentElement.mozRequestFullScreen();
+			} else if (document.documentElement.webkitRequestFullscreen) {
+				document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+			}
+		} else {
+			if (document.exitFullscreen) {
+				document.exitFullscreen();
+			} else if (document.msExitFullscreen) {
+				document.msExitFullscreen();
+			} else if (document.mozCancelFullScreen) {
+				document.mozCancelFullScreen();
+			} else if (document.webkitExitFullscreen) {
+				document.webkitExitFullscreen();
+			}
+		}
 	},
 
 	showLargerImage: function (element) {

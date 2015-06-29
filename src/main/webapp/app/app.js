@@ -124,6 +124,7 @@ Ext.application({
 
 	/* other*/
 	cardSwitchDuration: 500,
+	projectorModeActive: false,
 	socket: null,
 	globalConfig: null,
 	configLoaded: null,
