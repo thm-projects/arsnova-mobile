@@ -67,13 +67,19 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			showcase: true,
 			backButtonHandler: function (animation) {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+				var panel = sTP.showcaseQuestionPanel;
+
 				ARSnova.app.innerScrollPanel = false;
-				ARSnova.app.taskManager.stop(sTP.showcaseQuestionPanel.updateClockTask);
+				ARSnova.app.taskManager.stop(panel.updateClockTask);
 				sTP.showcaseQuestionPanel.speakerUtilities.initializeZoomComponents();
 
-				if (sTP.showcaseQuestionPanel.inclassBackButtonHandle) {
+				if (ARSnova.app.projectorModeActive) {
+					panel.setProjectorMode(panel, false);
+				}
+
+				if (panel.inclassBackButtonHandle) {
 					sTP.animateActiveItem(sTP.inClassPanel, animation);
-					sTP.showcaseQuestionPanel.inclassBackButtonHandle = false;
+					panel.inclassBackButtonHandle = false;
 				} else {
 					sTP.animateActiveItem(sTP.audienceQuestionPanel, animation);
 				}
@@ -91,6 +97,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		this.speakerUtilities = Ext.create('ARSnova.view.speaker.SpeakerUtilities', {
 			parentReference: this,
 			panelConfiguration: 'carousel',
+			showProjectorButton: true,
+			projectorHandler: this.setProjectorMode,
 			hidden: true
 		});
 
@@ -112,6 +120,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				} else {
 					this.speakerUtilities.hide();
 				}
+
+				this.setProjectorMode(this, ARSnova.app.projectorModeActive);
 			}
 		});
 	},
@@ -151,6 +161,30 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			newQuestion.updateQuestionText();
 			this.toolbar.setTitle(Ext.util.Format.htmlEncode(title));
 		}
+	},
+
+	setZoomLevel: function () {
+		var activeItem = this.getActiveItem();
+
+		if (activeItem.questionObj) {
+			activeItem.setZoomLevel(ARSnova.app.globalZoomLevel);
+		}
+	},
+
+	setProjectorMode: function (scope, enable) {
+		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		var showcasePanel = sTP.showcaseQuestionPanel;
+		var activePanel = showcasePanel.getActiveItem();
+		var hasActiveItem = !!activePanel.questionObj;
+		var activate = enable && hasActiveItem;
+
+		if (activate) {
+			sTP.showcaseQuestionPanel.addCls('projector-mode');
+		} else {
+			sTP.showcaseQuestionPanel.removeCls('projector-mode');
+		}
+
+		sTP.showcaseQuestionPanel.speakerUtilities.setProjectorMode(showcasePanel, activate);
 	},
 
 	getAllSkillQuestions: function () {

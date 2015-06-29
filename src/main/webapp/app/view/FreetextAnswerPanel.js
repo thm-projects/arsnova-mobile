@@ -236,6 +236,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 
 		this.speakerUtilities = Ext.create('ARSnova.view.speaker.SpeakerUtilities', {
 			parentReference: this,
+			showProjectorButton: true,
 			hidden: true
 		});
 
@@ -276,6 +277,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 
 		this.on('painted', function () {
 			ARSnova.app.innerScrollPanel = this;
+			this.speakerUtilities.setProjectorMode(this, ARSnova.app.projectorModeActive);
 		});
 
 		this.on('hide', function () {

@@ -85,6 +85,7 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 		this.speakerUtilities = Ext.create('ARSnova.view.speaker.SpeakerUtilities', {
 			parentReference: this,
 			autoApplyBottomPadding: false,
+			showProjectorButton: true,
 			hidden: true
 		});
 
@@ -134,6 +135,7 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 
 	onPainted: function () {
 		ARSnova.app.innerScrollPanel = this;
+		this.speakerUtilities.setProjectorMode(this, ARSnova.app.projectorModeActive);
 	},
 
 	onDeactivate: function () {

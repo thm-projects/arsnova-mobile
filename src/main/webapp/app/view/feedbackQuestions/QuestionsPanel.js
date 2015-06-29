@@ -86,6 +86,10 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			handler: function () {
 				var target;
 
+				if (ARSnova.app.projectorModeActive) {
+					this.speakerUtilities.setProjectorMode(panel, false);
+				}
+
 				panel.speakerUtilities.initializeZoomComponents();
 				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER &&
 					!!ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel) {
@@ -234,6 +238,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 
 		this.speakerUtilities = Ext.create('ARSnova.view.speaker.SpeakerUtilities', {
 			parentReference: this,
+			showProjectorButton: true,
 			hidden: true
 		});
 
@@ -306,6 +311,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			}
 
 			if (screenWidth > 700 && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+				this.speakerUtilities.setProjectorMode(this, ARSnova.app.projectorModeActive);
 				ARSnova.app.taskManager.start(this.getUpdateClockTask());
 				this.speakerUtilities.show();
 			}
