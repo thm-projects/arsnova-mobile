@@ -814,7 +814,7 @@
 				PREPARATION_QUESTIONS_LONG: "Preparation tasks",
 				PREPARATION_QUESTION_SHORT: "Prep task",
 				PREPARATION_QUESTION_LONG: "Preparation task",
-				QUESTION_REQUEST: "I've got a quetstion",
+				QUESTION_REQUEST: "I've got a question",
 				LECTURE_QUESTIONS: "Lecture",
 				LECTURE_QUESTION_LONG: "Lecture question",
 				LECTURE_QUESTIONS_LONG: "Lecture questions",
