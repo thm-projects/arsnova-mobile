@@ -135,13 +135,20 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 	}
 }
 
-.x-field-input .x-input-el {
-	color: $thm-grey !important;
-	background-color: white !important;
-	-webkit-text-fill-color: initial !important;
-	font-size: 0.8em;
-	line-height: 1em;
-	margin: 6px;
+.x-field-input {
+	.x-input-el {
+		color: $thm-grey !important;
+		-webkit-text-fill-color: initial !important;
+	}
+
+	&.x-item-disabled {
+		.x-input-el {
+			background-color: white !important;
+			font-size: 0.8em;
+			line-height: 1em;
+			margin: 6px;
+		}
+	}
 }
 
 .disableDefault {
