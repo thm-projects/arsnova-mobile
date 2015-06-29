@@ -793,16 +793,6 @@ html,body {
 	font-weight: normal;
 }
 
-.gravure {
-	font-size: 1.1em;
-	padding: 8px;
-	border-radius: 10px;
-	background-color: transparent;
-	text-align: center;
-	text-shadow: white 0 1px 1px;
-	color: #4a5c66;
-}
-
 .roundedBox p.title {
 	font-weight: normal;
 }

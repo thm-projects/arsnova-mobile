@@ -93,7 +93,8 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 }
 
 .gravure {
-	text-shadow: none !important;
+	text-shadow: $label-text-shadow !important;
+	color: $label-font-color;
 }
 
 .x-fullscreen, .x-layout-card-item {
@@ -136,7 +137,11 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 
 .x-field-input .x-input-el {
 	color: $thm-grey !important;
+	background-color: white !important;
 	-webkit-text-fill-color: initial !important;
+	font-size: 0.8em;
+	line-height: 1em;
+	margin: 6px;
 }
 
 .disableDefault {

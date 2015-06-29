@@ -16,6 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+$projector-text-color: black;
+$projector-white: white;
+$projector-grey: #4a5c66;
+$projector-lightgrey: #788895;
+$projector-background-color: $background;
+$projector-active-color: $thm-lightgrey;
+
+@mixin label-config {
+	font-family: Verdana, sans-serif;
+	color: $projector-text-color !important;
+}
 
 .x-speaker-utils {
 	width: 100px;
@@ -57,5 +69,71 @@
 	.sliderField {
 		padding-right: 2em;
 		text-align: center;
+	}
+}
+
+.projectorButton {
+	width: 44px;
+	height: 33px;
+	font-size: 1em;
+	position: absolute;
+	bottom: 0;
+	right: 48px;
+
+	.icon-projector::before {
+		top: -10px !important;
+		left: -7px !important;
+		font-size: 2em !important;
+	}
+
+	&.x-button.x-button-action.x-button-pressed {
+		color: white;
+		background: $projector-active-color !important;
+		border: 1px solid $projector-active-color !important;
+	}
+}
+
+.projector-mode {
+	.x-input-el,
+	.x-form-label span {
+		@include label-config;
+	}
+
+	.x-list-item, .x-form-fieldset-title, .x-label, .roundedBox, .centerText {
+		.x-innerhtml {
+			@include label-config;
+		}
+	}
+
+	.x-toolbar-light .x-button-back,
+	.x-toolbar-light .x-button-normal {
+		color: $projector-text-color !important;
+		background: $projector-white !important;
+		border: 1px solid $projector-white !important;
+	}
+
+	.disableDefault .thm-grey,
+	.disableDefault .x-form-label span,
+	x-field-input .x-input-el {
+		color: $projector-text-color !important;
+	}
+
+	.gravure {
+		color:  $projector-text-color;
+	}
+
+	.x-carousel-indicator {
+		span {
+			background-color: $projector-grey;
+		}
+
+		span.x-carousel-indicator-active {			
+			background-color:  $projector-white;
+			box-shadow: 0 0 1px 0 $projector-grey;
+
+			p {
+				color: $projector-text-color;
+			}
+		}		
 	}
 }
