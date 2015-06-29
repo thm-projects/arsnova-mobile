@@ -25,7 +25,7 @@ $projector-background-color: $background;
 $projector-active-color: $thm-lightgrey;
 
 @mixin label-config {
-	font-family: Verdana, sans-serif;
+	font-family: Verdana,Geneva,sans-serif;
 	color: $projector-text-color !important;
 }
 
