@@ -27,6 +27,7 @@ Ext.define('ARSnova.view.components.EmbeddedPageContainer', {
 		fullscreen: true,
 		height: '100%',
 		width: '100%',
+		activateFullscreen: false,
 		tab: {
 			hidden: true
 		}
@@ -60,14 +61,18 @@ Ext.define('ARSnova.view.components.EmbeddedPageContainer', {
 		this.add(this.toolbar);
 
 		this.on('painted', function () {
-			var url = this.config.url;
 			this.add(Ext.create('ARSnova.view.components.EmbeddedPage', {
-				src: url
+				src: this.config.url
 			}));
 		});
 
+		if (this.getActivateFullscreen()) {
+			ARSnova.app.mainTabPanel.tabPanel.getTabBar().setHidden(true);
+		}
+
 		this.onAfter('deactivate', function () {
 			appController.toggleHrefPanelActive();
+			ARSnova.app.mainTabPanel.tabPanel.getTabBar().setHidden(false);
 		});
 
 		this.on('hide', function () {

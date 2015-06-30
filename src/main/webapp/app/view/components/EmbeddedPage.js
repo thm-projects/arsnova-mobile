@@ -74,6 +74,7 @@ Ext.define('ARSnova.view.components.EmbeddedPage', {
 					id: self.id + '-iframe',
 					scrolling: Ext.os.is.iOS ? 'no' : 'yes',
 					width: self.element.getWidth() + 'px',
+					allowfullscreen: true,
 					height: '100%'
 				});
 

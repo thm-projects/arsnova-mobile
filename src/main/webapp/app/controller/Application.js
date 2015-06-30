@@ -195,6 +195,7 @@ Ext.define("ARSnova.controller.Application", {
 	handleInternEmbeddedPageLoading: function (controller, title, url) {
 		var previewPanel = ARSnova.app.activePreviewPanel;
 		controller.embeddedPage = Ext.create('ARSnova.view.components.EmbeddedPageContainer', {
+			activateFullscreen: true,
 			title: title,
 			url: url
 		});
