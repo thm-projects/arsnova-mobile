@@ -112,14 +112,12 @@ $projector-active-color: $thm-lightgrey;
 		border: 1px solid $projector-white !important;
 	}
 
+	.gravure,
 	.disableDefault .thm-grey,
 	.disableDefault .x-form-label span,
-	x-field-input .x-input-el {
+	.questionStatisticTitle .x-innerhtml,
+	.x-field-input .x-input-el {
 		color: $projector-text-color !important;
-	}
-
-	.gravure {
-		color:  $projector-text-color;
 	}
 
 	.x-carousel-indicator {

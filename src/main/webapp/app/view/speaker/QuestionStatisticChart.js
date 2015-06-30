@@ -207,14 +207,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		this.titlePanel.setContent(this.questionObj.text, true, true);
 
 		if (this.questionObj.questionType === "grid") {
-			this.titlePanel = Ext.create('Ext.Toolbar', {
-				cls: 'questionStatisticTitle',
-				docked: 'top',
-				title: '',
-				border: '0px',
-				hidden: 1
-			});
-
 			this.setLayout('');
 			this.setScrollable(true);
 
@@ -222,10 +214,11 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			var questionString = '' + '\n' + this.questionObj.text;
 
 			// Create standard panel with framework support
-			this.contentField = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			this.titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+				hideMediaElements: true,
 				cls: "roundedBox"
 			});
-			this.contentField.setContent(questionString, true, true);
+			this.titlePanel.setContent(questionString, true, true);
 		}
 
 		this.setGradients();
@@ -237,6 +230,18 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			viewOnlyOpacity: 1,
 			hidden: true
 		});
+
+		var statisticColor, fontSize;
+		if (ARSnova.app.projectorModeActive) {
+			fontSize = ((12 / 100) * ARSnova.app.globalZoomLevel) + 'px';
+			statisticColor = 'black';
+			this.addCls('projector-mode');
+			this.titlePanel.setStyle('font-size: ' + ARSnova.app.globalZoomLevel + '%;');
+		} else {
+			fontSize = '12px';
+			statisticColor = '#4a5c66';
+			this.removeCls('projector-mode');
+		}
 
 		this.questionChart = Ext.create('Ext.chart.CartesianChart', {
 			store: this.questionStore,
@@ -255,12 +260,13 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				minimum: 0,
 				majorTickSteps: 10,
 				style: {
-					stroke: '#4a5c66',
+					stroke: statisticColor,
 					lineWidth: 2
 				},
 				label: {
-					color: '#4a5c66',
-					fontWeight: 'bold'
+					color: statisticColor,
+					fontWeight: 'bold',
+					fontSize: fontSize
 				},
 				grid: {
 					odd: {
@@ -286,13 +292,14 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				position: 'bottom',
 				fields: ['text'],
 				style: {
-					stroke: '#4a5c66',
+					stroke: statisticColor,
 					lineWidth: 2
 				},
 				label: {
-					color: '#4a5c66',
+					color: statisticColor,
 					fontWeight: 'bold',
-					rotate: {degrees: 315}
+					rotate: {degrees: 315},
+					fontSize: fontSize
 				},
 				renderer: function (label, layout, lastLabel) {
 					var panel, labelColor;
@@ -305,7 +312,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 						&& Object.keys(panel.correctAnswers).length > 0) {
 						labelColor = panel.correctAnswers[label] ?  '#80ba24' : '#971b2f';
 					} else {
-						labelColor = '#4a5c66';
+						labelColor = statisticColor;
 					}
 
 					layout.segmenter.getAxis().setLabel({
@@ -342,7 +349,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 						return {
 							text: panel.questionChart.showPercentage ? text : text + " %",
-							color: config.callout ? '#4a5c66' : '#fff',
+							color: config.callout ? statisticColor : '#fff',
 							calloutVertical: barWidth > 40 ? false : true,
 							rotationRads: barWidth > 40 ? 0 : config.rotationRads,
 							calloutPlaceY: barWidth <= 40 ? config.calloutPlaceY :
@@ -394,9 +401,8 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				xtype: 'formpanel',
 				style: 'margin-top: 10px',
 				scrollable: null,
-				items: [this.titlePanel,
-						this.countdownTimer,
-						this.contentField,
+				items: [this.countdownTimer,
+						this.titlePanel,
 						this.questionChart,
 						this.gridStatistic
 				]}
