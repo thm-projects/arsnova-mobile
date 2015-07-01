@@ -27,7 +27,8 @@ Ext.define('ARSnova.view.TabPanel', {
 		'ARSnova.view.about.BlogTabPanel',
 		'ARSnova.view.about.AboutTabPanel',
 		'ARSnova.view.about.ImprintTabPanel',
-		'ARSnova.view.about.PrivacyTabPanel'
+		'ARSnova.view.about.PrivacyTabPanel',
+		'ARSnova.view.components.List'
 	],
 
 	config: {
