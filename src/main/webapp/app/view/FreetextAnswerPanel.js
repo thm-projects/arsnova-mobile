@@ -134,14 +134,9 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			}
 		});
 
-		this.freetextAnswerList = Ext.create('Ext.List', {
-			variableHeights: true,
-			scrollable: {disabled: true},
-
+		this.freetextAnswerList = Ext.create('ARSnova.view.components.List', {
 			activeCls: 'search-item-active',
 			store: this.freetextAnswerStore,
-			height: '100%',
-			layout: 'fit',
 
 			style: {
 				marginBottom: '20px',
@@ -167,7 +162,6 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				}
 			),
 			grouped: true,
-
 			deferEmptyText: false,
 			emptyText: Messages.NO_ANSWERS,
 
@@ -181,37 +175,6 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 							removeItem: function () {list.getStore().remove(list.getStore().getAt(index));}
 						}), panel: self
 					});
-				},
-
-				/**
-				 * The following events are used to get the computed height of
-				 * all list items and finally to set this value to the list
-				 * DataView. In order to ensure correct rendering it is also
-				 * necessary to get the properties "padding-top" and
-				 * "padding-bottom" and add them to the height of the list
-				 * DataView.
-				 */
-				painted: function (list, eOpts) {
-					var me = this;
-					this.freetextAnswerList.fireEvent("resizeList", list);
-
-					if (window.MathJax) {
-						MathJax.Hub.Queue(
-							["Delay", MathJax.Callback, 700],
-							function () {
-								me.freetextAnswerList.fireEvent('resizeList', me.freetextAnswerList.element);
-							}
-						);
-					}
-				},
-				resizeList: function (list) {
-					var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
-
-					this.freetextAnswerList.setHeight(
-						parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
-						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
-						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
-					);
 				}
 			}
 		});
@@ -295,9 +258,9 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 	},
 
 	setZoomLevel: function (size) {
-		this.formPanel.setStyle('font-size: ' + size + '%;');
-		this.freetextAnswerList.fireEvent('resizeList', this.freetextAnswerList.element);
 		ARSnova.app.getController('Application').setGlobalZoomLevel(size);
+		this.formPanel.setStyle('font-size: ' + size + '%;');
+		this.freetextAnswerList.updateListHeight();
 	},
 
 	checkFreetextAnswers: function () {
