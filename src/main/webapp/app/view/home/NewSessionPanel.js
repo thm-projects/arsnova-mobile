@@ -52,7 +52,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			title: Messages.YOUR_COURSE_SESSIONS
 		});
 
-		this.mycourses = Ext.create('Ext.List', {
+		this.mycourses = Ext.create('ARSnova.view.components.List', {
 			cls: 'myCoursesList',
 			store: this.mycoursesStore,
 			disableSelection: true,
@@ -73,22 +73,6 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 
 				show: function () {
 					this.coursesFieldset.show();
-				},
-
-				/**
-				 * The following event is used to get the computed height of all list items and
-				 * finally to set this value to the list DataView. In order to ensure correct rendering
-				 * it is also necessary to get the properties "padding-top" and "padding-bottom" and
-				 * add them to the height of the list DataView.
-				 */
-				resize: function (list, eOpts) {
-					var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
-
-					this.mycourses.setHeight(
-						parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
-						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
-						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
-					);
 				}
 			}
 		});

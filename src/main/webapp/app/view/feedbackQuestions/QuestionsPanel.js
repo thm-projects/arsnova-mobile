@@ -153,12 +153,8 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			html: Messages.NO_QUESTIONS
 		});
 
-		this.list = Ext.create('Ext.List', {
+		this.list = Ext.create('ARSnova.view.components.List', {
 			activeCls: 'search-item-active',
-			scrollable: {disabled: true},
-			variableHeights: true,
-			layout: 'fit',
-			height: '100%',
 
 			style: {
 				marginBottom: '20px',
@@ -202,36 +198,6 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					ARSnova.app.getController('Questions').detailsFeedbackQuestion({
 						question: record
 					});
-				},
-				/**
-				 * The following events are used to get the computed height of
-				 * all list items and finally to set this value to the list
-				 * DataView. In order to ensure correct rendering it is also
-				 * necessary to get the properties "padding-top" and
-				 * "padding-bottom" and add them to the height of the list
-				 * DataView.
-				 */
-				painted: function (list, eOpts) {
-					var me = this;
-					this.list.fireEvent("resizeList", list);
-
-					if (window.MathJax) {
-						MathJax.Hub.Queue(
-							["Delay", MathJax.Callback, 700],
-							function () {
-								me.list.fireEvent('resizeList', me.list.element);
-							}
-						);
-					}
-				},
-				resizeList: function (list) {
-					var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
-
-					this.list.setHeight(
-						parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
-						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
-						parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
-					);
 				}
 			}
 		});
@@ -319,9 +285,9 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 	},
 
 	setZoomLevel: function (size) {
-		this.formPanel.setStyle('font-size: ' + size + '%;');
-		this.list.fireEvent('resizeList', this.list.element);
 		ARSnova.app.getController('Application').setGlobalZoomLevel(size);
+		this.formPanel.setStyle('font-size: ' + size + '%;');
+		this.list.updateListHeight();
 	},
 
 	updateTime: function () {
@@ -357,7 +323,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 						}
 						panel.getStore().add(Ext.create('ARSnova.model.FeedbackQuestion', question));
 					}
-					panel.list.fireEvent('resizeList', panel.list.element);
+
 					fQP.tab.setBadgeText(unread);
 					if (ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel) {
 						ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge([{
