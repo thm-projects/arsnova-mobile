@@ -192,6 +192,66 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			handler: this.newQuestionHandler
 		});
 
+		this.questionsImport = Ext.create('ARSnova.view.MatrixButton', {
+			text: 'Fragen importieren',
+			buttonConfig: 'icon',
+			imageCls: 'icon-cloud-upload',
+			cls: 'actionButton',
+			handler: this.questionsImportHandler
+		});
+
+		this.loadMask = Ext.create('Ext.LoadMask',{
+			message: 'Fragen werden importiert..',
+			indicator: true,
+			centered: true
+		});
+
+		this.loadFilePanel =  Ext.create('Ext.Panel', {
+			modal: true,
+			centered: true,
+			ui: 'light',
+			items:[
+				{
+					xtype : 'toolbar',
+					docked: 'top',
+					title: 'CVS Import',
+					ui: 'light',
+					items:[{
+							xtype: 'spacer'
+						}, {
+							xtype: 'button',
+							ui: 'plain',
+							iconCls: 'delete',
+							iconMask: true,
+							text: '',
+							action:'hideModal'
+						}
+					]
+				},
+				{
+					xtype: 'fileinput',
+					name: 'csv Datei',
+					accept: 'text/csv',
+					listeners:{
+						change: function(element){
+							var path = element.getValue();
+							var fileType = path.substring(path.lastIndexOf('.'));
+							if(fileType === '.csv') {
+								var reader = new FileReader();
+								var file = element.input.dom.files[0];
+								reader.onload = function () {
+									ARSnova.app.getController('QuestionImport').importCvsFile(reader.result);
+								}
+								reader.readAsText(file);
+							}else{
+								Ext.Msg.alert('','');
+							}
+						}
+					}
+				}
+			]
+		});
+
 		this.actionButtonPanel = Ext.create('Ext.Panel', {
 			layout: {
 				type: 'hbox',
@@ -203,7 +263,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			items: [
 				this.questionStatusButton,
 				this.showcaseActionButton,
-				this.newQuestionButton
+				this.newQuestionButton,
+				this.questionsImport
 			]
 		});
 
@@ -496,5 +557,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			}, this);
 			this.deleteAnswersButton.setHidden(hasAnswers.length === 0);
 		}, this));
+	},
+
+	questionsImportHandler: function(){
+		ARSnova.app.getController('QuestionExport').showModal();
 	}
 });

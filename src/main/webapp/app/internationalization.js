@@ -638,7 +638,10 @@
 				/* CSV export*/
 				QUESTIONS_CSV_EXPORT_BUTTON: "Fragen<br>exportieren",
 				QUESTIONS_CSV_EXPORT_MSBOX_TITLE: "Fragen exportieren",
-				QUESTIONS_CSV_EXPORT_MSBOX_INFO: "Die Fragen werden als CSV Datei exportiert"
+				QUESTIONS_CSV_EXPORT_MSBOX_INFO: "Die Fragen werden als CSV Datei exportiert",
+
+				/* CSV import*/
+				QUESTIONTYPE_NOT_SUPPORTED: "ist nicht unterstutzt"
 			};
 			break;
 
@@ -1233,11 +1236,16 @@
 				IMP_ERROR_SAVE: "Could not save session to database.",
 				IMP_ERROR_IMAGE: "Could not save session, image exceeds maximal size.",
 
+				/* CSV import*/
+				QUESTIONTYPE_NOT_SUPPORTED: "ist nicht unterstutzt",
 
 				/* CSV export */
 				QUESTIONS_CSV_EXPORT_BUTTON: "Export<br>questions",
 				QUESTIONS_CSV_EXPORT_MSBOX_TITLE: "Export Questions",
 				QUESTIONS_CSV_EXPORT_MSBOX_INFO: "The questions will be exported as a CSV file"
+
+				/* CSV import
+				QUESTIONTYPE_NOT_SUPPORTED: "is not supported"*/
 			};
 			break;
 	}

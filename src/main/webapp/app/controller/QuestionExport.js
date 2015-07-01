@@ -121,6 +121,7 @@ Ext.define("ARSnova.controller.QuestionExport", {
 	},
 
 	preparseJsontoCsv: function (records) {
+		console.log(records);
 		var questions = [];
 		for (var i = 0 ; i < records.length ; i++) {
 			questions[i] = this.formatQuestion(records[i].data);

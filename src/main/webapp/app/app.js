@@ -92,7 +92,7 @@ Ext.application({
 
 	views: ['MainTabPanel', 'MathJaxMarkDownPanel', 'QuestionPreviewBox', 'AnswerPreviewBox'],
 
-	controllers: ['Auth', 'Application', 'Feedback', 'Lang', 'Feature', 'Questions', 'FlashcardQuestions', 'PreparationQuestions', 'RoundManagement', 'MathJaxMarkdown', 'Sessions', 'SessionImport', 'SessionExport', 'Statistics', 'Tracking', 'QuestionExport'],
+	controllers: ['Auth', 'Application', 'Feedback', 'Lang', 'Feature', 'Questions', 'FlashcardQuestions', 'PreparationQuestions', 'RoundManagement', 'MathJaxMarkdown', 'Sessions', 'SessionImport', 'SessionExport', 'Statistics', 'Tracking', 'QuestionExport', 'QuestionImport'],
 
 	/* items */
 	mainTabPanel: null,
