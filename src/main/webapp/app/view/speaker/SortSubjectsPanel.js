@@ -54,27 +54,23 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 	},
 
 	initializeQuestionList: function () {
-		this.questionList = Ext.create('Ext.List', {
+		this.questionList = Ext.create('ARSnova.view.components.List', {
 			activeCls: 'search-item-active',
 			cls: 'roundedCorners allCapsHeader',
-
-			scrollable: {disabled: true},
-			hidden: true,
-			infinite: true,
 			plugins: 'sortablelistextended',
+			hidden: true,
 
 			style: {
 				backgroundColor: 'transparent'
 			},
 
-
+			store: this.questionStore,
 			itemCls: 'forwardListButton',
 			itemTpl:
 				'<div class="icon-drag thm-grey dragStyle x-list-sortablehandle">&#xf0dc;</div>' +
 				'<tpl if="active"><div class="buttontext noOverflow">{subject:htmlEncode}</div></tpl>' +
 				'<tpl if="!active"><div class="isInactive buttontext noOverflow">{subject:htmlEncode}</div></tpl>' +
 				'<div class="x-button x-hasbadge audiencePanelListBadge"></div>',
-			store: this.questionStore,
 
 			listeners: {
 				scope: this,
@@ -82,11 +78,6 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 					sTP.sortQuestionsPanel.subject = list.getStore().getAt(index).data.subject;
 					sTP.animateActiveItem(sTP.sortQuestionsPanel, 'slide');
-				},
-				painted: function (list, eOpts) {
-					var count = this.questionStore.getCount(),
-						height = 42 * count;
-					this.questionList.setHeight(height);
 				}
 			}
 		});

@@ -938,13 +938,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			// set content
 			this.answerListPanel.setContent(this.questionObj.possibleAnswers[0].text, true, true);
 		} else {
-			this.answerList = Ext.create('Ext.List', {
+			this.answerList = Ext.create('ARSnova.view.components.List', {
 				hidden: isGridQuestion,
 				store: this.answerStore,
-
 				cls: 'roundedBox',
-				variableHeights: true,
-				scrollable: {disabled: true},
 
 				itemCls: 'arsnova-mathdown x-html answerListButton noPadding',
 				itemTpl: new Ext.XTemplate(
@@ -962,38 +959,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						}
 					}
 				),
-				listeners: {
-					scope: this,
-					/**
-					 * The following events are used to get the computed height of
-					 * all list items and finally to set this value to the list
-					 * DataView. In order to ensure correct rendering it is also
-					 * necessary to get the properties "padding-top" and
-					 * "padding-bottom" and add them to the height of the list
-					 * DataView.
-					 */
-					painted: function (list, eOpts) {
-						this.answerList.fireEvent("resizeList", list);
-
-						if (window.MathJax) {
-							MathJax.Hub.Queue(
-								["Delay", MathJax.Callback, 700],
-								function () {
-									me.answerList.fireEvent('resizeList', me.answerList.element);
-								}
-							);
-						}
-					},
-					resizeList: function (list) {
-						var listItemsDom = list.select(".x-list .x-inner .x-inner").elements[0];
-
-						this.answerList.setHeight(
-							parseInt(window.getComputedStyle(listItemsDom, "").getPropertyValue("height")) +
-							parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-top")) +
-							parseInt(window.getComputedStyle(list.dom, "").getPropertyValue("padding-bottom"))
-						);
-					}
-				},
 				mode: this.questionObj.questionType === "mc" ? 'MULTI' : 'SINGLE'
 			});
 		}

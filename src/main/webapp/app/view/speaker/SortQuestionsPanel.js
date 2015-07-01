@@ -200,14 +200,11 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 	},
 
 	initializeQuestionList: function () {
-		this.questionList = Ext.create('Ext.List', {
+		this.questionList = Ext.create('ARSnova.view.components.List', {
 			activeCls: 'search-item-active',
 			cls: 'roundedCorners allCapsHeader',
-
-			scrollable: {disabled: true},
-			hidden: true,
-			infinite: true,
 			plugins: 'sortablelistextended',
+			hidden: true,
 
 			style: {
 				backgroundColor: 'transparent'
@@ -249,11 +246,6 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 							});
 						};
 					}, this, {single: true});
-				},
-				painted: function (list, eOpts) {
-					var count = this.questionStore.getCount(),
-						height = 42 * count;
-					this.questionList.setHeight(height);
 				}
 			}
 		});
