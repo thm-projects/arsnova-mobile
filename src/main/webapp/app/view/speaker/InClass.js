@@ -353,9 +353,20 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	},
 
 	showcaseHandler: function () {
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-		sTP.showcaseQuestionPanel.inclassBackButtonHandle = true;
-		sTP.animateActiveItem(sTP.showcaseQuestionPanel, 'slide');
+		var activateProjectorMode = screenWidth >= 700;
+
+		var showShowcasePanel = Ext.create('Ext.util.DelayedTask', function () {
+			sTP.showcaseQuestionPanel.inclassBackButtonHandle = true;
+			sTP.animateActiveItem(sTP.showcaseQuestionPanel, 'slide');
+		});
+
+		ARSnova.app.projectorModeActive = activateProjectorMode;
+		ARSnova.app.getController('Application').storeGlobalZoomLevel();
+		ARSnova.app.mainTabPanel.tabPanel.getTabBar().setHidden(activateProjectorMode);
+		ARSnova.app.getController('Application').toggleFullScreen(activateProjectorMode);
+		showShowcasePanel.delay(activateProjectorMode ? 1250 : 0);
 	},
 
 	updateActionButtonElements: function (showElements) {

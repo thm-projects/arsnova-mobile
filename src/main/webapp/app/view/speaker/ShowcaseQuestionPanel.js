@@ -115,13 +115,12 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			if (this.getActiveItem() && this.getActiveItem().questionObj) {
 				this.getActiveItem().checkPiRoundActivation();
 
-				if (screenWidth > 700) {
+				if (screenWidth >= 700) {
 					this.speakerUtilities.show();
+					this.setProjectorMode(this, ARSnova.app.projectorModeActive);
 				} else {
 					this.speakerUtilities.hide();
 				}
-
-				this.setProjectorMode(this, ARSnova.app.projectorModeActive);
 			}
 		});
 	},
