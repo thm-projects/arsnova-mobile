@@ -200,7 +200,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			handler: this.questionsImportHandler
 		});
 
-		this.loadMask = Ext.create('Ext.LoadMask',{
+		this.loadMask = Ext.create('Ext.LoadMask', {
 			message: 'Fragen werden importiert..',
 			indicator: true,
 			centered: true
@@ -210,13 +210,13 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			modal: true,
 			centered: true,
 			ui: 'light',
-			items:[
+			items: [
 				{
-					xtype : 'toolbar',
+					xtype: 'toolbar',
 					docked: 'top',
-					title: 'CVS Import',
+					title: 'CSV Import',
 					ui: 'light',
-					items:[{
+					items: [{
 							xtype: 'spacer'
 						}, {
 							xtype: 'button',
@@ -224,7 +224,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 							iconCls: 'delete',
 							iconMask: true,
 							text: '',
-							action:'hideModal'
+							action: 'hideModal'
 						}
 					]
 				},
@@ -232,19 +232,17 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 					xtype: 'fileinput',
 					name: 'csv Datei',
 					accept: 'text/csv',
-					listeners:{
-						change: function(element){
+					listeners: {
+						change: function (element) {
 							var path = element.getValue();
 							var fileType = path.substring(path.lastIndexOf('.'));
-							if(fileType === '.csv') {
+							if (fileType === '.csv') {
 								var reader = new FileReader();
 								var file = element.input.dom.files[0];
 								reader.onload = function () {
 									ARSnova.app.getController('QuestionImport').importCvsFile(reader.result);
-								}
+								};
 								reader.readAsText(file);
-							}else{
-								Ext.Msg.alert('','');
 							}
 						}
 					}
@@ -559,7 +557,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		}, this));
 	},
 
-	questionsImportHandler: function(){
-		ARSnova.app.getController('QuestionExport').showModal();
+	questionsImportHandler: function () {
+		ARSnova.app.getController('QuestionImport').showModal();
 	}
 });

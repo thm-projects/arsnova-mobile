@@ -1,6 +1,6 @@
 /*
  * This file is part of ARSnova Mobile.
- * Copyright (C) 2014 The ARSnova Team
+ * Copyright (C) 2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,7 +38,8 @@ Ext.define("ARSnova.controller.QuestionImport", {
 	},
 
 	hideModal: function () {
-		this.getAudiencePanel().loadFilePanel.hide();
+		var panel = this.getAudiencePanel();
+		panel.loadFilePanel.hide();
 	},
 
 	showModal: function () {
@@ -51,6 +52,7 @@ Ext.define("ARSnova.controller.QuestionImport", {
 		return ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.
 			audienceQuestionPanel;
 	},
+
 	saveQuestions: function (json) {
 		var QUESTION_TYPE = 0;
 		var QUESTION_SUBJECT = 1;
@@ -66,19 +68,24 @@ Ext.define("ARSnova.controller.QuestionImport", {
 		var RIGHT_ANSWER = 11;
 		var question, questionModel, type, promise;
 		var size = json.length - 1;
-		for (var i = 0; i < json.length; i++) {
+
+		for (var i = 1; i < json.length; i++) {
 			question = json[i];
 			type = this.getModelQuestionType(question[QUESTION_TYPE]);
+
 			if (question && type && question[QUESTION_SUBJECT] && question[QUESTION_TEXT]) {
 				promise = new RSVP.Promise();
+
 				questionModel = Ext.create('ARSnova.model.Question', {
 					abstention: true,
 					active: 1,
 					imageQuestion: false,
 					number: 0,
+
 					possibleAnswers: this.getPossibleAnswers(type, [question[ANSWER1], question[ANSWER2],
 						question[ANSWER3], question[ANSWER4], question[ANSWER5], question[ANSWER6],
 						question[ANSWER7], question[ANSWER8]], question[RIGHT_ANSWER]),
+
 					questionType: type,
 					questionVariant: "lecture",
 					releasedFor: "all",
@@ -87,28 +94,27 @@ Ext.define("ARSnova.controller.QuestionImport", {
 					subject: question[QUESTION_SUBJECT],
 					text: question[QUESTION_TEXT],
 					type: "skill_question"
-
 				});
+
 				if (type === 'yesno') {
 					questionModel.set('noCorrect', true);
 				} else if (type === 'freetext') {
 					questionModel.set('textAnswerEnabled', true);
 				}
+
 				questionModel.saveSkillQuestion({
 					success: Ext.bind(function (response) {
 						promise.resolve(response);
 						size--;
-						if (size == 0) {
+						if (size === 0) {
 							this.refreshPanel();
 						}
-
 					}, this),
 					failure: function (response) {
 						Ext.Msg.alert(Messages.NOTICE, Messages.QUESTION_CREATION_ERROR);
 						promise.reject(response);
 					}
 				});
-
 			} else {
 				size--;
 			}
@@ -121,40 +127,39 @@ Ext.define("ARSnova.controller.QuestionImport", {
 		audiencePanel.loadMask.hide();
 	},
 
-
 	getPossibleAnswers: function (type, answers, rightAnswers) {
-		var answer, answerObj, letter, posibleAnswers = [];
+		var answer, answerObj, letter, possibleAnswers = [];
+
 		if (type === 'freetext') {
-			return posibleAnswers;
+			return possibleAnswers;
 		} else if (type === 'yesno') {
 			return this.getYesNoAnswer(rightAnswers);
 		}
+
 		for (var i = 0; i < answers.length; i++) {
 			answer = answers[i];
 			if (answer) {
 				answerObj = {};
-				answerObj.correct = (rightAnswers.indexOf(i + 1) != -1);
+				answerObj.correct = (rightAnswers.indexOf(i + 1) !== -1);
 				if (type === 'mc') {
 					answerObj.text = answer;
-				} else if (type === 'abcd') {
+				} else if (type === 'sc') {
 					letter = String.fromCharCode(65 + i);
-					answerObj.id = letter;
 					answerObj.text = letter + ': ' + answer;
 				}
-				posibleAnswers.push(answerObj);
+				possibleAnswers.push(answerObj);
 			}
 		}
-
-		return posibleAnswers;
+		return possibleAnswers;
 	},
 
 	getYesNoAnswer: function (rightAnswers) {
 		if (rightAnswers === 'y') {
-			return [this.getYesNoAnswerObj(true, 'Ja'),
-				this.getYesNoAnswerObj(false, 'Nein')];
+			return [this.getYesNoAnswerObj(true, Messages.QUESTION_IMPORT_YES),
+				this.getYesNoAnswerObj(false, Messages.QUESTION_IMPORT_NO)];
 		} else {
-			return [this.getYesNoAnswerObj(true, 'Nein'),
-				this.getYesNoAnswerObj(false, 'Ja')];
+			return [this.getYesNoAnswerObj(true, Messages.QUESTION_IMPORT_NO),
+				this.getYesNoAnswerObj(false, Messages.QUESTION_IMPORT_YES)];
 		}
 	},
 
@@ -163,20 +168,16 @@ Ext.define("ARSnova.controller.QuestionImport", {
 	},
 
 	getModelQuestionType: function (typeModel) {
-		if (!typeModel) {
-			return null;
-		}
-		switch (typeModel) {
-			case 'MC' :
-				return 'mc';
-			case 'SC' :
-				return 'abcd';
-			case 'TXT' :
+		if (!typeModel) { return null; }
+		var questionType = typeModel.toLowerCase();
+		switch (questionType) {
+			case 'mc' :
+			case 'sc' :
+				return questionType;
+			case 'txt' :
 				return 'freetext';
-			case 'YN' :
+			case 'yn' :
 				return 'yesno';
-			default :
-				Ext.Msg.alert(Messages.NOTICE, typeModel + ' ' + Messages.QUESTIONTYPE_NOT_SUPPORTED);
 		}
 		return null;
 	},
@@ -188,14 +189,21 @@ Ext.define("ARSnova.controller.QuestionImport", {
 		Ext.Viewport.add(mask);
 		mask.show();
 
-		// todo
-		var json = JSON.parse(ARSnova.utils.CsvUtil.csvToJson(cvs));
-		var error_message = validate(json);
-		this.saveQuestions(json);
+		var json = ARSnova.utils.CsvUtil.csvToJson(cvs);
+		if (json) {
+			json = JSON.parse(json);
+			if (!this.hasValidationError(json)) {
+				this.saveQuestions(json);
+			} else {
+				this.refreshPanel();
+			}
+		} else {
+			this.refreshPanel();
+		}
 	},
 
-	validate: function(parsedQuestions){
-		var MC_ALLOWED_ANSWERS = 2
+	hasValidationError: function (parsedQuestions) {
+		var MC_ALLOWED_ANSWERS = 2;
 		var QUESTION_TYPE = 0;
 		var QUESTION_SUBJECT = 1;
 		var QUESTION_TEXT = 2;
@@ -208,33 +216,143 @@ Ext.define("ARSnova.controller.QuestionImport", {
 		var ANSWER7 = 9;
 		var ANSWER8 = 10;
 		var RIGHT_ANSWER = 11;
+
+		var NUM_COLUMS = 12;
+
+		var INDEX_FIRST_ANSWER = 3; // Answer 1
+		var INDEX_LAST_ANSWER = 10; // Answer 8
+
 		var error = false;
 		var answersError = false;
 		var subjectError = false;
-		var checkedError = false;
 		var questionError = false;
+		var questionTypeError = false;
 
-		parsedQuestions.forEach(function(row){
-			switch (row[QUESTION_TYPE]){
-				case 'MC' :
-					var rightAnswersCount = row[QUESTION_TYPE].split(',').length;
-					var answersCount =
+		var lineCnt = 0;
 
-					if(rightAnswersCount < 2) {
+		parsedQuestions.forEach(function (row) {
+			if (!error) {
+				if (row.length === NUM_COLUMS) {
+					var valuesRightAnswers = row[RIGHT_ANSWER];
+					var rightAnswers = [];
+					var answers = [];
+					var i;
+					var questionType = '';
+					var hasRightAnswers = true;
+
+					// check if subject and text is set.
+					// we have to check this for all types questions
+					if (!row[QUESTION_TYPE] || row[QUESTION_TYPE].trim() === '') {
 						error = true;
-						answersError = true;
+						questionTypeError = true;
+					}
+					if (!row[QUESTION_SUBJECT] || row[QUESTION_SUBJECT].trim() === '') {
+						error = true;
+						subjectError = true;
+					}
+					if (!row[QUESTION_TEXT] || row[QUESTION_TEXT].trim() === '') {
+						error = true;
+						questionError = true;
 					}
 
-					break;
-				case 'SC' :
-				case 'TXT' :
-				case 'YN' :
+					questionType = row[QUESTION_TYPE].toLowerCase();
+
+					// Check if values for right answers are set, for all questions except txt
+					if (row[QUESTION_TYPE] && questionType !== 'txt') {
+						if (!valuesRightAnswers) {
+							error = true;
+							answersError = true;
+							hasRightAnswers = false;
+						}
+					}
+
+					switch (questionType){
+						case 'mc' :
+							for (i = INDEX_FIRST_ANSWER; i <= INDEX_LAST_ANSWER; i++) {
+								if (row[i].trim() !== '') {
+									answers.push(row[i]);
+								}
+								if (valuesRightAnswers.indexOf(i - INDEX_FIRST_ANSWER + 1) > -1) {
+									rightAnswers.push(row[i]);
+								}
+							}
+
+							valuesRightAnswers = valuesRightAnswers.split(',');
+
+							/**
+							 * Check if we have at minimum 2 answers
+							 * and check if the colums according to a answers numbers exists
+							 */
+							if (valuesRightAnswers.length < 1 || valuesRightAnswers.length !== rightAnswers.length) {
+								error = true;
+								answersError = true;
+							}
+
+							break;
+						case 'sc' :
+							for (i = INDEX_FIRST_ANSWER; i <= INDEX_LAST_ANSWER; i++) {
+								if (row[i].trim() !== '') {
+									answers.push(row[i]);
+								}
+								if (valuesRightAnswers.indexOf(i - INDEX_FIRST_ANSWER + 1) > -1) {
+									rightAnswers.push(row[i]);
+								}
+							}
+
+							valuesRightAnswers = valuesRightAnswers.split(',');
+
+							/**
+							 * Check if we have exactly 1 answer
+							 * and check if the colums according to a answers numbers exists
+							 */
+							if (answers <= 1 || valuesRightAnswers.length !== 1) {
+								error = true;
+								answersError = true;
+							}
+
+							break;
+						case 'yn' :
+							if (row[RIGHT_ANSWER]) {
+								if (!(row[RIGHT_ANSWER].toLowerCase() === 'y' || row[RIGHT_ANSWER].toLowerCase() === 'n')) {
+									error = true;
+									answersError = true;
+								}
+							}
+							break;
+					}
+				} else {
+					// ignore empty lines, but count them
+					if (row.length > 1) {
+						error = true;
+					}
+				}
+				lineCnt++;
 			}
 		});
+		this.showErrMsg(lineCnt, error, answersError, subjectError, questionError, questionTypeError);
+		return error;
 	},
 
-	getAnswersCount: function(row){
-		//for (var i = 3 ; r)
- }
+	showErrMsg: function (lineCnt, error, answersError, subjectError, questionError, questionTypeError) {
+		if (error) {
+			var message = Messages.MISSING_INPUTS + '<ul class="newQuestionWarning"><br>';
+
+			if (answersError) {
+				message += '<li>' + Messages.MISSING_ANSWERS + '</li>';
+			}
+			if (subjectError) {
+				message += '<li>' + Messages.MISSING_SUBJECT + '</li>';
+			}
+			if (questionError) {
+				message += '<li>' + Messages.MISSING_QUESTION + '</li>';
+			}
+			if (questionTypeError) {
+				message += '<li>' + Messages.QUESTION_IMPORT_TYPE_ERROR + '</li>';
+			}
+
+			Ext.Msg.alert(Messages.NOTIFICATION, message + Messages.QUESTION_ERR_IN_ROW + " " + lineCnt + '</ul>');
+			return;
+		}
+	}
 
 });

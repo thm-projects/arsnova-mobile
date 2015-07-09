@@ -415,6 +415,12 @@
 				MISSING_IMAGE: "Es wurde kein Bild hochgeladen",
 				MISSING_FLASHCARD: "Die Rückseite ist leer",
 				EXPECT_ANSWER_TEXT: "Textantwort zulassen?",
+				/* Question import */
+				QUESTION_ERR_IN_ROW: "in Zeile",
+				QUESTION_IMPORT_TYPE_ERROR: "Fehlerhafter Fragentyp",
+				QUESTION_IMPORT_YES: "Ja",
+				QUESTION_IMPORT_NO: "Nein",
+
 
 				/*Export session*/
 				EXPORT_MSG: "Was möchten Sie exportieren?",
@@ -641,7 +647,7 @@
 				QUESTIONS_CSV_EXPORT_MSBOX_INFO: "Die Fragen werden als CSV Datei exportiert",
 
 				/* CSV import*/
-				QUESTIONTYPE_NOT_SUPPORTED: "ist nicht unterstutzt"
+				QUESTIONTYPE_NOT_SUPPORTED: "ist nicht unterstützt"
 			};
 			break;
 
@@ -1134,6 +1140,14 @@
 				EVALUATION_MINUSMINUS: "strongly disagree",
 				IMAGE_QUESTION_LBL: "Upload image/photo as answer?",
 				EXPECT_ANSWER_TEXT: "Allow text answer?",
+
+				/* Question import */
+				QUESTION_ERR_IN_ROW: "at line",
+				QUESTION_IMPORT_TYPE_ERROR: "Error question type",
+				QUESTION_IMPORT_YES: "Yes",
+				QUESTION_IMPORT_NO: "No",
+
+
 				IMAGE_QUESTION_MINIATUR_VIEW: "Grid",
 				IMAGE_QUESTION_HORIZONTAL_VIEW: "Horizontal",
 				IMAGE_QUESTION_VERTICAL_VIEW: "Vertical",
@@ -1236,16 +1250,13 @@
 				IMP_ERROR_SAVE: "Could not save session to database.",
 				IMP_ERROR_IMAGE: "Could not save session, image exceeds maximal size.",
 
-				/* CSV import*/
-				QUESTIONTYPE_NOT_SUPPORTED: "ist nicht unterstutzt",
+				/* CSV import */
+				QUESTIONTYPE_NOT_SUPPORTED: "is not supported",
 
 				/* CSV export */
 				QUESTIONS_CSV_EXPORT_BUTTON: "Export<br>questions",
 				QUESTIONS_CSV_EXPORT_MSBOX_TITLE: "Export Questions",
 				QUESTIONS_CSV_EXPORT_MSBOX_INFO: "The questions will be exported as a CSV file"
-
-				/* CSV import
-				QUESTIONTYPE_NOT_SUPPORTED: "is not supported"*/
 			};
 			break;
 	}

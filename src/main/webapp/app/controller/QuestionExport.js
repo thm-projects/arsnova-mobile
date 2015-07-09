@@ -1,6 +1,6 @@
 /*
  * This file is part of ARSnova Mobile.
- * Copyright (C) 2014 The ARSnova Team
+ * Copyright (C) 2015 The ARSnova Team
  *
  * ARSnova Mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -82,7 +82,6 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		return '';
 	},
 
-
 	formatQuestion: function (questionModel) {
 		var questionTypeModel = questionModel.questionType;
 		var rightAnswer = '';
@@ -91,7 +90,7 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		question.questionType = this.getQuestionType(questionTypeModel);
 		question.questionSubject = questionModel.subject;
 		question.question = questionModel.text;
-		for (var i = 0 ; i < 8 ; i++){
+		for (var i = 0 ; i < 8 ; i++) {
 			options[i] = this.getOption(questionModel.possibleAnswers[i], questionTypeModel);
 			if (questionModel.possibleAnswers[i] && questionModel.possibleAnswers[i].correct) {
 				rightAnswer += (i + 1) + ',';
@@ -121,7 +120,6 @@ Ext.define("ARSnova.controller.QuestionExport", {
 	},
 
 	preparseJsontoCsv: function (records) {
-		console.log(records);
 		var questions = [];
 		for (var i = 0 ; i < records.length ; i++) {
 			questions[i] = this.formatQuestion(records[i].data);
