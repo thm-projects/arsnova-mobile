@@ -134,6 +134,29 @@
 	margin-bottom: 3.5px!important;
 }
 
+.codeListingIcon::before {
+	content: "\f121";
+	font-family: "arsnova";
+}
+
+.vimeoIcon::before {
+	content: "\f194";
+	font-family: "arsnova";
+	left: 3px !important;
+}
+
+.youtubeIcon::before {
+	content: "\f167";
+	font-family: "arsnova";
+	left: 3px !important;
+}
+
+.imageIcon::before {
+	content: "\f1c5";
+	font-family: "arsnova";
+	left: 3px !important;
+}
+
 .x-tabbar  {
 	.icon-gear {
 		font-size: 18px;

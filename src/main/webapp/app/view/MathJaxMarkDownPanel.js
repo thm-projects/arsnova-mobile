@@ -39,6 +39,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 	},
 
 	setContent: function (content, mathJaxEnabled, markDownEnabled, mathjaxCallback) {
+		var hideMediaDummy = '<div class="hideMediaDummy"><span class="###"></span></div>';
 		var hideMediaElements = this.config.hideMediaElements;
 		var contentCodeBlocks = [];
 
@@ -71,21 +72,23 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 
 		function applySyntaxHighlight(content) {
 			var codeDelimiter = /&amp;!highlightJSBlock!&amp;/g;
-			var hiddenCls = hideMediaElements ? ' hidden' : '';
 
-			if (!!hljs) {
-				contentCodeBlocks.reverse();
-				return content.replace(codeDelimiter, function (element) {
-					element = contentCodeBlocks.pop();
-					if (typeof element === 'string') {
-						element = element.match(/<hlcode>([\s\S]*?)<\/hlcode>/);
-						if (element !== null &&  Array.isArray(element)) {
-							return "<pre class='hljs-pre" + hiddenCls + "'><code class='hljs-highlight'>" +
-								hljs.highlightAuto(element[1]).value + "</pre></code>";
+			if (content.match(codeDelimiter)) {
+				if (!!hljs) {
+					contentCodeBlocks.reverse();
+					content = contentCodeBlocks.pop();
+					if (typeof content === 'string') {
+						content = content.match(/<hlcode>([\s\S]*?)<\/hlcode>/);
+						if (content !== null && Array.isArray(content) && !hideMediaElements) {
+							return "<pre class='hljs-pre'><code class='hljs-highlight'>" +
+								hljs.highlightAuto(content[1]).value + "</pre></code>";
 						}
 					}
-				});
+				}
+
+				return hideMediaDummy.replace(/###/, 'codeListingIcon');
 			}
+
 			return content;
 		}
 
@@ -112,15 +115,16 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 				return content.replace(delimiters.elementDel, function (element) {
 					var videoId = element.match(delimiters.videoIdDel)[1];
 
-					element = hideMediaElements ?
-						'<p class="videoImageParagraph hidden">' + element + '</p>' :
-						'<p class="videoImageParagraph">' + element + '</p>';
-
-					return element.replace(delimiters.imageDel, function (imageEl) {
-						var title = element.match(delimiters.titleDel)[1];
-						return '<span class="videoImageContainer" id="' + videoId + '" accesskey="'
-							+ delimiters.accessKey + '" title="' + title + '">' + imageEl + '</span';
-					});
+					if (hideMediaElements) {
+						return hideMediaDummy.replace(/###/, delimiters.accessKey + 'Icon');
+					} else {
+						element = '<p class="videoImageParagraph">' + element + '</p>';
+						return element.replace(delimiters.imageDel, function (imageEl) {
+							var title = element.match(delimiters.titleDel)[1];
+							return '<span class="videoImageContainer" id="' + videoId + '" accesskey="'
+								+ delimiters.accessKey + '" title="' + title + '">' + imageEl + '</span';
+						});
+					}
 				});
 			};
 
@@ -134,7 +138,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 
 			return content.replace(imageDelimiter, function (element) {
 				if (hideMediaElements) {
-					return '<img class="hidden"' + element.substr(4, element.length - 1);
+					return hideMediaDummy.replace(/###/, 'imageIcon');
 				} else {
 					return '<img class="resizeableImage"' + element.substr(4, element.length - 1);
 				}
