@@ -156,9 +156,10 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			}
 
 			panel.speakerUtilities.setHidden(screenWidth < 700);
+			panel.setProjectorMode(this, ARSnova.app.projectorModeActive && screenWidth > 700);
+			panel.toolbar.setTitle(Ext.util.Format.htmlEncode(title));
 			newQuestion.setZoomLevel(ARSnova.app.globalZoomLevel);
 			newQuestion.updateQuestionText();
-			this.toolbar.setTitle(Ext.util.Format.htmlEncode(title));
 		}
 	},
 
