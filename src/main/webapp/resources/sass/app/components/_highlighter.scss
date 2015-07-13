@@ -206,6 +206,10 @@ Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiac
 		text-decoration: inherit;
 	}
 
+	.hljs-pre.hidden {
+		display: none;
+	}
+
 	.hljs-pre {
 		color: white;
 		display: table;
