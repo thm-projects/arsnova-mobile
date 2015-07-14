@@ -73,23 +73,20 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		function applySyntaxHighlight(content) {
 			var codeDelimiter = /&amp;!highlightJSBlock!&amp;/g;
 
-			if (content.match(codeDelimiter)) {
-				if (!!hljs) {
-					contentCodeBlocks.reverse();
-					content = contentCodeBlocks.pop();
-					if (typeof content === 'string') {
-						content = content.match(/<hlcode>([\s\S]*?)<\/hlcode>/);
-						if (content !== null && Array.isArray(content) && !hideMediaElements) {
-							return "<pre class='hljs-pre'><code class='hljs-highlight'>" +
-								hljs.highlightAuto(content[1]).value + "</pre></code>";
-						}
+			return content.replace(codeDelimiter, function (element) {
+				contentCodeBlocks.reverse();
+				element = contentCodeBlocks.pop();
+
+				if (typeof element === 'string') {
+					element = element.match(/<hlcode>([\s\S]*?)<\/hlcode>/);
+					if (!!hljs && element !== null && Array.isArray(element) && !hideMediaElements) {
+						return "<pre class='hljs-pre'><code class='hljs-highlight'>" +
+							hljs.highlightAuto(element[1]).value + "</pre></code>";
+					} else {
+						return hideMediaDummy.replace(/###/, 'codeListingIcon');
 					}
 				}
-
-				return hideMediaDummy.replace(/###/, 'codeListingIcon');
-			}
-
-			return content;
+			});
 		}
 
 		function replaceVideoElements(content) {
