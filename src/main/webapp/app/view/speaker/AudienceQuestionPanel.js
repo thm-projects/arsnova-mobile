@@ -143,9 +143,12 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
+			scope: this,
 			ui: 'back',
 			handler: function () {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+
+				this.questionList.resetPagination();
 				sTP.inClassPanel.updateAudienceQuestionBadge();
 				sTP.animateActiveItem(sTP.inClassPanel, {
 					type: 'slide',

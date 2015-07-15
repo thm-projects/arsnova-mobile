@@ -36,9 +36,7 @@ Ext.define('ARSnova.view.components.List', {
 
 	initialize: function () {
 		this.callParent();
-
-		this.setOffset(this.getListOffset());
-		this.setLastOffset(this.getListOffset());
+		this.resetPagination();
 
 		/** initialize list listeners */
 		this.on({
@@ -112,6 +110,12 @@ Ext.define('ARSnova.view.components.List', {
 		}
 
 		return offset - 1;
+	},
+
+	resetPagination: function () {
+		this.setTotalRange(-1);
+		this.setOffset(this.getListOffset());
+		this.setLastOffset(this.getListOffset());
 	},
 
 	updatePagination: function (length, totalRange) {
