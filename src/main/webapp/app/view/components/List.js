@@ -78,10 +78,12 @@ Ext.define('ARSnova.view.components.List', {
 			}
 
 			Ext.create('Ext.util.DelayedTask', function () {
-				listItemsDom.style.display = 'none';
-				me.resizeList(me.element, listItemsDom);
-				listItemsDom.style.display = '';
-				me.resizeList(me.element, listItemsDom);
+				if (me.element) {
+					listItemsDom.style.display = 'none';
+					me.resizeList(me.element, listItemsDom);
+					listItemsDom.style.display = '';
+					me.resizeList(me.element, listItemsDom);
+				}
 			}).delay(100);
 		}
 	},
