@@ -68,6 +68,8 @@ Ext.define('ARSnova.view.components.EmbeddedPage', {
 	},
 
 	embed: function (url) {
+		var self = this;
+
 		if (!this.defined) {
 			this.defined = true;
 
@@ -76,16 +78,16 @@ Ext.define('ARSnova.view.components.EmbeddedPage', {
 				src: url,
 				frameBorder: '0',
 				style: 'border: 0;',
-				id: this.id + '-iframe',
+				id: self.id + '-iframe',
 				scrolling: Ext.os.is.iOS ? 'no' : 'yes',
-				width: this.element.getWidth() + 'px',
+				width: self.element.getWidth() + 'px',
 				allowfullscreen: true,
 				height: '100%'
 			});
 
 			this.frame.onload = function () {
-				Ext.fly(this.id + '-appLoadingIndicator').destroy();
-				this.frameContainer.className = 'embeddedPageElement';
+				Ext.fly(self.id + '-appLoadingIndicator').destroy();
+				self.frameContainer.className = 'embeddedPageElement';
 			};
 		}
 	},
