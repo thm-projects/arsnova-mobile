@@ -63,26 +63,47 @@ Ext.define('ARSnova.view.components.EmbeddedPage', {
 		});
 
 		this.on('painted', function () {
-			if (!this.defined) {
-				this.defined = true;
-
-				self.frame = Ext.DomHelper.append(self.frameContainer, {
-					tag: 'iframe',
-					src: self.config.src,
-					frameBorder: '0',
-					style: 'border: 0;',
-					id: self.id + '-iframe',
-					scrolling: Ext.os.is.iOS ? 'no' : 'yes',
-					width: self.element.getWidth() + 'px',
-					allowfullscreen: true,
-					height: '100%'
-				});
-
-				self.frame.onload = function () {
-					Ext.fly(self.id + '-appLoadingIndicator').destroy();
-					self.frameContainer.className = 'embeddedPageElement';
-				};
-			}
+			this.embedOrOpenTab(this.config.src);
 		});
+	},
+
+	embed: function (url) {
+		if (!this.defined) {
+			this.defined = true;
+
+			this.frame = Ext.DomHelper.append(this.frameContainer, {
+				tag: 'iframe',
+				src: url,
+				frameBorder: '0',
+				style: 'border: 0;',
+				id: this.id + '-iframe',
+				scrolling: Ext.os.is.iOS ? 'no' : 'yes',
+				width: this.element.getWidth() + 'px',
+				allowfullscreen: true,
+				height: '100%'
+			});
+
+			this.frame.onload = function () {
+				Ext.fly(this.id + '-appLoadingIndicator').destroy();
+				this.frameContainer.className = 'embeddedPageElement';
+			};
+		}
+	},
+
+	embedOrOpenTab: function (url) {
+		var self = this;
+
+		if (location.protocol !== 'https:' || url.indexOf('https:') === 0) {
+			ARSnova.app.restProxy.checkFrameOptionsHeader(url, {
+				success: function () {
+					self.embed(url);
+				},
+				failure: function () {
+					ARSnova.app.getController('Application').showNewWindowWarning(url);
+				}
+			});
+		} else {
+			ARSnova.app.getController('Application').showNewWindowWarning(url);
+		}
 	}
 });
