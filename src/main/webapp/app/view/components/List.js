@@ -95,7 +95,7 @@ Ext.define('ARSnova.view.components.List', {
 	getEndIndex: function () {
 		var offset = this.getOffset();
 
-		if (offset === -1 || (this.getTotalRange() !== -1 && offset > this.getTotalRange())) {
+		if (offset === -1 || (this.getTotalRange() !== -1 && offset >= this.getTotalRange())) {
 			return -1;
 		}
 
@@ -111,7 +111,7 @@ Ext.define('ARSnova.view.components.List', {
 	updatePagination: function (length, totalRange) {
 		var offset = this.getOffset();
 
-		if (offset > totalRange || offset === -1 || totalRange === -1) {
+		if (offset >= totalRange || offset === -1 || totalRange === -1) {
 			this.removeLoadMoreButton();
 			offset = -1;
 		} else {
