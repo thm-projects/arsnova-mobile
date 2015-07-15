@@ -40,7 +40,6 @@ Ext.define('ARSnova.view.components.List', {
 
 		/** initialize list listeners */
 		this.on({
-			painted: this.onPainted,
 			add: this.updateListHeight,
 			resize: this.updateListHeight,
 			updateData: this.updateListHeight,
@@ -53,17 +52,6 @@ Ext.define('ARSnova.view.components.List', {
 	isEmpty: function () {
 		var store = this.getStore();
 		return !(store && store.getCount());
-	},
-
-	onPainted: function (list, eOpts) {
-		var me = this;
-		this.updateListHeight();
-
-		if (window.MathJax) {
-			MathJax.Hub.Queue(["Delay", MathJax.Callback, 700], function () {
-				me.updateListHeight();
-			});
-		}
 	},
 
 	updateListHeight: function () {
