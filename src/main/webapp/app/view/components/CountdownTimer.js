@@ -294,8 +294,8 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			var lineWidth = 20;
 
 			if (this.viewOnly && screenWidth < 500) {
-				unitFont = "40px Segoe UI";
-				numberFont = "18px Segoe UI";
+				unitFont = "40px Open Sans";
+				numberFont = "18px Open Sans";
 				lineWidth = lineWidth / 1.25;
 				outerRadius = outerRadius / 1.25;
 				innerRadius = innerRadius / 1.25;
