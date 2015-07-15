@@ -360,6 +360,13 @@
 	}
 }
 
+.x-list .loadMoreButton {
+	position: fixed;
+	width: 300px;
+	right: 0;
+	left: 0;
+}
+
 .loadMoreButton {
 	width: 300px;
 	margin: 0 auto;

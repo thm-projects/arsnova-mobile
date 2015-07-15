@@ -23,11 +23,22 @@ Ext.define('ARSnova.view.components.List', {
 		layout: 'fit',
 		height: '100%',
 		variableHeights: true,
-		scrollable: {disabled: true}
+		scrollable: {disabled: true},
+
+		/* pagination */
+		loadHandler: Ext.emptyFn,
+		loadScope: this,
+		totalRange: -1,
+		listOffset: 5,
+		lastOffset: 0,
+		offset: 0
 	},
 
 	initialize: function () {
 		this.callParent();
+
+		this.setOffset(this.getListOffset());
+		this.setLastOffset(this.getListOffset());
 
 		/** initialize list listeners */
 		this.on({
@@ -62,6 +73,12 @@ Ext.define('ARSnova.view.components.List', {
 			var listItemsDom = this.element.select(".x-list .x-inner .x-inner").elements[0];
 			var me = this;
 
+			if (this.loadMoreButton) {
+				this.addCls('paginationSessionList');
+			} else {
+				this.removeCls('paginationSessionList');
+			}
+
 			Ext.create('Ext.util.DelayedTask', function () {
 				listItemsDom.style.display = 'none';
 				me.resizeList(me.element, listItemsDom);
@@ -77,5 +94,64 @@ Ext.define('ARSnova.view.components.List', {
 			parseInt(window.getComputedStyle(listEl.dom, "").getPropertyValue("padding-top")) +
 			parseInt(window.getComputedStyle(listEl.dom, "").getPropertyValue("padding-bottom"))
 		);
+	},
+
+	resetOffsetState: function () {
+		this.setOffset(this.getLastOffset());
+	},
+
+	getStartIndex: function () {
+		return this.getOffset() === -1 ? -1 : this.itemsCount;
+	},
+
+	getEndIndex: function () {
+		var offset = this.getOffset();
+
+		if (offset === -1 || (this.getTotalRange() !== -1 && offset > this.getTotalRange())) {
+			return -1;
+		}
+
+		return offset - 1;
+	},
+
+	updatePagination: function (length, totalRange) {
+		var offset = this.getOffset();
+
+		if (offset > totalRange || offset === -1 || totalRange === -1) {
+			this.removeLoadMoreButton();
+			offset = -1;
+		} else {
+			this.addLoadMoreButton();
+			offset += length < this.getListOffset() ?
+				length : this.getListOffset();
+		}
+
+		this.setLastOffset(this.getOffset());
+		this.setTotalRange(totalRange);
+		this.setOffset(offset);
+		this.refresh();
+	},
+
+	addLoadMoreButton: function () {
+		if (!this.loadMoreButton && this.getLoadHandler() !== Ext.emptyFn) {
+			this.loadMoreButton = Ext.create('Ext.Button', {
+				cls: 'loadMoreButton standardListButton',
+				text: Messages.LOAD_MORE,
+				handler: this.getLoadHandler(),
+				scope: this.getLoadScope(),
+				ui: 'normal'
+			});
+
+			this.add(this.loadMoreButton);
+			this.updateListHeight();
+		}
+	},
+
+	removeLoadMoreButton: function () {
+		if (this.loadMoreButton) {
+			this.remove(this.loadMoreButton);
+			delete this.loadMoreButton;
+			this.updateListHeight();
+		}
 	}
 });
