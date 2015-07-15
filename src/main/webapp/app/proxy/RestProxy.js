@@ -55,6 +55,11 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		return 'items=' + offset + '-' + limit;
 	},
 
+	getTotalRangeSize: function (response) {
+		var header = response.getResponseHeader('content-range');
+		return header ? header.split("/")[1] : -1;
+	},
+
 	/**
 	 * Search for a session with specified keyword
 	 * @param keyword of session
@@ -296,10 +301,16 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	 * @param sessionKeyword
 	 * @param object with success-, failure- and empty-callbacks
 	 */
-	getLectureQuestions: function (sessionKeyword, callbacks) {
+	getLectureQuestions: function (sessionKeyword, callbacks, offset, limit) {
+		var me = this;
 		this.arsjax.request({
 			url: "lecturerquestion/?lecturequestionsonly=true&sessionkey=" + encodeURIComponent(sessionKeyword),
-			success: callbacks.success,
+			headers: {
+				Range: this.constructRangeString(offset, limit)
+			},
+			success: function (response) {
+				callbacks.success(response, me.getTotalRangeSize(response));
+			},
 			204: callbacks.empty,
 
 			failure: callbacks.failure
@@ -316,10 +327,16 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	getPreparationQuestions: function (sessionKeyword, callbacks) {
+	getPreparationQuestions: function (sessionKeyword, callbacks, offset, limit) {
+		var me = this;
 		this.arsjax.request({
 			url: "lecturerquestion/?sessionkey=" + encodeURIComponent(sessionKeyword) + "&preparationquestionsonly=true",
-			success: callbacks.success,
+			headers: {
+				Range: this.constructRangeString(offset, limit)
+			},
+			success: function (response) {
+				callbacks.success(response, me.getTotalRangeSize(response));
+			},
 			204: callbacks.empty,
 
 			failure: callbacks.failure

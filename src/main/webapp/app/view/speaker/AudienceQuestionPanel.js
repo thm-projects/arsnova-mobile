@@ -67,12 +67,16 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 		this.questionStore = Ext.create('Ext.data.JsonStore', {
 			model: 'ARSnova.model.Question',
+			sorter: 'text',
 			grouper: {
 				groupFn: function (record) {
 					return Ext.util.Format.htmlEncode(record.get('subject'));
 				},
 				sorterFn: function (a, b) {
-					return a.raw.sequenceNo - b.raw.sequenceNo;
+					//return a.raw.sequenceNo - b.raw.sequenceNo;
+					a = a.get('subject').toLowerCase();
+					b = b.get('subject').toLowerCase();
+					return a === b ? 0 : (a < b ? -1 : 1);
 				}
 			}
 		});
@@ -85,6 +89,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			style: {
 				backgroundColor: 'transparent'
 			},
+
+			loadHandler: this.getQuestions,
+			loadScope: this,
 
 			itemCls: 'forwardListButton',
 			itemTpl: Ext.create('Ext.XTemplate',
@@ -311,11 +318,20 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		}
 		ARSnova.app.taskManager.start(this.updateAnswerCount);
 		this.questionStore.removeAll();
+		this.getQuestions();
+	},
 
+	onDeactivate: function () {
+		this.questionList.hide();
+		this.questionList.resetOffsetState();
+		ARSnova.app.taskManager.stop(this.updateAnswerCount);
+	},
+
+	getQuestions: function () {
 		this.questionEntries = [];
 
 		this.getController().getQuestions(sessionStorage.getItem('keyword'), {
-			success: Ext.bind(function (response) {
+			success: Ext.bind(function (response, totalRange) {
 				var questions = Ext.decode(response.responseText);
 				for (var i = 0; i < questions.length; i++) {
 					questions[i].sequenceNo = i;
@@ -335,6 +351,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 					this.voteStatusButton.setMultiQuestionMode();
 				}
 
+				this.questionList.updatePagination(questions.length, totalRange);
 				this.showcaseActionButton.show();
 				this.questionListContainer.show();
 				this.questionList.show();
@@ -358,12 +375,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			failure: function (response) {
 				console.log('server-side error questionModel.getSkillQuestions');
 			}
-		});
-	},
-
-	onDeactivate: function () {
-		this.questionList.hide();
-		ARSnova.app.taskManager.stop(this.updateAnswerCount);
+		}, this.questionList.getStartIndex(), this.questionList.getEndIndex());
 	},
 
 	newQuestionHandler: function () {

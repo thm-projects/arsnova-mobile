@@ -64,8 +64,7 @@ Ext.define("ARSnova.controller.Questions", {
 	},
 
 	getQuestions: function () {
-		var question = Ext.create('ARSnova.model.Question');
-		question.getLectureQuestions.apply(question, arguments);
+		ARSnova.app.questionModel.getLectureQuestions.apply(ARSnova.app.questionModel, arguments);
 	},
 
 	deleteAnswers: function () {

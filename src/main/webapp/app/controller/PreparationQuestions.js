@@ -50,8 +50,7 @@ Ext.define("ARSnova.controller.PreparationQuestions", {
 	},
 
 	getQuestions: function () {
-		var question = Ext.create('ARSnova.model.Question');
-		question.getPreparationQuestions.apply(question, arguments);
+		ARSnova.app.questionModel.getPreparationQuestions.apply(ARSnova.app.questionModel, arguments);
 	},
 
 	getSubjectSort: function (options) {
