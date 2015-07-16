@@ -105,6 +105,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		this.add([this.toolbar, this.speakerUtilities]);
 		this.lastActiveIndex = -1;
 
+		this.on('painted', this.onPainted);
 		this.on('activate', this.onActivate);
 		this.on('activate', this.beforeActivate, this, null, 'before');
 		this.on('activeitemchange', this.onItemChange);
@@ -141,6 +142,10 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		}
 	},
 
+	onPainted: function () {
+		this.updateEditButtons();
+	},
+
 	onItemChange: function (panel, newQuestion, oldQuestion) {
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
@@ -156,7 +161,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			}
 
 			panel.speakerUtilities.setHidden(screenWidth < 700);
-			panel.setProjectorMode(this, ARSnova.app.projectorModeActive && screenWidth > 700);
+			panel.setProjectorMode(this, ARSnova.app.projectorModeActive && screenWidth > 700, true);
 			panel.toolbar.setTitle(Ext.util.Format.htmlEncode(title));
 			newQuestion.setZoomLevel(ARSnova.app.globalZoomLevel);
 			newQuestion.updateQuestionText();
@@ -171,7 +176,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		}
 	},
 
-	setProjectorMode: function (scope, enable) {
+	setProjectorMode: function (scope, enable, noFullscreen) {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		var showcasePanel = sTP.showcaseQuestionPanel;
 		var activePanel = showcasePanel.getActiveItem();
@@ -184,12 +189,13 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			sTP.showcaseQuestionPanel.removeCls('projector-mode');
 		}
 
-		sTP.showcaseQuestionPanel.speakerUtilities.setProjectorMode(showcasePanel, activate);
+		sTP.showcaseQuestionPanel.speakerUtilities.setProjectorMode(showcasePanel, activate, noFullscreen);
 	},
 
 	getAllSkillQuestions: function () {
 		var hideIndicator = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SEARCH_QUESTIONS);
 
+		ARSnova.app.activePiQuestion = false;
 		this.getController().getQuestions(sessionStorage.getItem("keyword"), {
 			success: function (response) {
 				var activeIndex = 0;
@@ -208,12 +214,18 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				});
 				questionIds.forEach(function (questionId) {
 					panel.addQuestion(questionsArr[questionId]);
+
+					if (questionsArr[questionId].piRoundActive) {
+						ARSnova.app.activePiQuestion = questionId;
+					}
 				});
 
 				if (panel.lastActiveIndex !== -1) {
 					activeIndex = panel.lastActiveIndex;
 					panel.lastActiveIndex = -1;
 				}
+
+				panel.updateEditButtons();
 				panel.setActiveItem(activeIndex);
 				panel.checkFirstQuestion();
 				hideIndicator();
@@ -241,6 +253,14 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			});
 		}
 		this.add(questionPanel);
+	},
+
+	updateEditButtons: function () {
+		this.getInnerItems().forEach(function (questionPanel) {
+			if (questionPanel.editButtons) {
+				questionPanel.editButtons.changeVoteManagementButtonState();
+			}
+		});
 	},
 
 	saveActiveIndex: function () {

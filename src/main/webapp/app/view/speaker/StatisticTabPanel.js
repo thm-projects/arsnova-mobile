@@ -37,5 +37,16 @@ Ext.define('ARSnova.view.speaker.StatisticTabPanel', {
 		this.on('painted', function () {
 			this.roundManagementPanel.updateEditButtons();
 		});
+
+		this.on('activate', function () {
+			var innerItems = this.getInnerItems();
+
+			if (innerItems[0] && innerItems[0].questionObj) {
+				this.roundManagementPanel.tab.setHidden(
+					ARSnova.app.activePiQuestion &&
+					ARSnova.app.activePiQuestion !== innerItems[0].questionObj._id
+				);
+			}
+		});
 	}
 });

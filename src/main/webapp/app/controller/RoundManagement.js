@@ -165,6 +165,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 						question, startTime, endTime, round);
 					question.updateEditButtons();
 					question.editButtons.hideElements(true);
+					ARSnova.app.activePiQuestion = questionId;
 
 					if (speakerTabPanel.showcaseQuestionPanel.getActiveItem() === question &&
 						mainTabPanel.getActiveItem() === mainTabPanel.tabPanel) {
@@ -172,6 +173,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 						question.countdownTimer.show();
 					}
 				}
+				question.editButtons.changeVoteManagementButtonState();
 			});
 		}
 
@@ -209,6 +211,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 			statisticTabPanel = speakerTabPanel.statisticTabPanel,
 			questionObj = null;
 
+		ARSnova.app.activePiQuestion = false;
 		if (speakerTabPanel.getActiveItem() === speakerTabPanel.showcaseQuestionPanel) {
 			var questions = speakerTabPanel.showcaseQuestionPanel.getInnerItems();
 
@@ -219,6 +222,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 					question.updateEditButtons();
 					question.editButtons.changeHiddenState();
 				}
+				question.editButtons.changeVoteManagementButtonState();
 			});
 		}
 
@@ -238,6 +242,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 
 		ARSnova.app.getController('RoundManagement').storeAnsweredQuestionInformation(questionId);
 
+		ARSnova.app.activePiQuestion = false;
 		if (tabPanel.getActiveItem() === tabPanel.userQuestionsPanel) {
 			var questions = tabPanel.userQuestionsPanel.getInnerItems();
 
@@ -257,6 +262,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 			statisticTabPanel = speakerTabPanel.statisticTabPanel,
 			questionObj = null;
 
+		ARSnova.app.activePiQuestion = false;
 		if (speakerTabPanel.getActiveItem() === speakerTabPanel.showcaseQuestionPanel) {
 			var questions = speakerTabPanel.showcaseQuestionPanel.getInnerItems();
 
@@ -268,6 +274,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 					question.updateEditButtons();
 					question.editButtons.changeHiddenState();
 				}
+				question.editButtons.changeVoteManagementButtonState();
 			});
 		}
 
@@ -307,6 +314,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 			statisticTabPanel = speakerTabPanel.statisticTabPanel,
 			questionObj = null;
 
+		ARSnova.app.activePiQuestion = false;
 		if (mainTabPanel.getActiveItem() === speakerTabPanel
 			&& speakerTabPanel.getActiveItem() === speakerTabPanel.showcaseQuestionPanel) {
 			var questions = speakerTabPanel.showcaseQuestionPanel.getInnerItems();
@@ -318,6 +326,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 					question.updateEditButtons();
 					question.editButtons.changeHiddenState();
 				}
+				question.editButtons.changeVoteManagementButtonState();
 			});
 		}
 

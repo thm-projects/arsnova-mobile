@@ -196,6 +196,13 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 		}
 	},
 
+	changeVoteManagementButtonState: function () {
+		this.voteManagementButton.setHidden(
+			ARSnova.app.activePiQuestion &&
+			ARSnova.app.activePiQuestion !== this.questionObj._id
+		);
+	},
+
 	hideElements: function (isHidden) {
 		this.statusButton.setHidden(isHidden);
 		this.releaseStatisticButton.setHidden(isHidden);
