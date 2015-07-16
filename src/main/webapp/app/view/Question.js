@@ -537,8 +537,10 @@ Ext.define('ARSnova.view.Question', {
 
 	checkPiRoundActivation: function () {
 		if (this.questionObj.piRoundActive) {
+			this.countdownTimer.show();
 			this.countdownTimer.start(this.questionObj.piRoundStartTime, this.questionObj.piRoundEndTime);
 		} else {
+			this.countdownTimer.hide();
 			this.countdownTimer.stop();
 		}
 	},

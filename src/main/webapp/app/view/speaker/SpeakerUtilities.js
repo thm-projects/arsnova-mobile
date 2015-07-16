@@ -173,7 +173,7 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 		);
 	},
 
-	setProjectorMode: function (panel, enable) {
+	setProjectorMode: function (panel, enable, noFullscreen) {
 		var activeMode = ARSnova.app.projectorModeActive;
 		var activate = !activeMode;
 
@@ -189,10 +189,14 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 			ARSnova.app.getController('Application').setGlobalZoomLevel(ARSnova.app.globalZoomLevel);
 		}
 
-		ARSnova.app.projectorModeActive = activate;
 		panel.setZoomLevel(ARSnova.app.globalZoomLevel);
 		ARSnova.app.mainTabPanel.tabPanel.getTabBar().setHidden(activate);
-		ARSnova.app.getController('Application').toggleFullScreen(activate);
+
+		if (!noFullscreen) {
+			ARSnova.app.getController('Application').toggleFullScreen(activate);
+		}
+
+		ARSnova.app.projectorModeActive = activate;
 		this.fireEvent('projectorModeActivateChange');
 	},
 
