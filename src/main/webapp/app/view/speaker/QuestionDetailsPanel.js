@@ -720,6 +720,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 
 		this.actionsPanel = Ext.create('Ext.Panel', {
+			style: 'margin-bottom: 25px',
 			items: [
 				this.releasePart,
 				this.firstRow,
@@ -822,12 +823,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		/* END QUESTION DETAILS */
 
 		this.add([
-			this.toolbar, {
+			this.toolbar,
+			this.actionsPanel, {
 				xtype: 'formpanel',
 				scrollable: null,
 				items: [this.contentForm]
 			},
-			this.actionsPanel,
 			this.abstentionPart,
 			this.absteionAlternative,
 			this.answerForm,
