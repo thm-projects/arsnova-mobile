@@ -361,10 +361,7 @@
 }
 
 .x-list .loadMoreButton {
-	position: fixed;
 	width: 300px;
-	right: 0;
-	left: 0;
 }
 
 .loadMoreButton {
@@ -409,7 +406,8 @@
 }
 
 .paginationSessionList {
-	margin-bottom: 1.5em;
+	margin-bottom: 50px;
+	overflow: visible;
 
 	.x-form-fieldset {
 		margin-bottom: 0px !important;
