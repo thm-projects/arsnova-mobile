@@ -58,12 +58,14 @@ Ext.define('ARSnova.view.components.EmbeddedPageContainer', {
 			}]
 		});
 
+		this.embeddedPage = Ext.create('ARSnova.view.components.EmbeddedPage', {
+			src: this.config.url
+		});
+
 		this.add(this.toolbar);
 
-		this.on('painted', function () {
-			this.add(Ext.create('ARSnova.view.components.EmbeddedPage', {
-				src: this.config.url
-			}));
+		this.on('activate', function () {
+			this.add(this.embeddedPage);
 		});
 
 		if (this.getActivateFullscreen()) {
@@ -74,22 +76,27 @@ Ext.define('ARSnova.view.components.EmbeddedPageContainer', {
 			appController.toggleHrefPanelActive();
 			ARSnova.app.mainTabPanel.tabPanel.getTabBar().setHidden(false);
 		});
-
-		this.on('hide', function () {
-			if (!appController.hrefPanelActive) {
-				this.destroy();
-				delete appController.embeddedPage;
-			}
-		});
 	},
 
 	backHandler: function () {
 		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(
-				ARSnova.app.lastActiveMainTabPanel, {
+			ARSnova.app.lastActiveMainTabPanel, {
 			type: 'slide',
 			direction: 'right',
-			duration: 700
+			duration: 700,
+			listeners: {
+				scope: this,
+				animationend: function () {
+					this.destroyEmbeddedPage();
+				}
+			}
 		});
+	},
+
+	destroyEmbeddedPage: function () {
+		delete ARSnova.app.getController('Application').embeddedPage;
+		this.embeddedPage.destroy();
+		this.destroy();
 	},
 
 	setBackHandler: function (handler) {

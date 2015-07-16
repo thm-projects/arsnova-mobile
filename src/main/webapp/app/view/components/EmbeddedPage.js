@@ -29,8 +29,6 @@ Ext.define('ARSnova.view.components.EmbeddedPage', {
 		width: '100%'
 	},
 
-	disableScrolling: true,
-
 	initialize: function () {
 		this.callParent(arguments);
 

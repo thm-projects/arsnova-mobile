@@ -152,10 +152,8 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		embeddedPage.setBackHandler(function () {
 			this.setHideOnMaskTap(true);
 
-			// toggle hrefPanelActive();
-			controller.toggleHrefPanelActive();
-
 			// remove & destroy embeddedPage and delete reference
+			embeddedPage.destroyEmbeddedPage();
 			me.remove(embeddedPage, true);
 			delete controller.embeddedPage;
 
