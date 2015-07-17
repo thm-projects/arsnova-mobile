@@ -96,16 +96,15 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			scope: this,
 			handler: function () {
 				var target;
-
-				if (ARSnova.app.projectorModeActive) {
-					this.speakerUtilities.setProjectorMode(panel, false);
-				}
-
-				panel.speakerUtilities.initializeZoomComponents();
 				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER &&
 					!!ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel) {
 					target = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 					ARSnova.app.taskManager.stop(this.getUpdateClockTask());
+					panel.speakerUtilities.initializeZoomComponents();
+
+					if (ARSnova.app.projectorModeActive) {
+						this.speakerUtilities.setProjectorMode(panel, false);
+					}
 				} else {
 					target = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
 				}
