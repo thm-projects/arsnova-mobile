@@ -84,7 +84,7 @@ Ext.define('ARSnova.view.components.List', {
 		);
 	},
 
-	resetOffsetState: function () {
+	restoreOffsetState: function () {
 		this.setOffset(this.getLastOffset());
 	},
 
@@ -110,8 +110,17 @@ Ext.define('ARSnova.view.components.List', {
 
 	updatePagination: function (length, totalRange) {
 		var offset = this.getOffset();
+		var lastTotalRange = this.getTotalRange();
+		var isExceeding = false, isUndercut = false;
 
-		if (offset >= totalRange || offset === -1 || totalRange === -1) {
+		if (lastTotalRange !== -1) {
+			totalRange = lastTotalRange;
+		}
+
+		isExceeding = (offset >= totalRange && totalRange !== -1);
+		isUndercut = (length <= this.getListOffset() && totalRange === -1);
+
+		if (offset === -1 || isExceeding || isUndercut) {
 			this.removeLoadMoreButton();
 			offset = -1;
 		} else {

@@ -331,13 +331,12 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 	onDeactivate: function () {
 		this.questionList.hide();
-		this.questionList.resetOffsetState();
+		this.questionList.restoreOffsetState();
 		ARSnova.app.taskManager.stop(this.updateAnswerCount);
 	},
 
 	getQuestions: function () {
 		this.questionEntries = [];
-
 		this.getController().getQuestions(sessionStorage.getItem('keyword'), {
 			success: Ext.bind(function (response, totalRange) {
 				var questions = Ext.decode(response.responseText);
@@ -451,6 +450,10 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		}, this);
 
 		return promises;
+	},
+
+	prepareQuestionList: function () {
+		this.questionList.resetPagination();
 	},
 
 	handleDeleteAnswers: function () {

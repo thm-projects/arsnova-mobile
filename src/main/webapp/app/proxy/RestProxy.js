@@ -57,7 +57,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 
 	getTotalRangeSize: function (response) {
 		var header = response.getResponseHeader('content-range');
-		return header ? header.split("/")[1] : -1;
+		return header ? parseInt(header.split("/")[1]) : -1;
 	},
 
 	/**
@@ -390,11 +390,17 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	 * @return session-objects, if found
 	 * @return false, if nothing found
 	 */
-	getInterposedQuestions: function (sessionKeyword, callbacks) {
+	getInterposedQuestions: function (sessionKeyword, callbacks, offset, limit) {
+		var me = this;
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/interposed",
 			method: "GET",
-			success: callbacks.success,
+			headers: {
+				Range: this.constructRangeString(offset, limit)
+			},
+			success: function (response) {
+				callbacks.success(response, me.getTotalRangeSize(response));
+			},
 			failure: callbacks.failure
 		});
 	},
