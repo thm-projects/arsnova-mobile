@@ -33,6 +33,7 @@ Ext.define("ARSnova.controller.PreparationQuestions", {
 		sTP.audienceQuestionPanel.setController(this);
 		sTP.showcaseQuestionPanel.setController(this);
 		sTP.showcaseQuestionPanel.setPreparationMode();
+		sTP.audienceQuestionPanel.prepareQuestionList();
 		sTP.audienceQuestionPanel.questionStatusButton.setPreparationQuestionsMode();
 		sTP.audienceQuestionPanel.toolbar.getTitle().setTitle(Messages.PREPARATION_QUESTIONS);
 		sTP.audienceQuestionPanel.newQuestionButton.text = Messages.NEW_PREPARATION_QUESTION;

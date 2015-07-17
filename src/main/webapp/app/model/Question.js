@@ -343,8 +343,8 @@ Ext.define('ARSnova.model.Question', {
 		return this.getProxy().countLectureQuestionAnswers(sessionKeyword, callbacks);
 	},
 
-	getInterposedQuestions: function (sessionKeyword, callbacks) {
-		return this.getProxy().getInterposedQuestions(sessionKeyword, callbacks);
+	getInterposedQuestions: function (sessionKeyword, callbacks, offset, limit) {
+		return this.getProxy().getInterposedQuestions(sessionKeyword, callbacks, offset, limit);
 	},
 
 	getInterposed: function (callbacks) {

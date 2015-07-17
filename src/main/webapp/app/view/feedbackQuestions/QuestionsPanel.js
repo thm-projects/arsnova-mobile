@@ -52,7 +52,19 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		checkFeedbackQuestionsTask: {
 			name: 'check for new feedback questions',
 			run: function () {
-				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.getFeedbackQuestions();
+				var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+				var questionsPanel = tabPanel.feedbackQuestionsPanel.questionsPanel;
+				questionsPanel.getStore().remove(questionsPanel.getStore().getRange());
+
+				if (tabPanel.speakerTabPanel && tabPanel.speakerTabPanel.inClassPanel) {
+					tabPanel.speakerTabPanel.inClassPanel.countFeedbackQuestions();
+				}
+
+				if (questionsPanel.list.getOffset() !== -1) {
+					questionsPanel.list.restoreOffsetState();
+				}
+
+				questionsPanel.getFeedbackQuestions();
 			},
 			interval: 15000
 		},
@@ -72,7 +84,6 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 
 	toolbar: null,
 	backButton: null,
-	questionsCounter: 0,
 
 	initialize: function () {
 		this.callParent(arguments);
@@ -160,6 +171,9 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				marginBottom: '20px',
 				backgroundColor: 'transparent'
 			},
+
+			loadHandler: this.getFeedbackQuestions,
+			loadScope: this,
 
 			itemCls: 'forwardListButton',
 			itemTpl: Ext.create('Ext.XTemplate',
@@ -296,39 +310,35 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		this.clockElement.setHidden(false);
 	},
 
+	prepareQuestionList: function () {
+		this.list.resetPagination();
+	},
+
 	getFeedbackQuestions: function () {
 		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOADING_NEW_QUESTIONS);
 		ARSnova.app.questionModel.getInterposedQuestions(sessionStorage.getItem('keyword'), {
-			success: function (response) {
+			success: function (response, totalRange) {
 				var questions = Ext.decode(response.responseText);
 				var fQP = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
 				var panel = fQP.questionsPanel;
-				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadgeText(questions.length);
-				panel.questionsCounter = questions.length;
 
-				if (panel.questionsCounter === 0) {
+				if (questions.length === 0) {
 					panel.list.hide();
 					panel.noQuestionsFound.show();
 					panel.deleteAllButton.hide();
 				} else {
-					panel.getStore().remove(panel.getStore().getRange());
 					panel.list.show();
 					panel.noQuestionsFound.hide();
 					panel.deleteAllButton.show();
-					var unread = 0;
-					for (var i = 0, question; i < questions.length; i++) {
-						question = questions[i];
-						if (!question.read) {
-							unread++;
-						}
-						panel.getStore().add(Ext.create('ARSnova.model.FeedbackQuestion', question));
+					panel.list.updatePagination(questions.length, totalRange);
+
+					if (panel.list.getOffset() !== -1) {
+						questions.pop();
 					}
 
-					fQP.tab.setBadgeText(unread);
-					if (ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel) {
-						ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setBadge([{
-							badgeText: questions.length, badgeCls: "feedbackQuestionsBadgeIcon"
-						}]);
+					for (var i = 0, question; i < questions.length; i++) {
+						question = questions[i];
+						panel.getStore().add(Ext.create('ARSnova.model.FeedbackQuestion', question));
 					}
 				}
 				hideLoadMask();
@@ -336,6 +346,6 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			failure: function (records, operation) {
 				console.log('server side error');
 			}
-		});
+		}, this.list.getStartIndex(), this.list.getEndIndex() + 1);
 	}
 });
