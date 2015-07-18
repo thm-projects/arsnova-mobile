@@ -820,10 +820,16 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	getAnsweredFreetextQuestions: function (sessionKeyword, questionId, callbacks) {
+	getAnsweredFreetextQuestions: function (sessionKeyword, questionId, callbacks, offset, limit) {
+		var me = this;
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/freetextanswer/",
-			success: callbacks.success,
+			headers: {
+				Range: this.constructRangeString(offset, limit)
+			},
+			success: function (response) {
+				callbacks.success(response, me.getTotalRangeSize(response));
+			},
 			failure: callbacks.failure
 		});
 	},

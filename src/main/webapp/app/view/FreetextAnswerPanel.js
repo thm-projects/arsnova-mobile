@@ -51,9 +51,13 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				var mainTabPanel = ARSnova.app.mainTabPanel;
 				var tP = mainTabPanel.tabPanel;
 				var panel = tP.userQuestionsPanel || tP.speakerTabPanel;
+				var chart = panel.questionStatisticChart;
 
-				panel.questionStatisticChart.checkFreetextAnswers();
+				if (chart.freetextAnswerList.getOffset() !== -1) {
+					chart.freetextAnswerList.restoreOffsetState();
+				}
 
+				chart.checkFreetextAnswers();
 				if (mainTabPanel.getActiveItem() === panel.statisticTabPanel) {
 					panel.statisticTabPanel.roundManagementPanel.updateEditButtons();
 				}
@@ -142,6 +146,9 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				marginBottom: '20px',
 				backgroundColor: 'transparent'
 			},
+
+			loadHandler: this.checkFreetextAnswers,
+			loadScope: this,
 
 			itemCls: 'forwardListButton',
 			// Display unread answers for teachers only
@@ -263,11 +270,26 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		this.freetextAnswerList.updateListHeight();
 	},
 
+	updatePagination: function (answers) {
+		var offset = this.freetextAnswerList.getOffset();
+		var pagOffset = offset === -1 || offset > answers.length ? answers.length : offset;
+		var pagAnswers = answers.slice(0, pagOffset);
+
+		this.freetextAnswerStore.removeAll();
+		this.freetextAnswerStore.add(pagAnswers);
+		this.freetextAnswerStore.sort([{
+			property: 'timestamp',
+			direction: 'DESC'
+		}]);
+
+		this.freetextAnswerList.updatePagination(pagAnswers.length, answers.length);
+	},
+
 	checkFreetextAnswers: function () {
 		var me = this;
 
 		ARSnova.app.questionModel.getAnsweredFreetextQuestions(sessionStorage.getItem("keyword"), this.questionObj._id, {
-			success: function (response) {
+			success: function (response, totalRange) {
 				var responseObj = Ext.decode(response.responseText);
 				var answerLabel = me.noAnswersLabel.getInnerItems()[0];
 
@@ -293,12 +315,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 						return !item.abstention;
 					});
 
-					me.freetextAnswerStore.removeAll();
-					me.freetextAnswerStore.add(answers);
-					me.freetextAnswerStore.sort([{
-						property: 'timestamp',
-						direction: 'DESC'
-					}]);
+					me.updatePagination(answers);
 					me.freetextAbstentions.setBadgeText(abstentions.length);
 					me.freetextAbstentions.setHidden(abstentions.length === 0);
 
@@ -329,6 +346,6 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			failure: function () {
 				console.log('server-side error');
 			}
-		});
+		}, -1, -1);
 	}
 });

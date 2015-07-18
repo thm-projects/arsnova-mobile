@@ -383,8 +383,8 @@ Ext.define('ARSnova.model.Question', {
 		return this.getProxy().getAllRoundAnswerCountByQuestion(questionId, callbacks);
 	},
 
-	getAnsweredFreetextQuestions: function (sessionKeyword, questionId, callbacks) {
-		return this.getProxy().getAnsweredFreetextQuestions(sessionKeyword, questionId, callbacks);
+	getAnsweredFreetextQuestions: function (sessionKeyword, questionId, callbacks, offset, limit) {
+		return this.getProxy().getAnsweredFreetextQuestions(sessionKeyword, questionId, callbacks, offset, limit);
 	},
 
 	deleteAnswer: function (questionId, answerId, callbacks) {
