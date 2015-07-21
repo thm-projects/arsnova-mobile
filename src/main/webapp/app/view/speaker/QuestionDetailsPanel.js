@@ -332,7 +332,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 					if (panel.questionObj.questionType === 'flashcard') {
 						panel.abstentionPart.hide();
-						panel.absteionAlternative.hide();
+						panel.abstentionAlternative.hide();
 
 						if (panel.questionObj.fcImage) {
 							panel.answerEditForm.setFcImage(panel.questionObj.fcImage);
@@ -341,9 +341,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 					if (questionValues.gridType === "moderation") {
 						panel.abstentionPart.setHidden(true);
-						panel.absteionAlternative.show();
+						panel.abstentionAlternative.show();
 					} else {
-						panel.absteionAlternative.hide();
+						panel.abstentionAlternative.hide();
 					}
 				} else {
 					panel.markdownEditPanel.hide();
@@ -771,7 +771,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			hidden: true
 		});
 
-		this.absteionAlternative = Ext.create('Ext.Spacer', {
+		this.abstentionAlternative = Ext.create('Ext.Spacer', {
 			hidden:	true,
 			height: 40
 		});
@@ -830,7 +830,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				items: [this.contentForm]
 			},
 			this.abstentionPart,
-			this.absteionAlternative,
+			this.abstentionAlternative,
 			this.answerForm,
 			this.answerEditForm,
 			this.actionsPanel
