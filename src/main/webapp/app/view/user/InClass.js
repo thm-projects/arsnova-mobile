@@ -603,7 +603,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		var me = this;
 		ARSnova.app.sessionModel.getMyLearningProgress(sessionStorage.getItem("keyword"), {
 			success: function (myprogressDescription, courseprogressDescription, p, progressType) {
-				var goodProgressThreshold = 75;
+				var goodProgressThreshold = 95;
 				var vsBadge = {badgeText: Messages.VERSUS, badgeCls: "textbadgeicon"};
 
 				var getBadge = function (progress) {

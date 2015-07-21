@@ -179,7 +179,7 @@ Ext.define('ARSnova.model.Session', {
 			var text = progress + "%";
 			if (progress >= 75) {
 				color = "green";
-			} else if (progress >= 25) {
+			} else if (progress >= 50) {
 				color = "orange";
 			} else if (progress === 0) {
 				color = "";
