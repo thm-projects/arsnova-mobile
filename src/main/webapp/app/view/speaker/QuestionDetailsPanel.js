@@ -948,16 +948,32 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				itemCls: 'arsnova-mathdown x-html answerListButton noPadding',
 				itemTpl: new Ext.XTemplate(
 					'{formattedText}',
-					'<tpl if="correct === true && this.isFlashcard() === false">',
-						'&nbsp;<span class="listCorrectItem x-list-item-correct">&#10003; </span>',
-					'</tpl>',
 					'<tpl if="this.isFlashcard() === false">',
-						'</div><div class="x-button x-hasbadge questionDetailsListBadge">' +
+						'<tpl if="typeof value === \'number\'">',
+							'&nbsp;<span class="x-hasbadge {[this.getPointColors(values.value)]}">{[this.formatPoints(values.value)]}</span>',
+						'</tpl>',
+						'<tpl if="correct === true">',
+							'&nbsp;<span class="listCorrectItem x-list-item-correct">&#10003; </span>',
+						'</tpl>',
+						'</div><div class="x-button x-hasbadge questionDetailsListBadge">',
 						'<span class="answersBadgeIcon badgefixed">{answerCount}</span>',
 					'</tpl>',
 					{
 						isFlashcard: function () {
 							return me.isFlashcard;
+						},
+						getPointColors: function (value) {
+							if (value < 0) {
+								return 'redbadgeicon';
+							} else if (value > 0) {
+								return 'greenbadgeicon';
+							} else {
+								return 'graybadgeicon';
+							}
+						},
+						formatPoints: function (value) {
+							// Always add a '+' sign for positive values
+							return (value > 0 ? "+" : "") + value + " P";
 						}
 					}
 				),
