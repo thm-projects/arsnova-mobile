@@ -318,6 +318,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					return empty;
 				};
 				if (this.getText() === Messages.EDIT) {
+					panel.answerEditForm.initWithQuestion(panel.questionObj);
 					var questionValues = panel.answerEditForm.getQuestionValues();
 
 					panel.markdownEditPanel.show();
@@ -1177,7 +1178,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	resetFields: function () {
 		var fields = this.down('#contentFieldset').items.items;
 		fields.forEach(function (field) {
-			field.reset();
+			if (field.reset) {
+				field.reset();
+			}
 			field.setDisabled(true);
 		});
 

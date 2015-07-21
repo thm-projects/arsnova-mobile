@@ -78,9 +78,9 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			items: [this.selectAnswerCount]
 		});
 
-		var questionValueFieldset = null;
+		this.questionValueFieldset = null;
 		if (ARSnova.app.globalConfig.features.learningProgress) {
-			questionValueFieldset = Ext.create('Ext.form.FieldSet', {
+			this.questionValueFieldset = Ext.create('Ext.form.FieldSet', {
 				title: Messages.ANSWER_POINTS,
 				hidden: true
 			});
@@ -115,7 +115,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 								var checked = this.answerComponents.filter(function (c) {
 									return c.isChecked();
 								});
-								questionValueFieldset.setHidden(checked.length === 0);
+								this.questionValueFieldset.setHidden(checked.length === 0);
 								if (checked.length === 0) {
 									this.questionValueComponents.forEach(function (c) {
 										c.reset();
@@ -154,7 +154,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 						increment: 1,
 						label: this.answerComponents[i].getValue() || Messages.ANSWER
 					});
-					questionValueFieldset.add(this.questionValueComponents[i]);
+					this.questionValueFieldset.add(this.questionValueComponents[i]);
 				}).call(this, i);
 			}
 		}
@@ -163,7 +163,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			this.add([{
 				xtype: 'formpanel',
 				scrollable: null,
-				items: [questionValueFieldset]
+				items: [this.questionValueFieldset]
 			}]);
 		}
 	},
@@ -231,6 +231,10 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		this.initAnswerComponents(possibleAnswers);
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.initQuestionValueComponents(possibleAnswers);
+			var hasCorrectAnswers = possibleAnswers.reduce(function (acc, a2) {
+				return acc || a2.correct;
+			}, false);
+			this.questionValueFieldset.setHidden(!hasCorrectAnswers);
 		}
 	},
 
