@@ -141,7 +141,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 								userQuestionsPanel.next();
 								userQuestionsPanel._indicator.hide();
 							}
-							hideLoadMask();
 						},
 						failure: function () {
 							hideLoadMask();
@@ -152,7 +151,9 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				}
 
 				if (questions.length === 1) {
-					userQuestionsPanel._indicator.hide();
+					userQuestionsPanel.getIndicator().hide();
+				} else if (questions.length > 1) {
+					userQuestionsPanel.getIndicator().show();
 				}
 
 				questions.forEach(function (question) {
@@ -163,8 +164,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				ARSnova.app.answerModel.getAnswerByUserAndSession(sessionStorage.getItem("keyword"), {
 					success: function (response) {
 						var answers = Ext.decode(response.responseText);
-						var activeIndex = -1;
-						var index = 0;
 
 						answers.forEach(function (answer) {
 							if (questionsArr[answer.questionId]) {
@@ -174,43 +173,14 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 								questionsArr[answer.questionId].answerThumbnailImage = answer.answerThumbnailImage;
 							}
 						});
-						questionIds.forEach(function (questionId) {
-							userQuestionsPanel.addQuestion(questionsArr[questionId]);
 
-							// Select one of the new questions that have been added by the lecturer.
-							// The list of new questions is not sorted, so we select the first question that
-							// matches the ID of one of the new questions.
-							if (self.activeQuestionIds.indexOf(questionId) !== -1 && activeIndex === -1) {
-								activeIndex = index;
-							}
-
-							index++;
-						});
-
-						// bugfix (workaround): after removing all items from carousel the active index
-						// is set to -1. To fix that you have manually  set the activeItem on the first
-						// question.
-						self.setActiveItem(0);
-						userQuestionsPanel.checkAnswer();
-
-						if (self.lastActiveIndex !== -1) {
-							activeIndex = self.lastActiveIndex;
-							self.lastActiveIndex = -1;
-						}
-
-						if (activeIndex !== -1) {
-							userQuestionsPanel.setActiveItem(activeIndex);
-						} else {
-							userQuestionsPanel.showNextUnanswered();
-						}
-
-						userQuestionsPanel.getIndicator().show();
+						userQuestionsPanel.addQuestions(questionsArr, questionIds, hideLoadMask);
 					},
 					failure: function (response) {
+						hideLoadMask();
 						console.log('error');
 					}
 				});
-				hideLoadMask();
 			},
 			failure: function (response) {
 				hideLoadMask();
@@ -220,6 +190,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	},
 
 	addQuestion: function (question) {
+		var questionsPanel;
+
 		// do not add the same question multiple times
 		if (this.questions.indexOf(question._id) !== -1) {
 			return;
@@ -229,16 +201,63 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		 * add question to questionPanel
 		 */
 		if (question.questionType === 'freetext') {
-			this.add(Ext.create('ARSnova.view.FreetextQuestion', {
+			questionsPanel = Ext.create('ARSnova.view.FreetextQuestion', {
 				itemId: question._id,
 				questionObj: question
-			}));
+			});
 		} else {
-			this.add(Ext.create('ARSnova.view.Question', {
+			questionsPanel = Ext.create('ARSnova.view.Question', {
 				itemId: question._id,
 				questionObj: question
-			}));
+			});
 		}
+
+		this.add(questionsPanel);
+	},
+
+	addQuestions: function (questions, questionIds, hideIndicatorFn) {
+		var me = this;
+		var index = 0;
+		var activeIndex = -1;
+		var questionIndex = 0;
+
+		var addQuestionTask = function () {
+			var questionId = questionIds[questionIndex];
+			me.addQuestion(questions[questionId]);
+
+			// Select one of the new questions that have been added by the lecturer.
+			// The list of new questions is not sorted, so we select the first question that
+			// matches the ID of one of the new questions.
+			if (me.activeQuestionIds.indexOf(questionId) !== -1 && activeIndex === -1) {
+				activeIndex = index;
+			}
+
+			index++;
+			if (questionIndex === questionIds.length - 1) {
+				me.setActiveItem(0);
+				me.checkAnswer();
+
+				if (me.lastActiveIndex !== -1) {
+					activeIndex = me.lastActiveIndex;
+					me.lastActiveIndex = -1;
+				}
+
+				if (activeIndex !== -1) {
+					me.setActiveItem(activeIndex);
+				} else {
+					me.showNextUnanswered();
+				}
+
+				hideIndicatorFn();
+			} else {
+				questionIndex++;
+				Ext.create('Ext.util.DelayedTask', function () {
+					addQuestionTask();
+				}).delay(10);
+			}
+		};
+
+		addQuestionTask();
 	},
 
 	removeQuestions: function (questions) {
