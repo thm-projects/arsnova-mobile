@@ -54,12 +54,7 @@ Ext.define("ARSnova.controller.Statistics", {
 		var animation = {
 			type: 'slide',
 			direction: 'left',
-			duration: 700,
-			listeners: {
-				animationend: function () {
-					panel.showcaseQuestionPanel.toolbar.statisticsButton.enable();
-				}
-			}
+			duration: 700
 		};
 
 		switch (activePanel) {
@@ -93,6 +88,10 @@ Ext.define("ARSnova.controller.Statistics", {
 
 		panel.statisticTabPanel.insert(0, panel.questionStatisticChart);
 		panel.statisticTabPanel.roundManagementPanel.statisticChart = panel.questionStatisticChart;
+
+		panel.statisticTabPanel.on('painted', function () {
+			panel.showcaseQuestionPanel.toolbar.statisticsButton.enable();
+		}, panel.statisticTabPanel, { single: true });
 
 		if (enterRoundManagement) {
 			targetIndex = 1;
