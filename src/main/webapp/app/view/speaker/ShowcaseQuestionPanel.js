@@ -86,11 +86,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			},
 			statisticsButtonHandler: function (button) {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-				sTP.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
-					question: ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel._activeItem._activeItem.questionObj,
-					lastPanel: this
-				});
-				sTP.animateActiveItem(sTP.questionStatisticChart, 'slide');
+				var question = sTP._activeItem._activeItem;
+				ARSnova.app.getController('Statistics').prepareStatistics(question);
 			}
 		});
 
@@ -135,6 +132,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	onActivate: function () {
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		this.getAllSkillQuestions();
+		this.stamps = [];
 
 		if (screenWidth >= 700) {
 			ARSnova.app.taskManager.start(this.updateClockTask);
@@ -198,7 +196,6 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		ARSnova.app.activePiQuestion = false;
 		this.getController().getQuestions(sessionStorage.getItem("keyword"), {
 			success: function (response) {
-				var activeIndex = 0;
 				var questions = Ext.decode(response.responseText);
 				var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.showcaseQuestionPanel;
 
@@ -212,23 +209,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 					questionsArr[question._id] = question;
 					questionIds.push(question._id);
 				});
-				questionIds.forEach(function (questionId) {
-					panel.addQuestion(questionsArr[questionId]);
 
-					if (questionsArr[questionId].piRoundActive) {
-						ARSnova.app.activePiQuestion = questionId;
-					}
-				});
-
-				if (panel.lastActiveIndex !== -1) {
-					activeIndex = panel.lastActiveIndex;
-					panel.lastActiveIndex = -1;
-				}
-
-				panel.updateEditButtons();
-				panel.setActiveItem(activeIndex);
-				panel.checkFirstQuestion();
-				hideIndicator();
+				panel.addQuestions(questionsArr, questionIds, hideIndicator);
 			},
 			failure: function (response) {
 				console.log('error');
@@ -239,6 +221,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 
 	addQuestion: function (question) {
 		var questionPanel;
+
 		if (question.questionType === 'freetext') {
 			questionPanel = Ext.create('ARSnova.view.FreetextQuestion', {
 				itemId: question._id,
@@ -252,7 +235,46 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				viewOnly: true
 			});
 		}
+
+		if (questionPanel.editButtons) {
+			questionPanel.editButtons.changeVoteManagementButtonState();
+		}
+
 		this.add(questionPanel);
+	},
+
+	addQuestions: function (questions, questionIds, hideIndicatorFn) {
+		var me = this;
+		var index = 0;
+
+		var addQuestionTask = function () {
+			var questionId = questionIds[index];
+			me.addQuestion(questions[questionId]);
+
+			if (index === questionIds.length - 1) {
+				var activeIndex = 0;
+
+				if (me.lastActiveIndex !== -1) {
+					activeIndex = me.lastActiveIndex;
+					me.lastActiveIndex = -1;
+				}
+
+				if (questions[questionId].piRoundActive) {
+					ARSnova.app.activePiQuestion = questionId;
+				}
+
+				me.setActiveItem(activeIndex);
+				me.checkFirstQuestion();
+				hideIndicatorFn();
+			} else {
+				index++;
+				Ext.create('Ext.util.DelayedTask', function () {
+					addQuestionTask();
+				}).delay(10);
+			}
+		};
+
+		addQuestionTask();
 	},
 
 	updateEditButtons: function () {
@@ -269,7 +291,6 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 
 	checkFirstQuestion: function () {
 		var firstQuestionView = this.items.items[0];
-
 		firstQuestionView.fireEvent('preparestatisticsbutton', this.toolbar.statisticsButton);
 	},
 

@@ -91,7 +91,7 @@ Ext.define("ARSnova.controller.Statistics", {
 
 		panel.statisticTabPanel.on('painted', function () {
 			panel.showcaseQuestionPanel.toolbar.statisticsButton.enable();
-		}, panel.statisticTabPanel, { single: true });
+		}, panel.statisticTabPanel, {single: true});
 
 		if (enterRoundManagement) {
 			targetIndex = 1;
