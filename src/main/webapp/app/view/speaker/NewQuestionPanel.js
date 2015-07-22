@@ -228,7 +228,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				text: Messages["GRID" + messageAppendix]
 			});
 			me.gridQuestion = Ext.create('ARSnova.view.speaker.form.GridQuestion', {
-				id: 'grid',
 				hidden: true
 			});
 		}
