@@ -421,7 +421,8 @@ Ext.define('ARSnova.view.Question', {
 			layout: 'vbox',
 			cls: 'roundedBox',
 			style: 'margin-bottom: 10px;',
-			styleHtmlContent: true
+			styleHtmlContent: true,
+			hidden: true
 		});
 
 		if (this.questionObj.fcImage) {
@@ -469,7 +470,7 @@ Ext.define('ARSnova.view.Question', {
 			scope: this
 		};
 
-		this.formPanel.add([this.flashcardContainer]);
+		this.formPanel.add([this.answerList, this.flashcardContainer]);
 	},
 
 	saveAnswer: function (answer) {
