@@ -153,6 +153,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				panel.backButton.show();
 				panel.resetFields();
 				panel.editButton.config.setEnableAnswerEdit(panel, false);
+				panel.uploadView.hide();
 			}
 		});
 
@@ -246,8 +247,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				var saveQuestion = function (question) {
 					var questionValues = panel.answerEditForm.getQuestionValues();
 
-					if (typeof questionValues.image !== "undefined") {
-						question.set("image", questionValues.image);
+					if (panel.image !== undefined) {
+						question.set("image", panel.image);
 					}
 
 					if (typeof questionValues.fcImage !== "undefined") {
@@ -297,6 +298,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								if (panel.answerEditForm.fcImage) {
 									panel.flashcardGrid.setImage(panel.answerEditForm.fcImage);
 									panel.flashcardGrid.show();
+								} else {
+									panel.flashcardGrid.setImage(null);
+									panel.flashcardGrid.hide();
 								}
 							}
 						}
@@ -330,6 +334,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 					this.config.enableFields(panel);
 					this.config.setEnableAnswerEdit(panel, true);
+					panel.uploadView.show();
 
 					if (panel.questionObj.questionType === 'flashcard') {
 						panel.abstentionPart.hide();
@@ -350,6 +355,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					panel.markdownEditPanel.hide();
 					panel.cancelButton.hide();
 					panel.backButton.show();
+					panel.uploadView.hide();
 
 					var values = this.up('panel').down('#contentForm').getValues();
 					var question = Ext.create('ARSnova.model.Question', panel.questionObj);
@@ -668,7 +674,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			items: [{
 				xtype: 'fieldset',
 				items: [this.previewButton]
-			}]
+			}],
+			style: "margin-bottom: 1.5em"
 		});
 
 		this.firstRow = Ext.create('Ext.Panel', {
@@ -777,6 +784,26 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			height: 40
 		});
 
+		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
+			handlerScope: this,
+			addRemoveButton: true,
+			activateTemplates: false,
+			urlUploadHandler: this.setImage,
+			fsUploadHandler: this.setImage,
+			hidden: true,
+			style: "margin-top: 10px"
+		});
+		if (this.questionObj.questionType === "flashcard") {
+			this.uploadView.setUploadPanelConfig(Messages.PICTURE_SOURCE + " - " + Messages.FLASHCARD_FRONT_PAGE);
+		}
+
+		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
+			itemId: 'gridImageContainer' + this.questionObj._id,
+			editable: false,
+			gridIsHidden: true,
+			hidden: true
+		});
+
 		this.contentForm = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			itemId: 'contentForm',
@@ -832,6 +859,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			},
 			this.abstentionPart,
 			this.abstentionAlternative,
+			this.grid,
+			this.uploadView,
 			this.answerForm,
 			this.answerEditForm,
 			this.actionsPanel
@@ -993,13 +1022,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			this.answerFormFieldset.add(this.gridStatistic);
 			this.getQuestionAnswers();
 		} else if (this.questionObj.image) {
-			this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
-				itemId: 'gridImageContainer' + this.questionObj._id,
-				editable: false,
-				gridIsHidden: true
-			});
 			this.grid.setImage(this.questionObj.image);
-			this.answerFormFieldset.add(this.grid);
+			this.grid.show();
+			this.uploadView.toggleImagePresent();
 		}
 	},
 
@@ -1230,6 +1255,20 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			})[0];
 			// has to be set this way as it does not conform to the model
 			this.abstentionAnswer.set('formattedText', Messages.ABSTENTION);
+		}
+	},
+
+	setImage: function (image) {
+		this.image = image;
+		if (image) {
+			this.grid.setImage(image);
+			this.grid.show();
+		} else {
+			this.grid.hide();
+			this.grid.clearImage();
+			// clearImage resets everything, so make sure that some settings remain present
+			this.grid.setEditable(false);
+			this.grid.setGridIsHidden(true);
 		}
 	}
 });

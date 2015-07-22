@@ -88,10 +88,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 						if (!response) {
 							//error
 						} else if (self.checkFilesize(response)) {
-							if (self.config.addRemoveButton) {
-								self.removeButton.show();
-								self.segmentButton.hide();
-							}
+							self.toggleImagePresent();
 							Ext.bind(self.getFsUploadHandler(), self.getHandlerScope())(response, true);
 						}
 					});
@@ -181,10 +178,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			},
 			handler: Ext.bind(function () {
 				var url = this.uploadTextfield.getValue();
-				if (this.config.addRemoveButton) {
-					this.removeButton.show();
-					this.segmentButton.hide();
-				}
+				this.toggleImagePresent();
 				Ext.bind(this.getUrlUploadHandler(), this.getHandlerScope())(url);
 			}, this)
 		});
@@ -197,10 +191,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			style: 'margin-top: 0px; margin-bottom: 0px;',
 			scope: this,
 			handler: function () {
-				if (this.config.addRemoveButton) {
-					this.removeButton.hide();
-					this.segmentButton.show();
-				}
+				this.toggleImagePresent();
 				Ext.bind(this.getFsUploadHandler(), this.getHandlerScope())(null, true);
 			}
 		});
@@ -309,6 +300,13 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			this.addCls('hiddenUrl');
 		} else {
 			this.removeCls('hiddenUrl');
+		}
+	},
+
+	toggleImagePresent: function () {
+		if (this.config.addRemoveButton) {
+			this.removeButton.setHidden(!this.removeButton.isHidden());
+			this.segmentButton.setHidden(!this.segmentButton.isHidden());
 		}
 	},
 

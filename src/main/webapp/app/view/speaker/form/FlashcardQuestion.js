@@ -97,6 +97,11 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			return;
 		}
 		this.answer.setValue(possibleAnswers[0].text);
+		this.setFcImage(question.fcImage);
+		if (question.fcImage) {
+			this.uploadView.removeButton.show();
+			this.uploadView.segmentButton.hide();
+		}
 	},
 
 	setImage: function (image) {
