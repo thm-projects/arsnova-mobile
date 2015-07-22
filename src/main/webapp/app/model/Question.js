@@ -76,7 +76,9 @@ Ext.define('ARSnova.model.Question', {
 			'scaleFactor',
 			'gridScaleFactor',
 			'imageQuestion',
-			'textAnswerEnabled'
+			'textAnswerEnabled',
+			'hint',
+			'solution'
 		],
 
 		validations: [

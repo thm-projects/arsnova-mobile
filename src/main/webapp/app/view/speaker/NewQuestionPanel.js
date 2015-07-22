@@ -29,6 +29,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		'ARSnova.view.speaker.form.YesNoQuestion',
 		'ARSnova.view.speaker.form.NullQuestion',
 		'ARSnova.view.speaker.form.GridQuestion',
+		'ARSnova.view.speaker.form.HintForSolutionForm',
 		'ARSnova.view.speaker.form.FreeTextQuestion',
 		'ARSnova.view.speaker.form.ImageUploadPanel',
 		'ARSnova.view.MarkDownEditorPanel'
@@ -146,6 +147,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 		this.abstentionPart = Ext.create('ARSnova.view.speaker.form.AbstentionForm', {
 			id: 'abstentionPart'
+		});
+
+		this.hintForSolution = Ext.create('ARSnova.view.speaker.form.HintForSolutionForm', {
+			active: false
 		});
 
 		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
@@ -333,6 +338,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 								me.textarea.setPlaceHolder(Messages.FLASHCARD_FRONT_PAGE);
 								me.flashcardQuestion.show();
 								me.abstentionPart.hide();
+								me.hintForSolution.hide();
 								title = Messages.FLASHCARD;
 
 								me.uploadView.setUploadPanelConfig(
@@ -344,6 +350,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 								me.textarea.setPlaceHolder(Messages.FORMAT_PLACEHOLDER);
 								me.flashcardQuestion.hide();
 								me.abstentionPart.show();
+								me.hintForSolution.show();
 
 								me.uploadView.setUploadPanelConfig(
 									Messages.PICTURE_SOURCE,
@@ -419,6 +426,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		}
 		me.add([
 			me.abstentionPart,
+			me.hintForSolution,
 			me.uploadView,
 			me.grid
 		]);
@@ -459,6 +467,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		values.image = this.image;
 		values.flashcardImage = null;
 		values.imageQuestion = false;
+		if (!panel.hintForSolution.isHidden()) {
+			values.hint = panel.hintForSolution.getActive() ? panel.hintForSolution.getHintValue() : null;
+			values.solution = panel.hintForSolution.getActive() ? panel.hintForSolution.getSolutionValue() : null;
+		}
 
 		if (localStorage.getItem('courseId') != null && localStorage.getItem('courseId').length > 0) {
 			values.releasedFor = 'courses';
@@ -526,6 +538,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		promise.then(function () {
 			panel.subject.reset();
 			panel.textarea.reset();
+			panel.hintForSolution.reset();
 
 			if (panel.flashcardQuestion) {
 				panel.flashcardQuestion.answer.reset();
@@ -599,6 +612,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			gridScaleFactor: values.gridScaleFactor,
 			imageQuestion: values.imageQuestion,
 			textAnswerEnabled: values.textAnswerEnabled,
+			hint: values.hint,
+			solution: values.solution,
 			saveButton: button,
 			successFunc: function (response, opts) {
 				promise.resolve(response);

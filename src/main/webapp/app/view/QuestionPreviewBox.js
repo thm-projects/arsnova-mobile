@@ -21,6 +21,9 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 	extend: 'Ext.MessageBox',
 
 	config: {
+		equalPanelSize: false,
+		toolbarTitle: Messages.QUESTION_PREVIEW_DIALOGBOX_TITLE,
+
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
@@ -60,20 +63,23 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: Messages.QUESTION_PREVIEW_DIALOGBOX_TITLE,
+			title: this.getToolbarTitle(),
 			docked: 'top',
 			ui: 'light',
 			items: [this.closeButton]
 		});
 
+		var titlePanelHeight = '50px';
+		var contentPanelHeight = '150px';
+
 		// panel for question subject
 		this.titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			style: 'min-height: 50px'
+			style: 'min-height: ' + (this.getEqualPanelSize() ? contentPanelHeight : titlePanelHeight)
 		});
 
 		// panel for question content
 		this.contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			style: 'min-height: 150px'
+			style: 'min-height: ' + contentPanelHeight
 		});
 
 		// question preview confirm button

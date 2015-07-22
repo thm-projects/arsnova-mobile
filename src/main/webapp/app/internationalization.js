@@ -225,6 +225,9 @@
 				ACTIVE_QUESTION_CLOSED: "Die aktive Frage wurde gesperrt",
 				ACTIVE_QUESTION_VOTING_CLOSED: "Die Abstimmung für die aktive Frage wurde gesperrt",
 				SESSION_PREVIEW_BUTTON_TITLE_DESKTOP: 'Vorschau Beschreibung 320x640',
+				HINT_FOR_SOLUTION: "Lösungshinweis",
+				HINT_FOR_SOLUTION_EDIT: "Lösungshinweis?",
+				SAMPLE_SOLUTION: "Musterlösung",
 
 				/* sort */
 				SORT_QUESTIONS_TITLE: "Fragen sortieren",
@@ -799,6 +802,9 @@
 				ACTIVE_QUESTION_CLOSED: "The active question has been locked",
 				ACTIVE_QUESTION_VOTING_CLOSED: "Voting for the active question has been closed",
 				SESSION_PREVIEW_BUTTON_TITLE_DESKTOP: 'Description preview 320x640',
+				HINT_FOR_SOLUTION: "Hint for solution",
+				HINT_FOR_SOLUTION_EDIT: "Hint for solution?",
+				SAMPLE_SOLUTION: "Sample solution",
 
 				/* sort */
 				SORT_QUESTIONS_TITLE: "Sort Questions",

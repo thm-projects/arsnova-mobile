@@ -59,6 +59,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	requires: [
 		'ARSnova.view.speaker.form.AbstentionForm',
 		'ARSnova.view.speaker.form.ExpandingAnswerForm',
+		'ARSnova.view.speaker.form.HintForSolutionForm',
 		'ARSnova.view.speaker.form.IndexedExpandingAnswerForm',
 		'ARSnova.view.MultiBadgeButton',
 		'ARSnova.view.speaker.form.NullQuestion',
@@ -154,6 +155,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				panel.resetFields();
 				panel.editButton.config.setEnableAnswerEdit(panel, false);
 				panel.uploadView.hide();
+				panel.hintForSolution.hide();
+				if (panel.hintForSolution.getActive()) {
+					panel.hintForSolutionPreview.show();
+				}
 			}
 		});
 
@@ -255,6 +260,17 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						question.set("fcImage", questionValues.fcImage);
 					}
 
+					if (panel.hintForSolution.getActive() && !panel.hintForSolution.isEmpty()) {
+						question.set("hint", panel.hintForSolution.getHintValue());
+						question.set("solution", panel.hintForSolution.getSolutionValue());
+					} else {
+						question.set("hint", null);
+						question.set("solution", null);
+						panel.hintForSolution.clear();
+					}
+					question.raw.hint = question.get("hint");
+					question.raw.solution = question.get("solution");
+
 					if (questionValues.gridSize !== undefined) question.set("gridSize", questionValues.gridSize);
 					if (questionValues.offsetX !== undefined)  question.set("offsetX", questionValues.offsetX);
 					if (questionValues.offsetY !== undefined)  question.set("offsetY", questionValues.offsetY);
@@ -289,6 +305,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							panel.addAbstentionAnswer();
 							panel.getQuestionAnswers();
 							panel.setCorrectAnswerToggleState();
+							if (panel.hintForSolution.isEmpty()) {
+								panel.hintForSolutionPreview.hide();
+							} else {
+								panel.hintPreview.setContent(question.get("hint") || "—", true, true);
+								panel.solutionPreview.setContent(question.get("solution") || "—", true, true);
+							}
 
 							if (panel.questionObj.questionType === 'flashcard') {
 								panel.answerListPanel.setContent(
@@ -335,10 +357,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					this.config.enableFields(panel);
 					this.config.setEnableAnswerEdit(panel, true);
 					panel.uploadView.show();
+					panel.hintForSolution.show();
+					panel.hintForSolutionPreview.hide();
 
 					if (panel.questionObj.questionType === 'flashcard') {
 						panel.abstentionPart.hide();
 						panel.abstentionAlternative.hide();
+						panel.hintForSolution.hide();
 
 						if (panel.questionObj.fcImage) {
 							panel.answerEditForm.setFcImage(panel.questionObj.fcImage);
@@ -356,6 +381,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					panel.cancelButton.hide();
 					panel.backButton.show();
 					panel.uploadView.hide();
+					panel.hintForSolution.hide();
+					if (panel.hintForSolution.getActive()) {
+						panel.hintForSolutionPreview.show();
+					}
 
 					var values = this.up('panel').down('#contentForm').getValues();
 					var question = Ext.create('ARSnova.model.Question', panel.questionObj);
@@ -784,6 +813,39 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			height: 40
 		});
 
+		this.hintForSolution = Ext.create('ARSnova.view.speaker.form.HintForSolutionForm', {
+			active: !!(this.questionObj.hint || this.questionObj.solution),
+			hint: this.questionObj.hint,
+			solution: this.questionObj.solution,
+			hidden: true
+		});
+
+		this.hintPreview = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+		this.solutionPreview = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+
+		this.hintPreview.setContent(this.questionObj.hint || "—", true, true);
+		this.solutionPreview.setContent(this.questionObj.solution || "—", true, true);
+
+		this.hintForSolutionPreview = Ext.create('Ext.form.FormPanel', {
+			scrollable: null,
+			hidden: !this.hintForSolution.getActive(),
+			items: [{
+				xtype: 'fieldset',
+				title: Messages.HINT_FOR_SOLUTION,
+				style: {
+					marginBottom: "0"
+				},
+				items: [this.hintPreview]
+			}, {
+				xtype: 'fieldset',
+				title: Messages.SAMPLE_SOLUTION,
+				style: {
+					marginTop: "0"
+				},
+				items: [this.solutionPreview]
+			}]
+		});
+
 		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
 			handlerScope: this,
 			addRemoveButton: true,
@@ -862,7 +924,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			this.grid,
 			this.uploadView,
 			this.answerForm,
+			this.hintForSolutionPreview,
 			this.answerEditForm,
+			this.hintForSolution,
 			this.actionsPanel
 		]);
 
@@ -1229,6 +1293,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		if (this.questionObj.questionType === 'grid') {
 			this.answerEditForm.initWithQuestion(Ext.clone(this.questionObj));
 		}
+		this.hintForSolution.resetOriginalValue();
 	},
 
 	formatAnswerText: function () {

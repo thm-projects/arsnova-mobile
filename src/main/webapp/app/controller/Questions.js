@@ -150,7 +150,9 @@ Ext.define("ARSnova.controller.Questions", {
 			gridScaleFactor: options.gridScaleFactor,
 			timestamp: options.timestamp,
 			imageQuestion: options.imageQuestion,
-			textAnswerEnabled: options.textAnswerEnabled
+			textAnswerEnabled: options.textAnswerEnabled,
+			hint: options.hint,
+			solution: options.solution
 		});
 		question.set('_id', undefined);
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
