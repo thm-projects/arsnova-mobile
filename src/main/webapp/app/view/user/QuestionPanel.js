@@ -189,8 +189,9 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		});
 	},
 
-	addQuestion: function (question) {
-		var questionsPanel;
+	addQuestion: function (question, index) {
+		var questionPanel;
+		var questionsLength = this.getInnerItems().length;
 
 		// do not add the same question multiple times
 		if (this.questions.indexOf(question._id) !== -1) {
@@ -201,18 +202,26 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		 * add question to questionPanel
 		 */
 		if (question.questionType === 'freetext') {
-			questionsPanel = Ext.create('ARSnova.view.FreetextQuestion', {
+			questionPanel = Ext.create('ARSnova.view.FreetextQuestion', {
 				itemId: question._id,
 				questionObj: question
 			});
 		} else {
-			questionsPanel = Ext.create('ARSnova.view.Question', {
+			questionPanel = Ext.create('ARSnova.view.Question', {
 				itemId: question._id,
 				questionObj: question
 			});
 		}
 
-		this.add(questionsPanel);
+		this.checkAnswer(questionPanel);
+
+		if (index < this.nextUnansweredIndex) {
+			this.insert(questionsLength - 1, questionPanel);
+			this.resetIndicatorPosition();
+		} else {
+			this.add(questionPanel);
+			this.updateIndicatorPosition(this.nextUnansweredIndex);
+		}
 	},
 
 	addQuestions: function (questions, questionIds, hideIndicatorFn) {
@@ -220,10 +229,16 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		var index = 0;
 		var activeIndex = -1;
 		var questionIndex = 0;
+		this.nextUnansweredIndex = me.getNextUnansweredIndex(questions, questionIds);
+
+		if (this.nextUnansweredIndex) {
+			this.addQuestion(questions[questionIds[this.nextUnansweredIndex]]);
+			this.setActiveItem(0);
+		}
 
 		var addQuestionTask = function () {
 			var questionId = questionIds[questionIndex];
-			me.addQuestion(questions[questionId]);
+			me.addQuestion(questions[questionId], questionIndex);
 
 			// Select one of the new questions that have been added by the lecturer.
 			// The list of new questions is not sorted, so we select the first question that
@@ -234,9 +249,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 			index++;
 			if (questionIndex === questionIds.length - 1) {
-				me.setActiveItem(0);
-				me.checkAnswer();
-
 				if (me.lastActiveIndex !== -1) {
 					activeIndex = me.lastActiveIndex;
 					me.lastActiveIndex = -1;
@@ -244,8 +256,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 				if (activeIndex !== -1) {
 					me.setActiveItem(activeIndex);
-				} else {
-					me.showNextUnanswered();
 				}
 
 				hideIndicatorFn();
@@ -297,66 +307,64 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		this.questions = Ext.Array.clean(me.questions);
 	},
 
-	checkAnswer: function () {
-		this.getInnerItems().forEach(function (questionPanel) {
-			var questionObj = questionPanel.questionObj;
-			if (!questionObj.userAnswered && !questionObj.isAbstentionAnswer) {
-				return;
-			}
+	checkAnswer: function (questionPanel) {
+		var questionObj = questionPanel.questionObj;
+		if (!questionObj.userAnswered && !questionObj.isAbstentionAnswer) {
+			return;
+		}
 
-			if (questionObj.isAbstentionAnswer && "mc" !== questionObj.questionType) {
-				questionPanel.selectAbstentionAnswer();
-				questionPanel.disableQuestion();
-				return;
-			}
+		if (questionObj.isAbstentionAnswer && "mc" !== questionObj.questionType) {
+			questionPanel.selectAbstentionAnswer();
+			questionPanel.disableQuestion();
+			return;
+		}
 
-			if (questionObj.questionType === "freetext") {
-				questionPanel.setAnswerText(questionObj.answerSubject, questionObj.userAnswered, questionObj.answerThumbnailImage);
-				questionPanel.disableQuestion();
-				return;
-			}
+		if (questionObj.questionType === "freetext") {
+			questionPanel.setAnswerText(questionObj.answerSubject, questionObj.userAnswered, questionObj.answerThumbnailImage);
+			questionPanel.disableQuestion();
+			return;
+		}
 
-			if (questionObj.questionType === "grid") {
-				questionPanel.setGridAnswer(questionObj.userAnswered);
-				questionPanel.disableQuestion();
-				return;
-			}
+		if (questionObj.questionType === "grid") {
+			questionPanel.setGridAnswer(questionObj.userAnswered);
+			questionPanel.disableQuestion();
+			return;
+		}
 
-			if (questionObj.questionType === "flashcard") {
-				return;
-			}
+		if (questionObj.questionType === "flashcard") {
+			return;
+		}
 
-			var list = questionPanel.answerList;
-			var data = list ? list.getStore() : Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
+		var list = questionPanel.answerList;
+		var data = list ? list.getStore() : Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
 
-			if (questionObj.questionType === 'mc') {
-				if (!questionObj.isAbstentionAnswer) {
-					var answers = questionObj.userAnswered.split(",");
-					// sanity check: is it a correct answer array?
-					if (questionObj.possibleAnswers.length !== answers.length) {
-						return;
-					}
-					var selectedIndexes = answers.map(function (isSelected, index) {
-						return isSelected === "1" ? list.getStore().getAt(index) : -1;
-					}).filter(function (index) {
-						return index !== -1;
-					});
-					list.select(selectedIndexes, true);
+		if (questionObj.questionType === 'mc') {
+			if (!questionObj.isAbstentionAnswer) {
+				var answers = questionObj.userAnswered.split(",");
+				// sanity check: is it a correct answer array?
+				if (questionObj.possibleAnswers.length !== answers.length) {
+					return;
 				}
-				questionPanel.disableQuestion();
-			} else {
-				var index = data.find('text', questionObj.userAnswered);
-				if (index !== -1) {
-					list.select(data.getAt(index));
-					questionPanel.disableQuestion();
-				}
-			}
-			if (questionObj.showAnswer) {
-				list.getStore().each(function (item) {
-					item.set('questionAnswered', true);
+				var selectedIndexes = answers.map(function (isSelected, index) {
+					return isSelected === "1" ? list.getStore().getAt(index) : -1;
+				}).filter(function (index) {
+					return index !== -1;
 				});
+				list.select(selectedIndexes, true);
 			}
-		}, this);
+			questionPanel.disableQuestion();
+		} else {
+			var index = data.find('text', questionObj.userAnswered);
+			if (index !== -1) {
+				list.select(data.getAt(index));
+				questionPanel.disableQuestion();
+			}
+		}
+		if (questionObj.showAnswer) {
+			list.getStore().each(function (item) {
+				item.set('questionAnswered', true);
+			});
+		}
 	},
 
 	/**
@@ -397,6 +405,22 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 				scope: this
 			});
 		}
+	},
+
+	getNextUnansweredIndex: function (questions, questionIds) {
+		var notAnswered, question, index = 0;
+
+		questionIds.some(function (id) {
+			question = questions[id];
+			notAnswered = !question.userAnswered && !question.isAbstentionAnswer;
+
+			if (notAnswered && !question.votingDisabled) {
+				index = questionIds.indexOf(id);
+				return true;
+			}
+		});
+
+		return index;
 	},
 
 	/**
