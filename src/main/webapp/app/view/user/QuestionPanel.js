@@ -222,6 +222,8 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			this.add(questionPanel);
 			this.updateIndicatorPosition(this.nextUnansweredIndex);
 		}
+
+		this.setActiveItem(this.nextUnansweredIndex);
 	},
 
 	addQuestions: function (questions, questionIds, hideIndicatorFn) {
@@ -233,7 +235,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 		if (this.nextUnansweredIndex) {
 			this.addQuestion(questions[questionIds[this.nextUnansweredIndex]]);
-			this.setActiveItem(0);
 		}
 
 		var addQuestionTask = function () {
