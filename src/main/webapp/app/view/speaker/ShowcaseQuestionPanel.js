@@ -250,6 +250,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		var addQuestionTask = function () {
 			var questionId = questionIds[index];
 			me.addQuestion(questions[questionId]);
+			me.setActiveItem(0);
 
 			if (index === questionIds.length - 1) {
 				var activeIndex = 0;

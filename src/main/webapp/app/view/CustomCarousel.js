@@ -61,6 +61,19 @@ Ext.define('ARSnova.view.CustomCarousel', {
 		}
 	},
 
+	resetIndicatorPosition: function () {
+		this.getIndicator().setLeft(0);
+	},
+
+	updateIndicatorPosition: function (position) {
+		var indicator = this.getIndicator();
+
+		if (position) {
+			indicator.setActiveIndex(0);
+			indicator.setActiveIndex(position);
+		}
+	},
+
 	initializeNavigationListeners: function () {
 		var self = this;
 

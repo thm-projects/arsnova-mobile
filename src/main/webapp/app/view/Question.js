@@ -81,8 +81,8 @@ Ext.define('ARSnova.view.Question', {
 
 		var hintForSolution = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
 		var sampleSolution = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
-		hintForSolution.setContent(this.questionObj.hint || "", true, true);
-		sampleSolution.setContent(this.questionObj.solution || "", true, true);
+		hintForSolution.setContent(this.questionObj.hint || "", true, true);
+		sampleSolution.setContent(this.questionObj.solution || "", true, true);
 		var hintPanel = Ext.create('Ext.Panel', {
 			modal: true,
 			hideOnMaskTap: true,
