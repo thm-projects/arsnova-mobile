@@ -175,22 +175,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			]);
 		}
 
-		this.add([
-			this.countdownTimer,
-			Ext.create('Ext.Panel', {
-				items: [{
-					xtype: 'formpanel',
-					scrollable: null,
-					submitOnAction: false,
-					items: [this.questionPanel, this.viewOnly ? {} : {
-						xtype: 'fieldset',
-						items: innerItems
-					},
-					this.buttonPart]
-				}]
-			}), this.editButtons ? this.editButtons : {}
-		]);
-
 		/* update disabled state on initialize */
 		if (this.questionObj.votingDisabled) {
 			this.disableQuestion();
@@ -206,6 +190,22 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				this.updateEditButtons();
 			});
 		}
+
+		this.add([
+			this.countdownTimer,
+			Ext.create('Ext.Panel', {
+				items: [{
+					xtype: 'formpanel',
+					scrollable: null,
+					submitOnAction: false,
+					items: [this.questionPanel, this.viewOnly ? {} : {
+						xtype: 'fieldset',
+						items: innerItems
+					},
+					this.buttonPart]
+				}]
+			}), this.editButtons ? this.editButtons : {}
+		]);
 
 		this.on('activate', function () {
 			this.checkPiRoundActivation();

@@ -152,11 +152,6 @@ Ext.define('ARSnova.view.Question', {
 			this.disableQuestion();
 		}
 
-		this.add([
-			this.formPanel, this.countdownTimer,
-			this.editButtons ? this.editButtons : {}
-		]);
-
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
 				questionObj: this.questionObj,
@@ -167,6 +162,11 @@ Ext.define('ARSnova.view.Question', {
 				this.updateEditButtons();
 			});
 		}
+
+		this.add([
+			this.formPanel, this.countdownTimer,
+			this.editButtons ? this.editButtons : {}
+		]);
 
 		this.on('activate', function () {
 			this.checkPiRoundActivation();
