@@ -51,10 +51,14 @@ Ext.define("ARSnova.controller.Statistics", {
 		var targetIndex = 0;
 		var activePanel = panel.getActiveItem();
 		var questionObj = panel.getActiveItem().questionObj;
+		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK);
 		var animation = {
 			type: 'slide',
 			direction: 'left',
-			duration: 700
+			duration: 700,
+			listeners: {
+				animationend: hideLoadMask
+			}
 		};
 
 		switch (activePanel) {
