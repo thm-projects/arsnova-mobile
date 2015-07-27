@@ -429,6 +429,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 									success: function () {
 										saveQuestion(question);
 										finishEdit();
+										panel.showCorrectAnswerButton.setToggleFieldValue(0);
 									},
 									failure: function (response) {
 										console.log('server-side error delete question');
@@ -622,6 +623,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						ARSnova.app.questionModel.deleteAnswers(panel.questionObj._id, {
 							success: function () {
 								panel.getQuestionAnswers();
+								panel.showCorrectAnswerButton.setToggleFieldValue(0);
 							},
 							failure: function (response) {
 								console.log('server-side error delete question');
