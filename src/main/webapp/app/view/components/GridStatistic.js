@@ -211,8 +211,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		var questionObj = this.getQuestionObj();
 		var me = this;
 
-		if (typeof questionObj === "undefined"
-				|| typeof questionObj.image === "undefined") {
+		if (typeof questionObj === "undefined" || typeof questionObj.image === "undefined") {
 			console.log("Error: no question object provided.");
 			return;
 		}
@@ -222,7 +221,11 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		this.grid.setOffsetY(questionObj.offsetY);
 		this.grid.setZoomLvl(questionObj.zoomLvl);
 
-		this.grid.setImage(questionObj.image, false, function () {
+		var afterImageSet = function () {
+			var gridAnswers = [];
+			var abstentionCount = 0;
+			var questionObj = me.getQuestionObj();
+
 			if (questionObj.showAnswer || questionObj.userAnswered == null) {
 				// Output WITH correct answers
 				me.grid.update(questionObj, true);
@@ -230,12 +233,8 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				// output withOUT correct answers
 				me.grid.update(questionObj, false);
 			}
-			var gridAnswers = [];
-			var abstentionCount = 0;
-
 
 			// parse answers
-
 			for (var i = 0; i < me.answers.length; i++) {
 				var el = me.answers[i];
 				if (!el.answerText) {
@@ -268,8 +267,12 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 
 			// generate output
 			me.grid.generateStatisticOutput(gridAnswers, showColors,
-					me.questionOptionsSegment.getPressedButtons()[0].getText(),
-					weakenImage);
-		});
+				me.questionOptionsSegment.getPressedButtons()[0].getText(),
+				weakenImage);
+		};
+
+		if (this.config.questionObj.image && this.config.questionObj.image !== 'true') {
+			this.grid.setImage(this.config.questionObj.image, false, afterImageSet);
+		}
 	}
 });

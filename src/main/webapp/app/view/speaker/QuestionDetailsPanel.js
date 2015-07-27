@@ -309,7 +309,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								panel.hintForSolutionPreview.hide();
 							} else {
 								panel.hintPreview.setContent(question.get("hint") || "—", true, true);
-								panel.solutionPreview.setContent(question.get("solution") || "—", true, true);
+								panel.solutionPreview.setContent(question.get("solution") || "—", true, true);
 							}
 
 							if (panel.questionObj.questionType === 'flashcard') {
@@ -823,7 +823,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.hintPreview = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
 		this.solutionPreview = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
 
-		this.hintPreview.setContent(this.questionObj.hint || "—", true, true);
+		this.hintPreview.setContent(this.questionObj.hint || "—", true, true);
 		this.solutionPreview.setContent(this.questionObj.solution || "—", true, true);
 
 		this.hintForSolutionPreview = Ext.create('Ext.form.FormPanel', {
@@ -865,6 +865,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			gridIsHidden: true,
 			hidden: true
 		});
+
+		if (this.isGridQuestion) {
+			this.gridStatistic = Ext.create('ARSnova.view.components.GridStatistic', {
+				questionObj: this.questionObj
+			});
+		}
 
 		this.contentForm = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
@@ -909,6 +915,21 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.answerEditForm.initWithQuestion(Ext.clone(this.questionObj));
 
 		this.possibleAnswers = {};
+
+		if (this.questionObj.questionType === 'flashcard') {
+			this.answerListPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+				style: 'word-wrap: break-word;',
+				cls: ''
+			});
+
+			this.flashcardGrid = Ext.create('ARSnova.view.components.GridImageContainer', {
+				itemId: 'flashcardGridImageContainer',
+				hidden: true,
+				editable: false,
+				gridIsHidden: true,
+				style: 'margin-bottom: 20px'
+			});
+		}
 
 		/* END QUESTION DETAILS */
 
@@ -956,7 +977,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		}
 
 		ARSnova.app.taskManager.start(this.renewAnswerDataTask);
-
 		ARSnova.app.mainTabPanel.on('cardswitch', this.cardSwitchHandler, this);
 		this.on('beforedestroy', function () {
 			ARSnova.app.mainTabPanel.removeListener('cardswitch', this.cardSwitchHandler, this);
@@ -1001,19 +1021,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		var isGridQuestion = (['grid'].indexOf(this.questionObj.questionType) !== -1);
 
 		if (this.questionObj.questionType === 'flashcard') {
-			this.answerListPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-				style: 'word-wrap: break-word;',
-				cls: ''
-			});
-
-			this.flashcardGrid = Ext.create('ARSnova.view.components.GridImageContainer', {
-				itemId: 'flashcardGridImageContainer',
-				hidden: true,
-				editable: false,
-				gridIsHidden: true,
-				style: 'margin-bottom: 20px'
-			});
-
 			this.answerList = Ext.create('Ext.Container', {
 				layout: 'vbox',
 				cls: 'roundedBox',
@@ -1023,7 +1030,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			});
 
 			if (this.questionObj.fcImage) {
-				this.flashcardGrid.setImage(this.questionObj.fcImage);
+				if (this.questionObj.fcImage === 'true') {
+					this.flashcardGrid.prepareRemoteImage(this.questionObj._id, true, false, function (dataUrl) {
+						me.questionObj.fcImage = dataUrl;
+					});
+				} else {
+					this.flashcardGrid.setImage(this.questionObj.fcImage);
+				}
 				this.flashcardGrid.show();
 			}
 
@@ -1078,17 +1091,30 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			this.answerFormFieldset.add(this.answerList);
 		}
 
-		if (isGridQuestion) {
-			// add statistic
-			this.gridStatistic = Ext.create('ARSnova.view.components.GridStatistic', {
-				questionObj: this.questionObj
-			});
-			this.answerFormFieldset.add(this.gridStatistic);
-			this.getQuestionAnswers();
-		} else if (this.questionObj.image) {
-			this.grid.setImage(this.questionObj.image);
-			this.grid.show();
-			this.uploadView.toggleImagePresent();
+		var prepareGridStatistic = function (questionObj) {
+			me.gridStatistic.config.questionObj.image = questionObj.image;
+			me.answerFormFieldset.add(me.gridStatistic);
+			me.getQuestionAnswers();
+		};
+
+		if (this.questionObj.image) {
+			if (this.questionObj.image === 'true') {
+				this.grid.prepareRemoteImage(this.questionObj._id, false, false, function (dataUrl) {
+					me.questionObj.image = dataUrl;
+
+					if (isGridQuestion) {
+						prepareGridStatistic(me.questionObj);
+					}
+				});
+				this.uploadView.toggleImagePresent();
+				this.grid.show();
+			} else if (isGridQuestion) {
+				prepareGridStatistic(me.questionObj);
+			} else {
+				this.grid.setImage(this.questionObj.image);
+				this.uploadView.toggleImagePresent();
+				this.grid.show();
+			}
 		}
 	},
 

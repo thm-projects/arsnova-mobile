@@ -133,7 +133,7 @@ Ext.define('ARSnova.view.Question', {
 				editable: false,
 				gridIsHidden: true
 			});
-			this.grid.setImage(this.questionObj.image);
+			me.grid.prepareRemoteImage(me.questionObj._id);
 			this.formPanel.insert(1, this.grid);
 		}
 
@@ -416,10 +416,17 @@ Ext.define('ARSnova.view.Question', {
 
 		Ext.create('Ext.util.DelayedTask', function () {
 			me.grid.setPossibleAnswers(me.questionObj.possibleAnswers);
-			me.grid.setImage(me.questionObj.image, false, function () {
-				me.setGridAnswer(me.questionObj.userAnswered);
-			});
-			me.grid.update(me.questionObj, false);
+			me.grid.prepareRemoteImage(
+				me.questionObj._id, false, false, function (dataUrl) {
+					me.questionObj.image = dataUrl;
+					me.setGridAnswer(me.questionObj.userAnswered);
+					me.grid.update(me.questionObj, false);
+
+					if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+						me.editButtons.questionObj.image = dataUrl;
+					}
+				}
+			);
 		}).delay(100);
 
 		this.gridButton = Ext.create('Ext.Button', {
@@ -464,7 +471,7 @@ Ext.define('ARSnova.view.Question', {
 				style: 'margin-bottom: 20px'
 			});
 
-			this.flashcardGrid.setImage(this.questionObj.fcImage);
+			me.flashcardGrid.prepareRemoteImage(me.questionObj._id, true);
 			this.answerList.add(this.flashcardGrid);
 		}
 

@@ -748,10 +748,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 
 		this.initializeFormFields();
 
-		// set image data (base64 --> grid)
-		this.updateCanvas(question.image, false);
-
-		this.grid.update(question, true);
+		if (question.image && question.image !== 'true') {
+			// set image data (base64 --> grid)
+			this.updateCanvas(question.image, false);
+			this.grid.update(question, true);
+		}
 
 		this.zoomSpinner.setValue(Math.round(this.grid.getScale() * 100));
 		this.gridXSpinner.setValue(this.grid.getGridSizeX());

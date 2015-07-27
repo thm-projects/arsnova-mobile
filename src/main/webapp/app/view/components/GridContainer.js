@@ -99,12 +99,14 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.image = {
 			xtype: 'panel',
 			cls: null,
-			html: canvas
+			html: this.getCanvas()
 		};
 
-		//this.initGridZoom();
-
 		this.add([this.image]);
+
+		this.onAfter('painted', function () {
+			this.requestImage();
+		}, this, {single: true});
 	},
 
 	/**
@@ -112,6 +114,28 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	 */
 	redraw: function () {
 		this.redrawWithAlpha(1.0, true);
+	},
+
+	requestImage: function () {
+		var me = this;
+
+		if (!this.loadingSuccessfull && this.imageRequestObject) {
+			this.imageRequestObject.fn.call(
+				me.imageRequestObject.scope,
+				me.imageRequestObject.id, {
+				success: function (dataUrl) {
+					me.setImage(dataUrl,
+						me.imageRequestObject.reload,
+						me.imageRequestObject.success,
+						me.imageRequestObject.failure
+					);
+				},
+				failure: function () {
+					console.log('server-side error');
+					me.imageRequestObject.failure.call(this);
+				}
+			}, me.imageRequestObject.fcImage);
+		}
 	},
 
 	/**
@@ -463,7 +487,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		this.setCvIsColored(questionObj.cvIsColored);
 		this.setCurGridLineColor(questionObj.gridLineColor);
 
-
 		// converting from old version
 		if (questionObj.gridSize !== undefined && questionObj.gridSize > 0) {
 			if (questionObj.gridSizeX === undefined || questionObj.gridSizeX === 0) {
@@ -487,7 +510,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			this.setGridScaleFactor(questionObj.gridScaleFactor);
 		}
 
-
 		if (this.getGridOffsetX() === undefined) {
 			this.setGridOffsetX(0);
 		}
@@ -496,10 +518,8 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			this.setGridOffsetY(0);
 		}
 
-
 		// change background color itself if necessary
 		this.colorBackground();
-
 
 		if (mark) {
 			this.getChosenFieldsFromPossibleAnswers(questionObj.possibleAnswers);
@@ -720,7 +740,6 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		var container = this;
 
 		newimage.src = dataUrl;
-
 		newimage.onload = function () {
 			var cb = successCallback || Ext.emptyFn;
 			if (reload) {
@@ -728,12 +747,26 @@ Ext.define('ARSnova.view.components.GridContainer', {
 			}
 			container.setImageFile(newimage);
 			container.redraw();
-
-			cb();
+			this.loadingSuccessfull = true;
+			cb.call(container, dataUrl);
 		};
 		newimage.onerror = function () {
 			var cb = failureCallback || Ext.emptyFn;
-			cb();
+			cb.call(container, dataUrl);
+		};
+	},
+
+	prepareRemoteImage: function (questionId, fcImage, reload, successCallback, failureCallback, requestFn, scope) {
+		var model = ARSnova.app.questionModel;
+
+		this.imageRequestObject = {
+			id: questionId,
+			scope: scope || model,
+			reload: reload ? true : false,
+			fcImage: fcImage ? true : false,
+			fn: requestFn || model.getQuestionImage,
+			success: successCallback || Ext.emptyFn,
+			failure: failureCallback || Ext.emptyFn
 		};
 	},
 
