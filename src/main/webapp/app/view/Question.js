@@ -129,7 +129,6 @@ Ext.define('ARSnova.view.Question', {
 
 		if (this.questionObj.image && this.questionObj.questionType !== "grid") {
 			this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
-				id: 'gridImageContainer' + this.questionObj._id,
 				editable: false,
 				gridIsHidden: true
 			});
@@ -177,6 +176,10 @@ Ext.define('ARSnova.view.Question', {
 
 			if (this.isDisabled() || this.questionObj.votingDisabled) {
 				this.disableQuestion();
+
+				if (this.questionObj.userAnswered && this.questionObj.showAnswer) {
+					this.getScrollable().getScroller().scrollToEnd(true);
+				}
 			}
 
 			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
@@ -465,7 +468,6 @@ Ext.define('ARSnova.view.Question', {
 
 		if (this.questionObj.fcImage) {
 			this.flashcardGrid = Ext.create('ARSnova.view.components.GridImageContainer', {
-				itemId: 'flashcardGridImageContainer' + this.questionObj._id,
 				editable: false,
 				gridIsHidden: true,
 				style: 'margin-bottom: 20px'
@@ -700,7 +702,13 @@ Ext.define('ARSnova.view.Question', {
 			this.mask(this.customMask);
 
 			if (!!this.questionObj.userAnswered) {
-				this.customMask.setTextMessage(Messages.MASK_ALREADY_ANSWERED, 'alreadyAnswered');
+				var message = Messages.MASK_ALREADY_ANSWERED;
+
+				if (this.questionObj.showAnswer) {
+					message += "<br>" + Messages.MASK_CORRECT_ANSWER_IS;
+				}
+
+				this.customMask.setTextMessage(message, 'alreadyAnswered');
 				// Display icon with sample solution popup
 				if (this.questionObj.showAnswer) {
 					this.hintIcon.setHidden(!this.questionObj.solution);
