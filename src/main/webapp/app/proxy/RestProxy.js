@@ -296,6 +296,20 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
+	getQuestionImage: function (questionId, callbacks, fcImage) {
+		if (!fcImage) {
+			fcImage = false;
+		}
+
+		this.arsjax.request({
+			url: "lecturerquestion/" + questionId + "/questionimage?fcImage=" + fcImage,
+			success: function (response) {
+				callbacks.success.call(this, response.responseText);
+			},
+			failure: callbacks.failure
+		});
+	},
+
 	/**
 	 * Get lecture questions for this session, sorted by subject and text
 	 * @param sessionKeyword

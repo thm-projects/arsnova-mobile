@@ -433,6 +433,10 @@ Ext.define('ARSnova.model.Question', {
 		return this.getProxy().setSubjectSort(sessionKeyword, false, sortType, subjects, callbacks);
 	},
 
+	getQuestionImage: function (questionId, callbacks, fcImage) {
+		return this.getProxy().getQuestionImage(questionId, callbacks, fcImage);
+	},
+
 	getQuestionPreparationSort: function (sessionKeyword, subject, callbacks) {
 		return this.getProxy().getQuestionSort(sessionKeyword, subject, true, callbacks);
 	},
