@@ -115,12 +115,11 @@ Ext.define('ARSnova.view.user.InClass', {
 			text: Messages.QUESTION_REQUEST_ADHOC,
 			cls: ARSnova.app.isSessionOwner ? 'smallerActionButton' : 'actionButton',
 			buttonConfig: 'icon',
+			scope: this,
 			imageCls: 'icon-question thm-green',
-			handler: function () {
-				ARSnova.app.getController('Feedback').showAskPanel({
-					type: 'slide'
-				});
-			}
+			controller: 'Feedback',
+			action: 'showAskPanel',
+			handler: this.buttonClicked
 		});
 
 		this.roleIconButton = Ext.create('ARSnova.view.MatrixButton', {
@@ -128,9 +127,9 @@ Ext.define('ARSnova.view.user.InClass', {
 			buttonConfig: 'icon',
 			imageCls: 'icon-users',
 			hidden: !ARSnova.app.isSessionOwner,
-			handler: function () {
-				ARSnova.app.getController('Sessions').changeRole();
-			}
+			controller: 'Sessions',
+			action: 'changeRole',
+			handler: this.buttonClicked
 		});
 
 		this.actionButtonPanel = Ext.create('Ext.Panel', {
@@ -304,6 +303,8 @@ Ext.define('ARSnova.view.user.InClass', {
 		};
 
 		this.add([this.toolbar, this.inClass, this.userBadges]);
+		this.on('painted', this.onPainted);
+		this.on('hide', this.onDeactivate);
 
 		// hide or show listeners won't work, so check if the tabpanel activates this panel
 		ARSnova.app.mainTabPanel.tabPanel.on('activeitemchange', function (tabpanel, newPanel, oldPanel) {
@@ -311,6 +312,15 @@ Ext.define('ARSnova.view.user.InClass', {
 				this.refreshListeners();
 			}
 		}, this);
+	},
+
+	onPainted: function () {
+		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
+			ARSnova.app.taskManager.start(this.countFeedbackQuestionsTask);
+		}
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			ARSnova.app.taskManager.start(this.checkLearningProgressTask);
+		}
 	},
 
 	/* will be called on session login */
@@ -327,12 +337,6 @@ Ext.define('ARSnova.view.user.InClass', {
 		ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.sessionActive, panel.checkSessionStatus, panel);
 		ARSnova.app.feedbackModel.on(ARSnova.app.feedbackModel.events.feedbackReset, panel.checkFeedbackRemoved, panel);
 		ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.learningProgressChange, panel.learningProgressChange, panel);
-		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
-			ARSnova.app.taskManager.start(panel.countFeedbackQuestionsTask);
-		}
-		if (ARSnova.app.globalConfig.features.learningProgress) {
-			ARSnova.app.taskManager.start(panel.checkLearningProgressTask);
-		}
 	},
 
 	/* will be called whenever panel is shown */
@@ -343,6 +347,17 @@ Ext.define('ARSnova.view.user.InClass', {
 		}
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.checkLearningProgressTask.taskRunTime = 0;
+		}
+	},
+
+	stopTasks: function () {
+		var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
+
+		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
+			ARSnova.app.taskManager.stop(panel.countFeedbackQuestionsTask);
+		}
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			ARSnova.app.taskManager.stop(panel.checkLearningProgressTask);
 		}
 	},
 
@@ -360,12 +375,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.sessionActive, panel.checkSessionStatus, panel);
 		ARSnova.app.feedbackModel.un(ARSnova.app.feedbackModel.events.feedbackReset, panel.checkFeedbackRemoved, panel);
 		ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.learningProgressChange, panel.learningProgressChange, panel);
-		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
-			ARSnova.app.taskManager.stop(panel.countFeedbackQuestionsTask);
-		}
-		if (ARSnova.app.globalConfig.features.learningProgress) {
-			ARSnova.app.taskManager.stop(panel.checkLearningProgressTask);
-		}
+		panel.stopTasks();
 	},
 
 	updateCaption: function () {
@@ -542,6 +552,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	buttonClicked: function (button) {
+		ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.stopTasks();
 		ARSnova.app.getController(button.config.controller)[button.config.action]();
 	},
 
@@ -571,6 +582,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 				if (questionCount.total === 0) {
 					myQuestionsButton.setHandler(Ext.bind(function () {
+						me.stopTasks();
 						ARSnova.app.getController('Feedback').showAskPanel({
 							type: 'slide'
 						});
