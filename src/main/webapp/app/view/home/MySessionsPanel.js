@@ -735,6 +735,11 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				}
 				hideLoadingMask();
 			},
+			empty: function () {
+				hideLoadingMask();
+				me.lastVisitedSessionsForm.hide();
+				promise.reject();
+			},
 			unauthenticated: function () {
 				hideLoadingMask();
 				ARSnova.app.getController('Auth').login({
