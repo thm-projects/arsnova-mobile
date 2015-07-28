@@ -537,6 +537,7 @@ Ext.define('ARSnova.view.Question', {
 						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
 					} else {
 						me.getScrollable().getScroller().scrollToEnd(true);
+						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkStatisticsRelease();
 					}
 				}
 			},
