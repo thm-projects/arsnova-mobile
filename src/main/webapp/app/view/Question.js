@@ -65,7 +65,7 @@ Ext.define('ARSnova.view.Question', {
 			cls: ''
 		});
 		this.hintIcon = Ext.create('Ext.Button', {
-			cls: 'sessionInfoButton',
+			cls: 'sessionInfoButton maskClickable',
 			iconCls: 'info',
 			scope: this,
 			style: 'float: right',

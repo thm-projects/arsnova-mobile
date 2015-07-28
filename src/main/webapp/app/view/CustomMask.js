@@ -107,9 +107,7 @@ Ext.define('ARSnova.view.CustomMask', {
 		while (el && el.tagName !== "BODY" && el.tagName !== "HTML" && counter < timeoutTries) {
 			containers.push(el);
 			el.style.display = "none";
-			if (el.tagName === 'IMG' && el.className === 'resizeableImage' ||
-				el.tagName === 'SPAN' && el.className === 'videoImageContainer' ||
-				el.tagName === 'A' && el.className === 'hyperlink') {
+			if (this.isClickableElement(el)) {
 				break;
 			}
 
@@ -121,11 +119,10 @@ Ext.define('ARSnova.view.CustomMask', {
 			var container = containers[i];
 			container.style.display = "";
 
-			// perform fake click on videoImageContainer
+			// perform fake click on underlying element
 			if (!clicked) {
-				if (container.tagName === 'IMG' && container.className === 'resizeableImage' ||
-					container.tagName === 'SPAN' && container.className === 'videoImageContainer' ||
-					container.tagName === 'A' && container.className === 'hyperlink') {
+				if (this.isClickableElement(container)) {
+					// TODO: Handle click for 'ext-button' components
 					container.customMaskClick = true;
 					if (container.click) {
 						container.click();
@@ -141,6 +138,13 @@ Ext.define('ARSnova.view.CustomMask', {
 				}
 			}
 		}
+	},
+
+	isClickableElement: function (el) {
+		return el.tagName === 'IMG' && el.className === 'resizeableImage' ||
+			el.tagName === 'SPAN' && el.className === 'videoImageContainer' ||
+			el.tagName === 'A' && el.className === 'hyperlink' ||
+			el.tagName === 'DIV' && el.className.split(" ").indexOf("maskClickable") !== -1;
 	},
 
 	overwriteScrollerMaxPosition: function (scroller, mainPanel) {
