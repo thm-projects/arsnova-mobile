@@ -215,10 +215,10 @@ Ext.define('ARSnova.WebSocket', {
 				this.fireEvent(this.events.learningProgressOptions, options);
 			}, this));
 
-			this.socket.on('learningProgressChange', Ext.bind(function () {
+			this.socket.on('learningProgressChange', Ext.Function.createBuffered(function () {
 				console.debug("Socket.IO: learningProgressChange");
 				this.fireEvent(this.events.learningProgressChange);
-			}, this));
+			}, 500, this));
 		}, this));
 	},
 
