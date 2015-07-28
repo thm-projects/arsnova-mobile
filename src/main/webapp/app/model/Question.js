@@ -309,16 +309,16 @@ Ext.define('ARSnova.model.Question', {
 		return this.getProxy().disableAllQuestionVotings(sessionKeyword, disable, isLecture, isPreparation, callbacks);
 	},
 
-	getLectureQuestions: function (sessionKeyword, callbacks, offset, limit) {
-		return this.getProxy().getLectureQuestions(sessionKeyword, callbacks, offset, limit);
+	getLectureQuestions: function (sessionKeyword, callbacks, offset, limit, requestImageData) {
+		return this.getProxy().getLectureQuestions(sessionKeyword, callbacks, offset, limit, requestImageData);
 	},
 
 	getFlashcards: function (sessionKeyword, callbacks) {
 		return this.getProxy().getFlashcards(sessionKeyword, callbacks);
 	},
 
-	getPreparationQuestions: function (sessionKeyword, callbacks, offset, limit) {
-		return this.getProxy().getPreparationQuestions(sessionKeyword, callbacks, offset, limit);
+	getPreparationQuestions: function (sessionKeyword, callbacks, offset, limit, requestImageData) {
+		return this.getProxy().getPreparationQuestions(sessionKeyword, callbacks, offset, limit, requestImageData);
 	},
 
 	getSkillQuestionsForDelete: function (sessionId, callbacks) {

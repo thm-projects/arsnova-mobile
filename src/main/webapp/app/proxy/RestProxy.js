@@ -315,10 +315,11 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	 * @param sessionKeyword
 	 * @param object with success-, failure- and empty-callbacks
 	 */
-	getLectureQuestions: function (sessionKeyword, callbacks, offset, limit) {
+	getLectureQuestions: function (sessionKeyword, callbacks, offset, limit, requestImageData) {
 		var me = this;
 		this.arsjax.request({
-			url: "lecturerquestion/?lecturequestionsonly=true&sessionkey=" + encodeURIComponent(sessionKeyword),
+			url: "lecturerquestion/?lecturequestionsonly=true&sessionkey=" + encodeURIComponent(sessionKeyword) +
+				"&requestImageData=" + !!requestImageData,
 			headers: {
 				Range: this.constructRangeString(offset, limit)
 			},
@@ -341,10 +342,11 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	getPreparationQuestions: function (sessionKeyword, callbacks, offset, limit) {
+	getPreparationQuestions: function (sessionKeyword, callbacks, offset, limit, requestImageData) {
 		var me = this;
 		this.arsjax.request({
-			url: "lecturerquestion/?sessionkey=" + encodeURIComponent(sessionKeyword) + "&preparationquestionsonly=true",
+			url: "lecturerquestion/?sessionkey=" + encodeURIComponent(sessionKeyword) +
+				"&preparationquestionsonly=true" + "&requestImageData=" + !!requestImageData,
 			headers: {
 				Range: this.constructRangeString(offset, limit)
 			},

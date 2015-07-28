@@ -274,7 +274,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 			failure: function (response) {
 				promise.reject('server-side error questionModel.getSkillQuestions');
 			}
-		});
+		}, -1, -1, true);
 		return promise;
 	},
 
