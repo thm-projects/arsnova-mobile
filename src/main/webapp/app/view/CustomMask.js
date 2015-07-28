@@ -77,7 +77,7 @@ Ext.define('ARSnova.view.CustomMask', {
 
 		if (controller.info.eventName === 'tap') {
 			this.fireEvent('tap', this, e);
-			this.performClickOnVideoContainer(e);
+			this.performClickOnMaskedElement(e);
 		}
 
 		return false;
@@ -98,7 +98,7 @@ Ext.define('ARSnova.view.CustomMask', {
 		return false;
 	},
 
-	performClickOnVideoContainer: function (event) {
+	performClickOnMaskedElement: function (event) {
 		var x = event.pageX, y = event.pageY;
 		var containers = [], clicked = false;
 		var el = document.elementFromPoint(x, y);
