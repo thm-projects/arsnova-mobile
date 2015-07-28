@@ -66,11 +66,11 @@
 				TITLE_ROLE: "Feedback im Hörsaal",
 				/* loginPanel */
 				CHOOSE_LOGIN: 'Wählen Sie Ihren Zugang:',
-				GUEST: "Gast",
+				GUEST: "Inkognito",
 				CHANGE_ROLE: "Rolle wechseln",
 				NO_GUEST_SPEAKER: "Hinweis: Um eine Session anzulegen, müssen Sie sich anmelden.",
-				CONFIRM_GUEST_SPEAKER: "Wenn Sie sich als Gast anmelden, ist die ARSnova-Session nur auf dem aktuellen Gerät verwaltbar. Dennoch als Gast anmelden?",
-				GUEST_LOGIN: "Gast-Anmeldung",
+				CONFIRM_GUEST_SPEAKER: "Wenn Sie sich als  anmelden, ist die ARSnova-Session nur auf dem aktuellen Gerät verwaltbar. Dennoch als Inkognito anmelden?",
+				GUEST_LOGIN: "Inkognito-Anmeldung",
 				BACK_TO_ROLEPANEL: "Rollen",
 
 				/* homePanel */
@@ -435,7 +435,7 @@
 				EXPORT_IOS_NOTIFICATION: "Ein Export kann auf iOS Geräten nicht durchgeführt werden.",
 				EXPORT_BUTTON_FS: "Mein System",
 				EXPORT_BUTTON_PP: "Public Pool",
-				EXPORT_PP_NOTIFICATION: 'Als "Gast" können Sie keine Session in den Public Pool exportieren. Bitte melden Sie sich über einen der anderen Zugänge an.',
+				EXPORT_PP_NOTIFICATION: 'Als "Inkognito" können Sie keine Session in den Public Pool exportieren. Bitte melden Sie sich über einen der anderen Zugänge an.',
 				EXPORT_SESSION_LABEL:	'Auswahl der Session(s), die exportiert werden:',
 				/*Import session*/
 				IMPORT_IOS_NOTIFICATION: "Ein Import kann auf iOS Geräten nicht durchgeführt werden",
@@ -649,11 +649,11 @@
 				TITLE_ROLE: "Feedback & Interaction",
 				/* loginPanel */
 				CHOOSE_LOGIN: "Login as:",
-				GUEST: "Guest",
+				GUEST: "incognito",
 				CHANGE_ROLE: "Change role",
 				NO_GUEST_SPEAKER: "Note: You have to log in to create a session.",
-				CONFIRM_GUEST_SPEAKER: "If you login as guest, you can manage newly created ARSnova sessions only from this device. Still login as guest?",
-				GUEST_LOGIN: "Guest login",
+				CONFIRM_GUEST_SPEAKER: "If you login as incognito, you can manage newly created ARSnova sessions only from this device. Still login as incognito?",
+				GUEST_LOGIN: "incognito login",
 				BACK_TO_ROLEPANEL: "Role",
 
 				/* homePanel */
@@ -1018,7 +1018,7 @@
 				EXPORT_IOS_NOTIFICATION: "An export can not be performed on iOS devices.",
 				EXPORT_BUTTON_FS: "My System",
 				EXPORT_BUTTON_PP: "Public Pool",
-				EXPORT_PP_NOTIFICATION: 'As a "guest" you can not export a session in the public pool. Please log in using one of the other approaches.',
+				EXPORT_PP_NOTIFICATION: 'As a "incognito" you can not export a session in the public pool. Please log in using one of the other approaches.',
 				EXPORT_SESSION_LABEL: 'Selection of sessions to be exported:',
 
 				/*Import session*/
