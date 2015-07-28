@@ -180,7 +180,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					return changed;
 				};
 
-
 				var contentChanged = function (prevContent, newContent) {
 					if (newContent.gridSize !== prevContent.get("gridSize"))
 						return true;
@@ -401,6 +400,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 					var needsConfirmation = false;
 					var empty = false;
+					if (panel.image !== panel.questionObj.image) {
+						needsConfirmation = true;
+					}
 					if (!panel.answerEditForm.isHidden()) {
 						var questionValues = panel.answerEditForm.getQuestionValues();
 
