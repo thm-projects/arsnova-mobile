@@ -77,22 +77,23 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 				{
 					xtype: 'matrixbutton',
 					buttonConfig: 'icon',
-					text: Messages.FEEDBACK_OKAY,
-					cls: 'noPadding noBackground voteButton feedbackOkBackground',
-					value: 'Kann folgen',
-					imageCls: 'icon-happy',
+					text: Messages.FEEDBACK_GOOD,
+					cls: 'noPadding noBackground voteButton feedbackGoodBackground',
+					value: 'Bitte schneller',
+					imageCls: "icon-wink",
 					handler: function (button) {
 						ARSnova.app.getController('Feedback').vote({
 							value: button.config.value
 						});
 					}
 				}, {
+					// changed button order
 					xtype: 'matrixbutton',
 					buttonConfig: 'icon',
-					text: Messages.FEEDBACK_GOOD,
-					cls: 'noPadding noBackground voteButton feedbackGoodBackground',
-					value: 'Bitte schneller',
-					imageCls: "icon-wink",
+					text: Messages.FEEDBACK_OKAY,
+					cls: 'noPadding noBackground voteButton feedbackOkBackground',
+					value: 'Kann folgen',
+					imageCls: 'icon-happy',
 					handler: function (button) {
 						ARSnova.app.getController('Feedback').vote({
 							value: button.config.value

@@ -79,17 +79,6 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			items: [this.backButton]
 		});
 
-		this.feedbackOkButton = Ext.create('Ext.Panel', {
-			flex: 1,
-
-			items: [{
-				xtype: 'matrixbutton',
-				value: 'Kann folgen',
-				cls: 'feedbackStatisticButton voteButton feedbackOkBackground ' + buttonCls,
-				imageCls: 'icon-happy',
-				handler: this.buttonClicked
-			}]
-		});
 
 		this.feedbackGoodButton = Ext.create('Ext.Panel', {
 			cls: 'voteButtons',
@@ -103,6 +92,19 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				handler: this.buttonClicked
 			}]
 		});
+
+		this.feedbackOkButton = Ext.create('Ext.Panel', {
+			flex: 1,
+
+			items: [{
+				xtype: 'matrixbutton',
+				value: 'Kann folgen',
+				cls: 'feedbackStatisticButton voteButton feedbackOkBackground ' + buttonCls,
+				imageCls: 'icon-happy',
+				handler: this.buttonClicked
+			}]
+		});
+
 
 		this.feedbackBadButton = Ext.create('Ext.Panel', {
 			cls: 'voteButtons',
@@ -134,16 +136,16 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			docked: 'top',
 
 			items: [
-				this.feedbackOkButton,
 				this.feedbackGoodButton,
+				this.feedbackOkButton,
 				this.feedbackBadButton,
 				this.feedbackNoneButton
 			]
 		});
 
 		this.feedbackChartColors = [
-			'#80ba24', // thm-green
 			'#f2a900', // thm-orange
+			'#80ba24', // thm-green
 			'#971b2f', // thm-red
 			'#4a5c66'  // thm-grey
 		];
@@ -153,8 +155,8 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			store: Ext.create('Ext.data.Store', {
 				fields: ['name', 'displayName', 'value', 'percent'],
 				data: [
-					{'name': 'Kann folgen', 'displayName': Messages.FEEDBACK_OKAY, 'value': 0, 'percent': 0.0},
 					{'name': 'Bitte schneller', 'displayName': Messages.FEEDBACK_GOOD, 'value': 0, 'percent': 0.0},
+					{'name': 'Kann folgen', 'displayName': Messages.FEEDBACK_OKAY, 'value': 0, 'percent': 0.0},
 					{'name': 'Zu schnell', 'displayName': Messages.FEEDBACK_BAD, 'value': 0, 'percent': 0.0},
 					{'name': 'Nicht mehr dabei', 'displayName': Messages.FEEDBACK_NONE, 'value': 0, 'percent': 0.0}
 				]
@@ -260,9 +262,6 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		/* Swap values for "can follow" and "faster, please" feedback
 		 * TODO: improve implementation, this is a quick hack for MoodleMoot 2013 */
 		var values = feedbackValues.slice();
-		var tmpValue = values[0];
-		values[0] = values[1];
-		values[1] = tmpValue;
 
 		if (!Ext.isArray(values) || values.length !== store.getCount()) {
 			return;
