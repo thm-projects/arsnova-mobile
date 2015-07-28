@@ -307,6 +307,8 @@
 					'Der individuelle Lernstand berechnet sich also nach der Formel: \\\\[ l_{\\text{S}} = \\frac{\\text{Erreichte Punkte}}{\\text{Mögliche Punkte}} = \\frac{30}{60} \\hat{=}\\, 50\\%\\\\]\n',
 					'Für den Kurs ergibt sich der Lernstand über die Anzahl der Studierenden: \\\\[l_{\\text{K}} = \\frac{\\text{Gesamtzahl erreichter Punkte}}{\\text{Mögliche Punkte} \\cdot \\text{Studierende}}\\\\]'
 				].join('\n'),
+				QUESTIONS_ABBR: "Fragen",
+				POINTS_ABBR: "Pkt.",
 				NEW_LECTURE_QUESTION: "Neue Hörsaalfrage",
 				NEW_PREPARATION_QUESTION: "Neue Vorbereitungsaufgabe",
 				NEW_QUESTION_TITLE: "Frage",
@@ -616,6 +618,7 @@
 				NEW_VERSION_AVAILABLE: "Eine neue Version von ARSnova ist verfügbar. Möchten Sie aktualisieren?",
 				PRESENTER: "Presenter",
 				SESSION_ID: "Session-ID",
+				OF: "von",
 
 				/* session import */
 				IMP_BUTTON_IMPORT: "Import",
@@ -885,6 +888,8 @@
 					'The individual learning progress is calculated using this formula: \\\\[ l_{\\text{S}} = \\frac{\\text{Points scored}}{\\text{Points achievable}} = \\frac{30}{60} \\hat{=}\\, 50\\%\\\\]\n',
 					'For the whole course, the progress is calculated using the total number of students: \\\\[l_{\\text{C}} = \\frac{\\text{Points scored by all students}}{\\text{Points achievable} \\cdot \\text{Students}}\\\\]'
 				].join('\n'),
+				QUESTIONS_ABBR: "Qs",
+				POINTS_ABBR: "Pts",
 				NEW_LECTURE_QUESTION: "New lecture question",
 				NEW_PREPARATION_QUESTION: "New preparation task",
 				NEW_QUESTION_TITLE: "Question",
@@ -1199,6 +1204,7 @@
 				NEW_VERSION_AVAILABLE: "A new version of ARSnova is available. Do you want to update?",
 				PRESENTER: "Presenter",
 				SESSION_ID: "Session ID",
+				OF: "of",
 
 				/* session import */
 				IMP_BUTTON_IMPORT: "Import",

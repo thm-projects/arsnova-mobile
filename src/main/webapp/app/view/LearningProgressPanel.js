@@ -67,7 +67,6 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 		});
 		this.pointBasedExplanation.setContent(Messages.SCORE_BASED_PROGRESS_EXPLANATION, true, true);
 
-
 		this.questionBasedExplanation = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			hidden: false
 		});
@@ -195,8 +194,9 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 			progress: options,
 			callbacks: {
 				scope: this,
-				success: function (text, color) {
-					this.courseLearningProgressButton.setBadge([{badgeText: text, badgeCls: color + "badgeicon"}]);
+				success: function (text, color, data) {
+					var badgeInfo = [data.numerator, Messages.OF, data.denominator, options.type === "questions" ? Messages.QUESTIONS_ABBR : Messages.POINTS_ABBR];
+					this.courseLearningProgressButton.setBadge([{badgeText: badgeInfo.join(" "), badgeCls: color + "badgeicon"}, {badgeText: text, badgeCls: color + "badgeicon"}]);
 				},
 				failure: Ext.emptyFn
 			}
