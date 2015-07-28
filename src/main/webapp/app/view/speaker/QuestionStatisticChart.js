@@ -550,9 +550,15 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 			var mcAnswersWithCorrectAnswersOnly = 0;
 			var mcAnswersWithWrongAnswersOnly = 0;
-			var mcAnswerHasOnlyCorrectAnswers = true;
-			var mcAnswerHasOnlyWrongAnswers = true;
 			var recordAllCorrect, recordAllWrong;
+
+			// Build answerText strings like "1,1,0,1"
+			var mcCorrectString = me.questionObj.possibleAnswers.map(function (p) {
+				return p.correct ? "1" : "0";
+			}).join();
+			var mcWrongString = me.questionObj.possibleAnswers.map(function (p) {
+				return p.correct ? "0" : "1";
+			}).join();
 
 			if (answers.length === 0) {
 				store.each(function (record) {
@@ -577,29 +583,23 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 							return;
 						}
 
+						// Mark "All correct" answers
+						if (el.answerText === mcCorrectString) {
+							mcAnswersWithCorrectAnswersOnly = el.answerCount;
+						}
+						// Mark "All wrong" answers
+						if (el.answerText === mcWrongString) {
+							mcAnswersWithWrongAnswersOnly = el.answerCount;
+						}
 						for (var j = 0; j < el.answerCount; j++) {
-							mcAnswerHasOnlyCorrectAnswers = true;
-							mcAnswerHasOnlyWrongAnswers = true;
 							values.forEach(function (selected, index) {
 								if (typeof mcAnswerCount[index] === "undefined") {
 									mcAnswerCount[index] = 0;
 								}
 								if (selected === 1) {
 									mcAnswerCount[index] += 1;
-									if (me.questionObj.possibleAnswers[index].correct) {
-										mcAnswerHasOnlyCorrectAnswers = mcAnswerHasOnlyCorrectAnswers && true;
-										mcAnswerHasOnlyWrongAnswers = false;
-									} else {
-										mcAnswerHasOnlyWrongAnswers = mcAnswerHasOnlyWrongAnswers && true;
-										mcAnswerHasOnlyCorrectAnswers = false;
-									}
 								}
 							});
-							if (mcAnswerHasOnlyCorrectAnswers) {
-								mcAnswersWithCorrectAnswersOnly++;
-							} else if (mcAnswerHasOnlyWrongAnswers) {
-								mcAnswersWithWrongAnswersOnly++;
-							}
 						}
 						store.each(function (record, index) {
 							record.set(valueString, mcAnswerCount[index]);
