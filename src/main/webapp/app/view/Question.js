@@ -417,20 +417,18 @@ Ext.define('ARSnova.view.Question', {
 			this.grid = Ext.create('ARSnova.view.components.GridImageContainer');
 		}
 
-		Ext.create('Ext.util.DelayedTask', function () {
-			me.grid.setPossibleAnswers(me.questionObj.possibleAnswers);
-			me.grid.prepareRemoteImage(
-				me.questionObj._id, false, false, function (dataUrl) {
-					me.questionObj.image = dataUrl;
-					me.setGridAnswer(me.questionObj.userAnswered);
-					me.grid.update(me.questionObj, false);
+		this.grid.update(this.questionObj, false);
+		this.grid.setPossibleAnswers(me.questionObj.possibleAnswers);
+		this.grid.prepareRemoteImage(
+			me.questionObj._id, false, false, function (dataUrl) {
+				me.questionObj.image = dataUrl;
+				me.setGridAnswer(me.questionObj.userAnswered);
 
-					if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-						me.editButtons.questionObj.image = dataUrl;
-					}
+				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+					me.editButtons.questionObj.image = dataUrl;
 				}
-			);
-		}).delay(100);
+			}
+		);
 
 		this.gridButton = Ext.create('Ext.Button', {
 			flex: 1,
