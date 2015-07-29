@@ -92,7 +92,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				ARSnova.app.taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
 				ARSnova.app.mainTabPanel.tabPanel.updateHomeBadge();
 
-				ARSnova.app.getController('Sessions').reloadData();
+				ARSnova.app.getController('Sessions').reloadData(false, hideLoadMask);
 			},
 			notFound: function () {
 				Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_NOT_FOUND);
@@ -170,9 +170,9 @@ Ext.define("ARSnova.controller.Sessions", {
 		tabPanel.feedbackTabPanel.tab.hide();
 	},
 
-	reloadData: function (animation) {
+	reloadData: function (animation, hideLoadMask) {
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
-		var hideLoadMask = Ext.emptyFn;
+		hideLoadMask = hideLoadMask || Ext.emptyFn;
 
 		animation = !!animation ? animation : {
 			type: 'slide',
@@ -457,13 +457,13 @@ Ext.define("ARSnova.controller.Sessions", {
 			localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
 			ARSnova.app.userRole = ARSnova.app.USER_ROLE_SPEAKER;
 			localStorage.removeItem('lastVisitedRole');
-		} else {
-			if (sessionStorage.getItem("keyword") !== null && sessionStorage.getItem("keyword") !== "") {
-				ARSnova.app.getController('Sessions').login({
-					keyword: sessionStorage.getItem("keyword")
-				});
-			}
 		}
+
+		if (sessionStorage.getItem("keyword") !== null && sessionStorage.getItem("keyword") !== "") {
+			return true;
+		}
+
+		return false;
 	},
 
 	setActive: function (options) {

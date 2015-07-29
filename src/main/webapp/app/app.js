@@ -218,6 +218,8 @@ Ext.application({
 	 */
 	afterLogin: function () {
 		var mainTabPanel = ARSnova.app.mainTabPanel.tabPanel;
+		var controller = ARSnova.app.getController('Sessions');
+		var hTP = mainTabPanel.homeTabPanel;
 
 		console.debug("Application: afterLogin");
 		this.socket.connect();
@@ -225,11 +227,6 @@ Ext.application({
 		/* show diagnosis tab panel */
 		mainTabPanel.diagnosisPanel.tab.show();
 
-		/* check existing login in stored session */
-		ARSnova.app.getController('Sessions').checkExistingSessionLogin();
-
-		mainTabPanel.animateActiveItem(mainTabPanel.homeTabPanel, 'slide');
-		var hTP = mainTabPanel.homeTabPanel;
 		switch (ARSnova.app.userRole) {
 			case ARSnova.app.USER_ROLE_STUDENT:
 				hTP.homePanel.checkLogin();
@@ -240,6 +237,13 @@ Ext.application({
 				break;
 			default:
 				break;
+		}
+
+		/* check existing login in stored session */
+		if (controller.checkExistingSessionLogin()) {
+			controller.login({keyword: sessionStorage.getItem("keyword")});
+		} else {
+			mainTabPanel.animateActiveItem(hTP, 'slide');
 		}
 	},
 
