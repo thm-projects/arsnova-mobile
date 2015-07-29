@@ -122,9 +122,13 @@ Ext.define('ARSnova.view.CustomMask', {
 			// perform fake click on underlying element
 			if (!clicked) {
 				if (this.isClickableElement(container)) {
-					// TODO: Handle click for 'ext-button' components
-					container.customMaskClick = true;
-					if (container.click) {
+					var component = Ext.getCmp(container.id);
+					if (component) {
+						if (!component.getDisabled()) {
+							component.fireAction("tap", [component, event], 'doTap');
+							container.customMaskClick = true;
+						}
+					} else if (container.click) {
 						container.click();
 					} else if (document.createEvent) {
 						if (event.target !== container) {
