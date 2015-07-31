@@ -39,23 +39,17 @@ Ext.define('ARSnova.view.components.EmbeddedPageContainer', {
 
 		this.backButton = Ext.create('Ext.Button', {
 			ui: 'back',
+			align: 'left',
 			text: Messages.BACK,
 			handler: this.backHandler,
 			scope: this
 		});
 
-		this.toolbar = Ext.create('Ext.Toolbar', {
+		this.toolbar = Ext.create('Ext.TitleBar', {
 			ui: 'light',
 			docked: 'top',
-			items: [this.backButton, {
-				xtype: 'spacer'
-			}, {
-				flex: 99,
-				xtype: 'title',
-				title: this.config.title
-			}, {
-				xtype: 'spacer'
-			}]
+			title: this.config.title,
+			items: [this.backButton]
 		});
 
 		this.embeddedPage = Ext.create('ARSnova.view.components.EmbeddedPage', {
