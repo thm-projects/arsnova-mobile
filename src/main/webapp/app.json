@@ -39,11 +39,11 @@
      *      }
      */
     "js": [
-    	  {
-    			"path": "phonegap.js",
-    			"x-bootstrap": true,
-    			"remote": true
-		    },
+	    {
+			"path": "phonegap.js",
+			"x-bootstrap": true,
+			"remote": true
+	    },
         {
             "path": "touch/sencha-touch.js",
             "x-bootstrap": true
@@ -53,7 +53,7 @@
             "x-bootstrap": true
         },
         {
-            "path": "lib/markdown/markdown.js",
+            "path": "lib/markdown/marked.min.js",
             "update": "full"
         },
         {

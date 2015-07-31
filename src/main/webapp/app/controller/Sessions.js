@@ -79,7 +79,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				sessionStorage.setItem('features', Ext.encode(obj.features));
 
 				// initialize MathJax
-				ARSnova.app.getController('Application').initializeMathJax();
+				ARSnova.app.getController('MathJaxMarkdown').initializeMathJax();
 
 				// deactivate several about tabs
 				ARSnova.app.mainTabPanel.tabPanel.deactivateAboutTabs();
