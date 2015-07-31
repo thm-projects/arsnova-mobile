@@ -98,3 +98,18 @@ div[id^=ext-mathJaxMarkDownPanel] * {
 .icon-editor-quote {
 	margin-bottom: -5px !important;
 }
+
+div[id^=ext-mathJaxMarkDownPanel] {
+	table {
+		border-collapse: collapse;
+	}
+
+	table, tr, td, th {
+		border: 1px solid $thm-grey;
+	}
+
+	th {
+		background-color: $thm-lightgrey;
+		color: white;
+	}
+}

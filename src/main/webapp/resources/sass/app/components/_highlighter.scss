@@ -49,6 +49,10 @@ Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiac
 	padding-right: 1.5em;
 }
 
+.x-html code .hljs-pre {
+	margin: 0;
+}
+
 .hljs-highlight {
 	margin: 0.415em;
 	display: inline-block;
