@@ -1,4 +1,3 @@
-/*--------------------------------------------------------------------------+
 /*
  * This file is part of ARSnova Mobile.
  * Copyright (C) 2015 The ARSnova Team

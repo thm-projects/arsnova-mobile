@@ -66,6 +66,10 @@ Ext.define("ARSnova.controller.QuestionImport", {
 		var ANSWER7 = 9;
 		var ANSWER8 = 10;
 		var RIGHT_ANSWER = 11;
+		var ABSTENTION = 12;
+		var HINT = 13;
+		var SOLUTION = 14;
+
 		var question, questionModel, type, promise;
 		var size = json.length - 1;
 
@@ -77,7 +81,7 @@ Ext.define("ARSnova.controller.QuestionImport", {
 				promise = new RSVP.Promise();
 
 				questionModel = Ext.create('ARSnova.model.Question', {
-					abstention: true,
+					abstention: (question[ABSTENTION].toLowerCase() === 'y') ? true : false,
 					active: 1,
 					imageQuestion: false,
 					number: 0,
@@ -93,6 +97,8 @@ Ext.define("ARSnova.controller.QuestionImport", {
 					showStatistic: 1,
 					subject: question[QUESTION_SUBJECT],
 					text: question[QUESTION_TEXT],
+					hint: question[HINT],
+					solution: question[SOLUTION],
 					type: "skill_question"
 				});
 
@@ -216,8 +222,13 @@ Ext.define("ARSnova.controller.QuestionImport", {
 		var ANSWER7 = 9;
 		var ANSWER8 = 10;
 		var RIGHT_ANSWER = 11;
+		var ABSTENTION = 12;
+		var HINT = 13;
+		var SOLUTION = 14;
 
-		var NUM_COLUMS = 12;
+		// Column number is 15 because we have two optional fields
+		// HINT and SOLUTION
+		var NUM_COLUMS = 15;
 
 		var INDEX_FIRST_ANSWER = 3; // Answer 1
 		var INDEX_LAST_ANSWER = 10; // Answer 8
@@ -227,6 +238,7 @@ Ext.define("ARSnova.controller.QuestionImport", {
 		var subjectError = false;
 		var questionError = false;
 		var questionTypeError = false;
+		var abstentionError = false;
 
 		var lineCnt = 0;
 
@@ -253,6 +265,13 @@ Ext.define("ARSnova.controller.QuestionImport", {
 					if (!row[QUESTION_TEXT] || row[QUESTION_TEXT].trim() === '') {
 						error = true;
 						questionError = true;
+					}
+
+					if (lineCnt > 0) {
+						if (!row[ABSTENTION] || !(row[ABSTENTION] === 'y' || row[ABSTENTION] === 'n')) {
+							error = true;
+							abstentionError = true;
+						}
 					}
 
 					questionType = row[QUESTION_TYPE].toLowerCase();
@@ -329,11 +348,11 @@ Ext.define("ARSnova.controller.QuestionImport", {
 				lineCnt++;
 			}
 		});
-		this.showErrMsg(lineCnt, error, answersError, subjectError, questionError, questionTypeError);
+		this.showErrMsg(lineCnt, error, answersError, subjectError, questionError, questionTypeError, abstentionError);
 		return error;
 	},
 
-	showErrMsg: function (lineCnt, error, answersError, subjectError, questionError, questionTypeError) {
+	showErrMsg: function (lineCnt, error, answersError, subjectError, questionError, questionTypeError, abstentionError) {
 		if (error) {
 			var message = Messages.MISSING_INPUTS + '<ul class="newQuestionWarning"><br>';
 
@@ -348,6 +367,9 @@ Ext.define("ARSnova.controller.QuestionImport", {
 			}
 			if (questionTypeError) {
 				message += '<li>' + Messages.QUESTION_IMPORT_TYPE_ERROR + '</li>';
+			}
+			if (abstentionError) {
+				message += '<li>' + Messages.QUESTION_IMPORT_ABSTENTION_ERROR + '</li>';
 			}
 
 			Ext.Msg.alert(Messages.NOTIFICATION, message + Messages.QUESTION_ERR_IN_ROW + " " + lineCnt + '</ul>');

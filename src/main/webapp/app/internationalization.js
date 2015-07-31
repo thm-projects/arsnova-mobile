@@ -418,6 +418,7 @@
 				/* Question import */
 				QUESTION_ERR_IN_ROW: "in Zeile",
 				QUESTION_IMPORT_TYPE_ERROR: "Fehlerhafter Fragentyp",
+				QUESTION_IMPORT_ABSTENTION_ERROR: "Fehler im Feld Abstention",
 				QUESTION_IMPORT_YES: "Ja",
 				QUESTION_IMPORT_NO: "Nein",
 
@@ -1144,6 +1145,7 @@
 				/* Question import */
 				QUESTION_ERR_IN_ROW: "at line",
 				QUESTION_IMPORT_TYPE_ERROR: "Error question type",
+				QUESTION_IMPORT_ABSTENTION_ERROR: "Error in field Abstention",
 				QUESTION_IMPORT_YES: "Yes",
 				QUESTION_IMPORT_NO: "No",
 
