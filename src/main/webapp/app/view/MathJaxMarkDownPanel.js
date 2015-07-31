@@ -40,107 +40,17 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 
 	setContent: function (content, mathJaxEnabled, markDownEnabled, mathjaxCallback) {
 		var hideMediaDummy = '<div class="hideMediaDummy"><span class="###"></span></div>';
-		var hideMediaElements = this.config.hideMediaElements;
-		var contentCodeBlocks = [];
+		var markdownController = ARSnova.app.getController('MathJaxMarkdown');
 
-		function urlify(text) {
-			text += " ";
-			var urlDelimiter = /([^="\w]https?:\/\/[^\s<]+)/g;
-			var htmlUrlDelimiter = /[^<a](href="[^\s<]+)[^<]/g;
-			var urlRegex = /(https?:\/\/[^\s]+)/g;
+		markdownController.hideMediaElements = this.config.hideMediaElements;
+		markdownController.hideMediaDummy = hideMediaDummy;
 
-			text = text.replace(urlDelimiter, function (delUrl) {
-				return delUrl.replace(urlRegex, function (url) {
-					return '<a href="' + url + '">' + url + '</a>';
-				});
+		var replaceCodeBlockFromContent = function (content) {
+			return content.replace(/<hlcode>([\s\S]*?)<\/hlcode>/g, function (element) {
+				var codeBlockMatch = element.match(/^<hlcode>\s*([\s\S]*?)\s*<\/hlcode>$/)[1];
+				return "```auto\n" + codeBlockMatch + "```";
 			});
-
-			return text.replace(htmlUrlDelimiter, function (url) {
-				return ' class="hyperlink"' + url;
-			});
-		}
-
-		function removeCodeBlockFromContent(content) {
-			if (!!hljs) {
-				return content.replace(/<hlcode>([\s\S]*?)<\/hlcode>/g, function (element) {
-					contentCodeBlocks.push(element);
-					return '&!highlightJSBlock!&';
-				});
-			}
-			return content;
-		}
-
-		function applySyntaxHighlight(content) {
-			var codeDelimiter = /&amp;!highlightJSBlock!&amp;/g;
-
-			return content.replace(codeDelimiter, function (element) {
-				contentCodeBlocks.reverse();
-				element = contentCodeBlocks.pop();
-
-				if (typeof element === 'string') {
-					element = element.match(/<hlcode>([\s\S]*?)<\/hlcode>/);
-					if (!!hljs && element !== null && Array.isArray(element) && !hideMediaElements) {
-						return "<pre class='hljs-pre'><code class='hljs-highlight'>" +
-							hljs.highlightAuto(element[1]).value + "</pre></code>";
-					} else {
-						return hideMediaDummy.replace(/###/, 'codeListingIcon');
-					}
-				}
-			});
-		}
-
-		function replaceVideoElements(content) {
-			var titleDelimiter = /^.*alt="([^"]*)/;
-
-			var youtubeDelimiters = {
-				accessKey: 'youtube',
-				elementDel: /<a[^<>]*href="https:\/\/.+(src="https:\/\/img.youtube\.com\/vi)[^<>]*><\/a>/g,
-				imageDel: /<img[^<>]*(img.youtube\.com\/vi)[^<>]*><\/a>/,
-				videoIdDel: /^.*vi\/?([^\/]*)/,
-				titleDel: titleDelimiter
-			};
-
-			var vimeoDelimiters = {
-				accessKey: 'vimeo',
-				elementDel: /<a[^<>]*(vimeo\.com\/video).+a>/g,
-				imageDel: /<img[^<>]*(vimeo)[^<>]*>/,
-				videoIdDel: /href.+vimeo.com\/video\/([^"]*)/,
-				titleDel: titleDelimiter
-			};
-
-			var videoElementReplace = function (content, delimiters) {
-				return content.replace(delimiters.elementDel, function (element) {
-					var videoId = element.match(delimiters.videoIdDel)[1];
-
-					if (hideMediaElements) {
-						return hideMediaDummy.replace(/###/, delimiters.accessKey + 'Icon');
-					} else {
-						element = '<p class="videoImageParagraph">' + element + '</p>';
-						return element.replace(delimiters.imageDel, function (imageEl) {
-							var title = element.match(delimiters.titleDel)[1];
-							return '<span class="videoImageContainer" id="' + videoId + '" accesskey="'
-								+ delimiters.accessKey + '" title="' + title + '">' + imageEl + '</span';
-						});
-					}
-				});
-			};
-
-			content = videoElementReplace(content, youtubeDelimiters);
-			content = videoElementReplace(content, vimeoDelimiters);
-			return content;
-		}
-
-		function replaceImageElements(content) {
-			var imageDelimiter = /<img[^<>]*>/g;
-
-			return content.replace(imageDelimiter, function (element) {
-				if (hideMediaElements) {
-					return hideMediaDummy.replace(/###/, 'imageIcon');
-				} else {
-					return '<img class="resizeableImage"' + element.substr(4, element.length - 1);
-				}
-			});
-		}
+		};
 
 		var features = ARSnova.app.globalConfig.features;
 		if (markDownEnabled && features.markdown) {
@@ -155,11 +65,11 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 					content = repl.content;
 				}, this);
 
-				// remove code block before markdown parsing
-				repl.content = removeCodeBlockFromContent(repl.content);
+				// replace code block before markdown parsing
+				repl.content = replaceCodeBlockFromContent(repl.content);
 
 				// converted MarkDown to HTML
-				repl.content = markdown.toHTML(repl.content);
+				repl.content = markdownController.markdownToHtml(repl.content);
 
 				// undo MathJax delimiter replacements in reverse order
 				for (var i = replStack.length - 1; i > 0; i--) {
@@ -167,22 +77,17 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 				}
 				content = this.replaceBack(replStack[0]);
 			} else {
-				// remove code block before markdown parsing
-				content = removeCodeBlockFromContent(content);
+				// replace code block before markdown parsing
+				content = replaceCodeBlockFromContent(content);
 
 				// directly convert Markdown if MathJax is disabled
-				content = markdown.toHTML(content);
+				content = markdownController.markdownToHtml(content);
 			}
 		} else {
 			content = Ext.util.Format.htmlEncode(content);
 			content = content.replace(/\n/g, "<br />");
 		}
-		content = urlify(content);
-		content = replaceVideoElements(content);
-		content = replaceImageElements(content);
-		content = applySyntaxHighlight(content);
 		this.setHtml(content);
-
 		this.addSyntaxHighlightLineNumbers();
 
 		var callback = mathjaxCallback || Ext.emptyFn;
