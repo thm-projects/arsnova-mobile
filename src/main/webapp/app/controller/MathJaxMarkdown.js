@@ -121,6 +121,7 @@ Ext.define("ARSnova.controller.MathJaxMarkdown", {
 
 		var youtubeDelimiters = {
 			accessKey: 'youtube',
+			videoURI: 'https://www.youtube.com/embed/',
 			elementDel: /<img[^<>]*(img.youtube\.com\/vi)[^<>]*>/,
 			videoIdDel: /^.*vi\/?([^\/]*)/,
 			titleDel: titleDelimiter
@@ -128,6 +129,7 @@ Ext.define("ARSnova.controller.MathJaxMarkdown", {
 
 		var vimeoDelimiters = {
 			accessKey: 'vimeo',
+			videoURI: 'https://player.vimeo.com/video/',
 			elementDel: /<img[^<>]*(vimeo)[^<>]*>/,
 			videoIdDel: /^.*(vimeo\.com\/video)\/?([0-9]+)/,
 			titleDel: titleDelimiter
@@ -143,9 +145,9 @@ Ext.define("ARSnova.controller.MathJaxMarkdown", {
 					return controller.hideMediaDummy.replace(/###/, delimiters.accessKey + 'Icon');
 				} else {
 					var title = element.match(delimiters.titleDel)[1];
-					return '<p class="videoImageParagraph"><span class="videoImageContainer"'
-						+ ' id="' + videoId + '" accesskey="' + delimiters.accessKey + '" title="'
-						+ title + '">' + text + '</span></p>';
+					return '<p class="videoImageParagraph"><a class="hyperlink" href="' + delimiters.videoURI
+						+ videoId + '"><span class="videoImageContainer" id="' + videoId + '" accesskey="'
+						+ delimiters.accessKey + '" title="' + title + '">' + text + '</span></a></p>';
 				}
 			});
 		};
@@ -153,7 +155,11 @@ Ext.define("ARSnova.controller.MathJaxMarkdown", {
 		content = videoElementReplace(content, youtubeDelimiters);
 		content = videoElementReplace(content, vimeoDelimiters);
 
-		return text !== content ? content :
-			controller.defaultHyperLinkRenderer.call(marked, href, title, text);
+		if (text === content) {
+			content = controller.defaultHyperLinkRenderer.call(marked, href, title, text);
+			content = content.slice(0, 3) + 'class="hyperlink" ' + content.slice(4, content.length);
+		}
+
+		return content;
 	}
 });
