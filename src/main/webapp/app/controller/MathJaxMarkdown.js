@@ -124,7 +124,7 @@ Ext.define("ARSnova.controller.MathJaxMarkdown", {
 			accessKey: 'youtube',
 			videoURI: 'https://www.youtube.com/embed/',
 			elementDel: /<img[^<>]*(img.youtube\.com\/vi)[^<>]*>/,
-			videoIdDel: /^.*vi\/?([^\/]*)/,
+			videoIdDel: /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/,
 			titleDel: titleDelimiter
 		};
 
@@ -139,7 +139,7 @@ Ext.define("ARSnova.controller.MathJaxMarkdown", {
 		var videoElementReplace = function (content, delimiters) {
 			return content.replace(delimiters.elementDel, function (element) {
 				var videoId = delimiters.accessKey === 'youtube' ?
-					element.match(delimiters.videoIdDel)[1] :
+					href.match(delimiters.videoIdDel)[7] :
 					href.match(delimiters.videoIdDel)[2];
 
 				if (controller.hideMediaElements) {

@@ -109,6 +109,10 @@ div[id^=ext-mathJaxMarkDownPanel] {
 		border: 1px solid $thm-grey;
 	}
 
+	td {
+		background-color: white;
+	}
+
 	th {
 		background-color: $thm-lightgrey;
 		color: white;
