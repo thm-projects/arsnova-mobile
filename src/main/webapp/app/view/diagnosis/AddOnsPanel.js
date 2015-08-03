@@ -31,6 +31,8 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 	initialize: function () {
 		this.callParent(arguments);
 
+		var me = this;
+
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
 			ui: 'back',
@@ -53,19 +55,50 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 			items: [this.backButton]
 		});
 
+		this.optionalFieldSet = Ext.create('Ext.form.FieldSet', {
+			title: Messages.OPTIONAL_FEATURES,
+			defaults: {
+				xtype: 'checkboxfield',
+				checked: true
+			},
+	
+			items: [{
+				name: 'pi',
+				label: Messages.PEER_INSTRUCTION_QUESTIONS
+			}, {
+				name: 'learningProgress',
+				label: Messages.LEARNING_PROGRESS
+			}]
+		});
+
 		this.featureFormPanel = Ext.create('Ext.form.Panel', {
 			cls: 'standardForm topPadding',
 			scrollable: null,
+
+			listeners: {
+				selectionChange: function () {
+					var selections = this.getValues();
+					me.optionalFieldSet.setHidden(!selections.lecture && !selections.jitt);
+				}
+			},
 
 			items: [{
 				xtype: 'fieldset',
 				title: Messages.ACTIVATE_FEATURES,
 				defaults: {
 					xtype: 'checkboxfield',
-					checked: true
+					checked: true,
+					listeners: {
+						change: function () {
+							me.featureFormPanel.fireEvent('selectionChange');
+						}
+					}
 				},
 
 				items: [{
+					name: 'lecture',
+					label: Messages.LECTURE_QUESTIONS_LONG
+				}, {
 					name: 'jitt',
 					label: Messages.PREPARATION_QUESTIONS_LONG
 				}, {
@@ -74,14 +107,8 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 				}, {
 					name: 'feedback',
 					label: Messages.LIVE_FEEDBACK
-				}, {
-					name: 'pi',
-					label: Messages.PEER_INSTRUCTION_QUESTIONS
-				}, {
-					name: 'learningProgress',
-					label: Messages.LEARNING_PROGRESS
 				}]
-			}]
+			}, this.optionalFieldSet]
 		});
 
 		this.submitButton = Ext.create('Ext.Button', {
@@ -91,7 +118,7 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 			scope: this,
 			handler: function (button) {
 				button.disable();
-				ARSnova.app.sessionModel.changeFeatures(sessionStorage.getItem("keyword"), this.featureFormPanel.getValues(), {
+				ARSnova.app.sessionModel.changeFeatures(sessionStorage.getItem("keyword"), this.getFeatureValues(), {
 					success: function () {
 						button.enable();
 						Ext.toast(Messages.SETTINGS_SAVED, 3000);
@@ -114,5 +141,15 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 		this.on('activate', function () {
 			this.featureFormPanel.setValues(Ext.decode(sessionStorage.getItem("features")));
 		}, this);
+	},
+
+	getFeatureValues: function () {
+		var selection = this.featureFormPanel.getValues();
+		if (this.optionalFieldSet.isHidden()) {
+			selection.learningProgress = null;
+			selection.pi = null;
+		}
+
+		return selection;
 	}
 });
