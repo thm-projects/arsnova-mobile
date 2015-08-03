@@ -74,6 +74,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				sTP.showcaseQuestionPanel.speakerUtilities.initializeZoomComponents();
 
 				if (ARSnova.app.projectorModeActive) {
+					panel.speakerUtilities.restoreZoomLevel();
 					panel.setProjectorMode(panel, false);
 				}
 
