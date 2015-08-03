@@ -71,9 +71,9 @@ Ext.define("ARSnova.controller.QuestionImport", {
 		var SOLUTION = 14;
 
 		var question, questionModel, type, promise;
-		var size = json.length - 1;
+		var size = json.length;
 
-		for (var i = 1; i < json.length; i++) {
+		for (var i = 0; i < json.length; i++) {
 			question = json[i];
 			type = this.getModelQuestionType(question[QUESTION_TYPE]);
 

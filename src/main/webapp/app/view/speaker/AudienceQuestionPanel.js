@@ -229,7 +229,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 					]
 				},
 				{
-					xtype: 'fileinput',
+					xtype: 'filefield',
 					name: 'csv Datei',
 					accept: 'text/csv',
 					listeners: {
@@ -238,7 +238,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 							var fileType = path.substring(path.lastIndexOf('.'));
 							if (fileType === '.csv') {
 								var reader = new FileReader();
-								var file = element.input.dom.files[0];
+								var file = element.bodyElement.dom.firstElementChild.firstElementChild.files[0];
 								reader.onload = function () {
 									ARSnova.app.getController('QuestionImport').importCvsFile(reader.result);
 								};
