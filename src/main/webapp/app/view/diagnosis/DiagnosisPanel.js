@@ -42,16 +42,6 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 			this.lastActivePanel = ARSnova.app.lastActiveMainTabPanel;
 		});
 
-		this.on('activate', function () {
-			ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.sessionJoinAsSpeaker, this.joinSessionEvent, this);
-			ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.sessionLeave, this.leaveSessionEvent, this);
-		}, this);
-
-		this.on('deactivate', function () {
-			ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.sessionJoinAsSpeaker, this.joinSessionEvent);
-			ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.sessionLeave, this.leaveSessionEvent);
-		}, this);
-
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
 			ui: 'back',
@@ -139,15 +129,5 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 		});
 
 		this.add([this.toolbar, this.inClass]);
-	},
-
-	joinSessionEvent: function () {
-		this.addOnsButton.setDisabled(false);
-		this.inClass.down('formpanel').insert(0, this.addOnsButton);
-	},
-
-	leaveSessionEvent: function () {
-		this.addOnsButton.setDisabled(true);
-		this.inClass.down('formpanel').remove(this.addOnsButton, false);
 	}
 });

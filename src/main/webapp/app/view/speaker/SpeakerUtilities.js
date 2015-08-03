@@ -156,9 +156,7 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 		var projectorHandler = this.getProjectorHandler();
 
 		if (ARSnova.app.projectorModeActive) {
-			ARSnova.app.getController('Application').setGlobalZoomLevel(
-				ARSnova.app.storedZoomLevel || ARSnova.app.globalZoomLevel);
-			ARSnova.app.storedZoomLevel = null;
+			this.restoreZoomLevel();
 		} else {
 			ARSnova.app.getController('Application').storeGlobalZoomLevel();
 		}
@@ -171,6 +169,12 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 			this.getProjectorHandlerScope() ||
 			this.getParentReference()
 		);
+	},
+
+	restoreZoomLevel: function () {
+		ARSnova.app.getController('Application').setGlobalZoomLevel(
+			ARSnova.app.storedZoomLevel || ARSnova.app.globalZoomLevel);
+		ARSnova.app.storedZoomLevel = null;
 	},
 
 	setProjectorMode: function (panel, enable, noFullscreen) {

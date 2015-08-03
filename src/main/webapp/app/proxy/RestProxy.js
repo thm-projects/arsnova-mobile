@@ -1008,7 +1008,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	changeFeatures: function (keyword, features, callbacks) {
 		this.arsjax.request({
 			url: "session/" + encodeURIComponent(keyword) + "/features",
-			method: "PATCH",
+			method: "PUT",
 			jsonData: features,
 			success: function (response) {
 				var json = response.responseText || "{}";
