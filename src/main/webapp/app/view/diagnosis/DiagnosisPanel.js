@@ -124,7 +124,7 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 			}, {
 				width: 150,
 				style: 'margin: 30px auto',
-				html: "<a href='http://www.gnu.org/licenses/agpl-3.0.de.html' target='_blank'><img src='resources/images/agpl_logo.svg' width='150' height='60'></a>"
+				html: "<a href='http://www.gnu.org/licenses/gpl-3.0.de.html' target='_blank'><img src='resources/images/gpl-v3-logo.svg' width='120' height='60'></a>"
 			}]
 		});
 
