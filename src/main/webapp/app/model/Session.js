@@ -173,6 +173,19 @@ Ext.define('ARSnova.model.Session', {
 		});
 	},
 
+	getMyLearningProgressWithOptions: function (sessionKeyword, options, callbacks) {
+		var me = this;
+		return this.getProxy().getMyLearningProgress(sessionKeyword, options, {
+			success: function (progress) {
+				var progressDescription = me.progressDescription(progress);
+				var myself = progressDescription.myself;
+				var course = progressDescription.course;
+				callbacks.success.call(callbacks.scope, myself, course, progress, me.getLearningProgress());
+			},
+			failure: callbacks.failure
+		});
+	},
+
 	progressDescription: function (learningProgress) {
 		var desc = function (progress) {
 			var color;

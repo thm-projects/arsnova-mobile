@@ -497,5 +497,13 @@ Ext.define("ARSnova.controller.Sessions", {
 			options.progress,
 			options.callbacks
 		);
+	},
+
+	getMyLearningProgress: function (options) {
+		ARSnova.app.sessionModel.getMyLearningProgressWithOptions(
+			sessionStorage.getItem("keyword"),
+			options.progress,
+			options.callbacks
+		);
 	}
 });

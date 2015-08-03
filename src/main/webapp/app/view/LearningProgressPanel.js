@@ -190,16 +190,30 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 	},
 
 	showProgress: function (options) {
-		ARSnova.app.getController('Sessions').getCourseLearningProgress({
-			progress: options,
-			callbacks: {
-				scope: this,
-				success: function (text, color, data) {
-					var badgeInfo = [data.numerator, Messages.OF, data.denominator, options.type === "questions" ? Messages.QUESTIONS_ABBR : Messages.POINTS_ABBR];
-					this.courseLearningProgressButton.setBadge([{badgeText: badgeInfo.join(" "), badgeCls: color + "badgeicon"}, {badgeText: text, badgeCls: color + "badgeicon"}]);
-				},
-				failure: Ext.emptyFn
-			}
-		});
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			ARSnova.app.getController('Sessions').getCourseLearningProgress({
+				progress: options,
+				callbacks: {
+					scope: this,
+					success: function (text, color, data) {
+						var badgeInfo = [data.numerator, Messages.OF, data.denominator, options.type === "questions" ? Messages.QUESTIONS_ABBR : Messages.POINTS_ABBR];
+						this.courseLearningProgressButton.setBadge([{badgeText: badgeInfo.join(" "), badgeCls: color + "badgeicon"}, {badgeText: text, badgeCls: color + "badgeicon"}]);
+					},
+					failure: Ext.emptyFn
+				}
+			});
+		} else {
+			ARSnova.app.getController('Sessions').getMyLearningProgress({
+				progress: options,
+				callbacks: {
+					scope: this,
+					success: function (myprogress, courseProgress, data) {
+						var badgeInfo = [data.numerator, Messages.OF, data.denominator, options.type === "questions" ? Messages.QUESTIONS_ABBR : Messages.POINTS_ABBR];
+						this.courseLearningProgressButton.setBadge([{badgeText: badgeInfo.join(" "), badgeCls: myprogress.color + "badgeicon"}, {badgeText: myprogress.text, badgeCls: myprogress.color + "badgeicon"}]);
+					},
+					failure: Ext.emptyFn
+				}
+			});
+		}
 	}
 });
