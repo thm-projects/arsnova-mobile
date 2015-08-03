@@ -70,7 +70,8 @@ Ext.define("ARSnova.controller.MathJaxMarkdown", {
 		markedRenderer.prototype.image = this.imageRenderer;
 
 		marked.setOptions({
-			highlight: this.highlightRenderer
+			highlight: this.highlightRenderer,
+			sanitize: true
 		});
 
 		this.lexer = new marked.Lexer();
