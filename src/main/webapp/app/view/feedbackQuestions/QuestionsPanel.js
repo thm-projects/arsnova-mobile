@@ -103,6 +103,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					panel.speakerUtilities.initializeZoomComponents();
 
 					if (ARSnova.app.projectorModeActive) {
+						panel.speakerUtilities.restoreZoomLevel();
 						this.speakerUtilities.setProjectorMode(panel, false);
 					}
 				} else {
