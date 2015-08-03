@@ -123,19 +123,24 @@ Ext.define('ARSnova.view.CustomMask', {
 			if (!clicked) {
 				if (this.isClickableElement(container)) {
 					var component = Ext.getCmp(container.id);
+
 					if (component) {
 						if (!component.getDisabled()) {
 							component.fireAction("tap", [component, event], 'doTap');
 							container.customMaskClick = true;
 						}
-					} else if (container.click) {
-						container.click();
-					} else if (document.createEvent) {
-						if (event.target !== container) {
-							var evt = document.createEvent("MouseEvents");
-							evt.initMouseEvent("click", true, true, window,
-								0, 0, 0, 0, 0, false, false, false, false, 0, null);
-							container.dispatchEvent(evt);
+					} else {
+						container.customMaskClick = true;
+
+						if (container.click) {
+							container.click();
+						} else if (document.createEvent) {
+							if (event.target !== container) {
+								var evt = document.createEvent("MouseEvents");
+								evt.initMouseEvent("click", true, true, window,
+									0, 0, 0, 0, 0, false, false, false, false, 0, null);
+								container.dispatchEvent(evt);
+							}
 						}
 					}
 					clicked = true;
