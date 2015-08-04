@@ -39,7 +39,9 @@ Lead programming: Andreas Gärtner, Daniel Gerhardt, Christoph Thelen
 Contributions: Simon Hauck, Marcel Hedderich, Dominik Hikade, Nicola Justus,
 Tom Käsler, Maximilian Klingelhöfer, Franciska Periša, Simeon "EinBaum" Perlov,
 Björn Pfarrreis, Sviatlana Plakhina, Dennis Schönhof, Katharina Staden,
-Max Steinwachs
+Max Steinwachs  
+Sponsoring: [AG QLS](https://www.thm.de/site/en/hochschule/service/ag-qls.html),
+[HMWK](https://wissenschaft.hessen.de/wissenschaft/it-neue-medien/kompetenznetz-e-learning-hessen)  
 
 
 ## 2.1
