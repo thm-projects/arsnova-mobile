@@ -1,5 +1,47 @@
 # Changelog
 
+## 2.2
+Major features:
+* Peer Instruction: A question can now be answered again in a second round.
+  To limit the answering time, a countdown timer can be activated.
+* Full screen mode: The browser automatically enters full screen mode when
+  presenting questions. Additionally, a theme optimized for projections is used
+  in this case. The font size can be adjusted.
+* Learning analytics: Multiple calculation options for learning progress have
+  been introduced.
+* Image answers (experimental): Free text answers can now be answered with an
+  image (the feature has to be enabled explicitly for a question).
+* Performance: A lot of improvements have been introduced to make the UI more
+  responsive
+
+Minor features and changes:
+* Simplified text formatting: A formatting tool bar has been introduced.
+* Video embedding from YouTube and Vimeo
+* Code syntax highlighting in questions
+* Hint & solution for questions
+* Session info: The previously with public pools introduced session info is now
+  available for all sessions.
+* QR Code: It is now possible to generate and display QR Codes for a sessions
+  directly from ARSnova Mobile.
+* Role switching: Switching between speaker to student views is now possible
+  without leaving a session or logging out.
+* Embedded pages: External websites are now embedded in ARSnova (if possible)
+  instead of opening a new browser tab.
+* Usability improvements and bug fixes
+
+Bugfixes:
+* Fixed a rendering bug with latest Chrome versions (43+) which made question
+  answering impossible.
+
+**This version is brought to you by:**  
+Project management: Klaus Quibeldey-Cirkel  
+Lead programming: Andreas Gärtner, Daniel Gerhardt, Christoph Thelen  
+Contributions: Simon Hauck, Marcel Hedderich, Dominik Hikade, Nicola Justus,
+Tom Käsler, Maximilian Klingelhöfer, Franciska Periša, Simeon "EinBaum" Perlov,
+Björn Pfarrreis, Sviatlana Plakhina, Dennis Schönhof, Katharina Staden,
+Max Steinwachs
+
+
 ## 2.1
 Major features:
 * Modern theme: The ARSnova theme has been completely overhauled. The new theme
