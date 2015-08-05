@@ -76,7 +76,7 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 			scrollable: null,
 
 			listeners: {
-				selectionChange: function () {
+				selectionChange: function (field) {
 					var selections = this.getValues();
 					me.optionalFieldSet.setHidden(!selections.lecture && !selections.jitt);
 				}
@@ -89,8 +89,8 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 					xtype: 'checkboxfield',
 					checked: true,
 					listeners: {
-						change: function () {
-							me.featureFormPanel.fireEvent('selectionChange');
+						change: function (field) {
+							me.featureFormPanel.fireEvent('selectionChange', field);
 						}
 					}
 				},
@@ -117,17 +117,25 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 			text: Messages.SAVE,
 			scope: this,
 			handler: function (button) {
+				var selection = this.getFeatureValues();
 				button.disable();
-				ARSnova.app.sessionModel.changeFeatures(sessionStorage.getItem("keyword"), this.getFeatureValues(), {
-					success: function () {
+
+				if (!selection.lecture && !selection.interposed && !selection.jitt && !selection.feedback) {
+					Ext.Msg.alert(Messages.NOTIFICATION, Messages.FEATURE_SAVE_ERROR, function () {
 						button.enable();
-						Ext.toast(Messages.SETTINGS_SAVED, 3000);
-					},
-					failure: function () {
-						button.enable();
-						Ext.Msg.alert("", Messages.SETTINGS_COULD_NOT_BE_SAVED);
-					}
-				});
+					});
+				} else {
+					ARSnova.app.sessionModel.changeFeatures(sessionStorage.getItem("keyword"), this.getFeatureValues(), {
+						success: function () {
+							button.enable();
+							Ext.toast(Messages.SETTINGS_SAVED, 3000);
+						},
+						failure: function () {
+							button.enable();
+							Ext.Msg.alert("", Messages.SETTINGS_COULD_NOT_BE_SAVED);
+						}
+					});
+				}
 			}
 		});
 

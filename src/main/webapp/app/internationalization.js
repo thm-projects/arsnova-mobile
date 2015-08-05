@@ -602,6 +602,7 @@
 				ACTIVATE_FEATURES: "Features aktivieren",
 				OPTIONAL_FEATURES: "Optionale Features",
 				SETTINGS_SAVED: 'Ihre Einstellungen wurden gespeichert',
+				FEATURE_SAVE_ERROR: 'Es muss mindestens ein Feature ausgewählt werden.',
 
 				/* errors */
 				SESSION_NOT_FOUND: "Diese Session existiert nicht.",
@@ -1190,6 +1191,7 @@
 				ACTIVATE_FEATURES: "Activate features",
 				OPTIONAL_FEATURES: "Optional features",
 				SETTINGS_SAVED: 'Your settings have been saved.',
+				FEATURE_SAVE_ERROR: 'At least one feature must be selected.',
 
 				/* errors */
 				SESSION_NOT_FOUND: "This session does not seem to exist.",
