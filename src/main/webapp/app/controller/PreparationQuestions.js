@@ -108,5 +108,5 @@ Ext.define("ARSnova.controller.PreparationQuestions", {
 			};
 			panel.backButton.setText(Messages.TASKS);
 		}, this, {single: true});
-	},
+	}
 });

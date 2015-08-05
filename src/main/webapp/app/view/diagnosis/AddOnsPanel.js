@@ -61,7 +61,7 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 				xtype: 'checkboxfield',
 				checked: true
 			},
-	
+
 			items: [{
 				name: 'pi',
 				label: Messages.PEER_INSTRUCTION_QUESTIONS

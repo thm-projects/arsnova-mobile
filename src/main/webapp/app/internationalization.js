@@ -154,6 +154,7 @@
 				QUESTIONTEXT_PLACEHOLDER: "Frage eingeben",
 				QUESTION_MANAGEMENT: "Fragenverwaltung",
 				QUESTIONS: "Fragen",
+				TASKS: "Aufgaben",
 				QUESTION_DETAILS: "Details",
 				QUESTION_DATE: "Datum",
 				DELETE: "Löschen",
@@ -599,6 +600,7 @@
 				ACTIVE_STUDENT_USERS: "Aktive User in der Rolle Student/in",
 				FEATURES: "Features",
 				ACTIVATE_FEATURES: "Features aktivieren",
+				OPTIONAL_FEATURES: "Optionale Features",
 				SETTINGS_SAVED: 'Ihre Einstellungen wurden gespeichert',
 
 				/* errors */
@@ -737,6 +739,7 @@
 				QUESTIONTEXT_PLACEHOLDER: "Enter question",
 				QUESTION_MANAGEMENT: "Question Management",
 				QUESTIONS: "Questions",
+				TASKS: "Tasks",
 				QUESTION_DETAILS: "Details",
 				QUESTION_DATE: "Date",
 				DELETE: "Delete",
@@ -1185,6 +1188,7 @@
 				LEARNING_PROGRESS: "Learning progress",
 				FEATURES: "Features",
 				ACTIVATE_FEATURES: "Activate features",
+				OPTIONAL_FEATURES: "Optional features",
 				SETTINGS_SAVED: 'Your settings have been saved.',
 
 				/* errors */
