@@ -32,7 +32,6 @@ Ext.define('ARSnova.view.user.InClass', {
 
 	inClass: null,
 	feedbackButton: null,
-	questionsButton: null,
 	quizButton: null,
 
 	checkLearningProgressTask: {
@@ -379,7 +378,23 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	updateCaption: function () {
-		var hasOptions = this.badgeOptions.numAnswers ||
+		var hasOptions = false;
+		var features = Ext.decode(sessionStorage.getItem("features"));
+
+		if (!features.lecture && !features.jitt) {
+			this.badgeOptions.numQuestions = 0;
+			this.badgeOptions.numAnswers = 0;
+		} else if (!features.lecture && features.jitt) {
+			this.badgeOptions.numQuestions = this.badgeOptions.numPrepQuestions;
+			this.badgeOptions.numAnswers = this.badgeOptions.numPrepAnswers;
+		}
+
+		if (!features.interposed) {
+			this.badgeOptions.numInterposed = 0;
+			this.badgeOptions.numUnredInterposed = 0;
+		}
+
+		hasOptions = this.badgeOptions.numAnswers ||
 			this.badgeOptions.numQuestions ||
 			this.badgeOptions.numInterposed ||
 			this.badgeOptions.numUnredInterposed;
@@ -444,7 +459,9 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	checkLecturerQuestions: function (questionIds) {
-		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.tab.setBadgeText(questionIds.length);
+		this.unansweredLectureQuestions = questionIds.length;
+		this.updateQuestionsPanelBadge();
+
 		if (questionIds.length > 0) {
 			var hasUnreadQuestions = this.markQuestionsAsRead(questionIds, "lecture");
 			if (!hasUnreadQuestions) {
@@ -456,6 +473,9 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	checkPreparationQuestions: function (questionIds) {
+		this.unansweredPreparationQuestions = questionIds.length;
+		this.updateQuestionsPanelBadge();
+
 		if (questionIds.length > 0) {
 			var hasUnreadQuestions = this.markQuestionsAsRead(questionIds, "preparation");
 			if (!hasUnreadQuestions) {
@@ -463,6 +483,16 @@ Ext.define('ARSnova.view.user.InClass', {
 			}
 
 			this.showNotification(questionIds, "preparation");
+		}
+	},
+
+	updateQuestionsPanelBadge: function () {
+		var questionsPanel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel;
+
+		if (questionsPanel.getMode() === 'lecture') {
+			questionsPanel.tab.setBadgeText(this.unansweredLectureQuestions);
+		} else if (questionsPanel.getMode() === 'preparation') {
+			questionsPanel.tab.setBadgeText(this.unansweredPreparationQuestions);
 		}
 	},
 
@@ -527,18 +557,21 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	countQuestionsAndAnswers: function (data) {
+		var features = Ext.decode(sessionStorage.getItem("features"));
 		var hasData = data.unansweredLectureQuestions
 			|| data.lectureQuestionAnswers
 			|| data.unansweredPreparationQuestions
 			|| data.preparationQuestionAnswers;
-		if (hasData) {
+		if (hasData && features.learningProgress) {
 			this.inClassButtons.add(this.myLearningProgressButton);
 		} else {
 			this.inClassButtons.remove(this.myLearningProgressButton, false);
 		}
 
-		this.badgeOptions.numQuestions = data.unansweredLectureQuestions || data.unansweredPreparationQuestions;
-		this.badgeOptions.numAnswers = data.lectureQuestionAnswers || data.preparationQuestionAnswers;
+		this.badgeOptions.numAnswers = data.lectureQuestionAnswers;
+		this.badgeOptions.numQuestions = data.unansweredLectureQuestions;
+		this.badgeOptions.numPrepAnswers = data.preparationQuestionAnswers;
+		this.badgeOptions.numPrepQuestions = data.unansweredPreparationQuestions;
 		this.updateCaption();
 
 		this.lectureQuestionButton.setBadge([

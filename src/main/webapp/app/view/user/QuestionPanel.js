@@ -32,6 +32,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		title: Messages.QUESTIONS,
 		iconCls: 'icon-presenter',
 
+		mode: 'lecture',
 		questionLoader: null,
 		questionCountLoader: null,
 		questionTitle: Messages.LECTURE_QUESTION_LONG,
@@ -99,6 +100,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		this.setQuestionLoader(Ext.bind(ARSnova.app.questionModel.getPreparationQuestionsForUser, ARSnova.app.questionModel));
 		this.setQuestionTitle(Messages.PREPARATION_QUESTION_LONG);
 		this.setQuestionTitleShort(Messages.PREPARATION_QUESTION_SHORT);
+		this.setMode('preparation');
 	},
 
 	setLectureMode: function () {
@@ -106,6 +108,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		this.setQuestionLoader(Ext.bind(ARSnova.app.questionModel.getLectureQuestionsForUser, ARSnova.app.questionModel));
 		this.setQuestionTitle(Messages.LECTURE_QUESTION_LONG);
 		this.setQuestionTitleShort(Messages.LECTURE_QUESTIONS);
+		this.setMode('lecture');
 	},
 
 	getUnansweredSkillQuestions: function () {
