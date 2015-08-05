@@ -251,6 +251,7 @@ Ext.define("ARSnova.controller.Sessions", {
 
 		ARSnova.app.sessionModel.sessionIsActive = true;
 		tabPanel.feedbackQuestionsPanel.questionsPanel.prepareQuestionList();
+		ARSnova.app.getController('Feature').applyFeatures();
 
 		hideLoadMask();
 	},
