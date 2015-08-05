@@ -215,5 +215,22 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 				}
 			});
 		}
+	},
+
+	setQuestionVariantFieldHidden: function (hide) {
+		var questionVariantFieldSet = this.learningProgressChooser.getItems().items[1];
+		questionVariantFieldSet.setHidden(hide);
+	},
+
+	refreshQuestionVariantFields: function () {
+		var questionVariantFields = this.learningProgressChooser.getItems().items[1].getInnerItems();
+		var options = ARSnova.app.getController('Sessions').getLearningProgressOptions();
+
+		questionVariantFields.forEach(function (field) {
+			if (field.getValue() === options.questionVariant) {
+				field.check();
+			}
+		});
+		this.showProgress(options);
 	}
 });
