@@ -70,12 +70,7 @@ Ext.define('ARSnova.model.Session', {
 		sessionJoinAsStudent: "arsnova/session/join/student",
 		sessionLeave: "arsnova/session/leave",
 		learningProgressChange: "arsnova/session/learningprogress/change",
-		featureChange: "arsnova/session/features/change",
-		featureChangeLearningProgress: "arsnova/session/features/learningprogress/change",
-		featureChangeFeedback: "arsnova/session/features/feedback/change",
-		featureChangeJITT: "arsnova/session/features/jitt/change",
-		featureChangePI: "arsnova/session/features/pi/change",
-		featureChangeInterposed: "arsnova/session/features/interposed/change"
+		featureChange: "arsnova/session/features/change"
 	},
 
 	constructor: function () {
@@ -89,6 +84,12 @@ Ext.define('ARSnova.model.Session', {
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.learningProgressChange, function () {
 			this.fireEvent(this.events.learningProgressChange);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.featureChange, function (features) {
+			sessionStorage.setItem("features", Ext.encode(features));
+			ARSnova.app.getController('Feature').applyFeatures();
+			this.fireEvent(this.events.featureChange, features);
 		}, this);
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.learningProgressOptions, this.setUserBasedProgressOptions, this);
@@ -267,11 +268,6 @@ Ext.define('ARSnova.model.Session', {
 		return this.getProxy().changeFeatures(keyword, features, {
 			success: function (features) {
 				var prev = Ext.decode(sessionStorage.getItem("features"));
-				var notifyChange = function (prop, fireEvent) {
-					if (prev[prop] !== features[prop]) {
-						me.fireEvent(me.events[fireEvent], features[prop]);
-					}
-				};
 				// Check if the features have actually changed...
 				var same = true;
 				for (var k in prev) {
@@ -281,13 +277,7 @@ Ext.define('ARSnova.model.Session', {
 				}
 				if (!same) {
 					sessionStorage.setItem("features", Ext.encode(features));
-					// report changes
 					me.fireEvent(me.events.featureChange, features);
-					notifyChange("jitt", "featureChangeJITT");
-					notifyChange("learningProgress", "featureChangeLearningProgress");
-					notifyChange("feedback", "featureChangeFeedback");
-					notifyChange("interposed", "featureChangeInterposed");
-					notifyChange("pi", "featureChangePI");
 				}
 				callbacks.success.apply(callbacks.scope, arguments);
 			},

@@ -39,6 +39,7 @@ Ext.define('ARSnova.WebSocket', {
 		lockVotes: "arsnova/socket/lecturer/lockVotes",
 		unlockVote: "arsnova/socket/lecturer/unlockVote",
 		unlockVotes: "arsnova/socket/lecturer/unlockVotes",
+		featureChange: "arsnova/session/features/change",
 		endPiRound: "arsnova/question/lecturer/endPiRound",
 		resetPiRound: "arsnova/question/lecturer/resetPiRound",
 		cancelPiRound: "arsnova/question/lecturer/cancelPiRound",
@@ -213,6 +214,11 @@ Ext.define('ARSnova.WebSocket', {
 			this.socket.on('learningProgressOptions', Ext.bind(function (options) {
 				console.debug("Socket.IO: learningProgressOptions", options);
 				this.fireEvent(this.events.learningProgressOptions, options);
+			}, this));
+
+			this.socket.on('featureChange', Ext.bind(function (features) {
+				console.debug("Socket.IO: featureChange", features);
+				this.fireEvent(this.events.featureChange, features);
 			}, this));
 
 			this.socket.on('learningProgressChange', Ext.Function.createBuffered(function () {
