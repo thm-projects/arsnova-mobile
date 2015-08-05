@@ -452,7 +452,7 @@ Ext.define("ARSnova.controller.Questions", {
 				duration: 700
 			});
 		});
-		backButton.setText("Session");
+		backButton.setText(Messages.SESSION);
 		sTP.newQuestionPanel.on('deactivate', function (panel) {
 			panel.backButton.handler = function () {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
@@ -462,7 +462,7 @@ Ext.define("ARSnova.controller.Questions", {
 					duration: 700
 				});
 			};
-			panel.backButton.setText("Fragen");
+			panel.backButton.setText(Messages.QUESTIONS);
 		}, this, {single: true});
 	},
 

@@ -72,5 +72,41 @@ Ext.define("ARSnova.controller.PreparationQuestions", {
 	setQuestionSort: function (options) {
 		ARSnova.app.questionModel.setQuestionPreparationSort(sessionStorage.getItem('keyword'),
 			options.subject, options.sortType, options.questionIDs, options.callbacks);
-	}
+	},
+
+	adHoc: function () {
+		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		sTP.sortQuestionsPanel.setController(this);
+		sTP.audienceQuestionPanel.setController(this);
+		sTP.showcaseQuestionPanel.setController(this);
+		sTP.newQuestionPanel.setVariant('preparation');
+		sTP.animateActiveItem(sTP.newQuestionPanel, {
+			type: 'slide',
+			duration: 700
+		});
+
+		/* change the backButton-redirection to inClassPanel,
+		 * but only for one function call */
+		var backButton = sTP.newQuestionPanel.down('button[ui=back]');
+		backButton.setHandler(function () {
+			var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+			sTP.animateActiveItem(sTP.inClassPanel, {
+				type: 'slide',
+				direction: 'right',
+				duration: 700
+			});
+		});
+		backButton.setText(Messages.SESSION);
+		sTP.newQuestionPanel.on('deactivate', function (panel) {
+			panel.backButton.handler = function () {
+				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+				sTP.animateActiveItem(sTP.audienceQuestionPanel, {
+					type: 'slide',
+					direction: 'right',
+					duration: 700
+				});
+			};
+			panel.backButton.setText(Messages.TASKS);
+		}, this, {single: true});
+	},
 });
