@@ -54,7 +54,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 		sliderDefaultValue: 2,
 		sliderMinValue: 1,
 		sliderMaxValue: 10,
-		secondsLeftTillAlert: 16,
+		secondsLeftTillAlert: 9,
 		viewOnlyOpacity: 0.75,
 
 		showAnimation: {
@@ -351,7 +351,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			context.translate(-x, -y);
 			context.strokeStyle =
 				(this.seconds < this.getSecondsLeftTillAlert() * 1000) &&
-				((this.seconds / 1000) % 2 > 1) && !(minutes > 1) ?
+				((this.seconds / 1000) % 2 > 1) && minutes <= 1 ?
 					"#971b2f" : "#4a5c66";
 
 			context.beginPath();
@@ -361,7 +361,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 
 			context.strokeStyle =
 				(this.seconds < this.getSecondsLeftTillAlert() * 1000) &&
-				((this.seconds / 1000) % 2 > 1) && !(minutes > 1) ?
+				((this.seconds / 1000) % 2 > 1) && minutes <= 1 ?
 					"#971b2f" : "#F2A900";
 			startAngle = 0 * Math.PI;
 			endAngle = ((2 * Math.PI) / (this.maxSeconds / this.seconds));

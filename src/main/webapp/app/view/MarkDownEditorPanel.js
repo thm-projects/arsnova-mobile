@@ -229,7 +229,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 		if (removal) {
 			parent.removeFormatting(processObj, escapeString.length);
 		} else {
-			applyString = this.config.applyString ? this.config.applyString : escapeString;
+			var applyString = this.config.applyString ? this.config.applyString : escapeString;
 			parent.applyFormatting(processObj, applyString, this.config.biliteral);
 		}
 	},
@@ -365,7 +365,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
 			var match = urlValue.match(regExp);
 
-			if (match && match[7].length == 11) {
+			if (match && match[7].length === 11) {
 				var videoId = match[7];
 				var formatted = "[![" + textValue + "](https://img.youtube.com/vi/" + videoId
 					+ "/0.jpg)](https://www.youtube.com/watch?v=" + videoId + ")";

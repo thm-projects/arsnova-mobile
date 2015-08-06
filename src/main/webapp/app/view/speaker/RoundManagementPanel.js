@@ -34,7 +34,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		ROUND_MANAGEMENT: 1
 	},
 
-	initialize: function (arguments) {
+	initialize: function () {
 		this.callParent(arguments);
 
 		this.backButton = Ext.create('Ext.Button', {
@@ -308,7 +308,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 	},
 
 	cancelPiRound: function (afterCancelFunction) {
-		afterCancelFuction = !!afterCancelFunction ? afterCancelFunction : Ext.emptyFn;
+		afterCancelFunction = afterCancelFunction || Ext.emptyFn;
 		this.countdownTimer.stop();
 
 		ARSnova.app.questionModel.cancelDelayedPiRound(this.statisticChart.questionObj._id, {

@@ -481,7 +481,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 				me.createdSessionsObject.updatePagination(sessions);
 				for (var i = 0; i < me.createdSessionsObject.sessions.length; i++) {
-					session = me.createdSessionsObject.sessions[i];
+					var session = me.createdSessionsObject.sessions[i];
 					var status = "";
 					var course = "icon-presenter";
 
