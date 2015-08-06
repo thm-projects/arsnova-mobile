@@ -314,12 +314,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	onPainted: function () {
-		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
-			ARSnova.app.taskManager.start(this.countFeedbackQuestionsTask);
-		}
-		if (ARSnova.app.globalConfig.features.learningProgress) {
-			ARSnova.app.taskManager.start(this.checkLearningProgressTask);
-		}
+		this.startTasks();
 	},
 
 	/* will be called on session login */
@@ -346,6 +341,17 @@ Ext.define('ARSnova.view.user.InClass', {
 		}
 		if (ARSnova.app.globalConfig.features.learningProgress) {
 			this.checkLearningProgressTask.taskRunTime = 0;
+		}
+	},
+
+	startTasks: function () {
+		var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
+
+		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
+			ARSnova.app.taskManager.start(panel.countFeedbackQuestionsTask);
+		}
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			ARSnova.app.taskManager.start(panel.checkLearningProgressTask);
 		}
 	},
 
@@ -596,7 +602,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	countFeedbackQuestions: function () {
-		var me = this;
+		var me = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
 		var username = localStorage.getItem("login");
 		ARSnova.app.questionModel.countFeedbackQuestions(sessionStorage.getItem("keyword"), username, {
 			success: function (response) {
@@ -645,7 +651,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	checkLearningProgress: function () {
-		var me = this;
+		var me = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
 		ARSnova.app.sessionModel.getMyLearningProgress(sessionStorage.getItem("keyword"), {
 			success: function (myprogressDescription, courseprogressDescription, p, progressType) {
 				var goodProgressThreshold = 95;

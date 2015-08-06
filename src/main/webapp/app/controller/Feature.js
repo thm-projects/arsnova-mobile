@@ -38,9 +38,14 @@ Ext.define("ARSnova.controller.Feature", {
 			}
 		}
 
-		controller.applyAdditionalChanges(features);
+		if (Object.keys(features).length) {
+			controller.applyAdditionalChanges(features);
+		}
 	},
 
+	/**
+	 * apply changes affecting the "lecture" feature
+	 */
 	applyLectureFeature: function (enable) {
 		var tP = ARSnova.app.mainTabPanel.tabPanel;
 		var tabPanel, container, button, position;
@@ -58,6 +63,9 @@ Ext.define("ARSnova.controller.Feature", {
 		this.applyButtonChange(container, button, enable, position);
 	},
 
+	/**
+	 * apply changes affecting the "jitt" feature
+	 */
 	applyJittFeature: function (enable) {
 		var tP = ARSnova.app.mainTabPanel.tabPanel;
 		var tabPanel, container, button, position;
@@ -75,6 +83,9 @@ Ext.define("ARSnova.controller.Feature", {
 		this.applyButtonChange(container, button, enable, position);
 	},
 
+	/**
+	 * apply changes affecting the "feedback" feature
+	 */
 	applyFeedbackFeature: function (enable) {
 		var tP = ARSnova.app.mainTabPanel.tabPanel;
 		tP.feedbackTabPanel.tab.setHidden(!enable);
@@ -86,6 +97,9 @@ Ext.define("ARSnova.controller.Feature", {
 		}
 	},
 
+	/**
+	 * apply changes affecting the "interposed" feature
+	 */
 	applyInterposedFeature: function (enable) {
 		var tP = ARSnova.app.mainTabPanel.tabPanel;
 		var tabPanel, container, button, position;
@@ -107,6 +121,9 @@ Ext.define("ARSnova.controller.Feature", {
 		this.applyButtonChange(container, button, enable, position);
 	},
 
+	/**
+	 * apply changes affecting the "learningProgress" feature
+	 */
 	applyLearningProgressFeature: function (enable) {
 		var tP = ARSnova.app.mainTabPanel.tabPanel;
 		var tabPanel, container, button;
@@ -124,36 +141,37 @@ Ext.define("ARSnova.controller.Feature", {
 		this.applyButtonChange(container, button, enable, 3);
 	},
 
-	applyButtonChange: function (container, button, addButton, index) {
-		if (!container || !button) {
-			return;
+	/**
+	 * return key of lone active option
+	 */
+	getLoneActiveFeatureKey: function (features) {
+		var loneActiveFeature = false;
+		for (var key in features) {
+			if (loneActiveFeature && features[key]) {
+				return false;
+			} else if (features[key] && (key !== 'pi' && key !== 'learningProgress')) {
+				loneActiveFeature = key;
+			}
 		}
 
-		if (typeof addButton !== 'boolean') {
-			addButton = false;
-		}
-
-		if (addButton) {
-			container.insert(index, button);
-		} else {
-			container.remove(button, false);
-		}
+		return loneActiveFeature;
 	},
 
+	/**
+	 * apply changes affecting combined feature activation/deactivation
+	 */
 	applyAdditionalChanges: function (features) {
-		console.log(features);
 		var hasQuestionFeatures = features.lecture || features.jitt;
 		var feedbackWithoutInterposed = features.feedback && !features.interposed;
 		var isSpeaker = ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER;
+		var loneActiveFeature = this.getLoneActiveFeatureKey(features);
 
 		var tP = ARSnova.app.mainTabPanel.tabPanel;
 		var tabPanel = isSpeaker ? tP.speakerTabPanel : tP.userTabPanel;
 
 		if (isSpeaker) {
-			if (!hasQuestionFeatures) {
-				tabPanel.inClassPanel.showcaseActionButton.hide();
-				tabPanel.inClassPanel.createAdHocQuestionButton.hide();
-			}
+			tabPanel.inClassPanel.showcaseActionButton.setHidden(!hasQuestionFeatures);
+			tabPanel.inClassPanel.createAdHocQuestionButton.setHidden(!hasQuestionFeatures);
 
 			if (features.jitt && !features.lecture) {
 				tabPanel.inClassPanel.changeActionButtonsMode('preparation');
@@ -167,17 +185,11 @@ Ext.define("ARSnova.controller.Feature", {
 				tabPanel.newQuestionPanel.setVariant('lecture');
 			}
 		} else {
-			/** hide questionsPanel tab when session has no question features active **/
+			// hide questionsPanel tab when session has no question features active
 			tP.userQuestionsPanel.tab.setHidden(!hasQuestionFeatures);
 
-			/** hide question request button if interposed feature is disabled **/
+			// hide question request button if interposed feature is disabled
 			tP.feedbackTabPanel.votePanel.questionRequestButton.setHidden(feedbackWithoutInterposed);
-
-			if (!hasQuestionFeatures && features.interposed) {
-				// TODO: show interposed questions panel on login
-			} else if (!hasQuestionFeatures && !features.interposed && features.feedback) {
-				// TODO: show feedback panel on login
-			}
 
 			if (features.jitt && !features.lecture) {
 				tP.userQuestionsPanel.setPreparationMode();
@@ -187,6 +199,10 @@ Ext.define("ARSnova.controller.Feature", {
 				tP.userQuestionsPanel.setLectureMode();
 				tabPanel.inClassPanel.updateQuestionsPanelBadge();
 				tP.userQuestionsPanel.tab.setTitle(Messages.QUESTIONS);
+			}
+
+			if (localStorage.getItem('lastVisitedRole') !== ARSnova.app.USER_ROLE_SPEAKER) {
+				this.setSinglePageMode(loneActiveFeature.toString(), features);
 			}
 		}
 
@@ -210,6 +226,61 @@ Ext.define("ARSnova.controller.Feature", {
 				sessionController.setLearningProgressOptions(progressOptions);
 				tabPanel.learningProgressPanel.refreshQuestionVariantFields();
 			}
+		}
+	},
+
+	setSinglePageMode: function (featureKey, features) {
+		var tP = ARSnova.app.mainTabPanel.tabPanel;
+		var tabPanel = tP.userTabPanel;
+
+		if (features[featureKey]) {
+			tabPanel.inClassPanel.stopTasks();
+			tabPanel.tab.hide();
+		}
+
+		switch (featureKey) {
+			case 'jitt':
+			case 'lecture':
+				if (tP.getActiveItem() === tP.userQuestionsPanel) {
+					tP.userQuestionsPanel.removeAll();
+					tP.userQuestionsPanel.getUnansweredSkillQuestions();
+				}
+				tP.userQuestionsPanel.setSinglePageMode(true, this);
+				tP.setActiveItem(tP.userQuestionsPanel);
+				break;
+			case 'feedback':
+				tP.feedbackTabPanel.votePanel.setSinglePageMode(true, this);
+				tP.setActiveItem(tP.feedbackTabPanel);
+				break;
+			default:
+			case 'interposed':
+				tP.setActiveItem(tabPanel);
+				ARSnova.app.socket.setSession(null);
+				ARSnova.app.socket.setSession(sessionStorage.getItem('keyword'));
+				ARSnova.app.sessionModel.fireEvent(ARSnova.app.sessionModel.events.sessionJoinAsStudent);
+				tP.feedbackTabPanel.votePanel.setSinglePageMode(false, this);
+				tP.userQuestionsPanel.setSinglePageMode(false, this);
+				tabPanel.inClassPanel.startTasks();
+				tabPanel.tab.show();
+		}
+	},
+
+	/**
+	 * removes or adds button from given container
+	 */
+	applyButtonChange: function (container, button, addButton, index) {
+		if (!container || !button) {
+			return;
+		}
+
+		if (typeof addButton !== 'boolean') {
+			addButton = false;
+		}
+
+		if (addButton) {
+			container.insert(index, button);
+		} else {
+			container.remove(button, false);
 		}
 	}
 });

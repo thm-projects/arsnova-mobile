@@ -83,7 +83,6 @@ Ext.define("ARSnova.controller.Sessions", {
 
 				// deactivate several about tabs
 				ARSnova.app.mainTabPanel.tabPanel.deactivateAboutTabs();
-
 				ARSnova.app.socket.setSession(obj.keyword);
 
 				// start task to update the feedback tab in tabBar
@@ -249,9 +248,9 @@ Ext.define("ARSnova.controller.Sessions", {
 			tabPanel.feedbackQuestionsPanel.tab.hide();
 		}
 
+		ARSnova.app.getController('Feature').applyFeatures();
 		ARSnova.app.sessionModel.sessionIsActive = true;
 		tabPanel.feedbackQuestionsPanel.questionsPanel.prepareQuestionList();
-		ARSnova.app.getController('Feature').applyFeatures();
 
 		hideLoadMask();
 	},

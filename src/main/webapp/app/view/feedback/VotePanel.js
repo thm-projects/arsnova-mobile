@@ -49,6 +49,16 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 			}
 		});
 
+		this.sessionLogoutButton = {
+			xtype: 'button',
+			ui: 'back',
+			text: Messages.SESSIONS,
+			cls: ARSnova.app.loginMode === ARSnova.app.LOGIN_THM ? "thm" : "",
+			handler: function () {
+				ARSnova.app.getController('Sessions').logout();
+			}
+		};
+
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.FEEDBACK,
 			docked: 'top',
@@ -164,5 +174,11 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 			this.buttonPanelBottom,
 			this.questionRequestButton
 		]);
+	},
+
+	setSinglePageMode: function (singlePageMode, tabPanel) {
+		var button = singlePageMode ? this.sessionLogoutButton : this.backButton;
+		this.toolbar.removeAll(false);
+		this.toolbar.add(button);
 	}
 });

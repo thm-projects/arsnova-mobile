@@ -541,8 +541,11 @@
 				/* action buttons - <br/> forces line break for consistent look */
 				CREATE_NEW_SESSION: "Neue Session<br/>anlegen",
 				NEW_QUESTION: "Neue Frage<br/>anlegen",
+				NEW_TASK: "Aufgabe<br/>erstellen",
 				SHOWCASE_MODE: "Frage<br/>präsentieren",
+				SHOWCASE_TASK: "Aufgabe<br/>präsentieren",
 				SHOWCASE_MODE_PLURAL: "Fragen<br/>präsentieren",
+				SHOWCASE_TASKS: "Aufgaben<br/>präsentieren",
 				SHOW_STATISTIC: "Statistik<br/>anzeigen",
 				RELEASE_STATISTIC: "Statistik<br/>freigeben",
 				RELEASE_QUESTION: "Frage<br/>freigeben",
@@ -1129,8 +1132,11 @@
 				/* action buttons - <br/> forces line break for consistent look */
 				CREATE_NEW_SESSION: "Create new<br/>session",
 				NEW_QUESTION: "Create new<br/>question",
+				NEW_TASK: "Create new<br/>task",
 				SHOWCASE_MODE: "Present<br/>question",
+				SHOWCASE_TASK: "Present<br/>task",
 				SHOWCASE_MODE_PLURAL: "Present<br/>questions",
+				SHOWCASE_TASKS: "Present<br/>tasks",
 				SHOW_STATISTIC: "Show<br/>statistics",
 				RELEASE_STATISTIC: "Release<br/>statistics",
 				RELEASE_QUESTION: "Release<br/>question",

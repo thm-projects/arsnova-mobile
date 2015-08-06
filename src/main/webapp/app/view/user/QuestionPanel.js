@@ -62,6 +62,15 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			}
 		});
 
+		this.sessionLogoutButton = Ext.create('Ext.Button', {
+			ui: 'back',
+			text: Messages.SESSIONS,
+			cls: ARSnova.app.loginMode === ARSnova.app.LOGIN_THM ? "thm" : "",
+			handler: function () {
+				ARSnova.app.getController('Sessions').logout();
+			}
+		});
+
 		this.add([this.toolbar]);
 		this.lastActiveIndex = -1;
 
@@ -469,6 +478,16 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 			this.setActiveItem(i - this.carouselOffset);
 			break;
+		}
+	},
+
+	setSinglePageMode: function (singlePageMode, tabPanel) {
+		if (singlePageMode) {
+			this.toolbar.remove(this.toolbar.backButton, false);
+			this.toolbar.add(this.sessionLogoutButton);
+		} else {
+			this.toolbar.remove(this.sessionLogoutButton, false);
+			this.toolbar.add(this.toolbar.backButton);
 		}
 	},
 
