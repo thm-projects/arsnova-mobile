@@ -69,7 +69,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		var actionButtonCls = screenWidth < 410 ? 'smallerActionButton' : 'actionButton';
 
 		this.reader.onload = function (event) {
-			ARSnova.app.getController('QuestionImport').importCvsFile(self.reader.result);
+			ARSnova.app.getController('QuestionImport').importCsvFile(self.reader.result);
 			var field = self.loadFilePanel.query('filefield')[0];
 			// field.setValue currently has no effect - Sencha bug?
 			field.setValue(null);

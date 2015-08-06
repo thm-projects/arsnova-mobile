@@ -189,14 +189,14 @@ Ext.define("ARSnova.controller.QuestionImport", {
 		return null;
 	},
 
-	importCvsFile: function (cvs) {
+	importCsvFile: function (csv) {
 		var audiencePanel = this.getAudiencePanel();
 		audiencePanel.loadFilePanel.hide();
 		var mask = audiencePanel.loadMask;
 		Ext.Viewport.add(mask);
 		mask.show();
 
-		var json = ARSnova.utils.CsvUtil.csvToJson(cvs);
+		var json = ARSnova.utils.CsvUtil.csvToJson(csv);
 		if (json) {
 			json = JSON.parse(json);
 			if (!this.hasValidationError(json)) {
