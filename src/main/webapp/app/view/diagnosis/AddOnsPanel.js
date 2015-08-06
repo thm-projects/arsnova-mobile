@@ -167,7 +167,7 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 		});
 	},
 
-	validateSelection: function () {
+	validateSelection: function (button) {
 		var selection = this.getFeatureValues();
 		if (!selection.lecture && !selection.interposed && !selection.jitt && !selection.feedback) {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.FEATURE_SAVE_ERROR, function () {
@@ -178,11 +178,12 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 		return true;
 	},
 
-	onSessionCreationSubmit: function () {
+	onSessionCreationSubmit: function (button) {
 		var selection = this.getFeatureValues();
 		var options = this.getOptions();
 
-		if (this.validateSelection()) {
+		button.disable();
+		if (this.validateSelection(button)) {
 			options.features = selection;
 			ARSnova.app.getController('Sessions').create(options);
 		}
