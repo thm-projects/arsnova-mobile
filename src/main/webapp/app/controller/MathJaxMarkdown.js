@@ -42,6 +42,7 @@ Ext.define("ARSnova.controller.MathJaxMarkdown", {
 				},
 				tex2jax: {
 					inlineMath: [['\\(', '\\)'], ['\[\[', '\]\]']],
+					displayMath: [['$$', '$$'], ['\\[', '\\]']],
 					processEscapes: true,
 					preview: 'none'
 				},
