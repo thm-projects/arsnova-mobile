@@ -159,7 +159,7 @@ Ext.define("ARSnova.controller.MathJaxMarkdown", {
 
 		if (text === content) {
 			content = controller.defaultHyperLinkRenderer.call(marked, href, title, text);
-			content = content.slice(0, 3) + 'class="hyperlink" ' + content.slice(4, content.length);
+			content = content.slice(0, 3) + 'class="hyperlink" ' + content.slice(3, content.length);
 		}
 
 		return content;
