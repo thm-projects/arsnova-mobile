@@ -70,6 +70,12 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 		this.reader.onload = function (event) {
 			ARSnova.app.getController('QuestionImport').importCvsFile(self.reader.result);
+			var field = self.loadFilePanel.query('filefield')[0];
+			// field.setValue currently has no effect - Sencha bug?
+			field.setValue(null);
+			// Workaround: Directly reset value on DOM element
+			field.element.query('input')[0].value = null;
+			field.enable();
 		};
 
 		this.questionStore = Ext.create('Ext.data.JsonStore', {
@@ -240,6 +246,12 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 					accept: 'text/csv',
 					listeners: {
 						change: function (element, newValue, oldValue) {
+							// Workaround: The change event is triggered twice in Chrome
+							if (element.isDisabled()) {
+								return;
+							}
+							element.disable();
+
 							var path = element.getValue();
 							var fileType = path.substring(path.lastIndexOf('.'));
 							if (fileType === '.csv') {
