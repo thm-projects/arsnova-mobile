@@ -180,7 +180,7 @@ Ext.define("ARSnova.controller.Feature", {
 				tabPanel.newQuestionPanel.setVariant('preparation');
 			} else {
 				tabPanel.inClassPanel.changeActionButtonsMode('lecture');
-				tabPanel.showcaseQuestionPanel.setController(ARSnova.app.getController('Question'));
+				tabPanel.showcaseQuestionPanel.setController(ARSnova.app.getController('Questions'));
 				tabPanel.showcaseQuestionPanel.setLectureMode();
 				tabPanel.newQuestionPanel.setVariant('lecture');
 			}
