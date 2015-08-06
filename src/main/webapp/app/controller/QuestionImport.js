@@ -116,10 +116,11 @@ Ext.define("ARSnova.controller.QuestionImport", {
 							this.refreshPanel();
 						}
 					}, this),
-					failure: function (response) {
+					failure: Ext.bind(function (response) {
 						Ext.Msg.alert(Messages.NOTICE, Messages.QUESTION_CREATION_ERROR);
 						promise.reject(response);
-					}
+						this.refreshPanel();
+					}, this)
 				});
 			} else {
 				size--;
