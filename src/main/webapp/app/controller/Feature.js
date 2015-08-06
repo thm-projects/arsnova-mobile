@@ -38,7 +38,7 @@ Ext.define("ARSnova.controller.Feature", {
 			}
 		}
 
-		if (Object.keys(features).length) {
+		if (features && Object.keys(features).length) {
 			controller.applyAdditionalChanges(features);
 		}
 	},
@@ -221,11 +221,20 @@ Ext.define("ARSnova.controller.Feature", {
 				}
 			}
 
+			// set learningProgessOption after learningProgressOptions socket has been send
+			var changeLearningProgressOptions = function changeOptions() {
+				if (ARSnova.app.sessionModel.isLearningProgessOptionsInitialized) {
+					Ext.create('Ext.util.DelayedTask', function () {
+						sessionController.setLearningProgressOptions(progressOptions);
+						tabPanel.learningProgressPanel.refreshQuestionVariantFields();
+					}).delay(500);
+				} else {
+					Ext.create('Ext.util.DelayedTask', changeOptions).delay(100);
+				}
+			};
+
 			tabPanel.learningProgressPanel.setQuestionVariantFieldHidden(hideQuestionVariantField);
-			if (progressOptions !== sessionController.getLearningProgressOptions()) {
-				sessionController.setLearningProgressOptions(progressOptions);
-				tabPanel.learningProgressPanel.refreshQuestionVariantFields();
-			}
+			changeLearningProgressOptions();
 		}
 	},
 

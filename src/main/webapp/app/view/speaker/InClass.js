@@ -455,17 +455,19 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		var me = this, hasOptions = false;
 		var features = Ext.decode(sessionStorage.getItem("features"));
 
-		if (!features.lecture && !features.jitt) {
-			this.badgeOptions.numQuestions = 0;
-			this.badgeOptions.numAnswers = 0;
-		} else if (!features.lecture && features.jitt) {
-			this.badgeOptions.numQuestions = this.badgeOptions.numPrepQuestions;
-			this.badgeOptions.numAnswers = this.badgeOptions.numPrepAnswers;
-		}
+		if (features) {
+			if (!features.lecture && !features.jitt) {
+				this.badgeOptions.numQuestions = 0;
+				this.badgeOptions.numAnswers = 0;
+			} else if (!features.lecture && features.jitt) {
+				this.badgeOptions.numQuestions = this.badgeOptions.numPrepQuestions;
+				this.badgeOptions.numAnswers = this.badgeOptions.numPrepAnswers;
+			}
 
-		if (!features.interposed) {
-			this.badgeOptions.numInterposed = 0;
-			this.badgeOptions.numUnredInterposed = 0;
+			if (!features.interposed) {
+				this.badgeOptions.numInterposed = 0;
+				this.badgeOptions.numUnredInterposed = 0;
+			}
 		}
 
 		hasOptions = this.badgeOptions.numAnswers ||
@@ -484,7 +486,9 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 	updateAudienceQuestionBadge: function () {
 		var me = this;
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = Ext.decode(sessionStorage.getItem("features")) || {
+			jitt: true, lecture: true, learningProgress: true
+		} ;
 
 		var failureCallback = function () {
 			console.log('server-side error');
