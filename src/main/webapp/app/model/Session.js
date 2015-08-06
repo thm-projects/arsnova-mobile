@@ -63,12 +63,14 @@ Ext.define('ARSnova.model.Session', {
 	},
 
 	sessionIsActive: true,
+	isLearningProgessOptionsInitialized: false,
 
 	events: {
 		sessionActive: "arsnova/session/active",
 		sessionJoinAsSpeaker: "arsnova/session/join/speaker",
 		sessionJoinAsStudent: "arsnova/session/join/student",
 		sessionLeave: "arsnova/session/leave",
+		learningProgressOptions: "arsnova/session/learningprogress/options",
 		learningProgressChange: "arsnova/session/learningprogress/change",
 		featureChange: "arsnova/session/features/change"
 	},
@@ -90,6 +92,10 @@ Ext.define('ARSnova.model.Session', {
 			sessionStorage.setItem("features", Ext.encode(features));
 			ARSnova.app.getController('Feature').applyFeatures();
 			this.fireEvent(this.events.featureChange, features);
+		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.learningProgressOptions, function () {
+			this.isLearningProgessOptionsInitialized = true;
 		}, this);
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.learningProgressOptions, this.setUserBasedProgressOptions, this);
@@ -275,7 +281,7 @@ Ext.define('ARSnova.model.Session', {
 						same = same && (prev[k] === features[k]);
 					}
 				}
-				if (!same) {
+				if (!same || !prev) {
 					sessionStorage.setItem("features", Ext.encode(features));
 					me.fireEvent(me.events.featureChange, features);
 				}

@@ -20,8 +20,10 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 	extend: 'Ext.Container',
 
 	config: {
+		options: {},
 		fullscreen: true,
 		title: 'AddOnsPanel',
+		sessionCreationMode: false,
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
@@ -36,6 +38,7 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
 			ui: 'back',
+			scope: this,
 			handler: function () {
 				var me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel;
 
@@ -111,33 +114,24 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 			}, this.optionalFieldSet]
 		});
 
-		this.submitButton = Ext.create('Ext.Button', {
-			cls: 'centerButton',
-			ui: 'confirm',
-			text: Messages.SAVE,
-			scope: this,
-			handler: function (button) {
-				var selection = this.getFeatureValues();
-				button.disable();
-
-				if (!selection.lecture && !selection.interposed && !selection.jitt && !selection.feedback) {
-					Ext.Msg.alert(Messages.NOTIFICATION, Messages.FEATURE_SAVE_ERROR, function () {
-						button.enable();
-					});
-				} else {
-					ARSnova.app.sessionModel.changeFeatures(sessionStorage.getItem("keyword"), this.getFeatureValues(), {
-						success: function () {
-							button.enable();
-							Ext.toast(Messages.SETTINGS_SAVED, 3000);
-						},
-						failure: function () {
-							button.enable();
-							Ext.Msg.alert("", Messages.SETTINGS_COULD_NOT_BE_SAVED);
-						}
-					});
-				}
-			}
-		});
+		if (this.config.sessionCreationMode) {
+			this.backButton.setHandler(this.sessionCreationBackHandler);
+			this.submitButton = Ext.create('Ext.Button', {
+				cls: 'centerButton',
+				ui: 'confirm',
+				scope: this,
+				text: Messages.SESSION_SAVE,
+				handler: this.onSessionCreationSubmit
+			});
+		} else {
+			this.submitButton = Ext.create('Ext.Button', {
+				cls: 'centerButton',
+				ui: 'confirm',
+				text: Messages.SAVE,
+				scope: this,
+				handler: this.onSubmit
+			});
+		}
 
 		this.formPanel = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
@@ -159,5 +153,55 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 		}
 
 		return selection;
+	},
+
+	sessionCreationBackHandler: function () {
+		this.getOptions().newSessionPanel.enableInputElements();
+		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+
+		hTP.animateActiveItem(this.getOptions().newSessionPanel, {
+			type: 'slide',
+			direction: 'right',
+			duration: 700,
+			scope: this
+		});
+	},
+
+	validateSelection: function () {
+		var selection = this.getFeatureValues();
+		if (!selection.lecture && !selection.interposed && !selection.jitt && !selection.feedback) {
+			Ext.Msg.alert(Messages.NOTIFICATION, Messages.FEATURE_SAVE_ERROR, function () {
+				button.enable();
+			});
+			return false;
+		}
+		return true;
+	},
+
+	onSessionCreationSubmit: function () {
+		var selection = this.getFeatureValues();
+		var options = this.getOptions();
+
+		if (this.validateSelection()) {
+			options.features = selection;
+			ARSnova.app.getController('Sessions').create(options);
+		}
+	},
+
+	onSubmit: function (button) {
+		button.disable();
+
+		if (this.validateSelection()) {
+			ARSnova.app.sessionModel.changeFeatures(sessionStorage.getItem("keyword"), this.getFeatureValues(), {
+				success: function () {
+					button.enable();
+					Ext.toast(Messages.SETTINGS_SAVED, 3000);
+				},
+				failure: function () {
+					button.enable();
+					Ext.Msg.alert("", Messages.SETTINGS_COULD_NOT_BE_SAVED);
+				}
+			});
+		}
 	}
 });

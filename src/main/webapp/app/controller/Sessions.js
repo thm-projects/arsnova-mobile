@@ -136,6 +136,7 @@ Ext.define("ARSnova.controller.Sessions", {
 
 		/* show about tab panels */
 		ARSnova.app.mainTabPanel.tabPanel.activateAboutTabs();
+		ARSnova.app.sessionModel.isLearningProgessOptionsInitialized = false;
 
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 		/* show home Panel */
@@ -256,7 +257,7 @@ Ext.define("ARSnova.controller.Sessions", {
 	},
 
 	update: function (sessionInfo) {
-		var session = Ext.create('ARSnova.model.Session');
+		var session = ARSnova.app.sessionModel;
 		session.setData(sessionInfo);
 
 		session.validate();
@@ -279,8 +280,17 @@ Ext.define("ARSnova.controller.Sessions", {
 		});
 	},
 
-	create: function (options) {
-		var session = Ext.create('ARSnova.model.Session', {
+	loadFeatureOptions: function (options) {
+		var featureOptionsPanel = Ext.create('ARSnova.view.diagnosis.AddOnsPanel', {
+			options: options,
+			sessionCreationMode: true
+		});
+		ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.animateActiveItem(featureOptionsPanel, 'slide');
+	},
+
+	validateSessionOptions: function (options) {
+		var session = ARSnova.app.sessionModel;
+		session.setData({
 			type: 'session',
 			name: options.name.trim(),
 			shortName: options.shortName.trim(),
@@ -316,34 +326,28 @@ Ext.define("ARSnova.controller.Sessions", {
 
 			/* activate inputElements in newSessionPanel */
 			options.newSessionPanel.enableInputElements();
+			return false;
+		}
 
+		return session;
+	},
+
+	create: function (options) {
+		var session = this.validateSessionOptions(options);
+
+		if (!session) {
 			return;
 		}
 
 		session.create({
 			success: function (response) {
 				var fullSession = Ext.decode(response.responseText);
-				localStorage.setItem('sessionId', fullSession._id);
-				localStorage.setItem('name', fullSession.name);
-				localStorage.setItem('shortName', fullSession.shortName);
-				localStorage.setItem('active', fullSession.active ? 1 : 0);
-				localStorage.setItem('courseId', fullSession.courseId === null ? "" : fullSession.courseId);
-				localStorage.setItem('courseType', fullSession.courseType === null ? "" : fullSession.courseType);
-				localStorage.setItem('creationTime', fullSession.creationTime);
-				ARSnova.app.isSessionOwner = true;
-
-				sessionStorage.setItem('keyword', fullSession.keyword);
-
-				// start task to update the feedback tab in tabBar
-				ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge, ARSnova.app.mainTabPanel.tabPanel);
-				ARSnova.app.feedbackModel.on("arsnova/session/feedback/average", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackIcon, ARSnova.app.mainTabPanel.tabPanel);
-				ARSnova.app.taskManager.start(ARSnova.app.mainTabPanel.tabPanel.config.updateHomeTask);
-
-				/* deactivate several tab panels */
-				ARSnova.app.mainTabPanel.tabPanel.deactivateAboutTabs();
-
 				var loginName = "";
 				var loginMode = localStorage.getItem("loginMode");
+
+				sessionStorage.setItem('keyword', fullSession.keyword);
+				localStorage.setItem('sessionId', fullSession._id);
+
 				ARSnova.app.getController('Auth').services.then(function (services) {
 					services.forEach(function (service) {
 						if (loginMode === service.id) {
@@ -357,14 +361,13 @@ Ext.define("ARSnova.controller.Sessions", {
 						cls: 'newSessionMessageBox',
 						listeners: {
 							hide: function () {
-								ARSnova.app.getController('Sessions').reloadData();
+								ARSnova.app.getController('Sessions').login({keyword: fullSession.keyword});
 								var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 
 								panel.setActiveItem(panel.mySessionsPanel);
 
 								/* activate inputElements in newSessionPanel */
 								options.newSessionPanel.enableInputElements();
-
 								this.destroy();
 							}
 						}
@@ -388,11 +391,26 @@ Ext.define("ARSnova.controller.Sessions", {
 								this.readyToClose = true;
 							} else {
 								messageBox.hide();
+								if (messageBox.showFeatureError) {
+									Ext.Msg.alert("", Messages.FEATURE_SETTINGS_COULD_NOT_BE_SAVED);
+								}
 							}
 						}
 					}]);
 
-					messageBox.show();
+					if (options.features) {
+						ARSnova.app.sessionModel.changeFeatures(sessionStorage.getItem("keyword"), options.features, {
+							success: function () {
+								messageBox.show();
+							},
+							failure: function () {
+								messageBox.showFeatureError = true;
+								messageBox.show();
+							}
+						});
+					} else {
+						messageBox.show();
+					}
 				});
 			},
 			failure: function (records, operation) {

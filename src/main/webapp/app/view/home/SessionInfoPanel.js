@@ -125,7 +125,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 						});
 					} else {
 						if (config.features.publicPool) {
-							ARSnova.app.getController('Sessions').create({
+							ARSnova.app.getController('Sessions').loadFeatureOptions({
 								name: me.sessionName.getValue(),
 								shortName: me.sessionShortName.getValue(),
 								ppAuthorName: me.creatorName.getValue(),
@@ -140,7 +140,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 								creationTime: Date.now()
 							});
 						} else {
-							ARSnova.app.getController('Sessions').create({
+							ARSnova.app.getController('Sessions').loadFeatureOptions({
 								name: me.sessionName.getValue(),
 								shortName: me.sessionShortName.getValue(),
 								ppAuthorName: me.creatorName.getValue(),

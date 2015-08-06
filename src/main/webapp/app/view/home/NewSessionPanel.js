@@ -118,7 +118,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			id: 'create-session-button',
 			cls: 'centerButton',
 			ui: 'confirm',
-			text: Messages.SESSION_SAVE,
+			text: Messages.CONTINUE,
 			handler: this.onSubmit
 		});
 
@@ -182,16 +182,19 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 
 	onSubmit: function (button) {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newSessionPanel,
-			values = this.up('panel').getValues();
+			values = this.up('panel').getValues(),
+			options = {
+				name: values.name,
+				shortName: values.shortName,
+				newSessionPanel: panel,
+				creationTime: Date.now()
+			};
 
 		panel.disableInputElements();
 
-		ARSnova.app.getController('Sessions').create({
-			name: values.name,
-			shortName: values.shortName,
-			newSessionPanel: panel,
-			creationTime: Date.now()
-		});
+		if (ARSnova.app.getController('Sessions').validateSessionOptions(options)) {
+			ARSnova.app.getController('Sessions').loadFeatureOptions(options);
+		}
 	},
 
 	onCourseSubmit: function (list, index, element, e) {
@@ -207,7 +210,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			shortName = shortName.substr(0, 7);
 		}
 
-		ARSnova.app.getController('Sessions').create({
+		ARSnova.app.getController('Sessions').loadFeatureOptions({
 			name: course.get('fullname'),
 			shortName: shortName,
 			courseId: course.get('id'),
