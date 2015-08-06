@@ -162,11 +162,11 @@ Ext.define("ARSnova.controller.QuestionImport", {
 
 	getYesNoAnswer: function (rightAnswers) {
 		if (rightAnswers === 'y') {
-			return [this.getYesNoAnswerObj(true, Messages.QUESTION_IMPORT_YES),
-				this.getYesNoAnswerObj(false, Messages.QUESTION_IMPORT_NO)];
+			return [this.getYesNoAnswerObj(true, Messages.YES),
+				this.getYesNoAnswerObj(false, Messages.NO)];
 		} else {
-			return [this.getYesNoAnswerObj(true, Messages.QUESTION_IMPORT_NO),
-				this.getYesNoAnswerObj(false, Messages.QUESTION_IMPORT_YES)];
+			return [this.getYesNoAnswerObj(true, Messages.NO),
+				this.getYesNoAnswerObj(false, Messages.YES)];
 		}
 	},
 
@@ -355,7 +355,7 @@ Ext.define("ARSnova.controller.QuestionImport", {
 
 	showErrMsg: function (lineCnt, error, answersError, subjectError, questionError, questionTypeError, abstentionError) {
 		if (error) {
-			var message = Messages.MISSING_INPUTS + '<ul class="newQuestionWarning"><br>';
+			var message = Messages.QUESTIONS_CSV_IMPORT_INVALID_FORMAT + ':<ul class="newQuestionWarning"><br>';
 
 			if (answersError) {
 				message += '<li>' + Messages.MISSING_ANSWERS + '</li>';
@@ -367,13 +367,13 @@ Ext.define("ARSnova.controller.QuestionImport", {
 				message += '<li>' + Messages.MISSING_QUESTION + '</li>';
 			}
 			if (questionTypeError) {
-				message += '<li>' + Messages.QUESTION_IMPORT_TYPE_ERROR + '</li>';
+				message += '<li>' + Messages.QUESTIONS_CSV_IMPORT_TYPE_ERROR + '</li>';
 			}
 			if (abstentionError) {
-				message += '<li>' + Messages.QUESTION_IMPORT_ABSTENTION_ERROR + '</li>';
+				message += '<li>' + Messages.QUESTIONS_CSV_IMPORT_ABSTENTION_ERROR + '</li>';
 			}
 
-			Ext.Msg.alert(Messages.NOTIFICATION, message + Messages.QUESTION_ERR_IN_ROW + " " + lineCnt + '</ul>');
+			Ext.Msg.alert(Messages.NOTIFICATION, message + Messages.QUESTIONS_CSV_IMPORT_ERR_IN_ROW + " " + lineCnt + '</ul>');
 			return;
 		}
 	}

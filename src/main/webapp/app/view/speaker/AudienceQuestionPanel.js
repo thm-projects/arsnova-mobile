@@ -206,7 +206,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		});
 
 		this.questionsImport = Ext.create('ARSnova.view.MatrixButton', {
-			text: 'Fragen importieren',
+			text: Messages.QUESTIONS_CSV_IMPORT_BUTTON,
 			buttonConfig: 'icon',
 			imageCls: 'icon-cloud-upload',
 			cls: 'actionButton',
@@ -214,7 +214,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		});
 
 		this.loadMask = Ext.create('Ext.LoadMask', {
-			message: 'Fragen werden importiert..',
+			message: Messages.LOAD_MASK_QUESTION_IMPORT,
 			indicator: true,
 			centered: true
 		});
@@ -227,7 +227,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				{
 					xtype: 'toolbar',
 					docked: 'top',
-					title: 'CSV Import',
+					title: Messages.QUESTIONS_CSV_IMPORT_MSBOX_TITLE,
 					ui: 'light',
 					items: [{
 							xtype: 'spacer'
