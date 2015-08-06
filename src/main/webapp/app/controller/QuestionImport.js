@@ -53,7 +53,7 @@ Ext.define("ARSnova.controller.QuestionImport", {
 			audienceQuestionPanel;
 	},
 
-	saveQuestions: function (json) {
+	saveQuestions: function (json, variant) {
 		var QUESTION_TYPE = 0;
 		var QUESTION_SUBJECT = 1;
 		var QUESTION_TEXT = 2;
@@ -91,7 +91,7 @@ Ext.define("ARSnova.controller.QuestionImport", {
 						question[ANSWER7], question[ANSWER8]], question[RIGHT_ANSWER]),
 
 					questionType: type,
-					questionVariant: "lecture",
+					questionVariant: variant || "lecture",
 					releasedFor: "all",
 					sessionKeyword: sessionStorage.getItem('keyword'),
 					showStatistic: 1,
@@ -191,6 +191,9 @@ Ext.define("ARSnova.controller.QuestionImport", {
 
 	importCsvFile: function (csv) {
 		var audiencePanel = this.getAudiencePanel();
+		var variant = this.getAudiencePanel().getController() === ARSnova.app.getController("PreparationQuestions") ?
+			"preparation" :
+			"lecture";
 		audiencePanel.loadFilePanel.hide();
 		var mask = audiencePanel.loadMask;
 		Ext.Viewport.add(mask);
@@ -200,7 +203,7 @@ Ext.define("ARSnova.controller.QuestionImport", {
 		if (json) {
 			json = JSON.parse(json);
 			if (!this.hasValidationError(json)) {
-				this.saveQuestions(json);
+				this.saveQuestions(json, variant);
 			} else {
 				this.refreshPanel();
 			}
