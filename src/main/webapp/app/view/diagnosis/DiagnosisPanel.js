@@ -57,6 +57,10 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 			ui: 'back',
 			scope: this,
 			handler: function () {
+				if (this.lastActivePanel.tab.isHidden()) {
+					this.lastActivePanel = 0;
+				}
+
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(this.lastActivePanel, {
 					type: 'slide',
 					direction: 'right',
