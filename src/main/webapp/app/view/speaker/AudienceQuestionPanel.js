@@ -50,6 +50,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	questionStore: null,
 	questionEntries: [],
 
+	reader: new FileReader(),
+
 	updateAnswerCount: {
 		name: 'refresh the number of answers inside the badges',
 		run: function () {
@@ -62,8 +64,13 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	initialize: function () {
 		this.callParent(arguments);
 
+		var self = this;
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		var actionButtonCls = screenWidth < 410 ? 'smallerActionButton' : 'actionButton';
+
+		this.reader.onload = function (event) {
+			ARSnova.app.getController('QuestionImport').importCvsFile(self.reader.result);
+		};
 
 		this.questionStore = Ext.create('Ext.data.JsonStore', {
 			model: 'ARSnova.model.Question',
@@ -230,19 +237,14 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				},
 				{
 					xtype: 'filefield',
-					name: 'csv Datei',
 					accept: 'text/csv',
 					listeners: {
-						change: function (element) {
+						change: function (element, newValue, oldValue) {
 							var path = element.getValue();
 							var fileType = path.substring(path.lastIndexOf('.'));
 							if (fileType === '.csv') {
-								var reader = new FileReader();
 								var file = element.bodyElement.dom.firstElementChild.firstElementChild.files[0];
-								reader.onload = function () {
-									ARSnova.app.getController('QuestionImport').importCvsFile(reader.result);
-								};
-								reader.readAsText(file);
+								self.reader.readAsText(file);
 							}
 						}
 					}
