@@ -192,7 +192,7 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 	onSubmit: function (button) {
 		button.disable();
 
-		if (this.validateSelection()) {
+		if (this.validateSelection(button)) {
 			ARSnova.app.sessionModel.changeFeatures(sessionStorage.getItem("keyword"), this.getFeatureValues(), {
 				success: function () {
 					button.enable();
