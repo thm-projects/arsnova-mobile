@@ -10,7 +10,7 @@
 	<scm>
 		<url>https://github.com/thm-projects/arsnova-mobile</url>
 		<connection>scm:git:https://github.com/thm-projects/arsnova-mobile.git</connection>
-		<developerConnection>scm:git:ssh://gitorious@scm.thm.de/arsnova/arsnova-mobile.git</developerConnection>
+		<developerConnection>scm:git:ssh://git@git.thm.de/arsnova/arsnova-mobile.git</developerConnection>
 	</scm>
 
 	<properties>
