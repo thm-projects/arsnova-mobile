@@ -315,7 +315,6 @@ Ext.define('ARSnova.view.Question', {
 	},
 
 	prepareQuestionContent: function (isAnswerable) {
-		var me = this;
 		switch (this.questionObj.questionType) {
 			case "flashcard":
 				this.prepareFreetextQuestion();
@@ -325,46 +324,52 @@ Ext.define('ARSnova.view.Question', {
 				this.prepareGridQuestion();
 				break;
 
-			/* falls through */
 			case "mc":
 				this.prepareMcQuestion();
+				this.prepareStandardQuestion(isAnswerable);
+				break;
 
 			default:
-				this.answerList = Ext.create('ARSnova.view.components.List', {
-					store: this.answerStore,
-
-					itemHeight: 32,
-					cls: 'roundedBox',
-					itemCls: 'arsnova-mathdown x-html answerListButton noPadding',
-					itemTpl: new Ext.XTemplate(
-						'<tpl if="correct === true && this.isQuestionAnswered(values)">',
-						'<span class="answerOptionItem answerOptionCorrectItem">&nbsp;</span>',
-						'<tpl else><span class="answerOptionItem">&nbsp;</span></tpl>',
-						'<span class="answerOptionText">{formattedText}</span>',
-						{
-							isQuestionAnswered: function (values) {
-								return values.questionAnswered;
-							}
-						}
-					),
-					listeners: {
-						scope: me,
-						itemtap: isAnswerable ? me.getQuestionListener : Ext.emptyFn,
-						selectionchange: function (list, records, eOpts) {
-							if (me.mcSaveButton) {
-								if (list.getSelectionCount() > 0) {
-									me.mcSaveButton.enable();
-								} else {
-									me.mcSaveButton.disable();
-								}
-							}
-						}
-					},
-					mode: me.questionObj.questionType === "mc" ? 'MULTI' : 'SINGLE'
-				});
-
-				me.formPanel.insert(1, me.answerList);
+				this.prepareStandardQuestion(isAnswerable);
 		}
+	},
+
+	prepareStandardQuestion: function (isAnswerable) {
+		var me = this;
+		this.answerList = Ext.create('ARSnova.view.components.List', {
+			store: this.answerStore,
+
+			itemHeight: 32,
+			cls: 'roundedBox',
+			itemCls: 'arsnova-mathdown x-html answerListButton noPadding',
+			itemTpl: new Ext.XTemplate(
+				'<tpl if="correct === true && this.isQuestionAnswered(values)">',
+				'<span class="answerOptionItem answerOptionCorrectItem">&nbsp;</span>',
+				'<tpl else><span class="answerOptionItem">&nbsp;</span></tpl>',
+				'<span class="answerOptionText">{formattedText}</span>',
+				{
+					isQuestionAnswered: function (values) {
+						return values.questionAnswered;
+					}
+				}
+			),
+			listeners: {
+				scope: me,
+				itemtap: isAnswerable ? me.getQuestionListener : Ext.emptyFn,
+				selectionchange: function (list, records, eOpts) {
+					if (me.mcSaveButton) {
+						if (list.getSelectionCount() > 0) {
+							me.mcSaveButton.enable();
+						} else {
+							me.mcSaveButton.disable();
+						}
+					}
+				}
+			},
+			mode: me.questionObj.questionType === "mc" ? 'MULTI' : 'SINGLE'
+		});
+
+		me.formPanel.insert(1, me.answerList);
 	},
 
 	prepareMcQuestion: function () {
