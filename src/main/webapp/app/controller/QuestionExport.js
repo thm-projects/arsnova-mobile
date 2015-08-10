@@ -24,35 +24,6 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		return filename;
 	},
 
-	exportCsvTemplate: function () {
-		var csvColumns = ['QuestionType', 'questionSubject', 'Question', 'Answer 1', 'Answer 2',
-							'Answer 3', 'Answer 4', 'Answer 5', 'Answer 6', 'Answer 7', 'Answer 8',
-							'Right Answer', 'Abstention', 'Hint', 'Solution', '\n'].toString();
-
-		var csvMulpipleChoice = ['MC', 'Subject of a question', 'The question itself',
-								'The 1st answer (mandatory)', 'The 2nd answer (mandatory)',
-								'The 3rd answer (optional)', 'The 4th answer (optional)',
-								'The 5th answer (optional)', 'The 6th answer (optional)',
-								'The 7th answer (optional)', 'The 8th answer (optional)',
-								'"1,2,6"', 'y', 'hint', 'solution', '\n'].toString();
-
-		var csvSingleChoice = ['SC', 'Subject of a question', 'The question itself',
-								'The 1st answer (mandatory)', 'The 2nd answer (mandatory)',
-								'The 3rd answer (optional)', 'The 4th answer (optional)',
-								'The 5th answer (optional)', 'The 6th answer (optional)',
-								'The 7th answer (optional)', 'The 8th answer (optional)',
-								'3', 'y', 'hint', 'solution', '\n'].toString();
-
-		var csvFreeText = ['TXT', 'Subject of a question', 'The question itself',
-							'', '', '', '', '', '', '', '', '', 'y', 'hint', 'solution', '\n'].toString();
-
-		var csvYesNo = ['YN', 'Subject of a question', 'The question itself',
-						'', '', '', '', '', '', '', '', 'y', 'y', 'hint', 'solution'].toString();
-
-		var csvTemplate = csvColumns + csvMulpipleChoice + csvSingleChoice + csvFreeText + csvYesNo;
-		this.saveFileOnFileSystem(csvTemplate, this.filename());
-	},
-
 	exportCsvFile: function (json) {
 		var csv = ARSnova.utils.CsvUtil.jsonToCsv(json);
 		this.saveFileOnFileSystem(csv, this.filename());
