@@ -213,8 +213,8 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 				panel.questionStore.sort([{
 					sorterFn: function (a, b) {
 						var as = a.get('subject'), bs = b.get('subject');
-						if (as.toLowerCase() < bs.toLowerCase()) return -1;
-						if (as.toLowerCase() > bs.toLowerCase()) return 1;
+						if (as.toLowerCase() < bs.toLowerCase()) { return -1; }
+						if (as.toLowerCase() > bs.toLowerCase()) { return 1; }
 						return 0;
 					},
 					direction: 'ASC'
