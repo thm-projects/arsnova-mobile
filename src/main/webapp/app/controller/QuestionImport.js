@@ -135,20 +135,20 @@ Ext.define("ARSnova.controller.QuestionImport", {
 		audiencePanel.loadMask.hide();
 	},
 
-	getPossibleAnswers: function (type, answers, rightAnswers) {
+	getPossibleAnswers: function (type, answers, correctAnswers) {
 		var answer, answerObj, letter, possibleAnswers = [];
 
 		if (type === 'freetext') {
 			return possibleAnswers;
 		} else if (type === 'yesno') {
-			return this.getYesNoAnswer(rightAnswers);
+			return this.getYesNoAnswer(correctAnswers);
 		}
 
 		for (var i = 0; i < answers.length; i++) {
 			answer = answers[i];
 			if (answer) {
 				answerObj = {};
-				answerObj.correct = (rightAnswers.indexOf(i + 1) !== -1);
+				answerObj.correct = (correctAnswers.indexOf(i + 1) !== -1);
 				if (type === 'mc') {
 					answerObj.text = answer;
 				} else if (type === 'sc') {
@@ -161,8 +161,8 @@ Ext.define("ARSnova.controller.QuestionImport", {
 		return possibleAnswers;
 	},
 
-	getYesNoAnswer: function (rightAnswers) {
-		if (rightAnswers === 'y') {
+	getYesNoAnswer: function (correctAnswers) {
+		if (correctAnswers === 'y') {
 			return [this.getYesNoAnswerObj(true, Messages.YES),
 				this.getYesNoAnswerObj(false, Messages.NO)];
 		} else {
@@ -251,7 +251,7 @@ Ext.define("ARSnova.controller.QuestionImport", {
 			if (!error) {
 				if (row.length === NUM_COLUMS) {
 					var valuesRightAnswers = row[RIGHT_ANSWER];
-					var rightAnswers = [];
+					var correctAnswers = [];
 					var answers = [];
 					var i;
 					var questionType = '';
@@ -297,7 +297,7 @@ Ext.define("ARSnova.controller.QuestionImport", {
 									answers.push(row[i]);
 								}
 								if (valuesRightAnswers.indexOf(i - INDEX_FIRST_ANSWER + 1) > -1) {
-									rightAnswers.push(row[i]);
+									correctAnswers.push(row[i]);
 								}
 							}
 
@@ -307,7 +307,7 @@ Ext.define("ARSnova.controller.QuestionImport", {
 							 * Check if we have at minimum 2 answers
 							 * and check if the colums according to a answers numbers exists
 							 */
-							if (valuesRightAnswers.length < 1 || valuesRightAnswers.length !== rightAnswers.length) {
+							if (valuesRightAnswers.length < 1 || valuesRightAnswers.length !== correctAnswers.length) {
 								error = true;
 								answersError = true;
 							}
@@ -319,7 +319,7 @@ Ext.define("ARSnova.controller.QuestionImport", {
 									answers.push(row[i]);
 								}
 								if (valuesRightAnswers.indexOf(i - INDEX_FIRST_ANSWER + 1) > -1) {
-									rightAnswers.push(row[i]);
+									correctAnswers.push(row[i]);
 								}
 							}
 

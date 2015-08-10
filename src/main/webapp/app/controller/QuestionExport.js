@@ -56,7 +56,7 @@ Ext.define("ARSnova.controller.QuestionExport", {
 
 	formatQuestion: function (questionModel) {
 		var questionTypeModel = questionModel.questionType;
-		var rightAnswer = '';
+		var correctAnswer = '';
 		var options = [];
 		var question = {};
 		question.questionType = this.getQuestionType(questionTypeModel);
@@ -65,7 +65,7 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		for (var i = 0 ; i < 8 ; i++) {
 			options[i] = this.getOption(questionModel.possibleAnswers[i], questionTypeModel);
 			if (questionModel.possibleAnswers[i] && questionModel.possibleAnswers[i].correct) {
-				rightAnswer += (i + 1) + ',';
+				correctAnswer += (i + 1) + ',';
 			}
 		}
 		question.answer1 = options[0];
@@ -77,15 +77,15 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		question.answer7 = options[6];
 		question.answer8 = options[7];
 		if (questionTypeModel === 'mc' || questionTypeModel === 'abcd') {
-			question.rightAnswer = rightAnswer.slice(0, rightAnswer.length - 1);
+			question.correctAnswer = correctAnswer.slice(0, correctAnswer.length - 1);
 		} else if (questionTypeModel === 'yesno') {
-			rightAnswer = 'n';
+			correctAnswer = 'n';
 			if (questionModel.possibleAnswers[0].correct) {
-				rightAnswer = 'y';
+				correctAnswer = 'y';
 			}
-			question.rightAnswer = rightAnswer;
+			question.correctAnswer = correctAnswer;
 		} else if (questionTypeModel === 'freetext') {
-			question.rightAnswer = '';
+			question.correctAnswer = '';
 		}
 
 		question.abstention = (questionModel.abstention) ? 'y' : 'n';
