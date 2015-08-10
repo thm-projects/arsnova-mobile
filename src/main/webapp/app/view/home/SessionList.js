@@ -57,7 +57,7 @@ Ext.define('ARSnova.view.home.SessionList', {
 	},
 
 	removeLoadMoreButton: function () {
-		if (!!this.loadMoreButton) {
+		if (this.loadMoreButton) {
 			this.remove(this.loadMoreButton);
 			this.removeCls('paginationSessionList');
 		}

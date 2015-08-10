@@ -218,7 +218,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 	hasCorrectOptions: function () {
 		var hasCorrectOptions = false;
 		for (var i = 0; i < this.selectAnswerCount.getValue(); i++) {
-			hasCorrectOptions = hasCorrectOptions || !!this.answerComponents[i].isChecked();
+			hasCorrectOptions = hasCorrectOptions || this.answerComponents[i].isChecked();
 		}
 		return hasCorrectOptions;
 	},

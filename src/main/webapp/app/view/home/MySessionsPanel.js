@@ -225,7 +225,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 								data = decodeURIComponent(window.escape(atob(data.substring(n + 7)))); // remove disturbing prefix
 
 								var jsonContent = JSON.parse(data);
-								if (jsonContent && typeof jsonContent === "object" && jsonContent !== null) {
+								if (jsonContent) {
 									ARSnova.app.getController("SessionImport").importSession(jsonContent.exportData)
 										.then(function () {
 											me.loadCreatedSessions()
@@ -251,15 +251,15 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				imageCls: 'icon-cloud-upload ',
 				scope: this,
 				handler: function () {
-					var msg = "";
-					if ((msg = this.importSupport()) !== "") {
+					var msg = this.importSupport();
+					if (msg) {
 						Ext.Msg.alert(Messages.NOTIFICATION, msg);
 					}
 				}
 			});
 
 			this.importButtonPanel = Ext.create('Ext.Panel');
-			if (this.importSupport() === "") {
+			if (!this.importSupport()) {
 				this.importButtonPanel.add(this.importButtonClickable);
 			}
 			this.importButtonPanel.add(this.importButton);
@@ -431,7 +431,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	},
 
 	resizePublicPoolSessionButtons: function () {
-		if (!!this.myPpSessionsForm) {
+		if (this.myPpSessionsForm) {
 			var buttons = this.myPpSessionsForm.getInnerItems()[0].getInnerItems();
 			var offset = this.myPpSessionsForm.bodyElement.dom.firstChild.offsetLeft * 2;
 			var width = this.element.dom.clientWidth;
@@ -808,7 +808,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 	 * Save way to set an element hidden.
 	 */
 	saveSetHidden: function (element, hidden) {
-		if (typeof element !== undefined && element != null) {
+		if (element) {
 			element.setHidden(hidden);
 		}
 	},

@@ -251,11 +251,7 @@ Ext.application({
 	 * returns true if user is logged in a session
 	 */
 	checkSessionLogin: function () {
-		if (localStorage.getItem('sessionId') === undefined || localStorage.getItem('sessionId') === "") {
-			return false;
-		} else {
-			return true;
-		}
+		return !!localStorage.getItem('sessionId');
 	},
 
 	/**
@@ -372,15 +368,15 @@ Ext.application({
 			return;
 		}
 
-		if (localStorage.getItem('lectureQuestionIds') == null) {
+		if (!localStorage.getItem('lectureQuestionIds')) {
 			localStorage.setItem('lectureQuestionIds', "[]");
 		}
 
-		if (localStorage.getItem('preparationQuestionIds') == null) {
+		if (!localStorage.getItem('preparationQuestionIds')) {
 			localStorage.setItem('preparationQuestionIds', "[]");
 		}
 
-		if (localStorage.getItem('loggedIn') == null) {
+		if (!localStorage.getItem('loggedIn')) {
 			localStorage.setItem('loggedIn', "[]");
 		}
 

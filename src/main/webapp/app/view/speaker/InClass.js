@@ -406,8 +406,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			}
 		});
 		this.inClassActions.getInnerItems().forEach(function (element) {
-			if (!(element === me.sessionStatusButton ||
-				element === me.deleteSessionButton)) {
+			if (element !== me.sessionStatusButton &&
+					element !== me.deleteSessionButton) {
 				element.setHidden(showElements);
 			} else {
 				me.sessionStatusButton.setActionButtonCls(buttonCls);
@@ -488,7 +488,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		var me = this;
 		var features = Ext.decode(sessionStorage.getItem("features")) || {
 			jitt: true, lecture: true, learningProgress: true
-		} ;
+		};
 
 		var failureCallback = function () {
 			console.log('server-side error');

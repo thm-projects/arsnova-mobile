@@ -861,7 +861,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 
 	lock: function (sessionKeyword, theLock, callbacks) {
 		this.arsjax.request({
-			url: "session/" + sessionKeyword + "/lock?lock=" + !!theLock,
+			url: "session/" + sessionKeyword + "/lock?lock=" + theLock,
 			method: "POST",
 			success: callbacks.success,
 			failure: callbacks.failure

@@ -35,7 +35,7 @@ Ext.define('ARSnova.view.RolePanel', {
 
 	buttonColorChange: {
 		run: function () {
-			if (!!ARSnova.app.mainTabPanel) {
+			if (ARSnova.app.mainTabPanel) {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.rolePanel;
 
 				if (panel.selectState) {
@@ -58,7 +58,7 @@ Ext.define('ARSnova.view.RolePanel', {
 		var isPhone = (Ext.os.is.Phone && Ext.os.is.iOS);
 		var smallHeight = document.body.clientHeight <= 460;
 		var mediumHeight = document.body.clientHeight >= 520;
-		var slogan = ARSnova.app.globalConfig.arsnovaSlogan ? ARSnova.app.globalConfig.arsnovaSlogan : "";
+		var slogan = ARSnova.app.globalConfig.arsnovaSlogan || "";
 
 		this.speakerButton = Ext.create('ARSnova.view.MatrixButton', {
 			id: 'role-select-speaker',

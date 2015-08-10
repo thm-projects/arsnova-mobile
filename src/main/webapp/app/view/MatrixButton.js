@@ -80,10 +80,10 @@ Ext.define('ARSnova.view.MatrixButton', {
 		var buttonSpan = this.element.select(".x-button-label").elements;
 		var	buttonText = this.element.select(".buttonText").elements;
 
-		if (text === "") {
-			buttonSpan[0].removeChild(buttonText[0]);
-		} else {
+		if (text) {
 			buttonText[0].innerHTML = text;
+		} else {
+			buttonSpan[0].removeChild(buttonText[0]);
 		}
 	},
 

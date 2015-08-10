@@ -58,7 +58,7 @@ Ext.define('ARSnova.BrowserSupport', {
 	},
 
 	isBrowserSupported: function (updateRequiredCallback, browserUnsupportedCallback, scope) {
-		if (typeof this.getSupported()[this.detect.browser] !== "undefined") {
+		if (this.getSupported()[this.detect.browser] !== undefined) {
 			var hasMinimumVersion = this.getRequiredBrowserVersion() <= this.detect.version;
 			if (!hasMinimumVersion) {
 				updateRequiredCallback.call(scope || this, this.detect.browser, this.getRequiredBrowserVersion());

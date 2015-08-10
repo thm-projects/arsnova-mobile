@@ -94,7 +94,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	},
 
 	onItemChange: function (panel, newQuestion, oldQuestion) {
-		if (!!oldQuestion && oldQuestion.questionObj && oldQuestion.countdownTimer) {
+		if (oldQuestion && oldQuestion.questionObj && oldQuestion.countdownTimer) {
 			oldQuestion.countdownTimer.stop();
 		}
 

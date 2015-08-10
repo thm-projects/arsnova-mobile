@@ -71,7 +71,7 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 			setZoomLevel: function (sliderField, slider, newValue) {
 				var panel = me.getActivePanel();
 				newValue = Array.isArray(newValue) ? newValue[0] : newValue;
-				if (!sliderField.actualValue || sliderField.actualValue !== newValue) {
+				if (sliderField.actualValue !== newValue) {
 					panel.setZoomLevel(newValue);
 					sliderField.actualValue = newValue;
 				}
@@ -109,11 +109,11 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 	},
 
 	isZoomElementActive: function () {
-		return !!this.zoomButton.isActive;
+		return this.zoomButton.isActive;
 	},
 
 	setZoomElementHidden: function (setHidden) {
-		this.zoomButton.setHidden(!!setHidden);
+		this.zoomButton.setHidden(setHidden);
 	},
 
 	initializeZoomComponents: function () {
@@ -124,12 +124,12 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 		this.zoomSlider.setSliderValue(ARSnova.app.globalZoomLevel);
 		this.zoomButton.isActive = false;
 
-		if (!!this.getActivePanel()) {
+		if (this.getActivePanel()) {
 			this.getActivePanel().setZoomLevel(ARSnova.app.globalZoomLevel);
 		}
 
 		if (this.getAutoApplyBottomPadding() &&
-			!!this.getParentReference().getActiveItem()) {
+				this.getParentReference().getActiveItem()) {
 			this.getParentReference().getActiveItem().setPadding('0 0 20 0');
 		}
 	},
@@ -146,7 +146,7 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 			this.actionSheet.show();
 
 			if (this.getAutoApplyBottomPadding() &&
-				!!this.getParentReference().getActiveItem()) {
+					this.getParentReference().getActiveItem()) {
 				this.getParentReference().getActiveItem().setPadding('0 0 50 0');
 			}
 		}

@@ -383,7 +383,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 
 	validate: function () {
 		var isValid = true;
-		var me = this ;
+		var me = this;
 		var validation = Ext.create('ARSnova.model.PublicPool', {
 			name: me.creatorName.getValue(),
 			hs: me.university.getValue(),

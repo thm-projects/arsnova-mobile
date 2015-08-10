@@ -229,7 +229,7 @@ Ext.define("ARSnova.controller.Questions", {
 				}
 				break;
 			case 'grid':
-				if (panel.gridQuestion.grid !== null) {
+				if (panel.gridQuestion.grid) {
 					if (!panel.gridQuestion.grid.getImageFile()) {
 						error = true;
 						gridError = true;
@@ -320,7 +320,7 @@ Ext.define("ARSnova.controller.Questions", {
 			answer: options.answer
 		});
 
-		if (ARSnova.app.isSessionOwner && options.answer.read === false) {
+		if (ARSnova.app.isSessionOwner && !options.answer.read) {
 			options.answer.read = true;
 			ARSnova.app.socket.readFreetextAnswer(options.answer);
 		}
@@ -350,7 +350,7 @@ Ext.define("ARSnova.controller.Questions", {
 					success: function (response) {
 						var questionStatus = options.statusButton;
 
-						if (options.active === 1) {
+						if (options.active) {
 							questionStatus.questionOpenedSuccessfully();
 						} else {
 							questionStatus.questionClosedSuccessfully();

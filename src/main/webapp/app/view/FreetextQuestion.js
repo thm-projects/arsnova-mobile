@@ -42,7 +42,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 		var me = this;
 		this.questionObj = this.config.questionObj;
-		this.viewOnly = typeof this.config.viewOnly === "undefined" ? false : this.config.viewOnly;
+		this.viewOnly = this.config.viewOnly;
 
 		this.customMask = Ext.create('ARSnova.view.CustomMask', {
 			mainPanel: this
@@ -61,13 +61,13 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			name: 'text',
 			maxLength: 2500,
 			maxRows: 7,
-			hidden: !!this.questionObj.imageQuestion &&
+			hidden: this.questionObj.imageQuestion &&
 				!this.questionObj.textAnswerEnabled
 		});
 
 		this.markdownEditPanel = Ext.create('ARSnova.view.MarkDownEditorPanel', {
 			processElement: this.answerText,
-			hidden: !!this.questionObj.imageQuestion &&
+			hidden: this.questionObj.imageQuestion &&
 				!this.questionObj.textAnswerEnabled
 		});
 
@@ -87,7 +87,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					margin: '10px'
 				}
 			},
-			hidden: this.viewOnly || !!this.questionObj.userAnswered || !!this.questionObj.isAbstentionAnswer,
+			hidden: this.viewOnly || !!this.questionObj.userAnswered || this.questionObj.isAbstentionAnswer,
 			items: [{
 				flex: 1,
 				xtype: 'button',
@@ -147,7 +147,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 		if (this.questionObj.imageQuestion) {
 			this.gridQuestion = Ext.create('ARSnova.view.components.GridImageContainer', {
-				hidden: 'true',
+				hidden: true,
 				gridIsHidden: true,
 				editable: false,
 				style: "margin-top: 5px;"
@@ -370,7 +370,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					questionsArr.push(me.questionObj._id);
 				}
 				localStorage.setItem(me.questionObj.questionVariant + 'QuestionIds', Ext.encode(questionsArr));
-				if (!!answer.get('abstention')) {
+				if (answer.get('abstention')) {
 					me.questionObj.isAbstentionAnswer = true;
 				} else {
 					me.questionObj.userAnswered = true;
@@ -452,11 +452,11 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				this.uploadView.hide();
 			}
 
-			if (!!this.questionObj.userAnswered) {
+			if (this.questionObj.userAnswered) {
 				this.customMask.setTextMessage(Messages.MASK_ALREADY_ANSWERED, 'alreadyAnswered');
-			} else if (!!this.questionObj.isAbstentionAnswer) {
+			} else if (this.questionObj.isAbstentionAnswer) {
 				this.customMask.setTextMessage(Messages.MASK_IS_ABSTENTION_ANSWER, 'alreadyAnswered');
-			} else if (!!this.questionObj.votingDisabled) {
+			} else if (this.questionObj.votingDisabled) {
 				this.customMask.setTextMessage(Messages.MASK_VOTE_CLOSED, 'voteClosed');
 			}
 		}

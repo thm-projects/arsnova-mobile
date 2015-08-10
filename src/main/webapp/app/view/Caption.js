@@ -40,7 +40,7 @@ Ext.define('ARSnova.view.Caption', {
 			style: this.getStyle()
 		});
 
-		var minScreenWidth = !!this.config.minScreenWidth ?
+		var minScreenWidth = this.config.minScreenWidth ?
 			this.config.minScreenWidth : 410;
 
 		this.add([].concat(window.innerWidth > minScreenWidth ? [{
@@ -59,11 +59,11 @@ Ext.define('ARSnova.view.Caption', {
 		var hasInactiveItems = false;
 		var hasVotingDisabledItems = false;
 		items.forEach(function (item) {
-			hasActiveItems = hasActiveItems || !!item.active;
-			hasInactiveItems = hasInactiveItems || !!!item.active;
+			hasActiveItems = hasActiveItems || item.active;
+			hasInactiveItems = hasInactiveItems || !item.active;
 
-			if (!!item.active && !!item.votingDisabled) {
-				hasVotingDisabledItems = hasVotingDisabledItems || !!item.votingDisabled;
+			if (item.active && item.votingDisabled) {
+				hasVotingDisabledItems = hasVotingDisabledItems || item.votingDisabled;
 			}
 		});
 
@@ -84,12 +84,12 @@ Ext.define('ARSnova.view.Caption', {
 			listButtonText = activeText;
 		}
 		if (hasVotingDisabledItems) {
-			listButtonText = listButtonText.length !== 0 ?
+			listButtonText = listButtonText ?
 				listButtonText + " / " + votingDisabledText :
 				votingDisabledText;
 		}
 		if (hasInactiveItems) {
-			listButtonText = listButtonText.length !== 0 ?
+			listButtonText = listButtonText ?
 				listButtonText + " / " + inactiveText :
 				inactiveText;
 		}

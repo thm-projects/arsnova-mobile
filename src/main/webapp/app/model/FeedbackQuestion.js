@@ -39,7 +39,7 @@ Ext.define('ARSnova.model.FeedbackQuestion', {
 	},
 
 	read: function () {
-		if (ARSnova.app.isSessionOwner && this.get('read') === false) {
+		if (ARSnova.app.isSessionOwner && !this.get('read')) {
 			this.set('read', true);
 			ARSnova.app.socket.readInterposedQuestion(this);
 		}

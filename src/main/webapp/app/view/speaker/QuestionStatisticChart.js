@@ -81,7 +81,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		var hasCorrectAnswers = Ext.bind(function () {
 			var hasCorrect = false;
 			this.questionObj.possibleAnswers.forEach(function (answer) {
-				hasCorrect = hasCorrect || !!answer.correct;
+				hasCorrect = hasCorrect || answer.correct;
 			});
 			return hasCorrect;
 		}, this);
@@ -593,9 +593,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 						}
 						for (var j = 0; j < el.answerCount; j++) {
 							values.forEach(function (selected, index) {
-								if (typeof mcAnswerCount[index] === "undefined") {
-									mcAnswerCount[index] = 0;
-								}
+								mcAnswerCount[index] = mcAnswerCount[index] || 0;
 								if (selected === 1) {
 									mcAnswerCount[index] += 1;
 								}
@@ -938,7 +936,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		for (var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
 			question = this.questionObj.possibleAnswers[i];
-			data = question.data ? question.data : question;
+			data = question.data || question;
 
 			this.correctAnswers[data.text] = data.correct;
 

@@ -211,7 +211,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 		var questionObj = this.getQuestionObj();
 		var me = this;
 
-		if (typeof questionObj === "undefined" || typeof questionObj.image === "undefined") {
+		if (!questionObj || !questionObj.image) {
 			console.log("Error: no question object provided.");
 			return;
 		}
@@ -226,7 +226,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 			var abstentionCount = 0;
 			var questionObj = me.getQuestionObj();
 
-			if (questionObj.showAnswer || questionObj.userAnswered == null) {
+			if (questionObj.showAnswer || !questionObj.userAnswered) {
 				// Output WITH correct answers
 				me.grid.update(questionObj, true);
 			} else {
@@ -250,7 +250,7 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 
 				for (var j = 0; j < el.answerCount; j++) {
 					values.forEach(function (selected, index) {
-						if (typeof gridAnswers[values[index]] === "undefined") {
+						if (gridAnswers[values[index]] === undefined) {
 							gridAnswers[values[index]] = 1;
 						} else {
 							gridAnswers[values[index]] += 1;

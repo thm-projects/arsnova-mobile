@@ -115,7 +115,7 @@ Ext.define('ARSnova.view.Question', {
 				style: "margin: 10px;"
 			},
 			hidden: !!this.questionObj.userAnswered ||
-				!!this.questionObj.isAbstentionAnswer
+				this.questionObj.isAbstentionAnswer
 		});
 
 		this.formPanel = Ext.create('Ext.form.Panel', {
@@ -299,11 +299,11 @@ Ext.define('ARSnova.view.Question', {
 
 	prepareAbstentionAnswer: function () {
 		if (this.questionObj.abstention &&
-			(this.questionObj.questionType === 'school'
-			|| this.questionObj.questionType === 'vote'
-			|| this.questionObj.questionType === 'abcd'
-			|| this.questionObj.questionType === 'yesno'
-			|| (this.questionObj.questionType === 'mc' && this.viewOnly))) {
+				(this.questionObj.questionType === 'school'
+				|| this.questionObj.questionType === 'vote'
+				|| this.questionObj.questionType === 'abcd'
+				|| this.questionObj.questionType === 'yesno'
+				|| (this.questionObj.questionType === 'mc' && this.viewOnly))) {
 			this.abstentionAnswer = this.answerList.getStore().add({
 				id: this.abstentionInternalId,
 				text: Messages.ABSTENTION,
@@ -343,7 +343,7 @@ Ext.define('ARSnova.view.Question', {
 						'<span class="answerOptionText">{formattedText}</span>',
 						{
 							isQuestionAnswered: function (values) {
-								return values.questionAnswered === true;
+								return values.questionAnswered;
 							}
 						}
 					),
@@ -523,7 +523,7 @@ Ext.define('ARSnova.view.Question', {
 				localStorage.setItem(me.questionObj.questionVariant + 'QuestionIds', Ext.encode(questionsArr));
 
 				if (me.questionObj.questionType !== 'flashcard') {
-					if (!!answer.get('abstention')) {
+					if (answer.get('abstention')) {
 						me.questionObj.isAbstentionAnswer = true;
 					} else {
 						me.questionObj.userAnswered = true;
@@ -653,7 +653,7 @@ Ext.define('ARSnova.view.Question', {
 	 * function to set the users answers after setting the last answer.
 	 */
 	setGridAnswer: function (answerString) {
-		if (answerString === undefined) {
+		if (!answerString) {
 			return;
 		}
 
@@ -700,7 +700,7 @@ Ext.define('ARSnova.view.Question', {
 			this.setDisabled(true);
 			this.mask(this.customMask);
 
-			if (!!this.questionObj.userAnswered) {
+			if (this.questionObj.userAnswered) {
 				var message = Messages.MASK_ALREADY_ANSWERED;
 
 				if (this.questionObj.showAnswer) {
@@ -718,9 +718,9 @@ Ext.define('ARSnova.view.Question', {
 				} else {
 					this.hintIcon.setHidden(true);
 				}
-			} else if (!!this.questionObj.isAbstentionAnswer) {
+			} else if (this.questionObj.isAbstentionAnswer) {
 				this.customMask.setTextMessage(Messages.MASK_IS_ABSTENTION_ANSWER, 'alreadyAnswered');
-			} else if (!!this.questionObj.votingDisabled) {
+			} else if (this.questionObj.votingDisabled) {
 				this.customMask.setTextMessage(Messages.MASK_VOTE_CLOSED, 'voteClosed');
 			}
 		}

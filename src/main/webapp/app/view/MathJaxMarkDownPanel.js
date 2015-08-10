@@ -55,7 +55,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 
 		var features = ARSnova.app.globalConfig.features;
 		if (markDownEnabled && features.markdown) {
-			if (mathJaxEnabled && features.mathJax && !!window.MathJax && MathJax.Hub) {
+			if (mathJaxEnabled && features.mathJax && window.MathJax && MathJax.Hub) {
 				var replStack = [], repl;
 
 				// replace MathJax delimiters
@@ -92,7 +92,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		this.addSyntaxHighlightLineNumbers();
 
 		var callback = mathjaxCallback || Ext.emptyFn;
-		if (mathJaxEnabled && features.mathJax && !!window.MathJax && MathJax.Hub) {
+		if (mathJaxEnabled && features.mathJax && window.MathJax && MathJax.Hub) {
 			// MathJax is enabled and content will be converted
 			var queue = MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.element.dom]);
 			MathJax.Hub.Queue([callback, this.element.down('div')]);
@@ -180,7 +180,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 
 	// add line numbers for syntax highlighted text
 	addSyntaxHighlightLineNumbers: function () {
-		if (!!hljs) {
+		if (hljs) {
 			this.element.select('.hljs-line-numbers').elements.forEach(function (el) {
 				el.parentNode.removeChild(el);
 			});

@@ -77,7 +77,7 @@ Ext.define("ARSnova.controller.Auth", {
 		ARSnova.loginMode = ARSnova.LOGIN_GUEST;
 		ARSnova.userRole = ARSnova.USER_ROLE_STUDENT;
 
-		if (localStorage.getItem('login') === null) {
+		if (!localStorage.getItem('login')) {
 			localStorage.setItem('login', ARSnova.models.Auth.generateGuestName());
 		}
 		localStorage.setItem('loginMode', ARSnova.loginMode);
@@ -128,7 +128,7 @@ Ext.define("ARSnova.controller.Auth", {
 		var location = "", type = "", me = this;
 
 		if (ARSnova.app.LOGIN_GUEST === serviceId) {
-			if (localStorage.getItem('login') === null) {
+			if (!localStorage.getItem('login')) {
 				localStorage.setItem('login', ARSnova.app.authModel.generateGuestName());
 				type = "guest";
 			} else {
