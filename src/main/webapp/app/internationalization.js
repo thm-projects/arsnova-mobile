@@ -105,6 +105,7 @@
 				LOAD_MASK_SESSION_EXPORT: "Exportiere Session-Daten...",
 				LOAD_MASK_SESSION_IMPORT: "Importiere Session-Daten...",
 				LOAD_MASK_SESSION_PP_CLONE: "Kopiere Public Pool Session...",
+				LOAD_MASK_QUESTION_IMPORT: "Importiere Fragen...",
 
 				/* mySessionsPanel */
 				HOME: "Start",
@@ -633,7 +634,20 @@
 				IMP_ERROR: "Fehler bei Session-Import",
 				IMP_ERROR_FORMAT: "JSON Datei ist falsch formatiert.",
 				IMP_ERROR_SAVE: "Session konnte nicht gespeichert werden.",
-				IMP_ERROR_IMAGE: "Session konnte nicht gespeichert werden. Bild überschreitet maximale Größe."
+				IMP_ERROR_IMAGE: "Session konnte nicht gespeichert werden. Bild überschreitet maximale Größe.",
+
+				/* CSV export*/
+				QUESTIONS_CSV_EXPORT_BUTTON: "Fragen<br>exportieren",
+				QUESTIONS_CSV_EXPORT_MSBOX_TITLE: "Fragen exportieren",
+				QUESTIONS_CSV_EXPORT_MSBOX_INFO: "Die Fragen werden als CSV-Datei exportiert.",
+
+				/* CSV import*/
+				QUESTIONS_CSV_IMPORT_BUTTON: "Fragen<br>importieren",
+				QUESTIONS_CSV_IMPORT_MSBOX_TITLE: "Fragen importieren",
+				QUESTIONS_CSV_IMPORT_ERR_IN_ROW: "in Zeile",
+				QUESTIONS_CSV_IMPORT_TYPE_ERROR: "Ungültiger Fragentyp",
+				QUESTIONS_CSV_IMPORT_ABSTENTION_ERROR: "Fehler im Feld 'abstention'",
+				QUESTIONS_CSV_IMPORT_INVALID_FORMAT: "Ungültiges Dateiformat"
 			};
 			break;
 
@@ -695,6 +709,7 @@
 				LOAD_MASK_SESSION_EXPORT: "Exporting session data...",
 				LOAD_MASK_SESSION_IMPORT: "Importing session data...",
 				LOAD_MASK_SESSION_PP_CLONE: "Copy public pool session...",
+				LOAD_MASK_QUESTION_IMPORT: "Importing questions...",
 
 				/* mySessionsPanel */
 				HOME: "Start",
@@ -1126,6 +1141,7 @@
 				EVALUATION_MINUSMINUS: "strongly disagree",
 				IMAGE_QUESTION_LBL: "Upload image/photo as answer?",
 				EXPECT_ANSWER_TEXT: "Allow text answer?",
+
 				IMAGE_QUESTION_MINIATUR_VIEW: "Grid",
 				IMAGE_QUESTION_HORIZONTAL_VIEW: "Horizontal",
 				IMAGE_QUESTION_VERTICAL_VIEW: "Vertical",
@@ -1226,7 +1242,20 @@
 				IMP_ERROR: "Error while importing sessions",
 				IMP_ERROR_FORMAT: "JSON file is not formated correctly",
 				IMP_ERROR_SAVE: "Could not save session to database.",
-				IMP_ERROR_IMAGE: "Could not save session, image exceeds maximal size."
+				IMP_ERROR_IMAGE: "Could not save session, image exceeds maximal size.",
+
+				/* CSV export */
+				QUESTIONS_CSV_EXPORT_BUTTON: "Export<br>questions",
+				QUESTIONS_CSV_EXPORT_MSBOX_TITLE: "Export Questions",
+				QUESTIONS_CSV_EXPORT_MSBOX_INFO: "The questions will be exported as a CSV file.",
+
+				/* CSV import */
+				QUESTIONS_CSV_IMPORT_BUTTON: "Import<br>questions",
+				QUESTIONS_CSV_IMPORT_MSBOX_TITLE: "Import questions",
+				QUESTIONS_CSV_IMPORT_ERR_IN_ROW: "at line",
+				QUESTIONS_CSV_IMPORT_TYPE_ERROR: "Invalid question type",
+				QUESTIONS_CSV_IMPORT_ABSTENTION_ERROR: "Error in field 'abstention'",
+				QUESTIONS_CSV_IMPORT_INVALID_FORMAT: "Invalid file format"
 			};
 			break;
 	}

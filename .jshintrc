@@ -25,6 +25,7 @@
 		"Messages": true,
 		"moment": true,
 		"RSVP": true,
+		"Papa": true,
 		"TaskRunner": true
 	}
 }

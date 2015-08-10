@@ -50,6 +50,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	questionStore: null,
 	questionEntries: [],
 
+	reader: new FileReader(),
+
 	updateAnswerCount: {
 		name: 'refresh the number of answers inside the badges',
 		run: function () {
@@ -62,8 +64,19 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	initialize: function () {
 		this.callParent(arguments);
 
+		var self = this;
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		var actionButtonCls = screenWidth < 410 ? 'smallerActionButton' : 'actionButton';
+
+		this.reader.onload = function (event) {
+			ARSnova.app.getController('QuestionImport').importCsvFile(self.reader.result);
+			var field = self.loadFilePanel.query('filefield')[0];
+			// field.setValue currently has no effect - Sencha bug?
+			field.setValue(null);
+			// Workaround: Directly reset value on DOM element
+			field.element.query('input')[0].value = null;
+			field.enable();
+		};
 
 		this.questionStore = Ext.create('Ext.data.JsonStore', {
 			model: 'ARSnova.model.Question',
@@ -192,6 +205,65 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			handler: this.newQuestionHandler
 		});
 
+		this.questionsImport = Ext.create('ARSnova.view.MatrixButton', {
+			text: Messages.QUESTIONS_CSV_IMPORT_BUTTON,
+			buttonConfig: 'icon',
+			imageCls: 'icon-cloud-upload',
+			cls: 'actionButton',
+			handler: this.questionsImportHandler
+		});
+
+		this.loadMask = Ext.create('Ext.LoadMask', {
+			message: Messages.LOAD_MASK_QUESTION_IMPORT,
+			indicator: true,
+			centered: true
+		});
+
+		this.loadFilePanel =  Ext.create('Ext.Panel', {
+			modal: true,
+			centered: true,
+			ui: 'light',
+			items: [
+				{
+					xtype: 'toolbar',
+					docked: 'top',
+					title: Messages.QUESTIONS_CSV_IMPORT_MSBOX_TITLE,
+					ui: 'light',
+					items: [{
+							xtype: 'spacer'
+						}, {
+							xtype: 'button',
+							ui: 'plain',
+							iconCls: 'delete',
+							iconMask: true,
+							text: '',
+							action: 'hideModal'
+						}
+					]
+				},
+				{
+					xtype: 'filefield',
+					accept: 'text/csv',
+					listeners: {
+						change: function (element, newValue, oldValue) {
+							// Workaround: The change event is triggered twice in Chrome
+							if (element.isDisabled()) {
+								return;
+							}
+							element.disable();
+
+							var path = element.getValue();
+							var fileType = path.substring(path.lastIndexOf('.'));
+							if (fileType === '.csv') {
+								var file = element.bodyElement.dom.firstElementChild.firstElementChild.files[0];
+								self.reader.readAsText(file);
+							}
+						}
+					}
+				}
+			]
+		});
+
 		this.actionButtonPanel = Ext.create('Ext.Panel', {
 			layout: {
 				type: 'hbox',
@@ -203,7 +275,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			items: [
 				this.questionStatusButton,
 				this.showcaseActionButton,
-				this.newQuestionButton
+				this.newQuestionButton,
+				this.questionsImport
 			]
 		});
 
@@ -276,6 +349,25 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			}
 		});
 
+		this.exportCsvQuestionsButton = Ext.create('ARSnova.view.MatrixButton', {
+			hidden: true,
+			buttonConfig: 'icon',
+			text: Messages.QUESTIONS_CSV_EXPORT_BUTTON,
+			imageCls: 'icon-cloud-download',
+			cls: 'actionButton',
+			scope: this,
+			handler: function () {
+				var msg = Messages.QUESTIONS_CSV_EXPORT_MSBOX_INFO;
+
+				Ext.Msg.confirm(Messages.QUESTIONS_CSV_EXPORT_MSBOX_TITLE, msg, function (answer) {
+					if (answer === 'yes') {
+						ARSnova.app.getController('QuestionExport').parseJsonToCsv(this.questionStore.getData().items);
+					}
+				}, this);
+			}
+		});
+
+
 		this.inClassActions = Ext.create('Ext.Panel', {
 			style: {marginTop: '20px'},
 			layout: {
@@ -286,7 +378,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			items: [
 				this.voteStatusButton,
 				this.deleteAnswersButton,
-				this.deleteQuestionsButton
+				this.deleteQuestionsButton,
+				this.exportCsvQuestionsButton
 			]
 		});
 
@@ -368,6 +461,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.voteStatusButton.show();
 				// this.sortQuestionsButton.show();
 				this.deleteQuestionsButton.show();
+				this.exportCsvQuestionsButton.show();
 			}, this),
 			empty: Ext.bind(function () {
 				this.showcaseActionButton.hide();
@@ -378,6 +472,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.questionStatusButton.hide();
 				this.sortQuestionsButton.hide();
 				this.deleteQuestionsButton.hide();
+				this.exportCsvQuestionsButton.hide();
 			}, this),
 			failure: function (response) {
 				console.log('server-side error questionModel.getSkillQuestions');
@@ -474,5 +569,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			}, this);
 			this.deleteAnswersButton.setHidden(hasAnswers.length === 0);
 		}, this));
+	},
+
+	questionsImportHandler: function () {
+		ARSnova.app.getController('QuestionImport').showModal();
 	}
 });
