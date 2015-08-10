@@ -287,10 +287,10 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 				this.questionStoreBackup.add(questions);
 
 				this.questionStore.filterBy(function (record, id) {
-					return record.get('subject') == this.subject;
+					return record.get('subject') === this.subject;
 				}, this);
 				this.questionStoreBackup.filterBy(function (record, id) {
-					return record.get('subject') == this.subject;
+					return record.get('subject') === this.subject;
 				}, this);
 
 				this.questionListContainer.show();

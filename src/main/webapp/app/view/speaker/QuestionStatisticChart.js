@@ -289,7 +289,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					}
 				},
 				renderer: function (label, layout, lastLabel) {
-					panel = ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT ?
+					var panel = ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT ?
 						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart :
 						ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 
@@ -351,7 +351,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					calloutColor: 'transparent',
 					renderer: function (text, sprite, config, rendererData, index) {
 						var barWidth = this.itemCfg.width;
-						panel = ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT ?
+						var panel = ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT ?
 								ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart :
 								ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 
@@ -576,7 +576,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 							abstentionCount = el.abstentionCount;
 							continue;
 						}
-						values = el.answerText.split(",").map(function (answered) {
+						var values = el.answerText.split(",").map(function (answered) {
 							return parseInt(answered, 10);
 						});
 						if (values.length !== me.questionObj.possibleAnswers.length) {
@@ -613,7 +613,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 							abstentionCount = el.abstentionCount;
 							continue;
 						}
-						var record = store.findRecord('text', el.answerText, 0, false, true, true); // exact match
+						record = store.findRecord('text', el.answerText, 0, false, true, true); // exact match
 						if (record) {
 							record.set(valueString, el.answerCount);
 						}
@@ -627,7 +627,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					});
 
 					var idx = tmpPossibleAnswers.indexOf(el.answerText); // Find the index
-					if (idx != -1) {
+					if (idx !== -1) {
 						// Remove it if really found!
 						tmpPossibleAnswers.splice(idx, 1);
 					}
@@ -648,7 +648,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				record = store.findRecord('text', Messages.ABSTENTION, 0, false, true, true); // exact match
 				if (!record) {
 					store.add({text: Messages.ABSTENTION, valueString: abstentionCount});
-				} else if (record.get(valueString) != abstentionCount) {
+				} else if (record.get(valueString) !== abstentionCount) {
 					record.set(valueString, abstentionCount);
 				}
 			}
@@ -735,19 +735,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		} else if (me.questionObj.piRound === 1) {
 			countFirstRoundAnswers(Ext.emptyFn);
 		}
-	},
-
-	setAnswerCounter: function (value, option) {
-		if (!option) {
-			option = value === 1 ? Messages.ANSWER : Messages.ANSWERS;
-		} else if (option === Messages.ABSTENTION) {
-			option = value === 1 ? Messages.ABSTENTION : Messages.ABSTENTIONS;
-			if (moment.lang() === "en") {
-				option = option.toLowerCase();
-			}
-		}
-
-		this.answerCounter.setHtml(value + ' ' + option);
 	},
 
 	setAnswerCounter: function (value, message) {

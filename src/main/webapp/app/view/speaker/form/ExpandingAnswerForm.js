@@ -98,7 +98,8 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 
 		var answerOptionEntryId = Ext.id();
 
-		for (var i = 0; i < ARSnova.app.globalConfig.answerOptionLimit; i++) {
+		var i;
+		for (i = 0; i < ARSnova.app.globalConfig.answerOptionLimit; i++) {
 			(function (i) {
 				var theComponentId = answerOptionEntryId + "-" + i;
 				this.answerComponents[i] = Ext.create('ARSnova.view.TextCheckfield', {
@@ -141,7 +142,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		}
 
 		if (ARSnova.app.globalConfig.features.learningProgress) {
-			for (var i = 0; i < this.getMaxAnswers(); i++) {
+			for (i = 0; i < this.getMaxAnswers(); i++) {
 				(function (i) {
 					var theComponentId = answerOptionEntryId + "-qv-" + i;
 					this.questionValueComponents[i] = Ext.create("ARSnova.view.CustomSliderField", {

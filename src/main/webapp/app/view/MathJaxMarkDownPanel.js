@@ -16,8 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
+	/* global hljs */
+
 	extend: 'Ext.Component',
 
 	xtype: 'mathJaxMarkDownPanel',

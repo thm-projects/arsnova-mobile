@@ -85,9 +85,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 					var mask = ARSnova.app.showLoadIndicator(Messages.COMPRESSING_MASK);
 					self.tryToCompress(dataurl, function (response) {
 						mask();
-						if (!response) {
-							//error
-						} else if (self.checkFilesize(response)) {
+						if (response && self.checkFilesize(response)) {
 							self.toggleImagePresent();
 							Ext.bind(self.getFsUploadHandler(), self.getHandlerScope())(response, true);
 						}

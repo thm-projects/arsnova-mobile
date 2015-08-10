@@ -342,9 +342,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					});
 					return empty;
 				};
+				var questionValues;
 				if (this.getText() === Messages.EDIT) {
 					panel.answerEditForm.initWithQuestion(panel.questionObj);
-					var questionValues = panel.answerEditForm.getQuestionValues();
+					questionValues = panel.answerEditForm.getQuestionValues();
 
 					panel.markdownEditPanel.show();
 					panel.cancelButton.show();
@@ -404,7 +405,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						needsConfirmation = true;
 					}
 					if (!panel.answerEditForm.isHidden()) {
-						var questionValues = panel.answerEditForm.getQuestionValues();
+						questionValues = panel.answerEditForm.getQuestionValues();
 
 						if (hasEmptyAnswers(questionValues.possibleAnswers)) {
 							empty = true;
@@ -1139,9 +1140,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				case "freetext":
 					if (self.questionObj.imageQuestion) {
 						return Messages.IMAGE_ANSWER_LONG;
-					} else {
-						return Messages.FREETEXT;
 					}
+					return Messages.FREETEXT;
 				case "flashcard":
 					return Messages.FLASHCARD;
 				case "grid":
@@ -1241,10 +1241,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							item.set('answerCount', 0);
 						});
 
+						var i, el,
+							abstentionCount = 0;
 						if (panel.questionObj.questionType === "mc") {
 							var mcAnswerCount = [];
-							var abstentionCount = 0;
-							for (var i = 0, el; el = answers[i]; i++) {
+							for (i = 0; i < answers.length; i++) {
+								el = answers[i];
 								if (!el.answerText) {
 									abstentionCount = el.abstentionCount;
 									continue;
@@ -1277,8 +1279,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							panel.gridStatistic.setQuestionObj = panel.questionObj;
 							panel.gridStatistic.updateGrid();
 						} else {
-							var abstentionCount = 0;
-							for (var i = 0, el; el = answers[i]; i++) {
+							for (i = 0; i < answers.length; i++) {
+								el = answers[i];
 								if (!el.answerText) {
 									abstentionCount = el.abstentionCount;
 									continue;
