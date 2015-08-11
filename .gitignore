@@ -15,6 +15,7 @@ node_modules/
 *.iml
 *.log
 .*.sw?
+.buildpath
 .classpath
 .directory
 .DS_Store
