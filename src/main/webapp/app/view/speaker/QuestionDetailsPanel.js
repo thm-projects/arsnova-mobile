@@ -1287,25 +1287,27 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							abstentionCount = 0;
 						if (panel.questionObj.questionType === "mc") {
 							var mcAnswerCount = [];
+							var answerValuesMapFunc = function (answered) {
+								return parseInt(answered, 10);
+							};
+							var answerValuesForEachFunc = function (selected, index) {
+								this[index] = this[index] || 0;
+								if (selected === 1) {
+									this[index] += 1;
+								}
+							};
 							for (i = 0; i < answers.length; i++) {
 								el = answers[i];
 								if (!el.answerText) {
 									abstentionCount = el.abstentionCount;
 									continue;
 								}
-								var values = el.answerText.split(",").map(function (answered) {
-									return parseInt(answered, 10);
-								});
+								var values = el.answerText.split(",").map(answerValuesMapFunc);
 								if (values.length !== panel.questionObj.possibleAnswers.length) {
 									return;
 								}
 								for (var j = 0; j < el.answerCount; j++) {
-									values.forEach(function (selected, index) {
-										mcAnswerCount[index] = mcAnswerCount[index] || 0;
-										if (selected === 1) {
-											mcAnswerCount[index] += 1;
-										}
-									});
+									values.forEach(answerValuesForEachFunc, mcAnswerCount);
 								}
 							}
 							panel.answerStore.each(function (item, index) {

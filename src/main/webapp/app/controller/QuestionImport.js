@@ -73,6 +73,18 @@ Ext.define("ARSnova.controller.QuestionImport", {
 
 		var question, questionModel, type, promise;
 		var size = json.length;
+		var saveSuccessFunc = Ext.bind(function (response) {
+			promise.resolve(response);
+			size--;
+			if (size === 0) {
+				this.refreshPanel();
+			}
+		}, this);
+		var saveFailureFunc = Ext.bind(function (response) {
+			Ext.Msg.alert(Messages.NOTICE, Messages.QUESTION_CREATION_ERROR);
+			promise.reject(response);
+			this.refreshPanel();
+		}, this);
 
 		for (var i = 0; i < json.length; i++) {
 			question = json[i];
@@ -110,18 +122,8 @@ Ext.define("ARSnova.controller.QuestionImport", {
 				}
 
 				questionModel.saveSkillQuestion({
-					success: Ext.bind(function (response) {
-						promise.resolve(response);
-						size--;
-						if (size === 0) {
-							this.refreshPanel();
-						}
-					}, this),
-					failure: Ext.bind(function (response) {
-						Ext.Msg.alert(Messages.NOTICE, Messages.QUESTION_CREATION_ERROR);
-						promise.reject(response);
-						this.refreshPanel();
-					}, this)
+					success: saveSuccessFunc,
+					failure: saveFailureFunc
 				});
 			} else {
 				size--;

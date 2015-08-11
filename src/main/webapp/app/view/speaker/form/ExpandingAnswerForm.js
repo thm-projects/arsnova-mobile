@@ -98,65 +98,67 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 
 		var answerOptionEntryId = Ext.id();
 
-		var i;
-		for (i = 0; i < ARSnova.app.globalConfig.answerOptionLimit; i++) {
-			(function (i) {
-				var theComponentId = answerOptionEntryId + "-" + i;
-				this.answerComponents[i] = Ext.create('ARSnova.view.TextCheckfield', {
-					id: theComponentId,
-					name: theComponentId,
-					placeHolder: Messages.ENTER_ANSWER_OPTION + " " + (i + 1),
-					hidden: this.getStart() <= i,
-					container: this,
-					listeners: {
-						scope: this,
-						checkchange: function (field, isChecked) {
-							if (ARSnova.app.globalConfig.features.learningProgress) {
-								var component = this.questionValueComponents[i];
-								var checked = this.answerComponents.filter(function (c) {
-									return c.isChecked();
+		var optionsLoopFunc = function (i) {
+			var theComponentId = answerOptionEntryId + "-" + i;
+			this.answerComponents[i] = Ext.create('ARSnova.view.TextCheckfield', {
+				id: theComponentId,
+				name: theComponentId,
+				placeHolder: Messages.ENTER_ANSWER_OPTION + " " + (i + 1),
+				hidden: this.getStart() <= i,
+				container: this,
+				listeners: {
+					scope: this,
+					checkchange: function (field, isChecked) {
+						if (ARSnova.app.globalConfig.features.learningProgress) {
+							var component = this.questionValueComponents[i];
+							var checked = this.answerComponents.filter(function (c) {
+								return c.isChecked();
+							});
+							this.questionValueFieldset.setHidden(checked.length === 0);
+							if (checked.length === 0) {
+								this.questionValueComponents.forEach(function (c) {
+									c.reset();
 								});
-								this.questionValueFieldset.setHidden(checked.length === 0);
-								if (checked.length === 0) {
-									this.questionValueComponents.forEach(function (c) {
-										c.reset();
-									});
-								} else if (checked.length > 0) {
-									this.questionValueComponents.forEach(function (c, j) {
-										c.setSliderValue(this.answerComponents[j].isChecked() ? c.getMaxValue() : c.getMinValue());
-									}, this);
-								} else {
-									component.setSliderValue(isChecked ? component.getMaxValue() : component.getMinValue());
-								}
-							}
-						},
-						change: function (field, newValue, oldValue) {
-							if (ARSnova.app.globalConfig.features.learningProgress) {
-								this.questionValueComponents[i].setLabel(newValue.substring(0, 25) || Messages.ANSWER);
+							} else if (checked.length > 0) {
+								this.questionValueComponents.forEach(function (c, j) {
+									c.setSliderValue(this.answerComponents[j].isChecked() ? c.getMaxValue() : c.getMinValue());
+								}, this);
+							} else {
+								component.setSliderValue(isChecked ? component.getMaxValue() : component.getMinValue());
 							}
 						}
+					},
+					change: function (field, newValue, oldValue) {
+						if (ARSnova.app.globalConfig.features.learningProgress) {
+							this.questionValueComponents[i].setLabel(newValue.substring(0, 25) || Messages.ANSWER);
+						}
 					}
-				});
-				answerFieldset.add(this.answerComponents[i]);
-			}).call(this, i);
+				}
+			});
+			answerFieldset.add(this.answerComponents[i]);
+		}.bind(this);
+		var i;
+		for (i = 0; i < ARSnova.app.globalConfig.answerOptionLimit; i++) {
+			optionsLoopFunc(i);
 		}
 
 		if (ARSnova.app.globalConfig.features.learningProgress) {
+			var lpLoopFunc = function (i) {
+				var theComponentId = answerOptionEntryId + "-qv-" + i;
+				this.questionValueComponents[i] = Ext.create("ARSnova.view.CustomSliderField", {
+					id: theComponentId,
+					name: theComponentId,
+					hidden: this.getStart() <= i,
+					minValue: -10,
+					maxValue: 10,
+					value: 0,
+					increment: 1,
+					label: this.answerComponents[i].getValue() || Messages.ANSWER
+				});
+				this.questionValueFieldset.add(this.questionValueComponents[i]);
+			}.bind(this);
 			for (i = 0; i < this.getMaxAnswers(); i++) {
-				(function (i) {
-					var theComponentId = answerOptionEntryId + "-qv-" + i;
-					this.questionValueComponents[i] = Ext.create("ARSnova.view.CustomSliderField", {
-						id: theComponentId,
-						name: theComponentId,
-						hidden: this.getStart() <= i,
-						minValue: -10,
-						maxValue: 10,
-						value: 0,
-						increment: 1,
-						label: this.answerComponents[i].getValue() || Messages.ANSWER
-					});
-					this.questionValueFieldset.add(this.questionValueComponents[i]);
-				}).call(this, i);
+				lpLoopFunc(i);
 			}
 		}
 		this.add([answerOptions]);

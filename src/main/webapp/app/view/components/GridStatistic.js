@@ -234,6 +234,14 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				me.grid.update(questionObj, false);
 			}
 
+			var answerValuesForEachFunc = function (selected, index) {
+				if (gridAnswers[this[index]] === undefined) {
+					gridAnswers[this[index]] = 1;
+				} else {
+					gridAnswers[this[index]] += 1;
+				}
+			};
+
 			// parse answers
 			for (var i = 0; i < me.answers.length; i++) {
 				var el = me.answers[i];
@@ -247,15 +255,8 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				}
 
 				var values = el.answerText.split(",");
-
 				for (var j = 0; j < el.answerCount; j++) {
-					values.forEach(function (selected, index) {
-						if (gridAnswers[values[index]] === undefined) {
-							gridAnswers[values[index]] = 1;
-						} else {
-							gridAnswers[values[index]] += 1;
-						}
-					});
+					values.forEach(answerValuesForEachFunc, values);
 				}
 			}
 
