@@ -12,7 +12,9 @@ module.exports = function (grunt) {
 	var lintJs = [
 		"Gruntfile.js",
 		appPath + "/app/**/*.js",
-		"!" + appPath + "/app/utils/Ext.*.js"
+		/* Exclude third-party code */
+		"!" + appPath + "/app/utils/Ext.*.js",
+		"!" + appPath + "/app/Fileup.js"
 	];
 
 	grunt.initConfig({
