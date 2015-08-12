@@ -322,8 +322,8 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 	},
 
 	startNewPiRound: function (delay, afterStartFunction) {
-		delay = !!delay || delay > 0 ? delay : 0;
-		afterStartFunction = !!afterStartFunction ? afterStartFunction : Ext.emptyFn;
+		delay = delay || 0;
+		afterStartFunction = afterStartFunction || Ext.emptyFn;
 
 		ARSnova.app.questionModel.startNewPiRound(this.statisticChart.questionObj._id, delay, {
 			success: function (response) {

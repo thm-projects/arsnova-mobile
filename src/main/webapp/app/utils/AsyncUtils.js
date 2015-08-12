@@ -18,7 +18,7 @@ Ext.define('ARSnova.utils.AsyncUtils', {
 			);
 		};
 
-		loop(null);
+		loop();
 		return promise;
 	}
 });

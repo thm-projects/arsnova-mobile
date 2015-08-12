@@ -75,7 +75,7 @@ Ext.define('ARSnova.view.MultiBadgeButton', {
 		me.multiBadges = [];
 
 		badges.forEach(function (item) {
-			if (!!item.badgeText) {
+			if (item.badgeText) {
 				var aBadge = me.element.createChild({
 					tag: 'span',
 					cls: item.badgeCls || me.config.badgeCls,

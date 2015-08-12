@@ -81,7 +81,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		var hasCorrectAnswers = Ext.bind(function () {
 			var hasCorrect = false;
 			this.questionObj.possibleAnswers.forEach(function (answer) {
-				hasCorrect = hasCorrect || !!answer.correct;
+				hasCorrect = hasCorrect || answer.correct;
 			});
 			return hasCorrect;
 		}, this);
@@ -289,7 +289,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					}
 				},
 				renderer: function (label, layout, lastLabel) {
-					panel = ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT ?
+					var panel = ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT ?
 						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart :
 						ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 
@@ -351,7 +351,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					calloutColor: 'transparent',
 					renderer: function (text, sprite, config, rendererData, index) {
 						var barWidth = this.itemCfg.width;
-						panel = ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT ?
+						var panel = ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT ?
 								ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart :
 								ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 
@@ -566,6 +566,23 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					record.set(percentString, 0);
 				});
 			} else {
+				var answerValuesMapFunc = function (answered) {
+					return parseInt(answered, 10);
+				};
+				var answerValuesForEachFunc = function (selected, index) {
+					this[index] = this[index] || 0;
+					if (selected === 1) {
+						this[index] += 1;
+					}
+				};
+				var chartStoreEachFunc = function (record, index) {
+					record.set(valueString, this[index]);
+				};
+				var maxValueFunc = function (record, index) {
+					var max = Math.max(maxValue, record.get(valueString));
+					// Scale axis to a bigger number. For example, 12 answers get a maximum scale of 20.
+					maxValue = Math.ceil(max / 10) * 10;
+				};
 				for (i = 0; i < answers.length; i++) {
 					el = answers[i];
 
@@ -576,9 +593,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 							abstentionCount = el.abstentionCount;
 							continue;
 						}
-						values = el.answerText.split(",").map(function (answered) {
-							return parseInt(answered, 10);
-						});
+						var values = el.answerText.split(",").map(answerValuesMapFunc);
 						if (values.length !== me.questionObj.possibleAnswers.length) {
 							return;
 						}
@@ -592,18 +607,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 							mcAnswersWithWrongAnswersOnly = el.answerCount;
 						}
 						for (var j = 0; j < el.answerCount; j++) {
-							values.forEach(function (selected, index) {
-								if (typeof mcAnswerCount[index] === "undefined") {
-									mcAnswerCount[index] = 0;
-								}
-								if (selected === 1) {
-									mcAnswerCount[index] += 1;
-								}
-							});
+							values.forEach(answerValuesForEachFunc, mcAnswerCount);
 						}
-						store.each(function (record, index) {
-							record.set(valueString, mcAnswerCount[index]);
-						});
+						store.each(chartStoreEachFunc, mcAnswerCount);
 					} else if (me.questionObj.questionType === "grid") {
 						me.gridStatistic.answers = answers;
 						me.gridStatistic.setQuestionObj = me.questionObj;
@@ -613,21 +619,17 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 							abstentionCount = el.abstentionCount;
 							continue;
 						}
-						var record = store.findRecord('text', el.answerText, 0, false, true, true); // exact match
+						record = store.findRecord('text', el.answerText, 0, false, true, true); // exact match
 						if (record) {
 							record.set(valueString, el.answerCount);
 						}
 					}
 					sum += el.answerCount;
 
-					store.each(function (record, index) {
-						var max = Math.max(maxValue, record.get(valueString));
-						// Scale axis to a bigger number. For example, 12 answers get a maximum scale of 20.
-						maxValue = Math.ceil(max / 10) * 10;
-					});
+					store.each(maxValueFunc);
 
 					var idx = tmpPossibleAnswers.indexOf(el.answerText); // Find the index
-					if (idx != -1) {
+					if (idx !== -1) {
 						// Remove it if really found!
 						tmpPossibleAnswers.splice(idx, 1);
 					}
@@ -648,7 +650,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				record = store.findRecord('text', Messages.ABSTENTION, 0, false, true, true); // exact match
 				if (!record) {
 					store.add({text: Messages.ABSTENTION, valueString: abstentionCount});
-				} else if (record.get(valueString) != abstentionCount) {
+				} else if (record.get(valueString) !== abstentionCount) {
 					record.set(valueString, abstentionCount);
 				}
 			}
@@ -735,19 +737,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		} else if (me.questionObj.piRound === 1) {
 			countFirstRoundAnswers(Ext.emptyFn);
 		}
-	},
-
-	setAnswerCounter: function (value, option) {
-		if (!option) {
-			option = value === 1 ? Messages.ANSWER : Messages.ANSWERS;
-		} else if (option === Messages.ABSTENTION) {
-			option = value === 1 ? Messages.ABSTENTION : Messages.ABSTENTIONS;
-			if (moment.lang() === "en") {
-				option = option.toLowerCase();
-			}
-		}
-
-		this.answerCounter.setHtml(value + ' ' + option);
 	},
 
 	setAnswerCounter: function (value, message) {
@@ -951,7 +940,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		for (var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
 			question = this.questionObj.possibleAnswers[i];
-			data = question.data ? question.data : question;
+			data = question.data || question;
 
 			this.correctAnswers[data.text] = data.correct;
 

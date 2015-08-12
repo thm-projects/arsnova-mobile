@@ -54,7 +54,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 
 		var attrname;
 		this.exportSessions(sessions, true, true)
-		.then(function (exportData) {
+				.then(function (exportData) {
 			for (var i = 0; i < exportData.length; i++) {
 				// overwrite custom session attributes
 				for (attrname in customSessionAttributes) {
@@ -350,7 +350,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 		var ua = window.navigator.userAgent;
 		var msie = ua.indexOf("MSIE ");
 
-		if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+		if (msie > 0 || navigator.userAgent.match(/Trident.*rv\:11\./)) {
 			window.navigator.msSaveBlob(blob, filename);
 		} else {
 			var a = window.document.createElement('a');

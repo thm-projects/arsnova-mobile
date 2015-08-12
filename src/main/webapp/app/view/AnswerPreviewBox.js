@@ -178,10 +178,10 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 				text: Messages.SHOW_FLASHCARD_ANSWER,
 				handler: function (button) {
 					if (this.answerList.isHidden()) {
-						this.answerList.show(true);
+						this.answerList.show();
 						button.setText(Messages.HIDE_FLASHCARD_ANSWER);
 					} else {
-						this.answerList.hide(true);
+						this.answerList.hide();
 						button.setText(Messages.SHOW_FLASHCARD_ANSWER);
 					}
 				},

@@ -467,17 +467,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 				items: [
 					this.grid,
 					this.deleteModerationButton
-//				    {
-//						xtype: 'container',
-//						layout:{
-//							type: 'hbox',
-//							align: 'stretch',
-////							pack: 'stretch',
-//						},
-//						items: [
-//
-//						]
-//					}
 				],
 				hidden: true
 			});
@@ -705,7 +694,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 	getQuestionValues: function () {
 		var result = {};
 
-		if (this.grid === null) {
+		if (!this.grid) {
 			return;
 		} else {
 			result = this.grid.createResult();

@@ -32,18 +32,18 @@ Ext.define("ARSnova.controller.QuestionExport", {
 	getActualDate: function () {
 		var d = new Date();
 		return ('0' + d.getFullYear()).slice(-2) + '-'
-		+ ('0' + (d.getMonth() + 1)).slice(-2) + '-'
-		+ ('0' + d.getDate()).slice(-2) + '-'
-		+ ('0' + d.getHours()).slice(-2) + '-'
-		+ ('0' + d.getMinutes()).slice(-2);
+			+ ('0' + (d.getMonth() + 1)).slice(-2) + '-'
+			+ ('0' + d.getDate()).slice(-2) + '-'
+			+ ('0' + d.getHours()).slice(-2) + '-'
+			+ ('0' + d.getMinutes()).slice(-2);
 	},
 
 	getQuestionType: function (questionTypeModel) {
 		switch (questionTypeModel){
-			case 'mc' : return 'MC';
-			case 'abcd' : return 'SC';
-			case 'freetext' : return 'TXT';
-			case 'yesno' :  return 'YN';
+			case 'mc': return 'MC';
+			case 'abcd': return 'SC';
+			case 'freetext': return 'TXT';
+			case 'yesno':  return 'YN';
 		}
 	},
 
@@ -62,7 +62,7 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		question.questionType = this.getQuestionType(questionTypeModel);
 		question.questionSubject = questionModel.subject;
 		question.question = questionModel.text;
-		for (var i = 0 ; i < 8 ; i++) {
+		for (var i = 0; i < 8; i++) {
 			options[i] = this.getOption(questionModel.possibleAnswers[i], questionTypeModel);
 			if (questionModel.possibleAnswers[i] && questionModel.possibleAnswers[i].correct) {
 				correctAnswer += (i + 1) + ',';
@@ -96,7 +96,7 @@ Ext.define("ARSnova.controller.QuestionExport", {
 
 	preparseJsontoCsv: function (records) {
 		var questions = [];
-		for (var i = 0 ; i < records.length ; i++) {
+		for (var i = 0; i < records.length; i++) {
 			questions[i] = this.formatQuestion(records[i].data);
 		}
 		return questions;

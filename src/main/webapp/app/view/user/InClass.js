@@ -307,7 +307,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 		// hide or show listeners won't work, so check if the tabpanel activates this panel
 		ARSnova.app.mainTabPanel.tabPanel.on('activeitemchange', function (tabpanel, newPanel, oldPanel) {
-			if (newPanel.down('#' + this.getId()) !== null) {
+			if (newPanel.down('#' + this.getId())) {
 				this.refreshListeners();
 			}
 		}, this);

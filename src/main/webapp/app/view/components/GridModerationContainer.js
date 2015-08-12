@@ -133,7 +133,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 		for (row = 0; row < this.getGridSizeX(); row++) {
 			for (column = 0; column < this.getGridSizeY(); column++) {
 				key = row + ";" + column;
-				if (typeof tilesToFill[key] !== "undefined") {
+				if (tilesToFill[key] !== undefined) {
 					if (tilesToFill[key] > maxVotes) {
 						maxVotes = tilesToFill[key];
 						if (minVotes === 0) {
@@ -155,7 +155,7 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 					var alphaScale = this.getHeatmapMaxAlpha() - this.getHeatmapMinAlpha();
 					var alpha = 0;
 
-					if (typeof tilesToFill[key] !== "undefined") {
+					if (tilesToFill[key] !== undefined) {
 						if (maxVotes === minVotes) {
 							alpha = this.getHeatmapMaxAlpha();
 						} else if (tilesToFill[key] === 0) {
@@ -168,17 +168,17 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 					this.markField(coords[0], coords[1], this.getHighlightColor(), alpha);
 				} else {
 					// mark field
-					if (typeof tilesToFill[key] !== "undefined") {
+					if (tilesToFill[key] !== undefined) {
 						this.markField(coords[0], coords[1], this.getHighlightColor(), 1.0);
 					}
 				}
 
 				var text;
 				if (displayType === Messages.GRID_LABEL_RELATIVE || displayType === Messages.GRID_LABEL_RELATIVE_SHORT) {
-					text = (typeof tilesToFill[key] !== "undefined") ? Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) : "";
+					text = (tilesToFill[key] !== undefined) ? Number((tilesToFill[key] / totalAnswers * 100.0).toFixed(1)) : "";
 					this.addTextToField(coords[0], coords[1], text);
 				} else if (displayType === Messages.GRID_LABEL_ABSOLUTE || displayType === Messages.GRID_LABEL_ABSOLUTE_SHORT) {
-					text = (typeof tilesToFill[key] !== "undefined") ? tilesToFill[key] : "";
+					text = (tilesToFill[key] !== undefined) ? tilesToFill[key] : "";
 					this.addTextToField(coords[0], coords[1], text);
 				}
 			}
@@ -227,10 +227,10 @@ Ext.define('ARSnova.view.components.GridModerationContainer', {
 	 * param config The configuration structure. Attributes have to match gridContainter attibutes.
 	 */
 	setConfig: function (config) {
-		if (typeof(config.name) !== "undefined") {
+		if (config.name) {
 			this.setName(config.name);
 		}
-		if (typeof(config.description) !== "undefined") {
+		if (config.description) {
 			this.setDescription(config.description);
 		}
 

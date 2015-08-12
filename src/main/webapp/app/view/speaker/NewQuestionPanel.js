@@ -444,7 +444,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 	onActivate: function () {
 		this.questionOptions.setPressedButtons([0]);
-		this.releasePart.setHidden(localStorage.getItem('courseId') === null || localStorage.getItem('courseId').length === 0);
+		this.releasePart.setHidden(!localStorage.getItem('courseId'));
 	},
 
 	defaultPreviewHandler: function () {
@@ -472,7 +472,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			values.solution = panel.hintForSolution.getActive() ? panel.hintForSolution.getSolutionValue() : null;
 		}
 
-		if (localStorage.getItem('courseId') != null && localStorage.getItem('courseId').length > 0) {
+		if (localStorage.getItem('courseId')) {
 			values.releasedFor = 'courses';
 		} else {
 			values.releasedFor = panel.getReleasedFor();

@@ -82,7 +82,7 @@ Ext.define('ARSnova.WebSocket', {
 
 			this.socket = io.connect(socketUrl, {
 				reconnect: true,
-				secure: window.location.protocol === 'http:' ? false : true,
+				secure: window.location.protocol === 'https:',
 				transports: transports
 			});
 			// FIXME: Remove once no code relies on a global 'socket' object.

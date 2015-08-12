@@ -68,7 +68,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 				var thirdLevelId = '3_' + this[key].name + '_' + index + '_' + secLevelId;
 
 				var firstLevelNode = me.rootNode.findChild("id", firstLevelId, false);
-				if (firstLevelNode == null) {
+				if (!firstLevelNode) {
 					var firstLevelEntry = Ext.create('ARSnova.view.home.PPListItem', {
 						text: this[key].ppSubject,
 						itemCount: 1,
@@ -102,7 +102,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 				}
 
 				var secLevelNode = firstLevelNode.findChild("id", secLevelId, false);
-				if (secLevelNode != null) {
+				if (secLevelNode) {
 					if (secLevelNode._data.itemCount === 0) {
 						secLevelNode.removeAll();
 					}
@@ -165,14 +165,14 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 					var record = me.nestedList.getActiveItem().getStore().getNode();
 					if (record._data.itemCount === 0) {
 						Ext.create('Ext.MessageBox').show({
-					title: Messages.SESSIONPOOL_TITLE,
-					message: Messages.SESSIONPOOL_ERR_CAT_NOTFOUND,
-					buttons: this.OK,
-					hideOnMaskTap: false,
-					fn: function (btn) {
-						me.nestedList.onBackTap();
-					}
-				});
+							title: Messages.SESSIONPOOL_TITLE,
+							message: Messages.SESSIONPOOL_ERR_CAT_NOTFOUND,
+							buttons: this.OK,
+							hideOnMaskTap: false,
+							fn: function (btn) {
+								me.nestedList.onBackTap();
+							}
+						});
 						return false;
 					}
 					return true;

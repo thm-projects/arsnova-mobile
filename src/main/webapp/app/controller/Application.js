@@ -72,7 +72,7 @@ Ext.define("ARSnova.controller.Application", {
 					!ARSnova.app.getController('Application').checkHrefProtocol(element.href)) {
 					element.target = '_blank'; // open link in new tab
 					prevent = false;
-				} else if (!!element.customMaskClick) {
+				} else if (element.customMaskClick) {
 					ARSnova.app.getController('Application').internalElementRefHandler(e);
 					prevent = true;
 				}
@@ -132,8 +132,8 @@ Ext.define("ARSnova.controller.Application", {
 		}
 
 		if (element.tagName === 'A' && element.className !== "session-export" || videoLink) {
-			var url = !!videoLink ? videoLink : element.href;
-			var title = !!videoLink ? element.title : element.innerHTML;
+			var url = videoLink || element.href;
+			var title = videoLink ? element.title : element.innerHTML;
 
 			if (controller.checkHrefProtocol(url)) {
 				if (!controller.hrefPanelActive) {
@@ -337,17 +337,11 @@ Ext.define("ARSnova.controller.Application", {
 	 */
 	checkForPrivacyMode: function () {
 		var privacyMode = false,
-			cookieEnabled = (navigator.cookieEnabled) ? true : false;
+			cookieEnabled = navigator.cookieEnabled;
 
 		try {
 			localStorage.setItem('storageTest', 1);
 			localStorage.removeItem('storageTest');
-
-			//if not IE4+ nor NS6+
-			if (typeof navigator.cookieEnabled === "undefined" && !cookieEnabled) {
-				document.cookie = "cookieTest";
-				cookieEnabled = (document.cookie.indexOf("cookieTest") !== -1) ? true : false;
-			}
 		} catch (e) {
 			privacyMode = true;
 		}
@@ -390,13 +384,12 @@ Ext.define("ARSnova.controller.Application", {
 					delta = e.detail / 3;
 				}
 
-				if (ARSnova.app.mainTabPanel == null) {
+				if (!ARSnova.app.mainTabPanel) {
 					return;
 				}
 
 				/** check if previewBox is activeItem */
-				var scrollMe = ARSnova.app.innerScrollPanel ? ARSnova.app.innerScrollPanel :
-					ARSnova.app.mainTabPanel.tabPanel.getActiveItem();
+				var scrollMe = ARSnova.app.innerScrollPanel || ARSnova.app.mainTabPanel.tabPanel.getActiveItem();
 
 				if (scrollMe) {
 					var scrollable = scrollMe.getActiveItem().getScrollable();
@@ -426,7 +419,7 @@ Ext.define("ARSnova.controller.Application", {
 							}
 						} else if (direction === -1) {
 							if (currentPos <= maxPosition - pixels) {
-								newPos = currentPos + pixels ;
+								newPos = currentPos + pixels;
 							} else {
 								newPos = maxPosition;
 							}

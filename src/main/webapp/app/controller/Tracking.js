@@ -21,6 +21,8 @@ Ext.define("ARSnova.controller.Tracking", {
 
 	launch: function () {
 		ARSnova.app.configLoaded.then(function () {
+			/* global _paq */
+			/* jshint -W020 */
 			var tracking = ARSnova.app.globalConfig.tracking;
 			if (tracking && "piwik" === tracking.provider) {
 				_paq = [

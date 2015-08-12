@@ -70,8 +70,8 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('sessionId', obj._id);
 				localStorage.setItem('name', obj.name);
 				localStorage.setItem('shortName', obj.shortName);
-				localStorage.setItem('courseId', obj.courseId === null ? "" : obj.courseId);
-				localStorage.setItem('courseType', obj.courseType === null ? "" : obj.courseType);
+				localStorage.setItem('courseId', obj.courseId || "");
+				localStorage.setItem('courseType', obj.courseType || "");
 				localStorage.setItem('active', obj.active ? 1 : 0);
 				localStorage.setItem('creationTime', obj.creationTime);
 
@@ -174,7 +174,7 @@ Ext.define("ARSnova.controller.Sessions", {
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 		hideLoadMask = hideLoadMask || Ext.emptyFn;
 
-		animation = !!animation ? animation : {
+		animation = animation || {
 			type: 'slide',
 			duration: 700
 		};
@@ -268,8 +268,8 @@ Ext.define("ARSnova.controller.Sessions", {
 				localStorage.setItem('name', fullSession.name);
 				localStorage.setItem('shortName', fullSession.shortName);
 				localStorage.setItem('active', fullSession.active ? 1 : 0);
-				localStorage.setItem('courseId', fullSession.courseId === null ? "" : fullSession.courseId);
-				localStorage.setItem('courseType', fullSession.courseType === null ? "" : fullSession.courseType);
+				localStorage.setItem('courseId', fullSession.courseId || "");
+				localStorage.setItem('courseType', fullSession.courseType || "");
 				localStorage.setItem('creationTime', fullSession.creationTime);
 				localStorage.setItem('keyword', fullSession.keyword);
 				ARSnova.app.isSessionOwner = true;
@@ -477,7 +477,7 @@ Ext.define("ARSnova.controller.Sessions", {
 			localStorage.removeItem('lastVisitedRole');
 		}
 
-		if (sessionStorage.getItem("keyword") !== null && sessionStorage.getItem("keyword") !== "") {
+		if (sessionStorage.getItem("keyword")) {
 			return true;
 		}
 
@@ -489,7 +489,7 @@ Ext.define("ARSnova.controller.Sessions", {
 			success: function () {
 				var sessionStatus = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton;
 
-				if (options.active === 1) {
+				if (options.active) {
 					sessionStatus.sessionOpenedSuccessfully();
 				} else {
 					sessionStatus.sessionClosedSuccessfully();

@@ -287,10 +287,10 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 				this.questionStoreBackup.add(questions);
 
 				this.questionStore.filterBy(function (record, id) {
-					return record.get('subject') == this.subject;
+					return record.get('subject') === this.subject;
 				}, this);
 				this.questionStoreBackup.filterBy(function (record, id) {
-					return record.get('subject') == this.subject;
+					return record.get('subject') === this.subject;
 				}, this);
 
 				this.questionListContainer.show();
@@ -368,8 +368,8 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 				panel.questionStore.sort([{
 					sorterFn: function (a, b) {
 						var as = a.get('text'), bs = b.get('text');
-						if (as.toLowerCase() < bs.toLowerCase()) return -1;
-						if (as.toLowerCase() > bs.toLowerCase()) return 1;
+						if (as.toLowerCase() < bs.toLowerCase()) { return -1; }
+						if (as.toLowerCase() > bs.toLowerCase()) { return 1; }
 						return 0;
 					},
 					direction: 'ASC'

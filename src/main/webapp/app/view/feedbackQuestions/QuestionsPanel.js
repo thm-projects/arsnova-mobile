@@ -97,7 +97,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			handler: function () {
 				var target;
 				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER &&
-					!!ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel) {
+						ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel) {
 					target = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 					ARSnova.app.taskManager.stop(this.getUpdateClockTask());
 					panel.speakerUtilities.initializeZoomComponents();
@@ -286,8 +286,9 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 
 			if (screenWidth > 380) {
 				toolbarTitle = ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER &&
-					!!ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel ?
-					Messages.QUESTIONS_FROM_STUDENTS : Messages.MY_QUESTIONS;
+						ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel ?
+					Messages.QUESTIONS_FROM_STUDENTS :
+					Messages.MY_QUESTIONS;
 			}
 
 			if (screenWidth > 700 && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {

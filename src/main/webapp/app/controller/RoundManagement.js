@@ -354,7 +354,7 @@ Ext.define("ARSnova.controller.RoundManagement", {
 	checkAndRemoveCanceledQuestionAnswers: function (questionId, variant) {
 		var answeredCanceledPiQuestions = JSON.parse(sessionStorage.getItem('answeredCanceledPiQuestions'));
 
-		if (!!answeredCanceledPiQuestions && Array.isArray(answeredCanceledPiQuestions) &&
+		if (answeredCanceledPiQuestions && Array.isArray(answeredCanceledPiQuestions) &&
 			Ext.Array.contains(answeredCanceledPiQuestions, questionId)) {
 			Ext.Array.remove(answeredCanceledPiQuestions, questionId);
 
@@ -374,9 +374,9 @@ Ext.define("ARSnova.controller.RoundManagement", {
 		var unansweredLecQuestionIds = JSON.parse(sessionStorage.getItem('unansweredLectureQuestions'));
 		var unansweredPrepQuestionIds = JSON.parse(sessionStorage.getItem('unansweredPreparationQuestions'));
 
-		if (!!unansweredLecQuestionIds && !Ext.Array.contains(unansweredLecQuestionIds, questionId) &&
-			!!unansweredPrepQuestionIds && !Ext.Array.contains(unansweredPrepQuestionIds, questionId)) {
-			if (!!answeredCanceledPiQuestions && Array.isArray(answeredCanceledPiQuestions)) {
+		if (unansweredLecQuestionIds && !Ext.Array.contains(unansweredLecQuestionIds, questionId) &&
+			unansweredPrepQuestionIds && !Ext.Array.contains(unansweredPrepQuestionIds, questionId)) {
+			if (answeredCanceledPiQuestions && Array.isArray(answeredCanceledPiQuestions)) {
 				answeredCanceledPiQuestions.push(questionId);
 			} else {
 				answeredCanceledPiQuestions = [questionId];

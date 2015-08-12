@@ -35,9 +35,9 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 	initialize: function () {
 		this.callParent(arguments);
 		var me = this;
-		var SubjectoptionsPP = [];	// save loaded subjects
-		var LicenceoptionsPP = [];  // save loaded lincences
-		var levelsPP = [];  // save loaded levels
+		var subjectOptionsPP = []; // save loaded subjects
+		var licenceOptionsPP = []; // save loaded lincences
+		var levelsPP = []; // save loaded levels
 
 		var config = ARSnova.app.globalConfig;
 		var maxFileSize = config.publicPool.logoMaxFilesize / 1024;
@@ -49,13 +49,13 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		var subjects = config.publicPool.subjects.split(',');
 
 		subjects.forEach(function (entry) {
-			SubjectoptionsPP.push({text: entry, value: entry});
+			subjectOptionsPP.push({text: entry, value: entry});
 		});
 
 		var licenses = config.publicPool.licenses.split(',');
 
 		licenses.forEach(function (entry) {
-			LicenceoptionsPP.push({text: entry, value: entry});
+			licenceOptionsPP.push({text: entry, value: entry});
 		});
 
 		var levels;
@@ -199,7 +199,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			maxLength: 50,
 			placeHolder: 'max. 50 ' + Messages.SESSIONPOOL_CHARACTERS
 		});
-		this.subject.updateOptions(SubjectoptionsPP);
+		this.subject.updateOptions(subjectOptionsPP);
 
 		this.licence = Ext.create('Ext.field.Select', {
 			name: 'licence',
@@ -207,7 +207,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			maxLength: 50,
 			placeHolder: 'max. 50 ' + Messages.SESSIONPOOL_CHARACTERS
 		});
-		this.licence.updateOptions(LicenceoptionsPP);
+		this.licence.updateOptions(licenceOptionsPP);
 
 		this.level = Ext.create('Ext.field.Select', {
 			name: 'level',

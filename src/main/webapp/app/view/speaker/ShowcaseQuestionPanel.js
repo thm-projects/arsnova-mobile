@@ -148,7 +148,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	onItemChange: function (panel, newQuestion, oldQuestion) {
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
-		if (!!oldQuestion && oldQuestion.questionObj && oldQuestion.countdownTimer) {
+		if (oldQuestion && oldQuestion.questionObj && oldQuestion.countdownTimer) {
 			oldQuestion.countdownTimer.stop();
 		}
 

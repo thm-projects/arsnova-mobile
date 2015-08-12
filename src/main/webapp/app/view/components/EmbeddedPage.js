@@ -55,7 +55,7 @@ Ext.define('ARSnova.view.components.EmbeddedPage', {
 		});
 
 		this.on('resize', function (element) {
-			if (!!this.frame) {
+			if (this.frame) {
 				this.frame.width = element.getWidth() + 'px';
 			}
 		});

@@ -39,11 +39,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		this.questionObj = args.questionObj;
 		this.parentPanel = args.parentPanel;
 
-		if (this.questionObj && this.questionObj.active) {
-			this.isOpen = true;
-		} else {
-			this.isOpen = false;
-		}
+		this.isOpen = this.questionObj && this.questionObj.active;
 
 		this.button = Ext.create('ARSnova.view.MatrixButton', {
 			buttonConfig: 'togglefield',
@@ -57,9 +53,7 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 				listeners: {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
-						if (newValue && !this.isOpen || !newValue && this.isOpen) {
-							this.changeStatus();
-						}
+						this.changeStatus();
 					}
 				}
 			}
@@ -100,13 +94,9 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 			return;
 		}
 
-		if (localStorage.getItem('active') === "1") {
-			this.isOpen = true;
-			this.button.setToggleFieldValue(true);
-		} else {
-			this.isOpen = false;
-			this.button.setToggleFieldValue(false);
-		}
+		var active = localStorage.getItem('active') === "1";
+		this.isOpen = active;
+		this.button.setToggleFieldValue(active);
 		this.isRendered = true;
 	},
 

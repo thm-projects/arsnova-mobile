@@ -85,9 +85,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 					var mask = ARSnova.app.showLoadIndicator(Messages.COMPRESSING_MASK);
 					self.tryToCompress(dataurl, function (response) {
 						mask();
-						if (!response) {
-							//error
-						} else if (self.checkFilesize(response)) {
+						if (response && self.checkFilesize(response)) {
 							self.toggleImagePresent();
 							Ext.bind(self.getFsUploadHandler(), self.getHandlerScope())(response, true);
 						}
@@ -257,7 +255,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	 * @return -
 	 */
 	tryToCompress: function (url, callback) {
-		if (!isNaN(ARSnova.app.globalConfig.maxUploadFilesize) && typeof ARSnova.app.globalConfig.maxUploadFilesize !== 'undefined') {
+		if (ARSnova.app.globalConfig.maxUploadFilesize) {
 			var me = this;
 			var fileSize = Math.round((url.length - ('data:image/png;base64,').length) * 3 / 4);
 			(function recursive(url) {
@@ -281,7 +279,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 	checkFilesize: function (url) {
 		var head = 'data:image/png;base64,';
 		var imgFileSize = Math.round((url.length - head.length) * 3 / 4);
-		if (!isNaN(ARSnova.app.globalConfig.maxUploadFilesize) && typeof ARSnova.app.globalConfig.maxUploadFilesize !== 'undefined') {
+		if (ARSnova.app.globalConfig.maxUploadFilesize) {
 			if (imgFileSize > ARSnova.app.globalConfig.maxUploadFilesize) {
 				var msgTemp = Messages.GRID_ERROR_FILE_SIZE.replace(/%%%/, Math.round((imgFileSize / 1024)) + "KB");
 				var filesizeString = Math.round(parseInt(ARSnova.app.globalConfig.maxUploadFilesize / 1024)) + "KB";

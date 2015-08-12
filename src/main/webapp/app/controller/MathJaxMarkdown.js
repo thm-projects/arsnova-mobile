@@ -92,7 +92,7 @@ Ext.define("ARSnova.controller.MathJaxMarkdown", {
 	highlightRenderer: function (code) {
 		var controller = ARSnova.app.getController('MathJaxMarkdown');
 
-		if (!!hljs && !controller.hideMediaElements) {
+		if (hljs && !controller.hideMediaElements) {
 			return "<pre class='hljs-pre'><code class='hljs-highlight'>" +
 				hljs.highlightAuto(code).value + "</code></pre>";
 		} else {

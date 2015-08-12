@@ -75,15 +75,15 @@ Ext.define("ARSnova.controller.Statistics", {
 		if (questionObj.questionType === 'freetext') {
 			panel.questionStatisticChart = Ext.create(
 				questionObj.imageQuestion ?
-				'ARSnova.view.ImageAnswerPanel' :
-				'ARSnova.view.FreetextAnswerPanel', {
-					question: questionObj
-				});
+					'ARSnova.view.ImageAnswerPanel' :
+					'ARSnova.view.FreetextAnswerPanel', {
+						question: questionObj
+					});
 		} else {
 			panel.questionStatisticChart = Ext.create(
 				'ARSnova.view.speaker.QuestionStatisticChart', {
-				question: questionObj
-			});
+					question: questionObj
+				});
 		}
 
 		if (!panel.statisticTabPanel) {

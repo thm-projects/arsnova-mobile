@@ -149,7 +149,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			minHeight: '50px',
 			scrollable: {
 				direction: 'horizontal',
-				directionLock: 'true'
+				directionLock: true
 			},
 			layout: {
 				type: 'hbox',
@@ -229,7 +229,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 		if (removal) {
 			parent.removeFormatting(processObj, escapeString.length);
 		} else {
-			var applyString = this.config.applyString ? this.config.applyString : escapeString;
+			var applyString = this.config.applyString || escapeString;
 			parent.applyFormatting(processObj, applyString, this.config.biliteral);
 		}
 	},

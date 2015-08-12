@@ -88,7 +88,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 		var image = null;
 
 		function switchToFullScreen() {
-			if (image !== null) {
+			if (image) {
 				var img = document.getElementById("img").querySelector("canvas");
 				if (img.requestFullscreen) {
 					img.requestFullscreen();
@@ -123,7 +123,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			success: function (response) {
 				image = response.responseText;
 
-				if (!!image) {
+				if (image) {
 					imgContainer.setImage(image);
 					imgContainer.show();
 				} else {

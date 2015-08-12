@@ -115,7 +115,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				maxLength: 16
 			},
 			name: 'keyword',
-			style: !!ARSnova.app.globalConfig.demoSessionKey ? 'margin-bottom: 5px' : '',
+			style: ARSnova.app.globalConfig.demoSessionKey ? 'margin-bottom: 5px' : '',
 			placeHolder: Messages.SESSIONID_PLACEHOLDER,
 			listeners: {
 				scope: this,
@@ -539,7 +539,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	 * Save way to set an element hidden.
 	 */
 	saveSetHidden: function (element, hidden) {
-		if (typeof element !== undefined && element != null) {
+		if (element) {
 			element.setHidden(hidden);
 		}
 	}

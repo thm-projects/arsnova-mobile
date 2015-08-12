@@ -39,9 +39,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 		};
 
 		jsonContent.questions.forEach(function (q) {
-			if (typeof q.answers === "undefined") {
-				q.answers = [];
-			}
+			q.answers = q.answers || [];
 			q.answers = q.answers.map(function (a) {
 				return {
 					answerSubject: a.answerSubject,
@@ -50,7 +48,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 				};
 			}).filter(function (a) {
 				// remove answers that do not have any content
-				return !(a.answerSubject === null && a.answerText === null && a.abstention === false);
+				return a.answerSubject || a.answerText || a.abstention;
 			});
 		});
 

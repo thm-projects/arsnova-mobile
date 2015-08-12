@@ -171,7 +171,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 				var templates = [];
 
 				// extract all the templates
-				if (typeof(config) !== "undefined") {
+				if (config) {
 					config.forEach(function (entry) {
 						var template = Ext.create('ARSnova.view.components.GridModerationContainer');
 						if (moment.lang() === "en") {
@@ -190,7 +190,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 			},
 			failure: function (response, opts) {
 				// iOS in phonegap returns response.status=0 on success
-				if (response.status === 0 && response.responseText !== '') {
+				if (response.status === 0 && response.responseText) {
 					console.log(response.responseText);
 				} else {
 					console.error('Could not find template.json');

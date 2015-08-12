@@ -148,7 +148,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 				max = 10;
 
 			this.questionStore.add({
-				text: pA.text === "" ? i + 1 : pA.text,
+				text: pA.text || i + 1,
 				value: Math.floor(Math.random() * (max - min + 1) + min)
 			});
 		}
@@ -273,9 +273,9 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 
 		for (var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
 			question = this.questionObj.possibleAnswers[i];
-			data = question.data ? question.data : question;
+			data = question.data || question;
 
-			data.text = data.text === "" ? i + 1 : data.text;
+			data.text = data.text || i + 1;
 			this.correctAnswers[data.text] = data.correct;
 
 			if ((question.data && !question.data.correct) || (!question.data && !question.correct)) {

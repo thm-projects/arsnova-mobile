@@ -53,8 +53,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 				listeners: {
 					scope: this,
 					change: function (toggle, newValue, oldValue, eOpts) {
-						if (newValue === 0 && typeof this.questionObj.showStatistic === "undefined" ||
-								newValue === this.questionObj.showStatistic) {
+						if (newValue === (this.questionObj.showStatistic || 0)) {
 							return;
 						}
 
@@ -96,12 +95,11 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 				toggleConfig: {
 					scope: this,
 					label: false,
-					value: this.questionObj.showAnswer ? this.questionObj.showAnswer : 0,
+					value: this.questionObj.showAnswer || 0,
 					listeners: {
 						scope: this,
 						change: function (toggle, newValue, oldValue, eOpts) {
-							if (newValue === 0 && typeof this.questionObj.showAnswer === "undefined" ||
-								newValue === this.questionObj.showAnswer) {
+							if (newValue === (this.questionObj.showAnswer || 0)) {
 								return;
 							}
 
@@ -188,12 +186,9 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 	},
 
 	changeHiddenState: function () {
-		if (this.questionObj.piRound === 1 && !this.questionObj.piRoundFinished ||
-			this.questionObj.piRoundActive) {
-			this.hideElements(true);
-		} else {
-			this.hideElements(false);
-		}
+		var hide = this.questionObj.piRound === 1 && !this.questionObj.piRoundFinished ||
+			this.questionObj.piRoundActive;
+		this.hideElements(hide);
 	},
 
 	changeVoteManagementButtonState: function () {
