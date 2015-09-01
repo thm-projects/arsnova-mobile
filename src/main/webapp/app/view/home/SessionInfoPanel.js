@@ -384,18 +384,33 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 	validate: function () {
 		var isValid = true;
 		var me = this ;
-		var validation = Ext.create('ARSnova.model.PublicPool', {
-			name: me.creatorName.getValue(),
-			hs: me.university.getValue(),
-			subject: me.subject.getValue(),
-			licence: me.licence.getValue(),
-			level: me.level.getValue(),
-			email: me.email.getValue(),
-			sessionName: me.sessionName.getValue(),
-			sessionShortName: me.sessionShortName.getValue(),
-			description: me.description.getValue(),
-			faculty: me.faculty.getValue()
-		});
+		var config = ARSnova.app.globalConfig;
+		var validation;
+		if (config.features.publicPool) {
+			validation = Ext.create('ARSnova.model.PublicPool', {
+				name: me.creatorName.getValue(),
+				hs: me.university.getValue(),
+				subject: me.subject.getValue(),
+				licence: me.licence.getValue(),
+				level: me.level.getValue(),
+				email: me.email.getValue(),
+				sessionName: me.sessionName.getValue(),
+				sessionShortName: me.sessionShortName.getValue(),
+				description: me.description.getValue(),
+				faculty: me.faculty.getValue()
+			});
+		} else {
+			validation = Ext.create('ARSnova.model.Session', {
+				type: 'session',
+				name: me.sessionName.getValue(),
+				shortName: me.sessionShortName.getValue(),
+				ppUniversity: me.university.getValue(),
+				creator: me.creatorName.getValue(),
+				ppAuthorMail: me.email.getValue(),
+				ppDescription: me.description.getValue(),
+				ppFaculty: me.faculty.getValue()
+			});
+		}
 
 		var errs = validation.validate();
 		var msg = '';
