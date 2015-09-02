@@ -105,7 +105,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 						var sessionInfo = me.getSessionInfo();
 						sessionInfo.name = me.sessionName.getValue();
 						sessionInfo.shortName = me.sessionShortName.getValue();
-						sessionInfo.ppAuthorName = me.creatorName.getValue();
+						sessionInfo.ppAuthorName = me.authorName.getValue();
 						sessionInfo.ppAuthorMail = me.email.getValue();
 						sessionInfo.ppUniversity = me.university.getValue();
 						sessionInfo.ppFaculty = me.faculty.getValue();
@@ -128,7 +128,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 							ARSnova.app.getController('Sessions').loadFeatureOptions({
 								name: me.sessionName.getValue(),
 								shortName: me.sessionShortName.getValue(),
-								ppAuthorName: me.creatorName.getValue(),
+								ppAuthorName: me.authorName.getValue(),
 								ppAuthorMail: me.email.getValue(),
 								ppUniversity: me.university.getValue(),
 								ppFaculty: me.faculty.getValue(),
@@ -143,7 +143,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 							ARSnova.app.getController('Sessions').loadFeatureOptions({
 								name: me.sessionName.getValue(),
 								shortName: me.sessionShortName.getValue(),
-								ppAuthorName: me.creatorName.getValue(),
+								ppAuthorName: me.authorName.getValue(),
 								ppAuthorMail: me.email.getValue(),
 								ppUniversity: me.university.getValue(),
 								ppFaculty: me.faculty.getValue(),
@@ -173,7 +173,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			]
 		});
 
-		this.creatorName = Ext.create('Ext.field.Text', {
+		this.authorName = Ext.create('Ext.field.Text', {
 			name: 'name',
 			label: Messages.EXPORT_FIELD_NAME,
 			maxLength: 50,
@@ -214,7 +214,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			title: Messages.SESSIONPOOL_AUTHORINFO,
 			cls: 'standardFieldset',
 			itemId: 'contentFieldset',
-			items: [this.creatorName, this.email, this.university, this.faculty]
+			items: [this.authorName, this.email, this.university, this.faculty]
 		});
 
 		this.sessionName = Ext.create('Ext.field.Text', {
@@ -347,8 +347,8 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		});
 
 		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
-			me.creatorName.disable();
-			me.creatorName.setPlaceHolder('');
+			me.authorName.disable();
+			me.authorName.setPlaceHolder('');
 			me.email.setPlaceHolder('');
 			me.sessionName.disable();
 			me.sessionName.setPlaceHolder('');
@@ -388,7 +388,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		var validation;
 		if (config.features.publicPool) {
 			validation = Ext.create('ARSnova.model.PublicPool', {
-				name: me.creatorName.getValue(),
+				name: me.authorName.getValue(),
 				hs: me.university.getValue(),
 				subject: me.subject.getValue(),
 				licence: me.licence.getValue(),
@@ -406,7 +406,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				shortName: me.sessionShortName.getValue(),
 				ppUniversity: me.university.getValue(),
 				creator: localStorage.getItem('login'),
-				ppAuthorName: me.creatorName.getValue(),
+				ppAuthorName: me.authorName.getValue(),
 				ppAuthorMail: me.email.getValue(),
 				ppDescription: me.description.getValue(),
 				ppFaculty: me.faculty.getValue()
