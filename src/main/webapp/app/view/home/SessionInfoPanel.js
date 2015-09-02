@@ -405,7 +405,8 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				name: me.sessionName.getValue(),
 				shortName: me.sessionShortName.getValue(),
 				ppUniversity: me.university.getValue(),
-				creator: me.creatorName.getValue(),
+				creator: localStorage.getItem('login'),
+				ppAuthorName: me.creatorName.getValue(),
 				ppAuthorMail: me.email.getValue(),
 				ppDescription: me.description.getValue(),
 				ppFaculty: me.faculty.getValue()
