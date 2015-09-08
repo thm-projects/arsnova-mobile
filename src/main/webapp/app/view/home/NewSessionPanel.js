@@ -186,14 +186,14 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			options = {
 				name: values.name,
 				shortName: values.shortName,
-				newSessionPanel: panel,
+				lastPanel: panel,
 				creationTime: Date.now()
 			};
 
 		panel.disableInputElements();
 
 		if (ARSnova.app.getController('Sessions').validateSessionOptions(options)) {
-			ARSnova.app.getController('Sessions').loadFeatureOptions(options);
+			ARSnova.app.getController('Sessions').loadFeatureOptions(options, true);
 		}
 	},
 
@@ -215,8 +215,8 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			shortName: shortName,
 			courseId: course.get('id'),
 			courseType: course.get('type'),
-			newSessionPanel: panel
-		});
+			lastPanel: panel
+		}, true);
 	},
 
 	getMyCourses: function () {

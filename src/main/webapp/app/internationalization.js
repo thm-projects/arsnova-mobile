@@ -575,6 +575,8 @@
 				SORT_TIME: "Zeitliche<br/>Sortierung",
 				SORT_RANDOM: "Zufällig<br/>anordnen",
 				SORT_REVERT: "Änderung<br/>verwerfen",
+				CHANGE_FEATURES: "Features<br/>aktivieren",
+				CHANGE_ROLE_BUTTONTEXT: "Rolle<br/>wechseln",
 
 				/* about */
 				INFO: "Handbuch",
@@ -1182,6 +1184,8 @@
 				SORT_TIME: "Time<br/>sort",
 				SORT_RANDOM: "Random<br/>sort",
 				SORT_REVERT: "Revert<br/>changes",
+				CHANGE_FEATURES: "Activate<br/>features",
+				CHANGE_ROLE_BUTTONTEXT: "Change<br/>role",
 
 				/* about */
 				INFO: "Manual",

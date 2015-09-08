@@ -315,6 +315,10 @@ Ext.define('ARSnova.view.user.InClass', {
 
 	onPainted: function () {
 		this.startTasks();
+
+		if (ARSnova.app.isSessionOwner) {
+			this.updateActionButtonElements();
+		}
 	},
 
 	/* will be called on session login */
@@ -489,6 +493,19 @@ Ext.define('ARSnova.view.user.InClass', {
 			}
 
 			this.showNotification(questionIds, "preparation");
+		}
+	},
+
+	updateActionButtonElements: function () {
+		var features = Ext.decode(sessionStorage.getItem("features"));
+		var applyButtonStyle = !features.interposed || !features.feedback;
+
+		if (applyButtonStyle) {
+			this.roleIconButton.setCls('');
+			this.roleIconButton.setButtonText(Messages.CHANGE_ROLE_BUTTONTEXT);
+		} else {
+			this.roleIconButton.setCls('roleIconBtn');
+			this.roleIconButton.setButtonText();
 		}
 	},
 

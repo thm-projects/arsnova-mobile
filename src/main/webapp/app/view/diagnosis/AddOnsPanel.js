@@ -24,6 +24,7 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 		fullscreen: true,
 		title: 'AddOnsPanel',
 		sessionCreationMode: false,
+		inClassSessionEntry: false,
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
@@ -131,6 +132,10 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 				scope: this,
 				handler: this.onSubmit
 			});
+
+			if (this.config.inClassSessionEntry) {
+				this.backButton.setHandler(this.inClassPanelBackHandler);
+			}
 		}
 
 		this.formPanel = Ext.create('Ext.form.FormPanel', {
@@ -156,14 +161,28 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 	},
 
 	sessionCreationBackHandler: function () {
-		this.getOptions().newSessionPanel.enableInputElements();
+		this.getOptions().lastPanel.enableInputElements();
 		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 
-		hTP.animateActiveItem(this.getOptions().newSessionPanel, {
+		hTP.animateActiveItem(this.getOptions().lastPanel, {
+			type: 'slide',
+			direction: 'right',
+			duration: 700
+		});
+	},
+
+	inClassPanelBackHandler: function () {
+		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		sTP.animateActiveItem(this.getOptions().lastPanel, {
 			type: 'slide',
 			direction: 'right',
 			duration: 700,
-			scope: this
+			listeners: {
+				scope: this,
+				animationend: function () {
+					this.destroy();
+				}
+			}
 		});
 	},
 

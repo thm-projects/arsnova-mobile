@@ -150,7 +150,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			cls: 'roleIconBtn',
 			buttonConfig: 'icon',
 			imageCls: 'icon-speaker',
-			hidden: true,
 			handler: function () {
 				ARSnova.app.getController('Sessions').changeRole();
 			}
@@ -166,19 +165,17 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			items: [{
 				xtype: 'spacer',
 				flex: '3',
-				width: true,
-				hidden: true
+				width: true
 			}, this.showcaseActionButton, {
 				xtype: 'spacer',
-				hidden: true
+				itemId: 'innerLeftSpacer'
 			}, this.roleIconButton, {
 				xtype: 'spacer',
-				hidden: true
+				itemId: 'innerRightSpacer'
 			}, this.createAdHocQuestionButton, {
 				xtype: 'spacer',
 				flex: '3',
-				width: true,
-				hidden: true
+				width: true
 			}]
 		});
 
@@ -267,6 +264,20 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			}
 		});
 
+		this.featureChangeEntryButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: Messages.CHANGE_FEATURES,
+			buttonConfig: 'icon',
+			cls: 'smallerActionButton',
+			imageCls: 'icon-gear',
+			scope: this,
+			handler: function () {
+				ARSnova.app.getController('Sessions').loadFeatureOptions({
+					inClassPanelEntry: true,
+					lastPanel: this
+				});
+			}
+		});
+
 		this.inClassActions = Ext.create('Ext.Panel', {
 			style: {marginTop: '20px'},
 			layout: {
@@ -276,19 +287,15 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			items: [{
 				xtype: 'spacer',
 				flex: '3',
-				width: true,
-				hidden: true
+				width: true
 			}, this.sessionStatusButton, {
-				xtype: 'spacer',
-				hidden: true
-			}, this.roleIconButton, {
-				xtype: 'spacer',
-				hidden: true
+				xtype: 'spacer'
 			}, this.deleteSessionButton, {
+				xtype: 'spacer'
+			}, this.featureChangeEntryButton, {
 				xtype: 'spacer',
 				flex: '3',
-				width: true,
-				hidden: true
+				width: true
 			}]
 		});
 
@@ -392,28 +399,28 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	},
 
 	updateActionButtonElements: function (showElements) {
-		var buttonCls = showElements ? 'actionButton' : 'smallerActionButton';
 		var me = this;
+		var features = Ext.decode(sessionStorage.getItem("features"));
+		var hasQuestionFeature = features.lecture || features.jitt;
 
-		if (showElements) {
-			this.actionButtonPanel.insert(3, me.roleIconButton);
+		if (!showElements) {
+			me.roleIconButton.setCls('');
+			me.roleIconButton.setButtonText(Messages.CHANGE_ROLE_BUTTONTEXT);
 		} else {
-			this.inClassActions.insert(3, me.roleIconButton);
+			me.roleIconButton.setCls('roleIconBtn');
+			me.roleIconButton.setButtonText();
 		}
+
 		this.actionButtonPanel.getInnerItems().forEach(function (element) {
-			if (element !== me.createAdHocQuestionButton) {
+			if (element === me.showcaseActionButton ||
+				element.getItemId() === 'innerLeftSpacer') {
 				element.setHidden(!showElements);
 			}
 		});
-		this.inClassActions.getInnerItems().forEach(function (element) {
-			if (element !== me.sessionStatusButton &&
-					element !== me.deleteSessionButton) {
-				element.setHidden(showElements);
-			} else {
-				me.sessionStatusButton.setActionButtonCls(buttonCls);
-				me.deleteSessionButton.setCls(buttonCls);
-			}
-		});
+
+		Ext.ComponentQuery.query('#innerRightSpacer')[0].setHidden(!hasQuestionFeature);
+		me.sessionStatusButton.setActionButtonCls('actionButton');
+		me.deleteSessionButton.setCls('actionButton');
 	},
 
 	/* will be called on session login */

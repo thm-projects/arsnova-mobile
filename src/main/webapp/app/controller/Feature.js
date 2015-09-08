@@ -172,6 +172,7 @@ Ext.define("ARSnova.controller.Feature", {
 		if (isSpeaker) {
 			tabPanel.inClassPanel.showcaseActionButton.setHidden(!hasQuestionFeatures);
 			tabPanel.inClassPanel.createAdHocQuestionButton.setHidden(!hasQuestionFeatures);
+			tabPanel.inClassPanel.updateActionButtonElements();
 
 			if (features.jitt && !features.lecture) {
 				tabPanel.inClassPanel.changeActionButtonsMode('preparation');

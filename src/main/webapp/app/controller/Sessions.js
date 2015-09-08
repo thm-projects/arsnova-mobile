@@ -280,12 +280,15 @@ Ext.define("ARSnova.controller.Sessions", {
 		});
 	},
 
-	loadFeatureOptions: function (options) {
+	loadFeatureOptions: function (options, sessionCreation) {
+		var activePanel = ARSnova.app.mainTabPanel.tabPanel.getActiveItem();
 		var featureOptionsPanel = Ext.create('ARSnova.view.diagnosis.AddOnsPanel', {
 			options: options,
-			sessionCreationMode: true
+			sessionCreationMode: sessionCreation,
+			inClassSessionEntry: !sessionCreation
 		});
-		ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.animateActiveItem(featureOptionsPanel, 'slide');
+
+		activePanel.animateActiveItem(featureOptionsPanel, 'slide');
 	},
 
 	validateSessionOptions: function (options) {
