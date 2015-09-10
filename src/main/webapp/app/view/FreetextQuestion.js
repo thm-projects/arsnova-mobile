@@ -73,9 +73,40 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 		// Create standard panel with framework support
 		this.questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			cls: "roundedBox questionPanel"
+			cls: "roundedBox"
 		});
 		this.updateQuestionText();
+		this.hintIcon = Ext.create('Ext.Button', {
+			cls: 'sessionInfoButton maskClickable',
+			iconCls: 'info',
+			scope: this,
+			style: 'float: right',
+			hidden: !(this.questionObj.hint),
+			handler: function (button) {
+				hintPanel.showBy(button);
+			}
+		});
+		this.questionContainer = Ext.create('Ext.Container', {
+			cls: "roundedBox",
+			items: [this.hintIcon, this.questionPanel]
+		});
+
+		var hintForSolution = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+		var sampleSolution = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+		hintForSolution.setContent(this.questionObj.hint || "", true, true);
+		sampleSolution.setContent(this.questionObj.solution || "", true, true);
+		var hintPanel = Ext.create('Ext.Panel', {
+			modal: true,
+			hideOnMaskTap: true,
+			hidden: true,
+			items: [hintForSolution]
+		});
+		this.solutionPanel = Ext.create('Ext.Panel', {
+			modal: true,
+			hideOnMaskTap: true,
+			hidden: true,
+			items: [sampleSolution]
+		});
 
 		this.buttonContainer = Ext.create('Ext.Container', {
 			layout: {
@@ -198,7 +229,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					xtype: 'formpanel',
 					scrollable: null,
 					submitOnAction: false,
-					items: [this.questionPanel, this.viewOnly ? {} : {
+					items: [this.questionContainer, this.viewOnly ? {} : {
 						xtype: 'fieldset',
 						items: innerItems
 					},
@@ -454,6 +485,16 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 			if (this.questionObj.userAnswered) {
 				this.customMask.setTextMessage(Messages.MASK_ALREADY_ANSWERED, 'alreadyAnswered');
+				// Display icon with sample solution popup
+				if (this.questionObj.showAnswer) {
+					this.hintIcon.setHidden(!this.questionObj.solution);
+					this.hintIcon.setIconCls('icon-bullhorn');
+					this.hintIcon.setHandler(function (button) {
+						this.solutionPanel.showBy(button);
+					});
+				} else {
+					this.hintIcon.setHidden(true);
+				}
 			} else if (this.questionObj.isAbstentionAnswer) {
 				this.customMask.setTextMessage(Messages.MASK_IS_ABSTENTION_ANSWER, 'alreadyAnswered');
 			} else if (this.questionObj.votingDisabled) {
