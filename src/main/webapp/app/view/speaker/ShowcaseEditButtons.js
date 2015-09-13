@@ -186,9 +186,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 	},
 
 	changeHiddenState: function () {
-		var hide = this.questionObj.piRound === 1 && !this.questionObj.piRoundFinished ||
-			this.questionObj.piRoundActive;
-		this.hideElements(hide);
+		this.hideElements(this.questionObj.piRoundActive);
 	},
 
 	changeVoteManagementButtonState: function () {
