@@ -387,14 +387,18 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	},
 
 	changeActionButtonsMode: function (mode) {
+		var features = Ext.decode(sessionStorage.getItem("features"));
+
 		if (mode === 'preparation') {
+			this.createAdHocQuestionButton.config.mode = 'preparation';
 			this.showcaseActionButton.setButtonText(this.showcaseActionButton.config.altText);
 			this.createAdHocQuestionButton.setButtonText(this.createAdHocQuestionButton.config.altText);
-			this.createAdHocQuestionButton.config.mode = 'preparation';
 		} else {
-			this.showcaseActionButton.setButtonText(this.showcaseActionButton.config.text);
-			this.createAdHocQuestionButton.setButtonText(this.createAdHocQuestionButton.config.text);
 			this.createAdHocQuestionButton.config.mode = 'lecture';
+			this.showcaseActionButton.setButtonText(this.showcaseActionButton.config.text);
+			this.createAdHocQuestionButton.setButtonText(
+				features.flashcard ? Messages.NEW_FLASHCARD : this.createAdHocQuestionButton.config.text
+			);
 		}
 	},
 
@@ -419,8 +423,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		});
 
 		Ext.ComponentQuery.query('#innerRightSpacer')[0].setHidden(!hasQuestionFeature);
-		me.sessionStatusButton.setActionButtonCls('actionButton');
-		me.deleteSessionButton.setCls('actionButton');
 	},
 
 	/* will be called on session login */
@@ -453,9 +455,11 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	},
 
 	onActivate: function () {
+		var features = Ext.decode(sessionStorage.getItem("features"));
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.inClassPanel.updateActionButtonElements(false);
 		sTP.inClassPanel.updateAudienceQuestionBadge();
+		this.applyUIChanges(features);
 	},
 
 	updateCaption: function () {
@@ -511,9 +515,13 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 				if (numQuestions && features.lecture) {
 					if (numQuestions === 1) {
-						me.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE);
+						me.showcaseActionButton.setButtonText(
+							features.flashcard ? Messages.SHOWCASE_FLASHCARD : Messages.SHOWCASE_MODE
+						);
 					} else {
-						me.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE_PLURAL);
+						me.showcaseActionButton.setButtonText(
+							features.flashcard ? Messages.SHOWCASE_FLASHCARDS : Messages.SHOWCASE_MODE_PLURAL
+						);
 					}
 					me.updateActionButtonElements(!!numQuestions);
 				}
@@ -624,5 +632,15 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				me.inClassButtons.remove(me.courseLearningProgressButton, false);
 			}
 		});
+	},
+
+	applyUIChanges: function (features) {
+		this.courseLearningProgressButton.setText(
+			features.peerGrading ? Messages.EVALUATION_LONG : Messages.COURSES_LEARNING_PROGRESS
+		);
+
+		this.lectureQuestionButton.setText(
+			features.flashcard ? Messages.FLASHCARDS : Messages.LECTURE_QUESTIONS_LONG
+		);
 	}
 });

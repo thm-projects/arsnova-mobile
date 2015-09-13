@@ -418,6 +418,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			return;
 		}
 		ARSnova.app.taskManager.start(this.updateAnswerCount);
+		this.applyUIChanges();
 		this.questionStore.removeAll();
 		this.getQuestions();
 	},
@@ -429,6 +430,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	},
 
 	getQuestions: function () {
+		var features = Ext.decode(sessionStorage.getItem("features"));
 		this.questionEntries = [];
 		this.getController().getQuestions(sessionStorage.getItem('keyword'), {
 			success: Ext.bind(function (response, totalRange) {
@@ -442,11 +444,13 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.handleAnswerCount();
 
 				if (questions.length === 1) {
-					this.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE);
+					this.showcaseActionButton.setButtonText(
+						features.flashcard ? Messages.SHOWCASE_FLASHCARD : Messages.SHOWCASE_MODE);
 					this.questionStatusButton.setSingleQuestionMode();
 					this.voteStatusButton.setSingleQuestionMode();
 				} else {
-					this.showcaseActionButton.setButtonText(Messages.SHOWCASE_MODE_PLURAL);
+					this.showcaseActionButton.setButtonText(
+						features.flashcard ? Messages.SHOWCASE_FLASHCARDS : Messages.SHOWCASE_MODE_PLURAL);
 					this.questionStatusButton.setMultiQuestionMode();
 					this.voteStatusButton.setMultiQuestionMode();
 				}
@@ -573,5 +577,12 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 	questionsImportHandler: function () {
 		ARSnova.app.getController('QuestionImport').showModal();
+	},
+
+	applyUIChanges: function () {
+		var features = Ext.decode(sessionStorage.getItem("features"));
+		this.newQuestionButton.setButtonText(
+			features.flashcard ? Messages.NEW_FLASHCARD : Messages.NEW_QUESTION
+		);
 	}
 });
