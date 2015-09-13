@@ -364,6 +364,11 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 					}
 					me.toolbar.setTitle(title);
 				}
+			},
+			showAllOptions: function () {
+				me.questionOptions.innerItems.forEach(function (item) {
+					item.show();
+				});
 			}
 		});
 
@@ -395,7 +400,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		});
 
 		me.add([me.toolbar,
-			Ext.create('Ext.Toolbar', {
+			me.optionsToolbar = Ext.create('Ext.Toolbar', {
 				cls: 'noBackground noBorder',
 				docked: 'top',
 				scrollable: {
@@ -443,8 +448,19 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	},
 
 	onActivate: function () {
-		this.questionOptions.setPressedButtons([0]);
 		this.releasePart.setHidden(!localStorage.getItem('courseId'));
+		this.questionOptions.setPressedButtons([0]);
+
+		ARSnova.app.getController('Feature').applyNewQuestionPanelChanges(this);
+	},
+
+	getOptionIndexMap: function () {
+		var map = {};
+		this.questionOptions.getInnerItems().forEach(function (option, index) {
+			map[option.getItemId()] = index;
+		});
+
+		return map;
 	},
 
 	defaultPreviewHandler: function () {
