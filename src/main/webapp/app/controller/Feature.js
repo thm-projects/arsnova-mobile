@@ -227,6 +227,7 @@ Ext.define("ARSnova.controller.Feature", {
 			button = tabPanel.inClassPanel.myLearningProgressButton;
 		}
 
+		ARSnova.app.globalConfig.features.learningProgress = enable;
 		this.applyButtonChange(container, button, enable, 3);
 	},
 
