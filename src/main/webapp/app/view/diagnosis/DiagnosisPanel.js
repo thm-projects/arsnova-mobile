@@ -19,7 +19,7 @@
 Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 	extend: 'Ext.Container',
 
-	requires: ['ARSnova.view.diagnosis.StatisticsPanel', 'ARSnova.view.diagnosis.AddOnsPanel'],
+	requires: ['ARSnova.view.diagnosis.StatisticsPanel', 'ARSnova.view.diagnosis.UseCasePanel'],
 
 	config: {
 		fullscreen: true,
@@ -81,8 +81,8 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 			disabled: true,
 			handler: function () {
 				var me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel;
-				me.addOnsPanel = Ext.create('ARSnova.view.diagnosis.AddOnsPanel');
-				me.animateActiveItem(me.addOnsPanel, 'slide');
+				me.useCasePanel = Ext.create('ARSnova.view.diagnosis.UseCasePanel');
+				me.animateActiveItem(me.useCasePanel, 'slide');
 			}
 		});
 

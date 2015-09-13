@@ -21,8 +21,9 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 
 	config: {
 		options: {},
+		lastPanel: null,
 		fullscreen: true,
-		title: 'AddOnsPanel',
+		title: 'FeaturePanel',
 		sessionCreationMode: false,
 		inClassSessionEntry: false,
 		scrollable: {
@@ -41,9 +42,9 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 			ui: 'back',
 			scope: this,
 			handler: function () {
-				var me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel;
+				var tP = ARSnova.app.mainTabPanel.tabPanel.getActiveItem();
 
-				me.animateActiveItem(me.diagnosisPanel, {
+				tP.animateActiveItem(me.config.lastPanel, {
 					type: 'slide',
 					direction: 'right',
 					duration: 700,
@@ -116,7 +117,6 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 		});
 
 		if (this.config.sessionCreationMode) {
-			this.backButton.setHandler(this.sessionCreationBackHandler);
 			this.submitButton = Ext.create('Ext.Button', {
 				cls: 'centerButton',
 				ui: 'confirm',
@@ -132,10 +132,6 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 				scope: this,
 				handler: this.onSubmit
 			});
-
-			if (this.config.inClassSessionEntry) {
-				this.backButton.setHandler(this.inClassPanelBackHandler);
-			}
 		}
 
 		this.formPanel = Ext.create('Ext.form.FormPanel', {
@@ -146,7 +142,11 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 		this.add([this.toolbar, this.formPanel]);
 
 		this.on('activate', function () {
-			this.featureFormPanel.setValues(Ext.decode(sessionStorage.getItem("features")));
+			var features = Ext.decode(sessionStorage.getItem("features"));
+
+			if (features.custom) {
+				this.featureFormPanel.setValues(features);
+			}
 		}, this);
 	},
 
@@ -158,32 +158,6 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 		}
 
 		return selection;
-	},
-
-	sessionCreationBackHandler: function () {
-		this.getOptions().lastPanel.enableInputElements();
-		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
-
-		hTP.animateActiveItem(this.getOptions().lastPanel, {
-			type: 'slide',
-			direction: 'right',
-			duration: 700
-		});
-	},
-
-	inClassPanelBackHandler: function () {
-		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-		sTP.animateActiveItem(this.getOptions().lastPanel, {
-			type: 'slide',
-			direction: 'right',
-			duration: 700,
-			listeners: {
-				scope: this,
-				animationend: function () {
-					this.destroy();
-				}
-			}
-		});
 	},
 
 	validateSelection: function (button) {
