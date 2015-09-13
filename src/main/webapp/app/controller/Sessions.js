@@ -282,13 +282,13 @@ Ext.define("ARSnova.controller.Sessions", {
 
 	loadFeatureOptions: function (options, sessionCreation) {
 		var activePanel = ARSnova.app.mainTabPanel.tabPanel.getActiveItem();
-		var featureOptionsPanel = Ext.create('ARSnova.view.diagnosis.AddOnsPanel', {
+		var useCasePanel = Ext.create('ARSnova.view.diagnosis.UseCasePanel', {
 			options: options,
 			sessionCreationMode: sessionCreation,
 			inClassSessionEntry: !sessionCreation
 		});
 
-		activePanel.animateActiveItem(featureOptionsPanel, 'slide');
+		activePanel.animateActiveItem(useCasePanel, 'slide');
 	},
 
 	validateSessionOptions: function (options) {
