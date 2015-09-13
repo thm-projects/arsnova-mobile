@@ -19,28 +19,117 @@
 Ext.define("ARSnova.controller.Feature", {
 	extend: 'Ext.app.Controller',
 
+	useCases: {
+		custom: true,
+		total: false,
+		clicker: false,
+		liveFeedback: false,
+		flashcard: false,
+		peerGrading: false
+	},
+
+	features: {
+		pi: true,
+		jitt: true,
+		lecture: true,
+		feedback: true,
+		interposed: true,
+		learningProgress: true
+	},
+
 	applyFeatures: function () {
-		var controller = ARSnova.app.getController('Feature');
 		var features = Ext.decode(sessionStorage.getItem("features"));
 
+		var useCases = {
+			clicker: this.applyClickerUseCase,
+			peerGrading: this.applyPeerGradingUseCase,
+			flashcard: this.applyFlashcardUseCase,
+			liveFeedback: this.applyLiveFeedbackUseCase,
+			total: this.applyTotalUseCase,
+			custom: this.applyCustomUseCase
+		};
+
+		for (var property in features) {
+			if (features[property] && typeof useCases[property] === 'function') {
+				useCases[property].call(this, features);
+			}
+		}
+	},
+
+	applyClickerUseCase: function (useCases) {
+		this.applyCustomUseCase(useCases, this.getFeatureValues(useCases));
+	},
+
+	applyPeerGradingUseCase: function (useCases) {
+		this.applyCustomUseCase(useCases, this.getFeatureValues(useCases));
+	},
+
+	applyFlashcardUseCase: function (useCases) {
+		this.applyCustomUseCase(useCases, this.getFeatureValues(useCases));
+	},
+
+	applyLiveFeedbackUseCase: function (useCases) {
+		this.applyCustomUseCase(useCases, this.getFeatureValues(useCases));
+	},
+
+	applyTotalUseCase: function (useCases) {
+		this.applyCustomUseCase(useCases, this.features);
+	},
+
+	applyCustomUseCase: function (useCases, features) {
+		features = features || Ext.decode(sessionStorage.getItem("features"));
+
 		var functions = {
-			pi: controller.applyPiFeature,
-			jitt: controller.applyJittFeature,
-			lecture: controller.applyLectureFeature,
-			feedback: controller.applyFeedbackFeature,
-			interposed: controller.applyInterposedFeature,
-			learningProgress: controller.applyLearningProgressFeature
+			pi: this.applyPiFeature,
+			jitt: this.applyJittFeature,
+			lecture: this.applyLectureFeature,
+			feedback: this.applyFeedbackFeature,
+			interposed: this.applyInterposedFeature,
+			learningProgress: this.applyLearningProgressFeature
 		};
 
 		for (var property in features) {
 			if (typeof functions[property] === 'function') {
-				functions[property].call(controller, features[property]);
+				functions[property].call(this, features[property]);
 			}
 		}
 
 		if (features && Object.keys(features).length) {
-			controller.applyAdditionalChanges(features);
+			this.applyAdditionalChanges(features);
 		}
+	},
+
+	getFeatureValues: function (useCases) {
+		var features = Ext.Object.merge({}, this.features, useCases);
+
+		if (useCases.clicker) {
+			features.jitt = false;
+			features.learningProgress = false;
+			features.interposed = false;
+			features.feedback = false;
+		}
+
+		if (useCases.peerGrading) {
+			features.interposed = false;
+			features.feedback = false;
+			features.jitt = false;
+		}
+
+		if (useCases.flashcard) {
+			features.jitt = false;
+			features.interposed = false;
+			features.feedback = false;
+			features.pi = false;
+		}
+
+		if (useCases.liveFeedback) {
+			features.pi = false;
+			features.jitt = false;
+			features.lecture = false;
+			features.learningProgress = false;
+		}
+
+		return features;
 	},
 
 	/**
@@ -147,10 +236,12 @@ Ext.define("ARSnova.controller.Feature", {
 	getLoneActiveFeatureKey: function (features) {
 		var loneActiveFeature = false;
 		for (var key in features) {
-			if (loneActiveFeature && features[key]) {
-				return false;
-			} else if (features[key] && (key !== 'pi' && key !== 'learningProgress')) {
-				loneActiveFeature = key;
+			if (!this.useCases.hasOwnProperty(key) && key !== 'pi') {
+				if (loneActiveFeature && features[key]) {
+					return false;
+				} else if (features[key] && key !== 'learningProgress') {
+					loneActiveFeature = key;
+				}
 			}
 		}
 
@@ -200,6 +291,18 @@ Ext.define("ARSnova.controller.Feature", {
 				tP.userQuestionsPanel.setLectureMode();
 				tabPanel.inClassPanel.updateQuestionsPanelBadge();
 				tP.userQuestionsPanel.tab.setTitle(Messages.QUESTIONS);
+			}
+
+			// flashcard use case
+			tabPanel.inClassPanel.lectureQuestionButton.setText(
+				features.flashcard ? Messages.FLASHCARDS : Messages.LECTURE_QUESTION_LONG
+			);
+
+			// peer grading use case
+			if (tabPanel.inClassPanel.myLearningProgressButton) {
+				tabPanel.inClassPanel.myLearningProgressButton.setText(
+					features.peerGrading ? Messages.EVALUATION_LONG : Messages.MY_LEARNING_PROGRESS
+				);
 			}
 
 			if (localStorage.getItem('lastVisitedRole') !== ARSnova.app.USER_ROLE_SPEAKER) {
@@ -291,6 +394,27 @@ Ext.define("ARSnova.controller.Feature", {
 			container.insert(index, button);
 		} else {
 			container.remove(button, false);
+		}
+	},
+
+	applyNewQuestionPanelChanges: function (panel) {
+		var indexMap = panel.getOptionIndexMap();
+		var features = Ext.decode(sessionStorage.getItem("features"));
+
+		if (features.flashcard) {
+			panel.questionOptions.setPressedButtons([indexMap[Messages.FLASHCARD]]);
+			panel.optionsToolbar.setHidden(true);
+		} else if (features.peerGrading) {
+			panel.questionOptions.setPressedButtons([indexMap[Messages.EVALUATION]]);
+			panel.optionsToolbar.setHidden(true);
+		} else if (features.clicker) {
+			var options = panel.questionOptions.getInnerItems();
+			options[indexMap[Messages.FREETEXT]].hide();
+			options[indexMap[Messages.FLASHCARD]].hide();
+			options[indexMap[Messages.GRID]].hide();
+		} else {
+			panel.optionsToolbar.setHidden(false);
+			panel.questionOptions.config.showAllOptions();
 		}
 	}
 });
