@@ -51,7 +51,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 
 		defaultMinutes: 3,
 		defaultSeconds: 60,
-		sliderDefaultValue: 2,
+		sliderDefaultValue: 1,
 		sliderMinValue: 1,
 		sliderMaxValue: 10,
 		secondsLeftTillAlert: 9,
