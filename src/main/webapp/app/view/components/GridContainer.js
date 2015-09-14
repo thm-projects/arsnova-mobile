@@ -493,7 +493,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 				this.setGridSizeX(questionObj.gridSize);
 			}
 
-			if (questionObj.gridSizeY) {
+			if (!questionObj.gridSizeY) {
 				this.setGridSizeY(questionObj.gridSize);
 			}
 		}
