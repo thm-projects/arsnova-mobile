@@ -69,6 +69,7 @@
 @include icon("icon-square" , "\f096", "arsnova");
 @include icon("icon-text-height" , "\f034", "arsnova");
 @include icon("icon-projector" , "\e607", "arsnova");
+@include icon("icon-dashboard" , "\f0e4", "arsnova");
 
 @include icon("icon-undo", "\f0e2", "arsnova");
 @include icon("icon-drag", "\f0dc", "arsnova");
@@ -299,6 +300,12 @@
 	.icon-question {
 		font-size: 70px !important;
 		margin-top: 4px !important;
+	}
+
+	.icon-dashboard {
+		font-size: 56px !important;
+		margin-top: 9px !important;
+		margin-left: 11px !important	
 	}
 
 	.icon-gear {

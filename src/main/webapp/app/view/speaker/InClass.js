@@ -263,7 +263,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			text: Messages.CHANGE_FEATURES,
 			buttonConfig: 'icon',
 			cls: 'smallerActionButton',
-			imageCls: 'icon-gear',
+			imageCls: 'icon-dashboard',
 			scope: this,
 			handler: function () {
 				ARSnova.app.getController('Sessions').loadFeatureOptions({
