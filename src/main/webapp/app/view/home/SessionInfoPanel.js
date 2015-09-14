@@ -136,9 +136,9 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 								ppSubject: me.subject.getValue(),
 								ppLicense: me.licence.getValue(),
 								ppDescription: me.description.getValue(),
-								newSessionPanel: panel,
+								lastPanel: panel,
 								creationTime: Date.now()
-							});
+							}, true);
 						} else {
 							ARSnova.app.getController('Sessions').loadFeatureOptions({
 								name: me.sessionName.getValue(),
@@ -148,9 +148,9 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 								ppUniversity: me.university.getValue(),
 								ppFaculty: me.faculty.getValue(),
 								ppDescription: me.description.getValue(),
-								newSessionPanel: panel,
+								lastPanel: panel,
 								creationTime: Date.now()
-							});
+							}, true);
 						}
 					}
 				}
