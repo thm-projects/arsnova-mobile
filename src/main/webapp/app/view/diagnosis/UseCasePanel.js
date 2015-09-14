@@ -73,7 +73,8 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 			title: Messages.USECASES_CHOOSE,
 			defaults: {
 				name: 'usecase',
-				xtype: 'radiofield'
+				xtype: 'radiofield',
+				labelWidth: 'auto'
 			},
 
 			items: [{

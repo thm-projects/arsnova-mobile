@@ -92,6 +92,7 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 				title: Messages.ACTIVATE_FEATURES,
 				defaults: {
 					xtype: 'checkboxfield',
+					labelWidth: 'auto',
 					checked: true,
 					listeners: {
 						change: function (field) {
