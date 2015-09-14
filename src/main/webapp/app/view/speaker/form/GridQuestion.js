@@ -565,7 +565,11 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		this.add(this.imageCnt);
 
 		if (ARSnova.app.globalConfig.features.learningProgress) {
-			this.add([this.questionValueFieldset]);
+			this.add([{
+				xtype: 'formpanel',
+				scrollable: null,
+				items: this.questionValueFieldset
+			}]);
 		}
 	},
 
