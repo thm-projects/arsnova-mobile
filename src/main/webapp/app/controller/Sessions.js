@@ -329,8 +329,8 @@ Ext.define("ARSnova.controller.Sessions", {
 			});
 
 			/* activate inputElements in newSessionPanel */
-			if (options && options.newSessionPanel && typeof options.newSessionPanel) { 
-				options.newSessionPanel.enableInputElements();
+			if (options.lastPanel && typeof options.lastPanel.enableInputElements() === 'function') {
+				options.lastPanel.enableInputElements();
 			}
 			return false;
 		}
@@ -340,6 +340,7 @@ Ext.define("ARSnova.controller.Sessions", {
 
 	create: function (options) {
 		var session = this.validateSessionOptions(options);
+		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SAVE, 10000);
 
 		if (!session) {
 			return;
@@ -366,6 +367,7 @@ Ext.define("ARSnova.controller.Sessions", {
 						message: Messages.ON_SESSION_CREATION_1.replace(/###/, fullSession.keyword),
 						cls: 'newSessionMessageBox',
 						listeners: {
+							show: hideLoadMask,
 							hide: function () {
 								ARSnova.app.getController('Sessions').login({keyword: fullSession.keyword});
 								var panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
@@ -373,7 +375,9 @@ Ext.define("ARSnova.controller.Sessions", {
 								panel.setActiveItem(panel.mySessionsPanel);
 
 								/* activate inputElements in newSessionPanel */
-								options.newSessionPanel.enableInputElements();
+								if (options.lastPanel && typeof options.lastPanel.enableInputElements() === 'function') {
+									options.lastPanel.enableInputElements();
+								}
 								this.destroy();
 							}
 						}
@@ -421,7 +425,9 @@ Ext.define("ARSnova.controller.Sessions", {
 			},
 			failure: function (records, operation) {
 				Ext.Msg.alert("Hinweis!", "Die Verbindung zum Server konnte nicht hergestellt werden");
-				options.newSessionPanel.enableInputElements();
+				if (options.lastPanel && typeof options.lastPanel.enableInputElements() === 'function') {
+					options.lastPanel.enableInputElements();
+				}
 			}
 		});
 	},
