@@ -629,59 +629,6 @@ html,body {
 
 /* new session form END */
 
-
-.topPadding {
-	padding-top: 1em;
-}
-
-.standardForm {
-	margin-left: 12px !important;
-	margin-right: 12px !important;
-}
-
-.roundedCorners .x-list-item-first.x-list-header,
-.roundedCorners .x-list-header-swap {
-	-webkit-border-top-left-radius: 5px;
-	-webkit-border-top-right-radius: 5px;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-}
-
-.standardForm>div>div:first-child {
-	-webkit-border-top-left-radius: 15px;
-	-webkit-border-top-right-radius: 15px;
-	border-top-left-radius: 15px;
-	border-top-right-radius: 15px;
-}
-
-.standardForm>div>div:last-child {
-	-webkit-border-bottom-left-radius: 15px;
-	-webkit-border-bottom-right-radius: 15px;
-	border-bottom-left-radius: 15px;
-	border-bottom-right-radius: 15px;
-}
-
-.standardFieldset .x-form-fieldset-inner {
-	border: none;
-	background-color: transparent;
-}
-
-.standardFieldset>div>div>div>div:first-child {
-	-webkit-border-top-left-radius: 15px;
-	-webkit-border-top-right-radius: 15px;
-	border-top-left-radius: 15px;
-	border-top-right-radius: 15px;
-}
-
-.standardFieldset>div>div>div>div:last-child {
-	-webkit-border-bottom-left-radius: 15px;
-	-webkit-border-bottom-right-radius: 15px;
-	border-bottom-left-radius: 15px;
-	border-bottom-right-radius: 15px;
-}
-
-
-
 .inOutClassLabel {
 	padding: 0.5em 1em 0 1em;
 }
