@@ -204,16 +204,14 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			handler: this.buttonClicked
 		});
 
-		if (ARSnova.app.globalConfig.features.learningProgress) {
-			this.courseLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-				itemId: 'courseLearningProgress',
-				text: Messages.COURSES_LEARNING_PROGRESS,
-				cls: 'forwardListButton',
-				controller: 'Questions',
-				action: 'showLearningProgress',
-				handler: this.buttonClicked
-			});
-		}
+		this.courseLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+			itemId: 'courseLearningProgress',
+			text: Messages.COURSES_LEARNING_PROGRESS,
+			cls: 'forwardListButton',
+			controller: 'Questions',
+			action: 'showLearningProgress',
+			handler: this.buttonClicked
+		});
 
 		var buttons = [
 			this.feedbackQuestionButton,
@@ -635,11 +633,9 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	},
 
 	applyUIChanges: function (features) {
-		if (this.courseLearningProgressButton) {
-			this.courseLearningProgressButton.setText(
-				features.peerGrading ? Messages.EVALUATION_LONG : Messages.COURSES_LEARNING_PROGRESS
-			);
-		}
+		this.courseLearningProgressButton.setText(
+			features.peerGrading ? Messages.EVALUATION_LONG : Messages.COURSES_LEARNING_PROGRESS
+		);
 
 		this.lectureQuestionButton.setText(
 			features.flashcard ? Messages.FLASHCARDS : Messages.LECTURE_QUESTIONS_LONG
