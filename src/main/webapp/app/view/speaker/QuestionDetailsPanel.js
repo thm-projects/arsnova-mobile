@@ -252,7 +252,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				var saveQuestion = function (question) {
 					var questionValues = panel.answerEditForm.getQuestionValues();
 
-					if (questionValues.image) {
+					if (panel.image) {
 						question.set("image", panel.image);
 					}
 
