@@ -536,6 +536,15 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	showNotification: function (questionIds, variant, newRound, round) {
+		var features = Ext.decode(sessionStorage.getItem("features"));
+
+		if (features.lecture && variant === 'lecture' ||
+			features.jitt && variant === 'preparation') {
+			this.showNotificationMessage(questionIds, variant, newRound, round);
+		}
+	},
+
+	showNotificationMessage: function (questionIds, variant, newRound, round) {
 		var titleLabel, messageLabel;
 		var unansweredQuestionIds = variant === 'lecture' ?
 			JSON.parse(sessionStorage.getItem('unansweredLectureQuestions')) :
