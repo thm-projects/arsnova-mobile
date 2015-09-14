@@ -34,6 +34,7 @@ $button-action-active-bg-color: $thm-lightgrey;
 $button-action-txt-color: #fff;
 $button-decline-bg-color: $thm-red;
 $button-decline-txt-color: #fff;
+$button-feature-entry-color: $thm-green;
 
 @mixin button-decoration-config($bgcolor, $txtcolor) {
 	color: $txtcolor;
