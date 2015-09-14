@@ -258,9 +258,9 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		this.descriptionFieldSet = Ext.create('Ext.form.FieldSet', {
 			cls: 'standardFieldset',
 			itemId: 'contentFieldset',
+			hidden: !this.getSession().ppLogo,
 			items: [this.descriptionPanel]
 		});
-
 
 		this.contentForm = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
