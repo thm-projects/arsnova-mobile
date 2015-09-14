@@ -248,9 +248,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 						ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SESSION_DELETE);
 						ARSnova.app.sessionModel.destroy(sessionStorage.getItem('keyword'), {
 							success: function () {
-								ARSnova.app.mainTabPanel.tabPanel.on('activeitemchange', function () {
-									ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.mySessionsPanel.loadCreatedSessions();
-								}, this, {single: true});
 								ARSnova.app.getController('Sessions').logout();
 							},
 							failure: function (response) {
