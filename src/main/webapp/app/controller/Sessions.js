@@ -293,6 +293,7 @@ Ext.define("ARSnova.controller.Sessions", {
 
 	validateSessionOptions: function (options) {
 		var session = ARSnova.app.sessionModel;
+
 		session.setData({
 			type: 'session',
 			name: options.name.trim(),
@@ -328,7 +329,9 @@ Ext.define("ARSnova.controller.Sessions", {
 			});
 
 			/* activate inputElements in newSessionPanel */
-			options.newSessionPanel.enableInputElements();
+			if (options && options.newSessionPanel && typeof options.newSessionPanel) { 
+				options.newSessionPanel.enableInputElements();
+			}
 			return false;
 		}
 
