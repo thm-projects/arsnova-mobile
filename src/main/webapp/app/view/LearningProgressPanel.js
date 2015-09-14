@@ -100,7 +100,7 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 					value: 'questions',
 					label: Messages.QUESTION_BASED_PROGRESS,
 					checked: true,
-					labelWidth: '50%',
+					labelWidth: 'auto',
 					listeners: {
 						scope: this,
 						check: function (field) {
@@ -114,7 +114,7 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 					name: 'type',
 					value: 'points',
 					label: Messages.SCORE_BASED_PROGRESS,
-					labelWidth: '50%',
+					labelWidth: 'auto',
 					listeners: {
 						scope: this,
 						check: function (field) {
@@ -133,7 +133,7 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 					name: 'questionVariant',
 					value: 'lecture',
 					label: Messages.LECTURE_QUESTIONS_LONG,
-					labelWidth: '50%',
+					labelWidth: 'auto',
 					listeners: {
 						scope: this,
 						check: function (field) {
@@ -146,7 +146,7 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 					name: 'questionVariant',
 					value: 'preparation',
 					label: Messages.PREPARATION_QUESTIONS_LONG,
-					labelWidth: '50%',
+					labelWidth: 'auto',
 					listeners: {
 						scope: this,
 						check: function (field) {
@@ -160,7 +160,7 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 					value: '',
 					checked: true,
 					label: Messages.BOTH,
-					labelWidth: '50%',
+					labelWidth: 'auto',
 					listeners: {
 						scope: this,
 						check: function (field) {
