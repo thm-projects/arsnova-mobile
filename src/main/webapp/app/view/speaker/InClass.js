@@ -288,11 +288,11 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				xtype: 'spacer',
 				flex: '3',
 				width: true
+			}, this.featureChangeEntryButton, {
+				xtype: 'spacer'
 			}, this.sessionStatusButton, {
 				xtype: 'spacer'
 			}, this.deleteSessionButton, {
-				xtype: 'spacer'
-			}, this.featureChangeEntryButton, {
 				xtype: 'spacer',
 				flex: '3',
 				width: true
