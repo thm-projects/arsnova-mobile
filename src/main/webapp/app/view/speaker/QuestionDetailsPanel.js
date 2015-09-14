@@ -105,15 +105,15 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		var me = this;
 		this.questionObj = args.question;
 
-		this.hasCorrectAnswers = true;
-		if (['vote', 'school', 'freetext'].indexOf(this.questionObj.questionType) !== -1
-				|| (['grid'].indexOf(this.questionObj.questionType) !== -1 && this.questionObj.gridType === 'moderation')) {
-			this.hasCorrectAnswers = false;
-		}
-
 		// check if grid question
 		this.isGridQuestion = (['grid'].indexOf(this.questionObj.questionType) !== -1);
 		this.isFlashcard = this.questionObj.questionType === 'flashcard';
+
+		this.hasCorrectAnswers = true;
+		if (['vote', 'school', 'freetext', 'flashcard'].indexOf(this.questionObj.questionType) !== -1
+				|| (this.isGridQuestion && this.questionObj.gridType === 'moderation')) {
+			this.hasCorrectAnswers = false;
+		}
 
 		this.answerStore = Ext.create('Ext.data.Store', {model: 'ARSnova.model.Answer'});
 		this.answerStore.add(Ext.clone(this.questionObj.possibleAnswers));
@@ -1058,7 +1058,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			this.firstRow.hide();
 			this.deleteAnswersButton.hide();
 		} else {
-			this.firstRow.show();
+			this.firstRow.setHidden(this.isFlashcard);
 			this.deleteAnswersButton.show();
 		}
 	},
