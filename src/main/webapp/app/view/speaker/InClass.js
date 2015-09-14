@@ -635,9 +635,11 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	},
 
 	applyUIChanges: function (features) {
-		this.courseLearningProgressButton.setText(
-			features.peerGrading ? Messages.EVALUATION_LONG : Messages.COURSES_LEARNING_PROGRESS
-		);
+		if (this.courseLearningProgressButton) {
+			this.courseLearningProgressButton.setText(
+				features.peerGrading ? Messages.EVALUATION_LONG : Messages.COURSES_LEARNING_PROGRESS
+			);
+		}
 
 		this.lectureQuestionButton.setText(
 			features.flashcard ? Messages.FLASHCARDS : Messages.LECTURE_QUESTIONS_LONG
