@@ -688,7 +688,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				};
 				me.myLearningProgressButton.setBadge([getBadge(myprogressDescription), vsBadge, getBadge(courseprogressDescription)]);
 
-				me.swotBadge.setCls('swotBadgeIcon redbadgecolor');
+				me.swotBadge.setCls('swotBadgeIcon greenbadgecolor');
 				me.swotBadge.setHidden(p.myProgress < goodProgressThreshold);
 			},
 			failure: function () {
