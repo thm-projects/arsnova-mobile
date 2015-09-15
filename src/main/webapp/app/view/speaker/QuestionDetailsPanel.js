@@ -352,6 +352,11 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								panel.solutionPreview.setContent(question.get("solution") || "—", true, true);
 							}
 
+							if (panel.questionObj.questionType === 'grid') {
+								panel.gridStatistic.setQuestionObj(question.raw);
+								panel.gridStatistic.updateGrid();
+							}
+
 							if (panel.questionObj.questionType === 'flashcard') {
 								panel.answerListPanel.setContent(
 									panel.questionObj.possibleAnswers[0].text, true, true
@@ -1318,7 +1323,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							}
 						} else if (panel.questionObj.questionType === "grid") {
 							panel.gridStatistic.answers = answers;
-							panel.gridStatistic.setQuestionObj = panel.questionObj;
+							panel.gridStatistic.setQuestionObj(panel.questionObj);
 							panel.gridStatistic.updateGrid();
 						} else {
 							for (i = 0; i < answers.length; i++) {
