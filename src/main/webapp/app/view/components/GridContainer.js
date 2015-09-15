@@ -225,6 +225,7 @@ Ext.define('ARSnova.view.components.GridContainer', {
 
 		if (calcHeight < this.getCanvasSize()) {
 			calcHeight = scaleHeight > 1 ? calcHeight * scaleHeight : calcHeight;
+			calcHeight = calcHeight > this.getCanvasSize() ? this.getCanvasSize() : calcHeight;
 			this.image.html.height = calcHeight;
 		} else {
 			this.image.html.height = this.getCanvasSize();
