@@ -799,7 +799,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		} else {
 			button.addCls('x-button-pressed');
 
-			if (this.questionObj.questionType === 'mc') {
+			if (this.questionObj.questionType === 'mc' && this.questionObj.possibleAnswers.length > 2) {
 				// Add summary bars/captions while in 'toggle correct answers' mode for MC questions
 				entries = this.questionStore.add([{
 					text: Messages.ALL_CORRECT,
