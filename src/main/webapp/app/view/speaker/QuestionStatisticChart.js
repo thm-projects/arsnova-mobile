@@ -786,10 +786,12 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			// removal does not change any existing indexes in the store.
 			for (var i = 0; i < this.summaryBarIndexes.length; i++) {
 				var record = this.questionStore.getAt(this.summaryBarIndexes[i]);
-				if (record.get("text") === Messages.ALL_CORRECT) {
-					this.mcAllCorrect = record.getData();
-				} else {
-					this.mcAllWrong = record.getData();
+				if (record) {
+					if (record.get("text") === Messages.ALL_CORRECT) {
+						this.mcAllCorrect = record.getData();
+					} else {
+						this.mcAllWrong = record.getData();
+					}
 				}
 				this.questionStore.removeAt(this.summaryBarIndexes[i]);
 			}
