@@ -64,6 +64,16 @@ Ext.define('ARSnova.view.speaker.form.VoteQuestion', {
 		}
 	},
 
+	initWithQuestion: function (question) {
+		this.callParent(arguments);
+
+		if (ARSnova.app.globalConfig.features.learningProgress) {
+			for (var i = 0; i < question.possibleAnswers.length; i++) {
+				this.sliderComponents[i].setSliderValue(question.possibleAnswers[i].value);
+			}
+		}
+	},
+
 	getValues: function () {
 		return this.fields.map(function (item, index) {
 			return {
