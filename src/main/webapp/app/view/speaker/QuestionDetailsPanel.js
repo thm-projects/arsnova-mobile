@@ -1121,7 +1121,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							} else if (value > 0) {
 								return 'greenbadgeicon';
 							} else {
-								return 'graybadgeicon';
+								return 'greybadgeicon';
 							}
 						},
 						formatPoints: function (value) {
