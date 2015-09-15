@@ -168,16 +168,21 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		 */
 		ctx.rotate(90 * this.getImgRotation() * Math.PI / 180);
 
-		if (this.getImageFile().src.lastIndexOf("http", 0) === 0) { // image is load from url
-			// have to be the negative half of width and height of the image for translation to get a fix rotation point in the middle of the image!!!
-			ctx.drawImage(this.getImageFile(), -(this.getImageFile().width / 2), -(this.getImageFile().height / 2));
-		} else {
+		if (Ext.os.is.iOS && this.getImageFile().src.indexOf("http", 0) !== 0) {
 			// draw image avoiding ios 6/7 squash bug
 			this.drawImageIOSFix(
 				ctx,
 				this.getImageFile(),
-				-(this.getImageFile().width / 2), -(this.getImageFile().height / 2),
-				this.getImageFile().width, this.getImageFile().height);
+				-(this.getImageFile().width / 2),
+				-(this.getImageFile().height / 2),
+				this.getImageFile().width,
+				this.getImageFile().height);
+		} else {
+			// have to be the negative half of width and height of the image for translation to get a fix rotation point in the middle of the image
+			ctx.drawImage(
+				this.getImageFile(),
+				-(this.getImageFile().width / 2),
+				-(this.getImageFile().height / 2));
 		}
 
 		// restore context to draw grid with default scale
