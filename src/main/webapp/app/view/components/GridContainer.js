@@ -161,7 +161,9 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		 * Translate the image to x- and y-axis position for start (minus the half of the image (for rotating!!))
 		 * source: http://creativejs.com/2012/01/day-10-drawing-rotated-images-into-canvas/
 		 */
-		ctx.translate(this.getOffsetX() + (this.getImageFile().width / 2), this.getOffsetY() + (this.getImageFile().height / 2));
+		var w = this.getImgRotation() % 2 === 0 ? this.getImageFile().width : this.getImageFile().height;
+		var h = this.getImgRotation() % 2 === 0 ? this.getImageFile().height : this.getImageFile().width;
+		ctx.translate(this.getOffsetX() + (w / 2), this.getOffsetY() + (h / 2));
 
 		/*
 		 * rotates the image in 90 degree steps clockwise. Steps are in the variable imgRotation
