@@ -138,11 +138,16 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 	},
 
 	initializeSound: function () {
-		this.sound = Ext.create('Ext.Audio', {
-			hidden: true,
-			loop: true,
-			url: 'resources/sounds/timer_sound.mp3'
-		});
+		try {
+			this.sound = Ext.create('Ext.Audio', {
+				hidden: true,
+				loop: true,
+				url: 'resources/sounds/timer_sound.mp3'
+			});
+		} catch (e) {
+			// Ext.create for Ext.Audio fails in IE
+			console.error('Could not create Ext.Audio component');
+		}
 	},
 
 	onSliderChange: function (me, thumb, newValue, oldValue) {
@@ -240,7 +245,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			this.hide();
 		}
 
-		if (this.sound.isPlaying()) {
+		if (this.sound && this.sound.isPlaying()) {
 			this.sound.setLoop(false);
 		}
 
@@ -331,13 +336,15 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 				if (this.seconds < this.getSecondsLeftTillAlert() * 1000) {
 					context.fillStyle = (this.seconds / 1000) % 2 > 1 ? "#971b2f" : "#4a5c66";
 
-					if (!this.sound.isPlaying() && this.running) {
-						this.sound.setVolume(0);
-						this.sound.play();
-					} else {
-						var tick = 100 / this.getSecondsLeftTillAlert();
-						var volume = (this.getSecondsLeftTillAlert() - (this.seconds / 1000)) * tick;
-						this.sound.setVolume(volume / 100);
+					if (this.sound) {
+						if (!this.sound.isPlaying() && this.running) {
+							this.sound.setVolume(0);
+							this.sound.play();
+						} else {
+							var tick = 100 / this.getSecondsLeftTillAlert();
+							var volume = (this.getSecondsLeftTillAlert() - (this.seconds / 1000)) * tick;
+							this.sound.setVolume(volume / 100);
+						}
 					}
 				}
 
