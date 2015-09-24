@@ -72,25 +72,6 @@ Ext.define("ARSnova.controller.Auth", {
 		});
 	},
 
-	con: function (options) {
-		ARSnova.loggedIn = true;
-		ARSnova.loginMode = ARSnova.LOGIN_GUEST;
-		ARSnova.userRole = ARSnova.USER_ROLE_STUDENT;
-
-		if (!localStorage.getItem('login')) {
-			localStorage.setItem('login', ARSnova.models.Auth.generateGuestName());
-		}
-		localStorage.setItem('loginMode', ARSnova.loginMode);
-		localStorage.setItem('role', ARSnova.userRole);
-		localStorage.setItem('ARSnovaCon', true);
-		sessionStorage.setItem('keyword', options.sessionid);
-
-		ARSnova.afterLogin();
-
-		window.location = window.location.pathname + "#";
-		Ext.dispatch({controller: 'sessions', action: 'login', keyword: options.sessionid});
-	},
-
 	roleSelect: function (options) {
 		ARSnova.app.userRole = options.mode;
 		localStorage.setItem('role', options.mode);
