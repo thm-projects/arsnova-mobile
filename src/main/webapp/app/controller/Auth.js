@@ -76,9 +76,10 @@ Ext.define("ARSnova.controller.Auth", {
 		ARSnova.app.userRole = options.mode;
 		localStorage.setItem('role', options.mode);
 
-		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) {
-			this.services.then(Ext.bind(function (services) {
-				var credibleLogins = services.filter(function (service) {
+		this.services.then(Ext.bind(function (services) {
+			var enabledServices;
+			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) {
+				enabledServices = services.filter(function (service) {
 					return ['ldap', 'cas'].indexOf(service.id) !== -1;
 				});
 				var guestLogin = services.filter(function (service) {
@@ -86,19 +87,27 @@ Ext.define("ARSnova.controller.Auth", {
 				});
 				var guest;
 
-				if (credibleLogins.length === 0 && guestLogin.length > 0) {
+				if (enabledServices.length === 0 && guestLogin.length > 0) {
 					this.login({service: guestLogin[0]});
 				} else {
 					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(
 						ARSnova.app.mainTabPanel.tabPanel.loginPanel, 'slide'
 					);
 				}
-			}, this));
-		} else {
-			ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(
-				ARSnova.app.mainTabPanel.tabPanel.loginPanel, 'slide'
-			);
-		}
+			} else {
+				enabledServices = services.filter(function (service) {
+					return service.allowLecturer;
+				});
+
+				if (enabledServices.length === 1) {
+					this.login({service: enabledServices[0]});
+				} else {
+					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(
+						ARSnova.app.mainTabPanel.tabPanel.loginPanel, 'slide'
+					);
+				}
+			}
+		}, this));
 	},
 
 	login: function (options) {
