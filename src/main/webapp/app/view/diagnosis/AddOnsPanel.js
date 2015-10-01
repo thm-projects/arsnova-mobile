@@ -145,7 +145,7 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 		this.on('activate', function () {
 			var features = Ext.decode(sessionStorage.getItem("features"));
 
-			if (features.custom) {
+			if (features && features.custom) {
 				this.featureFormPanel.setValues(features);
 			}
 		}, this);

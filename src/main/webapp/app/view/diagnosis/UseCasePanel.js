@@ -222,8 +222,8 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 		var featurePanel = Ext.create('ARSnova.view.diagnosis.AddOnsPanel', {
 			lastPanel: this,
 			options: this.config.options,
-			sessionCreationMode: this.config.sessionCreation,
-			inClassSessionEntry: !this.config.sessionCreation
+			sessionCreationMode: this.config.sessionCreationMode,
+			inClassSessionEntry: !this.config.sessionCreationMode
 		});
 
 		activePanel.animateActiveItem(featurePanel, {
