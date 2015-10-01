@@ -43,9 +43,7 @@ Ext.require([
 	'Ext.chart.CartesianChart',
 	'Ext.SegmentedButton',
 	'Ext.data.JsonStore',
-	'Ext.device.Device',
-	'Override.util.SizeMonitor',
-	'Override.util.PaintMonitor'
+	'Ext.device.Device'
 ]);
 
 Ext.application({
