@@ -1,6 +1,4 @@
 /**
- * @aside guide forms
- *
  * Simple Select field wrapper. Example usage:
  *
  *     @example
@@ -24,6 +22,8 @@
  *             }
  *         ]
  *     });
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.Select', {
     extend: 'Ext.field.Text',
@@ -197,7 +197,7 @@ Ext.define('Ext.field.Select', {
             component.input.dom.disabled = true;
         }
 
-        if (Ext.theme.is.Blackberry) {
+        if (Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103) {
             this.label.on({
                 scope: me,
                 tap: "onFocus"
@@ -206,7 +206,7 @@ Ext.define('Ext.field.Select', {
     },
 
     getElementConfig: function() {
-        if (Ext.theme.is.Blackberry) {
+        if (Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103) {
                 var prefix = Ext.baseCSSPrefix;
 
                 return {
@@ -585,7 +585,7 @@ Ext.define('Ext.field.Select', {
 
     // @private
     updateLabelWidth: function() {
-        if (Ext.theme.is.Blackberry) {
+        if (Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103) {
             return;
         } else {
             this.callParent(arguments);
@@ -594,7 +594,7 @@ Ext.define('Ext.field.Select', {
 
     // @private
     updateLabelAlign: function() {
-        if (Ext.theme.is.Blackberry) {
+        if (Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103) {
             return;
         } else {
             this.callParent(arguments);

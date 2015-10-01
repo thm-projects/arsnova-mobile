@@ -92,9 +92,9 @@
  *         });
  *     }
  *
- * @mixins Ext.device.sqlite.Sencha
+ * For more information regarding Native APIs, please review our [Native APIs guide](../../../packaging/native_apis.html).
  *
- * @aside guide native_apis
+ * @mixins Ext.device.sqlite.Sencha
  */
 Ext.define('Ext.device.SQLite', {
     singleton: true,

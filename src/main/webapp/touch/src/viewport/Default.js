@@ -93,7 +93,7 @@ Ext.define('Ext.viewport.Default', {
          *         ]
          *     });
          *
-         * See the [layouts guide](#!/guides/layouts) for more information.
+         * See the [layouts guide](../../../core_concepts/layouts.html) for more information.
          *
          * @accessor
          */
@@ -117,7 +117,22 @@ Ext.define('Ext.viewport.Default', {
          * An object of all the menus on this viewport.
          * @private
          */
-        menus: {}
+        menus: {},
+
+        /**
+         * @private
+         */
+        orientation: null
+    },
+
+    getElementConfig: function() {
+        var cfg = this.callParent(arguments);
+
+        // Used in legacy browser that do not support matchMedia. Hidden element is used for checking of orientation
+        if (!Ext.feature.has.MatchMedia) {
+            cfg.children.unshift({reference: 'orientationElement', className: 'x-orientation-inspector'});
+        }
+        return cfg;
     },
 
     /**
@@ -160,23 +175,18 @@ Ext.define('Ext.viewport.Default', {
 
         this.callSuper([config]);
 
-        this.orientation = this.determineOrientation();
         this.windowWidth = this.getWindowWidth();
         this.windowHeight = this.getWindowHeight();
         this.windowOuterHeight = this.getWindowOuterHeight();
 
         if (!this.stretchHeights) {
-        this.stretchHeights = {};
+            this.stretchHeights = {};
         }
 
-        // Android is handled separately
-        if (!Ext.os.is.Android || Ext.browser.is.ChromeMobile) {
-            if (this.supportsOrientation()) {
-                this.addWindowListener('orientationchange', bind(this.onOrientationChange, this));
-            }
-            else {
-                this.addWindowListener('resize', bind(this.onResize, this));
-            }
+        if(Ext.feature.has.OrientationChange) {
+            this.addWindowListener('orientationchange', bind(this.onOrientationChange, this));
+        } else {
+            this.addWindowListener('resize', bind(this.onResize, this));
         }
 
         document.addEventListener('focus', bind(this.onElementFocus, this), true);
@@ -185,9 +195,7 @@ Ext.define('Ext.viewport.Default', {
         Ext.onDocumentReady(this.onDomReady, this);
 
         this.on('ready', this.onReady, this, {single: true});
-
         this.getEventDispatcher().addListener('component', '*', 'fullscreen', 'onItemFullscreenChange', this);
-
         return this;
     },
 
@@ -222,8 +230,7 @@ Ext.define('Ext.viewport.Default', {
                 osEnv = Ext.os,
                 osName = osEnv.name.toLowerCase(),
                 browserName = Ext.browser.name.toLowerCase(),
-                osMajorVersion = osEnv.version.getMajor(),
-                orientation = this.getOrientation();
+                osMajorVersion = osEnv.version.getMajor();
 
             this.renderTo(body);
 
@@ -263,8 +270,8 @@ Ext.define('Ext.viewport.Default', {
                 classList.push(clsPrefix + 'google-glass');
             }
 
-            classList.push(clsPrefix + orientation);
-
+            this.setOrientation(this.determineOrientation());
+            classList.push(clsPrefix + this.getOrientation());
             body.addCls(classList);
         }
     },
@@ -429,39 +436,51 @@ Ext.define('Ext.viewport.Default', {
         return this.callSuper(arguments);
     },
 
-    supportsOrientation: function() {
-        return Ext.feature.has.Orientation;
-    },
-
-    onResize: function() {
-        var oldWidth = this.windowWidth,
-            oldHeight = this.windowHeight,
-            width = this.getWindowWidth(),
-            height = this.getWindowHeight(),
-            currentOrientation = this.getOrientation(),
-            newOrientation = this.determineOrientation();
-
-        // Determine orientation change via resize. BOTH width AND height much change, otherwise
-        // this is a keyboard popping up.
-        if ((oldWidth !== width && oldHeight !== height) && currentOrientation !== newOrientation) {
-            this.fireOrientationChangeEvent(newOrientation, currentOrientation);
+    determineOrientation: function() {
+        // First attempt will be to use Native Orientation information
+        if (Ext.feature.has.Orientation) {
+            var nativeOrientation= this.getWindowOrientation();
+            // 90 || -90 || 270 is landscape
+            if (Math.abs(nativeOrientation) === 90 || nativeOrientation === 270) {
+                return this.LANDSCAPE;
+            } else {
+                return this.PORTRAIT;
+            }
+        // Second attempt will be to use MatchMedia and a media query
+        } else if (Ext.feature.has.MatchMedia) {
+            return window.matchMedia('(orientation : landscape)').matches ? this.LANDSCAPE : this.PORTRAIT;
+        // Fall back on hidden element with media query attached to it (media query in Base Theme)
+        } else if (this.orientationElement) {
+            return this.orientationElement.getStyle('content');
         }
     },
 
+    updateOrientation: function(newValue, oldValue) {
+        if (oldValue) {
+            this.fireOrientationChangeEvent(newValue, oldValue);
+        }
+    },
+
+    /**
+     * Listener for Orientation Change in environments that support orientationchange events
+     * @private
+     */
     onOrientationChange: function() {
-        var currentOrientation = this.getOrientation(),
-            newOrientation = this.determineOrientation();
+        this.setOrientation(this.determineOrientation());
+    },
 
-        if (newOrientation !== currentOrientation) {
-            this.fireOrientationChangeEvent(newOrientation, currentOrientation);
-        }
+    /**
+     * Listener for Orientation Change in environments that do no support orientationchange events
+     * @private
+     */
+    onResize: function() {
+        this.updateSize();
+        this.setOrientation(this.determineOrientation());
     },
 
     fireOrientationChangeEvent: function(newOrientation, oldOrientation) {
         var clsPrefix = Ext.baseCSSPrefix;
         Ext.getBody().replaceCls(clsPrefix + oldOrientation, clsPrefix + newOrientation);
-
-        this.orientation = newOrientation;
 
         this.updateSize();
         this.fireEvent('orientationchange', this, newOrientation, this.windowWidth, this.windowHeight);
@@ -472,39 +491,6 @@ Ext.define('Ext.viewport.Default', {
         this.windowHeight = height !== undefined ? height : this.getWindowHeight();
 
         return this;
-    },
-
-    waitUntil: function(condition, onSatisfied, onTimeout, delay, timeoutDuration) {
-        if (!delay) {
-            delay = 50;
-        }
-
-        if (!timeoutDuration) {
-            timeoutDuration = 2000;
-        }
-
-        var scope = this,
-            elapse = 0;
-
-        setTimeout(function repeat() {
-            elapse += delay;
-
-            if (condition.call(scope) === true) {
-                if (onSatisfied) {
-                    onSatisfied.call(scope);
-                }
-            }
-            else {
-                if (elapse >= timeoutDuration) {
-                    if (onTimeout) {
-                        onTimeout.call(scope);
-                    }
-                }
-                else {
-                    setTimeout(repeat, delay);
-                }
-            }
-        }, delay);
     },
 
     maximize: function() {
@@ -556,14 +542,6 @@ Ext.define('Ext.viewport.Default', {
         return window.orientation;
     },
 
-    /**
-     * Returns the current orientation.
-     * @return {String} `portrait` or `landscape`
-     */
-    getOrientation: function() {
-        return this.orientation;
-    },
-
     getSize: function() {
         return {
             width: this.windowWidth,
@@ -571,29 +549,41 @@ Ext.define('Ext.viewport.Default', {
         };
     },
 
-    determineOrientation: function() {
-        var portrait = this.PORTRAIT,
-            landscape = this.LANDSCAPE;
-
-        if (!Ext.os.is.Android && this.supportsOrientation()) {
-            if (this.getWindowOrientation() % 180 === 0) {
-                return portrait;
-            }
-
-            return landscape;
-        }
-        else {
-            if (this.getWindowHeight() >= this.getWindowWidth()) {
-                return portrait;
-            }
-
-            return landscape;
-        }
-    },
-
     onItemFullscreenChange: function(item) {
         item.addCls(this.fullscreenItemCls);
         this.add(item);
+    },
+    waitUntil: function(condition, onSatisfied, onTimeout, delay, timeoutDuration) {
+        if (!delay) {
+            delay = 50;
+        }
+
+        if (!timeoutDuration) {
+            timeoutDuration = 2000;
+        }
+
+        var scope = this,
+            elapse = 0;
+
+        setTimeout(function repeat() {
+            elapse += delay;
+
+            if (condition.call(scope) === true) {
+                if (onSatisfied) {
+                    onSatisfied.call(scope);
+                }
+            }
+            else {
+                if (elapse >= timeoutDuration) {
+                    if (onTimeout) {
+                        onTimeout.call(scope);
+                    }
+                }
+                else {
+                    setTimeout(repeat, delay);
+                }
+            }
+        }, delay);
     },
 
     /**

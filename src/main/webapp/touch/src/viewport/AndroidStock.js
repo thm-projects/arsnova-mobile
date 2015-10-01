@@ -2,8 +2,9 @@
  * @private
  * Android version of viewport.
  */
-Ext.define('Ext.viewport.Android', {
+Ext.define('Ext.viewport.AndroidStock', {
     extend: 'Ext.viewport.Default',
+    alternateClassName: ['Ext.viewport.Android'],
 
     config: {
         translatable: {
@@ -15,11 +16,6 @@ Ext.define('Ext.viewport.Android', {
         this.on('orientationchange', 'hideKeyboardIfNeeded', this, { prepend: true });
 
         this.callSuper(arguments);
-
-        // Viewport is initialized before event system, we need to wait until the application is ready before
-        // we add the resize listener. Otherwise it will only fire if another resize listener is added later.
-        var me = this;
-        Ext.onReady(function() { Ext.getBody().on('resize', me.onResize, me);});
     },
 
     getWindowWidth: function () {
@@ -89,44 +85,13 @@ Ext.define('Ext.viewport.Android', {
         }
     },
 
-    doFireOrientationChangeEvent: function() {
-        var eventController = arguments[arguments.length - 1];
-
-        this.orientationChanging = true;
-
-        eventController.pause();
-
-        this.waitUntil(function() {
-            return this.getWindowOuterHeight() !== this.windowOuterHeight;
-        }, function() {
-            this.windowOuterHeight = this.getWindowOuterHeight();
-            this.updateSize();
-
-            eventController.firingArguments[2] = this.windowWidth;
-            eventController.firingArguments[3] = this.windowHeight;
-            eventController.resume();
-            this.orientationChanging = false;
-
-        }, function() {
-            //<debug error>
-            Ext.Logger.error("Timeout waiting for viewport's outerHeight to change before firing orientationchange", this);
-            //</debug>
-        });
-
-        return this;
-    },
-
-    determineOrientation: function() {
-        return (this.getWindowHeight() >= this.getWindowWidth()) ? this.PORTRAIT : this.LANDSCAPE;
-    },
-
     getActualWindowOuterHeight: function() {
         return Math.round(this.getWindowOuterHeight() / window.devicePixelRatio);
     },
 
     maximize: function() {
         var stretchHeights = this.stretchHeights,
-            orientation = this.orientation,
+            orientation = this.getOrientation(),
             height;
 
         height = stretchHeights[orientation];
@@ -150,28 +115,6 @@ Ext.define('Ext.viewport.Android', {
     isHeightMaximized: function(height) {
         this.scrollToTop();
         return this.getWindowHeight() === height;
-    },
-
-    supportsOrientation: function () {
-        return false;
-    },
-
-    onResize: function () {
-        this.waitUntil(function () {
-            var oldWidth = this.windowWidth,
-                oldHeight = this.windowHeight,
-                width = this.getWindowWidth(),
-                height = this.getWindowHeight(),
-                currentOrientation = this.getOrientation(),
-                newOrientation = this.determineOrientation();
-
-            return ((oldWidth !== width && oldHeight !== height) && currentOrientation !== newOrientation);
-        }, function () {
-            var currentOrientation = this.getOrientation(),
-                newOrientation = this.determineOrientation();
-
-            this.fireOrientationChangeEvent(newOrientation, currentOrientation);
-         }, Ext.emptyFn, 250);
     },
 
     doPreventZooming: function (e) {

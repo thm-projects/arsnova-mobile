@@ -1,7 +1,4 @@
 /**
- * @aside video list
- * @aside guide list
- *
  * IndexBar is a component used to display a list of data (primarily an alphabet) which can then be used to quickly
  * navigate through a list (see {@link Ext.List}) of data. When a user taps on an item in the {@link Ext.IndexBar},
  * it will fire the {@link #index} event.
@@ -53,6 +50,8 @@
  *        hideOnMaskTap: false
  *     });
  *
+ * ###Further Reading
+ * [Sencha Touch DataView Guide](../../../components/list.html)
 */
 Ext.define('Ext.dataview.IndexBar', {
     extend: 'Ext.Component',
@@ -95,7 +94,7 @@ Ext.define('Ext.dataview.IndexBar', {
     },
     platformConfig: [
         {
-            theme: ['Blackberry'],
+            theme: ['Blackberry', 'Blackberry103'],
             direction: 'vertical',
             letters: ['*', '#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
         }
@@ -111,7 +110,7 @@ Ext.define('Ext.dataview.IndexBar', {
 
     getElementConfig: function() {
         // Blackberry Specific code for Index Bar Indicator
-        if(Ext.theme.is.Blackberry) {
+        if (Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103) {
             return {
                 reference: 'wrapper',
                 classList: ['x-centered', 'x-indexbar-wrapper'],

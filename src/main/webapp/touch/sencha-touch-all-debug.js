@@ -1,7 +1,7 @@
 /*
 This file is part of Sencha Touch 2.4
 
-Copyright (c) 2011-2014 Sencha Inc
+Copyright (c) 2011-2015 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
@@ -16,7 +16,7 @@ requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 If you are unsure which license is appropriate for your use, please contact the sales department
 at http://www.sencha.com/contact.
 
-Build date: 2014-10-22 11:38:23 (733f32116ad89611b6e3f1861049fa2f7733e61d)
+Build date: 2015-06-10 14:41:48 (dd5f81fb46d0676281fdd021ada1da3ef06abd27)
 */
 //@tag foundation,core
 //@define Ext
@@ -679,7 +679,7 @@ Build date: 2014-10-22 11:38:23 (733f32116ad89611b6e3f1861049fa2f7733e61d)
 (function() {
 
 // Current core version
-var version = '2.4.1.527', Version;
+var version = '2.4.2.571', Version;
     Ext.Version = Version = Ext.extend(Object, {
 
         /**
@@ -3853,17 +3853,14 @@ Ext.Date = {
 
 /**
  * @class Ext.Base
- *
  * @author Jacky Nguyen <jacky@sencha.com>
- * @aside guide class_system
- * @aside video class-system
  *
  * The root of all classes created with {@link Ext#define}.
  *
  * Ext.Base is the building block of all Ext classes. All classes in Ext inherit from Ext.Base. All prototype and static
  * members of this class are inherited by all other classes.
  *
- * See the [Class System Guide](#!/guide/class_system) for more.
+ * See the [Class System Guide](../../../core_concepts/class_system.html) for more.
  *
  */
 (function(flexSetter) {
@@ -5197,10 +5194,7 @@ var noArgs = [],
 
 /**
  * @class Ext.Class
- *
  * @author Jacky Nguyen <jacky@sencha.com>
- * @aside guide class_system
- * @aside video class-system
  *
  * Handles class creation throughout the framework. This is a low level factory that is used by Ext.ClassManager and generally
  * should not be used directly. If you choose to use Ext.Class you will lose out on the namespace, aliasing and dependency loading
@@ -5211,6 +5205,8 @@ var noArgs = [],
  *
  * Ext.Class is the factory and **not** the superclass of everything. For the base class that **all** Ext classes inherit
  * from, see {@link Ext.Base}.
+ *
+ * For more information about Sencha Touch's Class System, please check out the [class system guide](../../../core_concepts/class_system.html).
  */
 (function() {
     var ExtClass,
@@ -6093,10 +6089,7 @@ var noArgs = [],
 
 /**
  * @class  Ext.ClassManager
- *
  * @author Jacky Nguyen <jacky@sencha.com>
- * @aside guide class_system
- * @aside video class-system
  *
  * Ext.ClassManager manages all classes and handles mapping from string class name to
  * actual class objects throughout the whole framework. It is not generally accessed directly, rather through
@@ -6108,6 +6101,8 @@ var noArgs = [],
  * - {@link Ext#getClass Ext.getClass}
  * - {@link Ext#getClassName Ext.getClassName}
  *
+ * For more information about Sencha Touch's Class System, please check out the [class system guide](../../../core_concepts/class_system.html).
+ * 
  * ## Basic syntax:
  *
  *     Ext.define(className, properties);
@@ -7708,7 +7703,6 @@ var noArgs = [],
  *
  * @author Jacky Nguyen <jacky@sencha.com>
  * @docauthor Jacky Nguyen <jacky@sencha.com>
- * @aside guide mvc_dependencies
  *
  * Ext.Loader is the heart of the new dynamic dependency loading capability in Ext JS 4+. It is most commonly used
  * via the {@link Ext#require} shorthand. Ext.Loader supports both asynchronous and synchronous loading
@@ -7840,9 +7834,7 @@ var noArgs = [],
  * possible. Internally {@link Ext.Loader#history Ext.Loader.history} maintains the list of all dependencies your application
  * needs in the exact loading sequence. It's as simple as concatenating all files in this array into one,
  * then include it on top of your application.
- *
- * This process will be automated with Sencha Command, to be released and documented towards Ext JS 4 Final.
- *
+ * 
  * @singleton
  */
 (function(Manager, Class, flexSetter, alias, pass, arrayFrom, arrayErase, arrayInclude) {
@@ -9018,16 +9010,15 @@ var noArgs = [],
  * functions (like {@link #apply}, {@link #min} and others), but most of the framework that you use day to day exists
  * in specialized classes (for example {@link Ext.Panel}, {@link Ext.Carousel} and others).
  *
- * If you are new to Sencha Touch we recommend starting with the [Getting Started Guide][getting_started] to
+ * If you are new to Sencha Touch we recommend starting with the [Getting Started Guide][../../../getting_started/getting_started.html] to
  * get a feel for how the framework operates. After that, use the more focused guides on subjects like panels, forms and data
- * to broaden your understanding. The MVC guides take you through the process of building full applications using the
- * framework, and detail how to deploy them to production.
+ * to broaden your understanding. 
  *
  * The functions listed below are mostly utility functions used internally by many of the classes shipped in the
  * framework, but also often useful in your own apps.
  *
  * A method that is crucial to beginning your application is {@link #setup Ext.setup}. Please refer to it's documentation, or the
- * [Getting Started Guide][getting_started] as a reference on beginning your application.
+ * [Getting Started Guide][../../../getting_started/getting_started.html] as a reference on beginning your application.
  *
  *     Ext.setup({
  *         onReady: function() {
@@ -9038,9 +9029,10 @@ var noArgs = [],
  *         }
  *     });
  *
- * [getting_started]: #!/guide/getting_started
+ * ###Further Reading
+ * [Getting Started Guide](../../../getting_started/getting_started.html)
  */
-Ext.setVersion('touch', '2.4.1.527');
+Ext.setVersion('touch', '2.4.2.571');
 
 Ext.apply(Ext, {
     /**
@@ -10803,7 +10795,7 @@ Ext.define('Ext.env.Browser', {
      *
      * For a full list of supported values, refer to {@link #is} property/method.
      *
-     * @aside guide environment_package
+     * For more information, see the [Environment Detect Guide](../../../core_concepts/environment_detection.html)
      */
     var browserEnv = Ext.browser = new this(Ext.global.navigator.userAgent);
 
@@ -11049,7 +11041,7 @@ Ext.define('Ext.env.OS', {
      *
      * For a full list of supported values, refer to the {@link #is} property/method.
      *
-     * @aside guide environment_package
+     * For more information, see the [Environment Detect Guide](../../../core_concepts/environment_detection.html)
      */
     Ext.os = osEnv = new this(userAgent, navigation.platform);
 
@@ -11076,7 +11068,7 @@ Ext.define('Ext.env.OS', {
             // always set it to false when you are on a desktop not using Ripple Emulation
             Ext.browser.is.WebView = Ext.browser.is.Ripple ? true : false;
         }
-        else if (osEnv.is.iPad || osEnv.is.RIMTablet || osEnv.is.Android3 || Ext.browser.is.Silk || (osEnv.is.Android4 && userAgent.search(/mobile/i) == -1)) {
+        else if (osEnv.is.iPad || osEnv.is.RIMTablet || osEnv.is.Android3 || Ext.browser.is.Silk || (osEnv.is.Android && userAgent.search(/mobile/i) == -1)) {
             deviceType = 'Tablet';
         }
         else {
@@ -11263,7 +11255,7 @@ Ext.define('Ext.env.Feature', {
      *
      * See the {@link #has} property/method for details of the features that can be detected.
      *
-     * @aside guide environment_package
+     * For more information, see the [Environment Detect Guide](../../../core_concepts/environment_detection.html)
      */
     Ext.feature = new this;
 
@@ -11352,7 +11344,7 @@ Ext.define('Ext.env.Feature', {
         },
 
         Orientation: function() {
-            return ('orientation' in window) && this.isEventSupported('orientationchange');
+            return 'orientation' in window;
         },
 
         OrientationChange: function() {
@@ -11442,6 +11434,10 @@ Ext.define('Ext.env.Feature', {
             } catch ( e ) {}
 
             return supported;
+        },
+
+        MatchMedia: function() {
+            return "matchMedia" in window;
         },
 
         XHR2 : function() {
@@ -15994,7 +15990,7 @@ Ext.define('Ext.mixin.Mixin', {
  *
  *     newEmployee.quitJob(); // Will log 'Ed Spencer has quit!'
  *
- *  @aside guide events
+ * For more information, please check out our [Events Guide](../../../core_concepts/events.html).
  */
 Ext.define('Ext.mixin.Observable', {
 
@@ -16034,7 +16030,7 @@ Ext.define('Ext.mixin.Observable', {
          * should be a valid listeners `config` object as specified in the {@link #addListener} example for attaching
          * multiple handlers at once.
          *
-         * See the [Event guide](#!/guide/events) for more
+         * See the [Events Guide](../../../core_concepts/events.html) for more
          *
          * __Note:__ It is bad practice to specify a listener's `config` when you are defining a class using `Ext.define()`.
          * Instead, only specify listeners when you are instantiating your class with `Ext.create()`.
@@ -16469,7 +16465,7 @@ Ext.define('Ext.mixin.Observable', {
      *         swipe: { fn: button.onSwipe, scope: button }
      *     });
      *
-     * See the [Events Guide](#!/guide/events) for more.
+     * See the [Events Guide](../../../core_concepts/events.html) for more.
      *
      * @param {String/String[]/Object} eventName The name of the event to listen for. May also be an object who's property names are
      * event names.
@@ -22154,7 +22150,7 @@ Ext.define('Ext.behavior.Draggable', {
  * ### Common xtypes
  *
  * These are the xtypes that are most commonly used. For an exhaustive list please see the
- * [Components Guide](#!/guide/components).
+ * [Components Guide](../../../core_concepts/components.html).
  *
  * <pre>
  xtype                   Class
@@ -22235,11 +22231,8 @@ Ext.define('Ext.behavior.Draggable', {
  *
  * ## Further Reading
  *
- * See the [Component & Container Guide](#!/guide/components) for more information, and check out the
+ * See the [Component & Container Guide](../../../core_concepts/components.html) for more information, and check out the
  * {@link Ext.Container} class docs also.
- *
- * @aside guide components
- * @aside guide events
  *
  */
 Ext.define('Ext.Component', {
@@ -25513,17 +25506,13 @@ Ext.define('Ext.layout.Default', {
 });
 
 /**
- * @aside guide layouts
- * @aside video layouts
- *
  * Box is a superclass for the two box layouts:
  *
  * * {@link Ext.layout.HBox hbox}
  * * {@link Ext.layout.VBox vbox}
  *
  * Box itself is never used directly, but its subclasses provide flexible arrangement of child components
- * inside a {@link Ext.Container Container}. For a full overview of layouts check out the
- * [Layout Guide](#!/guide/layouts).
+ * inside a {@link Ext.Container Container}. 
  *
  * ## Horizontal Box
  *
@@ -25537,13 +25526,16 @@ Ext.define('Ext.layout.Default', {
  *
  * ## Vertical Box
  *
- * VBox allows you to easily lay out child components verticaly. It can size items based on a fixed height or a
+ * VBox allows you to easily lay out child components vertically. It can size items based on a fixed height or a
  * fraction of the total height available, enabling you to achieve flexible layouts that expand or contract to fill the
  * space available.
  *
  * {@img ../guides/layouts/vbox.jpg}
  *
  * See the {@link Ext.layout.VBox VBox layout docs} for more information on using vboxes.
+ *
+ * For a more detailed overview of Sencha Touch 2 layouts, check out the
+ * [Layout Guide](../../../core_concepts/layouts.html).
  */
 Ext.define('Ext.layout.Box', {
     extend:  Ext.layout.Default ,
@@ -25560,7 +25552,7 @@ Ext.define('Ext.layout.Box', {
          * - ** end ** : child items are packed together at right side of container
          * - **stretch** : child items are stretched vertically to fill the height of the container
          *
-         * Please see the 'Pack and Align' section of the [Layout guide](#!/guide/layouts) for a detailed example and
+         * Please see the 'Pack and Align' section of the [Events Guide](../../../core_concepts/events.html) for a detailed example and
          * explanation.
          * @accessor
          */
@@ -25576,7 +25568,7 @@ Ext.define('Ext.layout.Box', {
          * - ** end ** : child items are packed together at right side of container
          * - ** justify ** : child items are packed evenly across the container. Uses the 'justify-content: space-between' css property
          *
-         * Please see the 'Pack and Align' section of the [Layout guide](#!/guide/layouts) for a detailed example and
+         * Please see the 'Pack and Align' section of the [Events Guide](../../../core_concepts/events.html) for a detailed example and
          * explanation.
          * @accessor
          */
@@ -25611,17 +25603,13 @@ Ext.define('Ext.layout.Box', {
 });
 
 /**
- * @aside guide layouts
- * @aside video layouts
- *
  * AbstractBox is a superclass for the two box layouts:
  *
  * * {@link Ext.layout.HBox hbox}
  * * {@link Ext.layout.VBox vbox}
  *
  * FlexBox itself is never used directly, but its subclasses provide flexible arrangement of child components
- * inside a {@link Ext.Container Container}. For a full overview of layouts check out the
- * [Layout Guide](#!/guide/layouts).
+ * inside a {@link Ext.Container Container}. 
  *
  * ## Horizontal Box
  *
@@ -25635,13 +25623,16 @@ Ext.define('Ext.layout.Box', {
  *
  * ## Vertical Box
  *
- * VBox allows you to easily lay out child components verticaly. It can size items based on a fixed height or a
+ * VBox allows you to easily lay out child components vertically. It can size items based on a fixed height or a
  * fraction of the total height available, enabling you to achieve flexible layouts that expand or contract to fill the
  * space available.
  *
  * {@img ../guides/layouts/vbox.jpg}
  *
  * See the {@link Ext.layout.VBox VBox layout docs} for more information on using vboxes.
+ *
+ * For a more detailed overview of Sencha Touch 2 layouts, check out the
+ * [Layout Guide](../../../core_concepts/layouts.html).
  */
 Ext.define('Ext.layout.FlexBox', {
     extend:  Ext.layout.Box ,
@@ -25859,9 +25850,6 @@ Ext.define('Ext.layout.FlexBox', {
 });
 
 /**
- * @aside guide layouts
- * @aside video layouts
- *
  * The HBox (short for horizontal box) layout makes it easy to position items horizontally in a
  * {@link Ext.Container Container}. It can size items based on a fixed width or a fraction of the total width
  * available.
@@ -25921,8 +25909,8 @@ Ext.define('Ext.layout.FlexBox', {
  *
  * {@img ../guides/layouts/hboxfixed.jpg}
  *
- * For a more detailed overview of what layouts are and the types of layouts shipped with Sencha Touch 2, check out the
- * [Layout Guide](#!/guide/layouts).
+ * For a more detailed overview of Sencha Touch 2 layouts, check out the
+ * [Layout Guide](../../../core_concepts/layouts.html).
  */
 Ext.define('Ext.layout.HBox', {
     extend:  Ext.layout.FlexBox ,
@@ -26212,9 +26200,6 @@ Ext.define('Ext.layout.wrapper.Dock', {
 });
 
 /**
- * @aside guide layouts
- * @aside video layouts
- *
  * The VBox (short for vertical box) layout makes it easy to position items horizontally in a
  * {@link Ext.Container Container}. It can size items based on a fixed height or a fraction of the total height
  * available.
@@ -26274,8 +26259,8 @@ Ext.define('Ext.layout.wrapper.Dock', {
  *
  * {@img ../guides/layouts/vboxfixed.jpg}
  *
- * For a more detailed overview of what layouts are and the types of layouts shipped with Sencha Touch 2, check out the
- * [Layout Guide](#!/guide/layouts).
+ * For a more detailed overview of Sencha Touch 2 layouts, check out the
+ * [Layout Guide](../../../core_concepts/layouts.html).
  *
  */
 Ext.define('Ext.layout.VBox', {
@@ -27850,9 +27835,6 @@ Ext.define('Ext.fx.layout.Card', {
 });
 
 /**
- * @aside guide layouts
- * @aside video layouts
- *
  * Sometimes you want to show several screens worth of information but you've only got a small screen to work with.
  * TabPanels and Carousels both enable you to see one screen of many at a time, and underneath they both use a Card
  * Layout.
@@ -27892,8 +27874,8 @@ Ext.define('Ext.fx.layout.Card', {
  * so 1 corresponds to the second item). Normally you're better off using a {@link Ext.tab.Panel tab panel} or a
  * {@link Ext.carousel.Carousel carousel}.
  *
- * For a more detailed overview of what layouts are and the types of layouts shipped with Sencha Touch 2, check out the
- * [Layout Guide](#!/guide/layouts).
+ * For a more detailed overview of Sencha Touch 2 layouts, check out the
+ * [Layout Guide](../../../core_concepts/layouts.html).
  */
 
 
@@ -32617,12 +32599,12 @@ Ext.define('Ext.Mask', {
  *
  * - Adding child Components at instantiation and run time
  * - Removing child Components
- * - Specifying a [Layout](#!/guide/layouts)
+ * - Specifying a [Layout](../../../core_concepts/layouts.html)
  *
  * Layouts determine how the child Components should be laid out on the screen. In our mail app example we'd use an
  * HBox layout so that we can pin the email list to the left hand edge of the screen and allow the preview pane to
  * occupy the rest. There are several layouts in Sencha Touch 2, each of which help you achieve your desired
- * application structure, further explained in the [Layout guide](#!/guide/layouts).
+ * application structure, further explained in the [Layout guide](../../../core_concepts/layouts.html).
  *
  * ## Adding Components to Containers
  *
@@ -32675,11 +32657,8 @@ Ext.define('Ext.Mask', {
  *
  * ## Further Reading
  *
- * See the [Component & Container Guide](#!/guide/components) for more information, and check out the
+ * See the [Component & Container Guide](../../../core_concepts/components.html) for more information, and check out the
  * {@link Ext.Container} class docs also.
- *
- * @aside guide components
- * @aside guide layouts
  */
 Ext.define('Ext.Container', {
     extend:  Ext.Component ,
@@ -32807,7 +32786,7 @@ Ext.define('Ext.Container', {
          *         ]
          *     });
          *
-         * See the [Layouts Guide](#!/guide/layouts) for more information.
+         * See the [Layouts Guide](../../../core_concepts/layouts.html) for more information.
          *
          * @accessor
          */
@@ -34398,8 +34377,6 @@ Ext.define('Ext.util.LineSegment', {
 });
 
 /**
- * @aside guide floating_components
- *
  * Panels are most useful as Overlays - containers that float over your application. They contain extra styling such
  * that when you {@link #showBy} another component, the container will appear in a rounded black box with a 'tip'
  * pointing to a reference component.
@@ -34433,6 +34410,7 @@ Ext.define('Ext.util.LineSegment', {
  *          padding: 10
  *      }).showBy(button);
  *
+ * For more information, see our [Floating Components Guide](../../../components/floating_components.html).
  */
 Ext.define('Ext.Panel', {
     extend:  Ext.Container ,
@@ -36609,8 +36587,6 @@ Ext.define('Ext.data.Connection', {
 });
 
 /**
- * @aside guide ajax
- *
  * A singleton instance of an {@link Ext.data.Connection}. This class
  * is used to communicate with your server side code. It can be used as follows:
  *
@@ -36643,6 +36619,9 @@ Ext.define('Ext.data.Connection', {
  * The main reason for creating a separate {@link Ext.data.Connection} is for a
  * series of requests that share common settings that are different to all other
  * requests in the application.
+ *
+ * For more information about utilizing AJAX in Sencha Touch, please review 
+ * our [AJAX Guide](../../../core_concepts/using_ajax.html).
  */
 Ext.define('Ext.Ajax', {
     extend:  Ext.data.Connection ,
@@ -37724,7 +37703,6 @@ Ext.define('Ext.Media', {
  *             }
  *         ]
  *     });
- * @aside example audio
  */
 Ext.define('Ext.Audio', {
     extend:  Ext.Media ,
@@ -38211,7 +38189,6 @@ Ext.define('Ext.util.Geolocation', {
  *         useCurrentLocation: true
  *     });
  *
- * @aside example maps
  */
 Ext.define('Ext.Map', {
     extend:  Ext.Container ,
@@ -39978,7 +39955,7 @@ Ext.define('Ext.Menu', {
     platformConfig: [{
         theme: ['Windows']
     }, {
-        theme: ['Blackberry'],
+        theme: ['Blackberry', 'Blackberry103'],
         ui: 'context',
         layout: {
             pack: 'center'
@@ -39988,7 +39965,7 @@ Ext.define('Ext.Menu', {
     updateUi: function(newUi, oldUi) {
         this.callParent(arguments);
 
-        if (newUi != oldUi && Ext.theme.is.Blackberry) {
+        if (newUi != oldUi && (Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103)) {
             if (newUi == 'context') {
                 this.innerElement.swapCls('x-vertical', 'x-horizontal');
             }
@@ -40191,8 +40168,6 @@ Ext.define('Ext.Spacer', {
 });
 
 /**
- * @aside video tabs-toolbars
- *
  * {@link Ext.Toolbar}s are most commonly used as docked items as within a {@link Ext.Container}. They can be docked either `top` or `bottom` using the {@link #docked} configuration.
  *
  * They allow you to insert items (normally {@link Ext.Button buttons}) and also add a {@link #title}.
@@ -40353,7 +40328,7 @@ Ext.define('Ext.Toolbar', {
          *         ]
          *     });
          *
-         * See the [layouts guide](#!/guides/layouts) for more information
+         * See the [layouts guide](../../../core_concepts/layouts.html) for more information
          *
          * __Note:__ If you set the {@link #docked} configuration to `left` or `right`, the default layout will change from the
          * `hbox` to a `vbox`.
@@ -41343,8 +41318,6 @@ Ext.define('Ext.field.Input', {
 });
 
 /**
- * @aside guide forms
- *
  * Field is the base class for all form fields used in Sencha Touch. It provides a lot of shared functionality to all
  * field subclasses (for example labels, simple validation, {@link #clearIcon clearing} and tab index management), but
  * is rarely used directly. Instead, it is much more common to use one of the field subclasses:
@@ -41367,6 +41340,8 @@ Ext.define('Ext.field.Input', {
  * for usage of individual field types. If you wish to create your own Field subclasses you can extend this class,
  * though it is sometimes more useful to extend {@link Ext.field.Text} as this provides additional text entry
  * functionality.
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.Field', {
     extend:  Ext.Decorator ,
@@ -41488,7 +41463,7 @@ Ext.define('Ext.field.Field', {
     },
 
     platformConfig: [{
-        theme: ['Windows', 'MountainView', 'Blackberry', 'Tizen'],
+        theme: ['Windows', 'MountainView', 'Blackberry', 'Blackberry103', 'Tizen'],
         labelAlign: 'top'
     }],
 
@@ -41692,8 +41667,6 @@ Ext.define('Ext.field.Field', {
 });
 
 /**
- * @aside guide forms
- *
  * The text field is the basis for most of the input fields in Sencha Touch. It provides a baseline of shared
  * functionality such as input validation, standard events, state management and look and feel. Typically we create
  * text fields inside a form, like this:
@@ -41756,6 +41729,8 @@ Ext.define('Ext.field.Field', {
  * Text field inherits from {@link Ext.field.Field}, which is the base class for all fields in Sencha Touch and provides
  * a lot of shared functionality for all fields, including setting values, clearing and basic validation. See the
  * {@link Ext.field.Field} documentation to see how to leverage its capabilities.
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.Text', {
     extend:  Ext.field.Field ,
@@ -41803,6 +41778,7 @@ Ext.define('Ext.field.Text', {
      * @preventable doClearIconTap
      * Fires when the clear icon is tapped
      * @param {Ext.field.Text} this This field
+     * @param {Ext.field.Input} input The field's input component.
      * @param {Ext.event.Event} e
      */
 
@@ -42085,8 +42061,8 @@ Ext.define('Ext.field.Text', {
         this.blur();
     },
 
-    onClearIconTap: function(e) {
-        this.fireAction('clearicontap', [this, e], 'doClearIconTap');
+    onClearIconTap: function(input, e) {
+        this.fireAction('clearicontap', [this, input, e], 'doClearIconTap');
     },
 
     // @private
@@ -42194,8 +42170,6 @@ Ext.define('Ext.field.TextAreaInput', {
 });
 
 /**
- * @aside guide forms
- *
  * Creates an HTML textarea field on the page. This is useful whenever you need the user to enter large amounts of text
  * (i.e. more than a few words). Typically, text entry on mobile devices is not a pleasant experience for the user so
  * it's good to limit your use of text areas to only those occasions when free form text is required or alternative
@@ -42238,6 +42212,8 @@ Ext.define('Ext.field.TextAreaInput', {
  *         label: 'About You',
  *         {@link #placeHolder}: 'Tell us about yourself...'
  *     });
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.TextArea', {
     extend:  Ext.field.Text ,
@@ -42450,7 +42426,7 @@ Ext.define('Ext.MessageBox', {
             type: 'fadeOut'
         }
     }, {
-        theme: ['Blackberry'],
+        theme: ['Blackberry', 'Blackberry103'],
         ui: 'plain'
     }, {
         theme: ['MoutainView']
@@ -42586,14 +42562,14 @@ Ext.define('Ext.MessageBox', {
                     pack: 'center'
                 };
 
-                var isFlexed = Ext.theme.is.CupertinoClassic  || Ext.theme.is.MountainView  || Ext.theme.is.Blackberry;
+                var isFlexed = Ext.theme.is.CupertinoClassic  || Ext.theme.is.MountainView  || Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103;
 
                 me.buttonsToolbar = Ext.create('Ext.Toolbar', {
                     docked: 'bottom',
                     defaultType: 'button',
                     defaults: {
                         flex: (isFlexed) ? 1 : undefined,
-                        ui: (Ext.theme.is.Blackberry) ? 'action' : undefined
+                        ui: (Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103) ? 'action' : undefined
                     },
                     layout: layout,
                     ui: me.getUi(),
@@ -44502,7 +44478,7 @@ Ext.define('Ext.TitleBar', {
     },
 
     platformConfig: [{
-        theme: ['Blackberry', 'Tizen'],
+        theme: ['Blackberry', 'Blackberry103', 'Tizen'],
         titleAlign: 'left'
     }, {
         theme: ['Cupertino'],
@@ -44979,7 +44955,6 @@ Ext.define('Ext.Toast', {
 
 
 /**
- * @aside example video
  * Provides a simple Container for HTML5 Video.
  *
  * ## Notes
@@ -45328,12 +45303,6 @@ Ext.define('Ext.app.Action', {
 /**
  * @author Ed Spencer
  *
- * @aside guide controllers
- * @aside guide apps_intro
- * @aside guide history_support
- * @aside video mvc-part-1
- * @aside video mvc-part-2
- *
  * Controllers are responsible for responding to events that occur within your app. If your app contains a Logout
  * {@link Ext.Button button} that your user can tap on, a Controller would listen to the Button's tap event and take
  * the appropriate action. It allows the View classes to handle the display of data and the Model classes to handle the
@@ -45528,12 +45497,12 @@ Ext.define('Ext.app.Action', {
  * function that is called by that route is completely responsible for loading its data and restoring state. This is
  * because your user could either send that url to another person or simply refresh the page, which we wipe clear any
  * cached data you had already loaded. There is a more thorough discussion of restoring state with routes in the
- * application architecture guides.
+ * [application architecture guides](../../../core_concepts/about_applications.html).
  *
  * ## Advanced Usage
  *
- * See [the Controllers guide](#!/guide/controllers) for advanced Controller usage including before filters
- * and customizing for different devices.
+ * See [the Controllers guide](../../../core_concepts/controllers.html) for advanced Controller 
+ * usage including before filters and customizing for different devices.
  */
 Ext.define('Ext.app.Controller', {
     mixins: {
@@ -46143,9 +46112,7 @@ Ext.define('Ext.app.History', {
  * was not injected.
  *
  * For a fuller understanding of the ideas behind Profiles and how best to use them in your app, we suggest you read
- * the [device profiles guide](#!/guide/profiles).
- * 
- * @aside guide profiles
+ * the [device profiles guide](../../../core_concepts/device_profiles.html).
  */
 Ext.define('Ext.app.Profile', {
     mixins: {
@@ -46341,9 +46308,9 @@ Ext.define('Ext.app.Profile', {
  *
  * For information on how to use routes we suggest reading the following guides:
  *
- * - [Using History Support](#!/guide/history_support)
- * - [Intro to Applications](#!/guide/apps_intro)
- * - [Using Controllers](#!/guide/controllers)
+ * - [Using History Support](../../../core_concepts/history_support.html)
+ * - [Intro to Applications](../../../core_concepts/about_applications.html)
+ * - [Using Controllers](../../../core_concepts/controllers.html)
  *
  */
 Ext.define('Ext.app.Route', {
@@ -46641,11 +46608,6 @@ Ext.define('Ext.app.Router', {
 /**
  * @author Ed Spencer
  *
- * @aside guide apps_intro
- * @aside guide first_app
- * @aside video mvc-part-1
- * @aside video mvc-part-2
- *
  * Ext.app.Application defines the set of {@link Ext.data.Model Models}, {@link Ext.app.Controller Controllers},
  * {@link Ext.app.Profile Profiles}, {@link Ext.data.Store Stores} and {@link Ext.Component Views} that an application
  * consists of. It automatically loads all of those dependencies and can optionally specify a {@link #launch} function
@@ -46813,8 +46775,8 @@ Ext.define('Ext.app.Router', {
  * ## Find out more
  *
  * If you are not already familiar with writing applications with Sencha Touch we recommend reading the
- * [intro to applications guide](#!/guide/apps_intro), which lays out the core principles of writing apps
- * with Sencha Touch.
+ * [intro to applications guide](../../../getting_started/building_your_first_app.html), which 
+ * lays out the core principles of writing apps with Sencha Touch.
  */
 Ext.define('Ext.app.Application', {
     extend:  Ext.app.Controller ,
@@ -46984,7 +46946,7 @@ Ext.define('Ext.app.Application', {
         /**
          * @cfg {Ext.app.History} history The global {@link Ext.app.History History} instance attached to this
          * Application. For more information, see 
-         * [Routing, Deep Linking, and the Back Button](http://docs.sencha.com/touch/#!/guide/history_support).
+         * [Routing, Deep Linking, and the Back Button](../../../core_concepts/history_support.html).
          * @accessor
          * @readonly
          */
@@ -47736,7 +47698,7 @@ Ext.define('Ext.util.TranslatableGroup', {
  * @class Ext.carousel.Carousel
  * @author Jacky Nguyen <jacky@sencha.com>
  *
- * Carousels, like [tabs](#!/guide/tabs), are a great way to allow the user to swipe through multiple full-screen pages.
+ * Carousels, like [tabs](../../../components/tabpanel.html), are a great way to allow the user to swipe through multiple full-screen pages.
  * A Carousel shows only one of its pages at a time but allows you to swipe through with your finger.
  *
  * Carousels can be oriented either horizontally or vertically and are easy to configure - they just work like any other
@@ -47800,10 +47762,7 @@ Ext.define('Ext.util.TranslatableGroup', {
  *
  * ## Further Reading
  *
- * For more information about Carousels see the [Carousel guide](#!/guide/carousel).
- *
- * @aside guide carousel
- * @aside example carousel
+ * For more information about Carousels see the [Carousel guide](../../../components/carousel.html).
  */
 Ext.define('Ext.carousel.Carousel', {
     extend:  Ext.Container ,
@@ -66460,7 +66419,6 @@ Ext.define('Ext.data.Operation', {
 
 /**
  * @author Ed Spencer
- * @aside guide proxies
  *
  * Proxies are used by {@link Ext.data.Store Stores} to handle the loading and saving of {@link Ext.data.Model Model}
  * data. Usually developers will not need to create or interact with proxies directly.
@@ -66489,6 +66447,12 @@ Ext.define('Ext.data.Operation', {
  *
  * Proxies also support batching of Operations via a {@link Ext.data.Batch batch} object, invoked by the {@link #batch}
  * method.
+ *
+ * ###Further Reading
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
  */
 Ext.define('Ext.data.proxy.Proxy', {
     extend:  Ext.Evented ,
@@ -66826,7 +66790,6 @@ Ext.define('Ext.data.proxy.Client', {
 
 /**
  * @author Ed Spencer
- * @aside guide proxies
  *
  * In-memory proxy. This proxy simply uses a local variable for data storage/retrieval, so its contents are lost on
  * every page refresh.
@@ -66877,6 +66840,12 @@ Ext.define('Ext.data.proxy.Client', {
  *             }
  *         }
  *     });
+ *
+ * ###Further Reading
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
  */
 Ext.define('Ext.data.proxy.Memory', {
     extend:  Ext.data.proxy.Client ,
@@ -67053,7 +67022,6 @@ Ext.define('Ext.data.reader.Array', {
 
 /**
  * @docauthor Evan Trimboli <evan@sencha.com>
- * @aside guide stores
  *
  * Contains a collection of all stores that are created that have an identifier. An identifier can be assigned by
  * setting the {@link Ext.data.Store#storeId storeId} property. When a store is in the StoreManager, it can be
@@ -67080,6 +67048,12 @@ Ext.define('Ext.data.reader.Array', {
  *         store: 'myStore'
  *         // other configuration here
  *     });
+ *
+ * ###Further Reading
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
  */
 Ext.define('Ext.data.StoreManager', {
     extend:  Ext.util.Collection ,
@@ -68614,8 +68588,6 @@ Ext.define('Ext.dataview.element.Container', {
 });
 
 /**
- * @aside guide dataview
- *
  * DataView makes it easy to create lots of components dynamically, usually based off a {@link Ext.data.Store Store}.
  * It's great for rendering lots of data from your server backend or any other data source and is what powers
  * components like {@link Ext.List}.
@@ -68734,6 +68706,9 @@ Ext.define('Ext.dataview.element.Container', {
  * The last thing we did is update our template to render the image, Twitter username and message. All we need to do
  * now is add a little CSS to style the list the way we want it and we end up with a very basic Twitter viewer. Click
  * the preview button on the example above to see it in action.
+ *
+ * ###Further Reading
+ * [Sencha Touch DataView Guide](../../../components/dataview.html)
  */
 Ext.define('Ext.dataview.DataView', {
     extend:  Ext.Container ,
@@ -69005,7 +68980,7 @@ Ext.define('Ext.dataview.DataView', {
          * Flag the use a component based DataView implementation.  This allows the full use of components in the
          * DataView at the cost of some performance.
          *
-         * Checkout the [DataView Guide](#!/guide/dataview) for more information on using this configuration.
+         * Checkout the [Sencha Touch DataView Guide](../../../components/dataview.html) for more information on using this configuration.
          * @accessor
          */
         useComponents: null,
@@ -70206,7 +70181,6 @@ Ext.define('Ext.data.Types', {
 
 /**
  * @author Ed Spencer
- * @aside guide models
  *
  * Fields are used to define what a Model is. They aren't instantiated directly - instead, when we create a class that
  * extends {@link Ext.data.Model}, it will automatically create a Field instance for each field configured in a {@link
@@ -70298,6 +70272,12 @@ Ext.define('Ext.data.Types', {
  *
  *     ed.set('age', 25.4);
  *     ed.get('age'); //returns 25 - we wanted an int, not a float, so no decimal places allowed
+ *
+ * ###Further Reading
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
  */
 Ext.define('Ext.data.Field', {
                                                        
@@ -71415,7 +71395,6 @@ Ext.define('Ext.data.proxy.Server', {
 
 /**
  * @author Ed Spencer
- * @aside guide proxies
  *
  * AjaxProxy is one of the most widely-used ways of getting data into your application. It uses AJAX
  * requests to load data from the server, usually to be placed into a {@link Ext.data.Store Store}.
@@ -71621,6 +71600,13 @@ Ext.define('Ext.data.proxy.Server', {
  *
  * We can also provide a custom {@link #encodeFilters} function to encode our filters.
  *
+ * ###Further Reading
+ * [Sencha Touch AJAX Guide](../../../core_concepts/using_ajax.html)
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
+ * 
  * @constructor
  * Note that if this HttpProxy is being used by a {@link Ext.data.Store Store}, then the Store's
  * call to {@link Ext.data.Store#method-load load} will override any specified callback and params
@@ -71757,7 +71743,6 @@ Ext.define('Ext.data.proxy.Ajax', {
 
 /**
  * @author Ed Spencer
- * @aside guide models
  *
  * Associations enable you to express relationships between different {@link Ext.data.Model Models}. Let's say we're
  * writing an ecommerce system where Users can make Orders - there's a relationship between these Models that we can
@@ -71873,6 +71858,9 @@ Ext.define('Ext.data.proxy.Ajax', {
  *         });
  *
  *     });
+ *
+ * ###Further Reading
+ * [Sencha Touch Models and Associations](../../../core_concepts/data/models.html)
  */
 Ext.define('Ext.data.association.Association', {
     alternateClassName: 'Ext.data.Association',
@@ -72341,8 +72329,6 @@ Ext.define('Ext.util.Inflector', {
 });
 
 /**
- * @aside guide models
- *
  * Represents a one-to-many relationship between two models. Usually created indirectly via a model definition:
  *
  *     Ext.define('Product', {
@@ -72367,8 +72353,6 @@ Ext.define('Ext.util.Inflector', {
  *             hasMany: {model: 'Product', name: 'products'}
  *         }
  *     });
- *
- * `
  *
  * Above we created Product and User models, and linked them by saying that a User hasMany Products. This gives us a new
  * function on every User instance, in this case the function is called 'products' because that is the name we specified
@@ -72443,6 +72427,9 @@ Ext.define('Ext.util.Inflector', {
  *             }
  *         ]
  *     });
+ *
+ * ###Further Reading
+ * [Sencha Touch Models and Associations](../../../core_concepts/data/models.html)
  */
 Ext.define('Ext.data.association.HasMany', {
     extend:  Ext.data.association.Association ,
@@ -72733,7 +72720,6 @@ Ext.define('Ext.data.association.HasMany', {
 
 /**
  * @author Ed Spencer
- * @aside guide models
  *
  * Represents a many to one association with another model. The owner model is expected to have
  * a foreign key which references the primary key of the associated model:
@@ -72856,6 +72842,9 @@ Ext.define('Ext.data.association.HasMany', {
  *
  * Here we replaced the default primary key (defaults to 'id') and foreign key (calculated as 'category_id')
  * with our own settings. Usually this will not be needed.
+ *
+ * ###Further Reading
+ * [Sencha Touch Models and Associations](../../../core_concepts/data/models.html)
  */
 Ext.define('Ext.data.association.BelongsTo', {
     extend:  Ext.data.association.Association ,
@@ -73138,8 +73127,6 @@ Ext.define('Ext.data.association.BelongsTo', {
 });
 
 /**
- * @aside guide models
- *
  * Represents a one to one association with another model. The owner model is expected to have
  * a foreign key which references the primary key of the associated model:
  *
@@ -73266,6 +73253,9 @@ Ext.define('Ext.data.association.BelongsTo', {
  *
  * Here we replaced the default primary key (defaults to 'id') and foreign key (calculated as 'address_id')
  * with our own settings. Usually this will not be needed.
+ *
+ * ###Further Reading
+ * [Sencha Touch Models and Associations](../../../core_concepts/data/models.html)
  */
 Ext.define('Ext.data.association.HasOne', {
     extend:  Ext.data.association.Association ,
@@ -73626,10 +73616,15 @@ Ext.define('Ext.data.Errors', {
 
 /**
  * @author Ed Spencer
- * @aside guide models
  *
  * This singleton contains a set of validation functions that can be used to validate any type of data. They are most
  * often used in {@link Ext.data.Model Models}, where they are automatically set up and executed.
+ *
+ * ###Further Reading
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
  */
 Ext.define('Ext.data.Validations', {
     alternateClassName: 'Ext.data.validations',
@@ -73800,7 +73795,6 @@ Ext.define('Ext.data.Validations', {
 
 /**
  * @author Ed Spencer
- * @aside guide models
  *
  * A Model represents some object that your application manages. For example, one might define a Model for Users,
  * Products, Cars, or any other real-world object that we want to model in the system. Models are registered via the
@@ -74013,6 +74007,12 @@ Ext.define('Ext.data.Validations', {
  * A Store is just a collection of Model instances - usually loaded from a server somewhere. Store can also maintain a
  * set of added, updated and removed Model instances to be synchronized with the server via the Proxy. See the {@link
  * Ext.data.Store Store docs} for more information on Stores.
+ *
+ * ###Further Reading
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
  */
 Ext.define('Ext.data.Model', {
     alternateClassName: 'Ext.data.Record',
@@ -75653,7 +75653,6 @@ Ext.define('Ext.util.Grouper', {
 
 /**
  * @author Ed Spencer
- * @aside guide stores
  *
  * The Store class encapsulates a client side cache of {@link Ext.data.Model Model} objects. Stores load
  * data via a {@link Ext.data.proxy.Proxy Proxy}, and also provide functions for {@link #sort sorting},
@@ -76765,9 +76764,7 @@ Ext.define('Ext.data.Store', {
                 });
             }
         }
-        if (oldGrouper) {
-            this.fireEvent('refresh', this, data);
-        }
+        this.fireEvent('refresh', this, data);
     },
 
     /**
@@ -88011,7 +88008,6 @@ Ext.define('Ext.chart.series.Scatter', {
 
 /**
  * @author Ed Spencer
- * @aside guide stores
  *
  * Small helper class to make creating {@link Ext.data.Store}s from Array data easier. An ArrayStore will be
  * automatically configured with a {@link Ext.data.reader.Array}.
@@ -88047,6 +88043,12 @@ Ext.define('Ext.chart.series.Scatter', {
  *
  * **Note:** Although not listed here, this class accepts all of the configuration options of
  * **{@link Ext.data.reader.Array ArrayReader}**.
+ *
+ * ###Further Reading
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
  */
 Ext.define('Ext.data.ArrayStore', {
     extend:  Ext.data.Store ,
@@ -88333,8 +88335,6 @@ Ext.define('Ext.direct.Manager', {
 });
 
 /**
- * @aside guide proxies
- *
  * This class is used to send requests to the server using {@link Ext.direct.Manager Ext.Direct}. When a
  * request is made, the transport mechanism is handed off to the appropriate
  * {@link Ext.direct.RemotingProvider Provider} to complete the call.
@@ -88367,6 +88367,12 @@ Ext.define('Ext.direct.Manager', {
  *         }
  *     });
  *     User.load(1);
+ *
+ * ###Further Reading
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
  */
 Ext.define('Ext.data.proxy.Direct', {
     extend:  Ext.data.proxy.Server ,
@@ -88544,8 +88550,6 @@ Ext.define('Ext.data.proxy.Direct', {
 });
 
 /**
- * @aside guide stores
- *
  * Small helper class to create an {@link Ext.data.Store} configured with an {@link Ext.data.proxy.Direct}
  * and {@link Ext.data.reader.Json} to make interacting with an {@link Ext.direct.Manager} server-side
  * {@link Ext.direct.Provider Provider} easier. To create a different proxy/reader combination create a basic
@@ -88565,7 +88569,12 @@ Ext.define('Ext.data.proxy.Direct', {
  *             }
  *         }
  *     });
- *
+ *     
+ * ###Further Reading
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
  */
 Ext.define('Ext.data.DirectStore', {
     extend:  Ext.data.Store ,
@@ -88583,7 +88592,6 @@ Ext.define('Ext.data.DirectStore', {
 });
 
 /**
- * @aside guide ajax
  * @singleton
  *
  * This class is used to create JsonP requests. JsonP is a mechanism that allows for making requests for data cross
@@ -88630,6 +88638,14 @@ Ext.define('Ext.data.DirectStore', {
  *     });
  *
  * See the {@link #request} method for more details on making a JsonP request.
+ *
+ * ###Further Reading
+ * [Sencha Touch AJAX Guide](../../../core_concepts/using_ajax.html)
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
+ * 
  */
 Ext.define('Ext.data.JsonP', {
     alternateClassName: 'Ext.util.JSONP',
@@ -90286,8 +90302,6 @@ Ext.define('Ext.data.NodeStore', {
 });
 
 /**
- * @aside guide stores
- *
  * The TreeStore is a store implementation that allows for nested data.
  *
  * It provides convenience methods for loading nodes, as well as the ability to use
@@ -90305,6 +90319,12 @@ Ext.define('Ext.data.NodeStore', {
  * For the tree to read nested data, the {@link Ext.data.reader.Reader} must be configured with a root property,
  * so the reader can find nested data for each node. If a root is not specified, it will default to
  * 'children'.
+ *
+ * ###Further Reading
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
  */
 Ext.define('Ext.data.TreeStore', {
     extend:  Ext.data.NodeStore ,
@@ -90954,7 +90974,6 @@ Ext.define('Ext.data.identifier.Uuid', {
 
 /**
  * @author Ed Spencer
- * @aside guide proxies
  *
  * The JsonP proxy is useful when you need to load data from a domain other than the one your application is running on. If
  * your application is running on http://domainA.com it cannot use {@link Ext.data.proxy.Ajax Ajax} to load its data
@@ -91081,6 +91100,12 @@ Ext.define('Ext.data.identifier.Uuid', {
  *         responseString = jsonString;
  *     }
  *     Response.Write(responseString);
+ *
+ * ###Further Reading
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
  */
 Ext.define('Ext.data.proxy.JsonP', {
     extend:  Ext.data.proxy.Server ,
@@ -91730,7 +91755,6 @@ Ext.define('Ext.data.proxy.WebStorage', {
 
 /**
  * @author Ed Spencer
- * @aside guide proxies
  *
  * The LocalStorageProxy uses the new HTML5 localStorage API to save {@link Ext.data.Model Model} data locally on the
  * client browser. HTML5 localStorage is a key-value store (e.g. cannot save complex objects like JSON), so
@@ -91789,6 +91813,12 @@ Ext.define('Ext.data.proxy.WebStorage', {
  *
  * It's important to supply this unique ID as it cannot be reliably determined otherwise. If no id is provided but the
  * attached store has a storeId, the storeId will be used. If neither option is presented the proxy will throw an error.
+ *
+ * ###Further Reading
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html) 
  */
 Ext.define('Ext.data.proxy.LocalStorage', {
     extend:  Ext.data.proxy.WebStorage ,
@@ -91803,7 +91833,6 @@ Ext.define('Ext.data.proxy.LocalStorage', {
 
 /**
  * @author Ed Spencer
- * @aside guide proxies
  *
  * The Rest proxy is a specialization of the {@link Ext.data.proxy.Ajax AjaxProxy} which simply maps the four actions
  * (create, read, update and destroy) to RESTful HTTP verbs. For example, let's set up a {@link Ext.data.Model Model}
@@ -91900,6 +91929,12 @@ Ext.define('Ext.data.proxy.LocalStorage', {
  * details.
  *
  * [1]: source/Rest.html#Ext-data-proxy-Rest-method-buildUrl
+ *
+ * ###Further Reading
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
  */
 Ext.define('Ext.data.proxy.Rest', {
     extend:  Ext.data.proxy.Ajax ,
@@ -91978,7 +92013,6 @@ Ext.define('Ext.data.proxy.Rest', {
 
 /**
  * @author Ed Spencer
- * @aside guide proxies
  *
  * Proxy which uses HTML5 session storage as its data storage/retrieval mechanism. If this proxy is used in a browser
  * where session storage is not supported, the constructor will throw an error. A session storage proxy requires a
@@ -92005,6 +92039,12 @@ Ext.define('Ext.data.proxy.Rest', {
  * Note that session storage is different to local storage (see {@link Ext.data.proxy.LocalStorage}) - if a browser
  * session is ended (e.g. by closing the browser) then all data in a SessionStorageProxy are lost. Browser restarts
  * don't affect the {@link Ext.data.proxy.LocalStorage} - the data are preserved.
+ *
+ * ###Further Reading
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
  */
 Ext.define('Ext.data.proxy.SessionStorage', {
     extend:  Ext.data.proxy.WebStorage ,
@@ -93128,9 +93168,6 @@ Ext.define('Ext.data.writer.Xml', {
 });
 
 /**
- * @aside video list
- * @aside guide list
- *
  * IndexBar is a component used to display a list of data (primarily an alphabet) which can then be used to quickly
  * navigate through a list (see {@link Ext.List}) of data. When a user taps on an item in the {@link Ext.IndexBar},
  * it will fire the {@link #index} event.
@@ -93182,6 +93219,8 @@ Ext.define('Ext.data.writer.Xml', {
  *        hideOnMaskTap: false
  *     });
  *
+ * ###Further Reading
+ * [Sencha Touch DataView Guide](../../../components/list.html)
 */
 Ext.define('Ext.dataview.IndexBar', {
     extend:  Ext.Component ,
@@ -93224,7 +93263,7 @@ Ext.define('Ext.dataview.IndexBar', {
     },
     platformConfig: [
         {
-            theme: ['Blackberry'],
+            theme: ['Blackberry', 'Blackberry103'],
             direction: 'vertical',
             letters: ['*', '#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
         }
@@ -93240,7 +93279,7 @@ Ext.define('Ext.dataview.IndexBar', {
 
     getElementConfig: function() {
         // Blackberry Specific code for Index Bar Indicator
-        if(Ext.theme.is.Blackberry) {
+        if (Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103) {
             return {
                 reference: 'wrapper',
                 classList: ['x-centered', 'x-indexbar-wrapper'],
@@ -93824,11 +93863,8 @@ Ext.define('Ext.util.PositionMap', {
 });
 
 /**
- * @aside guide list
- * @aside video list
- *
  * List is a custom styled DataView which allows Grouping, Indexing, Icons, and a Disclosure. See the
- * [Guide](#!/guide/list) and [Video](#!/video/list) for more.
+ * [Guide](../../../components/list.html) for more.
  *
  *     @example miniphone preview
  *     Ext.create('Ext.List', {
@@ -93934,6 +93970,9 @@ Ext.define('Ext.util.PositionMap', {
  *             text: 'Load More...'
  *         }]
  *     });
+ *
+ * ###Further Reading
+ * [Sencha Touch DataView Guide](../../../components/list.html)
  */
 Ext.define('Ext.dataview.List', {
     alternateClassName: 'Ext.List',
@@ -94133,8 +94172,6 @@ Ext.define('Ext.dataview.List', {
 
         minimumBufferDistance: 5,
 
-        useHeaders: true,
-
         /**
          * @cfg {Boolean} striped
          * Set this to true if you want the items in the list to be zebra striped, alternating their
@@ -94175,6 +94212,7 @@ Ext.define('Ext.dataview.List', {
     beforeInitialize: function() {
         var me = this,
             container = me.container,
+            baseCls = me.getBaseCls(),
             scrollable, scrollViewElement, pinnedHeader;
 
         Ext.apply(me, {
@@ -94226,7 +94264,7 @@ Ext.define('Ext.dataview.List', {
             translatable: {
                 translationMethod: this.translationMethod
             },
-            cls: ['x-list-header', 'x-list-header-swap']
+            cls: [baseCls + '-header', baseCls + '-header-swap']
         });
         pinnedHeader.translate(0, -10000);
         pinnedHeader.$position = -10000;
@@ -94567,7 +94605,7 @@ Ext.define('Ext.dataview.List', {
                     }
                 }
 
-                if (grouped && me.getUseHeaders() && me.headerIndices && me.headerIndices[item.$dataIndex]) {
+                if (grouped && me.headerIndices && me.headerIndices[item.$dataIndex]) {
                     item.getHeader().translate(0, transY);
                     transY += me.headerHeight;
                 }
@@ -94635,7 +94673,6 @@ Ext.define('Ext.dataview.List', {
             listItems = me.listItems,
             infinite = me.getInfinite(),
             scrollElement = me.scrollElement,
-            useHeaders = me.getUseHeaders(),
             item, header, itemCls;
 
         item = Ext.factory(config);
@@ -94647,18 +94684,16 @@ Ext.define('Ext.dataview.List', {
             item.addCls(itemCls);
         }
 
-        if (useHeaders) {
-            header = item.getHeader();
-            if (!infinite) {
-                header.addCls(itemCls);
-            } else {
-                header.setTranslatable({
-                    translationMethod: this.translationMethod
-                });
-                header.translate(0, -10000);
+        header = item.getHeader();
+        if (!infinite) {
+            header.addCls(itemCls);
+        } else {
+            header.setTranslatable({
+                translationMethod: this.translationMethod
+            });
+            header.translate(0, -10000);
 
-                scrollElement.insertFirst(header.renderElement);
-            }
+            scrollElement.insertFirst(header.renderElement);
         }
 
         container.doAdd(item);
@@ -94710,12 +94745,11 @@ Ext.define('Ext.dataview.List', {
             record = info.store.getAt(index),
             headerIndices = me.headerIndices,
             footerIndices = me.footerIndices,
-            useHeaders = me.getUseHeaders(),
-            header = useHeaders && item.getHeader(),
+            header = item.getHeader(),
             scrollDockItems = me.scrollDockItems,
             updatedItems = me.updatedItems,
             currentItemCls = item.renderElement.classList.slice(),
-            currentHeaderCls = useHeaders && header.renderElement.classList.slice(),
+            currentHeaderCls = header.renderElement.classList.slice(),
             infinite = me.getInfinite(),
             storeCount = info.store.getCount(),
             itemCls = [],
@@ -94740,12 +94774,10 @@ Ext.define('Ext.dataview.List', {
                 item.hide();
             }
 
-            if (useHeaders) {
-                if (infinite) {
-                    header.translate(0, -10000);
-                } else {
-                    header.hide();
-                }
+            if (infinite) {
+                header.translate(0, -10000);
+            } else {
+                header.hide();
             }
             item.$hidden = true;
             return;
@@ -94801,7 +94833,7 @@ Ext.define('Ext.dataview.List', {
             itemCls.push(info.selectedCls);
         }
 
-        if (info.grouped && useHeaders) {
+        if (info.grouped) {
             if (headerIndices[index]) {
                 itemCls.push(info.headerCls);
                 headerCls.push(info.headerCls);
@@ -94824,7 +94856,7 @@ Ext.define('Ext.dataview.List', {
             }
         }
 
-        if (!info.grouped && useHeaders) {
+        if (!info.grouped) {
             header.hide();
         }
 
@@ -94879,7 +94911,7 @@ Ext.define('Ext.dataview.List', {
             itemCls = Ext.Array.merge(itemCls, currentItemCls);
         }
 
-        if (useHeaders && currentHeaderCls) {
+        if (currentHeaderCls) {
             for (i = 0; i < headerRemoveCls.length; i++) {
                 Ext.Array.remove(currentHeaderCls, headerRemoveCls[i]);
             }
@@ -94893,9 +94925,7 @@ Ext.define('Ext.dataview.List', {
             item.classCache = classCache;
         }
 
-        if (useHeaders) {
-            header.renderElement.setCls(headerCls);
-        }
+        header.renderElement.setCls(headerCls);
     },
 
     updateAllListItems: function() {
@@ -94971,7 +95001,7 @@ Ext.define('Ext.dataview.List', {
                 // This is a private event used by some plugins
                 me.fireEvent('updatevisiblecount', this, me.visibleCount, currentVisibleCount);
             }
-        } else if (me.listItems.length && me.getUseHeaders() && me.getGrouped() && me.getPinHeaders()) {
+        } else if (me.listItems.length && me.getGrouped() && me.getPinHeaders()) {
             // Whenever the container resizes, headers might be in different locations. For this reason
             // we refresh the header position map
             me.updateHeaderMap();
@@ -95302,16 +95332,16 @@ Ext.define('Ext.dataview.List', {
         var me = this,
             store = me.getStore(),
             storeLn = store && store.getCount(),
-            groups = store.getGroups(),
+            groups = store.getGrouper() ? store.getGroups() : null,
             grouped = me.getGrouped(),
-            groupLn = groups.length,
             headerIndices = me.headerIndices = {},
             footerIndices = me.footerIndices = {},
-            i, previousIndex, firstGroupedRecord, storeIndex;
+            i, previousIndex, firstGroupedRecord, storeIndex, groupLn;
 
-        if (!grouped) {
+        if (!grouped || !groups) {
             return footerIndices;
         }
+        groupLn = groups.length;
         me.groups = groups;
 
         for (i = 0; i < groupLn; i++) {
@@ -95383,7 +95413,7 @@ Ext.define('Ext.dataview.List', {
         }
         else {
             item = me.listItems[index];
-            if (me.getUseHeaders() && item.getHeader().isPainted()) {
+            if (item.getHeader().isPainted()) {
                 offset = item.getHeader().renderElement.dom.offsetTop;
             }
             else {
@@ -95658,9 +95688,9 @@ Ext.define('Ext.dataview.List', {
  *          store: store
  *      });
  *
- * @aside guide nested_list
- * @aside example nested-list
- * @aside example navigation-view
+ *
+ * ###Further Reading
+ * [Sencha Touch Nested List Guide](../../../components/nested_list.html)
  */
 Ext.define('Ext.dataview.NestedList', {
     alternateClassName: 'Ext.NestedList',
@@ -95796,7 +95826,7 @@ Ext.define('Ext.dataview.NestedList', {
          * A detailContainer is a reference to the container where a detail card
          * displays.
          *
-         * See http://docs.sencha.com/touch/2-2/#!/guide/nested_list-section-4
+         * See [Sencha Touch Nested List Guide](../../../components/nested_list.html)
          * and http://en.wikipedia.org/wiki/Miller_columns
          *
          * The two possible values for a detailContainer are undefined (default),
@@ -95830,7 +95860,7 @@ Ext.define('Ext.dataview.NestedList', {
          * about the item in the list. The detailCard lists the information at
          * the leaf.
          *
-         * See http://docs.sencha.com/touch/2-2/#!/guide/nested_list-section-3
+         * See [Sencha Touch Nested List Guide](../../../components/nested_list.html)
          * and http://en.wikipedia.org/wiki/Miller_columns
          *
          * @accessor
@@ -95896,7 +95926,7 @@ Ext.define('Ext.dataview.NestedList', {
             updateTitleText: false
         },
         {
-            theme: ['Blackberry'],
+            theme: ['Blackberry', 'Blackberry103'],
             toolbar: {
                 splitNavigation: true
             }
@@ -99445,37 +99475,15 @@ Ext.define('Ext.util.paintmonitor.CssAnimation', {
 });
 
 /**
- * @private
- */
-Ext.define('Ext.util.paintmonitor.OverflowChange', {
-
-    extend:  Ext.util.paintmonitor.Abstract ,
-
-    eventName: Ext.browser.is.Firefox ? 'overflow' : 'overflowchanged',
-
-    monitorClass: 'overflowchange',
-
-    onElementPainted: function(e) {
-        this.getCallback().apply(this.getScope(), this.getArgs());
-    }
-});
-
-/**
  *
  */
 Ext.define('Ext.util.PaintMonitor', {
                
-                                             
-                                              
+                                            
       
 
-    constructor: function(config) {
-        if (Ext.browser.is.Firefox || (Ext.browser.is.WebKit && Ext.browser.engineVersion.gtEq('536') && !Ext.os.is.Blackberry)) {
-            return new Ext.util.paintmonitor.OverflowChange(config);
-        }
-        else {
-            return new Ext.util.paintmonitor.CssAnimation(config);
-        }
+    constructor: function (config) {
+        return new Ext.util.paintmonitor.CssAnimation(config);
     }
 });
 
@@ -99957,15 +99965,7 @@ Ext.define('Ext.util.SizeMonitor', {
         if (Ext.browser.is.Firefox) {
             return new namespace.OverflowChange(config);
         }
-        else if (Ext.browser.is.WebKit) {
-            if (!Ext.browser.is.Silk && Ext.browser.engineVersion.gtEq('535')) {
-                return new namespace.OverflowChange(config);
-            }
-            else {
-                return new namespace.Scroll(config);
-            }
-        }
-        else if (Ext.browser.is.IE11) {
+        else if (Ext.browser.is.WebKit || Ext.browser.is.IE11) {
             return new namespace.Scroll(config);
         }
         else {
@@ -101905,8 +101905,6 @@ Ext.define('Ext.event.recognizer.VerticalSwipe', {
 });
 
 /**
- * @aside guide forms
- *
  * The checkbox field is an enhanced version of the native browser checkbox and is great for enabling your user to
  * choose one or more items from a set (for example choosing toppings for a pizza order). It works like any other
  * {@link Ext.field.Field field} and is usually found in the context of a form:
@@ -101961,7 +101959,8 @@ Ext.define('Ext.event.recognizer.VerticalSwipe', {
  *
  *     form.getValues(); //contains a key called 'tomato' if the Tomato field is still checked
  *     form.submit(); //will send 'tomato' in the form submission data
- *
+ *     
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.Checkbox', {
     extend:  Ext.field.Field ,
@@ -102038,7 +102037,7 @@ Ext.define('Ext.field.Checkbox', {
     },
 
     platformConfig: [{
-        theme: ['Windows', 'Blackberry', 'Tizen'],
+        theme: ['Windows', 'Blackberry', 'Blackberry103', 'Tizen'],
         labelAlign: 'left'
     }],
 
@@ -102728,7 +102727,6 @@ Ext.define('Ext.picker.Slot', {
 });
 
 /**
- * @aside example pickers
  * A general picker class. {@link Ext.picker.Slot}s are used to organize multiple scrollable slots into a single picker. {@link #slots} is
  * the only necessary configuration.
  *
@@ -103344,8 +103342,6 @@ Ext.define('Ext.picker.Picker', {
 
 
 /**
- * @aside guide forms
- *
  * Simple Select field wrapper. Example usage:
  *
  *     @example
@@ -103369,6 +103365,8 @@ Ext.define('Ext.picker.Picker', {
  *             }
  *         ]
  *     });
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.Select', {
     extend:  Ext.field.Text ,
@@ -103542,7 +103540,7 @@ Ext.define('Ext.field.Select', {
             component.input.dom.disabled = true;
         }
 
-        if (Ext.theme.is.Blackberry) {
+        if (Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103) {
             this.label.on({
                 scope: me,
                 tap: "onFocus"
@@ -103551,7 +103549,7 @@ Ext.define('Ext.field.Select', {
     },
 
     getElementConfig: function() {
-        if (Ext.theme.is.Blackberry) {
+        if (Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103) {
                 var prefix = Ext.baseCSSPrefix;
 
                 return {
@@ -103930,7 +103928,7 @@ Ext.define('Ext.field.Select', {
 
     // @private
     updateLabelWidth: function() {
-        if (Ext.theme.is.Blackberry) {
+        if (Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103) {
             return;
         } else {
             this.callParent(arguments);
@@ -103939,7 +103937,7 @@ Ext.define('Ext.field.Select', {
 
     // @private
     updateLabelAlign: function() {
-        if (Ext.theme.is.Blackberry) {
+        if (Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103) {
             return;
         } else {
             this.callParent(arguments);
@@ -104478,8 +104476,6 @@ Ext.define('Ext.picker.Date', {
 });
 
 /**
- * @aside guide forms
- *
  * This is a specialized field which shows a {@link Ext.picker.Date} when tapped. If it has a predefined value,
  * or a value is selected in the {@link Ext.picker.Date}, it will be displayed like a normal {@link Ext.field.Text}
  * (but not selectable/changable).
@@ -104491,6 +104487,8 @@ Ext.define('Ext.picker.Date', {
  *
  * {@link Ext.field.DatePicker} fields are very simple to implement, and have no required configurations.
  *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
+ * 
  * ## Examples
  *
  * It can be very useful to set a default {@link #value} configuration on {@link Ext.field.DatePicker} fields. In
@@ -104893,8 +104891,6 @@ Ext.define('Ext.field.DatePickerNative', {
 });
 
 /**
- * @aside guide forms
- *
  * The Email field creates an HTML5 email input and is usually created inside a form. Because it creates an HTML email
  * input field, most browsers will show a specialized virtual keyboard for email address input. Aside from that, the
  * email field is just a normal text field. Here's an example of how to use it in a form:
@@ -104933,6 +104929,8 @@ Ext.define('Ext.field.DatePickerNative', {
  * provide, including getting and setting the value at runtime, validations and various events that are fired as the
  * user interacts with the component. Check out the {@link Ext.field.Text} docs to see the additional functionality
  * available.
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.Email', {
     extend:  Ext.field.Text ,
@@ -105126,8 +105124,6 @@ Ext.define('Ext.field.FileInput', {
 });
 
 /**
- * @aside guide forms
- *
  * Creates an HTML file input field on the page. This is usually used to upload files to remote server. File fields are usually
  * created inside a form like this:
  *
@@ -105149,6 +105145,8 @@ Ext.define('Ext.field.FileInput', {
  *             }
  *         ]
  *     });
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 
 Ext.define('Ext.field.File', {
@@ -105219,8 +105217,6 @@ Ext.define('Ext.field.File', {
 });
 
 /**
- * @aside guide forms
- *
  * Hidden fields allow you to easily inject additional data into a {@link Ext.form.Panel form} without displaying
  * additional fields on the screen. This is often useful for sending dynamic or previously collected data back to the
  * server in the same request as the normal form submission. For example, here is how we might set up a form to send
@@ -105258,6 +105254,8 @@ Ext.define('Ext.field.File', {
  *
  *     var userId = form.down('hiddenfield')[0];
  *     userId.setValue(1234);
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.Hidden', {
     extend:  Ext.field.Text ,
@@ -105295,8 +105293,6 @@ Ext.define('Ext.field.Hidden', {
 });
 
 /**
- * @aside guide forms
- *
  * The Number field creates an HTML5 number input and is usually created inside a form. Because it creates an HTML
  * number input field, most browsers will show a specialized virtual keyboard for entering numbers. The Number field
  * only accepts numerical input and also provides additional spinner UI that increases or decreases the current value
@@ -105364,6 +105360,8 @@ Ext.define('Ext.field.Hidden', {
  * fields provide, including getting and setting the value at runtime, validations and various events that are fired as
  * the user interacts with the component. Check out the {@link Ext.field.Text} docs to see the additional functionality
  * available.
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.Number', {
     extend:  Ext.field.Text ,
@@ -105467,8 +105465,6 @@ Ext.define('Ext.field.Number', {
 });
 
 /**
- * @aside guide forms
- *
  * The Password field creates a password input and is usually created inside a form. Because it creates a password
  * field, when the user enters text it will show up as stars. Aside from that, the password field is just a normal text
  * field. Here's an example of how to use it in a form:
@@ -105507,6 +105503,8 @@ Ext.define('Ext.field.Number', {
  * fields provide, including getting and setting the value at runtime, validations and various events that are fired as
  * the user interacts with the component. Check out the {@link Ext.field.Text} docs to see the additional functionality
  * available.
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.Password', {
     extend:  Ext.field.Text ,
@@ -105542,7 +105540,7 @@ Ext.define('Ext.field.Password', {
     },
 
     platformConfig: [{
-        theme: ['Blackberry'],
+        theme: ['Blackberry', 'Blackberry103'],
         revealable: true
     }],
 
@@ -105661,8 +105659,6 @@ Ext.define('Ext.field.Password', {
 });
 
 /**
- * @aside guide forms
- *
  * The radio field is an enhanced version of the native browser radio controls and is a good way of allowing your user
  * to choose one option out of a selection of several (for example, choosing a favorite color):
  *
@@ -105700,6 +105696,7 @@ Ext.define('Ext.field.Password', {
  *     form.getValues(); //looks like {color: 'red'}
  *     form.submit(); //sends a single field back to the server (in this case color: red)
  *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.Radio', {
     extend:  Ext.field.Checkbox ,
@@ -105828,8 +105825,6 @@ Ext.define('Ext.field.Radio', {
 });
 
 /**
- * @aside guide forms
- *
  * The Search field creates an HTML5 search input and is usually created inside a form. Because it creates an HTML
  * search input type, the visual styling of this input is slightly different to normal text input controls (the corners
  * are rounded), though the virtual keyboard displayed by the operating system is the standard keyboard control.
@@ -105866,6 +105861,8 @@ Ext.define('Ext.field.Radio', {
  * fields provide, including getting and setting the value at runtime, validations and various events that are fired
  * as the user interacts with the component. Check out the {@link Ext.field.Text} docs to see the additional
  * functionality available.
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.Search', {
     extend:  Ext.field.Text ,
@@ -105962,7 +105959,7 @@ Ext.define('Ext.slider.Thumb', {
     },
 
     getTemplate: function() {
-        if(Ext.theme.is.Blackberry) {
+        if (Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103) {
             return [
                 {
                     tag: 'div',
@@ -106594,8 +106591,6 @@ Ext.define('Ext.slider.Slider', {
 });
 
 /**
- * @aside guide forms
- *
  * The slider is a way to allow the user to select a value from a given numerical range. You might use it for choosing
  * a percentage, combine two of them to get min and max values, or use three of them to specify the hex values for a
  * color. Each slider contains a single 'thumb' that can be dragged along the slider's length to change the value.
@@ -106654,6 +106649,8 @@ Ext.define('Ext.slider.Slider', {
  * Here we listened to the {@link #change} event on the slider and updated the background image of an
  * {@link Ext.Img image component} based on what size the user selected. Of course, you can use any logic inside your
  * event listener.
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.Slider', {
     extend  :  Ext.field.Field ,
@@ -106997,20 +106994,19 @@ Ext.define('Ext.util.TapRepeater', {
 });
 
 /**
- * @aside guide forms
- *
  * Wraps an HTML5 number field. Example usage:
  *
  *     @example miniphone
  *     var spinner = Ext.create('Ext.field.Spinner', {
- *         label: 'Spinner Field',
- *         minValue: 0,
- *         maxValue: 100,
- *         increment: 2,
- *         cycle: true
+ *         label     : 'Spinner Field',
+ *         minValue  : 0,
+ *         maxValue  : 100,
+ *         stepValue : 2,
+ *         cycle     : true
  *     });
  *     Ext.Viewport.add({ xtype: 'container', items: [spinner] });
  *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.Spinner', {
     extend:  Ext.field.Number ,
@@ -107435,8 +107431,6 @@ Ext.define('Ext.slider.Toggle', {
 });
 
 /**
- * @aside guide forms
- *
  * Specialized {@link Ext.field.Slider} with a single thumb which only supports two {@link #value values}.
  *
  * ## Examples
@@ -107486,6 +107480,8 @@ Ext.define('Ext.slider.Toggle', {
  *             ]
  *         }
  *     ]);
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.Toggle', {
     extend:  Ext.field.Slider ,
@@ -107525,7 +107521,7 @@ Ext.define('Ext.field.Toggle', {
         theme: ['Windows'],
         labelAlign: 'left'
     }, {
-        theme: ['Blackberry', 'MountainView'],
+        theme: ['Blackberry', 'Blackberry103', 'MountainView'],
         activeLabel: 'On',
         inactiveLabel: 'Off'
     }],
@@ -107643,10 +107639,8 @@ Ext.define('Ext.field.Toggle', {
 });
 
 /**
- * @aside guide forms
- *
- * The Url field creates an HTML5 url input and is usually created inside a form. Because it creates an HTML url input
- * field, most browsers will show a specialized virtual keyboard for web address input. Aside from that, the url field
+ * The urlfield creates an HTML5 url input and is usually created inside a form. Because it creates an HTML url input
+ * field, most browsers will show a specialized virtual keyboard for web address input. Aside from that, the urlfield
  * is just a normal text field. Here's an example of how to use it in a form:
  *
  *     @example
@@ -107678,6 +107672,8 @@ Ext.define('Ext.field.Toggle', {
  * provide, including getting and setting the value at runtime, validations and various events that are fired as the
  * user interacts with the component. Check out the {@link Ext.field.Text} docs to see the additional functionality
  * available.
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.field.Url', {
     extend:  Ext.field.Text ,
@@ -107702,10 +107698,6 @@ Ext.define('Ext.field.Url', {
 });
 
 /**
- * @aside guide forms
- * @aside example forms
- * @aside example forms-toolbars
- *
  * A FieldSet is a great way to visually separate elements of a form. It's normally used when you have a form with
  * fields that can be divided into groups - for example a customer's billing details in one fieldset and their shipping
  * address in another. A fieldset can be used inside a form or on its own elsewhere in your app. Fieldsets can
@@ -107740,6 +107732,8 @@ Ext.define('Ext.field.Url', {
  * of the form fields are in the same fieldset, but for longer forms we may choose to use multiple fieldsets. We also
  * configured a {@link #title} and {@link #instructions} to give the user more information on filling out the form if
  * required.
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.form.FieldSet', {
     extend  :  Ext.Container ,
@@ -108031,9 +108025,7 @@ Ext.define('Ext.form.FieldSet', {
  * form submission was successful. These functions are usually used to take some action in your app after your data
  * has been saved to the server side.
  *
- * @aside guide forms
- * @aside example forms
- * @aside example forms-toolbars
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 Ext.define('Ext.form.Panel', {
     alternateClassName: 'Ext.form.FormPanel',
@@ -108298,6 +108290,10 @@ Ext.define('Ext.form.Panel', {
         if (e && !me.getStandardSubmit()) {
             e.stopEvent();
         } else {
+            // Stop the submit event on the original for if we are swapping a form in
+            if (me.getEnableSubmissionForm()) {
+                e.stopEvent();
+            }
             this.submit(null, e);
         }
     },
@@ -111266,7 +111262,7 @@ Ext.define('Ext.navigation.Bar', {
     },
 
     platformConfig: [{
-        theme: ['Blackberry'],
+        theme: ['Blackberry', 'Blackberry103'],
         animation: false
     }],
 
@@ -111808,7 +111804,8 @@ Ext.define('Ext.navigation.Bar', {
  *  Applications that need compatibility with ##Older Android## devices will want to see the {@link #layout} config for details on
  *  disabling navigation view animations as these devices have poor animation support and performance.
  *
- * @aside guide navigation_view
+ * ###Further Reading
+ * [Sencha Touch Navigation View Guide](../../../components/navigation_view.html)
  */
 Ext.define('Ext.navigation.View', {
     extend:  Ext.Container ,
@@ -111932,7 +111929,7 @@ Ext.define('Ext.navigation.View', {
      */
 
     platformConfig: [{
-        theme: ['Blackberry'],
+        theme: ['Blackberry', 'Blackberry103'],
         navigationBar: {
             splitNavigation: true
         }
@@ -112199,6 +112196,7 @@ Ext.define('Ext.navigation.View', {
 
         config.view = this;
         config.useTitleForBackButtonText = this.getUseTitleForBackButtonText();
+        
         // Blackberry specific nav setup where title is on the top title bar and the bottom toolbar is used for buttons and BACK
         if (config.splitNavigation) {
             this.$titleContainer = this.add({
@@ -113480,7 +113478,7 @@ Ext.define('Ext.tab.Bar', {
      */
 
     platformConfig: [{
-        theme: ['Blackberry', 'CupertinoClassic', 'MountainView'],
+        theme: ['Blackberry', 'Blackberry103', 'CupertinoClassic', 'MountainView'],
         defaults: {
             flex: 1
         }
@@ -113578,11 +113576,6 @@ Ext.define('Ext.tab.Bar', {
 });
 
 /**
- * @aside guide tabs
- * @aside video tabs-toolbars
- * @aside example tabs
- * @aside example tabs-bottom
- *
  * Tab Panels are a great way to allow the user to switch between several pages that are all full screen. Each
  * Component in the Tab Panel gets its own Tab, which shows the Component when tapped on. Tabs can be positioned at
  * the top or the bottom of the Tab Panel, and can optionally accept title and icon configurations.
@@ -113637,6 +113630,7 @@ Ext.define('Ext.tab.Bar', {
  *         ]
  *     });
  *
+ * For more information, see our [Tab Panel Guide](../../../components/tabpanel.html).
  */
 Ext.define('Ext.tab.Panel', {
     extend:  Ext.Container ,
@@ -113717,7 +113711,7 @@ Ext.define('Ext.tab.Panel', {
     },
 
     platformConfig: [{
-        theme: ['Blackberry'],
+        theme: ['Blackberry', 'Blackberry103'],
         tabBarPosition: 'bottom'
     }],
 
@@ -114252,6 +114246,22 @@ Ext.define('Ext.util.TranslatableList', {
 
 /**
  * @private
+ */
+Ext.define('Ext.util.paintmonitor.OverflowChange', {
+
+    extend:  Ext.util.paintmonitor.Abstract ,
+
+    eventName: Ext.browser.is.Firefox ? 'overflow' : 'overflowchanged',
+
+    monitorClass: 'overflowchange',
+
+    onElementPainted: function(e) {
+        this.getCallback().apply(this.getScope(), this.getArgs());
+    }
+});
+
+/**
+ * @private
  * Base class for iOS and Android viewports.
  */
 Ext.define('Ext.viewport.Default', {
@@ -114345,7 +114355,7 @@ Ext.define('Ext.viewport.Default', {
          *         ]
          *     });
          *
-         * See the [layouts guide](#!/guides/layouts) for more information.
+         * See the [layouts guide](../../../core_concepts/layouts.html) for more information.
          *
          * @accessor
          */
@@ -114369,7 +114379,22 @@ Ext.define('Ext.viewport.Default', {
          * An object of all the menus on this viewport.
          * @private
          */
-        menus: {}
+        menus: {},
+
+        /**
+         * @private
+         */
+        orientation: null
+    },
+
+    getElementConfig: function() {
+        var cfg = this.callParent(arguments);
+
+        // Used in legacy browser that do not support matchMedia. Hidden element is used for checking of orientation
+        if (!Ext.feature.has.MatchMedia) {
+            cfg.children.unshift({reference: 'orientationElement', className: 'x-orientation-inspector'});
+        }
+        return cfg;
     },
 
     /**
@@ -114412,23 +114437,18 @@ Ext.define('Ext.viewport.Default', {
 
         this.callSuper([config]);
 
-        this.orientation = this.determineOrientation();
         this.windowWidth = this.getWindowWidth();
         this.windowHeight = this.getWindowHeight();
         this.windowOuterHeight = this.getWindowOuterHeight();
 
         if (!this.stretchHeights) {
-        this.stretchHeights = {};
+            this.stretchHeights = {};
         }
 
-        // Android is handled separately
-        if (!Ext.os.is.Android || Ext.browser.is.ChromeMobile) {
-            if (this.supportsOrientation()) {
-                this.addWindowListener('orientationchange', bind(this.onOrientationChange, this));
-            }
-            else {
-                this.addWindowListener('resize', bind(this.onResize, this));
-            }
+        if(Ext.feature.has.OrientationChange) {
+            this.addWindowListener('orientationchange', bind(this.onOrientationChange, this));
+        } else {
+            this.addWindowListener('resize', bind(this.onResize, this));
         }
 
         document.addEventListener('focus', bind(this.onElementFocus, this), true);
@@ -114437,9 +114457,7 @@ Ext.define('Ext.viewport.Default', {
         Ext.onDocumentReady(this.onDomReady, this);
 
         this.on('ready', this.onReady, this, {single: true});
-
         this.getEventDispatcher().addListener('component', '*', 'fullscreen', 'onItemFullscreenChange', this);
-
         return this;
     },
 
@@ -114474,8 +114492,7 @@ Ext.define('Ext.viewport.Default', {
                 osEnv = Ext.os,
                 osName = osEnv.name.toLowerCase(),
                 browserName = Ext.browser.name.toLowerCase(),
-                osMajorVersion = osEnv.version.getMajor(),
-                orientation = this.getOrientation();
+                osMajorVersion = osEnv.version.getMajor();
 
             this.renderTo(body);
 
@@ -114515,8 +114532,8 @@ Ext.define('Ext.viewport.Default', {
                 classList.push(clsPrefix + 'google-glass');
             }
 
-            classList.push(clsPrefix + orientation);
-
+            this.setOrientation(this.determineOrientation());
+            classList.push(clsPrefix + this.getOrientation());
             body.addCls(classList);
         }
     },
@@ -114681,39 +114698,51 @@ Ext.define('Ext.viewport.Default', {
         return this.callSuper(arguments);
     },
 
-    supportsOrientation: function() {
-        return Ext.feature.has.Orientation;
-    },
-
-    onResize: function() {
-        var oldWidth = this.windowWidth,
-            oldHeight = this.windowHeight,
-            width = this.getWindowWidth(),
-            height = this.getWindowHeight(),
-            currentOrientation = this.getOrientation(),
-            newOrientation = this.determineOrientation();
-
-        // Determine orientation change via resize. BOTH width AND height much change, otherwise
-        // this is a keyboard popping up.
-        if ((oldWidth !== width && oldHeight !== height) && currentOrientation !== newOrientation) {
-            this.fireOrientationChangeEvent(newOrientation, currentOrientation);
+    determineOrientation: function() {
+        // First attempt will be to use Native Orientation information
+        if (Ext.feature.has.Orientation) {
+            var nativeOrientation= this.getWindowOrientation();
+            // 90 || -90 || 270 is landscape
+            if (Math.abs(nativeOrientation) === 90 || nativeOrientation === 270) {
+                return this.LANDSCAPE;
+            } else {
+                return this.PORTRAIT;
+            }
+        // Second attempt will be to use MatchMedia and a media query
+        } else if (Ext.feature.has.MatchMedia) {
+            return window.matchMedia('(orientation : landscape)').matches ? this.LANDSCAPE : this.PORTRAIT;
+        // Fall back on hidden element with media query attached to it (media query in Base Theme)
+        } else if (this.orientationElement) {
+            return this.orientationElement.getStyle('content');
         }
     },
 
+    updateOrientation: function(newValue, oldValue) {
+        if (oldValue) {
+            this.fireOrientationChangeEvent(newValue, oldValue);
+        }
+    },
+
+    /**
+     * Listener for Orientation Change in environments that support orientationchange events
+     * @private
+     */
     onOrientationChange: function() {
-        var currentOrientation = this.getOrientation(),
-            newOrientation = this.determineOrientation();
+        this.setOrientation(this.determineOrientation());
+    },
 
-        if (newOrientation !== currentOrientation) {
-            this.fireOrientationChangeEvent(newOrientation, currentOrientation);
-        }
+    /**
+     * Listener for Orientation Change in environments that do no support orientationchange events
+     * @private
+     */
+    onResize: function() {
+        this.updateSize();
+        this.setOrientation(this.determineOrientation());
     },
 
     fireOrientationChangeEvent: function(newOrientation, oldOrientation) {
         var clsPrefix = Ext.baseCSSPrefix;
         Ext.getBody().replaceCls(clsPrefix + oldOrientation, clsPrefix + newOrientation);
-
-        this.orientation = newOrientation;
 
         this.updateSize();
         this.fireEvent('orientationchange', this, newOrientation, this.windowWidth, this.windowHeight);
@@ -114724,39 +114753,6 @@ Ext.define('Ext.viewport.Default', {
         this.windowHeight = height !== undefined ? height : this.getWindowHeight();
 
         return this;
-    },
-
-    waitUntil: function(condition, onSatisfied, onTimeout, delay, timeoutDuration) {
-        if (!delay) {
-            delay = 50;
-        }
-
-        if (!timeoutDuration) {
-            timeoutDuration = 2000;
-        }
-
-        var scope = this,
-            elapse = 0;
-
-        setTimeout(function repeat() {
-            elapse += delay;
-
-            if (condition.call(scope) === true) {
-                if (onSatisfied) {
-                    onSatisfied.call(scope);
-                }
-            }
-            else {
-                if (elapse >= timeoutDuration) {
-                    if (onTimeout) {
-                        onTimeout.call(scope);
-                    }
-                }
-                else {
-                    setTimeout(repeat, delay);
-                }
-            }
-        }, delay);
     },
 
     maximize: function() {
@@ -114808,14 +114804,6 @@ Ext.define('Ext.viewport.Default', {
         return window.orientation;
     },
 
-    /**
-     * Returns the current orientation.
-     * @return {String} `portrait` or `landscape`
-     */
-    getOrientation: function() {
-        return this.orientation;
-    },
-
     getSize: function() {
         return {
             width: this.windowWidth,
@@ -114823,29 +114811,41 @@ Ext.define('Ext.viewport.Default', {
         };
     },
 
-    determineOrientation: function() {
-        var portrait = this.PORTRAIT,
-            landscape = this.LANDSCAPE;
-
-        if (!Ext.os.is.Android && this.supportsOrientation()) {
-            if (this.getWindowOrientation() % 180 === 0) {
-                return portrait;
-            }
-
-            return landscape;
-        }
-        else {
-            if (this.getWindowHeight() >= this.getWindowWidth()) {
-                return portrait;
-            }
-
-            return landscape;
-        }
-    },
-
     onItemFullscreenChange: function(item) {
         item.addCls(this.fullscreenItemCls);
         this.add(item);
+    },
+    waitUntil: function(condition, onSatisfied, onTimeout, delay, timeoutDuration) {
+        if (!delay) {
+            delay = 50;
+        }
+
+        if (!timeoutDuration) {
+            timeoutDuration = 2000;
+        }
+
+        var scope = this,
+            elapse = 0;
+
+        setTimeout(function repeat() {
+            elapse += delay;
+
+            if (condition.call(scope) === true) {
+                if (onSatisfied) {
+                    onSatisfied.call(scope);
+                }
+            }
+            else {
+                if (elapse >= timeoutDuration) {
+                    if (onTimeout) {
+                        onTimeout.call(scope);
+                    }
+                }
+                else {
+                    setTimeout(repeat, delay);
+                }
+            }
+        }, delay);
     },
 
     /**
@@ -115519,8 +115519,9 @@ Ext.define('Ext.viewport.Default', {
  * @private
  * Android version of viewport.
  */
-Ext.define('Ext.viewport.Android', {
+Ext.define('Ext.viewport.AndroidStock', {
     extend:  Ext.viewport.Default ,
+    alternateClassName: ['Ext.viewport.Android'],
 
     config: {
         translatable: {
@@ -115532,11 +115533,6 @@ Ext.define('Ext.viewport.Android', {
         this.on('orientationchange', 'hideKeyboardIfNeeded', this, { prepend: true });
 
         this.callSuper(arguments);
-
-        // Viewport is initialized before event system, we need to wait until the application is ready before
-        // we add the resize listener. Otherwise it will only fire if another resize listener is added later.
-        var me = this;
-        Ext.onReady(function() { Ext.getBody().on('resize', me.onResize, me);});
     },
 
     getWindowWidth: function () {
@@ -115606,44 +115602,13 @@ Ext.define('Ext.viewport.Android', {
         }
     },
 
-    doFireOrientationChangeEvent: function() {
-        var eventController = arguments[arguments.length - 1];
-
-        this.orientationChanging = true;
-
-        eventController.pause();
-
-        this.waitUntil(function() {
-            return this.getWindowOuterHeight() !== this.windowOuterHeight;
-        }, function() {
-            this.windowOuterHeight = this.getWindowOuterHeight();
-            this.updateSize();
-
-            eventController.firingArguments[2] = this.windowWidth;
-            eventController.firingArguments[3] = this.windowHeight;
-            eventController.resume();
-            this.orientationChanging = false;
-
-        }, function() {
-            //<debug error>
-            Ext.Logger.error("Timeout waiting for viewport's outerHeight to change before firing orientationchange", this);
-            //</debug>
-        });
-
-        return this;
-    },
-
-    determineOrientation: function() {
-        return (this.getWindowHeight() >= this.getWindowWidth()) ? this.PORTRAIT : this.LANDSCAPE;
-    },
-
     getActualWindowOuterHeight: function() {
         return Math.round(this.getWindowOuterHeight() / window.devicePixelRatio);
     },
 
     maximize: function() {
         var stretchHeights = this.stretchHeights,
-            orientation = this.orientation,
+            orientation = this.getOrientation(),
             height;
 
         height = stretchHeights[orientation];
@@ -115667,28 +115632,6 @@ Ext.define('Ext.viewport.Android', {
     isHeightMaximized: function(height) {
         this.scrollToTop();
         return this.getWindowHeight() === height;
-    },
-
-    supportsOrientation: function () {
-        return false;
-    },
-
-    onResize: function () {
-        this.waitUntil(function () {
-            var oldWidth = this.windowWidth,
-                oldHeight = this.windowHeight,
-                width = this.getWindowWidth(),
-                height = this.getWindowHeight(),
-                currentOrientation = this.getOrientation(),
-                newOrientation = this.determineOrientation();
-
-            return ((oldWidth !== width && oldHeight !== height) && currentOrientation !== newOrientation);
-        }, function () {
-            var currentOrientation = this.getOrientation(),
-                newOrientation = this.determineOrientation();
-
-            this.fireOrientationChangeEvent(newOrientation, currentOrientation);
-         }, Ext.emptyFn, 250);
     },
 
     doPreventZooming: function (e) {
@@ -115844,7 +115787,7 @@ Ext.define('Ext.viewport.Ios', {
         }
 
         var stretchHeights = this.stretchHeights,
-            orientation = this.orientation,
+            orientation = this.getOrientation(),
             currentHeight = this.getWindowHeight(),
             height = stretchHeights[orientation];
 
@@ -115887,7 +115830,8 @@ Ext.define('Ext.viewport.Ios', {
     },
 
     getScreenHeight: function() {
-        return window.screen[this.orientation === this.PORTRAIT ? 'height' : 'width'];
+        var orientation = this.getOrientation();
+        return window.screen[orientation === this.PORTRAIT ? 'height' : 'width'];
     },
 
     onElementFocus: function() {
@@ -115987,11 +115931,13 @@ Ext.define('Ext.viewport.Ios', {
                 },
 
                 getWindowHeight: function() {
-                    return this.stretchHeights[this.orientation];
+                    var orientation = this.getOrientation();
+                    return this.stretchHeights[orientation];
                 },
 
                 getWindowWidth: function() {
-                    return this.stretchWidths[this.orientation];
+                    var orientation = this.getOrientation();
+                    return this.stretchWidths[orientation];
                 },
 
                 setViewportSizeToAbsolute: function() {
@@ -116068,28 +116014,6 @@ Ext.define('Ext.viewport.WindowsPhone', {
         document.body.addEventListener('onselectstart', preventSelection);
 
         this.callParent(arguments);
-    },
-
-    supportsOrientation: function() {
-        return false;
-    },
-
-    onResize: function() {
-        this.waitUntil(function() {
-            var oldWidth = this.windowWidth,
-                oldHeight = this.windowHeight,
-                width = this.getWindowWidth(),
-                height = this.getWindowHeight(),
-                currentOrientation = this.getOrientation(),
-                newOrientation = this.determineOrientation();
-
-            return ((oldWidth !== width && oldHeight !== height) && currentOrientation !== newOrientation);
-        }, function() {
-            var currentOrientation = this.getOrientation(),
-                newOrientation = this.determineOrientation();
-            this.fireOrientationChangeEvent(newOrientation, currentOrientation);
-
-        }, Ext.emptyFn, 250);
     }
 });
 
@@ -116102,7 +116026,7 @@ Ext.define('Ext.viewport.WindowsPhone', {
 Ext.define('Ext.viewport.Viewport', {
                
                            
-                               
+                                    
                                    
       
 
@@ -116112,7 +116036,7 @@ Ext.define('Ext.viewport.Viewport', {
 
         switch (osName) {
             case 'Android':
-                viewportName = (Ext.browser.name == 'ChromeMobile') ? 'Default' : 'Android';
+                viewportName = (Ext.browser.name == 'ChromeMobile') ? 'Default' : 'AndroidStock';
                 break;
 
             case 'iOS':

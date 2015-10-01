@@ -1563,121 +1563,145 @@ input, textarea {
   /* line 171, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   0% {
     -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
   }
 
   /* line 172, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   8.32% {
     -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
   }
 
   /* line 174, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   8.33% {
     -ms-transform: rotate(30deg);
+    transform: rotate(30deg);
   }
 
   /* line 175, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   16.65% {
     -ms-transform: rotate(30deg);
+    transform: rotate(30deg);
   }
 
   /* line 177, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   16.66% {
     -ms-transform: rotate(60deg);
+    transform: rotate(60deg);
   }
 
   /* line 178, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   24.99% {
     -ms-transform: rotate(60deg);
+    transform: rotate(60deg);
   }
 
   /* line 180, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   25% {
     -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
   }
 
   /* line 181, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   33.32% {
     -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
   }
 
   /* line 183, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   33.33% {
     -ms-transform: rotate(120deg);
+    transform: rotate(120deg);
   }
 
   /* line 184, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   41.65% {
     -ms-transform: rotate(120deg);
+    transform: rotate(120deg);
   }
 
   /* line 186, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   41.66% {
     -ms-transform: rotate(150deg);
+    transform: rotate(150deg);
   }
 
   /* line 187, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   49.99% {
     -ms-transform: rotate(150deg);
+    transform: rotate(150deg);
   }
 
   /* line 189, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   50% {
     -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
   }
 
   /* line 190, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   58.32% {
     -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
   }
 
   /* line 192, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   58.33% {
     -ms-transform: rotate(210deg);
+    transform: rotate(210deg);
   }
 
   /* line 193, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   66.65% {
     -ms-transform: rotate(210deg);
+    transform: rotate(210deg);
   }
 
   /* line 195, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   66.66% {
     -ms-transform: rotate(240deg);
+    transform: rotate(240deg);
   }
 
   /* line 196, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   74.99% {
     -ms-transform: rotate(240deg);
+    transform: rotate(240deg);
   }
 
   /* line 198, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   75% {
     -ms-transform: rotate(270deg);
+    transform: rotate(270deg);
   }
 
   /* line 199, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   83.32% {
     -ms-transform: rotate(270deg);
+    transform: rotate(270deg);
   }
 
   /* line 201, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   83.33% {
     -ms-transform: rotate(300deg);
+    transform: rotate(300deg);
   }
 
   /* line 202, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   91.65% {
     -ms-transform: rotate(300deg);
+    transform: rotate(300deg);
   }
 
   /* line 204, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   91.66% {
     -ms-transform: rotate(330deg);
+    transform: rotate(330deg);
   }
 
   /* line 205, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/_Class.scss */
   100% {
     -ms-transform: rotate(330deg);
+    transform: rotate(330deg);
   }
 }
 
@@ -3217,6 +3241,18 @@ input[type="search"]::-webkit-search-cancel-button {
   vertical-align: middle;
 }
 
+/* line 1, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/viewport/_Default.scss */
+.x-orientation-inspector {
+  display: none;
+  content: "landscape";
+}
+@media (orientation: portrait) {
+  /* line 1, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/viewport/_Default.scss */
+  .x-orientation-inspector {
+    content: "portrait";
+  }
+}
+
 /* line 2, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-header-container {
   border-width: 0 1px 1px 0;
@@ -3359,9 +3395,10 @@ input[type="search"]::-webkit-search-cancel-button {
   overflow: hidden;
   padding-left: 10px;
 }
-/* line 153, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 154, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-viewoptions .x-column-options-sortablehandle,
 .x-grid .x-grid-viewoptions .x-column-options-visibleindicator,
+.x-grid .x-grid-viewoptions .x-column-options-groupindicator,
 .x-grid .x-grid-viewoptions .x-column-options-folder,
 .x-grid .x-grid-viewoptions .x-column-options-leaf {
   width: 40px;
@@ -3369,9 +3406,10 @@ input[type="search"]::-webkit-search-cancel-button {
   position: absolute;
   bottom: 0;
 }
-/* line 159, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 160, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-viewoptions .x-column-options-sortablehandle:after,
 .x-grid .x-grid-viewoptions .x-column-options-visibleindicator:after,
+.x-grid .x-grid-viewoptions .x-column-options-groupindicator:after,
 .x-grid .x-grid-viewoptions .x-column-options-folder:after,
 .x-grid .x-grid-viewoptions .x-column-options-leaf:after {
   position: absolute;
@@ -3386,49 +3424,59 @@ input[type="search"]::-webkit-search-cancel-button {
   content: "l";
   vertical-align: middle;
 }
-/* line 174, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 175, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-viewoptions .x-column-options-sortablehandle {
   left: 0;
 }
-/* line 176, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 177, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-viewoptions .x-column-options-sortablehandle:after {
   line-height: 54px;
 }
-/* line 180, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 181, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-viewoptions .x-column-options-visibleindicator {
   right: 0;
 }
-/* line 182, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 183, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-viewoptions .x-column-options-visibleindicator:after {
   font-size: 30px;
   line-height: 54px;
   content: "E";
 }
 /* line 190, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+.x-grid .x-grid-viewoptions .x-column-options-groupindicator {
+  right: 40px;
+}
+/* line 192, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+.x-grid .x-grid-viewoptions .x-column-options-groupindicator:after {
+  font-size: 30px;
+  line-height: 54px;
+  content: "g";
+}
+/* line 200, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-viewoptions .x-column-options-folder,
 .x-grid .x-grid-viewoptions .x-column-options-leaf {
   width: 30px;
   left: 40px;
 }
-/* line 194, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 204, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-viewoptions .x-column-options-folder:after,
 .x-grid .x-grid-viewoptions .x-column-options-leaf:after {
   line-height: 52px;
   content: "o";
 }
-/* line 200, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 210, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-viewoptions .x-column-options-leaf:after {
   content: "F";
 }
-/* line 204, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 214, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-viewoptions .x-list-item.x-item-selected.x-list-item-tpl {
   background: transparent;
 }
-/* line 206, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 216, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-viewoptions .x-list-item.x-item-selected.x-list-item-tpl .x-innerhtml {
   background: transparent;
 }
-/* line 211, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 221, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-viewoptions .x-column-options-text {
   display: block;
   height: 30px;
@@ -3437,16 +3485,16 @@ input[type="search"]::-webkit-search-cancel-button {
   vertical-align: middle;
   line-height: 28px;
 }
-/* line 221, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 231, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-columnoptions {
   border-width: 0 0 1px;
 }
-/* line 225, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 235, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-multiselection-column {
   position: relative;
   padding: 0;
 }
-/* line 229, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 239, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-multiselection-column:after {
   position: absolute;
   top: 0;
@@ -3459,12 +3507,12 @@ input[type="search"]::-webkit-search-cancel-button {
   text-align: center;
   content: "2";
 }
-/* line 243, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 253, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-multiselection-cell {
   position: relative;
   padding: 0;
 }
-/* line 247, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 257, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-multiselection-cell:after {
   position: absolute;
   top: 0;
@@ -3477,20 +3525,20 @@ input[type="search"]::-webkit-search-cancel-button {
   text-align: center;
   content: "_";
 }
-/* line 261, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 271, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-item-selected .x-grid-multiselection-cell:after {
   content: "3";
 }
-/* line 266, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 276, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-pagingtoolbar > .x-body {
   padding: 0 30px 0 50px;
 }
-/* line 271, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 281, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-pagingtoolbar-currentpage {
   position: relative;
   height: 22px;
 }
-/* line 275, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 285, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-pagingtoolbar-currentpage span {
   position: absolute;
   right: 0;
@@ -3498,22 +3546,57 @@ input[type="search"]::-webkit-search-cancel-button {
   line-height: 22px;
   height: 22px;
 }
-/* line 284, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 294, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-summaryrow {
   height: 32px;
   font-size: 0.8em;
   position: relative;
 }
-/* line 289, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 299, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-summaryrow .x-grid-cell {
   height: 32px;
   line-height: 30px;
   border-width: 0 0 1px;
   border-style: solid;
 }
-/* line 297, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+/* line 307, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
 .x-grid .x-grid-summaryrow .x-grid-multiselection-cell:after {
   content: '';
+}
+
+/* line 315, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+.x-ie .x-grid-grouped .x-translatable-container .x-grid-row:before, .x-ie .x-grid-grouped .x-translatable-container .x-grid-header:before {
+  content: ". .";
+  color: transparent;
+  position: absolute;
+  left: 0px;
+  word-spacing: 3000px;
+  opacity: 0;
+}
+
+/* line 326, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+.x-grid-header {
+  line-height: 44px;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  z-index: 2 !important;
+}
+
+/* line 335, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+.x-ios .x-grid-header {
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+/* line 340, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/base/src/grid/_Grid.scss */
+.x-grid-grouped .x-grid-row.x-grid-header-wrap .x-dock-horizontal,
+.x-grid-grouped .x-grid-row-tpl.x-grid-header-wrap {
+  border-top: 0;
 }
 
 /**
@@ -4572,6 +4655,17 @@ body {
   padding: 4px 0;
   color: #808183;
   background: rgba(91, 91, 91, 0.2);
+}
+
+/* line 1, /home/teamcity/buildAgent/work/856564e37705b5b7/touch/resources/themes/stylesheets/sencha-touch/mountainview/src/grid/_Grid.scss */
+.x-grid .x-grid-header {
+  color: #808183;
+  font-size: 12pt;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: transparent;
+  padding: 15px 5px 5px;
+  border-bottom: 1px solid;
 }
 
 /**

@@ -64,7 +64,7 @@ Ext.define('Ext.slider.Thumb', {
     },
 
     getTemplate: function() {
-        if(Ext.theme.is.Blackberry) {
+        if (Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103) {
             return [
                 {
                     tag: 'div',

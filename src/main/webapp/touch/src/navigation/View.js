@@ -49,7 +49,8 @@
  *  Applications that need compatibility with ##Older Android## devices will want to see the {@link #layout} config for details on
  *  disabling navigation view animations as these devices have poor animation support and performance.
  *
- * @aside guide navigation_view
+ * ###Further Reading
+ * [Sencha Touch Navigation View Guide](../../../components/navigation_view.html)
  */
 Ext.define('Ext.navigation.View', {
     extend: 'Ext.Container',
@@ -173,7 +174,7 @@ Ext.define('Ext.navigation.View', {
      */
 
     platformConfig: [{
-        theme: ['Blackberry'],
+        theme: ['Blackberry', 'Blackberry103'],
         navigationBar: {
             splitNavigation: true
         }
@@ -440,6 +441,7 @@ Ext.define('Ext.navigation.View', {
 
         config.view = this;
         config.useTitleForBackButtonText = this.getUseTitleForBackButtonText();
+        
         // Blackberry specific nav setup where title is on the top title bar and the bottom toolbar is used for buttons and BACK
         if (config.splitNavigation) {
             this.$titleContainer = this.add({

@@ -1,6 +1,5 @@
 /**
  * @author Ed Spencer
- * @aside guide models
  *
  * Represents a many to one association with another model. The owner model is expected to have
  * a foreign key which references the primary key of the associated model:
@@ -123,6 +122,9 @@
  *
  * Here we replaced the default primary key (defaults to 'id') and foreign key (calculated as 'category_id')
  * with our own settings. Usually this will not be needed.
+ *
+ * ###Further Reading
+ * [Sencha Touch Models and Associations](../../../core_concepts/data/models.html)
  */
 Ext.define('Ext.data.association.BelongsTo', {
     extend: 'Ext.data.association.Association',

@@ -1,6 +1,4 @@
 /**
- * @aside guide forms
- *
  * Creates an HTML file input field on the page. This is usually used to upload files to remote server. File fields are usually
  * created inside a form like this:
  *
@@ -22,6 +20,8 @@
  *             }
  *         ]
  *     });
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
  */
 
 Ext.define('Ext.field.File', {

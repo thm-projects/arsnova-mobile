@@ -1,5 +1,4 @@
 /**
- * @aside example video
  * Provides a simple Container for HTML5 Video.
  *
  * ## Notes
