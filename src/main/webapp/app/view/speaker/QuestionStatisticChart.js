@@ -253,7 +253,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 		this.questionChart = Ext.create('Ext.chart.CartesianChart', {
 			store: this.questionStore,
-			hidden: this.questionObj.questionType === "grid",
+			hidden: true,
 
 			animate: {
 				easing: 'bounceOut',
@@ -420,8 +420,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			this.getQuestionAnswers();
 		}
 
-		this.on('activate', this.onActivate);
-
 		this.on('hide', function () {
 			ARSnova.app.activePreviewPanel = false;
 			this.countdownTimer.stop();
@@ -435,6 +433,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	onActivate: function () {
 		ARSnova.app.innerScrollPanel = this;
 		ARSnova.app.taskManager.start(this.renewChartDataTask);
+		this.questionChart.setHidden(this.questionObj.questionType === "grid");
 		this.checkPiRoundActivation();
 
 		if (this.questionObj.piRound === 1) {

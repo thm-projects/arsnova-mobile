@@ -60,6 +60,7 @@ Ext.define("ARSnova.controller.Statistics", {
 				animationend: function () {
 					hideLoadMask();
 					panel.showcaseQuestionPanel.toolbar.statisticsButton.enable();
+					panel.questionStatisticChart.onActivate();
 				}
 			}
 		};
