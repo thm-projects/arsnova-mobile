@@ -57,7 +57,10 @@ Ext.define("ARSnova.controller.Statistics", {
 			direction: 'left',
 			duration: 700,
 			listeners: {
-				animationend: hideLoadMask
+				animationend: function () {
+					hideLoadMask();
+					panel.showcaseQuestionPanel.toolbar.statisticsButton.enable();
+				}
 			}
 		};
 
@@ -92,10 +95,6 @@ Ext.define("ARSnova.controller.Statistics", {
 
 		panel.statisticTabPanel.insert(0, panel.questionStatisticChart);
 		panel.statisticTabPanel.roundManagementPanel.statisticChart = panel.questionStatisticChart;
-
-		panel.statisticTabPanel.on('painted', function () {
-			panel.showcaseQuestionPanel.toolbar.statisticsButton.enable();
-		}, panel.statisticTabPanel, {single: true});
 
 		if (enterRoundManagement) {
 			targetIndex = 1;
