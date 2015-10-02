@@ -30,6 +30,21 @@ Ext.define("ARSnova.controller.Statistics", {
 	},
 
 	prepareStudentStatistics: function (panel, scope) {
+		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK);
+		var animation = {
+			type: 'slide',
+			direction: 'left',
+			duration: 700,
+			listeners: {
+				animationend: function () {
+					hideLoadMask();
+					if (scope.questionObj.questionType !== 'freetext') {
+						panel.questionStatisticChart.onActivate();
+					}
+				}
+			}
+		};
+
 		if (scope.questionObj.questionType === 'freetext') {
 			panel.questionStatisticChart = Ext.create(
 				scope.questionObj.imageQuestion ?
@@ -44,7 +59,7 @@ Ext.define("ARSnova.controller.Statistics", {
 			});
 		}
 
-		ARSnova.app.mainTabPanel.animateActiveItem(panel.questionStatisticChart, 'slide');
+		ARSnova.app.mainTabPanel.animateActiveItem(panel.questionStatisticChart, animation);
 	},
 
 	prepareSpeakerStatistics: function (panel, enterRoundManagement) {
@@ -60,7 +75,9 @@ Ext.define("ARSnova.controller.Statistics", {
 				animationend: function () {
 					hideLoadMask();
 					panel.showcaseQuestionPanel.toolbar.statisticsButton.enable();
-					panel.questionStatisticChart.onActivate();
+					if (questionObj.questionType !== 'freetext') {
+						panel.questionStatisticChart.onActivate();
+					}
 				}
 			}
 		};
