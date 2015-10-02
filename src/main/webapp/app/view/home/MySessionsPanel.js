@@ -228,6 +228,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 								if (jsonContent) {
 									ARSnova.app.getController("SessionImport").importSession(jsonContent.exportData)
 										.then(function () {
+											me.resetPaginationState();
 											me.loadCreatedSessions()
 												.then(function () {
 													hideLoadMask();
