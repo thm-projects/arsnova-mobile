@@ -36,6 +36,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 
 	initialize: function () {
 		this.callParent(arguments);
+		var me = this;
 
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.STATISTIC,
@@ -110,6 +111,13 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 			hidden: true,
 			width: 240,
 			scope: this,
+			updateText: function () {
+				if (me.statisticChart.questionObj.piRoundActive) {
+					me.endRoundButton.setText(Messages.END_VOTE_IMMEDIATELY);
+				} else {
+					me.endRoundButton.setText(Messages.END_ROUND_IMMEDIATELY);
+				}
+			},
 			handler: function (button) {
 				button.disable();
 				Ext.Msg.confirm(Messages.END_ROUND, Messages.END_ROUND_WARNING, function (id) {
@@ -205,8 +213,8 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		var questionObj = this.statisticChart.questionObj;
 
 		this.activeMode = this.modes.STOP_TIMER;
+		this.endRoundButton.config.updateText();
 		this.startRoundButton.setText(Messages.START_VOTING);
-		this.endRoundButton.setText(Messages.END_VOTE_IMMEDIATELY);
 		this.countdownTimer.disableTimerLabel();
 
 		if (!questionObj.piRoundActive) {
@@ -214,13 +222,14 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 				questionObj.piRound === 1 && !questionObj.piRoundFinished) {
 				this.countdownTimer.slider.show();
 				this.startRoundButton.show();
+				this.endRoundButton.show();
 			} else {
 				this.countdownTimer.setTimerLabelText(Messages.VOTING_CLOSED);
 				this.countdownTimer.slider.hide();
 				this.startRoundButton.hide();
+				this.endRoundButton.hide();
 			}
 			this.cancelRoundButton.hide();
-			this.endRoundButton.hide();
 			this.questionManagementContainer.show();
 		} else {
 			this.endRoundButton.show();
