@@ -140,6 +140,10 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		if (screenWidth >= 700) {
 			ARSnova.app.taskManager.start(this.updateClockTask);
 			this.speakerUtilities.initializeZoomComponents();
+
+			if (ARSnova.app.projectorModeActive) {
+				ARSnova.app.getController('Application').setGlobalZoomLevel(130);
+			}
 		}
 	},
 
@@ -303,6 +307,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				}
 
 				me.setActiveItem(activeIndex);
+				me.updateAllQuestionPanels();
 				me.checkFirstQuestion();
 				hideIndicatorFn();
 			} else {

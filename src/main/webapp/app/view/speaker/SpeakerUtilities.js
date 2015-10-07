@@ -217,15 +217,19 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 			activate = enable;
 		}
 
+		if (!ARSnova.app.projectorModeActive && activate) {
+			ARSnova.app.getController('Application').setGlobalZoomLevel(130);
+		}
+
 		if (activate) {
 			panel.addCls('projector-mode');
-			ARSnova.app.getController('Application').setGlobalZoomLevel(130);
 		} else {
 			panel.removeCls('projector-mode');
-			ARSnova.app.getController('Application').setGlobalZoomLevel(ARSnova.app.globalZoomLevel);
 		}
-		panel.setZoomLevel(ARSnova.app.globalZoomLevel);
+
 		ARSnova.app.mainTabPanel.tabPanel.getTabBar().setHidden(activate);
+		ARSnova.app.getController('Application').setGlobalZoomLevel(ARSnova.app.globalZoomLevel);
+		panel.setZoomLevel(ARSnova.app.globalZoomLevel);
 
 		if (!noFullscreen) {
 			ARSnova.app.getController('Application').toggleFullScreen(activate);
