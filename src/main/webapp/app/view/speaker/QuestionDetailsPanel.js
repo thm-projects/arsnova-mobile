@@ -990,6 +990,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 		this.answerEditForm.initWithQuestion(Ext.clone(this.questionObj));
 		this.setContentFormContent(this.questionObj);
+		this.image = this.questionObj.image;
 
 		this.possibleAnswers = {};
 
