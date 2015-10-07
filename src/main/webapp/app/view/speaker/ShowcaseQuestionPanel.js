@@ -194,21 +194,21 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		sTP.showcaseQuestionPanel.speakerUtilities.setProjectorMode(showcasePanel, activate, noFullscreen);
 	},
 
-	updateControlButtonHiddenState: function () {
+	updateControlButtonHiddenState: function (panel) {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		var showcasePanel = sTP.showcaseQuestionPanel;
-		var questionPanel = showcasePanel.getActiveItem();
+		var questionPanel = panel || showcasePanel.getActiveItem();
 		var controls = questionPanel.editButtons;
 
 		if (controls) {
-			showcasePanel.setControlsHidden(!showcasePanel.speakerUtilities.isShowcaseEditPanelActive());
+			showcasePanel.setControlsHidden(!showcasePanel.speakerUtilities.isShowcaseEditPanelActive(), panel);
 		}
 	},
 
-	setControlsHidden: function (hide) {
+	setControlsHidden: function (hide, panel) {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		var showcasePanel = sTP.showcaseQuestionPanel;
-		var questionPanel = showcasePanel.getActiveItem();
+		var questionPanel = panel && panel.questionObj ? panel : showcasePanel.getActiveItem();
 		var controls = questionPanel.editButtons;
 		hide = typeof hide !== 'boolean' ? !controls.isHidden() : hide;
 
@@ -216,6 +216,16 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			controls.setHidden(hide);
 			showcasePanel.speakerUtilities.updateShowcaseControlButton(controls.isHidden());
 		}
+	},
+
+	updateAllQuestionPanels: function () {
+		var me = this;
+		var items = this.getInnerItems();
+
+		items.forEach(function (panel) {
+			me.updateControlButtonHiddenState(panel);
+			panel.setZoomLevel(ARSnova.app.globalZoomLevel);
+		});
 	},
 
 	getAllSkillQuestions: function () {

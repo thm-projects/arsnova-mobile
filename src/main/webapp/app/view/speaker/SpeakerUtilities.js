@@ -47,7 +47,10 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 			docked: 'bottom',
 			cls: 'hideControlButton',
 			iconCls: 'icon-gear',
-			handler: this.getHideControlHandler(),
+			handler: function () {
+				this.getHideControlHandler()();
+				this.updateActivePanels();
+			},
 			hidden: !this.getShowHideControlButton(),
 			scope: this
 		});
@@ -86,6 +89,7 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 				if (sliderField.actualValue !== newValue) {
 					panel.setZoomLevel(newValue);
 					sliderField.actualValue = newValue;
+					me.updateActivePanels();
 				}
 			}
 		});
@@ -193,6 +197,12 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 		);
 	},
 
+	updateActivePanels: function () {
+		if (this.getPanelConfiguration() === 'carousel') {
+			this.getParentReference().updateAllQuestionPanels();
+		}
+	},
+
 	restoreZoomLevel: function () {
 		ARSnova.app.getController('Application').setGlobalZoomLevel(
 			ARSnova.app.storedZoomLevel || ARSnova.app.globalZoomLevel);
@@ -214,7 +224,6 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 			panel.removeCls('projector-mode');
 			ARSnova.app.getController('Application').setGlobalZoomLevel(ARSnova.app.globalZoomLevel);
 		}
-
 		panel.setZoomLevel(ARSnova.app.globalZoomLevel);
 		ARSnova.app.mainTabPanel.tabPanel.getTabBar().setHidden(activate);
 
@@ -222,6 +231,7 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 			ARSnova.app.getController('Application').toggleFullScreen(activate);
 		}
 
+		this.updateActivePanels();
 		ARSnova.app.projectorModeActive = activate;
 		this.fireEvent('projectorModeActivateChange');
 	},
