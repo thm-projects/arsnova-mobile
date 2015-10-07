@@ -345,6 +345,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							panel.addAbstentionAnswer();
 							panel.getQuestionAnswers();
 							panel.setCorrectAnswerToggleState();
+							panel.setContentFormContent(panel.questionObj);
 							if (panel.hintForSolution.isEmpty()) {
 								panel.hintForSolutionPreview.hide();
 							} else {
@@ -393,6 +394,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					panel.answerEditForm.initWithQuestion(panel.questionObj);
 					questionValues = panel.answerEditForm.getQuestionValues();
 
+					panel.setContentFormContent(panel.questionObj);
+					panel.contentForm.hide();
+					panel.contentEditForm.show();
 					panel.markdownEditPanel.show();
 					panel.cancelButton.show();
 					panel.backButton.hide();
@@ -423,28 +427,29 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						panel.abstentionAlternative.hide();
 					}
 				} else {
-					panel.markdownEditPanel.hide();
-					panel.cancelButton.hide();
-					panel.backButton.show();
-					panel.uploadView.hide();
-					panel.hintForSolution.hide();
-					if (panel.hintForSolution.getActive()) {
-						panel.hintForSolutionPreview.show();
-					}
-
-					var values = this.up('panel').down('#contentForm').getValues();
+					var values = this.up('panel').down('#contentEditForm').getValues();
 					var question = Ext.create('ARSnova.model.Question', panel.questionObj);
+					var afterEdit = function () {
+						panel.contentForm.show();
+						panel.contentEditForm.hide();
+						panel.markdownEditPanel.hide();
+						panel.cancelButton.hide();
+						panel.backButton.show();
+						panel.uploadView.hide();
+						panel.hintForSolution.hide();
+						if (panel.hintForSolution.getActive()) {
+							panel.hintForSolutionPreview.show();
+						}
+						question.set("subject", values.subject);
+						question.set("text", values.questionText);
+						question.set("abstention", panel.abstentionPart.getAbstention());
+						question.raw.subject = values.subject;
+						question.raw.text = values.questionText;
+						question.raw.abstention = panel.abstentionPart.getAbstention();
 
-					question.set("subject", values.subject);
-					question.set("text", values.questionText);
-					question.set("abstention", panel.abstentionPart.getAbstention());
-					question.raw.subject = values.subject;
-					question.raw.text = values.questionText;
-					question.raw.abstention = panel.abstentionPart.getAbstention();
-
-					panel.subject.resetOriginalValue();
-					panel.textarea.resetOriginalValue();
-
+						panel.subject.resetOriginalValue();
+						panel.textarea.resetOriginalValue();
+					};
 					var needsConfirmation = false;
 					var empty = false;
 					if (panel.image !== panel.questionObj.image) {
@@ -476,6 +481,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							if (answer === "yes") {
 								ARSnova.app.questionModel.deleteAnswers(panel.questionObj._id, {
 									success: function () {
+										afterEdit();
 										saveQuestion(question);
 										finishEdit();
 										panel.showCorrectAnswerButton.setToggleFieldValue(0);
@@ -489,6 +495,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							}
 						}, this);
 					} else {
+						afterEdit();
 						saveQuestion(question);
 						finishEdit();
 					}
@@ -497,7 +504,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 
 			enableFields: function (panel) {
-				var fields = panel.contentFieldset.getItems().items;
+				var fields = panel.contentEditFieldset.getItems().items;
 				var fieldsLength = fields.length;
 
 				for (var i = 0; i < fieldsLength; i++) {
@@ -520,7 +527,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			},
 
 			disableFields: function (panel) {
-				var fields = panel.contentFieldset.getItems().items;
+				var fields = panel.contentEditFieldset.getItems().items;
 				var fieldsLength = fields.length;
 
 				for (var i = 0; i < fieldsLength; i++) {
@@ -553,7 +560,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: Messages.QUESTION,
+			title: this.getType() + '-' + Messages.QUESTION,
 			cls: 'speakerTitleText',
 			docked: 'top',
 			ui: 'light',
@@ -756,7 +763,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				xtype: 'fieldset',
 				items: [this.previewButton]
 			}],
-			style: "margin-bottom: 1.5em"
+			style: "margin-bottom: 1.5em; margin-left: 12px"
 		});
 
 		this.firstRow = Ext.create('Ext.Panel', {
@@ -842,9 +849,18 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			hidden: true
 		});
 
+		this.titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
+		this.contentPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			style: 'min-height: 150px'
+		});
+
 		this.contentFieldset = Ext.create('Ext.form.FieldSet', {
+			items: [this.titlePanel, this.contentPanel]
+		});
+
+		this.contentEditFieldset = Ext.create('Ext.form.FieldSet', {
 			cls: 'standardFieldset',
-			itemId: 'contentFieldset',
+			itemId: 'contentEditFieldset',
 			items: [this.markdownEditPanel, this.subject, this.textarea, {
 				xtype: 'textfield',
 				label: Messages.TYPE,
@@ -927,8 +943,16 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.contentForm = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			itemId: 'contentForm',
+			style: {marginTop: '15px', marginBottom: '-15px'},
+			items: [this.contentFieldset]
+		});
+
+		this.contentEditForm = Ext.create('Ext.form.FormPanel', {
+			hidden: true,
+			scrollable: null,
+			itemId: 'contentEditForm',
 			style: {marginTop: '15px', marginLeft: '12px', marginRight: '12px'},
-			items: [this.contentFieldset, this.previewPart]
+			items: [this.contentEditFieldset]
 		});
 
 		this.answerFormFieldset = Ext.create('Ext.form.FieldSet', {
@@ -965,6 +989,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			hidden: true
 		});
 		this.answerEditForm.initWithQuestion(Ext.clone(this.questionObj));
+		this.setContentFormContent(this.questionObj);
 
 		this.possibleAnswers = {};
 
@@ -990,7 +1015,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			this.actionsPanel, {
 				xtype: 'formpanel',
 				scrollable: null,
-				items: [this.contentForm]
+				items: [this.contentForm, this.contentEditForm, this.previewPart]
 			},
 			this.abstentionPart,
 			this.abstentionAlternative,
@@ -1360,13 +1385,16 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	},
 
 	resetFields: function () {
-		var fields = this.down('#contentFieldset').items.items;
+		var fields = this.down('#contentEditFieldset').items.items;
 		fields.forEach(function (field) {
 			if (field.reset) {
 				field.reset();
 			}
 			field.setDisabled(true);
 		});
+
+		this.contentForm.show();
+		this.contentEditForm.hide();
 
 		// reset image view if grid question
 		if (this.questionObj.questionType === 'grid') {
@@ -1387,6 +1415,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				item.set('formattedText', Ext.util.Format.htmlEncode(item.get('text')));
 			}
 		});
+	},
+
+	setContentFormContent: function (questionObj) {
+		if (questionObj && questionObj.subject && questionObj.text) {
+			this.titlePanel.setContent(questionObj.subject.replace(/\./, "\\."), false, true);
+			this.contentPanel.setContent(questionObj.text, true, true);
+		}
 	},
 
 	addAbstentionAnswer: function () {
