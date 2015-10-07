@@ -30,7 +30,7 @@ $projector-active-color: $thm-lightgrey;
 }
 
 .x-speaker-utils {
-	width: 100px;
+	width: 150px;
 	right: 0;
 	bottom: 0;
 	position: absolute;
@@ -72,24 +72,38 @@ $projector-active-color: $thm-lightgrey;
 	}
 }
 
-.projectorButton {
-	width: 44px;
-	height: 33px;
-	font-size: 1em;
-	position: absolute;
-	bottom: 0;
-	right: 48px;
+.x-speaker-utils .x-button {
+	&.projectorButton {
+		right: 48px;
 
-	.icon-projector::before {
-		top: -10px !important;
-		left: -7px !important;
-		font-size: 2em !important;
+		.icon-projector::before {
+			top: -10px !important;
+			left: -7px !important;
+			font-size: 2em !important;
+		}
+	}
+
+	&.hideControlButton {
+		right: 96px;
+
+		.icon-gear::before {
+			top: -4px !important;
+			left: -2px !important;
+			font-size: 1.5em !important;
+		}
+	}
+
+	&.projectorButton, &.hideControlButton {
+		width: 44px;
+		height: 33px;
+		font-size: 1em;
+		position: absolute;
+		bottom: 0;
 	}
 
 	&.x-button.x-button-action.x-button-pressed {
 		color: white;
 		background: $projector-active-color !important;
-		border: 1px solid $projector-active-color !important;
 	}
 }
 

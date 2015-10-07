@@ -27,6 +27,8 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 		showProjectorButton: false,
 		projectorHandler: Ext.emptyFn,
 		projectorHandlerScope: null,
+		showHideControlButton: false,
+		hideControlHandler: Ext.emptyFn,
 		cls: Ext.baseCSSPrefix + 'speaker-utils'
 	},
 
@@ -39,6 +41,16 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 			this.getShowProjectorButton() &&
 			typeof this.getProjectorHandler() === 'function'
 		);
+
+		this.hideShowcaseControlButton = Ext.create('Ext.Button', {
+			ui: 'action',
+			docked: 'bottom',
+			cls: 'hideControlButton',
+			iconCls: 'icon-gear',
+			handler: this.getHideControlHandler(),
+			hidden: !this.getShowHideControlButton(),
+			scope: this
+		});
 
 		this.projectorButton = Ext.create('Ext.Button', {
 			ui: 'action',
@@ -94,6 +106,7 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 			change: this.zoomSlider.config.setZoomLevel
 		});
 
+		this.hideShowcaseControlButton.addCls('x-button-pressed');
 		this.on('projectorModeActivateChange', function () {
 			if (ARSnova.app.projectorModeActive) {
 				this.projectorButton.addCls('x-button-pressed');
@@ -103,6 +116,7 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 		});
 
 		this.add([
+			this.hideShowcaseControlButton,
 			this.projectorButton,
 			this.zoomButton
 		]);
@@ -131,6 +145,14 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 		if (this.getAutoApplyBottomPadding() &&
 				this.getParentReference().getActiveItem()) {
 			this.getParentReference().getActiveItem().setPadding('0 0 20 0');
+		}
+	},
+
+	updateShowcaseControlButton: function (isHidden) {
+		if (isHidden) {
+			this.hideShowcaseControlButton.removeCls('x-button-pressed');
+		} else {
+			this.hideShowcaseControlButton.addCls('x-button-pressed');
 		}
 	},
 
@@ -202,6 +224,10 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 
 		ARSnova.app.projectorModeActive = activate;
 		this.fireEvent('projectorModeActivateChange');
+	},
+
+	isShowcaseEditPanelActive: function (scope) {
+		return this.hideShowcaseControlButton.element.hasCls('x-button-pressed');
 	},
 
 	getActivePanel: function () {
