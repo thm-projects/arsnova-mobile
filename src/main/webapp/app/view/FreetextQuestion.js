@@ -176,6 +176,15 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			this.answerText
 		];
 
+		if (this.questionObj.image) {
+			this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
+				editable: false,
+				gridIsHidden: true,
+				style: 'margin-bottom: 10px'
+			});
+			this.grid.prepareRemoteImage(me.questionObj._id);
+		}
+
 		if (this.questionObj.imageQuestion) {
 			this.gridQuestion = Ext.create('ARSnova.view.components.GridImageContainer', {
 				hidden: true,
@@ -222,19 +231,24 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			});
 		}
 
+		this.formPanel = Ext.create('Ext.form.Panel', {
+			xtype: 'formpanel',
+			scrollable: null,
+			submitOnAction: false,
+			items: [
+				this.questionContainer,
+				this.questionObj.image ? this.grid : {},
+				this.viewOnly ? {} : {
+					xtype: 'fieldset',
+					items: innerItems
+				}, this.buttonPart
+			]
+		});
+
 		this.add([
 			this.countdownTimer,
 			Ext.create('Ext.Panel', {
-				items: [{
-					xtype: 'formpanel',
-					scrollable: null,
-					submitOnAction: false,
-					items: [this.questionContainer, this.viewOnly ? {} : {
-						xtype: 'fieldset',
-						items: innerItems
-					},
-					this.buttonPart]
-				}]
+				items: [this.formPanel]
 			}), this.editButtons ? this.editButtons : {}
 		]);
 
