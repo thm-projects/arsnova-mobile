@@ -113,10 +113,6 @@
 			"update": "full"
         },
         {
-            "path": "resources/css/index.css",
-            "update": "full"
-        },
-        {
         	"path": "resources/css/arsnova.css",
         	"update": "full"
        	}
@@ -132,6 +128,7 @@
         "cache": [
             "index.html",
             "favicon.png",
+            "splashscreen.js",
 
             /* app */
             "app/app.js",
@@ -177,7 +174,9 @@
         "resources/startup",
         "resources/gridTemplates",
         "resources/sounds",
+        "resources/css/index.css",
         "favicon.png",
+        "splashscreen.js",
         "lib/highlight.pack.js",
         "lib/socket.io.min.js",
         "lib/qrcode.min.js",
