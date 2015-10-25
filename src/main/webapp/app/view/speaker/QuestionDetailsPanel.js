@@ -153,6 +153,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				this.hide();
 				panel.backButton.show();
 				panel.resetFields();
+				panel.previewButton.hide();
 				panel.editButton.config.setEnableAnswerEdit(panel, false);
 				panel.uploadView.hide();
 				panel.hintForSolution.hide();
@@ -397,6 +398,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					panel.setContentFormContent(panel.questionObj);
 					panel.contentForm.hide();
 					panel.contentEditForm.show();
+					panel.previewButton.show();
 					panel.markdownEditPanel.show();
 					panel.cancelButton.show();
 					panel.backButton.hide();
@@ -432,6 +434,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					var afterEdit = function () {
 						panel.contentForm.show();
 						panel.contentEditForm.hide();
+						panel.previewButton.hide();
 						panel.markdownEditPanel.hide();
 						panel.cancelButton.hide();
 						panel.backButton.show();
@@ -749,6 +752,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			cls: Ext.os.is.Desktop ?
 				'previewButtonLong' :
 				'previewButton',
+			hidden: true,
 			scope: this,
 			handler: function () {
 				this.previewHandler();
