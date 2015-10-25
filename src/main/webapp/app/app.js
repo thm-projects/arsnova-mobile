@@ -161,8 +161,11 @@ Ext.application({
 			console.debug("Configuration loaded");
 			me.globalConfig = globalConfig;
 			me.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
-			me.closeSplashScreen();
 			me.configLoaded.resolve();
+
+			if (!me.areLocalStorageLoginVarsUninitialized) {
+				me.closeSplashScreen();
+			}
 		}, function () {
 			console.error("Could not load configuration");
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.CONNECTION_PROBLEM, function () {
@@ -242,6 +245,8 @@ Ext.application({
 		} else {
 			mainTabPanel.animateActiveItem(hTP, 'slide');
 		}
+
+		Ext.create('Ext.util.DelayedTask', ARSnova.app.closeSplashScreen).delay(1000);
 	},
 
 	/**
@@ -259,17 +264,22 @@ Ext.application({
 	},
 
 	closeSplashScreen: function () {
-		if (window.closeSplashScreen) {
+		var hasActiveLogin = !ARSnova.app.areLocalStorageLoginVarsUninitialized();
+		if (!ARSnova.app.splashscreenDestroyed && (window.closeSplashScreen || hasActiveLogin)) {
+			ARSnova.app.splashscreenDestroyed = true;
 			Ext.fly('splashScreenContainer').destroy();
 		}
 	},
 
-	checkPreviousLogin: function () {
-		console.debug("Application: checkPreviousLogin");
-		var isLocalStorageUninitialized = localStorage.getItem('role') == null
+	areLocalStorageLoginVarsUninitialized: function () {
+		return localStorage.getItem('role') == null
 			|| localStorage.getItem('loginMode') == null
 			|| localStorage.getItem('login') == null;
-		if (isLocalStorageUninitialized) {
+	},
+
+	checkPreviousLogin: function () {
+		console.debug("Application: checkPreviousLogin");
+		if (ARSnova.app.areLocalStorageLoginVarsUninitialized()) {
 			return false;
 		}
 

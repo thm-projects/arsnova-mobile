@@ -19,33 +19,59 @@
 (function () {
 	var doc = window.document;
 	var xhttp = new XMLHttpRequest();
-	var configUrl = "/arsnova-config";
+	var configUrl = '/arsnova-config';
 
-	var showContainer = function () {
-		var innerSplashContainer = doc.getElementById("innerSplashScreenContainer");
-		innerSplashContainer.style.display = 'initial';
-		innerSplashContainer.classList.remove("isPaused");
+	var getUserLoginState = function () {
+		try {
+			return localStorage.getItem('role') != null
+				&& localStorage.getItem('loginMode') != null
+				&& localStorage.getItem('login') != null;
+		} catch (e) {
+			return false;
+		}
+	};
 
-		setTimeout(function () {
-			window.closeSplashScreen = true;
-			if (ARSnova && ARSnova.app) {
-				ARSnova.app.closeSplashScreen();
+	var showContainer = function (timer) {
+		var innerSplashContainer = doc.getElementById('innerSplashScreenContainer');
+
+		if (innerSplashContainer) {
+			innerSplashContainer.style.display = 'initial';
+			innerSplashContainer.classList.remove('isPaused');
+
+			if (!getUserLoginState()) {
+				setTimeout(function () {
+					window.closeSplashScreen = true;
+					if (ARSnova && ARSnova.app) {
+						ARSnova.app.closeSplashScreen();
+					}
+				}, timer);
 			}
-		}, 4000);
+		}
 	};
 
 	var applySplashScreenStyle = function (response) {		
-		var imgElement = doc.getElementById("splashScreenLogo");
+		var imgElement = doc.getElementById('splashScreenLogo');
 
-		imgElement.onload = showContainer;	
-		imgElement.onerror = showContainer;
-		imgElement.onabort = showContainer;
+		imgElement.onload = imgElement.onerror = imgElement.onabort = function () { 
+			showContainer(response && response.splashscreen && response.splashscreen.logo
+				|| !response.splashscreen.slogan ? 3000 : 1000);
+		};
+
 		imgElement.src = response.splashscreen.logo;
-
 		doc.body.style.background = response.splashscreen.bgColor;
 		doc.getElementById("splashScreenSlogan").innerHTML = response.splashscreen.slogan;
 		doc.styleSheets[0].addRule('.circleLoadingInd div:before', 'background-color: ' +
 			response.splashscreen.loadIndColor  + ';');
+	};
+
+	var destroySplashscreen = function () {
+		if (doc.readyState === 'complete') {
+			doc.getElementById("splashScreenContainer").style.display = 'none';
+		} else {
+			window.onload = function () {
+				doc.getElementById("splashScreenContainer").style.display = 'none';
+			};
+		}
 	};
 
 	xhttp.onreadystatechange = function() {
@@ -60,13 +86,7 @@
 					};
 				}
 			} else {
-				if (doc.readyState === 'complete') {
-					doc.getElementById("splashScreenContainer").style.display = "none";
-				} else {
-					window.onload = function () {
-						doc.getElementById("splashScreenContainer").style.display = "none";
-					};
-				}
+				destroySplashscreen();
 			}
 		}
 	};
@@ -74,4 +94,4 @@
 	xhttp.open("GET", window.location.origin + configUrl, true);
 	xhttp.timeout = 1000;
 	xhttp.send();
-})(window);
+})();
