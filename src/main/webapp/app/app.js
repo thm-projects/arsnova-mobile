@@ -147,8 +147,6 @@ Ext.application({
 
 	launch: function () {
 		console.info("ARSnova.app.launch");
-		// Destroy the #appLoadingIndicator element
-		Ext.fly('appLoadingIndicator').destroy();
 		this.configLoaded = new RSVP.Promise();
 
 		this.checkLocalStorage();
@@ -163,6 +161,7 @@ Ext.application({
 			console.debug("Configuration loaded");
 			me.globalConfig = globalConfig;
 			me.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
+			me.closeSplashScreen();
 			me.configLoaded.resolve();
 		}, function () {
 			console.error("Could not load configuration");
@@ -257,6 +256,12 @@ Ext.application({
 	 */
 	checkMobileDeviceType: function () {
 		return Ext.device.deviceType === 'Phone' || Ext.device.deviceType === 'Tablet';
+	},
+
+	closeSplashScreen: function () {
+		if (window.closeSplashScreen) {
+			Ext.fly('splashScreenContainer').destroy();
+		}
 	},
 
 	checkPreviousLogin: function () {
