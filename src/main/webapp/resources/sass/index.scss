@@ -156,6 +156,10 @@ html, body {
 		top: 40%;
 		left: 50%;
 		margin-right: -50%;
+		-webkit-transform: translate(-50%, -50%);;
+		-moz-transform: translate(-50%, -50%);
+		-ms-transform: translate(-50%, -50%);
+		-o-transform: translate(-50%, -50%);
 		transform: translate(-50%, -50%);
 		max-width: 500px;
 		position: absolute;
@@ -179,7 +183,11 @@ html, body {
     top: 75%;
     left: 50%;
     margin-right: -50%;
-    transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);;
+	-moz-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
 	width: 60px;
 	height: 60px;
 	position: relative;
@@ -334,20 +342,34 @@ html, body {
 
 .fadeIn {
 	opacity: 0;
+	-webkit-animation: fadeIn .5s ease-in 1 forwards;
 	animation: fadeIn .5s ease-in 1 forwards;
 }
 
 .isPaused {
+	-webkit-animation-play-state: paused;
 	animation-play-state: paused;
+}
+
+@-webkit-keyframes fadeIn {
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeIn {
+	to {
+		opacity: 1;
+	}
 }
 
 @-webkit-keyframes circleBounceDelay {
 	0%, 80%, 100% {
 		-webkit-transform: scale(0);
-			transform: scale(0);
+		transform: scale(0);
 	} 40% {
-	-webkit-transform: scale(1);
-			transform: scale(1);
+		-webkit-transform: scale(1);
+		transform: scale(1);
 	}
 }
 
@@ -359,11 +381,5 @@ html, body {
 	40% {
 		-webkit-transform: scale(1);
 		transform: scale(1);
-	}
-}
-
-@keyframes fadeIn {
-	to {
-		opacity: 1;
 	}
 }
