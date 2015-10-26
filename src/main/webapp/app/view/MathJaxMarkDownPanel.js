@@ -49,7 +49,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		var replaceCodeBlockFromContent = function (content) {
 			return content.replace(/<hlcode>([\s\S]*?)<\/hlcode>/g, function (element) {
 				var codeBlockMatch = element.match(/^<hlcode>\s*([\s\S]*?)\s*<\/hlcode>$/)[1];
-				return "```auto\n" + codeBlockMatch + "```";
+				return "\n```auto\n" + codeBlockMatch + "```\n";
 			});
 		};
 

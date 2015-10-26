@@ -119,4 +119,8 @@ div[id^=ext-mathJaxMarkDownPanel] {
 		background-color: $thm-lightgrey;
 		color: white;
 	}
+
+	pre {
+		margin: 0;
+	}
 }
