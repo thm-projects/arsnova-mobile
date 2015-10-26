@@ -22,16 +22,6 @@
 	var splashscreenImage = new Image();
 	var configUrl = '/arsnova-config';
 
-	var getUserLoginState = function () {
-		try {
-			return localStorage.getItem('role') != null
-				&& localStorage.getItem('loginMode') != null
-				&& localStorage.getItem('login') != null;
-		} catch (e) {
-			return false;
-		}
-	};
-
 	var showContainer = function (timer) {
 		var innerSplashContainer = doc.getElementById('innerSplashScreenContainer');
 
@@ -39,14 +29,12 @@
 			innerSplashContainer.style.display = 'initial';
 			innerSplashContainer.classList.remove('isPaused');
 
-			if (!getUserLoginState()) {
-				setTimeout(function () {
-					window.closeSplashScreen = true;
-					if (ARSnova && ARSnova.app) {
-						ARSnova.app.closeSplashScreen();
-					}
-				}, timer);
-			}
+			setTimeout(function () {
+				window.closeSplashScreen = true;
+				if (ARSnova && ARSnova.app) {
+					ARSnova.app.closeSplashScreen();
+				}
+			}, timer);
 		}
 	};
 
