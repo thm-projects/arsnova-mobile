@@ -8,8 +8,9 @@
 		<title>ARSnova</title>
 		<link rel="shortcut icon" href="favicon.png" type="image/png">
 		<link rel="stylesheet" href="resources/css/index.css" type="text/css">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
 
-		<!-- Test routine -->
+		<!-- Splashscreen -->
 		<script type="text/javascript" src="splashscreen.js"></script>
 
 		<!-- Socket.IO -->
@@ -23,11 +24,8 @@
 
 		<!-- The line below must be kept intact for Sencha Command to build your application -->
 		<script id="microloader" type="text/javascript" src=".sencha/app/microloader/development.js"></script>
-
-		<!-- The line below has to be listed after the microloader include in order to work properly -->
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
 	</head>
-	<body>
+	<body style="overflow: hidden;'">
 		<div class="splashScreenContainer" id="splashScreenContainer">
 			<div class="container fadeIn isPaused" id="innerSplashScreenContainer" style="display: none;">
 				<img alt="ARSnova" id="splashScreenLogo">

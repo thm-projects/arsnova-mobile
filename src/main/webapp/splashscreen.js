@@ -19,6 +19,7 @@
 (function () {
 	var doc = window.document;
 	var xhttp = new XMLHttpRequest();
+	var splashscreenImage = new Image();
 	var configUrl = '/arsnova-config';
 
 	var getUserLoginState = function () {
@@ -51,6 +52,7 @@
 
 	var applySplashScreenStyle = function (response) {		
 		var imgElement = doc.getElementById('splashScreenLogo');
+		splashscreenImage.src = response.splashscreen.logo;
 
 		imgElement.onload = imgElement.onerror = imgElement.onabort = function () { 
 			showContainer(response && response.splashscreen && response.splashscreen.logo
@@ -60,8 +62,8 @@
 		imgElement.src = response.splashscreen.logo;
 		doc.body.style.background = response.splashscreen.bgColor;
 		doc.getElementById("splashScreenSlogan").innerHTML = response.splashscreen.slogan;
-		doc.styleSheets[0].addRule('.circleLoadingInd div:before', 'background-color: ' +
-			response.splashscreen.loadIndColor  + ';');
+		doc.styleSheets[0].insertRule('.circleLoadingInd div:before { background-color: ' +
+			response.splashscreen.loadIndColor + ' !important }', 0);
 	};
 
 	var destroySplashscreen = function () {

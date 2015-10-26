@@ -268,6 +268,7 @@ Ext.application({
 		if (!ARSnova.app.splashscreenDestroyed && (window.closeSplashScreen || hasActiveLogin)) {
 			ARSnova.app.splashscreenDestroyed = true;
 			Ext.fly('splashScreenContainer').destroy();
+			window.document.body.style.overflow = 'initial';
 		}
 	},
 
