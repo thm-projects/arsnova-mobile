@@ -22,12 +22,16 @@
 	var splashscreenImage = new Image();
 	var configUrl = '/arsnova-config';
 
-	var showContainer = function (timer) {
+	var showContainer = function (timer, scaleWidth) {
 		var innerSplashContainer = doc.getElementById('innerSplashScreenContainer');
 
 		if (innerSplashContainer) {
 			innerSplashContainer.style.display = 'initial';
 			innerSplashContainer.classList.remove('isPaused');
+
+			if (scaleWidth) {
+				innerSplashContainer.style.width = '90%';
+			}
 
 			setTimeout(function () {
 				window.closeSplashScreen = true;
@@ -43,8 +47,9 @@
 		splashscreenImage.src = response.splashscreen.logo;
 
 		imgElement.onload = imgElement.onerror = imgElement.onabort = function () { 
+			scaleWidth = splashscreenImage.width / splashscreenImage.height >= 2;
 			showContainer(response && response.splashscreen && response.splashscreen.logo
-				|| !response.splashscreen.slogan ? 3000 : 1000);
+				|| !response.splashscreen.slogan ? 3000 : 1000, scaleWidth);
 		};
 
 		imgElement.src = response.splashscreen.logo;

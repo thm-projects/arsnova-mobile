@@ -153,9 +153,8 @@ html, body {
 	-moz-user-select: -moz-none;
 
 	.container {
-		top: 40%;
+		top: 52%;
 		left: 50%;
-		margin-right: -50%;
 		-webkit-transform: translate(-50%, -50%);;
 		-moz-transform: translate(-50%, -50%);
 		-ms-transform: translate(-50%, -50%);
@@ -165,13 +164,13 @@ html, body {
 		position: absolute;
 
 		img {
-			padding: 1em;
 			max-width: 500px;
 			max-height: 500px;
 			width: 100%;
 		}
 
 		p {
+			margin-top: 10px;
 			font-size: 1.3em;
 			text-align: center;
 			color: $splashscreen-slogan-text-color;
@@ -180,16 +179,15 @@ html, body {
 }
 
 .circleLoadingInd {
-    top: 85%;
     left: 50%;
-    margin-right: -50%;
+    margin-top: 20%;
 	-webkit-transform: translate(-50%, -50%);;
 	-moz-transform: translate(-50%, -50%);
 	-ms-transform: translate(-50%, -50%);
 	-o-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
-	width: 60px;
-	height: 60px;
+	width: 50px;
+	height: 50px;
 	position: relative;
 
 	div {
