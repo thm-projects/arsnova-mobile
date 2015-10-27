@@ -16,40 +16,42 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-(function () {
-	var doc = window.document;
-	var xhttp = new XMLHttpRequest();
-	var splashscreenImage = new Image();
-	var configUrl = '/arsnova-config';
+var splashscreen = (function (win) { 
+	var doc = win.document;
 
-	var showContainer = function (timer, scaleWidth) {
+	function showLoadingIndicator () {
+		doc.getElementById("loadingInd").classList.add('showSplashScreenElement');
+	}
+
+	function hideSplashScreen () {
+		doc.getElementById("splashScreenContainer").style.display = 'none';
+	}
+
+	function showContainer (timer, scaleWidth) {
 		var innerSplashContainer = doc.getElementById('innerSplashScreenContainer');
+		innerSplashContainer.style.width = scaleWidth ? '90%' : 'initial';
+		innerSplashContainer.children[0].classList.add('showSplashScreenElement');
+		innerSplashContainer.children[1].classList.add('showSplashScreenElement');
 
-		if (innerSplashContainer) {
-			innerSplashContainer.style.display = 'initial';
-			innerSplashContainer.classList.remove('isPaused');
-
-			if (scaleWidth) {
-				innerSplashContainer.style.width = '90%';
+		setTimeout(function () {
+			window.closeSplashScreen = true;
+			if (ARSnova && ARSnova.app && typeof ARSnova.app.closeSplashScreen === 'function') {
+				ARSnova.app.closeSplashScreen();
+			} else {
+				hideSplashscreen();
 			}
+		}, timer);
+	}
 
-			setTimeout(function () {
-				window.closeSplashScreen = true;
-				if (ARSnova && ARSnova.app) {
-					ARSnova.app.closeSplashScreen();
-				}
-			}, timer);
-		}
-	};
-
-	var applySplashScreenStyle = function (response) {		
+	function applySplashScreenStyle (response, imgObject) {
 		var imgElement = doc.getElementById('splashScreenLogo');
-		splashscreenImage.src = response.splashscreen.logo;
 
+		showLoadingIndicator();
+		imgObject.src = response.splashscreen.logo;
 		imgElement.onload = imgElement.onerror = imgElement.onabort = function () { 
-			scaleWidth = splashscreenImage.naturalWidth / splashscreenImage.naturalHeight >= 2;
+			scaleWidth = imgObject.naturalWidth / imgObject.naturalHeight >= 2;
 			showContainer(response && response.splashscreen && response.splashscreen.logo
-				|| !response.splashscreen.slogan ? 3000 : 1000, scaleWidth);
+				|| response.splashscreen.slogan ? 3000 : 1000, scaleWidth);
 		};
 
 		imgElement.src = response.splashscreen.logo;
@@ -57,31 +59,38 @@
 		doc.getElementById("splashScreenSlogan").innerHTML = response.splashscreen.slogan;
 		doc.styleSheets[0].insertRule('.circleLoadingInd div:before { background-color: ' +
 			response.splashscreen.loadIndColor + ' !important }', 0);
-	};
+	}
 
-	var destroySplashscreen = function () {
-		if (doc.readyState === 'complete') {
-			doc.getElementById("splashScreenContainer").style.display = 'none';
-		} else {
-			window.onload = function () {
-				doc.getElementById("splashScreenContainer").style.display = 'none';
-			};
-		}
+	return {
+		hideSplashScreen: hideSplashScreen,
+		showLoadingIndicator: showLoadingIndicator,
+		applySplashScreenStyle: applySplashScreenStyle
 	};
+} (window));
+
+(function () {
+	var doc = window.document;
+	var xhttp = new XMLHttpRequest();
+	var imgObject = new Image();
+	var configUrl = '/arsnova-config';
 
 	xhttp.onreadystatechange = function() {
 		if (xhttp.readyState === 4) {
 			if (xhttp.status === 200) {
 				var response = JSON.parse(xhttp.responseText);
 				if (doc.readyState === 'complete') {
-					applySplashScreenStyle(response);
+					splashscreen.applySplashScreenStyle(response, imgObject);
 				} else {
 					window.onload = function () {
-						applySplashScreenStyle(response);
+						splashscreen.applySplashScreenStyle(response, imgObject);
 					};
 				}
 			} else {
-				destroySplashscreen();
+				if (doc.readyState === 'complete') {
+					splashscreen.hideSplashScreen();
+				} else {
+					window.onload = splashscreen.hideSplashScreen;
+				}
 			}
 		}
 	};
