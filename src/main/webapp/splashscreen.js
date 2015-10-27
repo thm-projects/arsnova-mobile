@@ -47,7 +47,7 @@
 		splashscreenImage.src = response.splashscreen.logo;
 
 		imgElement.onload = imgElement.onerror = imgElement.onabort = function () { 
-			scaleWidth = splashscreenImage.width / splashscreenImage.height >= 2;
+			scaleWidth = splashscreenImage.naturalWidth / splashscreenImage.naturalHeight >= 2;
 			showContainer(response && response.splashscreen && response.splashscreen.logo
 				|| !response.splashscreen.slogan ? 3000 : 1000, scaleWidth);
 		};
