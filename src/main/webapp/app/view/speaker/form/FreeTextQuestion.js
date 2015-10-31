@@ -51,14 +51,14 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 					value: true
 				}
 			});
-	
+
 			this.textAnswerFieldSet = Ext.create('Ext.form.FieldSet', {
 				title: Messages.EXPECT_ANSWER_TEXT,
 				style: 'margin-top:-20px; margin-bottom: 0px;',
 				hidden: true,
 				items: [this.expectAnswerText]
 			});
-	
+
 			this.imgUploadBtn = Ext.create('ARSnova.view.MatrixButton', {
 				cls: 'actionButton',
 				buttonConfig: 'togglefield',
@@ -81,14 +81,14 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 					}
 				}
 			});
-	
+
 			var answerFieldset = Ext.create('Ext.form.FieldSet', {
 				//displayed on-top of the button
 				title: Messages.IMAGE_QUESTION_LBL,
 				style: 'margin-top: 40px;',
 				items: [this.imgUploadBtn]
 			});
-	
+
 			this.add([answerFieldset, this.textAnswerFieldSet]);
 		}
 	},
