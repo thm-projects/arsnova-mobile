@@ -34,33 +34,6 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			processElement: this.answer
 		});
 
-		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
-			handlerScope: this,
-			addRemoveButton: true,
-			activateTemplates: false,
-			urlUploadHandler: this.setImage,
-			fsUploadHandler: this.setImage,
-			style: 'margin-bottom: 30px'
-		});
-
-		if (this.config.editPanel) {
-			this.uploadView.setUploadPanelConfig(
-				Messages.PICTURE_SOURCE + " - " + Messages.FLASHCARD_BACK_PAGE,
-				this.setFcImage, this.setFcImage
-			);
-		} else {
-			this.uploadView.setUploadPanelConfig(
-				Messages.PICTURE_SOURCE + " - " + Messages.FLASHCARD_FRONT_PAGE
-			);
-		}
-
-		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
-			editable: false,
-			gridIsHidden: true,
-			hidden: true,
-			style: "padding-top: 10px; margin-top: 30px;"
-		});
-
 		var previewButton = Ext.create('Ext.Button', {
 			text: Ext.os.is.Desktop ?
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
@@ -84,7 +57,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			}, {
 				xtype: 'fieldset',
 				items: [previewButton]
-			}, this.uploadView, this.grid]
+			}]
 		}]);
 
 		this.on('painted', function () {
@@ -97,33 +70,12 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			return;
 		}
 		this.answer.setValue(possibleAnswers[0].text);
-		this.setFcImage(question.fcImage);
-		if (question.fcImage) {
-			this.uploadView.removeButton.show();
-			this.uploadView.segmentButton.hide();
-		}
-	},
-
-	setImage: function (image) {
-		var newQuestionPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
-		newQuestionPanel.setImage(image);
-	},
-
-	setFcImage: function (image) {
-		this.fcImage = image;
-		this.grid.setImage(image);
-		if (image) {
-			this.grid.show();
-		} else {
-			this.grid.hide();
-		}
 	},
 
 	getQuestionValues: function () {
 		var result = {};
 
 		result.possibleAnswers = [{text: this.answer.getValue(), correct: true}];
-		result.fcImage = this.fcImage;
 
 		return result;
 	},
@@ -149,9 +101,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 			title: panel.subject.getValue(),
 			content: panel.textarea.getValue(),
 			questionType: 'flashcard',
-			answers: this.getValue(),
-			fcImage: panel.fcImage,
-			image: panel.image
+			answers: this.getValue()
 		});
 	},
 

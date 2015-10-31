@@ -153,14 +153,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			active: false
 		});
 
-		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
-			handlerScope: this,
-			addRemoveButton: true,
-			activateTemplates: false,
-			urlUploadHandler: this.setImage,
-			fsUploadHandler: this.setImage
-		});
-
 		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
 			editable: false,
 			gridIsHidden: true,
@@ -264,15 +256,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 								me.previewButton.setHandler(me.gridQuestion.previewHandler);
 								title = label(Messages.QUESTION_GRID, Messages.QUESTION_GRID_SHORT);
 								this.previewPart.show();
-								this.uploadView.hide();
 								this.grid.hide();
 							} else {
 								me.gridQuestion.hide();
-
-								this.uploadView.show();
-								if (this.grid.getImageFile()) {
-									this.grid.show();
-								}
 							}
 							break;
 						case Messages.EVALUATION:
@@ -340,22 +326,11 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 								me.abstentionPart.hide();
 								me.hintForSolution.hide();
 								title = Messages.FLASHCARD;
-
-								me.uploadView.setUploadPanelConfig(
-									Messages.PICTURE_SOURCE + " - " +
-									Messages.FLASHCARD_BACK_PAGE,
-									me.setFcImage, me.setFcImage
-								);
 							} else {
 								me.textarea.setPlaceHolder(Messages.FORMAT_PLACEHOLDER);
 								me.flashcardQuestion.hide();
 								me.abstentionPart.show();
 								me.hintForSolution.show();
-
-								me.uploadView.setUploadPanelConfig(
-									Messages.PICTURE_SOURCE,
-									me.setImage, me.setImage
-								);
 							}
 							break;
 						default:
@@ -388,7 +363,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			ui: 'confirm',
 			cls: 'saveQuestionButton',
 			text: Messages.SAVE_AND_CONTINUE,
-			style: 'margin-top: 70px',
+			style: 'margin-top: 50px',
 			handler: function (button) {
 				me.saveHandler(button).then(function () {
 					Ext.toast(Messages.QUESTION_SAVED, 3000);
@@ -432,7 +407,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		me.add([
 			me.abstentionPart,
 			me.hintForSolution,
-			me.uploadView,
 			me.grid
 		]);
 		if (me.gridQuestion) {
@@ -541,8 +515,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			case Messages.FLASHCARD:
 			case Messages.FLASHCARD_SHORT:
 				values.questionType = "flashcard";
-
-				values.flashcardImage = this.fcImage;
 				Ext.apply(values, panel.flashcardQuestion.getQuestionValues());
 				break;
 
@@ -558,8 +530,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 			if (panel.flashcardQuestion) {
 				panel.flashcardQuestion.answer.reset();
-				panel.flashcardQuestion.uploadView.resetButtons();
-				panel.setFcImage(null);
 			}
 
 			panel.freetextQuestion.resetFields();
@@ -573,11 +543,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 					/* fall through */
 				default:
 					panel.setImage(null);
-					panel.uploadView.resetButtons();
-					panel.uploadView.setUploadPanelConfig(
-						Messages.PICTURE_SOURCE,
-						panel.setImage, panel.setImage
-					);
 					break;
 			}
 
@@ -609,7 +574,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			offsetY: values.offsetY,
 			zoomLvl: values.zoomLvl,
 			image: values.image,
-			fcImage: values.flashcardImage,
 			gridOffsetX: values.gridOffsetX,
 			gridOffsetY: values.gridOffsetY,
 			gridZoomLvl: values.gridZoomLvl,
@@ -650,9 +614,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	},
 
 	setImage: function (image, test) {
-		var title = this.toolbar.getTitle().getTitle(),
-			isFlashcard = title === Messages.FLASHCARD,
-			grid = isFlashcard ? this.flashcardQuestion.grid : this.grid;
+		var grid = this.grid;
 
 		this.image = image;
 		grid.setImage(image);
@@ -663,19 +625,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			grid.hide();
 			grid.clearImage();
 			this.setGridConfiguration(grid);
-		}
-	},
-
-	setFcImage: function (image) {
-		this.fcImage = image;
-		this.grid.setImage(image);
-
-		if (image) {
-			this.grid.show();
-		} else {
-			this.grid.hide();
-			this.grid.clearImage();
-			this.setGridConfiguration(this.grid);
 		}
 	},
 
