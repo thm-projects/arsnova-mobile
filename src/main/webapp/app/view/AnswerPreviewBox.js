@@ -154,18 +154,6 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 				styleHtmlContent: true
 			});
 
-			if (options.fcImage) {
-				this.flashcardGrid = Ext.create('ARSnova.view.components.GridImageContainer', {
-					itemId: 'flashcardGridImageContainer',
-					editable: false,
-					gridIsHidden: true,
-					style: 'margin-bottom: 20px'
-				});
-
-				this.flashcardGrid.setImage(options.fcImage);
-				this.answerList.add(this.flashcardGrid);
-			}
-
 			this.answerList.add(answerPanel);
 
 			this.statisticButton.setHidden(true);

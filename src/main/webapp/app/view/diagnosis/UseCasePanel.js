@@ -86,6 +86,7 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 				label: Messages.USECASE_PEER_GRADING
 			}, {
 				value: 'flashcard',
+				hidden: !ARSnova.app.globalConfig.features.flashcard,
 				label: Messages.USECASE_FLASHCARD
 			}, {
 				value: 'liveFeedback',

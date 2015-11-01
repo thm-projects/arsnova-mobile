@@ -289,8 +289,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		answerPreview.showPreview({
 			title: panel.subject.getValue(),
 			content: panel.textarea.getValue(),
-			answers: answerValues,
-			image: panel.image
+			answers: answerValues
 		});
 	},
 
