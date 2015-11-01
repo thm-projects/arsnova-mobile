@@ -272,8 +272,8 @@ Ext.define('ARSnova.view.components.GridStatistic', {
 				weakenImage);
 		};
 
-		if (this.config.questionObj.image && this.config.questionObj.image !== 'true') {
-			this.grid.setImage(this.config.questionObj.image, false, afterImageSet);
+		if (questionObj.image && questionObj.image !== 'true') {
+			this.grid.setImage(questionObj.image, false, afterImageSet);
 		}
 	}
 });

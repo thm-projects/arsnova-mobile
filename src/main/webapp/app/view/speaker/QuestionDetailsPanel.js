@@ -351,7 +351,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							}
 
 							if (panel.questionObj.questionType === 'grid') {
-								panel.gridStatistic.setQuestionObj(question.raw);
+								panel.gridStatistic.setQuestionObj(panel.questionObj);
 								panel.gridStatistic.updateGrid();
 							}
 
@@ -419,6 +419,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					var afterEdit = function () {
 						panel.contentForm.show();
 						panel.contentEditForm.hide();
+						panel.uploadView.hide();
 						panel.previewButton.hide();
 						panel.markdownEditPanel.hide();
 						panel.cancelButton.hide();
