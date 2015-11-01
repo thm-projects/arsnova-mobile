@@ -84,6 +84,8 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 				selectionChange: function (field) {
 					var selections = this.getValues();
 					me.optionalFieldSet.setHidden(!selections.lecture && !selections.jitt);
+					me.submitButton.setDisabled(!selections.lecture && !selections.interposed
+						&& !selections.jitt && !selections.feedback);
 				}
 			},
 
