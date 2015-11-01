@@ -329,6 +329,19 @@ Ext.define('ARSnova.view.speaker.InClass', {
 							}
 						}
 					]
+				},{
+					xtype: 'panel',
+					margin: '10 0 0 0',
+					layout: {
+						type: 'hbox',
+						pack: 'center'
+					},
+					items: [
+						{
+							cls: 'gravure selectable',
+							html: "Direkt-Link: " + window.location + 'id/' + sessionStorage.getItem('keyword')
+						}
+					]
 				},
 				this.actionButtonPanel,
 				this.inClassButtons,
