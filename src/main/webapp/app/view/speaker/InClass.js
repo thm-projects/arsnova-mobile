@@ -329,7 +329,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 							}
 						}
 					]
-				},{
+				},
+				{
 					xtype: 'panel',
 					margin: '10 0 0 0',
 					layout: {
@@ -338,8 +339,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 					},
 					items: [
 						{
-							cls: 'gravure selectable',
-							html: "Direkt-Link: " + window.location + 'id/' + sessionStorage.getItem('keyword')
+							cls: 'gravure selectable directlink-text',
+							html: Messages.DIRECTLINK + ": " + window.location + 'id/' + sessionStorage.getItem('keyword')
 						}
 					]
 				},

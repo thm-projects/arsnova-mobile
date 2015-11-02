@@ -870,7 +870,7 @@ span.bold {
 
 .formInvalid:-moz-placeholder { /* Firefox 18- */
 	color: #900;
-	opacity: 0.5; 
+	opacity: 0.5;
 }
 
 .formInvalid::-moz-placeholder {  /* Firefox 19+ */
@@ -878,7 +878,7 @@ span.bold {
 	opacity: 0.5;
 }
 
-.formInvalid:-ms-input-placeholder {  
+.formInvalid:-ms-input-placeholder {
 	color: #900;
 	opacity: 0.5;
 }
@@ -1440,7 +1440,7 @@ ol.standardList li {
 }
 
 .fileUploadButtonFieldset.longText {
-	max-width: 604px; 
+	max-width: 604px;
 }
 
 .ppSingleItemBackground {
@@ -1459,4 +1459,8 @@ ol.standardList li {
 
 .learningprogress-title .x-form-fieldset-title .x-innerhtml {
 	white-space: normal;
+}
+
+.directlink-text {
+	font-size: .9em;
 }
