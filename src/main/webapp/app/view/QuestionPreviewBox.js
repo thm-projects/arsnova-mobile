@@ -44,11 +44,11 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 		});
 
 		if (Ext.os.is.Desktop) {
-			this.setMaxWidth('320px');
-			this.setMaxHeight('640px');
+			this.setMaxWidth('720px');
+			this.setMaxHeight('1280px');
 		} else {
-			this.setMaxWidth('740px');
-			this.setMaxHeight('600px');
+			this.setMaxWidth('720px');
+			this.setMaxHeight('1280px');
 		}
 
 		this.closeButton = Ext.create('Ext.Button', {
