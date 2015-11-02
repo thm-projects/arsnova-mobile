@@ -67,6 +67,11 @@ $toolbar-toogleCorrect-button-inactive-color: $thm-lightgrey;
 .iconBtn {
 	background: white;
 	color: $thm-grey !important;
+	
+	&:hover {
+		background-color: #c4c4c4;
+		cursor: pointer;
+	}
 
 	&.x-button-pressing {
 		background-image: none;
