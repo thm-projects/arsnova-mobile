@@ -82,7 +82,7 @@ var splashscreen = (function (win) {
 
 		// apply styles from splashscreen configuration
 		imgElement.src = response.splashscreen.logo;
-		doc.body.style.background = response.splashscreen.bgColor;
+		doc.getElementById("splashScreenContainer").style.background = response.splashscreen.bgcolor;
 		doc.getElementById("splashScreenSlogan").innerHTML = response.splashscreen.slogan;
 		doc.styleSheets[0].insertRule('.circleLoadingInd div:before { background-color: ' +
 			response.splashscreen.loadIndColor + ' !important }', 0);

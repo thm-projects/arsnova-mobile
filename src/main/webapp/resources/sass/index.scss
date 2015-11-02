@@ -21,7 +21,6 @@
 
 html, body {
 	height: 100%;
-	background-color: $splashscreen-background-color;
 }
 
 .noScriptDiv {
@@ -155,6 +154,7 @@ html, body {
 	-ms-user-select: none;
 	-ms-touch-action: none;
 	-moz-user-select: -moz-none;
+	background: $splashscreen-background-color;
 
 	.container {
 		top: 52%;
