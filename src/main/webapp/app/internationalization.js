@@ -325,7 +325,7 @@
 				ABSTENTIONS: 'Enthaltungen',
 				ABSTENTION_POSSIBLE: 'Enthaltung möglich?',
 				MY_COURSES: "Meine Kurse:",
-				NO_COURSES_FOUND: "Es konnten keine Kurse gesucht werden.",
+				NO_COURSES_FOUND: "Es konnten keine Kurse gefunden werden.",
 				CORRECT_ANSWER: 'Richtige Antwort',
 				YES: "Ja",
 				NO: "Nein",
