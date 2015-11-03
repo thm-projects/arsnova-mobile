@@ -69,7 +69,7 @@
 				GUEST: "Gast",
 				CHANGE_ROLE: "Rolle wechseln",
 				NO_GUEST_SPEAKER: "Hinweis: Um eine Session anzulegen, müssen Sie sich anmelden.",
-				CONFIRM_GUEST_SPEAKER: "Wenn Sie sich als Gast anmelden, ist die ARSnova-Session nur auf dem aktuellen Gerät verwaltbar. Dennoch als Gast anmelden?",
+				CONFIRM_GUEST_SPEAKER: "Wenn Sie sich als Gast anmelden, ist die Verwaltung der ARSnova-Session nur auf dem aktuellen Gerät möglich. Möchten Sie sich trotzdem als Gast anmelden?",
 				GUEST_LOGIN: "Gast-Anmeldung",
 				BACK_TO_ROLEPANEL: "Rollen",
 
