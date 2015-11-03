@@ -91,7 +91,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 	},
 
 	previewHandler: function () {
-		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
+		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.getActiveItem();
 
 		var answerPreview = Ext.create('ARSnova.view.AnswerPreviewBox', {
 			xtype: 'answerPreview'

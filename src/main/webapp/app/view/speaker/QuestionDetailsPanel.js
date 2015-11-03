@@ -746,6 +746,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 		// Preview panel with integrated button
 		this.previewPart = Ext.create('Ext.form.FormPanel', {
+			hidden: this.isFlashcard,
 			cls: 'newQuestion',
 			scrollable: null,
 			items: [{
@@ -943,7 +944,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 		this.answerFormFieldset = Ext.create('Ext.form.FieldSet', {
 			cls: 'standardFieldset centerFormTitle',
-			title: this.questionObj.questionType !== "flashcard" ? Messages.ANSWERS : Messages.ANSWER
+			title: this.questionObj.questionType !== "flashcard" ? Messages.ANSWERS : Messages.FLASHCARD_BACK_PAGE
 		});
 
 		this.answerForm = Ext.create('Ext.form.FormPanel', {
