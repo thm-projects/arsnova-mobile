@@ -86,7 +86,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 
 		// Create standard panel with framework support
 		this.questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			cls: "roundedBox allCapsHeader",
+			cls: "roundedBox",
 			style: 'min-height: 82px;'
 		});
 
@@ -236,10 +236,18 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 	},
 
 	setQuestionPanelContent: function (title, content) {
+		var questionString;
 		// Setup question title and text to display in the same field; markdown handles HTML encoding
-		var questionString = title.replace(/\./, "\\.")
-			+ '\n\n' // inserts one blank line between subject and text
-			+ content;
+
+		if (title.length === 0) {
+			this.questionPanel.removeCls('allCapsHeader');
+			questionString = content;
+		} else {
+			this.questionPanel.addCls('allCapsHeader');
+			questionString = title.replace(/\./, "\\.")
+				+ '\n\n' // inserts one blank line between subject and text
+				+ content;
+		}
 
 		this.questionPanel.setContent(questionString, true, true);
 	},
