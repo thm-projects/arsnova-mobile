@@ -37,7 +37,13 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 
 		this.treeStore = Ext.create('Ext.data.TreeStore', {
 			model: 'ARSnova.view.home.PPListItem',
-			defaultRootProperty: 'items'
+			defaultRootProperty: 'items',
+			sorters: {
+				property: 'text',
+				transform: function (value) {
+					return value.toLowerCase();
+				}
+			}
 		});
 		this.rootNode = this.treeStore.getRoot();
 
@@ -151,6 +157,10 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 			fullscreen: true,
 			style: 'width: 100%; height: 100%;',
 			cls: 'standardFieldset',
+			listConfig: {
+				itemHeight: 45,
+				variableHeights: true
+			},
 			scrollable: {
 				direction: 'vertical',
 				directionLock: true
