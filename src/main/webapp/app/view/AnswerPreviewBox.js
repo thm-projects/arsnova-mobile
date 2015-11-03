@@ -25,8 +25,8 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			direction: 'vertical',
 			directionLock: true
 		},
-		maxWidth: 720,
-		maxHeight: 1280,
+		maxWidth: 360,
+		maxHeight: 640,
 		hideOnMaskTap: true,
 		layout: 'vbox'
 	},
