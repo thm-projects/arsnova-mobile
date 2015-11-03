@@ -118,6 +118,7 @@ Ext.define("ARSnova.controller.Feature", {
 		if (useCases.flashcard) {
 			features.jitt = false;
 			features.interposed = false;
+			features.learningProgress = false;
 			features.feedback = false;
 			features.pi = false;
 		}
