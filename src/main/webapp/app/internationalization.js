@@ -124,6 +124,7 @@
 				SESSION_SAVE: "Session anlegen",
 				SESSION_OPTIONAL_INFO: "Optionale Informationen",
 				SAVE: 'Speichern',
+				EXPORT: '(Pool) Export',
 
 				/* feedback */
 				FEEDBACK: "Feedback",
@@ -741,6 +742,7 @@
 				SESSION_SAVE: "Create Session",
 				SESSION_OPTIONAL_INFO: "Optional Information",
 				SAVE: 'Save',
+				EXPORT: '(Pool) Export',
 
 				/* feedback */
 				FEEDBACK: "Feedback",

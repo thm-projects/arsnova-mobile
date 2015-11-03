@@ -266,7 +266,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			this.importButtonPanel.add(this.importButton);
 
 			this.exportButton = Ext.create('ARSnova.view.MatrixButton', {
-				text: 'Export',
+				text: Messages.EXPORT,
 				buttonConfig: 'icon',
 				imageCls: 'icon-cloud-download ',
 				scope: this,
