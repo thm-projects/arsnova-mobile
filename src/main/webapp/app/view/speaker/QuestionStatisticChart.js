@@ -374,9 +374,19 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 							ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.questionStatisticChart :
 							ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionStatisticChart;
 
-					gradient = data.text === Messages.ABSTENTION ?
-							gradient = panel.abstentionGradient :
+					switch (data.text) {
+						case Messages.ABSTENTION:
+							gradient = panel.abstentionGradient;
+							break;
+						case Messages.ALL_CORRECT:
+							gradient = panel.correctColorGradient;
+							break;
+						case Messages.ALL_WRONG:
+							gradient = panel.incorrectColorGradient;
+							break;
+						default:
 							gradient = panel.gradients[i % panel.gradients.length];
+					}
 
 					if (panel.questionChart.showPercentage) {
 						if (sprite.getField() === "percent-round1") {
@@ -923,21 +933,23 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	},
 
 	getCorrectAnswerGradients: function () {
-		var data, question, gradients = [],
-			correctColorGradient = Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [
-					{offset: 0, color: 'rgb(128, 186, 36)'},
-					{offset: 100, color: 'rgb(88, 146, 0)'}
-				]
-			}),
-			incorrectColorGradient = Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [
-					{offset: 0, color: 'rgb(151, 27, 47);'},
-					{offset: 100, color: 'rgb(111, 7, 27)'}
-				]
-			});
+		var data, question, gradients = [];
+
+		this.correctColorGradient = Ext.create('Ext.draw.gradient.Linear', {
+			degrees: 90,
+			stops: [
+				{offset: 0, color: 'rgb(128, 186, 36)'},
+				{offset: 100, color: 'rgb(88, 146, 0)'}
+			]
+		});
+
+		this.incorrectColorGradient = Ext.create('Ext.draw.gradient.Linear', {
+			degrees: 90,
+			stops: [
+				{offset: 0, color: 'rgb(151, 27, 47);'},
+				{offset: 100, color: 'rgb(111, 7, 27)'}
+			]
+		});
 
 		for (var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
 			question = this.questionObj.possibleAnswers[i];
@@ -946,14 +958,11 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			this.correctAnswers[data.text] = data.correct;
 
 			if ((question.data && !question.data.correct) || (!question.data && !question.correct)) {
-				gradients.push(incorrectColorGradient);
+				gradients.push(this.incorrectColorGradient);
 			} else {
-				gradients.push(correctColorGradient);
+				gradients.push(this.correctColorGradient);
 			}
 		}
-		// Add two more gradients for the summary bars
-		gradients.push(correctColorGradient);
-		gradients.push(incorrectColorGradient);
 
 		return gradients;
 	},
