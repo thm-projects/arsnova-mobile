@@ -251,12 +251,12 @@ Ext.define('ARSnova.view.Question', {
 
 	markCorrectAnswers: function () {
 		if (this.questionObj.showAnswer) {
-			this.answerList.getStore().each(function (item) {
-				item.set("questionAnswered", true);
-			});
-
 			if (this.questionObj.questionType === 'grid') {
 				this.setGridAnswer(this.questionObj.userAnswered);
+			} else {
+				this.answerList.getStore().each(function (item) {
+					item.set("questionAnswered", true);
+				});
 			}
 		}
 	},
