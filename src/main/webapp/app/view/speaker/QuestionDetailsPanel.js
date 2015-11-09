@@ -1147,6 +1147,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			if (this.questionObj.image === 'true') {
 				this.grid.prepareRemoteImage(this.questionObj._id, false, false, function (dataUrl) {
 					me.questionObj.image = dataUrl;
+					me.image = dataUrl;
 
 					if (isGridQuestion) {
 						prepareGridStatistic(me.questionObj);
@@ -1157,6 +1158,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			} else if (isGridQuestion) {
 				prepareGridStatistic(me.questionObj);
 			} else {
+				this.image = this.questionObj.image;
 				this.grid.setImage(this.questionObj.image);
 				this.uploadView.toggleImagePresent();
 				this.grid.show();

@@ -49,7 +49,7 @@ var splashscreen = (function (win) {
 			if (ARSnova && ARSnova.app && typeof ARSnova.app.closeSplashScreen === 'function') {
 				ARSnova.app.closeSplashScreen();
 			} else {
-				setTimeout(hideSplashscreen, 3000);
+				setTimeout(hideSplashScreen, 3000);
 			}
 		}, milliseconds);
 	}
@@ -69,15 +69,15 @@ var splashscreen = (function (win) {
 
 		// function to call when loading of splashscreen logo finished
 		imgElement.onload = function () { 
-			scaleWidth = imgObject.naturalWidth / imgObject.naturalHeight >= 2;
-			milliseconds = response.splashscreen && response.splashscreen.logo ||
+			var scaleWidth = imgObject.naturalWidth / imgObject.naturalHeight >= 2;
+			var milliseconds = response.splashscreen && response.splashscreen.logo ||
 				response.splashscreen.slogan ? 3000 : 1000;
 			showInnerContainer(milliseconds, scaleWidth);
 		};
 
 		// function to call when loading of splashscreen logo failed
 		imgElement.onerror = imgElement.onabort = function () {
-			hideSplashscreen();
+			hideSplashScreen();
 		};
 
 		// apply styles from splashscreen configuration
