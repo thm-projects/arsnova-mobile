@@ -200,14 +200,19 @@ Ext.application({
 
 	loadGlobalConfig: function () {
 		var globalConfig = new RSVP.Promise();
-		ARSnova.app.restProxy.getGlobalConfiguration({
-			success: function (config) {
-				globalConfig.resolve(config);
-			},
-			failure: function () {
-				globalConfig.reject();
-			}
-		});
+
+		if (typeof window.arsnovaConfig === 'object') {
+			globalConfig.resolve(window.arsnovaConfig);
+		} else {
+			ARSnova.app.restProxy.getGlobalConfiguration({
+				success: function (config) {
+					globalConfig.resolve(config);
+				},
+				failure: function () {
+					globalConfig.reject();
+				}
+			});
+		}
 
 		return globalConfig;
 	},

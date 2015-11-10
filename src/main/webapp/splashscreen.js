@@ -61,9 +61,12 @@ var splashscreen = (function (win) {
 		var response = JSON.parse(responseText);
 		var imgElement = doc.getElementById('splashScreenLogo');
 
+		// save config object
+		window.arsnovaConfig = response;
+
 		// show loading indicator
 		showLoadingIndicator();
-		
+
 		// preload splashscreen logo
 		imgObject.src = response.splashscreen.logo;
 
