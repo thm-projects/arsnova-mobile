@@ -27,13 +27,12 @@
 
 //
 // The following lines import the custom scss files.
-
 @import 'app/colors';
 @import 'app/theme';
-@import 'app/general';
 @import 'app/iconfont';
 @import 'app/bugfixes';
 
+@import 'app/components/buttons';
 @import 'app/components/highlighter';
 @import 'app/components/speakerUtils';
 @import 'app/components/badges';
@@ -41,3 +40,5 @@
 @import 'app/components/markdownEditor';
 @import 'app/components/countdownTimer';
 @import 'app/components/thumbnail';
+
+@import 'app/general';

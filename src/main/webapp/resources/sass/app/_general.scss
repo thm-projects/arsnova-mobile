@@ -17,11 +17,112 @@
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+.hidden {
+	display: none;
+}
+ 
+.noBackground {
+	background: none !important;
+}
+
+.noBorder {
+	border: none !important;
+}
+
+.noPadding {
+	padding: 0px !important;
+}
+
+.noOverflow {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	padding-right: 55px;
+}
+
+.buttontext {
+	margin-left: 15px;
+}
+
+.alignRight {
+	text-align: right;
+	padding-right: 10px;
+}
+
+.alignLeft {
+	text-align: left;
+	padding-left: 10px;
+}
+
+.x-input-radio:checked + .x-field-mask::after {
+	background: #80ba24; /** TODO **/
+}
+
+.x-input-el:checked + .x-field-mask::after {
+	color: #80ba24; /** TODO **/
+}
+
 .embeddedPageElement {
 	width: 100%;
 	height:100%;
 	overflow: hidden;
 	-webkit-overflow-scrolling: touch;
+}
+
+code {
+	white-space:pre;
+	white-space:pre-wrap;
+	word-break:break-all;
+	word-wrap:break-word;
+}
+
+.roundedBox {
+	margin: 10px;
+	padding: 10px;
+	border-radius: 10px;
+	background-color: white;
+
+	&.questionPanel {
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+
+	.x-innerhtml.x-html {
+		padding: 0.2em !important;
+	}
+
+	.p.title {
+		font-weight: normal;
+	}
+
+	&>.x-list-item:last-child {
+		border-bottom: none;
+	}
+}
+
+.sliderField {
+	.sliderInputField {
+		width: 15%;
+		float: right;
+		margin: 5px;
+
+		.sliderInputValue {
+			width: 100%;
+			border: none;
+			height: 2.0em;
+			text-align: center;
+			pointer-events: none;
+		}
+	}
+
+	.x-slider {
+		width: 85%;
+	}
+}
+
+.roundedBox .x-html > :last-child,
+.arsnova-mathdown .x-innerhtml p {
+	margin: 0;
 }
 
 .x-mask-inner {
@@ -98,91 +199,9 @@
 	border-radius: 10px;
 }
 
-.answerListButton {
-	&.x-item-selected .x-innerhtml .answerOptionItem {
-		&.answerOptionCorrectItem:after {
-			text-shadow: 0px 0px 1px $thm-grey;
-		}
-	}
-
-	.x-innerhtml {
-		display: table;
-
-		.answerOptionItem {
-			width: 2em;
-			display: table-cell;
-			vertical-align: middle;
-		}
-
-		.answerOptionText {
-			width: 100%;
-			display: table-cell;
-			vertical-align: middle;
-
-			p {
-				position: relative;
-				bottom: 2px;
-				left: 10px;
-			}
-		}
-
-		.answerOptionItem {
-			line-height: 2.25em;
-
-			&.answerOptionItem:before {
-				font-family: "arsnova";
-				content: "\f096";
-				font-size: 1.2em;
-			}
-
-			&.answerOptionCorrectItem:after {
-				font-family: "Pictos";
-				content: "3";
-				font-size: 2.25em;
-				color: $thm-green;
-				text-shadow: 0px 0px 1px white;
-				margin: 0px 0px 0px -21px;
-				opacity: .99;
-			}
-		}
-	}
-}
-
 .thm-lettering {
 	color: $thm-green;
 	font-weight: bold;
-}
-
-.feedbackStatisticButton {
-	min-height: 0px !important;
-	padding-left: 0px !important;
-	padding-right: 0px !important;
-}
-
-.feedbackOkBackground .iconBtn {
-	background: $thm-green;
-}
-
-.feedbackGoodBackground .iconBtn {
-	background: $thm-orange;
-}
-
-.feedbackBadBackground .iconBtn {
-	background: $thm-red;
-}
-
-.feedbackNoneBackground .iconBtn {
-	background: $thm-grey;
-	color: #000;
-}
-
-.feedbackStatisticButton.voteButton.smallerMatrixButtons .iconBtn {
-	width: 70px;
-	height: 70px;
-
-	.iconBtnImg {
-		margin: 11px 0 0 10.5px;
-	}
 }
 
 .x-container.x-form,
@@ -201,10 +220,6 @@
 	color: rgba(190,224,247,0.9);
 }
 
-.statisticsButton.x-item-disabled .x-button-label {
-	opacity: 1;
-}
-
 .centerFormTitle .x-form-fieldset-title {
 	text-align: center;
 	margin-bottom: 10px;
@@ -214,8 +229,12 @@
 	margin-bottom: -9px;
 }
 
-.x-tabbar .x-tab .infoButtonBeforeLogin:before {
-	color: #80ba24;
+.x-field-checkbox .x-form-label {
+	min-width: 230px;
+}
+
+.x-tabbar-dark .x-tab {
+	color: #fff;
 }
 
 .myCoursesList .x-innerhtml{
@@ -224,37 +243,6 @@
 
 .myCoursesList .x-list-item {
 	border: none !important;
-}
-
-.carouselNavigationElement {
-	top: 0;
-	bottom: 0;
-	width: 0;
-	height: 0;
-	margin: auto;
-	position: absolute;
-	border-top: 45px solid transparent;
-	border-bottom: 45px solid transparent;
-
-	&.arrow-right {
-		right: 0;
-		margin-right: 10px;
-		border-left: 45px solid $thm-grey;
-
-		&.x-button-pressing {
-			border-left-color: $thm-lightgrey !important;
-		}
-	}
-
-	&.arrow-left {
-		left: 0;
-		margin-left: 10px;
-		border-right: 45px solid $thm-grey;
-
-		&.x-button-pressing {
-			border-right-color: $thm-lightgrey !important;
-		}
-	}
 }
 
 .qr-code {
@@ -295,14 +283,6 @@
 	display: block;
 	float: left;
 }
-.imgUploadBtn {
-	border-radius: 0px;
-}
-
-.imageUploadButtonLabel {
-	text-align:left;
-	vertical-align:middle;
-}
 
 .selectable {
 	.x-innerhtml {
@@ -310,34 +290,6 @@
 		-moz-user-select: text;
 		-webkit-user-select: text;
 	}
-}
-
-.matrixButton.roleIconBtn {
-	background: transparent !important;
-	padding: 0px 0px 40px 0px !important;
-	width: 72px;
-
-	.iconBtn {
-		width: 72px;
-		background: transparent !important;
-
-		.iconBtnImg {
-			font-size: 70px !important;
-			margin: 5px 0px 0px 0px;
-
-			&.icon-users {
-				margin-top: 0px !important;
-			}
-		}
-	}
-}
-
-.sessionInfoButton{
-	width: 40px;
-	padding: 0;
-	color: #4a5c66;
-	border: none;
-	background: transparent !important;
 }
 
 .canvasConfiguration {
@@ -386,20 +338,6 @@
 	}
 }
 
-.x-list .loadMoreButton {
-	width: 280px;
-}
-
-.loadMoreButton {
-	width: 280px;
-	margin: 0 auto;
-	border-radius: 0px 0px 15px 15px !important;
-
-	.x-button-label {
-		text-align: center !important;
-	}
-}
-
 .hideMediaDummy {
 	color: $thm-grey;
 	background: white;
@@ -431,22 +369,36 @@
 	}
 }
 
+.checkItem {
+	font-family: 'Pictos';
+	font-size: 1.6em;
+	text-align: right;
+	line-height: 1.6em;
+	margin-right: 10px;
+	background: none !important;
+	padding: 0px !important;
+
+	&.checked {
+		color: green;
+	}
+
+	&.unchecked {
+		color: #ddd;
+	}
+
+	> span {
+		font-weight: normal;
+		font-size: 1em;
+		text-align: center;
+	}
+}
+
 .paginationSessionList {
 	margin-bottom: 50px !important;
 	overflow: visible;
 
 	.x-form-fieldset {
 		margin-bottom: 0px !important;
-	}
-}
-
-.x-spinner {
-	.x-spinner-button-down {
-		margin-left: 0.5em;
-	}
-
-	.x-spinner-button-up {
-		margin-right: 1em;
 	}
 }
 
@@ -465,22 +417,6 @@
 	-webkit-border-top-right-radius: 5px;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
-}
-
-.x-nested-list .x-list-item-first .x-button,
-.standardForm>div>div:first-child {
-	-webkit-border-top-left-radius: 15px;
-	-webkit-border-top-right-radius: 15px;
-	border-top-left-radius: 15px;
-	border-top-right-radius: 15px;
-}
-
-.x-nested-list .x-list-item-last .x-button,
-.standardForm>div>div:last-child {
-	-webkit-border-bottom-left-radius: 15px;
-	-webkit-border-bottom-right-radius: 15px;
-	border-bottom-left-radius: 15px;
-	border-bottom-right-radius: 15px;
 }
 
 .standardFieldset .x-form-fieldset-inner {
@@ -502,9 +438,145 @@
 	border-bottom-right-radius: 15px;
 }
 
+.x-container .x-dock .x-dock-body .x-form-fieldset-inner,
+.x-form .x-form-inner .x-container .x-dock .x-dock-body .x-form-fieldset-inner {
+	background-color: transparent;
+	border: none;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	-webkit-box-shadow: none;
+}
+
+.rightAligned .x-toggle {
+	float:right;
+	margin-right:1em;
+	margin-top: 3px;
+	padding-bottom: 3px;
+}
+
+.saveQuestionButton {
+	width: 95.15%;
+	margin: 1em auto 30px;
+}
+
+.previewButtonLong {
+	width: 300px;
+}
+
+.newQuestion .x-form-fieldset {
+	margin-top: 10px;
+	margin-bottom: 0;
+}
+
+.thmlink {
+	text-decoration: none;
+	color: #333;
+}
+
+.counterText {
+	color: white;
+}
+
+.x-form-fieldset .x-field {
+	background-color: white;
+}
+
 .x-field-radio,
 .x-field-checkbox {
 	.x-form-label {
 		border-right: none;
 	}
+}
+
+.session-toggle-label {
+	border-right: none !important;
+}
+
+.x-spinner .x-input-number {
+	text-align: center !important;
+}
+
+/* Reduce padding around Markdown and Mathjax formatted elements */
+.arsnova-mathdown {
+	padding: 0;
+}
+
+/* Display question categories in ALL CAPS */
+.allCapsHeader .x-list-header,
+.allCapsHeader .x-html > p:first-child {
+	text-transform: uppercase;
+}
+
+.fileUploadFieldset .x-field-text,
+.fileUploadFieldset .x-input-text {
+	border-bottom: none;
+	border-radius: .4em;
+}
+
+.fileUploadButtonFieldset {
+	margin: 0px auto;
+	max-width: 500px;
+	width: 95.15%;
+
+	&.longText {
+		max-width: 604px;
+	}
+}
+
+.fileUploadFieldset {
+	margin: 0.5em 0.5em 1em;
+}
+
+.caption {
+	height: 40px;
+	background: white;
+
+	&:hover {
+		background-color: white;
+		cursor: initial;
+	}
+}
+
+.loginFieldSet .x-field-text {
+	height: 45px;
+	overflow: hidden;
+	border-radius: .4em;
+	margin: 10px 10px 30px;
+}
+
+.loginFieldSet .x-button-confirm {
+	height: 45px;
+	margin: -10px 10px 0px !important;
+}
+
+.joinSessionInput {
+	text-align: center;
+}
+
+.required span {
+	color: #900;
+}
+
+.formInvalid::-webkit-input-placeholder {
+	color: #900;
+	opacity: 0.5;
+}
+
+.formInvalid:-moz-placeholder { /* Firefox 18- */
+	color: #900;
+	opacity: 0.5; 
+}
+
+.formInvalid::-moz-placeholder {  /* Firefox 19+ */
+	color: #900;
+	opacity: 0.5;
+}
+
+.formInvalid:-ms-input-placeholder {  
+	color: #900;
+	opacity: 0.5;
+}
+
+.isActive {
+	color: #00CD00;
 }
