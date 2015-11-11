@@ -32,6 +32,11 @@
 		margin-left: -4px;
 		margin-top: -1px;
 	}
+
+	&:hover {
+		background-color: #EEEEEE;
+		cursor: pointer;
+	}
 }
 
 .markDownEditorPanel {
