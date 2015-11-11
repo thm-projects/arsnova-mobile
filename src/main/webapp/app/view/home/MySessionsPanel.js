@@ -197,12 +197,12 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 		}
 
 		if (config.features.sessionImportExport) {
-			this.importButtonClickable = Ext.create('Ext.ux.Fileup', {
+			this.fileUploadField = Ext.create('Ext.ux.Fileup', {
 				xtype: 'fileupload',
 				autoUpload: true,
 				loadAsDataUrl: true,
 				baseCls: 'button',
-				style: 'background: transparent;position:absolute; width:100%; height: 100%; z-index: 100;border: none !important;font-size:0;',
+				style: 'display: none',
 				states: {
 					browse: {
 						text: "Suchen"
@@ -245,7 +245,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					loadfailure: function (message) {}
 				}
 			});
-			this.importButtonClickable.fileElement.dom.accept = ""; // enable all kinds of data for file input
+			this.fileUploadField.fileElement.dom.accept = ""; // enable all kinds of data for file input
 			this.importButton = Ext.create('ARSnova.view.MatrixButton', {
 				text: Messages.IMP_BUTTON_IMPORT,
 				buttonConfig: 'icon',
@@ -255,13 +255,15 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					var msg = this.importSupport();
 					if (msg) {
 						Ext.Msg.alert(Messages.NOTIFICATION, msg);
+					} else {
+						this.fileUploadField.fileElement.dom.click();
 					}
 				}
 			});
 
 			this.importButtonPanel = Ext.create('Ext.Panel');
 			if (!this.importSupport()) {
-				this.importButtonPanel.add(this.importButtonClickable);
+				this.importButtonPanel.add(this.fileUploadField);
 			}
 			this.importButtonPanel.add(this.importButton);
 
