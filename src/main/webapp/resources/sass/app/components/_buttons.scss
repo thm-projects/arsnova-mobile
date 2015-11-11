@@ -309,6 +309,13 @@
 	}
 }
 
+.answerListButton {
+	&:hover {
+		background-color: #EEEEEE;
+		cursor: pointer;
+	}
+}
+
 .questionRequestButton {
 	margin-top: 15px;
 	margin-bottom: 30px;

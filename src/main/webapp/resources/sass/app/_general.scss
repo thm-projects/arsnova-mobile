@@ -76,6 +76,11 @@ code {
 	word-wrap:break-word;
 }
 
+.roundedBox .x-html > :last-child,
+.arsnova-mathdown .x-innerhtml p {
+	margin: 0;
+}
+
 .roundedBox {
 	margin: 10px;
 	padding: 10px;
@@ -100,6 +105,14 @@ code {
 	}
 }
 
+.roundedCorners .x-list-item-first.x-list-header,
+.roundedCorners .x-list-header-swap {
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
 .sliderField {
 	.sliderInputField {
 		width: 15%;
@@ -118,11 +131,6 @@ code {
 	.x-slider {
 		width: 85%;
 	}
-}
-
-.roundedBox .x-html > :last-child,
-.arsnova-mathdown .x-innerhtml p {
-	margin: 0;
 }
 
 .x-mask-inner {
@@ -338,37 +346,6 @@ code {
 	}
 }
 
-.hideMediaDummy {
-	color: $thm-grey;
-	background: white;
-	border-radius: 5px 5px 5px 5px !important;
-	border: 1px double #788895;
-	width: 42px !important;
-	margin-right: 2px;
-	height: 40px;
-
-	span {
-		position: relative;
-		background-repeat: no-repeat;
-		background-position: center;
-		display: block;
-		opacity: 0.85;
-		font-size: 0.86em;
-		width: 1.5em;
-		height: 1.5em;
-
-		&::before {
-			position: absolute;
-			top: 0;
-			right: 0;
-			bottom: 0;
-			left: 0;
-			font-size: 1.6em;
-			text-align: center;
-		}
-	}
-}
-
 .checkItem {
 	font-family: 'Pictos';
 	font-size: 1.6em;
@@ -384,7 +361,7 @@ code {
 
 	&.unchecked {
 		color: #ddd;
-	}
+	} 
 
 	> span {
 		font-weight: normal;
@@ -402,21 +379,34 @@ code {
 	}
 }
 
-.topPadding {
-	padding-top: 1em;
+.coursemembersonlyicon:before {
+	position: absolute;
+	top: 5px;
+	text-align: center;
+	font-family: "arsnova";
+	content: "\e613";
+	margin-left: -20px;
+	font-size: 32px;
+}
+
+.coursemembersonlymessage {
+	color: #800;
+	margin-left: 30px;
+}
+
+.newSessionMessageBox .x-innerhtml {
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+	padding-bottom: 0.5em;
+	-webkit-user-select: text;
+	-moz-user-select: text;
+	-ms-user-select: text;
+	user-select: text;
 }
 
 .standardForm {
 	margin-left: 12px !important;
 	margin-right: 12px !important;
-}
-
-.roundedCorners .x-list-item-first.x-list-header,
-.roundedCorners .x-list-header-swap {
-	-webkit-border-top-left-radius: 5px;
-	-webkit-border-top-right-radius: 5px;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
 }
 
 .standardFieldset .x-form-fieldset-inner {
@@ -547,6 +537,10 @@ code {
 .loginFieldSet .x-button-confirm {
 	height: 45px;
 	margin: -10px 10px 0px !important;
+}
+
+.topPadding {
+	padding-top: 1em;
 }
 
 .joinSessionInput {
