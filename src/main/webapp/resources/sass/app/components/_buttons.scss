@@ -24,19 +24,19 @@
 }
 
 .feedbackOkBackground .iconBtn {
-	background: $thm-green;
+	background: $feedback-ok-color;
 }
 
 .feedbackGoodBackground .iconBtn {
-	background: $thm-orange;
+	background: $feedback-good-color;
 }
 
 .feedbackBadBackground .iconBtn {
-	background: $thm-red;
+	background: $feedback-bad-color;
 }
 
 .feedbackNoneBackground .iconBtn {
-	background: $thm-grey;
+	background: $feedback-none-color;
 	color: #000;
 }
 
@@ -56,7 +56,7 @@
 .answerListButton {
 	&.x-item-selected .x-innerhtml .answerOptionItem {
 		&.answerOptionCorrectItem:after {
-			text-shadow: 0px 0px 1px $thm-grey;
+			text-shadow: 0px 0px 1px $primary-grey-color;
 		}
 	}
 
@@ -94,7 +94,7 @@
 				font-family: "Pictos";
 				content: "3";
 				font-size: 2.25em;
-				color: $thm-green;
+				color: $primary-green-color;
 				text-shadow: 0px 0px 1px white;
 				margin: 0px 0px 0px -21px;
 				opacity: .99;
@@ -157,7 +157,7 @@
 	border-style: solid;
 	border-width: 1px;
 	display: block;
-	font-family: 'Helvetica Neue',HelveticaNeue,Helvetica-Neue,Helvetica,'BBAlpha Sans';
+	font-family: $label-font-family;
 	font-size: 1.4em;
 	font-weight: normal !important;
 	height: 80px;
@@ -392,20 +392,20 @@
 	&.arrow-right {
 		right: 0;
 		margin-right: 10px;
-		border-left: 45px solid $thm-grey;
+		border-left: 45px solid $carousel-navigation-button-color;
 
 		&.x-button-pressing {
-			border-left-color: $thm-lightgrey !important;
+			border-left-color: $carousel-navigation-button-pressed-color !important;
 		}
 	}
 
 	&.arrow-left {
 		left: 0;
 		margin-left: 10px;
-		border-right: 45px solid $thm-grey;
+		border-right: 45px solid $carousel-navigation-button-color;
 
 		&.x-button-pressing {
-			border-right-color: $thm-lightgrey !important;
+			border-right-color: $carousel-navigation-button-pressed-color !important;
 		}
 	}
 }

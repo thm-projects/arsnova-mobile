@@ -92,7 +92,7 @@
 			max-width: 350px;
 			margin-top: -80px;
 			margin-left: 280px;
-			color: $thm-grey;
+			color: $label-font-color;
 		}
 
 		&.answer-text {
@@ -109,7 +109,7 @@
 			overflow: hidden;
 			text-overflow: ellipsis;
 			margin-left: 280px;
-			color: $thm-grey;
+			color: $label-font-color;
 		}
 	}
 }

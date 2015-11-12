@@ -17,7 +17,7 @@
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@import 'app/colors';
+@import 'app/theme';
 
 html, body {
 	height: 100%;
@@ -32,7 +32,7 @@ html, body {
 	z-index: 3000;
 	height: 100%;
 	width: 100%;
-	background-color: $background;
+	background-color: $background-color;
 }
 
 .noSriptLogo {
@@ -50,7 +50,7 @@ html, body {
 }
 
 .appLoadingIndicator > * {
-	background-color: $thm-grey;
+	background-color: $loading-indicator-primary-color;
 	display: inline-block;
 	height: 30px;
 	margin: 0 5px;
@@ -86,57 +86,57 @@ html, body {
 }
 
 @keyframes appLoadingColorsFirstDiv {
-	from { background: $thm-green }
-	16.50% { background: $thm-green }
-	16.51% { background: $thm-grey }
-	82.50% { background: $thm-grey }
-	82.51% { background: $thm-green}
-	to { background: $thm-green }
+	from { background: $loading-indicator-secondary-color }
+	16.50% { background: $loading-indicator-secondary-color }
+	16.51% { background: $loading-indicator-primary-color }
+	82.50% { background: $loading-indicator-primary-color }
+	82.51% { background: $loading-indicator-secondary-color}
+	to { background: $loading-indicator-secondary-color }
 }
 
 @keyframes appLoadingColorsSecondDiv {
-	from { background: $thm-grey }
-	21.99% { background: $thm-grey }
-	22.00% { background: $thm-green }
-	44.00% { background: $thm-green }
-	44.01% { background: $thm-grey}
-	to { background: $thm-grey }
+	from { background: $loading-indicator-primary-color }
+	21.99% { background: $loading-indicator-primary-color }
+	22.00% { background: $loading-indicator-secondary-color }
+	44.00% { background: $loading-indicator-secondary-color }
+	44.01% { background: $loading-indicator-primary-color}
+	to { background: $loading-indicator-primary-color }
 }
 
 @keyframes appLoadingColorsLastDiv {
-	from { background: $thm-grey }
-	49.49% { background: $thm-grey }
-	49.50% { background: $thm-green }
-	82.50% { background: $thm-green }
-	82.51% { background: $thm-grey}
-	to { background: $thm-grey }
+	from { background: $loading-indicator-primary-color }
+	49.49% { background: $loading-indicator-primary-color }
+	49.50% { background: $loading-indicator-secondary-color }
+	82.50% { background: $loading-indicator-secondary-color }
+	82.51% { background: $loading-indicator-primary-color}
+	to { background: $loading-indicator-primary-color }
 }
 
 @-webkit-keyframes appLoadingColorsFirstDiv {
-	from { background: $thm-green }
-	16.50% { background: $thm-green }
-	16.51% { background: $thm-grey }
-	88.00% { background: $thm-grey }
-	88.01% { background: $thm-green}
-	to { background: $thm-green }
+	from { background: $loading-indicator-secondary-color }
+	16.50% { background: $loading-indicator-secondary-color }
+	16.51% { background: $loading-indicator-primary-color }
+	88.00% { background: $loading-indicator-primary-color }
+	88.01% { background: $loading-indicator-secondary-color}
+	to { background: $loading-indicator-secondary-color }
 }
 
 @-webkit-keyframes appLoadingColorsSecondDiv {
-	from { background: $thm-grey }
-	21.99% { background: $thm-grey }
-	22.00% { background: $thm-green }
-	44.00% { background: $thm-green }
-	44.01% { background: $thm-grey}
-	to { background: $thm-grey }
+	from { background: $loading-indicator-primary-color }
+	21.99% { background: $loading-indicator-primary-color }
+	22.00% { background: $loading-indicator-secondary-color }
+	44.00% { background: $loading-indicator-secondary-color }
+	44.01% { background: $loading-indicator-primary-color}
+	to { background: $loading-indicator-primary-color }
 }
 
 @-webkit-keyframes appLoadingColorsLastDiv {
-	from { background: $thm-grey }
-	49.49% { background: $thm-grey }
-	49.50% { background: $thm-green }
-	82.50% { background: $thm-green }
-	82.51% { background: $thm-grey}
-	to { background: $thm-grey }
+	from { background: $loading-indicator-primary-color }
+	49.49% { background: $loading-indicator-primary-color }
+	49.50% { background: $loading-indicator-secondary-color }
+	82.50% { background: $loading-indicator-secondary-color }
+	82.51% { background: $loading-indicator-primary-color}
+	to { background: $loading-indicator-primary-color }
 }
 
 .showSplashScreenElement {

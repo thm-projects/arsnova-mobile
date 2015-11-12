@@ -17,16 +17,11 @@
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
  
-$projector-text-color: black;
-$projector-white: white;
-$projector-grey: #4a5c66;
-$projector-lightgrey: #788895;
-$projector-background-color: $background;
-$projector-active-color: $thm-lightgrey;
+
 
 @mixin label-config {
-	font-family: Verdana,Geneva,sans-serif;
-	color: $projector-text-color !important;
+	font-family: $projectormode-font-family !important;
+	color: $projectormode-text-color !important;
 }
 
 .x-speaker-utils {
@@ -64,7 +59,7 @@ $projector-active-color: $thm-lightgrey;
 
 .zoomActionSheet {
 	padding: 0;
-	border: 1px solid $background;
+	border: 1px solid $background-color;
 
 	.sliderField {
 		padding-right: 2em;
@@ -103,7 +98,7 @@ $projector-active-color: $thm-lightgrey;
 
 	&.x-button.x-button-action.x-button-pressed {
 		color: white;
-		background: $projector-active-color !important;
+		background: $projectormode-active-color !important;
 	}
 }
 
@@ -120,30 +115,29 @@ $projector-active-color: $thm-lightgrey;
 	}
 
 	.x-toolbar-light .x-button-back {
-		color: $projector-text-color !important;
-		background: $projector-white !important;
-		border: 1px solid $projector-white !important;
+		color: $projectormode-text-color !important;
+		background: $projectormode-white !important;
+		border: 1px solid $projectormode-white !important;
 	}
 
 	.gravure,
-	.disableDefault .thm-grey,
 	.disableDefault .x-form-label span,
 	.questionStatisticTitle .x-innerhtml,
 	.x-field-input .x-input-el {
-		color: $projector-text-color !important;
+		color: $projectormode-text-color !important;
 	}
 
 	.x-carousel-indicator {
 		span {
-			background-color: $projector-grey;
+			background-color: $projectormode-grey;
 		}
 
 		span.x-carousel-indicator-active {			
-			background-color:  $projector-white;
-			box-shadow: 0 0 1px 0 $projector-grey;
+			background-color:  $projectormode-white;
+			box-shadow: 0 0 1px 0 $projectormode-grey;
 
 			p {
-				color: $projector-text-color;
+				color: $projectormode-text-color;
 			}
 		}		
 	}

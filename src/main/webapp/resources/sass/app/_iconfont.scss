@@ -113,19 +113,19 @@
 }
 
 .icon-logo-radar {
-	color: $thm-green;
+	color: #80ba24;
 	margin-right: -.20em;
 	margin-left: 5px;
 	content: "r";
 }
 
 .icon-logo-ars {
-	color: $thm-grey;
+	color: #4a5c66;
 	content: "a";
 }
 
 .icon-logo-nova {
-	color: $thm-green;
+	color: #80ba24;
 	content: "n";
 }
 
@@ -244,8 +244,12 @@
     	height: 28px !important;
 	}
 
+	.icon-cloud {
+		color: $button-icon-color;
+	}
+
 	.icon-bullhorn {
-		color: $thm-green !important;
+		color: $bullhorn-icon-color !important;
 		margin-right: 16px;
 	}
 
@@ -262,7 +266,7 @@
 	}
 
 	.icon-presenter {
-		color: $thm-green !important;
+		color: $presenter-icon-color !important;
 		margin-left: 0.5px;
 		margin-right: -0.5px;
 	}
@@ -288,22 +292,33 @@
 	border-color: transparent !important;
 
 	.icon-newsession {
+		color: $icon-newsession-color;
 		margin-left: 19px !important;
 		margin-top: 15px !important;
 		font-size: 50px !important;
 	}
 
+	.icon-close {
+		color: $icon-delete-close-icon-color;
+
+		&.warningIconColor {
+			color: $primary-orange-color;
+		}
+	}
+
 	.icon-chart {
+		color: $icon-chart-color;
 		margin-left: 13px !important;
 	}
 
 	.icon-question {
+		color: $icon-questionmark-color;
 		font-size: 70px !important;
 		margin-top: 4px !important;
 	}
 
 	.icon-dashboard {
-		color: $button-feature-entry-color;
+		color: $icon-feature-entry-color;
 		font-size: 56px !important;
 		margin-top: 9px !important;
 		margin-left: 11px !important	
@@ -329,6 +344,14 @@
 		margin-top: 14px !important;
 	}
 
+	.icon-lock {
+		color: $icon-lock-locked-color;
+	}
+
+	.icon-unlock {
+		color: $icon-lock-unlocked-color;
+	}
+
 	.login-icon-ldap {
 		margin: 16px 0 0 10px !important;
 		font-size: 46px !important;
@@ -342,6 +365,7 @@
 	}
 
 	.icon-timer {
+		color: $icon-release-timer-color;
 		font-size: 52px !important;
 		margin: 14px 0 0 17px !important;
 	}
@@ -354,7 +378,7 @@
 
 .login-icon-cas,
 .login-icon-arsnova {
-	color: $thm-green;
+	color: #80ba24;
 }
 
 .login-icon-twitter {
@@ -392,7 +416,7 @@
 	z-index: -50;
 	display: inline-block;
 	border-radius: 50%/50%;
-	box-shadow: inset 50px 50px 50px #4a5c66;
+	box-shadow: inset 50px 50px 50px #4a5c66; /** TODO **/
 }
 
 .text-icons {

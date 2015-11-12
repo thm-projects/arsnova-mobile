@@ -203,12 +203,12 @@ code {
 
 .x-list-item-correct {
 	color: white !important;
-	background: $thm-green;
+	background: $primary-green-color;
 	border-radius: 10px;
 }
 
 .thm-lettering {
-	color: $thm-green;
+	color: #80ba24;
 	font-weight: bold;
 }
 
@@ -318,11 +318,11 @@ code {
 	top: 45%;
 
  	&.voteClosed {
- 		text-shadow: 1px 1px 5px $thm-red;
+ 		text-shadow: 1px 1px 5px $primary-red-color;
  	}
 
  	&.alreadyAnswered {
- 		text-shadow: 1px 1px 5px $thm-green;
+ 		text-shadow: 1px 1px 5px $primary-green-color;
  	}
 }
 
@@ -335,14 +335,14 @@ code {
 
 .gallery-dataview {
 	div {
-		background-color: $background !important;
+		background-color: $background-color !important;
 	}
 }
 
 .myCoursesList {
 	.x-inner,
 	.x-scroll-container {
-		background-color: $background;
+		background-color: $background-color;
 	}
 }
 

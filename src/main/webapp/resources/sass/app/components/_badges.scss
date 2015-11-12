@@ -27,7 +27,7 @@
 	text-shadow: rgba(0, 0, 0, 0.5) 0 -0.08em 0;
 	-webkit-box-shadow: #000 0 .1em .2em;
 	overflow: hidden;
-	color: #fff;
+	color: $notification-badge-text-color;
 	border: 2px solid #fff;
 	position: absolute;
 	width: auto;
@@ -39,7 +39,7 @@
 	right: 0px;
 	max-width: 100%;
 	background-image: none;
-	background-color: $thm-red;
+	background-color: $notification-badge-color;
 	display: inline-block;
 }
 
@@ -93,7 +93,7 @@
 
 .badgeicon, .questionsBadgeIcon, .feedbackQuestionsBadgeIcon, .unreadFeedbackQuestionsBadgeIcon, .answersBadgeIcon, .greybadgeicon, .bluebadgeicon, .redbadgeicon, .greenbadgeicon, .orangebadgeicon, .textbadgeicon {
 	font-weight: normal;
-	background: $thm-grey;
+	background: $primary-grey-color;
 	color: white;
 	-webkit-border-radius: 20px;
 	border-radius: 11px;
@@ -103,56 +103,56 @@
 }
 
 .questionsBadgeIcon {
-	background: $thm-grey;
+	background: $badge-question-color;
 }
 
 .feedbackQuestionsBadgeIcon {
-	background: $thm-green;
+	background: $badge-feedback-color;
 }
 
 .unreadFeedbackQuestionsBadgeIcon {
-	background: $thm-red;
+	background: $badge-unread-feedback-color;
 }
 
 .answersBadgeIcon {
-	background: $thm-orange;
+	background: $badge-answers-color;
 }
 
 .redbadgecolor {
-	color: $thm-red;
+	color: $primary-red-color;
 }
 
 .bluebadgecolor {
-	color: $thm-darkblue;
+	color: $primary-darkblue-color;
 }
 
 .greenbadgecolor {
-	color: $thm-green;
+	color: $primary-green-color;
 }
 
 .orangebadgecolor {
-	color: $thm-orange
+	color: $primary-orange-color;
 }
 
 .redbadgeicon {
-	background: $thm-red;
+	background: $primary-red-color;
 }
 
 .bluebadgeicon {
-	background: $thm-darkblue;
+	background: $primary-darkblue-color;
 }
 
 .greenbadgeicon {
-	background: $thm-green;
+	background: $primary-green-color;
 }
 
 .orangebadgeicon {
-	background: $thm-orange;
+	background: $primary-orange-color;
 }
 
 .textbadgeicon {
 	background: transparent;
-	color: $thm-grey;
+	color: $primary-grey-color;
 	border: none;
 	box-shadow: none;
 	padding: 0;
