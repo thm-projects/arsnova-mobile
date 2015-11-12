@@ -76,26 +76,6 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			}
 		});
 
-		this.roleIcon = Ext.create('Ext.Component', {
-			cls: 'roleIcon speakerRole',
-			hidden: (screenWidth < 370),
-			align: 'left'
-		});
-
-		this.changeRoleButton = Ext.create('Ext.Button', {
-			text: Messages.CHANGE_ROLE,
-			align: 'right',
-			ui: 'confirm',
-			handler: function (button) {
-				button.disable();
-				ARSnova.app.getController('Auth').changeRole(
-					ARSnova.app.USER_ROLE_STUDENT, function () {
-						button.enable();
-					}
-				);
-			}
-		});
-
 		this.toolbar = Ext.create('Ext.TitleBar', {
 			title: Messages.SESSIONS,
 			cls: 'speakerTitleText',
