@@ -10,27 +10,9 @@
 	width: 0;
 }
 
-code {
-	white-space:pre;
-	white-space:pre-wrap;
-	word-break:break-all;
-	word-wrap:break-word;
-}
 
-.newSessionMessageBox .x-innerhtml {
-	padding-left: 0.5em;
-	padding-right: 0.5em;
-	padding-bottom: 0.5em;
-	-webkit-user-select: text;
-	-moz-user-select: text;
-	-ms-user-select: text;
-	user-select: text;
-}
 
-.sessionButtonKeyword {
-	font-style: italic;
-	opacity: 0.5;
-}
+
 
 .myCorsesList .x-list-item-first .x-button {
 	-moz-border-radius-topleft: .4em;
@@ -41,36 +23,10 @@ code {
 	border-top-right-radius: .4em;
 }
 
-.myCoursesList .x-list-item-last .x-button {
-	-moz-border-radius-bottomleft: .4em;
-	-moz-border-radius-bottomright: .4em;
-	-webkit-border-bottom-left-radius: .4em;
-	-webkit-border-bottom-right-radius: .4em;
-	border-bottom-left-radius: .4em;
-	border-bottom-right-radius: .4em;
-}
+
 
 .x-toolbar .x-button .x-button-label {
 	line-height: 1.2em;
-}
-
-/* styles for custom sliderField */
-.sliderField .sliderInputField {
-	width: 15%;
-	float: right;
-	margin: 5px;
-}
-
-.sliderField .x-slider {
-	width: 85%;
-}
-
-.sliderField .sliderInputField .sliderInputValue {
-	width: 100%;
-	border: none;
-	height: 2.0em;
-	text-align: center;
-	pointer-events: none;
 }
 
 .x-carousel-indicator span {
@@ -80,25 +36,6 @@ code {
 	-webkit-border-radius: 0.5em;
 	border-radius: 0.5em;
 	margin: 0.2em;
-}
-
-.loginFieldSet .x-field-text {
-	height: 45px;
-	overflow: hidden;
-	border-radius: .4em;
-	margin: 10px 10px 30px;
-}
-
-.loginFieldSet .x-button-confirm {
-	height: 45px;
-	margin: -10px 10px 0px !important;
-}
-
-.noOverflow {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	padding-right: 55px;
 }
 
 .x-item-disabled input,
@@ -121,13 +58,6 @@ code {
 
 	text-shadow: white 0 1px 1px;
 	color: #333;
-}
-
-.rightAligned .x-toggle {
-	float:right;
-	margin-right:1em;
-	margin-top: 3px;
-	padding-bottom: 3px;
 }
 
 .centerAligned input{
@@ -212,12 +142,6 @@ code {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7c87a4', endColorstr='#263e6c',GradientType=0 );
 }
 
-.x-tabbar-dark .x-tab {
-	color: #fff;
-}
-
-
-
 .x-label-align-right {
 	-webkit-box-direction: reverse!important;
 	-ms-flex-direction: row-reverse!important;
@@ -246,15 +170,6 @@ html,body {
 	box-flex: 1;
 	max-width: 50em;
 	margin: 0 auto;
-}
-
-.x-container .x-dock .x-dock-body .x-form-fieldset-inner,
-.x-form .x-form-inner .x-container .x-dock .x-dock-body .x-form-fieldset-inner {
-	background-color: transparent;
-	border: none;
-	padding-top: 0px;
-	padding-bottom: 0px;
-	-webkit-box-shadow: none;
 }
 
 .x-form-fieldset .x-field {
@@ -357,66 +272,10 @@ html,body {
 }
 
 /* loginPanel */
-.centerButton {
-	width: 300px;
-	margin: 0 auto;
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
-.login-button {
-	margin: 10px;
-	height: 45px;
-}
 
 .btnAction
 {
 
-}
-
-.iconBtn {
-	border-radius: 7px 7px 7px 7px;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #9CACC0;
-	color: black;
-	display: block;
-	font-family: 'Helvetica Neue',HelveticaNeue,Helvetica-Neue,Helvetica,'BBAlpha Sans';
-	font-size: 1.4em;
-	font-weight: normal !important;
-	height: 80px;
-	margin: 0 auto 2.5px;
-	overflow: visible;
-	position: relative;
-	text-align: center;
-	vertical-align: middle;
-	width: 80px;
-}
-
-.iconBtn .iconBtnImg {
-	width: 48px;
-	height: 48px;
-	margin: 16px 0 0 15px;
-}
-
-.iconBtn .x-toggle-field {
-	background: transparent;
-	font-size: 0.65em;
-}
-
-.iconBtn .x-toggle-field .x-container {
-	overflow: visible;
-}
-
-.iconBtn .x-toggle-field .x-component-outer {
-	padding: 0;
-	margin: 20px 0 0 2.9px;
-}
-
-.matrixButton {
-	min-height: 130px;
-	padding-left: 3px;
-	padding-right: 3px;
 }
 
 .x-button {
@@ -426,66 +285,7 @@ html,body {
 	background-clip: initial;
 }
 
-.buttonText {
-	overflow: hidden;
-	width: 90px;
-	margin-left: 5px;
-	margin-right: 5px;
-	font-size: 1em !important;
-	padding: 5px 0px 2.5px !important;
-	font-weight: normal !important;
-	white-space: normal !important;
-	line-height: 1.1em !important;
-}
 
-.matrixButton.feedbackGoodBackground .buttonText,
-.matrixButton.feedbackOkBackground .buttonText,
-.matrixButton.feedbackBadBackground .buttonText,
-.matrixButton.feedbackNoneBackground .buttonText {
-	width: 140px !important;
-	margin-left: 0px;
-	margin-right: 0px;
-}
-
-.matrixButton.actionButton .buttonText {
-	width: 130px !important;
-	margin-left: 0px;
-	margin-right: 0px;
-}
-
-.matrixButton.mediumActionButton .buttonText {
-	width: 120px !important;
-	margin-left: 0px;
-	margin-right: 0px;
-}
-
-.matrixButton.smallerActionButton,
-.matrixButton.mediumActionButton {
-	padding-left: 0px;
-	padding-right: 0px;
-}
-
-.matrixButton.smallerActionButton .buttonText {
-	width: 107px !important;
-	margin-left: 0px;
-	margin-right: 0px;
-}
-
-.matrixButton.manualActionButton .buttonText {
-	display: compact;
-}
-
-.noBackground {
-	background: none !important;
-}
-
-.noBorder {
-	border: none !important;
-}
-
-.noPadding {
-	padding: 0px !important;
-}
 
 .login-buttons {
 	height: 45px;
@@ -517,39 +317,6 @@ html,body {
 }
 
 /* homePanel */
-.forwardListButton { /* apple-like forward arrow*/
-	background: white
-		url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IArs4c6QAAAAZiS0dEALgAuAC41wNsvAAAAAlwSFlzAAALEgAACxIB0t1+/AAAAAd0SU1FB9sGEQk7MbF1V5sAAAENSURBVCjPY2CgNigtLS0pKyubSEgdMxqfsbS0tJuRkbGBgYHB3NLS8s+xY8cO49LMhC7AyMgoA5dkYmopLS1NIVbz//v378f///9/D5LYjLKysgCibF69evWvr1+/Bv7///8M1CXMDAwMy0tLS20xXInLSbm5uaIcHBxHGRkZVaFCH//9+2fX09NzCafNMDB58uTXjIyM6UhC/ExMTPPwOhvZ5v///89EEvr479+/JIKas7KyeDg4OLYhOfnH////fZGdjFVzaGgoGw8PzzpGRkYTBgYGhv////9lYGCI7O7uPkwotBkVFRUXMjAwuCKJZXR1dW0gKqr+////BMb+9+9fTXd39xyapG2KAAAvqFz8khrpYwAAAABJRU5ErkJggg==")
-		no-repeat;
-	background-position: 100%;
-	border-radius: 0;
-	height: 45px !important;
-	border-style: solid;
-	border-color: lightgray;
-	border-width: thin;
-}
-
-.caption {
-	height: 40px;
-	background: white;
-}
-
-.standardListButton, .answerListButton {
-	background: white no-repeat;
-	background-position: 100%;
-	border-radius: 0;
-	border-color: lightgray;
-	border-width: thin;
-}
-
-.standardListButton {
-	height: 45px !important;
-}
-
-.standardListButton>span,
-.forwardListButton>span {
-	text-align: left;
-}
 
 .answerListButton>span {
 	opacity: 1 !important;
@@ -724,29 +491,14 @@ html,body {
 }
 
 /* everywhere */
-.roundedBox {
-	margin: 10px;
-	padding: 10px;
-	border-radius: 10px;
-	background-color: white;
-}
 
-.roundedBox.questionPanel {
-	padding-top: 20px;
-	padding-bottom: 20px;
-}
+
 
 .fontNormal {
 	font-weight: normal;
 }
 
-.roundedBox p.title {
-	font-weight: normal;
-}
 
-.roundedBox>.x-list-item:last-child {
-	border-bottom: none;
-}
 
 .centerText {
 	padding: 10px;
@@ -859,38 +611,6 @@ span.bold {
 	/* @alternate */ background-image: linear-gradient(#304402,#425C02 10%,#547503 65%,#557803);
 }
 
-.required span {
-	color: #900;
-}
-
-.formInvalid::-webkit-input-placeholder {
-	color: #900;
-	opacity: 0.5;
-}
-
-.formInvalid:-moz-placeholder { /* Firefox 18- */
-	color: #900;
-	opacity: 0.5; 
-}
-
-.formInvalid::-moz-placeholder {  /* Firefox 19+ */
-	color: #900;
-	opacity: 0.5;
-}
-
-.formInvalid:-ms-input-placeholder {  
-	color: #900;
-	opacity: 0.5;
-}
-
-.isActive {
-	color: #00CD00;
-}
-
-.buttontext {
-	margin-left: 15px;
-}
-
 /* menu */
 .menu0 {
 	background-color: #660099;
@@ -932,20 +652,6 @@ ol.standardList {
 
 ol.standardList li {
 	list-style-type: decimal;
-}
-
-.alignRight {
-	text-align: right;
-	padding-right: 10px;
-}
-
-.alignLeft {
-	text-align: left;
-	padding-left: 10px;
-}
-
-.counterText {
-	color: white;
 }
 
 .actionsForm {
@@ -1013,19 +719,7 @@ ol.standardList li {
 	margin: 20px auto;
 }
 
-.yesnoOptions, .newQuestionOptions .x-segmentedbutton, .saveQuestionButton {
-	max-width: 500px;
-	margin: 20px auto;
-}
 
-.saveQuestionButton {
-	width: 95.15%;
-	margin: 1em auto 30px;
-}
-
-.yesnoOptions .x-button {
-	width: 50%;
-}
 
 .newQuestionOptions .x-button {
 	/*width: 33.3%;*/
@@ -1142,11 +836,6 @@ ol.standardList li {
 	border: none !important;
 }
 
-.x-field-checkbox .x-form-label {
-	min-width: 230px;
-}
-
-
 /* BEGIN for feedback questions */
 	.search-item .action{
 		opacity:0;
@@ -1173,19 +862,6 @@ ol.standardList li {
 	padding: 0 !important;
 }
 
-.voteButtonsPanel,
-.speakerVoteButtonsPanel {
-	background: #E0E0E0;
-	padding-left: 10px;
-	padding-right: 10px;
-	margin-top: 10px;
-	border-bottom: none !important;
-}
-
-.speakerVoteButtonsPanel .iconBtn {
-	background: white !important;
-}
-
 .questionStatisticTitle .x-innerhtml {
 	font-weight: normal;
 	white-space: normal;
@@ -1198,16 +874,7 @@ ol.standardList li {
 	margin: 0;
 }
 
-.questionRequestButton {
-	margin-top: 15px;
-	margin-bottom: 30px;
-	margin-left: auto;
-	margin-right: auto;
-}
 
-.questionRequestButton .x-button-label {
-	font-size: 1em;
-}
 /* END of feedback vote */
 
 .standardLabel {
@@ -1224,11 +891,6 @@ ol.standardList li {
 	height: 30px;
 	width: 150px !important;
 	margin: 30px auto;
-}
-
-.newQuestion .x-form-fieldset {
-	margin-top: 10px;
-	margin-bottom: 0;
 }
 
 
@@ -1252,40 +914,8 @@ ol.standardList li {
 	width: 200px;
 }
 
-.previewButtonLong{
-	width: 300px;
-}
-
 .previewCarousel{
 	margin-bottom: 10px;
-}
-
-.x-spinner .x-input-number {
-	text-align: center !important;
-}
-
-.checkItem {
-	font-family: 'Pictos';
-	font-size: 1.6em;
-	text-align: right;
-	line-height: 1.6em;
-	margin-right: 10px;
-	background: none !important;
-	padding: 0px !important;
-}
-
-.checkItem.checked {
-	color: green;
-}
-
-.checkItem.unchecked {
-	color: #ddd;
-}
-
-.checkItem > span {
-	font-weight: normal;
-	font-size: 1em;
-	text-align: center;
 }
 
 .statsPanel {
@@ -1333,19 +963,7 @@ ol.standardList li {
 }
 
 /* Course marks */
-.coursemembersonlyicon:before {
-	position: absolute;
-	top: 5px;
-	text-align: center;
-	font-family: "arsnova";
-	content: "\e613";
-	margin-left: -20px;
-	font-size: 32px;
-}
-.coursemembersonlymessage {
-	color: #800;
-	margin-left: 30px;
-}
+
 
 /* animation */
 @-webkit-keyframes scroll {
@@ -1373,22 +991,9 @@ ol.standardList li {
 	100% { top: -170%; }
 }
 
-.thmlink {
-	text-decoration: none;
-	color: #333;
-}
-
-.joinSessionInput {
-	text-align: center;
-}
 
 .x-field .x-component-outer {
 	width: 100%;
-}
-
-/* Reduce padding around Markdown and Mathjax formatted elements */
-.arsnova-mathdown {
-	padding: 0;
 }
 
 /* We dont want gray list items when inside a form */
@@ -1396,65 +1001,13 @@ ol.standardList li {
 	background-color: white;
 }
 
-/* Further reduce padding and margin inside question list elements */
-.roundedBox .x-innerhtml.x-html {
-	padding: 0.2em !important;
-}
-
-/* No margin on answer list items and on the last paragraph of the question */
-.roundedBox .x-html > :last-child,
-.arsnova-mathdown .x-innerhtml p {
-	margin: 0;
-}
-
-/* No border inside toggle elements in the session export to filesystem list */
-.session-toggle-label {
-	border-right: none !important;
-}
-
 /* No linebreak after text in answer list formatted by markdown library */
 .answerListButton .x-innerhtml > p {
 	display: inline;
 }
 
-/* Display question categories in ALL CAPS */
-.allCapsHeader .x-list-header,
-.allCapsHeader .x-html > p:first-child {
-	text-transform: uppercase;
-}
-
-.fileUploadFieldset {
-	margin: 0.5em 0.5em 1em;
-}
-
-.fileUploadFieldset .x-field-text,
-.fileUploadFieldset .x-input-text {
-	border-bottom: none;
-	border-radius: .4em;
-}
-
-.fileUploadButtonFieldset {
-	margin: 0px auto;
-	max-width: 500px;
-	width: 95.15%;
-}
-
-.fileUploadButtonFieldset.longText {
-	max-width: 604px; 
-}
-
 .ppSingleItemBackground {
 	background: white !important;
-}
-
-.hidden {
-	display: none;
-}
-.x-input-radio:checked + .x-field-mask::after {
-	background: #80ba24; /* thm green */
-}
-.x-input-el:checked + .x-field-mask::after {
-	color: #80ba24; /* thm green */
 }
 
 .learningprogress-title .x-form-fieldset-title .x-innerhtml {

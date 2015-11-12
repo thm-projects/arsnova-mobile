@@ -111,11 +111,7 @@
         {
 			"path": "resources/css/app.css",
 			"update": "full"
-        },
-        {
-        	"path": "resources/css/arsnova.css",
-        	"update": "full"
-       	}
+        }
     ],
 
     /**
@@ -149,8 +145,7 @@
 
             /* resources */
             "resources/css/app.css",
-            "resources/css/index.css",
-            "resources/css/arsnova.css"
+            "resources/css/index.css"
         ],
         /**
          * List of items in the NETWORK section
