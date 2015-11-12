@@ -44,7 +44,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementEditButtons', {
 		this.questionResetButton = Ext.create('ARSnova.view.MatrixButton', {
 			buttonConfig: 'icon',
 			text: Messages.RESET_QUESTION,
-			imageCls: 'icon-renew thm-orange',
+			imageCls: 'icon-renew',
 			cls: this.config.buttonClass,
 			scope: this,
 			handler: function () {

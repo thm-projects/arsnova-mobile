@@ -36,7 +36,7 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 			buttonConfig: 'icon',
 			cls: 'smallerActionButton',
 			text: Messages.START_SESSION,
-			imageCls: 'icon-lock thm-orange',
+			imageCls: 'icon-lock',
 			imageStyle: {
 				'font-size': '64px',
 				'margin-top': '9px !important'

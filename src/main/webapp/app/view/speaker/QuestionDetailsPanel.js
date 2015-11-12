@@ -658,7 +658,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			hidden: this.isFlashcard,
 			buttonConfig: 'icon',
 			text: Messages.DELETE_ANSWERS,
-			imageCls: 'icon-close thm-orange',
+			imageCls: 'icon-close warningIconColor',
 			scope: this,
 			handler: function () {
 				Ext.Msg.confirm(Messages.DELETE_ANSWERS_REQUEST, Messages.QUESTION_REMAINS, function (answer) {

@@ -149,7 +149,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			text: Messages.SORT_REVERT,
 			cls: 'upperActionButtonCls',
 			buttonConfig: 'icon',
-			imageCls: 'icon-undo thm-orange',
+			imageCls: 'icon-undo',
 			handler: this.sortRevertHandler
 		});
 
