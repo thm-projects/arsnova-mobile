@@ -261,7 +261,7 @@ Ext.define('ARSnova.view.home.SessionExportListPanel', {
 					labelWidth: 'auto',
 					labelCls: 'session-toggle-label',
 					cls: 'rightAligned',
-					iconCls: "icon-cloud thm-green",
+					iconCls: "icon-cloud",
 					sessionObj: session,
 					value: sessionChecked
 				});

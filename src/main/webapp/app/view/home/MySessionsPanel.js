@@ -123,7 +123,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					text: Messages.CREATE_NEW_SESSION,
 					buttonConfig: 'icon',
 					cls: 'actionButton',
-					imageCls: 'icon-newsession thm-green',
+					imageCls: 'icon-newsession',
 					scope: this,
 					handler: function () {
 						var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
@@ -164,7 +164,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 			this.publicPoolButton = Ext.create('ARSnova.view.MatrixButton', {
 				text: 'Pool',
 				buttonConfig: 'icon',
-				imageCls: 'icon-cloud thm-green',
+				imageCls: 'icon-cloud',
 				scope: this,
 				handler: function () {
 					// get public pool sessions from server
@@ -296,7 +296,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 									text: 'Pool',
 									itemId: 'no',
 									buttonConfig: 'icon',
-									imageCls: 'icon-cloud thm-green'}
+									imageCls: 'icon-cloud'}
 							]
 						});
 
@@ -603,7 +603,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 					var sessionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 						ui: 'normal',
 						text: Ext.util.Format.htmlEncode(displaytext),
-						iconCls: "icon-cloud thm-green ",
+						iconCls: "icon-cloud",
 						cls: 'forwardListButton' + status,
 						sessionObj: session,
 						handler: sessionButtonHandler
@@ -693,7 +693,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 						var iconCls = icon + " courseIcon";
 
 						if (session.sessionType === 'public_pool') {
-							iconCls = "icon-cloud thm-green";
+							iconCls = "icon-cloud";
 						}
 
 						var sessionkey = '<span class="sessionButtonKeyword"> (' + session.keyword + ')</span>';

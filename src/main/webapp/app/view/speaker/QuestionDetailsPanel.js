@@ -681,7 +681,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.statisticButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SHOW_STATISTIC,
 			buttonConfig: 'icon',
-			imageCls: 'icon-chart thm-green',
+			imageCls: 'icon-chart',
 			scope: this,
 			handler: function () {
 				ARSnova.app.taskManager.stop(this.renewAnswerDataTask);
@@ -821,7 +821,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			name: 'subject',
 			value: this.questionObj.subject,
 			disabledCls: 'disableDefault',
-			inputCls: 'thm-grey',
 			disabled: true
 		});
 
@@ -830,7 +829,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			name: 'questionText',
 			value: this.questionObj.text,
 			disabledCls: 'disableDefault',
-			inputCls: 'thm-grey',
 			disabled: true
 		});
 
@@ -856,7 +854,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				label: Messages.TYPE,
 				value: this.getType(),
 				disabledCls: 'disableDefault',
-				inputCls: 'thm-grey',
 				disabled: true
 			}]
 		});

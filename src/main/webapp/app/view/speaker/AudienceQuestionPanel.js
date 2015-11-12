@@ -192,7 +192,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			text: Messages.SHOWCASE_MODE,
 			buttonConfig: 'icon',
 			cls: actionButtonCls,
-			imageCls: 'icon-presenter thm-grey',
+			imageCls: 'icon-presenter',
 			handler: this.showcaseHandler,
 			hidden: true
 		});
@@ -201,7 +201,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			text: Messages.NEW_QUESTION,
 			buttonConfig: 'icon',
 			cls: actionButtonCls,
-			imageCls: 'icon-question thm-green',
+			imageCls: 'icon-question',
 			handler: this.newQuestionHandler
 		});
 
@@ -296,7 +296,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			hidden: true,
 			buttonConfig: 'icon',
 			text: Messages.SORT_QUESTIONS,
-			imageCls: 'icon-sort thm-grey',
+			imageCls: 'icon-sort',
 			cls: 'actionButton',
 			scope: this,
 			handler: function () {
@@ -310,7 +310,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			hidden: true,
 			buttonConfig: 'icon',
 			text: Messages.DELETE_ANSWERS,
-			imageCls: 'icon-close thm-orange',
+			imageCls: 'icon-close',
 			cls: actionButtonCls,
 			scope: this,
 			handler: function () {

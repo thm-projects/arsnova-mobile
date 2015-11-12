@@ -97,8 +97,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 
 					if (!component.innerValue) {
 						component.innerValue = Ext.DomHelper.append(component.element, {
-							tag: 'span',
-							cls: 'thm-grey'
+							tag: 'span'
 						});
 					}
 

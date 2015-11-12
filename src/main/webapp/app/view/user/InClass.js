@@ -115,7 +115,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			cls: ARSnova.app.isSessionOwner ? 'smallerActionButton' : 'actionButton',
 			buttonConfig: 'icon',
 			scope: this,
-			imageCls: 'icon-question thm-green',
+			imageCls: 'icon-question',
 			controller: 'Feedback',
 			action: 'showAskPanel',
 			handler: this.buttonClicked

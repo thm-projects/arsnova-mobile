@@ -98,7 +98,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			text: Messages.SORT_ALPHABET,
 			cls: 'upperActionButtonCls',
 			buttonConfig: 'icon',
-			imageCls: 'icon-sort-alpha thm-grey',
+			imageCls: 'icon-sort-alpha',
 			handler: this.sortAlphabetHandler
 		});
 
@@ -106,7 +106,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			text: Messages.SORT_TIME,
 			cls: 'upperActionButtonCls',
 			buttonConfig: 'icon',
-			imageCls: 'icon-sort-time thm-grey',
+			imageCls: 'icon-sort-time',
 			handler: this.sortTimeHandler
 		});
 
@@ -114,7 +114,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			text: Messages.SORT_RANDOM,
 			cls: 'upperActionButtonCls',
 			buttonConfig: 'icon',
-			imageCls: 'icon-sort-random thm-grey',
+			imageCls: 'icon-sort-random',
 			handler: this.sortRandomHandler
 		});
 
@@ -213,7 +213,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 
 			itemCls: 'forwardListButton',
 			itemTpl:
-				'<div class="icon-drag thm-grey dragStyle x-list-sortablehandle">&#xf0dc;</div>' +
+				'<div class="icon-drag dragStyle x-list-sortablehandle">&#xf0dc;</div>' +
 				'<tpl if="active"><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
 				'<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div></tpl>' +
 				'<div class="x-button x-hasbadge audiencePanelListBadge"></div>',

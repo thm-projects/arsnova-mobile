@@ -121,7 +121,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			text: Messages.IMAGE_QUESTION_MINIATUR_VIEW,
 			cls: 'actionButton',
 			buttonConfig: 'icon',
-			imageCls: 'icon-miniatur thm-grey',
+			imageCls: 'icon-miniatur',
 			scope: this,
 			handler: this.miniaturClicked
 		});
@@ -130,7 +130,7 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			text: Messages.IMAGE_QUESTION_HORIZONTAL_VIEW,
 			cls: 'actionButton',
 			buttonConfig: 'icon',
-			imageCls: 'icon-vertical-list icon-horizontal-list-config thm-grey',
+			imageCls: 'icon-vertical-list icon-horizontal-list-config',
 			scope: this,
 			handler: this.horizontalListClicked
 		});
@@ -139,9 +139,8 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 			text: Messages.IMAGE_QUESTION_VERTICAL_VIEW,
 			cls: 'actionButton',
 			buttonConfig: 'icon',
-			imageCls: 'icon-horizontal-list thm-grey',
-			imageStyle: 'margin-top:15px;' +
-									'margin-left: 18px;',
+			imageCls: 'icon-horizontal-list',
+			imageStyle: 'margin-top:15px; margin-left: 18px;',
 			scope: this,
 			handler: this.verticalListClicked
 		});

@@ -145,7 +145,6 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 				label: Messages.QUESTION_DATE,
 				value: this.answer.formattedTime + " Uhr am " + this.answer.groupDate,
 				disabledCls: 'disableDefault',
-				inputCls: 'thm-grey',
 				disabled: true
 			}, questionPanel]
 		});

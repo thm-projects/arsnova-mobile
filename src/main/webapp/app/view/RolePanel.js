@@ -39,11 +39,11 @@ Ext.define('ARSnova.view.RolePanel', {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.rolePanel;
 
 				if (panel.selectState) {
-					panel.studentButton.addImageCls('thm-green');
-					panel.speakerButton.removeImageCls('thm-green');
+					panel.studentButton.addImageCls('roleChangeAlternativeColor');
+					panel.speakerButton.removeImageCls('roleChangeAlternativeColor');
 				} else {
-					panel.speakerButton.addImageCls('thm-green');
-					panel.studentButton.removeImageCls('thm-green');
+					panel.speakerButton.addImageCls('roleChangeAlternativeColor');
+					panel.studentButton.removeImageCls('roleChangeAlternativeColor');
 				}
 
 				panel.selectState = !panel.selectState;

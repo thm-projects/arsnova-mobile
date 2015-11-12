@@ -76,7 +76,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		this.visitMatrixButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SESSIONPOOL_VISIT,
 			buttonConfig: 'icon',
-			imageCls: 'icon-sign-in thm-grey',
+			imageCls: 'icon-sign-in',
 			scope: this,
 			sessionObj: this.getSession(),
 			handler: function (options) {
@@ -109,7 +109,6 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			name: 'sessionName',
 			value: this.getSession().name,
 			disabledCls: 'disableDefault',
-			inputCls: 'thm-grey',
 			maxLength: 50,
 			disabled: false
 		});
@@ -119,7 +118,6 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			name: 'sessionShortName',
 			value: this.getSession().shortName,
 			disabledCls: 'disableDefault',
-			inputCls: 'thm-grey',
 			maxLength: 8,
 			disabled: false
 		});
@@ -170,7 +168,6 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			name: 'sessionNumQuestions',
 			value: this.getSession().numQuestions,
 			disabledCls: 'disableDefault',
-			inputCls: 'thm-grey',
 			disabled: true
 		});
 
@@ -179,7 +176,6 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			name: 'sessionLicense',
 			value: this.getSession().ppLicense,
 			disabledCls: 'disableDefault',
-			inputCls: 'thm-grey',
 			disabled: true
 		});
 
@@ -199,7 +195,6 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			name: 'creatorName',
 			value: this.getSession().ppAuthorName,
 			disabledCls: 'disableDefault',
-			inputCls: 'thm-grey',
 			disabled: true
 		});
 
@@ -208,7 +203,6 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			name: 'creatorMail',
 			value: this.getSession().ppAuthorMail,
 			disabledCls: 'disableDefault',
-			inputCls: 'thm-grey',
 			disabled: true
 		});
 
@@ -217,7 +211,6 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			name: 'creatorUni',
 			value: this.getSession().ppUniversity,
 			disabledCls: 'disableDefault',
-			inputCls: 'thm-grey',
 			disabled: true
 		});
 
@@ -226,14 +219,13 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			name: 'creatorDep',
 			value: this.getSession().ppFaculty,
 			disabledCls: 'disableDefault',
-			inputCls: 'thm-grey',
 			disabled: true
 		});
 
 		this.copyButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.SESSIONPOOL_CLONE,
 			buttonConfig: 'icon',
-			imageCls: 'icon-copy thm-grey',
+			imageCls: 'icon-copy',
 			scope: this,
 			handler: function () {
 				me.cloneSession();

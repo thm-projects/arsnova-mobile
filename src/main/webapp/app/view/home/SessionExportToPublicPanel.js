@@ -187,7 +187,6 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 			name: 'description',
 			label: Messages.SESSIONPOOL_INFO,
 			disabledCls: 'disableDefault',
-			inputCls: 'thm-grey',
 			maxLength: 150,
 			placeHolder: 'max. 150 ' + Messages.SESSIONPOOL_CHARACTERS,
 			disabled: false

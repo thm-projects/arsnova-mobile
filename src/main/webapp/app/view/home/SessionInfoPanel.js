@@ -238,7 +238,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		this.description = Ext.create('Ext.plugins.ResizableTextArea', {
 			name: 'description',
 			label: Messages.SESSIONPOOL_INFO,
-			inputCls: 'thm-grey',
 			maxLength: 5000,
 			placeHolder: 'max. 5000 ' + Messages.SESSIONPOOL_CHARACTERS,
 			value: me.getSessionInfo().ppDescription,

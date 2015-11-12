@@ -136,7 +136,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 		this.voteManagementButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.RELEASE_VOTE,
 			cls: this.config.buttonClass,
-			imageCls: 'icon-timer thm-green',
+			imageCls: 'icon-timer',
 			scope: this,
 			handler: function () {
 				ARSnova.app.getController('Statistics').prepareSpeakerStatistics(

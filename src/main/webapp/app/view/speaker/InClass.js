@@ -122,7 +122,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			altText: Messages.NEW_TASK,
 			cls: 'smallerActionButton',
 			buttonConfig: 'icon',
-			imageCls: 'icon-question thm-green',
+			imageCls: 'icon-question',
 			mode: 'lecture',
 			controller: 'Questions',
 			action: 'adHoc',
@@ -141,7 +141,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			altText: Messages.SHOWCASE_TASKS,
 			cls: 'smallerActionButton',
 			buttonConfig: 'icon',
-			imageCls: 'icon-presenter thm-grey',
+			imageCls: 'icon-presenter',
 			handler: this.showcaseHandler,
 			hidden: true
 		});

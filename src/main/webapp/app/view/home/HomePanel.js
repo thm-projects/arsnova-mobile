@@ -193,7 +193,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			this.publicPoolButton = Ext.create('ARSnova.view.MatrixButton', {
 				text: 'Pool',
 				buttonConfig: 'icon',
-				imageCls: 'icon-cloud thm-green',
+				imageCls: 'icon-cloud',
 				scope: this,
 				handler: function () {
 					// get public pool sessions from server
@@ -434,7 +434,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			for (var i = 0; i < pageNumObject.sessions.length; i++) {
 				var session = pageNumObject.sessions[i];
 
-				var icon = "icon-users thm-green";
+				var icon = "icon-users";
 				if (session.courseType && session.courseType.length > 0) {
 					icon = "icon-prof";
 				}
@@ -442,7 +442,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				var iconCls = icon + " courseIcon";
 
 				if (session.sessionType === 'public_pool') {
-					iconCls = "icon-cloud thm-green";
+					iconCls = "icon-cloud";
 				}
 
 				// Minimum width of 481px equals at least landscape view
