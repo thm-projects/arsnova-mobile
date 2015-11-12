@@ -27,7 +27,7 @@
 
 //
 // The theme configuration has to be loaded first
-@import 'app/theme';
+@import 'theme';
 
 //
 // The following lines import the custom scss files.
@@ -43,6 +43,6 @@
 @import 'app/components/thumbnail';
 
 //
-// Load general and theme customization styles last
+// Load general and customization files last
 @import 'app/general';
 @import 'app/customization';
