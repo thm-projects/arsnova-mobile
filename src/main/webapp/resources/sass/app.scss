@@ -26,12 +26,13 @@
 @import 'sencha-touch/default/all';
 
 //
-// The following lines import the custom scss files.
-@import 'app/colors';
+// The theme configuration has to be loaded first
 @import 'app/theme';
+
+//
+// The following lines import the custom scss files.
 @import 'app/iconfont';
 @import 'app/bugfixes';
-
 @import 'app/components/buttons';
 @import 'app/components/highlighter';
 @import 'app/components/speakerUtils';
@@ -41,4 +42,7 @@
 @import 'app/components/countdownTimer';
 @import 'app/components/thumbnail';
 
+//
+// Load general and theme customization styles last
 @import 'app/general';
+@import 'app/customization';

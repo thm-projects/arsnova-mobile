@@ -1,0 +1,386 @@
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2015 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+@mixin label-config {
+	font-weight: $label-font-weight;
+	text-shadow: $label-text-shadow !important;
+}
+
+@mixin toolbar-title-config {
+	@include label-config;
+	color: $toolbar-title-txt-color;
+}
+
+@mixin toolbar-button-config($bgcolor, $txtcolor) {
+	color: $txtcolor;
+	background: $bgcolor !important;
+	border: 1px solid $bgcolor !important;
+}
+
+@mixin button-decoration-config($bgcolor, $txtcolor) {
+	color: $txtcolor;
+	background: $bgcolor;
+	border: none !important;
+	background-image: none !important;
+}
+
+html, body,
+.x-badge, .x-hasbadge .x-badge,
+.x-button-label {
+	font-family: $label-font-family;
+}
+
+.iconBtn {
+	background: white;
+	color: $button-icon-color !important;
+	
+	&:hover {
+		background-color: #EEEEEE;
+		cursor: pointer;
+	}
+
+	&.x-button-pressing {
+		background-image: none;
+		background-color: #c4c4c4;
+	}
+}
+
+.x-button .courseIcon, .sliderInputValue,
+.answerListButton .x-button-label,
+.forwardListButton .x-button-label,
+.standardListButton .x-button-label {
+	color: $label-font-color;
+
+	&.thm-green { /**TODO**/
+		color: $label-font-active-color !important;
+	}
+}
+
+.x-segmentedbutton .x-button-normal {
+	background-image: none !important;
+}
+
+.forwardListButton, .standardListButton {
+	border: 1px solid $background-color !important;
+}
+
+.gravure {
+	text-shadow: $label-text-shadow !important;
+	color: $label-font-color;
+}
+
+.x-fullscreen, .x-layout-card-item {
+	background-color: $background-color;
+}
+
+.x-msgbox .x-panel-inner {
+	background: none;
+}
+
+.x-label {
+	color: $label-font-color;
+}
+
+.x-form-label {
+	color: $label-font-color;
+	background-color: white;
+	border-right: 1px solid $background-color;
+
+	&.checkItem {
+		border-right: none;
+	}
+
+	& span {
+		font-weight: normal;
+	}
+}
+
+.x-form-fieldset .x-field {
+	border-bottom: 1px solid $background-color;
+}
+
+.x-list-item, .x-form-fieldset-title, .x-label, .roundedBox, .centerText {
+	text-shadow: none !important;
+
+	.x-innerhtml {
+		color: $label-font-color !important;
+	}
+}
+
+.x-field-input {
+	.x-input-el {
+		color: $label-font-color !important;
+		-webkit-text-fill-color: initial !important;
+	}
+
+	&.x-item-disabled {
+		.x-input-el {
+			background-color: white !important;
+			font-size: 0.8em;
+			line-height: 1em;
+			margin: 6px;
+		}
+	}
+}
+
+.disableDefault {
+	.x-form-label span {
+		color: $label-font-color !important;
+		-webkit-text-fill-color: initial !important;
+	}
+}
+
+.x-msgbox {
+	color: $label-font-color;
+	box-shadow: 0 0 8px 0;
+	background: $background-color;
+	border-color: $primary-grey-color;
+	max-width: 21em;
+
+	.x-title,
+	.x-msgbox-text {
+		color: $label-font-color;
+		text-shadow: none;
+	}
+
+	.x-msgbox-buttons .x-button-normal span {
+		opacity: 1;
+	}
+}
+
+.x-button {
+	&.x-button-confirm {
+		@include button-decoration-config(
+			$button-confirm-bg-color !important,
+			$button-confirm-txt-color !important
+		);
+	}
+
+	&.x-button-action,
+	&.x-button-filebrowse {
+		@include button-decoration-config(
+			$button-action-bg-color !important,
+			$button-action-txt-color !important
+		);
+
+		&.x-button-pressed,
+		&.x-button-pressing {
+			background-color: $button-action-active-bg-color !important;
+		}
+	}
+
+	&.x-button-decline {
+		@include button-decoration-config(
+			$button-decline-bg-color !important,
+			$button-decline-txt-color !important
+		);
+	}
+
+	.x-button-label {
+		@include label-config;
+	}
+
+	&.isInactive .x-button-label {
+		color: $primary-red-color !important;
+	}
+}
+
+.x-segmentedbutton .x-button.x-button-action {
+	border: none !important;
+	border-right: thin solid $background-color !important;
+}
+
+.x-tabbar-dark,
+.x-toolbar-light {
+	border: none !important;
+	text-shadow: none !important;
+	background: $toolbar-bg-color !important;
+}
+
+.x-toolbar-light {
+	.x-title {
+		@include toolbar-title-config;
+	}
+
+	&.speakerTitleText .x-title {
+		color: $toolbar-speaker-title-color;
+	}
+
+	.x-button-normal {
+		@include toolbar-button-config(
+			$toolbar-button-bg-color,
+			$toolbar-button-txt-color
+		);
+
+		&.toggleCorrectButton {
+			@include toolbar-button-config(
+				$toolbar-toogleCorrect-button-inactive-color,
+				$toolbar-button-txt-color
+			);
+
+			&.x-button-pressed,
+			&.x-button-pressing {
+				@include toolbar-button-config(
+					$toolbar-toogleCorrect-button-active-color,
+					$toolbar-button-txt-color
+				);
+			}
+		}
+	}
+
+	.x-button,
+	.x-button:after,
+	.x-button:before {
+		&.x-button-pressed,
+		&.x-button-pressing,
+		&.x-button-pressed:after,
+		&.x-button-pressed:before,
+		&.x-button-pressing:after,
+		&.x-button-pressing:before {
+			@include toolbar-button-config(
+				$button-action-active-bg-color,
+				$toolbar-button-txt-color
+			);
+		}
+	}
+
+	.x-button-back,
+	.x-button.x-button-back:after,
+	.x-button.x-button-back:before,
+	.x-button.x-button-forward:after,
+	.x-button.x-button-forward:before,
+	.x-field-select .x-input-text.x-button-back:after,
+	.x-field-select .x-input-text.x-button-forward:after {
+		@include toolbar-button-config(
+			$toolbar-back-button-bg-color,
+			$toolbar-back-button-txt-color
+		);
+
+		/* todo: remove after css cleanup */
+		&.x-button-pressed,
+		&.x-button-pressing,
+		&.x-button-pressed:after,
+		&.x-button-pressed:before,
+		&.x-button-pressing:after,
+		&.x-button-pressing:before {
+			@include toolbar-button-config(
+				$button-action-active-bg-color,
+				$toolbar-button-txt-color
+			);
+		}
+	}
+
+	.x-button, .x-button-back {
+		.x-button-label {
+			@include label-config;
+		}
+	}
+}
+
+.x-tabbar-dark.x-docked-bottom {
+	.x-tab {
+		text-shadow: none !important;
+	}
+
+	.voteIcons:before,
+	.x-button-icon:before {
+		color: $tabbar-button-icon-color;
+	}
+
+	.x-tab-pressed .x-button-icon:before {
+		color: $button-action-active-bg-color !important;
+	}
+
+	.x-tab-active {
+		box-shadow: none;
+		background-image: none !important;
+		background-color: transparent;
+
+		.x-button-icon {
+			&:before,
+			&.voteIcons.icon-bullhorn:before {
+				color: $tabbar-button-active-icon-color;
+			}
+
+			&.voteIcons:before {
+				color: $smiley-color;
+			}
+		}
+	}
+}
+
+.x-list,
+.x-list-normal {
+	.x-list-header {
+		color: white !important;
+		border: none !important;
+		text-shadow: none !important;
+		background-color: $primary-lightgrey-color !important;
+		background-image: none !important;
+		-webkit-box-shadow: none !important;
+	}
+
+	.x-list-item.x-item-selected.x-list-item-tpl,
+	.x-list-item.x-item-selected .x-dock-horizontal {
+		border-color: white;
+		background-image: none;
+		background-color: $list-selection-color;
+
+		.search-item span {
+			color: white;
+		}
+	}
+}
+
+.x-form-fieldset-title {
+	font-weight: normal;
+}
+
+.x-carousel-indicator span {
+	background-color: $carousel-indicator-color;
+
+	&.x-carousel-indicator-active {
+		background-color: $carousel-indicator-active-color;
+	}
+}
+
+.isInactive {
+	color: $primary-red-color;
+}
+
+.isVoteInactive {
+	color: $primary-orange-color;
+}
+
+.x-toast {
+	color: $label-font-color;
+	box-shadow: 0 0 8px 0;
+	background: $background-color;
+	border-color: $primary-grey-color;
+	max-width: 21em;
+	top: -70px;
+}
+
+.alternativeRoleChangeColor {
+	color: $startscreen-rolechange-alternative-color !important;
+}
+
+.alternativeIconColor {
+	color: $button-icon-alternative-color !important;
+}
