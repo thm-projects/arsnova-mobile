@@ -51,6 +51,7 @@ $label-text-shadow: none;
 
 
 /** default button configuration **/
+$button-bg-color: $primary-white-color;
 $button-icon-color: $primary-grey-color;
 $button-icon-alternative-color: $primary-green-color;
 $button-confirm-bg-color: $primary-green-color;
@@ -71,6 +72,8 @@ $icon-release-timer-color: $button-icon-alternative-color;
 $icon-lock-unlocked-color: $button-icon-color;
 $icon-lock-locked-color: $primary-orange-color;
 $icon-chart-color: $button-icon-alternative-color;
+$icon-bullhorn-color: $primary-green-color;
+$icon-presenter-color: $primary-green-color;
 
 
 /** default toolbar configuration **/
@@ -126,6 +129,4 @@ $projectormode-font-family: Verdana,Geneva,sans-serif;
 
 /** additional color configurations **/
 $list-selection-color: $primary-orange-color;
-$bullhorn-icon-color: $primary-green-color;
-$presenter-icon-color: $primary-green-color;
 $startscreen-rolechange-alternative-color: $primary-green-color;

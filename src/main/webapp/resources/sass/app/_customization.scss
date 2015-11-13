@@ -47,7 +47,7 @@ html, body,
 }
 
 .iconBtn {
-	background: white;
+	background: $button-bg-color;
 	color: $button-icon-color !important;
 	
 	&:hover {
