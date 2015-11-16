@@ -45,7 +45,7 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 
 		if (Ext.os.is.Desktop) {
 			this.setMaxWidth('360px');
-			this.setMaxHeight('480px');
+			this.setMaxHeight('640px');
 		} else {
 			this.setMaxWidth('740px');
 			this.setMaxHeight('600px');

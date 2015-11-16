@@ -41,7 +41,7 @@ Ext.define('ARSnova.view.PreviewBox', {
 		});
 
 		if (Ext.os.is.Desktop) {
-			this.setMaxWidth('320px');
+			this.setMaxWidth('360px');
 			this.setMaxHeight('640px');
 		} else {
 			this.setMaxWidth('740px');
