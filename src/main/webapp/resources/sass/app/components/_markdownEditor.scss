@@ -18,10 +18,10 @@
  */
 
 .markdownButton {
-	color: $primary-grey-color;
+	color: $brand-icons;
 	background: white;
 	border-radius: 5px 5px 5px 5px !important;
-	border: 1px double $primary-lightgrey-color;
+	border: 1px double $default-lightgrey-color;
 	height: 40px;
 	width: 40px;
 	margin-right: 2px;
@@ -113,7 +113,7 @@ div[id^=ext-mathJaxMarkDownPanel] {
 	}
 
 	table, tr, td, th {
-		border: 1px solid $primary-grey-color;
+		border: 1px solid $brand-text;
 	}
 
 	td {
@@ -121,7 +121,7 @@ div[id^=ext-mathJaxMarkDownPanel] {
 	}
 
 	th {
-		background-color: $primary-lightgrey-color;
+		background-color: $default-lightgrey-color;
 		color: white;
 	}
 
@@ -131,7 +131,7 @@ div[id^=ext-mathJaxMarkDownPanel] {
 }
 
 .hideMediaDummy {
-	color: $primary-grey-color;
+	color: $brand-icons;
 	background: white;
 	border-radius: 5px 5px 5px 5px !important;
 	border: 1px double #788895;

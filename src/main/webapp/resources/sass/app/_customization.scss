@@ -67,7 +67,7 @@ html, body,
 .standardListButton .x-button-label {
 	color: $label-font-color;
 
-	&.thm-green { /**TODO**/
+	&.thm-green {
 		color: $label-font-active-color !important;
 	}
 }
@@ -150,7 +150,7 @@ html, body,
 	color: $label-font-color;
 	box-shadow: 0 0 8px 0;
 	background: $background-color;
-	border-color: $primary-grey-color;
+	border-color: $brand-primary;
 	max-width: 21em;
 
 	.x-title,
@@ -197,7 +197,7 @@ html, body,
 	}
 
 	&.isInactive .x-button-label {
-		color: $primary-red-color !important;
+		color: $brand-danger !important;
 	}
 }
 
@@ -331,9 +331,13 @@ html, body,
 		color: white !important;
 		border: none !important;
 		text-shadow: none !important;
-		background-color: $primary-lightgrey-color !important;
+		background-color: $list-header-color !important;
 		background-image: none !important;
 		-webkit-box-shadow: none !important;
+	}
+
+	.x-list-item {
+		background-color: $list-bg-color;
 	}
 
 	.x-list-item.x-item-selected.x-list-item-tpl,
@@ -361,19 +365,20 @@ html, body,
 }
 
 .isInactive {
-	color: $primary-red-color;
+	color: $brand-danger;
 }
 
 .isVoteInactive {
-	color: $primary-orange-color;
+	color: $brand-warning;
 }
 
 .x-toast {
 	color: $label-font-color;
 	box-shadow: 0 0 8px 0;
 	background: $background-color;
-	border-color: $primary-grey-color;
+	border-color: $brand-primary;
 	max-width: 21em;
+	padding: 5px;
 	top: -70px;
 }
 

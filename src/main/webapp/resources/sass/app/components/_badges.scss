@@ -93,7 +93,7 @@
 
 .badgeicon, .questionsBadgeIcon, .feedbackQuestionsBadgeIcon, .unreadFeedbackQuestionsBadgeIcon, .answersBadgeIcon, .greybadgeicon, .bluebadgeicon, .redbadgeicon, .greenbadgeicon, .orangebadgeicon, .textbadgeicon {
 	font-weight: normal;
-	background: $primary-grey-color;
+	background: $brand-primary;
 	color: white;
 	-webkit-border-radius: 20px;
 	border-radius: 11px;
@@ -119,40 +119,40 @@
 }
 
 .redbadgecolor {
-	color: $primary-red-color;
+	color: $default-red-color;
 }
 
 .bluebadgecolor {
-	color: $primary-darkblue-color;
+	color: $default-darkblue-color;
 }
 
 .greenbadgecolor {
-	color: $primary-green-color;
+	color: $default-green-color;
 }
 
 .orangebadgecolor {
-	color: $primary-orange-color;
+	color: $default-orange-color;
 }
 
 .redbadgeicon {
-	background: $primary-red-color;
+	background: $default-red-color;
 }
 
 .bluebadgeicon {
-	background: $primary-darkblue-color;
+	background: $default-darkblue-color;
 }
 
 .greenbadgeicon {
-	background: $primary-green-color;
+	background: $default-green-color;
 }
 
 .orangebadgeicon {
-	background: $primary-orange-color;
+	background: $default-orange-color;
 }
 
 .textbadgeicon {
 	background: transparent;
-	color: $primary-grey-color;
+	color: $brand-icons;
 	border: none;
 	box-shadow: none;
 	padding: 0;

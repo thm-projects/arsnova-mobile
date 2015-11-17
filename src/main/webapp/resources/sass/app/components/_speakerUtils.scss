@@ -116,8 +116,8 @@
 
 	.x-toolbar-light .x-button-back {
 		color: $projectormode-text-color !important;
-		background: $projectormode-white !important;
-		border: 1px solid $projectormode-white !important;
+		background: $projectormode-back-button-color !important;
+		border: 1px solid $projectormode-back-button-color !important;
 	}
 
 	.gravure,
@@ -129,12 +129,12 @@
 
 	.x-carousel-indicator {
 		span {
-			background-color: $projectormode-grey;
+			background-color: $projectormode-primary-color;
 		}
 
 		span.x-carousel-indicator-active {			
-			background-color:  $projectormode-white;
-			box-shadow: 0 0 1px 0 $projectormode-grey;
+			background-color: $projectormode-secondary-color;
+			box-shadow: 0 0 1px 0 $projectormode-primary-color;
 
 			p {
 				color: $projectormode-text-color;

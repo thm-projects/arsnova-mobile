@@ -17,15 +17,26 @@
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/** primary colors **/
-$primary-white-color: #FFF;
-$primary-green-color: #80ba24;
-$primary-grey-color: #4a5c66;
-$primary-lightgrey-color: #788895;
-$primary-red-color: #971b2f;
-$primary-lightblue-color: #00b5e2;
-$primary-darkblue-color: #012169;
-$primary-orange-color: #f2a900;
+/** default colors **/
+$default-white-color: #FFF;
+$default-green-color: #80ba24;
+$default-grey-color: #4a5c66;
+$default-lightgrey-color: #788895;
+$default-red-color: #971b2f;
+$default-lightblue-color: #00b5e2;
+$default-darkblue-color: #012169;
+$default-orange-color: #f2a900;
+
+/** brand configuration **/
+$brand-primary: $default-grey-color;
+$brand-secondary: $default-green-color;
+$brand-success: $default-green-color;
+$brand-info: $default-lightgrey-color;
+$brand-warning: $default-orange-color;
+$brand-danger: $default-red-color;
+$brand-text: $default-grey-color;
+$brand-buttons: $default-white-color;
+$brand-icons: $default-grey-color;
 
 $background-color: #E0E0E0;
 $twitter-color: #55ACEE;
@@ -34,99 +45,96 @@ $google-color: #D34836;
 $smiley-color: #FFCC00;
 
 
-/** splashscreen default colors **/
-$splashscreen-background-color: $background-color;
-$splashscreen-loading-dots-color: $primary-grey-color;
-$splashscreen-slogan-text-color: $primary-grey-color;
-$loading-indicator-primary-color: $primary-grey-color;
-$loading-indicator-secondary-color: $primary-green-color;
-
-
 /** label configuration **/
-$label-font-color: $primary-grey-color;
-$label-font-active-color: $primary-green-color;
+$label-font-color: $brand-text;
+$label-font-active-color: $brand-secondary;
 $label-font-family: "Helvetica Neue",HelveticaNeue,"Helvetica-Neue",Helvetica,"BBAlpha Sans",sans-serif;
 $label-font-weight: normal;
 $label-text-shadow: none;
 
 
+/** splashscreen default colors **/
+$splashscreen-background-color: $background-color;
+$splashscreen-loading-dots-color: $brand-primary;
+$splashscreen-slogan-text-color: $brand-text;
+$loading-indicator-primary-color: $brand-primary;
+$loading-indicator-secondary-color: $brand-secondary;
+
+
 /** default button configuration **/
-$button-bg-color: $primary-white-color;
-$button-icon-color: $primary-grey-color;
-$button-icon-alternative-color: $primary-green-color;
-$button-confirm-bg-color: $primary-green-color;
-$button-confirm-txt-color: $primary-white-color;
-$button-action-bg-color: $primary-grey-color;
-$button-action-active-bg-color: $primary-lightgrey-color;
-$button-action-txt-color: $primary-white-color;
-$button-decline-bg-color: $primary-red-color;
-$button-decline-txt-color: $primary-white-color;
+$button-bg-color: $brand-buttons;
+$button-icon-color: $brand-icons;
+$button-icon-alternative-color: $brand-secondary;
+$button-confirm-bg-color: $brand-success;
+$button-confirm-txt-color: $default-white-color;
+$button-action-bg-color: $brand-primary;
+$button-action-active-bg-color: $brand-info;
+$button-action-txt-color: $default-white-color;
+$button-decline-bg-color: $brand-danger;
+$button-decline-txt-color: $default-white-color;
 
 
 /** button icon color configuration **/
 $icon-feature-entry-color: $button-icon-alternative-color;
 $icon-questionmark-color: $button-icon-alternative-color;
 $icon-newsession-color: $button-icon-alternative-color;
-$icon-delete-close-icon-color: $primary-red-color;
+$icon-delete-close-icon-color: $brand-danger;
 $icon-release-timer-color: $button-icon-alternative-color;
 $icon-lock-unlocked-color: $button-icon-color;
-$icon-lock-locked-color: $primary-orange-color;
+$icon-lock-locked-color: $brand-warning;
 $icon-chart-color: $button-icon-alternative-color;
-$icon-bullhorn-color: $primary-green-color;
-$icon-presenter-color: $primary-green-color;
+$icon-bullhorn-color: $button-icon-alternative-color;
+$icon-presenter-color: $button-icon-alternative-color;
 
 
-/** default toolbar configuration **/
-$toolbar-bg-color: $primary-grey-color;
-$toolbar-title-txt-color: $primary-white-color;
-$toolbar-speaker-title-color: $primary-white-color;
-$toolbar-button-bg-color: $primary-green-color;
-$toolbar-button-txt-color: $primary-white-color;
-$toolbar-back-button-bg-color: $primary-white-color;
-$toolbar-back-button-txt-color: $primary-grey-color;
-$toolbar-toogleCorrect-button-active-color: $primary-green-color;
-$toolbar-toogleCorrect-button-inactive-color: $primary-lightgrey-color;
+/** toolbar color configuration **/
+$toolbar-bg-color: $brand-primary;
+$toolbar-title-txt-color: $default-white-color;
+$toolbar-speaker-title-color: $default-white-color;
+$toolbar-button-bg-color: $brand-secondary;
+$toolbar-button-txt-color: $default-white-color;
+$toolbar-back-button-bg-color: $brand-buttons;
+$toolbar-back-button-txt-color: $brand-info;
+$toolbar-toogleCorrect-button-active-color: $brand-success;
+$toolbar-toogleCorrect-button-inactive-color: $brand-info;
 
 
 /** tabbar icon color configuration **/
-$tabbar-button-icon-color: $primary-white-color;
-$tabbar-button-active-icon-color: $primary-green-color;
-
-
-/** feedback icon color configuration **/
-$feedback-ok-color: $primary-green-color;
-$feedback-good-color: $primary-orange-color;
-$feedback-bad-color: $primary-red-color;
-$feedback-none-color: $primary-grey-color;
+$tabbar-button-icon-color: $default-white-color;
+$tabbar-button-active-icon-color: $brand-success;
 
 
 /** carousel indicator and navigation color configuration **/
-$carousel-indicator-color: $primary-grey-color;
-$carousel-indicator-active-color: $primary-green-color;
-$carousel-navigation-button-color: $primary-grey-color;
-$carousel-navigation-button-pressed-color: $primary-lightgrey-color;
+$carousel-indicator-color: $brand-primary;
+$carousel-indicator-active-color: $brand-secondary;
+$carousel-navigation-button-color: $brand-primary;
+$carousel-navigation-button-pressed-color: $brand-info;
 
 
 /** default badge configuration **/
-$badge-question-color: $primary-grey-color;
-$badge-feedback-color: $primary-green-color;
-$badge-unread-feedback-color: $primary-red-color;
-$badge-answers-color: $primary-orange-color;
-
-$notification-badge-color: $primary-red-color;
-$notification-badge-text-color: $primary-white-color;
+$badge-question-color: $default-grey-color;
+$badge-feedback-color: $brand-success;
+$badge-unread-feedback-color: $brand-danger;
+$badge-answers-color: $brand-warning;
+$notification-badge-color: $brand-danger;
+$notification-badge-text-color: $default-white-color;
 
 
 /** projector mode color configuration **/
-$projectormode-grey: #4a5c66;
-$projectormode-lightgrey: #788895;
-$projectormode-white: $primary-white-color;
-$projectormode-text-color: black;
+$projectormode-primary-color: $brand-primary;
+$projectormode-secondary-color: $default-white-color;
+$projectormode-back-button-color: $default-white-color;
 $projectormode-background-color: $background-color;
-$projectormode-active-color: $primary-lightgrey-color;
+$projectormode-active-color: $default-lightgrey-color;
 $projectormode-font-family: Verdana,Geneva,sans-serif;
+$projectormode-text-color: black;
 
 
 /** additional color configurations **/
-$list-selection-color: $primary-orange-color;
-$startscreen-rolechange-alternative-color: $primary-green-color;
+$list-bg-color: $default-white-color;
+$list-header-color: $default-lightgrey-color;
+$list-selection-color: $brand-warning;
+$startscreen-rolechange-alternative-color: $brand-secondary;
+$mask-error-text-color: $brand-danger;
+$mask-correct-text-color: $brand-success;
+$mask-opacity: 1;

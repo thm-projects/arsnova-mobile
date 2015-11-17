@@ -24,19 +24,19 @@
 }
 
 .feedbackOkBackground .iconBtn {
-	background: $feedback-ok-color;
+	background: #80ba24;
 }
 
 .feedbackGoodBackground .iconBtn {
-	background: $feedback-good-color;
+	background: #f2a900;
 }
 
 .feedbackBadBackground .iconBtn {
-	background: $feedback-bad-color;
+	background: #971b2f;
 }
 
 .feedbackNoneBackground .iconBtn {
-	background: $feedback-none-color;
+	background: #4a5c66;
 	color: #000;
 }
 
@@ -56,7 +56,7 @@
 .answerListButton {
 	&.x-item-selected .x-innerhtml .answerOptionItem {
 		&.answerOptionCorrectItem:after {
-			text-shadow: 0px 0px 1px $primary-grey-color;
+			text-shadow: 0px 0px 1px $brand-primary;
 		}
 	}
 
@@ -94,7 +94,7 @@
 				font-family: "Pictos";
 				content: "3";
 				font-size: 2.25em;
-				color: $primary-green-color;
+				color: $brand-success;
 				text-shadow: 0px 0px 1px white;
 				margin: 0px 0px 0px -21px;
 				opacity: .99;
@@ -224,7 +224,7 @@
 .sessionInfoButton{
 	width: 40px;
 	padding: 0;
-	color: #4a5c66;
+	color: $brand-icons;
 	border: none;
 	background: transparent !important;
 }
@@ -282,7 +282,7 @@
 }
 
 .standardListButton, .answerListButton {
-	background: white no-repeat;
+	background: $button-bg-color no-repeat;
 	background-position: 100%;
 	border-radius: 0;
 	border-color: lightgray;

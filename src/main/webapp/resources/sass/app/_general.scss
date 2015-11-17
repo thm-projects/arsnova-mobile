@@ -203,7 +203,7 @@ code {
 
 .x-list-item-correct {
 	color: white !important;
-	background: $primary-green-color;
+	background: $brand-success;
 	border-radius: 10px;
 }
 
@@ -309,6 +309,10 @@ code {
 	display: inherit;
 }
 
+.x-mask {
+	opacity: $mask-opacity;
+}
+
 .customMaskTextElement {
 	position: absolute;
 	text-align: center;
@@ -318,11 +322,11 @@ code {
 	top: 45%;
 
  	&.voteClosed {
- 		text-shadow: 1px 1px 5px $primary-red-color;
+ 		text-shadow: 1px 1px 5px $mask-error-text-color;
  	}
 
  	&.alreadyAnswered {
- 		text-shadow: 1px 1px 5px $primary-green-color;
+ 		text-shadow: 1px 1px 5px $mask-correct-text-color;
  	}
 }
 
