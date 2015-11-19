@@ -258,6 +258,12 @@ code {
 	height:90%;
 	max-width: 700px !important;
 	max-height: 90% !important;
+	background: white !important;
+
+	.x-msgbox-text .x-innerhtml {
+		font-size: 130%;
+		color: black !important;
+	}
 
 	.x-msgbox-inner {
 		-webkit-box-align: center;
