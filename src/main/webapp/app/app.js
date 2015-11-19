@@ -251,7 +251,7 @@ Ext.application({
 			mainTabPanel.animateActiveItem(hTP, 'slide');
 		}
 
-		Ext.create('Ext.util.DelayedTask', ARSnova.app.closeSplashScreen).delay(1000);
+		Ext.create('Ext.util.DelayedTask', ARSnova.app.closeSplashScreen).delay(1500);
 	},
 
 	/**

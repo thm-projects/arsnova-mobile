@@ -60,6 +60,8 @@ var splashscreen = (function (win) {
 	function applySplashScreenStyle (responseText, imgObject) {
 		var response = JSON.parse(responseText);
 		var imgElement = doc.getElementById('splashScreenLogo');
+		var minDelay = typeof response.splashscreen.minDelay !== 'undefined' ? 
+			response.splashscreen.minDelay : 3000;
 
 		// save config object
 		window.arsnovaConfig = response;
@@ -74,7 +76,7 @@ var splashscreen = (function (win) {
 		imgElement.onload = function () { 
 			var scaleWidth = imgObject.naturalWidth / imgObject.naturalHeight >= 2;
 			var milliseconds = response.splashscreen && response.splashscreen.logo ||
-				response.splashscreen.slogan ? 3000 : 1000;
+				response.splashscreen.slogan ? minDelay : 1000;
 			showInnerContainer(milliseconds, scaleWidth);
 		};
 
@@ -86,6 +88,7 @@ var splashscreen = (function (win) {
 		// apply styles from splashscreen configuration
 		imgElement.src = response.splashscreen.logo;
 		doc.getElementById("splashScreenContainer").style.background = response.splashscreen.bgcolor;
+		doc.getElementById("splashScreenSlogan").style.color = response.splashscreen.sloganColor;
 		doc.getElementById("splashScreenSlogan").innerHTML = response.splashscreen.slogan;
 		doc.styleSheets[0].insertRule('.circleLoadingInd div:before { background-color: ' +
 			response.splashscreen.loadIndColor + ' !important }', 0);
