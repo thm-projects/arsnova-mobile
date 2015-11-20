@@ -55,11 +55,11 @@
 }
 
 .x-input-radio:checked + .x-field-mask::after {
-	background: #80ba24; /** TODO **/
+	background: $brand-success;
 }
 
 .x-input-el:checked + .x-field-mask::after {
-	color: #80ba24; /** TODO **/
+	color: $brand-success;
 }
 
 .embeddedPageElement {
