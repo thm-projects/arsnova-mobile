@@ -528,11 +528,23 @@ code {
 
 .caption {
 	height: 40px;
-	background: white;
+	background: $caption-bg-color;
 
 	&:hover {
-		background-color: white;
+		background-color: $caption-bg-color;
 		cursor: initial;
+	}
+}
+
+.questionStatisticTitle .x-innerhtml {
+	font-weight: normal;
+	white-space: normal;
+	color: $brand-text;
+	text-align: left;
+	padding: 1em;
+
+	p {
+		margin: 0;
 	}
 }
 

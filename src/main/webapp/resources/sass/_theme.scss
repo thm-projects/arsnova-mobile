@@ -104,7 +104,7 @@ $list-selection-color: $brand-warning;
 
 
 /** question container configuration **/
-$question-container-bg-color: orange;
+$question-container-bg-color: $default-white-color;
 
 
 /** toolbar color configuration **/
@@ -153,6 +153,7 @@ $projectormode-text-color: black;
 
 
 /** additional color configurations **/
+$caption-bg-color: $brand-buttons;
 $startscreen-rolechange-alternative-color: $brand-secondary;
 $mask-error-text-color: $brand-danger;
 $mask-correct-text-color: $brand-success;
