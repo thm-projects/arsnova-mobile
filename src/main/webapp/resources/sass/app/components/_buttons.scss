@@ -369,7 +369,7 @@
 
 .voteButtonsPanel,
 .speakerVoteButtonsPanel {
-	background: #E0E0E0;
+	background: $background-color;
 	padding-left: 10px;
 	padding-right: 10px;
 	margin-top: 10px;
@@ -377,7 +377,7 @@
 }
 
 .speakerVoteButtonsPanel .iconBtn {
-	background: white !important;
+	background: $button-bg-color !important;
 }
 
 .carouselNavigationElement {
