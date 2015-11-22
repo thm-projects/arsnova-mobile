@@ -61,7 +61,7 @@ html, body,
 	}
 }
 
-.x-button .courseIcon, .sliderInputValue,
+.x-button .courseIcon,
 .answerListButton .x-button-label,
 .forwardListButton .x-button-label,
 .standardListButton .x-button-label {
@@ -70,6 +70,11 @@ html, body,
 	&.thm-green {
 		color: $label-font-active-color !important;
 	}
+}
+
+.sliderInputValue {
+	color: $form-text-color;
+	background: $form-bg-color;
 }
 
 .x-segmentedbutton .x-button-normal {
@@ -98,9 +103,11 @@ html, body,
 }
 
 .x-form-label {
-	color: $label-font-color;
-	background-color: white;
+	text-shadow: none;
+	color: $form-text-color;
+	background-color: $form-bg-color;
 	border-right: 1px solid $background-color;
+	border-top: none !important;
 
 	&.checkItem {
 		border-right: none;
@@ -113,6 +120,7 @@ html, body,
 
 .x-form-fieldset .x-field {
 	border-bottom: 1px solid $background-color;
+	background-color: $form-bg-color;
 }
 
 .x-list-item, .x-form-fieldset-title, .x-label, .roundedBox, .centerText {
@@ -125,13 +133,34 @@ html, body,
 
 .x-field-input {
 	.x-input-el {
-		color: $label-font-color !important;
+		background-color: $form-bg-color;
+		color: $form-text-color !important;
 		-webkit-text-fill-color: initial !important;
+
+		&::-webkit-input-placeholder {
+			opacity: $form-placeholder-opacity;
+			color: $form-placeholder-color;
+		}
+
+		&:-moz-placeholder { /* Firefox 18- */
+			opacity: $form-placeholder-opacity;
+			color: $form-placeholder-color;  
+		}
+
+		&::-moz-placeholder {  /* Firefox 19+ */
+			opacity: $form-placeholder-opacity;
+			color: $form-placeholder-color;  
+		}
+
+		&:-ms-input-placeholder {
+			opacity: $form-placeholder-opacity;
+			color: $form-placeholder-color;  
+		}
 	}
 
 	&.x-item-disabled {
 		.x-input-el {
-			background-color: white !important;
+			background-color: $form-bg-color !important;
 			font-size: 0.8em;
 			line-height: 1em;
 			margin: 6px;
@@ -144,6 +173,10 @@ html, body,
 		color: $label-font-color !important;
 		-webkit-text-fill-color: initial !important;
 	}
+}
+
+.roundedBox {
+	background-color: $question-container-bg-color;
 }
 
 .x-msgbox {

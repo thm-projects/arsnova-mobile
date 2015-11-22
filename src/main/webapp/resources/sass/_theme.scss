@@ -87,6 +87,26 @@ $icon-bullhorn-color: $button-icon-alternative-color;
 $icon-presenter-color: $button-icon-alternative-color;
 
 
+/** form color configuration **/
+$form-bg-color: $default-white-color;
+$form-text-color: $brand-text;
+$form-placeholder-color: $brand-text;
+$form-placeholder-opacity: 0.5;
+$markdown-button-color: $brand-text;
+$markdown-button-bg-color: $default-white-color;
+
+
+/** list color configuration **/
+$list-text-color: $brand-text;
+$list-bg-color: $default-white-color;
+$list-header-color: $default-lightgrey-color;
+$list-selection-color: $brand-warning;
+
+
+/** question container configuration **/
+$question-container-bg-color: orange;
+
+
 /** toolbar color configuration **/
 $toolbar-bg-color: $brand-primary;
 $toolbar-title-txt-color: $default-white-color;
@@ -133,9 +153,6 @@ $projectormode-text-color: black;
 
 
 /** additional color configurations **/
-$list-bg-color: $default-white-color;
-$list-header-color: $default-lightgrey-color;
-$list-selection-color: $brand-warning;
 $startscreen-rolechange-alternative-color: $brand-secondary;
 $mask-error-text-color: $brand-danger;
 $mask-correct-text-color: $brand-success;

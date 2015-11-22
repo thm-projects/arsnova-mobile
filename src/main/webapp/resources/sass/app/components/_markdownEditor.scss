@@ -18,10 +18,10 @@
  */
 
 .markdownButton {
-	color: $brand-icons;
-	background: white;
+	color: $markdown-button-color;
+	background: $markdown-button-bg-color;
 	border-radius: 5px 5px 5px 5px !important;
-	border: 1px double $default-lightgrey-color;
+	border: 1px double $markdown-button-color;
 	height: 40px;
 	width: 40px;
 	margin-right: 2px;
@@ -41,7 +41,7 @@
 
 .markDownEditorPanel {
 	.x-scroll-container {
-		background-color: white;
+		background-color: $form-bg-color;
 		border-top-left-radius: 0.4em;
     	border-top-right-radius: 0.4em;
 	}
@@ -117,11 +117,11 @@ div[id^=ext-mathJaxMarkDownPanel] {
 	}
 
 	td {
-		background-color: white;
+		background-color: $form-bg-color;
 	}
 
 	th {
-		background-color: $default-lightgrey-color;
+		background-color: $brand-text;
 		color: white;
 	}
 
