@@ -365,11 +365,11 @@ code {
 	padding: 0px !important;
 
 	&.checked {
-		color: green;
+		color: $form-checked-icon-color !important;
 	}
 
 	&.unchecked {
-		color: #ddd;
+		color: $form-unchecked-icon-color !important;
 	} 
 
 	> span {

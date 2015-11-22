@@ -91,7 +91,9 @@ $icon-presenter-color: $button-icon-alternative-color;
 $form-bg-color: $default-white-color;
 $form-text-color: $brand-text;
 $form-placeholder-color: $brand-text;
-$form-placeholder-opacity: 0.5;
+$form-placeholder-opacity: 0.7;
+$form-checked-icon-color: $brand-success;
+$form-unchecked-icon-color: #DDDDDD;
 $markdown-button-color: $brand-text;
 $markdown-button-bg-color: $default-white-color;
 
@@ -105,6 +107,7 @@ $list-selection-color: $brand-warning;
 
 /** question container configuration **/
 $question-container-bg-color: $default-white-color;
+$question-container-text-color: $brand-text;
 
 
 /** toolbar color configuration **/

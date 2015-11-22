@@ -123,7 +123,7 @@ html, body,
 	background-color: $form-bg-color;
 }
 
-.x-list-item, .x-form-fieldset-title, .x-label, .roundedBox, .centerText {
+.x-list-item, .x-form-fieldset-title, .x-label, .centerText {
 	text-shadow: none !important;
 
 	.x-innerhtml {
@@ -168,6 +168,17 @@ html, body,
 	}
 }
 
+.x-field,
+.x-field.x-item-disabled {
+	.x-form-label {
+		color: $form-text-color;
+	}
+
+	.x-component-outer {
+		background-color: $form-bg-color;
+	}
+}
+
 .disableDefault {
 	.x-form-label span {
 		color: $label-font-color !important;
@@ -177,6 +188,21 @@ html, body,
 
 .roundedBox {
 	background-color: $question-container-bg-color;
+	text-shadow: none !important;
+
+	.x-innerhtml {
+		color: $question-container-text-color !important;
+	}
+
+	&.x-button .x-button-label {
+		color: $question-container-text-color !important;
+	}
+
+	.x-html {
+		h1, h2, h3, h4, h5, h6 {
+			color: $question-container-text-color !important;
+		}
+	}
 }
 
 .x-msgbox {

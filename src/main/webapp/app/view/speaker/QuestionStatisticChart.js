@@ -410,7 +410,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				this.questionChart
 			]);
 		} else {
-			this.setStyle('background-color: #E0E0E0');
 			// add statistic
 			this.gridStatistic = Ext.create('ARSnova.view.components.GridStatistic', {
 				questionObj: this.questionObj
