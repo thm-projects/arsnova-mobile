@@ -293,8 +293,14 @@ html, body,
 }
 
 .x-tabbar-dark.x-docked-bottom {
+	background: $tabbar-bg-color !important;
+
 	.x-tab {
 		text-shadow: none !important;
+
+		.x-button-label {
+			color: $tabbar-button-label-color;
+		}
 	}
 
 	.voteIcons:before,
