@@ -693,7 +693,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			xtype: 'button',
 			buttonConfig: 'icon',
 			text: Messages.DELETE_QUESTION,
-			imageCls: 'icon-close thm-red',
+			imageCls: 'icon-close',
 			scope: this,
 			handler: function () {
 				var msg = Messages.ARE_YOU_SURE;

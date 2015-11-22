@@ -142,10 +142,10 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		});
 
 		this.feedbackChartColors = [
-			'#80ba24', // thm-green
-			'#f2a900', // thm-orange
-			'#971b2f', // thm-red
-			'#4a5c66'  // thm-grey
+			'#80ba24', // green
+			'#f2a900', // orange
+			'#971b2f', // red
+			'#4a5c66'  // grey
 		];
 
 		this.feedbackChart = Ext.create('Ext.chart.CartesianChart', {

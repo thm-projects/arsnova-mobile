@@ -548,6 +548,10 @@ code {
 	}
 }
 
+.dangerLabel {
+	color: $brand-danger;
+}
+
 .loginFieldSet .x-field-text {
 	height: 45px;
 	overflow: hidden;
@@ -574,29 +578,29 @@ code {
 }
 
 .required span {
-	color: #900;
+	color: $brand-danger;
 }
 
 .formInvalid::-webkit-input-placeholder {
-	color: #900;
+	color: $brand-danger;
 	opacity: 0.5;
 }
 
 .formInvalid:-moz-placeholder { /* Firefox 18- */
-	color: #900;
+	color: $brand-danger;
 	opacity: 0.5; 
 }
 
 .formInvalid::-moz-placeholder {  /* Firefox 19+ */
-	color: #900;
+	color: $brand-danger;
 	opacity: 0.5;
 }
 
 .formInvalid:-ms-input-placeholder {  
-	color: #900;
+	color: $brand-danger;
 	opacity: 0.5;
 }
 
 .isActive {
-	color: #00CD00;
+	color: $brand-success;
 }

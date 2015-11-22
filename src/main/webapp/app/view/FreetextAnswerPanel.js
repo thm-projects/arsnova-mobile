@@ -159,7 +159,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 					'<span style="padding-left:30px">{answerSubject:htmlEncode}</span>',
 				'</tpl>',
 				'<tpl if="read === false && !this.isStudent()">',
-					'<span class="thm-red" style="padding-left:30px">{answerSubject:htmlEncode}</span>',
+					'<span class="dangerLabel" style="padding-left:30px">{answerSubject:htmlEncode}</span>',
 				'</tpl>',
 				'</div>',
 				{

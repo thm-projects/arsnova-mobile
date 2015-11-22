@@ -238,7 +238,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			text: Messages.DELETE_SESSION,
 			buttonConfig: 'icon',
 			cls: 'smallerActionButton',
-			imageCls: 'icon-close thm-red',
+			imageCls: 'icon-close',
 			scope: this,
 			handler: function () {
 				var msg = Messages.ARE_YOU_SURE +

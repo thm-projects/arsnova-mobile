@@ -183,7 +183,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 						'<span style="padding-left:30px;">{subject:htmlEncode}</span>',
 					'</tpl>',
 					'<tpl if="read === false"">',
-						'<span class="thm-red" style="padding-left:30px;font-weight:normal;">{subject:htmlEncode}</span>',
+						'<span class="dangerLabel" style="padding-left:30px;font-weight:normal;">{subject:htmlEncode}</span>',
 					'</tpl>',
 				'</div>',
 				{
