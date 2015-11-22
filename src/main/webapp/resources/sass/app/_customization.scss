@@ -362,6 +362,10 @@ html, body,
 		}
 	}
 
+	.voteIcons:after {
+		box-shadow: inset 50px 50px 50px $tabbar-bg-color;
+	}
+
 	.voteIcons:before,
 	.x-button-icon:before {
 		color: $tabbar-button-icon-color;
@@ -384,6 +388,10 @@ html, body,
 
 			&.voteIcons:before {
 				color: $smiley-color;
+			}
+
+			&.voteIcons:after {
+				box-shadow: inset 50px 50px 50px $smiley-bg-color;
 			}
 		}
 	}

@@ -113,19 +113,19 @@
 }
 
 .icon-logo-radar {
-	color: #80ba24;
+	color: $logo-icon-color;
 	margin-right: -.20em;
 	margin-left: 5px;
 	content: "r";
 }
 
 .icon-logo-ars {
-	color: #4a5c66;
+	color: $logo-ars-color;
 	content: "a";
 }
 
 .icon-logo-nova {
-	color: #80ba24;
+	color: $logo-nova-color;
 	content: "n";
 }
 
@@ -416,7 +416,7 @@
 	z-index: -50;
 	display: inline-block;
 	border-radius: 50%/50%;
-	box-shadow: inset 50px 50px 50px #4A5C66;
+	box-shadow: inset 50px 50px 50px $smiley-bg-color;
 }
 
 .text-icons {

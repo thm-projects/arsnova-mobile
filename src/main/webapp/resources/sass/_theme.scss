@@ -43,6 +43,13 @@ $twitter-color: #55ACEE;
 $facebook-color: #3b5998;
 $google-color: #D34836;
 $smiley-color: #FFCC00;
+$smiley-bg-color: $default-grey-color;
+
+
+/** logo configuration **/
+$logo-icon-color: #80ba24;
+$logo-ars-color: #4a5c66;
+$logo-nova-color: #80ba24;
 
 
 /** label configuration **/
@@ -145,6 +152,13 @@ $notification-badge-color: $brand-danger;
 $notification-badge-text-color: $default-white-color;
 
 
+/** mask configuration **/
+$mask-error-text-color: $brand-danger;
+$mask-correct-text-color: $brand-success;
+$mask-background-color: #000000;
+$mask-opacity: 0.3;
+
+
 /** projector mode color configuration **/
 $projectormode-primary-color: $brand-primary;
 $projectormode-secondary-color: $default-white-color;
@@ -158,6 +172,3 @@ $projectormode-text-color: black;
 /** additional color configurations **/
 $caption-bg-color: $brand-buttons;
 $startscreen-rolechange-alternative-color: $brand-secondary;
-$mask-error-text-color: $brand-danger;
-$mask-correct-text-color: $brand-success;
-$mask-opacity: 1;

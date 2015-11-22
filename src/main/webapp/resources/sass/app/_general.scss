@@ -315,7 +315,7 @@ code {
 }
 
 .x-mask {
-	opacity: $mask-opacity;
+	background: rgba($mask-background-color, $mask-opacity);
 }
 
 .customMaskTextElement {
