@@ -27,8 +27,8 @@
 	text-shadow: rgba(0, 0, 0, 0.5) 0 -0.08em 0;
 	-webkit-box-shadow: #000 0 .1em .2em;
 	overflow: hidden;
-	color: $notification-badge-text-color;
-	border: 2px solid #fff;
+	color: $tabbar-notification-badge-text-color !important;
+	border: 2px solid $tabbar-notification-badge-border-color !important;
 	position: absolute;
 	width: auto;
 	min-width: 2em;
@@ -39,7 +39,7 @@
 	right: 0px;
 	max-width: 100%;
 	background-image: none;
-	background-color: $notification-badge-color;
+	background-color: $tabbar-notification-badge-color !important;
 	display: inline-block;
 }
 

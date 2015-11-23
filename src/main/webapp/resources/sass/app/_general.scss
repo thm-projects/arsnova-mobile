@@ -89,6 +89,7 @@ code {
 	&.questionPanel {
 		padding-top: 20px;
 		padding-bottom: 20px;
+		border: $question-container-border-width solid $question-container-border-color;
 	}
 
 	.x-innerhtml.x-html {

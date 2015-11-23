@@ -115,6 +115,8 @@ $list-selection-color: $brand-warning;
 /** question container configuration **/
 $question-container-bg-color: $default-white-color;
 $question-container-text-color: $brand-text;
+$question-container-border-width: 3px;
+$question-container-border-color: $default-white-color;
 
 
 /** toolbar color configuration **/
@@ -124,7 +126,7 @@ $toolbar-speaker-title-color: $default-white-color;
 $toolbar-button-bg-color: $brand-secondary;
 $toolbar-button-txt-color: $default-white-color;
 $toolbar-back-button-bg-color: $brand-buttons;
-$toolbar-back-button-txt-color: $brand-info;
+$toolbar-back-button-txt-color: $brand-text;
 $toolbar-toogleCorrect-button-active-color: $brand-success;
 $toolbar-toogleCorrect-button-inactive-color: $brand-info;
 
@@ -134,6 +136,9 @@ $tabbar-bg-color: $brand-primary;
 $tabbar-button-label-color: $default-white-color;
 $tabbar-button-icon-color: $default-white-color;
 $tabbar-button-active-icon-color: $brand-success;
+$tabbar-notification-badge-color: $brand-danger;
+$tabbar-notification-badge-text-color: $default-white-color;
+$tabbar-notification-badge-border-color: $default-white-color;
 
 
 /** carousel indicator and navigation color configuration **/
@@ -148,8 +153,6 @@ $badge-question-color: $default-grey-color;
 $badge-feedback-color: $brand-success;
 $badge-unread-feedback-color: $brand-danger;
 $badge-answers-color: $brand-warning;
-$notification-badge-color: $brand-danger;
-$notification-badge-text-color: $default-white-color;
 
 
 /** mask configuration **/
