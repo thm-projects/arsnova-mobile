@@ -61,9 +61,7 @@ Ext.define('ARSnova.view.Question', {
 		});
 
 		// Create standard panel with framework support
-		this.questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			cls: ''
-		});
+		this.questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
 		this.hintIcon = Ext.create('Ext.Button', {
 			cls: 'sessionInfoButton maskClickable',
 			iconCls: 'info',

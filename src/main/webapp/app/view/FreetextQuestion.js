@@ -72,9 +72,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		});
 
 		// Create standard panel with framework support
-		this.questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			cls: "roundedBox"
-		});
+		this.questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
 		this.updateQuestionText();
 		this.hintIcon = Ext.create('Ext.Button', {
 			cls: 'sessionInfoButton maskClickable',
@@ -87,7 +85,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			}
 		});
 		this.questionContainer = Ext.create('Ext.Container', {
-			cls: "roundedBox",
+			cls: "roundedBox questionPanel",
 			items: [this.hintIcon, this.questionPanel]
 		});
 
