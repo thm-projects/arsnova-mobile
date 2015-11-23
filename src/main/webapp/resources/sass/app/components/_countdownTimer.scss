@@ -36,3 +36,20 @@
 		margin: -30px auto;
 	}
 }
+
+.timerMinutesColor {
+	color: $timer-minutes-color;
+}
+
+.timerSecondsColor {
+	color: $timer-seconds-color;
+}
+
+.timerWarningColor {
+	color: $timer-warning-color;
+}
+
+.timerLabel {
+	color: $timer-label-color;
+	font-family: $timer-label-font;
+}

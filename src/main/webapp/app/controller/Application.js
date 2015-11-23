@@ -368,6 +368,26 @@ Ext.define("ARSnova.controller.Application", {
 	},
 
 	/**
+	 * retrieve and set timer styling options
+	 */
+	setCountdownTimerColors: function () {
+		var dummyElem = [
+			document.getElementsByClassName('timerMinutesColor')[0],
+			document.getElementsByClassName('timerSecondsColor')[0],
+			document.getElementsByClassName('timerWarningColor')[0],
+			document.getElementsByClassName('timerLabel')[0],
+		];
+
+		ARSnova.app.timerStyleConfig = {
+			minutesColor: window.getComputedStyle(dummyElem[0], null).getPropertyValue('color'),
+			secondsColor: window.getComputedStyle(dummyElem[1], null).getPropertyValue('color'),
+			warningColor: window.getComputedStyle(dummyElem[2], null).getPropertyValue('color'),
+			labelColor: window.getComputedStyle(dummyElem[3], null).getPropertyValue('color'),
+			labelFont: window.getComputedStyle(dummyElem[3], null).getPropertyValue('font-family'),
+		};
+	},
+
+	/**
 	 * adds mouse scrolling feature if app is used in desktop browser
 	 */
 	initializeAdvancedScrolling: function () {

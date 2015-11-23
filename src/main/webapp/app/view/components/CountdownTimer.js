@@ -289,18 +289,25 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			}
 
 			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+			var styleConfig = ARSnova.app.timerStyleConfig;
 			var canvas = this.canvas.dom;
 			var context = canvas.getContext("2d");
 			var counterClockwise = false;
-			var unitFont = "50px Segoe UI";
-			var numberFont =  "20px Segoe UI";
 			var outerRadius = 85;
 			var innerRadius = 66;
 			var lineWidth = 20;
 
+			var primaryColor = styleConfig.minutesColor || '#4A5C6';
+			var secondaryColor = styleConfig.secondsColor || '#F2A900';
+			var warningColor = styleConfig.warningColor || '#971B2F';
+			var labelColor = styleConfig.labelColor || '#4A5C6';
+			var labelFont = styleConfig.labelFont || 'Open Sans';
+			var unitFont = "50px " + labelFont;
+			var numberFont =  "20px " + labelFont;
+
 			if (this.viewOnly && screenWidth < 500) {
-				unitFont = "40px Open Sans";
-				numberFont = "18px Open Sans";
+				unitFont = "40px " + labelFont;
+				numberFont = "18px " + labelFont;
 				lineWidth = lineWidth / 1.25;
 				outerRadius = outerRadius / 1.25;
 				innerRadius = innerRadius / 1.25;
@@ -321,7 +328,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			context.save();
 			context.clearRect(0, 0, 600, 600);
 
-			context.fillStyle = "#4a5c66";
+			context.fillStyle = labelColor;
 			context.font = unitFont;
 			context.textAlign = "center";
 			context.textBaseline = "middle";
@@ -334,7 +341,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 				var seconds = Math.ceil(this.seconds / this.milliseconds);
 
 				if (this.seconds < this.getSecondsLeftTillAlert() * 1000) {
-					context.fillStyle = (this.seconds / 1000) % 2 > 1 ? "#971b2f" : "#4a5c66";
+					context.fillStyle = (this.seconds / 1000) % 2 > 1 ? warningColor : labelColor;
 
 					if (this.sound) {
 						if (!this.sound.isPlaying() && this.running) {
@@ -359,7 +366,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			context.strokeStyle =
 				(this.seconds < this.getSecondsLeftTillAlert() * 1000) &&
 				((this.seconds / 1000) % 2 > 1) && minutes <= 1 ?
-					"#971b2f" : "#4a5c66";
+					warningColor : primaryColor;
 
 			context.beginPath();
 			context.arc(x, y, outerRadius, startAngle, endAngle, counterClockwise);
@@ -369,7 +376,7 @@ Ext.define('ARSnova.view.components.CountdownTimer', {
 			context.strokeStyle =
 				(this.seconds < this.getSecondsLeftTillAlert() * 1000) &&
 				((this.seconds / 1000) % 2 > 1) && minutes <= 1 ?
-					"#971b2f" : "#F2A900";
+					warningColor : secondaryColor;
 			startAngle = 0 * Math.PI;
 			endAngle = ((2 * Math.PI) / (this.maxSeconds / this.seconds));
 			context.beginPath();

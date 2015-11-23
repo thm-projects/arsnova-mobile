@@ -159,6 +159,14 @@ $mask-background-color: #000000;
 $mask-opacity: 0.3;
 
 
+/** countdown timer configuration **/
+$timer-minutes-color: $default-grey-color;
+$timer-seconds-color: $default-orange-color;
+$timer-warning-color: $default-red-color;
+$timer-label-color: $label-font-color;
+$timer-label-font: "Open Sans";
+
+
 /** projector mode color configuration **/
 $projectormode-primary-color: $brand-primary;
 $projectormode-secondary-color: $default-white-color;

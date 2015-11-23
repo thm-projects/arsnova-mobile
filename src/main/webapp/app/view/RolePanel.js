@@ -75,6 +75,15 @@ Ext.define('ARSnova.view.RolePanel', {
 			style: 'margin-left: 20px;'
 		});
 
+		// essential for countdown timer style retrieval
+		var colorDummy = {
+			hidden: true,
+			html: "<div class='timerMinutesColor'></div>" + 
+				"<div class='timerSecondsColor'></div>" +
+				"<div class='timerWarningColor'></div>" +
+				"<div class='timerLabel'></div>"
+		};
+
 		this.add([{
 			xtype: 'toolbar',
 			docked: 'top',
@@ -134,11 +143,15 @@ Ext.define('ARSnova.view.RolePanel', {
 					tabPanel.setActiveItem(tabPanel.infoTabPanel);
 				}
 			}]
-		}]);
+		}, colorDummy]);
 
 		this.on('activate', function () {
 			this.selectState = false;
 			ARSnova.app.taskManager.start(this.buttonColorChange);
+		});
+
+		this.on('painted', function () {
+			ARSnova.app.getController('Application').setCountdownTimerColors();
 		});
 
 		this.on('deactivate', function () {
