@@ -330,6 +330,20 @@ Ext.define('ARSnova.view.speaker.InClass', {
 						}
 					]
 				},
+				{
+					xtype: 'panel',
+					margin: '10 0 0 0',
+					layout: {
+						type: 'hbox',
+						pack: 'center'
+					},
+					items: [
+						{
+							cls: 'gravure selectable directlink-text',
+							html: Messages.DIRECTLINK + ": " + window.location + 'id/' + sessionStorage.getItem('keyword')
+						}
+					]
+				},
 				this.actionButtonPanel,
 				this.inClassButtons,
 				{

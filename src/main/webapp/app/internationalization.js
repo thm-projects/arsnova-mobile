@@ -639,6 +639,7 @@
 				NEW_VERSION_AVAILABLE: "Eine neue Version von ARSnova ist verfügbar. Möchten Sie aktualisieren?",
 				PRESENTER: "Presenter",
 				SESSION_ID: "Session-ID",
+				DIRECTLINK: "Direktlink",
 				OF: "von",
 
 				/* session import */
@@ -1260,6 +1261,7 @@
 				NEW_VERSION_AVAILABLE: "A new version of ARSnova is available. Do you want to update?",
 				PRESENTER: "Presenter",
 				SESSION_ID: "Session ID",
+				DIRECTLINK: "Directlink",
 				OF: "of",
 
 				/* session import */
