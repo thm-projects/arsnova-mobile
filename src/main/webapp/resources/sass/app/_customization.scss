@@ -51,13 +51,13 @@ html, body,
 	color: $button-icon-color !important;
 	
 	&:hover {
-		background-color: #EEEEEE;
+		background-color: $button-hover-color;
 		cursor: pointer;
 	}
 
 	&.x-button-pressing {
 		background-image: none;
-		background-color: #c4c4c4;
+		background-color: $button-pressing-color;
 	}
 }
 
@@ -410,6 +410,11 @@ html, body,
 
 	.x-list-item {
 		background-color: $list-bg-color;
+		
+		&:hover {
+			background-color: $button-hover-color;
+			cursor: pointer;
+		}
 	}
 
 	.x-list-item.x-item-selected.x-list-item-tpl,

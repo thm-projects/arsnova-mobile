@@ -257,7 +257,7 @@
 	border-width: thin;
 
 	&:hover {
-		background-color: #EEEEEE;
+		background-color: $button-hover-color;
 		cursor: pointer;
 	}
 }
@@ -305,14 +305,14 @@
 	background-color: $list-bg-color;
 
 	&:hover {
-		background-color: #EEEEEE;
+		background-color: $button-hover-color;
 		cursor: pointer;
 	}
 }
 
 .answerListButton {
 	&:hover {
-		background-color: #EEEEEE;
+		background-color: $button-hover-color;
 		cursor: pointer;
 	}
 }
@@ -362,7 +362,7 @@
 	}
 
 	&:hover {
-		background-color: #EEEEEE;
+		background-color: $button-hover-color;
 		cursor: pointer;
 	}
 }
