@@ -66,14 +66,14 @@ var splashscreen = (function (win) {
 		// save config object
 		window.arsnovaConfig = response;
 
-		// show loading indicator
-		showLoadingIndicator();
-
 		// preload splashscreen logo
 		imgObject.src = response.splashscreen.logo;
 
 		// function to call when loading of splashscreen logo finished
-		imgElement.onload = function () { 
+		imgElement.onload = function () {
+			// show loading indicator
+			showLoadingIndicator();
+
 			var scaleWidth = imgObject.naturalWidth / imgObject.naturalHeight >= 2;
 			var milliseconds = response.splashscreen && response.splashscreen.logo ||
 				response.splashscreen.slogan ? minDelay : 1000;
@@ -87,6 +87,7 @@ var splashscreen = (function (win) {
 
 		// apply styles from splashscreen configuration
 		imgElement.src = response.splashscreen.logo;
+		window.document.body.style.background = response.splashscreen.bgcolor || 'inital';
 		doc.getElementById("splashScreenContainer").style.background = response.splashscreen.bgcolor;
 		doc.getElementById("splashScreenSlogan").style.color = response.splashscreen.sloganColor;
 		doc.getElementById("splashScreenSlogan").innerHTML = response.splashscreen.slogan;
