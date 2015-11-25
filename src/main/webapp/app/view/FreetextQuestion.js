@@ -81,29 +81,21 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			style: 'float: right',
 			hidden: !(this.questionObj.hint),
 			handler: function (button) {
-				hintPanel.showBy(button);
+				hintPanel.show();
 			}
 		});
+
 		this.questionContainer = Ext.create('Ext.Container', {
 			cls: "roundedBox questionPanel",
 			items: [this.hintIcon, this.questionPanel]
 		});
 
-		var hintForSolution = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
-		var sampleSolution = Ext.create('ARSnova.view.MathJaxMarkDownPanel');
-		hintForSolution.setContent(this.questionObj.hint || "", true, true);
-		sampleSolution.setContent(this.questionObj.solution || "", true, true);
-		var hintPanel = Ext.create('Ext.Panel', {
-			modal: true,
-			hideOnMaskTap: true,
-			hidden: true,
-			items: [hintForSolution]
+		var hintPanel = Ext.create('ARSnova.view.components.HintMessageBox', {
+			content: this.questionObj.hint
 		});
-		this.solutionPanel = Ext.create('Ext.Panel', {
-			modal: true,
-			hideOnMaskTap: true,
-			hidden: true,
-			items: [sampleSolution]
+
+		this.solutionPanel = Ext.create('ARSnova.view.components.HintMessageBox', {
+			content: this.questionObj.solution
 		});
 
 		this.buttonContainer = Ext.create('Ext.Container', {
@@ -502,7 +494,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					this.hintIcon.setHidden(!this.questionObj.solution);
 					this.hintIcon.setIconCls('icon-bullhorn');
 					this.hintIcon.setHandler(function (button) {
-						this.solutionPanel.showBy(button);
+						this.solutionPanel.show();
 					});
 				} else {
 					this.hintIcon.setHidden(true);
