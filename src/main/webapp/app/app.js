@@ -274,6 +274,7 @@ Ext.application({
 			ARSnova.app.splashscreenDestroyed = true;
 			Ext.fly('splashScreenContainer').destroy();
 			window.document.body.style.overflow = 'initial';
+			window.document.body.style.background = 'initial';
 		}
 	},
 
