@@ -55,7 +55,7 @@ $logo-nova-color: #80ba24;
 /** label configuration **/
 $label-font-color: $brand-text;
 $label-font-active-color: $brand-secondary;
-$label-font-family: "Helvetica Neue",HelveticaNeue,"Helvetica-Neue",Helvetica,"BBAlpha Sans",sans-serif;
+$label-font-family: Georgia,"Helvetica Neue",HelveticaNeue,"Helvetica-Neue",Helvetica,"BBAlpha Sans",sans-serif;
 $label-font-weight: normal;
 $label-text-shadow: none;
 
@@ -135,9 +135,9 @@ $toolbar-toogleCorrect-button-inactive-color: $brand-info;
 
 
 /** tabbar icon color configuration **/
-$tabbar-bg-color: $brand-primary;
-$tabbar-button-label-color: $default-white-color;
-$tabbar-button-icon-color: $default-white-color;
+$tabbar-bg-color: $background-color;
+$tabbar-button-label-color: $brand-primary;
+$tabbar-button-icon-color: $brand-primary;
 $tabbar-button-active-icon-color: $brand-success;
 $tabbar-notification-badge-color: $brand-danger;
 $tabbar-notification-badge-text-color: $default-white-color;
