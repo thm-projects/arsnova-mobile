@@ -375,7 +375,7 @@ Ext.define("ARSnova.controller.Application", {
 			document.getElementsByClassName('timerMinutesColor')[0],
 			document.getElementsByClassName('timerSecondsColor')[0],
 			document.getElementsByClassName('timerWarningColor')[0],
-			document.getElementsByClassName('timerLabel')[0],
+			document.getElementsByClassName('timerLabel')[0]
 		];
 
 		ARSnova.app.timerStyleConfig = {
@@ -383,7 +383,7 @@ Ext.define("ARSnova.controller.Application", {
 			secondsColor: window.getComputedStyle(dummyElem[1], null).getPropertyValue('color'),
 			warningColor: window.getComputedStyle(dummyElem[2], null).getPropertyValue('color'),
 			labelColor: window.getComputedStyle(dummyElem[3], null).getPropertyValue('color'),
-			labelFont: window.getComputedStyle(dummyElem[3], null).getPropertyValue('font-family'),
+			labelFont: window.getComputedStyle(dummyElem[3], null).getPropertyValue('font-family')
 		};
 	},
 

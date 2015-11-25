@@ -78,7 +78,7 @@ Ext.define('ARSnova.view.RolePanel', {
 		// essential for countdown timer style retrieval
 		var colorDummy = {
 			hidden: true,
-			html: "<div class='timerMinutesColor'></div>" + 
+			html: "<div class='timerMinutesColor'></div>" +
 				"<div class='timerSecondsColor'></div>" +
 				"<div class='timerWarningColor'></div>" +
 				"<div class='timerLabel'></div>"
