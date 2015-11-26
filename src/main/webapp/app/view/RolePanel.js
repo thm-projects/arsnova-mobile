@@ -114,7 +114,6 @@ Ext.define('ARSnova.view.RolePanel', {
 				type: 'hbox',
 				pack: 'center'
 			},
-			style: isPhone && smallHeight ? 'height: 100px;' : 'height: 110px',
 			defaults: {
 				xtype: 'matrixbutton',
 				handler: function (b) {

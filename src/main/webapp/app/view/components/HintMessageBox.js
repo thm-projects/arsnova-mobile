@@ -57,7 +57,7 @@ Ext.define('ARSnova.view.components.HintMessageBox', {
 
 			this.setHeight(height + boxOffset);
 			ARSnova.app.innerScrollPanel = this;
-			this.contentPanel.setStyle('font-size: '+ ARSnova.app.globalZoomLevel + '%;');
+			this.contentPanel.setStyle('font-size: ' + ARSnova.app.globalZoomLevel + '%;');
 		});
 	}
 });
