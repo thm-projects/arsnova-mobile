@@ -208,7 +208,10 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					}
 				},
 				itemtap: function (list, index, target, record, event) {
-					panel.speakerUtilities.initializeZoomComponents();
+					if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+						panel.speakerUtilities.initializeZoomComponents();
+					}
+
 					ARSnova.app.getController('Questions').detailsFeedbackQuestion({
 						question: record
 					});
@@ -234,37 +237,39 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			items: [this.list]
 		});
 
+		this.questionRequestButton = Ext.create('Ext.Button', {
+			text: Messages.QUESTION_REQUEST,
+			style: {
+				margin: '15px auto'
+			},
+			ui: 'action',
+			width: '235px',
+			hidden: ARSnova.app.isSessionOwner,
+			handler: function () {
+				ARSnova.app.getController('Feedback').showAskPanel({
+					type: 'slide'
+				}, function closePanelHandler() {
+					var userTabPanel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
+
+					ARSnova.app.getController('Questions').listFeedbackQuestions({
+						type: 'slide',
+						direction: 'right',
+						duration: 700,
+						listeners: {
+							animationend: function () {
+								userTabPanel.setActiveItem(userTabPanel.inClassPanel);
+							}
+						}
+					});
+				});
+			}
+		});
+
 		this.add([
 			this.toolbar,
 			this.speakerUtilities,
-			{
-				xtype: 'button',
-				text: Messages.QUESTION_REQUEST,
-				style: {
-					margin: '15px auto'
-				},
-				ui: 'action',
-				width: '235px',
-				hidden: ARSnova.app.isSessionOwner,
-				handler: function () {
-					ARSnova.app.getController('Feedback').showAskPanel({
-						type: 'slide'
-					}, function closePanelHandler() {
-						var userTabPanel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
-
-						ARSnova.app.getController('Questions').listFeedbackQuestions({
-							type: 'slide',
-							direction: 'right',
-							duration: 700,
-							listeners: {
-								animationend: function () {
-									userTabPanel.setActiveItem(userTabPanel.inClassPanel);
-								}
-							}
-						});
-					});
-				}
-			}, this.noQuestionsFound,
+			this.questionRequestButton,
+			this.noQuestionsFound,
 			this.formPanel
 		]);
 
