@@ -96,6 +96,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		this.saveButton = Ext.create('Ext.Button', {
 			text: Messages.SAVE,
 			ui: 'confirm',
+			hidden: true,
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
 			handler: function () {
@@ -116,13 +117,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 							sessionInfo.ppLicense = me.licence.getValue();
 						}
 						ARSnova.app.getController('Sessions').update(sessionInfo);
-
-						var xTP = me.getReferencePanel();
-						xTP.animateActiveItem(me.getBackReference(), {
-							type: 'slide',
-							direction: 'right',
-							duration: 700
-						});
 					} else {
 						if (config.features.publicPool) {
 							ARSnova.app.getController('Sessions').loadFeatureOptions({
@@ -153,9 +147,21 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 							}, true);
 						}
 					}
+					me.disableInput();
 				}
 			},
 			scope: this
+		});
+
+		this.editButton = Ext.create('Ext.Button', {
+			text: Messages.EDIT,
+			ui: 'normal',
+			hidden: true,
+			cls: 'saveQuestionButton',
+			style: 'width: 89px',
+			handler: function () {
+				me.enableInput();
+			}
 		});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
@@ -169,7 +175,8 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				{
 					xtype: 'spacer'
 				},
-				this.saveButton
+				this.saveButton,
+				this.editButton
 			]
 		});
 
@@ -284,7 +291,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			});
 			this.subject.updateOptions(subjectOptionsPP);
 
-
 			this.licence = Ext.create('Ext.field.Select', {
 				name: 'licence',
 				label: Messages.EXPORT_FIELD_LICENCE,
@@ -345,34 +351,8 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			]
 		});
 
-		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
-			me.authorName.disable();
-			me.authorName.setPlaceHolder('');
-			me.email.setPlaceHolder('');
-			me.sessionName.disable();
-			me.sessionName.setPlaceHolder('');
-			me.sessionShortName.disable();
-			me.sessionShortName.setPlaceHolder('');
-			me.description.disable();
-			me.description.hide();
-			me.markdownEditPanel.hide();
-			me.previewButton.hide();
-			if (me.getSessionInfo().ppDescription) {
-				me.descriptionFieldSet.show();
-			}
-			me.creatorFieldSet.disable();
-			me.university.disable();
-			me.university.setPlaceHolder('');
-			me.faculty.disable();
-			me.faculty.setPlaceHolder('');
-			me.saveButton.hide();
-			if (config.features.publicPool) {
-				me.subject.disable();
-				me.licence.disable();
-				me.level.disable();
-			}
-		}
 		this.add([this.toolbar, this.mainPart]);
+		this.on('painted', this.disableInput());
 	},
 
 	previewHandler: function () {
@@ -424,5 +404,77 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			Ext.Msg.alert(Messages.SESSIONPOOL_NOTIFICATION, msg);
 		}
 		return isValid;
+	},
+
+	disableInput: function () {
+		this.description.hide();
+		this.previewButton.hide();
+		this.markdownEditPanel.hide();
+
+		this.faculty.disable();
+		this.university.disable();
+		this.authorName.disable();
+		this.sessionName.disable();
+		this.description.disable();
+		this.creatorFieldSet.disable();
+		this.sessionShortName.disable();
+
+		this.email.setPlaceHolder('');
+		this.faculty.setPlaceHolder('');
+		this.authorName.setPlaceHolder('');
+		this.university.setPlaceHolder('');
+		this.sessionName.setPlaceHolder('');
+		this.sessionShortName.setPlaceHolder('');
+
+		if (ARSnova.app.globalConfig.features.publicPool) {
+			this.subject.disable();
+			this.licence.disable();
+			this.level.disable();
+		}
+
+		if (this.getSessionInfo().ppDescription) {
+			this.descriptionFieldSet.show();
+		}
+
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			this.saveButton.hide();
+			this.editButton.show();
+		}
+	},
+
+	enableInput: function () {
+		this.description.show();
+		this.previewButton.show();
+		this.markdownEditPanel.show();
+
+		this.faculty.enable();
+		this.university.enable();
+		this.authorName.enable();
+		this.sessionName.enable();
+		this.description.enable();
+		this.creatorFieldSet.enable();
+		this.sessionShortName.enable();
+
+		this.email.setPlaceHolder(this.email.initialConfig.placeHolder);
+		this.faculty.setPlaceHolder(this.faculty.initialConfig.placeHolder);
+		this.authorName.setPlaceHolder(this.authorName.initialConfig.placeHolder);
+		this.university.setPlaceHolder(this.university.initialConfig.placeHolder);
+		this.sessionName.setPlaceHolder(this.sessionName.initialConfig.placeHolder);
+		this.sessionShortName.setPlaceHolder(this.sessionShortName.initialConfig.placeHolder);
+
+		if (ARSnova.app.globalConfig.features.publicPool) {
+			this.subject.enable();
+			this.licence.enable();
+			this.level.enable();
+		}
+
+		if (this.getSessionInfo().ppDescription) {
+			this.descriptionFieldSet.hide();
+		}
+
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			this.saveButton.show();
+			this.editButton.hide();
+		}
 	}
 });
