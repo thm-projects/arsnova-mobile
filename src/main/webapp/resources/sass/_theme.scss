@@ -28,6 +28,7 @@ $default-darkblue-color: #012169;
 //$default-orange-color: #f2a900;
 $default-orange-color: #ff9600;
 
+
 /** brand configuration **/
 $brand-primary: $default-grey-color;
 $brand-secondary: $default-green-color;
@@ -38,11 +39,14 @@ $brand-danger: $default-red-color;
 $brand-text: $default-grey-color;
 $brand-buttons: $default-white-color;
 $brand-icons: $default-grey-color;
-
 $background-color: #dfe5e6;
+
+
+/** login icon configuration **/
 $twitter-color: #55ACEE;
 $facebook-color: #3b5998;
 $google-color: #D34836;
+$arsnova-color: $default-green-color;
 $smiley-color: #FFCC00;
 $smiley-bg-color: $default-grey-color;
 
@@ -82,7 +86,6 @@ $button-decline-bg-color: $brand-danger;
 $button-decline-txt-color: $default-white-color;
 $button-pressing-color: #C4C4C4;
 $button-hover-color: #EEEEEE;
-
 
 
 /** button icon color configuration **/

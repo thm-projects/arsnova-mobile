@@ -376,9 +376,12 @@
 	top: -1px;
 }
 
-.login-icon-cas,
-.login-icon-arsnova {
+.login-icon-cas {
 	color: #80ba24;
+}
+
+.login-icon-arsnova {
+	color: $arsnova-color;
 }
 
 .login-icon-twitter {
