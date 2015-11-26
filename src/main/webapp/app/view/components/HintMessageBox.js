@@ -40,15 +40,15 @@ Ext.define('ARSnova.view.components.HintMessageBox', {
 		this.contentPanel.setContent(this.config.content || "", true, true);
 		this.add(this.contentPanel);
 
-		this.on('hide', function () {
-			ARSnova.app.innerScrollPanel = false;
-		});
-
 		this.element.on('tap', function (e) {
 			me.hide();
 		});
 
-		this.onBefore('painted', function () {
+		this.on('hide', function () {
+			ARSnova.app.innerScrollPanel = false;
+		});
+
+		this.on('activate', function () {
 			var boxOffset = 15;
 			var contentStyle = window.getComputedStyle(this.contentPanel.element.dom, null);
 			var height = parseInt(contentStyle.getPropertyValue("height")) +
@@ -57,6 +57,7 @@ Ext.define('ARSnova.view.components.HintMessageBox', {
 
 			this.setHeight(height + boxOffset);
 			ARSnova.app.innerScrollPanel = this;
+			this.contentPanel.setStyle('font-size: '+ ARSnova.app.globalZoomLevel + '%;');
 		});
 	}
 });

@@ -34,6 +34,11 @@ Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiac
     user-select: none;
 }
 
+blockquote {
+	padding-right: 1.5em;
+	color: $brand-text !important;
+}
+
 .hljs {
   display: block;
   overflow-x: auto;
