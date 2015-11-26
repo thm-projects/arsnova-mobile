@@ -19,13 +19,14 @@
 
 /** default colors **/
 $default-white-color: #FFF;
-$default-green-color: #80ba24;
-$default-grey-color: #4a5c66;
+$default-green-color: #88BA24;
+$default-grey-color: #394a59;
 $default-lightgrey-color: #788895;
 $default-red-color: #971b2f;
 $default-lightblue-color: #00b5e2;
 $default-darkblue-color: #012169;
-$default-orange-color: #f2a900;
+//$default-orange-color: #f2a900;
+$default-orange-color: #ff9600;
 
 /** brand configuration **/
 $brand-primary: $default-grey-color;
@@ -38,7 +39,7 @@ $brand-text: $default-grey-color;
 $brand-buttons: $default-white-color;
 $brand-icons: $default-grey-color;
 
-$background-color: #E0E0E0;
+$background-color: #dfe5e6;
 $twitter-color: #55ACEE;
 $facebook-color: #3b5998;
 $google-color: #D34836;
@@ -47,9 +48,9 @@ $smiley-bg-color: $default-grey-color;
 
 
 /** logo configuration **/
-$logo-icon-color: #80ba24;
-$logo-ars-color: #4a5c66;
-$logo-nova-color: #80ba24;
+$logo-icon-color: $default-green-color;
+$logo-ars-color: $default-grey-color;
+$logo-nova-color: $default-green-color;
 
 
 /** label configuration **/
@@ -91,7 +92,7 @@ $icon-newsession-color: $button-icon-alternative-color;
 $icon-delete-close-icon-color: $brand-danger;
 $icon-release-timer-color: $button-icon-alternative-color;
 $icon-lock-unlocked-color: $button-icon-color;
-$icon-lock-locked-color: $brand-warning;
+$icon-lock-locked-color: $default-red-color;
 $icon-chart-color: $button-icon-alternative-color;
 $icon-bullhorn-color: $button-icon-alternative-color;
 $icon-presenter-color: $button-icon-alternative-color;
@@ -100,7 +101,7 @@ $icon-presenter-color: $button-icon-alternative-color;
 /** form color configuration **/
 $form-bg-color: $default-white-color;
 $form-text-color: $brand-text;
-$form-placeholder-color: $brand-text;
+$form-placeholder-color: $default-lightgrey-color;
 $form-placeholder-opacity: 0.7;
 $form-checked-icon-color: $brand-success;
 $form-unchecked-icon-color: #DDDDDD;
