@@ -34,7 +34,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	},
 
 	inClassItems: null,
-
 	inClassActions: null,
 	sessionStatusButton: null,
 	createAdHocQuestionButton: null,
@@ -62,17 +61,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	initialize: function () {
 		var me = this;
 		this.callParent(arguments);
-
-		var comingSoon = function (component) {
-			var comingSoonPanel = Ext.create('Ext.Panel', {
-				top: -1000,
-				html: "<div style='padding: 0.5em'>" + Messages.FEATURE_COMING_SOON + "</div>"
-			});
-			comingSoonPanel.showBy(component, 'tc-bc');
-			Ext.defer(function () {
-				comingSoonPanel.destroy();
-			}, 2000);
-		};
 
 		var loggedInCls = '';
 		if (ARSnova.app.loginMode === ARSnova.app.LOGIN_THM) {
