@@ -305,7 +305,7 @@
 					'Der punktbasierte Lernstand gewichtet Fragen mit mehreren richtigen Antwortoptionen stärker als Fragen mit nur einer richtigen Option. Der Lernstand berechnet sich beispielhaft wie folgt:\n',
 					'Es sind 3 Fragen vorhanden, die jeweils eine maximal mögliche Punktzahl haben. Die Punkte seien 10, 20 und 30.',
 					'Das bedeutet, dass ein Studierender für die Beantwortung der 3 Fragen insgesamt 60 Punkte erreichen kann.',
-					'Bei Auswahl von falschen Antwortenoptionen reduziert sich die erreichte Punktzahl, z.B. auf 30.',
+					'Bei Auswahl von falschen Antwortoptionen reduziert sich die erreichte Punktzahl, z.B. auf 30.',
 					'Der individuelle Lernstand berechnet sich also nach der Formel: \\\\[ l_{\\text{S}} = \\frac{\\text{Erreichte Punkte}}{\\text{Mögliche Punkte}} = \\frac{30}{60} \\hat{=}\\, 50\\%\\\\]\n',
 					'Für den Kurs ergibt sich der Lernstand über die Anzahl der Studierenden: \\\\[l_{\\text{K}} = \\frac{\\text{Gesamtzahl erreichter Punkte}}{\\text{Mögliche Punkte} \\cdot \\text{Studierende}}\\\\]'
 				].join('\n'),
