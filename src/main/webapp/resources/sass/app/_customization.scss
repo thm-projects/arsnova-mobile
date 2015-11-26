@@ -46,9 +46,17 @@ html, body,
 	font-family: $label-font-family;
 }
 
+.x-tab-icon,
+.x-button {
+	cursor: pointer;
+}
+
 .iconBtn {
 	background: $button-bg-color;
 	color: $button-icon-color !important;
+	border-color: $button-border-color;
+	border-width: $button-border-width;
+	border-style: solid;
 	
 	&:hover {
 		background-color: $button-hover-color;
@@ -59,6 +67,10 @@ html, body,
 		background-image: none;
 		background-color: $button-pressing-color;
 	}
+}
+
+.roleIconBtn .iconBtn {
+	border-color: transparent;
 }
 
 .x-button .courseIcon,
