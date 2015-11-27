@@ -549,6 +549,11 @@ code {
 	}
 }
 
+.x-msgbox.hintMessageBox {
+	max-width: 480px;
+	width: 90%;	
+}
+
 .dangerLabel {
 	color: $brand-danger;
 }

@@ -21,6 +21,7 @@ Ext.define('ARSnova.view.components.HintMessageBox', {
 	extend: 'Ext.MessageBox',
 
 	config: {
+		cls: 'hintMessageBox',
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
@@ -31,6 +32,11 @@ Ext.define('ARSnova.view.components.HintMessageBox', {
 		layout: {
 			type: 'vbox',
 			pack: 'center'
+		},
+		hideAnimation: {
+			type: 'fadeOut',
+			duration: 250,
+			easing: 'ease-out'
 		}
 	},
 
@@ -48,16 +54,29 @@ Ext.define('ARSnova.view.components.HintMessageBox', {
 			ARSnova.app.innerScrollPanel = false;
 		});
 
-		this.on('activate', function () {
-			var boxOffset = 15;
-			var contentStyle = window.getComputedStyle(this.contentPanel.element.dom, null);
-			var height = parseInt(contentStyle.getPropertyValue("height")) +
-				parseInt(contentStyle.getPropertyValue('padding-bottom')) +
-				parseInt(contentStyle.getPropertyValue('padding-top'));
-
-			this.setHeight(height + boxOffset);
+		this.on('show', function () {
 			ARSnova.app.innerScrollPanel = this;
-			this.contentPanel.setStyle('font-size: ' + ARSnova.app.globalZoomLevel + '%;');
 		});
+
+		this.setShowAnimation({
+			type: 'fadeIn',
+			duration: 250,
+			easing: 'ease-out',
+			listeners: {
+				scope: me,
+				animationstart: me.updateDimensions
+			}
+		});
+	},
+
+	updateDimensions: function () {
+		var boxOffset = 15;
+		this.contentPanel.setStyle('font-size: ' + ARSnova.app.globalZoomLevel + '%;');
+		var contentStyle = window.getComputedStyle(this.contentPanel.element.dom, null);
+		var height = parseInt(contentStyle.getPropertyValue("height")) +
+			parseInt(contentStyle.getPropertyValue('padding-bottom')) +
+			parseInt(contentStyle.getPropertyValue('padding-top'));
+
+		this.setHeight(height + boxOffset);
 	}
 });
