@@ -97,7 +97,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				{
 					xtype: 'button',
 					iconCls: 'icon-qrcode',
-					cls: 'toggleCorrectButton',
+					cls: 'qrCodeButton',
 					handler: function (button) {
 						ARSnova.app.getController('Application').showQRCode();
 					}

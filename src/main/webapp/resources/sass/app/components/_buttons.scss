@@ -415,6 +415,11 @@
 		&.x-button-pressing {
 			border-left-color: $carousel-navigation-button-pressed-color !important;
 		}
+
+		&:hover {
+			border-left-color: $button-pressing-color;
+			cursor: pointer;
+		}
 	}
 
 	&.arrow-left {
@@ -424,6 +429,11 @@
 
 		&.x-button-pressing {
 			border-right-color: $carousel-navigation-button-pressed-color !important;
+		}
+
+		&:hover {
+			border-right-color: $button-pressing-color;
+			cursor: pointer;
 		}
 	}
 }

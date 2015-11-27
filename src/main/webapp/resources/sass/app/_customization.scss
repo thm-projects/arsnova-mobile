@@ -46,9 +46,13 @@ html, body,
 	font-family: $label-font-family;
 }
 
+.x-button,
 .x-tab-icon,
-.x-button {
-	cursor: pointer;
+.x-clear-icon,
+.demoSessionLabel {
+	&:hover {
+		cursor: pointer;
+	}
 }
 
 .iconBtn {
@@ -301,17 +305,24 @@ html, body,
 
 		&.toggleCorrectButton {
 			@include toolbar-button-config(
-				$toolbar-toogleCorrect-button-inactive-color,
+				$toolbar-toggleCorrect-button-inactive-color,
 				$toolbar-button-txt-color
 			);
 
 			&.x-button-pressed,
 			&.x-button-pressing {
 				@include toolbar-button-config(
-					$toolbar-toogleCorrect-button-active-color,
+					$toolbar-toggleCorrect-button-active-color,
 					$toolbar-button-txt-color
 				);
 			}
+		}
+		
+		&.qrCodeButton {
+			@include toolbar-button-config(
+				$toolbar-button-bg-color,
+				$toolbar-button-txt-color
+			);
 		}
 	}
 
@@ -447,6 +458,11 @@ html, body,
 
 .x-carousel-indicator span {
 	background-color: $carousel-indicator-color;
+
+	&:hover {
+		background-color: $button-pressing-color;
+		cursor: pointer;
+	}
 
 	&.x-carousel-indicator-active {
 		background-color: $carousel-indicator-active-color;

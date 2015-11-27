@@ -124,7 +124,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		});
 
 		this.demoSessionLabel = Ext.create('Ext.Label', {
-			cls: 'gravure selectable',
+			cls: 'gravure selectable demoSessionLabel',
 			style: 'margin-bottom: 15px; opacity: 0.9; font-size: 0.95em;',
 			hidden: !ARSnova.app.globalConfig.demoSessionKey,
 			html: Messages.DEMO_SESSION + ARSnova.app.globalConfig.demoSessionKey
