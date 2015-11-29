@@ -298,7 +298,7 @@ Ext.define("ARSnova.controller.Feature", {
 
 			// flashcard use case
 			tabPanel.inClassPanel.lectureQuestionButton.setText(
-				features.flashcard ? Messages.FLASHCARDS : Messages.LECTURE_QUESTION_LONG
+				features.flashcard ? Messages.FLASHCARDS : Messages.LECTURE_QUESTIONS_LONG
 			);
 
 			// peer grading use case
