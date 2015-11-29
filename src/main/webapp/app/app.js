@@ -162,10 +162,6 @@ Ext.application({
 			me.globalConfig = globalConfig;
 			me.mainTabPanel = Ext.create('ARSnova.view.MainTabPanel');
 			me.configLoaded.resolve();
-
-			if (!me.areLocalStorageLoginVarsUninitialized) {
-				me.closeSplashScreen();
-			}
 		}, function () {
 			console.error("Could not load configuration");
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.CONNECTION_PROBLEM, function () {
