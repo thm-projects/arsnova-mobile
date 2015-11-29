@@ -51,10 +51,11 @@ Ext.define('ARSnova.view.components.HintMessageBox', {
 		});
 
 		this.on('hide', function () {
-			ARSnova.app.innerScrollPanel = false;
+			ARSnova.app.innerScrollPanel = this.storedScrollPanel;
 		});
 
 		this.on('show', function () {
+			this.storedScrollPanel = ARSnova.app.innerScrollPanel;
 			ARSnova.app.innerScrollPanel = this;
 		});
 
