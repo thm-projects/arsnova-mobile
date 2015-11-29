@@ -707,6 +707,7 @@ Ext.define('ARSnova.view.Question', {
 				if (this.questionObj.showAnswer) {
 					this.hintIcon.setHidden(!this.questionObj.solution);
 					this.hintIcon.setIconCls('icon-bullhorn');
+					this.hintIcon.addCls('solution');
 					this.hintIcon.setHandler(function (button) {
 						this.solutionPanel.show();
 					});

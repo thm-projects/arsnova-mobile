@@ -469,6 +469,24 @@ html, body,
 	}
 }
 
+.sessionInfoButton.maskClickable {
+	color: $icon-hint-color;
+
+	&:hover {
+		color: $button-pressing-color !important;
+		cursor: pointer;
+	}
+}
+
+.sessionInfoButton.solution.maskClickable {
+	color: $icon-solution-color;
+
+	&:hover {
+		color: $button-pressing-color !important;
+		cursor: pointer;
+	}
+}
+
 .isInactive {
 	color: $brand-danger;
 }
