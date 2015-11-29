@@ -638,7 +638,7 @@
 				NEW_VERSION_TITLE: "Neue Version",
 				NEW_VERSION_AVAILABLE: "Eine neue Version von ARSnova ist verfügbar. Möchten Sie aktualisieren?",
 				PRESENTER: "Presenter",
-				SESSION_ID: "Session-ID",
+				SESSION_ID: "Session",
 				OF: "von",
 
 				/* session import */
