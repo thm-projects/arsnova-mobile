@@ -534,7 +534,7 @@ code {
 
 	&:hover {
 		background-color: $caption-bg-color;
-		cursor: initial;
+		cursor: initial !important;
 	}
 }
 
