@@ -19,7 +19,7 @@
 
 /** default colors **/
 $default-white-color: #FFF;
-$default-green-color: #88BA24;
+$default-green-color: #3D9C19;
 $default-grey-color: #394a59;
 $default-lightgrey-color: #788895;
 $default-red-color: #971b2f;
@@ -98,10 +98,10 @@ $icon-release-timer-color: $button-icon-alternative-color;
 $icon-lock-unlocked-color: $button-icon-color;
 $icon-lock-locked-color: $default-red-color;
 $icon-chart-color: $button-icon-alternative-color;
-$icon-bullhorn-color: $button-icon-alternative-color;
-$icon-presenter-color: $button-icon-alternative-color;
-$icon-hint-color: $default-red-color;
-$icon-solution-color: $default-green-color;
+$icon-bullhorn-color: $default-orange-color;
+$icon-presenter-color: $default-orange-color;
+$icon-hint-color: $default-orange-color;
+$icon-solution-color: $default-orange-color;
 
 
 /** form color configuration **/
@@ -130,15 +130,15 @@ $question-container-border-color: $default-white-color;
 
 
 /** toolbar color configuration **/
-$toolbar-bg-color: $brand-primary;
+$toolbar-bg-color: $brand-secondary;
 $toolbar-title-txt-color: $default-white-color;
 $toolbar-speaker-title-color: $default-white-color;
-$toolbar-button-bg-color: $brand-secondary;
+$toolbar-button-bg-color: $default-orange-color;
 $toolbar-button-txt-color: $default-white-color;
 $toolbar-back-button-bg-color: $brand-buttons;
 $toolbar-back-button-txt-color: $brand-text;
-$toolbar-toggleCorrect-button-active-color: $brand-info;
-$toolbar-toggleCorrect-button-inactive-color: $brand-success;
+$toolbar-toggleCorrect-button-active-color: $brand-primary;
+$toolbar-toggleCorrect-button-inactive-color: $default-orange-color;
 
 
 /** tabbar icon color configuration **/
