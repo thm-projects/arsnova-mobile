@@ -33,6 +33,12 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 
 	buttonClicked: null,
 	feedbackChart: null,
+	feedbackValues: {
+		GOOD: 0,
+		OK: 1,
+		BAD: 2,
+		GONE: 3
+	},
 
 	/* toolbar items */
 	toolbar: null,
@@ -80,11 +86,9 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		});
 
 		this.feedbackOkButton = Ext.create('Ext.Panel', {
-			flex: 1,
-
 			items: [{
 				xtype: 'matrixbutton',
-				value: 'Kann folgen',
+				value: this.feedbackValues.OK,
 				cls: 'feedbackStatisticButton voteButton feedbackOkBackground ' + buttonCls,
 				imageCls: 'icon-happy',
 				handler: this.buttonClicked
@@ -92,12 +96,9 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		});
 
 		this.feedbackGoodButton = Ext.create('Ext.Panel', {
-			cls: 'voteButtons',
-			flex: 1,
-
 			items: [{
 				xtype: 'matrixbutton',
-				value: 'Bitte schneller',
+				value: this.feedbackValues.GOOD,
 				cls: 'feedbackStatisticButton voteButton feedbackGoodBackground ' + buttonCls,
 				imageCls: 'icon-wink',
 				handler: this.buttonClicked
@@ -105,12 +106,9 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		});
 
 		this.feedbackBadButton = Ext.create('Ext.Panel', {
-			cls: 'voteButtons',
-			flex: 1,
-
 			items: [{
 				xtype: 'matrixbutton',
-				value: 'Zu schnell',
+				value: this.feedbackValues.BAD,
 				cls: 'feedbackStatisticButton voteButton feedbackBadBackground ' + buttonCls,
 				imageCls: 'icon-shocked',
 				handler: this.buttonClicked
@@ -118,12 +116,9 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		});
 
 		this.feedbackNoneButton = Ext.create('Ext.Panel', {
-			cls: 'voteButtons',
-			flex: 1,
-
 			items: [{
 				xtype: 'matrixbutton',
-				value: 'Nicht mehr dabei',
+				value: this.feedbackValues.GONE,
 				cls: 'feedbackStatisticButton voteButton feedbackNoneBackground ' + buttonCls,
 				imageCls: 'icon-sad',
 				handler: this.buttonClicked
@@ -132,6 +127,10 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 
 		this.feedbackButtons = Ext.create('Ext.Toolbar', {
 			docked: 'top',
+			defaults: {
+				cls: 'voteButtons',
+				flex: 1
+			},
 
 			items: [
 				this.feedbackOkButton,
@@ -153,10 +152,10 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			store: Ext.create('Ext.data.Store', {
 				fields: ['name', 'displayName', 'value', 'percent'],
 				data: [
-					{'name': 'Kann folgen', 'displayName': Messages.FEEDBACK_OKAY, 'value': 0, 'percent': 0.0},
-					{'name': 'Bitte schneller', 'displayName': Messages.FEEDBACK_GOOD, 'value': 0, 'percent': 0.0},
-					{'name': 'Zu schnell', 'displayName': Messages.FEEDBACK_BAD, 'value': 0, 'percent': 0.0},
-					{'name': 'Nicht mehr dabei', 'displayName': Messages.FEEDBACK_NONE, 'value': 0, 'percent': 0.0}
+					{'name': this.feedbackValues.OK, 'displayName': Messages.FEEDBACK_OKAY, 'value': 0, 'percent': 0.0},
+					{'name': this.feedbackValues.GOOD, 'displayName': Messages.FEEDBACK_GOOD, 'value': 0, 'percent': 0.0},
+					{'name': this.feedbackValues.BAD, 'displayName': Messages.FEEDBACK_BAD, 'value': 0, 'percent': 0.0},
+					{'name': this.feedbackValues.GONE, 'displayName': Messages.FEEDBACK_NONE, 'value': 0, 'percent': 0.0}
 				]
 			}),
 

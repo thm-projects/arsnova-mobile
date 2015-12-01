@@ -32,6 +32,12 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 	toolbar: null,
 	backButton: null,
 	questionButton: null,
+	feedbackValues: {
+		GOOD: 0,
+		OK: 1,
+		BAD: 2,
+		GONE: 3
+	},
 
 	initialize: function () {
 		this.callParent(arguments);
@@ -83,31 +89,23 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 				type: 'hbox',
 				pack: 'center'
 			},
+			defaults: {
+				xtype: 'matrixbutton',
+				buttonConfig: 'icon',
+				cls: 'noPadding noBackground voteButton',
+				handler: this.buttonClicked
+			},
 			items: [
 				{
-					xtype: 'matrixbutton',
-					buttonConfig: 'icon',
 					text: Messages.FEEDBACK_OKAY,
-					cls: 'noPadding noBackground voteButton feedbackOkBackground',
-					value: 'Kann folgen',
+					value: this.feedbackValues.OK,
+					cls: 'feedbackOkBackground',
 					imageCls: 'icon-happy',
-					handler: function (button) {
-						ARSnova.app.getController('Feedback').vote({
-							value: button.config.value
-						});
-					}
 				}, {
-					xtype: 'matrixbutton',
-					buttonConfig: 'icon',
 					text: Messages.FEEDBACK_GOOD,
-					cls: 'noPadding noBackground voteButton feedbackGoodBackground',
-					value: 'Bitte schneller',
+					value: this.feedbackValues.GOOD,
+					cls: 'feedbackGoodBackground',
 					imageCls: "icon-wink",
-					handler: function (button) {
-						ARSnova.app.getController('Feedback').vote({
-							value: button.config.value
-						});
-					},
 					style: "margin-left:10px"
 				}
 			]
@@ -119,32 +117,24 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 				type: 'hbox',
 				pack: 'center'
 			},
+			defaults: {
+				xtype: 'matrixbutton',
+				buttonConfig: 'icon',
+				cls: 'noPadding noBackground voteButton',
+				handler: this.buttonClicked
+			},
 			style: "margin-top:10px",
 			items: [
 				{
-					xtype: 'matrixbutton',
-					buttonConfig: 'icon',
 					text: Messages.FEEDBACK_BAD,
-					cls: 'noPadding noBackground voteButton feedbackBadBackground',
-					value: 'Zu schnell',
-					imageCls: "icon-shocked",
-					handler: function (button) {
-						ARSnova.app.getController('Feedback').vote({
-							value: button.config.value
-						});
-					}
+					value: this.feedbackValues.BAD,
+					cls: 'feedbackBadBackground',
+					imageCls: "icon-shocked"
 				}, {
-					xtype: 'matrixbutton',
-					buttonConfig: 'icon',
 					text: Messages.FEEDBACK_NONE,
-					cls: 'noPadding noBackground voteButton feedbackNoneBackground',
-					value: 'Nicht mehr dabei',
+					value: this.feedbackValues.GONE,
+					cls: 'feedbackNoneBackground',
 					imageCls: "icon-sad",
-					handler: function (button) {
-						ARSnova.app.getController('Feedback').vote({
-							value: button.config.value
-						});
-					},
 					style: "margin-left:10px"
 				}
 
@@ -174,6 +164,12 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 			this.buttonPanelBottom,
 			this.questionRequestButton
 		]);
+	},
+
+	buttonClicked: function (button) {
+		ARSnova.app.getController('Feedback').vote({
+			value: button.config.value
+		});
 	},
 
 	setSinglePageMode: function (singlePageMode, tabPanel) {

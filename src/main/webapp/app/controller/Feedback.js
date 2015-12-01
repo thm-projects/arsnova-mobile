@@ -36,32 +36,11 @@ Ext.define("ARSnova.controller.Feedback", {
 			return;
 		}
 
-		var feedbackValue;
-		var feedbackCls;
-		switch (options.value) {
-			case "Kann folgen":
-				feedbackCls = "happy";
-				feedbackValue = 1;
-				break;
-			case "Bitte schneller":
-				feedbackCls = "wink";
-				feedbackValue = 0;
-				break;
-			case "Zu schnell":
-				feedbackCls = "shocked";
-				feedbackValue = 2;
-				break;
-			case "Nicht mehr dabei":
-				feedbackCls = "sad";
-				feedbackValue = 3;
-				break;
-			case "cancel":
-				return;
-			default:
-				return;
+		if (options.value < 0 || options.value > 3) {
+			return;
 		}
 
-		ARSnova.app.feedbackModel.postFeedback(feedbackValue);
+		ARSnova.app.feedbackModel.postFeedback(options.value);
 
 		fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 		fP.animateActiveItem(fP.statisticPanel, {
