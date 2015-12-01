@@ -96,6 +96,7 @@
 			top: 4px;
 
 			.x-loading-spinner {
+				position: fixed !important;
 				-webkit-transform-origin: 0.5em 0.4em;
 				transform-origin: 0.5em 0.4em;
 
