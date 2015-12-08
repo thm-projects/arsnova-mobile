@@ -23,6 +23,7 @@ Ext.define("ARSnova.controller.Feature", {
 		custom: true,
 		total: false,
 		clicker: false,
+		liveClicker: false,
 		liveFeedback: false,
 		flashcard: false,
 		peerGrading: false
@@ -37,7 +38,7 @@ Ext.define("ARSnova.controller.Feature", {
 		learningProgress: true
 	},
 
-	applyFeatures: function () {
+	applyFeatures: function (prevFeatures) {
 		var features = Ext.decode(sessionStorage.getItem("features"));
 
 		var useCases = {
@@ -45,9 +46,16 @@ Ext.define("ARSnova.controller.Feature", {
 			peerGrading: this.applyPeerGradingUseCase,
 			flashcard: this.applyFlashcardUseCase,
 			liveFeedback: this.applyLiveFeedbackUseCase,
+			liveClicker: this.applyLiveClickerUseCase,
 			total: this.applyTotalUseCase,
 			custom: this.applyCustomUseCase
 		};
+
+		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER &&
+			prevFeatures && (prevFeatures.liveClicker || features.liveClicker)) {
+			ARSnova.app.getController('Sessions').liveClickerSessionReload(prevFeatures);
+			return;
+		}
 
 		for (var property in features) {
 			if (features[property] && typeof useCases[property] === 'function') {
@@ -74,6 +82,25 @@ Ext.define("ARSnova.controller.Feature", {
 
 	applyTotalUseCase: function (useCases) {
 		this.applyCustomUseCase(useCases, this.features);
+	},
+
+	applyLiveClickerUseCase: function (useCases, featureChange) {
+		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+		var fP = tabPanel.feedbackTabPanel;
+
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER ||
+			localStorage.getItem('lastVisitedRole') === ARSnova.app.USER_ROLE_SPEAKER) {
+			this.applyCustomUseCase(useCases, this.getFeatureValues(useCases));
+			tabPanel.speakerTabPanel.inClassPanel.showcaseActionButton.setHidden(false);
+			tabPanel.speakerTabPanel.inClassPanel.changeActionButtonsMode('liveClicker');
+			tabPanel.feedbackTabPanel.tab.show();
+		} else {
+			this.setSinglePageMode('feedback', {});
+		}
+
+		fP.statisticPanel.initializeOptionButtons();
+		fP.statisticPanel.setToolbarTitle(Messages.QUESTION_LIVE_CLICKER);
+		fP.votePanel.setToolbarTitle(Messages.QUESTION_LIVE_CLICKER);
 	},
 
 	applyCustomUseCase: function (useCases, features) {
@@ -119,8 +146,16 @@ Ext.define("ARSnova.controller.Feature", {
 			features.jitt = false;
 			features.learningProgress = false;
 			features.interposed = false;
-			features.learningProgress = false;
 			features.feedback = false;
+			features.pi = false;
+		}
+
+		if (useCases.liveClicker) {
+			features.jitt = false;
+			features.learningProgress = false;
+			features.interposed = false;
+			features.feedback = false;
+			features.lecture = false;
 			features.pi = false;
 		}
 
@@ -263,6 +298,12 @@ Ext.define("ARSnova.controller.Feature", {
 		var tP = ARSnova.app.mainTabPanel.tabPanel;
 		var tabPanel = isSpeaker ? tP.speakerTabPanel : tP.userTabPanel;
 
+		tP.feedbackTabPanel.statisticPanel.setToolbarTitle(localStorage.getItem('shortName'));
+		tP.feedbackTabPanel.statisticPanel.initializeOptionButtons();
+		tP.feedbackTabPanel.votePanel.setToolbarTitle(Messages.FEEDBACK);
+		tP.feedbackTabPanel.votePanel.initializeOptionButtons();
+		tP.feedbackTabPanel.statisticPanel.updateTabBar();
+
 		if (isSpeaker) {
 			tabPanel.inClassPanel.showcaseActionButton.setHidden(!hasQuestionFeatures);
 			tabPanel.inClassPanel.createAdHocQuestionButton.setHidden(!hasQuestionFeatures);
@@ -284,7 +325,7 @@ Ext.define("ARSnova.controller.Feature", {
 			tP.userQuestionsPanel.tab.setHidden(!hasQuestionFeatures);
 
 			// hide question request button if interposed feature is disabled
-			tP.feedbackTabPanel.votePanel.questionRequestButton.setHidden(feedbackWithoutInterposed);
+			tP.feedbackTabPanel.votePanel.questionRequestButton.setHidden(feedbackWithoutInterposed || features.liveClicker);
 
 			if (features.jitt && !features.lecture) {
 				tP.userQuestionsPanel.setPreparationMode();
