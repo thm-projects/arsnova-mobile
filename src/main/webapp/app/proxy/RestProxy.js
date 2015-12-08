@@ -868,6 +868,15 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
+	lockFeedbackInput: function (sessionKeyword, lock, callbacks) {
+		this.arsjax.request({
+			url: "session/" + sessionKeyword + "/lockfeedbackinput?lock=" + lock,
+			method: "POST",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
 	getFeedback: function (sessionKeyword, callbacks) {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/feedback/",
@@ -1005,6 +1014,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			failure: callbacks.failure
 		});
 	},
+
 	changeFeatures: function (keyword, features, callbacks) {
 		this.arsjax.request({
 			url: "session/" + encodeURIComponent(keyword) + "/features",
