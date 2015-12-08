@@ -179,40 +179,36 @@ Ext.define('ARSnova.view.user.InClass', {
 			handler: this.buttonClicked
 		});
 
-		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
-			this.myQuestionsButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-				ui: 'normal',
-				text: Messages.MY_QUESTIONS,
-				cls: 'forwardListButton',
-				badgeCls: 'badgeicon',
-				controller: 'Questions',
-				action: 'listFeedbackQuestions',
-				handler: this.buttonClicked
-			});
-		}
+		this.myQuestionsButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+			ui: 'normal',
+			text: Messages.MY_QUESTIONS,
+			cls: 'forwardListButton',
+			badgeCls: 'badgeicon',
+			controller: 'Questions',
+			action: 'listFeedbackQuestions',
+			handler: this.buttonClicked,
+			hidden: !ARSnova.app.globalConfig.features.studentsOwnQuestions
+		});
 
-		if (ARSnova.app.globalConfig.features.learningProgress) {
-			this.myLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
-				id: 'myLearningProgress',
-				ui: 'normal',
-				text: Messages.MY_LEARNING_PROGRESS,
-				cls: 'forwardListButton',
-				badgeCls: 'badgeicon',
-				disabledCls: '',
-				controller: 'Questions',
-				action: 'showLearningProgress',
-				handler: this.buttonClicked
-			});
-		}
+		this.myLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+			id: 'myLearningProgress',
+			ui: 'normal',
+			text: Messages.MY_LEARNING_PROGRESS,
+			cls: 'forwardListButton',
+			badgeCls: 'badgeicon',
+			disabledCls: '',
+			controller: 'Questions',
+			action: 'showLearningProgress',
+			handler: this.buttonClicked,
+			hidden: !ARSnova.app.globalConfig.features.learningProgress
+		});
 
 		var buttons = [];
 		buttons.push(
 			this.lectureQuestionButton,
-			this.preparationQuestionButton
+			this.preparationQuestionButton,
+			this.myQuestionsButton
 		);
-		if (ARSnova.app.globalConfig.features.studentsOwnQuestions) {
-			buttons.push(this.myQuestionsButton);
-		}
 
 		this.inClassButtons = Ext.create('Ext.form.FormPanel', {
 			cls: 'standardForm topPadding',

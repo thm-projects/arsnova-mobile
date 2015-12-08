@@ -409,6 +409,10 @@ html, body,
 				color: $tabbar-button-active-icon-color;
 			}
 
+			&.voteIcons.lockedFeedback:before {
+				color: $brand-warning !important;
+			}
+
 			&.voteIcons:before {
 				color: $smiley-color;
 			}

@@ -24,32 +24,76 @@
 }
 
 .feedbackOkBackground .iconBtn {
-	background: #80ba24;
+	background: $feedback-ok-background-color;
 }
 
 .feedbackGoodBackground .iconBtn {
-	background: #f2a900;
+	background: $feedback-good-background-color;
 }
 
+.feedbackBadColor,
 .feedbackBadBackground .iconBtn {
-	background: #971b2f;
+	background: $feedback-bad-background-color;
 }
 
+.feedbackNoneColor,
 .feedbackNoneBackground .iconBtn {
-	background: #4a5c66;
+	background: $feedback-gone-background-color;
 	color: #000;
+}
+
+.liveClickerOption {
+	.iconBtn {
+		background-color: $vote-student-abcd-button-color;
+
+		.iconBtnImg {
+		    margin: 13px 0px 0px 15px !important;
+
+			&:before {
+				color: $vote-student-abcd-button-text-color;
+				position: absolute;
+				text-align: center;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+			}
+		}
+
+		.option-a:before {
+			content: "A";
+		}
+
+		.option-b:before {
+			content: "B";
+		}
+
+		.option-c:before {
+			content: "C";
+		}
+
+		.option-d:before {
+			content: "D";
+		}
+	}
 }
 
 .statisticsButton.x-item-disabled .x-button-label {
 	opacity: 1;
 }
 
-.feedbackStatisticButton.voteButton.smallerMatrixButtons .iconBtn {
-	width: 70px;
-	height: 70px;
+.feedbackStatisticButton.voteButton.smallerMatrixButtons {
+	.iconBtn {
+		width: 70px;
+		height: 70px;
+	}
 
 	.iconBtnImg {
 		margin: 11px 0 0 10.5px;
+	}
+
+	&.liveClickerOption .iconBtnImg {
+		margin: 8px 0 0 10.5px !important;
 	}
 }
  
@@ -366,7 +410,7 @@
 }
 
 .voteButtonsPanel,
-.speakerVoteButtonsPanel {
+.noButtonsVotePanel {
 	background: $background-color;
 	padding-left: 10px;
 	padding-right: 10px;
@@ -374,7 +418,7 @@
 	border-bottom: none !important;
 }
 
-.speakerVoteButtonsPanel {
+.noButtonsVotePanel {
 	.iconBtn,
 	.x-button {
 		background: transparent;
@@ -394,6 +438,11 @@
 	.iconBtn .iconBtnImg:before {
 		box-shadow: 0px 0px 4px $smiley-bg-color;
 		border-radius: 50%;
+	}
+
+	.liveClickerOption .iconBtn .iconBtnImg:before {
+		color: $vote-speaker-abcd-option-text-color;
+		box-shadow: none;
 	}
 }
 
