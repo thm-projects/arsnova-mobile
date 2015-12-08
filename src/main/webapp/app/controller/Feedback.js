@@ -49,6 +49,38 @@ Ext.define("ARSnova.controller.Feedback", {
 		});
 	},
 
+	onLockedFeedback: function () {
+		var features = Ext.decode(sessionStorage.getItem("features"));
+
+		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
+			var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
+			fP.animateActiveItem(fP.statisticPanel, {
+				type: 'slide',
+				direction: 'up'
+			});
+
+			if (features.liveClicker) {
+				Ext.toast(Messages.VOTING_CLOSED, 2000);
+			}
+		}
+	},
+
+	onReleasedFeedback: function () {
+		var features = Ext.decode(sessionStorage.getItem("features"));
+
+		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
+			var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
+			fP.animateActiveItem(fP.votePanel, {
+				type: 'slide',
+				direction: 'down'
+			});
+
+			if (features.liveClicker) {
+				Ext.toast(Messages.VOTING_OPENED, 2000);
+			}
+		}
+	},
+
 	ask: function (options) {
 		options.question.saveInterposed({
 			success: options.success,
@@ -86,5 +118,76 @@ Ext.define("ARSnova.controller.Feedback", {
 			fP.activeItem = 1;
 		}
 		tP.setActiveItem(fP);
+	},
+
+	initializeVoteButtonConfigurations: function (panel) {
+		var features = Ext.decode(sessionStorage.getItem("features"));
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+		var buttonWidthCls = screenWidth < 400 ? 'smallerMatrixButtons' : '';
+		var buttonCls, buttonConfigurations = {};
+		var buttonTexts = new Array("", "", "", "");
+		var options = [];
+
+		if (panel.getTitle() === 'StatisticPanel') {
+			buttonCls = 'feedbackStatisticButton voteButton ' + buttonWidthCls;
+		} else {
+			buttonCls = 'noPadding noBackground voteButton';
+			buttonTexts = features.liveClicker ? buttonTexts : [
+				Messages.FEEDBACK_OKAY, Messages.FEEDBACK_GOOD,
+				Messages.FEEDBACK_BAD, Messages.FEEDBACK_NONE
+			];
+		}
+
+		if (features.liveClicker) {
+			options[0] = [panel.answerValues.A, 'liveClickerOption ' + buttonCls, 'option-a'];
+			options[1] = [panel.answerValues.B, 'liveClickerOption ' + buttonCls, 'option-b'];
+			options[2] = [panel.answerValues.C, 'liveClickerOption ' + buttonCls, 'option-c'];
+			options[3] = [panel.answerValues.D, 'liveClickerOption ' + buttonCls, 'option-d'];
+		} else {
+			options[0] = [panel.feedbackValues.OK, 'feedbackOkBackground ' + buttonCls, 'icon-happy'];
+			options[1] = [panel.feedbackValues.GOOD, 'feedbackGoodBackground ' + buttonCls, 'icon-wink'];
+			options[2] = [panel.feedbackValues.BAD, 'feedbackBadBackground ' + buttonCls, 'icon-shocked'];
+			options[3] = [panel.feedbackValues.GONE, 'feedbackNoneBackground ' + buttonCls, 'icon-sad'];
+		}
+
+		for (var i = 0; i < options.length; i++) {
+			buttonConfigurations['option' + i] = {
+				cls: options[i][1],
+				value: options[i][0],
+				imageCls: options[i][2],
+				handler: panel.buttonClicked,
+				text: buttonTexts[i],
+				xtype: 'matrixbutton'
+			};
+		}
+
+		buttonConfigurations.clicker = features.liveClicker;
+		return buttonConfigurations;
+	},
+
+	initializeChartStore: function (panel) {
+		var chartData = [];
+		var features = Ext.decode(sessionStorage.getItem("features"));
+
+		if (features.liveClicker) {
+			chartData = [
+				{'name': panel.answerValues.A, 'displayName': 'A', 'value': 0, 'percent': 0.0},
+				{'name': panel.answerValues.B, 'displayName': 'B', 'value': 0, 'percent': 0.0},
+				{'name': panel.answerValues.C, 'displayName': 'C', 'value': 0, 'percent': 0.0},
+				{'name': panel.answerValues.D, 'displayName': 'D', 'value': 0, 'percent': 0.0}
+			];
+		} else {
+			chartData = [
+				{'name': panel.feedbackValues.OK, 'displayName': Messages.FEEDBACK_OKAY, 'value': 0, 'percent': 0.0},
+				{'name': panel.feedbackValues.GOOD, 'displayName': Messages.FEEDBACK_GOOD, 'value': 0, 'percent': 0.0},
+				{'name': panel.feedbackValues.BAD, 'displayName': Messages.FEEDBACK_BAD, 'value': 0, 'percent': 0.0},
+				{'name': panel.feedbackValues.GONE, 'displayName': Messages.FEEDBACK_NONE, 'value': 0, 'percent': 0.0}
+			];
+		}
+
+		return Ext.create('Ext.data.Store', {
+			fields: ['name', 'displayName', 'value', 'percent'],
+			data: chartData
+		});
 	}
 });
