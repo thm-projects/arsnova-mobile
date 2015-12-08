@@ -98,9 +98,11 @@ Ext.define("ARSnova.controller.Feature", {
 			this.setSinglePageMode('feedback', {});
 		}
 
+		fP.votePanel.initializeOptionButtons();
 		fP.statisticPanel.initializeOptionButtons();
 		fP.statisticPanel.setToolbarTitle(Messages.QUESTION_LIVE_CLICKER);
 		fP.votePanel.setToolbarTitle(Messages.QUESTION_LIVE_CLICKER);
+		fP.votePanel.questionRequestButton.setHidden(true);
 	},
 
 	applyCustomUseCase: function (useCases, features) {
@@ -325,7 +327,7 @@ Ext.define("ARSnova.controller.Feature", {
 			tP.userQuestionsPanel.tab.setHidden(!hasQuestionFeatures);
 
 			// hide question request button if interposed feature is disabled
-			tP.feedbackTabPanel.votePanel.questionRequestButton.setHidden(feedbackWithoutInterposed || features.liveClicker);
+			tP.feedbackTabPanel.votePanel.questionRequestButton.setHidden(feedbackWithoutInterposed);
 
 			if (features.jitt && !features.lecture) {
 				tP.userQuestionsPanel.setPreparationMode();
