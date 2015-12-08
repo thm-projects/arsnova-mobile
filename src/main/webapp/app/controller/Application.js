@@ -388,6 +388,27 @@ Ext.define("ARSnova.controller.Application", {
 	},
 
 	/**
+	 * retrieve and set feedback and vote chart styling options
+	 */
+	setFeedbackChartColors: function () {
+		var dummyElem = [
+			document.getElementsByClassName('feedbackOkColor')[0],
+			document.getElementsByClassName('feedbackGoodColor')[0],
+			document.getElementsByClassName('feedbackBadColor')[0],
+			document.getElementsByClassName('feedbackNoneColor')[0],
+			document.getElementsByClassName('abcdBarChartColor')[0]
+		];
+
+		ARSnova.app.feedbackChartStyleConfig = {
+			okColor: window.getComputedStyle(dummyElem[0], null).getPropertyValue('color'),
+			goodColor: window.getComputedStyle(dummyElem[1], null).getPropertyValue('color'),
+			badColor: window.getComputedStyle(dummyElem[2], null).getPropertyValue('color'),
+			noneColor: window.getComputedStyle(dummyElem[3], null).getPropertyValue('color'),
+			abcdColor: window.getComputedStyle(dummyElem[4], null).getPropertyValue('color')
+		};
+	},
+
+	/**
 	 * adds mouse scrolling feature if app is used in desktop browser
 	 */
 	initializeAdvancedScrolling: function () {

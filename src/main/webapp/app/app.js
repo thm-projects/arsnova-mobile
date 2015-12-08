@@ -123,6 +123,9 @@ Ext.application({
 	/* other*/
 	cardSwitchDuration: 500,
 	projectorModeActive: false,
+	isFeedbackLocked: false,
+	timerStyleConfig: null,
+	feedbackChartStyleConfig: null,
 	socket: null,
 	globalConfig: null,
 	configLoaded: null,

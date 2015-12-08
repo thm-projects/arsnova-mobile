@@ -151,6 +151,20 @@ $tabbar-notification-badge-text-color: $default-grey-color;
 $tabbar-notification-badge-border-color: $default-white-color;
 
 
+/** live feedback configuration **/
+$feedback-ok-background-color: $default-green-color; /* can follow */
+$feedback-good-background-color: $default-orange-color;  /* faster, please! */
+$feedback-bad-background-color: $default-red-color; /* too fast! */ 
+$feedback-gone-background-color: $default-grey-color; /* you have lost me */
+
+
+/** live vote configuration **/
+$vote-speaker-abcd-option-text-color: $brand-text;
+$vote-student-abcd-button-color: $toolbar-bg-color;
+$vote-student-abcd-button-text-color: $toolbar-title-txt-color;
+$vote-abcd-chart-bar-color: $vote-student-abcd-button-color;
+
+
 /** carousel indicator and navigation color configuration **/
 $carousel-indicator-color: $brand-primary;
 $carousel-indicator-active-color: $brand-secondary;
