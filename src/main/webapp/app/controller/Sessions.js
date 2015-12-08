@@ -77,6 +77,7 @@ Ext.define("ARSnova.controller.Sessions", {
 
 				sessionStorage.setItem('keyword', obj.keyword);
 				sessionStorage.setItem('features', Ext.encode(obj.features));
+				ARSnova.app.feedbackModel.lock = obj.feedbackLock;
 
 				// initialize MathJax
 				ARSnova.app.getController('MathJaxMarkdown').initializeMathJax();
@@ -108,7 +109,7 @@ Ext.define("ARSnova.controller.Sessions", {
 		});
 	},
 
-	logout: function () {
+	logout: function (prevFeatures) {
 		ARSnova.app.socket.setSession(null);
 		ARSnova.app.sessionModel.fireEvent(ARSnova.app.sessionModel.events.sessionLeave);
 
@@ -155,9 +156,15 @@ Ext.define("ARSnova.controller.Sessions", {
 			tabPanel.feedbackQuestionsPanel.tab.hide();
 		} else {
 			/* hide user tab panel and destroy listeners */
-			tabPanel.userQuestionsPanel.tab.hide();
-			tabPanel.userTabPanel.tab.hide();
-			tabPanel.userTabPanel.inClassPanel.destroyListeners();
+
+			if (tabPanel.userTabPanel) {
+				tabPanel.userTabPanel.tab.hide();
+				tabPanel.userTabPanel.inClassPanel.destroyListeners();
+			}
+
+			if (tabPanel.userQuestionsPanel) {
+				tabPanel.userQuestionsPanel.tab.hide();
+			}
 
 			if (localStorage.getItem('lastVisitedRole') === ARSnova.app.USER_ROLE_SPEAKER) {
 				localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
@@ -170,14 +177,64 @@ Ext.define("ARSnova.controller.Sessions", {
 		tabPanel.feedbackTabPanel.tab.hide();
 	},
 
+	liveClickerSessionReload: function (prevFeatures) {
+		var keyword = sessionStorage.getItem("keyword");
+		Ext.toast('Session wird neu geladen...', 3000);
+		ARSnova.app.getController('Sessions').logout(prevFeatures);
+		ARSnova.app.getController('Sessions').login({keyword: keyword});
+	},
+
 	reloadData: function (animation, hideLoadMask) {
-		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+		var features = Ext.decode(sessionStorage.getItem("features"));
 		hideLoadMask = hideLoadMask || Ext.emptyFn;
 
 		animation = animation || {
 			type: 'slide',
 			duration: 700
 		};
+
+		if (features.liveClicker && ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER
+			&& localStorage.getItem('lastVisitedRole') !== ARSnova.app.USER_ROLE_SPEAKER) {
+			this.loadClickerSession(animation, hideLoadMask);
+		} else {
+			this.loadDefaultSession(animation, hideLoadMask);
+		}
+	},
+
+	loadClickerSession: function (animation, hideLoadMask) {
+		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+
+		/* add feedback statistic panel*/
+		if (!tabPanel.feedbackTabPanel) {
+			tabPanel.feedbackTabPanel = Ext.create('ARSnova.view.feedback.TabPanel');
+			tabPanel.insert(3, tabPanel.feedbackTabPanel);
+		} else {
+			tabPanel.feedbackTabPanel.tab.show();
+			tabPanel.feedbackTabPanel.renew();
+		}
+
+		if (tabPanel.userTabPanel) {
+			tabPanel.userTabPanel.tab.hide();
+		}
+
+		if (tabPanel.userQuestionsPanel) {
+			tabPanel.userQuestionsPanel.tab.hide();
+		}
+
+		if (ARSnova.app.feedbackModel.lock) {
+			tabPanel.feedbackTabPanel.setActiveItem(tabPanel.feedbackTabPanel.statisticPanel);
+		} else {
+			tabPanel.feedbackTabPanel.setActiveItem(tabPanel.feedbackTabPanel.votePanel);
+		}
+
+		tabPanel.animateActiveItem(tabPanel.feedbackTabPanel, animation);
+		ARSnova.app.getController('Feature').applyFeatures();
+		ARSnova.app.sessionModel.sessionIsActive = true;
+		hideLoadMask();
+	},
+
+	loadDefaultSession: function (animation, hideLoadMask) {
+		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 
 		if (ARSnova.app.isSessionOwner && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			ARSnova.app.sessionModel.fireEvent(ARSnova.app.sessionModel.events.sessionJoinAsSpeaker);
