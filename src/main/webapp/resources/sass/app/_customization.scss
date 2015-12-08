@@ -405,6 +405,7 @@ html, body,
 
 		.x-button-icon {
 			&:before,
+			&.voteIcons.icon-chart:before,
 			&.voteIcons.icon-bullhorn:before {
 				color: $tabbar-button-active-icon-color;
 			}
