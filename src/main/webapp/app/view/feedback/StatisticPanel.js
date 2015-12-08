@@ -127,13 +127,6 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		});
 
 		this.initializeOptionButtons();
-		this.feedbackChartColors = [
-			'#80ba24', // green
-			'#f2a900', // orange
-			'#971b2f', // red
-			'#4a5c66'  // grey
-		];
-
 		this.feedbackChart = Ext.create('Ext.chart.CartesianChart', {
 			fullscreen: true,
 			store: this.controller.initializeChartStore(this),
@@ -182,10 +175,18 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				},
 				renderer: function (sprite, config, rendererData, i) {
 					var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel;
+					var features = Ext.decode(sessionStorage.getItem("features"));
 
-					rendererData = {
-						fill: panel.feedbackChartColors[i % panel.feedbackChartColors.length]
-					};
+					if (features.liveClicker) {
+						rendererData = {
+							fill: ARSnova.app.feedbackChartStyleConfig.abcdColor
+						};
+					} else {
+						rendererData = {
+							fill: panel.feedbackChartColors[i % panel.feedbackChartColors.length]
+						};
+					}
+
 					return rendererData;
 				}
 			}]
@@ -195,6 +196,13 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 
 		this.onBefore('activate', function () {
 			var me = this;
+
+			this.feedbackChartColors = [
+    			ARSnova.app.feedbackChartStyleConfig.okColor,
+    			ARSnova.app.feedbackChartStyleConfig.goodColor,
+    			ARSnova.app.feedbackChartStyleConfig.badColor,
+    			ARSnova.app.feedbackChartStyleConfig.noneColor
+    		];
 
 			ARSnova.app.feedbackModel.getFeedback(sessionStorage.getItem('keyword'), {
 				success: function (response) {
