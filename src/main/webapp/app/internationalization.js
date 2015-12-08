@@ -76,7 +76,7 @@
 				/* homePanel */
 				LOGOUT: "Abmelden",
 				LOGOUT_REQUEST: "Möchten Sie sich wirklich von ARSnova abmelden?",
-				SESSIONID_PLACEHOLDER: "Zugangsschlüssel (8 Ziffern)",
+				SESSIONID_PLACEHOLDER: "Zugangsschlüssel",
 				ENTER_SESSIONID: "Bitte Session-ID eingeben",
 				GO: "Session betreten",
 				LOAD_MORE: "Weitere laden",
@@ -141,7 +141,7 @@
 				QUESTION_TEXT: "Frage",
 				QUESTION_TEXT_PLACEHOLDER: "Hinweis:  Hat die Lehrperson Ihre Frage gelesen, wird sie grau angezeigt. Antworten können in ARSnova nicht gegeben werden. Sie können auf Ihre Fragen nur in dem Browser zugreifen, den Sie gerade verwenden.",
 				QUESTION_SUBJECT: "Thema",
-				QUESTION_SUBJECT_PLACEHOLDER: "max. 50 Zeichen",
+				QUESTION_SUBJECT_PLACEHOLDER: "erscheint in der Übersicht, max. 50 Zeichen",
 				QUESTION_SAVED: 'Ihre Frage wurde gespeichert',
 				NOTIFICATION: "Hinweis",
 				TRANSMISSION_ERROR: "Die Übermittlung der Frage war leider nicht erfolgreich",
@@ -630,11 +630,11 @@
 				USECASE_ARSNOVA_CUSTOM: "Mein ARSnova",
 
 				/* errors */
-				SESSION_NOT_FOUND: "Diese Session existiert nicht",
+				SESSION_NOT_FOUND: "Diese Session gibt es nicht",
 				SESSION_LOCKED: "Die Session ist derzeit gesperrt",
 				CONNECTION_PROBLEM: "Die Verbindung zum Server konnte nicht hergestellt werden",
-				SESSION_ID_INVALID_LENGTH: "Die Session-ID muss 8-stellig sein.",
-				SESSION_ID_INVALID: "Die Session-ID muss aus acht Ziffern bestehen.",
+				SESSION_ID_INVALID_LENGTH: "Der Zugangsschlüssel muss 8-stellig sein",
+				SESSION_ID_INVALID: "Die Session-ID muss aus acht Ziffern bestehen",
 				BROWSER_SESSION_EXPIRED: "Browsersitzung",
 				BROWSER_SESSION_EXPIRED_MSG: "Ihre Browsersitzung ist abgelaufen. Möchten Sie ARSnova neustarten?",
 				QUESTION_COULD_NOT_BE_SAVED: "Das Speichern der Frage war leider nicht erfolgreich",
