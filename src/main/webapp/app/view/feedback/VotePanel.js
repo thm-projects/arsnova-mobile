@@ -32,6 +32,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 	toolbar: null,
 	backButton: null,
 	questionButton: null,
+
 	feedbackValues: {
 		GOOD: 0,
 		OK: 1,
@@ -39,8 +40,16 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 		GONE: 3
 	},
 
+	answerValues: {
+		A: 1,
+		B: 0,
+		C: 2,
+		D: 3
+	},
+
 	initialize: function () {
 		this.callParent(arguments);
+		this.controller = ARSnova.app.getController('Feedback');
 
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
@@ -75,13 +84,6 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 			]
 		});
 
-		if (Ext.os.is.Phone) {
-			this.arsLogo = {
-				xtype: 'panel',
-				style: {marginTop: '35px'}
-			};
-		}
-
 		this.buttonPanelTop = Ext.create('Ext.Panel', {
 			xtype: 'container',
 			style: 'margin-top:20px',
@@ -94,21 +96,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 				buttonConfig: 'icon',
 				cls: 'noPadding noBackground voteButton',
 				handler: this.buttonClicked
-			},
-			items: [
-				{
-					text: Messages.FEEDBACK_OKAY,
-					value: this.feedbackValues.OK,
-					cls: 'feedbackOkBackground',
-					imageCls: 'icon-happy',
-				}, {
-					text: Messages.FEEDBACK_GOOD,
-					value: this.feedbackValues.GOOD,
-					cls: 'feedbackGoodBackground',
-					imageCls: "icon-wink",
-					style: "margin-left:10px"
-				}
-			]
+			}
 		});
 
 		this.buttonPanelBottom = Ext.create('Ext.Panel', {
@@ -123,22 +111,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 				cls: 'noPadding noBackground voteButton',
 				handler: this.buttonClicked
 			},
-			style: "margin-top:10px",
-			items: [
-				{
-					text: Messages.FEEDBACK_BAD,
-					value: this.feedbackValues.BAD,
-					cls: 'feedbackBadBackground',
-					imageCls: "icon-shocked"
-				}, {
-					text: Messages.FEEDBACK_NONE,
-					value: this.feedbackValues.GONE,
-					cls: 'feedbackNoneBackground',
-					imageCls: "icon-sad",
-					style: "margin-left:10px"
-				}
-
-			]
+			style: "margin-top:10px"
 		});
 
 		this.questionRequestButton = Ext.create('Ext.Button', {
@@ -158,6 +131,8 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 			}
 		});
 
+		this.initializeOptionButtons();
+
 		this.add([
 			this.toolbar,
 			this.buttonPanelTop,
@@ -167,9 +142,33 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 	},
 
 	buttonClicked: function (button) {
-		ARSnova.app.getController('Feedback').vote({
-			value: button.config.value
-		});
+		if (ARSnova.app.feedbackModel.lock) {
+			ARSnova.app.getController('Feedback').onLockedFeedback();
+		} else {
+			ARSnova.app.getController('Feedback').vote({
+				value: button.config.value
+			});
+		}
+	},
+
+	setToolbarTitle: function (title) {
+		this.toolbar.setTitle(Ext.util.Format.htmlEncode(title));
+	},
+
+	initializeOptionButtons: function () {
+		var buttonConfigurations = this.controller.initializeVoteButtonConfigurations(this);
+		this.buttonPanelBottom.removeAll(true);
+		this.buttonPanelTop.removeAll(true);
+
+		var margin = buttonConfigurations.clicker ?
+			{style: "margin-left:50px"} : {style: "margin-left:10px"};
+
+		buttonConfigurations.option1 = Ext.merge({}, buttonConfigurations.option1, margin);
+		buttonConfigurations.option3 = Ext.merge({}, buttonConfigurations.option3, margin);
+
+		this.buttonPanelTop.add([buttonConfigurations.option0, buttonConfigurations.option1]);
+		this.buttonPanelBottom.add([buttonConfigurations.option2, buttonConfigurations.option3]);
+		this.questionRequestButton.setHidden(buttonConfigurations.clicker);
 	},
 
 	setSinglePageMode: function (singlePageMode, tabPanel) {
