@@ -622,7 +622,7 @@
 				USECASES: "Einsatz-Szenarien",
 				USECASES_CHOOSE: "Einsatz-Szenario auswählen",
 				USECASE_CLICKER: "Clicker",
-				USECASE_ABCD_CLICKER: "Publikumsfrage",
+				USECASE_ABCD_CLICKER: "A|B|C|D-Publikumsfrage",
 				USECASE_PEER_GRADING: "Evaluation",
 				USECASE_FLASHCARD: "Lernkarten",
 				USECASE_LIVE_FEEDBACK: "Live Feedback",
