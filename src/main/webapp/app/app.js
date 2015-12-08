@@ -285,6 +285,12 @@ Ext.application({
 		if (ARSnova.app.areLocalStorageLoginVarsUninitialized()) {
 			return false;
 		}
+		if (localStorage.getItem('lastVisitedRole') === ARSnova.app.USER_ROLE_SPEAKER) {
+			localStorage.setItem('role', ARSnova.app.USER_ROLE_SPEAKER);
+			localStorage.removeItem('lastVisitedRole');
+			localStorage.removeItem('sessionId');
+			sessionStorage.removeItem('keyword');
+		}
 
 		ARSnova.app.loggedIn = true;
 		ARSnova.app.loginMode = localStorage.getItem('loginMode');
