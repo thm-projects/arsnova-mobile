@@ -126,7 +126,6 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			}
 		});
 
-		this.initializeOptionButtons();
 		this.feedbackChart = Ext.create('Ext.chart.CartesianChart', {
 			fullscreen: true,
 			store: this.controller.initializeChartStore(this),
@@ -168,41 +167,35 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 					orientation: 'horizontal',
 					renderer: function (text, sprite, config, rendererData, index) {
 						return {
-							text: text,
+							text: !rendererData.store.config.showPercentage ? text : text + " %",
 							color: config.callout ? '#4a5c66' : '#fff'
 						};
 					}
 				},
 				renderer: function (sprite, config, rendererData, i) {
 					var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel;
-					var features = Ext.decode(sessionStorage.getItem("features"));
 
-					if (features.liveClicker) {
-						rendererData = {
-							fill: ARSnova.app.feedbackChartStyleConfig.abcdColor
-						};
-					} else {
-						rendererData = {
-							fill: panel.feedbackChartColors[i % panel.feedbackChartColors.length]
-						};
-					}
-
-					return rendererData;
+					return {
+						fill: rendererData.store.config.showPercentage ?
+							ARSnova.app.feedbackChartStyleConfig.abcdColor :
+							panel.feedbackChartColors[i % panel.feedbackChartColors.length]
+					};
 				}
 			}]
 		});
 
+		this.initializeOptionButtons();
 		this.add([this.toolbar, this.optionButtons, this.feedbackChart]);
 
 		this.onBefore('activate', function () {
 			var me = this;
 
 			this.feedbackChartColors = [
-    			ARSnova.app.feedbackChartStyleConfig.okColor,
-    			ARSnova.app.feedbackChartStyleConfig.goodColor,
-    			ARSnova.app.feedbackChartStyleConfig.badColor,
-    			ARSnova.app.feedbackChartStyleConfig.noneColor
-    		];
+				ARSnova.app.feedbackChartStyleConfig.okColor,
+				ARSnova.app.feedbackChartStyleConfig.goodColor,
+				ARSnova.app.feedbackChartStyleConfig.badColor,
+				ARSnova.app.feedbackChartStyleConfig.noneColor
+			];
 
 			ARSnova.app.feedbackModel.getFeedback(sessionStorage.getItem('keyword'), {
 				success: function (response) {
@@ -261,6 +254,8 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 
 	initializeOptionButtons: function () {
 		this.buttonConfigurations = this.controller.initializeVoteButtonConfigurations(this);
+		this.feedbackChart.setStore(this.controller.initializeChartStore(this));
+		this.updateChart(ARSnova.app.feedbackModel.currentValues);
 		this.optionButtons.removeAll(true);
 
 		var firstOptionButton = Ext.create('Ext.Panel', {
@@ -290,6 +285,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 	updateChart: function (feedbackValues) {
 		var chart = this.feedbackChart;
 		var store = chart.getStore();
+		var maxPercentage = 100;
 
 		/* Swap values for "can follow" and "faster, please" feedback
 		 * TODO: improve implementation, this is a quick hack for MoodleMoot 2013 */
@@ -302,6 +298,16 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			return;
 		}
 
+		if (store.config.showPercentage) {
+			chart.getSeries()[0].setYField('percent');
+			chart.getAxes()[0].setMaximum(maxPercentage);
+			chart.getSeries()[0].getLabel().getTemplate().setField('percent');
+		} else {
+			chart.getSeries()[0].setYField('value');
+			chart.getAxes()[0].setMaximum(Math.max.apply(null, values));
+			chart.getSeries()[0].getLabel().getTemplate().setField('value');
+		}
+
 		// Set chart data
 		store.each(function (record, index) {
 			record.set('value', values[index]);
@@ -310,10 +316,14 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		// Calculate percentages
 		var sum = store.sum('value');
 		store.each(function (record) {
-			record.set('percent', sum > 0 ? (record.get('value') / sum) : 0.0);
+			var percent =  Math.round(sum > 0 ? ((record.get('value') / sum) * 100) : 0.0);
+			var max = Math.max(maxPercentage, percent);
+			record.set('percent', percent);
+
+			// Scale axis to a bigger number. For example, 12 answers get a maximum scale of 20.
+			maxPercentage = Math.ceil(max / 10) * 10;
 		});
 
-		chart.getAxes()[0].setMaximum(Math.max.apply(null, values));
 		chart.redraw();
 	},
 

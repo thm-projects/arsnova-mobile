@@ -186,6 +186,7 @@ Ext.define("ARSnova.controller.Feedback", {
 		}
 
 		return Ext.create('Ext.data.Store', {
+			showPercentage: features.liveClicker,
 			fields: ['name', 'displayName', 'value', 'percent'],
 			data: chartData
 		});
