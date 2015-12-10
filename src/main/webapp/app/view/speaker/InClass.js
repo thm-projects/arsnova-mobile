@@ -369,16 +369,26 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		showShowcasePanel.delay(activateProjectorMode ? 1250 : 0);
 	},
 
+	showcaseLiveQuestionHandler: function () {
+		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+		tabPanel.animateActiveItem(tabPanel.feedbackTabPanel, 'slide');
+	},
+
 	changeActionButtonsMode: function (mode) {
 		var features = Ext.decode(sessionStorage.getItem("features"));
 
-		if (mode === 'preparation') {
+		if (mode === 'liveClicker') {
+			this.showcaseActionButton.setHandler(this.showcaseLiveQuestionHandler);
+			this.showcaseActionButton.setButtonText(Messages.SHOWCASE_LIVE_CLICKER);
+		} else if (mode === 'preparation') {
 			this.createAdHocQuestionButton.config.mode = 'preparation';
 			this.showcaseActionButton.setButtonText(this.showcaseActionButton.config.altText);
 			this.createAdHocQuestionButton.setButtonText(this.createAdHocQuestionButton.config.altText);
+			this.showcaseActionButton.setHandler(this.showcaseHandler);
 		} else {
 			this.createAdHocQuestionButton.config.mode = 'lecture';
 			this.showcaseActionButton.setButtonText(this.showcaseActionButton.config.text);
+			this.showcaseActionButton.setHandler(this.showcaseHandler);
 			this.createAdHocQuestionButton.setButtonText(
 				features.flashcard ? Messages.NEW_FLASHCARD : this.createAdHocQuestionButton.config.text
 			);
@@ -396,6 +406,10 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		} else {
 			me.roleIconButton.setCls('roleIconBtn');
 			me.roleIconButton.setButtonText();
+		}
+
+		if (features.liveClicker) {
+			showElements = true;
 		}
 
 		this.actionButtonPanel.getInnerItems().forEach(function (element) {
@@ -497,7 +511,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				me.badgeOptions.numQuestions = numQuestions;
 
 				if (numQuestions && features.lecture) {
-					if (numQuestions === 1) {
+					if (numQuestions === 1 || features.liveClicker) {
 						me.showcaseActionButton.setButtonText(
 							features.flashcard ? Messages.SHOWCASE_FLASHCARD : Messages.SHOWCASE_MODE
 						);

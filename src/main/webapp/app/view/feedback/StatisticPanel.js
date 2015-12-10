@@ -31,20 +31,28 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		layout: 'fit'
 	},
 
-	buttonClicked: null,
-	feedbackChart: null,
+	feedbackValues: {
+		GOOD: 0,
+		OK: 1,
+		BAD: 2,
+		GONE: 3
+	},
 
-	/* toolbar items */
-	toolbar: null,
+	answerValues: {
+		A: 1,
+		B: 0,
+		C: 2,
+		D: 3
+	},
 
 	initialize: function () {
 		this.callParent(arguments);
+		this.controller = ARSnova.app.getController('Feedback');
 
-		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-		var buttonCls = screenWidth < 400 ? 'smallerMatrixButtons' : '';
-
+		var me = this;
 		this.backButton = Ext.create('Ext.Button', {
 			ui: 'back',
+			align: 'left',
 			handler: function () {
 				var	tabPanel = ARSnova.app.mainTabPanel.tabPanel,
 					feedbackTabPanel = tabPanel.feedbackTabPanel;
@@ -65,100 +73,62 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			}
 		});
 
-		this.buttonClicked = function (button) {
-			if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
-				ARSnova.app.getController('Feedback').vote({
-					value: button.config.value
-				});
-			}
-		};
+		this.isFeedbackReleased = true;
+		this.releaseFeedbackButton = Ext.create('Ext.Button', {
+			align: 'right',
+			text: Messages.CLOSE,
+			altText: Messages.RELEASE,
+			cls: 'x-button-pressing',
+			scope: this,
+			updateReleaseState: function (lock) {
+				var button = me.releaseFeedbackButton;
+				if (lock) {
+					button.removeCls(button.initialConfig.cls);
+					button.setText(button.initialConfig.altText);
+					me.isFeedbackReleased = false;
+				} else {
+					button.addCls(button.initialConfig.cls);
+					button.setText(button.initialConfig.text);
+					me.isFeedbackReleased = true;
+				}
+			},
+			handler: function (button) {
+				var feedbackLock = this.isFeedbackReleased ? true : false;
+				button.disable();
 
-		this.toolbar = Ext.create('Ext.Toolbar', {
+				ARSnova.app.sessionModel.lockFeedbackInput(feedbackLock, {
+					success: function () {
+						button.config.updateReleaseState(feedbackLock);
+						button.enable();
+					},
+					failure: function () {
+						Ext.Msg.alert(Messages.ERROR, Messages.RELEASE_VOTE_ERROR);
+						button.enable();
+					}
+				});
+			},
+			hidden: !ARSnova.app.isSessionOwner &&
+				ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER
+		});
+
+		this.toolbar = Ext.create('Ext.TitleBar', {
 			docked: 'top',
 			ui: 'light',
-			items: [this.backButton]
+			title: localStorage.getItem('shortName'),
+			items: [this.backButton, this.releaseFeedbackButton]
 		});
 
-		this.feedbackOkButton = Ext.create('Ext.Panel', {
-			flex: 1,
-
-			items: [{
-				xtype: 'matrixbutton',
-				value: 'Kann folgen',
-				cls: 'feedbackStatisticButton voteButton feedbackOkBackground ' + buttonCls,
-				imageCls: 'icon-happy',
-				handler: this.buttonClicked
-			}]
-		});
-
-		this.feedbackGoodButton = Ext.create('Ext.Panel', {
-			cls: 'voteButtons',
-			flex: 1,
-
-			items: [{
-				xtype: 'matrixbutton',
-				value: 'Bitte schneller',
-				cls: 'feedbackStatisticButton voteButton feedbackGoodBackground ' + buttonCls,
-				imageCls: 'icon-wink',
-				handler: this.buttonClicked
-			}]
-		});
-
-		this.feedbackBadButton = Ext.create('Ext.Panel', {
-			cls: 'voteButtons',
-			flex: 1,
-
-			items: [{
-				xtype: 'matrixbutton',
-				value: 'Zu schnell',
-				cls: 'feedbackStatisticButton voteButton feedbackBadBackground ' + buttonCls,
-				imageCls: 'icon-shocked',
-				handler: this.buttonClicked
-			}]
-		});
-
-		this.feedbackNoneButton = Ext.create('Ext.Panel', {
-			cls: 'voteButtons',
-			flex: 1,
-
-			items: [{
-				xtype: 'matrixbutton',
-				value: 'Nicht mehr dabei',
-				cls: 'feedbackStatisticButton voteButton feedbackNoneBackground ' + buttonCls,
-				imageCls: 'icon-sad',
-				handler: this.buttonClicked
-			}]
-		});
-
-		this.feedbackButtons = Ext.create('Ext.Toolbar', {
+		this.optionButtons = Ext.create('Ext.Toolbar', {
 			docked: 'top',
-
-			items: [
-				this.feedbackOkButton,
-				this.feedbackGoodButton,
-				this.feedbackBadButton,
-				this.feedbackNoneButton
-			]
+			defaults: {
+				cls: 'voteButtons',
+				flex: 1
+			}
 		});
-
-		this.feedbackChartColors = [
-			'#80ba24', // green
-			'#f2a900', // orange
-			'#971b2f', // red
-			'#4a5c66'  // grey
-		];
 
 		this.feedbackChart = Ext.create('Ext.chart.CartesianChart', {
 			fullscreen: true,
-			store: Ext.create('Ext.data.Store', {
-				fields: ['name', 'displayName', 'value', 'percent'],
-				data: [
-					{'name': 'Kann folgen', 'displayName': Messages.FEEDBACK_OKAY, 'value': 0, 'percent': 0.0},
-					{'name': 'Bitte schneller', 'displayName': Messages.FEEDBACK_GOOD, 'value': 0, 'percent': 0.0},
-					{'name': 'Zu schnell', 'displayName': Messages.FEEDBACK_BAD, 'value': 0, 'percent': 0.0},
-					{'name': 'Nicht mehr dabei', 'displayName': Messages.FEEDBACK_NONE, 'value': 0, 'percent': 0.0}
-				]
-			}),
+			store: this.controller.initializeChartStore(this),
 
 			animate: {
 				easing: 'bounceOut',
@@ -197,7 +167,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 					orientation: 'horizontal',
 					renderer: function (text, sprite, config, rendererData, index) {
 						return {
-							text: text,
+							text: !rendererData.store.config.showPercentage ? text : text + " %",
 							color: config.callout ? '#4a5c66' : '#fff'
 						};
 					}
@@ -205,18 +175,27 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				renderer: function (sprite, config, rendererData, i) {
 					var panel = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel;
 
-					rendererData = {
-						fill: panel.feedbackChartColors[i % panel.feedbackChartColors.length]
+					return {
+						fill: rendererData.store.config.showPercentage ?
+							ARSnova.app.feedbackChartStyleConfig.abcdColor :
+							panel.feedbackChartColors[i % panel.feedbackChartColors.length]
 					};
-					return rendererData;
 				}
 			}]
 		});
 
-		this.add([this.toolbar, this.feedbackButtons, this.feedbackChart]);
+		this.initializeOptionButtons();
+		this.add([this.toolbar, this.optionButtons, this.feedbackChart]);
 
 		this.onBefore('activate', function () {
 			var me = this;
+
+			this.feedbackChartColors = [
+				ARSnova.app.feedbackChartStyleConfig.okColor,
+				ARSnova.app.feedbackChartStyleConfig.goodColor,
+				ARSnova.app.feedbackChartStyleConfig.badColor,
+				ARSnova.app.feedbackChartStyleConfig.noneColor
+			];
 
 			ARSnova.app.feedbackModel.getFeedback(sessionStorage.getItem('keyword'), {
 				success: function (response) {
@@ -233,29 +212,80 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		});
 
 		this.onBefore('painted', function () {
-			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-				this.prepareSpeakersView();
-			} else {
-				this.prepareStudentsView();
-			}
+			this.prepareView();
 		});
 	},
 
-	prepareSpeakersView: function () {
-		this.backButton.setText(Messages.HOME);
-		this.feedbackButtons.setCls('speakerVoteButtonsPanel');
-		this.toolbar.setCls('speakerTitleBar');
+	setToolbarTitle: function (title) {
+		this.toolbar.setTitle(Ext.util.Format.htmlEncode(title));
 	},
 
-	prepareStudentsView: function () {
-		this.backButton.setText(Messages.FEEDBACK_VOTE);
-		this.feedbackButtons.setCls('voteButtonsPanel');
-		this.toolbar.setCls('');
+	buttonClicked: function (button) {
+		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER && !ARSnova.app.feedbackModel.lock) {
+			ARSnova.app.getController('Feedback').vote({
+				value: button.config.value
+			});
+		}
+	},
+
+	prepareView: function () {
+		var me = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel;
+
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			me.releaseFeedbackButton.setHidden(false);
+			me.optionButtons.setCls('noButtonsVotePanel');
+			me.backButton.setText(Messages.HOME);
+			me.toolbar.setCls('speakerTitleBar');
+		} else {
+			if (ARSnova.app.feedbackModel.lock) {
+				me.optionButtons.setCls('noButtonsVotePanel');
+				me.backButton.setText(Messages.HOME);
+			} else {
+				me.optionButtons.setCls('voteButtonsPanel');
+				me.backButton.setText(Messages.FEEDBACK_VOTE);
+			}
+			me.releaseFeedbackButton.setHidden(true);
+			me.toolbar.setCls('');
+		}
+
+		me.releaseFeedbackButton.config.updateReleaseState(ARSnova.app.feedbackModel.lock);
+		me.updateTabBar();
+	},
+
+	initializeOptionButtons: function () {
+		this.buttonConfigurations = this.controller.initializeVoteButtonConfigurations(this);
+		this.feedbackChart.setStore(this.controller.initializeChartStore(this));
+		this.updateChart(ARSnova.app.feedbackModel.currentValues);
+		this.optionButtons.removeAll(true);
+
+		var firstOptionButton = Ext.create('Ext.Panel', {
+			items: [this.buttonConfigurations.option0]
+		});
+
+		var secondOptionButton = Ext.create('Ext.Panel', {
+			items: [this.buttonConfigurations.option1]
+		});
+
+		var thirdOptionButton = Ext.create('Ext.Panel', {
+			items: [this.buttonConfigurations.option2]
+		});
+
+		var fourthOptionButton = Ext.create('Ext.Panel', {
+			items: [this.buttonConfigurations.option3]
+		});
+
+		this.optionButtons.add([
+			firstOptionButton,
+			secondOptionButton,
+			thirdOptionButton,
+			fourthOptionButton
+        ]);
 	},
 
 	updateChart: function (feedbackValues) {
 		var chart = this.feedbackChart;
 		var store = chart.getStore();
+		var maxPercentage = 100;
 
 		/* Swap values for "can follow" and "faster, please" feedback
 		 * TODO: improve implementation, this is a quick hack for MoodleMoot 2013 */
@@ -268,6 +298,16 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			return;
 		}
 
+		if (store.config.showPercentage) {
+			chart.getSeries()[0].setYField('percent');
+			chart.getAxes()[0].setMaximum(maxPercentage);
+			chart.getSeries()[0].getLabel().getTemplate().setField('percent');
+		} else {
+			chart.getSeries()[0].setYField('value');
+			chart.getAxes()[0].setMaximum(Math.max.apply(null, values));
+			chart.getSeries()[0].getLabel().getTemplate().setField('value');
+		}
+
 		// Set chart data
 		store.each(function (record, index) {
 			record.set('value', values[index]);
@@ -276,40 +316,57 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		// Calculate percentages
 		var sum = store.sum('value');
 		store.each(function (record) {
-			record.set('percent', sum > 0 ? (record.get('value') / sum) : 0.0);
+			var percent =  Math.round(sum > 0 ? ((record.get('value') / sum) * 100) : 0.0);
+			var max = Math.max(maxPercentage, percent);
+			record.set('percent', percent);
+
+			// Scale axis to a bigger number. For example, 12 answers get a maximum scale of 20.
+			maxPercentage = Math.ceil(max / 10) * 10;
 		});
 
-		chart.getAxes()[0].setMaximum(Math.max.apply(null, values));
 		chart.redraw();
 	},
 
 	updateTabBar: function (averageFeedback) {
+		var features = Ext.decode(sessionStorage.getItem("features"));
+		var iconCls, lockedCls = ' lockedFeedback';
+
 		// update feedback-badge in tab bar
 		ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab.setBadgeText(this.feedbackChart.getStore().sum('value'));
 
+		averageFeedback = averageFeedback ? averageFeedback : ARSnova.app.feedbackModel.currentAverage;
+
 		// change the feedback tab bar icon
 		var tab = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab;
-		switch (averageFeedback) {
-			case 0:
-				tab.setIconCls("voteIcons icon-wink");
-				break;
-			case 1:
-				tab.setIconCls("voteIcons icon-happy");
-				break;
-			case 2:
-				tab.setIconCls("voteIcons icon-shocked");
-				break;
-			case 3:
-				tab.setIconCls("voteIcons icon-sad");
-				break;
-			default:
-				tab.setIconCls("voteIcons icon-bullhorn");
-				break;
-		}
-	},
 
-	checkTitle: function () {
-		var title = localStorage.getItem('shortName');
-		this.toolbar.setTitle(Ext.util.Format.htmlEncode(title));
+		if (features.liveClicker) {
+			iconCls = "voteIcons icon-chart";
+			tab.setTitle(Messages.ABCD_TITLE);
+		} else {
+			tab.setTitle(Messages.FEEDBACK);
+			switch (averageFeedback) {
+				case 0:
+					iconCls = "voteIcons icon-wink";
+					break;
+				case 1:
+					iconCls = "voteIcons icon-happy";
+					break;
+				case 2:
+					iconCls = "voteIcons icon-shocked";
+					break;
+				case 3:
+					iconCls = "voteIcons icon-sad";
+					break;
+				default:
+					iconCls = "voteIcons icon-bullhorn";
+					break;
+			}
+		}
+
+		if (ARSnova.app.feedbackModel.lock) {
+			tab.setIconCls(iconCls + lockedCls);
+		} else {
+			tab.setIconCls(iconCls);
+		}
 	}
 });

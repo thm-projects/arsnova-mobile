@@ -35,6 +35,7 @@ Ext.define('ARSnova.WebSocket', {
 		setSessionActive: "arsnova/socket/session/active",
 		feedbackReset: "arsnova/socket/feedback/reset",
 		feedbackAverage: "arsnova/socket/feedback/average",
+		lockFeedback: "arsnova/socket/feedback/lock",
 		lockVote: "arsnova/socket/lecturer/lockVote",
 		lockVotes: "arsnova/socket/lecturer/lockVotes",
 		unlockVote: "arsnova/socket/lecturer/unlockVote",
@@ -123,6 +124,11 @@ Ext.define('ARSnova.WebSocket', {
 			this.socket.on('feedbackReset', Ext.bind(function (affectedSessions) {
 				console.debug("Socket.IO: feedbackReset", affectedSessions);
 				this.fireEvent(this.events.feedbackReset, affectedSessions);
+			}, this));
+
+			this.socket.on('lockFeedback', Ext.bind(function (lock) {
+				console.debug("Socket.IO: lockFeedback", lock);
+				this.fireEvent(this.events.lockFeedback, lock);
 			}, this));
 
 			this.socket.on('setSessionActive', Ext.bind(function (active) {

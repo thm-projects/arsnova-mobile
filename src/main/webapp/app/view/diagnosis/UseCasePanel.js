@@ -82,6 +82,9 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 				checked: true,
 				label: Messages.USECASE_CLICKER
 			}, {
+				value: 'liveClicker',
+				label: Messages.USECASE_ABCD_CLICKER
+			}, {
 				value: 'peerGrading',
 				label: Messages.USECASE_PEER_GRADING
 			}, {
@@ -207,7 +210,7 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 	validateSelection: function () {
 		var selection = this.getUseCaseValues();
 		if (!selection.clicker && !selection.peerGrading && !selection.flashcard &&
-			!selection.liveFeedback && !selection.total && !selection.custom) {
+			!selection.liveFeedback && !selection.total && !selection.custom && !selection.liveClicker) {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.FEATURE_SAVE_ERROR);
 			return false;
 		}

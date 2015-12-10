@@ -27,9 +27,11 @@ Ext.define('ARSnova.model.Feedback', {
 
 	currentValues: [0, 0, 0, 0],
 	currentAverage: null,
+	lock: false,
 
 	events: {
-		feedbackReset: "arsnova/session/feedback/reset"
+		feedbackReset: "arsnova/session/feedback/reset",
+		lockFeedback: "arsnova/session/feedback/lock"
 	},
 
 	constructor: function () {
@@ -53,6 +55,11 @@ Ext.define('ARSnova.model.Feedback', {
 		ARSnova.app.socket.on(ARSnova.app.socket.events.feedbackReset, function (affectedSessions) {
 			this.fireEvent(this.events.feedbackReset, affectedSessions);
 		}, this);
+
+		ARSnova.app.socket.on(ARSnova.app.socket.events.lockFeedback, function (lock) {
+			this.prepareFeedbackLock(lock);
+			this.fireEvent(this.events.lockFeedback, lock);
+		}, this);
 	},
 
 	postFeedback: function (feedbackValue) {
@@ -61,5 +68,16 @@ Ext.define('ARSnova.model.Feedback', {
 
 	getFeedback: function (sessionKeyword, callbacks) {
 		this.getProxy().getFeedback(sessionKeyword, callbacks);
+	},
+
+	prepareFeedbackLock: function (lock) {
+		this.lock = lock;
+
+		if (lock) {
+			ARSnova.app.getController('Feedback').onLockedFeedback();
+		} else {
+			ARSnova.app.getController('Feedback').onReleasedFeedback();
+		}
+		ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.prepareView();
 	}
 });

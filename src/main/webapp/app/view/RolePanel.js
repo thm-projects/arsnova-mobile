@@ -59,6 +59,7 @@ Ext.define('ARSnova.view.RolePanel', {
 		var smallHeight = document.body.clientHeight <= 460;
 		var mediumHeight = document.body.clientHeight >= 520;
 		var slogan = ARSnova.app.globalConfig.arsnovaSlogan || "";
+		this.initializeCanvasColorDummy();
 
 		this.speakerButton = Ext.create('ARSnova.view.MatrixButton', {
 			id: 'role-select-speaker',
@@ -74,15 +75,6 @@ Ext.define('ARSnova.view.RolePanel', {
 			imageCls: "icon-users",
 			style: 'margin-left: 20px;'
 		});
-
-		// essential for countdown timer style retrieval
-		var colorDummy = {
-			hidden: true,
-			html: "<div class='timerMinutesColor'></div>" +
-				"<div class='timerSecondsColor'></div>" +
-				"<div class='timerWarningColor'></div>" +
-				"<div class='timerLabel'></div>"
-		};
 
 		this.add([{
 			xtype: 'toolbar',
@@ -142,7 +134,7 @@ Ext.define('ARSnova.view.RolePanel', {
 					tabPanel.setActiveItem(tabPanel.infoTabPanel);
 				}
 			}]
-		}, colorDummy]);
+		}, this.colorDummy]);
 
 		this.on('activate', function () {
 			this.selectState = false;
@@ -151,10 +143,27 @@ Ext.define('ARSnova.view.RolePanel', {
 
 		this.on('painted', function () {
 			ARSnova.app.getController('Application').setCountdownTimerColors();
+			ARSnova.app.getController('Application').setFeedbackChartColors();
 		});
 
 		this.on('deactivate', function () {
 			ARSnova.app.taskManager.stop(this.buttonColorChange);
 		});
+	},
+
+	initializeCanvasColorDummy: function () {
+		// essential for canvas color and style retrieval
+		this.colorDummy = {
+			hidden: true,
+			html: "<div class='timerMinutesColor'></div>" +
+				"<div class='timerSecondsColor'></div>" +
+				"<div class='timerWarningColor'></div>" +
+				"<div class='timerLabel'></div>" +
+				"<div class='feedbackOkColor'></div>" +
+				"<div class='feedbackGoodColor'></div>" +
+				"<div class='feedbackBadColor'></div>" +
+				"<div class='feedbackNoneColor'></div>" +
+				"<div class='abcdBarChartColor'></div>"
+		};
 	}
 });

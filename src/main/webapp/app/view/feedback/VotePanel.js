@@ -33,8 +33,23 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 	backButton: null,
 	questionButton: null,
 
+	feedbackValues: {
+		GOOD: 0,
+		OK: 1,
+		BAD: 2,
+		GONE: 3
+	},
+
+	answerValues: {
+		A: 1,
+		B: 0,
+		C: 2,
+		D: 3
+	},
+
 	initialize: function () {
 		this.callParent(arguments);
+		this.controller = ARSnova.app.getController('Feedback');
 
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
@@ -69,13 +84,6 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 			]
 		});
 
-		if (Ext.os.is.Phone) {
-			this.arsLogo = {
-				xtype: 'panel',
-				style: {marginTop: '35px'}
-			};
-		}
-
 		this.buttonPanelTop = Ext.create('Ext.Panel', {
 			xtype: 'container',
 			style: 'margin-top:20px',
@@ -83,34 +91,12 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 				type: 'hbox',
 				pack: 'center'
 			},
-			items: [
-				{
-					xtype: 'matrixbutton',
-					buttonConfig: 'icon',
-					text: Messages.FEEDBACK_OKAY,
-					cls: 'noPadding noBackground voteButton feedbackOkBackground',
-					value: 'Kann folgen',
-					imageCls: 'icon-happy',
-					handler: function (button) {
-						ARSnova.app.getController('Feedback').vote({
-							value: button.config.value
-						});
-					}
-				}, {
-					xtype: 'matrixbutton',
-					buttonConfig: 'icon',
-					text: Messages.FEEDBACK_GOOD,
-					cls: 'noPadding noBackground voteButton feedbackGoodBackground',
-					value: 'Bitte schneller',
-					imageCls: "icon-wink",
-					handler: function (button) {
-						ARSnova.app.getController('Feedback').vote({
-							value: button.config.value
-						});
-					},
-					style: "margin-left:10px"
-				}
-			]
+			defaults: {
+				xtype: 'matrixbutton',
+				buttonConfig: 'icon',
+				cls: 'noPadding noBackground voteButton',
+				handler: this.buttonClicked
+			}
 		});
 
 		this.buttonPanelBottom = Ext.create('Ext.Panel', {
@@ -119,36 +105,13 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 				type: 'hbox',
 				pack: 'center'
 			},
-			style: "margin-top:10px",
-			items: [
-				{
-					xtype: 'matrixbutton',
-					buttonConfig: 'icon',
-					text: Messages.FEEDBACK_BAD,
-					cls: 'noPadding noBackground voteButton feedbackBadBackground',
-					value: 'Zu schnell',
-					imageCls: "icon-shocked",
-					handler: function (button) {
-						ARSnova.app.getController('Feedback').vote({
-							value: button.config.value
-						});
-					}
-				}, {
-					xtype: 'matrixbutton',
-					buttonConfig: 'icon',
-					text: Messages.FEEDBACK_NONE,
-					cls: 'noPadding noBackground voteButton feedbackNoneBackground',
-					value: 'Nicht mehr dabei',
-					imageCls: "icon-sad",
-					handler: function (button) {
-						ARSnova.app.getController('Feedback').vote({
-							value: button.config.value
-						});
-					},
-					style: "margin-left:10px"
-				}
-
-			]
+			defaults: {
+				xtype: 'matrixbutton',
+				buttonConfig: 'icon',
+				cls: 'noPadding noBackground voteButton',
+				handler: this.buttonClicked
+			},
+			style: "margin-top:10px"
 		});
 
 		this.questionRequestButton = Ext.create('Ext.Button', {
@@ -168,12 +131,44 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 			}
 		});
 
+		this.initializeOptionButtons();
+
 		this.add([
 			this.toolbar,
 			this.buttonPanelTop,
 			this.buttonPanelBottom,
 			this.questionRequestButton
 		]);
+	},
+
+	buttonClicked: function (button) {
+		if (ARSnova.app.feedbackModel.lock) {
+			ARSnova.app.getController('Feedback').onLockedFeedback();
+		} else {
+			ARSnova.app.getController('Feedback').vote({
+				value: button.config.value
+			});
+		}
+	},
+
+	setToolbarTitle: function (title) {
+		this.toolbar.setTitle(Ext.util.Format.htmlEncode(title));
+	},
+
+	initializeOptionButtons: function () {
+		var buttonConfigurations = this.controller.initializeVoteButtonConfigurations(this);
+		this.buttonPanelBottom.removeAll(true);
+		this.buttonPanelTop.removeAll(true);
+
+		var margin = buttonConfigurations.clicker ?
+			{style: "margin-left:50px"} : {style: "margin-left:10px"};
+
+		buttonConfigurations.option1 = Ext.merge({}, buttonConfigurations.option1, margin);
+		buttonConfigurations.option3 = Ext.merge({}, buttonConfigurations.option3, margin);
+
+		this.buttonPanelTop.add([buttonConfigurations.option0, buttonConfigurations.option1]);
+		this.buttonPanelBottom.add([buttonConfigurations.option2, buttonConfigurations.option3]);
+		this.questionRequestButton.setHidden(buttonConfigurations.clicker);
 	},
 
 	setSinglePageMode: function (singlePageMode, tabPanel) {

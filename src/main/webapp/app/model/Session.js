@@ -46,7 +46,8 @@ Ext.define('ARSnova.model.Session', {
 			'ppDescription',
 			'ppFaculty',
 			'ppLevel',
-			'sessionType'
+			'sessionType',
+			'feedbackLock'
 		],
 
 		validations: [
@@ -105,8 +106,10 @@ Ext.define('ARSnova.model.Session', {
 		}, this);
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.featureChange, function (features) {
+			var prevFeatures = Ext.decode(sessionStorage.getItem("features"));
+
 			sessionStorage.setItem("features", Ext.encode(features));
-			ARSnova.app.getController('Feature').applyFeatures();
+			ARSnova.app.getController('Feature').applyFeatures(prevFeatures);
 			this.fireEvent(this.events.featureChange, features);
 		}, this);
 
@@ -166,6 +169,10 @@ Ext.define('ARSnova.model.Session', {
 
 	lock: function (sessionKeyword, theLock, callbacks) {
 		return this.getProxy().lock(sessionKeyword, theLock, callbacks);
+	},
+
+	lockFeedbackInput: function (lock, callbacks) {
+		return this.getProxy().lockFeedbackInput(sessionStorage.getItem("keyword"), lock, callbacks);
 	},
 
 	getMyLearningProgress: function (sessionKeyword, callbacks) {
