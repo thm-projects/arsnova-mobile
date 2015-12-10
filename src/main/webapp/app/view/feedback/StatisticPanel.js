@@ -78,16 +78,18 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			align: 'right',
 			text: Messages.CLOSE,
 			altText: Messages.RELEASE,
-			cls: 'x-button-pressing',
+			cls: 'feedbackFreezeButton',
+			pressedCls: 'feedbackReleaseButton',
 			scope: this,
 			updateReleaseState: function (lock) {
 				var button = me.releaseFeedbackButton;
+				console.log(button.initialConfig);
 				if (lock) {
-					button.removeCls(button.initialConfig.cls);
+					button.setCls(button.initialConfig.pressedCls);
 					button.setText(button.initialConfig.altText);
 					me.isFeedbackReleased = false;
 				} else {
-					button.addCls(button.initialConfig.cls);
+					button.setCls(button.initialConfig.cls);
 					button.setText(button.initialConfig.text);
 					me.isFeedbackReleased = true;
 				}

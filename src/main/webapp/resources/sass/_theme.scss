@@ -157,6 +157,11 @@ $feedback-good-background-color: $default-orange-color;  /* faster, please! */
 $feedback-bad-background-color: $default-red-color; /* too fast! */
 $feedback-gone-background-color: $brand-primary; /* you have lost me */
 
+$feedback-release-button-color: $default-orange-color;
+$feedback-release-button-txt-color: $default-white-color;
+$feedback-freeze-button-color: $default-red-color;
+$feedback-freeze-button-txt-color: $default-white-color;
+$feedback-freeze-tabBar-icon-color: $default-orange-color;
 
 /** live vote configuration **/
 $vote-speaker-abcd-option-text-color: $default-grey-color;

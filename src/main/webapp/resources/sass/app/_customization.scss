@@ -29,8 +29,8 @@
 
 @mixin toolbar-button-config($bgcolor, $txtcolor) {
 	color: $txtcolor;
-	background: $bgcolor !important;
-	border: 1px solid $bgcolor !important;
+	background: $bgcolor;
+	border: 1px solid $bgcolor;
 }
 
 @mixin button-decoration-config($bgcolor, $txtcolor) {
@@ -303,6 +303,20 @@ html, body,
 			$toolbar-button-txt-color
 		);
 
+		&.feedbackFreezeButton {
+			@include toolbar-button-config(
+				$feedback-freeze-button-color,
+				$feedback-freeze-button-txt-color
+			); 
+		}
+		
+		&.feedbackReleaseButton {
+			@include toolbar-button-config(
+				$feedback-release-button-color,
+				$feedback-release-button-txt-color
+			);
+		}
+
 		&.toggleCorrectButton {
 			@include toolbar-button-config(
 				$toolbar-toggleCorrect-button-inactive-color,
@@ -411,7 +425,7 @@ html, body,
 			}
 
 			&.voteIcons.lockedFeedback:before {
-				color: $brand-warning !important;
+				color: $feedback-freeze-tabBar-icon-color !important;
 			}
 
 			&.voteIcons:before {
