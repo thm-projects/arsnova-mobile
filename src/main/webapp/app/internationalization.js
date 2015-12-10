@@ -146,9 +146,9 @@
 				NOTIFICATION: "Hinweis",
 				TRANSMISSION_ERROR: "Die Übermittlung der Frage war leider nicht erfolgreich",
 				QUESTION_CREATION_ERROR: "Das Erstellen der Frage war leider nicht erfolgreich",
-				QUESTION_EDIT_ERROR: "Das Editieren der Frage war leider nicht erfolgreich.",
-				ANSWER_CREATION_ERROR: "Die Antwort konnte nicht gespeichert werden",
-				RELEASE_VOTE_ERROR: "Die Freigabe der Abstimmung war nicht erfolgreich.",
+				QUESTION_EDIT_ERROR: "Das Editieren der Frage war leider nicht erfolgreich",
+				ANSWER_CREATION_ERROR: "Die Antwort konnte leider nicht gespeichert werden",
+				RELEASE_VOTE_ERROR: "Die Freigabe der Abstimmung war leider nicht erfolgreich",
 				SEND: "Abschicken",
 
 				/* questions */
@@ -637,8 +637,8 @@
 				SESSION_ID_INVALID: "Die Session-ID muss aus acht Ziffern bestehen.",
 				BROWSER_SESSION_EXPIRED: "Browsersitzung",
 				BROWSER_SESSION_EXPIRED_MSG: "Ihre Browsersitzung ist abgelaufen. Möchten Sie ARSnova neustarten?",
-				QUESTION_COULD_NOT_BE_SAVED: "Speichern der Frage war nicht erfolgreich",
-				SETTINGS_COULD_NOT_BE_SAVED: "Speichern der Einstellungen war nicht erfolgreich",
+				QUESTION_COULD_NOT_BE_SAVED: "Das Speichern der Frage war leider nicht erfolgreich",
+				SETTINGS_COULD_NOT_BE_SAVED: "Das Speichern der Einstellungen war leider nicht erfolgreich",
 				FEATURE_SETTINGS_COULD_NOT_BE_SAVED: "Das Speichern der Features war leider nicht möglich. Bitte ändern Sie die Features unter 'System' -> 'Features aktivieren'",
 				URL_COULD_NOT_BE_FRAMED: "Der Hyperlink wird in einem neuen Browserfenster geöffnet...",
 
