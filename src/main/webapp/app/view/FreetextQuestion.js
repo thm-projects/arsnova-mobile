@@ -81,7 +81,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			style: 'float: right',
 			hidden: !(this.questionObj.hint),
 			handler: function (button) {
-				hintPanel.show();
+				me.hintPanel.show();
 			}
 		});
 
@@ -90,11 +90,11 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			items: [this.hintIcon, this.questionPanel]
 		});
 
-		var hintPanel = Ext.create('ARSnova.view.components.HintMessageBox', {
+		this.hintPanel = Ext.create('ARSnova.view.components.MarkdownMessageBox', {
 			content: this.questionObj.hint
 		});
 
-		this.solutionPanel = Ext.create('ARSnova.view.components.HintMessageBox', {
+		this.solutionPanel = Ext.create('ARSnova.view.components.MarkdownMessageBox', {
 			content: this.questionObj.solution
 		});
 

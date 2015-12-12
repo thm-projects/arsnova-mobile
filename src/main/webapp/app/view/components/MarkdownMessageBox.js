@@ -17,26 +17,23 @@
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('ARSnova.view.components.HintMessageBox', {
+Ext.define('ARSnova.view.components.MarkdownMessageBox', {
 	extend: 'Ext.MessageBox',
+	xtype: 'markdownMessageBox',
 
 	config: {
-		cls: 'hintMessageBox',
+		cls: 'markdownMessageBox',
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
 		},
 		hideOnMaskTap: true,
+		destroyOnHide: false,
 		content: '',
 		hidden: true,
 		layout: {
 			type: 'vbox',
 			pack: 'center'
-		},
-		hideAnimation: {
-			type: 'fadeOut',
-			duration: 250,
-			easing: 'ease-out'
 		}
 	},
 
@@ -68,6 +65,22 @@ Ext.define('ARSnova.view.components.HintMessageBox', {
 				animationstart: me.updateDimensions
 			}
 		});
+
+		this.setHideAnimation({
+			type: 'fadeOut',
+			duration: 250,
+			easing: 'ease-out',
+			listeners: {
+				scope: me,
+				animationend: me.onAnimationEnd
+			}
+		});
+	},
+
+	onAnimationEnd: function () {
+		if (this.config.destroyOnHide) {
+			this.destroy();
+		}
 	},
 
 	updateDimensions: function () {

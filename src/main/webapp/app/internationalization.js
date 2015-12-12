@@ -619,15 +619,26 @@
 				OPTIONAL_FEATURES: "Optionale Funktionen",
 				SETTINGS_SAVED: 'Ihre Einstellungen wurden gespeichert',
 				FEATURE_SAVE_ERROR: 'Es muss mindestens ein Feature ausgewählt werden',
+
+				/* use cases */
 				USECASES: "Funktionsauswahl",
 				USECASES_CHOOSE: "Welche Funktionalität soll freigeschaltet werden?",
-				USECASE_CLICKER: "1. Clicker-Fragen: nur einfache Formate wie Multiple-Choice, Single-Choice, Ja|Nein",
-				USECASE_ABCD_CLICKER: "2. Ad-hoc-Publikumsfrage à la Günther Jauch: nur A|B|C|D-Antworten ohne Text",
-				USECASE_PEER_GRADING: "3. Evaluationsfragen: nur Fragen mit 5-stufiger Likert-Skala",
-				USECASE_FLASHCARD: "4. Lernkarten fürs Selbststudium: Vorderseite mit Frage, Rückseite mit Lösung",
-				USECASE_LIVE_FEEDBACK: "5. Live Feedback: nur Zwischenfragen und Verständnis-Barometer",
-				USECASE_ARSNOVA_TOTAL: "6. ARSnova total: alles, was ARSnova an didaktischen Funktionen bietet",
-				USECASE_ARSNOVA_CUSTOM: "7. Mein ARSnova: individuelle Auswahl der didaktischen Funktionen...",
+				USECASES_CHOOSE_SHORT: "Freischaltung der Funktionen",
+				USECASE_CLICKER: "1. Clicker-Fragen",
+				USECASE_ABCD_CLICKER: "2. Ad-hoc-Publikumsfrage",
+				USECASE_PEER_GRADING: "3. Evaluationsfragen",
+				USECASE_FLASHCARD: "4. Lernkarten fürs Selbststudium",
+				USECASE_LIVE_FEEDBACK: "5. Live Feedback",
+				USECASE_ARSNOVA_TOTAL: "6. ARSnova total",
+				USECASE_ARSNOVA_CUSTOM: "7. Mein ARSnova",
+
+				USECASE_CLICKER_DETAILS: "###Clicker-Fragen\n\n Nur einfache Formate wie Multiple-Choice, Single-Choice, Ja|Nein.",
+				USECASE_ABCD_CLICKER_DETAILS: "###Ad-hoc-Publikumsfrage\n\n Publikumsfrage à la Günther Jauch: nur A|B|C|D-Antworten ohne Text.",
+				USECASE_PEER_GRADING_DETAILS: "###Evaluationsfragen\n\n Nur Fragen mit 5-stufiger Likert-Skala.",
+				USECASE_FLASHCARD_DETAILS: "###Lernkarten fürs Selbststudium\n\n Vorderseite mit Frage, Rückseite mit Lösung.",
+				USECASE_LIVE_FEEDBACK_DETAILS: "###Live Feedback\n\n Nur Zwischenfragen und Verständnis-Barometer.",
+				USECASE_ARSNOVA_TOTAL_DETAILS: "###ARSnova total\n\n Alles, was ARSnova an didaktischen Funktionen bietet.",
+				USECASE_ARSNOVA_CUSTOM_DETAILS: "###Mein ARSnova\n\n Individuelle Auswahl der didaktischen Funktionen...",
 
 				/* errors */
 				SESSION_NOT_FOUND: "Diese Session gibt es nicht",
@@ -1248,6 +1259,8 @@
 				OPTIONAL_FEATURES: "Optional features",
 				SETTINGS_SAVED: 'Your settings have been saved.',
 				FEATURE_SAVE_ERROR: 'At least one feature must be selected.',
+
+				/* use cases */
 				USECASES: "Use Cases",
 				USECASES_CHOOSE: "Select Use Case",
 				USECASE_CLICKER: "Clicker",
@@ -1257,6 +1270,14 @@
 				USECASE_LIVE_FEEDBACK: "Live Feedback",
 				USECASE_ARSNOVA_TOTAL: "ARSnova total",
 				USECASE_ARSNOVA_CUSTOM: "My ARSnova",
+
+				USECASE_CLICKER_DETAILS: "",
+				USECASE_ABCD_CLICKER_DETAILS: "",
+				USECASE_PEER_GRADING_DETAILS: "",
+				USECASE_FLASHCARD_DETAILS: "",
+				USECASE_LIVE_FEEDBACK_DETAILS: "",
+				USECASE_ARSNOVA_TOTAL_DETAILS: "",
+				USECASE_ARSNOVA_CUSTOM_DETAILS: "",
 
 				/* errors */
 				SESSION_NOT_FOUND: "This session does not seem to exist.",

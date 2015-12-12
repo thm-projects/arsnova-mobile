@@ -570,7 +570,13 @@ code {
 	}
 }
 
-.x-msgbox.hintMessageBox {
+.detailsRadioField {
+	.x-field-input {
+		min-width: 0;
+	}
+}
+
+.x-msgbox.markdownMessageBox {
 	max-width: 480px;
 	width: 90%;	
 }

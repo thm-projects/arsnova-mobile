@@ -304,6 +304,27 @@
 	}
 }
 
+.detailsInfoButton {
+	margin: 10px 0 0 10px;
+	color: $brand-icons;
+
+	&:hover {
+		color: $button-pressing-color;
+		cursor: pointer;
+	}
+
+	&:before {
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		text-align: center;
+		font-family: "Pictos";
+		font-size: 28px;
+		content: "i";
+	}
+}
+
 .yesnoOptions .x-button {
 	width: 50%;
 }
