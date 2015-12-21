@@ -95,7 +95,8 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 				xtype: 'matrixbutton',
 				buttonConfig: 'icon',
 				cls: 'noPadding noBackground voteButton',
-				handler: this.buttonClicked
+				handler: this.buttonClicked,
+				scope: this
 			}
 		});
 
@@ -109,7 +110,8 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 				xtype: 'matrixbutton',
 				buttonConfig: 'icon',
 				cls: 'noPadding noBackground voteButton',
-				handler: this.buttonClicked
+				handler: this.buttonClicked,
+				scope: this
 			},
 			style: "margin-top:10px"
 		});
@@ -142,12 +144,27 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 	},
 
 	buttonClicked: function (button) {
+		var features = Ext.decode(sessionStorage.getItem("features"));
+
 		if (ARSnova.app.feedbackModel.lock) {
 			ARSnova.app.getController('Feedback').onLockedFeedback();
 		} else {
+			if (features.liveClicker) {
+				this.releaseButtons();
+				button.setPressed(true);
+			}
+
 			ARSnova.app.getController('Feedback').vote({
 				value: button.config.value
-			});
+			}, true);
+		}
+	},
+
+	releaseButtons: function () {
+		var buttons = this.buttonPanelTop.getInnerItems().concat(this.buttonPanelBottom.getInnerItems());
+
+		for (var i = 0; i < buttons.length; i++) {
+			buttons[i].setPressed(false);
 		}
 	},
 

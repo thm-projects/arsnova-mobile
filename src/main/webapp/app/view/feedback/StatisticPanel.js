@@ -83,7 +83,6 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 			scope: this,
 			updateReleaseState: function (lock) {
 				var button = me.releaseFeedbackButton;
-				console.log(button.initialConfig);
 				if (lock) {
 					button.setCls(button.initialConfig.pressedCls);
 					button.setText(button.initialConfig.altText);

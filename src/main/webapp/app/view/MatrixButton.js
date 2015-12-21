@@ -66,14 +66,22 @@ Ext.define('ARSnova.view.MatrixButton', {
 		this.callParent(arguments);
 
 		this.element.on('touchstart', function () {
-			var element = me.element.select(".iconBtn").elements[0];
-			element.className = element.className + " x-button-pressing";
+			me.setPressed(true);
 		});
 
 		this.element.on('touchend', function () {
-			var element = me.element.select(".iconBtn").elements[0];
-			element.className = "iconBtn";
+			me.setPressed(false);
 		});
+	},
+
+	setPressed: function (pressed) {
+		var element = this.element.select(".iconBtn").elements[0];
+
+		if (pressed) {
+			element.className = element.className + " x-button-pressing";
+		} else {
+			element.className = "iconBtn";
+		}
 	},
 
 	setButtonText: function (text) {
