@@ -74,7 +74,7 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 
 		this.useCaseFieldSet = Ext.create('Ext.form.FieldSet', {
 			xtype: 'fieldset',
-			title: screenWidth > 445 ? Messages.USECASES_CHOOSE :
+			title: screenWidth > 665 ? Messages.USECASES_CHOOSE :
 				Messages.USECASES_CHOOSE_SHORT,
 			defaults: {
 				name: 'usecase',
@@ -83,14 +83,14 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 			},
 
 			items: [{
-				value: 'clicker',
-				checked: true,
-				label: Messages.USECASE_CLICKER,
-				details: Messages.USECASE_CLICKER_DETAILS
-			}, {
 				value: 'liveClicker',
+				checked: true,
 				label: Messages.USECASE_ABCD_CLICKER,
 				details: Messages.USECASE_ABCD_CLICKER_DETAILS
+			}, {
+				value: 'clicker',
+				label: Messages.USECASE_CLICKER,
+				details: Messages.USECASE_CLICKER_DETAILS
 			}, {
 				value: 'peerGrading',
 				label: Messages.USECASE_PEER_GRADING,
