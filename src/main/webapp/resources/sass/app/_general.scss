@@ -53,6 +53,24 @@
 	color: $feedback-gone-background-color;
 }
 
+.x-html {
+	a:link {
+	    color: $hyperlink-unvisited-color;
+	}
+
+	a:visited {
+	    color: $hyperlink-visited-color;
+	}
+	
+	a:hover {
+	    color: $hyperlink-hover-color;
+	}
+	
+	a:active {
+	    color: $hyperlink-active-color;
+	}
+}
+
 .noOverflow {
 	overflow: hidden;
 	text-overflow: ellipsis;

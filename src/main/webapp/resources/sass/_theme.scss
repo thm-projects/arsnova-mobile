@@ -210,6 +210,13 @@ $projectormode-font-family: Verdana,Geneva,sans-serif;
 $projectormode-text-color: black;
 
 
+/** hyperlink color configuration **/
+$hyperlink-unvisited-color: $brand-secondary;
+$hyperlink-visited-color: #551A8B;
+$hyperlink-hover-color: $hyperlink-unvisited-color;
+$hyperlink-active-color: $brand-warning;
+
+
 /** additional color configurations **/
 $caption-bg-color: $brand-buttons;
 $startscreen-rolechange-alternative-color: $brand-secondary;
