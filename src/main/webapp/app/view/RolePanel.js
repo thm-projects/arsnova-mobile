@@ -144,6 +144,7 @@ Ext.define('ARSnova.view.RolePanel', {
 		this.on('painted', function () {
 			ARSnova.app.getController('Application').setCountdownTimerColors();
 			ARSnova.app.getController('Application').setFeedbackChartColors();
+			ARSnova.app.getController('Application').setCorrectChartColors();
 		});
 
 		this.on('deactivate', function () {
@@ -155,15 +156,7 @@ Ext.define('ARSnova.view.RolePanel', {
 		// essential for canvas color and style retrieval
 		this.colorDummy = {
 			hidden: true,
-			html: "<div class='timerMinutesColor'></div>" +
-				"<div class='timerSecondsColor'></div>" +
-				"<div class='timerWarningColor'></div>" +
-				"<div class='timerLabel'></div>" +
-				"<div class='feedbackOkColor'></div>" +
-				"<div class='feedbackGoodColor'></div>" +
-				"<div class='feedbackBadColor'></div>" +
-				"<div class='feedbackNoneColor'></div>" +
-				"<div class='abcdBarChartColor'></div>"
+			html: ARSnova.app.getController('Application').getCanvasColorDummies()
 		};
 	}
 });

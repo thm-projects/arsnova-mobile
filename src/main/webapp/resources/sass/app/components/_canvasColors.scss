@@ -17,28 +17,34 @@
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@import 'sencha-touch/default';
-@import 'sencha-touch/default/all';
+.abcdBarChartColor {
+	color: $vote-abcd-chart-bar-color;
+}
 
-//
-// The theme configuration has to be loaded first
-@import 'theme';
+.feedbackOkColor {
+	color: $feedback-ok-background-color;
+}
 
-//
-// The following lines import the custom scss files.
-@import 'app/iconfont';
-@import 'app/bugfixes';
-@import 'app/components/buttons';
-@import 'app/components/highlighter';
-@import 'app/components/speakerUtils';
-@import 'app/components/badges';
-@import 'app/components/loadingMask';
-@import 'app/components/markdownEditor';
-@import 'app/components/countdownTimer';
-@import 'app/components/thumbnail';
-@import 'app/components/canvasColors';
+.feedbackGoodColor {
+	color: $feedback-good-background-color;
+}
 
-//
-// Load general and customization files last
-@import 'app/general';
-@import 'app/customization';
+.feedbackBadColor {
+	color: $feedback-bad-background-color;
+}
+
+.feedbackNoneColor {
+	color: $feedback-gone-background-color;
+}
+
+.correctBarChartColor {
+	color: $statistics-correct-color;
+}
+
+.incorrectBarChartColor {
+	color: $statistics-incorrect-color;
+}
+
+.abstentionBarChartColor {
+	color: $statistics-abstention-color;
+}

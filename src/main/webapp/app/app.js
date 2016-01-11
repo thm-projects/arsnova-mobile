@@ -127,6 +127,7 @@ Ext.application({
 	isFeedbackLocked: false,
 	timerStyleConfig: null,
 	feedbackChartStyleConfig: null,
+	statisticChartStyleConfig: null,
 	socket: null,
 	globalConfig: null,
 	configLoaded: null,

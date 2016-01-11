@@ -164,11 +164,18 @@ $feedback-freeze-button-color: $default-red-color;
 $feedback-freeze-button-txt-color: $default-white-color;
 $feedback-freeze-tabBar-icon-color: $default-orange-color;
 
+
 /** live vote configuration **/
 $vote-speaker-abcd-option-text-color: $default-grey-color;
 $vote-student-abcd-button-color: $default-white-color;
 $vote-student-abcd-button-text-color: $default-grey-color;
 $vote-abcd-chart-bar-color: $default-grey-color;
+
+
+/** correct/incorrect/abstention bar color configuration **/
+$statistics-correct-color: $default-green-color;
+$statistics-incorrect-color: $default-red-color;
+$statistics-abstention-color: $default-grey-color;
 
 
 /** carousel indicator and navigation color configuration **/

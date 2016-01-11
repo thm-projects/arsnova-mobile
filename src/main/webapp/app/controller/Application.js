@@ -409,6 +409,38 @@ Ext.define("ARSnova.controller.Application", {
 	},
 
 	/**
+	 * retrieve and set correct/incorrect/abstention chart styling options
+	 */
+	setCorrectChartColors: function () {
+		var dummyElem = [
+ 			document.getElementsByClassName('correctBarChartColor')[0],
+ 			document.getElementsByClassName('incorrectBarChartColor')[0],
+ 			document.getElementsByClassName('abstentionBarChartColor')[0]
+ 		];
+
+		ARSnova.app.statisticChartStyleConfig = {
+			correctColor: window.getComputedStyle(dummyElem[0], null).getPropertyValue('color'),
+			incorrectColor: window.getComputedStyle(dummyElem[1], null).getPropertyValue('color'),
+			abstentionColor: window.getComputedStyle(dummyElem[2], null).getPropertyValue('color')
+		};
+	},
+
+	getCanvasColorDummies: function () {
+		return 	"<div class='timerMinutesColor'></div>" +
+			"<div class='timerSecondsColor'></div>" +
+			"<div class='timerWarningColor'></div>" +
+			"<div class='timerLabel'></div>" +
+			"<div class='feedbackOkColor'></div>" +
+			"<div class='feedbackGoodColor'></div>" +
+			"<div class='feedbackBadColor'></div>" +
+			"<div class='feedbackNoneColor'></div>" +
+			"<div class='abcdBarChartColor'></div>" +
+			"<div class='correctBarChartColor'></div>" +
+			"<div class='incorrectBarChartColor'></div>" +
+			"<div class='abstentionBarChartColor'></div>";
+	},
+
+	/**
 	 * adds mouse scrolling feature if app is used in desktop browser
 	 */
 	initializeAdvancedScrolling: function () {
