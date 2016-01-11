@@ -110,6 +110,8 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 					backReference: panel,
 					referencePanel: hTP
 				});
+
+				sessionForm.enableInput();
 				hTP.animateActiveItem(sessionForm, 'slide');
 			}
 		});

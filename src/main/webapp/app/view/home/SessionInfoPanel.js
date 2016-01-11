@@ -95,7 +95,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 
 		this.saveButton = Ext.create('Ext.Button', {
 			text: Messages.SAVE,
-			ui: 'confirm',
+			ui: 'action',
 			hidden: true,
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
