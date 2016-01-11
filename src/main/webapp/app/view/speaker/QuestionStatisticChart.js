@@ -25,7 +25,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		layout: 'fit'
 	},
 
-	gradients: null,
+	colors: null,
 	questionObj: null,
 	questionChart: null,
 	questionStore: null,
@@ -229,7 +229,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			this.titlePanel.setContent(questionString, true, true);
 		}
 
-		this.setGradients();
+		this.setColors();
 
 		this.countdownTimer = Ext.create('ARSnova.view.components.CountdownTimer', {
 			style: 'margin-top: 40px',
@@ -366,7 +366,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					}
 				},
 				renderer: function (sprite, config, rendererData, i) {
-					var panel, gradient,
+					var panel, color,
 						record = rendererData.store.getAt(i),
 						data = record ? record.getData() : {};
 
@@ -376,27 +376,27 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 					switch (data.text) {
 						case Messages.ABSTENTION:
-							gradient = panel.abstentionGradient;
+							color = panel.abstentionColor;
 							break;
 						case Messages.ALL_CORRECT:
-							gradient = panel.correctColorGradient;
+							color = panel.correctColor;
 							break;
 						case Messages.ALL_WRONG:
-							gradient = panel.incorrectColorGradient;
+							color = panel.incorrectColor;
 							break;
 						default:
-							gradient = panel.gradients[i % panel.gradients.length];
+							color = panel.colors[i % panel.colors.length];
 					}
 
 					if (panel.questionChart.showPercentage) {
 						if (sprite.getField() === "percent-round1") {
-							gradient = data.text === Messages.ABSTENTION ?
-									gradient = panel.alternateAbstentionGradient :
-									gradient = panel.alternativeGradients[i % panel.alternativeGradients.length];
+							color = data.text === Messages.ABSTENTION ?
+									color = panel.alternateAbstentionColor :
+									color = panel.alternativeColors[i % panel.alternativeColors.length];
 						}
 					}
 
-					return {fill: gradient};
+					return {fill: color};
 				}
 			}]
 		});
@@ -864,16 +864,16 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			button.enable();
 		});
 
-		var setGradientTask = Ext.create('Ext.util.DelayedTask', function () {
+		var setColorsTask = Ext.create('Ext.util.DelayedTask', function () {
 			// updates the chart's colors
-			me.setGradients();
+			me.setColors();
 
 			// delay till chart is redrawn
 			updateDataTask.delay(me.chartRefreshDuration - 200);
 		});
 
 		// delay till chart is empty
-		setGradientTask.delay(me.chartRefreshDuration - 200);
+		setColorsTask.delay(me.chartRefreshDuration - 200);
 	},
 
 	showEmbeddedPagePreview: function (embeddedPage) {
@@ -898,57 +898,30 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		});
 	},
 
-	setGradients: function () {
+	setColors: function () {
 		this.correctAnswers = {};
 
 		if (this.questionObj.questionType === "yesno" || this.questionObj.questionType === "mc"
 				|| (this.questionObj.questionType === "abcd" && !this.questionObj.noCorrect)) {
 			if (this.toggleCorrect) {
-				this.gradients = this.getCorrectAnswerGradients();
+				this.colors = this.getCorrectAnswerColors();
 			} else {
-				this.gradients = this.getDefaultGradients();
+				this.colors = this.getDefaultColors();
 			}
 		} else {
-			this.gradients = this.getDefaultGradients();
+			this.colors = this.getDefaultColors();
 		}
 
-		this.abstentionGradient = Ext.create('Ext.draw.gradient.Linear', {
-			degrees: 90,
-			stops: [
-				{offset: 0, color: 'rgb(150, 150, 150)'},
-				{offset: 100, color: 'rgb(120, 120, 120)'}
-			]
-		});
-
-		this.alternateAbstentionGradient = Ext.create('Ext.draw.gradient.Linear', {
-			degrees: 90,
-			stops: [
-				{offset: 0, color: 'rgb(180, 180, 180)'},
-				{offset: 100, color: 'rgb(150, 150, 150)'}
-			]
-		});
-
-		this.alternativeGradients = this.createLighterGradients(this.gradients);
+		this.abstentionColor = ARSnova.app.statisticChartStyleConfig.abstentionColor;
+		this.alternateAbstentionColor = this.createLighterColors([this.abstentionColor])[0];
+		this.alternativeColors = this.createLighterColors(this.colors);
 	},
 
-	getCorrectAnswerGradients: function () {
-		var data, question, gradients = [];
+	getCorrectAnswerColors: function () {
+		var data, question, colors = [];
 
-		this.correctColorGradient = Ext.create('Ext.draw.gradient.Linear', {
-			degrees: 90,
-			stops: [
-				{offset: 0, color: 'rgb(128, 186, 36)'},
-				{offset: 100, color: 'rgb(88, 146, 0)'}
-			]
-		});
-
-		this.incorrectColorGradient = Ext.create('Ext.draw.gradient.Linear', {
-			degrees: 90,
-			stops: [
-				{offset: 0, color: 'rgb(151, 27, 47);'},
-				{offset: 100, color: 'rgb(111, 7, 27)'}
-			]
-		});
+		this.correctColor = ARSnova.app.statisticChartStyleConfig.correctColor;
+		this.incorrectColor = ARSnova.app.statisticChartStyleConfig.incorrectColor;
 
 		for (var i = 0; i < this.questionObj.possibleAnswers.length; i++) {
 			question = this.questionObj.possibleAnswers[i];
@@ -957,82 +930,34 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			this.correctAnswers[data.text] = data.correct;
 
 			if ((question.data && !question.data.correct) || (!question.data && !question.correct)) {
-				gradients.push(this.incorrectColorGradient);
+				colors.push(this.incorrectColor);
 			} else {
-				gradients.push(this.correctColorGradient);
+				colors.push(this.correctColor);
 			}
 		}
 
-		return gradients;
+		return colors;
 	},
 
-	getDefaultGradients: function () {
+	getDefaultColors: function () {
 		return [
-			Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [
-					{offset: 0, color: 'rgb(22, 64, 128)'},
-					{offset: 100, color: 'rgb(0, 14, 88)'}
-				]
-			}),
-			Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [
-					{offset: 0, color: 'rgb(48, 128, 128)'},
-					{offset: 100, color: 'rgb(8, 88, 88)'}
-				]
-			}),
-			Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [
-					{offset: 0, color: 'rgb(128, 128, 25)'},
-					{offset: 100, color: 'rgb(88, 88, 0)'}
-				]
-			}),
-			Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [
-					{offset: 0, color: 'rgb(128, 28, 128)'},
-					{offset: 100, color: 'rgb(88, 0, 88)'}
-				]
-			}),
-			Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [
-					{offset: 0, color: 'rgb(215, 113, 1)'},
-					{offset: 100, color: 'rgb(175, 73, 0)'}
-				]
-			}),
-			Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [
-					{offset: 0, color: 'rgb(128, 64, 22)'},
-					{offset: 100, color: 'rgb(88, 24, 0)'}
-				]
-			}),
-			Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [
-					{offset: 0, color: 'rgb(64, 0, 128)'},
-					{offset: 100, color: 'rgb(40, 2, 79)'}
-				]
-			}),
-			Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [
-					{offset: 0, color: 'rgb(150, 30, 0)'},
-					{offset: 100, color: 'rgb(110, 0, 0)'}
-				]
-			})
+			'#164080',
+			'#308080',
+			'#808019',
+			'#801C80',
+			'#D77101',
+			'#804016',
+			'#400080',
+			'#961E00'
 		];
 	},
 
-	createLighterGradients: function (gradients) {
+	createLighterColors: function (colors) {
 		var lum = 0.15;
-		var lighterGradients = [];
+		var lighterColors = [];
 
-		gradients.forEach(function (gradient) {
-			var hex = String(gradient.getStops()[0].color).replace(/[^0-9a-f]/gi, '');
+		colors.forEach(function (color) {
+			var hex = String(color).replace(/[^0-9a-f]/gi, '');
 			if (hex.length < 6) {
 				hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
 			}
@@ -1046,15 +971,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				stopColor += ("00" + c).substr(c.length);
 			}
 
-			lighterGradients.push(Ext.create('Ext.draw.gradient.Linear', {
-				degrees: 90,
-				stops: [
-					{offset: 0, color: stopColor},
-					{offset: 100, color: stopColor}
-				]
-			}));
+			lighterColors.push(stopColor);
 		});
 
-		return lighterGradients;
+		return lighterColors;
 	}
 });
