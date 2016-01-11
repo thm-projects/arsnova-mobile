@@ -524,6 +524,18 @@ html, body,
 	top: -70px;
 }
 
+.matrixButton {
+	.x-toggle {
+		background-image: none;
+		background-color: $button-toggle-on-color;
+	}
+
+	.x-toggle-on {
+		background-image: none;
+		background-color: $button-toggle-off-color;
+	}
+}
+
 .alternativeRoleChangeColor {
 	color: $startscreen-rolechange-alternative-color !important;
 }
