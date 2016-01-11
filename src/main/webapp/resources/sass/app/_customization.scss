@@ -297,6 +297,13 @@ html, body,
 		color: $toolbar-speaker-title-color;
 	}
 
+	.x-button-confirm {
+		@include toolbar-button-config(
+			$toolbar-confirm-button-bg-color !important,
+			$toolbar-confirm-button-txt-color !important
+		)
+	}
+
 	.x-button-normal {
 		@include toolbar-button-config(
 			$toolbar-button-bg-color,
