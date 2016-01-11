@@ -361,9 +361,9 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 		me.saveAndContinueButton = Ext.create('Ext.Button', {
 			ui: 'confirm',
-			cls: 'saveQuestionButton',
+			cls: 'saveButton centered',
 			text: Messages.SAVE_AND_CONTINUE,
-			style: 'margin-top: 50px',
+			style: 'margin-top: 20px; margin-bottom: 20px;',
 			handler: function (button) {
 				me.saveHandler(button).then(function () {
 					Ext.toast(Messages.QUESTION_SAVED, 3000);

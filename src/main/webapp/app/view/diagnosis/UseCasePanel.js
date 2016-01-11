@@ -129,7 +129,7 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 		if (this.config.sessionCreationMode) {
 			this.backButton.setHandler(this.sessionCreationBackHandler);
 			this.submitButton = Ext.create('Ext.Button', {
-				cls: 'centerButton',
+				cls: 'saveButton centered',
 				ui: 'confirm',
 				scope: this,
 				text: Messages.SESSION_SAVE,
@@ -137,7 +137,7 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 			});
 		} else {
 			this.submitButton = Ext.create('Ext.Button', {
-				cls: 'centerButton',
+				cls: 'saveButton centered',
 				ui: 'confirm',
 				text: Messages.SAVE,
 				scope: this,
@@ -150,7 +150,7 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 		}
 
 		this.continueButton = Ext.create('Ext.Button', {
-			cls: 'centerButton',
+			cls: 'saveButton centered',
 			ui: 'confirm',
 			scope: this,
 			text: Messages.CONTINUE,

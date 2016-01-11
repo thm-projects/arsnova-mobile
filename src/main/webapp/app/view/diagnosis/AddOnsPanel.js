@@ -119,7 +119,7 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 
 		if (this.config.sessionCreationMode) {
 			this.submitButton = Ext.create('Ext.Button', {
-				cls: 'centerButton',
+				cls: 'saveButton centered',
 				ui: 'confirm',
 				scope: this,
 				text: Messages.SESSION_SAVE,
@@ -127,7 +127,7 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 			});
 		} else {
 			this.submitButton = Ext.create('Ext.Button', {
-				cls: 'centerButton',
+				cls: 'saveButton centered',
 				ui: 'confirm',
 				text: Messages.SAVE,
 				scope: this,

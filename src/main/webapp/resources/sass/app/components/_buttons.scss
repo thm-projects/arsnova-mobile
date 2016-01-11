@@ -380,6 +380,16 @@
 	}
 }
 
+.saveButton {
+	margin: 10px;
+	max-width: 340px;
+	height: 40px;
+
+	&.centered {
+		margin: 10px auto;
+	}
+}
+
 .questionRequestButton {
 	margin-top: 15px;
 	margin-bottom: 30px;
@@ -393,7 +403,7 @@
 
 .login-button {
 	margin: 10px;
-	height: 45px;
+	height: 40px;
 }
 
 .imageUploadButtonLabel {

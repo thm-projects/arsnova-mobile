@@ -101,7 +101,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		this.buttonContainer = Ext.create('Ext.Container', {
 			layout: {
 				type: 'hbox',
-				align: 'stretch'
+				align: 'stretch',
+				pack: 'center'
 			},
 			defaults: {
 				style: {
@@ -113,7 +114,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				flex: 1,
 				xtype: 'button',
 				ui: 'confirm',
-				cls: 'login-button noMargin',
+				cls: 'saveButton noMargin',
 				text: Messages.SAVE,
 				handler: this.saveHandler,
 				scope: this
@@ -121,7 +122,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				flex: 1,
 				xtype: 'button',
 				ui: 'action',
-				cls: 'login-button noMargin',
+				cls: 'saveButton noMargin',
 				text: Messages.ABSTENTION,
 				handler: this.abstentionHandler,
 				scope: this
