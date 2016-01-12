@@ -38,6 +38,20 @@ Ext.define("ARSnova.controller.Feature", {
 		learningProgress: true
 	},
 
+	/* TODO:
+	 * Remove this workaround as soon as the feature controller uses its own
+	 * variable. Server-side global config should never be overriden.
+	 *
+	 * Potential solution:
+	 * Store feature activation locally in this controller and add
+	 * `isFeatureEnabled` method for feature testing.
+	 */
+	launch: function () {
+		ARSnova.app.configLoaded.then(function () {
+			ARSnova.app.globalConfig.features.learningProgress = true;
+		});
+	},
+
 	applyFeatures: function (prevFeatures) {
 		var features = Ext.decode(sessionStorage.getItem("features"));
 
@@ -266,6 +280,7 @@ Ext.define("ARSnova.controller.Feature", {
 			button = tabPanel.inClassPanel.myLearningProgressButton;
 		}
 
+		/* FIXME: Server-side global config should never be overriden. */
 		ARSnova.app.globalConfig.features.learningProgress = enable;
 		this.applyButtonChange(container, button, enable, 3);
 	},
