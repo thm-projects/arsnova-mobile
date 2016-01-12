@@ -758,18 +758,18 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 	updateAnswerCount: function (round) {
 		var count = 0;
 
-		switch (this.segmentedButton.lastPressed) {
-			case '1':
+		switch (parseInt(round)) {
+			case 1:
 				count = this.answerCountFirstRound;
 				this.setAnswerCounter(count);
 				break;
-			case '2':
+			case 2:
 				count = this.answerCountSecondRound;
 				this.setAnswerCounter(count);
 				break;
 			default:
 				count = this.answerCountFirstRound + " | " + this.answerCountSecondRound;
-				this.setAnswerCounter(count, " ");
+				this.setAnswerCounter(count, false);
 				break;
 		}
 
