@@ -105,8 +105,9 @@ Ext.define("ARSnova.controller.MathJaxMarkdown", {
 	 */
 	imageRenderer: function (href, title, text) {
 		var controller = ARSnova.app.getController('MathJaxMarkdown');
+		var isVideoElement = href.indexOf('://i.vimeocdn') > -1 || href.indexOf('://img.youtube') > -1;
 
-		if (controller.hideMediaElements) {
+		if (controller.hideMediaElements && !isVideoElement) {
 			return controller.hideMediaDummy.replace(/###/, 'imageIcon');
 		} else {
 			return '<img class="resizeableImage" src="' + href + '" alt="' + text + '">';
