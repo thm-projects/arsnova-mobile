@@ -266,7 +266,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 
 		this.descriptionFieldSet = Ext.create('Ext.form.FieldSet', {
 			hidden: true,
-			title: Messages.SESSIONPOOL_INFO,
 			cls: 'standardFieldset',
 			items: [
 				this.descriptionText
@@ -438,6 +437,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		}
 
 		if (this.getSessionInfo().ppDescription) {
+			this.descriptionText.setContent(this.getSessionInfo().ppDescription, true, true);
 			this.descriptionFieldSet.show();
 		}
 
