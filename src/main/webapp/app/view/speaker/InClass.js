@@ -30,6 +30,10 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
+		},
+		layout: {
+			type: 'vbox',
+			pack: 'center'
 		}
 	},
 
@@ -273,7 +277,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		});
 
 		this.inClassActions = Ext.create('Ext.Panel', {
-			style: {marginTop: '20px'},
+			style: 'margin: 20px 0 0 20px;',
 			layout: {
 				type: 'hbox',
 				pack: 'center'

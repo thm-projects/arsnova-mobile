@@ -25,6 +25,10 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
+		},
+		layout: {
+			type: 'vbox',
+			pack: 'center'
 		}
 	},
 

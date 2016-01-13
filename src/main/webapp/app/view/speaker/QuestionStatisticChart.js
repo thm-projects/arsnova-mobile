@@ -701,7 +701,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				me.piToolbar.show();
 			}
 
-			me.updateAnswerCount(me.questionObj.piRound);
+			me.updateAnswerCount(me.segmentedButton.lastPressed);
 
 			// renew the chart-data
 			chart.redraw();

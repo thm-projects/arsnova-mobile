@@ -76,6 +76,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
+		},
+		layout: {
+			type: 'vbox',
+			pack: 'center'
 		}
 	},
 

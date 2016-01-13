@@ -27,6 +27,10 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
+		},
+		layout: {
+			type: 'vbox',
+			pack: 'center'
 		}
 	},
 
@@ -158,6 +162,7 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 			text: Messages.DELETE,
 			scope: this,
 			hidden: !this.answer.deletable,
+			style: 'margin-bottom: 30px;',
 			handler: function () {
 				ARSnova.app.questionModel.deleteAnswer(self.answer.questionId, self.answer._id, {
 					success: function () {

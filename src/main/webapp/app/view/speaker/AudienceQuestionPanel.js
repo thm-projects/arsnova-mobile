@@ -34,7 +34,10 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			direction: 'vertical',
 			directionLock: true
 		},
-
+		layout: {
+			type: 'vbox',
+			pack: 'center'
+		},
 		controller: null
 	},
 

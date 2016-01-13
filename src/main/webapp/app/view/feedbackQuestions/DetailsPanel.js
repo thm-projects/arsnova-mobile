@@ -26,8 +26,11 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 			direction: 'vertical',
 			directionLock: true
 		},
+		layout: {
+			type: 'vbox',
+			pack: 'center'
+		},
 		isRendered: false,
-
 		question: null
 	},
 

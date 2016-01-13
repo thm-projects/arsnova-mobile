@@ -22,7 +22,11 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 	config: {
 		fullscreen: true,
 		scrollable: null,
-		scroll: 'vertical'
+		scroll: 'vertical',
+		layout: {
+			type: 'vbox',
+			pack: 'center'
+		}
 	},
 
 	sessionKey: null,

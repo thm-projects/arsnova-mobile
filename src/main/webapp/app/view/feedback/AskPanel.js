@@ -28,6 +28,10 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			direction: 'vertical',
 			directionLock: true
 		},
+		layout: {
+			type: 'vbox',
+			pack: 'center'
+		},
 		closePanelHandler: null
 	},
 
@@ -90,6 +94,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		// Preview panel with integrated button
 		this.buttonPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
+			style: 'margin-bottom: 15px',
 			scrollable: null,
 			items: [{
 				xtype: 'fieldset',

@@ -29,6 +29,10 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
+		},
+		layout: {
+			type: 'vbox',
+			pack: 'center'
 		}
 	},
 
@@ -338,6 +342,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		this.mainPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
 			scrollable: null,
+			style: 'margin-bottom: 15px 0 0 15px',
 			items: [
 				this.descriptionFieldSet,
 				this.creatorFieldSet,

@@ -27,6 +27,10 @@ Ext.define('ARSnova.view.user.InClass', {
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
+		},
+		layout: {
+			type: 'vbox',
+			pack: 'center'
 		}
 	},
 
@@ -260,6 +264,7 @@ Ext.define('ARSnova.view.user.InClass', {
 				this.actionButtonPanel, this.inClassButtons,
 				{
 					xtype: 'formpanel',
+					style: 'margin-bottom: 10px;',
 					cls: 'standardForm topPadding',
 					scrollable: null,
 					items: this.caption

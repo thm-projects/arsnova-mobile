@@ -27,6 +27,10 @@ Ext.define('ARSnova.view.LoginPanel', {
 			direction: 'vertical',
 			directionLock: true
 		},
+		layout: {
+			type: 'vbox',
+			pack: 'center'
+		},
 
 		layoutOnOrientationChange: false,
 		monitorOrientation: false,
@@ -130,6 +134,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 				}
 			}
 
+			buttonPanels[buttonPanels.length - 1].setStyle('margin-bottom: 15px;');
 			buttonPanels.forEach(function (buttonPanel) {
 				me.add(buttonPanel);
 			});

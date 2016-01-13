@@ -41,6 +41,10 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
+		},
+		layout: {
+			type: 'vbox',
+			pack: 'center'
 		}
 	},
 
@@ -159,6 +163,7 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 
 		this.formPanel = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
+			style: 'margin-bottom: 15px;',
 			items: [this.useCaseFieldSet, this.submitButton]
 		});
 

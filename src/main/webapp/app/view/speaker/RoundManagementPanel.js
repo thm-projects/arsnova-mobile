@@ -26,6 +26,10 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
+		},
+		layout: {
+			type: 'vbox',
+			pack: 'center'
 		}
 	},
 

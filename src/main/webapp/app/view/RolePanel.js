@@ -30,6 +30,11 @@ Ext.define('ARSnova.view.RolePanel', {
 			hidden: true
 		},
 
+		layout: {
+			type: 'vbox',
+			pack: 'center'
+		},
+
 		title: 'RolePanel'
 	},
 
@@ -124,7 +129,7 @@ Ext.define('ARSnova.view.RolePanel', {
 				type: 'hbox',
 				pack: 'center'
 			},
-			style: 'margin-top: 15px',
+			style: 'margin-top: 15px; margin-bottom: 25px;',
 			items: [{
 				xtype: 'matrixbutton',
 				text: Messages.INFO,

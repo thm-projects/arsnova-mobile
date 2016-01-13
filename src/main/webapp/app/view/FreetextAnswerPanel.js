@@ -28,6 +28,10 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			direction: 'vertical',
 			directionLock: true
 		},
+		layout: {
+			type: 'vbox',
+			pack: 'center'
+		},
 
 		/**
 		 * task for speakers in a session
@@ -213,14 +217,14 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		this.formPanel = Ext.create('Ext.form.Panel', {
 			style: 'margin-top: 15px',
 			cls: 'roundedCorners',
-			height: '100%',
-			width: '100%',
-			flex: 1,
 			scrollable: null,
 			items: [
 				questionPanel,
 				this.noAnswersLabel,
-				this.freetextAnswerList
+				{
+					xtype: 'fieldset',
+					items: [this.freetextAnswerList]
+				}
 			]
 		});
 

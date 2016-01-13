@@ -34,6 +34,11 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
+		},
+
+		layout: {
+			type: 'vbox',
+			pack: 'center'
 		}
 	},
 

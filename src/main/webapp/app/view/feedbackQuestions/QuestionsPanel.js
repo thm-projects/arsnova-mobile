@@ -28,6 +28,10 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			direction: 'vertical',
 			directionLock: true
 		},
+		layout: {
+			type: 'vbox',
+			pack: 'center'
+		},
 
 		store: Ext.create('Ext.data.JsonStore', {
 			model: 'ARSnova.model.FeedbackQuestion',

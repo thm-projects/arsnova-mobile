@@ -30,6 +30,10 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
+		},
+		layout: {
+			type: 'vbox',
+			pack: 'center'
 		}
 	},
 

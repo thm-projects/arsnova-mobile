@@ -29,6 +29,10 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
+		},
+		layout: {
+			type: 'vbox',
+			pack: 'center'
 		}
 	},
 
@@ -137,6 +141,7 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 
 		this.formPanel = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
+			style: 'margin-bottom: 20px',
 			items: [this.featureFormPanel, this.submitButton]
 		});
 

@@ -32,6 +32,10 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 			direction: 'vertical',
 			directionLock: true
 		},
+		layout: {
+			type: 'vbox',
+			pack: 'center'
+		},
 
 		controller: null
 	},
