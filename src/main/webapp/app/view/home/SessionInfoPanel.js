@@ -342,8 +342,13 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			cls: 'newQuestion',
 			scrollable: null,
 			style: 'margin-bottom: 15px 0 0 15px',
-			items: [
-				this.descriptionFieldSet,
+			items: [{
+				cls: 'gravure selectable',
+				onClick: "this.setSelectionRange(0, this.value.length)",
+				html: showShortLabels ? Messages.SESSION_ID + ": " + 
+					ARSnova.app.formatSessionID(sessionStorage.getItem("keyword")) : 
+					window.location + 'id/' + sessionStorage.getItem('keyword')
+			}, this.descriptionFieldSet,
 				this.creatorFieldSet,
 				this.sessionFieldSet,
 				this.previewButton,
@@ -355,13 +360,33 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			]
 		});
 
+		
 		this.add([this.toolbar, this.mainPart]);
-		this.on('painted', this.disableInput());
+		this.on('painted', this.onPainted);
+		
+		
 	},
 
 	previewHandler: function () {
 		var descriptionPreview = Ext.create('ARSnova.view.PreviewBox', {});
 		descriptionPreview.showPreview(this.description.getValue());
+	},
+
+	onPainted: function () {
+		this.disableInput();
+
+		/** selectable event listener **/
+		this.mainPart.element.down('.selectable').addListener('tap', function () {
+			if (document.selection) {
+				var range = document.body.createTextRange();
+				range.moveToElementText(this.dom);
+				range.select();
+			} else if (window.getSelection) {
+				var range = document.createRange();
+				range.selectNode(this.dom);
+				window.getSelection().addRange(range);
+			}
+		});
 	},
 
 	validate: function () {
