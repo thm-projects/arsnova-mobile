@@ -17,7 +17,7 @@ Ext.define("ARSnova.controller.Version", {
 
 		ARSnova.app.configLoaded.then(function () {
 			if (!me.info.backend) {
-				ARSnova.app.restProxy.arsjax.request({
+				Ext.Ajax.request({
 					url: ARSnova.app.globalConfig.apiPath,
 					headers: headers,
 					success: function (response) {
