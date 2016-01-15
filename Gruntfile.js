@@ -156,11 +156,30 @@ module.exports = function (grunt) {
 		/* use dev env by default for run task */
 		setSenchaEnv(env ? env : "dev");
 		grunt.config("hostname", host || "localhost");
-		grunt.util.spawn({
+		var senchaProc = grunt.util.spawn({
 			cmd: "sencha",
 			args: ["app", "watch", "-e", grunt.config("senchaEnv")],
 			opts: {
 				cwd: appPath
+			}
+		}, function (err, result, code) {
+			grunt.fail.fatal("Sencha build failed.");
+		});
+		senchaProc.stdout.on("data", function (data) {
+			var logLine = data.toString("utf8");
+			var severity = logLine.substr(1, 3);
+			switch (severity) {
+			case "ERR":
+				grunt.log.error(logLine);
+				break;
+			case "WRN":
+				grunt.log.warn(logLine);
+				break;
+			default:
+				grunt.verbose.write(logLine);
+				if (logLine === "[INF] waiting for changes...\n") {
+					grunt.log.ok("Sencha build completed.");
+				}
 			}
 		});
 		/* we want Grunt for this task to continue even if QA checks fail */
