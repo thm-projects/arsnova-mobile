@@ -16,7 +16,8 @@
     "grunt-newer": "^1.1",
     "grunt-shell": "^1.1",
     "grunt-war": "^0.4",
-    "time-grunt": "^1.0"
+    "time-grunt": "^1.0",
+    "xml2js": "^0.4"
   },
   "private": true
 }

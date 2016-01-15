@@ -172,6 +172,7 @@
         "resources/startup",
         "resources/gridTemplates",
         "resources/sounds",
+        "resources/version.json",
         "favicon.png",
         "splashscreen.js",
         "lib/highlight.pack.js",

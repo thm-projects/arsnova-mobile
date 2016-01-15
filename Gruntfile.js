@@ -3,10 +3,12 @@
 
 module.exports = function (grunt) {
 	require("time-grunt")(grunt);
+	var parseXml = require("xml2js").parseString;
 
 	var appPath = "src/main/webapp";
 	var buildPath = appPath + "/build";
 	var warPath = "target";
+	var versionFilePath = appPath + "/resources";
 
 	/* Files matching the following patterns will be checked by JSHint and JSCS */
 	var lintJs = [
@@ -143,12 +145,14 @@ module.exports = function (grunt) {
 	}
 
 	grunt.registerTask("build", function (env) {
+		grunt.task.run("version");
 		/* use prod env by default for build task */
 		setSenchaEnv(env ? env : "prod");
 		grunt.task.run("shell:build");
 	});
 
 	grunt.registerTask("run", function (env, host) {
+		grunt.task.run("version");
 		/* use dev env by default for run task */
 		setSenchaEnv(env ? env : "dev");
 		grunt.config("hostname", host || "localhost");
@@ -170,6 +174,49 @@ module.exports = function (grunt) {
 		grunt.task.run("watch");
 	});
 
+	grunt.registerTask("readpom", function () {
+		var done = this.async();
+		parseXml(grunt.file.read("pom.xml"), function (err, pom) {
+			grunt.log.write("Version: " + pom.project.version[0]);
+			grunt.config("pom", pom);
+			done(true);
+		});
+	});
+
+	grunt.registerTask("genversionfile", function () {
+		grunt.task.requires("readpom");
+		var done = this.async(),
+			generate = function (dirty) {
+				grunt.util.spawn({
+					cmd: "git",
+					args: ["log", "-n", "1", "--pretty=format:%H"]
+				}, function (error, result, code) {
+					var version = {
+						version: grunt.config("pom").project.version[0],
+						gitCommitId: result.stdout,
+						gitDirty: dirty,
+						buildTime: (new Date()).toISOString()
+					};
+					grunt.file.write(versionFilePath + "/version.json", JSON.stringify(version) + "\n");
+					done(true);
+				});
+			};
+		grunt.util.spawn({
+			cmd: "git",
+			args: ["status", "--porcelain"]
+		}, function (error, result, code) {
+			var dirty = false;
+			result.stdout.split("\n").forEach(function (line) {
+				if (!/^$|^\?\?/.test(line)) {
+					dirty = true;
+
+					return;
+				}
+			});
+			generate(dirty);
+		});
+	});
+
 	grunt.loadNpmTasks("grunt-connect-proxy");
 	grunt.loadNpmTasks("grunt-contrib-clean");
 	grunt.loadNpmTasks("grunt-contrib-connect");
@@ -182,6 +229,7 @@ module.exports = function (grunt) {
 
 	grunt.registerTask("lint", ["jscs", "jshint"]);
 	grunt.registerTask("refresh", "shell:refresh");
+	grunt.registerTask("version", ["readpom", "genversionfile"]);
 	grunt.registerTask("package", ["refresh", "build", "war"]);
 	grunt.registerTask("default", ["lint", "refresh", "build"]);
 };
