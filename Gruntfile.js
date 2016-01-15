@@ -144,6 +144,21 @@ module.exports = function (grunt) {
 		grunt.config("senchaEnv", env);
 	}
 
+	/* Simplify stream handling by splitting at new lines */
+	function createChunkLineSplitter(cb) {
+		var buffer = "";
+		return function (chunk) {
+			var start = 0, end;
+			chunk = chunk.toString();
+			while (-1 !== (end = chunk.indexOf("\n", start))) {
+				cb(buffer + chunk.substring(start, end));
+				start = end + 1;
+				buffer = "";
+			}
+			buffer = chunk.substring(start);
+		};
+	}
+
 	grunt.registerTask("build", function (env) {
 		grunt.task.run("version");
 		/* use prod env by default for build task */
@@ -165,23 +180,21 @@ module.exports = function (grunt) {
 		}, function (err, result, code) {
 			grunt.fail.fatal("Sencha build failed.");
 		});
-		senchaProc.stdout.on("data", function (data) {
-			var logLine = data.toString("utf8");
-			var severity = logLine.substr(1, 3);
+		var handleLines = createChunkLineSplitter(function (line) {
+			var severity = line.substr(1, 3);
 			switch (severity) {
 			case "ERR":
-				grunt.log.error(logLine);
-				break;
 			case "WRN":
-				grunt.log.warn(logLine);
+				grunt.log.errorlns("Sencha: " + line);
 				break;
 			default:
-				grunt.verbose.write(logLine);
-				if (logLine === "[INF] waiting for changes...\n") {
+				grunt.verbose.writeln("Sencha: " + line.substr(6));
+				if (line === "[INF] waiting for changes...") {
 					grunt.log.ok("Sencha build completed.");
 				}
 			}
 		});
+		senchaProc.stdout.on("data", handleLines);
 		/* we want Grunt for this task to continue even if QA checks fail */
 		grunt.option("force", true);
 		grunt.task.run([
