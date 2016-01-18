@@ -44,18 +44,18 @@
       "parameters": {
         "viewNamespace": "ARSnova.view",
         "frameworkName": "touch",
-        "frameworkPath": "touch",
-        "senchadir": ".sencha",
-        "appModels": "",
-        "appControllers": "",
-        "appViews": "",
-        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083",
         "appName": "ARSnova",
-        "modelNamespace": "ARSnova.model",
-        "name": "ARSnova",
-        "library": "core",
         "controllerNamespace": "ARSnova.controller",
-        "appStores": ""
+        "frameworkPath": "touch",
+        "appModels": "",
+        "library": "core",
+        "senchadir": ".sencha",
+        "appStores": "",
+        "name": "ARSnova",
+        "appViews": "",
+        "appControllers": "",
+        "modelNamespace": "ARSnova.model",
+        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083"
       }
     },
     ".sencha/app/native.properties": {
@@ -64,18 +64,18 @@
       "parameters": {
         "viewNamespace": "ARSnova.view",
         "frameworkName": "touch",
-        "frameworkPath": "touch",
-        "senchadir": ".sencha",
-        "appModels": "",
-        "appControllers": "",
-        "appViews": "",
-        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083",
         "appName": "ARSnova",
-        "modelNamespace": "ARSnova.model",
-        "name": "ARSnova",
-        "library": "core",
         "controllerNamespace": "ARSnova.controller",
-        "appStores": ""
+        "frameworkPath": "touch",
+        "appModels": "",
+        "library": "core",
+        "senchadir": ".sencha",
+        "appStores": "",
+        "name": "ARSnova",
+        "appViews": "",
+        "appControllers": "",
+        "modelNamespace": "ARSnova.model",
+        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083"
       }
     },
     ".sencha/app/package.properties": {
@@ -84,18 +84,18 @@
       "parameters": {
         "viewNamespace": "ARSnova.view",
         "frameworkName": "touch",
-        "frameworkPath": "touch",
-        "senchadir": ".sencha",
-        "appModels": "",
-        "appControllers": "",
-        "appViews": "",
-        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083",
         "appName": "ARSnova",
-        "modelNamespace": "ARSnova.model",
-        "name": "ARSnova",
-        "library": "core",
         "controllerNamespace": "ARSnova.controller",
-        "appStores": ""
+        "frameworkPath": "touch",
+        "appModels": "",
+        "library": "core",
+        "senchadir": ".sencha",
+        "appStores": "",
+        "name": "ARSnova",
+        "appViews": "",
+        "appControllers": "",
+        "modelNamespace": "ARSnova.model",
+        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083"
       }
     },
     ".sencha/app/production.properties": {
@@ -104,18 +104,18 @@
       "parameters": {
         "viewNamespace": "ARSnova.view",
         "frameworkName": "touch",
-        "frameworkPath": "touch",
-        "senchadir": ".sencha",
-        "appModels": "",
-        "appControllers": "",
-        "appViews": "",
-        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083",
         "appName": "ARSnova",
-        "modelNamespace": "ARSnova.model",
-        "name": "ARSnova",
-        "library": "core",
         "controllerNamespace": "ARSnova.controller",
-        "appStores": ""
+        "frameworkPath": "touch",
+        "appModels": "",
+        "library": "core",
+        "senchadir": ".sencha",
+        "appStores": "",
+        "name": "ARSnova",
+        "appViews": "",
+        "appControllers": "",
+        "modelNamespace": "ARSnova.model",
+        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083"
       }
     },
     ".sencha/app/sencha.cfg": {
@@ -124,18 +124,18 @@
       "parameters": {
         "viewNamespace": "ARSnova.view",
         "frameworkName": "touch",
-        "frameworkPath": "touch",
-        "senchadir": ".sencha",
-        "appModels": "",
-        "appControllers": "",
-        "appViews": "",
-        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083",
         "appName": "ARSnova",
-        "modelNamespace": "ARSnova.model",
-        "name": "ARSnova",
-        "library": "core",
         "controllerNamespace": "ARSnova.controller",
-        "appStores": ""
+        "frameworkPath": "touch",
+        "appModels": "",
+        "library": "core",
+        "senchadir": ".sencha",
+        "appStores": "",
+        "name": "ARSnova",
+        "appViews": "",
+        "appControllers": "",
+        "modelNamespace": "ARSnova.model",
+        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083"
       }
     },
     ".sencha/app/testing.properties": {
@@ -144,18 +144,18 @@
       "parameters": {
         "viewNamespace": "ARSnova.view",
         "frameworkName": "touch",
-        "frameworkPath": "touch",
-        "senchadir": ".sencha",
-        "appModels": "",
-        "appControllers": "",
-        "appViews": "",
-        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083",
         "appName": "ARSnova",
-        "modelNamespace": "ARSnova.model",
-        "name": "ARSnova",
-        "library": "core",
         "controllerNamespace": "ARSnova.controller",
-        "appStores": ""
+        "frameworkPath": "touch",
+        "appModels": "",
+        "library": "core",
+        "senchadir": ".sencha",
+        "appStores": "",
+        "name": "ARSnova",
+        "appViews": "",
+        "appControllers": "",
+        "modelNamespace": "ARSnova.model",
+        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083"
       }
     },
     "app.js": {
@@ -164,18 +164,18 @@
       "parameters": {
         "viewNamespace": "ARSnova.view",
         "frameworkName": "touch",
-        "frameworkPath": "touch",
-        "senchadir": ".sencha",
-        "appModels": "",
-        "appControllers": "",
-        "appViews": "",
-        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083",
         "appName": "ARSnova",
-        "modelNamespace": "ARSnova.model",
-        "name": "ARSnova",
-        "library": "core",
         "controllerNamespace": "ARSnova.controller",
-        "appStores": ""
+        "frameworkPath": "touch",
+        "appModels": "",
+        "library": "core",
+        "senchadir": ".sencha",
+        "appStores": "",
+        "name": "ARSnova",
+        "appViews": "",
+        "appControllers": "",
+        "modelNamespace": "ARSnova.model",
+        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083"
       }
     },
     "app.json": {
@@ -184,18 +184,18 @@
       "parameters": {
         "viewNamespace": "ARSnova.view",
         "frameworkName": "touch",
-        "frameworkPath": "touch",
-        "senchadir": ".sencha",
-        "appModels": "",
-        "appControllers": "",
-        "appViews": "",
-        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083",
         "appName": "ARSnova",
-        "modelNamespace": "ARSnova.model",
-        "name": "ARSnova",
-        "library": "core",
         "controllerNamespace": "ARSnova.controller",
-        "appStores": ""
+        "frameworkPath": "touch",
+        "appModels": "",
+        "library": "core",
+        "senchadir": ".sencha",
+        "appStores": "",
+        "name": "ARSnova",
+        "appViews": "",
+        "appControllers": "",
+        "modelNamespace": "ARSnova.model",
+        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083"
       }
     },
     "index.html": {
@@ -204,18 +204,18 @@
       "parameters": {
         "viewNamespace": "ARSnova.view",
         "frameworkName": "touch",
-        "frameworkPath": "touch",
-        "senchadir": ".sencha",
-        "appModels": "",
-        "appControllers": "",
-        "appViews": "",
-        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083",
         "appName": "ARSnova",
-        "modelNamespace": "ARSnova.model",
-        "name": "ARSnova",
-        "library": "core",
         "controllerNamespace": "ARSnova.controller",
-        "appStores": ""
+        "frameworkPath": "touch",
+        "appModels": "",
+        "library": "core",
+        "senchadir": ".sencha",
+        "appStores": "",
+        "name": "ARSnova",
+        "appViews": "",
+        "appControllers": "",
+        "modelNamespace": "ARSnova.model",
+        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083"
       }
     },
     "packager.json": {
@@ -224,18 +224,18 @@
       "parameters": {
         "viewNamespace": "ARSnova.view",
         "frameworkName": "touch",
-        "frameworkPath": "touch",
-        "senchadir": ".sencha",
-        "appModels": "",
-        "appControllers": "",
-        "appViews": "",
-        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083",
         "appName": "ARSnova",
-        "modelNamespace": "ARSnova.model",
-        "name": "ARSnova",
-        "library": "core",
         "controllerNamespace": "ARSnova.controller",
-        "appStores": ""
+        "frameworkPath": "touch",
+        "appModels": "",
+        "library": "core",
+        "senchadir": ".sencha",
+        "appStores": "",
+        "name": "ARSnova",
+        "appViews": "",
+        "appControllers": "",
+        "modelNamespace": "ARSnova.model",
+        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083"
       }
     },
     "resources/sass/app.scss": {
@@ -244,18 +244,18 @@
       "parameters": {
         "viewNamespace": "ARSnova.view",
         "frameworkName": "touch",
-        "frameworkPath": "touch",
-        "senchadir": ".sencha",
-        "appModels": "",
-        "appControllers": "",
-        "appViews": "",
-        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083",
         "appName": "ARSnova",
-        "modelNamespace": "ARSnova.model",
-        "name": "ARSnova",
-        "library": "core",
         "controllerNamespace": "ARSnova.controller",
-        "appStores": ""
+        "frameworkPath": "touch",
+        "appModels": "",
+        "library": "core",
+        "senchadir": ".sencha",
+        "appStores": "",
+        "name": "ARSnova",
+        "appViews": "",
+        "appControllers": "",
+        "modelNamespace": "ARSnova.model",
+        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083"
       }
     },
     "resources/sass/config.rb": {
@@ -264,18 +264,18 @@
       "parameters": {
         "viewNamespace": "ARSnova.view",
         "frameworkName": "touch",
-        "frameworkPath": "touch",
-        "senchadir": ".sencha",
-        "appModels": "",
-        "appControllers": "",
-        "appViews": "",
-        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083",
         "appName": "ARSnova",
-        "modelNamespace": "ARSnova.model",
-        "name": "ARSnova",
-        "library": "core",
         "controllerNamespace": "ARSnova.controller",
-        "appStores": ""
+        "frameworkPath": "touch",
+        "appModels": "",
+        "library": "core",
+        "senchadir": ".sencha",
+        "appStores": "",
+        "name": "ARSnova",
+        "appViews": "",
+        "appControllers": "",
+        "modelNamespace": "ARSnova.model",
+        "uniqueId": "2dd39c19-b1c7-472f-9ad3-2eff29c20083"
       }
     }
   }
