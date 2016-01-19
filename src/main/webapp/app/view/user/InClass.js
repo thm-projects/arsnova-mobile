@@ -315,6 +315,12 @@ Ext.define('ARSnova.view.user.InClass', {
 		if (ARSnova.app.isSessionOwner) {
 			this.updateActionButtonElements();
 		}
+		ARSnova.app.restProxy.getMotdsForSession(sessionStorage.getItem("keyword"), {
+			success: function (response) {
+				var motds = Ext.decode(response.responseText);
+				ARSnova.app.getController('Motds').showMotds(motds, 1);
+			}
+		});
 	},
 
 	/* will be called on session login */

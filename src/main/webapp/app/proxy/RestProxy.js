@@ -1089,5 +1089,124 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			204: callbacks.failure,
 			failure: callbacks.failure
 		});
+	},
+
+	saveMotd: function (motd, callbacks) {
+		this.arsjax.request({
+			url: "motd/",
+			jsonData: motd.getData(),
+			success: callbacks.success,
+			failure: callbacks.failure,
+			method: "POST"
+		});
+	},
+
+	updateMotd: function (motd, callbacks) {
+		this.arsjax.request({
+			url: "motd/" + motd.get('motdkey'),
+			method: "PUT",
+			jsonData: motd.getData(),
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
+	deleteMotd: function (motd, callbacks) {
+		this.arsjax.request({
+			url: "motd/" + motd.motdkey,
+			method: "DELETE",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
+	getAllMotds: function (callbacks) {
+		this.arsjax.request({
+			url: "motd/?adminview=true",
+			method: "GET",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
+	getAllSessionMotds: function (key, callbacks) {
+		this.arsjax.request({
+			url: "motd/?adminview=true&sessionkey=" + key,
+			success: callbacks.success,
+			failure: callbacks.failure,
+			method: "GET"
+		});
+	},
+
+	getMotdsForAll: function (callbacks) {
+		this.arsjax.request({
+			url: "motd/",
+			success: callbacks.success,
+			failure: callbacks.failure,
+			method: "GET"
+		});
+	},
+
+	getMotdsForLoggedIn: function (callbacks) {
+		this.arsjax.request({
+			url: "motd/?audience=loggedIn",
+			success: callbacks.success,
+			failure: callbacks.failure,
+			method: "GET"
+		});
+	},
+
+	getMotdsForTutors: function (callbacks) {
+		this.arsjax.request({
+			url: "motd/?audience=tutors",
+			method: "GET",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
+	getMotdsForStudents: function (callbacks) {
+		this.arsjax.request({
+			url: "motd/?audience=students",
+			method: "GET",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
+	getMotdsForSession: function (key, callbacks) {
+		this.arsjax.request({
+			url: "motd/?audience=session&sessionkey=" + key,
+			method: "GET",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
+	getMotdListForUser: function (username, callbacks) {
+		this.arsjax.request({
+			url: "motd/userlist?username=" + encodeURIComponent(username),
+			method: "GET",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
+	saveMotdList: function (motdlist, callbacks) {
+		this.arsjax.request({
+			url: "motd/userlist",
+			method: "POST",
+			jsonData: motdlist,
+			success: function (response) {}
+		});
+	},
+
+	updateMotdList: function (motdlist, callbacks) {
+		this.arsjax.request({
+			url: "motd/userlist",
+			method: "PUT",
+			jsonData: motdlist,
+			success: function (response) {}
+		});
 	}
 });

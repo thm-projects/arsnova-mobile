@@ -143,6 +143,19 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			}
 		});
 
+		this.motdButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: Messages.MESSAGEOFTHEDAY_BUTTON,
+			altText: Messages.CREATE_NEW_MOTD,
+			margin: "-18 0 0 0",
+			cls: 'smallerActionButton',
+			buttonConfig: 'icon',
+			imageCls: 'icon-blog',
+			scope: this,
+			handler: function () {
+				ARSnova.app.getController('Motds').listAllSessionMotds(sessionStorage.getItem('keyword'));
+			}
+		});
+
 		this.actionButtonPanel = Ext.create('Ext.Panel', {
 			layout: {
 				type: 'hbox',
@@ -155,12 +168,12 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				flex: '3',
 				width: true
 			}, this.showcaseActionButton, {
-				xtype: 'spacer',
-				itemId: 'innerLeftSpacer'
+				xtype: 'spacer'
 			}, this.roleIconButton, {
-				xtype: 'spacer',
-				itemId: 'innerRightSpacer'
+				xtype: 'spacer'
 			}, this.createAdHocQuestionButton, {
+				xtype: 'spacer'
+			}, this.motdButton, {
 				xtype: 'spacer',
 				flex: '3',
 				width: true
