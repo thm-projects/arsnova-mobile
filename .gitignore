@@ -15,6 +15,7 @@ node_modules/
 *.bak
 *.iml
 *.log
+*.orig
 .*.sw?
 .buildpath
 .classpath
