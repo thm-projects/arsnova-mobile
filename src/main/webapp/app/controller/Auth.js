@@ -177,6 +177,7 @@ Ext.define("ARSnova.controller.Auth", {
 			success: function (response) {
 				var obj = Ext.decode(response.responseText);
 				ARSnova.app.loggedIn = true;
+				ARSnova.app.isAdmin = obj.admin;
 				localStorage.setItem('login', obj.username);
 				window.location = window.location.pathname + "#";
 				if (window.socket) {
@@ -217,6 +218,7 @@ Ext.define("ARSnova.controller.Auth", {
 		localStorage.removeItem('sessions');
 		localStorage.removeItem('role');
 		localStorage.removeItem('loginMode');
+		localStorage.removeItem('isAdmin');
 
 		/* check if new version available */
 		var appCache = window.applicationCache;

@@ -23,7 +23,10 @@ Ext.define('ARSnova.view.home.TabPanel', {
 	requires: [
 		'ARSnova.view.home.HomePanel',
 		'ARSnova.view.home.MySessionsPanel',
-		'ARSnova.view.home.NewSessionPanel'
+		'ARSnova.view.home.NewSessionPanel',
+		'ARSnova.view.home.MotdPanel',
+		'ARSnova.view.home.NewMotdPanel',
+		'ARSnova.view.home.MotdDetailsPanel'
 	],
 
 	config: {

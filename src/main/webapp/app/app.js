@@ -48,7 +48,7 @@ Ext.require([
 
 Ext.application({
 
-	requires: ['ARSnova.WebSocket', 'ARSnova.BrowserSupport', 'ARSnova.view.CustomMessageBox', 'ARSnova.utils.AsyncUtils'],
+	requires: ['ARSnova.WebSocket', 'ARSnova.BrowserSupport', 'ARSnova.view.CustomMessageBox', 'ARSnova.utils.AsyncUtils', 'ARSnova.view.components.MotdMessageBox'],
 
 	viewport: {
 		autoMaximize: Ext.os.is.iOS && Ext.browser.is.webview
@@ -86,11 +86,11 @@ Ext.application({
 
 	isIconPrecomposed: true,
 
-	models: ['Answer', 'Feedback', 'LoggedIn', 'Question', 'Session', 'Statistics', 'Course', 'Auth', 'FeedbackQuestion'],
+	models: ['Answer', 'Feedback', 'LoggedIn', 'Question', 'Session', 'Statistics', 'Course', 'Auth', 'FeedbackQuestion', 'Motd'],
 
 	views: ['MainTabPanel', 'MathJaxMarkDownPanel', 'QuestionPreviewBox', 'AnswerPreviewBox'],
 
-	controllers: ['Auth', 'Application', 'Feedback', 'Lang', 'Feature', 'Questions', 'FlashcardQuestions', 'PreparationQuestions', 'RoundManagement', 'MathJaxMarkdown', 'Sessions', 'SessionImport', 'SessionExport', 'Statistics', 'Tracking', 'QuestionExport', 'QuestionImport', 'Version'],
+	controllers: ['Auth', 'Application', 'Feedback', 'Lang', 'Feature', 'Questions', 'FlashcardQuestions', 'PreparationQuestions', 'RoundManagement', 'MathJaxMarkdown', 'Sessions', 'SessionImport', 'SessionExport', 'Statistics', 'Tracking', 'QuestionExport', 'QuestionImport', 'Motds', 'Version'],
 
 	/* items */
 	mainTabPanel: null,
@@ -116,6 +116,7 @@ Ext.application({
 	sessionModel: null,
 	statisticModel: null,
 	courseModel: null,
+	motdModel: null,
 
 	/* proxy */
 	restProxy: null,
@@ -142,6 +143,7 @@ Ext.application({
 		this.sessionModel = Ext.create('ARSnova.model.Session');
 		this.statisticsModel = Ext.create('ARSnova.model.Statistics');
 		this.courseModel = Ext.create('ARSnova.model.Course');
+		this.motdModel = Ext.create('ARSnova.model.Motd');
 	},
 
 	/**
@@ -274,6 +276,14 @@ Ext.application({
 			Ext.fly('splashScreenContainer').destroy();
 			window.document.body.style.overflow = 'initial';
 			window.document.body.style.background = 'initial';
+		}
+		if (ARSnova.app.loggedIn !== true) {
+			ARSnova.app.restProxy.getMotdsForAll({
+				success: function (response) {
+					var motds = Ext.decode(response.responseText);
+					ARSnova.app.getController('Motds').showMotds(motds, 0);
+				}
+			});
 		}
 	},
 

@@ -28,7 +28,8 @@ Ext.define('ARSnova.view.TabPanel', {
 		'ARSnova.view.about.AboutTabPanel',
 		'ARSnova.view.about.ImprintTabPanel',
 		'ARSnova.view.about.PrivacyTabPanel',
-		'ARSnova.view.components.List'
+		'ARSnova.view.components.List',
+		'ARSnova.model.Motd'
 	],
 
 	config: {
