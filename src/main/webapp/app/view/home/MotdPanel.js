@@ -127,10 +127,10 @@ Ext.define('ARSnova.view.home.MotdPanel', {
 		});
 
 		this.newMotdButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.NEW_MOTD,
+			text: Messages.CREATE_NEW_MOTD,
 			buttonConfig: 'icon',
 			cls: actionButtonCls,
-			imageCls: 'icon-question thm-green',
+			imageCls: 'icon-blog',
 			scope: this,
 			handler: this.newMotdHandler
 		});

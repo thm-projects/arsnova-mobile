@@ -144,9 +144,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		});
 
 		this.motdButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.MESSAGEOFTHEDAY_BUTTON,
-			altText: Messages.CREATE_NEW_MOTD,
-			margin: "-18 0 0 0",
+			text: Messages.MOTD_MANAGEMENT,
 			cls: 'smallerActionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-blog',
