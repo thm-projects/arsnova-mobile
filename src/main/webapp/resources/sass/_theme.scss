@@ -19,7 +19,8 @@
 
 /** default colors **/
 $default-white-color: #FFF;
-$default-green-color: #3D9C19;
+//$default-green-color: #3D9C19;
+$default-green-color: #07457F; //TransMIT CD
 $default-grey-color: #394a59;
 $default-lightgrey-color: #788895;
 $default-red-color: #971b2f;
@@ -187,7 +188,7 @@ $badge-answers-color: $brand-warning;
 /** mask configuration **/
 $mask-error-text-color: $brand-danger;
 $mask-correct-text-color: $brand-success;
-$mask-background-color: #000000;
+$mask-background-color: $default-darkblue-color;
 $mask-opacity: 0.3;
 
 

@@ -63,7 +63,7 @@
 				CHOOSE_ROLE: "Wählen Sie Ihre Rolle:",
 				STUDENT: "Student/in",
 				SPEAKER: "Dozent/in",
-				TITLE_ROLE: "Feedback im Hörsaal",
+				TITLE_ROLE: "Feedback & Interaktion",
 				/* loginPanel */
 				CHOOSE_LOGIN: 'Wählen Sie Ihren Zugang:',
 				GUEST: "Gast",
