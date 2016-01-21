@@ -156,10 +156,10 @@ Ext.define('ARSnova.view.home.MotdDetailsPanel', {
 						motd.set("title", values.motdTitle);
 						motd.set("text", values.motdText);
 						motd.set("audience", values.picker);
-						var start = new Date(values.startdate);
-						motd.set("startdate", start.getTime());
-						var end = new Date(values.enddate);
-						motd.set("enddate", end.getTime());
+						var start = ARSnova.app.getController('Motds').getTimestampByString(values.startdate);
+						motd.set("startdate", start);
+						var end = ARSnova.app.getController('Motds').getTimestampByString(values.enddate);
+						motd.set("enddate", end);
 						motd.set("motdkey", panel.motdObj.motdkey);
 						panel.motdtitle.resetOriginalValue();
 						panel.textarea.resetOriginalValue();
@@ -484,11 +484,11 @@ Ext.define('ARSnova.view.home.MotdDetailsPanel', {
 			this.audienceshow.setValue(audience);
 			var start = new Date();
 			start.setTime(motdObj.startdate);
-			var startstring = start.getMonth() + 1 + "/" + start.getDate() + "/" + start.getFullYear();
+			var startstring = start.getDate() + "." + (start.getMonth() + 1) + "." + start.getFullYear();
 			this.startdateshow.setValue(startstring);
 			var end = new Date();
 			end.setTime(motdObj.enddate);
-			var endstring = end.getMonth() + 1 + "/" + end.getDate() + "/" + end.getFullYear();
+			var endstring = end.getDate() + "." + (end.getMonth() + 1) + "." + end.getFullYear();
 			this.enddateshow.setValue(endstring);
 			this.startdate.setValue(startstring);
 			this.enddate.setValue(endstring);

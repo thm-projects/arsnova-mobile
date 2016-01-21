@@ -157,6 +157,22 @@ Ext.define("ARSnova.controller.Motds", {
 		}
 	},
 
+	// timestring shall have format: MM.DD.JJJJ
+	getTimestampByString: function (timestring) {
+		var datestrings = [];
+		var pos = null;
+		var ret = null;
+		var del = timestring.indexOf('.');
+		datestrings[0] = timestring.substr(0, del);
+		pos = timestring.indexOf('.') + 1;
+		del = timestring.indexOf('.', pos);
+		datestrings[1] = timestring.substr(pos, del - pos);
+		pos = timestring.indexOf('.', pos) + 1;
+		datestrings[2] = timestring.substr(pos);
+		ret = new Date(datestrings[1] + "/" + datestrings[0] + "/" + datestrings[2]);
+		return ret.getTime();
+	},
+
 	saveMotdList: function (motdlist) {
 		ARSnova.app.restProxy.saveMotdList(motdlist);
 	},

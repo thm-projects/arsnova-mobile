@@ -110,13 +110,13 @@ Ext.define('ARSnova.view.home.NewMotdPanel', {
 		this.startdate = Ext.create('Ext.field.Text', {
 			name: 'startdate',
 			label: Messages.MOTD_STARTDATE,
-			placeHolder: "MM/TT/JJJJ"
+			placeHolder: "TT.MM.JJJJ"
 		});
 
 		this.enddate = Ext.create('Ext.field.Text', {
 			name: 'enddate',
 			label: Messages.MOTD_ENDDATE,
-			placeHolder: "MM/TT/JJJJ"
+			placeHolder: "TT.MM.JJJJ"
 		});
 
 		// Preview button
@@ -235,10 +235,8 @@ Ext.define('ARSnova.view.home.NewMotdPanel', {
 		}
 		values.title = mainPartValues.title;
 		values.text = mainPartValues.text;
-		var start = new Date(mainPartValues.startdate);
-		values.startdate = start.getTime();
-		var end = new Date(mainPartValues.enddate);
-		values.enddate = end.getTime();
+		values.startdate = ARSnova.app.getController('Motds').getTimestampByString(mainPartValues.startdate);
+		values.enddate =  ARSnova.app.getController('Motds').getTimestampByString(mainPartValues.enddate);
 		var promise = new RSVP.Promise();
 		ARSnova.app.getController('Motds').add({
 			title: values.title,
