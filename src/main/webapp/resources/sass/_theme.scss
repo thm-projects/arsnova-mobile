@@ -19,8 +19,8 @@
 
 /** default colors **/
 $default-white-color: #FFF;
-//$default-green-color: #3D9C19;
-$default-green-color: #07457F; //TransMIT CD
+$default-green-color: #3D9C19;
+//$default-green-color: #07457F; //TransMIT CD
 $default-grey-color: #394a59;
 $default-lightgrey-color: #788895;
 $default-red-color: #971b2f;
@@ -213,3 +213,22 @@ $projectormode-text-color: black;
 /** additional color configurations **/
 $caption-bg-color: $brand-buttons;
 $startscreen-rolechange-alternative-color: $brand-secondary;
+/* unvisited link */
+a:link {
+    color: $default-orange-color !important;
+}
+
+/* visited link */
+a:visited {
+    color: $default-orange-color !important;
+}
+
+/* mouse over link */
+a:hover {
+    color: $default-green-color !important;
+}
+
+/* selected link */
+a:active {
+    color: $default-green-color !important;
+}
