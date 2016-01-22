@@ -116,8 +116,8 @@ Ext.define('ARSnova.view.home.MotdDetailsPanel', {
 					motd.updateMotd({
 						success: function (response) {
 							motd.set('_rev', Ext.decode(response.responseText)._rev);
-							panel.motdObj = motd;
-							panel.setContentFormContent(panel.motdObj.data);
+							panel.motdObj = motd.data;
+							panel.setContentFormContent(panel.motdObj);
 						},
 						failure: function (response) {
 						}
@@ -160,7 +160,6 @@ Ext.define('ARSnova.view.home.MotdDetailsPanel', {
 						motd.set("startdate", start);
 						var end = ARSnova.app.getController('Motds').getTimestampByString(values.enddate);
 						motd.set("enddate", end);
-						motd.set("motdkey", panel.motdObj.motdkey);
 						panel.motdtitle.resetOriginalValue();
 						panel.textarea.resetOriginalValue();
 						panel.startdate.resetOriginalValue();
