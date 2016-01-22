@@ -291,8 +291,7 @@ Ext.define('ARSnova.view.home.MotdDetailsPanel', {
 				{text: Messages.MOTD_AUDIENCE_ALL, value: 'all'},
 				{text: Messages.MOTD_AUDIENCE_LOGGEDIN, value: 'loggedIn'},
 				{text: Messages.MOTD_AUDIENCE_TUTORS, value: 'tutors'},
-				{text: Messages.MOTD_AUDIENCE_STUDENTS, value: 'students'},
-				{text: Messages.MOTD_AUDIENCE_SESSION, value: 'session'}
+				{text: Messages.MOTD_AUDIENCE_STUDENTS, value: 'students'}
 			]
 		});
 
