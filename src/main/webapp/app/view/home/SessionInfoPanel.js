@@ -345,8 +345,8 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			items: [{
 				cls: 'gravure selectable',
 				onClick: "this.setSelectionRange(0, this.value.length)",
-				html: showShortLabels ? Messages.SESSION_ID + ": " + 
-					ARSnova.app.formatSessionID(sessionStorage.getItem("keyword")) : 
+				html: showShortLabels ? Messages.SESSION_ID + ": " +
+					ARSnova.app.formatSessionID(sessionStorage.getItem("keyword")) :
 					window.location + 'id/' + sessionStorage.getItem('keyword')
 			}, this.descriptionFieldSet,
 				this.creatorFieldSet,
@@ -360,11 +360,8 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			]
 		});
 
-		
 		this.add([this.toolbar, this.mainPart]);
 		this.on('painted', this.onPainted);
-		
-		
 	},
 
 	previewHandler: function () {
@@ -374,15 +371,16 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 
 	onPainted: function () {
 		this.disableInput();
+		var range = {};
 
 		/** selectable event listener **/
 		this.mainPart.element.down('.selectable').addListener('tap', function () {
 			if (document.selection) {
-				var range = document.body.createTextRange();
+				range = document.body.createTextRange();
 				range.moveToElementText(this.dom);
 				range.select();
 			} else if (window.getSelection) {
-				var range = document.createRange();
+				range = document.createRange();
 				range.selectNode(this.dom);
 				window.getSelection().addRange(range);
 			}

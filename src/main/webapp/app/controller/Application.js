@@ -413,10 +413,10 @@ Ext.define("ARSnova.controller.Application", {
 	 */
 	setCorrectChartColors: function () {
 		var dummyElem = [
- 			document.getElementsByClassName('correctBarChartColor')[0],
- 			document.getElementsByClassName('incorrectBarChartColor')[0],
- 			document.getElementsByClassName('abstentionBarChartColor')[0]
- 		];
+			document.getElementsByClassName('correctBarChartColor')[0],
+			document.getElementsByClassName('incorrectBarChartColor')[0],
+			document.getElementsByClassName('abstentionBarChartColor')[0]
+		];
 
 		ARSnova.app.statisticChartStyleConfig = {
 			correctColor: window.getComputedStyle(dummyElem[0], null).getPropertyValue('color'),
@@ -426,7 +426,7 @@ Ext.define("ARSnova.controller.Application", {
 	},
 
 	getCanvasColorDummies: function () {
-		return 	"<div class='timerMinutesColor'></div>" +
+		return "<div class='timerMinutesColor'></div>" +
 			"<div class='timerSecondsColor'></div>" +
 			"<div class='timerWarningColor'></div>" +
 			"<div class='timerLabel'></div>" +

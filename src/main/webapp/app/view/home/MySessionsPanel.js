@@ -133,7 +133,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 		this.caption = Ext.create('ARSnova.view.Caption', {
 			cls: 'x-form-fieldset',
-			style: "border-radius: 15px;",
+			style: "border-radius: 15px;"
 		});
 
 		this.sessionsForm = Ext.create('ARSnova.view.home.SessionList', {

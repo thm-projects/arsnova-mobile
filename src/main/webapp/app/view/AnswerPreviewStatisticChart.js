@@ -284,7 +284,7 @@ Ext.define('ARSnova.view.AnswerPreviewStatisticChart', {
 
 	initializeDefaultColors: function () {
 		this.defaultColors = [
- 			'#164080',
+			'#164080',
 			'#308080',
 			'#808019',
 			'#801C80',
