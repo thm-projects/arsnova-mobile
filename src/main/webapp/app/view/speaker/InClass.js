@@ -21,7 +21,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 	requires: [
 		'ARSnova.view.MultiBadgeButton',
-		'ARSnova.view.SessionStatusButton'
+		'ARSnova.view.SessionStatusButton',
+		'ARSnova.view.speaker.InClassActionButtons'
 	],
 
 	config: {
@@ -139,22 +140,11 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		});
 
 		this.roleIconButton = Ext.create('ARSnova.view.MatrixButton', {
-			cls: 'roleIconBtn',
+			text: Messages.CHANGE_ROLE_BUTTONTEXT,
 			buttonConfig: 'icon',
 			imageCls: 'icon-speaker',
 			handler: function () {
 				ARSnova.app.getController('Sessions').changeRole();
-			}
-		});
-
-		this.motdButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.MOTD_MANAGEMENT,
-			cls: 'smallerActionButton',
-			buttonConfig: 'icon',
-			imageCls: 'icon-blog',
-			scope: this,
-			handler: function () {
-				ARSnova.app.getController('Motds').listAllSessionMotds(sessionStorage.getItem('keyword'));
 			}
 		});
 
@@ -164,18 +154,17 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				pack: 'center'
 			},
 
-			style: 'margin: 15px',
 			items: [{
 				xtype: 'spacer',
 				flex: '3',
 				width: true
 			}, this.showcaseActionButton, {
-				xtype: 'spacer'
-			}, this.roleIconButton, {
-				xtype: 'spacer'
+				xtype: 'spacer',
+				itemId: 'innerLeftSpacer'
 			}, this.createAdHocQuestionButton, {
-				xtype: 'spacer'
-			}, this.motdButton, {
+				xtype: 'spacer',
+				itemId: 'innerRightSpacer'
+			}, this.roleIconButton, {
 				xtype: 'spacer',
 				flex: '3',
 				width: true
@@ -222,6 +211,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			this.preparationQuestionButton
 		];
 
+		this.inClassActions = Ext.create('ARSnova.view.speaker.InClassActionButtons');
+
 		this.inClassButtons = Ext.create('Ext.form.FormPanel', {
 			cls: 'standardForm topPadding',
 			scrollable: null,
@@ -232,69 +223,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			style: "border-radius: 15px",
 			minScreenWidth: 440,
 			hidden: true
-		});
-
-		this.sessionStatusButton = Ext.create('ARSnova.view.SessionStatusButton');
-
-		this.deleteSessionButton = Ext.create('ARSnova.view.MatrixButton', {
-			id: 'delete-session-button',
-			text: Messages.DELETE_SESSION,
-			buttonConfig: 'icon',
-			cls: 'smallerActionButton',
-			imageCls: 'icon-close',
-			scope: this,
-			handler: function () {
-				var msg = Messages.ARE_YOU_SURE +
-						"<br>" + Messages.DELETE_SESSION_NOTICE;
-				Ext.Msg.confirm(Messages.DELETE_SESSION_TITLE, msg, function (answer) {
-					if (answer === 'yes') {
-						ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SESSION_DELETE);
-						ARSnova.app.sessionModel.destroy(sessionStorage.getItem('keyword'), {
-							success: function () {
-								ARSnova.app.getController('Sessions').logout();
-							},
-							failure: function (response) {
-								console.log('server-side error delete session');
-							}
-						});
-					}
-				});
-			}
-		});
-
-		this.featureChangeEntryButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.CHANGE_FEATURES,
-			buttonConfig: 'icon',
-			cls: 'smallerActionButton',
-			imageCls: 'icon-dashboard',
-			scope: this,
-			handler: function () {
-				ARSnova.app.getController('Sessions').loadFeatureOptions({
-					inClassPanelEntry: true,
-					lastPanel: this
-				});
-			}
-		});
-
-		this.inClassActions = Ext.create('Ext.Panel', {
-			style: 'margin: 20px 0 0 20px;',
-			layout: {
-				type: 'hbox',
-				pack: 'center'
-			},
-			items: [{
-				xtype: 'spacer',
-				flex: '3',
-				width: true
-			}, this.featureChangeEntryButton, {
-				xtype: 'spacer'
-			}, this.sessionStatusButton, {
-				xtype: 'spacer'
-			}, this.deleteSessionButton, {
-				xtype: 'spacer',
-				flex: '3',
-				width: true
-			}]
 		});
 
 		this.inClassItems = Ext.create('Ext.form.FormPanel', {
@@ -414,14 +342,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		var me = this;
 		var features = Ext.decode(sessionStorage.getItem("features"));
 		var hasQuestionFeature = features.lecture || features.jitt;
-
-		if (!showElements) {
-			me.roleIconButton.setCls('');
-			me.roleIconButton.setButtonText(Messages.CHANGE_ROLE_BUTTONTEXT);
-		} else {
-			me.roleIconButton.setCls('roleIconBtn');
-			me.roleIconButton.setButtonText();
-		}
 
 		if (features.liveClicker) {
 			showElements = true;

@@ -126,7 +126,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		});
 
 		this.roleIconButton = Ext.create('ARSnova.view.MatrixButton', {
-			cls: 'roleIconBtn',
+			text: Messages.CHANGE_ROLE_BUTTONTEXT,
 			buttonConfig: 'icon',
 			imageCls: 'icon-users',
 			hidden: !ARSnova.app.isSessionOwner,
@@ -140,8 +140,6 @@ Ext.define('ARSnova.view.user.InClass', {
 				type: 'hbox',
 				pack: 'center'
 			},
-
-			style: 'margin: 15px',
 
 			items: [{
 					xtype: 'spacer',
@@ -317,9 +315,6 @@ Ext.define('ARSnova.view.user.InClass', {
 	onPainted: function () {
 		this.startTasks();
 
-		if (ARSnova.app.isSessionOwner) {
-			this.updateActionButtonElements();
-		}
 		ARSnova.app.restProxy.getMotdsForSession(sessionStorage.getItem("keyword"), {
 			success: function (response) {
 				var motds = Ext.decode(response.responseText);
@@ -500,19 +495,6 @@ Ext.define('ARSnova.view.user.InClass', {
 			}
 
 			this.showNotification(questionIds, "preparation");
-		}
-	},
-
-	updateActionButtonElements: function () {
-		var features = Ext.decode(sessionStorage.getItem("features"));
-		var applyButtonStyle = !features.interposed || !features.feedback;
-
-		if (applyButtonStyle) {
-			this.roleIconButton.setCls('');
-			this.roleIconButton.setButtonText(Messages.CHANGE_ROLE_BUTTONTEXT);
-		} else {
-			this.roleIconButton.setCls('roleIconBtn');
-			this.roleIconButton.setButtonText();
 		}
 	},
 

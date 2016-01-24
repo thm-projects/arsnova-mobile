@@ -231,26 +231,6 @@
 	}
 }
 
-.matrixButton.roleIconBtn {
-	background: transparent !important;
-	padding: 0px 0px 40px 0px !important;
-	width: 72px;
-
-	.iconBtn {
-		width: 72px;
-		background: transparent !important;
-
-		.iconBtnImg {
-			font-size: 70px !important;
-			margin: 5px 0px 0px 0px;
-
-			&.icon-users {
-				margin-top: 0px !important;
-			}
-		}
-	}
-}
-
 .matrixButton .buttonText {
 	overflow: hidden;
 	width: 90px;
