@@ -70,6 +70,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		var self = this;
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		var actionButtonCls = screenWidth < 410 ? 'smallerActionButton' : 'actionButton';
+		this.screenWidth = screenWidth;
 
 		this.reader.onload = function (event) {
 			ARSnova.app.getController('QuestionImport').importCsvFile(self.reader.result);
@@ -213,7 +214,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			buttonConfig: 'icon',
 			imageCls: 'icon-cloud-upload',
 			cls: 'actionButton',
-			handler: this.questionsImportHandler
+			handler: this.questionsImportHandler,
+			hidden: screenWidth < 550
 		});
 
 		this.loadMask = Ext.create('Ext.LoadMask', {
@@ -468,7 +470,10 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.voteStatusButton.show();
 				// this.sortQuestionsButton.show();
 				this.deleteQuestionsButton.show();
-				this.exportCsvQuestionsButton.show();
+
+				if (this.screenWidth > 550) {
+					this.exportCsvQuestionsButton.show();
+				}
 			}, this),
 			empty: Ext.bind(function () {
 				this.showcaseActionButton.hide();
