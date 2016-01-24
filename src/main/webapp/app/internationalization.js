@@ -502,6 +502,13 @@
 				EDITOR_TITLE: "Titel",
 				EDITOR_URL_PLACEHOLDER: "https://",
 				EDITOR_TITLE_PLACEHOLDER: "Titel",
+				EDITOR_EXTENDED_OPTIONS: "Erweiterte Optionen",
+				EDITOR_IMAGE_POSITION: "Position",
+				EDITOR_IMAGE_HEIGHT_LABEL: "Max. Höhe (Pixel)",
+				EDITOR_IMAGE_WIDTH_LABEL: "Max. Breite (Pixel)",
+				EDITOR_CENTER: "Zentriert",
+				EDITOR_RIGHT: "Rechts",
+				EDITOR_LEFT: "Links",
 
 				/*Public pool*/
 				SESSIONPOOL_LEVEL: "Niveau",
@@ -1161,6 +1168,13 @@
 				EDITOR_TITLE: "Title",
 				EDITOR_URL_PLACEHOLDER: "https://",
 				EDITOR_TITLE_PLACEHOLDER: "Enter title",
+				EDITOR_EXTENDED_OPTIONS: "Further options",
+				EDITOR_IMAGE_POSITION: "Position",
+				EDITOR_IMAGE_HEIGHT_LABEL: "Max. height (Pixel)",
+				EDITOR_IMAGE_WIDTH_LABEL: "Max. width (Pixel)",
+				EDITOR_CENTER: "Center",
+				EDITOR_RIGHT: "Right",
+				EDITOR_LEFT: "Left",
 
 				/*Public pool*/
 				SESSIONPOOL_LEVEL: "Level",

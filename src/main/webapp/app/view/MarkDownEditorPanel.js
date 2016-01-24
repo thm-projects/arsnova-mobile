@@ -112,10 +112,16 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 					secondFieldText: Messages.EDITOR_URL,
 					firstFieldPlaceholder: Messages.EDITOR_TITLE_PLACEHOLDER,
 					secondFieldPlaceholder: Messages.EDITOR_URL_PLACEHOLDER,
-					title: Messages.EDITOR_PICTURE
-				}, function (textValue, urlValue) {
+					title: Messages.EDITOR_PICTURE,
+					type: 'image'
+				}, function (textValue, urlValue, maxWidth, maxHeight, alignment) {
 					var processObj = me.getProcessVariables();
-					var formattedUrl = "![" + textValue + "]" + "(" + urlValue + ")";
+					alignment = alignment || 'center';
+					maxHeight = maxHeight || 'auto';
+					maxWidth = maxWidth || 'auto';
+
+					var dimensions = ' "' + maxWidth + 'x' + maxHeight + 'x' + alignment + '"';
+					var formattedUrl = "![" + textValue + "]" + "(" + urlValue + dimensions + ")";
 					processObj.element.setValue(processObj.preSel + formattedUrl + processObj.postSel);
 					processObj.element.focus();
 				});
@@ -235,6 +241,9 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 	},
 
 	showInputPanel: function (textConfig, returnFn) {
+		var heightField = {}, widthField = {}, selectField = {},
+			extendedFieldset = {}, extendedToggle = {};
+
 		var firstField = Ext.create('Ext.field.Text', {
 			label: textConfig.firstFieldText,
 			placeHolder: textConfig.firstFieldPlaceholder
@@ -245,21 +254,71 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			placeHolder: textConfig.secondFieldPlaceholder
 		});
 
+		if (textConfig.type === 'image') {
+			widthField = Ext.create('Ext.field.Number', {
+				labelWidth: '60%',
+				label: Messages.EDITOR_IMAGE_WIDTH_LABEL,
+				placeHolder: 'auto'
+			});
+
+			heightField = Ext.create('Ext.field.Number', {
+				labelWidth: '60%',
+				label: Messages.EDITOR_IMAGE_HEIGHT_LABEL,
+				placeHolder: 'auto'
+			});
+
+			selectField = Ext.create('Ext.field.Select', {
+				labelWidth: '60%',
+				label: Messages.EDITOR_IMAGE_POSITION,
+				defaultTabletPickerConfig: {
+					height: '8.5em',
+					zIndex: '10000'
+				},
+				options: [
+					{text: Messages.EDITOR_LEFT,  value: 'left'},
+					{text: Messages.EDITOR_CENTER, value: 'center'},
+					{text: Messages.EDITOR_RIGHT,  value: 'right'}
+				]
+			});
+
+			extendedFieldset = Ext.create('Ext.form.FieldSet', {
+				hidden: true,
+				items: [widthField, heightField, selectField]
+			});
+
+			extendedToggle = Ext.create('Ext.field.Toggle', {
+				label: Messages.EDITOR_EXTENDED_OPTIONS,
+				hidden: textConfig.type !== 'image',
+				labelWidth: '65%',
+				listeners: {
+					change: function (field, newValue, oldValue) {
+						extendedFieldset.setHidden(!newValue);
+					}
+				}
+			});
+		}
+
 		var mainPart = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			cls: 'inputPanel',
 
 			items: [{
 				xtype: 'fieldset',
-				items: [firstField, secondField]
-			}, {
+				items: [firstField, secondField, extendedToggle]
+			}, extendedFieldset, {
 				xtype: 'fieldset',
 				items: [{
 					xtype: 'button',
 					ui: 'confirm',
 					text: Messages.SAVE,
 					handler: function () {
-						returnFn(firstField.getValue(), secondField.getValue());
+						if (textConfig.type === 'image') {
+							returnFn(firstField.getValue(), secondField.getValue(),
+								widthField.getValue(), heightField.getValue(), selectField.getValue());
+						} else {
+							returnFn(firstField.getValue(), secondField.getValue());
+						}
+
 						this.getParent().getParent().getParent().hide();
 					}
 				}]
@@ -286,6 +345,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 
 		var panel = Ext.create('Ext.MessageBox', {
 			hideOnMaskTap: true,
+			zIndex: '23',
 			layout: 'vbox',
 			items: [
 				toolbar,
