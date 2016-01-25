@@ -556,7 +556,7 @@ Ext.define("ARSnova.controller.Sessions", {
 	setActive: function (options) {
 		ARSnova.app.sessionModel.lock(sessionStorage.getItem("keyword"), options.active, {
 			success: function () {
-				var sessionStatus = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton;
+				var sessionStatus = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.inClassActions.sessionStatusButton;
 
 				if (options.active) {
 					sessionStatus.sessionOpenedSuccessfully();

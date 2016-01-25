@@ -41,9 +41,8 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 				'font-size': '64px',
 				'margin-top': '9px !important'
 			},
-			handler: function () {
-				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
-			}
+			scope: this,
+			handler: this.changeStatus
 		});
 
 		this.sessionIsOpen = Ext.create('ARSnova.view.MatrixButton', {
@@ -55,9 +54,8 @@ Ext.define('ARSnova.view.SessionStatusButton', {
 				'font-size': '64px',
 				'margin-top': '9px !important'
 			},
-			handler: function () {
-				ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.sessionStatusButton.changeStatus();
-			}
+			scope: this,
+			handler: this.changeStatus
 		});
 
 		this.add([this.sessionIsClosed, this.sessionIsOpen]);
