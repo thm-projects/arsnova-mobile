@@ -439,6 +439,17 @@ code {
 	margin-right: 12px !important;
 }
 
+.inClassForm {
+	margin-left: auto !important;
+	margin-right: auto !important;
+
+	.forwardListButton, .caption {
+		margin-left: 12px;
+		margin-right: 12px;
+		width: auto;
+	}
+}
+
 .standardFieldset .x-form-fieldset-inner {
 	border: none;
 	background-color: transparent;

@@ -119,14 +119,13 @@ Ext.define("ARSnova.controller.MathJaxMarkdown", {
 				'"max-width:' + size[0] + '"';
 
 			return '<div style="text-align:' + alignment + '">' +
-				'<img class="resizeableImage" src="' + href + '" alt="' + text + '" style=' + size + '>' + 
+				'<img class="resizeableImage" src="' + href + '" alt="' + text + '" style=' + size + '>' +
 			'</div>';
-			
 		}
 
 		if (controller.hideMediaElements && !isVideoElement) {
 			return controller.hideMediaDummy.replace(/###/, 'imageIcon');
-		} else { 
+		} else {
 			return '<img class="resizeableImage" src="' + href + '" alt="' + text + '">';
 		}
 	},

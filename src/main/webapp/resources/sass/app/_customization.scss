@@ -322,14 +322,14 @@ html, body,
 
 		&.toggleCorrectButton {
 			@include toolbar-button-config(
-				$toolbar-toggleCorrect-button-inactive-color,
+				$toolbar-correct-button-inactive-color,
 				$toolbar-button-txt-color
 			);
 
 			&.x-button-pressed,
 			&.x-button-pressing {
 				@include toolbar-button-config(
-					$toolbar-toggleCorrect-button-active-color,
+					$toolbar-correct-button-active-color,
 					$toolbar-button-txt-color
 				);
 			}

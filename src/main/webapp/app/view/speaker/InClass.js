@@ -214,7 +214,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		this.inClassActions = Ext.create('ARSnova.view.speaker.InClassActionButtons');
 
 		this.inClassButtons = Ext.create('Ext.form.FormPanel', {
-			cls: 'standardForm topPadding',
+			cls: 'standardForm inClassForm topPadding',
 			scrollable: null,
 			items: buttons
 		});
@@ -265,7 +265,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				this.inClassButtons,
 				{
 					xtype: 'formpanel',
-					cls: 'standardForm topPadding',
+					cls: 'standardForm inClassForm topPadding',
 					scrollable: null,
 					items: this.caption
 				},
