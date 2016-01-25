@@ -415,6 +415,11 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				questionObj: this.questionObj
 			});
 
+			this.setLayout({
+				type: 'vbox',
+				pack: 'center'
+			});
+
 			this.add([this.toolbar, {
 				xtype: 'formpanel',
 				style: 'margin-top: 10px',
