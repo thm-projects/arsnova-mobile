@@ -530,12 +530,12 @@ html, body,
 .matrixButton {
 	.x-toggle {
 		background-image: none;
-		background-color: $button-toggle-on-color;
+		background-color: $button-toggle-off-color;
 	}
 
 	.x-toggle-on {
 		background-image: none;
-		background-color: $button-toggle-off-color;
+		background-color: $button-toggle-on-color;
 	}
 }
 
