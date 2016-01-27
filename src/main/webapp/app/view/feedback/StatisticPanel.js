@@ -120,6 +120,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		});
 
 		this.optionButtons = Ext.create('Ext.Toolbar', {
+			cls: 'noButtonsVotePanel',
 			docked: 'top',
 			defaults: {
 				cls: 'voteButtons',
@@ -188,7 +189,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		this.initializeOptionButtons();
 		this.add([this.toolbar, this.optionButtons, this.feedbackChart]);
 
-		this.onBefore('activate', function () {
+		this.onBefore('painted', function () {
 			var me = this;
 
 			this.feedbackChartColors = [
@@ -210,9 +211,6 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 
 			// remove x-axis ticks and labels at initialization
 			this.feedbackChart.getAxes()[1].sprites[0].attr.majorTicks = false;
-		});
-
-		this.onBefore('painted', function () {
 			this.prepareView();
 		});
 	},
@@ -231,6 +229,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 
 	prepareView: function () {
 		var me = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel;
+		var features = Ext.decode(sessionStorage.getItem("features"));
 
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			me.releaseFeedbackButton.setHidden(false);
@@ -245,6 +244,11 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				me.optionButtons.setCls('voteButtonsPanel');
 				me.backButton.setText(Messages.FEEDBACK_VOTE);
 			}
+
+			if (features.liveClicker) {
+				ARSnova.app.mainTabPanel.tabPanel.getTabBar().setHidden(false);
+			}
+
 			me.releaseFeedbackButton.setHidden(true);
 			me.toolbar.setCls('');
 		}

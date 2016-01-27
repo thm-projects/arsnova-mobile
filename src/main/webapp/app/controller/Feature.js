@@ -320,6 +320,7 @@ Ext.define("ARSnova.controller.Feature", {
 		tP.feedbackTabPanel.votePanel.setToolbarTitle(Messages.FEEDBACK);
 		tP.feedbackTabPanel.votePanel.initializeOptionButtons();
 		tP.feedbackTabPanel.statisticPanel.updateTabBar();
+		tP.getTabBar().setHidden(false);
 
 		if (isSpeaker) {
 			tabPanel.inClassPanel.showcaseActionButton.setHidden(!hasQuestionFeatures);
