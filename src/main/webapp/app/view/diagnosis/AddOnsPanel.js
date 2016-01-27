@@ -189,6 +189,7 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 	},
 
 	onSubmit: function (button) {
+		var me = this;
 		button.disable();
 
 		if (this.validateSelection(button)) {
@@ -196,6 +197,7 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 				success: function () {
 					button.enable();
 					Ext.toast(Messages.SETTINGS_SAVED, 3000);
+					me.config.lastPanel.inClassPanelBackHandler();
 				},
 				failure: function () {
 					button.enable();

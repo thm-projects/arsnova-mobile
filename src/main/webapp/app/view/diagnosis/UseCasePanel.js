@@ -271,7 +271,7 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 	},
 
 	onSubmit: function (button) {
-		var features = this.config.features;
+		var me = this;
 		var selection = ARSnova.app.getController('Feature').getFeatureValues(this.getUseCaseValues());
 		button.disable();
 
@@ -280,6 +280,7 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 				success: function () {
 					button.enable();
 					Ext.toast(Messages.SETTINGS_SAVED, 3000);
+					me.inClassPanelBackHandler();
 				},
 				failure: function () {
 					button.enable();
