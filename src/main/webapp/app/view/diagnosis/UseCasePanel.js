@@ -96,6 +96,10 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 				label: Messages.USECASE_CLICKER,
 				details: Messages.USECASE_CLICKER_DETAILS
 			}, {
+				value: 'liveFeedback',
+				label: Messages.USECASE_LIVE_FEEDBACK,
+				details: Messages.USECASE_LIVE_FEEDBACK_DETAILS
+			}, {
 				value: 'peerGrading',
 				label: Messages.USECASE_PEER_GRADING,
 				details: Messages.USECASE_PEER_GRADING_DETAILS
@@ -104,10 +108,6 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 				hidden: !ARSnova.app.globalConfig.features.flashcard,
 				label: Messages.USECASE_FLASHCARD,
 				details: Messages.USECASE_FLASHCARD_DETAILS
-			}, {
-				value: 'liveFeedback',
-				label: Messages.USECASE_LIVE_FEEDBACK,
-				details: Messages.USECASE_LIVE_FEEDBACK_DETAILS
 			}, {
 				value: 'total',
 				label: Messages.USECASE_ARSNOVA_TOTAL,
