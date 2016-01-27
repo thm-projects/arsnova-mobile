@@ -567,12 +567,18 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	},
 
 	applyUIChanges: function (features) {
+		var lectureButtonText = Messages.LECTURE_QUESTIONS_LONG;
+
 		this.courseLearningProgressButton.setText(
-			features.peerGrading ? Messages.EVALUATION_LONG : Messages.COURSES_LEARNING_PROGRESS
+			features.peerGrading ? Messages.EVALUATION_ALT : Messages.COURSES_LEARNING_PROGRESS
 		);
 
-		this.lectureQuestionButton.setText(
-			features.flashcard ? Messages.FLASHCARDS : Messages.LECTURE_QUESTIONS_LONG
-		);
+		if (features.flashcard) {
+			lectureButtonText = Messages.FLASHCARDS;
+		} else if (features.peerGrading) {
+			lectureButtonText = Messages.EVALUATION_QUESTIONS;
+		}
+
+		this.lectureQuestionButton.setText(lectureButtonText);
 	}
 });

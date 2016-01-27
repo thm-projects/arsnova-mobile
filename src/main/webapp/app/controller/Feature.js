@@ -355,15 +355,21 @@ Ext.define("ARSnova.controller.Feature", {
 				tP.userQuestionsPanel.tab.setTitle(Messages.QUESTIONS);
 			}
 
+			var lectureButtonText = Messages.LECTURE_QUESTIONS_LONG;
+
+			if (features.flashcard) {
+				lectureButtonText = Messages.FLASHCARDS;
+			} else if (features.peerGrading) {
+				lectureButtonText = Messages.EVALUATION_QUESTIONS;
+			}
+
 			// flashcard use case
-			tabPanel.inClassPanel.lectureQuestionButton.setText(
-				features.flashcard ? Messages.FLASHCARDS : Messages.LECTURE_QUESTIONS_LONG
-			);
+			tabPanel.inClassPanel.lectureQuestionButton.setText(lectureButtonText);
 
 			// peer grading use case
 			if (tabPanel.inClassPanel.myLearningProgressButton) {
 				tabPanel.inClassPanel.myLearningProgressButton.setText(
-					features.peerGrading ? Messages.EVALUATION_LONG : Messages.MY_LEARNING_PROGRESS
+					features.peerGrading ? Messages.EVALUATION_ALT : Messages.MY_LEARNING_PROGRESS
 				);
 			}
 
@@ -373,6 +379,7 @@ Ext.define("ARSnova.controller.Feature", {
 		}
 
 		if (features.learningProgress) {
+			var hidePointsVariantField = false;
 			var hideQuestionVariantField = false;
 			var sessionController = ARSnova.app.getController('Sessions');
 			var progressOptions = Object.create(sessionController.getLearningProgressOptions());
@@ -387,6 +394,11 @@ Ext.define("ARSnova.controller.Feature", {
 				}
 			}
 
+			if (features.peerGrading) {
+				progressOptions.type = 'points';
+				hidePointsVariantField = true;
+			}
+
 			// set learningProgessOption after learningProgressOptions socket has been send
 			var changeLearningProgressOptions = function changeOptions() {
 				if (ARSnova.app.sessionModel.isLearningProgessOptionsInitialized) {
@@ -399,6 +411,7 @@ Ext.define("ARSnova.controller.Feature", {
 				}
 			};
 
+			tabPanel.learningProgressPanel.setPointsVariantFieldHidden(hidePointsVariantField);
 			tabPanel.learningProgressPanel.setQuestionVariantFieldHidden(hideQuestionVariantField);
 			changeLearningProgressOptions();
 		}
