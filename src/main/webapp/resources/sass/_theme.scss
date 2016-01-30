@@ -33,7 +33,7 @@ $default-orange-color: #ff9600;
 $brand-primary: $default-grey-color;
 $brand-secondary: $default-green-color;
 $brand-success: $default-green-color;
-$brand-info: $default-lightgrey-color;
+$brand-info: $default-green-color;
 $brand-warning: $default-orange-color;
 $brand-danger: $default-red-color;
 $brand-text: $default-grey-color;
@@ -77,7 +77,7 @@ $loading-indicator-secondary-color: $brand-secondary;
 $button-bg-color: $brand-buttons;
 $button-icon-color: $brand-icons;
 $button-icon-alternative-color: $brand-secondary;
-$button-confirm-bg-color: $brand-success;
+$button-confirm-bg-color: $default-orange-color;
 $button-confirm-txt-color: $default-white-color;
 $button-action-bg-color: $brand-primary;
 $button-action-active-bg-color: $brand-info;
@@ -222,31 +222,12 @@ $projectormode-text-color: black;
 
 
 /** hyperlink color configuration **/
-$hyperlink-unvisited-color: $brand-secondary;
-$hyperlink-visited-color: #551A8B;
-$hyperlink-hover-color: $hyperlink-unvisited-color;
-$hyperlink-active-color: $brand-warning;
+$hyperlink-unvisited-color: $default-orange-color !important;
+$hyperlink-visited-color: $default-orange-color !important;
+$hyperlink-hover-color: $default-green-color !important;
+$hyperlink-active-color: $default-green-color !important;
 
 
 /** additional color configurations **/
 $caption-bg-color: $brand-buttons;
 $startscreen-rolechange-alternative-color: $brand-secondary;
-/* unvisited link */
-a:link {
-    color: $default-orange-color !important;
-}
-
-/* visited link */
-a:visited {
-    color: $default-orange-color !important;
-}
-
-/* mouse over link */
-a:hover {
-    color: $default-green-color !important;
-}
-
-/* selected link */
-a:active {
-    color: $default-green-color !important;
-}
