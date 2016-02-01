@@ -41,6 +41,16 @@ jscs:
     - npm install
     - grunt jscs
 
+sonar:
+  stage: analysis
+  only:
+    - master
+  tags:
+    - maven
+  allow_failure: true
+  script:
+    - mvn sonar:sonar
+
 package:
   stage: build
   tags:
