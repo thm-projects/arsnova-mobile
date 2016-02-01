@@ -21,7 +21,7 @@ sync_mirror:
     - cd mirror.git
     - git update-ref -d refs/tags/production
     - git update-ref -d refs/tags/staging
-    - git push --mirror $MIRROR_REPOSITORY
+    - git push --mirror $MIRROR_REPO
 
 jshint:
   stage: analysis
