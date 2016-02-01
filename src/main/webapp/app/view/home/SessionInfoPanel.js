@@ -26,6 +26,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		backReference: null,
 		referencePanel: null,
 		fullscreen: true,
+		sessionCreationMode: false,
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
@@ -338,17 +339,24 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			}
 		});
 
+		var sessionLinkLabel = {};
+		var keyword = sessionStorage.getItem('keyword');
+
+		if (keyword) {
+			sessionLinkLabel = {
+				cls: 'gravure selectable',
+				html: showShortLabels ? Messages.SESSION_ID + ": " +
+					ARSnova.app.formatSessionID(keyword) :
+					window.location + 'id/' + keyword
+			};
+		}
+
 		this.mainPart = Ext.create('Ext.form.FormPanel', {
 			cls: 'newQuestion',
 			scrollable: null,
 			style: 'margin-bottom: 15px 0 0 15px',
-			items: [{
-				cls: 'gravure selectable',
-				onClick: "this.setSelectionRange(0, this.value.length)",
-				html: showShortLabels ? Messages.SESSION_ID + ": " +
-					ARSnova.app.formatSessionID(sessionStorage.getItem("keyword")) :
-					window.location + 'id/' + sessionStorage.getItem('keyword')
-			}, this.descriptionFieldSet,
+			items: [sessionLinkLabel,
+				this.descriptionFieldSet,
 				this.creatorFieldSet,
 				this.sessionFieldSet,
 				this.previewButton,
@@ -370,21 +378,28 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 	},
 
 	onPainted: function () {
-		this.disableInput();
-		var range = {};
+		if (this.config.sessionCreationMode) {
+			this.enableInput();
+		} else {
+			this.disableInput();
+			var sessionLink = this.mainPart.element.down('.selectable');
+			var range = {};
 
-		/** selectable event listener **/
-		this.mainPart.element.down('.selectable').addListener('tap', function () {
-			if (document.selection) {
-				range = document.body.createTextRange();
-				range.moveToElementText(this.dom);
-				range.select();
-			} else if (window.getSelection) {
-				range = document.createRange();
-				range.selectNode(this.dom);
-				window.getSelection().addRange(range);
+			if (sessionLink) {
+				/** selectable event listener **/
+				sessionLink.addListener('tap', function () {
+					if (document.selection) {
+						range = document.body.createTextRange();
+						range.moveToElementText(this.dom);
+						range.select();
+					} else if (window.getSelection) {
+						range = document.createRange();
+						range.selectNode(this.dom);
+						window.getSelection().addRange(range);
+					}
+				});
 			}
-		});
+		}
 	},
 
 	validate: function () {

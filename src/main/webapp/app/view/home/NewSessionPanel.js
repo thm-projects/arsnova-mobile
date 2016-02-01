@@ -112,10 +112,10 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				var sessionForm = Ext.create('ARSnova.view.home.SessionInfoPanel', {
 					sessionInfo: session,
 					backReference: panel,
-					referencePanel: hTP
+					referencePanel: hTP,
+					sessionCreationMode: true
 				});
 
-				sessionForm.enableInput();
 				hTP.animateActiveItem(sessionForm, 'slide');
 			}
 		});
