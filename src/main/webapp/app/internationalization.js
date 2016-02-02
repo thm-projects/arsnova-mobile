@@ -146,6 +146,10 @@
 				MOTD_AUDIENCE_SESSION: "Session",
 				MOTD_STARTDATE: "Start der Anzeige",
 				MOTD_ENDDATE: "Ende der Anzeige",
+				MOTD_NOTIFICATION_TITLE: "Keinen Titel angegeben",
+				MOTD_NOTIFICATION_TEXT: "Keinen Text angegeben",
+				MOTD_NOTIFICATION_STARTDATE: "Keinen Startzeitpunkt angegeben",
+				MOTD_NOTIFICATION_ENDDATE: "Keinen Endzeitpunkt angegeben",
 
 				/* feedback */
 				ABCD_TITLE: "A|B|C|D",
@@ -813,6 +817,10 @@
 				MOTD_AUDIENCE_SESSION: "Session",
 				MOTD_STARTDATE: "Start time",
 				MOTD_ENDDATE: "End time",
+				MOTD_NOTIFICATION_TITLE: "No title given",
+				MOTD_NOTIFICATION_TEXT: "No text given",
+				MOTD_NOTIFICATION_STARTDATE: "No start time given",
+				MOTD_NOTIFICATION_ENDDATE: "No end time given",
 
 				/* feedback */
 				ABCD_TITLE: "A|B|C|D",

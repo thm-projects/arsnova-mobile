@@ -35,8 +35,23 @@ Ext.define('ARSnova.model.Motd', {
 		],
 
 		validations: [
-			{type: 'presence', field: 'startdate'},
-			{type: 'presence', field: 'enddate'}
+			{
+				type: 'presence',
+				field: 'startdate',
+				message: Messages.MOTD_NOTIFICATION_STARTDATE
+			}, {
+				type: 'presence',
+				field: 'enddate',
+				message: Messages.MOTD_NOTIFICATION_ENDDATE
+			}, {
+				type: 'presence',
+				field: 'title',
+				message: Messages.MOTD_NOTIFICATION_TITLE
+			}, {
+				type: 'presence',
+				field: 'text',
+				message: Messages.MOTD_NOTIFICATION_TEXT
+			}
 		],
 
 		idProperty: 'motdkey'

@@ -213,6 +213,26 @@ Ext.define("ARSnova.controller.Motds", {
 
 		var validation = motd.validate();
 		if (!validation.isValid()) {
+			var notifications = validation.all.map(function (val) {
+				return val.config.message;
+			}).join("<br/>");
+			var messageBox = Ext.create('Ext.MessageBox', {
+				title: Messages.NOTIFICATION,
+				message: notifications,
+				listeners: {
+					hide: function () {
+						this.destroy();
+					}
+				}
+			});
+			messageBox.setButtons({
+				text: Messages.CONTINUE,
+				ui: 'action',
+				handler: function () {
+					messageBox.hide();
+				}
+			});
+			messageBox.show();
 			validation.items.forEach(function (el) {
 				panel.down('textfield[name=' + el.getField() + ']').addCls("required");
 
@@ -220,18 +240,19 @@ Ext.define("ARSnova.controller.Motds", {
 			});
 		}
 		motd.set('motdkey', undefined);
-
-		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SAVE);
-		motd.saveMotd({
-			success: function (response, eOpts) {
-				options.successFunc(response, eOpts);
-				hideLoadMask();
-			},
-			failure: function (response, eOpts) {
-				options.failureFunc(response, eOpts);
-				hideLoadMask();
-			}
-		});
+		if (error === false) {
+			var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SAVE);
+			motd.saveMotd({
+				success: function (response, eOpts) {
+					options.successFunc(response, eOpts);
+					hideLoadMask();
+				},
+				failure: function (response, eOpts) {
+					options.failureFunc(response, eOpts);
+					hideLoadMask();
+				}
+			});
+		}
 	},
 
 	details: function (options, modus) {

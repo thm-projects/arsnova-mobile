@@ -441,7 +441,6 @@ Ext.define('ARSnova.view.home.MotdDetailsPanel', {
 				items: [this.previewButton]
 			}]
 		});
-
 		this.setContentFormContent(this.motdObj);
 		/* END MOTD DETAILS */
 

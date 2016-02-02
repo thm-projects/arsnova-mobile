@@ -81,7 +81,6 @@ Ext.define('ARSnova.view.home.NewMotdPanel', {
 		});
 
 		this.motdtitle = Ext.create('Ext.field.Text', {
-			label: Messages.MOTD_TITLE,
 			name: 'title',
 			placeHolder: Messages.MOTD_TITLE
 		});
@@ -208,6 +207,10 @@ Ext.define('ARSnova.view.home.NewMotdPanel', {
 		if (this.mode === "session") {
 			this.audience.hide();
 		}
+		var rightnow = new Date();
+		this.startdate.setValue(rightnow.getDate() + "." + (rightnow.getMonth() + 1) + "." + rightnow.getFullYear());
+		rightnow.setDate(rightnow.getDate() + 7);
+		this.enddate.setValue(rightnow.getDate() + "." + (rightnow.getMonth() + 1) + "." + rightnow.getFullYear());
 	},
 
 	enableInputElements: function () {
