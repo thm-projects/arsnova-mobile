@@ -190,7 +190,7 @@ module.exports = function (grunt) {
 			default:
 				grunt.verbose.writeln("Sencha: " + line.substr(6));
 				if (line === "[INF] waiting for changes...") {
-					grunt.log.ok("Sencha build completed.");
+					grunt.log.ok("Sencha build completed at " + new Date() + ".");
 				}
 			}
 		});
