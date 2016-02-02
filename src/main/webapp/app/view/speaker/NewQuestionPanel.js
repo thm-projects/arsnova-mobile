@@ -207,18 +207,16 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 		var me = this;
 		var config = ARSnova.app.globalConfig;
-		if (config.features.flashcard) {
-			formatItems.push({
-				itemId: Messages.FLASHCARD,
-				text: messageAppendix.length ?
-						Messages.FLASHCARD :
-						Messages.FLASHCARD_SHORT
-			});
-			me.flashcardQuestion = Ext.create('ARSnova.view.speaker.form.FlashcardQuestion', {
-				editPanel: false,
-				hidden: true
-			});
-		}
+		formatItems.push({
+			itemId: Messages.FLASHCARD,
+			text: messageAppendix.length ?
+					Messages.FLASHCARD :
+					Messages.FLASHCARD_SHORT
+		});
+		me.flashcardQuestion = Ext.create('ARSnova.view.speaker.form.FlashcardQuestion', {
+			editPanel: false,
+			hidden: true
+		});
 		if (config.features.gridSquare) {
 			formatItems.push({
 				itemId: Messages.GRID,
