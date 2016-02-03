@@ -1,4 +1,4 @@
-How to define templates for the ARSnova moderation question
+IchHow to define templates for the ARSnova moderation question
 -----------------------------------------------------------
 
 The template.json file is the central maintenance point of the ARSnova template system.

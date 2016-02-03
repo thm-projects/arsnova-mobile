@@ -1,20 +1,77 @@
 [
     {
 		"name": {
-			"de": "Gewichtungsfrage (Mehrfachauswahl)",
-			"en": "Weighted Question (Multiple Choice)"
+			"de": "Eindimensionale Meinungsabfrage",
+			"en": "One-dimensional opnion poll"
 		},
     	"description": {
-    	    "de" : "Mit dieser Vorlage können Sie ein gewichtetes Meinungsbild zu einem von Ihnen gewählten Thema einholen. Bei dieser Vorlage kann eine Person ein Feld theoretisch mehrfach auswählen. So etwas finden man z.B. auch mit <http://www.google.de/>",	
-            "en" : "Create a simple weighted question for your students. With this template students can set multiple dots per choice."	
+    	    "de" : "Mit dieser Vorlage können Sie ein Meinungsbild zu einem Thema einholen.",
+          "en" : "With this template, your audience can state their opinions by sticking a dot."
         },
-        "imageFile": "Lineare_Punktabfrage.png",
+        "imageFile": "Hot-Cold.jpg",
         "gridSize": 16,
         "zoomLvl": 0,
-        "gridOffsetX": 4,
+        "gridOffsetX": 0,
         "gridOffsetY": 0,
         "gridZoomLvl": 1,
         "gridSizeX": 16,
-        "gridSizeY": 3
+        "gridSizeY": 16
+    },
+
+    {
+		"name": {
+			"de": "Smiley-Thermometer",
+			"en": "Smiley thermometer"
+		},
+    	"description": {
+    	    "de" : "Mit dieser Vorlage können Sie ein Meinungsbild zu einem Thema einholen.",
+          "en" : "With this template, your audience can state their opinions by sticking a dot along the thermometer."
+        },
+        "imageFile": "Thermometer.jpg",
+        "gridSize": 16,
+        "zoomLvl": 0,
+        "gridOffsetX": 0,
+        "gridOffsetY": 0,
+        "gridZoomLvl": 1,
+        "gridSizeX": 16,
+        "gridSizeY": 16
+    },
+
+    {
+		"name": {
+			"de": "Zweidimensionale Meinungsabfrage",
+			"en": "Two-dimensional opinion poll"
+		},
+    	"description": {
+    	    "de" : "Mit dieser Vorlage können Sie ein Meinungsbild zu **2 Aspekten x und y** eines Themas einholen.",
+          "en" : "With this template, your audience can state their opinions on 2 aspects, x and y, of a subject."
+        },
+        "imageFile": "2-dimensional.jpg",
+        "gridSize": 16,
+        "zoomLvl": 0,
+        "gridOffsetX": 48,
+        "gridOffsetY": 33,
+        "gridZoomLvl": -5,
+        "gridSizeX": 16,
+        "gridSizeY": 16
+    },
+
+    {
+		"name": {
+			"de": "Vierdimensionale Meinungsabfrage",
+			"en": "Four-dimensional opinion poll"
+		},
+    	"description": {
+    	    "de" : "Mit dieser Vorlage können Sie ein Meinungsbild zu **4 Aspekten A, B, C, und D** eines Themas einholen. Vergeben Sie hierfür entsprechend 4 Klebepunkte.",
+          "en" : "With this template, your audience can state their opinions on 4 aspects of a subject. Hand out 4 sticking dots."
+        },
+        "imageFile": "Target.jpg",
+        "gridSize": 16,
+        "zoomLvl": 0,
+        "gridOffsetX": 0,
+        "gridOffsetY": 0,
+        "gridZoomLvl": 1,
+        "gridSizeX": 16,
+        "gridSizeY": 16
     }
 ]
