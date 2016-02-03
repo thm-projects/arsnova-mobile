@@ -91,10 +91,11 @@ Ext.define('ARSnova.view.home.MotdPanel', {
 
 		this.motdList = Ext.create('ARSnova.view.components.List', {
 			activeCls: 'search-item-active',
-			cls: 'roundedCorners allCapsHeader',
+			cls: 'roundedCorners leftText',
 			hidden: false,
 
 			style: {
+				marginTop: '15px',
 				backgroundColor: 'transparent'
 			},
 
@@ -120,10 +121,22 @@ Ext.define('ARSnova.view.home.MotdPanel', {
 			}
 		});
 
-		this.motdListContainer = Ext.create('Ext.form.FieldSet', {
-			title: Messages.MOTD_MANAGEMENT,
-			hidden: true,
-			items: [this.motdList]
+		this.motdtitlelabel = Ext.create('Ext.Panel', {
+			cls: 'centerText',
+			html: Messages.MOTD_MANAGEMENT
+		});
+
+
+		this.motdListContainer = Ext.create('Ext.form.Panel', {
+			scrollable: null,
+			hide: true,
+			items: [{
+				xtype: 'fieldset',
+				items: [
+					this.motdtitlelabel,
+					this.motdList
+				]
+			}]
 		});
 
 		this.newMotdButton = Ext.create('ARSnova.view.MatrixButton', {
