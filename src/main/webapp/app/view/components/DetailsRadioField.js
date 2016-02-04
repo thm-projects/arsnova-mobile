@@ -24,6 +24,8 @@ Ext.define('ARSnova.view.components.DetailsRadioField', {
 	config: {
 		cls: 'detailsRadioField',
 		details: '',
+		label: '',
+		shortLabel: '',
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
@@ -32,8 +34,9 @@ Ext.define('ARSnova.view.components.DetailsRadioField', {
 
 	initialize: function (args) {
 		this.callParent(args);
-
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		var me = this;
+
 		this.infoButton = Ext.DomHelper.insertFirst(this.element, {
 			reference: 'info',
 			tag: 'div',
@@ -42,6 +45,10 @@ Ext.define('ARSnova.view.components.DetailsRadioField', {
 
 		if (this.config.details === '') {
 			this.infoButton.style.display = 'none';
+		}
+
+		if (screenWidth < 520 && this.config.shortLabel.length > 1) {
+			this.setLabel(this.config.shortLabel);
 		}
 
 		this.infoButton.onclick = function () {

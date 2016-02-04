@@ -90,30 +90,37 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 				value: 'liveClicker',
 				checked: true,
 				label: Messages.USECASE_ABCD_CLICKER,
+				shortLabel: Messages.USECASE_ABCD_CLICKER_SHORT,
 				details: Messages.USECASE_ABCD_CLICKER_DETAILS
 			}, {
 				value: 'clicker',
 				label: Messages.USECASE_CLICKER,
+				shortLabel: Messages.USECASE_CLICKER_SHORT,
 				details: Messages.USECASE_CLICKER_DETAILS
 			}, {
 				value: 'liveFeedback',
 				label: Messages.USECASE_LIVE_FEEDBACK,
+				shortLabel: Messages.USECASE_LIVE_FEEDBACK_SHORT,
 				details: Messages.USECASE_LIVE_FEEDBACK_DETAILS
 			}, {
 				value: 'peerGrading',
 				label: Messages.USECASE_PEER_GRADING,
+				shortLabel: Messages.USECASE_PEER_GRADING_SHORT,
 				details: Messages.USECASE_PEER_GRADING_DETAILS
 			}, {
 				value: 'flashcard',
 				label: Messages.USECASE_FLASHCARD,
+				shortLabel: Messages.USECASE_FLASHCARD_SHORT,
 				details: Messages.USECASE_FLASHCARD_DETAILS
 			}, {
 				value: 'total',
 				label: Messages.USECASE_ARSNOVA_TOTAL,
+				shortLabel: Messages.USECASE_ARSNOVA_TOTAL_SHORT,
 				details: Messages.USECASE_ARSNOVA_TOTAL_DETAILS
 			}, {
 				value: 'custom',
 				label: Messages.USECASE_ARSNOVA_CUSTOM,
+				shortLabel: Messages.USECASE_ARSNOVA_CUSTOM_SHORT,
 				details: Messages.USECASE_ARSNOVA_CUSTOM_DETAILS,
 				listeners: {
 					scope: this,

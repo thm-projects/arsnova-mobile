@@ -658,7 +658,6 @@
 				/* use cases */
 				USECASES: "Use-Case-Auswahl",
 				USECASES_CHOOSE: "Welche Frageformate und Funktionen wollen Sie in Ihrer Session einsetzen?",
-				USECASES_CHOOSE_SHORT: "Einsatz-Zweck",
 				USECASE_CLICKER: "Standard-Frageformate (Clicker-Fragen)",
 				USECASE_ABCD_CLICKER: "Publikumsfrage à la Günther Jauch (A|B|C|D ohne Fragetext)",
 				USECASE_PEER_GRADING: "Evaluationsfragen (5-stufige Likert-Skala mit Auswertung)",
@@ -666,6 +665,15 @@
 				USECASE_LIVE_FEEDBACK: "Zwischenfragen & Live Feedback",
 				USECASE_ARSNOVA_TOTAL: "ARSnova total (alle Frageformate, alle Funktionen)",
 				USECASE_ARSNOVA_CUSTOM: "Mein ARSnova",
+
+				USECASES_CHOOSE_SHORT: "Einsatz-Zweck",
+				USECASE_CLICKER_SHORT: "Clicker-Fragen",
+				USECASE_ABCD_CLICKER_SHORT: "Publikumsfrage",
+				USECASE_PEER_GRADING_SHORT: "Evaluationsfragen",
+				USECASE_FLASHCARD_SHORT: "Lernkarten",
+				USECASE_LIVE_FEEDBACK_SHORT: "Feedback",
+				USECASE_ARSNOVA_TOTAL_SHORT: "ARSnova total",
+				USECASE_ARSNOVA_CUSTOM_SHORT: "Mein ARSnova",
 
 				USECASE_CLICKER_DETAILS: "###Clicker-Fragen\n\n Nur einfache Frageformate wie Multiple-Choice (Mehrfachauswahl), Single-Choice (Einfachauswahl), Ja|Nein (Entscheidungsfrage), Likert-Skala (Evaluation) und Schulnoten.",
 				USECASE_ABCD_CLICKER_DETAILS: "###Ad-hoc-Publikumsfrage à la Günther Jauch\n\n Publikumsfrage à la Günther Jauch: nur A|B|C|D-Antwortoptionen ohne Fragetext. Keinerlei Aufwand für das Erstellen der Frage. Sie geben lediglich die Session-ID bekannt.",
@@ -1340,6 +1348,15 @@
 				USECASE_LIVE_FEEDBACK: "Live feedback & questions from the audience",
 				USECASE_ARSNOVA_TOTAL: "All-inclusive (all question types, all functions)",
 				USECASE_ARSNOVA_CUSTOM: "My ARSnova",
+
+				USECASES_CHOOSE_SHORT: "Select use case",
+				USECASE_CLICKER_SHORT: "Clicker questions",
+				USECASE_ABCD_CLICKER_SHORT: "Ask the Audience",
+				USECASE_PEER_GRADING_SHORT: "Evaluation",
+				USECASE_FLASHCARD_SHORT: "Flashcards",
+				USECASE_LIVE_FEEDBACK_SHORT: "Live feedback",
+				USECASE_ARSNOVA_TOTAL_SHORT: "All-inclusive",
+				USECASE_ARSNOVA_CUSTOM_SHORT: "My ARSnova",
 
 				USECASE_CLICKER_DETAILS: "###Clicker Questions\n\n Only simple question types: Multiple Choice (select), Single Choice (choose), Yes|No (polar question), Likert Scale (evaluation), and Grading (school grades).",
 				USECASE_ABCD_CLICKER_DETAILS: "###Ask the Audience\n\n Only A|B|C|D response options without question text as known from the quiz show \"Who Wants to Be a Millionaire\".",
