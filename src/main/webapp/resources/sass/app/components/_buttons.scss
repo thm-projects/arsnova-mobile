@@ -267,6 +267,14 @@
 	border-bottom-right-radius: 15px;
 }
 
+.standardForm {
+	.x-button {
+		width: auto !important;
+		margin-left: 12px !important;
+		margin-right: 12px !important;
+	}
+}
+
 .forwardListButton { /* apple-like forward arrow*/
 	background: $button-bg-color
 		url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IArs4c6QAAAAZiS0dEALgAuAC41wNsvAAAAAlwSFlzAAALEgAACxIB0t1+/AAAAAd0SU1FB9sGEQk7MbF1V5sAAAENSURBVCjPY2CgNigtLS0pKyubSEgdMxqfsbS0tJuRkbGBgYHB3NLS8s+xY8cO49LMhC7AyMgoA5dkYmopLS1NIVbz//v378f///9/D5LYjLKysgCibF69evWvr1+/Bv7///8M1CXMDAwMy0tLS20xXInLSbm5uaIcHBxHGRkZVaFCH//9+2fX09NzCafNMDB58uTXjIyM6UhC/ExMTPPwOhvZ5v///89EEvr479+/JIKas7KyeDg4OLYhOfnH////fZGdjFVzaGgoGw8PzzpGRkYTBgYGhv////9lYGCI7O7uPkwotBkVFRUXMjAwuCKJZXR1dW0gKqr+////BMb+9+9fTXd39xyapG2KAAAvqFz8khrpYwAAAABJRU5ErkJggg==")
