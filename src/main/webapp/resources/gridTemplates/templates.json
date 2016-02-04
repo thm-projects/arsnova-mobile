@@ -1,11 +1,11 @@
 [
     {
-		"name": {
-			"de": "Eindimensionale Meinungsabfrage",
-			"en": "One-dimensional opinion poll"
-		},
-    	"description": {
-    	    "de" : "Mit dieser Vorlage können Sie ein Meinungsbild zu einem Thema einholen.",
+      "name": {
+        "de": "Eindimensionale Meinungsabfrage",
+        "en": "One-dimensional opinion poll"
+      },
+      "description": {
+          "de" : "Mit dieser Vorlage können Sie ein Meinungsbild, zum Beispiel zur Aktualiität eines Themas, einholen und visualisieren.",
           "en" : "With this template, your audience can state their opinions by sticking a dot."
         },
         "imageFile": "Hot-Cold.jpg",
@@ -19,13 +19,32 @@
     },
 
     {
-		"name": {
-			"de": "Eindimensionale Meinungsabfrage",
-			"en": "One-dimensional opinion poll"
-		},
-    	"description": {
-    	    "de" : "Mit dieser Vorlage können Sie ein Meinungsbild zu einem Thema einholen.",
-          "en" : "With this template, your audience can state their opinions by sticking a dot along the thermometer."
+      "name": {
+        "de": "Eindimensionale Meinungsabfrage",
+        "en": "One-dimensional opinion poll"
+      },
+      "description": {
+          "de" : "Mit dieser Vorlage können Sie ein Meinungsbild mit Skalierung einholen und visualisieren.",
+          "en" : "With this template, your audience can state their opinions by sticking a dot."
+        },
+        "imageFile": "Einpunktabfrage.jpg",
+        "gridSize": 16,
+        "zoomLvl": 0,
+        "gridOffsetX": 4,
+        "gridOffsetY": 88,
+        "gridZoomLvl": 1,
+        "gridSizeX": 16,
+        "gridSizeY": 4
+    },
+
+    {
+      "name": {
+        "de": "Eindimensionale Meinungsabfrage",
+        "en": "One-dimensional opinion poll"
+      },
+      "description": {
+        "de" : "Mit dieser Vorlage (\"Stimmungsbarometer\", auch wenn's ein Thermometer ist) können Sie schnell ein Meinungsbild zu einem Thema einholen und visualisieren.",
+        "en" : "With this template, your audience can state their opinions by sticking a dot along the thermometer."
         },
         "imageFile": "Thermometer.jpg",
         "gridSize": 10,
@@ -38,13 +57,13 @@
     },
 
     {
-		"name": {
-			"de": "Zweidimensionale Meinungsabfrage",
-			"en": "Two-dimensional opinion poll"
-		},
-    	"description": {
-    	    "de" : "Mit dieser Vorlage können Sie ein Meinungsbild zu **2 Aspekten x und y** eines Themas einholen.",
-          "en" : "With this template, your audience can state their opinions on 2 aspects, x and y, of a subject."
+      "name": {
+        "de": "Zweidimensionale Meinungsabfrage",
+        "en": "Two-dimensional opinion poll"
+      },
+      "description": {
+        "de" : "Mit dieser Vorlage können Sie ein Meinungsbild zu **2 Aspekten x und y** eines Themas einholen.",
+        "en" : "With this template, your audience can state their opinions on 2 aspects, x and y, of a subject."
         },
         "imageFile": "2-dimensional.jpg",
         "gridSize": 16,
@@ -57,13 +76,13 @@
     },
 
     {
-		"name": {
-			"de": "Vierdimensionale Meinungsabfrage",
-			"en": "Four-dimensional opinion poll"
-		},
-    	"description": {
-    	    "de" : "Mit dieser Vorlage können Sie ein Meinungsbild zu **4 Aspekten A, B, C, und D** eines Themas einholen. Vergeben Sie hierfür entsprechend 4 Klebepunkte.",
-          "en" : "With this template, your audience can state their opinions on 4 aspects of a subject. Hand out 4 sticking dots."
+      "name": {
+        "de": "Vierdimensionale Meinungsabfrage",
+        "en": "Four-dimensional opinion poll"
+      },
+      "description": {
+        "de" : "Mit dieser Vorlage (\"Evaluationszielscheibe\") können Sie ein Meinungsbild zu **4 skalierten Aspekten A, B, C, und D** eines Themas visualisieren. Vergeben Sie hierfür entsprechend 4 Klebepunkte.",
+        "en" : "With this template, your audience can state their opinions on 4 aspects of a subject. Hand out 4 sticking dots."
         },
         "imageFile": "Target.jpg",
         "gridSize": 20,
@@ -72,6 +91,31 @@
         "gridOffsetY": 0,
         "gridZoomLvl": 1,
         "gridSizeX": 20,
-        "gridSizeY": 20
+        "gridSizeY": 20,
+        "numberOfDots": 4,
+        "numClickableFields": 4,
+        "number": 4
+    },
+
+    {
+      "name": {
+        "de": "Vierdimensionale Meinungsabfrage",
+        "en": "Four-dimensional opinion poll"
+      },
+      "description": {
+        "de" : "Mit dieser Vorlage (\"Publikumsfrage\") können Sie ein Meinungsbild zu **4 nicht skalierten Aspekten A, B, C, und D** eines Themas visualisieren. Vergeben Sie hierfür entsprechend 4 Klebepunkte.",
+        "en" : "With this template, your audience can state their opinions on 4 aspects of a subject. Hand out 4 sticking dots."
+        },
+        "imageFile": "ABCD.jpg",
+        "gridSize": 16,
+        "zoomLvl": 0,
+        "gridOffsetX": 5,
+        "gridOffsetY": 10,
+        "gridZoomLvl": 9,
+        "gridSizeX": 10,
+        "gridSizeY": 10,
+        "numberOfDots": 4,
+        "numClickableFields": 4,
+        "number": 4
     }
 ]
