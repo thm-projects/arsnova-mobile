@@ -59,7 +59,8 @@ Ext.define("ARSnova.controller.Sessions", {
 				} else {
 					// check if session is open
 					if (!obj.active) {
-						Ext.Msg.alert("Hinweis", "Die Session \"" + obj.name + "\” ist momentan geschlossen.");
+						Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_IS_CLOSED.replace(/###/, obj.name));
+						sessionStorage.clear();
 						return;
 					}
 					ARSnova.app.userRole = ARSnova.app.USER_ROLE_STUDENT;
