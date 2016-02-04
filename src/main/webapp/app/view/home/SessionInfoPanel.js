@@ -88,6 +88,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
 			ui: 'back',
+			align: 'left',
 			handler: function () {
 				var xTP = me.getReferencePanel();
 				xTP.animateActiveItem(me.getBackReference(), {
@@ -102,6 +103,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			text: Messages.SAVE,
 			ui: 'confirm',
 			hidden: true,
+			align: 'right',
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
 			handler: function () {
@@ -162,6 +164,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			text: Messages.EDIT,
 			ui: 'normal',
 			hidden: true,
+			align: 'right',
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
 			handler: function () {
@@ -169,7 +172,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			}
 		});
 
-		this.toolbar = Ext.create('Ext.Toolbar', {
+		this.toolbar = Ext.create('Ext.TitleBar', {
 			title: Ext.os.is.Desktop ?
 				Messages.SESSION_INFO_TITLE :
 				Messages.SESSION_INFO_TITLE_SHORT,
@@ -177,9 +180,6 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			ui: 'light',
 			items: [
 				this.backButton,
-				{
-					xtype: 'spacer'
-				},
 				this.saveButton,
 				this.editButton
 			]
