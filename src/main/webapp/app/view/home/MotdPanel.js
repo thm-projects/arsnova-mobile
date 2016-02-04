@@ -121,19 +121,12 @@ Ext.define('ARSnova.view.home.MotdPanel', {
 			}
 		});
 
-		this.motdtitlelabel = Ext.create('Ext.Panel', {
-			cls: 'centerText',
-			html: Messages.MOTD_MANAGEMENT
-		});
-
-
 		this.motdListContainer = Ext.create('Ext.form.Panel', {
 			scrollable: null,
-			hide: true,
+			hidden: true,
 			items: [{
 				xtype: 'fieldset',
 				items: [
-					this.motdtitlelabel,
 					this.motdList
 				]
 			}]

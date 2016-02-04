@@ -259,6 +259,8 @@ Ext.define('ARSnova.view.home.NewMotdPanel', {
 				button.enable();
 			}
 		});
+		panel.motdtitle.setValue("");
+		panel.motdtext.setValue("");
 		return promise;
 	}
 });
