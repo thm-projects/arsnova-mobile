@@ -100,6 +100,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			id: 'session-info-button',
 			cls: 'saveButton centered',
 			ui: 'action',
+			style: 'margin-top: 20px',
 			text: Messages.SESSION_OPTIONAL_INFO,
 			handler: function () {
 				var session = {};
@@ -164,8 +165,8 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 					placeHolder: Messages.SESSION_SHORT_NAME_PLACEHOLDER,
 					maxLength: 8,
 					clearIcon: true
-				}]
-			}, this.sessionInfoButton, this.submitButton, this.coursesFieldset]
+				}, this.sessionInfoButton, this.submitButton]
+			}, this.coursesFieldset]
 		}]);
 
 		this.onBefore('activate', function () {
