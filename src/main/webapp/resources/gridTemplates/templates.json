@@ -2,39 +2,39 @@
     {
 		"name": {
 			"de": "Eindimensionale Meinungsabfrage",
-			"en": "One-dimensional opnion poll"
+			"en": "One-dimensional opinion poll"
 		},
     	"description": {
     	    "de" : "Mit dieser Vorlage können Sie ein Meinungsbild zu einem Thema einholen.",
           "en" : "With this template, your audience can state their opinions by sticking a dot."
         },
         "imageFile": "Hot-Cold.jpg",
-        "gridSize": 16,
+        "gridSize": 12,
         "zoomLvl": 0,
         "gridOffsetX": 0,
         "gridOffsetY": 0,
         "gridZoomLvl": 1,
-        "gridSizeX": 16,
-        "gridSizeY": 16
+        "gridSizeX": 10,
+        "gridSizeY": 10
     },
 
     {
 		"name": {
-			"de": "Smiley-Thermometer",
-			"en": "Smiley thermometer"
+			"de": "Eindimensionale Meinungsabfrage",
+			"en": "One-dimensional opinion poll"
 		},
     	"description": {
     	    "de" : "Mit dieser Vorlage können Sie ein Meinungsbild zu einem Thema einholen.",
           "en" : "With this template, your audience can state their opinions by sticking a dot along the thermometer."
         },
         "imageFile": "Thermometer.jpg",
-        "gridSize": 16,
+        "gridSize": 10,
         "zoomLvl": 0,
         "gridOffsetX": 0,
         "gridOffsetY": 0,
         "gridZoomLvl": 1,
-        "gridSizeX": 16,
-        "gridSizeY": 16
+        "gridSizeX": 10,
+        "gridSizeY": 10
     },
 
     {
@@ -66,12 +66,12 @@
           "en" : "With this template, your audience can state their opinions on 4 aspects of a subject. Hand out 4 sticking dots."
         },
         "imageFile": "Target.jpg",
-        "gridSize": 16,
+        "gridSize": 20,
         "zoomLvl": 0,
         "gridOffsetX": 0,
         "gridOffsetY": 0,
         "gridZoomLvl": 1,
-        "gridSizeX": 16,
-        "gridSizeY": 16
+        "gridSizeX": 20,
+        "gridSizeY": 20
     }
 ]
