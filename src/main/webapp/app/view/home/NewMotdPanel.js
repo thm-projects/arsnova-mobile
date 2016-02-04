@@ -21,6 +21,10 @@ Ext.define('ARSnova.view.home.NewMotdPanel', {
 
 	config: {
 		title: Messages.CREATE_NEW_MOTD,
+		layout: {
+			type: 'vbox',
+			pack: 'center'
+		},
 		fullscreen: true,
 		scrollable: null,
 		scroll: 'vertical'

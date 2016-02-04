@@ -26,6 +26,10 @@ Ext.define('ARSnova.view.home.MotdPanel', {
 
 	config: {
 		title: 'MotdPanel',
+		layout: {
+			type: 'vbox',
+			pack: 'center'
+		},
 		fullscreen: true,
 		scrollable: {
 			direction: 'vertical',

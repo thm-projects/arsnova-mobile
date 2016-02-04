@@ -25,6 +25,10 @@ Ext.define('ARSnova.view.home.MotdDetailsPanel', {
 
 	config: {
 		title: 'MotdDetailsPanel',
+		layout: {
+			type: 'vbox',
+			pack: 'center'
+		},
 		fullscreen: true,
 		scrollable: {
 			direction: 'vertical',
@@ -441,6 +445,7 @@ Ext.define('ARSnova.view.home.MotdDetailsPanel', {
 				items: [this.previewButton]
 			}]
 		});
+
 		this.setContentFormContent(this.motdObj);
 		/* END MOTD DETAILS */
 
