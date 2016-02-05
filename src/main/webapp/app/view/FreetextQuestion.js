@@ -140,9 +140,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
 			hidden: this.viewOnly,
-			cls: Ext.os.is.Desktop ?
-				'previewButtonLong' :
-				'previewButton',
+			cls: 'previewButton',
 			scope: this,
 			handler: function () {
 				this.previewHandler();

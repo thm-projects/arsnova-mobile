@@ -112,9 +112,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
-			cls: Ext.os.is.Desktop ?
-				'previewButtonLong' :
-				'previewButton',
+			cls: 'previewButton',
 			scope: this,
 			handler: function () {
 				this.defaultPreviewHandler();
@@ -412,8 +410,11 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		}
 
 		me.add([
-			me.releasePart,
-			me.saveAndContinueButton
+			me.releasePart, {
+				xtype: 'fieldset',
+				style: 'margin-left: 10px; margin-right: 10px',
+				items: [me.saveAndContinueButton]
+			}
 		]);
 
 		me.on('activate', me.onActivate);

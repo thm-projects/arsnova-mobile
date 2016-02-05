@@ -61,10 +61,8 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
-			cls: Ext.os.is.Desktop ?
-				'previewButtonLong' :
-				'previewButton',
-			style: 'margin-left: 8px; margin-top: 0px;',
+			cls: 'previewButton',
+			style: 'margin-left: 10px; margin-top: 0px;',
 			scope: this,
 			handler: function () {
 				this.previewHandler();
