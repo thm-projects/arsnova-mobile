@@ -22,7 +22,14 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 
 	config: {
 		processElement: null,
-		cls: 'markDownEditorPanel x-field'
+		cls: 'markDownEditorPanel x-field',
+		listeners: {
+			painted: function (e) {
+				this.getProcessElement().element.on('touchmove', function (e) {
+					e.stopPropagation();
+				});
+			}
+		}
 	},
 
 	initialize: function (args) {
