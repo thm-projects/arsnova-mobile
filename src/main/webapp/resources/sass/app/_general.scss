@@ -51,6 +51,10 @@
 	}
 }
 
+.userQuestions #canvasWrapper {
+	cursor: pointer;
+}
+
 .noOverflow {
 	overflow: hidden;
 	text-overflow: ellipsis;

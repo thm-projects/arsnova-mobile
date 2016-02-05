@@ -31,6 +31,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		fullscreen: true,
 		title: Messages.QUESTIONS,
 		iconCls: 'icon-presenter',
+		cls: 'userQuestions',
 
 		mode: 'lecture',
 		questionLoader: null,
