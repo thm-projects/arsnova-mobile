@@ -359,9 +359,11 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 	/* will be called on session login */
 	registerListeners: function () {
+		var features = Ext.decode(sessionStorage.getItem("features"));
 		var inClassPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 		ARSnova.app.taskManager.start(inClassPanel.countFeedbackQuestionsTask);
-		if (ARSnova.app.globalConfig.features.learningProgress) {
+
+		if (features.learningProgress) {
 			ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.learningProgressChange, this.learningProgressChange, this);
 			ARSnova.app.taskManager.start(inClassPanel.courseLearningProgressTask);
 		}
@@ -369,9 +371,11 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 	/* will be called whenever panel is shown */
 	refreshListeners: function () {
+		var features = Ext.decode(sessionStorage.getItem("features"));
+
 		// tasks should get run immediately
 		this.countFeedbackQuestionsTask.taskRunTime = 0;
-		if (ARSnova.app.globalConfig.features.learningProgress) {
+		if (features.learningProgress) {
 			this.courseLearningProgressTask.taskRunTime = 0;
 		}
 	},
@@ -380,10 +384,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	destroyListeners: function () {
 		var inClassPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 		ARSnova.app.taskManager.stop(inClassPanel.countFeedbackQuestionsTask);
-		if (ARSnova.app.globalConfig.features.learningProgress) {
-			ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.learningProgressChange, this.learningProgressChange, this);
-			ARSnova.app.taskManager.stop(inClassPanel.courseLearningProgressTask);
-		}
+		ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.learningProgressChange, this.learningProgressChange, this);
+		ARSnova.app.taskManager.stop(inClassPanel.courseLearningProgressTask);
 	},
 
 	onActivate: function () {

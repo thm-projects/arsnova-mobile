@@ -188,8 +188,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			badgeCls: 'badgeicon',
 			controller: 'Questions',
 			action: 'listFeedbackQuestions',
-			handler: this.buttonClicked,
-			hidden: !ARSnova.app.globalConfig.features.studentsOwnQuestions
+			handler: this.buttonClicked
 		});
 
 		this.myLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
@@ -201,8 +200,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			disabledCls: '',
 			controller: 'Questions',
 			action: 'showLearningProgress',
-			handler: this.buttonClicked,
-			hidden: !ARSnova.app.globalConfig.features.learningProgress
+			handler: this.buttonClicked
 		});
 
 		var buttons = [];
@@ -286,7 +284,6 @@ Ext.define('ARSnova.view.user.InClass', {
 				type: 'hbox',
 				pack: 'center'
 			},
-			hidden: !ARSnova.app.globalConfig.features.learningProgress,
 
 			items: [
 				this.swotBadge

@@ -32,45 +32,42 @@ Ext.define('ARSnova.view.speaker.form.VoteQuestion', {
 
 	constructor: function () {
 		this.callParent(arguments);
-
 		this.sliderComponents = [];
+
 		var questionValueFieldset = null;
-		if (ARSnova.app.globalConfig.features.learningProgress) {
-			questionValueFieldset = Ext.create('Ext.form.FieldSet', {
-				title: Messages.ANSWER_POINTS,
-				hidden: false
-			});
 
-			var questionValueOptions = {
-				minValue: -10,
-				maxValue: 10,
-				value: 0,
-				increment: 1
-			};
+		questionValueFieldset = Ext.create('Ext.form.FieldSet', {
+			title: Messages.ANSWER_POINTS,
+			hidden: false
+		});
 
-			for (var i = 0; i < this.getMaxAnswers(); i++) {
-				this.sliderComponents.push(Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
-					label: (i + 1) + '. '
-				})));
-			}
+		var questionValueOptions = {
+			minValue: -10,
+			maxValue: 10,
+			value: 0,
+			increment: 1
+		};
 
-			questionValueFieldset.add(this.sliderComponents);
-
-			this.add([{
-				xtype: 'formpanel',
-				scrollable: null,
-				items: [questionValueFieldset]
-			}]);
+		for (var i = 0; i < this.getMaxAnswers(); i++) {
+			this.sliderComponents.push(Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
+				label: (i + 1) + '. '
+			})));
 		}
+
+		questionValueFieldset.add(this.sliderComponents);
+
+		this.add([{
+			xtype: 'formpanel',
+			scrollable: null,
+			items: [questionValueFieldset]
+		}]);
 	},
 
 	initWithQuestion: function (question) {
 		this.callParent(arguments);
 
-		if (ARSnova.app.globalConfig.features.learningProgress) {
-			for (var i = 0; i < question.possibleAnswers.length; i++) {
-				this.sliderComponents[i].setSliderValue(question.possibleAnswers[i].value);
-			}
+		for (var i = 0; i < question.possibleAnswers.length; i++) {
+			this.sliderComponents[i].setSliderValue(question.possibleAnswers[i].value);
 		}
 	},
 
@@ -79,7 +76,7 @@ Ext.define('ARSnova.view.speaker.form.VoteQuestion', {
 			return {
 				text: item.getValue(),
 				correct: false,
-				value: ARSnova.app.globalConfig.features.learningProgress ? this.sliderComponents[index].getSliderValue() : 0
+				value: this.sliderComponents[index].getSliderValue()
 			};
 		}, this);
 	}

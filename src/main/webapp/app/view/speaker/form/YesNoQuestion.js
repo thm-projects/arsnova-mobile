@@ -53,29 +53,27 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 			pressed: this.getPressed() === 'none'
 		});
 
-		var questionValueFieldset = null;
-		if (ARSnova.app.globalConfig.features.learningProgress) {
-			questionValueFieldset = Ext.create('Ext.form.FieldSet', {
-				title: Messages.ANSWER_POINTS,
-				hidden: true
-			});
+		var questionValueFieldset = Ext.create('Ext.form.FieldSet', {
+			title: Messages.ANSWER_POINTS,
+			hidden: true
+		});
 
-			var questionValueOptions = {
-				minValue: -10,
-				maxValue: 10,
-				value: 0,
-				increment: 1
-			};
+		var questionValueOptions = {
+			minValue: -10,
+			maxValue: 10,
+			value: 0,
+			increment: 1
+		};
 
-			this.yesValueComponent = Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
-				label: this.getTextYes()
-			}));
-			this.noValueComponent = Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
-				label: this.getTextNo()
-			}));
+		this.yesValueComponent = Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
+			label: this.getTextYes()
+		}));
 
-			questionValueFieldset.add([this.yesValueComponent, this.noValueComponent]);
-		}
+		this.noValueComponent = Ext.create("ARSnova.view.CustomSliderField", Ext.apply(questionValueOptions, {
+			label: this.getTextNo()
+		}));
+
+		questionValueFieldset.add([this.yesValueComponent, this.noValueComponent]);
 
 		this.segmentedButton = Ext.create('Ext.SegmentedButton', {
 			style: 'margin: auto;',
@@ -90,25 +88,19 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 					if (pressed) {
 						if (button === this.yesButton) {
 							this.setPressed('yes');
-							if (ARSnova.app.globalConfig.features.learningProgress) {
-								questionValueFieldset.setHidden(false);
-								this.yesValueComponent.setSliderValue(this.yesValueComponent.getMaxValue());
-								this.noValueComponent.setSliderValue(this.noValueComponent.getMinValue());
-							}
+							questionValueFieldset.setHidden(false);
+							this.yesValueComponent.setSliderValue(this.yesValueComponent.getMaxValue());
+							this.noValueComponent.setSliderValue(this.noValueComponent.getMinValue());
 						} else if (button === this.noButton) {
 							this.setPressed('no');
-							if (ARSnova.app.globalConfig.features.learningProgress) {
-								questionValueFieldset.setHidden(false);
-								this.yesValueComponent.setSliderValue(this.yesValueComponent.getMinValue());
-								this.noValueComponent.setSliderValue(this.noValueComponent.getMaxValue());
-							}
+							questionValueFieldset.setHidden(false);
+							this.yesValueComponent.setSliderValue(this.yesValueComponent.getMinValue());
+							this.noValueComponent.setSliderValue(this.noValueComponent.getMaxValue());
 						} else {
 							this.setPressed('none');
-							if (ARSnova.app.globalConfig.features.learningProgress) {
-								questionValueFieldset.setHidden(true);
-								this.yesValueComponent.reset();
-								this.noValueComponent.reset();
-							}
+							questionValueFieldset.setHidden(true);
+							this.yesValueComponent.reset();
+							this.noValueComponent.reset();
 						}
 					}
 				}
@@ -119,14 +111,11 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 			xtype: 'fieldset',
 			title: Messages.CORRECT_ANSWER,
 			items: [this.segmentedButton]
+		}, {
+			xtype: 'formpanel',
+			scrollable: null,
+			items: [questionValueFieldset]
 		}]);
-		if (ARSnova.app.globalConfig.features.learningProgress) {
-			this.add([{
-				xtype: 'formpanel',
-				scrollable: null,
-				items: [questionValueFieldset]
-			}]);
-		}
 	},
 
 	initWithQuestion: function (question) {
@@ -152,12 +141,10 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 		if (possibleAnswers.length === 3) {
 			this.abstentionAnswer = possibleAnswers[2];
 		}
-		if (ARSnova.app.globalConfig.features.learningProgress) {
-			// Again, assume specifiy yes, no layout!
-			[this.yesValueComponent, this.noValueComponent].forEach(function (component, index) {
-				component.setSliderValue(possibleAnswers[index].value || 0);
-			});
-		}
+		// Again, assume specifiy yes, no layout!
+		[this.yesValueComponent, this.noValueComponent].forEach(function (component, index) {
+			component.setSliderValue(possibleAnswers[index].value || 0);
+		});
 	},
 
 	getQuestionValues: function () {
@@ -165,10 +152,8 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 
 		var yesAnswer = {text: this.yesButton.getText(), correct: false};
 		var noAnswer = {text: this.noButton.getText(), correct: false};
-		if (ARSnova.app.globalConfig.features.learningProgress) {
-			yesAnswer.value = this.yesValueComponent.getSliderValue();
-			noAnswer.value = this.noValueComponent.getSliderValue();
-		}
+		yesAnswer.value = this.yesValueComponent.getSliderValue();
+		noAnswer.value = this.noValueComponent.getSliderValue();
 
 		switch (this.getPressed()) {
 			case "yes":
