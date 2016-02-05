@@ -58,6 +58,12 @@
 	padding-right: 55px;
 }
 
+.x-form-fieldset-title {
+	.x-innerhtml {
+		white-space: normal;
+	}
+}
+
 .buttontext {
 	margin-left: 15px;
 }
