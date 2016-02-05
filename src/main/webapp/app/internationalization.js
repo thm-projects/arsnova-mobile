@@ -1207,7 +1207,7 @@
 				EDITOR_HEADER_TOOLTIP: "Header",
 				EDITOR_HYPERLINK_TOOLTIP: "Hyperlink",
 				EDITOR_ULIST_TOOLTIP: "Unsorted list",
-				EDITOR_OLIST_TOOLTIP: "Sorted Liste",
+				EDITOR_OLIST_TOOLTIP: "Sorted list",
 				EDITOR_LATEX_TOOLTIP: "Latex",
 				EDITOR_CODE_TOOLTIP: "Code",
 				EDITOR_QUOTE_TOOLTIP: "Quote",
