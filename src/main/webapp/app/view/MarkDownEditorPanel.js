@@ -25,7 +25,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 		cls: 'markDownEditorPanel x-field',
 		listeners: {
 			painted: function (e) {
-				this.getProcessElement().element.on('touchmove', function (e) {
+				this.getProcessElement().innerElement.on('touchmove', function (e) {
 					e.stopPropagation();
 				});
 			}

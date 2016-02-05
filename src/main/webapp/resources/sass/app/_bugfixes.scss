@@ -33,3 +33,7 @@
 	opacity: 0;
 }
 
+// prevent pull-refresh on chrome mobile
+body.x-android.splashscreenClosed {
+	overflow-y: hidden !important;
+}
