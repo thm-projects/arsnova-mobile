@@ -516,6 +516,7 @@ Ext.define('ARSnova.view.Question', {
 
 		answer.saveAnswer(me.questionObj._id, {
 			success: function () {
+				var questionsPanel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel;
 				var questionsArr = Ext.decode(localStorage.getItem(me.questionObj.questionVariant + 'QuestionIds'));
 				if (questionsArr.indexOf(me.questionObj._id) === -1) {
 					questionsArr.push(me.questionObj._id);
@@ -529,12 +530,14 @@ Ext.define('ARSnova.view.Question', {
 						me.questionObj.userAnswered = true;
 					}
 
+					questionsPanel.getIndicator().setIndicatorColorAnswered(questionsPanel.getActiveIndex(), true);
+
 					me.disableQuestion();
 					if (!me.questionObj.piRoundActive && !me.questionObj.showAnswer) {
-						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
+						questionsPanel.checkIfLastAnswer();
 					} else {
 						me.getScrollable().getScroller().scrollToEnd(true);
-						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkStatisticsRelease();
+						questionsPanel.checkStatisticsRelease();
 					}
 				}
 			},

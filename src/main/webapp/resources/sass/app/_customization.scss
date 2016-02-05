@@ -490,6 +490,10 @@ html, body,
 		cursor: pointer;
 	}
 
+	&.unanswered {
+		background-color: $carousel-indicator-unanswered-question-color;
+	}
+
 	&.x-carousel-indicator-active {
 		background-color: $carousel-indicator-active-color;
 	}

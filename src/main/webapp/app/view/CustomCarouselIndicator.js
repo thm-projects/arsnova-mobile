@@ -32,6 +32,18 @@ Ext.define('ARSnova.view.CustomCarouselIndicator', {
 		});
 	},
 
+	setIndicatorColorAnswered: function (index, isAnswered) {
+		var indicator = this.indicators[index];
+
+		if (indicator) {
+			if (isAnswered) {
+				indicator.removeCls('unanswered');
+			} else {
+				indicator.addCls('unanswered');
+			}
+		}
+	},
+
 	addIndicator: function () {
 		var index = this.indicators.length;
 		this.indicators.push(this.element.createChild({

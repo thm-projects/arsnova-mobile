@@ -203,6 +203,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	addQuestion: function (question, index) {
 		var questionPanel;
 		var questionsLength = this.getInnerItems().length;
+		var isAnswered = question.userAnswered || question.isAbstentionAnswer;
 
 		// do not add the same question multiple times
 		if (this.questions.indexOf(question._id) !== -1) {
@@ -234,6 +235,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			this.updateIndicatorPosition(this.nextUnansweredIndex);
 		}
 
+		this.getIndicator().setIndicatorColorAnswered(index, isAnswered);
 		this.setActiveItem(this.nextUnansweredIndex);
 	},
 
@@ -321,6 +323,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 	checkAnswer: function (questionPanel) {
 		var questionObj = questionPanel.questionObj;
+
 		if (!questionObj.userAnswered && !questionObj.isAbstentionAnswer) {
 			return;
 		}
