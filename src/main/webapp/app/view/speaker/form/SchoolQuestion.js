@@ -48,8 +48,7 @@ Ext.define('ARSnova.view.speaker.form.SchoolQuestion', {
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
-			cls: 'previewButton',
-			style: 'margin-left: 8px; margin-top: 0px;',
+			cls: 'centerButton previewButton',
 			scope: this,
 			handler: function () {
 				this.previewHandler();

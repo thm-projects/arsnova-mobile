@@ -278,7 +278,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				Messages.SESSION_PREVIEW_BUTTON_TITLE_DESKTOP :
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
-			cls: 'centerButton',
+			cls: 'centerButton previewButton',
 			scope: this,
 			handler: function () {
 				this.previewHandler();

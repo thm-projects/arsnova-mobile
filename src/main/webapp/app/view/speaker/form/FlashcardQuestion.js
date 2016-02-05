@@ -39,7 +39,7 @@ Ext.define('ARSnova.view.speaker.form.FlashcardQuestion', {
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
-			cls: 'previewButton',
+			cls: 'centerButton previewButton',
 			handler: function () {
 				this.previewHandler();
 			},

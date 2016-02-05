@@ -69,7 +69,7 @@ Ext.define('ARSnova.view.speaker.form.HintForSolutionForm', {
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
-			cls: 'previewButton',
+			cls: 'centerButton previewButton',
 			scope: this,
 			hidden: !this.getActive(),
 			style: {

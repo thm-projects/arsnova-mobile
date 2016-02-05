@@ -738,7 +738,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
-			cls: 'previewButton',
+			cls: 'centerButton previewButton',
 			hidden: true,
 			scope: this,
 			handler: function () {

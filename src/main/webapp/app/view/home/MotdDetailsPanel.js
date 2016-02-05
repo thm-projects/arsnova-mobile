@@ -406,7 +406,7 @@ Ext.define('ARSnova.view.home.MotdDetailsPanel', {
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
-			cls: 'previewButton',
+			cls: 'centerButton previewButton',
 			scope: this,
 			handler: function () {
 				var values = {};

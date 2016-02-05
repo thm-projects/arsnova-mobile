@@ -82,7 +82,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE_DESKTOP :
 				Messages.QUESTION_PREVIEW_BUTTON_TITLE,
 			ui: 'action',
-			cls: 'previewButton',
+			cls: 'centerButton previewButton',
 			scope: this,
 			handler: function () {
 				this.previewHandler();
