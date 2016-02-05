@@ -38,6 +38,8 @@ Ext.define("ARSnova.controller.Feature", {
 		learningProgress: true
 	},
 
+	lastUpdate: 0,
+
 	/* TODO:
 	 * Remove this workaround as soon as the feature controller uses its own
 	 * variable. Server-side global config should never be overriden.
@@ -443,9 +445,14 @@ Ext.define("ARSnova.controller.Feature", {
 			default:
 			case 'interposed':
 				tP.setActiveItem(tabPanel);
-				ARSnova.app.socket.setSession(null);
-				ARSnova.app.socket.setSession(sessionStorage.getItem('keyword'));
-				ARSnova.app.sessionModel.fireEvent(ARSnova.app.sessionModel.events.sessionJoinAsStudent);
+
+				if (Date.now() - this.lastUpdate > 1000) {
+					this.lastUpdate = Date.now();
+					ARSnova.app.socket.setSession(null);
+					ARSnova.app.socket.setSession(sessionStorage.getItem('keyword'));
+					ARSnova.app.sessionModel.fireEvent(ARSnova.app.sessionModel.events.sessionJoinAsStudent);
+				}
+
 				tP.feedbackTabPanel.votePanel.setSinglePageMode(false, this);
 				tP.userQuestionsPanel.setSinglePageMode(false, this);
 				tabPanel.inClassPanel.startTasks();

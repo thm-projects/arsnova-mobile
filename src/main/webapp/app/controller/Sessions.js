@@ -35,6 +35,7 @@ Ext.define("ARSnova.controller.Sessions", {
 
 			if (keyword) {
 				ARSnova.app.socket.setSession(keyword);
+				ARSnova.app.getController('Feature').lastUpdate = Date.now();
 			}
 		});
 	},
@@ -86,6 +87,7 @@ Ext.define("ARSnova.controller.Sessions", {
 				// deactivate several about tabs
 				ARSnova.app.mainTabPanel.tabPanel.deactivateAboutTabs();
 				ARSnova.app.socket.setSession(obj.keyword);
+				ARSnova.app.getController('Feature').lastUpdate = Date.now();
 
 				// start task to update the feedback tab in tabBar
 				ARSnova.app.feedbackModel.on("arsnova/session/feedback/count", ARSnova.app.mainTabPanel.tabPanel.updateFeedbackBadge, ARSnova.app.mainTabPanel.tabPanel);
@@ -498,6 +500,7 @@ Ext.define("ARSnova.controller.Sessions", {
 			tabPanel.updateHomeBadge();
 			ARSnova.app.socket.setSession(null);
 			ARSnova.app.socket.setSession(sessionStorage.getItem('keyword'));
+			ARSnova.app.getController('Feature').lastUpdate = Date.now();
 			onAnimationEnd = (typeof onAnimationEnd === 'function') ?
 				onAnimationEnd : hideLoadMask;
 
