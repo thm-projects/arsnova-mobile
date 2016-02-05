@@ -20,7 +20,7 @@
 .hidden {
 	display: none;
 }
- 
+
 .noBackground {
 	background: none !important;
 }
@@ -35,19 +35,19 @@
 
 .x-html {
 	a:link {
-	    color: $hyperlink-unvisited-color;
+		color: $hyperlink-unvisited-color;
 	}
 
 	a:visited {
-	    color: $hyperlink-visited-color;
+		color: $hyperlink-visited-color;
 	}
-	
+
 	a:hover {
-	    color: $hyperlink-hover-color;
+			color: $hyperlink-hover-color;
 	}
-	
+
 	a:active {
-	    color: $hyperlink-active-color;
+		color: $hyperlink-active-color;
 	}
 }
 
@@ -210,7 +210,7 @@ code {
 	}
 
 	.x-nested-list-inner {
-	    margin-top: 20px;
+		margin-top: 20px;
 	}
 
 	.x-list .x-list-item.x-item-selected.x-list-item-tpl {
@@ -403,7 +403,7 @@ code {
 
 	&.unchecked {
 		color: $form-unchecked-icon-color !important;
-	} 
+	}
 
 	> span {
 		font-weight: normal;
@@ -595,7 +595,7 @@ code {
 
 .x-msgbox.markdownMessageBox {
 	max-width: 480px;
-	width: 90%;	
+	width: 90%;
 }
 
 .dangerLabel {
@@ -638,15 +638,15 @@ code {
 
 .formInvalid:-moz-placeholder { /* Firefox 18- */
 	color: $brand-danger;
-	opacity: 0.5; 
+	opacity: 0.5;
 }
 
-.formInvalid::-moz-placeholder {  /* Firefox 19+ */
+.formInvalid::-moz-placeholder { /* Firefox 19+ */
 	color: $brand-danger;
 	opacity: 0.5;
 }
 
-.formInvalid:-ms-input-placeholder {  
+.formInvalid:-ms-input-placeholder {
 	color: $brand-danger;
 	opacity: 0.5;
 }

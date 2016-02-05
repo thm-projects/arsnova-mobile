@@ -47,7 +47,7 @@
 		background-color: $vote-student-abcd-button-color;
 
 		.iconBtnImg {
-		    margin: 13px 0px 0px 15px !important;
+			margin: 13px 0px 0px 15px !important;
 
 			&:before {
 				color: $vote-student-abcd-button-text-color;
@@ -96,7 +96,7 @@
 		margin: 8px 0 0 10.5px !important;
 	}
 }
- 
+
 .answerListButton {
 	&.x-item-selected .x-innerhtml .answerOptionItem {
 		&.answerOptionCorrectItem:after {
@@ -167,7 +167,7 @@
 	&.mediumActionButton {
 		padding-left: 0px;
 		padding-right: 0px;
-	
+
 		.buttonText {
 			width: 120px !important;
 			margin-left: 0px;
@@ -178,7 +178,7 @@
 	&.smallerActionButton {
 		padding-left: 0px;
 		padding-right: 0px;
-		
+
 		.buttonText {
 			width: 107px !important;
 			margin-left: 0px;
@@ -229,11 +229,11 @@
 		.x-container {
 			overflow: visible;
 		}
-		
+
 		.x-component-outer {
 			padding: 0;
 			margin: 20px 0 0 2.9px;
-		}	
+		}
 	}
 }
 
@@ -453,7 +453,7 @@
 			background-color: transparent;
 			cursor: initial;
 		}
-		
+
 		&.x-button-pressing {
 			background-image: none;
 			background-color: transparent;

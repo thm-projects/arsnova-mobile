@@ -43,7 +43,7 @@
 	.x-scroll-container {
 		background-color: $form-bg-color;
 		border-top-left-radius: 0.4em;
-    	border-top-right-radius: 0.4em;
+		border-top-right-radius: 0.4em;
 	}
 }
 
@@ -64,7 +64,7 @@ div[id^=ext-mathJaxMarkDownPanel] * {
 	display: inline-block;
 	max-width: 320px;
 	display: block;
-    margin: auto;
+	margin: auto;
 
 	&:before {
 		content: "";

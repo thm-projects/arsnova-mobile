@@ -18,9 +18,9 @@
  */
 
 
-// fix hidden fieldsets in firefox 
+// fix hidden fieldsets in firefox
 .x-firefox .x-stretched.x-dock-vertical > .x-dock-body {
-    height: auto;
+	height: auto;
 }
 
 // fix placeholder opacity

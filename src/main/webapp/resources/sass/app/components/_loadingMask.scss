@@ -19,44 +19,44 @@
 
 .x-loading-mask {
 	background: transparent !important;
-	
+
 	.x-mask-inner {
 		background: rgba(0,0,0,0.3) center center no-repeat;
-		
+
 		.x-mask-message {
 			color: rgba(255,255,255,0.9);
 			font-weight: normal;
 		}
-		
+
 		.x-loading-spinner {
 			-webkit-animation-duration: 0.8s;
-		    -webkit-animation-name: x-loading-spinner-rotate;
-		    -webkit-animation-iteration-count: infinite;
-		    -webkit-animation-timing-function: linear;
-		    
-		    animation-duration: 0.8s;
-		    animation-name: x-loading-spinner-rotate;
-		    animation-iteration-count: infinite;
-		    animation-timing-function: linear;
-			
+			-webkit-animation-name: x-loading-spinner-rotate;
+			-webkit-animation-iteration-count: infinite;
+			-webkit-animation-timing-function: linear;
+
+			animation-duration: 0.8s;
+			animation-name: x-loading-spinner-rotate;
+			animation-iteration-count: infinite;
+			animation-timing-function: linear;
+
 			&> span.x-loading-top {
 				background-color: rgba(255,255,255,0.99);
 				&:before { background-color: rgba(255,255,255,0.15); }
 				&:after { background-color: rgba(255,255,255,0.9); }
 			}
-			
+
 			&> span.x-loading-right {
 				background-color: rgba(255,255,255,0.25);
 				&:before { background-color: rgba(255,255,255,0.3); }
 				&:after { background-color: rgba(255,255,255,0.2); }
 			}
-			
+
 			&> span.x-loading-left {
 				background-color: rgba(255,255,255,0.7);
 				&:before { background-color: rgba(255,255,255,0.8); }
 				&:after { background-color: rgba(255,255,255,0.6); }
 			}
-			
+
 			&> span.x-loading-bottom {
 				background-color: rgba(255,255,255,0.4);
 				&:before { background-color: rgba(255,255,255,0.5); }
@@ -114,47 +114,47 @@
 	0%, 8.32% {
 		transform: rotate(0deg);
 	}
-	
-	8.33%, 16.65% {  
-		transform: rotate(30deg);  
+
+	8.33%, 16.65% {
+		transform: rotate(30deg);
 	}
-	
+
 	16.66%, 24.99% {
 		transform: rotate(60deg);
 	}
-	
+
 	25%, 33.32% {
 		transform: rotate(90deg);
 	}
-	
+
 	33.33%, 41.65% {
 		transform: rotate(120deg);
 	}
-	
+
 	41.66%, 49.99% {
 		transform: rotate(150deg);
 	}
-	
+
 	50%, 58.32% {
 		transform: rotate(180deg);
 	}
-	
+
 	58.33%, 66.65% {
 		transform: rotate(210deg);
 	}
-	
+
 	66.66%, 74.99% {
 		transform: rotate(240deg);
 	}
-	
+
 	75%, 83.32% {
 		transform: rotate(270deg);
 	}
-	
+
 	83.33%, 91.65% {
 		transform: rotate(300deg);
 	}
-	
+
 	91.66%, 100% {
 		transform: rotate(330deg);
 	}
@@ -164,47 +164,47 @@
 	0%, 8.32% {
 		-webkit-transform: rotate(0deg);
 	}
-	
-	8.33%, 16.65% {  
-		-webkit-transform: rotate(30deg);  
+
+	8.33%, 16.65% {
+		-webkit-transform: rotate(30deg);
 	}
-	
+
 	16.66%, 24.99% {
 		-webkit-transform: rotate(60deg);
 	}
-	
+
 	25%, 33.32% {
 		-webkit-transform: rotate(90deg);
 	}
-	
+
 	33.33%, 41.65% {
 		-webkit-transform: rotate(120deg);
 	}
-	
+
 	41.66%, 49.99% {
 		-webkit-transform: rotate(150deg);
 	}
-	
+
 	50%, 58.32% {
 		-webkit-transform: rotate(180deg);
 	}
-	
+
 	58.33%, 66.65% {
 		-webkit-transform: rotate(210deg);
 	}
-	
+
 	66.66%, 74.99% {
 		-webkit-transform: rotate(240deg);
 	}
-	
+
 	75%, 83.32% {
 		-webkit-transform: rotate(270deg);
 	}
-	
+
 	83.33%, 91.65% {
 		-webkit-transform: rotate(300deg);
 	}
-	
+
 	91.66%, 100% {
 		-webkit-transform: rotate(330deg);
 	}

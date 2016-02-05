@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 
 
 @mixin label-config {
@@ -132,13 +132,13 @@
 			background-color: $projectormode-primary-color;
 		}
 
-		span.x-carousel-indicator-active {			
+		span.x-carousel-indicator-active {
 			background-color: $projectormode-secondary-color;
 			box-shadow: 0 0 1px 0 $projectormode-primary-color;
 
 			p {
 				color: $projectormode-text-color;
 			}
-		}		
+		}
 	}
 }

@@ -61,7 +61,7 @@ html, body,
 	border-color: $button-border-color;
 	border-width: $button-border-width;
 	border-style: solid;
-	
+
 	&:hover {
 		background-color: $button-hover-color;
 		cursor: pointer;
@@ -156,17 +156,17 @@ html, body,
 
 		&:-moz-placeholder { /* Firefox 18- */
 			opacity: $form-placeholder-opacity;
-			color: $form-placeholder-color;  
+			color: $form-placeholder-color;
 		}
 
-		&::-moz-placeholder {  /* Firefox 19+ */
+		&::-moz-placeholder { /* Firefox 19+ */
 			opacity: $form-placeholder-opacity;
-			color: $form-placeholder-color;  
+			color: $form-placeholder-color;
 		}
 
 		&:-ms-input-placeholder {
 			opacity: $form-placeholder-opacity;
-			color: $form-placeholder-color;  
+			color: $form-placeholder-color;
 		}
 	}
 
@@ -310,9 +310,9 @@ html, body,
 			@include toolbar-button-config(
 				$feedback-freeze-button-color,
 				$feedback-freeze-button-txt-color
-			); 
+			);
 		}
-		
+
 		&.feedbackReleaseButton {
 			@include toolbar-button-config(
 				$feedback-release-button-color,
@@ -334,7 +334,7 @@ html, body,
 				);
 			}
 		}
-		
+
 		&.qrCodeButton {
 			@include toolbar-button-config(
 				$toolbar-button-bg-color,
@@ -455,7 +455,7 @@ html, body,
 
 	.x-list-item {
 		background-color: $list-bg-color;
-		
+
 		&:hover {
 			background-color: $button-hover-color;
 			cursor: pointer;
