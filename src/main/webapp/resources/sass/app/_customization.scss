@@ -377,8 +377,8 @@ html, body,
 			&.x-button-pressing:after,
 			&.x-button-pressing:before {
 				@include toolbar-button-config(
-					$button-action-active-bg-color,
-					$toolbar-button-txt-color
+					$toolbar-back-button-active-bg-color,
+					$toolbar-back-button-txt-color
 				);
 			}
 		}
