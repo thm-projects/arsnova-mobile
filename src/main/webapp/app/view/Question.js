@@ -501,7 +501,6 @@ Ext.define('ARSnova.view.Question', {
 					button.setText(Messages.SHOW_FLASHCARD_ANSWER);
 
 					if (!this.viewOnly) {
-						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.next();
 						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
 					}
 				}
@@ -532,7 +531,6 @@ Ext.define('ARSnova.view.Question', {
 
 					me.disableQuestion();
 					if (!me.questionObj.piRoundActive && !me.questionObj.showAnswer) {
-						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
 						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
 					} else {
 						me.getScrollable().getScroller().scrollToEnd(true);

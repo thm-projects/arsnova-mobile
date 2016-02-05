@@ -420,7 +420,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				}
 
 				me.disableQuestion();
-				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.showNextUnanswered();
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
 			},
 			failure: function (response, opts) {
