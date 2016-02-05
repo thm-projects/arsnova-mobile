@@ -22,7 +22,7 @@ var splashscreen = (function (win) {
 	/**
 	 * Hides splashscreen by setting the CSS display property to "none"
 	 */
-	function hideSplashScreen () {
+	function hideSplashScreen() {
 		doc.getElementById("splashScreenContainer").style.display = 'none';
 	}
 
@@ -30,7 +30,7 @@ var splashscreen = (function (win) {
 	 * Adds the class "showSplashScreenElement" to the loading indicator element
 	 * in order to trigger a ease-in transition.
 	 */
-	function showLoadingIndicator () {
+	function showLoadingIndicator() {
 		doc.getElementById("loadingInd").classList.add('showSplashScreenElement');
 	}
 
@@ -38,7 +38,7 @@ var splashscreen = (function (win) {
 	 * Triggers ease-in transitions for splashscreen logo and label. Executes a timed
 	 * function, which forces the splashscreen to close/hide after the specified time.
 	 */
-	function showInnerContainer (milliseconds, scaleWidth) {
+	function showInnerContainer(milliseconds, scaleWidth) {
 		var innerSplashContainer = doc.getElementById('innerSplashScreenContainer');
 		innerSplashContainer.style.width = scaleWidth ? '90%' : 'initial';
 		innerSplashContainer.children[0].classList.add('showSplashScreenElement');
@@ -57,10 +57,10 @@ var splashscreen = (function (win) {
 	/**
 	 * Applies configured styles to the splashscreen html elements
 	 */
-	function applySplashScreenStyle (responseText, imgObject) {
+	function applySplashScreenStyle(responseText, imgObject) {
 		var response = JSON.parse(responseText);
 		var imgElement = doc.getElementById('splashScreenLogo');
-		var minDelay = typeof response.splashscreen.minDelay !== 'undefined' ? 
+		var minDelay = typeof response.splashscreen.minDelay !== 'undefined' ?
 			response.splashscreen.minDelay : 3000;
 
 		// save config object
@@ -100,11 +100,11 @@ var splashscreen = (function (win) {
 		showLoadingIndicator: showLoadingIndicator,
 		applySplashScreenStyle: applySplashScreenStyle
 	};
-} (window));
+}(window));
 
 /**
  * Self-invoking function. Sends a Ajax request in order to get the
- * splashscreen configuration from specified url (arsnova-backend). 
+ * splashscreen configuration from specified url (arsnova-backend).
  */
 (function () {
 	var doc = window.document;
@@ -113,7 +113,7 @@ var splashscreen = (function (win) {
 	var configUrl = '/arsnova-config';
 
 	// listen for Ajax readyState changes
-	xhttp.onreadystatechange = function() {
+	xhttp.onreadystatechange = function () {
 		if (xhttp.readyState === 4 && doc.readyState === 'complete') {
 			if (xhttp.status === 200) {
 				splashscreen.applySplashScreenStyle(xhttp.responseText, imgObject);

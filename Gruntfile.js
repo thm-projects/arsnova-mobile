@@ -13,8 +13,10 @@ module.exports = function (grunt) {
 	/* Files matching the following patterns will be checked by JSHint and JSCS */
 	var lintJs = [
 		"Gruntfile.js",
+		appPath + "/*.js",
 		appPath + "/app/**/*.js",
 		/* Exclude third-party code */
+		"!" + appPath + "/bootstrap.js",
 		"!" + appPath + "/app/utils/Ext.*.js",
 		"!" + appPath + "/app/Fileup.js"
 	];
