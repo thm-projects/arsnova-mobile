@@ -160,3 +160,65 @@ div[id^=ext-mathJaxMarkDownPanel] {
 		}
 	}
 }
+
+.activateTooltip {
+	.x-inner,
+	.x-body.x-scroll-view {
+		overflow: visible;
+	}
+}
+
+.buttonTooltip {
+	overflow: visible;
+	position: relative;
+	text-decoration: none;
+}
+
+.buttonTooltip:after {
+	left: -30%;
+	bottom: 160%;
+	content: attr(data-tooltip);
+	position: absolute;
+	background: $tooltip-background-color;
+	padding: 5px 15px;
+	color: black;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	white-space: nowrap;
+	opacity: 0;
+	-webkit-transition: all 0.2s ease;
+	-moz-transition: all 0.2s ease;
+	transition: all 0.2s ease;
+	color: $tooltip-text-color;
+	pointer-events: none;
+}
+
+.buttonTooltip:before {
+	width: 0;
+	height: 0;
+	content: "";
+	position: absolute;
+	border-top: 16px solid $tooltip-background-color;
+	border-left: 16px solid transparent;
+	border-right: 16px solid transparent;
+	-webkit-transition: all 0.2s ease;
+	-moz-transition: all 0.2s ease;
+	transition: all 0.2s ease;
+	pointer-events: none;
+	opacity: 0;
+	left: 10%;
+	bottom: 120%;	
+}
+
+.buttonTooltip:hover:after {
+	bottom: 130%;
+}
+
+.buttonTooltip:hover:before {
+	bottom: 90%;
+}
+
+.buttonTooltip:hover:after, .markdownButton:hover:before {
+	opacity: 1;
+}
