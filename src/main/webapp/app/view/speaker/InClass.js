@@ -141,6 +141,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 		this.roleIconButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.CHANGE_ROLE_BUTTONTEXT,
+			cls: 'smallerActionButton',
 			buttonConfig: 'icon',
 			imageCls: 'icon-speaker',
 			handler: function () {

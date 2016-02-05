@@ -147,6 +147,12 @@
 	}
 }
 
+.x-phone {
+	.matrixButton.smallerActionButton .buttonText {
+		font-size: 0.935em !important;
+	}
+}
+
 .matrixButton {
 	min-height: 130px;
 	padding-left: 3px;
@@ -232,7 +238,7 @@
 }
 
 .matrixButton .buttonText {
-	overflow: hidden;
+	overflow: visible;
 	width: 90px;
 	margin-left: 5px;
 	margin-right: 5px;
