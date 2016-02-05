@@ -197,22 +197,16 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 		});
 		this.add(this.editorPanel);
 
-		this.editorPanel.innerItems.forEach(function (button) {
-			button.element.dom.setAttribute('data-tooltip', button.config.tooltip);
-			button.element.addCls('buttonTooltip');
-		});
+		if (Ext.os.is.Desktop) {
+			this.editorPanel.innerItems.forEach(function (button) {
+				button.element.dom.setAttribute('data-tooltip', button.config.tooltip);
+				button.element.addCls('buttonTooltip');
+			});
 
-		this.on('activate', function () {
-			this.getParent().addCls('activateTooltip');
-		});
-	},
-
-	showToolTip: function (button, scope) {
-		if (scope.tooltip) scope.tooltip.destroy();
-
-		scope.tooltip = Ext.create('Ext.Panel', {
-			html: 'test'
-		}).showBy(button);
+			this.on('activate', function () {
+				this.getParent().addCls('activateTooltip');
+			});
+		}
 	},
 
 	getProcessVariables: function () {
