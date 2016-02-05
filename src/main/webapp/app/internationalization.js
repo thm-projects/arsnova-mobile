@@ -513,6 +513,18 @@
 				EDITOR_RIGHT: "rechts",
 				EDITOR_LEFT: "links",
 
+				EDITOR_BOLD_TOOLTIP: "Fett",
+				EDITOR_HEADER_TOOLTIP: "Überschrift",
+				EDITOR_HYPERLINK_TOOLTIP: "Hyperlink",
+				EDITOR_ULIST_TOOLTIP: "Unsortierte Liste",
+				EDITOR_OLIST_TOOLTIP: "Sortierte Liste",
+				EDITOR_LATEX_TOOLTIP: "Latex-Auszeichnung",
+				EDITOR_CODE_TOOLTIP: "Code-Auszeichnung",
+				EDITOR_QUOTE_TOOLTIP: "Zitat",
+				EDITOR_YOUTUBE_TOOLTIP: "Youtube",
+				EDITOR_VIMEO_TOOLTIP: "Vimeo",
+				EDITOR_PICTURE_TOOLTIP: "Bild",
+
 				/*Public pool*/
 				SESSIONPOOL_LEVEL: "Niveau",
 				SESSIONPOOL_CLONE: "Kopieren",
@@ -1190,6 +1202,18 @@
 				EDITOR_CENTER: "center",
 				EDITOR_RIGHT: "right",
 				EDITOR_LEFT: "left",
+
+				EDITOR_BOLD_TOOLTIP: "Bold",
+				EDITOR_HEADER_TOOLTIP: "Header",
+				EDITOR_HYPERLINK_TOOLTIP: "Hyperlink",
+				EDITOR_ULIST_TOOLTIP: "Unsorted list",
+				EDITOR_OLIST_TOOLTIP: "Sorted Liste",
+				EDITOR_LATEX_TOOLTIP: "Latex",
+				EDITOR_CODE_TOOLTIP: "Code",
+				EDITOR_QUOTE_TOOLTIP: "Quote",
+				EDITOR_YOUTUBE_TOOLTIP: "Youtube",
+				EDITOR_VIMEO_TOOLTIP: "Vimeo",
+				EDITOR_PICTURE_TOOLTIP: "Picture",
 
 				/*Public pool*/
 				SESSIONPOOL_LEVEL: "Level",
