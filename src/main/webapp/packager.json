@@ -145,20 +145,20 @@
 	 */
 	"androidAPILevel":"8",
 
-        /**
+	/**
 	 * @cfg {Array[String]} permissions
-	 * Array of permissions that is used by an application (Android only) 
+	 * Array of permissions that is used by an application (Android only)
 	 * Full list of permissions for Android application can be found here: http://developer.android.com/reference/android/Manifest.permission.html#ACCESS_CHECKIN_PROPERTIES
 	 */
 	"permissions":[
-            "INTERNET",
-            "ACCESS_NETWORK_STATE",
-            "CAMERA",
-            "VIBRATE",
-            "ACCESS_FINE_LOCATION",
-            "ACCESS_COARSE_LOCATION",
-            "CALL_PHONE"
-        ],
+		"INTERNET",
+		"ACCESS_NETWORK_STATE",
+		"CAMERA",
+		"VIBRATE",
+		"ACCESS_FINE_LOCATION",
+		"ACCESS_COARSE_LOCATION",
+		"CALL_PHONE"
+	],
 
 	/**
 	 * @cfg {Array[String]} orientations

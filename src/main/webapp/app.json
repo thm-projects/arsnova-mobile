@@ -39,11 +39,11 @@
      *      }
      */
     "js": [
-	    {
-			"path": "phonegap.js",
-			"x-bootstrap": true,
-			"remote": true
-	    },
+        {
+            "path": "phonegap.js",
+            "x-bootstrap": true,
+            "remote": true
+        },
         {
             "path": "touch/sencha-touch.js",
             "x-bootstrap": true
@@ -53,36 +53,36 @@
             "x-bootstrap": true
         },
         {
-            "path": "lib/markdown/marked.min.js",
+            "path": "lib/marked.min.js",
             "update": "full"
         },
         {
-      		"path": "lib/moment.min.js",
-      		"update": "full"
+            "path": "lib/moment.min.js",
+            "update": "full"
         },
         {
-      		"path": "lib/moment.de.js",
-      		"update": "full"
+            "path": "lib/moment.de.js",
+            "update": "full"
         },
         {
-      		"path": "lib/rsvp.min.js",
-      		"update": "full"
+            "path": "lib/rsvp.min.js",
+            "update": "full"
         },
         {
             "path": "lib/papaparse.min.js",
             "update": "full"
         },
         {
-      		"path": "app/utils/Ext.util.TaskRunner.js",
-      		"update": "full"
+            "path": "app/utils/Ext.util.TaskRunner.js",
+            "update": "full"
         },
         {
-      		"path": "app/utils/Ext.Array.js",
-      		"update": "full"
+            "path": "app/utils/Ext.Array.js",
+            "update": "full"
         },
         {
-        	"path": "app/internationalization.js",
-        	"update": "full"
+            "path": "app/internationalization.js",
+            "update": "full"
         },
         {
             "path": "app/app.js",
@@ -109,12 +109,12 @@
      */
     "css": [
         {
-			"path": "resources/css/app.css",
-			"update": "full"
+            "path": "resources/css/app.css",
+            "update": "full"
         }, {
-			"path": "resources/css/index.css",
-			"update": "full"        
-		}
+            "path": "resources/css/index.css",
+            "update": "full"
+        }
     ],
 
     /**
@@ -166,7 +166,7 @@
      * Extra resources to be copied along when build
      */
     "resources": [
-    	"config.xml",
+        "config.xml",
         "resources/images",
         "resources/icons",
         "resources/startup",
