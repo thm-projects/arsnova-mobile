@@ -209,7 +209,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 
 	// http://stackoverflow.com/a/2901298
 	formatNumber: function (x) {
-		var separator = moment.lang() === "en" ? "," : ".";
+		var separator = moment.locale() === "en" ? "," : ".";
 		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator);
 	}
 });

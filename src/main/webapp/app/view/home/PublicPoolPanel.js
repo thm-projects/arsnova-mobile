@@ -61,7 +61,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 				var levelsEn = config.publicPool.levelsEn.split(',');
 
 				var levels;
-				if (moment.lang() === "en") {
+				if (moment.locale() === "en") {
 					levels = levelsEn;
 				} else {
 					levels = levelsDe;

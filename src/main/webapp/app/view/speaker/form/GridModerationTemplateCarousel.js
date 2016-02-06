@@ -174,7 +174,7 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 				if (config) {
 					config.forEach(function (entry) {
 						var template = Ext.create('ARSnova.view.components.GridModerationContainer');
-						if (moment.lang() === "en") {
+						if (moment.locale() === "en") {
 							entry.name = entry.name.en;
 							entry.description = entry.description.en;
 						} else {

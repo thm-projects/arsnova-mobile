@@ -59,7 +59,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 		});
 
 		var levels;
-		if (moment.lang() === "en") {
+		if (moment.locale() === "en") {
 			levels = config.publicPool.levelsEn.split(',');
 		} else {
 			levels = config.publicPool.levelsDe.split(',');

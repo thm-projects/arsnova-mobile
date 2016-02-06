@@ -79,7 +79,7 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 			option = value === 1 ? Messages.ANSWER : Messages.ANSWERS;
 		} else if (option === Messages.ABSTENTION) {
 			option = value === 1 ? Messages.ABSTENTION : Messages.ABSTENTIONS;
-			if (moment.lang() === "en") {
+			if (moment.locale() === "en") {
 				option = option.toLowerCase();
 			}
 		}
