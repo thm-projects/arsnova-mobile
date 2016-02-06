@@ -61,7 +61,7 @@
             "update": "full"
         },
         {
-            "path": "lib/moment.de.js",
+            "path": "lib/moment.de.min.js",
             "update": "full"
         },
         {
@@ -143,8 +143,8 @@
 
             /* lib */
             "lib/markdown/markdown.js",
-            "lib/highlight.pack.js",
-            "lib/moment.de.js",
+            "lib/highlight.pack.min.js",
+            "lib/moment.de.min.js",
             "lib/moment.min.js",
             "lib/rsvp.min.js",
             "lib/socket.io.min.js",
@@ -175,7 +175,7 @@
         "resources/version.json",
         "favicon.png",
         "splashscreen.js",
-        "lib/highlight.pack.js",
+        "lib/highlight.pack.min.js",
         "lib/socket.io.min.js",
         "lib/qrcode.min.js",
         "WEB-INF"

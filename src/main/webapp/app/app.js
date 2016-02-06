@@ -19,7 +19,7 @@
 /**
  * required classes
  */
-//@require lib/moment.de.js
+//@require lib/moment.de.min.js
 //@requrie lib/moment.min.js
 //@requrie lib/rsvp.min.js
 //@require utils/Ext.util.TaskRunner.js
