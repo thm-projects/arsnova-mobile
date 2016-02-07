@@ -36,6 +36,12 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 		this.callParent(args);
 		var me = this;
 
+		this.infoButton = Ext.create('Ext.Button', {
+			cls: 'markdownButton',
+			iconCls: 'info',
+			tooltip: Messages.EDITOR_INFO_TOOLTIP
+		});
+
 		this.boldButton = Ext.create('Ext.Button', {
 			cls: 'markdownButton',
 			iconCls: 'icon-editor-bold',
@@ -181,6 +187,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 			},
 
 			items: [
+				this.infoButton,
 				this.boldButton,
 				this.headerButton,
 				this.linkButton,

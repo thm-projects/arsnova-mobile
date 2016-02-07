@@ -524,6 +524,7 @@
 				EDITOR_YOUTUBE_TOOLTIP: "Youtube",
 				EDITOR_VIMEO_TOOLTIP: "Vimeo",
 				EDITOR_PICTURE_TOOLTIP: "Bild",
+				EDITOR_INFO_TOOLTIP: "Info",
 
 				/*Public pool*/
 				SESSIONPOOL_LEVEL: "Niveau",
@@ -1215,6 +1216,7 @@
 				EDITOR_YOUTUBE_TOOLTIP: "Youtube",
 				EDITOR_VIMEO_TOOLTIP: "Vimeo",
 				EDITOR_PICTURE_TOOLTIP: "Picture",
+				EDITOR_INFO_TOOLTIP: "Info",
 
 				/*Public pool*/
 				SESSIONPOOL_LEVEL: "Level",
