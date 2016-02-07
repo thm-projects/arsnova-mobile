@@ -169,7 +169,7 @@ Ext.define('ARSnova.view.TabPanel', {
 				ARSnova.app.setWindowTitle(' - ' + Messages.DIAGNOSIS);
 				break;
 			case this.infoTabPanel:
-				ARSnova.app.setWindowTitle(' - ' + Messages.INFO);
+				ARSnova.app.setWindowTitle(' - ' + Messages.MANUAL);
 				break;
 			case this.feedbackTabPanel:
 				ARSnova.app.setWindowTitle(' - ' + Messages.FEEDBACK);

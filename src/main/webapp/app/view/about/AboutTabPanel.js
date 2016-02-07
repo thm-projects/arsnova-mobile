@@ -23,7 +23,7 @@ Ext.define('ARSnova.view.about.AboutTabPanel', {
 	requires: ['ARSnova.view.components.EmbeddedPage'],
 
 	config: {
-		title: Messages.INFO,
+		title: Messages.MANUAL,
 		iconCls: 'icon-book',
 
 		scrollable: {

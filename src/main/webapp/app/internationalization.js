@@ -61,12 +61,10 @@
 
 				/* rolePanel */
 				BLOG: "Blog",
-				CHOOSE_ROLE: "Wählen Sie Ihre Rolle:",
 				STUDENT: "Student/in",
 				SPEAKER: "Dozent/in",
 				TITLE_ROLE: "Feedback & Interaktion",
 				/* loginPanel */
-				CHOOSE_LOGIN: 'Wählen Sie Ihren Zugang:',
 				GUEST: "Gast",
 				CHANGE_ROLE: "Rolle wechseln",
 				NO_GUEST_SPEAKER: "Hinweis: Um eine Session anzulegen, müssen Sie sich anmelden.",
@@ -387,8 +385,8 @@
 				INCOMPLETE_INPUTS: "Ihre Eingaben sind unvollständig",
 				DELETE_ALL_ANSWERS_INFO: "Es werden auch alle bisher gegebenen Antworten gelöscht",
 				DELETE_ROUND_ANSWERS_COMPLETED: "Die Antworten der aktuellen Runde wurden gelöscht",
-				RELEASE: "Live-Abstimmung freigeben",
-				CLOSE: "Live-Abstimmung einfrieren",
+				RELEASE_LIVE_VOTING: "Live-Abstimmung freigeben",
+				CLOSE_LIVE_VOTING: "Live-Abstimmung einfrieren",
 				CHANGE_RELEASE: "Ändere die Freigabe...",
 				TYPE: 'Typ',
 				INFINITE: "unbegrenzt",
@@ -625,15 +623,13 @@
 				CHANGE_ROLE_BUTTONTEXT: "Rolle<br/>wechseln",
 
 				/* about */
-				INFO: "Anleitung",
+				MANUAL: "Anleitung",
 				ABOUT: "Über",
 				IMPRINT: "Impressum",
 				PRIVACY: "Datenschutz",
-				ARSNOVA_MANUAL: "Anleitung",
-				ARSNOVA_FAQ: "FAQ | Helpdesk",
+
 				OPINION: "Deine Meinung ist gefragt",
 				WIDGET_IS_LOADING: 'Widget wird geladen...',
-				IMPRESSUM: "Impressum",
 				RELOAD_SURE: "Möchten Sie ARSnova neu herunterladen?",
 				OPEN_SESSIONS: "Sessions: offen",
 				ACTIVE_SESSIONS: "Sessions: aktiv",
@@ -742,12 +738,10 @@
 
 				/* rolePanel */
 				BLOG: "Blog",
-				CHOOSE_ROLE: "Choose your role:",
 				STUDENT: "Student",
 				SPEAKER: "Teacher",
 				TITLE_ROLE: "Feedback & Interaction",
 				/* loginPanel */
-				CHOOSE_LOGIN: "Login as:",
 				GUEST: "Guest",
 				CHANGE_ROLE: "Change role",
 				NO_GUEST_SPEAKER: "Note: You have to log in to create a session.",
@@ -1062,8 +1056,8 @@
 				DELETE_ANSWERS_REQUEST: "Delete answers?",
 				DELETE_ALL_ANSWERS_REQUEST: "Delete all answers?",
 				DELETE_ROUND_ANSWERS_COMPLETED: "All answers of the actual round have been deleted.",
-				RELEASE: "Release live voting",
-				CLOSE: "Freeze live voting",
+				RELEASE_LIVE_VOTING: "Release live voting",
+				CLOSE_LIVE_VOTING: "Freeze live voting",
 				QUESTION_REMAINS: "The question itself stays unaffected.",
 				INCOMPLETE_INPUTS: "Your inputs are incomplete.",
 				ALL_QUESTIONS_REMAIN: "The questions themselves stay unaffected.",
@@ -1309,16 +1303,13 @@
 				CHANGE_ROLE_BUTTONTEXT: "Change<br/>role",
 
 				/* about */
-				INFO: "Manual",
+				MANUAL: "Manual",
 				ABOUT: "About",
 				IMPRINT: "Imprint",
 				PRIVACY: "Privacy policy",
-				ARSNOVA_MANUAL: "Manual",
-				ARSNOVA_FAQ: "FAQ | Helpdesk",
 
 				OPINION: "Your opinion matters",
 				WIDGET_IS_LOADING: 'Widget is loading...',
-				IMPRESSUM: "Imprint",
 				RELOAD_SURE: "Do you want to reload ARSnova?",
 				OPEN_SESSIONS: "Sessions: open",
 				ACTIVE_SESSIONS: "Sessions: active",

@@ -132,7 +132,7 @@ Ext.define('ARSnova.view.RolePanel', {
 			style: 'margin-top: 15px; margin-bottom: 25px;',
 			items: [{
 				xtype: 'matrixbutton',
-				text: Messages.INFO,
+				text: Messages.MANUAL,
 				imageCls: "icon-book",
 				handler: function () {
 					var tabPanel = ARSnova.app.mainTabPanel.tabPanel;

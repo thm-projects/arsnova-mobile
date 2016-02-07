@@ -76,8 +76,8 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		this.isFeedbackReleased = true;
 		this.releaseFeedbackButton = Ext.create('Ext.Button', {
 			align: 'right',
-			text: Messages.CLOSE,
-			altText: Messages.RELEASE,
+			text: Messages.CLOSE_LIVE_VOTING,
+			altText: Messages.RELEASE_LIVE_VOTING,
 			cls: 'feedbackFreezeButton',
 			pressedCls: 'feedbackReleaseButton',
 			scope: this,
