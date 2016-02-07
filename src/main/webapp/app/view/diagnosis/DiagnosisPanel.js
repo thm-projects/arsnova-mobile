@@ -114,11 +114,17 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 				}, {
 					text: Messages.BROWSER_INFO,
 					handler: function (b) {
-						this.detect = Ext.create('ARSnova.BrowserDetect');
-						var browserInfo = '<p>' + this.detect.browser + ' ' + this.detect.version + '<br>' +
-							this.detect.os + '</p><p class="softwareDetails">' + Ext.browser.userAgent + '</p>';
-						Ext.Msg.alert('Browser', browserInfo, Ext.emptyFn);
+						var detect = Ext.create('ARSnova.BrowserDetect');
+						var browserInfo = '<p>' + detect.browser + ' ' + detect.version + '<br>' +
+							detect.os + '</p><p class="softwareDetails">' + Ext.browser.userAgent + '</p>';
+						Ext.Msg.alert(Messages.BROWSER_INFO, browserInfo, Ext.emptyFn);
 					}
+				}, {
+					text: Messages.ARSNOVA_INFO,
+					handler: function (b) {
+						this.showSoftwareVersionDialog();
+					},
+					scope: this
 				}, {
 					text: Messages.ARSNOVA_RELOAD,
 					handler: function (b) {
@@ -145,6 +151,26 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 		});
 
 		this.add([this.toolbar, this.inClass]);
+	},
+
+	showSoftwareVersionDialog: function () {
+		var versionData = ARSnova.app.getController('Version').getInfo();
+		versionData.then(function (versionData) {
+			var info = this.toVersionString(versionData.frontend) + '<br><br>' +
+				this.toVersionString(versionData.backend);
+			Ext.Msg.alert(Messages.ARSNOVA_INFO, info, Ext.emptyFn);
+		}.bind(this));
+	},
+
+	/** Returns a string containing the product name, version and commit id or
+	 * build time depending on the repository state at build time.
+	 */
+	toVersionString: function (versionData) {
+		var versionStr = versionData.version.string;
+		versionStr += versionData.version.gitDirty ?
+			'<br>' + versionData.version.buildTime :
+			' (' + versionData.version.gitCommitId.substr(0, 7) + ')';
+		return versionData.productName + '<br>' + versionStr;
 	},
 
 	joinSessionEvent: function () {

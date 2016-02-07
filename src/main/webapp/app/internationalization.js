@@ -644,6 +644,7 @@
 				/* diagnosis */
 				DIAGNOSIS: "System",
 				BROWSER_INFO: "Browser-Informationen",
+				ARSNOVA_INFO: "ARSnova-Version",
 				ARSNOVA_RELOAD: "ARSnova laden",
 				VOTINGS: "Abstimmungen",
 				SESSION_OWNERS: "Session-Inhaber",
@@ -1328,6 +1329,7 @@
 				/* diagnosis */
 				DIAGNOSIS: "System",
 				BROWSER_INFO: "Browser information",
+				ARSNOVA_INFO: "ARSnova version",
 				ARSNOVA_RELOAD: "Reload ARSnova",
 				VOTINGS: "Votings",
 				SESSION_OWNERS: "Session owners",
