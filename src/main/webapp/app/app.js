@@ -155,6 +155,12 @@ Ext.application({
 		console.info("ARSnova.app.launch");
 		this.configLoaded = new RSVP.Promise();
 
+		/* Workaround needed for Edge since ST recognizes it as WebKit */
+		var detect = Ext.create("ARSnova.BrowserDetect");
+		if (detect.browser === "Edge") {
+			Ext.getBody().removeCls('x-webkit');
+		}
+
 		this.checkLocalStorage();
 		this.checkBrowser();
 		this.taskManager = new TaskRunner();
