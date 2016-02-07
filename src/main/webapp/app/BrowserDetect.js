@@ -76,6 +76,10 @@ Ext.define('ARSnova.BrowserDetect', {
 		versionSearch: "Version"
 	}, {
 		string: navigator.userAgent,
+		subString: "Firefox",
+		identity: "Firefox"
+	}, {
+		string: navigator.userAgent,
 		subString: "Chrome",
 		identity: "Chrome"
 	}, {
@@ -88,10 +92,6 @@ Ext.define('ARSnova.BrowserDetect', {
 		subString: "Apple",
 		identity: "Safari",
 		versionSearch: "Version"
-	}, {
-		string: navigator.userAgent,
-		subString: "Firefox",
-		identity: "Firefox"
 	}, {
 		string: navigator.userAgent,
 		subString: "Gecko",
