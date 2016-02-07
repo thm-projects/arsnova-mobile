@@ -106,6 +106,21 @@ div[id^=ext-mathJaxMarkDownPanel] * {
 	margin-bottom: -5px !important;
 }
 
+.icon-editor-image,
+.icon-editor-vimeo,
+.icon-editor-quote,
+.icon-editor-script,
+.icon-editor-youtube,
+.icon-editor-hyperlink {
+	margin-left: -2px !important;
+}
+
+.markdownButton .info {
+	margin-bottom: -0.5px !important;
+	margin-left: -5px !important;
+	font-size: 1em;
+}
+
 div[id^=ext-mathJaxMarkDownPanel] {
 	table {
 		border-collapse: collapse;
