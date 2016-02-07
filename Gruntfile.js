@@ -131,7 +131,11 @@ module.exports = function (grunt) {
 		watch: {
 			js: {
 				files: [lintJs, ".jscs.json", ".jshintrc"],
-				tasks: ["newer:jscs", "newer:jshint"]
+				tasks: ["readpom", "genversionfile", "newer:jscs", "newer:jshint"]
+			},
+			pom: {
+				files: "pom.xml",
+				tasks: ["readpom", "genversionfile"]
 			}
 		}
 	});
