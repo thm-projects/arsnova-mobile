@@ -24,14 +24,13 @@ Ext.define('ARSnova.BrowserDetect', {
 	/* jscs:enable */
 	constructor: function () {
 		var browser = this.searchString(this.dataBrowser) || "An unknown browser",
-			userAgentVersion = this.searchVersion(navigator.userAgent),
-			appVersion = this.searchVersion(navigator.appVersion);
+			userAgentVersion = this.searchVersion(navigator.userAgent);
 		this.browser = browser;
-		this.version = userAgentVersion || appVersion || "an unknown version";
-		this.OS = this.searchString(this.dataOS) || "an unknown OS";
+		this.version = userAgentVersion || "An unknown version";
+		this.os = this.searchString(this.dataOS) || "An unknown OS";
 
 		if (this.extractAndroidVersion()) {
-			this.browser = 'Android';
+			this.browser = 'Android Browser';
 			this.version = this.searchVersion(
 				this.extractAndroidVersion().match(/[1-9]+[0-9]*\.[0-9]+/)
 			);
@@ -68,10 +67,15 @@ Ext.define('ARSnova.BrowserDetect', {
 			// iOS WebView Fallback
 			return parseFloat(dataString);
 		}
-		return parseFloat(dataString.substring(index + this.versionSearchString.length + 1));
+		var version = dataString.substr(index).match(/([0-9]+(\.[0-9]+)?)/);
+		return version[1];
 	},
 
 	dataBrowser: [{
+			string: navigator.userAgent,
+			subString: "Edge",
+			identity: "Edge"
+		}, {
 			string: navigator.userAgent,
 			subString: "Chrome",
 			identity: "Chrome"
@@ -113,24 +117,18 @@ Ext.define('ARSnova.BrowserDetect', {
 		}, {
 			string: navigator.userAgent,
 			subString: "MSIE",
-			identity: "Explorer",
+			identity: "Internet Explorer",
 			versionSearch: "MSIE"
 		}, {
 			string: navigator.userAgent,
 			subString: "Trident",
-			identity: "Explorer",
+			identity: "Internet Explorer",
 			versionSearch: "rv"
 		}, {
 			string: navigator.userAgent,
 			subString: "Gecko",
 			identity: "Mozilla",
 			versionSearch: "rv"
-		}, {
-			// for older Netscapes (4-)
-			string: navigator.userAgent,
-			subString: "Mozilla",
-			identity: "Netscape",
-			versionSearch: "Mozilla"
 		}
 	],
 
@@ -141,11 +139,15 @@ Ext.define('ARSnova.BrowserDetect', {
 		}, {
 			string: navigator.platform,
 			subString: "Mac",
-			identity: "Mac"
+			identity: "Mac OS"
 		}, {
 			string: navigator.userAgent,
 			subString: "iPhone",
 			identity: "iPhone/iPod"
+		}, {
+			string: navigator.userAgent,
+			subString: "Android",
+			identity: "Android (Linux)"
 		}, {
 			string: navigator.platform,
 			subString: "Linux",

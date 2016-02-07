@@ -31,8 +31,9 @@ Ext.define('ARSnova.BrowserSupport', {
 			"Safari": 0,
 			"Firefox": 22,
 			"Opera": 15,
-			"Explorer": 10,
-			"Android": 2
+			"Internet Explorer": 10,
+			"Edge": 0,
+			"Android Browser": 2
 		}
 	},
 
