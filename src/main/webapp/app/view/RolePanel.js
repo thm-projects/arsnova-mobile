@@ -96,7 +96,7 @@ Ext.define('ARSnova.view.RolePanel', {
 					"<span class='icon-logo-nova'>n</span>" +
 					"</div>",
 			style: {
-				marginTop: isPhone && !mediumHeight ? (smallHeight ? '5px' : '10px') : '25px'
+				marginTop: '5px'
 			}
 		}, {
 			xtype: 'panel',
@@ -129,7 +129,7 @@ Ext.define('ARSnova.view.RolePanel', {
 				type: 'hbox',
 				pack: 'center'
 			},
-			style: 'margin-top: 15px; margin-bottom: 25px;',
+			style: 'margin-top: 15px; margin-bottom: 5px;',
 			items: [{
 				xtype: 'matrixbutton',
 				text: Messages.MANUAL,
