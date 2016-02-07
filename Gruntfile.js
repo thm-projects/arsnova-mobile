@@ -226,10 +226,13 @@ module.exports = function (grunt) {
 					args: ["log", "-n", "1", "--pretty=format:%H"]
 				}, function (error, result, code) {
 					var version = {
-						version: grunt.config("pom").project.version[0],
-						gitCommitId: result.stdout,
-						gitDirty: dirty,
-						buildTime: (new Date()).toISOString()
+						productName: "arsnova-mobile",
+						version: {
+							string: grunt.config("pom").project.version[0],
+							gitCommitId: result.stdout,
+							gitDirty: dirty,
+							buildTime: (new Date()).toISOString()
+						}
 					};
 					grunt.file.write(versionFilePath + "/version.json", JSON.stringify(version) + "\n");
 					done(true);
