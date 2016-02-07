@@ -149,7 +149,6 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 		this.linkButton = Ext.create('Ext.Button', {
 			cls: 'markdownButton',
 			iconCls: 'icon-editor-hyperlink',
-			tooltip: 'HyperLink',
 			scope: this,
 			tooltip: Messages.EDITOR_HYPERLINK_TOOLTIP,
 			handler: function () {

@@ -128,12 +128,18 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 				}, {
 					text: Messages.ARSNOVA_RELOAD,
 					handler: function (b) {
-						Ext.Msg.confirm(Messages.ARSNOVA_RELOAD, Messages.RELOAD_SURE, function (b) {
+						var message = ARSnova.app.loginMode === ARSnova.app.LOGIN_GUEST ?
+							Messages.RELOAD_SURE.replace(/###/, Messages.RELOAD_GUEST_ADDITION) :
+							Messages.RELOAD_SURE.replace(/###/, '');
+
+						Ext.Msg.confirm(Messages.ARSNOVA_RELOAD, message, function (b) {
 							if (b === 'yes') {
 								if (ARSnova.app.checkSessionLogin()) {
 									ARSnova.app.getController('Sessions').logout();
 								}
 								ARSnova.app.getController('Auth').logout();
+								sessionStorage.clear();
+								localStorage.clear();
 								window.location.reload(true);
 							}
 						});

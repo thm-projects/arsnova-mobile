@@ -642,7 +642,8 @@
 
 				OPINION: "Deine Meinung ist gefragt",
 				WIDGET_IS_LOADING: 'Widget wird geladen...',
-				RELOAD_SURE: "Möchten Sie ARSnova neu herunterladen?",
+				RELOAD_SURE: "Durch diesen Vorgang werden Sie aus der aktuellen Sitzung ausgeloggt.### Möchten Sie ARSnova neu herunterladen?",
+				RELOAD_GUEST_ADDITION: " Da Sie als Gast angemeldet sind, haben Sie nach dieser Aktion keinen Zugriff auf Ihre erstellten Sessions. Bitte stellen Sie sicher, dass alle benötigten Daten mit der Export-Funktion gesichert wurden.",
 				OPEN_SESSIONS: "Sessions: offen",
 				ACTIVE_SESSIONS: "Sessions: aktiv",
 				CLOSED_SESSIONS: "Sessions: geschlossen",
@@ -653,7 +654,7 @@
 				DIAGNOSIS: "System",
 				BROWSER_INFO: "Browser-Informationen",
 				ARSNOVA_INFO: "ARSnova-Version",
-				ARSNOVA_RELOAD: "ARSnova laden",
+				ARSNOVA_RELOAD: "ARSnova neu laden",
 				VOTINGS: "Abstimmungen",
 				SESSION_OWNERS: "Rolle Dozent/in",
 				LEARNING_PROGRESS: "Lernstandsberechnung",
@@ -1334,7 +1335,8 @@
 
 				OPINION: "Your opinion matters",
 				WIDGET_IS_LOADING: 'Widget is loading...',
-				RELOAD_SURE: "Do you want to reload ARSnova?",
+				RELOAD_SURE: "You will be logged out from the current session.### Do you want to reload ARSnova?",
+				RELOAD_GUEST_ADDITION: " Since you are logged in as guest, you can not access your created sessions after this action. Please make sure that all the necessary data have been backed up with the export function.",
 				OPEN_SESSIONS: "Sessions: open",
 				ACTIVE_SESSIONS: "Sessions: active",
 				CLOSED_SESSIONS: "Sessions: closed",
