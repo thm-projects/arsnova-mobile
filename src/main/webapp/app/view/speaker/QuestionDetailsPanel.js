@@ -447,7 +447,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					if (panel.image !== panel.questionObj.image) {
 						needsConfirmation = true;
 					}
-					if (!panel.answerEditForm.isHidden()) {
+					if (!panel.answerEditForm.isHidden() && question.get("questionType") !== 'flashcard') {
 						questionValues = panel.answerEditForm.getQuestionValues();
 
 						if (hasEmptyAnswers(questionValues.possibleAnswers)) {
