@@ -23,9 +23,14 @@
 	height: auto;
 }
 
-// fix placeholder opacity
-.x-input-el {
+// fix placeholder on ios safari
+.x-webkit .x-field-input .x-input-el {
 	-webkit-text-fill-color: initial !important;
+}
+
+// fix placeholder on microsoft edge
+.x-windows .x-field-input .x-input-el {
+	opacity: 0.99;
 }
 
 /* remove "Sencha Touch GPL3" watermark from charts */

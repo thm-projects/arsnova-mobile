@@ -646,7 +646,12 @@ code {
 	opacity: 0.5;
 }
 
-.formInvalid:-ms-input-placeholder {
+.formInvalid::-ms-input-placeholder { /* Edge */
+	color: $brand-danger;
+	opacity: 0.5;
+}
+
+.formInvalid:-ms-input-placeholder { /* IE */
 	color: $brand-danger;
 	opacity: 0.5;
 }
