@@ -33,9 +33,11 @@
 	opacity: 0.99;
 }
 
-/* fix max width for full streched panels in IE */
+/* fix max width for full streched panels/fields in IE */
+.x-windows.x-ie .x-component-outer,
 .x-windows.x-ie .x-scroll-scroller {
 	width: 100% !important;
+	height: 100% !important;
 }
 
 /* remove "Sencha Touch GPL3" watermark from charts */
