@@ -378,6 +378,7 @@
 	margin: 10px;
 	max-width: 340px;
 	height: 40px;
+	width: 95%;
 
 	&.centered {
 		margin: 10px auto;
@@ -441,6 +442,10 @@
 	padding-right: 10px;
 	margin-top: 10px;
 	border-bottom: none !important;
+
+	.voteButton {
+		height: auto !important;
+	}
 }
 
 .noButtonsVotePanel {
