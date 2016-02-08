@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.3.1
+
+Bugfixes:
+* Fixes a regression leading to incorrect detection of Safari.
+
 ## 2.3
 Major features:
 * Use case scenarios: To simplify the user interface, question types and

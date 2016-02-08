@@ -58,7 +58,7 @@ Ext.define('ARSnova.BrowserDetect', {
 	 * doing! */
 	dataBrowser: [{
 		string: navigator.vendor,
-		subString: "Safari",
+		subString: "Apple Computer",
 		identity: "Safari",
 		versionSearch: "Version"
 	}, {
